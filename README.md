@@ -19,7 +19,7 @@ some npm badges here
 ## 🔗 Links
 
 - [Home page](https://erda.cloud)
-- [Backend project](https://https://github.com/erda-project)
+- [Backend project](https://github.com/erda-project)
 
 ## ⌨️ Run
 
