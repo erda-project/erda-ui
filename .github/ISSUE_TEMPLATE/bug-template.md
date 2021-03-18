@@ -1,3 +1,10 @@
+---
+name: Bug Report
+about: Report a bug encountered while operating Erda
+labels: kind/bug
+
+---
+
 Your issue may already be reported!
 Please search on the [issue tracker](../) before creating one.
 

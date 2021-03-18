@@ -15,7 +15,7 @@ If you send a bugfix pull request, please do it against the `master` branch, if 
 
 ## Bugs
 
-We are using [GitHub Issues](https://github.com/erda-project/erda-ui/issues) for bug tracking. The best way to get your bug fixed is by using our [issue template](https://github.com/erda-project/erda-ui/issues?template=bug).
+We are using [GitHub Issues](https://github.com/erda-project/erda-ui/issues) for bug tracking. The best way to get your bug fixed is by using our [issue template](https://github.com/erda-project/erda-ui/issues?template=bug-template).
 
 Before you report a bug, please make sure you've searched existing issues, and read our [FAQ](https://erda-docs.app.terminus.io/faq.html).
 
