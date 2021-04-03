@@ -1,31 +1,59 @@
-<p align="center">
-  logo link to official site
-</p>
+# Frontend UI for Erda platform.
 
-<h1 align="center">Erda UI</h1>
+![logo](./docs/files/logo.jpg)
 
+## 📣 Introduction
+Erda is an open-source platform created by Terminus to ensuring the development of microservice applications.
+This repository is about Erda's User Interface.
+
+## ✨ Platforms
+
+- DevOps platform
+- Microservice Governance platform
+- Multi-Cloud Management platform
+- Edge computing platform
+- Fast-Data platform(open source soon)
+
+For a detailed introduction, please check the [official website](https://erda.cloud).
+
+
+## 🖥 Environment Support
+
+Modern browsers and Internet Explorer 11 (with [polyfills](https://stackoverflow.com/questions/57020976/polyfills-in-2019-for-ie11))
+
+| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)<br>Safari |
+| --- | --- | --- |
+| last 2 versions | last 2 versions | last 2 versions |
+
+## 🚀 Quick Start
+TODO
+
+## Architecture
+Technology stack：
+
+* UI library: Ant Design & Terminus NUSI
+* state management: cube-state
+* i18n: i18next
+* bundler: webpack
+
+This project contain the following parts:
+* cli: command line interface for erda-ui, help to quick setup develop environment and pack files to docker images.
+* core: provide registration framework and core functions such as initialize cube-state and i18n etc.
+* shell: provide layout, user and common components for business modules.
+* scheduler: support module federation style development, register and navigate to multiple modules.
+* modules: business modules, each of these can develop and publish standalone.
+
+
+![architecture](./docs/files/architecture.jpg)
 <div align="center">
-
-Frontend UI for Erda platform.
-
-some npm badges here
+architecture of development mode
 </div>
-
-## ✨ Feature
-
--
-
 
 ## 🔗 Links
 
-- [Home page](https://erda.cloud)
-- [Backend project](https://github.com/erda-project)
-
-## ⌨️ Run
-
-describe how to run erda at local.
-
-Open your browser and visit http://127.0.0.1:8080, see more at xx.
+- [Official Website](https://erda.cloud)(comming soon)
+- [User Docs](https://erda-docs.app.terminus.io/)
+- [Backend project](https://github.com/erda-project/erda)
 
 ## 🤝 Contributing [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
