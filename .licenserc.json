@@ -7,7 +7,7 @@
     "ignore": [
       "node_modules/",
       "**/.eslintrc.js",
-      "**/.cz-config.js",
+      "**/.cz-config.js"
     ]
 }
   
