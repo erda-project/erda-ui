@@ -6,8 +6,9 @@
     ],
     "ignore": [
       "node_modules/",
-      ".eslintrc.js",
-      ".cz-config.js"
+      "core/.eslintrc.js",
+      "shell/.cz-config.js",
+      "shell/.eslintrc.js"
     ]
 }
   
