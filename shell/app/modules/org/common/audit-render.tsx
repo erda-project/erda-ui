@@ -16,7 +16,7 @@ import React from 'react';
 import { goTo } from 'common/utils';
 import i18n, { isZh } from 'i18n';
 import { map } from 'lodash';
-import auditTemplates from 'audit-templates';
+import auditTemplates from './audit-templates.json';
 
 const parseReg = /\[[@a-zA-Z\u4e00-\u9fa5]+](\([a-zA-Z]+\))?/g;
 const replaceReg = /<<(\w+)>>/g;

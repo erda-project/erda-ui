@@ -18,7 +18,6 @@ declare module 'ansi_up';
 declare module 'lodash/_stringToPath';
 declare module '@terminus/js-yaml';
 declare module 'json-to-pretty-yaml';
-declare module 'audit-templates';
 
 declare module '*.json' {
   const value: any;

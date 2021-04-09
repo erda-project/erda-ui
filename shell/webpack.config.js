@@ -83,7 +83,6 @@ module.exports = () => {
         nusi: resolve('./app/external/nusi.js'),
         '@terminus/nusi': resolve('./node_modules/@terminus/nusi'),
         'dice-env': resolve('./app/external/env.ts'),
-        'audit-templates': resolve('../dice-configs/audit/template.json'),
 
         'monitor-overview': resolve('./app/modules/microService/monitor/monitor-overview'),
         'application-insight': resolve('./app/modules/microService/monitor/application-insight'),

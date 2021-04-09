@@ -235,9 +235,6 @@
       "dice-env": [
         "./app/external/env.js"
       ],
-      "audit-templates": [
-        "../dice-configs/audit/template.json"
-      ],
       "agent": [
         "./app/agent.js"
       ],
