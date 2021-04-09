@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "outDir": "dist",
+    "module": "ESNext",
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "allowJs": true,
+    "checkJs": false,
+    "jsx": "react",
+    "declaration": true,
+    "sourceMap": true,
+    "strict": false,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "nusi": ["./src/nusi"],
+      "i18n": ["./src/i18n"],
+      "cube": ["./src/cube"],
+      "custom-lodash": ["./src/custom-lodash"],
+      "common": ["./src/common"],
+      "common/*": ["./src/common/*"]
+    }
+  },
+  "include": [
+    "./src/**/*",
+    "./node_modules/@types/*",
+    "../shell/app/**/types/*"
+  ]
+}

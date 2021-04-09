@@ -1,0 +1,73 @@
+.timeline-activity {
+  .range-block {
+    &:first-child {
+      &:before {
+        content: none;
+      }
+    }
+  }
+
+  .time-tag {
+    width: 80px;
+    height: 32px;
+    margin-left: 10px;
+    color: $white;
+    line-height: 32px;
+    text-align: center;
+    border-radius: 50px;
+  }
+
+  .with-line {
+    &:before {
+      content: "";
+      display: block;
+      height: 20px;
+      margin-left: 50px;
+      border-left: 1px solid $gainsboro;
+    }
+  }
+
+  .operation-item {
+    display: flex;
+    align-items: center;
+    height: 70px;
+    padding-right: 30px;
+    background-color: $white;
+    border-radius: 3px;
+
+    .operation-icon {
+      width: 100px;
+      text-align: center;
+    }
+
+    .item-left {
+      display: inline-flex;
+      flex: 1;
+      line-height: 24px;
+    }
+
+    i {
+      margin-right: 0;
+      font-size: 24px;
+    }
+
+    .minor-info {
+      margin-left: 3px;
+      color: $color-text-sub;
+    }
+
+    .operator {
+      width: 15%;
+      min-width: 150px;
+    }
+
+    .memo {
+      margin-right: 10%;
+    }
+
+    .fake-link {
+      color: $color-primary;
+      cursor: pointer;
+    }
+  }
+}

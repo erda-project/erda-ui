@@ -1,0 +1,38 @@
+.json-detail {
+  position: fixed;
+  top: 0;
+  right: -50%;
+  z-index: 2;
+  width: 50%;
+  height: 100%;
+  padding: 20px;
+  overflow: auto;
+  color: #e6db74;
+  background-color: #3c444f;
+  transition: transform .3s;
+
+  pre {
+    &::-webkit-scrollbar {
+      height: 3px;
+    }
+  }
+
+  .json-detail-btn {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    display: none;
+
+    &:nth-child(1) {
+      right: 90px;
+    }
+  }
+
+  &.slide-in {
+    transform: translateX(-100%);
+
+    .json-detail-btn {
+      display: inline-block;
+    }
+  }
+}

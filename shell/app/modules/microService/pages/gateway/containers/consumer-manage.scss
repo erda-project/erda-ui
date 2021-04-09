@@ -1,0 +1,31 @@
+.auth-type-item {
+  position: relative;
+  margin-bottom: 40px;
+
+  .auth-params-add {
+    position: absolute;
+    top: 5px;
+    right: 0;
+  }
+
+  .auth-params-title {
+    margin-bottom: $p20;
+    padding: $p12 0;
+    color: $color-text-sub;
+    font-size: 16px;
+    border-bottom: 1px solid $color-border;
+  }
+
+  .placeholder {
+    height: 49px;
+    margin-bottom: 0;
+  }
+  
+  .auth-params-desc {
+    color: $color-text-desc;
+  }
+}
+
+.auth-question-icon {
+  vertical-align: baseline;
+}

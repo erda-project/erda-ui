@@ -1,0 +1,101 @@
+.issue-workflow-setting-modal {
+  width: 100%;
+  overflow: auto;
+
+  .w-120 {
+    width: 120px;
+  }
+
+  .form-content {
+    &-left {
+      flex-basis: 120px;
+      text-align: center;
+    }
+
+    &-right {
+      flex-grow: 1;
+      width: 0;
+      height: 100%;
+    }
+  }
+
+  .state-option-btn {
+    position: relative;
+    width: 92px;
+    margin: 0 $p4;
+    color: $primary;
+    line-height: 48px;
+    text-align: center;
+    background-color: $color-active-bg;
+    border-radius: $radius;
+
+    .state-delete-btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: $p4;
+      color: $primary;
+      font-size: $p8;
+      text-decoration: none;
+      opacity: 0;
+      transition: opacity .15s;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    .state-move-btn {
+      padding: $p4;
+      color: $primary;
+      opacity: 0;
+      transition: opacity .15s;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+  }
+
+  .add-option-btn {
+    @extend .w-120;
+    height: 48px;
+    line-height: 48px;
+
+    .ant-btn {
+      width: 100%;
+      height: 100%;
+      line-height: inherit;
+    }
+  }
+
+  .state-radio-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+    margin: $p4;
+  }
+
+  .state-td {
+    display: inline-block;
+    width: 100px;
+    height: $p24;
+    margin: $p4 0;
+    padding: 0 $p8;
+    font-size: $p12;
+    line-height: $p24;
+    white-space: nowrap;
+    text-align: center;
+  }
+  
+  .state-radio-btn {
+    color: $color-primary;
+  }
+
+  .state-transfer-name {
+    width: 60px;
+  }
+  
+}

@@ -1,0 +1,120 @@
+.dice-cp {
+  &.container {
+    &.column {
+      display: flex;
+      flex-direction: column;
+
+      &.space-small {
+        > * {
+          margin-top: 8px;
+        }
+      }
+
+      &.space-middle {
+        > * {
+          margin-top: 12px;
+        }
+      }
+
+      &.space-big {
+        > * {
+          margin-top: 16px;
+        }
+      }
+
+      &.space-large {
+        > * {
+          margin-top: 24px;
+        }
+      }
+    }
+
+    &.space-small,
+    &.space-middle,
+    &.space-big,
+    &.space-large {
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    &.row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+
+      &.space-small {
+        > * {
+          margin-left: 8px;
+        }
+      }
+
+      &.space-middle {
+        > * {
+          margin-left: 12px;
+        }
+      }
+
+      &.space-big {
+        > * {
+          margin-left: 16px;
+        }
+      }
+
+      &.space-large {
+        > * {
+          margin-left: 24px;
+        }
+      }
+
+
+      &.space-small,
+      &.space-middle,
+      &.space-big,
+      &.space-large {
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+
+      .left,
+      .right {
+        > * {
+          margin-left: 8px;
+
+          &:first-child {
+            margin-left: 0;
+          }
+        }
+      }
+    }
+
+    &.between {
+      justify-content: space-between;
+    }
+
+    &.center {
+      justify-content: center;
+    }
+
+    &.start {
+      justify-content: start;
+    }
+
+    &.end {
+      justify-content: end;
+    }
+
+    &.white-bg {
+      padding: 8px;
+      background-color: $white;
+      border-radius: $radius;
+    }
+
+    &.flex-height {
+      flex: 1;
+      height: 0;
+    }
+  }
+}

@@ -1,0 +1,92 @@
+.dice-cp {
+  &.file-tree {
+    overflow: auto;
+
+    .pk-tree-title-inner {
+      .pk-tree-title-inner-title {
+        flex: 1;
+      }
+
+      .file-tree-disabled-node {
+        display: block;
+      }
+    }
+
+    .file-tree-container {
+      > li:first-child {
+        &.insert-node {
+          margin-top: 8px;
+          padding-top: 0;
+        }
+      }
+
+      .insert-node {
+        height: 4px;
+
+        .pk-tree-title {
+          top: -21px;
+          line-height: 4px;
+        }
+
+        &.pk-tree-treenode-disabled {
+          .pk-tree-node-content-wrapper,
+          .pk-tree-iconEle {
+            cursor: default !important;
+          }
+
+        }
+
+        .pk-tree-iconEle {
+          position: relative;
+        }
+
+        .pk-tree-node-content-wrapper:before,
+        .pk-tree-switcher,
+        .pk-tree-node-content-wrapper {
+          height: 4px !important;
+          border: 0 !important;
+        }
+
+        .insert-node-title {
+          height: 4px;
+        }
+
+        &:hover {
+          .insert-node-icon {
+            opacity: 1;
+            pointer-events: unset;
+          }
+        }
+      }
+    }
+  }
+
+  .insert-node-icon {
+    position: absolute;
+    top: -5px;
+    color: $color-active;
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity .1s ease-out;
+    pointer-events: none;
+  }
+
+  .pk-tree.pk-tree-directory > li.insert-node span.pk-tree-node-content-wrapper:before,
+  .pk-tree.pk-tree-directory .pk-tree-child-tree > li.insert-node span.pk-tree-node-content-wrapper:before {
+    cursor: pointer;
+    content: none;
+  }
+
+  .dice-cp.file-tree .file-tree-container .insert-node .pk-tree-node-content-wrapper {
+    border-radius: 2px;
+
+    &:hover {
+      background-color: $color-active-border;
+    }
+  }
+
+  .dice-cp.file-tree .file-tree-container .insert-node .pk-tree-iconEle {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

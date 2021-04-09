@@ -1,0 +1,127 @@
+.dice-cp {
+  &.issue-kanban {
+    display: flex;
+    height: calc(100vh - 210px);
+    overflow: auto;
+
+    .issue-kanban-info {
+      .label-item {
+        max-width: 200px;
+        height: 20px;
+        margin-top: 4px;
+        margin-right: 8px;
+        margin-bottom: 0;
+        line-height: 20px;
+        border: none;
+      }
+    }
+  }
+
+  .issue-kanban-col {
+    display: flex;
+    flex: 1;
+    flex-grow: 0;
+    flex-direction: column;
+    min-width: 344px;
+    min-height: 400px;
+    margin-right: 16px;
+    overflow: hidden;
+    background-color: $white;
+    border: 1px solid transparent;
+    border-radius: $radius;
+
+    .issue-kanban-col-header {
+      z-index: 1;
+      padding: 12px;
+
+      &.shadow {
+        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .15);
+      }
+
+      &.inp {
+        padding-top: 5px;
+      }
+    }
+
+    .issue-kanban-col-content {
+      flex: 1;
+      padding: 2px 12px 12px;
+      overflow-y: auto;
+    }
+
+    .issue-kanban-label-input {
+      padding-left: 0;
+      border: 1px solid transparent;
+
+      &:hover {
+        border: 1px solid $primary;
+      }
+
+      &.update-disabled {
+        &:hover {
+          border: 1px solid $color-disabled;
+        }
+      }
+    }
+
+    &.add-item {
+      display: flex;
+      flex: unset;
+      min-width: 160px;
+      height: 160px;
+      background: $color-bg;
+      border: none;
+
+      .add-icon {
+        align-self: flex-start;
+        padding: 8px;
+        font-size: 32px;
+        background: $color-light-bg;
+        border-radius: $p4;
+      }
+    }
+
+
+
+    &.drag-over {
+      border: 1px solid $color-active;
+    }
+
+    &.drop-disable {
+      border: 1px solid $color-disabled;
+      opacity: .5;
+    }
+
+    .list-item {
+      margin-bottom: 12px;
+      background-color: $white;
+      border-radius: $radius;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .06);
+
+      &:hover {
+        box-shadow: 0 1px 5px 0 rgba(0, 0, 0, .1);
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    &:last-child {
+      min-height: 160px;
+      margin-right: 0;
+    }
+
+    &.drag-over {
+      border: 1px solid $color-active;
+    }
+
+    .list {
+      overflow: auto;
+    }
+  }
+
+  .issue-kanban-item-special-pdd {
+    padding: 9px 20px 16px 20px ;
+  }
+}

@@ -1,0 +1,36 @@
+.tags-container {
+  position: relative;
+  height: 25px;
+
+  .tags-box {
+    white-space: nowrap;
+  }
+
+  .twt-tag-item {
+    position: relative;
+    display: inline-block;
+    height: 28px;
+    margin-right: 15px;
+    margin-bottom: 20px;
+    padding-right: 6px;
+    padding-left: 6px;
+    color: $white;
+    font-size: 12px;
+    line-height: 28px;
+    border: 1px solid transparent;
+    border-radius: $radius;
+    outline: none;
+    cursor: pointer;
+
+    &.small {
+      max-width: 200px;
+      height: 20px;
+      margin-top: 4px;
+      margin-right: 8px;
+      margin-bottom: 0;
+      line-height: 20px;
+      border: none;
+    }
+  } 
+
+}

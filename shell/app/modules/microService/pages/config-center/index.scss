@@ -1,0 +1,28 @@
+.micro-config-center {
+  .extra-items {
+    margin-bottom: 16px;
+    text-align: right;
+
+    button {
+      margin-right: 10px;
+    }
+  }
+
+  .app-name {
+    width: 267px;
+    height: 32px;
+    margin-bottom: 20px;
+    line-height: 32px;
+    border: 1px solid $color-border;
+    border-radius: $radius;
+    cursor: pointer;
+
+    > span {
+      padding-left: 12px;
+    }
+  }
+
+  .p-holder {
+    color: $color-text-holder;
+  }
+}

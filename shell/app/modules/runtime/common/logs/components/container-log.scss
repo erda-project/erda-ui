@@ -1,0 +1,42 @@
+.container-log-item {
+  span {
+    display: inline-block;
+  }
+
+  a {
+    span {
+      margin-right: unset;
+    }
+    color: $orange;
+  }
+
+  pre {
+    display: inline;
+    margin-right: 0;
+    overflow: visible;
+  }
+
+  .log-item-logtime {
+    width: 200px;
+    color: $green;
+    vertical-align: top;
+  }
+
+  .log-item-level {
+    width: 60px;
+    color: #add8e6;
+
+    &.warn {
+      color: $color-warning;
+    }
+
+    &.error {
+      color: $color-danger;
+    }
+  }
+
+  ::selection {
+    color: $white;
+    background: $green;
+  }
+}

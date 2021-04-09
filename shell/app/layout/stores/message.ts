@@ -1,0 +1,89 @@
+// Copyright (c) 2021 Terminus, Inc.
+//
+// This program is free software: you can use, redistribute, and/or modify
+// it under the terms of the GNU Affero General Public License, version 3
+// or later ("AGPL"), as published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+import { createStore } from 'app/cube';
+import {
+  getMessageList,
+  getMessageStats,
+  readOneMessage,
+} from '../services/message';
+import { PAGINATION } from 'app/constants';
+import userStore from 'app/user/stores';
+
+
+export enum MSG_STATUS {
+  READ = 'read',
+  UNREAD = 'unread',
+}
+
+interface IState {
+  list: LAYOUT.IMsg[] | [],
+  detail: LAYOUT.IMsg | null,
+  unreadCount: number,
+  msgPaging: IPaging,
+}
+
+const initState: IState = {
+  list: [],
+  detail: null,
+  unreadCount: 0,
+  msgPaging: {
+    pageNo: 1,
+    pageSize: PAGINATION.pageSize,
+    total: 0,
+  },
+};
+
+const messageStore = createStore({
+  name: 'message',
+  state: initState,
+  effects: {
+    async getMessageList({ call, update, select }, payload: { pageNo: number, pageSize?: number }) {
+      const { list } = await call(getMessageList, payload, { paging: { key: 'msgPaging' } });
+      const oldList: LAYOUT.IMsg[] = select(s => s.list);
+      update({ list: payload.pageNo === 1 ? list : oldList.concat(list) });
+    },
+    async getMessageStats({ call, update, select }) {
+      const { orgId } = userStore.getState(s => s.loginUser);
+      if (orgId) {
+        const result = await call(getMessageStats);
+        const unreadCount = select(s => s.unreadCount);
+        const count = result && result.unreadCount;
+        update({ unreadCount: count });
+        return { hasNewUnread: unreadCount < count };
+      }
+      return null;
+    },
+    async readOneMessage({ call, update, select }, id: number, hasRead: boolean) {
+      const detail = await call(readOneMessage, id);
+      if (hasRead) {
+        update({ detail });
+      } else {
+        const list: LAYOUT.IMsg[] = select(s => s.list);
+        const newList = list.map(item => (item.id === id ? { ...item, status: MSG_STATUS.READ } : item));
+        update({ detail, list: newList });
+        await messageStore.effects.getMessageStats();
+      }
+    },
+  },
+  reducers: {
+    resetAll(state) {
+      return { ...initState, unreadCount: state.unreadCount };
+    },
+    resetDetail(state) {
+      state.detail = null;
+    },
+  },
+});
+
+export default messageStore;

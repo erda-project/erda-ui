@@ -1,0 +1,160 @@
+server {
+    listen 80;
+    server_name localhost;
+    root /usr/share/nginx/html; # dice | gts
+
+    # compression
+    gzip on;
+    gzip_min_length   2k;
+    gzip_buffers      4 16k;
+    gzip_http_version 1.0;
+    gzip_comp_level   3;
+    gzip_types        text/plain application/javascript application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;
+    gzip_vary on;
+
+    client_max_body_size 0;
+
+    set $my_scheme "http";
+    if ($http_x_forwarded_proto = "https") {
+        set $my_scheme "https";
+    }
+
+    if ($request_method !~ ^(GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS)$ ) {
+        return 403;
+    }
+
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Xss-Protection "1; mode=block" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Cache-Control no-cache;
+
+    #static files
+    location ~* ^/static/ {
+        expires 30d;
+    }
+    location /version\.(json)$ {
+        expires -1;
+        add_header 'Cache-Control' 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';
+    }
+
+    location /_api/health {
+        default_type application/json;
+        return 200 '{"name":"diceUI","status":"ok"}';
+    }
+
+    location / {
+        index index.html;
+        try_files /static/shell/index.html /index.html =404;
+    }
+
+    location /market {
+        index /static/shell/market.html;
+        try_files /market.html =404;
+    }
+
+    location /apiManage {
+      index /static/shell/index.html;
+      try_files /index.html =404;
+    }
+
+    set $taEnabled ${TA_ENABLE};
+    set $taUrl //${COLLECTOR_PUBLIC_ADDR}/ta.js;
+    set $collectorUrl //${COLLECTOR_PUBLIC_ADDR}/collect;
+    set $terminusKey ${TERMINUS_KEY};
+#    set $openapiAddr ${OPENAPI_ADDR};
+#    set $gittarAddr ${GITTAR_ADDR};
+
+    location /ta {
+        default_type application/javascript;
+       return 200 'window._taConfig={enabled:$taEnabled,ak:"$terminusKey",url:"$taUrl",collectorUrl:"$collectorUrl"}';
+    }
+
+    location /erda-platform-home {
+        return 302 ${UI_PUBLIC_URL};
+    }
+
+    location /api {
+        proxy_pass http://${OPENAPI_ADDR};
+        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-Proto $my_scheme;
+        proxy_set_header        Host $http_host;
+    }
+
+    location /api/dice-env {
+        default_type application/javascript;
+        return 200 'window.diceEnv={
+            "ENABLE_MPAAS":${ENABLE_MPAAS},
+            "ENABLE_BIGDATA":${ENABLE_BIGDATA},
+            "ONLY_FDP":${ONLY_FDP},
+            "UC_PUBLIC_URL":"${UC_PUBLIC_URL}"
+        }';
+    }
+
+    location ^~ /wb {
+        proxy_pass http://${GITTAR_ADDR};
+        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-Proto $my_scheme;
+        proxy_set_header        Host $http_host;
+        keepalive_timeout       500;
+        proxy_read_timeout      500;
+    }
+
+    location ^~ /api/repo {
+        proxy_pass http://${OPENAPI_ADDR};
+        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-Proto $my_scheme;
+        proxy_set_header        Host $http_host;
+        keepalive_timeout       500;
+        proxy_read_timeout      500;
+    }
+
+    location ^~ /api/websocket {
+        proxy_pass http://${OPENAPI_ADDR};
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+    }
+
+    location ^~ /api/apim-ws/api-docs/filetree {
+        proxy_pass   http://${OPENAPI_ADDR};
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+    }
+
+    # dice 平台对外的元信息
+    location /metadata.json {
+        proxy_pass http://${OPENAPI_ADDR};
+        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-Proto $my_scheme;
+        proxy_set_header        Host $http_host;
+    }
+
+    set $url_backend $arg_url;
+    set $portal_host "";
+    set $portal_dest "";
+
+    location /api/terminal {
+        proxy_pass http://${OPENAPI_ADDR};
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location ~ /api/(command|proxy) {
+        proxy_pass $url_backend;
+        proxy_set_header "portal-host" $portal_host;
+        proxy_set_header "portal-dest" $portal_dest;
+        proxy_http_version 1.1;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}

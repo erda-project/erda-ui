@@ -1,0 +1,94 @@
+$side-panel-width: 820px;
+
+:global {
+  @keyframes slider {
+    0% {
+      right: -$side-panel-width;
+    }
+
+    100% {
+      right: 0;
+    }
+  }
+
+  .side-panel {
+    position: fixed;
+    top: 0;
+    right: -$side-panel-width;
+    bottom: 0;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    width: $side-panel-width;
+    height: 100%;
+    padding: 20px 0;
+    background: #ffffff;
+    will-change: right;
+
+    &.no-padding {
+      padding: 0;
+    }
+
+    &.visible {
+      right: 0;
+      box-shadow: -2px 0 10px 0 rgba(0, 0, 0, .2);
+      animation: .3s slider;
+    }
+
+    .panel-header {
+      height: 30px;
+      padding: 0 40px;
+      line-height: 30px;
+      vertical-align: middle;
+
+      h2 {
+        float: left;
+        width: calc(100% - 20px);
+        overflow: hidden;
+        color: $color-primary;
+        font-size: 20px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .anticon {
+        float: right;
+        color: $lightgray;
+        font-size: 20px;
+        cursor: pointer;
+
+        &:hover {
+          color: $darkgray;
+        }
+      }
+    }
+
+    .panel-body {
+      padding: 0 20px;
+      overflow: auto;
+    }
+
+    .close-detail-panel,
+    .close-modal-panel {
+      position: absolute;
+      top: 50%;
+      left: -32px;
+      z-index: 99;
+      width: 32px;
+      height: 40px;
+      margin-top: -20px;
+      color: $white;
+      line-height: 40px;
+      text-align: center;
+      background-color: $color-primary;
+      border-top-left-radius: 15px;
+      border-bottom-left-radius: 15px;
+      cursor: pointer;
+    }
+
+    /* stylelint-disable-next-line */
+    .placeholder-f14 .ant-select-selection__placeholder {
+      font-size: 14px;
+    }
+  }
+}

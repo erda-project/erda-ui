@@ -1,0 +1,59 @@
+
+
+$prefix: ".activity-item";
+
+#{$prefix} {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 61px;
+  padding: 0 20px;
+  border-top: 1px solid $gainsboro;
+
+  i {
+    float: left;
+    font-size: 22px;
+  }
+
+  #{$prefix}__left {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  #{$prefix}__right {
+    margin-left: 10px;
+  }
+
+  #{$prefix}__detail {
+    display: inline-block;
+
+    span {
+      margin-left: 10px;
+    }
+
+    .fake-link {
+      color: $color-primary;
+      font-size: 12px;
+      cursor: pointer;
+
+    }
+  }
+
+  img {
+    margin-left: 6px;
+    border-radius: 100%;
+  }
+
+  .operator {
+    min-width: 50px;
+    color: $color-text;
+  }
+
+  .action {
+    color: $color-text-sub;
+  }
+
+  .time {
+    color: $darkgray;
+  }
+}

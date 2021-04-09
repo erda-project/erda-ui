@@ -1,0 +1,38 @@
+.debug-page {
+  .left {
+    position: relative;
+    width: 40%;
+    max-width: 40%;
+
+    .update-button,
+    .request-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    .update-button {
+      right: 100px;
+    }
+  }
+
+  .right {
+    position: relative;
+    width: 59%;
+    max-width: 59%;
+  }
+
+  .log-panel {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 6px;
+    background-color: #ffffff;
+    border: 1px solid #666666;
+
+    .log-item {
+      border-bottom: 1px solid #666666;
+    }
+  }
+}

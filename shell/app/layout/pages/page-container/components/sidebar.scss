@@ -1,0 +1,57 @@
+.pk-app-center-body .app-list-item {
+  img {
+    border-radius: 100%;
+  }
+
+  span {
+    padding-left: 8px;
+  }
+}
+
+.nav-org-list {
+  margin-bottom: 0;
+
+  li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    line-height: 26px;
+    cursor: pointer;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &:hover {
+      color: $color-active;
+    }
+  }
+
+  .org-logo {
+    width: 46px;
+    max-height: 30px;
+    margin-right: 10px;
+  }
+
+  i {
+    margin-left: 8px;
+  }
+}
+
+.side-app-center {
+  color: $white;
+}
+
+.side-app-center-popover {
+  .ant-popover-inner-content {
+    padding: 0;
+  }
+
+  .ant-menu-vertical {
+    .app-center-item {
+      height: 32px;
+      line-height: 32px;
+    }
+  }
+
+}

@@ -1,0 +1,19 @@
+.case-node-drawer {
+  .ant-drawer-body {
+    padding-top: 4px;
+  }
+
+  .case-node-chosen-tabs {
+    display: flex;
+    flex-direction: column;
+
+    .ant-tabs-content {
+      flex: 1;
+      height: 0;
+
+      .ant-tabs-tabpane {
+        overflow: auto;
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+.dice-custom-filter {
+  &.actions-no-padding {
+    .pk-filter-row,
+    .pk-row-flex {
+      > div:last-child {
+        padding-top: 0 !important;
+      }
+    }
+  }
+}

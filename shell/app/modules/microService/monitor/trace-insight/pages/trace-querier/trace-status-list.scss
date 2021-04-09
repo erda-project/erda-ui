@@ -1,0 +1,59 @@
+.trace-status-list {
+  .trace-status-list-item {
+    display: flex;
+    margin-top: 10px;
+    padding: 15px;
+    color: $color-text-sub;
+    border: 1px solid $color-border;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, .04) 0 2px 4px 0;
+    transition-duration: .3s;
+
+    &:hover {
+      border: 1px solid $color-primary;
+      cursor: pointer;
+    }
+
+    >span {
+      display: inline-block;
+      line-height: $base-line-height;
+    }
+
+    .update-time {
+      flex: 1;
+      margin-right: 5px;
+      text-indent: 1em;
+    }
+
+    .request-status {
+      float: right;
+      margin-right: 15px;
+
+      .request-status-text {
+        float: left;
+      }
+
+      .request-status-btn {
+        float: left;
+        margin-left: 10px;
+        font-size: 18px;
+      }
+
+      &.cancel i {
+        color: $color-warning;
+      }
+
+      &.success i {
+        color: $color-success;
+      }
+
+      &.pending i {
+        color: $color-active;
+      }
+
+      &.failure i {
+        color: $color-danger;
+      }
+    }
+  }
+}

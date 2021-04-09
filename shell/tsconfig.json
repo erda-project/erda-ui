@@ -1,0 +1,304 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "target": "es5",
+    "module": "ESNext",
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "allowJs": true,
+    "checkJs": false,
+    "jsx": "react",
+    "declaration": true,
+    "sourceMap": true,
+    "incremental": true,
+    "strict": false,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "types": [
+      "webpack-env",
+      "jest"
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "common": [
+        "./app/common"
+      ],
+      "common/*": [
+        "../shell/app/common/*"
+      ],
+      "configForm": [
+        "./app/configForm"
+      ],
+      "configForm/*": [
+        "./app/configForm/*"
+      ],
+      "yml-chart": [
+        "./app/yml-chart"
+      ],
+      "yml-chart/*": [
+        "./app/yml-chart/*"
+      ],
+      "config-page": [
+        "./app/config-page"
+      ],
+      "config-page/*": [
+        "./app/config-page/*"
+      ],
+      "layout": [
+        "./app/layout"
+      ],
+      "layout/*": [
+        "./app/layout/*"
+      ],
+      "user": [
+        "./app/user"
+      ],
+      "user/*": [
+        "./app/user/*"
+      ],
+      "project": [
+        "./app/modules/project"
+      ],
+      "project/*": [
+        "./app/modules/project/*"
+      ],
+      "publisher": [
+        "./app/modules/publisher"
+      ],
+      "publisher/*": [
+        "./app/modules/publisher/*"
+      ],
+      "dataCenter": [
+        "app/modules/dataCenter"
+      ],
+      "dataCenter/*": [
+        "app/modules/dataCenter/*"
+      ],
+      "org": [
+        "app/modules/org"
+      ],
+      "org/*": [
+        "app/modules/org/*"
+      ],
+      "apps": [
+        "./app/apps"
+      ],
+      "apps/*": [
+        "./app/apps/*"
+      ],
+      "charts": [
+        "./app/charts"
+      ],
+      "charts/*": [
+        "./app/charts/*"
+      ],
+      "application": [
+        "./app/modules/application"
+      ],
+      "application/*": [
+        "./app/modules/application/*"
+      ],
+      "dcos": [
+        "app/modules/dcos"
+      ],
+      "dcos/*": [
+        "app/modules/dcos/*"
+      ],
+      "runtime": [
+        "app/modules/runtime"
+      ],
+      "runtime/*": [
+        "app/modules/runtime/*"
+      ],
+      "workBench/*": [
+        "app/modules/workBench/*"
+      ],
+      "microService": [
+        "app/modules/microService"
+      ],
+      "microService/*": [
+        "app/modules/microService/*"
+      ],
+      "addonPlatform/*": [
+        "app/modules/addonPlatform/*"
+      ],
+      "apiManagePlatform": [
+        "app/modules/apiManagePlatform"
+      ],
+      "apiManagePlatform/*": [
+        "app/modules/apiManagePlatform/*"
+      ],
+      "monitor-overview": [
+        "app/modules/microService/monitor/monitor-overview"
+      ],
+      "monitor-overview/*": [
+        "app/modules/microService/monitor/monitor-overview/*"
+      ],
+      "application-insight": [
+        "app/modules/microService/monitor/application-insight"
+      ],
+      "application-insight/*": [
+        "app/modules/microService/monitor/application-insight/*"
+      ],
+      "external-insight": [
+        "app/modules/microService/monitor/external-insight"
+      ],
+      "external-insight/*": [
+        "app/modules/microService/monitor/external-insight/*"
+      ],
+      "service-insight": [
+        "app/modules/microService/monitor/service-insight"
+      ],
+      "service-insight/*": [
+        "app/modules/microService/monitor/service-insight/*"
+      ],
+      "browser-insight": [
+        "app/modules/microService/monitor/browser-insight"
+      ],
+      "browser-insight/*": [
+        "app/modules/microService/monitor/browser-insight/*"
+      ],
+      "gateway-ingress": [
+        "app/modules/microService/monitor/gateway-ingress"
+      ],
+      "gateway-ingress/*": [
+        "app/modules/microService/monitor/gateway-ingress/*"
+      ],
+      "docker-container": [
+        "app/modules/microService/monitor/docker-container"
+      ],
+      "docker-container/*": [
+        "app/modules/microService/monitor/docker-container/*"
+      ],
+      "mobile-insight": [
+        "app/modules/microService/monitor/mobile-insight"
+      ],
+      "mobile-insight/*": [
+        "app/modules/microService/monitor/mobile-insight/*"
+      ],
+      "api-insight": [
+        "app/modules/microService/monitor/api-insight"
+      ],
+      "api-insight/*": [
+        "app/modules/microService/monitor/api-insight/*"
+      ],
+      "trace-insight": [
+        "app/modules/microService/monitor/trace-insight"
+      ],
+      "trace-insight/*": [
+        "app/modules/microService/monitor/trace-insight/*"
+      ],
+      "monitor-common": [
+        "app/modules/microService/monitor/monitor-common"
+      ],
+      "monitor-common/*": [
+        "app/modules/microService/monitor/monitor-common/*"
+      ],
+      "topology": [
+        "app/modules/microService/monitor/topology"
+      ],
+      "topology/*": [
+        "app/modules/microService/monitor/topology/*"
+      ],
+      "error-insight": [
+        "app/modules/microService/monitor/error-insight"
+      ],
+      "error-insight/*": [
+        "app/modules/microService/monitor/error-insight/*"
+      ],
+      "status-insight": [
+        "app/modules/microService/monitor/status-insight"
+      ],
+      "status-insight/*": [
+        "app/modules/microService/monitor/status-insight/*"
+      ],
+      "monitor-alarm": [
+        "app/modules/microService/monitor/monitor-alarm"
+      ],
+      "monitor-alarm/*": [
+        "app/modules/microService/monitor/monitor-alarm/*"
+      ],
+      "i18n": [
+        "app/i18n.ts"
+      ],
+      "nusi": [
+        "./app/external/nusi.js"
+      ],
+      "dice-env": [
+        "./app/external/env.js"
+      ],
+      "agent": [
+        "./app/agent.js"
+      ],
+      "interface": [
+        "./interface"
+      ],
+      "app/*": [
+        "./app/*"
+      ],
+      "core/main": [
+        "../core/src/index"
+      ],
+      "core/cube": [
+        "../core/src/cube"
+      ],
+      "core/i18n": [
+        "../core/src/i18n"
+      ],
+      "core/agent": [
+        "../core/src/agent"
+      ],
+      "core/config": [
+        "../core/src/config.ts"
+      ],
+      "core/stores/route": [
+        "../core/src/stores/route.ts"
+      ],
+      "core/stores/loading": [
+        "../core/src/stores/loading.ts"
+      ],
+      "common/all": [
+        "../shell/app/common/index"
+      ],
+      "nusi/all": [
+        "../shell/app/external/nusi"
+      ]
+    },
+    "typeRoots": [],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "suppressImplicitAnyIndexErrors": true
+  },
+  "include": [
+    "./interface/*",
+    "./**/types/*",
+    "./app/**/*",
+    "./node_modules/openapi-types/**/*",
+    "./node_modules/@types/*",
+    "market",
+    "/Users/Jun/workspace/erda-ui/core/app/**/types/*",
+    "/Users/Jun/workspace/erda-ui/core/node_modules/@types/*",
+    "/Users/Jun/workspace/erda-ui/core/node_modules/cube-state/dist/*",
+    "/Users/Jun/workspace/erda-ui/shell/app/**/types/*",
+    "/Users/Jun/workspace/erda-ui/shell/node_modules/@types/*",
+    "../core/app/**/types/*",
+    "../core/node_modules/@types/*",
+    "../core/node_modules/cube-state/dist/*",
+    "../shell/app/**/types/*",
+    "../shell/node_modules/@types/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

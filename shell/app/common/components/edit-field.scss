@@ -1,0 +1,58 @@
+.common-edit-field {
+  .ant-input,
+  .ant-select-selection,
+  .pk-input-number {
+    border-color: transparent;
+    transition: none;
+
+    &:hover,
+    &:focus {
+      border-color: $color-active;
+    }
+  }
+
+  .pk-input-number-handler-wrap,
+  .ant-select-arrow-icon,
+  .anticon-calendar {
+    opacity: 0;
+  }
+
+  .member-selector {
+    .results {
+      border: 1px solid transparent;
+
+      &:hover {
+        box-shadow: none;
+      }
+    }
+  }
+
+  .with-error {
+    .ant-input,
+    .ant-select-selection,
+    .pk-input-number {
+      border-color: $color-danger;
+      box-shadow: none;
+
+      &:hover,
+      &:focus {
+        border-color: $color-danger;
+      }
+    }
+  }
+
+  &:hover {
+    .pk-input-number-handler-wrap,
+    .ant-select-arrow-icon,
+    .anticon-calendar {
+      opacity: 1;
+    }
+
+    .member-selector {
+      .results {
+        border-color: $color-active;
+      }
+    }
+
+  }
+}

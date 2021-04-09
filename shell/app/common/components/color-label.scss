@@ -1,0 +1,70 @@
+$label-red: #f35c6f;
+$label-orange: #fa9548;
+$label-aqua: #5bd6d0;
+$label-blue: #5294fa;
+$label-purple: #8570f7;
+$label-gray: rgba(0, 0, 0, .6);
+$label-green: #34b37e;
+
+@mixin label-bg($color) {
+  color: $white;
+  background-color: $color;
+}
+
+@mixin label-bg-light($color) {
+  color: $color;
+  background-color: rgba($color, .06);
+  border-style: none;
+}
+
+.bg-label-red {
+  @include label-bg($label-red);
+}
+
+.bg-label-orange {
+  @include label-bg($label-orange);
+}
+
+.bg-label-aqua {
+  @include label-bg($label-aqua);
+}
+
+.bg-label-blue {
+  @include label-bg($label-blue);
+}
+
+.bg-label-purple {
+  @include label-bg($label-purple);
+}
+
+.bg-label-gray {
+  @include label-bg($label-gray);
+}
+
+.bg-label-red-light {
+  @include label-bg-light($label-red);
+}
+
+.bg-label-orange-light {
+  @include label-bg-light($label-orange);
+}
+
+.bg-label-aqua-light {
+  @include label-bg-light($label-aqua);
+}
+
+.bg-label-blue-light {
+  @include label-bg-light($label-blue);
+}
+
+.bg-label-purple-light {
+  @include label-bg-light($label-purple);
+}
+
+.bg-label-gray-light {
+  @include label-bg-light($label-gray);
+}
+
+.bg-label-green-light {
+  @include label-bg-light($label-green);
+}

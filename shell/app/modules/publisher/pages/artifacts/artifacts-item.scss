@@ -1,0 +1,33 @@
+.artifacts-item {
+  // height: 78px;
+  padding: 12px 12px 12px 16px;
+  word-break: break-all;
+  border-radius: 3px 0 0 3px;
+
+  &:hover {
+    @include hover();
+  }
+
+  &.active {
+    color: $color-text-sub;
+    background-color: $color-active-bg;
+    border-right: .125rem solid $color-primary;
+  }
+
+  .title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+    color: $color-dark-8;
+    font-weight: 500;
+    font-size: 16px;
+  }
+
+  .sub-info {
+    display: flex;
+    justify-content: space-between;
+    color: $color-text-sub;
+    font-size: .875rem;
+    border-bottom: 10px;
+  }
+}

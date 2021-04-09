@@ -30,3 +30,5 @@ public/
 report.*.json
 npm-debug.log
 yarn-error.log
+
+*/.erda

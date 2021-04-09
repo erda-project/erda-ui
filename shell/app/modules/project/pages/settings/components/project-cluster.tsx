@@ -1,0 +1,117 @@
+// Copyright (c) 2021 Terminus, Inc.
+//
+// This program is free software: you can use, redistribute, and/or modify
+// it under the terms of the GNU Affero General Public License, version 3
+// or later ("AGPL"), as published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+import * as React from 'react';
+import { Table } from 'nusi';
+import { HELP_DOCUMENT, WORKSPACE_LIST } from 'common/constants';
+import { isEmpty } from 'lodash';
+import { SectionInfoEdit } from 'project/common/components/section-info-edit';
+import i18n from 'i18n';
+import projectStore from 'project/stores/project';
+
+import clusterStore from 'app/modules/dataCenter/stores/cluster';
+
+interface IProps {
+  hasEditAuth: boolean
+}
+
+const workSpaceMap = {
+  DEV: i18n.t('dev environment'),
+  TEST: i18n.t('test environment'),
+  STAGING: i18n.t('staging environment'),
+  PROD: i18n.t('prod environment'),
+};
+const ProjectCluster = ({
+  hasEditAuth,
+}: IProps) => {
+  const clusterList = clusterStore.useStore(s => s.list);
+  const { getClusterList } = clusterStore.effects;
+  const info = projectStore.useStore(s => s.info);
+  const { updateProject } = projectStore.effects;
+
+  React.useEffect(() => {
+    hasEditAuth && getClusterList();
+  }, [getClusterList, hasEditAuth]);
+  const { clusterConfig } = info;
+  if (isEmpty(clusterConfig)) {
+    return null;
+  }
+
+  const options: object[] = [];
+  clusterList.forEach((item) => {
+    options.push({
+      value: item.name,
+      name: item.name,
+    });
+  });
+
+  const formData = {};
+  const tableData: object[] = [];
+  const fieldsList: object[] = [];
+  const sortBy = WORKSPACE_LIST;
+  sortBy.forEach((workspace) => {
+    const name = workspace.toUpperCase();
+    const clusterName = clusterConfig[workspace];
+
+    tableData.push({ workspace, clusterName });
+    formData[`clusterConfig.${name}`] = clusterName;
+    fieldsList.push({
+      label: workSpaceMap[name] || name,
+      name: `clusterConfig.${name}`,
+      type: 'select',
+      options,
+    });
+  });
+
+  const readonlyForm = (
+    <Table
+      rowKey="workspace"
+      dataSource={tableData}
+      columns={[
+        {
+          key: 'workspace',
+          title: i18n.t('project:environments'),
+          width: '200',
+          dataIndex: 'workspace',
+          render: (val: string) => workSpaceMap[val] || val,
+        },
+        {
+          title: i18n.t('project:using clusters'),
+          width: '400',
+          dataIndex: 'clusterName',
+          align: 'left',
+        },
+      ]}
+      pagination={false}
+    />
+  );
+
+  return (
+    <SectionInfoEdit
+      hasAuth={hasEditAuth}
+      data={formData}
+      readonlyForm={readonlyForm}
+      fieldsList={fieldsList}
+      updateInfo={updateProject}
+      name={i18n.t('project:cluster setting')}
+      desc={
+        <span>{i18n.t('cluster-config-tip')}
+          <a href={HELP_DOCUMENT} target="_blank" rel='noopener noreferrer'> {i18n.t('help document')} </a>
+        </span>
+      }
+      formName={i18n.t('project:cluster used by the environment')}
+    />
+  );
+};
+
+export default ProjectCluster;

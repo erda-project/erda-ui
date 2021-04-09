@@ -1,0 +1,16 @@
+.multi-input-item {
+  margin-bottom: 4px;
+
+  .multi-input-icons {
+    display: flex;
+    width: 70px;
+    margin-left: 10px;
+  }
+
+  .input-with-icon {
+    display: flex;
+    align-items: center;
+    width: 30px;
+    font-size: 20px;
+  }
+}

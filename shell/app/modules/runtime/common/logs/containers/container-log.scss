@@ -1,0 +1,58 @@
+$log-font-color: #c2c1d0;
+$log-bg-color: #3c444f;
+
+.runtime-log {
+  position: relative;
+  height: 100%;
+
+  .log-viewer {
+    position: absolute;
+    top: 55px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    transition: left .2s;
+  }
+
+  .runtime-deploy-log {
+    position: relative;
+    height: 100%;
+
+    .log-viewer {
+      height: calc(100% - 55px);
+    }
+  }
+
+  .toggle-btn {
+    position: absolute;
+    right: 15%;
+    line-height: 36px;
+
+    i {
+      color: $gainsboro;
+      font-size: 26px;
+    }
+  }
+
+  .tab-status {
+    .ant-badge {
+      margin-left: 5px;
+    }
+  }
+
+  .ant-spin-spinning {
+    position: absolute;
+    right: 0;
+    left: 0;
+  }
+}
+
+.log-error-detail {
+  margin-left: -42px;
+  padding: 10px;
+  overflow: auto;
+  color: $log-font-color;
+  background-color: $log-bg-color;
+  border-radius: 4px;
+}

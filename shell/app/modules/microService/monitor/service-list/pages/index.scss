@@ -1,0 +1,22 @@
+.service-analyze {
+  .status-point {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 100%;
+
+    &.grey {
+      background-color: $gray;
+    }
+
+    &.success,
+    &.green {
+      background-color: $green;
+    }
+
+    &.danger,
+    &.red {
+      background-color: $red;
+    }
+  }
+}
