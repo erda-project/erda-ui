@@ -1,0 +1,96 @@
+.api-view {
+  background-color: $white;
+
+  &-title {
+    height: 56px;
+    border-bottom: 1px solid rgba(111, 98, 163, .1);
+
+    .api-path {
+      margin: 0 .5rem;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .api-method {
+      padding: 0 4px;
+      color: $whitesmoke;
+      font-weight: 700;
+      border-radius: 3px;
+    }
+  }
+
+  &-body {
+    min-height: 500px;
+
+    .api-properties-title {
+      height: 38px;
+      color: rgba(0, 0, 0, .8);
+      font-weight: bold;
+      line-height: 38px;
+      border-width: 0;
+    }
+
+    .bb {
+      border-bottom: 1px solid #ecebf2;
+    }
+
+    .tips {
+      margin-bottom: 0;
+      color: $color-dark-8;
+      font-size: 14px;
+      line-height: 22px;
+      letter-spacing: 0;
+    }
+
+    .highlight {
+      color: $primary;
+      font-size: 14px;
+      line-height: 22px;
+      letter-spacing: 0;
+      cursor: pointer;
+    }
+
+    .params-row {
+      padding: 8px 0;
+
+      .param-key,
+      .param-type,
+      .param-description {
+        color: $color-dark-8;
+        font-size: 14px;
+        line-height: 22px;
+        letter-spacing: 0;
+      }
+    }
+
+    .api-resp {
+      .key {
+        font-weight: bold;
+      }
+    }
+
+    .api-section {
+      &:after {
+        display: block;
+        width: 100%;
+        height: 0;
+        margin: .5rem 0;
+        border-bottom: 1px dashed #e9eaef;
+        content: "";
+      }
+
+      &:last-child {
+        &:after {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+.api-router {
+  .separator {
+    padding: 0 5px;
+    color: rgba(0, 0, 0, .2);
+  }
+}

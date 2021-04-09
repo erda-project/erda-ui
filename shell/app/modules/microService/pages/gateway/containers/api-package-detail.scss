@@ -1,0 +1,20 @@
+.api-package-detail {
+  .api-filter {
+    display: flex;
+    flex-wrap: nowrap;
+    min-width: 780px;
+  }
+
+  .filter-select {
+    width: 130px;
+    min-width: 100px;
+  }
+
+  .filter-input {
+    width: 200px;
+  }
+
+  .filter-btn {
+    min-width: 155px;
+  }
+}

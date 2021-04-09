@@ -1,0 +1,39 @@
+{
+  "name": "erda-ui-cli",
+  "version": "1.0.0",
+  "description": "Command line interface for rapid Erda UI development",
+  "bin": {
+    "erda": "bin/erda.js"
+  },
+  "scripts": {
+    "start": "node bin/erda.js",
+    "local": "local-package-publisher -p",
+    "remove-local": "local-package-publisher -u"
+  },
+  "keywords": [
+    "erda",
+    "ui",
+    "cli"
+  ],
+  "author": "Erda-FE",
+  "license": "ISC",
+  "dependencies": {
+    "@paiva/translation-google": "^1.0.9",
+    "chalk": "^4.1.0",
+    "commander": "^7.2.0",
+    "dayjs": "^1.10.4",
+    "dotenv": "^8.2.0",
+    "i18next-scanner": "^3.0.0",
+    "inquirer": "^8.0.0",
+    "inquirer-select-directory": "^1.2.0",
+    "lodash": "^4.17.21",
+    "mkdirp": "^1.0.4",
+    "node-notifier": "^9.0.1",
+    "ora": "^5.4.0",
+    "slash": "^3.0.0",
+    "superagent": "^6.1.0"
+  },
+  "devDependencies": {
+    "local-package-publisher": "^1.0.3"
+  }
+}

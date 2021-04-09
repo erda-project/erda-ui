@@ -1,0 +1,40 @@
+.affix-collapse {
+  .content {
+    flex-grow: 1;
+    overflow: auto;
+  }
+
+  .group-header {
+    position: relative;
+    height: 42px;
+    padding: 0 12px 0 32px;
+    font-weight: bold;
+    line-height: 42px;
+    background-color: $whitesmoke;
+    border-bottom: 1px solid $color-border;
+
+
+    &.active {
+      background-color: $color-active-bg;
+    }
+
+  }
+
+  .collapse {
+    height: 0;
+    visibility: hidden;
+  }
+
+  .expand-icon {
+    position: absolute;
+    top: 12px;
+    left: 8px;
+    margin: 0;
+    transition: transform .1s ease-out;
+
+    &.rotate {
+      transform: rotate(90deg);
+    }
+  }
+
+}

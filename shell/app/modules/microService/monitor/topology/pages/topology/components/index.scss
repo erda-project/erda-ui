@@ -1,0 +1,20 @@
+.topology-chart {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid $color-border;
+  border-radius: $radius;
+
+  .spin-full-height {
+    .ant-spin-nested-loading,
+    .ant-spin-container {
+      height: 100%;
+    }
+  }
+
+  .chart-box {
+    position: relative;
+    flex: 1;
+    overflow: auto;
+  }
+}

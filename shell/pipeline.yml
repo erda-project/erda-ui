@@ -1,0 +1,27 @@
+version: 1.1
+
+stages:
+- stage:
+  - git-checkout:
+      params:
+        depth: 1
+
+- stage:
+  - buildpack:
+      params:
+        context: ${git-checkout}
+        modules:
+        - name: ui
+          path: .
+          image:
+            name: registry.cn-hangzhou.aliyuncs.com/terminus/dice-ui:((dice.version))-((date.YYYYMMDD))-((gittar.commit.abbrev))
+            username: ((aliyun.username))
+            password: ((aliyun.password))
+
+- stage:
+  - release:
+      params:
+        dice_yml: ${git-checkout}/dice.yml
+        replacement_images:
+        - ${buildpack}/pack-result
+        check_diceyml: false

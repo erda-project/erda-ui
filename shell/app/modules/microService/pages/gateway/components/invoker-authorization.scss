@@ -1,0 +1,46 @@
+.invoker-auth {
+  .op-row {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+
+  .table-title {
+    font-weight: 500;
+    font-size: 16px;
+  }
+}
+
+.user-modal {
+  height: 550px;
+}
+
+.user-content {
+  height: 300px;
+  overflow: auto;
+
+  .config-info {
+    margin-bottom: 10px;
+
+    span {
+      margin-right: 10px;
+    }
+  }
+}
+
+.auth-type-item {
+  position: relative;
+  margin-bottom: 40px;
+
+  .auth-params-title {
+    color: $color-text-sub;
+    font-size: 16px;
+  }
+
+  .auth-params-desc {
+    color: $color-text-desc;
+  }
+}

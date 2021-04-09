@@ -1,0 +1,372 @@
+// Copyright (c) 2021 Terminus, Inc.
+//
+// This program is free software: you can use, redistribute, and/or modify
+// it under the terms of the GNU Affero General Public License, version 3
+// or later ("AGPL"), as published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+/* eslint-disable react-hooks/exhaustive-deps */
+import * as React from 'react';
+import classnames from 'classnames';
+import { INode } from './components/topology-utils-v1';
+import { Tooltip, Dropdown, Menu } from 'nusi';
+import { floor, map } from 'lodash';
+import { Icon as CustomIcon, IF } from 'common';
+import { goTo } from 'common/utils';
+import { SVGICONS } from 'charts/components/svg-icon';
+// import { getErrorDetail, getExceptionDetail } from '../../services/topology';
+import { IMeshType } from '../service-mesh/service-mesh-drawer';
+import routeInfoStore from 'app/common/stores/route';
+import topologyServiceStore from 'microService/stores/topology-service-analyze';
+import topologyStore from '../../stores/topology';
+import i18n from 'i18n';
+import './node-item.scss';
+import moment from 'moment';
+
+interface INodeEle{
+  [pro:string]:any;
+  node: INode;
+  terminusKey: string;
+  timeSpan: ITimeSpan;
+  nodeStyle: {
+    width: number;
+    height: number;
+  }
+  onHover(...args: any): void;
+  outHover(...args: any): void;
+  onClick(...args: any): void;
+}
+const MenuItem = Menu.Item;
+
+const nameMap = {
+  ConfigCenter: i18n.t('application:configCenter'),
+  RegisterCenter: i18n.t('application:registerCenter'),
+  APIGateway: i18n.t('application:apiGateway'),
+};
+
+export const getRelativeNodes = (node: any, external: any) => {
+  const { groupNodeMap } = external;
+  const { category, parents: curParents = [] } = node;
+  if (category === 'microservice') {
+    const fullParents = map(curParents, 'id');
+    const mRelativeNode: string[] = [];
+    const mUnRelativeNode: string[] = [];
+    map(groupNodeMap, (item) => {
+      const { parents, topologyExternal: { uniqName }, id } = item;
+      const beParentId = map(parents, 'id');
+      if (fullParents.includes(id) || beParentId.includes(node.id)) {
+        mRelativeNode.push(uniqName);
+      } else {
+        mUnRelativeNode.push(uniqName);
+      }
+    });
+    return {
+      relativeNode: mRelativeNode,
+      unRelativeNode: mUnRelativeNode,
+    };
+  }
+  return null;
+};
+
+// 节点组件
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, nodeStyle, ...rest }: INodeEle) => {
+  const [hoverFlag, setHoverFlag] = React.useState(null as any);
+  // const [requestFlag, setRequestFlag] = React.useState(false);
+  // const [detailInfo, setDetailInfo] = React.useState({} as any);
+  const { name, id, type, applicationId, serviceName, applicationName, runtimeName, metric: { rt, count, error_rate, running, stopped } } = node;
+  const { width, height } = nodeStyle;
+  const style = { width, height };
+  const params = routeInfoStore.useStore(s => s.params);
+  const scale = topologyStore.useStore(s => s.scale);
+  const activedNode = topologyServiceStore.useStore(s => s.activedNode);
+
+  React.useEffect(() => {
+    if (hoverFlag === null) return;
+    if (hoverFlag) {
+      // getDetailInfo();
+      onHover(node);
+    } else {
+      outHover(node);
+    }
+  }, [hoverFlag]);
+
+  // const getDetailInfo = () => {
+  //   if (!isEmpty(detailInfo) || requestFlag || type !== 'Service') return;
+  //   const start = timeSpan.startTimeMs;
+  //   const end = timeSpan.endTimeMs;
+  //   setRequestFlag(true);
+  //   Promise.all([
+  //     getExceptionDetail({
+  //       sum: 'count',
+  //       align: false,
+  //       start,
+  //       end,
+  //       filter_terminus_key: terminusKey,
+  //       filter_runtime_name: runtimeName,
+  //       filter_service_name: serviceName,
+  //       filter_application_id: applicationId,
+  //     }),
+  //     getErrorDetail({
+  //       filter_error: true,
+  //       sum: 'elapsed_count',
+  //       align: false,
+  //       start,
+  //       end,
+  //       filter_target_terminus_key: terminusKey,
+  //       filter_target_runtime_name: runtimeName,
+  //       filter_target_service_name: serviceName,
+  //       filter_target_application_id: applicationId,
+  //       field_gte_http_status_code_min: 500,
+  //     }),
+  //   ]).then(([exceptionResult, errorResult]) => {
+  //     if (exceptionResult.success && errorResult.success) {
+  //       const exception = get(exceptionResult, 'data.results[0].data[0]["sum.count"].data') || 0;
+  //       const error = get(errorResult, 'data.results[0].data[0]["sum.elapsed_count"].data') || 0;
+  //       setDetailInfo({ exception, error });
+  //     } else {
+  //       setRequestFlag(false);
+  //     }
+  //   }).catch(() => {
+  //     setRequestFlag(false);
+  //   });
+  // };
+
+  // 暂时使用和原svgIcon中的一致图标
+  const iconObj = SVGICONS[type.toLowerCase()] || SVGICONS.addon;
+  const iconImg = iconObj.img.replace('image:///', '/');
+  const TipText = () => {
+    return (
+      <div className="topology-node-tip">
+        <div>{type === 'Service' ? i18n.t('service') : i18n.t('name')}: {name}</div>
+        {runtimeName && <div>Runtime: {runtimeName}</div>}
+        {applicationName && <div>{i18n.t('application')}: {applicationName}</div>}
+        {/* { detailInfo.error !== undefined && <div>{i18n.t('microService:http error request')}: {detailInfo.error}</div> }
+        { detailInfo.exception !== undefined && <div>{i18n.t('microService:application error')}: {detailInfo.exception}</div> } */}
+      </div>
+    );
+  };
+  const ServiceTipText = () => {
+    return (
+      <div className="topology-node-tip">
+        <div>{i18n.t('service')}: {name}</div>
+        {runtimeName && <div>Runtime: {runtimeName}</div>}
+        {applicationName && <div>{i18n.t('application')}: {applicationName}</div>}
+        {!!stopped && <div>{i18n.t('microService:stopped instance')}: {stopped}</div>}
+        {!!running && <div>{i18n.t('microService:running instance')}: {running}</div>}
+        {!!count && <div>{i18n.t('call count')}: {count}</div>}
+        {
+        !!error_rate &&
+          <div>{i18n.t('microService:request error rate')}: {floor(error_rate, 2)}%</div>
+        }
+        <div>{i18n.t('response time')}: {floor(rt, 2)}(ms)</div>
+        <div>{i18n.t('type')}: {type}</div>
+      </div>
+    );
+  };
+
+  const isMeshNode = node.serviceMesh === 'on';
+
+  const handleClickError = (e: any) => {
+    e.stopPropagation();
+    const timeFrom = moment(timeSpan.startTimeMs).format('YYYY-MM-DD HH:mm:ss');
+    const timeTo = moment(timeSpan.endTimeMs).format('YYYY-MM-DD HH:mm:ss');
+    goTo(goTo.pages.microTraceSearch, { ...params, appId: applicationId, timeFrom, timeTo, status: 1, jumpOut: true });
+  };
+
+  const nodeOperations = (
+    <Menu>
+      <MenuItem
+        onClick={({ domEvent }:any) => {
+          domEvent.stopPropagation();
+          rest.toggleDrawer(IMeshType.circuitBreaker, node);
+        }}
+      >
+        {i18n.t('microService:circuit breaker')}
+      </MenuItem>
+      <MenuItem
+        onClick={({ domEvent }:any) => {
+          domEvent.stopPropagation();
+          rest.toggleDrawer(IMeshType.faultInject, node);
+        }}
+      >
+        {i18n.t('microService:fault inject')}
+      </MenuItem>
+    </Menu>
+  );
+
+  // 当缩放比例小于 0.5 时，为小节点模式
+  if (scale <= 0.5) {
+    if (type === 'Service') {
+      return (
+        <Tooltip title={ServiceTipText}>
+          <div
+            className={'topology-node'}
+            onClick={onClick}
+            style={style}
+            onMouseEnter={() => setHoverFlag(true)}
+            onMouseLeave={() => setHoverFlag(false)}
+          >
+            <div className="node-title small-node-title bold">
+              {stopped ? (
+                <>
+                  <CustomIcon type="wks1" className="error-icon mr20" />
+                  <span>
+                    {stopped}/{running}
+                  </span>
+                </>
+              ) : (
+                <>
+                  <CustomIcon type="cg" className="common-icon mr20" />
+                  <span>{running}</span>
+                </>
+              )}
+            </div>
+            <div className="node-info">
+              <div className="info-item" onClick={handleClickError}>
+                <span className="info-value small-info-value bold">
+                  <IF check={error_rate}>
+                    <span className="color-danger">{error_rate}%</span>/<span>{count}</span>
+                    <IF.ELSE />
+                    {count}
+                  </IF>
+                </span>
+              </div>
+            </div>
+          </div>
+        </Tooltip>
+      );
+    }
+
+    return (
+      <Tooltip title={TipText}>
+        <div
+          className={'topology-node simple-node'}
+          onClick={onClick}
+          style={style}
+          onMouseEnter={() => setHoverFlag(true)}
+          onMouseLeave={() => setHoverFlag(false)}
+        >
+          <div className="node-title small-node-title">
+            <div className="node-icon">
+              <img src={iconImg} />
+            </div>
+          </div>
+        </div>
+      </Tooltip>
+    );
+  }
+
+  if (type === 'ConfigCenter' || type === 'RegisterCenter') {
+    return (
+      <Tooltip title={TipText}>
+        <div
+          className={'topology-node simple-node'}
+          onClick={onClick}
+          style={style}
+          onMouseEnter={() => setHoverFlag(true)}
+          onMouseLeave={() => setHoverFlag(false)}
+        >
+          <div className="node-title">
+            <div className="node-icon">
+              <img src={iconImg} />
+            </div>
+            <div className="node-name">
+              <span className="text bold">{nameMap[type] || name}</span>
+              <span className="sub-text">{runtimeName}</span>
+              <span className="sub-text">{applicationName}</span>
+            </div>
+            {
+              isMeshNode ? (
+                <div className="full-height">
+                  <CustomIcon type="sz" onClick={(e:any) => e.stopPropagation()} />
+                </div>
+              ) : null
+            }
+          </div>
+        </div>
+      </Tooltip>
+    );
+  }
+
+  return (
+    <Tooltip title={type === 'Service' ? ServiceTipText : TipText}>
+      <div
+        className={classnames({
+          'topology-node': true,
+          actived: id === activedNode?.id,
+        })}
+        onClick={onClick}
+        style={style}
+        onMouseEnter={() => setHoverFlag(true)}
+        onMouseLeave={() => setHoverFlag(false)}
+      >
+        <div className="node-title">
+          <div className="node-icon">
+            <img src={iconImg} />
+          </div>
+          <div className="node-name">
+            <span className="text bold">{nameMap[type] || name}</span>
+            {
+              type === 'Service' ? (
+                stopped ?
+                  <div>
+                    <CustomIcon type="wks1" style={{ color: 'red' }} />
+                    <span className="color-danger">{stopped}</span>/<span>{running} {i18n.t('instance')}</span>
+                  </div>
+                  :
+                  <span>
+                    {running} {i18n.t('instance')}
+                  </span>
+              ) : (
+                <>
+                  <span className="sub-text">{runtimeName}</span>
+                  <span className="sub-text">{applicationName}</span>
+                </>
+              )
+            }
+          </div>
+          {
+            isMeshNode ? (
+              <div className="full-height node-operation">
+                <Dropdown overlayClassName="topology-node-dropdown" overlay={nodeOperations}>
+                  <CustomIcon className="fz18 operation-item pl8 pr8 pb8" type="sz" onClick={(e:any) => e.stopPropagation()} />
+                </Dropdown>
+              </div>
+            ) : null
+          }
+        </div>
+        <div className="node-info">
+          <div className="info-item" onClick={handleClickError}>
+            <span className="info-value bold">
+              <IF check={error_rate}>
+                <span className="color-danger">{floor(error_rate, 2)}%</span>/<span>{count}</span>
+                <IF.ELSE />
+                {count}
+              </IF>
+            </span>
+            <span className="info-key">
+              <IF check={error_rate}>
+                <span className="color-danger">{i18n.t('microService:request error rate')}</span>/<span>{i18n.t('call count')}</span>
+                <IF.ELSE />
+                {i18n.t('call count')}
+              </IF>
+            </span>
+          </div>
+          <div className="info-item-separate" />
+          <div className="info-item">
+            <span className="info-value bold">{floor(rt, 2)}</span>
+            <span className="info-key">{i18n.t('response time')}(ms)</span>
+          </div>
+        </div>
+      </div >
+    </Tooltip>
+  );
+};
+export default NodeEle;

@@ -1,0 +1,60 @@
+$po: $p20;
+
+.app-type-select {
+  display: inline-flex;
+  flex-wrap: wrap;
+  margin-top: -$po;
+
+  .img-wrapper {
+    position: relative;
+    display: inline-block;
+    min-width: 146px;
+    height: 140px;
+    margin-top: $po;
+    margin-right: $po;
+    text-align: center;
+    background-color: rgba($black, .04);
+    border: 1px solid $color-border;
+    border-radius: $radius;
+    cursor: pointer;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &:hover {
+      background-color: $white;
+    }
+
+    &.active {
+      background-color: $white;
+
+      i {
+        display: unset;
+      }
+    }
+
+    i {
+      position: absolute;
+      top: $p8;
+      right: $p8;
+      display: none;
+      margin-right: 0;
+      color: $color-active;
+      font-size: 16px;
+    }
+  }
+
+  img {
+    width: 90px;
+    height: 90px;
+    margin: 9px 0;
+  }
+
+  .desc {
+    width: 100px;
+    margin: 0 auto;
+    line-height: 31px;
+    border-top: 1px solid $color-border;
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "extends": ["stylelint-config-rational-order", "@terminus/lint-config/style"],
+  "ignoreFiles": [
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "rules": {
+    "rule-empty-line-before": [
+      "always",
+      {
+        "except": ["first-nested", "after-single-line-comment"]
+      }
+    ]
+  }
+}

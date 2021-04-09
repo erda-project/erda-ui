@@ -1,0 +1,299 @@
+.dice-cp {
+  &.table {
+    .table-render-twt {
+      .twt-text {
+        display: flex;
+        flex-grow: 1;
+        width: 0;
+      }
+    }
+
+    .string-list-link {
+      color: $primary;
+      cursor: pointer;
+    }
+
+    .dice-config-table-member-selector {
+      .results {
+        padding: 4px 0;
+        border: 0;
+
+        &:hover {
+          border: 0;
+          box-shadow: unset;
+        }
+      }
+
+      .values,
+      .value-item {
+        width: 100%;
+      }
+    }
+
+    .dice-config-table-date-picker {
+      position: relative;
+
+      .date-picker-display-tip {
+        position: absolute;
+        left: 0;
+      }
+
+      .date-picker {
+        z-index: 2;
+      }
+
+
+      &.with-display-tip {
+        .date-picker {
+          opacity: 0;
+        }
+
+        .date-picker-display-tip {
+          opacity: 1;
+        }
+
+        &:hover {
+          .date-picker {
+            opacity: 1;
+          }
+
+          .date-picker-display-tip {
+            opacity: 0;
+          }
+        }
+      }
+
+      .ant-input {
+        border: 1px solid transparent;
+      }
+
+      .ant-calendar-picker-icon {
+        visibility: hidden;
+      }
+
+      &:hover {
+        .ant-calendar-picker-icon {
+          visibility: visible;
+        }
+      }
+    }
+
+  }
+
+  .dropdown-field-selector {
+    .arrow-icon {
+      color: $color-text-icon;
+    }
+
+    &:hover {
+      .arrow-icon {
+        color: $primary;
+      }
+    }
+  }
+
+  .dice-config-table-slide-wrap {
+    position: relative;
+
+    &-item {
+      display: flex;
+      padding: $p8 0;
+
+      & > div {
+        height: 12px;
+      }
+
+      .slide-actual-time {
+        background: rgba($blue, 1);
+      }
+
+      .slide-rest-time {
+        background: rgba($gray, .3);
+      }
+
+      .slide-delay-time {
+        background: rgba($red, 1);
+      }
+    }
+  }
+
+  .gantt-date-title {
+    height: 50px;
+
+    &::after {
+      position: absolute;
+      right: 0;
+      width: 1px;
+      height: 10000px;
+      background-color: rgba(0, 0, 0, .1);
+      content: "";
+    }
+
+    .month-list {
+      display: flex;
+      line-height: 25px;
+      border: none !important;
+    }
+
+    .date-range {
+      &:last-child {
+        border-right: 1px solid $color-border;
+      }
+    }
+
+    .month {
+      line-height: 25px;
+      text-align: center;
+      border-bottom: 1px solid $color-border;
+      border-left: 1px solid $color-border;
+
+      &:last-child {
+        border-right: 1px solid $color-border;
+      }
+    }
+
+    .day {
+      position: relative;
+      display: inline-block;
+      width: 32px;
+      line-height: 25px;
+      text-align: center;
+
+      &::before {
+        position: absolute;
+        left: 0;
+        width: 1px;
+        height: 10000px;
+        background-color: $color-border;
+        content: "";
+      }
+
+      &::after {
+        position: absolute;
+        right: 0;
+        width: 100%;
+        height: 10000px;
+        content: "";
+      }
+
+      &.rest-day::after {
+        background: repeating-linear-gradient(
+          45deg, rgba(114, 82, 82, .09), transparent 2px
+        );
+      }
+
+      &.today::after {
+        background-color: $color-active-bg;
+      }
+    }
+  }
+
+  .task-gantt-table {
+    overflow: hidden;
+
+    .pk-ellipsis-item {
+      overflow: visible;
+    }
+
+    .pk-table {
+      .pk-table-body {
+        overflow-y: hidden;
+      }
+
+      .pk-table-thead {
+        > tr > th {
+          &:last-child {
+            padding: 0;
+            overflow: visible;
+          }
+        }
+
+        .pk-table-column-header-title {
+          overflow: visible;
+        }
+      }
+
+      .pk-table-tbody {
+        overflow-y: hidden;
+
+        > tr > td {
+          padding: 0 8px;
+
+          &:last-child {
+            padding: 0;
+            overflow: hidden;
+          }
+        }
+      }
+    }
+
+    .ant-input {
+      padding: 4px;
+    }
+
+    .ant-calendar-picker-input.ant-input,
+    .ant-select-selection,
+    .load-more-selector > .results,
+    .ant-input-affix-wrapper .ant-input:not(:last-child),
+    .ant-input-group > .ant-input:first-child {
+      background: transparent;
+      border-color: transparent;
+    }
+
+    .ant-select-selection:hover,
+    .load-more-selector:hover > .results,
+    .ant-input-affix-wrapper .ant-input:not(:last-child):hover {
+      border-color: $color-primary;
+    }
+
+    .pk-table-fixed-left {
+      z-index: 3;
+    }
+
+    .pk-ellipsis {
+      overflow: visible;
+    }
+  }
+}
+
+.dice-config-table-member-field-selector {
+  .arrow-icon {
+    color: $color-text-icon;
+  }
+
+  &:hover {
+    .arrow-icon {
+      color: $primary;
+    }
+  }
+}
+
+.dc-table-date-picker {
+  &.result-right {
+    .ant-calendar-input {
+      text-align: right;
+    }
+  }
+}
+
+.dice-cp-text-tag {
+  .extra-tags {
+    height: 20px;
+    color: $white;
+    font-size: 12px;
+    line-height: 20px;
+    background-color: red;
+    border-radius: $radius;
+  }
+}
+
+.dice-cp-level-content {
+  .level-1-content {
+    color: $color-text;
+    font-weight: 500;
+  }
+
+  .level-2-content{
+
+  }
+}

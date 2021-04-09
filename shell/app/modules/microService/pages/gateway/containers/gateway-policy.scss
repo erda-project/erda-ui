@@ -1,0 +1,27 @@
+.gateway-policy-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: $b16;
+
+  .policy-label {
+    width: 150px;
+    margin-right: $b16;
+    line-height: 32px;
+    text-align: right;
+  }
+
+  .policy-content {
+    .unit {
+      margin-left: 8px;
+      line-height: 32px;
+    }
+  }
+
+  .policy-input {
+    width: 300px;
+  }
+
+  .safety-select {
+    width: 120px;
+  }
+}

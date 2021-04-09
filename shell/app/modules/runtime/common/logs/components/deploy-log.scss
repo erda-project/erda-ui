@@ -1,0 +1,64 @@
+.step-wrap {
+  display: flex;
+  width: 70%;
+  margin: 10px auto;
+
+  .one-step {
+    position: relative;
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+    align-items: center;
+
+    .step-title {
+      margin-top: 8px;
+    }
+
+    &:before {
+      position: absolute;
+      top: 50%;
+      right: 70%;
+      width: 60%;
+      height: 1px;
+      background-color: $gainsboro;
+      content: "";
+    }
+
+    &:first-child {
+      &:before {
+        content: none;
+      }
+    }
+
+    &.finished {
+      color: $color-primary;
+
+      &:before {
+        background-color: $color-primary;
+      }
+    }
+
+    &.disabled {
+      .step-title,
+      i {
+        color: $color-disabled;
+      }
+    }
+  }
+
+  .fail-info {
+    margin-left: 2px;
+    color: $color-danger;
+  }
+}
+
+.runtime-deploy-log-error {
+  max-width: 350px;
+  min-height: 40px;
+  padding: 5px;
+  overflow: auto;
+  color: #c2c1d0;
+  line-height: 25px;
+  background-color: #3c444f;
+  border-radius: 4px;
+}

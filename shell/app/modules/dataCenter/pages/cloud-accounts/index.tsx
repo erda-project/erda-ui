@@ -1,0 +1,94 @@
+// Copyright (c) 2021 Terminus, Inc.
+//
+// This program is free software: you can use, redistribute, and/or modify
+// it under the terms of the GNU Affero General Public License, version 3
+// or later ("AGPL"), as published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+import * as React from 'react';
+import { Modal } from 'nusi';
+import cloudAccountStore from 'app/modules/dataCenter/stores/cloud-account';
+import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
+import { CRUDStoreTable } from 'common';
+import { getAccountsFieldsList } from 'dataCenter/common/cloud-common';
+import i18n from 'i18n';
+
+const { confirm } = Modal;
+
+export default () => {
+  const { deleteItem, getList } = cloudAccountStore.effects;
+
+  const showDeleteConfirm = (record: CLOUD_ACCOUNTS.Account) => {
+    confirm({
+      title: i18n.t('dataCenter:confirm deletion of cloud account?'),
+      content: i18n.t('dataCenter:cloud account cannot be restored after deletion, confirm execution?'),
+      onOk() {
+        const { vendor, accessKeyID } = record;
+        deleteItem({ vendor, accessKeyID }).then(() => {
+          getList({ pageNo: 1, pageSize: 10 });
+        });
+      },
+    });
+  };
+
+  const getColumns = () => {
+    return [
+      {
+        title: 'Access Key ID',
+        dataIndex: 'accessKeyID',
+      },
+      {
+        title: i18n.t('vender'),
+        dataIndex: 'vendor',
+      },
+      {
+        title: i18n.t('description'),
+        dataIndex: 'description',
+      },
+      {
+        title: i18n.t('common:operation'),
+        key: 'operation',
+        width: 100,
+        render: (_text: string, record: CLOUD_ACCOUNTS.Account) => {
+          return (
+            <div className="table-operations">
+              <span
+                className="table-operations-btn"
+                onClick={() => showDeleteConfirm(record)}
+              >
+                {i18n.t('delete')}
+              </span>
+            </div>
+          );
+        },
+      },
+    ];
+  };
+
+  const getFieldsList = () => {
+    return getAccountsFieldsList([{ name: i18n.t('aliyun'), value: 'aliyun' }]);
+  };
+
+  const handleFormSubmit = (data: CLOUD_ACCOUNTS.Account, { addItem }: {addItem: (arg: any) => Promise<any>}) => {
+    return addItem(data).then(() => cloudCommonStore.checkCloudAccount());
+  };
+
+  return (
+    <>
+      <CRUDStoreTable<CLOUD_ACCOUNTS.Account>
+        name={i18n.t('account')}
+        getColumns={getColumns}
+        store={cloudAccountStore}
+        showTopAdd
+        getFieldsList={getFieldsList}
+        handleFormSubmit={handleFormSubmit}
+      />
+    </>
+  );
+};

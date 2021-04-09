@@ -1,0 +1,145 @@
+// Copyright (c) 2021 Terminus, Inc.
+//
+// This program is free software: you can use, redistribute, and/or modify
+// it under the terms of the GNU Affero General Public License, version 3
+// or later ("AGPL"), as published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+import * as React from 'react';
+import { Panel, Title, Anchor } from 'nusi';
+import { OperationProps, TitleProps } from '@terminus/nusi/es/title/interface';
+import { PanelProps } from '@terminus/nusi/es/panel/index';
+import { IF } from 'common';
+import { map, isEmpty } from 'lodash';
+import './details-panel.scss';
+import { IAnchorContainer } from '@terminus/nusi/es/anchor/interface';
+import classnames from 'classnames';
+
+interface ITitleProps {
+  title?: string | React.ReactNode;
+  icon?: React.ReactNode;
+  operations?: OperationProps[];
+  level?: number;
+  tips?: string;
+  prefixCls?: string;
+  style?: React.CSSProperties;
+  className?: string;
+  showDivider?: boolean;
+}
+
+interface IContentProps {
+  crossLine?: boolean;
+  titleProps?: ITitleProps;
+  showTitle?: boolean;
+  panelProps?: PanelProps;
+  getComp?: () => React.ReactNode | React.ReactNodeArray;
+}
+
+export interface IContentPanelProps extends IContentProps {
+  title?: string | React.ReactNode;
+}
+
+export interface ILink extends IContentProps {
+  linkProps: {
+    title?: string | React.ReactNode;
+    icon?: React.ReactNode;
+  }
+  key: string;
+}
+
+interface IProps {
+  baseInfoConf?: IContentPanelProps;
+  linkList?: ILink[];
+  anchorContainer?: IAnchorContainer;
+  children?: React.ReactNode
+}
+
+const { Link } = Anchor;
+
+const Content = (props: IContentProps) => {
+  const { crossLine, titleProps, showTitle = true, panelProps, getComp } = props;
+  const contentClass = classnames({
+    'content-wrapper': true,
+    'mt8 px12 pb12': showTitle,
+    pa12: !showTitle,
+    'border-top mt8': crossLine,
+  });
+  return (
+    <div className="title-box border-all white-bg">
+      <IF check={showTitle}>
+        <div className="title-wrapper px12 pt12">
+          <Title {...titleProps as TitleProps} />
+        </div>
+      </IF>
+      <div className={contentClass}>
+        <IF check={!getComp}>
+          <Panel {...panelProps} />
+          <IF.ELSE />
+          {getComp ? getComp() : <></>}
+        </IF>
+      </div>
+    </div>
+  );
+};
+
+const DetailsPanel = (props: IProps) => {
+  const { baseInfoConf, linkList, anchorContainer, children } = props;
+
+  const _baseInfoConf = {
+    ...baseInfoConf,
+    titleProps: {
+      title: baseInfoConf?.title,
+      level: 2,
+      ...baseInfoConf?.titleProps,
+    },
+  };
+
+  const container = React.useRef(anchorContainer || document.getElementById('main') as IAnchorContainer);
+
+  return (
+    <div className="details-panel-template">
+      <IF check={!isEmpty(baseInfoConf)}>
+        <div className="base-info mb12">
+          <Content {..._baseInfoConf as IContentProps} />
+        </div>
+      </IF>
+      {children}
+      <IF check={!isEmpty(linkList)}>
+        <Anchor getContainer={() => container.current}>
+          {
+            map(linkList, (item) => {
+              const { linkProps, crossLine, titleProps, showTitle, panelProps, getComp, key } = item;
+              const { icon, title } = linkProps;
+              const _titleProps = {
+                title,
+                level: 2,
+                icon,
+                ...titleProps,
+              };
+              const href = `#${key}`;
+              return (
+                <Link href={href} title={title} key={href} icon={icon}>
+                  <Content
+                    crossLine={crossLine}
+                    titleProps={_titleProps}
+                    panelProps={panelProps}
+                    getComp={getComp}
+                    showTitle={showTitle}
+                  />
+                </Link>
+              );
+            })
+          }
+        </Anchor>
+      </IF>
+    </div>
+  );
+};
+
+export default DetailsPanel;

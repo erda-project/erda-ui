@@ -1,0 +1,46 @@
+.test-status-toggle {
+  span {
+    display: inline-block;
+    color: $color-text-desc;
+  }
+
+  &.red {
+    .bg-color-icon {
+      background-color: $color-danger;
+    }
+
+    span {
+      color: $color-danger;
+    }
+  }
+
+  &.green {
+    .bg-color-icon {
+      background-color: $color-success;
+    }
+
+    span {
+      color: $color-success;
+    }
+  }
+
+  &.blue {
+    .bg-color-icon {
+      background-color: $color-info;
+    }
+
+    span {
+      color: $color-info;
+    }
+  }
+
+  &.yellow {
+    .bg-color-icon {
+      background-color: $color-warning;
+    }
+
+    span {
+      color: $color-warning;
+    }
+  }
+}

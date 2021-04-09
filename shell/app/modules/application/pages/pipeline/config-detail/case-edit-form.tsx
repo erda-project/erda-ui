@@ -1,0 +1,68 @@
+// Copyright (c) 2021 Terminus, Inc.
+//
+// This program is free software: you can use, redistribute, and/or modify
+// it under the terms of the GNU Affero General Public License, version 3
+// or later ("AGPL"), as published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+import * as React from 'react';
+import { FormModal } from 'common';
+import i18n from 'i18n';
+
+interface IProps{
+  visible: boolean;
+  onClose: ()=> void;
+  onOk: (arg: any)=> void;
+  editData?: AUTO_TEST.ICaseDetail
+}
+
+const fileSuffix = '.yml';
+const CaseEditForm = (props: IProps) => {
+  const { visible, onOk, onClose, editData } = props;
+  const fieldList = [
+    {
+      label: i18n.t('name'),
+      name: 'name',
+      itemProps: {
+        maxLength: 50,
+        addonAfter: fileSuffix,
+      },
+    },
+    {
+      label: i18n.t('description'),
+      name: 'desc',
+      type: 'textArea',
+      required: false,
+      itemProps: {
+        maxLength: 2000,
+      },
+    },
+  ];
+
+  const onSave = (val: any) => {
+    onOk({ ...val, name: `${val.name}${fileSuffix}` });
+  };
+
+  return (
+    <FormModal
+      name={i18n.t('application:pipeline')}
+      fieldsList={fieldList}
+      visible={visible}
+      onOk={onSave}
+      formData={editData}
+      onCancel={onClose}
+      modalProps={{
+        destroyOnClose: true,
+        maskClosable: false,
+      }}
+    />
+  );
+};
+
+export default CaseEditForm;

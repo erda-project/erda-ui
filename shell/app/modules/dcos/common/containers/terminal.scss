@@ -1,0 +1,11 @@
+.services-terminal {
+  height: 100%;
+  padding: 20px 0 10px 20px;
+  overflow: hidden;
+  background-color: #48515f;
+  border-radius: 4px;
+
+  .terminal-info {
+    color: $platinum;
+  }
+}

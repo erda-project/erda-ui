@@ -1,0 +1,10 @@
+.build-branch-from {
+  >div {
+    margin-bottom: 8px;
+  }
+
+  .pk-radio-button-wrapper-disabled.pk-radio-button-wrapper-checked {
+    background-color: $color-primary;
+    border-color: $color-primary;
+  }
+}

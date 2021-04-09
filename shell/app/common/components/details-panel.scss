@@ -1,0 +1,43 @@
+.details-panel-template {
+  .title-box {
+    border-radius: $radius-lg;
+  }
+
+  .pk-anchor-wrapper {
+    background-color: transparent;
+
+    .pk-anchor {
+      width: 100%;
+      margin: 0 0 $p12 0;
+      background-color: $color-white-2;
+    }
+
+    .pk-title-title_icon, .pk-anchor-link-title_icon {
+      display: flex;
+      align-items: center;
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .pk-affix > .pk-anchor {
+      background-color: $white;
+      border-right: 1px solid $color-border;
+      border-left: 1px solid $color-border;
+    }
+
+    .pk-anchor-content {
+      padding: 0;
+    }
+
+    .pk-anchor-con {
+      padding-top: $p12;
+
+      &:nth-child(1) {
+        padding-top: 0;
+      }
+    }
+  }
+}

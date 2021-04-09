@@ -1,0 +1,40 @@
+.data-task-transfer {
+  width: 760px;
+
+  .ant-transfer-operation {
+    width: 40px;
+    padding-left: 6px;
+  }
+}
+
+.data-task {
+  .footer {
+    .iconfont {
+      vertical-align: baseline;
+    }
+
+    > span {
+      color: $color-text-desc;
+    }
+  }
+
+  .image-txt-container {
+    .tail {
+      display: inline-block;
+      width: calc(100% - 60px);
+      direction: rtl;
+      vertical-align: text-bottom;
+    }
+
+    .hack-safari {
+      direction: ltr;
+    }
+
+    .head {
+      display: inline-block;
+      overflow: hidden;
+      text-align: right;
+      vertical-align: text-bottom;
+    }
+  }
+}
