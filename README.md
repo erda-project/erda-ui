@@ -59,5 +59,19 @@ architecture of development mode
 
 We welcome all contributions. Please read our [CONTRIBUTING.md](https://github.com/erda-project/erda-ui/blob/master/.github/CONTRIBUTING.md) first. You can submit any ideas as [pull requests](https://github.com/erda-project/erda-ui/pulls) or as [GitHub issues](https://github.com/erda-project/erda-ui/issues?template=bug-template). If you'd like to improve code, check out the [Development Instructions](https://github.com/erda-project/erda-ui/wiki/Development) and have a good time! :)
 
+
+## Contact Us
+
+We look forward to your connecting with us, you can ask us any questions.
+
+- Email: erda@terminus.io
+- 知乎：[Erda技术团队](https://www.zhihu.com/people/erda-project) (A Chinese knowledge community, similar to Quora.)
+- 微信公众号（Wechat）:
+
+<div align="left">
+	<img src="./docs/files/wechat.jpg" alt="Editor" width="150">
+</div>
+
+
 ## License
 Erda is under the AGPL 3.0 license. See the [LICENSE](/LICENSE) file for details.
