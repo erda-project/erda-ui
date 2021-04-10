@@ -22,7 +22,7 @@ import { getEdgeMenu } from './edge';
 import i18n from 'app/i18n';
 import { produce } from 'immer';
 import { filter, map } from 'lodash';
-import {appList} from './appCenter'
+import { appList } from './appCenter';
 
 export {
   getProjectMenu,
@@ -32,7 +32,7 @@ export {
   getWorkBenchMenu,
   getMicroServiceMenu,
   getEdgeMenu,
-}
+};
 
 export const appCenterAppList = appList;
 
