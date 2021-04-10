@@ -96,7 +96,12 @@ Directory: ${chalk.greenBright(targetPath)}
       }
       if (!content.includes('// Copyright (c) 2021 Terminus, Inc.')) {
         const header = licenseTpl[licenseType];
-        content = header + content;
+        if (content.startsWith('#!')) {
+          const [firstLine, ...rest] = content.split('\n');
+          content = [firstLine, '\n', ...header.split('\n'), ...rest].join('\n');
+        } else {
+          content = header + content;
+        }
         fs.writeFile(filePath, content, { encoding: 'utf8' }, (err) => {
           if (err) {
             logError('Write license to file failed:', filePath)
