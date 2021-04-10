@@ -97,12 +97,19 @@ const clearPublic = async () => {
 }
 
 const checkModuleValid = ()=> {
-  const isAllValid = moduleList.every(item=>{
-    return item.moduleName && item.moduleDir && fs.existsSync(item.moduleDir);
+  let isAllValid = true;
+  
+  moduleList.forEach(item=>{
+    if (!item.moduleDir) {
+      isAllValid = false;
+      logError(`${item.moduleName.toUpperCase()}_DIR is not exist in .env, you can run "erda setup <module> <port>" to auto generate moduleDir`);
+    } else if (!fs.existsSync(item.moduleDir)) {
+      isAllValid = false
+      logError(`${item.moduleName.toUpperCase()}_DIR is wrong, please check in .env, or you can run "erda setup <module> <port>" to update moduleDir`);
+    }
   });
 
   if (!isAllValid) {
-    logError('please check every moduleDir is exist in .env, otherwise, run "erda setup <module> <port>" to auto generate moduleDir');
     process.exit(1);
   }
 }
@@ -128,7 +135,7 @@ module.exports = async () => {
     }
 
     await clearPublic();
-    
+
     checkModuleValid();
 
     await checkReInstall();

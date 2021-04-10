@@ -77,8 +77,8 @@ module.exports = async (moduleName, modulePort) => {
 
   const configFilePath = path.join(configDir, 'config.js');
 
-  const includeContent = moduleName === 'core' ? 
-  [
+  const includeContent = moduleName === 'core'
+  ? [
     "./node_modules/@types/*",
     `${relativePath}/shell/app/**/types/*`,
   ]
