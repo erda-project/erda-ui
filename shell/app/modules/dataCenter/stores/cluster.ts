@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-import { isEmpty } from 'lodash';
+import { isEmpty, get } from 'lodash';
 import { createStore } from 'app/cube';
 import userStore from 'app/user/stores';
 import {
@@ -33,7 +33,7 @@ import {
   getClusterNewDetail,
   getClusterResourceList,
   getClusterResourceDetail,
-  getSMSNotifyConfig
+  getSMSNotifyConfig,
 } from '../services/cluster';
 
 interface IState {
@@ -55,7 +55,7 @@ const initState: IState = {
   getDeployClusterLog: {},
   cloudResource: [],
   cloudResourceDetail: {},
-  enableMS: false
+  enableMS: false,
 };
 
 const cluster = createStore({
