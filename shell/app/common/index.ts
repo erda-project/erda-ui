@@ -82,7 +82,6 @@ export { Filter, PureFilter } from './components/filter';
 // export type { IDiceFilterProps, IPureFilterProps } from './components/filter';
 export { ContractiveFilter } from './components/contractive-filter';
 export * from './components/use-hooks';
-
 export { default as LogRoller } from './containers/log-roller';
 export { default as MonitorChart } from './containers/monitor-chart';
 export { default as MetricsMonitor } from './containers/monitor-chart-panel';
