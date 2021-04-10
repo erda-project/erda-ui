@@ -77,24 +77,34 @@ module.exports = async (moduleName, modulePort) => {
 
   const configFilePath = path.join(configDir, 'config.js');
 
-  const includeContent = [
+  const includeContent = moduleName === 'core' ? 
+  [
+    "./node_modules/@types/*",
+    `${relativePath}/shell/app/**/types/*`,
+  ]
+  :[
     "./node_modules/@types/*",
     `${relativePath}/core/app/**/types/*`,
     `${relativePath}/shell/app/**/types/*`,
   ];
 
-  const pathContent = {
+  const commonPathContent = {
     "common/*": [`${relativePath}/shell/app/common/index`],
     "common/all": [`${relativePath}/shell/app/common/index`],
-    "nusi/all": [`${relativePath}/shell/app/external/nusi`],
+    "nusi/all": [`${relativePath}/shell/app/external/nusi`]
+  };
+
+  const corePathContent = {
     "core/main": [`${relativePath}/core/src/index`],
     "core/cube": [`${relativePath}/core/src/cube`],
     "core/i18n": [`${relativePath}/core/src/i18n`],
     "core/agent": [`${relativePath}/core/src/agent`],
     "core/config": [`${relativePath}/core/src/config.ts`],
     "core/stores/route": [`${relativePath}/core/src/stores/route.ts`],
-    "core/stores/loading": [`${relativePath}/core/src/stores/loading.ts`],
-  }
+    "core/stores/loading": [`${relativePath}/core/src/stores/loading.ts`]
+  };
+
+  const pathContent = moduleName === 'core' ? commonPathContent : { ...commonPathContent, ...corePathContent };
 
   answer = await inquirer.prompt([
     {
