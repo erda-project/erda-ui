@@ -11,6 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+const fs = require('fs');
 const inquirer = require('inquirer');
 const child_process = require('child_process');
 const { logInfo, logSuccess, logWarn, logError } = require('./util/log');
@@ -95,6 +96,24 @@ const clearPublic = async () => {
   await execSync(`rm -rf ${publicDir}/*`, { cwd: rootDir });
 }
 
+const checkModuleValid = ()=> {
+  let isAllValid = true;
+  
+  moduleList.forEach(item=>{
+    if (!item.moduleDir) {
+      isAllValid = false;
+      logError(`${item.moduleName.toUpperCase()}_DIR is not exist in .env, you can run "erda setup <module> <port>" to auto generate moduleDir`);
+    } else if (!fs.existsSync(item.moduleDir)) {
+      isAllValid = false
+      logError(`${item.moduleName.toUpperCase()}_DIR is wrong, please check in .env, or you can run "erda setup <module> <port>" to update moduleDir`);
+    }
+  });
+
+  if (!isAllValid) {
+    process.exit(1);
+  }
+}
+
 const buildAll =  async () => {
   let start = 0;
   const len = moduleList.length;
@@ -116,6 +135,8 @@ module.exports = async () => {
     }
 
     await clearPublic();
+
+    checkModuleValid();
 
     await checkReInstall();
 

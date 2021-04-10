@@ -32,3 +32,5 @@ npm-debug.log
 yarn-error.log
 
 */.erda
+*/.local-pack
+*.env
