@@ -98,6 +98,5 @@ export { default as MultiSelect } from './components/multi-select';
 export { TreeCategory } from './components/tree/tree';
 export { default as EditList } from './components/edit-list/edit-list';
 export { default as InputSelect } from './components/input-select/input-select';
-
 export { SortDragGroupList } from './components/sort-drag-list';
 export { AffixCollapse } from './components/affix-collapse';
