@@ -22,7 +22,7 @@ import {
   pinApp,
   unpinApp,
   getJoinedOrgs,
-  updateOrg
+  updateOrg,
 } from '../services/user';
 import { goTo, setLS } from 'common/utils';
 import layoutStore from 'app/layout/stores/layout';

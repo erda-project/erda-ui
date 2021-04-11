@@ -11,7 +11,8 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { set,get } from 'lodash';
+import { set, get } from 'lodash';
+
 export const globalSpace = {
   initRouteData: {
     routes: [],
@@ -27,9 +28,9 @@ export const globalSpace = {
   erdaInfo: {
     currentOrgId: 0,
     isSysAdmin: false,
-  }
+  },
 };
 
-export const getGlobal = (key: string) => get(globalSpace,key);
-export const setGlobal = (key: string, value: any) => { set(globalSpace,key,value); };
+export const getGlobal = (key: string) => get(globalSpace, key);
+export const setGlobal = (key: string, value: any) => { set(globalSpace, key, value); };
 

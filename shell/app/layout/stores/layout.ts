@@ -151,20 +151,20 @@ const layout = createStore({
     },
   },
   reducers: {
-    initLayout(state, payload: LAYOUT.IInitLayout){
-      const {appList, currentApp, menusMap = {},key} = payload || {};
-      if(key==='sysAdmin' && !getGlobal('erdaInfo.isSysAdmin'))return
-        state.appList=appList;
-        state.currentApp = currentApp;
-        state.subSiderInfoMap = {
-          ...state.subSiderInfoMap,
-          ...menusMap
-        }
+    initLayout(state, payload: LAYOUT.IInitLayout) {
+      const { appList, currentApp, menusMap = {}, key } = payload || {};
+      if (key === 'sysAdmin' && !getGlobal('erdaInfo.isSysAdmin')) return;
+      state.appList = appList;
+      state.currentApp = currentApp;
+      state.subSiderInfoMap = {
+        ...state.subSiderInfoMap,
+        ...menusMap,
+      };
     },
     switchToApp(state, payload: string) {
       if (payload === (state.currentApp && state.currentApp.key)) return;
-      const curApp = find(state.appList,{key:payload});
-      if(curApp){
+      const curApp = find(state.appList, { key: payload });
+      if (curApp) {
         state.currentApp = curApp;
       }
     },
@@ -179,8 +179,8 @@ const layout = createStore({
     setFullSubSiderInfoMap(state, payload: Obj) {
       state.subSiderInfoMap = {
         ...state.subSiderInfoMap,
-        ...payload
-      }
+        ...payload,
+      };
     },
     setSubSiderSubList(state, payload: Obj) {
       state.subList = { ...state.subList, ...payload };
