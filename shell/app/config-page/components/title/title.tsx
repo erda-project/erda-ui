@@ -18,7 +18,6 @@ import React from 'react';
 import { Icon as CustomIcon } from 'common';
 import { Title as NusiTitle, Tooltip } from 'nusi';
 
-
 const Title = (props: CP_TITLE.Props) => {
   const { props: configProps } = props;
   const { title, level, tips, prefixIcon = '', showDivider = false, visible = true, titleStyles = {}, showSubtitle = false, subtitle = '', subtitleStyles = { color: '#070A1A', opacity: 0.6, marginLeft: '30px', fontSize: '16px' } } = configProps || {};

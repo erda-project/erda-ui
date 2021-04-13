@@ -1,0 +1,13 @@
+.home-page {
+  position: relative;
+  display: flex;
+
+  .home-page-left {
+    width: 320px;
+    background-color: $color-bg;
+  }
+
+  .home-page-right {
+    margin: 20px;
+  }
+}

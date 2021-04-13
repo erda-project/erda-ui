@@ -114,7 +114,8 @@ const userStore = createStore({
       userStore.reducers.clearNotFound();
       if (location.pathname === '/' || location.pathname === '') {
         // 根路径进入到组织导航页
-        userStore.reducers.onIndexEnter();
+        // userStore.reducers.onIndexEnter();
+        goTo('home', { inParams: '-' });
       }
       if (location.pathname === '/noAuth') {
         userStore.reducers.setNoAuth();

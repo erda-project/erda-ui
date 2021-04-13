@@ -42,6 +42,7 @@ import InputSelect from './input-select/input-select';
 import Alert from './alert/alert';
 import List from './list/list';
 import Text from './text/text';
+import EmptyHolder from './empty-holder/empty-holder';
 
 export const containerMap = {
   Alert,
@@ -77,5 +78,6 @@ export const containerMap = {
   InputSelect,
   List,
   Text,
+  EmptyHolder,
 };
 

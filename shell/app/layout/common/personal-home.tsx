@@ -17,35 +17,44 @@ import { cloneDeep } from 'lodash'
 import { Card } from 'nusi';
 import i18n from 'i18n';
 import erda_png from 'app/images/Erda.png';
-import './org-home.scss';
+import './personal-home.scss';
 
 export const PersonalHome = () => {
 
   return (
-    <DiceConfigPage
-      scenarioType='org-list-my'
-      scenarioKey='org-list-my'
-      useMock={location.search.includes('useMock') ? useMock : undefined}
-    // useMock={useMock}
-    />
-  );
+    <div className='home-page'>
+      <div className='home-page-left'>
+        <DiceConfigPage
+          scenarioType='home-page-left'
+          scenarioKey='home-page-left'
+          useMock={location.search.includes('useMock') ? useMockLeft : undefined}
+        />
+      </div>
+      <div className='home-page-right'>
+        <DiceConfigPage
+          scenarioType='home-page-right'
+          scenarioKey='home-page-right'
+          useMock={location.search.includes('useMock') ? useMockRight : undefined}
+        />
+      </div>
+    </div>
+  )
 };
 
-const mock: CONFIG_PAGE.RenderConfig = {
+const mockLeft: CONFIG_PAGE.RenderConfig = {
   scenario: {
-    scenarioKey: 'org-list-my',
-    scenarioType: 'org-list-my', // 后端定义
+    scenarioKey: 'home-page-left',
+    scenarioType: 'home-page-left', // 后端定义
   },
   protocol: {
     hierarchy: {
       root: 'page',
       structure: {
-        page: { left: 'siderbar', right: 'myPage' },
-        myPage: ['title', 'filter', 'emptyContainer', 'projectItem'],
+        page: ['siderbar'],
         emptyContainer: ['emptyText'],
-        projectItem: ['projectTitle', 'card'],
-        card: ['issueTitle', 'issueSummary', 'cardTable', 'moreIssueLink'],
-        siderbar: ['orgIcon', 'orgSwitch', 'myJoinedSummary', 'myProject', 'myApplication'],
+        siderbar: ['orgIcon', 'orgSwitch', 'myProject', 'myApplication'],
+        myProject: ['myProjectTitle', 'myProjectFilter', 'myProjectList', 'moreProject', 'emptyProject'],
+        myApplication: ['myApplicationTitle', 'myApplicationFilter', 'myApplicationList', 'moreApplication', 'emptyProject'],
       },
     },
     components: {
@@ -76,7 +85,260 @@ const mock: CONFIG_PAGE.RenderConfig = {
           },
         },
       },
-      page: { type: 'SplitPage' },
+      page: { type: 'Container' },
+      siderbar: {
+        type: 'Container',
+        props: {
+          whiteBg: true,
+        }
+      },
+      emptyProject: {
+        type: 'EmptyHolder',
+        props: {
+          tip: '暂无数据，请先加入组织~',
+          visible: true,
+          relative: true,
+        }
+      },
+      myProject: {
+        type: 'Container',
+      },
+      myProjectTitle: {
+        type: 'Title',
+        props: {
+          title: '项目',
+          level: 1,
+        }
+      },
+      myProjectFilter: {
+        type: 'ContractiveFilter',
+        props: {
+          visible: true,
+          delay: 1000,
+        },
+        state: {
+          conditions: [
+            {
+              key: 'title',
+              label: '标题',
+              emptyText: '全部',
+              fixed: true,
+              showIndex: 2,
+              placeholder: '搜索项目',
+              type: 'input' as const,
+            },
+          ],
+          values: {
+          },
+        },
+        operations: {
+          filter: {
+            key: 'filter',
+            reload: true,
+          },
+        },
+      },
+      myProjectList: {
+        type: 'List',
+        props: {
+          visible: false,
+        },
+        data: {
+          list: [],
+          // list: [
+          //   {
+          //     id: '1',
+          //     title: '测试1测试1测试1测试1',
+          //     description: '测试测试测试测试',
+          //     prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+
+          //     operations: {
+          //       click: {
+          //         key: 'click',
+          //         show: false,
+          //         reload: false,
+          //         command: {
+          //           key: 'goto',
+          //           target: 'workBenchRoot', // 当前组织下的target
+          //         },
+          //       },
+          //     },
+          //   {
+          //     id: '2',
+          //     title: '测试2',
+          //     titleSuffixIcon: 'help',
+          //     description: '测试测试',
+          //     prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+
+          //     operations: {
+          //       click: {
+          //         key: 'click',
+          //         show: false,
+          //         reload: false,
+          //         command: {
+          //           key: 'goto',
+          //           target: 'https://xxx.io/workBench/projects', // 非当前组织下的target
+          //         },
+          //       },
+
+          //     },
+          //   },
+          // ],
+        },
+      },
+      moreProject: {
+        type: 'Text',
+        props: {
+          renderType: 'linkText',
+          visible: false,
+          value: {
+            text: '更多',
+          },
+        }
+      },
+      myApplication: {
+        type: 'Container',
+      },
+      myApplicationTitle: {
+        type: 'Title',
+        props: {
+          title: '应用',
+          level: 1,
+        }
+      },
+      myApplicationFilter: {
+        type: 'ContractiveFilter',
+        props: {
+          delay: 1000,
+          visible: true,
+        },
+        state: {
+          conditions: [
+            {
+              key: 'title',
+              label: '标题',
+              emptyText: '全部',
+              fixed: true,
+              showIndex: 2,
+              placeholder: '搜索应用',
+              type: 'input' as const,
+            },
+          ],
+          values: {
+          },
+        },
+        operations: {
+          filter: {
+            key: 'filter',
+            reload: true,
+          },
+        },
+      },
+      myApplicationList: {
+        type: 'List',
+        props: {
+          visible: false,
+        },
+        data: {
+          list: [
+            {
+              id: '1',
+              title: '测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1',
+              description: '测试测试测试测试',
+              prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+
+              operations: {
+                click: {
+                  key: 'click',
+                  show: false,
+                  reload: false,
+                  command: {
+                    key: 'goto',
+                    target: 'workBenchRoot', // 当前组织下的target
+                  },
+                },
+
+              },
+            },
+            {
+              id: '2',
+              title: '测试2',
+              titleSuffixIcon: 'help',
+              description: '测试测试',
+              prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+              operations: {
+                click: {
+                  key: 'click',
+                  show: false,
+                  reload: false,
+                  command: {
+                    key: 'goto',
+                    target: 'https://xxx.io/workBench/projects', // 非当前组织下的target
+                  },
+                },
+              },
+            },
+          ],
+        },
+      },
+      moreApplication: {
+        type: 'Text',
+        props: {
+          renderType: 'linkText',
+          value: {
+            text: '更多',
+          },
+        }
+      },
+    },
+  },
+};
+
+const mockRight: CONFIG_PAGE.RenderConfig = {
+  scenario: {
+    scenarioKey: 'home-page-right',
+    scenarioType: 'home-page-right', // 后端定义
+  },
+  protocol: {
+    hierarchy: {
+      root: 'page',
+      structure: {
+        page: ['myPage'],
+        myPage: ['title', 'filter', 'emptyContainer', 'projectItem'],
+        emptyContainer: ['emptyText'],
+        projectItem: ['projectTitle', 'card'],
+        card: ['issueTitle', 'issueSummary', 'cardTable', 'moreIssueLink'],
+      },
+    },
+    components: {
+      emptyContainer: { type: 'RowContainer', props: { contentSetting: 'center' } },
+      emptyText: {
+        type: 'Text',
+        operations: {
+          toPublicApp: {
+            key: 'toPublicOrg',
+            reload: false,
+            command: {
+              key: 'changeScenario',
+              scenarioType: 'org-list-all',
+              scenarioKey: 'org-list-all',
+            },
+          },
+        },
+        props: {
+          visible: false,
+          renderType: 'linkText',
+          styleConfig: { fontSize: 16, lineHeight: 24 },
+          value: {
+            text: [
+              '您还未加入任何组织，可以选择',
+              { text: '公开组织', operationKey: 'toPublicOrg', styleConfig: { bold: true } },
+              '开启您的Erda之旅',
+            ],
+          },
+        },
+      },
+      page: { type: 'Container' },
       title: { type: 'Title', props: { title: '事件', level: 1, titleStyles: { fontSize: '24px' }, showSubtitle: true, subtitle: '您未完成的事项 560 条' } },
       projectItem: {
         type: 'Container',
@@ -89,117 +351,7 @@ const mock: CONFIG_PAGE.RenderConfig = {
           level: 2,
         },
       },
-      siderbar: {
-        type: 'Container',
-        props: {
-          fullHeight: true,
-          whiteBg: true,
-        }
-      },
       myPage: { type: 'Container' },
-      createButton: { type: 'Button', props: { text: '3创建组织', disabled: true, disabledTip: '敬请期待' } },
-      list: {
-        type: 'List',
-        state: {
-          pageNo: 1,
-          pageSize: 20,
-          total: 100,
-        },
-        props: {
-          pageSizeOptions: ['10', '20', '50', '100'],
-        },
-        operations: {
-          changePageNo: {
-            key: 'changePageNo',
-            reload: true,
-            fillMeta: 'pageNo',
-          },
-          changePageSize: {
-            key: 'changePageSize',
-            reload: true,
-            fillMeta: 'pageSize',
-          },
-        },
-        data: {
-          list: [
-            {
-              id: '1',
-              title: '测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1',
-              description: '测试测试测试测试',
-              prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-              extraInfos: [
-                { icon: 'earth', text: '公开组织' }, // icon：earth公开/lock2私有
-                { icon: 'renyuan', text: '已加入' },
-
-              ],
-              operations: {
-                click: {
-                  key: 'click',
-                  show: false,
-                  reload: false,
-                  command: {
-                    key: 'goto',
-                    target: 'workBenchRoot', // 当前组织下的target
-                  },
-                },
-                toManage: {
-                  key: 'toManage',
-                  text: '管理',
-                  reload: false,
-                  command: {
-                    key: 'goto',
-                    target: 'dataCenterSetting', // 当前组织的管理界面
-                  },
-                },
-                exist: {
-                  key: 'exist',
-                  text: '退出',
-                  reload: true,
-                  confirm: '是否确定退出？',
-                  meta: { id: '1' },
-                },
-              },
-            },
-            {
-              id: '2',
-              title: '测试2',
-              titleSuffixIcon: 'help',
-              description: '测试测试',
-              prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-              extraInfos: [
-                { icon: 'earth', text: '私有组织' }, //  // icon：earth公开/lock2私有
-              ],
-              operations: {
-                click: {
-                  key: 'click',
-                  show: false,
-                  reload: false,
-                  command: {
-                    key: 'goto',
-                    target: 'https://xxx.io/workBench/projects', // 非当前组织下的target
-                  },
-                },
-                toManage: {
-                  key: 'toManage',
-                  text: '管理',
-                  reload: false,
-                  command: {
-                    key: 'goto',
-                    target: 'https://xxx.io/orgCenter/setting/detail', // 非当前组织的管理界面
-                  },
-                },
-                exist: {
-                  key: 'exist',
-                  text: '退出',
-                  reload: true,
-                  confirm: '是否确定退出？',
-                  meta: { id: '1' },
-                },
-              },
-            },
-          ],
-        },
-      },
       card: {
         type: 'Container',
         props: {
@@ -211,7 +363,7 @@ const mock: CONFIG_PAGE.RenderConfig = {
         props: {
           title: '您未完成的事项',
           level: 3,
-        }
+        },
       },
       issueSummary: {
         type: 'Text',
@@ -265,70 +417,18 @@ const mock: CONFIG_PAGE.RenderConfig = {
         props: {
           renderType: 'linkText',
           value: {
-            text: '查看剩余112条事件',
-          },
-        }
-      },
-      myJoinedSummary: {
-        type: 'Table',
-        props: {
-          rowKey: 'key',
-          columns: [
-            { title: '', dataIndex: 'catagory' },
-            { title: '', dataIndex: 'number' },
-          ],
-          showHeader: false,
-          pagination: false,
-        },
-        data: {
-          list: [
-            {
-              id: 1,
-              catagory: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '参与项目数：' },
-              number: 8,
-            },
-            {
-              id: 2,
-              catagory: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '参与应用数：' },
-              number: 12,
-            },
-            {
-              id: 3,
-              catagory: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '未完成事项数：' },
-              number: 120,
-            },
-            {
-              id: 4,
-              catagory: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '其他事件数：' },
-              number: 86,
-            },
-          ],
-        },
-      },
-      filter: {
-        type: 'ContractiveFilter',
-        props: {
-          delay: 1000,
-        },
-        state: {
-          conditions: [
-            {
-              key: 'title',
-              label: '标题',
-              emptyText: '全部',
-              fixed: true,
-              showIndex: 2,
-              placeholder: '搜索',
-              type: 'input' as const,
-            },
-          ],
-          values: {
+            text: [{ text: "查看剩余112条事件 >>", operationKey: "toSpecificProject" }]
           },
         },
         operations: {
-          filter: {
-            key: 'filter',
-            reload: true,
+          toSpecificProject: {
+            command: {
+              key: "goto",
+              target: "https://local-shell.terminus-org.dev.terminus.io:8081/orgHome",
+            },
+            key: "click",
+            reload: false,
+            show: false,
           },
         },
       },
@@ -336,10 +436,57 @@ const mock: CONFIG_PAGE.RenderConfig = {
   },
 };
 
-const useMock = (payload: any) => {
+const useMockLeft = (payload: any) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(mock);
+      resolve(mockLeft);
     }, 500);
   });
 };
+
+const useMockRight = (payload: any) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(mockRight);
+    }, 500);
+  });
+};
+
+
+
+// const data = {
+//   pageEvent: {
+//     redirectUrl: '',
+//   },
+//   structure: {
+//     root: 'page',
+//     page: ['form'],
+//   },
+//   components: {
+//     form: {
+//       data: {
+//         operations: {
+//           click: {
+//             key: 'toxx',
+//             reload: false,
+//             command: {
+//               key: 'goto',
+//               target: 'all',
+//               state: {
+//                 query: {id:type,}
+//               }
+//             }
+//           }
+//         }
+//       },
+//       operations: {
+//         submit: {
+//           key: "ss",
+//           reload: true,
+
+//         }
+//       }
+//     }
+
+//   }
+// }
