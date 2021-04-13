@@ -21,18 +21,34 @@ import { Title as NusiTitle, Tooltip } from 'nusi';
 
 const Title = (props: CP_TITLE.Props) => {
   const { props: configProps } = props;
-  const { title, level, tips, showDivider = false, visible = true } = configProps || {};
-
+  const { title, level, tips, prefixIcon = '', showDivider = false, visible = true, titleStyles = {}, showSubtitle = false, subtitle = '', subtitleStyles = { color: '#070A1A', opacity: 0.6, marginLeft: '30px', fontSize: '16px' } } = configProps || {};
   const titleComp = tips ? (
-    <div className='left-flex-box'>
+    <div className='left-flex-box' style={{ ...titleStyles }}>
+      {prefixIcon ? <CustomIcon type={prefixIcon} className='mr4'/> : null}
       {title}
       <Tooltip title={tips}>
         <CustomIcon type='help' className='ml4 fz14' />
       </Tooltip>
+      {
+        showSubtitle ? <span style={{ ...subtitleStyles }}>{subtitle}</span > : null
+      }
     </div>
-  ) : title;
+  ) :
+    (
+      <div style={{ ...titleStyles }}>
+        {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
+        {title}
+        {showSubtitle ?
+          <span style={{ ...subtitleStyles }}>
+            {subtitle}
+          </span >
+          : null}
+      </div>
+    );
   return (
-    visible ? <NusiTitle title={titleComp} level={level} showDivider={showDivider} /> : null
+    visible ?
+      <NusiTitle title={titleComp} level={level} showDivider={showDivider} />
+      : null
   );
 };
 

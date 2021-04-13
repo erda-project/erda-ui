@@ -16,6 +16,16 @@ import i18n from 'core/i18n';
 function getLayoutRouter() {
   return [
     {
+      path: 'home',
+      getComp: cb => cb(import('layout/common/personal-home'), 'PersonalHome'),
+      layout: {
+        hideHeader: true,
+        showSubSidebar: false,
+        fullHeight: true,
+        noWrapper: true,
+      },
+    },
+    {
       path: 'orgHome',
       getComp: cb => cb(import('layout/common/org-home'), 'OrgHome'),
       layout: {
