@@ -14,7 +14,7 @@ This repository is about Erda's User Interface.
 - Edge computing platform
 - Fast-Data platform(open source soon)
 
-![features](http://terminus-paas.oss-cn-hangzhou.aliyuncs.com/paas-doc/2021/04/13/a7ea2032-fc85-4f19-bfd7-b0a26d7ec0c4.gif)
+![features](http://terminus-paas.oss-cn-hangzhou.aliyuncs.com/paas-doc/2021/04/13/0c59ed4e-2b5b-41d5-9229-7152a635b2aa.gif)
 
 For a detailed introduction, please check the [official website](https://erda.cloud).
 
