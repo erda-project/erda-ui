@@ -80,6 +80,12 @@
 
   }
 
+  &.without-border {
+    td {
+      border: none;
+    }
+  }
+
   .dropdown-field-selector {
     .arrow-icon {
       color: $color-text-icon;

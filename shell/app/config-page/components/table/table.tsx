@@ -31,7 +31,7 @@ const handleState = (_stateObj?: Obj) => {
 export function Table(props: CP_TABLE.Props) {
   const { state: propsState, customProps, props: configProps, operations, data, execOperation } = props;
   const list = data?.list || [];
-  const { visible = true, columns = [], title, pageSizeOptions, ...rest } = configProps || {};
+  const { visible = true, columns = [], title, pageSizeOptions, className = '', ...rest } = configProps || {};
 
   const userMap = userMapStore.useStore(s => s);
   const [state, updater, update] = useUpdate(handleState(propsState));
@@ -101,7 +101,7 @@ export function Table(props: CP_TABLE.Props) {
       render: (val: any, record: CP_TABLE.RowData) => getRender(val, record, { execOperation, customProps, userMap }),
     })) as any[];
 
-    extra.expandedRowRender = (rowData:any) => {
+    extra.expandedRowRender = (rowData: any) => {
       const { expandedList } = rowData || {};
       return <PureTable tableKey="child-table" columns={exTableColumns} rowKey={rowKey} dataSource={expandedList} pagination={false} />;
     };
@@ -112,7 +112,7 @@ export function Table(props: CP_TABLE.Props) {
     <>
       {title ? <Title showDivider={false} level={2} title={title} /> : null}
       <PureTable
-        className={`dice-cp table ${isGanttTable ? 'task-gantt-table' : ''}`}
+        className={`dice-cp table ${className} ${isGanttTable ? 'task-gantt-table' : ''}`}
         dataSource={list}
         {...extra}
         columns={tableColumns}
