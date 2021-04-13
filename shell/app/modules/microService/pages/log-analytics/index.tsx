@@ -14,7 +14,7 @@
 import { FilterGroupV, Panel, useUpdate, Holder, PureBoardGrid } from 'common';
 import i18n from 'i18n';
 import { debounce, isEmpty, get, forEach, mapKeys, map } from 'lodash';
-import { DatePicker, Tabs, Select, Pagination } from 'nusi';
+import { DatePicker, Tabs, Select, Pagination } from 'app/nusi';
 import * as React from 'react';
 import moment from 'moment';
 import logAnalyticsStore from '../../stores/log-analytics';

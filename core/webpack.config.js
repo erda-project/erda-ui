@@ -14,6 +14,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { getLessTheme, getScssTheme } = require('./src/config/theme');
 const { ModuleFederationPlugin } = require('webpack').container;
 const AutomaticVendorFederation = require('@module-federation/automatic-vendor-federation');
 const packageJson = require('./package.json');
@@ -26,6 +28,10 @@ module.exports = () => {
   const nodeEnv = process.env.NODE_ENV || 'development';
   const isProd = nodeEnv === 'production';
   console.log('isProd:', isProd);
+
+  const themeColor = '#6A549E';
+  const lessVariables = getLessTheme(themeColor);
+  const scssVariables = getScssTheme(false);
 
   const targetConfig = require(`./webpack.${nodeEnv}.js`);
 
@@ -53,6 +59,59 @@ module.exports = () => {
     module: {
       rules: [
         {
+          test: /\.(scss)$/,
+          include: [
+            resolve('node_modules/@terminus/nusi'),
+          ],
+          use: [
+            MiniCssExtractPlugin.loader,
+            'thread-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                url: false,
+                sourceMap: false,
+              },
+            },
+            'postcss-loader',
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: false,
+                webpackImporter: false,
+                additionalData: scssVariables,
+              },
+            },
+          ],
+        },
+        {
+          test: /\.(less)$/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            'thread-loader',
+            'css-loader',
+            'postcss-loader',
+            {
+              loader: 'less-loader',
+              options: {
+                sourceMap: true,
+                lessOptions: {
+                  modifyVars: lessVariables,
+                  javascriptEnabled: true,
+                },
+              },
+            },
+          ],
+          include: [
+            resolve('node_modules/antd'),
+            resolve('node_modules/@terminus/nusi'),
+          ],
+        },
+        {
+          test: /\.(css)$/,
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        },
+        {
           test: /\.(tsx?|jsx?)$/,
           use: [
             'thread-loader',
@@ -60,7 +119,8 @@ module.exports = () => {
               loader: 'ts-loader',
               options: {
                 happyPackMode: true, // IMPORTANT! use happyPackMode mode to speed-up compilation and reduce errors reported to webpack
-                // transpileOnly: true,
+                transpileOnly: true,
+                getCustomTransformers: resolve('webpack_ts.loader.js'),
               },
             },
           ],
@@ -88,6 +148,7 @@ module.exports = () => {
           './config': './src/config.ts',
           './stores/route': './src/stores/route.ts',
           './stores/loading': './src/stores/loading.ts',
+          './nusi':'./src/nusi/index.tsx',
         },
         shared: {
           ...AutomaticVendorFederation({
@@ -111,7 +172,8 @@ module.exports = () => {
     optimization: {
       splitChunks: {
         chunks: 'all', // 默认作用于异步chunk，值为all/initial/async， all=initial+async
-        maxSize: 500000, // 500kb
+        minSize: 30000, // 默认值是30kb,代码块的最小尺寸
+        // maxSize: 500000, // 500kb
         minChunks: 1, // 被多少模块共享,在分割之前模块的被引用次数
         maxAsyncRequests: 5, // 限制异步模块内部的并行最大请求数的，说白了你可以理解为是每个import()它里面的最大并行请求数量
         maxInitialRequests: 5, // 限制入口的拆分数量

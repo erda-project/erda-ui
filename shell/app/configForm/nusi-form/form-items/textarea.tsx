@@ -14,7 +14,7 @@
 import {
   Form,
   Input,
-} from 'nusi';
+} from 'app/nusi';
 import * as React from 'react';
 import { getLabel, noop } from './common';
 import { commonFields, rulesField, checkWhen } from './common/config';

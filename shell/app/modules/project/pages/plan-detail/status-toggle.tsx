@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Menu, Dropdown, Icon } from 'nusi';
+import { Menu, Dropdown, Icon } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
 import { map } from 'lodash';
 import './status-toggle.scss';

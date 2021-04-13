@@ -13,8 +13,8 @@
 
 import { FormModal, Icon as CustomIcon, useUpdate } from 'app/common';
 import i18n from 'app/i18n';
-import { WrappedFormUtils } from 'interface/common';
-import { Icon, Modal } from 'nusi';
+import { WrappedFormUtils } from 'core/common/interface';
+import { Icon, Modal } from 'app/nusi';
 import projectLabel from 'project/stores/label';
 import * as React from 'react';
 import { useEffectOnce } from 'react-use';

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Col, Row } from 'nusi';
+import { Col, Row } from 'app/nusi';
 import moment from 'moment';
 
 import testPlanStore from 'project/stores/test-plan';

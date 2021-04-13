@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Row, Col } from 'nusi';
+import { Row, Col } from 'app/nusi';
 import CacheMap from './config/chartMap';
 import { getFilterParams } from 'service-insight/common/utils';
 import TopTabRight from 'service-insight/common/components/tab-right';

@@ -13,9 +13,9 @@
 
 import { KeyValueEditor, RenderPureForm, useUpdate } from 'common';
 import i18n from 'i18n';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import { isEmpty } from 'lodash';
-import { Form } from 'nusi';
+import { Form } from 'app/nusi';
 import customAddonStore from 'project/stores/custom-addon';
 import React, { forwardRef, useImperativeHandle } from 'react';
 import { useDBFields, useMysqlFields, useOnsFields, useRedisFields, useTopicFields, useBucketField, AddonType, useGatewayFields } from './config';

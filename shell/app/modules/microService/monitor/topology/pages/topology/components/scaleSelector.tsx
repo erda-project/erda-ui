@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Select, Icon } from 'nusi';
+import { Select, Icon } from 'app/nusi';
 import { map } from 'lodash';
 
 import './scaleSelector.scss';

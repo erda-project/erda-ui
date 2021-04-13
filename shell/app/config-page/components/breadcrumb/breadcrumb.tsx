@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Breadcrumb, Ellipsis } from 'nusi';
+import { Breadcrumb, Ellipsis } from 'app/nusi';
 import { map } from 'lodash';
 
 const noop = () => {};

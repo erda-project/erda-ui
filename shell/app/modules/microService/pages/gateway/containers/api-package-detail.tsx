@@ -13,7 +13,7 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as React from 'react';
-import { Button, Select, Modal, Input, Spin, Tooltip } from 'nusi';
+import { Button, Select, Modal, Input, Spin, Tooltip } from 'app/nusi';
 import { pick, map, get, find } from 'lodash';
 import { useEffectOnce } from 'react-use';
 import { PagingTable, FormModal, useSwitch, ProtocolSelector } from 'common';

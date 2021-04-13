@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { useUpdate, Icon as CustomIcon, EmptyHolder, LazyRender } from 'common';
-import { Input, Button, Icon, Collapse, Tooltip, Popconfirm, message, Ellipsis, Spin, Modal, Popover } from 'nusi';
+import { Input, Button, Icon, Collapse, Tooltip, Popconfirm, message, Ellipsis, Spin, Modal, Popover } from 'app/nusi';
 import i18n from 'i18n';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { map, keys, get, filter, isEmpty, set, unset, forEach } from 'lodash';

@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Button } from 'nusi';
+import { Button } from 'app/nusi';
 import './operation-bar.scss';
 import { RenderForm } from 'common';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import i18n from 'i18n';
 
 interface IProps {

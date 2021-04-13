@@ -16,7 +16,7 @@ import SelectEnv from 'project/pages/test-manage/case/case-drawer/select-env';
 import React from 'react';
 import testCaseStore from 'project/stores/test-case';
 import { Avatar, UserInfo } from 'common';
-import { Progress, Popover } from 'nusi';
+import { Progress, Popover } from 'app/nusi';
 import testPlanStore from 'project/stores/test-plan';
 import moment from 'moment';
 

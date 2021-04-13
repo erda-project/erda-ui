@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Input, Spin, Button, Table } from 'nusi';
+import { Input, Spin, Button, Table } from 'app/nusi';
 import { useDebounce, useUnmount, useUpdateEffect } from 'react-use';
 import i18n from 'i18n';
 import { connectCube, useUpdate, CustomFilter } from 'common';
@@ -20,7 +20,7 @@ import { goTo, insertWhen } from 'common/utils';
 import './publisher-list-v2.scss';
 import routeInfoStore from 'common/stores/route';
 import ArtifactsFormModal from 'publisher/pages/artifacts/artifacts-form-modal';
-import { ColumnProps } from 'interface/common';
+import { ColumnProps } from 'core/common/interface';
 import { WithAuth, usePerm } from 'user/common';
 
 interface IMapperProps {

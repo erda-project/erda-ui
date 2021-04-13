@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { message } from 'nusi';
+import { message } from 'app/nusi';
 import { useUpdate } from 'common';
 import repoStore from 'application/stores/repo';
 import { getInfoFromRefName } from '../util';

@@ -115,6 +115,7 @@ const userStore = createStore({
       if (location.pathname === '/' || location.pathname === '') {
         // 根路径进入到组织导航页
         userStore.reducers.onIndexEnter();
+
       }
       if (location.pathname === '/noAuth') {
         userStore.reducers.setNoAuth();

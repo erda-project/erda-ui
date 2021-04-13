@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Spin, Button, Select, Input, message, Alert } from 'nusi';
+import { Spin, Button, Select, Input, message, Alert } from 'app/nusi';
 import { Icon as CustomIcon, EmptyHolder, Avatar, FormModal, IF, DeleteConfirm } from 'common';
 import * as React from 'react';
 import { fromNow } from 'common/utils';
@@ -20,7 +20,7 @@ import GotoCommit from 'application/common/components/goto-commit';
 import { Link } from 'react-router-dom';
 import i18n from 'i18n';
 import { debounce } from 'lodash';
-import { SelectValue } from 'interface/common';
+import { SelectValue } from 'core/common/interface';
 import { usePerm, WithAuth } from 'app/user/common';
 import './repo-tag.scss';
 import repoStore from 'application/stores/repo';

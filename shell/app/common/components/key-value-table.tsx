@@ -13,11 +13,10 @@
 
 import { map, find, reject, uniqueId, isEqual } from 'lodash';
 import * as React from 'react';
-import { Form, Table, Input, Popconfirm, Button } from 'nusi';
+import { Form, Table, Input, Popconfirm, Button } from 'app/nusi';
 import { regRules } from 'common/utils';
 import classNames from 'classnames';
-import { WrappedFormUtils } from 'interface/common';
-import { ColumnProps } from 'antd/lib/table';
+import { WrappedFormUtils, ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 
 import './key-value-table.scss';

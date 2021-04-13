@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { forEach, cloneDeep, set } from 'lodash';
-import { message } from 'nusi';
+import { message } from 'app/nusi';
 import i18n from 'i18n';
 
 let matchedService: string[] = [];

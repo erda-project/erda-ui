@@ -14,7 +14,7 @@
 
 import * as React from 'react';
 import { map } from 'lodash';
-import { Popconfirm } from 'nusi';
+import { Popconfirm } from 'app/nusi';
 import { WithAuth } from 'user/common';
 
 

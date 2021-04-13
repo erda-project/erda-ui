@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import { IFormProps, regRulesMap, FormUnitContainer } from '../form-utils';
 import { RenderPureForm, ReadonlyForm } from 'common';
 import { isEmpty, get } from 'lodash';
-import { Switch } from 'nusi';
+import { Switch } from 'app/nusi';
 
 
 // 存储配置

@@ -14,9 +14,9 @@
 import iterationStore from 'app/modules/project/stores/iteration';
 import { FormModal, useUpdate } from 'common';
 import i18n from 'i18n';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import moment, { Moment } from 'moment';
-import { RangePicker } from 'nusi';
+import { RangePicker } from 'app/nusi';
 import * as React from 'react';
 
 interface IProps {

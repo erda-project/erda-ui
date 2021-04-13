@@ -16,7 +16,7 @@
  */
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
-import { Title as NusiTitle, Tooltip } from 'nusi';
+import { Title as NusiTitle, Tooltip } from 'app/nusi';
 
 
 const Title = (props: CP_TITLE.Props) => {

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Checkbox, Radio, Tooltip, Input, Select, InputNumber } from 'nusi';
+import { Checkbox, Radio, Tooltip, Input, Select, InputNumber } from 'app/nusi';
 import i18n from 'i18n';
 import { useUpdate, FileEditor, Icon as CustomIcon } from 'common';
 import { map, isEmpty } from 'lodash';

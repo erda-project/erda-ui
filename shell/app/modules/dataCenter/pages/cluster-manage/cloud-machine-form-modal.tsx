@@ -14,12 +14,12 @@
 import { FormModal, RenderPureForm } from 'common';
 import { uniq, get } from 'lodash';
 import i18n from 'i18n';
-import { Icon } from 'nusi';
+import { Icon } from 'app/nusi';
 import { diskTypeMap, getOptions } from './config';
 import userStore from 'user/stores';
 import LabelSelector from 'dcos/common/label-selector';
 import { CustomLabel, checkCustomLabels } from 'dcos/common/custom-label';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import * as React from 'react';
 
 interface IProps {

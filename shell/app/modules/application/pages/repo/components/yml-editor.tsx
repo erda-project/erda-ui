@@ -37,7 +37,7 @@ import { goTo, notify } from 'common/utils';
 // @ts-ignore
 import json2yaml from 'json-to-pretty-yaml';
 import { cloneDeep, filter, find, findIndex, forEach, get, omit, isEmpty } from 'lodash';
-import { Button, message, Spin } from 'nusi';
+import { Button, message, Spin } from 'app/nusi';
 import React from 'react';
 import { useMount } from 'react-use';
 import i18n from 'i18n';

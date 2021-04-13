@@ -13,10 +13,10 @@
 
 import { includes } from 'lodash';
 import React from 'react';
-import { Checkbox } from 'nusi';
+import { Checkbox } from 'app/nusi';
 import { getChoosenInfo } from 'project/utils/test-case';
 import testCaseStore from 'project/stores/test-case';
-import { CheckboxChangeEvent } from 'interface/common';
+import { CheckboxChangeEvent } from 'core/common/interface';
 
 interface IProps {
   id: number | string

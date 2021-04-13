@@ -12,14 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Select, Button, Popconfirm } from 'nusi';
+import { Select, Button, Popconfirm, FormBuilder } from 'app/nusi';
 import i18n from 'i18n';
 import { Icon as CustomIcon, useUpdate } from 'common';
 import { produce } from 'immer';
-import { FormBuilder } from '@terminus/nusi';
 import { map, set, unset, keys, isEmpty, get, filter, omit, some, forEach, reduce, values } from 'lodash';
 import { regRules } from 'common/utils';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import ApiParamsModal from 'apiManagePlatform/pages/api-market/design/api-params-modal';
 import { BASE_DATA_TYPE, API_PROPERTY_REQUIRED, API_MEDIA, DATATYPE_EXAMPLE_MAP, QUOTE_PREFIX_NO_EXTENDED,
   QUOTE_PREFIX, API_FORM_KEY } from 'app/modules/apiManagePlatform/configs.ts';

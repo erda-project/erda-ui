@@ -15,7 +15,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { map as _map } from 'lodash';
 import moment from 'moment';
-import { Spin, Tooltip } from 'nusi';
+import { Spin, Tooltip } from 'app/nusi';
 import { EmptyHolder } from 'common';
 import './trace-history-list.scss';
 

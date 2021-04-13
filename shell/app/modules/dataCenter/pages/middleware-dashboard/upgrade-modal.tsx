@@ -14,8 +14,8 @@
 import React from 'react';
 import { KeyValueEditor } from 'common';
 import i18n from 'i18n';
-import { Modal, Row, Col, Form, Input } from 'nusi';
-import { WrappedFormUtils } from 'interface/common';
+import { Modal, Row, Col, Form, Input } from 'app/nusi';
+import { WrappedFormUtils } from 'core/common/interface';
 import middlewareDashboardStore from 'dataCenter/stores/middleware-dashboard';
 import './modal.scss';
 

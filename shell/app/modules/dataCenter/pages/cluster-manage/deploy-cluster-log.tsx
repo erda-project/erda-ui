@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Icon } from 'nusi';
+import { Icon } from 'app/nusi';
 import { throttle } from 'lodash';
 import { connectCube } from 'common';
 import './deploy-cluster-log.scss';

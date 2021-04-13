@@ -15,10 +15,10 @@
  * Created by 含光<jiankang.pjk@alibaba-inc.com> on 2021/1/25 17:57.
  */
 import React from 'react';
-import { Button, Icon, message, Upload } from 'nusi';
+import { Button, Icon, message, Upload } from 'app/nusi';
 import { getUploadProps } from 'common/utils/upload-props';
 import { IFormItem } from 'common/components/render-formItem';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import { FormModal } from 'common';
 import publisherStore from 'publisher/stores/publisher';
 import i18n from 'i18n';

@@ -12,14 +12,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Table, Select } from 'nusi';
+import { Table, Select } from 'app/nusi';
 import { goTo } from 'common/utils';
 import { map } from 'lodash';
 import { Avatar, CustomFilter, MemberSelector } from 'common';
 import { useMount } from 'react-use';
 import moment from 'moment';
 import { useLoading } from 'app/common/stores/loading';
-import { ColumnProps } from 'interface/common';
+import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 import userMapStore from 'app/common/stores/user-map';
 import alarmRecordStore from 'dataCenter/stores/alarm-record';

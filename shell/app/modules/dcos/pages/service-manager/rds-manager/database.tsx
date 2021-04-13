@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Table, Button, Select } from 'nusi';
+import { Table, Button, Select } from 'app/nusi';
 import { map } from 'lodash';
 import i18n from 'i18n';
 import cloudServiceStore from 'dcos/stores/cloud-service';

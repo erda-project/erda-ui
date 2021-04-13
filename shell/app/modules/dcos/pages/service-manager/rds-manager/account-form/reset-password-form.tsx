@@ -15,7 +15,7 @@ import * as React from 'react';
 import i18n from 'i18n';
 import { FormModal, Icon as CustomIcon, useUpdate } from 'common';
 import { checkPassword } from 'dcos/common/config';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 
 export interface IFormRes {
   password: string;

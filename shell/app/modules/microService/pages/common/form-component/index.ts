@@ -13,7 +13,7 @@
 
 import { isFunction, last, get, set, unset, isArray, isPlainObject, isEmpty, uniq, head, size } from 'lodash';
 import stringToPath from 'lodash/_stringToPath';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import { FormFooter, FormList, TopButton } from './form-component';
 import FormItem from './form-item';
 import Table from './form-table';

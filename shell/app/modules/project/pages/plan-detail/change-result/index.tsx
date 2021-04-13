@@ -14,7 +14,7 @@
 import i18n from 'i18n';
 import React from 'react';
 import { size } from 'lodash';
-import { Button, message } from 'nusi';
+import { Button, message } from 'app/nusi';
 import testCaseStore from 'project/stores/test-case';
 import MetaModal from '../../test-manage/components/meta-modal';
 import { TestOperation } from 'project/pages/test-manage/constants';

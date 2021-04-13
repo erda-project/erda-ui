@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { map, filter, cloneDeep, isPlainObject, set } from 'lodash';
-import { Icon, Tooltip } from 'nusi';
+import { Icon, Tooltip } from 'app/nusi';
 import { produce } from 'immer';
 import i18n from 'i18n';
 import './combiner.scss';

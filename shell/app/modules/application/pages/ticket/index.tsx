@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Button } from 'nusi';
+import { Button } from 'app/nusi';
 import { useSwitch, useMultiFilter } from 'common';
 import { goTo } from 'common/utils';
 import { TicketList } from './ticket-list';

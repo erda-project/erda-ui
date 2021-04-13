@@ -20,7 +20,7 @@ import {
   Collapse,
   Switch,
   Icon,
-} from 'nusi';
+} from 'app/nusi';
 import { isEmpty, map } from 'lodash';
 import { IF, useUpdate } from 'common';
 import { useMount } from 'react-use';

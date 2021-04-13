@@ -13,8 +13,8 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { WrappedFormUtils } from 'interface/common';
-import { Form, Button } from 'nusi';
+import { WrappedFormUtils } from 'core/common/interface';
+import { Form, Button } from 'app/nusi';
 import { isEmpty, map, debounce, pick, get, filter, uniq } from 'lodash';
 import { JumpBoardForm } from './deploy-cluster-forms/jump-board-form';
 import { ClusterConfigForm } from './deploy-cluster-forms/cluster-config-form';

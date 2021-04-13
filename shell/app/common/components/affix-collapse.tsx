@@ -14,7 +14,7 @@
 import { EmptyListHolder, Icon } from 'common';
 import { useMount } from 'react-use';
 import { isEmpty, map } from 'lodash';
-import { Affix } from 'nusi';
+import { Affix } from 'app/nusi';
 import * as React from 'react';
 import './affix-collapse.scss';
 

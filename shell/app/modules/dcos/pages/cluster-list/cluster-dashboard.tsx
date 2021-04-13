@@ -15,7 +15,7 @@ import React, { useState } from 'react';
 import { useMount } from 'react-use';
 import classnames from 'classnames';
 import { set } from 'lodash';
-import { Row, Col, Button } from 'nusi';
+import { Row, Col, Button } from 'app/nusi';
 import { IF } from 'common';
 import { goTo } from 'common/utils';
 import { CLUSTER_INFOS } from 'dcos/common/config';

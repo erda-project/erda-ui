@@ -31,7 +31,7 @@ import layoutStore from 'app/layout/stores/layout';
 import { checkVersion } from 'app/layout/common/check-version';
 import routeInfoStore from 'app/common/stores/route';
 import { LSObserver } from 'common/utils';
-import { Carousel, Card, Shell } from 'nusi';
+import { Carousel, Card, Shell } from 'app/nusi';
 import { ErrorLayout } from './error-layout';
 import { eventHub } from 'common/utils/event-hub';
 

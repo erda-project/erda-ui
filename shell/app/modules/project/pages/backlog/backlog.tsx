@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { isEmpty, map } from 'lodash';
 import { useDrop } from 'react-dnd';
-import { Button, Spin, Popconfirm } from 'nusi';
+import { Button, Spin, Popconfirm } from 'app/nusi';
 import { Icon as CustomIcon, useUpdate, ContractiveFilter, LoadMore } from 'common';
 import { useLoading } from 'app/common/stores/loading';
 import { WithAuth, usePerm } from 'user/common';

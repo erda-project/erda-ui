@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Select, Input, Button, Spin } from 'nusi';
+import { Select, Input, Button, Spin } from 'app/nusi';
 import { isEmpty, get } from 'lodash';
 import { LoadMore, Holder, Icon as CustomIcon, connectCube } from 'common';
 import { useEffectOnce, useUpdateEffect } from 'react-use';

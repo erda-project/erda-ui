@@ -14,7 +14,7 @@
 import {
   Form,
   Switch,
-} from 'antd';
+} from 'app/nusi';
 import * as React from 'react';
 import { getLabel, noop } from './common';
 import { commonFields, checkWhen } from './common/config';

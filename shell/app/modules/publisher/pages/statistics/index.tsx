@@ -13,7 +13,7 @@
 
 
 import * as React from 'react';
-import { Row, Col, Radio, Input, Select } from 'nusi';
+import { Row, Col, Radio, Input, Select } from 'app/nusi';
 import { map, get, isEmpty } from 'lodash';
 import { Icon as CustomIcon, PureBoardGrid, TimeSelector, useUpdate } from 'common';
 import { goTo } from 'common/utils';

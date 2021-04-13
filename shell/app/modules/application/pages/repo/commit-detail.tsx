@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Spin } from 'nusi';
+import { Spin } from 'app/nusi';
 import { groupBy, map } from 'lodash';
 import * as React from 'react';
 import { CommitBlock } from './common';

@@ -12,11 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Alert, Button } from 'nusi';
+import { Spin, Alert, Button } from 'app/nusi';
 import { RenderForm, useUpdate, MultiInput } from 'common';
 import i18n from 'i18n';
 import { useEffectOnce } from 'react-use';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import { map, groupBy, find, get, isEmpty } from 'lodash';
 import { authenticationMap, authorizationMap, envMap, addonStatusMap } from 'apiManagePlatform/pages/access-manage/components/config';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';

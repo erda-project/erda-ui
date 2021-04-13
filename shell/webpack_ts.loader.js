@@ -21,16 +21,16 @@ const getCustomTransformers = () => ({
   before: [
     statements(),
     tsImportPluginFactory([
-      {
-        libraryName: 'antd',
-        libraryDirectory: 'lib',
-        style: true,
-      },
-      {
-        libraryName: '@terminus/nusi',
-        libraryDirectory: 'es',
-        style: true,
-      },
+      // {
+      //   libraryName: 'antd',
+      //   libraryDirectory: 'lib',
+      //   style: true,
+      // },
+      // {
+      //   libraryName: '@terminus/nusi',
+      //   libraryDirectory: 'es',
+      //   style: true,
+      // },
       {
         style: false,
         libraryName: 'lodash',

@@ -20,7 +20,7 @@ import { useLoading } from 'common/stores/loading';
 import { AuthorizeMemberModal } from './authorize-member-modal';
 import i18n from 'i18n';
 import { debounce, map, isEmpty, find, isArray, filter, get } from 'lodash';
-import { Button, Modal, Select, Spin, Table, Tooltip, message } from 'nusi';
+import { Button, Modal, Select, Spin, Table, Tooltip, message } from 'app/nusi';
 import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
 import * as React from 'react';

@@ -13,7 +13,7 @@
 
 import React, { PureComponent } from 'react';
 import { map, forEach, cloneDeep, isEqual, set } from 'lodash';
-import { Input, Select, Radio, Tooltip } from 'nusi';
+import { Input, Select, Radio, Tooltip } from 'app/nusi';
 import i18n from 'i18n';
 import './task-resource-field.scss';
 

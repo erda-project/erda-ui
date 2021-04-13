@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n, { getLang } from 'i18n';
-import { message } from 'nusi';
+import { message } from 'app/nusi';
 import { createStore } from 'app/cube';
 import { getDefaultPaging } from 'common/utils';
 import {

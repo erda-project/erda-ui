@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Select, Tooltip } from 'nusi';
+import { Select, Tooltip } from 'app/nusi';
 import { useUpdate, CRUDTable } from 'common';
 import { map, get, isEmpty } from 'lodash';
 import { insertWhen } from 'common/utils';
@@ -24,7 +24,7 @@ import userMapStore from 'app/common/stores/user-map';
 import DetailModal from '../certificate/detail-modal';
 import { typeMap as certificateTypeMap } from '../certificate/index';
 import i18n from 'i18n';
-import { ColumnProps } from 'interface/common';
+import { ColumnProps } from 'core/common/interface';
 
 const { Option } = Select;
 const undoneStatusMap = {

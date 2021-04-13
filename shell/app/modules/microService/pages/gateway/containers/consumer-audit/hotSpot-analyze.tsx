@@ -13,7 +13,7 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as React from 'react';
-import { Spin } from 'nusi';
+import { Spin } from 'app/nusi';
 import { FilterGroup, IF, TimeSelector, PureBoardGrid } from 'common';
 import { HTTP_METHODS } from '../../config';
 import { groupHandler } from 'common/utils/chart-utils';

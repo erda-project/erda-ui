@@ -14,7 +14,7 @@
 import {
   Form,
   Checkbox,
-} from 'nusi';
+} from 'app/nusi';
 import * as React from 'react';
 import { get, map, isEmpty } from 'lodash';
 import i18n from 'i18n';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Button, Switch } from 'nusi';
+import { Button, Switch } from 'app/nusi';
 import { Copy } from 'common';
 import './json-show.scss';
 

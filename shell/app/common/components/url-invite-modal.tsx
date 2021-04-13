@@ -14,7 +14,7 @@
 import * as React from 'react';
 import i18n from 'i18n';
 import { Copy } from 'common';
-import { Modal, Alert, Input, Button } from 'nusi';
+import { Modal, Alert, Input, Button } from 'app/nusi';
 
 interface IProps {
   url: string

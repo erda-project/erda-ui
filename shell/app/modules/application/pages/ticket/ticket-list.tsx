@@ -12,14 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Input, Spin, Select, Table } from 'nusi';
+import { Input, Spin, Select, Table } from 'app/nusi';
 import { SwitchAutoScroll, CustomFilter } from 'common';
 import { goTo, fromNow, insertWhen } from 'common/utils';
 import { getTicketType, TicketPriority } from 'application/pages/ticket/ticket-form';
 import { useLoading } from 'app/common/stores/loading';
 import ticketStore from 'application/stores/ticket';
 import i18n from 'i18n';
-import { IUseFilterProps, ColumnProps } from 'interface/common';
+import { ColumnProps } from 'core/common/interface';
+import { IUseFilterProps } from 'interface/common'
 import routeInfoStore from 'common/stores/route';
 
 import './ticket-list.scss';

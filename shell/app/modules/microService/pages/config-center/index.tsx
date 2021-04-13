@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Input, Table, Dropdown, Tooltip, Button, Modal } from 'nusi';
-import { ColumnProps } from 'antd/lib/table';
+import { Input, Table, Dropdown, Tooltip, Button, Modal } from 'app/nusi';
+import { ColumnProps } from 'core/common/interface';
 import { debounce, isEmpty, get, map, find } from 'lodash';
 import { IF, Icon as CustomIcon, Copy } from 'common';
 import i18n from 'i18n';

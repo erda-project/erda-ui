@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { message, Tooltip, Spin, Icon, Dropdown, Menu, Button } from 'nusi';
+import { message, Tooltip, Spin, Icon, Dropdown, Menu, Button } from 'app/nusi';
 import { FormModal, Icon as CustomIcon, IF } from 'common';
 import { goTo, setLS, removeLS } from 'app/common/utils';
 import BranchSelect from './branch-select';

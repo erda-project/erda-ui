@@ -14,7 +14,7 @@
 import React from 'react';
 import { SafetyPolicy } from 'microService/pages/gateway/containers/safety-policy';
 import { BusinessPolicy } from 'microService/pages/gateway/containers/business-policy';
-import { Tabs } from 'nusi';
+import { Tabs } from 'app/nusi';
 
 const { TabPane } = Tabs;
 

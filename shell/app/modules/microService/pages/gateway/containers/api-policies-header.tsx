@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Select } from 'nusi';
+import { Select } from 'app/nusi';
 import { isEmpty, map } from 'lodash';
 import i18n from 'i18n';
 

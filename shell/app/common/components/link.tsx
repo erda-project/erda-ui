@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { resolvePath } from 'common/utils';
-import { Button } from 'nusi';
+import { Button } from 'app/nusi';
 
 interface IProps {
   children: React.ReactChildren;
