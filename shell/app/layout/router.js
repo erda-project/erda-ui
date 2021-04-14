@@ -54,6 +54,15 @@ function getLayoutRouter() {
       },
     },
     {
+      path: 'createOrg',
+      breadcrumbName: i18n.t('layout:create organization'),
+      getComp: cb => cb(import('layout/common/create-org'), 'CreateOrg'),
+      layout: {
+        use: 'error',
+        noWrapper: true,
+      },
+    },
+    {
       path: 'inviteToOrg',
       breadcrumbName: i18n.t('layout:join organization'),
       getComp: cb => cb(import('layout/common/invite-to-org')),
