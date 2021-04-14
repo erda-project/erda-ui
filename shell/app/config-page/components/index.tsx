@@ -43,6 +43,8 @@ import Alert from './alert/alert';
 import List from './list/list';
 import Text from './text/text';
 import EmptyHolder from './empty-holder/empty-holder';
+import Image from './image/image';
+import DropdownSelect from './dropdown-select/dropdown-select';
 
 export const containerMap = {
   Alert,
@@ -79,5 +81,7 @@ export const containerMap = {
   List,
   Text,
   EmptyHolder,
+  Image,
+  DropdownSelect,
 };
 

@@ -66,7 +66,9 @@ declare namespace CONFIG_PAGE {
     | CP_LIST.Spec
     | CP_TABLE.Spec
     | CP_TEXT.Spec
-    | CP_EMPTY_HOLDER.Spec;
+    | CP_EMPTY_HOLDER.Spec
+    | CP_IMAGE.Spec
+    | CP_DROPDOWN_SELECT.Spec;
 
 
   // 单个组件基础定义

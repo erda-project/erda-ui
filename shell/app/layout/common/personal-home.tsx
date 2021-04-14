@@ -23,17 +23,17 @@ export const PersonalHome = () => {
 
   return (
     <div className='home-page'>
-      <div className='home-page-left'>
+      <div className='home-page-sidebar'>
         <DiceConfigPage
-          scenarioType='home-page-left'
-          scenarioKey='home-page-left'
+          scenarioType='home-page-sidebar'
+          scenarioKey='home-page-sidebar'
           useMock={location.search.includes('useMock') ? useMockLeft : undefined}
         />
       </div>
-      <div className='home-page-right'>
+      <div className='home-page-content'>
         <DiceConfigPage
-          scenarioType='home-page-right'
-          scenarioKey='home-page-right'
+          scenarioType='home-page-content'
+          scenarioKey='home-page-content'
           useMock={location.search.includes('useMock') ? useMockRight : undefined}
         />
       </div>
@@ -41,56 +41,111 @@ export const PersonalHome = () => {
   )
 };
 
-const mockLeft: CONFIG_PAGE.RenderConfig = {
+const mockSidebar: CONFIG_PAGE.RenderConfig = {
   scenario: {
-    scenarioKey: 'home-page-left',
-    scenarioType: 'home-page-left', // 后端定义
+    scenarioKey: 'home-page-sidebar',
+    scenarioType: 'home-page-sidebar', // 后端定义
   },
   protocol: {
     hierarchy: {
       root: 'page',
       structure: {
-        page: ['siderbar'],
-        emptyContainer: ['emptyText'],
-        siderbar: ['orgIcon', 'orgSwitch', 'myProject', 'myApplication'],
+        page: ['sidebar'],
+        sidebar: ['myOrganization', 'myProject', 'myApplication'],
+        myOrganization: ['orgImage', 'orgSwitch', 'brief', 'emptyOrganization'],
+        emptyOrganization: ['emptyImage', 'emptyOrgText'],
         myProject: ['myProjectTitle', 'myProjectFilter', 'myProjectList', 'moreProject', 'emptyProject'],
         myApplication: ['myApplicationTitle', 'myApplicationFilter', 'myApplicationList', 'moreApplication', 'emptyProject'],
       },
     },
     components: {
-      emptyContainer: { type: 'RowContainer', props: { contentSetting: 'center' } },
-      emptyText: {
-        type: 'Text',
-        operations: {
-          toPublicApp: {
-            key: 'toPublicOrg',
-            reload: false,
-            command: {
-              key: 'changeScenario',
-              scenarioType: 'org-list-all',
-              scenarioKey: 'org-list-all',
-            },
-          },
-        },
-        props: {
-          visible: false,
-          renderType: 'linkText',
-          styleConfig: { fontSize: 16, lineHeight: 24 },
-          value: {
-            text: [
-              '您还未加入任何组织，可以选择',
-              { text: '公开组织', operationKey: 'toPublicOrg', styleConfig: { bold: true } },
-              '开启您的Erda之旅',
-            ],
-          },
-        },
-      },
       page: { type: 'Container' },
-      siderbar: {
+      sidebar: {
         type: 'Container',
         props: {
           whiteBg: true,
         }
+      },
+      myOrganization: {
+        type: 'Container',
+      },
+      emptyOrganization: {
+        type: 'Container',
+      },
+      emptyImage: {
+        type: 'EmptyHolder',
+        props: {
+          tip: '',
+          visible: true,
+          relative: true,
+        }
+      },
+      emptyOrgText: {
+        type: 'Text',
+        props: {
+          visible: true,
+          renderType: 'linkText',
+          styleConfig: { fontSize: 16, lineHeight: 24 },
+          value: {
+            text: [
+              '您尚未加入任何组织，点击',
+              { text: '+', operationKey: 'xxx', styleConfig: { bold: true } },
+              '创建', '您也可以点击', { text: '@', operationKey: 'xxx', styleConfig: { bold: true } }, '浏览公开组织',
+            ],
+          },
+        },
+      },
+      orgImage: {
+        type: 'Image',
+        props: {
+          src: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3355464299,584008140&fm=26&gp=0.jpg',
+          visible: true,
+        },
+      },
+      orgSwitch: {
+        type: 'DropdownSelect',
+        props: {
+          visible: true,
+          value: '组织A',
+          prefixIcon: 'ISSUE_ICON.severity.XX',
+          operations: {
+            changePriorityTo1: { // 这个key后端定，
+              key: 'changePriorityTo1', // 这个key一定要有
+              reload: true,
+              disabled: true, // 根据实际情况
+              text: '组织A',
+              prefixIcon: 'ISSUE_ICON.severity.HIGH',
+              meta: { id: '事件id:1111', severity: '1' },
+            },
+          },
+        },
+      },
+      brief: {
+        type: 'Table',
+        props: {
+          rowKey: 'key',
+          columns: [
+            { title: '', dataIndex: 'category' },
+            { title: '', dataIndex: 'number' },
+          ],
+          showHeader: false,
+          pagination: false,
+          className: 'without-border',
+        },
+        data: {
+          list: [
+            {
+              id: 1,
+              category: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '参与项目数：' },
+              number: 5,
+            },
+            {
+              id: 1,
+              category: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '参与应用数：' },
+              number: 45,
+            },
+          ],
+        },
       },
       emptyProject: {
         type: 'EmptyHolder',
@@ -141,49 +196,22 @@ const mockLeft: CONFIG_PAGE.RenderConfig = {
       myProjectList: {
         type: 'List',
         props: {
-          visible: false,
+          visible: true,
         },
         data: {
-          list: [],
-          // list: [
-          //   {
-          //     id: '1',
-          //     title: '测试1测试1测试1测试1',
-          //     description: '测试测试测试测试',
-          //     prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-
-          //     operations: {
-          //       click: {
-          //         key: 'click',
-          //         show: false,
-          //         reload: false,
-          //         command: {
-          //           key: 'goto',
-          //           target: 'workBenchRoot', // 当前组织下的target
-          //         },
-          //       },
-          //     },
-          //   {
-          //     id: '2',
-          //     title: '测试2',
-          //     titleSuffixIcon: 'help',
-          //     description: '测试测试',
-          //     prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-
-          //     operations: {
-          //       click: {
-          //         key: 'click',
-          //         show: false,
-          //         reload: false,
-          //         command: {
-          //           key: 'goto',
-          //           target: 'https://xxx.io/workBench/projects', // 非当前组织下的target
-          //         },
-          //       },
-
-          //     },
-          //   },
-          // ],
+          list: [
+            {
+              id: '1',
+              title: '测试1测试1测试1测试1',
+              description: '',
+              prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+            {
+              id: '2',
+              title: '测试2',
+              description: '',
+              prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+            },
+          ],
         },
       },
       moreProject: {
@@ -237,46 +265,21 @@ const mockLeft: CONFIG_PAGE.RenderConfig = {
       myApplicationList: {
         type: 'List',
         props: {
-          visible: false,
+          visible: true,
         },
         data: {
           list: [
             {
               id: '1',
               title: '测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1',
-              description: '测试测试测试测试',
+              description: '',
               prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-
-              operations: {
-                click: {
-                  key: 'click',
-                  show: false,
-                  reload: false,
-                  command: {
-                    key: 'goto',
-                    target: 'workBenchRoot', // 当前组织下的target
-                  },
-                },
-
-              },
             },
             {
               id: '2',
               title: '测试2',
-              titleSuffixIcon: 'help',
-              description: '测试测试',
+              description: '',
               prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-              operations: {
-                click: {
-                  key: 'click',
-                  show: false,
-                  reload: false,
-                  command: {
-                    key: 'goto',
-                    target: 'https://xxx.io/workBench/projects', // 非当前组织下的target
-                  },
-                },
-              },
             },
           ],
         },
@@ -294,52 +297,64 @@ const mockLeft: CONFIG_PAGE.RenderConfig = {
   },
 };
 
-const mockRight: CONFIG_PAGE.RenderConfig = {
+const mockContent: CONFIG_PAGE.RenderConfig = {
   scenario: {
-    scenarioKey: 'home-page-right',
-    scenarioType: 'home-page-right', // 后端定义
+    scenarioKey: 'home-page-content',
+    scenarioType: 'home-page-content', // 后端定义
   },
   protocol: {
     hierarchy: {
       root: 'page',
       structure: {
-        page: ['myPage'],
-        myPage: ['title', 'filter', 'emptyContainer', 'projectItem'],
-        emptyContainer: ['emptyText'],
-        projectItem: ['projectTitle', 'card'],
-        card: ['issueTitle', 'issueSummary', 'cardTable', 'moreIssueLink'],
+        page: ['content'],
+        content: ['title', 'emptyOrgTip', 'emptyProjectTip', 'projectItem'],
+        projectItem: ['projectTitle', 'projectContent'],
+        projectContent: ['issueTitle', 'issueBrief', 'issueTable', 'moreIssueLink'],
       },
     },
     components: {
-      emptyContainer: { type: 'RowContainer', props: { contentSetting: 'center' } },
-      emptyText: {
-        type: 'Text',
-        operations: {
-          toPublicApp: {
-            key: 'toPublicOrg',
-            reload: false,
-            command: {
-              key: 'changeScenario',
-              scenarioType: 'org-list-all',
-              scenarioKey: 'org-list-all',
-            },
-          },
-        },
+      page: { type: 'Container' },
+      title: {
+        type: 'Title',
         props: {
-          visible: false,
-          renderType: 'linkText',
-          styleConfig: { fontSize: 16, lineHeight: 24 },
-          value: {
-            text: [
-              '您还未加入任何组织，可以选择',
-              { text: '公开组织', operationKey: 'toPublicOrg', styleConfig: { bold: true } },
-              '开启您的Erda之旅',
-            ],
+          title: '事件',
+          level: 1,
+          titleStyles: { fontSize: '24px' }, showSubtitle: true,
+          subtitle: '您未完成的事项 560 条',
+        }
+      },
+      emptyOrgTip: {
+        type: 'Card',
+        props: {
+          cardType: 'card',
+          visible: true,
+          data: {
+            _infoData: {
+              id: '1',
+              titleIcon: 'ISSUE_ICON.issue.REQUIREMENT',
+              title: '你已经是 组织A 的新成员',
+              type: '',
+              subContent: '以下是。。。。',
+            }
           },
         },
       },
-      page: { type: 'Container' },
-      title: { type: 'Title', props: { title: '事件', level: 1, titleStyles: { fontSize: '24px' }, showSubtitle: true, subtitle: '您未完成的事项 560 条' } },
+      emptyProjectTip: {
+        type: 'Card',
+        visible: true,
+        props: {
+          cardType: 'card',
+          data: {
+            _infoData: {
+              id: '1',
+              titleIcon: 'ISSUE_ICON.issue.REQUIREMENT',
+              title: '你已经是 组织A 的成员',
+              type: '',
+              subContent: '以下是。。。。',
+            }
+          },
+        },
+      },
       projectItem: {
         type: 'Container',
       },
@@ -351,8 +366,8 @@ const mockRight: CONFIG_PAGE.RenderConfig = {
           level: 2,
         },
       },
-      myPage: { type: 'Container' },
-      card: {
+      content: { type: 'Container' },
+      projectContent: {
         type: 'Container',
         props: {
           whiteBg: true,
@@ -365,13 +380,13 @@ const mockRight: CONFIG_PAGE.RenderConfig = {
           level: 3,
         },
       },
-      issueSummary: {
+      issueBrief: {
         type: 'Text',
         props: {
           value: "当前您还有 120 个事项待完成，其中 已过期: 40，本日到期: 40，7日内到期: 36，30日内到期: 44",
         },
       },
-      cardTable: {
+      issueTable: {
         type: 'Table',
         props: {
           rowKey: 'key',
@@ -381,6 +396,7 @@ const mockRight: CONFIG_PAGE.RenderConfig = {
           ],
           showHeader: false,
           pagination: false,
+          className: 'without-border',
         },
         data: {
           list: [
@@ -439,7 +455,7 @@ const mockRight: CONFIG_PAGE.RenderConfig = {
 const useMockLeft = (payload: any) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(mockLeft);
+      resolve(mockSidebar);
     }, 500);
   });
 };
@@ -447,7 +463,7 @@ const useMockLeft = (payload: any) => {
 const useMockRight = (payload: any) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(mockRight);
+      resolve(mockContent);
     }, 500);
   });
 };
