@@ -20,6 +20,7 @@ import { get, map, isEmpty } from 'lodash';
 import { getLabel, noop } from './common';
 import { commonFields, checkWhen } from './common/config';
 import i18n from 'i18n';
+import './radio.scss';
 
 const FormItem = Form.Item;
 
@@ -29,7 +30,7 @@ export const FormRadio = ({
   extensionFix,
   requiredCheck,
   trigger = 'onChange',
-}: any = {}) => React.memo(({ fieldConfig, form }:any = {}) => {
+}: any = {}) => React.memo(({ fieldConfig, form }: any = {}) => {
   const {
     key,
     value,
@@ -52,12 +53,12 @@ export const FormRadio = ({
   const curFixOut = itemFixOut || fixOut;
 
   registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (e:any) => {
+  const handleChange = (e: any) => {
     form.setFieldValue(key, curFixOut(e.target.value));
     (componentProps.onChange || noop)(e);
   };
 
-  const { radioType, options: cOptions } = componentProps;
+  const { radioType, options: cOptions, displayDesc } = componentProps;
   const RadioItem = radioType === 'button' ? Radio.Button : Radio;
   const options = cOptions || get(dataSource, 'static') || [];
   return (
@@ -80,13 +81,24 @@ export const FormRadio = ({
         {
           typeof options === 'function'
             ? options()
-            : isEmpty(options) ? <div>请补充备选数据</div> : (
-              map(options, (item:any) => (
-                <RadioItem key={item.value} value={item.value}>
-                  {item.name}
-                </RadioItem>
-              ))
-            )
+            : isEmpty(options)
+              ? <div>请补充备选数据</div>
+              : displayDesc ? (
+                map(options, (item: any) => (
+                  <div className='form-item-radio'>
+                    <RadioItem key={item.value} value={item.value}>
+                      {item.name}
+                      <div className='form-item-desc'>{item.desc}</div>
+                    </RadioItem>
+                  </div>
+                ))
+              ) : (
+                  map(options, (item: any) => (
+                    <RadioItem key={item.value} value={item.value}>
+                      {item.name}
+                    </RadioItem>
+                  ))
+                )
         }
       </Radio.Group>
     </FormItem>
@@ -140,6 +152,12 @@ export const formConfig = {
                 { name: '单选按钮', value: 'button' },
               ],
             },
+          },
+          {
+            label: '显示描述',
+            key: 'componentProps.displayDesc',
+            type: 'switch',
+            component: 'switch',
           },
           {
             label: '数据',

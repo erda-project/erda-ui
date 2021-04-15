@@ -30,10 +30,10 @@ export const OrgHome = () => {
         </div>
       </div>
       <div className='org-home-list'>
-       <DiceConfigPage
+         <DiceConfigPage
           scenarioType='org-list-my'
           scenarioKey='org-list-my'
-          useMoc k={location.search.includes('useMock') ? useMock : undefined}
+          useMock={location.search.includes('useMock') ? useMock : undefined}
           customProps={{
             list: {
               exist: (_op:any, data: Obj) => {

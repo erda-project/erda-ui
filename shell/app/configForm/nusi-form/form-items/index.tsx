@@ -36,7 +36,7 @@ import { config as arrayObjConfig, formConfig as arrayObjFormConfig } from './ar
 import { config as inputArrayConfig, formConfig as inputArrayFormConfig } from './input-array';
 import { config as groupConfig, formConfig as groupFormConfig } from './group';
 import { config as mapConfig, formConfig as mapFormConfig } from './map';
-
+import { config as uploadConfig, formConfig as uploadFormConfig } from './upload';
 
 import { registComponents } from '../form';
 
@@ -62,6 +62,7 @@ export const components = [
   inputArrayConfig,
   groupConfig,
   mapConfig,
+  uploadConfig,
 ];
 
 export const componentFormConfig = {
@@ -78,19 +79,20 @@ export const componentFormConfig = {
   ...inputArrayFormConfig,
   ...groupFormConfig,
   ...mapFormConfig,
+  ...uploadFormConfig,
 };
 
-interface IRegisterFormProps{
+interface IRegisterFormProps {
   key: string;
-  componentConfig:{},
-  formConfig:{},
+  componentConfig: {},
+  formConfig: {},
 }
-export const registerFormComponent = (props:IRegisterFormProps[]) => {
+export const registerFormComponent = (props: IRegisterFormProps[]) => {
   map(props, item => {
     const { componentConfig, formConfig, key } = item;
     componentFormConfig[key] = { ...formConfig[key] };
     let curIndex = findIndex(components, { name: key });
-    if (curIndex === -1)curIndex = components.length;
+    if (curIndex === -1) curIndex = components.length;
     set(components, `[${curIndex}]`, { ...componentConfig, name: key });
   });
   registComponents(components);

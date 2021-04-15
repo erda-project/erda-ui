@@ -1,0 +1,22 @@
+.form-item-upload-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  border: 1px dashed $color-border;
+
+  &:hover {
+    border-color: $color-primary;
+  }
+}
+
+.form-item-upload-img {
+  width: 100px;
+}
+
+.form-item-upload-tip {
+  margin-top: 8px;
+  color: $lightgray;
+}

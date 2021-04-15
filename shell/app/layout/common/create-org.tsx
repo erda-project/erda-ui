@@ -1,14 +1,11 @@
 import * as React from 'react';
 import DiceConfigPage from 'config-page/index';
-import { Card } from 'nusi';
-import i18n from 'i18n';
-import erda_png from 'app/images/Erda.png';
-import './org-home.scss';
+import './create-org.scss';
 
 export const CreateOrg = () => {
   return (
 
-    <div className='org-home-list'>
+    <div className='create-org-page'>
       <DiceConfigPage
         scenarioType='create-organization'
         scenarioKey='create-organization'
@@ -69,25 +66,44 @@ const mock: CONFIG_PAGE.RenderConfig = {
               }
             },
             {
-              label: "谁可以看该组织",
+              label: "谁可以看到该组织",
               component: "radio",
               required: true,
-              key: "谁可以看该组织",
+              key: "谁可以看到该组织",
+              componentProps: {
+                radioType: "radio",
+                displayDesc: true
+              },
               dataSource: {
                 static: [
                   {
                     name: "私人的",
-                    value: "小组及项目只能由成员查看"
+                    desc: "小组及项目只能由成员查看",
+                    value: "private"
                   },
                   {
                     name: "公开的",
-                    value: "无需任何身份验证即可查看该组织和任何公开项目"
-                  }
+                    desc: "无需任何身份验证即可查看该组织和任何公开项目",
+                    value: "public"
+                  },
                 ]
-              },
+              }
+            },
+            {
+              label: "组织图标",
+              component: "upload",
+              key: "组织图标",
               componentProps: {
-                radioType: "radio"
-              },
+                uploadText: "上传图片",
+                sizeLimit: 2,
+                supportFormat: [
+                  "png",
+                  "jpg",
+                  "jpeg",
+                  "gif",
+                  "bmp"
+                ]
+              }
             },
           ],
           readOnly: false, // 查看详情时，设置为true
