@@ -21,14 +21,14 @@
   "author": "Erda-FE",
   "license": "ISC",
   "dependencies": {
-    "cube-state": "^1.2.1",
-    "i18next": "^17.0.13",
-    "moment": "^2.29.1",
     "@terminus/nusi": "^3.10.5",
     "antd": "^3.25.0",
     "css-loader": "^5.0.1",
+    "cube-state": "^1.2.1",
+    "i18next": "^17.0.13",
     "less": "^3.8.1",
     "less-loader": "^7.2.1",
+    "moment": "^2.29.1",
     "path-to-regexp": "^1.7.0",
     "postcss-loader": "^4.1.0",
     "query-string": "^6.4.2",
@@ -40,10 +40,9 @@
     "sockjs-client": "^1.1.5",
     "superagent": "^5.2.2",
     "superagent-use": "^0.1.0",
-    "ts-loader": "^8.0.14",
-    "typescript": "^3.7.5",
     "ts-import-plugin": "^1.4.4",
-    "tsx-control-statements": "^4.0.0"
+    "ts-loader": "^8.0.14",
+    "typescript": "^3.7.5"
   },
   "devDependencies": {
     "@commitlint/cli": "^7.0.0",

@@ -15,12 +15,10 @@ const path = require('path');
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { getLessTheme, getScssTheme } = require('./src/config/theme');
+const { getLessTheme, getScssTheme, themeColor } = require('./src/config/theme');
 const { ModuleFederationPlugin } = require('webpack').container;
 const AutomaticVendorFederation = require('@module-federation/automatic-vendor-federation');
 const packageJson = require('./package.json');
-
-
 
 const resolve = pathname => path.resolve(__dirname, pathname);
 
@@ -28,8 +26,7 @@ module.exports = () => {
   const nodeEnv = process.env.NODE_ENV || 'development';
   const isProd = nodeEnv === 'production';
   console.log('isProd:', isProd);
-
-  const themeColor = '#6A549E';
+  
   const lessVariables = getLessTheme(themeColor);
   const scssVariables = getScssTheme(false);
 
