@@ -17,6 +17,7 @@ import { map, get } from 'lodash';
 import { useUpdate } from 'common';
 import userMapStore from 'common/stores/user-map';
 import { getRender, getTitleRender } from './render-types';
+import classnames from 'classnames';
 import './table.scss';
 
 const handleState = (_stateObj?: Obj) => {
@@ -31,7 +32,7 @@ const handleState = (_stateObj?: Obj) => {
 export function Table(props: CP_TABLE.Props) {
   const { state: propsState, customProps, props: configProps, operations, data, execOperation } = props;
   const list = data?.list || [];
-  const { visible = true, columns = [], title, pageSizeOptions, className = '', ...rest } = configProps || {};
+  const { visible = true, columns = [], title, pageSizeOptions, styleNames = {}, ...rest } = configProps || {};
 
   const userMap = userMapStore.useStore(s => s);
   const [state, updater, update] = useUpdate(handleState(propsState));
@@ -107,12 +108,16 @@ export function Table(props: CP_TABLE.Props) {
     };
   }
 
+  const cls = classnames({
+    'justify-align': styleNames['justify-align'] || false,
+    'without-border': styleNames['without-border'] || false,
+  });
 
   return visible ? (
     <>
       {title ? <Title showDivider={false} level={2} title={title} /> : null}
       <PureTable
-        className={`dice-cp table ${className} ${isGanttTable ? 'task-gantt-table' : ''}`}
+        className={`dice-cp table ${cls} justify-align ${isGanttTable ? 'task-gantt-table' : ''}`}
         dataSource={list}
         {...extra}
         columns={tableColumns}

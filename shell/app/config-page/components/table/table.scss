@@ -86,6 +86,12 @@
     }
   }
 
+  &.justify-align {
+    td:nth-child(2) {
+      text-align: right;
+    }
+  }
+
   .dropdown-field-selector {
     .arrow-icon {
       color: $color-text-icon;

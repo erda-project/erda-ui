@@ -30,7 +30,7 @@ declare namespace CP_TABLE {
     pageSizeOptions?: string[];
     columns: Column[];
     rowKey: string,
-    className?: string;
+    styleNames?: Obj
     title?: string;
     visible?: boolean;
     rowSelection?: Obj;

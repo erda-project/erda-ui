@@ -13,10 +13,6 @@
 
 import * as React from 'react';
 import DiceConfigPage from 'config-page/index';
-import { cloneDeep } from 'lodash'
-import { Card } from 'nusi';
-import i18n from 'i18n';
-import erda_png from 'app/images/Erda.png';
 import './personal-home.scss';
 
 export const PersonalHome = () => {
@@ -105,19 +101,13 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
       orgSwitch: {
         type: 'DropdownSelect',
         props: {
-          visible: true,
-          value: '组织A',
-          prefixIcon: 'ISSUE_ICON.severity.XX',
-          operations: {
-            changePriorityTo1: { // 这个key后端定，
-              key: 'changePriorityTo1', // 这个key一定要有
-              reload: true,
-              disabled: true, // 根据实际情况
-              text: '组织A',
-              prefixIcon: 'ISSUE_ICON.severity.HIGH',
-              meta: { id: '事件id:1111', severity: '1' },
-            },
-          },
+          menuList:
+            [
+              { name: '组织B', key: 'organizeB' },
+              { name: '组织A', key: 'organizeA' },
+            ],
+          buttonText: '组织A',
+          jumpToOtherPage: ['浏览公开组织'],
         },
       },
       brief: {
@@ -130,7 +120,10 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
           ],
           showHeader: false,
           pagination: false,
-          className: 'without-border',
+          styleNames: {
+            'without-border': true,
+            'justify-align': true,
+          },
         },
         data: {
           list: [
@@ -396,7 +389,10 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
           ],
           showHeader: false,
           pagination: false,
-          className: 'without-border',
+          styleNames: {
+            'without-border': true,
+            'justify-align': true,
+          },
         },
         data: {
           list: [

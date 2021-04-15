@@ -18,14 +18,23 @@ declare namespace CP_DROPDOWN_SELECT {
   }
 
   interface IProps {
-    disabled: boolean;
-    disabledTip?: string;
-    visible?: boolean;
-    value: string;
-    prefixIcon: string;
-    operations: Obj;
-    execOperation: any;
-    onChange: () => void;
+    [propName: string]: any,
+    execOperation: any,
+    jumpToOtherPage?: string[],
+    buttonText?: string,
+    btnProps?: object,
+    overlay?: any,
+    menuList?: IMenuItem[],
+    loading?: boolean,
+    trigger?: Array<'click' | 'hover' | 'contextMenu'>,
+    onClickMenu?(item: any): void,
+  }
+
+  interface IMenuItem {
+    key: string,
+    name: string,
+    disabled?: boolean,
+    children?: IMenuItem[],
   }
 
   type Props = MakeProps<Spec>;
