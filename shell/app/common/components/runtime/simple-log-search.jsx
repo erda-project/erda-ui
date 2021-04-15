@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { isEmpty } from 'lodash';
-import { Form, Input, Button } from 'nusi';
+import { Form, Input, Button } from 'app/nusi';
 import './simple-log.scss';
 import i18n from 'i18n';
 

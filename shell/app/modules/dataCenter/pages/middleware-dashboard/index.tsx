@@ -14,7 +14,7 @@
 import React, { useState } from 'react';
 import i18n from 'i18n';
 import { map } from 'lodash';
-import { Row, Col, Select, Input, Spin, Table } from 'nusi';
+import { Row, Col, Select, Input, Spin, Table } from 'app/nusi';
 import { IF } from 'common';
 import { goTo } from 'common/utils';
 import { getFormatter } from 'app/charts/utils/formatter';
@@ -22,7 +22,7 @@ import { useMount, useDebounce } from 'react-use';
 import { useLoading } from 'app/common/stores/loading';
 import middlewareDashboardStore from '../../stores/middleware-dashboard';
 import { AddonUsageChart } from './usage-chart';
-import { ColumnProps } from 'interface/common';
+import { ColumnProps } from 'core/common/interface';
 
 import './index.scss';
 

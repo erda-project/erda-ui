@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Tooltip, Button, Ellipsis, Pagination } from 'nusi';
+import { Tooltip, Button, Ellipsis, Pagination } from 'app/nusi';
 import { Icon as CustomIcon, useUpdate, EmptyHolder } from 'common';
 import { isNumber, filter, map, sortBy, isString } from 'lodash';
 import { OperationAction } from 'config-page/utils';

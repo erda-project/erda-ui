@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Input, Select, Radio, Form, Tooltip } from 'nusi';
+import { Input, Select, Radio, Form, Tooltip } from 'app/nusi';
 import { map } from 'lodash';
 import { useUpdate } from 'common';
 import { getSubnetNum, getIPItemOption, getIPTooltipText } from '../util';

@@ -13,7 +13,7 @@
 
 import { cloneDeep } from 'lodash';
 import i18n from 'i18n';
-import { Form, Steps, Button, Tooltip, Icon, Row, Col, Spin, Switch } from 'nusi';
+import { Form, Steps, Button, Tooltip, Icon, Row, Col, Spin, Switch } from 'app/nusi';
 import { RenderPureForm, KeyValueList, Icon as CustomIcon, RenderFormItem, connectCube } from 'common';
 import { goTo } from 'common/utils';
 import * as React from 'react';
@@ -30,7 +30,7 @@ import {
 import purchaseStore from 'dcos/stores/purchase';
 import { useLoading } from 'app/common/stores/loading';
 import routeInfoStore from 'common/stores/route';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 
 import './purchase-cluster.scss';
 

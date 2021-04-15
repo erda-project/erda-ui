@@ -16,7 +16,7 @@ import { CRUDTable, useUpdate, Copy } from 'common';
 import { Link } from 'react-router-dom';
 import networksStore from 'dataCenter/stores/networks';
 import { useLoading } from 'app/common/stores/loading';
-import { Select, Button, Tooltip, Dropdown, Icon, Menu } from 'nusi';
+import { Select, Button, Tooltip, Dropdown, Icon, Menu } from 'app/nusi';
 import { cloudVendor } from '../common/config';
 import VpcFormModal from './vpc-form-modal';
 import { map } from 'lodash';

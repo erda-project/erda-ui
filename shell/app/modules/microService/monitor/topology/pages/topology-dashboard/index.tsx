@@ -16,7 +16,7 @@ import produce from 'immer';
 import { map, get, find } from 'lodash';
 import { If, Choose, When } from 'tsx-control-statements/components';
 import { DC } from '@terminus/dashboard-configurator';
-import { Button } from 'nusi';
+import { Button } from 'app/nusi';
 import { PureBoardGrid } from 'common';
 import { goTo } from 'common/utils';
 import i18n from 'i18n';

@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Modal, Table } from 'nusi';
-import { ColumnProps } from 'interface/common';
+import { Modal, Table } from 'app/nusi';
+import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 import { RenderForm } from 'common';
 import middlewareDashboardStore from 'dataCenter/stores/middleware-dashboard';

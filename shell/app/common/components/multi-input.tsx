@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { isEmpty, map, remove, set } from 'lodash';
-import { Icon, Input } from 'nusi';
+import { Icon, Input } from 'app/nusi';
 import i18n from 'i18n';
 import './multi-input.scss';
 

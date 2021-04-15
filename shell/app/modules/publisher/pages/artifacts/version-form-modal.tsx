@@ -15,7 +15,7 @@ import { FormModal, LoadMoreSelector } from 'common';
 import i18n from 'i18n';
 import * as React from 'react';
 import { map, get } from 'lodash';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import publisherStore from 'app/modules/publisher/stores/publisher';
 import { getJoinedApps } from 'user/services/user';
 import { getReleaseList } from 'application/services/release';

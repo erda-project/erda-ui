@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Breadcrumb, Icon } from 'nusi';
+import { Breadcrumb, Icon } from 'app/nusi';
 import { IF, TimeSelector } from 'common';
 import { isEmpty } from 'lodash';
 import ChartList from '../containers/chart';

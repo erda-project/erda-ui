@@ -14,7 +14,7 @@
 import React, { useMemo } from 'react';
 import moment from 'moment';
 import i18n from 'i18n';
-import { Select, RangePicker } from 'nusi';
+import { Select, RangePicker } from 'app/nusi';
 import { map, find, get, compact, isArray } from 'lodash';
 import { MemberSelector } from 'common';
 import { insertWhen, getTimeRanges } from 'common/utils';

@@ -15,7 +15,7 @@ import React, { useEffect } from 'react';
 import i18n from 'i18n';
 import { find, compact, isEmpty, reduce, map, filter } from 'lodash';
 import classNames from 'classnames';
-import { Row, Col, Spin } from 'nusi';
+import { Row, Col, Spin } from 'app/nusi';
 import { Holder, TimeSelector, useUpdate } from 'common';
 import { MonitorChartNew } from 'charts';
 import { ChartContainer } from 'charts/utils';

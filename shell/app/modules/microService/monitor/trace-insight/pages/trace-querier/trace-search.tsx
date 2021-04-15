@@ -1,3 +1,4 @@
+
 // Copyright (c) 2021 Terminus, Inc.
 //
 // This program is free software: you can use, redistribute, and/or modify
@@ -16,7 +17,7 @@ import { get, isEmpty } from 'lodash';
 import moment from 'moment';
 import { CustomFilter, useFilter, PureBoardGrid, Copy, useSwitch, useUpdate, TagsColumn } from 'common';
 import { getTimeRanges } from 'common/utils';
-import { Select, DatePicker, Table, Drawer } from 'nusi';
+import { Select, DatePicker, Table, Drawer } from 'app/nusi';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 import { getFormatter } from 'charts/utils/formatter';

@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { FormComponentProps } from 'antd/es/form';
+import { FormComponentProps } from 'core/common/interface';
 import React, { PureComponent } from 'react';
-import { Form, Icon, Button } from 'nusi';
+import { Form, Icon, Button } from 'app/nusi';
 import { cloneDeep, forEach, findIndex, uniqueId } from 'lodash';
 import VariableInputGroup from './variable-input-group';
 import i18n from 'i18n';

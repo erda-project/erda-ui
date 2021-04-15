@@ -14,9 +14,9 @@
 import * as React from 'react';
 import { useUpdate } from 'common';
 import { produce } from 'immer';
-import { FormBuilder } from '@terminus/nusi';
+import { FormBuilder } from 'app/nusi';
 import { keys, set, get, unset, filter, omit, values, forEach } from 'lodash';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import { PropertyItemForm } from 'apiManagePlatform/pages/api-market/design/basic-params-config';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { API_FORM_KEY, QUOTE_PREFIX, QUOTE_PREFIX_NO_EXTENDED } from 'app/modules/apiManagePlatform/configs.ts';

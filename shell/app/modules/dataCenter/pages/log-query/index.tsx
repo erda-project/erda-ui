@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Input, DatePicker, Table, Tabs, message, Tooltip, Select } from 'nusi';
+import { Input, DatePicker, Table, Tabs, message, Tooltip, Select } from 'app/nusi';
 import { isEmpty, get, forEach, mapKeys, map, reduce, pick } from 'lodash';
 import i18n from 'i18n';
 import classnames from 'classnames';

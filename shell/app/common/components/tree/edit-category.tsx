@@ -12,8 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Input, Popover, Button } from '@terminus/nusi';
-import { message } from 'nusi';
+import { message, Input, Popover, Button } from 'app/nusi';
 import { Icon as CustomIcon } from '../../index';
 import i18n from 'i18n';
 import { useEffectOnce } from 'react-use';

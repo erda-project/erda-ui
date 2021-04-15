@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { map, get, set, filter, uniq } from 'lodash';
-import { Tabs, Button } from 'nusi';
+import { Tabs, Button } from 'app/nusi';
 import { Prompt } from 'react-router-dom';
 import { DebounceSearch, useUpdate } from 'common';
 import routeInfoStore from 'app/common/stores/route';

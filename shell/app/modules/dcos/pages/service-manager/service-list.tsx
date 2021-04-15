@@ -11,14 +11,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Table, Tooltip, Badge } from 'nusi';
+import { Table, Tooltip, Badge } from 'app/nusi';
 import i18n from 'i18n';
 import { Copy, Icon as CustomIcon, IF } from 'common';
 import { get, set, remove, round } from 'lodash';
 import { getFormatter } from 'charts/utils/formatter';
 import * as React from 'react';
 import { getBrowserInfo } from 'common/utils';
-import { ColumnProps } from 'interface/common';
+import { ColumnProps } from 'core/common/interface';
 import { useInstanceOperation } from 'app/modules/dataCenter/common/components/instance-operation';
 import './service-list.scss';
 

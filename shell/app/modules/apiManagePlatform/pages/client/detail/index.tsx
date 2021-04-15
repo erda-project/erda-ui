@@ -12,14 +12,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Ellipsis, Spin, Table, Tabs, Tooltip } from 'nusi';
+import { Ellipsis, Spin, Table, Tabs, Tooltip } from 'app/nusi';
 import apiClientStore from 'apiManagePlatform/stores/api-client';
 import routeInfoStore from 'common/stores/route';
 import { Copy, DetailsPanel, Icon as CustomIcon, TableActions, useUpdate } from 'common';
 import i18n from 'i18n';
 import { get, map } from 'lodash';
 import { contractStatueMap } from 'apiManagePlatform/pages/client/components/config';
-import { ColumnProps, PaginationProps } from 'interface/common';
+import { ColumnProps, PaginationProps } from 'core/common/interface';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
 import UpdateSLA from 'apiManagePlatform/components/update-sla';
 import { useLoading } from 'common/stores/loading';

@@ -15,13 +15,13 @@ import { isEqual, isEmpty } from 'lodash';
 import * as React from 'react';
 import moment from 'moment';
 import classnames from 'classnames';
-import { Spin, Tooltip, Table } from 'nusi';
+import { Spin, Tooltip, Table } from 'app/nusi';
 import i18n from 'i18n';
 import './alarm-list.scss';
 import machineStore from 'dataCenter/stores/machine';
 import { useLoading } from 'app/common/stores/loading';
 import { useUnmount } from 'react-use';
-import { ColumnProps } from 'interface/common';
+import { ColumnProps } from 'core/common/interface';
 
 export interface IAlarm {
   content: {

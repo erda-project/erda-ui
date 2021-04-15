@@ -11,13 +11,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { FormComponentProps } from 'antd/es/form';
+import { FormComponentProps } from 'core/common/interface';
 import ListInput from 'application/common/components/list-input-group';
 import VariableInput from 'application/common/components/object-input-group';
 import React from 'react';
 import { cloneDeep, map, isEmpty, omit, pick, get, filter, head, transform, isEqual, forEach } from 'lodash';
 import { Icon as CustomIcon, useUpdate } from 'common';
-import { Form, Button, Input, Popover, InputNumber, Icon, Collapse, Alert, Spin, Select } from 'nusi';
+import { Form, Button, Input, Popover, InputNumber, Icon, Collapse, Alert, Spin, Select } from 'app/nusi';
 import './edit-service.scss';
 import './task-resource-field.scss';
 import { mergeActionAndResource, getResource } from '../yml-flow-util';

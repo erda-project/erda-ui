@@ -19,9 +19,9 @@
  */
 import React from 'react';
 import moment from 'moment';
-import { Row, Col, Tabs, Table, Tooltip, Spin } from 'nusi';
+import { Row, Col, Tabs, Table, Tooltip, Spin } from 'app/nusi';
 import { get, isEmpty } from 'lodash';
-import { ColumnProps } from '@terminus/nusi/lib/table';
+import { ColumnProps } from 'core/common/interface';
 import { Icon as CustomIcon, EmptyHolder, IF, FileEditor, useUpdate } from 'common';
 import { goTo } from 'common/utils';
 import { useEffectOnce } from 'react-use';

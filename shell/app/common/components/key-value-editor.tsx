@@ -13,9 +13,9 @@
 
 import * as React from 'react';
 import { KeyValueTextArea, KeyValueTable } from 'common';
-import { Radio } from 'nusi';
+import { Radio } from 'app/nusi';
 import { isEqual } from 'lodash';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import i18n from 'i18n';
 import './key-value-editor.scss';
 

@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { goTo } from 'common/utils';
 import { Icon as CustomIcon } from 'common';
-import { Button } from 'nusi';
+import { Button } from 'app/nusi';
 import i18n from 'i18n';
 
 import './error-boundary.scss';

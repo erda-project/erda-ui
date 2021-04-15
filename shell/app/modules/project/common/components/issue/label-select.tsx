@@ -13,7 +13,7 @@
 
 import labelStore from 'project/stores/label';
 import { map, isEmpty } from 'lodash';
-import { Select } from 'nusi';
+import { Select } from 'app/nusi';
 import * as React from 'react';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';

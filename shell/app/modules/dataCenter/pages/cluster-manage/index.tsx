@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
-import { Spin, Button } from 'nusi';
+import { Spin, Button } from 'app/nusi';
 import { isEmpty } from 'lodash';
 import { Holder, useUpdate } from 'common';
 import { goTo } from 'common/utils';

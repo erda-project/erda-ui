@@ -13,7 +13,7 @@
 
 import { debounce, throttle } from 'lodash';
 import * as React from 'react';
-import { Spin } from 'nusi';
+import { Spin } from 'app/nusi';
 import i18n from 'i18n';
 
 interface IProps {

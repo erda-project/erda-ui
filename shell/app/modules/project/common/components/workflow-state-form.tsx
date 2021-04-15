@@ -18,7 +18,7 @@ import routeInfoStore from 'app/common/stores/route';
 import { Form } from 'workBench/pages/form-editor/index';
 import { issueStateMap } from 'project/common/config';
 import { map } from 'lodash';
-import { Select } from 'nusi';
+import { Select } from 'app/nusi';
 import issueWorkflowStore from 'project/stores/issue-workflow';
 
 const { Option } = Select;

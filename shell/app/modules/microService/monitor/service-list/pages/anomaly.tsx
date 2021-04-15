@@ -13,7 +13,7 @@
 
 import React, { useEffect } from 'react';
 import i18n from 'i18n';
-import { Select } from 'nusi';
+import { Select } from 'app/nusi';
 import { TimeSelector, useUpdate } from 'common';
 import routeInfoStore from 'app/common/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';

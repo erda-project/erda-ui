@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Popover } from 'nusi';
+import { Popover } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
 
 import './menu-popover.scss';

@@ -14,11 +14,11 @@
 import * as React from 'react';
 import i18n from 'i18n';
 import { map, filter, uniqueId, reduce, cloneDeep, find, findIndex, fill, concat, isEmpty, omit, some, toString, uniqBy, debounce, keyBy, get, merge } from 'lodash';
-import { Spin, Button, Switch, Popconfirm, Table, Select, Input, InputNumber, message, Modal, Tooltip } from 'nusi';
+import { Spin, Button, Switch, Popconfirm, Table, Select, Input, InputNumber, message, Modal, Tooltip } from 'app/nusi';
 import { PagingTable, FormModal, useUpdate, MarkdownEditor, RenderPureForm, IF, PureBoardGrid } from 'common';
 import { goTo } from 'common/utils';
 import { useMount } from 'react-use';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import { useLoading } from 'app/common/stores/loading';
 import orgCustomAlarmStore from 'app/modules/dataCenter/stores/custom-alarm';
 import microServiceCustomAlarmStore from 'microService/monitor/monitor-alarm/stores/custom-alarm';

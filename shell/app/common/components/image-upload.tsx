@@ -14,11 +14,11 @@
 import React, { Component } from 'react';
 import i18n from 'i18n';
 import classnames from 'classnames';
-import { Input, Upload } from 'nusi';
+import { Input, Upload } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
 import { get, isEqual, map } from 'lodash';
 import { getUploadProps } from 'common/utils/upload-props';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 
 
 import './image-upload.scss';

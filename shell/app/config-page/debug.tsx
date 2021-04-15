@@ -14,7 +14,7 @@
 import * as React from 'react';
 import DiceConfigPage from 'app/config-page';
 import { ErrorBoundary, FileEditor, Icon as CustomIcon } from 'common';
-import { Button, message, Popover } from 'nusi';
+import { Button, message, Popover } from 'app/nusi';
 import './debug.scss';
 import moment from 'moment';
 

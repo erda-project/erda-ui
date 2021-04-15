@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Input } from 'nusi';
+import { Input } from 'app/nusi';
 import i18n from 'i18n';
 import { Icon as CustomIcon } from 'common';
 import * as React from 'react';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Table, Popconfirm, Switch, Button } from 'nusi';
+import { Table, Popconfirm, Switch, Button } from 'app/nusi';
 import i18n from 'i18n';
 import moment from 'moment';
 import { useMount } from 'react-use';

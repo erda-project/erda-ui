@@ -13,7 +13,7 @@
 
 
 import * as React from 'react';
-import { InputNumber } from 'nusi';
+import { InputNumber } from 'app/nusi';
 import { isNumber } from 'lodash';
 import i18n from 'i18n';
 import './http-status-input.scss';

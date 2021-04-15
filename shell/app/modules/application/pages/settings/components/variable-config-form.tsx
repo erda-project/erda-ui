@@ -14,8 +14,8 @@
 import { FormModal, useUpdate } from 'common';
 import { getUploadProps } from 'common/utils/upload-props';
 import i18n from 'i18n';
-import { WrappedFormUtils } from 'interface/common';
-import { Button, Icon, message, Spin, Upload } from 'nusi';
+import { WrappedFormUtils } from 'core/common/interface';
+import { Button, Icon, message, Spin, Upload } from 'app/nusi';
 import * as React from 'react';
 
 

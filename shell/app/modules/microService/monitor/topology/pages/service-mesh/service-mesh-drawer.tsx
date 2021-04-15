@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Drawer } from 'nusi';
+import { Drawer } from 'app/nusi';
 import { get } from 'lodash';
 import i18n from 'i18n';
 import CircuitBreakerForm from './circuit-breaker-form';

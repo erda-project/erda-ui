@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Modal, Tooltip, Tabs, Button, Table, Input, Select } from 'nusi';
+import { Modal, Tooltip, Tabs, Button, Table, Input, Select } from 'app/nusi';
 import i18n from 'i18n';
 import { qs } from 'common/utils';
 import { useUpdate, Icon as CustomIcon, FileEditor } from 'common';

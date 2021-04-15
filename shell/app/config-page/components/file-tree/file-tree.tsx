@@ -12,12 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Tree, Popover, Ellipsis, Input, Tooltip } from '@terminus/nusi';
+import { NusiTree as Tree, NusiPopover as Popover, Ellipsis, Input, Tooltip } from 'app/nusi';
 import { map, noop, isEmpty, get, filter, isArray, uniq, compact, find, isEqual } from 'lodash';
 import { useUpdateEffect } from 'react-use';
 import { Icon as CustomIcon, useUpdate, EmptyHolder } from 'common';
 import { WithAuth } from 'user/common';
-import { IAction, TreeNodeNormal, AntTreeNodeDropEvent } from '@terminus/nusi/es/tree/interface';
+import { IAction, TreeNodeNormal, NusiTreeNodeDropEvent } from 'core/common/interface';
 import i18n from 'i18n';
 import './file-tree.scss';
 
@@ -272,7 +272,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
   };
 
 
-  const onDrop = (info: AntTreeNodeDropEvent) => {
+  const onDrop = (info: NusiTreeNodeDropEvent) => {
     const { dragNode, node: dropNode, dropPosition, dropToGap } = info;
     const _dragNode = dragNode.props.dataRef;
     const _dropNode = dropNode.props.dataRef;

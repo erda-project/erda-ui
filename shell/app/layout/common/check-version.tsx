@@ -18,7 +18,7 @@
  * 2、浏览器需要刷新页面
  */
 import agent from 'agent';
-import { message, notification, Button, Icon } from 'nusi';
+import { message, notification, Button, Icon } from 'app/nusi';
 import React from 'react';
 import i18n from 'i18n';
 

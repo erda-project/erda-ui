@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { Menu, Dropdown, Tooltip } from 'nusi';
+import { Menu, Dropdown, Tooltip } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
 import { get, isEmpty, map, find } from 'lodash';
 import { getSnippetNodeDetail } from 'project/services/auto-test-case';

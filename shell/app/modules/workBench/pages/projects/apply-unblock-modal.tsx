@@ -16,7 +16,7 @@ import { FormModal } from 'common';
 import { getTimeRanges } from 'common/utils';
 import { IFormItem } from 'common/components/render-formItem';
 import i18n from 'i18n';
-import { DatePicker } from 'nusi';
+import { DatePicker } from 'app/nusi';
 import moment, { Moment } from 'moment';
 import workBenchStore from 'workBench/stores';
 import { AppSelector } from 'application/common/app-selector';

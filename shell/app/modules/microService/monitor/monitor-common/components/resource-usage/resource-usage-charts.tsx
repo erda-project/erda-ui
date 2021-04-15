@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Row, Col } from 'nusi';
+import { Row, Col } from 'app/nusi';
 import TimeRangeSelector from 'common/components/monitor/components/timeRangeSelector';
 import ChartMap from './config';
 import './resource-usage-charts.scss';

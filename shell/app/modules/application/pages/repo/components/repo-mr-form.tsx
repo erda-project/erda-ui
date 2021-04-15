@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Menu, Dropdown, Icon, message, Tooltip } from 'nusi';
+import { Button, Menu, Dropdown, Icon, message, Tooltip } from 'app/nusi';
 import * as React from 'react';
 import { RenderForm, FormModal, connectCube, MemberSelector } from 'common';
 import Markdown from 'common/utils/marked';
@@ -21,7 +21,7 @@ import i18n from 'i18n';
 import { connectUser } from 'app/user/common';
 import { isEmpty } from 'lodash';
 import repoStore from 'application/stores/repo';
-import { WrappedFormUtils } from '@terminus/nusi/es/form/Form';
+import { WrappedFormUtils } from 'core/common/interface';
 import './repo-mr-form.scss';
 import routeInfoStore from 'common/stores/route';
 import layoutStore from 'layout/stores/layout';

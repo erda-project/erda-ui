@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { isEmpty, get, isNumber, debounce } from 'lodash';
-import { Popover, Tooltip } from 'nusi';
+import { Popover, Tooltip } from 'app/nusi';
 import { Icon as CustomIcon, useUpdate } from 'common';
 import { secondsToTime } from 'common/utils';
 import { useEffectOnce } from 'react-use';

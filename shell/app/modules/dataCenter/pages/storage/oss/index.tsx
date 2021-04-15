@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { useUpdate, CRUDStoreTable } from 'common';
-import { Input, Select, Menu, Dropdown, Button, Icon } from 'nusi';
+import { Input, Select, Menu, Dropdown, Button, Icon } from 'app/nusi';
 import { map } from 'lodash';
 import { useMount } from 'react-use';
 import cloudOSSStore from 'app/modules/dataCenter/stores/storage';

@@ -13,7 +13,7 @@
 
 import React, { useState } from 'react';
 import i18n from 'i18n';
-import { Tabs } from 'nusi';
+import { Tabs } from 'app/nusi';
 import MachineDetail from './machine-detail';
 import InstanceList from './instance-list';
 import AlarmRecord from './alarm-record';
