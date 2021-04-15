@@ -14,7 +14,7 @@
 import { isPlainObject, map, forEach, isEmpty } from 'lodash';
 import React from 'react';
 import i18n from 'i18n';
-import { Input, Select, Table } from 'nusi';
+import { Input, Select, Table } from 'app/nusi';
 import { KVPair, ProtocolInput, FormModal, InputSelect } from 'common';
 import testEnvStore from 'project/stores/test-env';
 import routeInfoStore from 'common/stores/route';

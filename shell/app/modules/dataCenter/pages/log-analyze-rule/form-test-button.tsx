@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { Button, Form as NForm } from 'nusi';
+import { Button, Form as NForm } from 'app/nusi';
 import { getLabel, noop } from 'app/configForm/nusi-form/form-items/common';
 
 const FormItem = NForm.Item;

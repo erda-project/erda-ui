@@ -13,9 +13,9 @@
 
 import React from 'react';
 import { FormModal, TableActions } from 'common';
-import { Button, Table, TimePicker, Input, Select } from 'nusi';
+import { Button, Table, TimePicker, Input, Select } from 'app/nusi';
 import i18n from 'i18n';
-import { ColumnProps } from 'interface/common';
+import { ColumnProps } from 'core/common/interface';
 
 import { set, cloneDeep } from 'lodash';
 import moment from 'moment';

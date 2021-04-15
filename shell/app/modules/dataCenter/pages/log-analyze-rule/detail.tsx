@@ -17,7 +17,7 @@ import i18n from 'i18n';
 import { cloneDeep, isEmpty, map, uniqueId, find, findIndex, fill, filter, get, every } from 'lodash';
 import { useMount, useUpdateEffect } from 'react-use';
 import { goTo, getLS } from 'common/utils';
-import { Button, message, Spin } from 'nusi';
+import { Button, message, Spin } from 'app/nusi';
 import { Form } from 'workBench/pages/form-editor/index';
 import { registComponent } from 'app/configForm/form/form';
 import { useLoading } from 'app/common/stores/loading';

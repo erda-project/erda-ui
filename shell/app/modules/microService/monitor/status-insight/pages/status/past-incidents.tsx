@@ -12,11 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Table } from 'nusi';
+import { Table } from 'app/nusi';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { resolvePath } from 'common/utils';
-import { ColumnProps } from 'antd/lib/table';
+import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 
 interface IData{

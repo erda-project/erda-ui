@@ -14,7 +14,7 @@
 import { includes, isEmpty } from 'lodash';
 import React, { useState, useRef } from 'react';
 import i18n from 'i18n';
-import { Dropdown, Menu, Modal, message, Input, Icon } from 'nusi';
+import { Dropdown, Menu, Modal, message, Input, Icon } from 'app/nusi';
 import testSetStore from 'project/stores/test-set';
 import testPlanStore from 'project/stores/test-plan';
 import { recycledKey } from '../utils';

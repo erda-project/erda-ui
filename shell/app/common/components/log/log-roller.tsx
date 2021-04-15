@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { throttle } from 'lodash';
-import { Button, Icon, Tooltip } from 'nusi';
+import { Button, Icon, Tooltip } from 'app/nusi';
 import * as React from 'react';
 import LogContent from './log-content';
 import i18n from 'i18n';

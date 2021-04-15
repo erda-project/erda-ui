@@ -13,7 +13,7 @@
 
 import React from 'react';
 import moment from 'moment';
-import { Tooltip } from 'nusi';
+import { Tooltip } from 'app/nusi';
 import { Copy } from 'common';
 import i18n from 'i18n';
 

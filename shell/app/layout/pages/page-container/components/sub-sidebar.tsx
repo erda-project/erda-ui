@@ -12,16 +12,15 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { SideNavigation } from 'nusi';
+import { SideNavigation } from 'app/nusi';
 import { Link } from 'react-router-dom';
 import layoutStore from 'layout/stores/layout';
 import routeInfoStore from 'common/stores/route';
-import { MenuConfigItemProps } from 'interface/common';
+import { MenuConfigItemProps, Theme } from 'core/common/interface';
 import MenuHeader from './menu-head';
 import { isEmpty, isEqual, pickBy } from 'lodash';
 import { qs } from 'common/utils';
 import { Icon as CustomIcon, useUpdate } from 'common';
-import { Theme } from '@terminus/nusi/es/global-navigation/interface';
 import './sub-sidebar.scss';
 
 const { stringify, parseUrl } = qs;
@@ -162,9 +161,12 @@ const SubSideBar = () => {
       selectedKey,
     });
   };
+
+  
+
   return (
     <SideNavigation
-      theme={Theme.LIGHT}
+      theme={'light' as Theme.LIGHT} // 从core中导入的type只能作为定义使用
       menuKey="href"
       searchBar={false}
       openKeys={state.openKeys}

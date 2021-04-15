@@ -1,3 +1,4 @@
+
 // Copyright (c) 2021 Terminus, Inc.
 //
 // This program is free software: you can use, redistribute, and/or modify
@@ -11,7 +12,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Input, Collapse } from 'nusi';
+import { Input, Collapse } from 'app/nusi';
 import { Icon as CustomIcon, EmptyListHolder, useUpdate } from 'common';
 import classnames from 'classnames';
 import * as React from 'react';

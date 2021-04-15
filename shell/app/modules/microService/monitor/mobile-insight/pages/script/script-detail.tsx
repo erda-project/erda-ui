@@ -13,7 +13,7 @@
 
 import { map } from 'lodash';
 import * as React from 'react';
-import { Row, Col, Icon } from 'nusi';
+import { Row, Col, Icon } from 'app/nusi';
 import moment from 'moment';
 import i18n from 'i18n';
 

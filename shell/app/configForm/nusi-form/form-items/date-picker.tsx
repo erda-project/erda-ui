@@ -14,7 +14,7 @@
 import {
   Form,
   DatePicker,
-} from 'nusi';
+} from 'app/nusi';
 import * as React from 'react';
 import { isEmpty, isArray, isString } from 'lodash';
 import { getLabel, noop } from './common';

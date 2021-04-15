@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Input, Form } from 'nusi';
+import { Input, Form } from 'app/nusi';
 import { regRules } from 'common/utils';
 import './key-value-textarea.scss';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import i18n from 'i18n';
 
 const { TextArea } = Input;

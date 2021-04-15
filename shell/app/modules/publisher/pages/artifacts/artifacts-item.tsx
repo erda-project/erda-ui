@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Tooltip, Badge } from 'nusi';
+import { Tooltip, Badge } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
 import { fromNow } from 'common/utils';
 import { get } from 'lodash';

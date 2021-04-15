@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { Button, Tooltip, Dropdown, Menu } from 'nusi';
+import { Button, Tooltip, Dropdown, Menu } from 'app/nusi';
 import { goTo } from 'common/utils';
 import { WithAuth, usePerm } from 'user/common';
 import { Icon as CustomIcon } from 'common';

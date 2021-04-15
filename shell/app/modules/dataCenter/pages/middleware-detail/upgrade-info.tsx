@@ -13,9 +13,9 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { Spin, Button, Radio, Table, Tooltip } from 'nusi';
+import { Spin, Button, Radio, Table, Tooltip } from 'app/nusi';
 import { map, isEmpty } from 'lodash';
-import { RadioChangeEvent, ColumnProps } from 'interface/common';
+import { RadioChangeEvent, ColumnProps } from 'core/common/interface';
 import UpgradeModal from 'dataCenter/pages/middleware-dashboard/upgrade-modal';
 import middlewareDashboardStore from 'dataCenter/stores/middleware-dashboard';
 import { useLoading } from 'app/common/stores/loading';

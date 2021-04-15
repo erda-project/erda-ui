@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Button, Input, Switch } from 'nusi';
+import { Button, Input, Switch } from 'app/nusi';
 import { useUpdate } from 'common';
 import { map, cloneDeep, uniq, compact } from 'lodash';
 import { FormModal } from 'app/configForm/nusi-form/form-modal';

@@ -13,7 +13,7 @@
 
 import {
   Form,
-} from 'nusi';
+} from 'app/nusi';
 import { MemberSelector } from 'common';
 import * as React from 'react';
 import { isEmpty } from 'lodash';

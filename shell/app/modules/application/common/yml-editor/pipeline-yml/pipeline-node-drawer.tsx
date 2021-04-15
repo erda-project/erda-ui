@@ -13,8 +13,8 @@
 
 // 此部分逻辑基本拷贝原来逻辑，方便后面如果整体删除原来代码
 import * as React from 'react';
-import { Drawer, Form, Button, Input, InputNumber, Icon, Collapse, Alert, Spin, Select, Tooltip } from 'nusi';
-import { FormComponentProps } from 'antd/es/form';
+import { Drawer, Form, Button, Input, InputNumber, Icon, Collapse, Alert, Spin, Select, Tooltip } from 'app/nusi';
+import { FormComponentProps } from 'core/common/interface';
 import i18n from 'i18n';
 import { cloneDeep, map, isEmpty, omit, pick, get, set, filter, head, transform, isEqual, forEach, find, flatten } from 'lodash';
 import VariableInput from 'application/common/components/object-input-group';

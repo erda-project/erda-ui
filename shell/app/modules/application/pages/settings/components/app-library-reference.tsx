@@ -16,13 +16,13 @@ import { Copy, CRUDStoreTable, LoadMoreSelector, useUpdate, Icon as CustomIcon }
 import i18n from 'i18n';
 import libraryRefStore from 'application/stores/library-reference';
 import publisherStore from 'publisher/stores/publisher';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import appStore from 'application/stores/application';
 import { appMode, approvalStatus } from 'application/common/config';
 import { formatTime } from 'common/utils';
 import { WithAuth } from 'user/common';
 import { useUnmount } from 'react-use';
-import { Popconfirm, Modal, Button, Alert, Input, Icon, message } from 'nusi';
+import { Popconfirm, Modal, Button, Alert, Input, Icon, message } from 'app/nusi';
 import routeInfoStore from 'common/stores/route';
 import { getArtifactsList } from 'publisher/services/publisher';
 

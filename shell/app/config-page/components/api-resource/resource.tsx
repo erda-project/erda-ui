@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { useUpdate, Icon as CustomIcon } from 'common';
-import { Input, Tabs, Button, message, Popconfirm, Select, Modal } from 'nusi';
+import { Input, Tabs, Button, message, Popconfirm, Select, Modal, FormBuilder } from 'app/nusi';
 import i18n from 'i18n';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { ResponseConfig } from './response-config';
@@ -22,8 +22,7 @@ import { map, unset, isEmpty, set, get, keys, some, forEach } from 'lodash';
 import { API_METHODS, INPUT_MAX_LENGTH, DEFAULT_PATH_PARAM, DEFAULT_RESPONSE, API_RESOURCE_TAB } from 'app/modules/apiManagePlatform/configs.ts';
 import { produce } from 'immer';
 import ResourceSummary from './resource-summary';
-import { FormBuilder } from '@terminus/nusi';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import ReactDOM from 'react-dom';
 import './resource.scss';
 

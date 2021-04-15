@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { map, get, isString, isArray } from 'lodash';
-import { Table, Title, Tag } from 'nusi';
+import { Table, Title, Tag } from 'app/nusi';
 import { FileEditor } from 'common';
 import Text from '../text/text';
 import './info-preview.scss';

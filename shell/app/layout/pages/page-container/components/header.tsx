@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { PageHeader, Icon } from 'nusi';
+import { PageHeader, Icon } from 'app/nusi';
 import { Tab } from 'layout/pages/tab/tab';
 import layoutStore from 'layout/stores/layout';
 import { goTo } from 'common/utils';

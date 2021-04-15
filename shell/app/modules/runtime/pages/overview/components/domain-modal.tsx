@@ -13,11 +13,11 @@
 
 import { map, findLast, isEqual, cloneDeep, filter } from 'lodash';
 import * as React from 'react';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import { useUpdate } from 'common';
 
 import { setLS, goTo } from 'common/utils';
-import { Row, Col, Form, Icon, Input, Popconfirm, Modal, message } from 'nusi';
+import { Row, Col, Form, Icon, Input, Popconfirm, Modal, message } from 'app/nusi';
 import i18n from 'i18n';
 import routeInfoStore from 'app/common/stores/route';
 import runtimeStore from 'runtime/stores/runtime';

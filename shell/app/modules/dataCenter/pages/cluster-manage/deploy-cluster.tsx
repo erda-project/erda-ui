@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { useMount, useUnmount } from 'react-use';
 import i18n from 'i18n';
-import { Button, Drawer, message } from 'nusi';
+import { Button, Drawer, message } from 'app/nusi';
 import { isEmpty } from 'lodash';
 import DeployClusterLog from './deploy-cluster-log';
 import DeployClusterForm from './deploy-cluster-form';

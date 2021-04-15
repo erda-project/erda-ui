@@ -11,11 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Select, Alert, Input, Spin, Checkbox } from 'nusi';
+import { Button, Select, Alert, Input, Spin, Checkbox } from 'app/nusi';
 import i18n from 'i18n';
 import * as React from 'react';
 import { ImageUpload, RenderForm, CompactSelect } from 'common';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import projectStore from 'app/modules/project/stores/project';
 import { useEffectOnce } from 'react-use';
 import clusterStore from 'dataCenter/stores/cluster';

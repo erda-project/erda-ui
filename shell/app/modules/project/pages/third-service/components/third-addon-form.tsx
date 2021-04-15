@@ -14,9 +14,9 @@
 import { FileEditor, KeyValueEditor, RenderPureForm, useUpdate } from 'common';
 import { insertWhen, regRules } from 'common/utils';
 import i18n from 'i18n';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import { filter, get, isEmpty, map } from 'lodash';
-import { Form, Select } from 'nusi';
+import { Form, Select } from 'app/nusi';
 import React, { forwardRef, useImperativeHandle } from 'react';
 import routeInfoStore from 'common/stores/route';
 import { AddonType } from 'project/pages/third-service/components/config';

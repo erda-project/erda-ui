@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Modal } from 'nusi';
+import { Modal } from 'app/nusi';
 import cloudAccountStore from 'app/modules/dataCenter/stores/cloud-account';
 import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
 import { CRUDStoreTable } from 'common';

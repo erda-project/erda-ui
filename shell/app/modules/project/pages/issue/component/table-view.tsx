@@ -12,13 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Table, Tooltip, Dropdown, Menu, Progress } from 'nusi';
+import { Table, Tooltip, Dropdown, Menu, Progress } from 'app/nusi';
 import issueStore from 'project/stores/issues';
 import moment from 'moment';
 import { map, omit, get, find } from 'lodash';
 import issueWorkflowStore from 'project/stores/issue-workflow';
 import { MemberSelector, Icon as CustomIcon, useUpdate, FilterBarHandle, ImgHolder } from 'common';
-import { ColumnProps } from 'interface/common';
+import { ColumnProps } from 'core/common/interface';
 import { updateSearch, insertWhen } from 'common/utils';
 import IssueTitleLabel from './title-label';
 import {

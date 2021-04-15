@@ -13,7 +13,7 @@
 
 import { findIndex } from 'lodash';
 import { PassAndNext } from 'project/pages/plan-detail/pass-and-next';
-import { Button } from 'nusi';
+import { Button } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
 import React from 'react';
 import testCaseStore from 'project/stores/test-case';

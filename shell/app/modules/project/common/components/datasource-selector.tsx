@@ -14,7 +14,7 @@
 import * as React from 'react';
 import workBenchStore from 'workBench/stores';
 import { useMount, useUpdateEffect } from 'react-use';
-import { Select } from 'nusi';
+import { Select } from 'app/nusi';
 import i18n from 'i18n';
 
 const { Option } = Select;

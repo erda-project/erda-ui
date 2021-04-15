@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useState, useEffect, Fragment } from 'react';
-import { Row, Col, Tooltip } from 'nusi';
+import { Row, Col, Tooltip } from 'app/nusi';
 import { map, groupBy, Dictionary, get, values, isEmpty } from 'lodash';
 import { Copy } from 'common';
 import './api-view.scss';

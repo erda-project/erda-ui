@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Switch, Alert, Row, Col, Spin, Modal } from 'nusi';
+import { Switch, Alert, Row, Col, Spin, Modal } from 'app/nusi';
 import { useLoading } from 'app/common/stores/loading';
 import userStore from 'user/stores';
 import { find, get } from 'lodash';

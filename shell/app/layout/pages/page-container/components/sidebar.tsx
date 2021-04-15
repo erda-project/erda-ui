@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { GlobalNavigation, Shell, Badge, Icon, Tooltip, Popover, Menu } from 'nusi';
+import { GlobalNavigation, Shell, Badge, Icon, Tooltip, Popover, Menu } from 'app/nusi';
 import { usePerm } from 'user/common';
 import i18n from 'i18n';
 import { Icon as CustomIcon, IF, ImgHolder } from 'common';

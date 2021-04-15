@@ -13,10 +13,10 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { Drawer, Table, Breadcrumb, Icon } from 'nusi';
+import { Drawer, Table, Breadcrumb, Icon } from 'app/nusi';
 import { map } from 'lodash';
 import { useUpdate, TagsColumn, TableActions } from 'common';
-import { ColumnProps } from 'antd/lib/table';
+import { ColumnProps } from 'core/common/interface';
 import { useLoading } from 'common/stores/loading';
 import machineManageStore from '../../stores/machine-manage';
 import routeInfoStore from 'common/stores/route';

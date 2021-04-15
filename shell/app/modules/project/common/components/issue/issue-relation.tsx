@@ -13,7 +13,7 @@
 
 
 import { useUpdate, MemberSelector, IF } from 'common';
-import { Button, Select, Table, Popconfirm, Title, Tooltip } from 'nusi';
+import { Button, Select, Table, Popconfirm, Title, Tooltip } from 'app/nusi';
 import React from 'react';
 import i18n from 'i18n';
 import routeInfoStore from 'app/common/stores/route';

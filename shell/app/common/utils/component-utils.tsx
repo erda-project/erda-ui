@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Tooltip, Icon } from 'nusi';
+import { Tooltip, Icon } from 'app/nusi';
 
 export const getLabel = (label: string, labelTip: string, required = true) => {
   let _label: any = label;

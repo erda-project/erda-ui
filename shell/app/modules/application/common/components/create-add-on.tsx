@@ -11,13 +11,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { FormComponentProps } from 'antd/es/form';
+import { FormComponentProps } from 'core/common/interface';
 import { isEqual, map, cloneDeep, keyBy, isEmpty } from 'lodash';
 import React, { PureComponent } from 'react';
 import classnames from 'classnames';
 import { PlanName } from 'app/modules/addonPlatform/pages/common/configs';
 import { convertAddonPlan } from '../yml-flow-util';
-import { Input, Form, Select, Radio, Button, Alert, Icon } from 'nusi';
+import { Input, Form, Select, Radio, Button, Alert, Icon } from 'app/nusi';
 import addon_png from 'app/images/resources/addon.png';
 import i18n from 'i18n';
 import './create-add-on.scss';

@@ -12,15 +12,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Select, Radio, Table } from 'nusi';
-import { SelectValue } from '@terminus/nusi/es/select';
+import { Select, Radio, Table } from 'app/nusi';
+import { SelectValue, ColumnProps } from 'core/common/interface';
 import { map, get } from 'lodash';
 import { useEffectOnce, useUnmount } from 'react-use';
 import moment from 'moment';
 import { TimeSelector, useUpdate, PureBoardGrid } from 'common';
 import statisticsStore from 'app/modules/publisher/stores/statistics';
 import routeInfoStore from 'common/stores/route';
-import { ColumnProps } from 'antd/lib/table';
 import i18n from 'i18n';
 import { useLoading } from 'app/common/stores/loading';
 import monitorCommonStore from 'common/stores/monitorCommon';

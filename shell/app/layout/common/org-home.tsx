@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import DiceConfigPage from 'config-page/index';
-import { Card } from 'nusi';
+import { Card } from 'app/nusi';
 import i18n from 'i18n';
 import erda_png from 'app/images/Erda.png';
 import './org-home.scss';

@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { Timeline, Drawer, Title, Icon, Tooltip } from 'nusi';
+import { Timeline, Drawer, Title, Icon, Tooltip } from 'app/nusi';
 import buildStore from 'application/stores/build';
 import { useLoading } from 'common/stores/loading';
 import { isEmpty } from 'lodash';

@@ -16,7 +16,7 @@ import { getTimeRanges } from 'common/utils';
 import React from 'react';
 // import LabelSelect from 'project/common/components/issue/label-select';
 import { priorityList } from '../constants';
-import { DatePicker } from 'nusi';
+import { DatePicker } from 'app/nusi';
 import moment from 'moment';
 import { CaseStatus } from '../../plan-detail/status-toggle';
 import { isEmpty } from 'lodash';

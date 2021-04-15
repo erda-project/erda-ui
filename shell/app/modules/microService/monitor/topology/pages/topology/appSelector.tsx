@@ -14,7 +14,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as React from 'react';
 import { map, isEmpty, find } from 'lodash';
-import { Select } from 'nusi';
+import { Select } from 'app/nusi';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import routeInfoStore from 'app/common/stores/route';
 import { useMount } from 'react-use';

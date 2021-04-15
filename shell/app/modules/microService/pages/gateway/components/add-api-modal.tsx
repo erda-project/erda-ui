@@ -14,8 +14,8 @@
 import { FormModal, useUpdate } from 'common';
 import * as React from 'react';
 import i18n from 'i18n';
-import { WrappedFormUtils, SelectValue } from 'interface/common';
-import { Input, Select } from 'nusi';
+import { WrappedFormUtils, SelectValue } from 'core/common/interface';
+import { Input, Select } from 'app/nusi';
 import { get, map, size } from 'lodash';
 import { HTTP_METHODS, HTTP_PREFIX, HTTPS_PREFIX } from 'microService/pages/gateway/config';
 import gatewayStore from 'microService/stores/gateway';

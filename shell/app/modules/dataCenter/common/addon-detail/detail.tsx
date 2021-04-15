@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { map, isFunction, isEmpty } from 'lodash';
 import moment from 'moment';
-import { Spin, Table, Badge } from 'nusi';
+import { Spin, Table, Badge } from 'app/nusi';
 import { Link } from 'react-router-dom';
 import { Icon as CustomIcon, Copy, IF } from 'common';
 import { PlanName, EnvName, CategoryName } from 'app/modules/addonPlatform/pages/common/configs';

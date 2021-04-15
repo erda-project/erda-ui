@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { map, isEmpty, filter } from 'lodash';
-import { Select, Input, Tooltip, Form, Icon } from 'nusi';
+import { Select, Input, Tooltip, Form, Icon } from 'app/nusi';
 import { getLabel, noop } from './common';
 import i18n from 'i18n';
 import './check-when.scss';

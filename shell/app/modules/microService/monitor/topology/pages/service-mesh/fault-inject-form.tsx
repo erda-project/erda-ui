@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Tabs, Button, Collapse, Pagination, Input, Popconfirm, Switch } from 'nusi';
+import { Tabs, Button, Collapse, Pagination, Input, Popconfirm, Switch } from 'app/nusi';
 import { isEmpty, map, filter, find, compact, get } from 'lodash';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import i18n from 'i18n';
 import { RenderForm, EmptyHolder, Icon as CustomIcon, FormModal, useUpdate } from 'common';
 import serviceMeshStore from '../../stores/service-mesh';

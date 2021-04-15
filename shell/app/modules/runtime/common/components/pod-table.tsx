@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Table, Modal } from 'nusi';
+import { Table, Modal } from 'app/nusi';
 import i18n from 'i18n';
 import moment from 'moment';
 import runtimeServiceStore from 'runtime/stores/service';

@@ -12,12 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { DatePicker } from 'nusi';
+import { DatePicker } from 'app/nusi';
 import moment, { Moment } from 'moment';
 import { useUpdate } from 'common';
 import { getTimeRanges, getTimeSpan } from 'common/utils';
 import i18n from 'i18n';
-import { RangePickerProps } from 'interface/common';
+import { RangePickerProps } from 'core/common/interface';
 
 const { RangePicker } = DatePicker;
 

@@ -15,7 +15,7 @@ import moment from 'moment';
 import React from 'react';
 import i18n from 'i18n';
 import MoreOperation from './more-operation';
-import { ColumnProps } from 'interface/common';
+import { ColumnProps } from 'core/common/interface';
 import { UserInfo } from 'common';
 
 export const commonColumns: Array<ColumnProps<TEST_CASE.CaseTableRecord>> = [

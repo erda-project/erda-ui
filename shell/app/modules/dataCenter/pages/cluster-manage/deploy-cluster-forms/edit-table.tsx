@@ -13,9 +13,9 @@
 
 import * as React from 'react';
 import { Icon as CustomIcon } from 'common';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import { map } from 'lodash';
-import { Form, Table, Popconfirm, Button, Input, Select } from 'nusi';
+import { Form, Table, Popconfirm, Button, Input, Select } from 'app/nusi';
 import i18n from 'i18n';
 import './edit-table.scss';
 

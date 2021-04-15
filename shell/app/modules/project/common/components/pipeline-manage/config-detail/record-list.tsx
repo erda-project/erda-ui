@@ -12,11 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Popover, Button, Table } from 'nusi';
+import { Popover, Button, Table } from 'app/nusi';
 import { isEmpty, get, map } from 'lodash';
 import { Icon as CustomIcon } from 'common';
 import { useLoading } from 'common/stores/loading';
-import { ColumnProps } from 'antd/lib/table';
+import { ColumnProps } from 'core/common/interface';
 import { useEffectOnce } from 'react-use';
 import moment from 'moment';
 import userMapStore from 'app/common/stores/user-map';

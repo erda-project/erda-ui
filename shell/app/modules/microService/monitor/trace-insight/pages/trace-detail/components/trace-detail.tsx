@@ -14,7 +14,7 @@
 import { each, includes, flattenDeep, map } from 'lodash';
 import * as React from 'react';
 import moment from 'moment';
-import { Modal, Table, Spin, Tooltip } from 'nusi';
+import { Modal, Table, Spin, Tooltip } from 'app/nusi';
 import TraceDetailFilter from './trace-detail-filter';
 import './trace-detail.scss';
 

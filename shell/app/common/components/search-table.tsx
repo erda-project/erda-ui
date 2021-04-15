@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Input } from 'nusi';
+import { Input } from 'app/nusi';
 import { debounce } from 'lodash';
 import { OperationBar } from 'common';
 

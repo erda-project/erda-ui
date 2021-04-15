@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Row, Col, Drawer } from 'nusi';
+import { Row, Col, Drawer } from 'app/nusi';
 import { useSwitch, SimpleLog } from 'common';
 import routeInfoStore from 'app/common/stores/route';
 import AffairsMap from './config/chartMap';

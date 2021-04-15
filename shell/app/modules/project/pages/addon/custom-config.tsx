@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-import { Alert, message, Modal } from 'nusi';
+import { Alert, message, Modal } from 'app/nusi';
 import React from 'react';
 import addonStore from 'common/stores/addon';
 import { FileEditor, useUpdate } from 'common';
