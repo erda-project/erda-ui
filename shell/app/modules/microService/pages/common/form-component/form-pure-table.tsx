@@ -13,7 +13,7 @@
 
 import React, { Component } from 'react';
 import { omit } from 'lodash';
-import { Table } from 'nusi';
+import { Table } from 'app/nusi';
 import i18n from 'i18n';
 
 export default class FormPureTable extends Component<any, any> {

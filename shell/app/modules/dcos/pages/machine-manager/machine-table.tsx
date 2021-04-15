@@ -13,12 +13,11 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { Input, InputNumber, Tooltip, Button, Modal, Drawer, Row, Col } from 'nusi';
-import { Table as AntTable } from 'antd';
+import { Input, InputNumber, Tooltip, Button, Modal, Drawer, Row, Col, AntTable } from 'app/nusi';
 import { groupBy, isNaN, isEmpty, filter, get, map, round } from 'lodash';
 import classNames from 'classnames';
 import { IF, useUpdate, Icon as CustomIcon, TagsColumn, TableActions } from 'common';
-import { ColumnProps } from 'antd/lib/table';
+import { ColumnProps } from 'core/common/interface';
 import { getFormatter } from 'charts/utils/formatter';
 import HealthPoint from 'project/common/components/health-point';
 import Terminal from 'dcos/common/containers/terminal';

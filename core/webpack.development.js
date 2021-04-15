@@ -14,6 +14,7 @@
 const fs = require('fs');
 const path = require('path');
 const root = path.resolve(process.cwd(), '..');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { parsed: config } = require('dotenv').config({ path: `${root}/.env` })
 
 const backendUrl = config.DEV_HOST;
@@ -45,6 +46,12 @@ module.exports = {
     path: path.resolve(__dirname, './public'),
     filename: 'scripts/[name].js',
     chunkFilename: 'scripts/[id].[contenthash].js',
-    publicPath: 'http://localhost:3000/core/',
+    publicPath: 'https://local-core.terminus-org.dev.terminus.io:5000/',
   },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: 'style/[name].css',
+      ignoreOrder: true,
+    }),
+  ],
 };

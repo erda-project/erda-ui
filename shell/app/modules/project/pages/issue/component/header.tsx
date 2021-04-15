@@ -14,7 +14,7 @@
 import * as React from 'react';
 import IterationSelect from 'project/common/components/issue/iteration-select';
 import { useUpdate, ToolBarWithFilter, Icon as CustomIcon } from 'common';
-import { Input, Radio, Tooltip, Button, Dropdown, Menu, Switch } from 'nusi';
+import { Input, Radio, Tooltip, Button, Dropdown, Menu, Switch } from 'app/nusi';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import i18n from 'i18n';
 import { map, debounce, find, get } from 'lodash';

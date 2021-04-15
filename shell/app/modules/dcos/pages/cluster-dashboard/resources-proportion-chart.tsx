@@ -14,7 +14,7 @@
 import * as React from 'react';
 import i18n from 'i18n';
 import { map, round } from 'lodash';
-import { Spin, Row, Col } from 'nusi';
+import { Spin, Row, Col } from 'app/nusi';
 import { ChartRender } from 'charts';
 import { ChartContainer } from 'charts/utils';
 import { CLUSTER_RESOURCES_PROPORTION_MAP } from 'dcos/common/config';

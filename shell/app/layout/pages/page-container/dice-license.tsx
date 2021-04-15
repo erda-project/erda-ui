@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import moment from 'moment';
-import { Modal } from 'nusi';
+import { Modal } from 'app/nusi';
 import { notify } from 'app/common/utils';
 import i18n from 'i18n';
 import userStore from 'app/user/stores';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Spin } from 'nusi';
+import { Spin } from 'app/nusi';
 import { goTo } from 'common/utils';
 
 export const dealPath = (params) => {

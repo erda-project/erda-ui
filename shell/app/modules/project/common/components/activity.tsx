@@ -14,7 +14,7 @@
 import * as React from 'react';
 import moment from 'moment';
 import { map, groupBy } from 'lodash';
-import { Timeline, Tooltip } from 'nusi';
+import { Timeline, Tooltip } from 'app/nusi';
 import { Avatar, IF } from 'common';
 import { actionMap } from '../config';
 import i18n from 'i18n';

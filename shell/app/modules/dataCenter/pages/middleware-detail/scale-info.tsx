@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { Spin, Button, Col, Row, Tooltip } from 'nusi';
+import { Spin, Button, Col, Row, Tooltip } from 'app/nusi';
 import { get } from 'lodash';
 import ScaleModal from 'dataCenter/pages/middleware-dashboard/scale-modal';
 import middlewareDashboardStore from 'dataCenter/stores/middleware-dashboard';

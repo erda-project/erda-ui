@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { map, isEmpty } from 'lodash';
-import { Select } from 'nusi';
+import { Select } from 'app/nusi';
 import * as React from 'react';
 import { useEffectOnce } from 'react-use';
 import { useTempPaging } from 'app/common';

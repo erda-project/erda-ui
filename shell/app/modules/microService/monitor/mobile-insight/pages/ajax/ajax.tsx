@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Row, Col } from 'nusi';
+import { Row, Col } from 'app/nusi';
 import { TimeSelector } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import AjaxMap from './config/chartMap';

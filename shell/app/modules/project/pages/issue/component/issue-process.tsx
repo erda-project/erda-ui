@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Progress, Tooltip } from 'nusi';
+import { Progress, Tooltip } from 'app/nusi';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';

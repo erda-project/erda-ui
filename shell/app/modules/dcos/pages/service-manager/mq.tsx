@@ -18,7 +18,7 @@ import { regRules } from 'common/utils/index';
 import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
 import i18n from 'i18n';
 import { map, keys, get } from 'lodash';
-import { Menu, Dropdown, Button, Icon, notification } from 'nusi';
+import { Menu, Dropdown, Button, Icon, notification } from 'app/nusi';
 import cloudServiceStore from '../../stores/cloud-service';
 import { useEffectOnce } from 'react-use';
 import {

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Button, message, Radio, Alert, Modal, Tooltip, Input } from 'nusi';
+import { Button, message, Radio, Alert, Modal, Tooltip, Input } from 'app/nusi';
 import { RenderForm, useUpdate, Icon as CustomIcon, CardsLayout, IF, FileEditor } from 'common';
 import { notify, isPromise } from 'common/utils';
 import FileContainer from 'application/common/components/file-container';

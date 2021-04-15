@@ -13,10 +13,10 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Progress } from 'nusi';
+import { Progress } from 'app/nusi';
 import { commonColumns } from '../../test-manage/case/columns';
 import Operation from './operation';
-import { ColumnProps } from 'interface/common';
+import { ColumnProps } from 'core/common/interface';
 import { UserInfo } from 'common';
 
 const planDetailColumns = [...commonColumns];

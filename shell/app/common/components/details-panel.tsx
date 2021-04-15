@@ -12,13 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Panel, Title, Anchor } from 'nusi';
-import { OperationProps, TitleProps } from '@terminus/nusi/es/title/interface';
-import { PanelProps } from '@terminus/nusi/es/panel/index';
+import { Panel, Title, Anchor } from 'app/nusi';
+import { OperationProps, TitleProps, PanelProps, IAnchorContainer } from 'core/common/interface';
 import { IF } from 'common';
 import { map, isEmpty } from 'lodash';
 import './details-panel.scss';
-import { IAnchorContainer } from '@terminus/nusi/es/anchor/interface';
 import classnames from 'classnames';
 
 interface ITitleProps {

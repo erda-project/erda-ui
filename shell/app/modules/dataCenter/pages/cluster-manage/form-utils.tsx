@@ -14,7 +14,7 @@
 
 import * as React from 'react';
 import { Icon as CustomIcon } from 'common';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import { regRules } from 'common/utils';
 import i18n from 'i18n';
 

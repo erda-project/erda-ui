@@ -21,7 +21,7 @@ import { groupHandler } from 'common/utils/chart-utils';
 import { TopErrorPanel } from './top-error';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import monitorChartStore from 'monitor-common/stores/monitorChart';
-import { Spin } from 'nusi';
+import { Spin } from 'app/nusi';
 import i18n from 'i18n';
 import gatewayStore from 'microService/stores/gateway';
 import metricsMonitorStore from 'common/stores/metrics';

@@ -15,7 +15,7 @@ import { cutStr, qs, reorder } from 'common/utils';
 import classnames from 'classnames';
 import { Copy, Icon as CustomIcon, useListDnD, EmptyListHolder, FileEditor } from 'common';
 import { isArray, isEmpty, isString, map, reduce, set, cloneDeep, find, reject, get } from 'lodash';
-import { Badge, Button, Input, Popconfirm, Popover, Radio, Select, Table, Tabs, Spin } from 'nusi';
+import { Badge, Button, Input, Popconfirm, Popover, Radio, Select, Table, Tabs, Spin } from 'app/nusi';
 import React from 'react';
 import { produce } from 'immer';
 import i18n from 'i18n';

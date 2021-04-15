@@ -14,7 +14,7 @@
 import * as React from 'react';
 import BranchCompare from './components/branch-compare';
 import RepoCompareDetail from './components/compare-detail';
-import { Spin } from 'nusi';
+import { Spin } from 'app/nusi';
 import { useLoading } from 'app/common/stores/loading';
 import repoStore from 'application/stores/repo';
 

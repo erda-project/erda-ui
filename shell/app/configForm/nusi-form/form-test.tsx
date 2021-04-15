@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Button } from 'nusi';
+import { Button } from 'app/nusi';
 import { Form } from 'workBench/pages/form-editor/index';
 
 export default () => {

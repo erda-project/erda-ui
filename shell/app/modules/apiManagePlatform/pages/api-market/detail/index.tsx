@@ -15,7 +15,7 @@ import React from 'react';
 import routeInfoStore from 'common/stores/route';
 import apiMarketStore from 'app/modules/apiManagePlatform/stores/api-market';
 import { useLoading } from 'common/stores/loading';
-import { message, Spin, Button, Modal, Table } from 'nusi';
+import { message, Spin, Button, Modal, Table } from 'app/nusi';
 import layoutStore from 'layout/stores/layout';
 import i18n from 'i18n';
 import ApplyModal from 'apiManagePlatform/pages/api-market/components/apply-modal';
@@ -23,7 +23,7 @@ import ApiView from 'app/modules/apiManagePlatform/pages/api-market/detail/compo
 import { OpenAPI } from 'openapi-types';
 import { goTo } from 'common/utils';
 import yaml from '@terminus/js-yaml';
-import { ColumnProps } from 'interface/common';
+import { ColumnProps } from 'core/common/interface';
 import { Avatar, TableActions, UserInfo } from 'common';
 import moment from 'moment';
 import { exportSwagger } from 'apiManagePlatform/services/api-market';

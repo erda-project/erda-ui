@@ -13,7 +13,7 @@
 
 import { map, isEmpty } from 'lodash';
 import * as React from 'react';
-import { Row, Col, Select } from 'nusi';
+import { Row, Col, Select } from 'app/nusi';
 import { MonitorChartNew } from 'charts';
 import { EmptyHolder, Icon as CustomIcon } from 'common';
 import { useEffectOnce } from 'react-use';

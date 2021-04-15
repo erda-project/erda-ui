@@ -13,7 +13,7 @@
 
 import { findIndex, omit, each, isObject, find, map, omitBy } from 'lodash';
 import * as React from 'react';
-import { Table, Input, Popconfirm, Select, Switch, Button } from 'nusi';
+import { Table, Input, Popconfirm, Select, Switch, Button } from 'app/nusi';
 import classNames from 'classnames';
 import i18n from 'i18n';
 import './editable-table.scss';

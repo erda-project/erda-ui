@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Table, Button, Icon, Modal, Tooltip, Select } from 'nusi';
+import { Table, Button, Icon, Modal, Tooltip, Select } from 'app/nusi';
 import { goTo, cutStr, resolvePath } from 'common/utils';
 import { reverse, map, filter, floor } from 'lodash';
 import { useUpdate } from 'common';

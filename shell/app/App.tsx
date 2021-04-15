@@ -14,7 +14,7 @@
 import diceEnv from 'dice-env';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import { Modal } from 'nusi';
+
 import { getResourcePermissions } from 'user/services/user';
 import { getOrgByDomain } from 'layout/services';
 import { setLS, pages, notify } from 'common/utils';
@@ -29,28 +29,31 @@ import modules from './modules';
 import { setConfig } from 'core/config';
 import { setGlobal } from 'app/global-space';
 import { getCurrentLocale } from 'core/i18n';
-import { ConfigProvider } from 'antd';
-import { ConfigProvider as NusiConfigProvider } from '@terminus/nusi';
 import { EmptyListHolder } from 'common';
-import * as nusi from 'nusi';
+import * as nusi from 'app/nusi';
 import {getSubSiderInfoMap, appCenterAppList} from './menus';
-    
 
-import 'antd/lib/style/v2-compatible-reset.css';
 import './styles/antd-extension.scss';
 import './styles/app.scss';
 
 setConfig('onAPISuccess', nusi.message.success);
 setConfig('onAPIFail', notify);
 
+const { Modal, NusiConfigProvider, AntdConfigProvider} = nusi;
+
 const hold = nusi;
 const start = (userData, permObjArr = [], isErdaHome = false) => {
   setLS('diceLoginState', true);
 
-const menusMap = getSubSiderInfoMap();
+
 const appMap = {} as {
   [k: string]: LAYOUT.IApp
 };
+permObjArr.map((permObj) => {
+  permStore.reducers.updatePerm(permObj.scope, permObj);
+});
+
+const menusMap = getSubSiderInfoMap();
 appCenterAppList.forEach((a) => { appMap[a.key] = a; });
 layoutStore.reducers.initLayout({
   appList:appCenterAppList, 
@@ -71,6 +74,7 @@ layoutStore.reducers.initLayout({
       import('app/modules/edge/entry'),
       import('application/entry'),
       import('dataCenter/entry'),
+      import('user/entry'),
       import('dcos/entry'),
       import('org/entry'),
       import('addonPlatform/entry'),
@@ -78,15 +82,15 @@ layoutStore.reducers.initLayout({
     ].forEach(p => p.then(m => m.default(registerModule)));
     layoutStore.reducers.setIsErdaHome(isErdaHome);
     userStore.reducers.setLoginUser(userData); // 需要在app start之前初始化用户信息
-    permObjArr.map((permObj) => permStore.reducers.updatePerm(permObj.scope, permObj));
+    
     const Wrap = () => {
       const currentLocale = getCurrentLocale();
       return (
-        <ConfigProvider renderEmpty={EmptyListHolder} locale={currentLocale.antd}>
+        <AntdConfigProvider renderEmpty={EmptyListHolder} locale={currentLocale.antd}>
           <NusiConfigProvider locale={currentLocale.nusi}>
             <App />
           </NusiConfigProvider>
-        </ConfigProvider>
+        </AntdConfigProvider>
       );
     };
 

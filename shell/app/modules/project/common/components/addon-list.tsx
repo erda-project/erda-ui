@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { Icon as CustomIcon } from 'common';
-import { List, Switch, Icon } from 'nusi';
+import { List, Switch, Icon } from 'app/nusi';
 
 import './addon-list.scss';
 

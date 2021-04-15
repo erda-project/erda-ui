@@ -1,6 +1,8 @@
 # Frontend UI for Erda platform.
 
-![logo](./docs/files/logo.jpg)
+<div>
+  <img src="./docs/files/logo.jpg" alt="logo" width="350">
+</div>
 
 ## 📣 Introduction
 Erda is an open-source platform created by Terminus to ensuring the development of microservice applications.
@@ -14,7 +16,7 @@ This repository is about Erda's User Interface.
 - Edge computing platform
 - Fast-Data platform(open source soon)
 
-For a detailed introduction, please check the [official website](https://erda.cloud).
+For a detailed introduction, please check the [official website](https://www.erda.cloud).
 
 
 ## 🖥 Environment Support
@@ -51,7 +53,8 @@ architecture of development mode
 
 ## 🔗 Links
 
-- [Official Website](https://erda.cloud)(comming soon)
+- [Erda Cloud](https://erda.cloud)(comming soon)
+- [Official Website](https://www.erda.cloud)(comming soon)
 - [User Docs](https://erda-docs.app.terminus.io/)
 - [Backend project](https://github.com/erda-project/erda)
 

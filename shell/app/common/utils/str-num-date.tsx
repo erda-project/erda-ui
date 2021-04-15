@@ -15,7 +15,7 @@ import i18n, { getCurrentLocale } from 'i18n';
 import { isArray } from 'lodash';
 import moment, { Moment } from 'moment';
 import React from 'react';
-import { Tooltip } from 'nusi';
+import { Tooltip } from 'app/nusi';
 
 
 export const camel2Underscore = (str: string, options = { upperCase: false }) => {

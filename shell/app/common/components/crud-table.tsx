@@ -12,13 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Button, Table, Spin } from 'nusi';
+import { Button, Table, Spin } from 'app/nusi';
 import { FormModal, useUpdate, CustomFilter, useFilter, IF } from 'common';
 import { isEmpty, reduce } from 'lodash';
 import { isPromise } from 'common/utils';
 import i18n from 'i18n';
 import { useEffectOnce } from 'react-use';
-import { WrappedFormUtils, ColumnProps } from 'interface/common';
+import { WrappedFormUtils, ColumnProps } from 'core/common/interface';
 import { ICRUDStore } from 'common/stores/_crud_module';
 import { IFormItem } from './render-formItem';
 import { useLoading } from 'common/stores/loading';

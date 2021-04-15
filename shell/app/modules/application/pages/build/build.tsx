@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Button, List, Select, Spin, Tooltip } from 'nusi';
+import { Button, List, Select, Spin, Tooltip } from 'app/nusi';
 import BuildDetail from 'application/pages/build-detail';
 import classnames from 'classnames';
 import { get, toNumber, isEmpty, pick, isEqual, isEqualWith } from 'lodash';

@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { map, isNumber, isString, isArray, isPlainObject } from 'lodash';
 import { Copy } from 'common';
-import { Badge } from 'nusi';
+import { Badge } from 'app/nusi';
 import i18n from 'i18n';
 
 const getStyle = (styleConfig?: CP_TEXT.IStyleConfig) => {

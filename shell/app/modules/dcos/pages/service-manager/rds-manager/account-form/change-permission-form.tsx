@@ -13,8 +13,8 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { Transfer, Radio } from 'nusi';
-import { TransferItem } from '@terminus/nusi/es/transfer/index';
+import { Transfer, Radio } from 'app/nusi';
+import { TransferItem } from 'core/common/interface';
 import { FormModal, useUpdate } from 'common';
 import routeInfoStore from 'common/stores/route';
 import { map, get, forEach, reduce } from 'lodash';

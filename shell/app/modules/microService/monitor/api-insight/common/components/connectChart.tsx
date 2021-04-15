@@ -17,7 +17,7 @@ import moment from 'moment';
 import * as React from 'react';
 import { IF } from 'common';
 import { cutStr } from 'common/utils';
-import { Select } from 'nusi';
+import { Select } from 'app/nusi';
 import { getFormatter } from 'app/charts/utils/formatter';
 import { areaColors } from 'app/charts/theme';
 import ChartRender from 'app/charts/components/chart-render';

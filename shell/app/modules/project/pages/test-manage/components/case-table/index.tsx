@@ -14,7 +14,7 @@
 import React, { useMemo, useEffect, useRef, useCallback } from 'react';
 import { cloneDeep, find, get, isEmpty, map, forEach, reduce, isNaN, filter } from 'lodash';
 import i18n from 'i18n';
-import { Table } from 'nusi';
+import { Table } from 'app/nusi';
 
 import { Icon as CustomIcon } from 'common';
 import { updateSearch } from 'common/utils';
@@ -26,7 +26,7 @@ import testSetStore from 'project/stores/test-set';
 import AllCheckBox from './all-checkbox';
 import CaseCheckBox from './case-checkbox';
 import projectStore from 'project/stores/project';
-import { ColumnProps } from 'interface/common';
+import { ColumnProps } from 'core/common/interface';
 
 const sorterMap: object = {
   ascend: 'ASC',

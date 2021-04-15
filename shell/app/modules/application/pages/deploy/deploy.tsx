@@ -14,7 +14,7 @@
 import { groupBy, map, get, find } from 'lodash';
 import React from 'react';
 import { Icon as CustomIcon, useUpdate, FormModal, LoadMoreSelector } from 'common';
-import { Spin, Tooltip, Alert, Select } from 'nusi';
+import { Spin, Tooltip, Alert, Select } from 'app/nusi';
 import { EnvCard } from './env-card';
 import RuntimeBox from './runtime-box';
 import appDeployStore from 'application/stores/deploy';
@@ -24,7 +24,7 @@ import { useEffectOnce } from 'react-use';
 import appStore from 'application/stores/application';
 import { getReleaseList } from 'application/services/release';
 import routeInfoStore from 'app/common/stores/route';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import { usePerm, WithAuth } from 'user/common';
 import moment from 'moment';
 import classNames from 'classnames';

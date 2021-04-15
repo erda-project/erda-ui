@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Icon, message } from 'nusi';
+import { Icon, message } from 'app/nusi';
 import { MarkdownEditor } from 'common';
 import routeInfoStore from 'common/stores/route';
 import testPlanStore from 'project/stores/test-plan';

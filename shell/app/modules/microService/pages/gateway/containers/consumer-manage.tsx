@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Button, Modal, Drawer, Table, Select, Popover, Spin, Tabs } from 'nusi';
+import { Button, Modal, Drawer, Table, Select, Popover, Spin, Tabs } from 'app/nusi';
 import { cloneDeep, isEmpty } from 'lodash';
 import { mergeSearch, goTo } from 'common/utils';
 import { PagingTable, FormModal, useUpdate, Icon as CustomIcon } from 'common';

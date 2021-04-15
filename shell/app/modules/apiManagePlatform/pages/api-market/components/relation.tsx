@@ -16,13 +16,13 @@ import { FormModal, useUpdate, LoadMoreSelector } from 'common';
 import { IFormItem } from 'common/components/render-formItem';
 import i18n from 'i18n';
 import { insertWhen } from 'common/utils';
-import { WrappedFormUtils, RadioChangeEvent } from 'interface/common';
+import { WrappedFormUtils, RadioChangeEvent } from 'core/common/interface';
 import { getMyProject, getApps, getAppInstance, getAppDetail } from 'apiManagePlatform/services/api-market';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';
 import routeInfoStore from 'common/stores/route';
 import { ChooseVersion } from 'apiManagePlatform/pages/api-market/version/version-info';
 import { get, pick, groupBy, map, isEmpty, uniqBy } from 'lodash';
-import { Select, Ellipsis } from 'nusi';
+import { Select, Ellipsis } from 'app/nusi';
 
 export type RelationMode = 'instance' | 'asset';
 

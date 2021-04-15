@@ -15,7 +15,7 @@ import * as React from 'react';
 import { useMount, useUpdateEffect } from 'react-use';
 import { isEmpty, get, set, isEqual } from 'lodash';
 import { produce } from 'immer';
-import { Spin } from 'nusi';
+import { Spin } from 'app/nusi';
 import { useUpdate } from 'common';
 import ConfigPageRender from './page-render';
 import commonStore from 'common/stores/common';

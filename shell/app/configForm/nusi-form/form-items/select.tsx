@@ -15,7 +15,7 @@ import {
   Divider,
   Form,
   Select,
-} from 'nusi';
+} from 'app/nusi';
 import * as React from 'react';
 import { isEmpty, isArray, map } from 'lodash';
 import { getData } from '../utils';

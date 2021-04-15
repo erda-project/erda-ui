@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { PureComponent } from 'react';
-import { Input, Icon } from 'nusi';
+import { Input, Icon } from 'app/nusi';
 import i18n from 'i18n';
 import './variable-input-group.scss';
 

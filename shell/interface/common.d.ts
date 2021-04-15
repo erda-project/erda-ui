@@ -13,9 +13,8 @@
 
 import * as history from 'history';
 import 'jest-enzyme';
-import { PaginationConfig, SorterResult } from 'antd/lib/table';
+import { PaginationConfig, SorterResult, WrappedFormUtils } from 'core/common/interface';
 import { IFormItem } from 'common/components/render-formItem';
-import { WrappedFormUtils } from 'antd/lib/form/Form';
 
 export interface Location extends history.Location {
   query: any
@@ -27,23 +26,6 @@ declare global {
   }
 }
 
-export { ColumnProps, Action } from '@terminus/nusi/es/table';
-export { FilterItemConfig } from '@terminus/nusi/es/filter/interface';
-export { WrappedFormUtils };
-export { SelectValue, SelectProps } from 'antd/lib/select';
-export { DrawerProps } from 'antd/lib/drawer';
-export { CheckboxChangeEvent } from 'antd/es/checkbox/Checkbox';
-export { AntTreeNodeSelectedEvent } from 'antd/lib/tree/Tree';
-export { PaginationProps } from '@terminus/nusi/es/pagination';
-export { GlobalNavigationProps, AppCenterProps } from '@terminus/nusi/es/global-navigation/interface';
-export { SideNavigationProps } from '@terminus/nusi/es/side-navigation/interface';
-export { PageHeaderProps } from '@terminus/nusi/es/page-header/interface';
-export { MenuConfigItemProps } from '@terminus/nusi/es/side-navigation/interface';
-export { RadioChangeEvent } from '@terminus/nusi/es/radio/interface';
-export { ClickParam } from '@terminus/nusi/es/menu';
-export { RangePickerProps } from 'antd/es/date-picker/interface';
-export { UploadProps } from 'antd/es/upload';
-export { InputProps } from 'antd/es/input';
 // export {GlobalNavigationProps} from '@terminus/nusi/es/global-navigation/interface'
 // export type History = history.History;
 
@@ -55,7 +37,7 @@ export interface IUseFilterProps<T = any> {
   queryCondition: any;
   pageNo: number;
   autoPagination: (paging: IPaging) => Obj;
-  onTableChange: (pagination: PaginationConfig, _filters: any, sorter: SorterResult<T>) => void;
+  onTableChange: (pagination: any, _filters: any, sorter: any) => void;
   sizeChangePagination: (paging: IPaging) => JSX.Element;
 }
 
@@ -64,4 +46,4 @@ export interface IUseMultiFilterProps extends Omit<IUseFilterProps, 'onTableChan
   onChangeType: (t: string | number) => void;
 }
 
-export type FormModalList = IFormItem[] | ((form: WrappedFormUtils, isEdit: boolean) => IFormItem[]);
+export type FormModalList = IFormItem[] | ((form: any, isEdit: boolean) => IFormItem[]);

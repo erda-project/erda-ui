@@ -12,11 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Modal } from 'nusi';
 // 使用nusi Select, Icon
-import { Select, Icon } from '@terminus/nusi';
-import { SelectProps } from '@terminus/nusi/lib/select';
-import { ModalProps } from 'antd/es/modal';
+import { Modal, NusiSelect as Select, NusiIcon as Icon } from 'app/nusi';
+import { SelectProps, ModalProps } from 'core/common/interface';
 
 interface IModalProps<T> extends ModalProps{
   children(data: T[], selectKey: number| undefined, handleChange: (data: number)=>void): React.ReactNode;

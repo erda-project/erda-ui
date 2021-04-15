@@ -13,7 +13,7 @@
 
 import React, { Component } from 'react';
 import classnames from 'classnames';
-import { Form, Spin } from 'nusi';
+import { Form, Spin } from 'app/nusi';
 import { result, set } from 'lodash';
 import BindComponent from './bind-component';
 

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Col, Row } from 'nusi';
+import { Col, Row } from 'app/nusi';
 
 import { useLoading } from 'app/common/stores/loading';
 import testPlanStore from 'project/stores/test-plan';

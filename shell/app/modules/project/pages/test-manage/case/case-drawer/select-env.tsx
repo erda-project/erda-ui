@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { isEmpty, map } from 'lodash';
-import { Dropdown, Menu } from 'nusi';
+import { Dropdown, Menu } from 'app/nusi';
 import React from 'react';
 import testEnvStore from 'project/stores/test-env';
 

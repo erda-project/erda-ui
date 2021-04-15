@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Tooltip } from 'nusi';
+import { Tooltip } from 'app/nusi';
 import i18n from 'i18n';
 import './add-row.scss';
 

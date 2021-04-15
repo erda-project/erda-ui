@@ -14,9 +14,9 @@
 import { isEmpty, isEqual, map } from 'lodash';
 import * as React from 'react';
 import moment from 'moment';
-import { Form, Input, InputNumber, Row, Col, Button, DatePicker, Select, Radio } from 'nusi';
+import { Form, Input, InputNumber, Row, Col, Button, DatePicker, Select, Radio } from 'app/nusi';
 import { valiAssociate } from 'microService/monitor/monitor-common/utils';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import i18n from 'i18n';
 
 const { Option } = Select;

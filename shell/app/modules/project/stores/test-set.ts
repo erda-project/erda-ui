@@ -13,7 +13,7 @@
 
 import { isEmpty } from 'lodash';
 import i18n from 'i18n';
-import { message } from 'nusi';
+import { message } from 'app/nusi';
 import { createStore } from 'app/cube';
 import testCaseStore from 'project/stores/test-case';
 import {

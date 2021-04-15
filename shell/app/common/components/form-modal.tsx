@@ -14,10 +14,10 @@
 import { isEmpty, pick, isFunction, get, set } from 'lodash';
 import i18n from 'i18n';
 import React from 'react';
-import { Modal, Form, Button, Spin, Alert } from 'nusi';
+import { Modal, Form, Button, Spin, Alert } from 'app/nusi';
 import { RenderPureForm } from 'common';
 import { isPromise } from 'common/utils';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import { IFormItem } from './render-formItem';
 import moment from 'moment';
 

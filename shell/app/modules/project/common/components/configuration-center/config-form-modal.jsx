@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Modal } from 'nusi';
+import { Modal } from 'app/nusi';
 import { KeyValueEditor, RenderForm } from 'common';
 import { map } from 'lodash';
 import i18n from 'i18n';

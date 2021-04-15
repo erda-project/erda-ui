@@ -17,7 +17,7 @@ import i18n from 'i18n';
 import yaml from '@terminus/js-yaml';
 import { get, omit, isEmpty } from 'lodash';
 import { notify, isPromise } from 'common/utils';
-import { Spin, Button, message, Radio, Modal } from 'nusi';
+import { Spin, Button, message, Radio, Modal } from 'app/nusi';
 import { useUpdate, FileEditor, Icon as CustomIcon } from 'common';
 import FileContainer from 'application/common/components/file-container';
 import { NodeType } from './config';
