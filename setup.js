@@ -65,20 +65,10 @@ const setupShell = async (port) => {
   await cp.spawnSync('erda', ['setup', 'shell', port], { env: process.env, cwd: shellDir, stdio: 'inherit' }) ;
 }
 
-const buildCore = () => {
-  if (fs.existsSync(join(root, 'public/core'))) {
-    log('core build exist 😁');
-    return;
-  };
-  log('Building the core');
-  cp.spawnSync('npm run build', { env: process.env, cwd: coreDir, stdio: 'inherit' });
-}
-
 const setupModules = async () => {  
   await registerErdaCmd();
   await setupCore(5000);
   await setupShell(8080);
-  buildCore();
 }
 
 // start
