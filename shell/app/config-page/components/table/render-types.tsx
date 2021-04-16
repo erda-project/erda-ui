@@ -87,10 +87,10 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       }
       break;
     case 'textWithIcon': {
-      const { value, prefixIcon } = val;
+      const { value, prefixIcon, colorClassName } = val;
       Comp = (
         <div>
-          {prefixIcon ? <CustomIcon type={prefixIcon} className='mr4' /> : null}
+          {prefixIcon ? <CustomIcon type={prefixIcon} className={`mr4 ${colorClassName}`} /> : null}
           {value}
         </div>
       )

@@ -45,6 +45,7 @@ import Text from './text/text';
 import EmptyHolder from './empty-holder/empty-holder';
 import Image from './image/image';
 import DropdownSelect from './dropdown-select/dropdown-select';
+import TableGroup from './table-group';
 
 export const containerMap = {
   Alert,
@@ -83,5 +84,6 @@ export const containerMap = {
   EmptyHolder,
   Image,
   DropdownSelect,
+  TableGroup,
 };
 

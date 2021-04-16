@@ -22,7 +22,7 @@ declare namespace CP_IMAGE {
     src?: string,
     relative?: boolean,
     style?: object,
-    className?: string;
+    styleNames?: object,
     visible?: boolean;
   }
 

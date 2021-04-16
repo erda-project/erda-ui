@@ -17,58 +17,69 @@ import React from 'react';
 import { map } from 'lodash';
 import i18n from 'i18n';
 
-const { SubMenu } = Menu;
-
-// interface IProps {
-//   [propName: string]: any,
-//   buttonText?: string,
-//   btnProps?: object,
-//   overlay?: any,
-//   menuList?: IMenuItem[],
-//   loading?: boolean;
-//   trigger?: Array<'click' | 'hover' | 'contextMenu'>,
-//   onClickMenu?(item: ClickParam): void,
-// }
-
-// interface IMenuItem {
-//   key: string,
-//   name: string,
-//   disabled?: boolean,
-//   children?: IMenuItem[],
-// }
-
 const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
   const { props: configProps } = props;
   const { menuList, jumpToOtherPage = [], onClickMenu, overlay, trigger, buttonText, loading = false, children, btnProps, ...restProps } = configProps;
   let _overlay = overlay;
   const [filterValue, setFilterValue] = React.useState('');
+  const [active, setActive] = React.useState(false)
 
+  React.useEffect(() => {
+    // 控制点击外部关闭 dropdown
+    const handleCloseDropdown = (e: MouseEvent) => {
+
+      const dropdowns = Array.from(
+        document.querySelectorAll('.dropdown-select')
+      );
+      const node = e.target as Node;
+      const inner = dropdowns
+        .some((wrap) => wrap.contains(node));
+
+      if (!inner) {
+        setActive(false);
+      }
+    };
+
+    document.body.addEventListener('click', handleCloseDropdown);
+
+    return () => document.body.removeEventListener('click', handleCloseDropdown);
+  }, []);
 
   if (menuList) {
     _overlay = (
-      <Menu onClick={onClickMenu}>
-        <Input
-          autoFocus
-          size="small"
-          placeholder={i18n.t('common:search')}
-          prefix={<CustomIcon type="search" />}
-          value={filterValue}
-          onChange={e => setFilterValue(e.target.value)}
-        />
+      <Menu>
+        <Menu.Item>
+          <Input
+            autoFocus
+            size="small"
+            placeholder={i18n.t('common:search')}
+            prefix={<CustomIcon type="search" />}
+            value={filterValue}
+            onChange={e => setFilterValue(e.target.value)}
+          />
+        </Menu.Item>
+
         <Menu.Divider key='divider1' />
         {
-          map(menuList, (item: CP_DROPDOWN_SELECT.IMenuItem, key: string) => {
-            if (item.children) {
-              return (
-                <SubMenu key={key} title={item.name}>
-                  {
-                    map(item.children, (subItem: CP_DROPDOWN_SELECT.IMenuItem) => <Menu.Item key={subItem.key} disabled={subItem.disabled}>{subItem.name}</Menu.Item>)
-                  }
-                </SubMenu>
-              );
-            } else {
-              return <Menu.Item key={item.key} disabled={item.disabled}>{item.name}</Menu.Item>;
+          map(menuList, (item: CP_DROPDOWN_SELECT.IMenuItem) => {
+            // 前端搜索
+            if (!item.name.toLowerCase().includes(filterValue)) {
+              return null
             }
+
+            return (
+              <Menu.Item key={item.key} disabled={item.disabled} onClick={() => {
+                setActive(false)
+                onClickMenu && onClickMenu(item)
+              }}>
+                <div className="flex-box full-width">
+                  <span>{item.name}</span>
+                  <span>
+                    {buttonText === item.name ? <CustomIcon type='duigou' className='color-success ml8' /> : null}
+                  </span>
+                </div>
+              </Menu.Item>
+            )
           })
         }
         <Menu.Divider key='divider2' />
@@ -85,12 +96,19 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
   }
   return (
     <Dropdown
+      overlayClassName="dropdown-select"
       overlay={_overlay}
+      visible={active}
       trigger={trigger || ['click']}
       {...restProps}
     >
       {children || (
-        <Button type="default" loading={loading} {...btnProps}>
+        <Button
+          type="default"
+          loading={loading}
+          {...btnProps}
+          onClick={() => setActive(!active)}
+        >
           {buttonText}
           <CustomIcon style={{ color: 'inherit' }} type="caret-down" />
         </Button>

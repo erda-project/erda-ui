@@ -33,7 +33,6 @@ export function Table(props: CP_TABLE.Props) {
   const { state: propsState, customProps, props: configProps, operations, data, execOperation } = props;
   const list = data?.list || [];
   const { visible = true, columns = [], title, pageSizeOptions, styleNames = {}, ...rest } = configProps || {};
-
   const userMap = userMapStore.useStore(s => s);
   const [state, updater, update] = useUpdate(handleState(propsState));
   const { total, pageSize, pageNo } = state;
@@ -111,6 +110,7 @@ export function Table(props: CP_TABLE.Props) {
   const cls = classnames({
     'justify-align': styleNames['justify-align'] || false,
     'without-border': styleNames['without-border'] || false,
+    'light-card': styleNames['light-card'] || false,
   });
 
   return visible ? (

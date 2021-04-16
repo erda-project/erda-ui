@@ -92,6 +92,11 @@
     }
   }
 
+  &.light-card {
+    color: $lightgray;
+    background-color: $color-active-bg;
+  }
+
   .dropdown-field-selector {
     .arrow-icon {
       color: $color-text-icon;
