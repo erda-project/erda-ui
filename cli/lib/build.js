@@ -115,12 +115,11 @@ const checkModuleValid = ()=> {
 const buildAll =  async (enableSourceMap) => {
   let start = 0;
   const len = moduleList.length;
-  const buildCmd = enableSourceMap ? 'build-width-sourceMap' : 'build';
 
   while (start < len) {
     const { moduleName, moduleDir } = moduleList[start];
     logInfo(`Building ${moduleName}`);
-    await spawnSync(npmCmd, ['run', buildCmd], { env: process.env, cwd: moduleDir, stdio: 'inherit' });
+    await spawnSync(npmCmd, ['run', 'build'], { env: {...process.env, enableSourceMap }, cwd: moduleDir, stdio: 'inherit' });
     start += 1;
   }
 }

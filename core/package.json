@@ -13,7 +13,6 @@
     "start": "webpack serve",
     "build-dev": "cross-env-shell NODE_ENV=production FOR_DEV=true 'npm run build-core'",
     "build": "cross-env-shell NODE_ENV=production 'npm run build-core'",
-    "build-width-sourceMap": "cross-env-shell NODE_ENV=production enableSourceMap=true 'npm run build-core'",
     "build-core": "rm -rf ../public/static/core/ && node ./node_modules/.bin/webpack --progress",
     "analyze": "node --max-old-space-size=4048 node_modules/.bin/webpack --config webpack.analyze.js --progress --color",
     "serve": "serve public -p 5000",

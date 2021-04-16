@@ -21,12 +21,7 @@ module.exports = async (moduleName, modulePort) => {
   const moduleDir = process.cwd();
   const packagePath = path.join(moduleDir, 'package.json');
 
-  if (!fs.existsSync(packagePath)) {
-    logWarn(`Please execute in project root directory, current path:`, moduleDir);
-    process.exit(1);
-  }
-
-  if (path.resolve(moduleDir, `../${moduleName}`) !== moduleDir) {
+  if (!fs.existsSync(packagePath) || path.resolve(moduleDir, `../${moduleName}`) !== moduleDir) {
     logWarn(`the current path: '${moduleDir}' is not the root path of the project ${moduleName}`);
     process.exit(1);
   }

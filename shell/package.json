@@ -15,7 +15,6 @@
     "dev": "node_modules/webpack/bin/webpack.js serve",
     "watch": "rm -rf ../public/shell/scripts && NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --color -w",
     "build": "cross-env-shell NODE_ENV=production 'npm run build-app'",
-    "build-width-sourceMap": "cross-env-shell NODE_ENV=production enableSourceMap=true 'npm run build-app'",
     "build-app": "rm -rf ../public/shell && node ./node_modules/.bin/webpack --progress",
     "commit": "./node_modules/cz-customizable/standalone.js",
     "analyze": "rm -rf ../public/shell && node --max-old-space-size=4048 node_modules/.bin/webpack --config webpack.analyze.js --progress --color -w",
