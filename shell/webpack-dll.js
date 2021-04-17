@@ -19,7 +19,7 @@ const vendors = [
   'react-dom',
   'moment',
   'lodash',
-  'antd',
+  // 'antd',
   'echarts',
   'react-router-dom',
   'react-router',

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Modal, Radio, Tooltip } from 'nusi';
+import { Modal, Radio, Tooltip } from 'app/nusi';
 import { find, get, map, set, filter, cloneDeep, remove } from 'lodash';
 import { Form } from 'workBench/pages/form-editor/index';
 import clusterStore from 'dataCenter/stores/cluster';

@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Select, Table, Tooltip } from 'nusi';
+import { Select, Table, Tooltip } from 'app/nusi';
 import moment from 'moment';
 import HealthPoint, { statusMap } from 'project/common/components/health-point';
-import { ColumnProps } from 'interface/common';
+import { ColumnProps } from 'core/common/interface';
 import { isEmpty } from 'lodash';
 import { IInstance, IServiceIns } from '../../pages/overview/components/service-card';
 import i18n from 'i18n';

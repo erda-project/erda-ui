@@ -13,8 +13,8 @@
 
 import React from 'react';
 import { useUpdate, TableActions } from 'common';
-import { Table, Popconfirm, Ellipsis } from 'nusi';
-import { ColumnProps } from 'interface/common';
+import { Table, Popconfirm, Ellipsis } from 'app/nusi';
+import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
 import { useLoading } from 'common/stores/loading';

@@ -16,7 +16,7 @@ import { map } from 'lodash';
 import { If } from 'tsx-control-statements/components';
 import i18n from 'i18n';
 import { DC } from '@terminus/dashboard-configurator';
-import { Radio, Search, Select, Drawer, Tag, Table } from 'nusi';
+import { Radio, Search, Select, Drawer, Tag, Table } from 'app/nusi';
 import { TimeSelector, SimpleLog, useUpdate } from 'common';
 import { useLoading } from 'common/stores/loading';
 import routeInfoStore from 'app/common/stores/route';

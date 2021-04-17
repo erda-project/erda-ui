@@ -39,12 +39,12 @@ export default {
 `);
 
 module.exports = [
-  {
-    name: 'mf_nusi',
-    exposes: {
-      './all': './app/external/nusi.js',
-    },
-  },
+  // {
+  //   name: 'mf_nusi',
+  //   exposes: {
+  //     './all': './app/external/nusi.js',
+  //   },
+  // },
   {
     name: 'mf_share',
     exposes: {
@@ -54,6 +54,7 @@ module.exports = [
       './common/all': './app/common',
       './dataCenter/pages/cluster-manage/operation-history': './app/modules/dataCenter/pages/cluster-manage/operation-history',
       './org/pages/safety': './app/modules/org/pages/safety',
+      './user/store': './app/user/stores/index.ts',
     },
   },
   {

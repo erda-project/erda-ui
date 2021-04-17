@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Input, Button, Tooltip } from 'nusi';
+import { Input, Button, Tooltip } from 'app/nusi';
 import { Avatar } from 'common';
 import { fromNow } from 'common/utils';
 import * as React from 'react';

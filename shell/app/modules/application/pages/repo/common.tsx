@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Tooltip } from 'nusi';
+import { Tooltip } from 'app/nusi';
 import { Copy, Avatar } from 'common';
 import { fromNow, replaceEmoji } from 'common/utils';
 import { renderAsLink } from './util';

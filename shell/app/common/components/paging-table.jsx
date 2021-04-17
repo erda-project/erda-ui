@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Button, Table, Modal } from 'nusi';
+import { Button, Table, Modal } from 'app/nusi';
 import i18n from 'i18n';
 import './paging-table.scss';
 import { PAGINATION } from 'app/constants';

@@ -13,7 +13,7 @@
 
 import React from 'react';
 import classnames from 'classnames';
-import { Tag } from 'nusi';
+import { Tag } from 'app/nusi';
 import './color-label.scss';
 
 interface IProps{

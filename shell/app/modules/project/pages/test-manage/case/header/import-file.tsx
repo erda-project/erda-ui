@@ -14,7 +14,7 @@
 import { isNumber } from 'lodash';
 import React, { useState } from 'react';
 import i18n from 'i18n';
-import { Button, message } from 'nusi';
+import { Button, message } from 'app/nusi';
 
 import { FileSelect, FormModal } from 'common';
 import { useLoading } from 'app/common/stores/loading';

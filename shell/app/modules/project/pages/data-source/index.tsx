@@ -15,7 +15,7 @@ import * as React from 'react';
 import workBenchStore from 'workBench/stores';
 import addonStore from 'common/stores/addon';
 import customAddonStore from 'project/stores/custom-addon';
-import { Button, Tooltip } from 'nusi';
+import { Button, Tooltip } from 'app/nusi';
 import AddonModal from '../third-service/components/addon-modal';
 import { useUpdate } from 'common';
 import i18n from 'i18n';

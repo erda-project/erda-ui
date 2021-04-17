@@ -13,7 +13,7 @@
 
 import { isEmpty, get } from 'lodash';
 import * as React from 'react';
-import { Tooltip, Switch, Icon } from 'nusi';
+import { Tooltip, Switch, Icon } from 'app/nusi';
 import { LogRoller, SimpleLog } from 'common';
 import { regLog } from 'common/components/log/log-util';
 import AnsiUp from 'ansi_up';

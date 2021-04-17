@@ -13,7 +13,7 @@
 
 import i18n from 'i18n';
 import * as React from 'react';
-import { RadioChangeEvent } from 'interface/common';
+import { RadioChangeEvent } from 'core/common/interface';
 import { FormModal, useUpdate } from 'common';
 import { insertWhen } from 'common/utils';
 import { getFieldTypeOption } from 'org/common/issue-field-icon';
@@ -22,7 +22,7 @@ import userStore from 'app/user/stores';
 import { FIELD_WITH_OPTION, TASK_SP_FIELD, BUG_SP_FIELD } from 'org/common/config';
 import FieldOptionsSetting from 'org/common/field-options-setting';
 import { isEmpty } from 'lodash';
-import { message } from 'nusi';
+import { message } from 'app/nusi';
 
 interface IProps {
   visible: boolean;

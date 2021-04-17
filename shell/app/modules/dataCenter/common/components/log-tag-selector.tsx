@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Input, Tag, Dropdown, Menu, Tooltip, Icon, message } from 'nusi';
+import { Input, Tag, Dropdown, Menu, Tooltip, Icon, message } from 'app/nusi';
 import { isEmpty, map, filter, uniq, set } from 'lodash';
 import { useUpdate, Icon as CustomIcon, EmptyHolder } from 'common';
 import ReactDOM from 'react-dom';

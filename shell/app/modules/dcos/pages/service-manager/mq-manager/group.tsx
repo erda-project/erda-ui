@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Tabs, Button, Table, Alert, Icon, Tooltip } from 'nusi';
+import { Tabs, Button, Table, Alert, Icon, Tooltip } from 'app/nusi';
 import { useUpdate, FormModal } from 'common';
 import { useEffectOnce } from 'react-use';
 import { map } from 'lodash';

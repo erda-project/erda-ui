@@ -21,7 +21,7 @@ import certificateStore from 'org/stores/certificate';
 import { useUnmount } from 'react-use';
 import { WORKSPACE_LIST } from 'common/constants';
 import { get } from 'lodash';
-import { Popconfirm } from 'nusi';
+import { Popconfirm } from 'app/nusi';
 import routeInfoStore from 'common/stores/route';
 import { getCertificateList } from 'org/services/certificate';
 

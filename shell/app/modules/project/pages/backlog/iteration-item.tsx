@@ -14,7 +14,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as React from 'react';
 import { Icon as CustomIcon, useUpdate, EmptyHolder } from 'common';
-import { Spin, Tooltip, Pagination } from 'nusi';
+import { Spin, Tooltip, Pagination } from 'app/nusi';
 import { useDrop } from 'react-dnd';
 import moment from 'moment';
 import iterationStore from 'project/stores/iteration';

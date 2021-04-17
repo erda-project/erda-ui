@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { ConfigLayout, ReadonlyForm, useUpdate } from 'common';
 import PublisherFormModal, { getPublisherFieldsList } from './publisher-form-modal';
-import { Button } from 'nusi';
+import { Button } from 'app/nusi';
 import i18n from 'i18n';
 
 export const PublisherInfo = ({ data, getDetail = () => {} }: { data: PUBLISHER.IPublisher | undefined, getDetail: () => void }) => {

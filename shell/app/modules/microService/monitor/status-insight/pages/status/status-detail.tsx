@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Spin, Row, Col, Button, Tooltip, Icon } from 'nusi';
+import { Spin, Row, Col, Button, Tooltip, Icon } from 'app/nusi';
 import { useUpdate } from 'common';
 import StatusChart from './status-detail-chart';
 import MonthUptime from './3-month-uptime';

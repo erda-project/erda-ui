@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { TreeSelect, Button, Select } from 'nusi';
+import { TreeSelect, Button, Select } from 'app/nusi';
 import { get, map, isEmpty, debounce, filter } from 'lodash';
 import { getSnippetNodeDetail } from 'project/services/auto-test-case';
 import { getTreeNodeDetailNew, getCategoryByIdNew, fuzzySearchNew } from 'common/services/file-tree';

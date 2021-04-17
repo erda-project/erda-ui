@@ -19,8 +19,8 @@ import { slaAuthorizationMap } from 'apiManagePlatform/pages/access-manage/compo
 import Limit from 'apiManagePlatform/pages/access-manage/detail/limit';
 import { map } from 'lodash';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
-import { Button } from 'nusi';
-import { WrappedFormUtils } from 'interface/common';
+import { Button } from 'app/nusi';
+import { WrappedFormUtils } from 'core/common/interface';
 import { useLoading } from 'common/stores/loading';
 import { regRules } from 'common/utils';
 

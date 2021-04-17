@@ -17,7 +17,7 @@ import { useLoading } from 'app/common/stores/loading';
 import i18n from 'i18n';
 import { isEmpty, map } from 'lodash';
 import moment from 'moment';
-import { Button, Pagination, Spin } from 'nusi';
+import { Button, Pagination, Spin } from 'app/nusi';
 import * as React from 'react';
 import { useMount } from 'react-use';
 import IterationModal from './iteration-modal';

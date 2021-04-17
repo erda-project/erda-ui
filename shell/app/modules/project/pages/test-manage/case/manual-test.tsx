@@ -14,7 +14,7 @@
 import { debounce } from 'lodash';
 import i18n from 'i18n';
 import React from 'react';
-import { Button, Icon, Input } from 'nusi';
+import { Button, Icon, Input } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
 import { SplitPage } from 'layout/common';
 import { updateSearch } from 'common/utils';

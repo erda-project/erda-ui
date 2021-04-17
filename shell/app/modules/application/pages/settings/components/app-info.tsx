@@ -14,8 +14,8 @@
 import * as React from 'react';
 import { ImageUpload, ConfirmDelete } from 'common';
 import { goTo } from 'common/utils';
-import { WrappedFormUtils } from 'interface/common';
-import { Button, Input } from 'nusi';
+import { WrappedFormUtils } from 'core/common/interface';
+import { Button, Input } from 'app/nusi';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import { modeOptions } from 'application/common/config';
 import { usePerm } from 'app/user/common';

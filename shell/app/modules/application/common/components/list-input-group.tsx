@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { PureComponent } from 'react';
-import { Input, Icon, InputNumber } from 'nusi';
+import { Input, Icon, InputNumber } from 'app/nusi';
 import { cloneDeep } from 'lodash';
 import './variable-input-group.scss';
 

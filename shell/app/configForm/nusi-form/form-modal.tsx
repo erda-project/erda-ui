@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Modal, Button } from 'nusi';
+import { Modal, Button } from 'app/nusi';
 import { Form } from 'workBench/pages/form-editor/index';
 import i18n from 'i18n';
 import './form-modal.scss';

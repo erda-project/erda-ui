@@ -14,10 +14,10 @@
 import React, { useEffect } from 'react';
 import i18n from 'i18n';
 import { ceil, set } from 'lodash';
-import { Table, Tooltip } from 'nusi';
+import { Table, Tooltip } from 'app/nusi';
 import { Copy } from 'common';
 import { getBrowserInfo } from 'common/utils';
-import { ColumnProps } from 'interface/common';
+import { ColumnProps } from 'core/common/interface';
 import { getFormatter } from 'charts/utils/formatter';
 import userStore from 'app/user/stores';
 import clusterDashboardStore from '../../stores/dashboard';

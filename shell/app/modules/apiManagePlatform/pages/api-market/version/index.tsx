@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Button, Modal, Menu, Dropdown, Icon, Ellipsis } from 'nusi';
+import { Spin, Button, Modal, Menu, Dropdown, Icon, Ellipsis } from 'app/nusi';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';
 import routeInfoStore from 'common/stores/route';
 import { useLoading } from 'common/stores/loading';
@@ -22,7 +22,7 @@ import { UnityAuthWrap } from 'apiManagePlatform/components/auth-wrap';
 import AssetModal, { IScope, IMode } from 'apiManagePlatform/pages/api-market/components/asset-modal';
 import RelationModal, { RelationMode } from 'apiManagePlatform/pages/api-market/components/relation';
 import VersionInfo, { ChooseVersion } from 'apiManagePlatform/pages/api-market/version/version-info';
-import { ClickParam } from 'interface/common';
+import { ClickParam } from 'core/common/interface';
 import { get, pick } from 'lodash';
 import moment from 'moment';
 import i18n from 'i18n';

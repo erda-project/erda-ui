@@ -15,7 +15,7 @@ import * as React from 'react';
 import { map, get, isPlainObject, isArray, isString, isEmpty, filter } from 'lodash';
 import { Form as DefaultForm } from '../form';
 import { Modal } from './common';
-import { Button, Modal as NusiModal } from 'nusi';
+import { Button, Modal as NusiModal } from 'app/nusi';
 import { FORM_GROUP } from '../nusi-form/config';
 import { Form as DiceForm } from 'app/configForm/nusi-form/form';
 import i18n from 'i18n';

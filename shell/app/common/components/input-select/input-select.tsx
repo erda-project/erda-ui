@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Input, Dropdown, Menu, Ellipsis } from 'nusi';
+import { Input, Dropdown, Menu, Ellipsis } from 'app/nusi';
 import { useUpdate, EmptyHolder, Icon as CustomIcon } from 'common';
 import { map, get, find, filter, isEmpty, has, some, isEqual, last, compact } from 'lodash';
 import { useUpdateEffect, useEffectOnce } from 'react-use';

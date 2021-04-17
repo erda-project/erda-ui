@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Filter as NusiFilter } from 'nusi';
+import { Filter as NusiFilter } from 'app/nusi';
 import { get, map, has, set, isEmpty, debounce } from 'lodash';
-import { IFilterProps } from '@terminus/nusi/es/filter/interface';
+import { IFilterProps } from 'core/common/interface';
 import routeInfoStore from 'common/stores/route';
 import { useMount } from 'react-use';
 import { updateSearch as _updateSearch } from 'common/utils';

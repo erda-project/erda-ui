@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Icon, Popover } from 'nusi';
+import { Icon, Popover } from 'app/nusi';
 import { LogRoller, Icon as CustomIcon } from 'common';
 import classnames from 'classnames';
 import { map } from 'lodash';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Input } from 'nusi';
+import { Input } from 'app/nusi';
 
 export default (props: CP_INPUT.Props) => {
   const { props: configProps, state: propsState, operations } = props;

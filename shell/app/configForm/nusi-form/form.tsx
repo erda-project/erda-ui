@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Form as NForm } from 'nusi';
+import { Form as NForm } from 'app/nusi';
 import { registComponents, Form as FForm } from '../form';
 import { groupBy, map, filter } from 'lodash';
 import { FormField } from '../form/form';

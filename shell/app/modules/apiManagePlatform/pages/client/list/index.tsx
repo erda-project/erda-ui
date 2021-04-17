@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Table, Popconfirm, Input, Modal, Alert } from 'nusi';
-import { ColumnProps, PaginationProps } from 'interface/common';
+import { Spin, Table, Popconfirm, Input, Modal, Alert } from 'app/nusi';
+import { ColumnProps, PaginationProps } from 'core/common/interface';
 import i18n from 'i18n';
 import apiClientStore from 'apiManagePlatform/stores/api-client';
 import { Copy, CustomFilter, TableActions, useUpdate } from 'common';

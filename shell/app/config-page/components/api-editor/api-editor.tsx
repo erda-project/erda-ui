@@ -16,7 +16,7 @@ import classnames from 'classnames';
 import { Copy, Icon as CustomIcon, EditList, EmptyListHolder, FileEditor } from 'common';
 import { validateValue } from 'common/components/edit-list/edit-list';
 import { isArray, isEmpty, isString, map, reduce, set, cloneDeep, find, reject, last, get } from 'lodash';
-import { Badge, Button, Input, Popconfirm, Popover, Radio, Select, Table, Tabs, Spin, Title, Modal, message, Dropdown, Menu, Tooltip } from 'nusi';
+import { Badge, Button, Input, Popconfirm, Popover, Radio, Select, Table, Tabs, Spin, Title, Modal, message, Dropdown, Menu, Tooltip } from 'app/nusi';
 import React from 'react';
 import { produce } from 'immer';
 import i18n from 'i18n';

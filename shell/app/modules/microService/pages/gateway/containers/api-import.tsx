@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Button, Select, Input, Table, Tooltip } from 'nusi';
+import { Button, Select, Input, Table, Tooltip } from 'app/nusi';
 import { isEmpty, pick } from 'lodash';
 import { HTTP_METHODS } from '../config';
 import { AppServiceFilter } from './app-service-filter';

@@ -23,7 +23,7 @@ import { CustomIssueState } from 'project/common/components/issue/issue-state';
 import { useUpdate, Filter, MemberSelector } from 'common';
 import { mergeSearch, updateSearch, getTimeRanges } from 'common/utils';
 // import userMapStore from 'app/common/stores/user-map';
-import { Input, Table, Button, Select, RangePicker, Tooltip } from 'nusi';
+import { Input, Table, Button, Select, RangePicker, Tooltip } from 'app/nusi';
 import { useLoading } from 'app/common/stores/loading';
 import { usePerm, WithAuth, getAuth, isCreator, isAssignee } from 'app/user/common';
 import i18n from 'i18n';

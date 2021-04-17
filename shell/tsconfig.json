@@ -26,7 +26,7 @@
       "webpack-env",
       "jest"
     ],
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
       "common": [
         "./app/common"
@@ -229,9 +229,9 @@
       "i18n": [
         "app/i18n.ts"
       ],
-      "nusi": [
-        "./app/external/nusi.js"
-      ],
+      // "nusi": [
+      //   "./app/external/nusi.js"
+      // ],
       "dice-env": [
         "./app/external/env.js"
       ],
@@ -259,6 +259,9 @@
       "core/config": [
         "../core/src/config.ts"
       ],
+      "core/nusi": [
+        "../core/src/nusi"
+      ],
       "core/stores/route": [
         "../core/src/stores/route.ts"
       ],
@@ -268,9 +271,10 @@
       "common/all": [
         "../shell/app/common/index"
       ],
-      "nusi/all": [
-        "../shell/app/external/nusi"
-      ]
+      "core/common/interface": 
+        [
+          "../core/src/common/interface.d.ts"
+        ],
     },
     "typeRoots": [],
     "allowSyntheticDefaultImports": true,
@@ -286,12 +290,8 @@
     "./node_modules/openapi-types/**/*",
     "./node_modules/@types/*",
     "market",
-    "/Users/Jun/workspace/erda-ui/core/app/**/types/*",
-    "/Users/Jun/workspace/erda-ui/core/node_modules/@types/*",
-    "/Users/Jun/workspace/erda-ui/core/node_modules/cube-state/dist/*",
-    "/Users/Jun/workspace/erda-ui/shell/app/**/types/*",
-    "/Users/Jun/workspace/erda-ui/shell/node_modules/@types/*",
-    "../core/app/**/types/*",
+    "../core/src/**/types/*",
+    "../core/src/common/*",
     "../core/node_modules/@types/*",
     "../core/node_modules/cube-state/dist/*",
     "../shell/app/**/types/*",

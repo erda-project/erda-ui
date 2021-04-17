@@ -13,13 +13,13 @@
 
 import * as React from 'react';
 import { isEmpty } from 'lodash';
-import { Button, Select, Input, InputNumber, Modal, Spin } from 'nusi';
+import { Button, Select, Input, InputNumber, Modal, Spin } from 'app/nusi';
 import { PagingTable, FormModal, useSwitch } from 'common';
 import { API_LIMIT_COLS, HTTP_METHODS } from '../config';
 import { insertWhen } from 'common/utils';
 import i18n from 'i18n';
 import { useLoading } from 'app/common/stores/loading';
-import { ColumnProps } from 'interface/common';
+import { ColumnProps } from 'core/common/interface';
 import './api-limits.scss';
 import gatewayStore from 'microService/stores/gateway';
 import { useMount } from 'react-use';

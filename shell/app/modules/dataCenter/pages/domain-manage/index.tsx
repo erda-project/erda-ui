@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
-import { Spin, Table, Input, Select } from 'nusi';
+import { Spin, Table, Input, Select } from 'app/nusi';
 import { isEmpty, map } from 'lodash';
 import { Holder, LoadMoreSelector, useUpdate, Filter } from 'common';
 import domainStore from '../../stores/domain-manage';

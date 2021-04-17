@@ -20,7 +20,7 @@ import { useEffectOnce } from 'react-use';
 import { ciStatusMap } from 'application/pages/build-detail/config';
 import clusterStore from '../../stores/cluster';
 import './cluster-log.scss';
-import { Drawer, Switch } from 'nusi';
+import { Drawer, Switch } from 'app/nusi';
 
 let intervalObj = null as any;
 const StepListComp = ({ stepData, onClickStep, activeStep }: {stepData: any, onClickStep:any, activeStep:string}) => {

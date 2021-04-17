@@ -11,9 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import { insertWhen } from 'common/utils/index';
-import { Select, Tooltip } from 'nusi';
+import { Select, Tooltip } from 'app/nusi';
 import i18n from 'i18n';
 import { produce } from 'immer';
 import { getOptions, groupOptions } from 'app/modules/dataCenter/pages/cluster-manage/config';

@@ -12,13 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Card, Button, Table, Modal } from 'nusi';
+import { Card, Button, Table, Modal } from 'app/nusi';
 import { isEmpty, map, find, get } from 'lodash';
 import { useMount } from 'react-use';
 import classnames from 'classnames';
 import { Holder, useUpdate, useFormModal } from 'common';
 import i18n from 'i18n';
-import { ColumnProps } from 'interface/common';
+import { ColumnProps } from 'core/common/interface';
 import zkproxyStore from '../../stores/zkproxy';
 import microServiceInfoStore from 'app/modules/microService/stores/info';
 import { PAGINATION } from 'app/constants';

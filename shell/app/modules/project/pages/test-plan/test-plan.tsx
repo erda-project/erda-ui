@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Icon as CustomIcon, CustomFilter, UserInfo } from 'common';
-import { Button, Progress, Spin, Table, Select, Input } from 'nusi';
+import { Button, Progress, Spin, Table, Select, Input } from 'app/nusi';
 import React, { useState } from 'react';
 import PlanModal, { IPlanModal } from './plan-modal';
 import { goTo, insertWhen } from 'app/common/utils';
@@ -23,7 +23,7 @@ import routeInfoStore from 'common/stores/route';
 import { useLoading } from 'app/common/stores/loading';
 import testPlanStore from 'project/stores/test-plan';
 import i18n from 'i18n';
-import { ColumnProps } from 'interface/common';
+import { ColumnProps } from 'core/common/interface';
 import './test-plan.scss';
 import { TEST_TYPE } from '../test-manage/case';
 

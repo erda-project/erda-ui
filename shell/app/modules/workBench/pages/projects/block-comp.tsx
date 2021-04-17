@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Alert, Tooltip } from 'nusi';
+import { Alert, Tooltip } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
 import { find, map } from 'lodash';
 import userStore from 'user/stores';

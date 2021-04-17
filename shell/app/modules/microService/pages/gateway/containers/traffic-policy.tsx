@@ -14,7 +14,7 @@
 import { find, isEmpty } from 'lodash';
 import * as React from 'react';
 import { PagingTable, FormModal, connectCube } from 'common';
-import { Button, Input, Select, InputNumber } from 'nusi';
+import { Button, Input, Select, InputNumber } from 'app/nusi';
 import { policyCols } from '../config';
 import { ApiPoliciesHeader } from './api-policies-header';
 import i18n from 'i18n';

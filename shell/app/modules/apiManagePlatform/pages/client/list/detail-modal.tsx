@@ -12,11 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Modal, Tabs, Table } from 'nusi';
+import { Modal, Tabs, Table } from 'app/nusi';
 import { Copy, DetailsPanel, Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
 import { get, map } from 'lodash';
-import { ColumnProps, PaginationProps } from 'interface/common';
+import { ColumnProps, PaginationProps } from 'core/common/interface';
 import apiClientStore from 'apiManagePlatform/stores/api-client';
 import { contractStatueMap } from 'apiManagePlatform/pages/client/components/config';
 import './index.scss';
