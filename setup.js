@@ -46,6 +46,7 @@ const installDependencies = () => {
     };
     log(`Performing "npm i" inside ${dir} folder`);
     // install dependencies
+    cp.spawnSync(npmCmd, ['config', 'set', 'registry', 'https://registry.npm.terminus.io/'], { env: process.env, cwd: dir, stdio: 'inherit' });
     cp.spawnSync(npmCmd, ['i'], { env: process.env, cwd: dir, stdio: 'inherit' });
   });
 }
