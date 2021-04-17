@@ -19,7 +19,7 @@
  * @Last Modified time: 2019-02-21 19:34:32
  */
 import * as React from 'react';
-import { Button, Modal } from 'nusi';
+import { Button, Modal } from 'app/nusi';
 import { Copy } from 'common';
 import i18n from 'i18n';
 

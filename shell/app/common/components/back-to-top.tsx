@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Tooltip } from 'nusi';
+import { Tooltip } from 'app/nusi';
 import { throttle } from 'lodash';
 import { Icon as CustomIcon } from 'common';
 import { useEffectOnce } from 'react-use';

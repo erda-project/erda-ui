@@ -1,6 +1,8 @@
 # Frontend UI for Erda platform.
 
-![logo](./docs/files/logo.jpg)
+<div>
+  <img src="./docs/files/logo.jpg" alt="logo" width="350">
+</div>
 
 ## 📣 Introduction
 Erda is an open-source platform created by Terminus to ensuring the development of microservice applications.
@@ -14,7 +16,7 @@ This repository is about Erda's User Interface.
 - Edge computing platform
 - Fast-Data platform(open source soon)
 
-For a detailed introduction, please check the [official website](https://erda.cloud).
+For a detailed introduction, please check the [official website](https://www.erda.cloud).
 
 
 ## 🖥 Environment Support
@@ -51,13 +53,28 @@ architecture of development mode
 
 ## 🔗 Links
 
-- [Official Website](https://erda.cloud)(comming soon)
+- [Erda Cloud](https://erda.cloud)(comming soon)
+- [Official Website](https://www.erda.cloud)(comming soon)
 - [User Docs](https://erda-docs.app.terminus.io/)
 - [Backend project](https://github.com/erda-project/erda)
 
 ## 🤝 Contributing [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 We welcome all contributions. Please read our [CONTRIBUTING.md](https://github.com/erda-project/erda-ui/blob/master/.github/CONTRIBUTING.md) first. You can submit any ideas as [pull requests](https://github.com/erda-project/erda-ui/pulls) or as [GitHub issues](https://github.com/erda-project/erda-ui/issues?template=bug-template). If you'd like to improve code, check out the [Development Instructions](https://github.com/erda-project/erda-ui/wiki/Development) and have a good time! :)
+
+
+## Contact Us
+
+We look forward to your connecting with us, you can ask us any questions.
+
+- Email: erda@terminus.io
+- 知乎：[Erda技术团队](https://www.zhihu.com/people/erda-project) (A Chinese knowledge community, similar to Quora.)
+- 微信公众号（Wechat）:
+
+<div align="left">
+	<img src="./docs/files/wechat.jpg" alt="Editor" width="150">
+</div>
+
 
 ## License
 Erda is under the AGPL 3.0 license. See the [LICENSE](/LICENSE) file for details.

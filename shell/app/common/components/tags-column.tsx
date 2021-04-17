@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Tooltip } from 'nusi';
+import { Tooltip } from 'app/nusi';
 import { cutStr } from 'common/utils';
 import './tags-column.scss';
 

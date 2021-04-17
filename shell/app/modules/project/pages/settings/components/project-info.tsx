@@ -13,8 +13,8 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { Tooltip, Button, Input } from 'nusi';
-import { WrappedFormUtils } from 'interface/common';
+import { Tooltip, Button, Input } from 'app/nusi';
+import { WrappedFormUtils } from 'core/common/interface';
 import { theme } from 'app/themes';
 import { ImageUpload, Icon as CustomIcon, ConfirmDelete } from 'common';
 import { goTo } from 'common/utils';

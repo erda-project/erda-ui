@@ -13,7 +13,7 @@
 
 import { find, get, isEmpty } from 'lodash';
 import React, { useEffect } from 'react';
-import { FormComponentProps } from 'antd/es/form';
+import { FormComponentProps } from 'core/common/interface';
 
 import { filterOption } from 'common/utils';
 import { useLoading } from 'app/common/stores/loading';

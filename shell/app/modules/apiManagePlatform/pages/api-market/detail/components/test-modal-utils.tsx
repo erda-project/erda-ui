@@ -15,7 +15,7 @@
 import React from 'react';
 import KeyValueEdit from 'apiManagePlatform/pages/api-market/detail/components/key-val-edit';
 import APIBody from 'apiManagePlatform/pages/api-market/detail/components/api-body';
-import { ColumnProps } from 'interface/common';
+import { ColumnProps } from 'core/common/interface';
 import { map } from 'lodash';
 import { mock } from 'mock-json-schema';
 import i18n from 'i18n';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Spin } from 'nusi';
+import { Spin } from 'app/nusi';
 import cloudServiceStore from 'dcos/stores/cloud-service';
 import routeInfoStore from 'common/stores/route';
 import { useLoading } from 'common/stores/loading';

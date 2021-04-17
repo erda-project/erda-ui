@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { map } from 'lodash';
 import moment from 'moment';
-import { Spin } from 'nusi';
+import { Spin } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
 import { fromNow } from 'common/utils';
 import { activityConfig } from 'project/common/config';

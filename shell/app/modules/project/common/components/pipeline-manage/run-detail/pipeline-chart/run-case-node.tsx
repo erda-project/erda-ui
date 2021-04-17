@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { map, isEmpty, get, find } from 'lodash';
-import { Popover, Dropdown, Menu, Tooltip } from 'nusi';
+import { Popover, Dropdown, Menu, Tooltip } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
 import { ciNodeStatusSet, ciStatusMap } from 'project/common/components/pipeline-manage/run-detail/config';
 import { scopeMap } from 'project/common/components/pipeline-manage/config';

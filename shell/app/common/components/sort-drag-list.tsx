@@ -16,7 +16,7 @@ import { map, groupBy, uniq } from 'lodash';
 import { useDrag, useDrop } from 'react-dnd';
 import { useUpdateEffect } from 'react-use';
 import React from 'react';
-import { Tooltip, Ellipsis, Popconfirm } from 'nusi';
+import { Tooltip, Ellipsis, Popconfirm } from 'app/nusi';
 import './sort-drag-list.scss';
 
 

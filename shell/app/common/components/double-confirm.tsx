@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { Component } from 'react';
-import { Popconfirm, Modal } from 'nusi';
+import { Popconfirm, Modal } from 'app/nusi';
 import i18n from 'i18n';
 
 const { confirm } = Modal;

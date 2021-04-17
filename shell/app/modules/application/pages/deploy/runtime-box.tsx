@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { Icon as CustomIcon, DeleteConfirm, Avatar, IF, MenuPopover } from 'common';
 import { cutStr, goTo, fromNow } from 'common/utils';
-import { Spin, Tooltip, Alert } from 'nusi';
+import { Spin, Tooltip, Alert } from 'app/nusi';
 import HealthPoint from 'project/common/components/health-point';
 import routeInfoStore from 'common/stores/route';
 import appStore from 'application/stores/application';

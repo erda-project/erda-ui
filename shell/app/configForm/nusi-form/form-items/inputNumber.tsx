@@ -14,7 +14,7 @@
 import {
   Form,
   InputNumber,
-} from 'nusi';
+} from 'app/nusi';
 import * as React from 'react';
 import { getLabel, noop } from './common';
 import i18n from 'i18n';

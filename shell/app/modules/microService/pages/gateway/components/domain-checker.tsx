@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Popover, Button, Tooltip } from 'nusi';
+import { Popover, Button, Tooltip } from 'app/nusi';
 import { Copy } from 'common';
 import i18n from 'i18n';
 

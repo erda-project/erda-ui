@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { PureComponent } from 'react';
-import { Icon, Input, message } from 'nusi';
+import { Icon, Input, message } from 'app/nusi';
 import { cloneDeep, forEach, isEqual } from 'lodash';
 import i18n from 'i18n';
 

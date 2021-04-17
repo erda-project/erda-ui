@@ -16,7 +16,7 @@ import {
   Form,
   Input,
   Col,
-} from 'nusi';
+} from 'app/nusi';
 import { getLabel, noop, createCombiner } from 'app/configForm/nusi-form/form-items/common';
 import * as React from 'react';
 import { commonFields, checkWhen } from 'app/configForm/nusi-form/form-items/common/config';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Dropdown, Tooltip, Menu, Modal, Table } from 'nusi';
+import { Dropdown, Tooltip, Menu, Modal, Table } from 'app/nusi';
 import { goTo, notify } from 'common/utils';
 import { map, get, find } from 'lodash';
 import AddMachineModal from 'app/modules/dataCenter/common/components/machine-form-modal';
@@ -26,7 +26,7 @@ import i18n from 'i18n';
 import { ClusterLog } from './cluster-log';
 import DeleteClusterModal from './delete-cluster-modal';
 import { getClusterOperationHistory } from 'app/modules/dataCenter/services/machine';
-import { ColumnProps } from 'interface/common';
+import { ColumnProps } from 'core/common/interface';
 
 import './cluster-list.scss';
 

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Select, Input, Tooltip, Dropdown, Icon, Menu, Button, Alert } from 'nusi';
+import { Select, Input, Tooltip, Dropdown, Icon, Menu, Button, Alert } from 'app/nusi';
 import { useMount, useEffectOnce } from 'react-use';
 import { map, keys, get } from 'lodash';
 import { insertWhen } from 'common/utils';

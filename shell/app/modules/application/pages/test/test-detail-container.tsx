@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Select, Spin } from 'nusi';
+import { Select, Spin } from 'app/nusi';
 import { Holder, IF, connectCube } from 'common';
 import { map, isEmpty, forEach } from 'lodash';
 import * as React from 'react';

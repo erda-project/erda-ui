@@ -13,7 +13,7 @@
 
 import React, { useState, useEffect, Fragment } from 'react';
 import { get, map, isEmpty, values } from 'lodash';
-import { Col, Row, Tooltip } from 'nusi';
+import { Col, Row, Tooltip } from 'app/nusi';
 import './index.scss';
 
 interface IExpandItem {

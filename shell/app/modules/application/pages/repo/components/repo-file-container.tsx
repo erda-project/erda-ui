@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { message, Tooltip, Radio, Button } from 'nusi';
+import { message, Tooltip, Radio, Button } from 'app/nusi';
 import { FormModal, Icon as CustomIcon, IF, DeleteConfirm, useUpdate } from 'common';
 import { goTo } from 'common/utils';
 import RepoFile from './repo-file';

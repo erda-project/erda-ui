@@ -12,13 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Table, Input, Spin, Tooltip } from 'nusi';
+import { Table, Input, Spin, Tooltip } from 'app/nusi';
 import userStore from 'user/stores';
 import routeInfoStore from 'common/stores/route';
 import { useLoading } from 'app/common/stores/loading';
 import { useDebounce, useUnmount } from 'react-use';
 import i18n from 'i18n';
-import { ColumnProps } from 'interface/common';
+import { ColumnProps } from 'core/common/interface';
 import { fromNow, goTo } from 'common/utils';
 import { appMode, modeOptions } from 'application/common/config';
 import { CustomFilter } from 'common';

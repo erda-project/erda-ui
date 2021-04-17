@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Icon, Tooltip, Radio, Button } from 'nusi';
+import { Icon, Tooltip, Radio, Button } from 'app/nusi';
 import React, { useState } from 'react';
 import i18n from 'i18n';
 import { diff_match_patch as Diff } from 'diff-match-patch';

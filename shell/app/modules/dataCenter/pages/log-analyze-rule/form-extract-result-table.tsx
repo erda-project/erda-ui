@@ -14,7 +14,7 @@
 import * as React from 'react';
 import i18n from 'i18n';
 import { map } from 'lodash';
-import { Table, Form as NForm, Input, Select } from 'nusi';
+import { Table, Form as NForm, Input, Select } from 'app/nusi';
 import { getLabel, noop } from 'app/configForm/nusi-form/form-items/common';
 
 const FormItem = NForm.Item;

@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useEffect } from 'react';
-import { Button, Spin, Drawer, Table } from 'nusi';
-import { ColumnProps } from 'antd/lib/table';
+import { Button, Spin, Drawer, Table } from 'app/nusi';
+import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 import { useLoading } from 'app/common/stores/loading';
 import gatewayStore from 'microService/stores/gateway';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Button, Modal, Tooltip, Input } from 'nusi';
+import { Button, Modal, Tooltip, Input } from 'app/nusi';
 import { isEmpty, map } from 'lodash';
 import moment from 'moment';
 import { PagingTable, FormModal, useSwitch, Filter } from 'common';

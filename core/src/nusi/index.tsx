@@ -68,6 +68,8 @@ import {
   // Mention,
   Upload,
   version,
+  ConfigProvider as AntdConfigProvider,
+  Table as AntTable,
 } from 'antd';
 import { FixedSelect } from './fixed-select';
 import FixRangePicker from './range-picker';
@@ -85,6 +87,7 @@ import {
   Progress,
   Tooltip,
   Filter,
+  FormBuilder,
   Shell,
   Search,
   SideNavigation,
@@ -99,6 +102,11 @@ import {
   Ellipsis,
   SelectCategory,
   SelectCombo,
+  ConfigProvider as NusiConfigProvider,
+  Tree as NusiTree, 
+  Popover as NusiPopover, 
+  Select as NusiSelect,
+  Icon as NusiIcon,
 } from '@terminus/nusi';
 
 const locale = window.localStorage.getItem('locale');
@@ -145,6 +153,7 @@ export {
   Empty,
   Filter,
   Form,
+  FormBuilder,
   Icon,
   Input,
   InputNumber,
@@ -188,5 +197,13 @@ export {
   PageHeader,
   GlobalNavigation,
   SelectCategory,
-  SelectCombo
+  SelectCombo,
+  AntdConfigProvider,
+  AntTable,
+
+  NusiConfigProvider,
+  NusiTree,
+  NusiPopover,
+  NusiSelect,
+  NusiIcon,
 }

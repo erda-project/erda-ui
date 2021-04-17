@@ -15,7 +15,7 @@ import * as React from 'react';
 import { reduce, map, keys, isEqual, isEmpty, get, find } from 'lodash';
 import { PagingTable, IF, DeleteConfirm, connectCube } from 'common';
 import { notify, goTo, qs } from 'common/utils';
-import { Select, Button, Input, Modal } from 'nusi';
+import { Select, Button, Input, Modal } from 'app/nusi';
 import { apiCols, HTTP_METHODS, SORT_FIELDS, SORT_TYPES } from '../config';
 import { DomainChecker } from '../components/domain-checker';
 import SwaggerDoc from 'microService/pages/gateway/containers/api-doc';

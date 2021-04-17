@@ -19,7 +19,7 @@ import { FileEditor, connectCube } from 'common';
 import { goTo, qs } from 'common/utils';
 import { getSplitPathBy, getInfoFromRefName } from '../util';
 import Markdown from 'common/utils/marked';
-import { Icon } from 'nusi';
+import { Icon } from 'app/nusi';
 import i18n from 'i18n';
 import './repo-file.scss';
 import appStore from 'application/stores/application';

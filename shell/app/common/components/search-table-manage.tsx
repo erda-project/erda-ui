@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Table, Spin } from 'nusi';
+import { Table, Spin } from 'app/nusi';
 import { SearchTable } from 'common';
 import './search-table-manage.scss';
 

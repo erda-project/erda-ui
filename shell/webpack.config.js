@@ -80,8 +80,8 @@ module.exports = () => {
         apiManagePlatform: resolve('./app/modules/apiManagePlatform'),
         agent: resolve('./app/agent.js'),
         i18n: resolve('./app/i18n.ts'),
-        nusi: resolve('./app/external/nusi.js'),
-        '@terminus/nusi': resolve('./node_modules/@terminus/nusi'),
+        // nusi: resolve('./app/external/nusi.js'),
+        // '@terminus/nusi': resolve('./node_modules/@terminus/nusi'),
         'dice-env': resolve('./app/external/env.ts'),
 
         'monitor-overview': resolve('./app/modules/microService/monitor/monitor-overview'),
@@ -120,7 +120,7 @@ module.exports = () => {
             resolve('app'),
             resolve('market'),
             resolve('node_modules/@terminus/dashboard-configurator'),
-            resolve('node_modules/@terminus/nusi'),
+            // resolve('node_modules/@terminus/nusi'),
           ],
           use: [
             ...(isProd ? [MiniCssExtractPlugin.loader] : []), // extract not support hmr, https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/222
@@ -174,8 +174,8 @@ module.exports = () => {
             },
           ],
           include: [
-            resolve('node_modules/antd'),
-            resolve('node_modules/@terminus/nusi'),
+            // resolve('node_modules/antd'),
+            // resolve('node_modules/@terminus/nusi'),
           ],
         },
         {

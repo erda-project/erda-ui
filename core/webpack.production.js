@@ -14,6 +14,7 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const root = path.resolve(process.cwd(), '..');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { parsed: config } = require('dotenv').config({ path: `${root}/.env` })
 
 
@@ -34,4 +35,10 @@ module.exports = {
       }),
     ],
   },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: 'style/[name].[contenthash].css',
+      ignoreOrder: true,
+    }),
+  ]
 };

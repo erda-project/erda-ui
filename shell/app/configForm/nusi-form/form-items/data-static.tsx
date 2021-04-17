@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { isEmpty } from 'lodash';
-import { Input, Form } from 'nusi';
+import { Input, Form } from 'app/nusi';
 import { getLabel, noop, createCombiner } from './common';
 import i18n from 'i18n';
 

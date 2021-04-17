@@ -14,7 +14,7 @@
 import * as React from 'react';
 import messageStore, { MSG_STATUS } from 'app/layout/stores/message';
 import { Holder, Icon as CustomIcon, LoadMore } from 'common';
-import { Badge, Timeline, Drawer, notification, Button } from 'nusi';
+import { Badge, Timeline, Drawer, notification, Button } from 'app/nusi';
 import Markdown from 'common/utils/marked';
 import { map } from 'lodash';
 import moment from 'moment';

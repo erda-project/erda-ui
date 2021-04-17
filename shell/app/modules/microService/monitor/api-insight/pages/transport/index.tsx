@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Row, Col } from 'nusi';
+import { Row, Col } from 'app/nusi';
 import FilterNav from 'app/modules/microService/monitor/api-insight/common/components/filterNav';
 import TransportMap from './config/chartMap';
 import routeInfoStore from 'app/common/stores/route';

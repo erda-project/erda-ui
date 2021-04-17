@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Button, Input, Icon, Select, Tooltip } from 'nusi';
+import { Button, Input, Icon, Select, Tooltip } from 'app/nusi';
 import { useUpdate, InputSelect, Icon as CustomIcon } from 'common';
 import { produce } from 'immer';
 import i18n from 'i18n';

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Spin, Button, Tooltip, Dropdown, Menu, Alert, Input } from 'nusi';
+import { Spin, Button, Tooltip, Dropdown, Menu, Alert, Input } from 'app/nusi';
 import { Icon as CustomIcon, EmptyHolder, Avatar, DeleteConfirm, IF } from 'common';
 import * as React from 'react';
 import { fromNow, replaceEmoji } from 'common/utils';

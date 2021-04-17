@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import { IFormProps, regRulesMap, FormUnitContainer } from '../form-utils';
 import { get } from 'lodash';
 import { RenderPureForm, ReadonlyForm } from 'common';
-import { Switch } from 'nusi';
+import { Switch } from 'app/nusi';
 
 
 // orgID,跳板机（部署起点）

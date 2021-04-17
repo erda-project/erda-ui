@@ -13,11 +13,11 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { Table, Badge, Tooltip } from 'nusi';
+import { Table, Badge, Tooltip } from 'app/nusi';
 import moment from 'moment';
 import { Copy } from 'common';
 import { getFormatter } from 'app/charts/utils/formatter';
-import { ColumnProps } from 'interface/common';
+import { ColumnProps } from 'core/common/interface';
 import { PAGINATION } from 'app/constants';
 
 type IResource = MIDDLEWARE_DASHBOARD.IResource;

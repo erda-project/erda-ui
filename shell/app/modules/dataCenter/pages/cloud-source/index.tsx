@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, Card } from 'nusi';
+import { Spin, Card } from 'app/nusi';
 import i18n from 'i18n';
 import { getFormatter } from 'charts/utils/formatter';
 import cloudSourceStore from 'dataCenter/stores/cloud-source';

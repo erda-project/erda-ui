@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Form, Input, Select, InputNumber, Switch, Radio, Icon, Checkbox, Cascader, DatePicker, Tooltip } from 'nusi';
-import { WrappedFormUtils } from 'interface/common';
+import { Form, Input, Select, InputNumber, Switch, Radio, Icon, Checkbox, Cascader, DatePicker, Tooltip } from 'app/nusi';
+import { WrappedFormUtils } from 'core/common/interface';
 import classnames from 'classnames';
 import { ClassWrapper } from './class-wrap';
 import i18n from 'i18n';

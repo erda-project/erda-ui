@@ -13,7 +13,7 @@
 
 import { TicketPriority, getTicketType } from 'application/pages/ticket/ticket-form';
 import * as React from 'react';
-import { Button, Spin, Tabs, Select } from 'nusi';
+import { Button, Spin, Tabs, Select } from 'app/nusi';
 import { isEmpty, map, toLower } from 'lodash';
 import ticketStore from 'application/stores/ticket';
 import { useMount } from 'react-use';
