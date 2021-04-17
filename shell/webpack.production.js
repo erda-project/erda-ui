@@ -45,23 +45,28 @@ module.exports = config.wrapWebpack({
       filename: 'style/[name].[contenthash].css',
       ignoreOrder: true,
     }),
-    // ...(process.env.enableSourceMap === 'true' ? [
-    //   new FileManagerPlugin({
-    //     events: {
-    //       onEnd: {
-    //         mkdir: ['sourcemap'],
-    //         copy: [
-    //           {
-    //             source: 'public/dice/scripts/*.map',
-    //             destination: 'sourcemap/',
-    //           },
-    //         ],
-    //         delete: ['public/dice/scripts/*.map'],
-    //       },
-    //     },
-    //     runTasksInSeries: true,
-    //   }),
-    // ] : []),
+    ...(process.env.enableSourceMap === 'true' ? [
+      new FileManagerPlugin({
+        events: {
+          onEnd: {
+            mkdir: ['sourcemap'],
+            copy: [
+              {
+                source: '../public/static/shell/scripts/*.map',
+                destination: 'sourcemap/',
+              },
+            ],
+            delete: [{
+              source: '../public/static/shell/scripts/*.map',
+              options: {
+                force: true
+              }
+            }]
+          },
+        },
+        runTasksInSeries: true,
+      }),
+    ] : []),
 
     // 需要https
     // new SWPrecacheWebpackPlugin({
