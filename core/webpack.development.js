@@ -40,6 +40,7 @@ module.exports = {
       key: fs.readFileSync('../cert/dev/server.key'),
       cert: fs.readFileSync('../cert/dev/server.crt'),
     },
+    publicPath: '/'
   },
   output: {
     path: path.resolve(__dirname, './public'),
