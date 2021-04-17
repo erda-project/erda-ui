@@ -27,8 +27,6 @@ const { execSync, spawnSync } = child_process;
 const GET_BRANCH_CMD = "git branch | awk '/\\*/ { print $2; }'";
 const UPDATE_SUB_MODULES = "git pull --recurse-submodules";
 
-const isProd = process.env.NODE_ENV === 'production';
-
 
 const getCurrentBranch = async () => {
   execSync(UPDATE_SUB_MODULES);
@@ -114,35 +112,33 @@ const checkModuleValid = ()=> {
   }
 }
 
-const buildAll =  async () => {
+const buildAll =  async (enableSourceMap) => {
   let start = 0;
   const len = moduleList.length;
 
   while (start < len) {
     const { moduleName, moduleDir } = moduleList[start];
     logInfo(`Building ${moduleName}`);
-    await spawnSync(npmCmd, ['run', 'build'], { env: process.env, cwd: moduleDir, stdio: 'inherit' });
+    await spawnSync(npmCmd, ['run', 'build'], { env: {...process.env, enableSourceMap }, cwd: moduleDir, stdio: 'inherit' });
     start += 1;
   }
 }
 
-module.exports = async () => {
-  try {
-    await checkBranch();
+module.exports = async (execPath) => {
+  try {   
+    checkModuleValid();
+
     let enableSourceMap = false;
-    if (!isProd) {
-      enableSourceMap = await whetherGenerateSourceMap();
-    }
-
-    await clearPublic();
     
-    checkModuleValid();
+    if (execPath === 'local') {
+      await checkBranch();
+      enableSourceMap = await whetherGenerateSourceMap();
+      await checkReInstall();
+    }
+    
+    await clearPublic();
 
-    checkModuleValid();
-
-    await checkReInstall();
-
-    await buildAll();
+    await buildAll(enableSourceMap);
 
     require('./gen-version')()
     require('./local-icon')()
