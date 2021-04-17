@@ -528,7 +528,7 @@ const Empty = () => null;
 
 const AssertTips = () => {
   const format = (tips: string) => {
-    return tips.replace('<', '{').replace('>', '}');
+    return tips.replaceAll('<', '{').replaceAll('>', '}');
   };
   const tips = (
     <ul className="contents ml16">

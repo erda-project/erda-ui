@@ -180,7 +180,7 @@ const DownloadPage = ({ match }: any) => {
           {
             client === 'ios' && appStoreURL ? (
               <div className="jump-app-store">
-                <a href={appStoreURL} target="_blank">跳转至App Store</a>
+                <a href={appStoreURL} target="_blank" rel="noopener noreferrer">跳转至App Store</a>
               </div>
             ) : null
           }
