@@ -39,21 +39,12 @@ interface IDataItemProps {
 
 const DataItem = ({ updateItem, data, hasDesc = true, className = '', operation = null }: IDataItemProps) => {
   return (
-    hasDesc ? (
-      <div className={className}>
-        <Input value={data.name} placeholder='请输入数据名称' onChange={(e) => updateItem({ name: e.target.value })} />
-        <Input value={data.desc} placeholder='请输入数据描述' onChange={(e) => updateItem({ desc: e.target.value })} />
-        <Input value={data.value} placeholder='请填写数据值' onChange={(e) => updateItem({ value: e.target.value })} />
-        {operation}
-      </div>
-    ) :
-      (
-        <div className={className}>
-          <Input value={data.name} placeholder='请输入数据名称' onChange={(e) => updateItem({ name: e.target.value })} />
-          <Input value={data.value} placeholder='请填写数据值' onChange={(e) => updateItem({ value: e.target.value })} />
-          {operation}
-        </div>
-      )
+    <div className={className}>
+      <Input value={data.name} placeholder='请输入数据名称' onChange={(e) => updateItem({ name: e.target.value })} />
+      {hasDesc && <Input value={data.desc} placeholder='请输入数据描述' onChange={(e) => updateItem({ desc: e.target.value })} />}
+      <Input value={data.value} placeholder='请填写数据值' onChange={(e) => updateItem({ value: e.target.value })} />
+      {operation}
+    </div>
   );
 };
 

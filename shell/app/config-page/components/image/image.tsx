@@ -1,17 +1,14 @@
 import React from 'react';
 import classnames from 'classnames';
 import './image.scss';
+import DEFAULT_SRC from 'app/images/default-project-icon.png'
 
 const Image = (props: CP_IMAGE.Props) => {
-
   const { props: configProps } = props;
-  const { src = './images/default-project-icon.png', relative = true, styleNames = {}, visible = true } = configProps || {};
+  const { src = DEFAULT_SRC, styleNames = {}, visible = true } = configProps || {};
   const cls = classnames({
-    large: styleNames['large'] || false,
-    normal: styleNames['normal'] || false,
-    small: styleNames['small'] || false,
-    relative,
-    circle: styleNames['circle'] || false,
+    relative: true,
+    ...styleNames,
   });
 
   if (!visible) {

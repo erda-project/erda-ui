@@ -17,28 +17,29 @@
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
 import { Title as NusiTitle, Tooltip } from 'nusi';
+import './title.scss'
 
 const Title = (props: CP_TITLE.Props) => {
   const { props: configProps } = props;
-  const { title, level, tips, prefixIcon = '', showDivider = false, visible = true, titleStyles = {}, showSubtitle = false, subtitle = '', subtitleStyles = { color: '#070A1A', opacity: 0.6, marginLeft: '30px', fontSize: '16px' } } = configProps || {};
+  const { title, level, tips, prefixIcon = '', showDivider = false, visible = true, titleStyles = {}, subtitle = '' } = configProps || {};
   const titleComp = tips ? (
-    <div className='left-flex-box' style={{ ...titleStyles }}>
-      {prefixIcon ? <CustomIcon type={prefixIcon} className='mr4'/> : null}
+    <div className='left-flex-box dice-cp-title' style={{ ...titleStyles }}>
+      {prefixIcon ? <CustomIcon type={prefixIcon} className='mr4' /> : null}
       {title}
       <Tooltip title={tips}>
         <CustomIcon type='help' className='ml4 fz14' />
       </Tooltip>
       {
-        showSubtitle ? <span style={{ ...subtitleStyles }}>{subtitle}</span > : null
+        subtitle ? <span className="subtitle">{subtitle}</span > : null
       }
     </div>
   ) :
     (
-      <div style={{ ...titleStyles }}>
+      <div className="dice-cp-title" style={{ ...titleStyles }}>
         {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
         {title}
-        {showSubtitle ?
-          <span style={{ ...subtitleStyles }}>
+        {subtitle ?
+          <span className="subtitle">
             {subtitle}
           </span >
           : null}

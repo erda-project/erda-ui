@@ -61,6 +61,36 @@ export const FormRadio = ({
   const { radioType, options: cOptions, displayDesc } = componentProps;
   const RadioItem = radioType === 'button' ? Radio.Button : Radio;
   const options = cOptions || get(dataSource, 'static') || [];
+
+  const renderOptions = () => {
+    if (typeof options === 'function') {
+      return options()
+    }
+
+    if (isEmpty(options)) {
+      return <div>请补充备选数据</div>
+    }
+
+    if (displayDesc) {
+      return map(options, (item: any) => (
+        <div className='form-item-radio'>
+          <RadioItem key={item.value} value={item.value}>
+            {item.name}
+            <div className='form-item-desc'>{item.desc}</div>
+          </RadioItem>
+        </div>
+      ))
+    }
+
+    return (
+      map(options, (item: any) => (
+        <RadioItem key={item.value} value={item.value}>
+          {item.name}
+        </RadioItem>
+      ))
+    )
+  }
+
   return (
     <FormItem
       colon
@@ -78,28 +108,7 @@ export const FormRadio = ({
         value={curFixIn(value)}
         onChange={handleChange}
       >
-        {
-          typeof options === 'function'
-            ? options()
-            : isEmpty(options)
-              ? <div>请补充备选数据</div>
-              : displayDesc ? (
-                map(options, (item: any) => (
-                  <div className='form-item-radio'>
-                    <RadioItem key={item.value} value={item.value}>
-                      {item.name}
-                      <div className='form-item-desc'>{item.desc}</div>
-                    </RadioItem>
-                  </div>
-                ))
-              ) : (
-                  map(options, (item: any) => (
-                    <RadioItem key={item.value} value={item.value}>
-                      {item.name}
-                    </RadioItem>
-                  ))
-                )
-        }
+        {renderOptions()}
       </Radio.Group>
     </FormItem>
   );

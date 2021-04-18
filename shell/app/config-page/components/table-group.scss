@@ -1,0 +1,29 @@
+.table-group {
+  margin-top: 8px;
+
+  .table-board {
+    margin-top: 16px;
+
+    .card {
+      padding: 8px;
+      background: white;
+      border-radius: 3px;
+
+      >.pk-title {
+        margin-bottom: 8px;
+      }
+    }
+  }
+
+  .load-more {
+    margin-top: 24px;
+    margin-bottom: 24px;
+    color: $darkgray;
+    cursor: pointer;
+
+    &:hover {
+      color: $primary;
+      font-weight: bold;
+    }
+  }
+}

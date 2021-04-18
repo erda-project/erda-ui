@@ -108,16 +108,16 @@ export function Table(props: CP_TABLE.Props) {
   }
 
   const cls = classnames({
-    'justify-align': styleNames['justify-align'] || false,
-    'without-border': styleNames['without-border'] || false,
-    'light-card': styleNames['light-card'] || false,
+    'dice-cp': true,
+    'table': true,
+    ...styleNames,
   });
 
   return visible ? (
     <>
       {title ? <Title showDivider={false} level={2} title={title} /> : null}
       <PureTable
-        className={`dice-cp table ${cls} justify-align ${isGanttTable ? 'task-gantt-table' : ''}`}
+        className={`${cls} ${isGanttTable ? 'task-gantt-table' : ''}`}
         dataSource={list}
         {...extra}
         columns={tableColumns}
