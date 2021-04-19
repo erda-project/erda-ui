@@ -834,7 +834,10 @@ const APIBody = (props: any) => {
       }
     }
     onChange('body', newBody, autoSave, (newData: any) => {
-      const { headers = [], body } = newData;
+      if (!newData.headers) {
+        newData.headers = [];
+      }
+      const { headers, body } = newData;
       const adjustHeader = (action: string, headerType: any) => {
         // 按key查找
         const exist = find(headers, { key: headerType.key });
