@@ -53,5 +53,4 @@ module.exports = async (moduleName, options) => {
   logInfo(`execute: ${copyCommand}`)
   execSync(copyCommand)
   logSuccess(`copy dist files to: ${targetPath}`);
-  
 }
