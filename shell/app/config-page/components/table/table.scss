@@ -80,15 +80,9 @@
 
   }
 
-  &.without-border {
+  &.no-border {
     td {
       border: none;
-    }
-  }
-
-  &.justify-align {
-    td:nth-child(2) {
-      text-align: right;
     }
   }
 

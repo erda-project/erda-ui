@@ -11,11 +11,11 @@ interface ITableBoardProps extends CONFIG_PAGE.ICommonProps {
 }
 
 interface IData {
-  projectTitle: CP_TITLE.IProps;
-  issueTitle: CP_TITLE.IProps;
-  issueBrief: CP_TEXT.IProps;
-  issueTable: CP_TABLE.Props;
-  moreIssueLink: CP_TEXT.Props;
+  title: CP_TITLE.IProps;
+  subtitle: CP_TITLE.IProps;
+  description: CP_TEXT.IProps;
+  table: CP_TABLE.Props;
+  extraInfo: CP_TEXT.Props;
 }
 
 interface IProps extends CONFIG_PAGE.ICommonProps {
@@ -28,25 +28,25 @@ interface IProps extends CONFIG_PAGE.ICommonProps {
 const noop = () => { };
 const TableBoard = (props: ITableBoardProps) => {
   const { props: configProps, execOperation = noop, updateState = noop } = props
-  const { projectTitle, issueTitle, issueBrief, issueTable, moreIssueLink } = configProps;
+  const { title, subtitle, description, table, extraInfo } = configProps;
 
   return (
     <div className='table-board'>
-      <Title props={projectTitle} type="Title" execOperation={execOperation} updateState={updateState} />
+      <Title props={title} type="Title" execOperation={execOperation} updateState={updateState} />
       <div className="card">
-        <Title props={issueTitle} type="Title" execOperation={execOperation} updateState={updateState} />
-        <Text props={issueBrief} type="Text" execOperation={execOperation} updateState={updateState} />
+        <Title props={subtitle} type="Title" execOperation={execOperation} updateState={updateState} />
+        <Text props={description} type="Text" execOperation={execOperation} updateState={updateState} />
         <Table
-          props={issueTable.props}
-          data={issueTable.data}
-          operations={issueTable.operations}
+          props={table.props}
+          data={table.data}
+          operations={table.operations}
           execOperation={execOperation}
           type="Table"
           updateState={updateState}
         />
         <Text
-          props={moreIssueLink.props}
-          operations={moreIssueLink.operations}
+          props={extraInfo.props}
+          operations={extraInfo.operations}
           execOperation={execOperation}
           type="Text"
           updateState={updateState}
@@ -58,9 +58,14 @@ const TableBoard = (props: ITableBoardProps) => {
 
 const TableGroup = (props: IProps) => {
   const { props: configProps, state: propsState, data, operations, execOperation = noop, updateState = noop } = props;
-  const [{ pageNo, list: combineList = [], total }, updater, update] = useUpdate(propsState || {}) as any;
-
+  const [{ pageNo, list: combineList = [], total }, updater, update] = useUpdate({
+    pageNo: propsState?.pageNo || 1,
+    total: propsState?.total,
+    list: [],
+  } || {}) as any;
+  const { visible } = configProps;
   const showLoadMore = total > Math.max(combineList.length, 0)
+
 
   // 将接口返回的list和之前的list进行拼接
   React.useEffect(() => {
@@ -77,6 +82,9 @@ const TableGroup = (props: IProps) => {
     operations?.changePageNo && execOperation(operations?.changePageNo, { pageNo: pageNo + 1 })
   }
 
+  if (!visible) {
+    return null;
+  }
   return (
     <div className="table-group">
       {

@@ -352,6 +352,243 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
         },
       },
       content: { type: 'Container' },
+      tableGroup: {
+        type: 'TableGroup',
+        props: {
+          visible: true,
+        },
+        operations: {
+          changePageNo: {
+            key: 'changePageNo',
+            reload: true,
+            fillMeta: 'pageNo'
+          },
+        },
+        data: {
+          list: [
+            {
+              title: {
+                prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
+                title: 'Erda',
+                level: 2,
+              },
+              subtitle: {
+                title: '您未完成的事项666',
+                level: 3,
+              },
+              description: {
+                value: "当前您还有 120 个事项待完成，其中 已过期: 40，本日到期: 40，7日内到期: 36，30日内到期: 44",
+              },
+              table: {
+                props: {
+                  rowKey: 'key',
+                  columns: [
+                    { title: '', dataIndex: 'name' },
+                    { title: '', dataIndex: 'planFinishedAt', width: 100, },
+                  ],
+                  showHeader: false,
+                  pagination: false,
+                  styleNames: {
+                    'no-border': true,
+                  },
+                },
+                data: {
+                  list: [
+                    {
+                      id: '153',
+                      projectId: '13',
+                      type: 'requirement',
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '222运行速度没得说，完全不卡，打游戏体验极佳' },
+                      planFinishedAt: '2022-03-02',
+                    },
+                    {
+                      id: '150',
+                      projectId: '13',
+                      type: 'requirement',
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
+                      planFinishedAt: '2022-03-02',
+                    },
+                    {
+                      id: '153',
+                      projectId: '13',
+                      type: 'requirement',
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
+                      planFinishedAt: '2022-03-02',
+                    },
+                    {
+                      id: '150',
+                      projectId: '13',
+                      type: 'requirement',
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
+                      planFinishedAt: '2022-03-02',
+                    },
+                    {
+                      id: '153',
+                      projectId: '13',
+                      type: 'requirement',
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
+                      planFinishedAt: '2022-03-02',
+                    },
+                  ],
+                },
+                operations: {
+                  clickRow: {
+                    key: 'clickRow',
+                    reload: false,
+                    command: {
+                      key: 'goto',
+                      target: 'specificIssue',
+                      jumpOut: true,
+                    },
+                  },
+                },
+              },
+              extraInfo: {
+                props: {
+                  renderType: 'linkText',
+                  value: {
+                    text: [{ text: "查看剩余112条事件 >>", operationKey: "toSpecificProject" }]
+                  },
+                },
+                operations: {
+                  toSpecificProject: {
+                    command: {
+                      key: "goto",
+                      target: "issueAll",
+                      jumpOut: true,
+                      state: {
+                        query: {
+                          issueViewGroup__urlQuery: "eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=",
+                        },
+                        params: {
+                          projectId: '13',
+                        },
+                      },
+                      visible: false,
+                    },
+                    key: "click",
+                    reload: false,
+                    show: false,
+                  },
+                },
+
+              },
+            },
+            {
+              title: {
+                prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
+                title: 'Erda',
+                level: 2,
+              },
+              subtitle: {
+                title: '您未完成的事项666',
+                level: 3,
+              },
+              description: {
+                value: "当前您还有 120 个事项待完成，其中 已过期: 40，本日到期: 40，7日内到期: 36，30日内到期: 44",
+              },
+              table: {
+                props: {
+                  rowKey: 'key',
+                  columns: [
+                    { title: '', dataIndex: 'name' },
+                    { title: '', dataIndex: 'planFinishedAt', width: 100, },
+                  ],
+                  showHeader: false,
+                  pagination: false,
+                  styleNames: {
+                    'no-border': true,
+                  },
+                },
+                data: {
+                  list: [
+                    {
+                      id: '153',
+                      projectId: '13',
+                      type: 'requirement',
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '222运行速度没得说，完全不卡，打游戏体验极佳' },
+                      planFinishedAt: '2022-03-02',
+                    },
+                    {
+                      id: '150',
+                      projectId: '13',
+                      type: 'requirement',
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
+                      planFinishedAt: '2022-03-02',
+                    },
+                    {
+                      id: '153',
+                      projectId: '13',
+                      type: 'requirement',
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
+                      planFinishedAt: '2022-03-02',
+                    },
+                    {
+                      id: '150',
+                      projectId: '13',
+                      type: 'requirement',
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
+                      planFinishedAt: '2022-03-02',
+                    },
+                    {
+                      id: '153',
+                      projectId: '13',
+                      type: 'requirement',
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
+                      planFinishedAt: '2022-03-02',
+                    },
+                  ],
+                },
+                operations: {
+                  clickRow: {
+                    key: 'clickRow',
+                    reload: false,
+                    command: {
+                      key: 'goto',
+                      target: 'specificIssue',
+                      jumpOut: true,
+                    },
+                  },
+                },
+              },
+              extraInfo: {
+                props: {
+                  renderType: 'linkText',
+                  value: {
+                    text: [{ text: "查看剩余112条事件 >>", operationKey: "toSpecificProject" }]
+                  },
+                },
+                operations: {
+                  toSpecificProject: {
+                    command: {
+                      key: "goto",
+                      target: "issueAll",
+                      jumpOut: true,
+                      state: {
+                        query: {
+                          issueViewGroup__urlQuery: "eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=",
+                        },
+                        params: {
+                          projectId: '13',
+                        },
+                      },
+                      visible: false,
+                    },
+                    key: "click",
+                    reload: false,
+                    show: false,
+                  },
+                },
+              },
+            },
+          ],
+        },
+        state: {
+          pageNo: 1,
+          pageSize: 1,
+          total: 5,
+        }
+      }
     },
   },
 };
@@ -380,34 +617,29 @@ const tableGroup = {
   data: {
     list: [
       {
-        projectTitle: {
+        title: {
           prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
           title: 'Erda',
           level: 2,
         },
-        issueTitle: {
+        subtitle: {
           title: '您未完成的事项666',
           level: 3,
-          titleStyles: {
-            'marginTop': 8,
-          }
         },
-        issueBrief: {
+        description: {
           value: "当前您还有 120 个事项待完成，其中 已过期: 40，本日到期: 40，7日内到期: 36，30日内到期: 44",
         },
-        issueTable: {
+        table: {
           props: {
             rowKey: 'key',
             columns: [
               { title: '', dataIndex: 'name' },
-              { title: '', dataIndex: 'planFinishedAt' },
+              { title: '', dataIndex: 'planFinishedAt', width: 100, },
             ],
             showHeader: false,
             pagination: false,
             styleNames: {
-              'without-border': true,
-              'justify-align': true,
-              'mt8': true,
+              'no-border': true,
             },
           },
           data: {
@@ -417,35 +649,35 @@ const tableGroup = {
                 projectId: '13',
                 type: 'requirement',
                 name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '222运行速度没得说，完全不卡，打游戏体验极佳' },
-                planFinishedAt: '2022-03-02 10:09:12',
+                planFinishedAt: '2022-03-02',
               },
               {
                 id: '150',
                 projectId: '13',
                 type: 'requirement',
                 name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
-                planFinishedAt: '2022-03-02 10:09:12',
+                planFinishedAt: '2022-03-02',
               },
               {
                 id: '153',
                 projectId: '13',
                 type: 'requirement',
                 name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
-                planFinishedAt: '2022-03-02 10:09:12',
+                planFinishedAt: '2022-03-02',
               },
               {
                 id: '150',
                 projectId: '13',
                 type: 'requirement',
                 name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
-                planFinishedAt: '2022-03-02 10:09:12',
+                planFinishedAt: '2022-03-02',
               },
               {
                 id: '153',
                 projectId: '13',
                 type: 'requirement',
                 name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
-                planFinishedAt: '2022-03-02 10:09:12',
+                planFinishedAt: '2022-03-02',
               },
             ],
           },
@@ -461,7 +693,7 @@ const tableGroup = {
             },
           },
         },
-        moreIssueLink: {
+        extraInfo: {
           props: {
             renderType: 'linkText',
             value: {
@@ -476,8 +708,6 @@ const tableGroup = {
                 jumpOut: true,
                 state: {
                   query: {
-                    issueFilter__urlQuery: "eyJzdGF0ZUJlbG9uZ3MiOlsiT1BFTiIsIldPUktJTkciLCJXT05URklYIiwiUkVPUEVOIiwiUkVTT0xWRUQiXX0=",
-                    issueTable__urlQuery: "eyJwYWdlTm8iOjF9",
                     issueViewGroup__urlQuery: "eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=",
                   },
                   params: {
@@ -495,31 +725,29 @@ const tableGroup = {
         },
       },
       {
-        projectTitle: {
+        title: {
           prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
           title: 'Erda',
           level: 2,
         },
-        issueTitle: {
-          title: '您未完成的事项',
+        subtitle: {
+          title: '您未完成的事项666',
           level: 3,
         },
-        issueBrief: {
+        description: {
           value: "当前您还有 120 个事项待完成，其中 已过期: 40，本日到期: 40，7日内到期: 36，30日内到期: 44",
         },
-        issueTable: {
+        table: {
           props: {
             rowKey: 'key',
             columns: [
               { title: '', dataIndex: 'name' },
-              { title: '', dataIndex: 'planFinishedAt' },
+              { title: '', dataIndex: 'planFinishedAt', width: 100, },
             ],
             showHeader: false,
             pagination: false,
             styleNames: {
-              'without-border': true,
-              'justify-align': true,
-              'mt8': true,
+              'no-border': true,
             },
           },
           data: {
@@ -529,35 +757,35 @@ const tableGroup = {
                 projectId: '13',
                 type: 'requirement',
                 name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '222运行速度没得说，完全不卡，打游戏体验极佳' },
-                planFinishedAt: '2022-03-02 10:09:12',
+                planFinishedAt: '2022-03-02',
               },
               {
                 id: '150',
                 projectId: '13',
                 type: 'requirement',
                 name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
-                planFinishedAt: '2022-03-02 10:09:12',
+                planFinishedAt: '2022-03-02',
               },
               {
                 id: '153',
                 projectId: '13',
                 type: 'requirement',
                 name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
-                planFinishedAt: '2022-03-02 10:09:12',
+                planFinishedAt: '2022-03-02',
               },
               {
                 id: '150',
                 projectId: '13',
                 type: 'requirement',
                 name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
-                planFinishedAt: '2022-03-02 10:09:12',
+                planFinishedAt: '2022-03-02',
               },
               {
                 id: '153',
                 projectId: '13',
                 type: 'requirement',
                 name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
-                planFinishedAt: '2022-03-02 10:09:12',
+                planFinishedAt: '2022-03-02',
               },
             ],
           },
@@ -573,7 +801,7 @@ const tableGroup = {
             },
           },
         },
-        moreIssueLink: {
+        extraInfo: {
           props: {
             renderType: 'linkText',
             value: {
@@ -588,8 +816,6 @@ const tableGroup = {
                 jumpOut: true,
                 state: {
                   query: {
-                    issueFilter__urlQuery: "eyJzdGF0ZUJlbG9uZ3MiOlsiT1BFTiIsIldPUktJTkciLCJXT05URklYIiwiUkVPUEVOIiwiUkVTT0xWRUQiXX0=",
-                    issueTable__urlQuery: "eyJwYWdlTm8iOjF9",
                     issueViewGroup__urlQuery: "eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=",
                   },
                   params: {
@@ -604,17 +830,16 @@ const tableGroup = {
             },
           },
         },
-      }
+      },
     ],
   },
   state: {
     pageNo: 1,
     pageSize: 1,
     total: 5,
-    list: []
   }
 }
-set(mockContent, 'protocol.components.tableGroup', tableGroup)
+// set(mockContent, 'protocol.components.tableGroup', tableGroup)
 
 const useMockRight = (payload: any) => {
   return new Promise((resolve) => {
