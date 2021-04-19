@@ -39,7 +39,6 @@ const TextGroup = (props: CP_TEXT.Props) => {
   const styleObj = getStyle(styleConfig);
 
   if (isArray(value)) {
-
     return (
       <div style={{ marginLeft: 80 }}>
         {map(value, (item) =>

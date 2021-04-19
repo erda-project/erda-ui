@@ -20,7 +20,7 @@ declare namespace CP_DROPDOWN_SELECT {
   interface IProps {
     [propName: string]: any,
     execOperation: any,
-    jumpToOtherPage?: string[],
+    jumpToOtherPage?: IJumpToOtherPage[],
     buttonText?: string,
     btnProps?: object,
     overlay?: any,
@@ -35,6 +35,11 @@ declare namespace CP_DROPDOWN_SELECT {
     name: string,
     disabled?: boolean,
     children?: IMenuItem[],
+  }
+
+  interface IJumpToOtherPage {
+    label: string,
+    target: string,
   }
 
   type Props = MakeProps<Spec>;

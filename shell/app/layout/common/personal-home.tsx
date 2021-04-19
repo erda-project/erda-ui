@@ -49,7 +49,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
       structure: {
         page: ['sidebar'],
         sidebar: ['myOrganization', 'myProject', 'myApplication'],
-        myOrganization: ['orgImage', 'orgSwitch', 'brief', 'emptyOrganization'],
+        myOrganization: ['orgImage', 'orgSwitch', 'joinedBrief', 'emptyOrganization'],
         emptyOrganization: ['emptyImage', 'emptyOrgText'],
         myProject: ['myProjectTitle', 'myProjectFilter', 'myProjectList', 'moreProject', 'emptyProject'],
         myApplication: ['myApplicationTitle', 'myApplicationFilter', 'myApplicationList', 'moreApplication', 'emptyProject'],
@@ -78,17 +78,59 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         }
       },
       emptyOrgText: {
-        type: 'Text',
+        type: 'TextGroup',
         props: {
           visible: true,
-          renderType: 'linkText',
-          styleConfig: { fontSize: 16, lineHeight: 24 },
-          value: {
-            text: [
-              '您尚未加入任何组织，点击',
-              { text: '+', operationKey: 'xxx', styleConfig: { bold: true } },
-              '创建', '您也可以点击', { text: '@', operationKey: 'xxx', styleConfig: { bold: true } }, '浏览公开组织',
-            ],
+          value: [
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '未加入任何组织',
+              },
+            },
+            {
+              props: {
+                renderType: 'linkText',
+                visible: true,
+                value: {
+                  text: [{ text: '了解如何受邀加入到组织', operationKey: "toJoinOrgDoc" }]
+                },
+              },
+            },
+            {
+              props: {
+                renderType: 'linkText',
+                visible: true,
+                value: {
+                  text: [{ text: '浏览公开组织信息', operationKey: 'toPublicOrgPage' }]
+                },
+              },
+            },
+          ]
+        },
+        operations: {
+          toJoinOrgDoc: {
+            command: {
+              key: "goto",
+              target: "https://docs.erda.cloud/",
+              jumpOut: true,
+              visible: false,
+            },
+            key: "click",
+            reload: false,
+            show: false,
+          },
+          toPublicOrgPage: {
+            command: {
+              key: "goto",
+              target: "orgHome",
+              jumpOut: true,
+              visible: false,
+            },
+            key: "click",
+            reload: false,
+            show: false,
           },
         },
       },
@@ -98,7 +140,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
           src: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3355464299,584008140&fm=26&gp=0.jpg',
           visible: true,
           styleNames: {
-            normal: true,
+            large: true,
           }
         },
       },
@@ -111,16 +153,16 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
               { name: '组织A', key: 'organizeA' },
             ],
           buttonText: '组织A',
-          jumpToOtherPage: ['浏览公开组织'],
+          jumpToOtherPage: [{ target: 'orgHome', label: '浏览公开组织' }],
         },
       },
-      brief: {
+      joinedBrief: {
         type: 'Table',
         props: {
           rowKey: 'key',
           columns: [
             { title: '', dataIndex: 'category' },
-            { title: '', dataIndex: 'number', width: 100 },
+            { title: '', dataIndex: 'number', width: 42 },
           ],
           showHeader: false,
           pagination: false,
@@ -370,6 +412,27 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
             },
           ]
         },
+        operations: {
+          toSpecificProject: {
+            command: {
+              key: "goto",
+              target: "issueAll",
+              jumpOut: true,
+              state: {
+                query: {
+                  issueViewGroup__urlQuery: "eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=",
+                },
+                params: {
+                  projectId: '13',
+                },
+              },
+              visible: false,
+            },
+            key: "click",
+            reload: false,
+            show: false,
+          },
+        },
       },
       emptyProjectTip: {
         type: 'Container',
@@ -488,35 +551,35 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                       id: '153',
                       projectId: '13',
                       type: 'requirement',
-                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '222运行速度没得说，完全不卡，打游戏体验极佳' },
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '222运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
                       planFinishedAt: '2022-03-02',
                     },
                     {
                       id: '150',
                       projectId: '13',
                       type: 'requirement',
-                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
                       planFinishedAt: '2022-03-02',
                     },
                     {
                       id: '153',
                       projectId: '13',
                       type: 'requirement',
-                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
                       planFinishedAt: '2022-03-02',
                     },
                     {
                       id: '150',
                       projectId: '13',
                       type: 'requirement',
-                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
                       planFinishedAt: '2022-03-02',
                     },
                     {
                       id: '153',
                       projectId: '13',
                       type: 'requirement',
-                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
                       planFinishedAt: '2022-03-02',
                     },
                   ],
@@ -596,35 +659,35 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                       id: '153',
                       projectId: '13',
                       type: 'requirement',
-                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '222运行速度没得说，完全不卡，打游戏体验极佳' },
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '222运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
                       planFinishedAt: '2022-03-02',
                     },
                     {
                       id: '150',
                       projectId: '13',
                       type: 'requirement',
-                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
                       planFinishedAt: '2022-03-02',
                     },
                     {
                       id: '153',
                       projectId: '13',
                       type: 'requirement',
-                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
                       planFinishedAt: '2022-03-02',
                     },
                     {
                       id: '150',
                       projectId: '13',
                       type: 'requirement',
-                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
                       planFinishedAt: '2022-03-02',
                     },
                     {
                       id: '153',
                       projectId: '13',
                       type: 'requirement',
-                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
                       planFinishedAt: '2022-03-02',
                     },
                   ],

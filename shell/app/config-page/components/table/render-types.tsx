@@ -87,9 +87,9 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       }
       break;
     case 'textWithIcon': {
-      const { value, prefixIcon, colorClassName } = val;
+      const { value, prefixIcon, colorClassName, hoverActive = '' } = val;
       Comp = (
-        <div>
+        <div className={`${hoverActive}`}>
           {prefixIcon ? <CustomIcon type={prefixIcon} className={`mr4 ${colorClassName}`} /> : null}
           {value}
         </div>

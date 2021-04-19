@@ -13,9 +13,11 @@
 
 import { Button, Dropdown, Menu, Input } from 'nusi';
 import { Icon as CustomIcon } from 'common';
+import { goTo } from 'app/common/utils';
 import React from 'react';
 import { map } from 'lodash';
 import i18n from 'i18n';
+import './dropdown-select.scss';
 
 const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
   const { props: configProps } = props;
@@ -23,6 +25,10 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
   let _overlay = overlay;
   const [filterValue, setFilterValue] = React.useState('');
   const [active, setActive] = React.useState(false)
+
+  const gotoSpecificPage = (target: string) => {
+    goTo(goTo.pages[target]);
+  }
 
   React.useEffect(() => {
     // 控制点击外部关闭 dropdown
@@ -85,9 +91,9 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
         <Menu.Divider key='divider2' />
         {
           jumpToOtherPage.length > 0 ?
-            map(jumpToOtherPage, (item: string) => (
-              <Menu.Item>
-                {item}
+            map(jumpToOtherPage, (item) => (
+              <Menu.Item onClick={() => gotoSpecificPage(item?.target || '')}>
+                {item?.label || null}
               </Menu.Item>
             )) : null
         }
@@ -107,6 +113,7 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
           type="default"
           loading={loading}
           {...btnProps}
+          className='dropdown-select-button'
           onClick={() => setActive(!active)}
         >
           {buttonText}
