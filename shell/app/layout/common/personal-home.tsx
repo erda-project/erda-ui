@@ -98,7 +98,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
           src: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3355464299,584008140&fm=26&gp=0.jpg',
           visible: true,
           styleNames: {
-            large: true,
+            normal: true,
           }
         },
       },
@@ -120,13 +120,12 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
           rowKey: 'key',
           columns: [
             { title: '', dataIndex: 'category' },
-            { title: '', dataIndex: 'number' },
+            { title: '', dataIndex: 'number', width: 100 },
           ],
           showHeader: false,
           pagination: false,
           styleNames: {
-            'without-border': true,
-            'justify-align': true,
+            'no-border': true,
             'light-card': true,
           },
         },
@@ -306,6 +305,8 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
       structure: {
         page: ['content'],
         content: ['title', 'emptyOrgTip', 'emptyProjectTip', 'tableGroup'],
+        emptyOrgTip: ['emptyOrgTitle', 'emptyOrgContent'],
+        emptyProjectTip: ['emptyProjectTitle', 'emptyProjectContent'],
       },
     },
     components: {
@@ -320,6 +321,21 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
         }
       },
       emptyOrgTip: {
+        type: 'Container',
+        props: {
+          whiteBg: true,
+        },
+      },
+      emptyOrgTitle: {
+        type: 'Title',
+        props: {
+          visible: true,
+          title: '你已经是 Erda Cloud 组织的成员',
+          level: 2,
+          imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdzJaQZp56En9t1-6SYmZYtY8Y9pdpDoFscQ&usqp=CAU',
+        },
+      },
+      emptyOrgContent: {
         type: 'TextGroup',
         props: {
           visible: true,
@@ -328,28 +344,101 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
               props: {
                 renderType: 'Text',
                 visible: true,
-                value: {
-                  text: '以下是作为组织新成员的一些快速入门知识：',
-                },
+                value: '以下是作为平台新成员的一些快速入门知识：',
+              },
+            },
+            {
+              props: {
+                renderType: 'Text',
+                visible: true,
+                value: '* 浏览公开组织 通过左上角的浏览公开组织信息，选择公开组织可以直接进入浏览该组织公开项目的信息可（包含项目管理、应用运行信息等）',
+              },
+            },
+            {
+              props: {
+                renderType: 'Text',
+                visible: true,
+                value: '* 加入组织 组织当前都是受邀机制，需要线下联系企业所有者进行邀请加入',
+              },
+            },
+            {
+              props: {
+                renderType: 'Text',
+                visible: true,
+                value: '当你已经加入到任何组织后，此框将不再显示',
               },
             },
           ]
-        }
+        },
       },
       emptyProjectTip: {
-        type: 'Card',
-        visible: true,
+        type: 'Container',
         props: {
-          cardType: 'card',
-          data: {
-            _infoData: {
-              id: '1',
-              titleIcon: 'ISSUE_ICON.issue.REQUIREMENT',
-              title: '你已经是 组织A 的成员',
-              type: '',
-              subContent: '以下是。。。。',
-            }
-          },
+          whiteBg: true,
+        },
+      },
+      emptyProjectTitle: {
+        type: 'Title',
+        props: {
+          visible: true,
+          title: '你已经是 XXX 组织的成员',
+          level: 2,
+          imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdzJaQZp56En9t1-6SYmZYtY8Y9pdpDoFscQ&usqp=CAU',
+        },
+      },
+      emptyProjectContent: {
+        type: 'TextGroup',
+        props: {
+          visible: true,
+          value: [
+            {
+              props: {
+                renderType: 'Text',
+                visible: true,
+                value: '以下是作为组织新成员的一些快速入门知识：',
+              },
+            },
+            {
+              props: {
+                renderType: 'Text',
+                visible: true,
+                value: '* 切换组织 使用此屏幕上左上角的组织切换，快速进行组织之间切换',
+              },
+            },
+            {
+              props: {
+                renderType: 'Text',
+                visible: true,
+                value: '* 公开组织浏览 可以通过切换组织下拉菜单中选择公开组织进行浏览',
+              },
+            },
+            {
+              props: {
+                renderType: 'Text',
+                visible: true,
+                value: '* 加入项目 当前都是受邀机制，需要线下联系项目管理员进行邀请加入',
+              },
+            },
+            {
+              props: {
+                renderType: 'textWithIcon',
+                visible: true,
+                value: {
+                  text: ['* 该组织内公开项目浏览 点击左上角菜单',
+                    {
+                      icon: 'appstore',
+                    }, '选择 DevOps平台进入，选择我的项目可以查看该组织下公开项目的信息']
+                },
+              },
+            },
+            {
+              props: {
+                renderType: 'Text',
+                visible: true,
+                value: '当你已经加入到任何项目后，此框将不再显示',
+              },
+            },
+          ]
         },
       },
       content: { type: 'Container' },

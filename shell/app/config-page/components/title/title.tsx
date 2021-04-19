@@ -17,14 +17,16 @@
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
 import { Title as NusiTitle, Tooltip } from 'nusi';
+import classnames from 'classnames';
 import './title.scss'
 
 const Title = (props: CP_TITLE.Props) => {
   const { props: configProps } = props;
-  const { title, level, tips, prefixIcon = '', showDivider = false, visible = true, titleStyles = {}, subtitle = '' } = configProps || {};
+  const { title, level, tips, prefixIcon = '', imageUrl = '', imageSize = 'normal', showDivider = false, visible = true, titleStyles = {}, subtitle = '' } = configProps || {};
   const titleComp = tips ? (
     <div className='left-flex-box dice-cp-title' style={{ ...titleStyles }}>
       {prefixIcon ? <CustomIcon type={prefixIcon} className='mr4' /> : null}
+      {imageUrl ? <img src={imageUrl} className={`${imageSize} pre-image`} /> : null}
       {title}
       <Tooltip title={tips}>
         <CustomIcon type='help' className='ml4 fz14' />
@@ -37,6 +39,7 @@ const Title = (props: CP_TITLE.Props) => {
     (
       <div className="dice-cp-title" style={{ ...titleStyles }}>
         {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
+        {imageUrl ? <img src={imageUrl} className={`${imageSize} pre-image`} /> : null}
         {title}
         {subtitle ?
           <span className="subtitle">

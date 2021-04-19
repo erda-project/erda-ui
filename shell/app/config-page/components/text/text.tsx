@@ -120,12 +120,12 @@ const Text = (props: CP_TEXT.Props) => {
                         operations && operations[operationKey] && execOperation(operations[operationKey]);
                       }}
                     >
-                      <CustomIcon type={icon} />
+                      <CustomIcon className='mr4 ml4' type={icon} />
                     </a>
                   )
                 }
                 if (icon) {
-                  return <CustomIcon type={icon} />
+                  return <CustomIcon className='mr4 ml4' type={icon} />
                 }
                 return operationKey ? (
                   <a
@@ -152,11 +152,11 @@ const Text = (props: CP_TEXT.Props) => {
               operations && operations[operationKey] && execOperation(operations[operationKey]);
             }}
           >
-            <CustomIcon type={icon} />
+            <CustomIcon className='mr4 ml4' type={icon} />
           </a>
         }
         if (icon) {
-          TextComp = <CustomIcon type={icon} />
+          TextComp = <CustomIcon className='mr4 ml4' type={icon} />
         }
         TextComp = operationKey ? (
           <a

@@ -39,11 +39,16 @@ const TextGroup = (props: CP_TEXT.Props) => {
   const styleObj = getStyle(styleConfig);
 
   if (isArray(value)) {
-    console.log(2222);
 
-    return map(value, (item) => <div>
-      <Text execOperation={execOperation} props={item.props} operations={operations} />
-    </div>)
+    return (
+      <div style={{ marginLeft: 80 }}>
+        {map(value, (item) =>
+          <div className='mb32' style={{ width: 500 }}>
+            <Text execOperation={execOperation} props={item.props} operations={operations} />
+          </div>)
+        }
+      </div >
+    )
   }
 
 };
