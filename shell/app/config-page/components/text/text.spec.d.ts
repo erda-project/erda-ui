@@ -19,7 +19,7 @@ declare namespace CP_TEXT {
     operations?: Obj<CP_COMMON.Operation>
   }
 
-  interface IProps{
+  interface IProps {
     renderType: IRenderType;
     value: ILinkTextData | string | IStatusText | ICopyText;
     visible?: boolean;
@@ -37,7 +37,7 @@ declare namespace CP_TEXT {
     copyText: string;
   }
 
-  interface IStyleConfig{
+  interface IStyleConfig {
     [pro: string]: any;
     bold?: boolean; // 是否加粗,
     lineHeight?: number;
@@ -48,7 +48,8 @@ declare namespace CP_TEXT {
     text: Array<ILinkTarget | string> | ILinkTarget | string;
   }
 
-  interface ILinkTarget{
+  interface ILinkTarget {
+    icon?: string;
     text: string;
     operationKey: string
     styleConfig?: IStyleConfig;

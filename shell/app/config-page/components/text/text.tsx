@@ -65,7 +65,7 @@ const Text = (props: CP_TEXT.Props) => {
               if (isString(t)) {
                 return <span style={styleObj} key={idx}>{t}</span>;
               } else if (isPlainObject(t)) {
-                const { text: tText, operationKey, styleConfig: tConfig } = t;
+                const { text: tText, operationKey, styleConfig: tConfig, icon } = t;
                 const tStyle = getStyle(tConfig);
 
                 return operationKey ? (
@@ -75,68 +75,14 @@ const Text = (props: CP_TEXT.Props) => {
                     onClick={() => {
                       operations && operations[operationKey] && execOperation(operations[operationKey]);
                     }}
-                  >{tText}
+                  >
+                    {tText}
+                    {icon && <CustomIcon className='mr4 ml4' type={icon} />}
                   </a>
-                ) : <span style={{ ...styleObj, ...tStyle }}>{tText}</span>;
-              }
-              return null;
-            })}
-          </span>
-        );
-      } else if (isPlainObject(text)) {
-        const { operationKey, text: tText, styleConfig: tConfig } = text;
-        const tStyle = getStyle(tConfig);
-        TextComp = operationKey ? (
-          <a
-            style={{ ...styleObj, ...tStyle }}
-            onClick={() => {
-              operations && operations[operationKey] && execOperation(operations[operationKey]);
-            }}
-          >{tText}
-          </a>
-        ) : <span style={{ ...styleObj, ...tStyle }}>{tText}</span>;
-      }
-    }
-      break;
-    case 'textWithIcon': {
-      const { text } = (value || {}) as CP_TEXT.ILinkTextData;
-      if (isString(text)) {
-        TextComp = <span style={styleObj}>{text}</span>;
-      } else if (isArray(text)) {
-        TextComp = (
-          <span>
-            {text.map((t, idx) => {
-              if (isString(t)) {
-                return <span style={styleObj} key={idx}>{t}</span>;
-              } else if (isPlainObject(t)) {
-                const { text: tText, operationKey, styleConfig: tConfig, icon } = t;
-                const tStyle = getStyle(tConfig);
-                if (operationKey && icon) {
-                  return (
-                    <a
-                      style={{ ...styleObj, ...tStyle }}
-                      key={idx}
-                      onClick={() => {
-                        operations && operations[operationKey] && execOperation(operations[operationKey]);
-                      }}
-                    >
-                      <CustomIcon className='mr4 ml4' type={icon} />
-                    </a>
-                  )
-                }
-                if (icon) {
-                  return <CustomIcon className='mr4 ml4' type={icon} />
-                }
-                return operationKey ? (
-                  <a
-                    style={{ ...styleObj, ...tStyle }}
-                    key={idx}
-                    onClick={() => {
-                      operations && operations[operationKey] && execOperation(operations[operationKey]);
-                    }}
-                  >{tText}
-                  </a>
-                ) : <span style={{ ...styleObj, ...tStyle }}>{tText}</span>;
+                ) : <span style={{ ...styleObj, ...tStyle }}>
+                    {tText}
+                    {icon && <CustomIcon className='mr4 ml4' type={icon} />}
+                  </span>;
               }
               return null;
             })}
@@ -145,28 +91,20 @@ const Text = (props: CP_TEXT.Props) => {
       } else if (isPlainObject(text)) {
         const { operationKey, text: tText, styleConfig: tConfig, icon } = text;
         const tStyle = getStyle(tConfig);
-        if (operationKey && icon) {
-          TextComp = <a
-            style={{ ...styleObj, ...tStyle }}
-            onClick={() => {
-              operations && operations[operationKey] && execOperation(operations[operationKey]);
-            }}
-          >
-            <CustomIcon className='mr4 ml4' type={icon} />
-          </a>
-        }
-        if (icon) {
-          TextComp = <CustomIcon className='mr4 ml4' type={icon} />
-        }
         TextComp = operationKey ? (
           <a
             style={{ ...styleObj, ...tStyle }}
             onClick={() => {
               operations && operations[operationKey] && execOperation(operations[operationKey]);
             }}
-          >{tText}
+          >
+            {tText}
+            {icon && <CustomIcon className='mr4 ml4' type={icon} />}
           </a>
-        ) : <span style={{ ...styleObj, ...tStyle }}>{tText}</span>;
+        ) : <span style={{ ...styleObj, ...tStyle }}>
+            {tText}
+            {icon && <CustomIcon className='mr4 ml4' type={icon} />}
+          </span>;
       }
     }
       break;

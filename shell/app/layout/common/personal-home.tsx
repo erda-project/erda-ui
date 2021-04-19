@@ -484,7 +484,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
             },
             {
               props: {
-                renderType: 'textWithIcon',
+                renderType: 'linkText',
                 visible: true,
                 value: {
                   text: ['* 该组织内公开项目浏览 点击左上角菜单',
