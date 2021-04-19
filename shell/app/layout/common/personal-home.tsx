@@ -320,20 +320,21 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
         }
       },
       emptyOrgTip: {
-        type: 'Card',
+        type: 'TextGroup',
         props: {
-          cardType: 'card',
           visible: true,
-          data: {
-            _infoData: {
-              id: '1',
-              titleIcon: 'ISSUE_ICON.issue.REQUIREMENT',
-              title: '你已经是 组织A 的新成员',
-              type: '',
-              subContent: '以下是。。。。',
-            }
-          },
-        },
+          value: [
+            {
+              props: {
+                renderType: 'Text',
+                visible: true,
+                value: {
+                  text: '以下是作为组织新成员的一些快速入门知识：',
+                },
+              },
+            },
+          ]
+        }
       },
       emptyProjectTip: {
         type: 'Card',

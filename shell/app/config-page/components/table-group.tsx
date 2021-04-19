@@ -58,9 +58,10 @@ const TableBoard = (props: ITableBoardProps) => {
 
 const TableGroup = (props: IProps) => {
   const { props: configProps, state: propsState, data, operations, execOperation = noop, updateState = noop } = props;
-  const [{ pageNo, list: combineList = [], total }, updater, update] = useUpdate({
+  const [{ pageNo, list: combineList = [], total, pageSize }, updater, update] = useUpdate({
     pageNo: propsState?.pageNo || 1,
-    total: propsState?.total,
+    total: propsState?.total || 0,
+    pageSize: propsState?.pageSize || 3,
     list: [],
   } || {}) as any;
   const { visible } = configProps;
