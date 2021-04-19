@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`icon should render base icon 1`] = `
+<Component
+  className="icon-class"
+  onClick={[MockFunction]}
+  type="loading"
+>
+  <i
+    aria-label="icon: loading"
+    className="iconfont icon-loading icon-class"
+    onClick={[MockFunction]}
+  />
+</Component>
+`;
+
+exports[`icon should render colur icon 1`] = `
+<Component
+  className="icon-class"
+  color={true}
+  onClick={[MockFunction]}
+  type="loading"
+>
+  <svg
+    aria-hidden="true"
+    className="icon icon-class"
+    onClick={[MockFunction]}
+  >
+    <use
+      xlinkHref="#icon-loading"
+    />
+  </svg>
+</Component>
+`;

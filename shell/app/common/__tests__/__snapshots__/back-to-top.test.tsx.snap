@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BackToTop should  1`] = `<BackToTop />`;
+
+exports[`BackToTop should act 1`] = `null`;
