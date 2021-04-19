@@ -104,19 +104,19 @@ const reqKeyList = [];
 // return req;
 // }
 
-function markReq(key) {
-  reqKeyList.push(key);
-}
+// function markReq(key) {
+//   reqKeyList.push(key);
+// }
 
-function abortReq(key) {
-  if (Array.isArray(key)) {
-    key.forEach((k) => {
-      reqMap[k] && reqMap[k].abort();
-    });
-  } else {
-    reqMap[key] && reqMap[key].abort();
-  }
-}
+// function abortReq(key) {
+//   if (Array.isArray(key)) {
+//     key.forEach((k) => {
+//       reqMap[k] && reqMap[k].abort();
+//     });
+//   } else {
+//     reqMap[key] && reqMap[key].abort();
+//   }
+// }
 
 agent.use(setHeader);
 agent.use(handleSpotPrefix);
@@ -126,7 +126,7 @@ agent.use(handleError);
 export default agent;
 export {
   abortReq,
-  markReq,
+  // markReq,
   setHeader,
   handleSpotPrefix,
 };
