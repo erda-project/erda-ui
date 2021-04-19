@@ -211,4 +211,3 @@ const config = require('./.erda/config');
 module.exports = config.wrapWebpack(yourWebpackConfig);
 `);
 }
-
