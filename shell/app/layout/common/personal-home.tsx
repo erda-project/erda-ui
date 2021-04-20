@@ -55,7 +55,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         page: ['sidebar'],
         sidebar: ['myOrganization', 'myProject', 'myApplication'],
         myOrganization: ['orgImage', 'orgSwitch', 'joinedBrief', 'emptyOrganization'],
-        emptyOrganization: ['emptyImage', 'emptyOrgText'],
+        emptyOrganization: ['emptyOrgText'],
         myProject: ['myProjectTitle', 'myProjectFilter', 'myProjectList', 'emptyProject'],
         emptyProject: ['projectTipWithoutOrg', 'projectTipWithOrg'],
         projectTipWithOrg: ['createProjectLink', 'createProjectTip'],
@@ -68,21 +68,17 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         type: 'Container',
         props: {
           whiteBg: true,
+          className: 'pa16',
         }
       },
       myOrganization: {
         type: 'Container',
+        props: {
+          spaceSize: 'big',
+        }
       },
       emptyOrganization: {
         type: 'Container',
-      },
-      emptyImage: {
-        type: 'EmptyHolder',
-        props: {
-          tip: '',
-          visible: true,
-          relative: true,
-        }
       },
       emptyOrgText: {
         type: 'TextGroup',
@@ -149,6 +145,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
           visible: true,
           styleNames: {
             normal: true,
+            'mt8': true,
           }
         },
       },
@@ -538,6 +535,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
           whiteBg: true,
           startAlign: true,
         },
+        leftStyleNames: { 'flex-1': false }
       },
       erdaLogo: {
         type: 'Image',
@@ -545,7 +543,9 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
           src: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3355464299,584008140&fm=26&gp=0.jpg',
           visible: true,
           styleNames: {
-            normal: true,
+            small: true,
+            'mt8': true,
+            'circle': true,
           }
         },
       },
@@ -633,6 +633,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
           whiteBg: true,
           startAlign: true,
         },
+        leftStyleNames: { 'flex-1': false }
       },
       orgLogo: {
         type: 'Image',
@@ -640,7 +641,9 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
           src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdzJaQZp56En9t1-6SYmZYtY8Y9pdpDoFscQ&usqp=CAU',
           visible: true,
           styleNames: {
-            normal: true,
+            small: true,
+            'mt8': true,
+            'circle': true,
           }
         },
       },

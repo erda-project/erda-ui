@@ -39,6 +39,8 @@ export const Container = (props: CP_CONTAINER.Props) => {
   if (className) tempClass[className] = true;
   const containerClass = classnames(tempClass);
 
+  console.log({ containerClass })
+
   return (
     <div className={containerClass}>
       {children}
@@ -51,10 +53,17 @@ export const RowContainer = (props: CP_CONTAINER.Props) => {
 };
 
 export const LRContainer = (props: CP_CONTAINER.Props) => {
-  const { left, right, ...rest } = props;
+  const { left, right, leftStyleNames = {}, ...rest } = props;
+
+  const leftCls = classnames({
+    left: true,
+    'flex-1': true,
+    ...leftStyleNames,
+  })
+
   return (
     <Container {...rest} props={{ ...(props.props || {}), direction: 'row' }}>
-      <div className={'flex-1 left'}>{left}</div>
+      <div className={leftCls}>{left}</div>
       <div className='right'>{right}</div>
     </Container>
   );

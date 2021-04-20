@@ -74,10 +74,14 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
             }
 
             return (
-              <Menu.Item key={item.key} disabled={item.disabled} onClick={() => {
-                setActive(false)
-                onClickMenu && onClickMenu(item)
-              }}>
+              <Menu.Item
+                key={item.key}
+                disabled={item.disabled}
+                className='hover-active'
+                onClick={() => {
+                  setActive(false)
+                  onClickMenu && onClickMenu(item)
+                }}>
                 <div className="flex-box full-width">
                   <span>{item.name}</span>
                   <span>
@@ -92,7 +96,9 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
         {
           jumpToOtherPage.length > 0 ?
             map(jumpToOtherPage, (item) => (
-              <Menu.Item onClick={() => gotoSpecificPage(item?.target || '')}>
+              <Menu.Item
+                className='hover-active'
+                onClick={() => gotoSpecificPage(item?.target || '')}>
                 {item?.label || null}
               </Menu.Item>
             )) : null

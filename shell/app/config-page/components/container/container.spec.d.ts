@@ -17,17 +17,19 @@ declare namespace CP_CONTAINER {
     left?: Obj;
     right?: Obj;
     props?: IProps;
+    leftStyleNames?: Obj;
   }
 
-  interface IProps{
+  interface IProps {
     visible?: boolean;
     direction?: 'column' | 'row'; // 对应flex-direction
     contentSetting?: 'between' | 'center' | 'start' | 'end'; // 对应justify-content
     isTopHead?: boolean;
-    spaceSize: 'small' | 'middle' | 'big' | 'large'
+    spaceSize?: 'small' | 'middle' | 'big' | 'large'
     whiteBg?: boolean;
     fullHeight?: boolean;
     flexHeight?: boolean;
+    className?: string;
   }
 
   type Props = MakeProps<Spec> & {
