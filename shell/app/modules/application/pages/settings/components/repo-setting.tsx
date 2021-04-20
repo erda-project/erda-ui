@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { Switch, message } from 'nusi';
+import { Switch, message } from 'app/nusi';
 import { usePerm, WithAuth } from 'user/common';
 import repoStore from 'application/stores/repo';
 

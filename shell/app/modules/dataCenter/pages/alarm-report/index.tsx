@@ -12,14 +12,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Button, Select, Divider, Spin, Modal, Switch, Table, Tooltip } from 'nusi';
+import { Button, Select, Divider, Spin, Modal, Switch, Table, Tooltip } from 'app/nusi';
 import { isEmpty, map, find, get } from 'lodash';
 import userStore from 'app/user/stores';
 import i18n from 'i18n';
 import moment from 'moment';
 import { useMount } from 'react-use';
 import { FormModal, useSwitch, useUpdate } from 'common';
-import { WrappedFormUtils, ColumnProps } from 'interface/common';
+import { WrappedFormUtils, ColumnProps } from 'core/common/interface';
 import { goTo } from 'common/utils';
 import { notifyChannelOptionsMap, ListTargets } from 'application/pages/settings/components/app-notify/common-notify-group';
 import { useLoading } from 'app/common/stores/loading';

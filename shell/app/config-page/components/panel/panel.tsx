@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Panel, Ellipsis } from 'nusi';
+import { Panel, Ellipsis } from 'app/nusi';
 import { map } from 'lodash';
 
 interface IField extends CP_PANEL.Field{

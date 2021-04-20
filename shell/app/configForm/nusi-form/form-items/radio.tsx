@@ -14,7 +14,7 @@
 import {
   Form,
   Radio,
-} from 'nusi';
+} from 'app/nusi';
 import * as React from 'react';
 import { get, map, isEmpty } from 'lodash';
 import { getLabel, noop } from './common';

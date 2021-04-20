@@ -17,7 +17,7 @@ import publisherStore from '../../stores/publisher';
 import { FormModal, useUpdate } from 'common';
 import routeInfoStore from 'common/stores/route';
 import { validators, insertWhen } from 'common/utils';
-import { RadioChangeEvent } from 'interface/common';
+import { RadioChangeEvent } from 'core/common/interface';
 
 interface IProps {
   visible: boolean;

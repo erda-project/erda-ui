@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Table, Icon, Skeleton, Spin, Button, Popover, Input, Select, Modal, message, Tooltip, Form, Alert } from 'nusi';
+import { Table, Icon, Skeleton, Spin, Button, Popover, Input, Select, Modal, message, Tooltip, Form, Alert } from 'app/nusi';
 import { goTo, cutStr, fromNow, replaceEmoji } from 'common/utils';
 import { groupBy, sortBy, get } from 'lodash';
 import * as React from 'react';

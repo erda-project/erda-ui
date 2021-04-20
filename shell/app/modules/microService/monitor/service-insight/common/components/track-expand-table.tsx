@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Table } from 'nusi';
+import { Table } from 'app/nusi';
 import moment from 'moment';
 import { map, get, pick } from 'lodash';
 import routeInfoStore from 'app/common/stores/route';

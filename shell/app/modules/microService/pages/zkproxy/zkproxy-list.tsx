@@ -11,12 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { ColumnProps } from 'antd/lib/table';
+import { ColumnProps } from 'core/common/interface';
 import routeInfoStore from 'app/common/stores/route';
 import { Holder, SearchTable, Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
 import { filter, isEmpty, map } from 'lodash';
-import { Table, Tooltip } from 'nusi';
+import { Table, Tooltip } from 'app/nusi';
 import * as React from 'react';
 import { useUnmount } from 'react-use';
 import zkproxyStore from '../../stores/zkproxy';

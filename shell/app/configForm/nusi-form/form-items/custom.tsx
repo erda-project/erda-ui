@@ -13,7 +13,7 @@
 
 import {
   Form,
-} from 'nusi';
+} from 'app/nusi';
 import * as React from 'react';
 import { getLabel, noop } from './common';
 import { commonFields } from './common/config';

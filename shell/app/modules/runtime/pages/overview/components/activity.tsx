@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Tooltip, Drawer } from 'nusi';
+import { Tooltip, Drawer } from 'app/nusi';
 import moment from 'moment';
 import { map } from 'lodash';
 import { getDateDuration } from 'common/utils';

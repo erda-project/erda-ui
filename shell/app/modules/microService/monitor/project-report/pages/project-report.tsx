@@ -15,7 +15,7 @@ import React, { useEffect } from 'react';
 import { map, isEmpty } from 'lodash';
 import classnames from 'classnames';
 import i18n from 'i18n';
-import { DatePicker, Spin, Pagination, Button } from 'nusi';
+import { DatePicker, Spin, Pagination, Button } from 'app/nusi';
 import { useUpdate, Holder, useFormModal, Icon as CustomIcon } from 'common';
 import { getTimeRanges } from 'common/utils';
 import projectReportStore from 'microService/stores/project-report';

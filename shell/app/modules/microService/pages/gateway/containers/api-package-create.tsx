@@ -16,7 +16,7 @@ import { RenderPureForm, useUpdate, FormModal } from 'common';
 import { goTo, insertWhen, updateSearch } from 'common/utils';
 import i18n from 'i18n';
 import { map, isString, isEmpty, remove, set, filter } from 'lodash';
-import { Button, Checkbox, Steps, Table, Form, Icon, Input, Spin } from 'nusi';
+import { Button, Checkbox, Steps, Table, Form, Icon, Input, Spin } from 'app/nusi';
 import * as React from 'react';
 import { useEffectOnce } from 'react-use';
 import { ACL_TYPE_MAP, AUTH_TYPE_MAP, getOpenApiConsumerFields, SCENE_MAP, AuthType } from '../config';

@@ -18,7 +18,7 @@ import {
   Input,
   DatePicker,
   Checkbox,
-} from 'nusi';
+} from 'app/nusi';
 import { Icon as CustomIcon, MemberSelector } from 'common';
 import moment, { Moment } from 'moment';
 import { useUpdateEffect, useMount } from 'react-use';

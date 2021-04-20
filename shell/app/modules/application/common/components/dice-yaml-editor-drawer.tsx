@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { useEffectOnce } from 'react-use';
-import { Icon } from 'nusi';
+import { Icon } from 'app/nusi';
 import classnames from 'classnames';
 
 interface IDiceYamlEditorDrawerProps {

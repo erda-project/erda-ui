@@ -15,8 +15,7 @@ import { Copy, IF, Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
 import React from 'react';
 import { WithAuth } from 'user/common';
-import { Drawer, Icon, Spin, Popconfirm, Input, message } from 'nusi';
-import { Popover } from '@terminus/nusi';
+import { Drawer, Icon, Spin, Popconfirm, Input, message, NusiPopover as Popover } from 'app/nusi';
 import './issue-drawer.scss';
 
 type ElementChild = React.ElementType | JSX.Element | string;

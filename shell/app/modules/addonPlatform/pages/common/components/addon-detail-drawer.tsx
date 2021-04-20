@@ -14,7 +14,7 @@
 import * as React from 'react';
 import i18n from 'i18n';
 import moment from 'moment';
-import { Spin, Drawer, Table } from 'nusi';
+import { Spin, Drawer, Table } from 'app/nusi';
 import { isEmpty, map } from 'lodash';
 import { Link } from 'react-router-dom';
 import { IF, Copy, Icon as CustomIcon } from 'common';

@@ -13,12 +13,12 @@
 
 import * as React from 'react';
 import moment from 'moment';
-import { Table, Button, Modal, Drawer, Select, Spin, Tooltip } from 'nusi';
+import { Table, Button, Modal, Drawer, Select, Spin, Tooltip } from 'app/nusi';
 import { FormModal, Copy, SearchTable } from 'common';
 import { keys, values } from 'lodash';
 import { DomainChecker } from './domain-checker';
 import i18n from 'i18n';
-import { SelectValue } from 'interface/common';
+import { SelectValue } from 'core/common/interface';
 
 import './invoker-authorization.scss';
 import gatewayStore from 'microService/stores/gateway';

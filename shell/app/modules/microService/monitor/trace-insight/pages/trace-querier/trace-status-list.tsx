@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { map as _map } from 'lodash';
 import moment from 'moment';
-import { Spin, Icon, Tooltip, Pagination } from 'nusi';
+import { Spin, Icon, Tooltip, Pagination } from 'app/nusi';
 import { Icon as CustomIcon, EmptyHolder } from 'common';
 import { goTo, notify } from 'common/utils';
 import i18n from 'i18n';

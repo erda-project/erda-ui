@@ -13,7 +13,7 @@
 
 import { goTo } from 'common/utils';
 import * as React from 'react';
-import { Button } from 'nusi';
+import { Button } from 'app/nusi';
 import { PureAppList } from 'application/common/app-list-protocol';
 import { WithAuth, usePerm } from 'app/user/common';
 import i18n from 'i18n';

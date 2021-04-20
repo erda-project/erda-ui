@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Button, Tooltip } from 'nusi';
+import { Button, Tooltip } from 'app/nusi';
 import { map, isEmpty, get } from 'lodash';
 import autoTestStore from 'project/stores/auto-test-case';
 import { useUpdate } from 'common';

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Row, Col } from 'nusi';
+import { Row, Col } from 'app/nusi';
 import GeographyMap from 'browser-insight/pages/geography-china/config/chartMap';
 import PositionMap from 'browser-insight/pages/position/config/chartMap';
 import OverviewMap, { commonAttr } from './config/chartMap';

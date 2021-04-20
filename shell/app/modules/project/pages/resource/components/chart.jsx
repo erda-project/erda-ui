@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Row, Col } from 'nusi';
+import { Row, Col } from 'app/nusi';
 import { compact } from 'lodash';
 import { MonitorChartNew } from 'charts';
 import { ChartContainer } from 'charts/utils';

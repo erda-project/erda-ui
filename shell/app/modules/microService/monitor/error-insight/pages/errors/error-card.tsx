@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Icon, Tooltip, Row, Col } from 'nusi';
+import { Icon, Tooltip, Row, Col } from 'app/nusi';
 import { get } from 'lodash';
 import { resolvePath, fromNow } from 'common/utils';
 import { Link } from 'react-router-dom';

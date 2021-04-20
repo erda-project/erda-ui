@@ -13,14 +13,13 @@
 
 import React from 'react';
 import { useUpdate, EmptyHolder } from 'common';
-import { Table, Modal, Collapse, Button, Spin } from 'nusi';
+import { Table, Modal, Collapse, Button, Spin, Tooltip } from 'app/nusi';
 import i18n from 'i18n';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { every, isEmpty, map, values, forEach } from 'lodash';
 import routeInfoStore from 'common/stores/route';
 import { API_FORM_KEY, API_PROPERTY_REQUIRED } from 'app/modules/apiManagePlatform/configs.ts';
 import { useLoading } from 'common/stores/loading';
-import { Tooltip } from 'antd';
 import { produce } from 'immer';
 import './api-params-modal.scss';
 

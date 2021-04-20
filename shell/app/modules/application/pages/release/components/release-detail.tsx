@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Menu } from 'nusi';
+import { Menu } from 'app/nusi';
 import ReleaseInfo from './release-detail-info';
 import ReleaseEdit from './release-detail-edit';
 import DetailYml from './release-detail-yml';

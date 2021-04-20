@@ -1,3 +1,4 @@
+
 // Copyright (c) 2021 Terminus, Inc.
 //
 // This program is free software: you can use, redistribute, and/or modify
@@ -16,8 +17,8 @@ import { useUpdate, FormModal, Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
 import routeInfoStore from 'common/stores/route';
 import userStore from 'app/user/stores';
-import { WrappedFormUtils } from 'interface/common';
-import { message, Tooltip } from 'nusi';
+import { WrappedFormUtils } from 'core/common/interface';
+import { message, Tooltip } from 'app/nusi';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { isEmpty } from 'lodash';
 

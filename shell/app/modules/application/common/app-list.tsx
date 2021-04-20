@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Input, Tooltip, List } from 'nusi';
+import { Input, Tooltip, List } from 'app/nusi';
 import { useDebounce, useUnmount } from 'react-use';
 import i18n from 'i18n';
 import { Icon as CustomIcon, EmptyListHolder, LoadMore, IF, connectCube } from 'common';

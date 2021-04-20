@@ -11,12 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { ColumnProps } from 'antd/lib/table';
+import { ColumnProps } from 'core/common/interface';
 import { useLoading } from 'app/common/stores/loading';
 import { Icon as CustomIcon, useUpdate, LogRoller, FilterGroup } from 'common';
 import i18n from 'i18n';
 import moment from 'moment';
-import { Table, Drawer, Badge, Tooltip, Switch } from 'nusi';
+import { Table, Drawer, Badge, Tooltip, Switch } from 'app/nusi';
 import machineStore from 'app/modules/dataCenter/stores/machine';
 import * as React from 'react';
 import userStore from 'user/stores';

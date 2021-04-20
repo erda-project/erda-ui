@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { toArray, isEmpty } from 'lodash';
-import { Table } from 'nusi';
+import { Table } from 'app/nusi';
 import i18n from 'i18n';
 
 export default class FormTable extends React.Component<any, any> {

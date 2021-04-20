@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Form, Row, Col } from 'nusi';
+import { Form, Row, Col } from 'app/nusi';
 import classNames from 'classnames';
 import { RenderFormItem } from './render-formItem';
-import { WrappedFormUtils } from 'interface/common';
+import { WrappedFormUtils } from 'core/common/interface';
 import { ImgHolder } from 'common';
 import { forEach, map, isPlainObject, get } from 'lodash';
 import './render-form.scss';

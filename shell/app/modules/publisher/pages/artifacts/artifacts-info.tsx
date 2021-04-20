@@ -15,7 +15,7 @@ import * as React from 'react';
 import { ConfigLayout, ImgHolder } from 'common';
 import { ArtifactsTypeMap } from './config';
 import { get, map } from 'lodash';
-import { Row, Col, Tooltip } from 'nusi';
+import { Row, Col, Tooltip } from 'app/nusi';
 import i18n from 'i18n';
 import { insertWhen } from 'common/utils';
 // import routeInfoStore from 'common/stores/route';

@@ -15,8 +15,8 @@ import { map } from 'lodash';
 import React from 'react';
 import i18n from 'i18n';
 import moment from 'moment';
-import { ColumnProps } from 'antd/lib/table';
-import { Badge, Table } from 'nusi';
+import { ColumnProps } from 'core/common/interface';
+import { Badge, Table } from 'app/nusi';
 
 import { Icon as CustomIcon } from 'common';
 import { useLoading } from 'app/common/stores/loading';

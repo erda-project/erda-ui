@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Title, Panel } from 'nusi';
+import { Title, Panel } from 'app/nusi';
 import { map, get } from 'lodash';
 
 interface IProps {

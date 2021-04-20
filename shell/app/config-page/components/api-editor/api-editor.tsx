@@ -16,7 +16,7 @@ import classnames from 'classnames';
 import { Copy, Icon as CustomIcon, EditList, EmptyListHolder, FileEditor } from 'common';
 import { validateValue } from 'common/components/edit-list/edit-list';
 import { isArray, isEmpty, isString, map, reduce, set, cloneDeep, find, reject, last, get } from 'lodash';
-import { Badge, Button, Input, Popconfirm, Popover, Radio, Select, Table, Tabs, Spin, Title, Modal, message, Dropdown, Menu, Tooltip } from 'nusi';
+import { Badge, Button, Input, Popconfirm, Popover, Radio, Select, Table, Tabs, Spin, Title, Modal, message, Dropdown, Menu, Tooltip } from 'app/nusi';
 import React from 'react';
 import { produce } from 'immer';
 import i18n from 'i18n';
@@ -369,7 +369,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                   <>
                     <div className="request-info color-text-desc pa12">
                       <span className="method mr12">{get(request, 'method', '')}</span>
-                      <span className="url">{get(request, 'params', '')}</span>
+                      <span className="url">{get(request, 'url', '')}</span>
                     </div>
                     <Tabs>
                       <TabPane key="Params" tab="Params">
@@ -505,7 +505,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                       apiObj={api}
                       data={getConf(api, dataKey)}
                       assertResult={assertResult}
-                      onChange={(key: string, val: any, autoSave?: boolean) => updateApi(key, val, autoSave)}
+                      onChange={(key: string, val: any, autoSave?: boolean, adjustData?: Function) => updateApi(key, val, autoSave, adjustData)}
                     />
                   </TabPane>
                 );
@@ -528,7 +528,7 @@ const Empty = () => null;
 
 const AssertTips = () => {
   const format = (tips: string) => {
-    return tips.replace('<', '{').replace('>', '}');
+    return tips.replaceAll('<', '{').replaceAll('>', '}');
   };
   const tips = (
     <ul className="contents ml16">
@@ -834,6 +834,9 @@ const APIBody = (props: any) => {
       }
     }
     onChange('body', newBody, autoSave, (newData: any) => {
+      if (!newData.headers) {
+        newData.headers = [];
+      }
       const { headers, body } = newData;
       const adjustHeader = (action: string, headerType: any) => {
         // 按key查找
@@ -977,7 +980,7 @@ const KeyValEdit = (props: IKeyValProps) => {
         if (k === 'out_params') {
           // 修改出参时修改对应断言
           const oldKey = oldVal[idx].key;
-          asserts[0].forEach((a: any) => {
+          asserts?.forEach((a: any) => {
             if (a.arg === oldKey) {
               a.arg = out_params[idx].key;
             }
@@ -1007,8 +1010,8 @@ const KeyValEdit = (props: IKeyValProps) => {
         const outParamKeys = {};
         out_params.forEach((p: any) => { outParamKeys[p.key] = true; });
         // 只保留arg没填或者在outParams有匹配的断言
-        const newAsserts = asserts[0].filter((a: any) => a.arg === '' || outParamKeys[a.arg]);
-        newData.asserts[0] = newAsserts;
+        const newAsserts = asserts.filter((a: any) => a.arg === '' || outParamKeys[a.arg]);
+        newData.asserts = newAsserts;
       }
       // 删除断言时同时删除小试中对应断言的结果
       if (k.startsWith('asserts')) {

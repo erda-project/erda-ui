@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { map, last, cloneDeep } from 'lodash';
-import { Input, Icon } from 'nusi';
+import { Input, Icon } from 'app/nusi';
 import React from 'react';
 
 

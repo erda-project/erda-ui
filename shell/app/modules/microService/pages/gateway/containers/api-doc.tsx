@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useEffect } from 'react';
-import { Spin, Drawer } from 'nusi';
+import { Spin, Drawer } from 'app/nusi';
 import { cloneDeep, map, isEmpty } from 'lodash';
 import SwaggerParser from 'swagger-parser';
 import { useUpdate } from 'common';

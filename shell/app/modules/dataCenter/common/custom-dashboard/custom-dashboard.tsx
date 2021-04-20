@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { Input, message } from 'nusi';
+import { Input, message } from 'app/nusi';
 import { map, merge, reduce, isString, get } from 'lodash';
 import { Choose, When, Otherwise } from 'tsx-control-statements/components';
 import { CommonRangePicker, useUpdate, IF, BoardGrid, PureBoardGrid } from 'common';

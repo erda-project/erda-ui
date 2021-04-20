@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Table, Tooltip } from 'nusi';
+import { Table, Tooltip } from 'app/nusi';
 import { get } from 'lodash';
 import moment from 'moment';
-import { ColumnProps } from 'antd/lib/table';
+import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 
 interface IData{

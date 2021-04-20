@@ -14,12 +14,10 @@
 import React from 'react';
 import { useMount, useLatest } from 'react-use';
 import { map, set, find, cloneDeep, noop, findIndex, get, reduce, forEach } from 'lodash';
-import { Tree, Popover, Select } from '@terminus/nusi';
-import { Spin, Title } from 'nusi';
+import { Spin, Title, NusiTree as Tree, NusiPopover as Popover, NusiSelect as Select } from 'app/nusi';
 import i18n from 'i18n';
-import { TreeProps } from '@terminus/nusi/es/tree';
 import { useUpdate } from 'common';
-import { AntTreeNode, AntTreeNodeSelectedEvent, IAction, TreeNodeNormal } from '@terminus/nusi/es/tree/interface';
+import { TreeProps, NusiTreeNode, NusiTreeNodeSelectedEvent, IAction, TreeNodeNormal } from 'core/common/interface';
 import { EditCategory } from './edit-category';
 import { findTargetNode, getIcon, isAncestor, walkTree } from './utils';
 import { WithAuth } from 'user/common';
@@ -316,7 +314,7 @@ export const TreeCategory = ({
     updater.expandedKeys(keys);
   };
 
-  const onClickNode = (keys: string[], event: AntTreeNodeSelectedEvent) => {
+  const onClickNode = (keys: string[], event: NusiTreeNodeSelectedEvent) => {
     const isLeaf = !!event.node.props.isLeaf;
     onSelectNode({ inode: isLeaf ? keys[0].slice(5) : keys[0], isLeaf });
   };
@@ -593,7 +591,7 @@ export const TreeCategory = ({
     return generateActions(folderActions || [], execNode);
   };
 
-  const onDrop = async (info: { dragNode: AntTreeNode, node: AntTreeNode }) => {
+  const onDrop = async (info: { dragNode: NusiTreeNode, node: NusiTreeNode }) => {
     const { dragNode, node: dropNode } = info;
     const dragKey = dragNode.props.dataRef.key;
     let dropKey = dropNode.props.dataRef.key;

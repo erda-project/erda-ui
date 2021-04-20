@@ -41,10 +41,10 @@ program
   });
 
 program
-  .command('build')
+  .command('build [execPath]')
   .description('bundle files to public directory')
-  .action(() => {
-    require('../lib/build')()
+  .action((execPath='local') => {
+    require('../lib/build')(execPath)
   });
 
 program

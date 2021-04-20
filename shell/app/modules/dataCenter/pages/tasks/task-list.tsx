@@ -14,7 +14,7 @@
 import * as React from 'react';
 import i18n from 'i18n';
 import moment from 'moment';
-import { Table, Badge, message } from 'nusi';
+import { Table, Badge, message } from 'app/nusi';
 import { goTo } from 'common/utils';
 import { TASKS_STATUS_MAP, WORKSPACE_MAP } from './config';
 import { ClusterSelector } from 'app/modules/dataCenter/common/components/cluster-selector';

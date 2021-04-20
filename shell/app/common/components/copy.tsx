@@ -14,7 +14,7 @@
 import * as React from 'react';
 import Clipboard from 'clipboard';
 import { isString } from 'lodash';
-import { message } from 'nusi';
+import { message } from 'app/nusi';
 import i18n from 'i18n';
 
 const selectorMap = {};

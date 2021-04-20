@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, message, Button } from 'nusi';
+import { Spin, message, Button } from 'app/nusi';
 import { withRouter } from 'react-router-dom';
 import { isEmpty, get } from 'lodash';
 import QRCode from 'qrcode.react';
@@ -180,7 +180,7 @@ const DownloadPage = ({ match }: any) => {
           {
             client === 'ios' && appStoreURL ? (
               <div className="jump-app-store">
-                <a href={appStoreURL} target="_blank">跳转至App Store</a>
+                <a href={appStoreURL} target="_blank" rel="noopener noreferrer">跳转至App Store</a>
               </div>
             ) : null
           }

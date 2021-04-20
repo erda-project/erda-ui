@@ -15,9 +15,9 @@
  * Created by 含光<jiankang.pjk@alibaba-inc.com> on 2021/2/4 14:52.
  */
 import React from 'react';
-import { Select as NusiSelect, Modal } from 'nusi';
+import { Select as NusiSelect, Modal } from 'app/nusi';
 import { omit, map, debounce } from 'lodash';
-import { SelectProps } from 'interface/common';
+import { SelectProps } from 'core/common/interface';
 
 const { Option } = NusiSelect;
 const customizeProps = ['renderType'];

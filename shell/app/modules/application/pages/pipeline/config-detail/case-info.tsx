@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Panel, Tooltip } from 'nusi';
+import { Panel, Tooltip } from 'app/nusi';
 import i18n from 'i18n';
 import userMapStore from 'app/common/stores/user-map';
 import moment from 'moment';

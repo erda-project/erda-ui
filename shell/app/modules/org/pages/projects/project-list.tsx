@@ -13,8 +13,8 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { Table, Spin, Button, Tooltip } from 'nusi';
-import { ColumnProps } from 'interface/common';
+import { Table, Spin, Button, Tooltip } from 'app/nusi';
+import { ColumnProps } from 'core/common/interface';
 import { goTo, fromNow } from 'common/utils';
 import { useEffectOnce } from 'react-use';
 import { SearchTable, Icon as CustomIcon } from 'common';
