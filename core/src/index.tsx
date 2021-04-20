@@ -64,7 +64,8 @@ export interface IModule {
   Root?: React.ComponentType,
   NotFound?: React.ComponentType,
 }
-export const registerModule = ({ key, stores, routers, locales, Root, NotFound }: IModule) => {
+
+export const registerModule = ({ key, stores, routers, locales, Root, NotFound }: IModule, cb?: () => void) => {
   if (locales && locales.zh && locales.en) {
     const namespaces = Object.keys(locales.zh);
     namespaces.forEach(ns => {
@@ -79,6 +80,8 @@ export const registerModule = ({ key, stores, routers, locales, Root, NotFound }
     const routeData = registRouters(key, routers, { Root, NotFound });
     routeInfoStore.reducers.$_updateRouteInfo(browserHistory.location, routeData);
   }
+
+  typeof cb === 'function' && cb();
 };
 
 export const registerModules = (modules: IModule[]) => {
