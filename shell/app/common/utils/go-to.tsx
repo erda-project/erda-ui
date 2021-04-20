@@ -145,6 +145,7 @@ export enum pages {
   dataCenterRoot = '/dataCenter/overview',
   dataCenterClusterState = '/dataCenter/clusters/{clusterName}/state',
   orgCenterRoot = '/orgCenter/projects',
+  createProject = '/orgCenter/projects/createProject',
   publisherContent = '/workBench/publisher/{type}/{publisherItemId}',
   dataCenterNotifyGroup = '/orgCenter/setting/detail?tabKey=notifyGroup',
   dataCenterSetting = 'orgCenter/setting/detail',

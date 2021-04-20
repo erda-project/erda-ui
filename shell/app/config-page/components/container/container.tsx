@@ -19,7 +19,7 @@ import './container.scss';
 export const Container = (props: CP_CONTAINER.Props) => {
   const { children, props: configProps } = props || {};
 
-  const { direction = 'column', spaceSize = 'small', contentSetting, className, whiteBg = false, isTopHead = false, fullHeight = false, flexHeight = false, visible = true } = configProps || {};
+  const { direction = 'column', spaceSize = 'small', contentSetting, className, whiteBg = false, isTopHead = false, fullHeight = false, flexHeight = false, visible = true, startAlign = false } = configProps || {};
 
   if (!visible) return null;
   const tempClass = {
@@ -30,6 +30,7 @@ export const Container = (props: CP_CONTAINER.Props) => {
     ...(contentSetting ? { [contentSetting]: true } : {}),
     'top-button-group': isTopHead,
     'white-bg': whiteBg,
+    'start-align': startAlign,
     'full-height': fullHeight,
     'flex-height': flexHeight,
     [`space-${spaceSize}`]: true,

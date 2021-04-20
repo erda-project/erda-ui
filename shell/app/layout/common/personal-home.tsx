@@ -12,11 +12,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
+import userStore from 'app/user/stores';
 import DiceConfigPage from 'config-page/index';
 import './personal-home.scss';
-import { set } from 'lodash';
 
 export const PersonalHome = () => {
+  const loginUser = userStore.useStore(s => s.loginUser);
+  const { orgName } = loginUser;
+  const inParams = { orgName };
 
   return (
     <div className='home-page'>
@@ -25,6 +28,7 @@ export const PersonalHome = () => {
           scenarioType='home-page-sidebar'
           scenarioKey='home-page-sidebar'
           useMock={location.search.includes('useMock') ? useMockLeft : undefined}
+          inParams={inParams}
         />
       </div>
       <div className='home-page-content'>
@@ -32,6 +36,7 @@ export const PersonalHome = () => {
           scenarioType='home-page-content'
           scenarioKey='home-page-content'
           useMock={location.search.includes('useMock') ? useMockRight : undefined}
+          inParams={inParams}
         />
       </div>
     </div>
@@ -51,8 +56,10 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         sidebar: ['myOrganization', 'myProject', 'myApplication'],
         myOrganization: ['orgImage', 'orgSwitch', 'joinedBrief', 'emptyOrganization'],
         emptyOrganization: ['emptyImage', 'emptyOrgText'],
-        myProject: ['myProjectTitle', 'myProjectFilter', 'myProjectList', 'moreProject', 'emptyProject'],
-        myApplication: ['myApplicationTitle', 'myApplicationFilter', 'myApplicationList', 'moreApplication', 'emptyProject'],
+        myProject: ['myProjectTitle', 'myProjectFilter', 'myProjectList', 'emptyProject'],
+        emptyProject: ['projectTipWithoutOrg', 'projectTipWithOrg'],
+        projectTipWithOrg: ['createProjectLink', 'createProjectTip'],
+        myApplication: ['myApplicationTitle', 'myApplicationFilter', 'myApplicationList', 'emptyApplication'],
       },
     },
     components: {
@@ -107,7 +114,8 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
                 },
               },
             },
-          ]
+          ],
+
         },
         operations: {
           toJoinOrgDoc: {
@@ -140,7 +148,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
           src: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3355464299,584008140&fm=26&gp=0.jpg',
           visible: true,
           styleNames: {
-            large: true,
+            normal: true,
           }
         },
       },
@@ -187,11 +195,95 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         },
       },
       emptyProject: {
-        type: 'EmptyHolder',
+        // type: 'EmptyHolder',
+        // props: {
+        //   tip: '暂无数据，请先加入组织~',
+        //   visible: true,
+        //   relative: true,
+        // }
+        type: 'Container',
+      },
+      projectTipWithoutOrg: {
+        type: 'Text',
         props: {
-          tip: '暂无数据，请先加入组织~',
           visible: true,
-          relative: true,
+          renderType: 'linkText',
+          value: {
+            text: ['请先加入组织或者', { text: '了解更多内容', operationKey: "toJoinOrgDoc" }]
+          }
+        },
+        operations: {
+          toJoinOrgDoc: {
+            command: {
+              key: "goto",
+              target: "https://docs.erda.cloud/",
+              jumpOut: true,
+              visible: false,
+            },
+            key: "click",
+            reload: false,
+            show: false,
+          },
+        }
+      },
+      projectTipWithOrg: {
+        type: 'Container',
+      },
+      createProjectLink: {
+        type: 'Text',
+        props: {
+          visible: true,
+          renderType: 'linkText',
+          value: {
+            text: [{ text: '创建', operationKey: "createProject" }]
+          }
+        },
+        operations: {
+          createProject: {
+            command: {
+              key: "goto",
+              target: "createProject",
+              jumpOut: true,
+              visible: false,
+            },
+            key: "click",
+            reload: false,
+            show: false,
+          },
+        }
+      },
+      createProjectTip: {
+        type: 'Text',
+        props: {
+          visible: true,
+          renderType: 'linkText',
+          value: {
+            text: [{ text: '如何创建项目', operationKey: "createProjectDoc" }, ' 或 ', { text: '通过公开组织浏览公开项目信息', operationKey: "toPublicOrgPage" }]
+          }
+        },
+        operations: {
+          createProjectDoc: {
+            command: {
+              key: "goto",
+              target: "https://docs.erda.cloud/",
+              jumpOut: true,
+              visible: false,
+            },
+            key: "click",
+            reload: false,
+            show: false,
+          },
+          toPublicOrgPage: {
+            command: {
+              key: "goto",
+              target: "orgHome",
+              jumpOut: true,
+              visible: false,
+            },
+            key: "click",
+            reload: false,
+            show: false,
+          },
         }
       },
       myProject: {
@@ -236,32 +328,70 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         type: 'List',
         props: {
           visible: true,
+          showLoadMore: true,
         },
         data: {
           list: [
             {
               id: '1',
+              porjectId: '13',
               title: '测试1测试1测试1测试1',
               description: '',
               prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+              operations: {
+                click: {
+                  key: 'click',
+                  show: false,
+                  reload: false,
+                  command: {
+                    key: 'goto',
+                    target: 'issueAll',
+                    state: {
+                      params: {
+                        projectId: '13',
+                      },
+                    }
+                  },
+                },
+              },
+            },
             {
               id: '2',
+              porjectId: '13',
               title: '测试2',
               description: '',
               prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+              operations: {
+                click: {
+                  key: 'click',
+                  show: false,
+                  reload: false,
+                  command: {
+                    key: 'goto',
+                    target: 'issueAll',
+                    state: {
+                      params: {
+                        projectId: '13',
+                      },
+                    }
+                  },
+                },
+              },
             },
           ],
         },
-      },
-      moreProject: {
-        type: 'Text',
-        props: {
-          renderType: 'linkText',
-          visible: false,
-          value: {
-            text: '更多',
+        operations: {
+          changePageNo: {
+            key: 'changePageNo',
+            reload: true,
+            fillMeta: 'pageNo'
           },
-        }
+        },
+        state: {
+          pageNo: 1,
+          pageSize: 5,
+          total: 5,
+        },
       },
       myApplication: {
         type: 'Container',
@@ -305,32 +435,70 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         type: 'List',
         props: {
           visible: true,
+          showLoadMore: true,
         },
         data: {
           list: [
             {
               id: '1',
-              title: '测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1',
+              title: '测试1测试1测试1测试1',
               description: '',
               prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+              operations: {
+                click: {
+                  key: 'click',
+                  show: false,
+                  reload: false,
+                  command: {
+                    key: 'goto',
+                    target: 'app',
+                    state: {
+                      params: {
+                        projectId: '9',
+                        appId: '8',
+                      },
+                    }
+                  },
+                },
+              },
             },
             {
               id: '2',
               title: '测试2',
               description: '',
               prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+              operations: {
+                click: {
+                  key: 'click',
+                  show: false,
+                  reload: false,
+                  command: {
+                    key: 'goto',
+                    target: 'app',
+                    state: {
+                      params: {
+                        projectId: '9',
+                        appId: '8',
+                      },
+                    }
+                  },
+                },
+              },
             },
           ],
         },
-      },
-      moreApplication: {
-        type: 'Text',
-        props: {
-          renderType: 'linkText',
-          value: {
-            text: '更多',
+        operations: {
+          changePageNo: {
+            key: 'changePageNo',
+            reload: true,
+            fillMeta: 'pageNo'
           },
-        }
+        },
+        state: {
+          pageNo: 1,
+          pageSize: 5,
+          total: 5,
+        },
       },
     },
   },
@@ -347,8 +515,10 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
       structure: {
         page: ['content'],
         content: ['title', 'emptyOrgTip', 'emptyProjectTip', 'tableGroup'],
-        emptyOrgTip: ['emptyOrgTitle', 'emptyOrgContent'],
-        emptyProjectTip: ['emptyProjectTitle', 'emptyProjectContent'],
+        emptyOrgTip: { left: 'erdaLogo', right: 'emptyOrgText' },
+        emptyOrgText: ['emptyOrgTitle', 'emptyOrgContent'],
+        emptyProjectTip: { left: 'orgLogo', right: 'emptyProjectText' },
+        emptyProjectText: ['emptyProjectTitle', 'emptyProjectContent'],
       },
     },
     components: {
@@ -363,10 +533,24 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
         }
       },
       emptyOrgTip: {
-        type: 'Container',
+        type: 'LRContainer',
         props: {
           whiteBg: true,
+          startAlign: true,
         },
+      },
+      erdaLogo: {
+        type: 'Image',
+        props: {
+          src: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3355464299,584008140&fm=26&gp=0.jpg',
+          visible: true,
+          styleNames: {
+            normal: true,
+          }
+        },
+      },
+      emptyOrgText: {
+        type: 'Container',
       },
       emptyOrgTitle: {
         type: 'Title',
@@ -374,7 +558,6 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
           visible: true,
           title: '你已经是 Erda Cloud 组织的成员',
           level: 2,
-          imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdzJaQZp56En9t1-6SYmZYtY8Y9pdpDoFscQ&usqp=CAU',
         },
       },
       emptyOrgContent: {
@@ -393,7 +576,17 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
               props: {
                 renderType: 'Text',
                 visible: true,
-                value: '* 浏览公开组织 通过左上角的浏览公开组织信息，选择公开组织可以直接进入浏览该组织公开项目的信息可（包含项目管理、应用运行信息等）',
+                value: '* 浏览公开组织',
+                styleConfig: {
+                  bold: true,
+                }
+              }
+            },
+            {
+              props: {
+                renderType: 'Text',
+                visible: true,
+                value: '通过左上角的浏览公开组织信息，选择公开组织可以直接进入浏览该组织公开项目的信息可（包含项目管理、应用运行信息等）',
               },
             },
             {
@@ -435,10 +628,24 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
         },
       },
       emptyProjectTip: {
-        type: 'Container',
+        type: 'LRContainer',
         props: {
           whiteBg: true,
+          startAlign: true,
         },
+      },
+      orgLogo: {
+        type: 'Image',
+        props: {
+          src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdzJaQZp56En9t1-6SYmZYtY8Y9pdpDoFscQ&usqp=CAU',
+          visible: true,
+          styleNames: {
+            normal: true,
+          }
+        },
+      },
+      emptyProjectText: {
+        type: 'Container',
       },
       emptyProjectTitle: {
         type: 'Title',
@@ -446,7 +653,6 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
           visible: true,
           title: '你已经是 XXX 组织的成员',
           level: 2,
-          imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdzJaQZp56En9t1-6SYmZYtY8Y9pdpDoFscQ&usqp=CAU',
         },
       },
       emptyProjectContent: {
@@ -459,6 +665,16 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                 renderType: 'Text',
                 visible: true,
                 value: '以下是作为组织新成员的一些快速入门知识：',
+              },
+            },
+            {
+              props: {
+                renderType: 'Text',
+                visible: true,
+                value: '* 切换组织 使用此屏幕上左上角的组织切换，快速进行组织之间切换',
+                styleConfig: {
+                  bold: true
+                },
               },
             },
             {
@@ -754,245 +970,6 @@ const useMockLeft = (payload: any) => {
   });
 };
 
-const tableGroup = {
-  type: 'TableGroup',
-  props: {
-    visible: true,
-    type: 'TableGroup',
-  },
-  operations: {
-    changePageNo: {
-      key: 'changePageNo',
-      reload: true,
-      fillMeta: 'pageNo'
-    },
-  },
-  data: {
-    list: [
-      {
-        title: {
-          prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
-          title: 'Erda',
-          level: 2,
-        },
-        subtitle: {
-          title: '您未完成的事项666',
-          level: 3,
-        },
-        description: {
-          value: "当前您还有 120 个事项待完成，其中 已过期: 40，本日到期: 40，7日内到期: 36，30日内到期: 44",
-        },
-        table: {
-          props: {
-            rowKey: 'key',
-            columns: [
-              { title: '', dataIndex: 'name' },
-              { title: '', dataIndex: 'planFinishedAt', width: 100, },
-            ],
-            showHeader: false,
-            pagination: false,
-            styleNames: {
-              'no-border': true,
-            },
-          },
-          data: {
-            list: [
-              {
-                id: '153',
-                projectId: '13',
-                type: 'requirement',
-                name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '222运行速度没得说，完全不卡，打游戏体验极佳' },
-                planFinishedAt: '2022-03-02',
-              },
-              {
-                id: '150',
-                projectId: '13',
-                type: 'requirement',
-                name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
-                planFinishedAt: '2022-03-02',
-              },
-              {
-                id: '153',
-                projectId: '13',
-                type: 'requirement',
-                name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
-                planFinishedAt: '2022-03-02',
-              },
-              {
-                id: '150',
-                projectId: '13',
-                type: 'requirement',
-                name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
-                planFinishedAt: '2022-03-02',
-              },
-              {
-                id: '153',
-                projectId: '13',
-                type: 'requirement',
-                name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
-                planFinishedAt: '2022-03-02',
-              },
-            ],
-          },
-          operations: {
-            clickRow: {
-              key: 'clickRow',
-              reload: false,
-              command: {
-                key: 'goto',
-                target: 'specificIssue',
-                jumpOut: true,
-              },
-            },
-          },
-        },
-        extraInfo: {
-          props: {
-            renderType: 'linkText',
-            value: {
-              text: [{ text: "查看剩余112条事件 >>", operationKey: "toSpecificProject" }]
-            },
-          },
-          operations: {
-            toSpecificProject: {
-              command: {
-                key: "goto",
-                target: "issueAll",
-                jumpOut: true,
-                state: {
-                  query: {
-                    issueViewGroup__urlQuery: "eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=",
-                  },
-                  params: {
-                    projectId: '13',
-                  },
-                },
-                visible: false,
-              },
-              key: "click",
-              reload: false,
-              show: false,
-            },
-          },
-
-        },
-      },
-      {
-        title: {
-          prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
-          title: 'Erda',
-          level: 2,
-        },
-        subtitle: {
-          title: '您未完成的事项666',
-          level: 3,
-        },
-        description: {
-          value: "当前您还有 120 个事项待完成，其中 已过期: 40，本日到期: 40，7日内到期: 36，30日内到期: 44",
-        },
-        table: {
-          props: {
-            rowKey: 'key',
-            columns: [
-              { title: '', dataIndex: 'name' },
-              { title: '', dataIndex: 'planFinishedAt', width: 100, },
-            ],
-            showHeader: false,
-            pagination: false,
-            styleNames: {
-              'no-border': true,
-            },
-          },
-          data: {
-            list: [
-              {
-                id: '153',
-                projectId: '13',
-                type: 'requirement',
-                name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '222运行速度没得说，完全不卡，打游戏体验极佳' },
-                planFinishedAt: '2022-03-02',
-              },
-              {
-                id: '150',
-                projectId: '13',
-                type: 'requirement',
-                name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
-                planFinishedAt: '2022-03-02',
-              },
-              {
-                id: '153',
-                projectId: '13',
-                type: 'requirement',
-                name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
-                planFinishedAt: '2022-03-02',
-              },
-              {
-                id: '150',
-                projectId: '13',
-                type: 'requirement',
-                name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
-                planFinishedAt: '2022-03-02',
-              },
-              {
-                id: '153',
-                projectId: '13',
-                type: 'requirement',
-                name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳' },
-                planFinishedAt: '2022-03-02',
-              },
-            ],
-          },
-          operations: {
-            clickRow: {
-              key: 'clickRow',
-              reload: false,
-              command: {
-                key: 'goto',
-                target: 'specificIssue',
-                jumpOut: true,
-              },
-            },
-          },
-        },
-        extraInfo: {
-          props: {
-            renderType: 'linkText',
-            value: {
-              text: [{ text: "查看剩余112条事件 >>", operationKey: "toSpecificProject" }]
-            },
-          },
-          operations: {
-            toSpecificProject: {
-              command: {
-                key: "goto",
-                target: "issueAll",
-                jumpOut: true,
-                state: {
-                  query: {
-                    issueViewGroup__urlQuery: "eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=",
-                  },
-                  params: {
-                    projectId: '13',
-                  },
-                },
-                visible: false,
-              },
-              key: "click",
-              reload: false,
-              show: false,
-            },
-          },
-        },
-      },
-    ],
-  },
-  state: {
-    pageNo: 1,
-    pageSize: 1,
-    total: 5,
-  }
-}
-// set(mockContent, 'protocol.components.tableGroup', tableGroup)
 
 const useMockRight = (payload: any) => {
   return new Promise((resolve) => {
@@ -1001,42 +978,3 @@ const useMockRight = (payload: any) => {
     }, 500);
   });
 };
-
-
-
-// const data = {
-//   pageEvent: {
-//     redirectUrl: '',
-//   },
-//   structure: {
-//     root: 'page',
-//     page: ['form'],
-//   },
-//   components: {
-//     form: {
-//       data: {
-//         operations: {
-//           click: {
-//             key: 'toxx',
-//             reload: false,
-//             command: {
-//               key: 'goto',
-//               target: 'all',
-//               state: {
-//                 query: {id:type,}
-//               }
-//             }
-//           }
-//         }
-//       },
-//       operations: {
-//         submit: {
-//           key: "ss",
-//           reload: true,
-
-//         }
-//       }
-//     }
-
-//   }
-// }

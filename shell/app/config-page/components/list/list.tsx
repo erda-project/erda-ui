@@ -24,10 +24,21 @@ const List = (props: CP_LIST.Props) => {
     props: configProps, data, state: propsState } = props;
 
   const [state, updater, update] = useUpdate(propsState || {});
-  const { total, pageSize, pageNo } = state || {};
+  const { total = 0, pageSize, pageNo = 1 } = state || {};
+  const [combineList, setCombineList] = React.useState([] as any[])
 
   const { list = [] } = data || {};
-  const { visible = true, size = 'middle', rowKey, pageSizeOptions, ...rest } = configProps || {};
+  const { showLoadMore = false, visible = true, size = 'middle', rowKey, pageSizeOptions, ...rest } = configProps || {};
+
+  // 将接口返回的list和之前的list进行拼接
+  React.useEffect(() => {
+    if (showLoadMore) {
+      setCombineList(pre => ([...pre, ...list]))
+    } else {
+      setCombineList(list)
+    }
+  }, [list])
+
 
   React.useEffect(() => {
     update(propsState || {});
@@ -47,7 +58,7 @@ const List = (props: CP_LIST.Props) => {
         },
       } : {}),
     } : undefined;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNo, pageSize, total]);
 
   if (!visible) return null;
@@ -55,6 +66,10 @@ const List = (props: CP_LIST.Props) => {
   const changePage = (pNo: number) => {
     operations?.changePageNo && execOperation(operations.changePageNo, operations.changePageNo.fillMeta ? pNo : { pageNo: pNo });
   };
+
+  const loadMore = () => {
+    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pageNo + 1 });
+  }
 
   const changePageSize = (pSize: number) => {
     operations?.changePageSize && execOperation(operations.changePageSize, { pageNo: 1, pageSize: pSize });
@@ -67,15 +82,17 @@ const List = (props: CP_LIST.Props) => {
   return (
     <div className='cp-list'>
       {
-        (list || []).length ? (
+        (combineList || []).length ? (
           <>
-            {(list || []).map((item, idx) => {
+            {(combineList || []).map((item, idx) => {
               return <Item size={size} customProps={customProps} execOperation={execOperation} key={getKey(item, idx)} data={item} />;
             })}
-            {pagination ? (
+            {!showLoadMore && pagination ? (
               <Pagination className='right-flex-box mt12' {...pagination} />
             ) : null
             }
+            {showLoadMore && total > Math.max(combineList.length, 0)
+              && <div className='hover-active' onClick={loadMore}>更多</div>}
           </>
         ) : <EmptyHolder relative />
       }
@@ -111,12 +128,12 @@ const Item = (props: ItemProps) => {
             <img src={prefixImg.startsWith('/images') ? imgMap[prefixImg] : prefixImg as string} />
           </div>
         ) : (
-          prefixImg ? (
-            <div className='cp-list-item-prefix-img'>
-              {prefixImg}
-            </div>
-          ) : null
-        )
+            prefixImg ? (
+              <div className='cp-list-item-prefix-img'>
+                {prefixImg}
+              </div>
+            ) : null
+          )
       }
       <div className='cp-list-item-body'>
         <div className='body-title'>
@@ -126,7 +143,7 @@ const Item = (props: ItemProps) => {
                 <CustomIcon type={titlePrifxIcon} className='title-icon mr8' />
               </Tooltip>
             ) : null
-            }
+          }
           <Ellipsis className='bold title-text' title={title} />
           {
             titleSuffixIcon ? (
@@ -134,7 +151,7 @@ const Item = (props: ItemProps) => {
                 <CustomIcon type={titleSuffixIcon} className='title-icon ml8' />
               </Tooltip>
             ) : null
-            }
+          }
         </div>
         <Ellipsis className='body-description' title={description} />
         {
@@ -156,7 +173,7 @@ const Item = (props: ItemProps) => {
                   return (
                     <Tooltip key={idx} title={info.tooltip}>
                       <span className={`info-item type-${info.type || 'normal'}`} {...extraProps}>
-                        { info.icon ? <CustomIcon type={info.icon} /> : null}
+                        {info.icon ? <CustomIcon type={info.icon} /> : null}
                         <span className='info-text nowrap'>{info.text}</span>
                       </span>
                     </Tooltip>

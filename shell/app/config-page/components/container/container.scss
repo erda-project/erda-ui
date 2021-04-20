@@ -116,5 +116,10 @@
       flex: 1;
       height: 0;
     }
+
+    &.start-align {
+      flex: 1;
+      align-items: start;
+    }
   }
 }

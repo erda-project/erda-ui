@@ -30,6 +30,7 @@ declare namespace CP_LIST {
     rowKey?: string;
     visible?: boolean;
     size?: ISize;
+    showLoadMore?: boolean;
     pageSizeOptions?: string[]
   }
 
