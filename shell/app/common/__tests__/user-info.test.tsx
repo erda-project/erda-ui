@@ -1,7 +1,7 @@
 import * as React from 'react';
 import UserInfo from '../components/user-info';
 import { shallow } from 'enzyme';
-import { describe, it, expect } from '@jest/globals';
+import { describe, it } from '@jest/globals';
 
 describe('user-info', () => {
   it('fullData', () => {

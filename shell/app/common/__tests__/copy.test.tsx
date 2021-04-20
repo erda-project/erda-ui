@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { Copy } from '../components/copy';
 import { mount } from 'enzyme';
-import { describe, it, expect } from '@jest/globals';
+import { describe, it } from '@jest/globals';
 
 const copytext = 'hello world';
 describe('Copy', () => {

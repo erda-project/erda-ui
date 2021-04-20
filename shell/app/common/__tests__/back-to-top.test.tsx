@@ -1,6 +1,5 @@
 import React from 'react';
 import BackToTop from '../components/back-to-top';
-import { mount } from 'enzyme';
 import { describe, it, jest } from '@jest/globals';
 import { act } from 'react-dom/test-utils';
 import { render } from 'react-dom';

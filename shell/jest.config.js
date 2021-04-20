@@ -10,6 +10,7 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 const { forEach } = require('lodash');
 const tsconfig = require('./tsconfig.json');
 const moduleNameMapper = require('tsconfig-paths-jest')(tsconfig);
@@ -60,7 +61,6 @@ module.exports = {
     '^i18next$': '<rootDir>/../core/node_modules/i18next',
     '^@terminus/nusi$': '<rootDir>/node_modules/@terminus/nusi/lib/index.js',
     '^antd$': '<rootDir>/../core/node_modules/antd/lib/index.js',
-    '^@terminus/dashboard-configuratort$': '<rootDir>/../core/node_modules/@terminus/dashboard-configurator/src/index.ts',
     '^nusi$': '<rootDir>/../core/src/nusi/index.tsx',
     i18n: '<rootDir>/app/i18n.ts',
     'app/constants': '<rootDir>/app/constants.ts',
@@ -75,10 +75,11 @@ module.exports = {
     '^common/utils(.*)': '<rootDir>/app/common/utils/$1',
     'common/stores(.*)': '<rootDir>/app/common/stores/$1',
     '^configForm(.*)': '<rootDir>/app/configForm/$1',
+    // mock for @terminus/dashboard-configuratort iconfont
+    'iconfont.js$': 'identity-obj-proxy',
     '\\.(css|less|scss)$': 'identity-obj-proxy',
   },
   preset: 'ts-jest/presets/js-with-ts',
-  // setupFiles: ['./test/dom.js', './test/helpers.js', 'jest-canvas-mock'],
   setupFiles: [
     '<rootDir>/test/setupJest.ts',
     '<rootDir>/test/setupEnzyme.ts',
