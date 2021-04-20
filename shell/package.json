@@ -60,7 +60,7 @@
     "highlight.js": "^10.5.0",
     "holderjs": "^2.9.4",
     "i18next": "^17.0.13",
-    "immer": "^3.2.0",
+    "immer": "^8.0.0",
     "intersection-observer": "^0.5.1",
     "json-loader": "^0.5.7",
     "json-to-pretty-yaml": "^1.2.2",
