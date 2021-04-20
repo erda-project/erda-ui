@@ -125,7 +125,7 @@ agent.use(handleError);
 
 export default agent;
 export {
-  abortReq,
+  // abortReq,
   // markReq,
   setHeader,
   handleSpotPrefix,
