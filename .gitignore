@@ -34,3 +34,5 @@ yarn-error.log
 */.erda
 */.local-pack
 *.env
+
+shell/app/modules.js
