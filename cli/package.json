@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Command line interface for rapid Erda UI development",
   "bin": {
-    "erda": "bin/erda.js"
+    "erda-ui": "bin/erda.js"
   },
   "scripts": {
     "start": "node bin/erda.js",
