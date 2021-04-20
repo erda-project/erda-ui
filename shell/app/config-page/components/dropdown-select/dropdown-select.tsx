@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Dropdown, Menu, Input } from 'nusi';
+import { Button, Dropdown, Menu, Input } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
 import { goTo } from 'app/common/utils';
 import React from 'react';

@@ -14,7 +14,7 @@
 import {
   Form,
   Upload,
-} from 'nusi';
+} from 'app/nusi';
 import * as React from 'react';
 import { get } from 'lodash'
 import { getLabel, noop } from './common';
