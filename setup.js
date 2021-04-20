@@ -58,15 +58,29 @@ const registerErdaCmd = async () => {
 
 const setupCore = async (port) => {
   log('create .erda/config in module core');
-  await cp.spawnSync('erda', ['setup', 'core', port], { env: process.env, cwd: coreDir, stdio: 'inherit' }) ;
+  await cp.spawnSync('erda-ui', ['setup', 'core', port], { env: process.env, cwd: coreDir, stdio: 'inherit' }) ;
 }
 
 const setupShell = async (port) => {
   log('create .erda/config in module shell');
-  await cp.spawnSync('erda', ['setup', 'shell', port], { env: process.env, cwd: shellDir, stdio: 'inherit' }) ;
+  await cp.spawnSync('erda-ui', ['setup', 'shell', port], { env: process.env, cwd: shellDir, stdio: 'inherit' }) ;
+}
+
+const initEnvFile = async () => {
+  const envContent = `
+DEV_HOST=https://terminus-org.dev.terminus.io
+TEST_HOST=https://terminus-org.test.terminus.io
+SCHEDULER_HOST=http://localhost
+SCHEDULER_PORT=3000
+DEV_MODULES=core,shell
+PROD_MODULES=core,shell
+  `
+  await fs.writeFileSync(join(root, '.env'), envContent, 'utf8', '0777');
+  log(`create .env file in ${root}`)
 }
 
 const setupModules = async () => {  
+  await initEnvFile();
   await registerErdaCmd();
   await setupCore(5000);
   await setupShell(8080);
