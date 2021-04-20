@@ -26,6 +26,7 @@ module.exports = async (moduleName, options) => {
   
   if (!configPath) {
     logError(`.erda/config.js file not exist, please execute "erda setup ${moduleName} <port> to generate this file`);
+    process.exit(1);
   }
 
   const moduleConfig = require(configPath);
