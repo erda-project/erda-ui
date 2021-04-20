@@ -229,9 +229,6 @@
       "i18n": [
         "app/i18n.ts"
       ],
-      // "nusi": [
-      //   "./app/external/nusi.js"
-      // ],
       "dice-env": [
         "./app/external/env.js"
       ],
@@ -274,7 +271,7 @@
       "core/common/interface": 
         [
           "../core/src/common/interface.d.ts"
-        ],
+        ]
     },
     "typeRoots": [],
     "allowSyntheticDefaultImports": true,

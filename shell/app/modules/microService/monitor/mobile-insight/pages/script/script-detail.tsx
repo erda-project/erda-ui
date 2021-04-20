@@ -35,7 +35,7 @@ const scriptDetail = ({ data }) => {
           return (
             <div className="error-detail chart-container" key={index}>
               {/* eslint-disable-next-line react/jsx-no-target-blank */}
-              <div className="title">{i18n.t('microService:access path')}<a href={`http://${value.host}${value.url}`} target="_blank">{`${value.host}${value.url}`}</a></div>
+              <div className="title">{i18n.t('microService:access path')}<a href={`http://${value.host}${value.url}`} target="_blank" rel="noopener noreferrer">{`${value.host}${value.url}`}</a></div>
               <Row gutter={36}>
                 <Col span={8}><span className="title-secondly">{i18n.t('microService:time of occurrence')}</span>{moment(value.time).format('YYYY-MM-DD HH:mm:ss')}</Col>
                 <Col span={10}><span className="title-secondly">{i18n.t('microService:equipment type')}</span>{value.device}</Col>
