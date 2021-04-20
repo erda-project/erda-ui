@@ -1,6 +1,6 @@
 {
-  "name": "erda-ui",
-  "version": "4.0.0",
+  "name": "@erda-ui/shell",
+  "version": "1.0.0",
   "description": "Frontend ui for Erda",
   "directories": {
     "test": "test"
@@ -38,7 +38,7 @@
     "cypress:report": "mochawesome-merge \"cypress/temp/*.json\" > cypress/reports/mochawesome.json &&  npx marge  cypress/reports/mochawesome.json -o cypress/reports"
   },
   "author": "Erda-FE",
-  "license": "ISC",
+  "license": "AGPL",
   "dependencies": {
     "@babel/runtime": "^7.12.5",
     "@terminus/js-yaml": "^1.0.0",
@@ -60,7 +60,7 @@
     "highlight.js": "^10.5.0",
     "holderjs": "^2.9.4",
     "i18next": "^17.0.13",
-    "immer": "^3.2.0",
+    "immer": "^8.0.0",
     "intersection-observer": "^0.5.1",
     "json-loader": "^0.5.7",
     "json-to-pretty-yaml": "^1.2.2",
