@@ -5,6 +5,8 @@
 - [ ] Test
 - [ ] Documentation
 - [ ] Refactor
+- [ ] Style
+- [ ] Chore
 
 ## What this PR does / why we need it:
 
@@ -18,7 +20,7 @@ _If PR is about `failing-tests or flakes`, please post the related issues/tests 
 Fixes #
 
 
-## Does this PR introduce a user-facing change?
+## Does this PR introduce a user interface change?
 <!--
 If no, just write "NONE" in the release-note block below.
 If yes, a screenshot is required:
