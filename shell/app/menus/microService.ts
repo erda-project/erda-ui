@@ -18,7 +18,7 @@ export const getMicroServiceMenu = () => {
   return [
     {
       href: pages.microServiceRoot,
-      icon: 'wfw2',
+      icon: 'server',
       text: i18n.t('microService:microService governance'),
     },
   ];

@@ -22,16 +22,16 @@ export const getWorkBenchMenu = () => {
   return filterMenu(filter([
     {
       href: '/workBench/projects',
-      icon: 'xm',
+      icon: 'api-app',
       text: i18n.t('joined projects'),
     },
     {
       href: '/workBench/apps',
-      icon: 'yy',
+      icon: 'application-one',
       text: i18n.t('joined apps'),
     },
     {
-      icon: 'apijs',
+      icon: 'api',
       key: 'apiManage',
       text: i18n.t('API'),
       href: pages.apiManageRoot,
@@ -57,14 +57,14 @@ export const getWorkBenchMenu = () => {
     },
     {
       href: '/workBench/service',
-      icon: 'fw',
+      icon: 'puzzle',
       text: i18n.t('addon service'),
       show: orgPerm.workBench.addonService.read.pass,
     },
     {
       key: 'approval',
       href: '/workBench/approval/my-approve',
-      icon: 'bssh',
+      icon: 'seal',
       text: i18n.t('workBench:approval request'),
       subMenu: [
         {
@@ -82,7 +82,7 @@ export const getWorkBenchMenu = () => {
     {
       key: 'workBenchPublisher',
       href: '/workBench/publisher',
-      icon: 'fb1',
+      icon: 'send',
       text: i18n.t('publisher:joined publisher'),
       show: orgPerm.workBench.publisher.read.pass,
     },

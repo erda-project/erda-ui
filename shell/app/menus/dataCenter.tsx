@@ -19,13 +19,13 @@ export const getDataCenterMenu = () => {
     {
       key: 'dataCenterOverview',
       href: '/dataCenter/overview',
-      icon: 'qyzl',
+      icon: 'data-display',
       text: i18n.t('cluster overview'),
     },
     {
       key: 'dataCenterResources',
       href: '/dataCenter/clusters',
-      icon: 'zczx',
+      icon: 'data-all',
       text: i18n.t('resources'),
       subMenu: [
         {
@@ -48,7 +48,7 @@ export const getDataCenterMenu = () => {
     {
       key: 'dataCenterServices',
       href: '/dataCenter/services',
-      icon: 'wfw2',
+      icon: 'list-two',
       text: i18n.t('services & jobs'),
       subMenu: [
         {
@@ -68,19 +68,19 @@ export const getDataCenterMenu = () => {
     {
       key: 'dataCenterDashboard',
       href: '/dataCenter/customDashboard',
-      icon: 'jsc',
+      icon: 'dashboard-car',
       text: i18n.t('org:O & M dashboard'),
     },
     {
       key: 'dataCenterReport',
       href: '/dataCenter/report',
-      icon: 'module-log',
+      icon: 'data-file',
       text: i18n.t('O & M report'),
     },
     {
       key: 'dataCenterAlarm',
       href: '/dataCenter/alarm',
-      icon: 'jkgj',
+      icon: 'database-alert',
       text: i18n.t('O & M alarm'),
       subMenu: [
         {
@@ -104,7 +104,7 @@ export const getDataCenterMenu = () => {
     {
       key: 'dataCenterLog',
       href: '/dataCenter/log',
-      icon: 'fwlb',
+      icon: 'log',
       text: i18n.t('log analyze'),
       subMenu: [
         {

@@ -97,10 +97,29 @@ a {
   }
 }
 
-.iconfont {
+.iconfont,
+.icon-icon {
   display: inline-block;
   margin-right: 4px;
   line-height: 1;
+}
+
+.icon-icon {
+  transform: translateY(2px);
+}
+
+.pk-menu-item-selected,
+.pk-menu-item-active {
+  a,
+  .title-words {
+    color: $color-primary!important;
+  }
+
+  &:hover {
+    svg path {
+      stroke-width: 7;
+    }
+  }
 }
 
 .pk-radio-group .iconfont {

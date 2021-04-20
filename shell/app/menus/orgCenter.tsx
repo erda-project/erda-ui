@@ -20,13 +20,13 @@ export const getOrgCenterMenu = () => {
     {
       key: 'orgProjects',
       href: '/orgCenter/projects',
-      icon: 'xm',
+      icon: 'api-app',
       text: i18n.t('projects'),
     },
     {
       key: 'orgMarket',
       href: '/orgCenter/market',
-      icon: 'fb1',
+      icon: 'ce-marketing',
       text: i18n.t('layout:market'),
       subMenu: [
         {
@@ -39,32 +39,32 @@ export const getOrgCenterMenu = () => {
     {
       key: 'orgCertificate',
       href: '/orgCenter/certificate',
-      icon: 'zs2',
+      icon: 'certificate',
       text: i18n.t('layout:certificate'),
     },
     {
       key: 'orgApproval',
       href: '/orgCenter/approval/undone',
-      icon: 'sp',
+      icon: 'seal',
       text: i18n.t('layout:approval'),
       isActive: (key: string) => key.startsWith('/orgCenter/approval'),
     },
     {
       key: 'orgAnnouncement',
       href: '/orgCenter/announcement',
-      icon: 'gg',
+      icon: 'bill',
       text: i18n.t('org:announcement'),
     },
     {
       key: 'orgSafety',
       href: '/orgCenter/safety',
-      icon: 'anquan',
+      icon: 'log',
       text: i18n.t('org:audit log'),
     },
     {
       key: 'orgSetting',
       href: '/orgCenter/setting/detail',
-      icon: 'sz',
+      icon: 'city',
       text: i18n.t('org setting'),
     },
   ], MENU_SCOPE.orgCenter);

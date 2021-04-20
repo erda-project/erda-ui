@@ -22,13 +22,13 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
   const menu = [
     {
       href: `/workBench/projects/${projectId}/apps`,
-      icon: 'rqrz',
+      icon: 'application-one',
       text: i18n.t('project:applications'),
       show: projectPerm.appList.viewAppList.pass,
     },
     {
       href: `/workBench/projects/${projectId}/issues/all`,
-      icon: 'sjgl',
+      icon: 'holding-hands',
       text: i18n.t('project:project collaboration'),
       show: projectPerm.backLog.viewBackLog.pass || projectPerm.iteration.read.pass || projectPerm.issue.viewIssue.pass || projectPerm.epic.read.pass,
       isActive: (key: string) => key.startsWith(`/workBench/projects/${projectId}/issues/`),
@@ -42,7 +42,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     // },
     {
       href: `/workBench/projects/${projectId}`,
-      icon: 'test',
+      icon: 'stethoscope',
       text: i18n.t('project:test'),
       show: projectPerm.testManage.viewTest.pass,
       subMenu: [
@@ -71,25 +71,25 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     },
     {
       href: `/workBench/projects/${projectId}/dashboard`,
-      icon: 'shujuyunwei',
+      icon: 'dashboard-car',
       text: i18n.t('statistical report'),
       show: projectPerm.dashboard.viewDashboard.pass,
     },
     {
       href: `/workBench/projects/${projectId}/service`,
-      icon: 'fw',
+      icon: 'stretching',
       text: i18n.t('addon service'),
       show: projectPerm.service.viewService.pass,
     },
     {
       text: i18n.t('project:resource summary'),
-      icon: 'sjmx', // TODO: 这里icon用的数据模型的，更新一下
+      icon: 'data-all', // TODO: 这里icon用的数据模型的，更新一下
       href: `/workBench/projects/${projectId}/resource`,
       show: projectPerm.resource.viewResource.pass,
     },
     {
       text: i18n.t('project:ticket list'),
-      icon: 'unorderedlist',
+      icon: 'list',
       href: `/workBench/projects/${projectId}/ticket`,
       show: projectPerm.ticket.read.pass,
     },
@@ -100,7 +100,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     // },
     {
       href: `/workBench/projects/${projectId}/setting`,
-      icon: 'setting',
+      icon: 'config',
       text: `${i18n.t('project setting')}`,
       show: projectPerm.setting.viewSetting.pass,
     },

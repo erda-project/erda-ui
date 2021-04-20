@@ -18,17 +18,17 @@ export const getEdgeMenu = () => {
   return [
     {
       href: pages.edgeApp,
-      icon: 'rqrz',
+      icon: 'application-one',
       text: i18n.t('edge:application'),
     },
     {
       href: pages.edgeResource,
-      icon: 'zczx',
+      icon: 'data-all',
       text: i18n.t('resources'),
     },
     {
       href: pages.edgeSetting,
-      icon: 'wfw2',
+      icon: 'setting-config',
       text: i18n.t('edge:configuration'),
     },
   ];

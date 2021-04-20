@@ -36,14 +36,14 @@ export const getAppMenu = ({ projectId, appId, mode }: { projectId: string, appI
     show: perm.repo.read.pass,
     key: 'repo',
     href: `/workBench/projects/${projectId}/apps/${appId}/repo`,
-    icon: 'dm',
+    icon: 'code',
     text: i18n.t('application:repository'),
   };
   const pipeline = {
     show: perm.pipeline.read.pass,
     key: 'pipeline',
     href: `/workBench/projects/${projectId}/apps/${appId}/pipeline`,
-    icon: 'lsx',
+    icon: 'assembly-line',
     text: i18n.t('application:pipeline'),
   };
   const apiDesign = {
@@ -57,49 +57,49 @@ export const getAppMenu = ({ projectId, appId, mode }: { projectId: string, appI
     show: perm.runtime.read.pass,
     key: 'deploy',
     href: `/workBench/projects/${projectId}/apps/${appId}/deploy`,
-    icon: 'bs',
+    icon: 'network-tree',
     text: i18n.t('application:deploy center'),
   };
   const dataTask = {
     show: perm.dataTask.read.pass,
     key: 'dataTask',
     href: `/workBench/projects/${projectId}/apps/${appId}/dataTask`,
-    icon: 'sjrw',
+    icon: 'activity-source',
     text: `${i18n.t('application:data task')}`,
   };
   const dataModel = {
     show: perm.dataModel.read.pass,
     key: 'dataModel',
     href: `/workBench/projects/${projectId}/apps/${appId}/dataModel`,
-    icon: 'sjmx',
+    icon: 'children-pyramid',
     text: `${i18n.t('application:data model')}`,
   };
   const dataMarket = {
     show: perm.dataMarket.read.pass,
     key: 'dataMarket',
     href: `/workBench/projects/${projectId}/apps/${appId}/dataMarket`,
-    icon: 'sjjs',
+    icon: 'market-analysis',
     text: `${i18n.t('application:data market')}`,
   };
   const test = {
     show: perm.codeQuality.read.pass,
     key: 'test',
     href: `/workBench/projects/${projectId}/apps/${appId}/test`,
-    icon: 'yycs',
+    icon: 'folder-quality',
     text: i18n.t('application:code quality'),
   };
   const release = {
     show: perm.release.read.pass,
     key: 'release',
     href: `/workBench/projects/${projectId}/apps/${appId}/repo/release`,
-    icon: 'bbgl',
+    icon: 'app-store',
     text: i18n.t('releases'),
   };
   const setting = {
     show: perm.setting.read.pass,
     key: 'setting',
     href: `/workBench/projects/${projectId}/apps/${appId}/setting`,
-    icon: 'sz',
+    icon: 'config',
     text: i18n.t('application:application setting'),
   };
 
