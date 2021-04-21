@@ -32,6 +32,7 @@ declare namespace CP_DROPDOWN_SELECT {
     key: string,
     name: string,
     operations: Obj<CP_COMMON.Operation>,
+    imgSrc?: string,
     disabled?: boolean,
     children?: IMenuItem[],
   }

@@ -1,30 +1,37 @@
 .dice-cp-title {
-  .subtitle {
-    margin-left: 12px;
-    color: $color-text-desc;
-    font-size: 16px;
+  .dice-cp-title-detail {
+    .subtitle {
+      margin-left: 12px;
+      color: $color-text-desc;
+      font-size: 16px;
+    }
+  
+    .pre-image {
+      margin: 12px;
+    }
+  
+    .normal {
+      width: 50px;
+      height: 50px;
+    }
+  
+    .small {
+      width: 20px;
+      height: 20px;
+    }
+  
+    .large {
+      width: 100px;
+      height: 100px;
+    } 
+  
+    .circle {
+      border-radius: 50%;
+    }
   }
 
-  .pre-image {
-    margin: 12px;
-  }
-
-  .normal {
-    width: 50px;
-    height: 50px;
-  }
-
-  .small {
-    width: 20px;
-    height: 20px;
-  }
-
-  .large {
-    width: 100px;
-    height: 100px;
-  } 
-
-  .circle {
-    border-radius: 50%;
+  .no-margin-bottom {
+    margin-bottom: 0;
   }
 }
+

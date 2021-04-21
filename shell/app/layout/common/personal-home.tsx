@@ -87,6 +87,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         type: 'TextGroup',
         props: {
           visible: true,
+          align: 'center',
           value: [
             {
               props: {
@@ -160,6 +161,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
               {
                 name: '组织B',
                 key: 'organizeB',
+                imgSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYQY0vUTJwftJ8WqXoLiLeB--2MJkpZLpYOA&usqp=CAU',
                 operations: {
                   click: {
                     key: 'click',
@@ -176,6 +178,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
               {
                 name: '组织A',
                 key: 'organizeA',
+                imgSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI1EaartvKCwGgDS7FTpu71EyFs1wCl1MsFQ&usqp=CAU',
                 operations: {
                   click: {
                     key: 'click',
@@ -324,6 +327,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         props: {
           title: '项目',
           level: 1,
+          noMarginBottom: true,
         }
       },
       myProjectFilter: {
@@ -436,6 +440,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         props: {
           title: '应用',
           level: 1,
+          noMarginBottom: true,
         }
       },
       myApplicationFilter: {

@@ -33,6 +33,7 @@ declare namespace CP_TITLE {
     subtitle?: string;
     subtitleStyles?: object;
     visible?: boolean;
+    noMarginBottom?: boolean;
   }
 
   type Props = MakeProps<Spec>;

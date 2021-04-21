@@ -19,10 +19,11 @@ declare namespace CP_TEXT_GROUP {
     operations?: Obj<CP_COMMON.Operation>
   }
 
-  interface IProps{
+  interface IProps {
     value: any;
     visible?: boolean;
     gapSize?: string;
+    align?: 'left' | 'center'
   }
 
   interface IStatusTextItem {

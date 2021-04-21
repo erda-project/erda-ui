@@ -1,4 +1,4 @@
-.text-group {
+.dice-cp-text-group {
   .large {
     margin-bottom: 32px;
   }
@@ -9,5 +9,13 @@
 
   .small {
     margin-bottom: 8px;
+  }
+
+  &.left {
+    text-align: left;
+  }
+
+  &.center {
+    text-align: center;
   }
 }

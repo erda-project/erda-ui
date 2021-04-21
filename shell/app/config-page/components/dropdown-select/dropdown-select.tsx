@@ -30,19 +30,18 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
     goTo(goTo.pages[target]);
   }
 
-
   React.useEffect(() => {
     // 控制点击外部关闭 dropdown
     const handleCloseDropdown = (e: MouseEvent) => {
-
       const dropdowns = Array.from(
         document.querySelectorAll('.dropdown-select')
       );
+      const dropdownButton = document.querySelector('.dropdown-select-button')
       const node = e.target as Node;
       const inner = dropdowns
         .some((wrap) => wrap.contains(node));
 
-      if (!inner) {
+      if (!inner && node !== dropdownButton) {
         setActive(false);
       }
     };
@@ -87,9 +86,12 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
                 }
                 }>
                 <div className="flex-box full-width">
-                  <span>{item.name}</span>
                   <span>
-                    {buttonText === item.name ? <CustomIcon type='duigou' className='color-success ml8' /> : null}
+                    {item.imgSrc ? <img src={item.imgSrc} className='menu-item-image mr8' /> : null}
+                    {item.name}
+                  </span>
+                  <span>
+                    {buttonText === item.name ? <CustomIcon type='duigou' className='color-primary ml8' /> : null}
                   </span>
                 </div>
               </Menu.Item>

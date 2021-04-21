@@ -18,13 +18,13 @@ import './text-group.scss';
 
 const TextGroup = (props: CP_TEXT_GROUP.Props) => {
   const { execOperation, updateState, props: configProps, operations, type } = props;
-  const { value, visible = true, gapSize = 'normal' } = configProps || {};
+  const { value, visible = true, gapSize = 'normal', align = 'left' } = configProps || {};
 
   if (!visible) return null;
 
   if (isArray(value)) {
     return (
-      <div className='text-group'>
+      <div className={`dice-cp-text-group ${align}`}>
         {map(value, (item) =>
           <div className={`${item.gapSize || gapSize}`}>
             <Text

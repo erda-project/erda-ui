@@ -21,9 +21,9 @@ import './title.scss'
 
 const Title = (props: CP_TITLE.Props) => {
   const { props: configProps } = props;
-  const { title, level, tips, prefixIcon = '', imageUrl = '', imageSize = 'normal', showDivider = false, visible = true, titleStyles = {}, subtitle = '' } = configProps || {};
+  const { title, level, tips, prefixIcon = '', imageUrl = '', imageSize = 'normal', showDivider = false, visible = true, titleStyles = {}, subtitle = '', noMarginBottom = false} = configProps || {};
   const titleComp = tips ? (
-    <div className='left-flex-box dice-cp-title' style={{ ...titleStyles }}>
+    <div className='left-flex-box dice-cp-title-detail' style={{ ...titleStyles }}>
       {prefixIcon ? <CustomIcon type={prefixIcon} className='mr4' /> : null}
       {imageUrl ? <img src={imageUrl} className={`${imageSize} pre-image`} /> : null}
       {title}
@@ -36,7 +36,7 @@ const Title = (props: CP_TITLE.Props) => {
     </div>
   ) :
     (
-      <div className="dice-cp-title" style={{ ...titleStyles }}>
+      <div className="dice-cp-title-detail" style={{ ...titleStyles }}>
         {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
         {imageUrl ? <img src={imageUrl} className={`${imageSize} pre-image`} /> : null}
         {title}
@@ -49,7 +49,10 @@ const Title = (props: CP_TITLE.Props) => {
     );
   return (
     visible ?
-      <NusiTitle title={titleComp} level={level} showDivider={showDivider} />
+      <div className='dice-cp-title'>
+        <NusiTitle title={titleComp} level={level}
+          showDivider={showDivider} className={`${noMarginBottom ? 'no-margin-bottom' : ''}`} />
+      </div>
       : null
   );
 };
