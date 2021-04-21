@@ -1,13 +1,13 @@
 {
-  "name": "erda-ui-schedular",
+  "name": "@erda-ui/schedular",
   "version": "1.0.0",
-  "description": "",
+  "description": "Schedular erda-ui modules request in development mode",
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon -e js,json,env src/index.js --watch ../.env --watch src"
   },
-  "author": "LiJun",
-  "license": "ISC",
+  "author": "Erda-FE",
+  "license": "AGPL",
   "dependencies": {
     "koa": "^2.13.1",
     "koa-send": "^5.0.1",
