@@ -18,7 +18,7 @@ import PipelineRunDetail from './run-detail';
 import routeInfoStore from 'app/common/stores/route';
 import buildStore from 'application/stores/build';
 import fileTreeStore from 'common/stores/file-tree';
-import yaml from '@terminus/js-yaml';
+import yaml from 'js-yaml';
 import { useUpdate } from 'common';
 import { updateSearch } from 'common/utils';
 import { useMount } from 'react-use';
