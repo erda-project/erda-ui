@@ -26,6 +26,7 @@ declare namespace CP_TITLE {
     tips?: string;
     prefixIcon?: string;
     imageUrl?: string;
+    imageSize?: string;
     showDivider?: boolean;
     titleStyles?: object;
     showSubtitle?: boolean;

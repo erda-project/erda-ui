@@ -50,6 +50,7 @@ declare namespace CP_TEXT {
 
   interface ILinkTarget {
     icon?: string;
+    iconStyleName?: string;
     text: string;
     operationKey: string
     styleConfig?: IStyleConfig;

@@ -16,6 +16,7 @@ import { map, isNumber, isString, isArray, isPlainObject } from 'lodash';
 import { Copy, Icon as CustomIcon } from 'common';
 import { Badge } from 'app/nusi';
 import i18n from 'i18n';
+import './text.scss';
 
 const getStyle = (styleConfig?: CP_TEXT.IStyleConfig) => {
   const styleObj = {} as Obj;
@@ -65,7 +66,7 @@ const Text = (props: CP_TEXT.Props) => {
               if (isString(t)) {
                 return <span style={styleObj} key={idx}>{t}</span>;
               } else if (isPlainObject(t)) {
-                const { text: tText, operationKey, styleConfig: tConfig, icon } = t;
+                const { text: tText, operationKey, styleConfig: tConfig, icon, iconStyleName = '' } = t;
                 const tStyle = getStyle(tConfig);
 
                 return operationKey ? (
@@ -77,11 +78,11 @@ const Text = (props: CP_TEXT.Props) => {
                     }}
                   >
                     {tText}
-                    {icon && <CustomIcon className='mr4 ml4' type={icon} />}
+                    {icon && <CustomIcon className={`mr4 ml4 ${iconStyleName}`} type={icon} />}
                   </a>
                 ) : <span style={{ ...styleObj, ...tStyle }}>
                     {tText}
-                    {icon && <CustomIcon className='mr4 ml4' type={icon} />}
+                    {icon && <CustomIcon className={`mr4 ml4 ${iconStyleName}`} type={icon} />}
                   </span>;
               }
               return null;
@@ -89,7 +90,7 @@ const Text = (props: CP_TEXT.Props) => {
           </span>
         );
       } else if (isPlainObject(text)) {
-        const { operationKey, text: tText, styleConfig: tConfig, icon } = text;
+        const { operationKey, text: tText, styleConfig: tConfig, icon, iconStyleName } = text;
         const tStyle = getStyle(tConfig);
         TextComp = operationKey ? (
           <a
@@ -99,11 +100,11 @@ const Text = (props: CP_TEXT.Props) => {
             }}
           >
             {tText}
-            {icon && <CustomIcon className='mr4 ml4' type={icon} />}
+            {icon && <CustomIcon className={`mr4 ml4 ${iconStyleName}`} type={icon} />}
           </a>
         ) : <span style={{ ...styleObj, ...tStyle }}>
             {tText}
-            {icon && <CustomIcon className='mr4 ml4' type={icon} />}
+            {icon && <CustomIcon className={`mr4 ml4 ${iconStyleName}`} type={icon} />}
           </span>;
       }
     }

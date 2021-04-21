@@ -17,7 +17,6 @@
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
 import { Title as NusiTitle, Tooltip } from 'app/nusi';
-import classnames from 'classnames';
 import './title.scss'
 
 const Title = (props: CP_TITLE.Props) => {

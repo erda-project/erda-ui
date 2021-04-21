@@ -157,8 +157,38 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         props: {
           menuList:
             [
-              { name: '组织B', key: 'organizeB' },
-              { name: '组织A', key: 'organizeA' },
+              {
+                name: '组织B',
+                key: 'organizeB',
+                operations: {
+                  click: {
+                    key: 'click',
+                    show: false,
+                    reload: false,
+                    command: {
+                      key: 'goto',
+                      target: 'https://docs.erda.cloud/',
+                      jumpOut: false,
+                    },
+                  },
+                },
+              },
+              {
+                name: '组织A',
+                key: 'organizeA',
+                operations: {
+                  click: {
+                    key: 'click',
+                    show: false,
+                    reload: false,
+                    command: {
+                      key: 'goto',
+                      target: 'https://docs.erda.cloud/',
+                      jumpOut: false,
+                    },
+                  },
+                },
+              },
             ],
           buttonText: '组织A',
           jumpToOtherPage: [{ target: 'orgHome', label: '浏览公开组织' }],
@@ -582,6 +612,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                 visible: true,
                 value: '以下是作为平台新成员的一些快速入门知识：',
               },
+              gapSize: 'large',
             },
             {
               props: {
@@ -591,7 +622,8 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                 styleConfig: {
                   bold: true,
                 }
-              }
+              },
+              gapSize: 'small',
             },
             {
               props: {
@@ -599,13 +631,26 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                 visible: true,
                 value: '通过左上角的浏览公开组织信息，选择公开组织可以直接进入浏览该组织公开项目的信息可（包含项目管理、应用运行信息等）',
               },
+              gapSize: 'large',
             },
             {
               props: {
                 renderType: 'Text',
                 visible: true,
-                value: '* 加入组织 组织当前都是受邀机制，需要线下联系企业所有者进行邀请加入',
+                value: '* 加入组织',
+                styleConfig: {
+                  bold: true,
+                }
               },
+              gapSize: 'small',
+            },
+            {
+              props: {
+                renderType: 'Text',
+                visible: true,
+                value: '组织当前都是受邀机制，需要线下联系企业所有者进行邀请加入',
+              },
+              gapSize: 'large',
             },
             {
               props: {
@@ -613,6 +658,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                 visible: true,
                 value: '当你已经加入到任何组织后，此框将不再显示',
               },
+              gapSize: 'normal',
             },
           ]
         },
@@ -680,49 +726,89 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                 visible: true,
                 value: '以下是作为组织新成员的一些快速入门知识：',
               },
+              gapSize: 'normal',
             },
             {
               props: {
                 renderType: 'Text',
                 visible: true,
-                value: '* 切换组织 使用此屏幕上左上角的组织切换，快速进行组织之间切换',
+                value: '* 切换组织',
                 styleConfig: {
                   bold: true
                 },
               },
+              gapSize: 'small',
             },
             {
               props: {
                 renderType: 'Text',
                 visible: true,
-                value: '* 切换组织 使用此屏幕上左上角的组织切换，快速进行组织之间切换',
+                value: '使用此屏幕上左上角的组织切换，快速进行组织之间切换',
               },
+              gapSize: 'large',
             },
             {
               props: {
                 renderType: 'Text',
                 visible: true,
-                value: '* 公开组织浏览 可以通过切换组织下拉菜单中选择公开组织进行浏览',
+                value: '* 公开组织浏览',
+                styleConfig: {
+                  bold: true
+                },
               },
+              gapSize: 'small',
             },
             {
               props: {
                 renderType: 'Text',
                 visible: true,
-                value: '* 加入项目 当前都是受邀机制，需要线下联系项目管理员进行邀请加入',
+                value: '可以通过切换组织下拉菜单中选择公开组织进行浏览',
               },
+              gapSize: 'large',
+            },
+            {
+              props: {
+                renderType: 'Text',
+                visible: true,
+                value: '* 加入项目',
+                styleConfig: {
+                  bold: true
+                },
+              },
+              gapSize: 'small',
+            },
+            {
+              props: {
+                renderType: 'Text',
+                visible: true,
+                value: '当前都是受邀机制，需要线下联系项目管理员进行邀请加入',
+              },
+              gapSize: 'large',
+            },
+            {
+              props: {
+                renderType: 'Text',
+                visible: true,
+                value: '* 该组织内公开项目浏览',
+                styleConfig: {
+                  bold: true
+                },
+              },
+              gapSize: 'small',
             },
             {
               props: {
                 renderType: 'linkText',
                 visible: true,
                 value: {
-                  text: ['* 该组织内公开项目浏览 点击左上角菜单',
+                  text: ['点击左上角菜单',
                     {
                       icon: 'appstore',
+                      iconStyleName: 'primary-icon',
                     }, '选择 DevOps平台进入，选择我的项目可以查看该组织下公开项目的信息']
                 },
               },
+              gapSize: 'large',
             },
             {
               props: {
@@ -730,6 +816,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                 visible: true,
                 value: '当你已经加入到任何项目后，此框将不再显示',
               },
+              gapSize: 'normal',
             },
           ]
         },

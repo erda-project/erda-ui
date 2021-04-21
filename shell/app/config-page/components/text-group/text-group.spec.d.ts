@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace CP_TEXT_GROUP {
-  type IRenderType = 'linkText' | 'text' | 'statusText' | 'copyText';
+
   interface Spec {
     type: 'TextGroup',
     props: IProps;
@@ -20,38 +20,14 @@ declare namespace CP_TEXT_GROUP {
   }
 
   interface IProps{
-    renderType: IRenderType;
     value: any;
     visible?: boolean;
-    styleConfig?: IStyleConfig;
+    gapSize?: string;
   }
 
   interface IStatusTextItem {
     text: string;
     status: 'default' | 'success' | 'processing' | 'error';
-  }
-  type IStatusText = IStatusTextItem | IStatusTextItem[];
-
-  interface ICopyText {
-    text: string;
-    copyText: string;
-  }
-
-  interface IStyleConfig{
-    [pro: string]: any;
-    bold?: boolean; // 是否加粗,
-    lineHeight?: number;
-    fontSize?: number;
-  }
-
-  interface ILinkTextData {
-    text: Array<ILinkTarget | string> | ILinkTarget | string;
-  }
-
-  interface ILinkTarget{
-    text: string;
-    operationKey: string
-    styleConfig?: IStyleConfig;
   }
 
   type Props = MakeProps<Spec>;

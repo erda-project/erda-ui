@@ -12,13 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { map, isNumber, isArray } from 'lodash';
+import { map, isArray } from 'lodash';
 import Text from '../text/text';
 import './text-group.scss';
 
-// gapSize = 'm' | 's' | 'l'
 const TextGroup = (props: CP_TEXT_GROUP.Props) => {
-  const { execOperation, props: configProps, operations } = props;
+  const { execOperation, updateState, props: configProps, operations, type } = props;
   const { value, visible = true, gapSize = 'normal' } = configProps || {};
 
   if (!visible) return null;
@@ -27,14 +26,20 @@ const TextGroup = (props: CP_TEXT_GROUP.Props) => {
     return (
       <div className='text-group'>
         {map(value, (item) =>
-          <div className={`${gapSize}`}>
-            <Text execOperation={execOperation} props={item.props} operations={operations} />
+          <div className={`${item.gapSize || gapSize}`}>
+            <Text
+              type={type}
+              execOperation={execOperation}
+              updateState={updateState}
+              props={item.props}
+              operations={operations} />
           </div>)
         }
       </div >
     )
   }
 
+  return null;
 };
 
 export default TextGroup;

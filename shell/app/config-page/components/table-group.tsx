@@ -44,13 +44,15 @@ const TableBoard = (props: ITableBoardProps) => {
           type="Table"
           updateState={updateState}
         />
-        <Text
-          props={extraInfo.props}
-          operations={extraInfo.operations}
-          execOperation={execOperation}
-          type="Text"
-          updateState={updateState}
-        />
+        <div className='mt12'>
+          <Text
+            props={extraInfo.props}
+            operations={extraInfo.operations}
+            execOperation={execOperation}
+            type="Text"
+            updateState={updateState}
+          />
+        </div>
       </div>
     </div>
   )

@@ -20,8 +20,8 @@ import i18n from 'i18n';
 import './dropdown-select.scss';
 
 const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
-  const { props: configProps } = props;
-  const { menuList, jumpToOtherPage = [], onClickMenu, overlay, trigger, buttonText, loading = false, children, btnProps, ...restProps } = configProps;
+  const { execOperation, props: configProps } = props;
+  const { menuList, jumpToOtherPage = [], overlay, trigger, buttonText, loading = false, children, btnProps, ...restProps } = configProps;
   let _overlay = overlay;
   const [filterValue, setFilterValue] = React.useState('');
   const [active, setActive] = React.useState(false)
@@ -29,6 +29,7 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
   const gotoSpecificPage = (target: string) => {
     goTo(goTo.pages[target]);
   }
+
 
   React.useEffect(() => {
     // 控制点击外部关闭 dropdown
@@ -79,9 +80,12 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
                 disabled={item.disabled}
                 className='hover-active'
                 onClick={() => {
-                  setActive(false)
-                  onClickMenu && onClickMenu(item)
-                }}>
+                  setActive(false);
+                  if (item.operations?.click) {
+                    execOperation(item.operations.click, item)
+                  }
+                }
+                }>
                 <div className="flex-box full-width">
                   <span>{item.name}</span>
                   <span>

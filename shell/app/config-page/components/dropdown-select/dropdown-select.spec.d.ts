@@ -19,7 +19,6 @@ declare namespace CP_DROPDOWN_SELECT {
 
   interface IProps {
     [propName: string]: any,
-    execOperation: any,
     jumpToOtherPage?: IJumpToOtherPage[],
     buttonText?: string,
     btnProps?: object,
@@ -27,12 +26,12 @@ declare namespace CP_DROPDOWN_SELECT {
     menuList?: IMenuItem[],
     loading?: boolean,
     trigger?: Array<'click' | 'hover' | 'contextMenu'>,
-    onClickMenu?(item: any): void,
   }
 
   interface IMenuItem {
     key: string,
     name: string,
+    operations: Obj<CP_COMMON.Operation>,
     disabled?: boolean,
     children?: IMenuItem[],
   }
