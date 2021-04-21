@@ -13,23 +13,14 @@
 
 import { pages } from 'common/utils';
 import i18n from 'i18n';
-
-export const getEdgeMenu = () => {
+import { Server } from '@icon-park/react';
+import React from 'react';
+export const getMicroServiceMenu = () => {
   return [
     {
-      href: pages.edgeApp,
-      icon: 'application-one',
-      text: i18n.t('edge:application'),
-    },
-    {
-      href: pages.edgeResource,
-      icon: 'data-all',
-      text: i18n.t('resources'),
-    },
-    {
-      href: pages.edgeSetting,
-      icon: 'setting-config',
-      text: i18n.t('edge:configuration'),
+      href: pages.microServiceRoot,
+      icon: <Server />,
+      text: i18n.t('microService:microService governance'),
     },
   ];
 };

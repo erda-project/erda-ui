@@ -16,22 +16,31 @@ import { filterMenu, MENU_SCOPE } from './util';
 import { pages } from 'common/utils';
 import { filter } from 'lodash';
 import permStore from 'user/stores/permission';
+import { 
+  ApiApp, 
+  ApplicationOne,
+  Api,
+  Puzzle,
+  Seal,
+  Send,
+} from '@icon-park/react';
+import React from 'react';
 
 export const getWorkBenchMenu = () => {
   const orgPerm = permStore.getState(s => s.org);
   return filterMenu(filter([
     {
       href: '/workBench/projects',
-      icon: 'api-app',
+      icon: <ApiApp />,
       text: i18n.t('joined projects'),
     },
     {
       href: '/workBench/apps',
-      icon: 'application-one',
+      icon: <ApplicationOne />,
       text: i18n.t('joined apps'),
     },
     {
-      icon: 'api',
+      icon: <Api />,
       key: 'apiManage',
       text: i18n.t('API'),
       href: pages.apiManageRoot,
@@ -57,14 +66,14 @@ export const getWorkBenchMenu = () => {
     },
     {
       href: '/workBench/service',
-      icon: 'puzzle',
+      icon: <Puzzle />,
       text: i18n.t('addon service'),
       show: orgPerm.workBench.addonService.read.pass,
     },
     {
       key: 'approval',
       href: '/workBench/approval/my-approve',
-      icon: 'seal',
+      icon: <Seal />,
       text: i18n.t('workBench:approval request'),
       subMenu: [
         {
@@ -82,7 +91,7 @@ export const getWorkBenchMenu = () => {
     {
       key: 'workBenchPublisher',
       href: '/workBench/publisher',
-      icon: 'send',
+      icon: <Send />,
       text: i18n.t('publisher:joined publisher'),
       show: orgPerm.workBench.publisher.read.pass,
     },

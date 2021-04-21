@@ -98,21 +98,17 @@ a {
 }
 
 .iconfont,
-.icon-icon {
+.erda-icon {
   display: inline-block;
   margin-right: 4px;
   line-height: 1;
 }
 
-.icon-icon {
-  transform: translateY(2px);
-}
-
 .pk-menu-item-selected,
 .pk-menu-item-active {
-  a,
-  .title-words {
-    color: $color-primary!important;
+  .title-words,
+  .erda-icon {
+    color: $color-primary !important;
   }
 
   &:hover {

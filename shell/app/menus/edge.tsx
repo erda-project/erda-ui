@@ -13,13 +13,24 @@
 
 import { pages } from 'common/utils';
 import i18n from 'i18n';
-
-export const getMicroServiceMenu = () => {
+import { ApplicationOne, DataAll, SettingConfig } from '@icon-park/react';
+import React from 'react';
+export const getEdgeMenu = () => {
   return [
     {
-      href: pages.microServiceRoot,
-      icon: 'server',
-      text: i18n.t('microService:microService governance'),
+      href: pages.edgeApp,
+      icon: <ApplicationOne />,
+      text: i18n.t('edge:application'),
+    },
+    {
+      href: pages.edgeResource,
+      icon: <DataAll />,
+      text: i18n.t('resources'),
+    },
+    {
+      href: pages.edgeSetting,
+      icon: <SettingConfig />,
+      text: i18n.t('edge:configuration'),
     },
   ];
 };

@@ -22,7 +22,6 @@ import { isEmpty, isEqual, pickBy } from 'lodash';
 import { qs } from 'common/utils';        
 import { Icon as CustomIcon, useUpdate } from 'common';
 import './sub-sidebar.scss';
-import ByteIcon from '@icon-park/react/es/all';
 
 const { stringify, parseUrl } = qs;
 
@@ -132,7 +131,7 @@ const SubSideBar = () => {
       return {
         ...item,
         title: firstLetterUpper(item.text),
-        icon: item.icon ? <i><ByteIcon type={item.icon as string} theme="outline" /></i> : item.customIcon ? item.customIcon : null,
+        icon: item.icon ? item.icon : item.customIcon ? item.customIcon : null,
         href,
         children: subMenu,
         subActiveKey,

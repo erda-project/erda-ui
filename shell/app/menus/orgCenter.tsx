@@ -13,6 +13,8 @@
 
 import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
+import { ApiApp, CeMarking, Certificate, Seal, Bill, Log, City } from '@icon-park/react';
+import React from 'react';
 
 // 应用中心菜单
 export const getOrgCenterMenu = () => {
@@ -20,13 +22,13 @@ export const getOrgCenterMenu = () => {
     {
       key: 'orgProjects',
       href: '/orgCenter/projects',
-      icon: 'api-app',
+      icon: <ApiApp />,
       text: i18n.t('projects'),
     },
     {
       key: 'orgMarket',
       href: '/orgCenter/market',
-      icon: 'ce-marketing',
+      icon: <CeMarking />,
       text: i18n.t('layout:market'),
       subMenu: [
         {
@@ -39,32 +41,32 @@ export const getOrgCenterMenu = () => {
     {
       key: 'orgCertificate',
       href: '/orgCenter/certificate',
-      icon: 'certificate',
+      icon: <Certificate />,
       text: i18n.t('layout:certificate'),
     },
     {
       key: 'orgApproval',
       href: '/orgCenter/approval/undone',
-      icon: 'seal',
+      icon: <Seal />,
       text: i18n.t('layout:approval'),
       isActive: (key: string) => key.startsWith('/orgCenter/approval'),
     },
     {
       key: 'orgAnnouncement',
       href: '/orgCenter/announcement',
-      icon: 'bill',
+      icon: <Bill />,
       text: i18n.t('org:announcement'),
     },
     {
       key: 'orgSafety',
       href: '/orgCenter/safety',
-      icon: 'log',
+      icon: <Log />,
       text: i18n.t('org:audit log'),
     },
     {
       key: 'orgSetting',
       href: '/orgCenter/setting/detail',
-      icon: 'city',
+      icon: <City />,
       text: i18n.t('org setting'),
     },
   ], MENU_SCOPE.orgCenter);
