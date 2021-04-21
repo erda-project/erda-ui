@@ -20,17 +20,17 @@ declare namespace CP_LIST {
     state?: IState;
   }
 
-  interface IState{
+  interface IState {
     pageNo?: number;
     pageSize?: number;
     total?: number;
   }
 
-  interface IProps{
+  interface IProps {
     rowKey?: string;
     visible?: boolean;
     size?: ISize;
-    showLoadMore?: boolean;
+    paginationType?: 'LOAD_MORE' | 'PAGINATION';
     pageSizeOptions?: string[]
   }
 
@@ -40,7 +40,7 @@ declare namespace CP_LIST {
     list: IListData[]
   }
 
-  interface IListData{
+  interface IListData {
     [pro: string]: any;
     id?: string | number;
     title: string;

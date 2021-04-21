@@ -72,7 +72,11 @@ const TableGroup = (props: IProps) => {
 
   // 将接口返回的list和之前的list进行拼接
   React.useEffect(() => {
-    updater.list([...combineList, ...(data.list || [])])
+    if (pageNo !== 1) {
+      updater.list([...combineList, ...(data.list || [])])
+    } else {
+      updater.list(data.list);
+    }
   }, [updater, data.list])
 
   // 当propsState改变时去更新state

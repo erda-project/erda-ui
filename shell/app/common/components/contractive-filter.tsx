@@ -305,6 +305,7 @@ interface ContractiveFilterProps {
   conditions: ICondition[],
   delay: number,
   visible?: boolean,
+  fullWidth?: boolean,
   onConditionsChange?: (data: ICondition[]) => void;
   onChange(valueMap: Obj): void
   onQuickSelect?(data: { key: string, value: any }): void
@@ -337,7 +338,7 @@ const getInitConditions = (conditions: ICondition[], valueMap: Obj) => {
   return reConditions;
 };
 
-export const ContractiveFilter = ({ initValue, values, conditions: propsConditions, delay, visible = true, onChange, onQuickSelect = noop, onConditionsChange = noop }: ContractiveFilterProps) => {
+export const ContractiveFilter = ({ initValue, values, conditions: propsConditions, delay, visible = true, onChange, onQuickSelect = noop, onConditionsChange = noop, fullWidth = false }: ContractiveFilterProps) => {
   const [conditions, setConditions] = React.useState(getInitConditions(propsConditions || [], values || initValue || {}));
   const [hideFilterKey, setHideFilterKey] = React.useState('');
   const [closeAll, setCloseAll] = React.useState(false);
@@ -460,7 +461,7 @@ export const ContractiveFilter = ({ initValue, values, conditions: propsConditio
     <div className="contractive-filter-bar">
       {showList.map((item) => (
         <span
-          className="contractive-filter-item-wrap"
+          className={`contractive-filter-item-wrap ${fullWidth ? 'full-width' : ''}`}
           key={item.key}
           onClick={() => {
             setCloseAll(false);
@@ -489,7 +490,7 @@ export const ContractiveFilter = ({ initValue, values, conditions: propsConditio
 
       {
         displayConditionsLen > 0 && (
-          <span className="contractive-filter-item-wrap">
+          <span className={`contractive-filter-item-wrap ${fullWidth ? 'full-width' : ''}`}>
             <Dropdown
               trigger={['click']}
               overlayClassName="contractive-filter-item-dropdown"
@@ -554,7 +555,7 @@ export const ContractiveFilter = ({ initValue, values, conditions: propsConditio
       {
         inputList.map((item) => (
           <span
-            className="contractive-filter-item-wrap"
+            className={`contractive-filter-item-wrap ${fullWidth ? 'full-width' : ''}`}
             key={item.key}
             onClick={() => setCloseAll(false)}
           >

@@ -331,6 +331,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         props: {
           visible: true,
           delay: 1000,
+          fullWidth: true,
         },
         state: {
           conditions: [
@@ -358,7 +359,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         type: 'List',
         props: {
           visible: true,
-          showLoadMore: true,
+          paginationType: 'LOAD_MORE',
         },
         data: {
           list: [
@@ -442,6 +443,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         props: {
           delay: 1000,
           visible: true,
+          fullWidth: true,
         },
         state: {
           conditions: [
@@ -469,7 +471,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         type: 'List',
         props: {
           visible: true,
-          showLoadMore: true,
+          paginationType: 'LOAD_MORE',
         },
         data: {
           list: [

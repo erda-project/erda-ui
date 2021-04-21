@@ -27,6 +27,7 @@ declare namespace CP_FILTER {
   interface IProps {
     delay?: number;
     visible?: boolean;
+    fullWidth?: boolean;
   }
 
   interface Condition {

@@ -28,11 +28,11 @@ const List = (props: CP_LIST.Props) => {
   const [combineList, setCombineList] = React.useState([] as any[])
 
   const { list = [] } = data || {};
-  const { showLoadMore = false, visible = true, size = 'middle', rowKey, pageSizeOptions, ...rest } = configProps || {};
+  const { paginationType = 'PAGINATION', visible = true, size = 'middle', rowKey, pageSizeOptions, ...rest } = configProps || {};
 
   // 将接口返回的list和之前的list进行拼接
   React.useEffect(() => {
-    if (showLoadMore) {
+    if ( paginationType === 'LOAD_MORE' && pageNo !== 1) {
       setCombineList(pre => ([...pre, ...list]))
     } else {
       setCombineList(list)
@@ -87,11 +87,11 @@ const List = (props: CP_LIST.Props) => {
             {(combineList || []).map((item, idx) => {
               return <Item size={size} customProps={customProps} execOperation={execOperation} key={getKey(item, idx)} data={item} />;
             })}
-            {!showLoadMore && pagination ? (
+            {paginationType === 'PAGINATION' && pagination ? (
               <Pagination className='right-flex-box mt12' {...pagination} />
             ) : null
             }
-            {showLoadMore && total > Math.max(combineList.length, 0)
+            {paginationType === 'LOAD_MORE' && total > Math.max(combineList.length, 0)
               && <div className='hover-active load-more' onClick={loadMore}>更多...</div>}
           </>
         ) : <EmptyHolder relative />
