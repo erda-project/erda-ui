@@ -63,11 +63,14 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
       },
     },
     components: {
-      page: { type: 'Container' },
+      page: {
+        type: 'Container',
+      },
       sidebar: {
         type: 'Container',
         props: {
           whiteBg: true,
+          fullHeight: true,
           className: 'pa16',
         }
       },
@@ -333,8 +336,10 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
               id: '1',
               porjectId: '13',
               title: '测试1测试1测试1测试1',
-              description: '',
+              titleSize: 'fz16',
               prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+              prefixImgSize: 'middle',
+              prefixImgCircle: true,
               operations: {
                 click: {
                   key: 'click',
@@ -356,8 +361,10 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
               id: '2',
               porjectId: '13',
               title: '测试2',
-              description: '',
+              titleSize: 'fz16',
               prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+              prefixImgSize: 'middle',
+              prefixImgCircle: true,
               operations: {
                 click: {
                   key: 'click',
@@ -415,7 +422,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
               fixed: true,
               showIndex: 2,
               placeholder: '搜索应用',
-              type: 'input' as const,
+              type: 'input',
             },
           ],
           values: {
@@ -439,7 +446,9 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
             {
               id: '1',
               title: '测试1测试1测试1测试1',
-              description: '',
+              titleSize: 'fz16',
+              prefixImgSize: 'middle',
+              prefixImgCircle: true,
               prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
               operations: {
                 click: {
@@ -462,8 +471,10 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
             {
               id: '2',
               title: '测试2',
-              description: '',
+              titleSize: 'fz16',
               prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+              prefixImgSize: 'middle',
+              prefixImgCircle: true,
               operations: {
                 click: {
                   key: 'click',

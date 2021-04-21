@@ -44,7 +44,7 @@ declare namespace CP_LIST {
     [pro: string]: any;
     id?: string | number;
     title: string;
-    description: string;
+    description?: string;
     prefixImg?: string | React.ReactNode;
     extraInfos?: IIconInfo[];
     operations?: Obj<CP_COMMON.Operation>

@@ -92,7 +92,7 @@ const List = (props: CP_LIST.Props) => {
             ) : null
             }
             {showLoadMore && total > Math.max(combineList.length, 0)
-              && <div className='hover-active' onClick={loadMore}>更多</div>}
+              && <div className='hover-active load-more' onClick={loadMore}>更多...</div>}
           </>
         ) : <EmptyHolder relative />
       }
@@ -109,7 +109,7 @@ interface ItemProps {
 }
 const Item = (props: ItemProps) => {
   const { execOperation, size = 'middle', data, customProps } = props;
-  const { operations = {}, prefixImg, title, titlePrifxIcon, titlePrifxIconTip, titleSuffixIcon, titleSuffixIconTip, description, extraInfos } = data || {};
+  const { operations = {}, prefixImg, title, titleSize, titlePrifxIcon, prefixImgSize, prefixImgCircle, titlePrifxIconTip, titleSuffixIcon, titleSuffixIconTip, description = '', extraInfos } = data || {};
   const actions = sortBy(filter(map(operations) || [], item => item.show !== false), 'showIndex');
 
   const onClickItem = () => {
@@ -125,7 +125,7 @@ const Item = (props: ItemProps) => {
       {
         isString(prefixImg) ? (
           <div className='cp-list-item-prefix-img'>
-            <img src={prefixImg.startsWith('/images') ? imgMap[prefixImg] : prefixImg as string} />
+            <img src={prefixImg.startsWith('/images') ? imgMap[prefixImg] : prefixImg as string} className={`prefix-img-${prefixImgSize} ${prefixImgCircle ? 'prefix-img-circle' : ''}`} />
           </div>
         ) : (
             prefixImg ? (
@@ -144,7 +144,7 @@ const Item = (props: ItemProps) => {
               </Tooltip>
             ) : null
           }
-          <Ellipsis className='bold title-text' title={title} />
+          <Ellipsis className={`bold title-text ${titleSize}`} title={title} />
           {
             titleSuffixIcon ? (
               <Tooltip title={titleSuffixIconTip}>
@@ -153,7 +153,7 @@ const Item = (props: ItemProps) => {
             ) : null
           }
         </div>
-        <Ellipsis className='body-description' title={description} />
+        {description ? <Ellipsis className='body-description' title={description} /> : null}
         {
           extraInfos ? (
             <div className='body-extra-info'>

@@ -1,11 +1,12 @@
 .table-group {
+  position: relative;
   margin-top: 8px;
 
   .table-board {
     margin-top: 16px;
 
     .card {
-      padding: 8px;
+      padding: 12px;
       background: white;
       border-radius: 3px;
 
@@ -16,14 +17,13 @@
   }
 
   .load-more {
+    position: relative;
+    display: flex;
+    justify-content: center;
     margin-top: 24px;
     margin-bottom: 48px;
-    color: $darkgray;
+    color: $color-text-desc;
+    font-size: 14px;
     cursor: pointer;
-
-    &:hover {
-      color: $primary;
-      font-weight: bold;
-    }
   }
 }

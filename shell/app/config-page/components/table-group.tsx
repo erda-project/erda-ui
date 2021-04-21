@@ -95,7 +95,7 @@ const TableGroup = (props: IProps) => {
           )
         })
       }
-      {showLoadMore && <div className='load-more' onClick={loadMore}>加载更多...</div>}
+      {showLoadMore && <div className='load-more hover-active' onClick={loadMore}>加载更多...</div>}
     </div>
   )
 }

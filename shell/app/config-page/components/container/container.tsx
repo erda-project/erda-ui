@@ -39,8 +39,6 @@ export const Container = (props: CP_CONTAINER.Props) => {
   if (className) tempClass[className] = true;
   const containerClass = classnames(tempClass);
 
-  console.log({ containerClass })
-
   return (
     <div className={containerClass}>
       {children}
