@@ -48,7 +48,8 @@ const start = (userData, permObjArr = [], isErdaHome = false) => {
 
 const IconConfig = {
   ...DEFAULT_ICON_CONFIGS, 
-  prefix: 'erda'
+  prefix: 'erda',
+  size: 16
 };
 
 const appMap = {} as {

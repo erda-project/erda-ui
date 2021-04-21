@@ -50,7 +50,7 @@ declare namespace CP_LIST {
   }
 
   interface IIconInfo {
-    icon?: string;
+    icon?: string | React.ReactNode;
     text: string;
     type?: 'success' | 'normal' | 'warning' | 'error';
     tooltip?: string;

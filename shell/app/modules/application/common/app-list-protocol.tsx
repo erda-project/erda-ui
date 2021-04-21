@@ -34,6 +34,8 @@ import { BlockNetworkTips } from 'workBench/pages/projects/block-comp';
 import permStore from 'user/stores/permission';
 import moment from 'moment';
 
+import { Lock, Unlock, Time, ApiApp, CategoryManagement, ListNumbers } from '@icon-park/react';
+
 const Mapper = () => {
   const [userLoading] = useLoading(userStore, ['getJoinedApps']);
   const { getJoinedApps } = userStore.effects;
@@ -54,15 +56,15 @@ interface IProps extends ReturnType<typeof Mapper> {
 const getBlockNetInfo = (app: IApplication) => {
   const { blockStatus, unBlockStart, unBlockEnd } = app;
   const period = (unBlockEnd && unBlockStart) ? `${i18n.t('project:time period')}: ${moment(unBlockStart).format('YYYY-MM-DD HH:mm')}~${moment(unBlockEnd).format('YYYY-MM-DD HH:mm')}` : '';
-  const periodInfo = period ? { icon: 'sj', text: period, tooltip: period } : null;
+  const periodInfo = period ? { icon: <Time />, text: period, tooltip: period } : null;
   const statusMap = {
     blocked: [periodInfo],
     unblocking: [
-      { icon: 'lock1', text: i18n.t('unblocking, please wait'), tooltip: i18n.t('unblocking, please wait'), type: 'warning' },
+      { icon: <Lock />, text: i18n.t('unblocking, please wait'), tooltip: i18n.t('unblocking, please wait'), type: 'warning' },
       periodInfo,
     ],
     unblocked: [
-      { icon: 'unlock1', text: i18n.t('default:unblocked'), type: 'success' },
+      { icon: <Unlock />, text: i18n.t('default:unblocked'), type: 'success' },
       periodInfo,
     ],
   };
@@ -74,9 +76,9 @@ const convertListData = (list: IApplication[], isInProject: boolean) => {
   return list.map(l => {
     const { id, name, desc, logo, projectName, projectId, projectDisplayName, isPublic, stats, updatedAt, mode, pined } = l;
     const extraInfos: CP_LIST.IIconInfo[] = [
-      (isPublic ? { icon: 'earth', text: i18n.t('application:public application') } : { icon: 'lock2', text: i18n.t('application:private application') }),
+      (isPublic ? { icon: <Unlock />, text: i18n.t('application:public application') } : { icon: <Lock />, text: i18n.t('application:private application') }),
       {
-        icon: 'xm-2',
+        icon: <ApiApp />,
         text: projectDisplayName,
         tooltip: `${i18n.t('application:own project')}: ${projectDisplayName}(${projectName})`,
         operations: isInProject ? undefined : {
@@ -85,16 +87,16 @@ const convertListData = (list: IApplication[], isInProject: boolean) => {
       },
       (
         updatedAt ?
-          { icon: 'sj', text: moment(updatedAt).fromNow(), tooltip: `${i18n.t('update time')}:${moment(updatedAt).format('YYYY-MM-DD HH:mm:ss')}` }
+          { icon: <Time />, text: moment(updatedAt).fromNow(), tooltip: `${i18n.t('update time')}:${moment(updatedAt).format('YYYY-MM-DD HH:mm:ss')}` }
           :
-          { icon: 'sj', text: i18n.t('empty') }
+          { icon: <Time />, text: i18n.t('empty') }
       ),
-      { icon: 'fenlei', text: (modeOptions.find(m => m.value === mode) as { name: string }).name, tooltip: i18n.t('application:application type') },
+      { icon: <CategoryManagement />, text: (modeOptions.find(m => m.value === mode) as { name: string }).name, tooltip: i18n.t('application:application type') },
     ].concat(getBlockNetInfo(l));
 
     if ([appMode.MOBILE, appMode.LIBRARY, appMode.SERVICE].includes(mode)) {
       extraInfos.splice(2, 0, {
-        icon: 'sl',
+        icon: <ListNumbers />,
         text: `${stats.countRuntimes}`,
         tooltip: `${i18n.t('application:runtime count')}`,
         ...(appPerm.runtime.read.pass ? {
