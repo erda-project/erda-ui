@@ -32,7 +32,6 @@ describe('Copy', () => {
         <Copy selector="for_copy-select" className="for-copy" copyText="Copy">copy</Copy>
       </div>
     );
-    expect(wrapper).toMatchSnapshot();
     expect(wrapper.find('span.for-copy').length).toEqual(1);
   });
 });

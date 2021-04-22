@@ -10,7 +10,6 @@ describe('icon', () => {
     const wrapper = mount(
       <Icon type={iconType} onClick={onClick} className="icon-class" />
     );
-    expect(wrapper).toMatchSnapshot();
     wrapper.find('.iconfont').simulate('click');
     expect(onClick).toHaveBeenCalled();
     expect(wrapper.find(`i.icon-${iconType}`).length).toBe(1);
@@ -21,7 +20,6 @@ describe('icon', () => {
     const wrapper = mount(
       <Icon type={iconType} color onClick={onClick} className="icon-class" />
     );
-    expect(wrapper).toMatchSnapshot();
     wrapper.find('.icon').simulate('click');
     expect(onClick).toHaveBeenCalled();
     expect(wrapper.find('svg.icon').length).toBe(1);
