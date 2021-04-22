@@ -19,7 +19,7 @@
     "clean": "rm -rf public"
   },
   "author": "Erda-FE",
-  "license": "GPL-3.0",
+  "license": "ISC",
   "dependencies": {
     "@terminus/nusi": "^3.10.5",
     "antd": "^3.25.0",
