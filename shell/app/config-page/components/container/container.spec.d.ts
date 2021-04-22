@@ -29,6 +29,8 @@ declare namespace CP_CONTAINER {
     whiteBg?: boolean;
     fullHeight?: boolean;
     flexHeight?: boolean;
+    startAlign?: boolean;
+    scrollAuto?: boolean;
     className?: string;
   }
 

@@ -24,6 +24,7 @@ declare namespace CP_TEXT {
     value: ILinkTextData | string | IStatusText | ICopyText;
     visible?: boolean;
     styleConfig?: IStyleConfig;
+    textStyleName?: Obj;
   }
 
   interface IStatusTextItem {
@@ -52,7 +53,7 @@ declare namespace CP_TEXT {
     icon?: string;
     iconStyleName?: string;
     text: string;
-    operationKey: string
+    operationKey: string;
     styleConfig?: IStyleConfig;
   }
 

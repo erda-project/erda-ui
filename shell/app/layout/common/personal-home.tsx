@@ -53,7 +53,8 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
       root: 'page',
       structure: {
         page: ['sidebar'],
-        sidebar: ['myOrganization', 'myProject', 'myApplication'],
+        sidebar: ['myOrganization', 'myInfo'],
+        myInfo: ['myProject', 'myApplication'],
         myOrganization: ['orgImage', 'orgSwitch', 'joinedBrief', 'emptyOrganization'],
         emptyOrganization: ['emptyOrgText'],
         myProject: ['myProjectTitle', 'myProjectFilter', 'myProjectList', 'emptyProject'],
@@ -65,6 +66,10 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
     components: {
       page: {
         type: 'Container',
+        props: {
+          whiteBg: true,
+          fullHeight: true,
+        },
       },
       sidebar: {
         type: 'Container',
@@ -318,6 +323,13 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
             show: false,
           },
         }
+      },
+      myInfo: {
+        type: 'Container',
+        props: {
+          fullHeight: true,
+          scrollAuto: true,
+        },
       },
       myProject: {
         type: 'Container',
@@ -615,7 +627,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
           value: [
             {
               props: {
-                renderType: 'Text',
+                renderType: 'text',
                 visible: true,
                 value: '以下是作为平台新成员的一些快速入门知识：',
               },
@@ -623,18 +635,18 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
             },
             {
               props: {
-                renderType: 'Text',
+                renderType: 'text',
                 visible: true,
                 value: '* 浏览公开组织',
                 styleConfig: {
                   bold: true,
-                }
+                },
               },
               gapSize: 'small',
             },
             {
               props: {
-                renderType: 'Text',
+                renderType: 'text',
                 visible: true,
                 value: '通过左上角的浏览公开组织信息，选择公开组织可以直接进入浏览该组织公开项目的信息可（包含项目管理、应用运行信息等）',
               },
@@ -642,7 +654,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
             },
             {
               props: {
-                renderType: 'Text',
+                renderType: 'text',
                 visible: true,
                 value: '* 加入组织',
                 styleConfig: {
@@ -653,7 +665,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
             },
             {
               props: {
-                renderType: 'Text',
+                renderType: 'text',
                 visible: true,
                 value: '组织当前都是受邀机制，需要线下联系企业所有者进行邀请加入',
               },
@@ -661,9 +673,13 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
             },
             {
               props: {
-                renderType: 'Text',
+                renderType: 'text',
                 visible: true,
                 value: '当你已经加入到任何组织后，此框将不再显示',
+                textStyleName: {
+                  'fz12': true,
+                  'color-text-desc': true,
+                },
               },
               gapSize: 'normal',
             },
@@ -729,7 +745,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
           value: [
             {
               props: {
-                renderType: 'Text',
+                renderType: 'text',
                 visible: true,
                 value: '以下是作为组织新成员的一些快速入门知识：',
               },
@@ -737,7 +753,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
             },
             {
               props: {
-                renderType: 'Text',
+                renderType: 'text',
                 visible: true,
                 value: '* 切换组织',
                 styleConfig: {
@@ -748,7 +764,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
             },
             {
               props: {
-                renderType: 'Text',
+                renderType: 'text',
                 visible: true,
                 value: '使用此屏幕上左上角的组织切换，快速进行组织之间切换',
               },
@@ -756,7 +772,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
             },
             {
               props: {
-                renderType: 'Text',
+                renderType: 'text',
                 visible: true,
                 value: '* 公开组织浏览',
                 styleConfig: {
@@ -767,7 +783,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
             },
             {
               props: {
-                renderType: 'Text',
+                renderType: 'text',
                 visible: true,
                 value: '可以通过切换组织下拉菜单中选择公开组织进行浏览',
               },
@@ -775,7 +791,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
             },
             {
               props: {
-                renderType: 'Text',
+                renderType: 'text',
                 visible: true,
                 value: '* 加入项目',
                 styleConfig: {
@@ -786,7 +802,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
             },
             {
               props: {
-                renderType: 'Text',
+                renderType: 'text',
                 visible: true,
                 value: '当前都是受邀机制，需要线下联系项目管理员进行邀请加入',
               },
@@ -794,7 +810,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
             },
             {
               props: {
-                renderType: 'Text',
+                renderType: 'text',
                 visible: true,
                 value: '* 该组织内公开项目浏览',
                 styleConfig: {
@@ -819,9 +835,13 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
             },
             {
               props: {
-                renderType: 'Text',
+                renderType: 'text',
                 visible: true,
                 value: '当你已经加入到任何项目后，此框将不再显示',
+                textStyleName: {
+                  'fz12': true,
+                  'color-text-desc': true,
+                },
               },
               gapSize: 'normal',
             },
@@ -850,18 +870,44 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                 level: 2,
               },
               subtitle: {
-                title: '您未完成的事项666',
+                title: '您未完成的事项',
                 level: 3,
               },
               description: {
-                value: "当前您还有 120 个事项待完成，其中 已过期: 40，本日到期: 40，7日内到期: 36，30日内到期: 44",
+                renderType: 'linkText',
+                visible: true,
+                value: {
+                  text: ['当前你还有', {
+                    text: ' 120 ', styleConfig: {
+                      bold: true
+                    },
+                  }, '个事项待完成，已过期:', {
+                      text: ' 40 ', styleConfig: {
+                        bold: true
+                      },
+                    }, '，本日到期:', {
+                      text: ' 40 ', styleConfig: {
+                        bold: true
+                      },
+                    }, '，7日内到期:', {
+                      text: ' 36 ', styleConfig: {
+                        bold: true
+                      },
+                    }, '，30日内到期:', {
+                      text: ' 44 ', styleConfig: {
+                        bold: true
+                      },
+                    }]
+                },
+                textStyleName: { 'color-text-desc': true },
+                // value: "当前您还有 120 个事项待完成，其中 已过期: 40，本日到期: 40，7日内到期: 36，30日内到期: 44",
               },
               table: {
                 props: {
                   rowKey: 'key',
                   columns: [
-                    { title: '', dataIndex: 'name' },
-                    { title: '', dataIndex: 'planFinishedAt', width: 100, },
+                    { title: '', dataIndex: 'name', width: 600 },
+                    { title: '', dataIndex: 'planFinishedAt' },
                   ],
                   showHeader: false,
                   pagination: false,
@@ -958,18 +1004,43 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                 level: 2,
               },
               subtitle: {
-                title: '您未完成的事项666',
+                title: '您未完成的事项',
                 level: 3,
               },
               description: {
-                value: "当前您还有 120 个事项待完成，其中 已过期: 40，本日到期: 40，7日内到期: 36，30日内到期: 44",
+                renderType: 'linkText',
+                visible: true,
+                value: {
+                  text: ['当前你还有', {
+                    text: ' 120 ', styleConfig: {
+                      bold: true
+                    },
+                  }, '个事项待完成，已过期:', {
+                      text: ' 40 ', styleConfig: {
+                        bold: true
+                      },
+                    }, '，本日到期:', {
+                      text: ' 40 ', styleConfig: {
+                        bold: true
+                      },
+                    }, '，7日内到期:', {
+                      text: ' 36 ', styleConfig: {
+                        bold: true
+                      },
+                    }, '，30日内到期:', {
+                      text: ' 44 ', styleConfig: {
+                        bold: true
+                      },
+                    }]
+                },
+                textStyleName: { 'color-text-desc': true },
               },
               table: {
                 props: {
                   rowKey: 'key',
                   columns: [
-                    { title: '', dataIndex: 'name' },
-                    { title: '', dataIndex: 'planFinishedAt', width: 100, },
+                    { title: '', dataIndex: 'name', width: 600 },
+                    { title: '', dataIndex: 'planFinishedAt' },
                   ],
                   showHeader: false,
                   pagination: false,

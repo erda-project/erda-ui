@@ -33,25 +33,29 @@ const TableBoard = (props: ITableBoardProps) => {
   return (
     <div className='table-board'>
       <Title props={title} type="Title" execOperation={execOperation} updateState={updateState} />
-      <div className="card">
+      <div className='table-board-card'>
         <Title props={subtitle} type="Title" execOperation={execOperation} updateState={updateState} />
-        <Text props={description} type="Text" execOperation={execOperation} updateState={updateState} />
-        <Table
-          props={table.props}
-          data={table.data}
-          operations={table.operations}
-          execOperation={execOperation}
-          type="Table"
-          updateState={updateState}
-        />
-        <div className='mt12'>
-          <Text
-            props={extraInfo.props}
-            operations={extraInfo.operations}
+        <div className="mt12 ml32">
+          <div className='mb12 ml8'>
+            <Text props={description} type="Text" execOperation={execOperation} updateState={updateState} />
+          </div>
+          <Table
+            props={table.props}
+            data={table.data}
+            operations={table.operations}
             execOperation={execOperation}
-            type="Text"
+            type="Table"
             updateState={updateState}
           />
+          <div className='mt12 ml8'>
+            <Text
+              props={extraInfo.props}
+              operations={extraInfo.operations}
+              execOperation={execOperation}
+              type="Text"
+              updateState={updateState}
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -93,7 +97,7 @@ const TableGroup = (props: IProps) => {
     return null;
   }
   return (
-    <div className="table-group">
+    <div className="cp-dice-table-group">
       {
         map(combineList, item => {
           return (

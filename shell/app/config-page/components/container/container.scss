@@ -120,5 +120,9 @@
     &.start-align {
       align-items: start;
     }
+
+    &.scroll-auto {
+      overflow: auto;
+    }
   }
 }
