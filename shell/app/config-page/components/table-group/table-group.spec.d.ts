@@ -23,6 +23,10 @@ declare namespace CP_TABLE_GROUP {
   }
 
   interface IData {
+    list: IItem[];
+  }
+
+  interface IItem {
     title: CP_TITLE.IProps;
     subtitle: CP_TITLE.IProps;
     description: CP_TEXT.IProps;
@@ -31,17 +35,17 @@ declare namespace CP_TABLE_GROUP {
   }
 
   interface IProps {
-      visible: boolean
+    visible: boolean;
   }
 
   interface IState {
-    total: number,
-    pageNo: number,
-    pageSize: number,
+    total: number;
+    pageNo: number;
+    pageSize: number;
   }
 
   interface ITableBoardProps extends CONFIG_PAGE.ICommonProps {
-    props: IData;
+    props: IItem;
   }
 
   type Props = MakeProps<Spec>;

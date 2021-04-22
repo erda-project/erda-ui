@@ -13,17 +13,17 @@
 
 declare namespace CP_IMAGE {
   interface Spec {
-    type: 'Image',
+    type: 'Image';
     props?: IProps;
   }
 
   interface IProps {
-    alt?: string,
-    src?: string,
-    relative?: boolean,
-    style?: object,
-    styleNames?: object,
+    alt?: string;
+    src?: string;
+    isCircle?: boolean;
+    size?: 'small' | 'normal' | 'big' | 'large';
     visible?: boolean;
+    display?: 'inline-block' | 'block';
   }
 
   type Props = MakeProps<Spec>;

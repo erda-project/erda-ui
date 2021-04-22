@@ -1,46 +1,36 @@
-// Copyright (c) 2021 Terminus, Inc.
-//
-// This program is free software: you can use, redistribute, and/or modify
-// it under the terms of the GNU Affero General Public License, version 3
-// or later ("AGPL"), as published by the Free Software Foundation.
-//
-// This program is distributed in the hope that it will be useful, but WITHOUT
-// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-// FITNESS FOR A PARTICULAR PURPOSE.
-//
-// You should have received a copy of the GNU Affero General Public License
-// along with this program. If not, see <http://www.gnu.org/licenses/>.
-.form-item-image {
-  position: relative;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
+.cp-dice-image {
+  margin: 0 auto;
 
-  .relative {
-    position: relative;
+  &.inline-block {
+    display: inline-block;
   }
 
-  .normal {
-    width: 50px;
-    height: 50px;
+  &.block {
+    display: block;
   }
 
-  .small {
+  &.small {
     width: 32px;
     height: 32px;
+    margin-top: 8px;
   }
 
-  .large {
+  &.normal {
+    width: 48px;
+    height: 48px;
+  }
+
+  &.big {
+    width: 64px;
+    height: 64px;
+  }
+
+  &.large {
     width: 128px;
     height: 128px;
   } 
 
-  .circle {
+  &.circle {
     border-radius: 50%;
   }
 

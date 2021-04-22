@@ -11,23 +11,26 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Dropdown, Menu, Input } from 'app/nusi';
+import { Dropdown, Menu, Input } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
 import { goTo } from 'app/common/utils';
 import React from 'react';
-import { map } from 'lodash';
+import { map, get } from 'lodash';
 import i18n from 'i18n';
 import './dropdown-select.scss';
 
 const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
-  const { execOperation, props: configProps } = props;
-  const { menuList, jumpToOtherPage = [], overlay, trigger, buttonText, loading = false, children, btnProps, ...restProps } = configProps;
+  const { execOperation, props: configProps, state: propsState } = props;
+  const { options, quickSelect = [], overlay, trigger, visible, ...restProps } = configProps;
   let _overlay = overlay;
+  const [value, setValue] = React.useState(propsState.value)
   const [filterValue, setFilterValue] = React.useState('');
   const [active, setActive] = React.useState(false)
 
-  const gotoSpecificPage = (target: string) => {
-    goTo(goTo.pages[target]);
+  const label = React.useMemo(() => get(options?.find(item => item.value === value), 'label', ''), [value])
+
+  const gotoSpecificPage = (item: CP_DROPDOWN_SELECT.IQuickSelect) => {
+    item?.operations && item?.operations?.click && execOperation(item.operations.click)
   }
 
   React.useEffect(() => {
@@ -51,7 +54,7 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
     return () => document.body.removeEventListener('click', handleCloseDropdown);
   }, []);
 
-  if (menuList) {
+  if (options) {
     _overlay = (
       <Menu>
         <Menu.Item>
@@ -67,15 +70,15 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
 
         <Menu.Divider key='divider1' />
         {
-          map(menuList, (item: CP_DROPDOWN_SELECT.IMenuItem) => {
+          map(options, (item: CP_DROPDOWN_SELECT.IOptionItem) => {
             // 前端搜索
-            if (!item.name.toLowerCase().includes(filterValue)) {
+            if (!item.label.toLowerCase().includes(filterValue)) {
               return null
             }
 
             return (
               <Menu.Item
-                key={item.key}
+                key={item.label}
                 disabled={item.disabled}
                 className='hover-active'
                 onClick={() => {
@@ -87,11 +90,12 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
                 }>
                 <div className="flex-box full-width">
                   <span>
-                    {item.imgSrc ? <img src={item.imgSrc} className='menu-item-image mr8' /> : null}
-                    {item.name}
+                    {item.prefixIcon ? <CustomIcon type={item.prefixIcon} /> : null}
+                    {item.prefixImgSrc ? <img src={item.prefixImgSrc} className='cp-dice-dropdown-select-image mr8' /> : null}
+                    {item.label}
                   </span>
                   <span>
-                    {buttonText === item.name ? <CustomIcon type='duigou' className='color-primary ml8' /> : null}
+                    {value === item.value ? <CustomIcon type='duigou' className='color-primary ml8' /> : null}
                   </span>
                 </div>
               </Menu.Item>
@@ -100,11 +104,11 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
         }
         <Menu.Divider key='divider2' />
         {
-          jumpToOtherPage.length > 0 ?
-            map(jumpToOtherPage, (item) => (
+          quickSelect.length > 0 ?
+            map(quickSelect, (item) => (
               <Menu.Item
                 className='hover-active'
-                onClick={() => gotoSpecificPage(item?.target || '')}>
+                onClick={() => gotoSpecificPage(item)}>
                 {item?.label || null}
               </Menu.Item>
             )) : null
@@ -112,26 +116,25 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
       </Menu>
     );
   }
+
+  if (!visible) {
+    return null;
+  }
+
   return (
     <Dropdown
-      overlayClassName="dropdown-select"
+      className="cp-dice-dropdown-select"
       overlay={_overlay}
       visible={active}
       trigger={trigger || ['click']}
       {...restProps}
     >
-      {children || (
-        <Button
-          type="default"
-          loading={loading}
-          {...btnProps}
-          className='dropdown-select-button'
-          onClick={() => setActive(!active)}
-        >
-          {buttonText}
-          <CustomIcon style={{ color: 'inherit' }} type="caret-down" />
-        </Button>
-      )}
+      <span
+        className='dropdown-select-button hover-active' onClick={() => setActive(!active)}>
+        {label}
+        <CustomIcon style={{ color: 'inherit' }} type="caret-down" />
+      </span>
+
     </Dropdown>
   );
 };

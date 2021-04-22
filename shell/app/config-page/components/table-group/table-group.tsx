@@ -12,8 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { map, get } from 'lodash';
-import { Icon as CustomIcon, useUpdate, EmptyHolder } from 'common';
+import { map } from 'lodash';
+import { useUpdate } from 'common';
 import Title from '../title/title';
 import Text from '../text/text';
 import { Table } from '../table/table'
@@ -24,6 +24,7 @@ const TableBoard = (props: CP_TABLE_GROUP.ITableBoardProps) => {
   const { props: configProps, execOperation = noop, updateState = noop } = props
   const { title, subtitle, description, table, extraInfo } = configProps;
   const extraProps = { execOperation, updateState };
+
   return (
     <div className='table-board'>
       <Title props={title} type="Title" {...extraProps} />
@@ -54,8 +55,8 @@ const TableBoard = (props: CP_TABLE_GROUP.ITableBoardProps) => {
   )
 }
 
-const TableGroup = (props: CP_TABLE_GROUP.IProps) => {
-  const { props: configProps, state: propsState, data, operations, execOperation = noop, updateState = noop } = props;
+const TableGroup = (props: CP_TABLE_GROUP.Props) => {
+  const { props: configProps, state: propsState, data = {} as CP_TABLE_GROUP.IData, operations, execOperation = noop, updateState = noop } = props;
   const [{ pageNo, list: combineList = [], total, pageSize }, updater, update] = useUpdate({
     pageNo: propsState?.pageNo || 1,
     total: propsState?.total || 0,
@@ -64,7 +65,6 @@ const TableGroup = (props: CP_TABLE_GROUP.IProps) => {
   } || {}) as any;
   const { visible } = configProps;
   const showLoadMore = total > Math.max(combineList.length, 0)
-
 
   // 将接口返回的list和之前的list进行拼接
   React.useEffect(() => {
@@ -93,7 +93,7 @@ const TableGroup = (props: CP_TABLE_GROUP.IProps) => {
       {
         map(combineList, item => {
           return (
-            <TableBoard type="TableBoard" props={item} execOperation={execOperation} updateState={updateState} operations={operations}/>
+            <TableBoard type="TableBoard" props={item} execOperation={execOperation} updateState={updateState} operations={operations} />
           )
         })
       }

@@ -18,21 +18,19 @@ import DEFAULT_SRC from 'app/images/default-project-icon.png'
 
 const Image = (props: CP_IMAGE.Props) => {
   const { props: configProps } = props;
-  const { src = DEFAULT_SRC, styleNames = {}, visible = true } = configProps || {};
+  const { src = DEFAULT_SRC, size = 'normal', visible = true, isCircle = false, display = 'inline-block' } = configProps || {};
   const cls = classnames({
-    relative: true,
-    ...styleNames,
+    'cp-dice-image': true,
+    [size]: true,
+    'circle': isCircle,
+    [display]: true,
   });
 
   if (!visible) {
     return null
   }
 
-  return (
-    <div className='form-item-image'>
-      <img src={src} className={`${cls}`} />
-    </div>
-  )
+  return <img src={src} className={`${cls}`} />
 }
 
 export default Image;

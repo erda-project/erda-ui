@@ -13,33 +13,38 @@
 
 declare namespace CP_DROPDOWN_SELECT {
   interface Spec {
-    type: 'DropdownSelect',
+    type: 'DropdownSelect';
     props: IProps;
+    state: IState;
   }
 
   interface IProps {
-    [propName: string]: any,
-    jumpToOtherPage?: IJumpToOtherPage[],
-    buttonText?: string,
-    btnProps?: object,
-    overlay?: any,
-    menuList?: IMenuItem[],
-    loading?: boolean,
-    trigger?: Array<'click' | 'hover' | 'contextMenu'>,
+    [propName: string]: any;
+    quickSelect?: IQuickSelect[];
+    visible?: boolean;
+    overlay?: any;
+    options?: IOptionItem[];
+    trigger?: Array<'click' | 'hover' | 'contextMenu'>;
   }
 
-  interface IMenuItem {
-    key: string,
-    name: string,
-    operations: Obj<CP_COMMON.Operation>,
-    imgSrc?: string,
-    disabled?: boolean,
-    children?: IMenuItem[],
+  interface IState {
+    value: string;
   }
 
-  interface IJumpToOtherPage {
-    label: string,
-    target: string,
+  interface IOptionItem {
+    label: string;
+    value: string;
+    operations: Obj<CP_COMMON.Operation>;
+    prefixImgSrc?: string;
+    prefixIcon?: string;
+    suffixIcon?: string;
+    disabled?: boolean;
+  }
+
+  interface IQuickSelect {
+    label: string;
+    value: string;
+    operations?: Obj<CP_COMMON.Operation>;
   }
 
   type Props = MakeProps<Spec>;

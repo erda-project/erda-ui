@@ -14,11 +14,13 @@
 export const mockData: CP_DROPDOWN_SELECT.Spec = {
   type: 'DropdownSelect',
   props: {
-    menuList:
+    visible: true,
+    options:
       [
         {
-          name: '组织B',
-          key: 'organizeB',
+          label: '组织B',
+          value: 'organizeB',
+          prefixImgSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYQY0vUTJwftJ8WqXoLiLeB--2MJkpZLpYOA&usqp=CAU',
           operations: {
             click: {
               key: 'click',
@@ -26,15 +28,21 @@ export const mockData: CP_DROPDOWN_SELECT.Spec = {
               reload: false,
               command: {
                 key: 'goto',
-                target: 'https://dice.terminus.io',
+                target: 'orgRoot',
                 jumpOut: false,
+                state: {
+                  params: {
+                    orgName: 'organizeA',
+                  },
+                }
               },
             },
           },
         },
         {
-          name: '组织A',
-          key: 'organizeA',
+          label: '组织A',
+          value: 'organizeA',
+          prefixImgSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI1EaartvKCwGgDS7FTpu71EyFs1wCl1MsFQ&usqp=CAU',
           operations: {
             click: {
               key: 'click',
@@ -42,14 +50,40 @@ export const mockData: CP_DROPDOWN_SELECT.Spec = {
               reload: false,
               command: {
                 key: 'goto',
-                target: 'https://dice.terminus.io',
+                target: 'orgRoot',
                 jumpOut: false,
+                state: {
+                  params: {
+                    orgName: 'organizeA',
+                  },
+                },
               },
             },
           },
         },
       ],
-    buttonText: '组织A',
-    jumpToOtherPage: [{ target: 'orgHome', label: '浏览公开组织' }],
+    quickSelect: [
+      {
+        value: 'orgHome',
+        label: '浏览公开组织',
+        operations: {
+          click: {
+            key: 'click',
+            show: false,
+            reload: false,
+            command: {
+              key: 'goto',
+              target: 'orgHome',
+              jumpOut: false,
+            },
+          },
+        },
+      }
+    ],
   },
-},
+  state: {
+    value: 'organizeA',
+  }
+}
+
+

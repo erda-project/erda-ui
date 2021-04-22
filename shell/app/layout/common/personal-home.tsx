@@ -157,10 +157,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         props: {
           src: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3355464299,584008140&fm=26&gp=0.jpg',
           visible: true,
-          styleNames: {
-            normal: true,
-            'mt8': true,
-          }
+          size: 'normal',
         },
       },
       orgSwitch: {
@@ -180,8 +177,13 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
                     reload: false,
                     command: {
                       key: 'goto',
-                      target: 'https://docs.erda.cloud/',
+                      target: 'orgRoot',
                       jumpOut: false,
+                      state: {
+                        params: {
+                          orgName: 'organizeA',
+                        },
+                      }
                     },
                   },
                 },
@@ -197,8 +199,13 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
                     reload: false,
                     command: {
                       key: 'goto',
-                      target: 'https://docs.erda.cloud/',
+                      target: 'orgRoot',
                       jumpOut: false,
+                      state: {
+                        params: {
+                          orgName: 'organizeA',
+                        },
+                      },
                     },
                   },
                 },
@@ -645,11 +652,8 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
         props: {
           src: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3355464299,584008140&fm=26&gp=0.jpg',
           visible: true,
-          styleNames: {
-            small: true,
-            'mt8': true,
-            'circle': true,
-          }
+          isCircle: true,
+          size: 'small',
         },
       },
       emptyOrgText: {
@@ -767,11 +771,8 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
         props: {
           src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdzJaQZp56En9t1-6SYmZYtY8Y9pdpDoFscQ&usqp=CAU',
           visible: true,
-          styleNames: {
-            small: true,
-            'mt8': true,
-            'circle': true,
-          }
+          isCircle: true,
+          size: 'small',
         },
       },
       emptyProjectText: {
