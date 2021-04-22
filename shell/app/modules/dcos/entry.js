@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import routers from './index';
 import cloudServiceStore from './stores/cloud-service';
 import dashboardStore from './stores/dashboard';
 import machineStore from './stores/machine';
@@ -29,6 +28,5 @@ export default (registerModule) => {
       purchaseStore,
       servicesStore
     ],
-    routers
   });
 };

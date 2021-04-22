@@ -73,6 +73,10 @@ server {
         return 302 ${UI_PUBLIC_URL};
     }
 
+    location ~ ^/(workBench|microService|dataCenter|orgCenter|edge|sysAdmin|org-list|noAuth|freshMan|inviteToOrg|perm) {
+        return 302 /-$request_uri;
+    }
+
     location /api {
         proxy_pass http://${OPENAPI_ADDR};
         proxy_set_header        X-Real-IP $remote_addr;

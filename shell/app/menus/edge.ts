@@ -11,23 +11,23 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { pages } from 'common/utils';
+import { goTo } from 'common/utils';
 import i18n from 'i18n';
 
 export const getEdgeMenu = () => {
   return [
     {
-      href: pages.edgeApp,
+      href: goTo.resolve.edgeApp,
       icon: 'rqrz',
       text: i18n.t('edge:application'),
     },
     {
-      href: pages.edgeResource,
+      href: goTo.resolve.edgeResource,
       icon: 'zczx',
       text: i18n.t('resources'),
     },
     {
-      href: pages.edgeSetting,
+      href: goTo.resolve.edgeSetting,
       icon: 'wfw2',
       text: i18n.t('edge:configuration'),
     },

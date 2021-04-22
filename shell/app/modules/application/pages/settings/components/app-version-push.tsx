@@ -18,14 +18,14 @@ import { useEffectOnce } from 'react-use';
 import { WrappedFormUtils } from 'core/common/interface';
 import { getPublisherList, getArtifactsList } from 'publisher/services/publisher';
 import { useUpdate, LoadMoreSelector } from 'common';
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 import i18n from 'i18n';
 
 const AppVersionPush = () => {
   const { getVersionPushConfig, updateVersionPushConfig } = applicationStore.effects;
   const { clearVersionPushConfig } = applicationStore.reducers;
   const versionPushConfig = applicationStore.useStore(s => s.versionPushConfig);
-  const { orgId } = userStore.getState(s => s.loginUser);
+  const orgId = orgStore.getState(s => s.currentOrg.id);
   const [chosenPublisehId, setChosenPublisehId] = React.useState('');
   useEffectOnce(() => {
     getVersionPushConfig();

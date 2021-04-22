@@ -11,8 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
-import getAppRouter from 'application';
+import getAppRouter from 'application/router';
 import i18n from 'i18n';
 import { PROJECT_TABS, TEST_TABS, DATABANK_TABS, ITERATION_DETAIL_TABS } from './tabs';
 

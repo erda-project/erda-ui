@@ -26,6 +26,7 @@ import { find, isEmpty, get, map } from 'lodash';
 import { FULL_DOC_DOMAIN } from 'common/constants';
 import diceEnv from 'dice-env';
 import Logo from 'app/images/Erda.svg';
+import orgStore from 'app/org-home/stores/org';
 
 import './sidebar.scss';
 
@@ -35,7 +36,7 @@ const AppCenterEl = () => {
   const permMap = usePerm(s => s.org);
   const orgs = userStore.useStore((s: any) => s.orgs);
   const appList = layoutStore.useStore(s => s.appList);
-  const isErdaHome = layoutStore.useStore(s => s.isErdaHome);
+  const currentOrg = orgStore.useStore(s => s.currentOrg);
   const { switchToApp } = layoutStore.reducers;
   const [visible, setVisible] = React.useState(false);
 
@@ -72,7 +73,7 @@ const AppCenterEl = () => {
       };
     });
   const onVisibleChange = (vis: boolean) => {
-    if (!isErdaHome) {
+    if(currentOrg.id){
       setVisible(vis);
     }
   };
@@ -82,16 +83,14 @@ const AppCenterEl = () => {
       className='app-list'
       titleProp='name'
       node={(
-        <Tooltip title={(!isErdaHome) ? '' : i18n.t('please select your organization or public organization to start your Erda journey')} placement='right'>
-          <CustomIcon type='appstore' className='fz20' />
-        </Tooltip>
+        <CustomIcon type='appstore' className='fz20' />
       )}
       linkRender={(_linkTo: any, children: any, { app }: { app: LAYOUT.IApp }) => {
         return (
           <a
             className="app-list-item"
             onClick={() => {
-              switchToApp(app);
+              switchToApp(app.key);
               goTo(app.href);
               setVisible(false);
             }}
@@ -108,8 +107,8 @@ const AppCenterEl = () => {
 
 const SideBar = () => {
   const [loginUser, orgs] = userStore.useStore((s) => [s.loginUser, s.orgs]);
+  const currentOrg = orgStore.useStore(s => s.currentOrg);
   const { switchMessageCenter } = layoutStore.reducers;
-  const isErdaHome = layoutStore.useStore(s => s.isErdaHome);
   const unreadCount = messageStore.useStore(s => s.unreadCount);
   // 清掉旧版本缓存
   window.localStorage.removeItem('dice-sider');
@@ -170,7 +169,7 @@ const SideBar = () => {
       },
     },
     {
-      show: !loginUser.isSysAdmin && loginUser.orgId,
+      show: !loginUser.isSysAdmin && currentOrg.id,
       icon: (
         <Badge dot count={unreadCount} offset={[-5, 2]} style={{ width: '4px', height: '4px', boxShadow: 'none' }}>
           <Icon type="bell" style={customIconStyle} />
@@ -211,7 +210,7 @@ const SideBar = () => {
           className='mr0 pointer'
           src={Logo}
           onClick={() => {
-            !isErdaHome && goTo(goTo.pages.orgHome);
+            goTo(goTo.pages.orgRoot);
           }}
         />
       }

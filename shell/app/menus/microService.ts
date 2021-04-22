@@ -11,13 +11,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { pages } from 'common/utils';
+import { goTo } from 'common/utils';
 import i18n from 'i18n';
 
 export const getMicroServiceMenu = () => {
   return [
     {
-      href: pages.microServiceRoot,
+      href: goTo.resolve.microServiceRoot(),
       icon: 'wfw2',
       text: i18n.t('microService:microService governance'),
     },

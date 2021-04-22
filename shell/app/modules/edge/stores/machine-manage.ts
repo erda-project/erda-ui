@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createFlatStore } from 'app/cube';
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 import {
   getGroupInfos,
 } from '../services/machine-manage';
@@ -29,7 +29,7 @@ const machineManageStore = createFlatStore({
   state: initState,
   effects: {
     async getGroupInfos({ call, update }, payload: Omit<MACHINE_MANAGE.IGroupInfoQuery, 'orgName'>) {
-      const { orgName } = userStore.getState(s => s.loginUser);
+      const { name: orgName } = orgStore.getState(s => s.currentOrg);
       const data = await call(getGroupInfos, { orgName, ...payload });
       const { groups: groupInfos } = data || {};
 

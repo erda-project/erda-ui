@@ -20,13 +20,13 @@ import AddCloudMachineModal from './cloud-machine-form-modal';
 import { useUpdate, Icon as CustomIcon } from 'common';
 import machineStore from 'app/modules/dataCenter/stores/machine';
 import clusterStore from 'app/modules/dataCenter/stores/cluster';
-import userStore from 'app/user/stores';
 import { clusterImgMap } from './config';
 import i18n from 'i18n';
 import { ClusterLog } from './cluster-log';
 import DeleteClusterModal from './delete-cluster-modal';
 import { getClusterOperationHistory } from 'app/modules/dataCenter/services/machine';
 import { ColumnProps } from 'core/common/interface';
+import orgStore from 'app/org-home/stores/org';
 
 import './cluster-list.scss';
 
@@ -125,7 +125,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
   const { upgradeCluster, deleteCluster, getClusterNewDetail } = clusterStore.effects;
   const [curCluster, setCurCluster] = React.useState(null as any);
 
-  const { orgId } = userStore.getState(s => s.loginUser);
+  const orgId = orgStore.getState(s => s.currentOrg.id);
   const [state, updater] = useUpdate({
     modalVisibleRow: null,
     popoverVisible: false,

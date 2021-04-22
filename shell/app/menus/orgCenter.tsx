@@ -13,57 +13,58 @@
 
 import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
+import { goTo } from 'common/utils';
 
 // 应用中心菜单
 export const getOrgCenterMenu = () => {
   return filterMenu([
     {
       key: 'orgProjects',
-      href: '/orgCenter/projects',
+      href: goTo.resolve.orgCenterRoot(), // '/orgCenter/projects',
       icon: 'xm',
       text: i18n.t('projects'),
     },
     {
       key: 'orgMarket',
-      href: '/orgCenter/market',
+      href: goTo.resolve.orgCenterMarket(), //'/orgCenter/market',
       icon: 'fb1',
       text: i18n.t('layout:market'),
       subMenu: [
         {
           key: 'orgMarketPublisher',
           text: i18n.t('org:publisher info'),
-          href: '/orgCenter/market/publisher/setting',
+          href: goTo.resolve.orgCenterPublisherSetting(), // '/orgCenter/market/publisher/setting',
         },
       ],
     },
     {
       key: 'orgCertificate',
-      href: '/orgCenter/certificate',
+      href: goTo.resolve.orgCenterCertificate(), // '/orgCenter/certificate',
       icon: 'zs2',
       text: i18n.t('layout:certificate'),
     },
     {
       key: 'orgApproval',
-      href: '/orgCenter/approval/undone',
+      href: goTo.resolve.orgCenterApprovalUndone(), // '/orgCenter/approval/undone',
       icon: 'sp',
       text: i18n.t('layout:approval'),
-      isActive: (key: string) => key.startsWith('/orgCenter/approval'),
+      prefix: `${goTo.resolve.orgCenterApproval()}/`
     },
     {
       key: 'orgAnnouncement',
-      href: '/orgCenter/announcement',
+      href: goTo.resolve.orgCenterAnnouncement(), // '/orgCenter/announcement',
       icon: 'gg',
       text: i18n.t('org:announcement'),
     },
     {
       key: 'orgSafety',
-      href: '/orgCenter/safety',
+      href: goTo.resolve.orgCenterSafety(), // '/orgCenter/safety',
       icon: 'anquan',
       text: i18n.t('org:audit log'),
     },
     {
       key: 'orgSetting',
-      href: '/orgCenter/setting/detail',
+      href: goTo.resolve.dataCenterSetting(), // '/orgCenter/setting/detail',
       icon: 'sz',
       text: i18n.t('org setting'),
     },

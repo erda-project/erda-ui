@@ -13,6 +13,7 @@
 
 import i18n from 'i18n';
 import { filter } from 'lodash';
+import { goTo } from 'common/utils';
 import permStore from 'user/stores/permission';
 
 const appMode = {
@@ -30,75 +31,75 @@ interface IMenuItem {
   icon: string;
   text: string;
 }
-export const getAppMenu = ({ projectId, appId, mode }: { projectId: string, appId: string, mode: APPLICATION.appMode }) => {
+export const getAppMenu = ({ mode }: { projectId: string, appId: string, mode: APPLICATION.appMode }) => {
   const perm = permStore.getState(s => s.app);
   const repo = {
     show: perm.repo.read.pass,
     key: 'repo',
-    href: `/workBench/projects/${projectId}/apps/${appId}/repo`,
+    href: goTo.resolve.repo(), //`/workBench/projects/${projectId}/apps/${appId}/repo`,
     icon: 'dm',
     text: i18n.t('application:repository'),
   };
   const pipeline = {
     show: perm.pipeline.read.pass,
     key: 'pipeline',
-    href: `/workBench/projects/${projectId}/apps/${appId}/pipeline`,
+    href: goTo.resolve.pipelineRoot(), //`/workBench/projects/${projectId}/apps/${appId}/pipeline`,
     icon: 'lsx',
     text: i18n.t('application:pipeline'),
   };
   const apiDesign = {
     show: perm.apiDesign.read.pass,
     key: 'apiDesign',
-    href: `/workBench/projects/${projectId}/apps/${appId}/apiDesign`,
+    href: goTo.resolve.appApiDesign(), //`/workBench/projects/${projectId}/apps/${appId}/apiDesign`,
     icon: 'api',
     text: i18n.t('project:API design'),
   };
   const deploy = {
     show: perm.runtime.read.pass,
     key: 'deploy',
-    href: `/workBench/projects/${projectId}/apps/${appId}/deploy`,
+    href: goTo.resolve.deploy(), //`/workBench/projects/${projectId}/apps/${appId}/deploy`,
     icon: 'bs',
     text: i18n.t('application:deploy center'),
   };
   const dataTask = {
     show: perm.dataTask.read.pass,
     key: 'dataTask',
-    href: `/workBench/projects/${projectId}/apps/${appId}/dataTask`,
+    href: goTo.resolve.dataTaskRoot(), //`/workBench/projects/${projectId}/apps/${appId}/dataTask`,
     icon: 'sjrw',
     text: `${i18n.t('application:data task')}`,
   };
   const dataModel = {
     show: perm.dataModel.read.pass,
     key: 'dataModel',
-    href: `/workBench/projects/${projectId}/apps/${appId}/dataModel`,
+    href: goTo.resolve.appDataModel(), // `/workBench/projects/${projectId}/apps/${appId}/dataModel`,
     icon: 'sjmx',
     text: `${i18n.t('application:data model')}`,
   };
   const dataMarket = {
     show: perm.dataMarket.read.pass,
     key: 'dataMarket',
-    href: `/workBench/projects/${projectId}/apps/${appId}/dataMarket`,
+    href: goTo.resolve.appDataMarket(), // `/workBench/projects/${projectId}/apps/${appId}/dataMarket`,
     icon: 'sjjs',
     text: `${i18n.t('application:data market')}`,
   };
   const test = {
     show: perm.codeQuality.read.pass,
     key: 'test',
-    href: `/workBench/projects/${projectId}/apps/${appId}/test`,
+    href: goTo.resolve.appCodeQuality(), // `/workBench/projects/${projectId}/apps/${appId}/test`,
     icon: 'yycs',
     text: i18n.t('application:code quality'),
   };
   const release = {
     show: perm.release.read.pass,
     key: 'release',
-    href: `/workBench/projects/${projectId}/apps/${appId}/repo/release`,
+    href: goTo.resolve.release(), // `/workBench/projects/${projectId}/apps/${appId}/repo/release`,
     icon: 'bbgl',
     text: i18n.t('releases'),
   };
   const setting = {
     show: perm.setting.read.pass,
     key: 'setting',
-    href: `/workBench/projects/${projectId}/apps/${appId}/setting`,
+    href: goTo.resolve.appSetting(), // `/workBench/projects/${projectId}/apps/${appId}/setting`,
     icon: 'sz',
     text: i18n.t('application:application setting'),
   };

@@ -18,8 +18,7 @@ import {
   readOneMessage,
 } from '../services/message';
 import { PAGINATION } from 'app/constants';
-import userStore from 'app/user/stores';
-
+import orgStore from 'app/org-home/stores/org';
 
 export enum MSG_STATUS {
   READ = 'read',
@@ -54,7 +53,7 @@ const messageStore = createStore({
       update({ list: payload.pageNo === 1 ? list : oldList.concat(list) });
     },
     async getMessageStats({ call, update, select }) {
-      const { orgId } = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       if (orgId) {
         const result = await call(getMessageStats);
         const unreadCount = select(s => s.unreadCount);

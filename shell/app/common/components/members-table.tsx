@@ -27,10 +27,11 @@ import * as React from 'react';
 import { useEffectOnce } from 'react-use';
 import { UrlInviteModal } from './url-invite-modal';
 import { BatchAuthorizeMemberModal } from './batch-authorize-member-modal';
-import { insertWhen } from '../utils';
+import { insertWhen, goTo } from '../utils';
 import { useUpdate } from './use-hooks';
 import routeInfoStore from '../stores/route';
 import memberLabelStore from 'common/stores/member-label';
+import orgStore from 'app/org-home/stores/org';
 import './members-table.scss';
 
 const storeMap = {
@@ -70,8 +71,11 @@ export const MembersTable = ({
   const memberLabels = memberLabelStore.useStore(s => s.memberLabels);
   const { getMemberLabels } = memberLabelStore.effects;
   const loginUser = userStore.useStore(s => s.loginUser);
+  const currentOrg = orgStore.useStore(s => s.currentOrg);
+  const { id: orgId, name: orgName, displayName: orgDisplayName } = currentOrg;
+  
   const [projectMemberPerm, appMemberPerm] = usePerm(s => [s.project.member, s.app.member]);
-  const { id: currentUserId, orgName, orgDisplayName } = loginUser;
+  const { id: currentUserId } = loginUser;
   const { params } = routeInfoStore.getState(s => s);
 
   const memberStore = storeMap[scopeKey];
@@ -94,7 +98,7 @@ export const MembersTable = ({
   });
 
   const scopeIdMap = {
-    [MemberScope.ORG]: String(loginUser.orgId),
+    [MemberScope.ORG]: String(orgId),
     [MemberScope.PROJECT]: `${params.projectId}`,
     [MemberScope.APP]: `${params.appId}`,
   };
@@ -501,7 +505,7 @@ export const MembersTable = ({
           />
           <UrlInviteModal
             visible={state.inviteModalVisible}
-            url={`${window.location.origin}/inviteToOrg`}
+            url={`${window.location.origin}${goTo.resolve.inviteToOrg()}`}
             linkPrefixTip={`${i18n.t('org:visit the link to join the company')} [${orgDisplayName || orgName}]`}
             code={state.verifyCode}
             tip={i18n.t('org:url invite tip')}

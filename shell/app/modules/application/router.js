@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import getRuntimeRouter from 'runtime';
+import getRuntimeRouter from 'runtime/router';
 import i18n from 'i18n';
 import { ticketTabs } from './pages/ticket';
 import { mrTabs } from './pages/repo/repo-mr';
