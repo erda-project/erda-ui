@@ -17,20 +17,14 @@ import fileTreeStore from 'common/stores/file-tree';
 import { get } from 'lodash';
 import { EmptyHolder } from 'common';
 import { getBranchPath } from 'application/pages/pipeline/config';
+import routeInfoStore from 'common/stores/route';
 
 const RunDetail = () => {
   const [caseDetail] = fileTreeStore.useStore(s => [s.curNodeDetail]);
   const fileName = caseDetail.name;
-  const { branch } = getBranchPath(caseDetail);
-  const snippet_config = get(caseDetail, 'meta.snippetAction.snippet_config');
-  // 获取ymlNames用于请求历史记录的参数；
-  const pagingYmlNames = [] as string[];
-  if (snippet_config?.labels?.projectAppYmlNames) {
-    pagingYmlNames.push(snippet_config?.labels?.projectAppYmlNames);
-  }
-  if (snippet_config?.name) {
-    pagingYmlNames.push(snippet_config.name);
-  }
+  const { appId } = routeInfoStore.useStore(s => s.params);
+  const { branch, pagingYmlNames } = getBranchPath(caseDetail, appId);
+  
   return branch ? (
     <BuildDetail
       ymlName={fileName}
