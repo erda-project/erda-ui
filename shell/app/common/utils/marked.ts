@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import Markdown from '@terminus/marked';
+import Markdown from 'marked';
 import hljs from 'highlight.js/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
 import typescript from 'highlight.js/lib/languages/typescript';
@@ -102,7 +102,6 @@ export default (content?: string, renderFns = {}) => {
       renderer,
       linkTarget: '__blank',
       breaks: true,
-      sanitize: true,
       sanitizer(text: string) {
         // eslint-disable-next-line no-script-url
         if (text.startsWith('<a') && text.includes('javascript:')) {

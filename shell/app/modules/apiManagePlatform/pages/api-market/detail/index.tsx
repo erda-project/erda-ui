@@ -22,7 +22,7 @@ import ApplyModal from 'apiManagePlatform/pages/api-market/components/apply-moda
 import ApiView from 'app/modules/apiManagePlatform/pages/api-market/detail/components/api-view';
 import { OpenAPI } from 'openapi-types';
 import { goTo } from 'common/utils';
-import yaml from '@terminus/js-yaml';
+import yaml from 'js-yaml';
 import { ColumnProps } from 'core/common/interface';
 import { Avatar, TableActions, UserInfo } from 'common';
 import moment from 'moment';
