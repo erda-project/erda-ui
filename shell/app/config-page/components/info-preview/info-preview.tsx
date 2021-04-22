@@ -124,6 +124,7 @@ const RenderItem = (props: IRenderProps) => {
             value={isString(_data) ? _data : JSON.stringify(_data, null, 2)}
             readOnly
             style={{ border: '1px solid rgba(0, 0, 0, .1)', maxHeight: `${maxHeight}px`, minHeight: `${minHeight}px` }}
+            actions={rest?.actions}
           /> : null}
         </div>
       ) : null;

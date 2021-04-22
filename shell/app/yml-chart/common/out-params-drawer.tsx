@@ -17,6 +17,7 @@ import { Form } from 'workBench/pages/form-editor/index';
 import i18n from 'i18n';
 import { uniq, map, compact, flatten, get, isEmpty } from 'lodash';
 import { getSnippetNodeDetail } from 'project/services/auto-test-case';
+import routeInfoStore from 'common/stores/route';
 
 import './out-params-drawer.scss';
 
@@ -42,6 +43,7 @@ const getOutputs = (data: AUTO_TEST.ISnippetDetailRes) => {
 const noop = () => {};
 const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
   const { visible, closeDrawer, onSubmit: submit = noop, nodeData, editing, ymlObj } = props;
+  const projectId = routeInfoStore.getState(s => s.params.projectId);
   const formRef = React.useRef(null as any);
   const [outputList, setOutputList] = React.useState([] as string[]);
   const [formValue, setFormValue] = React.useState({} as Obj);
@@ -57,6 +59,10 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
           snippetConfigs.push({
             alias,
             ...snippet_config,
+            labels: {
+              ...(get(snippet_config, 'labels') || {}),
+              projectID: projectId,
+            },
           });
         } else {
           snippetConfigs.push({
@@ -66,6 +72,7 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
             labels: {
               actionJson: JSON.stringify(item),
               actionVersion: item.version,
+              projectID: projectId,
             },
           });
         }
@@ -74,7 +81,7 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
         setOutputList(getOutputs(res.data));
       });
     }
-  }, [visible, ymlObj]);
+  }, [projectId, visible, ymlObj]);
 
   React.useEffect(() => {
     setFormValue({

@@ -146,7 +146,10 @@ export const CaseTreeSelector = (props: IProps) => {
             alias: curCase.alias,
             source: get(curCase, 'snippet_config.source'),
             name: get(curCase, 'snippet_config.name'),
-            labels: get(curCase, 'snippet_config.labels'),
+            labels: {
+              ...(get(curCase, 'snippet_config.labels') || {}),
+              projectID: projectId,
+            },
           },
         ];
         let renameFields = [] as any[];

@@ -727,6 +727,7 @@
     "state": "状态",
     "submit": "提交",
     "test case": "用例",
+    "text edit": "文本编辑",
     "the uploaded file must not exceed {size}M": "上传的文件不得超过{size}M",
     "this configuration already exists": "该配置已存在",
     "this item is required": "该项为必填项",
@@ -1988,6 +1989,7 @@
     "application": "应用管理",
     "configuration": "配置集管理",
     "edge center": "边缘计算平台",
+    "it is getting offline and it will take a effect later": "正在下线，稍后生效",
     "site management": "站点管理"
   },
   "microService": {
@@ -2559,6 +2561,7 @@
     "total number of errors": "错误总数",
     "trace count": "追踪次数",
     "trace id": "追踪ID",
+    "tracking details": "追踪详情",
     "traffic control": "调用量控制",
     "traffic intercept switch": "流量拦截开关",
     "traffic limit": "调用量限制",

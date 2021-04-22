@@ -60,5 +60,10 @@ declare namespace MACHINE_MANAGE {
     key: string,
     values: string[],
   }
+
+  interface IOfflineMachine {
+    id: number,
+    siteIP: string
+  }
 }
 
