@@ -26,9 +26,18 @@ module.exports = async (moduleName, modulePort) => {
     process.exit(1);
   }
 
-  const erda_ui_path = ['core', 'shell'].includes(moduleName) 
-    ? path.resolve(moduleDir, `..`)
-    : path.resolve(moduleDir, `../..`);
+  let erda_ui_path = path.resolve(moduleDir, `..`);
+  
+  if(!['core', 'shell'].includes(moduleName)) {
+    const tempCorePath = path.resolve(moduleDir, `../../core`);
+    const tempShellPath = path.resolve(moduleDir, `../../shell`);
+
+    if (fs.existsSync(tempCorePath) && fs.existsSync(tempShellPath)) {
+      erda_ui_path = path.resolve(moduleDir, `../..`);
+    } else {
+      erda_ui_path = path.resolve(moduleDir, `../../erda-ui`);
+    }
+  }
   
   const full_config_path = `${erda_ui_path}/.env`;
   const { parsed: fullConfig } = require('dotenv').config({ path: full_config_path });
@@ -40,6 +49,7 @@ module.exports = async (moduleName, modulePort) => {
   }
 
   fullConfig.DEV_MODULES = Array.from(new Set(fullConfig.DEV_MODULES.split(',').concat(moduleName))).join(',');
+  fullConfig.PROD_MODULES = Array.from(new Set(fullConfig.PROD_MODULES.split(',').concat(moduleName))).join(',');
   fullConfig[`${moduleName.toUpperCase()}_URL`] = `https://local-${moduleName}.terminus-org.dev.terminus.io:${modulePort}`;
   fullConfig[`${moduleName.toUpperCase()}_DIR`] = path.resolve(moduleDir);
   fullConfig.ERDA_DIR = path.resolve(erda_ui_path);
@@ -117,7 +127,15 @@ module.exports = async (moduleName, modulePort) => {
   const shellContent = moduleName === 'shell' ? `
   DEV_MODULES: ${JSON.stringify(fullConfig.DEV_MODULES.split(','))},
   PROD_MODULES: ${JSON.stringify(fullConfig.PROD_MODULES.split(','))},
-` : '';
+  ` : '';
+  
+  const shellConfigPath = path.resolve(`${erda_ui_path}/shell/.erda/config.js`);
+
+  if (moduleName !== 'shell' && fs.existsSync(shellConfigPath)) {
+    const { MODULE_PORT }  = require(shellConfigPath)
+    logInfo('update shell/.erda/config.js');
+    child_process.spawnSync('erda-ui', ['setup', 'shell', MODULE_PORT], { env: process.env, cwd: fullConfig.SHELL_DIR, stdio: 'inherit' }) ;
+  }
 
   const module_host = `local-${moduleName}.terminus-org.dev.terminus.io`;
   const configContent = `

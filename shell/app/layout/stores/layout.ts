@@ -151,8 +151,12 @@ const layout = createStore({
     },
   },
   reducers: {
-    initLayout(state, payload: LAYOUT.IInitLayout) {
-      const { appList, currentApp, menusMap = {}, key } = payload || {};
+    initLayout(state, payload: LAYOUT.IInitLayout | (() => LAYOUT.IInitLayout)) {
+      let _payload = payload
+      if (typeof payload === 'function') {
+        _payload = payload()
+      }
+      const { appList, currentApp, menusMap = {}, key } = _payload as  LAYOUT.IInitLayout || {} ;
       if (key === 'sysAdmin' && !getGlobal('erdaInfo.isSysAdmin')) return;
       state.appList = appList;
       state.currentApp = currentApp;
