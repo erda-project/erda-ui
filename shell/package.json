@@ -38,7 +38,7 @@
     "cypress:report": "mochawesome-merge \"cypress/temp/*.json\" > cypress/reports/mochawesome.json &&  npx marge  cypress/reports/mochawesome.json -o cypress/reports"
   },
   "author": "Erda-FE",
-  "license": "AGPL",
+  "license": "GPL-3.0",
   "dependencies": {
     "@babel/runtime": "^7.12.5",
     "@terminus/js-yaml": "^1.0.0",

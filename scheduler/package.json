@@ -7,7 +7,7 @@
     "start": "nodemon -e js,json,env src/index.js --watch ../.env --watch src"
   },
   "author": "Erda-FE",
-  "license": "AGPL",
+  "license": "GPL-3.0",
   "dependencies": {
     "koa": "^2.13.1",
     "koa-send": "^5.0.1",

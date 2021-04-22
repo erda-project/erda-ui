@@ -16,7 +16,7 @@
     "cli"
   ],
   "author": "Erda-FE",
-  "license": "AGPL",
+  "license": "GPL-3.0",
   "dependencies": {
     "@paiva/translation-google": "^1.0.9",
     "chalk": "^4.1.0",
