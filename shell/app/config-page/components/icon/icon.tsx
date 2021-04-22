@@ -12,69 +12,39 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Lock, Unlock, Time, ApplicationOne, User, LinkCloudSucess, LinkCloudFaild, ListNumbers, CategoryManagement, ApiApp } from '@icon-park/react';
+import { 
+  Lock,
+  Unlock,
+  Time, 
+  ApplicationOne, 
+  User, 
+  LinkCloudSucess, 
+  LinkCloudFaild, 
+  ListNumbers, 
+  CategoryManagement, 
+  ApiApp 
+} from '@icon-park/react';
 
-export enum ALL_ICON_KEYS {
-  'lock' = 'lock',
-  'unlock' = 'unlock',
-  'time' = 'time',
-  'application-one' = 'application-one',
-  'user' = 'user',
-  'link-cloud-sucess' = 'link-cloud-sucess',
-  'link-cloud-faild' = 'link-cloud-faild',
-  'category-management' = 'category-management',
-  'list-numbers' = 'list-numbers',
-  'api-app' = 'api-app',
+export const iconMap = {
+  'lock': Lock,
+  'unlock': Unlock,
+  'time': Time,
+  'application-one': ApplicationOne,
+  'user': User,
+  'link-cloud-sucess': LinkCloudSucess,
+  'link-cloud-faild': LinkCloudFaild,
+  'category-management': CategoryManagement,
+  'list-numbers': ListNumbers,
+  'api-app': ApiApp,
 }
 
 const Icon = (props: CP_ICON.Props) => {
   const { props: configProps } = props;
   const { iconType, ...extraProps } = configProps || {};
 
-  let IconComp: React.FunctionComponent | null = null;
-  switch (iconType) {
-    case 'lock': {
-      IconComp = Lock;
-    }
-      break;
-    case 'unlock': {
-      IconComp =  Unlock;
-    }
-      break;
-    case 'time': {
-      IconComp =  Time;
-    }
-      break;
-    case 'application-one': {
-      IconComp =  ApplicationOne;
-    }
-      break;
-    case 'user': {
-      IconComp =  User;
-    }
-      break;
-    case 'link-cloud-sucess': {
-      IconComp =  LinkCloudSucess;
-    }
-      break;
-    case 'link-cloud-faild': {
-      IconComp =  LinkCloudFaild;
-    }
-      break;
-    case 'list-numbers': {
-      IconComp =  ListNumbers;
-    }
-      break;
-    case 'category-management': {
-      IconComp =  CategoryManagement;
-    }
-      break;
-    case 'api-app': {
-      IconComp =  ApiApp;
-    }
-      break;
-  }
-  return IconComp ? <IconComp {...extraProps} /> : null;
+  const IconComp = iconMap[iconType];
+
+  return IconComp ? <IconComp {...extraProps} /> : <span>Not Exists</span>;
 };
 
 export default Icon;
