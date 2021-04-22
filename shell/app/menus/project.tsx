@@ -85,7 +85,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     },
     {
       text: i18n.t('project:resource summary'),
-      icon: <DataAll />, // TODO: 这里icon用的数据模型的，更新一下
+      icon: <DataAll />,
       href: `/workBench/projects/${projectId}/resource`,
       show: projectPerm.resource.viewResource.pass,
     },

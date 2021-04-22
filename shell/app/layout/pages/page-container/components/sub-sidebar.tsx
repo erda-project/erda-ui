@@ -131,7 +131,7 @@ const SubSideBar = () => {
       return {
         ...item,
         title: firstLetterUpper(item.text),
-        icon: item.icon ? item.icon : item.customIcon ? item.customIcon : null,
+        icon: (item.icon && typeof item.icon !== 'string') ?  item.icon : item.customIcon ? item.customIcon : null,
         href,
         children: subMenu,
         subActiveKey,

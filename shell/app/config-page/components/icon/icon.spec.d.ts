@@ -21,6 +21,9 @@ declare namespace CP_ICON {
   | 'user'
   | 'link-cloud-sucess'
   | 'link-cloud-faild'
+  | 'category-management'
+  | 'list-numbers'
+  | 'api-app'
   
   type StrokeLinejoin = 'miter' | 'round' | 'bevel';
   type StrokeLinecap = 'butt' | 'round' | 'square';

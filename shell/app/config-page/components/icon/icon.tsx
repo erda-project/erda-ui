@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Lock, Unlock, Time, ApplicationOne, User, LinkCloudSucess, LinkCloudFaild } from '@icon-park/react';
+import { Lock, Unlock, Time, ApplicationOne, User, LinkCloudSucess, LinkCloudFaild, ListNumbers, CategoryManagement, ApiApp } from '@icon-park/react';
 
 export enum ALL_ICON_KEYS {
   'lock' = 'lock',
@@ -22,6 +22,9 @@ export enum ALL_ICON_KEYS {
   'user' = 'user',
   'link-cloud-sucess' = 'link-cloud-sucess',
   'link-cloud-faild' = 'link-cloud-faild',
+  'category-management' = 'category-management',
+  'list-numbers' = 'list-numbers',
+  'api-app' = 'api-app',
 }
 
 const Icon = (props: CP_ICON.Props) => {
@@ -56,6 +59,18 @@ const Icon = (props: CP_ICON.Props) => {
       break;
     case 'link-cloud-faild': {
       IconComp =  LinkCloudFaild;
+    }
+      break;
+    case 'list-numbers': {
+      IconComp =  ListNumbers;
+    }
+      break;
+    case 'category-management': {
+      IconComp =  CategoryManagement;
+    }
+      break;
+    case 'api-app': {
+      IconComp =  ApiApp;
     }
       break;
   }
