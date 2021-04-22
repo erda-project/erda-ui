@@ -26,6 +26,7 @@ const noop = () => { };
 interface IProps {
   visible: boolean;
   form: WrappedFormUtils;
+  formOption?: Obj;
   formData?: object;
   fieldsList?: IFormItem[] | ((form: WrappedFormUtils, isEdit: boolean) => IFormItem[]);
   title?: string;
@@ -193,6 +194,8 @@ class FormModalComp extends React.Component<IProps, IState> {
 }
 
 const PureFormModal = Form.create()(FormModalComp);
+const PureFormModalFun = (options: Obj) => Form.create(options)(FormModalComp);
+
 
 /**
  * 表单弹窗组件
@@ -221,7 +224,8 @@ const PureFormModal = Form.create()(FormModalComp);
 export const FormModal = (props: any) => {
   const formRef = React.useRef(null);
   // 将formRef传递至组件内部，为的是当使用PureForm的时候，可以得到fieldsStore来setFieldsValues，故使用FormModal时，要注意ref得到的和预期的不一样
+  const FormModalCompRef = React.useRef(PureFormModalFun(props?.formOption || {}));
   return (
-    <PureFormModal {...props} ref={formRef} formRef={formRef.current} />
+    <FormModalCompRef.current {...props} ref={formRef} formRef={formRef.current} />
   );
 };

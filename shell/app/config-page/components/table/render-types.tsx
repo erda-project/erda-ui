@@ -63,7 +63,9 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         };
       }
       Comp = (
-        <span className='fake-link nowrap' {..._p}>{val.value}</span>
+        <Tooltip title={val.value}>
+          <span className='fake-link nowrap' {..._p}>{val.value}</span>
+        </Tooltip>
       );
     }
       break;

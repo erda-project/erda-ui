@@ -356,3 +356,13 @@ export const uuid = (len = 20, radix = 0) => {
   }
   return _uuid.join('');
 };
+
+export const isValidJsonStr = (_jsonStr = '') => {
+  try {
+    _jsonStr && JSON.parse(_jsonStr);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
