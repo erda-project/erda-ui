@@ -43,7 +43,6 @@ function getLayoutRouter() {
         noWrapper: true,
       },
     },
-
     {
       path: 'inviteToOrg',
       breadcrumbName: i18n.t('layout:join organization'),
