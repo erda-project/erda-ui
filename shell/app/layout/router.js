@@ -16,6 +16,16 @@ import i18n from 'core/i18n';
 function getLayoutRouter() {
   return [
     {
+      path: 'orgHome',
+      getComp: cb => cb(import('layout/common/org-home'), 'OrgHome'),
+      layout: {
+        hideHeader: true,
+        showSubSidebar: false,
+        fullHeight: true,
+        noWrapper: true,
+      },
+    },
+    {
       path: 'noAuth',
       breadcrumbName: i18n.t('layout:error page'),
       getComp: cb => cb(import('layout/common/error-page'), 'NoAuth'),
@@ -33,6 +43,7 @@ function getLayoutRouter() {
         noWrapper: true,
       },
     },
+
     {
       path: 'inviteToOrg',
       breadcrumbName: i18n.t('layout:join organization'),
