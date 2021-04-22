@@ -17,7 +17,7 @@ declare namespace CP_CONTAINER {
     left?: Obj;
     right?: Obj;
     props?: IProps;
-    leftStyleNames?: Obj;
+    contentSetting?: string;
   }
 
   interface IProps {

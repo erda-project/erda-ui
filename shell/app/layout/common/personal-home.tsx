@@ -67,6 +67,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
       page: {
         type: 'Container',
         props: {
+          visible: true,
           whiteBg: true,
           fullHeight: true,
         },
@@ -82,11 +83,15 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
       myOrganization: {
         type: 'Container',
         props: {
+          visible: true,
           spaceSize: 'big',
         }
       },
       emptyOrganization: {
         type: 'Container',
+        props: {
+          visible: true,
+        },
       },
       emptyOrgText: {
         type: 'TextGroup',
@@ -161,12 +166,13 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
       orgSwitch: {
         type: 'DropdownSelect',
         props: {
-          menuList:
+          visible: true,
+          options:
             [
               {
-                name: '组织B',
-                key: 'organizeB',
-                imgSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYQY0vUTJwftJ8WqXoLiLeB--2MJkpZLpYOA&usqp=CAU',
+                label: '组织B',
+                value: 'organizeB',
+                prefixImgSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYQY0vUTJwftJ8WqXoLiLeB--2MJkpZLpYOA&usqp=CAU',
                 operations: {
                   click: {
                     key: 'click',
@@ -181,9 +187,9 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
                 },
               },
               {
-                name: '组织A',
-                key: 'organizeA',
-                imgSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI1EaartvKCwGgDS7FTpu71EyFs1wCl1MsFQ&usqp=CAU',
+                label: '组织A',
+                value: 'organizeA',
+                prefixImgSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI1EaartvKCwGgDS7FTpu71EyFs1wCl1MsFQ&usqp=CAU',
                 operations: {
                   click: {
                     key: 'click',
@@ -198,13 +204,33 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
                 },
               },
             ],
-          buttonText: '组织A',
-          jumpToOtherPage: [{ target: 'orgHome', label: '浏览公开组织' }],
+          quickSelect: [
+            {
+              value: 'orgHome',
+              label: '浏览公开组织',
+              operations: {
+                click: {
+                  key: 'click',
+                  show: false,
+                  reload: false,
+                  command: {
+                    key: 'goto',
+                    target: 'orgHome',
+                    jumpOut: false,
+                  },
+                },
+              },
+            }
+          ],
         },
+        state: {
+          value: 'organizeA',
+        }
       },
       joinedBrief: {
         type: 'Table',
         props: {
+          visible: true,
           rowKey: 'key',
           columns: [
             { title: '', dataIndex: 'category' },
@@ -240,6 +266,9 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         //   relative: true,
         // }
         type: 'Container',
+        props: {
+          visible: true,
+        },
       },
       projectTipWithoutOrg: {
         type: 'Text',
@@ -266,6 +295,9 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
       },
       projectTipWithOrg: {
         type: 'Container',
+        props: {
+          visible: true,
+        },
       },
       createProjectLink: {
         type: 'Text',
@@ -327,16 +359,21 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
       myInfo: {
         type: 'Container',
         props: {
+          visible: true,
           fullHeight: true,
           scrollAuto: true,
         },
       },
       myProject: {
         type: 'Container',
+        props: {
+          visible: true,
+        },
       },
       myProjectTitle: {
         type: 'Title',
         props: {
+          visible: true,
           title: '项目',
           level: 1,
           noMarginBottom: true,
@@ -375,7 +412,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         type: 'List',
         props: {
           visible: true,
-          paginationType: 'LOAD_MORE',
+          useLoadMore: true,
         },
         data: {
           list: [
@@ -394,7 +431,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
                   reload: false,
                   command: {
                     key: 'goto',
-                    target: 'issueAll',
+                    target: 'projectIssues',
                     state: {
                       params: {
                         projectId: '13',
@@ -419,7 +456,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
                   reload: false,
                   command: {
                     key: 'goto',
-                    target: 'issueAll',
+                    target: 'projectIssues',
                     state: {
                       params: {
                         projectId: '13',
@@ -446,10 +483,14 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
       },
       myApplication: {
         type: 'Container',
+        props: {
+          visible: true,
+        },
       },
       myApplicationTitle: {
         type: 'Title',
         props: {
+          visible: true,
           title: '应用',
           level: 1,
           noMarginBottom: true,
@@ -488,7 +529,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         type: 'List',
         props: {
           visible: true,
-          paginationType: 'LOAD_MORE',
+          useLoadMore: true,
         },
         data: {
           list: [
@@ -583,6 +624,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
       title: {
         type: 'Title',
         props: {
+          visible: true,
           title: '事件',
           level: 1,
           titleStyles: { fontSize: '24px' },
@@ -592,10 +634,11 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
       emptyOrgTip: {
         type: 'LRContainer',
         props: {
+          visible: true,
           whiteBg: true,
           startAlign: true,
         },
-        leftStyleNames: { 'flex-1': false }
+        contentSetting: 'start',
       },
       erdaLogo: {
         type: 'Image',
@@ -611,6 +654,9 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
       },
       emptyOrgText: {
         type: 'Container',
+        props: {
+          visible: true,
+        },
       },
       emptyOrgTitle: {
         type: 'Title',
@@ -689,7 +735,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
           toSpecificProject: {
             command: {
               key: "goto",
-              target: "issueAll",
+              target: "projectIssues",
               jumpOut: true,
               state: {
                 query: {
@@ -710,10 +756,11 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
       emptyProjectTip: {
         type: 'LRContainer',
         props: {
+          visible: true,
           whiteBg: true,
           startAlign: true,
         },
-        leftStyleNames: { 'flex-1': false }
+        contentSetting: 'start',
       },
       orgLogo: {
         type: 'Image',
@@ -729,6 +776,9 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
       },
       emptyProjectText: {
         type: 'Container',
+        props: {
+          visible: true,
+        }
       },
       emptyProjectTitle: {
         type: 'Title',
@@ -848,7 +898,12 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
           ]
         },
       },
-      content: { type: 'Container' },
+      content: {
+        type: 'Container',
+        props: {
+          visible: true,
+        },
+      },
       tableGroup: {
         type: 'TableGroup',
         props: {
@@ -960,7 +1015,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                     reload: false,
                     command: {
                       key: 'goto',
-                      target: 'specificIssue',
+                      target: 'projectIssueDetail',
                       jumpOut: true,
                     },
                   },
@@ -977,7 +1032,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                   toSpecificProject: {
                     command: {
                       key: "goto",
-                      target: "issueAll",
+                      target: "projectIssues",
                       jumpOut: true,
                       state: {
                         query: {
@@ -1093,7 +1148,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                     reload: false,
                     command: {
                       key: 'goto',
-                      target: 'specificIssue',
+                      target: 'projectIssueDetail',
                       jumpOut: true,
                     },
                   },
@@ -1110,7 +1165,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                   toSpecificProject: {
                     command: {
                       key: "goto",
-                      target: "issueAll",
+                      target: "projectIssues",
                       jumpOut: true,
                       state: {
                         query: {

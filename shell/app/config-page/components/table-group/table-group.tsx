@@ -14,59 +14,38 @@
 import * as React from 'react';
 import { map, get } from 'lodash';
 import { Icon as CustomIcon, useUpdate, EmptyHolder } from 'common';
-import Title from './title/title';
-import Text from './text/text';
-import { Table } from './table/table'
+import Title from '../title/title';
+import Text from '../text/text';
+import { Table } from '../table/table'
 import './table-group.scss'
 
-interface ITableBoardProps extends CONFIG_PAGE.ICommonProps {
-  props: IData;
-}
-
-interface IData {
-  title: CP_TITLE.IProps;
-  subtitle: CP_TITLE.IProps;
-  description: CP_TEXT.IProps;
-  table: CP_TABLE.Props;
-  extraInfo: CP_TEXT.Props;
-}
-
-interface IProps extends CONFIG_PAGE.ICommonProps {
-  data: { list: IData[] }
-  props: {
-    visible: boolean
-  }
-}
-
 const noop = () => { };
-const TableBoard = (props: ITableBoardProps) => {
+const TableBoard = (props: CP_TABLE_GROUP.ITableBoardProps) => {
   const { props: configProps, execOperation = noop, updateState = noop } = props
   const { title, subtitle, description, table, extraInfo } = configProps;
-
+  const extraProps = { execOperation, updateState };
   return (
     <div className='table-board'>
-      <Title props={title} type="Title" execOperation={execOperation} updateState={updateState} />
+      <Title props={title} type="Title" {...extraProps} />
       <div className='table-board-card'>
-        <Title props={subtitle} type="Title" execOperation={execOperation} updateState={updateState} />
+        <Title props={subtitle} type="Title" {...extraProps} />
         <div className="mt12 ml32">
           <div className='mb12 ml8'>
-            <Text props={description} type="Text" execOperation={execOperation} updateState={updateState} />
+            <Text props={description} type="Text" {...extraProps} />
           </div>
           <Table
             props={table.props}
             data={table.data}
             operations={table.operations}
-            execOperation={execOperation}
+            {...extraProps}
             type="Table"
-            updateState={updateState}
           />
           <div className='mt12 ml8'>
             <Text
               props={extraInfo.props}
               operations={extraInfo.operations}
-              execOperation={execOperation}
               type="Text"
-              updateState={updateState}
+              {...extraProps}
             />
           </div>
         </div>
@@ -75,7 +54,7 @@ const TableBoard = (props: ITableBoardProps) => {
   )
 }
 
-const TableGroup = (props: IProps) => {
+const TableGroup = (props: CP_TABLE_GROUP.IProps) => {
   const { props: configProps, state: propsState, data, operations, execOperation = noop, updateState = noop } = props;
   const [{ pageNo, list: combineList = [], total, pageSize }, updater, update] = useUpdate({
     pageNo: propsState?.pageNo || 1,
@@ -103,7 +82,7 @@ const TableGroup = (props: IProps) => {
 
   // 加载更多
   const loadMore = () => {
-    operations?.changePageNo && execOperation(operations?.changePageNo, { pageNo: pageNo + 1 })
+    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pageNo + 1 })
   }
 
   if (!visible) {
@@ -114,7 +93,7 @@ const TableGroup = (props: IProps) => {
       {
         map(combineList, item => {
           return (
-            <TableBoard type="TableBoard" props={item} execOperation={execOperation} updateState={updateState} />
+            <TableBoard type="TableBoard" props={item} execOperation={execOperation} updateState={updateState} operations={operations}/>
           )
         })
       }

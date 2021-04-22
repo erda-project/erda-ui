@@ -30,7 +30,7 @@ declare namespace CP_LIST {
     rowKey?: string;
     visible?: boolean;
     size?: ISize;
-    paginationType?: 'LOAD_MORE' | 'PAGINATION';
+    useLoadMore?: boolean;
     pageSizeOptions?: string[]
   }
 

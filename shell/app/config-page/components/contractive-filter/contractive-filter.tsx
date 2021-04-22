@@ -51,7 +51,11 @@ export const Filter = (props: CP_FILTER.Props) => {
     execOperation(operations && operations[key], { values, conditions: conditionsRef.current });
   };
 
+  if (!visible) {
+    return null;
+  }
+
   return (
-    <ContractiveFilter conditions={stateConditions as any} values={values} delay={delay || 1000} onChange={onChange} onQuickSelect={onQuickSelect} onConditionsChange={onConditionsChange} visible={visible} fullWidth={fullWidth}/>
+    <ContractiveFilter conditions={stateConditions as any} values={values} delay={delay || 1000} onChange={onChange} onQuickSelect={onQuickSelect} onConditionsChange={onConditionsChange} fullWidth={fullWidth} />
   );
 };

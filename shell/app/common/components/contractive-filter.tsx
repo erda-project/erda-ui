@@ -349,8 +349,6 @@ export const ContractiveFilter = ({ initValue, values, conditions: propsConditio
   const inputList = conditions.filter(a => a.type === 'input');
   const displayConditionsLen = conditions.filter(item => !item.fixed && item.type !== 'input').length;
 
-  if (!visible) return null;
-
   useUpdateEffect(() => {
     setValueMap(values || {});
   }, [values]);
