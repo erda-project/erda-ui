@@ -56,7 +56,12 @@ const trace = createFlatStore({
       field_eq_errors_sum?: number;
     }) {
       const { terminusKey } = getParams();
-      const traceCount = await call(getTraceCount, { cardinality: 'tags.trace_id', align: false, filter_terminus_key: terminusKey, ...payload });
+      const traceCount = await call(getTraceCount, {
+        cardinality: 'tags.trace_id',
+        align: false,
+        'filter_fields.terminus_keys': terminusKey,
+        ...payload,
+      });
       update({ traceCount });
     },
     async getTraceSummary({ call, update, getParams }, payload: MS_MONITOR.ITraceSummaryQuery) {

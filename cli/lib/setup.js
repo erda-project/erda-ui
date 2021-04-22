@@ -21,33 +21,24 @@ module.exports = async (moduleName, modulePort) => {
   const moduleDir = process.cwd();
   const packagePath = path.join(moduleDir, 'package.json');
 
-  if (!fs.existsSync(packagePath)) {
-    logWarn(`Please execute in project root directory, current path:`, moduleDir);
+  if (!fs.existsSync(packagePath) || path.resolve(moduleDir, `../${moduleName}`) !== moduleDir) {
+    logWarn(`the current path: '${moduleDir}' is not the root path of the project ${moduleName}`);
     process.exit(1);
+  }
+
+  let erda_ui_path = path.resolve(moduleDir, `..`);
+  
+  if(!['core', 'shell'].includes(moduleName)) {
+    const tempCorePath = path.resolve(moduleDir, `../../core`);
+    const tempShellPath = path.resolve(moduleDir, `../../shell`);
+
+    if (fs.existsSync(tempCorePath) && fs.existsSync(tempShellPath)) {
+      erda_ui_path = path.resolve(moduleDir, `../..`);
+    } else {
+      erda_ui_path = path.resolve(moduleDir, `../../erda-ui`);
+    }
   }
   
-  let answer = await inquirer.prompt([
-    {
-      type: 'confirm',
-      name: 'isRightPath',
-      message: `The current path is ${moduleDir}, is the right root path of project ${moduleName}?`,
-    }
-  ]);
-
-  if (!answer.isRightPath) {
-    process.exit(1);
-  }
-
-  answer = await inquirer.prompt([
-    {
-      type: 'directory',
-      name: 'targetPath',
-      message: 'Select erda-ui directory',
-      basePath: '..',
-    }
-  ]);
-
-  const erda_ui_path = answer.targetPath;
   const full_config_path = `${erda_ui_path}/.env`;
   const { parsed: fullConfig } = require('dotenv').config({ path: full_config_path });
   
@@ -58,8 +49,10 @@ module.exports = async (moduleName, modulePort) => {
   }
 
   fullConfig.DEV_MODULES = Array.from(new Set(fullConfig.DEV_MODULES.split(',').concat(moduleName))).join(',');
+  fullConfig.PROD_MODULES = Array.from(new Set(fullConfig.PROD_MODULES.split(',').concat(moduleName))).join(',');
   fullConfig[`${moduleName.toUpperCase()}_URL`] = `https://local-${moduleName}.terminus-org.dev.terminus.io:${modulePort}`;
   fullConfig[`${moduleName.toUpperCase()}_DIR`] = path.resolve(moduleDir);
+  fullConfig.ERDA_DIR = path.resolve(erda_ui_path);
 
   const newFullConfig = [];
   Object.keys(fullConfig).forEach(k => {
@@ -106,54 +99,43 @@ module.exports = async (moduleName, modulePort) => {
 
   const pathContent = moduleName === 'core' ? commonPathContent : { ...commonPathContent, ...corePathContent };
 
-  answer = await inquirer.prompt([
-    {
-      type: 'confirm',
-      name: 'updateTsConfig',
-      message: 'Do you want to auto update tsconfig.json?',
-      default: true,
-    },
-  ]);
 
   let extraContent = '';
-  if (answer.updateTsConfig) {
-    const tsConfigPath = path.join(fullConfig[`${moduleName.toUpperCase()}_DIR`], 'tsconfig.json');
-    let tsConfig = {};
-    try {
-      tsConfig = require(tsConfigPath);
-    } catch (e) {
-      logWarn('tsconfig.json may have syntax error, please check');
-      process.exit(0);
-    }
-    if (!tsConfig.compilerOptions) {
-      tsConfig.compilerOptions = {};
-    }
-    tsConfig.compilerOptions.paths = {
-      ...tsConfig.compilerOptions.paths,
-      ...pathContent,
-    };
-    tsConfig.include = Array.from(new Set([
-      ...tsConfig.include,
-      ...includeContent,
-    ]));
-    fs.writeFileSync(tsConfigPath, JSON.stringify(tsConfig, null, 2), 'utf8');
-    logSuccess(`update tsconfig.json`);
-  } else {
-    extraContent = `
-/**
-merge this to tsconfig.json:
 
-"compilerOptions": ${JSON.stringify({ paths: pathContent }, null, 2)},
-${JSON.stringify({ include: includeContent }, null, 2)}
-*/
-    `
-    logSuccess(`please open .erda/config.js to manually update tsconfig.json, and remove the comment code in ./erda/config.js`);
+  const tsConfigPath = path.join(fullConfig[`${moduleName.toUpperCase()}_DIR`], 'tsconfig.json');
+  let tsConfig = {};
+  try {
+    tsConfig = require(tsConfigPath);
+  } catch (e) {
+    logWarn('tsconfig.json may have syntax error, please check');
+    process.exit(0);
   }
+  if (!tsConfig.compilerOptions) {
+    tsConfig.compilerOptions = {};
+  }
+  tsConfig.compilerOptions.paths = {
+    ...tsConfig.compilerOptions.paths,
+    ...pathContent,
+  };
+  tsConfig.include = Array.from(new Set([
+    ...tsConfig.include,
+    ...includeContent,
+  ]));
+  fs.writeFileSync(tsConfigPath, JSON.stringify(tsConfig, null, 2), 'utf8');
+  logSuccess(`update tsconfig.json`);
 
   const shellContent = moduleName === 'shell' ? `
   DEV_MODULES: ${JSON.stringify(fullConfig.DEV_MODULES.split(','))},
   PROD_MODULES: ${JSON.stringify(fullConfig.PROD_MODULES.split(','))},
-` : '';
+  ` : '';
+  
+  const shellConfigPath = path.resolve(`${erda_ui_path}/shell/.erda/config.js`);
+
+  if (moduleName !== 'shell' && fs.existsSync(shellConfigPath)) {
+    const { MODULE_PORT }  = require(shellConfigPath)
+    logInfo('update shell/.erda/config.js');
+    child_process.spawnSync('erda-ui', ['setup', 'shell', MODULE_PORT], { env: process.env, cwd: fullConfig.SHELL_DIR, stdio: 'inherit' }) ;
+  }
 
   const module_host = `local-${moduleName}.terminus-org.dev.terminus.io`;
   const configContent = `
