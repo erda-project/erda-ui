@@ -1,9 +1,9 @@
 {
-  "name": "erda-ui-cli",
+  "name": "@erda-ui/cli",
   "version": "1.0.0",
   "description": "Command line interface for rapid Erda UI development",
   "bin": {
-    "erda": "bin/erda.js"
+    "erda-ui": "bin/erda.js"
   },
   "scripts": {
     "start": "node bin/erda.js",
@@ -16,7 +16,7 @@
     "cli"
   ],
   "author": "Erda-FE",
-  "license": "ISC",
+  "license": "AGPL",
   "dependencies": {
     "@paiva/translation-google": "^1.0.9",
     "chalk": "^4.1.0",

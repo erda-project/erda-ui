@@ -107,7 +107,7 @@ export const regRules = {
   port: { pattern: /^([1-9]\d{0,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])(-([1-9]\d{0,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5]))?$/, message: i18n.t('project:please fill in the correct port number') },
   ip: { pattern: /^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})){3}$/, message: i18n.t('project:please fill in the correct ip') },
   noSpace: { pattern: /^[^ \f\r\t\v]*$/, message: i18n.t('project:do not start with a space') },
-  http: { pattern: /^(http|https):\/\/[\u4e00-\u9fa5_a-zA-Z0-9-]+(.[\u4e00-\u9fa5_a-zA-Z0-9-]+)*$/, message: i18n.t('project:please enter the correct http address') },
+  http: { pattern: /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/, message: i18n.t('project:please enter the correct http address') },
   url: { pattern: /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/, message: i18n.t('project:please enter the correct url address') },
   email: { pattern: /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/, message: i18n.t('project:please enter the correct email') },
   ssh: { pattern: /^git@[_a-zA-Z0-9-]+(.[_a-zA-Z0-9-]+)*$/, message: i18n.t('project:please enter the correct git address') },

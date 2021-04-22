@@ -1,7 +1,7 @@
 server {
     listen 80;
     server_name localhost;
-    root /usr/share/nginx/html; # dice | gts
+    root /usr/share/nginx/html;
 
     # compression
     gzip on;
@@ -39,7 +39,7 @@ server {
 
     location /_api/health {
         default_type application/json;
-        return 200 '{"name":"diceUI","status":"ok"}';
+        return 200 '{"name":"erdaUI","status":"ok"}';
     }
 
     location / {
@@ -61,8 +61,6 @@ server {
     set $taUrl //${COLLECTOR_PUBLIC_ADDR}/ta.js;
     set $collectorUrl //${COLLECTOR_PUBLIC_ADDR}/collect;
     set $terminusKey ${TERMINUS_KEY};
-#    set $openapiAddr ${OPENAPI_ADDR};
-#    set $gittarAddr ${GITTAR_ADDR};
 
     location /ta {
         default_type application/javascript;

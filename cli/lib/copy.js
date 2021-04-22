@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const inquirer = require('inquirer');
 const path = require('path');
 const fs = require('fs');
 const child_process = require('child_process');
@@ -22,27 +21,15 @@ const { execSync } = child_process;
 
 module.exports = async (moduleName, options) => {
   const moduleDir = process.cwd();
-  const moduleEnvPath = path.resolve(moduleDir, '.env');
-  const { parsed: moduleEnv } = require('dotenv').config({ path: moduleEnvPath });
-  if (!moduleEnv) {
-    logInfo('.env file not exist')
-  } else if (!moduleEnv.ERDA_UI_DIR) {
-    logInfo('ERDA_UI_DIR is not set in .env')
+  
+  const configPath = path.resolve(moduleDir, '.erda/config.js');
+  
+  if (!configPath) {
+    logError(`.erda/config.js file not exist, please execute "erda setup ${moduleName} <port> to generate this file`);
+    process.exit(1);
   }
 
-  let answer = { targetPath: (moduleEnv || {}).ERDA_UI_DIR };
-  if (!answer.targetPath) {
-    answer = await inquirer.prompt([
-      {
-        type: 'directory',
-        name: 'targetPath',
-        message: 'Select erda-ui directory',
-        basePath: '..',
-      }
-    ]);
-  }
-
-  logInfo(moduleDir, options);
+  const moduleConfig = require(configPath);
 
   const distPath = path.resolve(moduleDir, options.dist_path);
 
@@ -51,8 +38,7 @@ module.exports = async (moduleName, options) => {
     process.exit(1);
   }
 
-  const erda_ui_path = path.resolve(moduleDir, answer.targetPath);
-
+  const erda_ui_path = moduleConfig.ERDA_UI_DIR;
   if (!fs.existsSync(erda_ui_path)) {
     logError(`Erda UI root path not exist:`, erda_ui_path);
     process.exit(1);
