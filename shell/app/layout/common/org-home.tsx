@@ -30,7 +30,7 @@ export const OrgHome = () => {
         </div>
       </div>
       <div className='org-home-list'>
-        <DiceConfigPage
+         <DiceConfigPage
           scenarioType='org-list-my'
           scenarioKey='org-list-my'
           useMock={location.search.includes('useMock') ? useMock : undefined}

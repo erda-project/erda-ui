@@ -49,6 +49,7 @@ export default () => {
           ...params,
           serviceName: cellValue,
           applicationId: dataSource?.application_id,
+          serviceId: window.encodeURIComponent(dataSource?.service_id || ''),
         }
       );
     }

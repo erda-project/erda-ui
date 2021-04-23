@@ -88,6 +88,16 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         );
       }
       break;
+    case 'textWithIcon': {
+      const { value, prefixIcon, colorClassName, hoverActive = '' } = val;
+      Comp = (
+        <div className={`${hoverActive} v-align`}>
+          {prefixIcon ? <CustomIcon type={prefixIcon} className={`mr4 ${colorClassName}`} /> : null}
+          <Ellipsis title={value}>{value}</Ellipsis>
+        </div>
+      )
+    }
+      break;
     case 'operationsDropdownMenu': // 下拉菜单的操作：可编辑列
       Comp = <DropdownSelector {...val} {...extra} />;
       break;
@@ -121,7 +131,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
     case 'userAvatar': {
       const curUsers = [];
       if (isArray(val.value)) {
-        val.value.forEach((vItem:any) => {
+        val.value.forEach((vItem: any) => {
           curUsers.push(get(extra, `userMap.${vItem}`) || {});
         });
       } else {
@@ -133,17 +143,17 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         Comp = (
           <div>
             {
-            map(curUsers, (cU, idx) => {
-              return (
-                <span key={idx}>
-                  {val.showIcon === false ? null : <ImgHolder src={cU.avatar} text={cU.nick ? cU.nick.substring(0, 1) : i18n.t('empty')} rect="20x20" type="avatar" />}
-                  <span className="ml2 mr4" title={cU.name}>
-                    {cU.nick || cU.name || val.value || i18n.t('common:empty')}
+              map(curUsers, (cU, idx) => {
+                return (
+                  <span key={idx}>
+                    {val.showIcon === false ? null : <ImgHolder src={cU.avatar} text={cU.nick ? cU.nick.substring(0, 1) : i18n.t('empty')} rect="20x20" type="avatar" />}
+                    <span className="ml2 mr4" title={cU.name}>
+                      {cU.nick || cU.name || val.value || i18n.t('common:empty')}
+                    </span>
                   </span>
-                </span>
-              );
-            })
-          }
+                );
+              })
+            }
           </div>
         );
       }
@@ -246,7 +256,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       Comp = (
         <div className="dice-cp-level-content full-width pl8 v-align">
           {
-            data.map(({ level, text }: {level: number, text:string},) => {
+            data.map(({ level, text }: { level: number, text: string },) => {
               return <div className={`mr4 level-${level}-content`}>{text}</div>;
             })
           }
@@ -255,7 +265,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
     }
       break;
     case 'copyText': {
-      const value:CP_TEXT.ICopyText = val?.value;
+      const value: CP_TEXT.ICopyText = val?.value;
       const textProps = {
         renderType: 'copyText' as CP_TEXT.IRenderType,
         value,
@@ -332,7 +342,7 @@ const DropdownSelector = (props: IDropdownSelectorProps) => {
 };
 
 // 渲染table操作列
-const getTableOperation = (val: any, record: any, extra:any) => {
+const getTableOperation = (val: any, record: any, extra: any) => {
   const getTableOperationItem = (op: CP_COMMON.Operation, key: string, _record: any) => {
     const { confirm, disabled, disabledTip, text, ..._rest } = op;
     if (disabled === true) { // 无权限操作
@@ -348,9 +358,9 @@ const getTableOperation = (val: any, record: any, extra:any) => {
             extra.execOperation({ ...op, key });
           }}
           key={key}
-          onCancel={(e:any) => e && e.stopPropagation()}
+          onCancel={(e: any) => e && e.stopPropagation()}
         >
-          <span className="table-operations-btn" onClick={(e:any) => e.stopPropagation()}>{text}</span>
+          <span className="table-operations-btn" onClick={(e: any) => e.stopPropagation()}>{text}</span>
         </Popconfirm>
       );
     } else { // 普通的操作
@@ -358,7 +368,7 @@ const getTableOperation = (val: any, record: any, extra:any) => {
         <span
           className="table-operations-btn"
           key={key}
-          onClick={(e:any) => {
+          onClick={(e: any) => {
             e.stopPropagation();
             extra.execOperation({ ...op, key });
             const customFunc = get(extra, `customProps.operations.${key}`);
@@ -366,7 +376,7 @@ const getTableOperation = (val: any, record: any, extra:any) => {
               customFunc(op);
             }
           }
-        }
+          }
         >{text}
         </span>
       );
@@ -377,7 +387,7 @@ const getTableOperation = (val: any, record: any, extra:any) => {
   if (val.operations) { // 根据配置的operations展示
     const ops = sortBy(filter(map(val.operations) || [], (item: CP_COMMON.Operation) => item.show !== false), 'showIndex');
 
-    map(ops, (item:CP_COMMON.Operation) => {
+    map(ops, (item: CP_COMMON.Operation) => {
       if (item) {
         operationList.push(getTableOperationItem(item, item.key, record));
       }
@@ -397,7 +407,7 @@ const getTableOperation = (val: any, record: any, extra:any) => {
 
 
 interface IGantteTitle {
-  dateRange: Array<{month: number, date: string[]}>
+  dateRange: Array<{ month: number, date: string[] }>
 }
 const GantteTitle = ({ dateRange }: IGantteTitle) => {
   if (isEmpty(dateRange)) {

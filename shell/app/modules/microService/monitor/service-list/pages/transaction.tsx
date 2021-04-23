@@ -89,13 +89,13 @@ const Transaction = () => {
       updater.subSearch(cellValue);
     }
     if (eventName === 'traceSlowTranslation') {
-      const { terminusKey, serviceName, applicationId } = params;
+      const { serviceName, terminusKey, serviceId } = params;
       updater.url(cellValue);
       updater.visible(true);
       getTraceSlowTranslation({
         terminusKey,
         serviceName,
-        applicationId,
+        serviceId: window.decodeURIComponent(serviceId),
         operation: cellValue,
       }).then(res => updater.traceSlowTranslation(res));
     }

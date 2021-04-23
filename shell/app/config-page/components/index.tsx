@@ -43,6 +43,11 @@ import Alert from './alert/alert';
 import List from './list/list';
 import Text from './text/text';
 import Icon from './icon/icon';
+import EmptyHolder from './empty-holder/empty-holder';
+import Image from './image/image';
+import DropdownSelect from './dropdown-select/dropdown-select';
+import TableGroup from './table-group/table-group';
+import TextGroup from './text-group/text-group';
 
 export const containerMap = {
   Alert,
@@ -79,5 +84,10 @@ export const containerMap = {
   List,
   Text,
   Icon,
+  EmptyHolder,
+  Image,
+  DropdownSelect,
+  TableGroup,
+  TextGroup,
 };
 
