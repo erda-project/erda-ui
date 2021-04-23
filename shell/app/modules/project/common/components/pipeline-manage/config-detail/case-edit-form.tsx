@@ -23,9 +23,9 @@ interface IProps{
   scope?: string;
 }
 
-const nameList = {
-  'projectPipeline': 'application:pipeline',
-  'configSheet': 'project:config data'
+const nameMap = {
+  projectPipeline: i18n.t('application:pipeline'),
+  configSheet: i18n.t('project:config data')
 }
 
 const CaseEditForm = (props: IProps) => {
@@ -51,7 +51,7 @@ const CaseEditForm = (props: IProps) => {
 
   return (
     <FormModal
-      name={i18n.t(nameList[scope])}
+      name={nameMap[scope]}
       fieldsList={fieldList}
       visible={visible}
       onOk={onOk}

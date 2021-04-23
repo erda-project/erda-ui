@@ -26,11 +26,6 @@ export const getWorkBenchMenu = () => {
       text: i18n.t('joined projects'),
     },
     {
-      href: '/workBench/test',
-      icon: 'xm',
-      text: i18n.t('joined test'),
-    },
-    {
       href: '/workBench/apps',
       icon: 'yy',
       text: i18n.t('joined apps'),

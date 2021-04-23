@@ -59,9 +59,9 @@ class FormModalComp extends React.Component<IProps, IState> {
   /** 是否是添加模式 */
   private isAddMode: boolean;
 
-  componentDidUpdate(prevProps : IProps) {
-    const { visible, form, formData, fieldsList, formRef } = this.props;
-    if ((visible && !prevProps.visible) || formData !== this.props.formData) {
+  shouldComponentUpdate(newProps : IProps) {
+    const { visible, form, formData, fieldsList, formRef } = newProps;
+    if ((visible && !this.props.visible) || formData !== newProps.formData) {
       this.isAddMode = isEmpty(formData);
       if (this.isAddMode) {
         form.resetFields();
@@ -88,6 +88,8 @@ class FormModalComp extends React.Component<IProps, IState> {
         }, 0);
       }
     }
+
+    return true;
   }
 
   submit = (onOk: Function, checkedValues: object, _: any, resolve: Function) => {
