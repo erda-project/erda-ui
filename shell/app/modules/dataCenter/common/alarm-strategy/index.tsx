@@ -29,7 +29,7 @@ import microServiceAlarmStrategyStore from 'app/modules/microService/monitor/mon
 import { notifyChannelOptionsMap, smsNotifyChannelOptionsMap, ListTargets } from 'application/pages/settings/components/app-notify/common-notify-group';
 import { usePerm, WithAuth } from 'user/common';
 import clusterStore from 'dataCenter/stores/cluster';
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 import './index.scss';
 
 const { confirm, warning } = Modal;
@@ -76,7 +76,7 @@ export default ({ scopeType, scopeId }: IProps) => {
   const alarmStrategyStore = alarmStrategyStoreMap[scopeType];
   const [alertList, alarmPaging, alarmScopeMap, alertTypes] = alarmStrategyStore.useStore(s => [s.alertList, s.alarmPaging, s.alarmScopeMap, s.alertTypes]);
   const { total, pageNo, pageSize } = alarmPaging;
-  const { orgId } = userStore.getState(s => s.loginUser);
+  const orgId = orgStore.getState(s => s.currentOrg.id);
   const [getAlertDetailLoading, getAlertsLoading, toggleAlertLoading] = useLoading(alarmStrategyStore, ['getAlertDetail', 'getAlerts', 'toggleAlert']);
   const { getAlerts, createAlert, editAlert, toggleAlert, deleteAlert, getAlertDetail, getAlarmScopes, getAlertTypes } = alarmStrategyStore.effects;
   const { getNotifyGroups } = notifyGroupStore.effects;

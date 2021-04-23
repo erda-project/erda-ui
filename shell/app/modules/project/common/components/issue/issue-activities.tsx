@@ -83,7 +83,7 @@ export const IssueActivities = (props: IProps) => {
           <>
             <Avatar name={user.nick || user.name} showName />
             <span className="mx8">{i18n.t('project:add relation to MR')}:</span>
-            <a onClick={() => goTo(`/workBench/projects/${projectId}/apps/${appID}/repo/mr/open/${mrID}`, { jumpOut: true })}>
+            <a onClick={() => goTo(goTo.pages.appMr, { projectId, appId: appID, mrId: mrID, jumpOut: true })}>
               {mrTitle}
             </a>
           </>

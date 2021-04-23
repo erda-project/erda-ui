@@ -16,7 +16,9 @@ import { Link } from 'react-router-dom';
 import { Icon as CustomIcon } from 'common';
 import { Button, Spin } from 'app/nusi';
 import i18n from 'i18n';
+import { goTo } from 'common/utils'
 import userStore from 'app/user/stores';
+
 
 import './error-page.scss';
 
@@ -33,13 +35,13 @@ const NoAuth = () => {
               ? (
                 <>
                   <span className="contact-info">{i18n.t('please contact')} {authContact}</span>
-                  <Link to="/workBench/apps">
+                  <Link to={goTo.resolve.workBenchRoot()}>
                     <Button size="large" type="primary">{i18n.t('layout:back to workBench')}</Button>
                   </Link>
                 </>
               )
               : (
-                <Link to="/">
+                <Link to={goTo.resolve.orgRoot()}>
                   <Button size="large" type="primary">{i18n.t('layout:back to home')}</Button>
                 </Link>
               )
@@ -68,12 +70,12 @@ const NotFound = ({ message, force } : { message?: string, force?: boolean }) =>
           {
             force // 当fdp挂掉的时候用Link返回因为会判断当前平台还是fdp。跳回的首页还是会挂，这里用a标签来强刷
               ? (
-                <a href="/">
+                <a href={goTo.resolve.orgRoot()}>
                   <Button size="large" type="primary">{i18n.t('back to home')}</Button>
                 </a>
               )
               : (
-                <Link to="/">
+                <Link to={goTo.resolve.orgRoot()}>
                   <Button size="large" type="primary">{i18n.t('back to home')}</Button>
                 </Link>
               )

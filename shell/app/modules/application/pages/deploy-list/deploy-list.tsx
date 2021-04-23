@@ -15,7 +15,7 @@ import * as React from 'react';
 import { Table, Input, Spin, Popconfirm, Tooltip } from 'app/nusi';
 import i18n from 'i18n';
 import { CustomFilter, useFilter, useUpdate, MemberSelector, LoadMoreSelector } from 'common';
-import { insertWhen } from 'common/utils';
+import { insertWhen, goTo } from 'common/utils';
 import { get } from 'lodash';
 import { useEffectOnce } from 'react-use';
 import { FormModal } from 'app/configForm/nusi-form/form-modal';
@@ -113,7 +113,7 @@ const PureDeployList = (props: IProps) => {
         if (!val) return '';
         const { buildId, projectId, applicationId } = record;
         return (
-          <Link to={`/workBench/projects/${projectId}/apps/${applicationId}/pipeline?pipelineID=${buildId}`} target="_blank">{val}</Link>
+          <Link to={goTo.resolve.pipeline({ projectId, appId: applicationId, pipelineID: buildId })} target="_blank">{val}</Link>
         );
       },
     },

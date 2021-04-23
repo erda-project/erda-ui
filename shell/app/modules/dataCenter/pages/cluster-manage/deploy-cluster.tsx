@@ -18,8 +18,8 @@ import { Button, Drawer, message } from 'app/nusi';
 import { isEmpty } from 'lodash';
 import DeployClusterLog from './deploy-cluster-log';
 import DeployClusterForm from './deploy-cluster-form';
-import userStore from 'app/user/stores';
 import clusterStore from '../../stores/cluster';
+import orgStore from 'app/org-home/stores/org';
 import './deploy-cluster.scss';
 /**
 * 进入页面后检查当前是否有正在部署集群，按照约定，一个org同一个时刻只会有一个部署
@@ -31,7 +31,7 @@ const DeployCluster = () => {
   const deployingCluster = clusterStore.useStore(s => s.deployingCluster);
   const { killDeployCluster, deployCluster, getCurDeployCluster } = clusterStore.effects;
   const { clearDeployCluster } = clusterStore.reducers;
-  const [loginUser] = userStore.useStore(s => [s.loginUser]);
+  const currentOrg = orgStore.useStore(s => s.currentOrg);
 
   const [logVisible, setLogVisible] = React.useState(false);
 
@@ -61,14 +61,14 @@ const DeployCluster = () => {
   return (
     <div className="deploy-cluster">
       <div className="deploy-info bold-500">
-        {i18n.t('organization')} {loginUser.orgName} {i18n.t('org:new cluster deployment')}
+        {i18n.t('organization')} {currentOrg.name} {i18n.t('org:new cluster deployment')}
         <div className="deploy-operator">
           <Button onClick={() => setLogVisible(true)}>{i18n.t('check log')}</Button>
           <Button onClick={() => killDeployCluster()}>{i18n.t('stop deploy')}</Button>
         </div>
       </div>
       <div className="deploy-content">
-        <DeployClusterForm data={deployingCluster} orgId={loginUser.orgId} orgName={loginUser.orgName} onSubmit={startDeployCluster} />
+        <DeployClusterForm data={deployingCluster} orgId={currentOrg.id} orgName={currentOrg.name} onSubmit={startDeployCluster} />
       </div>
 
       <Drawer

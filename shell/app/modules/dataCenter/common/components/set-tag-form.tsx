@@ -20,8 +20,7 @@ import clusterStore from 'dataCenter/stores/cluster';
 import { map } from 'lodash';
 import cloudCommonStore from 'dataCenter/stores/cloud-common';
 import { getProjectList } from 'project/services/project';
-import userStore from 'user/stores';
-
+import orgStore from 'app/org-home/stores/org';
 
 interface ISetTagFromProps {
   visible: boolean
@@ -42,7 +41,7 @@ export const SetTagForm = ({ visible, onCancel, items, formData, showClustertLab
     projectList: [],
   });
   const clusterList = clusterStore.useStore(s => s.list);
-  const orgId = userStore.getState(s => s.loginUser.orgId);
+  const orgId = orgStore.getState(s => s.currentOrg.id);
 
   useEffectOnce(() => {
     !clusterList.length && clusterStore.effects.getClusterList();

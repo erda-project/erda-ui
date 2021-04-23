@@ -21,11 +21,10 @@ import auditStore from 'org/stores/audit';
 import auditTpl from 'org/common/audit-render';
 import * as React from 'react';
 import { getTimeRanges, qs } from 'common/utils';
-import userStore from 'user/stores';
-
+import orgStore from 'app/org-home/stores/org';
 
 const AuditList = ({ sys }: { sys: boolean }) => {
-  const orgId = userStore.useStore(s => s.loginUser.orgId);
+  const orgId = orgStore.useStore(s => s.currentOrg.id);
   const userMap = userMapStore.useStore(s => s);
   const [loading] = useLoading(auditStore, ['getList']);
   const [list, paging] = auditStore.useStore(s => [s.auditList, s.auditPaging]);

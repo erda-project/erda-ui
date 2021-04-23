@@ -19,13 +19,15 @@ declare namespace CP_FILTER {
     state: IState;
   }
 
-  interface IState{
+  interface IState {
     values: Obj,
     conditions: Condition[]
   }
 
-  interface IProps{
+  interface IProps {
     delay?: number;
+    visible?: boolean;
+    fullWidth?: boolean;
   }
 
   interface Condition {
@@ -42,13 +44,13 @@ declare namespace CP_FILTER {
     options?: IOption[]
   }
 
-  interface IOption{
+  interface IOption {
     label: string
     value: string | number
     icon?: string
   }
 
-  interface IQuickSelect{
+  interface IQuickSelect {
     label: string,
     operationKey: string,
   }

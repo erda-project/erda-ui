@@ -80,7 +80,15 @@
         width: 42px;
         height: 42px;
       }
-      
+       
+      .prefix-img-middle {
+        width: 36px;
+        height: 36px;
+      }
+
+      .prefix-img-circle {
+        border-radius: 50%;
+      }
     }
 
     .body-title {
@@ -109,5 +117,15 @@
     &.large {
       padding: 12px 16px;
     }
+  }
+
+  .load-more {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 12px;
+    color: $color-text-desc;
+    font-size: 14px;
   }
 }

@@ -45,7 +45,7 @@ declare namespace LAYOUT {
 
   interface IMenuObj{
     menu: IMenu[];
-    detail: {
+    detail?: {
       displayName: string;
     }
   }

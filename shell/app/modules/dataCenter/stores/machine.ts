@@ -24,8 +24,7 @@ import {
   getClusterOperationTypes,
 } from '../services/machine';
 import { getAlarmList, IMachineAlarmQuery } from 'dcos/services/alarm';
-import userStore from 'user/stores';
-
+import orgStore from 'app/org-home/stores/org';
 
 interface IState {
   operationList: ORG_MACHINE.IClusterOperateRecord[]
@@ -74,7 +73,7 @@ const machine = createStore({
     },
     async getAlarmListByCluster({ call, update }, payload: Pick<IMachineAlarmQuery, 'orgID'|'type' | 'endTime' | 'metricID' | 'pageNo' | 'pageSize' | 'startTime'>) {
       const { pageNo, pageSize = 10, type } = payload;
-      const { orgId } = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const { list: alarmList, total } = await call(getAlarmList, {
         ...payload,
         type: type || ['machine', 'dice_component', 'dice_addon', 'kubernetes'],

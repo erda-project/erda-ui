@@ -27,7 +27,7 @@ import './index.scss';
 export default () => {
   const { startTimeMs, endTimeMs } = monitorCommonStore.useStore(s => s.timeSpan);
   const params = routeInfoStore.useStore(s => s.params);
-  const { terminusKey, serviceName, applicationId } = params;
+  const { terminusKey, serviceName, serviceId } = params;
   const { getProcessDashboardId, getInstanceIds } = topologyServiceStore;
   const [{ id, instanceId, instanceIds }, updater] = useUpdate({
     id: undefined as string | undefined,
@@ -39,20 +39,20 @@ export default () => {
   useEffect(() => {
     getInstanceIds({
       serviceName,
-      applicationId,
+      serviceId: window.decodeURIComponent(serviceId),
       terminusKey,
       start: startTimeMs,
       end: endTimeMs,
     }).then(res => updater.instanceIds(res?.data));
-  }, [getInstanceIds, serviceName, terminusKey, endTimeMs, startTimeMs, updater, applicationId]);
+  }, [getInstanceIds, serviceName, terminusKey, endTimeMs, startTimeMs, updater, serviceId]);
 
   useEffect(() => {
     getProcessDashboardId({
       serviceName,
-      applicationId,
+      serviceId: window.decodeURIComponent(serviceId),
       terminusKey,
     }).then(_id => updater.id(_id));
-  }, [applicationId, getProcessDashboardId, serviceName, terminusKey, updater]);
+  }, [serviceId, getProcessDashboardId, serviceName, terminusKey, updater]);
 
   return (
     <div className="service-analyze v-flex-box">

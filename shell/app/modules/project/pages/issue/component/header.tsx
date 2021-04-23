@@ -20,6 +20,7 @@ import i18n from 'i18n';
 import { map, debounce, find, get } from 'lodash';
 import { useEffectOnce } from 'react-use';
 import userStore from 'user/stores';
+import orgStore from 'app/org-home/stores/org';
 import { qs } from 'app/common/utils';
 import moment from 'moment';
 import useFilterList from '../../iteration/filter-field';
@@ -97,7 +98,7 @@ const IssueHeader = (props: IProps) => {
     viewType: query.viewType || ViewTypeMap.table.value,
     viewGroup: find(curViewGroup, { value: query.viewGroup }) ? query.viewGroup : curViewGroup[0].value,
   });
-  const orgID = userStore.getState(s => s.loginUser.orgId);
+  const orgID = orgStore.getState(s => s.currentOrg.id);
   const filterBarRef = React.useRef(null as any);
 
   useEffectOnce(() => {

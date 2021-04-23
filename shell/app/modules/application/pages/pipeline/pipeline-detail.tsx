@@ -41,7 +41,7 @@ const PipelineDetail = (props: IProps) => {
   const [caseDetail] = fileTreeStore.useStore(s => [s.curNodeDetail]);
   const [params, query] = routeInfoStore.useStore(s => [s.params, s.query]);
   const nodeId = propsNodeId || query.nodeId;
-  const { branch, path } = getBranchPath(caseDetail);
+  const { branch, path } = getBranchPath(caseDetail, params.appId);
   const { addPipeline } = buildStore.effects;
   const { clearExecuteRecords } = buildStore.reducers;
   const branchAuthObj = usePerm(s => s.app.repo.branch);

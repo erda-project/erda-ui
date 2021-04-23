@@ -14,11 +14,11 @@
 import { createStore } from 'app/cube';
 import * as Service from '../services/api-market';
 import { getDefaultPaging, goTo } from 'common/utils';
-import userStore from 'user/stores';
 import breadcrumbStore from 'layout/stores/breadcrumb';
 import permStore from 'user/stores/permission';
 import i18n from 'i18n';
 import { isCreator } from 'apiManagePlatform/components/auth-wrap';
+import orgStore from 'app/org-home/stores/org';
 
 interface IState {
   assetList: API_MARKET.AssetListItem[];
@@ -78,7 +78,7 @@ const apiMarketStore = createStore({
       update({ assetList });
     },
     async createAsset({ call }, payload: Omit<API_MARKET.CreateAsset, 'orgID'>) {
-      const { orgId } = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const res = await call(Service.createAsset, { ...payload, orgID: orgId }, { successMsg: i18n.t('default:created successfully') });
       return res;
     },

@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { PublisherInfo } from './publisher-info';
 import { useEffectOnce } from 'react-use';
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 import publisherStore from '../../stores/publisher';
 import './publisher-setting.scss';
 
@@ -22,7 +22,7 @@ const PublisherSetting = () => {
   const { getPublisherDetail } = publisherStore.effects;
   const { clearPublisherDetail } = publisherStore.reducers;
   const data = publisherStore.useStore(s => s.publisherDetail);
-  const publisherId = userStore.getState(s => s.loginUser.orgPublisherId);
+  const publisherId = orgStore.getState(s => s.currentOrg.publisherId);
 
   const getDetail = () => {
     getPublisherDetail({ publisherId });

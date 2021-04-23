@@ -13,10 +13,10 @@
 
 import { get, map } from 'lodash';
 import * as ResourceServices from '../services/resource';
-import userStore from 'app/user/stores';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import i18n from 'i18n';
 import { createStore } from 'app/cube';
+import orgStore from 'app/org-home/stores/org';
 
 const typeTitleMap = {
   cpu: 'CPU',
@@ -41,7 +41,7 @@ const projectResource = createStore({
   } as Istate,
   effects: {
     async getServiceList({ call, update }, payload: Omit<RESOURCE.QueryServiceList, 'org'>) {
-      const { orgId } = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const serviceList = await call(ResourceServices.getServiceList, { ...payload, org: orgId });
       await update({ serviceList });
     },

@@ -15,23 +15,25 @@ import i18n from 'i18n';
 import { get, filter } from 'lodash';
 import permStore from 'user/stores/permission';
 import { goTo } from 'common/utils';
+import { ApplicationOne, DashboardCar, HoldingHands, Stethoscope, Stretching, List, Config, DataAll } from '@icon-park/react';
+import React from 'react';
 
 export const getProjectMenu = (projectId: string, pathname: string) => {
   const projectPerm = permStore.getState(s => s.project);
 
   const menu = [
     {
-      href: `/workBench/projects/${projectId}/apps`,
-      icon: 'rqrz',
+      href: goTo.resolve.projectApps(), // `/workBench/projects/${projectId}/apps`,
+      icon: <ApplicationOne />,
       text: i18n.t('project:applications'),
       show: projectPerm.appList.viewAppList.pass,
     },
     {
-      href: `/workBench/projects/${projectId}/issues/all`,
-      icon: 'sjgl',
+      href: goTo.resolve.projectAllIssue(), //`/workBench/projects/${projectId}/issues/all`,
+      icon: <HoldingHands />,
       text: i18n.t('project:project collaboration'),
       show: projectPerm.backLog.viewBackLog.pass || projectPerm.iteration.read.pass || projectPerm.issue.viewIssue.pass || projectPerm.epic.read.pass,
-      isActive: (key: string) => key.startsWith(`/workBench/projects/${projectId}/issues/`),
+      prefix: `${goTo.resolve.projectIssueRoot()}/`,
     },
     // { // TODO： 3.21临时去除
 
@@ -41,80 +43,80 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     //   show: projectPerm.pipeline.view.pass,
     // },
     {
-      href: `/workBench/projects/${projectId}`,
-      icon: 'test',
+      href: goTo.resolve.project(), //`/workBench/projects/${projectId}`,
+      icon: <Stethoscope />,
       text: i18n.t('project:test'),
       show: projectPerm.testManage.viewTest.pass,
       subMenu: [
         {
-          href: `/workBench/projects/${projectId}/testCase/manual`,
+          href: goTo.resolve.projectManualTestCase(), // `/workBench/projects/${projectId}/testCase/manual`,
           text: i18n.t('project:test case'),
-          isActive: (key: string) => key.startsWith(`/workBench/projects/${projectId}/testCase/`),
+          prefix: `${goTo.resolve.projectTestCaseRoot()}/`,
         },
         {
-          href: `/workBench/projects/${projectId}/data-bank/data-source`,
+          href: goTo.resolve.projectDataSource(), //`/workBench/projects/${projectId}/data-bank/data-source`,
           text: i18n.t('project:data bank'),
           show: projectPerm.dataBank.dataSource.view.pass || projectPerm.dataBank.configData.view.pass,
-          isActive: (key: string) => key.startsWith(`/workBench/projects/${projectId}/data-bank/`),
+          prefix: `${goTo.resolve.projectDataBankRoot()}/`,
         },
         {
-          href: `/workBench/projects/${projectId}/testPlan/manual`,
+          href: goTo.resolve.projectManualTestPlane(), // `/workBench/projects/${projectId}/testPlan/manual`,
           text: i18n.t('project:test plan'),
-          isActive: (key: string) => key.startsWith(`/workBench/projects/${projectId}/testPlan/`),
+          prefix: `${goTo.resolve.projectTestPlaneRoot()}/`,
         },
         {
-          href: `/workBench/projects/${projectId}/testEnv/manual`,
+          href: goTo.resolve.projectManualTestEnv(), // `/workBench/projects/${projectId}/testEnv/manual`,
           text: i18n.t('project:parameter configuration'),
-          isActive: (key: string) => { return key.startsWith(`/workBench/projects/${projectId}/testEnv/`); },
+          prefix: `${goTo.resolve.projectTestEnvRoot()}/`,
         },
       ],
     },
     {
-      href: `/workBench/projects/${projectId}/dashboard`,
-      icon: 'shujuyunwei',
+      href: goTo.resolve.projectDashboard(), // `/workBench/projects/${projectId}/dashboard`,
+      icon: <DashboardCar />,
       text: i18n.t('statistical report'),
       show: projectPerm.dashboard.viewDashboard.pass,
     },
     {
-      href: `/workBench/projects/${projectId}/service`,
-      icon: 'fw',
+      href: goTo.resolve.projectService(),
+      icon: <Stretching />,
       text: i18n.t('addon service'),
       show: projectPerm.service.viewService.pass,
     },
     {
       text: i18n.t('project:resource summary'),
-      icon: 'sjmx', // TODO: 这里icon用的数据模型的，更新一下
-      href: `/workBench/projects/${projectId}/resource`,
+      icon: <DataAll />,
+      href: goTo.resolve.projectResource(),
       show: projectPerm.resource.viewResource.pass,
     },
     {
       text: i18n.t('project:ticket list'),
-      icon: 'unorderedlist',
-      href: `/workBench/projects/${projectId}/ticket`,
+      icon: <List />,
+      href: goTo.resolve.projectTicket(),
       show: projectPerm.ticket.read.pass,
     },
     // {
     //   href: `/workBench/projects/${projectId}/config`,
     //   icon: 'unlock',
     //   text: '配置管理',
-    // },
+    // }
     {
-      href: `/workBench/projects/${projectId}/setting`,
-      icon: 'setting',
+      href: goTo.resolve.projectSetting(), //`/workBench/projects/${projectId}/setting`,
+      icon: <Config />,
       text: `${i18n.t('project setting')}`,
       show: projectPerm.setting.viewSetting.pass,
     },
   ];
 
   const useableMenu = filter(menu, item => item.show);
-  let pathMatch = false;
-  useableMenu.forEach(m => {
-    const { href: _href, isActive } = m;
-    if (!pathMatch && (pathname.startsWith(_href) || (isActive && isActive(pathname)))) pathMatch = true;
-  });
-  const useableUrl = get(useableMenu, '[0].href');
-  if (!pathMatch && useableUrl) {
-    goTo(useableUrl, { replace: true });
-  }
+  // let pathMatch = false;
+  // useableMenu.forEach(m => {
+  //   const { href: _href, isActive } = m;
+  //   if (!pathMatch && (pathname.startsWith(_href) || (isActive && isActive(pathname)))) pathMatch = true;
+  // });
+  // const useableUrl = get(useableMenu, '[0].href');
+  // if (!pathMatch && useableUrl) {
+  //   goTo(useableUrl, { replace: true });
+  // }
   return useableMenu;
 };

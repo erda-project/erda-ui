@@ -25,8 +25,7 @@ import {
   getInstanceList,
   getChartData,
 } from '../services/dashboard';
-
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 import { createStore } from 'app/cube';
 
 
@@ -92,7 +91,7 @@ const dashboard = createStore({
   state: initState,
   effects: {
     async getFilterTypes({ call, update }) {
-      const { orgId, orgName } = userStore.getState(s => s.loginUser);
+      const { id: orgId, name: orgName } = orgStore.getState(s => s.currentOrg);
       const clusterList = await call(getClusterList, { orgId });
       if (isEmpty(clusterList)) return;
       const clusterNameString = map(clusterList, item => item.name).join();
@@ -105,7 +104,7 @@ const dashboard = createStore({
       });
     },
     async getGroupInfos({ call, update }, payload: Omit<ORG_DASHBOARD.IGroupInfoQuery, 'orgName'>) {
-      const { orgName } = userStore.getState(s => s.loginUser);
+      const { name: orgName } = orgStore.getState(s => s.currentOrg);
       const data = await call(getGroupInfos, { orgName, ...payload });
       const { groups: groupInfos, ...unGroupInfo } = data || {};
 
@@ -122,7 +121,7 @@ const dashboard = createStore({
       }
     },
     async getInstanceList({ call, update }, { clusters, filters, instanceType, isWithoutOrg }: Merge<ORG_DASHBOARD.IInstanceListQuery, { isWithoutOrg?: boolean }>) {
-      const { orgName } = userStore.getState(s => s.loginUser);
+      const { name: orgName } = orgStore.getState(s => s.currentOrg);
       const list = await call(getInstanceList, { instanceType, orgName: isWithoutOrg ? undefined : orgName, clusters, filters });
       const instanceMap = {
         service: 'serviceList',
@@ -134,7 +133,7 @@ const dashboard = createStore({
       });
     },
     async getChartData({ call }, payload) {
-      const { orgName } = userStore.getState(s => s.loginUser);
+      const { name: orgName } = orgStore.getState(s => s.currentOrg);
       const { type, ...rest } = payload;
       const timeSpan = monitorCommonStore.getState(s => s.timeSpan);
       const { startTimeMs, endTimeMs } = timeSpan;
@@ -143,7 +142,7 @@ const dashboard = createStore({
       dashboard.reducers.getChartDataSuccess({ data, type, orgName });
     },
     async getAlarmList({ call, update }, payload: Pick<IMachineAlarmQuery, 'endTime' | 'metricID' | 'pageNo' | 'pageSize' | 'startTime'>) {
-      const { orgId: orgID } = userStore.getState(s => s.loginUser);
+      const { id: orgID } = orgStore.getState(s => s.currentOrg);
       const { list: alarmList, total } = await call(getAlarmList, {
         ...payload,
         orgID,

@@ -64,6 +64,9 @@ export const getSubSiderInfoMap = () => {
     },
     edge: {
       menu: getEdgeMenu(),
+      detail: {
+        displayName: i18n.t('edge:edge center'),
+      },
     },
     // sysAdmin: {
     //   menu: getSysAdminMenu(),

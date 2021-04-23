@@ -304,6 +304,8 @@ interface ContractiveFilterProps {
   values?: Obj, // 完全受控
   conditions: ICondition[],
   delay: number,
+  visible?: boolean,
+  fullWidth?: boolean,
   onConditionsChange?: (data: ICondition[]) => void;
   onChange(valueMap: Obj): void
   onQuickSelect?(data: { key: string, value: any }): void
@@ -336,7 +338,7 @@ const getInitConditions = (conditions: ICondition[], valueMap: Obj) => {
   return reConditions;
 };
 
-export const ContractiveFilter = ({ initValue, values, conditions: propsConditions, delay, onChange, onQuickSelect = noop, onConditionsChange = noop }: ContractiveFilterProps) => {
+export const ContractiveFilter = ({ initValue, values, conditions: propsConditions, delay, visible = true, onChange, onQuickSelect = noop, onConditionsChange = noop, fullWidth = false }: ContractiveFilterProps) => {
   const [conditions, setConditions] = React.useState(getInitConditions(propsConditions || [], values || initValue || {}));
   const [hideFilterKey, setHideFilterKey] = React.useState('');
   const [closeAll, setCloseAll] = React.useState(false);
@@ -364,7 +366,7 @@ export const ContractiveFilter = ({ initValue, values, conditions: propsConditio
     }));
 
     setConditions(keepShowIndexConditions);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [propsConditions]);
 
   React.useEffect(() => {
@@ -457,7 +459,7 @@ export const ContractiveFilter = ({ initValue, values, conditions: propsConditio
     <div className="contractive-filter-bar">
       {showList.map((item) => (
         <span
-          className="contractive-filter-item-wrap"
+          className={`contractive-filter-item-wrap ${fullWidth ? 'full-width' : ''}`}
           key={item.key}
           onClick={() => {
             setCloseAll(false);
@@ -486,72 +488,72 @@ export const ContractiveFilter = ({ initValue, values, conditions: propsConditio
 
       {
         displayConditionsLen > 0 && (
-        <span className="contractive-filter-item-wrap">
-          <Dropdown
-            trigger={['click']}
-            overlayClassName="contractive-filter-item-dropdown"
-            overlay={
-              <Menu>
-                <Menu.Item className='not-select'>
-                  <Input
-                    autoFocus
-                    size='small'
-                    prefix={<CustomIcon type="search" />}
-                    onClick={e => e.stopPropagation()}
-                    value={hideFilterKey}
-                    onChange={e => setHideFilterKey(e.target.value.toLowerCase())}
-                    placeholder={i18n.t('common:Filter conditions')}
-                  />
-                </Menu.Item>
-                <Menu.Divider />
-                <Menu.Item className='not-select px6 py0'>
-                  <div className='flex-box'>
-                    <span>{i18n.t('common:selected')} {showList.filter(a => a.fixed !== true).length} {i18n.t('common:items')}</span>
-                    <span className='fake-link' onClick={handleClearSelected}>{i18n.t('common:clear select')}</span>
-                  </div>
-                </Menu.Item>
-                <Menu.Divider />
-                {conditions.map((item) => {
-                  const { key, label, fixed, type } = item;
-                  if (fixed || type === 'input' || !item.label.toLowerCase().includes(hideFilterKey)) {
-                    return null;
-                  }
-                  const handleClick = () => {
-                    const haveShow = !!showList.find(a => a.key === key);
-                    setConditions(setConditionShowIndex(conditions, item.key, !haveShow));
-                    if (!haveShow) {
-                      setCloseAll(false);
-                      setActiveMap(prev => ({ ...prev, [item.key]: true }));
+          <span className={`contractive-filter-item-wrap ${fullWidth ? 'full-width' : ''}`}>
+            <Dropdown
+              trigger={['click']}
+              overlayClassName="contractive-filter-item-dropdown"
+              overlay={
+                <Menu>
+                  <Menu.Item className='not-select'>
+                    <Input
+                      autoFocus
+                      size='small'
+                      prefix={<CustomIcon type="search" />}
+                      onClick={e => e.stopPropagation()}
+                      value={hideFilterKey}
+                      onChange={e => setHideFilterKey(e.target.value.toLowerCase())}
+                      placeholder={i18n.t('common:Filter conditions')}
+                    />
+                  </Menu.Item>
+                  <Menu.Divider />
+                  <Menu.Item className='not-select px6 py0'>
+                    <div className='flex-box'>
+                      <span>{i18n.t('common:selected')} {showList.filter(a => a.fixed !== true).length} {i18n.t('common:items')}</span>
+                      <span className='fake-link' onClick={handleClearSelected}>{i18n.t('common:clear select')}</span>
+                    </div>
+                  </Menu.Item>
+                  <Menu.Divider />
+                  {conditions.map((item) => {
+                    const { key, label, fixed, type } = item;
+                    if (fixed || type === 'input' || !item.label.toLowerCase().includes(hideFilterKey)) {
+                      return null;
                     }
-                  };
-                  return (
-                    <Menu.Item
-                      key={key}
-                      className='option-item'
-                      onClick={handleClick}
-                    >
-                      <Checkbox checked={!!showList.find(a => a.key === key)} className='mr8' /> {label}
-                    </Menu.Item>
-                  );
-                })}
-              </Menu>
-          }
-            placement="bottomLeft"
-          >
-            <span className="contractive-filter-item">
-              <CustomIcon type='tj1' className='fz12 mr2 color-text' />
-              <span>{i18n.t('common:filter')}</span>
-              <CustomIcon type='caret-down' />
-            </span>
-          </Dropdown>
-        </span>
+                    const handleClick = () => {
+                      const haveShow = !!showList.find(a => a.key === key);
+                      setConditions(setConditionShowIndex(conditions, item.key, !haveShow));
+                      if (!haveShow) {
+                        setCloseAll(false);
+                        setActiveMap(prev => ({ ...prev, [item.key]: true }));
+                      }
+                    };
+                    return (
+                      <Menu.Item
+                        key={key}
+                        className='option-item'
+                        onClick={handleClick}
+                      >
+                        <Checkbox checked={!!showList.find(a => a.key === key)} className='mr8' /> {label}
+                      </Menu.Item>
+                    );
+                  })}
+                </Menu>
+              }
+              placement="bottomLeft"
+            >
+              <span className="contractive-filter-item">
+                <CustomIcon type='tj1' className='fz12 mr2 color-text' />
+                <span>{i18n.t('common:filter')}</span>
+                <CustomIcon type='caret-down' />
+              </span>
+            </Dropdown>
+          </span>
         )
       }
 
       {
         inputList.map((item) => (
           <span
-            className="contractive-filter-item-wrap"
+            className={`contractive-filter-item-wrap ${fullWidth ? 'full-width' : ''}`}
             key={item.key}
             onClick={() => setCloseAll(false)}
           >

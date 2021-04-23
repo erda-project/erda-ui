@@ -33,7 +33,7 @@ interface GlobalVariable {
   startTime: number;
   endTime: number;
   serviceName?: string;
-  applicationId?: string;
+  serviceId?: string;
   host?: string;
 }
 
@@ -48,7 +48,7 @@ export default () => {
   const timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
   const activedNode = topologyServiceStore.useStore(s => s.activedNode);
   const microServiceMenu = microServiceStore.useStore(s => s.microServiceMenu);
-  const { serviceName, name, type: sourceType, applicationId } = activedNode || {};
+  const { serviceName, name, type: sourceType, serviceId, applicationId } = activedNode || {};
   const type = sourceType?.toLowerCase();
   const { getCustomDashboard } = dashboardStore;
   const [overviewBoard, setOverviewBoard] = useState<DC.Layout>([]);
@@ -71,9 +71,9 @@ export default () => {
 
   nodeGlobalVariable.current = useMemo(() => produce(globalVariable, draft => {
     draft.serviceName = serviceName;
-    draft.applicationId = applicationId;
+    draft.serviceId = serviceId || ' '; // 后端数据升级可能没有
     draft.host = name;
-  }), [applicationId, globalVariable, name, serviceName]);
+  }), [serviceId, globalVariable, name, serviceName]);
 
   const nodeDashboardProps = useMemo(() => ({
     layout: nodeDashboard,
@@ -106,6 +106,7 @@ export default () => {
       {
         ...params,
         serviceName,
+        serviceId: window.encodeURIComponent(serviceId || ''),
         applicationId,
         query: {
           start: timeSpan.startTimeMs,
@@ -114,7 +115,7 @@ export default () => {
         jumpOut: true,
       }
     );
-  }, [applicationId, params, serviceName, timeSpan.endTimeMs, timeSpan.startTimeMs]);
+  }, [params, serviceName, serviceId, applicationId, timeSpan.startTimeMs, timeSpan.endTimeMs]);
 
   return (
     <div className="topology-dashboard">

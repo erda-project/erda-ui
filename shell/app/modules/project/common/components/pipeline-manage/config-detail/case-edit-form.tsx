@@ -19,11 +19,17 @@ interface IProps{
   visible: boolean;
   onClose: ()=> void;
   onOk: (arg: any)=> void;
-  editData?: AUTO_TEST.ICaseDetail
+  editData?: AUTO_TEST.ICaseDetail;
+  scope?: string;
+}
+
+const nameMap = {
+  projectPipeline: i18n.t('application:pipeline'),
+  configSheet: i18n.t('project:config data')
 }
 
 const CaseEditForm = (props: IProps) => {
-  const { visible, onOk, onClose, editData } = props;
+  const { visible, onOk, onClose, editData, scope = '' } = props;
   const fieldList = [
     {
       label: i18n.t('name'),
@@ -45,7 +51,7 @@ const CaseEditForm = (props: IProps) => {
 
   return (
     <FormModal
-      name={i18n.t('project:test case')}
+      name={nameMap[scope]}
       fieldsList={fieldList}
       visible={visible}
       onOk={onOk}

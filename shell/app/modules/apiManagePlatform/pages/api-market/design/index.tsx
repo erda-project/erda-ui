@@ -61,8 +61,8 @@ const ErrorEmptyHolder = ({ msg, branchName, docName, isLoading }:{ msg:string, 
   const { projectId, appId } = routeInfoStore.useStore(s => s.params);
   const [branchList] = apiDesignStore.useStore(s => [s.branchList]);
 
-  const apiDocsLink = `/workBench/projects/${projectId}/apps/${appId}/repo/tree/${branchName}/.dice/apidocs/${docName}`;
-  const apiBranchLink = `/workBench/projects/${projectId}/apps/${appId}`;
+  const apiDocsLink = goTo.resolve.apiDocs({ branchName, docName });
+  const apiBranchLink = goTo.resolve.app();
   const isErrorDoc = msg && branchName && docName;
 
   const validBranches = filter(branchList, b => b?.meta?.hasDoc);

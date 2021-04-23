@@ -18,12 +18,6 @@ export const getDiceVersion = (): string => {
     .then((response: any) => response.text);
 };
 
-export const getOrgByDomain = (domain: string) => {
-  return agent.get('/api/orgs/actions/get-by-domain')
-    .query({ domain: 'terminus-org.dev.terminus.io' })
-    .then((response: any) => response.body);
-};
-
 export const inviteToOrg = (payload: LAYOUT.InviteToOrgPayload) => {
   return agent.post('/api/members/actions/create-by-invitecode')
     .send(payload)

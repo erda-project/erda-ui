@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import userStore from 'user/stores';
+import orgStore from 'app/org-home/stores/org';
 import routeInfoStore from 'app/common/stores/route';
 import { createFlatStore } from 'app/cube';
 import { map, uniqueId } from 'lodash';
@@ -54,7 +54,7 @@ const initState: IState = {
 
 const getScope = (useTk?: boolean) => {
   const [routeMarks, params] = routeInfoStore.getState(s => [s.routeMarks, s.params]);
-  const orgName = userStore.getState(s => s.loginUser.orgName);
+  const orgName = orgStore.getState(s => s.currentOrg.name);
   const inDataCenter = routeMarks.includes('dataCenter');
   const inMicroService = routeMarks.includes('microService');
   const msMenuMap = microServiceStore.getState(s => s.msMenuMap);

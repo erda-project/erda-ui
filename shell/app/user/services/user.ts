@@ -42,7 +42,7 @@ export const logout = () => {
     .then((response: any) => response.body);
 };
 
-export const getJoinedOrgs = (): IPagingResp<IOrg> => {
+export const getJoinedOrgs = (): IPagingResp<ORG.IOrg> => {
   return agent
     .get('/api/orgs')
     .query({ pageNo: 1, pageSize: 30 }) // 应该不会有这么多，否则也显示不下
@@ -83,7 +83,7 @@ export const getResourcePermissions = ({ scope, scopeID }: IGetScopePermQuery): 
     .then((response: any) => response.body);
 };
 
-export const updateOrg = (org: Partial<IOrg>) => {
+export const updateOrg = (org: Partial<ORG.IOrg>) => {
   return agent.put(`/api/orgs/${org.id}`)
     .send(org)
     .then((response: any) => response.body);

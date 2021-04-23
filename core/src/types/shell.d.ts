@@ -13,31 +13,33 @@
 
 declare namespace SHELL {
   interface Route {
-    routeQuery: {
+    routeQuery?: {
       [prop: string]: any
     };
     query?: any;
     path: string;
+    mark?: string;
+    toMark?: string;
     tabKey?: string;
     exact?: boolean;
     tabs?: Array<{
       key: string;
       name: string;
     }>;
-    routes?: ParsedRoute[];
+    routes?: Route[];
     ignoreTabQuery?: boolean;
     keepTabQuery?: string[];
     alwaysShowTabKey?: string;
     TabRightComp?: React.ComponentType;
-    wrapper(Comp: React.ComponentType): React.ComponentType;
-    getComp(cb: Function): Promise<any>;
+    wrapper?(Comp: React.ComponentType): React.ComponentType;
+    getComp?(cb: Function): Promise<any>;
     connectToTab?(a: object[] | Function): React.ComponentType;
   }
 
   interface ParsedRoute extends Route {
-    key: string;
-    _parent: Route;
-    relativePath: string;
+    key?: string;
+    _parent?: Route;
+    relativePath?: string;
     NotFound?: any;
     component?: any;
   }

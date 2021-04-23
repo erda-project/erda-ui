@@ -173,7 +173,7 @@ module.exports = {
 
 
 ## 开发流程
-### 项目结构说明
+### 项目结构说明
 ```javasdript
 app: dice-ui目录
   project: 模块名
@@ -181,7 +181,7 @@ app: dice-ui目录
     models: dva的model
     stores: cube的store
     pages: 按页面划分
-      components: 纯组件
+      components: 纯组件
       containers: 容器组件
       使用cube后不需要containers，直接放在pages下即可，components里可以放页面组件
     services: api接口
@@ -190,7 +190,7 @@ app: dice-ui目录
 monitor: 监控UI目录
 ```
 
-### 项目开发流程（参考）
+### 项目开发流程（参考）
 1. types中新增领域模型和接口的类型定义
 2. services中添加接口
 3. 添加对应store

@@ -13,7 +13,8 @@
 
 import React, { ComponentType } from 'react';
 import { renderRoutes, RouteConfig } from 'react-router-config';
-
+import { get, map, set, compact } from 'lodash';
+import { produce } from 'immer';
 
 const EmptyContainer = ({ route }: { route: RouteConfig }) => renderRoutes(route.routes);
 
@@ -82,10 +83,11 @@ const parseRoutes = (rootRoute: SHELL.ParsedRoute) => {
       return route;
     });
   };
-
-  rootCopy.key = '0';
-  rootCopy.routes = walk(rootCopy.routes.concat(notFoundRoute), rootCopy, 1);
-  return [rootCopy, routeMap];
+  return [{
+    ...rootCopy,
+    key: '0',
+    routes: walk(rootCopy.routes.concat(notFoundRoute), rootCopy, 1)
+  }, routeMap];
 };
 
 const sortRoutes = (r: SHELL.ParsedRoute) => {
@@ -110,7 +112,7 @@ const sortRoutes = (r: SHELL.ParsedRoute) => {
   return newRoutes;
 };
 
-const moduleRouteMap = {};
+const moduleRouteMap: Obj = {};
 let NewestRoot = ({ route }: { route: RouteConfig }) => renderRoutes(route.routes);
 let NewestNotFound = () => 'Page not found';
 
@@ -119,17 +121,54 @@ export interface CompMap {
   Root?: ComponentType<any>,
   NotFound?: ComponentType<any>,
 }
+
+const resetRouter = (routers: Obj<SHELL.Route[]>) => {
+  return produce(routers, (draft)=>{
+    const routerMarkObj: Obj = {};
+    const toMarkObj: Obj = {};
+    const getRouterMarks = (_r: SHELL.Route[], _path: string) => {
+      _r.forEach((rItem: SHELL.Route, idx: number) => {
+        const { mark, routes: _rs, toMark } = rItem;
+        if(mark && !routerMarkObj[mark]){
+          routerMarkObj[mark] = rItem;
+        }
+        if(toMark){
+          toMarkObj[toMark] = { router: rItem, key: `${_path}.[${idx}]` };
+        }
+  
+        if(_rs){
+          getRouterMarks(_rs, `${_path}.[${idx}].routes`);
+        }
+      })
+    }
+  
+    map(draft, (rItem, key)=>{
+      getRouterMarks(rItem, key);
+    })
+  
+    map(toMarkObj, (_toObj, k)=>{
+      const { key, router: _toRouter } = _toObj;
+      if(_toRouter && routerMarkObj[k]){
+        _toRouter.toMark = undefined;
+        routerMarkObj[k].routes = (routerMarkObj[k].routes || []).concat(_toRouter);
+        set(draft, key, undefined);
+      }
+    })
+  })
+}
+
 export const registRouters = (key: string, routers: IGetRouter, { Root, NotFound }: CompMap = {}) => {
   const rs = typeof routers === 'function' ? routers() : (routers || []);
   NewestRoot = Root || NewestRoot as any;
   NewestNotFound = NotFound || NewestNotFound as any;
   if (rs.length) {
     moduleRouteMap[key] = rs;
+    const reRoutes = resetRouter(moduleRouteMap);
     const [parsed, routeMap] = parseRoutes({
       path: '/',
       component: NewestRoot,
       NotFound: NewestNotFound,
-      routes: Object.values(moduleRouteMap).flat(),
+      routes: compact(Object.values(reRoutes).flat()),
     });
     const routePatterns = sortRoutes(routeMap);
     return { routeMap, routePatterns, parsed };

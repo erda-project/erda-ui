@@ -20,7 +20,7 @@ import projectStore from 'app/modules/project/stores/project';
 import { useEffectOnce } from 'react-use';
 import clusterStore from 'dataCenter/stores/cluster';
 import { goTo, insertWhen } from 'app/common/utils';
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 import { get } from 'lodash';
 import { useLoading } from 'app/common/stores/loading';
 import classnames from 'classnames';
@@ -207,7 +207,7 @@ const templateArr = [
 
 const CreationForm = () => {
   const { createProject } = projectStore.effects;
-  const orgId = userStore.getState(s => s.loginUser.orgId);
+  const orgId = orgStore.getState(s => s.currentOrg.id);
   const clusterList = clusterStore.useStore(s => s.list);
   const quotaFields = useQuotaFields(true, true, { cpuQuota: 0, memQuota: 0 });
   const [ifConfigCluster, setIfConfigCluster] = React.useState(true);

@@ -12,9 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createFlatStore } from 'app/cube';
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
+import i18n from 'i18n';
 import {
   getGroupInfos,
+  offlineMachine
 } from '../services/machine-manage';
 
 interface IState {
@@ -29,7 +31,7 @@ const machineManageStore = createFlatStore({
   state: initState,
   effects: {
     async getGroupInfos({ call, update }, payload: Omit<MACHINE_MANAGE.IGroupInfoQuery, 'orgName'>) {
-      const { orgName } = userStore.getState(s => s.loginUser);
+      const { name: orgName } = orgStore.getState(s => s.currentOrg);
       const data = await call(getGroupInfos, { orgName, ...payload });
       const { groups: groupInfos } = data || {};
 
@@ -37,6 +39,10 @@ const machineManageStore = createFlatStore({
         groupInfos: groupInfos || [],
       });
       return groupInfos;
+    },
+    async offlineMachine({ call }, payload: MACHINE_MANAGE.IOfflineMachine) {
+      
+      await call(offlineMachine, payload, { successMsg: i18n.t('edge:it is getting offline and it will take a effect later') });
     },
   },
   reducers: {
