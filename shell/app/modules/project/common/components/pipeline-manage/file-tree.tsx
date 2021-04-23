@@ -230,7 +230,7 @@ const FileTree = (props: IProps) => {
           />
           : <EmptyHolder relative />
       }
-      <CaseEditForm editData={editData} visible={editVis} onOk={onOk} onClose={onClose} />
+      <CaseEditForm editData={editData} visible={editVis} onOk={onOk} onClose={onClose} scope={scope}/>
     </>
   );
 };
