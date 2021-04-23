@@ -29,42 +29,47 @@ export default () => ({
       path: ':applicationId',
       routes: [
         {
-          path: ':serviceName',
-          breadcrumbName: ({ params }: any) => {
-            const { serviceName } = params || {};
-            return `${i18n.t('microService:service analysis')}-${serviceName}`;
-          },
-          tabs,
-          alwaysShowTabKey: 'overview',
-          layout: { fullHeight: true },
+          path: ':serviceId',
           routes: [
             {
-              path: 'overview',
+              path: ':serviceName',
+              breadcrumbName: ({ params }: any) => {
+                const { serviceName } = params || {};
+                return `${i18n.t('microService:service analysis')}-${serviceName}`;
+              },
               tabs,
+              alwaysShowTabKey: 'overview',
               layout: { fullHeight: true },
-              getComp: (cb: any) => cb(import('microService/monitor/service-list/pages/overview')),
-            },
-            {
-              path: 'transaction',
-              tabs,
-              layout: { fullHeight: true },
-              getComp: (cb: any) => cb(import('microService/monitor/service-list/pages/transaction')),
-            },
-            {
-              path: 'anomaly',
-              tabs,
-              layout: { fullHeight: true },
-              getComp: (cb: any) => cb(import('microService/monitor/service-list/pages/anomaly')),
-            },
-            {
-              path: 'process',
-              tabs,
-              layout: { fullHeight: true },
-              getComp: (cb: any) => cb(import('microService/monitor/service-list/pages/process')),
-            },
-            {
-              layout: { fullHeight: true },
-              getComp: (cb: any) => cb(import('microService/monitor/service-list/pages/overview')),
+              routes: [
+                {
+                  path: 'overview',
+                  tabs,
+                  layout: { fullHeight: true },
+                  getComp: (cb: any) => cb(import('microService/monitor/service-list/pages/overview')),
+                },
+                {
+                  path: 'transaction',
+                  tabs,
+                  layout: { fullHeight: true },
+                  getComp: (cb: any) => cb(import('microService/monitor/service-list/pages/transaction')),
+                },
+                {
+                  path: 'anomaly',
+                  tabs,
+                  layout: { fullHeight: true },
+                  getComp: (cb: any) => cb(import('microService/monitor/service-list/pages/anomaly')),
+                },
+                {
+                  path: 'process',
+                  tabs,
+                  layout: { fullHeight: true },
+                  getComp: (cb: any) => cb(import('microService/monitor/service-list/pages/process')),
+                },
+                {
+                  layout: { fullHeight: true },
+                  getComp: (cb: any) => cb(import('microService/monitor/service-list/pages/overview')),
+                },
+              ],
             },
           ],
         },

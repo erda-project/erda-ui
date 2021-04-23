@@ -190,7 +190,7 @@ export enum pages {
   micro_serviceCustomDashboardDetail = '/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/custom-dashboard/{customDashboardId}',
 
   // 微服务-服务分析页
-  microServiceServiceAnalyze = '/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/service-list/{applicationId}/{serviceName}',
+  microServiceServiceAnalyze = '/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}',
 
   // 企业日志分析规则
   addLogAnalyzeRule = '/dataCenter/log/rule/add?source={source}',
