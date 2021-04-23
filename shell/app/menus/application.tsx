@@ -14,18 +14,8 @@
 import i18n from 'i18n';
 import { filter } from 'lodash';
 import permStore from 'user/stores/permission';
-import { 
-  Api,
-	Code,
-	AssemblyLine,
-	NetworkTree,
-	ActivitySource,
-	ChildrenPyramid,
-	MarketAnalysis,
-	FolderQuality,
-	AppStore,
-	Config,
-} from '@icon-park/react';
+import { Api, Code, AssemblyLine, NetworkTree, ActivitySource, ChildrenPyramid, MarketAnalysis, FolderQuality, AppStore, Config } from '@icon-park/react';
+
 import React from 'react';
 const appMode = {
   SERVICE: 'SERVICE',
