@@ -89,5 +89,12 @@ program
     require('../lib/check-license')({ fileType, directory })
   });
 
+program
+  .command('launch')
+  .description('launch erda ui in development mode')
+  .action(() => {
+    require('../lib/launcher')()
+  });
+
 
 program.parse(process.argv);

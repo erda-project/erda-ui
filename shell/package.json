@@ -13,6 +13,7 @@
   "scripts": {
     "test": "jest",
     "dev": "node_modules/webpack/bin/webpack.js serve",
+    "start": "node_modules/webpack/bin/webpack.js serve",
     "watch": "rm -rf ../public/shell/scripts && NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --color -w",
     "build": "cross-env-shell NODE_ENV=production 'npm run build-app'",
     "build-app": "rm -rf ../public/shell && node ./node_modules/.bin/webpack --progress",
