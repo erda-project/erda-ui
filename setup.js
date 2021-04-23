@@ -35,18 +35,22 @@ const log = msg => {
 
 const installDependencies = () => {
   [
+    cliDir,
     coreDir,
     schedulerDir,
     shellDir,
-    cliDir
-  ].forEach((dir) => {
+  ].forEach((dir, index) => {
     if (fs.existsSync(join(dir, 'node_modules'))) {
       log(`${dir.split('/').pop()} dependencies have installed 😁`);
       return;
     };
     log(`Performing "npm i" inside ${dir} folder`);
     // install dependencies
-    cp.spawnSync(npmCmd, ['config', 'set', 'registry', 'https://registry.npm.terminus.io/'], { env: process.env, cwd: dir, stdio: 'inherit' });
+    if (index === 0) {
+      cp.spawnSync(npmCmd, ['config', 'set', 'registry', 'https://registry.npmjs.org/'], { env: process.env, cwd: dir, stdio: 'inherit' });
+    } else {
+      cp.spawnSync(npmCmd, ['config', 'set', 'registry', 'https://registry.npm.terminus.io/'], { env: process.env, cwd: dir, stdio: 'inherit' });
+    }
     cp.spawnSync(npmCmd, ['i'], { env: process.env, cwd: dir, stdio: 'inherit' });
   });
 }
