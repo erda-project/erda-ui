@@ -32,9 +32,10 @@ import { getCurrentLocale } from 'core/i18n';
 import { EmptyListHolder } from 'common';
 import * as nusi from 'app/nusi';
 import {getSubSiderInfoMap, appCenterAppList} from './menus';
-
 import './styles/antd-extension.scss';
 import './styles/app.scss';
+import '@icon-park/react/styles/index.css';
+import { IconProvider, DEFAULT_ICON_CONFIGS } from '@icon-park/react';
 
 setConfig('onAPISuccess', nusi.message.success);
 setConfig('onAPIFail', notify);
@@ -45,6 +46,11 @@ const hold = nusi;
 const start = (userData, permObjArr = [], isErdaHome = false) => {
   setLS('diceLoginState', true);
 
+const IconConfig = {
+  ...DEFAULT_ICON_CONFIGS, 
+  prefix: 'erda',
+  size: 16
+};
 
 const appMap = {} as {
   [k: string]: LAYOUT.IApp
@@ -88,7 +94,9 @@ layoutStore.reducers.initLayout({
       return (
         <AntdConfigProvider renderEmpty={EmptyListHolder} locale={currentLocale.antd}>
           <NusiConfigProvider locale={currentLocale.nusi}>
-            <App />
+            <IconProvider value={IconConfig}>
+              <App />
+            </IconProvider>
           </NusiConfigProvider>
         </AntdConfigProvider>
       );

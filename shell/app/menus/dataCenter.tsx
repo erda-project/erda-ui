@@ -13,19 +13,29 @@
 
 import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
+import { 
+  Log,
+  ListTwo,
+  DataDisplay,
+  DataAll,
+  DashboardCar,
+  DataFile,
+  DatabaseAlert,
+} from '@icon-park/react';
+import React from 'react';
 
 export const getDataCenterMenu = () => {
   return filterMenu([
     {
       key: 'dataCenterOverview',
       href: '/dataCenter/overview',
-      icon: 'qyzl',
+      icon: <DataDisplay />,
       text: i18n.t('cluster overview'),
     },
     {
       key: 'dataCenterResources',
       href: '/dataCenter/clusters',
-      icon: 'zczx',
+      icon: <DataAll />,
       text: i18n.t('resources'),
       subMenu: [
         {
@@ -48,7 +58,7 @@ export const getDataCenterMenu = () => {
     {
       key: 'dataCenterServices',
       href: '/dataCenter/services',
-      icon: 'wfw2',
+      icon: <ListTwo />,
       text: i18n.t('services & jobs'),
       subMenu: [
         {
@@ -68,19 +78,19 @@ export const getDataCenterMenu = () => {
     {
       key: 'dataCenterDashboard',
       href: '/dataCenter/customDashboard',
-      icon: 'jsc',
+      icon: <DashboardCar />,
       text: i18n.t('org:O & M dashboard'),
     },
     {
       key: 'dataCenterReport',
       href: '/dataCenter/report',
-      icon: 'module-log',
+      icon: <DataFile />,
       text: i18n.t('O & M report'),
     },
     {
       key: 'dataCenterAlarm',
       href: '/dataCenter/alarm',
-      icon: 'jkgj',
+      icon: <DatabaseAlert />,
       text: i18n.t('O & M alarm'),
       subMenu: [
         {
@@ -104,7 +114,7 @@ export const getDataCenterMenu = () => {
     {
       key: 'dataCenterLog',
       href: '/dataCenter/log',
-      icon: 'fwlb',
+      icon: <Log />,
       text: i18n.t('log analyze'),
       subMenu: [
         {
