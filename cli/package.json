@@ -1,6 +1,6 @@
 {
   "name": "@erda-ui/cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Command line interface for rapid Erda UI development",
   "bin": {
     "erda-ui": "bin/erda.js"
@@ -10,6 +10,11 @@
     "local": "local-package-publisher -p",
     "remove-local": "local-package-publisher -u"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erda/erda-ui.git"
+  },
+  "homepage": "https://github.com/erda/erda-ui/cli#readme",
   "keywords": [
     "erda",
     "ui",
