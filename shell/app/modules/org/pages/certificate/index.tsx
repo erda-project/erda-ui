@@ -22,7 +22,7 @@ import { get, map } from 'lodash';
 import './index.scss';
 import { getUploadProps } from 'common/utils/upload-props';
 import DetailModal from './detail-modal';
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 
 const { Option } = Select;
 export const typeMap = {
@@ -116,7 +116,7 @@ const Certificate = () => {
     detail: {} as Certificate.Detail,
     chosenRowId: undefined as undefined | number,
   });
-  const orgId = userStore.useStore(s => s.loginUser.orgId);
+  const orgId = orgStore.useStore(s => s.currentOrg.id);
   const getColumns = (effects: any, { onEdit, reloadList }: any) => {
     const { deleteItem } = effects;
     const columns = [

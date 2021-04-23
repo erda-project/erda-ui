@@ -162,8 +162,6 @@ const SubSideBar = () => {
     });
   };
 
-  
-
   return (
     <SideNavigation
       theme={'light' as Theme.LIGHT} // 从core中导入的type只能作为定义使用

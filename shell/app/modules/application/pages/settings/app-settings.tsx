@@ -29,7 +29,7 @@ import { Link } from 'react-router-dom';
 import { MemberScope } from 'app/common/stores/_member';
 import BranchRule from 'project/common/components/branch-rule';
 import { usePerm } from 'app/user/common';
-
+import { goTo } from 'common/utils';
 import './app-settings.scss';
 import appStore from 'application/stores/application';
 import routeInfoStore from 'common/stores/route';
@@ -68,7 +68,7 @@ export const PureAppSettings = () => {
                   desc: (
                     <div>
                       {i18n.t('edit members, set member roles, role permissions please refer to')}
-                      <Link to='/perm?scope=app' target="_blank">{i18n.t('role permissions description')}</Link>
+                      <Link to={goTo.resolve.perm({ scope: 'app' })} target="_blank">{i18n.t('role permissions description')}</Link>
                     </div>
                   ),
                   children: <MembersTable scopeKey={MemberScope.APP} />,

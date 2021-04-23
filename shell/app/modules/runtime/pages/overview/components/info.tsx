@@ -18,15 +18,15 @@ import { goTo } from 'common/utils';
 import RollbackList from './rollback-list';
 import DeployStatus from './deploy-status';
 import { usePerm } from 'app/user/common';
-
-import './info.scss';
+import orgStore from 'app/org-home/stores/org';
 import routeInfoStore from 'common/stores/route';
 import runtimeStore from 'runtime/stores/runtime';
-import { find, get } from 'lodash';
+import { get } from 'lodash';
 import i18n from 'i18n';
 import { confirmRedeploy } from '../containers';
 import appStore from 'application/stores/application';
-import userStore from 'user/stores';
+
+import './info.scss';
 
 const { ELSE } = IF;
 const cancelableDeployStatus = ['INIT', 'WAITING', 'DEPLOYING', 'CANCELING', 'WAITAPPROVE'];
@@ -44,8 +44,9 @@ const DeployInfo = () => {
   const params = routeInfoStore.useStore(s => s.params);
   const { blockStatus } = appStore.useStore(s => s.detail);
   const appBlocked = blockStatus !== 'unblocked';
-  const [orgs, loginUser] = userStore.useStore(s => [s.orgs, s.loginUser]);
-  const { blockoutConfig } = find(orgs, { id: loginUser.orgId }) || {} as IOrg;
+  const currentOrg = orgStore.useStore(s => s.currentOrg);
+  
+  const { blockoutConfig } = currentOrg;
 
   const permMap = usePerm(s => s.app);
   const [runtimeDetail, cancelDeploying] = runtimeStore.useStore(s => [s.runtimeDetail, s.cancelDeploying]);

@@ -15,7 +15,7 @@ import i18n from 'i18n';
 import * as React from 'react';
 import { useUpdate } from 'common';
 import issueFieldStore from 'org/stores/issue-field';
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 import { FIELD_TYPE_ICON_MAP, DEFAULT_ISSUE_FIELDS_MAP } from 'org/common/config';
 import { getFieldsByIssue as getFieldOptions } from 'org/services/issue-field';
 import { map, isEmpty, find } from 'lodash';
@@ -37,7 +37,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
   const { addFieldItem, batchUpdateFieldsOrder, deleteFieldItem, getFieldsByIssue } = issueFieldStore.effects;
   const [fieldList] = issueFieldStore.useStore(s => [s.fieldList]);
   const { clearFieldList } = issueFieldStore.reducers;
-  const { orgId: orgID } = userStore.useStore(s => s.loginUser);
+  const { id: orgID } = orgStore.useStore(s => s.currentOrg);
 
   const [{
     selectedField,

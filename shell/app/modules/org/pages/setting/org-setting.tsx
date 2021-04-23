@@ -14,7 +14,8 @@
 import * as React from 'react';
 import i18n from 'i18n';
 import { SettingsTabs, ConfigLayout, MembersTable } from 'common';
-import userStore from 'app/user/stores';
+import { goTo } from 'common/utils';
+import orgStore from 'app/org-home/stores/org';
 import NotifyGroup from 'application/pages/settings/components/app-notify/common-notify-group';
 import memberStore from 'common/stores/org-member';
 import BlockNetwork from 'org/pages/setting/block-network';
@@ -29,7 +30,7 @@ import IssueTypeManage from '../projects/issue-type-manage';
 import './org-setting.scss';
 
 export const OrgSetting = () => {
-  const loginUser = userStore.getState(s => s.loginUser);
+  const orgId = orgStore.getState(s => s.currentOrg.id);
 
   const dataSource = [
     {
@@ -52,7 +53,7 @@ export const OrgSetting = () => {
                   desc: (
                     <div>
                       {i18n.t('edit members, set member roles, role permissions please refer to')}
-                      <Link to='/perm?scope=org' target="_blank">{i18n.t('role permissions description')}</Link>
+                      <Link to={goTo.resolve.perm({ scope: 'org'})} target="_blank">{i18n.t('role permissions description')}</Link>
                     </div>
                   ),
                   children: <MembersTable scopeKey={MemberScope.ORG} />,
@@ -146,7 +147,7 @@ export const OrgSetting = () => {
               sectionList={[
                 {
                   title: i18n.t('application:organize notification groups to set up notifications'),
-                  children: <NotifyGroup memberStore={memberStore} commonPayload={{ scopeType: 'org', scopeId: loginUser.orgId.toString() }} />,
+                  children: <NotifyGroup memberStore={memberStore} commonPayload={{ scopeType: 'org', scopeId: `${orgId}` }} />,
                 },
               ]}
             />

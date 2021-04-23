@@ -17,12 +17,12 @@ import { regRules } from 'common/utils';
 import { some } from 'lodash';
 import TagSelector from './tag-selector';
 import i18n from 'i18n';
-import { connectUser } from 'app/user/common';
+import orgStore from 'app/org-home/stores/org';
 
 interface IProps {
   modalVisible: boolean;
   clusterName: string;
-  loginUser: ILoginUser;
+  currentOrg: ORG.IOrg;
   formData: Record<string, any>;
   orgs: any;
   onCancel(): void;
@@ -55,9 +55,9 @@ class AddMachineModal extends React.PureComponent<IProps, any> {
   };
 
   render() {
-    const { modalVisible, formData, onCancel, clusterName, loginUser } = this.props;
+    const { modalVisible, formData, onCancel, clusterName, currentOrg } = this.props;
     const { passwordVisible } = this.state;
-    const { orgName } = loginUser;
+    const orgName = currentOrg.name;
     const defaultOrgTag = orgName ? `org-${orgName}` : '';// 取企业名打默认的tag:org-{orgName}
     const fieldsList = [
       {
@@ -168,4 +168,7 @@ class AddMachineModal extends React.PureComponent<IProps, any> {
   }
 }
 
-export default connectUser(AddMachineModal);
+export default (p: Omit<IProps, 'currentOrg' >) => {
+  const currentOrg = orgStore.useStore(s => s.currentOrg);
+  return <AddMachineModal {...p} currentOrg={currentOrg} />;
+}

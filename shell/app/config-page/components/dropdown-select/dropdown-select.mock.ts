@@ -64,7 +64,7 @@ export const mockData: CP_DROPDOWN_SELECT.Spec = {
       ],
     quickSelect: [
       {
-        value: 'orgHome',
+        value: 'orgList',
         label: '浏览公开组织',
         operations: {
           click: {
@@ -73,7 +73,7 @@ export const mockData: CP_DROPDOWN_SELECT.Spec = {
             reload: false,
             command: {
               key: 'goto',
-              target: 'orgHome',
+              target: 'orgList',
               jumpOut: false,
             },
           },

@@ -19,7 +19,6 @@ import i18n from 'i18n';
 
 import wrapper from './pages/wait-wrapper';
 
-
 const auditTabs = () => {
   return [
     {

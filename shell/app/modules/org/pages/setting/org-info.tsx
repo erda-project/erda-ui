@@ -14,18 +14,19 @@
 import * as React from 'react';
 import { ImageUpload, ConfirmDelete } from 'common';
 import { insertWhen, goTo } from 'common/utils';
-import { find } from 'lodash';
 import { Button } from 'app/nusi';
 import { WrappedFormUtils } from 'core/common/interface';
 import { SectionInfoEdit } from 'project/common/components/section-info-edit';
 import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
+
 import { removeMember } from 'common/services/index';
 import i18n from 'i18n';
 
 export const OrgInfo = () => {
-  const [loginUser, orgs] = userStore.useStore(s => [s.loginUser, s.orgs]);
+  const currentOrg = orgStore.useStore(s => s.currentOrg);
+  const loginUser = userStore.useStore(s => s.loginUser);
   const [isPublisher, setIsPublisher] = React.useState(false);
-  const currentOrg = find(orgs, { id: loginUser.orgId }) || {};
   const fieldsList = [
     {
       name: 'id',
@@ -174,10 +175,10 @@ export const OrgInfo = () => {
 
   const exitOrg = () => {
     removeMember({
-      scope: { type: 'org', id: `${loginUser.orgId}` },
+      scope: { type: 'org', id: `${currentOrg.id}` },
       userIds: [loginUser.id],
     }).then(() => {
-      goTo(goTo.pages.orgHome, { replace: true });
+      goTo(goTo.pages.orgList, { replace: true });
     });
   };
 

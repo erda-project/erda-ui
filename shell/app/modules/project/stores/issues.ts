@@ -13,7 +13,7 @@
 
 import projectLabelStore from './label';
 import { createStore } from 'app/cube';
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 import { getDefaultPaging, convertToFormData } from 'common/utils';
 import {
   getIssues,
@@ -148,7 +148,7 @@ const issueStore = createStore({
     listenRoute(({ isEntering, isLeaving }) => {
       if (isEntering('issues')) {
         projectLabelStore.effects.getLabels({ type: 'issue' });
-        const orgID = userStore.getState(s => s.loginUser.orgId);
+        const orgID = orgStore.getState(s => s.currentOrg.id);
         issueFieldStore.effects.getSpecialFieldOptions({ orgID, issueType: 'BUG' });
         issueFieldStore.effects.getSpecialFieldOptions({ orgID, issueType: 'TASK' });
       } else if (isLeaving('issues')) {
@@ -282,7 +282,7 @@ const issueStore = createStore({
       return customFieldDetail;
     },
     async importIssueFile({ call }, payload: { file: any, issueType: string, projectID: number | string }) {
-      const orgID = userStore.getState(s => s.loginUser.orgId);
+      const orgID = orgStore.getState(s => s.currentOrg.id);
       const { file, issueType, projectID } = payload;
       const formData = convertToFormData(file);
       const res = await call(importFileInIssues, { payload: formData, query: { orgID, projectID: +projectID, type: issueType } });

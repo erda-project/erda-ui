@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createStore } from 'app/cube';
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 import { getDefaultPaging, goTo } from 'common/utils';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 import {
@@ -84,12 +84,12 @@ const alarmReportStore = createStore({
   },
   effects: {
     async createReportTask({ call }, payload: COMMON_ALARM_REPORT.ReportTaskQuery) {
-      const { orgId } = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       await call(createReportTask, { scope: 'org', scopeId: String(orgId), ...payload }, { successMsg: i18n.t('add successfully') });
       alarmReportStore.effects.getReportTasks(defaultPagingReq);
     },
     async getReportTasks({ call, update }, payload: IPagingReq) {
-      const { orgId } = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const { list } = await call(getReportTasks, { scope: 'org', scopeId: String(orgId), ...payload }, { paging: { key: 'reportTaskPaging' } });
       update({ reportTasks: list });
     },
@@ -114,7 +114,7 @@ const alarmReportStore = createStore({
     },
     async getReportTaskRecords({ call, update, getParams }, payload: Merge<IPagingReq, { start?: number; end?: number; }>) {
       const { taskId } = getParams();
-      const { orgId } = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const { list } = await call(getReportTaskRecords, { scope: 'org', scopeId: String(orgId), taskId, ...payload }, { paging: { key: 'reportTaskRecordPaging' } });
       update({ reportTaskRecords: list });
     },

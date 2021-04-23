@@ -15,6 +15,7 @@ import { map, compact, get } from 'lodash';
 import i18n from 'i18n';
 import diceEnv from 'dice-env';
 import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 
 interface IMenuItem {
   [pro: string]: any;
@@ -44,7 +45,9 @@ const menuFilterMap = {
   },
   orgCenter: { // 企业中心
     orgMarket: (item: IMenuItem) => {
-      const orgPublisherAuth = userStore.getState(s => s.loginUser.orgPublisherAuth);
+
+      const publisherId = orgStore.getState(s => s.currentOrg.publisherId);
+      const orgPublisherAuth = !!publisherId;
       return ENABLE_MPAAS && orgPublisherAuth ? item : null;
     },
     orgCertificate: (item: IMenuItem) => (ENABLE_MPAAS ? item : null),
@@ -62,7 +65,8 @@ const menuFilterMap = {
   },
   workBench: {
     workBenchPublisher: (item: IMenuItem) => {
-      const orgPublisherAuth = userStore.getState(s => s.loginUser.orgPublisherAuth);
+      const publisherId = orgStore.getState(s => s.currentOrg.publisherId);
+      const orgPublisherAuth = !!publisherId;
       return ENABLE_MPAAS && orgPublisherAuth ? item : null;
     },
   },

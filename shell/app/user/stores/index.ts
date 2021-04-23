@@ -29,7 +29,7 @@ import layoutStore from 'app/layout/stores/layout';
 import { PAGINATION } from 'app/constants';
 
 interface IState {
-  orgs: IOrg[],
+  orgs: ORG.IOrg[],
   projectList: PROJECT.Detail[],
   projectPaging: IPaging,
   appList: IApplication[],
@@ -84,13 +84,8 @@ const initState: IState = {
     name: '',
     phone: '',
     avatar: '',
-    orgId: 0, // 正常情况下初始化之后就有了，为后续类型判断方便不使用undefined类型
-    orgPublisherId: 0,
-    orgName: '',
     token: '',
     isSysAdmin: false,
-    orgDisplayName: '',
-    orgPublisherAuth: false,
   },
   licenseInfo: {
     valid: true,
@@ -114,28 +109,30 @@ const userStore = createStore({
       userStore.reducers.clearNotFound();
       if (location.pathname === '/' || location.pathname === '') {
         // 根路径进入到组织导航页
-        userStore.reducers.onIndexEnter();
-
+        // userStore.reducers.onIndexEnter();
       }
-      if (location.pathname === '/noAuth') {
+      if (location.pathname.includes('/noAuth')) {
         userStore.reducers.setNoAuth();
       }
     });
   },
   effects: {
-    async login({ call }) {
+    async login({ call, select }) {
       const data = await call(login);
       // effects
+      const loginUser = select(s=>s.loginUser);
       if (data && data.url) {
-        window.localStorage.setItem('lastPath', window.location.href);
+        
+        !loginUser.isSysAdmin && window.localStorage.setItem('lastPath', window.location.href);
         window.location.href = data.url;
       }
     },
-    async logout({ call }) {
+    async logout({ call, select }) {
       const data = await call(logout);
       setLS('diceLoginState', false);
+      const loginUser = select(s=>s.loginUser);
       if (data && data.url) {
-        window.localStorage.setItem('lastPath', window.location.href);
+        !loginUser.isSysAdmin && window.localStorage.setItem('lastPath', window.location.href);
         window.location.href = data.url;
       }
     },
@@ -193,7 +190,7 @@ const userStore = createStore({
     async unpinApp({ call }, appId: number) {
       await call(unpinApp, appId, { successMsg: i18n.t('application:cancel topping successfully') });
     },
-    async updateOrg({ call }, payload: Partial<IOrg>) {
+    async updateOrg({ call }, payload: Partial<ORG.IOrg>) {
       await call(updateOrg, payload);
       await userStore.effects.getJoinedOrgs();
     },
@@ -241,7 +238,7 @@ const userStore = createStore({
       state.noAuth = true;
       state.authContact = info;
     },
-    updateOrgs(state, list: IOrg[]) {
+    updateOrgs(state, list: ORG.IOrg[]) {
       state.orgs = list;
     },
     cleanNoAuth(state) {

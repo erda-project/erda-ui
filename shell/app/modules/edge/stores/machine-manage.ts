@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createFlatStore } from 'app/cube';
-import routeInfoStore from 'common/stores/route';
+import orgStore from 'app/org-home/stores/org';
 import i18n from 'i18n';
 import {
   getGroupInfos,
@@ -31,7 +31,7 @@ const machineManageStore = createFlatStore({
   state: initState,
   effects: {
     async getGroupInfos({ call, update }, payload: Omit<MACHINE_MANAGE.IGroupInfoQuery, 'orgName'>) {
-      const orgName = routeInfoStore.getState(s => s.params.orgName);
+      const { name: orgName } = orgStore.getState(s => s.currentOrg);
       const data = await call(getGroupInfos, { orgName, ...payload });
       const { groups: groupInfos } = data || {};
 

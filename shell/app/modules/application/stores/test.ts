@@ -15,29 +15,27 @@ import * as TestServices from '../services/test';
 import layoutStore from 'layout/stores/layout';
 import i18n from 'i18n';
 import { createStore } from 'app/cube';
-import { getDefaultPaging } from 'common/utils';
+import { getDefaultPaging, goTo } from 'common/utils';
 
 interface IParams {
   projectId: string;
   appId: string;
 }
 
-const getSubList = ({ projectId, appId }: IParams) => {
-  const basePath = `/workBench/projects/${projectId}/apps/${appId}`;
-  const getHref = (path: string) => `${basePath}${path ? `/${path}` : ''}`;
+const getSubList = () => {
   return [
     {
       text: i18n.t('application:quality reports'),
-      href: getHref('test/quality'),
+      href: goTo.resolve.appCodeQualityReports(),
     },
     {
       text: i18n.t('application:issues'),
-      href: getHref('ticket/open'),
-      isActive: (key: string) => key.includes(`/workBench/projects/${projectId}/apps/${appId}/ticket`),
+      href: goTo.resolve.appCodeQualityIssueOpen(),
+      prefix: `${goTo.resolve.appCodeQualityIssue()}/`,
     },
     {
       text: i18n.t('application:test runs'),
-      href: getHref('test'),
+      href: goTo.resolve.appCodeQuality(),
     },
   ];
 };

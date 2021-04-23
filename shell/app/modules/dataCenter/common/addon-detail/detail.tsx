@@ -17,6 +17,7 @@ import moment from 'moment';
 import { Spin, Table, Badge } from 'app/nusi';
 import { Link } from 'react-router-dom';
 import { Icon as CustomIcon, Copy, IF } from 'common';
+import { goTo } from 'common/utils';
 import { PlanName, EnvName, CategoryName } from 'app/modules/addonPlatform/pages/common/configs';
 import i18n from 'i18n';
 
@@ -50,7 +51,7 @@ const refTableList = [
     render: (_text: string, row: { applicationId: number, projectId: number, runtimeId: number }) => {
       const { applicationId, projectId, runtimeId } = row;
       return (
-        <Link to={`/workBench/projects/${projectId}/apps/${applicationId}/deploy/runtimes/${runtimeId}/overview`}>
+        <Link to={goTo.resolve.runtimeDetailRoot({ projectId, appId: applicationId, runtimeId })}>
           <CustomIcon type="link1" />
         </Link>
       );

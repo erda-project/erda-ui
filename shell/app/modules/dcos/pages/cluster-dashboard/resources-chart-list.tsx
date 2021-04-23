@@ -23,7 +23,7 @@ import clusterDashboardStore from '../../stores/dashboard';
 import { useLoading } from 'app/common/stores/loading';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import machineStore from 'dcos/stores/machine';
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 
 import './resources-chart-list.scss';
 
@@ -44,7 +44,7 @@ const ResourcesChartList = ({
   const [loading] = useLoading(clusterDashboardStore, ['getChartData']);
   const { getMachineStatus } = machineStore.effects;
   const timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
-  const { orgName } = userStore.useStore(s => s.loginUser);
+  const orgName = orgStore.useStore(s => s.currentOrg.name);
 
   const getChartList = React.useCallback((extra: object) => {
     getChartData({ type: 'cpu', ...extra });

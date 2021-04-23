@@ -58,7 +58,7 @@ import { IssueTestCaseRelation } from './issue-testCase-relation';
 import { FIELD_WITH_OPTION, FIELD_TYPE_ICON_MAP } from 'org/common/config';
 import { produce } from 'immer';
 import issueFieldStore from 'org/stores/issue-field';
-
+import orgStore from 'app/org-home/stores/org';
 
 export const ColorIcon = ({ icon }: { icon: string }) => {
   return (
@@ -102,7 +102,6 @@ const getCustomOptions = (enumeratedValues: any[]) => {
 const { createLabel, getLabels } = labelStore.effects;
 const IssueMetaFields = ({ labels, isEditMode, isBacklog, editAuth, issueType, formData, setFieldCb, projectId, ticketType }: any) => {
   const userMap = userMapStore.getState(s => s);
-  // const loginUserId = userStore.getState(s => s.loginUser.id);
   const projectMembers = projectMemberStore.useStore(s => s.list);
   const urlParams = routeInfoStore.useStore(s => s.params);
   // const isRequirement = issueType === ISSUE_TYPE.REQUIREMENT;
@@ -589,7 +588,7 @@ export const EditIssueDrawer = (props: IProps) => {
   const addRelatedMattersProjectId = routeInfoStore.getState(s => s.params).projectId;
   const { addIssueRelation } = issueStore.effects;
   const { updateCustomFieldDetail } = issueStore.reducers;
-  const { orgId: orgID } = userStore.useStore(s => s.loginUser);
+  const { id: orgID } = orgStore.useStore(s => s.currentOrg);
 
   React.useEffect(() => {
     setFormData((prev: any) => ({ ...prev, iterationID }));

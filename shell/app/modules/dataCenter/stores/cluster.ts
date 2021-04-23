@@ -14,7 +14,6 @@
 import i18n from 'i18n';
 import { isEmpty, get } from 'lodash';
 import { createStore } from 'app/cube';
-import userStore from 'app/user/stores';
 import {
   getClusterList,
   addCluster,
@@ -35,6 +34,7 @@ import {
   getClusterResourceDetail,
   getSMSNotifyConfig,
 } from '../services/cluster';
+import orgStore from 'app/org-home/stores/org';
 
 interface IState {
   list: ORG_CLUSTER.ICluster[];
@@ -68,7 +68,7 @@ const cluster = createStore({
       update({ enableMS });
     },
     async getClusterList({ call, update }, payload: { orgId?: number; } = {}) {
-      const { orgId: userOrgId } = userStore.getState(s => s.loginUser);
+      const userOrgId = orgStore.getState(s => s.currentOrg.id);
       const orgId = isEmpty(payload) ? userOrgId
         : payload.orgId || userOrgId;
       const list = await call(getClusterList, { orgId });
@@ -78,7 +78,7 @@ const cluster = createStore({
       return list || [];
     },
     async addCluster({ call }, payload: ORG_CLUSTER.IAddClusterQuery) {
-      const { orgId } = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       await call(addCluster, { ...payload, orgId }, { successMsg: i18n.t('dcos:add cluster success') });
       await cluster.effects.getClusterList({});
     },
@@ -114,14 +114,14 @@ const cluster = createStore({
       return true;
     },
     async getDeployClusterLog({ call, update }) {
-      const { orgId } = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const deployingCluster = cluster.getState(s => s.deployingCluster);
       const { deployID } = deployingCluster || {};
       const deployClusterLog = await call(getDeployClusterLog, { deployID, orgID: orgId });
       update({ deployClusterLog });
     },
     async killDeployCluster({ call, update }) {
-      const { orgId } = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       await call(killDeployCluster, { orgID: orgId }, { successMsg: i18n.t('dcos:deployment has stopped') });
       update({ deployingCluster: {} });
     },
@@ -138,12 +138,12 @@ const cluster = createStore({
       return res;
     },
     async upgradeCluster({ call }, payload: { clusterName: string; precheck: boolean }) {
-      const { orgId } = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const res = await call(upgradeCluster, { orgID: orgId, ...payload });
       return res;
     },
     async deleteCluster({ call }, payload: { clusterName:string }) {
-      const { orgId } = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const res = await call(deleteCluster, { orgID: orgId, ...payload });
       cluster.effects.getClusterList();
       return res;
