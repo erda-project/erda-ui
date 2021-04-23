@@ -15,6 +15,8 @@ import i18n from 'i18n';
 import { get, filter } from 'lodash';
 import permStore from 'user/stores/permission';
 import { goTo } from 'common/utils';
+import { ApplicationOne, DashboardCar, HoldingHands, Stethoscope, Stretching, List, Config, DataAll } from '@icon-park/react';
+import React from 'react';
 
 export const getProjectMenu = (projectId: string, pathname: string) => {
   const projectPerm = permStore.getState(s => s.project);
@@ -22,13 +24,13 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
   const menu = [
     {
       href: goTo.resolve.projectApps(), // `/workBench/projects/${projectId}/apps`,
-      icon: 'rqrz',
+      icon: <ApplicationOne />,
       text: i18n.t('project:applications'),
       show: projectPerm.appList.viewAppList.pass,
     },
     {
       href: goTo.resolve.projectAllIssue(), //`/workBench/projects/${projectId}/issues/all`,
-      icon: 'sjgl',
+      icon: <HoldingHands />,
       text: i18n.t('project:project collaboration'),
       show: projectPerm.backLog.viewBackLog.pass || projectPerm.iteration.read.pass || projectPerm.issue.viewIssue.pass || projectPerm.epic.read.pass,
       prefix: `${goTo.resolve.projectIssueRoot()}/`,
@@ -42,7 +44,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     // },
     {
       href: goTo.resolve.project(), //`/workBench/projects/${projectId}`,
-      icon: 'test',
+      icon: <Stethoscope />,
       text: i18n.t('project:test'),
       show: projectPerm.testManage.viewTest.pass,
       subMenu: [
@@ -71,25 +73,25 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     },
     {
       href: goTo.resolve.projectDashboard(), // `/workBench/projects/${projectId}/dashboard`,
-      icon: 'shujuyunwei',
+      icon: <DashboardCar />,
       text: i18n.t('statistical report'),
       show: projectPerm.dashboard.viewDashboard.pass,
     },
     {
       href: goTo.resolve.projectService(),
-      icon: 'fw',
+      icon: <Stretching />,
       text: i18n.t('addon service'),
       show: projectPerm.service.viewService.pass,
     },
     {
       text: i18n.t('project:resource summary'),
-      icon: 'sjmx', // TODO: 这里icon用的数据模型的，更新一下
+      icon: <DataAll />,
       href: goTo.resolve.projectResource(),
       show: projectPerm.resource.viewResource.pass,
     },
     {
       text: i18n.t('project:ticket list'),
-      icon: 'unorderedlist',
+      icon: <List />,
       href: goTo.resolve.projectTicket(),
       show: projectPerm.ticket.read.pass,
     },
@@ -100,7 +102,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     // }
     {
       href: goTo.resolve.projectSetting(), //`/workBench/projects/${projectId}/setting`,
-      icon: 'setting',
+      icon: <Config />,
       text: `${i18n.t('project setting')}`,
       show: projectPerm.setting.viewSetting.pass,
     },

@@ -239,7 +239,7 @@ export enum pages {
   micro_serviceCustomDashboardDetail = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/custom-dashboard/{customDashboardId}',
 
   // 微服务-服务分析页
-  microServiceServiceAnalyze = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/service-list/{applicationId}/{serviceName}',
+  microServiceServiceAnalyze = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}',
 
   // 企业日志分析规则
   addLogAnalyzeRule = '/{orgName}/dataCenter/log/rule/add?source={source}',

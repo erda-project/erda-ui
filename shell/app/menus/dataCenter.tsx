@@ -14,19 +14,29 @@
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import { filterMenu, MENU_SCOPE } from './util';
+import { 
+  Log,
+  ListTwo,
+  DataDisplay,
+  DataAll,
+  DashboardCar,
+  DataFile,
+  DatabaseAlert,
+} from '@icon-park/react';
+import React from 'react';
 
 export const getDataCenterMenu = () => {
   return filterMenu([
     {
       key: 'dataCenterOverview',
       href: goTo.resolve.dataCenterRoot(),
-      icon: 'qyzl',
+      icon: <DataDisplay />,
       text: i18n.t('cluster overview'),
     },
     {
       key: 'dataCenterResources',
       href: goTo.resolve.dataCenterClusters(), // '/dataCenter/clusters',
-      icon: 'zczx',
+      icon: <DataAll />,
       text: i18n.t('resources'),
       subMenu: [
         {
@@ -49,7 +59,7 @@ export const getDataCenterMenu = () => {
     {
       key: 'dataCenterServices',
       href: goTo.resolve.dataCenterServices(), // '/dataCenter/services',
-      icon: 'wfw2',
+      icon: <ListTwo />,
       text: i18n.t('services & jobs'),
       subMenu: [
         {
@@ -69,19 +79,19 @@ export const getDataCenterMenu = () => {
     {
       key: 'dataCenterDashboard',
       href: goTo.resolve.orgCustomDashboard(), // '/dataCenter/customDashboard',
-      icon: 'jsc',
+      icon: <DashboardCar />,
       text: i18n.t('org:O & M dashboard'),
     },
     {
       key: 'dataCenterReport',
       href: goTo.resolve.dataCenterReport(), // '/dataCenter/report',
-      icon: 'module-log',
+      icon: <DataFile />,
       text: i18n.t('O & M report'),
     },
     {
       key: 'dataCenterAlarm',
       href: goTo.resolve.dataCenterAlarm(), // '/dataCenter/alarm',
-      icon: 'jkgj',
+      icon: <DatabaseAlert />,
       text: i18n.t('O & M alarm'),
       subMenu: [
         {
@@ -105,7 +115,7 @@ export const getDataCenterMenu = () => {
     {
       key: 'dataCenterLog',
       href: goTo.resolve.dataCenterLog(), //'/dataCenter/log',
-      icon: 'fwlb',
+      icon: <Log />,
       text: i18n.t('log analyze'),
       subMenu: [
         {

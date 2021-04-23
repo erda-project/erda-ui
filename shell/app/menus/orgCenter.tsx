@@ -14,6 +14,8 @@
 import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
 import { goTo } from 'common/utils';
+import { ApiApp, CeMarking, Certificate, Seal, Bill, Log, City } from '@icon-park/react';
+import React from 'react';
 
 // 应用中心菜单
 export const getOrgCenterMenu = () => {
@@ -21,13 +23,13 @@ export const getOrgCenterMenu = () => {
     {
       key: 'orgProjects',
       href: goTo.resolve.orgCenterRoot(), // '/orgCenter/projects',
-      icon: 'xm',
+      icon: <ApiApp />,
       text: i18n.t('projects'),
     },
     {
       key: 'orgMarket',
       href: goTo.resolve.orgCenterMarket(), //'/orgCenter/market',
-      icon: 'fb1',
+      icon: <CeMarking />,
       text: i18n.t('layout:market'),
       subMenu: [
         {
@@ -40,32 +42,32 @@ export const getOrgCenterMenu = () => {
     {
       key: 'orgCertificate',
       href: goTo.resolve.orgCenterCertificate(), // '/orgCenter/certificate',
-      icon: 'zs2',
+      icon: <Certificate />,
       text: i18n.t('layout:certificate'),
     },
     {
       key: 'orgApproval',
       href: goTo.resolve.orgCenterApprovalUndone(), // '/orgCenter/approval/undone',
-      icon: 'sp',
+      icon: <Seal />,
       text: i18n.t('layout:approval'),
       prefix: `${goTo.resolve.orgCenterApproval()}/`
     },
     {
       key: 'orgAnnouncement',
       href: goTo.resolve.orgCenterAnnouncement(), // '/orgCenter/announcement',
-      icon: 'gg',
+      icon: <Bill />,
       text: i18n.t('org:announcement'),
     },
     {
       key: 'orgSafety',
       href: goTo.resolve.orgCenterSafety(), // '/orgCenter/safety',
-      icon: 'anquan',
+      icon: <Log />,
       text: i18n.t('org:audit log'),
     },
     {
       key: 'orgSetting',
       href: goTo.resolve.dataCenterSetting(), // '/orgCenter/setting/detail',
-      icon: 'sz',
+      icon: <City />,
       text: i18n.t('org setting'),
     },
   ], MENU_SCOPE.orgCenter);

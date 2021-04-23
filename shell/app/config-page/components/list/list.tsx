@@ -17,6 +17,7 @@ import { Icon as CustomIcon, useUpdate, EmptyHolder } from 'common';
 import { isNumber, filter, map, sortBy, isString } from 'lodash';
 import { OperationAction } from 'config-page/utils';
 import imgMap from '../../img-map';
+import ErdaIcon from '../icon/icon';
 import './list.scss';
 
 const List = (props: CP_LIST.Props) => {
@@ -120,6 +121,7 @@ const Item = (props: ItemProps) => {
       customProps.clickItem(operations?.click, data);
     }
   };
+
   return (
     <div className={`cp-list-item ${size} pointer`} onClick={onClickItem}>
       {
@@ -173,7 +175,7 @@ const Item = (props: ItemProps) => {
                   return (
                     <Tooltip key={idx} title={info.tooltip}>
                       <span className={`info-item type-${info.type || 'normal'}`} {...extraProps}>
-                        {info.icon ? <CustomIcon type={info.icon} /> : null}
+                        { info.icon ? <ErdaIcon type="Icon" props={{ iconType: info.icon }} size={16} /> : null }
                         <span className='info-text nowrap'>{info.text}</span>
                       </span>
                     </Tooltip>
