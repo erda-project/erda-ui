@@ -46,11 +46,11 @@ const installDependencies = () => {
     };
     log(`Performing "npm i" inside ${dir} folder`);
     // install dependencies
-    if (index === 0) {
-      cp.spawnSync(npmCmd, ['config', 'set', 'registry', 'https://registry.npmjs.org/'], { env: process.env, cwd: dir, stdio: 'inherit' });
-    } else {
-      cp.spawnSync(npmCmd, ['config', 'set', 'registry', 'https://registry.npm.terminus.io/'], { env: process.env, cwd: dir, stdio: 'inherit' });
-    }
+    // if (index === 0) {
+    //   cp.spawnSync(npmCmd, ['config', 'set', 'registry', 'https://registry.npmjs.o8888rg/'], { env: process.env, cwd: dir, stdio: 'inherit' });
+    // } else {
+    //   cp.spawnSync(npmCmd, ['config', 'set', 'registry', 'https://registry.npm.term888inus.io/'], { env: process.env, cwd: dir, stdio: 'inherit' });
+    // }
     cp.spawnSync(npmCmd, ['i'], { env: process.env, cwd: dir, stdio: 'inherit' });
   });
 }
