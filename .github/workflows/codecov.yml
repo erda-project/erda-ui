@@ -37,8 +37,8 @@ jobs:
           npm ci
           npm run test:coverage
           npm run copy:coverage
-
-      - name: Codecov
-        uses: codecov/codecov-action@v1.4.1
-        with:
-          file: ./coverage.yml
+          curl -s https://codecov.io/bash | bash
+#      - name: Codecov
+#        uses: codecov/codecov-action@v1.4.1
+#        with:
+#          file: ./coverage.yml
