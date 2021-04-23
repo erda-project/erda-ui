@@ -17,9 +17,9 @@ import DiceConfigPage from 'config-page/index';
 import { Card } from 'app/nusi';
 import i18n from 'i18n';
 import erda_png from 'app/images/Erda.png';
-import './org-home.scss';
+import './org-list.scss';
 
-export const OrgHome = () => {
+export const OrgList = () => {
   return (
     <Card className='full-height ma12 auto-overflow'>
       <div className='org-home-info mb20'>
@@ -31,16 +31,9 @@ export const OrgHome = () => {
         </div>
       </div>
       <div className='org-home-list'>
-        <DiceConfigPage
-          scenarioType='org-list-my'
-          scenarioKey='org-list-my'
-          customProps={{
-            list: {
-              exist: (_op:any, data: Obj) => {
-                // 如果退出当前企业，reload界面
-              },
-            },
-          }}
+         <DiceConfigPage
+          scenarioType='org-list-all'
+          scenarioKey='org-list-all'
         />
       </div>
     </Card>

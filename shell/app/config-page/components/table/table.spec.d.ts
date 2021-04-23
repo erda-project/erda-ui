@@ -29,18 +29,20 @@ declare namespace CP_TABLE {
   interface IProps {
     pageSizeOptions?: string[];
     columns: Column[];
-    rowKey: string,
-    className?: string;
+    rowKey: string;
+    styleNames?: Obj;
     title?: string;
     visible?: boolean;
     rowSelection?: Obj;
+    showHeader?: boolean;
+    pagination?: boolean;
     expandedProps?: {
       columns: Column[];
       rowKey: string,
     }
   }
 
-  interface IState{
+  interface IState {
     total: number,
     pageNo: number,
     pageSize: number,

@@ -178,7 +178,7 @@ export const OrgInfo = () => {
       scope: { type: 'org', id: `${currentOrg.id}` },
       userIds: [loginUser.id],
     }).then(() => {
-      goTo(goTo.pages.orgHome, { replace: true });
+      goTo(goTo.pages.orgList, { replace: true });
     });
   };
 

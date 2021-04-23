@@ -25,11 +25,17 @@ export default function getOrgRouter() {
       mark: 'orgIndex',
       routes: [
         {
-          getComp: cb => cb(import('app/org-home/pages')),
+          getComp: cb => cb(import('app/org-home/pages/personal-home')),
+          layout: {
+            hideHeader: true,
+            showSubSidebar: false,
+            fullHeight: true,
+            noWrapper: true,
+          },
         },
         {
           path: 'org-list',
-          getComp: cb => cb(import('layout/common/org-home'), 'OrgHome'),
+          getComp: cb => cb(import('app/org-home/pages/org-list'), 'OrgList'),
           layout: {
             hideHeader: true,
             showSubSidebar: false,

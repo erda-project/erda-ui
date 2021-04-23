@@ -22,7 +22,7 @@ import { useMount } from 'react-use';
 import PurePipelineYmlEditor from 'application/common/yml-editor/pipeline-yml/pure-pipeline-editor';
 import { externalKey, NodeType } from 'application/common/yml-editor/config';
 import { produce } from 'immer';
-import yaml from '@terminus/js-yaml';
+import yaml from 'js-yaml';
 import i18n from 'i18n';
 import { parsePipelineYmlStructure } from 'application/services/repo';
 import repoStore from 'application/stores/repo';

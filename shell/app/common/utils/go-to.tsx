@@ -13,7 +13,7 @@
 
 import path from 'path';
 import { getConfig } from 'core/config';
-import { filter, isFunction, mapValues, throttle, pickBy } from 'lodash';
+import { filter, isFunction, mapValues, throttle, pickBy, isEmpty } from 'lodash';
 import { qs } from './query-string';
 import routeInfoStore from 'common/stores/route';
 
@@ -66,7 +66,7 @@ export const goTo = (pathStr: string, options?: IOptions) => {
   } else {
     _path = resolvePath(pathStr);
   }
-  if (query) {
+  if (query && !isEmpty(query)) {
     _path += `?${qs.stringify(query)}`;
   }
 
@@ -120,7 +120,7 @@ export enum pages {
 
   //workBench
   orgRoot = '/{orgName}',
-  orgHome = '/{orgName}/org-list',
+  orgList = '/{orgName}/org-list',
   workBenchRoot = '/{orgName}/workBench/projects',
   workBenchApps = '/{orgName}/workBench/apps',
   workBenchService = '/{orgName}/workBench/service',
@@ -139,6 +139,7 @@ export enum pages {
   testPlanDetail = '/{orgName}/workBench/projects/{projectId}/testPlan/manual/{testPlanID}?caseId={caseId}&testSetID={testSetID}',
   projectApps = '/{orgName}/workBench/projects/{projectId}/apps',
   projectAllIssue = '/{orgName}/workBench/projects/{projectId}/issues/all',
+  projectIssueDetail = '/{orgName}/workBench/projects/{projectId}/issues/{type}?id={id}&type={type}',
   projectIssueRoot = '/{orgName}/workBench/projects/{projectId}/issues',
   projectTestCaseRoot = '/{orgName}/workBench/projects/{projectId}/testCase',
   projectManualTestCase = '/{orgName}/workBench/projects/{projectId}/testCase/manual',
@@ -193,6 +194,8 @@ export enum pages {
   monitorAPIOverview = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/gateway/apis/api-monitor?appId={appId}&runtimeId={runtimeId}',
   microTraceSearch = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/trace/search?appId={appId}&timeFrom={timeFrom}&timeTo={timeTo}&status={status}',
   dataCenterRoot = '/{orgName}/dataCenter/overview',
+
+  createProject = '/{orgName}/orgCenter/projects/createProject',
   dataCenterClusters = '/{orgName}/dataCenter/clusters',
   dataCenterClusterState = '/{orgName}/dataCenter/clusters/{clusterName}/state',
   publisherContent = '/{orgName}/workBench/publisher/{type}/{publisherItemId}',

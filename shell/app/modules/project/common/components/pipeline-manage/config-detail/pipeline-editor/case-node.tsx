@@ -18,6 +18,7 @@ import { Icon as CustomIcon } from 'common';
 import { get, isEmpty, map, find } from 'lodash';
 import { getSnippetNodeDetail } from 'project/services/auto-test-case';
 import { SCOPE_AUTOTEST, scopeMap } from 'project/common/components/pipeline-manage/config';
+import routeInfoStore from 'common/stores/route';
 import './case-node.scss';
 
 export interface IProps{
@@ -42,6 +43,8 @@ const noop = () => {};
 export const nodeSize = { WIDTH: 280, HEIGHT: 84 };
 export const CaseNode = (props: IProps) => {
   const { data, editing, onClickNode = noop, onDeleteNode = noop, ...rest } = props;
+
+  const projectId = routeInfoStore.getState(s => s.params.projectId);
 
   const [outputsDetail, setOutputsDetail] = React.useState([] as string[]);
   const [loaded, setLoaded] = React.useState(false);
@@ -133,6 +136,10 @@ export const CaseNode = (props: IProps) => {
         snippetConfigs.push({
           alias,
           ...snippet_config,
+          labels: {
+            ...(get(snippet_config, 'labels') || {}),
+            projectID: projectId,
+          },
         });
       } else {
         snippetConfigs.push({
@@ -142,6 +149,7 @@ export const CaseNode = (props: IProps) => {
           labels: {
             actionJson: JSON.stringify(data),
             actionVersion: data.version,
+            projectID: projectId,
           },
         });
       }

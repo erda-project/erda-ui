@@ -193,7 +193,7 @@ const setLocationByAuth = (authObj: Obj) => {
     const isAdminPage = curPathname.startsWith(`/${orgName}/sysAdmin`);
     const isSysAdmin = getGlobal('erdaInfo.isSysAdmin');
     if(!(isSysAdmin && isAdminPage)){
-      window.location.href = '/erda-platform-home';
+      window.location.href = '/-';
     }
   }
 };

@@ -15,7 +15,6 @@ import { map, last, cloneDeep } from 'lodash';
 import { Input, Icon } from 'app/nusi';
 import React from 'react';
 
-
 export interface IKVRecord {
   Key: JSX.Element;
   Desc: JSX.Element | null;
@@ -52,7 +51,7 @@ const DefaultOp = ({ index, className = '', deleteIndex, ...rest }: any) => {
     ? <Icon className={`not-allowed ${className}`} type="delete" {...rest} />
     : <Icon className={className} onClick={() => deleteIndex(index)} type="delete" {...rest} />;
 };
-const getEmpty = (keyName: string, valueName: string, descName: string, keyDesc:string) => ({ [keyName]: '', [valueName]: '', [descName]: '', [keyDesc]: '' });
+const getEmpty = (keyName: string, valueName: string, descName: string, keyDesc:string,) => ({ [keyName]: '', [valueName]: '', [descName]: '', [keyDesc]: '' });
 
 const lastIsEmpty = (list: any[], keyName: string, valueName: string, descName: string, keyDesc:string) => {
   const lastItem = last(list);

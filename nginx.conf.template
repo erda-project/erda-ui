@@ -67,10 +67,6 @@ server {
        return 200 'window._taConfig={enabled:$taEnabled,ak:"$terminusKey",url:"$taUrl",collectorUrl:"$collectorUrl"}';
     }
 
-    location /erda-platform-home {
-        return 302 ${UI_PUBLIC_URL};
-    }
-
     location ~ ^/(workBench|microService|dataCenter|orgCenter|edge|sysAdmin|org-list|noAuth|freshMan|inviteToOrg|perm) {
         return 302 /-$request_uri;
     }

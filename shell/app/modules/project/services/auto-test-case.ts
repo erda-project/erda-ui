@@ -37,7 +37,7 @@ export const getAutoTestConfigEnv = (query: AUTO_TEST.IConfigEnvQuery): AUTO_TES
 };
 
 export const createPipelineAndRun = (query: AUTO_TEST.ICreateAndRunQuery) => {
-  return agent.post('/api/v2/pipelines')
+  return agent.post('/api/cicds-project')
     .send(query)
     .then((response: any) => response.body);
 };
