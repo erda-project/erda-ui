@@ -94,9 +94,9 @@ layoutStore.reducers.initLayout({
       return (
         <AntdConfigProvider renderEmpty={EmptyListHolder} locale={currentLocale.antd}>
           <NusiConfigProvider locale={currentLocale.nusi}>
-          <IconProvider value={IconConfig}>
-            <App />
-          </IconProvider>
+            <IconProvider value={IconConfig}>
+              <App />
+            </IconProvider>
           </NusiConfigProvider>
         </AntdConfigProvider>
       );
