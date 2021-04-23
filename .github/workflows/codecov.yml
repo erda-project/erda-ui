@@ -5,7 +5,7 @@ on:
   push:
     branches: [ develop ]
   pull_request:
-    branches: [ develop ]
+    branches: [ feature/* ]
 
   workflow_dispatch:
 
@@ -37,8 +37,8 @@ jobs:
           npm ci
           npm run test:coverage
           npm run copy:coverage
-          curl -s https://codecov.io/bash | bash
-#      - name: Codecov
-#        uses: codecov/codecov-action@v1.4.1
-#        with:
-#          file: ./coverage.yml
+
+      - name: Codecov
+        uses: codecov/codecov-action@v1.4.1
+        with:
+          file: ./coverage.yml
