@@ -19,12 +19,11 @@ import { goTo } from 'common/utils';
 import { TASKS_STATUS_MAP, WORKSPACE_MAP } from './config';
 import { ClusterSelector } from 'app/modules/dataCenter/common/components/cluster-selector';
 import clusterStore from 'dataCenter/stores/cluster';
-import userStore from 'app/user/stores';
 import { useLoading } from 'app/common/stores/loading';
 import clusterTaskStore from 'app/modules/dataCenter/stores/task';
 import { useEffectOnce } from 'react-use';
 import userMapStore from 'app/common/stores/user-map';
-
+import orgStore from 'app/org-home/stores/org';
 
 export const getClusterTasksCols = (userMap: object) => {
   return [
@@ -81,7 +80,7 @@ const ServicesList = ({
   taskType,
 }: IProps) => {
   const orgClusterList = clusterStore.useStore(s => s.list);
-  const loginUser = userStore.useStore(s => s.loginUser);
+  const currentOrg = orgStore.useStore(s => s.currentOrg);
   const [list, { pageNo, pageSize, total }] = clusterTaskStore.useStore(s => [s.list, s.paging]);
   const { getTaskList } = clusterTaskStore.effects;
   const { resetState } = clusterTaskStore.reducers;
@@ -90,7 +89,7 @@ const ServicesList = ({
   const [cluster, setCluster] = React.useState();
 
   useEffectOnce(() => {
-    clusterStore.effects.getClusterList({ orgId: loginUser.orgId });
+    clusterStore.effects.getClusterList({ orgId: currentOrg.id });
     return () => resetState();
   });
 

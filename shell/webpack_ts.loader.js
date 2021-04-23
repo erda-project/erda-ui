@@ -37,6 +37,11 @@ const getCustomTransformers = () => ({
         libraryDirectory: null,
         camel2DashComponentName: false,
       },
+      {
+        libraryName: '@icon-park/react',
+        libraryDirectory: 'es/icons',
+        camel2DashComponentName: false,
+      },
     ]),
   ],
 });

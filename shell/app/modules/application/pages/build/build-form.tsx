@@ -24,9 +24,9 @@ import appStore from 'application/stores/application';
 import { usePerm } from 'user/common';
 import './build-form.scss';
 import { insertWhen } from 'common/utils';
-import userStore from 'user/stores';
 import moment from 'moment';
 import routeInfoStore from 'common/stores/route';
+import orgStore from 'app/org-home/stores/org';
 
 const { Option } = Select;
 
@@ -48,7 +48,7 @@ const evnBlockMap: { [key in APPLICATION.Workspace]: string } = {
 const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
   const pipelineDetail = buildStore.useStore(s => s.pipelineDetail);
   const appID = routeInfoStore.useStore(s => s.params.appId);
-  const [orgs, loginUser] = userStore.useStore(s => [s.orgs, s.loginUser]);
+  const currentOrg = orgStore.useStore(s => s.currentOrg);
   const branchInfo = appStore.useStore(s => s.branchInfo);
   const { blockStatus, unBlockStart, unBlockEnd } = appStore.useStore(s => s.detail);
   const { getBranchInfo } = appStore.effects;
@@ -56,7 +56,7 @@ const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
   const [showTips, setShowTip] = React.useState(false);
   const [ymls, setYmls] = React.useState([] as string[]);
   const appBlocked = blockStatus !== 'unblocked';
-  const { blockoutConfig } = find(orgs, { id: loginUser.orgId }) || {} as IOrg;
+  const { blockoutConfig } = currentOrg;
   const formRef = React.useRef(form);
   const onOkRef = React.useRef(onOk);
 

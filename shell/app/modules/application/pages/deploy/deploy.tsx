@@ -28,10 +28,10 @@ import { WrappedFormUtils } from 'core/common/interface';
 import { usePerm, WithAuth } from 'user/common';
 import moment from 'moment';
 import classNames from 'classnames';
+import orgStore from 'app/org-home/stores/org';
+import i18n from 'i18n';
 
 import './deploy.scss';
-import i18n from 'i18n';
-import userStore from 'user/stores';
 
 const { Option } = Select;
 
@@ -205,8 +205,8 @@ const NewDeployForm = ({ curEnv, isUpdate, setCurEnv, curBranch }: IFormProps) =
 
 const Deploy = () => {
   const runtimes = appDeployStore.useStore(s => s.runtimes);
-  const [orgs, loginUser] = userStore.useStore(s => [s.orgs, s.loginUser]);
-  const { blockoutConfig } = find(orgs, { id: loginUser.orgId }) || {} as IOrg;
+  const currentOrg = orgStore.useStore(s => s.currentOrg);
+  const { blockoutConfig } = currentOrg;
   const { blockStatus, unBlockEnd, unBlockStart } = appStore.useStore(s => s.detail);
   const [loading] = useLoading(appDeployStore, ['getRunTimes']);
   const { getRunTimes, redeployRuntime, deleteRuntime } = appDeployStore.effects;

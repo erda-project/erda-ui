@@ -63,7 +63,7 @@ export default () => {
     getTraceCount({
       start,
       end,
-      'filter_fields.applications_ids_distinct': appId,
+      'filter_fields.applications_ids': appId,
       'filter_fields.services_distinct': service,
       field_gt_errors_sum: _status === 1 ? 0 : undefined,
       field_eq_errors_sum: _status === 0 ? 0 : undefined,
@@ -73,7 +73,7 @@ export default () => {
       end,
       limit,
       'tag.error': status === undefined ? undefined : !!_status,
-      'tag.fields.applications_ids_distinct': appId,
+      'tag.fields.applications_ids': appId,
       'tag.fields.services_distinct': service,
     });
   };

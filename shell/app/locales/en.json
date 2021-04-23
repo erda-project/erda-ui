@@ -727,6 +727,7 @@
     "state": "state",
     "submit": "submit",
     "test case": "test case",
+    "text edit": "text edit",
     "the uploaded file must not exceed {size}M": "the uploaded file must not exceed {size}M",
     "this configuration already exists": "this configuration already exists",
     "this item is required": "this item is required",
@@ -1988,6 +1989,7 @@
     "application": "application",
     "configuration": "configuration",
     "edge center": "edge center",
+    "it is getting offline and it will take a effect later": "it is getting offline and it will take a effect later",
     "site management": "site management"
   },
   "microService": {
@@ -2559,6 +2561,7 @@
     "total number of errors": "total number of errors",
     "trace count": "trace count",
     "trace id": "trace id",
+    "tracking details": "tracking details",
     "traffic control": "traffic control",
     "traffic intercept switch": "traffic intercept switch",
     "traffic limit": "traffic limit",

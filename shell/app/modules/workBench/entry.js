@@ -11,19 +11,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import getWorkBenchRouter from './router';
 import store from './stores';
-import getMenu from './menu';
 import zh from './locales/zh.json';
 import en from './locales/en.json';
-
 
 export default (registerModule) => {
   return registerModule({
     key: 'workBench',
     stores: [store],
-    routers: getWorkBenchRouter,
-    menu: getMenu,
     locales: {
       zh,
       en,

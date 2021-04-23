@@ -25,7 +25,7 @@ declare namespace MS_MONITOR {
     start?: number
     end?: number
     filter_terminus_key: string
-    'filter_fields.applications_ids_distinct'?: number;
+    'filter_fields.applications_ids'?: number;
     'filter_fields.services_distinct'?: string;
     field_gt_errors_sum?: number
     field_eq_errors_sum?: number
@@ -37,7 +37,7 @@ declare namespace MS_MONITOR {
     end: number
     limit: number
     'tag.error': boolean | undefined
-    'tag.fields.applications_ids_distinct': number
+    'tag.fields.applications_ids': number
     'tag.fields.services_distinct': string
   }
 

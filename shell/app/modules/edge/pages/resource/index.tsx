@@ -235,13 +235,6 @@ const mock: CONFIG_PAGE.RenderConfig = {
             secondStep: '拷贝如下命令在节点中执行',
 
             operationCode: 'git push',
-            copyOpt: {
-              renderType: 'copyText',
-              value: {
-                text: '复制',
-                copyText: 'copy me',
-              },
-            },
           },
         },
         props: {
@@ -249,8 +242,7 @@ const mock: CONFIG_PAGE.RenderConfig = {
             { type: 'Desc', dataIndex: 'siteName', props: { title: '站点' } },
             { type: 'Desc', dataIndex: 'firstStep', props: { title: '步骤一' } },
             { type: 'Desc', dataIndex: 'secondStep', props: { title: '步骤二' } },
-            { type: 'FileEditor', dataIndex: 'operationCode' },
-            { type: 'Text', dataIndex: 'copyOpt', props: { align: 'right' } },
+            { type: 'FileEditor', dataIndex: 'operationCode', props: { actions: { copy: true } } }
           ],
         },
       },

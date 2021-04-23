@@ -13,76 +13,85 @@
 
 import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
-import { pages } from 'common/utils';
+import { goTo } from 'common/utils';
 import { filter } from 'lodash';
 import permStore from 'user/stores/permission';
+import { 
+  ApiApp, 
+  ApplicationOne,
+  Api,
+  Puzzle,
+  Seal,
+  Send,
+} from '@icon-park/react';
+import React from 'react';
 
 export const getWorkBenchMenu = () => {
   const orgPerm = permStore.getState(s => s.org);
   return filterMenu(filter([
     {
-      href: '/workBench/projects',
-      icon: 'xm',
+      href: goTo.resolve.workBenchRoot(), // '/workBench/projects',
+      icon: <ApiApp />,
       text: i18n.t('joined projects'),
     },
     {
-      href: '/workBench/apps',
-      icon: 'yy',
+      href: goTo.resolve.workBenchApps(), //'/workBench/apps',
+      icon: <ApplicationOne />,
       text: i18n.t('joined apps'),
     },
     {
-      icon: 'apijs',
+      icon: <Api />,
       key: 'apiManage',
       text: i18n.t('API'),
-      href: pages.apiManageRoot,
+      href: goTo.resolve.apiManageRoot(),
       show: orgPerm.workBench.apiManage.read.pass,
       subMenu: [
         {
-          href: pages.apiManageRoot,
+          href: goTo.resolve.apiManageRoot(),
           // icon: 'apijs',
           text: i18n.t('default:API market'),
-          isActive: (key: string) => key.startsWith('/workBench/apiManage/api-market/'),
+          prefix: `${goTo.resolve.apiManageMarket()}/`,
         },
         {
-          href: pages.apiAccessManage,
+          href: goTo.resolve.apiAccessManage(),
           // icon: 'bianliang',
           text: i18n.t('access manage'),
         },
         {
-          href: pages.apiMyVisit,
+          href: goTo.resolve.apiMyVisit(),
           // icon: 'renyuan',
           text: i18n.t('my visit'),
         },
       ],
     },
     {
-      href: '/workBench/service',
-      icon: 'fw',
+      href: goTo.resolve.workBenchService(), // '/workBench/service',
+      icon: <Puzzle />,
       text: i18n.t('addon service'),
       show: orgPerm.workBench.addonService.read.pass,
     },
     {
       key: 'approval',
-      href: '/workBench/approval/my-approve',
-      icon: 'bssh',
+      href: goTo.resolve.workBenchApprove(), // '/workBench/approval/my-approve',
+      icon: <Seal />,
       text: i18n.t('workBench:approval request'),
       subMenu: [
         {
           text: i18n.t('workBench:my approval'),
-          href: '/workBench/approval/my-approve/pending',
-          isActive: (key: string) => key.startsWith('/workBench/approval/my-approve/'),
+          href: goTo.resolve.workBenchApprovePending(), //'/workBench/approval/my-approve/pending',
+          prefix: `${goTo.resolve.workBenchApprove()}/`,
         },
         {
           text: i18n.t('workBench:my initiated'),
-          href: '/workBench/approval/my-initiate/WaitApprove',
-          isActive: (key: string) => key.startsWith('/workBench/approval/my-initiate/'),
+          href: goTo.resolve.workBenchMyInitiateWait(), // '/workBench/approval/my-initiate/WaitApprove',
+          prefix: `${goTo.resolve.workBenchMyInitiate()}/`
         },
       ],
     },
     {
       key: 'workBenchPublisher',
-      href: '/workBench/publisher',
-      icon: 'fb1',
+      href: goTo.resolve.workBenchPublisher(), // '/workBench/publisher',
+      icon: <Send />,
       text: i18n.t('publisher:joined publisher'),
       show: orgPerm.workBench.publisher.read.pass,
     },

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-
+import { goTo } from 'common/utils';
 
 export const envMap = {
   DEV: i18n.t('common:DEV'),
@@ -32,7 +32,7 @@ interface IMSPathParams {
 export const getMSFrontPathByKey = (key: string, params: IMSPathParams) => {
   const { projectId, env, tenantGroup, tenantId, terminusKey, logKey } = params;
 
-  const rootPath = `/microService/${projectId}/${env}/${tenantGroup}/`;
+  const rootPath = `${goTo.resolve.microServiceOverviewRoot({projectId, env,tenantGroup })}/`;
   const monitorPrefix = `monitor/${terminusKey}`;
 
   const targetPath = {

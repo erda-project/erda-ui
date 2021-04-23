@@ -11,10 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import getProjectRouter from 'project';
-import getPublisherRouter from 'publisher';
+import getProjectRouter from 'project/router';
+import getPublisherRouter from 'publisher/router';
 import { publisherTabs } from 'app/modules/workBench/pages/publisher/index.tsx';
-import getApiManagePlatformRouter from 'apiManagePlatform/index';
+import getApiManagePlatformRouter from 'apiManagePlatform/router';
 import i18n from 'i18n';
 
 const approvalTabs = [
@@ -188,6 +188,5 @@ export default function getWorkBenchRouter() {
       layout: { showSubSidebar: false, fullHeight: true },
       getComp: cb => cb(import('user/common/perm-editor/perm-editor'), 'PermEditor'),
     },
-
   ];
 }

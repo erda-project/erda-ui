@@ -20,16 +20,17 @@ declare namespace CP_LIST {
     state?: IState;
   }
 
-  interface IState{
+  interface IState {
     pageNo?: number;
     pageSize?: number;
     total?: number;
   }
 
-  interface IProps{
+  interface IProps {
     rowKey?: string;
     visible?: boolean;
     size?: ISize;
+    useLoadMore?: boolean;
     pageSizeOptions?: string[]
   }
 
@@ -39,18 +40,18 @@ declare namespace CP_LIST {
     list: IListData[]
   }
 
-  interface IListData{
+  interface IListData {
     [pro: string]: any;
     id?: string | number;
     title: string;
-    description: string;
+    description?: string;
     prefixImg?: string | React.ReactNode;
     extraInfos?: IIconInfo[];
     operations?: Obj<CP_COMMON.Operation>
   }
 
   interface IIconInfo {
-    icon?: string;
+    icon?: string | React.ReactNode;
     text: string;
     type?: 'success' | 'normal' | 'warning' | 'error';
     tooltip?: string;

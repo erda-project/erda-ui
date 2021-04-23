@@ -17,6 +17,7 @@ import moment from 'moment';
 import { Spin, Drawer, Table } from 'app/nusi';
 import { isEmpty, map } from 'lodash';
 import { Link } from 'react-router-dom';
+import { goTo } from 'common/utils';
 import { IF, Copy, Icon as CustomIcon } from 'common';
 import { EnvName, PlanName } from 'app/modules/addonPlatform/pages/common/configs';
 import { getTranslateAddonName } from 'app/locales/utils';
@@ -48,7 +49,7 @@ const refTableList = [
     align: 'center' as 'center',
     render: (_text: string, row: {applicationId: string, projectId: string, runtimeId: string}) => {
       const { applicationId, projectId, runtimeId } = row;
-      return (<Link to={`/workBench/projects/${projectId}/apps/${applicationId}/deploy/runtimes/${runtimeId}/overview`}><CustomIcon type="link1" /></Link>);
+      return (<Link to={goTo.resolve.runtimeDetailRoot({ applicationId, projectId, runtimeId })}><CustomIcon type="link1" /></Link>);
     },
   },
 ];

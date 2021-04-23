@@ -14,7 +14,7 @@
 import { createFlatStore } from 'app/cube';
 import { getDefaultPaging } from 'common/utils';
 import breadcrumbStore from 'layout/stores/breadcrumb';
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 import {
   getAlarmRecordList,
   getAlarmAttrs,
@@ -64,7 +64,7 @@ const alarmRecord = createFlatStore({
       update({ recordDetail });
     },
     async getAlarmTimesChart({ call, update }, query: Omit<ALARM_REPORT.AlarmTimesQuery, 'filter_dice_org_id'>) {
-      const { orgId } = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const alarmTimesChart = await call(getAlarmTimesChart, { ...query, filter_dice_org_id: String(orgId) });
       update({ alarmTimesChart });
     },

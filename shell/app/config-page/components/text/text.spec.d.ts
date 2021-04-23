@@ -12,18 +12,19 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace CP_TEXT {
-  type IRenderType = 'linkText' | 'text' | 'statusText' | 'copyText';
+  type IRenderType = 'linkText' | 'text' | 'statusText' | 'copyText' | 'textWithIcon';
   interface Spec {
     type: 'Text',
     props: IProps;
     operations?: Obj<CP_COMMON.Operation>
   }
 
-  interface IProps{
+  interface IProps {
     renderType: IRenderType;
     value: ILinkTextData | string | IStatusText | ICopyText;
     visible?: boolean;
     styleConfig?: IStyleConfig;
+    textStyleName?: Obj;
   }
 
   interface IStatusTextItem {
@@ -37,7 +38,7 @@ declare namespace CP_TEXT {
     copyText: string;
   }
 
-  interface IStyleConfig{
+  interface IStyleConfig {
     [pro: string]: any;
     bold?: boolean; // 是否加粗,
     lineHeight?: number;
@@ -48,9 +49,11 @@ declare namespace CP_TEXT {
     text: Array<ILinkTarget | string> | ILinkTarget | string;
   }
 
-  interface ILinkTarget{
+  interface ILinkTarget {
+    icon?: string;
+    iconStyleName?: string;
     text: string;
-    operationKey: string
+    operationKey: string;
     styleConfig?: IStyleConfig;
   }
 

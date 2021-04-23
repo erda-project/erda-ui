@@ -16,10 +16,10 @@ import { uniq, get } from 'lodash';
 import i18n from 'i18n';
 import { Icon } from 'app/nusi';
 import { diskTypeMap, getOptions } from './config';
-import userStore from 'user/stores';
 import LabelSelector from 'dcos/common/label-selector';
 import { CustomLabel, checkCustomLabels } from 'dcos/common/custom-label';
 import { WrappedFormUtils } from 'core/common/interface';
+import orgStore from 'app/org-home/stores/org';
 import * as React from 'react';
 
 interface IProps {
@@ -32,8 +32,8 @@ interface IProps {
 }
 
 const BasicForm = ({ form }: {form: WrappedFormUtils}) => {
-  const { loginUser } = userStore.useStore(s => s);
-  const defaultOrgTag = `org-${loginUser.orgName}`;// 取企业名打默认的tag:org-{orgName}
+  const currentOrg = orgStore.useStore(s => s.currentOrg);
+  const defaultOrgTag = `org-${currentOrg.name}`;// 取企业名打默认的tag:org-{orgName}
 
   const fieldsList = [
     {

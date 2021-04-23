@@ -18,7 +18,7 @@ import { FormModal, useUpdate } from 'common';
 import { insertWhen } from 'common/utils';
 import { getFieldTypeOption } from 'org/common/issue-field-icon';
 import issueFieldStore from 'org/stores/issue-field';
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 import { FIELD_WITH_OPTION, TASK_SP_FIELD, BUG_SP_FIELD } from 'org/common/config';
 import FieldOptionsSetting from 'org/common/field-options-setting';
 import { isEmpty } from 'lodash';
@@ -41,7 +41,7 @@ interface IFieldForm {
 }
 export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps) => {
   const { addFieldItem, updateFieldItem, updateSpecialFieldOptions } = issueFieldStore.effects;
-  const { orgId: orgID } = userStore.useStore(s => s.loginUser);
+  const { id: orgID } = orgStore.useStore(s => s.currentOrg);
 
   const [{
     selectedRequired,

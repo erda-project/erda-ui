@@ -23,7 +23,7 @@ import { WORKSPACE_LIST } from 'common/constants';
 import projectStore from 'project/stores/project';
 import { FormModal } from 'app/configForm/nusi-form/form-modal';
 import { createPipelineAndRun, updateCasePipeline } from 'project/services/auto-test-case';
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 import { ymlDataToFormData } from 'app/yml-chart/common/in-params-drawer';
 import { parsePipelineYmlStructure } from 'application/services/repo';
 import { scopeConfig } from '../scope-config';
@@ -56,7 +56,7 @@ const ConfigEnvSelector = (props: IProps) => {
   const { onTest, scope, canRunTest } = props;
   const scopeConfigData = scopeConfig[scope];
   const [caseDetail, configEnvs] = autoTestStore.useStore(s => [s.caseDetail, s.configEnvs]);
-  const { orgId, orgName } = userStore.useStore(s => s.loginUser);
+  const { id: orgId, name: orgName } = orgStore.useStore(s => s.currentOrg);
   const projectId = routeInfoStore.useStore(s => s.params.projectId);
   const { getAutoTestConfigEnv, clearConfigEnvs, getCaseDetail } = autoTestStore;
   const info = projectStore.useStore(s => s.info);
