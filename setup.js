@@ -91,6 +91,5 @@ const setupModules = async () => {
 }
 
 // start
-// installDependencies();
-// setupModules();
-initEnvFile();
+installDependencies();
+setupModules();
