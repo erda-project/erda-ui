@@ -18,7 +18,7 @@ import { useMount } from 'react-use';
 
 export const Filter = (props: CP_FILTER.Props) => {
   const { state, execOperation, operations, props: configProps, customProps } = props;
-  const { delay } = configProps || {};
+  const { delay, visible = true, fullWidth = false } = configProps || {};
 
   const [conditions, setConditions] = React.useState([] as CP_FILTER.Condition[]);
   const conditionsRef = React.useRef(null as any);
@@ -39,7 +39,7 @@ export const Filter = (props: CP_FILTER.Props) => {
 
   React.useEffect(() => {
     customProps?.onFilterChange && customProps.onFilterChange(state);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values]);
 
   const onChange = (value: Obj) => {
@@ -51,7 +51,11 @@ export const Filter = (props: CP_FILTER.Props) => {
     execOperation(operations && operations[key], { values, conditions: conditionsRef.current });
   };
 
+  if (!visible) {
+    return null;
+  }
+
   return (
-    <ContractiveFilter conditions={stateConditions as any} values={values} delay={delay || 1000} onChange={onChange} onQuickSelect={onQuickSelect} onConditionsChange={onConditionsChange} />
+    <ContractiveFilter conditions={stateConditions as any} values={values} delay={delay || 1000} onChange={onChange} onQuickSelect={onQuickSelect} onConditionsChange={onConditionsChange} fullWidth={fullWidth} />
   );
 };

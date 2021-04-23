@@ -40,32 +40,39 @@ declare namespace CONFIG_PAGE {
   }
 
   type Comps = CP_CONTAINER.Spec
-  | CP_SPLIT_PAGE.Spec
-  | CP_FORM.Spec
-  | CP_FORM_MODAL.Spec
-  | CP_CARD.Spec
-  | CP_DRAWER.Spec
-  | CP_SPLIT_PAGE.Spec
-  | CP_TABS.Spec
-  | CP_TITLE.Spec
-  | CP_SORT_GROUP.Spec
-  | CP_BUTTON.Spec
-  | CP_FILTER.Spec
-  | CP_RADIO.Spec
-  | CP_FILE_TREE.Spec
-  | CP_PANEL.Spec
-  | CP_POPOVER.Spec
-  | CP_INPUT.Spec
-  | CP_EDIT_LIST.Spec
-  | CP_BREADCRUMB.Spec
-  | CP_TREE_SELECT.Spec
-  | CP_INFO_PREVIEW.Spec
-  | CP_SELECT_PRO.Spec
-  | CP_TEXT.Spec
-  | CP_ALERT.Spec
-  | CP_LIST.Spec
-  | CP_TABLE.Spec
-  | CP_TEXT.Spec;
+    | CP_SPLIT_PAGE.Spec
+    | CP_FORM.Spec
+    | CP_FORM_MODAL.Spec
+    | CP_CARD.Spec
+    | CP_DRAWER.Spec
+    | CP_SPLIT_PAGE.Spec
+    | CP_TABS.Spec
+    | CP_TITLE.Spec
+    | CP_SORT_GROUP.Spec
+    | CP_BUTTON.Spec
+    | CP_FILTER.Spec
+    | CP_RADIO.Spec
+    | CP_FILE_TREE.Spec
+    | CP_PANEL.Spec
+    | CP_POPOVER.Spec
+    | CP_INPUT.Spec
+    | CP_EDIT_LIST.Spec
+    | CP_BREADCRUMB.Spec
+    | CP_TREE_SELECT.Spec
+    | CP_INFO_PREVIEW.Spec
+    | CP_SELECT_PRO.Spec
+    | CP_TEXT.Spec
+    | CP_ALERT.Spec
+    | CP_LIST.Spec
+    | CP_TABLE.Spec
+    | CP_TEXT.Spec
+    | CP_EMPTY_HOLDER.Spec
+    | CP_IMAGE.Spec
+    | CP_DROPDOWN_SELECT.Spec
+    | CP_TEXT_GROUP.Spec
+    | CP_TABLE_GROUP.Spec;
+
+
 
   // 单个组件基础定义
   interface BaseSpec {

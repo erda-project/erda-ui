@@ -10,31 +10,35 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+.empty-holder {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: $color-text-desc;
+  font-size: 16px;
 
-/**
- * Created by 含光<jiankang.pjk@alibaba-inc.com> on 2021/1/22 14:59.
- */
-declare namespace CP_TITLE {
-  interface Spec {
-    type: 'Title',
-    props: IProps;
+  &.relative {
+    position: relative;
   }
 
-  interface IProps {
-    title: string;
-    level?: number;
-    tips?: string;
-    prefixIcon?: string;
-    imageUrl?: string;
-    imageSize?: string;
-    showDivider?: boolean;
-    titleStyles?: object;
-    showSubtitle?: boolean;
-    subtitle?: string;
-    subtitleStyles?: object;
-    visible?: boolean;
-    noMarginBottom?: boolean;
+  &.multi-line {
+    flex-direction: column;
+
+    i {
+      margin-right: 0;
+      margin-bottom: 6px;
+      font-size: 68px;
+    }
   }
 
-  type Props = MakeProps<Spec>;
+  .action {
+    color: $color-primary;
+    cursor: pointer;
+  }
 }

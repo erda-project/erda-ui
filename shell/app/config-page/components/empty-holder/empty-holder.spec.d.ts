@@ -11,33 +11,21 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace CP_CONTAINER {
+declare namespace CP_EMPTY_HOLDER {
   interface Spec {
-    type: 'Container' | 'LRContainer' | 'RowContainer'
-    left?: Obj;
-    right?: Obj;
+    type: 'EmptyHolder',
     props?: IProps;
-    contentSetting?: string;
   }
 
   interface IProps {
-    visible?: boolean;
-    direction?: 'column' | 'row'; // 对应flex-direction
-    contentSetting?: 'between' | 'center' | 'start' | 'end'; // 对应justify-content
-    isTopHead?: boolean;
-    spaceSize?: 'small' | 'middle' | 'big' | 'large'
-    whiteBg?: boolean;
-    fullHeight?: boolean;
-    flexHeight?: boolean;
-    startAlign?: boolean;
-    scrollAuto?: boolean;
+    tip?: string,
+    icon?: string,
+    relative?: boolean,
+    style?: object,
+    action?: JSX.Element | null,
     className?: string;
+    visible?: boolean;
   }
 
-  type Props = MakeProps<Spec> & {
-    children?: any;
-    props: {
-      className: string;
-    }
-  };
+  type Props = MakeProps<Spec>;
 }

@@ -11,29 +11,41 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Created by 含光<jiankang.pjk@alibaba-inc.com> on 2021/1/22 14:59.
- */
-declare namespace CP_TITLE {
+
+declare namespace CP_TABLE_GROUP {
+
   interface Spec {
-    type: 'Title',
+    type: 'TableGroup';
+    state?: IState;
+    operations?: Obj<CP_COMMON.Operation>;
+    data?: IData;
     props: IProps;
   }
 
+  interface IData {
+    list: IItem[];
+  }
+
+  interface IItem {
+    title: CP_TITLE.IProps;
+    subtitle: CP_TITLE.IProps;
+    description: CP_TEXT.IProps;
+    table: CP_TABLE.Props;
+    extraInfo: CP_TEXT.Props;
+  }
+
   interface IProps {
-    title: string;
-    level?: number;
-    tips?: string;
-    prefixIcon?: string;
-    imageUrl?: string;
-    imageSize?: string;
-    showDivider?: boolean;
-    titleStyles?: object;
-    showSubtitle?: boolean;
-    subtitle?: string;
-    subtitleStyles?: object;
-    visible?: boolean;
-    noMarginBottom?: boolean;
+    visible: boolean;
+  }
+
+  interface IState {
+    total: number;
+    pageNo: number;
+    pageSize: number;
+  }
+
+  interface ITableBoardProps extends CONFIG_PAGE.ICommonProps {
+    props: IItem;
   }
 
   type Props = MakeProps<Spec>;

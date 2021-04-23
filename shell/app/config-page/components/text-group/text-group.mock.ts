@@ -11,30 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Created by 含光<jiankang.pjk@alibaba-inc.com> on 2021/1/22 14:59.
- */
-declare namespace CP_TITLE {
-  interface Spec {
-    type: 'Title',
-    props: IProps;
-  }
-
-  interface IProps {
-    title: string;
-    level?: number;
-    tips?: string;
-    prefixIcon?: string;
-    imageUrl?: string;
-    imageSize?: string;
-    showDivider?: boolean;
-    titleStyles?: object;
-    showSubtitle?: boolean;
-    subtitle?: string;
-    subtitleStyles?: object;
-    visible?: boolean;
-    noMarginBottom?: boolean;
-  }
-
-  type Props = MakeProps<Spec>;
-}
+export const textMock = {
+  type: 'Text',
+  props: {
+    renderType: 'statusText',
+    value: { text: '成功', status: 'success' },
+  },
+};

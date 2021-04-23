@@ -10,31 +10,22 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+.home-page {
+  position: relative;
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  
 
-/**
- * Created by 含光<jiankang.pjk@alibaba-inc.com> on 2021/1/22 14:59.
- */
-declare namespace CP_TITLE {
-  interface Spec {
-    type: 'Title',
-    props: IProps;
+  .home-page-sidebar {
+    width: 320px;
+    height: 100%;
+    background-color: $color-bg;
   }
 
-  interface IProps {
-    title: string;
-    level?: number;
-    tips?: string;
-    prefixIcon?: string;
-    imageUrl?: string;
-    imageSize?: string;
-    showDivider?: boolean;
-    titleStyles?: object;
-    showSubtitle?: boolean;
-    subtitle?: string;
-    subtitleStyles?: object;
-    visible?: boolean;
-    noMarginBottom?: boolean;
+  .home-page-content {
+    height: 100%;
+    margin: 20px;
+    overflow: auto;
   }
-
-  type Props = MakeProps<Spec>;
 }
