@@ -33,8 +33,7 @@ module.exports = {
   collectCoverage: false,
   collectCoverageFrom: [
     'app/common/**/*.{js,jsx,ts,tsx}',
-    '!**/node_modules/**',
-    '!**/vendor/**',
+    '!app/common/**/*.d.ts',
   ],
   globals: {
     'ts-jest': {
