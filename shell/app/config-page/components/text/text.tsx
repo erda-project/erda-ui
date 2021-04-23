@@ -13,9 +13,11 @@
 
 import * as React from 'react';
 import { map, isNumber, isString, isArray, isPlainObject } from 'lodash';
-import { Copy } from 'common';
+import { Copy, Icon as CustomIcon } from 'common';
 import { Badge } from 'app/nusi';
 import i18n from 'i18n';
+import classnames from 'classnames';
+import './text.scss';
 
 const getStyle = (styleConfig?: CP_TEXT.IStyleConfig) => {
   const styleObj = {} as Obj;
@@ -31,8 +33,11 @@ const getStyle = (styleConfig?: CP_TEXT.IStyleConfig) => {
 
 const Text = (props: CP_TEXT.Props) => {
   const { execOperation, props: configProps, operations } = props;
-  const { renderType, value, styleConfig, visible = true } = configProps || {};
+  const { renderType, value, styleConfig, visible = true, textStyleName = {} } = configProps || {};
 
+  const textClassNames = classnames({
+    ...textStyleName,
+  });
   if (!visible) return null;
   let TextComp: React.ReactChild | null = null;
   const styleObj = getStyle(styleConfig);
@@ -41,31 +46,31 @@ const Text = (props: CP_TEXT.Props) => {
       if (isArray(value)) {
         TextComp = (
           <>
-            {map(value, ({ text, status }) => <Badge key={text} status={status || 'default'} text={text} />)}
+            {map(value, ({ text, status }) => <Badge key={text} status={status || 'default'} text={text} className={textClassNames} />)}
           </>
         );
       } else if (typeof value === 'object') {
         const { status, text } = (value || {}) as CP_TEXT.IStatusTextItem;
-        TextComp = <Badge status={status || 'default'} text={text} />;
+        TextComp = <Badge status={status || 'default'} text={text} className={textClassNames} />;
       }
       break;
     case 'copyText': {
       const { text, copyText } = (value || {}) as CP_TEXT.ICopyText;
-      TextComp = <Copy copyText={copyText}>{text || i18n.t('copy')}</Copy>;
+      TextComp = <Copy copyText={copyText} className={textClassNames}>{text || i18n.t('copy')}</Copy>;
     }
       break;
     case 'linkText': {
       const { text } = (value || {}) as CP_TEXT.ILinkTextData;
       if (isString(text)) {
-        TextComp = <span style={styleObj}>{text}</span>;
+        TextComp = <span style={styleObj} className={textClassNames}>{text}</span>;
       } else if (isArray(text)) {
         TextComp = (
           <span>
             {text.map((t, idx) => {
               if (isString(t)) {
-                return <span style={styleObj} key={idx}>{t}</span>;
+                return <span style={styleObj} key={idx} className={textClassNames}>{t}</span>;
               } else if (isPlainObject(t)) {
-                const { text: tText, operationKey, styleConfig: tConfig } = t;
+                const { text: tText, operationKey, styleConfig: tConfig, icon, iconStyleName = '' } = t;
                 const tStyle = getStyle(tConfig);
 
                 return operationKey ? (
@@ -75,34 +80,50 @@ const Text = (props: CP_TEXT.Props) => {
                     onClick={() => {
                       operations && operations[operationKey] && execOperation(operations[operationKey]);
                     }}
-                  >{tText}
+                    className={textClassNames}
+                  >
+                    {tText}
+                    {icon && <CustomIcon className={`mr4 ml4 ${iconStyleName}`} type={icon} />}
                   </a>
-                ) : <span style={{ ...styleObj, ...tStyle }}>{tText}</span>;
+                ) : <span className={textClassNames} style={{ ...styleObj, ...tStyle }}>
+                    {tText}
+                    {icon && <CustomIcon className={`mr4 ml4 ${iconStyleName}`} type={icon} />}
+                  </span>;
               }
               return null;
             })}
           </span>
         );
       } else if (isPlainObject(text)) {
-        const { operationKey, text: tText, styleConfig: tConfig } = text;
+        const { operationKey, text: tText, styleConfig: tConfig, icon, iconStyleName } = text;
         const tStyle = getStyle(tConfig);
         TextComp = operationKey ? (
           <a
+            className={textClassNames}
             style={{ ...styleObj, ...tStyle }}
             onClick={() => {
               operations && operations[operationKey] && execOperation(operations[operationKey]);
             }}
-          >{tText}
+          >
+            {tText}
+            {icon && <CustomIcon className={`mr4 ml4 ${iconStyleName}`} type={icon} />}
           </a>
-        ) : <span style={{ ...styleObj, ...tStyle }}>{tText}</span>;
+        ) : <span
+          className={textClassNames}
+          style={{ ...styleObj, ...tStyle }}>
+            {tText}
+            {icon && <CustomIcon className={`mr4 ml4 ${iconStyleName}`} type={icon} />}
+          </span>;
       }
     }
       break;
     default:
       if (isArray(value)) {
-        TextComp = <span style={styleObj}>{value.join('. ')}</span>;
+        TextComp = <span className={textClassNames}
+          style={styleObj}>{value.join('. ')}</span>;
       } else if (isString(value)) {
-        TextComp = <span style={styleObj}>{value}</span>;
+        TextComp = <span className={textClassNames}
+          style={styleObj}>{value}</span>;
       }
       break;
   }

@@ -10,31 +10,32 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+.cp-dice-table-group {
+  position: relative;
+  margin-top: 8px;
 
-/**
- * Created by 含光<jiankang.pjk@alibaba-inc.com> on 2021/1/22 14:59.
- */
-declare namespace CP_TITLE {
-  interface Spec {
-    type: 'Title',
-    props: IProps;
+  .table-board {
+    margin-top: 16px;
+
+    .table-board-card {
+      padding: 12px;
+      background: white;
+      border-radius: 3px;
+
+      >.pk-title {
+        margin-bottom: 8px;
+      }
+    }
   }
 
-  interface IProps {
-    title: string;
-    level?: number;
-    tips?: string;
-    prefixIcon?: string;
-    imageUrl?: string;
-    imageSize?: string;
-    showDivider?: boolean;
-    titleStyles?: object;
-    showSubtitle?: boolean;
-    subtitle?: string;
-    subtitleStyles?: object;
-    visible?: boolean;
-    noMarginBottom?: boolean;
+  .load-more {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+    margin-bottom: 48px;
+    color: $color-text-desc;
+    font-size: 14px;
+    cursor: pointer;
   }
-
-  type Props = MakeProps<Spec>;
 }

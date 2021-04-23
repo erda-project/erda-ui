@@ -13,7 +13,7 @@
 
 import path from 'path';
 import { getConfig } from 'core/config';
-import { filter, isFunction, mapValues, throttle, pickBy } from 'lodash';
+import { filter, isFunction, mapValues, throttle, pickBy, isEmpty } from 'lodash';
 import { qs } from './query-string';
 
 export function resolvePath(goPath: string) {
@@ -61,7 +61,7 @@ export const goTo = (pathStr: string, options?: IOptions) => {
   } else {
     _path = resolvePath(pathStr);
   }
-  if (query) {
+  if (query && !isEmpty(query)) {
     _path += `?${qs.stringify(query)}`;
   }
 
@@ -110,6 +110,7 @@ export enum pages {
   noAuth = '/noAuth',
   project = '/workBench/projects/{projectId}',
   projectSetting = '/workBench/projects/{projectId}/setting',
+  projectIssueDetail = '/workBench/projects/{projectId}/issues/{type}?id={id}&type={type}',
   app = '/workBench/projects/{projectId}/apps/{appId}',
   repo = '/workBench/projects/{projectId}/apps/{appId}/repo',
   repoBackup = '/workBench/projects/{projectId}/apps/{appId}/repo/backup',
@@ -143,6 +144,7 @@ export enum pages {
   dataCenterRoot = '/dataCenter/overview',
   dataCenterClusterState = '/dataCenter/clusters/{clusterName}/state',
   orgCenterRoot = '/orgCenter/projects',
+  createProject = '/orgCenter/projects/createProject',
   publisherContent = '/workBench/publisher/{type}/{publisherItemId}',
   dataCenterNotifyGroup = '/orgCenter/setting/detail?tabKey=notifyGroup',
   dataCenterSetting = 'orgCenter/setting/detail',

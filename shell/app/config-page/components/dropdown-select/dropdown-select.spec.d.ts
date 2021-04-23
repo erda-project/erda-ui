@@ -11,29 +11,40 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Created by 含光<jiankang.pjk@alibaba-inc.com> on 2021/1/22 14:59.
- */
-declare namespace CP_TITLE {
+declare namespace CP_DROPDOWN_SELECT {
   interface Spec {
-    type: 'Title',
+    type: 'DropdownSelect';
     props: IProps;
+    state: IState;
   }
 
   interface IProps {
-    title: string;
-    level?: number;
-    tips?: string;
-    prefixIcon?: string;
-    imageUrl?: string;
-    imageSize?: string;
-    showDivider?: boolean;
-    titleStyles?: object;
-    showSubtitle?: boolean;
-    subtitle?: string;
-    subtitleStyles?: object;
+    [propName: string]: any;
+    quickSelect?: IQuickSelect[];
     visible?: boolean;
-    noMarginBottom?: boolean;
+    overlay?: any;
+    options?: IOptionItem[];
+    trigger?: Array<'click' | 'hover' | 'contextMenu'>;
+  }
+
+  interface IState {
+    value: string;
+  }
+
+  interface IOptionItem {
+    label: string;
+    value: string;
+    operations: Obj<CP_COMMON.Operation>;
+    prefixImgSrc?: string;
+    prefixIcon?: string;
+    suffixIcon?: string;
+    disabled?: boolean;
+  }
+
+  interface IQuickSelect {
+    label: string;
+    value: string;
+    operations?: Obj<CP_COMMON.Operation>;
   }
 
   type Props = MakeProps<Spec>;

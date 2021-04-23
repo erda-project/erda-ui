@@ -10,31 +10,25 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+.form-item-upload-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  border: 1px dashed $color-border;
 
-/**
- * Created by 含光<jiankang.pjk@alibaba-inc.com> on 2021/1/22 14:59.
- */
-declare namespace CP_TITLE {
-  interface Spec {
-    type: 'Title',
-    props: IProps;
+  &:hover {
+    border-color: $color-primary;
   }
+}
 
-  interface IProps {
-    title: string;
-    level?: number;
-    tips?: string;
-    prefixIcon?: string;
-    imageUrl?: string;
-    imageSize?: string;
-    showDivider?: boolean;
-    titleStyles?: object;
-    showSubtitle?: boolean;
-    subtitle?: string;
-    subtitleStyles?: object;
-    visible?: boolean;
-    noMarginBottom?: boolean;
-  }
+.form-item-upload-img {
+  width: 100px;
+}
 
-  type Props = MakeProps<Spec>;
+.form-item-upload-tip {
+  margin-top: 8px;
+  color: $lightgray;
 }

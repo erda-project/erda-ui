@@ -19,25 +19,29 @@ import i18n from 'i18n';
 
 interface IData {
   name: string;
+  desc?: string;
   value: string;
 }
 
 const dataItem: IData = {
   name: '',
+  desc: '',
   value: '',
 };
 
 interface IDataItemProps {
   data: IData;
+  hasDesc?: boolean;
   className?: string;
-  operation?:any;
-  updateItem(arg:any):void;
+  operation?: any;
+  updateItem(arg: any): void;
 }
 
-const DataItem = ({ updateItem, data, className = '', operation = null }:IDataItemProps) => {
+const DataItem = ({ updateItem, data, hasDesc = true, className = '', operation = null }: IDataItemProps) => {
   return (
     <div className={className}>
       <Input value={data.name} placeholder='请输入数据名称' onChange={(e) => updateItem({ name: e.target.value })} />
+      {hasDesc && <Input value={data.desc} placeholder='请输入数据描述' onChange={(e) => updateItem({ desc: e.target.value })} />}
       <Input value={data.value} placeholder='请填写数据值' onChange={(e) => updateItem({ value: e.target.value })} />
       {operation}
     </div>

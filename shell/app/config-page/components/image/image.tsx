@@ -11,30 +11,26 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Created by 含光<jiankang.pjk@alibaba-inc.com> on 2021/1/22 14:59.
- */
-declare namespace CP_TITLE {
-  interface Spec {
-    type: 'Title',
-    props: IProps;
+import React from 'react';
+import classnames from 'classnames';
+import './image.scss';
+import DEFAULT_SRC from 'app/images/default-project-icon.png'
+
+const Image = (props: CP_IMAGE.Props) => {
+  const { props: configProps } = props;
+  const { src = DEFAULT_SRC, size = 'normal', visible = true, isCircle = false, display = 'inline-block' } = configProps || {};
+  const cls = classnames({
+    'cp-dice-image': true,
+    [size]: true,
+    'circle': isCircle,
+    [display]: true,
+  });
+
+  if (!visible) {
+    return null
   }
 
-  interface IProps {
-    title: string;
-    level?: number;
-    tips?: string;
-    prefixIcon?: string;
-    imageUrl?: string;
-    imageSize?: string;
-    showDivider?: boolean;
-    titleStyles?: object;
-    showSubtitle?: boolean;
-    subtitle?: string;
-    subtitleStyles?: object;
-    visible?: boolean;
-    noMarginBottom?: boolean;
-  }
-
-  type Props = MakeProps<Spec>;
+  return <img src={src} className={`${cls}`} />
 }
+
+export default Image;
