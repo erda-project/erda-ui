@@ -110,7 +110,6 @@ export enum pages {
   noAuth = '/noAuth',
   project = '/workBench/projects/{projectId}',
   projectSetting = '/workBench/projects/{projectId}/setting',
-  projectIssues = '/workBench/projects/{projectId}/issues/all',
   projectIssueDetail = '/workBench/projects/{projectId}/issues/{type}?id={id}&type={type}',
   app = '/workBench/projects/{projectId}/apps/{appId}',
   repo = '/workBench/projects/{projectId}/apps/{appId}/repo',
