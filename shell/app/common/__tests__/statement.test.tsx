@@ -45,4 +45,35 @@ describe('IF', () => {
     expect(wrapper.find('.if')).toExist();
     expect(wrapper.find('.else')).not.toExist();
   });
+  it('render only one child', () => {
+    const wrapper = shallow(
+      <IF check={false}>
+        <div className="if">if</div>
+      </IF>
+    );
+    expect(wrapper).toBeEmptyRender();
+    wrapper.setProps({ check: true });
+    expect(wrapper.find('.if')).toExist();
+  });
+  it('render only if', () => {
+    const wrapper = shallow(
+      <IF check={false}>
+        <div className="if1">if</div>
+        <div className="if2">if</div>
+      </IF>
+    );
+    expect(wrapper).toBeEmptyRender();
+  });
+  it('empty', () => {
+    const wrapper = shallow(
+      <IF check={false} />
+    );
+    expect(wrapper).toBeEmptyRender();
+  });
+  it('else', () => {
+    const wrapper = shallow(
+      <IF.ELSE />
+    );
+    expect(wrapper).toBeEmptyRender();
+  });
 });

@@ -37,3 +37,4 @@ yarn-error.log
 
 shell/app/modules.js
 shell/sourcemap
+shell/coverage
