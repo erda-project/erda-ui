@@ -109,7 +109,6 @@
     "@phenomnomnominal/tsquery": "^4.1.1",
     "@svgr/webpack": "^4.1.0",
     "@terminus/dashboard-configurator": "^1.1.0",
-    "@terminus/lint-config": "^0.3.2",
     "@types/classnames": "^2.2.6",
     "@types/clipboard": "^2.0.1",
     "@types/diff-match-patch": "^1.0.32",
