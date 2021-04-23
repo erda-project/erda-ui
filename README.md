@@ -4,7 +4,6 @@
   <img src="./docs/files/logo.jpg" alt="logo" width="350">
 </div>
 
-[![codecov](https://codecov.io/gh/Zero-Rock/erda-ui/branch/feature/codecov/graph/badge.svg?token=lsKSC7eNXY)](https://codecov.io/gh/Zero-Rock/erda-ui)
 
 ## 📣 Introduction
 Erda is an open-source platform created by Terminus to ensuring the development of microservice applications.
