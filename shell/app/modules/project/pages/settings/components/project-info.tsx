@@ -23,6 +23,7 @@ import projectStore from 'app/modules/project/stores/project';
 import { useQuotaFields } from 'org/pages/projects/create-project';
 import layoutStore from 'layout/stores/layout';
 import { removeMember } from 'common/services/index';
+import routeInfoStore from 'common/stores/route';
 import diceEnv from 'dice-env';
 import { HeadProjectSelector } from 'project/common/components/project-selector';
 import userStore from 'app/user/stores';
@@ -49,6 +50,7 @@ const reloadHeadInfo = () => {
 export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
   const { updateProject, deleteProject, getLeftResources } = projectStore.effects;
   const loginUser = userStore.useStore(s => s.loginUser);
+  const orgName = routeInfoStore.useState(s => s.params.orgName);
   const info = projectStore.useStore(s => s.info);
   const [confirmProjectName, setConfirmProjectName] = React.useState('');
   const updatePrj = (values: Obj) => {
@@ -104,7 +106,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
     // },
   ];
 
-  const inOrgCenter = location.pathname.startsWith('/orgCenter');
+  const inOrgCenter = location.pathname.startsWith(`/${orgName}/orgCenter`);
   const onDelete = () => {
     setConfirmProjectName('');
     deleteProject().then(() => {

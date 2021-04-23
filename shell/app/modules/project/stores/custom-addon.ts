@@ -23,6 +23,7 @@ import {
   addTenantAddonIns,
 } from '../services/addon';
 import userStore from 'user/stores';
+import orgStore from 'app/org-home/stores/org';
 import projectStore from 'project/stores/project';
 
 const inDataCenterPage = () => window.location.pathname.includes('dataCenter/');
@@ -62,7 +63,7 @@ const customAddon = createFlatStore({
       return call(updateCustomAddonConfig, { ...query, operatorId: +operatorId }, { successMsg: i18n.t('update successfully') });
     },
     async getAddonsList({ call, update, getParams }) {
-      const { orgId } = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const { projectId } = getParams();
       const _params:CUSTOM_ADDON.QueryCustoms = { org_id: orgId };
       if (!inDataCenterPage()) {

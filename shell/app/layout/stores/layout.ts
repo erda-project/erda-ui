@@ -17,6 +17,8 @@ import * as DiceWebSocket from 'common/utils/ws';
 import { enableIconfont } from 'common/utils';
 import routeInfoStore from 'app/common/stores/route';
 import { find } from 'lodash';
+import orgStore from 'app/org-home/stores/org'
+import { isFunction } from 'lodash';
 import { getGlobal } from 'app/global-space';
 
 const sendMsgUtilWsReady = async (targetWs: any, msg: { command: '__detach' | '__attach' }) => {
@@ -37,7 +39,6 @@ interface IState {
   currentApp: LAYOUT.IApp,
   appList: LAYOUT.IApp[],
   subSiderInfoMap: Obj,
-  isErdaHome: boolean;
   sideFold: boolean,
   subList: {
     [k: string]: any
@@ -56,7 +57,6 @@ interface IState {
 const initState: IState = {
   currentApp: {} as LAYOUT.IApp,
   appList: [],
-  isErdaHome: false, // 在dice.xx中间页上
   subSiderInfoMap: {},
   subList: {},
   announcementList: [],
@@ -74,7 +74,9 @@ const layout = createStore({
   name: 'layout',
   state: initState,
   subscriptions: async ({ listenRoute }: IStoreSubs) => {
-    if (getGlobal('erdaInfo.currentOrgId')) {
+    const currentOrg = orgStore.getState(s => s.currentOrg)
+    // if (getGlobal('erdaInfo.currentOrgId')) {
+      if(currentOrg.id){
       const diceWs = DiceWebSocket.connect('/api/websocket');
       listenRoute(({ isEntering, isLeaving }) => {
         if (isEntering('pipeline') || isEntering('dataTask') || isEntering('deploy') || isEntering('testPlanDetail')) {
@@ -188,9 +190,6 @@ const layout = createStore({
     },
     setSubSiderSubList(state, payload: Obj) {
       state.subList = { ...state.subList, ...payload };
-    },
-    setIsErdaHome(state, isErdaHome = false) {
-      state.isErdaHome = isErdaHome;
     },
     setAnnouncementList(state, list: AnnouncementItem[]) {
       state.announcementList = list;

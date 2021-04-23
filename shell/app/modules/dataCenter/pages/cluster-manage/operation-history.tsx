@@ -19,7 +19,6 @@ import moment from 'moment';
 import { Table, Drawer, Badge, Tooltip, Switch } from 'app/nusi';
 import machineStore from 'app/modules/dataCenter/stores/machine';
 import * as React from 'react';
-import userStore from 'user/stores';
 import userMapStore from 'common/stores/user-map';
 import routeInfoStore from 'app/common/stores/route';
 import { cutStr } from 'app/common/utils';
@@ -27,10 +26,10 @@ import clusterStore from 'app/modules/dataCenter/stores/cluster';
 import { useMount } from 'react-use';
 import { map, isEmpty } from 'lodash';
 import { ClusterLog } from './cluster-log';
-
+import orgStore from 'app/org-home/stores/org';
 
 export const OperationHistory = () => {
-  const loginUser = userStore.useStore(s => s.loginUser);
+  const currentOrg = orgStore.useStore(s => s.currentOrg);
   const clusterList = clusterStore.useStore(s => s.list);
   const [operationList, operationPaging, operationTypes] = machineStore.useStore(s => [s.operationList, s.operationPaging, s.operationTypes]);
   const { getClusterOperationHistory } = machineStore.effects;
@@ -56,13 +55,13 @@ export const OperationHistory = () => {
     const { recordType, clusterName, ...rest } = extra;
     getClusterOperationHistory({
       clusterName: !isEmpty(clusterName) ? clusterName : undefined,
-      orgID: loginUser.orgId,
+      orgID: currentOrg.id,
       pageSize: operationPaging.pageSize,
       recordType: recordType ? recordType.join() : undefined,
       scope: scope || undefined,
       ...rest,
     });
-  }, [getClusterOperationHistory, loginUser.orgId, operationPaging.pageSize, scope]);
+  }, [getClusterOperationHistory, currentOrg.id, operationPaging.pageSize, scope]);
 
 
   React.useEffect(() => {

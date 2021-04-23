@@ -28,6 +28,7 @@ import {
 import { getApps } from 'common/services';
 import i18n from 'i18n';
 import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 import { getDefaultPaging, goTo } from 'common/utils';
 import { HeadProjectSelector } from 'project/common/components/project-selector';
 import layoutStore from 'layout/stores/layout';
@@ -124,7 +125,7 @@ const project = createStore({
   },
   effects: {
     async getProjectList({ call, update }, payload: Optional<PROJECT.ListQuery, 'orgId' | 'pageSize'>) {
-      const { orgId } = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       if (orgId !== undefined) {
         const { list } = await call(getProjectList, { orgId, pageSize: PAGINATION.pageSize, ...payload }, { paging: { key: 'paging' } });
         update({ list });

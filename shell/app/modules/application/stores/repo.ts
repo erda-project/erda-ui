@@ -166,7 +166,7 @@ const repoStore = createStore({
           if (lsTag && !tags.includes(lsTag)) {
             removeLS(tagKey);
           }
-          const isRepoRoot = isMatch(/^\/workBench\/projects\/\w+\/apps\/\w+\/repo$/);
+          const isRepoRoot = isMatch(/\/workBench\/projects\/\w+\/apps\/\w+\/repo$/);
           if (isRepoRoot || isIn('repoTree')) {
             // repoStore.reducers.clearRepoTree();
             repoStore.effects.getRepoTree();
@@ -234,7 +234,7 @@ const repoStore = createStore({
       const lsBranch = getLS(`branch-${appId}`);
       const lsTag = getLS(`tag-${appId}`);
       const lsBranchOrTag = isEmpty(lsBranch) ? isEmpty(lsTag) ? undefined : lsTag : lsBranch;
-      const isRepoRoot = window.location.pathname === `/workBench/projects/${appDetail.projectId}/apps/${appDetail.id}/repo`;
+      const isRepoRoot = window.location.pathname.endsWith(`/workBench/projects/${appDetail.projectId}/apps/${appDetail.id}/repo`);
       const tree = await call(RepoServices.getFromRepo, {
         type: 'tree',
         repoPrefix: appDetail.gitRepoAbbrev,

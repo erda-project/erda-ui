@@ -19,7 +19,7 @@ import issueFieldStore from 'org/stores/issue-field';
 import { WithAuth } from 'app/user/common';
 import { useUpdate, Filter } from 'common';
 import { IssueFieldModal } from './issue-field-modal';
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 import { IssueIcon } from 'org/common/issue-field-icon';
 import { isEmpty, map } from 'lodash';
 import { useUnmount, useMount } from 'react-use';
@@ -27,7 +27,7 @@ import { useLoading } from 'common/stores/loading';
 import { TASK_SP_FIELD, BUG_SP_FIELD } from 'org/common/config';
 
 const IssueFieldManage = () => {
-  const { orgId: orgID } = userStore.useStore(s => s.loginUser);
+  const { id: orgID } = orgStore.useStore(s => s.currentOrg);
   const tableData = issueFieldStore.useStore(s => s.fieldList);
   const { getFieldsByIssue, deleteFieldItem, getSpecialFieldOptions } = issueFieldStore.effects;
   const { clearFieldList } = issueFieldStore.reducers;

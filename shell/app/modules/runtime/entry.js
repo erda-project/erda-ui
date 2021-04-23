@@ -11,12 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import routers from './index';
 import domainStore from './stores/domain';
 import logStore from './stores/log';
 import serviceStore from './stores/service';
 import runtimeStore from './stores/runtime';
-
 
 export default (registerModule) => {
   return registerModule({
@@ -27,6 +25,5 @@ export default (registerModule) => {
       serviceStore,
       runtimeStore
     ],
-    routers
   });
 };

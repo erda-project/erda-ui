@@ -18,7 +18,7 @@ import { getUrlQuery } from 'config-page/utils';
 import { useUpdate, useSwitch } from 'common';
 import { get, set, cloneDeep } from 'lodash';
 import { qs, mergeSearch, updateSearch } from 'common/utils';
-import userStore from 'user/stores';
+import orgStore from 'app/org-home/stores/org';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
 import routeInfoStore from 'common/stores/route';
 import ImportFile from 'project/pages/issue/component/import-file';
@@ -36,7 +36,7 @@ const getRealIssueType = (issueType: ISSUE_TYPE) => {
 
 export default ({ issueType }: IProps) => {
   const [{ projectId, iterationId }, { id: queryId, iterationID: queryItertationID, type: _queryType, ...restQuery }] = routeInfoStore.useStore(s => [s.params, s.query]);
-  const orgID = userStore.getState(s => s.loginUser.orgId);
+  const orgID = orgStore.getState(s => s.currentOrg.id);
   const queryType = _queryType && _queryType.toUpperCase();
   const [{ importFileVisible, filterObj, chosenIssueType, chosenIssueId, chosenIteration, urlQuery }, updater, update] = useUpdate({
     importFileVisible: false,

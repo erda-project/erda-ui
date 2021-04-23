@@ -23,7 +23,7 @@ import i18n from 'i18n';
 import { useUpdateEffect } from 'react-use';
 import { insertWhen, regRules } from 'common/utils';
 import { useUpdate } from 'common';
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 import { AliCloudFormPreview } from './index';
 
 const cloudVendorMap = {
@@ -395,8 +395,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
   const beforeAddConfirm = (values:any) => {
     const { chargePeriod, ...rest } = values;
 
-    const [loginUser, orgs] = userStore.getState(s => [s.loginUser, s.orgs]);
-    const currentOrg = find(orgs, { id: loginUser.orgId }) as IOrg;
+    const currentOrg = orgStore.getState(s => s.currentOrg);
     const { id: orgId, name: orgName } = currentOrg;
     const _postData = {
       ...rest,

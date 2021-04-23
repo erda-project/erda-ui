@@ -20,8 +20,8 @@ import { TicketForm } from './ticket-form';
 import i18n from 'i18n';
 import ticketStore from '../../stores/ticket';
 import routeInfoStore from 'app/common/stores/route';
-import userStore from 'app/user/stores';
 import { useUnmount } from 'react-use';
+import orgStore from 'app/org-home/stores/org';
 
 export const ticketTabs = () => {
   const openTotal = ticketStore.useStore(s => s.openTotal);
@@ -48,7 +48,7 @@ interface IProps {
 const Ticket = ({ scope }: IProps) => {
   const [visible, openModal, closeModal] = useSwitch(false);
   const [params] = routeInfoStore.useStore(s => [s.params]);
-  const { orgId } = userStore.getState(s => s.loginUser);
+  const orgId = orgStore.getState(s => s.currentOrg.id);
   const { ticketType: tabKey } = params;
 
   const { addTicket } = ticketStore.effects;

@@ -12,13 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import userStore from 'app/user/stores';
 import DiceConfigPage from 'config-page/index';
+import routeInfoStore from 'app/common/stores/route';
 import './personal-home.scss';
 
-export const PersonalHome = () => {
-  const loginUser = userStore.useStore(s => s.loginUser);
-  const { orgName } = loginUser;
+const PersonalHome = () => {
+  const orgName = routeInfoStore.useStore(s => s.params.orgName);
+
   const inParams = { orgName };
 
   return (
@@ -27,6 +27,7 @@ export const PersonalHome = () => {
         <DiceConfigPage
           scenarioType='home-page-sidebar'
           scenarioKey='home-page-sidebar'
+          key={orgName}
           useMock={location.search.includes('useMock') ? useMockLeft : undefined}
           inParams={inParams}
         />
@@ -35,6 +36,7 @@ export const PersonalHome = () => {
         <DiceConfigPage
           scenarioType='home-page-content'
           scenarioKey='home-page-content'
+          key={orgName}
           useMock={location.search.includes('useMock') ? useMockRight : undefined}
           inParams={inParams}
         />
@@ -42,6 +44,8 @@ export const PersonalHome = () => {
     </div>
   )
 };
+
+export default PersonalHome;
 
 const mockSidebar: CONFIG_PAGE.RenderConfig = {
   scenario: {
@@ -142,7 +146,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
           toPublicOrgPage: {
             command: {
               key: "goto",
-              target: "orgHome",
+              target: "orgList",
               jumpOut: true,
               visible: false,
             },
@@ -213,7 +217,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
             ],
           quickSelect: [
             {
-              value: 'orgHome',
+              value: 'orgList',
               label: '浏览公开组织',
               operations: {
                 click: {
@@ -222,7 +226,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
                   reload: false,
                   command: {
                     key: 'goto',
-                    target: 'orgHome',
+                    target: 'orgList',
                     jumpOut: false,
                   },
                 },
@@ -353,7 +357,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
           toPublicOrgPage: {
             command: {
               key: "goto",
-              target: "orgHome",
+              target: "orgList",
               jumpOut: true,
               visible: false,
             },

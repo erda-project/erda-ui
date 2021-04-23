@@ -19,7 +19,7 @@ import routeInfoStore from 'common/stores/route';
 import { MenuConfigItemProps, Theme } from 'core/common/interface';
 import MenuHeader from './menu-head';
 import { isEmpty, isEqual, pickBy } from 'lodash';
-import { qs } from 'common/utils';
+import { qs } from 'common/utils';        
 import { Icon as CustomIcon, useUpdate } from 'common';
 import './sub-sidebar.scss';
 
@@ -131,7 +131,7 @@ const SubSideBar = () => {
       return {
         ...item,
         title: firstLetterUpper(item.text),
-        icon: item.icon ? <CustomIcon type={item.icon as string} /> : item.customIcon ? item.customIcon : null,
+        icon: (item.icon && typeof item.icon !== 'string') ?  item.icon : item.customIcon ? item.customIcon : null,
         href,
         children: subMenu,
         subActiveKey,
@@ -161,8 +161,6 @@ const SubSideBar = () => {
       selectedKey,
     });
   };
-
-  
 
   return (
     <SideNavigation

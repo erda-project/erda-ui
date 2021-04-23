@@ -24,6 +24,19 @@ const backendUrl = config.DEV_URL;
 let mockpath = [];
 if (fs.existsSync('./swagger.json')) swaggerParserMock({ spec: require('./swagger.json') }).then((docs) => { mockpath = docs.paths; });
 
+const redirectPaths = [
+  "/microService",
+  "/workBench",
+  "/dataCenter",
+  "/orgCenter",
+  "/edge",
+  "/sysAdmin",
+  "/org-list",
+  "/noAuth",
+  "/freshMan",
+  "/inviteToOrg",
+  "/perm"
+]
 
 module.exports = config.wrapWebpack({
   mode: 'development',
@@ -58,6 +71,30 @@ module.exports = config.wrapWebpack({
       cert: fs.readFileSync('../cert/dev/server.crt'),
     },
     proxy: [
+      {
+        context: ['/api/websocket'],
+        target: backendUrl,
+        secure: false,
+        changeOrigin: true,
+        ws: true,
+      },
+      {
+        context: ['/api/websocket'],
+        target: backendUrl,
+        secure: false,
+        changeOrigin: true,
+        ws: true,
+      },
+      {
+        context: redirectPaths,
+        bypass: function(req, res, proxyOptions) {
+          let firstPath = (req.url || '').split('/')[1];
+          if(redirectPaths.includes(`/${firstPath}`)){
+              res.redirect(`/-${req.url}`);
+              return true;
+          }
+        }
+      },
       {
         context: ['/api/websocket'],
         target: backendUrl,

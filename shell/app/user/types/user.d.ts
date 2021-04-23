@@ -52,11 +52,6 @@ interface ILoginUser {
   phone: string;
   token: string;
   isSysAdmin?: boolean;
-  orgId: number;
-  orgPublisherId: number;
-  orgName: string;
-  orgDisplayName: string;
-  orgPublisherAuth: boolean;
 }
 
 interface IMember {
@@ -77,26 +72,3 @@ interface IMember {
   labels: string[] | null
 }
 
-interface IOrg {
-  createdAt: string
-  creator: string
-  desc: string
-  domain: string
-  isPublic: boolean;
-  id: number
-  logo: string
-  name: string
-  displayName: string;
-  operation: string
-  selected: boolean
-  status: string
-  type: string
-  updatedAt: string
-  publisherId: number;
-  blockoutConfig: {
-    blockDev: boolean;
-    blockTest: boolean;
-    blockStage: boolean;
-    blockProd: boolean;
-  }
-}

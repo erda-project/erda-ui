@@ -11,13 +11,13 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import routers from './index';
+// import routers from './index';
 import MachineManageStore from './stores/machine-manage';
 
 export default (registerModule) => {
   return registerModule({
     key: 'edge',
     stores: [MachineManageStore],
-    routers,
+    // routers,
   });
 };

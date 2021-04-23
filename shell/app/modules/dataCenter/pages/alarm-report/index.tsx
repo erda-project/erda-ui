@@ -14,7 +14,6 @@
 import * as React from 'react';
 import { Button, Select, Divider, Spin, Modal, Switch, Table, Tooltip } from 'app/nusi';
 import { isEmpty, map, find, get } from 'lodash';
-import userStore from 'app/user/stores';
 import i18n from 'i18n';
 import moment from 'moment';
 import { useMount } from 'react-use';
@@ -27,6 +26,7 @@ import memberStore from 'common/stores/org-member';
 import notifyGroupStore from 'application/stores/notify-group';
 import alarmReportStore from '../../stores/alarm-report';
 import { usePerm, WithAuth } from 'user/common';
+import orgStore from 'app/org-home/stores/org';
 import './index.scss';
 
 const { confirm } = Modal;
@@ -62,7 +62,7 @@ export default () => {
   const { getNotifyGroups } = notifyGroupStore.effects;
   const notifyGroups = notifyGroupStore.useStore(s => s.notifyGroups);
   const [loading] = useLoading(alarmReportStore, ['getReportTasks']);
-  const { loginUser } = userStore.getState(s => s);
+  const orgId = orgStore.getState(s => s.currentOrg.id);
 
   const [modalVisible, openModal, closeModal] = useSwitch(false);
   const [{ editingTask }, updater] = useUpdate({
@@ -77,7 +77,7 @@ export default () => {
     getReportTasks({ pageNo, pageSize });
     getReportTypes();
     getSystemDashboards();
-    getNotifyGroups({ scopeType: 'org', scopeId: String(loginUser.orgId) });
+    getNotifyGroups({ scopeType: 'org', scopeId: String(orgId) });
   });
 
   const handleCloseModal = () => {
