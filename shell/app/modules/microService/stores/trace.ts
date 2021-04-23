@@ -50,7 +50,7 @@ const trace = createFlatStore({
     async getTraceCount({ call, update, getParams }, payload: {
       start?: number;
       end?: number;
-      'filter_fields.applications_ids_distinct'?: number;
+      'filter_fields.applications_ids'?: number;
       'filter_fields.services_distinct'?: string;
       field_gt_errors_sum?: number;
       field_eq_errors_sum?: number;

@@ -116,5 +116,13 @@
       flex: 1;
       height: 0;
     }
+
+    &.start-align {
+      align-items: start;
+    }
+
+    &.scroll-auto {
+      overflow: auto;
+    }
   }
 }

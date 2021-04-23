@@ -11,11 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import userStore from 'app/user/stores';
 import { getAuditList, getAuditLogSetting, updateAuditLogSetting } from '../services/audit';
 import { getDefaultPaging } from 'common/utils';
 import { createStore } from 'app/cube';
 import i18n from 'i18n';
+import orgStore from 'app/org-home/stores/org';
 
 interface IState {
   auditList: AUDIT.Item[],
@@ -40,18 +40,18 @@ const audit = createStore({
   state: initState,
   effects: {
     async getList({ call, update }, payload: AUDIT.ListQuery) {
-      const orgId = payload.sys ? undefined : userStore.getState(s => s.loginUser.orgId);
+      const orgId = payload.sys ? undefined : orgStore.getState(s => s.currentOrg.id);
       const { list } = await call(getAuditList, { ...payload, orgId }, { paging: { key: 'auditPaging' } });
       update({ auditList: list });
       return list;
     },
     async getAuditLogSetting({ call, update }) {
-      const orgId = userStore.getState(s => s.loginUser.orgId);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const setting = await call(getAuditLogSetting, orgId);
       update({ setting });
     },
     async updateAuditLogSetting({ call }, payload: AUDIT.LogSettingBody) {
-      const orgId = userStore.getState(s => s.loginUser.orgId);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       return call(updateAuditLogSetting, { ...payload, orgId }, { successMsg: i18n.t('update successfully') });
     },
   },

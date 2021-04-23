@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createStore } from 'app/cube';
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 import { PAGINATION } from 'app/constants';
 import {
   getDomainList,
@@ -40,7 +40,7 @@ const domainManage = createStore({
   state: initState,
   effects: {
     async getClusterList({ call, update }) {
-      const { orgId: userOrgId } = userStore.getState(s => s.loginUser);
+      const userOrgId = orgStore.getState(s => s.currentOrg.id);
       const clusterList = await call(getClusterList, { orgId: userOrgId });
       if (clusterList && clusterList.length) {
         update({ clusterList });

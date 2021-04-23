@@ -24,6 +24,7 @@ const defaultPaging = {
 
 const noop = () => { };
 const { createStore, createFlatStore, use, storeMap } = cube({
+  singleton: true,
   extendEffect({ update, select }) {
     return {
       async call(fn: Function, payload: any = {}, config = {} as any) {

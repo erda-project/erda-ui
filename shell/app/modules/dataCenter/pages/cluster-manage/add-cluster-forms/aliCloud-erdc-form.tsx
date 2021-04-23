@@ -20,8 +20,8 @@ import { clusterSpecMap } from '../config';
 import { regRulesMap } from '../form-utils';
 import { insertWhen, regRules } from 'common/utils';
 import i18n from 'i18n';
-import userStore from 'app/user/stores';
 import { useUpdate } from 'common';
+import orgStore from 'app/org-home/stores/org';
 
 interface IProps {
   onClose: () => void;
@@ -291,8 +291,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       if (error) {
         return;
       }
-      const [loginUser, orgs] = userStore.getState(s => [s.loginUser, s.orgs]);
-      const currentOrg = find(orgs, { id: loginUser.orgId }) as IOrg;
+      const currentOrg = orgStore.getState(s => s.currentOrg);
       const { id: orgId, name: orgName } = currentOrg;
       remove(values, 'storage');
       remove(values, 'isNewVpc');

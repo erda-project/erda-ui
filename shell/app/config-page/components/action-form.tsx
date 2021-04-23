@@ -28,6 +28,9 @@ export interface IProps extends FormModalProps, CONFIG_PAGE.ICommonProps {
   }
 }
 
+//目前使用组件化协议的action-form白名单，后端还未实现接口控制，
+export const protocolActionForms = ['mysql-cli', 'redis-cli', 'api-test', 'dice-deploy-release', 'dice-deploy-rollback', 'git-checkout', 'git-push', 'gitbook', 'manual-review', 'dice-version-archive'];
+
 const clearEmptyField = (ObjData: any) => {
   const filledFields: string[] = [];
   const findData = (obj: any, parentArray: string[]) => {

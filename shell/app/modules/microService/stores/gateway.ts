@@ -13,7 +13,7 @@
 
 import { createStore } from 'app/cube';
 import * as gatewayServices from 'microService/services/gateway';
-import userStore from 'user/stores';
+import orgStore from 'app/org-home/stores/org';
 import { getDefaultPaging } from 'common/utils';
 import i18n from 'i18n';
 import microServiceStore from 'microService/stores/micro-service';
@@ -204,8 +204,8 @@ const gatewayStore = createStore({
     },
     async createConsumer({ call, getParams }, payload) {
       const { projectId, env } = getParams();
-      const loginUser = userStore.getState(s => s.loginUser);
-      const authConsumer = await call(gatewayServices.createConsumer, { ...payload, orgId: loginUser.orgId, env, projectId });
+      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const authConsumer = await call(gatewayServices.createConsumer, { ...payload, orgId, env, projectId });
       if (authConsumer) {
         gatewayStore.effects.getConsumerList();
       }
@@ -218,34 +218,34 @@ const gatewayStore = createStore({
     },
     async getConsumerList({ call, update, getParams }) {
       const { projectId, env } = getParams();
-      const loginUser = userStore.getState(s => s.loginUser);
-      const consumerList = await call(gatewayServices.getConsumerList, { orgId: loginUser.orgId, projectId, env });
+      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const consumerList = await call(gatewayServices.getConsumerList, { orgId, projectId, env });
       if (consumerList) {
         update({ consumerList: consumerList.consumers });
       }
     },
     async getRegisterApps({ call, getParams, update }) {
       const { projectId, env } = getParams();
-      const loginUser = userStore.getState(s => s.loginUser);
-      const { apps: registerApps } = await call(gatewayServices.getRegisterApps, { orgId: loginUser.orgId, projectId, env });
+      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const { apps: registerApps } = await call(gatewayServices.getRegisterApps, { orgId, projectId, env });
       update({ registerApps });
     },
     async getServiceRuntime({ call, getParams }, payload: Omit<GATEWAY.GetRuntimeDetail, keyof GATEWAY.Base>) {
       const { projectId, env } = getParams();
-      const loginUser = userStore.getState(s => s.loginUser);
-      const res = await call(gatewayServices.getServiceRuntime, { orgId: loginUser.orgId, projectId, env, ...payload });
+      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const res = await call(gatewayServices.getServiceRuntime, { orgId, projectId, env, ...payload });
       return res;
     },
     async getApiDomain({ call, update, getParams }, payload: Omit<GATEWAY.GetDomain, keyof GATEWAY.Base>) {
       const { projectId, env } = getParams();
-      const loginUser = userStore.getState(s => s.loginUser);
-      const apiDomain = await call(gatewayServices.getApiDomain, { orgId: loginUser.orgId, projectId, env, ...payload });
+      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const apiDomain = await call(gatewayServices.getApiDomain, { orgId, projectId, env, ...payload });
       update({ apiDomain });
     },
     async saveApiDomain({ call, update, getParams }, payload: Omit<GATEWAY.SaveDomain, keyof GATEWAY.Base>) {
       const { projectId, env } = getParams();
-      const loginUser = userStore.getState(s => s.loginUser);
-      const apiDomain = await call(gatewayServices.saveApiDomain, { orgId: loginUser.orgId, projectId, env, ...payload }, { successMsg: i18n.t('update successfully') });
+      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const apiDomain = await call(gatewayServices.saveApiDomain, { orgId, projectId, env, ...payload }, { successMsg: i18n.t('update successfully') });
       update({ apiDomain });
     },
     async getSafetyWaf({ call, update, getParams }, payload: Omit<GATEWAY.GetSafety, 'packageId'> = {}) {
@@ -401,12 +401,12 @@ const gatewayStore = createStore({
       }
     },
     async getAPIList({ call, update, getParams }, payload: Merge<Merge<Omit<GATEWAY.GetApiList, keyof GATEWAY.Base>, GATEWAY.Query>, {filters: GATEWAY.ApiFilter}>) {
-      const loginUser = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const { projectId, env } = getParams() as {projectId:string, env:GATEWAY.EnvType};
       const apiList = await call(gatewayServices.getAPIList, {
         page: payload.pageNo,
         size: payload.pageSize,
-        orgId: loginUser.orgId,
+        orgId,
         projectId,
         env,
         diceService: payload.diceService || undefined,
@@ -420,7 +420,8 @@ const gatewayStore = createStore({
       }
     },
     async getNeedAuthAPIList({ call, update, getParams }, payload) {
-      const loginUser = userStore.getState(s => s.loginUser);
+
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const { projectId, env } = getParams();
 
       if (payload.isResetNull) {
@@ -434,7 +435,7 @@ const gatewayStore = createStore({
       const { result, page } = await call(gatewayServices.getAPIList, {
         page: payload.pageNo,
         size: payload.pageSize || PAGINATION.pageSize,
-        orgId: loginUser.orgId,
+        orgId,
         projectId,
         env,
         needAuth: 1,
@@ -454,14 +455,14 @@ const gatewayStore = createStore({
       };
     },
     async addAPI({ select, call, getParams }, payload: GATEWAY.AddAPI) {
-      const loginUser = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const consumer = select((s: IState) => s.consumer);
       const { projectId, env } = getParams();
       const { consumerId } = consumer;
 
       const res = await call(gatewayServices.addAPI, {
         ...payload,
-        orgId: loginUser.orgId,
+        orgId,
         env,
         projectId,
         consumerId,
@@ -481,7 +482,7 @@ const gatewayStore = createStore({
     async getConsumer({ call, update, getParams }) {
       const clusterName = microServiceStore.getState(s => s.clusterName);
       const { env, projectId } = getParams();
-      const { orgId } = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const consumer = await call(gatewayServices.getConsumer, {
         projectId,
         orgId,
@@ -492,48 +493,48 @@ const gatewayStore = createStore({
       update({ consumer });
     },
     async getAPISummary({ call, update, getParams }, payload:GATEWAY.Common) {
-      const { loginUser } = userStore.getState(s => s);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const { projectId } = getParams();
       const result = await call(gatewayServices.getAPISummary, {
         ...payload,
-        key: `${loginUser.orgId}_${projectId}`,
+        key: `${orgId}_${projectId}`,
       });
       update({ [`${payload.type}Summary`]: result });
     },
     async getStatusCode({ call, update, getParams }, payload:GATEWAY.Common) {
-      const { loginUser } = userStore.getState(s => s);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const { projectId } = getParams();
       const statusCode = await call(gatewayServices.getStatusCode, {
         ...payload,
-        key: `${loginUser.orgId}_${projectId}`,
+        key: `${orgId}_${projectId}`,
       });
       update({ statusCode });
     },
     async getStatusCodeChart({ call, update, getParams }, payload) {
-      const { loginUser } = userStore.getState(s => s);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const { projectId } = getParams();
       const statusCodeChart = await call(gatewayServices.getStatusCodeChart, {
         ...payload,
-        key: `${loginUser.orgId}_${projectId}`,
+        key: `${orgId}_${projectId}`,
       });
       update({ statusCodeChart });
     },
     async getErrorSummary({ call, update, getParams }, payload:GATEWAY.Common) {
-      const { loginUser } = userStore.getState(s => s);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const { projectId } = getParams();
       const errorSummary = await call(gatewayServices.getErrorSummary, {
         ...payload,
-        key: `${loginUser.orgId}_${projectId}`,
+        key: `${orgId}_${projectId}`,
       });
       update({ errorSummary });
     },
     async getPolicyList({ call, update, getParams }, payload: {category: string}) {
-      const loginUser = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const { env, projectId } = getParams();
       const result = await call(gatewayServices.getPolicyList, {
         ...payload,
         projectId,
-        orgId: loginUser.orgId,
+        orgId,
         env,
       });
       if (result) {
@@ -552,25 +553,25 @@ const gatewayStore = createStore({
       }
     },
     async addPolicy({ call, getParams }, payload: {data: GATEWAY.UpdatePolicy, category: string}) {
-      const loginUser = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const { env, projectId } = getParams();
       // eslint-disable-next-line no-param-reassign
       payload.data = {
         ...payload.data,
         projectId,
-        orgId: loginUser.orgId,
+        orgId,
         env,
       };
       await call(gatewayServices.addPolicy, payload, { successMsg: i18n.t('add successfully') });
       gatewayStore.effects.getPolicyList({ category: 'trafficControl' });
     },
     async updatePolicy({ call, getParams }, payload:{data: GATEWAY.UpdatePolicy, category: string}) {
-      const loginUser = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const { env } = getParams();
       // eslint-disable-next-line no-param-reassign
       payload.data = {
         ...payload.data,
-        orgId: loginUser.orgId,
+        orgId,
         env,
       };
       const newData = await call(gatewayServices.updatePolicy, payload, { successMsg: i18n.t('update successfully') });
@@ -582,15 +583,15 @@ const gatewayStore = createStore({
     },
     async getApiPackageList({ call, update, getParams }, payload: Partial<GATEWAY.Query> = { pageNo: 1 }) {
       const { projectId, env } = getParams();
-      const loginUser = userStore.getState(s => s.loginUser);
-      const { total, list: apiPackageList } = await call(gatewayServices.getApiPackageList, { orgId: loginUser.orgId, projectId, env, ...payload }, { paging: { key: 'apiPackageListPaging' } });
+      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const { total, list: apiPackageList } = await call(gatewayServices.getApiPackageList, { orgId, projectId, env, ...payload }, { paging: { key: 'apiPackageListPaging' } });
       update({ apiPackageList });
       return { list: apiPackageList, total };
     },
     async createApiPackage({ call, getParams }, payload: Omit<GATEWAY.CreatApiPackege, keyof GATEWAY.Base>) {
       const { projectId, env } = getParams();
-      const loginUser = userStore.getState(s => s.loginUser);
-      const res = await call(gatewayServices.createApiPackage, { orgId: loginUser.orgId, projectId, env, ...payload });
+      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const res = await call(gatewayServices.createApiPackage, { orgId, projectId, env, ...payload });
       return res;
     },
     async getApiPackageDetail({ update, call, getParams }) {
@@ -648,15 +649,15 @@ const gatewayStore = createStore({
     },
     async getOpenApiConsumerList({ call, update, getParams }, payload: Partial<GATEWAY.Query>) {
       const { projectId, env } = getParams();
-      const loginUser = userStore.getState(s => s.loginUser);
-      const { total, list: openApiConsumerList } = await call(gatewayServices.getOpenApiConsumerList, { orgId: loginUser.orgId, projectId, env, ...payload }, { paging: { key: 'openApiConsumerListPaging' } });
+      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const { total, list: openApiConsumerList } = await call(gatewayServices.getOpenApiConsumerList, { orgId, projectId, env, ...payload }, { paging: { key: 'openApiConsumerListPaging' } });
       update({ openApiConsumerList });
       return { list: openApiConsumerList, total };
     },
     async createOpenApiConsumer({ call, getParams }, payload: Pick<GATEWAY.CreateOpenApiConsumer, 'name'| 'description'>) {
       const { projectId, env } = getParams();
-      const loginUser = userStore.getState(s => s.loginUser);
-      const res = call(gatewayServices.createOpenApiConsumer, { orgId: loginUser.orgId, projectId, env, ...payload }, { successMsg: i18n.t('add successfully') });
+      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const res = call(gatewayServices.createOpenApiConsumer, { orgId, projectId, env, ...payload }, { successMsg: i18n.t('add successfully') });
       return res;
     },
     async updateOpenApiConsumer({ call }, payload: {id: string; description: string}) {
@@ -684,25 +685,25 @@ const gatewayStore = createStore({
     },
     async getApiFilterCondition({ call, getParams, update }) {
       const { projectId, env } = getParams();
-      const loginUser = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const [apiPackages, apiConsumers] = await Promise.all([
-        call(gatewayServices.getApiPackages, { orgId: loginUser.orgId, projectId, env }),
-        call(gatewayServices.getApiConsumers, { orgId: loginUser.orgId, projectId, env }),
+        call(gatewayServices.getApiPackages, { orgId, projectId, env }),
+        call(gatewayServices.getApiConsumers, { orgId, projectId, env }),
       ]) as any as [ GATEWAY.ApiPackageItem[], GATEWAY.ConsumersName[] ];
       const apiFilterCondition = { apiPackages, apiConsumers };
       update({ apiFilterCondition });
     },
     async getApiLimits({ call, update, getParams }, payload: GATEWAY.GetApiLimit) {
       const { projectId, env, packageId } = getParams();
-      const loginUser = userStore.getState(s => s.loginUser);
-      const { total, list: apiLimits } = await call(gatewayServices.getApiLimits, { orgId: loginUser.orgId, projectId, env, packageId, ...payload }, { paging: { key: 'apiLimitsPaging' } });
+      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const { total, list: apiLimits } = await call(gatewayServices.getApiLimits, { orgId, projectId, env, packageId, ...payload }, { paging: { key: 'apiLimitsPaging' } });
       update({ apiLimits });
       return { list: apiLimits, total };
     },
     async createApiLimit({ call, getParams }, payload: GATEWAY.updateLimit) {
       const { projectId, env, packageId } = getParams();
-      const loginUser = userStore.getState(s => s.loginUser);
-      const res = await call(gatewayServices.createApiLimit, { ...payload, orgId: loginUser.orgId, projectId, env, packageId }, { successMsg: i18n.t('created successfully') });
+      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const res = await call(gatewayServices.createApiLimit, { ...payload, orgId, projectId, env, packageId }, { successMsg: i18n.t('created successfully') });
       return res;
     },
     async updateApiLimit({ call }, payload: Merge<GATEWAY.updateLimit, {ruleId: string}>) {
@@ -720,8 +721,8 @@ const gatewayStore = createStore({
     },
     async getDeployedBranches({ call, getParams, update }, { diceService, diceApp }: {diceService: string; diceApp: string}) {
       const { projectId, env } = getParams();
-      const loginUser = userStore.getState(s => s.loginUser);
-      const projectInfo = await call(gatewayServices.getDeployedBranches, { projectId, env, orgId: loginUser.orgId, diceService, diceApp });
+      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const projectInfo = await call(gatewayServices.getDeployedBranches, { projectId, env, orgId, diceService, diceApp });
       update({ projectInfo });
     },
     async getAuthinfo({ call, update }, payload: GATEWAY.GetAuthInfo) {
@@ -740,8 +741,8 @@ const gatewayStore = createStore({
     },
     async getServiceApiPrefix({ call, getParams }, payload: Omit<GATEWAY.QueryApiPrefix, keyof GATEWAY.Base>) {
       const { projectId, env } = getParams();
-      const loginUser = userStore.getState(s => s.loginUser);
-      const res = await call(gatewayServices.getServiceApiPrefix, { orgId: loginUser.orgId, projectId, env, ...payload });
+      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const res = await call(gatewayServices.getServiceApiPrefix, { orgId, projectId, env, ...payload });
       return res;
     },
 

@@ -19,7 +19,7 @@ declare namespace TOPOLOGY_SERVICE_ANALYZE {
   interface CommonQuery {
     terminusKey: string;
     serviceName: string;
-    applicationId: string;
+    serviceId: string;
   }
 
   interface TimestampQuery {

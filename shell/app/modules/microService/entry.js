@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import routers from './index';
+// import routers from './index';
 import configCenterStore from './stores/config-center';
 import dubboStore from './stores/dubbo';
 import gatewayStore from './stores/gateway';
@@ -41,6 +41,6 @@ export default (registerModule) => {
 			zkproxyStore,
 			logStore
 		],
-    routers,
+    // routers,
   });
 };

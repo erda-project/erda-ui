@@ -16,11 +16,11 @@ import React, { MutableRefObject } from 'react';
 import { useUpdate, FormModal, Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
 import routeInfoStore from 'common/stores/route';
-import userStore from 'app/user/stores';
 import { WrappedFormUtils } from 'core/common/interface';
 import { message, Tooltip } from 'app/nusi';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { isEmpty } from 'lodash';
+import orgStore from 'app/org-home/stores/org';
 
 const VERSION_TIP = (
   <div>
@@ -45,7 +45,7 @@ const ApiPublishModal = (props: IProps) => {
   const [openApiDoc] = apiDesignStore.useStore(s => [s.openApiDoc]);
 
   const { appId, projectId } = routeInfoStore.useStore(s => s.params);
-  const { orgId } = userStore.getState(s => s.loginUser);
+  const orgId = orgStore.getState(s => s.currentOrg.id);
 
   const [{
     formData,

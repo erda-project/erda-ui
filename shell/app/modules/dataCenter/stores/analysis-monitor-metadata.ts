@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { MonitorMetaDataScope, MonitorMetaDataMode, createMonitorMetaDataStore } from 'app/modules/dataCenter/stores/_common-monitor-metadata';
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 
-const { orgName } = userStore.getState(s => s.loginUser);
-const analysisMonitorMetadata = createMonitorMetaDataStore(MonitorMetaDataScope.ORG, MonitorMetaDataMode.ANALYSIS, orgName);
+const getOrgName = () => orgStore.getState(s => s.currentOrg.name);
+const analysisMonitorMetadata = createMonitorMetaDataStore(MonitorMetaDataScope.ORG, MonitorMetaDataMode.ANALYSIS, getOrgName);
 
 export default analysisMonitorMetadata;

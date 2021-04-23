@@ -14,7 +14,7 @@
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 import { getDefaultPaging } from 'common/utils';
 import { createStore } from 'app/cube';
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 import i18n from 'i18n';
 import {
   getPublisherList,
@@ -95,7 +95,7 @@ const publisher = createStore({
     // 发布仓库
     async getPublisherList({ call, update, select }, payload: Parameters<typeof getPublisherList>[0]) {
       const { loadMore, ...rest } = payload;
-      const { orgId } = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const result = await call(getPublisherList, { ...rest, orgId }, { paging: { key: 'publisherPaging' } });
       let publisherList = select(state => state.publisherList);
       if (loadMore && rest.pageNo !== 1) {
@@ -108,7 +108,7 @@ const publisher = createStore({
     },
     async getJoinedPublisherList({ call, update, select }, payload: Parameters<typeof getJoinedPublisherList>[0]) {
       const { loadMore, ...rest } = payload;
-      const { orgId } = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const result = await call(getJoinedPublisherList, { ...rest, orgId }, { paging: { key: 'joinedPublisherPaging' } });
       let joinedPublisherList = select(state => state.joinedPublisherList);
       if (loadMore && rest.pageNo !== 1) {
@@ -120,12 +120,12 @@ const publisher = createStore({
       return { ...result };
     },
     async addPublisherList({ call }, payload: Parameters<typeof addPublisher>[0]) {
-      const { orgId } = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const res = await call(addPublisher, { ...payload, orgId }, { successMsg: i18n.t('add successfully') });
       return res;
     },
     async updatePublisher({ call }, payload: Parameters<typeof updatePublisher>[0]) {
-      const { orgId } = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const res = await call(updatePublisher, { ...payload, orgId }, { successMsg: i18n.t('application:modified successfully') });
       return res;
     },
@@ -166,8 +166,7 @@ const publisher = createStore({
       return { ...result };
     },
     async addArtifacts({ call }, payload) {
-      const orgs = userStore.getState(s => s.orgs);
-      const { publisherId } = orgs.find(org => org.selected) || {};
+      const publisherId = orgStore.getState(s => s.currentOrg.publisherId);
       const res = await call(addArtifacts, { ...payload, publisherId: Number(publisherId) }, { successMsg: i18n.t('add successfully') });
       return res;
     },

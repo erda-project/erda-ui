@@ -19,6 +19,7 @@ import { map } from 'lodash';
 import { countPagination, goTo, getDefaultPaging } from '../utils';
 import permStore from 'user/stores/permission';
 import { PAGINATION } from 'app/constants';
+import orgStore from 'app/org-home/stores/org';
 
 export enum MemberScope {
   ORG = 'org',
@@ -139,7 +140,7 @@ export const createMemberStore = (scopeKey: MemberScope) => {
       },
 
       async genOrgInviteCode({ call }) {
-        const orgId = userStore.getState(s => s.loginUser.orgId);
+        const orgId = orgStore.getState(s => s.currentOrg.id);
         const result = await call(genOrgInviteCode, { orgId });
         return result;
       },

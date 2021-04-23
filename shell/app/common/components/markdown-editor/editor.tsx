@@ -13,14 +13,14 @@
 
 import * as React from 'react';
 import Markdown from 'common/utils/marked';
-import MdEditor from '@terminus/react-markdown-editor-lite';
-import { itemInfo } from '@terminus/react-markdown-editor-lite/share/var';
-import { EditorProps } from '@terminus/react-markdown-editor-lite/editor';
+import MdEditor from '@erda-ui/react-markdown-editor-lite';
+import { itemInfo } from '@erda-ui/react-markdown-editor-lite/share/var';
+import { EditorProps } from '@erda-ui/react-markdown-editor-lite/editor';
 import UploadPlugin from './upload-plugin';
 import commonStore from 'common/stores/common';
 import { convertToFormData } from 'common/utils';
 import { getFormatter } from 'charts/utils';
-import '@terminus/react-markdown-editor-lite/lib/index.css';
+import '@erda-ui/react-markdown-editor-lite/lib/index.css';
 
 MdEditor.use(UploadPlugin);
 

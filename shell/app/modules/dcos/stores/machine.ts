@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createStore } from 'app/cube';
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 import { getMachineStatus, deleteMachine } from '../services/machine';
 
 
@@ -21,7 +21,7 @@ const machine = createStore({
   state: {},
   effects: {
     async getMachineStatus({ call }, payload: string[]) {
-      const [{ orgName }] = userStore.getState(s => [s.loginUser]);
+      const { name: orgName } = orgStore.getState(s => s.currentOrg);
       const hostsStatus = await call(getMachineStatus, { org_name: orgName, hosts: payload });
       return hostsStatus;
     },

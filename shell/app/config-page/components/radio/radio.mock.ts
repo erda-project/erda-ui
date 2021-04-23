@@ -24,7 +24,7 @@ export const mockData: CP_RADIO.Spec = {
             key: 'myOrg',
             command: {
               key: 'goto',
-              target: 'orgHome',
+              target: 'orgList',
             },
           },
         },
@@ -38,7 +38,7 @@ export const mockData: CP_RADIO.Spec = {
             key: 'allOrg',
             command: {
               key: 'goto',
-              target: 'orgHome',
+              target: 'orgList',
             },
           },
         },

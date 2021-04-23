@@ -15,8 +15,9 @@ import React from 'react';
 import i18n from 'i18n';
 import { Switch, Alert, Row, Col, Spin, Modal } from 'app/nusi';
 import { useLoading } from 'app/common/stores/loading';
-import userStore from 'user/stores';
+import orgStore from 'app/org-home/stores/org';
 import { find, get } from 'lodash';
+import userStore from 'app/user/stores';
 import { useUpdate } from 'common';
 
 
@@ -35,8 +36,7 @@ const metaData = [
 ];
 
 const BlockNetwork = () => {
-  const [loginUser, orgs] = userStore.useStore(s => [s.loginUser, s.orgs]);
-  const currentOrg = find(orgs, { id: loginUser.orgId }) || {} as IOrg;
+  const currentOrg = orgStore.useStore(s => s.currentOrg);
   const { updateOrg } = userStore.effects;
   const [isFetch, isUpdate] = useLoading(userStore, ['getJoinedOrgs', 'updateOrg']);
   const [state, updater] = useUpdate({

@@ -17,6 +17,7 @@ import { getAlerts, getAlertDetail, createAlert, editAlert, getAlertTypes, toggl
 import userStore from 'app/user/stores';
 import i18n from 'i18n';
 import { PAGINATION } from 'app/constants';
+import orgStore from 'app/org-home/stores/org';
 
 interface IState {
   alertTypes: COMMON_STRATEGY_NOTIFY.IAlertType;
@@ -70,7 +71,7 @@ const alarmStrategy = createStore({
       await alarmStrategy.effects.getAlerts({ pageNo: 1 });
     },
     async getAlarmScopes({ call, update }) {
-      const { orgId } = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const orgClusterList = await call(getClusterList, { orgId });
       const alarmScopeMap = {};
       forEach(orgClusterList, ({ name }) => {

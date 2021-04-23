@@ -16,7 +16,7 @@ import * as React from 'react';
 import projectMemberStore from 'common/stores/project-member';
 import orgMemberStore from 'common/stores/org-member';
 import appMemberStore from 'common/stores/application-member';
-import { map, debounce, filter, isEmpty, find, get, isArray, isString, difference } from 'lodash';
+import { map, debounce, isEmpty, get, isArray, isString, difference } from 'lodash';
 import { getUsers, getMembers } from 'common/services';
 import { MemberScope } from 'app/common/stores/_member';
 import { LoadMoreSelector, ImgHolder } from 'common';
@@ -25,6 +25,7 @@ import { useMount } from 'react-use';
 import i18n from 'i18n';
 import { ILoadMoreSelectorProps } from './load-more-selector';
 import routeInfoStore from 'app/common/stores/route';
+import orgStore from 'app/org-home/stores/org';
 import userStore from 'app/user/stores';
 import userMapStore from 'app/common/stores/user-map';
 
@@ -133,7 +134,8 @@ const getNotFoundContent = (scopeType: string) => {
 export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCategory>, ref: any) => {
   const { scopeType = 'org', scopeId: _scopeId, showRole, type, notFoundContent, value, categorys: staticCagetory, getData: _getData, className = '', size, showSelfChosen = false, placeholder, quickSelectInOption, ...rest } = props;
   const { projectId, appId } = routeInfoStore.useStore(s => s.params);
-  const { orgId, id: loginUserId } = userStore.getState(s => s.loginUser);
+  const { id: loginUserId } = userStore.getState(s => s.loginUser);
+  const orgId = orgStore.useStore(s => s.currentOrg.id);
   const isUCMember = scopeType === 'uc';
   const scopeIdMap = {
     app: appId,
@@ -294,7 +296,7 @@ const UserSelector = (props: any) => {
 // 添加企业成员时，请求用户接口不一样
 export const AddMemberSelector = (props: IAddProps) => {
   const { scopeType } = props;
-  const { orgId } = userStore.getState(s => s.loginUser);
+  const orgId = orgStore.useStore(s => s.currentOrg.id);
   const projectId = routeInfoStore.getState(s => s.params.projectId);
 
   const scopeInfoMap = {

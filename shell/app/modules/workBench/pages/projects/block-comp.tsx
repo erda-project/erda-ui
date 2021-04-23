@@ -15,9 +15,9 @@ import React from 'react';
 import i18n from 'i18n';
 import { Alert, Tooltip } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
-import { find, map } from 'lodash';
-import userStore from 'user/stores';
+import { map } from 'lodash';
 import moment from 'moment';
+import orgStore from 'app/org-home/stores/org';
 
 const envMap = {
   blockDev: i18n.t('default:dev environment'),
@@ -27,9 +27,9 @@ const envMap = {
 };
 
 export const BlockNetworkTips = () => {
-  const [orgs, loginUser] = userStore.useStore(s => [s.orgs, s.loginUser]);
+  const currentOrg = orgStore.useStore(s => s.currentOrg);
   const { show, message } = React.useMemo(() => {
-    const { blockoutConfig } = find(orgs, { id: loginUser.orgId }) || {} as IOrg;
+    const { blockoutConfig } = currentOrg;
     const envs: string[] = [];
     map(blockoutConfig, (value, key) => {
       if (value) {
@@ -40,7 +40,7 @@ export const BlockNetworkTips = () => {
       show: !!envs.length,
       message: envs.join(','),
     };
-  }, [orgs, loginUser.orgId]);
+  }, [currentOrg]);
   return show ? (
     <Alert className='mb16' showIcon type="error" message={i18n.t('default:tips of blockNetwork for forbidding deploy in the {env}', { env: message })} />
   ) : null;

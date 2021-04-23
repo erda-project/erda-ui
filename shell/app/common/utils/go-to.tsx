@@ -13,8 +13,9 @@
 
 import path from 'path';
 import { getConfig } from 'core/config';
-import { filter, isFunction, mapValues, throttle, pickBy } from 'lodash';
+import { filter, isFunction, mapValues, throttle, pickBy, isEmpty } from 'lodash';
 import { qs } from './query-string';
+import routeInfoStore from 'common/stores/route';
 
 export function resolvePath(goPath: string) {
   return path.resolve(window.location.pathname, goPath);
@@ -41,9 +42,11 @@ interface IOptions {
  * @param {boolean} options.jumpOut 为true时新开窗口
  * @param {object} options.rest 使用pages时的参数对象
  */
+
 export const goTo = (pathStr: string, options?: IOptions) => {
   const { replace = false, forbidRepeat = false, jumpOut = false, query, ...rest } = options as IOptions || {};
   let _path = '';
+  
   if (/^(http|https):\/\//.test(pathStr)) { // 外链
     if (jumpOut) {
       window.open(pathStr);
@@ -52,16 +55,18 @@ export const goTo = (pathStr: string, options?: IOptions) => {
     }
     return;
   } else if (pathStr.startsWith(goTo.pagePrefix)) {
+    const [urlParams, urlQuery] = routeInfoStore.getState(s => [s.params, s.query]);
+    const pathParams = { ...urlParams, ...urlQuery, ...rest };
     const curPath = goTo.pagePathMap[pathStr.replace(goTo.pagePrefix, '')];
     // 缺少参数
     if (curPath === undefined) {
       return;
     }
-    _path = isFunction(curPath) ? curPath(rest) : curPath;
+    _path = isFunction(curPath) ? curPath(pathParams) : curPath;
   } else {
     _path = resolvePath(pathStr);
   }
-  if (query) {
+  if (query && !isEmpty(query)) {
     _path += `?${qs.stringify(query)}`;
   }
 
@@ -107,144 +112,224 @@ const pathFormat = (url: string) => (params: object) => {
 goTo.pagePrefix = '__dice__'; // 防止goTo传入同名参数
 
 export enum pages {
-  noAuth = '/noAuth',
-  project = '/workBench/projects/{projectId}',
-  projectSetting = '/workBench/projects/{projectId}/setting',
-  app = '/workBench/projects/{projectId}/apps/{appId}',
-  repo = '/workBench/projects/{projectId}/apps/{appId}/repo',
-  repoBackup = '/workBench/projects/{projectId}/apps/{appId}/repo/backup',
-  commit = '/workBench/projects/{projectId}/apps/{appId}/repo/commit/{commitId}',
-  branches = '/workBench/projects/{projectId}/apps/{appId}/repo/branches',
-  tags = '/workBench/projects/{projectId}/apps/{appId}/repo/tags',
-  commits = '/workBench/projects/{projectId}/apps/{appId}/repo/commits/{branch}/{path}',
-  pipelineRoot = '/workBench/projects/{projectId}/apps/{appId}/pipeline',
-  pipeline = '/workBench/projects/{projectId}/apps/{appId}/pipeline?caseId={caseId}&pipelineID={pipelineID}',
-  dataTask = '/workBench/projects/{projectId}/apps/{appId}/dataTask/{pipelineID}',
-  deploy = '/workBench/projects/{projectId}/apps/{appId}/deploy',
-  qaTicket = '/workBench/projects/{projectId}/apps/{appId}/ticket/open?type={type}',
-  release = '/workBench/projects/{projectId}/apps/{appId}/repo/release?q={q}',
-  runtimeDetail = '/workBench/projects/{projectId}/apps/{appId}/deploy/runtimes/{runtimeId}/overview?serviceName={serviceName}&jumpFrom={jumpFrom}',
-  projectNotifyGroup = '/workBench/projects/{projectId}/setting?tabKey=notifyGroup',
-  projectService = '/workBench/projects/{projectId}/service',
-  testPlanDetail = '/workBench/projects/{projectId}/testPlan/manual/{testPlanID}?caseId={caseId}&testSetID={testSetID}',
+  noAuth = '/{orgName}/noAuth',
+  perm = '/{orgName}/perm?scope={scope}',
+  inviteToOrg = '/{orgName}/inviteToOrg',
+  freshMan = '/{orgName}/freshMan',
+  notFound = '/{orgName}/notFound',
+
+  //workBench
+  orgRoot = '/{orgName}',
+  orgList = '/{orgName}/org-list',
+  workBenchRoot = '/{orgName}/workBench/projects',
+  workBenchApps = '/{orgName}/workBench/apps',
+  workBenchService = '/{orgName}/workBench/service',
+  workBenchApprove = '/{orgName}/workBench/my-approve',
+  workBenchApprovePending = '/{orgName}/workBench/approval/my-approve/pending',
+  workBenchMyInitiate = '/{orgName}/workBench/approval/my-initiate',
+  workBenchMyInitiateWait = '/{orgName}/workBench/approval/my-initiate/WaitApprove',
+  workBenchPublisher = '/{orgName}/workBench/publisher',
+  
+
+  // project
+  project = '/{orgName}/workBench/projects/{projectId}',
+  projectSetting = '/{orgName}/workBench/projects/{projectId}/setting',
+  projectNotifyGroup = '/{orgName}/workBench/projects/{projectId}/setting?tabKey=notifyGroup',
+  projectService = '/{orgName}/workBench/projects/{projectId}/service',
+  testPlanDetail = '/{orgName}/workBench/projects/{projectId}/testPlan/manual/{testPlanID}?caseId={caseId}&testSetID={testSetID}',
+  projectApps = '/{orgName}/workBench/projects/{projectId}/apps',
+  projectAllIssue = '/{orgName}/workBench/projects/{projectId}/issues/all',
+  projectIssueDetail = '/{orgName}/workBench/projects/{projectId}/issues/{type}?id={id}&type={type}',
+  projectIssueRoot = '/{orgName}/workBench/projects/{projectId}/issues',
+  projectTestCaseRoot = '/{orgName}/workBench/projects/{projectId}/testCase',
+  projectManualTestCase = '/{orgName}/workBench/projects/{projectId}/testCase/manual',
+  projectDataBankRoot = '/{orgName}/workBench/projects/{projectId}/data-bank',
+  projectDataSource = '/{orgName}/workBench/projects/{projectId}/data-bank/data-source',
+  projectTestPlaneRoot = '/{orgName}/workBench/projects/{projectId}/testPlan',
+  projectManualTestPlane = '/{orgName}/workBench/projects/{projectId}/testPlan/manual',
+  projectTestEnvRoot = '/{orgName}/workBench/projects/{projectId}/testEnv',
+  projectManualTestEnv = '/{orgName}/workBench/projects/{projectId}/testEnv/manual',
+  projectDashboard = '/{orgName}/workBench/projects/{projectId}/dashboard',
+  projectResource = '/{orgName}/workBench/projects/{projectId}/resource',
+  projectTicket = '/{orgName}/workBench/projects/${projectId}/ticket',
+  
+  // app
+  app = '/{orgName}/workBench/projects/{projectId}/apps/{appId}',
+  repo = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/repo',
+  appMr = '/{orgName}/workBench/projects/{projectId}/apps/${appId}/repo/mr/open/${mrId}',
+  pipelineRoot = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/pipeline',
+  appApiDesign = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/apiDesign',
+  repoBackup = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/repo/backup',
+  commit = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/repo/commit/{commitId}',
+  branches = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/repo/branches',
+  tags = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/repo/tags',
+  commits = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/repo/commits/{branch}/{path}',
+  pipeline = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/pipeline?caseId={caseId}&pipelineID={pipelineID}',
+  dataTask = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/dataTask/{pipelineID}',
+  dataTaskRoot = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/dataTask',
+  deploy = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/deploy',
+  qaTicket = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/ticket/open?type={type}',
+  release = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/repo/release?q={q}',
+  runtimeDetail = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/deploy/runtimes/{runtimeId}/overview?serviceName={serviceName}&jumpFrom={jumpFrom}',
+  runtimeDetailRoot = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/deploy/runtimes/{runtimeId}/overview',
+  appDataModel = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/dataModel',
+  appDataMarket = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/dataMarket',
+  appCodeQuality = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/test',
+  appCodeQualityReports = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/test/quality',
+  appCodeQualityIssueOpen = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/ticket/open',
+  appCodeQualityIssue = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/ticket',
+  appSetting = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/setting',
 
   // 中间件平台首页 /addonPlatform/addonsManage 去掉了。详情页保留，暂时挂在DevOps平台下面。
-  addonPlatformOverview = '/workBench/addonsManage/{projectId}/{instanceId}/overview',
-  logAnalyticConsole = '/workBench/addonsManage/{projectId}/{instanceId}/log-analytics?appName={appName}',
-  jvmProfiler = '/workBench/addonsManage/{projectId}/{instanceId}/jvm-profiler',
-  appSetting_config = '/workBench/projects/{projectId}/apps/{appId}/setting?tabKey=appConfig',
-  buildDetailConfig = '/workBench/projects/{projectId}/config/apps/{appId}/runtimes/{branch}/{env}',
-  microServiceRoot = '/microService/microServiceManage',
-  microServiceOverview = '/microService/{projectId}/{env}/{tenantGroup}?appId={appId}&runtimeId={runtimeId}',
-  microServiceApiStrategy = '/microService/{projectId}/{env}/{tenantGroup}/gateway/api-package/{packageId}/detail/api-policies/safety-policy',
-  microServiceTopology = '/microService/{projectId}/{env}/{tenantGroup}/topology/{terminusKey}?appId={appId}',
-  monitorAPIOverview = '/microService/{projectId}/{env}/{tenantGroup}/gateway/apis/api-monitor?appId={appId}&runtimeId={runtimeId}',
-  microTraceSearch = '/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/trace/search?appId={appId}&timeFrom={timeFrom}&timeTo={timeTo}&status={status}',
-  dataCenterRoot = '/dataCenter/overview',
-  dataCenterClusterState = '/dataCenter/clusters/{clusterName}/state',
-  orgCenterRoot = '/orgCenter/projects',
-  publisherContent = '/workBench/publisher/{type}/{publisherItemId}',
-  dataCenterNotifyGroup = '/orgCenter/setting/detail?tabKey=notifyGroup',
-  dataCenterSetting = 'orgCenter/setting/detail',
-  workBenchRoot = '/workBench/projects',
-  orgHome = '/orgHome',
-  iterationDetail = '/workBench/projects/{projectId}/issues/iteration/{iterationId}/{issueType}',
-  taskList = '/workBench/projects/{projectId}/issues/task',
-  bugList = '/workBench/projects/{projectId}/issues/bug',
-  issueDetail = '/workBench/projects/{projectId}/issues/{issueType}?id={issueId}&iterationID={iterationId}&type={issueType}',
-  ticketDetail = '/workBench/projects/{projectId}/ticket?id={issueId}&pageNo=1',
-  backlog = '/workBench/projects/{projectId}/issues/backlog?id={issueId}&issueType={issueType}',
-  project_test_autoTestPlanDetail = '/workBench/projects/{projectId}/testPlan/auto/{id}',
-  project_test_spaceDetail_apis = '/workBench/projects/{projectId}/testCase/auto/{id}/apis',
-  project_test_spaceDetail_scenes = '/workBench/projects/{projectId}/testCase/auto/{id}/scenes',
+  addonPlatformOverview = '/{orgName}/workBench/addonsManage/{projectId}/{instanceId}/overview',
+  logAnalyticConsole = '/{orgName}/workBench/addonsManage/{projectId}/{instanceId}/log-analytics?appName={appName}',
+  jvmProfiler = '/{orgName}/workBench/addonsManage/{projectId}/{instanceId}/jvm-profiler',
+  appSetting_config = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/setting?tabKey=appConfig',
+  buildDetailConfig = '/{orgName}/workBench/projects/{projectId}/config/apps/{appId}/runtimes/{branch}/{env}',
+  microServiceRoot = '/{orgName}/microService/microServiceManage',
+  microServiceOverviewRoot = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}',
+  microServiceOverview = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}?appId={appId}&runtimeId={runtimeId}',
+  microServiceApiStrategy = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/gateway/api-package/{packageId}/detail/api-policies/safety-policy',
+  microServiceTopology = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/topology/{terminusKey}?appId={appId}',
+  monitorAPIOverview = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/gateway/apis/api-monitor?appId={appId}&runtimeId={runtimeId}',
+  microTraceSearch = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/trace/search?appId={appId}&timeFrom={timeFrom}&timeTo={timeTo}&status={status}',
+  dataCenterRoot = '/{orgName}/dataCenter/overview',
+
+  createProject = '/{orgName}/orgCenter/projects/createProject',
+  dataCenterClusters = '/{orgName}/dataCenter/clusters',
+  dataCenterClusterState = '/{orgName}/dataCenter/clusters/{clusterName}/state',
+  publisherContent = '/{orgName}/workBench/publisher/{type}/{publisherItemId}',
+  iterationDetail = '/{orgName}/workBench/projects/{projectId}/issues/iteration/{iterationId}/{issueType}',
+  taskList = '/{orgName}/workBench/projects/{projectId}/issues/task',
+  bugList = '/{orgName}/workBench/projects/{projectId}/issues/bug',
+  issueDetail = '/{orgName}/workBench/projects/{projectId}/issues/{issueType}?id={issueId}&iterationID={iterationId}&type={issueType}',
+  ticketDetail = '/{orgName}/workBench/projects/{projectId}/ticket?id={issueId}&pageNo=1',
+  backlog = '/{orgName}/workBench/projects/{projectId}/issues/backlog?id={issueId}&issueType={issueType}',
+  project_test_autoTestPlanDetail = '/{orgName}/workBench/projects/{projectId}/testPlan/auto/{id}',
+  project_test_spaceDetail_apis = '/{orgName}/workBench/projects/{projectId}/testCase/auto/{id}/apis',
+  project_test_spaceDetail_scenes = '/{orgName}/workBench/projects/{projectId}/testCase/auto/{id}/scenes',
 
 
   // 微服务
-  apiStrategy = '/microService/{projectId}/{env}/{tenantGroup}/gateway/api-package/{packageId}/detail/api-policies/safety-policy?apiId={apiId}',
-  apiManageQuery = '/microService/{projectId}/{env}/{tenantGroup}/gateway/apis?redirectApp={redirectApp}&redirectService={redirectService}&redirectRuntimeId={redirectRuntimeId}',
-  apiManage = '/microService/{projectId}/{env}/{tenantGroup}/gateway/apis',
+  apiStrategy = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/gateway/api-package/{packageId}/detail/api-policies/safety-policy?apiId={apiId}',
+  apiManageQuery = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/gateway/apis?redirectApp={redirectApp}&redirectService={redirectService}&redirectRuntimeId={redirectRuntimeId}',
+  apiManage = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/gateway/apis',
 
   // 微服务日志分析规则
-  ms_addLogAnalyzeRule = '/microService/{projectId}/{env}/{tenantGroup}/log/{addonId}/rule/add?source={source}',
+  ms_addLogAnalyzeRule = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/log/{addonId}/rule/add?source={source}',
 
   // 网关“入口流量管理”
-  getwayDetail = '/microService/{projectId}/{env}/{tenantGroup}/gateway/api-package/{packageId}/detail',
-  gatewayList = '/microService/{projectId}/{env}/{tenantGroup}/gateway/api-package?domain={domain}',
+  getwayDetail = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/gateway/api-package/{packageId}/detail',
+  gatewayList = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/gateway/api-package?domain={domain}',
 
   // fdp
-  fdpIndex = '/fdp/__cluster__/__workspace__/data-source',
+  fdpIndex = '/{orgName}/fdp/__cluster__/__workspace__/data-source',
 
   // 企业中心告警数据报表
-  alarmReport = '/dataCenter/alarm/report/{clusterName}/{chartUniqId}?category={category}&x_filter_host_ip={ip}&x_timestamp={timestamp}',
+  alarmReport = '/{orgName}/dataCenter/alarm/report/{clusterName}/{chartUniqId}?category={category}&x_filter_host_ip={ip}&x_timestamp={timestamp}',
 
   // 企业中心自定义大盘
-  orgCustomDashboard = '/dataCenter/customDashboard',
-  orgAddCustomDashboard = '/dataCenter/customDashboard/add',
-  orgCustomDashboardDetail = '/dataCenter/customDashboard/{customDashboardId}',
+  orgCustomDashboard = '/{orgName}/dataCenter/customDashboard',
+  orgAddCustomDashboard = '/{orgName}/dataCenter/customDashboard/add',
+  orgCustomDashboardDetail = '/{orgName}/dataCenter/customDashboard/{customDashboardId}',
 
   // 微服务监控自定义大盘
-  micro_serviceCustomDashboard = '/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/custom-dashboard',
-  micro_serviceAddCustomDashboard = '/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/custom-dashboard/add',
-  micro_serviceCustomDashboardDetail = '/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/custom-dashboard/{customDashboardId}',
+  micro_serviceCustomDashboard = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/custom-dashboard',
+  micro_serviceAddCustomDashboard = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/custom-dashboard/add',
+  micro_serviceCustomDashboardDetail = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/custom-dashboard/{customDashboardId}',
 
   // 微服务-服务分析页
-  microServiceServiceAnalyze = '/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/service-list/{applicationId}/{serviceName}',
+  microServiceServiceAnalyze = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/service-list/{applicationId}/{serviceId}/{serviceName}',
 
   // 企业日志分析规则
-  addLogAnalyzeRule = '/dataCenter/log/rule/add?source={source}',
+  addLogAnalyzeRule = '/{orgName}/dataCenter/log/rule/add?source={source}',
 
   // 企业告警记录详情
-  orgAlarmRecordDetail = '/dataCenter/alarm/record/{id}',
+  orgAlarmRecordDetail = '/{orgName}/dataCenter/alarm/record/{id}',
 
   // 微服务告警记录详情
-  micro_serviceAlarmRecordDetail = '/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/alarm-record/{id}',
+  micro_serviceAlarmRecordDetail = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/monitor/{terminusKey}/alarm-record/{id}',
 
   // 云资源管理
-  cloudSource = '/dataCenter/cloudSource',
-  cloudSourceEcs = '/dataCenter/cloudSource/ecs',
-  cloudSourceVpc = '/dataCenter/cloudSource/vpc',
-  cloudSourceOss = '/dataCenter/cloudSource/oss',
-  cloudSourceRds = '/dataCenter/cloudSource/rds',
-  cloudSourceMq = '/dataCenter/cloudSource/mq',
-  cloudSourceRedis = '/dataCenter/cloudSource/redis',
-  cloudAccounts = '/dataCenter/cloudSource/accounts',
+  cloudSource = '/{orgName}/dataCenter/cloudSource',
+  dataCenterDomain = '/{orgName}/dataCenter/domain',
+  dataCenterServices = '/{orgName}/dataCenter/services',
+  dataCenterAddon = '/{orgName}/dataCenter/addon',
+  dataCenterJobs = '/{orgName}/dataCenter/jobs',
+  dataCenterReport = '/{orgName}/dataCenter/report',
+  dataCenterAlarm = '/{orgName}/dataCenter/alarm',
+  dataCenterAlarmStatistics = '/{orgName}/dataCenter/alarm/statistics',
+  dataCenterAlarmRecord = '/{orgName}/dataCenter/alarm/record',
+  dataCenterAlarmStrategy = '/{orgName}/dataCenter/alarm/strategy',
+  dataCenterAlarmCustom = '/{orgName}/dataCenter/alarm/custom',
+  dataCenterLog = '/{orgName}/dataCenter/log',
+  dataCenterLogQuery = '/{orgName}/dataCenter/log/query',
+  dataCenterLogRule = '/{orgName}/dataCenter/log/rule',
+  cloudSourceEcs = '/{orgName}/dataCenter/cloudSource/ecs',
+  cloudSourceVpc = '/{orgName}/dataCenter/cloudSource/vpc',
+  cloudSourceOss = '/{orgName}/dataCenter/cloudSource/oss',
+  cloudSourceRds = '/{orgName}/dataCenter/cloudSource/rds',
+  cloudSourceMq = '/{orgName}/dataCenter/cloudSource/mq',
+  cloudSourceRedis = '/{orgName}/dataCenter/cloudSource/redis',
+  cloudAccounts = '/{orgName}/dataCenter/cloudSource/accounts',
+
+  // orgCenter
+  orgCenterRoot = '/{orgName}/orgCenter/projects',
+  orgCenterMarket = '/{orgName}/orgCenter/market',
+  orgCenterPublisherSetting = '/{orgName}/orgCenter/market/publisher/setting',
+  orgCenterCertificate = '/{orgName}/orgCenter/certificate',
+  orgCenterApproval = '/{orgName}/orgCenter/approval',
+  orgCenterApprovalUndone = '/{orgName}/orgCenter/approval/undone',
+  orgCenterAnnouncement = '/{orgName}/orgCenter/announcement',
+  orgCenterSafety = '/{orgName}/orgCenter/safety',
+
+  
+
+  dataCenterNotifyGroup = '/{orgName}/orgCenter/setting/detail?tabKey=notifyGroup',
+  dataCenterSetting = '/{orgName}/orgCenter/setting/detail',
 
   // Api 管理平台
-  apiManageRoot = '/workBench/apiManage/api-market/mine',
-  apiDesign = '/workBench/apiManage/api-design',
-  apiAccessManage = '/workBench/apiManage/access-manage',
-  apiAccessManageDetail = '/workBench/apiManage/access-manage/detail/{accessID}',
-  apiMyVisit = '/workBench/apiManage/client',
-  apiManageAssetVersions = '/workBench/apiManage/api-market/{scope}/{assetID}',
-  apiManageAssetDetail = '/workBench/apiManage/api-market/{scope}/{assetID}/{versionID}',
+  apiManageRoot = '/{orgName}/workBench/apiManage/api-market/mine',
+  apiManageMarket = '/{orgName}/workBench/apiManage/api-market',
+  apiDesign = '/{orgName}/workBench/apiManage/api-design',
+  apiAccessManage = '/{orgName}/workBench/apiManage/access-manage',
+  apiAccessManageDetail = '/{orgName}/workBench/apiManage/access-manage/detail/{accessID}',
+  apiMyVisit = '/{orgName}/workBench/apiManage/client',
+  apiManageAssetVersions = '/{orgName}/workBench/apiManage/api-market/{scope}/{assetID}',
+  apiManageAssetDetail = '/{orgName}/workBench/apiManage/api-market/{scope}/{assetID}/{versionID}',
 
   // 市场
-  market = '/market/download/{publishItemId}',
+  market = '/{orgName}/market/download/{publishItemId}',
 
   // api仓库
-  apiDocs = '/workBench/projects/{projectId}/apps/{appId}/repo/tree/{branchName}/.dice/apidocs/{docName}',
+  apiDocs = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/repo/tree/{branchName}/.dice/apidocs/{docName}',
 
   // 边缘计算平台
-  edgeApp = '/edge/application',
-  edgeAppSiteManage = '/edge/application/{id}',
-  edgeAppSiteIpManage = '/edge/application/{id}/{siteName}',
-  edgeResource = '/edge/resource',
-  edgeSiteMachine = '/edge/resource/{id}',
-  edgeSetting = '/edge/setting',
-  edgeSettingDetail = '/edge/setting/{id}',
+  edgeApp = '/{orgName}/edge/application',
+  edgeAppSiteManage = '/{orgName}/edge/application/{id}',
+  edgeAppSiteIpManage = '/{orgName}/edge/application/{id}/{siteName}',
+  edgeResource = '/{orgName}/edge/resource',
+  edgeSiteMachine = '/{orgName}/edge/resource/{id}',
+  edgeSetting = '/{orgName}/edge/setting',
+  edgeSettingDetail = '/{orgName}/edge/setting/{id}',
+
+  // sysAdmin
+  sysAdminOrgs = '/{orgName}/sysAdmin/orgs'
 }
 
 goTo.pages = { ...pages };
 goTo.pagePathMap = {};
 goTo.resolve = {} as {
-  [k in keyof typeof pages]: (params: Obj, prependOrigin?: boolean) => string
+  [k in keyof typeof pages]: (params?: Obj, prependOrigin?: boolean) => string
 };
 mapValues(pages, (v, k) => {
   goTo.pages[k] = `${goTo.pagePrefix}${k}`;
   goTo.pagePathMap[k] = v.match(/\{.+\}/) ? pathFormat(v) : v;
-  goTo.resolve[k] = (params: Obj, prependOrigin?: boolean) => {
+  goTo.resolve[k] = (params?: Obj, prependOrigin?: boolean) => {
+    const [urlParams, urlQuery] = routeInfoStore.getState(s => [s.params, s.query]);
+    const pathParams = { ...urlParams, ...urlQuery, ...params };
     const prefix = prependOrigin ? window.location.origin : '';
-    const pagePath = pathFormat(v)(params);
+    const pagePath = pathFormat(v)(pathParams);
     return prefix + pagePath;
   };
 });

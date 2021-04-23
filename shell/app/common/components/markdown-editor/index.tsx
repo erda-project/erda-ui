@@ -79,15 +79,6 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
     });
   }
 
-  static getDerivedStateFromProps(nextProps: Readonly<IProps>, preState:IState) {
-    if (nextProps.value !== preState.content) {
-      return {
-        content: nextProps.value || '',
-      };
-    }
-    return null;
-  }
-
   onSubmit = () => {
     const { onSubmit, notClearAfterSubmit = false } = this.props;
 

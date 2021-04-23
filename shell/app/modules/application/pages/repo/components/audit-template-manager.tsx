@@ -20,7 +20,7 @@ import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 
 // dice-config应用
-export const ifRouterMatch = () => /^\/workBench\/projects\/70\/apps\/4762\/repo\/tree\/.+\/audit\/template.json$/.test(window.location.pathname);
+export const ifRouterMatch = () => /\/workBench\/projects\/70\/apps\/4762\/repo\/tree\/.+\/audit\/template.json$/.test(window.location.pathname);
 
 export const AuditTemplateManager = () => {
   const [{ isIframeInited, innerWindow }, updater] = useUpdate({
