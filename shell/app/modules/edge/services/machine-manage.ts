@@ -19,3 +19,9 @@ export const getGroupInfos = ({ orgName, ...rest }: MACHINE_MANAGE.IGroupInfoQue
     .send(rest)
     .then((response: any) => response.body);
 };
+
+export const offlineMachine = ({ id, siteIP }: MACHINE_MANAGE.IOfflineMachine) => {
+  return agent.delete(`/api/edge/site/offline/${id}`)
+    .send({ siteIP })
+    .then((response: any) => response.body);
+};

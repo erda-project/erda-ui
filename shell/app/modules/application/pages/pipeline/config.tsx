@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-import { isEmpty, get } from 'lodash';
+import { isEmpty, get, compact } from 'lodash';
 
 export const SCOPE_AUTOTEST = 'project-autotest-testcase';
 export const SCOPE_AUTOTEST_PLAN = 'project-autotest-testplan';
@@ -50,10 +50,20 @@ export const scopeMap = {
 
 
 // 根据inode的得到branch、path
-export const getBranchPath = (node: TREE.NODE) => {
-  if (!node || isEmpty(node)) return { branch: '' };
-  const branch = get(node, 'meta.snippetAction.snippet_config.labels.branch');
-  let path = get(node, 'meta.snippetAction.snippet_config.name') || '';
-  path = path.startsWith('/') ? path.replace('/', '') : path;
-  return { branch, path };
+export const getBranchPath = (node: TREE.NODE, appId?: string) => {
+  if (!node || isEmpty(node)) return { branch: '', pagingYmlNames: [] };
+  const gittarYmlPath = get(node, 'meta.snippetAction.snippet_config.labels.gittarYmlPath');
+  const snippetConfigName = get(node, 'meta.snippetAction.snippet_config.name') || '';
+  const ymlPathStrArr = compact((gittarYmlPath.replace(snippetConfigName, '') || '').split('/'));
+  let pagingYmlNames = [] as string[];
+  let branch = '';
+  if (ymlPathStrArr.length) {
+    pagingYmlNames = [
+      `${appId}/${gittarYmlPath.split('/').slice(1).join('/')}`,
+      snippetConfigName,
+    ];
+    branch = ymlPathStrArr.slice(2).join('/');
+  }
+  const path = snippetConfigName.startsWith('/') ? snippetConfigName.replace('/', '') : snippetConfigName;
+  return { branch, path, pagingYmlNames };
 };

@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { Drawer, Table, Breadcrumb, Icon } from 'app/nusi';
+import { Drawer, Table, Breadcrumb, Icon, Popconfirm as PopConfirm } from 'app/nusi';
 import { map } from 'lodash';
 import { useUpdate, TagsColumn, TableActions } from 'common';
 import { ColumnProps } from 'core/common/interface';
@@ -36,16 +36,18 @@ export default () => {
   });
 
   const [{ siteName, clusterName }] = routeInfoStore.useStore(s => [s.query]);
+  const { id } = routeInfoStore.useStore(s => s.params);
 
   const [isFetching] = useLoading(machineManageStore, ['getGroupInfos']);
-  const { getGroupInfos, clearGroupInfos } = machineManageStore;
+  const { getGroupInfos, clearGroupInfos, offlineMachine } = machineManageStore;
+
   const [groupInfos] = machineManageStore.useStore(s => [s.groupInfos]);
 
   useUnmount(() => {
     clearGroupInfos();
   });
 
-  React.useEffect(() => {
+  const getMachineList = React.useCallback(() => {
     getGroupInfos({
       groups: ['cluster'],
       clusters: [{ clusterName }],
@@ -57,6 +59,10 @@ export default () => {
       ],
     });
   }, [clusterName, getGroupInfos, siteName]);
+
+  React.useEffect(() => {
+    getMachineList();
+  }, [getMachineList]);
 
   const tableList = React.useMemo(() => {
     const { machines } = groupInfos[0] || {};
@@ -71,6 +77,16 @@ export default () => {
       activeMachine: record,
     });
   };
+
+  const offlineHandle = (record:ORG_MACHINE.IMachine) => {
+    offlineMachine({
+      siteIP: record.ip,
+      id: +id,
+    }).then(() => {
+      getMachineList();
+    });
+  };
+
 
   const columns: Array<ColumnProps<ORG_MACHINE.IMachine>> = [
     {
@@ -130,7 +146,7 @@ export default () => {
       width: 400,
       className: 'machine-labels',
       render: (value: string) => {
-        const keyArray = value.split(',');
+        const keyArray = value?.split(',') || [];
         return (<TagsColumn labels={keyArray.map((label) => {
           return { label };
         })}
@@ -141,11 +157,14 @@ export default () => {
       title: i18n.t('operations'),
       dataIndex: 'id',
       key: 'operation',
-      width: 80,
+      width: 120,
       render: (_id: string, record: ORG_MACHINE.IMachine) => {
         return (
           <TableActions>
             <span className="table-operations-btn" onClick={() => showMonitor(record)} >{i18n.t('machine overview')}</span>
+            <PopConfirm title={`${i18n.t('confirm offline')}?`} onConfirm={() => offlineHandle(record)}>
+              <span className="table-operations-btn">{i18n.t('microService:offline')}</span>
+            </PopConfirm>
           </TableActions>
         );
       },
