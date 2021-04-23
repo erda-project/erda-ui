@@ -70,7 +70,7 @@ const org = createStore({
         if(orgId){
 
           const setHeader = (req: any)=>{
-            req.set('orgId', orgId);
+            req.set('orgID', orgId);
           }
           agent.use(setHeader);
           
@@ -116,7 +116,7 @@ const org = createStore({
     clearOrg(state){
       state.currentOrg = {} as ORG.IOrg;
       const setHeader = (req: any)=>{
-        req.set('orgId', '');
+        req.set('orgID', '');
       }
       agent.use(setHeader);
     }

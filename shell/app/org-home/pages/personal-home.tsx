@@ -16,7 +16,7 @@ import DiceConfigPage from 'config-page/index';
 import routeInfoStore from 'app/common/stores/route';
 import './personal-home.scss';
 
-export const PersonalHome = () => {
+const PersonalHome = () => {
   const orgName = routeInfoStore.useStore(s => s.params.orgName);
 
   const inParams = { orgName };
@@ -44,6 +44,8 @@ export const PersonalHome = () => {
     </div>
   )
 };
+
+export default PersonalHome;
 
 const mockSidebar: CONFIG_PAGE.RenderConfig = {
   scenario: {

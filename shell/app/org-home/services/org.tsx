@@ -14,7 +14,7 @@
 import agent from 'agent';
 
 export const getOrgByDomain = (payload: ORG.IOrgReq): ORG.IOrg => {
-  return agent.get('/api/users/me' || '/api/orgs/actions/get-by-domain')
+  return agent.get('/api/orgs/actions/get-by-domain')
     .query(payload)
     .then((response: any) => response.body);
 };
