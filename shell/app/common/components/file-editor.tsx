@@ -14,6 +14,11 @@
 import * as React from 'react';
 import 'ace-builds';
 import AceEditor, { IAceEditorProps } from 'react-ace';
+import { Icon as CustomIcon, Copy } from 'common';
+import { Tooltip } from 'app/nusi';
+import { compact } from 'lodash';
+import { isValidJsonStr } from 'common/utils';
+import i18n from 'i18n';
 
 import 'ace-builds/src-noconflict/ext-searchbox';
 import highlight from 'ace-builds/src-noconflict/ext-static_highlight';
@@ -39,6 +44,8 @@ import lessMode from 'ace-builds/src-noconflict/mode-less';
 import rubyMode from 'ace-builds/src-noconflict/mode-ruby';
 import pythonMode from 'ace-builds/src-noconflict/mode-python';
 import dockerfileMode from 'ace-builds/src-noconflict/mode-dockerfile';
+
+import './file-editor.scss';
 
 const supportLang = [
   'javascript',
@@ -97,16 +104,38 @@ const extMap = {
   Dockerfile: 'dockerfile',
 };
 
+// fileEditor外层多包了一个div，用于宽高的设定，传了style，但是不需要其他属性影响子元素的样式
+const filterSizeStyle = (style:Obj) => {
+  const { height, width, minHeight, maxHeight, minWidth, maxWidth } = style || {};
+
+  return {
+    width,
+    height,
+    minHeight,
+    minWidth,
+    maxHeight,
+    maxWidth,
+  };
+};
+
+interface IActions {
+  copy?: boolean;
+  format?: boolean;
+  extra?: React.ReactNode;
+}
+
 interface IProps extends IAceEditorProps{
   fileExtension: string;
   editorProps?: object;
   autoHeight?: boolean;
   options?: object;
+  className?: string;
   value?: string;
+  actions?: IActions;
   [prop: string]: any;
 }
 
-export const FileEditor = ({ fileExtension, editorProps, options, autoHeight = false, style: editorStyle, value, ...rest }: IProps) => {
+export const FileEditor = ({ fileExtension, editorProps, options, autoHeight = false, className, style: editorStyle, value, actions = {}, ...rest }: IProps) => {
   const _rest = { ...rest };
   const style: any = { width: '100%', lineHeight: '1.8', ...editorStyle };
   let mode = extMap[fileExtension] || fileExtension || 'sh';
@@ -133,11 +162,46 @@ export const FileEditor = ({ fileExtension, editorProps, options, autoHeight = f
       });
     }
   }, [mode, value]);
+
+  const curActions = compact([
+    actions.copy ? (
+      <Tooltip title={i18n.t('copy')} key='copy'>
+        <CustomIcon
+          type='fz1'
+          className='fz18 hover-active for-copy'
+          data-clipboard-text={value}
+        />
+      </Tooltip>
+    ) : null,
+    actions.format ? (
+      <Tooltip title={i18n.t('format')} key='format'>
+        <CustomIcon
+          type='sx'
+          className='fz18 hover-active'
+          onClick={() => {
+            value && isValidJsonStr(value) && rest.onChange && rest.onChange(JSON.stringify(JSON.parse(value), null, 2));
+          }}
+        />
+      </Tooltip>
+    ) : null,
+  ]);
+
+  const ActionComp = (curActions.length || actions.extra) ? (
+    <div className='flex-box file-editor-actions'>
+      {curActions}
+      {actions.extra || null}
+    </div>
+  ) : null;
+
   if (_rest.readOnly) {
     return value ? (
-      <pre data-mode={mode} ref={preDom} style={style}>
-        {value}
-      </pre>
+      <div style={filterSizeStyle(style)} className={`file-editor-container ${className}`}>
+        <Copy selector=".for-copy" />
+        <pre data-mode={mode} ref={preDom} style={style}>
+          {value}
+        </pre>
+        {ActionComp}
+      </div>
     ) : (
       <pre style={{ height: '300px' }} />
     );
@@ -148,15 +212,19 @@ export const FileEditor = ({ fileExtension, editorProps, options, autoHeight = f
     _rest.maxLines = 30;
   }
   return (
-    <AceEditor
-      mode={mode}
-      theme="github"
-      fontSize={12}
-      style={style}
-      editorProps={{ $blockScrolling: true, ...editorProps }}
-      setOptions={{ ...options, useWorker: false }} // useWorker为true时切换编辑模式会有个报错
-      value={value}
-      {..._rest}
-    />
+    <div style={filterSizeStyle(style)} className={`file-editor-container ${className}`}>
+      <AceEditor
+        mode={mode}
+        theme="github"
+        fontSize={12}
+        style={style}
+        editorProps={{ $blockScrolling: true, ...editorProps }}
+        setOptions={{ ...options, useWorker: false }} // useWorker为true时切换编辑模式会有个报错
+        value={value}
+        {..._rest}
+      />
+      {ActionComp}
+      <Copy selector=".for-copy" />
+    </div>
   );
 };

@@ -14,7 +14,7 @@
 import * as React from 'react';
 import i18n from 'i18n';
 // @ts-ignore
-import yaml from '@terminus/js-yaml';
+import yaml from 'js-yaml';
 import { get, omit, isEmpty } from 'lodash';
 import { notify, isPromise } from 'common/utils';
 import { Spin, Button, message, Radio, Modal } from 'app/nusi';

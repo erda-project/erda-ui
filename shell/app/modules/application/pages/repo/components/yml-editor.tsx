@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 // @ts-ignore
-import yaml from '@terminus/js-yaml';
+import yaml from 'js-yaml';
 import CreateAddOn from 'application/common/components/create-add-on';
 import DiceYamlEditor from 'application/common/components/dice-yaml-editor';
 import Drawer from 'application/common/components/dice-yaml-editor-drawer';

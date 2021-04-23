@@ -15,7 +15,7 @@
 import { IYmlEditorProps } from './index';
 // import i18n from 'i18n';
 // // @ts-ignore
-// import yaml from '@terminus/js-yaml';
+// import yaml from 'js-yaml';
 // import { map, get, omit, isEmpty, cloneDeep, difference, flatten } from 'lodash';
 // import { Spin, Button, message } from 'app/nusi';
 // import { useUpdate, RenderForm } from 'common';
