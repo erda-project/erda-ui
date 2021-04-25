@@ -20,7 +20,18 @@ import { TextDecoder, TextEncoder } from 'util'
 
 jest.mock('i18n', () => {
   return {
-    t: (str) => str.replace(/\S+\:/, '').trim(),
+    t: (str, data) => {
+      let token;
+      let strFormat = str.replace(/\S+\:/, '').trim();
+      if(!data){
+        return strFormat;
+      }
+      const reg = /\{(\S+?)}/;
+      while (token = reg.exec(strFormat)){
+        strFormat = strFormat.replace(token[0], data[token[1]])
+      }
+      return strFormat
+    },
     getCurrentLocale: ()=>({
       moment: 'en',
     })

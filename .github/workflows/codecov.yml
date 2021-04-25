@@ -4,8 +4,12 @@ name: codecov
 on:
   push:
     branches: [ develop ]
+    paths:
+      - shell/app/common/**
   pull_request:
     branches: [ develop ]
+    paths:
+      - shell/app/common/**
 
   workflow_dispatch:
 
@@ -40,5 +44,3 @@ jobs:
 
       - name: Codecov
         uses: codecov/codecov-action@v1.4.1
-        with:
-          file: ./coverage.yml

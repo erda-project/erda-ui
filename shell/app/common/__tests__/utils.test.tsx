@@ -1,4 +1,19 @@
-import { isPromise, isImage, removeProtocol, ossImg, uuid, isValidJsonStr } from '../utils';
+// Copyright (c) 2021 Terminus, Inc.
+//
+// This program is free software: you can use, redistribute, and/or modify
+// it under the terms of the GNU Affero General Public License, version 3
+// or later ("AGPL"), as published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+import { isPromise, isImage, removeProtocol, ossImg, uuid, isValidJsonStr, insertWhen,
+  reorder, encodeHtmlTag, convertToFormData, getFileSuffix, filterOption, regRules,
+} from '../utils';
 import { describe, it } from '@jest/globals';
 
 describe('utils', () => {
@@ -37,5 +52,46 @@ describe('utils', () => {
   });
   it('uuid', () => {
     expect(uuid()).toHaveLength(20);
+    expect(uuid(0)).toHaveLength(36);
+  });
+  it('insertWhen', () => {
+    expect(insertWhen(true, [1, 2, 3]).length).toBe(3);
+    expect(insertWhen(false, [1, 2, 3]).length).toBe(0);
+  });
+  it('reorder', () => {
+    expect(reorder([1, 2, 3], 0, 2)).toStrictEqual([2, 3, 1]);
+  });
+  it('encodeHtmlTag', () => {
+    expect(encodeHtmlTag('<div>Erda Cloud</div>')).toBe('&lt;div&gt;Erda Cloud&lt;/div&gt;');
+    expect(encodeHtmlTag('')).toBe('');
+  });
+  it('convertToFormData', () => {
+    // jest.mock('FormData')
+    const data = {
+      name: 'ErdaCloud',
+      id: 12,
+    };
+    const fData = new FormData();
+    fData.append('name', data.name);
+    fData.append('id', data.id);
+    expect(convertToFormData(data)).toStrictEqual(fData);
+  });
+  it('getFileSuffix', () => {
+    expect(getFileSuffix('')).toBe('');
+    expect(getFileSuffix('erda.cloud')).toBe('cloud');
+    expect(getFileSuffix('erda')).toBe('erda');
+  });
+  it('filterOption', () => {
+    const data = {
+      props: {
+        children: 'Erda Cloud',
+      },
+    };
+    expect(filterOption('erda', data)).toBe(true);
+    expect(filterOption('dice', data)).toBe(false);
+  });
+  it('regRules', () => {
+    expect(regRules.lenRange(1, 10).message).toBe('length is 1~10');
+    expect(regRules.lenRange(1, 10).pattern.toString()).toBe('/^[\\s\\S]{1,10}$/');
   });
 });
