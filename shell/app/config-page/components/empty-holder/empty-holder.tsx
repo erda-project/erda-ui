@@ -20,20 +20,29 @@ import './empty-holder.scss';
 export const EmptyHolder = (props: CP_EMPTY_HOLDER.Props) => {
   const { props: configProps } = props;
   const {
+    visible = false,
     icon = 'empty',
     tip = i18n.t('common:no data'),
     relative = false,
     style = {},
     action = null,
     className = '',
+    whiteBg = false,
+    paddingY = false,
   } = configProps || {};
 
   const cls = classnames({
     'empty-holder': true,
     'multi-line': true,
     relative,
+    'white-bg': whiteBg,
+    'padding-vertical': paddingY,
   });
 
+  if (!visible) {
+    return null;
+  }
+  
   return (
     <div className={`${cls} ${className}`} style={style}>
       <CustomIcon type={icon} color />

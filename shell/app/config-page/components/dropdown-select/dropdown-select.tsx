@@ -70,7 +70,7 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
 
         <Menu.Divider key='divider1' />
         {
-          map(options, (item: CP_DROPDOWN_SELECT.IOptionItem) => {
+          map(options, (item: CP_DROPDOWN_SELECT.IOptionItem, index: number) => {
             // 前端搜索
             if (!item.label.toLowerCase().includes(filterValue)) {
               return null
@@ -78,7 +78,7 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
 
             return (
               <Menu.Item
-                key={item.label}
+                key={`${String(index)}`}
                 disabled={item.disabled}
                 className='hover-active'
                 onClick={() => {
@@ -105,8 +105,9 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
         <Menu.Divider key='divider2' />
         {
           quickSelect.length > 0 ?
-            map(quickSelect, (item) => (
+            map(quickSelect, (item, index) => (
               <Menu.Item
+                key={`${String(index)}`}
                 className='hover-active'
                 onClick={() => gotoSpecificPage(item)}>
                 {item?.label || null}

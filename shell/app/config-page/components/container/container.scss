@@ -43,6 +43,11 @@
       flex-direction: row;
       align-items: center;
 
+      &.space-none {
+        > * {
+          margin-left: 0;
+        }
+      }
 
       &.space-small {
         > * {

@@ -25,10 +25,10 @@ const TextGroup = (props: CP_TEXT_GROUP.Props) => {
   if (isArray(value)) {
     return (
       <div className={`dice-cp-text-group ${align}`}>
-        {map(value, (item) =>
-          <div className={`${item.gapSize || gapSize}`}>
+        {map(value, (item, index) =>
+          <div key={`${String(index)}`} className={`${item.gapSize || gapSize}`}>
             <Text
-              type={type}
+              type="Text"
               execOperation={execOperation}
               updateState={updateState}
               props={item.props}

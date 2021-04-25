@@ -14,11 +14,13 @@
 import React from 'react';
 import classnames from 'classnames';
 import './image.scss';
-import DEFAULT_SRC from 'app/images/default-project-icon.png'
+import DEFAULT_ORGANIZATION_SVG from 'app/images/resources/org.png';
+import DEFAULT_PROJECT_SVG from 'app/images/default-project-icon.png';
+import ERDA_LOGO from 'app/images/Erda.svg';
 
 const Image = (props: CP_IMAGE.Props) => {
   const { props: configProps } = props;
-  const { src = DEFAULT_SRC, size = 'normal', visible = true, isCircle = false, display = 'inline-block' } = configProps || {};
+  const { src = '', type = 'project', size = 'normal', visible = true, isCircle = false, display = 'inline-block' } = configProps || {};
   const cls = classnames({
     'cp-dice-image': true,
     [size]: true,
@@ -26,11 +28,20 @@ const Image = (props: CP_IMAGE.Props) => {
     [display]: true,
   });
 
+  const defaultImgMap = {
+    organization: DEFAULT_ORGANIZATION_SVG,
+    project: DEFAULT_PROJECT_SVG,
+  }
+  
   if (!visible) {
-    return null
+    return null;
   }
 
-  return <img src={src} className={`${cls}`} />
+  if (type === 'erda') {
+    return <img src={ERDA_LOGO} className={`${cls} erda-logo`} />
+  }
+
+  return <img src={src || defaultImgMap[type]} className={`${cls}`} />
 }
 
 export default Image;

@@ -16,6 +16,7 @@ import { Tooltip, Button, Ellipsis, Pagination } from 'app/nusi';
 import { Icon as CustomIcon, useUpdate, EmptyHolder } from 'common';
 import { isNumber, filter, map, sortBy, isString } from 'lodash';
 import { OperationAction } from 'config-page/utils';
+import i18n from 'i18n';
 import imgMap from '../../img-map';
 import ErdaIcon from '../icon/icon';
 import './list.scss';
@@ -34,7 +35,7 @@ const List = (props: CP_LIST.Props) => {
   // 将接口返回的list和之前的list进行拼接
   React.useEffect(() => {
     if ( useLoadMore && pageNo !== 1) {
-      setCombineList(pre => ([...pre, ...list]))
+      list && setCombineList(pre => ([...pre, ...list]))
     } else {
       setCombineList(list)
     }
@@ -47,7 +48,7 @@ const List = (props: CP_LIST.Props) => {
 
   const pagination = React.useMemo(() => {
     return isNumber(pageNo) ? {
-      total: total || list.length,
+      total: total || list?.length,
       current: pageNo || 1,
       pageSize: pageSize || 20,
       onChange: (no: number) => changePage(no),
@@ -92,8 +93,8 @@ const List = (props: CP_LIST.Props) => {
               <Pagination className='right-flex-box mt12' {...pagination} />
             ) : null
             }
-            {useLoadMore && total > Math.max(combineList.length, 0)
-              && <div className='hover-active load-more' onClick={loadMore}>更多...</div>}
+            {useLoadMore && total > Math.max(combineList?.length, 0)
+              && <div className='hover-active load-more' onClick={loadMore}>{i18n.t('more')}...</div>}
           </>
         ) : <EmptyHolder relative />
       }

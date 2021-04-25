@@ -34,4 +34,10 @@
     border-radius: 50%;
   }
 
+  &.erda-logo {
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+    background-color: $color-primary;
+  }
 }

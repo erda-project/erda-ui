@@ -37,6 +37,10 @@
     }
   }
 
+  &.padding-vertical {
+    padding: 32px 0 64px;
+  }
+
   .action {
     color: $color-primary;
     cursor: pointer;
