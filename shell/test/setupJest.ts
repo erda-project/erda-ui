@@ -20,7 +20,10 @@ import { TextDecoder, TextEncoder } from 'util'
 
 jest.mock('i18n', () => {
   return {
-    t: (str) => str
+    t: (str) => str.replace(/\S+\:/, '').trim(),
+    getCurrentLocale: ()=>({
+      moment: 'en',
+    })
   };
 });
 jest.mock('tsx-control-statements/components', () => {

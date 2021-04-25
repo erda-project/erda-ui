@@ -13,6 +13,7 @@
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --verbose --coverage",
+    "test:watch": "jest --verbose --watch",
     "copy:coverage": "cp -R ./coverage ../coverage",
     "dev": "node_modules/webpack/bin/webpack.js serve",
     "watch": "rm -rf ../public/shell/scripts && NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --color -w",
@@ -175,6 +176,7 @@
     "mochawesome": "^6.2.1",
     "mochawesome-merge": "^4.2.0",
     "mochawesome-report-generator": "^5.1.0",
+    "mockdate": "^3.0.5",
     "mockjs": "^1.0.1-beta3",
     "node-notifier": "^5.4.0",
     "optimize-css-assets-webpack-plugin": "^5.0.4",

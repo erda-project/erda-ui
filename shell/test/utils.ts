@@ -11,8 +11,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
+import MockDate from 'mockdate'
 import { act } from 'react-dom/test-utils';
+
+export function setMockDate(dateString = '2021-04-25T02:40:04.668Z') {
+  MockDate.set(dateString);
+}
+
+export function resetMockDate() {
+  MockDate.reset();
+}
 
 const globalTimeout = global.setTimeout;
 
