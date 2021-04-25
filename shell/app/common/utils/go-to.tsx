@@ -151,12 +151,12 @@ export enum pages {
   projectManualTestEnv = '/{orgName}/workBench/projects/{projectId}/testEnv/manual',
   projectDashboard = '/{orgName}/workBench/projects/{projectId}/dashboard',
   projectResource = '/{orgName}/workBench/projects/{projectId}/resource',
-  projectTicket = '/{orgName}/workBench/projects/${projectId}/ticket',
+  projectTicket = '/{orgName}/workBench/projects/{projectId}/ticket',
   
   // app
   app = '/{orgName}/workBench/projects/{projectId}/apps/{appId}',
   repo = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/repo',
-  appMr = '/{orgName}/workBench/projects/{projectId}/apps/${appId}/repo/mr/open/${mrId}',
+  appMr = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/repo/mr/open/{mrId}',
   pipelineRoot = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/pipeline',
   appApiDesign = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/apiDesign',
   repoBackup = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/repo/backup',
