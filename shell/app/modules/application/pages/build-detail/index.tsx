@@ -32,8 +32,8 @@ import appStore from 'application/stores/application';
 import { useLoading } from 'app/common/stores/loading';
 import PipelineLog from './pipeline-log';
 import './index.scss';
-import userStore from 'user/stores';
 import deployStore from 'application/stores/deploy';
+import orgStore from 'app/org-home/stores/org';
 
 const { TextArea } = Input;
 const { ELSE } = IF;
@@ -90,10 +90,10 @@ const BuildDetail = (props: IProps) => {
   ]);
 
   const branchInfo = appStore.useStore(s => s.branchInfo);
-  const [orgs, loginUser] = userStore.useStore(s => [s.orgs, s.loginUser]);
+  const currentOrg = orgStore.useStore(s => s.currentOrg);
   const { blockStatus } = appStore.useStore(s => s.detail);
   const appBlocked = blockStatus !== 'unblocked';
-  const { blockoutConfig } = find(orgs, { id: loginUser.orgId }) || {} as IOrg;
+  const { blockoutConfig } = currentOrg;
   const rejectRef = React.useRef(null);
 
   const {

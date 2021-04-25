@@ -15,6 +15,7 @@ import { MemberScope } from 'app/common/stores/_member';
 import { ConfigLayout, MembersTable, SettingsTabs } from 'common';
 import i18n from 'i18n';
 import * as React from 'react';
+import { goTo } from 'common/utils';
 import ProjectInfo from 'project/pages/settings/components/project-info';
 import ProjectCluster from 'project/pages/settings/components/project-cluster';
 import ProjectRollback from 'project/pages/settings/components/project-rollback';
@@ -48,7 +49,7 @@ const Setting = () => {
               desc: (
                 <div>
                   {i18n.t('edit members, set member roles, role permissions please refer to')}
-                  <Link to='/perm?scope=project' target="_blank">{i18n.t('role permissions description')}</Link>
+                  <Link to={goTo.resolve.perm({ scope: 'project'})} target="_blank">{i18n.t('role permissions description')}</Link>
                 </div>
               ),
               children: <MembersTable scopeKey={MemberScope.PROJECT} overwriteAuth={{ add: true, edit: true, delete: true }} />,

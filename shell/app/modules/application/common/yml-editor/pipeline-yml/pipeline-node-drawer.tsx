@@ -24,6 +24,7 @@ import appDeployStore from 'application/stores/deploy';
 import { useLoading } from 'app/common/stores/loading';
 import ActionSelect from './action-select';
 import { getActionGroup } from 'application/services/deploy';
+import { protocolActionForms } from 'app/config-page/components/action-form';
 import { useEffectOnce } from 'react-use';
 import { getResource, getDefaultVersionConfig, mergeActionAndResource } from '../utils';
 import ActionConfigForm from './action-config-form';
@@ -524,8 +525,6 @@ interface IProps extends Omit<IEditStageProps, 'chosenActionName' | 'chosenActio
   visible: boolean;
 }
 
-const useProtocolList = ['mysql-cli', 'redis-cli', 'api-test', 'dice-deploy-release', 'dice-deploy-rollback', 'git-checkout', 'git-push', 'gitbook', 'manual-review'];
-
 const PipelineNodeDrawer = (props: IProps) => {
   const { nodeData: propsNodeData, editing, closeDrawer, visible, isCreate } = props;
   let title = '';
@@ -589,7 +588,7 @@ const PipelineNodeDrawer = (props: IProps) => {
         placeholder={`${i18n.t('application:please choose task type')}`}
       />
       <IF check={!isEmpty(chosenAction)}>
-        <IF check={chosenAction?.useProtocol || useProtocolList.includes(chosenActionName)}> {/* 使用组件化协议表单 */}
+        <IF check={chosenAction?.useProtocol || protocolActionForms.includes(chosenActionName)}> {/* 使用组件化协议表单 */}
           <ActionConfigForm chosenAction={chosenAction} chosenActionName={chosenActionName} {...props as any} />
           <IF.ELSE />
           <PipelineNodeForm chosenAction={chosenAction} chosenActionName={chosenActionName} {...props as any} />

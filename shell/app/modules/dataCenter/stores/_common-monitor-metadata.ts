@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createStore } from 'app/cube';
-import { map } from 'lodash';
+import { map, isFunction } from 'lodash';
 import routeInfoStore from 'app/common/stores/route';
 import {
   getMetaGroups,
@@ -35,7 +35,7 @@ export enum MonitorMetaDataMode {
   ANALYSIS = 'analysis',
 }
 
-export const createMonitorMetaDataStore = (scope: MonitorMetaDataScope, mode: MonitorMetaDataMode, scopeId?: string) => {
+export const createMonitorMetaDataStore = (scope: MonitorMetaDataScope, mode: MonitorMetaDataMode, scopeId?: string | (() => string)) => {
   const initState: IState = {
     metaGroups: [],
     metaConstantMap: { types: {}, filters: [] } as MONITOR_COMMON_METADATA.MetaConstantMap,
@@ -50,9 +50,10 @@ export const createMonitorMetaDataStore = (scope: MonitorMetaDataScope, mode: Mo
     effects: {
       async getMetaGroups({ call }) {
         const { terminusKey } = routeInfoStore.getState(s => s.params);
+        const _scopeId = isFunction(scopeId) ? scopeId() : scopeId;
         const groups = await call(getMetaGroups, {
           scope,
-          scopeId: scopeId || terminusKey,
+          scopeId: _scopeId || terminusKey,
           mode,
           format: isQueryMode ? 'influx' : undefined,
         });
@@ -61,9 +62,10 @@ export const createMonitorMetaDataStore = (scope: MonitorMetaDataScope, mode: Mo
       },
       async getMetaData({ call, update }, { groupId }: { groupId: string }) {
         const { terminusKey } = routeInfoStore.getState(s => s.params);
+        const _scopeId = isFunction(scopeId) ? scopeId() : scopeId;
         const metaData = await call(getMetaData, {
           scope,
-          scopeId: scopeId || terminusKey,
+          scopeId: _scopeId || terminusKey,
           mode,
           groupId,
           format: isQueryMode ? 'influx' : undefined,

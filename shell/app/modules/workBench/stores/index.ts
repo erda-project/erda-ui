@@ -62,7 +62,7 @@ const workBenchStore = createFlatStore({
   subscriptions({ listenRoute }: IStoreSubs) {
     listenRoute(({ isEntering, params }) => {
       if (isEntering('addonsManage')) {
-        const { projectId, insId } = params;
+        const { projectId, insId, orgName } = params;
         permStore.effects.checkRouteAuth({
           type: 'project',
           id: projectId,
@@ -70,7 +70,7 @@ const workBenchStore = createFlatStore({
         });
         addonStore.getAddonDetail(insId).then((ret) => {
           const { logoUrl, name, addonName } = ret;
-          const prefixPath = `/workBench/addonsManage/${projectId}`;
+          const prefixPath = `/${orgName}/workBench/addonsManage/${projectId}`;
           const rootPath = `${prefixPath}/${insId}`;
           const menu = getSiderMenu({ rootPath }) as any[];
           if (['log-analytics'].includes(addonName)) {

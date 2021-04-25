@@ -41,9 +41,9 @@ export const TicketContent = ({ detail }: IProps) => {
   const params = routeInfoStore.useStore(s => s.params);
 
   const getUrl = (path: string, ticket: TICKET.Ticket) => {
-    const { projectId, appId } = params;
+    const { projectId, appId, orgName } = params;
 
-    return `/workBench/projects/${projectId}/apps/${appId}/repo/tree/${ticket.label.branch}/${path}?qa=${ticket.type}&line=${ticket.label.line}`;
+    return `/${orgName}/workBench/projects/${projectId}/apps/${appId}/repo/tree/${ticket.label.branch}/${path}?qa=${ticket.type}&line=${ticket.label.line}`;
   };
 
   const getNote = () => {

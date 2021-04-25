@@ -70,7 +70,7 @@ const FileTree = (props: IProps) => {
   }, [getRootNode, projectInfo]);
 
   const getAuthByNode = (node: TreeNode) => {
-    const { branch } = getBranchPath(node.originData as TREE.NODE);
+    const { branch } = getBranchPath(node.originData as TREE.NODE, appId);
     const isProtectBranch = get(find(branchInfo, { name: branch }), 'isProtect');
     const branchAuth = isProtectBranch ? branchAuthObj.writeProtected.pass : branchAuthObj.writeNormal.pass;
     const authTip = isProtectBranch ? i18n.t('application:branch is protected, you have no permission yet') : undefined;

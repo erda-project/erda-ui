@@ -172,12 +172,11 @@ const mock: CONFIG_PAGE.RenderConfig = {
               projectId: '1',
               prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
               extraInfos: [
-                { icon: 'help', text: '公开项目' }, // 这个icon待定
-                { icon: 'yy-4', text: '32', tooltip: '应用数' },
-                { icon: 'renyuan', text: '已加入' },
-                { icon: 'sj', text: '5个月前', tooltip: '2020-09-28 21:35:10' },
-                { icon: 'lock1', text: '解封处理中，请稍等', type: 'warning' }, // blockStatus=unblocking的时候展示
-
+                { icon: 'unlock', text: '公开项目' }, // 这个icon待定
+                { icon: 'application-one', text: '32', tooltip: '应用数' },
+                { icon: 'user', text: '已加入' },
+                { icon: 'time', text: '5个月前', tooltip: '2020-09-28 21:35:10' },
+                { icon: 'link-cloud-faild', text: '解封处理中，请稍等', type: 'warning' }, // blockStatus=unblocking的时候展示
               ],
               operations: {
                 click: {
@@ -225,10 +224,10 @@ const mock: CONFIG_PAGE.RenderConfig = {
               description: '测试测试',
               prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
               extraInfos: [
-                { icon: 'help', text: '私有项目' }, // 这个icon待定
-                { icon: 'yy-4', text: '32', tooltip: '应用数' },
-                { icon: 'sj', text: '5个月前', tooltip: '2020-09-28 21:35:10' },
-                { icon: 'lock1', text: '已解封', type: 'success' }, // blockStatus = unblocked的时候展示
+                { icon: 'lock', text: '私有项目' }, // 这个icon待定
+                { icon: 'application-one', text: '32', tooltip: '应用数' },
+                { icon: 'time', text: '5个月前', tooltip: '2020-09-28 21:35:10' },
+                { icon: 'link-cloud-sucess', text: '已解封', type: 'success' }, // blockStatus = unblocked的时候展示
               ],
               operations: {
                 click: {

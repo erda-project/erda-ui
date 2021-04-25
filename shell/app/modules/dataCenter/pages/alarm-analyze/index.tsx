@@ -17,8 +17,8 @@ import { isEmpty, map } from 'lodash';
 import { daysRange } from 'common/utils';
 import AlarmChart from './alarm-chart';
 import clusterStore from 'dataCenter/stores/cluster';
-import userStore from 'app/user/stores';
 import { ClusterSelector } from '../../common/components/cluster-selector';
+import orgStore from 'app/org-home/stores/org';
 
 import './index.scss';
 
@@ -32,16 +32,16 @@ import './index.scss';
 const { AlarmTrendChart, AlarmTypeProportionChart, AlarmProportionChart } = AlarmChart;
 
 const AlarmAnalyze = () => {
-  const loginUser = userStore.useStore(s => s.loginUser);
+  const orgId = orgStore.useStore(s => s.currentOrg.id);
   const orgClusterList = clusterStore.useStore(s => s.list);
   const [filterClusters, setFilterClusters] = useState([] as string[]);
   const [fullCluster, setFullCluster] = useState([] as string[]);
   const [listFilter, setListFilter] = useState({});
   // const [filterType, setFilterType] = useState(undefined);
   useEffect(() => {
-    clusterStore.effects.getClusterList({ orgId: loginUser.orgId });
-    setListFilter({ orgID: loginUser.orgId });
-  }, [loginUser]);
+    clusterStore.effects.getClusterList({ orgId });
+    setListFilter({ orgID: orgId });
+  }, [orgId]);
 
   useEffect(() => {
     if (!isEmpty(orgClusterList)) {
@@ -53,7 +53,7 @@ const AlarmAnalyze = () => {
 
   const changeCluster = (val: string) => {
     setFilterClusters(val ? [val] : fullCluster);
-    setListFilter(val ? { targetID: val } : { orgID: loginUser.orgId });
+    setListFilter(val ? { targetID: val } : { orgID: orgId });
   };
 
   const shouldLoad = !isEmpty(filterClusters);
@@ -69,7 +69,7 @@ const AlarmAnalyze = () => {
               query={{
                 constQuery: daysRange(7),
                 in_cluster_name: filterClusters,
-                filter_alert_scope_id: loginUser.orgId,
+                filter_alert_scope_id: orgId,
               }}
               shouldLoad={shouldLoad}
             />
@@ -81,7 +81,7 @@ const AlarmAnalyze = () => {
               query={{
                 constQuery: daysRange(7),
                 in_cluster_name: filterClusters,
-                filter_alert_scope_id: loginUser.orgId,
+                filter_alert_scope_id: orgId,
               }}
               shouldLoad={shouldLoad}
             />
@@ -91,7 +91,7 @@ const AlarmAnalyze = () => {
               query={{
                 constQuery: daysRange(7),
                 in_cluster_name: filterClusters,
-                filter_alert_scope_id: loginUser.orgId,
+                filter_alert_scope_id: orgId,
               }}
               shouldLoad={shouldLoad}
             />

@@ -42,6 +42,9 @@ module.exports = () => {
       'stores/route': './src/stores/route.ts',
       'stores/loading': './src/stores/loading.ts',
     },
+    cache: {
+      type: 'filesystem',
+    },
     devtool: 'source-map',
     resolve: {
       alias: {

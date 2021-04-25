@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import userStore from 'app/user/stores';
 import AlarmStrategy from 'app/modules/dataCenter/common/alarm-strategy';
+import orgStore from 'app/org-home/stores/org';
 
 export default () => {
-  const { loginUser } = userStore.getState(s => s);
-  return <AlarmStrategy scopeType="org" scopeId={String(loginUser.orgId)} />;
+  const currentOrg = orgStore.getState(s => s.currentOrg);
+  return <AlarmStrategy scopeType="org" scopeId={String(currentOrg.id)} />;
 };

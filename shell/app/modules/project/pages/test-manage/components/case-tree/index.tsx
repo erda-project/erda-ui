@@ -257,7 +257,8 @@ const TestSet = ({
   useEffect(() => {
     if (firstBuild.current && !isEmpty(treeData)) {
       if (!query.caseId) {
-        onSelect([rootKey]);
+        // 当 query 不为空的时候，就保持当前的 query 值
+        onSelect([rootKey], { keepCurrentSearch: !isEmpty(query) });
       }
       // onSelect([rootKey]);
       firstBuild.current = false;
@@ -615,6 +616,12 @@ const TestSet = ({
       testPlanID,
     });
     updateSearch({ pageNo: 1, recycled, testSetID, eventKey });
+
+     // 页面刚刚进来时保持当前 query 不进行更新
+     if (!_extra.keepCurrentSearch) {
+      updateSearch({ pageNo: 1, recycled, testSetID, eventKey });
+    }
+
     getCases({ testSetID, pageNo: 1, testPlanID, recycled, scope: mode });
   };
 

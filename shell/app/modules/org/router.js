@@ -123,7 +123,7 @@ function getOrgCenterRouter() {
         },
       ],
     },
-  ];
+  ]
 }
 
 export default getOrgCenterRouter;

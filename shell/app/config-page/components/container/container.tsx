@@ -19,7 +19,7 @@ import './container.scss';
 export const Container = (props: CP_CONTAINER.Props) => {
   const { children, props: configProps } = props || {};
 
-  const { direction = 'column', spaceSize = 'small', contentSetting, className, whiteBg = false, isTopHead = false, fullHeight = false, flexHeight = false, visible = true } = configProps || {};
+  const { direction = 'column', spaceSize = 'small', contentSetting, className, whiteBg = false, isTopHead = false, fullHeight = false, flexHeight = false, visible = true, startAlign = false, scrollAuto = false } = configProps || {};
 
   if (!visible) return null;
   const tempClass = {
@@ -30,8 +30,10 @@ export const Container = (props: CP_CONTAINER.Props) => {
     ...(contentSetting ? { [contentSetting]: true } : {}),
     'top-button-group': isTopHead,
     'white-bg': whiteBg,
+    'start-align': startAlign,
     'full-height': fullHeight,
     'flex-height': flexHeight,
+    'scroll-auto': scrollAuto,
     [`space-${spaceSize}`]: true,
   };
 
@@ -50,10 +52,16 @@ export const RowContainer = (props: CP_CONTAINER.Props) => {
 };
 
 export const LRContainer = (props: CP_CONTAINER.Props) => {
-  const { left, right, ...rest } = props;
+  const { left, right, contentSetting, ...rest } = props;
+
+  const leftCls = classnames({
+    left: true,
+    'flex-1': contentSetting !== 'start',
+  })
+
   return (
     <Container {...rest} props={{ ...(props.props || {}), direction: 'row' }}>
-      <div className={'flex-1 left'}>{left}</div>
+      <div className={leftCls}>{left}</div>
       <div className='right'>{right}</div>
     </Container>
   );

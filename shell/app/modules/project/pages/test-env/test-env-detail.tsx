@@ -11,14 +11,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { isPlainObject, map, forEach, isEmpty } from 'lodash';
+import { isPlainObject, map, forEach, isEmpty, filter, debounce } from 'lodash';
 import React from 'react';
 import i18n from 'i18n';
-import { Input, Select, Table } from 'app/nusi';
-import { KVPair, ProtocolInput, FormModal, InputSelect } from 'common';
+import { isValidJsonStr } from 'common/utils';
+import { Input, Select, Table, Radio } from 'app/nusi';
+import { KVPair, ProtocolInput, FormModal, InputSelect, FileEditor, useUpdate } from 'common';
+import { WrappedFormUtils, RadioChangeEvent } from 'core/common/interface';
 import testEnvStore from 'project/stores/test-env';
 import routeInfoStore from 'common/stores/route';
-import { insertWhen } from 'common/utils';
 import { scopeMap } from 'project/common/components/pipeline-manage/config';
 
 const { Option } = Select;
@@ -110,14 +111,23 @@ const transGlobal = (list: any[]) => {
   if (!Array.isArray(list)) {
     return list;
   }
+  const dataTemp = { type: '', value: '', desc: '' };
   const obj = {};
   map(list, (item) => {
-    if (item.key || item.value) {
-      obj[item.key] = {
-        value: item.value,
-        type: item.type || typeMap.auto.string,
-        desc: item.desc,
-      };
+    const { key, value, ...rest } = item || {};
+    if (key) {
+      let reItem = {};
+      if (isPlainObject(value)) {
+        reItem = { ...dataTemp, ...value, ...rest };
+      } else {
+        reItem = {
+          ...dataTemp,
+          value,
+          ...rest,
+        };
+      }
+      if (!reItem.type) reItem.type = typeMap.auto.string;
+      obj[key] = reItem;
     }
   });
   return obj;
@@ -205,109 +215,226 @@ interface IProps {
   onCancel(): any,
 }
 
+type FormRef = {props: {form: WrappedFormUtils}};
+
 const headerListOption = headerList.map(o => ({ label: o, value: o }));
 export const TestEnvDetail = (props: IProps) => {
   const { data, disabled, visible, onCancel, envID, envType } = props;
   const { testType = 'manual' } = routeInfoStore.useStore(s => s.params);
-  const HeaderKeyComp = ({ record, update, ...rest }: any) => {
+  const [{ headerMode, globalMode, headerJsonValid, globalJsonValid }, updater, update] = useUpdate({
+    headerMode: 'form',
+    globalMode: 'form',
+    headerJsonValid: true,
+    globalJsonValid: true,
+  });
+
+  React.useEffect(() => {
+    if (!visible) {
+      update({
+        headerMode: 'form',
+        globalMode: 'form',
+        headerJsonValid: true,
+        globalJsonValid: true,
+      });
+    }
+  }, [update, visible]);
+
+  const formRef = React.useRef<FormRef>({} as FormRef);
+  const HeaderKeyComp = ({ record, update: _update, ...rest }: any) => {
     return (
       <InputSelect
         options={headerListOption}
         value={record.key}
-        onChange={update}
+        disabled={disabled}
+        onChange={_update}
       />
     );
-    // return (
-    //   <Select value={record.key} showSearch allowClear onChange={update} {...rest}>
-    //     {
-    //       headerList.map(o => <Option key={o} value={o}>{o}</Option>)
-    //     }
-    //   </Select>
-    // );
   };
 
-  const GlobalKeyComp = ({ record, update, ...rest }: any) => (
+  const GlobalKeyComp = ({ record, update: _update, ...rest }: any) => (
     <Input
       value={record.key}
-      onChange={e => update(e.target.value.trim())}
+      onChange={e => _update(e.target.value.trim())}
       maxLength={500}
       {...rest}
     />
   );
 
-  const GlobalDescComp = ({ record, update, ...rest }: any) => (
-    <Select value={record.type || typeMap[testType].string} allowClear onChange={update} {...rest}>
+  const GlobalDescComp = ({ record, update: _update, ...rest }: any) => (
+    <Select value={record.type || typeMap[testType].string} allowClear onChange={_update} {...rest}>
       {map(typeMap[testType], (value, key) => <Option key={key} value={value}>{value}</Option>)}
     </Select>
   );
 
-  const KeyDescComp = ({ record, keyDesc, update, ...rest }: any) => (
-    <Input maxLength={3000} value={record[keyDesc]} onChange={e => update(e.target.value)} {...rest} />
+  const KeyDescComp = ({ record, keyDesc, update: _update, ...rest }: any) => (
+    <Input maxLength={3000} value={record[keyDesc]} onChange={e => _update(e.target.value)} {...rest} />
   );
 
-  const ValueComp = ({ record, valueName, update, ...rest }: any) => (
-    <Input maxLength={3000} value={record[valueName]} onChange={e => update(e.target.value)} {...rest} />
+  const ValueComp = ({ record, valueName, update: _update, ...rest }: any) => (
+    <Input maxLength={3000} value={record[valueName]} onChange={e => _update(e.target.value)} {...rest} />
   );
 
-  const fieldsList = [
-    ...insertWhen(testType === 'auto', [
+  const getFieldsList = (_type: string, _headMode: string, _globalMode: string) => {
+    const headFieldsStatus = _headMode === 'form' ? ['', 'hidden'] : ['hidden', ''];
+    const globalFieldsStatus = _globalMode === 'form' ? ['', 'hidden'] : ['hidden', ''];
+
+    const fieldMap = {
+      auto: [
+        {
+          label: i18n.t('application:name'),
+          name: 'displayName',
+          itemProps: {
+            maxLength: 191,
+            disabled,
+          },
+        },
+        {
+          label: i18n.t('application:description'),
+          name: 'desc',
+          type: 'textArea',
+          itemProps: {
+            maxLength: 512,
+            disabled,
+          },
+        },
+      ],
+      manual: [
+        {
+          label: i18n.t('project:environment name'),
+          name: 'name',
+          itemProps: {
+            maxLength: 50,
+            disabled,
+          },
+        },
+      ],
+    };
+
+    return [
+      ...fieldMap[_type],
       {
-        label: i18n.t('application:name'),
-        name: 'displayName',
-        itemProps: {
-          maxLength: 191,
-          disabled,
+        label: i18n.t('project:environmental domain name'),
+        name: 'domain',
+        getComp: () => <ProtocolInput disabled={disabled} />,
+        required: false,
+      },
+      {
+        getComp: () => (
+          <div className="flex-box">
+            <div>
+              <span className='bold'>Header</span>
+            </div>
+            <Radio.Group
+              value={headerMode}
+              onChange={(e: RadioChangeEvent) => {
+                const _mode = e.target.value;
+                const curForm = formRef.current.props.form;
+                const curFormData = curForm.getFieldsValue();
+                if (_mode === 'form') {
+                  formRef.current.props.form.setFieldsValue({
+                    header: JSON.parse(curFormData.headerStr),
+                  });
+                } else {
+                  const isObj = isPlainObject(curFormData.header);
+                  formRef.current.props.form.setFieldsValue({
+                    headerStr: JSON.stringify(filter(map(curFormData.header, (item, k) => {
+                      let reItem = {};
+                      if (isObj) {
+                        reItem = { value: item, key: k };
+                      } else {
+                        reItem = { key: item.key, value: item.value };
+                      }
+                      return reItem;
+                    }), item => item.key), null, 2),
+                  });
+                }
+                updater.headerMode(e.target.value);
+              }}
+            >
+              <Radio.Button disabled={!headerJsonValid} value='form'>{i18n.t('common:form edit')}</Radio.Button>
+              <Radio.Button value='code'>{i18n.t('common:text edit')}</Radio.Button>
+            </Radio.Group>
+          </div>
+        ),
+        extraProps: {
+          className: 'mb8',
         },
       },
       {
-        label: i18n.t('application:description'),
-        name: 'desc',
-        type: 'textArea',
+        name: 'header',
+        required: false,
+        getComp: () => <KVPairTable disabled={disabled} KeyComp={HeaderKeyComp} ValueComp={ValueComp} />,
         itemProps: {
-          maxLength: 512,
-          disabled,
+          type: headFieldsStatus[0],
         },
       },
-    ]),
-    ...insertWhen(testType === 'manual', [
       {
-        label: i18n.t('project:environment name'),
-        name: 'name',
+        name: 'headerStr',
+        required: false,
+        getComp: () => <JsonFileEditor readOnly={disabled} />,
         itemProps: {
-          maxLength: 50,
-          disabled,
+          type: headFieldsStatus[1],
         },
       },
-    ]),
-    {
-      label: i18n.t('project:environmental domain name'),
-      name: 'domain',
-      getComp: () => <ProtocolInput disabled={disabled} />,
-      required: false,
-    },
-    {
-      getComp: () => <div className="bold">Header</div>,
-      extraProps: {
-        className: 'mb8',
+      {
+        getComp: () => (
+          <div className="flex-box">
+            <span className='bold'>Global</span>
+            <Radio.Group
+              value={globalMode}
+              onChange={(e: RadioChangeEvent) => {
+                const _mode = e.target.value;
+                const curForm = formRef.current.props.form;
+                const curFormData = curForm.getFieldsValue();
+                if (_mode === 'form') {
+                  formRef.current.props.form.setFieldsValue({
+                    global: JSON.parse(curFormData.globalStr),
+                  });
+                } else {
+                  const isObj = isPlainObject(curFormData.global);
+                  formRef.current.props.form.setFieldsValue({
+                    globalStr: JSON.stringify(filter(
+                      map(curFormData.global, (item, k) => {
+                        const { desc = '', value = '', type = '' } = item;
+                        const reItem = { desc, value, type, key: isObj ? k : item.key };
+                        if (!reItem.type)reItem.type = typeMap.auto.string;
+                        return reItem;
+                      }), item => item.key
+                    ), null, 2),
+                  });
+                }
+                updater.globalMode(e.target.value);
+              }}
+            >
+              <Radio.Button disabled={!globalJsonValid} value='form'>{i18n.t('common:form edit')}</Radio.Button>
+              <Radio.Button value='code'>{i18n.t('common:text edit')}</Radio.Button>
+            </Radio.Group>
+          </div>
+        ),
+        extraProps: {
+          className: 'mb8',
+        },
       },
-    },
-    {
-      name: 'header',
-      required: false,
-      getComp: () => <KVPairTable disabled={disabled} KeyComp={HeaderKeyComp} ValueComp={ValueComp} />,
-    },
-    {
-      getComp: () => <div className="bold">global</div>,
-      extraProps: {
-        className: 'mb8',
+      {
+        name: 'global',
+        required: false,
+        getComp: () => <KVPairTable disabled={disabled} KeyComp={GlobalKeyComp} DescComp={GlobalDescComp} descName="type" KeyDescComp={KeyDescComp} keyDesc='desc' />,
+        itemProps: {
+          type: globalFieldsStatus[0],
+        },
+      }, {
+
+        name: 'globalStr',
+        required: false,
+        getComp: () => <JsonFileEditor readOnly={disabled} />,
+        itemProps: {
+          type: globalFieldsStatus[1],
+        },
       },
-    },
-    {
-      name: 'global',
-      required: false,
-      getComp: () => <KVPairTable disabled={disabled} KeyComp={GlobalKeyComp} DescComp={GlobalDescComp} descName="type" KeyDescComp={KeyDescComp} keyDesc='desc' />,
-    },
-  ];
+    ];
+  };
+
+  const fieldsList = getFieldsList(testType, headerMode, globalMode);
 
   const onUpdateHandle = React.useCallback((values, header, global) => {
     if (testType === 'manual') {
@@ -348,31 +475,87 @@ export const TestEnvDetail = (props: IProps) => {
   }, [envID, envType, testType]);
 
   const handleSubmit = (values: any) => {
+    if (!globalJsonValid || !headerJsonValid) {
+      return Promise.reject();
+    }
     if (disabled) {
       onCancel();
       return;
     }
-    const header = transHeader(values.header);
-    const global = transGlobal(values.global);
+    const { headerStr, globalStr, ..._rest } = values;
+    const curHeader = headerMode === 'form' ? values.header : JSON.parse(headerStr || '[]');
+    const curGlobal = globalMode === 'form' ? values.global : JSON.parse(globalStr || '[]');
+    const header = transHeader(curHeader);
+    const global = transGlobal(curGlobal);
 
     if (!isEmpty(data)) {
-      onUpdateHandle(values, header, global);
+      onUpdateHandle(_rest, header, global);
     } else {
-      onCreateHandle(values, header, global);
+      onCreateHandle(_rest, header, global);
     }
     onCancel();
   };
+
+  const onValuesChange = React.useCallback(debounce((_formRef: {form:WrappedFormUtils}, changeValues: Obj, allValues:Obj) => {
+    if (changeValues.headerStr) {
+      const curHeaderValid = isValidJsonStr(changeValues.headerStr);
+      updater.headerJsonValid(curHeaderValid);
+    }
+    if (changeValues.globalStr) {
+      const curGlobalValid = isValidJsonStr(changeValues.globalStr);
+      updater.globalJsonValid(curGlobalValid);
+    }
+  }, 300), []);
 
   return (
     <FormModal
       name={i18n.t('project:parameter configuration')}
       visible={visible}
       width={900}
+      modalProps={{
+        destroyOnClose: true,
+      }}
+      formOption={{ onValuesChange }}
       formData={data}
+      wrappedComponentRef={formRef}
       fieldsList={fieldsList}
       onOk={handleSubmit}
       onCancel={onCancel}
       formProps={{ layout: 'vertical' }}
     />
+  );
+};
+
+interface JsonFileProps{
+  value?: string;
+  onChange?: (v: string) => void;
+  readOnly?: boolean;
+}
+const JsonFileEditor = (p: JsonFileProps) => {
+  const { value, onChange, readOnly } = p;
+  const _isValid = isValidJsonStr(value);
+  return (
+    <>
+      <FileEditor
+        fileExtension="json"
+        minLines={4}
+        readOnly={readOnly}
+        className='border-radius border-all'
+        maxLines={10}
+        actions={{
+          copy: true,
+          format: true,
+        }}
+        onChange={(val: string) => {
+          onChange && onChange(val);
+        }}
+        value={value}
+      />
+      {
+        _isValid ? null : (
+          <span className='color-danger'>{i18n.t('project:JSON format error')}</span>
+        )
+      }
+    </>
   );
 };

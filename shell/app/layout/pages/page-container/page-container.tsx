@@ -34,7 +34,7 @@ import { LSObserver } from 'common/utils';
 import { Carousel, Card, Shell } from 'app/nusi';
 import { ErrorLayout } from './error-layout';
 import { eventHub } from 'common/utils/event-hub';
-
+import orgStore from 'app/org-home/stores/org';
 import './page-container.scss';
 
 const layoutMap = {
@@ -48,6 +48,7 @@ interface IProps {
 }
 const PageContainer = ({ route }: IProps) => {
   const [loginUser, noAuth, notFound] = userStore.useStore((s: any) => [s.loginUser, s.noAuth, s.notFound]);
+  const currentOrg = orgStore.useStore(s => s.currentOrg);
   const [showMessage, customMain, announcementList] = layoutStore.useStore(s => [s.showMessage, s.customMain, s.announcementList]);
   const [currentRoute, isIn] = routeInfoStore.useStore(s => [s.currentRoute, s.isIn]);
   const [state, updater] = useUpdate({
@@ -89,7 +90,7 @@ const PageContainer = ({ route }: IProps) => {
 
     // 注册并监听登录状态的变化
     LSObserver.watch('diceLoginState', (val: any) => {
-      if (val.toString() === 'false' && loginUser.orgId) {
+      if (val.toString() === 'false' && currentOrg.id) {
         setTimeout(() => {
           checkLoginStatus();
         }, 0);

@@ -16,7 +16,6 @@
 declare module 'path';
 declare module 'ansi_up';
 declare module 'lodash/_stringToPath';
-declare module '@terminus/js-yaml';
 declare module 'json-to-pretty-yaml';
 
 declare module '*.json' {

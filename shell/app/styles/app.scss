@@ -97,10 +97,25 @@ a {
   }
 }
 
-.iconfont {
+.iconfont,
+.erda-icon {
   display: inline-block;
   margin-right: 4px;
   line-height: 1;
+}
+
+.pk-menu-item-selected,
+.pk-menu-item-active {
+  .title-words,
+  .erda-icon {
+    color: $color-primary !important;
+  }
+
+  &:hover {
+    svg path {
+      stroke-width: 7;
+    }
+  }
 }
 
 .pk-radio-group .iconfont {

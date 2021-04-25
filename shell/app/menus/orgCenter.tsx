@@ -13,58 +13,61 @@
 
 import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
+import { goTo } from 'common/utils';
+import { ApiApp, CeMarking, Certificate, Seal, Bill, Log, City } from '@icon-park/react';
+import React from 'react';
 
 // 应用中心菜单
 export const getOrgCenterMenu = () => {
   return filterMenu([
     {
       key: 'orgProjects',
-      href: '/orgCenter/projects',
-      icon: 'xm',
+      href: goTo.resolve.orgCenterRoot(), // '/orgCenter/projects',
+      icon: <ApiApp />,
       text: i18n.t('projects'),
     },
     {
       key: 'orgMarket',
-      href: '/orgCenter/market',
-      icon: 'fb1',
+      href: goTo.resolve.orgCenterMarket(), //'/orgCenter/market',
+      icon: <CeMarking />,
       text: i18n.t('layout:market'),
       subMenu: [
         {
           key: 'orgMarketPublisher',
           text: i18n.t('org:publisher info'),
-          href: '/orgCenter/market/publisher/setting',
+          href: goTo.resolve.orgCenterPublisherSetting(), // '/orgCenter/market/publisher/setting',
         },
       ],
     },
     {
       key: 'orgCertificate',
-      href: '/orgCenter/certificate',
-      icon: 'zs2',
+      href: goTo.resolve.orgCenterCertificate(), // '/orgCenter/certificate',
+      icon: <Certificate />,
       text: i18n.t('layout:certificate'),
     },
     {
       key: 'orgApproval',
-      href: '/orgCenter/approval/undone',
-      icon: 'sp',
+      href: goTo.resolve.orgCenterApprovalUndone(), // '/orgCenter/approval/undone',
+      icon: <Seal />,
       text: i18n.t('layout:approval'),
-      isActive: (key: string) => key.startsWith('/orgCenter/approval'),
+      prefix: `${goTo.resolve.orgCenterApproval()}/`
     },
     {
       key: 'orgAnnouncement',
-      href: '/orgCenter/announcement',
-      icon: 'gg',
+      href: goTo.resolve.orgCenterAnnouncement(), // '/orgCenter/announcement',
+      icon: <Bill />,
       text: i18n.t('org:announcement'),
     },
     {
       key: 'orgSafety',
-      href: '/orgCenter/safety',
-      icon: 'anquan',
+      href: goTo.resolve.orgCenterSafety(), // '/orgCenter/safety',
+      icon: <Log />,
       text: i18n.t('org:audit log'),
     },
     {
       key: 'orgSetting',
-      href: '/orgCenter/setting/detail',
-      icon: 'sz',
+      href: goTo.resolve.dataCenterSetting(), // '/orgCenter/setting/detail',
+      icon: <City />,
       text: i18n.t('org setting'),
     },
   ], MENU_SCOPE.orgCenter);

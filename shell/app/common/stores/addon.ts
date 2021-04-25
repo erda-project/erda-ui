@@ -13,7 +13,7 @@
 
 import routeInfoStore from 'common/stores/route';
 import { createFlatStore } from 'app/cube';
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 import {
   getAddonList,
   getAddonDetail,
@@ -45,7 +45,7 @@ const addon = createFlatStore({
       const routes = routeInfoStore.getState(s => s.routes);
       const [rootRoute] = routes.slice(-2, routes.length - 1);
       const { path } = rootRoute;
-      const { orgId } = userStore.getState(s => s.loginUser);
+      const orgId = orgStore.getState(s => s.currentOrg.id);
       const addonList = await call(getAddonList, { path, orgId });
       update({ addonList });
     },

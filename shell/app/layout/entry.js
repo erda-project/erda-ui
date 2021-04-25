@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import getLayoutRouter from './router';
 import layoutStore from './stores/layout';
 import breadcrumbStore from './stores/breadcrumb';
 import messageStore from './stores/message';
@@ -30,7 +29,6 @@ export default (registerModule) => {
       breadcrumbStore,
       messageStore,
     ],
-    routers: getLayoutRouter,
     locales: {
       zh,
       en,

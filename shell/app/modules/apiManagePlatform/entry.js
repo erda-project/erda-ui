@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import routers from './index';
+// import routers from './index';
 import apiAccessStore from './stores/api-access';
 import apiClientStore from './stores/api-client';
 import apiDesignStore from './stores/api-design';
@@ -27,6 +27,6 @@ export default (registerModule) => {
       apiDesignStore,
       apiMarketStore
     ],
-    routers,
+    // routers,
   });
 };

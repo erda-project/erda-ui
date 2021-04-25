@@ -10,16 +10,40 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+.dice-cp-title {
+  .dice-cp-title-detail {
+    .subtitle {
+      margin-left: 12px;
+      color: $color-text-desc;
+      font-size: 16px;
+    }
+  
+    .pre-image {
+      margin: 12px;
+    }
+  
+    .normal {
+      width: 50px;
+      height: 50px;
+    }
+  
+    .small {
+      width: 20px;
+      height: 20px;
+    }
+  
+    .large {
+      width: 100px;
+      height: 100px;
+    } 
+  
+    .circle {
+      border-radius: 50%;
+    }
+  }
 
-import { pages } from 'common/utils';
-import i18n from 'i18n';
+  .no-margin-bottom {
+    margin-bottom: 0;
+  }
+}
 
-export const getMicroServiceMenu = () => {
-  return [
-    {
-      href: pages.microServiceRoot,
-      icon: 'wfw2',
-      text: i18n.t('microService:microService governance'),
-    },
-  ];
-};

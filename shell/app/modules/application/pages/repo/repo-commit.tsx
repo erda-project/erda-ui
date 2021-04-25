@@ -77,6 +77,7 @@ const RepoCommit = () => {
   const { resetCommitPaging, clearListByType } = repoStore.reducers;
   const { appId } = routeInfoStore.useStore(s => s.params);
   const [isFetching] = useLoading(repoStore, ['getCommitList']);
+  const [searchValue, setSearchValue] = React.useState('');
   React.useEffect(() => {
     !isEmpty(info) && getCommitList();
   }, [getCommitList, info]);
@@ -101,6 +102,7 @@ const RepoCommit = () => {
     goTo(`${before}/${branch}`, { replace: true });
     resetCommitPaging();
     getCommitList({ branch, pageNo: 1 });
+    setSearchValue('');
   };
   const load = () => {
     const { after } = getSplitPathBy('commits');
@@ -152,14 +154,18 @@ const RepoCommit = () => {
           </IF>
         </div>
         <Search
+          value={searchValue}
           className="search-input"
           placeholder={i18n.t('application:filter by commit message')}
-          onSearch={(value) => {
+          onPressEnter={() => {
             getCommitList({
-              search: value || undefined,
+              search: searchValue || undefined,
               branch: getSplitPathBy('commits').after || info.defaultBranch,
               pageNo: 1,
             });
+          }}
+          onChange={(e) => {
+            setSearchValue(e.target.value);
           }}
         />
       </div>

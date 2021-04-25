@@ -11,25 +11,34 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { pages } from 'common/utils';
-import i18n from 'i18n';
+declare namespace ORG {
 
-export const getEdgeMenu = () => {
-  return [
-    {
-      href: pages.edgeApp,
-      icon: 'rqrz',
-      text: i18n.t('edge:application'),
-    },
-    {
-      href: pages.edgeResource,
-      icon: 'zczx',
-      text: i18n.t('resources'),
-    },
-    {
-      href: pages.edgeSetting,
-      icon: 'wfw2',
-      text: i18n.t('edge:configuration'),
-    },
-  ];
-};
+  interface IOrg {
+    createdAt: string
+    creator: string
+    desc: string
+    domain: string
+    isPublic: boolean;
+    id: number
+    logo: string
+    name: string
+    displayName: string;
+    operation: string
+    selected: boolean
+    status: string
+    type: string
+    updatedAt: string
+    publisherId: number;
+    blockoutConfig: {
+      blockDev: boolean;
+      blockTest: boolean;
+      blockStage: boolean;
+      blockProd: boolean;
+    }
+  }
+
+  interface IOrgReq {
+    domain: string;
+    orgName: string;
+  }
+}

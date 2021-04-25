@@ -19,7 +19,7 @@ import i18n from 'i18n';
 import { find, uniq } from 'lodash';
 import machineStore from 'app/modules/dataCenter/stores/machine';
 import * as React from 'react';
-import userStore from 'user/stores';
+import orgStore from 'app/org-home/stores/org';
 
 interface IProps {
   visible: boolean,
@@ -33,7 +33,7 @@ const TagForm = ({
   machine,
   onCancel,
 }: IProps) => {
-  const loginUser = userStore.useStore(s => s.loginUser);
+  const currentOrg = orgStore.useStore(s => s.currentOrg);
   const nodeLabels = clusterDashboardStore.useStore(s => s.nodeLabels);
   const { getNodeLabels } = clusterDashboardStore.effects;
   const { updaterMachineLabels } = machineStore.effects;
@@ -51,7 +51,7 @@ const TagForm = ({
       labels: savedLabels,
       hosts: [machine.ip],
       clusterName: machine.clusterName,
-      orgID: loginUser.orgId,
+      orgID: currentOrg.id,
     });
     onCancel();
   };

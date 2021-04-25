@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import routers from './index';
+// import routers from './index';
 import { CustomAlarmScope, createCustomAlarmStore } from './stores/_common-custom-alarm';
 import { CustomDashboardScope, createCustomDashboardStore } from './stores/_common-custom-dashboard';
 import alarmRecordStore from './stores/alarm-record';
@@ -65,6 +65,6 @@ export default (registerModule) => {
       storageStore,
       taskStore
     ],
-    routers,
+    // routers,
   });
 };

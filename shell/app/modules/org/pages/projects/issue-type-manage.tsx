@@ -21,13 +21,13 @@ import { ISSUE_LIST_MAP } from 'org/common/config';
 import { IssueFieldSettingModal } from 'org/pages/projects/issue-field-setting-modal';
 import { useUpdate } from 'common';
 import { useMount } from 'react-use';
-import userStore from 'app/user/stores';
+import orgStore from 'app/org-home/stores/org';
 
 const IssueTypeManage = () => {
   const [issueTimeMap] = issueFieldStore.useStore(s => [s.issueTimeMap]);
   const { getIssueTime, getFieldsByIssue } = issueFieldStore.effects;
   const { clearFieldList } = issueFieldStore.reducers;
-  const { orgId: orgID } = userStore.useStore(s => s.loginUser);
+  const { id: orgID } = orgStore.useStore(s => s.currentOrg);
 
   useMount(() => {
     getIssueTime({ orgID });

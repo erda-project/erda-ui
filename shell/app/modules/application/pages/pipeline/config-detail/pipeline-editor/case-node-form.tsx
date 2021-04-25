@@ -26,6 +26,7 @@ import { useEffectOnce } from 'react-use';
 import ActionConfigForm from './action-config-form';
 import { useLoading } from 'app/common/stores/loading';
 import ActionSelect from './action-select';
+import { protocolActionForms } from 'app/config-page/components/action-form';
 import { getResource, getDefaultVersionConfig, mergeActionAndResource } from './utils';
 
 const { Item } = Form;
@@ -527,8 +528,6 @@ const actionQuery = {
   configSheet: { labels: 'configsheet:true' },
 };
 
-const useProtocolList = ['mysql-cli', 'redis-cli', 'api-test', 'dice-deploy-release', 'dice-deploy-rollback', 'git-checkout', 'git-push', 'gitbook', 'manual-review'];
-
 export const CaseNodeForm = (props: IEditStageProps) => {
   const { editing, nodeData: propsNodeData, visible, scope } = props;
   const [{ chosenActionName, chosenAction, originActions }, updater, update] = useUpdate({
@@ -575,7 +574,7 @@ export const CaseNodeForm = (props: IEditStageProps) => {
         placeholder={`${i18n.t('application:please choose task type')}`}
       />
       <IF check={!isEmpty(chosenAction)}>
-        <IF check={chosenAction?.useProtocol || useProtocolList.includes(chosenActionName)}> {/* 使用组件化协议表单 */}
+        <IF check={chosenAction?.useProtocol || protocolActionForms.includes(chosenActionName)}> {/* 使用组件化协议表单 */}
           <ActionConfigForm chosenAction={chosenAction} chosenActionName={chosenActionName} {...props as any} />
           <IF.ELSE />
           <CaseNodePureForm chosenAction={chosenAction} chosenActionName={chosenActionName} {...props as any} />

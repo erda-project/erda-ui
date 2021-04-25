@@ -17,9 +17,9 @@ import LabelSelector from 'dcos/common/label-selector';
 import { CustomLabel, checkCustomLabels } from 'dcos/common/custom-label';
 import i18n from 'i18n';
 import * as React from 'react';
-import userStore from 'user/stores';
 import machineStore from 'app/modules/dataCenter/stores/machine';
 import { uniq } from 'lodash';
+import orgStore from 'app/org-home/stores/org';
 
 interface IProps {
   visible: boolean,
@@ -38,9 +38,9 @@ const MachineFormModal = ({
   const [state, updater] = useUpdate({
     passwordVisible: false,
   });
-  const { loginUser } = userStore.useStore(s => s);
+  const currentOrg = orgStore.useStore(s => s.currentOrg);
   const { addMachine } = machineStore.effects;
-  const defaultOrgTag = `org-${loginUser.orgName}`;// 取企业名打默认的tag:org-{orgName}
+  const defaultOrgTag = `org-${currentOrg.name}`;// 取企业名打默认的tag:org-{orgName}
 
   const togglePasswordVisible = () => {
     updater.passwordVisible(!state.passwordVisible);
@@ -55,7 +55,7 @@ const MachineFormModal = ({
     addMachine({
       ...rest,
       clusterName: cluster && cluster.name,
-      orgID: loginUser.orgId,
+      orgID: currentOrg.id,
     }).then(onSubmit);
     onCancel();
   };

@@ -58,6 +58,7 @@ declare namespace TOPOLOGY{
     runtimeName: string;
     serviceMesh: string;
     serviceName: string;
+    serviceId: string;
     type: string;
   }
 

@@ -17,6 +17,7 @@ import { Icon as CustomIcon, useUpdate, EmptyHolder } from 'common';
 import { isNumber, filter, map, sortBy, isString } from 'lodash';
 import { OperationAction } from 'config-page/utils';
 import imgMap from '../../img-map';
+import ErdaIcon from '../icon/icon';
 import './list.scss';
 
 const List = (props: CP_LIST.Props) => {
@@ -24,10 +25,21 @@ const List = (props: CP_LIST.Props) => {
     props: configProps, data, state: propsState } = props;
 
   const [state, updater, update] = useUpdate(propsState || {});
-  const { total, pageSize, pageNo } = state || {};
+  const { total = 0, pageSize, pageNo = 1 } = state || {};
+  const [combineList, setCombineList] = React.useState([] as any[])
 
   const { list = [] } = data || {};
-  const { visible = true, size = 'middle', rowKey, pageSizeOptions, ...rest } = configProps || {};
+  const { useLoadMore = false, visible = true, size = 'middle', rowKey, pageSizeOptions, ...rest } = configProps || {};
+
+  // 将接口返回的list和之前的list进行拼接
+  React.useEffect(() => {
+    if ( useLoadMore && pageNo !== 1) {
+      setCombineList(pre => ([...pre, ...list]))
+    } else {
+      setCombineList(list)
+    }
+  }, [list])
+
 
   React.useEffect(() => {
     update(propsState || {});
@@ -47,7 +59,7 @@ const List = (props: CP_LIST.Props) => {
         },
       } : {}),
     } : undefined;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNo, pageSize, total]);
 
   if (!visible) return null;
@@ -55,6 +67,10 @@ const List = (props: CP_LIST.Props) => {
   const changePage = (pNo: number) => {
     operations?.changePageNo && execOperation(operations.changePageNo, operations.changePageNo.fillMeta ? pNo : { pageNo: pNo });
   };
+
+  const loadMore = () => {
+    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pageNo + 1 });
+  }
 
   const changePageSize = (pSize: number) => {
     operations?.changePageSize && execOperation(operations.changePageSize, { pageNo: 1, pageSize: pSize });
@@ -67,15 +83,17 @@ const List = (props: CP_LIST.Props) => {
   return (
     <div className='cp-list'>
       {
-        (list || []).length ? (
+        (combineList || []).length ? (
           <>
-            {(list || []).map((item, idx) => {
+            {(combineList || []).map((item, idx) => {
               return <Item size={size} customProps={customProps} execOperation={execOperation} key={getKey(item, idx)} data={item} />;
             })}
-            {pagination ? (
+            {!useLoadMore && pagination ? (
               <Pagination className='right-flex-box mt12' {...pagination} />
             ) : null
             }
+            {useLoadMore && total > Math.max(combineList.length, 0)
+              && <div className='hover-active load-more' onClick={loadMore}>更多...</div>}
           </>
         ) : <EmptyHolder relative />
       }
@@ -92,7 +110,7 @@ interface ItemProps {
 }
 const Item = (props: ItemProps) => {
   const { execOperation, size = 'middle', data, customProps } = props;
-  const { operations = {}, prefixImg, title, titlePrifxIcon, titlePrifxIconTip, titleSuffixIcon, titleSuffixIconTip, description, extraInfos } = data || {};
+  const { operations = {}, prefixImg, title, titleSize, titlePrifxIcon, prefixImgSize, prefixImgCircle, titlePrifxIconTip, titleSuffixIcon, titleSuffixIconTip, description = '', extraInfos } = data || {};
   const actions = sortBy(filter(map(operations) || [], item => item.show !== false), 'showIndex');
 
   const onClickItem = () => {
@@ -103,20 +121,21 @@ const Item = (props: ItemProps) => {
       customProps.clickItem(operations?.click, data);
     }
   };
+
   return (
     <div className={`cp-list-item ${size} pointer`} onClick={onClickItem}>
       {
         isString(prefixImg) ? (
           <div className='cp-list-item-prefix-img'>
-            <img src={prefixImg.startsWith('/images') ? imgMap[prefixImg] : prefixImg as string} />
+            <img src={prefixImg.startsWith('/images') ? imgMap[prefixImg] : prefixImg as string} className={`prefix-img-${prefixImgSize} ${prefixImgCircle ? 'prefix-img-circle' : ''}`} />
           </div>
         ) : (
-          prefixImg ? (
-            <div className='cp-list-item-prefix-img'>
-              {prefixImg}
-            </div>
-          ) : null
-        )
+            prefixImg ? (
+              <div className='cp-list-item-prefix-img'>
+                {prefixImg}
+              </div>
+            ) : null
+          )
       }
       <div className='cp-list-item-body'>
         <div className='body-title'>
@@ -126,17 +145,17 @@ const Item = (props: ItemProps) => {
                 <CustomIcon type={titlePrifxIcon} className='title-icon mr8' />
               </Tooltip>
             ) : null
-            }
-          <Ellipsis className='bold title-text' title={title} />
+          }
+          <Ellipsis className={`bold title-text ${titleSize}`} title={title} />
           {
             titleSuffixIcon ? (
               <Tooltip title={titleSuffixIconTip}>
                 <CustomIcon type={titleSuffixIcon} className='title-icon ml8' />
               </Tooltip>
             ) : null
-            }
+          }
         </div>
-        <Ellipsis className='body-description' title={description} />
+        {description ? <Ellipsis className='body-description' title={description} /> : null}
         {
           extraInfos ? (
             <div className='body-extra-info'>
@@ -156,7 +175,7 @@ const Item = (props: ItemProps) => {
                   return (
                     <Tooltip key={idx} title={info.tooltip}>
                       <span className={`info-item type-${info.type || 'normal'}`} {...extraProps}>
-                        { info.icon ? <CustomIcon type={info.icon} /> : null}
+                        { info.icon ? <ErdaIcon type="Icon" props={{ iconType: info.icon }} size={16} /> : null }
                         <span className='info-text nowrap'>{info.text}</span>
                       </span>
                     </Tooltip>

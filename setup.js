@@ -74,7 +74,8 @@ SCHEDULER_HOST=http://localhost
 SCHEDULER_PORT=3000
 DEV_MODULES=core,shell
 PROD_MODULES=core,shell
-  `
+SCHEDULER_DIR=${schedulerDir}
+`
   await fs.writeFileSync(join(root, '.env'), envContent, 'utf8', '0777');
   log(`create .env file in ${root}`)
 }

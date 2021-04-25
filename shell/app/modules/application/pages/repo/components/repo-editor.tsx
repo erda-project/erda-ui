@@ -17,7 +17,7 @@ import { RenderForm, FileEditor, useUpdate } from 'common';
 import { notify } from 'common/utils';
 import FileContainer from 'application/common/components/file-container';
 import { getInfoFromRefName } from '../util';
-import yaml from '@terminus/js-yaml';
+import yaml from 'js-yaml';
 import i18n from 'i18n';
 import repoStore from 'application/stores/repo';
 import AddPipelineYml from './add-pipelineyml';
