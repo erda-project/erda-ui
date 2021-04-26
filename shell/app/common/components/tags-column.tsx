@@ -16,8 +16,8 @@ import { Tooltip } from 'app/nusi';
 import { cutStr } from 'common/utils';
 import './tags-column.scss';
 
-interface IProps {
-  labels: Array<{label:string, color: string}>,
+export interface IProps {
+  labels: Array<{label:string, color: keyof typeof TagColorMap}>,
   showCount?: number,
   containerClassName?: string,
   size?: 'small' | 'default',

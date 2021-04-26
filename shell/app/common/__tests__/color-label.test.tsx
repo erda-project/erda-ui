@@ -11,27 +11,29 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Copy } from '../components/copy';
-import { mount } from 'enzyme';
-import { describe, it } from '@jest/globals';
 
-const copytext = 'hello world';
-describe('Copy', () => {
-  it('render copy with string children', () => {
-    // const onSuccess = jest.fn();
+import * as React from 'react';
+import ColorLable from '../components/color-label';
+import { mount } from 'enzyme';
+import { describe, it, jest } from '@jest/globals';
+
+describe('color-label', () => {
+  const onClick = jest.fn();
+  const onClose = jest.fn();
+  it('banse', () => {
     const wrapper = mount(
-      <div>
-        <div
-          className="for-copy"
-          data-clipboard-tip="Email"
-          data-clipboard-text={copytext}
-        >
-          {copytext}
-        </div>
-        <Copy selector="for_copy-select" className="for-copy" copyText="Copy">copy</Copy>
-      </div>
+      <ColorLable
+        key="labels"
+        name="labels"
+        className="custom-class-name"
+        onClose={onClose}
+        onClick={onClick}
+        style={{ color: 'red' }}
+      />
     );
-    expect(wrapper.find('span.for-copy').length).toEqual(1);
+    expect(wrapper.hasClass('custom-class-name')).toEqual(true);
+    expect(wrapper.find('.pk-tag')).toHaveText('·labels');
+    wrapper.find('.pk-tag').simulate('click');
+    expect(onClick).toHaveBeenCalled();
   });
 });
