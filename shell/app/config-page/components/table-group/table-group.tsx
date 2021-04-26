@@ -101,7 +101,7 @@ const TableGroup = (props: CP_TABLE_GROUP.Props) => {
           return (
             <TableBoard
               type="TableBoard"
-              key={`${String(index)}`}
+              key={`${index}`}
               props={item}
               execOperation={execOperation}
               updateState={updateState}

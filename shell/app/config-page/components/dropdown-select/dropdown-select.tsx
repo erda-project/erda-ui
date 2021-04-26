@@ -13,7 +13,6 @@
 
 import { Dropdown, Menu, Input } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
-import { goTo } from 'app/common/utils';
 import React from 'react';
 import { map, get } from 'lodash';
 import i18n from 'i18n';
@@ -78,7 +77,7 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
 
             return (
               <Menu.Item
-                key={`${String(index)}`}
+                key={`${index}`}
                 disabled={item.disabled}
                 className='hover-active'
                 onClick={() => {
@@ -107,7 +106,7 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
           quickSelect.length > 0 ?
             map(quickSelect, (item, index) => (
               <Menu.Item
-                key={`${String(index)}`}
+                key={`${index}`}
                 className='hover-active'
                 onClick={() => gotoSpecificPage(item)}>
                 {item?.label || null}
