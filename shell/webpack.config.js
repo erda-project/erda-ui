@@ -99,7 +99,7 @@ module.exports = () => {
         'status-insight': resolve('./app/modules/microService/monitor/status-insight'),
         'error-insight': resolve('./app/modules/microService/monitor/error-insight'),
         'monitor-alarm': resolve('./app/modules/microService/monitor/monitor-alarm'),
-        '@terminus/dashboard-configurator': path.join(__dirname, 'node_modules/@terminus/dashboard-configurator'),
+        '@terminus/dashboard-configurator': path.join(__dirname, '../node_modules/@terminus/dashboard-configurator'),
       },
       extensions: ['.js', '.jsx', '.tsx', '.ts', '.d.ts'],
       modules: ['node_modules'],
@@ -119,7 +119,7 @@ module.exports = () => {
           include: [
             resolve('app'),
             resolve('market'),
-            resolve('node_modules/@terminus/dashboard-configurator'),
+            resolve('../node_modules/@terminus/dashboard-configurator'),
             // resolve('node_modules/@terminus/nusi'),
           ],
           use: [
@@ -187,10 +187,11 @@ module.exports = () => {
           include: [
             resolve('app'),
             resolve('market'),
-            resolve('node_modules/@terminus/dashboard-configurator'),
+            resolve('../node_modules/@terminus/dashboard-configurator'),
           ],
           use: [
             'thread-loader',
+            'babel-loader',
             {
               loader: 'ts-loader',
               options: {

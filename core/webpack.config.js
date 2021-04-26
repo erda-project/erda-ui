@@ -61,7 +61,7 @@ module.exports = () => {
         {
           test: /\.(scss)$/,
           include: [
-            resolve('node_modules/@terminus/nusi'),
+            resolve('../node_modules/@terminus/nusi'),
           ],
           use: [
             MiniCssExtractPlugin.loader,
@@ -103,8 +103,8 @@ module.exports = () => {
             },
           ],
           include: [
-            resolve('node_modules/antd'),
-            resolve('node_modules/@terminus/nusi'),
+            resolve('../node_modules/antd'),
+            resolve('../node_modules/@terminus/nusi'),
           ],
         },
         {

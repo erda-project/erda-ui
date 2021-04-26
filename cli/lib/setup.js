@@ -86,11 +86,11 @@ module.exports = async (moduleName, modulePort) => {
 
   const includeContent = moduleName === 'core'
   ? [
-    "./node_modules/@types/*",
+    "../node_modules/@types/*",
     `${relativePath}/shell/app/**/types/*`,
   ]
   :[
-    "./node_modules/@types/*",
+    "../node_modules/@types/*",
     `${relativePath}/core/app/**/types/*`,
     `${relativePath}/shell/app/**/types/*`,
   ];
