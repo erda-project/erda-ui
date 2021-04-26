@@ -55,6 +55,7 @@ module.exports = [
       './dataCenter/pages/cluster-manage/operation-history': './app/modules/dataCenter/pages/cluster-manage/operation-history',
       './org/pages/safety': './app/modules/org/pages/safety',
       './user/store': './app/user/stores/index.ts',
+      './erda-icon': '@icon-park/react',
     },
   },
   {
@@ -75,6 +76,9 @@ module.exports = [
       'react-dom': {
         singleton: true,
         requiredVersion: packageJson.dependencies['react-dom'],
+      },
+      '@icon-park/react': {
+        requiredVersion: packageJson.dependencies['@icon-park/react'],
       },
     },
   },
