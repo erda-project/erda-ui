@@ -42,8 +42,7 @@ const start = (userData: ILoginUser) => {
 
   const IconConfig = {
     ...DEFAULT_ICON_CONFIGS, 
-    prefix: 'erda',
-    size: 16
+    prefix: 'erda'
   };
 
   startApp().then(async(App) => {
