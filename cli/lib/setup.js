@@ -15,7 +15,7 @@ const inquirer = require('inquirer');
 const path = require('path');
 const fs = require('fs');
 const child_process = require('child_process');
-const { logInfo, logSuccess, logWarn, logError } = require('./util/log');
+const { logInfo, logSuccess, logWarn } = require('./util/log');
 
 module.exports = async (moduleName, modulePort) => {
   const moduleDir = process.cwd();
@@ -28,14 +28,25 @@ module.exports = async (moduleName, modulePort) => {
 
   let erda_ui_path = path.resolve(moduleDir, `..`);
   
-  if(!['core', 'shell'].includes(moduleName)) {
-    const tempCorePath = path.resolve(moduleDir, `../../core`);
-    const tempShellPath = path.resolve(moduleDir, `../../shell`);
+  if (!['core', 'shell'].includes(moduleName)) {
+    erda_ui_path = path.resolve(moduleDir, `../..`);
+    let envPath = path.resolve(erda_ui_path, `.env`);
 
-    if (fs.existsSync(tempCorePath) && fs.existsSync(tempShellPath)) {
-      erda_ui_path = path.resolve(moduleDir, `../..`);
-    } else {
+    if (!fs.existsSync(envPath)) {
       erda_ui_path = path.resolve(moduleDir, `../../erda-ui`);
+      envPath = path.resolve(erda_ui_path, `.env`);
+
+      if (!fs.existsSync(envPath)) {
+        const answer = await inquirer.prompt([
+          {
+            type: 'directory',
+            name: 'targetPath',
+            message: 'Select work directory',
+            basePath: process.cwd(),
+          }
+        ]);
+        erda_ui_path = answer.targetPath;
+      }   
     }
   }
   
@@ -50,7 +61,10 @@ module.exports = async (moduleName, modulePort) => {
 
   fullConfig.DEV_MODULES = Array.from(new Set(fullConfig.DEV_MODULES.split(',').concat(moduleName))).join(',');
   fullConfig.PROD_MODULES = Array.from(new Set(fullConfig.PROD_MODULES.split(',').concat(moduleName))).join(',');
-  fullConfig[`${moduleName.toUpperCase()}_URL`] = `https://local-${moduleName}.terminus-org.dev.terminus.io:${modulePort}`;
+  fullConfig[`${moduleName.toUpperCase()}_URL`] = moduleName === 'shell'
+  ? `https://dice.dev.terminus.io:${modulePort}`
+  :`https://local-${moduleName}.terminus-org.dev.terminus.io:${modulePort}`;
+
   fullConfig[`${moduleName.toUpperCase()}_DIR`] = path.resolve(moduleDir);
   fullConfig.ERDA_DIR = path.resolve(erda_ui_path);
 
@@ -137,7 +151,10 @@ module.exports = async (moduleName, modulePort) => {
     child_process.spawnSync('erda-ui', ['setup', 'shell', MODULE_PORT], { env: process.env, cwd: fullConfig.SHELL_DIR, stdio: 'inherit' }) ;
   }
 
-  const module_host = `local-${moduleName}.terminus-org.dev.terminus.io`;
+  const module_host = moduleName === 'shell' 
+  ? 'dice.dev.terminus.io'
+  : `local-${moduleName}.terminus-org.dev.terminus.io`;
+
   const configContent = `
 module.exports = {
   DEV_URL: "https://terminus-org.dev.terminus.io",
