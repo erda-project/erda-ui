@@ -17,6 +17,7 @@ import { GlobalWithFetchMock } from 'jest-fetch-mock';
 import * as C from '../app/cube';
 import { jest } from '@jest/globals';
 import { TextDecoder, TextEncoder } from 'util'
+import {useRaf} from 'react-use';
 
 jest.mock('i18n', () => {
   return {
@@ -80,14 +81,36 @@ jest.mock('common/stores/user-map', () => {
     }
   })
 });
-
+const mock = (data)=>{
+  const temp = {};
+  Object.keys(data).forEach(key=>{
+    temp[`mock_${key}`] = data[key]
+  })
+  return temp;
+}
+const mockLocation = {
+  href: "https://terminus-org.app.terminus.io/workBench/apps?id=1#123",
+  host: 'terminus-org.app.terminus.io',
+  hostname: 'terminus-org.app.terminus.io',
+  origin: 'https://terminus-org.app.terminus.io',
+  pathname: '/workBench/apps',
+  hash: "#123",
+  search: "?id=1"
+}
 process.env = Object.assign(process.env, {
   mainVersion: 'mainVersion',
+  ...mock(mockLocation)
 });
 Object.defineProperty(window.document, 'cookie', {
   writable: true,
   value: 'OPENAPI-CSRF-TOKEN=OPENAPI-CSRF-TOKEN',
 });
+Object.defineProperty(window, 'location', {
+  value: mockLocation,
+});
+Object.defineProperty(navigator,'userAgent', {
+  value: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36'
+})
 const customGlobal: GlobalWithFetchMock = (global as unknown) as GlobalWithFetchMock;
 customGlobal.TextDecoder = TextDecoder;
 customGlobal.TextEncoder = TextEncoder;

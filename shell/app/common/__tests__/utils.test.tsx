@@ -11,10 +11,19 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import React from 'react';
 import { isPromise, isImage, removeProtocol, ossImg, uuid, isValidJsonStr, insertWhen,
   reorder, encodeHtmlTag, convertToFormData, getFileSuffix, filterOption, regRules,
+  isClassComponent, countPagination,
 } from '../utils';
 import { describe, it } from '@jest/globals';
+
+class ClassComp extends React.Component {
+  render() {
+    return undefined;
+  }
+}
+const FunComp = () => null;
 
 describe('utils', () => {
   it('isImage ', () => {
@@ -93,5 +102,16 @@ describe('utils', () => {
   it('regRules', () => {
     expect(regRules.lenRange(1, 10).message).toBe('length is 1~10');
     expect(regRules.lenRange(1, 10).pattern.toString()).toBe('/^[\\s\\S]{1,10}$/');
+  });
+  it('isClassComponent', () => {
+    expect(isClassComponent(ClassComp)).toBe(true);
+    expect(isClassComponent(FunComp)).toBe(false);
+  });
+  it('countPagination', () => {
+    const data = {
+      pageSize: 10, total: 99, minus: 1, pageNo: 1,
+    };
+    expect(countPagination({ ...data })).toStrictEqual({ pageNo: 1, pageSize: 10 });
+    expect(countPagination({ ...data, pageNo: 10, minus: 11 })).toStrictEqual({ pageNo: 9, pageSize: 10 });
   });
 });

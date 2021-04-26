@@ -34,6 +34,8 @@ module.exports = {
   collectCoverageFrom: [
     'app/common/**/*.{js,jsx,ts,tsx}',
     '!app/common/**/*.d.ts',
+    '!app/common/stores/*.{js,jsx,ts,tsx}',
+    '!app/common/services/*.{js,jsx,ts,tsx}',
   ],
   globals: {
     'ts-jest': {
