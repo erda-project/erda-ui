@@ -16,6 +16,7 @@ import { getSubSiderInfoMap, appCenterAppList } from 'app/menus';
 import layoutStore from 'layout/stores/layout';
 import { orgPerm } from 'user/stores/_perm-org';
 import { createStore } from 'app/cube';
+import userStore from 'app/user/stores';
 import { getOrgByDomain } from '../services/org';
 import { getGlobal } from 'app/global-space';
 import { getResourcePermissions } from 'user/services/user';
@@ -59,6 +60,7 @@ const org = createStore({
         domain = domain.split('.').slice(1).join('.');
       }
       const { orgName } = payload;
+      if(!orgName) return;
       const resOrg = await call(getOrgByDomain, { domain, orgName });
       if(!resOrg){
         
