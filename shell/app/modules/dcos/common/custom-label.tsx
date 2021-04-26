@@ -24,7 +24,8 @@ interface IProps {
   onChange?(data: string[]): void;
 }
 const emptyFun = () => {};
-export const CustomLabel = React.forwardRef(({ value = [], onChange = emptyFun, labelName = i18n.t('dcos:add label') }: IProps, ref) => {
+const emptyArr = [] as string[]
+export const CustomLabel = React.forwardRef(({ value = emptyArr, onChange = emptyFun, labelName = i18n.t('dcos:add label') }: IProps, ref) => {
   const [labels, setLabels] = React.useState([] as string[]);
   const [showInput, setShowInput] = React.useState(false);
   const [inputVal, setInputVal] = React.useState(undefined);
@@ -113,4 +114,17 @@ export const checkCustomLabels = (_rule: any, value: string[], callback: Functio
     })
     : false;
   return haveInCorrect ? callback(i18n.t('dcos:each label can only contain alphanumeric and underline')) : callback();
+};
+
+export const checkTagLabels = (_rule: any, value: string[], callback: Function) => {
+  const valueArr = [...isEmpty(value) ? [] : value];
+  const reg = /^[A-Za-z]([-A-Za-z0-9_.]+)[A-Za-z]$/;
+
+  const haveInCorrect = valueArr.length
+    ?
+    some(valueArr, (val: string) => {
+      return val.trim() ? !reg.test(val.trim()) : true;
+    })
+    : false;
+  return haveInCorrect ? callback(i18n.t('dcos:each label can only contain alphanumeric underscore underline and point')) : callback();
 };
