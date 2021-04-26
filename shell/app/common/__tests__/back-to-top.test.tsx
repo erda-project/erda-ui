@@ -16,7 +16,7 @@ import React from 'react';
 import BackToTop from '../components/back-to-top';
 import { describe, it, jest } from '@jest/globals';
 import { act } from 'react-dom/test-utils';
-import { render } from 'react-dom';
+import { render, unmountComponentAtNode } from 'react-dom';
 
 
 describe('BackToTop', () => {
@@ -52,5 +52,6 @@ describe('BackToTop', () => {
     });
     expect(div.scrollTop).toBe(0);
     scrollToSpy.mockRestore();
+    unmountComponentAtNode(div);
   });
 });

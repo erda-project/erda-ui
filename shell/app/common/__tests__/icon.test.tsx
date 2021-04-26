@@ -40,4 +40,17 @@ describe('icon', () => {
     expect(wrapper.find('use')).toHaveHTML(`<use xlink:href="#icon-${iconType}"></use>`);
     expect(wrapper.find('svg')).toHaveClassName('icon-class');
   });
+  it('should type is ReactElement', () => {
+    const type = <span>erda</span>;
+    const wrapper = mount(
+      <Icon type={type} className="icon-class" />
+    );
+    expect(wrapper.children()).toHaveHTML('<span>erda</span>');
+  });
+  it('should type is preset', () => {
+    const wrapper = mount(
+      <Icon type="ISSUE_ICON.issue.REQUIREMENT" />
+    );
+    expect(wrapper.find('.requirement')).toExist();
+  });
 });
