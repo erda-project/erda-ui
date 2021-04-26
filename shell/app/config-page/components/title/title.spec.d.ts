@@ -25,8 +25,8 @@ declare namespace CP_TITLE {
     level?: number;
     tips?: string;
     prefixIcon?: string;
-    imageUrl?: string;
-    imageSize?: string;
+    prefixImg?: string;
+    prefixImgSize?: string;
     showDivider?: boolean;
     titleStyles?: object;
     showSubtitle?: boolean;
@@ -34,6 +34,7 @@ declare namespace CP_TITLE {
     subtitleStyles?: object;
     visible?: boolean;
     noMarginBottom?: boolean;
+    isPureTitle?: boolean;
   }
 
   type Props = MakeProps<Spec>;

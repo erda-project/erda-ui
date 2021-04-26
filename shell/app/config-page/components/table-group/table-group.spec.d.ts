@@ -27,7 +27,7 @@ declare namespace CP_TABLE_GROUP {
   }
 
   interface IItem {
-    title: CP_TITLE.IProps;
+    title: CP_TEXT.Props;
     subtitle: CP_TITLE.IProps;
     description: CP_TEXT.IProps;
     table: CP_TABLE.Props;

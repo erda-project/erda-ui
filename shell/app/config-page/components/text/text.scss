@@ -13,5 +13,27 @@
 .primary-icon {
   color: $white;
   background-color: $color-primary;
+}
 
+.gap-size-small {
+  margin-bottom: 12px;
+}
+
+.gap-size-normal {
+  margin-bottom: 16px;
+}
+
+.gap-size-big {
+  margin-bottom: 20px;
+}
+
+.gap-size-large {
+  margin-bottom: 24px;
+}
+
+.text-image {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 4px;
 }

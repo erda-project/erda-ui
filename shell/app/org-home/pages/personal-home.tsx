@@ -14,11 +14,12 @@
 import * as React from 'react';
 import DiceConfigPage from 'config-page/index';
 import routeInfoStore from 'app/common/stores/route';
+import orgStore from 'app/org-home/stores/org.tsx';
 import './personal-home.scss';
 
 const PersonalHome = () => {
   const orgName = routeInfoStore.useStore(s => s.params.orgName);
-
+  const curOrgName = orgStore.useStore(s => s.currentOrg.name);
   const inParams = { orgName };
 
   return (
@@ -27,7 +28,7 @@ const PersonalHome = () => {
         <DiceConfigPage
           scenarioType='home-page-sidebar'
           scenarioKey='home-page-sidebar'
-          key={orgName}
+          key={curOrgName}
           useMock={location.search.includes('useMock') ? useMockLeft : undefined}
           inParams={inParams}
         />
@@ -36,7 +37,7 @@ const PersonalHome = () => {
         <DiceConfigPage
           scenarioType='home-page-content'
           scenarioKey='home-page-content'
-          key={orgName}
+          key={curOrgName}
           useMock={location.search.includes('useMock') ? useMockRight : undefined}
           inParams={inParams}
         />
@@ -427,6 +428,8 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         props: {
           visible: false,
           useLoadMore: true,
+          alignCenter: true,
+          size: 'small',
         },
         data: {
           list: [
@@ -544,13 +547,14 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         props: {
           visible: true,
           useLoadMore: true,
+          alignCenter: true,
+          size: 'small',
         },
         data: {
           list: [
             {
               id: '1',
               title: '测试1测试1测试1测试1',
-              titleSize: 'fz16',
               prefixImgSize: 'middle',
               prefixImgCircle: true,
               prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
@@ -575,7 +579,6 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
             {
               id: '2',
               title: '测试2',
-              titleSize: 'fz16',
               prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
               prefixImgSize: 'middle',
               prefixImgCircle: true,
@@ -612,6 +615,14 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
           total: 5,
         },
       },
+      emptyApplication: {
+        type: 'EmptyHolder',
+        props: {
+          tip: '未加入任何应用',
+          visible: true,
+          relative: true,
+        }
+      },
     },
   },
 };
@@ -642,6 +653,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
           title: '事件',
           level: 1,
           subtitle: '你未完成的事项 560 条',
+          noMarginBottom: true,
         }
       },
       emptyOrgTip: {
@@ -753,7 +765,6 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
               gapSize: 'normal',
             },
           ],
-          groupGapSize: 'normal',
         },
         operations: {
           toSpecificProject: {
@@ -952,9 +963,44 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
           list: [
             {
               title: {
-                prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
-                title: 'Erda',
-                level: 2,
+                props: {
+                  renderType: 'linkText',
+                  value: {
+                    text: [
+                      { image: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3314214233,3432671412&fm=26&gp=0.jpg' },
+                      {
+                        text: "Erda",
+                        operationKey: "toSpecificProject",
+                        styleConfig: {
+                          bold: true,
+                          color: 'black',
+                          fontSize: '16px',
+                        },
+                      }],
+                    isPureText: false,
+                  },
+                },
+                operations: {
+                  toSpecificProject: {
+                    command: {
+                      key: "goto",
+                      target: "projectAllIssue",
+                      jumpOut: true,
+                      state: {
+                        query: {
+                          issueViewGroup__urlQuery: "eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=",
+                        },
+                        params: {
+                          projectId: '13',
+                          orgName: 'terminus',
+                        },
+                      },
+                    },
+                    key: "click",
+                    reload: false,
+                    show: false,
+                  },
+                },
               },
               subtitle: {
                 title: '你未完成的事项',
@@ -1009,6 +1055,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                       type: 'requirement',
                       name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '222运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
                       planFinishedAt: '2022-03-02',
+                      orgName: 'terminus',
                     },
                     {
                       id: '150',
@@ -1016,6 +1063,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                       type: 'requirement',
                       name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
                       planFinishedAt: '2022-03-02',
+                      orgName: 'terminus',
                     },
                     {
                       id: '153',
@@ -1023,6 +1071,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                       type: 'requirement',
                       name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
                       planFinishedAt: '2022-03-02',
+                      orgName: 'terminus',
                     },
                     {
                       id: '150',
@@ -1030,6 +1079,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                       type: 'requirement',
                       name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
                       planFinishedAt: '2022-03-02',
+                      orgName: 'terminus',
                     },
                     {
                       id: '153',
@@ -1037,6 +1087,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                       type: 'requirement',
                       name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
                       planFinishedAt: '2022-03-02',
+                      orgName: 'terminus',
                     },
                   ],
                 },
@@ -1071,6 +1122,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                         },
                         params: {
                           projectId: '13',
+                          orgName: 'terminus',
                         },
                       },
                       visible: false,
@@ -1080,14 +1132,48 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                     show: false,
                   },
                 },
-
               },
             },
             {
               title: {
-                prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
-                title: 'Erda',
-                level: 2,
+                props: {
+                  renderType: 'linkText',
+                  value: {
+                    text: [
+                      { image: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3314214233,3432671412&fm=26&gp=0.jpg' },
+                      {
+                        text: "Erda",
+                        operationKey: "toSpecificProject",
+                        styleConfig: {
+                          bold: true,
+                          color: 'black',
+                          fontSize: '16px',
+                        },
+                      }],
+                    isPureText: false,
+                  },
+                },
+                operations: {
+                  toSpecificProject: {
+                    command: {
+                      key: "goto",
+                      target: "projectAllIssue",
+                      jumpOut: true,
+                      state: {
+                        query: {
+                          issueViewGroup__urlQuery: "eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=",
+                        },
+                        params: {
+                          projectId: '13',
+                          orgName: 'terminus',
+                        },
+                      },
+                    },
+                    key: "click",
+                    reload: false,
+                    show: false,
+                  },
+                },
               },
               subtitle: {
                 title: '你未完成的事项',

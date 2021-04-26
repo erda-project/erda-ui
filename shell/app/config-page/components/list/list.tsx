@@ -30,11 +30,11 @@ const List = (props: CP_LIST.Props) => {
   const [combineList, setCombineList] = React.useState([] as any[])
 
   const { list = [] } = data || {};
-  const { useLoadMore = false, visible = true, size = 'middle', rowKey, pageSizeOptions, ...rest } = configProps || {};
+  const { useLoadMore = false, visible = true, size = 'middle', rowKey, alignCenter = false, pageSizeOptions, ...rest } = configProps || {};
 
   // 将接口返回的list和之前的list进行拼接
   React.useEffect(() => {
-    if ( useLoadMore && pageNo !== 1) {
+    if (useLoadMore && pageNo !== 1) {
       list && setCombineList(pre => ([...pre, ...list]))
     } else {
       setCombineList(list)
@@ -87,7 +87,7 @@ const List = (props: CP_LIST.Props) => {
         (combineList || []).length ? (
           <>
             {(combineList || []).map((item, idx) => {
-              return <Item size={size} customProps={customProps} execOperation={execOperation} key={getKey(item, idx)} data={item} />;
+              return <Item size={size} customProps={customProps} execOperation={execOperation} key={getKey(item, idx)} data={item} alignCenter={alignCenter} />;
             })}
             {!useLoadMore && pagination ? (
               <Pagination className='right-flex-box mt12' {...pagination} />
@@ -106,11 +106,12 @@ const List = (props: CP_LIST.Props) => {
 interface ItemProps {
   size?: 'small' | 'middle' | 'large';
   data: CP_LIST.IListData;
+  alignCenter?: boolean;
   execOperation: (opObj: { key: string, [p: string]: any }, updateData?: any) => void;
   customProps?: Obj;
 }
 const Item = (props: ItemProps) => {
-  const { execOperation, size = 'middle', data, customProps } = props;
+  const { execOperation, size = 'middle', data, alignCenter = false, customProps } = props;
   const { operations = {}, prefixImg, title, titleSize, titlePrifxIcon, prefixImgSize, prefixImgCircle, titlePrifxIconTip, titleSuffixIcon, titleSuffixIconTip, description = '', extraInfos } = data || {};
   const actions = sortBy(filter(map(operations) || [], item => item.show !== false), 'showIndex');
 
@@ -124,7 +125,7 @@ const Item = (props: ItemProps) => {
   };
 
   return (
-    <div className={`cp-list-item ${size} pointer`} onClick={onClickItem}>
+    <div className={`cp-list-item ${size} pointer ${alignCenter ? 'v-align' : ''}`} onClick={onClickItem}>
       {
         isString(prefixImg) ? (
           <div className='cp-list-item-prefix-img'>
@@ -139,7 +140,7 @@ const Item = (props: ItemProps) => {
           )
       }
       <div className='cp-list-item-body'>
-        <div className='body-title'>
+        <div className={`body-title ${size}`}>
           {
             titlePrifxIcon ? (
               <Tooltip title={titlePrifxIconTip}>

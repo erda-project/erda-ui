@@ -25,11 +25,16 @@ const TableBoard = (props: CP_TABLE_GROUP.ITableBoardProps) => {
   const { props: configProps, execOperation = noop, updateState = noop } = props
   const { title, subtitle, description, table, extraInfo } = configProps;
   const extraProps = { execOperation, updateState };
-
+  
   return (
     <div className='table-board'>
-      <Title props={title} type="Title" {...extraProps} />
-      <div className='table-board-card'>
+      <Text
+        props={title.props}
+        operations={title.operations}
+        type="Text"
+        {...extraProps}
+      />
+      <div className='table-board-card mt4'>
         <Title props={subtitle} type="Title" {...extraProps} />
         <div className="mt12 ml32">
           <div className='mb12 ml8'>

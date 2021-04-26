@@ -17,15 +17,21 @@
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
 import { Title as NusiTitle, Tooltip } from 'app/nusi';
+import ERDA_LOGO from 'app/images/Erda.svg';
 import './title.scss'
 
 const Title = (props: CP_TITLE.Props) => {
   const { props: configProps } = props;
-  const { title, level, tips, prefixIcon = '', imageUrl = '', imageSize = 'normal', showDivider = false, visible = true, titleStyles = {}, subtitle = '', noMarginBottom = false} = configProps || {};
+  const { title, level, tips, prefixIcon = '', prefixImg = '', prefixImgSize = 'normal', showDivider = false, visible = true, titleStyles = {}, subtitle = '', noMarginBottom = false, isPureTitle = true } = configProps || {};
+
   const titleComp = tips ? (
-    <div className='left-flex-box dice-cp-title-detail' style={{ ...titleStyles }}>
+    <div className='left-flex-box dice-cp-title-detail v-align' style={{ ...titleStyles }}>
       {prefixIcon ? <CustomIcon type={prefixIcon} className='mr4' /> : null}
-      {imageUrl ? <img src={imageUrl} className={`${imageSize} pre-image`} /> : null}
+      {prefixImg ? <img src={prefixImg} className={`${prefixImgSize} pre-image`} /> : null}
+      {
+        !isPureTitle && !prefixIcon && !prefixImg ?
+          <img src={ERDA_LOGO} className='erda-logo mr4' /> : null
+      }
       {title}
       <Tooltip title={tips}>
         <CustomIcon type='help' className='ml4 fz14' />
@@ -36,9 +42,13 @@ const Title = (props: CP_TITLE.Props) => {
     </div>
   ) :
     (
-      <div className="dice-cp-title-detail" style={{ ...titleStyles }}>
+      <div className="dice-cp-title-detail v-align" style={{ ...titleStyles }}>
         {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
-        {imageUrl ? <img src={imageUrl} className={`${imageSize} pre-image`} /> : null}
+        {prefixImg ? <img src={prefixImg} className={`${prefixImgSize} pre-image`} /> : null}
+        {
+          !isPureTitle && !prefixIcon && !prefixImg ?
+            <img src={ERDA_LOGO} className='erda-logo mr4' /> : null
+        }
         {title}
         {subtitle ?
           <span className="subtitle">
