@@ -24,6 +24,7 @@ import { setGlobal } from 'app/global-space';
 import { get } from 'lodash';
 import { getCurrentLocale } from 'core/i18n';
 import { EmptyListHolder } from 'common';
+import orgStore from 'app/org-home/stores/org';
 import * as nusi from 'app/nusi';
 import './styles/antd-extension.scss';
 import './styles/app.scss';
@@ -44,7 +45,7 @@ const start = (userData: ILoginUser) => {
     prefix: 'erda'
   };
 
-  startApp().then((App) => {
+  startApp().then(async(App) => {
     [
       import('layout/entry'),
       import('app/org-home/entry'),
@@ -64,7 +65,8 @@ const start = (userData: ILoginUser) => {
       ...Object.values(modules),
     ].forEach((p) => p.then(m => m.default(registerModule)));
     userStore.reducers.setLoginUser(userData); // 需要在app start之前初始化用户信息
-    
+    const orgName = get(location.pathname.split('/'),'[1]');
+    await orgStore.effects.getOrgByDomain({ orgName });
     const Wrap = () => {
       const currentLocale = getCurrentLocale();
       return (
@@ -114,7 +116,6 @@ if (oldPipelineReg.test(pathname)) {
   window.history.replaceState({}, document.title, `${pPath}pipeline?pipelineID=${pId}`);
 }
 
-
 const setSysAdminLocationByAuth = (authObj: Obj) => {
   const curPathname = location.pathname;
   const orgName = get(curPathname.split('/'),'[1]');
@@ -133,6 +134,7 @@ const init = (userData: ILoginUser) => {
   const sysPermQuery = { scope: 'sys', scopeID: '0' };
   // TODO: 调用层次太深需要优化
   // 先检查是否系统管理员，是进入系统后台，否则根据当前域名查找orgId，用orgId去查企业权限
+  
   getResourcePermissions(sysPermQuery).then((result: Obj) => {
     if (result.success) {
       if(!result.data.access){
@@ -149,7 +151,7 @@ const init = (userData: ILoginUser) => {
             hasAuth: !!result.data.access,
         });
         setGlobal('erdaInfo.isSysAdmin', true);
-        start({ ...userData, isSysAdmin: true }, [{ ...sysPermQuery, ...result.data }]);
+        start({ ...userData, isSysAdmin: true });
       }
     }
   });
