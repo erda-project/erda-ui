@@ -160,8 +160,8 @@ const layout = createStore({
       }
       const { appList, currentApp, menusMap = {}, key } = _payload as  LAYOUT.IInitLayout || {} ;
       if (key === 'sysAdmin' && !getGlobal('erdaInfo.isSysAdmin')) return;
-      state.appList = appList;
-      state.currentApp = currentApp;
+      if(appList?.length) state.appList = appList;
+      if(currentApp) state.currentApp = currentApp;
       state.subSiderInfoMap = {
         ...state.subSiderInfoMap,
         ...menusMap,
