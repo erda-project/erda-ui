@@ -52,6 +52,7 @@
   "include": [
     "./src/**/*",
     "./node_modules/@types/*",
+    "../node_modules/@types/*",
     "../shell/app/**/types/*"
   ]
 }

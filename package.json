@@ -12,7 +12,7 @@
   "scripts": {
     "changed": "lerna changed --all",
     "publish": "lerna publish",
-    "clear": "rm -r -f ./node_modules && lerna clean -y"
+    "clear": "lerna clean -y && rm -r -f ./node_modules"
   },
   "repository": {
     "type": "git",

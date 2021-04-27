@@ -20,6 +20,8 @@ const { ModuleFederationPlugin } = require('webpack').container;
 const AutomaticVendorFederation = require('@module-federation/automatic-vendor-federation');
 const packageJson = require('./package.json');
 
+const { getPath } = require('../utils/resolve')
+
 const resolve = pathname => path.resolve(__dirname, pathname);
 
 module.exports = () => {
@@ -61,7 +63,7 @@ module.exports = () => {
         {
           test: /\.(scss)$/,
           include: [
-            resolve('../node_modules/@terminus/nusi'),
+            getPath('@terminus/nusi')
           ],
           use: [
             MiniCssExtractPlugin.loader,
@@ -103,8 +105,8 @@ module.exports = () => {
             },
           ],
           include: [
-            resolve('../node_modules/antd'),
-            resolve('../node_modules/@terminus/nusi'),
+            getPath('antd'),
+            getPath('@terminus/nusi')
           ],
         },
         {
