@@ -25,6 +25,8 @@ declare namespace CP_TEXT {
     visible?: boolean;
     styleConfig?: IStyleConfig;
     textStyleName?: Obj;
+    title?: string;
+    titleLevel?: number;
   }
 
   interface IStatusTextItem {
@@ -47,10 +49,12 @@ declare namespace CP_TEXT {
 
   interface ILinkTextData {
     text: Array<ILinkTarget | string> | ILinkTarget | string;
+    isPureText: boolean;
   }
 
   interface ILinkTarget {
     icon?: string;
+    image?: string;
     iconStyleName?: string;
     text: string;
     operationKey: string;

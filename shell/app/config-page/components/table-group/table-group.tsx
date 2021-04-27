@@ -16,21 +16,27 @@ import { map } from 'lodash';
 import { useUpdate } from 'common';
 import Title from '../title/title';
 import Text from '../text/text';
-import { Table } from '../table/table'
-import './table-group.scss'
+import { Table } from '../table/table';
+import i18n from 'i18n';
+import './table-group.scss';
 
 const noop = () => { };
 const TableBoard = (props: CP_TABLE_GROUP.ITableBoardProps) => {
   const { props: configProps, execOperation = noop, updateState = noop } = props
   const { title, subtitle, description, table, extraInfo } = configProps;
   const extraProps = { execOperation, updateState };
-
+  
   return (
     <div className='table-board'>
-      <Title props={title} type="Title" {...extraProps} />
-      <div className='table-board-card'>
+      <Text
+        props={title.props}
+        operations={title.operations}
+        type="Text"
+        {...extraProps}
+      />
+      <div className='table-board-card mt4'>
         <Title props={subtitle} type="Title" {...extraProps} />
-        <div className="mt12 ml32">
+        <div className="mt12 ml8">
           <div className='mb12 ml8'>
             <Text props={description} type="Text" {...extraProps} />
           </div>
@@ -64,7 +70,7 @@ const TableGroup = (props: CP_TABLE_GROUP.Props) => {
     list: [],
   } || {}) as any;
   const { visible } = configProps;
-  const showLoadMore = total > Math.max(combineList.length, 0)
+  const showLoadMore = total > Math.max(combineList?.length, 0)
 
   // 将接口返回的list和之前的list进行拼接
   React.useEffect(() => {
@@ -91,13 +97,19 @@ const TableGroup = (props: CP_TABLE_GROUP.Props) => {
   return (
     <div className="cp-dice-table-group">
       {
-        map(combineList, item => {
+        map(combineList, (item, index) => {
           return (
-            <TableBoard type="TableBoard" props={item} execOperation={execOperation} updateState={updateState} operations={operations} />
+            <TableBoard
+              type="TableBoard"
+              key={`${index}`}
+              props={item}
+              execOperation={execOperation}
+              updateState={updateState}
+              operations={operations} />
           )
         })
       }
-      {showLoadMore && <div className='load-more hover-active' onClick={loadMore}>加载更多...</div>}
+      {showLoadMore && <div className='load-more hover-active' onClick={loadMore}>{i18n.t('load more')}...</div>}
     </div>
   )
 }

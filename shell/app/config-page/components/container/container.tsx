@@ -52,8 +52,8 @@ export const RowContainer = (props: CP_CONTAINER.Props) => {
 };
 
 export const LRContainer = (props: CP_CONTAINER.Props) => {
-  const { left, right, contentSetting, ...rest } = props;
-
+  const { left, right, props: configProps, ...rest } = props;
+  const { contentSetting = '' } = configProps || {};
   const leftCls = classnames({
     left: true,
     'flex-1': contentSetting !== 'start',
