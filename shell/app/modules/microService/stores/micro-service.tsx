@@ -22,6 +22,7 @@ import routeInfoStore from 'common/stores/route';
 import { setGlobal } from 'app/global-space';
 import wfwzl_svg from 'app/images/wfwzl.svg';
 import { FULL_DOC_DOMAIN } from 'common/constants';
+import React from 'react';
 
 interface IState {
   microServiceProjectList: MS_INDEX.IMicroServiceProject[];
@@ -43,9 +44,11 @@ const generateMSMenu = (menuData: MS_INDEX.IMicroServiceMenu[], params: Record<s
   return menuData.filter(m => m.exists).map((menu) => {
     const { key, cnName, enName, children } = menu;
     const href = getMSFrontPathByKey(key, { ...menu.params, ...params } as any);
+
+    const IconComp = MSIconMap[key];
     const siderMenu = {
       key,
-      icon: MSIconMap[key] || 'zujian',
+      icon: IconComp  ? <IconComp /> : 'zujian',
       text: currentLocale.key === 'zh' ? cnName : enName,
       href: `${href}${queryStr}`,
       prefix: `${href}`,
