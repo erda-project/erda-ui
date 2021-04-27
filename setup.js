@@ -22,7 +22,7 @@ const root = resolve(__dirname, '.');
 
 // npm binary based on OS
 
-const npmCmd = os.platform().startsWith('win') ? 'npm.cmd' : 'npm';
+const yarnCmd = os.platform().startsWith('win') ? 'yarn.cmd' : 'yarn';
 
 const coreDir = join(root, 'core');
 const schedulerDir = join(root, 'scheduler');
@@ -34,6 +34,10 @@ const log = msg => {
 }
 
 const installDependencies = () => {
+  if (!fs.existsSync(join(root, 'node_modules'))) {
+    cp.spawnSync(yarnCmd, [], { env: process.env, cwd: root, stdio: 'inherit' });
+    return;
+  };
   [
     cliDir,
     coreDir,
@@ -46,13 +50,14 @@ const installDependencies = () => {
     };
     log(`Performing "npm i" inside ${dir} folder`);
     // install dependencies
-    cp.spawnSync(npmCmd, ['i'], { env: process.env, cwd: dir, stdio: 'inherit' });
+    cp.spawnSync(yarnCmd, ['config', 'set', 'registry', 'https://registry.npm.terminus.io/'], { env: process.env, cwd: dir, stdio: 'inherit' });
+    cp.spawnSync(yarnCmd, [], { env: process.env, cwd: dir, stdio: 'inherit' });
   });
 }
 
 const registerErdaCmd = async () => {
   log('register erda command');
-  await cp.spawnSync(npmCmd, ['run', 'local'], { env: process.env, cwd: cliDir, stdio: 'inherit' });
+  await cp.spawnSync(yarnCmd, ['run', 'local'], { env: process.env, cwd: cliDir, stdio: 'inherit' });
 }
 
 const setupCore = async (port) => {
