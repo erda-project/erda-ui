@@ -13,7 +13,7 @@
 
 import path from 'path';
 import { getConfig } from 'core/config';
-import { filter, isFunction, mapValues, throttle, pickBy, isEmpty } from 'lodash';
+import { filter, isFunction, mapValues, throttle, pickBy, isEmpty, get } from 'lodash';
 import { qs } from './query-string';
 import routeInfoStore from 'common/stores/route';
 
@@ -55,8 +55,9 @@ export const goTo = (pathStr: string, options?: IOptions) => {
     }
     return;
   } else if (pathStr.startsWith(goTo.pagePrefix)) {
+    const orgName = get(location.pathname.split('/'),'[1]') || '-';
     const [urlParams, urlQuery] = routeInfoStore.getState(s => [s.params, s.query]);
-    const pathParams = { ...urlParams, ...urlQuery, ...rest };
+    const pathParams = { orgName, ...urlParams, ...urlQuery, ...rest };
     const curPath = goTo.pagePathMap[pathStr.replace(goTo.pagePrefix, '')];
     // 缺少参数
     if (curPath === undefined) {
@@ -325,8 +326,9 @@ mapValues(pages, (v, k) => {
   goTo.pages[k] = `${goTo.pagePrefix}${k}`;
   goTo.pagePathMap[k] = v.match(/\{.+\}/) ? pathFormat(v) : v;
   goTo.resolve[k] = (params?: Obj, prependOrigin?: boolean) => {
-    const [urlParams, urlQuery] = routeInfoStore.getState(s => [s.params, s.query]);
-    const pathParams = { ...urlParams, ...urlQuery, ...params };
+    const orgName = get(location.pathname.split('/'),'[1]') || '-';
+    const [urlParams, urlQuery] = routeInfoStore.getState(s => [s.params, s.query]); 
+    const pathParams = { orgName, ...urlParams, ...urlQuery, ...params };
     const prefix = prependOrigin ? window.location.origin : '';
     const pagePath = pathFormat(v)(pathParams);
     return prefix + pagePath;
