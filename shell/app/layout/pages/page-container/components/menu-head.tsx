@@ -41,7 +41,7 @@ const MenuHead = ({ siderInfo, routeMarks }: IProps) => {
   const { detail = defaultDetail, getHeadName } = siderInfo || {};
   const { name, displayName, logo, logoClassName = '' } = detail;
   let sideIcon: React.ReactNode = null;
-  switch (routeMarks[routeMarks.length - 1]) {
+  switch (routeMarks[routeMarks.length - 2]) {
     case 'workBench':
       sideIcon = <img className="big-icon" src={gzt_svg} />;
       break;

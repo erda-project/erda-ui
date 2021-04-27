@@ -70,12 +70,12 @@ const NotFound = ({ message, force } : { message?: string, force?: boolean }) =>
           {
             force // 当fdp挂掉的时候用Link返回因为会判断当前平台还是fdp。跳回的首页还是会挂，这里用a标签来强刷
               ? (
-                <a href={goTo.resolve.orgRoot()}>
+                <a href={goTo.resolve.orgRoot({orgName: '-'})}>
                   <Button size="large" type="primary">{i18n.t('back to home')}</Button>
                 </a>
               )
               : (
-                <Link to={goTo.resolve.orgRoot()}>
+                <Link to={goTo.resolve.orgRoot({orgName: '-'})}>
                   <Button size="large" type="primary">{i18n.t('back to home')}</Button>
                 </Link>
               )
