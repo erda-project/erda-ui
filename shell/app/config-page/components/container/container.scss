@@ -4,6 +4,12 @@
       display: flex;
       flex-direction: column;
 
+      &.space-none {
+        > * {
+          margin-top: 0;
+        }
+      }
+
       &.space-small {
         > * {
           margin-top: 8px;
@@ -43,6 +49,11 @@
       flex-direction: row;
       align-items: center;
 
+      &.space-none {
+        > * {
+          margin-left: 0;
+        }
+      }
 
       &.space-small {
         > * {

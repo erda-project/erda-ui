@@ -25,7 +25,7 @@ declare namespace CP_CONTAINER {
     direction?: 'column' | 'row'; // 对应flex-direction
     contentSetting?: 'between' | 'center' | 'start' | 'end'; // 对应justify-content
     isTopHead?: boolean;
-    spaceSize?: 'small' | 'middle' | 'big' | 'large'
+    spaceSize?: 'none' | 'small' | 'middle' | 'big' | 'large'
     whiteBg?: boolean;
     fullHeight?: boolean;
     flexHeight?: boolean;

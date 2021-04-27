@@ -31,6 +31,8 @@ declare namespace CP_LIST {
     visible?: boolean;
     size?: ISize;
     useLoadMore?: boolean;
+    alignCenter?: boolean;
+    noBorder?: boolean;
     pageSizeOptions?: string[]
   }
 

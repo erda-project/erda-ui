@@ -3,6 +3,10 @@
     display: flex;
     border-bottom: 1px solid $color-border;
 
+    &.no-border {
+      border-bottom: none;
+    }
+
     &-operations {
       display: none;
     }
@@ -112,6 +116,31 @@
 
     &.small {
       padding: 4px 8px;
+
+      .body-title {
+        margin: 0;
+      }
+      .item-prefix-img {
+        width: 20px;
+        height: 20px;
+
+        &.prefix-img-circle {
+          border-radius: 50%;
+        }
+      }
+      
+      .cp-list-item-body {
+        .title-icon {
+          width: 20px;
+          height: 20px;
+        }
+
+        .title-text {
+          font-size: 14px;
+          line-height: 20px;
+          font-weight: normal;
+        }
+      }
     }
 
     &.large {
