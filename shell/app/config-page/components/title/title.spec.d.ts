@@ -26,15 +26,13 @@ declare namespace CP_TITLE {
     tips?: string;
     prefixIcon?: string;
     prefixImg?: string;
-    prefixImgSize?: string;
+    size?: 'small' | 'normal' | 'big' | 'large';
     showDivider?: boolean;
-    titleStyles?: object;
     showSubtitle?: boolean;
     subtitle?: string;
-    subtitleStyles?: object;
+    isCircle?: boolean;
     visible?: boolean;
     noMarginBottom?: boolean;
-    isPureTitle?: boolean;
   }
 
   type Props = MakeProps<Spec>;

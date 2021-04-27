@@ -36,7 +36,7 @@ const TableBoard = (props: CP_TABLE_GROUP.ITableBoardProps) => {
       />
       <div className='table-board-card mt4'>
         <Title props={subtitle} type="Title" {...extraProps} />
-        <div className="mt12 ml32">
+        <div className="mt12 ml8">
           <div className='mb12 ml8'>
             <Text props={description} type="Text" {...extraProps} />
           </div>

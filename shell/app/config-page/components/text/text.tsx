@@ -16,7 +16,7 @@ import { map, isNumber, isString, isArray, isPlainObject } from 'lodash';
 import { Copy, Icon as CustomIcon } from 'common';
 import { Badge, Title } from 'app/nusi';
 import i18n from 'i18n';
-import ERDA_LOGO from 'app/images/Erda.svg';
+import imgMap from '../../img-map';
 import classnames from 'classnames';
 import './text.scss';
 
@@ -85,12 +85,12 @@ const Text = (props: CP_TEXT.Props) => {
                   >
                     {tText}
                     {icon && <CustomIcon className={`mr4 ml4 ${iconStyleName}`} type={icon} />}
-                    {image && <img src={image || ERDA_LOGO} className='text-image' />}
+                    {image && <img src={image.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
                   </a>
                 ) : <span key={idx} className={textClassNames} style={{ ...styleObj, ...tStyle }}>
                     {tText}
                     {icon && <CustomIcon className={`mr4 ml4 ${iconStyleName}`} type={icon} />}
-                    {image && <img src={image || ERDA_LOGO} className='text-image' />}
+                    {image && <img src={image.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
                   </span>;
               }
               return null;
@@ -110,14 +110,14 @@ const Text = (props: CP_TEXT.Props) => {
           >
             {tText}
             {icon && <CustomIcon className={`mr4 ml4 ${iconStyleName}`} type={icon} />}
-            {image && <img src={image || ERDA_LOGO} className='text-image' />}
+            {image && <img src={image.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
           </a>
         ) : <span
           className={textClassNames}
           style={{ ...styleObj, ...tStyle }}>
             {tText}
             {icon && <CustomIcon className={`mr4 ml4 ${iconStyleName}`} type={icon} />}
-            {image && <img src={image || ERDA_LOGO} className='text-image' />}
+            {image && <img src={image.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
           </span>;
       }
     }

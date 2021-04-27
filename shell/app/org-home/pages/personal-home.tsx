@@ -392,6 +392,8 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
           title: '项目',
           level: 1,
           noMarginBottom: true,
+          showDivider: true,
+          size: 'normal',
         }
       },
       myProjectFilter: {
@@ -429,6 +431,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
           visible: false,
           useLoadMore: true,
           alignCenter: true,
+          noBorder: true,
           size: 'small',
         },
         data: {
@@ -511,6 +514,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
           title: '应用',
           level: 1,
           noMarginBottom: true,
+          showDivider: true,
         }
       },
       myApplicationFilter: {
@@ -548,6 +552,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
           visible: true,
           useLoadMore: true,
           alignCenter: true,
+          noBorder: true,
           size: 'small',
         },
         data: {
@@ -557,7 +562,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
               title: '测试1测试1测试1测试1',
               prefixImgSize: 'middle',
               prefixImgCircle: true,
-              prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+              prefixImg: '/images/default-app-icon.svg',
               operations: {
                 click: {
                   key: 'click',
@@ -654,6 +659,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
           level: 1,
           subtitle: '你未完成的事项 560 条',
           noMarginBottom: true,
+          size: 'big',
         }
       },
       emptyOrgTip: {
@@ -668,7 +674,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
       erdaLogo: {
         type: 'Image',
         props: {
-          src: '',
+          src: '/images/default-org-icon.svg',
           visible: true,
           isCircle: true,
           size: 'small',
@@ -800,11 +806,10 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
       orgLogo: {
         type: 'Image',
         props: {
-          src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdzJaQZp56En9t1-6SYmZYtY8Y9pdpDoFscQ&usqp=CAU',
+          src: '/images/favicon.ico',
           visible: true,
           isCircle: true,
           size: 'small',
-          type: 'organization',
         },
       },
       emptyProjectText: {
@@ -972,7 +977,6 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                         text: "Erda",
                         operationKey: "toSpecificProject",
                         styleConfig: {
-                          bold: true,
                           color: 'black',
                           fontSize: '16px',
                         },

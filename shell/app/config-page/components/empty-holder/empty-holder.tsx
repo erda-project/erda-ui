@@ -20,7 +20,7 @@ import './empty-holder.scss';
 export const EmptyHolder = (props: CP_EMPTY_HOLDER.Props) => {
   const { props: configProps } = props;
   const {
-    visible = false,
+    visible = true,
     icon = 'empty',
     tip = i18n.t('common:no data'),
     relative = false,
