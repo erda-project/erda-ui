@@ -13,7 +13,7 @@
 
 import { FormModal } from 'common';
 import LabelSelector from 'dcos/common/label-selector';
-import { CustomLabel, checkCustomLabels } from 'dcos/common/custom-label';
+import { CustomLabel, checkCustomLabels, checkTagLabels } from 'dcos/common/custom-label';
 import clusterDashboardStore from 'dcos/stores/dashboard';
 import i18n from 'i18n';
 import { find, uniq } from 'lodash';
@@ -88,7 +88,7 @@ const TagForm = ({
         <CustomLabel />
       ),
       rules: [
-        { validator: checkCustomLabels },
+        { validator: checkTagLabels },
       ],
     },
   ];
