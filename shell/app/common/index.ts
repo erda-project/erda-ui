@@ -65,7 +65,7 @@ export { MenuPopover } from './components/menu-popover';
 export { FileEditor } from './components/file-editor';
 export { CardsLayout } from './components/cards-layout';
 export { SwitchAutoScroll } from './components/switch-auto-scroll';
-export { default as SidePanel } from './components/side-panel';
+export { default as SidePanel } from './components/side-panel/';
 export { default as FileSelect } from './components/file-select';
 export { EditField } from './components/edit-field';
 export { default as MarkdownEditor } from './components/markdown-editor';
