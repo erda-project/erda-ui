@@ -25,6 +25,8 @@ declare namespace CP_EMPTY_HOLDER {
     action?: JSX.Element | null,
     className?: string;
     visible?: boolean;
+    whiteBg?: boolean;
+    paddingY?: boolean;
   }
 
   type Props = MakeProps<Spec>;

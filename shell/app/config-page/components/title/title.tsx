@@ -17,18 +17,20 @@
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
 import { Title as NusiTitle, Tooltip } from 'app/nusi';
+import imgMap from '../../img-map';
 import './title.scss'
 
 const Title = (props: CP_TITLE.Props) => {
   const { props: configProps } = props;
-  const { title, level, tips, prefixIcon = '', imageUrl = '', imageSize = 'normal', showDivider = false, visible = true, titleStyles = {}, subtitle = '', noMarginBottom = false} = configProps || {};
+  const { title, level, tips, size = 'normal', prefixIcon = '', prefixImg = '', showDivider = false, visible = true, isCircle = false, subtitle = '', noMarginBottom = false } = configProps || {};
+
   const titleComp = tips ? (
-    <div className='left-flex-box dice-cp-title-detail' style={{ ...titleStyles }}>
-      {prefixIcon ? <CustomIcon type={prefixIcon} className='mr4' /> : null}
-      {imageUrl ? <img src={imageUrl} className={`${imageSize} pre-image`} /> : null}
+    <div className={`left-flex-box dice-cp-title-detail v-align ${size}`} >
+      {prefixIcon ? <CustomIcon type={prefixIcon} className='mr4 pre-icon' /> : null}
+      {prefixImg ? <img src={prefixImg.startsWith('/images') ? imgMap[prefixImg] : prefixImg} className={`${isCircle ? 'circle' : ''} pre-image`} /> : null}
       {title}
       <Tooltip title={tips}>
-        <CustomIcon type='help' className='ml4 fz14' />
+        <CustomIcon type='help' className='ml4 fz14 pre-icon' />
       </Tooltip>
       {
         subtitle ? <span className="subtitle">{subtitle}</span > : null
@@ -36,9 +38,9 @@ const Title = (props: CP_TITLE.Props) => {
     </div>
   ) :
     (
-      <div className="dice-cp-title-detail" style={{ ...titleStyles }}>
+      <div className={`dice-cp-title-detail v-align ${size}`} >
         {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
-        {imageUrl ? <img src={imageUrl} className={`${imageSize} pre-image`} /> : null}
+        {prefixImg ? <img src={prefixImg.startsWith('/images') ? imgMap[prefixImg] : prefixImg} className={`${isCircle ? 'circle' : ''} pre-image`} /> : null}
         {title}
         {subtitle ?
           <span className="subtitle">
