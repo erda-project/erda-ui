@@ -41,8 +41,7 @@ const List = (props: CP_LIST.Props) => {
     } else {
       setCombineList(list)
     }
-  }, [list])
-
+  }, [pageNo])
 
   React.useEffect(() => {
     update(propsState || {});
@@ -72,7 +71,7 @@ const List = (props: CP_LIST.Props) => {
   };
 
   const loadMore = () => {
-    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pageNo + 1 });
+    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pageNo + 1 }, { data: { list: [] } });
   }
 
   const changePageSize = (pSize: number) => {
@@ -188,7 +187,7 @@ const Item = (props: ItemProps) => {
                   return (
                     <Tooltip key={idx} title={info.tooltip}>
                       <span className={`info-item type-${info.type || 'normal'}`} {...extraProps}>
-                        { info.icon ? <ErdaIcon type="Icon" props={{ iconType: info.icon }} size={16} /> : null }
+                        {info.icon ? <ErdaIcon type="Icon" props={{ iconType: info.icon }} size={16} /> : null}
                         <span className='info-text nowrap'>{info.text}</span>
                       </span>
                     </Tooltip>

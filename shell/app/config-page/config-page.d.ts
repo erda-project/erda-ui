@@ -86,7 +86,7 @@ declare namespace CONFIG_PAGE {
   // 框架注入 的 props
   interface InjectProps {
     customProps?: Obj;
-    execOperation: (opObj: { [p: string]: any, key: string }, updateState?: any) => void;
+    execOperation: (opObj: { [p: string]: any, key: string }, updateState?: any, extraUpdateInfo?: Obj) => void;
     updateState: (val: Obj) => void;
   }
 
