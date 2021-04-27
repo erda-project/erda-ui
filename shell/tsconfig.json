@@ -32,7 +32,7 @@
         "./app/common"
       ],
       "common/*": [
-        "../shell/app/common/*"
+        "../shell/app/common/index"
       ],
       "configForm": [
         "./app/configForm"
@@ -268,10 +268,12 @@
       "common/all": [
         "../shell/app/common/index"
       ],
-      "core/common/interface": 
-        [
-          "../core/src/common/interface.d.ts"
-        ]
+      "core/common/interface": [
+        "../core/src/common/interface.d.ts"
+      ],
+      "nusi/all": [
+        "../shell/app/external/nusi"
+      ]
     },
     "typeRoots": [],
     "allowSyntheticDefaultImports": true,
@@ -292,7 +294,8 @@
     "../core/node_modules/@types/*",
     "../core/node_modules/cube-state/dist/*",
     "../shell/app/**/types/*",
-    "../shell/node_modules/@types/*"
+    "../shell/node_modules/@types/*",
+    "../core/app/**/types/*"
   ],
   "exclude": [
     "node_modules",

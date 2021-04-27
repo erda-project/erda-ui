@@ -46,7 +46,7 @@ interface IOptions {
 export const goTo = (pathStr: string, options?: IOptions) => {
   const { replace = false, forbidRepeat = false, jumpOut = false, query, ...rest } = options as IOptions || {};
   let _path = '';
-  
+
   if (/^(http|https):\/\//.test(pathStr)) { // 外链
     if (jumpOut) {
       window.open(pathStr);
@@ -118,7 +118,7 @@ export enum pages {
   freshMan = '/{orgName}/freshMan',
   notFound = '/{orgName}/notFound',
 
-  //workBench
+  // workBench
   orgRoot = '/{orgName}',
   orgList = '/{orgName}/org-list',
   workBenchRoot = '/{orgName}/workBench/projects',
@@ -129,7 +129,7 @@ export enum pages {
   workBenchMyInitiate = '/{orgName}/workBench/approval/my-initiate',
   workBenchMyInitiateWait = '/{orgName}/workBench/approval/my-initiate/WaitApprove',
   workBenchPublisher = '/{orgName}/workBench/publisher',
-  
+
 
   // project
   project = '/{orgName}/workBench/projects/{projectId}',
@@ -151,12 +151,12 @@ export enum pages {
   projectManualTestEnv = '/{orgName}/workBench/projects/{projectId}/testEnv/manual',
   projectDashboard = '/{orgName}/workBench/projects/{projectId}/dashboard',
   projectResource = '/{orgName}/workBench/projects/{projectId}/resource',
-  projectTicket = '/{orgName}/workBench/projects/${projectId}/ticket',
+  projectTicket = '/{orgName}/workBench/projects/{projectId}/ticket',
   
   // app
   app = '/{orgName}/workBench/projects/{projectId}/apps/{appId}',
   repo = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/repo',
-  appMr = '/{orgName}/workBench/projects/{projectId}/apps/${appId}/repo/mr/open/${mrId}',
+  appMr = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/repo/mr/open/{mrId}',
   pipelineRoot = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/pipeline',
   appApiDesign = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/apiDesign',
   repoBackup = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/repo/backup',
@@ -283,7 +283,6 @@ export enum pages {
   orgCenterAnnouncement = '/{orgName}/orgCenter/announcement',
   orgCenterSafety = '/{orgName}/orgCenter/safety',
 
-  
 
   dataCenterNotifyGroup = '/{orgName}/orgCenter/setting/detail?tabKey=notifyGroup',
   dataCenterSetting = '/{orgName}/orgCenter/setting/detail',

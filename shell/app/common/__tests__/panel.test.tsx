@@ -11,27 +11,21 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Copy } from '../components/copy';
+import React from 'react';
+import { Panel } from '../components/panel';
 import { mount } from 'enzyme';
 import { describe, it } from '@jest/globals';
 
-const copytext = 'hello world';
-describe('Copy', () => {
-  it('render copy with string children', () => {
-    // const onSuccess = jest.fn();
+describe('Panel', () => {
+  it('should render', () => {
     const wrapper = mount(
-      <div>
-        <div
-          className="for-copy"
-          data-clipboard-tip="Email"
-          data-clipboard-text={copytext}
-        >
-          {copytext}
-        </div>
-        <Copy selector="for_copy-select" className="for-copy" copyText="Copy">copy</Copy>
-      </div>
+      <Panel style={{ height: 100 }} className="erda_panel" title="panel title">
+        <div className="panel-child">panel-child</div>
+      </Panel>
     );
-    expect(wrapper.find('span.for-copy').length).toEqual(1);
+    expect(wrapper).toHaveClassName('erda_panel');
+    expect(wrapper).toHaveStyle('height', 100);
+    expect(wrapper.find('.panel-title').text()).toBe('panel title');
+    expect(wrapper.find('.panel-body').children()).toHaveHTML('<div class="panel-child">panel-child</div>');
   });
 });

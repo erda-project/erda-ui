@@ -11,27 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Copy } from '../components/copy';
-import { mount } from 'enzyme';
+import { FULL_DOC_DOMAIN, HELP_DOCUMENT, WORKSPACE_LIST } from '../constants';
 import { describe, it } from '@jest/globals';
 
-const copytext = 'hello world';
-describe('Copy', () => {
-  it('render copy with string children', () => {
-    // const onSuccess = jest.fn();
-    const wrapper = mount(
-      <div>
-        <div
-          className="for-copy"
-          data-clipboard-tip="Email"
-          data-clipboard-text={copytext}
-        >
-          {copytext}
-        </div>
-        <Copy selector="for_copy-select" className="for-copy" copyText="Copy">copy</Copy>
-      </div>
-    );
-    expect(wrapper.find('span.for-copy').length).toEqual(1);
+describe('emoji', () => {
+  it('should Data normal', () => {
+    expect(WORKSPACE_LIST.length).toBe(4);
+    expect(HELP_DOCUMENT).toBe(`${FULL_DOC_DOMAIN}/mainVersion/manual/deploy/resource-management.html#%E7%AE%A1%E7%90%86%E9%85%8D%E9%A2%9D`);
   });
 });

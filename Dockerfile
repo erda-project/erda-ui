@@ -4,7 +4,7 @@ FROM registry.cn-hangzhou.aliyuncs.com/dice-third-party/terminus-nginx:0.2
 # Set special timezone
 RUN echo "Asia/Shanghai" | tee /etc/timezone
 
-COPY . /app/
+COPY public /app/
 WORKDIR /app
 
 COPY public  /use/share/nginx/html

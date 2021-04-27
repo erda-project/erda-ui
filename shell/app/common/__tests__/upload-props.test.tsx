@@ -11,27 +11,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Copy } from '../components/copy';
-import { mount } from 'enzyme';
+import { getUploadProps } from '../utils/upload-props';
 import { describe, it } from '@jest/globals';
 
-const copytext = 'hello world';
-describe('Copy', () => {
-  it('render copy with string children', () => {
-    // const onSuccess = jest.fn();
-    const wrapper = mount(
-      <div>
-        <div
-          className="for-copy"
-          data-clipboard-tip="Email"
-          data-clipboard-text={copytext}
-        >
-          {copytext}
-        </div>
-        <Copy selector="for_copy-select" className="for-copy" copyText="Copy">copy</Copy>
-      </div>
-    );
-    expect(wrapper.find('span.for-copy').length).toEqual(1);
+describe('getUploadProps', () => {
+  it('upload props ', () => {
+    const result = getUploadProps({});
+    expect(result.action).toBe('/api/files');
+    expect(result.headers).toStrictEqual({ 'OPENAPI-CSRF-TOKEN': 'OPENAPI-CSRF-TOKEN' });
+    expect(result.beforeUpload({ size: 20971550 })).toBe(false);
+    expect(document.querySelectorAll('.ant-message-notice').length).toBeTruthy();
+    expect(result.beforeUpload({ size: 10 })).toBe(true);
   });
 });

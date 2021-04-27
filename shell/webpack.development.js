@@ -103,6 +103,13 @@ module.exports = config.wrapWebpack({
         ws: true,
       },
       {
+        context: ['/fdp-app/'],
+        target: backendUrl, // incase need local debug
+        secure: false,
+        changeOrigin: true,
+        // pathRewrite: { '^/fdp-app': '' },
+      },
+      {
         context: ['/api', '/ta'],
         target: backendUrl,
         secure: false,
