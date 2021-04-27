@@ -104,27 +104,27 @@ export const CustomLabel = React.forwardRef(({ value = emptyArr, onChange = empt
 });
 
 export const checkCustomLabels = (_rule: any, value: string[], callback: Function) => {
-  const valueArr = [...isEmpty(value) ? [] : value];
+  const valueArr = isEmpty(value) ? [] : value;
   const reg = /^[a-zA-Z0-9-]+$/;
 
-  const haveInCorrect = valueArr.length
+  const notPass = valueArr.length
     ?
     some(valueArr, (val: string) => {
       return val.trim() ? !reg.test(val.trim()) : true;
     })
     : false;
-  return haveInCorrect ? callback(i18n.t('dcos:each label can only contain alphanumeric and underline')) : callback();
+  return notPass ? callback(i18n.t('dcos:each label can only contain alphanumeric and underline')) : callback();
 };
 
 export const checkTagLabels = (_rule: any, value: string[], callback: Function) => {
-  const valueArr = [...isEmpty(value) ? [] : value];
+  const valueArr = isEmpty(value) ? [] : value;
   const reg = /^[A-Za-z]([-A-Za-z0-9_.]+)[A-Za-z]$/;
 
-  const haveInCorrect = valueArr.length
+  const notPass = valueArr.length
     ?
     some(valueArr, (val: string) => {
       return val.trim() ? !reg.test(val.trim()) : true;
     })
     : false;
-  return haveInCorrect ? callback(i18n.t('dcos:each label can only contain alphanumeric underscore underline and point')) : callback();
+  return notPass ? callback(i18n.t('dcos:each label can only contain alphanumeric underscore underline and point,start and end with alphabet')) : callback();
 };
