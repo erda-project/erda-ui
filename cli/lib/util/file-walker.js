@@ -49,7 +49,7 @@ const walker = ({ root, dealFile, recursive = true }) => {
           logError(`[walker] Read file ${filePath} error:`, readErr);
           return;
         }
-        dealFile(content, filePath, files === 1);
+        dealFile(content, filePath, files === 0);
         files -= 1;
       });
     });
