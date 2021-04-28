@@ -41,11 +41,11 @@ const start = (userData: ILoginUser) => {
   setLS('diceLoginState', true);
 
   const IconConfig = {
-    ...DEFAULT_ICON_CONFIGS, 
+    ...DEFAULT_ICON_CONFIGS,
     prefix: 'erda'
   };
 
-  startApp().then(async(App) => {
+  startApp().then(async (App) => {
     [
       import('layout/entry'),
       import('app/org-home/entry'),
@@ -65,8 +65,10 @@ const start = (userData: ILoginUser) => {
       ...Object.values(modules),
     ].forEach((p) => p.then(m => m.default(registerModule)));
     userStore.reducers.setLoginUser(userData); // 需要在app start之前初始化用户信息
-    const orgName = get(location.pathname.split('/'),'[1]');
-    await orgStore.effects.getOrgByDomain({ orgName });
+    if (!userData.isSysAdmin) {
+      const orgName = get(location.pathname.split('/'), '[1]');
+      await orgStore.effects.getOrgByDomain({ orgName });
+    }
     const Wrap = () => {
       const currentLocale = getCurrentLocale();
       return (
@@ -118,7 +120,7 @@ if (oldPipelineReg.test(pathname)) {
 
 const setSysAdminLocationByAuth = (authObj: Obj) => {
   const curPathname = location.pathname;
-  const orgName = get(curPathname.split('/'),'[1]');
+  const orgName = get(curPathname.split('/'), '[1]');
   const isAdminPage = curPathname.startsWith(`/${orgName}/sysAdmin`);
   // 系统管理员打开的不是系统管理员页面，跳转到系统管理员页
   authObj.hasAuth && !isAdminPage && goTo(goTo.pages.sysAdminOrgs, { orgName: '-', replace: true });
@@ -127,17 +129,17 @@ const setSysAdminLocationByAuth = (authObj: Obj) => {
 };
 
 const init = (userData: ILoginUser) => {
-  if(location.pathname==='/'){
+  if (location.pathname === '/') {
     window.location.href = '/-';
     return;
   }
   const sysPermQuery = { scope: 'sys', scopeID: '0' };
   // TODO: 调用层次太深需要优化
   // 先检查是否系统管理员，是进入系统后台，否则根据当前域名查找orgId，用orgId去查企业权限
-  
+
   getResourcePermissions(sysPermQuery).then((result: Obj) => {
     if (result.success) {
-      if(!result.data.access){
+      if (!result.data.access) {
         const lastPath = window.localStorage.getItem('lastPath');
         if (lastPath) {
           window.localStorage.removeItem('lastPath');
@@ -145,10 +147,10 @@ const init = (userData: ILoginUser) => {
           return;
         }
         start({ ...userData })
-      }else{
+      } else {
         // 验证系统管理员相关路由
         setSysAdminLocationByAuth({
-            hasAuth: !!result.data.access,
+          hasAuth: !!result.data.access,
         });
         setGlobal('erdaInfo.isSysAdmin', true);
         start({ ...userData, isSysAdmin: true });
