@@ -83,7 +83,9 @@ const AppCenterEl = () => {
       className='app-list'
       titleProp='name'
       node={(
-        <CustomIcon type='appstore' className='fz20' />
+        <Tooltip title={ currentOrg?.id ? '' : i18n.t('layout:there is no organization information, please select an organization first')} placement='right'>
+          <CustomIcon type='appstore' className='fz20' />
+        </Tooltip>
       )}
       linkRender={(_linkTo: any, children: any, { app }: { app: LAYOUT.IApp }) => {
         return (

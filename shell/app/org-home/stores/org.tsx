@@ -19,7 +19,7 @@ import { createStore } from 'app/cube';
 import userStore from 'app/user/stores';
 import { getOrgByDomain } from '../services/org';
 import { getGlobal } from 'app/global-space';
-import { getResourcePermissions } from 'user/services/user';
+import { getResourcePermissions, getJoinedOrgs } from 'user/services/user';
 import permStore from 'user/stores/permission';
 import agent from 'agent';
 import { get, intersection, map, isEmpty } from 'lodash';
@@ -62,8 +62,15 @@ const org = createStore({
       const { orgName } = payload;
       if(!orgName) return;
       const resOrg = await call(getOrgByDomain, { domain, orgName });
-      if(!resOrg){
-        
+      if(isEmpty(resOrg)){
+        if(orgName==='-'){
+          const orgs = await call(getJoinedOrgs); // get Default org
+          if(orgs?.list?.length){
+            update({ curPathOrg: orgName, currentOrg: orgs.list[0] })
+            goTo(goTo.pages.orgRoot, { orgName: get(orgs, 'list[0].name')})
+            return;
+          }
+        }
         update({ curPathOrg: orgName })
         goTo(goTo.pages.notFound);
       } else {
