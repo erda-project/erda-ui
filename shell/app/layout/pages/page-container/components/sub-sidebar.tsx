@@ -128,10 +128,12 @@ const SubSideBar = () => {
         activeKey = href;
       }
 
+      const IconComp = ()=> item.icon;
+      
       return {
         ...item,
         title: firstLetterUpper(item.text),
-        icon: item.icon ?  <i>{item.icon}</i>  : item.customIcon ? item.customIcon : null,
+        icon: item.icon ? <i><IconComp /></i> : item.customIcon ? item.customIcon : null,
         href,
         children: subMenu,
         subActiveKey,
