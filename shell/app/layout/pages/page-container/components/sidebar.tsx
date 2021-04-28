@@ -34,19 +34,16 @@ const { AppCenter } = Shell;
 
 const AppCenterEl = () => {
   const permMap = usePerm(s => s.org);
-  const orgs = userStore.useStore((s: any) => s.orgs);
   const appList = layoutStore.useStore(s => s.appList);
   const currentOrg = orgStore.useStore(s => s.currentOrg);
   const { switchToApp } = layoutStore.reducers;
   const [visible, setVisible] = React.useState(false);
 
-  const openFdp = find(orgs, { selected: true, openFdp: true });
-
   const openMap = {
     orgCenter: permMap.entryOrgCenter.pass,
     dataCenter: permMap.dataCenter.showApp.pass,
     workBench: permMap.workBench.read.pass,
-    diceFdp: permMap.entryFastData.pass && openFdp,
+    diceFdp: permMap.entryFastData.pass && currentOrg.openFdp,
     microService: permMap.entryMicroService.pass,
     edge: permMap.edge.view.pass,
     // apiManage: permMap.entryApiManage.pass,
@@ -108,7 +105,7 @@ const AppCenterEl = () => {
 };
 
 const SideBar = () => {
-  const [loginUser, orgs] = userStore.useStore((s) => [s.loginUser, s.orgs]);
+  const loginUser = userStore.useStore((s) => s.loginUser);
   const currentOrg = orgStore.useStore(s => s.currentOrg);
   const { switchMessageCenter } = layoutStore.reducers;
   const unreadCount = messageStore.useStore(s => s.unreadCount);
@@ -117,31 +114,6 @@ const SideBar = () => {
   useMount(() => {
     userStore.effects.getJoinedOrgs();
   });
-
-  if (!isEmpty(orgs)) {
-    const changeDomain = (domain: string) => {
-      window.location.href = `//${domain}`;
-    };
-    const menu = (
-      <ul className="nav-org-list">
-        {orgs.map((org: any) => (
-          <li key={org.id} onClick={() => changeDomain(org.domain)}>
-            <IF check={org.logo}>
-              <img className="org-logo" src={org.logo} alt="logo" />
-              <IF.ELSE />
-              <CustomIcon className="org-logo" color type={theme.orgIcon} />
-            </IF>
-            <Tooltip title={org.name}>
-              {org.displayName || org.name}
-            </Tooltip>
-            <IF check={org.selected}>
-              <Icon type="check" style={{ color: 'green' }} />
-            </IF>
-          </li>
-        ))}
-      </ul>
-    );
-  }
 
   const customIconStyle = { fontSize: 20, marginRight: 'unset' };
   const operations = [
