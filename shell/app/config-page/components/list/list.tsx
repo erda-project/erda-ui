@@ -44,7 +44,7 @@ const List = (props: CP_LIST.Props) => {
       }
       return {
         ...newState,
-        combineList: newState.pageNo === 1 ? list : newState.combineList.concat(list)
+          combineList: newState.pageNo === 1 ? list : (newState.combineList || []).concat(list)
       }
     })
   }, [propsState, list])
