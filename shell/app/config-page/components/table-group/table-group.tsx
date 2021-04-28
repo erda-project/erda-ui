@@ -81,7 +81,7 @@ const TableGroup = (props: CP_TABLE_GROUP.Props) => {
       }
       return {
         ...newState,
-        combineList: newState.pageNo === 1 ? data.list : newState.combineList.concat(data.list)
+        combineList: newState.pageNo === 1 ? data.list : (newState.combineList || []).concat(data.list)
       }
     })
   }, [propsState, data.list])
