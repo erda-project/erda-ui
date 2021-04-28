@@ -18,10 +18,9 @@ import orgStore from 'app/org-home/stores/org.tsx';
 import './personal-home.scss';
 
 const PersonalHome = () => {
-  const orgName = routeInfoStore.useStore(s => s.params.orgName);
   const curOrgName = orgStore.useStore(s => s.currentOrg.name);
-  const inParams = { orgName };
-
+  const inParams = { orgName: curOrgName || '-' };
+  console.log(inParams)
   return (
     <div className='home-page'>
       <div className='home-page-sidebar'>
