@@ -62,14 +62,15 @@ const org = createStore({
       const { orgName } = payload;
       if(!orgName) return;
       const resOrg = await call(getOrgByDomain, { domain, orgName });
-      if(isEmpty(resOrg) && orgName === '-'){
-        const orgs = await call(getJoinedOrgs); // get Default org
-        if(orgs?.list?.length){
-          update({ curPathOrg: orgName, currentOrg: orgs.list[0] })
-          goTo(goTo.pages.orgRoot, { orgName: get(orgs, 'list[0].name')})
-          return;
+      if(isEmpty(resOrg)){
+        if(orgName==='-'){
+          const orgs = await call(getJoinedOrgs); // get Default org
+          if(orgs?.list?.length){
+            update({ curPathOrg: orgName, currentOrg: orgs.list[0] })
+            goTo(goTo.pages.orgRoot, { orgName: get(orgs, 'list[0].name')})
+            return;
+          }
         }
-      } else if(isEmpty(resOrg)){
         update({ curPathOrg: orgName })
         goTo(goTo.pages.notFound);
       } else {
