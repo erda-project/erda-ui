@@ -926,6 +926,7 @@
     "do you want to overwrite": "是否覆盖",
     "duration": "时长",
     "each label can only contain alphanumeric and underline": "每个标签只能包含字母数字和中划线",
+    "each label can only contain alphanumeric underscore underline and point,start and end with alphabet": "每个标签只能包含字母数字，中划线下划线和点符号，并以字母开头和结尾",
     "east china": "华东",
     "eastern united states": "美国东部",
     "ecs configuration": "云主机配置",

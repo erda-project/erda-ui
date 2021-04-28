@@ -24,8 +24,8 @@ interface IProps extends IExtraProps {
 }
 
 interface IExtraProps {
-  execOperation: (cId: string, opObj: { key: string, [p: string]: any }, updateState?: { dataKey: string; dataVal: Obj }) => void;
-  changeScenario: (s: {scenarioKey: string; scenarioType: string, inParams?: Obj}) => void;
+  execOperation: (cId: string, opObj: { key: string, [p: string]: any }, updateState?: { dataKey: string; dataVal: Obj }, extraUpdateInfo?: Obj) => void;
+  changeScenario: (s: { scenarioKey: string; scenarioType: string, inParams?: Obj }) => void;
   updateState: (dataKey: string, val: Obj) => void;
 }
 
@@ -58,7 +58,7 @@ const ConfigPageRender = (props: IProps) => {
     return updateState(`${compPrefixKey}.${_cId}.state`, val);
   };
 
-  const reExecOperation = (_cId: string) => (_op: any, val: any) => {
+  const reExecOperation = (_cId: string) => (_op: any, val: any, extraVal: any) => {
     if (!_op || isEmpty(_op)) return;
     const op = cloneDeep({ ..._op });
     let updateVal = cloneDeep(val) as any;
@@ -96,7 +96,8 @@ const ConfigPageRender = (props: IProps) => {
     return execOperation(
       _cId,
       op,
-      isEmpty(updateVal) ? undefined : { dataKey: `${compPrefixKey}.${_cId}.state`, dataVal: updateVal }
+      isEmpty(updateVal) ? undefined : { dataKey: `${compPrefixKey}.${_cId}.state`, dataVal: updateVal },
+      isEmpty(extraVal) ? undefined : { dataKey: `${compPrefixKey}.${_cId}`, dataVal: extraVal }
     );
   };
 

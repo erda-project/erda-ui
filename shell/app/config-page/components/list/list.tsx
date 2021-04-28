@@ -22,31 +22,33 @@ import imgMap from '../../img-map';
 import ErdaIcon from '../icon/icon';
 import './list.scss';
 
+const emptyArr = [] as any[];
 const List = (props: CP_LIST.Props) => {
   const { customProps, execOperation, operations,
     props: configProps, data, state: propsState } = props;
-
-  const [state, updater, update] = useUpdate(propsState || {});
+  const { list = emptyArr } = data || {};
+  const [state, updater, update] = useUpdate({
+    ...propsState,
+    combineList: list,
+  });
   const { total = 0, pageSize, pageNo = 1 } = state || {};
-  const [combineList, setCombineList] = React.useState([] as any[])
-
-  const { list = [] } = data || {};
   const { useLoadMore = false, visible = true, size = 'middle', rowKey, alignCenter = false,
     noBorder = false, pageSizeOptions, ...rest } = configProps || {};
 
   // 将接口返回的list和之前的list进行拼接
   React.useEffect(() => {
-    if (useLoadMore && pageNo !== 1) {
-      list && setCombineList(pre => ([...pre, ...list]))
-    } else {
-      setCombineList(list)
-    }
-  }, [list])
+    update((pre) => {
+      const newState = {
+        ...pre,
+        ...propsState,
+      }
+      return {
+        ...newState,
+        combineList: newState.pageNo === 1 ? list : newState.combineList.concat(list)
+      }
+    })
+  }, [propsState, list])
 
-
-  React.useEffect(() => {
-    update(propsState || {});
-  }, [propsState, update]);
 
   const pagination = React.useMemo(() => {
     return isNumber(pageNo) ? {
@@ -72,7 +74,7 @@ const List = (props: CP_LIST.Props) => {
   };
 
   const loadMore = () => {
-    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pageNo + 1 });
+    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pageNo + 1 }, { data: { list: [] } });
   }
 
   const changePageSize = (pSize: number) => {
@@ -86,16 +88,16 @@ const List = (props: CP_LIST.Props) => {
   return (
     <div className='cp-list'>
       {
-        (combineList || []).length ? (
+        (state.combineList || []).length ? (
           <>
-            {(combineList || []).map((item, idx) => {
+            {(state.combineList || []).map((item, idx) => {
               return <Item size={size} customProps={customProps} execOperation={execOperation} key={getKey(item, idx)} data={item} alignCenter={alignCenter} noBorder={noBorder} />;
             })}
             {!useLoadMore && pagination ? (
               <Pagination className='right-flex-box mt12' {...pagination} />
             ) : null
             }
-            {useLoadMore && total > Math.max(combineList?.length, 0)
+            {useLoadMore && total > Math.max(state.combineList?.length, 0)
               && <div className='hover-active load-more' onClick={loadMore}>{i18n.t('more')}...</div>}
           </>
         ) : <EmptyHolder relative />
@@ -188,7 +190,7 @@ const Item = (props: ItemProps) => {
                   return (
                     <Tooltip key={idx} title={info.tooltip}>
                       <span className={`info-item type-${info.type || 'normal'}`} {...extraProps}>
-                        { info.icon ? <ErdaIcon type="Icon" props={{ iconType: info.icon }} size={16} /> : null }
+                        {info.icon ? <ErdaIcon type="Icon" props={{ iconType: info.icon }} size={16} /> : null}
                         <span className='info-text nowrap'>{info.text}</span>
                       </span>
                     </Tooltip>

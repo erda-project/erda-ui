@@ -91,7 +91,7 @@ const apiDesignStore = createFlatStore({
     },
     async getApiDetail({ call, update }, payload: string) {
       const data = await call(getApiDetail, payload) || {};
-      const worker = new Worker('/static/shell/api-design-worker.js');
+      const worker = new Worker('/static/api-design-worker.js');
       worker.postMessage(data);
 
       const res = new Promise<API_SETTING.IApiDocDetail>((resolve) => {
