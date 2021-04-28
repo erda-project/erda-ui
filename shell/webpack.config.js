@@ -244,7 +244,7 @@ module.exports = () => {
         patterns: [
           // { from: './app/images', to: 'shell/images' },
           // { from: './market/images', to: 'shell/images' },
-          { from: './app/static', to: 'static/shell' },
+          { from: './app/static', to: resolve('../public/static') },
         ],
       }),
       new HtmlWebpackPlugin({

@@ -22,7 +22,6 @@ const { execSync } = child_process;
 
 const GET_SHA_CMD = 'git rev-parse --short HEAD';
 const START_DOCKER_CMD = 'open --background -a Docker';
-const EXIT_DOCKER_CMD = 'osascript -e \'quit app "Docker"\'';
 
 module.exports = async () => {
   try {
@@ -50,9 +49,6 @@ module.exports = async () => {
       message: `🎉 Image 【${tag}】 pushed to registry success 🎉`,
     });
     logSuccess(`push success: 【${image}】`);
-    if (process.platform === 'darwin') {
-      await execSync(EXIT_DOCKER_CMD);
-    }
 
     logSuccess('docker exited');
 
