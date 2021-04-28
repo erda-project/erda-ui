@@ -51,7 +51,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   });
   // 在非生产环境里，url中带useMock
   const useMockMark = forceMock || (unProduct && location.search.includes('useMock'));
-  const changeScenario = (s: {scenarioKey: string; scenarioType: string, inParams?: Obj}) => {
+  const changeScenario = (s: { scenarioKey: string; scenarioType: string, inParams?: Obj }) => {
     const { scenarioType: newType, scenarioKey: newKey, inParams: newInParams } = s;
     newKey && queryPageConfig({
       scenario: {
@@ -114,7 +114,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
 
   const queryPageConfig = (p?: CONFIG_PAGE.RenderConfig, partial?: boolean, _showLoading = true) => {
     // 此处用state，为了兼容useMock的情况
-    if (_showLoading)updater.fetching(true);
+    if (_showLoading) updater.fetching(true);
     ((useMockMark && useMock) || getRenderPageLayout)({ ...(p || pageConfig), inParams: inParamsRef.current }, partial).then((res: any) => {
       updater.fetching(false);
       if (partial) {
@@ -145,12 +145,19 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     updateConfig ? updateConfig(newConfig) : updater.pageConfig(newConfig);
   };
 
-  const execOperation = (cId: string, op: { key: string, reload?: boolean; partial?: boolean; }, updateInfo?: { dataKey: string, dataVal: Obj }) => {
+  const execOperation = (cId: string, op: { key: string, reload?: boolean; partial?: boolean; }, updateInfo?: { dataKey: string, dataVal: Obj }, extraUpdateInfo?: Obj) => {
     const { key, reload = false, partial, ..._rest } = op;
     onExecOp && onExecOp({ cId, op, reload, updateInfo });
     if (reload) { // 需要请求后端接口
       const _curConfig = pageConfigRef.current as CONFIG_PAGE.RenderConfig;
       const newConfig = produce(_curConfig, (draft) => {
+        if (extraUpdateInfo && !isEmpty(extraUpdateInfo)) { // 数据不为空,先更新后请求
+          const { dataKey, dataVal } = extraUpdateInfo;
+          if (dataKey) {
+            const curData = get(draft, dataKey) || {};
+            set(draft, dataKey, { ...curData, ...dataVal });
+          }
+        }
         if (updateInfo && !isEmpty(updateInfo)) { // 数据不为空,先更新后请求
           const { dataKey, dataVal } = updateInfo;
           if (dataKey) {
@@ -183,8 +190,8 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       />
     );
   }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  , [pageProtocol]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    , [pageProtocol]);
 
   return (
     <div className='full-height'>

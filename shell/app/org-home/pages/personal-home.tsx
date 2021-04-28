@@ -657,7 +657,6 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
           visible: true,
           title: '事件',
           level: 1,
-          subtitle: '你未完成的事项 560 条',
           noMarginBottom: true,
           size: 'big',
         }
@@ -674,7 +673,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
       erdaLogo: {
         type: 'Image',
         props: {
-          src: '/images/default-org-icon.svg',
+          src: '/images/favicon.ico',
           visible: true,
           isCircle: true,
           size: 'small',
@@ -806,7 +805,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
       orgLogo: {
         type: 'Image',
         props: {
-          src: '/images/favicon.ico',
+          src: '/images/resources/org.png',
           visible: true,
           isCircle: true,
           size: 'small',
@@ -1009,6 +1008,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
               subtitle: {
                 title: '你未完成的事项',
                 level: 3,
+                size: 'small',
               },
               description: {
                 renderType: 'linkText',
@@ -1047,6 +1047,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                   ],
                   showHeader: false,
                   pagination: false,
+                  size: 'small',
                   styleNames: {
                     'no-border': true,
                   },
@@ -1182,6 +1183,7 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
               subtitle: {
                 title: '你未完成的事项',
                 level: 3,
+                size: 'small',
               },
               description: {
                 renderType: 'linkText',
@@ -1189,27 +1191,32 @@ const mockContent: CONFIG_PAGE.RenderConfig = {
                 value: {
                   text: ['当前你还有', {
                     text: ' 120 ', styleConfig: {
-                      bold: true
+                      bold: true,
+                      fontSize: '16px',
                     },
                   }, '个事项待完成，已过期:', {
                       text: ' 40 ', styleConfig: {
-                        bold: true
+                        bold: true,
+                        fontSize: '16px',
                       },
                     }, '，本日到期:', {
                       text: ' 40 ', styleConfig: {
-                        bold: true
+                        bold: true,
+                        fontSize: '16px',
                       },
                     }, '，7日内到期:', {
                       text: ' 36 ', styleConfig: {
-                        bold: true
+                        bold: true,
+                        fontSize: '16px',
                       },
                     }, '，30日内到期:', {
                       text: ' 44 ', styleConfig: {
-                        bold: true
+                        bold: true,
+                        fontSize: '16px',
                       },
                     }]
                 },
-                textStyleName: { 'color-text-desc': true },
+                textStyleName: { 'color-text-sub': true },
               },
               table: {
                 props: {
