@@ -20,9 +20,8 @@ import userStore from 'user/stores';
 import messageStore from 'layout/stores/message';
 import layoutStore from 'layout/stores/layout';
 import { theme } from 'app/themes';
-import { useMount } from 'react-use';
 import { goTo, ossImg } from 'common/utils';
-import { find, isEmpty, get, map } from 'lodash';
+import { find, get, map } from 'lodash';
 import { FULL_DOC_DOMAIN } from 'common/constants';
 import diceEnv from 'dice-env';
 import Logo from 'app/images/Erda.svg';
@@ -111,10 +110,7 @@ const SideBar = () => {
   const unreadCount = messageStore.useStore(s => s.unreadCount);
   // 清掉旧版本缓存
   window.localStorage.removeItem('dice-sider');
-  useMount(() => {
-    userStore.effects.getJoinedOrgs();
-  });
-
+  
   const customIconStyle = { fontSize: 20, marginRight: 'unset' };
   const operations = [
     {
