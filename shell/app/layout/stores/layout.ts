@@ -16,9 +16,8 @@ import { getDiceVersion, inviteToOrg } from 'layout/services';
 import * as DiceWebSocket from 'common/utils/ws';
 import { enableIconfont } from 'common/utils';
 import routeInfoStore from 'app/common/stores/route';
-import { find } from 'lodash';
+import { find, merge } from 'lodash';
 import orgStore from 'app/org-home/stores/org'
-import { isFunction } from 'lodash';
 import { getGlobal } from 'app/global-space';
 
 const sendMsgUtilWsReady = async (targetWs: any, msg: { command: '__detach' | '__attach' }) => {
@@ -162,10 +161,7 @@ const layout = createStore({
       if (key === 'sysAdmin' && !getGlobal('erdaInfo.isSysAdmin')) return;
       if(appList?.length) state.appList = appList;
       if(currentApp) state.currentApp = currentApp;
-      state.subSiderInfoMap = {
-        ...state.subSiderInfoMap,
-        ...menusMap,
-      };
+      state.subSiderInfoMap = merge(state.subSiderInfoMap, menusMap)
     },
     switchToApp(state, payload: string) {
       if (payload === (state.currentApp && state.currentApp.key)) return;
