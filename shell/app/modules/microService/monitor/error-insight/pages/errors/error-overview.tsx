@@ -71,7 +71,9 @@ const ErrorOverview = () => {
   const isFetchingErrors = loading;
   const hasMore = (Number(offset) !== -1);
   // 当env为空时，不可查询
-  const query = workspace ? { query: { filter_workspace: workspace, filter_project_id: projectId, filter_terminus_key: terminusKey } } : { shouldLoad: false };
+  // shell/app/modules/microService/monitor/monitor-common/components/chartFactory.tsx
+  // 临时处理：上面引用的 chartFactory 有个循环渲染的 bug， 受影响的目前只有这一处：
+  const query = { query: { filter_workspace: workspace, filter_project_id: projectId, filter_terminus_key: terminusKey } };
   return (
     <div className="error-overview">
       <ErrorFilters />

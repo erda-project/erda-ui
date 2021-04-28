@@ -23,12 +23,30 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "nusi": ["./src/nusi"],
-      "i18n": ["./src/i18n"],
-      "cube": ["./src/cube"],
-      "custom-lodash": ["./src/custom-lodash"],
-      "common": ["./src/common"],
-      "common/*": ["./src/common/*"]
+      "nusi": [
+        "./src/nusi"
+      ],
+      "i18n": [
+        "./src/i18n"
+      ],
+      "cube": [
+        "./src/cube"
+      ],
+      "custom-lodash": [
+        "./src/custom-lodash"
+      ],
+      "common": [
+        "./src/common"
+      ],
+      "common/*": [
+        "../shell/app/common/index"
+      ],
+      "common/all": [
+        "../shell/app/common/index"
+      ],
+      "nusi/all": [
+        "../shell/app/external/nusi"
+      ]
     }
   },
   "include": [
