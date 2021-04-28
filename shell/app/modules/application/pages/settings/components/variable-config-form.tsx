@@ -82,6 +82,9 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps
         itemProps: {
           maxLength: 4096,
         },
+        config: {
+          getValueFromEvent: (e: any) => e.target.value,
+        },
         required: formData ? formData.encrypt && isEdit : true, // 只有编辑加密的时，可为空，为空认为没有修改，不为空认为修改了
       }
       : {
