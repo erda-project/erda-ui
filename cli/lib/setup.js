@@ -96,7 +96,7 @@ module.exports = async (moduleName, modulePort) => {
   ];
 
   const commonPathContent = {
-    "common/*": [`${relativePath}/shell/app/common/index`],
+    "common/*": [`${relativePath}/shell/app/common/*`],
     "common/all": [`${relativePath}/shell/app/common/index`],
     "nusi/all": [`${relativePath}/shell/app/external/nusi`]
   };
