@@ -1,7 +1,7 @@
 {
   "name": "erda-ui",
   "version": "1.0.0",
-  "description": "Erda FE",
+  "description": "Frontend ui for Erda",
   "private": true,
   "workspaces": [
     "cli",
@@ -21,8 +21,8 @@
   "keywords": [
     "erda-ui"
   ],
-  "author": "Erda FE",
-  "license": "ISC",
+  "author": "Erda-FE",
+  "license": "AGPL",
   "bugs": {
     "url": "https://github.com/erda-project/erda-ui/issues"
   },
