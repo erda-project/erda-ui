@@ -19,6 +19,7 @@ const {
   rootDir,
   publicDir,
   yarnCmd,
+  npmCmd,
   moduleList
 } = require('./util/env');
 const { execSync, spawnSync } = child_process;
@@ -120,7 +121,7 @@ const buildAll =  async (enableSourceMap) => {
   while (start < len) {
     const { moduleName, moduleDir } = moduleList[start];
     logInfo(`Building ${moduleName}`);
-    await spawnSync(yarnCmd, ['run', 'build'], { env: {...process.env, enableSourceMap }, cwd: moduleDir, stdio: 'inherit' });
+    await spawnSync(npmCmd, ['run', 'build'], { env: {...process.env, enableSourceMap }, cwd: moduleDir, stdio: 'inherit' });
     start += 1;
   }
 }

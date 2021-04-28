@@ -46,12 +46,14 @@ const isMacintosh = process.platform === 'darwin'
 const isLinux = process.platform === 'linux'
 // yarn binary based on OS
 const yarnCmd = isWindows ? 'yarn.cmd' : 'yarn';
+const npmCmd = isWindows ? 'npm.cmd' : 'npm';
 
 module.exports = {
   isWindows,
   isMacintosh,
   isLinux,
   yarnCmd,
+  npmCmd,
   cliDir,
   rootDir,
   coreDir,
