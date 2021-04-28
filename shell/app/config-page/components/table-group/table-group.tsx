@@ -67,24 +67,24 @@ const TableGroup = (props: CP_TABLE_GROUP.Props) => {
     pageNo: propsState?.pageNo || 1,
     total: propsState?.total || 0,
     pageSize: propsState?.pageSize || 3,
-    list: [],
+    list: data.list,
   } || {}) as any;
   const { visible } = configProps;
   const showLoadMore = total > Math.max(combineList?.length, 0)
 
   // 将接口返回的list和之前的list进行拼接
   React.useEffect(() => {
-    if (pageNo !== 1) {
-      updater.list([...combineList, ...(data.list || [])])
-    } else {
-      updater.list(data.list);
-    }
-  }, [updater, pageNo])
-
-  // 当propsState改变时去更新state
-  React.useEffect(() => {
-    update(propsState || {});
-  }, [propsState, update]);
+    update((pre) => {
+      const newState = {
+        ...pre,
+        ...propsState,
+      }
+      return {
+        ...newState,
+        combineList: newState.pageNo === 1 ? data.list : newState.combineList.concat(data.list)
+      }
+    })
+  }, [propsState, data.list])
 
   // 加载更多
   const loadMore = () => {
