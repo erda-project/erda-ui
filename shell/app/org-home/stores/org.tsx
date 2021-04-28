@@ -65,6 +65,7 @@ const org = createStore({
       if(isEmpty(resOrg) && orgName === '-'){
         const orgs = await call(getJoinedOrgs); // get Default org
         if(orgs?.list?.length){
+          update({ curPathOrg: orgName, currentOrg: orgs.list[0] })
           goTo(goTo.pages.orgRoot, { orgName: get(orgs, 'list[0].name')})
           return;
         }

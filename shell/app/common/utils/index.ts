@@ -13,7 +13,6 @@
 
 import { notification } from 'app/nusi';
 import i18n from 'i18n';
-import agent from 'agent';
 import { PAGINATION } from 'app/constants';
 import moment from 'moment';
 
