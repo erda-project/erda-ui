@@ -12,6 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 export const WORKSPACE_LIST = ['DEV', 'TEST', 'STAGING', 'PROD'];
-export const DOC_DOMAIN = 'erda-docs.app.terminus.io/';
+export const DOC_DOMAIN = 'docs.erda.cloud/';
 export const FULL_DOC_DOMAIN = `https://${DOC_DOMAIN}`;
 export const HELP_DOCUMENT = `${FULL_DOC_DOMAIN}/${process.env.mainVersion}/manual/deploy/resource-management.html#%E7%AE%A1%E7%90%86%E9%85%8D%E9%A2%9D`;
