@@ -147,7 +147,7 @@ function customFlush(done) {
 
 module.exports = {
   writeLocale: (resolve, _ns, srcDir, _localePath) => {
-    const paths = [`${srcDir}/**/*.{js,jsx,ts,tsx}`, `!node_modules/**/*`, '!**/node_modules/**', '!**/node_modules'];
+    const paths = [`${srcDir}/**/*.{js,jsx,ts,tsx}`, '!node_modules/**/*', '!**/node_modules/**', '!**/node_modules'];
     localePath = _localePath;
     zhWordMap = require(path.resolve(process.cwd(), './temp-zh-words.json'));
     const zhJsonPath = `${localePath}/zh.json`;
