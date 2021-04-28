@@ -131,7 +131,7 @@ module.exports = config.wrapWebpack({
     ],
   },
   output: {
-    path: path.resolve(__dirname, 'public'),
+    path: path.resolve(__dirname, '../public'),
     filename: 'scripts/[name].js',
     chunkFilename: 'scripts/[id].chunk.js',
   },

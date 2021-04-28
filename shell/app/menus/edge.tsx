@@ -18,17 +18,17 @@ import React from 'react';
 export const getEdgeMenu = () => {
   return [
     {
-      href: goTo.resolve.edgeApp,
+      href: goTo.resolve.edgeApp(),
       icon: <ApplicationOne />,
       text: i18n.t('edge:application'),
     },
     {
-      href: goTo.resolve.edgeResource,
+      href: goTo.resolve.edgeResource(),
       icon: <DataAll />,
       text: i18n.t('resources'),
     },
     {
-      href: goTo.resolve.edgeSetting,
+      href: goTo.resolve.edgeSetting(),
       icon: <SettingConfig />,
       text: i18n.t('edge:configuration'),
     },
