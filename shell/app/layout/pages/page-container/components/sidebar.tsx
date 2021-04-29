@@ -188,7 +188,7 @@ const SideBar = () => {
             if (isIncludeOrg) {
               goTo(goTo.pages.orgRoot);
             } else {
-              message.warning(i18n.d('尚未加入该组织，为您跳转', 3), () => goTo('/-'));
+              message.warning(i18n.t('default:org-jump-tip'), 2, () => goTo('/-'));
             }
           }}
         />

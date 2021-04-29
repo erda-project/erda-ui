@@ -1645,6 +1645,7 @@
     "operations": "operations",
     "ordinary account": "ordinary account",
     "org": "org",
+    "org-jump-tip": "You are currently browsing a public organization, it will automatically switch to a joined organization",
     "org manage": "org manage",
     "org setting": "settings",
     "orgCenter": "OrgCenter",
