@@ -39,7 +39,7 @@
         "./src/common"
       ],
       "common/*": [
-        "../shell/app/common/index"
+        "../shell/app/common/*"
       ],
       "common/all": [
         "../shell/app/common/index"
