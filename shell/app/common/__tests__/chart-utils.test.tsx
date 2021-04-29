@@ -41,7 +41,7 @@ const data = {
 };
 
 describe('chart-utils', () => {
-  it('should groupHandler', () => {
+  it('should groupHandler working fine', () => {
     expect(groupHandler('project')(data)).toStrictEqual({ results: [{ data: 12, name: 'project' }], time: '2021-04-14' });
     expect(groupHandler()(data)).toStrictEqual({ results: [{ data: 12, name: 'org' }], time: '2021-04-14' });
     expect(groupHandler()()).toStrictEqual({});
@@ -57,11 +57,11 @@ describe('chart-utils', () => {
       }],
     });
   });
-  it('should slowHandler', () => {
+  it('slowHandler working fine', () => {
     expect(slowHandler()([])).toStrictEqual({});
     expect(slowHandler(['time:project'])(data)).toStrictEqual({ list: [{ name: 'project', time: 12 }] });
   });
-  it('should errorHttpHandler', () => {
+  it('errorHttpHandler working fine', () => {
     const data1 = {
       results: [{
         data: {
@@ -104,7 +104,7 @@ describe('chart-utils', () => {
       ],
     });
   });
-  it('should errorDbHandler', () => {
+  it('errorDbHandler working fine', () => {
     const data2 = {
       results: [{
         data: [{
@@ -133,7 +133,7 @@ describe('chart-utils', () => {
       ],
     });
   });
-  it('should multipleDataHandler', () => {
+  it('multipleDataHandler working fine', () => {
     const data3 = {
       time: '2021-04-14',
       results: [{
@@ -147,7 +147,7 @@ describe('chart-utils', () => {
     expect(multipleDataHandler()()).toStrictEqual({});
     expect(multipleDataHandler(['project', 'app'])(data3)).toStrictEqual({ results: [12, 1], time: '2021-04-14' });
   });
-  it('should multipleGroupDataHandler', () => {
+  it('multipleGroupDataHandler working fine', () => {
     const data4 = {
       time: '2021-04-14',
       results: [{
