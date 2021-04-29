@@ -25,13 +25,12 @@ declare namespace CP_TITLE {
     level?: number;
     tips?: string;
     prefixIcon?: string;
-    imageUrl?: string;
-    imageSize?: string;
+    prefixImg?: string;
+    size?: 'small' | 'normal' | 'big' | 'large';
     showDivider?: boolean;
-    titleStyles?: object;
     showSubtitle?: boolean;
     subtitle?: string;
-    subtitleStyles?: object;
+    isCircle?: boolean;
     visible?: boolean;
     noMarginBottom?: boolean;
   }

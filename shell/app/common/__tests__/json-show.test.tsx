@@ -14,6 +14,7 @@
 /* eslint-disable no-undef */
 import * as React from 'react';
 import { JsonShow } from 'common';
+import { shallow, mount } from 'enzyme';
 
 const json = {
   a: {
@@ -41,15 +42,5 @@ describe('JsonShow', () => {
 
     wrapper.find('.json-detail-btn').last().simulate('click');
     expect(wrapper.find('.json-detail')).not.toHaveClassName('slide-in');
-  });
-});
-
-describe('JsonShow Snapshot', () => {
-  test('renders', () => {
-    const component = renderer.create(
-      <JsonShow data={json} />
-    );
-    const tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
   });
 });

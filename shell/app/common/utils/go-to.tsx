@@ -13,7 +13,7 @@
 
 import path from 'path';
 import { getConfig } from 'core/config';
-import { filter, isFunction, mapValues, throttle, pickBy, isEmpty } from 'lodash';
+import { filter, isFunction, mapValues, throttle, pickBy, isEmpty, get } from 'lodash';
 import { qs } from './query-string';
 import routeInfoStore from 'common/stores/route';
 
@@ -46,7 +46,7 @@ interface IOptions {
 export const goTo = (pathStr: string, options?: IOptions) => {
   const { replace = false, forbidRepeat = false, jumpOut = false, query, ...rest } = options as IOptions || {};
   let _path = '';
-  
+
   if (/^(http|https):\/\//.test(pathStr)) { // 外链
     if (jumpOut) {
       window.open(pathStr);
@@ -55,8 +55,9 @@ export const goTo = (pathStr: string, options?: IOptions) => {
     }
     return;
   } else if (pathStr.startsWith(goTo.pagePrefix)) {
+    const orgName = get(location.pathname.split('/'),'[1]') || '-';
     const [urlParams, urlQuery] = routeInfoStore.getState(s => [s.params, s.query]);
-    const pathParams = { ...urlParams, ...urlQuery, ...rest };
+    const pathParams = { orgName, ...urlParams, ...urlQuery, ...rest };
     const curPath = goTo.pagePathMap[pathStr.replace(goTo.pagePrefix, '')];
     // 缺少参数
     if (curPath === undefined) {
@@ -118,7 +119,7 @@ export enum pages {
   freshMan = '/{orgName}/freshMan',
   notFound = '/{orgName}/notFound',
 
-  //workBench
+  // workBench
   orgRoot = '/{orgName}',
   orgList = '/{orgName}/org-list',
   workBenchRoot = '/{orgName}/workBench/projects',
@@ -129,7 +130,7 @@ export enum pages {
   workBenchMyInitiate = '/{orgName}/workBench/approval/my-initiate',
   workBenchMyInitiateWait = '/{orgName}/workBench/approval/my-initiate/WaitApprove',
   workBenchPublisher = '/{orgName}/workBench/publisher',
-  
+
 
   // project
   project = '/{orgName}/workBench/projects/{projectId}',
@@ -151,12 +152,12 @@ export enum pages {
   projectManualTestEnv = '/{orgName}/workBench/projects/{projectId}/testEnv/manual',
   projectDashboard = '/{orgName}/workBench/projects/{projectId}/dashboard',
   projectResource = '/{orgName}/workBench/projects/{projectId}/resource',
-  projectTicket = '/{orgName}/workBench/projects/${projectId}/ticket',
+  projectTicket = '/{orgName}/workBench/projects/{projectId}/ticket',
   
   // app
   app = '/{orgName}/workBench/projects/{projectId}/apps/{appId}',
   repo = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/repo',
-  appMr = '/{orgName}/workBench/projects/{projectId}/apps/${appId}/repo/mr/open/${mrId}',
+  appMr = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/repo/mr/open/{mrId}',
   pipelineRoot = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/pipeline',
   appApiDesign = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/apiDesign',
   repoBackup = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/repo/backup',
@@ -283,7 +284,6 @@ export enum pages {
   orgCenterAnnouncement = '/{orgName}/orgCenter/announcement',
   orgCenterSafety = '/{orgName}/orgCenter/safety',
 
-  
 
   dataCenterNotifyGroup = '/{orgName}/orgCenter/setting/detail?tabKey=notifyGroup',
   dataCenterSetting = '/{orgName}/orgCenter/setting/detail',
@@ -326,8 +326,9 @@ mapValues(pages, (v, k) => {
   goTo.pages[k] = `${goTo.pagePrefix}${k}`;
   goTo.pagePathMap[k] = v.match(/\{.+\}/) ? pathFormat(v) : v;
   goTo.resolve[k] = (params?: Obj, prependOrigin?: boolean) => {
-    const [urlParams, urlQuery] = routeInfoStore.getState(s => [s.params, s.query]);
-    const pathParams = { ...urlParams, ...urlQuery, ...params };
+    const orgName = get(location.pathname.split('/'),'[1]') || '-';
+    const [urlParams, urlQuery] = routeInfoStore.getState(s => [s.params, s.query]); 
+    const pathParams = { orgName, ...urlParams, ...urlQuery, ...params };
     const prefix = prependOrigin ? window.location.origin : '';
     const pagePath = pathFormat(v)(pathParams);
     return prefix + pagePath;

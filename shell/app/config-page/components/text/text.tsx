@@ -14,8 +14,9 @@
 import * as React from 'react';
 import { map, isNumber, isString, isArray, isPlainObject } from 'lodash';
 import { Copy, Icon as CustomIcon } from 'common';
-import { Badge } from 'app/nusi';
+import { Badge, Title } from 'app/nusi';
 import i18n from 'i18n';
+import imgMap from '../../img-map';
 import classnames from 'classnames';
 import './text.scss';
 
@@ -33,7 +34,7 @@ const getStyle = (styleConfig?: CP_TEXT.IStyleConfig) => {
 
 const Text = (props: CP_TEXT.Props) => {
   const { execOperation, props: configProps, operations } = props;
-  const { renderType, value, styleConfig, visible = true, textStyleName = {} } = configProps || {};
+  const { renderType, value, styleConfig, visible = true, textStyleName = {}, title, titleLevel = 3, gapSize = 'normal' } = configProps || {};
 
   const textClassNames = classnames({
     ...textStyleName,
@@ -60,17 +61,17 @@ const Text = (props: CP_TEXT.Props) => {
     }
       break;
     case 'linkText': {
-      const { text } = (value || {}) as CP_TEXT.ILinkTextData;
+      const { text, isPureText = true } = (value || {}) as CP_TEXT.ILinkTextData;
       if (isString(text)) {
         TextComp = <span style={styleObj} className={textClassNames}>{text}</span>;
       } else if (isArray(text)) {
         TextComp = (
-          <span>
+          <span className={`${isPureText ? '' : 'v-align'}`}>
             {text.map((t, idx) => {
               if (isString(t)) {
                 return <span style={styleObj} key={idx} className={textClassNames}>{t}</span>;
               } else if (isPlainObject(t)) {
-                const { text: tText, operationKey, styleConfig: tConfig, icon, iconStyleName = '' } = t;
+                const { text: tText, operationKey, styleConfig: tConfig, icon, iconStyleName = '', image = '' } = t;
                 const tStyle = getStyle(tConfig);
 
                 return operationKey ? (
@@ -84,10 +85,12 @@ const Text = (props: CP_TEXT.Props) => {
                   >
                     {tText}
                     {icon && <CustomIcon className={`mr4 ml4 ${iconStyleName}`} type={icon} />}
+                    {image && <img src={image.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
                   </a>
-                ) : <span className={textClassNames} style={{ ...styleObj, ...tStyle }}>
+                ) : <span key={idx} className={textClassNames} style={{ ...styleObj, ...tStyle }}>
                     {tText}
                     {icon && <CustomIcon className={`mr4 ml4 ${iconStyleName}`} type={icon} />}
+                    {image && <img src={image.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
                   </span>;
               }
               return null;
@@ -95,7 +98,7 @@ const Text = (props: CP_TEXT.Props) => {
           </span>
         );
       } else if (isPlainObject(text)) {
-        const { operationKey, text: tText, styleConfig: tConfig, icon, iconStyleName } = text;
+        const { operationKey, text: tText, styleConfig: tConfig, icon, image = '', iconStyleName } = text;
         const tStyle = getStyle(tConfig);
         TextComp = operationKey ? (
           <a
@@ -107,12 +110,14 @@ const Text = (props: CP_TEXT.Props) => {
           >
             {tText}
             {icon && <CustomIcon className={`mr4 ml4 ${iconStyleName}`} type={icon} />}
+            {image && <img src={image.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
           </a>
         ) : <span
           className={textClassNames}
           style={{ ...styleObj, ...tStyle }}>
             {tText}
             {icon && <CustomIcon className={`mr4 ml4 ${iconStyleName}`} type={icon} />}
+            {image && <img src={image.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
           </span>;
       }
     }
@@ -127,7 +132,21 @@ const Text = (props: CP_TEXT.Props) => {
       }
       break;
   }
-  return TextComp;
+
+  return (
+    <>
+      {title &&
+        <Title
+          title={title}
+          showDivider={false}
+          level={titleLevel}
+          className={`gap-size-${gapSize}`}
+        />
+      }
+      {TextComp}
+    </>
+  )
+
 };
 
 export default Text;

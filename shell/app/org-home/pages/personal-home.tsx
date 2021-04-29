@@ -14,29 +14,29 @@
 import * as React from 'react';
 import DiceConfigPage from 'config-page/index';
 import routeInfoStore from 'app/common/stores/route';
+import orgStore from 'app/org-home/stores/org.tsx';
 import './personal-home.scss';
 
 const PersonalHome = () => {
-  const orgName = routeInfoStore.useStore(s => s.params.orgName);
-
-  const inParams = { orgName };
-
+  const curOrgName = orgStore.useStore(s => s.currentOrg.name);
+  const inParams = { orgName: curOrgName || '-' };
+  console.log(inParams)
   return (
     <div className='home-page'>
       <div className='home-page-sidebar'>
         <DiceConfigPage
           scenarioType='home-page-sidebar'
           scenarioKey='home-page-sidebar'
-          key={orgName}
+          key={curOrgName}
           useMock={location.search.includes('useMock') ? useMockLeft : undefined}
           inParams={inParams}
         />
       </div>
-      <div className='home-page-content'>
+      <div className='home-page-content full-width'>
         <DiceConfigPage
           scenarioType='home-page-content'
           scenarioKey='home-page-content'
-          key={orgName}
+          key={curOrgName}
           useMock={location.search.includes('useMock') ? useMockRight : undefined}
           inParams={inParams}
         />
@@ -61,9 +61,10 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         myInfo: ['myProject', 'myApplication'],
         myOrganization: ['orgImage', 'orgSwitch', 'joinedBrief', 'emptyOrganization'],
         emptyOrganization: ['emptyOrgText'],
-        myProject: ['myProjectTitle', 'myProjectFilter', 'myProjectList', 'emptyProject'],
+        myProject: ['myProjectHeader', 'myProjectFilter', 'myProjectList', 'emptyProject'],
+        myProjectHeader: { left: 'myProjectTitle', right: 'createProjectLink' },
         emptyProject: ['projectTipWithoutOrg', 'projectTipWithOrg'],
-        projectTipWithOrg: ['createProjectLink', 'createProjectTip'],
+        projectTipWithOrg: ['createProjectTip'],
         myApplication: ['myApplicationTitle', 'myApplicationFilter', 'myApplicationList', 'emptyApplication'],
       },
     },
@@ -81,13 +82,11 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         props: {
           whiteBg: true,
           fullHeight: true,
-          className: 'pa16',
         }
       },
       myOrganization: {
         type: 'Container',
         props: {
-          visible: true,
           spaceSize: 'big',
         }
       },
@@ -113,7 +112,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
             {
               props: {
                 renderType: 'linkText',
-                visible: true,
+                visible: false,
                 value: {
                   text: [{ text: '了解如何受邀加入到组织', operationKey: "toJoinOrgDoc" }]
                 },
@@ -159,15 +158,15 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
       orgImage: {
         type: 'Image',
         props: {
-          src: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3355464299,584008140&fm=26&gp=0.jpg',
-          visible: true,
+          src: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3314214233,3432671412&fm=26&gp=0.jpg',
           size: 'normal',
+          type: 'organization',
         },
       },
       orgSwitch: {
         type: 'DropdownSelect',
         props: {
-          visible: true,
+          visible: false,
           options:
             [
               {
@@ -241,7 +240,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
       joinedBrief: {
         type: 'Table',
         props: {
-          visible: true,
+          visible: false,
           rowKey: 'key',
           columns: [
             { title: '', dataIndex: 'category' },
@@ -311,20 +310,20 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         },
       },
       createProjectLink: {
-        type: 'Text',
+        type: 'Button',
         props: {
-          visible: true,
-          renderType: 'linkText',
-          value: {
-            text: [{ text: '创建', operationKey: "createProject" }]
-          }
+          text: '创建',
+          visible: false,
+          disabled: false,
+          disabledTip: '暂无创建项目权限',
+          type: 'link',
         },
         operations: {
-          createProject: {
+          click: {
             command: {
               key: "goto",
               target: "createProject",
-              jumpOut: true,
+              jumpOut: false,
               visible: false,
             },
             key: "click",
@@ -370,7 +369,6 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
       myInfo: {
         type: 'Container',
         props: {
-          visible: true,
           fullHeight: true,
           scrollAuto: true,
         },
@@ -378,22 +376,29 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
       myProject: {
         type: 'Container',
         props: {
-          visible: true,
+          spaceSize: 'middle',
+        }
+      },
+      myProjectHeader: {
+        type: 'LRContainer',
+        props: {
+          spaceSize: 'none',
         },
       },
       myProjectTitle: {
         type: 'Title',
         props: {
-          visible: true,
           title: '项目',
           level: 1,
           noMarginBottom: true,
+          showDivider: true,
+          size: 'normal',
         }
       },
       myProjectFilter: {
         type: 'ContractiveFilter',
         props: {
-          visible: true,
+          visible: false,
           delay: 1000,
           fullWidth: true,
         },
@@ -406,820 +411,931 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
               fixed: true,
               showIndex: 2,
               placeholder: '搜索项目',
-                type: 'input',
-              },
-            ],
-            values: {
+              type: 'input',
             },
-          },
-          operations: {
-            filter: {
-              key: 'filter',
-              reload: true,
-            },
+          ],
+          values: {
           },
         },
-        myProjectList: {
-          type: 'List',
-          props: {
-            visible: true,
-            useLoadMore: true,
-          },
-          data: {
-            list: [
-              {
-                id: '1',
-                porjectId: '13',
-                title: '测试1测试1测试1测试1',
-                titleSize: 'fz16',
-                prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-                prefixImgSize: 'middle',
-                prefixImgCircle: true,
-                operations: {
-                  click: {
-                    key: 'click',
-                    show: false,
-                    reload: false,
-                    command: {
-                      key: 'goto',
-                      target: 'projectAllIssue',
-                      state: {
-                        params: {
-                          projectId: '13',
-                        },
-                      }
-                    },
-                  },
-                },
-              },
-              {
-                id: '2',
-                porjectId: '13',
-                title: '测试2',
-                titleSize: 'fz16',
-                prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-                prefixImgSize: 'middle',
-                prefixImgCircle: true,
-                operations: {
-                  click: {
-                    key: 'click',
-                    show: false,
-                    reload: false,
-                    command: {
-                      key: 'goto',
-                      target: 'projectAllIssue',
-                      state: {
-                        params: {
-                          projectId: '13',
-                        },
-                      }
-                    },
-                  },
-                },
-              },
-            ],
-          },
-          operations: {
-            changePageNo: {
-              key: 'changePageNo',
-              reload: true,
-              fillMeta: 'pageNo'
-            },
-          },
-          state: {
-            pageNo: 1,
-            pageSize: 5,
-            total: 5,
-          },
-        },
-        myApplication: {
-          type: 'Container',
-          props: {
-            visible: true,
-          },
-        },
-        myApplicationTitle: {
-          type: 'Title',
-          props: {
-            visible: true,
-            title: '应用',
-            level: 1,
-            noMarginBottom: true,
-          }
-        },
-        myApplicationFilter: {
-          type: 'ContractiveFilter',
-          props: {
-            delay: 1000,
-            visible: true,
-            fullWidth: true,
-          },
-          state: {
-            conditions: [
-              {
-                key: 'title',
-                label: '标题',
-                emptyText: '全部',
-                fixed: true,
-                showIndex: 2,
-                placeholder: '搜索应用',
-                type: 'input',
-              },
-            ],
-            values: {
-            },
-          },
-          operations: {
-            filter: {
-              key: 'filter',
-              reload: true,
-            },
-          },
-        },
-        myApplicationList: {
-          type: 'List',
-          props: {
-            visible: true,
-            useLoadMore: true,
-          },
-          data: {
-            list: [
-              {
-                id: '1',
-                title: '测试1测试1测试1测试1',
-                titleSize: 'fz16',
-                prefixImgSize: 'middle',
-                prefixImgCircle: true,
-                prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-                operations: {
-                  click: {
-                    key: 'click',
-                    show: false,
-                    reload: false,
-                    command: {
-                      key: 'goto',
-                      target: 'app',
-                      state: {
-                        params: {
-                          projectId: '9',
-                          appId: '8',
-                        },
-                      }
-                    },
-                  },
-                },
-              },
-              {
-                id: '2',
-                title: '测试2',
-                titleSize: 'fz16',
-                prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-                prefixImgSize: 'middle',
-                prefixImgCircle: true,
-                operations: {
-                  click: {
-                    key: 'click',
-                    show: false,
-                    reload: false,
-                    command: {
-                      key: 'goto',
-                      target: 'app',
-                      state: {
-                        params: {
-                          projectId: '9',
-                          appId: '8',
-                        },
-                      }
-                    },
-                  },
-                },
-              },
-            ],
-          },
-          operations: {
-            changePageNo: {
-              key: 'changePageNo',
-              reload: true,
-              fillMeta: 'pageNo'
-            },
-          },
-          state: {
-            pageNo: 1,
-            pageSize: 5,
-            total: 5,
+        operations: {
+          filter: {
+            key: 'filter',
+            reload: true,
           },
         },
       },
-    },
-  };
-
-  const mockContent: CONFIG_PAGE.RenderConfig = {
-    scenario: {
-      scenarioKey: 'home-page-content',
-      scenarioType: 'home-page-content', // 后端定义
-    },
-    protocol: {
-      hierarchy: {
-        root: 'page',
-        structure: {
-          page: ['content'],
-          content: ['title', 'emptyOrgTip', 'emptyProjectTip', 'emptyProjectIssue', 'tableGroup'],
-          emptyOrgTip: { left: 'erdaLogo', right: 'emptyOrgText' },
-          emptyOrgText: ['emptyOrgTitle', 'emptyOrgContent'],
-          emptyProjectTip: { left: 'orgLogo', right: 'emptyProjectText' },
-          emptyProjectText: ['emptyProjectTitle', 'emptyProjectContent'],
+      myProjectList: {
+        type: 'List',
+        props: {
+          visible: false,
+          useLoadMore: true,
+          alignCenter: true,
+          noBorder: true,
+          size: 'small',
+        },
+        data: {
+          list: [
+            {
+              id: '1',
+              porjectId: '13',
+              title: '测试1测试1测试1测试1',
+              titleSize: 'fz16',
+              prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+              prefixImgSize: 'middle',
+              prefixImgCircle: true,
+              operations: {
+                click: {
+                  key: 'click',
+                  show: false,
+                  reload: false,
+                  command: {
+                    key: 'goto',
+                    target: 'projectAllIssue',
+                    state: {
+                      params: {
+                        projectId: '13',
+                      },
+                    }
+                  },
+                },
+              },
+            },
+            {
+              id: '2',
+              porjectId: '13',
+              title: '测试2',
+              titleSize: 'fz16',
+              prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+              prefixImgSize: 'middle',
+              prefixImgCircle: true,
+              operations: {
+                click: {
+                  key: 'click',
+                  show: false,
+                  reload: false,
+                  command: {
+                    key: 'goto',
+                    target: 'projectAllIssue',
+                    state: {
+                      params: {
+                        projectId: '13',
+                      },
+                    }
+                  },
+                },
+              },
+            },
+          ],
+        },
+        operations: {
+          changePageNo: {
+            key: 'changePageNo',
+            reload: true,
+            fillMeta: 'pageNo'
+          },
+        },
+        state: {
+          pageNo: 1,
+          pageSize: 5,
+          total: 5,
         },
       },
-      components: {
-        page: { type: 'Container' },
-        title: {
-          type: 'Title',
-          props: {
-            visible: true,
-            title: '事件',
-            level: 1,
-            subtitle: '你未完成的事项 560 条',
-          }
+      myApplication: {
+        type: 'Container',
+        props: {
+          visible: true,
         },
-        emptyOrgTip: {
-          type: 'LRContainer',
-          props: {
-            visible: true,
-            whiteBg: true,
-            startAlign: true,
-          },
-          contentSetting: 'start',
+      },
+      myApplicationTitle: {
+        type: 'Title',
+        props: {
+          visible: true,
+          title: '应用',
+          level: 1,
+          noMarginBottom: true,
+          showDivider: true,
+        }
+      },
+      myApplicationFilter: {
+        type: 'ContractiveFilter',
+        props: {
+          delay: 1000,
+          visible: true,
+          fullWidth: true,
         },
-        erdaLogo: {
-          type: 'Image',
-          props: {
-            src: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3355464299,584008140&fm=26&gp=0.jpg',
-            visible: true,
-            isCircle: true,
-            size: 'small',
-          },
-        },
-        emptyOrgText: {
-          type: 'Container',
-          props: {
-            visible: true,
-          },
-        },
-        emptyOrgTitle: {
-          type: 'Title',
-          props: {
-            visible: true,
-            title: '你已经是 Erda Cloud 组织的成员',
-            level: 2,
-          },
-        },
-        emptyOrgContent: {
-          type: 'TextGroup',
-          props: {
-            visible: true,
-            value: [
-              {
-                props: {
-                  renderType: 'text',
-                  visible: true,
-                  value: '以下是作为平台新成员的一些快速入门知识：',
-                },
-                gapSize: 'large',
-              },
-              {
-                props: {
-                  renderType: 'text',
-                  visible: true,
-                  value: '* 浏览公开组织',
-                  styleConfig: {
-                    bold: true,
-                  },
-                },
-                gapSize: 'small',
-              },
-              {
-                props: {
-                  renderType: 'text',
-                  visible: true,
-                  value: '通过左上角的浏览公开组织信息，选择公开组织可以直接进入浏览该组织公开项目的信息可（包含项目管理、应用运行信息等）',
-                },
-                gapSize: 'large',
-              },
-              {
-                props: {
-                  renderType: 'text',
-                  visible: true,
-                  value: '* 加入组织',
-                  styleConfig: {
-                    bold: true,
-                  }
-                },
-                gapSize: 'small',
-              },
-              {
-                props: {
-                  renderType: 'text',
-                  visible: true,
-                  value: '组织当前都是受邀机制，需要线下联系企业所有者进行邀请加入',
-                },
-                gapSize: 'large',
-              },
-              {
-                props: {
-                  renderType: 'text',
-                  visible: true,
-                  value: '当你已经加入到任何组织后，此框将不再显示',
-                  textStyleName: {
-                    'fz12': true,
-                    'color-text-desc': true,
-                  },
-                },
-                gapSize: 'normal',
-              },
-            ]
-          },
-          operations: {
-            toSpecificProject: {
-              command: {
-                key: "goto",
-                target: "projectAllIssue",
-                jumpOut: true,
-                state: {
-                  query: {
-                    issueViewGroup__urlQuery: "eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=",
-                  },
-                  params: {
-                    projectId: '13',
-                  },
-                },
-                visible: false,
-              },
-              key: "click",
-              reload: false,
-              show: false,
+        state: {
+          conditions: [
+            {
+              key: 'title',
+              label: '标题',
+              emptyText: '全部',
+              fixed: true,
+              showIndex: 2,
+              placeholder: '搜索应用',
+              type: 'input',
             },
+          ],
+          values: {
           },
         },
-        emptyProjectTip: {
-          type: 'LRContainer',
-          props: {
-            visible: true,
-            whiteBg: true,
-            startAlign: true,
-          },
-          contentSetting: 'start',
-        },
-        orgLogo: {
-          type: 'Image',
-          props: {
-            src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdzJaQZp56En9t1-6SYmZYtY8Y9pdpDoFscQ&usqp=CAU',
-            visible: true,
-            isCircle: true,
-            size: 'small',
+        operations: {
+          filter: {
+            key: 'filter',
+            reload: true,
           },
         },
-        emptyProjectText: {
-          type: 'Container',
-          props: {
-            visible: true,
-          }
+      },
+      myApplicationList: {
+        type: 'List',
+        props: {
+          visible: true,
+          useLoadMore: true,
+          alignCenter: true,
+          noBorder: true,
+          size: 'small',
         },
-        emptyProjectTitle: {
-          type: 'Title',
-          props: {
-            visible: true,
-            title: '你已经是 XXX 组织的成员',
-            level: 2,
-          },
-        },
-        emptyProjectContent: {
-          type: 'TextGroup',
-          props: {
-            visible: true,
-            value: [
-              {
-                props: {
-                  renderType: 'text',
-                  visible: true,
-                  value: '以下是作为组织新成员的一些快速入门知识：',
-                },
-                gapSize: 'normal',
-              },
-              {
-                props: {
-                  renderType: 'text',
-                  visible: true,
-                  value: '* 切换组织',
-                  styleConfig: {
-                    bold: true
+        data: {
+          list: [
+            {
+              id: '1',
+              title: '测试1测试1测试1测试1',
+              prefixImgSize: 'middle',
+              prefixImgCircle: true,
+              prefixImg: '/images/default-app-icon.svg',
+              operations: {
+                click: {
+                  key: 'click',
+                  show: false,
+                  reload: false,
+                  command: {
+                    key: 'goto',
+                    target: 'app',
+                    state: {
+                      params: {
+                        projectId: '9',
+                        appId: '8',
+                      },
+                    }
                   },
                 },
-                gapSize: 'small',
               },
-              {
-                props: {
-                  renderType: 'text',
-                  visible: true,
-                  value: '使用此屏幕上左上角的组织切换，快速进行组织之间切换',
-                },
-                gapSize: 'large',
-              },
-              {
-                props: {
-                  renderType: 'text',
-                  visible: true,
-                  value: '* 公开组织浏览',
-                  styleConfig: {
-                    bold: true
-                  },
-                },
-                gapSize: 'small',
-              },
-              {
-                props: {
-                  renderType: 'text',
-                  visible: true,
-                  value: '可以通过切换组织下拉菜单中选择公开组织进行浏览',
-                },
-                gapSize: 'large',
-              },
-              {
-                props: {
-                  renderType: 'text',
-                  visible: true,
-                  value: '* 加入项目',
-                  styleConfig: {
-                    bold: true
-                  },
-                },
-                gapSize: 'small',
-              },
-              {
-                props: {
-                  renderType: 'text',
-                  visible: true,
-                  value: '当前都是受邀机制，需要线下联系项目管理员进行邀请加入',
-                },
-                gapSize: 'large',
-              },
-              {
-                props: {
-                  renderType: 'text',
-                  visible: true,
-                  value: '* 该组织内公开项目浏览',
-                  styleConfig: {
-                    bold: true
-                  },
-                },
-                gapSize: 'small',
-              },
-              {
-                props: {
-                  renderType: 'linkText',
-                  visible: true,
-                  value: {
-                    text: ['点击左上角菜单',
-                      {
-                        icon: 'appstore',
-                        iconStyleName: 'primary-icon',
-                      }, '选择 DevOps平台进入，选择我的项目可以查看该组织下公开项目的信息']
-                  },
-                },
-                gapSize: 'large',
-              },
-              {
-                props: {
-                  renderType: 'text',
-                  visible: true,
-                  value: '当你已经加入到任何项目后，此框将不再显示',
-                  textStyleName: {
-                    'fz12': true,
-                    'color-text-desc': true,
-                  },
-                },
-                gapSize: 'normal',
-              },
-            ]
-          },
-        },
-        emptyProjectIssue: {
-          type: 'EmptyHolder',
-          props: {
-            tip: '已加入的项目中，无待完成事项',
-            visible: true,
-            relative: true,
-          }
-        },
-        content: {
-          type: 'Container',
-          props: {
-            visible: true,
-          },
-        },
-        tableGroup: {
-          type: 'TableGroup',
-          props: {
-            visible: true,
-          },
-          operations: {
-            changePageNo: {
-              key: 'changePageNo',
-              reload: true,
-              fillMeta: 'pageNo'
             },
-          },
-          data: {
-            list: [
-              {
-                title: {
-                  prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
-                  title: 'Erda',
-                  level: 2,
-                },
-                subtitle: {
-                  title: '你未完成的事项',
-                  level: 3,
-                },
-                description: {
-                  renderType: 'linkText',
-                  visible: true,
-                  value: {
-                    text: ['当前你还有', {
-                      text: ' 120 ', styleConfig: {
-                        bold: true
+            {
+              id: '2',
+              title: '测试2',
+              prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+              prefixImgSize: 'middle',
+              prefixImgCircle: true,
+              operations: {
+                click: {
+                  key: 'click',
+                  show: false,
+                  reload: false,
+                  command: {
+                    key: 'goto',
+                    target: 'app',
+                    state: {
+                      params: {
+                        projectId: '9',
+                        appId: '8',
                       },
-                    }, '个事项待完成，已过期:', {
-                        text: ' 40 ', styleConfig: {
-                          bold: true
-                        },
-                      }, '，本日到期:', {
-                        text: ' 40 ', styleConfig: {
-                          bold: true
-                        },
-                      }, '，7日内到期:', {
-                        text: ' 36 ', styleConfig: {
-                          bold: true
-                        },
-                      }, '，30日内到期:', {
-                        text: ' 44 ', styleConfig: {
-                          bold: true
-                        },
-                      }]
-                  },
-                  textStyleName: { 'color-text-desc': true },
-                },
-                table: {
-                  props: {
-                    rowKey: 'key',
-                    columns: [
-                      { title: '', dataIndex: 'name', width: 600 },
-                      { title: '', dataIndex: 'planFinishedAt' },
-                    ],
-                    showHeader: false,
-                    pagination: false,
-                    styleNames: {
-                      'no-border': true,
-                    },
-                  },
-                  data: {
-                    list: [
-                      {
-                        id: '153',
-                        projectId: '13',
-                        type: 'requirement',
-                        name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '222运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
-                        planFinishedAt: '2022-03-02',
-                      },
-                      {
-                        id: '150',
-                        projectId: '13',
-                        type: 'requirement',
-                        name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
-                        planFinishedAt: '2022-03-02',
-                      },
-                      {
-                        id: '153',
-                        projectId: '13',
-                        type: 'requirement',
-                        name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
-                        planFinishedAt: '2022-03-02',
-                      },
-                      {
-                        id: '150',
-                        projectId: '13',
-                        type: 'requirement',
-                        name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
-                        planFinishedAt: '2022-03-02',
-                      },
-                      {
-                        id: '153',
-                        projectId: '13',
-                        type: 'requirement',
-                        name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
-                        planFinishedAt: '2022-03-02',
-                      },
-                    ],
-                  },
-                  operations: {
-                    clickRow: {
-                      key: 'clickRow',
-                      reload: false,
-                      command: {
-                        key: 'goto',
-                        target: 'projectIssueDetail',
-                        jumpOut: true,
-                      },
-                    },
-                  },
-                },
-                extraInfo: {
-                  props: {
-                    renderType: 'linkText',
-                    value: {
-                      text: [{ text: "查看剩余112条事件 >>", operationKey: "toSpecificProject" }]
-                    },
-                  },
-                  operations: {
-                    toSpecificProject: {
-                      command: {
-                        key: "goto",
-                        target: "projectAllIssue",
-                        jumpOut: true,
-                        state: {
-                          query: {
-                            issueViewGroup__urlQuery: "eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=",
-                          },
-                          params: {
-                            projectId: '13',
-                          },
-                        },
-                        visible: false,
-                      },
-                      key: "click",
-                      reload: false,
-                      show: false,
-                    },
-                  },
-
-                },
-              },
-              {
-                title: {
-                  prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
-                  title: 'Erda',
-                  level: 2,
-                },
-                subtitle: {
-                  title: '你未完成的事项',
-                  level: 3,
-                },
-                description: {
-                  renderType: 'linkText',
-                  visible: true,
-                  value: {
-                    text: ['当前你还有', {
-                      text: ' 120 ', styleConfig: {
-                        bold: true
-                      },
-                    }, '个事项待完成，已过期:', {
-                        text: ' 40 ', styleConfig: {
-                          bold: true
-                        },
-                      }, '，本日到期:', {
-                        text: ' 40 ', styleConfig: {
-                          bold: true
-                        },
-                      }, '，7日内到期:', {
-                        text: ' 36 ', styleConfig: {
-                          bold: true
-                        },
-                      }, '，30日内到期:', {
-                        text: ' 44 ', styleConfig: {
-                          bold: true
-                        },
-                      }]
-                  },
-                  textStyleName: { 'color-text-desc': true },
-                },
-                table: {
-                  props: {
-                    rowKey: 'key',
-                    columns: [
-                      { title: '', dataIndex: 'name', width: 600 },
-                      { title: '', dataIndex: 'planFinishedAt' },
-                    ],
-                    showHeader: false,
-                    pagination: false,
-                    styleNames: {
-                      'no-border': true,
-                    },
-                  },
-                  data: {
-                    list: [
-                      {
-                        id: '153',
-                        projectId: '13',
-                        type: 'requirement',
-                        name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '222运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
-                        planFinishedAt: '2022-03-02',
-                      },
-                      {
-                        id: '150',
-                        projectId: '13',
-                        type: 'requirement',
-                        name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
-                        planFinishedAt: '2022-03-02',
-                      },
-                      {
-                        id: '153',
-                        projectId: '13',
-                        type: 'requirement',
-                        name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
-                        planFinishedAt: '2022-03-02',
-                      },
-                      {
-                        id: '150',
-                        projectId: '13',
-                        type: 'requirement',
-                        name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
-                        planFinishedAt: '2022-03-02',
-                      },
-                      {
-                        id: '153',
-                        projectId: '13',
-                        type: 'requirement',
-                        name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
-                        planFinishedAt: '2022-03-02',
-                      },
-                    ],
-                  },
-                  operations: {
-                    clickRow: {
-                      key: 'clickRow',
-                      reload: false,
-                      command: {
-                        key: 'goto',
-                        target: 'projectIssueDetail',
-                        jumpOut: true,
-                      },
-                    },
-                  },
-                },
-                extraInfo: {
-                  props: {
-                    renderType: 'linkText',
-                    value: {
-                      text: [{ text: "查看剩余112条事件 >>", operationKey: "toSpecificProject" }]
-                    },
-                  },
-                  operations: {
-                    toSpecificProject: {
-                      command: {
-                        key: "goto",
-                        target: "projectAllIssue",
-                        jumpOut: true,
-                        state: {
-                          query: {
-                            issueViewGroup__urlQuery: "eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=",
-                          },
-                          params: {
-                            projectId: '13',
-                          },
-                        },
-                        visible: false,
-                      },
-                      key: "click",
-                      reload: false,
-                      show: false,
-                    },
+                    }
                   },
                 },
               },
-            ],
+            },
+          ],
+        },
+        operations: {
+          changePageNo: {
+            key: 'changePageNo',
+            reload: true,
+            fillMeta: 'pageNo'
           },
-          state: {
-            pageNo: 1,
-            pageSize: 1,
-            total: 5,
-          }
+        },
+        state: {
+          pageNo: 1,
+          pageSize: 5,
+          total: 5,
+        },
+      },
+      emptyApplication: {
+        type: 'EmptyHolder',
+        props: {
+          tip: '未加入任何应用',
+          visible: true,
+          relative: true,
         }
       },
     },
-  };
+  },
+};
 
-  const useMockLeft = (payload: any) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(mockSidebar);
-      }, 500);
-    });
-  };
+const mockContent: CONFIG_PAGE.RenderConfig = {
+  scenario: {
+    scenarioKey: 'home-page-content',
+    scenarioType: 'home-page-content', // 后端定义
+  },
+  protocol: {
+    hierarchy: {
+      root: 'page',
+      structure: {
+        page: ['content'],
+        content: ['title', 'emptyOrgTip', 'emptyProjectTip', 'emptyProjectIssue', 'tableGroup'],
+        emptyOrgTip: { left: 'erdaLogo', right: 'emptyOrgText' },
+        emptyOrgText: ['emptyOrgTitle', 'emptyOrgContent'],
+        emptyProjectTip: { left: 'orgLogo', right: 'emptyProjectText' },
+        emptyProjectText: ['emptyProjectTitle', 'emptyProjectContent'],
+      },
+    },
+    components: {
+      page: { type: 'Container' },
+      title: {
+        type: 'Title',
+        props: {
+          visible: true,
+          title: '事件',
+          level: 1,
+          noMarginBottom: true,
+          size: 'big',
+        }
+      },
+      emptyOrgTip: {
+        type: 'LRContainer',
+        props: {
+          visible: true,
+          whiteBg: true,
+          startAlign: true,
+          contentSetting: 'start',
+        },
+      },
+      erdaLogo: {
+        type: 'Image',
+        props: {
+          src: '/images/favicon.ico',
+          visible: true,
+          isCircle: true,
+          size: 'small',
+          type: 'erda',
+        },
+      },
+      emptyOrgText: {
+        type: 'Container',
+        props: {
+          visible: true,
+        },
+      },
+      emptyOrgTitle: {
+        type: 'Title',
+        props: {
+          visible: true,
+          title: '你已经是 Erda Cloud 组织的成员',
+          level: 2,
+        },
+      },
+      emptyOrgContent: {
+        type: 'TextGroup',
+        props: {
+          visible: true,
+          value: [
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '以下是作为平台新成员的一些快速入门知识：',
+              },
+              gapSize: 'large',
+            },
+            {
+              props: {
+                renderType: 'linkText',
+                title: '* 浏览公开组织',
+                visible: true,
+                gapSize: 'small',
+                value: {
+                  text: '通过左上角的浏览公开组织信息，选择公开组织可以直接进入浏览该组织公开项目的信息可（包含项目管理、应用运行信息等）',
+                },
+              },
+              gapSize: 'small',
+            },
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '* 浏览公开组织',
+                styleConfig: {
+                  bold: true,
+                },
+              },
+              gapSize: 'small',
+            },
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '通过左上角的浏览公开组织信息，选择公开组织可以直接进入浏览该组织公开项目的信息可（包含项目管理、应用运行信息等）',
+              },
+              gapSize: 'large',
+            },
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '* 加入组织',
+                styleConfig: {
+                  bold: true,
+                }
+              },
+              gapSize: 'small',
+            },
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '组织当前都是受邀机制，需要线下联系企业所有者进行邀请加入',
+              },
+              gapSize: 'large',
+            },
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '当你已经加入到任何组织后，此框将不再显示',
+                textStyleName: {
+                  'fz12': true,
+                  'color-text-desc': true,
+                },
+              },
+              gapSize: 'normal',
+            },
+          ],
+        },
+        operations: {
+          toSpecificProject: {
+            command: {
+              key: "goto",
+              target: "projectAllIssue",
+              jumpOut: true,
+              state: {
+                query: {
+                  issueViewGroup__urlQuery: "eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=",
+                },
+                params: {
+                  projectId: '13',
+                },
+              },
+              visible: false,
+            },
+            key: "click",
+            reload: false,
+            show: false,
+          },
+        },
+      },
+      emptyProjectTip: {
+        type: 'LRContainer',
+        props: {
+          visible: true,
+          whiteBg: true,
+          startAlign: true,
+          contentSetting: 'start'
+        },
+      },
+      orgLogo: {
+        type: 'Image',
+        props: {
+          src: '/images/resources/org.png',
+          visible: true,
+          isCircle: true,
+          size: 'small',
+        },
+      },
+      emptyProjectText: {
+        type: 'Container',
+        props: {
+          visible: true,
+        }
+      },
+      emptyProjectTitle: {
+        type: 'Title',
+        props: {
+          visible: true,
+          title: '你已经是 XXX 组织的成员',
+          level: 2,
+        },
+      },
+      emptyProjectContent: {
+        type: 'TextGroup',
+        props: {
+          visible: true,
+          value: [
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '以下是作为组织新成员的一些快速入门知识：',
+              },
+              gapSize: 'normal',
+            },
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '* 切换组织',
+                styleConfig: {
+                  bold: true
+                },
+              },
+              gapSize: 'small',
+            },
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '使用此屏幕上左上角的组织切换，快速进行组织之间切换',
+              },
+              gapSize: 'large',
+            },
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '* 公开组织浏览',
+                styleConfig: {
+                  bold: true
+                },
+              },
+              gapSize: 'small',
+            },
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '可以通过切换组织下拉菜单中选择公开组织进行浏览',
+              },
+              gapSize: 'large',
+            },
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '* 加入项目',
+                styleConfig: {
+                  bold: true
+                },
+              },
+              gapSize: 'small',
+            },
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '当前都是受邀机制，需要线下联系项目管理员进行邀请加入',
+              },
+              gapSize: 'large',
+            },
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '* 该组织内公开项目浏览',
+                styleConfig: {
+                  bold: true
+                },
+              },
+              gapSize: 'small',
+            },
+            {
+              props: {
+                renderType: 'linkText',
+                visible: true,
+                value: {
+                  text: ['点击左上角菜单',
+                    {
+                      icon: 'appstore',
+                      iconStyleName: 'primary-icon',
+                    }, '选择 DevOps平台进入，选择我的项目可以查看该组织下公开项目的信息']
+                },
+              },
+              gapSize: 'large',
+            },
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '当你已经加入到任何项目后，此框将不再显示',
+                textStyleName: {
+                  'fz12': true,
+                  'color-text-desc': true,
+                },
+              },
+              gapSize: 'normal',
+            },
+          ]
+        },
+      },
+      emptyProjectIssue: {
+        type: 'EmptyHolder',
+        props: {
+          tip: '已加入的项目中，无待完成事项',
+          visible: true,
+          relative: true,
+          whiteBg: true,
+          paddingY: true,
+        }
+      },
+      content: {
+        type: 'Container',
+        props: {
+          visible: true,
+        },
+      },
+      tableGroup: {
+        type: 'TableGroup',
+        props: {
+          visible: true,
+        },
+        operations: {
+          changePageNo: {
+            key: 'changePageNo',
+            reload: true,
+            fillMeta: 'pageNo'
+          },
+        },
+        data: {
+          list: [
+            {
+              title: {
+                props: {
+                  renderType: 'linkText',
+                  value: {
+                    text: [
+                      { image: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3314214233,3432671412&fm=26&gp=0.jpg' },
+                      {
+                        text: "Erda",
+                        operationKey: "toSpecificProject",
+                        styleConfig: {
+                          color: 'black',
+                          fontSize: '16px',
+                        },
+                      }],
+                    isPureText: false,
+                  },
+                },
+                operations: {
+                  toSpecificProject: {
+                    command: {
+                      key: "goto",
+                      target: "projectAllIssue",
+                      jumpOut: true,
+                      state: {
+                        query: {
+                          issueViewGroup__urlQuery: "eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=",
+                        },
+                        params: {
+                          projectId: '13',
+                          orgName: 'terminus',
+                        },
+                      },
+                    },
+                    key: "click",
+                    reload: false,
+                    show: false,
+                  },
+                },
+              },
+              subtitle: {
+                title: '你未完成的事项',
+                level: 3,
+                size: 'small',
+              },
+              description: {
+                renderType: 'linkText',
+                visible: true,
+                value: {
+                  text: ['当前你还有', {
+                    text: ' 120 ', styleConfig: {
+                      bold: true
+                    },
+                  }, '个事项待完成，已过期:', {
+                      text: ' 40 ', styleConfig: {
+                        bold: true
+                      },
+                    }, '，本日到期:', {
+                      text: ' 40 ', styleConfig: {
+                        bold: true
+                      },
+                    }, '，7日内到期:', {
+                      text: ' 36 ', styleConfig: {
+                        bold: true
+                      },
+                    }, '，30日内到期:', {
+                      text: ' 44 ', styleConfig: {
+                        bold: true
+                      },
+                    }]
+                },
+                textStyleName: { 'color-text-desc': true },
+              },
+              table: {
+                props: {
+                  rowKey: 'key',
+                  columns: [
+                    { title: '', dataIndex: 'name', width: 600 },
+                    { title: '', dataIndex: 'planFinishedAt' },
+                  ],
+                  showHeader: false,
+                  pagination: false,
+                  size: 'small',
+                  styleNames: {
+                    'no-border': true,
+                  },
+                },
+                data: {
+                  list: [
+                    {
+                      id: '153',
+                      projectId: '13',
+                      type: 'requirement',
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '222运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
+                      planFinishedAt: '2022-03-02',
+                      orgName: 'terminus',
+                    },
+                    {
+                      id: '150',
+                      projectId: '13',
+                      type: 'requirement',
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
+                      planFinishedAt: '2022-03-02',
+                      orgName: 'terminus',
+                    },
+                    {
+                      id: '153',
+                      projectId: '13',
+                      type: 'requirement',
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
+                      planFinishedAt: '2022-03-02',
+                      orgName: 'terminus',
+                    },
+                    {
+                      id: '150',
+                      projectId: '13',
+                      type: 'requirement',
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
+                      planFinishedAt: '2022-03-02',
+                      orgName: 'terminus',
+                    },
+                    {
+                      id: '153',
+                      projectId: '13',
+                      type: 'requirement',
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
+                      planFinishedAt: '2022-03-02',
+                      orgName: 'terminus',
+                    },
+                  ],
+                },
+                operations: {
+                  clickRow: {
+                    key: 'clickRow',
+                    reload: false,
+                    command: {
+                      key: 'goto',
+                      target: 'projectIssueDetail',
+                      jumpOut: true,
+                    },
+                  },
+                },
+              },
+              extraInfo: {
+                props: {
+                  renderType: 'linkText',
+                  value: {
+                    text: [{ text: "查看剩余112条事件 >>", operationKey: "toSpecificProject" }]
+                  },
+                },
+                operations: {
+                  toSpecificProject: {
+                    command: {
+                      key: "goto",
+                      target: "projectAllIssue",
+                      jumpOut: true,
+                      state: {
+                        query: {
+                          issueViewGroup__urlQuery: "eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=",
+                        },
+                        params: {
+                          projectId: '13',
+                          orgName: 'terminus',
+                        },
+                      },
+                      visible: false,
+                    },
+                    key: "click",
+                    reload: false,
+                    show: false,
+                  },
+                },
+              },
+            },
+            {
+              title: {
+                props: {
+                  renderType: 'linkText',
+                  value: {
+                    text: [
+                      { image: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3314214233,3432671412&fm=26&gp=0.jpg' },
+                      {
+                        text: "Erda",
+                        operationKey: "toSpecificProject",
+                        styleConfig: {
+                          bold: true,
+                          color: 'black',
+                          fontSize: '16px',
+                        },
+                      }],
+                    isPureText: false,
+                  },
+                },
+                operations: {
+                  toSpecificProject: {
+                    command: {
+                      key: "goto",
+                      target: "projectAllIssue",
+                      jumpOut: true,
+                      state: {
+                        query: {
+                          issueViewGroup__urlQuery: "eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=",
+                        },
+                        params: {
+                          projectId: '13',
+                          orgName: 'terminus',
+                        },
+                      },
+                    },
+                    key: "click",
+                    reload: false,
+                    show: false,
+                  },
+                },
+              },
+              subtitle: {
+                title: '你未完成的事项',
+                level: 3,
+                size: 'small',
+              },
+              description: {
+                renderType: 'linkText',
+                visible: true,
+                value: {
+                  text: ['当前你还有', {
+                    text: ' 120 ', styleConfig: {
+                      bold: true,
+                      fontSize: '16px',
+                    },
+                  }, '个事项待完成，已过期:', {
+                      text: ' 40 ', styleConfig: {
+                        bold: true,
+                        fontSize: '16px',
+                      },
+                    }, '，本日到期:', {
+                      text: ' 40 ', styleConfig: {
+                        bold: true,
+                        fontSize: '16px',
+                      },
+                    }, '，7日内到期:', {
+                      text: ' 36 ', styleConfig: {
+                        bold: true,
+                        fontSize: '16px',
+                      },
+                    }, '，30日内到期:', {
+                      text: ' 44 ', styleConfig: {
+                        bold: true,
+                        fontSize: '16px',
+                      },
+                    }]
+                },
+                textStyleName: { 'color-text-sub': true },
+              },
+              table: {
+                props: {
+                  rowKey: 'key',
+                  columns: [
+                    { title: '', dataIndex: 'name', width: 600 },
+                    { title: '', dataIndex: 'planFinishedAt' },
+                  ],
+                  showHeader: false,
+                  pagination: false,
+                  styleNames: {
+                    'no-border': true,
+                  },
+                },
+                data: {
+                  list: [
+                    {
+                      id: '153',
+                      projectId: '13',
+                      type: 'requirement',
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '222运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
+                      planFinishedAt: '2022-03-02',
+                    },
+                    {
+                      id: '150',
+                      projectId: '13',
+                      type: 'requirement',
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
+                      planFinishedAt: '2022-03-02',
+                    },
+                    {
+                      id: '153',
+                      projectId: '13',
+                      type: 'requirement',
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
+                      planFinishedAt: '2022-03-02',
+                    },
+                    {
+                      id: '150',
+                      projectId: '13',
+                      type: 'requirement',
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
+                      planFinishedAt: '2022-03-02',
+                    },
+                    {
+                      id: '153',
+                      projectId: '13',
+                      type: 'requirement',
+                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
+                      planFinishedAt: '2022-03-02',
+                    },
+                  ],
+                },
+                operations: {
+                  clickRow: {
+                    key: 'clickRow',
+                    reload: false,
+                    command: {
+                      key: 'goto',
+                      target: 'projectIssueDetail',
+                      jumpOut: true,
+                    },
+                  },
+                },
+              },
+              extraInfo: {
+                props: {
+                  renderType: 'linkText',
+                  value: {
+                    text: [{ text: "查看剩余112条事件 >>", operationKey: "toSpecificProject" }]
+                  },
+                },
+                operations: {
+                  toSpecificProject: {
+                    command: {
+                      key: "goto",
+                      target: "projectAllIssue",
+                      jumpOut: true,
+                      state: {
+                        query: {
+                          issueViewGroup__urlQuery: "eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=",
+                        },
+                        params: {
+                          projectId: '13',
+                        },
+                      },
+                      visible: false,
+                    },
+                    key: "click",
+                    reload: false,
+                    show: false,
+                  },
+                },
+              },
+            },
+          ],
+        },
+        state: {
+          pageNo: 1,
+          pageSize: 1,
+          total: 5,
+        }
+      }
+    },
+  },
+};
+
+const useMockLeft = (payload: any) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(mockSidebar);
+    }, 500);
+  });
+};
 
 
-  const useMockRight = (payload: any) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(mockContent);
-      }, 500);
-    });
-  };
+const useMockRight = (payload: any) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(mockContent);
+    }, 500);
+  });
+};

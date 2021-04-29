@@ -16,38 +16,43 @@ import { Tooltip, Button, Ellipsis, Pagination } from 'app/nusi';
 import { Icon as CustomIcon, useUpdate, EmptyHolder } from 'common';
 import { isNumber, filter, map, sortBy, isString } from 'lodash';
 import { OperationAction } from 'config-page/utils';
+import classnames from 'classnames';
+import i18n from 'i18n';
 import imgMap from '../../img-map';
 import ErdaIcon from '../icon/icon';
 import './list.scss';
 
+const emptyArr = [] as any[];
 const List = (props: CP_LIST.Props) => {
   const { customProps, execOperation, operations,
     props: configProps, data, state: propsState } = props;
-
-  const [state, updater, update] = useUpdate(propsState || {});
+  const { list = emptyArr } = data || {};
+  const [state, updater, update] = useUpdate({
+    ...propsState,
+    combineList: list,
+  });
   const { total = 0, pageSize, pageNo = 1 } = state || {};
-  const [combineList, setCombineList] = React.useState([] as any[])
-
-  const { list = [] } = data || {};
-  const { useLoadMore = false, visible = true, size = 'middle', rowKey, pageSizeOptions, ...rest } = configProps || {};
+  const { useLoadMore = false, visible = true, size = 'middle', rowKey, alignCenter = false,
+    noBorder = false, pageSizeOptions, ...rest } = configProps || {};
 
   // 将接口返回的list和之前的list进行拼接
   React.useEffect(() => {
-    if ( useLoadMore && pageNo !== 1) {
-      setCombineList(pre => ([...pre, ...list]))
-    } else {
-      setCombineList(list)
-    }
-  }, [list])
+    update((pre) => {
+      const newState = {
+        ...pre,
+        ...propsState,
+      }
+      return {
+        ...newState,
+          combineList: newState.pageNo === 1 ? list : (newState.combineList || []).concat(list)
+      }
+    })
+  }, [propsState, list])
 
-
-  React.useEffect(() => {
-    update(propsState || {});
-  }, [propsState, update]);
 
   const pagination = React.useMemo(() => {
     return isNumber(pageNo) ? {
-      total: total || list.length,
+      total: total || list?.length,
       current: pageNo || 1,
       pageSize: pageSize || 20,
       onChange: (no: number) => changePage(no),
@@ -69,7 +74,7 @@ const List = (props: CP_LIST.Props) => {
   };
 
   const loadMore = () => {
-    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pageNo + 1 });
+    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pageNo + 1 }, { data: { list: [] } });
   }
 
   const changePageSize = (pSize: number) => {
@@ -83,17 +88,17 @@ const List = (props: CP_LIST.Props) => {
   return (
     <div className='cp-list'>
       {
-        (combineList || []).length ? (
+        (state.combineList || []).length ? (
           <>
-            {(combineList || []).map((item, idx) => {
-              return <Item size={size} customProps={customProps} execOperation={execOperation} key={getKey(item, idx)} data={item} />;
+            {(state.combineList || []).map((item, idx) => {
+              return <Item size={size} customProps={customProps} execOperation={execOperation} key={getKey(item, idx)} data={item} alignCenter={alignCenter} noBorder={noBorder} />;
             })}
             {!useLoadMore && pagination ? (
               <Pagination className='right-flex-box mt12' {...pagination} />
             ) : null
             }
-            {useLoadMore && total > Math.max(combineList.length, 0)
-              && <div className='hover-active load-more' onClick={loadMore}>更多...</div>}
+            {useLoadMore && total > Math.max(state.combineList?.length, 0)
+              && <div className='hover-active load-more' onClick={loadMore}>{i18n.t('more')}...</div>}
           </>
         ) : <EmptyHolder relative />
       }
@@ -105,14 +110,24 @@ const List = (props: CP_LIST.Props) => {
 interface ItemProps {
   size?: 'small' | 'middle' | 'large';
   data: CP_LIST.IListData;
+  alignCenter?: boolean;
+  noBorder?: boolean;
   execOperation: (opObj: { key: string, [p: string]: any }, updateData?: any) => void;
   customProps?: Obj;
 }
 const Item = (props: ItemProps) => {
-  const { execOperation, size = 'middle', data, customProps } = props;
-  const { operations = {}, prefixImg, title, titleSize, titlePrifxIcon, prefixImgSize, prefixImgCircle, titlePrifxIconTip, titleSuffixIcon, titleSuffixIconTip, description = '', extraInfos } = data || {};
+  const { execOperation, size = 'middle', data, alignCenter = false,
+    noBorder = false, customProps } = props;
+  const { operations = {}, prefixImg, title, titlePrifxIcon, prefixImgCircle, titlePrifxIconTip, titleSuffixIcon, titleSuffixIconTip, description = '', extraInfos } = data || {};
   const actions = sortBy(filter(map(operations) || [], item => item.show !== false), 'showIndex');
 
+  const itemClassNames = classnames({
+    'v-align': alignCenter,
+    'no-border': noBorder,
+    [size]: size,
+    'cp-list-item': true,
+    'pointer': true,
+  });
   const onClickItem = () => {
     if (operations?.click) {
       execOperation(operations.click, data);
@@ -123,11 +138,11 @@ const Item = (props: ItemProps) => {
   };
 
   return (
-    <div className={`cp-list-item ${size} pointer`} onClick={onClickItem}>
+    <div className={itemClassNames} onClick={onClickItem}>
       {
         isString(prefixImg) ? (
           <div className='cp-list-item-prefix-img'>
-            <img src={prefixImg.startsWith('/images') ? imgMap[prefixImg] : prefixImg as string} className={`prefix-img-${prefixImgSize} ${prefixImgCircle ? 'prefix-img-circle' : ''}`} />
+            <img src={prefixImg.startsWith('/images') ? imgMap[prefixImg] : prefixImg as string} className={`item-prefix-img ${prefixImgCircle ? 'prefix-img-circle' : ''}`} />
           </div>
         ) : (
             prefixImg ? (
@@ -138,7 +153,7 @@ const Item = (props: ItemProps) => {
           )
       }
       <div className='cp-list-item-body'>
-        <div className='body-title'>
+        <div className={`body-title`}>
           {
             titlePrifxIcon ? (
               <Tooltip title={titlePrifxIconTip}>
@@ -146,7 +161,7 @@ const Item = (props: ItemProps) => {
               </Tooltip>
             ) : null
           }
-          <Ellipsis className={`bold title-text ${titleSize}`} title={title} />
+          <Ellipsis className='bold title-text' title={title} />
           {
             titleSuffixIcon ? (
               <Tooltip title={titleSuffixIconTip}>
@@ -175,7 +190,7 @@ const Item = (props: ItemProps) => {
                   return (
                     <Tooltip key={idx} title={info.tooltip}>
                       <span className={`info-item type-${info.type || 'normal'}`} {...extraProps}>
-                        { info.icon ? <ErdaIcon type="Icon" props={{ iconType: info.icon }} size={16} /> : null }
+                        {info.icon ? <ErdaIcon type="Icon" props={{ iconType: info.icon }} size={16} /> : null}
                         <span className='info-text nowrap'>{info.text}</span>
                       </span>
                     </Tooltip>

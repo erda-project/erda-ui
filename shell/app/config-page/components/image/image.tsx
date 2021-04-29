@@ -14,11 +14,11 @@
 import React from 'react';
 import classnames from 'classnames';
 import './image.scss';
-import DEFAULT_SRC from 'app/images/default-project-icon.png'
+import imgMap from '../../img-map';
 
 const Image = (props: CP_IMAGE.Props) => {
   const { props: configProps } = props;
-  const { src = DEFAULT_SRC, size = 'normal', visible = true, isCircle = false, display = 'inline-block' } = configProps || {};
+  const { src = '', size = 'normal', visible = true, isCircle = false, display = 'inline-block' } = configProps || {};
   const cls = classnames({
     'cp-dice-image': true,
     [size]: true,
@@ -27,10 +27,10 @@ const Image = (props: CP_IMAGE.Props) => {
   });
 
   if (!visible) {
-    return null
+    return null;
   }
 
-  return <img src={src} className={`${cls}`} />
+  return <img src={src.startsWith('/images') ? imgMap[src] : src} className={`${cls}`} />
 }
 
 export default Image;

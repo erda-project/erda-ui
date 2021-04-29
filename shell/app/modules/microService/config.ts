@@ -13,6 +13,7 @@
 
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
+import { Server, MonitorCamera, NotebookAndPen, Api, Config, Log, Components } from '@icon-park/react';
 
 export const envMap = {
   DEV: i18n.t('common:DEV'),
@@ -82,11 +83,11 @@ export const getMSFrontPathByKey = (key: string, params: IMSPathParams) => {
 };
 
 export const MSIconMap = {
-  ServiceGovernance: 'wfwzl',
-  AppMonitor: 'yyjk',
-  RegisterCenter: 'zczx',
-  APIGateway: 'apiwg',
-  ConfigCenter: 'pzzx',
-  ComponentInfo: 'zjxx',
-  LogAnalyze: 'log',
+  ServiceGovernance: Server,
+  AppMonitor: MonitorCamera,
+  RegisterCenter: NotebookAndPen,
+  APIGateway: Api,
+  ConfigCenter: Config,
+  ComponentInfo: Components,
+  LogAnalyze: Log,
 };

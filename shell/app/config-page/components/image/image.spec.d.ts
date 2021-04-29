@@ -23,6 +23,7 @@ declare namespace CP_IMAGE {
     isCircle?: boolean;
     size?: 'small' | 'normal' | 'big' | 'large';
     visible?: boolean;
+    type?: string;
     display?: 'inline-block' | 'block';
   }
 

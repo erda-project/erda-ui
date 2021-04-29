@@ -268,10 +268,12 @@
       "common/all": [
         "../shell/app/common/index"
       ],
-      "core/common/interface": 
-        [
-          "../core/src/common/interface.d.ts"
-        ]
+      "core/common/interface": [
+        "../core/src/common/interface.d.ts"
+      ],
+      "nusi/all": [
+        "../shell/app/external/nusi"
+      ]
     },
     "typeRoots": [],
     "allowSyntheticDefaultImports": true,
@@ -284,15 +286,17 @@
     "./interface/*",
     "./**/types/*",
     "./app/**/*",
-    "./node_modules/openapi-types/**/*",
-    "./node_modules/@types/*",
+    "../node_modules/openapi-types/**/*",
+    "../node_modules/@types/*",
     "market",
     "../core/src/**/types/*",
     "../core/src/common/*",
     "../core/node_modules/@types/*",
     "../core/node_modules/cube-state/dist/*",
     "../shell/app/**/types/*",
-    "../shell/node_modules/@types/*"
+    "../shell/node_modules/@types/*",
+    "../core/app/**/types/*",
+    "./node_modules/@types/*"
   ],
   "exclude": [
     "node_modules",

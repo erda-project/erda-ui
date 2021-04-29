@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Schedular erda-ui modules request in development mode",
   "main": "src/index.js",
+  "private": true,
   "scripts": {
     "start": "nodemon -e js,json,env src/index.js --watch ../.env --watch src"
   },

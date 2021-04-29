@@ -4,6 +4,8 @@
   <img src="./docs/files/logo.jpg" alt="logo" width="350">
 </div>
 
+[![codecov](https://codecov.io/gh/erda-project/erda-ui/branch/develop/graph/badge.svg)](https://codecov.io/gh/erda-project/erda-ui)
+
 ## 📣 Introduction
 Erda is an open-source platform created by Terminus to ensuring the development of microservice applications.
 This repository is about Erda's User Interface.

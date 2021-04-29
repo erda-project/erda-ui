@@ -16,9 +16,10 @@ import { getSubSiderInfoMap, appCenterAppList } from 'app/menus';
 import layoutStore from 'layout/stores/layout';
 import { orgPerm } from 'user/stores/_perm-org';
 import { createStore } from 'app/cube';
+import userStore from 'app/user/stores';
 import { getOrgByDomain } from '../services/org';
 import { getGlobal } from 'app/global-space';
-import { getResourcePermissions } from 'user/services/user';
+import { getResourcePermissions, getJoinedOrgs } from 'user/services/user';
 import permStore from 'user/stores/permission';
 import agent from 'agent';
 import { get, intersection, map, isEmpty } from 'lodash';
@@ -38,16 +39,16 @@ const org = createStore({
   state: initState,
   subscriptions: async ({ listenRoute }: IStoreSubs) => {
     listenRoute(({ params, isIn, isLeaving }) => {
-      if(isIn('orgIndex')){
+      if (isIn('orgIndex')) {
         const isSysAdmin = getGlobal('erdaInfo.isSysAdmin');
         const { orgName } = params;
         const curPathOrg = org.getState(s => s.curPathOrg);
-        if(!isSysAdmin && curPathOrg !== orgName) {
+        if (!isSysAdmin && curPathOrg !== orgName) {
           org.effects.getOrgByDomain({ orgName });
         }
       }
 
-      if(isLeaving('orgIndex')){
+      if (isLeaving('orgIndex')) {
         org.reducers.clearOrg();
       }
     });
@@ -59,21 +60,29 @@ const org = createStore({
         domain = domain.split('.').slice(1).join('.');
       }
       const { orgName } = payload;
+      if (!orgName) return;
       const resOrg = await call(getOrgByDomain, { domain, orgName });
-      if(!resOrg){
-        
-        update({ curPathOrg: orgName })
+      if (isEmpty(resOrg)) {
+        if (orgName === '-') {
+          const orgs = await call(getJoinedOrgs); // get Default org
+          if (orgs?.list?.length) {
+            location.href = `/${get(orgs, 'list[0].name')}`
+            return;
+          }
+          update({ curPathOrg: orgName })
+          return
+        }
         goTo(goTo.pages.notFound);
       } else {
         const currentOrg = resOrg || {};
         const orgId = currentOrg.id;
-        if(orgId){
+        if (orgId) {
 
-          const setHeader = (req: any)=>{
-            req.set('orgID', orgId);
+          const setHeader = (req: any) => {
+            req.set('org', currentOrg.name);
           }
           agent.use(setHeader);
-          
+
           const orgPermQuery = { scope: 'org', scopeID: `${orgId}` };
           (getResourcePermissions(orgPermQuery) as unknown as Promise<IPermResponseData>).then((orgPermRes) => {
             const orgAccess = get(orgPermRes, 'data.access');
@@ -90,7 +99,7 @@ const org = createStore({
               hasAuth: orgAccess,
               ...payload,
             });
-    
+
             if (orgAccess) { // 有企业权限，正常用户
               const appMap = {} as {
                 [k: string]: LAYOUT.IApp
@@ -99,12 +108,12 @@ const org = createStore({
               const menusMap = getSubSiderInfoMap();
               appCenterAppList.forEach((a) => { appMap[a.key] = a; });
               layoutStore.reducers.initLayout({
-                appList:appCenterAppList, 
+                appList: appCenterAppList,
                 currentApp: appMap.workBench,
                 menusMap,
                 key: 'workBench',
               });
-    
+
             }
           });
           update({ currentOrg, curPathOrg: payload.orgName })
@@ -113,10 +122,10 @@ const org = createStore({
     },
   },
   reducers: {
-    clearOrg(state){
+    clearOrg(state) {
       state.currentOrg = {} as ORG.IOrg;
-      const setHeader = (req: any)=>{
-        req.set('orgID', '');
+      const setHeader = (req: any) => {
+        req.set('org', '');
       }
       agent.use(setHeader);
     }
@@ -192,7 +201,7 @@ const setLocationByAuth = (authObj: Obj) => {
     if (curPathname.startsWith(`/${orgName}/inviteToOrg`)) return;
     const isAdminPage = curPathname.startsWith(`/${orgName}/sysAdmin`);
     const isSysAdmin = getGlobal('erdaInfo.isSysAdmin');
-    if(!(isSysAdmin && isAdminPage)){
+    if (!(isSysAdmin && isAdminPage)) {
       window.location.href = '/-';
     }
   }

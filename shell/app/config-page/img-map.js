@@ -13,9 +13,14 @@
 
 import defaultProjectIcon from 'app/images/default-project-icon.png'
 import defaultOrgIcon from 'app/images/default-org-icon.svg'
-
+import defaultErdaIcon from 'app/images/favicon.ico'
+import defaultOrgImg from 'app/images/resources/org.png'
+import defaultAppIcon from 'app/images/default-app-icon.png'
 
 export default {
   '/images/default-project-icon.png': defaultProjectIcon,
   '/images/default-org-icon.svg': defaultOrgIcon,
+  '/images/favicon.ico': defaultErdaIcon,
+  '/images/resources/org.png': defaultOrgImg,
+  '/images/default-app-icon.svg': defaultAppIcon,
 }

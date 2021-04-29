@@ -50,7 +50,7 @@ const reloadHeadInfo = () => {
 export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
   const { updateProject, deleteProject, getLeftResources } = projectStore.effects;
   const loginUser = userStore.useStore(s => s.loginUser);
-  const orgName = routeInfoStore.useState(s => s.params.orgName);
+  const orgName = routeInfoStore.useStore(s => s.params.orgName);
   const info = projectStore.useStore(s => s.info);
   const [confirmProjectName, setConfirmProjectName] = React.useState('');
   const updatePrj = (values: Obj) => {

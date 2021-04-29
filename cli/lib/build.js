@@ -18,11 +18,11 @@ const { logInfo, logSuccess, logWarn, logError } = require('./util/log');
 const {
   rootDir,
   publicDir,
+  yarnCmd,
   npmCmd,
   moduleList
 } = require('./util/env');
 const { execSync, spawnSync } = child_process;
-
 
 const GET_BRANCH_CMD = "git branch | awk '/\\*/ { print $2; }'";
 const UPDATE_SUB_MODULES = "git pull --recurse-submodules";
@@ -74,7 +74,7 @@ const checkReInstall = async () => {
     },
   ]);
   if (answer.reInstall) {
-    logInfo('start npm install');
+    logInfo('start yarn');
     await installDependencies();
   } else {
     logWarn('Skip update Dependencies, please make sure it\'s up to date!');
@@ -83,9 +83,9 @@ const checkReInstall = async () => {
 
 
 const installDependencies = () => {
-  return moduleList.forEach(({moduleDir: dir}) => {
-    logInfo(`Performing "npm i" inside ${dir} folder`);
-    return spawnSync(npmCmd, ['i'], { env: process.env, cwd: dir, stdio: 'inherit' });
+  return moduleList.forEach((moduleItem) => {
+    logInfo(`Performing "yarn" inside ${moduleItem.moduleName} folder`);
+    return spawnSync(yarnCmd, [], { env: process.env, cwd: moduleItem.moduleDir, stdio: 'inherit' });
   });
 }
 
@@ -115,7 +115,7 @@ const checkModuleValid = ()=> {
 const buildAll =  async (enableSourceMap) => {
   let start = 0;
   const len = moduleList.length;
-
+  
   while (start < len) {
     const { moduleName, moduleDir } = moduleList[start];
     logInfo(`Building ${moduleName}`);
