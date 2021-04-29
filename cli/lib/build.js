@@ -24,8 +24,6 @@ const {
 } = require('./util/env');
 const { execSync, spawnSync } = child_process;
 
-const inErdaProjectModules = ['shell', 'core']
-
 const GET_BRANCH_CMD = "git branch | awk '/\\*/ { print $2; }'";
 const UPDATE_SUB_MODULES = "git pull --recurse-submodules";
 
@@ -85,9 +83,9 @@ const checkReInstall = async () => {
 
 
 const installDependencies = () => {
-  return moduleList.forEach((module) => {
-    logInfo(`Performing "yarn" inside ${module.moduleName} folder`);
-    return spawnSync(yarnCmd, [], { env: process.env, cwd: module.moduleDir, stdio: 'inherit' });
+  return moduleList.forEach((moduleItem) => {
+    logInfo(`Performing "yarn" inside ${moduleItem.moduleName} folder`);
+    return spawnSync(yarnCmd, [], { env: process.env, cwd: moduleItem.moduleDir, stdio: 'inherit' });
   });
 }
 
