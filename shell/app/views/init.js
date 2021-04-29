@@ -61,13 +61,13 @@ module.exports = `
     xhr.setRequestHeader('Accept', 'application/vnd.dice+json;version=1.0');
     xhr.send();
   }
-  ajax('/api/users/me', (result, status) => {
+  ajax('/api/-/users/me', (result, status) => {
     if(status >= 500) {
       document.querySelector('.main-holder').innerText = "服务暂时不可用";
       return;
     }
     if (status === 401) {
-      ajax('/api/openapi/login', (data) => {
+      ajax('/api/-/openapi/login', (data) => {
         if (data && data.url) {
           window.localStorage.setItem('lastPath', window.location.href);
           window.location.href = data.url;
