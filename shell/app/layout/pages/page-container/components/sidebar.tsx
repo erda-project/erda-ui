@@ -69,7 +69,7 @@ const AppCenterEl = () => {
       };
     });
   const onVisibleChange = (vis: boolean) => {
-    if(currentOrg.id){
+    if (currentOrg.id) {
       setVisible(vis);
     }
   };
@@ -79,7 +79,7 @@ const AppCenterEl = () => {
       className='app-list'
       titleProp='name'
       node={(
-        <Tooltip title={ currentOrg?.id ? '' : i18n.t('layout:there is no organization information, please select an organization first')} placement='right'>
+        <Tooltip title={currentOrg?.id ? '' : i18n.t('layout:there is no organization information, please select an organization first')} placement='right'>
           <CustomIcon type='appstore' className='fz20' />
         </Tooltip>
       )}
@@ -184,7 +184,7 @@ const SideBar = () => {
           className="mr0 pointer"
           src={Logo}
           onClick={() => {
-            const isIncludeOrg = map(orgs, x => x.name).find(x => x === curOrgName);
+            const isIncludeOrg = orgs.some((x: Obj) => x.name === curOrgName)
             if (isIncludeOrg) {
               goTo(goTo.pages.orgRoot);
             } else {
