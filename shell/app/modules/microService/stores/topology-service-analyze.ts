@@ -34,7 +34,7 @@ const topologyServiceStore = createFlatStore({
       const { dashboardId } = await call(getProcessDashboardId, payload);
       return dashboardId;
     },
-    async getTraceSlowTranslation({ call }, payload: Merge<TOPOLOGY_SERVICE_ANALYZE.CommonQuery, { operation: string }>) {
+    async getTraceSlowTranslation({ call }, payload: Merge<TOPOLOGY_SERVICE_ANALYZE.CommonQuery, { operation: string; start: number; end: number; sort: 'DESC' | 'ASC' }>) {
       const traceSlowTranslation = await call(getTraceSlowTranslation, payload);
       return traceSlowTranslation;
     },

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Table, Icon, Skeleton, Spin, Button, Popover, Input, Select, Modal, message, Tooltip, Form, Alert } from 'app/nusi';
-import { goTo, cutStr, fromNow, replaceEmoji } from 'common/utils';
+import { goTo, cutStr, fromNow, replaceEmoji, setApiWithOrg } from 'common/utils';
 import { groupBy, sortBy, get } from 'lodash';
 import * as React from 'react';
 import { useUnmount, useUpdateEffect } from 'react-use';
@@ -50,7 +50,7 @@ const RepoDownload = (props: IDownProp) => {
   const gitRepo = `${protocol}//${host}/wb/${projectName}/${name}`;
   const { branch, tag } = getInfoFromRefName(info.refName);
   const currentBranch = branch || tag || info.defaultBranch;
-  const download = (format: string) => window.open(`/api/repo/${gitRepoAbbrev}/archive/${currentBranch}.${format}`);
+  const download = (format: string) => window.open(setApiWithOrg(`/api/repo/${gitRepoAbbrev}/archive/${currentBranch}.${format}`));
   const renderAddonAfter = (text: string, tip: string) => {
     return (
       <span

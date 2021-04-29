@@ -1,0 +1,11 @@
+{
+  "packages": [
+    "cli",
+    "core",
+    "scheduler",
+    "shell"
+  ],
+  "version": "independent",
+  "npmClient": "yarn",
+  "useWorkspaces": true
+}

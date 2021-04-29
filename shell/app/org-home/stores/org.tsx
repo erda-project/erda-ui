@@ -80,10 +80,10 @@ const org = createStore({
         const orgId = currentOrg.id;
         if (orgId) {
 
-          const setHeader = (req: any) => {
-            req.set('org', currentOrg.name);
-          }
-          agent.use(setHeader);
+          // const setHeader = (req: any) => {
+          //   req.set('org', currentOrg.name);
+          // }
+          // agent.use(setHeader);
 
           const orgPermQuery = { scope: 'org', scopeID: `${orgId}` };
           (getResourcePermissions(orgPermQuery) as unknown as Promise<IPermResponseData>).then((orgPermRes) => {
@@ -130,10 +130,10 @@ const org = createStore({
   reducers: {
     clearOrg(state) {
       state.currentOrg = {} as ORG.IOrg;
-      const setHeader = (req: any) => {
-        req.set('org', '');
-      }
-      agent.use(setHeader);
+      // const setHeader = (req: any) => {
+      //   req.set('org', '');
+      // }
+      // agent.use(setHeader);
     }
   },
 });
