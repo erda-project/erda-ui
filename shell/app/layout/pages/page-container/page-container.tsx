@@ -25,7 +25,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DiceLicense } from './dice-license';
 import { useEffectOnce } from 'react-use';
 import userStore from 'app/user/stores';
-import agent from 'superagent';
+import agent from 'agent';
 import { MessageCenter } from '../message/message';
 import layoutStore from 'app/layout/stores/layout';
 import { checkVersion } from 'app/layout/common/check-version';

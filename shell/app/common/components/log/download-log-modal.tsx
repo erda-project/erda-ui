@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { DatePicker, InputNumber, message } from 'app/nusi';
 import { FormModal } from 'common';
-import { qs } from 'common/utils';
+import { qs, setApiWithOrg } from 'common/utils';
 import moment, { Moment } from 'moment';
 import { WrappedFormUtils } from 'core/common/interface';
 import i18n from 'i18n';
@@ -43,7 +43,7 @@ const DownloadLogFormModal = ({ start, visible, query, onCancel }: IProps) => {
     requestQuery.end = Math.min(duration, now) * 1000000;
     const customRequestQuery = { ...requestQuery, count: 200, source: 'job', id: `pipeline-task-${taskID}` };
     const logFile = downloadAPI ? `${downloadAPI}?${qs.stringify(customRequestQuery)}` : `${fetchApi || '/api/runtime/logs'}/actions/download?${qs.stringify(requestQuery)}`;
-    window.open(logFile);
+    window.open(setApiWithOrg(logFile));
     onCancel();
   };
 

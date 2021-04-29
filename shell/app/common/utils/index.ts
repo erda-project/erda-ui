@@ -13,6 +13,7 @@
 
 import { notification } from 'app/nusi';
 import i18n from 'i18n';
+import { get } from 'lodash';
 import { PAGINATION } from 'app/constants';
 import moment from 'moment';
 
@@ -366,3 +367,12 @@ export const isValidJsonStr = (_jsonStr = '') => {
   }
 };
 
+export const getOrgFromPath = () => {
+  return get(location.pathname.split('/'),'[1]') || '-';
+}
+
+export const setApiWithOrg = (api: string) => {
+  return api.startsWith('/api/') 
+    ? api.replace('/api/',`/api/${getOrgFromPath()}/`)
+    : api;
+}
