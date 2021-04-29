@@ -25,13 +25,15 @@ import agent from 'agent';
 import { get, intersection, map, isEmpty } from 'lodash';
 
 interface IState {
-  currentOrg: ORG.IOrg
+  currentOrg: ORG.IOrg;
   curPathOrg: string;
+  orgs: ORG.IOrg[],
 }
 
 const initState: IState = {
   currentOrg: {} as ORG.IOrg,
   curPathOrg: '',
+  orgs: [],
 };
 
 const org = createStore({
@@ -119,6 +121,10 @@ const org = createStore({
           update({ currentOrg, curPathOrg: payload.orgName })
         }
       }
+    },
+    async getJoinedOrgs({ call, update }) {
+      const { list } = await call(getJoinedOrgs);
+      update({ orgs: list });
     },
   },
   reducers: {

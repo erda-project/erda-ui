@@ -18,3 +18,10 @@ export const getOrgByDomain = (payload: ORG.IOrgReq): ORG.IOrg => {
     .query(payload)
     .then((response: any) => response.body);
 };
+
+export const getJoinedOrgs = (): IPagingResp<ORG.IOrg> => {
+  return agent
+    .get('/api/orgs')
+    .query({ pageNo: 1, pageSize: 30 })
+    .then((response: any) => response.body);
+};
