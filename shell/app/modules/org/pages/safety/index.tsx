@@ -20,7 +20,7 @@ import { DatePicker, Table, Button, Tooltip } from 'app/nusi';
 import auditStore from 'org/stores/audit';
 import auditTpl from 'org/common/audit-render';
 import * as React from 'react';
-import { getTimeRanges, qs } from 'common/utils';
+import { getTimeRanges, qs, setApiWithOrg } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 
 const AuditList = ({ sys }: { sys: boolean }) => {
@@ -104,7 +104,7 @@ const AuditList = ({ sys }: { sys: boolean }) => {
 
   const onExport = () => {
     const extra = sys ? { sys: true } : { orgId };
-    window.open(`/api/audits/actions/export-excel?${qs.stringify({ ...queryCondition, ...extra }, { arrayFormat: 'repeat' })}`);
+    window.open(setApiWithOrg(`/api/audits/actions/export-excel?${qs.stringify({ ...queryCondition, ...extra }, { arrayFormat: 'repeat' })}`));
   };
 
   return (

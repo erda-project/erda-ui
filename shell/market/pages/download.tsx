@@ -17,6 +17,7 @@ import { withRouter } from 'react-router-dom';
 import { isEmpty, get } from 'lodash';
 import QRCode from 'qrcode.react';
 import agent from 'superagent';
+import { setApiWithOrg } from 'common/utils';
 import moment from 'moment';
 import './download.scss';
 
@@ -54,7 +55,7 @@ const DownloadPage = ({ match }: any) => {
   const client = judgeClient().toLowerCase();
   React.useEffect(() => {
     setIsLoading(true);
-    agent.get(`/api/publish-items/${match.params.publishItemId}/distribution`)
+    agent.get(setApiWithOrg(`/api/publish-items/${match.params.publishItemId}/distribution`))
       .query({ mobileType: client })
       .then((response: any) => {
         const { success, data, err } = response.body;

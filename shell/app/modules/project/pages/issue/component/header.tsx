@@ -21,7 +21,7 @@ import { map, debounce, find, get } from 'lodash';
 import { useEffectOnce } from 'react-use';
 import userStore from 'user/stores';
 import orgStore from 'app/org-home/stores/org';
-import { qs } from 'app/common/utils';
+import { qs, setApiWithOrg } from 'app/common/utils';
 import moment from 'moment';
 import useFilterList from '../../iteration/filter-field';
 import routeInfoStore from 'app/common/stores/route';
@@ -135,10 +135,10 @@ const IssueHeader = (props: IProps) => {
   const requirementAuth = usePerm(s => s.project.requirement);
 
   const getDownloadUrl = () => {
-    return `/api/issues/actions/export-excel?${qs.stringify({ ...filterObj, pageNo: 1, projectID: params.projectId, type: issueType, IsDownload: false, orgID }, { arrayFormat: 'none' })}`;
+    return setApiWithOrg(`/api/issues/actions/export-excel?${qs.stringify({ ...filterObj, pageNo: 1, projectID: params.projectId, type: issueType, IsDownload: false, orgID }, { arrayFormat: 'none' })}`);
   };
 
-  const downloadTemplate = `/api/issues/actions/export-excel?${qs.stringify({ ...filterObj, pageNo: 1, projectID: params.projectId, type: issueType, IsDownload: true, orgID }, { arrayFormat: 'none' })}`;
+  const downloadTemplate = setApiWithOrg(`/api/issues/actions/export-excel?${qs.stringify({ ...filterObj, pageNo: 1, projectID: params.projectId, type: issueType, IsDownload: true, orgID }, { arrayFormat: 'none' })}`);
 
 
   return (
