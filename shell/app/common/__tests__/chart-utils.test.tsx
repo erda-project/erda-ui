@@ -41,12 +41,12 @@ const data = {
 };
 
 describe('chart-utils', () => {
-  it('should groupHandler working fine', () => {
+  it('groupHandler working fine', () => {
     expect(groupHandler('project')(data)).toStrictEqual({ results: [{ data: 12, name: 'project' }], time: '2021-04-14' });
     expect(groupHandler()(data)).toStrictEqual({ results: [{ data: 12, name: 'org' }], time: '2021-04-14' });
     expect(groupHandler()()).toStrictEqual({});
   });
-  it('should sortHandler', () => {
+  it('sortHandler work fine', () => {
     expect(sortHandler('project')(data, {})).toStrictEqual({ list: [{ name: 'project', unit: '', value: 12 }] });
     expect(sortHandler()([], { extendHandler: { dataKey: 'app' } })).toStrictEqual({ list: [] });
     expect(sortHandler()(data, { extendHandler: { dataKey: 'app' } })).toStrictEqual({
