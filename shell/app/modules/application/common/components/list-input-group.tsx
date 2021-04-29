@@ -13,7 +13,7 @@
 
 import React, { PureComponent } from 'react';
 import { Input, Icon, InputNumber } from 'app/nusi';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, map } from 'lodash';
 import './variable-input-group.scss';
 
 interface IVariableInputGroupProps {
@@ -30,8 +30,20 @@ interface IVariableInputGroupProps {
 export default class extends PureComponent<IVariableInputGroupProps, any> {
   constructor(props:IVariableInputGroupProps) {
     super(props);
+    const ids:number[] = [];
+    const _values = map((props.value || []), (item)=> {
+      let id = Math.random();
+      while(ids.includes(id)) {
+        id = Math.random();
+      }
+      return {
+        value: item,
+        id
+      };
+    })
     this.state = {
-      value: props.value || [],
+      value: _values,
+      ids
     };
   }
 
@@ -49,7 +61,8 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
     const { placeholder, label, required, isProperty, disabled, type } = this.props;
     const { value } = this.state;
 
-    const inputs = value.map((input: any, index: number) => {
+    const inputs = value.map((item: any, index: number) => {
+      const { value: input, id } = item;
       let inputField = (
         <Input
           disabled={disabled}
@@ -71,7 +84,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
         );
       }
       return (
-        <div key={String(index)} className="list-full-input-group">
+        <div key={id} className="list-full-input-group">
           {inputField}
           { disabled ? null : <Icon type="delete" className="variable-icon ml12" onClick={() => this.onDelete(index)} />}
         </div>
@@ -93,7 +106,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
     const { value } = this.state;
     const reValue = cloneDeep(value);
     // @ts-ignore
-    reValue[index] = v;
+    reValue[index].value = v;
     const state = {
       value: reValue,
     };
@@ -102,27 +115,37 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
   };
 
   private addPort = () => {
-    const { value } = this.state;
+    const { value, ids } = this.state;
     let reValue = cloneDeep(value);
     if (!reValue) {
       reValue = [];
     }
 
+    let id = Math.random();
+    while (ids.includes(id)) {
+      id = Math.random();
+    }
+
     // @ts-ignore
-    reValue.push('');
+    reValue.push({ value: '', id });
 
     this.setState({
       value: reValue,
+      ids: [...ids, id]
     });
   };
 
   private onDelete = (index: number) => {
-    const { value } = this.state;
+    const { value, ids } = this.state;
     const reValue = cloneDeep(value);
+    const reIds = cloneDeep(ids);
     reValue.splice(index, 1);
-    const state = {
-      value: reValue,
-    };
-    this.triggerChange(state.value);
+    reIds.splice(index, 1);
+
+    this.setState({
+      ids: reIds
+    });
+    
+    this.triggerChange(reValue);
   };
 }
