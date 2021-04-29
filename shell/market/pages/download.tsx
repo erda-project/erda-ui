@@ -16,7 +16,7 @@ import { Spin, message, Button } from 'app/nusi';
 import { withRouter } from 'react-router-dom';
 import { isEmpty, get } from 'lodash';
 import QRCode from 'qrcode.react';
-import agent from 'superagent';
+import agent from 'agent';
 import moment from 'moment';
 import './download.scss';
 

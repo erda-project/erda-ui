@@ -44,13 +44,15 @@ forEach(modules, m=> {
 const isWindows = process.platform === 'win32'
 const isMacintosh = process.platform === 'darwin'
 const isLinux = process.platform === 'linux'
-// npm binary based on OS
+// yarn binary based on OS
+const yarnCmd = isWindows ? 'yarn.cmd' : 'yarn';
 const npmCmd = isWindows ? 'npm.cmd' : 'npm';
 
 module.exports = {
   isWindows,
   isMacintosh,
   isLinux,
+  yarnCmd,
   npmCmd,
   cliDir,
   rootDir,

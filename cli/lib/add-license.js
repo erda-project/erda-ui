@@ -90,8 +90,8 @@ Directory: ${chalk.greenBright(targetPath)}
 
   walker({
     root: targetPath,
-    dealFile(content, filePath, isEnd) {
-      if (!suffixMap[path.extname(filePath)] || isEnd) {
+    dealFile(content, filePath) {
+      if (!suffixMap[path.extname(filePath)]) {
         return;
       }
       if (!content.includes('// Copyright (c) 2021 Terminus, Inc.')) {

@@ -15,7 +15,7 @@ import * as React from 'react';
 import { get } from 'lodash';
 import { Table, Button, Popconfirm, Select, Tooltip } from 'app/nusi';
 import { WithAuth, usePerm } from 'user/common';
-import { fromNow } from 'common/utils';
+import { fromNow, setApiWithOrg } from 'common/utils';
 import { Copy, FormModal } from 'common';
 import { useMount } from 'react-use';
 import i18n from 'i18n';
@@ -28,7 +28,7 @@ export default function BackupManagement() {
   const [backupList, backupPaging, info] = repoStore.useStore(s => [s.backupList, s.backupPaging, s.info]);
   const { addBackup, getBackupList, deleteBackup, getLatestCommit } = repoStore.effects;
   const [newBackupAuth, deleteBackupAuth] = usePerm(s => [s.app.repo.backup.backupRepo.pass, s.app.repo.backup.deleteBackup.pass]);
-  const download = (uuid: string) => window.open(`/api/backup/${uuid}`);
+  const download = (uuid: string) => window.open(setApiWithOrg(`/api/backup/${uuid}`));
   const { branches = [] } = info;
   const columns: any[] = [
     {

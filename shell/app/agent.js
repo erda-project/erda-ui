@@ -12,14 +12,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'core/agent';
-import { getCookies } from 'common/utils';
+import { getCookies, setApiWithOrg } from 'common/utils';
 import { getGlobal } from 'app/global-space';
 import errorHandler from './error-handler';
 
 /**
  * set accept header
  */
+
 function setHeader(req) {
+
   const header = getGlobal('service-provider');
   if (header) {
     req.set('service-provider', header);
@@ -32,6 +34,11 @@ function handleSpotPrefix(req) {
   const { url } = req;
   if (url.startsWith('/api/spot/')) {
     req.url = url.replace('/api/spot/', '/api/');
+  }
+  // mf_share导出的模块内部会引用这里的agent，导致use方法被执行两次，添加markedOrg避免多次重复添加
+  if(!req.markedOrg){
+    req.url = setApiWithOrg(req.url);
+    req.markedOrg = true;
   }
   return req;
 }

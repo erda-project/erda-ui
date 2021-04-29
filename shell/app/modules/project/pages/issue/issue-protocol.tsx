@@ -17,7 +17,7 @@ import DiceConfigPage from 'app/config-page';
 import { getUrlQuery } from 'config-page/utils';
 import { useUpdate, useSwitch } from 'common';
 import { get, set, cloneDeep } from 'lodash';
-import { qs, mergeSearch, updateSearch } from 'common/utils';
+import { qs, mergeSearch, updateSearch, setApiWithOrg } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
 import routeInfoStore from 'common/stores/route';
@@ -71,7 +71,7 @@ export default ({ issueType }: IProps) => {
 
   const getDownloadUrl = (IsDownload = false) => {
     const useableFilterObj = filterObjRef?.current?.issuePagingRequest || {};
-    return `/api/issues/actions/export-excel?${qs.stringify({ ...useableFilterObj, pageNo: 1, projectID: projectId, type: getRealIssueType(issueType), IsDownload, orgID }, { arrayFormat: 'none' })}`;
+    return setApiWithOrg(`/api/issues/actions/export-excel?${qs.stringify({ ...useableFilterObj, pageNo: 1, projectID: projectId, type: getRealIssueType(issueType), IsDownload, orgID }, { arrayFormat: 'none' })}`);
   };
 
   const reloadData = () => {

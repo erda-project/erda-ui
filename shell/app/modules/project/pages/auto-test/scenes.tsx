@@ -18,7 +18,7 @@ import { useUpdate } from 'common';
 import i18n from 'i18n';
 import { Drawer } from 'app/nusi';
 import { getUrlQuery } from 'config-page/utils';
-import { updateSearch } from 'common/utils';
+import { updateSearch, setApiWithOrg } from 'common/utils';
 import { get, set, find, map, indexOf, isEmpty, sortBy } from 'lodash';
 import { BuildLog } from 'application/pages/build-detail/build-log';
 import InfoPreview from 'config-page/components/info-preview/info-preview';
@@ -153,7 +153,7 @@ export const getPreviewData = (d: any) => {
     if (item.type === 'DiceFile') {
       fileDownload.push(
         <div key={`${fileDownload.length}`}>
-          <a download={item.value} href={`/api/files/${item.value}`}>
+          <a download={item.value} href={setApiWithOrg(`/api/files/${item.value}`)}>
             {item.name || item.value}
           </a>
         </div>

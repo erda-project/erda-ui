@@ -17,6 +17,7 @@ import { map, isEmpty, get, find } from 'lodash';
 import { useUpdate, EmptyHolder } from 'common';
 import { BuildLog } from 'application/pages/build-detail/build-log';
 import i18n from 'i18n';
+import { setApiWithOrg } from 'common/utils';
 import { ResultView } from './result-view';
 import './snippet-detail.scss';
 
@@ -83,7 +84,7 @@ const SnippetDetail = (props: IProps) => {
         detailInfo.push(files.map((item, idx) => (
           item.value ? (
             <div className='table-operations' key={`file-${String(idx)}`}>
-              <a className="table-operations-btn" download={item.value} href={`/api/files/${item.value}`}>
+              <a className="table-operations-btn" download={item.value} href={setApiWithOrg(`/api/files/${item.value}`)}>
                 {item.name || item.value}
               </a>
             </div>
