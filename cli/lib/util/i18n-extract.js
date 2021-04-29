@@ -38,7 +38,7 @@ const options = () => ({
   },
   lngs: ['en', 'zh'],
   defaultLng: 'en',
-  defaultNs: ns[0] || 'default',
+  defaultNs: ns.includes('default') ? 'default' : ns[0] || 'default',
   defaultValue: '__NOT_TRANSLATED__',
   resource: {
     // loadPath: 'i18n/{{lng}}.json', // 合并模式下不要设置，否则文件内容会嵌套
@@ -147,7 +147,7 @@ function customFlush(done) {
 
 module.exports = {
   writeLocale: (resolve, _ns, srcDir, _localePath) => {
-    const paths = [`${srcDir}/**/*.{js,jsx,ts,tsx}`, '!node_modules{,/**}'];
+    const paths = [`${srcDir}/**/*.{js,jsx,ts,tsx}`, '!node_modules/**/*', '!**/node_modules/**', '!**/node_modules'];
     localePath = _localePath;
     zhWordMap = require(path.resolve(process.cwd(), './temp-zh-words.json'));
     const zhJsonPath = `${localePath}/zh.json`;
