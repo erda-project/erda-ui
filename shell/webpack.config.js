@@ -32,6 +32,8 @@ const mainVersion = packageJson.version.slice(0, -2);
 
 const resolve = pathname => path.resolve(__dirname, pathname);
 
+const {getPath} = require('../utils/resolve')
+
 module.exports = () => {
   const nodeEnv = process.env.NODE_ENV || 'development';
   const isSplitMode = process.env.SPLIT_MODULE;
@@ -99,7 +101,7 @@ module.exports = () => {
         'status-insight': resolve('./app/modules/microService/monitor/status-insight'),
         'error-insight': resolve('./app/modules/microService/monitor/error-insight'),
         'monitor-alarm': resolve('./app/modules/microService/monitor/monitor-alarm'),
-        '@terminus/dashboard-configurator': path.join(__dirname, 'node_modules/@terminus/dashboard-configurator'),
+        '@terminus/dashboard-configurator': getPath('@terminus/dashboard-configurator'),
       },
       extensions: ['.js', '.jsx', '.tsx', '.ts', '.d.ts'],
       modules: ['node_modules'],
@@ -119,7 +121,7 @@ module.exports = () => {
           include: [
             resolve('app'),
             resolve('market'),
-            resolve('node_modules/@terminus/dashboard-configurator'),
+            getPath('@terminus/dashboard-configurator')
             // resolve('node_modules/@terminus/nusi'),
           ],
           use: [
@@ -187,10 +189,11 @@ module.exports = () => {
           include: [
             resolve('app'),
             resolve('market'),
-            resolve('node_modules/@terminus/dashboard-configurator'),
+            getPath('@terminus/dashboard-configurator')
           ],
           use: [
             'thread-loader',
+            'babel-loader',
             {
               loader: 'ts-loader',
               options: {

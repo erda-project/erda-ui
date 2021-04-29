@@ -133,7 +133,7 @@ const resetRouter = (routers: Obj<SHELL.Route[]>) => {
           routerMarkObj[mark] = rItem;
         }
         if(toMark){
-          toMarkObj[toMark] = { router: rItem, key: `${_path}.[${idx}]` };
+          toMarkObj[toMark] = (toMarkObj[toMark] || []).concat({ router: rItem, key: `${_path}.[${idx}]` });
         }
   
         if(_rs){
@@ -146,13 +146,15 @@ const resetRouter = (routers: Obj<SHELL.Route[]>) => {
       getRouterMarks(rItem, key);
     })
   
-    map(toMarkObj, (_toObj, k)=>{
-      const { key, router: _toRouter } = _toObj;
-      if(_toRouter && routerMarkObj[k]){
-        _toRouter.toMark = undefined;
-        routerMarkObj[k].routes = (routerMarkObj[k].routes || []).concat(_toRouter);
-        set(draft, key, undefined);
-      }
+    map(toMarkObj, (_toObjArr, k)=>{
+      map(_toObjArr,_toObj=>{
+        const { key, router: _toRouter } = _toObj;
+        if(_toRouter && routerMarkObj[k]){
+          _toRouter.toMark = undefined;
+          routerMarkObj[k].routes = (routerMarkObj[k].routes || []).concat(_toRouter);
+          set(draft, key, undefined);
+        }
+      })
     })
   })
 }

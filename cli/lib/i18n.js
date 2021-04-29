@@ -113,7 +113,7 @@ const extractI18nFromFile = (content, filePath, isEnd, resolve) => {
   }
 };
 
-const generateLabelAndRestoreFile = (content, filePath, isEnd, resolve) => {
+const restoreSourceFile = (content, filePath, isEnd, resolve) => {
   if (!['.tsx', '.ts', '.js', '.jsx'].includes(path.extname(filePath)) && !isEnd) {
     return;
   }
@@ -236,6 +236,8 @@ module.exports = async ({ workDir: _workDir }) => {
         message: '请仔细检查temp-translated-words.json的已存在翻译是否合适，如果不满意请将内容移入temp-zh-words.json中，没问题或人工修改后按回车继续',
       });
     }
+    const tempWords = JSON.parse(fs.readFileSync(tempFilePath, { encoding: 'utf-8' }));
+    notTranslatedWords = Object.keys(tempWords);
     // 第二步，调用Google Translate自动翻译
     if (notTranslatedWords.length > 0) {
       const spinner = ora('谷歌自动翻译ing...').start();
@@ -286,7 +288,7 @@ module.exports = async ({ workDir: _workDir }) => {
       walker({
         root: workDir,
         dealFile: (...args) => {
-          generateLabelAndRestoreFile.apply(null, [...args, resolve]);
+          restoreSourceFile.apply(null, [...args, resolve]);
         },
       });
     });
@@ -301,7 +303,7 @@ module.exports = async ({ workDir: _workDir }) => {
         if (fs.existsSync(path.resolve(`${workDir}/src`))) {
           writeLocale(resolve, ns, path.resolve(`${workDir}/src`), localePath);
         } else {
-          writeLocale(resolve, workDir, localePath);
+          writeLocale(resolve, ns, workDir, localePath);
         }
       });
       const loading = ora('写入local文件ing...').start();

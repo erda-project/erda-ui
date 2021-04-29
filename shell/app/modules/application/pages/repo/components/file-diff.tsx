@@ -20,7 +20,7 @@ import { last, map, isEmpty } from 'lodash';
 import classnames from 'classnames';
 import { getFileCommentMap } from './mr-comments';
 import MarkdownEditor from 'app/common/components/markdown-editor';
-import { isImage } from 'app/common/utils';
+import { isImage, setApiWithOrg } from 'app/common/utils';
 import { CommentBox } from 'application/common/components/comment-box';
 import Markdown from 'common/utils/marked';
 
@@ -195,7 +195,7 @@ export const FileDiff = ({
             </div>
             <IF check={fileIsImage}>
               <div className="text-center my16">
-                <img src={imageAddress} alt={`${name || 'preview-image'}`} />
+                <img src={setApiWithOrg(imageAddress)} alt={`${name || 'preview-image'}`} />
               </div>
             </IF>
           </IF>

@@ -14,14 +14,14 @@
 import * as React from 'react';
 import { Popover, message, Upload } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
-import { getCookies } from 'common/utils';
+import { getCookies, setApiWithOrg } from 'common/utils';
 import i18n from 'i18n';
 import './upload-plugin.scss';
 
 const UploadPlugin = (props: any) => {
   let hideLoading: any;
   const getUploadProps = (isImage?: boolean) => ({
-    action: '/api/files',
+    action: setApiWithOrg('/api/files'),
     showUploadList: false,
     headers: {
       'OPENAPI-CSRF-TOKEN': getCookies('OPENAPI-CSRF-TOKEN'),

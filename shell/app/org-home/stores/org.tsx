@@ -66,8 +66,7 @@ const org = createStore({
         if (orgName === '-') {
           const orgs = await call(getJoinedOrgs); // get Default org
           if (orgs?.list?.length) {
-            update({ curPathOrg: orgName, currentOrg: orgs.list[0] })
-            goTo(goTo.pages.orgRoot, { orgName: get(orgs, 'list[0].name') })
+            location.href = `/${get(orgs, 'list[0].name')}`
             return;
           }
           update({ curPathOrg: orgName })
@@ -79,10 +78,10 @@ const org = createStore({
         const orgId = currentOrg.id;
         if (orgId) {
 
-          const setHeader = (req: any) => {
-            req.set('org', currentOrg.name);
-          }
-          agent.use(setHeader);
+          // const setHeader = (req: any) => {
+          //   req.set('org', currentOrg.name);
+          // }
+          // agent.use(setHeader);
 
           const orgPermQuery = { scope: 'org', scopeID: `${orgId}` };
           (getResourcePermissions(orgPermQuery) as unknown as Promise<IPermResponseData>).then((orgPermRes) => {
@@ -125,10 +124,10 @@ const org = createStore({
   reducers: {
     clearOrg(state) {
       state.currentOrg = {} as ORG.IOrg;
-      const setHeader = (req: any) => {
-        req.set('org', '');
-      }
-      agent.use(setHeader);
+      // const setHeader = (req: any) => {
+      //   req.set('org', '');
+      // }
+      // agent.use(setHeader);
     }
   },
 });
