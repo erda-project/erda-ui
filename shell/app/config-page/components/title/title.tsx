@@ -16,13 +16,13 @@
  */
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
-import { Title as NusiTitle, Tooltip } from 'app/nusi';
+import { Title as NusiTitle, Tooltip, Button, Popconfirm } from 'app/nusi';
 import imgMap from '../../img-map';
 import './title.scss'
 
 const Title = (props: CP_TITLE.Props) => {
-  const { props: configProps } = props;
-  const { title, level, tips, size = 'normal', prefixIcon = '', prefixImg = '', showDivider = false, visible = true, isCircle = false, subtitle = '', noMarginBottom = false } = configProps || {};
+  const { props: configProps, execOperation } = props;
+  const { title, level, tips, size = 'normal', prefixIcon = '', prefixImg = '', showDivider = false, visible = true, isCircle = false, subtitle = '', noMarginBottom = false, operations = [] } = configProps || {};
 
   const titleComp = tips ? (
     <div className={`left-flex-box dice-cp-title-detail v-align ${size}`} >
@@ -49,11 +49,59 @@ const Title = (props: CP_TITLE.Props) => {
           : null}
       </div>
     );
+
+  const formatOperations = operations.map((x, index) => {
+    const { text, visible, disabled, disabledTip, tooltip, confirm, ...rest } = x.props
+
+    if (!visible) {
+      return { title: null }
+    }
+
+    const onClick = () => {
+      if (x.operations?.click && !disabled) {
+        execOperation(x.operations.click);
+      }
+    };
+
+    if (disabled) {
+      return ({
+        title: (
+          <Tooltip title={disabledTip || disabledTip}>
+            <Button {...rest} disabled>
+              {text}
+            </Button>
+          </Tooltip>
+        )
+      });
+    }
+
+    const buttonComp = (
+      confirm ? (
+        <Popconfirm  {...rest} title={confirm} onConfirm={onClick}>
+          <Button {...rest}>{text}
+          </Button>
+        </Popconfirm>
+      ) : (
+          <Button  {...rest} onClick={onClick}>
+            {text}
+          </Button>
+        )
+    )
+
+    return ({
+      title: tooltip ? (
+        <Tooltip key={`${index}`} title={tooltip}>
+          {buttonComp}
+        </Tooltip>
+      ) : <React.Fragment key={`${index}`}>{buttonComp}</React.Fragment >
+    })
+  })
+
   return (
     visible ?
       <div className='dice-cp-title'>
         <NusiTitle title={titleComp} level={level}
-          showDivider={showDivider} className={`${noMarginBottom ? 'no-margin-bottom' : ''}`} />
+          showDivider={showDivider} className={`${noMarginBottom ? 'no-margin-bottom' : ''}`} operations={formatOperations} />
       </div>
       : null
   );

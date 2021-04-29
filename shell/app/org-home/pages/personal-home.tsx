@@ -13,14 +13,18 @@
 
 import * as React from 'react';
 import DiceConfigPage from 'config-page/index';
-import routeInfoStore from 'app/common/stores/route';
 import orgStore from 'app/org-home/stores/org.tsx';
 import './personal-home.scss';
+import i18n from 'i18n';
 
 const PersonalHome = () => {
   const curOrgName = orgStore.useStore(s => s.currentOrg.name);
   const inParams = { orgName: curOrgName || '-' };
-  console.log(inParams)
+
+  React.useEffect(() => {
+    document.title = i18n.t('Personal dashboard') + ' · Erda';
+  }, []);
+
   return (
     <div className='home-page'>
       <div className='home-page-sidebar'>
@@ -61,8 +65,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         myInfo: ['myProject', 'myApplication'],
         myOrganization: ['orgImage', 'orgSwitch', 'joinedBrief', 'emptyOrganization'],
         emptyOrganization: ['emptyOrgText'],
-        myProject: ['myProjectHeader', 'myProjectFilter', 'myProjectList', 'emptyProject'],
-        myProjectHeader: { left: 'myProjectTitle', right: 'createProjectLink' },
+        myProject: ['myProjectTitle', 'myProjectFilter', 'myProjectList', 'emptyProject'],
         emptyProject: ['projectTipWithoutOrg', 'projectTipWithOrg'],
         projectTipWithOrg: ['createProjectTip'],
         myApplication: ['myApplicationTitle', 'myApplicationFilter', 'myApplicationList', 'emptyApplication'],
@@ -166,7 +169,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
       orgSwitch: {
         type: 'DropdownSelect',
         props: {
-          visible: false,
+          visible: true,
           options:
             [
               {
@@ -241,7 +244,7 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
         type: 'Table',
         props: {
           visible: false,
-          rowKey: 'key',
+          rowKey: 'id',
           columns: [
             { title: '', dataIndex: 'category' },
             { title: '', dataIndex: 'number', width: 42 },
@@ -309,29 +312,6 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
           visible: true,
         },
       },
-      createProjectLink: {
-        type: 'Button',
-        props: {
-          text: '创建',
-          visible: false,
-          disabled: false,
-          disabledTip: '暂无创建项目权限',
-          type: 'link',
-        },
-        operations: {
-          click: {
-            command: {
-              key: "goto",
-              target: "createProject",
-              jumpOut: false,
-              visible: false,
-            },
-            key: "click",
-            reload: false,
-            show: false,
-          },
-        }
-      },
       createProjectTip: {
         type: 'Text',
         props: {
@@ -379,12 +359,6 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
           spaceSize: 'middle',
         }
       },
-      myProjectHeader: {
-        type: 'LRContainer',
-        props: {
-          spaceSize: 'none',
-        },
-      },
       myProjectTitle: {
         type: 'Title',
         props: {
@@ -393,6 +367,30 @@ const mockSidebar: CONFIG_PAGE.RenderConfig = {
           noMarginBottom: true,
           showDivider: true,
           size: 'normal',
+          operations: [
+            {
+              props: {
+                text: '创建',
+                visible: true,
+                disabled: false,
+                disabledTip: '暂无创建项目权限',
+                type: 'link',
+              },
+              operations: {
+                click: {
+                  command: {
+                    key: "goto",
+                    target: "createProject",
+                    jumpOut: false,
+                    visible: false,
+                  },
+                  key: "click",
+                  reload: false,
+                  show: false,
+                },
+              }
+            }
+          ]
         }
       },
       myProjectFilter: {
