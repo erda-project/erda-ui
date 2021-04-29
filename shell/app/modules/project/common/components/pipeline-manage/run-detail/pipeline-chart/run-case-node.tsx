@@ -16,6 +16,7 @@ import { map, isEmpty, get, find } from 'lodash';
 import { Popover, Dropdown, Menu, Tooltip } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
 import { ciNodeStatusSet, ciStatusMap } from 'project/common/components/pipeline-manage/run-detail/config';
+import { setApiWithOrg } from 'common/utils';
 import { scopeMap } from 'project/common/components/pipeline-manage/config';
 import i18n from 'i18n';
 import './run-case-node.scss';
@@ -132,7 +133,7 @@ export const RunCaseNode = (props: IProps) => {
         detailInfo.push(files.map((item, idx) => (
           item.value ? (
             <div className='table-operations' key={`file-${String(idx)}`}>
-              <a className="table-operations-btn" download={item.value} href={`/api/files/${item.value}`}>
+              <a className="table-operations-btn" download={item.value} href={setApiWithOrg(`/api/files/${item.value}`)}>
                 {item.name || item.value}
               </a>
             </div>

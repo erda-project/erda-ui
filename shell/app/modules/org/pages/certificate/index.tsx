@@ -16,7 +16,7 @@ import { CRUDStoreTable, DeleteConfirm, Icon as CustomIcon, useUpdate } from 'co
 import i18n from 'i18n';
 import certificateStore from '../../stores/certificate';
 import { Upload, message, Button, Icon, Select, Input } from 'app/nusi';
-import { formatTime } from 'common/utils';
+import { formatTime, setApiWithOrg } from 'common/utils';
 import { WrappedFormUtils } from 'core/common/interface';
 import { get, map } from 'lodash';
 import './index.scss';
@@ -153,7 +153,7 @@ const Certificate = () => {
                   <a
                     className="table-operations-btn"
                     download={get(record, 'messageInfo.uuid')}
-                    href={`/api/files/${get(record, 'messageInfo.uuid')}`}
+                    href={setApiWithOrg(`/api/files/${get(record, 'messageInfo.uuid')}`)}
                   >
                     {i18n.t('download')}
                   </a>
