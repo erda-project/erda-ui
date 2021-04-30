@@ -47,11 +47,11 @@
   }
 
   .pk-global-nav-avatar-item .pk-avatar {
-    font-size: $p12;
-    background: $gray;
-    color: $white;
     width: $p32;
     height: $p32;
+    font-size: $p12;
+    color: $white;
+    background: $gray;
     font-stretch: ultra-condensed;
   }
 }

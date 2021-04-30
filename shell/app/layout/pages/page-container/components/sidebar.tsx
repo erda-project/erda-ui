@@ -103,6 +103,15 @@ const AppCenterEl = () => {
   );
 };
 
+/*
+Display rule of avatar chars:
+1) 王小刚 --> 小刚
+2）diceop  --> dice
+3）miwMio  --> miw
+4) micW  --> micW
+
+comment: letter like m, w, M, W is wider than others , so we limit the counts of these
+*/
 const getAvatarChars = (name:string) => {
   const pattern = /[\u4e00-\u9fa5]/;
 
