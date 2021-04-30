@@ -15,6 +15,7 @@ import React, { PureComponent } from 'react';
 import { Input, Icon, InputNumber } from 'app/nusi';
 import { cloneDeep, map } from 'lodash';
 import './variable-input-group.scss';
+import { uuid } from 'common/utils';
 
 interface IVariableInputGroupProps {
   value: any;
@@ -30,11 +31,11 @@ interface IVariableInputGroupProps {
 export default class extends PureComponent<IVariableInputGroupProps, any> {
   constructor(props:IVariableInputGroupProps) {
     super(props);
-    const ids:number[] = [];
+    const ids:string[] = [];
     const _values = map((props.value || []), (item)=> {
-      let id = Math.random();
+      let id:string = uuid();
       while(ids.includes(id)) {
-        id = Math.random();
+        id = uuid();
       }
       return {
         value: item,
@@ -121,9 +122,9 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
       reValue = [];
     }
 
-    let id = Math.random();
+    let id = uuid();
     while (ids.includes(id)) {
-      id = Math.random();
+      id = uuid();
     }
 
     // @ts-ignore
