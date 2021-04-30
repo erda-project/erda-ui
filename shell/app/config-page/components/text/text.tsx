@@ -81,7 +81,7 @@ const Text = (props: CP_TEXT.Props) => {
                     onClick={() => {
                       operations && operations[operationKey] && execOperation(operations[operationKey]);
                     }}
-                    className={textClassNames}
+                    className={`${textClassNames} hover-active`}
                   >
                     {tText}
                     {icon && <CustomIcon className={`mr4 ml4 ${iconStyleName}`} type={icon} />}
@@ -102,7 +102,7 @@ const Text = (props: CP_TEXT.Props) => {
         const tStyle = getStyle(tConfig);
         TextComp = operationKey ? (
           <a
-            className={textClassNames}
+            className={`${textClassNames} hover-active`}
             style={{ ...styleObj, ...tStyle }}
             onClick={() => {
               operations && operations[operationKey] && execOperation(operations[operationKey]);
