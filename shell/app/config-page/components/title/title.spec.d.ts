@@ -33,6 +33,7 @@ declare namespace CP_TITLE {
     isCircle?: boolean;
     visible?: boolean;
     noMarginBottom?: boolean;
+    operations?: Obj[];
   }
 
   type Props = MakeProps<Spec>;

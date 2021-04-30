@@ -45,6 +45,15 @@
   .pk-layout > .pk-layout > .pk-layout > .pk-layout-content {
     flex-basis: 100%;
   }
+
+  .pk-global-nav-avatar-item .pk-avatar {
+    width: $p32;
+    height: $p32;
+    color: $white;
+    font-size: $p12;
+    background: $gray;
+    font-stretch: ultra-condensed;
+  }
 }
 
 .notice-wrap {

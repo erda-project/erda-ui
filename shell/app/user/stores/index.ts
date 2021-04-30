@@ -21,9 +21,9 @@ import {
   getJoinedApps,
   pinApp,
   unpinApp,
-  getJoinedOrgs,
   updateOrg,
 } from '../services/user';
+import orgStore from 'app/org-home/stores/org';
 import { goTo, setLS } from 'common/utils';
 import layoutStore from 'app/layout/stores/layout';
 import { PAGINATION } from 'app/constants';
@@ -122,7 +122,7 @@ const userStore = createStore({
       // effects
       const loginUser = select(s=>s.loginUser);
       if (data && data.url) {
-        
+
         !loginUser.isSysAdmin && window.localStorage.setItem('lastPath', window.location.href);
         window.location.href = data.url;
       }
@@ -153,10 +153,6 @@ const userStore = createStore({
           return { valid: true, showAlert: true };
         }
       }
-    },
-    async getJoinedOrgs({ call, update }) {
-      const { list } = await call(getJoinedOrgs);
-      update({ orgs: list });
     },
     async getJoinedProjects({ call, update, select }, payload: Merge<{ searchKey?: string }, IPagingQuery>) {
       const { pageNo = 1, pageSize = PAGINATION.pageSize, searchKey, loadMore, ...rest } = payload;
@@ -192,7 +188,7 @@ const userStore = createStore({
     },
     async updateOrg({ call }, payload: Partial<ORG.IOrg>) {
       await call(updateOrg, payload);
-      await userStore.effects.getJoinedOrgs();
+      await orgStore.effects.getJoinedOrgs();
     },
     /**
      * payload: {

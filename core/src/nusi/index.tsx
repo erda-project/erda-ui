@@ -107,6 +107,9 @@ import {
   Popover as NusiPopover, 
   Select as NusiSelect,
   Icon as NusiIcon,
+  Empty as NusiEmpty,
+  Cascader as NusiCascader,
+  Tag as NusiTag,
 } from '@terminus/nusi';
 
 const locale = window.localStorage.getItem('locale');
@@ -206,4 +209,7 @@ export {
   NusiPopover,
   NusiSelect,
   NusiIcon,
+  NusiEmpty,
+  NusiCascader,
+  NusiTag,
 }

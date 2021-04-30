@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'agent';
+import { setApiWithOrg } from 'common/utils';
 
 // API 资源列表
 export const getApiAssetsList = (payload: API_MARKET.QueryAssets): IPagingResp<API_MARKET.AssetListItem> => {
@@ -75,7 +76,7 @@ export const getAssetVersionDetail = ({ assetID, versionID, ...rest }: API_MARKE
 };
 
 export const exportSwagger = ({ assetID, versionID, specProtocol }: API_MARKET.exportSwagger) => {
-  return `/api/api-assets/${assetID}/versions/${versionID}/export?specProtocol=${specProtocol}`;
+  return setApiWithOrg(`/api/api-assets/${assetID}/versions/${versionID}/export?specProtocol=${specProtocol}`);
 };
 
 export const getVersionTree = <T = API_MARKET.VersionTree>({ assetID, ...rest }: API_MARKET.QueryVersionTree): T => {
