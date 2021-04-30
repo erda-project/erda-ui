@@ -144,7 +144,7 @@ const getSchema = (content = {}) => {
 /**
  * @description convert openApi3's body to openApi2's body
  */
-export const convertOpenApi2 = (data:IDataSource) => {
+export const convertToOpenApi2 = (data:IDataSource) => {
   const { requestBody } = data;
   if (requestBody?.content) {
     const { content } = requestBody;
