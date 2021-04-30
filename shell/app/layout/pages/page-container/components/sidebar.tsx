@@ -110,7 +110,7 @@ const SideBar = () => {
   const unreadCount = messageStore.useStore(s => s.unreadCount);
   // 清掉旧版本缓存
   window.localStorage.removeItem('dice-sider');
-  const curOrgName = orgStore.useStore(s => s.currentOrg.name);
+  const curOrgName = currentOrg.name;
   const customIconStyle = { fontSize: 20, marginRight: 'unset' };
   const operations = [
     {
@@ -184,11 +184,11 @@ const SideBar = () => {
           className="mr0 pointer"
           src={Logo}
           onClick={() => {
-            const isIncludeOrg = orgs.some((x: Obj) => x.name === curOrgName)
+            const isIncludeOrg = !!orgs.find((x: Obj) => x.name === curOrgName);
             if (isIncludeOrg) {
               goTo(goTo.pages.orgRoot);
             } else {
-              message.warning(i18n.t('default:org-jump-tip'), 2, () => goTo('/-'));
+              message.warning(i18n.t('default:org-jump-tip'), 2, () => goTo(goTo.pages.orgRoot, { orgName: '-' }));
             }
           }}
         />
