@@ -199,7 +199,7 @@ const Transaction = () => {
         onBoardEvent={handleBoardEvent}
       />
       <Drawer
-        title={`${i18n.t('microService:tracking details')}-${url}`}
+        title={`${i18n.t('microService:tracking details')}(${url})`}
         width="55%"
         visible={visible}
         onClose={() => updater.visible(false)}
