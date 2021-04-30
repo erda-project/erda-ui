@@ -20,7 +20,6 @@ import { find, get } from 'lodash';
 import userStore from 'app/user/stores';
 import { useUpdate } from 'common';
 
-
 enum Environment {
   DEV = 'blockDev',
   TEST = 'blockTest',
@@ -38,7 +37,8 @@ const metaData = [
 const BlockNetwork = () => {
   const currentOrg = orgStore.useStore(s => s.currentOrg);
   const { updateOrg } = userStore.effects;
-  const [isFetch, isUpdate] = useLoading(userStore, ['getJoinedOrgs', 'updateOrg']);
+  const [isFetch] = useLoading(orgStore, ['getJoinedOrgs']);
+  const [isUpdate] = useLoading(userStore, ['updateOrg']);
   const [state, updater] = useUpdate({
     blockoutConfig: {},
   });
