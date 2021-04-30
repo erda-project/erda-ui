@@ -33,12 +33,12 @@ jobs:
       - name: Install dependence for core
         working-directory: './core'
         run: |
-          npm install
+          npm ci
 
       - name: Run Tests
         working-directory: './shell'
         run: |
-          npm install
+          npm ci
           npm run test:coverage
           npm run copy:coverage
 
