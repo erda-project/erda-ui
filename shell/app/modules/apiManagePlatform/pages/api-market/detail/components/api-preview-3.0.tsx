@@ -237,7 +237,7 @@ export const parseOpenApi3 = (dataSource: IDataSource):IParseOas3 => {
   }
   if (!isEmpty(responses)) {
     info.responsesStatus = map(responses, ({ description: desc, content }, code) => {
-      if (code == '200' && !isEmpty(content)) {
+      if (String(code) === '200' && !isEmpty(content)) {
         const schema = getSchema(content);
         if (schema.type === 'array' && isEmpty(schema.properties) && schema.items) {
           schema.properties = schema.items?.properties;
