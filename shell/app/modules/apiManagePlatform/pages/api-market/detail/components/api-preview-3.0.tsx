@@ -14,7 +14,7 @@
 import React from 'react';
 import { isEmpty, groupBy, forEach, map, get } from 'lodash';
 import i18n from 'i18n';
-import { Tooltip } from 'app/nusi';
+import { Tooltip } from 'nusi';
 import InfoPreview from 'config-page/components/info-preview/info-preview';
 import { insertWhen } from 'common/utils';
 
@@ -141,6 +141,25 @@ const getSchema = (content = {}) => {
     return get(content, [Object.keys(content)[0], 'schema']);
   }
 };
+/**
+ * @description convert openApi3's body to openApi2's body
+ */
+export const convertOpenApi2 = (data:IDataSource) => {
+  const { requestBody } = data;
+  if (requestBody?.content) {
+    const { content } = requestBody;
+    return [{
+      in: 'body',
+      schema: {
+        type: 'object',
+        contentType: 'application/json' in content ? 'application/json' : Object.keys(content)[0] || 'application/json',
+        ...(getSchema(content) || {}),
+      },
+    }];
+  } else {
+    return [];
+  }
+};
 
 const transformBody = (data:IRequestBodyContent['schema']): any[] => {
   const wmap = new WeakMap();
@@ -218,7 +237,7 @@ export const parseOpenApi3 = (dataSource: IDataSource):IParseOas3 => {
   }
   if (!isEmpty(responses)) {
     info.responsesStatus = map(responses, ({ description: desc, content }, code) => {
-      if (String(code) === '200' && !isEmpty(content)) {
+      if (code == '200' && !isEmpty(content)) {
         const schema = getSchema(content);
         if (schema.type === 'array' && isEmpty(schema.properties) && schema.items) {
           schema.properties = schema.items?.properties;
@@ -309,14 +328,14 @@ const ApiPreviewV3 = ({ dataSource, extra }: IProps) => {
         ]),
         { type: 'BlockTitle', props: { title: i18n.t('response information') } },
         ...insertWhen(!isEmpty(info.responsesBody), [
-          ['object', 'array'].includes(info.responsesBody.type) ? {
+          ['object', 'array'].includes(info.responsesBody?.type) ? {
             type: 'Table',
             dataIndex: 'responsesBody.data',
             props: {
               title: `${i18n.t('response body')}: ${info.responsesBody.type}`,
               columns,
             },
-          } : { type: 'Title', props: { title: `${i18n.t('response body')}: ${info.responsesBody.type || i18n.t('empty')} `, level: 2 } },
+          } : { type: 'Title', props: { title: `${i18n.t('response body')}: ${info.responsesBody?.type || i18n.t('empty')} `, level: 2 } },
         ]),
         ...insertWhen(!isEmpty(info.responsesStatus), [
           {

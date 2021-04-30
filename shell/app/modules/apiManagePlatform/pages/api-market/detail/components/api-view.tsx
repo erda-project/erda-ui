@@ -28,6 +28,7 @@ import routeInfoStore from 'common/stores/route';
 import { insertWhen } from 'common/utils';
 import { authenticationMap } from 'apiManagePlatform/pages/access-manage/components/config';
 import { HTTP_METHODS } from 'app/modules/apiManagePlatform/pages/api-market/components/config';
+import {convertOpenApi2} from 'apiManagePlatform/pages/api-market/detail/components/api-preview-3.0';
 
 type ApiData = Merge<OpenAPI.Document, {basePath: string;}>;
 type ApiMapItem = Merge<OpenAPI.Operation, {_method: string; _path: string}>;
@@ -166,6 +167,9 @@ const ApiView = ({ dataSource, onChangeVersion, deprecated, specProtocol }: IPro
   }])];
   const currentApiSource = apiMap[currentApi] || {};
   const parametersMap: Dictionary<any[]> = groupBy(currentApiSource.parameters, 'in');
+  if(specProtocol && specProtocol.includes('oas3')){
+    parametersMap.body = convertOpenApi2(currentApiSource)
+  }
   const autoInfo = getAuthInfo();
   return (
     <div className="apis-view flex-box flex-1">
