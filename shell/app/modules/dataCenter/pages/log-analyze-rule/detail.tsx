@@ -34,6 +34,7 @@ export default () => {
   const { getRuleTemplates, getRuleTemplate, getRule, createRule, editRule, testRule, clearCurRule } = LogAnalyzeStore;
   const [testRuleLoading, getRuleLoading, createRuleLoading, editRuleLoading] = useLoading(LogAnalyzeStore, ['testRule', 'getRule', 'createRule', 'editRule']);
   const { params, query } = routeInfoStore.useStore(s => s);
+  const [processors, setProcessors] = React.useState<LOG_ANALYZE.Processor[]>([]);
   const isEditRule = !!params.ruleId;
   const pageSource = query.source;
 
@@ -75,9 +76,9 @@ export default () => {
     return map(filters, ({ key, value }) => `${key}=${value}`);
   };
 
-  const convertProcessors = (processors: LOG_ANALYZE.Processor[]) => {
-    const keys = get(processors[0], 'config.keys');
-    const pattern = get(processors[0], 'config.pattern');
+  const convertProcessors = (_processors: LOG_ANALYZE.Processor[]): LOG_ANALYZE.Processor[] => {
+    const keys = get(_processors[0], 'config.keys');
+    const pattern = get(_processors[0], 'config.pattern');
 
     const ids = pattern.match(/\((.*?)\)/g);
     // 后端给出的 keys 应与正则匹配后的 patten id 一一对应（保证一致性的话应该让后端做 pattern 匹配给出 id）
@@ -88,7 +89,7 @@ export default () => {
     }));
 
     return [{
-      ...processors[0],
+      ..._processors[0],
       config: {
         keys: initialCurExtractResult,
         pattern,
@@ -96,13 +97,14 @@ export default () => {
     }];
   };
 
-  const convertRule = React.useCallback(({ filters, processors, ...restResult }: LOG_ANALYZE.Template) => {
+  const convertRule = React.useCallback(({ filters, processors: _processors, ...restResult }: LOG_ANALYZE.Template) => {
     formRef.current &&
     formRef.current.setFieldsValue({
       ...restResult,
       filters: convertFilters(filters),
-      processors: convertProcessors(processors),
+      processors: convertProcessors(_processors),
     });
+      setProcessors(convertProcessors(_processors));
   }, []);
 
   React.useEffect(() => {
@@ -149,7 +151,7 @@ export default () => {
         return;
       }
 
-      const { name, processors, content } = values;
+      const { name, content } = values;
       if (!content) {
         message.warning(i18n.t('org:please enter the log content first'));
         return;
@@ -172,7 +174,7 @@ export default () => {
         formRef.current.setFieldValue('results', resultData);
       });
     });
-  }, [testRule]);
+  }, [testRule, processors]);
 
   const fields = React.useMemo(() => [
     {
@@ -312,12 +314,12 @@ export default () => {
     formRef.current && formRef.current.setFields(cloneDeep(fields));
   }, [fields]);
 
-  const onOk = () => {
+  const onOk = React.useCallback(() => {
     formRef.current.validateFieldsAndScroll((error: any, values: any) => {
       if (error) {
         return;
       }
-      const { name, processors, filters } = values;
+      const { name, filters } = values;
       const keys = get(processors[0], 'config.keys');
       if (!every(keys, key => !!key.key)) {
         message.warning(i18n.t('all key is required'));
@@ -342,7 +344,7 @@ export default () => {
         createRule(payload).then(returnList);
       }
     });
-  };
+  }, [editRule, createRule, params, processors]);
 
   return (
     <Form

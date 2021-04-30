@@ -62,7 +62,7 @@ class FormModalComp extends React.Component<IProps, IState> {
 
   shouldComponentUpdate(newProps : IProps) {
     const { visible, form, formData, fieldsList, formRef } = newProps;
-    if ((visible && !this.props.visible) || formData !== newProps.formData) {
+    if ((visible && !this.props.visible) || formData !== this.props.formData) {
       this.isAddMode = isEmpty(formData);
       if (this.isAddMode) {
         form.resetFields();
