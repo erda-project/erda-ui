@@ -76,7 +76,7 @@ const BasicForm = ({ form }: {form: WrappedFormUtils}) => {
     {
       label: 'cloudVendor',
       name: 'cloudVendor',
-      initialValue: 'alicloud',
+      initialValue: 'alicloud-ecs',
       itemProps: { type: 'hidden' },
     },
     {
@@ -156,11 +156,11 @@ const CloudMachineFormModal = (props: IProps) => {
     const { customLabels = [], instanceNum, diskSize, ...rest } = data;
     rest.labels = uniq((data.labels || []).concat(customLabels));
     const postData = {
-      ...rest,
       instanceNum: Number(instanceNum),
       clusterName: cluster.name,
       cloudVendor,
       orgID: orgId,
+      ...rest,
     };
     if (!['alicloud-cs', 'alicloud-cs-managed'].includes(cloudVendor)) {
       postData.diskSize = Number(diskSize);
