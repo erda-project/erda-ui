@@ -24,7 +24,7 @@ import { useEffectOnce } from 'react-use';
 import issueStore from 'project/stores/issues';
 import { IssueItem, IssueForm, BACKLOG_ISSUE_TYPE } from './issue-item';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
-import { mergeSearch, qs, updateSearch } from 'common/utils';
+import { mergeSearch, qs, updateSearch, setApiWithOrg } from 'common/utils';
 import routeInfoStore from 'app/common/stores/route';
 import { ISSUE_PRIORITY_MAP, ISSUE_OPTION, ISSUE_TYPE_MAP } from 'project/common/components/issue/issue-config';
 import backlog_db_svg from 'app/images/backlog-db.svg';
@@ -181,7 +181,7 @@ const Backlog = () => {
   };
 
   const curType = isEmpty(filterState.type) ? map(ISSUE_OPTION) : filterState.type;
-  const downloadUrl = `/api/issues/actions/export-excel?${qs.stringify({ ...filterState, iterationID: -1, projectID: projectId, type: curType }, { arrayFormat: 'none' })}`;
+  const downloadUrl = setApiWithOrg(`/api/issues/actions/export-excel?${qs.stringify({ ...filterState, iterationID: -1, projectID: projectId, type: curType }, { arrayFormat: 'none' })}`);
 
   const load = React.useCallback(() => {
     return getList({ loadMore: true, pageNo: backlogIssuesPaging.pageNo + 1 }, false);

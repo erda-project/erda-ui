@@ -30,12 +30,12 @@ const ServiceListDashboard: React.FC<IProps> = ({ dashboardId, extraGlobalVariab
   const [layout, setLayout] = useState<DC.Layout>([]);
 
   const globalVariable = useMemo(() => {
-    const { serviceName, terminusKey, applicationId } = params;
+    const { serviceName, terminusKey, serviceId } = params;
     const { startTimeMs, endTimeMs } = timeSpan;
     return {
       terminusKey,
       serviceName,
-      applicationId,
+      serviceId: window.decodeURIComponent(serviceId),
       startTime: startTimeMs,
       endTime: endTimeMs,
       ...extraGlobalVariable,

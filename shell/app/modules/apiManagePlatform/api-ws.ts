@@ -16,8 +16,9 @@ import { API_WS_MSG_TYPE } from 'app/modules/apiManagePlatform/configs';
 import { message, notification } from 'app/nusi';
 import { get } from 'lodash';
 import i18n from 'i18n';
+import { setApiWithOrg } from 'common/utils';
 
-export const API_WS_URL = '/api/apim-ws/api-docs/filetree';
+export const API_WS_URL = setApiWithOrg('/api/apim-ws/api-docs/filetree');
 
 interface IInitApiWs {
   pinode: string;

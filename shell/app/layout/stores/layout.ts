@@ -14,7 +14,7 @@
 import { createStore } from 'app/cube';
 import { getDiceVersion, inviteToOrg } from 'layout/services';
 import * as DiceWebSocket from 'common/utils/ws';
-import { enableIconfont } from 'common/utils';
+import { enableIconfont, setApiWithOrg } from 'common/utils';
 import routeInfoStore from 'app/common/stores/route';
 import { find, merge } from 'lodash';
 import orgStore from 'app/org-home/stores/org'
@@ -76,7 +76,7 @@ const layout = createStore({
     const currentOrg = orgStore.getState(s => s.currentOrg)
     // if (getGlobal('erdaInfo.currentOrgId')) {
       if(currentOrg.id){
-      const diceWs = DiceWebSocket.connect('/api/websocket');
+      const diceWs = DiceWebSocket.connect(setApiWithOrg('/api/websocket'));
       listenRoute(({ isEntering, isLeaving }) => {
         if (isEntering('pipeline') || isEntering('dataTask') || isEntering('deploy') || isEntering('testPlanDetail')) {
           // call ws when enter page

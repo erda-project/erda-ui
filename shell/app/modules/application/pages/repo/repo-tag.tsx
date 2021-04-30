@@ -14,7 +14,7 @@
 import { Spin, Button, Select, Input, message, Alert } from 'app/nusi';
 import { Icon as CustomIcon, EmptyHolder, Avatar, FormModal, IF, DeleteConfirm } from 'common';
 import * as React from 'react';
-import { fromNow } from 'common/utils';
+import { fromNow, setApiWithOrg } from 'common/utils';
 import { mergeRepoPathWith } from './util';
 import GotoCommit from 'application/common/components/goto-commit';
 import { Link } from 'react-router-dom';
@@ -41,7 +41,7 @@ const RepoTag = () => {
 
   const repoBranchAuth = usePerm(s => s.app.repo.branch);
 
-  const download = (tag: string, format: string) => window.open(`/api/repo/${gitRepoAbbrev}/archive/${tag}.${format}`);
+  const download = (tag: string, format: string) => window.open(setApiWithOrg(`/api/repo/${gitRepoAbbrev}/archive/${tag}.${format}`));
 
   React.useEffect(() => {
     getListByType({ type: 'tag' });
