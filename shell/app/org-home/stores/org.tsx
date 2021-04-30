@@ -78,6 +78,10 @@ const org = createStore({
       } else {
         const currentOrg = resOrg || {};
         const orgId = currentOrg.id;
+        if(currentOrg.name !== orgName) {
+          location.href = `/${currentOrg.name}`
+          return;
+        }
         if (orgId) {
 
           // const setHeader = (req: any) => {
