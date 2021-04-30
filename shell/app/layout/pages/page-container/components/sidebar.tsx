@@ -80,7 +80,7 @@ const AppCenterEl = () => {
       titleProp='name'
       node={(
         <Tooltip title={currentOrg?.id ? '' : i18n.t('layout:there is no organization information, please select an organization first')} placement='right'>
-          <CustomIcon type='appstore' className='fz20' />
+          <CustomIcon type='appstore' className='fz20 mr0' />
         </Tooltip>
       )}
       linkRender={(_linkTo: any, children: any, { app }: { app: LAYOUT.IApp }) => {
@@ -123,7 +123,7 @@ const getAvatarChars = (name:string) => {
     const maxLength = longLetterCount > 2 ? 3 : 4;
     return name.slice(0, maxLength);
   }
-}
+};
 
 const SideBar = () => {
   const loginUser = userStore.useStore((s) => s.loginUser);
@@ -181,7 +181,7 @@ const SideBar = () => {
     avatar: {
       src: loginUser.avatar ? ossImg(loginUser.avatar, { w: 48 }) : undefined,
       chars: getAvatarChars(loginUser.nick || loginUser.name),
-      limitChars: 0
+      limitChars: 0,
     },
     operations: [
       {
@@ -206,6 +206,10 @@ const SideBar = () => {
         <img
           className="mr0 pointer"
           src={Logo}
+          style={{
+            width: '19px',
+            height: '19px',
+          }}
           onClick={() => {
             const isIncludeOrg = !!orgs.find((x: Obj) => x.name === curOrgName);
             if (isIncludeOrg) {
