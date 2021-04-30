@@ -141,6 +141,25 @@ const getSchema = (content = {}) => {
     return get(content, [Object.keys(content)[0], 'schema']);
   }
 };
+/**
+ * @description convert openApi3's body to openApi2's body
+ */
+export const convertToOpenApi2 = (data:IDataSource) => {
+  const { requestBody } = data;
+  if (requestBody?.content) {
+    const { content } = requestBody;
+    return [{
+      in: 'body',
+      schema: {
+        type: 'object',
+        contentType: 'application/json' in content ? 'application/json' : Object.keys(content)[0] || 'application/json',
+        ...(getSchema(content) || {}),
+      },
+    }];
+  } else {
+    return [];
+  }
+};
 
 const transformBody = (data:IRequestBodyContent['schema']): any[] => {
   const wmap = new WeakMap();
@@ -309,14 +328,14 @@ const ApiPreviewV3 = ({ dataSource, extra }: IProps) => {
         ]),
         { type: 'BlockTitle', props: { title: i18n.t('response information') } },
         ...insertWhen(!isEmpty(info.responsesBody), [
-          ['object', 'array'].includes(info.responsesBody.type) ? {
+          ['object', 'array'].includes(info.responsesBody?.type) ? {
             type: 'Table',
             dataIndex: 'responsesBody.data',
             props: {
               title: `${i18n.t('response body')}: ${info.responsesBody.type}`,
               columns,
             },
-          } : { type: 'Title', props: { title: `${i18n.t('response body')}: ${info.responsesBody.type || i18n.t('empty')} `, level: 2 } },
+          } : { type: 'Title', props: { title: `${i18n.t('response body')}: ${info.responsesBody?.type || i18n.t('empty')} `, level: 2 } },
         ]),
         ...insertWhen(!isEmpty(info.responsesStatus), [
           {

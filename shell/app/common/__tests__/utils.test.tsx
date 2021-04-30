@@ -14,7 +14,7 @@
 import React from 'react';
 import { isPromise, isImage, removeProtocol, ossImg, uuid, isValidJsonStr, insertWhen,
   reorder, encodeHtmlTag, convertToFormData, getFileSuffix, filterOption, regRules,
-  isClassComponent, countPagination,
+  isClassComponent, countPagination, notify, equalByKeys,
 } from '../utils';
 import { describe, it } from '@jest/globals';
 
@@ -113,5 +113,14 @@ describe('utils', () => {
     };
     expect(countPagination({ ...data })).toStrictEqual({ pageNo: 1, pageSize: 10 });
     expect(countPagination({ ...data, pageNo: 10, minus: 11 })).toStrictEqual({ pageNo: 9, pageSize: 10 });
+  });
+  it('notify', () => {
+    notify('success', 'success info');
+    expect(document.querySelectorAll('.ant-notification').length).toBe(1);
+    expect(document.getElementsByClassName('ant-notification-notice-description')[0].innerHTML).toBe('success info');
+  });
+  it('should equalByKeys', () => {
+    expect(equalByKeys({ a: 1, b: 2 }, { a: 1, b: 2 }, ['a', 'b'])).toBe(true);
+    expect(equalByKeys({ a: 1, b: 1 }, { a: 1, b: 2 }, ['a', 'b'])).toBe(false);
   });
 });

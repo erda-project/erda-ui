@@ -14,6 +14,7 @@
 import { isEmpty } from 'lodash';
 import * as React from 'react';
 import { Terminal, connectCube } from 'common';
+import { getOrgFromPath } from 'common/utils';
 import i18n from 'i18n';
 import './terminal.scss';
 import clusterStore from 'dataCenter/stores/cluster';
@@ -75,7 +76,7 @@ class ServiceTerminal extends React.Component {
     const replaceProtocol = value => value.replace('http', 'ws');
     const _params = {
       // url: `${replaceProtocol(clusterDetail.urls.colonySoldier)}`,
-      url: `${replaceProtocol(window.location.protocol)}//${window.location.host}/api/terminal?url=${clusterDetail.urls.colonySoldier}`,
+      url: `${replaceProtocol(window.location.protocol)}//${window.location.host}/api/${getOrgFromPath()}/terminal?url=${clusterDetail.urls.colonySoldier}`,
       initData,
     };
 

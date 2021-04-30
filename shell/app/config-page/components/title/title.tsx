@@ -16,13 +16,14 @@
  */
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
-import { Title as NusiTitle, Tooltip } from 'app/nusi';
+import { Title as NusiTitle, Tooltip, Button, Popconfirm } from 'app/nusi';
+import { OperationAction } from 'config-page/utils';
 import imgMap from '../../img-map';
 import './title.scss'
 
 const Title = (props: CP_TITLE.Props) => {
-  const { props: configProps } = props;
-  const { title, level, tips, size = 'normal', prefixIcon = '', prefixImg = '', showDivider = false, visible = true, isCircle = false, subtitle = '', noMarginBottom = false } = configProps || {};
+  const { props: configProps, execOperation } = props;
+  const { title, level, tips, size = 'normal', prefixIcon = '', prefixImg = '', showDivider = false, visible = true, isCircle = false, subtitle = '', noMarginBottom = false, operations = [] } = configProps || {};
 
   const titleComp = tips ? (
     <div className={`left-flex-box dice-cp-title-detail v-align ${size}`} >
@@ -49,11 +50,57 @@ const Title = (props: CP_TITLE.Props) => {
           : null}
       </div>
     );
+
+  const formatOperations = operations.map((x, index) => {
+    const { text, visible, disabled, disabledTip, tooltip, confirm, reload, ...rest } = x.props
+
+    if (!visible) {
+      return { title: null }
+    }
+
+    const onClick = () => {
+      if (x.operations?.click && !disabled) {
+        execOperation(x.operations.click);
+      }
+    };
+
+    const buttonComp =
+      <OperationAction
+        operation={{
+          confirm,
+          key: `${index}`,
+          reload,
+          disabledTip,
+          disabled,
+        }}
+        onClick={onClick}
+      >
+        <Button type='link' {...rest}>{text}</Button>
+      </OperationAction>
+
+    const comp = (tooltip ?
+      <Tooltip key={`${index}`} title={tooltip}>
+        {buttonComp}
+      </Tooltip> :
+      <React.Fragment key={`${index}`}>
+        {buttonComp}
+      </React.Fragment >)
+
+    return ({
+      title: comp
+    })
+  })
+
   return (
     visible ?
       <div className='dice-cp-title'>
-        <NusiTitle title={titleComp} level={level}
-          showDivider={showDivider} className={`${noMarginBottom ? 'no-margin-bottom' : ''}`} />
+        <NusiTitle
+          title={titleComp}
+          level={level}
+          showDivider={showDivider}
+          className={`${noMarginBottom ? 'no-margin-bottom' : ''}`}
+          operations={formatOperations}
+        />
       </div>
       : null
   );

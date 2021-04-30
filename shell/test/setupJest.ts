@@ -103,7 +103,7 @@ process.env = Object.assign(process.env, {
 });
 Object.defineProperty(window.document, 'cookie', {
   writable: true,
-  value: 'OPENAPI-CSRF-TOKEN=OPENAPI-CSRF-TOKEN',
+  value: 'OPENAPI-CSRF-TOKEN=OPENAPI-CSRF-TOKEN;ID=123;ORG=erda',
 });
 Object.defineProperty(window, 'location', {
   value: mockLocation,
