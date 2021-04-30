@@ -14,7 +14,7 @@
 import React from 'react';
 import { isEmpty, groupBy, forEach, map, get } from 'lodash';
 import i18n from 'i18n';
-import { Tooltip } from 'nusi';
+import { Tooltip } from 'app/nusi';
 import InfoPreview from 'config-page/components/info-preview/info-preview';
 import { insertWhen } from 'common/utils';
 
