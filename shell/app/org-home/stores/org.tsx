@@ -122,13 +122,12 @@ const org = createStore({
         }
       }
     },
-    async getJoinedOrgs({ call, update }) {
-      const orgs = org.getState(s => s.orgs)
+    async getJoinedOrgs({ call, select, update }) {
+      const orgs = select(state => state.orgs);
       if (isEmpty(orgs)) {
-        return;
+        const { list } = await call(getJoinedOrgs);
+        update({ orgs: list });
       }
-      const { list } = await call(getJoinedOrgs);
-      update({ orgs: list });
     },
   },
   reducers: {
