@@ -60,12 +60,12 @@ const installDependencies = () => {
 }
 
 const registerErdaCmd = async () => {
-  log('register erda command');
-  await cp.spawnSync(runCmd, ['run', 'local'], { env: process.env, cwd: cliDir, stdio: 'inherit' });
+  log('register erda-ui command globally 😁');
+  await cp.spawnSync(npmCmd, ['i', '-g', '@erda-ui/cli'], { env: process.env, cwd: cliDir, stdio: 'inherit' });
 }
 
 const setupCore = async (port) => {
-  log('create .erda/config in module core');
+  log('create .erda/config in module core 😁');
   await cp.spawnSync('erda-ui', ['setup', 'core', port], { env: process.env, cwd: coreDir, stdio: 'inherit' }) ;
 }
 
