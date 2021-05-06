@@ -118,7 +118,7 @@ export const checkCustomLabels = (_rule: any, value: string[], callback: Functio
 
 export const checkTagLabels = (_rule: any, value: string[], callback: Function) => {
   const valueArr = isEmpty(value) ? [] : value;
-  const reg = /^[A-Za-z]([-A-Za-z0-9_.]+)[A-Za-z]$/;
+  const reg = /^[A-Za-z]([-A-Za-z0-9_./]*)[A-Za-z]$/;
 
   const notPass = valueArr.length
     ?
