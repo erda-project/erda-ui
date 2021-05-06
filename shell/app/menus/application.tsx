@@ -40,7 +40,7 @@ export const getAppMenu = ({ mode }: { projectId: string, appId: string, mode: A
     key: 'repo',
     href: goTo.resolve.repo(), //`/workBench/projects/${projectId}/apps/${appId}/repo`,
     icon: <Code />,
-    text: i18n.t('application:repository'),
+    text: i18n.t('application:files'),
   };
   const pipeline = {
     show: perm.pipeline.read.pass,
