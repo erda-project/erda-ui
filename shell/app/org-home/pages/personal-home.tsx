@@ -22,7 +22,7 @@ const PersonalHome = () => {
   const inParams = { orgName: curOrgName || '-' };
 
   React.useEffect(() => {
-    document.title = i18n.t('Personal dashboard') + ' · Erda';
+    document.title = `${i18n.t('Personal dashboard')} · Erda`;
 
     return () => {
       document.title = ' · Erda';
@@ -48,7 +48,7 @@ const PersonalHome = () => {
         />
       </div>
     </div>
-  )
+  );
 };
 
 export default PersonalHome;
