@@ -16,13 +16,14 @@ import { filterMenu, MENU_SCOPE } from './util';
 import { goTo } from 'common/utils';
 import { filter } from 'lodash';
 import permStore from 'user/stores/permission';
-import { 
-  ApiApp, 
+import {
+  ApiApp,
   ApplicationOne,
   Api,
   Puzzle,
   Seal,
   Send,
+  BookOne
 } from '@icon-park/react';
 import React from 'react';
 
@@ -94,6 +95,11 @@ export const getWorkBenchMenu = () => {
       icon: <Send />,
       text: i18n.t('publisher:joined publisher'),
       show: orgPerm.workBench.publisher.read.pass,
+    },
+    {
+      href: goTo.resolve.workBenchPublicProjects(),
+      icon: <BookOne />,
+      text: i18n.t('public project'),
     },
   ], item => item.show !== false), MENU_SCOPE.workBench);
 };

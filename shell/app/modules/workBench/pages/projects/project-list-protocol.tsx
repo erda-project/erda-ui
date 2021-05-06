@@ -17,7 +17,8 @@ import { useUpdate } from 'common';
 import { get } from 'lodash';
 import ApplyUnblockModal, { IMetaData } from 'workBench/pages/projects/apply-unblock-modal';
 
-export const ProjectList = () => {
+export const ProjectList = (props: PROJECT.ProjectListTypeParams) => {
+  const { scenarioKey, scenarioType } = props;
   const [state, updater, update] = useUpdate({
     visible: false,
     metaData: {} as IMetaData,
@@ -49,13 +50,13 @@ export const ProjectList = () => {
   return (
     <>
       <DiceConfigPage
-        scenarioType='project-list-my'
+        scenarioType={scenarioType}
         ref={reloadRef}
-        scenarioKey='project-list-my'
+        scenarioKey={scenarioKey}
         useMock={useMock}
         customProps={{
           list: {
-            applyDeploy: (op:CP_COMMON.Operation, data:any) => {
+            applyDeploy: (op: CP_COMMON.Operation, data: any) => {
               const pId = get(op, 'meta.projectId') || data?.projectId;
               const pName = get(op, 'meta.projectName') || data?.projectName;
               if (pId && pName) {
@@ -75,6 +76,10 @@ export const ProjectList = () => {
   );
 };
 
+export const ProjectListMy = () => <ProjectList scenarioKey='project-list-my'
+  scenarioType='project-list-my' key='project-list-my' />
+export const ProjectListAll = () => <ProjectList scenarioKey='project-list-all'
+  scenarioType='project-list-all' key='project-list-all' />
 
 const mock: CONFIG_PAGE.RenderConfig = {
   scenario: {
