@@ -41,6 +41,7 @@ interface IProps {
 
 interface IState {
   content: string;
+  tempContent: string;
   score: number;
   view: {
     md: boolean;
@@ -58,6 +59,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
     const defaultMode = props.defaultMode || 'md';
     this.state = {
       content: props.value || '',
+      tempContent: props.value || '',
       score: props.score || 0,
       view: {
         md: defaultMode === 'md' || defaultMode === 'both',
@@ -65,6 +67,17 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
         menu: true,
       },
     };
+  }
+
+  static getDerivedStateFromProps(nextProps:IProps, prevState: IState) {
+    if (nextProps.value !== prevState.tempContent) {
+      return {
+        ...prevState,
+        content: nextProps.value,
+        tempContent: nextProps.value,
+      };
+    }
+    return null;
   }
 
   componentDidMount() {
