@@ -56,7 +56,7 @@ const NodeEleMap = {
 
 export const renderSvgChart = (originData: IData[][], snap: any, g: any, chartConfig: IChartConfig, external: IExternal) => {
   const { nodeData, chartHeight, chartWidth } = getNodePostion(originData, chartConfig, external);
-  const { linkData } = getLinkPostion(nodeData, chartConfig, external);
+  const { linkData } = getLinkPosition(nodeData, chartConfig, external);
   const chart = snap.svg(0, 0, chartWidth, chartHeight, 0, 0, chartWidth, chartHeight);
   g.append(chart);
 
@@ -195,7 +195,7 @@ const renderNodes = (nodeData: any[][], chart: any, chartConfig: IChartConfig, e
   });
 };
 
-const getLinkPostion = (data: IExternalData [][], chartConfig: IChartConfig, external: any = {}) => {
+const getLinkPosition = (data: IExternalData [][], chartConfig: IChartConfig, external: any = {}) => {
   const { chartId } = external;
   const linkData = [] as any[];
   const { LINK } = chartConfig;

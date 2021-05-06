@@ -49,7 +49,7 @@ export interface IExternalData {
 
 export const renderSvgChart = (originData: IData[][], snap: any, g: any, chartConfig: IChartConfig, external: IExternal) => {
   const { nodeData, chartHeight, chartWidth } = getNodePostion(originData, chartConfig, external);
-  const { linkData } = getLinkPostion(nodeData, chartConfig);
+  const { linkData } = getLinkPosition(nodeData, chartConfig);
   const chart = snap.svg(0, 0, chartWidth, chartHeight, 0, 0, chartWidth, chartHeight);
   g.append(chart);
 
@@ -188,14 +188,14 @@ const renderNodes = (nodeData: any[][], chart: any, chartConfig: IChartConfig, e
   });
 };
 
-const getLinkPostion = (data: IExternalData [][], chartConfig: IChartConfig) => {
+const getLinkPosition = (data: IExternalData [][], chartConfig: IChartConfig) => {
   const linkData = [] as any[];
   const { LINK } = chartConfig;
   if (data.length > 1) {
     map(data, (item, index) => {
       const targetNodes = data[index + 1];
       map(item, subItem => {
-        if (targetNodes) {
+        if (targetNodes && targetNodes.length) {
           const firstTarget = get(targetNodes, `[0].${externalKey}`);
           const lastTarget = get(targetNodes, `[${targetNodes.length - 1}].${externalKey}`);
           const centerX = firstTarget.x + (lastTarget.x - firstTarget.x) / 2;
