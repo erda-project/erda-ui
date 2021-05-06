@@ -87,6 +87,3 @@ export const registerModule = ({ key, stores, routers, locales, Root, NotFound }
 export const registerModules = (modules: IModule[]) => {
   (modules || []).map(item => registerModule(item));
 };
-
-
-
