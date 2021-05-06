@@ -37,6 +37,8 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
       while(ids.includes(id)) {
         id = uuid();
       }
+      ids.push(id);
+
       return {
         value: item,
         id
