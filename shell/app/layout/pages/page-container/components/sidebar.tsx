@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { GlobalNavigation, Shell, Badge, Icon, Tooltip, Popover, Menu } from 'app/nusi';
+import { GlobalNavigation, Shell, Badge, Icon, Tooltip, Popover, Menu, message } from 'app/nusi';
 import { usePerm } from 'user/common';
 import i18n from 'i18n';
 import { Icon as CustomIcon, IF, ImgHolder } from 'common';
@@ -22,11 +22,11 @@ import layoutStore from 'layout/stores/layout';
 import { theme } from 'app/themes';
 import { goTo, ossImg } from 'common/utils';
 import { find, get, map } from 'lodash';
+import { useMount } from 'react-use';
 import { FULL_DOC_DOMAIN } from 'common/constants';
 import diceEnv from 'dice-env';
 import Logo from 'app/images/Erda.svg';
 import orgStore from 'app/org-home/stores/org';
-
 import './sidebar.scss';
 
 const { AppCenter } = Shell;
@@ -69,7 +69,7 @@ const AppCenterEl = () => {
       };
     });
   const onVisibleChange = (vis: boolean) => {
-    if(currentOrg.id){
+    if (currentOrg.id) {
       setVisible(vis);
     }
   };
@@ -79,8 +79,8 @@ const AppCenterEl = () => {
       className='app-list'
       titleProp='name'
       node={(
-        <Tooltip title={ currentOrg?.id ? '' : i18n.t('layout:there is no organization information, please select an organization first')} placement='right'>
-          <CustomIcon type='appstore' className='fz20' />
+        <Tooltip title={currentOrg?.id ? '' : i18n.t('layout:there is no organization information, please select an organization first')} placement='right'>
+          <CustomIcon type='appstore' className='fz20 mr0' />
         </Tooltip>
       )}
       linkRender={(_linkTo: any, children: any, { app }: { app: LAYOUT.IApp }) => {
@@ -123,16 +123,16 @@ const getAvatarChars = (name:string) => {
     const maxLength = longLetterCount > 2 ? 3 : 4;
     return name.slice(0, maxLength);
   }
-}
+};
 
 const SideBar = () => {
   const loginUser = userStore.useStore((s) => s.loginUser);
-  const currentOrg = orgStore.useStore(s => s.currentOrg);
+  const [currentOrg, orgs] = orgStore.useStore(s => [s.currentOrg, s.orgs]);
   const { switchMessageCenter } = layoutStore.reducers;
   const unreadCount = messageStore.useStore(s => s.unreadCount);
   // 清掉旧版本缓存
   window.localStorage.removeItem('dice-sider');
-  
+  const curOrgName = currentOrg.name;
   const customIconStyle = { fontSize: 20, marginRight: 'unset' };
   const operations = [
     {
@@ -171,13 +171,17 @@ const SideBar = () => {
     },
   ].filter(a => a.show);
 
+  useMount(() => {
+    orgStore.effects.getJoinedOrgs();
+  });
+
   const userMenu = {
     name: loginUser.nick || loginUser.name,
     // subtitle: 'slogan here',
     avatar: {
       src: loginUser.avatar ? ossImg(loginUser.avatar, { w: 48 }) : undefined,
       chars: getAvatarChars(loginUser.nick || loginUser.name),
-      limitChars: 0
+      limitChars: 0,
     },
     operations: [
       {
@@ -200,10 +204,19 @@ const SideBar = () => {
       layout="vertical"
       verticalBrandIcon={
         <img
-          className='mr0 pointer'
+          className="mr0 pointer"
           src={Logo}
+          style={{
+            width: '19px',
+            height: '19px',
+          }}
           onClick={() => {
-            goTo(goTo.pages.orgRoot);
+            const isIncludeOrg = !!orgs.find((x: Obj) => x.name === curOrgName);
+            if (isIncludeOrg) {
+              goTo(goTo.pages.orgRoot);
+            } else {
+              message.warning(i18n.t('default:org-jump-tip'), 2, () => goTo(goTo.pages.orgRoot, { orgName: '-' }));
+            }
           }}
         />
       }
@@ -252,7 +265,7 @@ const SideBar = () => {
 
 interface IPopoverSelectorProps {
   value: string;
-  options: Array<{key:string, name:string}>
+  options: Array<{ key: string, name: string }>
   onChange: () => void;
 }
 

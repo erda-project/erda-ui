@@ -37,42 +37,42 @@ export const appList: LAYOUT.IApp[] = filterMenu([
       }
       return path;
     },
-    href: goTo.pages.workBenchRoot
+    href: goTo.resolve.workBenchRoot()
   },
   {
     key: 'microService',
     name: i18n.t('Microservice'),
     breadcrumbName: i18n.t('Microservice'),
-    href: goTo.pages.microServiceRoot,
+    href: goTo.resolve.microServiceRoot(),
   },
   {
     key: 'apiManage',
     name: i18n.t('default:API management platform'),
     breadcrumbName: i18n.t('default:API management platform'),
-    href: goTo.pages.apiManageRoot,
+    href: goTo.resolve.apiManageRoot(),
   },
   {
     key: 'diceFdp',
     name: i18n.t('Fast data'),
     breadcrumbName: i18n.t('Fast data'),
-    href: goTo.pages.fdpIndex,
+    href: goTo.resolve.fdpIndex(),
   },
   {
     key: 'dataCenter',
     name: i18n.t('DataCenter'),
     breadcrumbName: i18n.t('DataCenter'),
-    href: goTo.pages.dataCenterRoot,
+    href: goTo.resolve.dataCenterRoot(),
   },
   {
     key: 'edge',
     name: i18n.t('edge:edge center'),
     breadcrumbName: i18n.t('edge:edge center'),
-    href: goTo.pages.edgeApp,
+    href: goTo.resolve.edgeApp(),
   },
   {
     key: 'orgCenter',
     name: i18n.t('orgCenter'),
     breadcrumbName: i18n.t('orgCenter'),
-    href: goTo.pages.orgCenterRoot,
+    href: goTo.resolve.orgCenterRoot(),
   },
 ], MENU_SCOPE.appCenter);

@@ -150,7 +150,7 @@ server {
     }
 
     location ^~ /fdp-app/ {
-       proxy_pass   http://fdp-ui.default.svc.cluster.local/;
+       proxy_pass   http://${FDP_UI_ADDR}/;
     }
 
     location ^~ /wb {

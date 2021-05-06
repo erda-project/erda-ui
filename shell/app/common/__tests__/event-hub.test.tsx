@@ -11,17 +11,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import agent from 'agent';
+import { eventHub } from '../utils/event-hub';
+import { describe, it, jest } from '@jest/globals';
 
-export const getOrgByDomain = (payload: ORG.IOrgReq): ORG.IOrg => {
-  return agent.get('/api/orgs/actions/get-by-domain')
-    .query(payload)
-    .then((response: any) => response.body);
-};
-
-export const getJoinedOrgs = (): IPagingResp<ORG.IOrg> => {
-  return agent
-    .get('/api/orgs')
-    .query({ pageNo: 1, pageSize: 100 })
-    .then((response: any) => response.body);
-};
+describe('eventHub', () => {
+  it('should ', () => {
+    const fn = jest.fn();
+    eventHub.on('test', fn);
+    eventHub.emit('test');
+    expect(fn).toHaveBeenCalled();
+  });
+});

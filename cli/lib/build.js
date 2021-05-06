@@ -22,7 +22,7 @@ const {
   npmCmd,
   moduleList
 } = require('./util/env');
-const { execSync, spawnSync } = child_process;
+const { execSync, exec } = child_process;
 
 const GET_BRANCH_CMD = "git branch | awk '/\\*/ { print $2; }'";
 const UPDATE_SUB_MODULES = "git pull --recurse-submodules";
@@ -82,11 +82,27 @@ const checkReInstall = async () => {
 }
 
 
-const installDependencies = () => {
-  return moduleList.forEach((moduleItem) => {
-    logInfo(`Performing "yarn" inside ${moduleItem.moduleName} folder`);
-    return spawnSync(yarnCmd, [], { env: process.env, cwd: moduleItem.moduleDir, stdio: 'inherit' });
+const installDependencies = async () => {
+  const pList = [];
+  moduleList.forEach(({moduleDir: dir, moduleName: name}) => {
+    logInfo(`Performing "npm i" inside ${dir} folder`);
+    let installPromise = new Promise((resolve)=> {
+      exec('npm i', { env: process.env, cwd: dir, stdio: 'inherit' }, (error, stdout)=>{
+        if (error) {
+          logError(`install error: ${error}`);
+          process.exit(1);
+        } else {
+          logSuccess(`【${name}】 successfully installed! [${stdout}]`)
+          resolve();
+        }
+      });
+    })
+
+    pList.push(installPromise);
   });
+
+  await Promise.all(pList);
+  logSuccess(`install successfully 😁!`);
 }
 
 const clearPublic = async () => {
@@ -94,10 +110,10 @@ const clearPublic = async () => {
   await execSync(`rm -rf ${publicDir}/*`, { cwd: rootDir });
 }
 
-const checkModuleValid = ()=> {
+const checkModuleValid = async (execPath)=> {
   let isAllValid = true;
   
-  moduleList.forEach(item=>{
+  moduleList.forEach(item => {
     if (!item.moduleDir) {
       isAllValid = false;
       logError(`${item.moduleName.toUpperCase()}_DIR is not exist in .env, you can run "erda setup <module> <port>" to auto generate moduleDir`);
@@ -106,27 +122,57 @@ const checkModuleValid = ()=> {
       logError(`${item.moduleName.toUpperCase()}_DIR is wrong, please check in .env, or you can run "erda setup <module> <port>" to update moduleDir`);
     }
   });
+  
+  const outputModules = moduleList.map(item => item.moduleName).join(',');
+
+  logInfo(`Output modules:【${outputModules}】`);
 
   if (!isAllValid) {
     process.exit(1);
+  } else if (execPath === 'local') {
+    const answer = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'coveredAllModules',
+        message: `Are all modules covered in【${outputModules}】`,
+      },
+    ]);
+    if (!answer.coveredAllModules) {
+      process.exit(1);
+    }
   }
 }
 
-const buildAll =  async (enableSourceMap) => {
-  let start = 0;
-  const len = moduleList.length;
-  
-  while (start < len) {
-    const { moduleName, moduleDir } = moduleList[start];
+const buildAll =  async (enableSourceMap) => {  
+  const pList = [];
+
+  moduleList.forEach(item => {
+    const { moduleName, moduleDir } = item;
     logInfo(`Building ${moduleName}`);
-    await spawnSync(npmCmd, ['run', 'build'], { env: {...process.env, enableSourceMap }, cwd: moduleDir, stdio: 'inherit' });
-    start += 1;
-  }
+
+    let buildPromise = new Promise((resolve)=> {
+      exec('npm run build', { env: { ...process.env, enableSourceMap }, cwd: moduleDir, stdio: 'inherit' }, (error, stdout, stderr)=>{
+        if (error) {
+          logError(`build error: ${error}`);
+          process.exit(1);
+        } else {
+          logInfo(stderr);
+          logSuccess(`【${moduleName}】build successfully! [${stdout}]`);
+          resolve();
+        }
+      });
+    })
+
+    pList.push(buildPromise);
+  });
+
+  await Promise.all(pList);
+  logSuccess(`build successfully 😁!`);
 }
 
 module.exports = async (execPath) => {
   try {   
-    checkModuleValid();
+    await checkModuleValid(execPath);
 
     let enableSourceMap = false;
     
@@ -140,8 +186,8 @@ module.exports = async (execPath) => {
 
     await buildAll(enableSourceMap);
 
-    require('./gen-version')()
-    require('./local-icon')()
+    require('./gen-version')();
+    require('./local-icon')();
   } catch (error) {
     logError('build exit with error:', error.message);
     process.exit(1);

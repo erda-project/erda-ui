@@ -12,12 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { getUploadProps } from '../utils/upload-props';
+import { setApiWithOrg } from '../utils';
 import { describe, it } from '@jest/globals';
 
 describe('getUploadProps', () => {
-  it('upload props ', () => {
+  it('upload props should work fine', () => {
     const result = getUploadProps({});
-    expect(result.action).toBe('/api/files');
+    expect(result.action).toBe(setApiWithOrg('/api/files'));
     expect(result.headers).toStrictEqual({ 'OPENAPI-CSRF-TOKEN': 'OPENAPI-CSRF-TOKEN' });
     expect(result.beforeUpload({ size: 20971550 })).toBe(false);
     expect(document.querySelectorAll('.ant-message-notice').length).toBeTruthy();
