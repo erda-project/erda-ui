@@ -104,7 +104,7 @@ export default () => {
       filters: convertFilters(filters),
       processors: convertProcessors(_processors),
     });
-      setProcessors(convertProcessors(_processors));
+    setProcessors(convertProcessors(_processors));
   }, []);
 
   React.useEffect(() => {
@@ -129,6 +129,7 @@ export default () => {
       }));
     }
     formRef.current.setFieldValue('processors[0].config.keys', initialCurExtractResult);
+    setProcessors(formRef.current.getData()?.processors || []);
   }, []);
 
   const returnList = () => {
@@ -143,6 +144,7 @@ export default () => {
 
     fill(results, { uniId, ...result, [item.key]: item.value }, index, index + 1);
     formRef.current.setFieldValue('processors[0].config.keys', results);
+    setProcessors(formRef.current.getData()?.processors || []);
   }, []);
 
   const handleTestRule = React.useCallback(() => {
