@@ -72,14 +72,7 @@ module.exports = config.wrapWebpack({
     },
     proxy: [
       {
-        context: ['/api/websocket'],
-        target: backendUrl,
-        secure: false,
-        changeOrigin: true,
-        ws: true,
-      },
-      {
-        context: ['/api/websocket'],
+        context: ['/api/websocket', '/api/apim-ws/api-docs/filetree'],
         target: backendUrl,
         secure: false,
         changeOrigin: true,
@@ -94,13 +87,6 @@ module.exports = config.wrapWebpack({
             return true;
           }
         },
-      },
-      {
-        context: ['/api/websocket'],
-        target: backendUrl,
-        secure: false,
-        changeOrigin: true,
-        ws: true,
       },
       {
         context: ['/fdp-app/'],

@@ -575,7 +575,7 @@ const ApiDesign = () => {
                             </WithAuth>
                           )
                           :
-                            <Button type="ghost" disabled={formErrorNum > 0} onClick={commitSaveApi} >{i18n.t('save')}</Button>
+                            <Button type="ghost" disabled={formErrorNum > 0} onClick={() => commitSaveApi()} >{i18n.t('save')}</Button>
                       }
                       <WithAuth pass={inodeQuery && docValidData.valid}>
                         <Button type="primary" className="ml8" onClick={onConfirmPublish}>{i18n.t('publisher:publish')}</Button>
