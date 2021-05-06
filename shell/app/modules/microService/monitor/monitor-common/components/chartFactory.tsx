@@ -230,6 +230,7 @@ export const commonChartRender = (obj: any) => {
     obj.query && (reQuery = { ...reQuery, ...obj.query });
     const { query, fetchApi, ...ownProps } = props;
     const reApi = fetchApi || api;
+    console.log(reApi, 'reApi')
     return (
       <Chart
         {...rest}
