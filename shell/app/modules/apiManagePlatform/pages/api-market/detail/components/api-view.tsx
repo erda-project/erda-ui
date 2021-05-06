@@ -168,7 +168,7 @@ const ApiView = ({ dataSource, onChangeVersion, deprecated, specProtocol }: IPro
   const currentApiSource = apiMap[currentApi] || {};
   const parametersMap: Dictionary<any[]> = groupBy(currentApiSource.parameters, 'in');
   if (specProtocol && specProtocol.includes('oas3')) {
-    parametersMap.body = convertToOpenApi2(currentApiSource);
+    Object.assign(parametersMap, convertToOpenApi2(currentApiSource));
   }
   const autoInfo = getAuthInfo();
   return (

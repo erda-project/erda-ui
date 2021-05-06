@@ -97,6 +97,7 @@ const ApiPreviewV2 = (props: IProps) => {
         urlParams: parametersMap.query,
         pathParams: parametersMap.path,
         bodyParams,
+        formData: parametersMap.formData,
         headerParams: parametersMap.header,
         responseCode,
         responseData,
@@ -147,6 +148,16 @@ const ApiPreviewV2 = (props: IProps) => {
           } : (bodyParamsPureType ? {
             type: 'Title', props: { title: `${i18n.t('request body')}: ${bodyParamsPureType}`, level: 2 },
           } : null),
+        !isEmpty(parametersMap.formData) ?
+          {
+            type: 'Table',
+            dataIndex: 'formData',
+            props: {
+              title: i18n.t('request body'),
+              rowKey: 'key',
+              columns,
+            },
+          } : null,
         ...insertWhen(!!parametersMap.header, [
           {
             type: 'Table',

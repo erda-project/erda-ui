@@ -148,16 +148,31 @@ export const convertToOpenApi2 = (data:IDataSource) => {
   const { requestBody } = data;
   if (requestBody?.content) {
     const { content } = requestBody;
-    return [{
-      in: 'body',
+    const contentType = 'application/json' in content ? 'application/json' : Object.keys(content)[0] || 'application/json';
+    const type = contentType === 'application/x-www-form-urlencoded' ? 'formData' : 'body';
+    const schema = getSchema(content) || {};
+    let value = [{
+      in: type,
       schema: {
         type: 'object',
-        contentType: 'application/json' in content ? 'application/json' : Object.keys(content)[0] || 'application/json',
-        ...(getSchema(content) || {}),
+        contentType,
+        ...schema,
       },
     }];
+    if (type === 'formData') {
+      const { properties } = schema;
+      value = map(properties, (item, key) => {
+        return {
+          ...item,
+          name: key,
+        };
+      });
+    }
+    return {
+      [type]: value,
+    };
   } else {
-    return [];
+    return {};
   }
 };
 
