@@ -23,9 +23,9 @@ describe('go-to', () => {
     const browserHistory = createBrowserHistory();
     setConfig('history', browserHistory);
   });
-  afterAll(()=>{
+  afterAll(() => {
     setConfig('history', undefined);
-  })
+  });
   const paths = process.env.mock_pathname?.split('/') || [];
   it('resolvePath', () => {
     expect(resolvePath('aaa')).toBe(`${process.env.mock_pathname}/aaa`);
