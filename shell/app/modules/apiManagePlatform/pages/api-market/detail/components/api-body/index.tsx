@@ -33,7 +33,7 @@ const { Option } = Select;
 const BODY_RAW_OPTION = [
   'Text',
   'Text(text/plain)',
-  'JSON(application/json)',
+  'application/json',
 ];
 const BasicForm = 'application/x-www-form-urlencoded';
 const ValMap = {
@@ -84,7 +84,7 @@ const ValMap = {
     const val = isString(data.content) ? data.content : '';
     return <Input.TextArea rows={4} value={val} onChange={e => updateBody('content', e.target.value)} />;
   },
-  'JSON(application/json)': (props: any) => <TestJsonEditor {...props} />,
+  'application/json': (props: any) => <TestJsonEditor {...props} />,
 };
 
 const TestJsonEditor = (props: any) => {
@@ -130,7 +130,7 @@ const APIBody = (props: any) => {
         case 'Text(text/plain)':
           newBody.content = val;
           break;
-        case 'JSON(application/json)':
+        case 'application/json':
           newBody.content = val;
           break;
         default:

@@ -40,12 +40,12 @@ const org = createStore({
   name: 'org',
   state: initState,
   subscriptions: async ({ listenRoute }: IStoreSubs) => {
-    listenRoute(({ params, isIn, isLeaving }) => {
+    listenRoute(({ params, isIn, isMatch, isLeaving }) => {
       if (isIn('orgIndex')) {
         const isSysAdmin = getGlobal('erdaInfo.isSysAdmin');
         const { orgName } = params;
         const curPathOrg = org.getState(s => s.curPathOrg);
-        if (!isSysAdmin && curPathOrg !== orgName) {
+        if (!isSysAdmin && curPathOrg !== orgName && !isMatch(/\w\/notFound/)) {
           org.effects.getOrgByDomain({ orgName });
         }
       }
@@ -63,27 +63,27 @@ const org = createStore({
       }
       const { orgName } = payload;
       if (!orgName) return;
+      if (orgName === '-') {
+        const orgs = await call(getJoinedOrgs); // get joined orgs
+        if (orgs?.list?.length) {
+          location.href = `/${get(orgs, 'list[0].name')}`;
+          return;
+        }
+        update({ curPathOrg: orgName });
+        return;
+      }
+      // if orgName exist, check valid
       const resOrg = await call(getOrgByDomain, { domain, orgName });
       if (isEmpty(resOrg)) {
-        if (orgName === '-') {
-          const orgs = await call(getJoinedOrgs); // get Default org
-          if (orgs?.list?.length) {
-            location.href = `/${get(orgs, 'list[0].name')}`
-            return;
-          }
-          update({ curPathOrg: orgName })
-          return
-        }
         goTo(goTo.pages.notFound);
       } else {
         const currentOrg = resOrg || {};
         const orgId = currentOrg.id;
-        if(currentOrg.name !== orgName) {
-          location.href = `/${currentOrg.name}`
+        if (currentOrg.name !== orgName) {
+          location.href = `/${currentOrg.name}`;
           return;
         }
         if (orgId) {
-
           // const setHeader = (req: any) => {
           //   req.set('org', currentOrg.name);
           // }
@@ -119,10 +119,9 @@ const org = createStore({
                 menusMap,
                 key: 'workBench',
               });
-
             }
           });
-          update({ currentOrg, curPathOrg: payload.orgName })
+          update({ currentOrg, curPathOrg: payload.orgName });
         }
       }
     },
@@ -141,7 +140,7 @@ const org = createStore({
       //   req.set('org', '');
       // }
       // agent.use(setHeader);
-    }
+    },
   },
 });
 
