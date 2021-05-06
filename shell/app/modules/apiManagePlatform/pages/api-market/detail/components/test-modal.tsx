@@ -46,7 +46,7 @@ interface IApis {
   path: any[];
   body: {
     isAdd?: boolean;
-    type: 'none' | 'application/x-www-form-urlencoded' | 'Text' | 'Text(text/plain)' | 'JSON(application/json)';
+    type: 'none' | 'application/x-www-form-urlencoded' | 'Text' | 'Text(text/plain)' | 'application/json';
     content: any;
   };
   header: any[]

@@ -240,7 +240,7 @@ export const formatData = (data = {}) => {
         const s = JSON.parse(stringifyPro(schema, 2, []));
         apis.body = {
           content: JSON.stringify(mock(s), null, 2),
-          type: 'JSON(application/json)',
+          type: 'application/json',
         };
         break;
       case 'header':
@@ -283,7 +283,7 @@ export const formatBody = (body: {type: string; content: any}) => {
       }
     });
   }
-  return ['JSON(application/json)', 'Text', 'Text(text/plain)'].includes(body.type) ? body.content : data;
+  return ['application/json', 'Text', 'Text(text/plain)'].includes(body.type) ? body.content : data;
 };
 
 export const fillingUrl = (url: string, path: any[]) => {
