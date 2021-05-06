@@ -17,21 +17,23 @@ import layoutStore from 'layout/stores/layout';
 import { orgPerm } from 'user/stores/_perm-org';
 import { createStore } from 'app/cube';
 import userStore from 'app/user/stores';
-import { getOrgByDomain } from '../services/org';
+import { getOrgByDomain, getJoinedOrgs } from '../services/org';
 import { getGlobal } from 'app/global-space';
-import { getResourcePermissions, getJoinedOrgs } from 'user/services/user';
+import { getResourcePermissions } from 'user/services/user';
 import permStore from 'user/stores/permission';
 import agent from 'agent';
 import { get, intersection, map, isEmpty } from 'lodash';
 
 interface IState {
-  currentOrg: ORG.IOrg
+  currentOrg: ORG.IOrg;
   curPathOrg: string;
+  orgs: ORG.IOrg[],
 }
 
 const initState: IState = {
   currentOrg: {} as ORG.IOrg,
   curPathOrg: '',
+  orgs: [],
 };
 
 const org = createStore({
@@ -76,12 +78,16 @@ const org = createStore({
       } else {
         const currentOrg = resOrg || {};
         const orgId = currentOrg.id;
+        if(currentOrg.name !== orgName) {
+          location.href = `/${currentOrg.name}`
+          return;
+        }
         if (orgId) {
 
-          const setHeader = (req: any) => {
-            req.set('org', currentOrg.name);
-          }
-          agent.use(setHeader);
+          // const setHeader = (req: any) => {
+          //   req.set('org', currentOrg.name);
+          // }
+          // agent.use(setHeader);
 
           const orgPermQuery = { scope: 'org', scopeID: `${orgId}` };
           (getResourcePermissions(orgPermQuery) as unknown as Promise<IPermResponseData>).then((orgPermRes) => {
@@ -120,14 +126,21 @@ const org = createStore({
         }
       }
     },
+    async getJoinedOrgs({ call, select, update }) {
+      const orgs = select(state => state.orgs);
+      if (isEmpty(orgs)) {
+        const { list } = await call(getJoinedOrgs);
+        update({ orgs: list });
+      }
+    },
   },
   reducers: {
     clearOrg(state) {
       state.currentOrg = {} as ORG.IOrg;
-      const setHeader = (req: any) => {
-        req.set('org', '');
-      }
-      agent.use(setHeader);
+      // const setHeader = (req: any) => {
+      //   req.set('org', '');
+      // }
+      // agent.use(setHeader);
     }
   },
 });

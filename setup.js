@@ -16,13 +16,17 @@ const { resolve } = require('path');
 const { join } = require('path');
 const cp = require('child_process');
 const os = require('os');
+const process = require('process')
 // get library path
-
 const root = resolve(__dirname, '.');
+// runCmd binary based on OS
 
-// npm binary based on OS
-
+const yarnCmd = os.platform().startsWith('win') ? 'yarn.cmd' : 'yarn';
 const npmCmd = os.platform().startsWith('win') ? 'npm.cmd' : 'npm';
+
+const runCmd = process.argv[2] === 'online' ? npmCmd : yarnCmd
+const installArg = process.argv[2] === 'online' ? ['i'] : []
+console.log(`==============${runCmd} mode=============`)
 
 const coreDir = join(root, 'core');
 const schedulerDir = join(root, 'scheduler');
@@ -34,6 +38,10 @@ const log = msg => {
 }
 
 const installDependencies = () => {
+  if (!fs.existsSync(join(root, 'node_modules')) && process.argv[2] !== 'online') {
+    cp.spawnSync(runCmd, installArg, { env: process.env, cwd: root, stdio: 'inherit' });
+    return;
+  };
   [
     cliDir,
     coreDir,
@@ -44,19 +52,20 @@ const installDependencies = () => {
       log(`${dir.split('/').pop()} dependencies have installed 😁`);
       return;
     };
-    log(`Performing "npm i" inside ${dir} folder`);
+    log(`Performing "${runCmd}" inside ${dir} folder`);
     // install dependencies
-    cp.spawnSync(npmCmd, ['i'], { env: process.env, cwd: dir, stdio: 'inherit' });
+    cp.spawnSync(runCmd, ['config', 'set', 'registry', 'https://registry.npm.terminus.io/'], { env: process.env, cwd: dir, stdio: 'inherit' });
+    cp.spawnSync(runCmd, installArg, { env: process.env, cwd: dir, stdio: 'inherit' });
   });
 }
 
 const registerErdaCmd = async () => {
-  log('register erda command');
-  await cp.spawnSync(npmCmd, ['run', 'local'], { env: process.env, cwd: cliDir, stdio: 'inherit' });
+  log('register erda-ui command globally 😁');
+  await cp.spawnSync(npmCmd, ['i', '-g', '@erda-ui/cli'], { env: process.env, cwd: cliDir, stdio: 'inherit' });
 }
 
 const setupCore = async (port) => {
-  log('create .erda/config in module core');
+  log('create .erda/config in module core 😁');
   await cp.spawnSync('erda-ui', ['setup', 'core', port], { env: process.env, cwd: coreDir, stdio: 'inherit' }) ;
 }
 

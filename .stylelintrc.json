@@ -1,6 +1,6 @@
 {
   "extends": ["stylelint-config-rational-order"],
-  "plugins": "stylelint-scss",
+  "plugins": ["stylelint-scss"],
   "ignoreFiles": [
     "**/*.js",
     "**/*.jsx",

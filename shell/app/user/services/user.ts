@@ -42,13 +42,6 @@ export const logout = () => {
     .then((response: any) => response.body);
 };
 
-export const getJoinedOrgs = (): IPagingResp<ORG.IOrg> => {
-  return agent
-    .get('/api/orgs')
-    .query({ pageNo: 1, pageSize: 30 }) // 应该不会有这么多，否则也显示不下
-    .then((response: any) => response.body);
-};
-
 export const getJoinedProjects = ({ pageSize, pageNo, q, searchKey }: { pageSize: number, pageNo: number, q?: string, searchKey?: string })
 : IPagingResp<PROJECT.Detail> => {
   return agent

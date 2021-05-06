@@ -19,7 +19,7 @@ export const getProcessDashboardId = (query: TOPOLOGY_SERVICE_ANALYZE.CommonQuer
     .then((response: any) => response.body);
 };
 
-export const getTraceSlowTranslation = (query: Merge<TOPOLOGY_SERVICE_ANALYZE.CommonQuery, { operation: string }>): TOPOLOGY_SERVICE_ANALYZE.TranslationSlowResp => {
+export const getTraceSlowTranslation = (query: Merge<TOPOLOGY_SERVICE_ANALYZE.CommonQuery, { operation: string; start: number; end: number; sort: 'DESC' | 'ASC' }>): TOPOLOGY_SERVICE_ANALYZE.TranslationSlowResp => {
   return agent.get('/api/apm/topology/translation/slow')
     .query(query)
     .then((response: any) => response.body);

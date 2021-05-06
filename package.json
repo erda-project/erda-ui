@@ -1,0 +1,33 @@
+{
+  "name": "erda-ui",
+  "version": "1.0.0",
+  "description": "Frontend ui for Erda",
+  "private": true,
+  "workspaces": [
+    "cli",
+    "core",
+    "scheduler",
+    "shell"
+  ],
+  "scripts": {
+    "changed": "lerna changed --all",
+    "publish": "lerna publish",
+    "clear": "lerna clean -y && rm -r -f ./node_modules"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erda-project/erda-ui.git"
+  },
+  "keywords": [
+    "erda-ui"
+  ],
+  "author": "Erda-FE",
+  "license": "AGPL",
+  "bugs": {
+    "url": "https://github.com/erda-project/erda-ui/issues"
+  },
+  "homepage": "https://github.com/erda-project/erda-ui#readme",
+  "dependencies": {
+    "lerna": "^4.0.0"
+  }
+}

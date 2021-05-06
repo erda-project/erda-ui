@@ -18,6 +18,7 @@ import i18n from 'i18n';
 import { DC } from '@terminus/dashboard-configurator';
 import { Radio, Search, Select, Drawer, Tag, Table } from 'app/nusi';
 import { TimeSelector, SimpleLog, useUpdate } from 'common';
+import monitorCommonStore from 'common/stores/monitorCommon';
 import { useLoading } from 'common/stores/loading';
 import routeInfoStore from 'app/common/stores/route';
 import topologyServiceStore from 'microService/stores/topology-service-analyze';
@@ -64,6 +65,7 @@ const REG_CHARS = ['*', '.', '?', '+', '$', '^', '[', ']', '(', ')', '{', '}', '
 
 const Transaction = () => {
   const { getTraceSlowTranslation } = topologyServiceStore;
+  const { startTimeMs, endTimeMs } = monitorCommonStore.useStore(s => s.timeSpan);
   const params = routeInfoStore.useStore(s => s.params);
   const [isFetching] = useLoading(topologyServiceStore, ['getTraceSlowTranslation']);
   const [{ type, search, subSearch, sort, url, visible, traceSlowTranslation, detailVisible, traceId, logVisible }, updater] = useUpdate({
@@ -93,6 +95,9 @@ const Transaction = () => {
       updater.url(cellValue);
       updater.visible(true);
       getTraceSlowTranslation({
+        sort: 'DESC',
+        start: startTimeMs,
+        end: endTimeMs,
         terminusKey,
         serviceName,
         serviceId: window.decodeURIComponent(serviceId),

@@ -13,6 +13,7 @@
 
 import agent from 'agent';
 import { get } from 'lodash';
+import { setApiWithOrg } from 'common/utils';
 import routeInfoStore from 'app/common/stores/route';
 
 // 获取测试计划列表
@@ -105,5 +106,5 @@ export const cancelBuild = ({ testPlanID, pipelineID }: {testPlanID: string; pip
 };
 
 export const exportFiles = ({ testPlanID, queryParam }: {testPlanID: number, queryParam: string}) => {
-  window.open(`/api/testplans/${testPlanID}/actions/export?${queryParam}`);
+  window.open(setApiWithOrg(`/api/testplans/${testPlanID}/actions/export?${queryParam}`));
 };

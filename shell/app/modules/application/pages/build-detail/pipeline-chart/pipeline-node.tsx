@@ -15,7 +15,7 @@ import * as React from 'react';
 import { isEmpty, get, isNumber, debounce } from 'lodash';
 import { Popover, Tooltip } from 'app/nusi';
 import { Icon as CustomIcon, useUpdate } from 'common';
-import { secondsToTime } from 'common/utils';
+import { secondsToTime, setApiWithOrg } from 'common/utils';
 import { useEffectOnce } from 'react-use';
 import { ciNodeStatusSet, ciStatusMap } from '../config';
 import classnames from 'classnames';
@@ -120,7 +120,7 @@ const PipelineNode = (props: IProps) => {
         detailInfo.push(files.map((item, idx) => (
           item.value ? (
             <div className='table-operations' key={`file-${String(idx)}`}>
-              <a className="table-operations-btn" download={item.value} href={`/api/files/${item.value}`}>
+              <a className="table-operations-btn" download={item.value} href={setApiWithOrg(`/api/files/${item.value}`)}>
                 {item.name || item.value}
               </a>
             </div>

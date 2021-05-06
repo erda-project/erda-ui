@@ -17,7 +17,7 @@ const notifier = require('node-notifier');
 const { logInfo, logSuccess, logError } = require('./util/log');
 const { rootDir, shellDir, registryDir } = require('./util/env');
 
-const { execSync } = child_process;
+const { execSync, spawnSync } = child_process;
 
 
 const GET_SHA_CMD = 'git rev-parse --short HEAD';
@@ -25,6 +25,8 @@ const START_DOCKER_CMD = 'open --background -a Docker';
 
 module.exports = async () => {
   try {
+    await spawnSync('erda-ui', ['build'], { env: process.env, cwd: shellDir, stdio: 'inherit' }) ;
+
     const date = dayjs().format('YYYYMMDD');
     const shortSha = await execSync(GET_SHA_CMD);
     const sha = shortSha.toString().replace(/\n/, '');// remove the backmost line feed

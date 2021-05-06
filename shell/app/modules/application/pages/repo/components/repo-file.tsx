@@ -16,7 +16,7 @@ import * as React from 'react';
 import pathLib from 'path';
 import FileContainer from 'application/common/components/file-container';
 import { FileEditor, connectCube } from 'common';
-import { goTo, qs } from 'common/utils';
+import { goTo, qs, setApiWithOrg } from 'common/utils';
 import { getSplitPathBy, getInfoFromRefName } from '../util';
 import Markdown from 'common/utils/marked';
 import { Icon } from 'app/nusi';
@@ -206,7 +206,7 @@ class RepoFile extends React.PureComponent<IProps, IState> {
               _src = `${fileSrcPrefix}/${curBranch}/${src}`;
             }
 
-            return `<img src="${_src}" alt="${title || 'preview-image'}" />`;
+            return `<img src="${setApiWithOrg(_src)}" alt="${title || 'preview-image'}" />`;
           },
         };
         return (
