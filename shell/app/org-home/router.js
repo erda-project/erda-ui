@@ -12,11 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import getWorkBenchRouter from 'workBench/router';
-import getMicroServiceRouter from 'microService/router'
+import getMicroServiceRouter from 'microService/router';
 import getEdgeRouter from 'app/modules/edge/router';
 import getDataCenterRouter from 'dataCenter/router';
 import getOrgCenterRouter from 'org/router';
-import getLayoutRouter from 'layout/router'
+import getLayoutRouter from 'layout/router';
 
 export default function getOrgRouter() {
   return [
@@ -49,7 +49,7 @@ export default function getOrgRouter() {
         ...getEdgeRouter(),
         ...getDataCenterRouter(),
         ...getOrgCenterRouter(),
-      ]
+      ],
     },
   ];
 }
