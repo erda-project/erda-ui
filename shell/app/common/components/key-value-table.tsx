@@ -138,6 +138,7 @@ interface IProps {
 
 interface IState {
   dataSource: IItemData[];
+  preData: object | null;
 }
 export class KeyValueTable extends React.Component<IProps, IState> {
   table: any;
@@ -146,6 +147,7 @@ export class KeyValueTable extends React.Component<IProps, IState> {
     super(props);
     this.state = {
       dataSource: convertToColumnData(props.data),
+      preData: null,
     };
   }
 
@@ -167,10 +169,11 @@ export class KeyValueTable extends React.Component<IProps, IState> {
     return as ? { ...otherData, [as]: { ...tbData } } : { ...otherData, ...tbData };
   }
 
-  static getDerivedStateFromProps(nextProps: IProps, preState: IState): Partial<IState> | null{
-    if (!isEqual(convertToColumnData(nextProps.data), preState.dataSource)) {
+  static getDerivedStateFromProps(props: IProps, preState: IState): Partial<IState> | null{
+    if (!isEqual(props.data, preState.preData)) {
       return {
-        dataSource: convertToColumnData(nextProps.data),
+        dataSource: convertToColumnData(props.data),
+        preData: props.data,
       };
     }
     return null;
