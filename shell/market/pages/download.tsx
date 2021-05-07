@@ -14,6 +14,7 @@
 import React from 'react';
 import { Spin, message, Button } from 'app/nusi';
 import { withRouter } from 'react-router-dom';
+import { setApiWithOrg } from 'app/common/utils';
 import { isEmpty, get } from 'lodash';
 import QRCode from 'qrcode.react';
 import agent from 'agent';
@@ -54,7 +55,7 @@ const DownloadPage = ({ match }: any) => {
   const client = judgeClient().toLowerCase();
   React.useEffect(() => {
     setIsLoading(true);
-    agent.get(`/api/publish-items/${match.params.publishItemId}/distribution`)
+    agent.get(setApiWithOrg(`/api/publish-items/${match.params.publishItemId}/distribution`))
       .query({ mobileType: client })
       .then((response: any) => {
         const { success, data, err } = response.body;
