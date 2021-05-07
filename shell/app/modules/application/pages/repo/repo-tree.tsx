@@ -45,9 +45,9 @@ interface IDownProp {
 }
 
 const RepoDownload = (props: IDownProp) => {
-  const { info, appDetail: { projectName, name, gitRepoAbbrev, token } } = props;
+  const { info, appDetail: { projectName, name, gitRepoAbbrev, token, gitRepoNew } } = props;
   const { protocol, host } = window.location;
-  const gitRepo = `${protocol}//${host}/wb/${projectName}/${name}`;
+  const gitRepo = `${protocol}//${gitRepoNew}`;
   const { branch, tag } = getInfoFromRefName(info.refName);
   const currentBranch = branch || tag || info.defaultBranch;
   const download = (format: string) => window.open(setApiWithOrg(`/api/repo/${gitRepoAbbrev}/archive/${currentBranch}.${format}`));
