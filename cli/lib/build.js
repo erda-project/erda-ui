@@ -14,12 +14,12 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
 const child_process = require('child_process');
+const path = require('path');
 const { logInfo, logSuccess, logWarn, logError } = require('./util/log');
 const {
   rootDir,
   publicDir,
   yarnCmd,
-  npmCmd,
   moduleList
 } = require('./util/env');
 const { execSync, exec } = child_process;
@@ -47,6 +47,54 @@ const checkBranch = async () => {
       },
     ]);
     if (!answer.continueBuild) {
+      process.exit(0);
+    }
+  }
+};
+
+const checkCodeUpToDate = async () => {
+  logInfo('update code');
+
+  let answer = await inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'updateCode',
+      message: 'Whether to auto update the code? Or you can update manually and then select "N" to continue.',
+      default: false,
+    },
+  ]);
+
+  if (answer.updateCode) {
+    logInfo(`performing "git pull upstream develop" inside "${rootDir}"`);
+    await execSync(`git pull upstream develop`, { cwd: rootDir });
+
+    let enterpriseDir = path.resolve(rootDir, '../erda-ui-enterprise');
+
+    if (!fs.existsSync(enterpriseDir)) {
+      answer = await inquirer.prompt([
+        {
+          type: 'directory',
+          name: 'targetPath',
+          message: 'Select erda-ui-enterprise directory',
+          basePath: path.resolve(rootDir, '..')
+        }
+      ]);
+
+      enterpriseDir = answer.targetPath;
+    }
+    logInfo(`performing "git pull upstream master" inside "${enterpriseDir}"`);
+    await execSync(`git pull upstream master`, { cwd: enterpriseDir });
+
+    answer = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'solvedConflicts',
+        message: 'Have all merge conflicts been solved?',
+        default: false,
+      },
+    ]);
+
+    if (!answer.solvedConflicts) {
       process.exit(0);
     }
   }
@@ -85,9 +133,9 @@ const checkReInstall = async () => {
 const installDependencies = async () => {
   const pList = [];
   moduleList.forEach(({moduleDir: dir, moduleName: name}) => {
-    logInfo(`Performing "npm i" inside ${dir} folder`);
+    logInfo(`Performing "${yarnCmd}" inside ${dir} folder`);
     let installPromise = new Promise((resolve)=> {
-      exec('npm i', { env: process.env, cwd: dir, stdio: 'inherit' }, (error, stdout)=>{
+      exec(yarnCmd, { env: process.env, cwd: dir, stdio: 'inherit' }, (error, stdout)=>{
         if (error) {
           logError(`install error: ${error}`);
           process.exit(1);
@@ -178,6 +226,7 @@ module.exports = async (execPath) => {
     
     if (execPath === 'local') {
       await checkBranch();
+      await checkCodeUpToDate();
       enableSourceMap = await whetherGenerateSourceMap();
       await checkReInstall();
     }
