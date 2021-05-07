@@ -148,7 +148,7 @@ server {
        proxy_pass   http://${FDP_UI_ADDR}/;
     }
 
-    location ^* /api/[^/]*/fdp-websocket {
+    location ~* ^/api/[^/]*/fdp-websocket {
         rewrite  /api/([^/]*)/(.*) /api/$2 break;
         proxy_set_header org $1;
         proxy_pass http://${OPENAPI_ADDR};
