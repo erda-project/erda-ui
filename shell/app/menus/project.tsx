@@ -31,7 +31,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     {
       href: goTo.resolve.projectAllIssue(), //`/workBench/projects/${projectId}/issues/all`,
       icon: <HoldingHands />,
-      text: i18n.t('project:project collaboration'),
+      text: i18n.t('project:issues'),
       show: projectPerm.backLog.viewBackLog.pass || projectPerm.iteration.read.pass || projectPerm.issue.viewIssue.pass || projectPerm.epic.read.pass,
       prefix: `${goTo.resolve.projectIssueRoot()}/`,
     },
@@ -74,13 +74,13 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     {
       href: goTo.resolve.projectDashboard(), // `/workBench/projects/${projectId}/dashboard`,
       icon: <DashboardCar />,
-      text: i18n.t('statistical report'),
+      text: i18n.t('project:dashboard'),
       show: projectPerm.dashboard.viewDashboard.pass,
     },
     {
       href: goTo.resolve.projectService(),
       icon: <Stretching />,
-      text: i18n.t('addon service'),
+      text: i18n.t('project:addon'),
       show: projectPerm.service.viewService.pass,
     },
     {
@@ -90,7 +90,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       show: projectPerm.resource.viewResource.pass,
     },
     {
-      text: i18n.t('project:ticket list'),
+      text: i18n.t('project:tickets'),
       icon: <List />,
       href: goTo.resolve.projectTicket(),
       show: projectPerm.ticket.read.pass,

@@ -33,7 +33,9 @@ export const PureBoardGrid = ({ ...restProps }: DC.PureBoardGridProps) => {
   setLocale(locale);
   const _restProps = produce(restProps, draft => {
     forEach(draft.layout, item => {
-      item.view.api.url = setApiWithOrg(item.view.api.url);
+      if (item.view.api) {
+        item.view.api.url = setApiWithOrg(item.view.api.url);
+      }
     });
   });
 
