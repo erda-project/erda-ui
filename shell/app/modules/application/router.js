@@ -54,7 +54,7 @@ function getAppRouter() {
       {
         path: 'repo',
         mark: 'repo',
-        pageName: i18n.t('application:repository'),
+        pageName: i18n.t('application:files'),
         routes: [
           {
             getComp: cb => cb(import('application/pages/repo/repo-tree')),

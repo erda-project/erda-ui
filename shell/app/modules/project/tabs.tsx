@@ -104,12 +104,12 @@ export const PROJECT_TABS = () => {
     },
     {
       key: 'backlog',
-      name: i18n.t('project:to be planned'),
+      name: i18n.t('project:backlog'),
       show: projectPerm.backLog.viewBackLog.pass,
     },
     {
       key: 'iteration',
-      name: i18n.t('project:iteration'),
+      name: i18n.t('project:sprint'),
       show: projectPerm.iteration.read.pass,
     },
     {

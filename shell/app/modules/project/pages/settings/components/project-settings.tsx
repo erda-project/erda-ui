@@ -79,7 +79,7 @@ const ProjectSettings = () => {
       ],
     },
     {
-      groupTitle: i18n.t('repository'),
+      groupTitle: i18n.t('application:files'),
       groupKey: 'repository',
       tabGroup: [
         {
@@ -115,7 +115,7 @@ const ProjectSettings = () => {
       ],
     },
     {
-      groupTitle: i18n.t('project:project collaboration'),
+      groupTitle: i18n.t('project:issues'),
       groupKey: 'collaboration',
       tabGroup: [
         {

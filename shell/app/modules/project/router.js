@@ -37,7 +37,7 @@ function getProjectRouter() {
           path: 'dashboard',
           routes: [
             {
-              breadcrumbName: i18n.t('project:project dashboard'),
+              breadcrumbName: i18n.t('project:dashboard'),
               getComp: cb => cb(import('project/pages/dashboard'), 'ProjectDashboard'),
               layout: {
                 fullHeight: true,
@@ -48,7 +48,7 @@ function getProjectRouter() {
         {
           path: 'issues',
           mark: 'issues',
-          breadcrumbName: i18n.t('project:project collaboration'),
+          breadcrumbName: i18n.t('project:issues'),
           routes: [
             {
               path: 'all',
@@ -124,7 +124,7 @@ function getProjectRouter() {
         },
         {
           path: 'ticket',
-          breadcrumbName: i18n.t('project:ticket list'),
+          breadcrumbName: i18n.t('project:tickets'),
           getComp: cb => cb(import('project/pages/ticket')),
         },
         {
@@ -269,7 +269,7 @@ function getProjectRouter() {
         },
         {
           path: 'service',
-          breadcrumbName: i18n.t('addon service'),
+          breadcrumbName: i18n.t('project:addon'),
           layout: { fullHeight: true },
           getComp: cb => cb(import('project/pages/addon/addon-category'), 'AddonCategory'),
         },
