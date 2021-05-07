@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, message, Button } from '../../app/nusi';
+import { Spin, message, Button } from 'app/nusi';
 import { withRouter } from 'react-router-dom';
-import { setApiWithOrg } from '../../app/common/utils';
+import { setApiWithOrg } from 'app/common/utils';
 import { isEmpty, get } from 'lodash';
 import QRCode from 'qrcode.react';
 import agent from 'agent';
