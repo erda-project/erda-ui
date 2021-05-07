@@ -18,31 +18,25 @@ import { get } from 'lodash';
 import ApplyUnblockModal, { IMetaData } from 'workBench/pages/projects/apply-unblock-modal';
 import routeInfoStore from 'app/common/stores/route';
 
+const scenarioConfig = {
+  'public-projects': {
+    scenarioKey: 'project-list-all',
+    scenarioType: 'project-list-all',
+  },
+  projects: {
+    scenarioKey: 'project-list-my',
+    scenarioType: 'project-list-my',
+  }
+}
+
 const ProjectList = () => {
+  const currentRoute = routeInfoStore.getState(s => s.currentRoute);
+  const { scenarioKey, scenarioType } = scenarioConfig[get(currentRoute, 'relativePath')] || {}
   const [state, updater, update] = useUpdate({
     visible: false,
     metaData: {} as IMetaData,
-    scenarioKey: '',
-    scenarioType: '',
   });
   const reloadRef = React.useRef(null as any);
-  const currentRoute = routeInfoStore.getState(s => s.currentRoute);
-
-  React.useEffect(() => {
-    if (get(currentRoute, 'relativePath') === 'public-projects') {
-      update({
-        scenarioKey: 'project-list-all',
-        scenarioType: 'project-list-all',
-      });
-    }
-
-    if (get(currentRoute, 'relativePath') === 'projects') {
-      update({
-        scenarioKey: 'project-list-my',
-        scenarioType: 'project-list-my',
-      });
-    }
-  }, [get(currentRoute, 'relativePath')])
 
   const closeModal = () => {
     update({
@@ -68,26 +62,23 @@ const ProjectList = () => {
   };
   return (
     <>
-      {
-        state.scenarioKey &&
-        <DiceConfigPage
-          scenarioType={state.scenarioType}
-          ref={reloadRef}
-          scenarioKey={state.scenarioKey}
-          useMock={useMock}
-          customProps={{
-            list: {
-              applyDeploy: (op: CP_COMMON.Operation, data: any) => {
-                const pId = get(op, 'meta.projectId') || data?.projectId;
-                const pName = get(op, 'meta.projectName') || data?.projectName;
-                if (pId && pName) {
-                  handleShowApplyModal({ name: pName, id: pId } as PROJECT.Detail);
-                }
-              },
+      <DiceConfigPage
+        scenarioType={scenarioType}
+        ref={reloadRef}
+        scenarioKey={scenarioKey}
+        useMock={useMock}
+        customProps={{
+          list: {
+            applyDeploy: (op: CP_COMMON.Operation, data: any) => {
+              const pId = get(op, 'meta.projectId') || data?.projectId;
+              const pName = get(op, 'meta.projectName') || data?.projectName;
+              if (pId && pName) {
+                handleShowApplyModal({ name: pName, id: pId } as PROJECT.Detail);
+              }
             },
-          }}
-        />
-      }
+          },
+        }}
+      />
       <ApplyUnblockModal
         visible={state.visible}
         metaData={state.metaData as IMetaData}
