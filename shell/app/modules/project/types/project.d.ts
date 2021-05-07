@@ -21,11 +21,6 @@ declare namespace PROJECT {
     TEST: T
   }
 
-  interface ProjectListTypeParams {
-    scenarioKey: string,
-    scenarioType: string,
-  }
-
   interface ListQuery {
     orgId?: number,
     pageNo: number,

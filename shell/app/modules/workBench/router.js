@@ -85,14 +85,14 @@ export default function getWorkBenchRouter() {
           pageName: i18n.t('joined projects'),
           breadcrumbName: i18n.t('joined projects'),
           layout: { fullHeight: true },
-          getComp: cb => cb(import('app/modules/workBench/pages/projects/project-list-protocol'), 'ProjectListMy'),
+          getComp: cb => cb(import('app/modules/workBench/pages/projects/project-list-protocol')),
         },
         {
           path: 'public-projects',
           pageName: i18n.t('public project'),
           breadcrumbName: i18n.t('public project'),
           layout: { fullHeight: true },
-          getComp: cb => cb(import('app/modules/workBench/pages/projects/project-list-protocol'), 'ProjectListAll'),
+          getComp: cb => cb(import('app/modules/workBench/pages/projects/project-list-protocol')),
         },
         {
           path: 'service',
