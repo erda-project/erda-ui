@@ -17,6 +17,13 @@ import { withRouter } from 'react-router-dom';
 import { setApiWithOrg } from 'app/common/utils';
 import { isEmpty, get } from 'lodash';
 import QRCode from 'qrcode.react';
+import downloadBg_2x from '../images/download/download-bg@2x.png';
+import downloadR1_2x from '../images/download/download-r1@2x.png';
+import downloadC_2x from '../images/download/download-c@2x.png';
+import downloadS1_2x from '../images/download/download-s1@2x.png';
+import downloadY1_2x from '../images/download/download-y1@2x.png';
+import downloadY2_2x from '../images/download/download-y2@2x.png';
+
 import agent from 'agent';
 import moment from 'moment';
 import './download.scss';
@@ -55,7 +62,7 @@ const DownloadPage = ({ match }: any) => {
   const client = judgeClient().toLowerCase();
   React.useEffect(() => {
     setIsLoading(true);
-    agent.get(setApiWithOrg(`/api/publish-items/${match.params.publishItemId}/distribution`))
+    agent.get(`/api/publish-items/${match.params.publishItemId}/distribution`)
       .query({ mobileType: client })
       .then((response: any) => {
         const { success, data, err } = response.body;
@@ -211,14 +218,14 @@ const DownloadPage = ({ match }: any) => {
             }
           </div>
         </div>
-        <img className="bg-img" src="/images/download/download-bg@2x.png" alt="" />
+        <img className="bg-img" src={downloadBg_2x} alt="" />
         <div className="bg-wrap">
-          <img className="bg-img" src="/images/download/download-bg@2x.png" alt="" />
-          <img className="people" src="/images/download/download-r1@2x.png" alt="" />
-          <img className="water-mark" src="/images/download/download-c@2x.png" alt="" />
-          <img className="s1" src="/images/download/download-s1@2x.png" alt="" />
-          <img className="y1" src="/images/download/download-y1@2x.png" alt="" />
-          <img className="y2" src="/images/download/download-y2@2x.png" alt="" />
+          <img className="bg-img" src={downloadBg_2x} alt="" />
+          <img className="people" src={downloadR1_2x} alt="" />
+          <img className="water-mark" src={downloadC_2x} alt="" />
+          <img className="s1" src={downloadS1_2x} alt="" />
+          <img className="y1" src={downloadY1_2x} alt="" />
+          <img className="y2" src={downloadY2_2x} alt="" />
         </div>
       </div>
     </Spin>
