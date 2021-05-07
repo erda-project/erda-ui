@@ -30,7 +30,7 @@ import i18n from 'i18n';
 import './error-overview.scss';
 
 const errorChartConfig = {
-  fetchApi: ' /api/tmc/metrics/error_count/histogram',
+  fetchApi: '/api/tmc/metrics/error_count/histogram',
   query: { sum: 'count' },
   dataHandler: groupHandler('sum.count'),
   moduleName: 'monitorErrors',

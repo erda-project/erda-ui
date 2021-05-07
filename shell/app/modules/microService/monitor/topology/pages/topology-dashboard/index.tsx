@@ -43,7 +43,7 @@ const childrenKeyMap = {
   configcenter: ['Configs'],
 };
 
-export default () => {
+const TopologyDashboard = () => {
   const params = routeInfoStore.useStore(s => s.params);
   const timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
   const activedNode = topologyServiceStore.useStore(s => s.activedNode);
@@ -190,3 +190,5 @@ export default () => {
     </div>
   );
 };
+
+export default React.memo(TopologyDashboard)
