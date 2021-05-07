@@ -74,9 +74,8 @@ const { TabPane } = Tabs;
 const { TextArea } = Input;
 
 const BODY_RAW_OPTION = [
-  'Text',
-  'Text(text/plain)',
-  'JSON(application/json)',
+  'text/plain',
+  'application/json',
 ];
 
 const formatTip = i18n.t('project:json-format-tip').replace(/</g, '{').replace(/>/g, '}');
@@ -112,7 +111,26 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
   const processTempFun = processTemp(execOperation);
 
   React.useEffect(() => {
-    setAPI(data?.apiSpec || {});
+    const apiSpec = cloneDeep(get(data, 'apiSpec', {}));
+    const headers = apiSpec.headers || [];
+    const updateHeader = (type:string) => {
+      const exist = find(headers, { key: 'Content-Type' });
+      if (exist) {
+        exist.value = type;
+      } else {
+        headers.push({ key: 'Content-Type', value: type, desc: '' });
+      }
+      return headers;
+    };
+    // compatible with old data
+    if (apiSpec.body?.type.includes('Text')) {
+      set(apiSpec, 'body.type', BODY_RAW_OPTION[0]);
+      set(apiSpec, 'headers', updateHeader(BODY_RAW_OPTION[0]));
+    } else if (apiSpec.body?.type.includes('JSON')) {
+      set(apiSpec, 'body.type', BODY_RAW_OPTION[1]);
+      set(apiSpec, 'headers', updateHeader(BODY_RAW_OPTION[1]));
+    }
+    setAPI(apiSpec);
   }, [data]);
 
   const handleClose = () => {
@@ -808,7 +826,7 @@ const ValMap = {
       // onBlur={e => updateBody('content', e.target.value, true)}
     />);
   },
-  'JSON(application/json)': (props: any) => <TestJsonEditor {...props} />,
+  'application/json': (props: any) => <TestJsonEditor {...props} />,
 };
 
 const APIBody = (props: any) => {
@@ -853,10 +871,10 @@ const APIBody = (props: any) => {
         }
       };
       switch (body.type) {
-        case 'JSON(application/json)':
+        case 'application/json':
           adjustHeader('push', { key: 'Content-Type', value: 'application/json', desc: '' });
           break;
-        case 'Text(text/plain)':
+        case 'text/plain':
           adjustHeader('push', { key: 'Content-Type', value: 'text/plain', desc: '' });
           break;
         case 'Text':
