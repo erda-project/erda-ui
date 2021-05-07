@@ -111,25 +111,26 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
   const processTempFun = processTemp(execOperation);
 
   React.useEffect(() => {
-    const apiSpec = cloneDeep(get(data, 'apiSpec', {}));
-    const headers = apiSpec.headers || [];
-    const updateHeader = (type:string) => {
-      const exist = find(headers, { key: 'Content-Type' });
-      if (exist) {
-        exist.value = type;
-      } else {
-        headers.push({ key: 'Content-Type', value: type, desc: '' });
+    const apiSpec = produce(data?.apiSpec || {}, (draft) => {
+      const headers = draft.headers || [];
+      const updateHeader = (type:string) => {
+        const exist = find(headers, { key: 'Content-Type' });
+        if (exist) {
+          exist.value = type;
+        } else {
+          headers.push({ key: 'Content-Type', value: type, desc: '' });
+        }
+        return headers;
+      };
+      // compatible with old data
+      if (draft.body?.type.includes('Text')) {
+        set(draft, 'body.type', BODY_RAW_OPTION[0]);
+        set(draft, 'headers', updateHeader(BODY_RAW_OPTION[0]));
+      } else if (draft.body?.type.includes('JSON')) {
+        set(draft, 'body.type', BODY_RAW_OPTION[1]);
+        set(draft, 'headers', updateHeader(BODY_RAW_OPTION[1]));
       }
-      return headers;
-    };
-    // compatible with old data
-    if (apiSpec.body?.type.includes('Text')) {
-      set(apiSpec, 'body.type', BODY_RAW_OPTION[0]);
-      set(apiSpec, 'headers', updateHeader(BODY_RAW_OPTION[0]));
-    } else if (apiSpec.body?.type.includes('JSON')) {
-      set(apiSpec, 'body.type', BODY_RAW_OPTION[1]);
-      set(apiSpec, 'headers', updateHeader(BODY_RAW_OPTION[1]));
-    }
+    });
     setAPI(apiSpec);
   }, [data]);
 
