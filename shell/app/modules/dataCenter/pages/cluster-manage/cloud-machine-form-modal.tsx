@@ -149,11 +149,12 @@ const CloudMachineAddForm = (props:any) => {
 
 const CloudMachineFormModal = (props: IProps) => {
   const { formData, onCancel, visible, onSubmit, orgId, cluster } = props;
-  // k8s(alicloud) 云集群(alicloud-ecs)  容器集群(alicloud-ack)
-  const cloudVendor = get(cluster, 'cloudVendor', '');
-
+  
   const handelSubmit = (data: any) => {
-    const { customLabels = [], instanceNum, diskSize, ...rest } = data;
+    const { customLabels = [], instanceNum, diskSize, cloudVendor: defaultVendor, ...rest } = data;
+    // k8s(alicloud) 云集群(alicloud-ecs)  容器集群(alicloud-ack)
+    const cloudVendor = cluster.cloudVendor || defaultVendor;
+  
     rest.labels = uniq((data.labels || []).concat(customLabels));
     const postData = {
       instanceNum: Number(instanceNum),
