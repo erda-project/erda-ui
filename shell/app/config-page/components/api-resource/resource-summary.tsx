@@ -109,7 +109,7 @@ const ResourceSummary = React.memo((props:IProps) => {
     setTimeout(() => {
       formRef.current!.setFieldsValue({
         operationId: formData?.operationId,
-        description: formData?.description,
+        description: formData?.description || '',
         tags: get(formData, 'tags.0'),
       });
     });
