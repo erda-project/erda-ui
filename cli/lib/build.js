@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 const fs = require('fs');
+const path = require('path');
 const inquirer = require('inquirer');
 const child_process = require('child_process');
 const { logInfo, logSuccess, logWarn, logError } = require('./util/log');
@@ -26,6 +27,7 @@ const { execSync, exec } = child_process;
 const GET_BRANCH_CMD = "git branch | awk '/\\*/ { print $2; }'";
 const UPDATE_SUB_MODULES = "git pull --recurse-submodules";
 
+let rebuildModules = moduleList.map(item => item.moduleName);
 
 const getCurrentBranch = async () => {
   execSync(UPDATE_SUB_MODULES);
@@ -101,20 +103,22 @@ const checkReInstall = async () => {
 const installDependencies = async () => {
   const pList = [];
   moduleList.forEach(({moduleDir: dir, moduleName: name}) => {
-    logInfo(`Performing "${yarnCmd}" inside ${dir} folder`);
-    let installPromise = new Promise((resolve)=> {
-      exec(yarnCmd, { env: process.env, cwd: dir, stdio: 'inherit' }, (error, stdout)=>{
-        if (error) {
-          logError(`install error: ${error}`);
-          process.exit(1);
-        } else {
-          logSuccess(`【${name}】 successfully installed! [${stdout}]`)
-          resolve();
-        }
-      });
-    })
-
-    pList.push(installPromise);
+    if (rebuildModules.includes(name)) {
+      logInfo(`Performing "${yarnCmd}" inside ${dir} folder`);
+      let installPromise = new Promise((resolve)=> {
+        exec(yarnCmd, { env: process.env, cwd: dir, stdio: 'inherit' }, (error, stdout)=>{
+          if (error) {
+            logError(`install error: ${error}`);
+            process.exit(1);
+          } else {
+            logSuccess(`【${name}】 successfully installed! [${stdout}]`)
+            resolve();
+          }
+        });
+      })
+  
+      pList.push(installPromise);
+    }
   });
 
   await Promise.all(pList);
@@ -123,7 +127,35 @@ const installDependencies = async () => {
 
 const clearPublic = async () => {
   logInfo('clear Public');
-  await execSync(`rm -rf ${publicDir}/*`, { cwd: rootDir });
+
+  if (rebuildModules.length === moduleList.length) {
+    await execSync(`rm -rf ${publicDir}/*`, { cwd: rootDir });
+  } else {
+    const pList = [];
+
+    rebuildModules.forEach(name => {
+      let clearPromise = new Promise((resolve)=> {
+        const clearCmd = name !== 'shell' 
+          ? `rm -rf ${publicDir}/static/${name}` 
+          : `rm -rf ${publicDir}/static/${name} && find ${publicDir}/static -type f | xargs rm -f`;
+
+        exec(clearCmd, { cwd: rootDir }, (error, stdout, stderr)=>{
+          if (error) {
+            logError(`clear error: ${error}`);
+            process.exit(1);
+          } else {
+            logInfo(stderr);
+            logSuccess(`dist of module【${name}】has been cleared! [${stdout}]`);
+            resolve();
+          }
+        });
+      });
+      pList.push(clearPromise);
+    });
+
+    await execSync(`rm -rf ${publicDir}/version.json`, { cwd: rootDir });
+    await Promise.all(pList);
+  }
 }
 
 const checkModuleValid = async (execPath)=> {
@@ -159,27 +191,44 @@ const checkModuleValid = async (execPath)=> {
   }
 }
 
+const checkRebuildModules = async () => {
+  if (fs.existsSync(path.resolve(publicDir, 'static'))) {
+    const { selectedModuleList } = await inquirer.prompt([
+      {
+        type: 'checkbox',
+        name: 'selectedModuleList',
+        message: 'Choose modules which need to rebuild',
+        choices: rebuildModules,
+      }
+    ]);
+    rebuildModules = selectedModuleList;
+  }
+}
+
 const buildAll =  async (enableSourceMap) => {  
   const pList = [];
 
   moduleList.forEach(item => {
     const { moduleName, moduleDir } = item;
-    logInfo(`Building ${moduleName}`);
 
-    let buildPromise = new Promise((resolve)=> {
-      exec('npm run build', { env: { ...process.env, enableSourceMap }, cwd: moduleDir, stdio: 'inherit' }, (error, stdout, stderr)=>{
-        if (error) {
-          logError(`build error: ${error}`);
-          process.exit(1);
-        } else {
-          logInfo(stderr);
-          logSuccess(`【${moduleName}】build successfully! [${stdout}]`);
-          resolve();
-        }
-      });
-    })
-
-    pList.push(buildPromise);
+    if (rebuildModules.includes(moduleName)) {
+      logInfo(`Building ${moduleName}`);
+  
+      let buildPromise = new Promise((resolve)=> {
+        exec('npm run build', { env: { ...process.env, enableSourceMap }, cwd: moduleDir, stdio: 'inherit' }, (error, stdout, stderr)=>{
+          if (error) {
+            logError(`build error: ${error}`);
+            process.exit(1);
+          } else {
+            logInfo(stderr);
+            logSuccess(`【${moduleName}】build successfully! [${stdout}]`);
+            resolve();
+          }
+        });
+      })
+  
+      pList.push(buildPromise);
+    }
   });
 
   await Promise.all(pList);
@@ -195,6 +244,7 @@ module.exports = async (execPath) => {
     if (execPath === 'local') {
       await checkBranch();
       await checkCodeUpToDate();
+      await checkRebuildModules();
       enableSourceMap = await whetherGenerateSourceMap();
       await checkReInstall();
     }
@@ -204,7 +254,11 @@ module.exports = async (execPath) => {
     await buildAll(enableSourceMap);
 
     require('./gen-version')();
-    require('./local-icon')();
+
+    if (rebuildModules.includes('shell')) {
+      require('./local-icon')();
+    }
+
   } catch (error) {
     logError('build exit with error:', error.message);
     process.exit(1);

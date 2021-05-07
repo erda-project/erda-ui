@@ -30,7 +30,6 @@ module.exports = async () => {
     if (buildProcess.status === 1) {
       process.exit(1);
     }
-    
 
     const date = dayjs().format('YYYYMMDD');
     const shortSha = await execSync(GET_SHA_CMD);
