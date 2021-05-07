@@ -59,44 +59,13 @@ const checkCodeUpToDate = async () => {
     {
       type: 'confirm',
       name: 'updateCode',
-      message: 'Whether to auto update the code? Or you can update manually and then select "N" to continue.',
+      message: 'Make sure codes of erda-ui and erda-ui-enterprise are up to date, and then select "Y" to continue.',
       default: false,
     },
   ]);
 
-  if (answer.updateCode) {
-    logInfo(`performing "git pull upstream develop" inside "${rootDir}"`);
-    await execSync(`git pull upstream develop`, { cwd: rootDir });
-
-    let enterpriseDir = path.resolve(rootDir, '../erda-ui-enterprise');
-
-    if (!fs.existsSync(enterpriseDir)) {
-      answer = await inquirer.prompt([
-        {
-          type: 'directory',
-          name: 'targetPath',
-          message: 'Select erda-ui-enterprise directory',
-          basePath: path.resolve(rootDir, '..')
-        }
-      ]);
-
-      enterpriseDir = answer.targetPath;
-    }
-    logInfo(`performing "git pull upstream master" inside "${enterpriseDir}"`);
-    await execSync(`git pull upstream master`, { cwd: enterpriseDir });
-
-    answer = await inquirer.prompt([
-      {
-        type: 'confirm',
-        name: 'solvedConflicts',
-        message: 'Have all merge conflicts been solved?',
-        default: false,
-      },
-    ]);
-
-    if (!answer.solvedConflicts) {
-      process.exit(0);
-    }
+  if (!answer.updateCode) {
+    process.exit(1);
   }
 };
 
