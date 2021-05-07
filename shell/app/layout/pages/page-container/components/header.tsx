@@ -120,7 +120,7 @@ const Header = () => {
       breadcrumbName: currentApp.breadcrumbName,
       path: typeof currentApp.path === 'function' ? currentApp.path(params || {}, routes) : currentApp.href,
     };
-    allRoutes.reverse().unshift(eternalApp as IRoute);
+    allRoutes.reverse().splice(1, 0, eternalApp as IRoute);
   }
   return (
     <PageHeader
