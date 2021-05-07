@@ -16,7 +16,7 @@ const path = require('path');
 const chalk = require('chalk');
 const inquirer = require('inquirer');
 const { walker } = require('./util/file-walker');
-const { logInfo, logSuccess, logWarn, logError } = require('./util/log');
+const { logInfo, logSuccess, logError } = require('./util/log');
 const licenseTpl = require('../templates/license');
 
 

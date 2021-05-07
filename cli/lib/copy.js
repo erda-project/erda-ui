@@ -15,7 +15,7 @@ const path = require('path');
 const fs = require('fs');
 const child_process = require('child_process');
 const mkdirp = require('mkdirp');
-const { logInfo, logSuccess, logWarn, logError } = require('./util/log');
+const { logInfo, logSuccess, logError } = require('./util/log');
 
 const { execSync } = child_process;
 

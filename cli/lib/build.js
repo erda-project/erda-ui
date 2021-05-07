@@ -14,7 +14,6 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
 const child_process = require('child_process');
-const path = require('path');
 const { logInfo, logSuccess, logWarn, logError } = require('./util/log');
 const {
   rootDir,
@@ -47,7 +46,7 @@ const checkBranch = async () => {
       },
     ]);
     if (!answer.continueBuild) {
-      process.exit(0);
+      process.exit(1);
     }
   }
 };
