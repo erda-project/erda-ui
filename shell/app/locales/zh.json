@@ -1081,7 +1081,6 @@
     "year": "年"
   },
   "default": {
-    "${zhMap[zhWord]}": "__NOT_TRANSLATED__",
     "API": "API 管理",
     "API description": "API 描述",
     "API description document": "API 描述文档",
