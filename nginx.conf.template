@@ -153,6 +153,16 @@ server {
        proxy_pass   http://${FDP_UI_ADDR}/;
     }
 
+    location ^* /api/[^/]*/fdp-websocket {
+        rewrite  /api/([^/]*)/(.*) /api/$2 break;
+        proxy_set_header org $1;
+        proxy_pass http://${OPENAPI_ADDR};
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+    }
+
     location ^~ /wb {
         proxy_pass http://${GITTAR_ADDR};
         proxy_set_header        X-Real-IP $remote_addr;

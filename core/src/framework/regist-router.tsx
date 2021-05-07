@@ -112,7 +112,7 @@ const sortRoutes = (r: SHELL.ParsedRoute) => {
   return newRoutes;
 };
 
-const moduleRouteMap: Obj = {};
+let moduleRouteMap: Obj = {};
 let NewestRoot = ({ route }: { route: RouteConfig }) => renderRoutes(route.routes);
 let NewestNotFound = () => 'Page not found';
 
@@ -164,7 +164,9 @@ export const registRouters = (key: string, routers: IGetRouter, { Root, NotFound
   NewestRoot = Root || NewestRoot as any;
   NewestNotFound = NotFound || NewestNotFound as any;
   if (rs.length) {
-    moduleRouteMap[key] = rs;
+    moduleRouteMap = produce(moduleRouteMap, draft => {
+      draft[key] = rs;
+    })
     const reRoutes = resetRouter(moduleRouteMap);
     const [parsed, routeMap] = parseRoutes({
       path: '/',

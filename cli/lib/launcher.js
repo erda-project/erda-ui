@@ -85,7 +85,7 @@ module.exports = () => {
             args: 'start',
             cwd: envModules[moduleName],
             watch: moduleName === 'scheduler' ? true : false, // only scheduler required watch mode
-            time: true,
+            logDateFormat: 'HH:mm',
           }
         });
 
