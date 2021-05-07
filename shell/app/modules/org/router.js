@@ -54,7 +54,7 @@ function getOrgCenterRouter() {
                   path: 'dashboard',
                   routes: [
                     {
-                      breadcrumbName: i18n.t('project:project dashboard'),
+                      breadcrumbName: i18n.t('project:dashboard'),
                       getComp: cb => cb(import('project/pages/dashboard'), 'ProjectDashboard'),
                       layout: {
                         fullHeight: true,
