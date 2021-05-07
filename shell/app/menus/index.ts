@@ -34,7 +34,7 @@ export {
   getEdgeMenu,
 };
 
-export const appCenterAppList = appList;
+export const getAppCenterAppList = appList;
 
 export const getSubSiderInfoMap = () => {
   const menus = {

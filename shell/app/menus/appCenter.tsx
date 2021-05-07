@@ -15,7 +15,7 @@ import { goTo } from 'common/utils';
 import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
 
-export const appList: LAYOUT.IApp[] = filterMenu([
+export const appList: () => LAYOUT.IApp[] = () => filterMenu([
   {
     key: 'workBench',
     name: i18n.t('WorkBench'),
