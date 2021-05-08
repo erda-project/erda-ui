@@ -14,6 +14,7 @@
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --verbose --coverage",
+    "test-local:coverage": "jest --verbose --coverage -c ./jest.config.local.js",
     "test:watch": "jest --verbose --watch",
     "copy:coverage": "cp -R ./coverage ../coverage",
     "dev": "./node_modules/.bin/webpack serve --progress",
@@ -207,6 +208,7 @@
   },
   "lint-staged": {
     "{app}/**/*.scss": "npm run stylelint-fix",
+    "{app}/common/**/*.{js,jsx,ts,tsx}": "npm run common-test",
     "{app}/**/*.{js,jsx,ts,tsx}": [
       "git add"
     ]

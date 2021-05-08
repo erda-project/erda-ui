@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import LogRoller from './simple-log-roller';
+import SimpleLogRoller from './simple-log-roller';
 import LogSearch from './simple-log-search';
 import './simple-log.scss';
 
@@ -43,7 +43,7 @@ class SimpleLog extends React.Component {
     return (
       <div className="log-insight">
         <LogSearch setSearch={this.setSearch} formData={query} />
-        <LogRoller query={query} logKey="log-insight" />
+        <SimpleLogRoller query={query} logKey="log-insight" />
       </div>
     );
   }
