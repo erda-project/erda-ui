@@ -14,11 +14,18 @@
 const { resolve, join } = require('path');
 const path = require('path');
 const { forEach } = require('lodash');
+const fs = require('fs');
+const { logError } = require('./log');
 
 // project root
-const rootDir = resolve(process.cwd(), '..');
+const rootDir = process.cwd();
+const projectEnvPath = path.resolve(rootDir, '.env');
 
-const projectEnvPath = path.resolve(process.cwd(), '../.env');
+if (!fs.existsSync(projectEnvPath)) {
+  logError('Command of release and build can only be executed in root path of project erda-ui!');
+  process.exit(1);
+}
+
 const { parsed: moduleEnv } = require('dotenv').config({ path: projectEnvPath });
 
 const cliDir = join(rootDir, 'cli');
