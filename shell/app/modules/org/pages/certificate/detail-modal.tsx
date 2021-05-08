@@ -14,7 +14,6 @@
 import * as React from 'react';
 import { Modal, Button, Tooltip } from 'app/nusi';
 import { useUpdate } from 'common';
-import { setApiWithOrg } from 'common/utils';
 import { isEmpty, get, map, isString } from 'lodash';
 import i18n from 'i18n';
 import { typeMap, keyPrefix } from './index';
@@ -47,7 +46,7 @@ const getFileRender = (fileInfo: {fileName: string, uuid: string}, textItem: Arr
     <>
       <div className="table-operations mb8">
         <Tooltip title={i18n.t('download')}>
-          <a className="table-operations-btn" download={uuid} href={setApiWithOrg(`/api/files/${uuid}`)}>
+          <a className="table-operations-btn" download={uuid} href={`/api/files/${uuid}`}>
             {fileName || uuid}
           </a>
         </Tooltip>
