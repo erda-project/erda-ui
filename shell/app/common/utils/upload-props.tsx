@@ -13,7 +13,7 @@
 
 import { message } from 'app/nusi';
 import { getCookies } from '.';
-import { qs, setApiWithOrg } from 'common/utils';
+import { qs, getOrgFromPath } from 'common/utils';
 import i18n from 'i18n';
 import { UploadProps } from 'core/common/interface';
 
@@ -26,10 +26,11 @@ export function getUploadProps(overwrite: Merge<UploadProps, {queryData?: Record
   const { queryData = {}, ...rest } = overwrite;
   const queryStr = qs.stringify(queryData);
   return {
-    action: setApiWithOrg(`/api/files${queryStr ? `?${queryStr}` : ''}`),
+    action: `/api/files${queryStr ? `?${queryStr}` : ''}`,
     showUploadList: false,
     headers: {
       'OPENAPI-CSRF-TOKEN': getCookies('OPENAPI-CSRF-TOKEN'),
+      org: getOrgFromPath(),
     },
     beforeUpload: (file: any) => {
       const UPLOAD_SIZE_LIMIT = sizeLimit; // M

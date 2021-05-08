@@ -14,7 +14,7 @@
 import { ciNodeStatusSet, ciStatusMap } from 'application/pages/build-detail/config';
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
-import { secondsToTime, setApiWithOrg } from 'common/utils';
+import { secondsToTime } from 'common/utils';
 import classnames from 'classnames';
 import { Popover, Tooltip } from 'app/nusi';
 import { isNumber, isEmpty, isEqual, debounce, get, findLast } from 'lodash';
@@ -267,7 +267,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
         detailInfo.push(files.map((item, idx) => (
           item.value ? (
             <div className='table-operations' key={`file-${String(idx)}`}>
-              <a className="table-operations-btn" download={item.value} href={setApiWithOrg(`/api/files/${item.value}`)}>
+              <a className="table-operations-btn" download={item.value} href={`/api/files/${item.value}`}>
                 {item.name || item.value}
               </a>
             </div>

@@ -16,7 +16,6 @@ import configStore from 'app/modules/application/stores/pipeline-config';
 import appStore from 'application/stores/application';
 import { Copy, IF, useUpdate, CustomFilter, FileEditor } from 'common';
 import { WORKSPACE_LIST } from 'common/constants';
-import { setApiWithOrg } from 'common/utils';
 import routeInfoStore from 'common/stores/route';
 import i18n from 'i18n';
 import { map, isEmpty } from 'lodash';
@@ -228,7 +227,7 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
         return (
           <div className="table-operations">
             <IF check={canDownload}>
-              <a className="table-operations-btn" download={record.value} href={setApiWithOrg(`/api/files/${record.value}`)}>
+              <a className="table-operations-btn" download={record.value} href={`/api/files/${record.value}`}>
                 {i18n.t('download')}
               </a>
             </IF>
