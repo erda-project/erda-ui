@@ -71,6 +71,14 @@ server {
         }';
     }
 
+    location ^~ /api/files {
+        proxy_pass http://${OPENAPI_ADDR};
+        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-Proto $my_scheme;
+        proxy_set_header        Host $http_host;
+    }
+
     location ~* ^/api/[^/]*/repo {
         rewrite  /api/([^/]*)/(.*) /api/$2 break;
         proxy_set_header org $1;
