@@ -15,16 +15,26 @@
 
   .table-board {
     margin-top: 16px;
+    
+    &:first-child {
+      margin-top: 0px;
+    }
 
     .table-board-card {
-      padding: 12px;
+      padding: 16px;
       background: white;
-      border-radius: 3px;
+      border: 1px solid rgba(0,0,0,0.10);
+      border-radius: 6px;
+      background-color: #FFFFFF;
 
       >.pk-title {
         margin-bottom: 8px;
       }
     }
+  }
+
+  .pk-table-small .pk-table-tbody>tr>td {
+    padding-left: 4px !important;
   }
 
   .load-more {

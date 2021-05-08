@@ -18,6 +18,7 @@ import { Badge, Title } from 'app/nusi';
 import i18n from 'i18n';
 import imgMap from '../../img-map';
 import classnames from 'classnames';
+import ErdaIcon from '../icon/icon';
 import './text.scss';
 
 const getStyle = (styleConfig?: CP_TEXT.IStyleConfig) => {
@@ -84,12 +85,12 @@ const Text = (props: CP_TEXT.Props) => {
                     className={`${textClassNames} hover-active`}
                   >
                     {tText}
-                    {icon && <CustomIcon className={`mr4 ml4 ${iconStyleName}`} type={icon} />}
-                    {image && <img src={image.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
+                    {icon && <ErdaIcon type="Icon" props={{ iconType: icon, className: `mr4 ml4 ${iconStyleName}` }} />}
+                      {image && <img src={image.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
                   </a>
                 ) : <span key={idx} className={textClassNames} style={{ ...styleObj, ...tStyle }}>
                     {tText}
-                    {icon && <CustomIcon className={`mr4 ml4 ${iconStyleName}`} type={icon} />}
+                    {icon && <ErdaIcon type="Icon" props={{ iconType: icon, className: `mr4 ml4 ${iconStyleName}` }} />}
                     {image && <img src={image.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
                   </span>;
               }
@@ -109,14 +110,14 @@ const Text = (props: CP_TEXT.Props) => {
             }}
           >
             {tText}
-            {icon && <CustomIcon className={`mr4 ml4 ${iconStyleName}`} type={icon} />}
+            {icon && <ErdaIcon type="Icon" props={{ iconType: icon, className: `mr4 ml4 ${iconStyleName}` }} />}
             {image && <img src={image.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
           </a>
         ) : <span
           className={textClassNames}
           style={{ ...styleObj, ...tStyle }}>
             {tText}
-            {icon && <CustomIcon className={`mr4 ml4 ${iconStyleName}`} type={icon} />}
+            {icon && <ErdaIcon type="Icon" props={{ iconType: icon, className: `mr4 ml4 ${iconStyleName}` }} />}
             {image && <img src={image.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
           </span>;
       }

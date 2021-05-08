@@ -870,7 +870,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 value: {
                   text: ['点击左上角菜单',
                     {
-                      icon: 'appstore',
+                      icon: 'application-menu',
                       iconStyleName: 'primary-icon',
                     }, '选择 DevOps平台进入，选择我的项目可以查看该组织下公开项目的信息']
                 },
@@ -993,7 +993,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                       },
                     }]
                 },
-                textStyleName: { 'color-text-desc': true },
+                textStyleName: { 'color-text-light-desc': true },
               },
               table: {
                 props: {
@@ -1069,7 +1069,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 props: {
                   renderType: 'linkText',
                   value: {
-                    text: [{ text: "查看剩余112条事件 >>", operationKey: "toSpecificProject" }]
+                    text: [{ text: "查看剩余112条事件 ", operationKey: "toSpecificProject",icon:'double-right', }]
                   },
                 },
                 operations: {
@@ -1173,7 +1173,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                       },
                     }]
                 },
-                textStyleName: { 'color-text-sub': true },
+                textStyleName: { 'color-text-light-desc': true },
               },
               table: {
                 props: {
@@ -1243,7 +1243,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 props: {
                   renderType: 'linkText',
                   value: {
-                    text: [{ text: "查看剩余112条事件 >>", operationKey: "toSpecificProject" }]
+                    text: [{ text: "查看剩余112条事件 ", operationKey: "toSpecificProject",icon:'double-right', }]
                   },
                 },
                 operations: {

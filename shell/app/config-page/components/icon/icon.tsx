@@ -12,18 +12,21 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { 
+import {
   Lock,
   Unlock,
-  Time, 
-  ApplicationOne, 
-  User, 
-  LinkCloudSucess, 
-  LinkCloudFaild, 
-  ListNumbers, 
-  CategoryManagement, 
-  ApiApp 
+  Time,
+  ApplicationOne,
+  User,
+  LinkCloudSucess,
+  LinkCloudFaild,
+  ListNumbers,
+  CategoryManagement,
+  ApiApp,
+  DoubleRight,
+  ApplicationMenu,
 } from '@icon-park/react';
+import './icon.scss';
 
 export const iconMap = {
   'lock': Lock,
@@ -36,6 +39,8 @@ export const iconMap = {
   'category-management': CategoryManagement,
   'list-numbers': ListNumbers,
   'api-app': ApiApp,
+  'double-right': DoubleRight,
+  'application-menu': ApplicationMenu,
 }
 
 const Icon = (props: CP_ICON.Props) => {

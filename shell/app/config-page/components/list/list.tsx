@@ -98,7 +98,7 @@ const List = (props: CP_LIST.Props) => {
             ) : null
             }
             {useLoadMore && total > Math.max(state.combineList?.length, 0)
-              && <div className='hover-active load-more' onClick={loadMore}>{i18n.t('more')}...</div>}
+              && <div className='hover-active load-more' onClick={loadMore}>{i18n.t('more')}</div>}
           </>
         ) : <EmptyHolder relative />
       }
