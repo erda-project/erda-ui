@@ -203,10 +203,10 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
       </div> */}
       <div className="start-flex-box mb16">
         <CommonRangePicker defaultTime={defaultTime} onOk={v => updater.timeSpan(v)} />
-        <Radio.Group value={view} onChange={(e: any) => updater.view(e.target.value)}>
-          <Radio.Button value="table"><CustomIcon type="unorderedlist" /></Radio.Button>
-          <Radio.Button value="chart"><CustomIcon type="bar-chart" /></Radio.Button>
-        </Radio.Group>
+        {/* <Radio.Group value={view} onChange={(e: any) => updater.view(e.target.value)}> */}
+        {/*  <Radio.Button value="table"><CustomIcon type="unorderedlist" /></Radio.Button> */}
+        {/*  <Radio.Button value="chart"><CustomIcon type="bar-chart" /></Radio.Button> */}
+        {/* </Radio.Group> */}
       </div>
       <IF check={view === 'table'}>
         <Table
