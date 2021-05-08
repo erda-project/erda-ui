@@ -1069,7 +1069,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 props: {
                   renderType: 'linkText',
                   value: {
-                    text: [{ text: "查看剩余112条事件 ", operationKey: "toSpecificProject",icon:'double-right', }]
+                    text: [{ text: "查看剩余112条事件", operationKey: "toSpecificProject", icon: 'double-right', }]
                   },
                 },
                 operations: {
@@ -1243,7 +1243,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 props: {
                   renderType: 'linkText',
                   value: {
-                    text: [{ text: "查看剩余112条事件 ", operationKey: "toSpecificProject",icon:'double-right', }]
+                    text: [{ text: "查看剩余112条事件", operationKey: "toSpecificProject", icon: 'double-right', }]
                   },
                 },
                 operations: {
