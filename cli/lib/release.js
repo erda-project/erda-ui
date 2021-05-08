@@ -25,7 +25,11 @@ const START_DOCKER_CMD = 'open --background -a Docker';
 
 module.exports = async () => {
   try {
-    await spawnSync('erda-ui', ['build'], { env: process.env, cwd: shellDir, stdio: 'inherit' }) ;
+    const buildProcess = await spawnSync('erda-ui', ['build'], { env: process.env, cwd: rootDir, stdio: 'inherit' });
+
+    if (buildProcess.status === 1) {
+      process.exit(1);
+    }
 
     const date = dayjs().format('YYYYMMDD');
     const shortSha = await execSync(GET_SHA_CMD);

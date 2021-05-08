@@ -41,7 +41,7 @@ module.exports = async (moduleName, modulePort) => {
           {
             type: 'directory',
             name: 'targetPath',
-            message: 'Select work directory',
+            message: 'Select root path of project erda-ui',
             basePath: process.cwd(),
           }
         ]);
