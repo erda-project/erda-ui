@@ -130,6 +130,7 @@ export enum pages {
   workBenchMyInitiate = '/{orgName}/workBench/approval/my-initiate',
   workBenchMyInitiateWait = '/{orgName}/workBench/approval/my-initiate/WaitApprove',
   workBenchPublisher = '/{orgName}/workBench/publisher',
+  workBenchPublicProjects = '/{orgName}/workBench/public-projects',
 
 
   // project

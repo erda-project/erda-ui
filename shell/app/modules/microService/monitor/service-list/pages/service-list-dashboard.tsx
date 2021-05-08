@@ -51,4 +51,4 @@ const ServiceListDashboard: React.FC<IProps> = ({ dashboardId, extraGlobalVariab
   return <PureBoardGrid globalVariable={globalVariable} layout={layout} {...rest} />;
 };
 
-export default ServiceListDashboard;
+export default React.memo(ServiceListDashboard);

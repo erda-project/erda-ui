@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Modal, Tooltip, Tabs, Button, Table, Input, Select } from 'app/nusi';
+import { Modal, Tooltip, Tabs, Button, Table, Input, Select, message } from 'app/nusi';
 import i18n from 'i18n';
 import { qs } from 'common/utils';
 import { useUpdate, Icon as CustomIcon, FileEditor } from 'common';
@@ -136,8 +136,18 @@ const TestModal = ({ visible, onCancel, dataSource }: IProps) => {
   const handleRunTest = () => {
     const url = fillingUrl(dataSource.url, apis.path);
     let { header } = apis;
-    if (apis.body.type && apis.body.type !== 'none') {
+    let bodyValue = apis.body.content;
+    const bodyType = apis.body.type;
+    if (bodyType && bodyType !== 'none') {
       header = [{ key: 'Content-Type', value: apis.body.type }, ...apis.header];
+      if (apis.body.type === 'application/json') {
+        try {
+          bodyValue = JSON.parse(bodyValue);
+        } catch (_) {
+          message.error(i18n.t('project:JSON format error'));
+          return;
+        }
+      }
     }
     runAttemptTest({
       clientID: dataSource.autoInfo.clientID,
@@ -150,7 +160,7 @@ const TestModal = ({ visible, onCancel, dataSource }: IProps) => {
         url,
         header,
         params: apis.params,
-        body: apis.body,
+        body: { type: bodyType, content: bodyValue },
       }],
     }).then(({ response }) => {
       const headers = map((response.headers || {}), (value, key) => ({ key, value }));

@@ -34,12 +34,11 @@ function App() {
   return (
     <Router history={history}>
       <Switch>
-        <Route exact path="/market/download/:publishItemId" component={DownloadPage} />
+        <Route exact path="/:orgName/market/download/:publishItemId" component={DownloadPage} />
         <Route path="*" component={NotFound} />
       </Switch>
     </Router>
   );
 }
-
 
 export default App;

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { isEmpty, groupBy, forEach, map, get } from 'lodash';
+import { isEmpty, groupBy, forEach, map, get, merge, cloneDeep } from 'lodash';
 import i18n from 'i18n';
 import { Tooltip } from 'app/nusi';
 import InfoPreview from 'config-page/components/info-preview/info-preview';
@@ -179,9 +179,11 @@ export const convertToOpenApi2 = (data:IDataSource) => {
 const transformBody = (data:IRequestBodyContent['schema']): any[] => {
   const wmap = new WeakMap();
   const parse = (schema:IRequestBodyContent['schema'], parent: string) => {
-    const { properties, required = [] } = schema;
-    return map(properties, (property, key) => {
-      const { type, properties: childProperties, items: childItems, enum: paramsEnum, description } = property;
+    const { properties, required = [], allOf = [] } = schema;
+    const allProperties = merge(get(allOf, [0, 'properties']), properties);
+    return map(allProperties, (property, key) => {
+      const { type, items: childItems, enum: paramsEnum, description } = property;
+      const childProperties = merge(get(property, ['allOf', 0, 'properties']), get(property, 'properties'));
       const complexType = { value: type as string, enum: paramsEnum };
       if (type === 'array' && childItems.type) {
         complexType.value = `${type}<${childItems.type}>`;
@@ -218,7 +220,7 @@ const transformBody = (data:IRequestBodyContent['schema']): any[] => {
       };
     });
   };
-  return parse(data, 'root');
+  return parse(cloneDeep(data), 'root');
 };
 
 export const parseOpenApi3 = (dataSource: IDataSource):IParseOas3 => {

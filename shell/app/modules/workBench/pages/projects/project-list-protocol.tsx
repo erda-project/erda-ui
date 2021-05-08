@@ -16,8 +16,22 @@ import DiceConfigPage from 'config-page/index';
 import { useUpdate } from 'common';
 import { get } from 'lodash';
 import ApplyUnblockModal, { IMetaData } from 'workBench/pages/projects/apply-unblock-modal';
+import routeInfoStore from 'app/common/stores/route';
 
-export const ProjectList = () => {
+const scenarioConfig = {
+  'public-projects': {
+    scenarioKey: 'project-list-all',
+    scenarioType: 'project-list-all',
+  },
+  projects: {
+    scenarioKey: 'project-list-my',
+    scenarioType: 'project-list-my',
+  }
+}
+
+const ProjectList = () => {
+  const currentRoute = routeInfoStore.getState(s => s.currentRoute);
+  const { scenarioKey, scenarioType } = scenarioConfig[get(currentRoute, 'relativePath')] || {}
   const [state, updater, update] = useUpdate({
     visible: false,
     metaData: {} as IMetaData,
@@ -49,13 +63,13 @@ export const ProjectList = () => {
   return (
     <>
       <DiceConfigPage
-        scenarioType='project-list-my'
+        scenarioType={scenarioType}
         ref={reloadRef}
-        scenarioKey='project-list-my'
+        scenarioKey={scenarioKey}
         useMock={useMock}
         customProps={{
           list: {
-            applyDeploy: (op:CP_COMMON.Operation, data:any) => {
+            applyDeploy: (op: CP_COMMON.Operation, data: any) => {
               const pId = get(op, 'meta.projectId') || data?.projectId;
               const pName = get(op, 'meta.projectName') || data?.projectName;
               if (pId && pName) {
@@ -75,6 +89,7 @@ export const ProjectList = () => {
   );
 };
 
+export default ProjectList;
 
 const mock: CONFIG_PAGE.RenderConfig = {
   scenario: {
