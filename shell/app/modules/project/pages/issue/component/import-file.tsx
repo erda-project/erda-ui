@@ -15,7 +15,6 @@ import React, { useState } from 'react';
 import i18n from 'i18n';
 import { message, Modal } from 'app/nusi';
 import { FileSelect, FormModal } from 'common';
-import { setApiWithOrg } from 'common/utils';
 import { useLoading } from 'app/common/stores/loading';
 import issueStore from 'project/stores/issues';
 
@@ -68,7 +67,7 @@ const ImportFile = ({ afterImport, issueType, download, projectID, visible, onCl
                 <span> —— </span>
                 <span
                   className="color-primary hover-text"
-                  onClick={() => window.open(setApiWithOrg(`/api/files/${uuid}`))}
+                  onClick={() => window.open(`/api/files/${uuid}`)}
                 >
                   {i18n.t('project:download failed file')}
                 </span>
