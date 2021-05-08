@@ -30,6 +30,7 @@ interface IState {
     iterationName: string;
     k8sName: string;
     testSpaceName: string;
+    curOrgName: string;
   }
 }
 
@@ -50,6 +51,7 @@ const initState: IState = {
     iterationName: '',
     k8sName: '',
     testSpaceName: '',
+    curOrgName: '',
   },
 };
 

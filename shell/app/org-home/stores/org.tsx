@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import diceEnv from 'dice-env';
 import { goTo } from 'common/utils';
-import { getSubSiderInfoMap, appCenterAppList } from 'app/menus';
+import { getSubSiderInfoMap, getAppCenterAppList } from 'app/menus';
 import layoutStore from 'layout/stores/layout';
 import { orgPerm } from 'user/stores/_perm-org';
 import { createStore } from 'app/cube';
@@ -22,6 +22,7 @@ import { getGlobal } from 'app/global-space';
 import { getResourcePermissions } from 'user/services/user';
 import permStore from 'user/stores/permission';
 import agent from 'agent';
+import breadcrumbStore from 'app/layout/stores/breadcrumb';
 import { get, intersection, map, isEmpty } from 'lodash';
 
 interface IState {
@@ -112,6 +113,7 @@ const org = createStore({
               };
               permStore.reducers.updatePerm(orgPermQuery.scope, orgPermRes.data);
               const menusMap = getSubSiderInfoMap();
+              const appCenterAppList = getAppCenterAppList();
               appCenterAppList.forEach((a) => { appMap[a.key] = a; });
               layoutStore.reducers.initLayout({
                 appList: appCenterAppList,
@@ -121,6 +123,7 @@ const org = createStore({
               });
             }
           });
+          breadcrumbStore.reducers.setInfo('curOrgName', currentOrg.displayName);
           update({ currentOrg, curPathOrg: payload.orgName });
         }
       }
@@ -135,6 +138,7 @@ const org = createStore({
   },
   reducers: {
     clearOrg(state) {
+      breadcrumbStore.reducers.setInfo('curOrgName', '');
       state.currentOrg = {} as ORG.IOrg;
       // const setHeader = (req: any) => {
       //   req.set('org', '');

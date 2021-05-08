@@ -52,7 +52,7 @@ export default ({
   addAllOption = false,
 }: IProps) => {
   const { projectId } = routeInfoStore.useStore(s => s.params);
-  const [iterationList, loading, load, clear] = useTempPaging<ITERATION.Detail>({
+  const [iterationList, paging, loading, load, clear] = useTempPaging<ITERATION.Detail>({
     service: getProjectIterations,
   });
   useEffectOnce(() => {
