@@ -23,7 +23,6 @@ const { walker } = require('./util/file-walker');
 const { doTranslate } = require('./util/google-translate');
 const { logError, logInfo, logSuccess, logWarn } = require('./util/log');
 
-// i18n.d("中文")
 const reg = /i18n\.d\(["'](.+?)["']\)/g;
 const tempFilePath = path.resolve(process.cwd(), './temp-zh-words.json');
 const tempTranslatedWordPath = path.resolve(process.cwd(), './temp-translated-words.json');
