@@ -1081,7 +1081,6 @@
     "year": "year"
   },
   "default": {
-    "${zhMap[zhWord]}": "${zhMap[zhWord]}",
     "API": "API",
     "API description": "API description",
     "API description document": "API description document",
