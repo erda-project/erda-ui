@@ -1,8 +1,24 @@
+// Copyright (c) 2021 Terminus, Inc.
+//
+// This program is free software: you can use, redistribute, and/or modify
+// it under the terms of the GNU Affero General Public License, version 3
+// or later ("AGPL"), as published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 const path = require('path');
 const CracoAntDesignPlugin = require("craco-antd")
 
 const resolve = pathname => path.resolve(__dirname, pathname);
 const themeColor = '#6A549E';
+const nodeEnv = process.env.NODE_ENV || 'development';
+const isProd = nodeEnv === 'production';
+
 module.exports = {
   webpack: {
     alias: {
@@ -13,7 +29,7 @@ module.exports = {
       webpackConfig.output = {
         ...webpackConfig.output,
           path: path.resolve(__dirname, 'build/market'), // 修改输出文件目录
-          publicPath: '/static/shell/market/', //打包到shell目录下
+          publicPath: isProd ? '/static/shell/market/' : '/', //prod时打包到shell目录下
       }
       return webpackConfig; 
     },
