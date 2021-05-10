@@ -41,10 +41,12 @@ program
   });
 
 program
-  .command('build [execPath]')
-  .description('bundle files to public directory')
-  .action((execPath='local') => {
-    require('../lib/build')(execPath)
+  .command('build')
+  .description('bundle files to public directory, pass true to launch a local full compilation build, pass image sha to launch a local partial compilation build based on image')
+  .option('-i, --image <image>', 'image sha as build base, e.g. 1.0-20210506-48bd74')
+  .option('-l, --local', 'enable local mode, if image arg is given, then local mode is forcibly')
+  .action((options) => {
+    require('../lib/build')(options)
   });
 
 program
@@ -58,8 +60,9 @@ program
 program
   .command('release')
   .description('build & push docker image')
-  .action(() => {
-    require('../lib/release')()
+  .option('-i, --image <image>', 'image sha as build base, e.g. 1.0-20210506-48bd74')
+  .action((options) => {
+    require('../lib/release')(options)
   });
 
 program

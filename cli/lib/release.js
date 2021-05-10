@@ -23,9 +23,9 @@ const { execSync, spawnSync } = child_process;
 const GET_SHA_CMD = 'git rev-parse --short HEAD';
 const START_DOCKER_CMD = 'open --background -a Docker';
 
-module.exports = async () => {
+module.exports = async ({ image: baseImage }) => {
   try {
-    const buildProcess = await spawnSync('erda-ui', ['build'], { env: process.env, cwd: rootDir, stdio: 'inherit' });
+    const buildProcess = await spawnSync('erda-ui', baseImage ? ['build', '-i', `${baseImage}`] : ['build'], { env: process.env, cwd: rootDir, stdio: 'inherit' });
 
     if (buildProcess.status === 1) {
       process.exit(1);
