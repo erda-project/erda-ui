@@ -73,7 +73,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
     if (nextProps.value !== prevState.tempContent) {
       return {
         ...prevState,
-        content: nextProps.value,
+        content: nextProps.value || '',
         tempContent: nextProps.value,
       };
     }
