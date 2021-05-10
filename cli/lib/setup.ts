@@ -11,13 +11,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const inquirer = require('inquirer');
-const path = require('path');
-const fs = require('fs');
-const child_process = require('child_process');
-const { logInfo, logSuccess, logWarn } = require('./util/log');
+import inquirer from 'inquirer';
+import path from 'path';
+import fs from 'fs';
+import child_process from 'child_process';
+import { logInfo, logSuccess, logWarn } from './util/log';
+import dotenv from 'dotenv';
 
-module.exports = async (moduleName, modulePort) => {
+export default async (moduleName: string, modulePort: string) => {
   const moduleDir = process.cwd();
   const packagePath = path.join(moduleDir, 'package.json');
 
@@ -26,15 +27,15 @@ module.exports = async (moduleName, modulePort) => {
     process.exit(1);
   }
 
-  let erda_ui_path = path.resolve(moduleDir, `..`);
-  
+  let erdaUiPath = path.resolve(moduleDir, '..');
+
   if (!['core', 'shell'].includes(moduleName)) {
-    erda_ui_path = path.resolve(moduleDir, `../..`);
-    let envPath = path.resolve(erda_ui_path, `.env`);
+    erdaUiPath = path.resolve(moduleDir, '../..');
+    let envPath = path.resolve(erdaUiPath, '.env');
 
     if (!fs.existsSync(envPath)) {
-      erda_ui_path = path.resolve(moduleDir, `../../erda-ui`);
-      envPath = path.resolve(erda_ui_path, `.env`);
+      erdaUiPath = path.resolve(moduleDir, '../../erda-ui');
+      envPath = path.resolve(erdaUiPath, '.env');
 
       if (!fs.existsSync(envPath)) {
         const answer = await inquirer.prompt([
@@ -43,17 +44,17 @@ module.exports = async (moduleName, modulePort) => {
             name: 'targetPath',
             message: 'Select root path of project erda-ui',
             basePath: process.cwd(),
-          }
+          },
         ]);
-        erda_ui_path = answer.targetPath;
-      }   
+        erdaUiPath = answer.targetPath;
+      }
     }
   }
-  
-  const full_config_path = `${erda_ui_path}/.env`;
-  const { parsed: fullConfig } = require('dotenv').config({ path: full_config_path });
-  
-  const relativePath = path.relative(moduleDir, erda_ui_path);
+
+  const fullConfigPath = `${erdaUiPath}/.env`;
+  const { parsed: fullConfig } = dotenv.config({ path: fullConfigPath });
+
+  const relativePath = path.relative(moduleDir, erdaUiPath);
   if (!fullConfig) {
     logWarn('erda-ui/.env file not exist, please execute `erda init` in erda-ui directory first');
     process.exit(1);
@@ -62,18 +63,18 @@ module.exports = async (moduleName, modulePort) => {
   fullConfig.DEV_MODULES = Array.from(new Set(fullConfig.DEV_MODULES.split(',').concat(moduleName))).join(',');
   fullConfig.PROD_MODULES = Array.from(new Set(fullConfig.PROD_MODULES.split(',').concat(moduleName))).join(',');
   fullConfig[`${moduleName.toUpperCase()}_URL`] = moduleName === 'shell'
-  ? `https://dice.dev.terminus.io:${modulePort}`
-  :`https://local-${moduleName}.terminus-org.dev.terminus.io:${modulePort}`;
+    ? `https://dice.dev.terminus.io:${modulePort}`
+    : `https://local-${moduleName}.terminus-org.dev.terminus.io:${modulePort}`;
 
   fullConfig[`${moduleName.toUpperCase()}_DIR`] = path.resolve(moduleDir);
-  fullConfig.ERDA_DIR = path.resolve(erda_ui_path);
+  fullConfig.ERDA_DIR = path.resolve(erdaUiPath);
 
-  const newFullConfig = [];
-  Object.keys(fullConfig).forEach(k => {
+  const newFullConfig: string[] = [];
+  Object.keys(fullConfig).forEach((k) => {
     newFullConfig.push(`${k}=${fullConfig[k]}`);
-  })
-  fs.writeFileSync(full_config_path, newFullConfig.join('\n'), 'utf8');
-  logSuccess(`update erda-ui/.env file`)
+  });
+  fs.writeFileSync(fullConfigPath, newFullConfig.join('\n'), 'utf8');
+  logSuccess('update erda-ui/.env file');
 
   const configDir = path.join(moduleDir, '.erda');
 
@@ -85,46 +86,46 @@ module.exports = async (moduleName, modulePort) => {
   const configFilePath = path.join(configDir, 'config.js');
 
   const includeContent = moduleName === 'core'
-  ? [
-    "./node_modules/@types/*",
-    "../node_modules/@types/*",
-    `${relativePath}/shell/app/**/types/*`,
-  ]
-  : moduleName === 'shell' 
     ? [
-      "./node_modules/@types/*",
-      "../node_modules/@types/*",
-      `${relativePath}/core/app/**/types/*`,
-    ]
-    : [
-      "./node_modules/@types/*",
-      `${relativePath}/core/app/**/types/*`,
+      './node_modules/@types/*',
+      '../node_modules/@types/*',
       `${relativePath}/shell/app/**/types/*`,
-    ];
+    ]
+    : moduleName === 'shell'
+      ? [
+        './node_modules/@types/*',
+        '../node_modules/@types/*',
+        `${relativePath}/core/app/**/types/*`,
+      ]
+      : [
+        './node_modules/@types/*',
+        `${relativePath}/core/app/**/types/*`,
+        `${relativePath}/shell/app/**/types/*`,
+      ];
 
   const commonPathContent = {
-    "common/*": [`${relativePath}/shell/app/common/*`],
-    "common/all": [`${relativePath}/shell/app/common/index`],
-    "nusi/all": [`${relativePath}/shell/app/external/nusi`]
+    'common/*': [`${relativePath}/shell/app/common/*`],
+    'common/all': [`${relativePath}/shell/app/common/index`],
+    'nusi/all': [`${relativePath}/shell/app/external/nusi`],
   };
 
   const corePathContent = {
-    "core/main": [`${relativePath}/core/src/index`],
-    "core/cube": [`${relativePath}/core/src/cube`],
-    "core/i18n": [`${relativePath}/core/src/i18n`],
-    "core/agent": [`${relativePath}/core/src/agent`],
-    "core/config": [`${relativePath}/core/src/config.ts`],
-    "core/stores/route": [`${relativePath}/core/src/stores/route.ts`],
-    "core/stores/loading": [`${relativePath}/core/src/stores/loading.ts`]
+    'core/main': [`${relativePath}/core/src/index`],
+    'core/cube': [`${relativePath}/core/src/cube`],
+    'core/i18n': [`${relativePath}/core/src/i18n`],
+    'core/agent': [`${relativePath}/core/src/agent`],
+    'core/config': [`${relativePath}/core/src/config.ts`],
+    'core/stores/route': [`${relativePath}/core/src/stores/route.ts`],
+    'core/stores/loading': [`${relativePath}/core/src/stores/loading.ts`],
   };
 
   const pathContent = moduleName === 'core' ? commonPathContent : { ...commonPathContent, ...corePathContent };
 
 
-  let extraContent = '';
+  const extraContent = '';
 
   const tsConfigPath = path.join(fullConfig[`${moduleName.toUpperCase()}_DIR`], 'tsconfig.json');
-  let tsConfig = {};
+  let tsConfig: any = {};
   try {
     tsConfig = require(tsConfigPath);
   } catch (e) {
@@ -143,31 +144,31 @@ module.exports = async (moduleName, modulePort) => {
     ...includeContent,
   ]));
   fs.writeFileSync(tsConfigPath, JSON.stringify(tsConfig, null, 2), 'utf8');
-  logSuccess(`update tsconfig.json`);
+  logSuccess('update tsconfig.json');
 
   const shellContent = moduleName === 'shell' ? `
   DEV_MODULES: ${JSON.stringify(fullConfig.DEV_MODULES.split(','))},
   PROD_MODULES: ${JSON.stringify(fullConfig.PROD_MODULES.split(','))},
   ` : '';
-  
-  const shellConfigPath = path.resolve(`${erda_ui_path}/shell/.erda/config.js`);
+
+  const shellConfigPath = path.resolve(`${erdaUiPath}/shell/.erda/config.js`);
 
   if (moduleName !== 'shell' && fs.existsSync(shellConfigPath)) {
-    const { MODULE_PORT }  = require(shellConfigPath)
+    const { MODULE_PORT } = require(shellConfigPath);
     logInfo('update shell/.erda/config.js');
-    child_process.spawnSync('erda-ui', ['setup', 'shell', MODULE_PORT], { env: process.env, cwd: fullConfig.SHELL_DIR, stdio: 'inherit' }) ;
+    child_process.spawnSync('erda-ui', ['setup', 'shell', MODULE_PORT], { env: process.env, cwd: fullConfig.SHELL_DIR, stdio: 'inherit' });
   }
 
-  const module_host = moduleName === 'shell' 
-  ? 'dice.dev.terminus.io'
-  : `local-${moduleName}.terminus-org.dev.terminus.io`;
+  const module_host = moduleName === 'shell'
+    ? 'dice.dev.terminus.io'
+    : `local-${moduleName}.terminus-org.dev.terminus.io`;
 
   const configContent = `
 module.exports = {
   DEV_URL: "https://terminus-org.dev.terminus.io",
   TEST_URL: "https://terminus-org.test.terminus.io",
   SCHEDULER_URL: "http://localhost:3000",
-  ERDA_UI_DIR: "${erda_ui_path}",
+  ERDA_UI_DIR: "${erdaUiPath}",
   MODULE_NAME: "${moduleName}",
   MODULE_HOST: "${module_host}",
   MODULE_PORT: "${modulePort}",${shellContent}
@@ -190,10 +191,10 @@ add config in host file：
   }
 }
 ${extraContent}
-`
+`;
   fs.writeFileSync(configFilePath, configContent, 'utf8');
 
-  logSuccess(`write config file to ${path.join(moduleDir, '.erda/config.js')}`)
+  logSuccess(`write config file to ${path.join(moduleDir, '.erda/config.js')}`);
 
   const ignoreFilePath = path.join(moduleDir, '.gitignore');
   const parentIgnoreFilePath = path.resolve(moduleDir, '../.gitignore');
@@ -205,7 +206,7 @@ ${extraContent}
   if (targetIgnoreFilePath) {
     const ignoreFile = fs.readFileSync(targetIgnoreFilePath, { encoding: 'utf8' });
     if (!ignoreFile.includes('/.erda')) {
-      fs.writeFileSync(targetIgnoreFilePath, ignoreFile + '\n/.erda\n*/.erda', 'utf8');
+      fs.writeFileSync(targetIgnoreFilePath, `${ignoreFile }\n/.erda\n*/.erda`, 'utf8');
     }
   } else {
     fs.writeFileSync(ignoreFilePath, '/.erda\n*/.erda', 'utf8');
@@ -213,8 +214,8 @@ ${extraContent}
   logSuccess('add .erda to gitignore');
   logSuccess('now you can use this code:');
   logInfo(`
-const config = require('./.erda/config');
+const config = from './.erda/config');
 
 module.exports = config.wrapWebpack(yourWebpackConfig);
 `);
-}
+};

@@ -26,6 +26,7 @@ import {
 import { exit } from 'process';
 import ora from 'ora';
 import generateVersion from './gen-version';
+import localIcon from './local-icon';
 
 const asyncExec = promisify(require('child_process').exec);
 
@@ -250,6 +251,8 @@ const restoreFromDockerImage = async (image: string, requireBuildList: string[])
     -e UC_PUBLIC_URL=127.0.0.1 \
     -e FDP_UI_ADDR=127.0.0.1 \
     -e GITTAR_ADDR=127.0.0.1 \
+    -e KRATOS_ADDR=127.0.0.1 \
+    -e KRATOS_PRIVATE_ADDR=127.0.0.1 \
     ${registryDir}:${image}`);
   logSuccess('erda-ui docker container has been launched');
 
@@ -306,7 +309,7 @@ const getRequireBuildModules = async (image: string) => {
         logWarn(`module [${module}] code changed since image commit, will forcibly built it.`);
         requireBuildList.push(module);
         if (new RegExp(`^${module}/package-lock.json`, 'gm').test(diff)) {
-          logWarn(`module [${module}] package-lock changed since image commit, please reminder to update this module dependency in next step.`);
+          logWarn(`module [${module}] package-lock changed since image commit, please remind to update this module dependency in next step.`);
         }
       }
     });
@@ -331,7 +334,7 @@ const getRequireBuildModules = async (image: string) => {
   }
 };
 
-module.exports = async (options: { local?: boolean; image?: string }) => {
+export default async (options: { local?: boolean; image?: string }) => {
   try {
     const { image } = options;
     let { local } = options;
@@ -368,7 +371,7 @@ module.exports = async (options: { local?: boolean; image?: string }) => {
     generateVersion();
 
     if (rebuildList.includes('shell')) {
-      require('./local-icon')();
+      localIcon();
     }
   } catch (error) {
     logError('build exit with error:', error.message);

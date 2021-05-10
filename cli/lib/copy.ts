@@ -11,47 +11,45 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const path = require('path');
-const fs = require('fs');
-const child_process = require('child_process');
-const mkdirp = require('mkdirp');
-const { logInfo, logSuccess, logError } = require('./util/log');
+import path from 'path';
+import fs from 'fs';
+import child_process from 'child_process';
+import mkdirp from 'mkdirp';
+import { logInfo, logSuccess, logError } from './util/log';
 
 const { execSync } = child_process;
 
-module.exports = async (moduleName, options) => {
+export default async (moduleName: string, options: { distPath: string }) => {
   const moduleDir = process.cwd();
-  
+
   const configPath = path.resolve(moduleDir, '.erda/config.js');
-  
+
   if (!configPath) {
     logError(`.erda/config.js file not exist, please execute "erda setup ${moduleName} <port> to generate this file`);
     process.exit(1);
   }
-
   const moduleConfig = require(configPath);
 
-  const distPath = path.resolve(moduleDir, options.dist_path);
+  const distPath = path.resolve(moduleDir, options.distPath);
 
   if (!fs.existsSync(distPath)) {
-    logError(`Dist directory not exist:`, distPath);
+    logError('Dist directory not exist:', distPath);
     process.exit(1);
   }
 
-  const erda_ui_path = moduleConfig.ERDA_UI_DIR;
-  if (!fs.existsSync(erda_ui_path)) {
-    logError(`Erda UI root path not exist:`, erda_ui_path);
+  const erdaUiPath = moduleConfig.ERDA_UI_DIR;
+  if (!fs.existsSync(erdaUiPath)) {
+    logError('Erda UI root path not exist:', erdaUiPath);
     process.exit(1);
   }
 
-  const targetPath = `${erda_ui_path}/public/static/${moduleName}/`;
+  const targetPath = `${erdaUiPath}/public/static/${moduleName}/`;
 
   if (!fs.existsSync(targetPath)) {
     await mkdirp(targetPath);
   }
   const copyCommand = `rm -rf ${targetPath} && cp -rf ${distPath} ${targetPath}`;
-  logInfo(`execute: ${copyCommand}`)
-  execSync(copyCommand)
+  logInfo(`execute: ${copyCommand}`);
+  execSync(copyCommand);
   logSuccess(`copy dist files to: ${targetPath}`);
-  
-}
+};

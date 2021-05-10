@@ -21,7 +21,7 @@ const { execSync, spawnSync } = child_process;
 
 const GET_SHA_CMD = 'git rev-parse --short HEAD';
 
-module.exports = async ({ image: baseImage }: { image?: string }) => {
+export default async ({ image: baseImage }: { image?: string }) => {
   try {
     const buildProcess = await spawnSync('erda-ui', baseImage ? ['build', '-i', `${baseImage}`] : ['build'], { env: process.env, cwd: rootDir, stdio: 'inherit' });
 

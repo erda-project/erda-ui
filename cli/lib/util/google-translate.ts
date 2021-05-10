@@ -12,24 +12,22 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/no-require-imports */
-const { translate } = require('@paiva/translation-google');
-const fs = require('fs');
-const path = require('path');
-const { logInfo } = require('./log');
+import fs from 'fs';
+import path from 'path';
+import { logInfo } from './log';
 
+const { translate } = require('@paiva/translation-google');
 // 过滤替换会造成i118next翻译出错的单词，比如点和冒号
-const filterInvalidWord = (enWord) => {
+const filterInvalidWord = (enWord: string) => {
   return enWord.replace(/:/g, '&#58;');
 };
 
 const tempFilePath = path.resolve(process.cwd(), './temp-zh-words.json');
 
 // 注意：翻译完的英文首字母会强制小写，如果需要大写开头的需要手动调整
-const doTranslate = async () => {
+export const doTranslate = async () => {
   const rawFile = fs.readFileSync(tempFilePath);
-  const wordList = JSON.parse(rawFile);
+  const wordList = JSON.parse(rawFile.toString());
 
   const toTransList = Object.keys(wordList);
   if (toTransList.length === 0) {
@@ -45,17 +43,12 @@ const doTranslate = async () => {
   });
   const translatedList = await Promise.allSettled(promises);
 
-  translatedList.filter(item => item.status === 'fulfilled').forEach(({ value }) => {
-    const { zh, en } = value;
+  translatedList.filter((item) => item.status === 'fulfilled').forEach((result) => {
+    const { zh, en } = (result as PromiseFulfilledResult<{ zh: string; en: any }>).value;
     const [first, ...rest] = en;
-    const enWord = filterInvalidWord(first.toLowerCase() + rest.join(''));
+    const enWord = filterInvalidWord(`${first.toLowerCase()}${rest.join('')}`);
     wordList[zh] = enWord;
     logInfo(`${zh}: ${enWord}`);
   });
   fs.writeFileSync(tempFilePath, JSON.stringify(wordList, null, '  '));
 };
-
-module.exports = {
-  doTranslate,
-};
-
