@@ -119,7 +119,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
       title: i18n.t('status'),
       dataIndex: 'state',
       width: 100,
-      render: (v: number, record:any) => {
+      render: (v: number, record: any) => {
         const currentState = find(record?.issueButton, item => item.stateID === v);
         return currentState ? <div className='v-align'>{ISSUE_ICON.state[currentState.stateBelong]}{currentState.stateName}</div> : undefined;
       },
@@ -380,7 +380,7 @@ const AddIssueRelation = ({ onSave, editAuth, projectId, iterationID, currentIss
           onClick={() => {
             if (chosenIssue) {
               onSave(chosenIssue);
-              onClose();
+              updater.chosenIssue(undefined);
             }
           }}
         >
@@ -411,15 +411,15 @@ const AddNewIssue = ({ onSaveRelation, iterationID, onCancel, defaultIssueType }
       className="mt12"
       onCancel={onCancel}
       defaultIssueType={defaultIssueType}
-      onOk={(val: ISSUE.BacklogIssueCreateBody) => {
-        createIssue({ // 创建事件
+      onOk={async (val: ISSUE.BacklogIssueCreateBody) => {
+          return await createIssue({ // 创建事件
           projectID: +projectId,
           iterationID: +iterationID,
           priority: 'LOW',
           ...val,
         }).then((res: number) => {
           onSaveRelation(res); // 添加关联
-        }).finally(onCancel);
+        })
       }}
     />
   );
