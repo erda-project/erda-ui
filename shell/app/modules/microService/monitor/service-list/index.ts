@@ -15,10 +15,10 @@ import i18n from 'i18n';
 
 
 const tabs = [
-  { key: 'overview', name: i18n.t('common:service') },
-  { key: 'transaction', name: i18n.t('microService:affairs') },
-  { key: 'anomaly', name: i18n.t('abnormal') },
-  { key: 'process', name: i18n.t('dcos:process') },
+  { key: 'overview', name: i18n.t('backup:service') },
+  { key: 'transaction', name: i18n.t('microService:transaction') },
+  { key: 'anomaly', name: i18n.t('microService:exception') },
+  { key: 'process', name: i18n.t('microService:process') },
 ];
 
 export default () => ({
@@ -35,7 +35,7 @@ export default () => ({
               path: ':serviceName',
               breadcrumbName: ({ params }: any) => {
                 const { serviceName } = params || {};
-                return `${i18n.t('microService:service analysis')}-${serviceName}`;
+                return `${i18n.t('microService:service analysis')}(${serviceName})`;
               },
               tabs,
               alwaysShowTabKey: 'overview',

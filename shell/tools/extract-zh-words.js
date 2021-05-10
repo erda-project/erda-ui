@@ -15,8 +15,6 @@ const fs = require('fs');
 const path = require('path');
 const { walker } = require('./file-walker');
 
-// should match:
-// i18n.d("中文")
 const reg = /i18n\.d\(["'](.+?)["']\)/g;
 const tempFilePath = path.resolve(__dirname, './temp-zh-words.json');
 
