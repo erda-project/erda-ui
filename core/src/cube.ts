@@ -62,7 +62,7 @@ const { createStore, createFlatStore, use, storeMap } = cube({
               update({ [pagingKey]: { pageSize: _payload.pageSize, total: data.total, hasMore, pageNo: currentPageNo } });
             }
           } else {
-            (getConfig('onAPIFail') || noop)(err.msg || errorMsg);
+            (getConfig('onAPIFail') || noop)('error', err.msg || errorMsg);
           }
           return fullResult
             ? result

@@ -12,56 +12,56 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 const fs = require('fs');
-const path = require('path');
 const inquirer = require('inquirer');
+const { promisify } = require('util');
 const child_process = require('child_process');
 const { logInfo, logSuccess, logWarn, logError } = require('./util/log');
+const asyncExec = promisify(require('child_process').exec)
 const {
   rootDir,
   publicDir,
   yarnCmd,
-  moduleList
+  moduleList,
+  registryDir,
 } = require('./util/env');
+const { exit } = require('process');
 const { execSync, exec } = child_process;
+const ora = require('ora');
 
 const GET_BRANCH_CMD = "git branch | awk '/\\*/ { print $2; }'";
-const UPDATE_SUB_MODULES = "git pull --recurse-submodules";
-
-let rebuildModules = moduleList.map(item => item.moduleName);
+// const UPDATE_SUB_MODULES = "git pull --recurse-submodules";  // this pull only pull the forked repository, mostly doesn't make any sense
 
 const getCurrentBranch = async () => {
-  execSync(UPDATE_SUB_MODULES);
   const branch = await execSync(GET_BRANCH_CMD);
   return branch.toString();
 };
 
 const checkBranch = async () => {
   const branch = await getCurrentBranch();
-  logInfo('Current Branch: ', branch);
+  logInfo('Current Branch: ', branch.replace(/\n/, ''));
   if (!branch.startsWith('release')) {
-    const answer = await inquirer.prompt([
+    const { answer } = await inquirer.prompt([
       {
-        type: 'confirm',
-        name: 'continueBuild',
+        type: 'list',
+        name: 'answer',
         message: 'Current branch is not release/*, continue?',
-        default: false,
+        default: 'No',
+        choices: ['Yes', 'No'],
       },
     ]);
-    if (!answer.continueBuild) {
+    if (answer === 'No') {
       process.exit(1);
     }
   }
 };
 
 const checkCodeUpToDate = async () => {
-  logInfo('update code');
-
   let answer = await inquirer.prompt([
     {
       type: 'confirm',
       name: 'updateCode',
-      message: 'Make sure codes of erda-ui and erda-ui-enterprise are up to date, and then select "Y" to continue.',
-      default: false,
+      message: 'Make sure codes of erda-ui and erda-ui-enterprise are up to date and then press Enter to continue.',
+      default: true,
     },
   ]);
 
@@ -82,7 +82,7 @@ const whetherGenerateSourceMap = async () => {
   return answer.enableSourceMap
 }
 
-const checkReInstall = async () => {
+const checkReInstall = async (rebuildList) => {
   const answer = await inquirer.prompt([
     {
       type: 'confirm',
@@ -93,17 +93,25 @@ const checkReInstall = async () => {
   ]);
   if (answer.reInstall) {
     logInfo('start yarn');
-    await installDependencies();
+    await installDependencies(rebuildList);
   } else {
     logWarn('Skip update Dependencies, please make sure it\'s up to date!');
   }
 }
 
-
-const installDependencies = async () => {
+const installDependencies = async (rebuildList) => {
   const pList = [];
-  moduleList.forEach(({moduleDir: dir, moduleName: name}) => {
-    if (rebuildModules.includes(name)) {
+  const { selectUpdateList } = await inquirer.prompt([
+    {
+      type: 'checkbox',
+      name: 'selectUpdateList',
+      message: 'Choose modules to update dependency',
+      choices: rebuildList,
+    }
+  ]);
+
+  moduleList.filter(({ moduleName: name }) => selectUpdateList.includes(name)).forEach(({moduleDir: dir, moduleName: name}) => {
+    if (rebuildList.includes(name)) {
       logInfo(`Performing "${yarnCmd}" inside ${dir} folder`);
       let installPromise = new Promise((resolve)=> {
         exec(yarnCmd, { env: process.env, cwd: dir, stdio: 'inherit' }, (error, stdout)=>{
@@ -122,43 +130,15 @@ const installDependencies = async () => {
   });
 
   await Promise.all(pList);
-  logSuccess(`install successfully 😁!`);
+  pList.length && logSuccess(`update dependency successfully 😁!`);
 }
 
 const clearPublic = async () => {
-  logInfo('clear Public');
-
-  if (rebuildModules.length === moduleList.length) {
-    await execSync(`rm -rf ${publicDir}/*`, { cwd: rootDir });
-  } else {
-    const pList = [];
-
-    rebuildModules.forEach(name => {
-      let clearPromise = new Promise((resolve)=> {
-        const clearCmd = name !== 'shell' 
-          ? `rm -rf ${publicDir}/static/${name}` 
-          : `rm -rf ${publicDir}/static/${name} && find ${publicDir}/static -type f | xargs rm -f`;
-
-        exec(clearCmd, { cwd: rootDir }, (error, stdout, stderr)=>{
-          if (error) {
-            logError(`clear error: ${error}`);
-            process.exit(1);
-          } else {
-            logInfo(stderr);
-            logSuccess(`dist of module【${name}】has been cleared! [${stdout}]`);
-            resolve();
-          }
-        });
-      });
-      pList.push(clearPromise);
-    });
-
-    await execSync(`rm -rf ${publicDir}/version.json`, { cwd: rootDir });
-    await Promise.all(pList);
-  }
+  logInfo('clear public folder');
+  await execSync(`rm -rf ${publicDir}/*`, { cwd: rootDir });
 }
 
-const checkModuleValid = async (execPath)=> {
+const checkModuleValid = async (isLocal)=> {
   let isAllValid = true;
   
   moduleList.forEach(item => {
@@ -177,12 +157,13 @@ const checkModuleValid = async (execPath)=> {
 
   if (!isAllValid) {
     process.exit(1);
-  } else if (execPath === 'local') {
+  } else if (isLocal) {
     const answer = await inquirer.prompt([
       {
         type: 'confirm',
         name: 'coveredAllModules',
-        message: `Are all modules covered in【${outputModules}】`,
+        message: `Here are the modules【${outputModules}】detected in .env file. If missing module requires to build please update env config by registering module with command "erda-ui setup ", and then run again.`,
+        default: true,
       },
     ]);
     if (!answer.coveredAllModules) {
@@ -191,71 +172,198 @@ const checkModuleValid = async (execPath)=> {
   }
 }
 
-const checkRebuildModules = async () => {
-  if (fs.existsSync(path.resolve(publicDir, 'static'))) {
-    const { selectedModuleList } = await inquirer.prompt([
-      {
-        type: 'checkbox',
-        name: 'selectedModuleList',
-        message: 'Choose modules which need to rebuild',
-        choices: rebuildModules,
-      }
-    ]);
-    rebuildModules = selectedModuleList;
-  }
-}
-
-const buildAll =  async (enableSourceMap) => {  
+const buildModules = async (enableSourceMap, rebuildList) => {  
   const pList = [];
 
-  moduleList.forEach(item => {
+  const toBuildModules = rebuildList.length ? rebuildList : moduleList;
+  toBuildModules.forEach(item => {
     const { moduleName, moduleDir } = item;
+    
+    let buildPromise = new Promise((resolve)=> {
+      const spinner = ora(`building ${moduleName}`).start();
+      exec('npm run build', { env: { ...process.env, enableSourceMap }, cwd: moduleDir, stdio: 'inherit' }, (error, stdout, stderr)=>{
+        if (error) {
+          logError(`build error: ${error}`);
+          process.exit(1);
+        } else {
+          logInfo(stderr);
+          logSuccess(`【${moduleName}】build successfully! [${stdout}]`);
+          resolve();
+          spinner.stop();
+        }
+      });
+    })
 
-    if (rebuildModules.includes(moduleName)) {
-      logInfo(`Building ${moduleName}`);
-  
-      let buildPromise = new Promise((resolve)=> {
-        exec('npm run build', { env: { ...process.env, enableSourceMap }, cwd: moduleDir, stdio: 'inherit' }, (error, stdout, stderr)=>{
-          if (error) {
-            logError(`build error: ${error}`);
-            process.exit(1);
-          } else {
-            logInfo(stderr);
-            logSuccess(`【${moduleName}】build successfully! [${stdout}]`);
-            resolve();
-          }
-        });
-      })
-  
-      pList.push(buildPromise);
-    }
+    pList.push(buildPromise);
   });
 
   await Promise.all(pList);
   logSuccess(`build successfully 😁!`);
 }
 
-module.exports = async (execPath) => {
-  try {   
-    await checkModuleValid(execPath);
+const stopDockerContainer = async () => {
+  await asyncExec('docker container stop erda-ui-for-build');
+  await asyncExec('docker rm erda-ui-for-build');
+}
+
+/**
+ * restore built content from an existing image
+ */
+const restoreFromDockerImage = async (image, requireBuildList = []) => {
+  try {
+    // check whether docker is running
+    await asyncExec('docker ps');
+  } catch (error) {
+    if (error.message.includes('Cannot connect to the Docker daemon')) { // if not start docker and exit program, because node can't know when docker would started completely
+      logInfo('Starting Docker');
+      try {
+        await asyncExec('open --background -a Docker');
+      } catch (e) {
+        logError('Launch Docker failed! Please start Docker manually')
+      }
+      logWarn('Since partial build depends on docker, please rerun this command after Docker launch completed');
+      exit(1);
+    } else {
+      logError('Docker maybe crashed', error);
+      exit(1);
+    }
+  }
+  // check whether erda-ui-for-build container exist
+  const { stdout: containers } = await asyncExec('docker container ls -al');
+  if (containers && containers.includes('erda-ui-for-build')) { // if exist stop & delete it first, otherwise it will cause docker conflict
+    logInfo('erda-ui container already exist, stop & delete it before next step');
+    await stopDockerContainer();
+    logSuccess('stop & delete erda-ui container successfully');
+  }
+
+  // start docker container names erda-ui for image provided
+  await asyncExec(`docker run -d --name erda-ui-for-build \
+    -e OPENAPI_ADDR=127.0.0.1 \
+    -e TA_ENABLE=false \
+    -e TERMINUS_KEY=xxx \
+    -e COLLECTOR_PUBLIC_ADDR=127.0.0.1 \
+    -e ENABLE_MPAAS=false \
+    -e ENABLE_BIGDATA=false \
+    -e ONLY_FDP=false \
+    -e UC_PUBLIC_URL=127.0.0.1 \
+    -e FDP_UI_ADDR=127.0.0.1 \
+    -e GITTAR_ADDR=127.0.0.1 \
+    ${registryDir}:${image}`);
+  logSuccess('erda-ui docker container has been launched');
+
+  // choose modules for this new build, the ones which not be chosen will reuse the image content
+  const modulesNames = moduleList.map(module => module.moduleName).filter(name => !requireBuildList.includes(name));
+  let rebuildList = [...requireBuildList];
+  if (modulesNames.length) {
+    const { selectRebuildList } = await inquirer.prompt([
+      {
+        type: 'checkbox',
+        name: 'selectRebuildList',
+        message: 'Choose modules to build',
+        choices: modulesNames,
+      }
+    ]);
+    rebuildList = rebuildList.concat(selectRebuildList);
+  }
+  
+  if (!rebuildList || !rebuildList.length) {
+    logWarn('no module need to build, exit program');
+    exit(1);
+  }
+  // copy built content from container
+  await asyncExec(`docker cp erda-ui-for-build:/usr/share/nginx/html/. ${publicDir}/`);
+  logSuccess('finished copy image content to local');
+  // delete rebuilt module folders
+  rebuildList.forEach(module => {
+    if (module !== 'shell') {
+      exec(`rm -rf ${publicDir}/static/${module}`);
+    } else {
+      exec(`rm -rf ${publicDir}/static/${module} && find ${publicDir}/static -maxdepth 1 -type f | xargs rm -f`);
+    }
+  });
+  await execSync(`rm -rf ${publicDir}/version.json`, { cwd: rootDir });
+  // stop & delete container
+  stopDockerContainer();
+
+  return rebuildList;
+}
+
+/**
+ * take advantage of git diff to find out which modules have to rebuild
+ */
+const getRequireBuildModules = async (image) => {
+  const requireBuildList = [];
+  try {
+    let { stdout: headSha } = await asyncExec('git rev-parse --short HEAD');
+    headSha = headSha.replace(/\n/, '');
+    const imageSha = image.split('-')[2];
+    const { stdout: diff } = await asyncExec(`git diff --name-only ${imageSha} ${headSha}`);
+    let rebuildList = moduleList.map(item => item.moduleName);
+    rebuildList.forEach(module => {
+      if (new RegExp(`^${module}\/`, 'gm').test(diff)) {
+        logWarn(`module [${module}] code changed since image commit, will forcibly built it.`);
+        requireBuildList.push(module);
+        if (new RegExp(`^${module}\/package-lock.json`, 'gm').test(diff) ) {
+          logWarn(`module [${module}] package-lock changed since image commit, please reminder to update this module dependency in next step.`);
+        }
+      }
+    });
+    logWarn('fdp & admin module are maintained in separate git repository，please manually confirm whether require rebuild.')
+    return requireBuildList;
+  } catch (error) {
+    logError(error);
+    logWarn('It seems the image commit sha is not parent commit of current HEAD, we can\'t detect file version change which is dangerous to have a partial build.');
+    const answer = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'continue',
+        message: 'Do you still want to continue? enter Y to continue or press Enter to exit',
+        default: false,
+      },
+    ]);
+    if (!answer.continue) {
+      process.exit(1);
+    } else {
+      return requireBuildList;
+    }
+  }
+}
+
+module.exports = async (options) => {
+  try {
+    let { local, image } = options;
+    if (!!image) {
+      local = true;
+    }
+    await checkModuleValid(local);
 
     let enableSourceMap = false;
     
-    if (execPath === 'local') {
-      await checkBranch();
-      await checkCodeUpToDate();
-      await checkRebuildModules();
-      enableSourceMap = await whetherGenerateSourceMap();
-      await checkReInstall();
-    }
-    
+    let rebuildList = moduleList.map(item => item.moduleName);
+
     await clearPublic();
 
-    await buildAll(enableSourceMap);
+    if (local) {
+      await checkBranch();
+      await checkCodeUpToDate();
+      enableSourceMap = await whetherGenerateSourceMap();
+      if (!!image) {
+        if (!/\d\.\d-\d{8}-.+/.test(image)) {
+          logError('invalid image sha, correct format example: 1.0-20210508-afc4a4a')
+          exit(1);
+        }
+        const requireBuildList = await getRequireBuildModules(image);
+        logInfo(`Will launch a partial build based on image ${image}`);
+        rebuildList = await restoreFromDockerImage(image, requireBuildList);
+      }
+      await checkReInstall(rebuildList);
+    }
+    
+    await buildModules(enableSourceMap, moduleList.filter(module => rebuildList.includes(module.moduleName)));
 
     require('./gen-version')();
 
-    if (rebuildModules.includes('shell')) {
+    if (rebuildList.includes('shell')) {
       require('./local-icon')();
     }
 
