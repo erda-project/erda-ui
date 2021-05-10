@@ -11,25 +11,27 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const fs = require('fs');
-const inquirer = require('inquirer');
-const { promisify } = require('util');
-const child_process = require('child_process');
-const { logInfo, logSuccess, logWarn, logError } = require('./util/log');
-const asyncExec = promisify(require('child_process').exec)
-const {
+import inquirer from 'inquirer';
+import fs from 'fs';
+import { promisify } from 'util';
+import child_process from 'child_process';
+import { logInfo, logSuccess, logWarn, logError } from './util/log';
+import {
   rootDir,
   publicDir,
   yarnCmd,
   moduleList,
   registryDir,
-} = require('./util/env');
-const { exit } = require('process');
+} from './util/env';
+import { exit } from 'process';
+import ora from 'ora';
+import generateVersion from './gen-version';
+
+const asyncExec = promisify(require('child_process').exec);
+
 const { execSync, exec } = child_process;
-const ora = require('ora');
 
 const GET_BRANCH_CMD = "git branch | awk '/\\*/ { print $2; }'";
-// const UPDATE_SUB_MODULES = "git pull --recurse-submodules";  // this pull only pull the forked repository, mostly doesn't make any sense
 
 const getCurrentBranch = async () => {
   const branch = await execSync(GET_BRANCH_CMD);
@@ -56,7 +58,7 @@ const checkBranch = async () => {
 };
 
 const checkCodeUpToDate = async () => {
-  let answer = await inquirer.prompt([
+  const answer = await inquirer.prompt([
     {
       type: 'confirm',
       name: 'updateCode',
@@ -79,10 +81,10 @@ const whetherGenerateSourceMap = async () => {
       default: false,
     },
   ]);
-  return answer.enableSourceMap
-}
+  return answer.enableSourceMap;
+};
 
-const checkReInstall = async (rebuildList) => {
+const checkReInstall = async (rebuildList: string[]) => {
   const answer = await inquirer.prompt([
     {
       type: 'confirm',
@@ -97,61 +99,62 @@ const checkReInstall = async (rebuildList) => {
   } else {
     logWarn('Skip update Dependencies, please make sure it\'s up to date!');
   }
-}
+};
 
-const installDependencies = async (rebuildList) => {
-  const pList = [];
-  const { selectUpdateList } = await inquirer.prompt([
+const installDependencies = async (rebuildList: string[]) => {
+  const pList: Array<Promise<void>> = [];
+  const { selectUpdateList } = await inquirer.prompt<{ selectUpdateList: string[] }>([
     {
       type: 'checkbox',
       name: 'selectUpdateList',
       message: 'Choose modules to update dependency',
       choices: rebuildList,
-    }
+    },
   ]);
 
-  moduleList.filter(({ moduleName: name }) => selectUpdateList.includes(name)).forEach(({moduleDir: dir, moduleName: name}) => {
+  moduleList.filter(({ moduleName: name }) =>
+    selectUpdateList.includes(name)).forEach(({ moduleDir: dir, moduleName: name }) => {
     if (rebuildList.includes(name)) {
       logInfo(`Performing "${yarnCmd}" inside ${dir} folder`);
-      let installPromise = new Promise((resolve)=> {
-        exec(yarnCmd, { env: process.env, cwd: dir, stdio: 'inherit' }, (error, stdout)=>{
+      const installPromise = new Promise<void>((resolve) => {
+        exec(yarnCmd, { env: process.env, cwd: dir }, (error: unknown, stdout: string) => {
           if (error) {
             logError(`install error: ${error}`);
             process.exit(1);
           } else {
-            logSuccess(`【${name}】 successfully installed! [${stdout}]`)
+            logSuccess(`【${name}】 successfully installed! [${stdout}]`);
             resolve();
           }
         });
-      })
-  
+      });
+
       pList.push(installPromise);
     }
   });
 
   await Promise.all(pList);
-  pList.length && logSuccess(`update dependency successfully 😁!`);
-}
+  pList.length && logSuccess('update dependency successfully 😁!');
+};
 
 const clearPublic = async () => {
   logInfo('clear public folder');
   await execSync(`rm -rf ${publicDir}/*`, { cwd: rootDir });
-}
+};
 
-const checkModuleValid = async (isLocal)=> {
+const checkModuleValid = async (isLocal: boolean) => {
   let isAllValid = true;
-  
-  moduleList.forEach(item => {
+
+  moduleList.forEach((item) => {
     if (!item.moduleDir) {
       isAllValid = false;
       logError(`${item.moduleName.toUpperCase()}_DIR is not exist in .env, you can run "erda setup <module> <port>" to auto generate moduleDir`);
     } else if (!fs.existsSync(item.moduleDir)) {
-      isAllValid = false
+      isAllValid = false;
       logError(`${item.moduleName.toUpperCase()}_DIR is wrong, please check in .env, or you can run "erda setup <module> <port>" to update moduleDir`);
     }
   });
-  
-  const outputModules = moduleList.map(item => item.moduleName).join(',');
+
+  const outputModules = moduleList.map((item) => item.moduleName).join(',');
 
   logInfo(`Output modules:【${outputModules}】`);
 
@@ -170,18 +173,18 @@ const checkModuleValid = async (isLocal)=> {
       process.exit(1);
     }
   }
-}
+};
 
-const buildModules = async (enableSourceMap, rebuildList) => {  
-  const pList = [];
+const buildModules = async (enableSourceMap: boolean, rebuildList: typeof moduleList) => {
+  const pList: Array<Promise<void>> = [];
 
   const toBuildModules = rebuildList.length ? rebuildList : moduleList;
-  toBuildModules.forEach(item => {
+  toBuildModules.forEach((item) => {
     const { moduleName, moduleDir } = item;
-    
-    let buildPromise = new Promise((resolve)=> {
+
+    const buildPromise = new Promise<void>((resolve) => {
       const spinner = ora(`building ${moduleName}`).start();
-      exec('npm run build', { env: { ...process.env, enableSourceMap }, cwd: moduleDir, stdio: 'inherit' }, (error, stdout, stderr)=>{
+      exec('npm run build', { env: { ...process.env, enableSourceMap: enableSourceMap.toString() }, cwd: moduleDir }, (error, stdout, stderr) => {
         if (error) {
           logError(`build error: ${error}`);
           process.exit(1);
@@ -192,24 +195,24 @@ const buildModules = async (enableSourceMap, rebuildList) => {
           spinner.stop();
         }
       });
-    })
+    });
 
     pList.push(buildPromise);
   });
 
   await Promise.all(pList);
-  logSuccess(`build successfully 😁!`);
-}
+  logSuccess('build successfully 😁!');
+};
 
 const stopDockerContainer = async () => {
   await asyncExec('docker container stop erda-ui-for-build');
   await asyncExec('docker rm erda-ui-for-build');
-}
+};
 
 /**
  * restore built content from an existing image
  */
-const restoreFromDockerImage = async (image, requireBuildList = []) => {
+const restoreFromDockerImage = async (image: string, requireBuildList: string[]) => {
   try {
     // check whether docker is running
     await asyncExec('docker ps');
@@ -219,7 +222,7 @@ const restoreFromDockerImage = async (image, requireBuildList = []) => {
       try {
         await asyncExec('open --background -a Docker');
       } catch (e) {
-        logError('Launch Docker failed! Please start Docker manually')
+        logError('Launch Docker failed! Please start Docker manually');
       }
       logWarn('Since partial build depends on docker, please rerun this command after Docker launch completed');
       exit(1);
@@ -252,7 +255,8 @@ const restoreFromDockerImage = async (image, requireBuildList = []) => {
   logSuccess('erda-ui docker container has been launched');
 
   // choose modules for this new build, the ones which not be chosen will reuse the image content
-  const modulesNames = moduleList.map(module => module.moduleName).filter(name => !requireBuildList.includes(name));
+  const modulesNames = moduleList.map((module) =>
+    module.moduleName).filter((name) => !requireBuildList.includes(name));
   let rebuildList = [...requireBuildList];
   if (modulesNames.length) {
     const { selectRebuildList } = await inquirer.prompt([
@@ -261,11 +265,11 @@ const restoreFromDockerImage = async (image, requireBuildList = []) => {
         name: 'selectRebuildList',
         message: 'Choose modules to build',
         choices: modulesNames,
-      }
+      },
     ]);
     rebuildList = rebuildList.concat(selectRebuildList);
   }
-  
+
   if (!rebuildList || !rebuildList.length) {
     logWarn('no module need to build, exit program');
     exit(1);
@@ -274,7 +278,7 @@ const restoreFromDockerImage = async (image, requireBuildList = []) => {
   await asyncExec(`docker cp erda-ui-for-build:/usr/share/nginx/html/. ${publicDir}/`);
   logSuccess('finished copy image content to local');
   // delete rebuilt module folders
-  rebuildList.forEach(module => {
+  rebuildList.forEach((module) => {
     if (module !== 'shell') {
       exec(`rm -rf ${publicDir}/static/${module}`);
     } else {
@@ -286,29 +290,29 @@ const restoreFromDockerImage = async (image, requireBuildList = []) => {
   stopDockerContainer();
 
   return rebuildList;
-}
+};
 
 /**
  * take advantage of git diff to find out which modules have to rebuild
  */
-const getRequireBuildModules = async (image) => {
-  const requireBuildList = [];
+const getRequireBuildModules = async (image: string) => {
+  const requireBuildList: string[] = [];
   try {
     let { stdout: headSha } = await asyncExec('git rev-parse --short HEAD');
     headSha = headSha.replace(/\n/, '');
     const imageSha = image.split('-')[2];
     const { stdout: diff } = await asyncExec(`git diff --name-only ${imageSha} ${headSha}`);
-    let rebuildList = moduleList.map(item => item.moduleName);
-    rebuildList.forEach(module => {
-      if (new RegExp(`^${module}\/`, 'gm').test(diff)) {
+    const rebuildList = moduleList.map((item) => item.moduleName);
+    rebuildList.forEach((module) => {
+      if (new RegExp(`^${module}/`, 'gm').test(diff)) {
         logWarn(`module [${module}] code changed since image commit, will forcibly built it.`);
         requireBuildList.push(module);
-        if (new RegExp(`^${module}\/package-lock.json`, 'gm').test(diff) ) {
+        if (new RegExp(`^${module}/package-lock.json`, 'gm').test(diff)) {
           logWarn(`module [${module}] package-lock changed since image commit, please reminder to update this module dependency in next step.`);
         }
       }
     });
-    logWarn('fdp & admin module are maintained in separate git repository，please manually confirm whether require rebuild.')
+    logWarn('fdp & admin module are maintained in separate git repository，please manually confirm whether require rebuild.');
     return requireBuildList;
   } catch (error) {
     logError(error);
@@ -327,19 +331,20 @@ const getRequireBuildModules = async (image) => {
       return requireBuildList;
     }
   }
-}
+};
 
-module.exports = async (options) => {
+module.exports = async (options: { local?: boolean; image?: string }) => {
   try {
-    let { local, image } = options;
-    if (!!image) {
+    const { image } = options;
+    let { local } = options;
+    if (image) {
       local = true;
     }
-    await checkModuleValid(local);
+    await checkModuleValid(!!local);
 
     let enableSourceMap = false;
-    
-    let rebuildList = moduleList.map(item => item.moduleName);
+
+    let rebuildList = moduleList.map((item) => item.moduleName);
 
     await clearPublic();
 
@@ -347,9 +352,9 @@ module.exports = async (options) => {
       await checkBranch();
       await checkCodeUpToDate();
       enableSourceMap = await whetherGenerateSourceMap();
-      if (!!image) {
+      if (image) {
         if (!/\d\.\d-\d{8}-.+/.test(image)) {
-          logError('invalid image sha, correct format example: 1.0-20210508-afc4a4a')
+          logError('invalid image sha, correct format example: 1.0-20210508-afc4a4a');
           exit(1);
         }
         const requireBuildList = await getRequireBuildModules(image);
@@ -358,15 +363,15 @@ module.exports = async (options) => {
       }
       await checkReInstall(rebuildList);
     }
-    
-    await buildModules(enableSourceMap, moduleList.filter(module => rebuildList.includes(module.moduleName)));
 
-    require('./gen-version')();
+    await buildModules(enableSourceMap,
+      moduleList.filter((module) => rebuildList.includes(module.moduleName)));
+
+    generateVersion();
 
     if (rebuildList.includes('shell')) {
       require('./local-icon')();
     }
-
   } catch (error) {
     logError('build exit with error:', error.message);
     process.exit(1);

@@ -11,19 +11,17 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const child_process = require('child_process');
-const dayjs = require('dayjs');
-const notifier = require('node-notifier');
-const { logInfo, logSuccess, logError } = require('./util/log');
-const { rootDir, shellDir, registryDir } = require('./util/env');
+import child_process from 'child_process';
+import dayjs from 'dayjs';
+import notifier from 'node-notifier';
+import { logInfo, logSuccess, logError } from './util/log';
+import { rootDir, shellDir, registryDir } from './util/env';
 
 const { execSync, spawnSync } = child_process;
 
-
 const GET_SHA_CMD = 'git rev-parse --short HEAD';
-const START_DOCKER_CMD = 'open --background -a Docker';
 
-module.exports = async ({ image: baseImage }) => {
+module.exports = async ({ image: baseImage }: { image?: string }) => {
   try {
     const buildProcess = await spawnSync('erda-ui', baseImage ? ['build', '-i', `${baseImage}`] : ['build'], { env: process.env, cwd: rootDir, stdio: 'inherit' });
 
@@ -37,10 +35,6 @@ module.exports = async ({ image: baseImage }) => {
     const pJson = require(`${shellDir}/package.json`);
     const version = pJson.version.slice(0, -2);
     const tag = `${version}-${date}-${sha}`;// 3.20-2020520-182737976
-
-    logInfo(`start building image with tag: 【${tag}】`);
-    await execSync(START_DOCKER_CMD);
-    logSuccess('docker started');
 
     const image = `${registryDir}:${tag}`;
     await execSync(`docker build -f local_Dockerfile -t ${image} . || exit 1`, { stdio: 'inherit', cwd: rootDir });
@@ -57,7 +51,6 @@ module.exports = async ({ image: baseImage }) => {
     logSuccess(`push success: 【${image}】`);
 
     logSuccess('docker exited');
-
   } catch (error) {
     logError('build image error:', error.message);
     process.exit(1);

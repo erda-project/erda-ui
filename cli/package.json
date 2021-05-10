@@ -3,11 +3,12 @@
   "version": "1.0.3",
   "description": "Command line interface for rapid Erda UI development",
   "bin": {
-    "erda-ui": "bin/erda.js"
+    "erda-ui": "dist/bin/erda.js"
   },
   "scripts": {
     "start": "node bin/erda.js",
-    "local": "node ./node_modules/.bin/local-package-publisher -p",
+    "build": "rm -rf ./dist && tsc --version && tsc --project .",
+    "local": "npm run build && node ./node_modules/.bin/local-package-publisher -p",
     "remove-local": "node ./node_modules/.bin/local-package-publisher -u"
   },
   "repository": {
@@ -38,9 +39,20 @@
     "ora": "^5.4.0",
     "pm2": "^4.5.6",
     "slash": "^3.0.0",
-    "superagent": "^6.1.0"
+    "superagent": "^6.1.0",
+    "typescript": "^4.2.4"
   },
   "devDependencies": {
+    "@types/cli-table": "^0.3.0",
+    "@types/inquirer": "^7.3.1",
+    "@types/lodash": "^4.14.168",
+    "@types/node": "^15.0.2",
+    "@types/node-notifier": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.22.1",
+    "@typescript-eslint/parser": "^4.22.1",
+    "eslint": "^7.26.0",
+    "eslint-config-ali": "^12.0.2",
+    "eslint-plugin-import": "^2.22.1",
     "local-package-publisher": "^1.0.4"
   }
 }
