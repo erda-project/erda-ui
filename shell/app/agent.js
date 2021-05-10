@@ -134,8 +134,8 @@ const reqKeyList = [];
 //   }
 // }
 
-agent.use(setHeader);
 agent.use(handleSpotPrefix);
+agent.use(setHeader);
 agent.use(handelPagingNull);
 agent.use(handleError);
 
