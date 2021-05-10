@@ -118,8 +118,8 @@ const AddonCardList = (props: IProps) => {
     if (!isEmpty(addonList)) {
       setDataSource(addonList.filter((addon: ADDON.Instance) => {
         const isOtherFilter = (addon.workspace === env || env === 'ALL') &&
-        searchFilter(addon, searchKey, searchProps) &&
-        searchFilter(addon, name, searchProps);
+          searchFilter(addon, searchKey, searchProps) &&
+          searchFilter(addon, name, searchProps);
 
         if (dataSourceType === 'custom') {
           const isCustomDataSource = CustomDataSourceMap.includes(addon.displayName);
@@ -172,6 +172,7 @@ const AddonCardList = (props: IProps) => {
     if (activeCategory === targetCategory) {
       return;
     }
+    setActiveCategory(targetCategory)
     scrollToTarget(targetCategory);
   };
 
