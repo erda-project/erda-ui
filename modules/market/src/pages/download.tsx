@@ -50,6 +50,10 @@ export const judgeClient = (): ClientType => {
   return client;
 };
 
+const getOrgFromPath = () => {
+  return get(window.location.pathname.split('/'),'[1]') || '-';
+}
+
 const DownloadPage = ({ match }: any) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [hasDefault, setHasDefault] = React.useState(false);
@@ -59,9 +63,11 @@ const DownloadPage = ({ match }: any) => {
   const [showDownload, setShowDownload] = React.useState(false);
   const [name, setName] = React.useState('');
   const client = judgeClient().toLowerCase();
+  const curOrg = getOrgFromPath();
   React.useEffect(() => {
     setIsLoading(true);
-    agent.get(`/api/publish-items/${match.params.publishItemId}/distribution`)
+    agent.get(`/api/${curOrg}/publish-items/${match.params.publishItemId}/distribution`)
+      .set('org',curOrg)
       .query({ mobileType: client })
       .then((response: any) => {
         const { success, data, err } = response.body;

@@ -12,7 +12,6 @@
     "craco-antd": "^1.19.0",
     "file-loader": "^6.2.0",
     "history": "^5.0.0",
-    "html-webpack-plugin": "^4.44.2",
     "lodash": "^4.17.21",
     "moment": "^2.18.1",
     "qrcode.react": "^1.0.0",
@@ -27,8 +26,9 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build",
+    "build": "craco build && npm run copy-to-shell",
     "test": "craco test",
+    "copy-to-shell": "cp -rf build/market ../../public/static/shell",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

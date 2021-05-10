@@ -1,32 +1,22 @@
 const path = require('path');
 const CracoAntDesignPlugin = require("craco-antd")
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const resolve = pathname => path.resolve(__dirname, pathname);
 const themeColor = '#6A549E';
-const nodeEnv = process.env.NODE_ENV || 'development';
-const isProd = nodeEnv === 'production';
 module.exports = {
   webpack: {
     alias: {
       '~': path.join(__dirname, 'src'),
     },
-    plugins: [
-        new HtmlWebpackPlugin({
-          filename: 'index.html',
-          template: './src/views/market.ejs',
-          chunks: ['vendors~app~market', 'vendors~market', 'market'],
-          isProd,
-          minify: isProd
-            ? {
-              collapseWhitespace: true,
-              minifyJS: true,
-              minifyCSS: true,
-              removeEmptyAttributes: true,
-            }
-            : false,
-        }),
-      ],
+    configure: (webpackConfig, { env, paths }) => { 
+      paths.appBuild = 'build/market'
+      webpackConfig.output = {
+        ...webpackConfig.output,
+          path: path.resolve(__dirname, 'build/market'), // 修改输出文件目录
+          publicPath: '/'
+      }
+      return webpackConfig; 
+    },
     module: {
       rules: [
         {

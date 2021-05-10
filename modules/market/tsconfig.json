@@ -23,6 +23,6 @@
     "baseUrl": "."
   },
   "include": [
-    "src"
+    "./src/*"
   ]
 }

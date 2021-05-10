@@ -141,7 +141,7 @@ server {
 
     location ~* ^/[^/]*/market {
         index market.html;
-        try_files /static/shell/market.html =404;
+        try_files /static/shell/market/index.html =404;
     }
 
     location ^~ /fdp-app/ {
