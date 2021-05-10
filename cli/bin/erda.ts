@@ -12,15 +12,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const path = require('path');
-const { Command } = require('commander');
+import path from 'path';
+import { Command } from 'commander';
+import inquirer from 'inquirer';
+
 const program = new Command();
-const inquirer = require('inquirer');
 
 inquirer.registerPrompt('directory', require('inquirer-select-directory'));
 
 program
-  .version(`erda-ui/cli ${require('../package').version}`)
+  .version(`erda-ui/cli ${require('../../package').version}`)
   .usage('<command> [options]');
 
 // program
@@ -37,7 +38,7 @@ program
   .command('setup <module> <port>')
   .description('setup env and tsconfig for module')
   .action((moduleName, port) => {
-    require('../lib/setup')(moduleName, port)
+    require('../lib/setup')(moduleName, port);
   });
 
 program
@@ -46,7 +47,7 @@ program
   .option('-i, --image <image>', 'image sha as build base, e.g. 1.0-20210506-48bd74')
   .option('-l, --local', 'enable local mode, if image arg is given, then local mode is forcibly')
   .action((options) => {
-    require('../lib/build')(options)
+    require('../lib/build')(options);
   });
 
 program
@@ -54,7 +55,7 @@ program
   .option('-p, --dist_path <dist>', 'Dist directory path', './dist')
   .description('copy module build files to erda-ui public directory')
   .action((module, options) => {
-    require('../lib/copy')(module, options)
+    require('../lib/copy')(module, options);
   });
 
 program
@@ -62,7 +63,7 @@ program
   .description('build & push docker image')
   .option('-i, --image <image>', 'image sha as build base, e.g. 1.0-20210506-48bd74')
   .action((options) => {
-    require('../lib/release')(options)
+    require('../lib/release')(options);
   });
 
 program
@@ -71,8 +72,8 @@ program
   .action((_workDir) => {
     const workDir = _workDir
       ? path.resolve(process.cwd(), _workDir)
-      : process.cwd()
-    require('../lib/i18n')({ workDir })
+      : process.cwd();
+    require('../lib/i18n')({ workDir });
   });
 
 program
@@ -80,7 +81,7 @@ program
   .option('-t, --fileType <file_type>', 'File type', 'js,ts,jsx,tsx')
   .description('add license header in files if not exist')
   .action(({ fileType }) => {
-    require('../lib/add-license')({ fileType })
+    require('../lib/add-license')({ fileType });
   });
 
 program
@@ -89,14 +90,14 @@ program
   .option('-d, --directory <directory>', 'work directory')
   .description('check license header in files')
   .action(({ fileType, directory }) => {
-    require('../lib/check-license')({ fileType, directory })
+    require('../lib/check-license')({ fileType, directory });
   });
 
 program
   .command('launch')
   .description('launch erda ui in development mode')
   .action(() => {
-    require('../lib/launcher')()
+    require('../lib/launcher')();
   });
 
 
