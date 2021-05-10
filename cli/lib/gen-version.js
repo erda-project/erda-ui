@@ -17,15 +17,8 @@
  * 2、此方案并不能解决强制打包时或前端项目的非业务代码发生变更导致的Dice打包时，前端版本的变更情况
  */
 const fs = require('fs');
-const {
-  cliDir,
-  rootDir,
-  coreDir,
-  publicDir,
-  shellDir,
-  npmCmd,
-} = require('./util/env');
-const { logInfo, logSuccess, logWarn, logError } = require('./util/log');
+const { publicDir } = require('./util/env');
+const { logSuccess, logError } = require('./util/log');
 
 module.exports = () => {
   const data = { version: Date.parse(new Date()) };

@@ -12,19 +12,33 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import agent from 'core/agent';
-import { getCookies, setApiWithOrg } from 'common/utils';
+import { getCookies, setApiWithOrg, getOrgFromPath } from 'common/utils';
 import { getGlobal } from 'app/global-space';
+import { some } from 'lodash';
 import errorHandler from './error-handler';
 
 /**
  * set accept header
  */
 
+const isExcludeOrgHeaderApi = (url) => {
+  const excludeApis = ['/api/files'];
+  return some(excludeApis, api => api.startsWith(url))
+}
+
 function setHeader(req) {
 
   const header = getGlobal('service-provider');
   if (header) {
     req.set('service-provider', header);
+  }
+
+  const curOrg = getOrgFromPath();
+  curOrg && req.set('org', curOrg);
+  // mf_share导出的模块内部会引用这里的agent，导致use方法被执行两次，添加markedOrg避免多次重复添加
+  if(!req.markedOrg && !isExcludeOrgHeaderApi(req.url)){
+    req.url = setApiWithOrg(req.url);
+    req.markedOrg = true;
   }
   return req;
 }
@@ -34,11 +48,6 @@ function handleSpotPrefix(req) {
   const { url } = req;
   if (url.startsWith('/api/spot/')) {
     req.url = url.replace('/api/spot/', '/api/');
-  }
-  // mf_share导出的模块内部会引用这里的agent，导致use方法被执行两次，添加markedOrg避免多次重复添加
-  if(!req.markedOrg){
-    req.url = setApiWithOrg(req.url);
-    req.markedOrg = true;
   }
   return req;
 }
@@ -125,8 +134,8 @@ const reqKeyList = [];
 //   }
 // }
 
-agent.use(setHeader);
 agent.use(handleSpotPrefix);
+agent.use(setHeader);
 agent.use(handelPagingNull);
 agent.use(handleError);
 

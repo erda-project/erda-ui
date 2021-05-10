@@ -30,7 +30,7 @@ const downloadFile = (url, savePath) => {
     if (res.status === 200 && (data.startsWith('@font-face') || data.includes('<symbol'))) {
       fs.writeFile(savePath, data, (e) => {
         if (e) {
-          console.log('写入iconfont文件失败！', e);
+          console.log('write iconfont file failed！', e);
         }
       });
     } else {
@@ -48,7 +48,7 @@ module.exports = () => {
     let replacedContent = content;
     while (matchedIconfontFile) {
       const iconfontFilePath = matchedIconfontFile[0];
-      console.log('匹配到iconfont文件', iconfontFilePath);
+      console.log('get matched iconfont file', iconfontFilePath);
       downloadFile(iconfontFilePath, path.resolve(publicDir, `./static/${matchedIconfontFile[1]}`));
       replacedContent = replacedContent.replace(iconfontFilePath, `/static/${matchedIconfontFile[1]}`);
       matchedIconfontFile = iconfontRegex.exec(replacedContent);
@@ -56,9 +56,9 @@ module.exports = () => {
 
     fs.writeFile(htmlPath, replacedContent, (e) => {
       if (e) {
-        console.log('覆盖index.html失败！', e);
+        console.log('rewrite index.html failed！', e);
       } else {
-        console.log('覆盖index.html完成');
+        console.log('rewrite index.html completed');
       }
     });
   });

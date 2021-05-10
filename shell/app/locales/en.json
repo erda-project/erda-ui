@@ -552,7 +552,8 @@
     "yml-addon-not-exist-tip": "the current instance does not exist, please switch to edit mode to add again"
   },
   "backup": {
-    "parameter name": "parameter name"
+    "parameter name": "parameter name",
+    "service": "service"
   },
   "charts": {
     "Apdex": "Apdex",
@@ -2004,7 +2005,6 @@
     "add monitoring": "add monitoring",
     "add {scope} API": "add {scope} API",
     "address": "address",
-    "affairs": "affairs",
     "affiliated service": "affiliated service",
     "ajax interface": "ajax interface",
     "ajax performance trends": "ajax performance trends",
@@ -2204,6 +2204,7 @@
     "error statistics": "error statistics",
     "error transaction tracking": "error transaction tracking",
     "error type analytics": "error type analytics",
+    "exception": "exception",
     "exception type": "exception type",
     "expand all": "expand all",
     "expire date": "expire date",
@@ -2400,6 +2401,7 @@
     "positioning analytics": "positioning analytics",
     "prev": "prev",
     "previous": "previous",
+    "process": "process",
     "project report": "reports",
     "proportion": "proportion",
     "province": "province",
@@ -2544,6 +2546,7 @@
     "traffic intercept switch": "traffic intercept switch",
     "traffic limit": "traffic limit",
     "traffic receive forwarding": "traffic receive forwarding",
+    "transaction": "transaction",
     "transactions": "transactions",
     "transactions debug": "transactions debug",
     "transactions details": "transactions details",

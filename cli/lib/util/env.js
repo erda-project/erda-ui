@@ -11,15 +11,20 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const { resolve, join } = require('path');
-const path = require('path');
+const { join } = require('path');
+const fs = require('fs');
 const { forEach } = require('lodash');
+const { exit } = require('process');
+const { logError } = require('./log');
 
-// project root
-const rootDir = resolve(process.cwd(), '..');
+// erda-ui root
+const rootDir = process.cwd();
+if (!fs.existsSync(`${rootDir}/.env`)) {
+  logError('Please run this command under erda-ui root directory');
+  exit(1);
+}
 
-const projectEnvPath = path.resolve(process.cwd(), '../.env');
-const { parsed: moduleEnv } = require('dotenv').config({ path: projectEnvPath });
+const { parsed: moduleEnv } = require('dotenv').config({ path: `${rootDir}/.env` });
 
 const cliDir = join(rootDir, 'cli');
 const coreDir = join(rootDir, 'core');

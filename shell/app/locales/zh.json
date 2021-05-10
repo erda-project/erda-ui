@@ -552,7 +552,8 @@
     "yml-addon-not-exist-tip": "当前实例不存在，请切换到编辑模式重新添加"
   },
   "backup": {
-    "parameter name": "参数名称"
+    "parameter name": "参数名称",
+    "service": "服务概览"
   },
   "charts": {
     "Apdex": "满意请求指数",
@@ -2004,7 +2005,6 @@
     "add monitoring": "添加监控",
     "add {scope} API": "添加{scope}API",
     "address": "地址",
-    "affairs": "事务",
     "affiliated service": "所属服务",
     "ajax interface": "Ajax接口",
     "ajax performance trends": "Ajax性能趋势",
@@ -2204,6 +2204,7 @@
     "error statistics": "错误统计",
     "error transaction tracking": "异常事务追踪",
     "error type analytics": "错误类型分析",
+    "exception": "异常分析",
     "exception type": "异常类型",
     "expand all": "全部展开",
     "expire date": "过期时间",
@@ -2400,6 +2401,7 @@
     "positioning analytics": "定位分析",
     "prev": "上一步",
     "previous": "上一个",
+    "process": "进程分析",
     "project report": "项目报告",
     "proportion": "占比",
     "province": "省份",
@@ -2544,6 +2546,7 @@
     "traffic intercept switch": "流量拦截开关",
     "traffic limit": "调用量限制",
     "traffic receive forwarding": "流量接收转发",
+    "transaction": "事务分析",
     "transactions": "链路追踪",
     "transactions debug": "链路调试",
     "transactions details": "链路详情",
@@ -3045,8 +3048,8 @@
     "add-data-source-tip-1": "数据源是从扩展服务中测试环境的 MySQL, Redis, Custom 服务同步而来，",
     "add-data-source-tip-2": "请点击此处创建",
     "add-iteration-tip1": "这是您项目下的迭代列表，您可以点击",
-    "add-iteration-tip2": "创建新迭代，并可以将左侧的待规划拖拽至某个迭代,安排事项的优先级",
-    "add-todo-issue-tip1": "这是您项目的待规划列表，您可以点击",
+    "add-iteration-tip2": "创建新迭代，并可以将左侧的待处理事项拖拽至某个迭代，安排事项的优先级",
+    "add-todo-issue-tip1": "这是您项目的待处理列表，您可以点击",
     "add-todo-issue-tip2": "创建新事项，并可以通过拖拽至右侧迭代，安排事项的优先级",
     "addon": "扩展服务",
     "after the use case is selected, the batch operation can be performed": "选中用例后，才能进行批量操作",
@@ -3083,7 +3086,7 @@
     "automatic test report": "自动化测试报告",
     "available": "可用",
     "average time per day": "日均时间",
-    "backlog": "待规划",
+    "backlog": "待处理",
     "basic information": "基本信息",
     "batch processing": "批量处理",
     "batch-delete-tip-content": "该扫描规则将永久删除",

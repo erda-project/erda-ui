@@ -11,13 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const fs = require('fs');
 const path = require('path');
-const chalk = require('chalk');
 const inquirer = require('inquirer');
 const { walker } = require('./util/file-walker');
-const { logInfo, logSuccess, logWarn, logError } = require('./util/log');
-const licenseTpl = require('../templates/license');
+const { logSuccess, logWarn } = require('./util/log');
 
 
 module.exports = async ({ fileType, directory }) => {
