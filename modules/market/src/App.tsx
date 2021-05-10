@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
-import { createBrowserHistory, BrowserHistory } from 'history';
+import { createBrowserHistory } from 'history';
 import DownloadPage from './pages/download';
 
 const history: any = createBrowserHistory();

@@ -20,7 +20,7 @@
     "start": "./node_modules/.bin/webpack serve",
     "watch": "rm -rf ../public/shell/scripts && NODE_ENV=development ./node_modules/.bin/webpack --progress --color -w",
     "build": "cross-env-shell NODE_ENV=production --max_old_space_size=4096 'npm run build-app && npm run build-market'",
-    "build-market": "cd ../modules/market && npm run build",
+    "build-market": "cd ../modules/market && npm run build-to-shell",
     "build-app": "rm -rf ../public/static/shell && node ./node_modules/.bin/webpack --progress",
     "commit": "./node_modules/.bin/cz-customizable",
     "analyze": "rm -rf ../public/shell && node --max-old-space-size=4048 ./node_modules/.bin/webpack --config webpack.analyze.js --progress --color -w",

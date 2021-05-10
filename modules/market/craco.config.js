@@ -13,7 +13,7 @@ module.exports = {
       webpackConfig.output = {
         ...webpackConfig.output,
           path: path.resolve(__dirname, 'build/market'), // 修改输出文件目录
-          publicPath: '/'
+          publicPath: '/static/shell/market/', //打包到shell目录下
       }
       return webpackConfig; 
     },

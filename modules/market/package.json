@@ -26,7 +26,8 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build && npm run copy-to-shell",
+    "build": "craco build",
+    "build-to-shell": "npm run build && npm run copy-to-shell",
     "test": "craco test",
     "copy-to-shell": "cp -rf build/market ../../public/static/shell",
     "eject": "react-scripts eject"
