@@ -11,19 +11,4 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-// import { ConfigProvider } from 'antd';
-// import { getCurrentLocale } from '../i18n';
-import App from './app';
-
-// const Root = () => {
-//   const currentLocale = getCurrentLocale();
-//   return (
-//     <ConfigProvider locale={currentLocale.antd} >
-//       <App />
-//     </ConfigProvider>
-//   );
-// };
-
-ReactDOM.render(<App />, document.getElementById('root'));
+/// <reference types="react-scripts" />

@@ -11,6 +11,8 @@ services:
       ENABLE_MPAAS: "false"
       ENABLE_BIGDATA: "false"
       ONLY_FDP: "false"
+      KRATOS_ADDR: "kratos:4433"
+      KRATOS_PRIVATE_ADDR: "kratos:4434"
     resources:
       cpu: 0.1
       max_cpu: 1

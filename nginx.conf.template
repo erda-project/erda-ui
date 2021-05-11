@@ -61,6 +61,27 @@ server {
         return 302 /-$request_uri;
     }
 
+    location ^~ /uc {
+        index index.html;
+        try_files /static/uc/index.html /index.html =404;
+    }
+
+    location ^~ /api/uc {
+        proxy_pass http://${KRATOS_ADDR};
+        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-Proto $my_scheme;
+        proxy_set_header        Host $http_host;
+    }
+
+    location ^~ /api/uc/private {
+        proxy_pass http://${KRATOS_PRIVATE_ADDR};
+        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-Proto $my_scheme;
+        proxy_set_header        Host $http_host;
+    }
+
     location /api/dice-env  {
         default_type application/javascript;
         return 200 'window.diceEnv={
@@ -149,7 +170,7 @@ server {
 
     location ~* ^/[^/]*/market {
         index market.html;
-        try_files /static/shell/market.html =404;
+        try_files /static/market/index.html =404;
     }
 
     location ^~ /fdp-app/ {

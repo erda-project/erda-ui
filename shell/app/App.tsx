@@ -88,6 +88,7 @@ const start = (userData: ILoginUser) => {
   });
 };
 
+
 // if (module.hot) {
 //   module.hot.accept('./router.jsx', () => {
 //     ReactDOM.render(<App />, document.getElementById('dice-content'));

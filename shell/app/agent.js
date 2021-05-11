@@ -26,11 +26,17 @@ const isExcludeOrgHeaderApi = (url) => {
   return some(excludeApis, api => api.startsWith(url))
 }
 
-function setHeader(req) {
+function handleUrl(req) {
 
   const header = getGlobal('service-provider');
   if (header) {
     req.set('service-provider', header);
+  }
+  const { url } = req;
+
+  // 处理api/spot接口前缀
+  if (url.startsWith('/api/spot/')) {
+    req.url = url.replace('/api/spot/', '/api/');
   }
 
   const curOrg = getOrgFromPath();
@@ -39,15 +45,6 @@ function setHeader(req) {
   if(!req.markedOrg && !isExcludeOrgHeaderApi(req.url)){
     req.url = setApiWithOrg(req.url);
     req.markedOrg = true;
-  }
-  return req;
-}
-
-// 处理api/spot接口前缀
-function handleSpotPrefix(req) {
-  const { url } = req;
-  if (url.startsWith('/api/spot/')) {
-    req.url = url.replace('/api/spot/', '/api/');
   }
   return req;
 }
@@ -134,15 +131,8 @@ const reqKeyList = [];
 //   }
 // }
 
-agent.use(setHeader);
-agent.use(handleSpotPrefix);
+agent.use(handleUrl);
 agent.use(handelPagingNull);
 agent.use(handleError);
 
 export default agent;
-export {
-  // abortReq,
-  // markReq,
-  setHeader,
-  handleSpotPrefix,
-};

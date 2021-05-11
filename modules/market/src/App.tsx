@@ -14,13 +14,9 @@
 import React from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import { setGlobal } from '../app/global-space';
-
 import DownloadPage from './pages/download';
 
-
-const history = createBrowserHistory();
-setGlobal('history', history);
+const history: any = createBrowserHistory();
 
 const NotFound = () => {
   return (
