@@ -1,5 +1,8 @@
+$menu-icon-color: #6354ee;
+
 .pk-app-center-body .app-list-item {
   img {
+    background-color: $menu-icon-color;
     border-radius: 100%;
   }
 

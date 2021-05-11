@@ -14,8 +14,9 @@
 import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
 import { goTo } from 'common/utils';
-import { ApiApp, CeMarking, Certificate, Seal, Bill, Log, City } from '@icon-park/react';
+import { ApiApp, CeMarking, Certificate, Bill, Log, City } from '@icon-park/react';
 import React from 'react';
+import { Icon as CustomIcon } from 'common';
 
 // 应用中心菜单
 export const getOrgCenterMenu = () => {
@@ -28,7 +29,7 @@ export const getOrgCenterMenu = () => {
     },
     {
       key: 'orgMarket',
-      href: goTo.resolve.orgCenterMarket(), //'/orgCenter/market',
+      href: goTo.resolve.orgCenterMarket(), // '/orgCenter/market',
       icon: <CeMarking />,
       text: i18n.t('layout:market'),
       subMenu: [
@@ -48,9 +49,9 @@ export const getOrgCenterMenu = () => {
     {
       key: 'orgApproval',
       href: goTo.resolve.orgCenterApprovalUndone(), // '/orgCenter/approval/undone',
-      icon: <Seal />,
+      icon: <CustomIcon type="shenpiguanli" />,
       text: i18n.t('layout:approval'),
-      prefix: `${goTo.resolve.orgCenterApproval()}/`
+      prefix: `${goTo.resolve.orgCenterApproval()}/`,
     },
     {
       key: 'orgAnnouncement',

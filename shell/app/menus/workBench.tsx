@@ -19,12 +19,11 @@ import permStore from 'user/stores/permission';
 import {
   ApiApp,
   ApplicationOne,
-  Api,
-  Puzzle,
   Seal,
   Send,
-  BookOne
+  BookOne,
 } from '@icon-park/react';
+import { Icon as CustomIcon } from 'common';
 import React from 'react';
 
 export const getWorkBenchMenu = () => {
@@ -36,12 +35,12 @@ export const getWorkBenchMenu = () => {
       text: i18n.t('joined projects'),
     },
     {
-      href: goTo.resolve.workBenchApps(), //'/workBench/apps',
+      href: goTo.resolve.workBenchApps(), // '/workBench/apps',
       icon: <ApplicationOne />,
       text: i18n.t('joined apps'),
     },
     {
-      icon: <Api />,
+      icon: <CustomIcon type='apijishi' />,
       key: 'apiManage',
       text: i18n.t('API'),
       href: goTo.resolve.apiManageRoot(),
@@ -67,7 +66,7 @@ export const getWorkBenchMenu = () => {
     },
     {
       href: goTo.resolve.workBenchService(), // '/workBench/service',
-      icon: <Puzzle />,
+      icon: <CustomIcon type='kuozhanfuwu' />,
       text: i18n.t('addon service'),
       show: orgPerm.workBench.addonService.read.pass,
     },
@@ -79,13 +78,13 @@ export const getWorkBenchMenu = () => {
       subMenu: [
         {
           text: i18n.t('workBench:my approval'),
-          href: goTo.resolve.workBenchApprovePending(), //'/workBench/approval/my-approve/pending',
+          href: goTo.resolve.workBenchApprovePending(), // '/workBench/approval/my-approve/pending',
           prefix: `${goTo.resolve.workBenchApprove()}/`,
         },
         {
           text: i18n.t('workBench:my initiated'),
           href: goTo.resolve.workBenchMyInitiateWait(), // '/workBench/approval/my-initiate/WaitApprove',
-          prefix: `${goTo.resolve.workBenchMyInitiate()}/`
+          prefix: `${goTo.resolve.workBenchMyInitiate()}/`,
         },
       ],
     },

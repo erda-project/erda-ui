@@ -15,9 +15,11 @@ import i18n from 'i18n';
 import { filter } from 'lodash';
 import { goTo } from 'common/utils';
 import permStore from 'user/stores/permission';
-import { Api, Code, AssemblyLine, NetworkTree, ActivitySource, ChildrenPyramid, MarketAnalysis, FolderQuality, AppStore, Config } from '@icon-park/react';
+import { Api, Code, AssemblyLine, ActivitySource, ChildrenPyramid, MarketAnalysis, Config } from '@icon-park/react';
+import { Icon as CustomIcon } from 'common';
 
 import React from 'react';
+
 const appMode = {
   SERVICE: 'SERVICE',
   MOBILE: 'MOBILE',
@@ -38,35 +40,35 @@ export const getAppMenu = ({ mode }: { projectId: string, appId: string, mode: A
   const repo = {
     show: perm.repo.read.pass,
     key: 'repo',
-    href: goTo.resolve.repo(), //`/workBench/projects/${projectId}/apps/${appId}/repo`,
+    href: goTo.resolve.repo(), // `/workBench/projects/${projectId}/apps/${appId}/repo`,
     icon: <Code />,
     text: i18n.t('application:files'),
   };
   const pipeline = {
     show: perm.pipeline.read.pass,
     key: 'pipeline',
-    href: goTo.resolve.pipelineRoot(), //`/workBench/projects/${projectId}/apps/${appId}/pipeline`,
+    href: goTo.resolve.pipelineRoot(), // `/workBench/projects/${projectId}/apps/${appId}/pipeline`,
     icon: <AssemblyLine />,
     text: i18n.t('application:pipeline'),
   };
   const apiDesign = {
     show: perm.apiDesign.read.pass,
     key: 'apiDesign',
-    href: goTo.resolve.appApiDesign(), //`/workBench/projects/${projectId}/apps/${appId}/apiDesign`,
+    href: goTo.resolve.appApiDesign(), // `/workBench/projects/${projectId}/apps/${appId}/apiDesign`,
     icon: <Api />,
     text: i18n.t('project:API design'),
   };
   const deploy = {
     show: perm.runtime.read.pass,
     key: 'deploy',
-    href: goTo.resolve.deploy(), //`/workBench/projects/${projectId}/apps/${appId}/deploy`,
-    icon: <NetworkTree />,
+    href: goTo.resolve.deploy(), // `/workBench/projects/${projectId}/apps/${appId}/deploy`,
+    icon: <CustomIcon type="bushuzhongxin" />,
     text: i18n.t('application:deploy center'),
   };
   const dataTask = {
     show: perm.dataTask.read.pass,
     key: 'dataTask',
-    href: goTo.resolve.dataTaskRoot(), //`/workBench/projects/${projectId}/apps/${appId}/dataTask`,
+    href: goTo.resolve.dataTaskRoot(), // `/workBench/projects/${projectId}/apps/${appId}/dataTask`,
     icon: <ActivitySource />,
     text: `${i18n.t('application:data task')}`,
   };
@@ -88,14 +90,14 @@ export const getAppMenu = ({ mode }: { projectId: string, appId: string, mode: A
     show: perm.codeQuality.read.pass,
     key: 'test',
     href: goTo.resolve.appCodeQuality(), // `/workBench/projects/${projectId}/apps/${appId}/test`,
-    icon: <FolderQuality />,
+    icon: <CustomIcon type="daimazhiliang" />,
     text: i18n.t('application:code quality'),
   };
   const release = {
     show: perm.release.read.pass,
     key: 'release',
     href: goTo.resolve.release(), // `/workBench/projects/${projectId}/apps/${appId}/repo/release`,
-    icon: <AppStore />,
+    icon: <CustomIcon type="zhipinguanli" />,
     text: i18n.t('releases'),
   };
   const setting = {
