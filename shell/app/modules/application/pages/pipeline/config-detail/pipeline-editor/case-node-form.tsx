@@ -303,6 +303,9 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
           message: i18n.t('application:this item cannot be empty'),
         },
       ],
+      getValueFromEvent: (val: { value: string}[]) => {
+        return val?.length ? val.map(v => v.value) : val;
+      },
     })(<ListInput disabled={!editing} label={getLabel(value.name, value.desc)} />);
     return (
       <Item key={parentKey}>{inputField}</Item>

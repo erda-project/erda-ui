@@ -54,7 +54,6 @@ module.exports = () => {
     parallelism: cpuNum,
     entry: {
       app: ['./app'],
-      market: ['./market'],
     },
     target: isProd ? 'browserslist' : 'web',
     resolve: {
@@ -120,7 +119,6 @@ module.exports = () => {
           test: /\.(scss)$/,
           include: [
             resolve('app'),
-            resolve('market'),
             getPath('@terminus/dashboard-configurator'),
             // resolve('node_modules/@terminus/nusi'),
           ],
@@ -188,7 +186,6 @@ module.exports = () => {
           test: /\.(tsx?|jsx?)$/,
           include: [
             resolve('app'),
-            resolve('market'),
             getPath('@terminus/dashboard-configurator'),
           ],
           use: [
@@ -246,14 +243,13 @@ module.exports = () => {
       new CopyWebpackPlugin({
         patterns: [
           // { from: './app/images', to: 'shell/images' },
-          // { from: './market/images', to: 'shell/images' },
           { from: './app/static', to: resolve('../public/static') },
         ],
       }),
       new HtmlWebpackPlugin({
         filename: 'index.html',
         template: './app/views/index.ejs',
-        excludeChunks: ['market'],
+        excludeChunks: ['modules'],
         css,
         initJs,
         skeleton: {
@@ -270,20 +266,6 @@ module.exports = () => {
           }
           : false,
         diceVersion: JSON.stringify(pkg.version),
-      }),
-      new HtmlWebpackPlugin({
-        filename: 'market.html',
-        template: './market/views/market.ejs',
-        chunks: ['vendors~app~market', 'vendors~market', 'market'],
-        isProd,
-        minify: isProd
-          ? {
-            collapseWhitespace: true,
-            minifyJS: true,
-            minifyCSS: true,
-            removeEmptyAttributes: true,
-          }
-          : false,
       }),
       new webpack.ContextReplacementPlugin(
         // eslint-disable-next-line

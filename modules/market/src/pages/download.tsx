@@ -12,9 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Spin, message, Button } from 'app/nusi';
+import { Spin, message, Button } from 'antd';
 import { withRouter } from 'react-router-dom';
-import { setApiWithOrg } from 'app/common/utils';
 import { isEmpty, get } from 'lodash';
 import QRCode from 'qrcode.react';
 import downloadBg_2x from '../images/download/download-bg@2x.png';
@@ -24,7 +23,7 @@ import downloadS1_2x from '../images/download/download-s1@2x.png';
 import downloadY1_2x from '../images/download/download-y1@2x.png';
 import downloadY2_2x from '../images/download/download-y2@2x.png';
 
-import agent from 'agent';
+import agent from 'superagent';
 import moment from 'moment';
 import './download.scss';
 
@@ -51,6 +50,10 @@ export const judgeClient = (): ClientType => {
   return client;
 };
 
+const getOrgFromPath = () => {
+  return get(window.location.pathname.split('/'),'[1]') || '-';
+}
+
 const DownloadPage = ({ match }: any) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [hasDefault, setHasDefault] = React.useState(false);
@@ -60,9 +63,11 @@ const DownloadPage = ({ match }: any) => {
   const [showDownload, setShowDownload] = React.useState(false);
   const [name, setName] = React.useState('');
   const client = judgeClient().toLowerCase();
+  const curOrg = getOrgFromPath();
   React.useEffect(() => {
     setIsLoading(true);
-    agent.get(`/api/publish-items/${match.params.publishItemId}/distribution`)
+    agent.get(`/api/${curOrg}/publish-items/${match.params.publishItemId}/distribution`)
+      .set('org',curOrg)
       .query({ mobileType: client })
       .then((response: any) => {
         const { success, data, err } = response.body;

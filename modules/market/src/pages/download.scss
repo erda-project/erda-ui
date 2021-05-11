@@ -1,8 +1,11 @@
+
+$primary: #6a549e !default;
+
 @media screen and (max-height: 700px) {
   .download-page {
     .content {
-      padding-top: 1rem !important;
       position: relative;
+      padding-top: 1rem !important;
 
       div.card-container {
         background-color: transparent;
@@ -91,13 +94,15 @@
     z-index: 2;
     padding-top: 5rem;
     padding-bottom: 5rem;
-    .jump-app-store{
+
+    .jump-app-store {
       position: absolute;
       top: 1rem;
       right: 1rem;
-      a{
-        text-decoration: underline;
+
+      a {
         font-weight: bold;
+        text-decoration: underline;
       }
     }
 
@@ -105,7 +110,7 @@
       width: 25rem;
       margin: 0 auto;
       padding: 1.25rem;
-      background-color: $white;
+      background-color: #ffffff;
       border-radius: 4px;
       box-shadow: 0 1px 6px 0 rgba(218, 219, 220, .6);
 

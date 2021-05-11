@@ -19,7 +19,7 @@ import { OperationAction } from 'config-page/utils';
 import classnames from 'classnames';
 import i18n from 'i18n';
 import imgMap from '../../img-map';
-import ErdaIcon from '../icon/icon';
+import { ErdaIcon } from 'common';
 import './list.scss';
 
 const emptyArr = [] as any[];
@@ -44,7 +44,7 @@ const List = (props: CP_LIST.Props) => {
       }
       return {
         ...newState,
-          combineList: newState.pageNo === 1 ? list : (newState.combineList || []).concat(list)
+        combineList: newState.pageNo === 1 ? list : (newState.combineList || []).concat(list)
       }
     })
   }, [propsState, list])
@@ -98,7 +98,7 @@ const List = (props: CP_LIST.Props) => {
             ) : null
             }
             {useLoadMore && total > Math.max(state.combineList?.length, 0)
-              && <div className='hover-active load-more' onClick={loadMore}>{i18n.t('more')}...</div>}
+              && <div className='hover-active load-more' onClick={loadMore}>{i18n.t('more')}</div>}
           </>
         ) : <EmptyHolder relative />
       }
@@ -190,7 +190,7 @@ const Item = (props: ItemProps) => {
                   return (
                     <Tooltip key={idx} title={info.tooltip}>
                       <span className={`info-item type-${info.type || 'normal'}`} {...extraProps}>
-                        {info.icon ? <ErdaIcon type="Icon" props={{ iconType: info.icon }} size={16} /> : null}
+                        {info.icon ? <ErdaIcon iconType={info.icon} size={16} /> : null}
                         <span className='info-text nowrap'>{info.text}</span>
                       </span>
                     </Tooltip>

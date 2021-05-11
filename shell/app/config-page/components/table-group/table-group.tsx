@@ -34,10 +34,12 @@ const TableBoard = (props: CP_TABLE_GROUP.ITableBoardProps) => {
         type="Text"
         {...extraProps}
       />
-      <div className='table-board-card mt4 ml32'>
-        <Title props={subtitle} type="Title" {...extraProps} />
-        <div className="mt12 ml8">
-          <div className='mb12 ml8'>
+      <div className='table-board-card mt8'>
+        <div className='ml4'>
+          <Title props={subtitle} type="Title" {...extraProps} />
+        </div>
+        <div className="mt12">
+          <div className='mb12 ml4'>
             <Text props={description} type="Text" {...extraProps} />
           </div>
           <Table
@@ -47,7 +49,7 @@ const TableBoard = (props: CP_TABLE_GROUP.ITableBoardProps) => {
             {...extraProps}
             type="Table"
           />
-          <div className='mt12 ml8'>
+          <div className='mt12 ml4'>
             <Text
               props={extraInfo.props}
               operations={extraInfo.operations}
