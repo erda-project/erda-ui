@@ -23,11 +23,10 @@ import errorHandler from './error-handler';
 
 const isExcludeOrgHeaderApi = (url) => {
   const excludeApis = ['/api/files'];
-  return some(excludeApis, api => api.startsWith(url))
-}
+  return some(excludeApis, api => api.startsWith(url));
+};
 
 function handleUrl(req) {
-
   const header = getGlobal('service-provider');
   if (header) {
     req.set('service-provider', header);
@@ -42,7 +41,7 @@ function handleUrl(req) {
   const curOrg = getOrgFromPath();
   curOrg && req.set('org', curOrg);
   // mf_share导出的模块内部会引用这里的agent，导致use方法被执行两次，添加markedOrg避免多次重复添加
-  if(!req.markedOrg && !isExcludeOrgHeaderApi(req.url)){
+  if (!req.markedOrg && !isExcludeOrgHeaderApi(req.url)) {
     req.url = setApiWithOrg(req.url);
     req.markedOrg = true;
   }
