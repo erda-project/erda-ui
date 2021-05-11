@@ -27,7 +27,7 @@ import './issue-workflow.scss';
 const IssueWorkflow = () => {
   const { projectId: projectID } = routeInfoStore.getState(s => s.params);
 
-  const [issueList, workflowStateList] = issueWorkflowStore.useStore(s => [s.issueList, s.workflowStateList]);
+  const [issueList, totalWorkflowStateList] = issueWorkflowStore.useStore(s => [s.issueList, s.totalWorkflowStateList]);
   const { getStatesByIssue, getIssueList, clearIssueList } = issueWorkflowStore;
 
   useEffectOnce(() => {
@@ -70,7 +70,7 @@ const IssueWorkflow = () => {
                     </div>
                   </div>
                   <div className="sub">
-                    <span>{i18n.t('admin:status')}：</span>
+                    <span>{i18n.t('common:state')}：</span>
                     <div>
                       {
                         map(Object.entries(issueStateMap[item.issueType]), (data:string[]) => {
@@ -84,7 +84,7 @@ const IssueWorkflow = () => {
                     <div className='default-workflow-content'>
                       {
                         map(item.state, (name:string) => {
-                          const curStateBelong = get(find(workflowStateList, { stateName: name }), 'stateBelong');
+                          const curStateBelong = get(find(totalWorkflowStateList, { stateName: name }), 'stateBelong');
                           return <div className='v-align mr12 mb8'>{ISSUE_STATE_MAP[curStateBelong]?.icon}{name}</div>;
                         })
                       }
