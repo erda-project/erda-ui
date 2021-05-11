@@ -31,7 +31,7 @@ const TextGroup = (props: CP_TEXT_GROUP.Props) => {
               type="Text"
               execOperation={execOperation}
               updateState={updateState}
-              props={(item || {}).props}
+              props={item?.props}
               operations={operations} />
           </div>)
         }
