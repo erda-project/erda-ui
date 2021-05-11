@@ -15,7 +15,7 @@ import React from 'react';
 import { GlobalNavigation, Shell, Badge, Icon, Tooltip, Popover, Menu, message } from 'app/nusi';
 import { usePerm } from 'user/common';
 import i18n from 'i18n';
-import { Icon as CustomIcon, IF, ImgHolder } from 'common';
+import { Icon as CustomIcon, ImgHolder } from 'common';
 import userStore from 'user/stores';
 import messageStore from 'layout/stores/message';
 import layoutStore from 'layout/stores/layout';
@@ -29,6 +29,14 @@ import Logo from 'app/images/Erda.svg';
 import orgStore from 'app/org-home/stores/org';
 import './sidebar.scss';
 
+import devops_svg from 'app/images/devops_menu.svg';
+import data_center_svg from 'app/images/cloud_menu.svg';
+import micro_svg from 'app/images/micro_menu.svg';
+import fdp_svg from 'app/images/fdp_menu.svg';
+import api_svg from 'app/images/api_menu.svg';
+import edge_svg from 'app/images/edge_menu.svg';
+import org_svg from 'app/images/org_menu.svg';
+
 const { AppCenter } = Shell;
 
 const AppCenterEl = () => {
@@ -37,6 +45,17 @@ const AppCenterEl = () => {
   const currentOrg = orgStore.useStore(s => s.currentOrg);
   const { switchToApp } = layoutStore.reducers;
   const [visible, setVisible] = React.useState(false);
+
+  const iconMap = {
+    workBench: devops_svg,
+    sysAdmin: org_svg,
+    dataCenter: data_center_svg,
+    microService: micro_svg,
+    orgCenter: org_svg,
+    diceFdp: fdp_svg,
+    apiManage: api_svg,
+    edge: edge_svg,
+  };
 
   const openMap = {
     orgCenter: permMap.entryOrgCenter.pass,
@@ -93,7 +112,8 @@ const AppCenterEl = () => {
               setVisible(false);
             }}
           >
-            {children}
+            <img src={iconMap[app.key]} width="24px" height="24px" />
+            <span>{app.name}</span>
           </a>
         );
       }}

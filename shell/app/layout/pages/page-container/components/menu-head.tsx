@@ -16,13 +16,14 @@ import { Icon as CustomIcon, IF } from 'common';
 import { ossImg } from 'common/utils';
 import { isFunction } from 'lodash';
 import './menu-head.scss';
-import gzt_svg from 'app/images/gzt.svg';
+import devops_svg from 'app/images/devops.svg';
 import glht_svg from 'app/images/glht.svg';
 import qyzx_svg from 'app/images/qyzx.svg';
 import wfwzl_svg from 'app/images/wfwzl.svg';
 import ksj_svg from 'app/images/ksj.svg';
 import fwsc_svg from 'app/images/fwsc.svg';
 import edge_svg from 'app/images/edge.svg';
+import org_svg from 'app/images/glzx.svg';
 
 interface IProps {
   siderInfo: Record<string, any>;
@@ -43,7 +44,7 @@ const MenuHead = ({ siderInfo, routeMarks }: IProps) => {
   let sideIcon: React.ReactNode = null;
   switch (routeMarks[routeMarks.length - 2]) {
     case 'workBench':
-      sideIcon = <img className="big-icon" src={gzt_svg} />;
+      sideIcon = <img className="big-icon" src={devops_svg} />;
       break;
     case 'sysAdmin':
       sideIcon = <img className="big-icon" src={glht_svg} />;
@@ -52,7 +53,7 @@ const MenuHead = ({ siderInfo, routeMarks }: IProps) => {
       sideIcon = <img className="big-icon" src={qyzx_svg} />;
       break;
     case 'orgCenter':
-      sideIcon = <img className="big-icon" src={qyzx_svg} />;
+      sideIcon = <img className="big-icon" src={org_svg} />;
       break;
     case 'microService':
       sideIcon = <img className="big-icon" src={wfwzl_svg} />;

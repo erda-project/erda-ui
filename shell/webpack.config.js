@@ -32,7 +32,7 @@ const mainVersion = packageJson.version.slice(0, -2);
 
 const resolve = pathname => path.resolve(__dirname, pathname);
 
-const {getPath} = require('../utils/resolve')
+const { getPath } = require('../utils/resolve');
 
 module.exports = () => {
   const nodeEnv = process.env.NODE_ENV || 'development';
@@ -121,7 +121,7 @@ module.exports = () => {
           include: [
             resolve('app'),
             resolve('market'),
-            getPath('@terminus/dashboard-configurator')
+            getPath('@terminus/dashboard-configurator'),
             // resolve('node_modules/@terminus/nusi'),
           ],
           use: [
@@ -189,7 +189,7 @@ module.exports = () => {
           include: [
             resolve('app'),
             resolve('market'),
-            getPath('@terminus/dashboard-configurator')
+            getPath('@terminus/dashboard-configurator'),
           ],
           use: [
             'thread-loader',
