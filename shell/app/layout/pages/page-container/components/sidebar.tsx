@@ -29,13 +29,13 @@ import Logo from 'app/images/Erda.svg';
 import orgStore from 'app/org-home/stores/org';
 import './sidebar.scss';
 
-import devops_svg from 'app/images/devops_menu.svg';
-import data_center_svg from 'app/images/cloud_menu.svg';
-import micro_svg from 'app/images/micro_menu.svg';
-import fdp_svg from 'app/images/fdp_menu.svg';
-import api_svg from 'app/images/api_menu.svg';
-import edge_svg from 'app/images/edge_menu.svg';
-import org_svg from 'app/images/org_menu.svg';
+import devopsSvg from 'app/images/devops_menu.svg';
+import dataCenterSvg from 'app/images/cloud_menu.svg';
+import microServiceSvg from 'app/images/micro_menu.svg';
+import fdpSvg from 'app/images/fdp_menu.svg';
+import apiSvg from 'app/images/api_menu.svg';
+import edgeSvg from 'app/images/edge_menu.svg';
+import orgCenterSvg from 'app/images/org_menu.svg';
 
 const { AppCenter } = Shell;
 
@@ -47,14 +47,14 @@ const AppCenterEl = () => {
   const [visible, setVisible] = React.useState(false);
 
   const iconMap = {
-    workBench: devops_svg,
-    sysAdmin: org_svg,
-    dataCenter: data_center_svg,
-    microService: micro_svg,
-    orgCenter: org_svg,
-    diceFdp: fdp_svg,
-    apiManage: api_svg,
-    edge: edge_svg,
+    workBench: devopsSvg,
+    sysAdmin: orgCenterSvg,
+    dataCenter: dataCenterSvg,
+    microService: microServiceSvg,
+    orgCenter: orgCenterSvg,
+    diceFdp: fdpSvg,
+    apiManage: apiSvg,
+    edge: edgeSvg,
   };
 
   const openMap = {

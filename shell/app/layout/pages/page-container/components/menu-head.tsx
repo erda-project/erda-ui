@@ -16,14 +16,14 @@ import { Icon as CustomIcon, IF } from 'common';
 import { ossImg } from 'common/utils';
 import { isFunction } from 'lodash';
 import './menu-head.scss';
-import devops_svg from 'app/images/devops.svg';
-import glht_svg from 'app/images/glht.svg';
-import qyzx_svg from 'app/images/qyzx.svg';
-import wfwzl_svg from 'app/images/wfwzl.svg';
-import ksj_svg from 'app/images/ksj.svg';
-import fwsc_svg from 'app/images/fwsc.svg';
-import edge_svg from 'app/images/edge.svg';
-import org_svg from 'app/images/glzx.svg';
+import devopsSvg from 'app/images/devops.svg';
+import sysAdminSvg from 'app/images/glht.svg';
+import dataCenterSvg from 'app/images/qyzx.svg';
+import microServiceSvg from 'app/images/wfwzl.svg';
+import fdpSvg from 'app/images/ksj.svg';
+import apiManageSvg from 'app/images/fwsc.svg';
+import edgeSvg from 'app/images/edge.svg';
+import orgCenterSvg from 'app/images/glzx.svg';
 
 interface IProps {
   siderInfo: Record<string, any>;
@@ -44,28 +44,28 @@ const MenuHead = ({ siderInfo, routeMarks }: IProps) => {
   let sideIcon: React.ReactNode = null;
   switch (routeMarks[routeMarks.length - 2]) {
     case 'workBench':
-      sideIcon = <img className="big-icon" src={devops_svg} />;
+      sideIcon = <img className="big-icon" src={devopsSvg} />;
       break;
     case 'sysAdmin':
-      sideIcon = <img className="big-icon" src={glht_svg} />;
+      sideIcon = <img className="big-icon" src={sysAdminSvg} />;
       break;
     case 'dataCenter':
-      sideIcon = <img className="big-icon" src={qyzx_svg} />;
+      sideIcon = <img className="big-icon" src={dataCenterSvg} />;
       break;
     case 'orgCenter':
-      sideIcon = <img className="big-icon" src={org_svg} />;
+      sideIcon = <img className="big-icon" src={orgCenterSvg} />;
       break;
     case 'microService':
-      sideIcon = <img className="big-icon" src={wfwzl_svg} />;
+      sideIcon = <img className="big-icon" src={microServiceSvg} />;
       break;
     case 'fdp':
-      sideIcon = <img className="big-icon" src={ksj_svg} />;
+      sideIcon = <img className="big-icon" src={fdpSvg} />;
       break;
     case 'apiManage':
-      sideIcon = <img className="big-icon" src={fwsc_svg} />;
+      sideIcon = <img className="big-icon" src={apiManageSvg} />;
       break;
     case 'edge':
-      sideIcon = <img className="big-icon" src={edge_svg} />;
+      sideIcon = <img className="big-icon" src={edgeSvg} />;
       break;
     default:
       sideIcon = <CustomIcon color type={detail.icon || 'yy'} />;
