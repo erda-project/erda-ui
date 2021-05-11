@@ -51,8 +51,8 @@ const Title = (props: CP_TITLE.Props) => {
       </div>
     );
 
-  const formatOperations = operations.map((x, index) => {
-    const { text, visible, disabled, disabledTip, tooltip, confirm, reload, ...rest } = x.props
+  const formatOperations = (operations || []).map((x, index) => {
+    const { text, visible, disabled, disabledTip, tooltip, confirm, reload, ...rest } = x?.props || {}
 
     if (!visible) {
       return { title: null }

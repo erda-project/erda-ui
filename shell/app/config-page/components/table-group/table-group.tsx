@@ -29,8 +29,8 @@ const TableBoard = (props: CP_TABLE_GROUP.ITableBoardProps) => {
   return (
     <div className='table-board'>
       <Text
-        props={title.props}
-        operations={title.operations}
+        props={(title || {}).props}
+        operations={(title || {}).operations}
         type="Text"
         {...extraProps}
       />
@@ -43,16 +43,16 @@ const TableBoard = (props: CP_TABLE_GROUP.ITableBoardProps) => {
             <Text props={description} type="Text" {...extraProps} />
           </div>
           <Table
-            props={table.props}
-            data={table.data}
-            operations={table.operations}
+            props={(table || {}).props}
+            data={(table || {}).data}
+            operations={(table || {}).operations}
             {...extraProps}
             type="Table"
           />
           <div className='mt12 ml4'>
             <Text
-              props={extraInfo.props}
-              operations={extraInfo.operations}
+              props={(extraInfo || {}).props}
+              operations={(extraInfo || {}).operations}
               type="Text"
               {...extraProps}
             />
@@ -83,10 +83,10 @@ const TableGroup = (props: CP_TABLE_GROUP.Props) => {
       }
       return {
         ...newState,
-        combineList: newState.pageNo === 1 ? data.list : (newState.combineList || []).concat(data.list)
+        combineList: (newState || {}).pageNo === 1 ? (data?.list || []) : ((newState?.combineList || []).concat((data?.list || []),
       }
     })
-  }, [propsState, data.list])
+  }, [propsState, (data || {}).list])
 
   // 加载更多
   const loadMore = () => {
