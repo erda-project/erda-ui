@@ -45,7 +45,7 @@ interface IOptionItem {
 
 export default ({ queryCondition, type, listView }: IProps) => {
   const [projectId, query] = routeInfoStore.getState(s => [s.params.projectId, s.query]);
-  const workflowStateList = issueWorkflowStore.useStore(s => s.workflowStateList);
+  const totalWorkflowStateList = issueWorkflowStore.useStore(s => s.totalWorkflowStateList);
   const [bugStageList, taskTypeList] = issueFieldStore.useStore(s => [s.bugStageList, s.taskTypeList]);
 
   const taskTypeOption = React.useMemo(() => {
@@ -68,7 +68,7 @@ export default ({ queryCondition, type, listView }: IProps) => {
 
   const workflowStateOption = React.useMemo(() => {
     const tempOptionList:IOptionItem[] = [];
-    map(workflowStateList, ({ stateID, stateName, issueType }) => {
+    map(totalWorkflowStateList, ({ stateID, stateName, issueType }) => {
       if (issueType === query.type) {
         tempOptionList.push({
           name: stateName,
@@ -77,7 +77,7 @@ export default ({ queryCondition, type, listView }: IProps) => {
       }
     });
     return tempOptionList || [];
-  }, [query.type, workflowStateList]);
+  }, [query.type, totalWorkflowStateList]);
 
   const userMap = userMapStore.getState(s => s);
   const loginUser = userStore.getState(s => s.loginUser);
@@ -229,7 +229,7 @@ export default ({ queryCondition, type, listView }: IProps) => {
           label: i18n.t('common:state'),
           options: workflowStateOption,
           filterBarValueConvert: (val: string[] | string) => {
-            return map(isArray(val) ? val : [val], item => get(find(workflowStateList, { stateID: Number(item) }), 'stateName')).join(', ');
+            return map(isArray(val) ? val : [val], item => get(find(totalWorkflowStateList, { stateID: Number(item) }), 'stateName')).join(', ');
           },
         },
       ]),
@@ -259,6 +259,6 @@ export default ({ queryCondition, type, listView }: IProps) => {
       ]),
     ];
     return temp;
-  }, [type, userMap, loginUser, queryCondition, projectId, bugStageOption, listView, workflowStateOption, taskTypeOption, workflowStateList]);
+  }, [type, userMap, loginUser, queryCondition, projectId, bugStageOption, listView, workflowStateOption, taskTypeOption, totalWorkflowStateList]);
   return filterList;
 };
