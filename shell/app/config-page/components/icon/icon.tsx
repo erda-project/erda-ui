@@ -12,39 +12,17 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { 
-  Lock,
-  Unlock,
-  Time, 
-  ApplicationOne, 
-  User, 
-  LinkCloudSucess, 
-  LinkCloudFaild, 
-  ListNumbers, 
-  CategoryManagement, 
-  ApiApp 
-} from '@icon-park/react';
-
-export const iconMap = {
-  'lock': Lock,
-  'unlock': Unlock,
-  'time': Time,
-  'application-one': ApplicationOne,
-  'user': User,
-  'link-cloud-sucess': LinkCloudSucess,
-  'link-cloud-faild': LinkCloudFaild,
-  'category-management': CategoryManagement,
-  'list-numbers': ListNumbers,
-  'api-app': ApiApp,
-}
+import { ErdaIcon } from 'common';
 
 const Icon = (props: CP_ICON.Props) => {
   const { props: configProps } = props;
-  const { iconType, ...extraProps } = configProps || {};
+  const { iconType, visible, ...extraProps } = configProps || {};
 
-  const IconComp = iconMap[iconType];
+  if (!visible) {
+    return null;
+  }
 
-  return IconComp ? <IconComp {...extraProps} /> : <span>Not Exists</span>;
+  return <ErdaIcon iconType={iconType} {...extraProps} />
 };
 
 export default Icon;

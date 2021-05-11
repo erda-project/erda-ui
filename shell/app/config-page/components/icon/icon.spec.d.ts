@@ -36,6 +36,7 @@ declare namespace CP_ICON {
 
   interface IProps {
     iconType: IIconType;
+    visible?: boolean;
     size?: number | string;
     strokeWidth?: number;
     strokeLinecap?: StrokeLinecap;
