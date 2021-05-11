@@ -17,7 +17,7 @@ import { Modal } from 'app/nusi';
 import { notify } from 'app/common/utils';
 import i18n from 'i18n';
 import userStore from 'app/user/stores';
-import { useMount } from 'react-use';
+import orgStore from 'app/org-home/stores/org.tsx';
 import gqct_png from 'app/images/gqct.png';
 
 
@@ -25,15 +25,19 @@ import './dice-license.scss';
 
 export const DiceLicense = () => {
   const licenseInfo = userStore.useStore(s => s.licenseInfo);
+  const orgName = orgStore.useStore(s => s.currentOrg.name) || '-';
   const { valid, message, expireDate, user, issueDate, maxHostCount, currentHostCount } = licenseInfo;
   const { validateLicense } = userStore.effects;
-  useMount(() => {
-    validateLicense().then(({ showAlert }: { valid: boolean, showAlert?: boolean }) => {
-      if (showAlert) {
-        notify('warning', i18n.t('layout:get license failed'));
-      }
-    });
-  });
+  
+  React.useEffect(() => {
+    if (orgName !== '-') {
+      validateLicense().then(({ showAlert }: { valid: boolean, showAlert?: boolean }) => {
+        if (showAlert) {
+          notify('warning', i18n.t('layout:get license failed'));
+        }
+      });
+    }
+  }, [orgName])
 
   const rowOneData = [
     {
