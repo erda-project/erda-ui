@@ -37,8 +37,8 @@ const getImageText = (text) => {
 const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
   let cols = [];
   // 某一层id可能一致
-  const list = isEmpty(serviceList) ? [] : serviceList;
-  list.forEach((item, i) => { item.id = item.id || item.name || i; });
+  const _list = isEmpty(serviceList) ? [] : serviceList;
+  const list = _list.map((item, i) => ({ ...item, id: item.id || item.name || i }));
   let curTitleMap = titleMap;
   let curIconMap = iconMap;
   let totalDepth = 4;
