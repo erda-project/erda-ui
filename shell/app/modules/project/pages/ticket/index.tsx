@@ -35,11 +35,11 @@ const { Option } = Select;
 const Ticket = () => {
   const [{ projectId }, { id: queryId }] = routeInfoStore.getState(s => [s.params, s.query]);
   const [loading] = useLoading(issueStore, ['getIssues']);
-  const workflowStateList = issueWorkflowStore.useStore(s => s.workflowStateList);
+  const totalWorkflowStateList = issueWorkflowStore.useStore(s => s.totalWorkflowStateList);
   const ticketStateList = React.useMemo(() => {
     const temp:any[] = [];
 
-    map(workflowStateList, ({ issueType, stateName, stateID, stateBelong }) => {
+    map(totalWorkflowStateList, ({ issueType, stateName, stateID, stateBelong }) => {
       if (issueType === ISSUE_TYPE.TICKET) {
         temp.push({
           stateName, stateID, stateBelong,
@@ -47,7 +47,7 @@ const Ticket = () => {
       }
     });
     return temp;
-  }, [workflowStateList]);
+  }, [totalWorkflowStateList]);
 
   const [list, paging] = issueStore.useStore(s => [s.ticketList, s.ticketPaging]);
   const { getIssues, updateIssue } = issueStore.effects;
