@@ -11,9 +11,16 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
-
 declare namespace ISSUE_WORKFLOW {
+
+  enum ISSUE_TYPE {
+    ALL = 'ALL',
+    EPIC = 'EPIC',
+    REQUIREMENT = 'REQUIREMENT',
+    TASK = 'TASK',
+    BUG = 'BUG',
+    TICKET = 'TICKET',
+  }
 
   interface IStateRelation {
     stateID: number;
