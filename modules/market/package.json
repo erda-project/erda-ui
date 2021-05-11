@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "start": "craco start",
-    "build": "craco build",
-    "build-to-shell": "npm run build && npm run copy-to-shell",
+    "build": "rm -rf build && craco build",
+    "build-app": "npm run build && npm run copy",
     "test": "craco test",
-    "copy-to-shell": "cp -rf build/market ../../public/static/shell",
+    "copy": "cp -rf build/market ../../public/static",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
