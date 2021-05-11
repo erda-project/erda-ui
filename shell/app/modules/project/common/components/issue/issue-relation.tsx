@@ -411,8 +411,8 @@ const AddNewIssue = ({ onSaveRelation, iterationID, onCancel, defaultIssueType }
       className="mt12"
       onCancel={onCancel}
       defaultIssueType={defaultIssueType}
-      onOk={async (val: ISSUE.BacklogIssueCreateBody) => {
-          return await createIssue({ // 创建事件
+      onOk={(val: ISSUE.BacklogIssueCreateBody) => {
+        return createIssue({ // 创建事件
           projectID: +projectId,
           iterationID: +iterationID,
           priority: 'LOW',
