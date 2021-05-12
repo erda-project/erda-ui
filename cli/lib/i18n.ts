@@ -182,7 +182,7 @@ export default async ({ workDir: _workDir }: { workDir: string }) => {
       }
       ns = config.MODULE_NAME;
     } else {
-      logError('请传入正确的模块名（确保.erda/config.js文件存在存在于此文件夹）或手动传入模块路径');
+      logError('请传入正确的模块名（确保.erda/config.js文件存在于此文件夹）或手动传入模块路径');
       exit(1);
     }
     const localePath = findMatchFolder('locales');
