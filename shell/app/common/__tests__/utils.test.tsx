@@ -14,9 +14,9 @@
 import React from 'react';
 import { isPromise, isImage, removeProtocol, ossImg, uuid, isValidJsonStr, insertWhen,
   reorder, encodeHtmlTag, convertToFormData, getFileSuffix, filterOption, regRules,
-  isClassComponent, countPagination, notify, equalByKeys,
+  isClassComponent, countPagination, notify, equalByKeys, setApiWithOrg, sleep
 } from '../utils';
-import { describe, it } from '@jest/globals';
+import { describe, it, jest } from '@jest/globals';
 
 class ClassComp extends React.Component {
   render() {
@@ -122,5 +122,18 @@ describe('utils', () => {
   it('should equalByKeys', () => {
     expect(equalByKeys({ a: 1, b: 2 }, { a: 1, b: 2 }, ['a', 'b'])).toBe(true);
     expect(equalByKeys({ a: 1, b: 1 }, { a: 1, b: 2 }, ['a', 'b'])).toBe(false);
+  });
+  it('setApiWithOrg should work fine', () => {
+    expect(setApiWithOrg('/api/user')).toBe('/api/workBench/user');
+    expect(setApiWithOrg('/common/user')).toBe('/common/user');
+  });
+  it('sleep should work fine', () => {
+    jest.useFakeTimers();
+    const flagTruthy = sleep(1000, 123, true);
+    jest.advanceTimersByTime(1000);
+    expect(flagTruthy).resolves.toBe(123);
+    const flagFalsy = sleep(1000, 123, false);
+    jest.advanceTimersByTime(1000);
+    expect(flagFalsy).rejects.toBe(123);
   });
 });

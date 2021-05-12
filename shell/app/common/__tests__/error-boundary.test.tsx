@@ -14,9 +14,9 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { ErrorBoundary } from '../components/error-boundary';
-import {describe, it, jest} from '@jest/globals';
-import {createBrowserHistory} from 'history';
-import {getConfig, setConfig} from 'core/config';
+import { describe, it } from '@jest/globals';
+import { createBrowserHistory } from 'history';
+import { getConfig, setConfig } from 'core/config';
 
 const Something = () => null;
 
