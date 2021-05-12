@@ -23,22 +23,8 @@ import i18n from 'i18n';
 import { getTranslateAddonList } from 'app/locales/utils';
 import { reduce } from 'lodash';
 import { CategoryName } from 'addonPlatform/pages/common/configs';
+import { getSideMenu } from '../pages/addons/sidebar-menu';
 
-const getSiderMenu = ({ rootPath }: { rootPath: string }) => {
-  const siderMenu = [
-    {
-      href: `${rootPath}/overview`,
-      icon: 'overview',
-      text: i18n.t('workBench:addon info'),
-    },
-    {
-      href: `${rootPath}/settings`,
-      icon: 'setting',
-      text: i18n.t('workBench:addon setting'),
-    },
-  ];
-  return siderMenu;
-};
 
 interface IState {
   addonCategory: {
@@ -72,7 +58,7 @@ const workBenchStore = createFlatStore({
           const { logoUrl, name, addonName } = ret;
           const prefixPath = `/${orgName}/workBench/addonsManage/${projectId}`;
           const rootPath = `${prefixPath}/${insId}`;
-          const menu = getSiderMenu({ rootPath }) as any[];
+          const menu = getSideMenu({ rootPath }) as any[];
           if (['log-analytics'].includes(addonName)) {
             menu.splice(1, 0, {
               key: 'console',
