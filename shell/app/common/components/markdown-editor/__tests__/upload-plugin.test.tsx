@@ -24,7 +24,7 @@ const assertMessage = (assert: Function, msg: string) => {
 
 describe('UploadPlugin', () => {
   const fn = jest.fn();
-  it('should ', () => {
+  it('UploadPlugin should work find ', () => {
     const temp = mount(
       <UploadPlugin
         editor={{

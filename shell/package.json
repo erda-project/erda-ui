@@ -208,7 +208,6 @@
   },
   "lint-staged": {
     "{app}/**/*.scss": "npm run stylelint-fix",
-    "{app}/common/**/*.{js,jsx,ts,tsx}": "npm run common-test",
     "{app}/**/*.{js,jsx,ts,tsx}": [
       "git add"
     ]
