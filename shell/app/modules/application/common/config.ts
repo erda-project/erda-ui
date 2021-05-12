@@ -16,6 +16,9 @@ import ywyy_svg from 'app/images/ywyy.svg';
 import android_svg from 'app/images/android.svg';
 import kyy_svg from 'app/images/kyy.svg';
 import dsjyy_svg from 'app/images/dsjyy.svg';
+import githubImg from 'app/images/resources/github.png';
+import gitlabImg from 'app/images/resources/gitlab.png';
+import codingImg from 'app/images/resources/coding.png';
 
 export const appMode = {
   SERVICE: 'SERVICE',
@@ -78,7 +81,7 @@ export const repositoriesTypes = {
     name: i18n.t('project:System built-in Git repository'),
     value: RepositoryMode.Internal,
     displayname: '',
-    logo: 'github.png',
+    logo: githubImg,
     usable: true,
     desc: null,
   },
@@ -86,7 +89,7 @@ export const repositoriesTypes = {
     name: i18n.t('project:external general Git repository'),
     value: RepositoryMode.General,
     displayname: 'Git',
-    logo: 'github.png',
+    logo: githubImg,
     usable: true,
     desc: i18n.t('project:tips of external general repository'),
   },
@@ -95,7 +98,7 @@ export const repositoriesTypes = {
     name: i18n.t('project:connect to {type}', { type: 'GitLab' }),
     value: RepositoryMode.GitLab,
     displayname: 'GitLab',
-    logo: 'gitlab.png',
+    logo: gitlabImg,
     usable: false,
     desc: i18n.t('project:tips of external general repository'),
   },
@@ -103,7 +106,7 @@ export const repositoriesTypes = {
     name: i18n.t('project:connect to {type}', { type: 'GitHub' }),
     value: RepositoryMode.GitHub,
     displayname: 'GitHub',
-    logo: 'github.png',
+    logo: githubImg,
     usable: false,
     desc: i18n.t('project:tips of external general repository'),
   },
@@ -111,7 +114,7 @@ export const repositoriesTypes = {
     name: i18n.t('project:connect to Coding'),
     value: RepositoryMode.Coding,
     displayname: 'Coding',
-    logo: 'coding.png',
+    logo: codingImg,
     usable: false,
     desc: i18n.t('project:tips of external general repository'),
   },
