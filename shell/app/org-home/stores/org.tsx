@@ -115,6 +115,7 @@ const org = createStore({
               const menusMap = getSubSiderInfoMap();
               const appCenterAppList = getAppCenterAppList();
               appCenterAppList.forEach((a) => { appMap[a.key] = a; });
+              layoutStore.reducers.clearLayout();
               layoutStore.reducers.initLayout({
                 appList: appCenterAppList,
                 currentApp: appMap.workBench,
