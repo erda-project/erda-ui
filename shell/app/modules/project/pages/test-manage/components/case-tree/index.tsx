@@ -109,7 +109,7 @@ const TestSet = ({
     caseModal: modalTestSet,
     temp: tempTestSet,
   };
-  const currentTestSet: TEST_SET.TestSet[] = React.useMemo(() => testSet[mode], [mode])
+  const currentTestSet: TEST_SET.TestSet[] = React.useMemo(() => testSet[mode], [mode]);
 
   useMount(() => {
     getProjectTestSets({ testPlanID, mode, recycled: false, parentID: rootId, forceUpdate: true });
