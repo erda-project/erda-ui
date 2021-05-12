@@ -17,7 +17,6 @@ import { ossImg } from 'common/utils';
 import { isFunction } from 'lodash';
 import './menu-head.scss';
 import devopsSvg from 'app/images/devops.svg';
-import sysAdminSvg from 'app/images/glht.svg';
 import dataCenterSvg from 'app/images/qyzx.svg';
 import microServiceSvg from 'app/images/wfwzl.svg';
 import fdpSvg from 'app/images/ksj.svg';
@@ -47,7 +46,7 @@ const MenuHead = ({ siderInfo, routeMarks }: IProps) => {
       sideIcon = <img className="big-icon" src={devopsSvg} />;
       break;
     case 'sysAdmin':
-      sideIcon = <img className="big-icon" src={sysAdminSvg} />;
+      sideIcon = <img className="big-icon" src={orgCenterSvg} />;
       break;
     case 'dataCenter':
       sideIcon = <img className="big-icon" src={dataCenterSvg} />;
