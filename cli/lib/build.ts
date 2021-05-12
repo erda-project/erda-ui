@@ -114,6 +114,7 @@ const installDependencies = async (rebuildList: string[]) => {
     },
   ]);
 
+  const moduleList = getModuleList();
   moduleList.filter(({ moduleName: name }) => selectUpdateList.includes(name)).forEach(({ moduleDir: dir, moduleName: name }) => {
     if (rebuildList.includes(name)) {
       logInfo(`Performing "${yarnCmd}" inside ${dir} folder`);
