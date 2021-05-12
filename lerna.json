@@ -3,7 +3,8 @@
     "cli",
     "core",
     "scheduler",
-    "shell"
+    "shell",
+    "modules/*"
   ],
   "version": "independent",
   "npmClient": "yarn",
