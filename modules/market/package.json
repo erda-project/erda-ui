@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "craco start",
-    "build": "npm run clean && craco build",
-    "build-app": "npm run build && npm run copy",
+    "build": "npm run clean && npm run build-app",
+    "build-app": "craco build && npm run copy",
     "test": "craco test",
     "copy": "erda-ui copy market",
     "eject": "react-scripts eject",
