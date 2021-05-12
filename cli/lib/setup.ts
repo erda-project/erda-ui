@@ -214,7 +214,7 @@ ${extraContent}
   logSuccess('add .erda to gitignore');
   logSuccess('now you can use this code:');
   logInfo(`
-const config = from './.erda/config');
+const config = require('./.erda/config');
 
 module.exports = config.wrapWebpack(yourWebpackConfig);
 `);
