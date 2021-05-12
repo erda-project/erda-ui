@@ -25,10 +25,10 @@ module.exports = {
       '~': path.join(__dirname, 'src'),
     },
     configure: (webpackConfig, { env, paths }) => { 
-      paths.appBuild = 'build/market'
+      paths.appBuild = 'dist/market'
       webpackConfig.output = {
         ...webpackConfig.output,
-          path: path.resolve(__dirname, 'build/market'), // 修改输出文件目录
+          path: path.resolve(__dirname, 'dist/market'), // 修改输出文件目录
           publicPath: isProd ? '/static/market/' : '/', //prod时打包到public/static目录下
       }
       return webpackConfig; 

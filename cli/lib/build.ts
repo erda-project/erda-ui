@@ -112,8 +112,7 @@ const installDependencies = async (rebuildList: string[]) => {
     },
   ]);
 
-  moduleList.filter(({ moduleName: name }) =>
-    selectUpdateList.includes(name)).forEach(({ moduleDir: dir, moduleName: name }) => {
+  moduleList.filter(({ moduleName: name }) => selectUpdateList.includes(name)).forEach(({ moduleDir: dir, moduleName: name }) => {
     if (rebuildList.includes(name)) {
       logInfo(`Performing "${yarnCmd}" inside ${dir} folder`);
       const installPromise = new Promise<void>((resolve) => {
@@ -255,8 +254,7 @@ const restoreFromDockerImage = async (image: string, requireBuildList: string[])
   logSuccess('erda-ui docker container has been launched');
 
   // choose modules for this new build, the ones which not be chosen will reuse the image content
-  const modulesNames = moduleList.map((module) =>
-    module.moduleName).filter((name) => !requireBuildList.includes(name));
+  const modulesNames = moduleList.map((module) => module.moduleName).filter((name) => !requireBuildList.includes(name));
   let rebuildList = [...requireBuildList];
   if (modulesNames.length) {
     const { selectRebuildList } = await inquirer.prompt([
