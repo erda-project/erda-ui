@@ -43,6 +43,7 @@ const ErrorChart = commonChartRender(errorChartConfig) as any;
 const ErrorOverview = () => {
   const timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
   const workspace = monitorOverviewStore.useStore(s => s.instance.workspace);
+  const { getMonitorInstance } = monitorOverviewStore.effects;
   const [loading] = useLoading(monitorErrorStore, ['getErrorsList']);
   const errors = monitorErrorStore.useStore(s => s.errors);
   const { getErrorsList } = monitorErrorStore.effects;
@@ -50,6 +51,7 @@ const ErrorOverview = () => {
   const { projectId, terminusKey } = routeInfoStore.useStore(s => s.params);
 
   useEffectOnce(() => {
+    getMonitorInstance();
     return () => clearMonitorErrors();
   });
 
