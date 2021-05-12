@@ -62,20 +62,19 @@ const PipelineConfigDetail = (props: IProps) => {
   const onUpdateYml = (ymlStr: string) => {
     const fileName = caseDetail.name;
     const { branch, path } = getBranchPath(caseDetail);
-    const data = {
+
+    return commit({
       branch,
       message: `Update ${fileName}`,
       actions: [
         {
           content: ymlStr,
           path,
-          action: 'add',
+          action: 'update',
           pathType: 'blob',
         },
       ],
-    };
-
-    return commit(data).then(() => {
+    }).then(() => {
       getTreeNodeDetailNew({ id: nodeId, ...scopeParams });
       if (recordRef.current && recordRef.current.reload) {
         recordRef.current.reload();
