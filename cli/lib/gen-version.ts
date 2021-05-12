@@ -17,14 +17,14 @@
  * 2、此方案并不能解决强制打包时或前端项目的非业务代码发生变更导致的Dice打包时，前端版本的变更情况
  */
 import fs from 'fs';
-import { publicDir } from './util/env';
+import { getPublicDir } from './util/env';
 import { logSuccess, logError } from './util/log';
 
 export default () => {
   const data = { version: Date.parse(new Date().toString()) };
 
-  fs.mkdir(`${publicDir}`, '0777', () => {
-    fs.writeFile(`${publicDir}/version.json`, JSON.stringify(data), (err) => {
+  fs.mkdir(`${getPublicDir()}`, '0777', () => {
+    fs.writeFile(`${getPublicDir()}/version.json`, JSON.stringify(data), (err) => {
       if (err) {
         logError('version.json generated fail', err);
       } else {

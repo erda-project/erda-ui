@@ -14,7 +14,7 @@
 import fs from 'fs';
 import agent from 'superagent';
 import path from 'path';
-import { publicDir } from './util/env';
+import { getPublicDir } from './util/env';
 import { logSuccess, logError } from './util/log';
 
 const downloadFile = (url: string, savePath: string) => {
@@ -40,7 +40,7 @@ const downloadFile = (url: string, savePath: string) => {
 };
 
 export default () => {
-  const htmlPath = path.resolve(publicDir, './static/shell/index.html');
+  const htmlPath = path.resolve(getPublicDir(), './static/shell/index.html');
   fs.readFile(htmlPath, 'utf8', (err, content) => {
     if (err) logError('read index.html failed');
     const iconfontRegex = /\/\/at.alicdn.com\/t\/(([^.]+)\.(css|js))/g;
@@ -49,7 +49,7 @@ export default () => {
     while (matchedIconfontFile) {
       const iconfontFilePath = matchedIconfontFile[0];
       logSuccess('get matched iconfont file', iconfontFilePath);
-      downloadFile(iconfontFilePath, path.resolve(publicDir, `./static/${matchedIconfontFile[1]}`));
+      downloadFile(iconfontFilePath, path.resolve(getPublicDir(), `./static/${matchedIconfontFile[1]}`));
       replacedContent = replacedContent.replace(iconfontFilePath, `/static/${matchedIconfontFile[1]}`);
       matchedIconfontFile = iconfontRegex.exec(replacedContent);
     }
