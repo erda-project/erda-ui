@@ -216,7 +216,7 @@ export const DEFAULT_ISSUE_FIELDS_MAP = {
     {
       propertyName: 'bugStage',
       displayName: i18n.t('project:import source'),
-      propertyType: 'Person',
+      propertyType: 'Select',
     },
     {
       propertyName: 'estimateTime',
