@@ -390,7 +390,7 @@ const RepoTreePage = () => {
         <Form layout="vertical">
           <FormItem label={i18n.t('project:repository source')} >
             <p >{repoTypeConfig.name}</p>
-            <img className="logo" src={`/images/resources/${repoTypeConfig.logo}`} width="46px" />
+            <img className="logo" src={repoTypeConfig.logo} width="46px" />
           </FormItem>
           <FormItem label={i18n.t('project:repository address')}>
             <a href={rest.url} target="_blank" rel="noopener noreferrer" >{rest.url}</a>
