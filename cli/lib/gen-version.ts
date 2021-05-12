@@ -16,15 +16,15 @@
  * 1、所谓版本就是时间戳，因为前端代码不变更时进行打包，不会重新打包
  * 2、此方案并不能解决强制打包时或前端项目的非业务代码发生变更导致的Dice打包时，前端版本的变更情况
  */
-const fs = require('fs');
-const { publicDir } = require('./util/env');
-const { logSuccess, logError } = require('./util/log');
+import fs from 'fs';
+import { getPublicDir } from './util/env';
+import { logSuccess, logError } from './util/log';
 
-module.exports = () => {
-  const data = { version: Date.parse(new Date()) };
+export default () => {
+  const data = { version: Date.parse(new Date().toString()) };
 
-  fs.mkdir(`${publicDir}`, '0777', () => {
-    fs.writeFile(`${publicDir}/version.json`, JSON.stringify(data), (err) => {
+  fs.mkdir(`${getPublicDir()}`, '0777', () => {
+    fs.writeFile(`${getPublicDir()}/version.json`, JSON.stringify(data), (err) => {
       if (err) {
         logError('version.json generated fail', err);
       } else {
@@ -32,4 +32,4 @@ module.exports = () => {
       }
     });
   });
-}
+};

@@ -17,34 +17,53 @@ import { forEach } from 'lodash';
 import { exit } from 'process';
 import { logError } from './log';
 
-// erda-ui root
-export const rootDir = process.cwd();
-if (!fs.existsSync(`${rootDir}/.env`)) {
-  logError('Please run this command under erda-ui root directory');
-  exit(1);
-}
-
-const { parsed: moduleEnv } = require('dotenv').config({ path: `${rootDir}/.env` });
-
-export const cliDir = join(rootDir, 'cli');
-export const coreDir = join(rootDir, 'core');
-export const shellDir = join(rootDir, 'shell');
-export const publicDir = join(rootDir, 'public');
-export const schedulerDir = join(rootDir, 'scheduler');
-export const registryDir = 'registry.cn-hangzhou.aliyuncs.com/terminus/erda-ui';
-
-export const moduleList: Array<{ moduleName: string; moduleDir: string }> = [];
-const modules: string[] = moduleEnv.PROD_MODULES.split(',');
-
-forEach(modules, (m) => {
-  if (m) {
-    const modulePath = moduleEnv[`${m.toUpperCase()}_DIR`];
-    moduleList.push({
-      moduleName: m,
-      moduleDir: modulePath,
-    });
+export const checkIsRoot = () => {
+  if (!fs.existsSync(`${process.cwd()}/.env`)) {
+    logError('Please run this command under erda-ui root directory');
+    exit(1);
   }
-});
+};
+
+export const getModuleList = () => {
+  const { parsed: moduleEnv } = require('dotenv').config({ path: `${process.cwd()}/.env` });
+
+  const moduleList: Array<{ moduleName: string; moduleDir: string }> = [];
+  const modules: string[] = moduleEnv.PROD_MODULES.split(',');
+
+  forEach(modules, (m) => {
+    if (m) {
+      const modulePath = moduleEnv[`${m.toUpperCase()}_DIR`];
+      moduleList.push({
+        moduleName: m,
+        moduleDir: modulePath,
+      });
+    }
+  });
+
+  return moduleList;
+};
+
+export const getCliDir = () => {
+  return join(process.cwd(), 'cli');
+};
+
+export const getCoreDir = () => {
+  return join(process.cwd(), 'core');
+};
+
+export const getShellDir = () => {
+  return join(process.cwd(), 'shell');
+};
+
+export const getPublicDir = () => {
+  return join(process.cwd(), 'public');
+};
+
+export const getSchedulerDir = () => {
+  return join(process.cwd(), 'scheduler');
+};
+
+export const registryDir = 'registry.cn-hangzhou.aliyuncs.com/terminus/erda-ui';
 
 export const isWindows = process.platform === 'win32';
 export const isMacintosh = process.platform === 'darwin';

@@ -12,33 +12,27 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
-const fs = require('fs');
-const { promisify } = require('util');
-const path = require('path');
-const { invert, remove, words, get } = require('lodash');
-const inquirer = require('inquirer');
-const ora = require('ora');
-const { walker } = require('./util/file-walker');
-const { doTranslate } = require('./util/google-translate');
-const { logError, logInfo, logSuccess, logWarn } = require('./util/log');
+import fs from 'fs';
+import path from 'path';
+import { invert, remove, get } from 'lodash';
+import inquirer from 'inquirer';
+import ora from 'ora';
+import { walker } from './util/file-walker';
+import { doTranslate } from './util/google-translate';
+import { logError, logInfo, logSuccess, logWarn } from './util/log';
+import writeLocale from './util/i18n-extract';
+import { exit } from 'process';
 
 const reg = /i18n\.d\(["'](.+?)["']\)/g;
 const tempFilePath = path.resolve(process.cwd(), './temp-zh-words.json');
 const tempTranslatedWordPath = path.resolve(process.cwd(), './temp-translated-words.json');
-if (!fs.existsSync(tempFilePath)) {
-  fs.writeFileSync(tempFilePath, JSON.stringify({}, null, 2), 'utf8');
-}
-if (!fs.existsSync(tempTranslatedWordPath)) {
-  fs.writeFileSync(tempTranslatedWordPath, JSON.stringify({}, null, 2), 'utf8');
-}
 
 const backupNamespace = 'backup'; // 备用namespace
-const specialWords = []; // 保存有重复namespace+翻译组合的词
+const specialWords: string[] = []; // 保存有重复namespace+翻译组合的词
 let workDir = '.';
-let ns = null;
-let translatedMap = null;
-let tempZhMap = null;
+let ns: null | string = null;
+let translatedMap: null | { [k: string]: string } = null;
+let tempZhMap: null | { [k: string]: string } = null;
 
 /**
  * 已经翻译过的集合
@@ -46,14 +40,14 @@ let tempZhMap = null;
  *  '中文': 'dpCommon:Chinese'
  * }
  */
-const translatedWords = {};
-let notTranslatedWords = []; // 未翻译的集合
-let zhResource = {};
+const translatedWords: { [k: string]: string } = {};
+let notTranslatedWords: string[] = []; // 未翻译的集合
+let zhResource: { [k: string]: { [k: string]: string } } = {};
 
-const findExistWords = (toTransChineseWords) => {
+const findExistWords = (toTransChineseWords: string[]) => {
   const _notTranslatedWords = [...toTransChineseWords]; // 当前文件需要被翻译的中文集合
   // 遍历zh.json的各个namespace，查看是否有已经翻译过的中文
-  Object.keys(zhResource).forEach(namespaceKey => {
+  Object.keys(zhResource).forEach((namespaceKey) => {
     // 当前namespace下所有翻译
     const namespaceWords = zhResource[namespaceKey];
     // key-value 位置对换 变成 { '中文': 'Chinese' }的形式，如果有重复，后面会覆盖前面
@@ -62,14 +56,14 @@ const findExistWords = (toTransChineseWords) => {
       // 当存在现有翻译且translatedWords还没包含它时，加入已被翻译列表，并从未翻译列表中移除
       if (invertTranslatedWords[zhWord] && !translatedWords[zhWord]) {
         translatedWords[zhWord] = namespaceKey === 'default' ? invertTranslatedWords[zhWord] : `${namespaceKey}:${invertTranslatedWords[zhWord]}`;
-        remove(_notTranslatedWords, w => w === zhWord);
+        remove(_notTranslatedWords, (w) => w === zhWord);
       }
     });
   });
   notTranslatedWords = notTranslatedWords.concat(_notTranslatedWords);
 };
 
-const extractI18nFromFile = (content, filePath, isEnd, resolve) => {
+const extractI18nFromFile = (content: string, filePath: string, isEnd: boolean, resolve: (value: void | PromiseLike<void>) => void) => {
   // 只处理代码文件
   if (!['.tsx', '.ts', '.js', '.jsx'].includes(path.extname(filePath)) && !isEnd) {
     return;
@@ -88,31 +82,27 @@ const extractI18nFromFile = (content, filePath, isEnd, resolve) => {
   }
 
   // 传入需要被翻译的中文列表，前提是不在notTranslatedWords和translatedWords中出现
-  findExistWords(toTransChineseWords.filter(zhWord => !notTranslatedWords.includes(zhWord) && !translatedWords[zhWord]));
+  findExistWords(toTransChineseWords.filter((zhWord) => !notTranslatedWords.includes(zhWord) && !translatedWords[zhWord]));
   if (isEnd) {
     // 所有文件遍历完毕 notTranslatedWords 按原来的形式写入temp-zh-words
     if (notTranslatedWords.length > 0) {
-      const zhMap = {};
-      notTranslatedWords.forEach(word => {
+      const zhMap: { [k: string]: string } = {};
+      notTranslatedWords.forEach((word) => {
         zhMap[word] = '';
       });
-      fs.writeFileSync(tempFilePath, JSON.stringify(zhMap, null, 2), 'utf8', (writeErr) => {
-        if (writeErr) return logError('写入临时文件temp-zh-words错误', writeErr);
-      });
+      fs.writeFileSync(tempFilePath, JSON.stringify(zhMap, null, 2), 'utf8');
       logSuccess('完成写入临时文件temp-zh-words.json');
     }
     // translatedWords写入temp-translated-words
     if (Object.keys(translatedWords).length > 0) {
-      fs.writeFileSync(tempTranslatedWordPath, JSON.stringify(translatedWords, null, 2), 'utf8', (writeErr) => {
-        if (writeErr) return logError('写入临时文件temp-translated-words错误', writeErr);
-      });
+      fs.writeFileSync(tempTranslatedWordPath, JSON.stringify(translatedWords, null, 2), 'utf8');
       logSuccess('完成写入临时文件temp-translated-words.json');
     }
     resolve();
   }
 };
 
-const restoreSourceFile = (content, filePath, isEnd, resolve) => {
+const restoreSourceFile = (content: string, filePath: string, isEnd: boolean, resolve: (value: void | PromiseLike<void>) => void) => {
   if (!['.tsx', '.ts', '.js', '.jsx'].includes(path.extname(filePath)) && !isEnd) {
     return;
   }
@@ -123,7 +113,7 @@ const restoreSourceFile = (content, filePath, isEnd, resolve) => {
     if (match) {
       const [fullMatch, zhWord] = match;
       let replaceText;
-      if (tempZhMap[zhWord]) {
+      if (tempZhMap?.[zhWord]) {
         // 如果已经在temp-zh-words.json中找到翻译就替换
         const enWord = tempZhMap[zhWord];
         let i18nContent = ns === 'default' ? `i18n.t('${enWord}')` : `i18n.t('${ns}:${enWord}')`;
@@ -131,7 +121,7 @@ const restoreSourceFile = (content, filePath, isEnd, resolve) => {
           i18nContent = `i18n.t('${backupNamespace}:${enWord}')`;
         }
         replaceText = i18nContent;
-      } else if (translatedMap[zhWord]) {
+      } else if (translatedMap?.[zhWord]) {
         // 如果在temp-translated-words.json中找到翻译就替换
         const translatedEnWord = translatedMap[zhWord];
         replaceText = `i18n.t('${translatedEnWord}')`;
@@ -146,9 +136,7 @@ const restoreSourceFile = (content, filePath, isEnd, resolve) => {
     match = reg.exec(content);
   }
   if (changed) {
-    fs.writeFileSync(filePath, newContent, 'utf8', (writeErr) => {
-      if (writeErr) return logError(`写入文件：${filePath}错误`, writeErr);
-    });
+    fs.writeFileSync(filePath, newContent, 'utf8');
   }
   if (isEnd) {
     resolve();
@@ -160,12 +148,12 @@ const restoreSourceFile = (content, filePath, isEnd, resolve) => {
  * @param {*} folderName
  * @returns
  */
-const findMatchFolder = (folderName) => {
-  let targetPath = null;
-  const loopFolder = (rootPath) => {
+const findMatchFolder = (folderName: string): string | null => {
+  let targetPath: null | string = null;
+  const loopFolder = (rootPath: string) => {
     const children = fs.readdirSync(rootPath, { withFileTypes: true });
     if (children.length > 0) {
-      children.some(child => {
+      children.some((child) => {
         const itemName = child.name;
         if (child.isDirectory() && !itemName.includes('node_modules') && !itemName.startsWith('.')) {
           const childPath = path.resolve(rootPath, itemName);
@@ -183,24 +171,30 @@ const findMatchFolder = (folderName) => {
   return targetPath;
 };
 
-module.exports = async ({ workDir: _workDir }) => {
+export default async ({ workDir: _workDir }: { workDir: string }) => {
   try {
     workDir = _workDir;
     if (fs.existsSync(path.resolve(workDir, './.erda/config.js'))) {
       const config = require(path.resolve(workDir, './.erda/config.js'));
       if (!config.MODULE_NAME) {
         logError('请指定.erda/config.js中的MODULE_NAME');
-        return;
+        exit(1);
       }
       ns = config.MODULE_NAME;
     } else {
-      logError('请在模块根目录运行（确保.erda/config.js文件存在）或手动传入模块路径');
-      return;
+      logError('请传入正确的模块名（确保.erda/config.js文件存在于此文件夹）或手动传入模块路径');
+      exit(1);
     }
     const localePath = findMatchFolder('locales');
     if (!localePath) {
       logError('请确保运行目录下存在locales文件夹（可嵌套）');
-      return;
+      exit(1);
+    }
+    if (!fs.existsSync(tempFilePath)) {
+      fs.writeFileSync(tempFilePath, JSON.stringify({}, null, 2), 'utf8');
+    }
+    if (!fs.existsSync(tempTranslatedWordPath)) {
+      fs.writeFileSync(tempTranslatedWordPath, JSON.stringify({}, null, 2), 'utf8');
     }
     const zhJsonPath = `${localePath}/zh.json`;
     const enJsonPath = `${localePath}/en.json`;
@@ -213,8 +207,8 @@ module.exports = async ({ workDir: _workDir }) => {
     if (!fs.existsSync(enJsonPath)) {
       fs.writeFileSync(enJsonPath, JSON.stringify({}, null, 2), 'utf8');
     }
-  
-    const extractPromise = new Promise((resolve) => {
+
+    const extractPromise = new Promise<void>((resolve) => {
       // 第一步，找出需要被翻译的内容， 将内容分配为未翻译和已翻译两部分
       walker({
         root: workDir,
@@ -236,6 +230,7 @@ module.exports = async ({ workDir: _workDir }) => {
       });
     }
     const tempWords = JSON.parse(fs.readFileSync(tempFilePath, { encoding: 'utf-8' }));
+    /* eslint-disable */
     notTranslatedWords = Object.keys(tempWords);
     // 第二步，调用Google Translate自动翻译
     if (notTranslatedWords.length > 0) {
@@ -256,7 +251,7 @@ module.exports = async ({ workDir: _workDir }) => {
       translatedMap = JSON.parse(fs.readFileSync(tempTranslatedWordPath, { encoding: 'utf-8' }));
     }
     // 第四步，指定namespace
-    if (Object.keys(tempZhMap).length > 0) {
+    if (tempZhMap && Object.keys(tempZhMap).length > 0) {
       const { inputNs } = await inquirer.prompt({
         name: 'inputNs',
         type: 'input',
@@ -269,8 +264,8 @@ module.exports = async ({ workDir: _workDir }) => {
       // 第五步，检查自动或人工翻译后，是否有namespace冲突
       // 比如原先在cdp的namespace下有一个中文`进行中`翻译为`running`, 这次也需要加一个词在cdp下叫`运行中`，翻译结果也是`running`
       // 此时就必须将这个running安排到一个单独的空间，否则这个词就会丢失
-      Object.keys(tempZhMap).forEach(key => {
-        if (get(zhResource, `${ns}.${tempZhMap[key]}`)) {
+      Object.keys(tempZhMap).forEach((key) => {
+        if (tempZhMap?.[key] && get(zhResource, `${ns}.${tempZhMap[key]}`)) {
           if (get(zhResource, `${backupNamespace}.${tempZhMap[key]}`)) {
             // 如果此时又来一个`奔跑中`，那就无法自动处理了，属于极小概率事件，由使用者自行处理
             logError(key, '在目标namespace和备用namespace两个命名空间都有相同翻译了，请手动解决这个问题');
@@ -296,13 +291,12 @@ module.exports = async ({ workDir: _workDir }) => {
     spinner.stop();
     logSuccess('完成替换源文件');
     // 第七步，写入locale文件
-    if (Object.keys(tempZhMap).length > 0) {
-      const { writeLocale } = require('./util/i18n-extract');
-      const localePromise = new Promise((resolve) => {
+    if (tempZhMap && Object.keys(tempZhMap).length > 0) {
+      const localePromise = new Promise<void>((resolve) => {
         if (fs.existsSync(path.resolve(`${workDir}/src`))) {
-          writeLocale(resolve, ns, path.resolve(`${workDir}/src`), localePath);
+          writeLocale(resolve, ns!, path.resolve(`${workDir}/src`), localePath);
         } else {
-          writeLocale(resolve, ns, workDir, localePath);
+          writeLocale(resolve, ns!, workDir, localePath);
         }
       });
       const loading = ora('写入local文件ing...').start();

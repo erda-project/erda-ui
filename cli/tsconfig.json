@@ -4,10 +4,9 @@
     "module": "commonjs",
     "lib": [
       "es6",
-      "es2017",
+      "es2020",
       "esnext.asynciterable"
     ],
-    "allowJs": true,
     "sourceMap": false,
     "outDir": "./dist",
     "moduleResolution": "node",
@@ -25,14 +24,14 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "skipLibCheck": true
   },
   "exclude": [
     "node_modules"
   ],
   "include": [
     "./lib/**/*.ts",
-    "./lib/**/*.js",
     "./bin/**/*.ts",
   ]
 }

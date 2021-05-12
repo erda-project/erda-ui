@@ -11,24 +11,22 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const path = require('path');
-const inquirer = require('inquirer');
-const { walker } = require('./util/file-walker');
-const { logSuccess, logWarn } = require('./util/log');
+import path from 'path';
+import inquirer from 'inquirer';
+import { walker } from './util/file-walker';
+import { logSuccess, logWarn } from './util/log';
 
-
-module.exports = async ({ fileType, directory }) => {
-
+export default async ({ fileType, directory }: { fileType: string; directory: string }) => {
   let targetPath = directory;
   if (!targetPath) {
-     const answer = await inquirer.prompt([
+    const answer = await inquirer.prompt([
       {
         type: 'directory',
         name: 'targetPath',
         message: 'Select work directory',
         basePath: process.cwd(),
         default: directory,
-      }
+      },
     ]);
     targetPath = answer.targetPath;
   }
@@ -42,13 +40,13 @@ module.exports = async ({ fileType, directory }) => {
         message: 'Which file type do you want to operate?',
         choices: ['js', 'ts', 'jsx', 'tsx', 'scss', 'sass'],
         default: ['js', 'ts', 'jsx', 'tsx'],
-      }
+      },
     ]);
     suffixList = answer.suffixList;
   }
 
-  const suffixMap = {};
-  suffixList.forEach(a => { suffixMap[a.startsWith('.') ? a : `.${a}`] = true; });
+  const suffixMap: { [k: string]: boolean } = {};
+  suffixList.forEach((a) => { suffixMap[a.startsWith('.') ? a : `.${a}`] = true; });
 
   let failCount = 0;
   walker({
@@ -67,7 +65,6 @@ module.exports = async ({ fileType, directory }) => {
       } else {
         logSuccess('License check ok:', filePath);
       }
-    }
+    },
   });
-
-}
+};

@@ -15,14 +15,16 @@ import child_process from 'child_process';
 import dayjs from 'dayjs';
 import notifier from 'node-notifier';
 import { logInfo, logSuccess, logError } from './util/log';
-import { rootDir, shellDir, registryDir } from './util/env';
+import { getShellDir, registryDir, checkIsRoot } from './util/env';
 
 const { execSync, spawnSync } = child_process;
 
 const GET_SHA_CMD = 'git rev-parse --short HEAD';
 
-module.exports = async ({ image: baseImage }: { image?: string }) => {
+export default async ({ image: baseImage }: { image?: string }) => {
   try {
+    checkIsRoot();
+    const rootDir = process.cwd();
     const buildProcess = await spawnSync('erda-ui', baseImage ? ['build', '-i', `${baseImage}`] : ['build'], { env: process.env, cwd: rootDir, stdio: 'inherit' });
 
     if (buildProcess.status === 1) {
@@ -32,7 +34,7 @@ module.exports = async ({ image: baseImage }: { image?: string }) => {
     const date = dayjs().format('YYYYMMDD');
     const shortSha = await execSync(GET_SHA_CMD);
     const sha = shortSha.toString().replace(/\n/, '');// remove the backmost line feed
-    const pJson = require(`${shellDir}/package.json`);
+    const pJson = require(`${getShellDir()}/package.json`);
     const version = pJson.version.slice(0, -2);
     const tag = `${version}-${date}-${sha}`;// 3.20-2020520-182737976
 

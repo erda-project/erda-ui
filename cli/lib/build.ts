@@ -1,3 +1,4 @@
+
 // Copyright (c) 2021 Terminus, Inc.
 //
 // This program is free software: you can use, redistribute, and/or modify
@@ -17,15 +18,16 @@ import { promisify } from 'util';
 import child_process from 'child_process';
 import { logInfo, logSuccess, logWarn, logError } from './util/log';
 import {
-  rootDir,
-  publicDir,
+  getPublicDir,
   yarnCmd,
-  moduleList,
+  getModuleList,
   registryDir,
+  checkIsRoot,
 } from './util/env';
 import { exit } from 'process';
 import ora from 'ora';
 import generateVersion from './gen-version';
+import localIcon from './local-icon';
 
 const asyncExec = promisify(require('child_process').exec);
 
@@ -112,6 +114,7 @@ const installDependencies = async (rebuildList: string[]) => {
     },
   ]);
 
+  const moduleList = getModuleList();
   moduleList.filter(({ moduleName: name }) => selectUpdateList.includes(name)).forEach(({ moduleDir: dir, moduleName: name }) => {
     if (rebuildList.includes(name)) {
       logInfo(`Performing "${yarnCmd}" inside ${dir} folder`);
@@ -137,12 +140,12 @@ const installDependencies = async (rebuildList: string[]) => {
 
 const clearPublic = async () => {
   logInfo('clear public folder');
-  await execSync(`rm -rf ${publicDir}/*`, { cwd: rootDir });
+  await execSync(`rm -rf ${getPublicDir()}/*`, { cwd: process.cwd() });
 };
 
 const checkModuleValid = async (isLocal: boolean) => {
   let isAllValid = true;
-
+  const moduleList = getModuleList();
   moduleList.forEach((item) => {
     if (!item.moduleDir) {
       isAllValid = false;
@@ -174,9 +177,9 @@ const checkModuleValid = async (isLocal: boolean) => {
   }
 };
 
-const buildModules = async (enableSourceMap: boolean, rebuildList: typeof moduleList) => {
+const buildModules = async (enableSourceMap: boolean, rebuildList: ReturnType<typeof getModuleList>) => {
   const pList: Array<Promise<void>> = [];
-
+  const moduleList = getModuleList();
   const toBuildModules = rebuildList.length ? rebuildList : moduleList;
   toBuildModules.forEach((item) => {
     const { moduleName, moduleDir } = item;
@@ -250,9 +253,12 @@ const restoreFromDockerImage = async (image: string, requireBuildList: string[])
     -e UC_PUBLIC_URL=127.0.0.1 \
     -e FDP_UI_ADDR=127.0.0.1 \
     -e GITTAR_ADDR=127.0.0.1 \
+    -e KRATOS_ADDR=127.0.0.1 \
+    -e KRATOS_PRIVATE_ADDR=127.0.0.1 \
     ${registryDir}:${image}`);
   logSuccess('erda-ui docker container has been launched');
 
+  const moduleList = getModuleList();
   // choose modules for this new build, the ones which not be chosen will reuse the image content
   const modulesNames = moduleList.map((module) => module.moduleName).filter((name) => !requireBuildList.includes(name));
   let rebuildList = [...requireBuildList];
@@ -273,6 +279,7 @@ const restoreFromDockerImage = async (image: string, requireBuildList: string[])
     exit(1);
   }
   // copy built content from container
+  const publicDir = getPublicDir();
   await asyncExec(`docker cp erda-ui-for-build:/usr/share/nginx/html/. ${publicDir}/`);
   logSuccess('finished copy image content to local');
   // delete rebuilt module folders
@@ -283,7 +290,7 @@ const restoreFromDockerImage = async (image: string, requireBuildList: string[])
       exec(`rm -rf ${publicDir}/static/${module} && find ${publicDir}/static -maxdepth 1 -type f | xargs rm -f`);
     }
   });
-  await execSync(`rm -rf ${publicDir}/version.json`, { cwd: rootDir });
+  await execSync(`rm -rf ${publicDir}/version.json`, { cwd: process.cwd() });
   // stop & delete container
   stopDockerContainer();
 
@@ -300,13 +307,14 @@ const getRequireBuildModules = async (image: string) => {
     headSha = headSha.replace(/\n/, '');
     const imageSha = image.split('-')[2];
     const { stdout: diff } = await asyncExec(`git diff --name-only ${imageSha} ${headSha}`);
+    const moduleList = getModuleList();
     const rebuildList = moduleList.map((item) => item.moduleName);
     rebuildList.forEach((module) => {
       if (new RegExp(`^${module}/`, 'gm').test(diff)) {
         logWarn(`module [${module}] code changed since image commit, will forcibly built it.`);
         requireBuildList.push(module);
         if (new RegExp(`^${module}/package-lock.json`, 'gm').test(diff)) {
-          logWarn(`module [${module}] package-lock changed since image commit, please reminder to update this module dependency in next step.`);
+          logWarn(`module [${module}] package-lock changed since image commit, please remind to update this module dependency in next step.`);
         }
       }
     });
@@ -331,17 +339,18 @@ const getRequireBuildModules = async (image: string) => {
   }
 };
 
-module.exports = async (options: { local?: boolean; image?: string }) => {
+export default async (options: { local?: boolean; image?: string }) => {
   try {
     const { image } = options;
     let { local } = options;
     if (image) {
       local = true;
     }
+    checkIsRoot();
     await checkModuleValid(!!local);
 
     let enableSourceMap = false;
-
+    const moduleList = getModuleList();
     let rebuildList = moduleList.map((item) => item.moduleName);
 
     await clearPublic();
@@ -368,7 +377,7 @@ module.exports = async (options: { local?: boolean; image?: string }) => {
     generateVersion();
 
     if (rebuildList.includes('shell')) {
-      require('./local-icon')();
+      localIcon();
     }
   } catch (error) {
     logError('build exit with error:', error.message);

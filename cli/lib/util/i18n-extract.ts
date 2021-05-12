@@ -11,20 +11,23 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import vfs from 'vinyl-fs';
+import path from 'path';
+import fs from 'fs';
+import _ from 'lodash';
+import { logError } from './log';
+
+interface Resource { [k: string]: { [k: string]: string } }
+
 const scanner = require('i18next-scanner');
-const vfs = require('vinyl-fs');
-const path = require('path');
-const fs = require('fs');
-const _ = require('lodash');
 const flattenObjectKeys = require('i18next-scanner/lib/flatten-object-keys')
   .default;
 const omitEmptyObject = require('i18next-scanner/lib/omit-empty-object')
   .default;
-const { logError } = require('./log');
 
 let zhWordMap = {};
-let localePath = null;
-let ns = [];
+let localePath: null | string = null;
+let ns: string[] = [];
 let originalZhJson = {};
 let originalEnJson = {};
 
@@ -55,8 +58,8 @@ const options = () => ({
   },
 });
 
-function revertObjectKV(obj) {
-  const result = {};
+function revertObjectKV(obj: { [k: string]: string }) {
+  const result: { [k: string]: string } = {};
   if (typeof obj === 'object') {
     Object.keys(obj).forEach((k) => {
       if (typeof obj[k] === 'string') {
@@ -67,17 +70,23 @@ function revertObjectKV(obj) {
   return result;
 }
 
-function sortObject(unordered) {
-  const ordered = {};
+function sortObject(unordered: Resource | { [k: string]: string }) {
+  const ordered: Resource | { [k: string]: string } = {};
   Object.keys(unordered).sort().forEach((key) => {
-    ordered[key] = typeof unordered[key] === 'object' ? sortObject(unordered[key]) : unordered[key];
+    if (typeof unordered[key] === 'object') {
+      (ordered as Resource)[key] = sortObject(unordered[key] as { [k: string]: string }) as { [k: string]: string };
+    } else {
+      ordered[key] = unordered[key];
+    }
   });
   return ordered;
 }
 
-function customFlush(done) {
+function customFlush(done: () => void) {
   const enToZhWords = revertObjectKV(zhWordMap);
+  // @ts-ignore api
   const { resStore } = this.parser;
+  // @ts-ignore api
   const { resource, removeUnusedKeys, sort, defaultValue } = this.parser.options;
 
   Object.keys(resStore).forEach((lng) => {
@@ -145,29 +154,27 @@ function customFlush(done) {
   done();
 }
 
-module.exports = {
-  writeLocale: (resolve, _ns, srcDir, _localePath) => {
-    const paths = [`${srcDir}/**/*.{js,jsx,ts,tsx}`, '!node_modules/**/*', '!**/node_modules/**', '!**/node_modules'];
-    localePath = _localePath;
-    zhWordMap = require(path.resolve(process.cwd(), './temp-zh-words.json'));
-    const zhJsonPath = `${localePath}/zh.json`;
-    const enJsonPath = `${localePath}/en.json`;
-    let content = fs.readFileSync(zhJsonPath, 'utf8');
-    originalZhJson = JSON.parse(content);
-    content = fs.readFileSync(enJsonPath, 'utf8');
-    originalEnJson = JSON.parse(content);
+export default (resolve: (value: void | PromiseLike<void>) => void, _ns: string, srcDir: string, _localePath: string) => {
+  const paths = [`${srcDir}/**/*.{js,jsx,ts,tsx}`, '!node_modules/**/*', '!**/node_modules/**', '!**/node_modules'];
+  localePath = _localePath;
+  zhWordMap = require(path.resolve(process.cwd(), './temp-zh-words.json'));
+  const zhJsonPath = `${localePath}/zh.json`;
+  const enJsonPath = `${localePath}/en.json`;
+  let content = fs.readFileSync(zhJsonPath, 'utf8');
+  originalZhJson = JSON.parse(content);
+  content = fs.readFileSync(enJsonPath, 'utf8');
+  originalEnJson = JSON.parse(content);
 
-    const namespaces = Object.keys(originalZhJson);
-    if (!namespaces.includes(_ns)) {
-      namespaces.push(_ns);
-    }
-    ns = namespaces;
+  const namespaces = Object.keys(originalZhJson);
+  if (!namespaces.includes(_ns)) {
+    namespaces.push(_ns);
+  }
+  ns = namespaces;
 
-    vfs.src(paths)
-      .pipe(scanner(options(), undefined, customFlush))
-      .pipe(vfs.dest('./')).on('end', () => {
-        resolve && resolve();
-      });
-  },
+  vfs.src(paths)
+    .pipe(scanner(options(), undefined, customFlush))
+    .pipe(vfs.dest('./')).on('end', () => {
+      resolve && resolve();
+    });
 };
 
