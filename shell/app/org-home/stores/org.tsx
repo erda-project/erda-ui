@@ -81,7 +81,7 @@ const org = createStore({
         const currentOrg = resOrg || {};
         const orgId = currentOrg.id;
         // user doesn't joined the public org, go to workBench
-        if (resOrg.isPublic && !orgs?.list?.find((x: ORG.IOrg) => x.name === currentOrg.name)) {
+        if (resOrg.isPublic && !orgs?.list?.find((x) => x.name === currentOrg.name)) {
           goTo(goTo.pages.workBenchRoot);
         }
         if (currentOrg.name !== orgName) {
