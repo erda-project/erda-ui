@@ -15,14 +15,18 @@ import * as React from 'react';
 import { Select } from 'antd';
 import { get } from 'lodash';
 
-export class FixedSelect extends Select {
-  render() {
-    const options = this.props.children || get(this.props, 'options');
-    return (
-      <Select getPopupContainer={triggerNode => triggerNode.parentElement as HTMLElement} {...this.props} >
-        {options}
-      </Select>
-    );
-  }
-}
+const { Option } = Select;
+const FixedSelect = React.forwardRef((props, ref) => {
+  const options = props.children || get(props, 'options');
+  return (
+    <Select ref={ref} getPopupContainer={triggerNode => triggerNode.parentElement as HTMLElement} {...props} >
+      {options}
+    </Select>
+  );
+});
 
+FixedSelect.Option = Option;
+
+export {
+  FixedSelect
+}
