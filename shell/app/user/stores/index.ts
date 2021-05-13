@@ -21,7 +21,6 @@ import {
   getJoinedApps,
   pinApp,
   unpinApp,
-  updateOrg,
 } from '../services/user';
 import orgStore from 'app/org-home/stores/org';
 import { goTo, setLS } from 'common/utils';
@@ -185,10 +184,6 @@ const userStore = createStore({
     },
     async unpinApp({ call }, appId: number) {
       await call(unpinApp, appId, { successMsg: i18n.t('application:cancel topping successfully') });
-    },
-    async updateOrg({ call }, payload: Partial<ORG.IOrg>) {
-      await call(updateOrg, payload);
-      await orgStore.effects.getJoinedOrgs();
     },
     /**
      * payload: {

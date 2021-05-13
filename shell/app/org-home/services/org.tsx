@@ -25,3 +25,10 @@ export const getJoinedOrgs = (): IPagingResp<ORG.IOrg> => {
     .query({ pageNo: 1, pageSize: 100 })
     .then((response: any) => response.body);
 };
+
+export const updateOrg = (org: Partial<ORG.IOrg>) => {
+  return agent.put(`/api/orgs/${org.id}`)
+    .send(org)
+    .then((response: any) => response.body);
+};
+

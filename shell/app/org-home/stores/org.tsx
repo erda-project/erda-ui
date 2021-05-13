@@ -17,11 +17,10 @@ import layoutStore from 'layout/stores/layout';
 import { orgPerm } from 'user/stores/_perm-org';
 import { createStore } from 'app/cube';
 import userStore from 'app/user/stores';
-import { getOrgByDomain, getJoinedOrgs } from '../services/org';
+import { getOrgByDomain, getJoinedOrgs, updateOrg } from '../services/org';
 import { getGlobal } from 'app/global-space';
 import { getResourcePermissions } from 'user/services/user';
 import permStore from 'user/stores/permission';
-import agent from 'agent';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 import { get, intersection, map, isEmpty } from 'lodash';
 
@@ -57,6 +56,11 @@ const org = createStore({
     });
   },
   effects: {
+    async updateOrg({ call, update }, payload: Partial<ORG.IOrg>) {
+      const currentOrg = await call(updateOrg, payload);
+      await org.effects.getJoinedOrgs(true);
+      update({ currentOrg })
+    },
     async getOrgByDomain({ call, update }, payload: { orgName: string }) {
       let domain = window.location.hostname;
       if (domain.startsWith('local')) {
@@ -133,9 +137,9 @@ const org = createStore({
         }
       }
     },
-    async getJoinedOrgs({ call, select, update }) {
+    async getJoinedOrgs({ call, select, update }, force?: boolean) {
       const orgs = select(state => state.orgs);
-      if (isEmpty(orgs)) {
+      if (isEmpty(orgs) || force) {
         const { list } = await call(getJoinedOrgs);
         update({ orgs: list });
       }
