@@ -33,7 +33,7 @@ const { DirectoryTree, TreeNode } = Tree;
 interface IActionItem {
   key: string;
   name: string;
-  onclick: (prop: any)=>void;
+  onclick: (prop: any) => void;
 }
 interface IProps {
   mode: TEST_CASE.PageScope
@@ -59,7 +59,7 @@ interface ITree {
   testSetID: number
 }
 
-const mergeTree = (source: IExpandTree[], child:IExpandTree) => {
+const mergeTree = (source: IExpandTree[], child: IExpandTree) => {
   const curItem = source.find(item => item.id === child.id);
   if (!curItem) {
     source.push(child);
@@ -102,20 +102,19 @@ const TestSet = ({
   const projectInfo = projectStore.useStore(s => s.info);
   const { getCases } = testCaseStore.effects;
   const { triggerChoosenAll: resetChoosenAll } = testCaseStore.reducers;
+  const isAddNodeFromOuterRef = React.useRef(false);
 
-  const testSet:{[k in TEST_CASE.PageScope]: any} = {
+  const testSet: { [k in TEST_CASE.PageScope]: any } = {
     testCase: projectTestSet,
     testPlan: projectTestSet,
     caseModal: modalTestSet,
     temp: tempTestSet,
   };
-  const setRef = React.useRef(testSet);
-  const currentTestSet: TEST_SET.TestSet[] = React.useMemo(() => setRef.current[mode], [setRef, mode]);
+  const currentTestSet: TEST_SET.TestSet[] = testSet[mode];
 
   useMount(() => {
     getProjectTestSets({ testPlanID, mode, recycled: false, parentID: rootId, forceUpdate: true });
   });
-
 
   const loadTreeNode = (arr: string[], isInRecycleBin = false) => {
     arr.reduce(async (prev, curr) => {
@@ -137,6 +136,7 @@ const TestSet = ({
       newNode,
       ...(parent.children || []),
     ];
+    isAddNodeFromOuterRef.current = true;
     setTreeData([...treeData]);
   };
   const reloadLoadData = (id: number, eventKey: string, recycled: boolean) => {
@@ -147,7 +147,7 @@ const TestSet = ({
     }
   };
 
-  const updateTree = (tree: IExpandTree[], data:ITree[], newTreeData: TEST_SET.TestSetNode[]) => {
+  const updateTree = (tree: IExpandTree[], data: ITree[], newTreeData: TEST_SET.TestSetNode[]) => {
     tree.forEach(({ id, children }) => {
       const newTree = data.find(item => item.testSetID === id);
       if (!isEmpty(newTree)) {
@@ -167,10 +167,10 @@ const TestSet = ({
     });
   };
 
-  const [expandTree, expandIds] = React.useMemo<[IExpandTree[], Array<{id: number, key: string; pKey: string}>]>(() => {
+  const [expandTree, expandIds] = React.useMemo<[IExpandTree[], Array<{ id: number, key: string; pKey: string }>]>(() => {
     const result: IExpandTree[] = [];
     // 展开节点ID，需去重，防止一个节点请求多次
-    const temp: Array<{id: number, key: string, pKey: string}> = [];
+    const temp: Array<{ id: number, key: string, pKey: string }> = [];
     // 最深层级路径
     const deepestPath: string[] = [];
     const keys = [...expandedKeys];
@@ -210,14 +210,14 @@ const TestSet = ({
     } else {
       let newActiveKey = rootKey;
       let tempIndex = 0;
-      const promiseArr: Array<PromiseLike<{testSetID: number; key: string;pKey: string; list: TEST_SET.TestSet[]}>> = [];
+      const promiseArr: Array<PromiseLike<{ testSetID: number; key: string; pKey: string; list: TEST_SET.TestSet[] }>> = [];
       expandIds.forEach(({ id, key, pKey }) => {
         promiseArr.push(getTestSetChildren({ testPlanID, recycled: false, parentID: id, mode }).then(res => ({ testSetID: id, key, pKey, list: res || [] })));
       });
       // 请求所有展开的节点
       Promise.all(promiseArr).then(data => {
         const activeKeys = activeKey.split('-');
-        const trees:ITree[] = [];
+        const trees: ITree[] = [];
         data.forEach(({ list, key, pKey, testSetID }) => {
           const targetIndex = activeKeys.findIndex(t => t === `${testSetID}`);
           if (targetIndex !== -1 && !!list.length) {
@@ -264,7 +264,7 @@ const TestSet = ({
       // onSelect([rootKey]);
       firstBuild.current = false;
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [treeData, query.caseId]);
 
   useEffect(() => {
@@ -272,7 +272,7 @@ const TestSet = ({
       onAddNode(rootKey);
       clearActiveOuter();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeOuter]);
 
   useEffect(() => {
@@ -280,19 +280,26 @@ const TestSet = ({
     const nextActiveKey = firstBuild.current && query.eventKey && needActiveKey ? query.eventKey : rootKey;
     setActiveKey(nextActiveKey);
     setExpandedKeys([rootKey]);
-    setTreeData([
-      {
-        title: projectInfo.name,
-        key: rootKey,
-        id: rootId,
-        iconType: 'project',
-        iconClass: 'color-info',
-        parentID: rootId,
-        isLeaf: false,
-        recycled: false,
-        children: needRecycled ? normalNodes.concat([{ ...recycledRoot }]) : normalNodes,
-      },
-    ]);
+
+    // prevent setTreeData while execute addNodeFromOuter
+    if (!isAddNodeFromOuterRef.current) {
+      setTreeData([
+        {
+          title: projectInfo.name,
+          key: rootKey,
+          id: rootId,
+          iconType: 'project',
+          iconClass: 'color-info',
+          parentID: rootId,
+          isLeaf: false,
+          recycled: false,
+          children: needRecycled ? normalNodes.concat([{ ...recycledRoot }]) : normalNodes,
+        },
+      ]);
+    }
+
+    // reset isAddNodeFromOuterRef to false
+    isAddNodeFromOuterRef.current = false;
 
     if (needBreadcrumb) {
       updateBreadcrumb({
@@ -301,10 +308,11 @@ const TestSet = ({
         testPlanID,
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentTestSet, projectInfo]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTestSet, projectInfo, isAddNodeFromOuterRef]);
+
   useEffect(() => {
-    const expandId:string[] = (query.eventKey || '').split('-');
+    const expandId: string[] = (query.eventKey || '').split('-');
     // 是否为回收站内的case
     const isInRecycleBin = expandId.includes('recycled');
     // 测试计划测试用例需要打开分享链接
@@ -329,7 +337,7 @@ const TestSet = ({
         loadTreeNode(eventKeys.splice(1), isInRecycleBin);
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [treeData, query.caseId, query.eventKey, mode, query.testSetID, getCases, testPlanID]);
 
   // 复制/移动/引入测试集
@@ -354,7 +362,7 @@ const TestSet = ({
         onRemoveNode(currentNode.key);
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reloadTestSetInfo]);
 
   const renderTreeNodes = (data: any[]) => data.map((item) => {
@@ -618,8 +626,8 @@ const TestSet = ({
     });
     updateSearch({ pageNo: 1, recycled, testSetID, eventKey });
 
-     // 页面刚刚进来时保持当前 query 不进行更新
-     if (!_extra.keepCurrentSearch) {
+    // 页面刚刚进来时保持当前 query 不进行更新
+    if (!_extra.keepCurrentSearch) {
       updateSearch({ pageNo: 1, recycled, testSetID, eventKey });
     }
 
