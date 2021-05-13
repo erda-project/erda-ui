@@ -1,18 +1,18 @@
-.ant-input::-moz-placeholder {
+.dice-layout .ant-input::-moz-placeholder {
   color: $color-dark-2;
 }
 
 $border-style: 1px solid $color-border;
 
-.ant-input:-ms-input-placeholder {
+.dice-layout .ant-input:-ms-input-placeholder {
   color: $color-dark-2;
 }
 
-.ant-input::-webkit-input-placeholder {
+.dice-layout .ant-input::-webkit-input-placeholder {
   color: $color-dark-2;
 }
 
-.ant-calendar-panel {
+.dice-layout .ant-calendar-panel {
   .ant-calendar-input {
     height: 24px;
   }
@@ -28,7 +28,7 @@ $border-style: 1px solid $color-border;
   }
 }
 
-.ant-form-item {
+.dice-layout .ant-form-item {
   color: $color-dark-8;
 
   &.parent-item {
@@ -36,7 +36,7 @@ $border-style: 1px solid $color-border;
   }
 }
 
-.ant-tabs-nav-wrap {
+.dice-layout .ant-tabs-nav-wrap {
   .ant-tabs-nav {
     height: 48px;
 
@@ -57,11 +57,11 @@ $border-style: 1px solid $color-border;
   }
 }
 
-.ant-form-item-label label {
+.dice-layout .ant-form-item-label label {
   color: $color-dark-4;
 }
 
-.ant-form-vertical {
+.dice-layout .ant-form-vertical {
   .ant-form-item {
     padding: 0;
   }
@@ -71,7 +71,7 @@ $border-style: 1px solid $color-border;
   }
 }
 
-.ant-progress-bg {
+.dice-layout .ant-progress-bg {
   background-image: linear-gradient(
     90deg, $color-primary-light, $color-primary
   );
@@ -81,7 +81,7 @@ $border-style: 1px solid $color-border;
   border-bottom-left-radius: 100px;
 }
 
-.ant-progress {
+.dice-layout .ant-progress {
   &.progress-full {
     .ant-progress-bg {
       background-image: linear-gradient(
@@ -93,14 +93,14 @@ $border-style: 1px solid $color-border;
   }
 }
 
-.ant-form-item > label:after {
+.dice-layout .ant-form-item > label:after {
   position: relative;
   top: -.5px;
   margin: 0 8px 0 2px;
   content: ":";
 }
 
-.ant-confirm {
+.dice-layout .ant-confirm {
   .ant-confirm-body {
     .anticon {
       position: relative;
@@ -111,26 +111,26 @@ $border-style: 1px solid $color-border;
   }
 }
 
-.ant-confirm .ant-confirm-body .ant-confirm-title {
+.dice-layout .ant-confirm .ant-confirm-body .ant-confirm-title {
   font-weight: normal;
   font-size: 14px;
   line-height: 14px;
 }
 
-.ant-modal-header {
+.dice-layout .ant-modal-header {
   padding: 20px;
   border-bottom: none;
 }
 
-.ant-modal-body {
+.dice-layout .ant-modal-body {
   padding: 16px 20px;
 }
 
-.ant-modal-footer {
+.dice-layout .ant-modal-footer {
   border-top: none;
 }
 
-.ant-table {
+.dice-layout .ant-table {
   color: $color-text;
   background-color: $white;
   border-radius: 6px;
@@ -174,7 +174,7 @@ $border-style: 1px solid $color-border;
   }
 }
 
-.ant-table-thead > tr > th {
+.dice-layout .ant-table-thead > tr > th {
   font-weight: 500;
   background-color: rgba(0, 0, 0, .06);
 }
@@ -185,14 +185,14 @@ $border-style: 1px solid $color-border;
   white-space: nowrap;
 }
 
-.ant-table-default {
+.dice-layout .ant-table-default {
   .ant-table-thead > tr > th,
   .ant-table-tbody > tr > td {
     padding: 9px 16px;
   }
 }
 
-.ant-collapse {
+.dice-layout .ant-collapse {
   > .ant-collapse-item {
     > .ant-collapse-header {
       background-color: $white;
@@ -200,11 +200,11 @@ $border-style: 1px solid $color-border;
   }
 }
 
-.ant-collapse-content > .ant-collapse-content-box {
+.dice-layout .ant-collapse-content > .ant-collapse-content-box {
   padding-bottom: $p32;
 }
 
-.ant-btn-second {
+.dice-layout .ant-btn-second {
   color: $color-primary;
   background-color: $white;
   border-color: $color-primary;
@@ -223,57 +223,57 @@ $border-style: 1px solid $color-border;
   }
 }
 
-.ant-badge-status-processing {
+.dice-layout .ant-badge-status-processing {
   background-color: $blue;
 }
 
-.ant-drawer-body {
+.dice-layout .ant-drawer-body {
   height: calc(100% - 55px);
 }
 
-.ant-drawer-header {
+.dice-layout .ant-drawer-header {
   border-bottom: unset;
 }
 
-.ant-pagination-simple .ant-pagination-prev,
-.ant-pagination-simple .ant-pagination-next {
+.dice-layout .ant-pagination-simple .ant-pagination-prev,
+.dice-layout .ant-pagination-simple .ant-pagination-next {
   vertical-align: middle;
 }
 
-.ant-spin-blur {
+.dice-layout .ant-spin-blur {
   pointer-events: none;
 }
 
 /* stylelint-disable */
-.ant-table-small > .ant-table-content > .ant-table-header > table,
-.ant-table-small > .ant-table-content > .ant-table-body > table,
-.ant-table-small
+.dice-layout .ant-table-small > .ant-table-content > .ant-table-header > table,
+.dice-layout .ant-table-small > .ant-table-content > .ant-table-body > table,
+.dice-layout .ant-table-small
 > .ant-table-content
 > .ant-table-scroll
 > .ant-table-header
 > table,
-.ant-table-small
+.dice-layout .ant-table-small
 > .ant-table-content
 > .ant-table-scroll
 > .ant-table-body
 > table,
-.ant-table-small
+.dice-layout .ant-table-small
 > .ant-table-content
 > .ant-table-fixed-left
 > .ant-table-header
 > table,
-.ant-table-small
+.dice-layout .ant-table-small
 > .ant-table-content
 > .ant-table-fixed-right
 > .ant-table-header
 > table,
-.ant-table-small
+.dice-layout .ant-table-small
 > .ant-table-content
 > .ant-table-fixed-left
 > .ant-table-body-outer
 > .ant-table-body-inner
 > table,
-.ant-table-small
+.dice-layout .ant-table-small
 > .ant-table-content
 > .ant-table-fixed-right
 > .ant-table-body-outer
@@ -282,7 +282,7 @@ $border-style: 1px solid $color-border;
   padding: 0;
 }
 
-.ant-timeline-item {
+.dice-layout .ant-timeline-item {
   .ant-timeline-item-content {
     margin: 0 0 0 $p24;
   }
