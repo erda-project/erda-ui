@@ -170,7 +170,7 @@ export const OrgInfo = () => {
   const updateInfo = (values: Obj) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { isPublisher: _isPublisher, isPublic, ...rest } = values;
-    userStore.effects.updateOrg({ ...rest, isPublic: isPublic === 'true' });
+    orgStore.effects.updateOrg({ ...rest, isPublic: isPublic === 'true' });
   };
 
   const exitOrg = () => {

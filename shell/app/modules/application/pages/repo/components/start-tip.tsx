@@ -26,9 +26,9 @@ interface IProps {
   projectName: string;
   showCreateFile: boolean;
 }
-const repoIntro = ({ name: repoName, projectName, showCreateFile }: IProps) => {
-  const { protocol, host } = window.location;
-  const repo = `${protocol}//${host}/wb/${projectName}/${repoName}`;
+const repoIntro = ({ name: repoName, showCreateFile, gitRepoNew }: IProps) => {
+  const { protocol } = window.location;
+  const repo = `${protocol}//${gitRepoNew}`;
   const { changeMode } = repoStore.reducers;
 
   return (
