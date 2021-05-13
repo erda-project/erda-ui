@@ -46,7 +46,7 @@ interface DeployCardProps {
 
 
 const Activity = () => {
-  const [deploymentList, paging, redeployStartAt] = runtimeStore.useStore(s => [s.deploymentList, s.deploymentListPaging, s.redeployStartAt]);
+  const [deploymentList, paging] = runtimeStore.useStore(s => [s.deploymentList, s.deploymentListPaging]);
   const slidePanelComps = commonStore.useStore(s => s.slidePanelComps);
   const { appId, runtimeId } = routeInfoStore.useStore(s => s.params);
   const userMap = userMapStore.useStore(e => e);
@@ -98,7 +98,7 @@ const Activity = () => {
     const deployTime = moment(createdAt).format('YYYY-MM-DD HH:mm:ss');
     const timeCost = finishedAt
       ? getDateDuration(createdAt, finishedAt)
-      : getDateDuration(Math.min(moment(createdAt).valueOf(), Number(redeployStartAt)), moment().valueOf());
+      : getDateDuration(moment(createdAt).valueOf(), moment().valueOf());
 
     return (
       <div className="deployment-card">
