@@ -75,9 +75,3 @@ export const getResourcePermissions = ({ scope, scopeID }: IGetScopePermQuery): 
     .send({ scope: { type: scope, id: String(scopeID) } })
     .then((response: any) => response.body);
 };
-
-export const updateOrg = (org: Partial<ORG.IOrg>) => {
-  return agent.put(`/api/orgs/${org.id}`)
-    .send(org)
-    .then((response: any) => response.body);
-};

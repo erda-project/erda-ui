@@ -16,8 +16,7 @@ import i18n from 'i18n';
 import { Switch, Alert, Row, Col, Spin, Modal } from 'app/nusi';
 import { useLoading } from 'app/common/stores/loading';
 import orgStore from 'app/org-home/stores/org';
-import { find, get } from 'lodash';
-import userStore from 'app/user/stores';
+import { get } from 'lodash';
 import { useUpdate } from 'common';
 
 enum Environment {
@@ -36,9 +35,8 @@ const metaData = [
 
 const BlockNetwork = () => {
   const currentOrg = orgStore.useStore(s => s.currentOrg);
-  const { updateOrg } = userStore.effects;
-  const [isFetch] = useLoading(orgStore, ['getJoinedOrgs']);
-  const [isUpdate] = useLoading(userStore, ['updateOrg']);
+  const { updateOrg } = orgStore.effects;
+  const [isFetch, isUpdate] = useLoading(orgStore, ['getJoinedOrgs', 'updateOrg']);
   const [state, updater] = useUpdate({
     blockoutConfig: {},
   });
