@@ -1,0 +1,68 @@
+import React from 'react';
+import { KeyValueTextArea } from 'common';
+import { mount } from 'enzyme';
+import { describe, it, jest } from '@jest/globals';
+import { Form } from 'app/nusi';
+
+const Comp = Form.create()((props) => {
+  return (
+    <KeyValueTextArea
+      {...props}
+    />
+  );
+});
+
+const data = 'name: erda\norg: erda.cloud';
+
+const assetValue = (editor, spy, str, msg) => {
+  editor.find('TextArea').simulate('change', {
+    target: {
+      value: `${data}\n${str}`,
+    },
+  });
+  expect(spy).toHaveBeenLastCalledWith('async-validator:', [`${msg}`]);
+};
+
+describe('KeyValueTextArea', () => {
+  let spy;
+  beforeAll(() => {
+    spy = jest.spyOn(console, 'warn').mockImplementation();
+  });
+  afterAll(() => {
+    spy?.mockReset();
+  });
+  it('should render well', () => {
+    const fn = jest.fn();
+    const wrapper = mount(
+      <Comp
+        validate={fn}
+        data={data}
+        maxLength={10}
+        existKeys={['type']}
+      />
+    );
+    const editor = wrapper.find('KeyValueTextArea');
+    expect(editor.instance().getTextData()).toBe(data);
+    editor.find('TextArea').simulate('change', {
+      target: {
+        value: `${data}\nenv:test`,
+      },
+    });
+    editor.update();
+    expect(editor.instance().getTextData()).toBe(`${data}\nenv:test`);
+    expect(fn).toBeCalled();
+    assetValue(editor, spy, ':', '第3行: does not allow full-width punctuation');
+    assetValue(editor, spy, ':dev', '第3行: does not allow full-width punctuation');
+    assetValue(editor, spy, 'env:', '第3行: lack of english colon');
+    assetValue(editor, spy, 'env:  ', '第3行: missing value');
+    assetValue(editor, spy, 'name:erda', '第3行: key must be unique');
+    assetValue(editor, spy, 'env:development', '第3行: the length of Value must not exceed 10 characters');
+    assetValue(editor, spy, 'environment:dev', '第3行: the length of Key must not exceed 10 characters');
+    assetValue(editor, spy, 'type:dev', '3row: this configuration already exists');
+    editor.find('TextArea').simulate('change', {
+      target: {
+        value: `${data}`,
+      },
+    });
+  });
+});
