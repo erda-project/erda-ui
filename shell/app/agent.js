@@ -17,15 +17,6 @@ import { getGlobal } from 'app/global-space';
 import { some } from 'lodash';
 import errorHandler from './error-handler';
 
-// mf_share导出的模块内部会引用这里的agent，导致use方法被执行两次
-const preventDuplicate = (fn) => {
-  return (req) => {
-    if (!req._marked) {
-      req._marked = true;
-      fn(req);
-    }
-  };
-};
 
 const isExcludeOrgHeaderApi = (url) => {
   const excludeApis = ['/api/files'];
@@ -133,8 +124,13 @@ const reqKeyList = [];
 //   }
 // }
 
-agent.use(preventDuplicate(handleUrl));
-agent.use(preventDuplicate(handelPagingNull));
-agent.use(preventDuplicate(handleError));
-
+// mf_share导出的模块内部会引用这里的agent，导致use方法被执行两次
+agent.use(req => {
+  if (!req._marked) {
+    req._marked = true;
+    handleUrl(req);
+    handelPagingNull(req);
+    handleError(req);
+  }
+});
 export default agent;
