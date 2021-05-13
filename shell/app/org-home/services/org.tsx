@@ -26,7 +26,7 @@ export const getJoinedOrgs = (): IPagingResp<ORG.IOrg> => {
     .then((response: any) => response.body);
 };
 
-export const updateOrg = (org: Partial<ORG.IOrg>) => {
+export const updateOrg = (org: Merge<Partial<ORG.IOrg>, { id: number }>) => {
   return agent.put(`/api/orgs/${org.id}`)
     .send(org)
     .then((response: any) => response.body);
