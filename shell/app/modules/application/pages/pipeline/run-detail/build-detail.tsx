@@ -551,12 +551,12 @@ const BuildDetail = (props: IProps) => {
     }, {
       title: 'ID',
       dataIndex: 'id',
-      width: 120,
+      width: 80,
       align: 'center',
     }, {
       title: `${i18n.t('commit')}ID`,
       dataIndex: 'commit',
-      width: 100,
+      width: 80,
       render: (commitText: string) => (<span> {(commitText || '').slice(0, 6)} </span>),
     }, {
       title: i18n.t('status'),
@@ -568,6 +568,11 @@ const BuildDetail = (props: IProps) => {
           <Badge className="ml4" status={ciStatusMap[status].status} />
         </span>
       ),
+    }, {
+      title: i18n.t('application:executor'),
+      dataIndex: 'extra.runUser.name',
+      width: 100,
+      align: 'center',
     }, {
       title: i18n.t('trigger time'),
       dataIndex: 'timeCreated',
