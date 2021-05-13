@@ -72,9 +72,9 @@ const PureRepoNavOperation = () => {
     return fieldsList;
   };
 
-  const handleAdd = ({ dirName, ...values }: {dirName: string}) => {
+  const handleAdd = ({ dirName, ...values }: { dirName: string, message: string, branch: string }) => {
     const path = `${tree.path ? `${tree.path}/` : tree.path}${dirName}`;
-    const data = {
+    commit({
       ...values,
       actions: [
         {
@@ -83,8 +83,7 @@ const PureRepoNavOperation = () => {
           pathType: 'tree',
         },
       ],
-    };
-    commit(data).then((res) => {
+    }).then((res) => {
       toggleModal(false);
       if (res.success) {
         getRepoTree();

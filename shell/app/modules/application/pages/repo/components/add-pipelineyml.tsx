@@ -136,7 +136,7 @@ const AddPipelineYml = () => {
           if (error) {
             return;
           }
-          const data = {
+          commit({
             ...values,
             actions: [
               {
@@ -146,8 +146,7 @@ const AddPipelineYml = () => {
                 pathType: 'blob',
               },
             ],
-          };
-          commit(data).then((res: any) => {
+          }).then((res: any) => {
             if (res.success) {
               cancelEdit();
               message.success(i18n.t('application:create file successfully'));
