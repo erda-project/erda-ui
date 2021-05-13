@@ -37,6 +37,7 @@ import {
   updateCases,
   batchUpdateCase,
   removeRelation,
+  attemptTestApi,
   addRelation,
   getDetailRelations,
 } from '../services/test-case';
@@ -291,6 +292,10 @@ const testCaseStore = createStore({
       if (checkNeedEmptyChoosenIds(newQuery, oldQuery)) {
         testCaseStore.reducers.triggerChoosenAll({ isAll: false, scope });
       }
+    },
+    async attemptTestApi({ call }, payload: TEST_CASE.TestApi) {
+      const result = await call(attemptTestApi, payload);
+      return result;
     },
     async removeRelation({ call, getParams }, payload: Omit<TEST_CASE.RemoveRelation, 'testPlanID'>) {
       const { testPlanId } = getParams();
