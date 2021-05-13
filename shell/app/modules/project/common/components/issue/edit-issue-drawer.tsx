@@ -100,7 +100,7 @@ const getCustomOptions = (enumeratedValues: any[]) => {
 };
 
 const { createLabel, getLabels } = labelStore.effects;
-const IssueMetaFields = ({ labels, isEditMode, isBacklog, editAuth, issueType, formData, setFieldCb, projectId, ticketType }: any) => {
+const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editAuth, issueType, formData, setFieldCb, projectId, ticketType }: any, ref) => {
   const userMap = userMapStore.getState(s => s);
   const projectMembers = projectMemberStore.useStore(s => s.list);
   const urlParams = routeInfoStore.useStore(s => s.params);
@@ -128,6 +128,29 @@ const IssueMetaFields = ({ labels, isEditMode, isBacklog, editAuth, issueType, f
     ));
   }, [taskTypeList]);
 
+  React.useEffect(()=>{
+    if(ref && !ref.current){
+      const customFieldKeys = map(customFieldDetail?.property || [], 'propertyName').concat(['taskType', 'bugStage', 'owner']);
+      ref.current = {
+        onFocus: (fKey: string) => {
+          const curRef = ref.current?.refMap[fKey];
+          if(fKey === 'issueManHour.elapsedTime'){
+            // 点击打开时间跟踪
+            curRef.click();
+          } else if(customFieldKeys.includes(fKey)){
+            //需要打开自定义
+            setExpandCustomFields(true)
+            setTimeout(()=>{
+              curRef?.focus && curRef.focus();
+            })
+          } else {
+            curRef?.focus && curRef.focus();
+          }
+        },
+        refMap: {}
+      };
+    }
+  },[ref, customFieldDetail])
 
   useMount(() => {
     getLabels({ type: 'issue', projectID: Number(projectId) });
@@ -145,7 +168,7 @@ const IssueMetaFields = ({ labels, isEditMode, isBacklog, editAuth, issueType, f
       const { propertyName, displayName = '', required, propertyType, enumeratedValues } = filedData;
 
       return {
-        className: 'mb20',
+        className: `mb20 ${expandCustomFields ? '' : 'hide'}`,
         name: propertyName,
         label: displayName,
         required,
@@ -161,6 +184,7 @@ const IssueMetaFields = ({ labels, isEditMode, isBacklog, editAuth, issueType, f
           return propertyType === 'Person' ?
             <MemberSelector
               scopeType="project"
+              ref={r => { ref?.current?.refMap[propertyName] = r; }}
               className='issue-field-owner'
               disabled={!editAuth}
               scopeId={urlParams.projectId || String(projectId)}
@@ -173,6 +197,7 @@ const IssueMetaFields = ({ labels, isEditMode, isBacklog, editAuth, issueType, f
               <NumberFieldInput
                 className="full-width"
                 value={value}
+                ref={r => { ref?.current?.refMap[propertyName] = r; }}
                 onChange={(e: any) => {
                   onSave(e);
                 }}
@@ -180,6 +205,7 @@ const IssueMetaFields = ({ labels, isEditMode, isBacklog, editAuth, issueType, f
               :
               <TextFieldInput
                 showErrTip
+                ref={r => { ref?.current?.refMap[propertyName] = r; }}
                 value={value}
                 displayName={displayName}
                 rule={(FIELD_TYPE_ICON_MAP[propertyType] as Obj)?.rule}
@@ -321,6 +347,7 @@ const IssueMetaFields = ({ labels, isEditMode, isBacklog, editAuth, issueType, f
             showErrTip
             value={value}
             passAndTrigger
+            ref={ r => { ref?.current?.refMap['issueManHour.estimateTime'] = r}}
             triggerChangeOnButton
             originalValue={originalValue}
             onChange={v => {
@@ -342,6 +369,7 @@ const IssueMetaFields = ({ labels, isEditMode, isBacklog, editAuth, issueType, f
         getComp: ({ value, disabled }: any) => (
           <TimeTrace
             value={value}
+            ref={r => { ref?.current?.refMap['issueManHour.elapsedTime'] = r }}
             onChange={v => setFieldCb({ issueManHour: v })}
             isModifiedRemainingTime={formData?.issueManHour?.isModifiedRemainingTime}
             disabled={disabled}
@@ -389,29 +417,29 @@ const IssueMetaFields = ({ labels, isEditMode, isBacklog, editAuth, issueType, f
         ),
       },
     ]),
-    ...insertWhen(expandCustomFields && issueType === ISSUE_TYPE.TASK, [
+    ...insertWhen(issueType === ISSUE_TYPE.TASK, [
       {
         className: 'mb20 full-width',
         name: 'taskType',
         label: i18n.t('task type'),
         type: 'select',
         showRequiredMark: true,
-        itemProps: { options: taskTypeOptions, allowClear: false },
+        itemProps: { options: taskTypeOptions, allowClear: false, hidden: !expandCustomFields },
       },
     ]),
-    ...insertWhen(expandCustomFields && issueType === ISSUE_TYPE.BUG, [
+    ...insertWhen(issueType === ISSUE_TYPE.BUG, [
       {
         className: 'mb20 full-width',
         type: 'select',
         name: 'bugStage',
         label: i18n.t('project:import source'),
         showRequiredMark: true,
-        itemProps: { options: stageOptions, allowClear: false },
+        itemProps: { options: stageOptions, allowClear: false, hidden: !expandCustomFields },
       },
     ]),
-    ...insertWhen(expandCustomFields && issueType === ISSUE_TYPE.BUG && isEditMode, [
+    ...insertWhen(issueType === ISSUE_TYPE.BUG && isEditMode, [
       {
-        className: 'mb20 full-width',
+        className: `mb20 full-width ${expandCustomFields ? '' : 'hide'}`,
         type: 'custom',
         name: 'owner',
         label: i18n.t('project:responsible'),
@@ -420,6 +448,7 @@ const IssueMetaFields = ({ labels, isEditMode, isBacklog, editAuth, issueType, f
             <MemberSelector
               scopeType="project"
               className='issue-field-owner'
+              ref={r => { ref?.current?.refMap['owner'] = r; }}
               disabled={!editAuth}
               scopeId={urlParams.projectId || String(projectId)}
               onChange={(val: any) => onSave(val)}
@@ -430,7 +459,7 @@ const IssueMetaFields = ({ labels, isEditMode, isBacklog, editAuth, issueType, f
         },
       },
     ]),
-    ...insertWhen(expandCustomFields, customFieldList),
+    ...customFieldList,
     ...insertWhen(isEditMode, [
       {
         name: 'creator',
@@ -453,6 +482,8 @@ const IssueMetaFields = ({ labels, isEditMode, isBacklog, editAuth, issueType, f
     ]),
   ];
 
+  
+
   editFieldList = map(editFieldList, (fieldProps: any) => ({
     onChangeCb: setFieldCb,
     labelStyle: 'desc',
@@ -462,16 +493,21 @@ const IssueMetaFields = ({ labels, isEditMode, isBacklog, editAuth, issueType, f
 
   return (
     <div>
-      {map(editFieldList, (fieldProps: any) => (
-        <EditField
-          key={fieldProps.name}
-          {...fieldProps}
-          disabled={!editAuth}
-        />
-      ))}
+      {map(editFieldList, (fieldProps: any) => {
+        return (
+          <EditField
+            ref={r => {
+              ref?.current?.refMap[fieldProps.name] = r
+            }}
+            key={fieldProps.name}
+            {...fieldProps}
+            disabled={!editAuth}
+          />
+        )
+      })}
     </div>
   );
-};
+});
 
 export type CloseDrawerParam = { hasEdited: boolean, isCreate: boolean, isDelete: boolean };
 interface IProps {
@@ -589,6 +625,7 @@ export const EditIssueDrawer = (props: IProps) => {
   const { addIssueRelation } = issueStore.effects;
   const { updateCustomFieldDetail } = issueStore.reducers;
   const { id: orgID } = orgStore.useStore(s => s.currentOrg);
+  const metaFieldsRef = React.useRef(null);
 
   React.useEffect(() => {
     setFormData((prev: any) => ({ ...prev, iterationID }));
@@ -713,6 +750,10 @@ export const EditIssueDrawer = (props: IProps) => {
     return true;
   };
 
+  const focusOnFields = (fieldKey: string) => {
+    metaFieldsRef?.current?.onFocus(fieldKey)
+  }
+
   const setField = (value: Obj<any>) => {
     const formattedValue = value;
 
@@ -734,22 +775,23 @@ export const EditIssueDrawer = (props: IProps) => {
       if (value.state && isEditMode) {
         // 编辑模式下修改状态时，必填时间追踪和预估工时, 任务类型
         if (!params.taskType && issueType === ISSUE_TYPE.TASK) {
-          warnMessage.push(i18n.t('project:missing task type'));
+          warnMessage.push({ msg: i18n.t('project:missing task type'), key: 'taskType'});
         }
         if (!params.issueManHour.estimateTime) {
-          warnMessage.push(i18n.t('project:EstimateTime'));
+          warnMessage.push({ msg: i18n.t('project:EstimateTime'), key: 'issueManHour.estimateTime' });
         }
         if (params.issueManHour.elapsedTime === 0 && params.issueManHour.thisElapsedTime === 0) {
-          warnMessage.push(i18n.t('project:elapsedTime in time tracing'));
+          warnMessage.push({ msg: i18n.t('project:elapsedTime in time tracing'), key: 'issueManHour.elapsedTime'});
         }
       }
       if (warnMessage.length !== 0) {
         message.warn(
           <>
-            <span className="bold">{warnMessage.join(', ')}</span>
+            <span className="bold">{map(warnMessage,'msg').join(', ')}</span>
             <span>{i18n.t('project:missing')}</span>
           </>
         );
+        focusOnFields(warnMessage[0].key);
         return false;
       }
     }
@@ -809,6 +851,8 @@ export const EditIssueDrawer = (props: IProps) => {
       if (!checkFieldNotEmpty(customFieldData?.propertyType, customFieldValue) && customFieldData?.required) {
         const name = customFieldData?.displayName;
         message.warn(i18n.t('missing {name}', { name }));
+        
+        focusOnFields(name);
         return;
       }
 
@@ -1095,6 +1139,7 @@ export const EditIssueDrawer = (props: IProps) => {
         </Tabs>
       </IF>
       <IssueMetaFields
+        ref={metaFieldsRef}
         projectId={projectId}
         labels={labels}
         isEditMode={isEditMode}
