@@ -161,6 +161,7 @@ const layout = createStore({
       if (key === 'sysAdmin' && !getGlobal('erdaInfo.isSysAdmin')) return;
       if(appList?.length) state.appList = appList;
       if(currentApp) state.currentApp = currentApp;
+      console.log('------initLayout', _payload);
       state.subSiderInfoMap = merge(state.subSiderInfoMap, menusMap);
     },
     clearLayout(state) {
@@ -182,6 +183,8 @@ const layout = createStore({
     },
     setSubSiderInfoMap(state, payload: { [k: string]: any, key: string }) {
       const { key, ...rest } = payload;
+
+      console.log('------setSubSiderInfoMap ');
       const siderInfoMap = state.subSiderInfoMap;
       if (!siderInfoMap[key]) {
         siderInfoMap[key] = {};

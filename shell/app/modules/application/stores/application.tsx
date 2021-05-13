@@ -71,6 +71,7 @@ const appStore = createStore({
               appStore.effects.getAppDetail(appId).then((detail: IApplication) => {
                 const curAppMenu = getAppMenu({ ...params, mode: detail.mode } as any);
                 loadingInApp = false;
+                console.log('------set app');
                 layoutStore.reducers.setSubSiderInfoMap({
                   menu: curAppMenu,
                   key: 'application',
