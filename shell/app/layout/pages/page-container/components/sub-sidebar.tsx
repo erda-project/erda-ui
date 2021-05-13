@@ -106,8 +106,6 @@ const SubSideBar = () => {
     }
   }
 
-  console.log('------sub sider', siderInfo, routeMarks.slice().reverse());
-
   const organizeInfo = (menu: IMenu[]) => {
     let activeKey = '';
     let selectedKey = '';

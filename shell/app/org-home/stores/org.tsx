@@ -28,12 +28,14 @@ interface IState {
   currentOrg: ORG.IOrg;
   curPathOrg: string;
   orgs: ORG.IOrg[],
+  initFinish: boolean;
 }
 
 const initState: IState = {
   currentOrg: {} as ORG.IOrg,
   curPathOrg: '',
   orgs: [],
+  initFinish: false,
 };
 
 const org = createStore({
@@ -44,8 +46,8 @@ const org = createStore({
       if (isIn('orgIndex')) {
         const isSysAdmin = getGlobal('erdaInfo.isSysAdmin');
         const { orgName } = params;
-        const curPathOrg = org.getState(s => s.curPathOrg);
-        if (!isSysAdmin && curPathOrg !== orgName && !isMatch(/\w\/notFound/)) {
+        const [curPathOrg, initFinish] = org.getState(s => [s.curPathOrg, s.initFinish]);
+        if (!isSysAdmin && initFinish && curPathOrg !== orgName && !isMatch(/\w\/notFound/)) {
           org.effects.getOrgByDomain({ orgName });
         }
       }
@@ -74,9 +76,10 @@ const org = createStore({
           location.href = `/${get(orgs, 'list[0].name')}`;
           return;
         }
-        update({ curPathOrg: orgName });
+        update({ curPathOrg: orgName, initFinish: true });
         return;
       }
+
       // if orgName exist, check valid
       const resOrg = await call(getOrgByDomain, { domain, orgName });
       if (isEmpty(resOrg)) {
@@ -133,7 +136,7 @@ const org = createStore({
             }
           });
           breadcrumbStore.reducers.setInfo('curOrgName', currentOrg.displayName);
-          update({ currentOrg, curPathOrg: payload.orgName });
+          update({ currentOrg, curPathOrg: payload.orgName, initFinish: true });
         }
       }
     },
