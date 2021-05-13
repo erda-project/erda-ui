@@ -48,6 +48,7 @@ const org = createStore({
         const { orgName } = params;
         const [curPathOrg, initFinish] = org.getState(s => [s.curPathOrg, s.initFinish]);
         if (!isSysAdmin && initFinish && curPathOrg !== orgName && !isMatch(/\w\/notFound/)) {
+          layoutStore.reducers.clearLayout();
           org.effects.getOrgByDomain({ orgName });
         }
       }
@@ -126,7 +127,6 @@ const org = createStore({
               const menusMap = getSubSiderInfoMap();
               const appCenterAppList = getAppCenterAppList();
               appCenterAppList.forEach((a) => { appMap[a.key] = a; });
-              layoutStore.reducers.clearLayout();
               layoutStore.reducers.initLayout({
                 appList: appCenterAppList,
                 currentApp: appMap.workBench,
