@@ -56,7 +56,7 @@ const org = createStore({
     });
   },
   effects: {
-    async updateOrg({ call, update }, payload: Partial<ORG.IOrg>) {
+    async updateOrg({ call, update }, payload: Merge<Partial<ORG.IOrg>, { id: number }>) {
       const currentOrg = await call(updateOrg, payload);
       await org.effects.getJoinedOrgs(true);
       update({ currentOrg })
