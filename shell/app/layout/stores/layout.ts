@@ -163,6 +163,16 @@ const layout = createStore({
       if(currentApp) state.currentApp = currentApp;
       state.subSiderInfoMap = merge(state.subSiderInfoMap, menusMap);
     },
+    clearLayout(state) {
+      state.subSiderInfoMap = {};
+      state.appList = [];
+      state.currentApp = {
+        key: '',
+        name: '',
+        breadcrumbName: '',
+        href: '',
+      };
+    },
     switchToApp(state, payload: string) {
       if (payload === (state.currentApp && state.currentApp.key)) return;
       const curApp = find(state.appList, { key: payload });
