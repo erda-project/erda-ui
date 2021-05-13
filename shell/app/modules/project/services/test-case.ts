@@ -13,7 +13,7 @@
 
 import agent from 'agent';
 import i18n, { getLang } from 'i18n';
-import { qs } from 'common/utils';
+import { qs, setApiWithOrg } from 'common/utils';
 import { TestOperation } from 'project/pages/test-manage/constants';
 
 
@@ -120,7 +120,7 @@ export function editPartial({ id, ...payload }: TEST_CASE.CaseBody) {
 export function exportFileInTestCase(payload: TEST_CASE.ExportFileQuery) {
   const lang = getLang();
   const query = qs.stringify({ ...payload, lang } as any, { arrayFormat: 'none' });
-  window.open(`${window.location.origin}/api/testcases/actions/export?${query}`);
+  window.open(`${window.location.origin}${setApiWithOrg(`/api/testcases/actions/export?${query}`)}`);
 }
 
 export function importFileInTestCase({ payload, query }:TEST_CASE.ImportData): {successCount: number} {
