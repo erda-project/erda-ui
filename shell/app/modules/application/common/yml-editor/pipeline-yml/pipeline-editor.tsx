@@ -107,20 +107,19 @@ const PipelineEditor = (props: IYmlEditorProps) => {
   const commitData = (commitContent: string, values: any) => {
     const { path } = tree;
     const { branch, message: commitMsg } = values;
-    const data = {
+
+    commit({
       branch,
       message: commitMsg || `Update ${fileName}`,
       actions: [
         {
           content: commitContent,
           path,
-          action: 'add',
+          action: 'update',
           pathType: 'blob',
         },
       ],
-    };
-
-    commit(data).then(() => {
+    }).then(() => {
       onCancel();
       message.success(i18n.t('application:modify file successfully'));
       getRepoBlob();

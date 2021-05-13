@@ -74,7 +74,7 @@ const RepoFileContainerComp = (props: IProps) => {
   }, [isDiceOrPipelineFile, getRepoBlobLoading, parsePipelineYmlStructureLoading, pipelineYmlStructure, updater]);
 
   const handleDelete = (values: Pick<REPOSITORY.Commit, 'message'| 'branch'>) => {
-    const data = {
+    commit({
       ...values,
       actions: [
         {
@@ -83,8 +83,7 @@ const RepoFileContainerComp = (props: IProps) => {
           pathType: 'blob',
         },
       ],
-    };
-    commit(data).then((res) => {
+    }).then((res) => {
       toggleModal(false);
       if (res.success) {
         message.success(i18n.t('application:delete file successfully'));
@@ -193,19 +192,18 @@ const RepoFileContainerComp = (props: IProps) => {
     const { path } = tree;
     const { branch } = getInfoFromRefName(tree.refName);
 
-    const data = {
+    commit({
       branch,
       message: `Update ${path}`,
       actions: [
         {
-          action: 'add',
+          action: 'update',
           content: ymlContent,
           path,
           pathType: 'blob',
         },
       ],
-    };
-    commit(data).then((res) => {
+    }).then((res) => {
       if (res.success) {
         changeMode({ editFile: false, addFile: false });
         message.success(i18n.t('application:modify file successfully'));

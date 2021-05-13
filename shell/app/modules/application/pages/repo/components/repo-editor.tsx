@@ -82,22 +82,21 @@ const RepoEditor = ({ autoHeight, maxLines, ops, isDiceOrPipelineFile, name, blo
       }
     }
 
-    form.validateFields((error: Error, values: Pick<REPOSITORY.Commit, 'message'| 'branch'>) => {
+    form.validateFields((error: Error, values: Pick<REPOSITORY.Commit, 'message' | 'branch'>) => {
       if (error) {
         return;
       }
-      const data = {
+      commit({
         ...values,
         actions: [
           {
-            action: 'add',
+            action: isAddMode ? 'add' : 'update',
             content: state.value,
             path,
             pathType: 'blob',
           },
         ],
-      };
-      commit(data).then((res) => {
+      }).then((res) => {
         if (res.success) {
           changeMode({ editFile: false, addFile: false });
           if (isAddMode) {
@@ -131,14 +130,14 @@ const RepoEditor = ({ autoHeight, maxLines, ops, isDiceOrPipelineFile, name, blo
         name: 'branch',
         type: 'select',
         initialValue: branch || 'master',
-        options: branches.map((a:string) => ({ name: a, value: a })),
+        options: branches.map((a: string) => ({ name: a, value: a })),
         itemProps: {
           placeholder: i18n.t('application:submit branch'),
           disabled: true,
         },
       },
       {
-        getComp: ({ form }: {form: any}) => (
+        getComp: ({ form }: { form: any }) => (
           <div>
             <Button type="primary" onClick={() => handleSubmit(form)}>
               {i18n.t('application:save')}
