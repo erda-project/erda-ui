@@ -63,9 +63,9 @@ const org = createStore({
         domain = domain.split('.').slice(1).join('.');
       }
       const { orgName } = payload;
+      const orgs = await call(getJoinedOrgs); // get joined orgs
       if (!orgName) return;
       if (orgName === '-') {
-        const orgs = await call(getJoinedOrgs); // get joined orgs
         if (orgs?.list?.length) {
           location.href = `/${get(orgs, 'list[0].name')}`;
           return;
@@ -80,6 +80,10 @@ const org = createStore({
       } else {
         const currentOrg = resOrg || {};
         const orgId = currentOrg.id;
+        // user doesn't joined the public org, go to workBench
+        if (resOrg.isPublic && !orgs?.list?.find((x) => x.name === currentOrg.name)) {
+          goTo(goTo.pages.workBenchRoot);
+        }
         if (currentOrg.name !== orgName) {
           location.href = `/${currentOrg.name}`;
           return;
@@ -115,6 +119,7 @@ const org = createStore({
               const menusMap = getSubSiderInfoMap();
               const appCenterAppList = getAppCenterAppList();
               appCenterAppList.forEach((a) => { appMap[a.key] = a; });
+              layoutStore.reducers.clearLayout();
               layoutStore.reducers.initLayout({
                 appList: appCenterAppList,
                 currentApp: appMap.workBench,
