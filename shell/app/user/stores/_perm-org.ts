@@ -85,6 +85,9 @@ export const orgPerm = {
       read: {
         pass: false,
         role: [
+          'Manager',
+          'Dev',
+          'Ops',
           'EdgeOps',
           'DataManager',
           'DataEngineer',
