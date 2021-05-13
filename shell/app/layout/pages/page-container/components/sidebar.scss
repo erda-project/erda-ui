@@ -1,11 +1,14 @@
 .pk-app-center-body .app-list-item {
-  img {
+  i {
+    color: $white;
+    font-size: $p24;
     background-color: $primary;
     border-radius: 100%;
+    transform: translateY($p4);
   }
 
   span {
-    padding-left: 8px;
+    padding-left: $p8;
   }
 }
 
