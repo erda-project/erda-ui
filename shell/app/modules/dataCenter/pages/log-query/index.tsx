@@ -240,12 +240,12 @@ export default () => {
       render: (timestamp: number) => moment(timestamp).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
+      width: 600,
       title: i18n.t('content'),
       dataIndex: 'content',
       render: (item: string) => <Tooltip title={item}>{parseLogContent(item)}</Tooltip>,
     },
     {
-      width: 230,
       title: i18n.t('operation'),
       key: 'uniId',
       render: ({ tags, content, source }: LOG_ANALYZE.Log) => (
