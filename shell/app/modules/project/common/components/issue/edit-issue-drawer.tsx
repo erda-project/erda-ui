@@ -143,10 +143,10 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
             //need to expand custom fields and then focus the target field;
             setExpandCustomFields(true)
             setTimeout(()=>{
-              curRef?.focus && curRef.focus();
+              curRef?.focus?.();
             })
           } else {
-            curRef?.focus && curRef.focus();
+            curRef?.focus?.();
           }
         },
         refMap: {}
