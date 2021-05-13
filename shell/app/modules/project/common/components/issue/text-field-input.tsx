@@ -30,7 +30,7 @@ interface ITextProps {
   onChange?(v: number | string): void;
 }
 
-export const TextFieldInput = ({
+export const TextFieldInput = React.forwardRef(({
   value,
   originalValue,
   displayName,
@@ -40,7 +40,7 @@ export const TextFieldInput = ({
   triggerChangeOnButton = false,
   rule = {},
   ...rest
-}: ITextProps) => {
+}: ITextProps, ref) => {
   const [showTip, setShowTip] = React.useState(false);
   const [showBtn, setShowBtn] = React.useState(false);
   const clickBtn = React.useRef(false);
@@ -104,6 +104,7 @@ export const TextFieldInput = ({
         placeholder={i18n.t('please enter {name}', { name: displayName })}
         onFocus={() => setShowBtn(true)}
         {...rest}
+        ref={ref}
         value={_value}
         onChange={e => onInputChange(e.target.value)}
         onBlur={onBlur}
@@ -121,7 +122,7 @@ export const TextFieldInput = ({
       }
     </>
   );
-};
+});
 
 interface INumberProps {
   [k: string]: any
@@ -129,11 +130,11 @@ interface INumberProps {
   onChange?(v: number): void;
 }
 
-export const NumberFieldInput = ({
+export const NumberFieldInput = React.forwardRef(({
   value,
   onChange = () => { },
   ...rest
-}: INumberProps) => {
+}: INumberProps, ref) => {
   const [_value, setValue] = React.useState(value);
   React.useEffect(() => {
     setValue(value);
@@ -151,9 +152,10 @@ export const NumberFieldInput = ({
       <InputNumber
         {...rest}
         value={_value}
+        ref={ref}
         onChange={v => onInputChange(v)}
         onBlur={e => onSave(e.target.value)}
       />
     </>
   );
-};
+});

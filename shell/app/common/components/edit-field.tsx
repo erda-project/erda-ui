@@ -85,7 +85,7 @@ interface IProps {
   valueRender?(value: any): React.ReactNode;
 }
 
-export const EditField = (props: IProps) => {
+export const EditField = React.forwardRef((props: IProps, compRef) => {
   const {
     name,
     type,
@@ -104,7 +104,7 @@ export const EditField = (props: IProps) => {
     getComp,
   } = props;
   const originalValue = get(data, name);
-  const compRef = React.useRef(null as any);
+  
   const [state, updater] = useUpdate({
     editMode: false,
     editValue: undefined as unknown as string,
@@ -136,7 +136,7 @@ export const EditField = (props: IProps) => {
   const onBlur = (v?: string, fieldType?: string) => {
     if (onChangeCb) {
       if ((type && ['input', 'textArea'].includes(type)) || !type) {
-        onChangeCb(set({}, name, compRef.current.state.value));
+        onChangeCb(set({}, name, compRef?.current?.state.value));
       } else if (type === 'markdown') {
         onChangeCb(set({}, name, v), fieldType);
       }
@@ -252,7 +252,7 @@ export const EditField = (props: IProps) => {
       updater.editMode(false);
     }
   };
-
+  
   return (
     <div className={`common-edit-field ${className}`}>
       {label &&
@@ -272,4 +272,4 @@ export const EditField = (props: IProps) => {
       </div>
     </div>
   );
-};
+});

@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Input } from 'app/nusi';
+import { Input, Tooltip } from 'app/nusi';
 import i18n from 'i18n';
 import { Icon as CustomIcon } from 'common';
 import * as React from 'react';
@@ -69,17 +69,19 @@ interface IProps {
   showErrTip?: boolean;
   passAndTrigger?: boolean;
   triggerChangeOnButton?: boolean;
+  tooltip?: React.ReactElement;
   onChange?(v: number | string): void;
 }
-export const TimeInput = ({
+export const TimeInput = React.forwardRef(({
   value,
   originalValue,
   onChange = () => { },
   showErrTip = false,
   passAndTrigger = false,
   triggerChangeOnButton = false,
+  tooltip,
   ...rest
-}: IProps) => {
+}: IProps, ref) => {
   const [showTip, setShowTip] = React.useState(false);
   const [showBtn, setShowBtn] = React.useState(false);
   const clickBtn = React.useRef(false);
@@ -133,13 +135,14 @@ export const TimeInput = ({
   };
 
   return (
-    <>
+    <Tooltip placement='topLeft' title={tooltip}>
       <Input
         allowClear
         className={showTip ? 'with-error' : ''}
         placeholder={i18n.t('project:please input time')}
         onFocus={() => setShowBtn(true)}
         {...rest}
+        ref={ref}
         value={transToStr(_value)}
         onChange={e => onInputChange(e.target.value)}
         onBlur={() => setTimeout(onBlur, 200)}
@@ -155,6 +158,6 @@ export const TimeInput = ({
           )
           : null
       }
-    </>
+    </Tooltip>
   );
-};
+});
