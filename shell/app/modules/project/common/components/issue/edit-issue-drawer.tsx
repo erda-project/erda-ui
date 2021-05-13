@@ -128,17 +128,19 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
     ));
   }, [taskTypeList]);
 
+  const hideFieldClass = expandCustomFields ? '' : 'hide';
+
   React.useEffect(()=>{
     if(ref && !ref.current){
-      const customFieldKeys = map(customFieldDetail?.property || [], 'propertyName').concat(['taskType', 'bugStage', 'owner']);
+      const customFieldKeys = map(customFieldDetail?.property, 'propertyName').concat(['taskType', 'bugStage', 'owner']);
       ref.current = {
         onFocus: (fKey: string) => {
           const curRef = ref.current?.refMap[fKey];
           if(fKey === 'issueManHour.elapsedTime'){
-            // 点击打开时间跟踪
+            // click to open time trace
             curRef.click();
           } else if(customFieldKeys.includes(fKey)){
-            //需要打开自定义
+            //need to expand custom fields and then focus the target field;
             setExpandCustomFields(true)
             setTimeout(()=>{
               curRef?.focus && curRef.focus();
@@ -168,7 +170,7 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
       const { propertyName, displayName = '', required, propertyType, enumeratedValues } = filedData;
 
       return {
-        className: `mb20 ${expandCustomFields ? '' : 'hide'}`,
+        className: `mb20 ${hideFieldClass}`,
         name: propertyName,
         label: displayName,
         required,
@@ -419,27 +421,27 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
     ]),
     ...insertWhen(issueType === ISSUE_TYPE.TASK, [
       {
-        className: 'mb20 full-width',
+        className: `mb20 full-width ${hideFieldClass}`,
         name: 'taskType',
         label: i18n.t('task type'),
         type: 'select',
         showRequiredMark: true,
-        itemProps: { options: taskTypeOptions, allowClear: false, hidden: !expandCustomFields },
+        itemProps: { options: taskTypeOptions, allowClear: false },
       },
     ]),
     ...insertWhen(issueType === ISSUE_TYPE.BUG, [
       {
-        className: 'mb20 full-width',
+        className: `mb20 full-width ${hideFieldClass}`,
         type: 'select',
         name: 'bugStage',
         label: i18n.t('project:import source'),
         showRequiredMark: true,
-        itemProps: { options: stageOptions, allowClear: false, hidden: !expandCustomFields },
+        itemProps: { options: stageOptions, allowClear: false },
       },
     ]),
     ...insertWhen(issueType === ISSUE_TYPE.BUG && isEditMode, [
       {
-        className: `mb20 full-width ${expandCustomFields ? '' : 'hide'}`,
+        className: `mb20 full-width ${hideFieldClass}`,
         type: 'custom',
         name: 'owner',
         label: i18n.t('project:responsible'),
@@ -625,7 +627,7 @@ export const EditIssueDrawer = (props: IProps) => {
   const { addIssueRelation } = issueStore.effects;
   const { updateCustomFieldDetail } = issueStore.reducers;
   const { id: orgID } = orgStore.useStore(s => s.currentOrg);
-  const metaFieldsRef = React.useRef(null);
+  const metaFieldsRef: React.RefObject<unknown> = React.useRef(null);
 
   React.useEffect(() => {
     setFormData((prev: any) => ({ ...prev, iterationID }));

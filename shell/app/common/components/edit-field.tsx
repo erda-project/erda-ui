@@ -252,9 +252,9 @@ export const EditField = React.forwardRef((props: IProps, compRef) => {
       updater.editMode(false);
     }
   };
-  const hideClass = itemProps?.hidden ? 'hide' : '';
+  
   return (
-    <div className={`common-edit-field ${className} ${hideClass}`}>
+    <div className={`common-edit-field ${className}`}>
       {label &&
       <div
         className={classnames(
