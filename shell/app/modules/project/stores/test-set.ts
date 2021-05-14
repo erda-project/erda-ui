@@ -101,7 +101,7 @@ const testSetStore = createStore({
   name: 'testSet',
   state: initState,
   effects: {
-    async getProjectTestSets({ call, update, getParams }, payload: Merge<Omit<TEST_SET.GetQuery, 'projectID'>, { mode: TEST_CASE.PageScope, forceUpdate?: boolean }>) {
+    async getProjectTestSets({ call, update, getParams, select }, payload: Merge<Omit<TEST_SET.GetQuery, 'projectID'>, { mode: TEST_CASE.PageScope, forceUpdate?: boolean }>) {
       const { projectId } = getParams();
       const { mode, forceUpdate = false, ...rest } = payload;
       if (!rest.parentID) {
@@ -121,6 +121,8 @@ const testSetStore = createStore({
         } else if (mode === 'temp') {
           update({ tempTestSet: testSet });
         } else {
+          const prevProjectTestSet = select(s => s.projectTestSet);
+          if (isEmpty(prevProjectTestSet) && isEmpty(testSet)) return;
           update({ projectTestSet: testSet });
         }
         return testSet;
