@@ -121,6 +121,7 @@ const testSetStore = createStore({
         } else if (mode === 'temp') {
           update({ tempTestSet: testSet });
         } else {
+          // When projectTestSet is empty, it will trigger to execute useEffect which is unnecessary. The specific reasons mentioned above need to be investigated.
           const prevProjectTestSet = select(s => s.projectTestSet);
           if (isEmpty(prevProjectTestSet) && isEmpty(testSet)) return;
           update({ projectTestSet: testSet });
