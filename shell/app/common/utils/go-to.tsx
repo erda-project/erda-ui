@@ -26,7 +26,7 @@ const changeBrowserHistory = throttle((action, _path) => {
   action === 'replace' ? history.replace(_path) : history.push(_path);
 }, 1000, { trailing: false });
 
-interface IOptions {
+export interface IOptions {
   [pathName: string]: any;
   append?: boolean;
   replace?: boolean;
