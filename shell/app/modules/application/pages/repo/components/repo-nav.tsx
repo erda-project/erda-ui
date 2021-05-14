@@ -138,9 +138,9 @@ const PureRepoNavOperation = () => {
                   disabled={isLocked}
                   onClick={() => {
                     if (inIndexPage) {
-                      goTo(`./tree/${curBranch}/pipeline.yml`, { forbidRepeat: true });
+                      goTo(`./tree/${curBranch}/pipeline.yml?editPipeline=true`, { forbidRepeat: true });
                     } else {
-                      goTo('./pipeline.yml', { forbidRepeat: true });
+                      goTo('./pipeline.yml?editPipeline=true', { forbidRepeat: true });
                     }
                   }}
                 >{i18n.t('edit {name}', { name: i18n.t('application:pipeline') })}
