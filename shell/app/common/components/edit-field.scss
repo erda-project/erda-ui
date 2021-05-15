@@ -17,6 +17,24 @@
     opacity: 0;
   }
 
+  .switch-type-selector {
+    .ant-select-selection {
+      border-color: #d9d9d9;
+
+      &:hover {
+        border-color: $color-active;
+
+        .ant-select-arrow-icon {
+          color: $color-active;
+        }
+      }
+    }
+
+    .ant-select-arrow-icon {
+      opacity: 1;
+    }
+  }
+
   .member-selector {
     .results {
       border: 1px solid transparent;
