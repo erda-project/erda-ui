@@ -26,6 +26,7 @@ import CaseStep, { getEmptyStep } from './case-step';
 import CaseMeta from './case-meta';
 import SelectEnv from './select-env';
 import CaseFooter from './case-footer';
+import testEnvStore from 'project/stores/test-env';
 import { cloneDeep, isUndefined, omitBy, pick } from 'lodash';
 import { useLoading } from 'app/common/stores/loading';
 import './index.scss';
@@ -114,6 +115,7 @@ const doCheck = (data: ICaseDetail) => {
 const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }: IProps) => {
   const params = routeInfoStore.useStore(s => s.params);
   const caseDetail = testCaseStore.useStore(s => s.caseDetail);
+  const envList = testEnvStore.useStore(s => s.envList); 
   const dirName = testSetStore.useStore(s => s.breadcrumbInfo.pathName);
   const { clearCaseDetail } = testCaseStore.reducers;
   const { editPartial, create: addTestCase, attemptTestApi } = testCaseStore.effects;
@@ -283,8 +285,12 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
 
   const append = (scope === 'testPlan' && editMode) || !fullData.apisFormat.length ? null : (
     <span className="color-text-desc hover-active" onClick={() => executeAllApi(fullData.apisFormat, { envId: 0 })}>
-      <SelectEnv onClick={(env: any) => { executeAllApi(fullData.apisFormat, { envId: env.id }); }}>
-        <CustomIcon type="play" />{i18n.t('project:execute')} <span className="fz12">({i18n.t('project:click-direct-no-env')})</span>
+      <SelectEnv envList={envList}  onClick={(env: any) => { executeAllApi(fullData.apisFormat, { envId: env.id }); }}>
+        <>
+          <CustomIcon type="play" />
+          {i18n.t('project:execute')} 
+          <span className="fz12">({i18n.t('project:click-direct-no-env')})</span>
+        </>
       </SelectEnv>
     </span>
   );

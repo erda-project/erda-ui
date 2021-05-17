@@ -23,7 +23,7 @@ import { useUpdate, IF, Icon as CustomIcon } from 'common';
 import appDeployStore from 'application/stores/deploy';
 import { getActionGroup } from 'application/services/deploy';
 import { useEffectOnce } from 'react-use';
-import ActionConfigForm from './action-config-form';
+import ActionConfigForm from 'application/common/yml-editor/pipeline-yml/action-config-form'
 import { useLoading } from 'app/common/stores/loading';
 import ActionSelect from './action-select';
 import { protocolActionForms } from 'app/config-page/components/action-form';

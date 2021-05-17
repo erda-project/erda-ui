@@ -62,7 +62,7 @@ const org = createStore({
     async updateOrg({ call, update }, payload: Merge<Partial<ORG.IOrg>, { id: number }>) {
       const currentOrg = await call(updateOrg, payload);
       await org.effects.getJoinedOrgs(true);
-      update({ currentOrg })
+      update({ currentOrg });
     },
     async getOrgByDomain({ call, update }, payload: { orgName: string }) {
       let domain = window.location.hostname;
@@ -83,14 +83,19 @@ const org = createStore({
 
       // if orgName exist, check valid
       const resOrg = await call(getOrgByDomain, { domain, orgName });
+      const curPathname = location.pathname;
       if (isEmpty(resOrg)) {
         goTo(goTo.pages.notFound);
       } else {
         const currentOrg = resOrg || {};
         const orgId = currentOrg.id;
         // user doesn't joined the public org, go to workBench
-        if (resOrg.isPublic && !orgs?.list?.find((x) => x.name === currentOrg.name)) {
-          goTo(goTo.pages.workBenchRoot);
+        // temporary solution, it will removed until new solution is proposed by PD
+        if (resOrg?.isPublic && curPathname?.split('/')[2] !== 'workBench') {
+          if (!orgs?.list?.find((x) => x.name === currentOrg.name) || orgs?.list?.length === 0) {
+            location.href = goTo.resolve.workBenchRoot();
+            return;
+          }
         }
         if (currentOrg.name !== orgName) {
           location.href = `/${currentOrg.name}`;
@@ -101,7 +106,7 @@ const org = createStore({
           //   req.set('org', currentOrg.name);
           // }
           // agent.use(setHeader);
-
+          
           const orgPermQuery = { scope: 'org', scopeID: `${orgId}` };
           (getResourcePermissions(orgPermQuery) as unknown as Promise<IPermResponseData>).then((orgPermRes) => {
             const orgAccess = get(orgPermRes, 'data.access');
@@ -172,10 +177,6 @@ const setLocationByAuth = (authObj: Obj) => {
   }
   const { roles, hasAuth, orgName } = authObj;
   const checkMap = {
-    freshMan: {
-      isCurPage: curPathname.startsWith(`/${orgName}/freshMan`),
-      authRole: [],
-    },
     inviteToOrg: {
       isCurPage: curPathname.startsWith(`/${orgName}/inviteToOrg`),
       authRole: [],
@@ -209,12 +210,11 @@ const setLocationByAuth = (authObj: Obj) => {
     //   authRole: intersection(orgPerm.entryApiManage.role, roles),
     // },
   };
-
   if (hasAuth) {
     map(checkMap, item => {
       // 当前页，但是无权限，则重置
       if (item.isCurPage && isEmpty(item.authRole)) {
-        let resetPath = '/';
+        let resetPath = goTo.resolve.noAuth({ orgName });
         if (roles.toString() === 'DataEngineer') {
           // 数据工程师只有fdp界面权限
           resetPath = goTo.resolve.fdpIndex();
@@ -222,7 +222,7 @@ const setLocationByAuth = (authObj: Obj) => {
           // 企业运维只有云管的权限
           resetPath = `/${orgName}/dataCenter/overview`;
         }
-        window.history.replaceState({}, document.title, resetPath);
+        location.href = resetPath;
       }
     });
   } else {
