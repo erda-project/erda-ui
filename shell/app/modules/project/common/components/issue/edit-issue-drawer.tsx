@@ -740,7 +740,10 @@ export const EditIssueDrawer = (props: IProps) => {
           warnMessage.push(i18n.t('project:EstimateTime'));
         }
         if (params.issueManHour.elapsedTime === 0 && params.issueManHour.thisElapsedTime === 0) {
-          warnMessage.push(i18n.t('project:elapsedTime in time tracing'));
+          const workingState = formData.issueButton.find(item => item.stateBelong === 'WORKING');
+          if (!workingState || (value.state !== workingState.stateID)) {
+            warnMessage.push(i18n.t('project:elapsedTime in time tracing'));
+          }
         }
       }
       if (warnMessage.length !== 0) {
