@@ -10,7 +10,6 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
-
 import * as React from 'react';
 import DiceConfigPage from 'app/config-page/index';
 
@@ -26,8 +25,10 @@ interface IProps{
 
 const ActionConfigForm = (props: IProps) => {
   const { chosenActionName } = props;
-
-  return <DiceConfigPage showLoading={false} scenarioType='action' scenarioKey={chosenActionName} customProps={{ actionForm: props }} />;
+  const inParams = {
+    actionData: props.nodeData
+  }
+  return <DiceConfigPage inParams={inParams} showLoading={false} scenarioType='action' scenarioKey={chosenActionName} customProps={{ actionForm: props }} />;
 };
 
 export default ActionConfigForm;

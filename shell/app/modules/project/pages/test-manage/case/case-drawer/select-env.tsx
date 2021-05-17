@@ -19,12 +19,13 @@ import testEnvStore from 'project/stores/test-env';
 interface ISelectEnvProps {
   children: JSX.Element;
   noEnv?: TEST_ENV.Item[];
+  envList?: TEST_ENV.Item[];
   onClick(data: TEST_ENV.Item): void;
 }
 
-const SelectEnv = ({ children, onClick, noEnv = [] }: ISelectEnvProps) => {
-  const envList = testEnvStore.useStore(s => s.envList);
-  const envs = [...envList, ...noEnv];
+const SelectEnv = ({ children, onClick, noEnv = [], envList: _envList }: ISelectEnvProps) => {
+  const envList = testEnvStore.useStore(s => s.envList); 
+  const envs = [...(_envList || envList), ...noEnv];
   if (isEmpty(envs)) {
     return children;
   }

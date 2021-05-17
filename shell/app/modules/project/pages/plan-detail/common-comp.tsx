@@ -16,8 +16,11 @@ import SelectEnv from 'project/pages/test-manage/case/case-drawer/select-env';
 import React from 'react';
 import testCaseStore from 'project/stores/test-case';
 import { Avatar, UserInfo } from 'common';
+import { useEffectOnce } from 'react-use';
 import { Progress, Popover } from 'app/nusi';
 import testPlanStore from 'project/stores/test-plan';
+import testEnvStore from 'project/stores/test-env';
+import routeInfoStore from 'common/stores/route';
 import moment from 'moment';
 
 const noEnv = [{
@@ -33,6 +36,14 @@ interface IPropsOfEnvSelect {
   execute(data: Omit<TEST_PLAN.CaseApi, 'testPlanID'>):void
 }
 export const EnvSelect = ({ execute, children }:IPropsOfEnvSelect) => {
+  const { getTestEnvList } = testEnvStore;
+  const params = routeInfoStore.useStore(s => s.params);
+  const [envList, setEnvList] = React.useState([] as TEST_ENV.Item[]);
+  
+  useEffectOnce(() => {
+    getTestEnvList({ envID: +params.projectId, envType: 'project' }).then(res => setEnvList(res));
+  });
+
   const caseList = testCaseStore.useStore(s => s.caseList);
   const { primaryKeys } = testCaseStore.useStore(s => s.choosenInfo);
   const handleExecute = React.useCallback((env:TEST_ENV.Item) => {
@@ -49,6 +60,7 @@ export const EnvSelect = ({ execute, children }:IPropsOfEnvSelect) => {
   return (
     <SelectEnv
       noEnv={noEnv}
+      envList={envList}
       onClick={handleExecute}
     >
       {children}

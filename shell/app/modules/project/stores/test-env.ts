@@ -80,6 +80,7 @@ const testEnv = createFlatStore({
     async getTestEnvList({ call, update }, payload: TEST_ENV.EnvListQuery) {
       const envList = await call(getTestEnvList, payload);
       update({ envList });
+      return envList;
     },
     async getAutoTestEnvList({ call, update }, payload: TEST_ENV.IAutoEnvQuery) {
       const list = await call(getAutoTestEnvList, payload);

@@ -22,20 +22,20 @@ interface IParams {
   appId: string;
 }
 
-const getSubList = () => {
+const getSubList = (param: IParams) => {
   return [
     {
       text: i18n.t('application:quality reports'),
-      href: goTo.resolve.appCodeQualityReports(),
+      href: goTo.resolve.appCodeQualityReports(param),
     },
     {
       text: i18n.t('application:issues'),
-      href: goTo.resolve.appCodeQualityIssueOpen(),
-      prefix: `${goTo.resolve.appCodeQualityIssue()}/`,
+      href: goTo.resolve.appCodeQualityIssueOpen(param),
+      prefix: `${goTo.resolve.appCodeQualityIssue(param)}/`,
     },
     {
       text: i18n.t('application:test runs'),
-      href: goTo.resolve.appCodeQuality(),
+      href: goTo.resolve.appCodeQuality(param),
     },
   ];
 };
