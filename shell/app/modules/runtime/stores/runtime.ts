@@ -43,7 +43,6 @@ interface State {
   showRedirect: boolean,
   cancelDeploying: boolean,
   hasChange: boolean,
-  redeployStartAt: number,
   deploymentListQuery: RUNTIME.DeployListQuery,
 }
 
@@ -57,7 +56,6 @@ const initState: State = {
   showRedirect: false,
   cancelDeploying: false,
   hasChange: false,
-  redeployStartAt: moment().valueOf(),
   deploymentListQuery: {} as RUNTIME.DeployListQuery,
 };
 
@@ -186,7 +184,6 @@ const runtime = createFlatStore({
     },
     async redeployRuntime({ call, getParams, update }) {
       const { runtimeId } = getParams();
-      update({ redeployStartAt: moment().valueOf() });
       await call(redeployRuntime, runtimeId, { successMsg: i18n.t('runtime:start redeploying the runtime') });
       runtime.clearServiceConfig();
     },

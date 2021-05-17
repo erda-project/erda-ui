@@ -182,6 +182,7 @@ const layout = createStore({
     },
     setSubSiderInfoMap(state, payload: { [k: string]: any, key: string }) {
       const { key, ...rest } = payload;
+
       const siderInfoMap = state.subSiderInfoMap;
       if (!siderInfoMap[key]) {
         siderInfoMap[key] = {};

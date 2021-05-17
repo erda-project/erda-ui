@@ -133,6 +133,7 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
     } as any);
   }
   const curBranch = branch || tag || info.defaultBranch;
+  
   return (
     <Spin spinning={isFetchingTree || false} wrapperClassName={tree.type === 'tree' ? 'flex-1' : ''}>
       <CommitBlock commit={tree.commit} />

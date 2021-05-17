@@ -92,14 +92,14 @@ const DataBase = () => {
               return callback(i18n.t('{name} already exist', { name: i18n.t('dcos:data storage name') }));
             }
             if (value.length < 2 || value.length > 64 || !/^[a-z][a-z0-9_-]*[a-z0-9]$/.test(value)) {
-              return callback(i18n.t('dcos:rds-account-name-format'));
+              return callback(i18n.t('dcos:rds-db-name-format'));
             }
             callback();
           },
         },
       ],
       itemProps: {
-        placeholder: i18n.t('dcos:rds-account-name-format'),
+        placeholder: i18n.t('dcos:rds-db-name-format'),
       },
     },
     {
