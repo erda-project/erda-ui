@@ -97,7 +97,7 @@ const pathFormat = (url: string) => (params: object) => {
   const lostArg = filter(necessaryArg, (arg: string) => params[arg] === undefined);
   if (lostArg.length) {
     // eslint-disable-next-line no-console
-    console.error('Jump missing parameters：', lostArg);
+    console.error('Jump missing parameters：', lostArg, `in url: ${url}`);
     return undefined;
   }
   if (!_query) {
