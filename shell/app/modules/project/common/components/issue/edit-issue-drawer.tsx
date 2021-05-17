@@ -1022,7 +1022,7 @@ export const EditIssueDrawer = (props: IProps) => {
                     dropdownMatchSelectWidth: false,
                     allowClear: false,
                     showArrow: true,
-                    className: '',
+                    className: 'switch-type-selector',
                     style: { width: 60 },
                   }}
                   onChangeCb={(field: any) => {
