@@ -190,7 +190,6 @@ module.exports = () => {
           ],
           use: [
             'thread-loader',
-            'babel-loader',
             {
               loader: 'ts-loader',
               options: {
