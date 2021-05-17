@@ -92,7 +92,7 @@ const BuildDetail = (props: IProps) => {
 
   const branchInfo = appStore.useStore(s => s.branchInfo);
   const currentOrg = orgStore.useStore(s => s.currentOrg);
-  
+
   const { blockStatus } = appStore.useStore(s => s.detail);
   const appBlocked = blockStatus !== 'unblocked';
   const { blockoutConfig } = currentOrg;
@@ -556,7 +556,7 @@ const BuildDetail = (props: IProps) => {
     }, {
       title: `${i18n.t('commit')}ID`,
       dataIndex: 'commit',
-      width: 80,
+      width: 100,
       render: (commitText: string) => (<span> {(commitText || '').slice(0, 6)} </span>),
     }, {
       title: i18n.t('status'),
