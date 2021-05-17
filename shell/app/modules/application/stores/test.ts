@@ -95,8 +95,7 @@ const test = createStore({
         return;
       }
       testId && (testDetail = await call(TestServices.getTestDetail, testId));
-      testDetailCache[testId] = testDetail;
-      update({ testDetail, testDetailCache });
+      update({ testDetail, testDetailCache: { ...testDetailCache, [testId]: testDetail } });
     },
   },
   reducers: {
