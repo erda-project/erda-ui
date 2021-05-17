@@ -73,7 +73,7 @@ const AddAccountForm = (props: IProps) => {
             if (allAccountName.includes(value)) {
               return callback(i18n.t('{name} already exist', { name: i18n.t('dcos:database account') }));
             }
-            if (value.length < 2 || value.length > 64 || !/^[a-z][a-z0-9_-]*[a-z0-9]$/.test(value)) {
+            if (value.length < 5 || value.length > 32 || !/^[a-z][a-z0-9_]*[a-z0-9]$/.test(value)) {
               return callback(i18n.t('dcos:rds-account-name-format'));
             }
             callback();
