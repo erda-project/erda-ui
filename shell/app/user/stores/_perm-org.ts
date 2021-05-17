@@ -109,19 +109,6 @@ export const orgPerm = {
       'DataManager',
     ],
   },
-  entryWorkBench: {
-    pass: false,
-    name: '工作台',
-    role: [
-      'Manager',
-      'Dev',
-      'Support',
-      'DataManager',
-      'Reporter',
-      'PublisherManager',
-      'Guest',
-    ],
-  },
   entryFastData: {
     pass: false,
     name: '快数据平台',
