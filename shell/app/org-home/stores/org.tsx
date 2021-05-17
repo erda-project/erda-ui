@@ -106,7 +106,7 @@ const org = createStore({
           //   req.set('org', currentOrg.name);
           // }
           // agent.use(setHeader);
-          
+
           const orgPermQuery = { scope: 'org', scopeID: `${orgId}` };
           (getResourcePermissions(orgPermQuery) as unknown as Promise<IPermResponseData>).then((orgPermRes) => {
             const orgAccess = get(orgPermRes, 'data.access');
@@ -203,7 +203,7 @@ const setLocationByAuth = (authObj: Obj) => {
     },
     workBench: {
       isCurPage: curPathname.startsWith(`/${orgName}/workBench`),
-      authRole: intersection(orgPerm.entryWorkBench.role, roles),
+      authRole: intersection(orgPerm.workBench.read.role, roles),
     },
     // apiManage: {
     //   isCurPage: curPathname.startsWith('/apiManage'),
