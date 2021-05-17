@@ -119,6 +119,7 @@ export const orgPerm = {
       'DataManager',
       'Reporter',
       'PublisherManager',
+      'Guest',
     ],
   },
   entryFastData: {
