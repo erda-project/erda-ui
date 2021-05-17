@@ -51,7 +51,7 @@ export const CasePipelineChart = (props: IProps) => {
     map(pipelineStages, ({ pipelineTasks }) => {
       stageTask.push(map(pipelineTasks, item => {
         const node = { ...item };
-        if (pipelineTaskActionDetails[node.type]) {
+        if (pipelineTaskActionDetails?.[node.type]) {
           node.displayName = pipelineTaskActionDetails[node.type].displayName;
           node.logoUrl = pipelineTaskActionDetails[node.type].logoUrl;
         }
