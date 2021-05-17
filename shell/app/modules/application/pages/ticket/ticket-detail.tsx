@@ -138,7 +138,7 @@ const TicketDetail = () => {
 
   const closedBtn = detail.status === 'open' ? (
     <div className="top-button-group">
-      <Button type="primary" onClick={closeTicket}>{i18n.t('application:close')}</Button>
+      <Button type="primary" onClick={() => closeTicket()}>{i18n.t('application:close')}</Button>
     </div>
   ) : null;
 
