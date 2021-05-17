@@ -106,12 +106,17 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
                     key={`${String(index)}-${occurrenceTime}`}
                     color={colorMap[level]}
                   >
-                    <div
-                      className={'pipeline-log-time pointer'}
-                      onClick={() => update({ detailVis: true, detailLog: primevalLog })}
-                    >
+                    <div className={'pipeline-log-time'}>
                       <div className='mb8'>{occurrenceTime}</div>
-                      <div className='pipeline-log-title'>{humanLog}</div>
+                      <div className='pipeline-log-title align-top'>
+                        <span className='flex-1'>{humanLog}</span>
+                        <span        
+                        className='always-active ml8'
+                        onClick={() => update({ detailVis: true, detailLog: primevalLog })}
+                        >
+                          {i18n.t('check detail')}
+                        </span>
+                      </div>
                     </div>
                   </Timeline.Item>
                 );
