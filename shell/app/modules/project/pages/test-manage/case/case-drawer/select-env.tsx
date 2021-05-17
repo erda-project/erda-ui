@@ -14,18 +14,16 @@
 import { isEmpty, map } from 'lodash';
 import { Dropdown, Menu } from 'app/nusi';
 import React from 'react';
-import testEnvStore from 'project/stores/test-env';
 
 interface ISelectEnvProps {
   children: JSX.Element;
   noEnv?: TEST_ENV.Item[];
-  envList?: TEST_ENV.Item[];
+  envList?: readonly TEST_ENV.Item[];
   onClick(data: TEST_ENV.Item): void;
 }
 
-const SelectEnv = ({ children, onClick, noEnv = [], envList: _envList }: ISelectEnvProps) => {
-  const envList = testEnvStore.useStore(s => s.envList); 
-  const envs = [...(_envList || envList), ...noEnv];
+const SelectEnv = ({ children, onClick, noEnv = [], envList }: ISelectEnvProps) => {
+  const envs = [...(envList || []), ...noEnv];
   if (isEmpty(envs)) {
     return children;
   }

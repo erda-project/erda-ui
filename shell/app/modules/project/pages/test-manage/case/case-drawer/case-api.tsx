@@ -16,6 +16,7 @@ import classnames from 'classnames';
 import { Copy, Icon as CustomIcon, useListDnD, EmptyListHolder, FileEditor } from 'common';
 import { isArray, isEmpty, isString, map, reduce, set, cloneDeep, find, reject, get } from 'lodash';
 import { Badge, Button, Input, Popconfirm, Popover, Radio, Select, Table, Tabs, Spin } from 'app/nusi';
+import testEnvStore from 'project/stores/test-env';
 import React from 'react';
 import { produce } from 'immer';
 import i18n from 'i18n';
@@ -268,6 +269,7 @@ export const CaseAPI = (props: IProps) => {
 };
 
 const ApiItem = ({ api, index, showArr, inPlan, executingMap, setCurShow, handleExecute, updateApi, handleDelete, onMove, onCopyApi }: any) => {
+  const envList = testEnvStore.useStore(s => s.envList);
   const [dragRef, previewRef] = useListDnD({
     type: 'case-api',
     index,
@@ -497,7 +499,7 @@ const ApiItem = ({ api, index, showArr, inPlan, executingMap, setCurShow, handle
             inPlan
               ? null
               : (
-                <SelectEnv onClick={(extra: TEST_ENV.Item) => handleExecute(api, index, extra)}>
+                <SelectEnv envList={envList} onClick={(extra: TEST_ENV.Item) => handleExecute(api, index, extra)}>
                   <CustomIcon className="ml12 mt4 api-op hover-active" type="play" onClick={() => handleExecute(api, index)} />
                 </SelectEnv>
               )

@@ -36,12 +36,15 @@ interface IPropsOfEnvSelect {
   execute(data: Omit<TEST_PLAN.CaseApi, 'testPlanID'>):void
 }
 export const EnvSelect = ({ execute, children }:IPropsOfEnvSelect) => {
-  const { getTestEnvList } = testEnvStore;
+  const projectEnvList = testEnvStore.useStore(s => s.projectEnvList);
+  const { getProjectTestEnvList, clearProjectEnvList } = testEnvStore;
   const params = routeInfoStore.useStore(s => s.params);
-  const [envList, setEnvList] = React.useState([] as TEST_ENV.Item[]);
   
   useEffectOnce(() => {
-    getTestEnvList({ envID: +params.projectId, envType: 'project' }).then(res => setEnvList(res));
+    getProjectTestEnvList({ envID: +params.projectId, envType: 'project' });
+    return () => {
+      clearProjectEnvList();
+    }
   });
 
   const caseList = testCaseStore.useStore(s => s.caseList);
@@ -60,7 +63,7 @@ export const EnvSelect = ({ execute, children }:IPropsOfEnvSelect) => {
   return (
     <SelectEnv
       noEnv={noEnv}
-      envList={envList}
+      envList={projectEnvList}
       onClick={handleExecute}
     >
       {children}
