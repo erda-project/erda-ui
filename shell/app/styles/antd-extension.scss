@@ -185,6 +185,10 @@ $border-style: 1px solid $color-border;
   white-space: nowrap;
 }
 
+.dice-layout .pk-form-item-no-label { // TODO: use nusi api to hide pk-no-label
+  display: none;
+}
+
 .ant-table-default {
   .ant-table-thead > tr > th,
   .ant-table-tbody > tr > td {
