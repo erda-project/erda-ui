@@ -42,33 +42,34 @@ const start = (userData: ILoginUser) => {
 
   const IconConfig = {
     ...DEFAULT_ICON_CONFIGS,
-    prefix: 'erda'
+    prefix: 'erda',
   };
 
   startApp().then(async (App) => {
-      [
-        import('layout/entry'),
-        import('org/entry'),
-        import('app/org-home/entry'),
-        import('workBench/entry'),
-        import('runtime/entry'),
-        import('publisher/entry'),
-        import('project/entry'),
-        import('apiManagePlatform/entry'),
-        import('microService/entry'),
-        import('app/modules/edge/entry'),
-        import('application/entry'),
-        import('dataCenter/entry'),
-        import('user/entry'),
-        import('dcos/entry'),
-        import('addonPlatform/entry'),
-        ...Object.values(modules),
-      ].forEach((p) => p.then(m => m.default(registerModule)));
-    userStore.reducers.setLoginUser(userData); // 需要在app start之前初始化用户信息
+    // get the organization info first, or will get org is undefined when need org info (like issueStore)
     if (!userData.isSysAdmin) {
       const orgName = get(location.pathname.split('/'), '[1]');
       await orgStore.effects.getOrgByDomain({ orgName });
     }
+    [
+      import('layout/entry'),
+      import('org/entry'),
+      import('app/org-home/entry'),
+      import('workBench/entry'),
+      import('runtime/entry'),
+      import('publisher/entry'),
+      import('project/entry'),
+      import('apiManagePlatform/entry'),
+      import('microService/entry'),
+      import('app/modules/edge/entry'),
+      import('application/entry'),
+      import('dataCenter/entry'),
+      import('user/entry'),
+      import('dcos/entry'),
+      import('addonPlatform/entry'),
+      ...Object.values(modules),
+    ].forEach((p) => p.then(m => m.default(registerModule)));
+    userStore.reducers.setLoginUser(userData); // 需要在app start之前初始化用户信息
     const Wrap = () => {
       const currentLocale = getCurrentLocale();
       return (
@@ -147,7 +148,7 @@ const init = (userData: ILoginUser) => {
           window.location.href = lastPath;
           return;
         }
-        start({ ...userData })
+        start({ ...userData });
       } else {
         // 验证系统管理员相关路由
         setSysAdminLocationByAuth({
