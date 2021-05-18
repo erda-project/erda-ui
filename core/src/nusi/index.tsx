@@ -22,7 +22,7 @@ import {
   Badge,
   Button,
   // Calendar,
-  // Card,
+  Card,
   Collapse,
   Carousel,
   Cascader,
@@ -79,7 +79,7 @@ import {
   Anchor,
   Avatar,
   // Input,
-  Card,
+  /** Card,* */
   Container,
   InputNumber,
   Radio,
@@ -103,8 +103,8 @@ import {
   SelectCategory,
   SelectCombo,
   ConfigProvider as NusiConfigProvider,
-  Tree as NusiTree, 
-  Popover as NusiPopover, 
+  Tree as NusiTree,
+  Popover as NusiPopover,
   Select as NusiSelect,
   Icon as NusiIcon,
   Empty as NusiEmpty,
@@ -212,4 +212,4 @@ export {
   NusiEmpty,
   NusiCascader,
   NusiTag,
-}
+};
