@@ -177,10 +177,6 @@ const setLocationByAuth = (authObj: Obj) => {
   }
   const { roles, hasAuth, orgName } = authObj;
   const checkMap = {
-    inviteToOrg: {
-      isCurPage: curPathname.startsWith(`/${orgName}/inviteToOrg`),
-      authRole: [],
-    },
     fdp: {
       isCurPage: curPathname.startsWith(`/${orgName}/fdp`),
       authRole: intersection(orgPerm.entryFastData.role, roles),
@@ -221,6 +217,9 @@ const setLocationByAuth = (authObj: Obj) => {
         } else if (roles.toString() === 'Ops') {
           // 企业运维只有云管的权限
           resetPath = `/${orgName}/dataCenter/overview`;
+        } else if (roles.toString() === 'EdgeOps') {
+          // 边缘运维工程师只有边缘计算平台的权限
+          resetPath = `/${orgName}/edge/application`;
         }
         location.href = resetPath;
       }
