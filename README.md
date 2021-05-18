@@ -74,9 +74,14 @@ We look forward to your connecting with us, you can ask us any questions.
 - 微信公众号（Wechat）:
 
 <div align="left">
-	<img src="./docs/files/wechat.jpg" alt="Editor" width="150">
+	<img src="./docs/files/wechat.jpg" alt="Wechat" width="150">
 </div>
 
+- 钉钉用户群（Dinktalk）:
+  
+<div align="left">
+	<img src="https://raw.githubusercontent.com/erda-project/erda/develop/docs/assets/dingtalk.png" alt="Dingtalk" width="150">
+</div>
 
 ## License
 Erda is under the AGPL 3.0 license. See the [LICENSE](/LICENSE) file for details.
