@@ -89,6 +89,12 @@ const org = createStore({
       } else {
         const currentOrg = resOrg || {};
         const orgId = currentOrg.id;
+        if (curPathname.startsWith(`/${orgName}/inviteToOrg`)) {
+          if (orgs?.list?.find((x) => x.name === currentOrg.name)) {
+            location.href = `/${currentOrg.name}`;
+          }
+          return;
+        }
         // user doesn't joined the public org, go to workBench
         // temporary solution, it will removed until new solution is proposed by PD
         if (resOrg?.isPublic && curPathname?.split('/')[2] !== 'workBench') {
