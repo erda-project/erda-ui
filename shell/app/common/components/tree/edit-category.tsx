@@ -13,7 +13,7 @@
 
 import React from 'react';
 import { message, Input, Popover, Button } from 'app/nusi';
-import { Icon as CustomIcon } from '../../index';
+import { Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
 import { useEffectOnce } from 'react-use';
 

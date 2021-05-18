@@ -106,6 +106,25 @@ a {
 
 .erda-icon {
   transform: translateY(2px);
+
+  &-spin svg{
+    animation: erda-icon-spin 1s infinite linear;
+
+    // deal temporary and remove this when icon-park fix the spin problem
+    @keyframes erda-icon-spin {
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+  
+    @-webkit-keyframes erda-icon-spin {
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+  }
 }
 
 .pk-menu-item-selected,

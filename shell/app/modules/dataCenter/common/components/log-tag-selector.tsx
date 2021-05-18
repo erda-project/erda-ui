@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Input, Tag, Dropdown, Menu, Tooltip, Icon, message } from 'app/nusi';
+import { Input, Tag, Dropdown, Menu, Tooltip, message } from 'app/nusi';
 import { isEmpty, map, filter, uniq, set } from 'lodash';
 import { useUpdate, Icon as CustomIcon, EmptyHolder } from 'common';
 import ReactDOM from 'react-dom';
@@ -22,6 +22,7 @@ import LogAnalyzeStore from 'dataCenter/stores/log-analyze';
 import { getJoinedProjects } from 'user/services/user';
 import { getApps } from 'common/services';
 import i18n from 'i18n';
+import { Loading } from '@icon-park/react';
 import './log-tag-selector.scss';
 
 const MenuItem = Menu.Item;
@@ -470,11 +471,12 @@ const LoadMoreMenu = (props:ILoadMoreProps) => {
       {
         isEmpty(list) ? <EmptyHolder relative /> : null
       }
-      {hasMore ? (
+      { hasMore ? (
         <div className="pointer load-more" onClick={(e) => { e.stopPropagation(); updater.pageNo(pageNo + 1); }}>
-          <Icon className="mr4" type={loading ? 'loading' : 'loading-3-quarters'} />{i18n.t('load more')}
+          { loading ? <Loading spin strokeWidth={2} /> : <Loading strokeWidth={2} /> }
+          {i18n.t('load more')}
         </div>
-      ) : null}
+      ) : null }
     </div>
   );
 };

@@ -13,8 +13,8 @@
 
 import React from 'react';
 import { useEffectOnce } from 'react-use';
-import { Icon } from 'app/nusi';
 import classnames from 'classnames';
+import { Close } from '@icon-park/react';
 
 interface IDiceYamlEditorDrawerProps {
   title: string | null;
@@ -108,10 +108,9 @@ const DiceYamlEditorDrawer = (props: IDiceYamlEditorDrawerProps) => {
     <div style={style} className="yaml-editor-drawer">
       <div className="yaml-editor-drawer-title">
         {title}
-        <Icon
+        <Close
           onClick={onClose}
           className="yaml-editor-drawer-close"
-          type="close"
         />
       </div>
       <div ref={(e: any) => { drawerContent = e; }} className={className}>{content}</div>

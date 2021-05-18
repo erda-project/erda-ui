@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Checkbox, Icon, Alert } from 'app/nusi';
+import { Button, Checkbox, Alert } from 'app/nusi';
 import { IF, Icon as CustomIcon } from 'common';
 import { goTo } from 'common/utils';
 import React from 'react';
@@ -20,6 +20,7 @@ import './source-target-select.scss';
 import i18n from 'i18n';
 import repoStore from 'application/stores/repo';
 import routeInfoStore from 'app/common/stores/route';
+import { DownOne } from '@icon-park/react';
 
 const noop = () => { };
 
@@ -202,7 +203,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
                 {sourceBranch || null}
               </span>
               <IF check={sourceBranch}>
-                <Icon type="caret-down" />
+                <DownOne theme="filled" size="16px" />
               </IF>
             </BranchSelect>
             <div className="branch-merge-arrow"><CustomIcon type="arrow-right" /></div>
@@ -215,7 +216,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
                 {targetBranch || null}
               </span>
               <IF check={targetBranch}>
-                <Icon type="caret-down" />
+                <DownOne theme="filled" size="16px" />
               </IF>
             </BranchSelect>
           </div>
@@ -238,7 +239,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
               {sourceBranch || null}
             </span>
             <IF check={sourceBranch}>
-              <Icon type="caret-down" />
+              <DownOne theme="filled" size="16px" />
             </IF>
           </BranchSelect>
           <div className="branch-merge-arrow"><CustomIcon type="arrow-right" /></div>
@@ -252,7 +253,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
               {targetBranch || null}
             </span>
             <IF check={targetBranch}>
-              <Icon type="caret-down" />
+              <DownOne theme="filled" size="16px" />
             </IF>
           </BranchSelect>
           {/* <IF check={!hideCompareBtn}>

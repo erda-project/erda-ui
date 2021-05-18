@@ -12,10 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Form, Input, Select, InputNumber, Switch, Radio, Icon, Checkbox, Cascader, DatePicker, Tooltip } from 'app/nusi';
+import { Form, Input, Select, InputNumber, Switch, Radio, Checkbox, Cascader, DatePicker, Tooltip } from 'app/nusi';
 import { WrappedFormUtils } from 'core/common/interface';
 import classnames from 'classnames';
 import { ClassWrapper } from './class-wrap';
+import { Help, AddOne, ReduceOne } from '@icon-park/react';
 import i18n from 'i18n';
 
 const FormItem = Form.Item;
@@ -241,7 +242,7 @@ export const RenderFormItem = ({
       <span>
         {label}&nbsp;
         <Tooltip title={labelTip}>
-          <Icon type="question-circle-o" className='color-text-icon' />
+          <Help className='color-text-icon' />
         </Tooltip>
       </span>
     )
@@ -253,10 +254,10 @@ export const RenderFormItem = ({
       }
       {suffix}
       {
-        addOne ? <Icon className="render-form-op" type="plus-circle-o" onClick={() => addOne(name)} /> : null
+        addOne ? <AddOne className="render-form-op" onClick={() => addOne(name)} /> : null
       }
       {
-        dropOne ? <Icon className="render-form-op" type="minus-circle-o" onClick={() => dropOne(name)} /> : null
+        dropOne ? <ReduceOne className="render-form-op" onClick={() => dropOne(name)} /> : null
       }
     </FormItem>
   );

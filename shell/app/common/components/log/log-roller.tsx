@@ -12,10 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { throttle } from 'lodash';
-import { Button, Icon, Tooltip } from 'app/nusi';
+import { Button, Tooltip } from 'app/nusi';
 import * as React from 'react';
 import LogContent from './log-content';
 import i18n from 'i18n';
+import { Loading } from '@icon-park/react';
 
 import './log-roller.scss';
 
@@ -101,17 +102,17 @@ export class LogRoller extends React.Component<IProps, IState> {
       onShowDownloadModal,
     } = this.props;
     const { fullScreen } = this.state;
-    let logContent = rolling ? <div>Loading... <Icon type="loading" /></div> : <span>No Log Currently</span>;
+    let logContent = rolling ? <div>Loading... <Loading spin /></div> : <span>No Log Currently</span>;
     const ContentComp = CustomLogContent || LogContent;
     if (content && content.length) {
       logContent = (
         <div className="log-content-wrap" onScroll={this.throttleScroll}>
           {
-            backwardLoading ? <Icon className="log-state top" type="loading" /> : null
+            backwardLoading ? <Loading spin className="log-state top"/> : null
           }
           <div ref={(ref) => { this.preElm = ref; }} className="log-content"><ContentComp {...this.props} logs={content} transformContent={transformContent} /></div>
           {
-            rolling ? <Icon className="log-state bottom" type="loading" /> : null
+            rolling ? <Loading spin className="log-state bottom" /> : null
           }
         </div>
       );

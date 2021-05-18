@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Tabs, Button, Table, Alert, Icon, Tooltip } from 'app/nusi';
+import { Tabs, Button, Table, Alert, Tooltip } from 'app/nusi';
 import { useUpdate, FormModal } from 'common';
 import { useEffectOnce } from 'react-use';
 import { map } from 'lodash';
@@ -22,6 +22,7 @@ import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
 import cloudServiceStore from 'dcos/stores/cloud-service';
 import routeInfoStore from 'common/stores/route';
 import { useLoading } from 'common/stores/loading';
+import { Help } from '@icon-park/react';
 
 const { TabPane } = Tabs;
 
@@ -130,7 +131,7 @@ const Group = () => {
         <span>
           Group ID&nbsp;
           <Tooltip title={i18n.t('dcos:GroupID-cannot-modified')}>
-            <Icon type="question-circle-o" />
+            <Help />
           </Tooltip>
         </span>
       ),

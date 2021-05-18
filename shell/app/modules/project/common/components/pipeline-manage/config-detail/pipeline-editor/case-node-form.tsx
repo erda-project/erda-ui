@@ -13,7 +13,7 @@
 
 // 此部分逻辑基本拷贝原来逻辑，方便后面如果整体删除原来代码
 import * as React from 'react';
-import { Form, Button, Input, InputNumber, Icon, Collapse, Alert, Spin, Select, Tooltip } from 'app/nusi';
+import { Form, Button, Input, InputNumber, Collapse, Alert, Spin, Select, Tooltip } from 'app/nusi';
 import { FormComponentProps } from 'core/common/interface';
 import i18n from 'i18n';
 import { cloneDeep, map, isEmpty, omit, pick, get, filter, head, transform, isEqual, forEach, find, flatten } from 'lodash';
@@ -28,6 +28,7 @@ import { useLoading } from 'app/common/stores/loading';
 import ActionSelect from './action-select';
 import { getResource, getDefaultVersionConfig, mergeActionAndResource } from './utils';
 import { protocolActionForms } from 'app/config-page/components/action-form';
+import { Help, Plus } from '@icon-park/react';
 
 const { Item } = Form;
 const { Panel } = Collapse;
@@ -356,7 +357,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         <span>
           {_label}&nbsp;
           <Tooltip title={labelTip}>
-            <Icon type="question-circle-o" className='color-text-icon' />
+            <Help className='color-text-icon' />
           </Tooltip>
         </span>
       );
@@ -370,7 +371,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     }
 
     const addBtn = editing ?
-      <Icon type="plus" onClick={() => addNewItemToStructArray(property, property.struct[0])} /> : null;
+      <Plus onClick={() => addNewItemToStructArray(property, property.struct[0])} /> : null;
     // getFieldDecorator(`${parentKey}-data`, { initialValue: property.value || [] });
     const data = property.value || []; // getFieldValue(`${parentKey}-data`);
     const _val = form.getFieldsValue();

@@ -11,13 +11,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Button, Icon } from 'app/nusi';
+import { Button } from 'app/nusi';
 import { useUpdate } from 'common';
 import { goTo } from 'common/utils';
 import * as React from 'react';
 import { getSplitPathBy } from '../util';
 import BranchSelect from './branch-select';
 import i18n from 'i18n';
+import { DownOne, Switch } from '@icon-park/react';
 
 import './branch-compare.scss';
 import routeInfoStore from 'common/stores/route';
@@ -61,10 +62,10 @@ const RepoBranchCompare = () => {
         <span className="branch-name bold nowrap">
           {state.from || null}
         </span>
-        {state.from ? <Icon type="caret-down" /> : null}
+        {state.from ? <DownOne theme="filled" size="16px" /> : null}
       </BranchSelect>
       <span className="switch-branch" onClick={switchBranch}>
-        <Icon type="swap" theme="outlined" />
+        <Switch />
       </span>
       <BranchSelect
         {...{ branches, tags, current: state.to }}
@@ -74,7 +75,7 @@ const RepoBranchCompare = () => {
         <span className="branch-name bold nowrap">
           {state.to || null}
         </span>
-        {state.to ? <Icon type="caret-down" /> : null}
+        {state.to ? <DownOne theme="filled" size="16px" /> : null}
       </BranchSelect>
       <Button className="compare-button" type="primary" onClick={goToCompare} disabled={!state.from || !state.to}>{i18n.t('application:compare')}</Button>
     </div>

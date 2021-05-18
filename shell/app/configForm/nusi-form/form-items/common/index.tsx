@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Tooltip, Icon } from 'app/nusi';
+import { Tooltip } from 'app/nusi';
+import { Help } from '@icon-park/react';
 
 export { createCombiner } from './combiner';
 
@@ -23,7 +24,7 @@ export const getLabel = (label: string, labelTip: string) => {
       <span>
         {label}&nbsp;
         <Tooltip title={labelTip}>
-          <Icon type="question-circle-o" />
+          <Help className='color-text-icon' />
         </Tooltip>
       </span>
     );

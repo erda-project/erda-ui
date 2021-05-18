@@ -16,7 +16,7 @@ import { CRUDTable, useUpdate, Copy } from 'common';
 import { Link } from 'react-router-dom';
 import networksStore from 'dataCenter/stores/networks';
 import { useLoading } from 'app/common/stores/loading';
-import { Select, Button, Tooltip, Dropdown, Icon, Menu } from 'app/nusi';
+import { Select, Button, Tooltip, Dropdown, Menu } from 'app/nusi';
 import { cloudVendor } from '../common/config';
 import VpcFormModal from './vpc-form-modal';
 import { map } from 'lodash';
@@ -25,7 +25,7 @@ import { addAuthTooltipTitle } from 'app/modules/dataCenter/common/cloud-common'
 import i18n from 'i18n';
 import { getCloudResourceTagsCol, getCloudResourceIDNameCol, getCloudResourceStatusCol, getCloudResourceRegionCol } from 'dataCenter/common/components/table-col';
 import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
-
+import { DownOne } from '@icon-park/react';
 import './index.scss';
 
 const { Option } = Select;
@@ -197,7 +197,7 @@ const VPS = () => {
         <Dropdown disabled={!ifSelected} overlay={menu}>
           <Button type="primary">
             {i18n.t('batch setting')}
-            <Icon className="ml4" type="caret-down" />
+            <DownOne className="ml4" theme='filled' size="16px" />
           </Button>
         </Dropdown>
       </div>

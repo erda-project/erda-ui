@@ -19,10 +19,11 @@ import { WORKSPACE_LIST } from 'common/constants';
 import routeInfoStore from 'common/stores/route';
 import i18n from 'i18n';
 import { map, isEmpty } from 'lodash';
-import { Button, Collapse, Icon, Popconfirm, Spin, Table, Tooltip, Input, Modal } from 'app/nusi';
+import { Button, Collapse, Popconfirm, Spin, Table, Tooltip, Input, Modal } from 'app/nusi';
 import * as React from 'react';
 import { useEffectOnce, useUnmount } from 'react-use';
 import { VariableConfigForm } from './variable-config-form';
+import { Info } from '@icon-park/react';
 
 const { Panel } = Collapse;
 
@@ -186,7 +187,7 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
         <div className="flex-box">
           <span className="for-copy nowrap" data-clipboard-text={text}>{text}</span>
           <span>
-            {source === 'certificate' && <Tooltip title={i18n.t('common:from certificate push')}><Icon className="ml4 color-text-sub" type="info-circle" /></Tooltip>}
+            {source === 'certificate' && <Tooltip title={i18n.t('common:from certificate push')}><Info className="ml4 color-text-sub" /></Tooltip>}
             {isFromDefault && <span className="tag tag-warning ml4">{i18n.t('common:default')}</span>}
           </span>
         </div>

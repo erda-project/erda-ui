@@ -14,11 +14,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import { Dropdown, Input, Menu, Checkbox, Tag, Icon, Empty, Spin } from 'app/nusi';
+import { Dropdown, Input, Menu, Checkbox, Tag, Empty, Spin } from 'app/nusi';
 import { map, isEmpty, isNumber, filter, find, isArray, get, isEqual } from 'lodash';
 import { useEffectOnce, useDebounce, useDeepCompareEffect } from 'react-use';
 import { useUpdate, Icon as CustomIcon } from 'common';
 import { isPromise } from 'common/utils';
+import { CloseOne, Loading as IconLoading } from '@icon-park/react'
 import i18n from 'i18n';
 
 import './load-more-selector.scss';
@@ -373,9 +374,9 @@ const PureLoadMoreSelector = (props: IProps) => {
           }
           {
             (allowClear && !isEmpty(chosenItem)) ? (
-              <Icon
+              <CloseOne
                 className="close"
-                type="close-circle"
+                size="14px"
                 onClick={(e: any) => {
                   e.stopPropagation();
                   clearValue();
@@ -496,7 +497,8 @@ export interface ILoadMoreSelectorProps extends IProps {
 const DefaultLoadMoreRender = ({ onLoadMore, loading }: { onLoadMore: () => void, loading: boolean; }) => {
   return (
     <div className="pointer load-more list-item" onClick={(e) => { e.stopPropagation(); onLoadMore(); }}>
-      <Icon className="mr4" type={loading ? 'loading' : 'loading-3-quarters'} />{i18n.t('load more')}
+      <IconLoading spin={loading} />
+      {i18n.t('load more')}
     </div>
   );
 };

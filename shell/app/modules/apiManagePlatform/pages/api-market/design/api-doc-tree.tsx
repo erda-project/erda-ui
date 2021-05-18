@@ -14,7 +14,7 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
 import { useUpdate, EmptyHolder } from 'common';
-import { Icon, Popover, Tree, Modal } from 'app/nusi';
+import { Popover, Tree, Modal } from 'app/nusi';
 import i18n from 'i18n';
 import { AntTreeNodeSelectedEvent } from 'core/common/interface';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
@@ -27,6 +27,7 @@ import { updateSearch } from 'common/utils';
 import { useMount } from 'react-use';
 import './index.scss';
 import ReactDOM from 'react-dom';
+import { DownOne } from '@icon-park/react';
 
 const { TreeNode } = Tree;
 
@@ -363,7 +364,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
       >
         <span>{i18n.t('document')}：</span>
         <span className="name nowrap">{treeNodeData?.branchName ? `${treeNodeData?.branchName}/${treeNodeData?.apiDocName}` : i18n.t('common:no data')}</span>
-        <Icon type="caret-down" />
+        <DownOne size="16px" theme="filled" />
       </button>
     </Popover>
   );

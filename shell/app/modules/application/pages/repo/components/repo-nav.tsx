@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { message, Tooltip, Spin, Icon, Dropdown, Menu, Button } from 'app/nusi';
+import { message, Tooltip, Spin, Dropdown, Menu, Button } from 'app/nusi';
 import { FormModal, Icon as CustomIcon, IF } from 'common';
 import { goTo, setLS, removeLS } from 'app/common/utils';
 import BranchSelect from './branch-select';
@@ -24,6 +24,7 @@ import { find, get } from 'lodash';
 import appStore from 'application/stores/application';
 import { isInDiceDirectory } from 'application/common/yml-flow-util';
 import { usePerm } from 'user/common';
+import { DownOne } from '@icon-park/react';
 
 const PureRepoNavOperation = () => {
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -234,7 +235,7 @@ export const RepoNav = React.forwardRef(({ info, tree, isFetchingInfo, appId }: 
         >
           <span>{isTag ? i18n.t('application:tag') : treeCommitId ? i18n.t('application:commit') : i18n.t('application:branch')}:</span>
           <span className="branch-name bold nowrap">{curBranch}</span>
-          <Icon className="ml4" type="caret-down" />
+          <DownOne theme="filled" size="16px" />
         </BranchSelect>
         <RepoBreadcrumb path={tree.path}>
           <RepoNavOperation />

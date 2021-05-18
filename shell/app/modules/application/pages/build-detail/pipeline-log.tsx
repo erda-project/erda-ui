@@ -13,13 +13,14 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { Timeline, Drawer, Title, Icon, Tooltip } from 'app/nusi';
+import { Timeline, Drawer, Title, Tooltip } from 'app/nusi';
 import buildStore from 'application/stores/build';
 import { useLoading } from 'common/stores/loading';
 import { isEmpty } from 'lodash';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import { useUpdate, EmptyHolder, Icon as CustomIcon } from 'common';
 import './pipeline-log.scss';
+import { Loading } from '@icon-park/react';
 
 let timer: any;
 const DURATION = 10000;// 10秒刷新一次
@@ -82,7 +83,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
   const logOperation = [
     {
       title: isFecthing
-        ? <Icon type='loading' />
+        ? <Loading spin color='rgba(0, 0, 0, 0.1)' strokeWidth={2} />
         : (
           <Tooltip title={isBuilding ? `${i18n.t('application:refresh every {time}, click to refresh now', { time: `${DURATION / 1000} ${i18n.t('common:second')}` })}` : i18n.t('refresh')}>
             <CustomIcon type='refresh' className='pointer color-text-desc' onClick={() => delayGetList(getList, 0)} />

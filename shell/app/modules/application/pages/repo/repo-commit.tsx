@@ -13,7 +13,7 @@
 
 import { map, isEmpty } from 'lodash';
 import * as React from 'react';
-import { Spin, Button, Timeline, Icon, Input } from 'app/nusi';
+import { Spin, Button, Timeline, Input } from 'app/nusi';
 import { Copy, Icon as CustomIcon, LoadMore, Holder, Avatar, IF } from 'common';
 import { fromNow, goTo, replaceEmoji, setLS } from 'common/utils';
 import BranchSelect from './components/branch-select';
@@ -24,7 +24,7 @@ import i18n from 'i18n';
 import repoStore from 'application/stores/repo';
 import routeInfoStore from 'common/stores/route';
 import { useLoading } from 'app/common/stores/loading';
-
+import { DownOne } from '@icon-park/react';
 
 import './repo-commit.scss';
 
@@ -147,7 +147,7 @@ const RepoCommit = () => {
                     </>
                   )
             }
-            <Icon type="caret-down" />
+            <DownOne theme="filled" size="16px" />
           </BranchSelect>
           <IF check={path && branch}>
             <RepoBreadcrumb splitKey="commits" path={path} />

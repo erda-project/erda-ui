@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Popconfirm, Icon, Button, Dropdown, Menu } from 'app/nusi';
+import { Popconfirm, Button, Dropdown, Menu } from 'app/nusi';
 import { IF, NoAuthTip, useUpdate } from 'common';
 import { goTo } from 'common/utils';
 import RollbackList from './rollback-list';
@@ -25,6 +25,7 @@ import { get } from 'lodash';
 import i18n from 'i18n';
 import { confirmRedeploy } from '../containers';
 import appStore from 'application/stores/application';
+import { Loading as IconLoading, Down as IconDown } from '@icon-park/react';
 
 import './info.scss';
 
@@ -45,7 +46,7 @@ const DeployInfo = () => {
   const { blockStatus } = appStore.useStore(s => s.detail);
   const appBlocked = blockStatus !== 'unblocked';
   const currentOrg = orgStore.useStore(s => s.currentOrg);
-  
+
   const { blockoutConfig } = currentOrg;
 
   const permMap = usePerm(s => s.app);
@@ -104,11 +105,11 @@ const DeployInfo = () => {
                 <IF check={deployStatus === 'CANCELING'}>
                   <IF check={hasAuth}>
                     <Popconfirm title={i18n.t('runtime:confirm force cancel?')} onConfirm={() => cancelOperation(true)} placement="bottomRight">
-                      <Button className="runtime-operate cancel"><Icon type="loading" /><span>{i18n.t('runtime:force cancel')}</span></Button>
+                      <Button className="runtime-operate cancel"><IconLoading /><span>{i18n.t('runtime:force cancel')}</span></Button>
                     </Popconfirm>
                     <ELSE />
                     <NoAuthTip>
-                      <Button className="runtime-operate cancel"><Icon type="loading" /><span>{i18n.t('runtime:force cancel')}</span></Button>
+                      <Button className="runtime-operate cancel"><IconLoading /><span>{i18n.t('runtime:force cancel')}</span></Button>
                     </NoAuthTip>
                   </IF>
                 </IF>
@@ -129,12 +130,12 @@ const DeployInfo = () => {
           <IF check={hasAuth}>
             <Dropdown overlay={menu} trigger={['click']} disabled={showCancelBtn || isBlocked}>
               <Button type="primary" disabled={showCancelBtn || isBlocked}>
-                {i18n.t('runtime:deployment operation')}<Icon type="down" />
+                {i18n.t('runtime:deployment operation')}<IconDown />
               </Button>
             </Dropdown>
             <ELSE />
             <NoAuthTip>
-              <Button type="primary">{i18n.t('runtime:deployment operation')}<Icon type="down" /></Button>
+              <Button type="primary">{i18n.t('runtime:deployment operation')}<IconDown /></Button>
             </NoAuthTip>
           </IF>
         </div>
