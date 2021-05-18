@@ -186,7 +186,7 @@ $border-style: 1px solid $color-border;
 }
 
 .dice-layout .pk-form-item-no-label { // TODO: use nusi api to hide pk-no-label
-  display: none;
+  display: none !important;
 }
 
 .ant-table-default {
