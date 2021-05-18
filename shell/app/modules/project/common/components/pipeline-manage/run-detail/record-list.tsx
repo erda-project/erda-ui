@@ -98,7 +98,7 @@ const RecordList = React.forwardRef((props: IProps, ref:any) => {
     }, {
       title: 'ID',
       dataIndex: 'id',
-      width: 120,
+      width: 80,
       align: 'center',
     }, {
       title: i18n.t('status'),
@@ -110,6 +110,11 @@ const RecordList = React.forwardRef((props: IProps, ref:any) => {
           <Badge className="ml4" status={ciStatusMap[status].status} />
         </span>
       ),
+    }, {
+      title: i18n.t('project:executor'),
+      dataIndex: 'extra.runUser.name',
+      width: 100,
+      align: 'center',
     }, {
       title: i18n.t('trigger time'),
       dataIndex: 'timeCreated',
