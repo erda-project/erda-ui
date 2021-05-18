@@ -113,6 +113,7 @@ const microServiceStore = createStore({
     },
     async getMicroServiceMenuList({ call, select, update }) {
       const [params, routes, query] = routeInfoStore.getState(s => [s.params, s.routes, s.query]);
+      console.log('----micro', params);
       let microServiceMenu = await select(s => s.microServiceMenu);
       const { env, projectId, tenantGroup, tenantId } = params;
       let menuData: MS_INDEX.IMicroServiceMenu[] = [];
