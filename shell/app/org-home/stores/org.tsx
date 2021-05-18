@@ -210,7 +210,7 @@ const setLocationByAuth = (authObj: Obj) => {
     map(checkMap, item => {
       // 当前页，但是无权限，则重置
       if (item.isCurPage && isEmpty(item.authRole)) {
-        let resetPath = goTo.resolve.noAuth({ orgName });
+        let resetPath = goTo.resolve.orgRoot({ orgName });
         if (roles.toString() === 'DataEngineer') {
           // 数据工程师只有fdp界面权限
           resetPath = goTo.resolve.fdpIndex();
