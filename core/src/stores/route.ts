@@ -146,7 +146,6 @@ const routeInfoStore = createStore({
         isEntering: (level: string) => routeMarks.includes(level) && !prevRouteInfo.routeMarks.includes(level),
         isLeaving: (level: string) => !routeMarks.includes(level) && prevRouteInfo.routeMarks.includes(level),
       };
-      emit('@routeChange', routeInfo);
       return routeInfo;
     },
   },
