@@ -40,7 +40,7 @@ export default () => {
     if (domain.startsWith('local')) {
       domain = domain.split('.').slice(1).join('.');
     }
-    
+
     getOrgByDomain({ domain, orgName }).then((res: any) => {
       res.success && !isEmpty(res.data) && updater.domainData(res.data);
     });
@@ -58,7 +58,7 @@ export default () => {
     }).then(() => {
       message.success(i18n.t('join org success'));
       setTimeout(() => {
-        window.location.reload();
+        location.href = `/${orgName}`;
       }, 200);
     });
   };
