@@ -130,36 +130,36 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
         required: false,
         getComp: ({ form }: { form: WrappedFormUtils }) => <ImageUpload id="logo" form={form} showHint queryData={{ public: true }} />,
       },
-      {
-        label: i18n.t('publisher:background image'),
-        name: 'backgroundImage',
-        viewType: 'image',
-        required: false,
-        getComp: ({ form }: { form: WrappedFormUtils }) => (
-          <ImageUpload
-            id="backgroundImage"
-            form={form}
-            showHint
-            isSquare={false}
-            queryData={{ public: true }}
-          />
-        ),
-      },
-      {
-        label: i18n.t('publisher:preview image'),
-        name: 'previewImages',
-        viewType: 'images',
-        required: false,
-        getComp: ({ form }: { form: WrappedFormUtils }) => (
-          <ImageUpload
-            id="previewImages"
-            form={form}
-            showHint
-            isMulti
-            isSquare={false}
-            queryData={{ public: true }}
-          />),
-      },
+      // {
+      //   label: i18n.t('publisher:background image'),
+      //   name: 'backgroundImage',
+      //   viewType: 'image',
+      //   required: false,
+      //   getComp: ({ form }: { form: WrappedFormUtils }) => (
+      //     <ImageUpload
+      //       id="backgroundImage"
+      //       form={form}
+      //       showHint
+      //       isSquare={false}
+      //       queryData={{ public: true }}
+      //     />
+      //   ),
+      // },
+      // {
+      //   label: i18n.t('publisher:preview image'),
+      //   name: 'previewImages',
+      //   viewType: 'images',
+      //   required: false,
+      //   getComp: ({ form }: { form: WrappedFormUtils }) => (
+      //     <ImageUpload
+      //       id="previewImages"
+      //       form={form}
+      //       showHint
+      //       isMulti
+      //       isSquare={false}
+      //       queryData={{ public: true }}
+      //     />),
+      // },
       ...insertWhen(state.type === ArtifactsTypeMap.MOBILE.value, [
         {
           label: i18n.t('publisher:jail break control'),
