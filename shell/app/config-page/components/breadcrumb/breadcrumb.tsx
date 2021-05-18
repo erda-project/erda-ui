@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Breadcrumb, Ellipsis } from 'app/nusi';
+import { Breadcrumb, Ellipsis, Menu } from 'app/nusi';
 import { map } from 'lodash';
 
 const noop = () => {};
@@ -31,7 +31,23 @@ export default (props: CP_BREADCRUMB.Props) => {
       {
         map(list, (item, idx) => {
           if (item.menus) {
-            return <Breadcrumb.Menu key={item.key} activeKey={item.activeKey} menuOptions={item.menus} onSelect={(e: any) => onClickItem(e.key)} />;
+            const menu = (
+              <Menu>
+                {
+                  item.menus.map(i => (
+                    <Menu.Item key={i.key}>
+                      <span className={'pointer'} onClick={() => onClickItem(i.key)}>{i.item}</span>
+                    </Menu.Item>
+                  ))
+                }
+              </Menu>
+            );
+            const activeItem = item.menus.find(i => i.key === item.activeKey);
+            return (
+              <Breadcrumb.Item key={item.key} overlay={menu}>
+                <span className={'pointer'} onClick={() => onClickItem(item.key)}>{activeItem.item || ''}</span>
+              </Breadcrumb.Item>
+            );
           }
           const [cls, onClick] = idx !== list.length - 1 ? ['pointer', () => onClickItem(item.key)] : ['', noop];
           return <Breadcrumb.Item key={item.key}><span className={cls} onClick={onClick}><Ellipsis title={item.item}>{item.item}</Ellipsis></span></Breadcrumb.Item>;
