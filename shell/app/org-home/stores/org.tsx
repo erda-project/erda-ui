@@ -177,10 +177,6 @@ const setLocationByAuth = (authObj: Obj) => {
   }
   const { roles, hasAuth, orgName } = authObj;
   const checkMap = {
-    inviteToOrg: {
-      isCurPage: curPathname.startsWith(`/${orgName}/inviteToOrg`),
-      authRole: [],
-    },
     fdp: {
       isCurPage: curPathname.startsWith(`/${orgName}/fdp`),
       authRole: intersection(orgPerm.entryFastData.role, roles),
