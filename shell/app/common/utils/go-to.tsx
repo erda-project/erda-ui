@@ -26,7 +26,7 @@ const changeBrowserHistory = throttle((action, _path) => {
   action === 'replace' ? history.replace(_path) : history.push(_path);
 }, 1000, { trailing: false });
 
-interface IOptions {
+export interface IOptions {
   [pathName: string]: any;
   append?: boolean;
   replace?: boolean;
@@ -97,7 +97,7 @@ const pathFormat = (url: string) => (params: object) => {
   const lostArg = filter(necessaryArg, (arg: string) => params[arg] === undefined);
   if (lostArg.length) {
     // eslint-disable-next-line no-console
-    console.error('Jump missing parameters：', lostArg);
+    console.error('Jump missing parameters：', lostArg, `in url: ${url}`);
     return undefined;
   }
   if (!_query) {

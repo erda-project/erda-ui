@@ -70,14 +70,13 @@ const ImportFile = ({ afterImport }: IProps) => {
     <>
       <Button type="primary" ghost onClick={toggleFileUpload}>{i18n.t('project:import')}</Button>
       <FormModal
+        loading={confirmLoading}
+        okButtonState={confirmLoading}
         title={i18n.t('project:upload files')}
         fieldsList={fieldList}
         visible={uploadVisible}
         onOk={handleOk}
         onCancel={handleCancel}
-        modalProps={{
-          confirmLoading,
-        }}
       >
         <div className="modal-tip">1.{i18n.t('project:support-xmind-excel')}
           <p className="my12">&nbsp;&nbsp;{i18n.t('project:if you need to import with Excel, please')}

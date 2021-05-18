@@ -69,6 +69,7 @@ const BuildDetail = (props: IProps) => {
     isExpand: false,
     isBlocked: false,
     chosenPipelineId: query.pipelineID || '' as string | number,
+    recordTableKey: 1,
   });
   const permMap = usePerm(s => s.app.pipeline);
   const { startStatus, logProps, logVisible, selectedRowId, hasAuth, isHistoryBuild, isExpand, isBlocked } = state;
@@ -588,10 +589,19 @@ const BuildDetail = (props: IProps) => {
 
     return (
       <div className="build-history-wp">
-        <div className="refresh-newest-btn" onClick={() => { getRecordList({ pageNo: 1 }); }}>
+        <div 
+          className="refresh-newest-btn" 
+          onClick={() => { 
+            getRecordList({ pageNo: 1 }).then((res) => {
+              updater.recordTableKey((_prev: number) => _prev + 1);
+              updater.chosenPipelineId(res?.[0].id);
+            }); 
+          }}
+        >
           <CustomIcon type="shuaxin" />{i18n.t('fetch latest records')}
         </div>
         <Table
+          key={`${state.recordTableKey}`}
           rowKey="runIndex"
           className="build-history-list"
           columns={columns}

@@ -325,9 +325,9 @@ const IssueMetaFields = ({ labels, isEditMode, isBacklog, editAuth, issueType, f
             originalValue={originalValue}
             onChange={v => {
               if (isEditMode && formData?.issueManHour?.isModifiedRemainingTime !== false) {
-                setFieldCb({ issueManHour: { estimateTime: v } });
+                setFieldCb({ issueManHour: { estimateTime: v || 0 } });
               } else { // 创建模式或编辑模式但剩余时间为空时，设置剩余时间为预估时间
-                setFieldCb({ issueManHour: { estimateTime: v, remainingTime: v } });
+                setFieldCb({ issueManHour: { estimateTime: v || 0, remainingTime: v } });
               }
             }}
             disabled={disabled}
@@ -740,7 +740,12 @@ export const EditIssueDrawer = (props: IProps) => {
           warnMessage.push(i18n.t('project:EstimateTime'));
         }
         if (params.issueManHour.elapsedTime === 0 && params.issueManHour.thisElapsedTime === 0) {
-          warnMessage.push(i18n.t('project:elapsedTime in time tracing'));
+          // filter out the working
+          const workingState = formData.issueButton.find(item => item.stateBelong === 'WORKING');
+          // When working exists and select working, don't warn
+          if (!workingState || (value.state !== workingState.stateID)) {
+            warnMessage.push(i18n.t('project:elapsedTime in time tracing'));
+          }
         }
       }
       if (warnMessage.length !== 0) {
@@ -1022,7 +1027,7 @@ export const EditIssueDrawer = (props: IProps) => {
                     dropdownMatchSelectWidth: false,
                     allowClear: false,
                     showArrow: true,
-                    className: '',
+                    className: 'switch-type-selector',
                     style: { width: 60 },
                   }}
                   onChangeCb={(field: any) => {

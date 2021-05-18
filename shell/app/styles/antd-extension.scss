@@ -179,10 +179,14 @@ $border-style: 1px solid $color-border;
   background-color: rgba(0, 0, 0, .06);
 }
 
-.pk-table-tbody>tr>td,
-.pk-table-thead>tr>th,
-.pk-table-column-header-title {
+.dice-layout .pk-table-tbody>tr>td,
+.dice-layout .pk-table-thead>tr>th,
+.dice-layout .pk-table-column-header-title {
   white-space: nowrap;
+}
+
+.dice-layout .pk-form-item-no-label { // TODO: use nusi api to hide pk-no-label
+  display: none !important;
 }
 
 .ant-table-default {
