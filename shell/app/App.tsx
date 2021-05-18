@@ -46,11 +46,10 @@ const start = (userData: ILoginUser) => {
   };
 
   startApp().then(async (App) => {
-    import('app/org-home/entry').then(m => {
-      m.default(registerModule);
       [
         import('layout/entry'),
         import('org/entry'),
+        import('app/org-home/entry'),
         import('workBench/entry'),
         import('runtime/entry'),
         import('publisher/entry'),
@@ -65,7 +64,6 @@ const start = (userData: ILoginUser) => {
         import('addonPlatform/entry'),
         ...Object.values(modules),
       ].forEach((p) => p.then(m => m.default(registerModule)));
-    })
     userStore.reducers.setLoginUser(userData); // 需要在app start之前初始化用户信息
     if (!userData.isSysAdmin) {
       const orgName = get(location.pathname.split('/'), '[1]');

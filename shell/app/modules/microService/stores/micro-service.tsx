@@ -86,6 +86,7 @@ const microServiceStore = createStore({
   state: initState,
   subscriptions({ listenRoute }: IStoreSubs) {
     listenRoute(({ isEntering, isLeaving }:IRouteInfo) => {
+      console.log('-----listenRoute', isEntering('microServiceDetail'));
       if (isEntering('microServiceDetail')) {
         microServiceStore.effects.getMicroServiceMenuList().then((msMenu:MS_INDEX.IMicroServiceMenu[]) => {
           if (msMenu.length) {
