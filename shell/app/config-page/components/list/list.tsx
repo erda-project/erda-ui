@@ -32,7 +32,7 @@ const List = (props: CP_LIST.Props) => {
     combineList: list,
   });
   const { total = 0, pageSize, pageNo = 1 } = state || {};
-  const { isLoadMore: useLoadMore = false, visible = true, size = 'middle', rowKey, alignCenter = false,
+  const { isLoadMore = false, visible = true, size = 'middle', rowKey, alignCenter = false,
     noBorder = false, pageSizeOptions, ...rest } = configProps || {};
 
   // 将接口返回的list和之前的list进行拼接
@@ -96,11 +96,11 @@ const List = (props: CP_LIST.Props) => {
             {(state.combineList || []).map((item, idx) => {
               return <Item size={size} customProps={customProps} execOperation={execOperation} key={getKey(item, idx)} data={item} alignCenter={alignCenter} noBorder={noBorder} />;
             })}
-            {!useLoadMore && pagination ? (
+            {!isLoadMore && pagination ? (
               <Pagination className='right-flex-box mt12' {...pagination} />
             ) : null
             }
-            {useLoadMore && total > Math.max(state.combineList?.length, 0)
+            {isLoadMore && total > Math.max(state.combineList?.length, 0)
               && <div className='hover-active load-more' onClick={loadMore}>{i18n.t('more')}</div>}
           </>
         ) : <EmptyHolder relative />
