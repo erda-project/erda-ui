@@ -53,9 +53,7 @@ module.exports = () => {
         nusi: resolve('./src/nusi'),
         cube: resolve('./src/cube'),
         common: resolve('./src/common'),
-        i18n: resolve('./src/i18n'),
-        '@ant-design/icons/lib/dist$': resolve('./src/nusi'),
-        '@terminus/nusi-icons/lib/dist$': resolve('./src/nusi'),
+        i18n: resolve('./src/i18n')
       },
       extensions: ['.js', '.jsx', '.tsx', '.ts', '.d.ts'],
       modules: ['node_modules'],
