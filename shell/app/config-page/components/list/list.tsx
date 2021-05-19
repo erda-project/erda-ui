@@ -32,23 +32,25 @@ const List = (props: CP_LIST.Props) => {
     combineList: list,
   });
   const { total = 0, pageSize, pageNo = 1 } = state || {};
-  const { useLoadMore = false, visible = true, size = 'middle', rowKey, alignCenter = false,
+  const { isLoadMore: useLoadMore = false, visible = true, size = 'middle', rowKey, alignCenter = false,
     noBorder = false, pageSizeOptions, ...rest } = configProps || {};
 
   // 将接口返回的list和之前的list进行拼接
   React.useEffect(() => {
+    if (data === undefined) {
+      return;
+    }
     update((pre) => {
       const newState = {
         ...pre,
         ...propsState,
-      }
+      };
       return {
         ...newState,
-        combineList: newState.pageNo === 1 ? list : (newState.combineList || []).concat(list)
-      }
-    })
-  }, [propsState, list])
-
+        combineList: newState.pageNo === 1 ? list : (newState.combineList || []).concat(list),
+      };
+    });
+  }, [propsState, list, update, data]);
 
   const pagination = React.useMemo(() => {
     return isNumber(pageNo) ? {
@@ -74,8 +76,8 @@ const List = (props: CP_LIST.Props) => {
   };
 
   const loadMore = () => {
-    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pageNo + 1 }, { data: { list: [] } });
-  }
+    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pageNo + 1 });
+  };
 
   const changePageSize = (pSize: number) => {
     operations?.changePageSize && execOperation(operations.changePageSize, { pageNo: 1, pageSize: pSize });

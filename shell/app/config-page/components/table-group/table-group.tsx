@@ -65,11 +65,11 @@ const TableBoard = (props: CP_TABLE_GROUP.ITableBoardProps) => {
 
 const TableGroup = (props: CP_TABLE_GROUP.Props) => {
   const { props: configProps, state: propsState, data = {} as CP_TABLE_GROUP.IData, operations, execOperation = noop, updateState = noop } = props;
-  const [{ pageNo, list: combineList = [], total, pageSize }, updater, update] = useUpdate({
+  const [{ pageNo, combineList = [], total, pageSize }, updater, update] = useUpdate({
     pageNo: propsState?.pageNo || 1,
     total: propsState?.total || 0,
     pageSize: propsState?.pageSize || 3,
-    list: data.list,
+    combineList: data.list,
   } || {}) as any;
   const { visible } = configProps;
   const showLoadMore = total > Math.max(combineList?.length, 0)
