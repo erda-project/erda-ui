@@ -1276,7 +1276,6 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
           pageSize: 1,
           total: 5,
         },
-        isLoadMore: true,
       }
     },
   },
