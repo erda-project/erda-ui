@@ -15,7 +15,7 @@ const { forEach } = require('lodash');
 const tsconfig = require('./tsconfig.json');
 const moduleNameMapper = require('tsconfig-paths-jest')(tsconfig);
 const moduleMapper = {};
-const excludeModules = ['interface', 'common', 'layout', 'dice-env', 'user', 'configForm', 'charts'];
+const excludeModules = ['interface', 'common', 'layout', 'dice-env', 'user', 'configForm'];
 forEach(moduleNameMapper, (t, k) => {
   if (!excludeModules.includes(k)) {
     moduleMapper[`^${k}`] = t;
@@ -59,9 +59,9 @@ module.exports = {
     '^core/agent$': '<rootDir>/../core/src/agent.ts',
     '^core/(.*)': '<rootDir>/../core/src/$1',
     '^cube$': '<rootDir>/../core/src/cube.ts',
-    '^i18next$': '<rootDir>/../core/node_modules/i18next',
+    '^i18next$': '<rootDir>/../node_modules/i18next',
     '^@terminus/nusi$': '<rootDir>/node_modules/@terminus/nusi/lib/index.js',
-    '^antd$': '<rootDir>/../core/node_modules/antd/lib/index.js',
+    '^antd$': '<rootDir>/../node_modules/antd/lib/index.js',
     '^nusi$': '<rootDir>/../core/src/nusi/index.tsx',
     i18n: '<rootDir>/app/i18n.ts',
     'app/constants': '<rootDir>/app/constants.ts',
@@ -76,7 +76,6 @@ module.exports = {
     '^common/utils(.*)': '<rootDir>/app/common/utils/$1',
     'common/stores(.*)': '<rootDir>/app/common/stores/$1',
     '^configForm(.*)': '<rootDir>/app/configForm/$1',
-    '^charts$': '<rootDir>/app/charts/index.js',
     // mock for @terminus/dashboard-configuratort iconfont
     'iconfont.js$': 'identity-obj-proxy',
     '\\.(css|less|scss)$': 'identity-obj-proxy',

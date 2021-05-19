@@ -11,17 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const chalk = require('chalk');
+import chalk from 'chalk';
 
-const log = console.log;
-const logInfo = (...msg) => log(chalk.blueBright(...msg))
-const logSuccess = (...msg) => log('✅', chalk.green(...msg))
-const logWarn = (...msg) => log('❗️', chalk.yellowBright(...msg))
-const logError = (...msg) => log('❌', chalk.redBright(...msg))
-
-module.exports = {
-  logInfo,
-  logSuccess,
-  logWarn,
-  logError,
-}
+export const { log } = console;
+export const logInfo = (...msg: unknown[]) => log(chalk.blueBright(...msg));
+export const logSuccess = (...msg: unknown[]) => log('✅', chalk.green(...msg));
+export const logWarn = (...msg: unknown[]) => log('❗️', chalk.yellowBright(...msg));
+export const logError = (...msg: unknown[]) => log('❌', chalk.redBright(...msg));

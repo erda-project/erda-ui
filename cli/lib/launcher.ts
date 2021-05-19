@@ -23,7 +23,7 @@ import dotenv from 'dotenv';
 /**
  * launch means run a PM2 process, doesn't mean this module in running, it also could be stopped state, use pm2 restart xxx to run it.
  */
-module.exports = () => {
+export default () => {
   const currentPath = process.cwd();
   if (fs.existsSync(`${currentPath}/.env`)) {
     const { parsed: envConfig } = dotenv.config({ path: `${currentPath}/.env` });

@@ -159,6 +159,16 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
     if (body.type === BasicForm && !isEmpty(body.content) && !errMsg) {
       errMsg = validateValue(get(configProps, 'body.form.temp', []), body.content);
     }
+    if (!isEmpty(out_params) && !errMsg) {
+      const temp = {};
+      out_params.forEach(item => {
+        if (temp[item.key]) {
+          errMsg = i18n.t('out params exist the same {key}', { key: item.key });
+        } else {
+          temp[item.key] = true;
+        }
+      });
+    }
     const allowEmptys = configProps.asserts.comparisonOperators.filter(t => t.allowEmpty).map(t => t.value);
     return {
       errMsg,

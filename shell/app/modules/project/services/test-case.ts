@@ -202,12 +202,6 @@ export function getCasesRelations({ testPlanID, ...query }: Merge<TEST_CASE.Quer
 //     .catch((err: any) => { throw new Error(err.rawResponse); });
 // }
 
-export function attemptTestApi(data: TEST_CASE.TestApi) {
-  return agent.post('/api/apitests/actions/attempt-test')
-    .send(data)
-    .then((response: any) => response.body);
-}
-
 export function removeRelation({ testPlanID, id, issueTestCaseRelationIDs }: TEST_CASE.RemoveRelation) {
   return agent.post(`/api/testplans/${testPlanID}/testcase-relations/${id}/actions/remove-issue-relations`)
     .send({ issueTestCaseRelationIDs })

@@ -15,6 +15,14 @@
 import path from 'path';
 import { Command } from 'commander';
 import inquirer from 'inquirer';
+import build from '../lib/build';
+import release from '../lib/release';
+import copy from '../lib/copy';
+import addLicense from '../lib/add-license';
+import checkLicense from '../lib/check-license';
+import launcher from '../lib/launcher';
+import setup from '../lib/setup';
+import i18n from '../lib/i18n';
 
 const program = new Command();
 
@@ -38,7 +46,7 @@ program
   .command('setup <module> <port>')
   .description('setup env and tsconfig for module')
   .action((moduleName, port) => {
-    require('../lib/setup')(moduleName, port);
+    setup(moduleName, port);
   });
 
 program
@@ -47,15 +55,15 @@ program
   .option('-i, --image <image>', 'image sha as build base, e.g. 1.0-20210506-48bd74')
   .option('-l, --local', 'enable local mode, if image arg is given, then local mode is forcibly')
   .action((options) => {
-    require('../lib/build')(options);
+    build(options);
   });
 
 program
   .command('copy <module>')
-  .option('-p, --dist_path <dist>', 'Dist directory path', './dist')
+  .option('-p, --distPath <dist>', 'Dist directory path', './dist')
   .description('copy module build files to erda-ui public directory')
   .action((module, options) => {
-    require('../lib/copy')(module, options);
+    copy(module, options);
   });
 
 program
@@ -63,7 +71,7 @@ program
   .description('build & push docker image')
   .option('-i, --image <image>', 'image sha as build base, e.g. 1.0-20210506-48bd74')
   .action((options) => {
-    require('../lib/release')(options);
+    release(options);
   });
 
 program
@@ -73,7 +81,7 @@ program
     const workDir = _workDir
       ? path.resolve(process.cwd(), _workDir)
       : process.cwd();
-    require('../lib/i18n')({ workDir });
+    i18n({ workDir });
   });
 
 program
@@ -81,7 +89,7 @@ program
   .option('-t, --fileType <file_type>', 'File type', 'js,ts,jsx,tsx')
   .description('add license header in files if not exist')
   .action(({ fileType }) => {
-    require('../lib/add-license')({ fileType });
+    addLicense({ fileType });
   });
 
 program
@@ -90,14 +98,14 @@ program
   .option('-d, --directory <directory>', 'work directory')
   .description('check license header in files')
   .action(({ fileType, directory }) => {
-    require('../lib/check-license')({ fileType, directory });
+    checkLicense({ fileType, directory });
   });
 
 program
   .command('launch')
   .description('launch erda ui in development mode')
   .action(() => {
-    require('../lib/launcher')();
+    launcher();
   });
 
 

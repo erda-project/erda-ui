@@ -27,14 +27,14 @@ import {
   DoubleRight,
   ApplicationMenu,
 } from '@icon-park/react';
-import './erda-icon.scss';
+
 
 export const iconMap = {
-  'lock': Lock,
-  'unlock': Unlock,
-  'time': Time,
+  lock: Lock,
+  unlock: Unlock,
+  time: Time,
   'application-one': ApplicationOne,
-  'user': User,
+  user: User,
   'link-cloud-sucess': LinkCloudSucess,
   'link-cloud-faild': LinkCloudFaild,
   'category-management': CategoryManagement,
@@ -42,7 +42,7 @@ export const iconMap = {
   'api-app': ApiApp,
   'double-right': DoubleRight,
   'application-menu': ApplicationMenu,
-}
+};
 
 type IIconType =
   'lock'

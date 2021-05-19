@@ -85,12 +85,12 @@ const Text = (props: CP_TEXT.Props) => {
                   >
                     {tText}
                     {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
-                    {image && <img src={image.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
+                    {image && <img src={image?.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
                   </a>
                 ) : <span key={idx} className={textClassNames} style={{ ...styleObj, ...tStyle }}>
                     {tText}
                     {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
-                    {image && <img src={image.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
+                    {image && <img src={image?.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
                   </span>;
               }
               return null;
@@ -110,14 +110,14 @@ const Text = (props: CP_TEXT.Props) => {
           >
             {tText}
             {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
-            {image && <img src={image.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
+            {image && <img src={image?.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
           </a>
         ) : <span
           className={textClassNames}
           style={{ ...styleObj, ...tStyle }}>
             {tText}
             {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
-            {image && <img src={image.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
+            {image && <img src={image?.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
           </span>;
       }
     }

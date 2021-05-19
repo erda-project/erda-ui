@@ -11,17 +11,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const fs = require('fs');
-const path = require('path');
-const chalk = require('chalk');
-const inquirer = require('inquirer');
-const { walker } = require('./util/file-walker');
-const { logInfo, logSuccess, logError } = require('./util/log');
-const licenseTpl = require('../templates/license');
+import fs from 'fs';
+import path from 'path';
+import chalk from 'chalk';
+import inquirer from 'inquirer';
+import { walker } from './util/file-walker';
+import { logInfo, logSuccess, logError } from './util/log';
+import licenseTpl from '../templates/license';
 
-
-module.exports = async ({ fileType }) => {
-
+export default async ({ fileType }: { fileType: string }) => {
   const { isClean } = await inquirer.prompt([
     {
       type: 'confirm',
@@ -41,17 +39,17 @@ module.exports = async ({ fileType }) => {
       name: 'targetPath',
       message: 'Select work directory',
       basePath: process.cwd(),
-    }
+    },
   ]);
 
-  const { licenseType } = await inquirer.prompt([
+  const { licenseType } = await inquirer.prompt<{ licenseType: 'GPLV3' | 'Apache2' }>([
     {
       type: 'list',
       name: 'licenseType',
       message: 'Which license type do you want to add?',
       choices: ['GPLV3', 'Apache2'],
       default: 'GPLV3',
-    }
+    },
   ]);
 
   let suffixList = fileType.split(',');
@@ -63,13 +61,13 @@ module.exports = async ({ fileType }) => {
         message: 'Which file type do you want to operate?',
         choices: ['js', 'ts', 'jsx', 'tsx', 'scss', 'sass'],
         default: ['js', 'ts', 'jsx', 'tsx'],
-      }
+      },
     ]);
     suffixList = answer.suffixList;
   }
 
-  const suffixMap = {};
-  suffixList.forEach(a => { suffixMap[a.startsWith('.') ? a : `.${a}`] = true; });
+  const suffixMap: { [k: string]: boolean } = {};
+  suffixList.forEach((a) => { suffixMap[a.startsWith('.') ? a : `.${a}`] = true; });
 
   const { confirm } = await inquirer.prompt([
     {
@@ -94,24 +92,24 @@ Directory: ${chalk.greenBright(targetPath)}
       if (!suffixMap[path.extname(filePath)]) {
         return;
       }
-      if (!content.includes('// Copyright (c) 2021 Terminus, Inc.')) {
+      let fileContent = content;
+      if (!fileContent.includes('// Copyright (c) 2021 Terminus, Inc.')) {
         const header = licenseTpl[licenseType];
-        if (content.startsWith('#!')) {
-          const [firstLine, ...rest] = content.split('\n');
-          content = [firstLine, '\n', ...header.split('\n'), ...rest].join('\n');
+        if (fileContent.startsWith('#!')) {
+          const [firstLine, ...rest] = fileContent.split('\n');
+          fileContent = [firstLine, '\n', ...header.split('\n'), ...rest].join('\n');
         } else {
-          content = header + content;
+          fileContent = `${header}${fileContent}`;
         }
-        fs.writeFile(filePath, content, { encoding: 'utf8' }, (err) => {
+        fs.writeFile(filePath, fileContent, { encoding: 'utf8' }, (err) => {
           if (err) {
-            logError('Write license to file failed:', filePath)
-          } else {
+            logError('Write license to file failed:', filePath);
           }
-        })
+        });
         logSuccess('Write license to file:', filePath);
       } else {
         logSuccess('File license check ok:', filePath);
       }
     },
-  })
-}
+  });
+};

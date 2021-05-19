@@ -11,6 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+const config = require('./.erda/config');
 const path = require('path');
 const CracoAntDesignPlugin = require("craco-antd")
 
@@ -19,17 +20,17 @@ const themeColor = '#6A549E';
 const nodeEnv = process.env.NODE_ENV || 'development';
 const isProd = nodeEnv === 'production';
 
-module.exports = {
+module.exports = config.wrapWebpack({
   webpack: {
     alias: {
       '~': path.join(__dirname, 'src'),
     },
-    configure: (webpackConfig, { env, paths }) => { 
-      paths.appBuild = 'build/market'
+    configure: (webpackConfig, { paths }) => { 
+      paths.appBuild = 'dist';
       webpackConfig.output = {
         ...webpackConfig.output,
-          path: path.resolve(__dirname, 'build/market'), // 修改输出文件目录
-          publicPath: isProd ? '/static/market/' : '/', //prod时打包到public/static目录下
+          path: path.resolve(__dirname, 'dist'), // 修改输出文件目录
+          publicPath: isProd ? '/static/' : '/', //prod时打包到dist/static目录下
       }
       return webpackConfig; 
     },
@@ -64,6 +65,7 @@ module.exports = {
       ],
     },
   },
+  output: {},
   style: {
     postcss: {
       plugins: [
@@ -88,8 +90,6 @@ module.exports = {
     },
   ],
   devServer: {
-    host: '127.0.0.1',
-    port: 4001,
     proxy: {
       '/api': {
         target: 'https://terminus-org.dev.terminus.io',
@@ -98,4 +98,4 @@ module.exports = {
       },
     },
   }
-}
+});

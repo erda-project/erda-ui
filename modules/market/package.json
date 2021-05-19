@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "start": "craco start",
-    "build": "rm -rf build && craco build",
-    "build-app": "npm run build && npm run copy",
+    "build": "npm run clean && npm run build-app",
+    "build-app": "craco build && npm run copy",
     "test": "craco test",
-    "copy": "cp -rf build/market ../../public/static",
-    "eject": "react-scripts eject"
+    "copy": "erda-ui copy market",
+    "eject": "react-scripts eject",
+    "clean": "rm -rf dist"
   },
   "eslintConfig": {
     "extends": [

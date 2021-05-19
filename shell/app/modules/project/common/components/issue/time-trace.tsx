@@ -48,14 +48,14 @@ interface IZTraceBarProps {
   active?: boolean,
   onClick?(e: any): void,
 }
-const TimeTraceBar = ({ logged, spent, remain, estimate, active = false, onClick }: IZTraceBarProps) => {
+const TimeTraceBar = React.forwardRef(({ logged, spent, remain, estimate, active = false, onClick }: IZTraceBarProps, ref) => {
   const _logged = numberOr(logged, 0);
   const _spent = numberOr(spent, 0);
   const _remain = numberOr(remain, 0);
   const _estimate = numberOr(estimate, 0);
   const [blue, yellow] = calculatePercent(_logged, _spent, _remain, _estimate);
   return (
-    <div className={`time-trace ${active ? 'active-hover' : ''}`} onClick={onClick}>
+    <div className={`time-trace ${active ? 'active-hover' : ''}`} onClick={onClick} ref={ref}>
       <Progress strokeColor='#f47201' showInfo={false} successPercent={blue} percent={blue + yellow} size="small" />
       <div className='color-text-sub flex-box fz12'>
         <span>
@@ -69,7 +69,7 @@ const TimeTraceBar = ({ logged, spent, remain, estimate, active = false, onClick
       </div>
     </div>
   );
-};
+});
 
 
 interface IProps {
@@ -87,7 +87,7 @@ const defaultValue = {
   startTime: '',
   workContent: '',
 };
-export const TimeTrace = ({ value = { ...defaultValue } as any, onChange = () => { }, disabled, isModifiedRemainingTime }: IProps) => {
+export const TimeTrace = React.forwardRef(({ value = { ...defaultValue } as any, onChange = () => { }, disabled, isModifiedRemainingTime }: IProps, ref) => {
   const [editData, setEditData] = React.useState({} as ISSUE.issueManHour);
   const [modalVis, setModalVis] = React.useState(false);
   const form = React.useRef();
@@ -112,7 +112,19 @@ export const TimeTrace = ({ value = { ...defaultValue } as any, onChange = () =>
       label: i18n.t('project:Time spent'),
       key: 'thisElapsedTime',
       getComp: () => (
-        <TimeInput placeholder={checkMsg} onChange={onSpentTimeChange} />
+        <TimeInput 
+          placeholder={checkMsg} 
+          onChange={onSpentTimeChange}
+          tooltip={(
+            <div>
+              {i18n.t('project:Format must be 2w 3d 4h 5m')} <br />
+              . w = {i18n.t('week')}<br />
+              . d = {i18n.t('common:day')}<br />
+              . h = {i18n.t('common:hour')}<br />
+              . m = {i18n.t('common:minutes')}<br />
+            </div>
+          )}
+        />
       ),
       rules: [
         {
@@ -124,7 +136,18 @@ export const TimeTrace = ({ value = { ...defaultValue } as any, onChange = () =>
       label: i18n.t('project:Time remaining'),
       key: 'remainingTime',
       getComp: () => (
-        <TimeInput placeholder={checkMsg} />
+        <TimeInput
+          placeholder={checkMsg}
+          tooltip={(
+            <div>
+              {i18n.t('project:Format must be 2w 3d 4h 5m')} <br />
+              . w = {i18n.t('week')}<br />
+              . d = {i18n.t('common:day')}<br />
+              . h = {i18n.t('common:hour')}<br />
+              . m = {i18n.t('common:minutes')}<br />
+            </div>
+          )}
+        />
       ),
       defaultValue: defaultRemaining,
       rules: [
@@ -191,6 +214,7 @@ export const TimeTrace = ({ value = { ...defaultValue } as any, onChange = () =>
         active={!disabled}
         logged={value.elapsedTime}
         spent={0}
+        ref={ref}
         remain={value.remainingTime}
         estimate={value.estimateTime}
         onClick={() => !disabled && setModalVis(true)}
@@ -228,4 +252,4 @@ export const TimeTrace = ({ value = { ...defaultValue } as any, onChange = () =>
       )}
     </div>
   );
-};
+});

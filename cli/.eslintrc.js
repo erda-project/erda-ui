@@ -30,5 +30,6 @@ module.exports = {
   rules: {
     'max-len': 'off',
     '@typescript-eslint/no-require-imports': 'off',
+    'no-nested-ternary': 'off',
   },
 };
