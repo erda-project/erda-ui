@@ -16,7 +16,7 @@ import inquirer from 'inquirer';
 import { walker } from './util/file-walker';
 import { logSuccess, logWarn } from './util/log';
 
-export default async ({ fileType, directory }: { fileType: string; directory: string }) => {
+export default async ({ fileType, directory, filter }: { fileType: string; directory: string; filter: string }) => {
   let targetPath = directory;
   if (!targetPath) {
     const answer = await inquirer.prompt([
@@ -48,6 +48,9 @@ export default async ({ fileType, directory }: { fileType: string; directory: st
   const suffixMap: { [k: string]: boolean } = {};
   suffixList.forEach((a) => { suffixMap[a.startsWith('.') ? a : `.${a}`] = true; });
 
+  const showWarnLog = ['all', 'warn'].includes(filter);
+  const showSuccessLog = ['all', 'success'].includes(filter);
+
   let failCount = 0;
   walker({
     root: targetPath,
@@ -60,10 +63,10 @@ export default async ({ fileType, directory }: { fileType: string; directory: st
         return;
       }
       if (!content.includes('// Copyright (c) 2021 Terminus, Inc.')) {
-        logWarn('License not exist:', filePath);
+        showWarnLog && logWarn('License not exist:', filePath);
         failCount++;
       } else {
-        logSuccess('License check ok:', filePath);
+        showSuccessLog && logSuccess('License check ok:', filePath);
       }
     },
   });

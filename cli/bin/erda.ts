@@ -96,9 +96,10 @@ program
   .command('check-license')
   .option('-t, --fileType <file_type>', 'File type', 'js,ts,jsx,tsx')
   .option('-d, --directory <directory>', 'work directory')
+  .option('-f, --filter <filter>', 'filter log', 'warn')
   .description('check license header in files')
-  .action(({ fileType, directory }) => {
-    checkLicense({ fileType, directory });
+  .action(({ fileType, directory, filter }) => {
+    checkLicense({ fileType, directory, filter });
   });
 
 program
