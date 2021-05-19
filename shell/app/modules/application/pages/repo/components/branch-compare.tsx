@@ -18,7 +18,7 @@ import * as React from 'react';
 import { getSplitPathBy } from '../util';
 import BranchSelect from './branch-select';
 import i18n from 'i18n';
-import { DownOne, Switch } from '@icon-park/react';
+import { DownOne as IconDownOne, Switch as IconSwitch } from '@icon-park/react';
 
 import './branch-compare.scss';
 import routeInfoStore from 'common/stores/route';
@@ -62,10 +62,10 @@ const RepoBranchCompare = () => {
         <span className="branch-name bold nowrap">
           {state.from || null}
         </span>
-        {state.from ? <DownOne theme="filled" size="16px" /> : null}
+        {state.from ? <IconDownOne theme="filled" size="16px" /> : null}
       </BranchSelect>
       <span className="switch-branch" onClick={switchBranch}>
-        <Switch />
+        <IconSwitch />
       </span>
       <BranchSelect
         {...{ branches, tags, current: state.to }}
@@ -75,7 +75,7 @@ const RepoBranchCompare = () => {
         <span className="branch-name bold nowrap">
           {state.to || null}
         </span>
-        {state.to ? <DownOne theme="filled" size="16px" /> : null}
+        {state.to ? <IconDownOne theme="filled" size="16px" /> : null}
       </BranchSelect>
       <Button className="compare-button" type="primary" onClick={goToCompare} disabled={!state.from || !state.to}>{i18n.t('application:compare')}</Button>
     </div>

@@ -28,7 +28,7 @@ import { useLoading } from 'app/common/stores/loading';
 import ActionSelect from './action-select';
 import { protocolActionForms } from 'app/config-page/components/action-form';
 import { getResource, getDefaultVersionConfig, mergeActionAndResource } from './utils';
-import { Help, Plus } from '@icon-park/react';
+import { Help as IconHelp, Plus as IconPlus } from '@icon-park/react';
 
 const { Item } = Form;
 const { Panel } = Collapse;
@@ -358,7 +358,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         <span>
           {_label}&nbsp;
           <Tooltip title={labelTip}>
-            <Help className='color-text-icon' />
+            <IconHelp className='color-text-icon' />
           </Tooltip>
         </span>
       );
@@ -372,7 +372,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     }
 
     const addBtn = editing ?
-      <Plus className="pointer" onClick={() => addNewItemToStructArray(property, property.struct[0])} /> : null;
+      <IconPlus className="pointer" onClick={() => addNewItemToStructArray(property, property.struct[0])} /> : null;
     // getFieldDecorator(`${parentKey}-data`, { initialValue: property.value || [] });
     const data = property.value || []; // getFieldValue(`${parentKey}-data`);
     const _val = form.getFieldsValue();

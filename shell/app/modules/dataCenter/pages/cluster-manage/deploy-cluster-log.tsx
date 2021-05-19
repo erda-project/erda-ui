@@ -17,7 +17,7 @@ import { connectCube } from 'common';
 import './deploy-cluster-log.scss';
 import clusterStore from 'dataCenter/stores/cluster';
 import { useLoading } from 'app/common/stores/loading';
-import { Loading } from '@icon-park/react';
+import { Loading as IconLoading } from '@icon-park/react';
 
 interface IProps{
   deployClusterLog: string;
@@ -97,7 +97,7 @@ class DeployClusterLog extends React.Component<IProps, IState> {
     return (
       <div className="deploy-cluster-log" ref={(ref) => { this.preElm = ref; }} onScroll={this.throttleScroll}>
         <pre >{this.props.deployClusterLog}</pre>
-        {fetching && <Loading className="log-state bottom" spin strokeWidth={2} />}
+        {fetching && <IconLoading className="log-state bottom" spin strokeWidth={2} />}
       </div>
     );
   }

@@ -15,7 +15,7 @@ import React from 'react';
 // 使用nusi Select
 import { Modal, NusiSelect as Select } from 'app/nusi';
 import { SelectProps, ModalProps } from 'core/common/interface';
-import { Intersection } from '@icon-park/react'
+import { Intersection as IconIntersection } from '@icon-park/react'
 
 interface IModalProps<T> extends ModalProps{
   children(data: T[], selectKey: number| undefined, handleChange: (data: number)=>void): React.ReactNode;
@@ -67,7 +67,7 @@ function SelectPro<T, S>({ value, dataSource, children, modalProps, onChange, on
       <Select
         value={v}
         style={{ width: '100%' }}
-        actionIcon={<Intersection className="hover-active mr4" style={{transform: 'translateY(-2px)'}} />}
+        actionIcon={<IconIntersection className="hover-active mr4" style={{transform: 'translateY(-2px)'}} />}
         onActionClick={handleModal}
         onChange={handleChange}
         {...prop}

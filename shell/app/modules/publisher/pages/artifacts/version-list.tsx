@@ -28,7 +28,7 @@ import GrayFormModal from './gray-form-modal';
 import { ArtifactsTypeMap } from './config';
 import { useUnmount, useMount } from 'react-use';
 import UploadModal from './upload-modal';
-import { Android, Apple } from '@icon-park/react';
+import { Android as IconAndroid, Apple as IconApple } from '@icon-park/react';
 
 const { Item: TimelineItem } = Timeline;
 
@@ -276,7 +276,7 @@ const VersionList = (props: IProps) => {
                                         </div>
                                       )}
                                     >
-                                      <span className="text"><Apple size="16px" /> {_targetMobiles.ios?.length || 0}个版本</span>
+                                      <span className="text"><IconApple size="16px" /> {_targetMobiles.ios?.length || 0}个版本</span>
                                     </Popover>
                                     <Popover
                                       title={i18n.t('Supported Android package versions')}
@@ -287,7 +287,7 @@ const VersionList = (props: IProps) => {
                                         </div>
                                       )}
                                     >
-                                      <span className="text"><Android size="16px" /> {_targetMobiles.android?.length || 0}个版本</span>
+                                      <span className="text"><IconAndroid size="16px" /> {_targetMobiles.android?.length || 0}个版本</span>
                                     </Popover>
                                   </>
                                 )

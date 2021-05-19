@@ -15,7 +15,7 @@ import { Popover, Input } from 'app/nusi';
 import { isEmpty } from 'lodash';
 import * as React from 'react';
 import i18n from 'i18n';
-import { Check } from '@icon-park/react';
+import { Check as IconCheck } from '@icon-park/react';
 
 import './branch-select.scss';
 
@@ -102,7 +102,7 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
           <div className="title">{i18n.t('application:commit')}</div>
           <ul>
             <li className="branch-item" onClick={() => onChange(commitId)}>
-              {commitId === current ? <Check /> : null}<span>{commitId}</span>
+              {commitId === current ? <IconCheck /> : null}<span>{commitId}</span>
             </li>
           </ul>
         </React.Fragment>
@@ -119,7 +119,7 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
             {
               branchList.map(branch => (
                 <li className="branch-item" onClick={() => onChange(branch)} key={branch}>
-                  {branch === current ? <Check /> : null}<span>{branch}</span>
+                  {branch === current ? <IconCheck /> : null}<span>{branch}</span>
                 </li>
               ))
             }
@@ -132,7 +132,7 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
                   {
                     tagList.map(tag => (
                       <li className="branch-item" onClick={() => onChange(tag)} key={tag}>
-                        {tag === current ? <Check /> : null} <span>{tag}</span>
+                        {tag === current ? <IconCheck /> : null} <span>{tag}</span>
                       </li>
                     ))
                   }

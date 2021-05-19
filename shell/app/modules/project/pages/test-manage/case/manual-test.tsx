@@ -32,7 +32,7 @@ import CaseDrawer from 'project/pages/test-manage/case/case-drawer';
 import testEnvStore from 'project/stores/test-env';
 import { useEffectOnce } from 'react-use';
 import moment from 'moment';
-import { Search } from '@icon-park/react';
+import { Search as IconSearch } from '@icon-park/react';
 import './manual-test.scss';
 
 const ManualTest = () => {
@@ -124,7 +124,7 @@ const ManualTest = () => {
               style={{ width: '160px' }}
               placeholder={i18n.t('project:search for')}
               onChange={e => debouncedSearch({ query: e.target.value, pageNo: 1 })}
-              prefix={<Search />}
+              prefix={<IconSearch />}
             />
             <Button onClick={() => setEnhanceFilterVisible(true)}>
               <CustomIcon type="filter" />

@@ -19,7 +19,7 @@ import i18n from 'i18n';
 import { useUpdateEffect } from 'react-use';
 import { getCheckListFromRule } from 'configForm/form/form';
 import { get, isEmpty, map, isEqual, isArray, isPlainObject, set, compact, includes, filter, debounce } from 'lodash';
-import { ReduceOne } from '@icon-park/react'
+import { ReduceOne as IconReduceOne } from '@icon-park/react'
 import './edit-list.scss';
 
 interface IData {
@@ -208,7 +208,7 @@ const EditList = (props: IELProps) => {
   return (
     <div className='edit-list'>
       <div className='edit-list-box'>
-        { showTitle ? <ListItem dataTemp={dataTemp} isTitle operation={<ReduceOne className='edit-list-item-operation not-allowed' />} /> : null}
+        { showTitle ? <ListItem dataTemp={dataTemp} isTitle operation={<IconReduceOne className='edit-list-item-operation not-allowed' />} /> : null}
         {
           map(value, (item, idx) => (
             <ListItem

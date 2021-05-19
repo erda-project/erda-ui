@@ -24,7 +24,7 @@ import { find, get } from 'lodash';
 import appStore from 'application/stores/application';
 import { isInDiceDirectory } from 'application/common/yml-flow-util';
 import { usePerm } from 'user/common';
-import { DownOne } from '@icon-park/react';
+import { DownOne as IconDownOne } from '@icon-park/react';
 
 const PureRepoNavOperation = () => {
   const [modalVisible, setModalVisible] = React.useState(false);
@@ -235,7 +235,7 @@ export const RepoNav = React.forwardRef(({ info, tree, isFetchingInfo, appId }: 
         >
           <span>{isTag ? i18n.t('application:tag') : treeCommitId ? i18n.t('application:commit') : i18n.t('application:branch')}:</span>
           <span className="branch-name bold nowrap">{curBranch}</span>
-          <DownOne theme="filled" size="16px" />
+          <IconDownOne theme="filled" size="16px" />
         </BranchSelect>
         <RepoBreadcrumb path={tree.path}>
           <RepoNavOperation />

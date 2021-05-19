@@ -20,7 +20,7 @@ import routeInfoStore from 'common/stores/route';
 import breadcrumbStore from 'layout/stores/breadcrumb';
 import { filter, isEmpty, isFunction } from 'lodash';
 import { matchPath } from 'react-router-dom';
-import { Right } from '@icon-park/react';
+import { Right as IconRight } from '@icon-park/react';
 import './header.scss';
 
 const Header = () => {
@@ -129,7 +129,7 @@ const Header = () => {
         routes: allRoutes,
         itemRender,
         params,
-        separator: <Right size="14px" />,
+        separator: <IconRight size="14px" />,
       }}
       title={pageName}
     >

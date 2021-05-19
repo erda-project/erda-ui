@@ -35,7 +35,7 @@ import { useLoading } from 'common/stores/loading';
 import { goTo } from 'common/utils';
 import appStore from 'application/stores/application';
 import { repositoriesTypes } from 'application/common/config';
-import { Plus, Search } from '@icon-park/react';
+import { Plus as IconPlus, Search as IconSearch } from '@icon-park/react';
 import './index.scss';
 
 type IListKey = 'RESOURCE' | 'DATATYPE';
@@ -319,7 +319,7 @@ const ApiDesign = () => {
   const renderPanelHead = (titleKey: IListKey) => (
     <div className="list-panel-head flex-box">
       <span className="bold">{LIST_TITLE_MAP[titleKey]}</span>
-      { !apiLockState && <Plus className="mr0 pointer" size="16px" onClick={(e) => { e.stopPropagation(); onAddHandle(titleKey); }} />}
+      { !apiLockState && <IconPlus className="mr0 pointer" size="16px" onClick={(e) => { e.stopPropagation(); onAddHandle(titleKey); }} />}
     </div>
   );
 
@@ -594,7 +594,7 @@ const ApiDesign = () => {
                             <Input
                               placeholder={i18n.t('input keyword search')}
                               className="px8 my12 api-filter-input"
-                              prefix={<Search />}
+                              prefix={<IconSearch />}
                               onInput={(e: React.ChangeEvent<HTMLInputElement>) => updater.filterKey(e.target.value)}
                             />
 

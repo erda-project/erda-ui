@@ -20,7 +20,7 @@ import './source-target-select.scss';
 import i18n from 'i18n';
 import repoStore from 'application/stores/repo';
 import routeInfoStore from 'app/common/stores/route';
-import { DownOne } from '@icon-park/react';
+import { DownOne as IconDownOne } from '@icon-park/react';
 
 const noop = () => { };
 
@@ -203,7 +203,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
                 {sourceBranch || null}
               </span>
               <IF check={sourceBranch}>
-                <DownOne theme="filled" size="16px" />
+                <IconDownOne theme="filled" size="16px" />
               </IF>
             </BranchSelect>
             <div className="branch-merge-arrow"><CustomIcon type="arrow-right" /></div>
@@ -216,7 +216,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
                 {targetBranch || null}
               </span>
               <IF check={targetBranch}>
-                <DownOne theme="filled" size="16px" />
+                <IconDownOne theme="filled" size="16px" />
               </IF>
             </BranchSelect>
           </div>
@@ -239,7 +239,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
               {sourceBranch || null}
             </span>
             <IF check={sourceBranch}>
-              <DownOne theme="filled" size="16px" />
+              <IconDownOne theme="filled" size="16px" />
             </IF>
           </BranchSelect>
           <div className="branch-merge-arrow"><CustomIcon type="arrow-right" /></div>
@@ -253,7 +253,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
               {targetBranch || null}
             </span>
             <IF check={targetBranch}>
-              <DownOne theme="filled" size="16px" />
+              <IconDownOne theme="filled" size="16px" />
             </IF>
           </BranchSelect>
           {/* <IF check={!hideCompareBtn}>

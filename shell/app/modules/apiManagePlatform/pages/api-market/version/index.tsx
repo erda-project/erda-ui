@@ -26,7 +26,7 @@ import { ClickParam } from 'core/common/interface';
 import { get, pick } from 'lodash';
 import moment from 'moment';
 import i18n from 'i18n';
-import { DownOne } from '@icon-park/react';
+import { DownOne as IconDownOne } from '@icon-park/react';
 import './index.scss';
 
 type KeyAuth = 'public'| 'private';
@@ -183,7 +183,7 @@ const ApiVersions = () => {
           <UnityAuthWrap path={['apiMarket', 'publicAsset']} userID={creatorID}>
             <Dropdown overlay={menu}>
               <Button >
-                {asset.public ? i18n.t('public') : i18n.t('private')}<DownOne theme="filled" size="16px" />
+                {asset.public ? i18n.t('public') : i18n.t('private')}<IconDownOne theme="filled" size="16px" />
               </Button>
             </Dropdown>
           </UnityAuthWrap>

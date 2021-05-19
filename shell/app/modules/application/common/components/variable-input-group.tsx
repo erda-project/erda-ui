@@ -15,7 +15,7 @@ import React, { PureComponent } from 'react';
 import { Input } from 'app/nusi';
 import i18n from 'i18n';
 import './variable-input-group.scss';
-import { Lock, Delete } from '@icon-park/react';
+import { Lock as IconLock, Delete as IconDelete } from '@icon-park/react';
 
 interface IVariableInputGroupProps {
   value: any;
@@ -62,8 +62,8 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
         <Input disabled={disabled} className="variable-input" value={key} onChange={this.changeKey} placeholder={i18n.t('application:please enter the key')} />
         <span className="variable-equal">=</span>
         <Input disabled={disabled} className="variable-input" value={value} onChange={this.changeValue} placeholder={i18n.t('application:please input the value')} />
-        {lock !== false ? <Lock className="variable-icon variable-input-lock" /> : null}
-        {disabled ? null : <Delete className={`variable-icon pointer ${lock === false && 'ml12'}`} onClick={() => onDelete(key)} />}
+        {lock !== false ? <IconLock className="variable-icon variable-input-lock" /> : null}
+        {disabled ? null : <IconDelete className={`variable-icon pointer ${lock === false && 'ml12'}`} onClick={() => onDelete(key)} />}
       </div>
     );
   }

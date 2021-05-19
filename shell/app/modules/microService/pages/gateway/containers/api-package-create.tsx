@@ -26,7 +26,7 @@ import routeInfoStore from 'common/stores/route';
 import gatewayStore from 'microService/stores/gateway';
 import { useLoading } from 'app/common/stores/loading';
 import { PAGINATION } from 'app/constants';
-import { ReduceOne, AddOne } from '@icon-park/react';
+import { ReduceOne as IconReduceOne, AddOne as IconAddOne } from '@icon-park/react';
 
 const FormItem = Form.Item;
 const { Step } = Steps;
@@ -91,9 +91,9 @@ const BindDomainForm = (props: any) => {
                 )
               }
               <div className="bind-domain-icons">
-                <AddOne className="input-with-icon pointer mr0" onClick={() => addOne()} />
+                <IconAddOne className="input-with-icon pointer mr0" onClick={() => addOne()} />
                 {
-                  index !== 0 ? <ReduceOne className="input-with-icon pointer mr0" onClick={() => { dropOne(index); }} /> : null
+                  index !== 0 ? <IconReduceOne className="input-with-icon pointer mr0" onClick={() => { dropOne(index); }} /> : null
                 }
               </div>
             </FormItem>

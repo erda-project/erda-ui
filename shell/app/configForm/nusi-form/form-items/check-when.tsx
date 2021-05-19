@@ -17,7 +17,7 @@ import { Select, Input, Tooltip, Form } from 'app/nusi';
 import { getLabel, noop } from './common';
 import i18n from 'i18n';
 import './check-when.scss';
-import { AddOne, ReduceOne } from '@icon-park/react';
+import { AddOne as IconAddOne, ReduceOne as IconReduceOne } from '@icon-park/react';
 
 const { Option } = Select;
 
@@ -127,13 +127,13 @@ const Item = (props: IItemProps) => {
           updateItem={(v) => updateItem(v, idx)}
           operation={(
             <Tooltip title='删除条件项'>
-              <ReduceOne className='combiner-operation sub' onClick={() => deleteSubItem(idx)} />
+              <IconReduceOne className='combiner-operation sub' onClick={() => deleteSubItem(idx)} />
             </Tooltip>
             )}
         />
       ))}
       <Tooltip title='添加条件项（统一条件组内的项之间为逻辑与关系）'>
-        <AddOne className='combiner-operation sub' onClick={() => addSubItem()} />
+        <IconAddOne className='combiner-operation sub' onClick={() => addSubItem()} />
       </Tooltip>
     </div>
   );
@@ -276,7 +276,7 @@ export const CheckWhenCombiner = (props: IProps) => {
                   fieldOption={fieldOption}
                 />
                 <Tooltip title='删除条件组'>
-                  <ReduceOne className='combiner-operation' onClick={() => deleteItem(rowIdx)} />
+                  <IconReduceOne className='combiner-operation' onClick={() => deleteItem(rowIdx)} />
                 </Tooltip>
               </div>
               {rowIdx === data.length - 1 ? null : <div className='split'>或</div>}
@@ -285,7 +285,7 @@ export const CheckWhenCombiner = (props: IProps) => {
         })
       }
       <Tooltip title='添加条件组（不同条件组之间为逻辑或关系）'>
-        <AddOne className='combiner-operation' onClick={addItem} />
+        <IconAddOne className='combiner-operation' onClick={addItem} />
       </Tooltip>
     </div>
   );

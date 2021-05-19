@@ -34,7 +34,7 @@ import PipelineLog from './pipeline-log';
 import './index.scss';
 import deployStore from 'application/stores/deploy';
 import orgStore from 'app/org-home/stores/org';
-import { Loading, Up, Down, Attention } from '@icon-park/react';
+import { Loading as IconLoading, Up as IconUp, Down as IconDown, Attention as IconAttention } from '@icon-park/react';
 
 const { TextArea } = Input;
 const { ELSE } = IF;
@@ -453,7 +453,7 @@ const BuildDetail = (props: IProps) => {
     const paddingEle = (
       <div className="build-operator mx0">
         <Tooltip title={i18n.t('preparing')}>
-        <Loading size="20px" strokeWidth={2} style={{transform: 'translateY(0)'}} spin />
+          <IconLoading size="20px" strokeWidth={2} style={{transform: 'translateY(0)'}} spin />
         </Tooltip>
       </div>
     );
@@ -697,8 +697,8 @@ const BuildDetail = (props: IProps) => {
               </Row>
               <div className="trigger-btn" onClick={toggleExpandInfo}>
                 { !isExpand 
-                  ? <Down size="18px" className="mr0" />
-                  : <Up size="18px" className="mr0" />
+                  ? <IconDown size="18px" className="mr0" />
+                  : <IconUp size="18px" className="mr0" />
                 }
               </div>
             </div>
@@ -708,7 +708,7 @@ const BuildDetail = (props: IProps) => {
               showMessage && showMessage.msg
                 ? (
                   <div className="build-detail-err-msg mb8">
-                    <div className="build-err-header"><Attention size="18px" className="build-err-icon" /><pre>{showMessage.msg}</pre></div>
+                    <div className="build-err-header"><IconAttention size="18px" className="build-err-icon" /><pre>{showMessage.msg}</pre></div>
                     <div className="build-err-stack"><ul style={{ listStyle: 'disc' }}>{showMessage.stacks.map((stack, i) => <li key={`${stack}-${String(i)}`}><pre style={{ overflow: 'hidden', whiteSpace: 'pre-wrap' }}>{stack}</pre></li>)}</ul></div>
                   </div>
                 ) : null

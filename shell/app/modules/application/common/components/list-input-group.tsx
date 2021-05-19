@@ -16,7 +16,7 @@ import { Input, InputNumber } from 'app/nusi';
 import { cloneDeep, map } from 'lodash';
 import './variable-input-group.scss';
 import { uuid } from 'common/utils';
-import { Delete, Plus } from '@icon-park/react';
+import { Delete as IconDelete, Plus as IconPlus } from '@icon-park/react';
 
 interface IVariableInputGroupProps {
   value: any;
@@ -90,7 +90,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
       return (
         <div key={id} className="list-full-input-group">
           {inputField}
-          { disabled ? null : <Delete className="variable-icon ml12 pointer" onClick={() => this.onDelete(index)} />}
+          { disabled ? null : <IconDelete className="variable-icon ml12 pointer" onClick={() => this.onDelete(index)} />}
         </div>
       );
     });
@@ -99,7 +99,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
         <span className={isProperty === true ? 'edit-service-label' : 'global-input-form-title'}>
           {required ? <span className="ant-form-item-required" /> : null}
           {label ? <span>{label}:</span> : null}
-          {disabled ? null : <Plus className="edit-service-label-icon pointer" onClick={this.addPort} />}
+          {disabled ? null : <IconPlus className="edit-service-label-icon pointer" onClick={this.addPort} />}
         </span>
         {inputs}
       </div>

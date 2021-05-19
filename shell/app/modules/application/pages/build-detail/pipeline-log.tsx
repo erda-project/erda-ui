@@ -20,7 +20,7 @@ import { isEmpty } from 'lodash';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import { useUpdate, EmptyHolder, Icon as CustomIcon } from 'common';
 import './pipeline-log.scss';
-import { Loading } from '@icon-park/react';
+import { Loading as IconLoading } from '@icon-park/react';
 
 let timer: any;
 const DURATION = 10000;// 10秒刷新一次
@@ -83,7 +83,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
   const logOperation = [
     {
       title: isFecthing
-        ? <Loading spin strokeWidth={2} />
+        ? <IconLoading spin strokeWidth={2} />
         : (
           <Tooltip title={isBuilding ? `${i18n.t('application:refresh every {time}, click to refresh now', { time: `${DURATION / 1000} ${i18n.t('common:second')}` })}` : i18n.t('refresh')}>
             <CustomIcon type='refresh' className='pointer color-text-desc' onClick={() => delayGetList(getList, 0)} />

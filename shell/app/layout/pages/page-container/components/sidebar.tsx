@@ -27,7 +27,7 @@ import { FULL_DOC_DOMAIN } from 'common/constants';
 import diceEnv from 'dice-env';
 import Logo from 'app/images/Erda.svg';
 import orgStore from 'app/org-home/stores/org';
-import { Help, Remind } from '@icon-park/react';
+import { Help as IconHelp, Remind as IconRemind } from '@icon-park/react';
 import './sidebar.scss';
 
 import devopsSvg from 'app/images/devops_menu.svg';
@@ -160,7 +160,7 @@ const SideBar = () => {
       show: true,
       icon: (
         <Tooltip title={i18n.t('layout:view doc')} placement="right">
-          <Help className='mr0' size="20px" />
+          <IconHelp className='mr0' size="20px" />
         </Tooltip>
       ),
       onClick: () => {
@@ -185,7 +185,7 @@ const SideBar = () => {
       show: !loginUser.isSysAdmin && currentOrg.id,
       icon: (
         <Badge dot count={unreadCount} offset={[-5, 2]} style={{ width: '4px', height: '4px', boxShadow: 'none' }}>
-          <Remind className="mr0" size="20px" style={customIconStyle} />
+          <IconRemind className="mr0" size="20px" style={customIconStyle} />
         </Badge>
       ),
       onClick: () => switchMessageCenter(null),

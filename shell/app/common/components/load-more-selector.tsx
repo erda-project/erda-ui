@@ -19,7 +19,7 @@ import { map, isEmpty, isNumber, filter, find, isArray, get, isEqual } from 'lod
 import { useEffectOnce, useDebounce, useDeepCompareEffect } from 'react-use';
 import { useUpdate, Icon as CustomIcon } from 'common';
 import { isPromise } from 'common/utils';
-import { CloseOne, Loading as IconLoading } from '@icon-park/react'
+import { CloseOne as IconCloseOne, Loading as IconLoading } from '@icon-park/react'
 import i18n from 'i18n';
 
 import './load-more-selector.scss';
@@ -374,7 +374,7 @@ const PureLoadMoreSelector = (props: IProps) => {
           }
           {
             (allowClear && !isEmpty(chosenItem)) ? (
-              <CloseOne
+              <IconCloseOne
                 className="close"
                 size="14px"
                 onClick={(e: any) => {

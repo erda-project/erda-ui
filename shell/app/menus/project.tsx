@@ -12,10 +12,16 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import i18n from 'i18n';
-import { get, filter } from 'lodash';
+import { filter } from 'lodash';
 import permStore from 'user/stores/permission';
 import { goTo } from 'common/utils';
-import { ApplicationOne, DashboardCar, List, Config, DataAll } from '@icon-park/react';
+import { 
+  ApplicationOne as IconApplicationOne, 
+  DashboardCar as IconDashboardCar, 
+  List as IconList, 
+  Config as IconConfig, 
+  DataAll as IconDataAll 
+} from '@icon-park/react';
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
 
@@ -25,7 +31,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
   const menu = [
     {
       href: goTo.resolve.projectApps(), // `/workBench/projects/${projectId}/apps`,
-      icon: <ApplicationOne />,
+      icon: <IconApplicationOne />,
       text: i18n.t('project:applications'),
       show: projectPerm.appList.viewAppList.pass,
     },
@@ -74,7 +80,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     },
     {
       href: goTo.resolve.projectDashboard(), // `/workBench/projects/${projectId}/dashboard`,
-      icon: <DashboardCar />,
+      icon: <IconDashboardCar />,
       text: i18n.t('project:dashboard'),
       show: projectPerm.dashboard.viewDashboard.pass,
     },
@@ -86,13 +92,13 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     },
     {
       text: i18n.t('project:resource summary'),
-      icon: <DataAll />,
+      icon: <IconDataAll />,
       href: goTo.resolve.projectResource(),
       show: projectPerm.resource.viewResource.pass,
     },
     {
       text: i18n.t('project:tickets'),
-      icon: <List />,
+      icon: <IconList />,
       href: goTo.resolve.projectTicket(),
       show: projectPerm.ticket.read.pass,
     },
@@ -103,7 +109,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     // }
     {
       href: goTo.resolve.projectSetting(), // `/workBench/projects/${projectId}/setting`,
-      icon: <Config />,
+      icon: <IconConfig />,
       text: `${i18n.t('project setting')}`,
       show: projectPerm.setting.viewSetting.pass,
     },

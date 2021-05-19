@@ -19,7 +19,7 @@ import { isEmpty } from 'lodash';
 import { Spin } from 'app/nusi';
 import * as React from 'react';
 import i18n from 'i18n';
-import { Attention } from '@icon-park/react';
+import { Attention as IconAttention } from '@icon-park/react';
 
 
 interface IProps {
@@ -139,7 +139,7 @@ export class PipelineDetail extends React.Component<IProps, IState> {
             showMessage && showMessage.msg
               ? (
                 <div className="build-detail-err-msg">
-                  <div className="build-err-header"><Attention className="build-err-icon" /><pre>{showMessage.msg}</pre></div>
+                  <div className="build-err-header"><IconAttention className="build-err-icon" /><pre>{showMessage.msg}</pre></div>
                   <div className="build-err-stack"><ul style={{ listStyle: 'disc' }}>{showMessage.stacks.map((stack: any) => <li><pre>{stack}</pre></li>)}</ul></div>
                 </div>
               )

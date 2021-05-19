@@ -22,7 +22,7 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import './resource.scss';
 import appStore from 'application/stores/application';
 import routeInfoStore from 'common/stores/route';
-import { Right } from '@icon-park/react';
+import { Right as IconRight } from '@icon-park/react';
 
 class ProjectResource extends React.PureComponent {
   constructor(props) {
@@ -74,7 +74,7 @@ class ProjectResource extends React.PureComponent {
     const { timeSpan } = this.props;
     return (
       <div className="project-resource">
-        <Breadcrumb separator={<Right size="14px" className="fz12" />} className="path-breadcrumb">
+        <Breadcrumb separator={<IconRight size="14px" className="fz12" />} className="path-breadcrumb">
           {
             paths.map((p, i) => {
               const isLast = i === paths.length - 1;

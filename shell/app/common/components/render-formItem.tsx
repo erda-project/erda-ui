@@ -16,7 +16,7 @@ import { Form, Input, Select, InputNumber, Switch, Radio, Checkbox, Cascader, Da
 import { WrappedFormUtils } from 'core/common/interface';
 import classnames from 'classnames';
 import { ClassWrapper } from './class-wrap';
-import { Help, AddOne, ReduceOne } from '@icon-park/react';
+import { Help as IconHelp, AddOne as IconAddOne, ReduceOne as IconReduceOne } from '@icon-park/react';
 import i18n from 'i18n';
 
 const FormItem = Form.Item;
@@ -242,7 +242,7 @@ export const RenderFormItem = ({
       <span>
         {label}&nbsp;
         <Tooltip title={labelTip}>
-          <Help className='color-text-icon' />
+          <IconHelp className='color-text-icon' />
         </Tooltip>
       </span>
     )
@@ -254,10 +254,10 @@ export const RenderFormItem = ({
       }
       {suffix}
       {
-        addOne ? <AddOne className="render-form-op" onClick={() => addOne(name)} /> : null
+        addOne ? <IconAddOne className="render-form-op" onClick={() => addOne(name)} /> : null
       }
       {
-        dropOne ? <ReduceOne className="render-form-op" onClick={() => dropOne(name)} /> : null
+        dropOne ? <IconReduceOne className="render-form-op" onClick={() => dropOne(name)} /> : null
       }
     </FormItem>
   );

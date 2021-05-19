@@ -24,7 +24,7 @@ import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 import './status-detail.scss';
 import routeInfoStore from 'common/stores/route';
-import { Info } from '@icon-park/react';
+import { Info as IconInfo } from '@icon-park/react';
 
 const StatusDetail = () => {
   const params = routeInfoStore.useStore(s => s.params);
@@ -148,7 +148,7 @@ const StatusDetail = () => {
               <span className="name">{i18n.t('microService:downtime')}</span>
               <span className="value">
                 <Tooltip title={emptyText(data.downtime)}>{data.downDuration}</Tooltip>
-                <Info size="16px" theme="filled" className="info-icon" />
+                <IconInfo size="16px" theme="filled" className="info-icon" />
               </span>
             </div>
           </Col>

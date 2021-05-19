@@ -22,7 +22,7 @@ import i18n from 'i18n';
 import routeInfoStore from 'app/common/stores/route';
 import runtimeStore from 'runtime/stores/runtime';
 import runtimeDomainStore from 'runtime/stores/domain';
-import { ReduceOne, AddOne } from '@icon-park/react';
+import { ReduceOne as IconReduceOne, AddOne as IconAddOne } from '@icon-park/react';
 
 import './domain-modal.scss';
 
@@ -203,7 +203,7 @@ const DomainModal = (props: IProps) => {
                   <div className="custom-domain" key="custom">
                     <span>{i18n.t('runtime:custom domain name')}:</span>
                     <span className="add-domain-icon">
-                      <AddOne
+                      <IconAddOne
                         className="hover-active fz18 ml12 pointer"
                         onClick={() => addCustom()}
                       />
@@ -246,7 +246,7 @@ const DomainModal = (props: IProps) => {
                         >
                           <span className="delete-domain-icon">
                             {' '}
-                            <ReduceOne className="hover-active fz18 pointer" />{' '}
+                            <IconReduceOne className="hover-active fz18 pointer" />{' '}
                           </span>
                         </Popconfirm>
                         }

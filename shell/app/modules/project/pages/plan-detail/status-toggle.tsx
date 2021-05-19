@@ -15,7 +15,7 @@ import React from 'react';
 import { Menu, Dropdown } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
 import { map } from 'lodash';
-import { Down } from '@icon-park/react';
+import { Down as IconDown } from '@icon-park/react';
 import './status-toggle.scss';
 import i18n from 'i18n';
 
@@ -126,7 +126,7 @@ export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {
   return (
     <Dropdown overlay={menu} placement="bottomRight">
       <span>
-        {(stateMap[curState] || {}).child} <Down size="16px" />
+        {(stateMap[curState] || {}).child} <IconDown size="16px" />
       </span>
     </Dropdown>
   );

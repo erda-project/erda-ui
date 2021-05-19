@@ -27,7 +27,7 @@ import { updateSearch } from 'common/utils';
 import { useMount } from 'react-use';
 import './index.scss';
 import ReactDOM from 'react-dom';
-import { DownOne } from '@icon-park/react';
+import { DownOne as IconDownOne } from '@icon-park/react';
 
 const { TreeNode } = Tree;
 
@@ -364,7 +364,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
       >
         <span>{i18n.t('document')}：</span>
         <span className="name nowrap">{treeNodeData?.branchName ? `${treeNodeData?.branchName}/${treeNodeData?.apiDocName}` : i18n.t('common:no data')}</span>
-        <DownOne size="16px" theme="filled" />
+        <IconDownOne size="16px" theme="filled" />
       </button>
     </Popover>
   );

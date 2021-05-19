@@ -22,7 +22,7 @@ import LogAnalyzeStore from 'dataCenter/stores/log-analyze';
 import { getJoinedProjects } from 'user/services/user';
 import { getApps } from 'common/services';
 import i18n from 'i18n';
-import { Loading } from '@icon-park/react';
+import { Loading as IconLoading } from '@icon-park/react';
 import './log-tag-selector.scss';
 
 const MenuItem = Menu.Item;
@@ -473,7 +473,7 @@ const LoadMoreMenu = (props:ILoadMoreProps) => {
       }
       { hasMore ? (
         <div className="pointer load-more" onClick={(e) => { e.stopPropagation(); updater.pageNo(pageNo + 1); }}>
-          { loading ? <Loading spin strokeWidth={2} /> : <Loading strokeWidth={2} /> }
+          <IconLoading spin={loading} strokeWidth={2} />
           {i18n.t('load more')}
         </div>
       ) : null }

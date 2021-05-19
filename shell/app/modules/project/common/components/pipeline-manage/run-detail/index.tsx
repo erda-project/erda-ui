@@ -27,7 +27,7 @@ import { ymlDataToFormData } from 'app/yml-chart/common/in-params-drawer';
 import SnippetDetail from './snippet-detail';
 import { ResultViewDrawer } from './result-view';
 import i18n from 'i18n';
-import { Attention } from '@icon-park/react';
+import { Attention as IconAttention } from '@icon-park/react';
 import './index.scss';
 
 const { confirm } = Modal;
@@ -320,7 +320,7 @@ const RunDetail = (props: IProps) => {
           showMessage && showMessage.msg
             ? (
               <div className="auto-test-detail-err-msg mb8">
-                <div className="auto-test-err-header"><Attention className="auto-test-err-icon" /><pre>{showMessage.msg}</pre></div>
+                <div className="auto-test-err-header"><IconAttention className="auto-test-err-icon" /><pre>{showMessage.msg}</pre></div>
                 <div className="auto-test-err-stack"><ul style={{ listStyle: 'disc' }}>{showMessage.stacks.map((stack, i) => <li key={`${stack}-${String(i)}`}><pre style={{ overflow: 'hidden', whiteSpace: 'pre-wrap' }}>{stack}</pre></li>)}</ul></div>
               </div>
             ) : null

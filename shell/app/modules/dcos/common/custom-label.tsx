@@ -17,7 +17,7 @@ import { isString, isEmpty, remove, find, some } from 'lodash';
 import { useUnmount } from 'react-use';
 import i18n from 'i18n';
 import './custom-label.scss';
-import { Close } from '@icon-park/react';
+import { Close as IconClose } from '@icon-park/react';
 
 interface IProps {
   value?: string[] | string;
@@ -79,7 +79,7 @@ export const CustomLabel = React.forwardRef(({ value = emptyArr, onChange = empt
               className={'tag-default'}
             >
               {item}
-              <Close className="pointer" onClick={() => { deleteLabel(item); }} />
+              <IconClose className="pointer" onClick={() => { deleteLabel(item); }} />
             </span>
           );
         })

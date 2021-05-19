@@ -15,7 +15,7 @@ import React, { PureComponent } from 'react';
 import { Input, message } from 'app/nusi';
 import { cloneDeep, forEach, isEqual } from 'lodash';
 import i18n from 'i18n';
-import { Plus, Delete } from '@icon-park/react';
+import { Plus as IconPlus, Delete as IconDelete } from '@icon-park/react';
 
 interface IEditGlobalVariableProps {
   value: any;
@@ -84,7 +84,7 @@ class ObjectInputGroup extends PureComponent<IEditGlobalVariableProps, any> {
           <Input disabled={disabled} className="variable-input" value={item.key} onChange={(e: any) => this.changeKey(e, index)} placeholder={`${i18n.t('application:please enter')}Key`} />
           <span className="variable-equal">=</span>
           <Input disabled={disabled} className="variable-input" value={item.value} onChange={(e: any) => this.changeValue(e, index)} placeholder={`${i18n.t('application:please enter')}Value`} />
-          {disabled ? null : <Delete className="variable-icon ml12 pointer" onClick={() => this.deleteVariable(index)} />}
+          {disabled ? null : <IconDelete className="variable-icon ml12 pointer" onClick={() => this.deleteVariable(index)} />}
         </div>
       );
     });
@@ -94,7 +94,7 @@ class ObjectInputGroup extends PureComponent<IEditGlobalVariableProps, any> {
         <div className={isProperty === true ? 'edit-service-label' : 'global-input-form-title'}>
           {required ? <span className="ant-form-item-required" /> : null}
           {label}：
-          {disabled ? null : <Plus className="variable-icon pointer" onClick={this.addNewVariable} />}
+          {disabled ? null : <IconPlus className="variable-icon pointer" onClick={this.addNewVariable} />}
         </div>
         {content}
       </div>

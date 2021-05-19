@@ -25,7 +25,7 @@ import { WrappedFormUtils } from 'core/common/interface';
 import './repo-mr-form.scss';
 import routeInfoStore from 'common/stores/route';
 import layoutStore from 'layout/stores/layout';
-import { Down } from '@icon-park/react';
+import { Down as IconDown } from '@icon-park/react';
 interface IModel {
   visible: boolean;
   tplContent: string;
@@ -267,7 +267,7 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
     return (
       <Dropdown overlay={menu}>
         <span className="inline-v-align fz12 mr8 pointer">
-          {tplName ? `${i18n.t('selected template')}:${tplName.replace('.md', '')}` : i18n.t('select template')} <Down size="16px" />
+          {tplName ? `${i18n.t('selected template')}:${tplName.replace('.md', '')}` : i18n.t('select template')} <IconDown size="16px" />
         </span>
       </Dropdown>
     );

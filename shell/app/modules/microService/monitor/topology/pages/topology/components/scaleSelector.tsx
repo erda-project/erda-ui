@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { Select } from 'app/nusi';
 import { map } from 'lodash';
-import { Minus, Plus } from '@icon-park/react';
+import { Minus as IconMinus, Plus as IconPlus } from '@icon-park/react';
 import './scaleSelector.scss';
 
 const { Option } = Select;
@@ -48,13 +48,13 @@ export const ScaleSelector = ({ scale, onChange }: IProps) => {
 
   return (
     <div className="scale-selector">
-      <Minus size="16px" className="scale-minus scale-op" onClick={() => changeScale(Number((curScale - 0.2).toFixed(1)))} />
+      <IconMinus size="16px" className="scale-minus scale-op" onClick={() => changeScale(Number((curScale - 0.2).toFixed(1)))} />
       <Select value={`${(curScale * 100).toFixed(0)}%`} onChange={changeScale} showArrow={false} dropdownMatchSelectWidth={false}>
         {map(scaleOpt, ({ name, value }) => (
           <Option key={value} value={value}>{name}</Option>
         ))}
       </Select>
-      <Plus size="16px" className="scale-plus scale-op" onClick={() => changeScale(Number((curScale + 0.2).toFixed(1)))} />
+      <IconPlus size="16px" className="scale-plus scale-op" onClick={() => changeScale(Number((curScale + 0.2).toFixed(1)))} />
     </div>
   );
 };

@@ -22,7 +22,7 @@ import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
 import cloudServiceStore from 'dcos/stores/cloud-service';
 import routeInfoStore from 'common/stores/route';
 import { useLoading } from 'common/stores/loading';
-import { Help } from '@icon-park/react';
+import { Help as IconHelp } from '@icon-park/react';
 
 const { TabPane } = Tabs;
 
@@ -131,7 +131,7 @@ const Group = () => {
         <span>
           Group ID&nbsp;
           <Tooltip title={i18n.t('dcos:GroupID-cannot-modified')}>
-            <Help />
+            <IconHelp />
           </Tooltip>
         </span>
       ),

@@ -23,7 +23,7 @@ import { Button, Collapse, Popconfirm, Spin, Table, Tooltip, Input, Modal } from
 import * as React from 'react';
 import { useEffectOnce, useUnmount } from 'react-use';
 import { VariableConfigForm } from './variable-config-form';
-import { Info } from '@icon-park/react';
+import { Info as IconInfo } from '@icon-park/react';
 
 const { Panel } = Collapse;
 
@@ -187,7 +187,7 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
         <div className="flex-box">
           <span className="for-copy nowrap" data-clipboard-text={text}>{text}</span>
           <span>
-            {source === 'certificate' && <Tooltip title={i18n.t('common:from certificate push')}><Info className="ml4 color-text-sub" /></Tooltip>}
+            {source === 'certificate' && <Tooltip title={i18n.t('common:from certificate push')}><IconInfo className="ml4 color-text-sub" /></Tooltip>}
             {isFromDefault && <span className="tag tag-warning ml4">{i18n.t('common:default')}</span>}
           </span>
         </div>

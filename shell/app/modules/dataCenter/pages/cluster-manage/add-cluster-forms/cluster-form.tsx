@@ -22,7 +22,7 @@ import { WrappedFormUtils } from 'core/common/interface';
 import { clusterTypeMap } from './cluster-type-modal';
 import clusterStore from '../../../stores/cluster';
 import { regRules } from 'common/utils';
-import { Down, Up } from '@icon-park/react';
+import { Down as IconDown, Up as IconUp } from '@icon-park/react';
 import './cluster-form.scss';
 
 enum RepeatMode {
@@ -463,7 +463,7 @@ const ClusterAddForm = (props:any) => {
           <div className="more">
             <a className="more-btn" onClick={() => setShowMore(!showMore)}>
               {i18n.t('advanced settings')}
-              { showMore ? <Down size="16px" /> : <Up size="16px" />}
+              { showMore ? <IconDown size="16px" /> : <IconUp size="16px" />}
             </a>
             <div className={`more-form ${showMore ? '' : 'hide'}`}>
               <ClusterSchedulerForm form={form} clusterType={clusterType} formData={formData} editMode={mode === 'edit'} />

@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { Tooltip } from 'app/nusi';
-import { Help } from '@icon-park/react';
+import { Help as IconHelp } from '@icon-park/react';
 
 export const getLabel = (label: string, labelTip: string, required = true) => {
   let _label: any = label;
@@ -23,7 +23,7 @@ export const getLabel = (label: string, labelTip: string, required = true) => {
         {required ? <span style={{ color: 'red', marginRight: 4 }}>*</span> : null}
         {_label}&nbsp;
         <Tooltip title={labelTip}>
-          <Help className='color-text-icon' />
+          <IconHelp className='color-text-icon' />
         </Tooltip>
       </span>
     );

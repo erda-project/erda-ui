@@ -22,7 +22,7 @@ import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
 import routeInfoStore from 'common/stores/route';
 import cloudServiceStore from 'dcos/stores/cloud-service';
 import { useLoading } from 'common/stores/loading';
-import { Help } from '@icon-park/react';
+import { Help as IconHelp } from '@icon-park/react';
 
 const Topic = () => {
   const MQTopicList = cloudServiceStore.useStore(s => s.MQTopicList);
@@ -152,7 +152,7 @@ const Topic = () => {
         <span>
           {i18n.t('resource:message type')}&nbsp;
           <Tooltip title={i18n.t('dcos:common-messages-suitable-for')}>
-            <Help />
+            <IconHelp />
           </Tooltip>
         </span>
       ),

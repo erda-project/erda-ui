@@ -28,7 +28,7 @@ import i18n from 'i18n';
 import routeInfoStore from 'common/stores/route';
 import { getCloudResourceTagsCol, getCloudResourceIDNameCol, getCloudResourceStatusCol, getCloudResourceRegionCol } from 'dataCenter/common/components/table-col';
 import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
-import { DownOne } from '@icon-park/react';
+import { DownOne as IconDownOne } from '@icon-park/react';
 const { Option } = Select;
 
 const VSW = () => {
@@ -244,7 +244,7 @@ const VSW = () => {
     <Dropdown disabled={!ifSelected} overlay={menu}>
       <Button type="primary">
         {i18n.t('batch setting')}
-        <DownOne className="ml4" theme='filled' size="16px" />
+        <IconDownOne className="ml4" theme='filled' size="16px" />
       </Button>
     </Dropdown>
   );

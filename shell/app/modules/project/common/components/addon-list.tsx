@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { Icon as CustomIcon } from 'common';
 import { List, Switch } from 'app/nusi';
-import { Close, Check } from '@icon-park/react';
+import { Close as IconClose, Check as IconCheck } from '@icon-park/react';
 import './addon-list.scss';
 
 interface IAddIn {
@@ -34,8 +34,8 @@ export const AddonList = ({ data }: IProps) => {
       renderItem={({ title, desc, icon, switchProps }: IAddIn) => (
         <List.Item actions={[
           <Switch
-            checkedChildren={<Check />}
-            unCheckedChildren={<Close />}
+            checkedChildren={<IconCheck />}
+            unCheckedChildren={<IconClose />}
             {...switchProps}
           />,
         ]}

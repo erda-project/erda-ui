@@ -15,7 +15,7 @@ import React from 'react';
 import { Input, Popover, message, Button } from 'app/nusi';
 import i18n from 'i18n';
 import testSetStore from 'project/stores/test-set';
-import { Close, Check } from '@icon-park/react';
+import { Close as IconClose, Check as IconCheck } from '@icon-park/react';
 
 interface IProps {
   afterCreate(data:TEST_SET.TestSet): void
@@ -59,8 +59,8 @@ const NewSet = ({ afterCreate }: IProps) => {
         onChange={e => setValue(e.target.value)}
         onKeyUp={handlePressEntry}
       />
-      <Check className="ml12 fz18 color-primary pointer" onClick={handleSave} />
-      <Close className="ml12 fz18 pointer" onClick={handleHide} />
+      <IconCheck className="ml12 fz18 color-primary pointer" onClick={handleSave} />
+      <IconClose className="ml12 fz18 pointer" onClick={handleHide} />
     </div>
   );
 

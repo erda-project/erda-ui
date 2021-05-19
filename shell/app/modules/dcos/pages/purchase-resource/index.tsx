@@ -28,7 +28,7 @@ import {
   checkPassword as checkRedisPassword,
   characterSetLists,
 } from 'dcos/common/config';
-import { Help, LinkOne } from '@icon-park/react';
+import { Help as IconHelp, LinkOne as IconLinkOne } from '@icon-park/react';
 
 import './index.scss';
 import purchaseStore from 'dcos/stores/purchase';
@@ -91,13 +91,13 @@ class OrderPage extends React.Component<IProps, any> {
 
   getTipLabel = (text:string, tip:string) => (
     <Tooltip title={tip}>
-      {text} <Help />
+      {text} <IconHelp />
     </Tooltip>
   );
 
   getLinkLabel = (text:string, tip:string, href:string) => (
     <Tooltip title={tip}>
-      <a target="_blank" rel="noopener noreferrer" href={href}>{text} <LinkOne /></a>
+      <a target="_blank" rel="noopener noreferrer" href={href}>{text} <IconLinkOne /></a>
     </Tooltip>
   );
 
@@ -190,7 +190,7 @@ class OrderPage extends React.Component<IProps, any> {
           <span>
             <Tooltip title={i18n.t('dcos:currently only supports private')}>
               {i18n.t('dcos:node type')}&nbsp;
-              <Help />
+              <IconHelp />
             </Tooltip>
           </span>
         ),

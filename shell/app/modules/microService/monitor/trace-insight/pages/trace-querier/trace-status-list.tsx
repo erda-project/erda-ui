@@ -19,7 +19,7 @@ import { Icon as CustomIcon, EmptyHolder } from 'common';
 import { goTo, notify } from 'common/utils';
 import i18n from 'i18n';
 import './trace-status-list.scss';
-import { PauseOne, Loading, ReduceOne } from '@icon-park/react';
+import { PauseOne as IconPauseOne, Loading as IconLoading, ReduceOne as IconReduceOne } from '@icon-park/react';
 
 
 const TraceStatusList = (props: any) => {
@@ -67,7 +67,7 @@ const TraceStatusList = (props: any) => {
         node: (
           <span>
             <span className="request-status-text">
-              <Loading /> { statusName }
+              <IconLoading /> { statusName }
             </span>
             <Tooltip title={i18n.t('microService:cancel')}>
               <span
@@ -77,7 +77,7 @@ const TraceStatusList = (props: any) => {
                   handleCancelRequestPending(id);
                 }}
               >
-                <PauseOne size="20px" />
+                <IconPauseOne size="20px" />
               </span>
             </Tooltip>
           </span>
@@ -93,7 +93,7 @@ const TraceStatusList = (props: any) => {
       },
       {
         className: 'cancel',
-        node: <span><ReduceOne theme="filled" /> { statusName }</span>,
+        node: <span><IconReduceOne theme="filled" /> { statusName }</span>,
       },
     ];
 

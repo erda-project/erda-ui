@@ -14,7 +14,7 @@
 import React from 'react';
 import { useEffectOnce } from 'react-use';
 import classnames from 'classnames';
-import { Close } from '@icon-park/react';
+import { Close as IconClose } from '@icon-park/react';
 
 interface IDiceYamlEditorDrawerProps {
   title: string | null;
@@ -108,7 +108,7 @@ const DiceYamlEditorDrawer = (props: IDiceYamlEditorDrawerProps) => {
     <div style={style} className="yaml-editor-drawer">
       <div className="yaml-editor-drawer-title">
         {title}
-        <Close
+        <IconClose
           onClick={onClose}
           className="yaml-editor-drawer-close"
         />

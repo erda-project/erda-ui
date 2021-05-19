@@ -31,7 +31,7 @@ import { goTo, isPromise } from 'common/utils';
 import { ClusterLog } from 'dataCenter/pages/cluster-manage/cluster-log';
 import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
 import { skipInfoStatusMap } from 'dataCenter/pages/cloud-source/config';
-import { DownOne } from '@icon-park/react';
+import { DownOne as IconDownOne } from '@icon-park/react';
 
 // mq = ons
 const MQ = () => {
@@ -172,7 +172,7 @@ const MQ = () => {
     <Dropdown disabled={!ifSelected} overlay={menu}>
       <Button type="primary">
         {i18n.t('batch setting')}
-        <DownOne className="ml4" theme="filled" size="16px" />
+        <IconDownOne className="ml4" theme="filled" size="16px" />
       </Button>
     </Dropdown>
   );

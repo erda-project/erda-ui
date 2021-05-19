@@ -26,7 +26,7 @@ import deployStore from 'application/stores/deploy';
 import i18n from 'i18n';
 import { useLoading } from 'app/common/stores/loading';
 import './edit-stage.scss';
-import { Plus } from '@icon-park/react';
+import { Plus as IconPlus } from '@icon-park/react';
 
 const { Item } = Form;
 const { Panel } = Collapse;
@@ -357,7 +357,7 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
       return null;
     }
     const addBtn = editing ?
-      <Plus className="pointer" onClick={() => addNewItemToStructArray(property.value, property.struct[0])} /> : null;
+      <IconPlus className="pointer" onClick={() => addNewItemToStructArray(property.value, property.struct[0])} /> : null;
     getFieldDecorator(`${parentKey}-data`, { initialValue: property.value || [] });
     const data = getFieldValue(`${parentKey}-data`);
     const content = data.map((item: any, index: number) => {

@@ -16,14 +16,14 @@ import * as React from 'react';
 import { Row, Col } from 'app/nusi';
 import moment from 'moment';
 import i18n from 'i18n';
-import { Attention } from '@icon-park/react';
+import { Attention as IconAttention } from '@icon-park/react';
 
 const scriptDetail = ({ data }: {data: object}) => {
   const errorDetail = get(data, 'list') || [];
   if (!errorDetail) {
     return (
       <div className="no-data-list">
-        <div className="no-data-content"><Attention size="16px" />{i18n.t('microService:no data')}</div>
+        <div className="no-data-content"><IconAttention size="16px" />{i18n.t('microService:no data')}</div>
       </div>
     );
   }

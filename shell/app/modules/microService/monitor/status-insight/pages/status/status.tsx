@@ -23,7 +23,7 @@ import { useLoading } from 'app/common/stores/loading';
 import routeInfoStore from 'app/common/stores/route';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
-import { Info } from '@icon-park/react';
+import { Info as IconInfo } from '@icon-park/react';
 import './status.scss';
 
 const { Option } = Select;
@@ -238,7 +238,7 @@ const Status = () => {
       </div>
       <div className="top-bar">
         <span className={`summary-down-count ${hasDown.color}`}>
-          <span><Info size="16px" /> {hasDown.text} </span>
+          <span><IconInfo size="16px" /> {hasDown.text} </span>
         </span>
       </div>
       <AddModal

@@ -20,7 +20,7 @@ import { CustomLabel, checkCustomLabels } from 'dcos/common/custom-label';
 import { WrappedFormUtils } from 'core/common/interface';
 import orgStore from 'app/org-home/stores/org';
 import * as React from 'react';
-import { Down, Up } from '@icon-park/react';
+import { Down as IconDown, Up as IconUp } from '@icon-park/react';
 
 interface IProps {
   visible: boolean,
@@ -135,7 +135,7 @@ const CloudMachineAddForm = (props:any) => {
           <div className="more">
             <a className="more-btn" onClick={() => setShowMore(!showMore)}>
               {i18n.t('advanced settings')}
-              { showMore ? <Down size="16px" /> : <Up size="16px" /> }
+              { showMore ? <IconDown size="16px" /> : <IconUp size="16px" /> }
             </a>
             <div className={`more-form ${showMore ? '' : 'hide'}`}>
               <MoreForm form={form} />

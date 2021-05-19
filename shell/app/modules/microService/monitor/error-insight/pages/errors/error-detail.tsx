@@ -21,7 +21,7 @@ import moment from 'moment';
 import monitorErrorStore from 'error-insight/stores/error';
 import { useLoading } from 'app/common/stores/loading';
 import { useEffectOnce } from 'react-use';
-import { ToRight, ToLeft, Down, Up } from '@icon-park/react';
+import { ToRight as IconToRight, ToLeft as IconToLeft, Down as IconDown, Up as IconUp } from '@icon-park/react';
 import i18n from 'i18n';
 
 import './error-detail.scss';
@@ -218,7 +218,7 @@ const ErrorDetail = () => {
               </div>
               <div className="arrow">
                 <Button disabled={eventIndex === 0} className={`first-page ${eventIndex === 0 ? 'edge' : ''}`} onClick={() => changeEvent('first')}>
-                  <ToLeft size="14px" />
+                  <IconToLeft size="14px" />
                 </Button>
                 <Button disabled={eventIndex === 0} className={`prev-page ${eventIndex === 0 ? 'edge' : ''}`} onClick={() => changeEvent(-1)}>
                   <span>{i18n.t('microService:previous')}</span>
@@ -227,7 +227,7 @@ const ErrorDetail = () => {
                   <span>{i18n.t('microService:next')}</span>
                 </Button>
                 <Button disabled={eventIndex === eventIds.length - 1} className={`last-page ${eventIndex === eventIds.length - 1 ? 'edge' : ''}`} onClick={() => changeEvent('last')}>
-                  <ToRight size="14px" />
+                  <IconToRight size="14px" />
                 </Button>
               </div>
             </div>
@@ -258,7 +258,7 @@ const ErrorDetail = () => {
               <div className="content-title stacks-title">
                 {`${i18n.t('microService:error stack')}:   ${type}`}
                 <Button className="toggle-stacks" onClick={toggleShowAllStacks}>
-                  { showAllStacks ? <Down size="20px" className="mr0" /> : <Up size="20px" className="mr0" /> }
+                  { showAllStacks ? <IconDown size="20px" className="mr0" /> : <IconUp size="20px" className="mr0" /> }
                 </Button>
               </div>
               <div className="error-msg">{exceptionMsg}</div>
@@ -270,7 +270,7 @@ const ErrorDetail = () => {
                   }
                 <IF check={stacks && stacks.length > 1}>
                   <div className="stack-item omit-item" onClick={toggleShowAllStacks}>
-                    { showAllStacks ? <Up size="20px" className="mr0" /> : <Down size="20px" className="mr0" /> }
+                    { showAllStacks ? <IconUp size="20px" className="mr0" /> : <IconDown size="20px" className="mr0" /> }
                   </div>
                 </IF>
               </div>

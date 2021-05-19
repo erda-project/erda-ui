@@ -24,7 +24,7 @@ import runtimeLogStore from 'runtime/stores/log';
 import runtimeServiceStore from 'runtime/stores/service';
 import commonStore from 'common/stores/common';
 import { useMount } from 'react-use';
-import { Attention, LeftOne } from '@icon-park/react';
+import { Attention as IconAttention, LeftOne as IconLeftOne } from '@icon-park/react';
 
 import './deploy-log.scss';
 
@@ -78,7 +78,7 @@ const DeployLog = ({ detailLogId, query, applicationId, hasLogs }: IProps) => {
                     >
                       <span className="step-title">
                         {name}
-                        <Attention className="fail-info" />
+                        <IconAttention className="fail-info" />
                       </span>
                     </Popover>
                   )
@@ -112,7 +112,7 @@ const DeployLog = ({ detailLogId, query, applicationId, hasLogs }: IProps) => {
           getComp: () => <MigrationLog migrationId={migrationId} />,
           getTitle: () => (
             <span>
-              <LeftOne theme="filled" size="16px" className="hover-active" onClick={() => popSlideComp()} />&nbsp;
+              <IconLeftOne theme="filled" size="16px" className="hover-active" onClick={() => popSlideComp()} />&nbsp;
               {i18n.t('application:upgrade log')}
             </span>
           ),
@@ -128,7 +128,7 @@ const DeployLog = ({ detailLogId, query, applicationId, hasLogs }: IProps) => {
               getComp: () => <ContainerLog instance={target} />,
               getTitle: () => (
                 <span>
-                  <LeftOne theme="filled" size="16px" className="hover-active" onClick={() => popSlideComp()} />&nbsp;
+                  <IconLeftOne theme="filled" size="16px" className="hover-active" onClick={() => popSlideComp()} />&nbsp;
                   {i18n.t('runtime:container log')}
                 </span>
               ),

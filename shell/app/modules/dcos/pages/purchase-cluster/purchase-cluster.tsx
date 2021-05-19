@@ -31,7 +31,7 @@ import purchaseStore from 'dcos/stores/purchase';
 import { useLoading } from 'app/common/stores/loading';
 import routeInfoStore from 'common/stores/route';
 import { WrappedFormUtils } from 'core/common/interface';
-import { Help, LinkOne } from '@icon-park/react';
+import { Help as IconHelp, LinkOne as IconLinkOne } from '@icon-park/react';
 import './purchase-cluster.scss';
 
 const { Step } = Steps;
@@ -206,13 +206,13 @@ class OrderPage extends React.Component<IProps> {
 
   getTipLabel = (text: string, tip: string) => (
     <Tooltip title={tip}>
-      {text} <Help />
+      {text} <IconHelp />
     </Tooltip>
   );
 
   getLinkLabel = (text: string, tip: string, href: string) => (
     <Tooltip title={tip}>
-      <a target="_blank" rel="noopener noreferrer" href={href}>{text} <LinkOne /></a>
+      <a target="_blank" rel="noopener noreferrer" href={href}>{text} <IconLinkOne /></a>
     </Tooltip>
   );
 

@@ -19,7 +19,7 @@ import testSetStore from 'project/stores/test-set';
 import testPlanStore from 'project/stores/test-plan';
 import { recycledKey } from '../utils';
 import { TEMP_MARK, TestOperation, editModeEnum, TestSetMenuType } from 'project/pages/test-manage/constants';
-import { Check, Close, More } from '@icon-park/react';
+import { Check as IconCheck, Close as IconClose, More as IconMore } from '@icon-park/react';
 
 interface IMenuMeta {
   key: string;
@@ -272,8 +272,8 @@ const Title = ({
           ref={inputRef}
           onKeyUp={handlePressEntry}
         />
-        <Check className="ml8 color-primary pointer" onClick={handleSave} />
-        <Close className="mx8 color-primary pointer" onClick={() => toggleEdit(false, isTemp)} />
+        <IconCheck className="ml8 color-primary pointer" onClick={handleSave} />
+        <IconClose className="mx8 color-primary pointer" onClick={() => toggleEdit(false, isTemp)} />
       </div>
     );
   }
@@ -289,7 +289,7 @@ const Title = ({
             !isRoot ?
               <Dropdown overlay={getMenu()} overlayClassName="case-tree-menu" trigger={['click']} align={{ offset: [32, -32] }}>
                 <div className="case-tree-op" onClick={(e: any) => e.stopPropagation()} >
-                  <More />
+                  <IconMore />
                 </div>
               </Dropdown>
               : undefined

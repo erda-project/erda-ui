@@ -16,7 +16,7 @@ import { map, filter, cloneDeep, isPlainObject, set } from 'lodash';
 import { Tooltip } from 'app/nusi';
 import { produce } from 'immer';
 import i18n from 'i18n';
-import { AddOne, ReduceOne } from '@icon-park/react';
+import { AddOne as IconAddOne, ReduceOne as IconReduceOne } from '@icon-park/react';
 import './combiner.scss';
 
 interface IProps<P, O>{
@@ -79,17 +79,17 @@ export function createCombiner<P, O>({ CombinerItem, valueFixIn = defaultFix, va
             }}
             operation={(
               disabled
-                ? <ReduceOne className='combiner-operation not-allowed' />
-                : <ReduceOne className='combiner-operation' onClick={() => deleteItem(index)} />
+                ? <IconReduceOne className='combiner-operation not-allowed' />
+                : <IconReduceOne className='combiner-operation' onClick={() => deleteItem(index)} />
             )}
           />
         ))}
         {
           disabled ? (
-            <AddOne className='combiner-operation not-allowed' />
+            <IconAddOne className='combiner-operation not-allowed' />
           ) : (
             <Tooltip title={i18n.t('common:click to add item')}>
-              <AddOne className='combiner-operation' onClick={addItem} />
+              <IconAddOne className='combiner-operation' onClick={addItem} />
             </Tooltip>
           )
         }

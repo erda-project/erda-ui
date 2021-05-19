@@ -25,7 +25,7 @@ import { DoubleProgressItem } from 'dcos/pages/machine-manager/machine-table';
 import { useUnmount } from 'react-use';
 import { goTo } from 'common/utils';
 import 'dcos/pages/machine-manager/machine-table.scss';
-import { Right } from '@icon-park/react';
+import { Right as IconRight } from '@icon-park/react';
 
 export default () => {
   const [{
@@ -178,7 +178,7 @@ export default () => {
 
   return (
     <div className="machine-table">
-      <Breadcrumb separator={<Right size="14px" />} className="path-breadcrumb mb8">
+      <Breadcrumb separator={<IconRight size="14px" />} className="path-breadcrumb mb8">
         <Breadcrumb.Item className='hover-active' onClick={() => goTo(goTo.pages.edgeResource)}>{siteName}</Breadcrumb.Item>
         <Breadcrumb.Item>{i18n.t('org:node list')}</Breadcrumb.Item>
       </Breadcrumb>

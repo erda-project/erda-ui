@@ -30,7 +30,7 @@ import { ClusterLog } from 'dataCenter/pages/cluster-manage/cluster-log';
 import { getCloudResourceIDNameCol, getCloudResourceStatusCol, getCloudResourceChargeTypeCol, getCloudResourceRegionCol } from 'dataCenter/common/components/table-col';
 import { skipInfoStatusMap } from 'dataCenter/pages/cloud-source/config';
 import { customTagColor } from 'dcos/common/config';
-import { DownOne } from '@icon-park/react';
+import { DownOne as IconDownOne } from '@icon-park/react';
 
 const specList = [
   ...MysqlFieldsConfig.basicTypes,
@@ -208,7 +208,7 @@ const RDS = () => {
     <Dropdown disabled={!ifSelected} overlay={menu}>
       <Button type="primary">
         {i18n.t('batch setting')}
-        <DownOne className="ml4" theme="filled" size="16px" />
+        <IconDownOne className="ml4" theme="filled" size="16px" />
       </Button>
     </Dropdown>
   );

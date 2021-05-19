@@ -13,23 +13,28 @@
 
 import { goTo } from 'common/utils';
 import i18n from 'i18n';
-import { ApplicationOne, DataAll, SettingConfig } from '@icon-park/react';
+import { 
+  ApplicationOne as IconApplicationOne, 
+  DataAll as IconDataAll, 
+  SettingConfig as IconSettingConfig 
+} from '@icon-park/react';
 import React from 'react';
+
 export const getEdgeMenu = () => {
   return [
     {
       href: goTo.resolve.edgeApp(),
-      icon: <ApplicationOne />,
+      icon: <IconApplicationOne />,
       text: i18n.t('edge:application'),
     },
     {
       href: goTo.resolve.edgeResource(),
-      icon: <DataAll />,
+      icon: <IconDataAll />,
       text: i18n.t('resources'),
     },
     {
       href: goTo.resolve.edgeSetting(),
-      icon: <SettingConfig />,
+      icon: <IconSettingConfig />,
       text: i18n.t('edge:configuration'),
     },
   ];

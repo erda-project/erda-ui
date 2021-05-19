@@ -15,7 +15,7 @@ import React from 'react';
 import { Input, InputNumber, Select, Tooltip } from 'app/nusi';
 import { isEmpty, map, remove, set, cloneDeep } from 'lodash';
 import { slaUnitMap } from 'apiManagePlatform/pages/access-manage/components/config';
-import { AddOne, ReduceOne} from '@icon-park/react';
+import { AddOne as IconAddOne, ReduceOne as IconReduceOne } from '@icon-park/react';
 import i18n from 'i18n';
 import './sla.scss';
 
@@ -95,12 +95,12 @@ const Limit = (props: IProps) => {
                   >
                     <div className="flex-box pl12">
                       <Tooltip title={i18n.t('add {name}', { name: i18n.t('request limit') })}>
-                        <AddOne onClick={handleAddOne} size="20px" />
+                        <IconAddOne onClick={handleAddOne} size="20px" />
                       </Tooltip>
                       {
                         index !== 0 ? (
                           <Tooltip title={i18n.t('delete')}>
-                            <ReduceOne onClick={() => { handleDropOne(index); }} size="20px" />
+                            <IconReduceOne onClick={() => { handleDropOne(index); }} size="20px" />
                           </Tooltip>
                         ) : null
                       }

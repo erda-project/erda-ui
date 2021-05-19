@@ -15,7 +15,15 @@ import i18n from 'i18n';
 import { filter } from 'lodash';
 import { goTo } from 'common/utils';
 import permStore from 'user/stores/permission';
-import { Api, Code, AssemblyLine, ActivitySource, ChildrenPyramid, MarketAnalysis, Config } from '@icon-park/react';
+import { 
+  Api as IconApi, 
+  Code as IconCode, 
+  AssemblyLine as IconAssemblyLine, 
+  ActivitySource as IconActivitySource, 
+  ChildrenPyramid as IconChildrenPyramid, 
+  MarketAnalysis as IconMarketAnalysis, 
+  Config as IconConfig 
+} from '@icon-park/react';
 import { Icon as CustomIcon } from 'common';
 
 import React from 'react';
@@ -41,21 +49,21 @@ export const getAppMenu = ({ mode }: { projectId: string, appId: string, mode: A
     show: perm.repo.read.pass,
     key: 'repo',
     href: goTo.resolve.repo(), // `/workBench/projects/${projectId}/apps/${appId}/repo`,
-    icon: <Code />,
+    icon: <IconCode />,
     text: i18n.t('application:files'),
   };
   const pipeline = {
     show: perm.pipeline.read.pass,
     key: 'pipeline',
     href: goTo.resolve.pipelineRoot(), // `/workBench/projects/${projectId}/apps/${appId}/pipeline`,
-    icon: <AssemblyLine />,
+    icon: <IconAssemblyLine />,
     text: i18n.t('application:pipeline'),
   };
   const apiDesign = {
     show: perm.apiDesign.read.pass,
     key: 'apiDesign',
     href: goTo.resolve.appApiDesign(), // `/workBench/projects/${projectId}/apps/${appId}/apiDesign`,
-    icon: <Api />,
+    icon: <IconApi />,
     text: i18n.t('project:API design'),
   };
   const deploy = {
@@ -69,21 +77,21 @@ export const getAppMenu = ({ mode }: { projectId: string, appId: string, mode: A
     show: perm.dataTask.read.pass,
     key: 'dataTask',
     href: goTo.resolve.dataTaskRoot(), // `/workBench/projects/${projectId}/apps/${appId}/dataTask`,
-    icon: <ActivitySource />,
+    icon: <IconActivitySource />,
     text: `${i18n.t('application:data task')}`,
   };
   const dataModel = {
     show: perm.dataModel.read.pass,
     key: 'dataModel',
     href: goTo.resolve.appDataModel(), // `/workBench/projects/${projectId}/apps/${appId}/dataModel`,
-    icon: <ChildrenPyramid />,
+    icon: <IconChildrenPyramid />,
     text: `${i18n.t('application:data model')}`,
   };
   const dataMarket = {
     show: perm.dataMarket.read.pass,
     key: 'dataMarket',
     href: goTo.resolve.appDataMarket(), // `/workBench/projects/${projectId}/apps/${appId}/dataMarket`,
-    icon: <MarketAnalysis />,
+    icon: <IconMarketAnalysis />,
     text: `${i18n.t('application:data market')}`,
   };
   const test = {
@@ -104,7 +112,7 @@ export const getAppMenu = ({ mode }: { projectId: string, appId: string, mode: A
     show: perm.setting.read.pass,
     key: 'setting',
     href: goTo.resolve.appSetting(), // `/workBench/projects/${projectId}/apps/${appId}/setting`,
-    icon: <Config />,
+    icon: <IconConfig />,
     text: i18n.t('application:application setting'),
   };
 

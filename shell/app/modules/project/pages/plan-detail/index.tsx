@@ -40,7 +40,7 @@ import CaseDrawer from 'project/pages/test-manage/case/case-drawer';
 import './index.scss';
 import { useEffectOnce } from 'react-use';
 import moment from 'moment';
-import { Search, Down } from '@icon-park/react';
+import { Search as IconSearch, Down as IconDown } from '@icon-park/react';
 
 const { TabPane } = Tabs;
 
@@ -183,7 +183,7 @@ const TestPlanDetail = () => {
             ? <Button loading={loadingRecords} onClick={() => cancelPipeline({ pipelineID: firstRecord.id })}>{i18n.t('project:cancel interface test')}</Button>
             : (
               <EnvSelect execute={handleExecute}>
-                <Button loading={loadingRecords}>{i18n.t('project:start interface test')} <Down size="16px" /></Button>
+                <Button loading={loadingRecords}>{i18n.t('project:start interface test')} <IconDown size="16px" /></Button>
               </EnvSelect>
             )
         }
@@ -234,7 +234,7 @@ const TestPlanDetail = () => {
                     style={{ width: '160px' }}
                     placeholder={i18n.t('project:search for')}
                     onChange={e => debouncedSearch({ query: e.target.value })}
-                    prefix={<Search />}
+                    prefix={<IconSearch />}
                   />
                   <Button onClick={() => setEnhanceFilterVisible(true)}>
                     <CustomIcon type="filter" />

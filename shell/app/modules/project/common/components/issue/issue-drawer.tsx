@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import React from 'react';
 import { WithAuth } from 'user/common';
 import { Drawer, Spin, Popconfirm, Input, message, NusiPopover as Popover } from 'app/nusi';
-import { Close, ShareOne, Copy as IconCopy, Delete } from '@icon-park/react';
+import { Close as IconCheck, ShareOne as IconShareOne, Copy as IconCopy, Delete as IconDelete } from '@icon-park/react';
 import './issue-drawer.scss';
 
 type ElementChild = React.ElementType | JSX.Element | string;
@@ -81,7 +81,7 @@ export const IssueDrawer = (props: IProps) => {
               <div className="task-drawer-op">
                 <IF check={editMode && shareLink}>
                   <Copy selector=".copy-share-link" tipName={i18n.t('project:share link')} />
-                  <ShareOne className="for-copy copy-share-link mr4 ml12" size="16px" data-clipboard-text={shareLink}  />
+                  <IconShareOne className="for-copy copy-share-link mr4 ml12" size="16px" data-clipboard-text={shareLink}  />
                 </IF>
                 <IF check={editMode}>
                   <WithAuth pass={canCreate}>
@@ -117,7 +117,7 @@ export const IssueDrawer = (props: IProps) => {
                     ? (
                       <WithAuth pass={canDelete} >
                         <Popconfirm title={`${i18n.t('common:confirm deletion')}?`} placement="bottomRight" onConfirm={onDelete}>
-                          <Delete className="hover-active ml12" size="16px" />
+                          <IconDelete className="hover-active ml12" size="16px" />
                         </Popconfirm>
                       </WithAuth>
                     )
@@ -126,10 +126,10 @@ export const IssueDrawer = (props: IProps) => {
                 {
                   confirmCloseTip ? (
                     <Popconfirm title={confirmCloseTip} placement="bottomRight" onConfirm={onClose}>
-                      <Close className="ml12 pointer" size="16px" />
+                      <IconCheck className="ml12 pointer" size="16px" />
                     </Popconfirm>
                   )
-                    : <Close className="ml12 pointer" size="16px" onClick={onClose} />
+                    : <IconCheck className="ml12 pointer" size="16px" onClick={onClose} />
                 }
               </div>
             </div>

@@ -18,7 +18,7 @@ import { Icon as CustomIcon, EmptyHolder } from 'common';
 import { notify } from 'common/utils';
 import PureTraceDetail from './trace-detail';
 import i18n from 'i18n';
-import { Loading, PauseOne, ReduceOne } from '@icon-park/react';
+import { Loading as IconLoading, PauseOne as IconPauseOne, ReduceOne as IconReduceOne } from '@icon-park/react';
 import './trace-status-viewer.scss';
 
 const TraceStatusViewer = ({
@@ -52,7 +52,7 @@ const TraceStatusViewer = ({
     (
       <div className="request-status-wp pending">
         <span className="request-status-text">
-          <Loading /> { statusName }
+          <IconLoading /> { statusName }
         </span>
         <Tooltip title={i18n.t('microService:cancel')}>
           <span
@@ -62,7 +62,7 @@ const TraceStatusViewer = ({
               handleCancelRequestPending(requestId);
             }}
           >
-            <PauseOne size="20px" />
+            <IconPauseOne size="20px" />
           </span>
         </Tooltip>
       </div>
@@ -85,7 +85,7 @@ const TraceStatusViewer = ({
     (
       <div className="request-status-wp cancel">
         <span className="request-status-text">
-          <ReduceOne theme="filled" /> { statusName }
+          <IconReduceOne theme="filled" /> { statusName }
         </span>
       </div>
     ),

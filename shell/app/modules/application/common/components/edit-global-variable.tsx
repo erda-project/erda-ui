@@ -17,7 +17,7 @@ import { Form, Button } from 'app/nusi';
 import { cloneDeep, forEach, findIndex, uniqueId } from 'lodash';
 import VariableInputGroup from './variable-input-group';
 import i18n from 'i18n';
-import { Plus } from '@icon-park/react'
+import { Plus as IconPlus } from '@icon-park/react'
 const { Item } = Form;
 
 interface IEditGlobalVariableProps {
@@ -79,7 +79,7 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
       <Form className="global-input-form" layout="inline">
         <div className="global-input-form-title">
           {i18n.t('application:global environment variable')}
-          {editing ? <Plus className="variable-icon pointer" onClick={this.addNewVariable} /> : null}
+          {editing ? <IconPlus className="variable-icon pointer" onClick={this.addNewVariable} /> : null}
         </div>
         {content}
         <div className="mt12">

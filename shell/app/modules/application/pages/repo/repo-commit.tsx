@@ -24,7 +24,7 @@ import i18n from 'i18n';
 import repoStore from 'application/stores/repo';
 import routeInfoStore from 'common/stores/route';
 import { useLoading } from 'app/common/stores/loading';
-import { DownOne } from '@icon-park/react';
+import { DownOne as IconDownOne } from '@icon-park/react';
 
 import './repo-commit.scss';
 
@@ -147,7 +147,7 @@ const RepoCommit = () => {
                     </>
                   )
             }
-            <DownOne theme="filled" size="16px" />
+            <IconDownOne theme="filled" size="16px" />
           </BranchSelect>
           <IF check={path && branch}>
             <RepoBreadcrumb splitKey="commits" path={path} />
