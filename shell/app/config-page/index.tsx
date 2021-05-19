@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { useMount, useUpdateEffect } from 'react-use';
-import { isEmpty, get, set, isEqual, map } from 'lodash';
+import { isEmpty, get, set, isEqual, forEach } from 'lodash';
 import { produce } from 'immer';
 import { Spin } from 'app/nusi';
 import { useUpdate } from 'common';
@@ -182,9 +182,9 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   const clearLoadMoreData = (newConfig: CONFIG_PAGE.RenderConfig) => {
     const formatConfig = produce(newConfig, (draft) => {
       const comps = get(draft, 'protocol.components');
-      map(comps, (comp) => {
+      forEach(comps, (comp) => {
         if (comp?.props?.isLoadMore) {
-          comps[comp?.name] = { ...(comp || {}), data: undefined };
+          comps[comp?.name] = { ...comp, data: undefined };
         }
       });
     });
