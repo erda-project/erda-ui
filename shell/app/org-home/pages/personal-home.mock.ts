@@ -457,7 +457,6 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
           pageSize: 5,
           total: 5,
         },
-        isLoadMore: true,
       },
       myApplication: {
         type: 'Container',
@@ -577,7 +576,6 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
           pageSize: 5,
           total: 5,
         },
-        isLoadMore: true,
       },
       emptyApplication: {
         type: 'EmptyHolder',
