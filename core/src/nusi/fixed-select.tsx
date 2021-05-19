@@ -28,5 +28,5 @@ const FixedSelect = React.forwardRef((props, ref) => {
 FixedSelect.Option = Option;
 
 export {
-  FixedSelect
-}
+  FixedSelect,
+};

@@ -105,7 +105,21 @@ import './multi-select.scss';
 
 const { Option } = Select;
 
-function SingleSelect(props: any) {
+interface ISingProps{
+  type: 'select' | 'cascader';
+  showSearchByValueAndLabel?: boolean;
+  showSearchByValue?: boolean;
+  allowInput?: boolean;
+  value: string;
+  onChange(data: string):void;
+  options: Array<{
+    value: string;
+    label: string;
+    text: string;
+  }>
+}
+
+function SingleSelect(props: ISingProps) {
   const {
     options,
     showSearchByValueAndLabel,
@@ -196,8 +210,20 @@ function SingleSelect(props: any) {
   return null;
 }
 
+interface IProps{
+  data: Array<{
+    key: string;
+  } & Omit<ISingProps, 'onChange'| 'value'>>,
+  value: {
+    [k: string]: string;
+  }
+  onChangeMap:{
+    [k: string]:(value: string)=>void
+  };
+  onChange(data: {[k: string]: string}):void;
+}
 
-export default function MultiSelect(props: any) {
+export default function MultiSelect(props: IProps) {
   const { data = [], value, onChangeMap, onChange: propsOnChange } = props;
   const onChange = (k:string) => (v: any) => {
     propsOnChange({ ...value, [k]: v });

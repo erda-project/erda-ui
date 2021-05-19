@@ -94,11 +94,11 @@ class OperationBar extends React.PureComponent<IProps, IState> {
     return searchList;
   };
 
-  resetOps = () => {
-    this.props.searchList.forEach((search) => {
-      this.setState({ [search.key]: undefined });
-    });
-  };
+  // resetOps = () => {
+  //   this.props.searchList.forEach((search) => {
+  //     this.setState({ [search.key]: undefined });
+  //   });
+  // };
 
   render() {
     const { searchList } = this.props;
