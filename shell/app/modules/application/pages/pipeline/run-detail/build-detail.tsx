@@ -452,7 +452,7 @@ const BuildDetail = (props: IProps) => {
     const paddingEle = (
       <div className="build-operator mx0">
         <Tooltip title={i18n.t('preparing')}>
-          <Loading size="20px" strokeWidth={2} style={{transform: 'translateY(0)'}} spin color='rgba(0, 0, 0, .1)' />
+          <Loading size="20px" strokeWidth={2} style={{transform: 'translateY(0)'}} spin />
         </Tooltip>
       </div>
     );
@@ -695,8 +695,8 @@ const BuildDetail = (props: IProps) => {
               </Row>
               <div className="trigger-btn" onClick={toggleExpandInfo}>
                 { !isExpand 
-                  ? <Down size="18px" className="mr0" color='rgba(0, 0, 0, .1)'/>
-                  : <Up size="18px" className="mr0" color='rgba(0, 0, 0, .1)' />
+                  ? <Down size="18px" className="mr0" />
+                  : <Up size="18px" className="mr0" />
                 }
               </div>
             </div>

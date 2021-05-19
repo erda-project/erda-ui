@@ -83,7 +83,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
   const logOperation = [
     {
       title: isFecthing
-        ? <Loading spin color='rgba(0, 0, 0, 0.1)' strokeWidth={2} />
+        ? <Loading spin strokeWidth={2} />
         : (
           <Tooltip title={isBuilding ? `${i18n.t('application:refresh every {time}, click to refresh now', { time: `${DURATION / 1000} ${i18n.t('common:second')}` })}` : i18n.t('refresh')}>
             <CustomIcon type='refresh' className='pointer color-text-desc' onClick={() => delayGetList(getList, 0)} />

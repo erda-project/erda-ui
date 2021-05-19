@@ -594,7 +594,7 @@ const ApiDesign = () => {
                             <Input
                               placeholder={i18n.t('input keyword search')}
                               className="px8 my12 api-filter-input"
-                              prefix={<Search color='rgba(0,0,0,.25)' />}
+                              prefix={<Search />}
                               onInput={(e: React.ChangeEvent<HTMLInputElement>) => updater.filterKey(e.target.value)}
                             />
 
