@@ -76,6 +76,10 @@ const TableGroup = (props: CP_TABLE_GROUP.Props) => {
 
   // 将接口返回的list和之前的list进行拼接
   React.useEffect(() => {
+    // if isLoadMore is true, the data will be set undefined, combineList don't need to do anything
+    if (data === undefined) {
+      return;
+    }
     update((pre) => {
       const newState = {
         ...pre,
@@ -90,7 +94,7 @@ const TableGroup = (props: CP_TABLE_GROUP.Props) => {
 
   // 加载更多
   const loadMore = () => {
-    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pageNo + 1 }, { data: { list: [] } })
+    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pageNo + 1 })
   }
 
   if (!visible) {
