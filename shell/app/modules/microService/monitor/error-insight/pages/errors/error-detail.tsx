@@ -13,7 +13,7 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as React from 'react';
-import { Icon, Button, Row, Col, Tooltip, Drawer, Spin } from 'app/nusi';
+import { Button, Row, Col, Tooltip, Drawer, Spin } from 'app/nusi';
 import TraceDetail from 'trace-insight/pages/trace-detail';
 import { Icon as CustomIcon, Copy, IF, EmptyHolder, SimpleLog, useUpdate } from 'common';
 import { get, map, isEmpty } from 'lodash';
@@ -21,6 +21,7 @@ import moment from 'moment';
 import monitorErrorStore from 'error-insight/stores/error';
 import { useLoading } from 'app/common/stores/loading';
 import { useEffectOnce } from 'react-use';
+import { ToRight, ToLeft, Down, Up } from '@icon-park/react';
 import i18n from 'i18n';
 
 import './error-detail.scss';
@@ -217,7 +218,7 @@ const ErrorDetail = () => {
               </div>
               <div className="arrow">
                 <Button disabled={eventIndex === 0} className={`first-page ${eventIndex === 0 ? 'edge' : ''}`} onClick={() => changeEvent('first')}>
-                  <Icon type="vertical-right" />
+                  <ToLeft size="14px" />
                 </Button>
                 <Button disabled={eventIndex === 0} className={`prev-page ${eventIndex === 0 ? 'edge' : ''}`} onClick={() => changeEvent(-1)}>
                   <span>{i18n.t('microService:previous')}</span>
@@ -226,7 +227,7 @@ const ErrorDetail = () => {
                   <span>{i18n.t('microService:next')}</span>
                 </Button>
                 <Button disabled={eventIndex === eventIds.length - 1} className={`last-page ${eventIndex === eventIds.length - 1 ? 'edge' : ''}`} onClick={() => changeEvent('last')}>
-                  <Icon type="vertical-left" />
+                  <ToRight size="14px" />
                 </Button>
               </div>
             </div>
@@ -257,7 +258,7 @@ const ErrorDetail = () => {
               <div className="content-title stacks-title">
                 {`${i18n.t('microService:error stack')}:   ${type}`}
                 <Button className="toggle-stacks" onClick={toggleShowAllStacks}>
-                  <Icon type={showAllStacks ? 'down' : 'up'} />
+                  { showAllStacks ? <Down size="20px" className="mr0" /> : <Up size="20px" className="mr0" /> }
                 </Button>
               </div>
               <div className="error-msg">{exceptionMsg}</div>
@@ -269,7 +270,7 @@ const ErrorDetail = () => {
                   }
                 <IF check={stacks && stacks.length > 1}>
                   <div className="stack-item omit-item" onClick={toggleShowAllStacks}>
-                    <Icon type={showAllStacks ? 'up' : 'down'} />
+                    { showAllStacks ? <Up size="20px" className="mr0" /> : <Down size="20px" className="mr0" /> }
                   </div>
                 </IF>
               </div>

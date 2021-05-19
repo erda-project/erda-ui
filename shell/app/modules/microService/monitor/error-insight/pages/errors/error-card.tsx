@@ -12,11 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Icon, Tooltip, Row, Col } from 'app/nusi';
+import { Tooltip, Row, Col } from 'app/nusi';
 import { get } from 'lodash';
 import { resolvePath, fromNow } from 'common/utils';
 import { Link } from 'react-router-dom';
 import './error-card.scss';
+import { Time } from '@icon-park/react';
 import i18n from 'i18n';
 
 interface IProps{
@@ -50,7 +51,7 @@ const ErrorCard = (props: IProps) => {
             </Tooltip>
           </div>
           <div className="error-time">
-            <Icon type="clock-circle" />&nbsp;&nbsp;
+            <Time />&nbsp;&nbsp;
             {fromNow(data.updateTime, { prefix: `${i18n.t('microService:last trigger')}:` })}
             &nbsp;&nbsp;-&nbsp;&nbsp;
             {fromNow(data.createTime, { prefix: `${i18n.t('microService:first trigger')}:` })}

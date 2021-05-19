@@ -11,11 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Copy, IF, Icon as CustomIcon } from 'common';
+import { Copy, IF } from 'common';
 import i18n from 'i18n';
 import React from 'react';
 import { WithAuth } from 'user/common';
-import { Drawer, Icon, Spin, Popconfirm, Input, message, NusiPopover as Popover } from 'app/nusi';
+import { Drawer, Spin, Popconfirm, Input, message, NusiPopover as Popover } from 'app/nusi';
+import { Close, ShareOne, Copy as IconCopy, Delete } from '@icon-park/react';
 import './issue-drawer.scss';
 
 type ElementChild = React.ElementType | JSX.Element | string;
@@ -80,7 +81,7 @@ export const IssueDrawer = (props: IProps) => {
               <div className="task-drawer-op">
                 <IF check={editMode && shareLink}>
                   <Copy selector=".copy-share-link" tipName={i18n.t('project:share link')} />
-                  <Icon className="for-copy copy-share-link mr4" data-clipboard-text={shareLink} type="share-alt" />
+                  <ShareOne className="for-copy copy-share-link mr4 ml12" size="16px" data-clipboard-text={shareLink}  />
                 </IF>
                 <IF check={editMode}>
                   <WithAuth pass={canCreate}>
@@ -107,7 +108,7 @@ export const IssueDrawer = (props: IProps) => {
                       trigger="click"
                       okText={i18n.t('copy')}
                     >
-                      <CustomIcon type="fz1" className="hover-active" />
+                      <IconCopy className="hover-active ml12" size="16px" />
                     </Popover>
                   </WithAuth>
                 </IF>
@@ -116,7 +117,7 @@ export const IssueDrawer = (props: IProps) => {
                     ? (
                       <WithAuth pass={canDelete} >
                         <Popconfirm title={`${i18n.t('common:confirm deletion')}?`} placement="bottomRight" onConfirm={onDelete}>
-                          <CustomIcon type="shanchu" className="hover-active" />
+                          <Delete className="hover-active ml12" size="16px" />
                         </Popconfirm>
                       </WithAuth>
                     )
@@ -125,10 +126,10 @@ export const IssueDrawer = (props: IProps) => {
                 {
                   confirmCloseTip ? (
                     <Popconfirm title={confirmCloseTip} placement="bottomRight" onConfirm={onClose}>
-                      <Icon type="close" />
+                      <Close className="ml12 pointer" size="16px" />
                     </Popconfirm>
                   )
-                    : <Icon type="close" onClick={onClose} />
+                    : <Close className="ml12 pointer" size="16px" onClick={onClose} />
                 }
               </div>
             </div>

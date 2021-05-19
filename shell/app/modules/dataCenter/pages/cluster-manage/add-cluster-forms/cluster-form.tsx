@@ -16,12 +16,13 @@ import * as React from 'react';
 import i18n from 'i18n';
 import moment, { Moment } from 'moment';
 import { RenderPureForm, FormModal, useUpdate } from 'common';
-import { Icon, DatePicker, InputNumber, message } from 'app/nusi';
+import { DatePicker, InputNumber, message } from 'app/nusi';
 import { find, get, debounce, flatten, map, isString, isEmpty, every } from 'lodash';
 import { WrappedFormUtils } from 'core/common/interface';
 import { clusterTypeMap } from './cluster-type-modal';
 import clusterStore from '../../../stores/cluster';
 import { regRules } from 'common/utils';
+import { Down, Up } from '@icon-park/react';
 import './cluster-form.scss';
 
 enum RepeatMode {
@@ -462,7 +463,7 @@ const ClusterAddForm = (props:any) => {
           <div className="more">
             <a className="more-btn" onClick={() => setShowMore(!showMore)}>
               {i18n.t('advanced settings')}
-              <Icon type={showMore ? 'down' : 'up'} />
+              { showMore ? <Down size="16px" /> : <Up size="16px" />}
             </a>
             <div className={`more-form ${showMore ? '' : 'hide'}`}>
               <ClusterSchedulerForm form={form} clusterType={clusterType} formData={formData} editMode={mode === 'edit'} />

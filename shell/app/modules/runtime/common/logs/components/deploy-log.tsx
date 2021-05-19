@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Icon, Popover } from 'app/nusi';
+import { Popover } from 'app/nusi';
 import { LogRoller, Icon as CustomIcon } from 'common';
 import classnames from 'classnames';
 import { map } from 'lodash';
@@ -24,6 +24,7 @@ import runtimeLogStore from 'runtime/stores/log';
 import runtimeServiceStore from 'runtime/stores/service';
 import commonStore from 'common/stores/common';
 import { useMount } from 'react-use';
+import { Attention, LeftOne } from '@icon-park/react';
 
 import './deploy-log.scss';
 
@@ -77,7 +78,7 @@ const DeployLog = ({ detailLogId, query, applicationId, hasLogs }: IProps) => {
                     >
                       <span className="step-title">
                         {name}
-                        <Icon className="fail-info" type="exclamation-circle" />
+                        <Attention className="fail-info" />
                       </span>
                     </Popover>
                   )
@@ -111,7 +112,7 @@ const DeployLog = ({ detailLogId, query, applicationId, hasLogs }: IProps) => {
           getComp: () => <MigrationLog migrationId={migrationId} />,
           getTitle: () => (
             <span>
-              <Icon className="hover-active" type="caret-left" onClick={() => popSlideComp()} />&nbsp;
+              <LeftOne theme="filled" size="16px" className="hover-active" onClick={() => popSlideComp()} />&nbsp;
               {i18n.t('application:upgrade log')}
             </span>
           ),
@@ -127,7 +128,7 @@ const DeployLog = ({ detailLogId, query, applicationId, hasLogs }: IProps) => {
               getComp: () => <ContainerLog instance={target} />,
               getTitle: () => (
                 <span>
-                  <Icon className="hover-active" type="caret-left" onClick={() => popSlideComp()} />&nbsp;
+                  <LeftOne theme="filled" size="16px" className="hover-active" onClick={() => popSlideComp()} />&nbsp;
                   {i18n.t('runtime:container log')}
                 </span>
               ),

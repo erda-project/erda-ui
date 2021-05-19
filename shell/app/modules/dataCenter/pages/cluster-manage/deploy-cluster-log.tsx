@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Icon } from 'app/nusi';
 import { throttle } from 'lodash';
 import { connectCube } from 'common';
 import './deploy-cluster-log.scss';
@@ -94,7 +93,6 @@ class DeployClusterLog extends React.Component<IProps, IState> {
   };
 
   render() {
-    debugger;
     const { fetching } = this.state;
     return (
       <div className="deploy-cluster-log" ref={(ref) => { this.preElm = ref; }} onScroll={this.throttleScroll}>

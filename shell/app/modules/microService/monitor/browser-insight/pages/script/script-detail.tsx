@@ -13,17 +13,17 @@
 
 import { map, get } from 'lodash';
 import * as React from 'react';
-import { Row, Col, Icon } from 'app/nusi';
+import { Row, Col } from 'app/nusi';
 import moment from 'moment';
 import i18n from 'i18n';
+import { Alarm } from '@icon-park/react';
 
 const scriptDetail = ({ data }: {data: object}) => {
   const errorDetail = get(data, 'list') || [];
   if (!errorDetail) {
     return (
       <div className="no-data-list">
-        <Icon type="warn" />
-        <div className="no-data-content">{i18n.t('microService:no data')}</div>
+        <div className="no-data-content"><Alarm size="16px" />{i18n.t('microService:no data')}</div>
       </div>
     );
   }

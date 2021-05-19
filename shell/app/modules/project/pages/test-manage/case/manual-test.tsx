@@ -14,7 +14,7 @@
 import { debounce } from 'lodash';
 import i18n from 'i18n';
 import React from 'react';
-import { Button, Icon, Input } from 'app/nusi';
+import { Button, Input } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
 import { SplitPage } from 'layout/common';
 import { updateSearch } from 'common/utils';
@@ -32,6 +32,7 @@ import CaseDrawer from 'project/pages/test-manage/case/case-drawer';
 import testEnvStore from 'project/stores/test-env';
 import { useEffectOnce } from 'react-use';
 import moment from 'moment';
+import { Search } from '@icon-park/react';
 import './manual-test.scss';
 
 const ManualTest = () => {
@@ -123,7 +124,7 @@ const ManualTest = () => {
               style={{ width: '160px' }}
               placeholder={i18n.t('project:search for')}
               onChange={e => debouncedSearch({ query: e.target.value, pageNo: 1 })}
-              prefix={<Icon type="search" />}
+              prefix={<Search />}
             />
             <Button onClick={() => setEnhanceFilterVisible(true)}>
               <CustomIcon type="filter" />

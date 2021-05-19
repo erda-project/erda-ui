@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Spin, Button, Icon, Menu, Modal } from 'app/nusi';
+import { Spin, Button, Menu, Modal } from 'app/nusi';
 import BaseInfo from './base-info';
 import RecordList from './record-list';
 import { BuildLog } from 'application/pages/build-detail/build-log';
@@ -27,6 +27,7 @@ import { ymlDataToFormData } from 'app/yml-chart/common/in-params-drawer';
 import SnippetDetail from './snippet-detail';
 import { ResultViewDrawer } from './result-view';
 import i18n from 'i18n';
+import { Attention } from '@icon-park/react';
 import './index.scss';
 
 const { confirm } = Modal;
@@ -319,7 +320,7 @@ const RunDetail = (props: IProps) => {
           showMessage && showMessage.msg
             ? (
               <div className="auto-test-detail-err-msg mb8">
-                <div className="auto-test-err-header"><Icon type="warning" className="auto-test-err-icon" /><pre>{showMessage.msg}</pre></div>
+                <div className="auto-test-err-header"><Attention className="auto-test-err-icon" /><pre>{showMessage.msg}</pre></div>
                 <div className="auto-test-err-stack"><ul style={{ listStyle: 'disc' }}>{showMessage.stacks.map((stack, i) => <li key={`${stack}-${String(i)}`}><pre style={{ overflow: 'hidden', whiteSpace: 'pre-wrap' }}>{stack}</pre></li>)}</ul></div>
               </div>
             ) : null

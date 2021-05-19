@@ -17,11 +17,12 @@ import { WrappedFormUtils } from 'core/common/interface';
 import { useUpdate } from 'common';
 
 import { setLS, goTo } from 'common/utils';
-import { Row, Col, Form, Icon, Input, Popconfirm, Modal, message } from 'app/nusi';
+import { Row, Col, Form, Input, Popconfirm, Modal, message } from 'app/nusi';
 import i18n from 'i18n';
 import routeInfoStore from 'app/common/stores/route';
 import runtimeStore from 'runtime/stores/runtime';
 import runtimeDomainStore from 'runtime/stores/domain';
+import { ReduceOne, AddOne } from '@icon-park/react';
 
 import './domain-modal.scss';
 
@@ -202,9 +203,8 @@ const DomainModal = (props: IProps) => {
                   <div className="custom-domain" key="custom">
                     <span>{i18n.t('runtime:custom domain name')}:</span>
                     <span className="add-domain-icon">
-                      <Icon
-                        className="hover-active fz18 ml12"
-                        type="plus-circle-o"
+                      <AddOne
+                        className="hover-active fz18 ml12 pointer"
                         onClick={() => addCustom()}
                       />
                     </span>
@@ -246,7 +246,7 @@ const DomainModal = (props: IProps) => {
                         >
                           <span className="delete-domain-icon">
                             {' '}
-                            <Icon className="hover-active fz18" type="minus-circle-o" />{' '}
+                            <ReduceOne className="hover-active fz18 pointer" />{' '}
                           </span>
                         </Popconfirm>
                         }

@@ -15,7 +15,7 @@ import * as React from 'react';
 import { CRUDTable, useUpdate, Copy } from 'common';
 import networksStore from 'dataCenter/stores/networks';
 import { useLoading } from 'app/common/stores/loading';
-import { Select, Menu, Dropdown, Button, Icon } from 'app/nusi';
+import { Select, Menu, Dropdown, Button } from 'app/nusi';
 import { VswCIDRField } from '../common/components/cidr-input';
 import { getSubnetCount } from '../common/util';
 import { cloudVendor, formConfig } from '../common/config';
@@ -28,7 +28,7 @@ import i18n from 'i18n';
 import routeInfoStore from 'common/stores/route';
 import { getCloudResourceTagsCol, getCloudResourceIDNameCol, getCloudResourceStatusCol, getCloudResourceRegionCol } from 'dataCenter/common/components/table-col';
 import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
-
+import { DownOne } from '@icon-park/react';
 const { Option } = Select;
 
 const VSW = () => {
@@ -244,7 +244,7 @@ const VSW = () => {
     <Dropdown disabled={!ifSelected} overlay={menu}>
       <Button type="primary">
         {i18n.t('batch setting')}
-        <Icon className="ml4" type="caret-down" />
+        <DownOne className="ml4" theme='filled' size="16px" />
       </Button>
     </Dropdown>
   );

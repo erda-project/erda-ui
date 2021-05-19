@@ -12,12 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Icon, Tooltip } from 'app/nusi';
+import { Tooltip } from 'app/nusi';
 import { isEmpty } from 'lodash';
 import { Icon as CustomIcon, EmptyHolder } from 'common';
 import { notify } from 'common/utils';
 import PureTraceDetail from './trace-detail';
 import i18n from 'i18n';
+import { Loading, PauseOne, ReduceOne } from '@icon-park/react';
 import './trace-status-viewer.scss';
 
 const TraceStatusViewer = ({
@@ -51,7 +52,7 @@ const TraceStatusViewer = ({
     (
       <div className="request-status-wp pending">
         <span className="request-status-text">
-          <Icon type="loading" /> { statusName }
+          <Loading /> { statusName }
         </span>
         <Tooltip title={i18n.t('microService:cancel')}>
           <span
@@ -61,7 +62,7 @@ const TraceStatusViewer = ({
               handleCancelRequestPending(requestId);
             }}
           >
-            <Icon type="pause-circle" />
+            <PauseOne size="20px" />
           </span>
         </Tooltip>
       </div>
@@ -84,7 +85,7 @@ const TraceStatusViewer = ({
     (
       <div className="request-status-wp cancel">
         <span className="request-status-text">
-          <Icon type="minus-circle" theme="filled" /> { statusName }
+          <ReduceOne theme="filled" /> { statusName }
         </span>
       </div>
     ),

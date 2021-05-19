@@ -13,12 +13,12 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { Breadcrumb, Spin, Select, Input, Icon } from 'app/nusi';
+import { Breadcrumb, Spin, Select, Input } from 'app/nusi';
 import { cloneDeep, map, isEmpty, debounce } from 'lodash';
 import { JsonChecker, IF, Holder, connectCube } from 'common';
 import PureServiceList from './service-list';
 import AssociatedAddons from '../associated-addon';
-
+import { Right } from '@icon-park/react';
 import './index.scss';
 import dcosServiceStore from 'dcos/stores/services';
 import clusterStore from 'dataCenter/stores/cluster';
@@ -282,7 +282,7 @@ class ServiceManager extends React.Component {
     return (
       <Spin spinning={isFetchingClusters}>
         <Holder when={isEmpty(list)}>
-          <Breadcrumb separator={<Icon type="right" className="fz12" />} className="path-breadcrumb">
+          <Breadcrumb separator={<Right size="14px" className="fz12" />} className="path-breadcrumb">
             {
               path.map((p, i) => {
                 const isLast = i === path.length - 1;

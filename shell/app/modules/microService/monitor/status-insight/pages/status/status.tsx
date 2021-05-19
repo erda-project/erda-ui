@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Table, Button, Icon, Modal, Tooltip, Select } from 'app/nusi';
+import { Table, Button, Modal, Tooltip, Select } from 'app/nusi';
 import { goTo, cutStr, resolvePath } from 'common/utils';
 import { reverse, map, filter, floor } from 'lodash';
 import { useUpdate } from 'common';
@@ -23,6 +23,7 @@ import { useLoading } from 'app/common/stores/loading';
 import routeInfoStore from 'app/common/stores/route';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
+import { Info } from '@icon-park/react';
 import './status.scss';
 
 const { Option } = Select;
@@ -237,7 +238,7 @@ const Status = () => {
       </div>
       <div className="top-bar">
         <span className={`summary-down-count ${hasDown.color}`}>
-          <span><Icon type="info-circle" /> {hasDown.text} </span>
+          <span><Info size="16px" /> {hasDown.text} </span>
         </span>
       </div>
       <AddModal

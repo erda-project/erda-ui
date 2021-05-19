@@ -18,7 +18,7 @@ import networksStore from 'dataCenter/stores/networks';
 import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
 import i18n from 'i18n';
 import { map, get, find } from 'lodash';
-import { Tooltip, Dropdown, Button, Icon, Menu, notification } from 'app/nusi';
+import { Tooltip, Dropdown, Button, Menu, notification } from 'app/nusi';
 import { RedisFieldConfig } from 'project/pages/third-service/components/config';
 import cloudServiceStore from '../../stores/cloud-service';
 import { WrappedFormUtils } from 'core/common/interface';
@@ -35,6 +35,7 @@ import {
 import { ClusterLog } from 'dataCenter/pages/cluster-manage/cluster-log';
 import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
 import { skipInfoStatusMap } from 'dataCenter/pages/cloud-source/config';
+import { DownOne } from '@icon-park/react';
 
 const specList = [
   ...RedisFieldConfig.spec.standard,
@@ -202,7 +203,7 @@ const Redis = () => {
     <Dropdown disabled={!ifSelected} overlay={menu}>
       <Button type="primary">
         {i18n.t('batch setting')}
-        <Icon className="ml4" type="caret-down" />
+        <DownOne className="ml4" theme="filled" size="16px" />
       </Button>
     </Dropdown>
   );

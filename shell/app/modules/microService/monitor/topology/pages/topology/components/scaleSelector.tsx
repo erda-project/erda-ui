@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Select, Icon } from 'app/nusi';
+import { Select } from 'app/nusi';
 import { map } from 'lodash';
-
+import { Minus, Plus } from '@icon-park/react';
 import './scaleSelector.scss';
 
 const { Option } = Select;
@@ -48,13 +48,13 @@ export const ScaleSelector = ({ scale, onChange }: IProps) => {
 
   return (
     <div className="scale-selector">
-      <Icon type="minus" className="scale-minus scale-op" onClick={() => changeScale(Number((curScale - 0.2).toFixed(1)))} />
+      <Minus size="16px" className="scale-minus scale-op" onClick={() => changeScale(Number((curScale - 0.2).toFixed(1)))} />
       <Select value={`${(curScale * 100).toFixed(0)}%`} onChange={changeScale} showArrow={false} dropdownMatchSelectWidth={false}>
         {map(scaleOpt, ({ name, value }) => (
           <Option key={value} value={value}>{name}</Option>
         ))}
       </Select>
-      <Icon type="plus" className="scale-plus scale-op" onClick={() => changeScale(Number((curScale + 0.2).toFixed(1)))} />
+      <Plus size="16px" className="scale-plus scale-op" onClick={() => changeScale(Number((curScale + 0.2).toFixed(1)))} />
     </div>
   );
 };
