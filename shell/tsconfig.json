@@ -259,6 +259,9 @@
       "core/nusi": [
         "../core/src/nusi"
       ],
+      "core/utils/ws": [
+        "../core/src/utils/ws.ts"
+      ],
       "core/stores/route": [
         "../core/src/stores/route.ts"
       ],
