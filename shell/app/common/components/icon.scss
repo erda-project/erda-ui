@@ -35,23 +35,23 @@
 
   &.issue-type {
     font-weight: bold;
-    font-size: 14px;
+    font-size: 16px;
     border-radius: $radius;
 
     &.requirement {
-      background-color: $color-info;
+      color: $color-info;
     }
 
-    &.task {
-      background-color: $darkcyan;
+    &.task svg{
+      transform: translateY(0);
     }
 
-    &.bug {
-      background-color: $orange;
+    &.bug svg{
+      transform: translateY(0);
     }
 
     &.epic {
-      background-color: $color-primary;
+      color: $color-primary;
     }
   }
 
