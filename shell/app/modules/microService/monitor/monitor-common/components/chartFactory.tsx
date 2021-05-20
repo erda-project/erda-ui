@@ -170,6 +170,11 @@ const ChartBaseFactory = {
         };
       });
       React.useEffect(() => {
+        if (!shouldLoad) {
+          setCurQuery({});
+        }
+      }, [shouldLoad]);
+      React.useEffect(() => {
         const preQuery = curQuery;
         const nextQuery = getQuery({
           ...props,
@@ -181,9 +186,6 @@ const ChartBaseFactory = {
         if (shouldLoad && !isEqualQuery(preQuery, nextQuery)) {
           setCurQuery(nextQuery);
           loadChart(nextQuery);
-        }
-        if (!shouldLoad) {
-          setCurQuery({});
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [shouldLoad, query, fetchApi, curQuery, timeSpan, chosenSortItem, chosenApp, terminusKey]);

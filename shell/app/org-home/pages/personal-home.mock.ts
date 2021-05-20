@@ -386,7 +386,7 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
         type: 'List',
         props: {
           visible: false,
-          useLoadMore: true,
+          isLoadMore: true,
           alignCenter: true,
           noBorder: true,
           size: 'small',
@@ -507,7 +507,7 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
         type: 'List',
         props: {
           visible: true,
-          useLoadMore: true,
+          isLoadMore: true,
           alignCenter: true,
           noBorder: true,
           size: 'small',
@@ -900,7 +900,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
           relative: true,
           whiteBg: true,
           paddingY: true,
-        }
+        },
       },
       content: {
         type: 'Container',
@@ -917,7 +917,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
           changePageNo: {
             key: 'changePageNo',
             reload: true,
-            fillMeta: 'pageNo'
+            fillMeta: 'pageNo',
           },
         },
         data: {
@@ -1275,7 +1275,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
           pageNo: 1,
           pageSize: 1,
           total: 5,
-        }
+        },
       }
     },
   },

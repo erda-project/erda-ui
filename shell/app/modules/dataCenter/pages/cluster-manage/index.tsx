@@ -53,8 +53,8 @@ const ClusterManage = () => {
 
   const toggleAddModalVis = (isCancel = false) => {
     if (addModalVis) {
+      isCancel && !addClusterType && toggleTypeModalVis();
       updater.addClusterType('');
-      isCancel && toggleTypeModalVis();
     }
     updater.addModalVis(!addModalVis);
   };

@@ -46,7 +46,6 @@ enum LIMIT_TYPE {
 
 export const PureApiLimits = () => {
   const defaultLimitType = LIMIT_TYPE.ALL;
-  // const [filter, setFilter] = React.useState({} as any);
   const [effectFilter, setEffectFilter] = React.useState({} as any);
   const [modalVisible, openModal, _closeModal] = useSwitch(false);
   const [method, setMethod] = React.useState('GET');
@@ -61,8 +60,7 @@ export const PureApiLimits = () => {
     getApiFilterCondition();
   });
 
-  // const { apiConsumer, apiPackage } = filter;
-  const { apiPackages = [], apiConsumers = [] } = apiFilterCondition;
+  const { apiConsumers = [] } = apiFilterCondition;
   const selectBefore = (
     <Select value={method} onChange={setMethod} dropdownMatchSelectWidth={false}>
       {HTTP_METHODS.map(item => <Option key={item.name} className="method-option" value={item.value}>{item.name}</Option>)}
@@ -76,15 +74,6 @@ export const PureApiLimits = () => {
     const { pageNo = 1 } = pagination || {};
     getApiLimits({ ...effectFilter, pageNo });
   };
-
-  // const onReset = () => {
-  //   setFilter({});
-  //   setEffectFilter({});
-  // };
-
-  // const onSearchClick = () => {
-  //   setEffectFilter({ ...filter });
-  // };
 
   const closeModal = () => {
     _closeModal();
@@ -107,7 +96,9 @@ export const PureApiLimits = () => {
 
   const editForm = (record: ILimit) => {
     setLimitType(record.apiPath ? LIMIT_TYPE.ONE : LIMIT_TYPE.ALL);
-    setFormData(record);
+    const { apiPath, method } = record;
+    const formDataWithLimitType = { ...record, limitType: (!apiPath && !method) ? LIMIT_TYPE.ALL : LIMIT_TYPE.ONE };
+    setFormData(formDataWithLimitType);
     setMethod(record.method || 'GET');
     openModal();
   };
@@ -229,20 +220,6 @@ export const PureApiLimits = () => {
         <div className="mb16">
           <Button type="primary" onClick={openModal}>{i18n.t('microService:create call control')}</Button>
         </div>
-        {/* <div className="mb16 flex-box">
-          <div className="nowrap api-filter">
-            <Select placeholder={i18n.t('microService:consumer')} value={apiConsumer} onChange={(value: string) => setFilter({ ...filter, apiConsumer: value })} className="filter-select mr16">
-              {apiConsumers.map(({ id, name }) => <Option key={id} value={id}>{name}</Option>)}
-            </Select>
-            <Select placeholder={i18n.t('microService:endpoint')} value={apiPackage} onChange={(value: string) => setFilter({ ...filter, apiPackage: value })} className="filter-select mr16">
-              {apiPackages.map(({ id, name }) => <Option key={id} value={id}>{name}</Option>)}
-            </Select>
-          </div>
-          <div className="nowrap filter-btn">
-            <Button className="ml16 mr8" onClick={onReset}>{i18n.t('microService:reset')}</Button>
-            <Button type="primary" ghost onClick={onSearchClick}>{i18n.t('search')}</Button>
-          </div>
-        </div> */}
       </Spin>
       <PagingTable
         isForbidInitialFetch

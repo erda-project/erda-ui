@@ -58,7 +58,7 @@ const ConfigPageRender = (props: IProps) => {
     return updateState(`${compPrefixKey}.${_cId}.state`, val);
   };
 
-  const reExecOperation = (_cId: string) => (_op: any, val: any, extraVal: any) => {
+  const reExecOperation = (_cId: string) => (_op: any, val: any) => {
     if (!_op || isEmpty(_op)) return;
     const op = cloneDeep({ ..._op });
     let updateVal = cloneDeep(val) as any;
@@ -97,7 +97,6 @@ const ConfigPageRender = (props: IProps) => {
       _cId,
       op,
       isEmpty(updateVal) ? undefined : { dataKey: `${compPrefixKey}.${_cId}.state`, dataVal: updateVal },
-      isEmpty(extraVal) ? undefined : { dataKey: `${compPrefixKey}.${_cId}`, dataVal: extraVal }
     );
   };
 

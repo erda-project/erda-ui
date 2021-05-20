@@ -334,14 +334,17 @@ const CloudSource = () => {
                     {i18n.t('dataCenter:Bucket Count')}
                   </div>
                 </div>
-                <div className='part hover-active' onClick={() => { goTo(goTo.pages.cloudSourceOss); }}>
+                {
+                  // ref issue: 59066
+                }
+                {/* <div className='part hover-active' onClick={() => { goTo(goTo.pages.cloudSourceOss); }}>
                   <div className="count">
                     {getFormatter('STORAGE', 'B').format(bucket.storageUsage || 0)}
                   </div>
                   <div className="name">
                     {i18n.t('dataCenter:Storage Count')}
                   </div>
-                </div>
+                </div> */}
               </div>
             );
           },
