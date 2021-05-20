@@ -69,9 +69,9 @@ const ErrorEmptyHolder = ({ msg, branchName, docName, isLoading }:{ msg:string, 
   let Comp = null;
 
   if (isErrorDoc) {
-    const IconImg = <img src={invalidImg} width="200px" />;
+    const iconImg = <img src={invalidImg} width="200px" />;
     Comp = (<EmptyHolder
-      icon={IconImg}
+      icon={iconImg}
       tip={i18n.t('project:the document is illegal according to the rules of openapi 3.0. Please click to')}
       action={<Link to={apiDocsLink}>{i18n.t('project:view document details')}</Link>}
     />);
