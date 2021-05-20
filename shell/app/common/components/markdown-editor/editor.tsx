@@ -17,7 +17,7 @@ import MdEditor from '@erda-ui/react-markdown-editor-lite';
 import { itemInfo } from '@erda-ui/react-markdown-editor-lite/share/var';
 import { EditorProps } from '@erda-ui/react-markdown-editor-lite/editor';
 import UploadPlugin from './upload-plugin';
-import commonStore from 'common/stores/common';
+import { uploadFile } from '../../services';
 import { convertToFormData } from 'common/utils';
 import { getFormatter } from 'charts/utils';
 import '@erda-ui/react-markdown-editor-lite/lib/index.css';
@@ -40,8 +40,9 @@ export const Editor = React.forwardRef((props: Omit<EditorProps, 'renderHTML'>, 
       newFile = new window.File([file], fileName, { type: file.type });
     }
     return new Promise(resolve => {
-      commonStore.effects.uploadFile(convertToFormData({ file: newFile }))
-        .then(({ size, url }) => {
+      uploadFile(convertToFormData({ file: newFile }))
+        .then((res) => {
+          const { size, url } = res?.data || {};
           let imageUrl = imageText;
           imageUrl = imageText.replace('{url}', url)
             .replace(/\[(.+)\]/, `[${fileName}(${getFormatter('STORAGE', 'B').format(size)})]`);

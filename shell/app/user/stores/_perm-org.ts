@@ -52,7 +52,6 @@ export const orgPerm = {
           'Manager',
           'Dev',
           'Ops',
-          'EdgeOps',
           'DataManager',
           'DataEngineer',
           'PublisherManager',
@@ -70,7 +69,6 @@ export const orgPerm = {
           'Manager',
           'Dev',
           'Ops',
-          'EdgeOps',
           'DataManager',
           'DataEngineer',
           'PublisherManager',
@@ -85,7 +83,9 @@ export const orgPerm = {
       read: {
         pass: false,
         role: [
-          'EdgeOps',
+          'Manager',
+          'Dev',
+          'Ops',
           'DataManager',
           'DataEngineer',
           'PublisherManager',
@@ -104,18 +104,6 @@ export const orgPerm = {
       'Dev',
       'Support',
       'DataManager',
-    ],
-  },
-  entryWorkBench: {
-    pass: false,
-    name: '工作台',
-    role: [
-      'Manager',
-      'Dev',
-      'Support',
-      'DataManager',
-      'Reporter',
-      'PublisherManager',
     ],
   },
   entryFastData: {

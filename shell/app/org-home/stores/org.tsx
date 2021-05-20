@@ -17,11 +17,10 @@ import layoutStore from 'layout/stores/layout';
 import { orgPerm } from 'user/stores/_perm-org';
 import { createStore } from 'app/cube';
 import userStore from 'app/user/stores';
-import { getOrgByDomain, getJoinedOrgs } from '../services/org';
+import { getOrgByDomain, getJoinedOrgs, updateOrg } from '../services/org';
 import { getGlobal } from 'app/global-space';
 import { getResourcePermissions } from 'user/services/user';
 import permStore from 'user/stores/permission';
-import agent from 'agent';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 import { get, intersection, map, isEmpty } from 'lodash';
 
@@ -29,12 +28,14 @@ interface IState {
   currentOrg: ORG.IOrg;
   curPathOrg: string;
   orgs: ORG.IOrg[],
+  initFinish: boolean;
 }
 
 const initState: IState = {
   currentOrg: {} as ORG.IOrg,
   curPathOrg: '',
   orgs: [],
+  initFinish: false,
 };
 
 const org = createStore({
@@ -45,8 +46,9 @@ const org = createStore({
       if (isIn('orgIndex')) {
         const isSysAdmin = getGlobal('erdaInfo.isSysAdmin');
         const { orgName } = params;
-        const curPathOrg = org.getState(s => s.curPathOrg);
-        if (!isSysAdmin && curPathOrg !== orgName && !isMatch(/\w\/notFound/)) {
+        const [curPathOrg, initFinish] = org.getState(s => [s.curPathOrg, s.initFinish]);
+        if (!isSysAdmin && initFinish && curPathOrg !== orgName && !isMatch(/\w\/notFound/)) {
+          layoutStore.reducers.clearLayout();
           org.effects.getOrgByDomain({ orgName });
         }
       }
@@ -57,29 +59,50 @@ const org = createStore({
     });
   },
   effects: {
+    async updateOrg({ call, update }, payload: Merge<Partial<ORG.IOrg>, { id: number }>) {
+      const currentOrg = await call(updateOrg, payload);
+      await org.effects.getJoinedOrgs(true);
+      update({ currentOrg });
+    },
     async getOrgByDomain({ call, update }, payload: { orgName: string }) {
       let domain = window.location.hostname;
       if (domain.startsWith('local')) {
         domain = domain.split('.').slice(1).join('.');
       }
       const { orgName } = payload;
+      const orgs = await call(getJoinedOrgs); // get joined orgs
       if (!orgName) return;
       if (orgName === '-') {
-        const orgs = await call(getJoinedOrgs); // get joined orgs
         if (orgs?.list?.length) {
           location.href = `/${get(orgs, 'list[0].name')}`;
           return;
         }
-        update({ curPathOrg: orgName });
+        update({ curPathOrg: orgName, initFinish: true });
         return;
       }
+
       // if orgName exist, check valid
       const resOrg = await call(getOrgByDomain, { domain, orgName });
+      const curPathname = location.pathname;
       if (isEmpty(resOrg)) {
         goTo(goTo.pages.notFound);
       } else {
         const currentOrg = resOrg || {};
         const orgId = currentOrg.id;
+        if (curPathname.startsWith(`/${orgName}/inviteToOrg`)) {
+          if (orgs?.list?.find((x) => x.name === currentOrg.name)) {
+            location.href = `/${currentOrg.name}`;
+          }
+          return;
+        }
+        // user doesn't joined the public org, go to workBench
+        // temporary solution, it will removed until new solution is proposed by PD
+        if (resOrg?.isPublic && curPathname?.split('/')[2] !== 'workBench') {
+          if (!orgs?.list?.find((x) => x.name === currentOrg.name) || orgs?.list?.length === 0) {
+            location.href = goTo.resolve.workBenchRoot();
+            return;
+          }
+        }
         if (currentOrg.name !== orgName) {
           location.href = `/${currentOrg.name}`;
           return;
@@ -124,13 +147,13 @@ const org = createStore({
             }
           });
           breadcrumbStore.reducers.setInfo('curOrgName', currentOrg.displayName);
-          update({ currentOrg, curPathOrg: payload.orgName });
+          update({ currentOrg, curPathOrg: payload.orgName, initFinish: true });
         }
       }
     },
-    async getJoinedOrgs({ call, select, update }) {
+    async getJoinedOrgs({ call, select, update }, force?: boolean) {
       const orgs = select(state => state.orgs);
-      if (isEmpty(orgs)) {
+      if (isEmpty(orgs) || force) {
         const { list } = await call(getJoinedOrgs);
         update({ orgs: list });
       }
@@ -160,14 +183,6 @@ const setLocationByAuth = (authObj: Obj) => {
   }
   const { roles, hasAuth, orgName } = authObj;
   const checkMap = {
-    freshMan: {
-      isCurPage: curPathname.startsWith(`/${orgName}/freshMan`),
-      authRole: [],
-    },
-    inviteToOrg: {
-      isCurPage: curPathname.startsWith(`/${orgName}/inviteToOrg`),
-      authRole: [],
-    },
     fdp: {
       isCurPage: curPathname.startsWith(`/${orgName}/fdp`),
       authRole: intersection(orgPerm.entryFastData.role, roles),
@@ -190,27 +205,29 @@ const setLocationByAuth = (authObj: Obj) => {
     },
     workBench: {
       isCurPage: curPathname.startsWith(`/${orgName}/workBench`),
-      authRole: intersection(orgPerm.entryWorkBench.role, roles),
+      authRole: intersection(orgPerm.workBench.read.role, roles),
     },
     // apiManage: {
     //   isCurPage: curPathname.startsWith('/apiManage'),
     //   authRole: intersection(orgPerm.entryApiManage.role, roles),
     // },
   };
-
   if (hasAuth) {
     map(checkMap, item => {
       // 当前页，但是无权限，则重置
       if (item.isCurPage && isEmpty(item.authRole)) {
-        let resetPath = '/';
+        let resetPath = goTo.resolve.orgRoot({ orgName });
         if (roles.toString() === 'DataEngineer') {
           // 数据工程师只有fdp界面权限
           resetPath = goTo.resolve.fdpIndex();
         } else if (roles.toString() === 'Ops') {
           // 企业运维只有云管的权限
           resetPath = `/${orgName}/dataCenter/overview`;
+        } else if (roles.toString() === 'EdgeOps') {
+          // 边缘运维工程师只有边缘计算平台的权限
+          resetPath = `/${orgName}/edge/application`;
         }
-        window.history.replaceState({}, document.title, resetPath);
+        location.href = resetPath;
       }
     });
   } else {

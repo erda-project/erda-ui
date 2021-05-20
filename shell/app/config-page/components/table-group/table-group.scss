@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 .cp-dice-table-group {
   position: relative;
+  margin-bottom: 24px;
 
   .table-board {
     margin-top: 16px;
@@ -42,7 +43,7 @@
     display: flex;
     justify-content: center;
     margin-top: 24px;
-    margin-bottom: 48px;
+    margin-bottom: 24px;
     color: $color-text-desc;
     font-size: 14px;
     cursor: pointer;

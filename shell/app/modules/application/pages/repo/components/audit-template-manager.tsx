@@ -65,10 +65,10 @@ export const AuditTemplateManager = () => {
   });
 
   const handleSubmit = (content: string) => {
-    const data = {
+    commit({
       actions: [
         {
-          action: 'add',
+          action: 'update',
           content,
           path: 'audit/template.json',
           pathType: 'blob',
@@ -76,8 +76,7 @@ export const AuditTemplateManager = () => {
       ],
       branch,
       message: 'Update template.json',
-    };
-    commit(data).then((res) => {
+    }).then((res) => {
       if (res.success) {
         message.success(i18n.t('application:update file successfully'));
         getRepoBlob();

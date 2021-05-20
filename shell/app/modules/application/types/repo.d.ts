@@ -255,7 +255,7 @@ declare namespace REPOSITORY {
   }
 
   interface CommitAction {
-    action: string;
+    action: 'add' | 'update' | 'delete';
     content?: string;
     path: string,
     pathType: string,

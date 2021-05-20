@@ -32,23 +32,26 @@ const List = (props: CP_LIST.Props) => {
     combineList: list,
   });
   const { total = 0, pageSize, pageNo = 1 } = state || {};
-  const { useLoadMore = false, visible = true, size = 'middle', rowKey, alignCenter = false,
+  const { isLoadMore = false, visible = true, size = 'middle', rowKey, alignCenter = false,
     noBorder = false, pageSizeOptions, ...rest } = configProps || {};
 
   // 将接口返回的list和之前的list进行拼接
   React.useEffect(() => {
+    // if isLoadMore is true, the data will be set undefined, combineList don't need to do anything
+    if (data === undefined) {
+      return;
+    }
     update((pre) => {
       const newState = {
         ...pre,
         ...propsState,
-      }
+      };
       return {
         ...newState,
-        combineList: newState.pageNo === 1 ? list : (newState.combineList || []).concat(list)
-      }
-    })
-  }, [propsState, list])
-
+        combineList: newState.pageNo === 1 ? list : (newState.combineList || []).concat(list),
+      };
+    });
+  }, [propsState, list, update, data]);
 
   const pagination = React.useMemo(() => {
     return isNumber(pageNo) ? {
@@ -74,8 +77,8 @@ const List = (props: CP_LIST.Props) => {
   };
 
   const loadMore = () => {
-    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pageNo + 1 }, { data: { list: [] } });
-  }
+    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pageNo + 1 });
+  };
 
   const changePageSize = (pSize: number) => {
     operations?.changePageSize && execOperation(operations.changePageSize, { pageNo: 1, pageSize: pSize });
@@ -93,11 +96,11 @@ const List = (props: CP_LIST.Props) => {
             {(state.combineList || []).map((item, idx) => {
               return <Item size={size} customProps={customProps} execOperation={execOperation} key={getKey(item, idx)} data={item} alignCenter={alignCenter} noBorder={noBorder} />;
             })}
-            {!useLoadMore && pagination ? (
+            {!isLoadMore && pagination ? (
               <Pagination className='right-flex-box mt12' {...pagination} />
             ) : null
             }
-            {useLoadMore && total > Math.max(state.combineList?.length, 0)
+            {isLoadMore && total > Math.max(state.combineList?.length, 0)
               && <div className='hover-active load-more' onClick={loadMore}>{i18n.t('more')}</div>}
           </>
         ) : <EmptyHolder relative />

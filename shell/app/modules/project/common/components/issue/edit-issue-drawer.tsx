@@ -354,9 +354,9 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
             originalValue={originalValue}
             onChange={v => {
               if (isEditMode && formData?.issueManHour?.isModifiedRemainingTime !== false) {
-                setFieldCb({ issueManHour: { estimateTime: v } });
+                setFieldCb({ issueManHour: { estimateTime: v || 0 } });
               } else { // 创建模式或编辑模式但剩余时间为空时，设置剩余时间为预估时间
-                setFieldCb({ issueManHour: { estimateTime: v, remainingTime: v } });
+                setFieldCb({ issueManHour: { estimateTime: v || 0, remainingTime: v || 0 } });
               }
             }}
             disabled={disabled}
@@ -783,7 +783,12 @@ export const EditIssueDrawer = (props: IProps) => {
           warnMessage.push({ msg: i18n.t('project:EstimateTime'), key: 'issueManHour.estimateTime' });
         }
         if (params.issueManHour.elapsedTime === 0 && params.issueManHour.thisElapsedTime === 0) {
-          warnMessage.push({ msg: i18n.t('project:elapsedTime in time tracing'), key: 'issueManHour.elapsedTime'});
+          // filter out the working
+          const workingState = formData.issueButton.find(item => item.stateBelong === 'WORKING');
+          // When working exists and select working, don't warn
+          if (!workingState || (value.state !== workingState.stateID)) {
+            warnMessage.push({ msg: i18n.t('project:elapsedTime in time tracing'), key: 'issueManHour.elapsedTime'});
+          }
         }
       }
       if (warnMessage.length !== 0) {
@@ -1068,7 +1073,7 @@ export const EditIssueDrawer = (props: IProps) => {
                     dropdownMatchSelectWidth: false,
                     allowClear: false,
                     showArrow: true,
-                    className: '',
+                    className: 'switch-type-selector',
                     style: { width: 60 },
                   }}
                   onChangeCb={(field: any) => {

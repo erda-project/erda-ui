@@ -22,6 +22,7 @@ import { useLoading } from 'app/common/stores/loading';
 import announcementStore from 'org/stores/announcement';
 import './index.scss';
 import { PAGINATION } from 'app/constants';
+import layoutStore from 'app/layout/stores/layout';
 
 const { Search } = Input;
 
@@ -108,19 +109,22 @@ const NoticeManage = () => {
     });
     // toggleModal(true);
   };
-  const publishAnnouncement = (id:number) => {
-    effects.publishAnnouncement({ id }).then(() => {
-      updateList(1);
-      // 发布公告后，更新更新已发布公告列表
-      effects.getAllNoticeListByStatus('published');
-    });
+
+  const updatePublishedList = async () => {
+    updateList(1);
+    // after stop announcement, required to update published announcement list
+    const list = await effects.getAllNoticeListByStatus('published');
+    layoutStore.reducers.setAnnouncementList(list);
+  }
+
+  const publishAnnouncement = async (id:number) => {
+    await effects.publishAnnouncement({ id });
+    updatePublishedList();
   };
-  const deprecateNotice = (id: number) => {
-    effects.unPublishAnnouncement({ id }).then(() => {
-      updateList(1);
-      // 停用公告后， 更新已发布公告列表
-      effects.getAllNoticeListByStatus('published');
-    });
+
+  const deprecateNotice = async (id: number) => {
+    await effects.unPublishAnnouncement({ id });
+    updatePublishedList();
   };
 
   /**
