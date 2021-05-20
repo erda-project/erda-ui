@@ -337,7 +337,7 @@ const YmlEditor = (props: IProps) => {
 
   const handleDelete = (values: any) => {
     const { path } = tree;
-    const data = {
+    commit({
       ...values,
       actions: [
         {
@@ -346,8 +346,7 @@ const YmlEditor = (props: IProps) => {
           pathType: 'blob',
         },
       ],
-    };
-    commit(data).then((res: any) => {
+    }).then((res: any) => {
       toggleModal(false);
       if (res.success) {
         message.success(i18n.t('application:delete file successfully'));
@@ -663,21 +662,20 @@ const YmlEditor = (props: IProps) => {
   const commitData = (commitContent: string, values: any) => {
     const { path } = tree;
     const { branch, message: commitMsg } = values;
-    const data = {
+    updater.openDrawer(false);
+
+    commit({
       branch,
       message: commitMsg || `Update ${fileName}`,
       actions: [
         {
           content: commitContent,
           path,
-          action: 'add',
+          action: 'update',
           pathType: 'blob',
         },
       ],
-    };
-    updater.openDrawer(false);
-
-    commit(data).then(() => {
+    }).then(() => {
       changeMode({
         editFile: false,
         addFile: false,

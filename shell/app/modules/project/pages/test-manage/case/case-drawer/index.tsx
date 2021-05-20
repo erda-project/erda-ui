@@ -19,11 +19,15 @@ import i18n from 'i18n';
 import { fromNow, mergeSearch, qs, updateSearch } from 'common/utils';
 import testSetStore from 'project/stores/test-set';
 import routeInfoStore from 'common/stores/route';
+import { CaseAPI, IApi, getEmptyApi } from './case-api';
 import classnames from 'classnames';
 import ContentPanel from './content-panel';
 import CaseStep, { getEmptyStep } from './case-step';
 import CaseMeta from './case-meta';
+import SelectEnv from './select-env';
 import CaseFooter from './case-footer';
+import testEnvStore from 'project/stores/test-env';
+import { cloneDeep, isUndefined, omitBy, pick } from 'lodash';
 import { useLoading } from 'app/common/stores/loading';
 import './index.scss';
 import RelatedBugs from 'project/pages/test-manage/case/case-drawer/related-bugs';
@@ -39,6 +43,7 @@ interface IProps{
 
 interface ICaseDetail extends TEST_CASE.CaseDetail{
   id: number
+  apisFormat: IApi[];
 }
 
 interface IState {
@@ -46,17 +51,42 @@ interface IState {
   fullData: ICaseDetail
 }
 
+const pickKeys = ['headers', 'method', 'params', 'body', 'outParams', 'asserts'];
+
+const bodyTypeMap = {
+  Text: 'text',
+  'Text(text/plain)': 'text/plain',
+  'JSON(application/json)': 'application/json',
+};
+
 const defaultData = {
   name: '',
   preCondition: '',
   desc: '',
   stepAndResults: [],
   priority: 'P3',
+  apis: [],
+  apisFormat: []
 } as any as ICaseDetail;
 
 const initState:IState = {
   titleIsEmpty: false,
   fullData: defaultData,
+};
+
+const checkParamKeyDuplicate = (list: any[]) => {
+  const dupMap = {};
+  list.forEach((item, i) => {
+    const keyMap = {};
+    item.outParams.forEach((p: any) => {
+      if (!keyMap[p.key]) {
+        keyMap[p.key] = true;
+      } else {
+        dupMap[i + 1] = true;
+      }
+    });
+  });
+  return Object.keys(dupMap);
 };
 
 const doCheck = (data: ICaseDetail) => {
@@ -72,6 +102,10 @@ const doCheck = (data: ICaseDetail) => {
       inValidNum.push(i + 1);
     }
   });
+  const dupList = checkParamKeyDuplicate(data.apisFormat);
+  if (dupList.length) {
+    return i18n.t('project:there are duplicates in the {index} interface', { index: dupList.join(',') });
+  }
   if (inValidNum.length) {
     return i18n.t('project:the {index} step in the steps and results is not completed', { index: inValidNum.join(',') });
   }
@@ -81,16 +115,40 @@ const doCheck = (data: ICaseDetail) => {
 const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }: IProps) => {
   const params = routeInfoStore.useStore(s => s.params);
   const caseDetail = testCaseStore.useStore(s => s.caseDetail);
+  const envList = testEnvStore.useStore(s => s.envList); 
   const dirName = testSetStore.useStore(s => s.breadcrumbInfo.pathName);
   const { clearCaseDetail } = testCaseStore.reducers;
-  const { editPartial, create: addTestCase } = testCaseStore.effects;
-  const [fetchingDetail] = useLoading(testCaseStore, ['getCaseDetail']);
+  const { editPartial, create: addTestCase, attemptTestApi } = testCaseStore.effects;
+  const [isExecuting, fetchingDetail] = useLoading(testCaseStore, ['attemptTestApi', 'getCaseDetail']);
   const [{ fullData, titleIsEmpty }, updater] = useUpdate<IState>(initState);
   const drawer = React.useRef<{saved: boolean}>({ saved: false });
   const editMode = !!caseDetail.id;
   React.useEffect(() => {
     if (caseDetail.id) {
-      updater.fullData({ ...caseDetail });
+      let apis = [];
+      if (caseDetail.apis) {
+        try {
+          // 其他不用透传的放在rest里
+          apis = caseDetail.apis.map(({
+            apiInfo,
+            apiResponse,
+            apiRequest,
+            assertResult,
+            status,
+            ...rest
+          }: any) => ({
+            rest,
+            ...JSON.parse(apiInfo),
+            apiResponse,
+            apiRequest,
+            assertResult,
+            status,
+          }));
+        } catch (error) {
+          // do nothing
+        }
+      }
+      updater.fullData({ ...caseDetail, apisFormat: apis });
     }
   }, [caseDetail, params.projectId, updater]);
   const shareLink = `${location.href.split('?')[0]}?${mergeSearch({ caseId: fullData.id }, true)}`;
@@ -116,10 +174,44 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
       case 'stepAndResults':
         updateFullData('stepAndResults', (fullData.stepAndResults || []).concat(getEmptyStep()));
         break;
+      case 'apisFormat':
+        updateFullData('apisFormat', [...fullData.apisFormat, getEmptyApi()]);
+        break;
       default:
     }
   };
-
+  const executeApi = (data: any, index: number, extra = { envId: 0 }) => {
+    const newData = cloneDeep(data);
+    if (newData.body.type) {
+      newData.body.type = bodyTypeMap[newData.body.type] || newData.body.type;
+    }
+    const { url } = qs.parseUrl(newData.url);
+    const api = {
+      id: String(index),
+      ...pick(newData, pickKeys),
+      url,
+    };
+    // 这里的usecaseTestEnvID是testCaseID
+    return attemptTestApi({ apis: [api], projectTestEnvID: extra.envId, usecaseTestEnvID: fullData.testCaseID });
+  };
+  const executeAllApi = (apiList: IApi[], extra = { envId: 0 }) => {
+    const apis = apiList.map((item: any, index: number) => {
+      const { url } = qs.parseUrl(item.url);
+      const api = {
+        id: String(index),
+        ...pick(item, pickKeys),
+        url,
+      };
+      return api;
+    });
+    // 这里的usecaseTestEnvID是testCaseID
+    return attemptTestApi({ apis, projectTestEnvID: extra.envId, usecaseTestEnvID: fullData.testCaseID }).then((result) => {
+      updater.fullData({
+        ...fullData,
+        apisFormat: fullData.apisFormat.map((a: any, i: number) => ({ ...a, attemptTest: result[i] })),
+      });
+    });
+  };
   const checkName = (e: React.FocusEvent<HTMLInputElement>) => {
     const name = e.target.value;
     updater.titleIsEmpty(!name);
@@ -134,12 +226,27 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
       message.warning(errorInfo);
       return;
     }
-    const payload = editMode ? { ...newData, id: caseDetail.testCaseID } : newData;
+    const { apisFormat, ...rests } = newData;
+    const saveData = {
+      ...rests,
+      apis: apisFormat.map((item: IApi) => {
+        const { apiResponse, assertResult, status, rest: restParams, attemptTest, ...info } = item;
+        const saveApi = {
+          ...restParams,
+          apiResponse,
+          assertResult,
+          status,
+          apiInfo: JSON.stringify(info),
+        };
+        return omitBy(saveApi, isUndefined);
+      }),
+    };
+    const payload = editMode ? { ...saveData, id: caseDetail.testCaseID } : saveData;
     const request = editMode ? editPartial : addTestCase;
     const res = await request(payload);
     drawer.current.saved = true;
     if (afterSave) {
-      await afterSave(newData, editMode, res);
+      await afterSave(saveData, editMode, res);
     }
     if (close) {
       handleClose();
@@ -176,6 +283,17 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
     };
   }, [fullData.priority, caseDetail.createdAt, caseDetail.creatorID]);
 
+  const append = (scope === 'testPlan' && editMode) || !fullData.apisFormat.length ? null : (
+    <span className="color-text-desc hover-active" onClick={() => executeAllApi(fullData.apisFormat, { envId: 0 })}>
+      <SelectEnv envList={envList}  onClick={(env: any) => { executeAllApi(fullData.apisFormat, { envId: env.id }); }}>
+        <>
+          <CustomIcon type="play" />
+          {i18n.t('project:execute')} 
+          <span className="fz12">({i18n.t('project:click-direct-no-env')})</span>
+        </>
+      </SelectEnv>
+    </span>
+  );
   return (
     <Drawer
       className="case-drawer"
@@ -259,7 +377,20 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                   onChange={(stepsData, autoSave) => updateFullData('stepAndResults', stepsData, autoSave)}
                 />
               </ContentPanel>
-          
+              <ContentPanel
+                title={i18n.t('project:interface')}
+                mode="add"
+                onClick={() => { handleAddInTitle('apisFormat'); }}
+                loading={isExecuting}
+                append={append}
+              >
+                <CaseAPI
+                  value={fullData.apisFormat}
+                  onChange={(apis, autoSave) => updateFullData('apisFormat', apis, autoSave)}
+                  mode={scope === 'testPlan' && editMode ? 'plan' : ''}
+                  executeApi={executeApi}
+                />
+              </ContentPanel>
               <ContentPanel
                 title={i18n.t('project:description')}
               >

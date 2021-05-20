@@ -31,7 +31,6 @@ const ProjectTreeModal = () => {
   const [confirmLoading] = useLoading(testSetStore, ['submitTreeModal']);
   const { submitTreeModal } = testSetStore.effects;
   const { closeTreeModal, updateTreeModalExtra } = testSetStore.reducers;
-
   const { action, type } = treeModalInfo;
   const visible = !!type;
   return (
@@ -39,7 +38,7 @@ const ProjectTreeModal = () => {
       visible={visible}
       title={titleMap[action]}
       onCancel={closeTreeModal}
-      onOk={submitTreeModal}
+      onOk={() => submitTreeModal()}
       confirmLoading={confirmLoading}
       destroyOnClose
     >
@@ -52,7 +51,7 @@ const ProjectTreeModal = () => {
           mode="temp"
         />
       </div>
-    </Modal>
+    </Modal >
   );
 };
 

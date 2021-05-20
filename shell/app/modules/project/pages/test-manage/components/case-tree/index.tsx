@@ -115,7 +115,6 @@ const TestSet = ({
     getProjectTestSets({ testPlanID, mode, recycled: false, parentID: rootId, forceUpdate: true });
   });
 
-
   const loadTreeNode = (arr: string[], isInRecycleBin = false) => {
     arr.reduce(async (prev, curr) => {
       await prev;
@@ -617,8 +616,8 @@ const TestSet = ({
     });
     updateSearch({ pageNo: 1, recycled, testSetID, eventKey });
 
-     // 页面刚刚进来时保持当前 query 不进行更新
-     if (!_extra.keepCurrentSearch) {
+    // 页面刚刚进来时保持当前 query 不进行更新
+    if (!_extra?.keepCurrentSearch) {
       updateSearch({ pageNo: 1, recycled, testSetID, eventKey });
     }
 

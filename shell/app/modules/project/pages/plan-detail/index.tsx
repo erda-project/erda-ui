@@ -22,7 +22,6 @@ import { useLoading } from 'app/common/stores/loading';
 import routeInfoStore from 'common/stores/route';
 import testCaseStore from 'project/stores/test-case';
 import testPlanStore from 'project/stores/test-plan';
-import testEnvStore from 'project/stores/test-env';
 import { StatusToggle } from './status-toggle';
 import CaseImport from './case-import-button';
 import ChangeResult from './change-result';
@@ -38,7 +37,6 @@ import { getExecuteRecords as getExecuteRecordsService } from '../../services/te
 import { EnvSelect, BaseInfo } from 'project/pages/plan-detail/common-comp';
 import CaseDrawer from 'project/pages/test-manage/case/case-drawer';
 import './index.scss';
-import { useEffectOnce } from 'react-use';
 import moment from 'moment';
 
 const { TabPane } = Tabs;
@@ -48,7 +46,7 @@ const TestPlanDetail = () => {
   const planItemDetail = testPlanStore.useStore(s => s.planItemDetail);
   const params = routeInfoStore.useStore(s => s.params);
   const { getCases, getCaseDetail } = testCaseStore.effects;
-  const { getTestEnvList } = testEnvStore;
+  
   const {
     getTestPlanItemDetail, updatePlanStatus, addSingleCaseToTestPlan,
     executeCaseApi, getExecuteRecords, cancelBuild: cancelPipeline,
@@ -90,9 +88,7 @@ const TestPlanDetail = () => {
     clear = loopTimer(loop, 3000);
   };
 
-  useEffectOnce(() => {
-    getTestEnvList({ envID: +params.projectId, envType: 'project' });
-  });
+  
 
   React.useEffect(() => {
     setLoadingRecords(true);

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import queryString from 'query-string';
-import { goTo } from './go-to';
+import { goTo, IOptions as IGotoOptions } from './go-to';
 import { pick } from 'lodash';
 
 // 设置默认option，区分a=b和a[]=b的情况，也为了避免影响依赖中的queryString
@@ -78,8 +78,14 @@ export function mergeSearch(obj?: { [prop: string]: any }, toString?: boolean, i
  * 合并参数并更新到当前url上
  * @param obj 需合并的query对象
  */
-export function updateSearch(search?: { [prop: string]: any }, opt?: Obj) {
-  goTo(`${location.pathname}?${mergeSearch(search, true, false, opt)}`);
+
+ interface IOpt {
+   gotoOption?: IGotoOptions;
+   [pro: string]: any;
+ }
+export function updateSearch(search?: { [prop: string]: any }, opt?: IOpt) {
+  const { gotoOption = {}, ...rest } = opt || { };
+  goTo(`${location.pathname}?${mergeSearch(search, true, false, rest)}`, gotoOption);
 }
 
 /**

@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { useMount, useUpdateEffect } from 'react-use';
-import { isEmpty, get, set, isEqual } from 'lodash';
+import { isEmpty, get, set, isEqual, forEach } from 'lodash';
 import { produce } from 'immer';
 import { Spin } from 'app/nusi';
 import { useUpdate } from 'common';
@@ -171,14 +171,29 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
           operationData: _rest,
         };
       });
-      queryPageConfig(newConfig, partial, op.showLoading);
+
+      const formatConfig = clearLoadMoreData(newConfig);
+      queryPageConfig(formatConfig, partial, op.showLoading);
     } else if (updateInfo) {
       updateState(updateInfo.dataKey, updateInfo.dataVal);
     }
   };
 
-  const pageProtocol = React.useMemo(() => get(pageConfig, 'protocol'), [pageConfig]);
+  const clearLoadMoreData = (newConfig: CONFIG_PAGE.RenderConfig) => {
+    const formatConfig = produce(newConfig, (draft) => {
+      const comps = get(draft, 'protocol.components');
+      forEach(comps, (comp) => {
+        if (comp?.props?.isLoadMore) {
+          comps[comp?.name] = { ...comp, data: undefined };
+        }
+      });
+    });
 
+    return formatConfig;
+  };
+
+
+  const pageProtocol = React.useMemo(() => get(pageConfig, 'protocol'), [pageConfig]);
   const Content = React.useMemo(() => {
     return (
       <ConfigPageRender

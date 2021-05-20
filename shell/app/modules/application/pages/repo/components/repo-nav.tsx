@@ -72,9 +72,9 @@ const PureRepoNavOperation = () => {
     return fieldsList;
   };
 
-  const handleAdd = ({ dirName, ...values }: {dirName: string}) => {
+  const handleAdd = ({ dirName, ...values }: { dirName: string, message: string, branch: string }) => {
     const path = `${tree.path ? `${tree.path}/` : tree.path}${dirName}`;
-    const data = {
+    commit({
       ...values,
       actions: [
         {
@@ -83,8 +83,7 @@ const PureRepoNavOperation = () => {
           pathType: 'tree',
         },
       ],
-    };
-    commit(data).then((res) => {
+    }).then((res) => {
       toggleModal(false);
       if (res.success) {
         getRepoTree();
@@ -139,9 +138,9 @@ const PureRepoNavOperation = () => {
                   disabled={isLocked}
                   onClick={() => {
                     if (inIndexPage) {
-                      goTo(`./tree/${curBranch}/pipeline.yml`, { forbidRepeat: true });
+                      goTo(`./tree/${curBranch}/pipeline.yml?editPipeline=true`, { forbidRepeat: true });
                     } else {
-                      goTo('./pipeline.yml', { forbidRepeat: true });
+                      goTo('./pipeline.yml?editPipeline=true', { forbidRepeat: true });
                     }
                   }}
                 >{i18n.t('edit {name}', { name: i18n.t('application:pipeline') })}

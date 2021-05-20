@@ -31,12 +31,14 @@ interface IState {
   envList: TEST_ENV.Item[],
   autoEnvList: TEST_ENV.IAutoEnvItem[],
   envInfo: TEST_ENV.EnvListQuery,
+  projectEnvList: TEST_ENV.Item[],
 }
 
 const initState: IState = {
   active: {},
   envList: [],
   autoEnvList: [],
+  projectEnvList: [],
   envInfo: {
     envID: 0,
     envType: '' as TEST_ENV.EnvType,
@@ -81,6 +83,10 @@ const testEnv = createFlatStore({
       const envList = await call(getTestEnvList, payload);
       update({ envList });
     },
+    async getProjectTestEnvList({ call, update }, payload: TEST_ENV.EnvListQuery) {
+      const projectEnvList = await call(getTestEnvList, payload);
+      update({ projectEnvList });
+    },
     async getAutoTestEnvList({ call, update }, payload: TEST_ENV.IAutoEnvQuery) {
       const list = await call(getAutoTestEnvList, payload);
       const autoEnvList = (list || []).map(({ apiConfig, projectID, orgID, displayName, desc, ns }) => {
@@ -95,6 +101,9 @@ const testEnv = createFlatStore({
     },
     clearEnvList(state) {
       state.envList = [];
+    },
+    clearProjectEnvList(state) {
+      state.projectEnvList = [];
     },
     clearAutoTestEnvList(state) {
       state.autoEnvList = [];

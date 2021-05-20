@@ -47,9 +47,9 @@ const refTableList = [
     dataIndex: 'applicationId',
     key: 'applicationId',
     align: 'center' as 'center',
-    render: (_text: string, row: {applicationId: string, projectId: string, runtimeId: string}) => {
-      const { applicationId, projectId, runtimeId } = row;
-      return (<Link to={goTo.resolve.runtimeDetailRoot({ applicationId, projectId, runtimeId })}><CustomIcon type="link1" /></Link>);
+    render: (_text: string, row: { applicationId: string, projectId: string, runtimeId: string }) => {
+      const { applicationId: appId, projectId, runtimeId } = row;
+      return (<Link to={goTo.resolve.runtimeDetailRoot({ appId, projectId, runtimeId })}><CustomIcon type="link1" /></Link>);
     },
   },
 ];

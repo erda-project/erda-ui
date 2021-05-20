@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { message, Tooltip, Radio, Button } from 'app/nusi';
 import { FormModal, Icon as CustomIcon, IF, DeleteConfirm, useUpdate } from 'common';
-import { goTo } from 'common/utils';
+import { goTo, updateSearch } from 'common/utils';
 import RepoFile from './repo-file';
 import RepoEditor from './repo-editor';
 import { isEmpty, get, find } from 'lodash';
@@ -24,6 +24,7 @@ import DiceYamlEditor from './yml-editor';
 import { needRenderWorkFlowView, isPipelineWorkflowYml, isPipelineYml, isInDiceDirectory, isYml } from 'application/common/yml-flow-util';
 import repoStore from 'application/stores/repo';
 import routeInfoStore from 'common/stores/route';
+import{ useMount } from 'react-use'; 
 import appStore from 'application/stores/application';
 import { getInfoFromRefName } from '../util';
 import { useLoading } from 'app/common/stores/loading';
@@ -52,7 +53,7 @@ const RepoFileContainerComp = (props: IProps) => {
     modalVisible: false,
     viewType: 'graphic',
   });
-  const params = routeInfoStore.useStore(s => s.params);
+  const [params, query] = routeInfoStore.useStore(s => [s.params, s.query]);
   const { name: fileName } = props;
   const [info, blob, mode, pipelineYmlStructure, tree] = repoStore.useStore(s => [s.info, s.blob, s.mode, s.pipelineYmlStructure, s.tree]);
   const [parsePipelineYmlStructureLoading, getRepoBlobLoading] = useLoading(repoStore, ['parsePipelineYmlStructure', 'getRepoBlob']);
@@ -61,6 +62,17 @@ const RepoFileContainerComp = (props: IProps) => {
   const toggleModal = (modalVisible: boolean) => {
     updater.modalVisible(modalVisible);
   };
+
+  useMount(()=>{
+    if(query?.editPipeline){
+      // clear editPipeline in query, replace=true to forbidden Previous useless url
+      updateSearch({ editPipeline: undefined }, { gotoOption: { replace: true }});
+      // url change produce a mode reset in repo store, use setTimeout delay changeMode after reset.
+      setTimeout(()=>{
+        changeMode({ editFile: true })
+      })
+    }
+  })
 
   // 是否为dice.yml 或 pipeline.yml
   const isDiceOrPipelineFile = React.useMemo(() => {
@@ -74,7 +86,7 @@ const RepoFileContainerComp = (props: IProps) => {
   }, [isDiceOrPipelineFile, getRepoBlobLoading, parsePipelineYmlStructureLoading, pipelineYmlStructure, updater]);
 
   const handleDelete = (values: Pick<REPOSITORY.Commit, 'message'| 'branch'>) => {
-    const data = {
+    commit({
       ...values,
       actions: [
         {
@@ -83,8 +95,7 @@ const RepoFileContainerComp = (props: IProps) => {
           pathType: 'blob',
         },
       ],
-    };
-    commit(data).then((res) => {
+    }).then((res) => {
       toggleModal(false);
       if (res.success) {
         message.success(i18n.t('application:delete file successfully'));
@@ -193,19 +204,18 @@ const RepoFileContainerComp = (props: IProps) => {
     const { path } = tree;
     const { branch } = getInfoFromRefName(tree.refName);
 
-    const data = {
+    commit({
       branch,
       message: `Update ${path}`,
       actions: [
         {
-          action: 'add',
+          action: 'update',
           content: ymlContent,
           path,
           pathType: 'blob',
         },
       ],
-    };
-    commit(data).then((res) => {
+    }).then((res) => {
       if (res.success) {
         changeMode({ editFile: false, addFile: false });
         message.success(i18n.t('application:modify file successfully'));

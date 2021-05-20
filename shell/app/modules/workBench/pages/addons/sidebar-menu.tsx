@@ -11,22 +11,23 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import DiceConfigPage from 'app/config-page/index';
+import { Icon as CustomIcon } from 'common';
+import { Config } from '@icon-park/react';
+import i18n from 'i18n';
+import React from 'react';
 
-interface IProps{
-  nodeData: null | IStageTask;
-  editing: boolean;
-  isCreate?: boolean;
-  otherTaskAlias?: string[];
-  chosenActionName: string;
-  chosenAction:any;
-  onSubmit?: (options: any) => void;
-}
-
-const ActionConfigForm = (props: IProps) => {
-  const { chosenActionName } = props;
-  return <DiceConfigPage showLoading={false} scenarioType='action' scenarioKey={chosenActionName} customProps={{ actionForm: props }} />;
+export const getSideMenu = ({ rootPath }: { rootPath: string }) => {
+  const sideMenu = [
+    {
+      href: `${rootPath}/overview`,
+      icon: <CustomIcon type='overview' />,
+      text: i18n.t('workBench:addon info'),
+    },
+    {
+      href: `${rootPath}/settings`,
+      icon: <Config />,
+      text: i18n.t('workBench:addon setting'),
+    },
+  ];
+  return sideMenu;
 };
-
-export default ActionConfigForm;

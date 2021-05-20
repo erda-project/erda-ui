@@ -87,9 +87,10 @@ import {
   Ellipsis,
   SelectCategory,
   SelectCombo,
+  Switch as NusiSwitch,
   ConfigProvider as NusiConfigProvider,
-  Tree as NusiTree, 
-  Popover as NusiPopover, 
+  Tree as NusiTree,
+  Popover as NusiPopover,
   Select as NusiSelect,
   Icon as NusiIcon,
   Empty as NusiEmpty,
@@ -197,4 +198,4 @@ export {
   NusiEmpty,
   NusiCascader,
   NusiTag,
-}
+};
