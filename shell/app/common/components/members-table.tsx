@@ -73,7 +73,7 @@ export const MembersTable = ({
   const loginUser = userStore.useStore(s => s.loginUser);
   const currentOrg = orgStore.useStore(s => s.currentOrg);
   const { id: orgId, name: orgName, displayName: orgDisplayName } = currentOrg;
-  
+
   const [projectMemberPerm, appMemberPerm] = usePerm(s => [s.project.member, s.app.member]);
   const { id: currentUserId } = loginUser;
   const { params } = routeInfoStore.getState(s => s);
@@ -245,6 +245,7 @@ export const MembersTable = ({
   }, [memberLabels, roleMap, scope.type]);
 
   const confirmDelete = React.useCallback((user: IMember | string[], isSelf?: boolean) => {
+    const { projectId, orgName: currentOrgName } = params;
     let title = '' as any;
     let userIds = [] as string[];
     if (isArray(user)) {
@@ -270,10 +271,23 @@ export const MembersTable = ({
           } as Omit<MEMBER.GetListQuery, 'scope'>
         ).then(() => {
           isArray(user) && updater.selectedKeys([]);
+          // if remove other users, still stay current page
+          if (!isSelf) {
+            return;
+          }
+          if (scope?.type === 'org') {
+            location.href = goTo.resolve.orgRoot({ orgName: '-' });
+          }
+          if (scope?.type === 'project') {
+            location.href = goTo.resolve.workBenchRoot({ orgName: currentOrgName });
+          }
+          if (scope?.type === 'app') {
+            location.href = goTo.resolve.project({ projectId, orgName: currentOrgName });
+          }
         });
       },
     });
-  }, [paging.pageNo, paging.pageSize, removeMember, scope, state.queryParams, updater]);
+  }, [paging.pageNo, paging.pageSize, params, removeMember, scope, state.queryParams, updater]);
 
   const columns = React.useMemo(() => [
     {
