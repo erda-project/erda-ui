@@ -113,7 +113,7 @@ export const IterationItem = (props: IProps) => {
           }
         </div>
         <div className='iteration-time-duration full-height ml8 mr8 color-text-sub'>
-          {`${moment(data.createdAt).format('YYYY/MM/DD')} - ${moment(data.finishedAt).format('YYYY/MM/DD')}`}
+          {`${moment(data.startedAt).format('YYYY/MM/DD')} - ${moment(data.finishedAt).format('YYYY/MM/DD')}`}
         </div>
       </div>
       <div className={`backlog-iteration-issues ${isOpen ? '' : 'hide'}`}>

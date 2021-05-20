@@ -17,6 +17,8 @@ import { getResourcePermissions } from 'user/services/user';
 import { setLS, notify, goTo } from 'common/utils';
 import { registChartControl } from 'charts/utils/regist';
 import userStore from './user/stores';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
 import { startApp, registerModule } from 'core/main';
 import modules from './modules';
 import { setConfig } from 'core/config';
@@ -35,6 +37,10 @@ setConfig('onAPISuccess', nusi.message.success);
 setConfig('onAPIFail', notify);
 
 const { NusiConfigProvider, AntdConfigProvider } = nusi;
+const momentLangMap = {
+  en: 'en',
+  zh: 'zh-cn',
+};
 
 const hold = nusi;
 const start = (userData: ILoginUser) => {
@@ -44,6 +50,9 @@ const start = (userData: ILoginUser) => {
     ...DEFAULT_ICON_CONFIGS,
     prefix: 'erda',
   };
+
+  const locale = window.localStorage.getItem('locale') || 'zh';
+  moment.locale(momentLangMap[locale]);
 
   startApp().then(async (App) => {
     // get the organization info first, or will get org is undefined when need org info (like issueStore)

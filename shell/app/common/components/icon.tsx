@@ -14,6 +14,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import { get } from 'lodash';
+import { List as IconTask, Bug as IconBug } from '@icon-park/react';
 import './icon.scss';
 
 interface IProps {
@@ -60,9 +61,9 @@ const ISSUE_ICON = {
     LOW: <Icon type='di' className='issue-icon priority low' />, // 低
   },
   issue: { // 事件类型icon
-    REQUIREMENT: <Icon type='bulb' className='issue-icon issue-type requirement' />,
-    TASK: <Icon type='task' className='issue-icon issue-type task' />,
-    BUG: <Icon type='bug' className='issue-icon issue-type bug' />,
+    REQUIREMENT: <Icon type='xiangfatianjia' className='issue-icon issue-type requirement' />,
+    TASK: <IconTask className='issue-icon issue-type task' size="14px" fill="#498e9e" />,
+    BUG: <IconBug className='issue-icon issue-type bug' size="14px" fill="#f47201" />,
     EPIC: <Icon type='lichengbei' className='issue-icon issue-type epic' />,
   },
   severity: { // 严重程度icon（bug）

@@ -36,6 +36,7 @@ import { goTo } from 'common/utils';
 import appStore from 'application/stores/application';
 import { repositoriesTypes } from 'application/common/config';
 import './index.scss';
+import invalidImg from 'app/images/invalid-doc.svg';
 
 type IListKey = 'RESOURCE' | 'DATATYPE';
 const { Panel } = Collapse;
@@ -58,7 +59,6 @@ const ErrorEmptyHolder = ({ msg, branchName, docName, isLoading }:{ msg:string, 
   if (isLoading) {
     return <EmptyHolder relative />;
   }
-  const { projectId, appId } = routeInfoStore.useStore(s => s.params);
   const [branchList] = apiDesignStore.useStore(s => [s.branchList]);
 
   const apiDocsLink = goTo.resolve.apiDocs({ branchName, docName });
@@ -69,7 +69,9 @@ const ErrorEmptyHolder = ({ msg, branchName, docName, isLoading }:{ msg:string, 
   let Comp = null;
 
   if (isErrorDoc) {
+    const iconImg = <img src={invalidImg} width="200px" />;
     Comp = (<EmptyHolder
+      icon={iconImg}
       tip={i18n.t('project:the document is illegal according to the rules of openapi 3.0. Please click to')}
       action={<Link to={apiDocsLink}>{i18n.t('project:view document details')}</Link>}
     />);
