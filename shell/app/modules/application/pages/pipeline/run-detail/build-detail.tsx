@@ -93,7 +93,7 @@ const BuildDetail = (props: IProps) => {
 
   const branchInfo = appStore.useStore(s => s.branchInfo);
   const currentOrg = orgStore.useStore(s => s.currentOrg);
-  
+
   const { blockStatus } = appStore.useStore(s => s.detail);
   const appBlocked = blockStatus !== 'unblocked';
   const { blockoutConfig } = currentOrg;
@@ -552,7 +552,7 @@ const BuildDetail = (props: IProps) => {
     }, {
       title: 'ID',
       dataIndex: 'id',
-      width: 120,
+      width: 80,
       align: 'center',
     }, {
       title: `${i18n.t('commit')}ID`,
@@ -569,6 +569,11 @@ const BuildDetail = (props: IProps) => {
           <Badge className="ml4" status={ciStatusMap[status].status} />
         </span>
       ),
+    }, {
+      title: i18n.t('application:executor'),
+      dataIndex: 'extra.runUser.name',
+      width: 100,
+      align: 'center',
     }, {
       title: i18n.t('trigger time'),
       dataIndex: 'timeCreated',
