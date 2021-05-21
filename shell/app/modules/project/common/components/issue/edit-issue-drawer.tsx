@@ -1111,7 +1111,6 @@ export const EditIssueDrawer = (props: IProps) => {
             hasEdited,
             isEditMode,
             maxLength: 3000,
-            defaultMode: isEditMode ? 'html' : 'md',
           }} // 编辑时默认显示预览
           data={formData}
         />
