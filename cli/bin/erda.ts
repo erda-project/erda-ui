@@ -46,8 +46,9 @@ program
 program
   .command('setup <module> <port>')
   .description('setup env and tsconfig for module')
-  .action(async (moduleName, port) => {
-    await checkCliVersion();
+  .option('-s, --skip', 'skip the cli version check')
+  .action(async (moduleName, port, options) => {
+    await checkCliVersion(options);
     setup(moduleName, port);
   });
 
@@ -56,8 +57,9 @@ program
   .description('bundle files to public directory, pass true to launch a local full compilation build, pass image sha to launch a local partial compilation build based on image')
   .option('-i, --image <image>', 'image sha as build base, e.g. 1.0-20210506-48bd74')
   .option('-l, --local', 'enable local mode, if image arg is given, then local mode is forcibly')
+  .option('-s, --skip', 'skip the cli version check')
   .action(async (options) => {
-    await checkCliVersion();
+    await checkCliVersion(options);
     build(options);
   });
 
@@ -73,6 +75,7 @@ program
   .command('release')
   .description('build & push docker image')
   .option('-i, --image <image>', 'image sha as build base, e.g. 1.0-20210506-48bd74')
+  .option('-s, --skip', 'skip the cli version check')
   .action((options) => {
     release(options);
   });
@@ -80,8 +83,9 @@ program
 program
   .command('i18n [workDir]')
   .description('translate words in work dir')
-  .action(async (_workDir) => {
-    await checkCliVersion();
+  .option('-s, --skip', 'skip the cli version check')
+  .action(async (_workDir, options) => {
+    await checkCliVersion(options);
     const workDir = _workDir
       ? path.resolve(process.cwd(), _workDir)
       : process.cwd();
@@ -109,8 +113,9 @@ program
 program
   .command('launch')
   .description('launch erda ui in development mode')
-  .action(async () => {
-    await checkCliVersion();
+  .option('-s, --skip', 'skip the cli version check')
+  .action(async (options) => {
+    await checkCliVersion(options);
     launcher();
   });
 

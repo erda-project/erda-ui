@@ -19,8 +19,13 @@ import cp from 'child_process';
 
 const { exec, spawnSync } = cp;
 
-export default async () => {
+export default async (options: { skip?: boolean }) => {
+  const { skip } = options;
+  if (skip) return;
+
   return new Promise<void>((resolve) => {
+    logInfo('check @erda-ui/cli version');
+
     exec('ncu -g @erda-ui/cli', async (error: unknown, stdout: string) => {
       if (error) {
         logError(`install error: ${error}`);
