@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { PageHeader, Icon } from 'app/nusi';
+import { PageHeader } from 'app/nusi';
 import { Tab } from 'layout/pages/tab/tab';
 import layoutStore from 'layout/stores/layout';
 import { goTo } from 'common/utils';
@@ -20,6 +20,7 @@ import routeInfoStore from 'common/stores/route';
 import breadcrumbStore from 'layout/stores/breadcrumb';
 import { filter, isEmpty, isFunction } from 'lodash';
 import { matchPath } from 'react-router-dom';
+import { Right as IconRight } from '@icon-park/react';
 import './header.scss';
 
 const Header = () => {
@@ -128,7 +129,7 @@ const Header = () => {
         routes: allRoutes,
         itemRender,
         params,
-        separator: <Icon type="right" className="fz12" />,
+        separator: <IconRight size="14px" />,
       }}
       title={pageName}
     >

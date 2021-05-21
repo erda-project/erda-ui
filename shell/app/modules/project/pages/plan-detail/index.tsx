@@ -14,7 +14,7 @@
 import { debounce, get } from 'lodash';
 import React from 'react';
 import i18n from 'i18n';
-import { Button, Tabs, Input, Icon, Spin } from 'app/nusi';
+import { Button, Tabs, Input, Spin } from 'app/nusi';
 import { DropdownSelect, Icon as CustomIcon } from 'common';
 import { SplitPage } from 'app/layout/common';
 import TestEnvDrawer from 'project/pages/test-manage/case/test-env-drawer';
@@ -38,6 +38,7 @@ import { EnvSelect, BaseInfo } from 'project/pages/plan-detail/common-comp';
 import CaseDrawer from 'project/pages/test-manage/case/case-drawer';
 import './index.scss';
 import moment from 'moment';
+import { Search as IconSearch, Down as IconDown } from '@icon-park/react';
 
 const { TabPane } = Tabs;
 
@@ -178,7 +179,7 @@ const TestPlanDetail = () => {
             ? <Button loading={loadingRecords} onClick={() => cancelPipeline({ pipelineID: firstRecord.id })}>{i18n.t('project:cancel interface test')}</Button>
             : (
               <EnvSelect execute={handleExecute}>
-                <Button loading={loadingRecords}>{i18n.t('project:start interface test')} <Icon type="down" /></Button>
+                <Button loading={loadingRecords}>{i18n.t('project:start interface test')} <IconDown size="16px" /></Button>
               </EnvSelect>
             )
         }
@@ -229,7 +230,7 @@ const TestPlanDetail = () => {
                     style={{ width: '160px' }}
                     placeholder={i18n.t('project:search for')}
                     onChange={e => debouncedSearch({ query: e.target.value })}
-                    prefix={<Icon type="search" />}
+                    prefix={<IconSearch />}
                   />
                   <Button onClick={() => setEnhanceFilterVisible(true)}>
                     <CustomIcon type="filter" />

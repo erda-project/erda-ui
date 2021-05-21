@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { Drawer, Table, Breadcrumb, Icon, Popconfirm as PopConfirm } from 'app/nusi';
+import { Drawer, Table, Breadcrumb, Popconfirm as PopConfirm } from 'app/nusi';
 import { map } from 'lodash';
 import { useUpdate, TagsColumn, TableActions } from 'common';
 import { ColumnProps } from 'core/common/interface';
@@ -25,6 +25,7 @@ import { DoubleProgressItem } from 'dcos/pages/machine-manager/machine-table';
 import { useUnmount } from 'react-use';
 import { goTo } from 'common/utils';
 import 'dcos/pages/machine-manager/machine-table.scss';
+import { Right as IconRight } from '@icon-park/react';
 
 export default () => {
   const [{
@@ -177,7 +178,7 @@ export default () => {
 
   return (
     <div className="machine-table">
-      <Breadcrumb separator={<Icon type="right" className="fz12" />} className="path-breadcrumb mb8">
+      <Breadcrumb separator={<IconRight size="14px" />} className="path-breadcrumb mb8">
         <Breadcrumb.Item className='hover-active' onClick={() => goTo(goTo.pages.edgeResource)}>{siteName}</Breadcrumb.Item>
         <Breadcrumb.Item>{i18n.t('org:node list')}</Breadcrumb.Item>
       </Breadcrumb>

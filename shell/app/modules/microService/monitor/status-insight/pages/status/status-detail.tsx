@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Spin, Row, Col, Button, Tooltip, Icon } from 'app/nusi';
+import { Spin, Row, Col, Button, Tooltip } from 'app/nusi';
 import { useUpdate } from 'common';
 import StatusChart from './status-detail-chart';
 import MonthUptime from './3-month-uptime';
@@ -24,6 +24,7 @@ import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 import './status-detail.scss';
 import routeInfoStore from 'common/stores/route';
+import { Info as IconInfo } from '@icon-park/react';
 
 const StatusDetail = () => {
   const params = routeInfoStore.useStore(s => s.params);
@@ -147,7 +148,7 @@ const StatusDetail = () => {
               <span className="name">{i18n.t('microService:downtime')}</span>
               <span className="value">
                 <Tooltip title={emptyText(data.downtime)}>{data.downDuration}</Tooltip>
-                <Icon type="info-circle" theme="filled" className="info-icon" />
+                <IconInfo size="16px" theme="filled" className="info-icon" />
               </span>
             </div>
           </Col>

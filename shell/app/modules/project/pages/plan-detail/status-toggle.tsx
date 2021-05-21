@@ -12,9 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Menu, Dropdown, Icon } from 'app/nusi';
+import { Menu, Dropdown } from 'app/nusi';
 import { Icon as CustomIcon } from 'common';
 import { map } from 'lodash';
+import { Down as IconDown } from '@icon-park/react';
 import './status-toggle.scss';
 import i18n from 'i18n';
 
@@ -125,7 +126,7 @@ export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {
   return (
     <Dropdown overlay={menu} placement="bottomRight">
       <span>
-        {(stateMap[curState] || {}).child} <Icon type="down" />
+        {(stateMap[curState] || {}).child} <IconDown size="16px" />
       </span>
     </Dropdown>
   );

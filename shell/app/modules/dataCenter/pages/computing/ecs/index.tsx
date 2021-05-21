@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Select, Input, Tooltip, Dropdown, Icon, Menu, Button, Alert } from 'app/nusi';
+import { Select, Input, Tooltip, Dropdown, Menu, Button, Alert } from 'app/nusi';
 import { useMount, useEffectOnce } from 'react-use';
 import { map, keys, get } from 'lodash';
 import { insertWhen } from 'common/utils';
@@ -26,6 +26,7 @@ import i18n from 'i18n';
 import { RUNNING_STATUS_LIST, STOP_STATUS_LIST } from '../../cloud-source/config';
 import { chargeTypeMap } from 'dataCenter/pages/cluster-manage/config';
 import { customTagColor } from 'dcos/common/config';
+import { Help as IconHelp, DownOne as IconDownOne } from '@icon-park/react';
 import { getCloudResourceStatusCol, getCloudResourceChargeTypeCol, getCloudResourceRegionCol } from 'dataCenter/common/components/table-col';
 
 const { Option } = Select;
@@ -42,12 +43,12 @@ const opHint = (operation: string, selectedList: CLOUD.TagItem[]) => {
   );
   return (
     <div>
-      <Icon className="mr4 bg-color-icon yellow" type="question-circle" />
+      <IconHelp className="mr4 bg-color-icon yellow" />
       <span>{i18n.t('dataCenter:your chosen')}</span>
       <Dropdown overlay={menu}>
         <a onClick={e => e.preventDefault()}>
           {i18n.t('{num} {type}', { num: selectedList.length, type: i18n.t('instance') })}
-          <Icon className="ml4" type="caret-down" />
+          <IconDownOne className="ml4" theme='filled' size="16px" />
         </a>
       </Dropdown>
       <span>{i18n.t('dataCenter:will execute {operation} operation', { operation })}，{i18n.t('is it confirmed {action}?', { action: i18n.t('execute') })}</span>
@@ -392,7 +393,7 @@ export default () => {
         <Dropdown disabled={!ifSelected} overlay={menu}>
           <Button type="primary">
             {i18n.t('batch setting')}
-            <Icon className="ml4" type="caret-down" />
+            <IconDownOne className="ml4" theme='filled' size="16px" />
           </Button>
         </Dropdown>
       </div>

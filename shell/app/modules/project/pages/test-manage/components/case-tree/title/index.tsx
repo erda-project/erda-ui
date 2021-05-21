@@ -14,11 +14,12 @@
 import { includes, isEmpty } from 'lodash';
 import React, { useState, useRef } from 'react';
 import i18n from 'i18n';
-import { Dropdown, Menu, Modal, message, Input, Icon } from 'app/nusi';
+import { Dropdown, Menu, Modal, message, Input } from 'app/nusi';
 import testSetStore from 'project/stores/test-set';
 import testPlanStore from 'project/stores/test-plan';
 import { recycledKey } from '../utils';
 import { TEMP_MARK, TestOperation, editModeEnum, TestSetMenuType } from 'project/pages/test-manage/constants';
+import { Check as IconCheck, Close as IconClose, More as IconMore } from '@icon-park/react';
 
 interface IMenuMeta {
   key: string;
@@ -271,8 +272,8 @@ const Title = ({
           ref={inputRef}
           onKeyUp={handlePressEntry}
         />
-        <Icon className="ml8 color-primary" type="check" onClick={handleSave} />
-        <Icon className="mx8 color-primary" type="close" onClick={() => toggleEdit(false, isTemp)} />
+        <IconCheck className="ml8 color-primary pointer" onClick={handleSave} />
+        <IconClose className="mx8 color-primary pointer" onClick={() => toggleEdit(false, isTemp)} />
       </div>
     );
   }
@@ -288,7 +289,7 @@ const Title = ({
             !isRoot ?
               <Dropdown overlay={getMenu()} overlayClassName="case-tree-menu" trigger={['click']} align={{ offset: [32, -32] }}>
                 <div className="case-tree-op" onClick={(e: any) => e.stopPropagation()} >
-                  <Icon type="ellipsis" />
+                  <IconMore />
                 </div>
               </Dropdown>
               : undefined

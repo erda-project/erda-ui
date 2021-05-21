@@ -17,7 +17,7 @@ import VariableInput from 'application/common/components/object-input-group';
 import React from 'react';
 import { cloneDeep, map, isEmpty, omit, pick, get, filter, head, transform, isEqual, forEach } from 'lodash';
 import { Icon as CustomIcon, useUpdate } from 'common';
-import { Form, Button, Input, Popover, InputNumber, Icon, Collapse, Alert, Spin, Select } from 'app/nusi';
+import { Form, Button, Input, Popover, InputNumber, Collapse, Alert, Spin, Select } from 'app/nusi';
 import './edit-service.scss';
 import './task-resource-field.scss';
 import { mergeActionAndResource, getResource } from '../yml-flow-util';
@@ -26,6 +26,7 @@ import deployStore from 'application/stores/deploy';
 import i18n from 'i18n';
 import { useLoading } from 'app/common/stores/loading';
 import './edit-stage.scss';
+import { Plus as IconPlus } from '@icon-park/react';
 
 const { Item } = Form;
 const { Panel } = Collapse;
@@ -356,7 +357,7 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
       return null;
     }
     const addBtn = editing ?
-      <Icon type="plus" onClick={() => addNewItemToStructArray(property.value, property.struct[0])} /> : null;
+      <IconPlus className="pointer" onClick={() => addNewItemToStructArray(property.value, property.struct[0])} /> : null;
     getFieldDecorator(`${parentKey}-data`, { initialValue: property.value || [] });
     const data = getFieldValue(`${parentKey}-data`);
     const content = data.map((item: any, index: number) => {

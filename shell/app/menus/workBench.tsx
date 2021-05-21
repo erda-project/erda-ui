@@ -17,11 +17,11 @@ import { goTo } from 'common/utils';
 import { filter } from 'lodash';
 import permStore from 'user/stores/permission';
 import {
-  ApiApp,
-  ApplicationOne,
-  Seal,
-  Send,
-  BookOne,
+  ApiApp as IconApiApp,
+  ApplicationOne as IconApplicationOne,
+  Seal as IconSeal,
+  Send as IconSend,
+  BookOne as IconBookOne,
 } from '@icon-park/react';
 import { Icon as CustomIcon } from 'common';
 import React from 'react';
@@ -31,12 +31,12 @@ export const getWorkBenchMenu = () => {
   return filterMenu(filter([
     {
       href: goTo.resolve.workBenchRoot(), // '/workBench/projects',
-      icon: <ApiApp />,
+      icon: <IconApiApp />,
       text: i18n.t('joined projects'),
     },
     {
       href: goTo.resolve.workBenchApps(), // '/workBench/apps',
-      icon: <ApplicationOne />,
+      icon: <IconApplicationOne />,
       text: i18n.t('joined apps'),
     },
     {
@@ -73,7 +73,7 @@ export const getWorkBenchMenu = () => {
     {
       key: 'approval',
       href: goTo.resolve.workBenchApprove(), // '/workBench/approval/my-approve',
-      icon: <Seal />,
+      icon: <IconSeal />,
       text: i18n.t('workBench:approval request'),
       subMenu: [
         {
@@ -91,13 +91,13 @@ export const getWorkBenchMenu = () => {
     {
       key: 'workBenchPublisher',
       href: goTo.resolve.workBenchPublisher(), // '/workBench/publisher',
-      icon: <Send />,
+      icon: <IconSend />,
       text: i18n.t('publisher:joined publisher'),
       show: orgPerm.workBench.publisher.read.pass,
     },
     {
       href: goTo.resolve.workBenchPublicProjects(),
-      icon: <BookOne />,
+      icon: <IconBookOne />,
       text: i18n.t('public project'),
     },
   ], item => item.show !== false), MENU_SCOPE.workBench);

@@ -19,10 +19,9 @@
     height: 100%;
   }
 
-  i {
+  svg {
     display: flex;
     align-items: center;
-    width: 30px;
-    font-size: 20px;
+    cursor: pointer;
   }
 }

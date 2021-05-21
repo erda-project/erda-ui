@@ -14,7 +14,14 @@
 import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
 import { goTo } from 'common/utils';
-import { ApiApp, CeMarking, Certificate, Bill, Log, City } from '@icon-park/react';
+import { 
+  ApiApp as IconApiApp, 
+  CeMarking as IconCeMarking, 
+  Certificate as IconCertificate, 
+  Bill as IconBill, 
+  Log as IconLog, 
+  City as IconCity 
+} from '@icon-park/react';
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
 
@@ -24,13 +31,13 @@ export const getOrgCenterMenu = () => {
     {
       key: 'orgProjects',
       href: goTo.resolve.orgCenterRoot(), // '/orgCenter/projects',
-      icon: <ApiApp />,
+      icon: <IconApiApp />,
       text: i18n.t('projects'),
     },
     {
       key: 'orgMarket',
       href: goTo.resolve.orgCenterMarket(), // '/orgCenter/market',
-      icon: <CeMarking />,
+      icon: <IconCeMarking />,
       text: i18n.t('layout:market'),
       subMenu: [
         {
@@ -43,7 +50,7 @@ export const getOrgCenterMenu = () => {
     {
       key: 'orgCertificate',
       href: goTo.resolve.orgCenterCertificate(), // '/orgCenter/certificate',
-      icon: <Certificate />,
+      icon: <IconCertificate />,
       text: i18n.t('layout:certificate'),
     },
     {
@@ -56,19 +63,19 @@ export const getOrgCenterMenu = () => {
     {
       key: 'orgAnnouncement',
       href: goTo.resolve.orgCenterAnnouncement(), // '/orgCenter/announcement',
-      icon: <Bill />,
+      icon: <IconBill />,
       text: i18n.t('org:announcement'),
     },
     {
       key: 'orgSafety',
       href: goTo.resolve.orgCenterSafety(), // '/orgCenter/safety',
-      icon: <Log />,
+      icon: <IconLog />,
       text: i18n.t('org:audit log'),
     },
     {
       key: 'orgSetting',
       href: goTo.resolve.dataCenterSetting(), // '/orgCenter/setting/detail',
-      icon: <City />,
+      icon: <IconCity />,
       text: i18n.t('org setting'),
     },
   ], MENU_SCOPE.orgCenter);

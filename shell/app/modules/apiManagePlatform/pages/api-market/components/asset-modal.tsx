@@ -17,11 +17,12 @@ import { IFormItem } from 'common/components/render-formItem';
 import i18n from 'i18n';
 import { WrappedFormUtils } from 'core/common/interface';
 import { getUploadProps } from 'common/utils/upload-props';
-import { Button, Icon, message, Upload } from 'app/nusi';
+import { Button, message, Upload } from 'app/nusi';
 import { insertWhen } from 'common/utils';
 import { map } from 'lodash';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';
 import { protocolMap } from './config';
+import { Upload as IconUpload} from '@icon-park/react';
 
 export type IScope = 'asset'| 'version';
 export type IMode = 'add'| 'edit';
@@ -210,7 +211,7 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }:IP
             <div className="upload-container">
               <Upload accept={suffix} {...uploadProps}>
                 <Button>
-                  <Icon type="upload" /> {i18n.t('upload')}
+                  <IconUpload /> {i18n.t('upload')}
                 </Button>
               </Upload>
               <span className="color-text-desc ml8">

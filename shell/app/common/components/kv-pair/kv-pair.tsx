@@ -12,8 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { map, last, cloneDeep } from 'lodash';
-import { Input, Icon } from 'app/nusi';
+import { Input } from 'app/nusi';
 import React from 'react';
+import { Delete as IconDelete } from '@icon-park/react';
 
 export interface IKVRecord {
   Key: JSX.Element;
@@ -48,8 +49,8 @@ const DefaultKey = ({ record, keyName, update, ...rest }: any) => <Input maxLeng
 const DefaultValue = ({ record, valueName, update, ...rest }: any) => <Input maxLength={1000} value={record[valueName]} onChange={e => update(e.target.value)} {...rest} />;
 const DefaultOp = ({ index, className = '', deleteIndex, ...rest }: any) => {
   return rest.disabled
-    ? <Icon className={`not-allowed ${className}`} type="delete" {...rest} />
-    : <Icon className={className} onClick={() => deleteIndex(index)} type="delete" {...rest} />;
+    ? <IconDelete className={`not-allowed ${className}`} {...rest} />
+    : <IconDelete className={className} onClick={() => deleteIndex(index)} {...rest} />;
 };
 const getEmpty = (keyName: string, valueName: string, descName: string, keyDesc:string,) => ({ [keyName]: '', [valueName]: '', [descName]: '', [keyDesc]: '' });
 

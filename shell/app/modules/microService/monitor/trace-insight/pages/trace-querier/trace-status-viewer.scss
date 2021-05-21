@@ -25,7 +25,11 @@
       float: left;
       margin-left: 10px;
       cursor: pointer;
-
+      
+      svg {
+        margin-top: 2px;
+      }
+      
       >i {
         font-size: 22px;
         vertical-align: -5px;

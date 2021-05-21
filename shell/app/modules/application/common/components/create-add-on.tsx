@@ -17,9 +17,10 @@ import React, { PureComponent } from 'react';
 import classnames from 'classnames';
 import { PlanName } from 'app/modules/addonPlatform/pages/common/configs';
 import { convertAddonPlan } from '../yml-flow-util';
-import { Input, Form, Select, Radio, Button, Alert, Icon } from 'app/nusi';
+import { Input, Form, Select, Radio, Button, Alert } from 'app/nusi';
 import addon_png from 'app/images/resources/addon.png';
 import i18n from 'i18n';
+import { Down as IconDown, Up as IconUp } from '@icon-park/react';
 import './create-add-on.scss';
 
 const { Item } = Form;
@@ -466,8 +467,9 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
           });
         }
 
-        const icon = packUpTabs.has(group.groupName) ? <Icon className="head-icon" type="down" /> :
-        <Icon className="head-icon" type="up" />;
+        const icon = packUpTabs.has(group.groupName) 
+        ? <IconDown className="head-icon" size="18px" />
+        : <IconUp className="head-icon" size="18px" />;
 
         const content = packUpTabs.has(group.groupName) ? (
           <div className="addon-group-body">

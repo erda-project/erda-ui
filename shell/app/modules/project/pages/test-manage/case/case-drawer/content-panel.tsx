@@ -12,9 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Icon, Spin } from 'app/nusi';
+import { Spin } from 'app/nusi';
 import i18n from 'i18n';
 import './content-panel.scss';
+import { Edit as IconEdit, Plus as IconPlus, Upload as IconUpload } from '@icon-park/react';
 
 interface IProps {
   title: React.ReactNode;
@@ -32,9 +33,9 @@ const noop = () => {};
 const ContentPanel = ({ title, children, className = '', loading = false, append, onClick = noop, mode = 'common' }: IProps) => {
   const delimiter = <span className="color-text-holder mx8">|</span>;
   const typeIcon = {
-    edit: <span onClick={onClick} className="color-text-desc hover-active"><Icon className="mr4" type="edit" />{i18n.t('project:edit')}</span>,
-    add: <span onClick={onClick} className="color-text-desc hover-active"><Icon className="mr4" type="plus" />{i18n.t('common:add')}</span>,
-    upload: <span onClick={onClick} className="color-text-desc hover-active"><Icon className="mr4" type="upload" />{i18n.t('project:upload')}</span>,
+    edit: <span onClick={onClick} className="color-text-desc hover-active"><IconEdit className="mr4" />{i18n.t('project:edit')}</span>,
+    add: <span onClick={onClick} className="color-text-desc hover-active"><IconPlus className="mr4" />{i18n.t('common:add')}</span>,
+    upload: <span onClick={onClick} className="color-text-desc hover-active"><IconUpload className="mr4" />{i18n.t('project:upload')}</span>,
   };
   return (
     <div className={`content-panel ${className}`}>

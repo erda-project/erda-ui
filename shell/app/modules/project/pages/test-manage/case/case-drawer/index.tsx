@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Drawer, Spin, Input, Icon, Tooltip, message } from 'app/nusi';
+import { Drawer, Spin, Input, Tooltip, message } from 'app/nusi';
 import { Avatar, Copy, Icon as CustomIcon, MarkdownEditor, UserInfo, useUpdate } from 'common';
 import testCaseStore from 'project/stores/test-case';
 import i18n from 'i18n';
@@ -31,6 +31,7 @@ import { cloneDeep, isUndefined, omitBy, pick } from 'lodash';
 import { useLoading } from 'app/common/stores/loading';
 import './index.scss';
 import RelatedBugs from 'project/pages/test-manage/case/case-drawer/related-bugs';
+import { ShareOne as IconShareOne, Close as IconClose } from '@icon-park/react';
 
 interface IProps{
   caseList?: TEST_CASE.TestCaseItem[],
@@ -327,12 +328,12 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                   ? (
                     <>
                       <Copy selector=".copy-share-link" tipName={i18n.t('project:share link')} />
-                      <Icon className="for-copy copy-share-link" data-clipboard-text={shareLink} type="share-alt" />
+                      <IconShareOne className="for-copy copy-share-link ml12" size="16px" data-clipboard-text={shareLink} type="share-alt" />
                     </>
                   )
                   : null
               }
-              <Icon type="close" onClick={handleClose} />
+              <IconClose onClick={handleClose} className="ml12 pointer" size="16px" />
             </div>
           </div>
           <div className="flex-box mt16">

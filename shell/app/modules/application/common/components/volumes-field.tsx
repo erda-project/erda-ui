@@ -12,10 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { PureComponent } from 'react';
-import { Icon, Input, Select } from 'app/nusi';
+import { Input, Select } from 'app/nusi';
 import { isEqual } from 'lodash';
 import i18n from 'i18n';
 import './variable-input-group.scss';
+import { Plus as IconPlus } from '@icon-park/react';
 
 const { Option } = Select;
 
@@ -63,7 +64,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
         <div className="global-input-form-title">
           {required ? <span className="ant-form-item-required" /> : null}
           {label}：
-          <Icon className="variable-icon" type="plus" onClick={this.addNewItem} />
+          <IconPlus className="variable-icon pointer" onClick={this.addNewItem} />
         </div>
         {this.renderItem()}
       </div>

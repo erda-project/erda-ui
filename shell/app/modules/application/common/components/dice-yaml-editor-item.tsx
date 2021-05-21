@@ -12,11 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Icon, Dropdown, Menu } from 'app/nusi';
+import { Dropdown, Menu } from 'app/nusi';
 import classnames from 'classnames';
 import { Icon as CustomIcon } from 'common';
 import PointComponentAbstract from './point-component-abstract';
 import i18n from 'i18n';
+import { More as IconMore } from '@icon-park/react';
 
 export interface IDiceYamlEditorItem {
   id: number;
@@ -118,7 +119,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
           </span>
           {editing ? (
             <Dropdown trigger={['click']} overlay={menu}>
-              <Icon type="ellipsis" className="icon-ellipsis" />
+              <IconMore className="icon-ellipsis mr0" />
             </Dropdown>
           ) : null}
         </div>

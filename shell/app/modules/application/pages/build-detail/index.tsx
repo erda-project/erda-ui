@@ -15,7 +15,7 @@ import { map, isEmpty, pick, isEqual, find, get } from 'lodash';
 import moment from 'moment';
 import * as React from 'react';
 import cronstrue from 'cronstrue/i18n';
-import { Spin, Badge, Icon, Modal, Popover, Table, Row, Col, Tooltip, Menu, Dropdown, Alert, Input } from 'app/nusi';
+import { Spin, Badge, Modal, Popover, Table, Row, Col, Tooltip, Menu, Dropdown, Alert, Input } from 'app/nusi';
 import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, Avatar, IF, NoAuthTip, SwitchAutoScroll, useUpdate } from 'common';
 import { goTo, secondsToTime, replaceEmoji } from 'common/utils';
 import GotoCommit from 'application/common/components/goto-commit';
@@ -34,6 +34,7 @@ import PipelineLog from './pipeline-log';
 import './index.scss';
 import deployStore from 'application/stores/deploy';
 import orgStore from 'app/org-home/stores/org';
+import { Loading as IconLoading, Up as IconUp, Down as IconDown, Attention as IconAttention } from '@icon-park/react';
 
 const { TextArea } = Input;
 const { ELSE } = IF;
@@ -450,9 +451,9 @@ const BuildDetail = (props: IProps) => {
   const renderOnceRunBtn = ({ execTitle }: { execTitle: string }) => {
     const { canCancel, canManualRun, canRerun, canRerunFailed } = pipelineButton;
     const paddingEle = (
-      <div className="build-operator">
+      <div className="build-operator mx0">
         <Tooltip title={i18n.t('preparing')}>
-          <Icon type="loading" />
+          <IconLoading size="20px" strokeWidth={2} style={{transform: 'translateY(0)'}} spin />
         </Tooltip>
       </div>
     );
@@ -695,7 +696,10 @@ const BuildDetail = (props: IProps) => {
                   </Col>}
               </Row>
               <div className="trigger-btn" onClick={toggleExpandInfo}>
-                <Icon type={!isExpand ? 'down' : 'up'} style={{ color: 'rgba(0, 0, 0, .1)' }} />
+                { !isExpand 
+                  ? <IconDown size="18px" className="mr0" />
+                  : <IconUp size="18px" className="mr0" />
+                }
               </div>
             </div>
           </div>
@@ -704,7 +708,7 @@ const BuildDetail = (props: IProps) => {
               showMessage && showMessage.msg
                 ? (
                   <div className="build-detail-err-msg mb8">
-                    <div className="build-err-header"><Icon type="warning" className="build-err-icon" /><pre>{showMessage.msg}</pre></div>
+                    <div className="build-err-header"><IconAttention size="18px" className="build-err-icon" /><pre>{showMessage.msg}</pre></div>
                     <div className="build-err-stack"><ul style={{ listStyle: 'disc' }}>{showMessage.stacks.map((stack, i) => <li key={`${stack}-${String(i)}`}><pre style={{ overflow: 'hidden', whiteSpace: 'pre-wrap' }}>{stack}</pre></li>)}</ul></div>
                   </div>
                 ) : null

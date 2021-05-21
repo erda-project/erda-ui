@@ -12,11 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Icon, Input, Button } from 'app/nusi';
+import { Input, Button } from 'app/nusi';
 import { isString, isEmpty, remove, find, some } from 'lodash';
 import { useUnmount } from 'react-use';
 import i18n from 'i18n';
 import './custom-label.scss';
+import { Close as IconClose } from '@icon-park/react';
 
 interface IProps {
   value?: string[] | string;
@@ -78,7 +79,7 @@ export const CustomLabel = React.forwardRef(({ value = emptyArr, onChange = empt
               className={'tag-default'}
             >
               {item}
-              <Icon type="close" className="pointer" onClick={() => { deleteLabel(item); }} />
+              <IconClose className="pointer" onClick={() => { deleteLabel(item); }} />
             </span>
           );
         })

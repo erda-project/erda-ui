@@ -14,34 +14,34 @@
 import * as React from 'react';
 import './erda-icon.scss';
 import {
-  Lock,
-  Unlock,
-  Time,
-  ApplicationOne,
-  User,
-  LinkCloudSucess,
-  LinkCloudFaild,
-  ListNumbers,
-  CategoryManagement,
-  ApiApp,
-  DoubleRight,
-  ApplicationMenu,
+  Lock as IconLock,
+  Unlock as IconUnlock,
+  Time as IconTime,
+  ApplicationOne as IconApplicationOne,
+  User as IconUser,
+  LinkCloudSucess as IconLinkCloudSucess,
+  LinkCloudFaild as IconLinkCloudFaild,
+  ListNumbers as IconListNumbers,
+  CategoryManagement as IconCategoryManagement,
+  ApiApp as IconApiApp,
+  DoubleRight as IconDoubleRight,
+  ApplicationMenu as IconApplicationMenu,
 } from '@icon-park/react';
 
 
 export const iconMap = {
-  lock: Lock,
-  unlock: Unlock,
-  time: Time,
-  'application-one': ApplicationOne,
-  user: User,
-  'link-cloud-sucess': LinkCloudSucess,
-  'link-cloud-faild': LinkCloudFaild,
-  'category-management': CategoryManagement,
-  'list-numbers': ListNumbers,
-  'api-app': ApiApp,
-  'double-right': DoubleRight,
-  'application-menu': ApplicationMenu,
+  lock: IconLock,
+  unlock: IconUnlock,
+  time: IconTime,
+  'application-one': IconApplicationOne,
+  user: IconUser,
+  'link-cloud-sucess': IconLinkCloudSucess,
+  'link-cloud-faild': IconLinkCloudFaild,
+  'category-management': IconCategoryManagement,
+  'list-numbers': IconListNumbers,
+  'api-app': IconApiApp,
+  'double-right': IconDoubleRight,
+  'application-menu': IconApplicationMenu,
 };
 
 type IIconType =

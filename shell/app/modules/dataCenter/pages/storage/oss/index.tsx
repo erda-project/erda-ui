@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { useUpdate, CRUDStoreTable } from 'common';
-import { Input, Select, Menu, Dropdown, Button, Icon } from 'app/nusi';
+import { Input, Select, Menu, Dropdown, Button } from 'app/nusi';
 import { map } from 'lodash';
 import { useMount } from 'react-use';
 import cloudOSSStore from 'app/modules/dataCenter/stores/storage';
@@ -22,7 +22,7 @@ import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
 import { addAuthTooltipTitle } from 'app/modules/dataCenter/common/cloud-common';
 import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
 import { getCloudResourceTagsCol, getCloudResourceTimeCol, getCloudResourceRegionCol } from 'dataCenter/common/components/table-col';
-
+import { DownOne as IconDownOne } from '@icon-park/react';
 const { Option } = Select;
 
 const ACL_CONST = [
@@ -176,7 +176,7 @@ export default () => {
     <Dropdown disabled={!ifSelected} overlay={menu}>
       <Button type="primary">
         {i18n.t('batch setting')}
-        <Icon className="ml4" type="caret-down" />
+        <IconDownOne className="ml4" theme='filled' size="16px" />
       </Button>
     </Dropdown>
   );

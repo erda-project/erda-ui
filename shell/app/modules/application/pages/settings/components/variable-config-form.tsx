@@ -15,9 +15,9 @@ import { FormModal, useUpdate } from 'common';
 import { getUploadProps } from 'common/utils/upload-props';
 import i18n from 'i18n';
 import { WrappedFormUtils } from 'core/common/interface';
-import { Button, Icon, message, Spin, Upload } from 'app/nusi';
+import { Button, message, Spin, Upload } from 'app/nusi';
 import * as React from 'react';
-
+import { Upload as IconUpload } from '@icon-park/react';
 
 export const ENV_I18N = {
   default: i18n.t('common:default config'),
@@ -128,7 +128,7 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps
               <Spin spinning={uploading} tip={i18n.t('uploading, please wait a moment')}>
                 <Upload {...uploadProps}>
                   <Button>
-                    <Icon type="upload" /> {i18n.t('upload')}
+                    <IconUpload /> {i18n.t('upload')}
                   </Button>
                 </Upload>
                 <span className="color-text-desc ml8">

@@ -14,11 +14,12 @@
 import { FormModal, Icon as CustomIcon, useUpdate } from 'app/common';
 import i18n from 'app/i18n';
 import { WrappedFormUtils } from 'core/common/interface';
-import { Icon, Modal } from 'app/nusi';
+import { Modal } from 'app/nusi';
 import projectLabel from 'project/stores/label';
 import * as React from 'react';
 import { useEffectOnce } from 'react-use';
 import './project-label.scss';
+import { Close as IconClose, Plus as IconPlus } from '@icon-park/react';
 
 const colors = [
   'red', 'orange', 'blue', 'green', 'purple', 'gray',
@@ -134,13 +135,13 @@ export default () => {
     <div className="project-label-list">
       <div className="colorful-light-bg">
         <span className="label-item create" onClick={() => updater.modalVisible(true)}>
-          <Icon type="plus" />
+          <IconPlus size="14px" />
           {i18n.t('project:add label')}
         </span>
         {list.map(label => (
           <span className={`label-item ${label.color}`} key={label.id} onClick={() => onClickLabel(label)}>
             {label.name}
-            <Icon type="close" onClick={(e) => { e.stopPropagation(); handleDelete(label); }} />
+            <IconClose className="ml4" onClick={(e) => { e.stopPropagation(); handleDelete(label); }} />
           </span>
         ))}
       </div>

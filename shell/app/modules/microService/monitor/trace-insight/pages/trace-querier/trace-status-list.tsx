@@ -14,11 +14,12 @@
 import * as React from 'react';
 import { map as _map } from 'lodash';
 import moment from 'moment';
-import { Spin, Icon, Tooltip, Pagination } from 'app/nusi';
+import { Spin, Tooltip, Pagination } from 'app/nusi';
 import { Icon as CustomIcon, EmptyHolder } from 'common';
 import { goTo, notify } from 'common/utils';
 import i18n from 'i18n';
 import './trace-status-list.scss';
+import { PauseOne as IconPauseOne, Loading as IconLoading, ReduceOne as IconReduceOne } from '@icon-park/react';
 
 
 const TraceStatusList = (props: any) => {
@@ -66,7 +67,7 @@ const TraceStatusList = (props: any) => {
         node: (
           <span>
             <span className="request-status-text">
-              <Icon type="loading" /> { statusName }
+              <IconLoading /> { statusName }
             </span>
             <Tooltip title={i18n.t('microService:cancel')}>
               <span
@@ -76,7 +77,7 @@ const TraceStatusList = (props: any) => {
                   handleCancelRequestPending(id);
                 }}
               >
-                <Icon type="pause-circle" />
+                <IconPauseOne size="20px" />
               </span>
             </Tooltip>
           </span>
@@ -92,7 +93,7 @@ const TraceStatusList = (props: any) => {
       },
       {
         className: 'cancel',
-        node: <span><Icon type="minus-circle" theme="filled" /> { statusName }</span>,
+        node: <span><IconReduceOne theme="filled" /> { statusName }</span>,
       },
     ];
 

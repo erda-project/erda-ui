@@ -18,7 +18,7 @@ import { regRules } from 'common/utils/index';
 import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
 import i18n from 'i18n';
 import { map, keys, get } from 'lodash';
-import { Menu, Dropdown, Button, Icon, notification } from 'app/nusi';
+import { Menu, Dropdown, Button, notification } from 'app/nusi';
 import cloudServiceStore from '../../stores/cloud-service';
 import { useEffectOnce } from 'react-use';
 import {
@@ -31,6 +31,7 @@ import { goTo, isPromise } from 'common/utils';
 import { ClusterLog } from 'dataCenter/pages/cluster-manage/cluster-log';
 import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
 import { skipInfoStatusMap } from 'dataCenter/pages/cloud-source/config';
+import { DownOne as IconDownOne } from '@icon-park/react';
 
 // mq = ons
 const MQ = () => {
@@ -171,7 +172,7 @@ const MQ = () => {
     <Dropdown disabled={!ifSelected} overlay={menu}>
       <Button type="primary">
         {i18n.t('batch setting')}
-        <Icon className="ml4" type="caret-down" />
+        <IconDownOne className="ml4" theme="filled" size="16px" />
       </Button>
     </Dropdown>
   );

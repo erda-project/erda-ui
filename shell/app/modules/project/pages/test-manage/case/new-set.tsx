@@ -12,9 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Icon, Input, Popover, message, Button } from 'app/nusi';
+import { Input, Popover, message, Button } from 'app/nusi';
 import i18n from 'i18n';
 import testSetStore from 'project/stores/test-set';
+import { Close as IconClose, Check as IconCheck } from '@icon-park/react';
 
 interface IProps {
   afterCreate(data:TEST_SET.TestSet): void
@@ -58,8 +59,8 @@ const NewSet = ({ afterCreate }: IProps) => {
         onChange={e => setValue(e.target.value)}
         onKeyUp={handlePressEntry}
       />
-      <Icon className="ml12 fz18 color-primary" type="check" onClick={handleSave} />
-      <Icon className="ml12 fz18" type="close" onClick={handleHide} />
+      <IconCheck className="ml12 fz18 color-primary pointer" onClick={handleSave} />
+      <IconClose className="ml12 fz18 pointer" onClick={handleHide} />
     </div>
   );
 

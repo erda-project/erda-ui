@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Alert, Icon, Tooltip, Button, Table } from 'app/nusi';
+import { Alert, Tooltip, Button, Table } from 'app/nusi';
 import i18n from 'i18n';
 import { useUpdate, FormModal } from 'common';
 import { useEffectOnce } from 'react-use';
@@ -22,6 +22,7 @@ import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
 import routeInfoStore from 'common/stores/route';
 import cloudServiceStore from 'dcos/stores/cloud-service';
 import { useLoading } from 'common/stores/loading';
+import { Help as IconHelp } from '@icon-park/react';
 
 const Topic = () => {
   const MQTopicList = cloudServiceStore.useStore(s => s.MQTopicList);
@@ -151,7 +152,7 @@ const Topic = () => {
         <span>
           {i18n.t('resource:message type')}&nbsp;
           <Tooltip title={i18n.t('dcos:common-messages-suitable-for')}>
-            <Icon type="question-circle-o" />
+            <IconHelp />
           </Tooltip>
         </span>
       ),

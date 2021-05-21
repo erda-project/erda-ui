@@ -12,9 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Icon, Input, InputNumber, Select, Tooltip } from 'app/nusi';
+import { Input, InputNumber, Select, Tooltip } from 'app/nusi';
 import { isEmpty, map, remove, set, cloneDeep } from 'lodash';
 import { slaUnitMap } from 'apiManagePlatform/pages/access-manage/components/config';
+import { AddOne as IconAddOne, ReduceOne as IconReduceOne } from '@icon-park/react';
 import i18n from 'i18n';
 import './sla.scss';
 
@@ -94,12 +95,12 @@ const Limit = (props: IProps) => {
                   >
                     <div className="flex-box pl12">
                       <Tooltip title={i18n.t('add {name}', { name: i18n.t('request limit') })}>
-                        <Icon type="plus-circle-o" onClick={handleAddOne} />
+                        <IconAddOne onClick={handleAddOne} size="20px" />
                       </Tooltip>
                       {
                         index !== 0 ? (
                           <Tooltip title={i18n.t('delete')}>
-                            <Icon type="minus-circle-o" onClick={() => { handleDropOne(index); }} />
+                            <IconReduceOne onClick={() => { handleDropOne(index); }} size="20px" />
                           </Tooltip>
                         ) : null
                       }

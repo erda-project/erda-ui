@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { Icon, Tooltip, Radio, Button } from 'app/nusi';
+import { Tooltip, Radio, Button } from 'app/nusi';
 import React, { useState } from 'react';
 import i18n from 'i18n';
 import { diff_match_patch as Diff } from 'diff-match-patch';
@@ -23,6 +23,14 @@ import MarkdownEditor from 'app/common/components/markdown-editor';
 import { isImage, setApiWithOrg } from 'app/common/utils';
 import { CommentBox } from 'application/common/components/comment-box';
 import Markdown from 'common/utils/marked';
+import { 
+  FileAddition as IconFileAddition, 
+  Delete as IconDelete, 
+  ArrowRight as IconArrowRight, 
+  FileCodeOne as IconFileCodeOne, 
+  RightOne as IconRightOne, 
+  DownOne as IconDownOne 
+} from '@icon-park/react';
 
 import './file-diff.scss';
 import repoStore from 'application/stores/repo';
@@ -175,8 +183,8 @@ export const FileDiff = ({
       const imageAddress = fileIsImage ? `${fileSrcPrefix}/${commitId}/${name}` : '';
 
       const text = {
-        [ACTION.ADD]: <Icon type="file-add" className="fz16 color-green" />,
-        [ACTION.DELETE]: <Icon type="delete" className="fz16 color-red" />,
+        [ACTION.ADD]: <IconFileAddition className="fz16 color-green" />,
+        [ACTION.DELETE]: <IconDelete className="fz16 color-red" />,
         [ACTION.RENAME]: i18n.t('application:file moved'),
       }[type] || '';
 
@@ -184,14 +192,14 @@ export const FileDiff = ({
         <div ref={forwardRef} className="file-diff">
           <IF check={type === 'rename'}>
             <div className="file-title-move">
-              <div className="bold nowrap"><Icon type="file" className="mr8" />{old}</div>
-              <Icon type="arrow-right" className="file-move-arrow" />
+              <div className="bold nowrap"><IconFileCodeOne className="mr8" />{old}</div>
+              <IconArrowRight className="file-move-arrow" />
               <div className="bold nowrap">{now}</div>
             </div>
             <div className="file-static-info">{text}</div>
             <IF.ELSE />
             <div className="file-title inline-flex-box">
-              <div className="bold nowrap"><Icon type="file" className="mr8" />{name} {text || null}</div>
+              <div className="bold nowrap"><IconFileCodeOne className="mr8" />{name} {text || null}</div>
             </div>
             <IF check={fileIsImage}>
               <div className="text-center my16">
@@ -263,11 +271,11 @@ export const FileDiff = ({
           title ||
           <div className="bold">
             <IF check={!isExpanding}>
-              <Icon type="caret-right" className="mr8" />
+              <IconRightOne theme="filled" size="16px" className="mr8" />
               <ELSE />
-              <Icon type="caret-down" className="mr8" />
+              <IconDownOne theme="filled" size="16px" className="mr8" />
             </IF>
-            <Icon type="file" className="mr8" />
+            <IconFileCodeOne className="mr8" />
             {name}
           </div>
         }

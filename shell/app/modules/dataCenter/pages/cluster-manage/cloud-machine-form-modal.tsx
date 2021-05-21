@@ -14,13 +14,13 @@
 import { FormModal, RenderPureForm } from 'common';
 import { uniq, get } from 'lodash';
 import i18n from 'i18n';
-import { Icon } from 'app/nusi';
 import { diskTypeMap, getOptions } from './config';
 import LabelSelector from 'dcos/common/label-selector';
 import { CustomLabel, checkCustomLabels } from 'dcos/common/custom-label';
 import { WrappedFormUtils } from 'core/common/interface';
 import orgStore from 'app/org-home/stores/org';
 import * as React from 'react';
+import { Down as IconDown, Up as IconUp } from '@icon-park/react';
 
 interface IProps {
   visible: boolean,
@@ -135,7 +135,7 @@ const CloudMachineAddForm = (props:any) => {
           <div className="more">
             <a className="more-btn" onClick={() => setShowMore(!showMore)}>
               {i18n.t('advanced settings')}
-              <Icon type={showMore ? 'down' : 'up'} />
+              { showMore ? <IconDown size="16px" /> : <IconUp size="16px" /> }
             </a>
             <div className={`more-form ${showMore ? '' : 'hide'}`}>
               <MoreForm form={form} />

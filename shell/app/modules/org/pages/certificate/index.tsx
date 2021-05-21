@@ -15,7 +15,7 @@ import * as React from 'react';
 import { CRUDStoreTable, DeleteConfirm, Icon as CustomIcon, useUpdate } from 'common';
 import i18n from 'i18n';
 import certificateStore from '../../stores/certificate';
-import { Upload, message, Button, Icon, Select, Input } from 'app/nusi';
+import { Upload, message, Button, Select, Input } from 'app/nusi';
 import { formatTime } from 'common/utils';
 import { WrappedFormUtils } from 'core/common/interface';
 import { get, map } from 'lodash';
@@ -23,6 +23,7 @@ import './index.scss';
 import { getUploadProps } from 'common/utils/upload-props';
 import DetailModal from './detail-modal';
 import orgStore from 'app/org-home/stores/org';
+import { Upload as IconUpload } from '@icon-park/react';
 
 const { Option } = Select;
 export const typeMap = {
@@ -68,7 +69,7 @@ const getUploadComp = ({ form, onChangeFile, fileNameKey, fileAccept }: IUploadP
     <div className="upload-container">
       <Upload {...uploadProps}>
         <Button>
-          <Icon type="upload" /> {i18n.t('upload')}
+          <IconUpload /> {i18n.t('upload')}
         </Button>
       </Upload>
       {fileName && (

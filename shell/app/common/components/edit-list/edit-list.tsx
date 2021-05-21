@@ -12,13 +12,14 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Button, Input, Icon, Select, Tooltip } from 'app/nusi';
+import { Button, Input, Select, Tooltip } from 'app/nusi';
 import { useUpdate, InputSelect, Icon as CustomIcon } from 'common';
 import { produce } from 'immer';
 import i18n from 'i18n';
 import { useUpdateEffect } from 'react-use';
 import { getCheckListFromRule } from 'configForm/form/form';
-import { get, isEmpty, map, find, isEqual, isArray, isPlainObject, set, compact, includes, filter, debounce } from 'lodash';
+import { get, isEmpty, map, isEqual, isArray, isPlainObject, set, compact, includes, filter, debounce } from 'lodash';
+import { ReduceOne as IconReduceOne } from '@icon-park/react'
 import './edit-list.scss';
 
 interface IData {
@@ -207,7 +208,7 @@ const EditList = (props: IELProps) => {
   return (
     <div className='edit-list'>
       <div className='edit-list-box'>
-        {showTitle ? <ListItem dataTemp={dataTemp} isTitle operation={<Icon className='edit-list-item-operation not-allowed' type="minus-circle" />} /> : null}
+        { showTitle ? <ListItem dataTemp={dataTemp} isTitle operation={<IconReduceOne className='edit-list-item-operation not-allowed' />} /> : null}
         {
           map(value, (item, idx) => (
             <ListItem

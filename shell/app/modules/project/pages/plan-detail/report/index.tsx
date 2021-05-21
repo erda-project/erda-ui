@@ -13,7 +13,7 @@
 
 import React from 'react';
 import i18n from 'i18n';
-import { Icon, message } from 'app/nusi';
+import { message } from 'app/nusi';
 import { MarkdownEditor } from 'common';
 import routeInfoStore from 'common/stores/route';
 import testPlanStore from 'project/stores/test-plan';
@@ -23,6 +23,7 @@ import ExportPdf from './export-pdf';
 import NumberInfo from './number-info';
 import PersonalUseCase from './personal-usecase';
 import { get } from 'lodash';
+import { Upload as IconUpload } from '@icon-park/react';
 import './index.scss';
 
 const DetailIntro = () => {
@@ -48,7 +49,7 @@ const DetailIntro = () => {
         <span>{i18n.t('project:test report details')}</span>
         <ExportPdf domId="report-page" tip={i18n.t('project:testing report')}>
           {
-            ({ exportPdf }) => <span className="fz14 pointer color-primary" onClick={() => exportPdf()}><Icon className="mr4" type="upload" />{i18n.t('project:export report')}</span>
+            ({ exportPdf }) => <span className="fz14 pointer color-primary" onClick={() => exportPdf()}><IconUpload />{i18n.t('project:export report')}</span>
           }
         </ExportPdf>
       </div>

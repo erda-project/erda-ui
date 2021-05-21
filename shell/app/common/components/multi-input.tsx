@@ -13,8 +13,9 @@
 
 import * as React from 'react';
 import { isEmpty, map, remove, set } from 'lodash';
-import { Icon, Input } from 'app/nusi';
+import { Input } from 'app/nusi';
 import i18n from 'i18n';
+import { AddOne as IconAddOne, ReduceOne as IconReduceOne } from '@icon-park/react';
 import './multi-input.scss';
 
 const MultiInput = (props: any) => {
@@ -56,10 +57,10 @@ const MultiInput = (props: any) => {
             <div className="flex-box multi-input-item" key={index}>
               <Input className="multi-input-input flex-1" value={item} onChange={(e: any) => changeItemValue(e.target.value, index)} placeholder={placeholder || i18n.t('please enter')} />
               <div className="multi-input-icons">
-                <Icon className="input-with-icon" type="plus-circle-o" onClick={() => addOne()} />
+                <IconAddOne className="input-with-icon" onClick={() => addOne()} />
                 {
-                 index !== 0 ? <Icon className="input-with-icon" type="minus-circle-o" onClick={() => { dropOne(index); }} /> : null
-               }
+                 index !== 0 ? <IconReduceOne className="input-with-icon" onClick={() => { dropOne(index); }} /> : null
+                }
               </div>
             </div>
           );

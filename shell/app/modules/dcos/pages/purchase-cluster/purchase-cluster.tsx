@@ -13,7 +13,7 @@
 
 import { cloneDeep } from 'lodash';
 import i18n from 'i18n';
-import { Form, Steps, Button, Tooltip, Icon, Row, Col, Spin, Switch } from 'app/nusi';
+import { Form, Steps, Button, Tooltip, Row, Col, Spin, Switch } from 'app/nusi';
 import { RenderPureForm, KeyValueList, Icon as CustomIcon, RenderFormItem, connectCube } from 'common';
 import { goTo } from 'common/utils';
 import * as React from 'react';
@@ -31,7 +31,7 @@ import purchaseStore from 'dcos/stores/purchase';
 import { useLoading } from 'app/common/stores/loading';
 import routeInfoStore from 'common/stores/route';
 import { WrappedFormUtils } from 'core/common/interface';
-
+import { Help as IconHelp, LinkOne as IconLinkOne } from '@icon-park/react';
 import './purchase-cluster.scss';
 
 const { Step } = Steps;
@@ -206,13 +206,13 @@ class OrderPage extends React.Component<IProps> {
 
   getTipLabel = (text: string, tip: string) => (
     <Tooltip title={tip}>
-      {text} <Icon type="question-circle-o" />
+      {text} <IconHelp />
     </Tooltip>
   );
 
   getLinkLabel = (text: string, tip: string, href: string) => (
     <Tooltip title={tip}>
-      <a target="_blank" rel="noopener noreferrer" href={href}>{text} <Icon type="link" /></a>
+      <a target="_blank" rel="noopener noreferrer" href={href}>{text} <IconLinkOne /></a>
     </Tooltip>
   );
 

@@ -15,7 +15,7 @@
  * Created by 含光<jiankang.pjk@alibaba-inc.com> on 2021/1/25 17:57.
  */
 import React from 'react';
-import { Button, Icon, message, Upload } from 'app/nusi';
+import { Button, message, Upload } from 'app/nusi';
 import { getUploadProps } from 'common/utils/upload-props';
 import { IFormItem } from 'common/components/render-formItem';
 import { WrappedFormUtils } from 'core/common/interface';
@@ -24,6 +24,7 @@ import publisherStore from 'publisher/stores/publisher';
 import i18n from 'i18n';
 import routeInfoStore from 'common/stores/route';
 import { useLoading } from 'common/stores/loading';
+import { Upload as IconUpload } from '@icon-park/react';
 
 export interface IProps{
   visible: boolean;
@@ -84,7 +85,7 @@ const UploadModal = (props: IProps) => {
         <div className="upload-container">
           <Upload accept=".apk, .ipa" {...uploadProps}>
             <Button>
-              <Icon type="upload" /> {i18n.t('upload')}
+              <IconUpload /> {i18n.t('upload')}
             </Button>
           </Upload>
           <span className="color-text-desc ml8">

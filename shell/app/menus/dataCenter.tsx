@@ -15,13 +15,13 @@ import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import { filterMenu, MENU_SCOPE } from './util';
 import { 
-  Log,
-  ListTwo,
-  DataDisplay,
-  DataAll,
-  DashboardCar,
-  DataFile,
-  DatabaseAlert,
+  Log as IconLog,
+  ListTwo as IconListTwo,
+  DataDisplay as IconDataDisplay,
+  DataAll as IconDataAll,
+  DashboardCar as IconDashboardCar,
+  DataFile as IconDataFile,
+  DatabaseAlert as IconDatabaseAlert,
 } from '@icon-park/react';
 import React from 'react';
 
@@ -30,13 +30,13 @@ export const getDataCenterMenu = () => {
     {
       key: 'dataCenterOverview',
       href: goTo.resolve.dataCenterRoot(),
-      icon: <DataDisplay />,
+      icon: <IconDataDisplay />,
       text: i18n.t('cluster overview'),
     },
     {
       key: 'dataCenterResources',
       href: goTo.resolve.dataCenterClusters(), // '/dataCenter/clusters',
-      icon: <DataAll />,
+      icon: <IconDataAll />,
       text: i18n.t('resources'),
       subMenu: [
         {
@@ -59,7 +59,7 @@ export const getDataCenterMenu = () => {
     {
       key: 'dataCenterServices',
       href: goTo.resolve.dataCenterServices(), // '/dataCenter/services',
-      icon: <ListTwo />,
+      icon: <IconListTwo />,
       text: i18n.t('services & jobs'),
       subMenu: [
         {
@@ -79,19 +79,19 @@ export const getDataCenterMenu = () => {
     {
       key: 'dataCenterDashboard',
       href: goTo.resolve.orgCustomDashboard(), // '/dataCenter/customDashboard',
-      icon: <DashboardCar />,
+      icon: <IconDashboardCar />,
       text: i18n.t('org:O & M dashboard'),
     },
     {
       key: 'dataCenterReport',
       href: goTo.resolve.dataCenterReport(), // '/dataCenter/report',
-      icon: <DataFile />,
+      icon: <IconDataFile />,
       text: i18n.t('O & M report'),
     },
     {
       key: 'dataCenterAlarm',
       href: goTo.resolve.dataCenterAlarm(), // '/dataCenter/alarm',
-      icon: <DatabaseAlert />,
+      icon: <IconDatabaseAlert />,
       text: i18n.t('O & M alarm'),
       subMenu: [
         {
@@ -115,7 +115,7 @@ export const getDataCenterMenu = () => {
     {
       key: 'dataCenterLog',
       href: goTo.resolve.dataCenterLog(), //'/dataCenter/log',
-      icon: <Log />,
+      icon: <IconLog />,
       text: i18n.t('log analyze'),
       subMenu: [
         {

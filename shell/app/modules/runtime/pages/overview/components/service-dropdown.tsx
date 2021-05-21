@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Dropdown, Menu, Modal, Icon, List } from 'app/nusi';
+import { Dropdown, Menu, Modal, List } from 'app/nusi';
 import { Icon as CustomIcon, Copy, useUpdate } from 'common';
 import { map, isEmpty } from 'lodash';
 import { setLS, getLS, notify, insertWhen } from 'common/utils';
@@ -21,6 +21,7 @@ import i18n from 'i18n';
 import runtimeStore from 'runtime/stores/runtime';
 import { usePerm } from 'user/common';
 import runtimeDomainStore from 'runtime/stores/domain';
+import { Copy as IconCopy } from '@icon-park/react';
 import './service-dropdown.scss';
 
 const MenuItem = Menu.Item;
@@ -91,7 +92,7 @@ const ServiceDropdown = (props: IProps) => {
               <span className="mr8 vip-addr flex-1 nowrap">{addr}</span>
               <Copy selector=".for-copy">
                 <span className="for-copy copy-icon" data-clipboard-text={addr}>
-                  <Icon type="copy" />
+                  <IconCopy />
                 </span>
               </Copy>
             </div>

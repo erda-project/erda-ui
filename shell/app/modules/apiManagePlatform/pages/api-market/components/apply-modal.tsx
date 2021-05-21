@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { Icon, Modal, Button } from 'app/nusi';
+import { Modal, Button } from 'app/nusi';
 import { Copy, FormModal, useUpdate } from 'common';
 import { IFormItem } from 'common/components/render-formItem';
 import i18n from 'i18n';
@@ -25,6 +25,7 @@ import { goTo } from 'common/utils';
 import { isObject } from 'lodash';
 import SelectPro from 'apiManagePlatform/components/select-pro';
 import SLASelect from 'apiManagePlatform/components/sla-select';
+import { AddOne as IconAddOne } from '@icon-park/react';
 
 interface IState {
   selectVersion: string | undefined;
@@ -50,7 +51,7 @@ type FormRef = {props: {form: WrappedFormUtils}};
 const identifierReg = /^[a-zA-Z0-9_-]+$/;
 
 const createNewApp = {
-  value: 'create App', name: (<div className="hover-active text-link"><Icon className="mr8" type="plus-circle" />{i18n.t('create a new client')}</div>),
+  value: 'create App', name: (<div className="hover-active text-link"><IconAddOne className="mr8"/>{i18n.t('create a new client')}</div>),
 } as any;
 
 const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {

@@ -14,7 +14,7 @@
 import { cloneDeep } from 'lodash';
 import i18n from 'i18n';
 import * as React from 'react';
-import { Form, Steps, Button, Tooltip, Icon } from 'app/nusi';
+import { Form, Steps, Button, Tooltip } from 'app/nusi';
 import { RenderPureForm, KeyValueList, Icon as CustomIcon, connectCube } from 'common';
 import { WrappedFormUtils } from 'core/common/interface';
 import { goTo } from 'common/utils';
@@ -28,7 +28,7 @@ import {
   checkPassword as checkRedisPassword,
   characterSetLists,
 } from 'dcos/common/config';
-
+import { Help as IconHelp, LinkOne as IconLinkOne } from '@icon-park/react';
 
 import './index.scss';
 import purchaseStore from 'dcos/stores/purchase';
@@ -91,13 +91,13 @@ class OrderPage extends React.Component<IProps, any> {
 
   getTipLabel = (text:string, tip:string) => (
     <Tooltip title={tip}>
-      {text} <Icon type="question-circle-o" />
+      {text} <IconHelp />
     </Tooltip>
   );
 
   getLinkLabel = (text:string, tip:string, href:string) => (
     <Tooltip title={tip}>
-      <a target="_blank" rel="noopener noreferrer" href={href}>{text} <Icon type="link" /></a>
+      <a target="_blank" rel="noopener noreferrer" href={href}>{text} <IconLinkOne /></a>
     </Tooltip>
   );
 
@@ -190,7 +190,7 @@ class OrderPage extends React.Component<IProps, any> {
           <span>
             <Tooltip title={i18n.t('dcos:currently only supports private')}>
               {i18n.t('dcos:node type')}&nbsp;
-              <Icon type="question-circle-o" />
+              <IconHelp />
             </Tooltip>
           </span>
         ),

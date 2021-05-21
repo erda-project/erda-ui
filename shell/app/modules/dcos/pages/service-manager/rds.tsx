@@ -16,7 +16,7 @@ import { CRUDTable, useUpdate, Copy, TagsColumn } from 'common';
 import { useLoading } from 'app/common/stores/loading';
 import i18n from 'i18n';
 import { map, get, find, keys } from 'lodash';
-import { Tooltip, Dropdown, Button, Icon, Menu, notification } from 'app/nusi';
+import { Tooltip, Dropdown, Button, Menu, notification } from 'app/nusi';
 import { MysqlFieldsConfig } from 'project/pages/third-service/components/config';
 import { WrappedFormUtils } from 'core/common/interface';
 import { useEffectOnce } from 'react-use';
@@ -30,7 +30,7 @@ import { ClusterLog } from 'dataCenter/pages/cluster-manage/cluster-log';
 import { getCloudResourceIDNameCol, getCloudResourceStatusCol, getCloudResourceChargeTypeCol, getCloudResourceRegionCol } from 'dataCenter/common/components/table-col';
 import { skipInfoStatusMap } from 'dataCenter/pages/cloud-source/config';
 import { customTagColor } from 'dcos/common/config';
-
+import { DownOne as IconDownOne } from '@icon-park/react';
 
 const specList = [
   ...MysqlFieldsConfig.basicTypes,
@@ -208,7 +208,7 @@ const RDS = () => {
     <Dropdown disabled={!ifSelected} overlay={menu}>
       <Button type="primary">
         {i18n.t('batch setting')}
-        <Icon className="ml4" type="caret-down" />
+        <IconDownOne className="ml4" theme="filled" size="16px" />
       </Button>
     </Dropdown>
   );

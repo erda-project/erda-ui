@@ -13,11 +13,12 @@
 
 import { isEmpty, get } from 'lodash';
 import * as React from 'react';
-import { Tooltip, Switch, Icon } from 'app/nusi';
+import { Tooltip, Switch } from 'app/nusi';
 import { LogRoller, SimpleLog } from 'common';
 import { regLog } from 'common/components/log/log-util';
 import AnsiUp from 'ansi_up';
 import i18n from 'i18n';
+import { LeftOne as IconLeftOne } from '@icon-park/react';
 
 import './container-log.scss';
 
@@ -106,7 +107,7 @@ class RuntimeContainerLog extends React.Component {
       getComp: () => <SimpleLog {...p} />,
       getTitle: () => (
         <span>
-          <Icon className="hover-active" type="caret-left" onClick={() => this.props.popSlideComp()} />&nbsp;
+          <IconLeftOne className="hover-active" theme="filled" size="16px" onClick={() => this.props.popSlideComp()} />&nbsp;
           {i18n.t('runtime:monitor log')}
         </span>
       ),

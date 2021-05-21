@@ -16,7 +16,7 @@ import { RenderPureForm, useUpdate, FormModal } from 'common';
 import { goTo, insertWhen, updateSearch } from 'common/utils';
 import i18n from 'i18n';
 import { map, isString, isEmpty, remove, set, filter } from 'lodash';
-import { Button, Checkbox, Steps, Table, Form, Icon, Input, Spin } from 'app/nusi';
+import { Button, Checkbox, Steps, Table, Form, Input, Spin } from 'app/nusi';
 import * as React from 'react';
 import { useEffectOnce } from 'react-use';
 import { ACL_TYPE_MAP, AUTH_TYPE_MAP, getOpenApiConsumerFields, SCENE_MAP, AuthType } from '../config';
@@ -26,6 +26,7 @@ import routeInfoStore from 'common/stores/route';
 import gatewayStore from 'microService/stores/gateway';
 import { useLoading } from 'app/common/stores/loading';
 import { PAGINATION } from 'app/constants';
+import { ReduceOne as IconReduceOne, AddOne as IconAddOne } from '@icon-park/react';
 
 const FormItem = Form.Item;
 const { Step } = Steps;
@@ -90,9 +91,9 @@ const BindDomainForm = (props: any) => {
                 )
               }
               <div className="bind-domain-icons">
-                <Icon className="input-with-icon" type="plus-circle-o" onClick={() => addOne()} />
+                <IconAddOne className="input-with-icon pointer mr0" onClick={() => addOne()} />
                 {
-                  index !== 0 ? <Icon className="input-with-icon" type="minus-circle-o" onClick={() => { dropOne(index); }} /> : null
+                  index !== 0 ? <IconReduceOne className="input-with-icon pointer mr0" onClick={() => { dropOne(index); }} /> : null
                 }
               </div>
             </FormItem>

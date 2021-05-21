@@ -19,13 +19,12 @@ import { FileEditor, connectCube } from 'common';
 import { goTo, qs } from 'common/utils';
 import { getSplitPathBy, getInfoFromRefName } from '../util';
 import Markdown from 'common/utils/marked';
-import { Icon } from 'app/nusi';
 import i18n from 'i18n';
 import './repo-file.scss';
 import appStore from 'application/stores/application';
 import repoStore from 'application/stores/repo';
 import routeInfoStore from 'common/stores/route';
-
+import { Download as IconDownload } from '@icon-park/react';
 
 const { parse, extract } = qs;
 
@@ -271,7 +270,7 @@ class RepoFile extends React.PureComponent<IProps, IState> {
       <FileContainer name={name} ops={ops} className={`repo-file ${className}`}>
         <div className="center-flex-box raw-file-container">
           <a href={fileSrc} target="_blank" rel="noopener noreferrer" >
-            <Icon type="download" />
+            <IconDownload />
             <div className="mt4"> {i18n.t('application:download')} </div>
           </a>
         </div>

@@ -22,10 +22,10 @@ import { appMode, approvalStatus } from 'application/common/config';
 import { formatTime } from 'common/utils';
 import { WithAuth } from 'user/common';
 import { useUnmount } from 'react-use';
-import { Popconfirm, Modal, Button, Alert, Input, Icon, message } from 'app/nusi';
+import { Popconfirm, Modal, Button, Alert, Input, message } from 'app/nusi';
 import routeInfoStore from 'common/stores/route';
 import { getArtifactsList } from 'publisher/services/publisher';
-
+import { Copy as IconCopy } from '@icon-park/react';
 
 const AppLibraryReference = () => {
   const appID = +routeInfoStore.useStore(s => s.params.appId);
@@ -162,7 +162,7 @@ const AppLibraryReference = () => {
       data-clipboard-text={state.dependence}
       data-clipboard-tip="dependence"
     >
-      <Icon type="copy" />
+      <IconCopy />
     </span>
   );
 

@@ -12,12 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Icon } from 'app/nusi';
 import { throttle } from 'lodash';
 import { connectCube } from 'common';
 import './deploy-cluster-log.scss';
 import clusterStore from 'dataCenter/stores/cluster';
 import { useLoading } from 'app/common/stores/loading';
+import { Loading as IconLoading } from '@icon-park/react';
 
 interface IProps{
   deployClusterLog: string;
@@ -97,7 +97,7 @@ class DeployClusterLog extends React.Component<IProps, IState> {
     return (
       <div className="deploy-cluster-log" ref={(ref) => { this.preElm = ref; }} onScroll={this.throttleScroll}>
         <pre >{this.props.deployClusterLog}</pre>
-        {fetching && <Icon className="log-state bottom" type="loading" />}
+        {fetching && <IconLoading className="log-state bottom" spin strokeWidth={2} />}
       </div>
     );
   }
