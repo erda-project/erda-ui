@@ -67,13 +67,13 @@ export interface IModule {
 }
 
 export const registerModule = ({ key, stores, routers, locales, Root, NotFound }: IModule, cb?: () => void) => {
-  if (locales && locales.zh && locales.en) {
-    const namespaces = Object.keys(locales.zh);
-    namespaces.forEach(ns => {
-      i18n.addResourceBundle('zh', ns, locales.zh[ns]);
-      i18n.addResourceBundle('en', ns, locales.en[ns]);
-    });
-  }
+  // if (locales && locales.zh && locales.en) {
+  //   const namespaces = Object.keys(locales.zh);
+  //   namespaces.forEach(ns => {
+  //     i18n.addResourceBundle('zh', ns, locales.zh[ns]);
+  //     i18n.addResourceBundle('en', ns, locales.en[ns]);
+  //   });
+  // }
   if (stores) {
     stores.forEach(registStore);
   }
