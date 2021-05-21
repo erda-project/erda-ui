@@ -18,6 +18,21 @@ import { Editor } from './editor';
 import { IF } from 'common';
 import './index.scss';
 
+interface ICanView {
+    menu?: boolean;
+    md?: boolean;
+    html?: boolean;
+    fullScreen?: boolean;
+    hideMenu?: boolean;
+}
+
+const defaultCanView = {
+  menu: true,
+  md: true,
+  html: true,
+  fullScreen: true,
+  hideMenu: true,
+}
 
 interface IProps {
   value?: string | null;
@@ -29,6 +44,8 @@ interface IProps {
   extraRight?: ReactElement | ReactElement[];
   btnText?: string;
   readOnly?: boolean;
+  autoFocus?: boolean;
+  canView?: ICanView;
   notClearAfterSubmit?: boolean;
   style?: object,
   onSubmit?: (value: string, rate: number) => void;
@@ -90,6 +107,9 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
         mdRef.nodeMdText.current && mdRef.nodeMdText.current.focus();
       }
     });
+    if(this.props.autoFocus && this.state.view.md && mdRef.nodeMdText.current){
+      mdRef.nodeMdText.current.focus();
+    }
   }
 
   onSubmit = () => {
@@ -178,7 +198,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
   };
 
   render() {
-    const { placeholder, readOnly, extraRight, onFocus, isShowRate, style = { height: '400px' } } = this.props;
+    const { placeholder, readOnly, extraRight, onFocus, isShowRate, style = { height: '400px' }, canView } = this.props;
     const { content, view } = this.state;
     const disableEdit = view.html && !view.md; // 纯预览模式时禁用操作栏
     return (
@@ -195,6 +215,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
             }}
             config={{
               view,
+              canView: { ...defaultCanView, ...canView },
             }}
             value={content}
             onChange={this.onChange}

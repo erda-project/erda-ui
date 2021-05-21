@@ -74,4 +74,21 @@
     }
 
   }
+
+  .md-content-preview {
+    min-height: 100px;    
+    max-height: 400px;
+    overflow: auto;
+    background-color: $color-light-bg;
+    border: 1px solid $color-border;
+    cursor: text;
+  
+    &:hover {
+      border: 1px solid $primary;
+    }
+
+    .md-content {
+      min-height: 100px;
+    }
+  }
 }
