@@ -13,7 +13,7 @@
 
 import { createStore } from 'app/cube';
 import { getDiceVersion, inviteToOrg } from 'layout/services';
-import * as DiceWebSocket from 'common/utils/ws';
+import * as DiceWebSocket from 'core/utils/ws';
 import { enableIconfont, setApiWithOrg } from 'common/utils';
 import routeInfoStore from 'app/common/stores/route';
 import { find, merge } from 'lodash';

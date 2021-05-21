@@ -169,6 +169,7 @@ export const getPreviewData = (d: any) => {
             props: {
               title: labelMap[item.name] || item.name,
               minHeight: 40,
+              actions: { copy: true }, 
             },
           },
         },

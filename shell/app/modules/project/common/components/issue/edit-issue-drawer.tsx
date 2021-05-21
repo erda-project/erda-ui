@@ -327,7 +327,7 @@ const IssueMetaFields = ({ labels, isEditMode, isBacklog, editAuth, issueType, f
               if (isEditMode && formData?.issueManHour?.isModifiedRemainingTime !== false) {
                 setFieldCb({ issueManHour: { estimateTime: v || 0 } });
               } else { // 创建模式或编辑模式但剩余时间为空时，设置剩余时间为预估时间
-                setFieldCb({ issueManHour: { estimateTime: v || 0, remainingTime: v } });
+                setFieldCb({ issueManHour: { estimateTime: v || 0, remainingTime: v || 0 } });
               }
             }}
             disabled={disabled}

@@ -19,7 +19,7 @@ import i18n from 'i18n';
 
 interface IEmptyProps {
   tip?: string,
-  icon?: string,
+  icon?: string | JSX.Element,
   relative?: boolean,
   style?: object,
   action?: JSX.Element | null,
@@ -40,7 +40,9 @@ export const EmptyHolder = ({
   });
   return (
     <div className={`${cls} ${className}`} style={style}>
-      <CustomIcon type={icon} color />
+      {
+        typeof icon === 'string' ? <CustomIcon type={icon} color /> : <div>{icon}</div>
+      }
       <span>{tip} <span className="action">{action}</span></span>
     </div>
   );

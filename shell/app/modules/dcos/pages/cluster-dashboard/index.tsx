@@ -500,7 +500,7 @@ const ClusterDashboard = () => {
               map(machines, ({ ip, clusterName, ...rest }) => {
                 const { name: colourName, value: colourValue } = getMachineColourValue(rest);
                 return (
-                  <Tooltip placement="bottom" title={`${ip} (${colourName}: ${colourValue})`} key={`${clusterName}-${ip}`}>
+                  <Tooltip placement="bottom" title={`${ip} (${colourName}: ${colourValue}%)`} key={`${clusterName}-${ip}`}>
                     <div
                       className={classnames({
                         'machine-item': true,

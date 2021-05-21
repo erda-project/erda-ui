@@ -150,6 +150,7 @@ module.exports = () => {
           './config': './src/config.ts',
           './stores/route': './src/stores/route.ts',
           './stores/loading': './src/stores/loading.ts',
+          './utils/ws': './src/utils/ws.ts',
           './nusi':'./src/nusi/index.tsx',
         },
         shared: {
