@@ -23,6 +23,7 @@ import checkLicense from '../lib/check-license';
 import launcher from '../lib/launcher';
 import setup from '../lib/setup';
 import i18n from '../lib/i18n';
+import checkCliVersion from '../lib/check-cli-version';
 
 const program = new Command();
 
@@ -45,7 +46,8 @@ program
 program
   .command('setup <module> <port>')
   .description('setup env and tsconfig for module')
-  .action((moduleName, port) => {
+  .action(async (moduleName, port) => {
+    await checkCliVersion();
     setup(moduleName, port);
   });
 
@@ -54,7 +56,8 @@ program
   .description('bundle files to public directory, pass true to launch a local full compilation build, pass image sha to launch a local partial compilation build based on image')
   .option('-i, --image <image>', 'image sha as build base, e.g. 1.0-20210506-48bd74')
   .option('-l, --local', 'enable local mode, if image arg is given, then local mode is forcibly')
-  .action((options) => {
+  .action(async (options) => {
+    await checkCliVersion();
     build(options);
   });
 
@@ -77,7 +80,8 @@ program
 program
   .command('i18n [workDir]')
   .description('translate words in work dir')
-  .action((_workDir) => {
+  .action(async (_workDir) => {
+    await checkCliVersion();
     const workDir = _workDir
       ? path.resolve(process.cwd(), _workDir)
       : process.cwd();
@@ -105,7 +109,8 @@ program
 program
   .command('launch')
   .description('launch erda ui in development mode')
-  .action(() => {
+  .action(async () => {
+    await checkCliVersion();
     launcher();
   });
 

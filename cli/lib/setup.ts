@@ -17,11 +17,8 @@ import fs from 'fs';
 import child_process from 'child_process';
 import { logInfo, logSuccess, logWarn } from './util/log';
 import dotenv from 'dotenv';
-import checkCliVersion from './check-cli-version';
 
 export default async (moduleName: string, modulePort: string) => {
-  await checkCliVersion();
-
   const moduleDir = process.cwd();
   const packagePath = path.join(moduleDir, 'package.json');
 

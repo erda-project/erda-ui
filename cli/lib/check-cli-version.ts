@@ -15,8 +15,7 @@
 import inquirer from 'inquirer';
 import { logInfo, logSuccess, logError } from './util/log';
 import { npmCmd } from './util/env';
-
-const cp = require('child_process');
+import cp from 'child_process';
 
 const { exec, spawnSync } = cp;
 
@@ -31,6 +30,7 @@ export default async () => {
 
         if (isUpToDate >= 0) {
           logInfo('the version of @erda-ui/cli is up to date');
+          resolve();
         } else {
           const { answer } = await inquirer.prompt([
             {

@@ -28,7 +28,6 @@ import { exit } from 'process';
 import ora from 'ora';
 import generateVersion from './gen-version';
 import localIcon from './local-icon';
-import checkCliVersion from './check-cli-version';
 
 const asyncExec = promisify(require('child_process').exec);
 
@@ -342,8 +341,6 @@ const getRequireBuildModules = async (image: string) => {
 
 export default async (options: { local?: boolean; image?: string }) => {
   try {
-    await checkCliVersion();
-
     const { image } = options;
     let { local } = options;
     if (image) {
