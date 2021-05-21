@@ -29,10 +29,10 @@ export default (registerModule) => {
       breadcrumbStore,
       messageStore,
     ],
-    locales: {
-      zh,
-      en,
-    },
+    // locales: {
+    //   zh,
+    //   en,
+    // },
     Root: PageContainer,
     NotFound,
   });
