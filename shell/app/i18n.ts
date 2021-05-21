@@ -18,16 +18,10 @@ import layoutZh from './layout/locales/zh.json';
 import layoutEn from './layout/locales/en.json';
 import { map } from 'lodash';
 
-map(zh, (zhValue, zhKey) => {
+map({...zh, ...layoutZh}, (zhValue, zhKey) => {
   i18n.addResourceBundle('zh', zhKey, zhValue);
 });
-map(en, (enValue, enKey) => {
-  i18n.addResourceBundle('en', enKey, enValue);
-});
-map(layoutZh, (zhValue, zhKey) => {
-  i18n.addResourceBundle('zh', zhKey, zhValue);
-});
-map(layoutEn, (enValue, enKey) => {
+map({...en, ...layoutEn}, (enValue, enKey) => {
   i18n.addResourceBundle('en', enKey, enValue);
 });
 
