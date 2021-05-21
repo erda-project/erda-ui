@@ -11,22 +11,32 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Select } from 'antd';
-import { get } from 'lodash';
+import React from 'react';
+import { connectCube } from 'common';
+import { mount } from 'enzyme';
+import { describe, it } from '@jest/globals';
 
-const { Option } = Select;
-const FixedSelect = React.forwardRef((props, ref) => {
-  const options = props.children || get(props, 'options');
+const Comp = (props = {}) => {
   return (
-    <Select ref={ref} getPopupContainer={triggerNode => triggerNode.parentElement as HTMLElement} {...props} >
-      {options}
-    </Select>
+    <div {...props}>Comp</div>
   );
-});
-
-FixedSelect.Option = Option;
-
-export {
-  FixedSelect,
 };
+
+const WrapComp = (mapper) => connectCube(Comp, mapper);
+
+describe('connectCube', () => {
+  it('should work fine', () => {
+    const mapper = () => {
+      return {
+        className: 'connect-cube',
+      };
+    };
+    const C = WrapComp(mapper);
+    const wrapper = mount(
+      <div>
+        <C />
+      </div>
+    );
+    expect(wrapper.find('.connect-cube')).toExist();
+  });
+});

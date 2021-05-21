@@ -11,22 +11,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Select } from 'antd';
-import { get } from 'lodash';
+import { replaceEmoji } from 'common/utils';
+import { emojiMap } from 'common/utils/emoji';
+import { describe, it } from '@jest/globals';
 
-const { Option } = Select;
-const FixedSelect = React.forwardRef((props, ref) => {
-  const options = props.children || get(props, 'options');
-  return (
-    <Select ref={ref} getPopupContainer={triggerNode => triggerNode.parentElement as HTMLElement} {...props} >
-      {options}
-    </Select>
-  );
+
+describe('emoji', () => {
+  it('should Data normal', () => {
+    expect(replaceEmoji('not')).toBe('not');
+    expect(replaceEmoji(123)).toBe(123);
+    expect(replaceEmoji(':sparkles:')).toBe(emojiMap[':sparkles:']);
+  });
 });
-
-FixedSelect.Option = Option;
-
-export {
-  FixedSelect,
-};

@@ -11,22 +11,26 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Select } from 'antd';
-import { get } from 'lodash';
+import React from 'react';
+import { DebounceSearch } from 'common';
+import { describe, it, jest } from '@jest/globals';
+import { mount } from 'enzyme';
+import { act } from 'react-dom/test-utils';
 
-const { Option } = Select;
-const FixedSelect = React.forwardRef((props, ref) => {
-  const options = props.children || get(props, 'options');
-  return (
-    <Select ref={ref} getPopupContainer={triggerNode => triggerNode.parentElement as HTMLElement} {...props} >
-      {options}
-    </Select>
-  );
+describe('DebounceSearch', () => {
+  it('should render well', () => {
+    const fn = jest.fn();
+    jest.useFakeTimers();
+    const wrapper = mount(
+      <DebounceSearch
+        onChange={fn}
+      />,
+    );
+    act(() => {
+      wrapper.find('Search').prop('onChange')({ target: { value: 'erda' } });
+    });
+    jest.runAllTimers();
+    expect(fn).toHaveBeenLastCalledWith('erda');
+  });
 });
 
-FixedSelect.Option = Option;
-
-export {
-  FixedSelect,
-};

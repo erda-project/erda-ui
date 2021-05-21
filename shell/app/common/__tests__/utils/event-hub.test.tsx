@@ -11,22 +11,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import * as React from 'react';
-import { Select } from 'antd';
-import { get } from 'lodash';
+import { eventHub } from 'common/utils/event-hub';
+import { describe, it, jest } from '@jest/globals';
 
-const { Option } = Select;
-const FixedSelect = React.forwardRef((props, ref) => {
-  const options = props.children || get(props, 'options');
-  return (
-    <Select ref={ref} getPopupContainer={triggerNode => triggerNode.parentElement as HTMLElement} {...props} >
-      {options}
-    </Select>
-  );
+describe('eventHub', () => {
+  it('should ', () => {
+    const fn = jest.fn();
+    eventHub.on('test', fn);
+    eventHub.emit('test');
+    expect(fn).toHaveBeenCalled();
+  });
 });
-
-FixedSelect.Option = Option;
-
-export {
-  FixedSelect,
-};
