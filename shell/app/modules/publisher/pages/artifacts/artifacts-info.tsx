@@ -96,16 +96,16 @@ export const ArtifactsInfo = ({ data }: { data: PUBLISHER.IArtifacts }) => {
       label: 'ai',
       name: 'ai',
     },
-    {
-      label: i18n.t('publisher:background image'),
-      name: 'backgroundImage',
-      viewType: 'image',
-    },
-    {
-      label: i18n.t('publisher:preview image'),
-      name: 'previewImages',
-      viewType: 'images',
-    },
+    // {
+    //   label: i18n.t('publisher:background image'),
+    //   name: 'backgroundImage',
+    //   viewType: 'image',
+    // },
+    // {
+    //   label: i18n.t('publisher:preview image'),
+    //   name: 'previewImages',
+    //   viewType: 'images',
+    // },
   ];
   const safetyFieldsList = [
     {

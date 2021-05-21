@@ -396,7 +396,7 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
     const { templateConfig, getTemplateConfig } = this.props;
     const { tplContent } = this.state;
     const { branch, path } = templateConfig;
-    const data = {
+    this.props.commit({
       message: `Add merge request template: ${values.name}`,
       branch,
       actions: [
@@ -407,8 +407,7 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
           pathType: 'blob',
         },
       ],
-    };
-    this.props.commit(data).then((res: any) => {
+    }).then((res: any) => {
       if (res.success) {
         message.success(i18n.t('template was created successfully'));
         this.toggleTplModel(false);

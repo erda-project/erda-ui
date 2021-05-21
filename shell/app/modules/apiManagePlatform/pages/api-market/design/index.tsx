@@ -51,7 +51,7 @@ const ExternalRepoPage = ({ type }:{type?:string}) => {
         <span>{i18n.t('project:external general Git repository')}</span>
         <span>({i18n.t('project:does not support API design')})</span>
       </p>
-      <img className="logo" src={`/images/resources/${get(repositoriesTypes, [type, 'logo'])}`} width="46px" />
+      <img className="logo" src={get(repositoriesTypes, [type, 'logo'])} width="46px" />
     </div>
   ) : <></>;
 };

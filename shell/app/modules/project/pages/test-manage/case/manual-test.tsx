@@ -30,7 +30,7 @@ import CaseFilterDrawer from './filter-drawer';
 import ProjectTreeModal from './project-tree-modal';
 import CaseDrawer from 'project/pages/test-manage/case/case-drawer';
 import testEnvStore from 'project/stores/test-env';
-import { useEffectOnce } from 'react-use';
+import { useEffectOnce, useUpdateEffect } from 'react-use';
 import moment from 'moment';
 import { Search as IconSearch } from '@icon-park/react';
 import './manual-test.scss';
@@ -41,6 +41,7 @@ const ManualTest = () => {
   const { getTestEnvList } = testEnvStore;
   const caseRef = React.useRef(null as any);
   const [drawerVisible, setDrawerVisible] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState(query.query);
   const [enhanceFilterVisible, setEnhanceFilterVisible] = React.useState(false);
 
   useEffectOnce(() => {
@@ -51,7 +52,7 @@ const ManualTest = () => {
     setEnhanceFilterVisible(false);
   };
 
-  const onSearch = (q: any) => {
+  const onSearch = React.useCallback((q: any) => {
     const { timestampSecUpdatedAtBegin, timestampSecUpdatedAtEnd } = q;
     if (timestampSecUpdatedAtBegin) {
       // eslint-disable-next-line no-param-reassign
@@ -63,9 +64,16 @@ const ManualTest = () => {
     }
     updateSearch(q);
     getCases(q);
-    closeEnhanceFilter();
-  };
-  const debouncedSearch = debounce(onSearch, 500);
+    setEnhanceFilterVisible(false);
+  }, []);
+
+  const debouncedSearch = React.useCallback(debounce((val: string | undefined) => {
+    onSearch({ pageNo: 1, query: val });
+  }, 500), [onSearch]);
+
+  useUpdateEffect(() => {
+    debouncedSearch(searchQuery);
+  }, [searchQuery]);
 
   const handleAddTestSetFromOut = (data: TEST_SET.TestSet) => {
     caseRef.current && caseRef.current.addNodeFromOuter(data);
@@ -123,7 +131,8 @@ const ManualTest = () => {
             <Input
               style={{ width: '160px' }}
               placeholder={i18n.t('project:search for')}
-              onChange={e => debouncedSearch({ query: e.target.value, pageNo: 1 })}
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
               prefix={<IconSearch />}
             />
             <Button onClick={() => setEnhanceFilterVisible(true)}>

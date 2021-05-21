@@ -21,6 +21,7 @@ import { IGetRouter, registRouters } from './framework/regist-router';
 import i18n, { initI18n } from './i18n';
 import { setConfig } from './config';
 import routeInfoStore from './stores/route';
+import { emit } from './utils/event-hub';
 
 const holderDractDom = ReactDom; // if not use it, minified build file will cause infinite loop when use ReactDom.render. errMsg: Cannot set property 'getCurrentStack' of undefined
 const browserHistory = createBrowserHistory();
@@ -31,7 +32,7 @@ const App = () => {
 
   React.useEffect(() => {
     browserHistory.listen((loc) => {
-      routeInfoStore.reducers.$_updateRouteInfo(loc);
+      emit('@routeChange', routeInfoStore.reducers.$_updateRouteInfo(loc));
     });
   }, []);
 
@@ -78,7 +79,8 @@ export const registerModule = ({ key, stores, routers, locales, Root, NotFound }
   }
   if (routers) {
     const routeData = registRouters(key, routers, { Root, NotFound });
-    routeInfoStore.reducers.$_updateRouteInfo(browserHistory.location, routeData);
+    const latestRouteInfo = routeInfoStore.reducers.$_updateRouteInfo(browserHistory.location, routeData);
+    emit('@routeChange', latestRouteInfo);
   }
 
   typeof cb === 'function' && cb();

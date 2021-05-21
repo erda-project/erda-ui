@@ -37,6 +37,7 @@ import {
   updateCases,
   batchUpdateCase,
   removeRelation,
+  attemptTestApi,
   addRelation,
   getDetailRelations,
 } from '../services/test-case';
@@ -279,7 +280,7 @@ const testCaseStore = createStore({
       // 1、当筛选器、表格的page、sorter发生变更时
       // 2、及时性的筛选信息
       if (scope === 'caseModal') { // 如果是在计划详情中的用例弹框时，传入的参数覆盖url上的参数
-        const newQuery = { ...query, ...rest, testSetID, projectID };
+        const newQuery = { ...query, ...rest, testSetID, projectID, query: undefined }; // Set the query outside the modal to undefined, prevent to filter modal data
         const { testSets, total } = await call(getCases, formatQuery({ pageSize: 15, ...newQuery }));
         update({ modalCaseList: testSets, modalCaseTotal: total });
         return;
@@ -291,6 +292,10 @@ const testCaseStore = createStore({
       if (checkNeedEmptyChoosenIds(newQuery, oldQuery)) {
         testCaseStore.reducers.triggerChoosenAll({ isAll: false, scope });
       }
+    },
+    async attemptTestApi({ call }, payload: TEST_CASE.TestApi) {
+      const result = await call(attemptTestApi, payload);
+      return result;
     },
     async removeRelation({ call, getParams }, payload: Omit<TEST_CASE.RemoveRelation, 'testPlanID'>) {
       const { testPlanId } = getParams();

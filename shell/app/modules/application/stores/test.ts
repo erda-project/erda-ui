@@ -22,20 +22,20 @@ interface IParams {
   appId: string;
 }
 
-const getSubList = () => {
+const getSubList = (params: IParams) => {
   return [
     {
       text: i18n.t('application:quality reports'),
-      href: goTo.resolve.appCodeQualityReports(),
+      href: goTo.resolve.appCodeQualityReports(params),
     },
     {
       text: i18n.t('application:issues'),
-      href: goTo.resolve.appCodeQualityIssueOpen(),
-      prefix: `${goTo.resolve.appCodeQualityIssue()}/`,
+      href: goTo.resolve.appCodeQualityIssueOpen(params),
+      prefix: `${goTo.resolve.appCodeQualityIssue(params)}/`,
     },
     {
       text: i18n.t('application:test runs'),
-      href: goTo.resolve.appCodeQuality(),
+      href: goTo.resolve.appCodeQuality(params),
     },
   ];
 };
@@ -95,8 +95,7 @@ const test = createStore({
         return;
       }
       testId && (testDetail = await call(TestServices.getTestDetail, testId));
-      testDetailCache[testId] = testDetail;
-      update({ testDetail, testDetailCache });
+      update({ testDetail, testDetailCache: { ...testDetailCache, [testId]: testDetail } });
     },
   },
   reducers: {

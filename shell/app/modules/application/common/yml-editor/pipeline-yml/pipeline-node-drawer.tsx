@@ -27,7 +27,8 @@ import { getActionGroup } from 'application/services/deploy';
 import { protocolActionForms } from 'app/config-page/components/action-form';
 import { useEffectOnce } from 'react-use';
 import { getResource, getDefaultVersionConfig, mergeActionAndResource } from '../utils';
-import ActionConfigForm from './action-config-form';
+import ActionConfigForm from 'application/common/yml-editor/pipeline-yml/action-config-form';
+
 import './pipeline-node-drawer.scss';
 import { Help as IconHelp, Plus as IconPlus } from '@icon-park/react';
 

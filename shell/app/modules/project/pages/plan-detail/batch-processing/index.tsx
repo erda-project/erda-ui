@@ -63,12 +63,13 @@ const BatchProcessing = ({ afterDelete }: IProps) => {
         // eslint-disable-next-line no-case-declarations
         let queryParam = qs.stringify(omitBy({ selectProjectId, ...params }, isNull), { arrayFormat: 'none' });
         queryParam += qs.stringify(searchQuery, { arrayFormat: 'none' });
+        queryParam += `&${qs.stringify({ relationID: primaryKeys }, { arrayFormat: 'none' })}`;
         exportFiles(`${queryParam}&fileType=excel`);
         break;
       default:
         break;
     }
-  }, [caseTotal, checked, deleteRelations, exportFiles, openRemarkModal, params, query]);
+  }, [caseTotal, checked, deleteRelations, exportFiles, openRemarkModal, params, query, primaryKeys]);
 
   const menus = useMemo(() => {
     return (

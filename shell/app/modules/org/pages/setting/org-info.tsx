@@ -170,7 +170,7 @@ export const OrgInfo = () => {
   const updateInfo = (values: Obj) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { isPublisher: _isPublisher, isPublic, ...rest } = values;
-    userStore.effects.updateOrg({ ...rest, isPublic: isPublic === 'true' });
+    orgStore.effects.updateOrg({ ...rest, isPublic: isPublic === 'true' });
   };
 
   const exitOrg = () => {
@@ -178,7 +178,7 @@ export const OrgInfo = () => {
       scope: { type: 'org', id: `${currentOrg.id}` },
       userIds: [loginUser.id],
     }).then(() => {
-      goTo(goTo.pages.orgList, { replace: true });
+      goTo(goTo.pages.orgRoot, { orgName: '-' });
     });
   };
 
@@ -196,7 +196,7 @@ export const OrgInfo = () => {
             secondTitle={i18n.t('common:exit-sub-tip {name}', { name: i18n.t('org') })}
             onConfirm={exitOrg}
           >
-            <Button ghost type="danger">{ i18n.t('common:exit current {name}', { name: i18n.t('org') }) }</Button>
+            <Button ghost type="danger">{i18n.t('common:exit current {name}', { name: i18n.t('org') })}</Button>
           </ConfirmDelete>
         ),
       }]}

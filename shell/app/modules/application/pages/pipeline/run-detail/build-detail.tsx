@@ -70,6 +70,7 @@ const BuildDetail = (props: IProps) => {
     isExpand: false,
     isBlocked: false,
     chosenPipelineId: query.pipelineID || '' as string | number,
+    recordTableKey: 1,
   });
   const permMap = usePerm(s => s.app.pipeline);
   const { startStatus, logProps, logVisible, selectedRowId, hasAuth, isHistoryBuild, isExpand, isBlocked } = state;
@@ -93,7 +94,7 @@ const BuildDetail = (props: IProps) => {
 
   const branchInfo = appStore.useStore(s => s.branchInfo);
   const currentOrg = orgStore.useStore(s => s.currentOrg);
-  
+
   const { blockStatus } = appStore.useStore(s => s.detail);
   const appBlocked = blockStatus !== 'unblocked';
   const { blockoutConfig } = currentOrg;
@@ -552,7 +553,7 @@ const BuildDetail = (props: IProps) => {
     }, {
       title: 'ID',
       dataIndex: 'id',
-      width: 120,
+      width: 80,
       align: 'center',
     }, {
       title: `${i18n.t('commit')}ID`,
@@ -570,6 +571,11 @@ const BuildDetail = (props: IProps) => {
         </span>
       ),
     }, {
+      title: i18n.t('application:executor'),
+      dataIndex: 'extra.runUser.name',
+      width: 100,
+      align: 'center',
+    }, {
       title: i18n.t('trigger time'),
       dataIndex: 'timeCreated',
       width: 200,
@@ -584,10 +590,19 @@ const BuildDetail = (props: IProps) => {
 
     return (
       <div className="build-history-wp">
-        <div className="refresh-newest-btn" onClick={() => { getRecordList({ pageNo: 1 }); }}>
+        <div 
+          className="refresh-newest-btn" 
+          onClick={() => { 
+            getRecordList({ pageNo: 1 }).then((res) => {
+              updater.recordTableKey((_prev: number) => _prev + 1);
+              updater.chosenPipelineId(res?.[0].id);
+            }); 
+          }}
+        >
           <CustomIcon type="shuaxin" />{i18n.t('fetch latest records')}
         </div>
         <Table
+          key={`${state.recordTableKey}`}
           rowKey="runIndex"
           className="build-history-list"
           columns={columns}

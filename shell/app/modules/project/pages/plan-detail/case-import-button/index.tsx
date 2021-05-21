@@ -37,12 +37,11 @@ const CaseImport = ({ visible, onCancel }: IProps) => {
   const { getCases: oldGetCases } = testCaseStore.effects;
   const { clearChoosenInfo } = testCaseStore.reducers;
   const { addToPlanInCaseModal } = testPlanStore.effects;
-  const { testPlanId } = routeInfoStore.useStore(s => s.params);
+  const [{ testPlanId }, routeQuery] = routeInfoStore.useStore(s => [s.params, s.query]);
   const [modalCaseTotal, modalChoosenInfo] = testCaseStore.useStore(s => [s.modalCaseTotal, s.modalChoosenInfo]);
   const { primaryKeys } = modalChoosenInfo;
   const checked = size(primaryKeys);
   const [confirmLoading] = useLoading(testPlanStore, ['addToPlanInCaseModal']);
-  const routeQuery = routeInfoStore.useStore(s => s.query);
   const [priorityFilter, setPriorityFilter] = useState(routeQuery.priority);
 
   React.useEffect(() => {
@@ -117,7 +116,7 @@ const CaseImport = ({ visible, onCancel }: IProps) => {
     clearChoosenInfo({ mode: 'caseModal' });
   };
 
-  const handleFilter = (value:any) => {
+  const handleFilter = (value: any) => {
     setPriorityFilter(value);
   };
 
@@ -160,4 +159,4 @@ const CaseImport = ({ visible, onCancel }: IProps) => {
   );
 };
 
-export default Form.create()(CaseImport) as any as (props: Omit<IProps, 'form'>)=>JSX.Element;
+export default Form.create()(CaseImport) as any as (props: Omit<IProps, 'form'>) => JSX.Element;

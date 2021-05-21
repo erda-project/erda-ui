@@ -17,9 +17,6 @@ import { getGlobal } from 'app/global-space';
 import { some } from 'lodash';
 import errorHandler from './error-handler';
 
-/**
- * set accept header
- */
 
 const isExcludeOrgHeaderApi = (url) => {
   const excludeApis = ['/api/files'];
@@ -40,12 +37,9 @@ function handleUrl(req) {
 
   const curOrg = getOrgFromPath();
   curOrg && req.set('org', curOrg);
-  // mf_share导出的模块内部会引用这里的agent，导致use方法被执行两次，添加markedOrg避免多次重复添加
-  if (!req.markedOrg && !isExcludeOrgHeaderApi(req.url)) {
+  if (!isExcludeOrgHeaderApi(req.url)) {
     req.url = setApiWithOrg(req.url);
-    req.markedOrg = true;
   }
-  return req;
 }
 
 function handleError(req) {
@@ -130,8 +124,13 @@ const reqKeyList = [];
 //   }
 // }
 
-agent.use(handleUrl);
-agent.use(handelPagingNull);
-agent.use(handleError);
-
+// mf_share导出的模块内部会引用这里的agent，导致use方法被执行两次
+agent.use(req => {
+  if (!req._marked) {
+    req._marked = true;
+    handleUrl(req);
+    handelPagingNull(req);
+    handleError(req);
+  }
+});
 export default agent;
