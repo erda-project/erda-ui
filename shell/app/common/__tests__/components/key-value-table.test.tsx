@@ -79,7 +79,7 @@ describe('KeyValueTable', () => {
     wrapper.update();
     expect(editor.state().dataSource).toHaveLength(6);
   });
-  it('should should render with Input', () => {
+  it('should render with Input', () => {
     const fn = jest.fn();
     const wrapper = mount(
       <Comp

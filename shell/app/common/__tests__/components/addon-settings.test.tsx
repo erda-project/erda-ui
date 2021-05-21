@@ -35,6 +35,7 @@ jest.mock('core/stores/route');
 jest.mock('agent');
 
 describe('addon-settings', () => {
+  const fn = jest.fn();
   beforeAll(() => {
     const browserHistory = createBrowserHistory();
     setConfig('history', browserHistory);
@@ -50,12 +51,15 @@ describe('addon-settings', () => {
         data,
       },
     });
-    agent.delete = jest.fn().mockResolvedValue({
-      body: {
-        success: true,
-        data,
-      },
-    });
+    agent.delete = () => {
+      fn.call(null);
+      return Promise.resolve({
+        body: {
+          success: true,
+          data,
+        },
+      });
+    };
   });
   afterAll(() => {
     setConfig('history', undefined);
@@ -80,7 +84,7 @@ describe('addon-settings', () => {
       name: 'erda',
       org: 'erda.cloud',
     };
-    it('should render well', () => {
+    it('should render well', async () => {
       const wrapper = mount(
         <PureAddonSettings insId={insId} />
       );
@@ -102,7 +106,8 @@ describe('addon-settings', () => {
       });
       wrapper.update();
       expect(wrapper.find('.settings-delete')).toExist();
-      wrapper.find('[deleteItem="service"]').prop('onConfirm')();
+      await wrapper.find('[deleteItem="service"]').prop('onConfirm')();
+      expect(fn).toHaveBeenCalledTimes(1);
     });
   });
 });

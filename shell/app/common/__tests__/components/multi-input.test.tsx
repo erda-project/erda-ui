@@ -18,25 +18,25 @@ import { mount } from 'enzyme';
 import { describe, it, jest } from '@jest/globals';
 
 // zero will fix this auto test problem
-describe.skip('MultiInput', () => {
+describe('MultiInput', () => {
   it('render default', () => {
     const onChange = jest.fn();
     const wrapper = mount(
       <MultiInput onChange={onChange} />
     );
     expect(wrapper.find('.multi-input-item')).toHaveLength(1);
-    expect(wrapper.find({ type: 'minus-circle-o' })).not.toExist();
+    expect(wrapper.find({ type: 'minus-circle' })).not.toExist();
     wrapper.find('input').simulate('change', { target: { value: 'erda.cloud' } });
     expect(onChange).toHaveBeenLastCalledWith(['erda.cloud']);
-    wrapper.find('.multi-input-item Icon').simulate('click');
+    wrapper.find('.multi-input-item .input-with-icon').at(1).simulate('click');
     expect(wrapper.find('.multi-input-item')).toHaveLength(2);
-    expect(wrapper.find({ type: 'minus-circle-o' })).toHaveLength(2);
+    expect(wrapper.find('.minus-circle')).toHaveLength(2);
     wrapper.find('.multi-input-item').at(1).find('input').simulate('change', { target: { value: 'doc.erda.cloud' } });
     expect(onChange).toHaveBeenLastCalledWith(['erda.cloud', 'doc.erda.cloud']);
-    wrapper.find({ type: 'minus-circle-o' }).at(0).simulate('click');
+    wrapper.find('.minus-circle').at(0).simulate('click');
     expect(wrapper.find('.multi-input-item')).toHaveLength(1);
     expect(onChange).toHaveBeenLastCalledWith(['erda.cloud']);
-    expect(wrapper.find({ type: 'minus-circle-o' })).not.toExist();
+    expect(wrapper.find('.minus-circle')).not.toExist();
   });
   it('render with init data', () => {
     let value = ['erda.cloud', 'doc.erda.cloud'];
@@ -44,7 +44,7 @@ describe.skip('MultiInput', () => {
       <MultiInput value={value} onChange={(v:string[]) => { value = v; }} />
     );
     expect(wrapper.find('.multi-input-item')).toHaveLength(value.length);
-    wrapper.find({ type: 'minus-circle-o' }).at(0).simulate('click');
+    wrapper.find('.minus-circle').at(0).simulate('click');
     expect(wrapper.find('.multi-input-item')).toHaveLength(value.length);
   });
 });
