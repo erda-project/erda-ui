@@ -19,11 +19,13 @@ import { exit } from 'process';
 import chalk from 'chalk';
 import Table from 'cli-table';
 import dotenv from 'dotenv';
+import checkCliVersion from './check-cli-version';
 
 /**
  * launch means run a PM2 process, doesn't mean this module in running, it also could be stopped state, use pm2 restart xxx to run it.
  */
-export default () => {
+export default async () => {
+  await checkCliVersion();
   const currentPath = process.cwd();
   if (fs.existsSync(`${currentPath}/.env`)) {
     const { parsed: envConfig } = dotenv.config({ path: `${currentPath}/.env` });

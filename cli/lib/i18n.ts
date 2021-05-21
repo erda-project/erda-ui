@@ -11,7 +11,6 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
-
 import fs from 'fs';
 import path from 'path';
 import { invert, remove, get } from 'lodash';
@@ -22,6 +21,7 @@ import { doTranslate } from './util/google-translate';
 import { logError, logInfo, logSuccess, logWarn } from './util/log';
 import writeLocale from './util/i18n-extract';
 import { exit } from 'process';
+import checkCliVersion from './check-cli-version';
 
 const reg = /i18n\.d\(["'](.+?)["']\)/g;
 const tempFilePath = path.resolve(process.cwd(), './temp-zh-words.json');
@@ -173,6 +173,8 @@ const findMatchFolder = (folderName: string): string | null => {
 
 export default async ({ workDir: _workDir }: { workDir: string }) => {
   try {
+    await checkCliVersion();
+
     workDir = _workDir;
     if (fs.existsSync(path.resolve(workDir, './.erda/config.js'))) {
       const config = require(path.resolve(workDir, './.erda/config.js'));

@@ -31,7 +31,6 @@ console.log(`==============${runCmd} mode=============`)
 const coreDir = join(root, 'core');
 const schedulerDir = join(root, 'scheduler');
 const shellDir = join(root, 'shell');
-const cliDir = join(root, 'cli');
 
 const log = msg => {
   console.log(`============================ ${msg} ============================\n`);
@@ -43,7 +42,6 @@ const installDependencies = () => {
     return;
   };
   [
-    cliDir,
     coreDir,
     schedulerDir,
     shellDir
@@ -61,7 +59,10 @@ const installDependencies = () => {
 
 const registerErdaCmd = async () => {
   log('register erda-ui command globally 😁');
-  await cp.spawnSync(npmCmd, ['i', '-g', '@erda-ui/cli'], { env: process.env, cwd: cliDir, stdio: 'inherit' });
+  await cp.spawnSync(npmCmd, ['i', '-g', '@erda-ui/cli'], { env: process.env, stdio: 'inherit' });
+
+  log('register npm-check-updates globally to check npm version😁');
+  await cp.spawnSync(npmCmd, ['i', '-g', 'npm-check-updates'], { env: process.env, stdio: 'inherit' });
 }
 
 const setupCore = async (port) => {
