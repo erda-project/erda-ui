@@ -336,3 +336,15 @@ $border-style: 1px solid $color-border;
     height: 100%;
   }
 }
+
+sup.ant-badge-dot {
+  min-width: auto;
+}
+
+span.ant-badge {
+  color: unset;
+}
+
+div.ant-carousel {
+  color: rgba(0, 0, 0, 0.65);
+}
