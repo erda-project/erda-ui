@@ -30,7 +30,7 @@ import { getInfoFromRefName } from '../util';
 import { useLoading } from 'app/common/stores/loading';
 import { AppPermType } from 'app/user/stores/_perm-state';
 import { usePerm } from 'user/common';
-import PipelineYml from 'application/common/yml-editor/pipeline-yml/pipeline-editor';
+import PipelineYml from 'application/common/yml-editor/pipeline-editor';
 import { AuditTemplateManager, ifRouterMatch } from './audit-template-manager';
 import i18n from 'i18n';
 

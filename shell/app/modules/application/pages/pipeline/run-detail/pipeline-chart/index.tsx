@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { YmlChart, externalKey } from 'app/yml-chart/chart';
+import { YmlChart } from 'yml-chart/chart';
+import { externalKey } from 'yml-chart/config'
 import { map } from 'lodash';
 import { useUpdate } from 'common';
 import PipelineNode from './pipeline-node';

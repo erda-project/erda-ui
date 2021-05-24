@@ -93,7 +93,7 @@ const PipelineConfigDetail = (props: IProps) => {
         {/* <RecordList ref={recordRef} curPipelineDetail={useCaseDetail} onSelectPipeline={onSelectPipeline} nodeId={nodeId} /> */}
       </div>
       <CaseInfo caseDetail={useCaseDetail} />
-      <CasePipelineEditor scope={scope} addDrawerProps={{ ...addDrawerProps, curCaseId: nodeId }} caseDetail={useCaseDetail} editable={editAuth.hasAuth && isLastRecord} onUpdateYml={onUpdateYml} />
+      <CasePipelineEditor addDrawerProps={{ ...addDrawerProps, curCaseId: nodeId, scope }} caseDetail={useCaseDetail} editable={editAuth.hasAuth && isLastRecord} onUpdateYml={onUpdateYml} />
     </div>
   );
 };

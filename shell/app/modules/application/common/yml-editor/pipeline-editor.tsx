@@ -23,11 +23,11 @@ import repoStore from 'application/stores/repo';
 import { getInfoFromRefName } from 'application/pages/repo/util';
 import { insertWhen } from 'app/common/utils';
 import FileContainer from 'application/common/components/file-container';
-import { NodeType, externalKey } from '../config';
 import { produce } from 'immer';
 import { useLoading } from 'app/common/stores/loading';
-import { IYmlEditorProps } from '../index';
-import PurePipelineYmlEditor from './pure-pipeline-editor';
+import { IYmlEditorProps } from './index';
+import { PipelineGraphicEditor } from 'yml-chart/common/pipeline-graphic-editor';
+import { NodeEleMap, externalKey, NodeType } from 'yml-chart/config';
 import { parsePipelineYmlStructure } from 'application/services/repo';
 import './pipeline-editor.scss';
 
@@ -300,10 +300,6 @@ const PipelineEditor = (props: IYmlEditorProps) => {
     }
   };
 
-  const chartData = React.useMemo(() => {
-    return get(ymlObj, 'stages') || [];
-  }, [ymlObj]);
-
   const editOps = (
     <>
       <Radio.Group
@@ -329,15 +325,21 @@ const PipelineEditor = (props: IYmlEditorProps) => {
 
   return (
     <div>
-      <FileContainer className={`new-yml-editor column-flex-box full-spin-height ${viewType === ViewType.graphic ? 'graphic' : ''}`} name={editing ? `${i18n.t('application:edit')} ${fileName}` : fileName} ops={editing ? editOps : ops}>
+      <FileContainer className={`new-yml-editor app-repo-pipeline column-flex-box full-spin-height ${viewType === ViewType.graphic ? 'graphic' : ''}`} name={editing ? `${i18n.t('application:edit')} ${fileName}` : fileName} ops={editing ? editOps : ops}>
         <Spin spinning={loading}>
           {
             viewType === ViewType.graphic ? (
-              <PurePipelineYmlEditor
-                chartData={chartData}
+              <PipelineGraphicEditor
+                ymlObj={ymlObj as PIPELINE.IPipelineYmlStructure}
                 editing={editing}
                 onDeleteData={onDeleteData}
                 onAddData={onAddData}
+                chartProps={{
+                  nodeEleMap: {
+                    startNode: () => <NodeEleMap.startNode disabled />,
+                    endNode: () => <NodeEleMap.endNode disabled />,
+                  },
+                }}
               />
             ) : (
               <FileEditor

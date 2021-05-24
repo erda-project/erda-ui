@@ -27,9 +27,10 @@ export interface IPipelineGraphicEditorProps{
   editing: boolean;
   nameKey?: string;
   onDeleteData:(arg: any) => void;
+  addDrawerProps?: Obj
   onAddData: (arg: any) => void;
-  onAddInParams: (arg: any) => void;
-  onAddOutParams: (arg: any) => void;
+  onAddInParams?: (arg: any) => void;
+  onAddOutParams?: (arg: any) => void;
   PipelineNodeDrawer?: (props: IPipelineNodeDrawerProps) => JSX.Element;
   InParamsDrawer?: (props: IInPramasDrawerProps) => JSX.Element;
   OutParamsDrawer?: (props: IOutParamsDrawerProps) => JSX.Element;
@@ -114,6 +115,7 @@ export const PipelineGraphicEditor = (props: IPipelineGraphicEditorProps) => {
     onAddInParams,
     onAddOutParams,
     nameKey = 'alias',
+    addDrawerProps,
     PipelineNodeDrawer = DefaultPipelineNodeDrawer,
     InParamsDrawer = DefaultInParamsDrawer,
     OutParamsDrawer = DefaultOutParamsDrawer,
@@ -174,12 +176,12 @@ export const PipelineGraphicEditor = (props: IPipelineGraphicEditorProps) => {
   };
 
   const setInParams = (inP: PIPELINE.IPipelineInParams[]) => {
-    onAddInParams(inP);
+    onAddInParams?.(inP);
     updater.inParamsDrawerVis(false);
   };
 
   const setOutParams = (outP: PIPELINE.IPipelineOutParams[]) => {
-    onAddOutParams(outP);
+    onAddOutParams?.(outP);
     updater.outParamsDrawerVis(false);
   };
 
@@ -191,6 +193,8 @@ export const PipelineGraphicEditor = (props: IPipelineGraphicEditorProps) => {
   // 用于排除新节点的别名同其他节点一致
   const otherTaskAlias = drawerVis ? difference(allAlias, [get(chosenNode, nameKey)]) : [];
 
+  const { showInParams = false, showOutParams = false, ...restDrawerProps } = addDrawerProps || {};
+
   return (
     <>
       <PurePipelineGraphicEditor
@@ -201,6 +205,7 @@ export const PipelineGraphicEditor = (props: IPipelineGraphicEditorProps) => {
         onDeleteData={onDeleteNode}
       />
       <PipelineNodeDrawer
+        {...restDrawerProps}
         visible={drawerVis}
         isCreate={isCreate}
         closeDrawer={closeDrawer}
@@ -210,7 +215,7 @@ export const PipelineGraphicEditor = (props: IPipelineGraphicEditorProps) => {
         onSubmit={onSubmit}
       />
       {
-        InParamsDrawer ? <InParamsDrawer
+        (showInParams && InParamsDrawer) ? <InParamsDrawer
           visible={inParamsDrawerVis}
           nodeData={inParamsNode as any}
           editing={editing}
@@ -219,7 +224,7 @@ export const PipelineGraphicEditor = (props: IPipelineGraphicEditorProps) => {
         /> : null
       }
       {
-        OutParamsDrawer ? <OutParamsDrawer
+        (showOutParams && OutParamsDrawer) ? <OutParamsDrawer
           visible={outParamsDrawerVis}
           nodeData={outParamsNode as any}
           editing={editing}

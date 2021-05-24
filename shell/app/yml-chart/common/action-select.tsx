@@ -12,11 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { Input, Collapse } from 'app/nusi';
-import { Icon as CustomIcon, EmptyListHolder } from 'common';
+import { Icon as CustomIcon, EmptyListHolder, useUpdate } from 'common';
 import classnames from 'classnames';
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 import './action-select.scss';
-import { isEqual, groupBy, map, get } from 'lodash';
+import { groupBy, map, get } from 'lodash';
 import i18n from 'i18n';
 
 interface IProps {
@@ -24,7 +24,7 @@ interface IProps {
   label: string;
   disabled?: boolean;
   placeholder: string;
-  actions: IStageAction[];
+  originActions: any[],
   onChange: (params: any) => void;
 }
 
@@ -61,98 +61,46 @@ const AddOn = ({ addon, className, onClick, editing }: IAddOnProps) => {
   );
 };
 
-export default class extends PureComponent<IProps, any> {
-  public state = {
+export default (props: IProps) => {
+  const { label, disabled, placeholder, onChange, value, originActions } = props;
+  const [{ actions, isFocus, isSelected, searchValue, selectedItem }, updater, update] = useUpdate({
     actions: [],
-    // 源数组， 搜索走这个数组
-    originActions: [],
     isFocus: true,
     isSelected: true,
     searchValue: undefined,
     selectedItem: {} as any,
-  };
+  });
 
-  static getDerivedStateFromProps(nextProps: Readonly<IProps>, prevState: any): any {
-    if (!isEqual(nextProps.value, prevState.value) || !isEqual(nextProps.actions, prevState.originActions)) {
-      const selectedItem = nextProps.actions.find((i: any) => i.name === nextProps.value);
-      const isSelected = selectedItem !== null;
-      return {
-        ...prevState,
-        selectedItem,
-        isSelected,
-        isFocus: isSelected,
-        originActions: nextProps.actions,
-        actions: selectedItem ? prevState.actions : nextProps.actions,
-        value: nextProps.value,
-        searchValue: selectedItem ? prevState.searchValue : null,
-      };
-    }
-
-    return prevState;
-  }
-
-  public render() {
-    const { label, disabled, placeholder } = this.props;
-    const { selectedItem, searchValue } = this.state;
-
-    let content = (
-      <React.Fragment>
-        <Input
-          disabled={disabled}
-          autoFocus
-          onFocus={this.onFocus}
-          onClick={this.openSelect}
-          onChange={this.searchInputChange}
-          value={searchValue}
-          className="actions-input"
-          placeholder={placeholder || `${i18n.t('application:please choose')} Add-on`}
-        />
-        {this.renderSelectContent()}
-      </React.Fragment>
-    );
-
-    if (selectedItem) {
-      content = (
-        <React.Fragment>
-          <AddOn
-            addon={selectedItem}
-          />
-        </React.Fragment>
-      );
-    }
-
-    return (
-      <div className="new-yml-editor-actions-select">
-        <div className="actions-select-label">
-          <span className="actions-select-label-required">*</span>
-          {label}:
-          {(selectedItem && !disabled) ? <a onClick={this.clear} className="reselect">{i18n.t('application:reselect')}</a> : null}
-        </div>
-        {content}
-      </div>
-    );
-  }
-
-  private openSelect = () => {
-    this.setState({
-      isSelected: !this.state.isSelected,
+  React.useEffect(() => {
+    const actionArr = [] as DEPLOY.ExtensionAction[];
+    map(originActions || [], (item) => {
+      map(item.items, (subItem) => {
+        actionArr.push({ ...subItem, group: item.name, groupDisplayName: item.displayName });
+      });
     });
+    updater.actions(actionArr);
+  }, [originActions, updater]);
+  React.useEffect(() => {
+    const _selectedItem = actions.find((i: any) => i.name === value);
+    update({
+      selectedItem: _selectedItem,
+      isSelected: _selectedItem !== null,
+    });
+  }, [actions, update, value]);
+
+  const openSelect = () => {
+    updater.isSelected(!isSelected);
   };
 
-  private onFocus = (e: any) => {
+  const onFocus = (e: any) => {
     e.stopPropagation();
-    this.setState({
-      isFocus: true,
-    });
+    updater.isFocus(true);
   };
 
-  private renderSelectContent = () => {
-    const { disabled } = this.props;
-    const { actions, isFocus, isSelected, selectedItem } = this.state;
+  const renderSelectContent = () => {
     if (!isFocus && !isSelected) {
       return null;
     }
-
     if (actions.length === 0) {
       return (
         <div tabIndex={1} className="new-yml-editor-actions-list">
@@ -180,7 +128,7 @@ export default class extends PureComponent<IProps, any> {
                       className={activeClass}
                       addon={addon}
                       key={addon.name}
-                      onClick={this.selectedAddonAction}
+                      onClick={selectedAddonAction}
                     />
                   );
                 })}
@@ -200,29 +148,73 @@ export default class extends PureComponent<IProps, any> {
     );
   };
 
-  private selectedAddonAction = (addon: IStageAction) => {
-    const { onChange } = this.props;
-
+  const selectedAddonAction = (addon: IStageAction) => {
     if (onChange) {
       onChange(addon.name);
     }
   };
 
-  private searchInputChange = (e: any) => {
-    const { originActions } = this.state;
-    this.setState({
-      searchValue: e.target.value,
-      actions: originActions
-        .filter((item: IStageAction) => e.target.value === '' ||
-          item.name.toLowerCase().includes(e.target.value)),
+  const searchInputChange = (e: any) => {
+    const actionArr = [] as DEPLOY.ExtensionAction[];
+    const val = (e.target.value || '').toLowerCase();
+    map(originActions || [], (item:any) => {
+      if (item.name.toLowerCase().includes(val) || item.displayName.toLowerCase().includes(val)) {
+        map(item.items, (subItem) => {
+          actionArr.push({ ...subItem, group: item.name, groupDisplayName: item.displayName });
+        });
+      } else {
+        map(item.items, (subItem) => {
+          if (subItem.name.toLowerCase().includes(val) || subItem.displayName.toLowerCase().includes(val)) {
+            actionArr.push({ ...subItem, group: item.name, groupDisplayName: item.displayName });
+          }
+        });
+      }
+    });
+    update({
+      searchValue: val,
+      actions: actionArr,
     });
   };
 
-  private clear = () => {
-    const { onChange } = this.props;
-
+  const clear = () => {
     if (onChange) {
       onChange(null);
     }
   };
-}
+
+  let content = (
+    <React.Fragment>
+      <Input
+        disabled={disabled}
+        autoFocus
+        onFocus={onFocus}
+        onClick={openSelect}
+        onChange={searchInputChange}
+        value={searchValue}
+        className="actions-input"
+        placeholder={placeholder || `${i18n.t('application:please choose')} Add-on`}
+      />
+      {renderSelectContent()}
+    </React.Fragment>
+  );
+  if (selectedItem) {
+    content = (
+      <React.Fragment>
+        <AddOn
+          addon={selectedItem}
+        />
+      </React.Fragment>
+    );
+  }
+  return (
+    <div className="new-yml-editor-actions-select">
+      <div className="actions-select-label">
+        <span className="actions-select-label-required">*</span>
+        {label}:
+        {(selectedItem && !disabled) ? <a onClick={clear} className="reselect">{i18n.t('application:reselect')}</a> : null}
+      </div>
+      {content}
+    </div>
+  );
+};
+

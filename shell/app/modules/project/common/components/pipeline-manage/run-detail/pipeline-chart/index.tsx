@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { YmlChart, externalKey } from 'app/yml-chart/chart';
+import { YmlChart } from 'yml-chart/chart';
+import { NodeEleMap, NodeType, externalKey } from 'yml-chart/config';
 import { map } from 'lodash';
 import { useUpdate } from 'common';
 import { RunCaseNode, runNodeSize } from './run-case-node';
@@ -21,12 +22,6 @@ interface IProps{
   data: PIPELINE.IPipelineDetail;
   scope: string;
   onClickNode: (node: PIPELINE.ITask, mark: string) => void;
-}
-
-export enum NodeType {
-  startNode = 'startNode',
-  endNode = 'endNode',
-  pipeline = 'pipeline',
 }
 
 export const CasePipelineChart = (props: IProps) => {
@@ -87,6 +82,8 @@ export const CasePipelineChart = (props: IProps) => {
       onClickNode={onClickNode}
       external={{ nodeEleMap: {
         pipeline: RunCaseNode,
+        startNode: () => <NodeEleMap.startNode disabled />,
+        endNode: () => <NodeEleMap.endNode disabled />
       } }}
     />
   );

@@ -14,17 +14,21 @@
 // 此部分逻辑基本拷贝原来逻辑，方便后面如果整体删除原来代码
 import * as React from 'react';
 import { Drawer, Form, Button, Input, InputNumber, Collapse, Alert, Spin, Select, Tooltip } from 'app/nusi';
+import { getActionGroup } from 'application/services/deploy';
 import { FormComponentProps } from 'core/common/interface';
 import i18n from 'i18n';
-import { cloneDeep, map, isEmpty, omit, pick, get, filter, head, transform, isEqual, forEach, find } from 'lodash';
+import { cloneDeep, map, flatten, isEmpty, omit, pick, get, filter, head, transform, isEqual, forEach, find } from 'lodash';
+import { useEffectOnce } from 'react-use';
 import VariableInput from 'application/common/components/object-input-group';
 import ListInput from 'application/common/components/list-input-group';
-import { useUpdate, Icon as CustomIcon } from 'common';
+import { useUpdate, Icon as CustomIcon, IF } from 'common';
 import appDeployStore from 'application/stores/deploy';
 import { useLoading } from 'app/common/stores/loading';
 import ActionSelect from './action-select';
 import { getResource, getDefaultVersionConfig, mergeActionAndResource } from '../utils';
 import './pipeline-node-drawer.scss';
+import { protocolActionForms } from 'app/config-page/components/action-form';
+import ActionConfigForm from './action-config-form'
 import { Plus as IconPlus, Help as IconHelp } from '@icon-park/react';
 
 const { Item } = Form;
@@ -44,22 +48,26 @@ export interface IEditStageProps {
   editing: boolean;
   isCreate?: boolean;
   otherTaskAlias?: string[];
+  visible: boolean;
+  scope?: string;
+  chosenActionName: string;
+  chosenAction: DEPLOY.ActionConfig;
   onSubmit?: (options: any) => void;
 }
 const noop = () => {};
 const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
-  const { nodeData: propsNodeData, editing, isCreate, otherTaskAlias = [], form, onSubmit: handleSubmit = noop } = props;
-  const { getActionConfigs, getGroupActions } = appDeployStore.effects;
-  const [groupActions, actionConfigs] = appDeployStore.useStore(s => [s.groupActions, s.actionConfigs]);
+  const { nodeData: propsNodeData, editing, isCreate, otherTaskAlias = [], form, onSubmit: handleSubmit = noop, chosenActionName, chosenAction } = props;
+  const { getActionConfigs } = appDeployStore.effects;
+  const [actionConfigs] = appDeployStore.useStore(s => [s.actionConfigs]);
+
   const [loading] = useLoading(appDeployStore, ['getActionConfigs']);
   const { getFieldDecorator, getFieldValue } = form;
-  const [{ actions, actionConfig, resource, originType, originName, task }, updater, update] = useUpdate({
-    actions: [] as DEPLOY.ExtensionAction[],
+  const [{ actionConfig, resource, originType, originName, task }, updater, update] = useUpdate({
     resource: {},
-    actionConfig: {} as DEPLOY.ActionConfig | {},
+    actionConfig: {} as DEPLOY.ActionConfig,
     originType: null as null | string,
     originName: null as null | string,
-    task: {} as IStageTask | {},
+    task: {} as IStageTask,
   });
 
   React.useEffect(() => {
@@ -73,64 +81,40 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
   }, [propsNodeData, update]);
 
   React.useEffect(() => {
-    if (propsNodeData && !isEmpty(propsNodeData)) {
-      const _type = get(propsNodeData, 'type');
-      _type && getActionConfigs({ actionType: _type }).then(res => {
-        let config;
-        if (res.length > 0) {
-          config = propsNodeData.version ? res.find(c => c.version === propsNodeData.version) : getDefaultVersionConfig(res);
-        }
-        const newResource = getResource(propsNodeData, config);
-        update({
-          resource: newResource,
-          actionConfig: config || {},
-        });
-      });
-    }
-  }, [getActionConfigs, propsNodeData, update]);
-
-  React.useEffect(() => {
     if (isCreate) {
-      updater.actionConfig({});
+      updater.actionConfig({} as DEPLOY.ActionConfig);
     }
   }, [isCreate, updater]);
 
   React.useEffect(() => {
-    if (isEmpty(groupActions)) {
-      getGroupActions();
-    }
-    const actionArr = [] as DEPLOY.ExtensionAction[];
-    map(groupActions.action || [], (item) => {
-      map(item.items, (subItem) => {
-        actionArr.push({ ...subItem, group: item.name, groupDisplayName: item.displayName });
+    if (chosenActionName) {
+      getActionConfigs({ actionType: chosenActionName }).then((result: DEPLOY.ActionConfig[]) => {
+        let _config = {} as any;
+        let _resource = {} as any;
+        if (propsNodeData && !isEmpty(propsNodeData)) {
+          if (result.length > 0) {
+            _config = propsNodeData.version ? result.find(c => c.version === propsNodeData.version) : getDefaultVersionConfig(result);
+          }
+          _resource = getResource(propsNodeData, _config);
+        } else {
+          _config = getDefaultVersionConfig(result);
+          const mergedResource = mergeActionAndResource(_config, {} as any);
+          _resource = { ...resource, ...mergedResource };
+        }
+        update({
+          resource: _resource,
+          actionConfig: _config || {} as DEPLOY.ActionConfig,
+        });
       });
-    });
-    updater.actions(actionArr);
-  }, [getGroupActions, groupActions, updater]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chosenActionName]);
 
   if (!isCreate && isEmpty(actionConfig)) {
     return null;
   }
-
   const type = actionConfig.type || getFieldValue('resource.type');
   const taskInitName = originType === actionConfig.name ? originName : (otherTaskAlias.includes(actionConfig.name) ? undefined : actionConfig.name);
-
-  const changeResourceType = (value: string) => {
-    const action = actions.find((a: any) => a.name === value);
-    if (action) {
-      getActionConfigs({ actionType: action.name }).then((result: DEPLOY.ActionConfig[]) => {
-        const config = getDefaultVersionConfig(result);
-        const mergedResource = mergeActionAndResource(config, {} as any);
-        update({
-          resource: {
-            ...resource,
-            ...mergedResource,
-          },
-          actionConfig: config || {},
-        });
-      });
-    }
-  };
 
   const checkResourceName = (_rule: any, value: string, callback: any) => {
     const name = form.getFieldValue('resource.alias');
@@ -151,7 +135,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
   };
 
   const taskType = getFieldDecorator('resource.type', {
-    initialValue: task.type,
+    initialValue: chosenActionName,
     rules: [
       {
         required: true,
@@ -159,14 +143,12 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       },
     ],
   })(
-    <ActionSelect
-      disabled={!editing}
-      label={i18n.t('task type')}
-      actions={actions}
-      onChange={changeResourceType}
-      placeholder={`${i18n.t('application:please choose task type')}`}
-    />
+    <Input />
   );
+
+  const loopData = getFieldDecorator('resource.loop', {
+    initialValue: get(actionConfig, 'spec.loop'),
+  });
 
   const actionVersion = getFieldDecorator('resource.version', {
     initialValue: task.version || actionConfig.version,
@@ -323,6 +305,9 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
           message: i18n.t('application:this item cannot be empty'),
         },
       ],
+      getValueFromEvent: (val: { value: string}[]) => {
+        return val?.length ? val.map(v => v.value) : val;
+      },
     })(<ListInput disabled={!editing} label={getLabel(value.name, value.desc)} />);
     return (
       <Item key={parentKey}>{inputField}</Item>
@@ -391,7 +376,8 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       <IconPlus className="pointer" onClick={() => addNewItemToStructArray(property, property.struct[0])} /> : null;
     // getFieldDecorator(`${parentKey}-data`, { initialValue: property.value || [] });
     const data = property.value || []; // getFieldValue(`${parentKey}-data`);
-    const realData = getFieldValue(`${parentKey}`) || [];
+    const _val = form.getFieldsValue();
+    const realData = get(_val, `${parentKey}`) || [];
     const content = data.map((item: any, index: number) => {
       const keys = Object.keys(item);
       const curItem = realData[index] || item;
@@ -469,7 +455,6 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     form.validateFieldsAndScroll((error: any, values: any) => {
       if (!error) {
         let data = cloneDeep(values);
-        const action = actions.find((a: any) => a.name === get(data, 'resource.type')) || {};
         const resources = head(filter(resource.data, (item) => item.name === 'resources'));
         const originResource = transform(get(resources, 'struct'), (result, item: { name: string, default: string | number }) => {
           const { name, default: d } = item;
@@ -483,7 +468,6 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         if (isResourceDefault) {
           data = omit(data, ['resource.resources']);
         }
-
         const _type = get(values, 'resource.type');
         if (_type === 'custom-script') {
           // 自定义任务，如果镜像值跟默认的一直，则不保存这个字段；
@@ -493,7 +477,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
           }
         }
         const filledFieldsData = clearEmptyField(data);
-        const resData = { ...filledFieldsData, action } as any;
+        const resData = { ...filledFieldsData, action: chosenAction } as any;
         if (data.executionCondition)resData.executionCondition = data.executionCondition;
         handleSubmit(resData);
       }
@@ -530,7 +514,8 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     <Spin spinning={loading}>
       <Form className="edit-service-container">
         {alert}
-        <Item>{taskType}</Item>
+        <Item className='hide'>{taskType}</Item>
+        <Item className='hide'>{loopData}</Item>
         {type ? <Item label={i18n.t('application:mission name')}>{taskName}</Item> : null}
         <Item label={i18nMap.version}>{actionVersion}</Item>
         <Item label={i18n.t('common:execution conditions')}>{executionCondition}</Item>
@@ -541,7 +526,8 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
   );
 };
 
-export const PipelineNodeForm = Form.create()(PurePipelineNodeForm);
+
+export const PipelineNodeFormV1 = Form.create()(PurePipelineNodeForm);
 
 export interface IPipelineNodeDrawerProps extends IEditStageProps{
   closeDrawer: () => void;
@@ -569,9 +555,80 @@ const PipelineNodeDrawer = (props: IPipelineNodeDrawerProps) => {
       width={560}
       onClose={closeDrawer}
     >
+
       <PipelineNodeForm key={key} {...props as any} />
     </Drawer>
   );
 };
+
+const actionQuery = {
+  autoTest: { labels: 'autotest:true' },
+  configSheet: { labels: 'configsheet:true' },
+};
+
+interface IPipelineNodeForm { 
+  editing: boolean;
+  nodeData?: null | AUTO_TEST.ICaseDetail;
+  visible: boolean;
+  scope: string;
+}
+
+export const PipelineNodeForm = (props: IPipelineNodeForm) => {
+  const { editing, nodeData: propsNodeData, visible, scope = '' } = props;
+  const [{ chosenActionName, chosenAction, originActions }, updater, update] = useUpdate({
+    chosenActionName: '',
+    chosenAction: null,
+    originActions: [] as any[],
+  });
+
+  useEffectOnce(() => {
+    visible && (getActionGroup(actionQuery[scope]) as unknown as Promise<any>).then((res:any) => {
+      updater.originActions(get(res, 'data.action'));
+    });
+  });
+  React.useEffect(() => {
+    if (!visible) {
+      update({ chosenActionName: '' });
+    }
+  }, [update, visible]);
+
+  const curType = propsNodeData?.type;
+  React.useEffect(() => {
+    if (curType) {
+      updater.chosenActionName(curType);
+    }
+  }, [updater, curType]);
+
+  React.useEffect(() => {
+    const curAction = find(flatten(map(originActions, item => item.items)), curItem => curItem.name === chosenActionName);
+    updater.chosenAction(curAction);
+  }, [chosenActionName, originActions, updater]);
+
+  const changeResourceType = (val: string) => {
+    updater.chosenActionName(val || '');
+  };
+
+  return (
+    <>
+      <ActionSelect
+        disabled={!editing}
+        label={i18n.t('task type')}
+        originActions={originActions}
+        onChange={changeResourceType}
+        value={chosenActionName}
+        placeholder={`${i18n.t('application:please choose task type')}`}
+      />
+      <IF check={!isEmpty(chosenAction)}>
+        <IF check={chosenAction?.useProtocol || protocolActionForms.includes(chosenActionName)}> {/* 使用组件化协议表单 */}
+          <ActionConfigForm chosenAction={chosenAction} chosenActionName={chosenActionName} {...props as any} />
+          <IF.ELSE />
+          <PipelineNodeFormV1 chosenAction={chosenAction} chosenActionName={chosenActionName} {...props as any} />
+        </IF>
+      </IF>
+    </>
+  );
+};
+
+
 
 export default PipelineNodeDrawer;
