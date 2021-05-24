@@ -54,7 +54,7 @@ export const IssueActivities = (props: IProps) => {
       case 'Comment':
         renderContent = (
           <>
-            <div>
+            <div className='left-flex-box'>
               <Avatar name={user.nick || user.name} showName />
                 &nbsp;
               <span>
@@ -62,7 +62,7 @@ export const IssueActivities = (props: IProps) => {
               </span>
                   &nbsp;
               <span>
-                {fromNow(updatedAt)}
+                {fromNow(updatedAt, { edgeNow: true })}
               </span>
             </div>
             {streamType !== 'Comment' && <span className="ml8">{content}</span>}
@@ -80,19 +80,19 @@ export const IssueActivities = (props: IProps) => {
       case 'RelateMR': {
         const { appID, mrID, mrTitle } = mrInfo as ISSUE.IssueStreamMrInfo;
         renderContent = (
-          <>
+          <div className='left-flex-box'>
             <Avatar name={user.nick || user.name} showName />
             <span className="mx8">{i18n.t('project:add relation to MR')}:</span>
             <a onClick={() => goTo(goTo.pages.appMr, { projectId, appId: appID, mrId: mrID, jumpOut: true })}>
               {mrTitle}
             </a>
-          </>
+          </div>
         );
         break;
       }
       default:
         renderContent = (
-          <div>
+          <div className='left-flex-box'>
             <Avatar name={user.nick || user.name} showName />
             <span className="ml8">{content}</span>
           </div>
