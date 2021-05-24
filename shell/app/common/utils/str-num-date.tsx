@@ -134,12 +134,14 @@ export const daysRange = (num: number) => {
  * 包装了moment的fromNow，添加了时间提示
  * @param time 传入moment的时间
  * @param config.prefix 提示前缀
+ * @param config.edgeNow edge time can't overflow current time
  */
-export const fromNow = (time: any, config?: { prefix?: string }) => {
-  const prefix = (config && config.prefix) || '';
+export const fromNow = (time: any, config?: { prefix?: string, edgeNow?: boolean }) => {
+  const { prefix = '', edgeNow = false } = config || {};
+  const _time = (edgeNow && moment().isBefore(time)) ? new Date() : time;
   return (
-    <Tooltip title={`${prefix}${moment(time).format('YYYY-MM-DD HH:mm:ss')}`}>
-      {moment(time).fromNow()}
+    <Tooltip title={`${prefix}${moment(_time).format('YYYY-MM-DD HH:mm:ss')}`}>
+      {moment(_time).fromNow()}
     </Tooltip>
   );
 };
