@@ -41,7 +41,7 @@ export default async (options: { skip?: boolean }) => {
             {
               type: 'list',
               name: 'answer',
-              message: 'Current version of @erda-ui/cli is out of date, check to upgrade?',
+              message: 'Current version of @erda-ui/cli is out of date, whether to upgrade?',
               default: 'Yes',
               choices: ['Yes', 'No'],
             },
