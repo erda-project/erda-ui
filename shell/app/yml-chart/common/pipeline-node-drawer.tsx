@@ -18,7 +18,7 @@ import { getActionGroup } from 'application/services/deploy';
 import { FormComponentProps } from 'core/common/interface';
 import i18n from 'i18n';
 import { cloneDeep, map, flatten, isEmpty, omit, pick, get, filter, head, transform, isEqual, forEach, find } from 'lodash';
-import { useEffectOnce } from 'react-use';
+import { useEffectOnce, useUpdateEffect } from 'react-use';
 import VariableInput from 'application/common/components/object-input-group';
 import ListInput from 'application/common/components/list-input-group';
 import { useUpdate, Icon as CustomIcon, IF } from 'common';
@@ -60,6 +60,10 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
   const { getActionConfigs } = appDeployStore.effects;
   const [actionConfigs] = appDeployStore.useStore(s => [s.actionConfigs]);
 
+  useEffectOnce(()=>{
+    getCurrentActionConfigs();
+  })
+
   const [loading] = useLoading(appDeployStore, ['getActionConfigs']);
   const { getFieldDecorator, getFieldValue } = form;
   const [{ actionConfig, resource, originType, originName, task }, updater, update] = useUpdate({
@@ -86,7 +90,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     }
   }, [isCreate, updater]);
 
-  React.useEffect(() => {
+  const getCurrentActionConfigs = () => {
     if (chosenActionName) {
       getActionConfigs({ actionType: chosenActionName }).then((result: DEPLOY.ActionConfig[]) => {
         let _config = {} as any;
@@ -107,7 +111,10 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         });
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }
+
+  useUpdateEffect(() => {
+    getCurrentActionConfigs();
   }, [chosenActionName]);
 
   if (!isCreate && isEmpty(actionConfig)) {

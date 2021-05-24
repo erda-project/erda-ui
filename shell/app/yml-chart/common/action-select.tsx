@@ -14,7 +14,7 @@
 import { Input, Collapse } from 'app/nusi';
 import { Icon as CustomIcon, EmptyListHolder, useUpdate } from 'common';
 import classnames from 'classnames';
-import * as React from 'react';
+import React from 'react';
 import './action-select.scss';
 import { groupBy, map, get } from 'lodash';
 import i18n from 'i18n';
