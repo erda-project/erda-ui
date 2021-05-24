@@ -15,7 +15,7 @@ import React, { useRef } from 'react';
 import { FormModal, useUpdate, LoadMoreSelector } from 'common';
 import { IFormItem } from 'common/components/render-formItem';
 import i18n from 'i18n';
-import { insertWhen } from 'common/utils';
+import { insertWhen, regRules } from 'common/utils';
 import { WrappedFormUtils, RadioChangeEvent } from 'core/common/interface';
 import { getMyProject, getApps, getAppInstance, getAppDetail } from 'apiManagePlatform/services/api-market';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';
@@ -381,7 +381,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
         required: false,
         initialValue: instanceType === 'dice' ? undefined : get(instance, 'url'),
         rules: [
-          { pattern: /^(https?:\/\/(([a-zA-Z0-9]+-?)+[a-zA-Z0-9]*\.)+[a-zA-Z0-9]+)(:\d+)?(\/[a-zA-Z0-9-]*)*$/, message: i18n.t('tips of valid instance address') },
+          { pattern: regRules.url, message: i18n.t('tips of valid instance address') },
         ],
       }]),
     ]),

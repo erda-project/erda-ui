@@ -315,7 +315,7 @@ class API extends React.Component<IProps, IState> {
 
   checkDomainInput = () => {
     const { customDomain } = this.state;
-    const regex = /^(([a-z]|\d|\*)+[.-]?)+([a-z]|\d|\*)$/g;
+    const regex = /^([a-z0-9*]+[.-]?)+[a-z0-9*]$/g;
     return customDomain.match(regex);
   };
 
