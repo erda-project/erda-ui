@@ -24,6 +24,7 @@ import routeInfoStore from 'app/common/stores/route';
 import topologyServiceStore from 'microService/stores/topology-service-analyze';
 import TraceSearchDetail from 'microService/monitor/trace-insight/pages/trace-querier/trace-search-detail';
 import ServiceListDashboard from './service-list-dashboard';
+import { RadioChangeEvent } from 'core/common/interface';
 
 const { Button: RadioButton, Group: RadioGroup } = Radio;
 enum DASHBOARD_TYPE {
@@ -32,6 +33,14 @@ enum DASHBOARD_TYPE {
   cache = 'cache',
   database = 'database'
 }
+
+type SORT_TYPE = 'DESC' | 'ASC';
+
+const sortButtonMap: {[key in SORT_TYPE]: string} = {
+  ASC: i18n.t('microService:ascending order'),
+  DESC: i18n.t('microService:descending order'),
+};
+
 const dashboardIdMap = {
   [DASHBOARD_TYPE.http]: {
     id: 'translation_analysis_http',
@@ -68,7 +77,7 @@ const Transaction = () => {
   const { startTimeMs, endTimeMs } = monitorCommonStore.useStore(s => s.timeSpan);
   const params = routeInfoStore.useStore(s => s.params);
   const [isFetching] = useLoading(topologyServiceStore, ['getTraceSlowTranslation']);
-  const [{ type, search, subSearch, sort, url, visible, traceSlowTranslation, detailVisible, traceId, logVisible }, updater] = useUpdate({
+  const [{ type, search, subSearch, sort, url, visible, traceSlowTranslation, detailVisible, traceId, logVisible, sortType }, updater] = useUpdate({
     type: DASHBOARD_TYPE.http as DASHBOARD_TYPE,
     search: undefined as string | undefined,
     subSearch: undefined as string | undefined,
@@ -79,6 +88,7 @@ const Transaction = () => {
     visible: false as boolean,
     detailVisible: false as boolean,
     logVisible: false as boolean,
+    sortType: 'DESC' as SORT_TYPE,
   });
 
   const handleToggleType = (e: any) => {
@@ -86,23 +96,32 @@ const Transaction = () => {
     updater.subSearch(undefined);
   };
 
+  const queryTraceSlowTranslation = (sort_type: SORT_TYPE, cellValue: string) => {
+    const { serviceName, terminusKey, serviceId } = params;
+    updater.sortType(sort_type);
+    getTraceSlowTranslation({
+      sort: sort_type,
+      start: startTimeMs,
+      end: endTimeMs,
+      terminusKey,
+      serviceName,
+      serviceId: window.decodeURIComponent(serviceId),
+      operation: cellValue,
+    }).then(res => updater.traceSlowTranslation(res));
+  };
+
+  const handleChangeSortType = React.useCallback((e: RadioChangeEvent) => {
+    queryTraceSlowTranslation(e.target.value as SORT_TYPE, url as string);
+  }, [url]);
+
   const handleBoardEvent = useCallback(({ eventName, cellValue }: DC.BoardEvent) => {
     if (eventName === 'searchTranslation') {
       updater.subSearch(cellValue);
     }
     if (eventName === 'traceSlowTranslation') {
-      const { serviceName, terminusKey, serviceId } = params;
       updater.url(cellValue);
       updater.visible(true);
-      getTraceSlowTranslation({
-        sort: 'DESC',
-        start: startTimeMs,
-        end: endTimeMs,
-        terminusKey,
-        serviceName,
-        serviceId: window.decodeURIComponent(serviceId),
-        operation: cellValue,
-      }).then(res => updater.traceSlowTranslation(res));
+      queryTraceSlowTranslation('DESC', cellValue);
     }
   }, [getTraceSlowTranslation, params, updater]);
 
@@ -159,51 +178,60 @@ const Transaction = () => {
   }, [search, sort, subSearch]);
 
   return (
-    <div className="service-analyze">
-      <div className="flex-box flex-wrap mb4">
-        <div className="left flex-box mb8">
-          <TimeSelector className="ma0" />
-          <If condition={type === DASHBOARD_TYPE.http || type === DASHBOARD_TYPE.rpc}>
-            <Select
-              className="ml12"
-              placeholder={i18n.t('microService:select sort by')}
+    <div className="service-analyze v-flex-box">
+      <div>
+        <div className="flex-box flex-wrap mb4">
+          <div className="left flex-box mb8">
+            <TimeSelector className="ma0" />
+            <If condition={type === DASHBOARD_TYPE.http || type === DASHBOARD_TYPE.rpc}>
+              <Select
+                className="ml12"
+                placeholder={i18n.t('microService:select sort by')}
+                allowClear
+                style={{ width: '180px' }}
+                onChange={(v) => updater.sort(v === undefined ? undefined : Number(v))}
+              >
+                {sortList.map(({ name, value }) => <Select.Option key={value} value={value}>{name}</Select.Option>)}
+              </Select>
+            </If>
+            <Search
               allowClear
-              style={{ width: '180px' }}
-              onChange={(v) => updater.sort(v === undefined ? undefined : Number(v))}
+              placeholder={i18n.t('microService:search by transaction name')}
+              style={{ marginLeft: '12px', width: '180px' }}
+              onHandleSearch={(v) => updater.search(v)}
+            />
+          </div>
+          <div className="right flex-box mb8">
+            <RadioGroup
+              value={type}
+              onChange={handleToggleType}
             >
-              {sortList.map(({ name, value }) => <Select.Option key={value} value={value}>{name}</Select.Option>)}
-            </Select>
-          </If>
-          <Search
-            allowClear
-            placeholder={i18n.t('microService:search by transaction name')}
-            style={{ marginLeft: '12px', width: '180px' }}
-            onHandleSearch={(v) => updater.search(v)}
-          />
+              {map(dashboardIdMap, (v, k) => <RadioButton key={k} value={k}>{v.name}</RadioButton>)}
+            </RadioGroup>
+          </div>
         </div>
-        <div className="right flex-box mb8">
-          <RadioGroup
-            value={type}
-            onChange={handleToggleType}
-          >
-            {map(dashboardIdMap, (v, k) => <RadioButton key={k} value={k}>{v.name}</RadioButton>)}
-          </RadioGroup>
-        </div>
+        <If condition={!!subSearch}>
+          <Tag className="mb8" closable onClose={() => updater.subSearch(undefined)}>{subSearch}</Tag>
+        </If>
       </div>
-      <If condition={!!subSearch}>
-        <Tag className="mb8" closable onClose={() => updater.subSearch(undefined)}>{subSearch}</Tag>
-      </If>
-      <ServiceListDashboard
-        dashboardId={dashboardIdMap[type].id}
-        extraGlobalVariable={extraGlobalVariable}
-        onBoardEvent={handleBoardEvent}
-      />
+      <div className="auto-overflow flex-1">
+        <ServiceListDashboard
+          dashboardId={dashboardIdMap[type].id}
+          extraGlobalVariable={extraGlobalVariable}
+          onBoardEvent={handleBoardEvent}
+        />
+      </div>
       <Drawer
         title={`${i18n.t('microService:tracking details')}(${url})`}
         width="55%"
         visible={visible}
         onClose={() => updater.visible(false)}
       >
+        <div className="right-flex-box mb12">
+          <RadioGroup value={sortType} onChange={handleChangeSortType}>
+            {map(sortButtonMap, (v, k) => <RadioButton key={k} value={k}>{v}</RadioButton>)}
+          </RadioGroup>
+        </div>
         <Table
           loading={isFetching}
           rowKey="requestId"
