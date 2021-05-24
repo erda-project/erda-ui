@@ -37,8 +37,8 @@ enum DASHBOARD_TYPE {
 type SORT_TYPE = 'DESC' | 'ASC';
 
 const sortButtonMap: {[key in SORT_TYPE]: string} = {
-  ASC: i18n.t('microService:ascending order'),
-  DESC: i18n.t('microService:descending order'),
+  ASC: i18n.t('microService:time ascending'),
+  DESC: i18n.t('microService:time desc'),
 };
 
 const dashboardIdMap = {
