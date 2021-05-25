@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import PipelineEditor from './pipeline-yml/pipeline-editor';
+import PipelineEditor from './pipeline-editor';
 import DiceEditor from './dice-editor';
 import { isPipelineYml, isDiceYml } from './utils';
 

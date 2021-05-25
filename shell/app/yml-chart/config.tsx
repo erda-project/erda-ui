@@ -12,6 +12,11 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { AddNode, StartNode, AddRow, PipelineNode, EndNode } from './nodes';
+import { externalKey } from './chart/config'
+
+export {
+  externalKey
+}
 
 export enum NodeType {
   addNode = 'addNode',

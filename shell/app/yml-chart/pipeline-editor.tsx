@@ -38,6 +38,7 @@ interface IPipelineEditorProps {
   title?: string;
   ymlStr: string;
   viewType?: string;
+  addDrawerProps?: Obj,
   editable: boolean;
   loading?: boolean;
   onChangeViewType?: (arg: string) => void;
@@ -54,6 +55,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
     loading = false,
     YmlGraphicEditor = PipelineGraphicEditor,
     editable = true,
+    addDrawerProps,
     ...rest
   } = props;
   const editorRef = React.useRef(null as any);
@@ -319,6 +321,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
                 {...rest}
                 ymlObj={ymlObj as PIPELINE.IPipelineYmlStructure}
                 editing={editing}
+                addDrawerProps={addDrawerProps}
                 onDeleteData={onDeleteData}
                 onAddData={onAddData}
                 onAddInParams={onAddInParams}

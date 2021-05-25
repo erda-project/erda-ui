@@ -19,8 +19,8 @@ import FileContainer from 'application/common/components/file-container';
 import { getInfoFromRefName } from '../util';
 import { isEmpty, find, get, omit } from 'lodash';
 import { useMount } from 'react-use';
-import PurePipelineYmlEditor from 'application/common/yml-editor/pipeline-yml/pure-pipeline-editor';
-import { externalKey, NodeType } from 'application/common/yml-editor/config';
+import { PipelineGraphicEditor } from 'yml-chart/common/pipeline-graphic-editor';
+import { NodeEleMap, externalKey, NodeType } from 'yml-chart/config';
 import { produce } from 'immer';
 import yaml from 'js-yaml';
 import i18n from 'i18n';
@@ -289,12 +289,20 @@ const AddPipelineYml = () => {
           <div className='add-pipeline-file-container' >
 
             <IF check={viewType === ViewType.graphic}>
-              <PurePipelineYmlEditor
-                chartData={chartData}
+               <PipelineGraphicEditor
+                ymlObj={ymlObj as PIPELINE.IPipelineYmlStructure}
                 editing
                 onDeleteData={onDeleteData}
                 onAddData={onAddData}
+                chartProps={{
+                  nodeEleMap: {
+                    startNode: () => <NodeEleMap.startNode disabled />,
+                    endNode: () => <NodeEleMap.endNode disabled />,
+                  },
+                }}
               />
+
+
             </IF>
             <IF check={viewType === ViewType.code}>
               <FileEditor
