@@ -13,20 +13,13 @@
 
 
 import {
-  Cascader,
-  Checkbox,
   Col,
-  Comment,
-  ConfigProvider,
+  ConfigProvider as AntdConfigProvider,
   DatePicker,
-  Divider,
   Dropdown,
-  Drawer,
   Empty,
   Form,
   Icon,
-  Input,
-  LocaleProvider,
   message,
   Menu,
   Modal,
@@ -48,7 +41,6 @@ import {
   Timeline,
   Upload,
   version,
-  ConfigProvider as AntdConfigProvider,
   Table as AntTable,
 } from 'antd';
 import {
@@ -57,12 +49,24 @@ import {
   Badge,
   Collapse,
   Carousel,
+  Cascader,
+  Checkbox,
+  Comment,
+  Divider,
+  Drawer,
+  Input,
 } from 'antd-latest';
 import 'antd-latest/lib/button/style/index.less';
 import 'antd-latest/lib/back-top/style/index.less';
 import 'antd-latest/lib/badge/style/index.less';
 import 'antd-latest/lib/collapse/style/index.less';
 import 'antd-latest/lib/carousel/style/index.less';
+import 'antd-latest/lib/cascader/style/index.less';
+import 'antd-latest/lib/checkbox/style/index.less';
+import 'antd-latest/lib/comment/style/index.less';
+import 'antd-latest/lib/divider/style/index.less';
+import 'antd-latest/lib/drawer/style/index.less';
+import 'antd-latest/lib/input/style/index.less';
 import { FixedSelect } from './fixed-select';
 import FixRangePicker from './range-picker';
 import {
@@ -140,7 +144,6 @@ export {
   Checkbox,
   Col,
   Comment,
-  ConfigProvider,
   DatePicker,
   Divider,
   Dropdown,
@@ -154,7 +157,6 @@ export {
   Input,
   InputNumber,
   List,
-  LocaleProvider,
   message,
   Menu,
   Modal,
