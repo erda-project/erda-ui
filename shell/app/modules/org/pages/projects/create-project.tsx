@@ -298,7 +298,7 @@ const CreationForm = () => {
       rules: [
         { max: 40, message: i18n.t('cannot exceed 40 characters') },
         {
-          pattern: /^[a-z0-9]+(?:(?:(?:[-]*)[a-z0-9]+)+)?$/, message: i18n.t('project-app-name-tip'),
+          pattern: /^[a-z0-9]+(-[a-z0-9]+)*$/, message: i18n.t('project-app-name-tip'),
         },
         {
           validator: (_rule: any, value: any, callback: (message?: string) => void) => {
