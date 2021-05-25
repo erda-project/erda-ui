@@ -157,8 +157,8 @@ export default (props: IProps) => {
   const searchInputChange = (e: any) => {
     const actionArr = [] as DEPLOY.ExtensionAction[];
     const val = (e.target.value || '').toLowerCase();
-    map(originActions || [], (item:any) => {
-      if (item.name.toLowerCase().includes(val) || item.displayName.toLowerCase().includes(val)) {
+    map(originActions || [], (item: DEPLOY.ExtensionAction) => {
+      if (item.name?.toLowerCase().includes(val) || item.displayName?.toLowerCase().includes(val)) {
         map(item.items, (subItem) => {
           actionArr.push({ ...subItem, group: item.name, groupDisplayName: item.displayName });
         });
