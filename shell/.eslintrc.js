@@ -19,7 +19,6 @@ module.exports = {
     'import',
     'compat',
     'jsx-a11y',
-    'import',
   ],
   parserOptions: {
     ecmaVersion: 2015, // specify the version of ECMAScript syntax you want to use: 2015 => (ES6)

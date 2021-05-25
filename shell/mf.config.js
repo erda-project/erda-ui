@@ -50,6 +50,7 @@ module.exports = [
     exposes: {
       './layout/stores/layout': './app/layout/stores/layout.ts',
       './layout/entry': './app/layout/entry.js',
+      './layout/error-page': './app/layout/common/error-page.tsx',
       './common/utils': './app/common/utils/index.ts',
       './common/all': './app/common',
       './dataCenter/pages/cluster-manage/operation-history': './app/modules/dataCenter/pages/cluster-manage/operation-history',

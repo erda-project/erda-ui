@@ -13,9 +13,10 @@
 
 const fs = require('fs');
 const path = require('path');
+
 const root = path.resolve(process.cwd(), '..');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { parsed: config } = require('dotenv').config({ path: `${root}/.env` })
+const { parsed: config } = require('dotenv').config({ path: `${root}/.env` });
 
 const backendUrl = config.DEV_HOST;
 const frontUrl = `local-core.${backendUrl.replace(/http(s?):\/\//, '')}`; // local与对应环境根域名一致
@@ -40,7 +41,7 @@ module.exports = {
       key: fs.readFileSync('../cert/dev/server.key'),
       cert: fs.readFileSync('../cert/dev/server.crt'),
     },
-    publicPath: '/'
+    publicPath: '/',
   },
   output: {
     path: path.resolve(__dirname, './public'),

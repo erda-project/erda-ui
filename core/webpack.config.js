@@ -12,6 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 const path = require('path');
+const fs = require('fs');
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -20,9 +21,12 @@ const { ModuleFederationPlugin } = require('webpack').container;
 const AutomaticVendorFederation = require('@module-federation/automatic-vendor-federation');
 const packageJson = require('./package.json');
 
-const { getPath } = require('../utils/resolve');
 
 const resolve = pathname => path.resolve(__dirname, pathname);
+
+const nusiRealPath = fs.realpathSync(resolve('./node_modules/@terminus/nusi'));
+const antdRealPath = fs.realpathSync(resolve('./node_modules/antd'));
+const antdLatestRealPath = fs.realpathSync(resolve('./node_modules/antd-latest'));
 
 module.exports = () => {
   const nodeEnv = process.env.NODE_ENV || 'development';
@@ -53,17 +57,16 @@ module.exports = () => {
         nusi: resolve('./src/nusi'),
         cube: resolve('./src/cube'),
         common: resolve('./src/common'),
-        i18n: resolve('./src/i18n')
+        i18n: resolve('./src/i18n'),
       },
       extensions: ['.js', '.jsx', '.tsx', '.ts', '.d.ts'],
-      modules: ['node_modules'],
     },
     module: {
       rules: [
         {
           test: /\.(scss)$/,
           include: [
-            getPath('@terminus/nusi'),
+            nusiRealPath,
           ],
           use: [
             MiniCssExtractPlugin.loader,
@@ -105,9 +108,9 @@ module.exports = () => {
             },
           ],
           include: [
-            getPath('antd-latest'),
-            getPath('antd'),
-            getPath('@terminus/nusi'),
+            antdRealPath,
+            antdLatestRealPath,
+            nusiRealPath,
           ],
         },
         {
@@ -152,7 +155,7 @@ module.exports = () => {
           './stores/route': './src/stores/route.ts',
           './stores/loading': './src/stores/loading.ts',
           './utils/ws': './src/utils/ws.ts',
-          './nusi':'./src/nusi/index.tsx',
+          './nusi': './src/nusi/index.tsx',
         },
         shared: {
           ...AutomaticVendorFederation({
