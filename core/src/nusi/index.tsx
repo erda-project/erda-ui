@@ -13,11 +13,6 @@
 
 
 import {
-  BackTop,
-  Badge,
-  Button,
-  Collapse,
-  Carousel,
   Cascader,
   Checkbox,
   Col,
@@ -56,6 +51,18 @@ import {
   ConfigProvider as AntdConfigProvider,
   Table as AntTable,
 } from 'antd';
+import {
+  Button,
+  BackTop,
+  Badge,
+  Collapse,
+  Carousel,
+} from 'antd-latest';
+import 'antd-latest/lib/button/style/index.less';
+import 'antd-latest/lib/back-top/style/index.less';
+import 'antd-latest/lib/badge/style/index.less';
+import 'antd-latest/lib/collapse/style/index.less';
+import 'antd-latest/lib/carousel/style/index.less';
 import { FixedSelect } from './fixed-select';
 import FixRangePicker from './range-picker';
 import {

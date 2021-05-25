@@ -24,6 +24,7 @@
   "dependencies": {
     "@terminus/nusi": "^3.10.79",
     "antd": "^3.25.0",
+    "antd-latest": "npm:antd@^4.15.6",
     "css-loader": "^5.0.1",
     "cube-state": "^1.5.1",
     "i18next": "^17.0.13",
