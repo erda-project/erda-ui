@@ -29,7 +29,7 @@ import {
 } from 'lodash';
 import * as React from 'react';
 import moment from 'moment';
-import { Modal, Table, Spin, Tooltip } from 'app/nusi';
+import { Modal, Table, Spin, Tooltip, Ellipsis } from 'app/nusi';
 import TraceDetailFilter from './trace-detail-filter';
 import './trace-detail.scss';
 
@@ -78,6 +78,7 @@ const SpanDetail = (props: ISpanDetailProps) => {
       title: 'Value',
       dataIndex: 'value',
       key: 'value',
+      render: (text: string) => <Ellipsis overlayClassName="trace-value-tooltips" title={text} />,
     },
   ];
   return (
