@@ -338,6 +338,10 @@ $border-style: 1px solid $color-border;
 }
 
 //Leave the styles unchanged from antd3.x to antd4.x
+button.ant-btn {
+  padding: 0 15px;
+}
+
 sup.ant-badge-dot {
   min-width: auto;
 }
@@ -348,4 +352,51 @@ span.ant-badge {
 
 div.ant-carousel {
   color: rgba(0, 0, 0, 0.65);
+}
+
+span.ant-input-wrapper {
+  border: 1px solid #d9d9d9;
+  border-radius: 3px;
+  transition: all 0.3s;
+
+  &:hover {
+    border-color: #8876ab;
+    border-right-width: 1px !important;
+  }
+
+  &:focus-within {
+    border-color: #8876ab;
+    border-right-width: 1px !important;
+    outline: 0;
+    box-shadow: 0 0 0 2px rgb(106 84 158 / 20%);
+  }
+}
+
+span.ant-input-affix-wrapper {
+  padding-top: 0;
+  padding-bottom: 0;
+  border: 0;
+
+  &.ant-input-affix-wrapper-focused, &:focus {
+    box-shadow: none;
+  }
+
+  &::before {
+    content: ''
+  }
+}
+
+span.ant-input-group-addon {
+  button {
+    border: 0;
+  }
+}
+
+.ant-input-search-small button.ant-input-search-button {
+  height: 30px;
+  width: 30px;
+}
+
+input.ant-input-sm {
+  height: 28px;
 }
