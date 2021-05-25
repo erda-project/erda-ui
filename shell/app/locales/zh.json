@@ -2529,6 +2529,7 @@
     "throughput TOP 5": "吞吐量TOP5",
     "time": "时间",
     "time ascending": "时间升序",
+    "time desc": "时间降序",
     "time descending": "时长降序",
     "time is ascending": "时长升序",
     "time of occurrence": "发生时间",

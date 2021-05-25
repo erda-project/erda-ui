@@ -26,11 +26,13 @@ export default () => {
   }
 
   return (
-    <div className="service-analyze">
+    <div className="service-analyze v-flex-box">
       <div className="flex-box mb12">
         <TimeSelector className="ma0" />
       </div>
-      <ServiceListDashboard dashboardId="service_analysis" />
+      <div className="auto-overflow flex-1">
+        <ServiceListDashboard dashboardId="service_analysis" />
+      </div>
     </div>
   );
 };

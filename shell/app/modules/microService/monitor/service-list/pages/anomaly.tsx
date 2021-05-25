@@ -55,7 +55,7 @@ export default () => {
   }, [serviceId, getExceptionTypes, serviceName, terminusKey, timeSpan.endTimeMs, timeSpan.startTimeMs, updater]);
 
   return (
-    <div className="service-analyze">
+    <div className="service-analyze v-flex-box">
       <div className="flex-box flex-wrap mb4">
         <div className="left flex-box mb8">
           <TimeSelector className="ma0 mr12" />
@@ -88,10 +88,12 @@ export default () => {
           </Select>
         </div>
       </div>
-      <ServiceListDashboard
-        dashboardId="exception_analysis"
-        extraGlobalVariable={{ sort, limit, exceptionType }}
-      />
+      <div className="auto-overflow flex-1">
+        <ServiceListDashboard
+          dashboardId="exception_analysis"
+          extraGlobalVariable={{ sort, limit, exceptionType }}
+        />
+      </div>
     </div>
   );
 };

@@ -239,6 +239,13 @@
   }
 }
 
+.trace-value-tooltips {
+  .pk-tooltip-inner {
+    max-height: 400px;
+    overflow: auto;
+  }
+}
+
 #trace-controls {
   form {
     margin-bottom: 10px;
