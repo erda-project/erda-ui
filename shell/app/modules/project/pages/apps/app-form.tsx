@@ -152,7 +152,7 @@ const CreationForm = () => {
       },
       rules: [
         {
-          pattern: /^[a-z0-9]+(?:(?:(?:[-]*)[a-z0-9]+)+)?$/, message: i18n.t('project-app-name-tip'),
+          pattern: /^[a-z0-9]+(-[a-z0-9]+)*$/, message: i18n.t('project-app-name-tip'),
         },
         {
           validator: (_rule: any, value: any, callback: (message?: string) => void) => {
@@ -203,7 +203,7 @@ const CreationForm = () => {
       label: 'Bundle Id',
       name: 'bundleID',
       type: 'input',
-      pattern: /^[a-zA-Z]+[0-9a-zA-Z]*(\.[a-zA-Z]+[0-9a-zA-Z]*)+$/,
+      pattern: /^[a-zA-Z][0-9a-zA-Z]*(\.[a-zA-Z][0-9a-zA-Z]*)+$/,
       itemProps: {
         placeholder: `${i18n.t('such as')}：io.terminus.*`,
         maxLength: 100,
@@ -212,7 +212,7 @@ const CreationForm = () => {
       label: `${i18n.t('project:package name')}`,
       name: 'packageName',
       type: 'input',
-      pattern: /^[a-zA-Z]+[0-9a-zA-Z_]*(\.[a-zA-Z]+[0-9a-zA-Z_]*)+$/,
+      pattern: /^[a-zA-Z][0-9a-zA-Z_]*(\.[a-zA-Z][0-9a-zA-Z_]*)+$/,
       itemProps: {
         placeholder: `${i18n.t('such as')}：io.terminus.*`,
         maxLength: 100,
@@ -268,7 +268,7 @@ const CreationForm = () => {
           label: i18n.t('project:repository address'),
           name: 'repoConfig.url',
           rules: [{
-            pattern: /^(https?:\/\/(([a-zA-Z0-9]+-?)+[a-zA-Z0-9]*\.)+[a-zA-Z0-9]+)(:\d+)?(\/.*)?$/,
+            pattern: /https?:\/\/[-a-zA-Z0-9]{1,256}\.[a-zA-Z0-9]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
             message: i18n.t('project:please enter valid repository address'),
           }],
           itemProps: {

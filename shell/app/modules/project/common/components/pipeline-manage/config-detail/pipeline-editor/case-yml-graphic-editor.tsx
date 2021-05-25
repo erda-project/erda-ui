@@ -16,7 +16,7 @@ import { Drawer, Tabs } from 'app/nusi';
 import i18n from 'i18n';
 import { get } from 'lodash';
 import { PipelineGraphicEditor } from 'app/yml-chart/common/pipeline-graphic-editor';
-import { CaseNodeForm as CaseActionForm } from './case-node-form';
+import { PipelineNodeForm } from 'yml-chart/common/pipeline-node-drawer'
 import { CaseTreeSelector } from './case-tree-selector';
 import './case-yml-graphic-editor.scss';
 
@@ -55,7 +55,6 @@ const CaseNodeDrawer = (props: ICaseNodeDrawer) => {
   }, [visible]);
 
   const { excludeAction, curCaseId } = addDrawerProps || {};
-
   return (
     <Drawer
       width={560}
@@ -84,7 +83,7 @@ const CaseNodeDrawer = (props: ICaseNodeDrawer) => {
           editing ? (
             <Tabs className='full-height case-node-chosen-tabs' activeKey={chosenKey} onChange={(aKey: string) => editing && setChosenKey(aKey)}>
               <Tabs.TabPane tab={i18n.t('add {name}', { name: i18n.t('task') })} key='addNode' disabled={!isCreate && chosenKey === 'addCaseRef'}>
-                <CaseActionForm key={key} {...props} {...(curNodeType === 'snippet' ? { isCreate: true, nodeData: null } : {})} />
+                <PipelineNodeForm key={key} {...props} {...(curNodeType === 'snippet' ? { isCreate: true, nodeData: null } : {})} />
               </Tabs.TabPane>
               <Tabs.TabPane tab={i18n.t('project:reference use node')} key='addCaseRef' disabled={!isCreate && chosenKey === 'addNode'}>
                 <CaseTreeSelector
@@ -103,7 +102,7 @@ const CaseNodeDrawer = (props: ICaseNodeDrawer) => {
             </Tabs>
           ) : (
             chosenKey === 'addNode' ? (
-              <CaseActionForm key={key} {...props} {...(curNodeType === 'snippet' ? { isCreate: true, nodeData: null } : {})} />
+              <PipelineNodeForm key={key} {...props} {...(curNodeType === 'snippet' ? { isCreate: true, nodeData: null } : {})} />
             ) : (
               chosenKey === 'addCaseRef' ? (
                 <CaseTreeSelector

@@ -1,4 +1,10 @@
 .new-yml-editor {
+  &.app-repo-pipeline {
+    .yml-svg-container-box {
+      height: unset !important;
+    }
+  }
+
   &.graphic {
     .file-content {
       flex: 1;

@@ -13,17 +13,14 @@
 
 import * as React from 'react';
 import { get, isEmpty } from 'lodash';
-import PipelineEditor from 'app/yml-chart/pipeline-editor';
-import CaseYmlGraphicEditor from './case-yml-graphic-editor';
-// import {  NodeEleMap } from 'application/common/yml-editor/config';
-import { CHART_NODE_SIZE, NodeEleMap } from 'application/common/yml-editor/config';
+import PipelineEditor from 'yml-chart/pipeline-editor';
+import { NodeEleMap } from 'yml-chart/config';
 import i18n from 'i18n';
 
 interface IProps{
   caseDetail: TREE.NODE;
   addDrawerProps: Obj;
   onUpdateYml: (ymlStr: string) => void;
-  scope: string;
   editable: boolean;
 }
 
@@ -32,7 +29,7 @@ stages: []
 `;
 
 const CasePipelineEditor = (props: IProps) => {
-  const { caseDetail, onUpdateYml, addDrawerProps, scope, editable } = props;
+  const { caseDetail, onUpdateYml, addDrawerProps, editable } = props;
   const curPipelineYml = get(caseDetail, 'meta.pipelineYml') || defaultPipelineYml;
   const ymlStr = isEmpty(caseDetail) ? '' : curPipelineYml;//
   return (
@@ -41,18 +38,12 @@ const CasePipelineEditor = (props: IProps) => {
         ymlStr={ymlStr}
         editable={editable}
         title={i18n.t('pipeline')}
-        YmlGraphicEditor={(p:any) => <CaseYmlGraphicEditor scope={scope} addDrawerProps={addDrawerProps} {...p} />}
+        addDrawerProps={addDrawerProps}
         onSubmit={onUpdateYml}
         chartProps={{
-          chartSize: {
-            pipeline: CHART_NODE_SIZE.pipeline,
-            startNode: CHART_NODE_SIZE.startNode,
-            endNode: CHART_NODE_SIZE.startNode,
-          },
           nodeEleMap: {
-            pipeline: NodeEleMap.pipeline,
-            startNode: NodeEleMap.startNode,
-            endNode: NodeEleMap.startNode,
+            startNode: () => <NodeEleMap.startNode disabled />,
+            endNode: () => <NodeEleMap.endNode disabled />,
           },
         }}
       />

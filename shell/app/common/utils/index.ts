@@ -111,7 +111,6 @@ export const regRules = {
   http: { pattern: /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/, message: i18n.t('project:please enter the correct http address') },
   url: { pattern: /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/, message: i18n.t('project:please enter the correct url address') },
   email: { pattern: /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/, message: i18n.t('project:please enter the correct email') },
-  ssh: { pattern: /^git@[_a-zA-Z0-9-]+(.[_a-zA-Z0-9-]+)*$/, message: i18n.t('project:please enter the correct git address') },
   xmind: { pattern: /\.(xmind|xmt|xmap|xmind|xmt|xmap)$/, message: i18n.t('project:not an xmind file') },
   excel: { pattern: /\.(xlsx|xls|XLSX|XLS)$/, message: i18n.t('project:not an excel file') },
   excelOrXmind: { pattern: /\.(xlsx|xls|XLSX|XLS|xmind|xmt|xmap|xmind|xmt|xmap)$/, message: i18n.t('project:not excel and xmind files') },
@@ -368,11 +367,11 @@ export const isValidJsonStr = (_jsonStr = '') => {
 };
 
 export const getOrgFromPath = () => {
-  return get(location.pathname.split('/'),'[1]') || '-';
-}
+  return get(location.pathname.split('/'), '[1]') || '-';
+};
 
 export const setApiWithOrg = (api: string) => {
-  return api.startsWith('/api/') 
-    ? api.replace('/api/',`/api/${getOrgFromPath()}/`)
+  return api.startsWith('/api/')
+    ? api.replace('/api/', `/api/${getOrgFromPath()}/`)
     : api;
-}
+};

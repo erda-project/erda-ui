@@ -181,7 +181,7 @@ const ClusterBasicForm = ({
     fieldsList.splice(4, 0, {
       label: i18n.t('org:cluster entry'),
       name: 'scheduler.dcosURL',
-      pattern: /^(http|https|inet):\/\/[_a-zA-Z0-9-]+(.[_a-zA-Z0-9-]+)*$/,
+      pattern: /^(http|https|inet):\/\/[?a-zA-Z0-9]+([&-./?=][a-zA-Z0-9]+)+$/,
       initialValue: getDefaultMasterURL(clusterType),
       itemProps: {
         // disabled: true,

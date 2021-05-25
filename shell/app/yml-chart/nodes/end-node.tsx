@@ -13,11 +13,12 @@
 
 import * as React from 'react';
 import './end-node.scss';
+import classnames from 'classnames';
 import i18n from 'i18n';
 
 export interface IProps{
-  data: Obj;
-  onClickNode: (data: any, arg?: any) => void;
+  data?: Obj;
+  onClickNode?: (data: any, arg?: any) => void;
   disabled?: boolean;
 }
 
@@ -31,8 +32,14 @@ export const EndNode = (props: IProps) => {
     !disabled && onClickNode(data);
   };
 
+  const classes = classnames({
+    'yml-chart-node': true,
+    'end-node': true,
+    'center-flex-box': true,
+    'hover-active': !disabled,
+  });
 
   return (
-    <div className='yml-chart-node end-node pointer center-flex-box hover-active' onClick={onClick}>{disabled ? '' : i18n.t('application:outputs configuration')}</div>
+    <div className={classes} onClick={onClick}>{disabled ? '' : i18n.t('application:outputs configuration')}</div>
   );
 };
