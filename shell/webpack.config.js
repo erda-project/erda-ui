@@ -300,6 +300,10 @@ module.exports = () => {
             name: 'eCharts',
             priority: -5,
           },
+          styles: {
+            test: /\.(css|scss|less)$/,
+            enforce: true, // force css in new chunks (ignores all other options)
+          },
         },
       },
     },
