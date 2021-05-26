@@ -58,6 +58,12 @@ export const getUsers = (payload: {
     .then((response: any) => response.body);
 };
 
+export const getUsersNew = (payload: Merge<IPagingReq, { q?: string }>) => {
+  return agent.get('/api/users/actions/search')
+    .query(payload)
+    .then((response: any) => response.body);
+}
+
 export const getApps = ({ pageSize, pageNo, projectId, q, searchKey, memberID, ...rest }: APPLICATION.GetAppList): IPagingResp<IApplication> => {
   return agent.get('/api/applications')
     .query({ pageSize, pageNo, projectId, q: q || searchKey, memberID, ...rest })
