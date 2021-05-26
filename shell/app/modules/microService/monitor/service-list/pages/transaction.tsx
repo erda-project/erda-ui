@@ -104,7 +104,7 @@ const Transaction = () => {
         operation: cellValue,
       }).then(res => updater.traceSlowTranslation(res));
     }
-  }, [getTraceSlowTranslation, params, updater]);
+  }, [getTraceSlowTranslation, params, updater, startTimeMs, endTimeMs]);
 
   const [columns, dataSource] = useMemo(() => {
     const c = [
