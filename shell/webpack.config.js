@@ -36,7 +36,6 @@ const { getPath } = require('../utils/resolve');
 
 module.exports = () => {
   const nodeEnv = process.env.NODE_ENV || 'development';
-  const isSplitMode = process.env.SPLIT_MODULE;
   const isOnline = process.env.DICE_WORKSPACE; // 线上才有的环境变量
   const isProd = nodeEnv === 'production';
   const cpuNum = isProd && isOnline ? 1 : os.cpus().length;
@@ -274,7 +273,6 @@ module.exports = () => {
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(nodeEnv),
         'process.env.DICE_VER': JSON.stringify(pkg.version),
-        'process.env.SPLIT_MODULE': JSON.stringify(process.env.SPLIT_MODULE),
         'process.env.mainVersion': JSON.stringify(mainVersion),
       }),
       ...mfConfigs.map(mfConfig => (
