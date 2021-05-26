@@ -50,7 +50,7 @@ describe('crud-table.', () => {
     }];
   };
   describe('CRUDTable', () => {
-    it('should ', () => {
+    it('should work well', () => {
       const extraOperation = <div className='extraOperation'>extraOperation</div>;
       const clearListFn = jest.fn();
       const submitFn = jest.fn();
@@ -95,7 +95,7 @@ describe('crud-table.', () => {
     });
   });
   describe('CRUDStoreTable', () => {
-    it('should ', () => {
+    it('should work well', () => {
       const getList = jest.fn();
       const addItem = jest.fn();
       const updateItem = jest.fn();

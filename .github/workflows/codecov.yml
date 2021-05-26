@@ -3,11 +3,15 @@ name: codecov
 # Controls when the action will run.
 on:
   push:
-    branches: [ develop ]
+    branches:
+      - master
+      - develop
     paths:
       - shell/app/common/**
   pull_request:
-    branches: [ develop ]
+    branches:
+      - master
+      - develop
     paths:
       - shell/app/common/**
 

@@ -29,7 +29,7 @@ describe('LazyRender', () => {
   afterAll(() => {
     window.IntersectionObserver = windowIntersectionObserver;
   });
-  it('should ', () => {
+  it('should work well', () => {
     // const mockEntry = { isIntersecting: false };
     const wrapper = mount(
       <LazyRender minHeight="100px">

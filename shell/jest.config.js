@@ -62,6 +62,8 @@ module.exports = {
     '^i18next$': '<rootDir>/../core/node_modules/i18next',
     '^@terminus/nusi$': '<rootDir>/node_modules/@terminus/nusi/lib/index.js',
     '^antd$': '<rootDir>/../core/node_modules/antd/lib/index.js',
+    // temporary config for antd upgrade
+    '^antd-latest$': '<rootDir>/../core/node_modules/antd-latest/lib/index.js',
     '^nusi$': '<rootDir>/../core/src/nusi/index.tsx',
     i18n: '<rootDir>/app/i18n.ts',
     'app/constants': '<rootDir>/app/constants.ts',
