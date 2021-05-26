@@ -64,6 +64,7 @@ module.exports = {
     '^antd$': '<rootDir>/../core/node_modules/antd/lib/index.js',
     // temporary config for antd upgrade
     '^antd-latest$': '<rootDir>/../core/node_modules/antd-latest/lib/index.js',
+    '^antd-latest(.*)': 'identity-obj-proxy',
     '^nusi$': '<rootDir>/../core/src/nusi/index.tsx',
     i18n: '<rootDir>/app/i18n.ts',
     'app/constants': '<rootDir>/app/constants.ts',
