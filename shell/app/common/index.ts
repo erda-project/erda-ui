@@ -18,7 +18,7 @@ export { Panel } from './components/panel';
 export { ImgHolder } from './components/img-holder';
 export { AddMemberModal } from './components/add-member-modal';
 export { FormModal } from './components/form-modal';
-export { ImageUpload } from './components/image-upload';;
+export { ImageUpload } from './components/image-upload';
 export { Terminal } from './components/terminal';
 export { default as CommonRangePicker } from './components/common-range-picker';
 export { CRUDTable, CRUDStoreTable } from './components/crud-table';
