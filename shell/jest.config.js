@@ -63,8 +63,8 @@ module.exports = {
     '^@terminus/nusi$': '<rootDir>/node_modules/@terminus/nusi/lib/index.js',
     '^antd$': '<rootDir>/../core/node_modules/antd/lib/index.js',
     // temporary config for antd upgrade
+    '^antd-latest/lib/.*': '<rootDir>/node_modules/identity-obj-proxy/src/index.js', // must be absolute path
     '^antd-latest$': '<rootDir>/../core/node_modules/antd-latest/lib/index.js',
-    '^antd-latest(.*)': 'identity-obj-proxy',
     '^nusi$': '<rootDir>/../core/src/nusi/index.tsx',
     i18n: '<rootDir>/app/i18n.ts',
     'app/constants': '<rootDir>/app/constants.ts',
