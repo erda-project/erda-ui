@@ -30,7 +30,61 @@ Modern browsers
 | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
 
 ## 🚀 Quick Start
-TODO
+### Usage
+
+Welcome to use [Erda Cloud](https://erda.cloud)
+
+### Installation
+
+Please follow How to install Erda.
+
+* [installation document](https://github.com/erda-project/erda/blob/9c904121313821d2b9f7ba15eeebb9286216c4a5/docs/guides/deploy/How-to-install-the-Erda.md)
+
+### Run Erda-UI project
+
+#### Initial Dev Setup
+
+> This repository contains many Node.JS packages. Each package has its own set of commands, but the most common commands are available from the root `package.json` and can be accessed using the `npm run ...` command. Here are the only four steps you should need to start developing on the app.
+
+```bash
+# Step1 Initial the project of erda-ui
+  # Execute under the root directory of erda-ui
+	node setup.js
+
+  # What does this command do?
+  # 1.1 Initial dependencies of shell, core, scheduler, cli
+  # 1.2 Initial ./erda/config.js inside shell and core
+  # 1.3 Global register erda-ui command
+  # 1.4 Generate .env inside erda-ui include some environment variables
+
+
+# Step2 Initial modules such as fdp and admin (Except for modules in the erda-ui directory)
+  # Execute under the root directory of fdp and admin
+	erda-ui setup <module> <port>  
+	e.g., erda-ui setup admin 5001
+
+  # What does this command do?
+  # The port number of each module (can be viewed in .env). After successful execution, the .erda/config.js configuration file will be generated in the root directory of each module, and the path of the corresponding module will be automatically written in the .env file
+
+
+# Step3 Build core package
+  # Execute under directory of erda-ui/core
+	npm run build-dev
+
+  # What does this command do?
+  # The core package file is generated in the public folder of the root directory, and static files are read from that directory in development mode
+
+# Step4 Start App
+  # Execute under directory of erda-ui/shell
+  	npm run dev
+
+  # Execute under directory of erda-ui/core
+  	npm run start
+
+  # Execute under directory of erda-ui/scheduler
+  	npm run start
+
+```
 
 ## Architecture
 Technology stack：
