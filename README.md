@@ -76,15 +76,11 @@ Please follow How to install Erda.
 
 
 # Step4 Start App
-  # Execute under directory of erda-ui/shell
-  	npm run dev
+  # Execute under directory of erda-ui
+  	erda-ui launch
 
-  # Execute under directory of erda-ui/core
-  	npm run start
-
-  # Execute under directory of erda-ui/scheduler
-  	npm run start
-
+  # What does this command do?
+  # The erda-ui directive contains a launch command. Executing the erda-ui launch in the root directory of erda-ui can manage the processes of multiple modules in the same window simultaneously, and it will launch the corresponding services based on the modules registered in the .env file
 ```
 
 ## Architecture
