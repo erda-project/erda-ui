@@ -19,12 +19,14 @@ const { merge } = require('webpack-merge');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { getLessTheme, getScssTheme } = require('./config/theme');
+const { getScssTheme } = require('./config/theme');
 const initJs = require('./app/views/init.js');
 const css = require('./app/views/css.js');
 const pkg = require('./package.json');
 const { ModuleFederationPlugin } = require('webpack').container;
 const mfConfigs = require('./mf.config');
+
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 
 const packageJson = require('./package.json');
 
@@ -36,15 +38,12 @@ const { getPath } = require('../utils/resolve');
 
 module.exports = () => {
   const nodeEnv = process.env.NODE_ENV || 'development';
-  const isSplitMode = process.env.SPLIT_MODULE;
   const isOnline = process.env.DICE_WORKSPACE; // 线上才有的环境变量
   const isProd = nodeEnv === 'production';
   const cpuNum = isProd && isOnline ? 1 : os.cpus().length;
-  const themeColor = '#6A549E';
 
   console.log('isProd:', isProd, process.version);
 
-  const lessVariables = getLessTheme(themeColor);
   const scssVariables = getScssTheme(false);
 
   // eslint-disable-next-line
@@ -70,7 +69,6 @@ module.exports = () => {
         dcos: resolve('./app/modules/dcos'),
         project: resolve('./app/modules/project'),
         publisher: resolve('./app/modules/publisher'),
-        // admin: resolve('./app/modules/admin'),
         dataCenter: resolve('./app/modules/dataCenter'),
         org: resolve('./app/modules/org'),
         application: resolve('./app/modules/application'),
@@ -81,8 +79,6 @@ module.exports = () => {
         apiManagePlatform: resolve('./app/modules/apiManagePlatform'),
         agent: resolve('./app/agent.js'),
         i18n: resolve('./app/i18n.ts'),
-        // nusi: resolve('./app/external/nusi.js'),
-        // '@terminus/nusi': resolve('./node_modules/@terminus/nusi'),
         'dice-env': resolve('./app/external/env.ts'),
 
         'monitor-overview': resolve('./app/modules/microService/monitor/monitor-overview'),
@@ -156,29 +152,6 @@ module.exports = () => {
           ],
         },
         {
-          test: /\.(less)$/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            'thread-loader',
-            'css-loader',
-            'postcss-loader',
-            {
-              loader: 'less-loader',
-              options: {
-                sourceMap: true,
-                lessOptions: {
-                  modifyVars: lessVariables,
-                  javascriptEnabled: true,
-                },
-              },
-            },
-          ],
-          include: [
-            // resolve('node_modules/antd'),
-            // resolve('node_modules/@terminus/nusi'),
-          ],
-        },
-        {
           test: /\.(css)$/,
           use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
@@ -207,19 +180,6 @@ module.exports = () => {
           test: /\.map$/,
           loader: 'ignore-loader',
         },
-        // {
-        //   test: /\.svg$/,
-        //   type: 'asset',
-        //   parser: {
-        //     dataUrlCondition: {
-        //       maxSize: 8 * 1024, // 8kb
-        //     },
-        //   },
-        //   include: [
-        //     resolve('app/images'),
-        //     resolve('node_modules/@terminus/nusi'),
-        //   ],
-        // },
         {
           test: /\.(png|jpe?g|gif|svg|ico)$/i,
           use: [
@@ -274,7 +234,6 @@ module.exports = () => {
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(nodeEnv),
         'process.env.DICE_VER': JSON.stringify(pkg.version),
-        'process.env.SPLIT_MODULE': JSON.stringify(process.env.SPLIT_MODULE),
         'process.env.mainVersion': JSON.stringify(mainVersion),
       }),
       ...mfConfigs.map(mfConfig => (
@@ -302,10 +261,15 @@ module.exports = () => {
             name: 'eCharts',
             priority: -5,
           },
+          styles: {
+            test: /\.(css|scss|less)$/,
+            enforce: true, // force css in new chunks (ignores all other options)
+          },
         },
       },
     },
   };
 
+  // return (new SpeedMeasurePlugin())(merge(commonConfig, targetConfig));
   return merge(commonConfig, targetConfig);
 };

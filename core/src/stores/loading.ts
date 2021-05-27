@@ -16,8 +16,7 @@ import { createStore, use } from 'cube';
 
 const loadingStore = createStore({
   name: 'loading',
-  state: {
-  },
+  state: {} as Record<string, Record<string, boolean>>,
   reducers: {
     setLoading(state, storeName: string, effectName, status: boolean) {
       state[storeName] = state[storeName] || {};
