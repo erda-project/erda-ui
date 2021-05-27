@@ -338,7 +338,7 @@ $border-style: 1px solid $color-border;
 }
 
 //Leave the styles unchanged from antd3.x to antd4.x
-button.ant-btn {
+button.ant-btn:not(.ant-input-search-button) {
   padding: 0 15px;
 }
 
@@ -375,7 +375,6 @@ span.ant-input-wrapper {
 span.ant-input-affix-wrapper {
   padding-top: 0;
   padding-bottom: 0;
-  border: 0;
 
   &.ant-input-affix-wrapper-focused, &:focus {
     box-shadow: none;
@@ -399,4 +398,16 @@ span.ant-input-group-addon {
 
 input.ant-input-sm {
   height: 28px;
+}
+
+.ant-input-search .ant-input {
+  border: none;
+  transition: none;
+  &:hover, &:focus {
+    border: none;
+  }
+}
+
+.ant-input:focus, .ant-input-focused {
+  box-shadow: none;
 }
