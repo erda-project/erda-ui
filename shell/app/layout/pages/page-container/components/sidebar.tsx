@@ -147,6 +147,7 @@ const SideBar = () => {
   window.localStorage.removeItem('dice-sider');
   const curOrgName = currentOrg.name;
   const customIconStyle = { fontSize: 20, marginRight: 'unset' };
+  const current = window.localStorage.getItem('locale') || 'zh';
   const operations = [
     {
       show: true,
@@ -163,11 +164,10 @@ const SideBar = () => {
       show: true,
       icon: (
         <Tooltip title={i18n.t('default:switch language')} placement="right">
-          <CustomIcon type="i18n" style={customIconStyle} />
+          <CustomIcon type={current === 'zh' ? 'chinese' : 'english'} style={customIconStyle} />
         </Tooltip>
       ),
       onClick: () => {
-        const current = window.localStorage.getItem('locale') || 'zh';
         const next = current === 'zh' ? 'en' : 'zh';
         window.localStorage.setItem('locale', next);
         window.location.reload();
