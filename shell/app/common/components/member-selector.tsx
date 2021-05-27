@@ -17,7 +17,7 @@ import projectMemberStore from 'common/stores/project-member';
 import orgMemberStore from 'common/stores/org-member';
 import appMemberStore from 'common/stores/application-member';
 import { map, debounce, isEmpty, get, isArray, isString, difference } from 'lodash';
-import { getUsers, getMembers } from 'common/services';
+import { getUsers, getMembers, getUsersNew } from 'common/services';
 import { MemberScope } from 'app/common/stores/_member';
 import { LoadMoreSelector, ImgHolder } from 'common';
 import { Tag, Select } from 'app/nusi';
@@ -261,7 +261,7 @@ const UserSelector = (props: any) => {
     };
     setSearchKey(q);
     if (q.trim() !== '') {
-      getUsers(query).then((res:any) => {
+      getUsersNew(query).then((res:any) => {
         setSearchResult(get(res, 'data.users'));
       });
     }
