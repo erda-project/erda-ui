@@ -14,7 +14,7 @@
 import React, { useMemo, useEffect, useRef, useCallback } from 'react';
 import { cloneDeep, find, get, isEmpty, map, forEach, reduce, isNaN, filter } from 'lodash';
 import i18n from 'i18n';
-import { Table } from 'app/nusi';
+import { Table, Ellipsis } from 'app/nusi';
 
 import { Icon as CustomIcon } from 'common';
 import { updateSearch } from 'common/utils';
@@ -153,7 +153,7 @@ const CaseTable = ({
             return <span className="color-text">{`#${record.testCaseID}`}</span>;
           }
           return {
-            children: <span className="color-text-desc">{record.directory}</span>,
+            children: <Ellipsis className="color-text-desc" title={record.directory}/>,
             props: {
               colSpan: 7,
             },
@@ -168,7 +168,7 @@ const CaseTable = ({
         // title: <ChooseTitle mode={mode} />,
         title: <span>{i18n.t('project:use case title')}</span>,
         width: isScroll ? 250 : '100%',
-        render: (name: string) => <span className="bold">{name}</span>,
+        render: (name: string) => <Ellipsis className="bold" title={name} />,
       });
     }
     // 全选列
