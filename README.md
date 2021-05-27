@@ -74,6 +74,7 @@ Please follow How to install Erda.
   # What does this command do?
   # The core package file is generated in the public folder of the root directory, and static files are read from that directory in development mode
 
+
 # Step4 Start App
   # Execute under directory of erda-ui/shell
   	npm run dev
