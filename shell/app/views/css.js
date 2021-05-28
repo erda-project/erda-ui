@@ -16,7 +16,7 @@ body{
   margin: 0
 }
 
-#dice-skeleton {
+#erda-skeleton {
   position: fixed;
   top: 0;
   left: 0;

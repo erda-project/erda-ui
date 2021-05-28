@@ -60,8 +60,8 @@ const PageContainer = ({ route }: IProps) => {
   let prevPathName: string;
 
   useEffectOnce(() => {
-    const skeleton = document.querySelector('#dice-skeleton');
-    const content = document.querySelector('#dice-content');
+    const skeleton = document.querySelector('#erda-skeleton');
+    const content = document.querySelector('#erda-content');
     if (skeleton && content) {
       skeleton.className += ' fade';
       content.classList.remove('hide');
