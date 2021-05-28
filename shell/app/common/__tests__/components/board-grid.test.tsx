@@ -15,7 +15,6 @@ import React from 'react';
 import { BoardGrid, PureBoardGrid } from 'common';
 import { shallow } from 'enzyme';
 import { describe, it } from '@jest/globals';
-import { setApiWithOrg } from 'common/utils';
 
 const props = {
   name: 'board-grid',
@@ -56,8 +55,6 @@ describe('board-grid', () => {
       );
       expect(wrapper.prop('name')).toBe(props.name);
       expect(wrapper.prop('id')).toBe(props.id);
-      const pLayout = wrapper.prop('layout');
-      expect(pLayout.issue.view.api.url).toBe(setApiWithOrg(url));
     });
   });
 });
