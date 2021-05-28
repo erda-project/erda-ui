@@ -286,7 +286,7 @@ importers:
       '@paiva/translation-google': ^1.0.9
       '@phenomnomnominal/tsquery': ^4.1.1
       '@svgr/webpack': ^4.1.0
-      '@terminus/dashboard-configurator': 1.2.2
+      '@terminus/dashboard-configurator': 1.2.3
       '@types/classnames': ^2.2.6
       '@types/clipboard': ^2.0.1
       '@types/diff-match-patch': ^1.0.32
@@ -404,7 +404,7 @@ importers:
       screenfull: ^5.0.2
       snapsvg-cjs: 0.0.6
       sockjs-client: ^1.1.5
-      speed-measure-webpack-plugin: ^1.3.3
+      speed-measure-webpack-plugin: ^1.5.0
       style-loader: ^2.0.0
       stylelint: ^12.0.1
       stylelint-config-rational-order: ^0.1.2
@@ -434,7 +434,7 @@ importers:
       '@babel/runtime': 7.14.0
       '@erda-ui/react-markdown-editor-lite': 1.4.3_react@16.14.0
       '@icon-park/react': 1.3.3_react-dom@16.14.0+react@16.14.0
-      '@terminus/dashboard-configurator': 1.2.2_c08939748a2e52995f06e5a6be8616f9
+      '@terminus/dashboard-configurator': 1.2.3_c08939748a2e52995f06e5a6be8616f9
       ace-builds: 1.4.12
       ansi_up: 2.0.3
       babel-loader: 8.2.2_webpack@5.37.1
@@ -4918,24 +4918,6 @@ packages:
       defer-to-connect: 1.1.3
     dev: false
 
-  /@terminus/dalaran-common/4.0.3_209cf9e99486d157d54d71c67a102581:
-    resolution: {integrity: sha1-zTIcj8e2ae2zGTLbg1ELjXEva8U=, tarball: https://registry.npm.terminus.io/@terminus/dalaran-common/download/@terminus/dalaran-common-4.0.3.tgz}
-    peerDependencies:
-      '@terminus/nusi': ^3.8.85
-      lodash: ^4.17.20
-    dependencies:
-      '@terminus/nusi': 3.10.106_89f7d333518b25ce6638797795704a0d
-      lodash: 4.17.21
-      prismjs: 1.23.0
-      react-json-view: 1.21.3_89f7d333518b25ce6638797795704a0d
-      react-simple-code-editor: 0.11.0_react-dom@16.14.0+react@16.14.0
-      unstated-next: 1.1.0
-    transitivePeerDependencies:
-      - '@types/react'
-      - react
-      - react-dom
-    dev: false
-
   /@terminus/dalaran-common/4.0.3_417e3a698f1fb39dfd9e0d163fb00f83:
     resolution: {integrity: sha1-zTIcj8e2ae2zGTLbg1ELjXEva8U=, tarball: https://registry.npm.terminus.io/@terminus/dalaran-common/download/@terminus/dalaran-common-4.0.3.tgz}
     peerDependencies:
@@ -4954,13 +4936,31 @@ packages:
       - react-dom
     dev: false
 
-  /@terminus/dashboard-configurator/1.2.2_c08939748a2e52995f06e5a6be8616f9:
-    resolution: {integrity: sha1-tMBBv8taHS/fTvcEJwQ7kCGKiQc=, tarball: https://registry.npm.terminus.io/@terminus/dashboard-configurator/download/@terminus/dashboard-configurator-1.2.2.tgz}
+  /@terminus/dalaran-common/4.0.3_c943e46afdf091f3c06ca879eca1681a:
+    resolution: {integrity: sha1-zTIcj8e2ae2zGTLbg1ELjXEva8U=, tarball: https://registry.npm.terminus.io/@terminus/dalaran-common/download/@terminus/dalaran-common-4.0.3.tgz}
+    peerDependencies:
+      '@terminus/nusi': ^3.8.85
+      lodash: ^4.17.20
+    dependencies:
+      '@terminus/nusi': 3.10.108_89f7d333518b25ce6638797795704a0d
+      lodash: 4.17.21
+      prismjs: 1.23.0
+      react-json-view: 1.21.3_89f7d333518b25ce6638797795704a0d
+      react-simple-code-editor: 0.11.0_react-dom@16.14.0+react@16.14.0
+      unstated-next: 1.1.0
+    transitivePeerDependencies:
+      - '@types/react'
+      - react
+      - react-dom
+    dev: false
+
+  /@terminus/dashboard-configurator/1.2.3_c08939748a2e52995f06e5a6be8616f9:
+    resolution: {integrity: sha1-E/eK59t2W+hMrEwB1knp131r+go=, tarball: https://registry.npm.terminus.io/@terminus/dashboard-configurator/download/@terminus/dashboard-configurator-1.2.3.tgz}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'
     dependencies:
-      '@terminus/nusi': 3.10.106_89f7d333518b25ce6638797795704a0d
+      '@terminus/nusi': 3.10.108_89f7d333518b25ce6638797795704a0d
       classnames: 2.3.1
       cube-state: 1.2.1_react@16.14.0
       dom-to-image: 2.6.0
@@ -5010,8 +5010,8 @@ packages:
     resolution: {integrity: sha1-2mQD08znqL+iRaFBT8uEkXG68vw=, tarball: https://registry.npm.terminus.io/@terminus/nusi-icons/download/@terminus/nusi-icons-1.1.7.tgz}
     dev: false
 
-  /@terminus/nusi/3.10.106_89f7d333518b25ce6638797795704a0d:
-    resolution: {integrity: sha1-Te2Z6YvB7SO8cXSpvq7pJGJFUGc=, tarball: https://registry.npm.terminus.io/@terminus/nusi/download/@terminus/nusi-3.10.106.tgz}
+  /@terminus/nusi/3.10.108_89f7d333518b25ce6638797795704a0d:
+    resolution: {integrity: sha1-vjUzbA2V5k3Q7mxAZj7f7xVZado=, tarball: https://registry.npm.terminus.io/@terminus/nusi/download/@terminus/nusi-3.10.108.tgz}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
@@ -5019,12 +5019,12 @@ packages:
       '@emotion/core': 10.1.1_react@16.14.0
       '@terminus/nusi-icons': 1.1.7
       '@terminus/nusi-icons-react': 1.1.7_ad92d32389bad398280df683e8a4fa82
-      '@terminus/processor-engine': 1.0.14_209cf9e99486d157d54d71c67a102581
+      '@terminus/processor-engine': 1.0.14_c943e46afdf091f3c06ca879eca1681a
       '@terminus/rc-calendar': 1.1.9
       '@terminus/rc-cascader': 1.1.13_react-dom@16.14.0+react@16.14.0
       '@terminus/rc-dialog': 7.3.1
       '@terminus/rc-drawer': 1.0.2_react@16.14.0
-      '@terminus/rc-form': 2.5.17_prop-types@15.6.1
+      '@terminus/rc-form': 2.5.18_prop-types@15.6.1
       '@terminus/rc-input-number': 4.7.2
       '@terminus/rc-menu': 1.0.17
       '@terminus/rc-pagination': 1.1.4
@@ -5188,7 +5188,7 @@ packages:
       - supports-color
     dev: false
 
-  /@terminus/processor-engine/1.0.14_209cf9e99486d157d54d71c67a102581:
+  /@terminus/processor-engine/1.0.14_417e3a698f1fb39dfd9e0d163fb00f83:
     resolution: {integrity: sha1-JFjNoI+qDqfRIgfT43ImPuKpJqc=, tarball: https://registry.npm.terminus.io/@terminus/processor-engine/download/@terminus/processor-engine-1.0.14.tgz}
     peerDependencies:
       lodash: ^4.17.20
@@ -5196,7 +5196,7 @@ packages:
       react-dom: ^16.14.0
     dependencies:
       '@babel/core': 7.14.3
-      '@terminus/dalaran-common': 4.0.3_209cf9e99486d157d54d71c67a102581
+      '@terminus/dalaran-common': 4.0.3_417e3a698f1fb39dfd9e0d163fb00f83
       classnames: 2.3.1
       immer: 7.0.15
       lodash: 4.17.21
@@ -5211,7 +5211,7 @@ packages:
       - supports-color
     dev: false
 
-  /@terminus/processor-engine/1.0.14_417e3a698f1fb39dfd9e0d163fb00f83:
+  /@terminus/processor-engine/1.0.14_c943e46afdf091f3c06ca879eca1681a:
     resolution: {integrity: sha1-JFjNoI+qDqfRIgfT43ImPuKpJqc=, tarball: https://registry.npm.terminus.io/@terminus/processor-engine/download/@terminus/processor-engine-1.0.14.tgz}
     peerDependencies:
       lodash: ^4.17.20
@@ -5219,7 +5219,7 @@ packages:
       react-dom: ^16.14.0
     dependencies:
       '@babel/core': 7.14.3
-      '@terminus/dalaran-common': 4.0.3_417e3a698f1fb39dfd9e0d163fb00f83
+      '@terminus/dalaran-common': 4.0.3_c943e46afdf091f3c06ca879eca1681a
       classnames: 2.3.1
       immer: 7.0.15
       lodash: 4.17.21
@@ -5299,8 +5299,8 @@ packages:
       warning: 4.0.3
     dev: false
 
-  /@terminus/rc-form/2.5.17_prop-types@15.6.1:
-    resolution: {integrity: sha1-B5DzGsY8ays3SPqwz9d5wF6SZ7g=, tarball: https://registry.npm.terminus.io/@terminus/rc-form/download/@terminus/rc-form-2.5.17.tgz}
+  /@terminus/rc-form/2.5.18_prop-types@15.6.1:
+    resolution: {integrity: sha1-+pbzxmQz+uaL42wqM2b0wnLX29c=, tarball: https://registry.npm.terminus.io/@terminus/rc-form/download/@terminus/rc-form-2.5.18.tgz}
     peerDependencies:
       prop-types: ^15.0
     dependencies:
@@ -20798,7 +20798,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.14.0
       classnames: 2.3.1
-      date-fns: 2.21.3
+      date-fns: 2.22.0
       dayjs: 1.10.5
       moment: 2.29.1
       rc-trigger: 4.4.3_react-dom@16.14.0+react@16.14.0
