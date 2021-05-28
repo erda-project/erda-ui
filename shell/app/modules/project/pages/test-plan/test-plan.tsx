@@ -15,17 +15,14 @@ import { Icon as CustomIcon, CustomFilter, UserInfo } from 'common';
 import { Button, Progress, Spin, Table, Select, Input } from 'app/nusi';
 import React, { useState } from 'react';
 import PlanModal, { IPlanModal } from './plan-modal';
-import { goTo, insertWhen } from 'app/common/utils';
-import { map, isEmpty } from 'lodash';
+import { goTo } from 'app/common/utils';
+import { isEmpty } from 'lodash';
 import { useEffectOnce } from 'react-use';
-import MemberStore from 'common/stores/project-member';
-import routeInfoStore from 'common/stores/route';
 import { useLoading } from 'app/common/stores/loading';
 import testPlanStore from 'project/stores/test-plan';
 import i18n from 'i18n';
 import { ColumnProps } from 'core/common/interface';
 import './test-plan.scss';
-import { TEST_TYPE } from '../test-manage/case';
 
 const { Option } = Select;
 const iconMap = {
@@ -41,14 +38,10 @@ const statusMap = [
 ];
 
 const TestPlan = () => {
-  const testType = routeInfoStore.useStore(s => s.params.testType) || TEST_TYPE.manual;
-  const projectMembers = MemberStore.useStore(s => s.list);
-  const { getMemberList: getProjectMembers } = MemberStore.effects;
   const [modalProp, setModalProp] = useState({ visible: false, testPlanId: '', mode: 'add' } as IPlanModal);
   const { getPlanList } = testPlanStore.effects;
   const { clearPlanList } = testPlanStore.reducers;
   const [page, planList] = testPlanStore.useStore(s => [s.planPaging, s.planList]);
-  const params = routeInfoStore.useStore(s => s.params);
   const [isFetching] = useLoading(testPlanStore, ['getPlanList']);
 
   const updateModalProp = (a: object) => {
@@ -58,7 +51,6 @@ const TestPlan = () => {
     });
   };
   useEffectOnce(() => {
-    getProjectMembers({ scope: { type: 'project', id: params.projectId }, pageNo: 1, pageSize: 1000 }); // TODO: 后端后期会重构该接口，返回userMap，无需查列表
     getList();
     return () => {
       clearPlanList();
@@ -68,9 +60,6 @@ const TestPlan = () => {
   const getList = (q: any = {}) => {
     getPlanList(q);
   };
-
-  const memberMap = {};
-  map(projectMembers, (m: any) => { memberMap[+m.userId] = m; });
 
   const onPageChange = (pageNoNext: number) => {
     getList({ pageNo: pageNoNext });
@@ -98,24 +87,36 @@ const TestPlan = () => {
       dataIndex: 'ownerID',
       render: (text) => <UserInfo id={text} render={(data) => data.nick || data.name} />,
     },
-    ...insertWhen(testType === 'manual', [
-
-      {
-        title: i18n.t('project:passing rate'),
-        dataIndex: 'useCasePassedCount',
-        className: 'passing-rate',
-        render: (_text, { relsCount }) => {
-          const { total, succ } = relsCount;
-          const percent = Math.floor((succ / total) * 100 || 0);
-          return (
-            <div className="sub">
-              <span className="mr4">{percent}%</span>
-              <Progress style={{ width: '90px' }} percent={percent} showInfo={false} size="small" />
-            </div>
-          );
-        },
+    {
+      title: i18n.t('project:passing rate'),
+      dataIndex: 'useCasePassedCount',
+      className: 'passing-rate',
+      render: (_text, { relsCount }) => {
+        const { total, succ } = relsCount;
+        const percent = Math.floor((succ / (total || 1)) * 100 || 0);
+        return (
+          <div className="sub">
+            <span className="mr4">{percent}%</span>
+            <Progress style={{ width: '90px' }} percent={percent} showInfo={false} size="small" />
+          </div>
+        );
       },
-    ]),
+    },
+    {
+      title: i18n.t('project:exacutive rate'),
+      dataIndex: 'executionRate',
+      className: 'passing-rate',
+      render: (_text, { relsCount }) => {
+        const { total, succ, fail, block } = relsCount;
+        const percent = Math.floor(((succ + fail + block) / (total || 1)) * 100 || 0);
+        return (
+          <div className="sub">
+            <span className="mr4">{percent}%</span>
+            <Progress style={{ width: '90px' }} percent={percent} showInfo={false} size="small" />
+          </div>
+        );
+      },
+    },
     {
       title: i18n.t('default:operation'),
       dataIndex: 'id',
@@ -148,18 +149,16 @@ const TestPlan = () => {
   ];
 
   const filterConfig:FilterItemConfig[] = React.useMemo(() => [
-    ...insertWhen(testType === 'manual', [
-      {
-        type: Select,
-        name: 'status',
-        customProps: {
-          options: statusMap.map(({ label, value }) => <Option value={value}>{label}</Option>),
-          allowClear: true,
-          placeholder: i18n.t('project:select status'),
-          mode: 'multiple',
-        },
+    {
+      type: Select,
+      name: 'status',
+      customProps: {
+        options: statusMap.map(({ label, value }) => <Option value={value}>{label}</Option>),
+        allowClear: true,
+        placeholder: i18n.t('project:select status'),
+        mode: 'multiple',
       },
-    ]),
+    },
     {
       type: Input,
       name: 'name',
@@ -168,7 +167,7 @@ const TestPlan = () => {
         autoComplete: 'off',
       },
     },
-  ], [testType]);
+  ], []);
 
   return (
     <div>
