@@ -32,7 +32,7 @@ import CaseDrawer from 'project/pages/test-manage/case/case-drawer';
 import testEnvStore from 'project/stores/test-env';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import moment from 'moment';
-import { Search as IconSearch } from '@icon-park/react';
+import { Search as IconSearch, Plus as IconPlus } from '@icon-park/react';
 import './manual-test.scss';
 
 const ManualTest = () => {
@@ -110,7 +110,7 @@ const ManualTest = () => {
             {
               query.recycled !== 'true' && (
                 <>
-                  <Button type="primary" icon="plus" onClick={showCaseDrawer}>{i18n.t('project:add use case')}</Button>
+                  <Button type="primary" icon={<IconPlus/>} onClick={showCaseDrawer}>{i18n.t('project:add use case')}</Button>
                   <ImportFile
                     afterImport={reloadTestSets}
                   />

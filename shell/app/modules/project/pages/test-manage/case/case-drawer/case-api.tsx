@@ -16,6 +16,7 @@ import classnames from 'classnames';
 import { Copy, Icon as CustomIcon, useListDnD, EmptyListHolder, FileEditor } from 'common';
 import { isArray, isEmpty, isString, map, reduce, set, cloneDeep, find, reject, get } from 'lodash';
 import { Badge, Button, Input, Popconfirm, Popover, Radio, Select, Table, Tabs, Spin } from 'app/nusi';
+import { Copy as IconCopy } from '@icon-park/react';
 import testEnvStore from 'project/stores/test-env';
 import React from 'react';
 import { produce } from 'immer';
@@ -434,7 +435,7 @@ const ApiItem = ({ api, index, showArr, inPlan, executingMap, setCurShow, handle
                                   className="copy-btn for-copy copy-request"
                                   data-clipboard-text={get(request, 'body.content', '')}
                                   shape="circle"
-                                  icon="copy"
+                                  icon={<IconCopy/>}
                                 />
                                 <Copy selector=".copy-request" />
                                 <pre className="response-body">
@@ -472,7 +473,7 @@ const ApiItem = ({ api, index, showArr, inPlan, executingMap, setCurShow, handle
                 <Table size="small" pagination={false} columns={columns} dataSource={responseHeaders} />
               </TabPane>
               <TabPane key="Body" tab="Body">
-                <Button disabled={!body} className="copy-btn for-copy copy-response" data-clipboard-text={body} shape="circle" icon="copy" />
+                <Button disabled={!body} className="copy-btn for-copy copy-response" data-clipboard-text={body} shape="circle" icon={<IconCopy/>} />
                 <Copy selector=".copy-response" />
                 {responseBody}
               </TabPane>
