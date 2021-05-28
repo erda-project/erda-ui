@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Input, Dropdown, Menu, Ellipsis } from 'app/nusi';
+import { Input, Dropdown, Menu, Ellipsis, Tooltip } from 'app/nusi';
 import { useUpdate, EmptyHolder, Icon as CustomIcon } from 'common';
 import { map, get, find, filter, isEmpty, has, some, isEqual, last, compact } from 'lodash';
 import { useUpdateEffect, useEffectOnce } from 'react-use';
@@ -172,6 +172,7 @@ interface IOption {
   disabled?: boolean;
   isLeaf?: boolean;
   children?: IOption[];
+  tooltip?: string;
 }
 
 interface SelectorProps{
@@ -240,7 +241,15 @@ const PureSelect = (props: SelectorProps) => {
                 onSelect(op);
               }}
             >
-              <Ellipsis placement='right' title={op.label}>{op.label}</Ellipsis>
+              {
+                  op.tooltip ? (
+                    <Tooltip title={op.tooltip} placement='right'>
+                      <span className='full-width'>{op.label}</span>
+                    </Tooltip>
+                  ) : (
+                    <Ellipsis placement='right' title={op.label}>{op.label}</Ellipsis>
+                  )
+                }
             </div>
           );
         })
@@ -360,7 +369,15 @@ const OptionGroup = (props: IOptionGroupProps) => {
                   onSelect(op);
                 }}
               >
-                <Ellipsis placement='left' title={op.label}>{op.label}</Ellipsis>
+                {
+                  op.tooltip 
+                    ? (
+                      <Tooltip title={op.tooltip} placement='left'>
+                        <span className='full-width'>{op.label}</span>
+                      </Tooltip>
+                      ) 
+                    : <Ellipsis placement='left' title={op.label}>{op.label}</Ellipsis>
+                }
                 {
                   op.isLeaf === false ? (
                     <CustomIcon

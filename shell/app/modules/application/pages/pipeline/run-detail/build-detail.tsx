@@ -16,14 +16,14 @@ import moment from 'moment';
 import * as React from 'react';
 import cronstrue from 'cronstrue/i18n';
 import { Spin, Badge, Modal, Popover, Table, Row, Col, Tooltip, Menu, Dropdown, Alert, Input } from 'app/nusi';
-import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, Avatar, IF, NoAuthTip, useUpdate } from 'common';
+import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, Avatar, IF, useUpdate } from 'common';
 import { goTo, secondsToTime, replaceEmoji, updateSearch } from 'common/utils';
 import GotoCommit from 'application/common/components/goto-commit';
 import { ColumnProps } from 'core/common/interface';
 import { BuildLog } from './build-log';
 import PipelineChart from './pipeline-chart';
 import { ciStatusMap, ciBuildStatusSet } from './config';
-import { usePerm } from 'app/user/common';
+import { WithAuth } from 'app/user/common';
 import i18n, { isZh } from 'i18n';
 import buildStore from 'application/stores/build';
 import { useUpdateEffect, useEffectOnce } from 'react-use';
@@ -32,7 +32,6 @@ import appStore from 'application/stores/application';
 import { useLoading } from 'app/common/stores/loading';
 import PipelineLog from './pipeline-log';
 import './build-detail.scss';
-import orgStore from 'app/org-home/stores/org';
 import deployStore from 'application/stores/deploy';
 import { Loading as IconLoading, Up as IconUp, Down as IconDown, Attention as IconAttention } from '@icon-park/react';
 
@@ -42,18 +41,12 @@ const { confirm } = Modal;
 
 const noop = () => { };
 
-const evnBlockMap: { [key in APPLICATION.Workspace]: string } = {
-  DEV: 'blockDev',
-  TEST: 'blockTest',
-  STAGING: 'blockStage',
-  PROD: 'blockProd',
-};
-
 interface IProps {
   branch: string;
   source: string;
   ymlName: string;
   pagingYmlNames: string[];
+  deployAuth: { hasAuth: boolean; authTip?: string };
 }
 
 const extractData = (data: any) => pick(data, ['source', 'branch', 'ymlName']);
@@ -65,20 +58,17 @@ const BuildDetail = (props: IProps) => {
     logVisible: false,
     logProps: {},
     selectedRowId: null as null | number,
-    hasAuth: false,
     isHistoryBuild: false,
     isExpand: false,
-    isBlocked: false,
     chosenPipelineId: query.pipelineID || '' as string | number,
     recordTableKey: 1,
   });
-  const permMap = usePerm(s => s.app.pipeline);
-  const { startStatus, logProps, logVisible, selectedRowId, hasAuth, isHistoryBuild, isExpand, isBlocked } = state;
+  const { startStatus, logProps, logVisible, selectedRowId, isHistoryBuild, isExpand } = state;
   const toggleContainer: React.RefObject<HTMLDivElement> = React.useRef(null);
   const commitMsgRef: React.RefObject<HTMLDivElement> = React.useRef(null);
   const cronMsgRef: React.RefObject<HTMLDivElement> = React.useRef(null);
   // const { getPipelines, getExecuteRecordsByPageNo, activeItem, pipelineId } = props;
-  const { branch: propsBranch, source, pagingYmlNames } = props;
+  const { branch: propsBranch, source, pagingYmlNames, deployAuth } = props;
   const currentBranch = propsBranch;
   const [
     pipelineDetail,
@@ -93,11 +83,6 @@ const BuildDetail = (props: IProps) => {
   ]);
 
   const branchInfo = appStore.useStore(s => s.branchInfo);
-  const currentOrg = orgStore.useStore(s => s.currentOrg);
-
-  const { blockStatus } = appStore.useStore(s => s.detail);
-  const appBlocked = blockStatus !== 'unblocked';
-  const { blockoutConfig } = currentOrg;
   const rejectRef = React.useRef(null);
 
   const {
@@ -116,11 +101,6 @@ const BuildDetail = (props: IProps) => {
   const { clearPipelineDetail, clearExecuteRecords } = buildStore.reducers;
 
   const [getExecuteRecordsLoading, getPipelineDetailLoading, addPipelineLoading] = useLoading(buildStore, ['getExecuteRecords', 'getPipelineDetail', 'addPipeline']);
-  React.useEffect(() => {
-    const curWorkspace = get(find(branchInfo, { name: currentBranch }), 'workspace') as APPLICATION.Workspace;
-    const envBlocked = get(blockoutConfig, evnBlockMap[curWorkspace], false);
-    updater.isBlocked(envBlocked && appBlocked);
-  }, [appBlocked, blockoutConfig, branchInfo, currentBranch, updater]);
 
   React.useEffect(() => {
     state.chosenPipelineId && getPipelineDetail({ pipelineID: +state.chosenPipelineId });
@@ -133,10 +113,6 @@ const BuildDetail = (props: IProps) => {
 
   useUpdateEffect(() => {
     if (pipelineDetail) {
-      const isProtectBranch = get(find(branchInfo, { name: pipelineDetail.branch }), 'isProtect');
-      const curAuth = isProtectBranch ? permMap.executeProtected.pass : permMap.executeNormal.pass;
-      updater.hasAuth(curAuth);
-
       updater.selectedRowId(pipelineDetail.id);
       updater.isExpand(false);
       updater.isHistoryBuild(false);
@@ -317,7 +293,7 @@ const BuildDetail = (props: IProps) => {
         break;
       default: {
         const hasStarted = startStatus !== 'unstart';
-        if (!hasStarted && pipelineDetail && pipelineDetail.status === 'Analyzed' && hasAuth) {
+        if (!hasStarted && pipelineDetail && pipelineDetail.status === 'Analyzed' && deployAuth.hasAuth) {
           nodeClickConfirm(node);
         }
       }
@@ -393,36 +369,26 @@ const BuildDetail = (props: IProps) => {
     const { id: cronID } = pipelineCron;
     const cronRunBtn = (
       <div className="build-operator">
-        <IF check={hasAuth}>
+        <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
           <Tooltip title={i18n.t('application:start cron')}>
             <CustomIcon type="js" onClick={() => { startBuildCron(cronID); }} />
           </Tooltip>
-          <ELSE />
-          <NoAuthTip>
-            <CustomIcon type="js" />
-          </NoAuthTip>
-        </IF>
+        </WithAuth>
       </div>
     );
 
     return (
       <div className="cron-btn">
         <IF check={canStopCron}>
-          <IF check={hasAuth}>
+          <div className="build-operator">
             <DeleteConfirm title={`${i18n.t('application:confirm cancel cron build')}?`} secondTitle="" onConfirm={() => { cancelBuildCron(cronID); }}>
-              <div className="build-operator">
+              <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
                 <Tooltip title={i18n.t('application:cancel cron build')}>
                   <CustomIcon type="qxjs" />
                 </Tooltip>
-              </div>
+              </WithAuth>
             </DeleteConfirm>
-            <ELSE />
-            <NoAuthTip>
-              <div className="build-operator">
-                <CustomIcon type="qxjs" />
-              </div>
-            </NoAuthTip>
-          </IF>
+          </div>
           <ELSE />
           <IF check={canStartCron}>
             {cronRunBtn}
@@ -439,11 +405,11 @@ const BuildDetail = (props: IProps) => {
       <Menu>
         {canRerunFailed &&
           <Menu.Item>
-            <span className={isBlocked ? 'disabled' : ''} onClick={() => { reRunPipeline(false); }}>{`${i18n.t('application:rerun failed node')}(${i18n.t('application:commit unchanged')})`}</span>
+            <span className={!deployAuth.hasAuth ? 'disabled' : ''} onClick={() => { reRunPipeline(false); }}>{`${i18n.t('application:rerun failed node')}(${i18n.t('application:commit unchanged')})`}</span>
           </Menu.Item>}
         {canRerun &&
           <Menu.Item>
-            <span className={isBlocked ? 'disabled' : ''} onClick={() => { reRunPipeline(true); }}>{`${i18n.t('application:rerun whole pipeline')}(${i18n.t('application:commit unchanged')})`}</span>
+            <span className={!deployAuth.hasAuth ? 'disabled' : ''} onClick={() => { reRunPipeline(true); }}>{`${i18n.t('application:rerun whole pipeline')}(${i18n.t('application:commit unchanged')})`}</span>
           </Menu.Item>}
       </Menu>);
   };
@@ -464,34 +430,24 @@ const BuildDetail = (props: IProps) => {
           {paddingEle}
           <ELSE />
           <div className="build-operator">
-            <IF check={hasAuth}>
+            <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
               <Tooltip title={execTitle}>
-                {isBlocked ? <CustomIcon className="disabled" type="play1" /> : <CustomIcon onClick={() => { runBuild(); }} type="play1" />}
+                <CustomIcon onClick={() => { runBuild(); }} type="play1" />
               </Tooltip>
-              <ELSE />
-              <NoAuthTip>
-                <CustomIcon type="play1" />
-              </NoAuthTip>
-            </IF>
+            </WithAuth>
           </div>
         </IF>
         <ELSE />
         <IF check={canCancel}>
-          <IF check={hasAuth}>
+          <div className="build-operator">
             <DeleteConfirm title={`${i18n.t('application:confirm cancel current build')}?`} secondTitle="" onConfirm={() => { cancelBuild(); }}>
-              <div className="build-operator">
+              <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
                 <Tooltip title={i18n.t('application:cancel build')}>
                   <CustomIcon type="pause" />
                 </Tooltip>
-              </div>
+              </WithAuth>
             </DeleteConfirm>
-            <ELSE />
-            <NoAuthTip>
-              <div className="build-operator">
-                <CustomIcon type="pause" />
-              </div>
-            </NoAuthTip>
-          </IF>
+          </div>
         </IF>
         <ELSE />
         <div className="build-operator">
@@ -500,30 +456,24 @@ const BuildDetail = (props: IProps) => {
             {paddingEle}
             <ELSE />
             <IF check={canRerunFailed}>
-              <IF check={hasAuth}>
-                <Dropdown overlay={renderReRunMenu()} placement="bottomCenter">
-                  <CustomIcon className={isBlocked ? 'disabled' : ''} type="refresh" />
-                </Dropdown>
-                <ELSE />
-                <NoAuthTip>
-                  <CustomIcon type="refresh" />
-                </NoAuthTip>
-              </IF>
+              {
+                deployAuth.hasAuth ? (
+                  <Dropdown overlay={renderReRunMenu()} placement="bottomCenter">
+                    <CustomIcon type="refresh" />
+                  </Dropdown>
+                ) : (
+                  <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
+                    <CustomIcon type="refresh" />
+                </WithAuth>
+                )
+              }
               <ELSE />
               <IF check={canRerun}>
-                <IF check={hasAuth}>
+                <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
                   <Tooltip title={`${i18n.t('application:rerun whole pipeline')}(commit ${i18n.t('unchanged')})`}>
-                    {
-                      isBlocked
-                        ? <CustomIcon className="disabled" type="refresh" />
-                        : <CustomIcon onClick={() => { reRunPipeline(true); }} type="refresh" />
-                    }
+                    <CustomIcon onClick={() => { reRunPipeline(true); }} type="refresh" />
                   </Tooltip>
-                  <ELSE />
-                  <NoAuthTip>
-                    <CustomIcon type="refresh" />
-                  </NoAuthTip>
-                </IF>
+                </WithAuth>
               </IF>
             </IF>
           </IF>
