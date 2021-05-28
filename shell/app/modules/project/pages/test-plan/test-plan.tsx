@@ -153,7 +153,7 @@ const TestPlan = () => {
       type: Select,
       name: 'status',
       customProps: {
-        options: statusMap.map(({ label, value }) => <Option value={value}>{label}</Option>),
+        options: statusMap.map(({ label, value }) => <Option key={value} value={value}>{label}</Option>),
         allowClear: true,
         placeholder: i18n.t('project:select status'),
         mode: 'multiple',

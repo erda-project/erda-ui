@@ -3119,7 +3119,7 @@
     "chosen {num} items": "chosen {num} items",
     "circulation setting": "circulation setting",
     "click to copy": "click to copy",
-    "click-direct-no-env": "when you click directly, the selected environment is no environment",
+    "click-direct-no-env": "when you click directly, will execute cases without environment",
     "close": "close",
     "close-issue-tip": "new data will be lost after closing, confirm closing ?",
     "closed": "closed",
