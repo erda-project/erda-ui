@@ -14,6 +14,7 @@
 import i18n from 'i18n';
 import * as React from 'react';
 import { Icon as CustomIcon } from 'common';
+import { List as IconTask, Bug as IconBug } from '@icon-park/react';
 
 import './issue-config.scss';
 
@@ -35,9 +36,9 @@ export const ISSUE_ICON = {
     LOW: <CustomIcon type='di' className='issue-icon priority low' />,
   },
   issue: { // 时间类型icon
-    REQUIREMENT: <CustomIcon type='bulb' className='issue-icon issue-type requirement' />,
-    TASK: <CustomIcon type='task' className='issue-icon issue-type task' />,
-    BUG: <CustomIcon type='bug' className='issue-icon issue-type bug' />,
+    REQUIREMENT: <CustomIcon type='xiangfatianjia' className='issue-icon issue-type requirement' />,
+    TASK: <IconTask className='issue-icon issue-type task' size="14px" fill="#498e9e" />,
+    BUG: <IconBug className='issue-icon issue-type bug' size="14px" fill="#f47201" />,
     EPIC: <CustomIcon type='lichengbei' className='issue-icon issue-type epic' />,
   },
   severity: { // 严重程度icon（bug）

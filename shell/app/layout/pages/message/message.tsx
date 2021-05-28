@@ -19,7 +19,7 @@ import Markdown from 'common/utils/marked';
 import { map } from 'lodash';
 import moment from 'moment';
 import i18n from 'i18n';
-import logo from 'app/images/favicon.ico';
+import logo from 'app/static/favicon.ico';
 import './message.scss';
 import { useLoading } from 'app/common/stores/loading';
 import layoutStore from 'layout/stores/layout';
