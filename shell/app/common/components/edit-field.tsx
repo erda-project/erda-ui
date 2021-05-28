@@ -31,7 +31,7 @@ interface IMdProps {
   onChange(v: string): void
   onSave(v?: string, fieldType?:string): void
 }
-const EditMd = ({ value, onChange, onSave, disabled, originalValue, hasEdited, ...rest }: IMdProps) => {
+export const EditMd = ({ value, onChange, onSave, disabled, originalValue, hasEdited, ...rest }: IMdProps) => {
   const [v, setV] = React.useState(value);
   const [mdEditing, setMdEditing] = React.useState(false);
   const [showBtn, setShowBtn] = React.useState(false);
@@ -207,7 +207,6 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
       Comp = (
         <DatePicker
           className="full-width"
-          ref={compRef}
           allowClear={false}
           value={editValue ? moment(editValue) : undefined}
           onChange={(m: moment.Moment) => onSelectChange(m ? m.startOf('day') : undefined)}
