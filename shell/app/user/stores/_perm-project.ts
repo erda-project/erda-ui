@@ -201,6 +201,8 @@ export const projectPerm = {
         'Lead',
         'PM',
         'PD',
+        'Dev',
+        'QA',
       ],
     },
     switchType: {
@@ -371,7 +373,10 @@ export const projectPerm = {
       role: [
         'Owner',
         'Lead',
+        'PM',
+        'PD',
         'Dev',
+        'QA',
         'Creator',
         'Assignee',
       ],
@@ -385,6 +390,7 @@ export const projectPerm = {
         'PM',
         'PD',
         'Dev',
+        'QA',
       ],
     },
     switchType: {
@@ -444,6 +450,7 @@ export const projectPerm = {
         'Lead',
         'PM',
         'PD',
+        'Dev',
         'QA',
       ],
     },
@@ -504,6 +511,10 @@ export const projectPerm = {
       name: '关闭',
       role: [
         'Owner',
+        'Lead',
+        'PM',
+        'PD',
+        'Dev',
         'QA',
         'Creator',
       ],
@@ -965,7 +976,7 @@ export const projectPerm = {
           'PD',
           'Dev',
           'QA',
-          'Ops',
+          'Ops'
         ],
         name: '查看',
       },
@@ -979,6 +990,9 @@ export const projectPerm = {
         'Owner',
         'Lead',
         'PM',
+        'PD',
+        'Dev',
+        'QA'
       ],
       name: '查看',
     },

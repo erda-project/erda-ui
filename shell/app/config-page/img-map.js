@@ -13,7 +13,7 @@
 
 import defaultProjectIcon from 'app/images/default-project-icon.png'
 import defaultOrgIcon from 'app/images/default-org-icon.svg'
-import defaultErdaIcon from 'app/images/favicon.ico'
+import defaultErdaIcon from 'app/static/favicon.ico'
 import defaultOrgImg from 'app/images/resources/org.png'
 import defaultAppIcon from 'app/images/default-app-icon.png'
 

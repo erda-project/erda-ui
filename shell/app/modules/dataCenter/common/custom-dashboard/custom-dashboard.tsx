@@ -18,7 +18,7 @@ import { map, merge, reduce, isString, get } from 'lodash';
 import { Choose, When, Otherwise } from 'tsx-control-statements/components';
 import { CommonRangePicker, useUpdate, IF, BoardGrid, PureBoardGrid } from 'common';
 import { registDiceDataConfigProps, createLoadDataFn } from '@terminus/dashboard-configurator';
-import { goTo, getTimeSpan, setApiWithOrg } from 'common/utils';
+import { goTo, getTimeSpan } from 'common/utils';
 import moment from 'moment';
 import { useMount } from 'react-use';
 import routeInfoStore from 'common/stores/route';
@@ -42,8 +42,8 @@ const dataConfigMetaDataStoreMap = {
 };
 
 const dataUrlMap = {
-  [CustomDashboardScope.ORG]: setApiWithOrg('/api/orgCenter/metrics-query'),
-  [CustomDashboardScope.MICRO_SERVICE]: setApiWithOrg('/api/tmc/metrics-query'),
+  [CustomDashboardScope.ORG]: '/api/orgCenter/metrics-query',
+  [CustomDashboardScope.MICRO_SERVICE]: '/api/tmc/metrics-query',
 };
 
 export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: string }) => {

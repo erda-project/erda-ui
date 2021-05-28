@@ -132,18 +132,18 @@ const RepoMrTable = ({ type }: IProps) => {
                         {assigneeUser.nick}
                       </Tooltip>
                     </div>
-                    <div className="sub-title">
+                    <div className="sub-title left-flex-box">
                       <span className="mr4">
                       #{item.mergeId}
                       </span>
-                      <span className="mr24">
+                      <span className="mr24 left-flex-box">
                         <Tooltip title={curActor.name}>
                           <Avatar className="mb4 mr4" showName name={curActor.nick} />
                         </Tooltip>
                         &nbsp;{actionMap[item.state]}&nbsp;{i18n.t('at')} {fromNow(item[updateKeyMap[item.state]])}
                       </span>
                     </div>
-                    <div className="desc">
+                    <div className="desc left-flex-box">
                       <span className="mr4">
                         <Avatar showName name={<Tooltip title={authorUser.name}>{authorUser.nick}</Tooltip>} />
                       </span>
