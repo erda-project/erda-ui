@@ -370,13 +370,13 @@ const OptionGroup = (props: IOptionGroupProps) => {
                 }}
               >
                 {
-                  op.tooltip ? (
-                    <Tooltip title={op.tooltip} placement='left'>
-                      <span className='full-width'>{op.label}</span>
-                    </Tooltip>
-                  ) : (
-                    <Ellipsis placement='left' title={op.label}>{op.label}</Ellipsis>
-                  )
+                  op.tooltip 
+                    ? (
+                      <Tooltip title={op.tooltip} placement='left'>
+                        <span className='full-width'>{op.label}</span>
+                      </Tooltip>
+                      ) 
+                    : <Ellipsis placement='left' title={op.label}>{op.label}</Ellipsis>
                 }
                 {
                   op.isLeaf === false ? (
