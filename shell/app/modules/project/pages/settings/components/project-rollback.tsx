@@ -31,7 +31,7 @@ const workSpaceMap = {
 export default ({ hasEditAuth }: IProps) => {
   const info = projectStore.useStore(s => s.info);
   const { updateProject } = projectStore.effects;
-  const { rollbackConfig = {} } = info;
+  const { rollbackConfig } = info;
 
   const formData = {};
   const tableData: object[] = [];
@@ -39,7 +39,7 @@ export default ({ hasEditAuth }: IProps) => {
   const sortBy = WORKSPACE_LIST;
   sortBy.forEach((workspace) => {
     const name = workspace.toUpperCase();
-    const point = rollbackConfig[workspace];
+    const point = (rollbackConfig || {})[workspace];
 
     tableData.push({ workspace, point });
     formData[`rollbackConfig.${name}`] = point || 5;
