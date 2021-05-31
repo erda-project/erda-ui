@@ -32,13 +32,15 @@ export default async ({ image: baseImage, skip, enableSourceMap, local }: Props)
   try {
     checkIsRoot();
     const rootDir = process.cwd();
-    const isSkip = skip ? '-s' : '';
-    const createSourceMap = enableSourceMap ? '-m' : '';
-    const isLocalMode = local ? '-l' : '';
+    const extraOptions = [];
+
+    skip && extraOptions.push('-s');
+    enableSourceMap && extraOptions.push('-m');
+    local && extraOptions.push('-l');
 
     const buildProcess = await spawnSync('erda-ui', baseImage
-      ? ['build', '-i', baseImage, isSkip, createSourceMap]
-      : ['build', isSkip, isLocalMode, createSourceMap], { env: process.env, cwd: rootDir, stdio: 'inherit' });
+      ? ['build', '-i', baseImage, ...extraOptions]
+      : ['build', ...extraOptions], { env: process.env, cwd: rootDir, stdio: 'inherit' });
 
     if (buildProcess.status === 1) {
       process.exit(1);

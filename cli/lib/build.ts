@@ -63,13 +63,11 @@ const checkBranch = async () => {
   logInfo(`Current Branch of erda-ui:【${moduleBranches[0]}】`);
 
   if (moduleBranches.length > 1) {
-    const dependentModuleBranches: string[] = [];
+    logInfo('Current Branch of dependent modules:');
     moduleList.filter(({ moduleName }) => !['core', 'shell'].includes(moduleName))
       .forEach(({ moduleName }, index) => {
-        dependentModuleBranches.push(`${moduleName}:【${moduleBranches[index + 1]}】`);
+        logInfo(`${moduleName}:【${moduleBranches[index + 1]}】`);
       });
-
-    logInfo('Current Branch of dependent modules: ', dependentModuleBranches.join(', '));
   }
 
   const isAllReleaseBranch = moduleBranches.every((branch) => {
