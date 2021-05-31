@@ -125,10 +125,10 @@ describe('EditField', () => {
         itemProps={{}}
       />
     );
-    expect(wrapper.find('PickerWrapper').prop('value').isSame(curr, 'date')).toBeTruthy();
+    expect(wrapper.find('Picker').at(0).prop('value').isSame(curr, 'date')).toBeTruthy();
     act(() => {
-      wrapper.find('PickerWrapper').prop('onChange')(prev);
-      wrapper.find('PickerWrapper').prop('onBlur')();
+      wrapper.find('Picker').at(0).prop('onChange')(prev);
+      wrapper.find('Picker').at(0).prop('onBlur')();
     });
     expect(changeCbFn).toHaveBeenCalledTimes(1);
   });

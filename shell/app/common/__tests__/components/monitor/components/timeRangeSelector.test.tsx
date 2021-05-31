@@ -37,17 +37,17 @@ describe('TimeSelector', () => {
       />
     );
     expect(wrapper.find('.monitor-time-selector-inline')).toExist();
-    const value = wrapper.find('PickerWrapper').prop('value') || [];
+    const value = wrapper.find('RangePicker').at(0).prop('value') || [];
     expect(value[0].isSame(start, 'date')).toBeTruthy();
     expect(value[1].isSame(end, 'date')).toBeTruthy();
-    wrapper.find('span.ant-calendar-picker-input').simulate('click');
-    wrapper.find('PickerWrapper').prop('onChange')([start1, end]);
+    wrapper.find('div.ant-picker-range').simulate('click');
+    wrapper.find('RangePicker').at(0).prop('onChange')([start1, end]);
     const { value: newValue = [] } = wrapper.state();
     expect(newValue[0].isSame(start1, 'date')).toBeTruthy();
-    wrapper.find('PickerWrapper').prop('onOpenChange')(false);
+    wrapper.find('RangePicker').at(0).prop('onOpenChange')(false);
     const { value: newValue1 = [] } = wrapper.state();
     expect(newValue1[0].isSame(start, 'date')).toBeTruthy();
-    wrapper.find('PickerWrapper').prop('onOk')();
+    wrapper.find('RangePicker').at(0).prop('onOk')();
     expect(onChangeTimeFn).toHaveBeenCalled();
     wrapper.setProps({
       inline: false,
