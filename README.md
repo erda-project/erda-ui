@@ -30,7 +30,56 @@ Modern browsers
 | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
 
 ## 🚀 Quick Start
-TODO
+### Usage
+
+Welcome to use [Erda Cloud](https://erda.cloud)
+
+### Installation
+
+Please follow How to install Erda.
+
+* [installation document](https://github.com/erda-project/erda/blob/9c904121313821d2b9f7ba15eeebb9286216c4a5/docs/guides/deploy/How-to-install-the-Erda.md)
+
+### Run Erda-UI project
+
+> This repository contains many Node.JS packages. Each package has its own set of commands, but the most common commands are available from the root `package.json` and can be accessed using the `npm run ...` command. Just follow the four steps below to start.
+
+```bash
+# Step1 Initialize the project of erda-ui
+  # Run the following command in the root directory of erda-ui
+	node setup.js
+
+  # What does this command do?
+  # 1.1 Initialize dependencies in shell, core, scheduler and cli
+  # 1.2 Initialize ./erda/config.js in shell and core
+  # 1.3 Register erda-ui command globally
+  # 1.4 Generate .env in the root directory of erda-ui, which includes some environment variables
+
+
+# Step2 Initialize modules in the directory of fdp and admin (Except for modules in the erda-ui directory)
+  # Run the following command in the root directory of fdp and admin
+	erda-ui setup <module> <port> 
+	e.g., erda-ui setup admin 5001
+
+  # What does this command do?
+  # The port number of each module can be viewed in the .env file. After successful running, the .erda/config.js configuration file will be generated in the root directory of each module, and the path of the corresponding module will be automatically written in the .env file
+
+
+# Step3 Build core package
+  # Run the following command in the directory of erda-ui/core
+	npm run build-dev
+
+  # What does this command do?
+  # The core package file will be generated in the public folder of the root directory, and static files will be read from that directory in development mode
+
+
+# Step4 Start App
+  # Run the following command in the directory of erda-ui
+  	erda-ui launch
+
+  # What does this command do?
+  # The erda-ui directive contains a launch command. Running the erda-ui launch in the root directory of erda-ui can manage the processes of multiple modules in the same window simultaneously, and it will launch the corresponding services based on the modules registered in the .env file
+```
 
 ## Architecture
 Technology stack：

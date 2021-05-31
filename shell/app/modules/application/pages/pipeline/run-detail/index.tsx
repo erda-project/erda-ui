@@ -14,12 +14,15 @@
 import * as React from 'react';
 import BuildDetail from './build-detail';
 import fileTreeStore from 'common/stores/file-tree';
-import { get } from 'lodash';
 import { EmptyHolder } from 'common';
 import { getBranchPath } from 'application/pages/pipeline/config';
 import routeInfoStore from 'common/stores/route';
 
-const RunDetail = () => {
+interface IProps {
+  deployAuth: { hasAuth: boolean; authTip?: string };
+}
+
+const RunDetail = (props: IProps) => {
   const [caseDetail] = fileTreeStore.useStore(s => [s.curNodeDetail]);
   const fileName = caseDetail.name;
   const { appId } = routeInfoStore.useStore(s => s.params);
@@ -27,6 +30,7 @@ const RunDetail = () => {
   
   return branch ? (
     <BuildDetail
+      {...props}
       ymlName={fileName}
       source={'dice'}
       branch={branch as string}

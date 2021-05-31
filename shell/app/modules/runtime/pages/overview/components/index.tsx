@@ -25,6 +25,7 @@ import i18n from 'i18n';
 import routeInfoStore from 'app/common/stores/route';
 import runtimeStore from 'app/modules/runtime/stores/runtime';
 import PipelineLog from 'application/pages/build-detail/pipeline-log';
+import { MenuUnfold } from '@icon-park/react';
 import './index.scss';
 
 const RuntimeOverView = () => {
@@ -232,7 +233,7 @@ const RuntimeOverView = () => {
         </Col>
         <Col span={proportion[1]} style={{ paddingRight: 'unset' }}>
           <div className="overview-body-title"><span className="align-middle">{i18n.t('runtime:activity')}</span>
-            <Tooltip title={i18n.t('runtime:folding')}><Button size="small" className="ml4" shape="circle" icon="menu-unfold" onClick={() => toggleFold(true)} /></Tooltip>
+            <Tooltip title={i18n.t('runtime:folding')}><Button size="small" className="ml4" shape="circle" icon={<MenuUnfold/>} onClick={() => toggleFold(true)} /></Tooltip>
           </div>
           <ErrorBoundary>
             <ActivityLog />
@@ -242,7 +243,7 @@ const RuntimeOverView = () => {
       <IF check={proportion[1] === 0}>
         <span className="open-activity" onClick={() => setProportion([16, 8])}>
           <Tooltip title={i18n.t('runtime:expanding activities')}>
-            <Button size="small" shape="circle" icon="menu-fold" onClick={() => toggleFold(false)} />
+            <Button size="small" shape="circle" icon={<MenuUnfold/>} onClick={() => toggleFold(false)} />
           </Tooltip>
         </span>
       </IF>

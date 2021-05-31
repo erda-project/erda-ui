@@ -18,6 +18,7 @@ import { validateValue } from 'common/components/edit-list/edit-list';
 import { isArray, isEmpty, isString, map, reduce, set, cloneDeep, find, reject, last, get } from 'lodash';
 import { Badge, Button, Input, Popconfirm, Popover, Radio, Select, Table, Tabs, Spin, Title, Modal, message, Dropdown, Menu, Tooltip } from 'app/nusi';
 import React from 'react';
+import { Copy as IconCopy } from '@icon-park/react';
 import { produce } from 'immer';
 import i18n from 'i18n';
 import './api-editor.scss';
@@ -423,7 +424,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                                         className="copy-btn for-copy copy-request"
                                         data-clipboard-text={get(request, 'body.content', '')}
                                         shape="circle"
-                                        icon="copy"
+                                        icon={<IconCopy/>}
                                       />
                                       <Copy selector=".copy-request" />
                                     </>
@@ -467,7 +468,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                 {
                   body ? (
                     <>
-                      <Button disabled={!body} className="copy-btn for-copy copy-response" data-clipboard-text={body} shape="circle" icon="copy" />
+                      <Button disabled={!body} className="copy-btn for-copy copy-response" data-clipboard-text={body} shape="circle" icon={<IconCopy/>} />
                       <Copy selector=".copy-response" />
                     </>
                   ) : null

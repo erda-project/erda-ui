@@ -24,14 +24,13 @@ import DiceYamlEditor from './yml-editor';
 import { needRenderWorkFlowView, isPipelineWorkflowYml, isPipelineYml, isInDiceDirectory, isYml } from 'application/common/yml-flow-util';
 import repoStore from 'application/stores/repo';
 import routeInfoStore from 'common/stores/route';
-import{ useMount } from 'react-use'; 
+import{ useMount } from 'react-use';
 import appStore from 'application/stores/application';
 import { getInfoFromRefName } from '../util';
 import { useLoading } from 'app/common/stores/loading';
 import { AppPermType } from 'app/user/stores/_perm-state';
 import { usePerm } from 'user/common';
 import PipelineYml from 'application/common/yml-editor/pipeline-editor';
-import { AuditTemplateManager, ifRouterMatch } from './audit-template-manager';
 import i18n from 'i18n';
 
 import './repo-file.scss';
@@ -256,9 +255,7 @@ const RepoFileContainerComp = (props: IProps) => {
       );
     }
 
-    if (ifRouterMatch() && !editFile) {
-      return <AuditTemplateManager />;
-    } else if (fileBlame) {
+    if (fileBlame) {
       return <RepoBlame {...props as any} ops={ops} />;
     } else if (isPipelineYml(fileName) || (isInDiceDirectory(tree.path) && isYml(fileName))) {
       // 3.19：新pipelineYml接管pipeline文件的查看、编辑、状态切换，编辑状态行为同流水线模板（addPipelineYml）

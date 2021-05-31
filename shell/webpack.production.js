@@ -23,9 +23,6 @@ const FileManagerPlugin = require('filemanager-webpack-plugin');
 const moment = require('moment');
 // const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 
-// const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
-
-// const smp = new SpeedMeasurePlugin();
 
 const gitRevisionPlugin = new GitRevisionPlugin();
 const banner = `commit: ${gitRevisionPlugin.commithash().slice(0, 6)}

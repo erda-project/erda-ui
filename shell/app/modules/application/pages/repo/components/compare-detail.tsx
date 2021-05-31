@@ -55,7 +55,7 @@ const CompareDetail = ({ hideComment, disableComment = false }: IProps) => {
           <CommitList commits={commits} />
         </TabPane>
         <TabPane key="diff" tab={<span>{i18n.t('application:changed files')}<span className="dice-badge">{diff ? diff.filesChanged : '0'}</span> </span>} >
-          <FileDiff diff={diff} from={from} to={to} comments={comments} mode="compare" disableComment={disableComment} />
+          <FileDiff key={`${from}-${to}`} diff={diff} from={from} to={to} comments={comments} mode="compare" disableComment={disableComment} />
         </TabPane>
       </Tabs>
     </Spin>
