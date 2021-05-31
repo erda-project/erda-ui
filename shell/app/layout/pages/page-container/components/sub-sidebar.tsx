@@ -19,7 +19,7 @@ import routeInfoStore from 'common/stores/route';
 import { MenuConfigItemProps, Theme } from 'core/common/interface';
 import MenuHeader from './menu-head';
 import { isEmpty, isEqual, pickBy } from 'lodash';
-import { qs } from 'common/utils';        
+import { qs } from 'common/utils';
 import { Icon as CustomIcon, useUpdate } from 'common';
 import './sub-sidebar.scss';
 
@@ -69,20 +69,28 @@ const removeEmptyQuery = (href: string) => {
 
 const firstLetterUpper = (str: string) => str.slice(0, 1).toUpperCase() + str.slice(1);
 
-const findActiveKey = (menu: IMenu[]) => {
+const findActiveKey = (menu: IMenu[], curHref: string) => {
   const { pathname } = window.location;
   let activeKey = '';
-  menu.forEach(({ href, isActive, prefix }) => {
-    if (isActive ? isActive(pathname) : pathname.startsWith(prefix || href)) {
-      // match the longest href
-      if (activeKey) {
-        activeKey = activeKey.length > href.length ? activeKey : href;
-      } else {
-        activeKey = href;
+  const tmpParentActiveKeyList = [] as string[];
+  let realParentActiveKeyList = [] as string[];
+  const getActiveKey = (menuNext: IMenu[], parentKey: string) => {
+    menuNext.forEach(({ href, isActive, prefix, subMenu }) => {
+      parentKey && !tmpParentActiveKeyList.includes(parentKey) && tmpParentActiveKeyList.push(parentKey);
+      if (subMenu) getActiveKey(subMenu, href);
+      if (isActive ? isActive(pathname) : pathname.startsWith(prefix || href)) {
+        realParentActiveKeyList = [...tmpParentActiveKeyList];
+        // match the longest href
+        if (activeKey) {
+          activeKey = activeKey.length > href.length ? activeKey : href;
+        } else {
+          activeKey = href;
+        }
       }
-    }
-  });
-  return activeKey;
+    });
+  };
+  getActiveKey(menu, curHref);
+  return [activeKey, realParentActiveKeyList];
 };
 
 const SubSideBar = () => {
@@ -107,7 +115,7 @@ const SubSideBar = () => {
   }
 
   const organizeInfo = (menu: IMenu[]) => {
-    let activeKey = '';
+    let activeKeyList = [] as string[];
     let selectedKey = '';
     const fullMenu: IMenu[] = menu.map((item: IMenu) => {
       let { subMenu = [], href } = item;
@@ -115,21 +123,34 @@ const SubSideBar = () => {
       if (isEmpty(subMenu) && item.key && subList[item.key]) {
         subMenu = removeQuery(subList[item.key]) as any;
       }
-      subMenu = subMenu.map((sub: IMenu) => {
-        return {
-          ...sub,
-          title: firstLetterUpper(sub.text),
-          href: removeEmptyQuery(sub.href),
-        };
-      });
-      const subActiveKey = findActiveKey(subMenu as IMenu[]);
-      if (subActiveKey) {
-        selectedKey = subActiveKey;
-        activeKey = href;
-      }
+      const getAllSubMenu = (subMenuNext: IMenu[]): IMenu[] => {
+        let subMenuNextChildren = [] as IMenu[];
 
-      const IconComp = ()=> item.icon;
-      
+        return subMenuNext.map((sub: IMenu) => {
+          if (sub.subMenu) {
+            subMenuNextChildren = getAllSubMenu(sub.subMenu);
+            return {
+              ...sub,
+              title: firstLetterUpper(sub.text),
+              href: removeEmptyQuery(sub.href),
+              children: subMenuNextChildren,
+            };
+          }
+          return {
+            ...sub,
+            title: firstLetterUpper(sub.text),
+            href: removeEmptyQuery(sub.href),
+          };
+        });
+      };
+
+      subMenu = getAllSubMenu(subMenu);
+      const [subActiveKey, parentActiveKeyList] = findActiveKey(subMenu as IMenu[], href);
+      if (subActiveKey) {
+        selectedKey = subActiveKey as string;
+        activeKeyList = parentActiveKeyList as string[];
+      }
+      const IconComp = () => item.icon;
       return {
         ...item,
         title: firstLetterUpper(item.text),
@@ -140,17 +161,17 @@ const SubSideBar = () => {
       };
     });
     // 二级有高亮，则父级也高亮，二级都没有时从一级找
-    activeKey = activeKey || findActiveKey(fullMenu);
-    return { activeKey, fullMenu, selectedKey: selectedKey || activeKey };
+    activeKeyList = activeKeyList.length ? activeKeyList : [findActiveKey(fullMenu, '')[0] as string];
+    return { activeKeyList, fullMenu, selectedKey: selectedKey || activeKeyList[0] };
   };
 
   const { menu = [] } = siderInfo || {};
   React.useEffect(() => {
-    const { activeKey, fullMenu, selectedKey } = organizeInfo(menu);
+    const { activeKeyList, fullMenu, selectedKey } = organizeInfo(menu);
     if (!isEqual(fullMenu, state.menus) || selectedKey !== state.selectedKey) {
       update({
         menus: fullMenu,
-        openKeys: [activeKey],
+        openKeys: activeKeyList || [],
         selectedKey,
       });
     }
