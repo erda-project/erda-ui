@@ -595,7 +595,7 @@ const ApiDesign = () => {
                           <div className="api-design-content-list column-flex-box flex-start">
                             <Input
                               placeholder={i18n.t('input keyword search')}
-                              className="px8 my12 api-filter-input"
+                              className="mx8 my12 api-filter-input"
                               prefix={<IconSearch />}
                               onInput={(e: React.ChangeEvent<HTMLInputElement>) => updater.filterKey(e.target.value)}
                             />

@@ -109,7 +109,7 @@
     "@paiva/translation-google": "^1.0.9",
     "@phenomnomnominal/tsquery": "^4.1.1",
     "@svgr/webpack": "^4.1.0",
-    "@terminus/dashboard-configurator": "^1.2.3",
+    "@terminus/dashboard-configurator": "^1.2.4",
     "@types/classnames": "^2.2.6",
     "@types/clipboard": "^2.0.1",
     "@types/diff-match-patch": "^1.0.32",

@@ -36,7 +36,7 @@ import { IconProvider, DEFAULT_ICON_CONFIGS } from '@icon-park/react';
 setConfig('onAPISuccess', nusi.message.success);
 setConfig('onAPIFail', notify);
 
-const { NusiConfigProvider, AntdConfigProvider } = nusi;
+const { NusiConfigProvider, AntdConfigProvider, Antd4ConfigProvider } = nusi;
 const momentLangMap = {
   en: 'en',
   zh: 'zh-cn',
@@ -83,11 +83,13 @@ const start = (userData: ILoginUser) => {
       const currentLocale = getCurrentLocale();
       return (
         <AntdConfigProvider renderEmpty={EmptyListHolder} locale={currentLocale.antd}>
-          <NusiConfigProvider locale={currentLocale.nusi}>
-            <IconProvider value={IconConfig}>
-              <App />
-            </IconProvider>
-          </NusiConfigProvider>
+          <Antd4ConfigProvider renderEmpty={EmptyListHolder} locale={currentLocale.antd4}>
+            <NusiConfigProvider locale={currentLocale.nusi}>
+              <IconProvider value={IconConfig}>
+                <App />
+              </IconProvider>
+            </NusiConfigProvider>
+          </Antd4ConfigProvider>
         </AntdConfigProvider>
       );
     };
