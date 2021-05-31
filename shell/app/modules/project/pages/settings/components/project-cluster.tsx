@@ -58,7 +58,7 @@ const ProjectCluster = ({
   const sortBy = WORKSPACE_LIST;
   sortBy.forEach((workspace) => {
     const name = workspace.toUpperCase();
-    const clusterName = (clusterConfig || {})[workspace];
+    const clusterName = clusterConfig?.[workspace];
 
     tableData.push({ workspace, clusterName });
     formData[`clusterConfig.${name}`] = clusterName;

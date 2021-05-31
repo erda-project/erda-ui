@@ -39,7 +39,7 @@ export default ({ hasEditAuth }: IProps) => {
   const sortBy = WORKSPACE_LIST;
   sortBy.forEach((workspace) => {
     const name = workspace.toUpperCase();
-    const point = (rollbackConfig || {})[workspace];
+    const point = rollbackConfig?.[workspace];
 
     tableData.push({ workspace, point });
     formData[`rollbackConfig.${name}`] = point || 5;
