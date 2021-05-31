@@ -69,13 +69,17 @@ const removeEmptyQuery = (href: string) => {
 
 const firstLetterUpper = (str: string) => str.slice(0, 1).toUpperCase() + str.slice(1);
 
-const findActiveKey = (menu: IMenu[]) => {
+const findActiveKey = (menu: IMenu[], curHref: string) => {
   const { pathname } = window.location;
   let activeKey = '';
-  const getActiveKey = (menuNext: IMenu[]) => {
+  const tmpParentActiveKeyList = [] as string[];
+  let realParentActiveKeyList = [] as string[];
+  const getActiveKey = (menuNext: IMenu[], parentKey: string) => {
     menuNext.forEach(({ href, isActive, prefix, subMenu }) => {
-      if (subMenu) getActiveKey(subMenu);
+      parentKey && !tmpParentActiveKeyList.includes(parentKey) && tmpParentActiveKeyList.push(parentKey);
+      if (subMenu) getActiveKey(subMenu, href);
       if (isActive ? isActive(pathname) : pathname.startsWith(prefix || href)) {
+        realParentActiveKeyList = [...tmpParentActiveKeyList];
         // match the longest href
         if (activeKey) {
           activeKey = activeKey.length > href.length ? activeKey : href;
@@ -85,8 +89,8 @@ const findActiveKey = (menu: IMenu[]) => {
       }
     });
   };
-  getActiveKey(menu);
-  return activeKey;
+  getActiveKey(menu, curHref);
+  return [activeKey, realParentActiveKeyList];
 };
 
 const SubSideBar = () => {
@@ -111,7 +115,7 @@ const SubSideBar = () => {
   }
 
   const organizeInfo = (menu: IMenu[]) => {
-    let activeKey = '';
+    let activeKeyList = [] as string[];
     let selectedKey = '';
     const fullMenu: IMenu[] = menu.map((item: IMenu) => {
       let { subMenu = [], href } = item;
@@ -125,7 +129,6 @@ const SubSideBar = () => {
         return subMenuNext.map((sub: IMenu) => {
           if (sub.subMenu) {
             subMenuNextChildren = getAllSubMenu(sub.subMenu);
-            href = sub.href;
             return {
               ...sub,
               title: firstLetterUpper(sub.text),
@@ -142,12 +145,11 @@ const SubSideBar = () => {
       };
 
       subMenu = getAllSubMenu(subMenu);
-      const subActiveKey = findActiveKey(subMenu as IMenu[]);
+      const [subActiveKey, parentActiveKeyList] = findActiveKey(subMenu as IMenu[], href);
       if (subActiveKey) {
-        selectedKey = subActiveKey;
-        activeKey = href;
+        selectedKey = subActiveKey as string;
+        activeKeyList = parentActiveKeyList as string[];
       }
-
       const IconComp = () => item.icon;
       return {
         ...item,
@@ -159,17 +161,17 @@ const SubSideBar = () => {
       };
     });
     // 二级有高亮，则父级也高亮，二级都没有时从一级找
-    activeKey = activeKey || findActiveKey(fullMenu);
-    return { activeKey, fullMenu, selectedKey: selectedKey || activeKey };
+    activeKeyList = activeKeyList.length ? activeKeyList : [findActiveKey(fullMenu, '')[0] as string];
+    return { activeKeyList, fullMenu, selectedKey: selectedKey || activeKeyList[0] };
   };
 
   const { menu = [] } = siderInfo || {};
   React.useEffect(() => {
-    const { activeKey, fullMenu, selectedKey } = organizeInfo(menu);
+    const { activeKeyList, fullMenu, selectedKey } = organizeInfo(menu);
     if (!isEqual(fullMenu, state.menus) || selectedKey !== state.selectedKey) {
       update({
         menus: fullMenu,
-        openKeys: [activeKey],
+        openKeys: activeKeyList || [],
         selectedKey,
       });
     }
