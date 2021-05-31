@@ -118,7 +118,14 @@ export default (content?: string, renderFns = {}) => {
     });
   }
 
-  Object.assign(renderer, overrideRenderFns, renderFns);
+  const defaultRenderFns = {
+    link(href: string, _title: string, text: string) {
+      let link = href;
+      return `<a href="${link}" target="_blank">${text}</a>`;
+    },
+  }
+
+  Object.assign(renderer, overrideRenderFns, { ...defaultRenderFns, ...renderFns });
 
   return Markdown(content);
 };
