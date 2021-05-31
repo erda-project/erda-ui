@@ -19,7 +19,7 @@ import routeInfoStore from 'common/stores/route';
 import { MenuConfigItemProps, Theme } from 'core/common/interface';
 import MenuHeader from './menu-head';
 import { isEmpty, isEqual, pickBy } from 'lodash';
-import { qs } from 'common/utils';        
+import { qs } from 'common/utils';
 import { Icon as CustomIcon, useUpdate } from 'common';
 import './sub-sidebar.scss';
 
@@ -72,16 +72,20 @@ const firstLetterUpper = (str: string) => str.slice(0, 1).toUpperCase() + str.sl
 const findActiveKey = (menu: IMenu[]) => {
   const { pathname } = window.location;
   let activeKey = '';
-  menu.forEach(({ href, isActive, prefix }) => {
-    if (isActive ? isActive(pathname) : pathname.startsWith(prefix || href)) {
-      // match the longest href
-      if (activeKey) {
-        activeKey = activeKey.length > href.length ? activeKey : href;
-      } else {
-        activeKey = href;
+  const getActiveKey = (menuNext: IMenu[]) => {
+    menuNext.forEach(({ href, isActive, prefix, subMenu }) => {
+      if (subMenu) getActiveKey(subMenu);
+      if (isActive ? isActive(pathname) : pathname.startsWith(prefix || href)) {
+        // match the longest href
+        if (activeKey) {
+          activeKey = activeKey.length > href.length ? activeKey : href;
+        } else {
+          activeKey = href;
+        }
       }
-    }
-  });
+    });
+  };
+  getActiveKey(menu);
   return activeKey;
 };
 
@@ -115,21 +119,36 @@ const SubSideBar = () => {
       if (isEmpty(subMenu) && item.key && subList[item.key]) {
         subMenu = removeQuery(subList[item.key]) as any;
       }
-      subMenu = subMenu.map((sub: IMenu) => {
-        return {
-          ...sub,
-          title: firstLetterUpper(sub.text),
-          href: removeEmptyQuery(sub.href),
-        };
-      });
+      const getAllSubMenu = (subMenuNext: IMenu[]): IMenu[] => {
+        let subMenuNextChildren = [] as IMenu[];
+
+        return subMenuNext.map((sub: IMenu) => {
+          if (sub.subMenu) {
+            subMenuNextChildren = getAllSubMenu(sub.subMenu);
+            href = sub.href;
+            return {
+              ...sub,
+              title: firstLetterUpper(sub.text),
+              href: removeEmptyQuery(sub.href),
+              children: subMenuNextChildren,
+            };
+          }
+          return {
+            ...sub,
+            title: firstLetterUpper(sub.text),
+            href: removeEmptyQuery(sub.href),
+          };
+        });
+      };
+
+      subMenu = getAllSubMenu(subMenu);
       const subActiveKey = findActiveKey(subMenu as IMenu[]);
       if (subActiveKey) {
         selectedKey = subActiveKey;
         activeKey = href;
       }
 
-      const IconComp = ()=> item.icon;
-      
+      const IconComp = () => item.icon;
       return {
         ...item,
         title: firstLetterUpper(item.text),
