@@ -13,13 +13,12 @@
 
 import * as React from 'react';
 import { Tooltip, Button, Ellipsis, Pagination } from 'app/nusi';
-import { Icon as CustomIcon, useUpdate, EmptyHolder } from 'common';
+import { Icon as CustomIcon, useUpdate, EmptyHolder, ErdaIcon } from 'common';
 import { isNumber, filter, map, sortBy, isString } from 'lodash';
 import { OperationAction } from 'config-page/utils';
 import classnames from 'classnames';
 import i18n from 'i18n';
 import imgMap from '../../img-map';
-import { ErdaIcon } from 'common';
 import './list.scss';
 
 const emptyArr = [] as any[];
@@ -34,7 +33,7 @@ const List = (props: CP_LIST.Props) => {
   const { total = 0, pageSize, pageNo = 1 } = state || {};
   const { isLoadMore = false, visible = true, size = 'middle', rowKey, alignCenter = false,
     noBorder = false, pageSizeOptions, ...rest } = configProps || {};
-
+  const currentList = (isLoadMore ? state.combineList : list) || [];
   // 将接口返回的list和之前的list进行拼接
   React.useEffect(() => {
     // if isLoadMore is true, the data will be set undefined, combineList don't need to do anything
@@ -91,9 +90,9 @@ const List = (props: CP_LIST.Props) => {
   return (
     <div className='cp-list'>
       {
-        (state.combineList || []).length ? (
+        currentList.length > 0 ? (
           <>
-            {(state.combineList || []).map((item, idx) => {
+            {currentList.map((item, idx) => {
               return <Item size={size} customProps={customProps} execOperation={execOperation} key={getKey(item, idx)} data={item} alignCenter={alignCenter} noBorder={noBorder} />;
             })}
             {!isLoadMore && pagination ? (
