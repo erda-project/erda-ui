@@ -25,7 +25,7 @@ const timeSpan = getTimeSpan([start, end]);
 const nextTimeSpan = getTimeSpan([start1, end]);
 
 describe('TimeSelector', () => {
-  it('should ', () => {
+  it('should work well', () => {
     const disabledDateFn = jest.fn();
     const onChangeTimeFn = jest.fn();
     const wrapper = mount(
