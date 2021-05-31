@@ -35,20 +35,53 @@ const { execSync, exec } = child_process;
 
 const GET_BRANCH_CMD = "git branch | awk '/\\*/ { print $2; }'";
 
-const getCurrentBranch = async () => {
-  const branch = await execSync(GET_BRANCH_CMD);
-  return branch.toString();
+const getCurrentBranch = (dir: string) => {
+  return new Promise<string>((resolve) => {
+    exec(GET_BRANCH_CMD, { cwd: dir }, (error: unknown, stdout: string) => {
+      if (error) {
+        logError(`error: ${error}`);
+        process.exit(1);
+      } else {
+        resolve(stdout.replace(/\n/, ''));
+      }
+    });
+  });
 };
 
 const checkBranch = async () => {
-  const branch = await getCurrentBranch();
-  logInfo('Current Branch: ', branch.replace(/\n/, ''));
-  if (!branch.startsWith('release')) {
+  const pList: Array<Promise<string>> = [getCurrentBranch(process.cwd())];
+  const moduleList = getModuleList();
+
+  moduleList.forEach(({ moduleName, moduleDir }) => {
+    if (!['core', 'shell'].includes(moduleName)) {
+      pList.push(getCurrentBranch(moduleDir));
+    }
+  });
+
+  const moduleBranches = await Promise.all(pList);
+
+  logInfo(`Current Branch of erda-ui:【${moduleBranches[0]}】`);
+
+  if (moduleBranches.length > 1) {
+    const dependentModuleBranches: string[] = [];
+    moduleList.filter(({ moduleName }) => !['core', 'shell'].includes(moduleName))
+      .forEach(({ moduleName }, index) => {
+        dependentModuleBranches.push(`${moduleName}:【${moduleBranches[index + 1]}】`);
+      });
+
+    logInfo('Current Branch of dependent modules: ', dependentModuleBranches.join(', '));
+  }
+
+  const isAllReleaseBranch = moduleBranches.every((branch) => {
+    return branch.startsWith('release');
+  });
+
+  if (!isAllReleaseBranch) {
     const { answer } = await inquirer.prompt([
       {
         type: 'list',
         name: 'answer',
-        message: 'Current branch is not release/*, continue?',
+        message: 'Current branches of some modules are not release/*, continue?',
         default: 'No',
         choices: ['Yes', 'No'],
       },
@@ -64,7 +97,7 @@ const checkCodeUpToDate = async () => {
     {
       type: 'confirm',
       name: 'updateCode',
-      message: 'Make sure codes of erda-ui and erda-ui-enterprise are up to date and then press Enter to continue.',
+      message: 'Make sure codes of erda-ui and dependent projects, like erda-ui-enterprise\nare up to date and then press Enter to continue.',
       default: true,
     },
   ]);
@@ -74,17 +107,6 @@ const checkCodeUpToDate = async () => {
   }
 };
 
-const whetherGenerateSourceMap = async () => {
-  const answer = await inquirer.prompt([
-    {
-      type: 'confirm',
-      name: 'enableSourceMap',
-      message: 'Generate source map files?',
-      default: false,
-    },
-  ]);
-  return answer.enableSourceMap;
-};
 
 const checkReInstall = async (rebuildList: string[]) => {
   const answer = await inquirer.prompt([
@@ -149,10 +171,10 @@ const checkModuleValid = async (isLocal: boolean) => {
   moduleList.forEach((item) => {
     if (!item.moduleDir) {
       isAllValid = false;
-      logError(`${item.moduleName.toUpperCase()}_DIR is not exist in .env, you can run "erda setup <module> <port>" to auto generate moduleDir`);
+      logError(`${item.moduleName.toUpperCase()}_DIR is not exist in .env,\nyou can run "erda setup <module> <port>" to auto generate moduleDir`);
     } else if (!fs.existsSync(item.moduleDir)) {
       isAllValid = false;
-      logError(`${item.moduleName.toUpperCase()}_DIR is wrong, please check in .env, or you can run "erda setup <module> <port>" to update moduleDir`);
+      logError(`${item.moduleName.toUpperCase()}_DIR is wrong, please check in .env,\nor you can run "erda setup <module> <port>" to update moduleDir`);
     }
   });
 
@@ -167,7 +189,7 @@ const checkModuleValid = async (isLocal: boolean) => {
       {
         type: 'confirm',
         name: 'coveredAllModules',
-        message: `Here are the modules【${outputModules}】detected in .env file. If missing module requires to build please update env config by registering module with command "erda-ui setup ", and then run again.`,
+        message: `Here are the modules【${outputModules}】detected in .env file.\nUse command "erda-ui setup" to inset missing modules, and then run again.`,
         default: true,
       },
     ]);
@@ -327,7 +349,7 @@ const getRequireBuildModules = async (image: string) => {
       {
         type: 'confirm',
         name: 'continue',
-        message: 'Do you still want to continue? enter Y to continue or press Enter to exit',
+        message: 'Do you still want to continue? Enter Y to continue or press Enter to exit',
         default: false,
       },
     ]);
@@ -339,9 +361,9 @@ const getRequireBuildModules = async (image: string) => {
   }
 };
 
-export default async (options: { local?: boolean; image?: string }) => {
+export default async (options: { local?: boolean; image?: string; enableSourceMap?: boolean }) => {
   try {
-    const { image } = options;
+    const { image, enableSourceMap = false } = options;
     let { local } = options;
     if (image) {
       local = true;
@@ -349,7 +371,6 @@ export default async (options: { local?: boolean; image?: string }) => {
     checkIsRoot();
     await checkModuleValid(!!local);
 
-    let enableSourceMap = false;
     const moduleList = getModuleList();
     let rebuildList = moduleList.map((item) => item.moduleName);
 
@@ -358,7 +379,7 @@ export default async (options: { local?: boolean; image?: string }) => {
     if (local) {
       await checkBranch();
       await checkCodeUpToDate();
-      enableSourceMap = await whetherGenerateSourceMap();
+
       if (image) {
         if (!/\d\.\d-\d{8}-.+/.test(image)) {
           logError('invalid image sha, correct format example: 1.0-20210508-afc4a4a');
