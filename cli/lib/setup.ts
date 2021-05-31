@@ -56,7 +56,7 @@ export default async (moduleName: string, modulePort: string) => {
 
   const relativePath = path.relative(moduleDir, erdaUiPath);
   if (!fullConfig) {
-    logWarn('erda-ui/.env file not exist, please execute `erda init` in erda-ui directory first');
+    logWarn('erda-ui/.env file not exist, please execute `node setup.js` in erda-ui directory first');
     process.exit(1);
   }
 
