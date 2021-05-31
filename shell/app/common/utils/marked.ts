@@ -120,8 +120,7 @@ export default (content?: string, renderFns = {}) => {
 
   const defaultRenderFns = {
     link(href: string, _title: string, text: string) {
-      let link = href;
-      return `<a href="${link}" target="_blank">${text}</a>`;
+      return `<a href="${href}" target="_blank">${text}</a>`;
     },
   }
 
