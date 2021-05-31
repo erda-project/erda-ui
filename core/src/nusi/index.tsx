@@ -15,18 +15,11 @@
 import {
   Col,
   ConfigProvider as AntdConfigProvider,
-  DatePicker,
   Dropdown,
   Empty,
   Form,
   Icon,
-  message,
-  Menu,
-  Modal,
   notification,
-  Popconfirm,
-  Popover,
-  Rate,
   Row,
   Skeleton,
   Slider,
@@ -47,26 +40,23 @@ import {
   Button,
   BackTop,
   Badge,
-  Collapse,
   Carousel,
   Cascader,
   Checkbox,
+  Collapse,
+  ConfigProvider as Antd4ConfigProvider,
   Comment,
   Divider,
   Drawer,
+  DatePicker,
   Input,
+  message,
+  Menu,
+  Modal,
+  Popconfirm,
+  Popover,
+  Rate,
 } from 'antd-latest';
-import 'antd-latest/lib/button/style/index.less';
-import 'antd-latest/lib/back-top/style/index.less';
-import 'antd-latest/lib/badge/style/index.less';
-import 'antd-latest/lib/collapse/style/index.less';
-import 'antd-latest/lib/carousel/style/index.less';
-import 'antd-latest/lib/cascader/style/index.less';
-import 'antd-latest/lib/checkbox/style/index.less';
-import 'antd-latest/lib/comment/style/index.less';
-import 'antd-latest/lib/divider/style/index.less';
-import 'antd-latest/lib/drawer/style/index.less';
-import 'antd-latest/lib/input/style/index.less';
 import { FixedSelect } from './fixed-select';
 import FixRangePicker from './range-picker';
 import {
@@ -197,6 +187,7 @@ export {
   SelectCategory,
   SelectCombo,
   AntdConfigProvider,
+  Antd4ConfigProvider,
   AntTable,
 
   NusiConfigProvider,

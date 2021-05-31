@@ -105,6 +105,7 @@ module.exports = () => {
             },
           ],
           include: [
+            getPath('antd-latest'),
             getPath('antd'),
             getPath('@terminus/nusi'),
           ],
