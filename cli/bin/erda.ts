@@ -58,6 +58,7 @@ program
   .option('-i, --image <image>', 'image sha as build base, e.g. 1.0-20210506-48bd74')
   .option('-l, --local', 'enable local mode, if image arg is given, then local mode is forcibly')
   .option('-s, --skip', 'skip the cli version check')
+  .option('-m, --enableSourceMap', 'generate source map')
   .action(async (options) => {
     await checkCliVersion(options);
     build(options);
@@ -75,7 +76,9 @@ program
   .command('release')
   .description('build & push docker image')
   .option('-i, --image <image>', 'image sha as build base, e.g. 1.0-20210506-48bd74')
+  .option('-l, --local', 'enable local mode, if image arg is given, then local mode is forcibly')
   .option('-s, --skip', 'skip the cli version check')
+  .option('-m, --enableSourceMap', 'generate source map')
   .action((options) => {
     release(options);
   });

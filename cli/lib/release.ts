@@ -21,12 +21,26 @@ const { execSync, spawnSync } = child_process;
 
 const GET_SHA_CMD = 'git rev-parse --short HEAD';
 
-export default async ({ image: baseImage, skip }: { image?: string; skip?: boolean }) => {
+interface Props {
+  image?: string;
+  skip?: boolean;
+  local?: boolean;
+  enableSourceMap?: boolean;
+}
+
+export default async ({ image: baseImage, skip, enableSourceMap, local }: Props) => {
   try {
     checkIsRoot();
     const rootDir = process.cwd();
-    const isSkip = skip ? '-s' : '';
-    const buildProcess = await spawnSync('erda-ui', baseImage ? ['build', '-i', `${baseImage}`, `${isSkip}`] : ['build', `${isSkip}`], { env: process.env, cwd: rootDir, stdio: 'inherit' });
+    const extraOptions = [];
+
+    skip && extraOptions.push('-s');
+    enableSourceMap && extraOptions.push('-m');
+    local && extraOptions.push('-l');
+
+    const buildProcess = await spawnSync('erda-ui', baseImage
+      ? ['build', '-i', baseImage, ...extraOptions]
+      : ['build', ...extraOptions], { env: process.env, cwd: rootDir, stdio: 'inherit' });
 
     if (buildProcess.status === 1) {
       process.exit(1);
