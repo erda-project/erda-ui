@@ -614,7 +614,6 @@ const TestSet = ({
       testSetID,
       testPlanID,
     });
-    updateSearch({ pageNo: 1, recycled, testSetID, eventKey });
 
     // 页面刚刚进来时保持当前 query 不进行更新
     if (!_extra?.keepCurrentSearch) {
