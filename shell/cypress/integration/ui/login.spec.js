@@ -20,7 +20,7 @@ context.skip('Login', () => {
 
   it('goto default page', () => {
     cy.url().should('eq', 'https://terminus-org.test.terminus.io/workBench/apps');
-    cy.get('#dice-content')
+    cy.get('#erda-content')
       .should(($content) => {
         expect($content).to.have.length(1);
       });

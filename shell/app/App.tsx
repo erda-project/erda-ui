@@ -92,7 +92,7 @@ const start = (userData: ILoginUser) => {
       );
     };
 
-    ReactDOM.render(<Wrap />, document.getElementById('dice-content'));
+    ReactDOM.render(<Wrap />, document.getElementById('erda-content'));
     delete window._userData;
     registChartControl();
   });
@@ -101,7 +101,7 @@ const start = (userData: ILoginUser) => {
 
 // if (module.hot) {
 //   module.hot.accept('./router.jsx', () => {
-//     ReactDOM.render(<App />, document.getElementById('dice-content'));
+//     ReactDOM.render(<App />, document.getElementById('erda-content'));
 //   });
 // }
 
