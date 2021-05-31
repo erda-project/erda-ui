@@ -130,17 +130,17 @@ function getAppRouter() {
             ],
           },
           {
-            path: 'release',
-            breadcrumbName: i18n.t('releases'),
-            layout: { fullHeight: true, noWrapper: true },
-            getComp: cb => cb(import('app/modules/application/pages/release/release-list')),
-          },
-          {
             path: 'backup',
             breadcrumbName: i18n.t('application:repo backup'),
             getComp: cb => cb(import('app/modules/application/pages/repo/repo-backup')),
           },
         ],
+      },
+      {
+        path: 'release',
+        breadcrumbName: i18n.t('releases'),
+        layout: { fullHeight: true, noWrapper: true },
+        getComp: cb => cb(import('app/modules/application/pages/release/release-list')),
       },
       {
         path: 'apiDesign',

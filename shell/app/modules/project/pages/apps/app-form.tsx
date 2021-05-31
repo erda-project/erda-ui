@@ -144,6 +144,20 @@ const CreationForm = () => {
       },
     },
     {
+      label: i18n.d('是否为项目级应用（项目级应用的流水线可以直接调用其他应用流水线）'),
+      name: 'isProjectApp',
+      type: 'switch',
+      required: true,
+      initialValue: false,
+      options: [{
+        name: i18n.t('common:yes'),
+        value: true,
+      }, {
+        name: i18n.t('common:no'),
+        value: false,
+      }],
+    },
+    {
       label: i18n.t('project:application name'),
       name: 'name',
       itemProps: {
@@ -164,6 +178,7 @@ const CreationForm = () => {
         },
       ],
     },
+
     // {
     //   label: i18n.t('{name} identify', { name: i18n.t('application') }),
     //   name: 'displayName',

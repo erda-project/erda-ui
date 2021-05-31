@@ -14,22 +14,51 @@
 import * as React from 'react';
 import { LoadMoreSelector, Icon as CustomIcon } from 'common';
 import { goTo } from 'common/utils';
-import { map } from 'lodash';
+import { map, isArray, filter, isEmpty, find, get } from 'lodash';
 import { Tooltip } from 'app/nusi';
+import i18n from 'i18n';
 import { getApps } from 'common/services';
 import routeInfoStore from 'app/common/stores/route';
 import appStore from 'application/stores/application';
+import { getAppDetail } from 'application/services/application';
 import './app-selector.scss';
 
 interface IProps{
   [pro: string]: any;
   value: string | number;
   projectId?: string;
-  onClickItem: (arg?: any) => void;
+  onClickItem?: (arg: IApplication) => void;
+  onChange?: (arg: number) => void;
 }
 
 const AppItem = (app: IApplication) => {
   return <Tooltip key={app.id} title={app.name}>{app.displayName || app.name}</Tooltip>;
+};
+
+
+export const chosenItemConvert = (values: any) => {
+  const curApp = appStore.getState(s => s.detail);
+  const curValues = isArray(values) ? values : (values && [values]);
+  const existApp = {};
+  if(curApp.id) existApp[curApp.id] = curApp;
+  const reValue = map(curValues, item => {
+    const appItem = existApp[item.value] || {};
+    return item.label ? item : { ...appItem, ...item, label: appItem.displayName || appItem.name };
+  });
+
+  const lackLabelItems = filter(reValue, item => !item.label);
+  if (isEmpty(lackLabelItems)) {
+    return reValue;
+  }
+
+  // 若还缺label，则从接口取
+  return Promise.all(map(lackLabelItems, item => getAppDetail(item.value))).then((res: IApplication[]) => {
+    const newValue = map(reValue, (val) => {
+      const appItem = find(map(res,'data'), resItem => `${resItem.id}` === `${val.value}`);
+      return appItem ? { ...appItem, ...val, label: appItem.displayName || appItem.name } : { ...val };
+    });
+    return newValue;
+  });
 };
 
 export const AppSelector = (props: IProps) => {
@@ -44,11 +73,13 @@ export const AppSelector = (props: IProps) => {
   return (
     <LoadMoreSelector
       getData={getData}
+      placeholder={i18n.t('common:search by {name}', {name: i18n.t('application')})}
       dataFormatter={({ list, total }) => ({
         total,
         list: map(list, item => ({ ...item, label: item.displayName || item.name, value: item.id })),
       })}
       optionRender={AppItem}
+      chosenItemConvert={(v:any[]) => chosenItemConvert(v)}
       {...rest}
     />
   );

@@ -43,7 +43,8 @@ interface IMenuItem {
   icon: string;
   text: string;
 }
-export const getAppMenu = ({ mode }: { projectId: string, appId: string, mode: APPLICATION.appMode }) => {
+export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
+  const { mode } = appDetail;
   const perm = permStore.getState(s => s.app);
   const repo = {
     show: perm.repo.read.pass,
@@ -66,8 +67,10 @@ export const getAppMenu = ({ mode }: { projectId: string, appId: string, mode: A
     icon: <IconApi />,
     text: i18n.t('project:API design'),
   };
+
+  const deployAuth =  perm.runtime.read.pass && !appDetail.isProjectApp;
   const deploy = {
-    show: perm.runtime.read.pass,
+    show: deployAuth,
     key: 'deploy',
     href: goTo.resolve.deploy(), // `/workBench/projects/${projectId}/apps/${appId}/deploy`,
     icon: <CustomIcon type="bushuzhongxin" />,

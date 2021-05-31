@@ -13,9 +13,9 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { Pagination, Spin, Input, Select, Tooltip } from 'app/nusi';
+import { Pagination, Spin, Select, Tooltip } from 'app/nusi';
 import { map, get } from 'lodash';
-import { SearchTable, EmptyListHolder, EmptyHolder, IF, useUpdate } from 'common';
+import { EmptyListHolder, EmptyHolder, IF, useUpdate, DebounceSearch } from 'common';
 import { updateSearch } from 'common/utils';
 import { useLoading } from 'app/common/stores/loading';
 import { ReleaseItem } from './components/release-item';
@@ -23,12 +23,14 @@ import ReleaseDetail from './components/release-detail';
 import releaseStore from 'application/stores/release';
 import { useEffectOnce } from 'react-use';
 import routeInfoStore from 'app/common/stores/route';
+import { useUpdateEffect } from 'react-use';
 import { getBranchInfo } from 'application/services/application';
+import appStore from 'application/stores/application';
+import { AppSelector } from 'application/common/app-selector';
 
 import './release-list.scss';
 
 const { ELSE } = IF;
-const { Search } = Input;
 const { Option } = Select;
 
 const ReleaseList = () => {
@@ -36,22 +38,22 @@ const ReleaseList = () => {
   const { pageNo: initPageNo, pageSize, total } = paging;
   const { getReleaseList } = releaseStore.effects;
   const { clearReleaseList } = releaseStore.reducers;
+  const appDetail = appStore.useStore(s => s.detail);
   const [params, query] = routeInfoStore.useStore(s => [s.params, s.query]);
+  const { projectId } = params;
   const [loading] = useLoading(releaseStore, ['getReleaseList']);
-  const [state, updater] = useUpdate({
+  const [state, updater, update] = useUpdate({
     pageNo: initPageNo,
-    projectId: undefined as unknown as string,
-    applicationId: params.appId as unknown as string,
+    applicationId: query.applicationId as undefined | number,
     chosenPos: 0, // TODO: use id
     branchInfo: [] as APPLICATION.IBranchInfo[],
     queryObj: {
       q: query.q,
-      branchName: query.branchName as unknown as string,
+      branchName: query.branchName as undefined | string,
     },
   });
   const {
     pageNo,
-    projectId,
     applicationId,
     queryObj,
     chosenPos,
@@ -62,14 +64,13 @@ const ReleaseList = () => {
     const arg: any = {
       pageNo,
       pageSize,
+      applicationId,
       ...queryObj,
     };
     if (projectId) {
       arg.projectId = +projectId;
     }
-    if (applicationId) {
-      arg.applicationId = +applicationId;
-    }
+    
     getReleaseList(arg);
   }, [applicationId, getReleaseList, pageNo, pageSize, projectId, queryObj]);
 
@@ -77,12 +78,13 @@ const ReleaseList = () => {
     return () => clearReleaseList();
   });
 
-  React.useEffect(() => {
+  useUpdateEffect(() => {
     const { q, branchName } = queryObj;
     const urlObj = { branchName } as any;
     urlObj.q = q || undefined;
+    urlObj.applicationId = applicationId;
     updateSearch(urlObj);
-  }, [queryObj]);
+  }, [queryObj, applicationId]);
 
   React.useEffect(() => {
     applicationId && getBranchInfo({ appId: +applicationId }).then((res:any) => {
@@ -99,22 +101,23 @@ const ReleaseList = () => {
   const releaseId = get(list, `[${chosenPos}].releaseId`) || '' as string;
   return (
     <div className="release-list-container">
-      <div className="release-list-page column-flex-box">
-        <IF check={!params.appId}>
-          <div className="search-group">
-            <Search
-              value={projectId}
-              className="mb12"
-              placeholder={i18n.t('search by project id')}
-              onChange={(e) => !isNaN(+e.target.value) && updater.projectId(e.target.value)}
-            />
-            <Search
-              value={applicationId}
-              className="mb12"
-              placeholder={i18n.t('search by application id')}
-              onChange={(e) => !isNaN(+e.target.value) && updater.applicationId(e.target.value)}
-            />
-          </div>
+      <div className="release-list-page v-flex-box">
+        <IF check={appDetail.isProjectApp}>
+          <AppSelector 
+            projectId={`${projectId}`} 
+            className='mb8 mx16'
+            allowClear
+            onChange={(_appId: number) => {
+              update({
+                applicationId: _appId,
+                queryObj: {
+                  q: undefined,
+                  branchName: undefined,
+                }
+              });
+            }}
+            value={applicationId}
+          />
         </IF>
         <Select
           className='mb8 mx16'
@@ -129,29 +132,34 @@ const ReleaseList = () => {
             </Option>
           ))}
         </Select>
-        <SearchTable
-          onSearch={v => { updater.queryObj({ ...queryObj, q: v }); }}
-          searchValue={query.q}
-          placeholder={i18n.t('search by keywords')}
-          needDebounce
-          searchFullWidth
-        >
-          <Spin spinning={loading}>
-            {
-              map(list, (item, index) => (
-                <ReleaseItem data={item} key={item.releaseId} isActive={index === chosenPos} onClick={() => updater.chosenPos(index)} />
-              ))
-            }
-            <IF check={list.length === 0 && !query.q}><EmptyListHolder /></IF>
-          </Spin>
-          <IF check={query.q}>
-            <div className="search-tip">
-              <span>{i18n.t('org:no-result-try')}</span>
-            </div>
-            <ELSE />
-            <Pagination className="release-pagination" simple defaultCurrent={1} total={total} onChange={changePage} />
-          </IF>
-        </SearchTable>
+        <div className='mb8 mx16'>
+          <DebounceSearch 
+            className='full-width'
+            value={queryObj.q} 
+            placeholder={i18n.t('search by keywords')} 
+            onChange={(v: string) => {
+              updater.queryObj({
+                ...queryObj,
+                q: v
+              })
+            }} 
+          />
+        </div>
+        <Spin spinning={loading} wrapperClassName='flex-1 auto-overflow'>
+          {
+            map(list, (item, index) => (
+              <ReleaseItem data={item} key={item.releaseId} isActive={index === chosenPos} onClick={() => updater.chosenPos(index)} />
+            ))
+          }
+          <IF check={list.length === 0 && !query.q}><EmptyListHolder /></IF>
+        </Spin>
+        <IF check={query.q}>
+          <div className="search-tip">
+            <span>{i18n.t('org:no-result-try')}</span>
+          </div>
+          <ELSE />
+          <Pagination className="release-pagination" simple defaultCurrent={1} total={total} onChange={changePage} />
+        </IF>
       </div>
       <div className="release-detail-container">
         <IF check={releaseId}>
