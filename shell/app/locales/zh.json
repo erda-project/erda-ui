@@ -3861,6 +3861,7 @@
     "initialization": "初始化中",
     "inner address": "内部地址",
     "instance ip": "实例 IP",
+    "internal address does not exist": "内部地址不存在",
     "manage domain": "域名管理",
     "message content": "消息内容",
     "microService": "微服务",
