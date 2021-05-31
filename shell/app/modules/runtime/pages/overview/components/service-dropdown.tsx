@@ -81,11 +81,12 @@ const ServiceDropdown = (props: IProps) => {
     const warningMsg = i18n.t('runtime:deploying, please operate later');
     const envKey = (env || '').toLowerCase();
 
-    const vipContent = (
+    const vipContent = !isEmpty(addrs)
+      ? (
       <List
         itemLayout="horizontal"
         dataSource={map(addrs, (addr) => ({ addr }))}
-        renderItem={({ addr }: {addr: string}) => {
+        renderItem={({ addr }: { addr: string }) => {
           return (
             <div className="flex-box">
               <span className="mr8 vip-addr flex-1 nowrap">{addr}</span>
@@ -98,7 +99,8 @@ const ServiceDropdown = (props: IProps) => {
           );
         }}
       />
-    );
+      )
+      : i18n.t('runtime:internal address does not exist');
     const envContent = (
       <List
         itemLayout="horizontal"
