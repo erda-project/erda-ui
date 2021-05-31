@@ -119,8 +119,8 @@ export default (content?: string, renderFns = {}) => {
   }
 
   const defaultRenderFns = {
-    link(href: string, _title: string, text: string) {
-      return `<a href="${href}" target="_blank">${text}</a>`;
+    link(href: string, title: string, text: string) {
+      return `<a href="${href}" title="${title}" rel="noopener noreferrer" target="_blank">${text}</a>`;
     },
   }
 
