@@ -27,13 +27,14 @@ const moment = require('moment');
 const gitRevisionPlugin = new GitRevisionPlugin();
 const banner = `commit: ${gitRevisionPlugin.commithash().slice(0, 6)}
 branch: ${gitRevisionPlugin.branch()}
-buildTime: ${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}`;
+buildTime: ${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}
+buildBy: ${os.userInfo().username}`;
 
 module.exports = config.wrapWebpack({
   mode: 'production',
   devtool: process.env.enableSourceMap === 'true' ? 'hidden-source-map' : false,
   output: {
-    path: path.resolve(__dirname, `../public/static/shell`),
+    path: path.resolve(__dirname, '../public/static/shell'),
     filename: 'scripts/[name].[chunkhash].js',
     chunkFilename: 'scripts/[chunkhash].chunk.js',
   },
@@ -56,9 +57,9 @@ module.exports = config.wrapWebpack({
             delete: [{
               source: '../public/static/shell/scripts/*.map',
               options: {
-                force: true
-              }
-            }]
+                force: true,
+              },
+            }],
           },
         },
         runTasksInSeries: true,
