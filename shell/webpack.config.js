@@ -34,7 +34,7 @@ const mainVersion = packageJson.version.slice(0, -2);
 
 const resolve = pathname => path.resolve(__dirname, pathname);
 
-const { getPath } = require('../utils/resolve');
+const dashboardRealPath = fs.realpathSync(resolve('./node_modules/@terminus/dashboard-configurator'));
 
 module.exports = () => {
   const nodeEnv = process.env.NODE_ENV || 'development';
@@ -46,7 +46,6 @@ module.exports = () => {
 
   const scssVariables = getScssTheme(false);
 
-  // eslint-disable-next-line
   const targetConfig = require(`./webpack.${nodeEnv}.js`);
 
   const commonConfig = {
@@ -56,7 +55,6 @@ module.exports = () => {
     },
     target: isProd ? 'browserslist' : 'web',
     resolve: {
-      symlinks: false,
       alias: {
         app: resolve('./app'),
         common: resolve('./app/common'),
@@ -96,14 +94,14 @@ module.exports = () => {
         'status-insight': resolve('./app/modules/microService/monitor/status-insight'),
         'error-insight': resolve('./app/modules/microService/monitor/error-insight'),
         'monitor-alarm': resolve('./app/modules/microService/monitor/monitor-alarm'),
-        '@terminus/dashboard-configurator': getPath('@terminus/dashboard-configurator'),
+        '@terminus/dashboard-configurator': dashboardRealPath,
       },
       extensions: ['.js', '.jsx', '.tsx', '.ts', '.d.ts'],
-      modules: ['node_modules'],
       fallback: {
         path: require.resolve('path-browserify'),
         https: require.resolve('https-browserify'),
         http: require.resolve('stream-http'),
+        events: require.resolve('events'),
       },
     },
     cache: {
@@ -115,8 +113,7 @@ module.exports = () => {
           test: /\.(scss)$/,
           include: [
             resolve('app'),
-            getPath('@terminus/dashboard-configurator'),
-            // resolve('node_modules/@terminus/nusi'),
+            dashboardRealPath,
           ],
           use: [
             ...(isProd ? [MiniCssExtractPlugin.loader] : []), // extract not support hmr, https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/222
@@ -159,7 +156,7 @@ module.exports = () => {
           test: /\.(tsx?|jsx?)$/,
           include: [
             resolve('app'),
-            getPath('@terminus/dashboard-configurator'),
+            dashboardRealPath,
           ],
           use: [
             'thread-loader',

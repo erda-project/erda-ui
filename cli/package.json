@@ -8,8 +8,8 @@
   "scripts": {
     "start": "node bin/erda.js",
     "build": "rm -rf ./dist && tsc --version && tsc --project .",
-    "local": "npm run build && node ./node_modules/.bin/local-package-publisher -p",
-    "remove-local": "node ./node_modules/.bin/local-package-publisher -u"
+    "local": "npm run build && local-package-publisher -p",
+    "remove-local": "local-package-publisher -u"
   },
   "repository": {
     "type": "git",

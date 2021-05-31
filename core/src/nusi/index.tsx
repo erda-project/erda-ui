@@ -57,6 +57,9 @@ import {
   Popover,
   Rate,
 } from 'antd-latest';
+import '@terminus/nusi/dist/nusi.scss';
+import 'antd/dist/antd.less';
+import 'antd-latest/dist/antd.less';
 import { FixedSelect } from './fixed-select';
 import FixRangePicker from './range-picker';
 import {

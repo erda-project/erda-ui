@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/erda-project/erda-ui#readme",
   "dependencies": {
+    "eslint-import-resolver-node": "^0.3.4",
     "lerna": "^4.0.0"
   }
 }

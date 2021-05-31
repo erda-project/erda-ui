@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import SwaggerParser from '@apidevtools/swagger-parser';
+import SwaggerParser from 'swagger-parser';
 import { OpenAPI } from 'openapi-types';
 import { cloneDeep, map, isEmpty, groupBy, pick, omit, Dictionary, uniqWith } from 'lodash';
 import { useUpdate, FormModal } from 'common';
