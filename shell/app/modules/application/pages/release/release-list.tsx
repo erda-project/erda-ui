@@ -102,7 +102,7 @@ const ReleaseList = () => {
   return (
     <div className="release-list-container">
       <div className="release-list-page v-flex-box">
-        <IF check={appDetail.isProjectApp}>
+        <IF check={appDetail.isDeployingApp}>
           <AppSelector 
             projectId={`${projectId}`} 
             className='mb8 mx16'

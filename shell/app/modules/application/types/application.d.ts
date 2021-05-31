@@ -108,7 +108,7 @@ interface IApplication {
   unBlockStart: string,
   unBlockEnd: string,
   blockStatus: PROJECT.BlockStatus;
-  isProjectApp: boolean;
+  isDeployingApp: boolean;
 }
 
 interface IAppWorkspace {

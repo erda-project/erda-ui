@@ -144,8 +144,8 @@ const CreationForm = () => {
       },
     },
     {
-      label: i18n.d('是否为项目级应用（项目级应用的流水线可以直接调用其他应用流水线）'),
-      name: 'isProjectApp',
+      label: i18n.t('application:project-level-app-form-tip'),
+      name: 'isDeployingApp',
       type: 'switch',
       required: true,
       initialValue: false,

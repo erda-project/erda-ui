@@ -68,7 +68,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     text: i18n.t('project:API design'),
   };
 
-  const deployAuth =  perm.runtime.read.pass && !appDetail.isProjectApp;
+  const deployAuth =  perm.runtime.read.pass && !appDetail.isDeployingApp;
   const deploy = {
     show: deployAuth,
     key: 'deploy',
