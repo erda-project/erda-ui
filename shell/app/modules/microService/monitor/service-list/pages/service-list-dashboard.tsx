@@ -17,6 +17,7 @@ import { DC } from '@terminus/dashboard-configurator';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import dashboardStore from 'app/common/stores/dashboard';
 import routeInfoStore from 'app/common/stores/route';
+import { isEqual } from 'lodash';
 
 type IProps = Merge<Partial<DC.PureBoardGridProps>, {
   dashboardId: string,
@@ -51,4 +52,6 @@ const ServiceListDashboard: React.FC<IProps> = ({ dashboardId, extraGlobalVariab
   return <PureBoardGrid globalVariable={globalVariable} layout={layout} {...rest} />;
 };
 
-export default React.memo(ServiceListDashboard);
+export default React.memo(ServiceListDashboard, (prev, next) => {
+  return isEqual(prev.extraGlobalVariable, next.extraGlobalVariable) && prev.id === next.id;
+});

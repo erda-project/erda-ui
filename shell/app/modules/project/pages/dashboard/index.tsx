@@ -39,7 +39,7 @@ const getDateMs = (timeString: string, isNextDay?: boolean) => {
 };
 
 const getTimeRange = async (projectID: number, iterationId?: number) => {
-  if (iterationId) {
+  if (iterationId && `${iterationId}` !== '-1') {
     const { data = {} } = await getIterationDetail({ id: iterationId, projectID });
     const [start, end] = [getDateMs(data.startedAt), getDateMs(data.finishedAt, true)];
     const todayMs = moment().endOf('d').valueOf();
