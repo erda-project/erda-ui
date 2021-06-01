@@ -171,7 +171,7 @@ export enum pages {
   dataTaskRoot = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/dataTask',
   deploy = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/deploy',
   qaTicket = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/ticket/open?type={type}',
-  release = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/repo/release?q={q}',
+  release = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/release?q={q}',
   runtimeDetail = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/deploy/runtimes/{runtimeId}/overview?serviceName={serviceName}&jumpFrom={jumpFrom}',
   runtimeDetailRoot = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/deploy/runtimes/{runtimeId}/overview',
   appDataModel = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/dataModel',
