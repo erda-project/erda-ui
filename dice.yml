@@ -13,6 +13,13 @@ services:
       ONLY_FDP: "false"
       KRATOS_ADDR: "kratos:4433"
       KRATOS_PRIVATE_ADDR: "kratos:4434"
+      OPENAPI_ADDR: "openapi:9529"
+      GITTAR_ADDR: "gittar:5566"
+      COLLECTOR_ADDR: "collector:7076"
+      COLLECTOR_PUBLIC_ADDR: "collector:7076"
+      UC_ADDR: "uc:8080"
+      FDP_UI_ADDR: "fdp-ui:80"
+      SCHEDULER_ADDR: scheduler:9091
     resources:
       cpu: 0.1
       max_cpu: 1
