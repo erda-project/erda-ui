@@ -94,7 +94,7 @@ export default () => {
           </Select>
         </div>
       </div>
-      <div className="auto-overflow flex-1">
+      <div className="flex-1">
         <Spin spinning={isFetching}>
           {id ? <ServiceListDashboard dashboardId={id} extraGlobalVariable={{ instanceId }} /> : <EmptyHolder relative />}
         </Spin>
