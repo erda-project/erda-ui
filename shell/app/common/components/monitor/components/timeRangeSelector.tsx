@@ -70,7 +70,9 @@ class TimeSelector extends React.Component<IProps, IState> {
   }
 
   onChangeTime = (value: any) => {  //更新至antd4.x后，点击确定才触发onChange
-    this.props.onChangeTime(value);
+    this.setState({ value }, () => {
+      this.props.onChangeTime(value);
+    })
   };
 
   onOpenChange = (status: boolean) => {

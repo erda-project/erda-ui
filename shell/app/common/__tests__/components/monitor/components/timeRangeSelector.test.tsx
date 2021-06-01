@@ -47,7 +47,6 @@ describe('TimeSelector', () => {
     wrapper.find('RangePicker').at(0).prop('onOpenChange')(false);
     const { value: newValue1 = [] } = wrapper.state();
     expect(newValue1[0].isSame(start, 'date')).toBeTruthy();
-    wrapper.find('RangePicker').at(0).prop('onOk')();
     expect(onChangeTimeFn).toHaveBeenCalled();
     wrapper.setProps({
       inline: false,
