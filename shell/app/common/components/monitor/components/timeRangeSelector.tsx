@@ -69,11 +69,7 @@ class TimeSelector extends React.Component<IProps, IState> {
     return null;
   }
 
-  onChangeTime = (value: any) => {
-    this.setState({ value });
-  };
-
-  onOk = (value: any) => { // 点击确定才修改数据
+  onChangeTime = (value: any) => {  //更新至antd4.x后，点击确定才触发onChange
     this.props.onChangeTime(value);
   };
 
@@ -113,7 +109,6 @@ class TimeSelector extends React.Component<IProps, IState> {
           disabledDate={this.disabledDate}
           onOpenChange={this.onOpenChange}
           ranges={getTimeRanges()}
-          onOk={this.onOk}
         />
       </div>
     );
