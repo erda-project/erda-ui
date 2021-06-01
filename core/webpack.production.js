@@ -15,7 +15,6 @@ const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const root = path.resolve(process.cwd(), '..');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { parsed: config } = require('dotenv').config({ path: `${root}/.env` })
 
 
 module.exports = {
@@ -24,7 +23,7 @@ module.exports = {
     path: path.resolve(__dirname, '../public/static/core'),
     filename: 'scripts/[name].js',
     chunkFilename: 'scripts/[chunkhash].chunk.js',
-    publicPath: process.env.FOR_DEV ? `${config.SCHEDULER_URL}/core/` : '/static/core/',
+    publicPath: '/static/core/',
   },
   optimization: {
     minimize: true,

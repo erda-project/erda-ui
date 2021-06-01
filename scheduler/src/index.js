@@ -12,44 +12,66 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 const path = require('path');
-const root = path.resolve(process.cwd(), '..');
-const { parsed: config } = require('dotenv').config({ path: `${root}/.env` })
-const Koa = require('koa');
+const fs = require('fs');
 const send = require('koa-send');
+const c2k = require('koa2-connect')
+const DevServer = require('koa-devserver');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
-if (!config) {
-  throw Error(`cannot find .env file in directory: ${root}`);
-}
-console.log('=============== start with env config ====================');
-console.log(config);
-
-const app = new Koa();
-
-const modules = config.DEV_MODULES.split(',');
-const moduleUrl = {};
-const redirectList = [];
-modules.forEach(moduleKey => {
-  const MODULE_KEY = moduleKey.toUpperCase();
-  const redirectUrl = config[`${MODULE_KEY}_URL`];
-  moduleUrl[moduleKey.toLowerCase()] = redirectUrl;
-  redirectList.push(`/${moduleKey}/* => ${redirectUrl}`)
-})
-console.log('=============== redirect map ====================');
-console.log(redirectList);
+const root = path.resolve(process.cwd(), '..');
+const staticDir = `${root}/public/static`;
 
 
-app.use(async ctx => {
-  const moduleName = ctx.path.split('/')[1];
-  if (moduleUrl[moduleName]) {
-    return ctx.redirect(`${moduleUrl[moduleName]}${ctx.path.slice(moduleName.length + 1)}`);
+const getDirectories = source =>
+  fs.readdirSync(source, { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name);
+
+const prodModules = {};
+getDirectories(staticDir).forEach(m => {
+  prodModules[m] = true;
+});
+console.log('exist modules:', Object.keys(prodModules));
+
+
+const redirectMiddleware = async (ctx) => {
+  const [empty, scope, moduleName, ...rest] = ctx.path.split('/');
+  if (scope === 'static') { // prod modules
+    if (prodModules[moduleName]) {
+      return send(ctx, ctx.path, { root: `${root}/public` });
+    } else {
+      return ctx.body = `module【${moduleName}】is not build`
+    }
   }
-  if (ctx.path === '/') {
-    ctx.body = 'Scheduler is running'
-  }
-  // prod mode
-  await send(ctx, ctx.path, { root: `${root}/public/static` });
+  return send(ctx, 'index.html', { root: `${staticDir}/shell` });
+};
+
+const server = new DevServer({
+  name: 'Erda',
+  root: staticDir, // the web root - or ["path/to/root1", "path/to/root2"] for multiple web roots
+  host: 'dice.dev.terminus.io', // the host to listen to
+  port: 3000, // the port to listen to
+  open: `${staticDir}/shell/index.html`,
+  index: `${staticDir}/shell/index.html`, // use an index file when GET directory -> passed to koa-send
+  // verbose: true, // if true print HTTP requests
+  https: { // defaults to undefined
+    key: fs.readFileSync(`${root}/cert/dev/server.key`, 'utf8'),
+    cert: fs.readFileSync(`${root}/cert/dev/server.crt`, 'utf8')
+  },
+  // livereload: { // can be a string an array or an object. defaults to undefined.
+  //   // any livereload option
+  //   // plus:
+  //   // watch: ["/Users/Jun/workspace/erda-ui-enterprise/admin/dist"], // or an array of paths, regexs or globs
+  //   // port: 35729, // use a custom livereload port
+  //   // src: 'http://127.0.0.1:35729/livereload.js?snipver=1', // use a custom livereload script src
+  //   // errorPage: '/fs/path/to/error_page_template.html' // use a custom error page template
+  // },
+  use: [ // can inject one or more koa middleware in the request execution stack
+    c2k(createProxyMiddleware('/api', { target: 'https://terminus-org.dev.terminus.io', changeOrigin: true })),
+    redirectMiddleware,
+  ]
 });
 
-app.listen(3000);
+server.start();
 
-console.log(`listen at ${3000}`);
+console.log(`listen at https://dice.dev.terminus.io:3000`);
