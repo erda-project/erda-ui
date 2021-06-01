@@ -1,5 +1,5 @@
 #!dice
-FROM registry.cn-hangzhou.aliyuncs.com/dice-third-party/terminus-nginx:0.2
+FROM registry.cn-hangzhou.aliyuncs.com/dice-third-party/terminus-nginx:1.0
 
 # Set special timezone
 RUN echo "Asia/Shanghai" | tee /etc/timezone
