@@ -51,10 +51,9 @@ describe('DropdownSelect', () => {
       />
     );
     const Dropdown = wrapper.find('Dropdown').at(0);
-    const overlay = mount(
-      Dropdown.prop('overlay')
-    );
-    expect(overlay.find('MenuItem')).toHaveLength(6);
-    expect(overlay.find('SubMenu')).toHaveLength(2);
+    const overlay = Dropdown.prop('overlay').props.children;
+    expect(React.Children.count(overlay)).toBe(menuList.length);
+    const subMenu = React.Children.toArray(overlay)[menuList.length - 1];
+    expect(React.Children.count(subMenu.props.children)).toBe(2);
   });
 });

@@ -55,6 +55,7 @@ describe('DeleteConfirm', () => {
       </DeleteConfirm>
     );
     wrapper.find('.child').simulate('click', new Event('click'));
+    jest.runAllTimers();
     expect(onShowFn).toHaveBeenCalled();
     expect(document.querySelector('.ant-modal-confirm-title')?.innerHTML).toContain(defaultTitle);
     expect($$('.ant-modal-confirm-content')[0].innerHTML).toBe(defaultSecondTitle);
