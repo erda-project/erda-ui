@@ -14,8 +14,8 @@
     "start": "webpack serve",
     "build-dev": "cross-env-shell NODE_ENV=production FOR_DEV=true 'npm run build-core'",
     "build": "cross-env-shell NODE_ENV=production 'npm run build-core'",
-    "build-core": "rm -rf ../public/static/core/ && node webpack --progress",
-    "analyze": "node --max-old-space-size=4048 webpack --config webpack.analyze.js --progress --color",
+    "build-core": "rm -rf ../public/static/core/ && webpack --progress",
+    "analyze": "webpack --config webpack.analyze.js --progress --color",
     "serve": "serve public -p 5000",
     "clean": "rm -rf public"
   },
