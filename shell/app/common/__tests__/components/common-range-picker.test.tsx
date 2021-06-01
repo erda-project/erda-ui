@@ -31,17 +31,18 @@ describe('CommonRangePicker', () => {
         defaultTime={[today, tomorrow]}
       />,
     );
+    // expect(wrapper).toMatchSnapshot();
     act(() => {
-      wrapper.find('RangePicker').prop('onChange')([yesterday, today]);
+      wrapper.find('RangePicker').at(0).prop('onChange')([yesterday, today]);
     });
     wrapper.update();
-    const date = wrapper.find('RangePicker').prop('value');
+    const date = wrapper.find('RangePicker').at(0).prop('value');
     expect(date).toHaveLength(2);
     expect(date[0].isSame(yesterday, 'date')).toBeTruthy();
     expect(date[1].isSame(today, 'date')).toBeTruthy();
-    expect(wrapper.find('RangePicker').prop('disabledDate')(yesterday)).toBeFalsy();
-    expect(wrapper.find('RangePicker').prop('disabledDate')(tomorrow)).toBeTruthy();
-    wrapper.find('RangePicker').prop('onOk')();
+    expect(wrapper.find('RangePicker').at(0).prop('disabledDate')(yesterday)).toBeFalsy();
+    expect(wrapper.find('RangePicker').at(0).prop('disabledDate')(tomorrow)).toBeTruthy();
+    wrapper.find('RangePicker').at(0).prop('onOk')();
     expect(fn).toHaveBeenCalled();
   });
 });

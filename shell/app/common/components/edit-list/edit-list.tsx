@@ -154,14 +154,6 @@ const EditList = (props: IELProps) => {
     });
   };
 
-  const cancelEdit = () => {
-    updater.value(propsVal);
-    setTimeout(() => {
-      // 此次的修改为恢复，重置changed
-      updater.changed(false);
-    }, 0);
-  };
-
   const onBlurSave = (v?: IData[]) => {
     setTimeout(() => { // 延时确保值正确，不同控件修改值的时机不一样，select触发update同时会触发保存
       if (pOnBlurSave && !validateValue(dataTemp, v || valueRef.current || [])) {

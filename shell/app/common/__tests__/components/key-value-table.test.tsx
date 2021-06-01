@@ -71,7 +71,7 @@ describe('KeyValueTable', () => {
     expect(fn).toHaveBeenCalled();
     editor.find('.add-row-btn-wrap').find('Button').simulate('click');
     expect(editor.state().dataSource).toHaveLength(4);
-    editor.find('Popconfirm').at(0).prop('onConfirm')();
+    editor.find('Tooltip').at(0).prop('onConfirm')();
     expect(editor.state().dataSource).toHaveLength(3);
     wrapper.setProps({
       data: { ...data, displayName: 'erda', userName: 'erda', CPU: '2' },

@@ -26,6 +26,7 @@ const columns = [{
 
 describe('PagingTable', () => {
   it('should render well', () => {
+    jest.useFakeTimers();
     const getList = jest.fn();
     const addFn = jest.fn();
     const clearListFn = jest.fn();
@@ -72,6 +73,7 @@ describe('PagingTable', () => {
     // show confirm modal
     temp.find('.table-operations-btn').at(1).simulate('click');
     // trigger delete event
+    jest.runAllTimers();
     document.querySelectorAll('.ant-btn-primary')[0].click();
     expect(deleteFn).toHaveBeenLastCalledWith(dataSource[0]);
     wrapper.unmount();
