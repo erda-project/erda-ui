@@ -197,7 +197,8 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
           ],
         },
         state: {
-          value: 'organizeA',
+          value: 'organizeC',
+          label: '组织C',
         }
       },
       joinedBrief: {
@@ -599,9 +600,11 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
       root: 'page',
       structure: {
         page: ['content'],
-        content: ['title', 'emptyOrgTip', 'emptyProjectTip', 'emptyProjectIssue', 'tableGroup'],
+        content: ['title', 'emptyOrgTip', 'emptyPublicOrgTip', 'emptyProjectTip', 'emptyProjectIssue', 'tableGroup'],
         emptyOrgTip: { left: 'erdaLogo', right: 'emptyOrgText' },
         emptyOrgText: ['emptyOrgTitle', 'emptyOrgContent'],
+        emptyPublicOrgTip: { left: 'orgLogo', right: 'emptyPublicOrgText' },
+        emptyPublicOrgText: ['emptyPublicOrgTitle', 'emptyPublicOrgContent'],
         emptyProjectTip: { left: 'orgLogo', right: 'emptyProjectText' },
         emptyProjectText: ['emptyProjectTitle', 'emptyProjectContent'],
       },
@@ -748,6 +751,114 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
             reload: false,
             show: false,
           },
+        },
+      },
+      emptyPublicOrgTip: {
+        type: 'LRContainer',
+        props: {
+          visible: true,
+          whiteBg: true,
+          startAlign: true,
+          contentSetting: 'start',
+        },
+      },
+      emptyPublicOrgText: {
+        type: 'Container',
+        props: {
+          visible: true,
+        },
+      },
+      emptyPublicOrgTitle: {
+        type: 'Title',
+        props: {
+          visible: true,
+          title: '你当前正在浏览公开组织 XXXX',
+          level: 2,
+        },
+      },
+      emptyPublicOrgContent: {
+        type: 'TextGroup',
+        props: {
+          visible: true,
+          value: [
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '以下是作为平台新成员的一些快速入门知识：',
+              },
+              gapSize: 'large',
+            },
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '* 切换组织',
+                styleConfig: {
+                  bold: true
+                },
+              },
+              gapSize: 'small',
+            },
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '使用此屏幕上左上角的组织切换，快速进行组织之间切换',
+              },
+              gapSize: 'large',
+            },
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '* 公开项目浏览',
+                styleConfig: {
+                  bold: true
+                },
+              },
+              gapSize: 'small',
+            },
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '可以在左侧项目下公开项目信息进行浏览',
+              },
+              gapSize: 'large',
+            },
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '* 加入组织',
+                styleConfig: {
+                  bold: true,
+                }
+              },
+              gapSize: 'small',
+            },
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '组织当前都是受邀机制，需要线下联系企业所有者进行邀请加入',
+              },
+              gapSize: 'large',
+            },
+            {
+              props: {
+                renderType: 'text',
+                visible: true,
+                value: '当你已经加入到该公开组织后，此框将不再显示',
+                textStyleName: {
+                  'fz12': true,
+                  'color-text-desc': true,
+                },
+              },
+              gapSize: 'normal',
+            },
+          ],
         },
       },
       emptyProjectTip: {
