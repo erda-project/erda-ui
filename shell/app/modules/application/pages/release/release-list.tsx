@@ -50,7 +50,7 @@ const ReleaseList = () => {
     queryObj: {
       q: query.q,
       branchName: query.branchName as undefined | string,
-    },
+    } as null | { q?: string, branchName?: string},
   });
   const {
     pageNo,
@@ -79,7 +79,7 @@ const ReleaseList = () => {
   });
 
   useUpdateEffect(() => {
-    const { q, branchName } = queryObj;
+    const { q, branchName } = queryObj || {};
     const urlObj = { branchName } as any;
     urlObj.q = q || undefined;
     urlObj.applicationId = applicationId;
@@ -102,7 +102,7 @@ const ReleaseList = () => {
   return (
     <div className="release-list-container">
       <div className="release-list-page v-flex-box">
-        <IF check={appDetail.isDeployingApp}>
+        <IF check={appDetail.isProjectLevel}>
           <AppSelector 
             projectId={`${projectId}`} 
             className='mb8 mx16'
@@ -110,10 +110,7 @@ const ReleaseList = () => {
             onChange={(_appId: number) => {
               update({
                 applicationId: _appId,
-                queryObj: {
-                  q: undefined,
-                  branchName: undefined,
-                }
+                queryObj: null,
               });
             }}
             value={applicationId}
@@ -121,7 +118,7 @@ const ReleaseList = () => {
         </IF>
         <Select
           className='mb8 mx16'
-          value={queryObj.branchName}
+          value={queryObj?.branchName}
           onChange={(v: any) => updater.queryObj({ ...queryObj, branchName: v })}
           placeholder={i18n.t('filter by {name}', { name: i18n.t('application:branch') })}
           allowClear
@@ -135,7 +132,7 @@ const ReleaseList = () => {
         <div className='mb8 mx16'>
           <DebounceSearch 
             className='full-width'
-            value={queryObj.q} 
+            value={queryObj?.q} 
             placeholder={i18n.t('search by keywords')} 
             onChange={(v: string) => {
               updater.queryObj({

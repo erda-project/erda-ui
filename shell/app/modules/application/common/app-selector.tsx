@@ -35,8 +35,11 @@ const AppItem = (app: IApplication) => {
   return <Tooltip key={app.id} title={app.name}>{app.displayName || app.name}</Tooltip>;
 };
 
-
-export const chosenItemConvert = (values: any) => {
+interface IChosenItem {
+  value: string;
+  label?: string
+}
+export const chosenItemConvert = (values: IChosenItem[] | IChosenItem) => {
   const curApp = appStore.getState(s => s.detail);
   const curValues = isArray(values) ? values : (values && [values]);
   const existApp = {};
@@ -51,7 +54,7 @@ export const chosenItemConvert = (values: any) => {
     return reValue;
   }
 
-  // 若还缺label，则从接口取
+  // if there are some lack label items, then get label from servicel
   return Promise.all(map(lackLabelItems, item => getAppDetail(item.value))).then((res: IApplication[]) => {
     const newValue = map(reValue, (val) => {
       const appItem = find(map(res,'data'), resItem => `${resItem.id}` === `${val.value}`);
@@ -79,7 +82,7 @@ export const AppSelector = (props: IProps) => {
         list: map(list, item => ({ ...item, label: item.displayName || item.name, value: item.id })),
       })}
       optionRender={AppItem}
-      chosenItemConvert={(v:any[]) => chosenItemConvert(v)}
+      chosenItemConvert={(v: IChosenItem[] | IChosenItem) => chosenItemConvert(v)}
       {...rest}
     />
   );

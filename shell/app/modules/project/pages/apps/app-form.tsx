@@ -145,7 +145,7 @@ const CreationForm = () => {
     },
     {
       label: i18n.t('application:project-level-app-form-tip'),
-      name: 'isDeployingApp',
+      name: 'isProjectLevel',
       type: 'switch',
       required: true,
       initialValue: false,
