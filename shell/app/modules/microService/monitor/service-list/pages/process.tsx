@@ -21,6 +21,7 @@ import routeInfoStore from 'app/common/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import topologyServiceStore from 'microService/stores/topology-service-analyze';
 import ServiceListDashboard from './service-list-dashboard';
+import { get } from 'lodash';
 
 import './index.scss';
 
@@ -29,7 +30,7 @@ export default () => {
   const params = routeInfoStore.useStore(s => s.params);
   const { terminusKey, serviceName, serviceId } = params;
   const { getProcessDashboardId, getInstanceIds } = topologyServiceStore;
-  const [{ id, instanceId, instanceIds }, updater] = useUpdate({
+  const [{ id, instanceId, instanceIds }, updater, update] = useUpdate({
     id: undefined as string | undefined,
     instanceId: undefined as string | undefined,
     instanceIds: [] as TOPOLOGY_SERVICE_ANALYZE.InstanceId[] | undefined,
@@ -43,7 +44,13 @@ export default () => {
       terminusKey,
       start: startTimeMs,
       end: endTimeMs,
-    }).then(res => updater.instanceIds(res?.data));
+    }).then(res => {
+      const defaultInstanceId = get(res, ['data', 0, 'instanceId']);
+      update({
+        instanceId: defaultInstanceId,
+        instanceIds: res?.data,
+      });
+    });
   }, [getInstanceIds, serviceName, terminusKey, endTimeMs, startTimeMs, updater, serviceId]);
 
   useEffect(() => {
@@ -63,6 +70,7 @@ export default () => {
             className="mr12"
             placeholder={i18n.t('addonPlatform:select instance')}
             allowClear
+            value={instanceId}
             style={{ width: '300px' }}
             onChange={(v: any) => updater.instanceId(v)}
           >
@@ -86,7 +94,7 @@ export default () => {
           </Select>
         </div>
       </div>
-      <div className="flex-1">
+      <div className="auto-overflow flex-1">
         <Spin spinning={isFetching}>
           {id ? <ServiceListDashboard dashboardId={id} extraGlobalVariable={{ instanceId }} /> : <EmptyHolder relative />}
         </Spin>
