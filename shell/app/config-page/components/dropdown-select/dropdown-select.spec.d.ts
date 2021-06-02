@@ -29,6 +29,7 @@ declare namespace CP_DROPDOWN_SELECT {
 
   interface IState {
     value: string;
+    label: string;
   }
 
   interface IOptionItem {
