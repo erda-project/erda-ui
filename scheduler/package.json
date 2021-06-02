@@ -5,17 +5,21 @@
   "main": "src/index.js",
   "private": true,
   "scripts": {
-    "start": "nodemon -e js,json,env src/index.js --watch ../.env --watch src"
+    "start": "nodemon --delay 1 -e js,json,env src/index.js --watch ../public/static --watch src --watch ../.env"
   },
   "author": "Erda-FE",
   "license": "AGPL",
   "dependencies": {
+    "dotenv": "^8.6.0",
+    "http-proxy-middleware": "^2.0.0",
     "koa": "^2.13.1",
     "koa-send": "^5.0.1",
+    "koa-devserver": "^0.9.4",
+    "koa2-connect": "^1.0.2",
     "nodemon": "^2.0.7"
   },
   "devDependencies": {
     "@babel/plugin-transform-async-to-generator": "^7.13.0",
-    "dotenv": "^8.2.0"
+    "chalk": "^4.1.1"
   }
 }

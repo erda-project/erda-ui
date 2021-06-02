@@ -16,6 +16,7 @@ import fs from 'fs';
 import { forEach } from 'lodash';
 import { exit } from 'process';
 import { logError } from './log';
+import dotenv from 'dotenv';
 
 export const checkIsRoot = () => {
   if (!fs.existsSync(`${process.cwd()}/.env`)) {
@@ -24,8 +25,16 @@ export const checkIsRoot = () => {
   }
 };
 
+export const getEnvConfig = () => {
+  const { parsed } = dotenv.config({ path: `${process.cwd()}/.env` });
+  if (!parsed) {
+    throw Error(`.env file not exist in ${process.cwd()}`);
+  }
+  return parsed;
+};
+
 export const getModuleList = () => {
-  const { parsed: moduleEnv } = require('dotenv').config({ path: `${process.cwd()}/.env` });
+  const moduleEnv = getEnvConfig();
 
   const moduleList: Array<{ moduleName: string; moduleDir: string }> = [];
   const modules: string[] = moduleEnv.PROD_MODULES.split(',');

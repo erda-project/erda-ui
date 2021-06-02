@@ -44,12 +44,12 @@ program
 //   });
 
 program
-  .command('setup <module> <port>')
+  .command('setup <module>')
   .description('setup env and tsconfig for module')
   .option('-s, --skip', 'skip the cli version check')
-  .action(async (moduleName, port, options) => {
+  .action(async (moduleName, options) => {
     await checkCliVersion(options);
-    setup(moduleName, port);
+    setup(moduleName);
   });
 
 program

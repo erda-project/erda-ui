@@ -14,11 +14,10 @@
 import inquirer from 'inquirer';
 import path from 'path';
 import fs from 'fs';
-import child_process from 'child_process';
-import { logInfo, logSuccess, logWarn } from './util/log';
+import { logSuccess, logWarn } from './util/log';
 import dotenv from 'dotenv';
 
-export default async (moduleName: string, modulePort: string) => {
+export default async (moduleName: string) => {
   const moduleDir = process.cwd();
   const packagePath = path.join(moduleDir, 'package.json');
 
@@ -60,12 +59,7 @@ export default async (moduleName: string, modulePort: string) => {
     process.exit(1);
   }
 
-  fullConfig.DEV_MODULES = Array.from(new Set(fullConfig.DEV_MODULES.split(',').concat(moduleName))).join(',');
   fullConfig.PROD_MODULES = Array.from(new Set(fullConfig.PROD_MODULES.split(',').concat(moduleName))).join(',');
-  fullConfig[`${moduleName.toUpperCase()}_URL`] = moduleName === 'shell'
-    ? `https://dice.dev.terminus.io:${modulePort}`
-    : `https://local-${moduleName}.terminus-org.dev.terminus.io:${modulePort}`;
-
   fullConfig[`${moduleName.toUpperCase()}_DIR`] = path.resolve(moduleDir);
   fullConfig.ERDA_DIR = path.resolve(erdaUiPath);
 
@@ -75,15 +69,6 @@ export default async (moduleName: string, modulePort: string) => {
   });
   fs.writeFileSync(fullConfigPath, newFullConfig.join('\n'), 'utf8');
   logSuccess('update erda-ui/.env file');
-
-  const configDir = path.join(moduleDir, '.erda');
-
-  if (!fs.existsSync(configDir)) {
-    logInfo('.erda directory not exist, create');
-    fs.mkdirSync(configDir, '0777');
-  }
-
-  const configFilePath = path.join(configDir, 'config.js');
 
   const includeContent = moduleName === 'core'
     ? [
@@ -122,8 +107,6 @@ export default async (moduleName: string, modulePort: string) => {
   const pathContent = moduleName === 'core' ? commonPathContent : { ...commonPathContent, ...corePathContent };
 
 
-  const extraContent = '';
-
   const tsConfigPath = path.join(fullConfig[`${moduleName.toUpperCase()}_DIR`], 'tsconfig.json');
   let tsConfig: any = {};
   try {
@@ -145,77 +128,4 @@ export default async (moduleName: string, modulePort: string) => {
   ]));
   fs.writeFileSync(tsConfigPath, JSON.stringify(tsConfig, null, 2), 'utf8');
   logSuccess('update tsconfig.json');
-
-  const shellContent = moduleName === 'shell' ? `
-  DEV_MODULES: ${JSON.stringify(fullConfig.DEV_MODULES.split(','))},
-  PROD_MODULES: ${JSON.stringify(fullConfig.PROD_MODULES.split(','))},
-  ` : '';
-
-  const shellConfigPath = path.resolve(`${erdaUiPath}/shell/.erda/config.js`);
-
-  if (moduleName !== 'shell' && fs.existsSync(shellConfigPath)) {
-    const { MODULE_PORT } = require(shellConfigPath);
-    logInfo('update shell/.erda/config.js');
-    child_process.spawnSync('erda-ui', ['setup', 'shell', MODULE_PORT], { env: process.env, cwd: fullConfig.SHELL_DIR, stdio: 'inherit' });
-  }
-
-  const module_host = moduleName === 'shell'
-    ? 'dice.dev.terminus.io'
-    : `local-${moduleName}.terminus-org.dev.terminus.io`;
-
-  const configContent = `
-module.exports = {
-  DEV_URL: "https://terminus-org.dev.terminus.io",
-  TEST_URL: "https://terminus-org.test.terminus.io",
-  SCHEDULER_URL: "http://localhost:3000",
-  ERDA_UI_DIR: "${erdaUiPath}",
-  MODULE_NAME: "${moduleName}",
-  MODULE_HOST: "${module_host}",
-  MODULE_PORT: "${modulePort}",${shellContent}
-  wrapWebpack(webpackConfig) {
-    if (process.env.NODE_ENV === 'production') {
-      webpackConfig.output.publicPath = '/static/${moduleName}/';
-    } else {
-      webpackConfig.output.publicPath = 'https://${module_host}:${modulePort}/';
-      if (webpackConfig.devServer) {
-        console.log(\`
-add config in host file：
-127.0.0.1  ${module_host}
-        \`);
-
-        webpackConfig.devServer.host = "${module_host}";
-        webpackConfig.devServer.port = ${modulePort};
-      }
-    }
-    return webpackConfig;
-  }
-}
-${extraContent}
-`;
-  fs.writeFileSync(configFilePath, configContent, 'utf8');
-
-  logSuccess(`write config file to ${path.join(moduleDir, '.erda/config.js')}`);
-
-  const ignoreFilePath = path.join(moduleDir, '.gitignore');
-  const parentIgnoreFilePath = path.resolve(moduleDir, '../.gitignore');
-  const targetIgnoreFilePath = fs.existsSync(ignoreFilePath)
-    ? ignoreFilePath
-    : fs.existsSync(parentIgnoreFilePath)
-      ? parentIgnoreFilePath
-      : null;
-  if (targetIgnoreFilePath) {
-    const ignoreFile = fs.readFileSync(targetIgnoreFilePath, { encoding: 'utf8' });
-    if (!ignoreFile.includes('/.erda')) {
-      fs.writeFileSync(targetIgnoreFilePath, `${ignoreFile }\n/.erda\n*/.erda`, 'utf8');
-    }
-  } else {
-    fs.writeFileSync(ignoreFilePath, '/.erda\n*/.erda', 'utf8');
-  }
-  logSuccess('add .erda to gitignore');
-  logSuccess('now you can use this code:');
-  logInfo(`
-const config = require('./.erda/config');
-
-module.exports = config.wrapWebpack(yourWebpackConfig);
-`);
 };

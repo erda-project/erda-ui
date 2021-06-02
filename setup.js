@@ -26,7 +26,6 @@ const runCmd = 'pnpm'
 console.log(`==============${runCmd} mode=============`)
 
 const coreDir = join(root, 'core');
-const schedulerDir = join(root, 'scheduler');
 const shellDir = join(root, 'shell');
 
 const log = msg => {
@@ -41,35 +40,33 @@ const registerErdaCmd = async () => {
   await cp.spawnSync('npm', ['i', '-g', 'npm-check-updates'], { env: process.env, stdio: 'inherit' });
 }
 
-const setupCore = async (port) => {
-  log('create .erda/config in module core 😁');
-  await cp.spawnSync('erda-ui', ['setup', 'core', port, '-s'], { env: process.env, cwd: coreDir, stdio: 'inherit' }) ;
+const setupCore = async () => {
+  log('register module core');
+  await cp.spawnSync('erda-ui', ['setup', 'core', '-s'], { env: process.env, cwd: coreDir, stdio: 'inherit' }) ;
 }
 
-const setupShell = async (port) => {
-  log('create .erda/config in module shell');
-  await cp.spawnSync('erda-ui', ['setup', 'shell', port, '-s'], { env: process.env, cwd: shellDir, stdio: 'inherit' }) ;
+const setupShell = async () => {
+  log('register module shell');
+  await cp.spawnSync('erda-ui', ['setup', 'shell', '-s'], { env: process.env, cwd: shellDir, stdio: 'inherit' }) ;
 }
 
 const initEnvFile = async () => {
   const envContent = `
-DEV_HOST=https://terminus-org.dev.terminus.io
-TEST_HOST=https://terminus-org.test.terminus.io
-SCHEDULER_HOST=http://localhost
+ERDA_DIR=${root}
+BACKEND_URL=https://terminus-org.dev.terminus.io
+SCHEDULER_URL=https://dice.dev.terminus.io
 SCHEDULER_PORT=3000
-DEV_MODULES=core,shell
 PROD_MODULES=core,shell
-SCHEDULER_DIR=${schedulerDir}
 `
   await fs.writeFileSync(join(root, '.env'), envContent, 'utf8', '0777');
   log(`create .env file in ${root}`)
 }
 
-const setupModules = async () => {  
+const setupModules = async () => {
   await initEnvFile();
   await registerErdaCmd();
-  await setupCore(5000);
-  await setupShell(8080);
+  await setupCore();
+  await setupShell();
 }
 
 // start

@@ -12,7 +12,6 @@
   ],
   "scripts": {
     "start": "webpack serve",
-    "build-dev": "cross-env-shell NODE_ENV=production FOR_DEV=true 'npm run build-core'",
     "build": "cross-env-shell NODE_ENV=production 'npm run build-core'",
     "build-core": "rm -rf ../public/static/core/ && webpack --progress",
     "analyze": "webpack --config webpack.analyze.js --progress --color",

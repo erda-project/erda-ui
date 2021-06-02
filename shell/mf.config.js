@@ -11,20 +11,27 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const config = require('./.erda/config');
 const AutomaticVendorFederation = require('@module-federation/automatic-vendor-federation');
 const packageJson = require('./package.json');
 const fs = require('fs');
+const path = require('path');
+const dotenv = require('dotenv');
+
+const { parsed: envConfig } = dotenv.config({ path: path.resolve(__dirname, '../.env') });
+
+if (!envConfig) {
+  throw Error('cannot find .env file in erda-ui root directory');
+}
 
 const isProd = process.env.NODE_ENV === 'production';
 const remotes = {};
 const entries = [];
-const { DEV_MODULES, PROD_MODULES, SCHEDULER_URL } = config;
-const modules = isProd ? PROD_MODULES : DEV_MODULES;
+const { PROD_MODULES, SCHEDULER_URL, SCHEDULER_PORT } = envConfig;
 
-modules.forEach(m => {
+PROD_MODULES.split(',').forEach(m => {
   if (m === 'shell') return;
-  remotes[m] = isProd ? `mf_${m}@/static/${m}/scripts/mf_${m}.js` : `mf_${m}@${SCHEDULER_URL}/${m}/scripts/mf_${m}.js`;
+  const host = isProd ? '' : `${SCHEDULER_URL}:${SCHEDULER_PORT}`;
+  remotes[m] = `mf_${m}@${host}/static/${m}/scripts/mf_${m}.js`;
   if (m !== 'core') {
     entries.push(`${m}: import('${m}/entry'),`);
   }
@@ -39,12 +46,6 @@ export default {
 `);
 
 module.exports = [
-  // {
-  //   name: 'mf_nusi',
-  //   exposes: {
-  //     './all': './app/external/nusi.js',
-  //   },
-  // },
   {
     name: 'mf_share',
     exposes: {

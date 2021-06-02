@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const config = require('./.erda/config');
 const os = require('os');
 const path = require('path');
 const webpack = require('webpack');
@@ -30,10 +29,11 @@ branch: ${gitRevisionPlugin.branch()}
 buildTime: ${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}
 buildBy: ${os.userInfo().username}`;
 
-module.exports = config.wrapWebpack({
+module.exports = {
   mode: 'production',
   devtool: process.env.enableSourceMap === 'true' ? 'hidden-source-map' : false,
   output: {
+    publicPath: '/static/shell/',
     path: path.resolve(__dirname, '../public/static/shell'),
     filename: 'scripts/[name].[chunkhash].js',
     chunkFilename: 'scripts/[chunkhash].chunk.js',
@@ -122,4 +122,4 @@ module.exports = config.wrapWebpack({
       }),
     ],
   },
-});
+};
