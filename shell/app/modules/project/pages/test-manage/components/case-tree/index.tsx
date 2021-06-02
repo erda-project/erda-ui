@@ -254,7 +254,7 @@ const TestSet = ({
   }));
 
   useEffect(() => {
-    const expandId:string[] = (query.eventKey || '').split('-');
+    const expandId = (query.eventKey || '').split('-');
     if (firstBuild.current && !isEmpty(treeData)) {
       if (!(query.caseId || expandId.length > 1)) {
         // 当 query 不为空的时候，就保持当前的 query 值
