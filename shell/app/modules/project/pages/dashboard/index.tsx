@@ -24,6 +24,8 @@ import { getIterationDetail } from 'project/services/project-iteration';
 import { getProjectInfo, getDashboard } from 'project/services/project';
 import { createLoadDataFn } from 'dataCenter/common/custom-dashboard/data-loader';
 
+const DashBoard = React.memo(PureBoardGrid);
+
 
 enum DashboardType {
   BUG = 'bug',
@@ -110,7 +112,7 @@ export const ProjectDashboard = () => {
       </div>
 
       <Holder when={isEmpty(layout)}>
-        <PureBoardGrid layout={layout} showOptions />
+        <DashBoard layout={layout} showOptions />
       </Holder>
     </div>
   );
