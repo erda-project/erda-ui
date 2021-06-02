@@ -338,7 +338,7 @@ const getRequireBuildModules = async (image: string) => {
         }
       }
     });
-    logWarn('fdp & admin module are maintained in separate git repository，please manually confirm whether require rebuild.');
+    logWarn('some modules are maintained in separate git repository，please manually confirm whether require rebuild.');
     return requireBuildList;
   } catch (error) {
     logError(error);

@@ -17,28 +17,35 @@ const send = require('koa-send');
 const c2k = require('koa2-connect')
 const DevServer = require('koa-devserver');
 const { createProxyMiddleware } = require('http-proxy-middleware');
-
-const root = path.resolve(process.cwd(), '..');
-const staticDir = `${root}/public/static`;
+const { log, getDirectories, getEnv } = require('./util');
 
 
-const getDirectories = source =>
-  fs.readdirSync(source, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
-    .map(dirent => dirent.name);
+const { erdaRoot, staticDir, envConfig } = getEnv();
+const { PROD_MODULES, SCHEDULER_HOST, SCHEDULER_PORT, BACKEND_URL, MARKET_DIR } = envConfig;
+const [SCHEDULER_PROTOCOL, SCHEDULER_DOMAIN] = SCHEDULER_HOST.split('://');
 
 const prodModules = {};
 getDirectories(staticDir).forEach(m => {
   prodModules[m] = true;
 });
-console.log('exist modules:', Object.keys(prodModules));
 
+log(`Exist static modules: ${Object.keys(prodModules)}
 
-const redirectMiddleware = async (ctx) => {
+Please add follow config to your /etc/hosts file:
+127.0.0.1   dice.dev.terminus.io
+`);
+
+const staticFileMiddleware = async (ctx) => {
   const [empty, scope, moduleName, ...rest] = ctx.path.split('/');
+  const match = /^\/[a-zA-Z-_]+\/market(.*)/.exec(ctx.path);
+  if (match) { // /{org}/market/xx -> market module
+    return !match[1]
+      ? send(ctx, 'index.html', { root: `${MARKET_DIR}/dist` })
+      : send(ctx, rest.join('/'), { root: `${MARKET_DIR}/dist` });
+  }
   if (scope === 'static') { // prod modules
     if (prodModules[moduleName]) {
-      return send(ctx, ctx.path, { root: `${root}/public` });
+      return send(ctx, ctx.path, { root: `${erdaRoot}/public` });
     } else {
       return ctx.body = `module【${moduleName}】is not build`
     }
@@ -46,17 +53,18 @@ const redirectMiddleware = async (ctx) => {
   return send(ctx, 'index.html', { root: `${staticDir}/shell` });
 };
 
+
 const server = new DevServer({
-  name: 'Erda',
+  name: 'Erda-UI',
   root: staticDir, // the web root - or ["path/to/root1", "path/to/root2"] for multiple web roots
-  host: 'dice.dev.terminus.io', // the host to listen to
-  port: 3000, // the port to listen to
+  host: SCHEDULER_DOMAIN, // the host to listen to
+  port: SCHEDULER_PORT, // the port to listen to
   open: `${staticDir}/shell/index.html`,
   index: `${staticDir}/shell/index.html`, // use an index file when GET directory -> passed to koa-send
   // verbose: true, // if true print HTTP requests
   https: { // defaults to undefined
-    key: fs.readFileSync(`${root}/cert/dev/server.key`, 'utf8'),
-    cert: fs.readFileSync(`${root}/cert/dev/server.crt`, 'utf8')
+    key: fs.readFileSync(`${erdaRoot}/cert/dev/server.key`, 'utf8'),
+    cert: fs.readFileSync(`${erdaRoot}/cert/dev/server.crt`, 'utf8')
   },
   // livereload: { // can be a string an array or an object. defaults to undefined.
   //   // any livereload option
@@ -67,11 +75,12 @@ const server = new DevServer({
   //   // errorPage: '/fs/path/to/error_page_template.html' // use a custom error page template
   // },
   use: [ // can inject one or more koa middleware in the request execution stack
-    c2k(createProxyMiddleware('/api', { target: 'https://terminus-org.dev.terminus.io', changeOrigin: true })),
-    redirectMiddleware,
+    c2k(createProxyMiddleware('/api/\w+/websocket', { target: BACKEND_URL, changeOrigin: true, ws: true })),
+    c2k(createProxyMiddleware('/api', { target: BACKEND_URL, changeOrigin: true })),
+    staticFileMiddleware,
   ]
 });
 
 server.start();
 
-console.log(`listen at https://dice.dev.terminus.io:3000`);
+log(`listen at ${SCHEDULER_HOST}:${SCHEDULER_PORT}`);

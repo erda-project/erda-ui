@@ -28,7 +28,6 @@ const installArg = isOnline ? ['i'] : []
 console.log(`==============${runCmd} mode=============`)
 
 const coreDir = join(root, 'core');
-const schedulerDir = join(root, 'scheduler');
 const shellDir = join(root, 'shell');
 
 const log = msg => {
@@ -55,19 +54,17 @@ const setupShell = async (port) => {
 
 const initEnvFile = async () => {
   const envContent = `
-DEV_HOST=https://terminus-org.dev.terminus.io
-TEST_HOST=https://terminus-org.test.terminus.io
-SCHEDULER_HOST=http://localhost
+ERDA_DIR=${root}
+BACKEND_URL=https://terminus-org.dev.terminus.io
+SCHEDULER_HOST=https://dice.dev.terminus.io
 SCHEDULER_PORT=3000
-DEV_MODULES=core,shell
 PROD_MODULES=core,shell
-SCHEDULER_DIR=${schedulerDir}
 `
   await fs.writeFileSync(join(root, '.env'), envContent, 'utf8', '0777');
   log(`create .env file in ${root}`)
 }
 
-const setupModules = async () => {  
+const setupModules = async () => {
   await initEnvFile();
   await registerErdaCmd();
   await setupCore(5000);
