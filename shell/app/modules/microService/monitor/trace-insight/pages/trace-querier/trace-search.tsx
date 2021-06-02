@@ -75,6 +75,8 @@ export default () => {
       'tag.error': status === undefined ? undefined : !!_status,
       'tag.fields.applications_ids': appId,
       'tag.fields.services_distinct': service,
+      field_gt_errors_sum: _status === 1 ? 0 : undefined,
+      field_eq_errors_sum: _status === 0 ? 0 : undefined,
     });
   };
 

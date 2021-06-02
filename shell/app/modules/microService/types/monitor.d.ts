@@ -39,6 +39,8 @@ declare namespace MS_MONITOR {
     'tag.error': boolean | undefined
     'tag.fields.applications_ids': number
     'tag.fields.services_distinct': string
+    field_gt_errors_sum?: number
+    field_eq_errors_sum?: number
   }
 
   interface ITraceSummary {
