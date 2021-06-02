@@ -662,6 +662,11 @@ export default ({ scopeType }: { scopeType: string }) => {
           placeholder: i18n.t('org:please select index group'),
           onChange: (v: any) => {
             getMetaData({ groupId: v[v.length - 1] }).then(() => {
+              form.setFieldsValue({
+                rule: {
+                  group: undefined,
+                },
+              });
               update({
                 editingFilters: [],
                 editingFields: [],
