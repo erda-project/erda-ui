@@ -22,11 +22,11 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
   const { execOperation, props: configProps, state: propsState } = props;
   const { options, quickSelect = [], overlay, trigger, visible, ...restProps } = configProps;
   let _overlay = overlay;
-  const [value, setValue] = React.useState(propsState.value)
+  const [value, setValue] = React.useState(propsState.value);
   const [filterValue, setFilterValue] = React.useState('');
-  const [active, setActive] = React.useState(false)
+  const [active, setActive] = React.useState(false);
 
-  const label = React.useMemo(() => get(options?.find(item => item.value === value), 'label', ''), [value])
+  const label = React.useMemo(() => get(options?.find(item => item.value === value), 'label', ''), [value]);
 
   const gotoSpecificPage = (item: CP_DROPDOWN_SELECT.IQuickSelect) => {
     item?.operations && item?.operations?.click && execOperation(item.operations.click)
@@ -130,8 +130,10 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
       {...restProps}
     >
       <span
-        className='dropdown-select-button hover-active' onClick={() => setActive(!active)}>
-        {label}
+        className='dropdown-select-button hover-active'
+        onClick={() => setActive(!active)}
+      >
+        {propsState?.label || label}
         <CustomIcon style={{ color: 'inherit' }} type="caret-down" />
       </span>
 
