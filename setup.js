@@ -22,9 +22,7 @@ const root = resolve(__dirname, '.');
 const { promisify } = require('util');
 const asyncExec = promisify(require('child_process').exec);
 
-const isOnline = process.argv[2] === 'online';
 const runCmd = 'pnpm'
-const installArg = isOnline ? ['i'] : []
 console.log(`==============${runCmd} mode=============`)
 
 const coreDir = join(root, 'core');
@@ -37,20 +35,20 @@ const log = msg => {
 
 const registerErdaCmd = async () => {
   log('register erda-ui command globally 😁');
-  await cp.spawnSync('pnpm', ['i', '-g', '@erda-ui/cli'], { env: process.env, stdio: 'inherit' });
+  await cp.spawnSync('npm', ['i', '-g', '@erda-ui/cli'], { env: process.env, stdio: 'inherit' });
 
   log('register npm-check-updates globally to check npm version😁');
-  await cp.spawnSync('pnpm', ['i', '-g', 'npm-check-updates'], { env: process.env, stdio: 'inherit' });
+  await cp.spawnSync('npm', ['i', '-g', 'npm-check-updates'], { env: process.env, stdio: 'inherit' });
 }
 
 const setupCore = async (port) => {
   log('create .erda/config in module core 😁');
-  await cp.spawnSync('erda-ui', ['setup', 'core', port], { env: process.env, cwd: coreDir, stdio: 'inherit' }) ;
+  await cp.spawnSync('erda-ui', ['setup', 'core', port, '-s'], { env: process.env, cwd: coreDir, stdio: 'inherit' }) ;
 }
 
 const setupShell = async (port) => {
   log('create .erda/config in module shell');
-  await cp.spawnSync('erda-ui', ['setup', 'shell', port], { env: process.env, cwd: shellDir, stdio: 'inherit' }) ;
+  await cp.spawnSync('erda-ui', ['setup', 'shell', port, '-s'], { env: process.env, cwd: shellDir, stdio: 'inherit' }) ;
 }
 
 const initEnvFile = async () => {
