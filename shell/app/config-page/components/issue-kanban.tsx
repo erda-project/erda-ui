@@ -77,7 +77,7 @@ const IssueKanban = (props: IProps) => {
 
   React.useEffect(() => {
     if(data?.refreshBoard){
-      setBoard(data?.board)
+      setBoard(data?.board || [])
     }else{
       setBoard(prev => map(prev, (item, index) => {
         const curNewData = get(data,`board[${index}]`);
