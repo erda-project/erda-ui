@@ -222,13 +222,13 @@ export const getPreviewData = (d: any) => {
   const previewData = {
     data: {
       info: {
-        title: i18n.t('project:execute result'),
+        _drawerTitle: i18n.t('project:execute result'),
         ...dataObj,
       },
     },
     props: {
       render: [
-        { type: 'Title', dataIndex: 'title' },
+        { type: 'Title', dataIndex: '_drawerTitle' },
         ...renderList,
       ],
     },
