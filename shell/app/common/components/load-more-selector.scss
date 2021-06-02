@@ -13,6 +13,7 @@
 
   .results {
     display: flex;
+    align-content: center;
     justify-content: space-between;
     width: 100%;
     min-height: 32px;
@@ -60,7 +61,6 @@
     }
 
     .close {
-      margin-top: 5px;
       color: $color-dark-4;
       font-size: 12px;
       visibility: hidden;

@@ -17,17 +17,22 @@ const send = require('koa-send');
 const c2k = require('koa2-connect')
 const DevServer = require('koa-devserver');
 const { createProxyMiddleware } = require('http-proxy-middleware');
-const { log, getDirectories, getEnv } = require('./util');
+const { log, logWarn, getDirectories, getEnv } = require('./util');
 
 
 const { erdaRoot, staticDir, envConfig } = getEnv();
-const { PROD_MODULES, SCHEDULER_HOST, SCHEDULER_PORT, BACKEND_URL, MARKET_DIR } = envConfig;
-const [SCHEDULER_PROTOCOL, SCHEDULER_DOMAIN] = SCHEDULER_HOST.split('://');
+const { PROD_MODULES, SCHEDULER_URL, SCHEDULER_PORT, BACKEND_URL, MARKET_DIR } = envConfig;
+const [SCHEDULER_PROTOCOL, SCHEDULER_DOMAIN] = SCHEDULER_URL.split('://');
 
 const prodModules = {};
 getDirectories(staticDir).forEach(m => {
   prodModules[m] = true;
 });
+PROD_MODULES.split(',').forEach(m => {
+  if (!prodModules[m]) {
+    logWarn(`module:【${m}】have not build to public`);
+  }
+})
 
 log(`Exist static modules: ${Object.keys(prodModules)}
 
@@ -36,7 +41,7 @@ Please add follow config to your /etc/hosts file:
 `);
 
 const staticFileMiddleware = async (ctx) => {
-  const [empty, scope, moduleName, ...rest] = ctx.path.split('/');
+  const [_empty, scope, moduleName, ...rest] = ctx.path.split('/');
   const match = /^\/[a-zA-Z-_]+\/market(.*)/.exec(ctx.path);
   if (match) { // /{org}/market/xx -> market module
     return !match[1]
@@ -83,4 +88,4 @@ const server = new DevServer({
 
 server.start();
 
-log(`listen at ${SCHEDULER_HOST}:${SCHEDULER_PORT}`);
+log(`listen at ${SCHEDULER_URL}:${SCHEDULER_PORT}`);

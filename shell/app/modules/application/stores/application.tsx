@@ -69,7 +69,7 @@ const appStore = createStore({
             cb() {
               appStore.effects.getBranchInfo({ appId }); // 请求app下全量branch
               appStore.effects.getAppDetail(appId).then((detail: IApplication) => {
-                const curAppMenu = getAppMenu({ ...params, mode: detail.mode } as any);
+                const curAppMenu = getAppMenu({ appDetail: detail });
                 loadingInApp = false;
                 layoutStore.reducers.setSubSiderInfoMap({
                   menu: curAppMenu,

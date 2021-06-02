@@ -26,11 +26,11 @@ if (!envConfig) {
 const isProd = process.env.NODE_ENV === 'production';
 const remotes = {};
 const entries = [];
-const { PROD_MODULES, SCHEDULER_HOST, SCHEDULER_PORT } = envConfig;
+const { PROD_MODULES, SCHEDULER_URL, SCHEDULER_PORT } = envConfig;
 
 PROD_MODULES.split(',').forEach(m => {
   if (m === 'shell') return;
-  const host = isProd ? '' : `${SCHEDULER_HOST}:${SCHEDULER_PORT}`;
+  const host = isProd ? '' : `${SCHEDULER_URL}:${SCHEDULER_PORT}`;
   remotes[m] = `mf_${m}@${host}/static/${m}/scripts/mf_${m}.js`;
   if (m !== 'core') {
     entries.push(`${m}: import('${m}/entry'),`);

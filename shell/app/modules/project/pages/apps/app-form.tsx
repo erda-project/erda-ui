@@ -144,6 +144,20 @@ const CreationForm = () => {
       },
     },
     {
+      label: i18n.t('application:project-level-app-form-tip'),
+      name: 'isProjectLevel',
+      type: 'switch',
+      required: true,
+      initialValue: false,
+      options: [{
+        name: i18n.t('common:yes'),
+        value: true,
+      }, {
+        name: i18n.t('common:no'),
+        value: false,
+      }],
+    },
+    {
       label: i18n.t('project:application name'),
       name: 'name',
       itemProps: {
@@ -164,6 +178,7 @@ const CreationForm = () => {
         },
       ],
     },
+
     // {
     //   label: i18n.t('{name} identify', { name: i18n.t('application') }),
     //   name: 'displayName',

@@ -22,9 +22,7 @@ const root = resolve(__dirname, '.');
 const { promisify } = require('util');
 const asyncExec = promisify(require('child_process').exec);
 
-const isOnline = process.argv[2] === 'online';
 const runCmd = 'pnpm'
-const installArg = isOnline ? ['i'] : []
 console.log(`==============${runCmd} mode=============`)
 
 const coreDir = join(root, 'core');
@@ -36,27 +34,27 @@ const log = msg => {
 
 const registerErdaCmd = async () => {
   log('register erda-ui command globally 😁');
-  await cp.spawnSync('pnpm', ['i', '-g', '@erda-ui/cli'], { env: process.env, stdio: 'inherit' });
+  await cp.spawnSync('npm', ['i', '-g', '@erda-ui/cli'], { env: process.env, stdio: 'inherit' });
 
   log('register npm-check-updates globally to check npm version😁');
-  await cp.spawnSync('pnpm', ['i', '-g', 'npm-check-updates'], { env: process.env, stdio: 'inherit' });
+  await cp.spawnSync('npm', ['i', '-g', 'npm-check-updates'], { env: process.env, stdio: 'inherit' });
 }
 
-const setupCore = async (port) => {
-  log('create .erda/config in module core 😁');
-  await cp.spawnSync('erda-ui', ['setup', 'core', port], { env: process.env, cwd: coreDir, stdio: 'inherit' }) ;
+const setupCore = async () => {
+  log('register module core');
+  await cp.spawnSync('erda-ui', ['setup', 'core', '-s'], { env: process.env, cwd: coreDir, stdio: 'inherit' }) ;
 }
 
-const setupShell = async (port) => {
-  log('create .erda/config in module shell');
-  await cp.spawnSync('erda-ui', ['setup', 'shell', port], { env: process.env, cwd: shellDir, stdio: 'inherit' }) ;
+const setupShell = async () => {
+  log('register module shell');
+  await cp.spawnSync('erda-ui', ['setup', 'shell', '-s'], { env: process.env, cwd: shellDir, stdio: 'inherit' }) ;
 }
 
 const initEnvFile = async () => {
   const envContent = `
 ERDA_DIR=${root}
 BACKEND_URL=https://terminus-org.dev.terminus.io
-SCHEDULER_HOST=https://dice.dev.terminus.io
+SCHEDULER_URL=https://dice.dev.terminus.io
 SCHEDULER_PORT=3000
 PROD_MODULES=core,shell
 `
@@ -67,8 +65,8 @@ PROD_MODULES=core,shell
 const setupModules = async () => {
   await initEnvFile();
   await registerErdaCmd();
-  await setupCore(5000);
-  await setupShell(8080);
+  await setupCore();
+  await setupShell();
 }
 
 // start

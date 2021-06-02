@@ -14,7 +14,7 @@
 import inquirer from 'inquirer';
 import path from 'path';
 import fs from 'fs';
-import { logInfo, logSuccess, logWarn } from './util/log';
+import { logSuccess, logWarn } from './util/log';
 import dotenv from 'dotenv';
 
 export default async (moduleName: string) => {
