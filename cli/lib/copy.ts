@@ -23,6 +23,7 @@ const { execSync } = child_process;
 export default async (moduleName: string, options: { distPath: string }) => {
   const moduleDir = process.cwd();
 
+
   const distPath = path.resolve(moduleDir, options.distPath);
 
   if (!fs.existsSync(distPath)) {

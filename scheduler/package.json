@@ -13,8 +13,8 @@
     "dotenv": "^8.6.0",
     "http-proxy-middleware": "^2.0.0",
     "koa": "^2.13.1",
-    "koa-send": "^5.0.1",
     "koa-devserver": "^0.9.4",
+    "koa-send": "^5.0.1",
     "koa2-connect": "^1.0.2",
     "nodemon": "^2.0.7"
   },

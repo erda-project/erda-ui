@@ -60,7 +60,7 @@ export default () => {
             inParams={config?.inParams}
             debugConfig={config}
             onExecOp={onExecOp}
-            updateConfig={v => { setConfig(v); setText(JSON.stringify(v, null, 2); }}
+            updateConfig={v => { setConfig(v); setText(JSON.stringify(v, null, 2)); }}
           />
         </ErrorBoundary>
         <div className="log-panel">

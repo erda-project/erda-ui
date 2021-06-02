@@ -21,14 +21,14 @@ const { log, logWarn, getDirectories, getEnv } = require('./util');
 
 
 const { erdaRoot, staticDir, envConfig } = getEnv();
-const { PROD_MODULES, SCHEDULER_URL, SCHEDULER_PORT, BACKEND_URL, MARKET_DIR } = envConfig;
+const { MODULES, SCHEDULER_URL, SCHEDULER_PORT, BACKEND_URL, MARKET_DIR } = envConfig;
 const [SCHEDULER_PROTOCOL, SCHEDULER_DOMAIN] = SCHEDULER_URL.split('://');
 
 const prodModules = {};
 getDirectories(staticDir).forEach(m => {
   prodModules[m] = true;
 });
-PROD_MODULES.split(',').forEach(m => {
+MODULES.split(',').forEach(m => {
   if (!prodModules[m]) {
     logWarn(`module:【${m}】have not build to public`);
   }
