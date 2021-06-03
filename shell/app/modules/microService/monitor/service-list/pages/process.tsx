@@ -26,14 +26,16 @@ import { get } from 'lodash';
 import './index.scss';
 
 export default () => {
-  const { startTimeMs, endTimeMs } = monitorCommonStore.useStore(s => s.timeSpan);
+  const _timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
+  const { startTimeMs, endTimeMs } = _timeSpan;
   const params = routeInfoStore.useStore(s => s.params);
   const { terminusKey, serviceName, serviceId } = params;
   const { getProcessDashboardId, getInstanceIds } = topologyServiceStore;
-  const [{ id, instanceId, instanceIds }, updater, update] = useUpdate({
+  const [{ id, instanceId, instanceIds, timeSpan }, updater, update] = useUpdate({
     id: undefined as string | undefined,
     instanceId: undefined as string | undefined,
     instanceIds: [] as TOPOLOGY_SERVICE_ANALYZE.InstanceId[] | undefined,
+    timeSpan: _timeSpan,
   });
   const [isFetching] = useLoading(topologyServiceStore, ['getProcessDashboardId']);
 
@@ -47,11 +49,12 @@ export default () => {
     }).then(res => {
       const defaultInstanceId = get(res, ['data', 0, 'instanceId']);
       update({
+        timeSpan: _timeSpan,
         instanceId: defaultInstanceId,
         instanceIds: res?.data,
       });
     });
-  }, [getInstanceIds, serviceName, terminusKey, endTimeMs, startTimeMs, updater, serviceId]);
+  }, [getInstanceIds, serviceName, terminusKey, endTimeMs, startTimeMs, serviceId, _timeSpan]);
 
   useEffect(() => {
     getProcessDashboardId({
@@ -96,7 +99,7 @@ export default () => {
       </div>
       <div className="flex-1">
         <Spin spinning={isFetching}>
-          {id ? <ServiceListDashboard dashboardId={id} extraGlobalVariable={{ instanceId }} /> : <EmptyHolder relative />}
+          {id ? <ServiceListDashboard timeSpan={timeSpan} dashboardId={id} extraGlobalVariable={{ instanceId }} /> : <EmptyHolder relative />}
         </Spin>
       </div>
     </div>
