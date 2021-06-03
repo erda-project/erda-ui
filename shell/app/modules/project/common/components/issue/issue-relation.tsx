@@ -202,18 +202,25 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
             // )
             : (
               <>
-                <ButtonGroup>
+                <div>
                   <WithAuth pass={usePerm(s => s.project.requirement.create.pass)}>
                     <Button
                       type={activeButtonType === 'create' ? 'primary' : 'default'}
                       onClick={() => setActiveButtonType('create')}
-                    >{i18n.t('project:create and relate to the issue')}
+                    >
+                      {i18n.t('project:create and relate to the issue')}
                     </Button>
                   </WithAuth>
                   <WithAuth pass={authObj.edit.pass}>
-                    <Button type={activeButtonType === 'exist' ? 'primary' : 'default'} onClick={() => setActiveButtonType('exist')}>{i18n.t('project:relating to existing issues')}</Button>
+                    <Button
+                      type={activeButtonType === 'exist' ? 'primary' : 'default'}
+                      onClick={() => setActiveButtonType('exist')}
+                      className='ml12'
+                    >
+                      {i18n.t('project:relating to existing issues')}
+                    </Button>
                   </WithAuth>
-                </ButtonGroup>
+                </div>
                 <IF check={activeButtonType === 'create'}>
                   <AddNewIssue
                     onSaveRelation={addRelation}
