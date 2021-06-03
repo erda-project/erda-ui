@@ -69,7 +69,7 @@ class TimeSelector extends React.Component<IProps, IState> {
     return null;
   }
 
-  onChangeTime = (value: any) => {  //更新至antd4.x后，点击确定才触发onChange
+  onChangeTime = (value: any) => {  //After updating to Antd4.x, click OK to trigger the onChange
     this.setState({ value }, () => {
       this.props.onChangeTime(value);
     })
