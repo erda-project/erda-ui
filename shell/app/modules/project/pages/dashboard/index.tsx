@@ -24,6 +24,8 @@ import { getIterationDetail } from 'project/services/project-iteration';
 import { getProjectInfo, getDashboard } from 'project/services/project';
 import { createLoadDataFn } from 'dataCenter/common/custom-dashboard/data-loader';
 
+const DashBoard = React.memo(PureBoardGrid);
+
 
 enum DashboardType {
   BUG = 'bug',
@@ -39,7 +41,7 @@ const getDateMs = (timeString: string, isNextDay?: boolean) => {
 };
 
 const getTimeRange = async (projectID: number, iterationId?: number) => {
-  if (iterationId) {
+  if (iterationId && `${iterationId}` !== '-1') {
     const { data = {} } = await getIterationDetail({ id: iterationId, projectID });
     const [start, end] = [getDateMs(data.startedAt), getDateMs(data.finishedAt, true)];
     const todayMs = moment().endOf('d').valueOf();
@@ -110,7 +112,7 @@ export const ProjectDashboard = () => {
       </div>
 
       <Holder when={isEmpty(layout)}>
-        <PureBoardGrid layout={layout} showOptions />
+        <DashBoard layout={layout} showOptions />
       </Holder>
     </div>
   );
