@@ -85,7 +85,8 @@ const deploy = createStore({
     });
   },
   effects: {
-    async getRunTimes({ call, getParams, update, select }) {
+    // useLoading unable to detect changes if without payload(beforeEffect didn't execute) 
+    async getRunTimes({ call, getParams, update, select }, _?: unknown) {
       const { appId } = getParams();
       const oldRuntimes = select(s => s.runtimes);
       if (appId) {
