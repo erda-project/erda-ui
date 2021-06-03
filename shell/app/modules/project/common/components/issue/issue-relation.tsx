@@ -217,7 +217,8 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
                       onClick={() => setActiveButtonType('exist')}
                       className='ml12'
                     >
-                      {i18n.t('project:relating to existing issues')}</Button>
+                      {i18n.t('project:relating to existing issues')}
+                    </Button>
                   </WithAuth>
                 </div>
                 <IF check={activeButtonType === 'create'}>
