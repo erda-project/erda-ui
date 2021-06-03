@@ -254,24 +254,23 @@ const TestSet = ({
   }));
 
   useEffect(() => {
-    const expandId = (query.eventKey || '').split('-');
     if (firstBuild.current && !isEmpty(treeData)) {
-      if (!(query.caseId || expandId.length > 1)) {
+      if (!query.caseId) {
         // 当 query 不为空的时候，就保持当前的 query 值
         onSelect([rootKey], { keepCurrentSearch: !isEmpty(query) });
       }
       // onSelect([rootKey]);
       firstBuild.current = false;
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [treeData, query.caseId, query.eventKey]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [treeData, query.caseId]);
 
   useEffect(() => {
     if (activeOuter) {
       onAddNode(rootKey);
       clearActiveOuter();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeOuter]);
 
   useEffect(() => {
@@ -300,7 +299,7 @@ const TestSet = ({
         testPlanID,
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTestSet, projectInfo]);
   useEffect(() => {
     const expandId:string[] = (query.eventKey || '').split('-');
@@ -310,7 +309,7 @@ const TestSet = ({
     if (!['testCase', 'testPlan'].includes(mode)) {
       return;
     }
-    if ((query.caseId || expandId.length > 1) && treeData[0] && treeData[0].children) {
+    if (query.caseId && treeData[0] && treeData[0].children) {
       // 第二级节点key值
       const secondLevelKey = expandId.slice(0, 2).join('-');
       // 所有展开节点的key值
