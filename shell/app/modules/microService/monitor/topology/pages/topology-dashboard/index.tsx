@@ -62,6 +62,13 @@ const TopologyDashboard = () => {
     startTime: timeSpan.startTimeMs,
     endTime: timeSpan.endTimeMs,
   }), [params.terminusKey, timeSpan.endTimeMs, timeSpan.startTimeMs]);
+  const goToParams = {
+    query: {
+      start: timeSpan.startTimeMs,
+      end: timeSpan.endTimeMs,
+    },
+    jumpOut: true
+  };
 
   useEffect(() => {
     getCustomDashboard({ id: 'global_overview', isSystem: true }).then(res => {
@@ -145,7 +152,7 @@ const TopologyDashboard = () => {
               <When condition={type === 'apigateway'}>
                 <Button
                   type="link"
-                  onClick={() => goTo('./gateway-ingress', { jumpOut: true })}
+                  onClick={() => goTo('./gateway-ingress', goToParams)}
                 >
                   {i18n.t('detail')}
                 </Button>
@@ -155,7 +162,7 @@ const TopologyDashboard = () => {
                   type="link"
                   onClick={() => goTo(
                     `./ei/${encodeURIComponent(name as string)}/affairs`,
-                    { jumpOut: true }
+                    goToParams
                   )}
                 >
                   {i18n.t('detail')}
@@ -173,7 +180,7 @@ const TopologyDashboard = () => {
                         targetPath = get(find(subMenuList, { key: item }), 'href', '');
                       }
                     });
-                    targetPath && goTo(targetPath, { jumpOut: true });
+                    targetPath && goTo(targetPath, goToParams);
                   }}
                 >
                   {i18n.t('detail')}
