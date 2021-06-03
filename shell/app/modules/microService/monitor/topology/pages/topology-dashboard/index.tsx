@@ -69,6 +69,7 @@ const TopologyDashboard = () => {
     },
     jumpOut: true
   };
+
   useEffect(() => {
     getCustomDashboard({ id: 'global_overview', isSystem: true }).then(res => {
       setOverviewBoard(res);
@@ -160,7 +161,8 @@ const TopologyDashboard = () => {
                 <Button
                   type="link"
                   onClick={() => goTo(
-                    `./ei/${encodeURIComponent(name as string)}/affairs`, goToParams
+                    `./ei/${encodeURIComponent(name as string)}/affairs`,
+                    goToParams
                   )}
                 >
                   {i18n.t('detail')}
