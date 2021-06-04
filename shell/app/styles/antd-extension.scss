@@ -377,3 +377,64 @@ input.ant-input {
 div.ant-transfer-list-body-with-search {
   padding-top: 0;
 }
+
+.ant-tree {
+  padding-top: 5px;
+
+  .ant-tree-title {
+    display: inline-block;
+    width: calc(100% - 24px);
+  }
+
+  .ant-tree-node-content-wrapper:hover {
+      background-color: #d7d1de;
+  }
+
+  &.case-tree .ant-tree-node-content-wrapper {
+    height: 32px;
+    line-height: 32px;
+    padding: 0;
+
+    .ant-tree-iconEle {
+      height: 32px;
+      line-height: 32px;
+    }
+  }
+
+  &.case-tree .ant-tree-switcher {
+    line-height: 32px;
+  }
+
+  &.case-tree .case-tree-op span {
+    width: 32px;
+    font-size: 16px;
+    text-align: center;
+    padding-right: 8px;
+  }
+
+  &.ant-tree-directory .ant-tree-treenode-selected:hover::before, &.ant-tree-directory .ant-tree-treenode-selected::before {
+    background-color: #f5f4fd;
+  }
+
+  &.case-tree.ant-tree.ant-tree-directory .ant-tree-treenode-selected .ant-tree-node-selected > .ant-tree-title > div {
+    background-color: transparent;
+  }
+
+  &.case-tree.ant-tree.ant-tree-directory .ant-tree-node-content-wrapper .ant-tree-title:hover .case-tree-op {
+    opacity: 1;
+    pointer-events: unset;
+  }
+}
+
+div.ant-select-tree .ant-select-tree-node-content-wrapper:hover {
+  background-color: #d7d1de;
+}
+
+div.ant-tabs-nav .ant-tabs-tab {
+  padding: 12px 0;
+  margin-right: 40px;
+}
+
+div.ant-row {
+  display: block;
+}
