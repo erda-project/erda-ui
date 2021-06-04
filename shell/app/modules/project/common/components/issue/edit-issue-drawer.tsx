@@ -262,6 +262,28 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
         );
       },
     },
+    ...insertWhen(issueType === ISSUE_TYPE.BUG && isEditMode, [
+      {
+        className: `mb20 full-width`,
+        type: 'custom',
+        name: 'owner',
+        label: i18n.t('project:responsible'),
+        getComp: ({ value, onSave }: any) => {
+          return (
+            <MemberSelector
+              scopeType="project"
+              className='issue-field-owner'
+              ref={r => { ref?.current?.refMap['owner'] = r; }}
+              disabled={!editAuth}
+              scopeId={urlParams.projectId || String(projectId)}
+              onChange={(val: any) => onSave(val)}
+              value={value}
+              allowClear={false}
+            />
+          );
+        },
+      },
+    ]),
     ...insertWhen(issueType !== ISSUE_TYPE.TICKET && issueType !== ISSUE_TYPE.EPIC, [
       {
         className: 'mb20 full-width',
@@ -437,28 +459,6 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
         label: i18n.t('project:import source'),
         showRequiredMark: true,
         itemProps: { options: stageOptions, allowClear: false },
-      },
-    ]),
-    ...insertWhen(issueType === ISSUE_TYPE.BUG && isEditMode, [
-      {
-        className: `mb20 full-width ${hideFieldClass}`,
-        type: 'custom',
-        name: 'owner',
-        label: i18n.t('project:responsible'),
-        getComp: ({ value, onSave }: any) => {
-          return (
-            <MemberSelector
-              scopeType="project"
-              className='issue-field-owner'
-              ref={r => { ref?.current?.refMap['owner'] = r; }}
-              disabled={!editAuth}
-              scopeId={urlParams.projectId || String(projectId)}
-              onChange={(val: any) => onSave(val)}
-              value={value}
-              allowClear={false}
-            />
-          );
-        },
       },
     ]),
     ...customFieldList,
