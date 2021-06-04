@@ -1,10 +1,17 @@
 version: "2.0"
-meta: {}
-envs: {}
+meta:
+  ERDA_COMPONENT: ""
+values:
+  production:
+    replicas: 1
+    request_cpu: 0.1
+    request_mem: 128
+envs:
+  ETCDCTL_API: "3"
 services:
   ui:
     ports:
-      - 80
+    - 80
     envs:
       TA_ENABLE: "true"
       TERMINUS_KEY: "c891011d-6115-11e9-9fe6-6c92bf3144c3"
@@ -19,16 +26,18 @@ services:
       COLLECTOR_PUBLIC_ADDR: "collector:7076"
       UC_ADDR: "uc:8080"
       FDP_UI_ADDR: "fdp-ui:80"
+      SCHEDULER_ADDR: "scheduler:9091"
     resources:
-      cpu: 0.1
+      cpu: ${reqeust_cpu:1}
       max_cpu: 1
-      mem: 512
+      mem: ${request_mem:512}
+      max_mem: 512
       network:
         mode: "container"
     deployments:
-      replicas: 2
+      replicas: 1
     expose:
-      - 80
+    - 80
     health_check:
       http:
         port: 80
