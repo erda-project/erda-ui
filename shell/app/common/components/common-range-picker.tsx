@@ -48,11 +48,13 @@ export default ({ defaultTime, disabledDate, onOk, ...rest }: IProps) => {
       format="YYYY-MM-DD HH:mm:ss"
       allowClear={false}
       placeholder={[i18n.t('common:start at'), i18n.t('common:end at')]}
-      onChange={(v: any) => updater.value(v)}
+      onChange={(v: any) => {
+        updater.value(v);
+        onOk(getTimeSpan(v));
+      }}
       value={value as any}
       disabledDate={disabledDate || defaultDisabledDate}
       ranges={getTimeRanges()}
-      onOk={(v: any) => onOk(getTimeSpan(v))}
       {...rest}
     />
   );
