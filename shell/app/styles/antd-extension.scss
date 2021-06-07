@@ -412,8 +412,8 @@ div.ant-transfer-list-body-with-search {
     padding-right: 8px;
   }
 
-  &.ant-tree-directory .ant-tree-treenode-selected:hover::before, &.ant-tree-directory .ant-tree-treenode-selected::before {
-    background-color: $color-tree-bg-active;
+  &.ant-tree-directory div.ant-tree-treenode-selected:hover::before, &.ant-tree-directory div.ant-tree-treenode-selected::before {
+    background: $color-tree-bg-active;
   }
 
   &.case-tree.ant-tree.ant-tree-directory .ant-tree-treenode-selected .ant-tree-node-selected > .ant-tree-title > div {
