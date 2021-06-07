@@ -358,7 +358,7 @@ span.ant-badge {
 }
 
 div.ant-carousel {
-  color: rgba(0, 0, 0, 0.65);
+  color: $color-dark-65;
 }
 
 input.ant-input {
@@ -387,7 +387,7 @@ div.ant-transfer-list-body-with-search {
   }
 
   .ant-tree-node-content-wrapper:hover {
-      background-color: #d7d1de;
+      background-color: $color-tree-bg;
   }
 
   &.case-tree .ant-tree-node-content-wrapper {
@@ -413,7 +413,7 @@ div.ant-transfer-list-body-with-search {
   }
 
   &.ant-tree-directory .ant-tree-treenode-selected:hover::before, &.ant-tree-directory .ant-tree-treenode-selected::before {
-    background-color: #f5f4fd;
+    background-color: $color-tree-bg-active;
   }
 
   &.case-tree.ant-tree.ant-tree-directory .ant-tree-treenode-selected .ant-tree-node-selected > .ant-tree-title > div {
