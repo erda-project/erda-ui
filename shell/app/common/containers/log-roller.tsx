@@ -49,7 +49,7 @@ interface IRequery {
   end?: DOMHighResTimeStamp;
   count?: number;
 }
-class LogRoller extends React.Component<IProps, IState> {
+export class LogRoller extends React.Component<IProps, IState> {
   private logRoller: PureLogRoller | null;
 
   private rollingTimeout: number | undefined;
