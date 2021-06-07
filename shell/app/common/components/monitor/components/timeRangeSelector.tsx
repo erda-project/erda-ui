@@ -53,7 +53,7 @@ class TimeSelector extends React.Component<IProps, IState> {
       const times = getTimeSpan(initTime);
       startTimeMs = times.startTimeMs;
       endTimeMs = times.endTimeMs as number;
-      // this.props.onChangeTime(initTime);
+      this.props.onChangeTime(initTime);
     }
     this.state = {
       value: [moment(startTimeMs), moment(endTimeMs)],
