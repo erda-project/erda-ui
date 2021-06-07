@@ -22,7 +22,7 @@ import './table-group.scss';
 
 const noop = () => { };
 const TableBoard = (props: CP_TABLE_GROUP.ITableBoardProps) => {
-  const { props: configProps, execOperation = noop, updateState = noop } = props
+  const { props: configProps, execOperation = noop, updateState = noop } = props;
   const { title, subtitle, description, table, extraInfo } = configProps;
   const extraProps = { execOperation, updateState };
 
@@ -60,8 +60,8 @@ const TableBoard = (props: CP_TABLE_GROUP.ITableBoardProps) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const TableGroup = (props: CP_TABLE_GROUP.Props) => {
   const { props: configProps, state: propsState, data = {} as CP_TABLE_GROUP.IData, operations, execOperation = noop, updateState = noop } = props;
@@ -72,7 +72,7 @@ const TableGroup = (props: CP_TABLE_GROUP.Props) => {
     combineList: data.list,
   } || {}) as any;
   const { visible } = configProps;
-  const showLoadMore = total > Math.max(combineList?.length, 0)
+  const showLoadMore = total > Math.max(combineList?.length, 0);
 
   // 将接口返回的list和之前的list进行拼接
   React.useEffect(() => {
@@ -84,18 +84,18 @@ const TableGroup = (props: CP_TABLE_GROUP.Props) => {
       const newState = {
         ...pre,
         ...propsState,
-      }
+      };
       return {
         ...newState,
-        combineList: (newState || {}).pageNo === 1 ? (data?.list || []) : ((newState?.combineList || []).concat((data?.list || []),
-      }
-    })
-  }, [propsState, data?.list])
+        combineList: (newState || {}).pageNo === 1 ? (data?.list || []) : ((newState?.combineList || []).concat(data?.list || [])),
+      };
+    });
+  }, [propsState, data?.list]);
 
   // 加载更多
   const loadMore = () => {
-    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pageNo + 1 })
-  }
+    operations?.changePageNo && execOperation(operations.changePageNo, { pageNo: pageNo + 1 });
+  };
 
   if (!visible) {
     return null;
@@ -111,13 +111,14 @@ const TableGroup = (props: CP_TABLE_GROUP.Props) => {
               props={item}
               execOperation={execOperation}
               updateState={updateState}
-              operations={operations} />
-          )
+              operations={operations}
+            />
+          );
         })
       }
       {showLoadMore && <div className='load-more hover-active' onClick={loadMore}>{i18n.t('load more')}...</div>}
     </div>
-  )
-}
+  );
+};
 
 export default TableGroup;

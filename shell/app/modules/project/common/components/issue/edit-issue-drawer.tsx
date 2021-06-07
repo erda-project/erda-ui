@@ -130,29 +130,29 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
 
   const hideFieldClass = expandCustomFields ? '' : 'hide';
 
-  React.useEffect(()=>{
-    if(ref && !ref.current){
+  React.useEffect(() => {
+    if (ref && !ref.current) {
       const customFieldKeys = map(customFieldDetail?.property, 'propertyName').concat(['taskType', 'bugStage', 'owner']);
       ref.current = {
         onFocus: (fKey: string) => {
           const curRef = ref.current?.refMap[fKey];
-          if(fKey === 'issueManHour.elapsedTime'){
+          if (fKey === 'issueManHour.elapsedTime') {
             // click to open time trace
             curRef.click();
-          } else if(customFieldKeys.includes(fKey)){
-            //need to expand custom fields and then focus the target field;
-            setExpandCustomFields(true)
-            setTimeout(()=>{
+          } else if (customFieldKeys.includes(fKey)) {
+            // need to expand custom fields and then focus the target field;
+            setExpandCustomFields(true);
+            setTimeout(() => {
               curRef?.focus?.();
-            })
+            });
           } else {
             curRef?.focus?.();
           }
         },
-        refMap: {}
+        refMap: {},
       };
     }
-  },[ref, customFieldDetail])
+  }, [ref, customFieldDetail]);
 
   useMount(() => {
     getLabels({ type: 'issue', projectID: Number(projectId) });
@@ -186,7 +186,10 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
           return propertyType === 'Person' ?
             <MemberSelector
               scopeType="project"
-              ref={r => { ref?.current?.refMap[propertyName] = r; }}
+              ref={r => {
+                const _refMap = ref?.current?.refMap;
+                _refMap && (_refMap[propertyName] = r);
+              }}
               className='issue-field-owner'
               disabled={!editAuth}
               scopeId={urlParams.projectId || String(projectId)}
@@ -199,7 +202,10 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
               <NumberFieldInput
                 className="full-width"
                 value={value}
-                ref={r => { ref?.current?.refMap[propertyName] = r; }}
+                ref={r => {
+                  const _refMap = ref?.current?.refMap;
+                  _refMap && (_refMap[propertyName] = r);
+                }}
                 onChange={(e: any) => {
                   onSave(e);
                 }}
@@ -207,7 +213,10 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
               :
               <TextFieldInput
                 showErrTip
-                ref={r => { ref?.current?.refMap[propertyName] = r; }}
+                ref={r => {
+                  const _refMap = ref?.current?.refMap;
+                  _refMap && (_refMap[propertyName] = r);
+                }}
                 value={value}
                 displayName={displayName}
                 rule={(FIELD_TYPE_ICON_MAP[propertyType] as Obj)?.rule}
@@ -264,7 +273,7 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
     },
     ...insertWhen(issueType === ISSUE_TYPE.BUG && isEditMode, [
       {
-        className: `mb20 full-width`,
+        className: 'mb20 full-width',
         type: 'custom',
         name: 'owner',
         label: i18n.t('project:responsible'),
@@ -273,7 +282,10 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
             <MemberSelector
               scopeType="project"
               className='issue-field-owner'
-              ref={r => { ref?.current?.refMap['owner'] = r; }}
+              ref={r => {
+                const _refMap = ref?.current?.refMap;
+                _refMap && (_refMap.owner = r);
+              }}
               disabled={!editAuth}
               scopeId={urlParams.projectId || String(projectId)}
               onChange={(val: any) => onSave(val)}
@@ -371,7 +383,10 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
             showErrTip
             value={value}
             passAndTrigger
-            ref={ r => { ref?.current?.refMap['issueManHour.estimateTime'] = r}}
+            ref={r => {
+              const _refMap = ref?.current?.refMap;
+              _refMap && (_refMap['issueManHour.estimateTime'] = r);
+            }}
             triggerChangeOnButton
             originalValue={originalValue}
             onChange={v => {
@@ -393,7 +408,10 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
         getComp: ({ value, disabled }: any) => (
           <TimeTrace
             value={value}
-            ref={r => { ref?.current?.refMap['issueManHour.elapsedTime'] = r }}
+            ref={r => {
+              const _refMap = ref?.current?.refMap;
+              _refMap && (_refMap['issueManHour.elapsedTime'] = r);
+            }}
             onChange={v => setFieldCb({ issueManHour: v })}
             isModifiedRemainingTime={formData?.issueManHour?.isModifiedRemainingTime}
             disabled={disabled}
@@ -484,7 +502,6 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
     ]),
   ];
 
-  
 
   editFieldList = map(editFieldList, (fieldProps: any) => ({
     onChangeCb: setFieldCb,
@@ -499,13 +516,14 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
         return (
           <EditField
             ref={r => {
-              ref?.current?.refMap[fieldProps.name] = r
+              const _refMap = ref?.current?.refMap;
+              _refMap && (_refMap[fieldProps.name] = r);
             }}
             key={fieldProps.name}
             {...fieldProps}
             disabled={!editAuth}
           />
-        )
+        );
       })}
     </div>
   );
@@ -753,8 +771,8 @@ export const EditIssueDrawer = (props: IProps) => {
   };
 
   const focusOnFields = (fieldKey: string) => {
-    metaFieldsRef?.current?.onFocus(fieldKey)
-  }
+    metaFieldsRef?.current?.onFocus(fieldKey);
+  };
 
   const setField = (value: Obj<any>) => {
     const formattedValue = value;
@@ -777,7 +795,7 @@ export const EditIssueDrawer = (props: IProps) => {
       if (value.state && isEditMode) {
         // 编辑模式下修改状态时，必填时间追踪和预估工时, 任务类型
         if (!params.taskType && issueType === ISSUE_TYPE.TASK) {
-          warnMessage.push({ msg: i18n.t('project:missing task type'), key: 'taskType'});
+          warnMessage.push({ msg: i18n.t('project:missing task type'), key: 'taskType' });
         }
         if (!params.issueManHour.estimateTime) {
           warnMessage.push({ msg: i18n.t('project:EstimateTime'), key: 'issueManHour.estimateTime' });
@@ -787,14 +805,14 @@ export const EditIssueDrawer = (props: IProps) => {
           const workingState = formData.issueButton.find(item => item.stateBelong === 'WORKING');
           // When working exists and select working, don't warn
           if (!workingState || (value.state !== workingState.stateID)) {
-            warnMessage.push({ msg: i18n.t('project:elapsedTime in time tracing'), key: 'issueManHour.elapsedTime'});
+            warnMessage.push({ msg: i18n.t('project:elapsedTime in time tracing'), key: 'issueManHour.elapsedTime' });
           }
         }
       }
       if (warnMessage.length !== 0) {
         message.warn(
           <>
-            <span className="bold">{map(warnMessage,'msg').join(', ')}</span>
+            <span className="bold">{map(warnMessage, 'msg').join(', ')}</span>
             <span>{i18n.t('project:missing')}</span>
           </>
         );
@@ -858,7 +876,7 @@ export const EditIssueDrawer = (props: IProps) => {
       if (!checkFieldNotEmpty(customFieldData?.propertyType, customFieldValue) && customFieldData?.required) {
         const name = customFieldData?.displayName;
         message.warn(i18n.t('missing {name}', { name }));
-        
+
         focusOnFields(name);
         return;
       }

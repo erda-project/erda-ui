@@ -1,6 +1,6 @@
 {
   "name": "@erda-ui/cli",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Command line interface for rapid Erda UI development",
   "bin": {
     "erda-ui": "dist/bin/erda.js"
@@ -9,7 +9,8 @@
     "start": "node bin/erda.js",
     "build": "rm -rf ./dist && tsc --version && tsc --project .",
     "local": "npm run build && local-package-publisher -p",
-    "remove-local": "local-package-publisher -u"
+    "remove-local": "local-package-publisher -u",
+    "pub": "npm version patch && npm run build && npm publish"
   },
   "repository": {
     "type": "git",

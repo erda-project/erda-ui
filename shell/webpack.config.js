@@ -26,7 +26,9 @@ const pkg = require('./package.json');
 const { ModuleFederationPlugin } = require('webpack').container;
 const mfConfigs = require('./mf.config');
 
-const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+// const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+
+// const smp = new SpeedMeasurePlugin(); // https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167 issue caused merge not working as expected
 
 const packageJson = require('./package.json');
 
@@ -35,6 +37,7 @@ const mainVersion = packageJson.version.slice(0, -2);
 const resolve = pathname => path.resolve(__dirname, pathname);
 
 const dashboardRealPath = fs.realpathSync(resolve('./node_modules/@terminus/dashboard-configurator'));
+const tcsRealPath = fs.realpathSync(resolve('./node_modules/tsx-control-statements'));
 
 module.exports = () => {
   const nodeEnv = process.env.NODE_ENV || 'development';
@@ -94,7 +97,6 @@ module.exports = () => {
         'status-insight': resolve('./app/modules/microService/monitor/status-insight'),
         'error-insight': resolve('./app/modules/microService/monitor/error-insight'),
         'monitor-alarm': resolve('./app/modules/microService/monitor/monitor-alarm'),
-        '@terminus/dashboard-configurator': dashboardRealPath,
       },
       extensions: ['.js', '.jsx', '.tsx', '.ts', '.d.ts'],
       fallback: {
@@ -126,7 +128,6 @@ module.exports = () => {
                 sourceMap: false,
               },
             },
-            'postcss-loader',
             {
               loader: 'sass-loader',
               options: {
@@ -150,22 +151,25 @@ module.exports = () => {
         },
         {
           test: /\.(css)$/,
-          use: [MiniCssExtractPlugin.loader, 'css-loader'],
+          use: [...(isProd ? [MiniCssExtractPlugin.loader] : ['style-loader']), 'css-loader'],
         },
         {
           test: /\.(tsx?|jsx?)$/,
           include: [
             resolve('app'),
             dashboardRealPath,
+            tcsRealPath,
           ],
           use: [
             'thread-loader',
             {
-              loader: 'ts-loader',
+              loader: 'babel-loader', // TODO tree sharking is not available in MF, will handle it later
               options: {
-                happyPackMode: true, // IMPORTANT! use happyPackMode mode to speed-up compilation and reduce errors reported to webpack
-                transpileOnly: true,
-                getCustomTransformers: resolve('webpack_ts.loader.js'),
+                presets: [
+                  '@babel/preset-env',
+                  '@babel/preset-react',
+                  '@babel/preset-typescript',
+                ],
               },
             },
           ],
@@ -267,6 +271,5 @@ module.exports = () => {
     },
   };
 
-  // return (new SpeedMeasurePlugin())(merge(commonConfig, targetConfig));
   return merge(commonConfig, targetConfig);
 };

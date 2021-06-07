@@ -16,16 +16,15 @@ const CracoAntDesignPlugin = require("craco-antd")
 
 const resolve = pathname => path.resolve(__dirname, pathname);
 const themeColor = '#6A549E';
-const nodeEnv = process.env.NODE_ENV || 'development';
-const isProd = nodeEnv === 'production';
+const outputPath = path.resolve(__dirname, '../../public/static/market');
 
 module.exports = {
   webpack: {
     configure: (webpackConfig, { paths }) => {
-      paths.appBuild = 'dist';
+      paths.appBuild = outputPath;
       webpackConfig.output = {
         ...webpackConfig.output,
-        path: path.resolve(__dirname, 'dist'),
+        path: outputPath,
         publicPath: '/static/market',
       }
       return webpackConfig;
@@ -40,7 +39,6 @@ module.exports = {
           use: [
             'thread-loader',
             'babel-loader',
-            'ts-loader',
           ],
           resolve: {
             fullySpecified: false,

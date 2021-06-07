@@ -191,4 +191,4 @@ const TopologyDashboard = () => {
   );
 };
 
-export default React.memo(TopologyDashboard)
+export default React.memo(TopologyDashboard);
