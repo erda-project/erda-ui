@@ -30,7 +30,7 @@ import i18n from 'i18n';
 
 import './error-overview.scss';
 
-const pageSize = 2;
+const pageSize = 20;
 
 const errorChartConfig = {
   fetchApi: '/api/tmc/metrics/error_count/histogram',
