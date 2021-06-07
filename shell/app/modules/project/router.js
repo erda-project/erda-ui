@@ -53,7 +53,7 @@ function getProjectRouter() {
             {
               path: 'all',
               tabs: PROJECT_TABS,
-              keepTabQuery: ['viewType', 'viewGroup', 'iterationIDs'],
+              ignoreTabQuery: true,
               getComp: cb => cb(import('project/pages/issue/all')),
               layout: {
                 noWrapper: true,
@@ -63,7 +63,7 @@ function getProjectRouter() {
             {
               path: 'requirement',
               tabs: PROJECT_TABS,
-              keepTabQuery: ['viewType', 'viewGroup', 'iterationIDs'],
+              ignoreTabQuery: true,
               getComp: cb => cb(import('project/pages/issue/requirement')),
               layout: {
                 noWrapper: true,
@@ -72,7 +72,7 @@ function getProjectRouter() {
             {
               path: 'task',
               tabs: PROJECT_TABS,
-              keepTabQuery: ['viewType', 'viewGroup', 'iterationIDs'],
+              ignoreTabQuery: true,
               getComp: cb => cb(import('project/pages/issue/task')),
               layout: {
                 noWrapper: true,
@@ -81,7 +81,7 @@ function getProjectRouter() {
             {
               path: 'bug',
               tabs: PROJECT_TABS,
-              keepTabQuery: ['viewType', 'viewGroup', 'iterationIDs'],
+              ignoreTabQuery: true,
               getComp: cb => cb(import('project/pages/issue/bug')),
               layout: {
                 noWrapper: true,
@@ -90,12 +90,14 @@ function getProjectRouter() {
             {
               path: 'backlog',
               tabs: PROJECT_TABS,
+              ignoreTabQuery: true,
               layout: { noWrapper: true, fullHeight: true },
               getComp: cb => cb(import('project/pages/backlog')),
             },
             {
               path: 'iteration',
               tabs: PROJECT_TABS,
+              ignoreTabQuery: true,
               routes: [
                 {
                   tabs: PROJECT_TABS,
@@ -104,7 +106,7 @@ function getProjectRouter() {
                 {
                   path: ':iterationId/:issueType',
                   mark: 'iterationDetail',
-                  keepTabQuery: ['viewType', 'viewGroup', 'iterationIDs'],
+                  ignoreTabQuery: true,
                   tabs: ITERATION_DETAIL_TABS,
                   getComp: cb => cb(import('project/pages/issue/')),
                   layout: {
