@@ -9,7 +9,7 @@ module.exports = {
     cy: "readonly",
   },
   extends: [
-    'eslint-config-ali/react',
+    'eslint-config-ali/typescript/react',
     'eslint-config-ali/typescript'
   ],
   parser: 'babel-eslint',

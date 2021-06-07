@@ -24,7 +24,7 @@ export const checkIsRoot = () => {
   }
 };
 
-export const isCwdInRoot = (params?: {currentPath?: string; alert?: boolean}) => {
+export const isCwdInRoot = (params?: { currentPath?: string; alert?: boolean }) => {
   const currentDir = params?.currentPath || process.cwd();
   let isInRoot = true;
   if (!fs.existsSync(join(currentDir, 'package.json'))) {
