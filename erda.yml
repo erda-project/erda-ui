@@ -28,7 +28,7 @@ services:
       FDP_UI_ADDR: "fdp-ui:80"
       SCHEDULER_ADDR: "scheduler:9091"
     resources:
-      cpu: ${reqeust_cpu:1}
+      cpu: ${request_cpu:1}
       max_cpu: 1
       mem: ${request_mem:512}
       max_mem: 512
