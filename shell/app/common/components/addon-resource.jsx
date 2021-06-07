@@ -15,7 +15,7 @@ import * as React from 'react';
 import { isEmpty } from 'lodash';
 import moment from 'moment';
 import { IF } from 'common';
-import { EnvName, PlanName } from 'app/modules/addonPlatform/pages/common/configs';
+import { ENV_NAME, PLAN_NAME } from 'app/modules/addonPlatform/pages/common/configs';
 import i18n from 'i18n';
 
 import './addon-resource.scss';
@@ -29,8 +29,8 @@ const AddonResource = (props) => {
     { key: i18n.t('common:middleware'), value: addonName },
     { key: i18n.t('version'), value: version },
     { key: i18n.t('common:running cluster'), value: cluster },
-    { key: i18n.t('common:running environment'), value: EnvName[workspace] },
-    { key: i18n.t('common:specifications'), value: PlanName[plan] },
+    { key: i18n.t('common:running environment'), value: ENV_NAME[workspace] },
+    { key: i18n.t('common:specifications'), value: PLAN_NAME[plan] },
     { key: i18n.t('common:number of citations'), value: reference },
     { key: i18n.t('create time'), value: moment(createdAt).format('YYYY-MM-DD HH:mm:ss') },
   ];

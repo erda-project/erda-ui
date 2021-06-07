@@ -18,7 +18,7 @@ import { get, isEmpty } from 'lodash';
 import { Icon as CustomIcon, CardsLayout, Holder, IF, useUpdate } from 'common';
 import { goTo, ossImg } from 'common/utils';
 import { AddonDetailDrawer } from './addon-detail-drawer';
-import { PlanName, EnvName } from '../configs';
+import { PLAN_NAME, ENV_NAME } from '../configs';
 import { getMSFrontPathByKey } from 'app/modules/microService/config';
 import CreateLog from './create-log';
 import addon_png from 'app/images/resources/addon.png';
@@ -34,7 +34,7 @@ interface IProps {
   addonReferences?: any[];
   isPlatform?: boolean;
   forwardedRef?: any;
-  onEitAddon?(addon: ADDON.Instance): void
+  onEitAddon?: (addon: ADDON.Instance) => void;
 }
 
 
@@ -55,7 +55,7 @@ export const AddonCards = (props: IProps) => {
     prjMonitorMap: {},
     customConfigVisible: false,
   });
-  const [addonDetail, addonReferences] = addonStore.useStore(s => [s.addonDetail, s.addonReferences]);
+  const [addonDetail, addonReferences] = addonStore.useStore((s) => [s.addonDetail, s.addonReferences]);
 
   React.useEffect(() => {
     if (dataSource) {
@@ -193,12 +193,12 @@ export const AddonCards = (props: IProps) => {
 
     return (
       <div className="addon-item-container pointer" key={`${instanceId || realInstanceId}-${projectId}-${workspace}`} onClick={() => onClickCard(content)}>
-        <span className="env-icon bold-500" data-env={EnvName[workspace].slice(0, 1).toUpperCase()}><CustomIcon type="bq" color /></span>
+        <span className="env-icon bold-500" data-env={ENV_NAME[workspace].slice(0, 1).toUpperCase()}><CustomIcon type="bq" color /></span>
         <div className="addon-item">
           <div className="addon-item-main">
             <div className="icon-wrap"><img src={logoUrlMap[instanceId]} style={{ width: '40px' }} alt="addon-logo" onError={onError} /></div>
             <div className="addon-item-info">
-              <div className='nowrap'>
+              <div className="nowrap">
                 <IF check={status === 'ATTACHING' || status === 'ATTACHFAILED'}>
                   <Badge status={status === 'ATTACHING' ? 'processing' : 'error'} />
                 </IF>
@@ -209,7 +209,7 @@ export const AddonCards = (props: IProps) => {
                 </Tooltip>
               </div>
               <div className="footer">
-                <span>{PlanName[plan]}</span>
+                <span>{PLAN_NAME[plan]}</span>
                 <span>{version}</span>
                 <IF check={customAddonType === 'cloud'}>
                   <CustomIcon className="ml8" type="cloud" />
@@ -282,13 +282,13 @@ export const AddonCards = (props: IProps) => {
               <ul className="addon-list" ref={props.forwardedRef}>
                 {dataSource && dataSource.map((category: [string, any[]]) => {
                   const [title, contents] = category;
-                  const liRef = categoryRefs && categoryRefs.find(x => x[title]);
+                  const liRef = categoryRefs && categoryRefs.find((x) => x[title]);
                   let extra = null;
                   if (get(contents, '[0].category') === 'custom') {
                     extra = (
                       <Button
-                        size='small'
-                        className='ml8'
+                        size="small"
+                        className="ml8"
                         onClick={() => updater.customConfigVisible(true)}
                       >{i18n.t('project:view config')}
                       </Button>

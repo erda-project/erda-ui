@@ -22,18 +22,18 @@ import permStore from 'user/stores/permission';
 import i18n from 'i18n';
 import { getTranslateAddonList } from 'app/locales/utils';
 import { reduce } from 'lodash';
-import { CategoryName } from 'addonPlatform/pages/common/configs';
+import { CATEGORY_NAME } from 'addonPlatform/pages/common/configs';
 import { getSideMenu } from '../pages/addons/sidebar-menu';
 
 
 interface IState {
   addonCategory: {
-    [k: string]: ADDON.Instance[],
-  },
-  addonList: ADDON.Instance[],
+    [k: string]: ADDON.Instance[];
+  };
+  addonList: ADDON.Instance[];
   projectAddonCategory: {
-    [k: string]: ADDON.Instance[],
-  },
+    [k: string]: ADDON.Instance[];
+  };
 }
 
 const initState: IState = {
@@ -120,7 +120,7 @@ const workBenchStore = createFlatStore({
       const { addonList, type } = payload;
       const addonCategory = reduce(addonList, (result, value) => {
         // eslint-disable-next-line no-param-reassign
-        (result[CategoryName[value.category]] || (result[CategoryName[value.category]] = [])).push(value);
+        (result[CATEGORY_NAME[value.category]] || (result[CATEGORY_NAME[value.category]] = [])).push(value);
         return result;
       }, {});
 
