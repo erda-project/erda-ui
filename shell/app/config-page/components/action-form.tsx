@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { map, get, isEmpty, pick, find, isEqual, omit } from 'lodash';
+import { map, get, isEmpty, pick, find, isEqual, omit, has } from 'lodash';
 import { Button } from 'app/nusi';
 import { useUpdate } from 'common';
 import { useUpdateEffect } from 'react-use';
@@ -51,18 +51,24 @@ const noop = () => {};
 export const ActionForm = (props: IProps) => {
   const { props: configProps, state, customProps, operations, execOperation = noop, updateState = noop } = props;
   const { fields } = configProps || {};
+  const { formData: fD } = state || {} as Obj;
+
 
   const { otherTaskAlias, onSubmit: propsSubmit, chosenAction, chosenActionName, nodeData, editing } = customProps || {};
 
-  const [{ formData }, updater] = useUpdate({
-    formData: !isEmpty(nodeData) ? { ...nodeData } : { ...(state || {}) } as undefined | Obj,
+  const [{ formData }, updater, update] = useUpdate({
+    formData: isEmpty(fD) 
+      ? (!isEmpty(nodeData) ? { ...nodeData } : {})
+      : fD,
   });
 
   useUpdateEffect(() => {
-    if (!isEmpty(state)) {
-      updater.formData({ ...(state || {}) });
+    if (state && has(state, 'formData')) {
+      update({
+        formData: state.formData,
+      });
     }
-  }, [state, updater]);
+  }, [state, update]);
 
   const formRef = React.useRef(null as any);
 
@@ -85,19 +91,22 @@ export const ActionForm = (props: IProps) => {
             },
           ];
         }
+      
         const curKeyOperation = get(operations, `change.${item.key}`);
+        const curKey = item.key;
         if (curKeyOperation) {
           curItem.componentProps = {
             ...curItem.componentProps,
             onChange: (e:any) => {
               const val = curItem.component === 'input' ? e.target.value : e;
-              execOperation({ ...curKeyOperation, key: 'change' }, { [item.key]: val });
+              execOperation({ ...curKeyOperation, key: 'change' }, { [curKey]: val });
             },
           };
         }
         return curItem;
       });
     });
+    formRef.current && formRef.current.setFields(newFields);
     return newFields;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fields]);
@@ -138,16 +147,12 @@ export const ActionForm = (props: IProps) => {
     }
   };
 
-  const onChange = (val: Obj) => {
-    updateState(val);
-  };
   return (
     <>
       <PureForm
         fields={useableFields || []}
         formRef={formRef}
         value={formData}
-        onChange={onChange}
       />
       { editing ? <Button type='primary' ghost onClick={onSave}>{i18n.t('save')}</Button> : null}
     </>
