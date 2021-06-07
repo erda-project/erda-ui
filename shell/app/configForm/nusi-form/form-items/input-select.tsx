@@ -118,9 +118,8 @@ export const FormInputSelect = ({
 
 export const config = {
   name: 'inputSelect',
-  Component: FormInputSelect, // 某React组件，props中必须有value、onChange
+  Component: FormInputSelect, 
   requiredCheck: (value: string) => {
-    // 必填校验时，特殊的校验规则
     return [!isEmpty(value), i18n.t('can not be empty')];
   },
 };
