@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { map, find, isEmpty, without, get } from 'lodash';
-import { Avatar, useUpdate, Icon as CustomIcon, EmptyHolder } from 'common';
+import { useUpdate, Icon as CustomIcon, EmptyHolder } from 'common';
 import { Card } from './card/card';
 import { Input, Button, Popconfirm, Tooltip, Alert } from 'app/nusi';
 import { notify } from 'common/utils';
@@ -78,7 +78,7 @@ const IssueKanban = (props: IProps) => {
   React.useEffect(() => {
     if(data?.refreshBoard){
       setBoard(data?.board || [])
-    }else{
+    } else {
       setBoard(prev => map(prev, (item, index) => {
         const curNewData = get(data,`board[${index}]`);
         return curNewData || item;
@@ -107,8 +107,8 @@ const IssueKanban = (props: IProps) => {
         map(board || [], (item) => {
           return (
             item 
-            ? <Kanban {...props} exitLabel={labelList} data={item} key={item.key || item.label} isLoadMore={isLoadMore} />
-            : null
+              ? <Kanban {...props} exitLabel={labelList} data={item} key={item.key || item.label} isLoadMore={isLoadMore} />
+              : null
           );
         })
       }
@@ -306,11 +306,7 @@ const Kanban = (props: IKanbanProps) => {
             ? (
               <div className='hover-active py4 text-center load-more' onClick={() => loadMore()}>{i18n.t('load more')}</div>
             )
-            : (
-              list?.length > 200
-                ? <Alert type='normal' message={i18n.t('project:Sorry, only the first 200 items can be viewed in the single column')} />
-                : null
-            )
+            : null
         }
       </div>
     </div>

@@ -57,7 +57,7 @@ interface IFilterItemProps {
   value: any,
   active: boolean,
   onVisibleChange(visible: boolean): void,
-  onChange(data: { key: string, value: any }, exra?: { forceChange?: boolean }): void
+  onChange(data: { key: string, value: any }, extra?: { forceChange?: boolean }): void
   onQuickSelect(data: { key: string, value: any }): void
 }
 
@@ -406,8 +406,8 @@ export const ContractiveFilter = ({ initValue, values, conditions: propsConditio
     return () => document.body.removeEventListener('click', handleCloseDropdown);
   }, []);
 
-  const handelItemChange = (vals: { key: string, value: any } | Obj, exra?: { batchChange?: boolean; forceChange?: boolean; }) => {
-    const { batchChange = false, forceChange = false } = exra || {}
+  const handelItemChange = (vals: { key: string, value: any } | Obj, extra?: { batchChange?: boolean; forceChange?: boolean; }) => {
+    const { batchChange = false, forceChange = false } = extra || {}
     let curValueMap = { ...valueMap };
     if (batchChange) {
       setValueMap((prev) => {
