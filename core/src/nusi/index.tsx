@@ -11,12 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
-import {
-  ConfigProvider as AntdConfigProvider,
-  Form,
-  Icon,
-} from 'antd';
+import { ConfigProvider as AntdConfigProvider, Form, Icon } from "antd";
 import {
   Button,
   BackTop,
@@ -56,12 +51,12 @@ import {
   TimePicker,
   Upload,
   version,
-} from 'antd-latest';
-import { FixedSelect } from './fixed-select';
-import FixRangePicker from './range-picker';
-import '@terminus/nusi/dist/nusi.scss';
-import 'antd/dist/antd.less';
-import 'antd-latest/dist/antd.less';
+} from "antd-latest";
+import { FixedSelect } from "./fixed-select";
+import FixRangePicker from "./range-picker";
+import "@terminus/nusi/dist/nusi.scss";
+import "antd/dist/antd.less";
+import "antd-latest/dist/antd.less";
 import {
   Affix,
   Alert,
@@ -100,21 +95,20 @@ import {
   Empty as NusiEmpty,
   Cascader as NusiCascader,
   Tag as NusiTag,
-} from '@terminus/nusi';
+} from "@terminus/nusi";
 
-const locale = window.localStorage.getItem('locale');
-const isZh = locale === 'zh';
+const locale = window.localStorage.getItem("locale");
+const isZh = locale === "zh";
 
 // 直接修改使用时会有ts警告
 let temp = Tooltip;
-temp.defaultProps.type = 'shallow';
-
+temp.defaultProps.type = "shallow";
 
 temp = Pagination;
 temp.defaultProps = {
   ...Pagination.defaultProps,
   pageSize: 15,
-  pageSizeOptions: ['15', '30', '45', '60'],
+  pageSizeOptions: ["15", "30", "45", "60"],
   showTotal: (total) => (isZh ? `共计 ${total} 条` : `total ${total} items`),
 };
 
@@ -192,7 +186,6 @@ export {
   AntdConfigProvider,
   Antd4ConfigProvider,
   AntTable,
-
   NusiConfigProvider,
   NusiTree,
   NusiPopover,
