@@ -36,7 +36,7 @@ declare namespace MS_MONITOR {
     start: number
     end: number
     limit: number
-    'tag.error': boolean | undefined
+    'tag.error'?: boolean | undefined
     'tag.fields.applications_ids': number
     'tag.fields.services_distinct': string
     field_gt_errors_sum?: number
