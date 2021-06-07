@@ -15,7 +15,7 @@ import * as React from 'react';
 import { map, find, isEmpty, without, get } from 'lodash';
 import { useUpdate, Icon as CustomIcon, EmptyHolder } from 'common';
 import { Card } from './card/card';
-import { Input, Button, Popconfirm, Tooltip, Alert } from 'app/nusi';
+import { Input, Button, Popconfirm, Tooltip } from 'app/nusi';
 import { notify } from 'common/utils';
 import { WithAuth } from 'user/common';
 import userMapStore from 'app/common/stores/user-map';
