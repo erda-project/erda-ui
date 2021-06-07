@@ -24,9 +24,9 @@ import routeInfoStore from 'common/stores/route';
 import alarmReportStore from 'dataCenter/stores/alarm-report';
 
 const AlarmReport = () => {
-  const [params, query] = routeInfoStore.useStore(s => [s.params, s.query]);
+  const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const { x_filter_host_ip: filter_host_ip, x_timestamp: timestamp } = query as {x_filter_host_ip: string;x_timestamp: string};
-  const alarmReport = alarmReportStore.useStore(s => s.alarmReport);
+  const alarmReport = alarmReportStore.useStore((s) => s.alarmReport);
   const { getAlarmReport } = alarmReportStore.effects;
   const filter_cluster_name = params.clusterName;
   const alarmType = params.chartUniqId;

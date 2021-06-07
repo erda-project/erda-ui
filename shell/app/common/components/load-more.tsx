@@ -23,7 +23,7 @@ interface IProps {
   initialLoad?: boolean;
   triggerBy?: string;
   threshold?: number;
-  load(): any;
+  load: () => any;
 }
 
 export class LoadMore extends React.Component<IProps> {

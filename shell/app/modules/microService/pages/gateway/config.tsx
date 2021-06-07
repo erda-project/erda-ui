@@ -296,7 +296,7 @@ export const OAUTH_COLS = [
     },
   },
 ];
-const verifyKeyFun = (value:any, callback:any) => {
+const verifyKeyFun = (value: any, callback: any) => {
   if (!value) return callback();
   const pattern = /^[0-9A-Za-z]{32}$/;
   if (!pattern.test(value)) {
@@ -310,7 +310,7 @@ export const KEY_AUTH_FIELDS = [
     name: 'key',
     rules: [
       {
-        validator: (_rule:any, value:any, callback:any) => {
+        validator: (_rule: any, value: any, callback: any) => {
           verifyKeyFun(value, callback);
         },
       },
@@ -323,7 +323,7 @@ export const HMAC_AUTH_FIELDS = [
     name: 'key',
     rules: [
       {
-        validator: (_rule:any, value:any, callback:any) => {
+        validator: (_rule: any, value: any, callback: any) => {
           verifyKeyFun(value, callback);
         },
       },
@@ -335,7 +335,7 @@ export const HMAC_AUTH_FIELDS = [
     required: false,
     rules: [
       {
-        validator: (_rule:any, value:any, callback:any) => {
+        validator: (_rule: any, value: any, callback: any) => {
           verifyKeyFun(value, callback);
         },
       },
@@ -348,7 +348,7 @@ export const SIGN_AUTH_FIELDS = [
     name: 'key',
     rules: [
       {
-        validator: (_rule:any, value:any, callback:any) => {
+        validator: (_rule: any, value: any, callback: any) => {
           verifyKeyFun(value, callback);
         },
       },
@@ -360,7 +360,7 @@ export const SIGN_AUTH_FIELDS = [
     required: false,
     rules: [
       {
-        validator: (_rule:any, value:any, callback:any) => {
+        validator: (_rule: any, value: any, callback: any) => {
           verifyKeyFun(value, callback);
         },
       },
@@ -379,7 +379,7 @@ export const OAUTH_FIELDS = [
     required: false,
     rules: [
       {
-        validator: (_rule:any, value:any, callback:any) => {
+        validator: (_rule: any, value: any, callback: any) => {
           verifyKeyFun(value, callback);
         },
       },
@@ -391,7 +391,7 @@ export const OAUTH_FIELDS = [
     required: false,
     rules: [
       {
-        validator: (_rule:any, value:any, callback:any) => {
+        validator: (_rule: any, value: any, callback: any) => {
           verifyKeyFun(value, callback);
         },
       },
@@ -563,8 +563,8 @@ export const API_LIMIT_COLS = [
     dataIndex: 'limit',
     key: 'limit',
     width: '16%',
-    render: (limit: { qpd?: number, qph?: number, qpm?: number, qps?: number }) => {
-      const targetField = Object.keys(LIMIT_MAP).find(unit => limit[unit]) as string;
+    render: (limit: { qpd?: number; qph?: number; qpm?: number; qps?: number }) => {
+      const targetField = Object.keys(LIMIT_MAP).find((unit) => limit[unit]) as string;
       return <span>{`${limit[targetField]} ${LIMIT_MAP[targetField]}`}</span>;
     },
   },

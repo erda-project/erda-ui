@@ -18,7 +18,7 @@ import routeInfoStore from 'app/common/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
 
 export default () => {
-  const query = routeInfoStore.useStore(s => s.query);
+  const query = routeInfoStore.useStore((s) => s.query);
   const { changeTimeSpan } = monitorCommonStore.reducers;
 
   if (query && query.start && query.end) {

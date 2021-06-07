@@ -17,18 +17,18 @@ import { Tag } from 'app/nusi';
 import './color-label.scss';
 
 interface IProps{
-  color?: string,
-  className?: string,
-  style?: object,
-  onClick?: () => void,
-  onClose?: () => void,
-  name?: string,
+  color?: string;
+  className?: string;
+  style?: object;
+  onClick?: () => void;
+  onClose?: () => void;
+  name?: string;
 }
 
 export default ({ color, className, style, onClick, onClose, name }: IProps) => {
   const classes = classnames(
     `bg-label-${color}`,
-    className
+    className,
   );
 
   return (

@@ -27,9 +27,9 @@ import './jvm-overview.scss';
 const JVM_INFO_SCOPES = ['jvm_process', 'jvm_options', 'jvm_properties'];
 
 export default () => {
-  const { realInstanceId: insId } = addonStore.useStore(s => s.addonDetail);
-  const { profileId } = routeInfoStore.useStore(s => s.params);
-  const jvmInfo = jvmStore.useStore(s => s.jvmInfo);
+  const { realInstanceId: insId } = addonStore.useStore((s) => s.addonDetail);
+  const { profileId } = routeInfoStore.useStore((s) => s.params);
+  const jvmInfo = jvmStore.useStore((s) => s.jvmInfo);
   const pendingTimer = React.useRef(-1);
   const failedTimer = React.useRef(-1);
   const [{
@@ -55,7 +55,7 @@ export default () => {
 
   React.useEffect(() => {
     if (isPending) return;
-    forEach(JVM_INFO_SCOPES, scope => {
+    forEach(JVM_INFO_SCOPES, (scope) => {
       jvmStore.getJVMInfo({
         insId,
         profileId,
@@ -65,7 +65,7 @@ export default () => {
   }, [insId, isPending, profileId]);
 
   const rollingState = React.useCallback(() => {
-    jvmStore.getProfileStatus({ insId, profileId }).then(res => {
+    jvmStore.getProfileStatus({ insId, profileId }).then((res) => {
       updater.createTime(res.createTime);
       updater.finishTime(res.finishTime);
       switch (res.state) {
@@ -100,7 +100,7 @@ export default () => {
     });
   };
 
-  const getPanelBody = (data: Array<{ key: string; value: string; }>) => (
+  const getPanelBody = (data: Array<{ key: string; value: string }>) => (
     <Holder when={isEmpty(data)}>
       {
         map(data, ({ key, value }) => (

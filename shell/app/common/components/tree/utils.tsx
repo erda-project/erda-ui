@@ -101,7 +101,7 @@ export const isAncestor = (nodeTree: TreeNode[], childKey?: string, parentKey?: 
  * @param excludeKey
  */
 export const walkTree = (treeData: TreeNode[], options: { disabled?: boolean }, excludeKey: string) => {
-  treeData.forEach(node => {
+  treeData.forEach((node) => {
     Object.keys(options).forEach((optionKey) => {
       if (excludeKey === node.key) {
         return;
@@ -122,7 +122,7 @@ const defaultFileIcon = () => <CustomIcon color type="dm" style={{ height: '16px
  * @param param
  * @param iconMap
  */
-export const getIcon = ({ isLeaf, type, iconType }: { isLeaf?: boolean, type?: string, iconType?: string }, iconMap?: { [p: string]: JSX.Element }): JSX.Element => {
+export const getIcon = ({ isLeaf, type, iconType }: { isLeaf?: boolean; type?: string; iconType?: string }, iconMap?: { [p: string]: JSX.Element }): JSX.Element => {
   if (iconMap) {
     if (iconType && iconMap[iconType]) {
       return iconMap[iconType];
@@ -147,8 +147,8 @@ export const convertNodeType = (node: TREE.NODE): TreeNode => {
  * @param nodes
  */
 export const sortCategory = (nodes: TreeNode[]) => {
-  const folders = [...nodes.filter(node => !node.isLeaf)];
-  const files = [...nodes.filter(node => node.isLeaf)];
+  const folders = [...nodes.filter((node) => !node.isLeaf)];
+  const files = [...nodes.filter((node) => node.isLeaf)];
   const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
   folders.sort((x, y) => collator.compare(x.titleAlias, y.titleAlias));
   files.sort((x, y) => collator.compare(x.titleAlias, y.titleAlias));

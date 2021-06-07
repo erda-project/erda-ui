@@ -17,10 +17,10 @@ import { loadComparative } from '../services/comparative';
 import i18n from 'i18n';
 
 interface ILoadQuery{
-  query:{
-    [pro:string]:any;
-    type:string;
-  }
+  query: {
+    [pro: string]: any;
+    type: string;
+  };
 }
 
 const initState = {
@@ -31,7 +31,7 @@ const comparativeStore = createStore({
   name: 'BIComparative',
   state: initState,
   effects: {
-    async loadComparative({ call }, payload:ILoadQuery) {
+    async loadComparative({ call }, payload: ILoadQuery) {
       const { query } = payload;
       const { type, ...rest } = query;
       const result = await call(loadComparative, rest);
@@ -46,7 +46,7 @@ const comparativeStore = createStore({
       let reData = [] as any[];
       if (list) {
         reData = map(list, (l) => {
-          const xAxis:string[] = [];
+          const xAxis: string[] = [];
           let results = [];
           let titleText = '';
           const curData = get(l, `['${dataKey}']`);

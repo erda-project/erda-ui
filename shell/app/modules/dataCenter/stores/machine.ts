@@ -27,13 +27,13 @@ import { getAlarmList, IMachineAlarmQuery } from 'dcos/services/alarm';
 import orgStore from 'app/org-home/stores/org';
 
 interface IState {
-  operationList: ORG_MACHINE.IClusterOperateRecord[]
-  operationPaging: IPaging
-  operationDetail: ORG_MACHINE.IClusterOperateRecord | null,
-  cloudLogStatus: ORG_MACHINE.ICloudLogStatusResp | {}
-  operationTypes: ORG_MACHINE.IClusterOperateType[]
-  alarmList: ORG_ALARM.Ticket[]
-  alarmListPaging: IPaging
+  operationList: ORG_MACHINE.IClusterOperateRecord[];
+  operationPaging: IPaging;
+  operationDetail: ORG_MACHINE.IClusterOperateRecord | null;
+  cloudLogStatus: ORG_MACHINE.ICloudLogStatusResp | {};
+  operationTypes: ORG_MACHINE.IClusterOperateType[];
+  alarmList: ORG_ALARM.Ticket[];
+  alarmListPaging: IPaging;
 }
 
 const initState: IState = {
@@ -73,7 +73,7 @@ const machine = createStore({
     },
     async getAlarmListByCluster({ call, update }, payload: Pick<IMachineAlarmQuery, 'orgID'|'type' | 'endTime' | 'metricID' | 'pageNo' | 'pageSize' | 'startTime'>) {
       const { pageNo, pageSize = 10, type } = payload;
-      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const orgId = orgStore.getState((s) => s.currentOrg.id);
       const { list: alarmList, total } = await call(getAlarmList, {
         ...payload,
         type: type || ['machine', 'dice_component', 'dice_addon', 'kubernetes'],

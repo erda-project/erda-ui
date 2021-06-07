@@ -82,13 +82,13 @@ const complexityOptions = map(
     <Option key={value} value={value}>
       {label}
     </Option>
-  )
+  ),
 );
 const severityOptions = map(
   BUG_SEVERITY_MAP,
   ({ iconLabel, value }) => (
     <Option key={value} value={value}>{iconLabel}</Option>
-  )
+  ),
 );
 
 const getCustomOptions = (enumeratedValues: any[]) => {
@@ -101,17 +101,17 @@ const getCustomOptions = (enumeratedValues: any[]) => {
 
 const { createLabel, getLabels } = labelStore.effects;
 const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editAuth, issueType, formData, setFieldCb, projectId, ticketType }: any, ref) => {
-  const userMap = userMapStore.getState(s => s);
-  const projectMembers = projectMemberStore.useStore(s => s.list);
-  const urlParams = routeInfoStore.useStore(s => s.params);
+  const userMap = userMapStore.getState((s) => s);
+  const projectMembers = projectMemberStore.useStore((s) => s.list);
+  const urlParams = routeInfoStore.useStore((s) => s.params);
   // const isRequirement = issueType === ISSUE_TYPE.REQUIREMENT;
   const isEpic = issueType === ISSUE_TYPE.EPIC;
-  const iterationList = iterationStore.useStore(s => s.iterationList);
+  const iterationList = iterationStore.useStore((s) => s.iterationList);
   const isMonitorTicket = ticketType === 'monitor';
-  const customFieldDetail = issueStore.getState(s => s.customFieldDetail);
+  const customFieldDetail = issueStore.getState((s) => s.customFieldDetail);
   const [expandCustomFields, setExpandCustomFields] = React.useState(false);
 
-  const [bugStageList, taskTypeList] = issueFieldStore.useStore(s => [s.bugStageList, s.taskTypeList]);
+  const [bugStageList, taskTypeList] = issueFieldStore.useStore((s) => [s.bugStageList, s.taskTypeList]);
   const [optionList, setOptionList] = React.useState(labels);
   const stageOptions = React.useMemo(() => {
     return map(bugStageList, ({ name, id, value }) => (
@@ -186,11 +186,11 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
           return propertyType === 'Person' ?
             <MemberSelector
               scopeType="project"
-              ref={r => {
+              ref={(r) => {
                 const _refMap = ref?.current?.refMap;
                 _refMap && (_refMap[propertyName] = r);
               }}
-              className='issue-field-owner'
+              className="issue-field-owner"
               disabled={!editAuth}
               scopeId={urlParams.projectId || String(projectId)}
               onChange={(val: any) => onSave(val)}
@@ -202,7 +202,7 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
               <NumberFieldInput
                 className="full-width"
                 value={value}
-                ref={r => {
+                ref={(r) => {
                   const _refMap = ref?.current?.refMap;
                   _refMap && (_refMap[propertyName] = r);
                 }}
@@ -213,7 +213,7 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
               :
               <TextFieldInput
                 showErrTip
-                ref={r => {
+                ref={(r) => {
                   const _refMap = ref?.current?.refMap;
                   _refMap && (_refMap[propertyName] = r);
                 }}
@@ -260,7 +260,7 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
         return (
           <MemberSelector
             scopeType="project"
-            className='issue-field-assignee'
+            className="issue-field-assignee"
             disabled={!editAuth}
             scopeId={urlParams.projectId || String(projectId)}
             onChange={(val: any) => onSave(val)}
@@ -281,8 +281,8 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
           return (
             <MemberSelector
               scopeType="project"
-              className='issue-field-owner'
-              ref={r => {
+              className="issue-field-owner"
+              ref={(r) => {
                 const _refMap = ref?.current?.refMap;
                 _refMap && (_refMap.owner = r);
               }}
@@ -303,7 +303,7 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
         label: i18n.t('project:owing iteration'),
         type: 'custom',
         valueRender: (value: string) => {
-          const match = iterationList.find(item => String(item.id) === String(value));
+          const match = iterationList.find((item) => String(item.id) === String(value));
           return match ? match.title : value;
         },
         getComp: ({ value, onSave }: any) => (
@@ -330,7 +330,7 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
     {
       name: 'splitLine1',
       type: 'custom',
-      getComp: () => <Divider className='mb24 mt0' />,
+      getComp: () => <Divider className="mb24 mt0" />,
     },
     {
       name: 'priority',
@@ -383,13 +383,13 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
             showErrTip
             value={value}
             passAndTrigger
-            ref={r => {
+            ref={(r) => {
               const _refMap = ref?.current?.refMap;
               _refMap && (_refMap['issueManHour.estimateTime'] = r);
             }}
             triggerChangeOnButton
             originalValue={originalValue}
-            onChange={v => {
+            onChange={(v) => {
               if (isEditMode && formData?.issueManHour?.isModifiedRemainingTime !== false) {
                 setFieldCb({ issueManHour: { estimateTime: v || 0 } });
               } else { // 创建模式或编辑模式但剩余时间为空时，设置剩余时间为预估时间
@@ -408,11 +408,11 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
         getComp: ({ value, disabled }: any) => (
           <TimeTrace
             value={value}
-            ref={r => {
+            ref={(r) => {
               const _refMap = ref?.current?.refMap;
               _refMap && (_refMap['issueManHour.elapsedTime'] = r);
             }}
-            onChange={v => setFieldCb({ issueManHour: v })}
+            onChange={(v) => setFieldCb({ issueManHour: v })}
             isModifiedRemainingTime={formData?.issueManHour?.isModifiedRemainingTime}
             disabled={disabled}
           />
@@ -453,7 +453,7 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
         name: 'expandCustom',
         type: 'custom',
         getComp: () => (
-          <div className='flex-box pa8 mb20 hover-active-bg' onClick={() => setExpandCustomFields(prev => !prev)}>
+          <div className="flex-box pa8 mb20 hover-active-bg" onClick={() => setExpandCustomFields((prev) => !prev)}>
             <span>{i18n.t('project:custom fields')}</span><CustomIcon type={expandCustomFields ? 'chevron-up' : 'chevron-down'} />
           </div>
         ),
@@ -493,8 +493,8 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
 
           return (
             <>
-              <Divider className='mb24 mt2' />
-              <div className='color-text-desc fz12 prewrap'>{user.nick || user.name}&nbsp;{i18n.t('created at')}&nbsp;{moment(formData.createdAt).format('YYYY/MM/DD')}</div>
+              <Divider className="mb24 mt2" />
+              <div className="color-text-desc fz12 prewrap">{user.nick || user.name}&nbsp;{i18n.t('created at')}&nbsp;{moment(formData.createdAt).format('YYYY/MM/DD')}</div>
             </>
           );
         },
@@ -515,7 +515,7 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
       {map(editFieldList, (fieldProps: any) => {
         return (
           <EditField
-            ref={r => {
+            ref={(r) => {
               const _refMap = ref?.current?.refMap;
               _refMap && (_refMap[fieldProps.name] = r);
             }}
@@ -529,7 +529,7 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
   );
 });
 
-export type CloseDrawerParam = { hasEdited: boolean, isCreate: boolean, isDelete: boolean };
+export interface CloseDrawerParam { hasEdited: boolean; isCreate: boolean; isDelete: boolean }
 interface IProps {
   issueType: ISSUE_TYPE;
   id?: number;
@@ -540,7 +540,7 @@ interface IProps {
   shareLink?: string;
   subDrawer?: JSX.Element | null;
   customUrl?: string; // 监控特殊 url 用来增改工单
-  closeDrawer(params: CloseDrawerParam): void;
+  closeDrawer: (params: CloseDrawerParam) => void;
 }
 
 export const EditIssueDrawer = (props: IProps) => {
@@ -571,10 +571,10 @@ export const EditIssueDrawer = (props: IProps) => {
     addFieldsToIssue,
   } = issueStore.effects;
   const { clearIssueDetail } = issueStore.reducers;
-  const [bugStageList, taskTypeList, fieldList] = issueFieldStore.useStore(s => [s.bugStageList, s.taskTypeList, s.fieldList]);
+  const [bugStageList, taskTypeList, fieldList] = issueFieldStore.useStore((s) => [s.bugStageList, s.taskTypeList, s.fieldList]);
   const defaultCustomFormData = React.useMemo(() => {
     const customFieldDefaultValues = {};
-    map(fieldList, item => {
+    map(fieldList, (item) => {
       if (item?.required) {
         if (item?.propertyType === 'Select') {
           customFieldDefaultValues[item?.propertyName] = item?.enumeratedValues[0]?.id;
@@ -601,12 +601,12 @@ export const EditIssueDrawer = (props: IProps) => {
     };
   }, [bugStageList, defaultCustomFormData, issueType, iterationID, taskTypeList]);
   const [formData, setFormData] = React.useState(defaultFormData as any);
-  const issueDetail: ISSUE.IssueType = issueStore.useStore(s => s[`${type}Detail`]);
+  const issueDetail: ISSUE.IssueType = issueStore.useStore((s) => s[`${type}Detail`]);
 
   // 监听bugDetail、taskDetail、requirementDetail的变化，切换类型后触发刷新
-  issueStore.useStore(s => [s.bugDetail, s.taskDetail, s.requirementDetail]);
+  issueStore.useStore((s) => [s.bugDetail, s.taskDetail, s.requirementDetail]);
 
-  const labels = labelStore.useStore(s => s.list);
+  const labels = labelStore.useStore((s) => s.list);
   const [updateIssueLoading] = useLoading(issueStore, ['updateIssue']);
   const labelNames = map(labels, ({ name }) => name);
   const id = propId;
@@ -616,7 +616,7 @@ export const EditIssueDrawer = (props: IProps) => {
   const [tempDescContent, setTempDescContent] = React.useState('');
   const [disableSubmit, setDisableSubmit] = React.useState(false);
   const isBug = issueType === ISSUE_TYPE.BUG;
-  const customFieldDetail = issueStore.useStore(s => s.customFieldDetail);
+  const customFieldDetail = issueStore.useStore((s) => s.customFieldDetail);
   const [customFormData, setCustomFormData] = React.useState(customFieldDetail as any);
   const { getFieldsByIssue: getCustomFieldsByProject } = issueFieldStore.effects;
 
@@ -626,7 +626,7 @@ export const EditIssueDrawer = (props: IProps) => {
 
   const { creator, assignee, testPlanCaseRels } = issueDetail || {};
   const specialProps = EDIT_PROPS[issueType];
-  const projectPerm = usePerm(s => s.project);
+  const projectPerm = usePerm((s) => s.project);
   const permObjMap = {
     [ISSUE_TYPE.REQUIREMENT]: projectPerm.requirement,
     [ISSUE_TYPE.TASK]: projectPerm.task,
@@ -641,10 +641,10 @@ export const EditIssueDrawer = (props: IProps) => {
   const editAuth = isMonitorTicket ? true : !isEditMode || getAuth(permObj.edit, checkRole);
   const switchTypeAuth = permObj.switchType?.pass;
 
-  const addRelatedMattersProjectId = routeInfoStore.getState(s => s.params).projectId;
+  const addRelatedMattersProjectId = routeInfoStore.getState((s) => s.params).projectId;
   const { addIssueRelation } = issueStore.effects;
   const { updateCustomFieldDetail } = issueStore.reducers;
-  const { id: orgID } = orgStore.useStore(s => s.currentOrg);
+  const { id: orgID } = orgStore.useStore((s) => s.currentOrg);
   const metaFieldsRef: React.RefObject<unknown> = React.useRef(null);
 
   React.useEffect(() => {
@@ -668,7 +668,7 @@ export const EditIssueDrawer = (props: IProps) => {
       visible && getCustomFieldsByProject({
         propertyIssueType: issueType,
         orgID,
-      }).then(res => {
+      }).then((res) => {
         updateCustomFieldDetail({
           property: res,
           orgID,
@@ -682,7 +682,7 @@ export const EditIssueDrawer = (props: IProps) => {
   const customFieldValues = React.useMemo(() => {
     customFieldDetail && setCustomFormData(customFieldDetail);
     const tempFormData = {};
-    map(customFieldDetail?.property, item => {
+    map(customFieldDetail?.property, (item) => {
       const { arbitraryValue, propertyType, values, propertyName } = item;
       const _values = values || [];
       tempFormData[propertyName] = FIELD_WITH_OPTION[propertyType]
@@ -802,7 +802,7 @@ export const EditIssueDrawer = (props: IProps) => {
         }
         if (params.issueManHour.elapsedTime === 0 && params.issueManHour.thisElapsedTime === 0) {
           // filter out the working
-          const workingState = formData.issueButton.find(item => item.stateBelong === 'WORKING');
+          const workingState = formData.issueButton.find((item) => item.stateBelong === 'WORKING');
           // When working exists and select working, don't warn
           if (!workingState || (value.state !== workingState.stateID)) {
             warnMessage.push({ msg: i18n.t('project:elapsedTime in time tracing'), key: 'issueManHour.elapsedTime' });
@@ -814,7 +814,7 @@ export const EditIssueDrawer = (props: IProps) => {
           <>
             <span className="bold">{map(warnMessage, 'msg').join(', ')}</span>
             <span>{i18n.t('project:missing')}</span>
-          </>
+          </>,
         );
         focusOnFields(warnMessage[0].key);
         return false;
@@ -825,14 +825,14 @@ export const EditIssueDrawer = (props: IProps) => {
     let promise;
     let customFieldKey = '';
     let customFieldValue: any;
-    map(Object.keys(value), k => {
+    map(Object.keys(value), (k) => {
       customFieldKey = k;
       params[k] = value[k];
       customFieldValue = value[k];
     });
-    const customFieldData = find(customFormData?.property, item => item.propertyName === customFieldKey);
+    const customFieldData = find(customFormData?.property, (item) => item.propertyName === customFieldKey);
     const tempCustomFormData: ISSUE.ICreateField = produce(customFormData, (draft: any) => {
-      map(draft?.property, draftData => {
+      map(draft?.property, (draftData) => {
         if (draftData.propertyName === customFieldKey) {
           if (FIELD_WITH_OPTION[draftData?.propertyType]) {
             const _values = customFieldValue || [];
@@ -867,7 +867,7 @@ export const EditIssueDrawer = (props: IProps) => {
         } else {
           addFieldsToIssue(
             { ...tempCustomFormData, orgID, projectID: +addRelatedMattersProjectId },
-            { customMsg: i18n.t('update successfully') }
+            { customMsg: i18n.t('update successfully') },
           ).then(() => {
             getCustomFields();
           });
@@ -947,7 +947,7 @@ export const EditIssueDrawer = (props: IProps) => {
 
     if (isCopy) {
       const { creator, ...restFormData } = formData;
-      copyIssue({ ...restFormData, title: copyTitle, issueManHour: { ...formData.issueManHour, elapsedTime: undefined }, customUrl }).then(res => {
+      copyIssue({ ...restFormData, title: copyTitle, issueManHour: { ...formData.issueManHour, elapsedTime: undefined }, customUrl }).then((res) => {
         addFieldsToIssue({ ...customFormData, issueID: res, projectID: params.projectID }, { customMsg: i18n.t('copy successfully') });
       }).finally(() => {
         onClose(true);
@@ -960,7 +960,7 @@ export const EditIssueDrawer = (props: IProps) => {
         onClose();
       });
     } else {
-      createIssue({ ...params, customUrl }, { hideActionMsg: true }).then(res => {
+      createIssue({ ...params, customUrl }, { hideActionMsg: true }).then((res) => {
         savingRef.current = false;
         addFieldsToIssue({ ...customFormData, issueID: res, projectID: params.projectID }, { customMsg: i18n.t('created successfully') });
       }).finally(() => {
@@ -1003,24 +1003,24 @@ export const EditIssueDrawer = (props: IProps) => {
     });
   };
 
-  const addQuickIssueAuth = usePerm(s => s.project.requirement.create.pass);// 目前迭代、任务、缺陷添加权限都一致
+  const addQuickIssueAuth = usePerm((s) => s.project.requirement.create.pass);// 目前迭代、任务、缺陷添加权限都一致
 
   let footer: any = [];
   if (isEditMode && issueType === ISSUE_TYPE.TICKET) {
     if (addQuickIssueAuth) {
       footer = [
         <Dropdown
-          key='quick-add'
+          key="quick-add"
           overlay={(
             <Menu onClick={handleMenuClick}>
               <Menu.Item key="REQUIREMENT">
-                <IssueIcon type='REQUIREMENT' withName />
+                <IssueIcon type="REQUIREMENT" withName />
               </Menu.Item>
               <Menu.Item key="TASK">
-                <IssueIcon type='TASK' withName />
+                <IssueIcon type="TASK" withName />
               </Menu.Item>
               <Menu.Item key="BUG">
-                <IssueIcon type='BUG' withName />
+                <IssueIcon type="BUG" withName />
               </Menu.Item>
             </Menu>
           )}
@@ -1032,7 +1032,7 @@ export const EditIssueDrawer = (props: IProps) => {
       ];
     } else {
       footer = [
-        <WithAuth key='create' pass={addQuickIssueAuth} >
+        <WithAuth key="create" pass={addQuickIssueAuth} >
           <Button className="mr8">
             {i18n.t('project:quick create issue')}
           </Button>
@@ -1043,8 +1043,8 @@ export const EditIssueDrawer = (props: IProps) => {
 
   if (!isEditMode) {
     footer = [
-      <div key='holder' />,
-      <Spin key='submit' spinning={updateIssueLoading}>
+      <div key="holder" />,
+      <Spin key="submit" spinning={updateIssueLoading}>
         <div>
           <Button onClick={() => onClose()}>{i18n.t('cancel')}</Button>
           <Button disabled={disableSubmit} onClick={() => handleSubmit()} type="primary">
@@ -1075,7 +1075,7 @@ export const EditIssueDrawer = (props: IProps) => {
     //   loading.createIssue || loading.getIssueDetail || loading.updateIssue
     // }
     >
-      <div className='flex-box'>
+      <div className="flex-box">
         <IF check={isEditMode}>
           {/* className=''是为了覆盖组件里的className="full-width"，否则选择框宽度为100% */}
           {
@@ -1099,7 +1099,7 @@ export const EditIssueDrawer = (props: IProps) => {
                   }}
                 />
               </WithAuth>
-            ) : <span className='mr8'>{ISSUE_TYPE_MAP[issueType]?.icon}</span>
+            ) : <span className="mr8">{ISSUE_TYPE_MAP[issueType]?.icon}</span>
           }
         </IF>
 
@@ -1138,11 +1138,11 @@ export const EditIssueDrawer = (props: IProps) => {
           defaultActiveKey="streams"
         >
           <TabPane tab={i18n.t('project:activity log')} key="streams">
-            <IssueCommentBox onSave={content => addIssueStream(issueDetail, { content })} editAuth={editAuth} />
-            {issueType !== ISSUE_TYPE.TICKET ? <AddRelation onSave={data => addIssueStream(issueDetail, data)} editAuth={editAuth} /> : null}
+            <IssueCommentBox onSave={(content) => addIssueStream(issueDetail, { content })} editAuth={editAuth} />
+            {issueType !== ISSUE_TYPE.TICKET ? <AddRelation onSave={(data) => addIssueStream(issueDetail, data)} editAuth={editAuth} /> : null}
             <IssueActivities type={issueType} />
           </TabPane>
-          <TabPane tab={i18n.t('relate to issue')} key='issue'>
+          <TabPane tab={i18n.t('relate to issue')} key="issue">
             <IssueRelation
               ref={ref}
               issue={issueDetail}
@@ -1154,7 +1154,7 @@ export const EditIssueDrawer = (props: IProps) => {
           {
             issueType === ISSUE_TYPE.BUG
               ? (
-                <TabPane tab={i18n.t('project:relate to test case')} key='testCase'>
+                <TabPane tab={i18n.t('project:relate to test case')} key="testCase">
                   <IssueTestCaseRelation list={testPlanCaseRels || []} />
                 </TabPane>
               )

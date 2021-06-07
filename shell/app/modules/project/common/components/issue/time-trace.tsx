@@ -31,22 +31,22 @@ const calculatePercent = (logged: number, spent: number, remain: number, estimat
       Math.max(estimate - remain, 0), // 蓝色：预估-剩余
       Math.max(totalUse - estimate, 0), // 黄色：已记录+当前记录+剩余-预估
       remain, // 灰色：剩余
-    ].map(n => (n / totalUse) * 100);
+    ].map((n) => (n / totalUse) * 100);
   }
   return [// 总耗时小于预估耗时，以预估耗时为总数
     logged + spent, // 蓝色
     0, // 黄色
     remain, // 灰色
-  ].map(n => (n / estimate) * 100);
+  ].map((n) => (n / estimate) * 100);
 };
 
 interface IZTraceBarProps {
-  logged: number,
-  spent: number,
-  remain: number,
-  estimate: number,
-  active?: boolean,
-  onClick?(e: any): void,
+  logged: number;
+  spent: number;
+  remain: number;
+  estimate: number;
+  active?: boolean;
+  onClick?: (e: any) => void;
 }
 const TimeTraceBar = React.forwardRef(({ logged, spent, remain, estimate, active = false, onClick }: IZTraceBarProps, ref) => {
   const _logged = numberOr(logged, 0);
@@ -56,8 +56,8 @@ const TimeTraceBar = React.forwardRef(({ logged, spent, remain, estimate, active
   const [blue, yellow] = calculatePercent(_logged, _spent, _remain, _estimate);
   return (
     <div className={`time-trace ${active ? 'active-hover' : ''}`} onClick={onClick} ref={ref}>
-      <Progress strokeColor='#f47201' showInfo={false} successPercent={blue} percent={blue + yellow} size="small" />
-      <div className='color-text-sub flex-box fz12'>
+      <Progress strokeColor="#f47201" showInfo={false} successPercent={blue} percent={blue + yellow} size="small" />
+      <div className="color-text-sub flex-box fz12">
         <span>
           {
             (_logged + _spent)
@@ -76,7 +76,7 @@ interface IProps {
   value?: ISSUE.issueManHour;
   disabled?: boolean;
   isModifiedRemainingTime?: boolean;
-  onChange?(e: any): void;
+  onChange?: (e: any) => void;
 }
 
 const defaultValue = {
@@ -112,8 +112,8 @@ export const TimeTrace = React.forwardRef(({ value = { ...defaultValue } as any,
       label: i18n.t('project:Time spent'),
       key: 'thisElapsedTime',
       getComp: () => (
-        <TimeInput 
-          placeholder={checkMsg} 
+        <TimeInput
+          placeholder={checkMsg}
           onChange={onSpentTimeChange}
           tooltip={(
             <div>
@@ -240,7 +240,7 @@ export const TimeTrace = React.forwardRef(({ value = { ...defaultValue } as any,
             remain={editData.remainingTime ?? defaultRemaining}
             estimate={value.estimateTime}
           />
-          <div className='my16'>
+          <div className="my16">
             {i18n.t('project:The original estimate for this issue was')} {transToStr(value.estimateTime)}
           </div>
           <Form

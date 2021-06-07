@@ -22,8 +22,8 @@ import { Loading as IconLoading } from '@icon-park/react';
 interface IProps{
   deployClusterLog: string;
   fetchingDeployClusterLog: boolean;
-  getDeployClusterLog(): Promise<any>;
-  clearDeployClusterLog(): Promise<any>;
+  getDeployClusterLog: () => Promise<any>;
+  clearDeployClusterLog: () => Promise<any>;
 }
 interface IState{
   fetching: boolean;
@@ -104,7 +104,7 @@ class DeployClusterLog extends React.Component<IProps, IState> {
 }
 
 const mapper = () => {
-  const deployClusterLog = clusterStore.useStore(s => s.deployClusterLog);
+  const deployClusterLog = clusterStore.useStore((s) => s.deployClusterLog);
   const { getDeployClusterLog } = clusterStore.effects;
   const { clearDeployClusterLog } = clusterStore.reducers;
   const [fetchingDeployClusterLog] = useLoading(clusterStore, ['getDeployClusterLog']);

@@ -30,13 +30,13 @@ import i18n from 'i18n';
 import breadcrumbStore from 'layout/stores/breadcrumb';
 
 interface IState {
-  iterationList: ITERATION.Detail[],
-  iterationDetail: ITERATION.Detail,
+  iterationList: ITERATION.Detail[];
+  iterationDetail: ITERATION.Detail;
   iterationPaging: IPaging;
-  undoneIterations: ITERATION.Detail[]
-  issuesMap: Merge<Obj<ISSUE.Issue[]>, {[k:string]: any}>
-  backlogIssues: ISSUE.Issue[]
-  backlogIssuesPaging:IPaging
+  undoneIterations: ITERATION.Detail[];
+  issuesMap: Merge<Obj<ISSUE.Issue[]>, {[k: string]: any}>;
+  backlogIssues: ISSUE.Issue[];
+  backlogIssuesPaging: IPaging;
 }
 
 const initState: IState = {
@@ -60,7 +60,7 @@ const iteration = createStore({
         projectLabelStore.reducers.clearList();
       }
       if (isEntering('iterationDetail')) {
-        iteration.effects.getIterationDetail(+params.iterationId).then(detail => {
+        iteration.effects.getIterationDetail(+params.iterationId).then((detail) => {
           breadcrumbStore.reducers.setInfo('iterationName', detail.title);
         });
       }
@@ -95,8 +95,8 @@ const iteration = createStore({
       update({ undoneIterations: list });
       return list;
     },
-    async getIterationsIssues({ call, update, select, getParams }, { iterationId, pageNo }: { iterationId: number, pageNo: number }) {
-      const preIssuesMap = select(s => s.issuesMap);
+    async getIterationsIssues({ call, update, select, getParams }, { iterationId, pageNo }: { iterationId: number; pageNo: number }) {
+      const preIssuesMap = select((s) => s.issuesMap);
       const { projectId: projectID } = getParams();
       const { list = [], total } = await call(getIssues, { iterationID: iterationId, projectID, pageNo });
       update({ issuesMap: { ...preIssuesMap, [iterationId]: { list, total } } });
@@ -110,8 +110,8 @@ const iteration = createStore({
       const query = { ...rest, type, iterationID: -1, projectID } as ISSUE.IssueListQuery;
       const { list = [] } = await call(getIssues, query, { paging: { key: 'backlogIssuesPaging' } });
 
-      let backlogIssues = select(state => state.backlogIssues);
-      const backlogIssuesPaging = select(state => state.backlogIssuesPaging);
+      let backlogIssues = select((state) => state.backlogIssues);
+      const backlogIssuesPaging = select((state) => state.backlogIssuesPaging);
       if (loadMore && backlogIssuesPaging.pageNo !== 1) {
         backlogIssues = backlogIssues.concat(list);
       } else {
@@ -123,7 +123,7 @@ const iteration = createStore({
     },
     async createIssue({ call, getParams }, payload: ISSUE.BacklogIssueCreateBody) {
       const { projectId: projectID } = getParams();
-      const userId = userStore.getState(s => s.loginUser.id);
+      const userId = userStore.getState((s) => s.loginUser.id);
       const res = await call(createIssue, { assignee: userId, iterationID: -1, projectID: +projectID, ...payload } as ISSUE.Issue, { successMsg: i18n.t('created successfully') });
       return res;
     },

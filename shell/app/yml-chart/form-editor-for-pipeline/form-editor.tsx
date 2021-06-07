@@ -20,7 +20,7 @@ import { map } from 'lodash';
 import { componentFormConfig } from './form-editor-config';
 
 // 此处表单预览不需要展示获取配置按钮
-const FormPreview = React.forwardRef((props: any, ref:any) => {
+const FormPreview = React.forwardRef((props: any, ref: any) => {
   const nameField = {
     index: 0,
     label: i18n.t('field'),

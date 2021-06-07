@@ -27,7 +27,7 @@ const $$ = (className: string) => {
 describe('DeleteConfirm', () => {
   it('render with warn', () => {
     let wrapper = shallow(
-      <DeleteConfirm />
+      <DeleteConfirm />,
     );
     expect(wrapper).toEqual({});
     wrapper = shallow(
@@ -35,7 +35,7 @@ describe('DeleteConfirm', () => {
         <div className="children" />
         <div className="children" />
         <div className="children" />
-      </DeleteConfirm>
+      </DeleteConfirm>,
     );
     expect(wrapper.find('.children')).toHaveLength(3);
   });
@@ -52,7 +52,7 @@ describe('DeleteConfirm', () => {
         onCancel={onCancelFn}
       >
         <div className="child">children</div>
-      </DeleteConfirm>
+      </DeleteConfirm>,
     );
     wrapper.find('.child').simulate('click', new Event('click'));
     jest.runAllTimers();

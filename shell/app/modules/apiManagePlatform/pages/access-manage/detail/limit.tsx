@@ -26,9 +26,9 @@ const defaultData = {
   unit: undefined,
 } as any as API_ACCESS.BaseSlaLimit;
 interface IProps {
-  value?: API_ACCESS.BaseSlaLimit[]
-  mode: 'single' | 'multiple'
-  onChange?(data: API_ACCESS.BaseSlaLimit[]):void;
+  value?: API_ACCESS.BaseSlaLimit[];
+  mode: 'single' | 'multiple';
+  onChange?: (data: API_ACCESS.BaseSlaLimit[]) => void;
 }
 
 const Limit = (props: IProps) => {

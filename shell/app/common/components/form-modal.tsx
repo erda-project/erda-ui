@@ -42,11 +42,11 @@ interface IProps {
   modalProps?: {
     [propName: string]: any;
   };
-  alertProps?: { [propName: string]: any; };
-  customRender?(content: JSX.Element): JSX.Element;
-  onOk?(result: object, isAddMode: boolean): PromiseLike<object> | void;
-  onCancel?(): void;
-  beforeSubmit?(formValues: object, form?: WrappedFormUtils): void;
+  alertProps?: { [propName: string]: any };
+  customRender?: (content: JSX.Element) => JSX.Element;
+  onOk?: (result: object, isAddMode: boolean) => PromiseLike<object> | void;
+  onCancel?: () => void;
+  beforeSubmit?: (formValues: object, form?: WrappedFormUtils) => void;
 }
 
 interface IState {
@@ -60,7 +60,7 @@ class FormModalComp extends React.Component<IProps, IState> {
   /** 是否是添加模式 */
   private isAddMode: boolean;
 
-  shouldComponentUpdate(newProps : IProps) {
+  shouldComponentUpdate(newProps: IProps) {
     const { visible, form, formData, fieldsList, formRef } = newProps;
     if ((visible && !this.props.visible) || formData !== this.props.formData) {
       this.isAddMode = isEmpty(formData);
@@ -71,7 +71,7 @@ class FormModalComp extends React.Component<IProps, IState> {
           if (fieldsList) {
             const _list = typeof fieldsList === 'function' ? fieldsList(form, !this.isAddMode) : fieldsList;
             const pureData = {};
-            _list.forEach(f => {
+            _list.forEach((f) => {
               if (f.name && formData) {
                 const fieldData = get(formData, f.name);
                 if (f.type === 'datePicker' && typeof fieldData === 'string') { // 日期类型 value 不能传 string

@@ -23,16 +23,16 @@ interface IProps{
 
 const CaseInfo = (props: IProps) => {
   const { caseDetail } = props;
-  const userMap = userMapStore.useStore(s => s);
+  const userMap = userMapStore.useStore((s) => s);
 
   const fields = [
     {
       label: i18n.t('name'),
       valueKey: 'name',
-      valueItem: ({ value: val }:any) => {
+      valueItem: ({ value: val }: any) => {
         return (
           <Tooltip title={val}>
-            <div className='nowrap'>{val}</div>
+            <div className="nowrap">{val}</div>
           </Tooltip>
         );
       },
@@ -40,10 +40,10 @@ const CaseInfo = (props: IProps) => {
     {
       label: i18n.t('application:commit message'),
       valueKey: 'desc',
-      valueItem: ({ value: val }:any) => {
+      valueItem: ({ value: val }: any) => {
         return (
           <Tooltip title={val}>
-            <div className='nowrap'>{val}</div>
+            <div className="nowrap">{val}</div>
           </Tooltip>
         );
       },
@@ -66,7 +66,7 @@ const CaseInfo = (props: IProps) => {
     {
       label: i18n.t('project:updater'),
       valueKey: 'updaterID',
-      valueItem: ({ value: val }:any) => {
+      valueItem: ({ value: val }: any) => {
         const curUser = userMap[val];
         return curUser ? (curUser.nick || curUser.name) : (val || '-');
       },
@@ -74,7 +74,7 @@ const CaseInfo = (props: IProps) => {
     {
       label: i18n.t('update time'),
       valueKey: 'updatedAt',
-      valueItem: ({ value: val }:any) => {
+      valueItem: ({ value: val }: any) => {
         return val ? moment(val).format('YYYY-MM-DD HH:mm:ss') : '-';
       },
     },

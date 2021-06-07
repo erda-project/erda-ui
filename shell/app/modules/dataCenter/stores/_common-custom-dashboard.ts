@@ -25,9 +25,9 @@ export enum CustomDashboardScope {
 }
 
 export interface IState {
-  customDashboardList: Custom_Dashboard.DashboardItem[]
-  customDashboardPaging: IPaging
-  timeSpan: any
+  customDashboardList: Custom_Dashboard.DashboardItem[];
+  customDashboardPaging: IPaging;
+  timeSpan: any;
 }
 
 export const createCustomDashboardStore = (scope: CustomDashboardScope) => {

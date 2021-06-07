@@ -21,7 +21,7 @@ import { useDeepCompareEffect, useUpdateEffect } from 'react-use';
 import routeInfoStore from '../stores/route';
 import './custom-filter.scss';
 import { PaginationConfig, SorterResult } from 'core/common/interface';
-import {  IUseFilterProps, IUseMultiFilterProps } from 'interface/common';
+import { IUseFilterProps, IUseMultiFilterProps } from 'interface/common';
 
 import classNames from 'classnames';
 import { PAGINATION } from 'app/constants';
@@ -56,9 +56,9 @@ export const CustomFilter = (props: IFilterProps) => {
     actions,
     ...restProps
   } = props;
-  const actionsHasPadding = config.some(t => t.label);
+  const actionsHasPadding = config.some((t) => t.label);
 
-  const [query] = routeInfoStore.useStore(s => [s.query]);
+  const [query] = routeInfoStore.useStore((s) => [s.query]);
   const filterRef: any = React.useRef(null as any);
   const [prevQuery, setPrevQuery] = React.useState({});
 
@@ -133,7 +133,7 @@ export const CustomFilter = (props: IFilterProps) => {
     const curFilterForm = filterRef.current && filterRef.current.form;
     if (!isConnectQuery || isEqual(prevQuery, query) || isEmpty(fields)) return;
     setPrevQuery(query);
-    map(config, item => {
+    map(config, (item) => {
       const { name, customTransformer, valueType = 'string' } = item;
       // const _type = transformConfig(item);
 
@@ -178,7 +178,7 @@ export const CustomFilter = (props: IFilterProps) => {
 
   const realConfig = React.useMemo(() => {
     // const initFilterConfig = !skipInit ? initConfig(config) : config;
-    return map(config, item => {
+    return map(config, (item) => {
       return transformConfig(item);
     });
   }, [config, transformConfig]);
@@ -212,12 +212,12 @@ const convertFilterParamsToUrlFormat = (
   condition: { [prop: string]: any },
   fieldConvertor?: {
     [k: string]: (value: any, allQuery?: any) => string | string[] | undefined;
-  }
+  },
 ) => {
   const formatCondition = {};
   forIn(condition, (v, k) => {
     const fieldConvertFunc = get(fieldConvertor, k);
-    if (Array.isArray(v) && v.length === 2 && every(v, item => moment.isMoment(item))) {
+    if (Array.isArray(v) && v.length === 2 && every(v, (item) => moment.isMoment(item))) {
       // handle date range
       const [start, end] = v as [Moment, Moment];
       const format = dateFormat || 'YYYY-MM-DD HH:mm:ss';
@@ -303,7 +303,7 @@ export function useFilter<T>(props: ISingleFilterProps<T>): IUseFilterProps {
     lazy = false,
     initQuery = {},
   } = props;
-  const [query, currentRoute] = routeInfoStore.useStore(s => [s.query, s.currentRoute]);
+  const [query, currentRoute] = routeInfoStore.useStore((s) => [s.query, s.currentRoute]);
   const { pageNo: pNo, ...restQuery } = query;
 
   const [state, update] = useUpdate({
@@ -329,7 +329,7 @@ export function useFilter<T>(props: ISingleFilterProps<T>): IUseFilterProps {
 
   useDeepCompareEffect(() => {
     const payload = { pageSize, ...searchQuery, ...extraQuery, pageNo };
-    const unableToSearch = some(requiredKeys, key => payload[key] === '' || payload[key] === undefined);
+    const unableToSearch = some(requiredKeys, (key) => payload[key] === '' || payload[key] === undefined);
     if (unableToSearch || (lazy && !loaded)) {
       return;
     }
@@ -414,7 +414,7 @@ export function useFilter<T>(props: ISingleFilterProps<T>): IUseFilterProps {
     if (!sizeOptions.includes(`${pageSize}`)) { // 备选项中不存在默认的页数
       sizeOptions.push(`${pageSize}`);
     }
-    sizeOptions = sortBy(sizeOptions, item => +item);
+    sizeOptions = sortBy(sizeOptions, (item) => +item);
     return (
       <div className="mt16 right-flex-box">
         <Pagination
@@ -456,7 +456,7 @@ interface IMultiModeProps extends IProps {
   shareQuery?: boolean;
   activeKeyInParam?: boolean;
   extraQueryFunc?: (activeGroup: string) => Obj;
-  checkParams?: string[],
+  checkParams?: string[];
 }
 
 /**
@@ -476,7 +476,7 @@ interface IMultiModeProps extends IProps {
  * @return {queryCondition, onSubmit, onReset, onPageChange, pageNo, fetchDataWithQuery }
  */
 export const useMultiFilter = (
-  props: IMultiModeProps
+  props: IMultiModeProps,
 ): IUseMultiFilterProps => {
   const {
     getData,
@@ -494,7 +494,7 @@ export const useMultiFilter = (
     checkParams = [],
   } = props;
   const wholeExcludeKeys = activeKeyInParam ? excludeQuery : excludeQuery.concat([groupKey]);
-  const [query, params, currentRoute] = routeInfoStore.useStore(s => [s.query, s.params, s.currentRoute]);
+  const [query, params, currentRoute] = routeInfoStore.useStore((s) => [s.query, s.params, s.currentRoute]);
   const { pageNo: pNo, ...restQuery } = query;
 
   const pickQueryValue = React.useCallback(() => {
@@ -565,7 +565,7 @@ export const useMultiFilter = (
 
   const fetchData = (pageNum?: number) => {
     if (checkParams.length) {
-      const checked = checkParams.every(key => !isEmpty(extraQuery[key]));
+      const checked = checkParams.every((key) => !isEmpty(extraQuery[key]));
       if (!checked) {
         return;
       }
@@ -580,7 +580,7 @@ export const useMultiFilter = (
 
   useDeepCompareEffect(() => {
     const payload = { pageSize, ...extraQuery, ...searchQuery, pageNo };
-    const unableToSearch = some(requiredKeys, key => payload[key] === '' || payload[key] === undefined);
+    const unableToSearch = some(requiredKeys, (key) => payload[key] === '' || payload[key] === undefined);
     if (unableToSearch) {
       return;
     }

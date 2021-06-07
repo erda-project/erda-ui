@@ -97,7 +97,7 @@ class OrderPage extends React.Component<IProps> {
     });
   };
 
-  trigger = (event: string, ...args:any[]) => {
+  trigger = (event: string, ...args: any[]) => {
     switch (event) {
       case 'regionChange':
         // @ts-ignore
@@ -166,7 +166,7 @@ class OrderPage extends React.Component<IProps> {
     });
   };
 
-  getFormValue = (field?:string) => {
+  getFormValue = (field?: string) => {
     return field
       ? this.props.form.getFieldValue(field)
       : this.props.form.getFieldsValue();
@@ -194,7 +194,7 @@ class OrderPage extends React.Component<IProps> {
             <Switch
               size="small"
               checked={enable}
-              onChange={bool => this.setState({ [enableKey]: bool })}
+              onChange={(bool) => this.setState({ [enableKey]: bool })}
             />
           }
         </span>
@@ -234,7 +234,7 @@ class OrderPage extends React.Component<IProps> {
       {
         label: i18n.t('region'),
         name: 'regionId',
-        getComp: ({ form }: {form : WrappedFormUtils}) => (
+        getComp: ({ form }: {form: WrappedFormUtils}) => (
           <Spin spinning={isFetchingRegions}>
             <div className="region-select">
               {
@@ -262,7 +262,7 @@ class OrderPage extends React.Component<IProps> {
       {
         label: i18n.t('org:availability region'),
         name: 'zoneId',
-        getComp: ({ form }:{form : WrappedFormUtils}) => (
+        getComp: ({ form }: {form: WrappedFormUtils}) => (
           <Spin spinning={isFetchingZones}>
             <div className="region-select">
               {
@@ -301,7 +301,7 @@ class OrderPage extends React.Component<IProps> {
         label: i18n.t('specification'),
         name: 'natSetting.natSpec',
         type: 'radioGroup',
-        options: ['Small', 'Middle', 'Large', 'XLarge'].map(o => ({ name: o, value: o })),
+        options: ['Small', 'Middle', 'Large', 'XLarge'].map((o) => ({ name: o, value: o })),
         initialValue: 'Small',
       },
       {
@@ -398,7 +398,7 @@ class OrderPage extends React.Component<IProps> {
           label: i18n.t('duration'),
           name: 'period',
           type: 'radioGroup',
-          options: periodList.map(a => ({ value: a, name: a })),
+          options: periodList.map((a) => ({ value: a, name: a })),
           initialValue: periodList[0],
         },
       ];
@@ -419,7 +419,7 @@ class OrderPage extends React.Component<IProps> {
         label: this.getLinkLabel(i18n.t('specification'), i18n.t('check detail'), 'https://help.aliyun.com/document_detail/27657.html'),
         name: 'loadBalancerSetting.loadBalancerSpec',
         type: 'select',
-        options: lbConfig.map(o => ({
+        options: lbConfig.map((o) => ({
           name: `${o.key} (${i18n.t('org:maximum number of connections')}: ${o.maxConn} ${i18n.t('org:new connections per second')}: ${o.CPS} ${i18n.t('queries per second')}:${o.QPS})`,
           value: o.key,
         })),
@@ -470,9 +470,9 @@ class OrderPage extends React.Component<IProps> {
     const showLabel = type === 'master';
     let formItemLayout: {
       [k: string]: {
-        sm: {span: number}
-        md?: {span: number}
-      }
+        sm: {span: number};
+        md?: {span: number};
+      };
     } = {
       labelCol: {
         sm: { span: 0 },
@@ -520,7 +520,7 @@ class OrderPage extends React.Component<IProps> {
           label: i18n.t('duration'),
           name: `ecsSettings.${type}.period`,
           type: 'select',
-          options: periodList.map(a => ({ value: a, name: a })),
+          options: periodList.map((a) => ({ value: a, name: a })),
           initialValue: periodList[0],
           formLayout: 'horizontal',
           formItemLayout,
@@ -615,13 +615,13 @@ class OrderPage extends React.Component<IProps> {
             <div className="ecs-block">
               <Row>
                 <Col span={10}>
-                  {this.getEcsFieldByType('master').map(field => <RenderFormItem key={field.name} {...field} form={form} />)}
+                  {this.getEcsFieldByType('master').map((field) => <RenderFormItem key={field.name} {...field} form={form} />)}
                 </Col>
                 <Col span={7}>
-                  {this.getEcsFieldByType('pubilc').map(field => <RenderFormItem key={field.name} {...field} form={form} />)}
+                  {this.getEcsFieldByType('pubilc').map((field) => <RenderFormItem key={field.name} {...field} form={form} />)}
                 </Col>
                 <Col span={7}>
-                  {this.getEcsFieldByType('private').map(field => <RenderFormItem key={field.name} {...field} form={form} />)}
+                  {this.getEcsFieldByType('private').map((field) => <RenderFormItem key={field.name} {...field} form={form} />)}
                 </Col>
               </Row>
             </div>
@@ -649,7 +649,7 @@ class OrderPage extends React.Component<IProps> {
             label: i18n.t('duration(month)'),
             name: 'redisSettings.period',
             type: 'radioGroup',
-            options: periodList.map(a => ({ value: a, name: a })),
+            options: periodList.map((a) => ({ value: a, name: a })),
           },
         ];
       }
@@ -660,7 +660,7 @@ class OrderPage extends React.Component<IProps> {
         label: this.getLinkLabel(i18n.t('specification'), i18n.t('check detail'), 'https://help.aliyun.com/document_detail/61135.html'),
         name: 'redisSettings.instanceClass',
         type: 'select',
-        options: fullList.map(item => ({
+        options: fullList.map((item) => ({
           name: `${item.text} (${i18n.t('org:maximum number of connections')}: ${item.maxConn}, ${i18n.t('maximum throughput')}: ${item.maxThrp})`,
           value: item.key,
         })),
@@ -728,7 +728,7 @@ class OrderPage extends React.Component<IProps> {
           label: i18n.t('duration'),
           name: 'rdsSettings.usedTime',
           type: 'radioGroup',
-          options: usedTimeList.map(a => ({ value: a, name: a })),
+          options: usedTimeList.map((a) => ({ value: a, name: a })),
         },
       ];
     }
@@ -738,7 +738,7 @@ class OrderPage extends React.Component<IProps> {
         label: this.getLinkLabel(i18n.t('specification'), i18n.t('check detail'), 'https://help.aliyun.com/document_detail/26312.html'),
         name: 'rdsSettings.dbInstanceClass',
         type: 'select',
-        options: rdsConfig.map(item => ({
+        options: rdsConfig.map((item) => ({
           name: `${item.key} (${item.cpu} ${item.mem} ${i18n.t('org:maximum number of connections')}: ${item.maxConn}, ${i18n.t('maximum IOPS')}: ${item.maxIOPS})`,
           value: item.key,
         })),
@@ -768,7 +768,7 @@ class OrderPage extends React.Component<IProps> {
         label: i18n.t('version'),
         name: 'rdsSettings.engineVersion',
         type: 'radioGroup',
-        options: ['5.5', '5.6', '5.7'].map(a => ({ name: a, value: a })),
+        options: ['5.5', '5.6', '5.7'].map((a) => ({ name: a, value: a })),
       },
       {
         label: this.getTipLabel(i18n.t('storage disk capacity'), i18n.t('local ssd')),
@@ -821,7 +821,7 @@ class OrderPage extends React.Component<IProps> {
         label: i18n.t('org:database encoding'),
         name: 'rdsSettings.parameters.character_set_server',
         type: 'radioGroup',
-        options: ['utf8', 'gbk', 'latin1', 'utf8mb4'].map(a => ({ name: a, value: a })),
+        options: ['utf8', 'gbk', 'latin1', 'utf8mb4'].map((a) => ({ name: a, value: a })),
       },
     ];
   };
@@ -930,7 +930,7 @@ class OrderPage extends React.Component<IProps> {
     return (
       <div className="purchase-cluster">
         <Steps className="step-wrap" current={step}>
-          {steps.map(item => <Step key={item.title} title={item.title} />)}
+          {steps.map((item) => <Step key={item.title} title={item.title} />)}
         </Steps>
         <div className="steps-content">{steps[step].content}</div>
       </div>
@@ -939,10 +939,10 @@ class OrderPage extends React.Component<IProps> {
 }
 
 const Mapper = () => {
-  const [availableRegions, availableZones] = purchaseStore.useStore(s => [s.availableRegions, s.availableZones]);
+  const [availableRegions, availableZones] = purchaseStore.useStore((s) => [s.availableRegions, s.availableZones]);
   const [isFetchingRegions, isFetchingZones] = useLoading(purchaseStore, ['getAvailableRegions', 'getAvailableZones']);
   const { addPhysicalCluster, getAvailableRegions, getAvailableZones, checkEcsAvailable } = purchaseStore.effects;
-  const params = routeInfoStore.useStore(s => s.params);
+  const params = routeInfoStore.useStore((s) => s.params);
   return {
     availableRegions,
     availableZones,

@@ -30,8 +30,8 @@ import './resources-chart-list.scss';
 interface IProps {
   clusters: any[];
   machineList: ORG_MACHINE.IMachine[];
-  setActiveKey(key: string): void;
-  getMachineStatus(hosts: string[]): Promise<any[]>;
+  setActiveKey: (key: string) => void;
+  getMachineStatus: (hosts: string[]) => Promise<any[]>;
 }
 
 const ResourcesChartList = ({
@@ -39,12 +39,12 @@ const ResourcesChartList = ({
   machineList,
   setActiveKey,
 }: IProps) => {
-  const [chartList, serviceList, jobList] = clusterDashboardStore.useStore(s => [s.chartList, s.serviceList, s.jobList]);
+  const [chartList, serviceList, jobList] = clusterDashboardStore.useStore((s) => [s.chartList, s.serviceList, s.jobList]);
   const { getChartData, getInstanceList } = clusterDashboardStore.effects;
   const [loading] = useLoading(clusterDashboardStore, ['getChartData']);
   const { getMachineStatus } = machineStore.effects;
-  const timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
-  const orgName = orgStore.useStore(s => s.currentOrg.name);
+  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const orgName = orgStore.useStore((s) => s.currentOrg.name);
 
   const getChartList = React.useCallback((extra: object) => {
     getChartData({ type: 'cpu', ...extra });
@@ -90,7 +90,7 @@ const ResourcesChartList = ({
     });
   }, [clusters, getInstanceList, orgName]);
 
-  const data = find(chartList, v => v === undefined) ? [] : chartList;
+  const data = find(chartList, (v) => v === undefined) ? [] : chartList;
   const hostNum = reduce(clusters, (result, item) => result + item.hostIPs.length, 0);
   const serviceNum = serviceList.length;
   const jobNum = jobList.length;
@@ -147,7 +147,7 @@ const ResourcesChartList = ({
           <Holder when={isEmpty(data)}>
             <Row gutter={24}>
               {
-                compact(data).map(item => (
+                compact(data).map((item) => (
                   <Col key={item.title} span={8}>
                     <ChartContainer title={item.title}>
                       <MonitorChartNew

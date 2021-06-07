@@ -17,9 +17,9 @@ import routeInfoStore from 'app/common/stores/route';
 import middlewareDashboardStore from '../../stores/middleware-dashboard';
 
 const Monitor = () => {
-  const baseInfo = middlewareDashboardStore.useStore(s => s.baseInfo);
+  const baseInfo = middlewareDashboardStore.useStore((s) => s.baseInfo);
   const { getBaseInfo } = middlewareDashboardStore.effects;
-  const { params } = routeInfoStore.getState(s => s);
+  const { params } = routeInfoStore.getState((s) => s);
 
   React.useEffect(() => {
     if (params.instanceId) {

@@ -27,11 +27,11 @@ import { message } from 'app/nusi';
 interface IProps {
   visible: boolean;
   formData: ISSUE_FIELD.IFiledItem;
-  closeModal: ()=>void;
-  onOk: ()=>void;
+  closeModal: () => void;
+  onOk: () => void;
 }
 
-const specialFieldNameList = [TASK_SP_FIELD, BUG_SP_FIELD].map(item => item.propertyName);
+const specialFieldNameList = [TASK_SP_FIELD, BUG_SP_FIELD].map((item) => item.propertyName);
 interface IFieldForm {
   displayName: string;
   propertyName: string;
@@ -41,7 +41,7 @@ interface IFieldForm {
 }
 export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps) => {
   const { addFieldItem, updateFieldItem, updateSpecialFieldOptions } = issueFieldStore.effects;
-  const { id: orgID } = orgStore.useStore(s => s.currentOrg);
+  const { id: orgID } = orgStore.useStore((s) => s.currentOrg);
 
   const [{
     selectedRequired,
@@ -61,7 +61,7 @@ export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps)
   }, [formData, update, updater, visible]);
 
 
-  const handleSubmit = async (values:IFieldForm) => {
+  const handleSubmit = async (values: IFieldForm) => {
     const { enumeratedValues, propertyName } = values;
     if (specialFieldNameList.includes(propertyName) && isEmpty(formData)) {
       message.warning(i18n.t('exist the same {key}', { key: i18n.t('project:field name') }));

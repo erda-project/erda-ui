@@ -38,8 +38,8 @@ interface IProps{
   startTimeMs: number;
   endTimeMs: number;
   form: WrappedFormUtils;
-  setSearchParam(args?: any): Promise<any>;
-  setTimeMs(arg1: string, arg2?: any): Promise<any>;
+  setSearchParam: (args?: any) => Promise<any>;
+  setTimeMs: (arg1: string, arg2?: any) => Promise<any>;
 }
 interface IState{
   searchParam: ISearchParam;
@@ -163,7 +163,7 @@ class TraceFilterForm extends React.Component<IProps, IState> {
                   return <Option key={index} value={service}>{service}</Option>;
                 })
               }
-            </Select>
+            </Select>,
           ),
         },
         {
@@ -180,7 +180,7 @@ class TraceFilterForm extends React.Component<IProps, IState> {
                 errorMsg: i18n.t('microService:start time cannot be greater than end time'),
               }),
             }],
-          })(<DatePicker disabled={searchIdOnly} className="full-width" showTime format="YYYY-MM-DD HH:mm:ss" placeholder={i18n.t('microService:please choose time')} onChange={this.setStartTimeMs} disabledDate={current => moment().isBefore(current)} />),
+          })(<DatePicker disabled={searchIdOnly} className="full-width" showTime format="YYYY-MM-DD HH:mm:ss" placeholder={i18n.t('microService:please choose time')} onChange={this.setStartTimeMs} disabledDate={(current) => moment().isBefore(current)} />),
         },
         {
           label: i18n.t('microService:end time'),
@@ -203,7 +203,7 @@ class TraceFilterForm extends React.Component<IProps, IState> {
             format="YYYY-MM-DD HH:mm:ss"
             placeholder={i18n.t('microService:please choose time')}
             onChange={this.setEndTimeMs}
-            disabledDate={current => moment().isBefore(current)}
+            disabledDate={(current) => moment().isBefore(current)}
             showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
           />),
         },
@@ -249,7 +249,7 @@ class TraceFilterForm extends React.Component<IProps, IState> {
 
     return (
       <div>
-        <Form className="trace-filter-form" onSubmit={e => this.handleGetTraceList(e)}>
+        <Form className="trace-filter-form" onSubmit={(e) => this.handleGetTraceList(e)}>
           {map(fileds, (row, index) => (
             <Row key={index}>
               {

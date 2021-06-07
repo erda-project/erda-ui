@@ -85,13 +85,13 @@ export const getVersionTree = <T = API_MARKET.VersionTree>({ assetID, ...rest }:
     .then((response: any) => response.body);
 };
 
-export const getMyProject = <T>(payload: { pageSize: number, pageNo: number, q?: string }): T => {
+export const getMyProject = <T>(payload: { pageSize: number; pageNo: number; q?: string }): T => {
   return agent.get('/api/projects/actions/list-my-projects')
     .query(payload)
     .then((response: any) => response.body);
 };
 
-export const getApps = <T>(payload: { pageSize: number, pageNo: number, projectId: number; q?: string }): T => {
+export const getApps = <T>(payload: { pageSize: number; pageNo: number; projectId: number; q?: string }): T => {
   return agent.get('/api/applications/actions/list-my-applications')
     .query(payload)
     .then((response: any) => response.body);
@@ -119,13 +119,13 @@ export const updateInstance = ({ assetID, minor, swaggerVersion, instantiationID
     .then((response: any) => response.body);
 };
 
-export const runAttemptTest = ({ assetID, swaggerVersion, ...rest }:API_MARKET.RunAttemptTest): API_MARKET.RunAttemptTestResponse => {
+export const runAttemptTest = ({ assetID, swaggerVersion, ...rest }: API_MARKET.RunAttemptTest): API_MARKET.RunAttemptTestResponse => {
   return agent.post(`/api/api-assets/${assetID}/swagger-versions/${swaggerVersion}/attempt-test`)
     .send({ ...rest })
     .then((response: any) => response.body);
 };
 
-export const getAppInstance = <T=API_MARKET.AppInstanceItem[]>({ appID }:{appID:number}): T => {
+export const getAppInstance = <T=API_MARKET.AppInstanceItem[]>({ appID }: {appID: number}): T => {
   return agent.get(`/api/api-app-services/${appID}`)
     .then((response: any) => response.body);
 };

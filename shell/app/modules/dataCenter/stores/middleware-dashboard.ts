@@ -39,7 +39,7 @@ interface IState {
   addonUsage: MIDDLEWARE_DASHBOARD.AddonUsage;
   addonDailyUsage: MIDDLEWARE_DASHBOARD.AddonDailyUsage;
   addonConfig: MIDDLEWARE_DASHBOARD.IActionsConfig;
-  addonStatus:string;
+  addonStatus: string;
   leftResources: MIDDLEWARE_DASHBOARD.LeftResources;
 }
 
@@ -113,7 +113,7 @@ const middlewareDashboard = createStore({
       return res;
     },
     async getAddonStatus({ call, update, select }, payload: MIDDLEWARE_DASHBOARD.IMiddleBase) {
-      const preStatus = select(s => s.addonStatus);
+      const preStatus = select((s) => s.addonStatus);
       const res = await call(getAddonStatus, payload);
       if (preStatus !== res.status) {
         update({ addonStatus: res.status || '' });
@@ -123,7 +123,7 @@ const middlewareDashboard = createStore({
     async getLeftResources({ call, update }, payload: {name: string}) {
       const { list = [] } = await call(getCurrentProject, payload);
       const { cpuQuota, memQuota, cpuAddonUsed, cpuServiceUsed, memAddonUsed, memServiceUsed } = (list[0] || {}) as PROJECT.Detail;
-      const leftResources:MIDDLEWARE_DASHBOARD.LeftResources = {
+      const leftResources: MIDDLEWARE_DASHBOARD.LeftResources = {
         availableCpu: cpuQuota - cpuServiceUsed - cpuAddonUsed,
         availableMem: memQuota - memServiceUsed - memAddonUsed,
         totalCpu: cpuQuota,

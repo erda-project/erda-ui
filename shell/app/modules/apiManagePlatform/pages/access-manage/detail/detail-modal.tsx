@@ -23,12 +23,12 @@ import moment from 'moment';
 interface IProps {
   visible: boolean;
   dataSource: API_ACCESS.Client;
-  onCancel():void;
+  onCancel: () => void;
 }
 
 const defaultData = {
   client: {} as API_CLIENT.Client,
-  contract: {}as API_CLIENT.Contract,
+  contract: {} as API_CLIENT.Contract,
   permission: {} as API_ACCESS.ClientPermission,
 } as API_ACCESS.Client;
 
@@ -37,7 +37,7 @@ const { Item: TimeLineItem } = Timeline;
 const DetailModal = ({ visible, onCancel, dataSource }: IProps) => {
   const { getOperationRecord } = apiAccessStore.effects;
   const { clearOperationRecord } = apiAccessStore.reducers;
-  const [records] = apiAccessStore.useStore(s => [s.operationRecord]);
+  const [records] = apiAccessStore.useStore((s) => [s.operationRecord]);
   const { client, contract } = { ...defaultData, ...dataSource };
   React.useEffect(() => {
     if (visible) {

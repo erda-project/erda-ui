@@ -34,10 +34,10 @@ const { TreeNode } = Tree;
 interface IApiDocTree {
   newTreeNode: API_SETTING.IFileTree;
   treeNodeData: Obj;
-  getQuoteMap: (e:any)=>void,
-  onSelectDoc: (docData:Obj, reset?: boolean)=>void,
-  popVisible:boolean,
-  onVisibleChange:(val:boolean)=>void,
+  getQuoteMap: (e: any) => void;
+  onSelectDoc: (docData: Obj, reset?: boolean) => void;
+  popVisible: boolean;
+  onVisibleChange: (val: boolean) => void;
 }
 const ApiDocTree = React.memo((props: IApiDocTree) => {
   const [{
@@ -48,10 +48,10 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
 
   const { getQuoteMap, onSelectDoc, newTreeNode, treeNodeData, popVisible, onVisibleChange } = props;
 
-  const { appId } = routeInfoStore.useStore(s => s.params);
-  const { inode: inodeQuery, pinode: pinodeQuery } = routeInfoStore.useStore(s => s.query);
+  const { appId } = routeInfoStore.useStore((s) => s.params);
+  const { inode: inodeQuery, pinode: pinodeQuery } = routeInfoStore.useStore((s) => s.query);
 
-  const [branchList, apiWs, isDocChanged, isSaved, wsQuery] = apiDesignStore.useStore(s => [
+  const [branchList, apiWs, isDocChanged, isSaved, wsQuery] = apiDesignStore.useStore((s) => [
     s.branchList, s.apiWs, s.isDocChanged, s.isSaved, s.wsQuery,
   ]);
 
@@ -93,17 +93,17 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
     }
   }, [treeList]);
 
-  const jumpToNewDoc = React.useCallback(({ inode, branches, pinode }:{
-    inode:string,
-    pinode:string,
-    branches?:API_SETTING.IFileTree[],
+  const jumpToNewDoc = React.useCallback(({ inode, branches, pinode }: {
+    inode: string;
+    pinode: string;
+    branches?: API_SETTING.IFileTree[];
   }) => {
     if (!inode || !pinode) return;
 
     apiWs && apiWs.close();
     const _branchList = branches || branchList;
 
-    getApiDetail(inode).then(data => {
+    getApiDetail(inode).then((data) => {
       getQuoteMap(data.openApiDoc);
       updateSearch({ inode, pinode });
       const _branch = find(_branchList, { inode: pinode });
@@ -133,18 +133,18 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
       execOperation: (operationKey: string, extraParam?: Obj) => {
         if (operationKey === API_TREE_OPERATION.delete) {
           deleteTreeNode(titleData).then(() => {
-            const tempData = produce(treeListRef.current, draft => {
+            const tempData = produce(treeListRef.current, (draft) => {
               forEach(draft, (d: any) => {
                 if (d.key === pinode) {
-                  d.children = filter(d.children, item => item.name !== name);
+                  d.children = filter(d.children, (item) => item.name !== name);
                 }
               });
             });
             updater.treeList(tempData as API_SETTING.IFileTree[]);
           });
         } else {
-          renameTreeNode({ ...titleData, name: extraParam?.name }).then(res => {
-            const tempData = produce(treeListRef.current, draft => {
+          renameTreeNode({ ...titleData, name: extraParam?.name }).then((res) => {
+            const tempData = produce(treeListRef.current, (draft) => {
               forEach(draft, (d: any) => {
                 if (d.key === pinode) {
                   forEach(d.children, (c: any) => {
@@ -179,9 +179,9 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
 
       const oldBranch = find(treeList, { key: pinode });
 
-      const tempTreeData = produce(treeList, draft => {
+      const tempTreeData = produce(treeList, (draft) => {
         if (!oldBranch) {
-          const newBranch:API_SETTING.IFileTree = find(branchList, { inode: pinode });
+          const newBranch: API_SETTING.IFileTree = find(branchList, { inode: pinode });
           if (newBranch) {
             const newBranchNode = {
               title: <BranchTitle name={newBranch.name} />,
@@ -195,7 +195,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
             draft.push(newBranchNode);
           }
         } else {
-          some(draft, item => {
+          some(draft, (item) => {
             if (item.key === pinode && item.children) {
               item.children.push(newNode);
               return true;
@@ -238,8 +238,8 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
       const curPinode = treeNode?.props?.eventKey;
       getTreeList({
         pinode: curPinode,
-      }).then(res => {
-        const tempList = map(res, item => {
+      }).then((res) => {
+        const tempList = map(res, (item) => {
           const { name, inode, meta } = item;
           return {
             title: <TreeTitle {...getTitleProps(item)} key={inode} popToggle={onVisibleChange} />,
@@ -305,7 +305,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
       scope: 'application',
       scopeID: +appId,
     }).then((res: API_SETTING.IFileTree[]) => {
-      const validBranches:API_SETTING.IFileTree[] = filter(res, b => b?.meta?.hasDoc) || [];
+      const validBranches: API_SETTING.IFileTree[] = filter(res, (b) => b?.meta?.hasDoc) || [];
 
       const tempList = map(validBranches, ({ name, inode }) => {
         return {
@@ -322,7 +322,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
       if (!pinodeQuery && !isEmpty(validBranches)) {
         const { inode } = validBranches[0];
 
-        getTreeList({ pinode: inode }).then(docList => {
+        getTreeList({ pinode: inode }).then((docList) => {
           if (docList?.length) {
             const { inode: docInode, pinode: docPinode } = docList[0];
             jumpToNewDoc({ inode: docInode, branches: validBranches, pinode: docPinode });

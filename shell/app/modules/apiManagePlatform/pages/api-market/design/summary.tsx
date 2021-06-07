@@ -24,9 +24,9 @@ import { produce } from 'immer';
 const { Fields } = FormBuilder;
 
 interface IApiInfo {
-  title?: string,
-  version?: string,
-  description?: string,
+  title?: string;
+  version?: string;
+  description?: string;
 }
 
 const ApiSummary = () => {
@@ -39,7 +39,7 @@ const ApiSummary = () => {
   });
 
   const formRef = React.useRef<WrappedFormUtils>(null as any);
-  const [openApiDoc, apiLockState] = apiDesignStore.useStore(s => [
+  const [openApiDoc, apiLockState] = apiDesignStore.useStore((s) => [
     s.openApiDoc, s.apiLockState,
   ]);
 
@@ -53,10 +53,10 @@ const ApiSummary = () => {
     });
   }, [openApiDoc]);
 
-  const setField = (propertyName:string, val:any) => {
+  const setField = (propertyName: string, val: any) => {
     const info = formRef.current?.getFieldsValues();
     info[propertyName] = val;
-    const tempDetail = produce(openApiDoc, draft => {
+    const tempDetail = produce(openApiDoc, (draft) => {
       draft.info = info;
     });
 
@@ -72,7 +72,7 @@ const ApiSummary = () => {
       customProps: {
         maxLength: INPUT_MAX_LENGTH,
         disabled: apiLockState,
-        onChange: (e:React.ChangeEvent<HTMLInputElement>) => {
+        onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
           const newName = e.target.value;
           if (newName) {
             setField('title', newName);
@@ -91,7 +91,7 @@ const ApiSummary = () => {
       customProps: {
         disabled: apiLockState,
         maxLength: INPUT_MAX_LENGTH,
-        onChange: (e:React.ChangeEvent<HTMLInputElement>) => {
+        onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
           const newVersion = e.target.value;
           if (newVersion) {
             setField('version', newVersion);
@@ -112,7 +112,7 @@ const ApiSummary = () => {
         readOnly: apiLockState,
         defaultMode: apiLockState ? 'html' : 'md',
         maxLength: TEXTAREA_MAX_LENGTH,
-        onChange: (val:string) => setField('description', val),
+        onChange: (val: string) => setField('description', val),
       },
     },
   ];

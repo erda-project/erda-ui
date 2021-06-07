@@ -28,7 +28,7 @@ const TestCompMap = {
 };
 
 const TestCase = () => {
-  const testType = routeInfoStore.getState(s => s.params.testType) || TEST_TYPE.manual;
+  const testType = routeInfoStore.getState((s) => s.params.testType) || TEST_TYPE.manual;
   const Comp = TestCompMap[testType];
 
   return <Comp />;

@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import { addBranchRule, getBranchRules, deleteBranchRule, updateBranchRule } from '../services/branch-rule';
 
 interface IState {
-  branchRules: PROJECT.IBranchRule[]
+  branchRules: PROJECT.IBranchRule[];
 }
 
 const initState: IState = {

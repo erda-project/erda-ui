@@ -16,23 +16,23 @@ import agent from 'agent';
 export const getAlarmReport = ({ query, chartType }) => {
   return agent.get(`/api/orgCenter/metrics/${chartType}/histogram`)
     .query(query)
-    .then(response => response.body);
+    .then((response) => response.body);
 };
 
 export const getSystemReport = ({ query }) => {
   return agent.get('/api/orgCenter/metrics/machine_load/histogram')
     .query(query)
-    .then(response => response.body);
+    .then((response) => response.body);
 };
 
 export const getCPUAlarmReport = ({ query }) => {
   return agent.get('/api/orgCenter/metrics/machine_cpu/histogram')
     .query(query)
-    .then(response => response.body);
+    .then((response) => response.body);
 };
 
 export const getProcessCmdline = (payload) => {
   return agent.get('/api/orgCenter/metrics/procstat')
     .query(payload)
-    .then(response => response.body);
+    .then((response) => response.body);
 };

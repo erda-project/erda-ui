@@ -26,7 +26,7 @@ interface IMenuItem {
 
 interface IMenu {
   activeKey: string;
-  menus?: Array<{ key: string, name: string }> | Function;
+  menus?: Array<{ key: string; name: string }> | Function;
   className?: string;
   TabRightComp?: typeof React.Component;
   beforeTabChange?: Function;
@@ -42,7 +42,7 @@ export const Menu = (props: IMenu) => {
   });
 
   React.useEffect(() => {
-    update(prev => ({
+    update((prev) => ({
       reMenus: menus,
       renderKey: prev.renderKey + 1,
     }));
@@ -55,7 +55,7 @@ const PureMenu = (props: IMenu) => {
   const {
     activeKey, menus, className = '', TabRightComp, beforeTabChange, ignoreTabQuery, keepTabQuery, ...rest
   } = props;
-  const breadcrumbInfoMap = breadcrumbStore.useStore(s => s.infoMap);
+  const breadcrumbInfoMap = breadcrumbStore.useStore((s) => s.infoMap);
   const finalMenus = typeof menus === 'function' ? menus({ ...props, breadcrumbInfoMap }) : menus;
   if (!finalMenus || !finalMenus.length) {
     return null;

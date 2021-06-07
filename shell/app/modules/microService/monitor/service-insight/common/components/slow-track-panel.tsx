@@ -27,13 +27,13 @@ interface ISlowTrackProps {
   data: MONITOR_SI.ITableData[];
   query: object;
   timeSpan: ITimeSpan;
-  viewLog(params: any): void;
-  fetchTraceContent(params: any): void;
+  viewLog: (params: any) => void;
+  fetchTraceContent: (params: any) => void;
 }
 
 export const webSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceContent }: ISlowTrackProps) => {
   const { getSubSlowHttpList } = SIWebStore.effects;
-  const subSlowHttpList = SIWebStore.useStore(s => s.subSlowHttpList);
+  const subSlowHttpList = SIWebStore.useStore((s) => s.subSlowHttpList);
   const list = get(data, 'list') || [];
   const { startTimeMs: start, endTimeMs: end } = timeSpan || {};
 
@@ -112,7 +112,7 @@ export const webSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCo
 
 export const dbSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceContent }: ISlowTrackProps) => {
   const { getSubSlowDbList } = SIDataBaseStore.effects;
-  const subSlowDbList = SIDataBaseStore.useStore(s => s.subSlowDbList);
+  const subSlowDbList = SIDataBaseStore.useStore((s) => s.subSlowDbList);
   const list = get(data, 'list') || [];
   const { startTimeMs: start, endTimeMs: end } = timeSpan || {};
 

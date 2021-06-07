@@ -52,7 +52,7 @@ export const changePerm2Yml = (permData: any, scope: string, ROLES: Obj) => {
     } else {
       const customRole = [] as string[];
       const regularRole = [] as string[];
-      map(role, rItem => {
+      map(role, (rItem) => {
         if (ROLES[rItem] && !ROLES[rItem].isCustomRole) {
           regularRole.push(rItem);
         } else {

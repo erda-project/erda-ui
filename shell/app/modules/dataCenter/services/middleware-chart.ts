@@ -29,7 +29,7 @@ export interface IChartDataQuery {
   points: number;
 }
 
-export const getChartMeta = (params: { type: string; }): IChartMeta[] => {
+export const getChartMeta = (params: { type: string }): IChartMeta[] => {
   return agent.get('/api/chart/meta')
     .query(params)
     .then((response: any) => response.body);

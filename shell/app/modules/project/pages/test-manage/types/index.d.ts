@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-export type TestsetListDTO = {
+export interface TestsetListDTO {
   // 是否引用项目
   isReference: boolean;
   // 非回收测试集列表集合
@@ -22,10 +22,10 @@ export type TestsetListDTO = {
   projectId: string;
   // 项目名称
   projectName: string;
-};
+}
 
 
-export type TestsetDTO = {
+export interface TestsetDTO {
   // 后端无注释
   createdAt: string;
   // 后端无注释
@@ -54,10 +54,10 @@ export type TestsetDTO = {
   updatedAt: string;
   // 后端无注释
   updatedId: string;
-};
+}
 
 
-export type UseCaseListDTO = {
+export interface UseCaseListDTO {
   // 测试执行人
   actorId: string;
   // 测试执行人
@@ -107,4 +107,4 @@ export type UseCaseListDTO = {
   updatedUserName: string;
   // 用例类型
   usecaseType: string;
-};
+}

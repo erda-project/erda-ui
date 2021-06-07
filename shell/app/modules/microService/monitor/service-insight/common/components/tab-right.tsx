@@ -34,7 +34,7 @@ const instanceGroupHandler = (dataKey: string) => (originData: object) => {
 const reqUrlPrefix = '/api/spot/tmc/metrics';
 
 const TabRight = ({ type = '' }: {type?: string}) => {
-  const DICE_CLUSTER_TYPE = microServiceStore.useStore(s => s.DICE_CLUSTER_TYPE);
+  const DICE_CLUSTER_TYPE = microServiceStore.useStore((s) => s.DICE_CLUSTER_TYPE);
   const isDcos = DICE_CLUSTER_TYPE === 'dcos';
   const modulesMap = {
     jvm: {

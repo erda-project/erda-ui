@@ -28,16 +28,16 @@ declare namespace APP_CONFIG{
     comment?: string;
   }
   interface QueryConfig {
-    namespaceParams: IBaseQuery[]
+    namespaceParams: IBaseQuery[];
   }
 
   interface AddConfig {
     query: IBaseQuery;
-    configs: IConfigItem[]
+    configs: IConfigItem[];
   }
 
   interface DeleteConfig {
     namespace_name: string;
-    key: string
+    key: string;
   }
 }

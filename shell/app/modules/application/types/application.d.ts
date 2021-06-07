@@ -46,73 +46,73 @@ declare namespace APPLICATION {
   type appMode = 'SERVICE' | 'MOBILE' | 'LIBRARY' | 'BIGDATA' | 'ABILITY';
 
   interface IQuery{
-    pageNo:number;
-    pageSize:number;
+    pageNo: number;
+    pageSize: number;
   }
 
   interface GetAppList {
     pageSize: number;
     pageNo: number;
-    projectId: number | string
-    q?: string
+    projectId: number | string;
+    q?: string;
     searchKey?: string;
     loadMore?: boolean;
     memberID?: string;
   }
 
   interface IBranchInfo {
-    artifactWorkspace: string
-    isProtect: boolean
-    name: string
-    workspace: Workspace
+    artifactWorkspace: string;
+    isProtect: boolean;
+    name: string;
+    workspace: Workspace;
   }
 
 }
 
 interface IApplication {
-  config: null
-  createdAt: string
-  creator: string
+  config: null;
+  createdAt: string;
+  creator: string;
   isPublic?: boolean;
-  desc: string
-  gitRepo: string
-  gitRepoAbbrev: string
-  id: number
-  logo: string
-  mode: APPLICATION.appMode
-  name: string
+  desc: string;
+  gitRepo: string;
+  gitRepoAbbrev: string;
+  id: number;
+  logo: string;
+  mode: APPLICATION.appMode;
+  name: string;
   displayName: string;
-  orgId: number
-  orgName: string
-  orgDisplayName: string
-  pined: false
-  projectId: number
-  projectName: string
-  projectDisplayName: string
+  orgId: number;
+  orgName: string;
+  orgDisplayName: string;
+  pined: false;
+  projectId: number;
+  projectName: string;
+  projectDisplayName: string;
   stats: {
-    countRuntimes: number,
-    countMembers: number,
-    timeLastModified: string
-  }
-  countMembers: number
-  countRuntimes: number
-  timeLastModified: string
-  updatedAt: string
-  workspaces: IAppWorkspace[]
-  clusterName: string
-  configNamespace: string
+    countRuntimes: number;
+    countMembers: number;
+    timeLastModified: string;
+  };
+  countMembers: number;
+  countRuntimes: number;
+  timeLastModified: string;
+  updatedAt: string;
+  workspaces: IAppWorkspace[];
+  clusterName: string;
+  configNamespace: string;
   workspace: string;
   token: string;
   isExternalRepo: boolean;
   repoConfig?: APPLICATION.GitRepoConfig;
-  unBlockStart: string,
-  unBlockEnd: string,
+  unBlockStart: string;
+  unBlockEnd: string;
   blockStatus: PROJECT.BlockStatus;
   isProjectLevel: boolean;
 }
 
 interface IAppWorkspace {
-  clusterName: string
-  workspace: string
-  configNamespace: string
+  clusterName: string;
+  workspace: string;
+  configNamespace: string;
 }

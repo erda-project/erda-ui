@@ -30,8 +30,8 @@ interface IApp{
 const AppsSelector = () => {
   const { getProjectApps } = monitorCommonStore.effects;
   const { changeChosenApp } = monitorCommonStore.reducers;
-  const [projectApps, appPaging, chosenApp] = monitorCommonStore.useStore(s => [s.projectApps, s.projectAppsPaging, s.chosenApp]);
-  const query = routeInfoStore.useStore(s => s.query);
+  const [projectApps, appPaging, chosenApp] = monitorCommonStore.useStore((s) => [s.projectApps, s.projectAppsPaging, s.chosenApp]);
+  const query = routeInfoStore.useStore((s) => s.query);
 
   const [{ searchKey }, updater] = useUpdate({
     searchKey: '',
@@ -101,7 +101,7 @@ const AppsSelector = () => {
   const nameStyle = `nowrap ${!name ? 'p-holder' : ''}`;
   const switchList = (
     <div className="app-selector-switcher full-width">
-      <div className="input-wrap" onClick={e => e.stopPropagation()}>
+      <div className="input-wrap" onClick={(e) => e.stopPropagation()}>
         <Input placeholder={i18n.t('microService:search for')} onChange={filterList} value={searchKey} />
       </div>
       <ul>

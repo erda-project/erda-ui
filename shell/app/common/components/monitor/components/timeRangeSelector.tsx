@@ -26,8 +26,8 @@ interface IProps {
   inline?: boolean;
   query?: any;
   className?: string;
-  onChangeTime(args: any): void;
-  disabledDate?(arg: any): boolean;
+  onChangeTime: (args: any) => void;
+  disabledDate?: (arg: any) => boolean;
 }
 interface IState {
   value: [Moment, Moment];
@@ -69,10 +69,10 @@ class TimeSelector extends React.Component<IProps, IState> {
     return null;
   }
 
-  onChangeTime = (value: any) => {  //After updating to Antd4.x, click OK to trigger the onChange
+  onChangeTime = (value: any) => { // After updating to Antd4.x, click OK to trigger the onChange
     this.setState({ value }, () => {
       this.props.onChangeTime(value);
-    })
+    });
   };
 
   onOpenChange = (status: boolean) => {

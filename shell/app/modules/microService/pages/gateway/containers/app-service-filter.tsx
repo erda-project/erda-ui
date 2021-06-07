@@ -21,21 +21,21 @@ const { Option } = Select;
 
 interface IProps {
   updateField: Function;
-  dataSource: { diceApp: string, diceService: string };
+  dataSource: { diceApp: string; diceService: string };
 }
 
 export const AppServiceFilter = ({ updateField, dataSource }: IProps) => {
-  const registerApps = gatewayStore.useStore(s => s.registerApps);
+  const registerApps = gatewayStore.useStore((s) => s.registerApps);
   const [appList, setAppList] = React.useState([] as any[]);
   const [serviceList, setServiceList] = React.useState([] as any[]);
   const { diceApp, diceService } = dataSource;
 
   React.useEffect(() => {
-    !isEmpty(registerApps) && setAppList(registerApps.map(app => app.name));
+    !isEmpty(registerApps) && setAppList(registerApps.map((app) => app.name));
   }, [registerApps]);
 
   const onAppChange = (appName: string) => {
-    const targetApp = registerApps.find(rApp => rApp.name === appName);
+    const targetApp = registerApps.find((rApp) => rApp.name === appName);
     setServiceList(targetApp.services);
     updateField({ diceApp: appName, diceService: targetApp.services[0] });
   };

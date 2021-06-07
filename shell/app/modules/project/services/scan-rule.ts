@@ -38,7 +38,7 @@ export const batchInsertScanRule = (data: SCAN_RULE.IBatchInsertBody) => {
     .then((response: any) => response.body);
 };
 
-export const deleteScanRule = ({ id, ...rest }:SCAN_RULE.IDeleteBody) => {
+export const deleteScanRule = ({ id, ...rest }: SCAN_RULE.IDeleteBody) => {
   return agent.delete(`/api/sonar-metric-rules/${id}`).send(rest)
     .then((response: any) => response.body);
 };

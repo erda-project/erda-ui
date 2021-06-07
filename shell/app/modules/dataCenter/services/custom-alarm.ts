@@ -19,7 +19,7 @@ export const getCustomAlarms = (params: COMMON_CUSTOM_ALARM.IPageParam): IPaging
     .then((response: any) => response.body);
 };
 
-export const getCustomAlarmDetail = ({ id }: { id: number; }): COMMON_CUSTOM_ALARM.CustomAlarmDetail => {
+export const getCustomAlarmDetail = ({ id }: { id: number }): COMMON_CUSTOM_ALARM.CustomAlarmDetail => {
   return agent.get(`/api/orgCenter/customize/alerts/${id}`)
     .then((response: any) => response.body);
 };

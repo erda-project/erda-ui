@@ -19,7 +19,7 @@ import projectStore from 'project/stores/project';
 import { WORKSPACE_LIST } from 'common/constants';
 
 interface IProps {
-  hasEditAuth: boolean
+  hasEditAuth: boolean;
 }
 
 const workSpaceMap = {
@@ -29,7 +29,7 @@ const workSpaceMap = {
   PROD: i18n.t('prod environment'),
 };
 export default ({ hasEditAuth }: IProps) => {
-  const info = projectStore.useStore(s => s.info);
+  const info = projectStore.useStore((s) => s.info);
   const { updateProject } = projectStore.effects;
   const { rollbackConfig } = info;
 

@@ -29,11 +29,11 @@ interface IProps{
 
 const Authenticate = (props: IProps) => {
   const { artifacts } = props;
-  const timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
-  const publishItemMonitors = publisherStore.useStore(s => s.publishItemMonitors);
+  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const publishItemMonitors = publisherStore.useStore((s) => s.publishItemMonitors);
   const artifactId = artifacts.id;
   const [loading] = useLoading(authenticateStroe, ['getList']);
-  const publishOperationAuth = usePerm(s => s.org.publisher.operation.pass);
+  const publishOperationAuth = usePerm((s) => s.org.publisher.operation.pass);
   const [{ selectMonitorKey }, updater] = useUpdate({
     selectMonitorKey: Object.keys(publishItemMonitors)[0],
   });
@@ -48,9 +48,9 @@ const Authenticate = (props: IProps) => {
     return { artifactId, start: startTimeMs, end: endTimeMs, ...monitorKey };
   }, [timeSpan, artifactId, monitorKey]);
   const { getList, addBlackList, addErase } = authenticateStroe.effects;
-  const list = authenticateStroe.useStore(s => s.list);
+  const list = authenticateStroe.useStore((s) => s.list);
 
-  const getData = React.useCallback((q:any) => {
+  const getData = React.useCallback((q: any) => {
     getList(q);
   }, [getList]);
 
@@ -62,7 +62,7 @@ const Authenticate = (props: IProps) => {
     {
       title: i18n.t('user ID'),
       dataIndex: 'userId',
-      render: (v:string) => (
+      render: (v: string) => (
         <Tooltip title={v}>
           <span
             className="for-copy"
@@ -90,7 +90,7 @@ const Authenticate = (props: IProps) => {
     {
       title: i18n.t('device ID'),
       dataIndex: 'deviceNo',
-      render: (v:string) => (
+      render: (v: string) => (
         <Tooltip title={v}>
           <span
             className="for-copy"
@@ -106,13 +106,13 @@ const Authenticate = (props: IProps) => {
       title: i18n.t('last login time'),
       dataIndex: 'lastLoginTime',
       width: 200,
-      render: (v:string) => (v ? moment(v).format('YYYY-MM-DD HH:mm:ss') : '-'),
+      render: (v: string) => (v ? moment(v).format('YYYY-MM-DD HH:mm:ss') : '-'),
     },
     {
       title: i18n.t('common:operation'),
       dataIndex: 'operation',
       width: 160,
-      render: (_v: unknown, record:PUBLISHER.IAuthenticate) => {
+      render: (_v: unknown, record: PUBLISHER.IAuthenticate) => {
         const { deviceNo } = record;
         return (
           <div className="table-operations">

@@ -20,16 +20,16 @@ import routeInfoStore from 'app/common/stores/route';
 import { isEqual } from 'lodash';
 
 type IProps = Merge<Partial<DC.PureBoardGridProps>, {
-  dashboardId: string,
-  extraGlobalVariable?: Record<string, any>,
-  timeSpan?: ITimeSpan
+  dashboardId: string;
+  extraGlobalVariable?: Record<string, any>;
+  timeSpan?: ITimeSpan;
 }>;
 
 const ServiceListDashboard: React.FC<IProps> = ({ timeSpan: times, dashboardId, extraGlobalVariable, ...rest }) => {
-  const _timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
+  const _timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
   // when the parent component depends on timeSpan, use the timeSpan of the parent component to prevent duplicate requests
   const timeSpan = times || _timeSpan;
-  const params = routeInfoStore.useStore(s => s.params);
+  const params = routeInfoStore.useStore((s) => s.params);
   const { getCustomDashboard } = dashboardStore;
   const [layout, setLayout] = useState<DC.Layout>([]);
 
@@ -47,7 +47,7 @@ const ServiceListDashboard: React.FC<IProps> = ({ timeSpan: times, dashboardId, 
   }, [extraGlobalVariable, params, timeSpan]);
 
   useEffect(() => {
-    getCustomDashboard({ id: dashboardId, isSystem: true }).then(res => {
+    getCustomDashboard({ id: dashboardId, isSystem: true }).then((res) => {
       setLayout(res);
     });
   }, [dashboardId, getCustomDashboard]);

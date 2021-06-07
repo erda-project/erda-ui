@@ -33,7 +33,7 @@ describe('ErrorBoundary', () => {
     const wrapper = mount(
       <ErrorBoundary>
         <Something />
-      </ErrorBoundary>
+      </ErrorBoundary>,
     );
     const error = new Error('test');
     wrapper.find(Something).simulateError(error);
@@ -43,12 +43,12 @@ describe('ErrorBoundary', () => {
   });
   it('errorCatcher should work well', () => {
     const Copm = errorCatcher(
-      <div className="error-catcher" />
+      <div className="error-catcher" />,
     );
     const wrapper = mount(
       <div>
         {Copm}
-      </div>
+      </div>,
     );
     expect(wrapper.find('.error-catcher')).toExist();
   });

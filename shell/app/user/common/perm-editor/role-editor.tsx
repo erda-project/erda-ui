@@ -23,7 +23,7 @@ export interface IRoleData {
   value: string;
 }
 interface IProps{
-  data: Obj<IRoleData>
+  data: Obj<IRoleData>;
   updateRole: (arg: Obj) => void;
 }
 
@@ -42,7 +42,7 @@ const AddRole = (props: IProps) => {
   const onOk = (v: any) => {
     const { roles } = v;
     const newRole = {};
-    map(roles, item => {
+    map(roles, (item) => {
       newRole[item.value] = item;
     });
     updateRole(newRole);
@@ -76,11 +76,11 @@ const AddRole = (props: IProps) => {
         defaultItem: { value: '', name: '', isCustomRole: false },
         itemRender: (_data: Obj, updateItem: Function) => {
           return [
-            <Input key='value' value={_data.value} onChange={(e: any) => updateItem({ value: e.target.value })} placeholder={i18n.t('please enter')} />,
-            <Input key='name' value={_data.name} onChange={(e: any) => updateItem({ name: e.target.value })} placeholder={i18n.t('please enter')} />,
-            <div key='isCustomRole' className='flex-box'>
-              <span className='color-text-desc nowrap'>{i18n.t('customize')} {i18n.t('role') }</span>
-              <Switch key='isCustomRole' checked={!!_data.isCustomRole} onChange={v => updateItem({ isCustomRole: v })} checkedChildren={i18n.t('common:yes')} unCheckedChildren={i18n.t('common:no')} />
+            <Input key="value" value={_data.value} onChange={(e: any) => updateItem({ value: e.target.value })} placeholder={i18n.t('please enter')} />,
+            <Input key="name" value={_data.name} onChange={(e: any) => updateItem({ name: e.target.value })} placeholder={i18n.t('please enter')} />,
+            <div key="isCustomRole" className="flex-box">
+              <span className="color-text-desc nowrap">{i18n.t('customize')} {i18n.t('role') }</span>
+              <Switch key="isCustomRole" checked={!!_data.isCustomRole} onChange={(v) => updateItem({ isCustomRole: v })} checkedChildren={i18n.t('common:yes')} unCheckedChildren={i18n.t('common:no')} />
             </div>,
           ];
         },
@@ -114,8 +114,8 @@ const AddRole = (props: IProps) => {
   ];
 
   return (
-    <div className='flex-box'>
-      <Button size='small' onClick={onOpen}>{i18n.t('edit {name}', { name: i18n.t('role') })}</Button>
+    <div className="flex-box">
+      <Button size="small" onClick={onOpen}>{i18n.t('edit {name}', { name: i18n.t('role') })}</Button>
       <FormModal
         width={650}
         visible={visible}

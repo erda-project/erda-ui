@@ -24,50 +24,50 @@ declare namespace Certificate {
         province: string;
         state: string;
         name: string;
-        debugKeyStore:{
+        debugKeyStore: {
           keyPassword: string;
           storePassword: string;
-        },
-        releaseKeyStore:{
+        };
+        releaseKeyStore: {
           keyPassword: string;
           storePassword: string;
-        },
-      },
+        };
+      };
       manualCreate: boolean;
       manualInfo?: {
         debugKeyStore: {
           fileName: string;
           keyPassword: string;
           storePassword: string;
-          uuid: string
-        },
+          uuid: string;
+        };
         releaseKeyStore: {
           fileName: string;
           keyPassword: string;
           storePassword: string;
-          uuid: string
-        }
-      }
-    },
+          uuid: string;
+        };
+      };
+    };
     iosInfo?: {
       debugProvision: {
         fileName: string;
-        uuid: string
-      },
+        uuid: string;
+      };
       keyChainP12: {
         fileName: string;
         password: string;
-        uuid: string
-      },
+        uuid: string;
+      };
       releaseProvision: {
         fileName: string;
         uuid: string;
-      }
-    },
+      };
+    };
     messageInfo?: {
       fileName: string;
       uuid: string;
-    },
+    };
     name: string;
     orgId: number;
     type: string;
@@ -75,17 +75,17 @@ declare namespace Certificate {
   }
 
   interface UpdateBody {
-    id: number | string
+    id: number | string;
     desc: string;
-    uuid: string // 证书上传返回的地址
-    filename: string
+    uuid: string; // 证书上传返回的地址
+    filename: string;
   }
 
   interface ListQuery {
-    appID: number
-    type: Type
-    pageNo: number
-    pageSize: number
+    appID: number;
+    type: Type;
+    pageNo: number;
+    pageSize: number;
   }
 }
 

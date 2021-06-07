@@ -38,17 +38,17 @@ import { getProjectMenu } from 'app/menus';
 import issueWorkflowStore from 'project/stores/issue-workflow';
 
 interface IState {
-  list: PROJECT.Detail[]
-  paging: IPaging
-  info: PROJECT.Detail,
-  isAdmin: boolean,
-  curProjectId: string,
-  statusPageVisible: boolean,
-  projectAppList: IApplication[],
-  projectAppPaging: IPaging,
-  projectSettingAppList: IApplication[],
-  projectSettingAppPaging: IPaging,
-  leftResources: PROJECT.LeftResources | {},
+  list: PROJECT.Detail[];
+  paging: IPaging;
+  info: PROJECT.Detail;
+  isAdmin: boolean;
+  curProjectId: string;
+  statusPageVisible: boolean;
+  projectAppList: IApplication[];
+  projectAppPaging: IPaging;
+  projectSettingAppList: IApplication[];
+  projectSettingAppPaging: IPaging;
+  leftResources: PROJECT.LeftResources | {};
 }
 
 const initState: IState = {
@@ -80,7 +80,7 @@ const project = createStore({
   subscriptions({ listenRoute }: IStoreSubs) {
     listenRoute(({ params, isIn, isLeaving }) => {
       const { projectId, spaceId } = params;
-      const curProjectId = project.getState(s => s.curProjectId);
+      const curProjectId = project.getState((s) => s.curProjectId);
       if (isIn('project')) {
         if (`${curProjectId}` !== projectId) {
           loadingInProject = true;
@@ -92,7 +92,7 @@ const project = createStore({
             id: projectId,
             routeMark: 'project',
             cb() {
-              project.effects.getProjectInfo(projectId, true).then(detail => {
+              project.effects.getProjectInfo(projectId, true).then((detail) => {
                 loadingInProject = false;
                 layoutStore.reducers.setSubSiderInfoMap({
                   key: 'project',
@@ -112,7 +112,7 @@ const project = createStore({
       }
 
       if (isIn('autoTestSpaceDetail')) {
-        getAutoTestSpaceDetail({ spaceId }).then((res:any) => {
+        getAutoTestSpaceDetail({ spaceId }).then((res: any) => {
           breadcrumbStore.reducers.setInfo('testSpaceName', get(res, 'data.name'));
         });
       }
@@ -125,14 +125,14 @@ const project = createStore({
   },
   effects: {
     async getProjectList({ call, update }, payload: Optional<PROJECT.ListQuery, 'orgId' | 'pageSize'>) {
-      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const orgId = orgStore.getState((s) => s.currentOrg.id);
       if (orgId !== undefined) {
         const { list } = await call(getProjectList, { orgId, pageSize: PAGINATION.pageSize, ...payload }, { paging: { key: 'paging' } });
         update({ list });
       }
     },
     async getProjectInfo({ select, call, update }, projectId: string | number, fromRouteChange?: boolean) {
-      const projectInfo = select(s => s.info);
+      const projectInfo = select((s) => s.info);
       if (fromRouteChange && +projectInfo.id === +projectId) {
         return projectInfo;
       }
@@ -145,7 +145,7 @@ const project = createStore({
       return call(createProject, payload, { successMsg: i18n.t('project:create project success'), fullResult: true });
     },
     async updateProject({ select, call }, payload: PROJECT.UpdateBody, isUpdateCluster?: boolean) {
-      const projectInfo = select(state => state.info);
+      const projectInfo = select((state) => state.info);
       if (isEmpty(projectInfo)) {
         return;
       }
@@ -173,7 +173,7 @@ const project = createStore({
       const { loadMore, ...rest } = payload;
       const projectId = rest.projectId || routeParams.projectId;
       const { total, list: projectAppList } = await call(getApps, { ...rest, projectId }, { paging: { key: 'projectAppPaging' } });
-      const oldAppList = select(s => s.projectAppList);
+      const oldAppList = select((s) => s.projectAppList);
       const newProjectAppList = (loadMore && payload.pageNo !== 1) ? oldAppList.concat(projectAppList) : projectAppList;
       update({ projectAppList: newProjectAppList });
       return { list: newProjectAppList, total };
@@ -211,7 +211,7 @@ const project = createStore({
     onProjectIndexEnter() {
       setTimeout(() => {
         // project首页重定向到第一个菜单链接
-        const subSiderInfoMap = layoutStore.getState(s => s.subSiderInfoMap);
+        const subSiderInfoMap = layoutStore.getState((s) => s.subSiderInfoMap);
         const rePathname = get(subSiderInfoMap, 'project.menu[0].href');
         rePathname && goTo(rePathname, { replace: true });
       }, 0);

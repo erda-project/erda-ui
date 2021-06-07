@@ -474,7 +474,7 @@ const resourceUnitMap = {
   mem: 'MB',
 };
 
-const convertJobsParams = (jobParams: {image: string, resources: any}, isCustomScript: boolean, task: IStageTask) => {
+const convertJobsParams = (jobParams: {image: string; resources: any}, isCustomScript: boolean, task: IStageTask) => {
   const { image, resources } = jobParams;
   const filteredResources = omit(resources, 'disk');
   const readOnlyParams: any[] = [
@@ -532,7 +532,7 @@ export const mergeActionAndResource = (actionConfig: DEPLOY.ActionConfig | undef
         };
       } else if (config.type === 'struct' && Array.isArray(config.struct)) {
         const v = task.params[config.name];
-        const subStruct = map(config.struct, item => {
+        const subStruct = map(config.struct, (item) => {
           return { ...item, value: get(v, item.name) };
         });
         result.data.params[config.name] = {

@@ -15,14 +15,14 @@ import i18n from 'i18n';
 import { filter } from 'lodash';
 import { goTo } from 'common/utils';
 import permStore from 'user/stores/permission';
-import { 
-  Api as IconApi, 
-  Code as IconCode, 
-  AssemblyLine as IconAssemblyLine, 
-  ActivitySource as IconActivitySource, 
-  ChildrenPyramid as IconChildrenPyramid, 
-  MarketAnalysis as IconMarketAnalysis, 
-  Config as IconConfig 
+import {
+  Api as IconApi,
+  Code as IconCode,
+  AssemblyLine as IconAssemblyLine,
+  ActivitySource as IconActivitySource,
+  ChildrenPyramid as IconChildrenPyramid,
+  MarketAnalysis as IconMarketAnalysis,
+  Config as IconConfig,
 } from '@icon-park/react';
 import { Icon as CustomIcon } from 'common';
 
@@ -45,7 +45,7 @@ interface IMenuItem {
 }
 export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
   const { mode } = appDetail;
-  const perm = permStore.getState(s => s.app);
+  const perm = permStore.getState((s) => s.app);
   const repo = {
     show: perm.repo.read.pass,
     key: 'repo',
@@ -68,7 +68,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     text: i18n.t('project:API design'),
   };
 
-  const deployAuth =  perm.runtime.read.pass && !appDetail.isProjectLevel;
+  const deployAuth = perm.runtime.read.pass && !appDetail.isProjectLevel;
   const deploy = {
     show: deployAuth,
     key: 'deploy',

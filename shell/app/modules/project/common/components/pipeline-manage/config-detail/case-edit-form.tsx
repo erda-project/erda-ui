@@ -17,16 +17,16 @@ import i18n from 'i18n';
 
 interface IProps{
   visible: boolean;
-  onClose: ()=> void;
-  onOk: (arg: any)=> void;
+  onClose: () => void;
+  onOk: (arg: any) => void;
   editData?: AUTO_TEST.ICaseDetail;
   scope?: string;
 }
 
 const nameMap = {
   projectPipeline: i18n.t('application:pipeline'),
-  configSheet: i18n.t('project:config data')
-}
+  configSheet: i18n.t('project:config data'),
+};
 
 const CaseEditForm = (props: IProps) => {
   const { visible, onOk, onClose, editData, scope = '' } = props;

@@ -19,7 +19,7 @@ export const addMachine = (payload: ORG_MACHINE.IAddMachineBody): ORG_MACHINE.IC
     .then((response: any) => response.body);
 };
 
-export const addCloudMachine = (payload:ORG_MACHINE.IAddCloudMachineBody): ORG_MACHINE.IAddCloudMachineResp => {
+export const addCloudMachine = (payload: ORG_MACHINE.IAddCloudMachineBody): ORG_MACHINE.IAddCloudMachineResp => {
   return agent.post('/api/ops/cloud-nodes')
     .send(payload)
     .then((response: any) => response.body);
@@ -32,12 +32,12 @@ export const updaterMachineLabels = (payload: ORG_MACHINE.IMachineLabelBody): { 
 };
 
 export interface IOpHistoryQuery {
-  orgID: number,
-  clusterName: string,
-  pageNo: number,
-  pageSize?: number,
-  recordType?: string,
-  scope?: string,
+  orgID: number;
+  clusterName: string;
+  pageNo: number;
+  pageSize?: number;
+  recordType?: string;
+  scope?: string;
 }
 export const getClusterOperationHistory = (payload: IOpHistoryQuery): IPagingResp<ORG_MACHINE.IClusterOperateRecord> => {
   return agent.get('/api/records')

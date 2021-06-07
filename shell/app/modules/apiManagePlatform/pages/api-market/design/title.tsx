@@ -32,13 +32,13 @@ const NODE_OPERATIONS = [
 ];
 
 interface ITreeTitle {
-  popToggle:(val:boolean)=>void;
+  popToggle: (val: boolean) => void;
   name: string;
   icon?: string;
   readOnly?: string;
   inode?: string;
   pinode?: string;
-  execOperation: (key: string, extraParam?: Obj) => void
+  execOperation: (key: string, extraParam?: Obj) => void;
 }
 export const TreeTitle = ({
   popToggle,
@@ -47,7 +47,7 @@ export const TreeTitle = ({
   readOnly,
   icon = 'yizhanzhifubaoxiaochengxu-',
   execOperation,
-} : ITreeTitle) => {
+}: ITreeTitle) => {
   const [{
     inputVisible,
     apiDocName,
@@ -57,7 +57,7 @@ export const TreeTitle = ({
   });
 
 
-  const { inode: inodeQuery } = routeInfoStore.useStore(s => s.query);
+  const { inode: inodeQuery } = routeInfoStore.useStore((s) => s.query);
   const dropDownRef = React.useRef(null);
 
   const operationHandle = (e: any, targetBranch: any) => {
@@ -105,7 +105,7 @@ export const TreeTitle = ({
   return (
     <div className="api-tree-title flex-box" ref={dropDownRef}>
       <div className="flex-box">
-        <CustomIcon type={icon} className='color-text-sub' />
+        <CustomIcon type={icon} className="color-text-sub" />
         {
           inputVisible ? (
             <>
@@ -121,7 +121,7 @@ export const TreeTitle = ({
                 }}
                 onClick={(e) => e.stopPropagation()}
               />
-              <CustomIcon className='mr0' type='duigou' onClick={saveName} />
+              <CustomIcon className="mr0" type="duigou" onClick={saveName} />
             </>
           )
             : <Tooltip title={name}><div className="nowrap" style={{ maxWidth: '120px' }}>{name}</div></Tooltip>
@@ -135,7 +135,7 @@ export const TreeTitle = ({
             trigger={['hover']}
             getPopupContainer={() => dropDownRef && dropDownRef.current}
           >
-            <CustomIcon type="gd" onClick={e => e.stopPropagation()} />
+            <CustomIcon type="gd" onClick={(e) => e.stopPropagation()} />
           </Dropdown>
         )
       }
@@ -148,12 +148,12 @@ export const BranchTitle = ({
   name,
   icon = 'branch',
 }: {
-  name:string,
-  icon?:string
+  name: string;
+  icon?: string;
 }) => {
   return (
     <div className="left-flex-box">
-      <CustomIcon type={icon} className='color-text-sub' />
+      <CustomIcon type={icon} className="color-text-sub" />
       <Tooltip title={name}><div className="nowrap" style={{ maxWidth: '160px' }}>{name}</div></Tooltip>
     </div>
   );

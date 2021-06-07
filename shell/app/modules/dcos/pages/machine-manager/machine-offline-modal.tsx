@@ -17,10 +17,10 @@ import i18n from 'i18n';
 import * as React from 'react';
 
 interface IProps {
-  visible: boolean,
-  formData?: any,
-  onCancel(): void,
-  onSubmit(resp: {hosts:string[]}): any,
+  visible: boolean;
+  formData?: any;
+  onCancel: () => void;
+  onSubmit: (resp: {hosts: string[]}) => any;
 }
 
 const MachineOffLineModal = ({

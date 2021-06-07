@@ -22,7 +22,7 @@ import './api-auth.scss';
 interface IProps {
   data: Record<string, any>;
   visible: boolean;
-  onClose(): void;
+  onClose: () => void;
 }
 const ApiDoc = (props: IProps) => {
   const { visible, data, onClose } = props;

@@ -35,20 +35,20 @@ const CREATE_MAP = {
 };
 
 interface IProps {
-  addonInsList: ADDON.Instance[]
-  addonSpecList: CUSTOM_ADDON.Item[]
-  currentAddon: CUSTOM_ADDON.Item | Obj
-  editData: ADDON.Instance | null
-  form: WrappedFormUtils
-  configKV: React.RefObject<any>
-  category?: string
-  onFieldChange(k: string, v: any): void
-  setOneStep(f: boolean): void
+  addonInsList: ADDON.Instance[];
+  addonSpecList: CUSTOM_ADDON.Item[];
+  currentAddon: CUSTOM_ADDON.Item | Obj;
+  editData: ADDON.Instance | null;
+  form: WrappedFormUtils;
+  configKV: React.RefObject<any>;
+  category?: string;
+  onFieldChange: (k: string, v: any) => void;
+  setOneStep: (f: boolean) => void;
 }
 const ThirdAddonForm = (props: IProps) => {
   const { form, configKV, addonInsList, addonSpecList, editData, currentAddon, category, onFieldChange, setOneStep } = props;
   const curAddon = currentAddon || {};
-  const query = routeInfoStore.useStore(s => s.query);
+  const query = routeInfoStore.useStore((s) => s.query);
   const [{ workspace, mode, createType }, updater] = useUpdate({
     workspace: '',
     mode: MODE_MAP.EXIST,
@@ -111,7 +111,7 @@ const ThirdAddonForm = (props: IProps) => {
             },
           },
           type: 'select',
-          options: map(curAddon.plan, p => ({ name: p.label, value: p.value })),
+          options: map(curAddon.plan, (p) => ({ name: p.label, value: p.value })),
           initialValue: get(curAddon, 'plan[0].value'),
         },
       ]),
@@ -129,7 +129,7 @@ const ThirdAddonForm = (props: IProps) => {
           label: i18n.t('resource:existing instance'),
           name: 'addonInstanceRoutingId',
           type: 'select',
-          options: filter(addonInsList, a => a.addonName === curAddon.addonName && !a.tenantOwner).map(a => ({ value: a.instanceId, name: a.name })),
+          options: filter(addonInsList, (a) => a.addonName === curAddon.addonName && !a.tenantOwner).map((a) => ({ value: a.instanceId, name: a.name })),
         },
         {
           getComp: () => (
@@ -158,7 +158,7 @@ const ThirdAddonForm = (props: IProps) => {
         onChange(v: string) { onFieldChange('addonName', v); },
         disabled: editData !== null || query.addon === AddonType.APIGateway,
       },
-      options: () => map(addonSpecList, v => <Option key={v.id} value={v.addonName}>{v.displayName}</Option>),
+      options: () => map(addonSpecList, (v) => <Option key={v.id} value={v.addonName}>{v.displayName}</Option>),
     };
     const nameField = {
       label: i18n.t('project:name'),
@@ -172,7 +172,7 @@ const ThirdAddonForm = (props: IProps) => {
           validator: (_rule: any, value: any, callback: any) => {
             if (!editData && value && value.length > 0) {
               const _workspace = workspace || form.getFieldValue('workspace');
-              const match = _addonInsList.find(a => a.name === value && a.workspace === _workspace);
+              const match = _addonInsList.find((a) => a.name === value && a.workspace === _workspace);
               if (match) {
                 callback(i18n.t('project:service instance name is repeated'));
               } else {

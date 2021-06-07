@@ -27,7 +27,7 @@ interface IMenuMeta {
   disabled?: boolean;
 }
 
-const getMenuMap = (type: TestSetMenuType, editMode: editModeEnum):IMenuMeta[] => {
+const getMenuMap = (type: TestSetMenuType, editMode: editModeEnum): IMenuMeta[] => {
   const menuItemsMap = {
     [TestSetMenuType.root]: [
       { key: TestOperation.add, name: i18n.t('project:new sub testset') },
@@ -53,21 +53,21 @@ const getMenuMap = (type: TestSetMenuType, editMode: editModeEnum):IMenuMeta[] =
 interface IActionItem {
   key: string;
   name: string;
-  onclick: (prop: any)=>void;
+  onclick: (prop: any) => void;
 }
 
 interface IProps {
-  name: string
-  readOnly: boolean
-  id: number // 测试集id
-  editMode: editModeEnum
-  eventKey: string
-  recycled: boolean,
+  name: string;
+  readOnly: boolean;
+  id: number; // 测试集id
+  editMode: editModeEnum;
+  eventKey: string;
+  recycled: boolean;
   className?: string;
   customActions?: IActionItem[];
-  onOperateNode: (eventKey: string, action: string, data?: Record<string, any>) => void
-  onRemoveNode: (eventKey: string) => void
-  onUpdateNode: (eventKey: string, newId: number, newName: string) => void
+  onOperateNode: (eventKey: string, action: string, data?: Record<string, any>) => void;
+  onRemoveNode: (eventKey: string) => void;
+  onUpdateNode: (eventKey: string, newId: number, newName: string) => void;
 }
 
 const Title = ({
@@ -203,7 +203,7 @@ const Title = ({
   };
 
   const getMenu = () => {
-    let list:IMenuMeta[] = [];
+    let list: IMenuMeta[] = [];
 
     if (!isEmpty(customActions)) {
       const customClickDic = {};
@@ -261,7 +261,7 @@ const Title = ({
 
   if (!readOnly && isEdit) {
     return (
-      <div className="flex-1 inline-flex-box" onClick={e => e.stopPropagation()}>
+      <div className="flex-1 inline-flex-box" onClick={(e) => e.stopPropagation()}>
         <Input
           autoFocus
           style={{ height: '32px', minWidth: '110px' }}

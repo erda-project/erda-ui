@@ -27,10 +27,10 @@ import { Help as IconHelp } from '@icon-park/react';
 const { TabPane } = Tabs;
 
 const Group = () => {
-  const MQGroupList = cloudServiceStore.useStore(s => s.MQGroupList);
+  const MQGroupList = cloudServiceStore.useStore((s) => s.MQGroupList);
   const { getMQGroupList, addMQGroup } = cloudServiceStore.effects;
   const { clearMQGroupList } = cloudServiceStore.reducers;
-  const [mqID, query] = routeInfoStore.useStore(s => [s.params.mqID, s.query]);
+  const [mqID, query] = routeInfoStore.useStore((s) => [s.params.mqID, s.query]);
   const [isFetching] = useLoading(cloudServiceStore, ['getMQGroupList']);
 
   const [{
@@ -256,7 +256,7 @@ const Group = () => {
         formData={tagFormData as any}
         showClustertLabel={false}
         showProjectLabel
-        resourceType='ONS_GROUP'
+        resourceType="ONS_GROUP"
         instanceID={mqID}
         onCancel={() => update({ tagFormVis: false, tagFormData: null })}
         afterSubmit={afterTagFormSubmit}

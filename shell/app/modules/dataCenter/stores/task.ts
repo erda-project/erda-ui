@@ -18,8 +18,8 @@ import {
 } from '../services/task';
 
 interface IState {
-  list: CLUSTER_TASK.Detail[],
-  paging: IPaging,
+  list: CLUSTER_TASK.Detail[];
+  paging: IPaging;
 }
 
 

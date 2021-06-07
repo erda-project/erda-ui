@@ -14,7 +14,7 @@
 import React from 'react';
 import { isPromise, isImage, removeProtocol, ossImg, uuid, isValidJsonStr, insertWhen,
   reorder, encodeHtmlTag, convertToFormData, getFileSuffix, filterOption, regRules,
-  isClassComponent, countPagination, notify, equalByKeys, setApiWithOrg, sleep, getLabel
+  isClassComponent, countPagination, notify, equalByKeys, setApiWithOrg, sleep, getLabel,
 } from 'common/utils';
 import { describe, it, jest } from '@jest/globals';
 
@@ -29,7 +29,7 @@ describe('utils', () => {
   it('isImage ', () => {
     const suffixes = ['jpg', 'bmp', 'gif', 'png', 'jpeg', 'svg'];
     expect(isImage('images/a.doc')).toBe(false);
-    suffixes.map(suffix => {
+    suffixes.map((suffix) => {
       expect(isImage(`images/a.${suffix}`)).toBe(true);
       expect(isImage(`images/a.${suffix.toUpperCase()}`)).toBe(true);
     });

@@ -23,15 +23,15 @@ import './data-list.scss';
 
 interface IProps {
   compName: string;
-  businessScope: {businessDomain: any, dataDomains: any[], marketDomains: any[]};
+  businessScope: {businessDomain: any; dataDomains: any[]; marketDomains: any[]};
   getBusinessScope: Function;
   clearBusinessScope: Function;
   getList: any;
   isFetching: boolean;
   list: any[];
   listPaging: IPaging;
-  pageConfig: {iconType: string, domainName: string, domainPlaceholder: string};
-  onItemClick(params: any): Function;
+  pageConfig: {iconType: string; domainName: string; domainPlaceholder: string};
+  onItemClick: (params: any) => Function;
 }
 
 const { Option } = Select;

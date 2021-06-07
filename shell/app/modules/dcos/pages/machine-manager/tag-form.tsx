@@ -22,9 +22,9 @@ import * as React from 'react';
 import orgStore from 'app/org-home/stores/org';
 
 interface IProps {
-  visible: boolean,
-  machine: ORG_MACHINE.IMachine | null,
-  onCancel(): void,
+  visible: boolean;
+  machine: ORG_MACHINE.IMachine | null;
+  onCancel: () => void;
 }
 
 
@@ -33,8 +33,8 @@ const TagForm = ({
   machine,
   onCancel,
 }: IProps) => {
-  const currentOrg = orgStore.useStore(s => s.currentOrg);
-  const nodeLabels = clusterDashboardStore.useStore(s => s.nodeLabels);
+  const currentOrg = orgStore.useStore((s) => s.currentOrg);
+  const nodeLabels = clusterDashboardStore.useStore((s) => s.nodeLabels);
   const { getNodeLabels } = clusterDashboardStore.effects;
   const { updaterMachineLabels } = machineStore.effects;
 
@@ -42,7 +42,7 @@ const TagForm = ({
     visible && getNodeLabels();
   }, [getNodeLabels, visible]);
 
-  const handelSubmit = (values: { labels: string[], customLabels: string }) => {
+  const handelSubmit = (values: { labels: string[]; customLabels: string }) => {
     // 组合自定义标签和选项标签，去重
     const { labels, customLabels = [] } = values;
     const savedLabels = uniq(labels.concat(customLabels));
@@ -76,7 +76,7 @@ const TagForm = ({
       required: false,
       getComp: () => (
         <LabelSelector
-          labelOptions={nodeLabels.filter(l => !l.isPrefix).map(l => ({ ...l, value: l.label, name: l.label }))}
+          labelOptions={nodeLabels.filter((l) => !l.isPrefix).map((l) => ({ ...l, value: l.label, name: l.label }))}
         />
       ),
     },

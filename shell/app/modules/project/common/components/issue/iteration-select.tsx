@@ -26,16 +26,16 @@ const { Option } = Select;
 
 interface IProps {
   addAllOption?: boolean;
-  value?: number[] | number | 'ALL',
-  fullWidth?: boolean,
+  value?: number[] | number | 'ALL';
+  fullWidth?: boolean;
   disabled?: boolean;
-  className?: string,
-  autoSelectFirst?: boolean,
-  allowClear?: boolean,
-  placeholder?: string,
-  mode?: 'default' | 'multiple',
+  className?: string;
+  autoSelectFirst?: boolean;
+  allowClear?: boolean;
+  placeholder?: string;
+  mode?: 'default' | 'multiple';
   width?: string;
-  onChange?(v: number[] | number): void,
+  onChange?: (v: number[] | number) => void;
 }
 const noop = () => { };
 export default ({
@@ -51,7 +51,7 @@ export default ({
   mode = 'default',
   addAllOption = false,
 }: IProps) => {
-  const { projectId } = routeInfoStore.useStore(s => s.params);
+  const { projectId } = routeInfoStore.useStore((s) => s.params);
   const [iterationList, paging, loading, load, clear] = useTempPaging<ITERATION.Detail>({
     service: getProjectIterations,
   });
@@ -61,7 +61,7 @@ export default ({
         load({ projectID: projectId, pageNo: 1, pageSize: 100, withoutIssueSummary: true }).then(({ list }: { list: ITERATION.Detail[] }) => {
           if (!isEmpty(list) && !value && autoSelectFirst) {
             let currentId = 0;
-            list.forEach(a => {
+            list.forEach((a) => {
               if (!currentId && moment().isBetween(moment(a.startedAt).startOf('day'), moment(a.finishedAt).endOf('day'))) {
                 currentId = a.id;
               }
@@ -99,7 +99,7 @@ export default ({
       disabled={disabled}
       className={className}
       style={{ width: fullWidth ? '100%' : width }}
-      value={value && !isEmpty(iterationList) ? (mode === 'multiple' ? value.map(item => String(item)) : String(value)) : undefined}
+      value={value && !isEmpty(iterationList) ? (mode === 'multiple' ? value.map((item) => String(item)) : String(value)) : undefined}
       onChange={onChange}
       placeholder={placeholder}
       allowClear={allowClear}

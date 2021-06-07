@@ -49,7 +49,7 @@ const titleMap = {
 interface IProps {
   name: string;
   params: Obj;
-  runtimeDetail: typeof runtimeStore.stateType.runtimeDetail
+  runtimeDetail: typeof runtimeStore.stateType.runtimeDetail;
   service: RUNTIME_SERVICE.Detail;
   isEndpoint?: boolean;
 }
@@ -62,9 +62,9 @@ const ServiceCard = (props: IProps) => {
     service,
     isEndpoint = false,
   } = props;
-  const [serviceInsMap] = runtimeServiceStore.useStore(s => [s.serviceInsMap]);
-  const domainMap = runtimeDomainStore.useStore(s => s.domainMap);
-  const permMap = usePerm(s => s.app);
+  const [serviceInsMap] = runtimeServiceStore.useStore((s) => [s.serviceInsMap]);
+  const domainMap = runtimeDomainStore.useStore((s) => s.domainMap);
+  const permMap = usePerm((s) => s.app);
   const [{
     title,
     visible,
@@ -101,7 +101,7 @@ const ServiceCard = (props: IProps) => {
     }
   }, [serviceInsMap, name, updater, instances]);
 
-  const { serviceName, jumpFrom } = routeInfoStore.useStore(s => s.query);
+  const { serviceName, jumpFrom } = routeInfoStore.useStore((s) => s.query);
 
   const openSlidePanel = (type: string, record?: RUNTIME_SERVICE.Instance) => {
     updater.title(titleMap[type]);
@@ -220,7 +220,7 @@ const ServiceCard = (props: IProps) => {
           <InstanceTable
             instances={insMap}
             withHeader={false}
-          />
+          />,
         );
         break;
       }
@@ -252,7 +252,7 @@ const ServiceCard = (props: IProps) => {
 
   const { resources, status, deployments: { replicas }, errors } = merge(service, tempData) as RUNTIME_SERVICE.Detail;
   const { cpu, mem } = resources;
-  const expose = map(domainMap[name], 'domain').filter(domain => !!domain);
+  const expose = map(domainMap[name], 'domain').filter((domain) => !!domain);
 
   const resourceInfo = (
     <span className="resources nowrap">{`${i18n.t('instance')} ${replicas} / CPU ${cpu} / ${i18n.t('memory')} ${mem}MB`}</span>
@@ -317,7 +317,7 @@ const ServiceCard = (props: IProps) => {
     if (expose && expose.length > 1) {
       const linkContent = (
         <ul className="popover-links">
-          {map(expose, link => <li key={link}><a href={`//${link}`} target="_blank" rel="noopener noreferrer">{link}</a></li>)}
+          {map(expose, (link) => <li key={link}><a href={`//${link}`} target="_blank" rel="noopener noreferrer">{link}</a></li>)}
         </ul>
       );
       links = (
@@ -402,7 +402,7 @@ const ServiceCard = (props: IProps) => {
               {errorMsg}
             </div>
           </div>
-          <div className="service-card-operation" onClick={e => e.stopPropagation()}>
+          <div className="service-card-operation" onClick={(e) => e.stopPropagation()}>
             {getOperation()}
           </div>
         </div>

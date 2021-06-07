@@ -28,7 +28,7 @@ interface ITypeProps {
   icon: {
     default: string;
     active: string;
-  }
+  };
   description: string;
   disabled: boolean;
 }
@@ -87,7 +87,7 @@ const selectArr = reduce(cloudAccountArr, (arr: any[], { name, val: value }) => 
 }, []);
 
 interface IProps {
-  afterSubmit?: (resBody: any) => any
+  afterSubmit?: (resBody: any) => any;
 }
 
 const AccountGuidance = (props: IProps) => {
@@ -113,7 +113,7 @@ const AccountGuidance = (props: IProps) => {
         <div className="guidance-title mb8">{i18n.t('dataCenter:select-cloud-account')}</div>
         <p className="guidance-desc color-text-sub mb24">{i18n.t('dataCenter:after-config-can-do')}</p>
         <div className="guidance-type-row mb16">
-          {map(cloudAccountArr, item => (
+          {map(cloudAccountArr, (item) => (
             <TypeCard
               key={item.type}
               updater={updater}

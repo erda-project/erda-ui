@@ -22,12 +22,12 @@ const { Option } = Select;
 
 interface IProps {
   value?: string[];
-  onChange(data: string[]): void;
+  onChange: (data: string[]) => void;
 }
 
 // keep class style for using ref
 const TagSelector = React.forwardRef(({ value, onChange }: IProps) => {
-  const nodeLabels = clusterDashboardStore.useStore(s => s.nodeLabels);
+  const nodeLabels = clusterDashboardStore.useStore((s) => s.nodeLabels);
 
   return (
     <Select
@@ -35,10 +35,10 @@ const TagSelector = React.forwardRef(({ value, onChange }: IProps) => {
       className="full-width"
       placeholder={i18n.t('dcos:please select the label')}
       value={value || []}
-      getPopupContainer={triggerNode => triggerNode.parentNode}
+      getPopupContainer={(triggerNode) => triggerNode.parentNode}
       onChange={onChange}
     >
-      {map(nodeLabels, tag => <Option key={tag.label}>{tag.label}</Option>)}
+      {map(nodeLabels, (tag) => <Option key={tag.label}>{tag.label}</Option>)}
     </Select>
   );
 });

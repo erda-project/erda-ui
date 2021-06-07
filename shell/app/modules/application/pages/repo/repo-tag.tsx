@@ -32,14 +32,14 @@ const { Search } = Input;
 
 const RepoTag = () => {
   const [visible, setVisible] = React.useState(false);
-  const [info, tagList] = repoStore.useStore(s => [s.info, s.tag]);
+  const [info, tagList] = repoStore.useStore((s) => [s.info, s.tag]);
   const { getListByType, deleteTag, createTag, checkCommitId } = repoStore.effects;
   const { clearListByType } = repoStore.reducers;
   const [isFetching] = useLoading(repoStore, ['getListByType']);
-  const { gitRepoAbbrev } = appStore.useStore(s => s.detail);
+  const { gitRepoAbbrev } = appStore.useStore((s) => s.detail);
   const { isLocked } = info;
 
-  const repoBranchAuth = usePerm(s => s.app.repo.branch);
+  const repoBranchAuth = usePerm((s) => s.app.repo.branch);
 
   const download = (tag: string, format: string) => window.open(setApiWithOrg(`/api/repo/${gitRepoAbbrev}/archive/${tag}.${format}`));
 
@@ -50,7 +50,7 @@ const RepoTag = () => {
     };
   }, [getListByType, clearListByType]);
 
-  const onCreateTag = (tagInfo: { ref: string, tag: string, message: string }) => {
+  const onCreateTag = (tagInfo: { ref: string; tag: string; message: string }) => {
     createTag(tagInfo).then((res: any) => {
       if (!res.success) {
         message.error(i18n.t('application:failed to add tag'));
@@ -106,7 +106,7 @@ const RepoTag = () => {
     );
   };
 
-  const beforeSubmit = async (values: { ref: string, refType: string }) => {
+  const beforeSubmit = async (values: { ref: string; refType: string }) => {
     if (values.refType === 'commitId') {
       const ret = await checkCommitId({ commitId: values.ref });
       if (ret === 'error') {
@@ -121,7 +121,7 @@ const RepoTag = () => {
     getListByType({ type: 'tag', findTags: tag });
   }, 300);
 
-  const handleChangeBranchName = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeBranchName = (e: React.ChangeEvent<HTMLInputElement>) => {
     getList(e.target.value);
   };
 

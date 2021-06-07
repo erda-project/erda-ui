@@ -21,8 +21,8 @@ import './milestone-group.scss';
 
 interface IProps {
   ele: Array<string | ISSUE.Epic[]>;
-  reload(): void;
-  onClickItem(task: ISSUE.Epic): void
+  reload: () => void;
+  onClickItem: (task: ISSUE.Epic) => void;
 }
 
 export default ({ ele, onClickItem, reload }: IProps) => {
@@ -40,7 +40,7 @@ export default ({ ele, onClickItem, reload }: IProps) => {
   const { updateIssue } = issueStore.effects;
   const [{ isOver }, drop] = useDrop({
     accept: 'milestone',
-    drop: (item:any) => {
+    drop: (item: any) => {
       if (moment(item.data.planFinishedAt).format('YYYY-MM') === date) {
         return;
       }
@@ -57,7 +57,7 @@ export default ({ ele, onClickItem, reload }: IProps) => {
         <h3>{date}</h3>
         <div className={`milestone-module ${isOver ? 'milestone-drag-over' : ''}`}>
           {
-            list.map((item:any) => {
+            list.map((item: any) => {
               return (
                 <MilestoneItem key={item.id} item={item} onClickItem={onClickItem} />
               );

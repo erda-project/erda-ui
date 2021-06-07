@@ -24,49 +24,49 @@ declare namespace MONITOR_COMMON_METADATA {
     types: {
       [type: string]: {
         aggregations: Array<{
-          aggregation: string
-          name: string
-          result_type: string
-        }>
+          aggregation: string;
+          name: string;
+          result_type: string;
+        }>;
         operations: Array<{
-          operation: string
-          name: string
-        }>
-      }
-    }
+          operation: string;
+          name: string;
+        }>;
+      };
+    };
     filters: Array<{
-      operation: string
-      name: string
-    }>
+      operation: string;
+      name: string;
+    }>;
   }
 
   type MetaMetrics = Array<{
-    metric: string
-    name: string
+    metric: string;
+    name: string;
     filters: Array<{
-      tag: string
-      op: string
-      value: string
-    }>
+      tag: string;
+      op: string;
+      value: string;
+    }>;
     fields: Array<{
-      key: string
-      name: string
-      type: string
-      unit: string
-    }>
+      key: string;
+      name: string;
+      type: string;
+      unit: string;
+    }>;
     tags: Array<{
-      key: string
-      name: string
+      key: string;
+      name: string;
       values?: Array<{
-        value: string
-        name: string
-      }>
-    }>
+        value: string;
+        name: string;
+      }>;
+    }>;
   }>;
 
   interface MetaData {
-    meta: MetaConstantMap
-    id: string
-    metrics: MetaMetrics
+    meta: MetaConstantMap;
+    id: string;
+    metrics: MetaMetrics;
   }
 }

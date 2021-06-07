@@ -21,7 +21,7 @@ import './release-item.scss';
 interface IProps{
   data: RELEASE.detail;
   isActive?: boolean;
-  onClick?(o?: any): any;
+  onClick?: (o?: any) => any;
 }
 
 export const ReleaseItem = (props: IProps) => {

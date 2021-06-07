@@ -30,57 +30,57 @@ declare namespace API_SETTING {
     name: string;
     meta: {
       content: string | undefined;
-    }
+    };
   }
 
   interface ITreeNode {
-    type: string,
-    inode: string,
-    pinode: string,
-    name: string,
-    desc: string,
-    scope: string,
-    scopeID: number,
-    creatorID: number,
-    updaterAt: string,
+    type: string;
+    inode: string;
+    pinode: string;
+    name: string;
+    desc: string;
+    scope: string;
+    scopeID: number;
+    creatorID: number;
+    updaterAt: string;
   }
 
   interface ITreeListQuery {
-    pinode: string,
-    scope?: string,
-    scopeID?: number,
+    pinode: string;
+    scope?: string;
+    scopeID?: number;
   }
   interface ICommonTreeData {
-    type: string,
-    inode: string,
-    pinode: string,
-    name: string,
-    scope: string,
-    scopeID: number,
-    creatorID: number,
-    createdAt: string,
-    updaterID: number,
-    updatedAt: string,
+    type: string;
+    inode: string;
+    pinode: string;
+    name: string;
+    scope: string;
+    scopeID: number;
+    creatorID: number;
+    createdAt: string;
+    updaterID: number;
+    updatedAt: string;
   }
   interface IMetaLock {
-    locked: boolean,
-    userID: number,
-    nickName: string
+    locked: boolean;
+    userID: number;
+    nickName: string;
   }
   interface IFileTree extends ICommonTreeData{
     meta: {
-      lock: IMetaLock,
-      readOnly?: boolean,
-      valid?: boolean,
-      error?: string,
-      hasDoc?: boolean,
-    }
-    key?: string,
-    children?: any[],
+      lock: IMetaLock;
+      readOnly?: boolean;
+      valid?: boolean;
+      error?: string;
+      hasDoc?: boolean;
+    };
+    key?: string;
+    children?: any[];
   }
   interface ISchemaParams extends ICommonTreeData{
     meta: {
-      lock: IMetaLock,
+      lock: IMetaLock;
       schemas: {
         [props: string]: {
           required: string[];
@@ -89,24 +89,24 @@ declare namespace API_SETTING {
             [props: string]: {
               type: PropertyType;
               example: any;
-            }
-          }
-          list: any[]
-        }
-      }
-    }
+            };
+          };
+          list: any[];
+        };
+      };
+    };
   }
 
   interface IProperty {
-    example: string,
-    type: PropertyType,
+    example: string;
+    type: PropertyType;
   }
 
   interface IResponse {
     [prop: string]: {
-      description: string,
-      body: Obj,
-    },
+      description: string;
+      body: Obj;
+    };
   }
 
   type IApiResource = {
@@ -119,39 +119,39 @@ declare namespace API_SETTING {
     };
   } & {
     responses?: IResponse;
-    apiName?:string;
+    apiName?: string;
   };
 
   interface IDataType {
-    id: number,
-    name: string,
+    id: number;
+    name: string;
   }
 
   interface IApiDetail extends ICommonTreeData {
     meta: {
-      lock: IMetaLock,
+      lock: IMetaLock;
       blob: {
-        binary: boolean,
-        content: string,
-        refName: string,
-        path: string,
-        size: number
-      },
-      asset: IApiAsset,
-      readOnly?: boolean,
-      valid?: boolean,
-      error?: string
-    }
+        binary: boolean;
+        content: string;
+        refName: string;
+        path: string;
+        size: number;
+      };
+      asset: IApiAsset;
+      readOnly?: boolean;
+      valid?: boolean;
+      error?: string;
+    };
   }
   interface IQuotePath {
-    [props:string]: string[][]
+    [props: string]: string[][];
   }
   interface IResourceProps {
     apiName: string;
     apiDetail: Obj;
     quotePathMap: IQuotePath;
-    onQuoteChange: (e:IQuotePath)=>void
-    onApiNameChange: (name:string)=>void
+    onQuoteChange: (e: IQuotePath) => void;
+    onApiNameChange: (name: string) => void;
   }
 
   interface IPublishAPi {
@@ -175,26 +175,26 @@ declare namespace API_SETTING {
   interface IApiAsset {
     assetID: string;
     assetName: string;
-    major: number,
-    minor: number,
-    patch: number
+    major: number;
+    minor: number;
+    patch: number;
   }
 
   interface ITreeNodeData {
     inode: string;
     asset: API_SETTING.IApiAsset;
-    apiDocName:string;
+    apiDocName: string;
   }
 
   interface IApiDocDetail {
-    openApiDoc: Obj,
-    name: string,
-    asset: IApiAsset,
-    readOnly: boolean
+    openApiDoc: Obj;
+    name: string;
+    asset: IApiAsset;
+    readOnly: boolean;
   }
 
   interface ISwaggerValidator {
-    success: boolean,
-    err?: string
+    success: boolean;
+    err?: string;
   }
 }

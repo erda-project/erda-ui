@@ -28,7 +28,7 @@ const { Search } = Input;
 
 interface IProps {
   [propName: string]: any;
-  onClickEnv?(data: object): any;
+  onClickEnv?: (data: object) => any;
 }
 
 export const PureMicroServiceEntry = (props: IProps) => {
@@ -36,14 +36,14 @@ export const PureMicroServiceEntry = (props: IProps) => {
   const [filteredList, setFilteredList] = React.useState(props.microServiceProjectList);
   const [isFetching] = useLoading(microServiceStore, ['getMicroServiceProjectList']);
   const { getMicroServiceProjectList } = microServiceStore.effects;
-  const microServiceProjectList = microServiceStore.useStore(s => s.microServiceProjectList);
+  const microServiceProjectList = microServiceStore.useStore((s) => s.microServiceProjectList);
 
   useMount(() => {
     getMicroServiceProjectList();
   });
 
   React.useEffect(() => {
-    microServiceProjectList && setFilteredList(microServiceProjectList.filter(ms => ms.projectName.toLowerCase().includes(searchKey.toLowerCase())));
+    microServiceProjectList && setFilteredList(microServiceProjectList.filter((ms) => ms.projectName.toLowerCase().includes(searchKey.toLowerCase())));
   }, [microServiceProjectList, searchKey]);
 
   const onSearchKeyChange = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -45,17 +45,17 @@ const subNetRule = [
 
 interface IProps {
   onClose: () => void;
-  onSubmit: ({ recordID }:{recordID:string}) => void;
+  onSubmit: ({ recordID }: {recordID: string}) => void;
   visible: boolean;
   cloudVendor: string;
 }
 
 const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor }: IProps) => {
   const formRef = React.useRef(null as any);
-  const clusterList = clusterStore.useStore(s => s.list);
+  const clusterList = clusterStore.useStore((s) => s.list);
   const { addCloudCluster, getCloudPreview } = clusterStore.effects;
   const { getVpcList, getVswList } = networkStore.effects;
-  const [vpcList, vswList] = networkStore.useStore(s => [s.vpcList, s.vswList]);
+  const [vpcList, vswList] = networkStore.useStore((s) => [s.vpcList, s.vswList]);
 
   const [{ count, previewModalVis, previewData, postData }, updater] = useUpdate({
     previewData: [],
@@ -293,7 +293,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       },
       dataSource: {
         type: 'static',
-        static: map(vpcList, item => ({ name: item.vpcName, value: item.vpcID })),
+        static: map(vpcList, (item) => ({ name: item.vpcName, value: item.vpcID })),
       },
       removeWhen: [
         [
@@ -356,7 +356,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       dataSource: {
         // TODO 这里不使用dynamic方式书写api，是因为一旦调用setFields这个api就会被重新调用，导致重复call
         type: 'static',
-        static: map(vswList, item => ({ name: `${item.vswName}(${item.cidrBlock})`, value: item.vSwitchID })),
+        static: map(vswList, (item) => ({ name: `${item.vswName}(${item.cidrBlock})`, value: item.vSwitchID })),
       },
       removeWhen: [
         [
@@ -392,10 +392,10 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
     formRef.current && formRef.current.setFields(cloneDeep(fields));
   }, [fields, vpcList, vswList, count]);
 
-  const beforeAddConfirm = (values:any) => {
+  const beforeAddConfirm = (values: any) => {
     const { chargePeriod, ...rest } = values;
 
-    const currentOrg = orgStore.getState(s => s.currentOrg);
+    const currentOrg = orgStore.getState((s) => s.currentOrg);
     const { id: orgId, name: orgName } = currentOrg;
     const _postData = {
       ...rest,
@@ -404,7 +404,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       cloudVendor,
       chargePeriod: chargePeriod && Number(chargePeriod),
     };
-    getCloudPreview(_postData).then((res:any) => {
+    getCloudPreview(_postData).then((res: any) => {
       updater.postData(_postData);
       updater.previewData(res);
       updater.previewModalVis(true);
@@ -452,7 +452,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
         <Form
           fields={fields}
           formRef={formRef}
-          formRender={({ RenderFields, form, fields: totalFields }:any) => {
+          formRender={({ RenderFields, form, fields: totalFields }: any) => {
             const basicFields = filter(totalFields, { category: 'basic' });
             const moreFields = filter(totalFields, { category: 'more' });
             const region = getFormData('region');

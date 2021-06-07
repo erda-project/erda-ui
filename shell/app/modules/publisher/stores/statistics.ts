@@ -22,7 +22,7 @@ import {
 } from '../services/statistics';
 
 interface IState {
-  versionStatisticList: PUBLISHER.VersionStatistic[]
+  versionStatisticList: PUBLISHER.VersionStatistic[];
 }
 
 const initState: IState = {

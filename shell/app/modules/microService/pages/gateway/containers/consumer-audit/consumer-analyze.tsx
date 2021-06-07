@@ -25,13 +25,13 @@ import gatewayStore from 'microService/stores/gateway';
 const resourceInfo = { resourceType: 'multipleGroup', resourceId: 'consumer-analyze' };
 
 export const PureConsumerAnalyze = () => {
-  const [params, query] = routeInfoStore.useStore(s => [s.params, s.query]);
-  const [timeSpan] = monitorCommonStore.useStore(s => [s.timeSpan]);
-  const metricItem = metricsMonitorStore.useStore(s => s.metricItem) || {};
+  const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const [timeSpan] = monitorCommonStore.useStore((s) => [s.timeSpan]);
+  const metricItem = metricsMonitorStore.useStore((s) => s.metricItem) || {};
   const { loadGatewayMetricItem } = metricsMonitorStore.effects;
   const succSumData = get(metricItem, 'multipleGroup-consumer-analyze-ca-succ-sum') || {};
   const realTimeData = get(metricItem, 'multipleGroup-consumer-analyze-ca-real-time') || {};
-  const [projectInfo, apiFilterCondition] = gatewayStore.useStore(s => [s.projectInfo, s.apiFilterCondition]);
+  const [projectInfo, apiFilterCondition] = gatewayStore.useStore((s) => [s.projectInfo, s.apiFilterCondition]);
   const { env, projectId } = params;
   const { pack } = query;
   const { start, end } = daysRange(7);
@@ -55,7 +55,7 @@ export const PureConsumerAnalyze = () => {
       ...commonQuery,
       points: 7,
       align: false,
-    } as any
+    } as any,
   );
 
   const [realTimeQuery, setRealTimeQuery] = React.useState(
@@ -65,7 +65,7 @@ export const PureConsumerAnalyze = () => {
       end: endTimeMs,
       ...commonQuery,
       sumCps: ['cnt_sum', 'succ_sum', 'err_sum', 'lim_sum'],
-    } as any
+    } as any,
   );
 
   const [succSumStaticData, setSuccSumStaticData] = React.useState({} as any);

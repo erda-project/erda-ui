@@ -50,7 +50,7 @@ interface IMenu {
   subMenu?: IMenu[];
   children?: IMenu[];
   prefix?: string; // if page under this menu has different prefix of url, use this property get find active key
-  isActive?(s: string): boolean;
+  isActive?: (s: string) => boolean;
 }
 const removeQuery = (menu: IMenu[]) => {
   return menu.map((item) => {
@@ -94,8 +94,8 @@ const findActiveKey = (menu: IMenu[], curHref: string) => {
 };
 
 const SubSideBar = () => {
-  const [subSiderInfoMap, subList] = layoutStore.useStore(s => [s.subSiderInfoMap, s.subList]);
-  const routeMarks = routeInfoStore.useStore(s => s.routeMarks);
+  const [subSiderInfoMap, subList] = layoutStore.useStore((s) => [s.subSiderInfoMap, s.subList]);
+  const routeMarks = routeInfoStore.useStore((s) => s.routeMarks);
   const { toggleSideFold } = layoutStore.reducers;
   const [state, , update] = useUpdate({
     menus: [],
@@ -178,7 +178,7 @@ const SubSideBar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [menu, subList, window.location.pathname]);
 
-  const handleTitleClick = ({ openKeys, selectedKey }: { openKeys: string[], selectedKey: string }) => {
+  const handleTitleClick = ({ openKeys, selectedKey }: { openKeys: string[]; selectedKey: string }) => {
     update({
       openKeys,
       selectedKey,

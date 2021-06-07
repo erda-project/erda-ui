@@ -20,13 +20,13 @@ import routeInfoStore from 'app/common/stores/route';
 import i18n from 'i18n';
 
 const FormItem = Form.Item;
-const noop = (a:any) => a;
+const noop = (a: any) => a;
 
 export const FormDataSourceSelector = ({
   fixOut = noop,
   fixIn = noop,
   requiredCheck,
-}: any = {}) => React.memo(({ fieldConfig, form, getLabel }:any = {}) => {
+}: any = {}) => React.memo(({ fieldConfig, form, getLabel }: any = {}) => {
   const {
     key,
     value,
@@ -41,11 +41,11 @@ export const FormDataSourceSelector = ({
     labelTip,
     requiredCheck: _requiredCheck,
   } = fieldConfig || {};
-  const params = routeInfoStore.getState(s => s.params);
+  const params = routeInfoStore.getState((s) => s.params);
   const projectId = params.projectId || componentProps.projectId;
 
   registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (e:any) => {
+  const handleChange = (e: any) => {
     form.setFieldValue(key, fixOut(e));
     (componentProps.onChange || noop)(e);
   };
@@ -75,16 +75,16 @@ export const FormDataSourceSelector = ({
 export const config = {
   name: 'dataSourceSelector',
   Component: FormDataSourceSelector, // 某React组件，props中必须有value、onChange
-  requiredCheck: (value:any) => {
+  requiredCheck: (value: any) => {
     // 必填校验时，特殊的校验规则
     const invalid = Array.isArray(value) ? !isEmpty(value) : (value !== undefined && value !== '');
     return [invalid, i18n.t('can not be empty')];
   },
-  fixOut: (value:any, options) => {
+  fixOut: (value: any, options) => {
     // 在获取表单数据时，将React组件的value格式化成需要的格式
     return value;
   },
-  fixIn: (value:any, options) => {
+  fixIn: (value: any, options) => {
     // 从schema到React组件映射时，修正传入React组件的value
     return value;
   },

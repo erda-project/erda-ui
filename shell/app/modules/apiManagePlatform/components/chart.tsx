@@ -29,7 +29,7 @@ interface IState {
 
 interface IProps {
   type: API_ACCESS.DashboardType;
-  extraQuery?: Record<string, any>
+  extraQuery?: Record<string, any>;
 }
 
 const Chart = ({ type, extraQuery = {} }: IProps) => {
@@ -57,11 +57,11 @@ const Chart = ({ type, extraQuery = {} }: IProps) => {
   }, [extraQuery, timeSpan.endTimeMs, timeSpan.startTimeMs]);
   React.useEffect(() => {
     const { start, end, ...restQuery } = query;
-    const flag = !isEmpty(restQuery) && values(restQuery).every(t => !!t);
+    const flag = !isEmpty(restQuery) && values(restQuery).every((t) => !!t);
     if (!flag) {
       return;
     }
-    const _layout = boardConfig.map(viewItem => {
+    const _layout = boardConfig.map((viewItem) => {
       const filters = get(viewItem, 'view.api.extraData.filters');
       const _viewItem = merge({}, viewItem, { view: { api: { query: {
         start,
@@ -83,7 +83,7 @@ const Chart = ({ type, extraQuery = {} }: IProps) => {
 
   return (
     <Spin spinning={loading}>
-      <CommonRangePicker className="mb12" defaultTime={[timeSpan.startTimeMs, timeSpan.endTimeMs]} onOk={v => updater.timeSpan(v)} />
+      <CommonRangePicker className="mb12" defaultTime={[timeSpan.startTimeMs, timeSpan.endTimeMs]} onOk={(v) => updater.timeSpan(v)} />
       <PureBoardGrid layout={layout} />
     </Spin>
   );

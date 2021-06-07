@@ -56,12 +56,12 @@ const InstanceList = ({
   instanceType,
   // onClickMachine,
 }: IProps) => {
-  const orgName = orgStore.useStore(s => s.currentOrg.name);
+  const orgName = orgStore.useStore((s) => s.currentOrg.name);
   const [
     serviceList,
     jobList,
     instanceList,
-  ] = clusterDashboardStore.useStore(s => [s.serviceList, s.jobList, s.instanceList]);
+  ] = clusterDashboardStore.useStore((s) => [s.serviceList, s.jobList, s.instanceList]);
   const [loading] = useLoading(clusterDashboardStore, ['getInstanceList']);
   const { getInstanceList } = clusterDashboardStore.effects;
 
@@ -132,7 +132,7 @@ const InstanceList = ({
       {
         title: i18n.t('service position'),
         dataIndex: 'projectName',
-        render: (_:any, { projectName, applicationName, runtimeName }: any) => (
+        render: (_: any, { projectName, applicationName, runtimeName }: any) => (
           <Tooltip title={`${i18n.t('project')}/${i18n.t('application')}/${i18n.t('instance')}：${projectName}/${applicationName}/${runtimeName}`}>
             {`${projectName}/${applicationName}/${runtimeName}`}
           </Tooltip>

@@ -34,8 +34,8 @@ export default (props: CP_TREE_SELECT.Props) => {
   }, [pState.value]);
 
   useUpdateEffect(() => {
-    const folders = (propTreeData || []).filter(node => !node.isLeaf);
-    const files = (propTreeData || []).filter(node => node.isLeaf);
+    const folders = (propTreeData || []).filter((node) => !node.isLeaf);
+    const files = (propTreeData || []).filter((node) => node.isLeaf);
     // const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
     // folders.sort((x, y) => collator.compare(x.title, y.title));
     // files.sort((x, y) => collator.compare(x.title, y.title));
@@ -70,7 +70,7 @@ export default (props: CP_TREE_SELECT.Props) => {
   }, 400), []);
 
   const onLoadData = (treeNode?: CP_TREE_SELECT.INode) => {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const id = get(treeNode, 'props.id');
       if (operations.onLoadData) {
         execOperation(operations.onLoadData, id);
@@ -82,7 +82,7 @@ export default (props: CP_TREE_SELECT.Props) => {
   if (!visible) return null;
   const showSearch = !!operations.onSearch;
   return (
-    <div className='mb20'>
+    <div className="mb20">
       {title ? <h4> {title} </h4> : null}
       <TreeSelect
         showSearch={showSearch}

@@ -13,49 +13,49 @@
 
 declare namespace CUSTOM_ADDON {
   interface Plan {
-    label: string,
-    value: string
+    label: string;
+    value: string;
   }
   interface Item {
-    addonName: string
-    category: string
-    createdAt: string
-    desc: string
-    displayName: string
-    id: number,
-    logoUrl: string
-    name: string
-    public: true
-    supportTenant: true
-    plan: Plan[]
-    type: string
-    updatedAt: string
-    vars: string[] | null,
-    tenantVars: string[] | null,
-    version: string
+    addonName: string;
+    category: string;
+    createdAt: string;
+    desc: string;
+    displayName: string;
+    id: number;
+    logoUrl: string;
+    name: string;
+    public: true;
+    supportTenant: true;
+    plan: Plan[];
+    type: string;
+    updatedAt: string;
+    vars: string[] | null;
+    tenantVars: string[] | null;
+    version: string;
   }
 
   interface InsQuery {
-    type: string
-    vendor: string
-    projectID: string
+    type: string;
+    vendor: string;
+    projectID: string;
     workspace: string;
   }
 
   interface AddBody {
-    addonName: string
-    configs: Obj
-    name: string
-    customAddonType: 'cloud' | 'custom'
-    extra: Obj
-    projectId: number
-    tag: string
-    workspace: string
+    addonName: string;
+    configs: Obj;
+    name: string;
+    customAddonType: 'cloud' | 'custom';
+    extra: Obj;
+    projectId: number;
+    tag: string;
+    workspace: string;
   }
 
   interface AddDiceAddOns {
     addons: {
-      [k: string]: Obj<string>
+      [k: string]: Obj<string>;
     };
     shareScope: string;
     workspace: string;
@@ -64,26 +64,26 @@ declare namespace CUSTOM_ADDON {
   }
 
   interface AddTenantAddon {
-    addonInstanceRoutingId: string,
-    name: string,
-    configs: Obj<string>
+    addonInstanceRoutingId: string;
+    name: string;
+    configs: Obj<string>;
   }
 
   interface UpdateBody {
-    projectId: number
-    instanceId: string
-    orgId: number
-    config: Obj
-    operatorId: number
+    projectId: number;
+    instanceId: string;
+    orgId: number;
+    config: Obj;
+    operatorId: number;
   }
 
   interface CloudInstance {
-    chargeType: string
-    id: string
-    name: string
-    spec: string
-    status: string
-    version: string
+    chargeType: string;
+    id: string;
+    name: string;
+    spec: string;
+    status: string;
+    version: string;
   }
 
   interface QueryCustoms {
@@ -92,8 +92,8 @@ declare namespace CUSTOM_ADDON {
   }
 
   interface QueryCloudGateway {
-    vendor: string
-    projectID: string
+    vendor: string;
+    projectID: string;
     workspace: string;
   }
 

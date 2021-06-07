@@ -33,13 +33,13 @@ MdEditor.use(UploadPlugin);
 export const Editor = React.forwardRef((props: Omit<EditorProps, 'renderHTML'>, ref) => {
   function onImageUpload(file: File, imageText: string, itemsInfo: itemInfo[]) {
     // Chrome会把文件名作为第一个复制内容，而把第二个复制的文件的名称统一改为image.png
-    const text = itemsInfo.find(i => i.kind === 'string');
+    const text = itemsInfo.find((i) => i.kind === 'string');
     const fileName = text ? text.content : file.name;
     let newFile = file;
     if (text) {
       newFile = new window.File([file], fileName, { type: file.type });
     }
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       uploadFile(convertToFormData({ file: newFile }))
         .then((res) => {
           const { size, url } = res?.data || {};

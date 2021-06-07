@@ -26,7 +26,7 @@ interface IProps {
   type: string;
   api: string;
   query: object;
-  dataHandler(...args: any): any;
+  dataHandler: (...args: any) => any;
 }
 
 const InstanceSelector = (props: IProps) => {
@@ -36,9 +36,9 @@ const InstanceSelector = (props: IProps) => {
     query,
     dataHandler,
   } = props;
-  const timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
-  const [instanceMap, baseInfo, chosenInstance] = SICommonStore.useStore(s => [s.instanceMap, s.baseInfo, s.chosenInstance]);
-  const [serviceName, routeQuery] = routeInfoStore.useStore(s => [s.params.serviceName, s.query]);
+  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const [instanceMap, baseInfo, chosenInstance] = SICommonStore.useStore((s) => [s.instanceMap, s.baseInfo, s.chosenInstance]);
+  const [serviceName, routeQuery] = routeInfoStore.useStore((s) => [s.params.serviceName, s.query]);
   const { getInstanceList } = SICommonStore.effects;
   const { setChosenInstance, clearChosenInstance } = SICommonStore.reducers;
   const { terminusKey, runtimeName, applicationId } = baseInfo;

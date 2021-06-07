@@ -30,9 +30,9 @@ interface IProps{
 
 const AppSelector = (props: IProps) => {
   const { changeApp } = props;
-  const appList = monitorCommonStore.useStore(s => s.projectApps);
+  const appList = monitorCommonStore.useStore((s) => s.projectApps);
   const [choosenApp, setChoosenApp] = React.useState([]);
-  const query = routeInfoStore.useStore(s => s.query);
+  const query = routeInfoStore.useStore((s) => s.query);
   const { getProjectApps } = monitorCommonStore.effects;
   useMount(() => {
     getProjectApps();

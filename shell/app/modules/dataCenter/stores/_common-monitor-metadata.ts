@@ -20,9 +20,9 @@ import {
 } from '../services/monitor-common-metadata';
 
 export interface IState {
-  metaGroups: any[]
-  metaConstantMap: MONITOR_COMMON_METADATA.MetaConstantMap
-  metaMetrics: MONITOR_COMMON_METADATA.MetaMetrics
+  metaGroups: any[];
+  metaConstantMap: MONITOR_COMMON_METADATA.MetaConstantMap;
+  metaMetrics: MONITOR_COMMON_METADATA.MetaMetrics;
 }
 
 export enum MonitorMetaDataScope {
@@ -49,7 +49,7 @@ export const createMonitorMetaDataStore = (scope: MonitorMetaDataScope, mode: Mo
     state: initState,
     effects: {
       async getMetaGroups({ call }) {
-        const { terminusKey } = routeInfoStore.getState(s => s.params);
+        const { terminusKey } = routeInfoStore.getState((s) => s.params);
         const _scopeId = isFunction(scopeId) ? scopeId() : scopeId;
         const groups = await call(getMetaGroups, {
           scope,
@@ -61,7 +61,7 @@ export const createMonitorMetaDataStore = (scope: MonitorMetaDataScope, mode: Mo
         monitorMetaDataStore.reducers.convertGroups(groups);
       },
       async getMetaData({ call, update }, { groupId }: { groupId: string }) {
-        const { terminusKey } = routeInfoStore.getState(s => s.params);
+        const { terminusKey } = routeInfoStore.getState((s) => s.params);
         const _scopeId = isFunction(scopeId) ? scopeId() : scopeId;
         const metaData = await call(getMetaData, {
           scope,

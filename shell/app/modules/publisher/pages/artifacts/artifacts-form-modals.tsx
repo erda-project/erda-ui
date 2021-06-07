@@ -29,14 +29,14 @@ const { addArtifacts, updateArtifacts } = publisherStore.effects;
 const modalName = i18n.t('publisher:publisher content');
 
 interface IProps {
-  visible: boolean,
-  formData?: PUBLISHER.IArtifacts,
-  title?: string,
-  name?: string,
-  form: WrappedFormUtils,
-  onCancel(): void,
-  beforeSubmit?(valuse: any, form:WrappedFormUtils): Promise<any>,
-  afterSubmit?(isUpdate?: boolean, data?: PUBLISHER.IArtifacts): any,
+  visible: boolean;
+  formData?: PUBLISHER.IArtifacts;
+  title?: string;
+  name?: string;
+  form: WrappedFormUtils;
+  onCancel: () => void;
+  beforeSubmit?: (valuse: any, form: WrappedFormUtils) => Promise<any>;
+  afterSubmit?: (isUpdate?: boolean, data?: PUBLISHER.IArtifacts) => any;
 }
 
 class ArtifactsFormModal extends React.PureComponent<IProps, any> {
@@ -247,7 +247,7 @@ class ArtifactsFormModal extends React.PureComponent<IProps, any> {
         type: formData.type || ArtifactsTypeMap.MOBILE.value,
       }, () => {
         const fieldsList = this.getFieldsList();
-        const keys = fieldsList.filter(f => f.name !== undefined).map(f => f.name) as string[];
+        const keys = fieldsList.filter((f) => f.name !== undefined).map((f) => f.name) as string[];
         if (!isAdd) {
           setTimeout(() => {
             this.props.form.setFieldsValue(pick(formData as object, keys));

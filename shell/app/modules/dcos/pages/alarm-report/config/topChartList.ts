@@ -87,4 +87,4 @@ const CHART_CONFIG_MAP = {
   },
 };
 
-export default map(CHART_CONFIG_MAP, config => chartRender(config));
+export default map(CHART_CONFIG_MAP, (config) => chartRender(config));

@@ -22,8 +22,8 @@ const { Option } = Select;
 
 interface IVariableInputGroupProps {
   value: Array<{
-    protocol: string,
-    port: number,
+    protocol: string;
+    port: number;
   }>;
   placeholder?: string;
   required?: boolean;
@@ -34,7 +34,7 @@ interface IVariableInputGroupProps {
 
 
 export default class extends PureComponent<IVariableInputGroupProps, any> {
-  public state = {
+  state = {
     value: [],
   };
 
@@ -44,14 +44,14 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
     };
   }
 
-  public triggerChange = (changedValue: any) => {
+  triggerChange = (changedValue: any) => {
     const { onChange } = this.props;
     if (onChange) {
       onChange(changedValue);
     }
   };
 
-  public render() {
+  render() {
     const { value } = this.state;
     const { disabled } = this.props;
 
@@ -83,7 +83,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
 
     return (
       <div>
-        <div className='edit-service-label'>
+        <div className="edit-service-label">
           {i18n.t('application:ports')}
           {disabled ? null : <IconPlus className="variable-icon pointer" onClick={this.addNew} />}
         </div>

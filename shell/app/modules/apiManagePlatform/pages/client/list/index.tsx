@@ -31,7 +31,7 @@ const ClientList = () => {
     keyword: '',
     resetModalInfo: {},
   });
-  const [clientList, clientListPaging] = apiClientStore.useStore(s => [s.clientList, s.clientListPaging]);
+  const [clientList, clientListPaging] = apiClientStore.useStore((s) => [s.clientList, s.clientListPaging]);
   const { getClientList, deleteClient, updateClient } = apiClientStore.effects;
   const isLoading = useLoading(apiClientStore, ['getClientList', 'deleteClient', 'updateClient']);
   React.useEffect(() => {
@@ -55,7 +55,7 @@ const ClientList = () => {
     updater.keyword(query.keyword);
   };
 
-  const filterConfig = React.useMemo(():FilterItemConfig[] => [
+  const filterConfig = React.useMemo((): FilterItemConfig[] => [
     {
       type: Input.Search,
       name: 'keyword',
@@ -100,7 +100,7 @@ const ClientList = () => {
     },
   }];
   return (
-    <Spin spinning={isLoading.some(t => t)}>
+    <Spin spinning={isLoading.some((t) => t)}>
       <CustomFilter config={filterConfig} onSubmit={handleSearch} />
       <Alert message={i18n.t('tips of client data source')} description={i18n.t('tips of client data source description')} className="mb8" />
       <Table

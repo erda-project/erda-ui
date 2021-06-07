@@ -24,22 +24,22 @@ import './publisher-list.scss';
 const { Search } = Input;
 
 interface IMapperProps{
-  list:PUBLISHER.IPublisher[];
-  paging:IPaging;
+  list: PUBLISHER.IPublisher[];
+  paging: IPaging;
   isFetching: boolean;
-  getList:(payload: PUBLISHER.PublisherListQuery) => Promise<{
+  getList: (payload: PUBLISHER.PublisherListQuery) => Promise<{
     list: PUBLISHER.IPublisher[];
     total: number;
   }>;
-  clearList:()=>void;
-  deleteItem?:(payload: any) => Promise<any>
-  operationAuth?:{delete:boolean;edit:boolean;add:boolean};
-  onItemClick:(item: PUBLISHER.IPublisher) => void;
+  clearList: () => void;
+  deleteItem?: (payload: any) => Promise<any>;
+  operationAuth?: {delete: boolean;edit: boolean;add: boolean};
+  onItemClick: (item: PUBLISHER.IPublisher) => void;
 }
 
 export interface IPubliserListProps extends IMapperProps {
-  placeHolderMsg?: string
-  getList(p: any): Promise<any>
+  placeHolderMsg?: string;
+  getList: (p: any) => Promise<any>;
 }
 
 export const PurePublisherList = ({
@@ -76,7 +76,7 @@ export const PurePublisherList = ({
     updater.q(value);
   };
 
-  const goToPublisher = (item:PUBLISHER.IPublisher) => {
+  const goToPublisher = (item: PUBLISHER.IPublisher) => {
     onItemClick(item);
   };
 
@@ -88,7 +88,7 @@ export const PurePublisherList = ({
     });
   };
 
-  const openFormModal = (item?:PUBLISHER.IPublisher) => {
+  const openFormModal = (item?: PUBLISHER.IPublisher) => {
     updater.editData(item);
     updater.formVisible(true);
   };
@@ -108,8 +108,8 @@ export const PurePublisherList = ({
     reLoadList();
   };
 
-  const onDelete = (item:PUBLISHER.IPublisher) => {
-    deleteItem && deleteItem({ publisherId: item.id }).then(res => {
+  const onDelete = (item: PUBLISHER.IPublisher) => {
+    deleteItem && deleteItem({ publisherId: item.id }).then((res) => {
       res && reLoadList();
     });
   };
@@ -145,7 +145,7 @@ export const PurePublisherList = ({
                       </div>
                       <div className="item-desc nowrap">{item.desc || i18n.t('publisher:edit description in edit mode')}</div>
                     </div>
-                    <div className="item-operation" onClick={(e:any) => e.stopPropagation()}>
+                    <div className="item-operation" onClick={(e: any) => e.stopPropagation()}>
                       {
                         operationAuth.edit ? (
                           <CustomIcon
@@ -161,7 +161,7 @@ export const PurePublisherList = ({
                         operationAuth.delete ? (
                           <Popconfirm
                             title={i18n.t('is it confirmed?')}
-                            onConfirm={(e:any) => {
+                            onConfirm={(e: any) => {
                               e.stopPropagation();
                               onDelete(item);
                             }}
@@ -189,4 +189,4 @@ export const PurePublisherList = ({
   );
 };
 
-export const createPublisherList = (Mapper:()=>IMapperProps) => connectCube(PurePublisherList, Mapper);
+export const createPublisherList = (Mapper: () => IMapperProps) => connectCube(PurePublisherList, Mapper);

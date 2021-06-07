@@ -57,7 +57,7 @@ const alarmStrategy = createStore({
       await call(createAlert, { body, tenantGroup }, { successMsg: i18n.t('operated successfully') });
       await alarmStrategy.effects.getAlerts({ pageNo: 1 });
     },
-    async editAlert({ call, getParams }, payload: { body: COMMON_STRATEGY_NOTIFY.IAlertBody; id: string; }) {
+    async editAlert({ call, getParams }, payload: { body: COMMON_STRATEGY_NOTIFY.IAlertBody; id: string }) {
       const { tenantGroup } = getParams();
       await call(editAlert, { ...payload, tenantGroup }, { successMsg: i18n.t('operated successfully') });
       await alarmStrategy.effects.getAlerts({ pageNo: 1 });

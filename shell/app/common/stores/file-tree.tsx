@@ -76,10 +76,10 @@ const fileTreeStore = createFlatStore({
     async deleteTreeNode({ call }, payload: { inode: string }) {
       return call(deleteTreeNode, payload);
     },
-    async moveTreeNode({ call }, payload: { inode: string, pinode: string }) {
+    async moveTreeNode({ call }, payload: { inode: string; pinode: string }) {
       return call(moveTreeNode, payload);
     },
-    async copyTreeNode({ call }, payload: { inode: string, pinode: string }) {
+    async copyTreeNode({ call }, payload: { inode: string; pinode: string }) {
       return call(copyTreeNode, payload);
     },
     async getAncestors({ call }, payload: { inode: string }) {
@@ -91,7 +91,7 @@ const fileTreeStore = createFlatStore({
       return map(categories, convertNodeType);
     },
 
-    async getTreeNodeDetailNew({ call, update }, payload: { id: string, scope: string, scopeID: string }) {
+    async getTreeNodeDetailNew({ call, update }, payload: { id: string; scope: string; scopeID: string }) {
       const curNodeDetail = await call(getTreeNodeDetailNew, payload);
       update({ curNodeDetail });
       return curNodeDetail;

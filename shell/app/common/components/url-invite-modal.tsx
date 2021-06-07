@@ -17,13 +17,13 @@ import { Copy } from 'common';
 import { Modal, Alert, Input, Button } from 'app/nusi';
 
 interface IProps {
-  url: string
-  visible: boolean
-  code?: string
-  tip?: string
-  linkPrefixTip?: string
-  modalProps?: { [k: string]: any }
-  onCancel(): void
+  url: string;
+  visible: boolean;
+  code?: string;
+  tip?: string;
+  linkPrefixTip?: string;
+  modalProps?: { [k: string]: any };
+  onCancel: () => void;
 }
 
 export const UrlInviteModal = ({

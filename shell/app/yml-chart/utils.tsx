@@ -31,7 +31,7 @@ export const getDefaultVersionConfig = (actionConfigs: DEPLOY.ActionConfig[]) =>
   if (isEmpty(actionConfigs)) {
     return undefined;
   }
-  const defaultConfig = actionConfigs.find(config => config.isDefault);
+  const defaultConfig = actionConfigs.find((config) => config.isDefault);
   return defaultConfig || actionConfigs[0];
 };
 
@@ -83,7 +83,7 @@ export const mergeActionAndResource = (actionConfig: DEPLOY.ActionConfig | undef
         };
       } else if (config.type === 'struct' && Array.isArray(config.struct)) {
         const v = task.params[config.name];
-        const subStruct = map(config.struct, item => {
+        const subStruct = map(config.struct, (item) => {
           return { ...item, value: get(v, item.name) };
         });
         result.data.params[config.name] = {
@@ -111,7 +111,7 @@ export const mergeActionAndResource = (actionConfig: DEPLOY.ActionConfig | undef
   return result;
 };
 
-const convertJobsParams = (jobParams: {image: string, resources: any}, isCustomScript: boolean, task: IStageTask) => {
+const convertJobsParams = (jobParams: {image: string; resources: any}, isCustomScript: boolean, task: IStageTask) => {
   const { image, resources = {} } = jobParams || {};
   const filteredResources = omit(resources, 'disk');
   const readOnlyParams: any[] = [

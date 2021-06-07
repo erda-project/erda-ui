@@ -75,7 +75,7 @@ class SelectInputGroup extends React.Component {
           {...selectProps}
         >
           {
-            options.map(op => <Option key={op.value} value={op.value}>{op.name}</Option>)
+            options.map((op) => <Option key={op.value} value={op.value}>{op.name}</Option>)
           }
         </Select>
         <span className="slash">/</span>

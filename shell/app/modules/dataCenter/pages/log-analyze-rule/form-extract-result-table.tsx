@@ -57,7 +57,7 @@ export default () => React.memo(({ fieldConfig }: any) => {
           defaultValue={val}
           onSelect={(v: any) => (componentProps.onChange || noop)(value, uniId, { key: 'type', value: v })}
         >
-          {map(TYPES, type => <Select.Option key={type} value={type}>{type}</Select.Option>)}
+          {map(TYPES, (type) => <Select.Option key={type} value={type}>{type}</Select.Option>)}
         </Select>
       ),
     },

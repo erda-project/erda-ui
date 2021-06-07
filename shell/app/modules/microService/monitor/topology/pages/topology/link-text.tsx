@@ -23,8 +23,8 @@ interface ILinkTextProps{
     mqCount: any;
   };
   id: string;
-  onHover(...args: any): void;
-  outHover(...args: any): void;
+  onHover: (...args: any) => void;
+  outHover: (...args: any) => void;
 }
 
 const getOutCountTotal = (node: TOPOLOGY.INode, originData: TOPOLOGY.INode[]) => {

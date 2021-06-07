@@ -63,7 +63,7 @@ const LogCountChart = ({ chartQuery, loadData }: any) => {
             });
           });
           const yAxisLength = yAxis.length;
-          const _time = time.map(t => moment(t).format('MM-DD HH:mm'));
+          const _time = time.map((t) => moment(t).format('MM-DD HH:mm'));
           return { xData: _time, metricData, yAxisLength, xAxisIsTime: true };
         },
       },
@@ -75,9 +75,9 @@ const LogCountChart = ({ chartQuery, loadData }: any) => {
 
 
 const LogAnalytics = () => {
-  const routeQuery = routeInfoStore.useStore(s => s.query);
-  const addonDetail = addonStore.useStore(s => s.addonDetail);
-  const [appList, searchResult] = logAnalyticsStore.useStore(s => [s.appList, s.searchResult]);
+  const routeQuery = routeInfoStore.useStore((s) => s.query);
+  const addonDetail = addonStore.useStore((s) => s.addonDetail);
+  const [appList, searchResult] = logAnalyticsStore.useStore((s) => [s.appList, s.searchResult]);
   const queryData = React.useRef({
     'tags.dice_application_name': routeQuery.appName,
     start: Date.now() - 7 * 3600 * 1000,
@@ -196,7 +196,7 @@ const LogAnalytics = () => {
             onSearch: onAppSearch,
             defaultValue: routeQuery.appName,
             placeholder: i18n.t('search by name'),
-            options: appList.map(app => ({ value: app.name, name: app.name })),
+            options: appList.map((app) => ({ value: app.name, name: app.name })),
           },
           // {
           //   label: i18n.t('microService:service name'),
@@ -231,7 +231,7 @@ const LogAnalytics = () => {
       </div>
       <Holder when={isEmpty(curList)}>
         {
-          map(curList, item => {
+          map(curList, (item) => {
             return (
               <div key={item.offset} className="log-analytic-item">
                 <div className="title">

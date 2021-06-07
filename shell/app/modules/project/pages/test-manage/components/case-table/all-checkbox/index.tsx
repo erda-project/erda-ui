@@ -19,11 +19,11 @@ import testCaseStore from 'project/stores/test-case';
 import './index.scss';
 
 interface IProps {
-  mode: TEST_CASE.PageScope
+  mode: TEST_CASE.PageScope;
 }
 
 const AllCheckBox = ({ mode }: IProps) => {
-  const [choosenInfo, modalChoosenInfo, caseList, modalCaseList] = testCaseStore.useStore(s => [s.choosenInfo, s.modalChoosenInfo, s.caseList, s.modalCaseList]);
+  const [choosenInfo, modalChoosenInfo, caseList, modalCaseList] = testCaseStore.useStore((s) => [s.choosenInfo, s.modalChoosenInfo, s.caseList, s.modalCaseList]);
   const { triggerChoosenAll } = testCaseStore.reducers;
   let currentList = caseList;
   if (mode === 'caseModal') {

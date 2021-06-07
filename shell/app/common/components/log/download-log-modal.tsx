@@ -29,11 +29,11 @@ interface IProps {
   query?: {
     [prop: string]: any;
   };
-  onCancel(): void;
+  onCancel: () => void;
 }
 
 const DownloadLogFormModal = ({ start, visible, query, onCancel }: IProps) => {
-  const handleDownload = ({ startTime, endTime }: { startTime: Moment, endTime: number }) => {
+  const handleDownload = ({ startTime, endTime }: { startTime: Moment; endTime: number }) => {
     const { taskID, downloadAPI, fetchApi, end, stream, ...rest }: any = query;
     const requestQuery = { ...rest };
     requestQuery.stream = stream || 'stdout';

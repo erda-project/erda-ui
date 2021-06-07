@@ -32,27 +32,27 @@ const noEnv = [{
 }] as TEST_ENV.Item[];
 
 interface IPropsOfEnvSelect {
-  children: JSX.Element
-  execute(data: Omit<TEST_PLAN.CaseApi, 'testPlanID'>):void
+  children: JSX.Element;
+  execute: (data: Omit<TEST_PLAN.CaseApi, 'testPlanID'>) => void;
 }
-export const EnvSelect = ({ execute, children }:IPropsOfEnvSelect) => {
-  const projectEnvList = testEnvStore.useStore(s => s.projectEnvList);
+export const EnvSelect = ({ execute, children }: IPropsOfEnvSelect) => {
+  const projectEnvList = testEnvStore.useStore((s) => s.projectEnvList);
   const { getProjectTestEnvList, clearProjectEnvList } = testEnvStore;
-  const params = routeInfoStore.useStore(s => s.params);
-  
+  const params = routeInfoStore.useStore((s) => s.params);
+
   useEffectOnce(() => {
     getProjectTestEnvList({ envID: +params.projectId, envType: 'project' });
     return () => {
       clearProjectEnvList();
-    }
+    };
   });
 
-  const caseList = testCaseStore.useStore(s => s.caseList);
-  const { primaryKeys } = testCaseStore.useStore(s => s.choosenInfo);
-  const handleExecute = React.useCallback((env:TEST_ENV.Item) => {
+  const caseList = testCaseStore.useStore((s) => s.caseList);
+  const { primaryKeys } = testCaseStore.useStore((s) => s.choosenInfo);
+  const handleExecute = React.useCallback((env: TEST_ENV.Item) => {
     const testCaseIDs: number[] = [];
     caseList.forEach(({ testCases }) => {
-      testCases.forEach(cases => {
+      testCases.forEach((cases) => {
         if (primaryKeys.includes(cases.id)) {
           testCaseIDs.push(cases.testCaseID);
         }
@@ -72,7 +72,7 @@ export const EnvSelect = ({ execute, children }:IPropsOfEnvSelect) => {
 };
 
 export const BaseInfo = () => {
-  const planItemDetail = testPlanStore.useStore(s => s.planItemDetail);
+  const planItemDetail = testPlanStore.useStore((s) => s.planItemDetail);
   const partnerIDs = planItemDetail.partnerIDs || [];
   const percent = React.useMemo(() => {
     const { succ, total } = planItemDetail.relsCount;
@@ -97,7 +97,7 @@ export const BaseInfo = () => {
         <div className="title">{planItemDetail.id} - {planItemDetail.name}</div>
         <div className="sub member">
           <span className="ml4">{i18n.t('project:principal')}：</span>
-          <Avatar showName name={<UserInfo id={planItemDetail.ownerID} render={data => data.nick || data.name} />} />
+          <Avatar showName name={<UserInfo id={planItemDetail.ownerID} render={(data) => data.nick || data.name} />} />
           <span className="ml24">{i18n.t('project:participant')}：</span>
           <Popover overlayStyle={{ width: 280 }} overlayClassName="participant-popover" content={content}>
             <span className="participant flex-box hover-active">

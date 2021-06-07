@@ -74,8 +74,8 @@ const REG_CHARS = ['*', '.', '?', '+', '$', '^', '[', ']', '(', ')', '{', '}', '
 
 const Transaction = () => {
   const { getTraceSlowTranslation } = topologyServiceStore;
-  const { startTimeMs, endTimeMs } = monitorCommonStore.useStore(s => s.timeSpan);
-  const params = routeInfoStore.useStore(s => s.params);
+  const { startTimeMs, endTimeMs } = monitorCommonStore.useStore((s) => s.timeSpan);
+  const params = routeInfoStore.useStore((s) => s.params);
   const [isFetching] = useLoading(topologyServiceStore, ['getTraceSlowTranslation']);
   const [{ type, search, subSearch, sort, url, visible, traceSlowTranslation, detailVisible, traceId, logVisible, sortType }, updater] = useUpdate({
     type: DASHBOARD_TYPE.http as DASHBOARD_TYPE,
@@ -107,7 +107,7 @@ const Transaction = () => {
       serviceName,
       serviceId: window.decodeURIComponent(serviceId),
       operation: cellValue,
-    }).then(res => updater.traceSlowTranslation(res));
+    }).then((res) => updater.traceSlowTranslation(res));
   };
 
   const handleChangeSortType = React.useCallback((e: RadioChangeEvent) => {
@@ -127,7 +127,7 @@ const Transaction = () => {
 
   const [columns, dataSource] = useMemo(() => {
     const c = [
-      ...map(traceSlowTranslation?.cols, col => ({
+      ...map(traceSlowTranslation?.cols, (col) => ({
         title: col.title,
         dataIndex: col.index,
       })),
@@ -166,7 +166,7 @@ const Transaction = () => {
   const extraGlobalVariable = useMemo(() => {
     let _subSearch = subSearch || search;
     // 动态注入正则查询变量需要转义字符
-    _subSearch && REG_CHARS.forEach(char => {
+    _subSearch && REG_CHARS.forEach((char) => {
       _subSearch = _subSearch?.replaceAll(char, `\\${char}`);
     });
 

@@ -21,7 +21,7 @@ interface IProps {
   placeholder?: string;
   className?: string;
   value?: string;
-  onChange(val: any): void;
+  onChange: (val: any) => void;
   [pro: string]: any;
 }
 export const DebounceSearch = (props: IProps) => {

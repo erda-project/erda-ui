@@ -43,10 +43,10 @@ const chartArr = [
 ];
 
 const InterfaceDetail = () => {
-  const timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
-  const { interfacename, az } = routeInfoStore.getState(s => s.query);
-  const dubboDetailTime = dubboStore.useStore(s => s.dubboDetailTime);
-  const infoList = microServiceInfoStore.useStore(s => s.infoList);
+  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const { interfacename, az } = routeInfoStore.getState((s) => s.query);
+  const dubboDetailTime = dubboStore.useStore((s) => s.dubboDetailTime);
+  const infoList = microServiceInfoStore.useStore((s) => s.infoList);
   const { getMSComponentInfo } = microServiceInfoStore.effects;
   const { getDubboDetailTime, getDubboDetailChart } = dubboStore.effects;
   const [state, updater] = useUpdate({
@@ -102,7 +102,7 @@ const InterfaceDetail = () => {
           });
         });
         const yAxisLength = yAxis.length;
-        const formatTime = time.map(t => moment(t).format('MM-DD HH:mm'));
+        const formatTime = time.map((t) => moment(t).format('MM-DD HH:mm'));
         return { xData: formatTime, metricData, yAxisLength, xAxisIsTime: true };
       },
     },

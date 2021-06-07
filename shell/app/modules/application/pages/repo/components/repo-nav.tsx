@@ -28,9 +28,9 @@ import { DownOne as IconDownOne } from '@icon-park/react';
 
 const PureRepoNavOperation = () => {
   const [modalVisible, setModalVisible] = React.useState(false);
-  const [info, tree, mode] = repoStore.useStore(s => [s.info, s.tree, s.mode]);
-  const branchInfo = appStore.useStore(s => s.branchInfo);
-  const branchAuthObj = usePerm(s => s.app.repo.branch);
+  const [info, tree, mode] = repoStore.useStore((s) => [s.info, s.tree, s.mode]);
+  const branchInfo = appStore.useStore((s) => s.branchInfo);
+  const branchAuthObj = usePerm((s) => s.app.repo.branch);
   const { changeMode } = repoStore.reducers;
   const { getRepoTree, commit } = repoStore.effects;
   const { isLocked } = info;
@@ -40,7 +40,7 @@ const PureRepoNavOperation = () => {
 
   const isRootPath = tree && tree.path === '';// 是根目录
   // 当前已存在pipeline.yml
-  const hasPipeline = find(get(tree, 'entries') || [], item => item.name === 'pipeline.yml');
+  const hasPipeline = find(get(tree, 'entries') || [], (item) => item.name === 'pipeline.yml');
   const getFieldsList = () => {
     const initialBranch = getInfoFromRefName(info.refName).branch;
     const fieldsList = [
@@ -73,7 +73,7 @@ const PureRepoNavOperation = () => {
     return fieldsList;
   };
 
-  const handleAdd = ({ dirName, ...values }: { dirName: string, message: string, branch: string }) => {
+  const handleAdd = ({ dirName, ...values }: { dirName: string; message: string; branch: string }) => {
     const path = `${tree.path ? `${tree.path}/` : tree.path}${dirName}`;
     commit({
       ...values,
@@ -120,8 +120,8 @@ const PureRepoNavOperation = () => {
       }
     }}
     >
-      <Menu.Item disabled={isLocked} key='file'>{i18n.t('application:create new file')}</Menu.Item>
-      <Menu.Item disabled={isLocked} key='folder'>{i18n.t('application:create folder')}</Menu.Item>
+      <Menu.Item disabled={isLocked} key="file">{i18n.t('application:create new file')}</Menu.Item>
+      <Menu.Item disabled={isLocked} key="folder">{i18n.t('application:create folder')}</Menu.Item>
     </Menu>
   );
 
@@ -152,8 +152,8 @@ const PureRepoNavOperation = () => {
           }
         </IF>
         <Dropdown overlay={addMenu}>
-          <Button className='ml8'>
-            {i18n.t('add')}<CustomIcon className='ml8' type="caret-down" />
+          <Button className="ml8">
+            {i18n.t('add')}<CustomIcon className="ml8" type="caret-down" />
           </Button>
         </Dropdown>
         <IF.ELSE />
@@ -163,8 +163,8 @@ const PureRepoNavOperation = () => {
           </Tooltip>
         </IF>
         <Tooltip title={disabledTips[0]}>
-          <Button className='ml8' disabled>
-            {i18n.t('add')}<CustomIcon className='ml8' type="caret-down" />
+          <Button className="ml8" disabled>
+            {i18n.t('add')}<CustomIcon className="ml8" type="caret-down" />
           </Button>
         </Tooltip>
       </IF>

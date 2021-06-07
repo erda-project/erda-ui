@@ -52,7 +52,7 @@ interface IProps {
 const extractData = (data: any) => pick(data, ['source', 'branch', 'ymlName']);
 
 const BuildDetail = (props: IProps) => {
-  const [params, query] = routeInfoStore.useStore(s => [s.params, s.query]);
+  const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [state, updater] = useUpdate({
     startStatus: 'unstart', // unstart-未开始，ready-准备开始，start-已开始,end:执行完成或取消
     logVisible: false,
@@ -75,14 +75,14 @@ const BuildDetail = (props: IProps) => {
     executeRecords,
     recordPaging,
     changeType,
-  ] = buildStore.useStore(s => [
+  ] = buildStore.useStore((s) => [
     s.pipelineDetail,
     s.executeRecords,
     s.recordPaging,
     s.changeType,
   ]);
 
-  const branchInfo = appStore.useStore(s => s.branchInfo);
+  const branchInfo = appStore.useStore((s) => s.branchInfo);
   const rejectRef = React.useRef(null);
 
   const {
@@ -348,7 +348,7 @@ const BuildDetail = (props: IProps) => {
     updater.logVisible(false);
   };
 
-  const updateEnv = (info: { id: number, disabled: boolean }) => {
+  const updateEnv = (info: { id: number; disabled: boolean }) => {
     const { id, disabled } = info;
     updateTaskEnv({ taskID: id, disabled, pipelineID: pipelineDetail.id }).then(() => {
       getPipelineDetail({ pipelineID: +pipelineID });
@@ -419,7 +419,7 @@ const BuildDetail = (props: IProps) => {
     const paddingEle = (
       <div className="build-operator mx0">
         <Tooltip title={i18n.t('preparing')}>
-          <IconLoading size="20px" strokeWidth={2} style={{transform: 'translateY(0)'}} spin />
+          <IconLoading size="20px" strokeWidth={2} style={{ transform: 'translateY(0)' }} spin />
         </Tooltip>
       </div>
     );
@@ -464,7 +464,7 @@ const BuildDetail = (props: IProps) => {
                 ) : (
                   <WithAuth pass={deployAuth.hasAuth} noAuthTip={deployAuth.authTip}>
                     <CustomIcon type="refresh" />
-                </WithAuth>
+                  </WithAuth>
                 )
               }
               <ELSE />
@@ -540,13 +540,13 @@ const BuildDetail = (props: IProps) => {
 
     return (
       <div className="build-history-wp">
-        <div 
-          className="refresh-newest-btn" 
-          onClick={() => { 
+        <div
+          className="refresh-newest-btn"
+          onClick={() => {
             getRecordList({ pageNo: 1 }).then((res) => {
               updater.recordTableKey((_prev: number) => _prev + 1);
               updater.chosenPipelineId(res?.[0].id);
-            }); 
+            });
           }}
         >
           <CustomIcon type="shuaxin" />{i18n.t('fetch latest records')}
@@ -608,7 +608,7 @@ const BuildDetail = (props: IProps) => {
           </div>
           {
             needApproval ? (
-              <Alert message={i18n.t('application:deploy-approval-pipeline-tip')} className='mt4' type="normal" showIcon />
+              <Alert message={i18n.t('application:deploy-approval-pipeline-tip')} className="mt4" type="normal" showIcon />
             ) : null
           }
           <div className="main-info-parent">
@@ -659,7 +659,7 @@ const BuildDetail = (props: IProps) => {
                   </Col>}
               </Row>
               <div className="trigger-btn" onClick={toggleExpandInfo}>
-                { !isExpand 
+                { !isExpand
                   ? <IconDown size="18px" className="mr0" />
                   : <IconUp size="18px" className="mr0" />
                 }
@@ -678,7 +678,7 @@ const BuildDetail = (props: IProps) => {
             }
             <PipelineChart data={pipelineDetail as unknown as PIPELINE.IPipelineDetail} onClickNode={onClickNode} changeType={changeType} />
           </div>
-          <PipelineLog resourceId={`${state.chosenPipelineId}`} resourceType='pipeline' isBuilding={ciBuildStatusSet.executeStatus.includes(curStatus)} />
+          <PipelineLog resourceId={`${state.chosenPipelineId}`} resourceType="pipeline" isBuilding={ciBuildStatusSet.executeStatus.includes(curStatus)} />
         </div>
       </Spin>
       <BuildLog visible={logVisible} hideLog={hideLog} {...logProps} />

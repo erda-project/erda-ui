@@ -25,37 +25,37 @@ const getSIRouter = () => ({
     {
       path: 'overview',
       tabs: SITabs,
-      getComp: cb => cb(import('microService/monitor/service-insight/pages/overview/overview')),
+      getComp: (cb) => cb(import('microService/monitor/service-insight/pages/overview/overview')),
     },
     {
       path: 'rpc',
       tabs: SITabs,
-      getComp: cb => cb(import('microService/monitor/service-insight/pages/rpc/rpc')),
+      getComp: (cb) => cb(import('microService/monitor/service-insight/pages/rpc/rpc')),
     },
     {
       path: 'web',
       tabs: SITabs,
-      getComp: cb => cb(import('microService/monitor/service-insight/pages/web/web')),
+      getComp: (cb) => cb(import('microService/monitor/service-insight/pages/web/web')),
     },
     {
       path: 'db',
       tabs: SITabs,
-      getComp: cb => cb(import('microService/monitor/service-insight/pages/database/database')),
+      getComp: (cb) => cb(import('microService/monitor/service-insight/pages/database/database')),
     },
     {
       path: 'cache',
       tabs: SITabs,
-      getComp: cb => cb(import('microService/monitor/service-insight/pages/cache/cache')),
+      getComp: (cb) => cb(import('microService/monitor/service-insight/pages/cache/cache')),
     },
     {
       path: 'jvm',
       tabs: SITabs,
-      getComp: cb => cb(import('microService/monitor/service-insight/pages/jvms/jvms')),
+      getComp: (cb) => cb(import('microService/monitor/service-insight/pages/jvms/jvms')),
     },
     {
       path: 'nodejs',
       tabs: SITabs,
-      getComp: cb => cb(import('microService/monitor/service-insight/pages/nodes/nodes')),
+      getComp: (cb) => cb(import('microService/monitor/service-insight/pages/nodes/nodes')),
     },
   ],
 });

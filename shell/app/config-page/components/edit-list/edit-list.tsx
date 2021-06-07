@@ -36,7 +36,7 @@ export default (props: CP_EDIT_LIST.Props) => {
   }, [list]);
 
   React.useEffect(() => {
-    setUseTemp(map(temp, item => {
+    setUseTemp(map(temp, (item) => {
       const { render } = item;
       if (render?.type === 'inputSelect') {
         const p = {} as Obj;
@@ -83,7 +83,7 @@ export default (props: CP_EDIT_LIST.Props) => {
   };
 
   return (
-    <div className='dice-cp'>
+    <div className="dice-cp">
       <EditList {...rest} value={value} dataTemp={useTemp} onChange={onChange} onBlurSave={onSave} />
     </div>
   );

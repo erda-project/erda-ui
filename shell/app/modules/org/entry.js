@@ -26,7 +26,7 @@ export default (registerModule) => {
       approvalStore,
       auditStore,
       certificateStore,
-      issueFieldStore
+      issueFieldStore,
     ],
   });
 };

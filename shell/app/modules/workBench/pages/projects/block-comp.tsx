@@ -27,7 +27,7 @@ const envMap = {
 };
 
 export const BlockNetworkTips = () => {
-  const currentOrg = orgStore.useStore(s => s.currentOrg);
+  const currentOrg = orgStore.useStore((s) => s.currentOrg);
   const { show, message } = React.useMemo(() => {
     const { blockoutConfig } = currentOrg;
     const envs: string[] = [];
@@ -42,17 +42,17 @@ export const BlockNetworkTips = () => {
     };
   }, [currentOrg]);
   return show ? (
-    <Alert className='mb16' showIcon type="error" message={i18n.t('default:tips of blockNetwork for forbidding deploy in the {env}', { env: message })} />
+    <Alert className="mb16" showIcon type="error" message={i18n.t('default:tips of blockNetwork for forbidding deploy in the {env}', { env: message })} />
   ) : null;
 };
 
 interface IProps {
-  scope: 'project' | 'app',
+  scope: 'project' | 'app';
   unBlockEnd?: string;
   unBlockStart?: string;
   canOperate?: boolean;
   status: PROJECT.BlockStatus;
-  onClick?(key: string): void;
+  onClick?: (key: string) => void;
 }
 
 const BlockNetworkStatus = ({ status, canOperate = false, onClick, scope, unBlockStart, unBlockEnd }: IProps) => {
@@ -91,8 +91,8 @@ const BlockNetworkStatus = ({ status, canOperate = false, onClick, scope, unBloc
     ),
     unblocking: (
       <>
-        <span className='inline-flex-box color-yellow'>
-          <CustomIcon type="lock1" className='color-yellow' />
+        <span className="inline-flex-box color-yellow">
+          <CustomIcon type="lock1" className="color-yellow" />
           {i18n.t('default:unblocking, please wait')}
         </span>
         {period}
@@ -102,7 +102,7 @@ const BlockNetworkStatus = ({ status, canOperate = false, onClick, scope, unBloc
     unblocked: (
       <>
         <span className="inline-flex-box color-green">
-          <CustomIcon type="unlock1" className='color-green' />
+          <CustomIcon type="unlock1" className="color-green" />
           {i18n.t('default:unblocked')}
         </span>
         {period}

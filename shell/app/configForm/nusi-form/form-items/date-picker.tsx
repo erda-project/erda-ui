@@ -32,7 +32,7 @@ const CompMap = {
   week: WeekPicker,
 };
 
-const DatePickerComp = (props:any) => {
+const DatePickerComp = (props: any) => {
   const { componentProps, id, disabled, fixIn, handleChange, value } = props;
   const { dateType = 'date', placeholder, ...restCompProps } = componentProps || {};
   const Comp = CompMap[dateType];
@@ -59,7 +59,7 @@ export const FormDatePicker = ({
   extensionFix,
   requiredCheck,
   trigger = 'onChange',
-}: any = {}) => React.memo(({ fieldConfig, form }:any = {}) => {
+}: any = {}) => React.memo(({ fieldConfig, form }: any = {}) => {
   const {
     key,
     value,
@@ -80,7 +80,7 @@ export const FormDatePicker = ({
   const curFixOut = itemFixOut || fixOut;
 
   registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (e:any) => {
+  const handleChange = (e: any) => {
     form.setFieldValue(key, curFixOut(e));
     (componentProps.onChange || noop)(e);
   };
@@ -112,7 +112,7 @@ export const FormDatePicker = ({
 export const config = {
   name: 'datePicker',
   Component: FormDatePicker, // 某React组件，props中必须有value、onChange
-  requiredCheck: value => {
+  requiredCheck: (value) => {
     // 必填校验时，特殊的校验规则
     return [!isEmpty(value), i18n.t('can not be empty')];
   },
@@ -120,7 +120,7 @@ export const config = {
     // 在获取表单数据时，将React组件的value格式化成需要的格式
     return value;
   },
-  fixIn: (value:any, options:any) => {
+  fixIn: (value: any, options: any) => {
     const { dateType = 'date' } = options || {};
     if (dateType === 'range' && !isArray(value)) return undefined;
     if (dateType !== 'range' && isArray(value)) return undefined;

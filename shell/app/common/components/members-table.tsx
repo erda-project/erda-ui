@@ -54,10 +54,10 @@ interface IProps {
   showAuthorize?: boolean;
   hideBatchOps?: boolean;
   overwriteAuth?: {
-    add?: boolean
-    edit?: boolean
-    delete?: boolean
-    showAuthorize?: boolean
+    add?: boolean;
+    edit?: boolean;
+    delete?: boolean;
+    showAuthorize?: boolean;
   };
 }
 
@@ -68,18 +68,18 @@ export const MembersTable = ({
   hideBatchOps = false,
   overwriteAuth = {},
 }: IProps) => {
-  const memberLabels = memberLabelStore.useStore(s => s.memberLabels);
+  const memberLabels = memberLabelStore.useStore((s) => s.memberLabels);
   const { getMemberLabels } = memberLabelStore.effects;
-  const loginUser = userStore.useStore(s => s.loginUser);
-  const currentOrg = orgStore.useStore(s => s.currentOrg);
+  const loginUser = userStore.useStore((s) => s.loginUser);
+  const currentOrg = orgStore.useStore((s) => s.currentOrg);
   const { id: orgId, name: orgName, displayName: orgDisplayName } = currentOrg;
 
-  const [projectMemberPerm, appMemberPerm] = usePerm(s => [s.project.member, s.app.member]);
+  const [projectMemberPerm, appMemberPerm] = usePerm((s) => [s.project.member, s.app.member]);
   const { id: currentUserId } = loginUser;
-  const { params } = routeInfoStore.getState(s => s);
+  const { params } = routeInfoStore.getState((s) => s);
 
   const memberStore = storeMap[scopeKey];
-  const [list, paging, roleMap] = memberStore.useStore(s => [s.list, s.paging, s.roleMap]);
+  const [list, paging, roleMap] = memberStore.useStore((s) => [s.list, s.paging, s.roleMap]);
   const { cleanMembers } = memberStore.reducers;
   const { getMemberList, updateMembers, removeMember, getRoleMap, genOrgInviteCode } = memberStore.effects;
 
@@ -130,7 +130,7 @@ export const MembersTable = ({
     ...insertWhen(showAuthorize && memberAuth.showAuthorize, [
       { key: batchOptionType.authorize, name: i18n.t('authorize') },
     ]),
-    { key: batchOptionType.remove, name: i18n.t('remove'), disabled: !memberAuth.delete || isEmpty(filter(state.selectedKeys, item => item !== currentUserId)) },
+    { key: batchOptionType.remove, name: i18n.t('remove'), disabled: !memberAuth.delete || isEmpty(filter(state.selectedKeys, (item) => item !== currentUserId)) },
   ];
 
   useEffectOnce(() => {
@@ -159,7 +159,7 @@ export const MembersTable = ({
         updater.batchEditVisible(true);
         break;
       case batchOptionType.remove:
-        confirmDelete(filter(state.selectedKeys, item => item !== currentUserId));
+        confirmDelete(filter(state.selectedKeys, (item) => item !== currentUserId));
         break;
       case batchOptionType.authorize:
         updater.batchAuthorizeVisible(true);
@@ -170,7 +170,7 @@ export const MembersTable = ({
   };
 
   const handleGenOrgInviteCode = () => {
-    genOrgInviteCode().then(result => {
+    genOrgInviteCode().then((result) => {
       const verifyCode = get(result, 'verifyCode');
       if (verifyCode) {
         updater.verifyCode(verifyCode as any);
@@ -181,7 +181,7 @@ export const MembersTable = ({
     });
   };
 
-  const onSearchMembers = React.useCallback(({ query, queryRole, label }: { query: string; queryRole: string, label: string[] }) => {
+  const onSearchMembers = React.useCallback(({ query, queryRole, label }: { query: string; queryRole: string; label: string[] }) => {
     updater.queryParams({ ...state.queryParams, q: query, roles: [queryRole], pageNo: 1, label });
   }, [state.queryParams, updater]);
 
@@ -202,7 +202,7 @@ export const MembersTable = ({
     handleCloseEditModal();
   }, [handleCloseEditModal, currentUserId, scope, state.batchEditVisible, state.editMember, state.queryParams, state.selectedKeys, updateMembers]);
 
-  const handleBatchAuthorize = ({ applications, roles }: { applications: number[], roles: string[] }) => {
+  const handleBatchAuthorize = ({ applications, roles }: { applications: number[]; roles: string[] }) => {
     updateMembers({
       scope: { id: params.projectId, type: MemberScope.PROJECT },
       userIds: state.selectedKeys,
@@ -268,7 +268,7 @@ export const MembersTable = ({
             ...state.queryParams,
             pageNo: paging.pageNo,
             pageSize: paging.pageSize,
-          } as Omit<MEMBER.GetListQuery, 'scope'>
+          } as Omit<MEMBER.GetListQuery, 'scope'>,
         ).then(() => {
           isArray(user) && updater.selectedKeys([]);
           // if remove other users, still stay current page
@@ -351,7 +351,7 @@ export const MembersTable = ({
       title: i18n.t('role'),
       dataIndex: 'roles',
       render: (roles: string[]) => {
-        const rolesStr = map(roles, role => roleMap[role] || i18n.t('common:other')).join(',');
+        const rolesStr = map(roles, (role) => roleMap[role] || i18n.t('common:other')).join(',');
         return (
           <div className="members-list-role-operate nowrap">
             <Tooltip title={rolesStr}>
@@ -365,9 +365,9 @@ export const MembersTable = ({
       title: i18n.t('member label'),
       dataIndex: 'labels',
       render: (val: string[]) => {
-        const curLabels = map(val, item => {
+        const curLabels = map(val, (item) => {
           const labelObj = find(memberLabels, { label: item }) || { name: item, label: item };
-          return <div className='members-list-label-item' key={labelObj.label}>{labelObj.name}</div>;
+          return <div className="members-list-label-item" key={labelObj.label}>{labelObj.name}</div>;
         });
         return (
           <div className="members-list-label nowrap">
@@ -461,7 +461,7 @@ export const MembersTable = ({
       placeholder: i18n.t('select member label'),
       allowClear: true,
       mode: 'multiple',
-      options: map(memberLabels, item => ({ name: item.name, value: item.label })),
+      options: map(memberLabels, (item) => ({ name: item.name, value: item.label })),
     }]),
   ];
 

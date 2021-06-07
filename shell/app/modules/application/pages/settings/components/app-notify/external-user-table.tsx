@@ -17,13 +17,13 @@ import { Button, Table, Input, message } from 'app/nusi';
 import { useUpdate } from 'common';
 import i18n from 'i18n';
 
-export default ({ value: targets, onChange }: { value?: any[]; onChange(value: string[]): void }) => {
+export default ({ value: targets, onChange }: { value?: any[]; onChange: (value: string[]) => void }) => {
   const [{ editingExternalUsers }, updater] = useUpdate({
     editingExternalUsers: [],
   });
 
   React.useEffect(() => {
-    updater.editingExternalUsers(map(targets, item => ({
+    updater.editingExternalUsers(map(targets, (item) => ({
       uniKey: uniqueId(),
       ...JSON.parse(item),
     })));
@@ -31,15 +31,15 @@ export default ({ value: targets, onChange }: { value?: any[]; onChange(value: s
 
   const updateEditingExternalUsers = (users: COMMON_NOTIFY.ExternalUserInfo[]) => {
     onChange([]);
-    if (every(users, user => isEmpty(omit(user, 'uniKey')))) {
+    if (every(users, (user) => isEmpty(omit(user, 'uniKey')))) {
       message.warning(i18n.t('application:add at least one'));
       return;
     }
-    if (some(users, user => !user.username.trim())) {
+    if (some(users, (user) => !user.username.trim())) {
       message.warning(i18n.t('application:external username cannot be empty'));
       return;
     }
-    onChange(map(users, user => JSON.stringify(omit(user, 'uniKey'))));
+    onChange(map(users, (user) => JSON.stringify(omit(user, 'uniKey'))));
   };
 
   const handleEditExternalUser = (uniKey: string, key: string, value: any) => {
@@ -69,7 +69,7 @@ export default ({ value: targets, onChange }: { value?: any[]; onChange(value: s
   };
 
   const handleRemoveExternalUser = (uniKey: string) => {
-    updateEditingExternalUsers(filter(editingExternalUsers, item => item.uniKey !== uniKey));
+    updateEditingExternalUsers(filter(editingExternalUsers, (item) => item.uniKey !== uniKey));
   };
 
   const columns = [

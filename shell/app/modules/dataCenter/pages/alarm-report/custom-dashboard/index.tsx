@@ -17,6 +17,6 @@ import CustomDashboardList from 'app/modules/dataCenter/common/custom-dashboard'
 import orgStore from 'app/org-home/stores/org';
 
 export default () => {
-  const currentOrg = orgStore.getState(s => s.currentOrg);
+  const currentOrg = orgStore.getState((s) => s.currentOrg);
   return <CustomDashboardList scope={CustomDashboardScope.ORG} scopeId={currentOrg.name} />;
 };

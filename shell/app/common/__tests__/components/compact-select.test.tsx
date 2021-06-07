@@ -23,7 +23,7 @@ describe('CompactSelect', () => {
         <select name="org">
           <option value="erda">erda</option>
         </select>
-      </CompactSelect>
+      </CompactSelect>,
     );
     expect(wrapper.find('.select-addon-before').text()).toBe('org-select-title');
     expect(wrapper.find('select')).toHaveClassName('org-select');

@@ -91,8 +91,8 @@ interface IProps {
   memberStore: any;
 }
 
-export const ListTargets = ({ targets = [], roleMap }: { targets: COMMON_STRATEGY_NOTIFY.INotifyTarget[], roleMap: any }) => {
-  const userMap = userMapStore.useStore(s => s);
+export const ListTargets = ({ targets = [], roleMap }: { targets: COMMON_STRATEGY_NOTIFY.INotifyTarget[]; roleMap: any }) => {
+  const userMap = userMapStore.useStore((s) => s);
   const { values = [], type } = targets[0] || {};
   const firstValue = head(values)?.receiver as string;
   let text = '';
@@ -139,7 +139,7 @@ export const ListTargets = ({ targets = [], roleMap }: { targets: COMMON_STRATEG
       );
       break;
     case TargetType.ROLE:
-      text = `${i18n.t('application:notify role')}：${map(values, obj => roleMap[obj.receiver]).join(',')}`;
+      text = `${i18n.t('application:notify role')}：${map(values, (obj) => roleMap[obj.receiver]).join(',')}`;
       targetsEle = (
         <>
           <CustomIcon type="sidebarUser" className="color-text-desc" />
@@ -161,10 +161,10 @@ const NotifyGroup = ({
   memberStore,
   commonPayload,
 }: IProps) => {
-  const notifyGroups = notifyGroupStore.useStore(s => s.notifyGroups);
-  const userMap = userMapStore.useStore(s => s);
+  const notifyGroups = notifyGroupStore.useStore((s) => s.notifyGroups);
+  const userMap = userMapStore.useStore((s) => s);
 
-  const roleMap = memberStore.useStore(s => s.roleMap);
+  const roleMap = memberStore.useStore((s) => s.roleMap);
   const { getRoleMap } = memberStore.effects;
 
   const { getNotifyGroups, deleteNotifyGroups, createNotifyGroups, updateNotifyGroups } = notifyGroupStore.effects;
@@ -198,7 +198,7 @@ const NotifyGroup = ({
       case TargetType.USER:
       case TargetType.EXTERNAL_USER:
       case TargetType.ROLE:
-        _targets = map(values, v => v.receiver);
+        _targets = map(values, (v) => v.receiver);
         break;
       case TargetType.WEBHOOK:
         _targets = values[0]?.receiver;
@@ -400,17 +400,17 @@ const NotifyGroup = ({
       dataIndex: 'targets',
       className: 'notify-info',
       tip: true,
-      render: targets => <div className="flex-box"><ListTargets targets={targets} roleMap={roleMap} /></div>,
+      render: (targets) => <div className="flex-box"><ListTargets targets={targets} roleMap={roleMap} /></div>,
     },
     {
       title: i18n.t('default:creator'),
       dataIndex: 'creator',
-      render: text => userMap[text]?.nick,
+      render: (text) => userMap[text]?.nick,
     },
     {
       title: i18n.t('default:create time'),
       dataIndex: 'createdAt',
-      render: text => moment(text).format('YYYY-MM-DD HH:mm:ss'),
+      render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: i18n.t('default:operation'),

@@ -51,7 +51,7 @@ describe('crud-table.', () => {
   };
   describe('CRUDTable', () => {
     it('should work well', () => {
-      const extraOperation = <div className='extraOperation'>extraOperation</div>;
+      const extraOperation = <div className="extraOperation">extraOperation</div>;
       const clearListFn = jest.fn();
       const submitFn = jest.fn();
       const asyncSubmitFn = jest.fn().mockResolvedValue();
@@ -66,11 +66,11 @@ describe('crud-table.', () => {
           addAuthTooltipTitle="noAuth"
           handleFormSubmit={submitFn}
           onModalClose={onModalCloseFn}
-        />
+        />,
       );
       expect(wrapper.find('.extraOperation')).toExist();
       wrapper.setProps({
-        extraOperation: () => <div className='extraOperation-fn'>extraOperation</div>,
+        extraOperation: () => <div className="extraOperation-fn">extraOperation</div>,
         getFieldsList,
       });
       expect(wrapper.find('.extraOperation-fn')).toExist();
@@ -117,7 +117,7 @@ describe('crud-table.', () => {
         <CRUDStoreTable
           store={{ ...store, effects }}
           getColumns={getColumns}
-        />
+        />,
       );
       expect(wrapper.find('CRUDTable').prop('list')).toStrictEqual(list);
       expect(wrapper.find('CRUDTable').prop('paging')).toStrictEqual(paging);

@@ -51,7 +51,7 @@ const convertChartData = (data: any) => {
   const yAxis = [];
   const metricData = [] as object[];
   forEach(get(results, '[0].data') || [], (item) => {
-    mapKeys(item, v => {
+    mapKeys(item, (v) => {
       const { chartType, ...rest } = v;
       yAxis[v.axisIndex] = 1;
       metricData.push({
@@ -67,8 +67,8 @@ const convertChartData = (data: any) => {
 
 export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string }) => {
   const alarmRecordStore = storeMap[scope];
-  const { recordId } = routeInfoStore.useStore(s => s.params);
-  const [recordDetail, alarmTimesChart, recordHistories] = alarmRecordStore.useStore(s => [s.recordDetail, s.alarmTimesChart, s.recordHistories]);
+  const { recordId } = routeInfoStore.useStore((s) => s.params);
+  const [recordDetail, alarmTimesChart, recordHistories] = alarmRecordStore.useStore((s) => [s.recordDetail, s.alarmTimesChart, s.recordHistories]);
   const { getAlarmRecordDetail, getAlarmTimesChart, getAlarmRecordHistories } = alarmRecordStore;
   // const isExistingTicket = !!recordDetail.issueId;
 
@@ -154,12 +154,12 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
     {
       title: i18n.t('org:create time'),
       dataIndex: 'timestamp',
-      render: timestamp => moment(timestamp).format('YYYY-MM-DD HH:mm:ss'),
+      render: (timestamp) => moment(timestamp).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: i18n.t('org:alarm status'),
       dataIndex: 'alertState',
-      render: alertState => <AlarmState state={alertState} />,
+      render: (alertState) => <AlarmState state={alertState} />,
     },
     {
       width: 200,
@@ -202,7 +202,7 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
         </Button>
       </div> */}
       <div className="start-flex-box mb16">
-        <CommonRangePicker defaultTime={defaultTime} onOk={v => updater.timeSpan(v)} />
+        <CommonRangePicker defaultTime={defaultTime} onOk={(v) => updater.timeSpan(v)} />
         {/* <Radio.Group value={view} onChange={(e: any) => updater.view(e.target.value)}> */}
         {/*  <Radio.Button value="table"><CustomIcon type="unorderedlist" /></Radio.Button> */}
         {/*  <Radio.Button value="chart"><CustomIcon type="bar-chart" /></Radio.Button> */}
@@ -231,7 +231,7 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
           id={Number(recordDetail.issueId)}
           customUrl={issueUrlMap[scope]}
           issueType={ISSUE_TYPE.TICKET}
-          ticketType='monitor'
+          ticketType="monitor"
           iterationID={-1}
           visible={drawerVisible}
           closeDrawer={closeDrawer}

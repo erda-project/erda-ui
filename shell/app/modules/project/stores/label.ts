@@ -17,7 +17,7 @@ import { getLabels, createLabel, updateLabel, deleteLabel } from '../services/la
 
 
 interface IState {
-  list: LABEL.Item[],
+  list: LABEL.Item[];
 }
 
 const initState: IState = {
@@ -51,7 +51,7 @@ const projectLabel = createStore({
       state.list = [];
     },
     deleteLabel(state, labelId: number) {
-      state.list = state.list.filter(l => l.id !== labelId);
+      state.list = state.list.filter((l) => l.id !== labelId);
     },
   },
 });

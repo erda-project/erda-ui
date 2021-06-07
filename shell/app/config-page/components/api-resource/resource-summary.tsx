@@ -24,19 +24,19 @@ import { produce } from 'immer';
 const { Fields } = FormBuilder;
 
 interface IProps {
-  formData: Obj,
-  isEditMode?:boolean;
-  onChange: (key:string, formData:Obj)=>void,
+  formData: Obj;
+  isEditMode?: boolean;
+  onChange: (key: string, formData: Obj) => void;
 }
 
 interface ITagSelect {
-  options: Obj[],
-  value: string,
-  disabled: boolean,
-  onChange: (e:string)=>void,
-  onDelete: (e:string)=>void
-  onSubmit: ()=>void
-  onInput: (e:string)=>void
+  options: Obj[];
+  value: string;
+  disabled: boolean;
+  onChange: (e: string) => void;
+  onDelete: (e: string) => void;
+  onSubmit: () => void;
+  onInput: (e: string) => void;
 }
 
 const TagSelect = React.forwardRef((tagProps: ITagSelect) => {
@@ -54,7 +54,7 @@ const TagSelect = React.forwardRef((tagProps: ITagSelect) => {
                   name !== 'other' &&
                   <CustomIcon
                     type="shanchu"
-                    className='tag-option-btn'
+                    className="tag-option-btn"
                     onClick={(e) => { e.stopPropagation(); onDelete(name); }}
                   />
                 }
@@ -82,7 +82,7 @@ const TagSelect = React.forwardRef((tagProps: ITagSelect) => {
               maxLength={INPUT_MAX_LENGTH}
               placeholder={i18n.t('project:please select or enter the tag')}
               value={value}
-              onChange={(e:React.ChangeEvent<HTMLInputElement>) => { onInput(e.target.value); }}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { onInput(e.target.value); }}
               onBlur={onSubmit}
             />
           </Dropdown>
@@ -91,7 +91,7 @@ const TagSelect = React.forwardRef((tagProps: ITagSelect) => {
   );
 });
 
-const ResourceSummary = React.memo((props:IProps) => {
+const ResourceSummary = React.memo((props: IProps) => {
   const [{
     tagList,
     operationIdList,
@@ -100,7 +100,7 @@ const ResourceSummary = React.memo((props:IProps) => {
     operationIdList: [],
   });
   const { updateOpenApiDoc } = apiDesignStore;
-  const [openApiDoc] = apiDesignStore.useStore(s => [s.openApiDoc]);
+  const [openApiDoc] = apiDesignStore.useStore((s) => [s.openApiDoc]);
 
   const { formData, onChange, isEditMode = true } = props;
   const formRef = React.useRef<WrappedFormUtils>(null);
@@ -116,11 +116,11 @@ const ResourceSummary = React.memo((props:IProps) => {
   }, [formData]);
 
   const totalOperationIdList = React.useMemo(() => {
-    const _operationIdList:string[] = [];
+    const _operationIdList: string[] = [];
     const { paths } = openApiDoc;
-    forEach(keys(paths), (pathName:string) => {
+    forEach(keys(paths), (pathName: string) => {
       const methodData = paths[pathName];
-      forEach(keys(methodData), item => {
+      forEach(keys(methodData), (item) => {
         methodData[item]?.operationId && _operationIdList.push(methodData[item]?.operationId);
       });
     });
@@ -128,7 +128,7 @@ const ResourceSummary = React.memo((props:IProps) => {
   }, [openApiDoc]);
 
   React.useEffect(() => {
-    const _operationIdList:string[] = totalOperationIdList;
+    const _operationIdList: string[] = totalOperationIdList;
     const tags = openApiDoc.tags || [];
     updater.tagList([...tags]);
     updater.operationIdList(_operationIdList);
@@ -137,7 +137,7 @@ const ResourceSummary = React.memo((props:IProps) => {
   const onCreateTag = React.useCallback(() => {
     const { tags } = formRef.current!.getFieldsValues();
     const newTagName = Array.isArray(tags) ? tags[0] : tags;
-    const isNew = tagList?.length ? every(tagList, item => item.name !== newTagName) : true;
+    const isNew = tagList?.length ? every(tagList, (item) => item.name !== newTagName) : true;
     if (isNew && newTagName && newTagName !== 'other') {
       const newTags = [...tagList, { name: newTagName }];
       onChange('summary', { propertyName: 'tags', propertyData: [newTagName], newTags });
@@ -145,14 +145,14 @@ const ResourceSummary = React.memo((props:IProps) => {
   }, [onChange, tagList]);
 
 
-  const onDeleteTag = React.useCallback((tagName:string) => {
-    const newList = filter(tagList, item => item?.name !== tagName);
-    const tempDocDetail = produce(openApiDoc, draft => {
+  const onDeleteTag = React.useCallback((tagName: string) => {
+    const newList = filter(tagList, (item) => item?.name !== tagName);
+    const tempDocDetail = produce(openApiDoc, (draft) => {
       set(draft, 'tags', newList);
-      forEach(keys(draft.paths), (apiName:string) => {
+      forEach(keys(draft.paths), (apiName: string) => {
         const apiData = draft.paths[apiName];
 
-        forEach(keys(apiData), method => {
+        forEach(keys(apiData), (method) => {
           if (get(draft, ['paths', apiName, method, 'tags', '0']) === tagName) {
             draft.paths[apiName][method].tags = [DEFAULT_TAG];
           }
@@ -166,11 +166,11 @@ const ResourceSummary = React.memo((props:IProps) => {
     }
   }, [openApiDoc, tagList, updateOpenApiDoc]);
 
-  const setField = React.useCallback((propertyName:string, val:string| string[]) => {
+  const setField = React.useCallback((propertyName: string, val: string| string[]) => {
     const curFormData = formRef.current!.getFieldsValues();
     if (propertyName !== 'operationId' && !curFormData?.operationId) {
       let _operationId = 'operationId';
-      const _operationIdList:string[] = totalOperationIdList;
+      const _operationIdList: string[] = totalOperationIdList;
       while (_operationIdList.includes(_operationId)) {
         _operationId += '1';
       }
@@ -192,7 +192,7 @@ const ResourceSummary = React.memo((props:IProps) => {
       customProps: {
         maxLength: INPUT_MAX_LENGTH,
         disabled: !isEditMode,
-        onChange: (e:React.ChangeEvent<HTMLInputElement>) => {
+        onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
           const newName = e.target.value;
           if (!operationIdList.includes(newName)) {
             setField('operationId', newName);
@@ -219,10 +219,10 @@ const ResourceSummary = React.memo((props:IProps) => {
       customProps: {
         disabled: !isEditMode,
         options: tagList,
-        onChange: (e:string) => { setField('tags', [e]); },
+        onChange: (e: string) => { setField('tags', [e]); },
         onDelete: onDeleteTag,
         onSubmit: onCreateTag,
-        onInput: (e:string) => { formRef.current!.setFieldsValue({ tags: e }); },
+        onInput: (e: string) => { formRef.current!.setFieldsValue({ tags: e }); },
       },
     },
     {
@@ -235,7 +235,7 @@ const ResourceSummary = React.memo((props:IProps) => {
         defaultMode: !isEditMode ? 'html' : 'md',
         readOnly: !isEditMode,
         maxLength: TEXTAREA_MAX_LENGTH,
-        onChange: (val:string) => setField('description', val),
+        onChange: (val: string) => setField('description', val),
       },
     },
   ], [isEditMode, onCreateTag, onDeleteTag, operationIdList, setField, tagList]);

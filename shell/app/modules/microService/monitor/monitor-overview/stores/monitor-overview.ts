@@ -74,7 +74,7 @@ const monitorOverview = createStore({
     },
     async getMonitorInstance({ call, update, getParams, select }) {
       const { terminusKey } = getParams();
-      const curTerminusKey = select(s => s.curTerminusKey);
+      const curTerminusKey = select((s) => s.curTerminusKey);
       if (curTerminusKey !== terminusKey) {
         const instance = await call(getMonitorInstance, { terminusKey });
         update({ instance, curTerminusKey: terminusKey });

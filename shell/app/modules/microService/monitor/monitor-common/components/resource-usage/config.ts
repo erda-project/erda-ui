@@ -37,7 +37,7 @@ const chartConfig = (api?: string) => {
         if (limit) {
           finalData.lines = [{
             name: i18n.t('microService:memory usage limit'),
-            value: find(limit.data, num => num !== 0) || 0,
+            value: find(limit.data, (num) => num !== 0) || 0,
           }];
         }
         return finalData;

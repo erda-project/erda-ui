@@ -45,13 +45,13 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
         props: {
           whiteBg: true,
           fullHeight: true,
-        }
+        },
       },
       myOrganization: {
         type: 'Container',
         props: {
           spaceSize: 'big',
-        }
+        },
       },
       emptyOrganization: {
         type: 'Container',
@@ -77,7 +77,7 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
                 renderType: 'linkText',
                 visible: false,
                 value: {
-                  text: [{ text: '了解如何受邀加入到组织', operationKey: "toJoinOrgDoc" }]
+                  text: [{ text: '了解如何受邀加入到组织', operationKey: 'toJoinOrgDoc' }],
                 },
               },
             },
@@ -86,7 +86,7 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
                 renderType: 'linkText',
                 visible: true,
                 value: {
-                  text: [{ text: '浏览公开组织信息', operationKey: 'toPublicOrgPage' }]
+                  text: [{ text: '浏览公开组织信息', operationKey: 'toPublicOrgPage' }],
                 },
               },
             },
@@ -96,23 +96,23 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
         operations: {
           toJoinOrgDoc: {
             command: {
-              key: "goto",
-              target: "https://docs.erda.cloud/",
+              key: 'goto',
+              target: 'https://docs.erda.cloud/',
               jumpOut: true,
               visible: false,
             },
-            key: "click",
+            key: 'click',
             reload: false,
             show: false,
           },
           toPublicOrgPage: {
             command: {
-              key: "goto",
-              target: "orgList",
+              key: 'goto',
+              target: 'orgList',
               jumpOut: true,
               visible: false,
             },
-            key: "click",
+            key: 'click',
             reload: false,
             show: false,
           },
@@ -149,7 +149,7 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
                         params: {
                           orgName: 'organizeA',
                         },
-                      }
+                      },
                     },
                   },
                 },
@@ -193,13 +193,13 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
                   },
                 },
               },
-            }
+            },
           ],
         },
         state: {
           value: 'organizeC',
           label: '组织C',
-        }
+        },
       },
       joinedBrief: {
         type: 'Table',
@@ -250,22 +250,22 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
           visible: true,
           renderType: 'linkText',
           value: {
-            text: ['请先加入组织或者', { text: '了解更多内容', operationKey: "toJoinOrgDoc" }]
-          }
+            text: ['请先加入组织或者', { text: '了解更多内容', operationKey: 'toJoinOrgDoc' }],
+          },
         },
         operations: {
           toJoinOrgDoc: {
             command: {
-              key: "goto",
-              target: "https://docs.erda.cloud/",
+              key: 'goto',
+              target: 'https://docs.erda.cloud/',
               jumpOut: true,
               visible: false,
             },
-            key: "click",
+            key: 'click',
             reload: false,
             show: false,
           },
-        }
+        },
       },
       projectTipWithOrg: {
         type: 'Container',
@@ -279,33 +279,33 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
           visible: true,
           renderType: 'linkText',
           value: {
-            text: [{ text: '如何创建项目', operationKey: "createProjectDoc" }, ' 或 ', { text: '通过公开组织浏览公开项目信息', operationKey: "toPublicOrgPage" }]
-          }
+            text: [{ text: '如何创建项目', operationKey: 'createProjectDoc' }, ' 或 ', { text: '通过公开组织浏览公开项目信息', operationKey: 'toPublicOrgPage' }],
+          },
         },
         operations: {
           createProjectDoc: {
             command: {
-              key: "goto",
-              target: "https://docs.erda.cloud/",
+              key: 'goto',
+              target: 'https://docs.erda.cloud/',
               jumpOut: true,
               visible: false,
             },
-            key: "click",
+            key: 'click',
             reload: false,
             show: false,
           },
           toPublicOrgPage: {
             command: {
-              key: "goto",
-              target: "orgList",
+              key: 'goto',
+              target: 'orgList',
               jumpOut: true,
               visible: false,
             },
-            key: "click",
+            key: 'click',
             reload: false,
             show: false,
           },
-        }
+        },
       },
       myInfo: {
         type: 'Container',
@@ -318,7 +318,7 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
         type: 'Container',
         props: {
           spaceSize: 'middle',
-        }
+        },
       },
       myProjectTitle: {
         type: 'Title',
@@ -340,19 +340,19 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
               operations: {
                 click: {
                   command: {
-                    key: "goto",
-                    target: "createProject",
+                    key: 'goto',
+                    target: 'createProject',
                     jumpOut: false,
                     visible: false,
                   },
-                  key: "click",
+                  key: 'click',
                   reload: false,
                   show: false,
                 },
-              }
-            }
-          ]
-        }
+              },
+            },
+          ],
+        },
       },
       myProjectFilter: {
         type: 'ContractiveFilter',
@@ -414,7 +414,7 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
                       params: {
                         projectId: '13',
                       },
-                    }
+                    },
                   },
                 },
               },
@@ -439,7 +439,7 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
                       params: {
                         projectId: '13',
                       },
-                    }
+                    },
                   },
                 },
               },
@@ -450,7 +450,7 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
           changePageNo: {
             key: 'changePageNo',
             reload: true,
-            fillMeta: 'pageNo'
+            fillMeta: 'pageNo',
           },
         },
         state: {
@@ -473,7 +473,7 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
           level: 1,
           noMarginBottom: true,
           showDivider: true,
-        }
+        },
       },
       myApplicationFilter: {
         type: 'ContractiveFilter',
@@ -534,7 +534,7 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
                         projectId: '9',
                         appId: '8',
                       },
-                    }
+                    },
                   },
                 },
               },
@@ -558,7 +558,7 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
                         projectId: '9',
                         appId: '8',
                       },
-                    }
+                    },
                   },
                 },
               },
@@ -569,7 +569,7 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
           changePageNo: {
             key: 'changePageNo',
             reload: true,
-            fillMeta: 'pageNo'
+            fillMeta: 'pageNo',
           },
         },
         state: {
@@ -584,7 +584,7 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
           tip: '未加入任何应用',
           visible: true,
           relative: true,
-        }
+        },
       },
     },
   },
@@ -619,7 +619,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
           level: 1,
           noMarginBottom: true,
           size: 'big',
-        }
+        },
       },
       emptyOrgTip: {
         type: 'LRContainer',
@@ -705,7 +705,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 value: '* 加入组织',
                 styleConfig: {
                   bold: true,
-                }
+                },
               },
               gapSize: 'small',
             },
@@ -723,7 +723,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 visible: true,
                 value: '当你已经加入到任何组织后，此框将不再显示',
                 textStyleName: {
-                  'fz12': true,
+                  fz12: true,
                   'color-text-desc': true,
                 },
               },
@@ -734,12 +734,12 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
         operations: {
           toSpecificProject: {
             command: {
-              key: "goto",
-              target: "projectAllIssue",
+              key: 'goto',
+              target: 'projectAllIssue',
               jumpOut: true,
               state: {
                 query: {
-                  issueViewGroup__urlQuery: "eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=",
+                  issueViewGroup__urlQuery: 'eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=',
                 },
                 params: {
                   projectId: '13',
@@ -747,7 +747,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
               },
               visible: false,
             },
-            key: "click",
+            key: 'click',
             reload: false,
             show: false,
           },
@@ -795,7 +795,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 visible: true,
                 value: '* 切换组织',
                 styleConfig: {
-                  bold: true
+                  bold: true,
                 },
               },
               gapSize: 'small',
@@ -814,7 +814,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 visible: true,
                 value: '* 公开项目浏览',
                 styleConfig: {
-                  bold: true
+                  bold: true,
                 },
               },
               gapSize: 'small',
@@ -834,7 +834,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 value: '* 加入组织',
                 styleConfig: {
                   bold: true,
-                }
+                },
               },
               gapSize: 'small',
             },
@@ -852,7 +852,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 visible: true,
                 value: '当你已经加入到该公开组织后，此框将不再显示',
                 textStyleName: {
-                  'fz12': true,
+                  fz12: true,
                   'color-text-desc': true,
                 },
               },
@@ -867,7 +867,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
           visible: true,
           whiteBg: true,
           startAlign: true,
-          contentSetting: 'start'
+          contentSetting: 'start',
         },
       },
       orgLogo: {
@@ -883,7 +883,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
         type: 'Container',
         props: {
           visible: true,
-        }
+        },
       },
       emptyProjectTitle: {
         type: 'Title',
@@ -912,7 +912,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 visible: true,
                 value: '* 切换组织',
                 styleConfig: {
-                  bold: true
+                  bold: true,
                 },
               },
               gapSize: 'small',
@@ -931,7 +931,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 visible: true,
                 value: '* 公开组织浏览',
                 styleConfig: {
-                  bold: true
+                  bold: true,
                 },
               },
               gapSize: 'small',
@@ -950,7 +950,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 visible: true,
                 value: '* 加入项目',
                 styleConfig: {
-                  bold: true
+                  bold: true,
                 },
               },
               gapSize: 'small',
@@ -969,7 +969,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 visible: true,
                 value: '* 该组织内公开项目浏览',
                 styleConfig: {
-                  bold: true
+                  bold: true,
                 },
               },
               gapSize: 'small',
@@ -983,7 +983,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                     {
                       icon: 'application-menu',
                       iconStyleName: 'primary-icon',
-                    }, '选择 DevOps平台进入，选择我的项目可以查看该组织下公开项目的信息']
+                    }, '选择 DevOps平台进入，选择我的项目可以查看该组织下公开项目的信息'],
                 },
               },
               gapSize: 'large',
@@ -994,13 +994,13 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 visible: true,
                 value: '当你已经加入到任何项目后，此框将不再显示',
                 textStyleName: {
-                  'fz12': true,
+                  fz12: true,
                   'color-text-desc': true,
                 },
               },
               gapSize: 'normal',
             },
-          ]
+          ],
         },
       },
       emptyProjectIssue: {
@@ -1041,8 +1041,8 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                     text: [
                       { image: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3314214233,3432671412&fm=26&gp=0.jpg' },
                       {
-                        text: "Erda",
-                        operationKey: "toSpecificProject",
+                        text: 'Erda',
+                        operationKey: 'toSpecificProject',
                         styleConfig: {
                           color: 'black',
                           fontSize: '16px',
@@ -1054,12 +1054,12 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 operations: {
                   toSpecificProject: {
                     command: {
-                      key: "goto",
-                      target: "projectAllIssue",
+                      key: 'goto',
+                      target: 'projectAllIssue',
                       jumpOut: true,
                       state: {
                         query: {
-                          issueViewGroup__urlQuery: "eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=",
+                          issueViewGroup__urlQuery: 'eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=',
                         },
                         params: {
                           projectId: '13',
@@ -1067,7 +1067,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                         },
                       },
                     },
-                    key: "click",
+                    key: 'click',
                     reload: false,
                     show: false,
                   },
@@ -1083,26 +1083,31 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 visible: true,
                 value: {
                   text: ['当前你还有', {
-                    text: ' 120 ', styleConfig: {
-                      bold: true
+                    text: ' 120 ',
+                    styleConfig: {
+                      bold: true,
                     },
                   }, '个事项待完成，已过期:', {
-                      text: ' 40 ', styleConfig: {
-                        bold: true
-                      },
-                    }, '，本日到期:', {
-                      text: ' 40 ', styleConfig: {
-                        bold: true
-                      },
-                    }, '，7日内到期:', {
-                      text: ' 36 ', styleConfig: {
-                        bold: true
-                      },
-                    }, '，30日内到期:', {
-                      text: ' 44 ', styleConfig: {
-                        bold: true
-                      },
-                    }]
+                    text: ' 40 ',
+                    styleConfig: {
+                      bold: true,
+                    },
+                  }, '，本日到期:', {
+                    text: ' 40 ',
+                    styleConfig: {
+                      bold: true,
+                    },
+                  }, '，7日内到期:', {
+                    text: ' 36 ',
+                    styleConfig: {
+                      bold: true,
+                    },
+                  }, '，30日内到期:', {
+                    text: ' 44 ',
+                    styleConfig: {
+                      bold: true,
+                    },
+                  }],
                 },
                 textStyleName: { 'color-text-light-desc': true },
               },
@@ -1180,18 +1185,18 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 props: {
                   renderType: 'linkText',
                   value: {
-                    text: [{ text: "查看剩余112条事件", operationKey: "toSpecificProject", icon: 'double-right', }]
+                    text: [{ text: '查看剩余112条事件', operationKey: 'toSpecificProject', icon: 'double-right' }],
                   },
                 },
                 operations: {
                   toSpecificProject: {
                     command: {
-                      key: "goto",
-                      target: "projectAllIssue",
+                      key: 'goto',
+                      target: 'projectAllIssue',
                       jumpOut: true,
                       state: {
                         query: {
-                          issueViewGroup__urlQuery: "eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=",
+                          issueViewGroup__urlQuery: 'eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=',
                         },
                         params: {
                           projectId: '13',
@@ -1200,7 +1205,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                       },
                       visible: false,
                     },
-                    key: "click",
+                    key: 'click',
                     reload: false,
                     show: false,
                   },
@@ -1215,8 +1220,8 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                     text: [
                       { image: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3314214233,3432671412&fm=26&gp=0.jpg' },
                       {
-                        text: "Erda",
-                        operationKey: "toSpecificProject",
+                        text: 'Erda',
+                        operationKey: 'toSpecificProject',
                         styleConfig: {
                           bold: true,
                           color: 'black',
@@ -1229,12 +1234,12 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 operations: {
                   toSpecificProject: {
                     command: {
-                      key: "goto",
-                      target: "projectAllIssue",
+                      key: 'goto',
+                      target: 'projectAllIssue',
                       jumpOut: true,
                       state: {
                         query: {
-                          issueViewGroup__urlQuery: "eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=",
+                          issueViewGroup__urlQuery: 'eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=',
                         },
                         params: {
                           projectId: '13',
@@ -1242,7 +1247,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                         },
                       },
                     },
-                    key: "click",
+                    key: 'click',
                     reload: false,
                     show: false,
                   },
@@ -1258,31 +1263,36 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 visible: true,
                 value: {
                   text: ['当前你还有', {
-                    text: ' 120 ', styleConfig: {
+                    text: ' 120 ',
+                    styleConfig: {
                       bold: true,
                       fontSize: '16px',
                     },
                   }, '个事项待完成，已过期:', {
-                      text: ' 40 ', styleConfig: {
-                        bold: true,
-                        fontSize: '16px',
-                      },
-                    }, '，本日到期:', {
-                      text: ' 40 ', styleConfig: {
-                        bold: true,
-                        fontSize: '16px',
-                      },
-                    }, '，7日内到期:', {
-                      text: ' 36 ', styleConfig: {
-                        bold: true,
-                        fontSize: '16px',
-                      },
-                    }, '，30日内到期:', {
-                      text: ' 44 ', styleConfig: {
-                        bold: true,
-                        fontSize: '16px',
-                      },
-                    }]
+                    text: ' 40 ',
+                    styleConfig: {
+                      bold: true,
+                      fontSize: '16px',
+                    },
+                  }, '，本日到期:', {
+                    text: ' 40 ',
+                    styleConfig: {
+                      bold: true,
+                      fontSize: '16px',
+                    },
+                  }, '，7日内到期:', {
+                    text: ' 36 ',
+                    styleConfig: {
+                      bold: true,
+                      fontSize: '16px',
+                    },
+                  }, '，30日内到期:', {
+                    text: ' 44 ',
+                    styleConfig: {
+                      bold: true,
+                      fontSize: '16px',
+                    },
+                  }],
                 },
                 textStyleName: { 'color-text-light-desc': true },
               },
@@ -1354,18 +1364,18 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 props: {
                   renderType: 'linkText',
                   value: {
-                    text: [{ text: "查看剩余112条事件", operationKey: "toSpecificProject", icon: 'double-right', }]
+                    text: [{ text: '查看剩余112条事件', operationKey: 'toSpecificProject', icon: 'double-right' }],
                   },
                 },
                 operations: {
                   toSpecificProject: {
                     command: {
-                      key: "goto",
-                      target: "projectAllIssue",
+                      key: 'goto',
+                      target: 'projectAllIssue',
                       jumpOut: true,
                       state: {
                         query: {
-                          issueViewGroup__urlQuery: "eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=",
+                          issueViewGroup__urlQuery: 'eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=',
                         },
                         params: {
                           projectId: '13',
@@ -1373,7 +1383,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                       },
                       visible: false,
                     },
-                    key: "click",
+                    key: 'click',
                     reload: false,
                     show: false,
                   },
@@ -1387,7 +1397,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
           pageSize: 1,
           total: 5,
         },
-      }
+      },
     },
   },
 };

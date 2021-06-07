@@ -142,12 +142,12 @@ export const diskTypeMap = {
   cloud_efficiency: { name: i18n.t('org:efficiency cloud'), value: 'cloud_efficiency' },
 };
 
-export const groupOptions = (list: any[], optionRender?: (arg:any)=>React.ReactChild) => {
-  return map(list, item => {
+export const groupOptions = (list: any[], optionRender?: (arg: any) => React.ReactChild) => {
+  return map(list, (item) => {
     const { name, children } = item;
     return (
       <OptGroup label={name} key={name}>
-        {map(children, (subItem:any) => {
+        {map(children, (subItem: any) => {
           if (optionRender) return optionRender(subItem);
           if (isString(subItem)) {
             return <Option key={subItem} value={subItem}>{subItem}</Option>;

@@ -63,12 +63,12 @@ function getDataCenterRouter() {
             {
               path: 'addCluster',
               pageName: i18n.t('org:cluster deployment'),
-              getComp: cb => cb(import('app/modules/dataCenter/pages/cluster-manage/deploy-cluster')),
+              getComp: (cb) => cb(import('app/modules/dataCenter/pages/cluster-manage/deploy-cluster')),
             },
             {
               path: 'history',
               pageName: i18n.t('org:operation history'),
-              getComp: cb => cb(import('app/modules/dataCenter/pages/cluster-manage/operation-history'), 'OperationHistory'),
+              getComp: (cb) => cb(import('app/modules/dataCenter/pages/cluster-manage/operation-history'), 'OperationHistory'),
             },
             {
               path: ':clusterName',
@@ -82,7 +82,7 @@ function getDataCenterRouter() {
                   },
                   routes: [
                     {
-                      getComp: cb => cb(import('app/modules/dataCenter/pages/cluster-manage/cluster-detail')),
+                      getComp: (cb) => cb(import('app/modules/dataCenter/pages/cluster-manage/cluster-detail')),
                     },
                   ],
                 },
@@ -96,7 +96,7 @@ function getDataCenterRouter() {
                   layout: { fullHeight: true },
                   routes: [
                     {
-                      getComp: cb => cb(import('app/modules/dataCenter/pages/cluster-manage/cluster-state')),
+                      getComp: (cb) => cb(import('app/modules/dataCenter/pages/cluster-manage/cluster-state')),
                     },
                   ],
                 },
@@ -106,12 +106,12 @@ function getDataCenterRouter() {
                   breadcrumbName: i18n.t('org:physical cluster'),
                   routes: [
                     {
-                      getComp: cb => cb(import('dcos/pages/mount-list/mount-list')),
+                      getComp: (cb) => cb(import('dcos/pages/mount-list/mount-list')),
                     },
                     {
                       path: 'add',
                       breadcrumbName: i18n.t('org:select resources'),
-                      getComp: cb => cb(import('dcos/pages/purchase-cluster/purchase-cluster')),
+                      getComp: (cb) => cb(import('dcos/pages/purchase-cluster/purchase-cluster')),
                     },
                   ],
                 },
@@ -126,11 +126,11 @@ function getDataCenterRouter() {
                         {
                           path: ':processId',
                           breadcrumbName: i18n.t('org:process details'),
-                          getComp: cb => cb(import('dcos/pages/alarm-report/processDetail')),
+                          getComp: (cb) => cb(import('dcos/pages/alarm-report/processDetail')),
                         },
                         {
                           breadcrumbName: i18n.t('org:alarm data report'),
-                          getComp: cb => cb(import('dcos/pages/alarm-report')),
+                          getComp: (cb) => cb(import('dcos/pages/alarm-report')),
                         },
                       ],
                     },
@@ -139,24 +139,24 @@ function getDataCenterRouter() {
               ],
             },
             {
-              getComp: cb => cb(import('app/modules/dataCenter/pages/cluster-manage')),
+              getComp: (cb) => cb(import('app/modules/dataCenter/pages/cluster-manage')),
             },
           ],
         },
         {
           path: 'domain',
           breadcrumbName: i18n.t('runtime:manage domain'),
-          getComp: cb => cb(import('app/modules/dataCenter/pages/domain-manage')),
+          getComp: (cb) => cb(import('app/modules/dataCenter/pages/domain-manage')),
         },
         {
           path: 'services',
           breadcrumbName: i18n.t('services'),
-          getComp: cb => cb(import('dcos/pages/service-manager')),
+          getComp: (cb) => cb(import('dcos/pages/service-manager')),
         },
         {
           path: 'jobs',
           breadcrumbName: i18n.t('org:jobs'),
-          getComp: cb => cb(import('app/modules/dataCenter/pages/tasks/job')),
+          getComp: (cb) => cb(import('app/modules/dataCenter/pages/tasks/job')),
         },
         {
           path: 'report',
@@ -166,10 +166,10 @@ function getDataCenterRouter() {
               path: ':taskId',
               breadcrumbName: '{opReportName}',
               layout: { fullHeight: true },
-              getComp: cb => cb(import('app/modules/dataCenter/pages/alarm-report/report-records')),
+              getComp: (cb) => cb(import('app/modules/dataCenter/pages/alarm-report/report-records')),
             },
             {
-              getComp: cb => cb(import('app/modules/dataCenter/pages/alarm-report')),
+              getComp: (cb) => cb(import('app/modules/dataCenter/pages/alarm-report')),
             },
           ],
         },
@@ -181,16 +181,16 @@ function getDataCenterRouter() {
               path: 'add',
               breadcrumbName: i18n.t('org:new O & M dashboard'),
               layout: { fullHeight: true },
-              getComp: cb => cb(import('dataCenter/pages/alarm-report/custom-dashboard/custom-dashboard')),
+              getComp: (cb) => cb(import('dataCenter/pages/alarm-report/custom-dashboard/custom-dashboard')),
             },
             {
               path: ':dashboardId',
               breadcrumbName: '{dashboardName}',
               layout: { fullHeight: true },
-              getComp: cb => cb(import('dataCenter/pages/alarm-report/custom-dashboard/custom-dashboard')),
+              getComp: (cb) => cb(import('dataCenter/pages/alarm-report/custom-dashboard/custom-dashboard')),
             },
             {
-              getComp: cb => cb(import('dataCenter/pages/alarm-report/custom-dashboard')),
+              getComp: (cb) => cb(import('dataCenter/pages/alarm-report/custom-dashboard')),
             },
           ],
         },
@@ -199,7 +199,7 @@ function getDataCenterRouter() {
           routes: [
             {
               breadcrumbName: i18n.t('addon service'),
-              getComp: cb => cb(import('app/modules/dataCenter/pages/middleware-dashboard')),
+              getComp: (cb) => cb(import('app/modules/dataCenter/pages/middleware-dashboard')),
               layout: {
                 noWrapper: true,
               },
@@ -212,19 +212,19 @@ function getDataCenterRouter() {
                   path: 'monitor',
                   tabs: middlewareTabs,
                   alwaysShowTabKey: 'monitor',
-                  getComp: cb => cb(import('dataCenter/pages/middleware-detail/monitor')),
+                  getComp: (cb) => cb(import('dataCenter/pages/middleware-detail/monitor')),
                 },
                 {
                   path: 'resource',
                   tabs: middlewareTabs,
                   alwaysShowTabKey: 'resource',
-                  getComp: cb => cb(import('app/modules/dataCenter/pages/middleware-detail/resource')),
+                  getComp: (cb) => cb(import('app/modules/dataCenter/pages/middleware-detail/resource')),
                 },
                 {
                   path: 'detail',
                   tabs: middlewareTabs,
                   alwaysShowTabKey: 'detail',
-                  getComp: cb => cb(import('app/modules/dataCenter/pages/middleware-detail/detail')),
+                  getComp: (cb) => cb(import('app/modules/dataCenter/pages/middleware-detail/detail')),
                 },
               ],
             },
@@ -235,7 +235,7 @@ function getDataCenterRouter() {
           breadcrumbName: i18n.t('cloud source'),
           routes: [
             {
-              getComp: cb => cb(import('app/modules/dataCenter/pages/cloud-source')),
+              getComp: (cb) => cb(import('app/modules/dataCenter/pages/cloud-source')),
               layout: {
                 noWrapper: true,
               },
@@ -243,19 +243,19 @@ function getDataCenterRouter() {
             {
               path: 'accounts',
               breadcrumbName: i18n.t('cloud accounts'),
-              getComp: cb => cb(import('app/modules/dataCenter/pages/cloud-accounts')),
+              getComp: (cb) => cb(import('app/modules/dataCenter/pages/cloud-accounts')),
             },
             {
               path: 'ecs',
               breadcrumbName: 'ECS',
-              getComp: cb => cb(import('app/modules/dataCenter/pages/computing/ecs')),
+              getComp: (cb) => cb(import('app/modules/dataCenter/pages/computing/ecs')),
             },
             {
               path: 'vpc',
               breadcrumbName: 'VPC',
               routes: [
                 {
-                  getComp: cb => cb(import('app/modules/dataCenter/pages/networks/vpc')),
+                  getComp: (cb) => cb(import('app/modules/dataCenter/pages/networks/vpc')),
                 },
                 {
                   path: ':vpcID',
@@ -263,7 +263,7 @@ function getDataCenterRouter() {
                     {
                       path: 'vsw',
                       breadcrumbName: 'vsw({params.vpcID})',
-                      getComp: cb => cb(import('app/modules/dataCenter/pages/networks/vsw')),
+                      getComp: (cb) => cb(import('app/modules/dataCenter/pages/networks/vsw')),
                     },
                   ],
                 },
@@ -272,18 +272,18 @@ function getDataCenterRouter() {
             {
               path: 'oss',
               breadcrumbName: 'OSS',
-              getComp: cb => cb(import('app/modules/dataCenter/pages/storage/oss')),
+              getComp: (cb) => cb(import('app/modules/dataCenter/pages/storage/oss')),
             },
             {
               path: 'mq',
               breadcrumbName: 'MQ',
               routes: [
                 {
-                  getComp: cb => cb(import('dcos/pages/service-manager/mq')),
+                  getComp: (cb) => cb(import('dcos/pages/service-manager/mq')),
                 },
                 {
                   path: ':mqID/:tabKey',
-                  getComp: cb => cb(import('dcos/pages/service-manager/mq-manager/index')),
+                  getComp: (cb) => cb(import('dcos/pages/service-manager/mq-manager/index')),
                   breadcrumbName: '{params.mqID}',
                   tabs: map(mqTabs),
                 },
@@ -294,11 +294,11 @@ function getDataCenterRouter() {
               breadcrumbName: 'RDS',
               routes: [
                 {
-                  getComp: cb => cb(import('dcos/pages/service-manager/rds')),
+                  getComp: (cb) => cb(import('dcos/pages/service-manager/rds')),
                 },
                 {
                   path: ':rdsID/:tabKey',
-                  getComp: cb => cb(import('dcos/pages/service-manager/rds-manager/index')),
+                  getComp: (cb) => cb(import('dcos/pages/service-manager/rds-manager/index')),
                   breadcrumbName: '{params.rdsID}',
                   tabs: map(rdsTabs),
                 },
@@ -309,11 +309,11 @@ function getDataCenterRouter() {
               breadcrumbName: 'Redis',
               routes: [
                 {
-                  getComp: cb => cb(import('dcos/pages/service-manager/redis')),
+                  getComp: (cb) => cb(import('dcos/pages/service-manager/redis')),
                 },
                 {
                   path: ':redisID/:tabKey',
-                  getComp: cb => cb(import('dcos/pages/service-manager/redis-manager/index')),
+                  getComp: (cb) => cb(import('dcos/pages/service-manager/redis-manager/index')),
                   breadcrumbName: '{params.redisID}',
                   tabs: map(redisTabs),
                 },
@@ -327,12 +327,12 @@ function getDataCenterRouter() {
           tabs: ticketTabs,
           routes: [
             {
-              getComp: cb => cb(import('app/modules/org/pages/ticket')),
+              getComp: (cb) => cb(import('app/modules/org/pages/ticket')),
             },
             {
               path: ':ticketId',
               breadcrumbName: i18n.t('application:ticket detail'),
-              getComp: cb => cb(import('app/modules/org/pages/ticket/ticket-detail')),
+              getComp: (cb) => cb(import('app/modules/org/pages/ticket/ticket-detail')),
             },
           ],
         },
@@ -343,7 +343,7 @@ function getDataCenterRouter() {
               path: 'query',
               breadcrumbName: i18n.t('log query'),
               layout: { grayBg: true },
-              getComp: cb => cb(import('app/modules/dataCenter/pages/log-query')),
+              getComp: (cb) => cb(import('app/modules/dataCenter/pages/log-query')),
             },
             {
               path: 'rule',
@@ -352,15 +352,15 @@ function getDataCenterRouter() {
                 {
                   path: 'add',
                   breadcrumbName: i18n.t('org:add analyze rule'),
-                  getComp: cb => cb(import('app/modules/dataCenter/pages/log-analyze-rule/detail')),
+                  getComp: (cb) => cb(import('app/modules/dataCenter/pages/log-analyze-rule/detail')),
                 },
                 {
                   path: ':ruleId',
                   breadcrumbName: i18n.t('org:edit analyze rule'),
-                  getComp: cb => cb(import('app/modules/dataCenter/pages/log-analyze-rule/detail')),
+                  getComp: (cb) => cb(import('app/modules/dataCenter/pages/log-analyze-rule/detail')),
                 },
                 {
-                  getComp: cb => cb(import('app/modules/dataCenter/pages/log-analyze-rule')),
+                  getComp: (cb) => cb(import('app/modules/dataCenter/pages/log-analyze-rule')),
                 },
               ],
             },
@@ -381,11 +381,11 @@ function getDataCenterRouter() {
                         {
                           path: ':processId',
                           breadcrumbName: i18n.t('process detail'),
-                          getComp: cb => cb(import('dcos/pages/alarm-report/processDetail')),
+                          getComp: (cb) => cb(import('dcos/pages/alarm-report/processDetail')),
                         },
                         {
                           breadcrumbName: i18n.t('alarm data report'),
-                          getComp: cb => cb(import('dcos/pages/alarm-report')),
+                          getComp: (cb) => cb(import('dcos/pages/alarm-report')),
                         },
                       ],
                     },
@@ -400,17 +400,17 @@ function getDataCenterRouter() {
                 {
                   path: ':recordId',
                   breadcrumbName: '{alarmRecordName}',
-                  getComp: cb => cb(import('app/modules/dataCenter/pages/alarm-record/detail')),
+                  getComp: (cb) => cb(import('app/modules/dataCenter/pages/alarm-record/detail')),
                 },
                 {
-                  getComp: cb => cb(import('app/modules/dataCenter/pages/alarm-record')),
+                  getComp: (cb) => cb(import('app/modules/dataCenter/pages/alarm-record')),
                 },
               ],
             },
             {
               path: 'statistics',
               breadcrumbName: i18n.t('alarm statistics'),
-              getComp: cb => cb(import('app/modules/dataCenter/pages/alarm-analyze')),
+              getComp: (cb) => cb(import('app/modules/dataCenter/pages/alarm-analyze')),
               layout: {
                 noWrapper: true,
               },
@@ -418,7 +418,7 @@ function getDataCenterRouter() {
             {
               path: 'strategy',
               breadcrumbName: i18n.t('alarm strategy'),
-              getComp: cb => cb(import('app/modules/dataCenter/pages/alarm-strategy')),
+              getComp: (cb) => cb(import('app/modules/dataCenter/pages/alarm-strategy')),
             },
             {
               path: 'custom',
@@ -428,22 +428,22 @@ function getDataCenterRouter() {
                   path: ':dashboardId',
                   breadcrumbName: '{dashboardName}',
                   layout: { fullHeight: true },
-                  getComp: cb => cb(import('dataCenter/pages/alarm-report/custom-dashboard/custom-dashboard')),
+                  getComp: (cb) => cb(import('dataCenter/pages/alarm-report/custom-dashboard/custom-dashboard')),
                 },
                 {
-                  getComp: cb => cb(import('app/modules/dataCenter/pages/custom-alarm')),
+                  getComp: (cb) => cb(import('app/modules/dataCenter/pages/custom-alarm')),
                 },
               ],
             },
             {
               path: 'pod',
               breadcrumbName: i18n.t('pod detail'),
-              getComp: cb => cb(import('app/modules/dataCenter/pages/pod-detail')),
+              getComp: (cb) => cb(import('app/modules/dataCenter/pages/pod-detail')),
             },
             {
               path: 'middleware-chart',
               breadcrumbName: i18n.t('middleware chart'),
-              getComp: cb => cb(import('app/modules/dataCenter/pages/middleware-chart')),
+              getComp: (cb) => cb(import('app/modules/dataCenter/pages/middleware-chart')),
             },
           ],
         },

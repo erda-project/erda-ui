@@ -30,7 +30,7 @@ describe('SearchTableManage', () => {
         tableTotal={999}
         pageSize={15}
         currPage={1}
-      />
+      />,
     );
     const { onChange, onShowSizeChange } = wrapper.find('Table').prop('pagination');
     onChange(2);

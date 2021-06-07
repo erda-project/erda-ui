@@ -36,7 +36,7 @@ function childrenToList(entry: any) {
   const fpSort = (fn: any) => (list: any[]) => list.sort(fn);
   const deepChildren: any = fp.flow(
     fpSort((e1: any, e2: any) => compareSpan(e1.span, e2.span)),
-    fp.flatMap(childrenToList)
+    fp.flatMap(childrenToList),
   )(entry.children || []);
   return [entry.span, ...deepChildren];
 }
@@ -67,7 +67,7 @@ function getRootMostSpan(spans: any) {
   }
   const idToSpanMap = fp.flow(
     fp.groupBy((s: any) => s.id),
-    fp.mapValues(([s]) => s)
+    fp.mapValues(([s]) => s),
   )(spans);
   return recursiveGetRootMostSpan(idToSpanMap, spans[0]);
 }
@@ -117,7 +117,7 @@ export default function traceToMustache(trace: any) {
 
   const services = serviceDurations.length || 0;
   const serviceCounts = sortBy(serviceDurations, 'name');
-  const groupByParentId = groupBy(trace, s => s.parentSpanId);
+  const groupByParentId = groupBy(trace, (s) => s.parentSpanId);
 
   const traceTimestamp = trace[0].timestamp || 0;
   const spanDepths = toSpanDepths(trace);
@@ -125,7 +125,7 @@ export default function traceToMustache(trace: any) {
   const depth = Math.max(...values(spanDepths));
   const spans = flatMap(
     getRootSpans(trace),
-    rootSpan => childrenToList(createSpanTreeEntry(rootSpan, trace))
+    (rootSpan) => childrenToList(createSpanTreeEntry(rootSpan, trace)),
   ).map((span) => {
     const spanStartTs = span.timestamp || traceTimestamp;
     const spanDepth = spanDepths[span.id] || 1;
@@ -157,7 +157,7 @@ export default function traceToMustache(trace: any) {
       }
     }
 
-    const localComponentAnnotation = find(span.binaryAnnotations || [], s => s.key === Constants.LOCAL_COMPONENT);
+    const localComponentAnnotation = find(span.binaryAnnotations || [], (s) => s.key === Constants.LOCAL_COMPONENT);
     if (localComponentAnnotation && localComponentAnnotation.endpoint) {
       binaryAnnotations.push({
         ...localComponentAnnotation,
@@ -181,7 +181,7 @@ export default function traceToMustache(trace: any) {
       width: width < 0.1 ? 0.1 : width,
       depth: (spanDepth + 2) * 5,
       depthClass: (spanDepth - 1) % 6,
-      children: (groupByParentId[span.id] || []).map(s => s.id).join(','),
+      children: (groupByParentId[span.id] || []).map((s) => s.id).join(','),
       annotations: (span.annotations || []).map((a: any) => ({
         isCore: Constants.CORE_ANNOTATIONS.indexOf(a.value) !== -1,
         left: ((a.timestamp - spanStartTs) / span.duration) * 100,

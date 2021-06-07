@@ -24,20 +24,20 @@ import i18n from 'i18n';
 import routeInfoStore from 'app/common/stores/route';
 
 interface IProps {
-  visible: boolean
-  onSearch(query: object): any
-  onClose(): any
+  visible: boolean;
+  onSearch: (query: object) => any;
+  onClose: () => any;
 }
 
 export default ({ visible, onSearch, onClose }: IProps) => {
-  const [query, params] = routeInfoStore.useStore(s => [s.query, s.params]);
+  const [query, params] = routeInfoStore.useStore((s) => [s.query, s.params]);
   const filterList: any[] = [
     {
       type: 'select',
       label: i18n.t('project:priority'),
       name: 'priority',
       value: query.priority,
-      options: priorityList.map(v => ({ name: v, value: v })),
+      options: priorityList.map((v) => ({ name: v, value: v })),
       placeholder: i18n.t('project:unlimited'),
       mode: 'multiple',
     },
@@ -93,7 +93,7 @@ export default ({ visible, onSearch, onClose }: IProps) => {
           { value: CaseStatus.BLOCK, name: i18n.t('project:blocking') },
         ],
         value: query.execStatus,
-      }
+      },
     );
   }
 

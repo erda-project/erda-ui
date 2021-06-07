@@ -16,8 +16,8 @@ import { createStore } from 'app/cube';
 import { getSubSlowHttpList, getSubErrorHttpList } from '../services';
 
 interface IState {
-  subSlowHttpList: Obj<MONITOR_EI.ISubTableData[]>
-  subErrorHttpList: Obj<MONITOR_EI.ISubTableData[]>
+  subSlowHttpList: Obj<MONITOR_EI.ISubTableData[]>;
+  subErrorHttpList: Obj<MONITOR_EI.ISubTableData[]>;
 }
 
 const initState: IState = {
@@ -30,13 +30,13 @@ const Affairs = createStore({
   state: initState,
   effects: {
     async getSubSlowHttpList({ call, update, select }, payload: IChartQuery) {
-      const subSlowHttpList = select(s => s.subSlowHttpList);
+      const subSlowHttpList = select((s) => s.subSlowHttpList);
       const { filter_source_service_name } = payload;
       const data = await call(getSubSlowHttpList, payload);
       update({ subSlowHttpList: { ...subSlowHttpList, [filter_source_service_name]: get(data, 'results[0].data') || [] } });
     },
     async getSubErrorHttpList({ call, update, select }, payload: IChartQuery) {
-      const subErrorHttpList = select(s => s.subErrorHttpList);
+      const subErrorHttpList = select((s) => s.subErrorHttpList);
       const { filter_source_service_name, filter_http_status_code } = payload;
       const errorKey = `${filter_source_service_name}_${filter_http_status_code}`;
       const data = await call(getSubErrorHttpList, payload);

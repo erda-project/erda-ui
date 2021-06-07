@@ -23,25 +23,25 @@ import { getProjectList } from 'project/services/project';
 import orgStore from 'app/org-home/stores/org';
 
 interface ISetTagFromProps {
-  visible: boolean
+  visible: boolean;
   formData?: {
-    tags: string[],
-    projects?: string[],
-  } | null,
-  items: CLOUD.TagItem[]
-  resourceType: CLOUD.SetTagType,
+    tags: string[];
+    projects?: string[];
+  } | null;
+  items: CLOUD.TagItem[];
+  resourceType: CLOUD.SetTagType;
   instanceID?: string;
-  showClustertLabel?: boolean,
-  showProjectLabel?: boolean,
-  onCancel(): void,
-  afterSubmit?(res?: any): void
+  showClustertLabel?: boolean;
+  showProjectLabel?: boolean;
+  onCancel: () => void;
+  afterSubmit?: (res?: any) => void;
 }
 export const SetTagForm = ({ visible, onCancel, items, formData, showClustertLabel = true, showProjectLabel = false, resourceType, instanceID, afterSubmit }: ISetTagFromProps) => {
   const [{ projectList }, updater] = useUpdate({
     projectList: [],
   });
-  const clusterList = clusterStore.useStore(s => s.list);
-  const orgId = orgStore.getState(s => s.currentOrg.id);
+  const clusterList = clusterStore.useStore((s) => s.list);
+  const orgId = orgStore.getState((s) => s.currentOrg.id);
 
   useEffectOnce(() => {
     !clusterList.length && clusterStore.effects.getClusterList();
@@ -57,7 +57,7 @@ export const SetTagForm = ({ visible, onCancel, items, formData, showClustertLab
       items,
       resourceType,
       instanceID,
-    }).then(res => {
+    }).then((res) => {
       afterSubmit && afterSubmit(res);
     });
     onCancel();
@@ -69,7 +69,7 @@ export const SetTagForm = ({ visible, onCancel, items, formData, showClustertLab
       name: 'tags',
       required: false,
       type: 'select',
-      options: map(clusterList, item => ({
+      options: map(clusterList, (item) => ({
         name: `dice-cluster/${item.name}`,
         value: `dice-cluster/${item.name}`,
       })),
@@ -82,7 +82,7 @@ export const SetTagForm = ({ visible, onCancel, items, formData, showClustertLab
       name: 'projects',
       required: false,
       type: 'select',
-      options: map(projectList, item => ({
+      options: map(projectList, (item) => ({
         name: `dice-project/${item.name}`,
         value: `dice-project/${item.name}`,
       })),

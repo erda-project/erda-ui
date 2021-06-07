@@ -33,9 +33,9 @@ import './sidebar.scss';
 const { AppCenter } = Shell;
 
 const AppCenterEl = () => {
-  const permMap = usePerm(s => s.org);
-  const appList = layoutStore.useStore(s => s.appList);
-  const currentOrg = orgStore.useStore(s => s.currentOrg);
+  const permMap = usePerm((s) => s.org);
+  const appList = layoutStore.useStore((s) => s.appList);
+  const currentOrg = orgStore.useStore((s) => s.currentOrg);
   const { switchToApp } = layoutStore.reducers;
   const [visible, setVisible] = React.useState(false);
 
@@ -59,7 +59,7 @@ const AppCenterEl = () => {
     edge: permMap.edge.view.pass,
     // apiManage: permMap.entryApiManage.pass,
   };
-  const dataSource = appList.filter(app => openMap[app.key])
+  const dataSource = appList.filter((app) => openMap[app.key])
     .map((app: LAYOUT.IApp) => {
       return {
         key: app.href,
@@ -88,11 +88,11 @@ const AppCenterEl = () => {
   return (
     <AppCenter
       visible={visible}
-      className='app-list'
-      titleProp='name'
+      className="app-list"
+      titleProp="name"
       node={(
-        <Tooltip title={currentOrg?.id ? '' : i18n.t('layout:there is no organization information, please select an organization first')} placement='right'>
-          <CustomIcon type='appstore' className='fz20 mr0' />
+        <Tooltip title={currentOrg?.id ? '' : i18n.t('layout:there is no organization information, please select an organization first')} placement="right">
+          <CustomIcon type="appstore" className="fz20 mr0" />
         </Tooltip>
       )}
       linkRender={(_linkTo: any, children: any, { app }: { app: LAYOUT.IApp }) => {
@@ -125,7 +125,7 @@ Display rule of avatar chars:
 
 comment: letter like m, w, M, W is wider than others , so we limit the counts of these
 */
-const getAvatarChars = (name:string) => {
+const getAvatarChars = (name: string) => {
   const pattern = /[\u4e00-\u9fa5]/;
 
   if (pattern.test(name)) {
@@ -140,9 +140,9 @@ const getAvatarChars = (name:string) => {
 
 const SideBar = () => {
   const loginUser = userStore.useStore((s) => s.loginUser);
-  const [currentOrg, orgs] = orgStore.useStore(s => [s.currentOrg, s.orgs]);
+  const [currentOrg, orgs] = orgStore.useStore((s) => [s.currentOrg, s.orgs]);
   const { switchMessageCenter } = layoutStore.reducers;
-  const unreadCount = messageStore.useStore(s => s.unreadCount);
+  const unreadCount = messageStore.useStore((s) => s.unreadCount);
   // 清掉旧版本缓存
   window.localStorage.removeItem('dice-sider');
   const curOrgName = currentOrg.name;
@@ -153,7 +153,7 @@ const SideBar = () => {
       show: true,
       icon: (
         <Tooltip title={i18n.t('layout:view doc')} placement="right">
-          <IconHelp className='mr0' size="20px" />
+          <IconHelp className="mr0" size="20px" />
         </Tooltip>
       ),
       onClick: () => {
@@ -182,7 +182,7 @@ const SideBar = () => {
       ),
       onClick: () => switchMessageCenter(null),
     },
-  ].filter(a => a.show);
+  ].filter((a) => a.show);
 
   useMount(() => {
     orgStore.effects.getJoinedOrgs();
@@ -278,7 +278,7 @@ const SideBar = () => {
 
 interface IPopoverSelectorProps {
   value: string;
-  options: Array<{ key: string, name: string }>
+  options: Array<{ key: string; name: string }>;
   onChange: () => void;
 }
 
@@ -286,11 +286,11 @@ const PopoverSelector = (props: IPopoverSelectorProps) => {
   const { options, value } = props;
   const valueName = get(find(options, { key: value }), 'name') || value;
   const ValueRender = (
-    <div className=' v-align side-app-center flex-box pointer' onClick={(e: any) => e.stopPropagation()}>
+    <div className=" v-align side-app-center flex-box pointer" onClick={(e: any) => e.stopPropagation()}>
       {/* <div className='v-align bold'>
         {valueName || <span className=''>{i18n.t('unset')}</span>}
       </div> */}
-      <CustomIcon type='appstore' className='fz20 ml4' />
+      <CustomIcon type="appstore" className="fz20 ml4" />
     </div>
   );
 
@@ -300,7 +300,7 @@ const PopoverSelector = (props: IPopoverSelectorProps) => {
   const menu = (
     <Menu onClick={onClick}>
       {map(options, (op) => (
-        <Menu.Item key={op.key} className='app-center-item'>
+        <Menu.Item key={op.key} className="app-center-item">
           {/* <span className='v-align'> */}
           {op.name}
           {/* </div> */}
@@ -309,7 +309,7 @@ const PopoverSelector = (props: IPopoverSelectorProps) => {
     </Menu>
   );
   return (
-    <Popover content={menu} placement='bottom' overlayClassName='side-app-center-popover'>
+    <Popover content={menu} placement="bottom" overlayClassName="side-app-center-popover">
       {ValueRender}
     </Popover>
   );

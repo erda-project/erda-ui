@@ -14,9 +14,10 @@
 import { createStore } from 'app/cube';
 import * as GatewayIngressCommonService from '../services/common';
 import orgStore from 'app/org-home/stores/org';
+
 interface IState {
-  domainList: string[],
-  chosenDomain: string | undefined,
+  domainList: string[];
+  chosenDomain: string | undefined;
 }
 
 const initState: IState = {
@@ -30,7 +31,7 @@ const common = createStore({
   effects: {
     async getDomainList({ call, update, getParams }) {
       const { projectId, env } = getParams();
-      const { id: orgId } = orgStore.getState(s => s.currentOrg);
+      const { id: orgId } = orgStore.getState((s) => s.currentOrg);
       const query = { projectId, env, orgId };
       const domainList = await call(GatewayIngressCommonService.getDomainList, query);
       update({ domainList });

@@ -35,11 +35,11 @@ interface IFormProps{
   visible: boolean;
 }
 
-const VpcForm = React.forwardRef((props:IFormProps, ref:any) => {
+const VpcForm = React.forwardRef((props: IFormProps, ref: any) => {
   const { visible } = props;
   const [chosenCIDRType, setChosenCIDRType] = React.useState('default');
   const { getCloudRegion } = cloudCommonStore;
-  const regions = cloudCommonStore.useStore(s => s.regions);
+  const regions = cloudCommonStore.useStore((s) => s.regions);
 
   useEffectOnce(() => {
     getCloudRegion();
@@ -108,7 +108,7 @@ interface IVswFormProps extends IFormProps {
   vpc: NETWORKS.ICloudVpc | undefined;
 }
 
-const VswForm = React.forwardRef((props:IVswFormProps, ref:any) => {
+const VswForm = React.forwardRef((props: IVswFormProps, ref: any) => {
   const { visible, vpc = {} } = props;
   const { cidrBlock: vpcCidrBlock, vendor, region } = vpc as NETWORKS.IVpcCreateBody;
   const [{ zones, subnetCount }, updater] = useUpdate({
@@ -122,7 +122,7 @@ const VswForm = React.forwardRef((props:IVswFormProps, ref:any) => {
       if (curForm) {
         curForm.setFieldsValue({ zoneID: undefined });
       }
-      getCloudZone({ vendor, region }).then(res => {
+      getCloudZone({ vendor, region }).then((res) => {
         updater.zones(res || []);
       });
     }
@@ -158,7 +158,7 @@ const VswForm = React.forwardRef((props:IVswFormProps, ref:any) => {
       label: formConfig.label.Zone,
       name: 'zoneID',
       type: 'select',
-      options: map(zones, zone => ({ name: `${zone.localName}(${zone.zoneID})`, value: zone.zoneID })),
+      options: map(zones, (zone) => ({ name: `${zone.localName}(${zone.zoneID})`, value: zone.zoneID })),
     },
     {
       label: `IPv4 ${i18n.t('dataCenter:CIDR')}`,
@@ -229,7 +229,7 @@ const VpcFormModal = (props: IProps) => {
         vswFormRef.validateFieldsAndScroll((vswErr: any, vsw: any) => {
           if (vswErr) return;
           const { vswRegion: region, vswVendor: vendor, vswCidrBlock, vswDescription: description, ...rest } = vsw;
-          addVpc(vpc).then(res => { // 先保存vpc，获取vpcID后保存vsw
+          addVpc(vpc).then((res) => { // 先保存vpc，获取vpcID后保存vsw
             const vswData = {
               ...rest,
               region,

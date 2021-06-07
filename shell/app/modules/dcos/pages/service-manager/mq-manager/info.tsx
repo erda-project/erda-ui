@@ -21,8 +21,8 @@ import InfoBox from '../info-box';
 
 
 const Info = () => {
-  const MQDetails = cloudServiceStore.useStore(s => s.MQDetails);
-  const [mqID, region] = routeInfoStore.useStore(s => [s.params.mqID, s.query.region]);
+  const MQDetails = cloudServiceStore.useStore((s) => s.MQDetails);
+  const [mqID, region] = routeInfoStore.useStore((s) => [s.params.mqID, s.query.region]);
   const [isFetching] = useLoading(cloudServiceStore, ['getMQDetails']);
   const { getMQDetails } = cloudServiceStore.effects;
   const { clearMQDetails } = cloudServiceStore.reducers;

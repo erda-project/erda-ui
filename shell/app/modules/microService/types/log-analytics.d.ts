@@ -13,32 +13,32 @@
 
 declare namespace LOG_ANALYTICS {
   interface SearchQuery {
-    [k: string]: any
-    clusterName: string
-    start: number
-    end: number
-    query?: string
-    size: number
-    version: string
-    'tags.dice_application_name'?: string
-    'tags.dice_service_name'?: string
+    [k: string]: any;
+    clusterName: string;
+    start: number;
+    end: number;
+    query?: string;
+    size: number;
+    version: string;
+    'tags.dice_application_name'?: string;
+    'tags.dice_service_name'?: string;
   }
 
   interface LogItem {
-    timestamp: number
-    offset: number
-    content: string
-    tags: Obj
+    timestamp: number;
+    offset: number;
+    content: string;
+    tags: Obj;
   }
 
   interface SearchResult {
-    total: number
-    data: LogItem[]
+    total: number;
+    data: LogItem[];
   }
 
   interface StatisticResult extends IChartResult {
-    title: string
-    total: number
-    interval: number
+    title: string;
+    total: number;
+    interval: number;
   }
 }

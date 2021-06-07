@@ -13,73 +13,73 @@
 
 declare namespace APP_SETTING {
   interface PublisherConfigItem {
-    Env: string
-    appId: number
-    publisherId: number
-    publisherName: string
-    publishItemId: number
-    publishItemName: string
+    Env: string;
+    appId: number;
+    publisherId: number;
+    publisherName: string;
+    publishItemId: number;
+    publishItemName: string;
   }
 
   interface PublisherConfig {
-    DEV: PublisherConfigItem
-    TEST: PublisherConfigItem
-    STAGING: PublisherConfigItem
-    PROD: PublisherConfigItem
+    DEV: PublisherConfigItem;
+    TEST: PublisherConfigItem;
+    STAGING: PublisherConfigItem;
+    PROD: PublisherConfigItem;
   }
 
   interface PublisherUpdateBody {
-    appID: string | number
-    DEV: number
-    TEST: number
-    STAGING: number
-    PROD: number
+    appID: string | number;
+    DEV: number;
+    TEST: number;
+    STAGING: number;
+    PROD: number;
   }
 
   interface LibRef {
-    id: number,
-    appID: number,
-    libID: number,
-    libName: string
-    libDesc: string
-    approvalStatus: ApprovalStatus
-    createdAt: string
+    id: number;
+    appID: number;
+    libID: number;
+    libName: string;
+    libDesc: string;
+    approvalStatus: ApprovalStatus;
+    createdAt: string;
   }
 
   interface AddLibRef {
-    appID: number,
-    appName: string, // 审批展示用
-    libID: number,
-    libName: string
-    libDesc: string
+    appID: number;
+    appName: string; // 审批展示用
+    libID: number;
+    libName: string;
+    libDesc: string;
   }
 
   interface CertRefQuery {
-    appId: number,
-    pageNo: number
-    pageSize: number
+    appId: number;
+    pageNo: number;
+    pageSize: number;
   }
 
   interface AddCertRef {
-    appId: number,
-    certificateId: number
+    appId: number;
+    certificateId: number;
   }
 
   interface CertRef extends Certificate.Detail {
     appId: number;
     certificateId: number;
-    status: ApprovalStatus
+    status: ApprovalStatus;
     pushConfig: {
-      enable: boolean
-      key: string
-      envs: string[]
-    }
+      enable: boolean;
+      key: string;
+      envs: string[];
+    };
   }
 
   interface PushToConfigBody {
-    appId: number,
-    certificateId: number
-    key: string,
-    envs: string[]
+    appId: number;
+    certificateId: number;
+    key: string;
+    envs: string[];
   }
 }

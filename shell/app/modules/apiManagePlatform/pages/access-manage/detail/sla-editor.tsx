@@ -26,19 +26,19 @@ import { regRules } from 'common/utils';
 
 export type IData = Omit<API_ACCESS.UpdateSla, 'assetID' | 'swaggerVersion' | 'default'>;
 
-type FormRef = {props: {form: WrappedFormUtils}};
+interface FormRef {props: {form: WrappedFormUtils}}
 
 interface IProps {
   dataSource?: API_ACCESS.SlaItem;
   mode: 'add'| 'edit';
   visible: boolean;
-  onCancel(): void;
-  afterEdit?():void
+  onCancel: () => void;
+  afterEdit?: () => void;
 }
 
 const SlaEditor = ({ visible, onCancel, mode, dataSource, afterEdit }: IProps) => {
   const formRef = React.useRef<FormRef>({} as FormRef);
-  const [assetID, swaggerVersion] = apiAccessStore.useStore(s => [s.accessDetail.access.assetID, s.accessDetail.access.swaggerVersion]);
+  const [assetID, swaggerVersion] = apiAccessStore.useStore((s) => [s.accessDetail.access.assetID, s.accessDetail.access.swaggerVersion]);
   const { updateSla, addSla, getSlaList } = apiAccessStore.effects;
   const loading = useLoading(apiAccessStore, ['addSla', 'updateSla']);
 
@@ -65,7 +65,7 @@ const SlaEditor = ({ visible, onCancel, mode, dataSource, afterEdit }: IProps) =
       onCancel();
     });
   };
-  const fieldsList:IFormItem[] = [{
+  const fieldsList: IFormItem[] = [{
     name: 'slaID',
     initialValue: dataSource?.id,
     itemProps: {
@@ -131,7 +131,7 @@ const SlaEditor = ({ visible, onCancel, mode, dataSource, afterEdit }: IProps) =
       <Button key="back" onClick={onCancel}>
         {i18n.t('cancel')}
       </Button>
-      <Button key="submit" type="primary" loading={loading.some(t => t)} onClick={handleOk}>
+      <Button key="submit" type="primary" loading={loading.some((t) => t)} onClick={handleOk}>
         {i18n.t('ok')}
       </Button>
     </>

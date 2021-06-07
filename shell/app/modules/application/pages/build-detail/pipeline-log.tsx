@@ -41,10 +41,10 @@ const colorMap = {
   info: 'gray',
 };
 
-const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className = '' }:IProps) => {
+const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className = '' }: IProps) => {
   const { getPipelineLog } = buildStore.effects;
   const { clearPipelineLog } = buildStore.reducers;
-  const pipelineLog = buildStore.useStore(s => s.pipelineLog);
+  const pipelineLog = buildStore.useStore((s) => s.pipelineLog);
   const [isFecthing] = useLoading(buildStore, ['getPipelineLog']);
   const [{ detailLog, detailVis }, , update] = useUpdate({
     detailLog: '',
@@ -86,7 +86,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
         ? <IconLoading spin strokeWidth={2} />
         : (
           <Tooltip title={isBuilding ? `${i18n.t('application:refresh every {time}, click to refresh now', { time: `${DURATION / 1000} ${i18n.t('common:second')}` })}` : i18n.t('refresh')}>
-            <CustomIcon type='refresh' className='pointer color-text-desc' onClick={() => delayGetList(getList, 0)} />
+            <CustomIcon type="refresh" className="pointer color-text-desc" onClick={() => delayGetList(getList, 0)} />
           </Tooltip>
         ),
     },
@@ -94,7 +94,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
 
   return (
     <div className={`pipeline-log ${className}`}>
-      <Title title={i18n.t('deploy log')} className='my12' level={2} showDivider={false} operations={logOperation} />
+      <Title title={i18n.t('deploy log')} className="my12" level={2} showDivider={false} operations={logOperation} />
       {
           isEmpty(pipelineLog) ? (
             <EmptyHolder relative />
@@ -108,12 +108,12 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
                     color={colorMap[level]}
                   >
                     <div className={'pipeline-log-time'}>
-                      <div className='mb8'>{occurrenceTime}</div>
-                      <div className='pipeline-log-title align-top'>
-                        <span className='flex-1'>{humanLog}</span>
-                        <span        
-                        className='always-active ml8'
-                        onClick={() => update({ detailVis: true, detailLog: primevalLog })}
+                      <div className="mb8">{occurrenceTime}</div>
+                      <div className="pipeline-log-title align-top">
+                        <span className="flex-1">{humanLog}</span>
+                        <span
+                          className="always-active ml8"
+                          onClick={() => update({ detailVis: true, detailLog: primevalLog })}
                         >
                           {i18n.t('check detail')}
                         </span>
@@ -133,7 +133,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
           update({ detailVis: false, detailLog: '' });
         }}
       >
-        <div className='pipeline-log-detail'>{detailLog}</div>
+        <div className="pipeline-log-detail">{detailLog}</div>
       </Drawer>
     </div>
   );

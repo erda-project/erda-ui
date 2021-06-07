@@ -59,7 +59,7 @@ export class TableFilterManage extends React.PureComponent<IProps, IState> {
     this.props.getTableList({ ...this.state, ...opsVal, currPage: 1 });
   };
 
-  handleTableChange = (pagination: any, filters: any, sorter: {[param: string]: any, columnKey: string, order: string}) => {
+  handleTableChange = (pagination: any, filters: any, sorter: {[param: string]: any; columnKey: string; order: string}) => {
     const { columnKey, order } = sorter;
     if (!columnKey || columnKey === 'modifiedAt') {
       const isDescend = order && (order !== 'descend');

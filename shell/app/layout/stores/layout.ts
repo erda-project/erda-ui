@@ -17,39 +17,39 @@ import * as DiceWebSocket from 'core/utils/ws';
 import { enableIconfont, setApiWithOrg } from 'common/utils';
 import routeInfoStore from 'app/common/stores/route';
 import { find, merge } from 'lodash';
-import orgStore from 'app/org-home/stores/org'
+import orgStore from 'app/org-home/stores/org';
 import { getGlobal } from 'app/global-space';
 
 const sendMsgUtilWsReady = async (targetWs: any, msg: { command: '__detach' | '__attach' }) => {
   while (targetWs.readyState !== 1) {
     // eslint-disable-next-line no-await-in-loop
-    await new Promise(resolve => setTimeout(resolve, 300));
+    await new Promise((resolve) => setTimeout(resolve, 300));
   }
   await layout.effects.notifyWs({ ws: targetWs, ...msg });
 };
 
 interface AnnouncementItem {
-  [s: string]: any
-  id: number
-  content: string
+  [s: string]: any;
+  id: number;
+  content: string;
 }
 
 interface IState {
-  currentApp: LAYOUT.IApp,
-  appList: LAYOUT.IApp[],
-  subSiderInfoMap: Obj,
-  sideFold: boolean,
+  currentApp: LAYOUT.IApp;
+  appList: LAYOUT.IApp[];
+  subSiderInfoMap: Obj;
+  sideFold: boolean;
   subList: {
-    [k: string]: any
-  },
-  announcementList: AnnouncementItem[],
-  customMain: Function | JSX.Element | null,
-  showMessage: boolean,
-  headerInfo: React.ReactElement | null,
+    [k: string]: any;
+  };
+  announcementList: AnnouncementItem[];
+  customMain: Function | JSX.Element | null;
+  showMessage: boolean;
+  headerInfo: React.ReactElement | null;
   client: {
-    height: number,
-    width: number
-  },
+    height: number;
+    width: number;
+  };
 }
 
 
@@ -73,9 +73,9 @@ const layout = createStore({
   name: 'layout',
   state: initState,
   subscriptions: async ({ listenRoute }: IStoreSubs) => {
-    const currentOrg = orgStore.getState(s => s.currentOrg)
+    const currentOrg = orgStore.getState((s) => s.currentOrg);
     // if (getGlobal('erdaInfo.currentOrgId')) {
-      if(currentOrg.id){
+    if (currentOrg.id) {
       const diceWs = DiceWebSocket.connect(setApiWithOrg('/api/websocket'));
       listenRoute(({ isEntering, isLeaving }) => {
         if (isEntering('pipeline') || isEntering('dataTask') || isEntering('deploy') || isEntering('testPlanDetail')) {
@@ -123,8 +123,8 @@ const layout = createStore({
     });
   },
   effects: {
-    async notifyWs(_, payload: { ws: any, command: '__detach' | '__attach' }) {
-      const { params, prevRouteInfo } = routeInfoStore.getState(s => s);
+    async notifyWs(_, payload: { ws: any; command: '__detach' | '__attach' }) {
+      const { params, prevRouteInfo } = routeInfoStore.getState((s) => s);
       const { ws, command } = payload;
       const { appId, projectId } = params;
       let scopeType = '';
@@ -153,14 +153,14 @@ const layout = createStore({
   },
   reducers: {
     initLayout(state, payload: LAYOUT.IInitLayout | (() => LAYOUT.IInitLayout)) {
-      let _payload = payload
+      let _payload = payload;
       if (typeof payload === 'function') {
-        _payload = payload()
+        _payload = payload();
       }
-      const { appList, currentApp, menusMap = {}, key } = _payload as  LAYOUT.IInitLayout || {} ;
+      const { appList, currentApp, menusMap = {}, key } = _payload as LAYOUT.IInitLayout || {};
       if (key === 'sysAdmin' && !getGlobal('erdaInfo.isSysAdmin')) return;
-      if(appList?.length) state.appList = appList;
-      if(currentApp) state.currentApp = currentApp;
+      if (appList?.length) state.appList = appList;
+      if (currentApp) state.currentApp = currentApp;
       state.subSiderInfoMap = merge(state.subSiderInfoMap, menusMap);
     },
     clearLayout(state) {
@@ -180,7 +180,7 @@ const layout = createStore({
         state.currentApp = curApp;
       }
     },
-    setSubSiderInfoMap(state, payload: { [k: string]: any, key: string }) {
+    setSubSiderInfoMap(state, payload: { [k: string]: any; key: string }) {
       const { key, ...rest } = payload;
 
       const siderInfoMap = state.subSiderInfoMap;

@@ -61,7 +61,7 @@ const setUid = (list: any[]) => {
 // 节点列表
 export const NodesForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
   const formPrefix = 'config';
-  const nodeLabels = clusterDashboardStore.useStore(s => s.nodeLabels);
+  const nodeLabels = clusterDashboardStore.useStore((s) => s.nodeLabels);
 
   const [mutilNode, setMutilNode] = React.useState([] as any);
   const [tagList, setTagList] = React.useState([]);
@@ -81,7 +81,7 @@ export const NodesForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
   }, [dataList, form]);
 
   const onNodeChange = (val: string[]) => {
-    const validVal = val.filter(item => regRulesMap.ip.pattern.test(item));
+    const validVal = val.filter((item) => regRulesMap.ip.pattern.test(item));
     setMutilNode(validVal);
   };
   const onTagChange = (val: any) => {
@@ -154,7 +154,7 @@ export const NodesForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
                 value={tagList}
                 onChange={onTagChange}
               >
-                {map(nodeLabels, tag => <Option key={tag}>{tag}</Option>)}
+                {map(nodeLabels, (tag) => <Option key={tag}>{tag}</Option>)}
               </Select>
               <div className="set-buttons">
                 <Button onClick={clearSet}>{i18n.t('dcos:reset')}</Button>

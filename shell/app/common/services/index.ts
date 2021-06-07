@@ -13,7 +13,7 @@
 
 import agent from 'agent';
 
-export const fetchLog = ({ fetchApi, ...rest }: { [k: string]: any, fetchApi?: string }): { lines: COMMON.LogItem[] } => {
+export const fetchLog = ({ fetchApi, ...rest }: { [k: string]: any; fetchApi?: string }): { lines: COMMON.LogItem[] } => {
   return agent.get(fetchApi || '/api/runtime/logs')
     .query(rest)
     .then((response: any) => response.body);
@@ -44,7 +44,7 @@ export function removeMember(payload: MEMBER.RemoveMemberBody) {
     .then((response: any) => response.body);
 }
 
-export const getMemberLabels = (): {list:Array<{label:string, name:string}>} => {
+export const getMemberLabels = (): {list: Array<{label: string; name: string}>} => {
   return agent.get('/api/members/actions/list-labels')
     .then((response: any) => response.body);
 };
@@ -62,12 +62,12 @@ export const getUsersNew = (payload: Merge<IPagingReq, { q?: string }>) => {
   return agent.get('/api/users/actions/search')
     .query(payload)
     .then((response: any) => response.body);
-}
+};
 
 export const getApps = ({ pageSize, pageNo, projectId, q, searchKey, memberID, ...rest }: APPLICATION.GetAppList): IPagingResp<IApplication> => {
   return agent.get('/api/applications')
     .query({ pageSize, pageNo, projectId, q: q || searchKey, memberID, ...rest })
-    .then((response:any) => response.body);
+    .then((response: any) => response.body);
 };
 
 export const uploadFile = (file: any): IUploadFile => {

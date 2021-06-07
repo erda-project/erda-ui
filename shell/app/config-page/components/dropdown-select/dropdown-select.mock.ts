@@ -34,7 +34,7 @@ export const mockData: CP_DROPDOWN_SELECT.Spec = {
                   params: {
                     orgName: 'organizeA',
                   },
-                }
+                },
               },
             },
           },
@@ -78,12 +78,11 @@ export const mockData: CP_DROPDOWN_SELECT.Spec = {
             },
           },
         },
-      }
+      },
     ],
   },
   state: {
     value: 'organizeA',
-  }
-}
-
+  },
+};
 

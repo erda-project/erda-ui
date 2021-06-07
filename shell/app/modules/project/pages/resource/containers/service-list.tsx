@@ -19,15 +19,15 @@ import { useLoading } from 'app/common/stores/loading';
 interface IProps {
   paths: Array<{
     q: string;
-    name: string
-  }>
+    name: string;
+  }>;
   startLevel: string;
-  into(): void;
+  into: () => void;
 }
 
 const ServiceList = (props: IProps) => {
   const { getServiceList } = projectResourceStore.effects;
-  const serviceList = projectResourceStore.useStore(s => s.serviceList);
+  const serviceList = projectResourceStore.useStore((s) => s.serviceList);
   const [isFetching] = useLoading(projectResourceStore, ['getServiceList']);
   React.useEffect(() => {
     getServiceList({ paths: props.paths, startLevel: props.startLevel });

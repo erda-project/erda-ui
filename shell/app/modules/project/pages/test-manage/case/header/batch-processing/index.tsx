@@ -29,11 +29,11 @@ import { TestOperation } from '../../../constants';
 import { rootId } from 'project/pages/test-manage/components/case-tree/utils';
 
 interface IProps {
-  recycled: boolean,
+  recycled: boolean;
 }
 
 const BatchProcessing = ({ recycled }: IProps) => {
-  const [caseTotal, choosenInfo] = testCaseStore.useStore(s => [s.caseTotal, s.choosenInfo]);
+  const [caseTotal, choosenInfo] = testCaseStore.useStore((s) => [s.caseTotal, s.choosenInfo]);
   const { isAll, primaryKeys } = choosenInfo;
   const { openPlanModal } = testPlanStore.reducers;
   const { openTreeModal } = testSetStore.reducers;

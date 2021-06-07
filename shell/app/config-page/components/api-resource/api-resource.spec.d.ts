@@ -14,10 +14,10 @@
 declare namespace CP_API_RESOURCE {
 
   interface Column {
-    title: string
-    dataIndex: string
-    titleRenderType?: string
-    width?: number
+    title: string;
+    dataIndex: string;
+    titleRenderType?: string;
+    width?: number;
     titleTip: string[] | string;
     data: Obj;
   }
@@ -33,12 +33,12 @@ declare namespace CP_API_RESOURCE {
   }
 
   interface IApiData{
-    apiMethod: 'get' | 'post' | 'put' | 'delete' | 'options' | 'head' | 'patch',
-    apiName: string,
-    operationId?: string,
-    description: string,
-    parameters: Obj[],
-    responses: Obj,
+    apiMethod: 'get' | 'post' | 'put' | 'delete' | 'options' | 'head' | 'patch';
+    apiName: string;
+    operationId?: string;
+    description: string;
+    parameters: Obj[];
+    responses: Obj;
   }
 
   type Props = MakeProps<Spec>;

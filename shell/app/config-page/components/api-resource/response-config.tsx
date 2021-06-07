@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { useUpdate } from 'common';
 import { produce } from 'immer';
-import { FormBuilder, Title } from 'app/nusi'
+import { FormBuilder, Title } from 'app/nusi';
 import { keys, set, isEmpty, get } from 'lodash';
 import { WrappedFormUtils } from 'core/common/interface';
 import { PropertyItemForm } from 'apiManagePlatform/pages/api-market/design/basic-params-config';
@@ -31,8 +31,8 @@ interface IProps {
   formData: Obj;
   dataPath: string[];
   resourceKey: API_RESOURCE_TAB;
-  isEditMode?:boolean;
-  onChange: (id:string, data:Obj, extraProps?: Obj) => void;
+  isEditMode?: boolean;
+  onChange: (id: string, data: Obj, extraProps?: Obj) => void;
 }
 
 interface IFieldProps {
@@ -53,7 +53,7 @@ export const ResponseConfig = React.memo((props: IProps) => {
 
   const dataPathKey = React.useMemo(() => DATA_PATH_MAP[paramIn], [paramIn]);
 
-  const [openApiDoc] = apiDesignStore.useStore(s => [s.openApiDoc]);
+  const [openApiDoc] = apiDesignStore.useStore((s) => [s.openApiDoc]);
   const { updateFormErrorNum } = apiDesignStore;
 
   const formRef = React.useRef<WrappedFormUtils>(null);
@@ -89,7 +89,7 @@ export const ResponseConfig = React.memo((props: IProps) => {
     const _extraProps = { typeQuotePath, quoteTypeName: extraProps?.quoteTypeName };
 
     if (isEmpty(formData?.responses) && paramIn === 'responses') {
-      const tempDetail = produce(openApiDoc, draft => {
+      const tempDetail = produce(openApiDoc, (draft) => {
         const methodData = get(draft, ['paths', ...dataPath]) || {};
         draft.paths[name][method] = {
           ...methodData,
@@ -107,7 +107,7 @@ export const ResponseConfig = React.memo((props: IProps) => {
       });
       onChange(paramIn, get(tempDetail, ['paths', ...dataPath]), _extraProps);
     } else if (isEmpty(formData?.requestBody) && paramIn === 'requestBody') {
-      const tempDetail = produce(openApiDoc, draft => {
+      const tempDetail = produce(openApiDoc, (draft) => {
         const methodData = get(draft, ['paths', ...dataPath]) || {};
         draft.paths[name][method] = {
           ...methodData,
@@ -125,7 +125,7 @@ export const ResponseConfig = React.memo((props: IProps) => {
 
       onChange(paramIn, get(tempDetail, ['paths', ...dataPath]), _extraProps);
     } else {
-      const tempData = produce(formData, draft => {
+      const tempData = produce(formData, (draft) => {
         set(draft, [...dataPathKey, mediaType, 'schema'], _formData);
         if (paramIn === 'responses') {
           set(draft, 'responses.200.description', _formData?.description || '');
@@ -139,11 +139,11 @@ export const ResponseConfig = React.memo((props: IProps) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData, updater, mediaType]);
 
-  const onSetMediaType = ({ propertyKey, propertyData }:IFieldProps) => {
+  const onSetMediaType = ({ propertyKey, propertyData }: IFieldProps) => {
     if (propertyKey === API_MEDIA) {
-      const tempFormData:Obj = get(openApiDoc, ['paths', ...dataPath, ...DATA_PATH_MAP[paramIn], mediaType]);
+      const tempFormData: Obj = get(openApiDoc, ['paths', ...dataPath, ...DATA_PATH_MAP[paramIn], mediaType]);
 
-      const _tempFormData = produce(tempFormData, draft => {
+      const _tempFormData = produce(tempFormData, (draft) => {
         if (draft?.schema) {
           draft.schema[API_MEDIA] = propertyData;
         }
@@ -152,7 +152,7 @@ export const ResponseConfig = React.memo((props: IProps) => {
         [propertyData]: _tempFormData,
       };
 
-      const _responseContent = produce(formData, draft => {
+      const _responseContent = produce(formData, (draft) => {
         if (paramIn === 'responses') {
           draft.responses = {
             200: {

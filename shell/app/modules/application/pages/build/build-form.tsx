@@ -34,8 +34,8 @@ interface IProps {
   title: string;
   form: WrappedFormUtils;
   visible: boolean;
-  onCancel(): void;
-  onOk(data: BUILD.CreatePipelineBody): any
+  onCancel: () => void;
+  onOk: (data: BUILD.CreatePipelineBody) => any;
 }
 
 const evnBlockMap: { [key in APPLICATION.Workspace]: string } = {
@@ -46,13 +46,13 @@ const evnBlockMap: { [key in APPLICATION.Workspace]: string } = {
 };
 
 const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
-  const pipelineDetail = buildStore.useStore(s => s.pipelineDetail);
-  const appID = routeInfoStore.useStore(s => s.params.appId);
-  const currentOrg = orgStore.useStore(s => s.currentOrg);
-  const branchInfo = appStore.useStore(s => s.branchInfo);
-  const { blockStatus, unBlockStart, unBlockEnd } = appStore.useStore(s => s.detail);
+  const pipelineDetail = buildStore.useStore((s) => s.pipelineDetail);
+  const appID = routeInfoStore.useStore((s) => s.params.appId);
+  const currentOrg = orgStore.useStore((s) => s.currentOrg);
+  const branchInfo = appStore.useStore((s) => s.branchInfo);
+  const { blockStatus, unBlockStart, unBlockEnd } = appStore.useStore((s) => s.detail);
   const { getBranchInfo } = appStore.effects;
-  const [authObj, projectSetting] = usePerm(s => [s.app.pipeline, s.project.setting]);
+  const [authObj, projectSetting] = usePerm((s) => [s.app.pipeline, s.project.setting]);
   const [showTips, setShowTip] = React.useState(false);
   const [ymls, setYmls] = React.useState([] as string[]);
   const appBlocked = blockStatus !== 'unblocked';
@@ -94,7 +94,7 @@ const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
   };
 
   const getUsefulBranch = () => {
-    const usefulBranch = find(branchInfo, item => isUsefulBranch(item));
+    const usefulBranch = find(branchInfo, (item) => isUsefulBranch(item));
     return usefulBranch && usefulBranch.name;
   };
 
@@ -129,7 +129,7 @@ const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
       name: 'branch',
       type: 'select',
       initialValue: initBranch,
-      options: () => branchInfo.map(e => {
+      options: () => branchInfo.map((e) => {
         const { isProtect, name, workspace } = e;
         let hasAuth = isProtect
           ? authObj.executeProtected.pass
@@ -155,7 +155,7 @@ const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
       name: 'pipelineYmlName',
       type: 'select',
       initialValue: ymls[0],
-      options: () => ymls.map(n => {
+      options: () => ymls.map((n) => {
         return (
           <Option key={n} value={n}>
             {n}
@@ -195,7 +195,7 @@ const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
       },
     },
     ...insertWhen(showTips && !!message, [{
-      getComp: () => <Alert className='mb16' showIcon type={appBlocked ? 'error' : 'normal'} message={message} />,
+      getComp: () => <Alert className="mb16" showIcon type={appBlocked ? 'error' : 'normal'} message={message} />,
     }]),
   ];
 

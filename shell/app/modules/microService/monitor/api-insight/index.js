@@ -28,25 +28,25 @@ const getApiInsightRouter = () => ({
   tabs,
   routes: [
     {
-      getComp: cb => cb(import('microService/monitor/api-insight/pages/request')),
+      getComp: (cb) => cb(import('microService/monitor/api-insight/pages/request')),
     },
     {
       path: 'delay',
       alwaysShowTabKey: 'api-monitor/delay',
       tabs,
-      getComp: cb => cb(import('microService/monitor/api-insight/pages/delay')),
+      getComp: (cb) => cb(import('microService/monitor/api-insight/pages/delay')),
     },
     {
       path: 'transport',
       alwaysShowTabKey: 'api-monitor/transport',
       tabs,
-      getComp: cb => cb(import('microService/monitor/api-insight/pages/transport')),
+      getComp: (cb) => cb(import('microService/monitor/api-insight/pages/transport')),
     },
     {
       path: 'indices',
       alwaysShowTabKey: 'api-monitor/indices',
       tabs,
-      getComp: cb => cb(import('microService/monitor/api-insight/pages/indices')),
+      getComp: (cb) => cb(import('microService/monitor/api-insight/pages/indices')),
     },
   ],
 });

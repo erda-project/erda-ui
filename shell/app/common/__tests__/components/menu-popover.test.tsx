@@ -19,7 +19,7 @@ import { describe, it } from '@jest/globals';
 
 describe('MenuPopover', () => {
   it('should ', () => {
-    const renderContent = (setVisible:(visible: boolean)=>null) => {
+    const renderContent = (setVisible: (visible: boolean) => null) => {
       return (
         <div
           className="child-node"
@@ -32,7 +32,7 @@ describe('MenuPopover', () => {
     const wrapper = mount(
       <MenuPopover
         content={renderContent}
-      />
+      />,
     );
     wrapper.setProps({
       trigger: 'click',

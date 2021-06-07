@@ -27,7 +27,7 @@ export const getStatusDetail = ({ id, period }: MONITOR_STATUS.IDashboardDetailQ
 
 export const getPastIncidents = ({ id }: {id: string}): MONITOR_STATUS.IPastIncidents[] => {
   return agent.get(`/api/spot/metrics/${id}/issues`)
-    .then((response:any) => response.body);
+    .then((response: any) => response.body);
 };
 
 export const getMetricStatus = ({ metricId }: {metricId: string}): MONITOR_STATUS.IMetrics => {

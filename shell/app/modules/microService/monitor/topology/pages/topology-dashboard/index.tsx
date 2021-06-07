@@ -44,10 +44,10 @@ const childrenKeyMap = {
 };
 
 const TopologyDashboard = () => {
-  const params = routeInfoStore.useStore(s => s.params);
-  const timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
-  const activedNode = topologyServiceStore.useStore(s => s.activedNode);
-  const microServiceMenu = microServiceStore.useStore(s => s.microServiceMenu);
+  const params = routeInfoStore.useStore((s) => s.params);
+  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const activedNode = topologyServiceStore.useStore((s) => s.activedNode);
+  const microServiceMenu = microServiceStore.useStore((s) => s.microServiceMenu);
   const { serviceName, name, type: sourceType, serviceId, applicationId } = activedNode || {};
   const type = sourceType?.toLowerCase();
   const { getCustomDashboard } = dashboardStore;
@@ -64,12 +64,12 @@ const TopologyDashboard = () => {
   }), [params.terminusKey, timeSpan.endTimeMs, timeSpan.startTimeMs]);
 
   useEffect(() => {
-    getCustomDashboard({ id: 'global_overview', isSystem: true }).then(res => {
+    getCustomDashboard({ id: 'global_overview', isSystem: true }).then((res) => {
       setOverviewBoard(res);
     });
   }, [getCustomDashboard, params.terminusKey]);
 
-  nodeGlobalVariable.current = useMemo(() => produce(globalVariable, draft => {
+  nodeGlobalVariable.current = useMemo(() => produce(globalVariable, (draft) => {
     draft.serviceName = serviceName;
     draft.serviceId = serviceId || ' '; // 后端数据升级可能没有
     draft.host = name;
@@ -93,7 +93,7 @@ const TopologyDashboard = () => {
       getCustomDashboard({
         id: dashboardId,
         isSystem: true,
-      }).then(res => {
+      }).then((res) => {
         setNodeDashboard(res);
         loadedDashBoardMap.current.set(dashboardId, res);
       });
@@ -113,7 +113,7 @@ const TopologyDashboard = () => {
           end: timeSpan.endTimeMs,
         },
         jumpOut: true,
-      }
+      },
     );
   }, [params, serviceName, serviceId, applicationId, timeSpan.startTimeMs, timeSpan.endTimeMs]);
 
@@ -155,7 +155,7 @@ const TopologyDashboard = () => {
                   type="link"
                   onClick={() => goTo(
                     `./ei/${encodeURIComponent(name as string)}/affairs`,
-                    { jumpOut: true }
+                    { jumpOut: true },
                   )}
                 >
                   {i18n.t('detail')}

@@ -20,17 +20,17 @@ import { regRules } from 'common/utils';
 
 interface IProps {
   visible: boolean;
-  onClose: ()=>void;
-  onSubmit: (e:any)=>void;
+  onClose: () => void;
+  onSubmit: (e: any) => void;
 }
 
 const ApiDocAddModal = (props: IProps) => {
   const { visible, onClose, onSubmit } = props;
 
-  const [branchList] = apiDesignStore.useStore(s => [s.branchList]);
+  const [branchList] = apiDesignStore.useStore((s) => [s.branchList]);
 
   const validBranchList = React.useMemo(() => {
-    return filter(branchList, item => !item?.meta?.readOnly);
+    return filter(branchList, (item) => !item?.meta?.readOnly);
   }, [branchList]);
 
   const treeFieldList = [

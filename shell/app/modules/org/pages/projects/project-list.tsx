@@ -24,16 +24,16 @@ import './project-list.scss';
 
 
 interface IBoxProp {
-  data: Array<[string | number, string]>
+  data: Array<[string | number, string]>;
 }
 const SplitBox = ({ data }: IBoxProp) => {
   return (
-    <div className='inline-split-box'>
+    <div className="inline-split-box">
       {
         data.map((item, i) => {
           return (
             <div key={String(i)} className="item">
-              <div className='count'>
+              <div className="count">
                 {item[0]}
               </div>
               <div className="fz12">
@@ -47,7 +47,7 @@ const SplitBox = ({ data }: IBoxProp) => {
   );
 };
 export const ProjectList = () => {
-  const [list, paging] = projectStore.useStore(s => [s.list, s.paging]);
+  const [list, paging] = projectStore.useStore((s) => [s.list, s.paging]);
   const { getProjectList } = projectStore.effects;
   const { clearProjectList } = projectStore.reducers;
   const { pageNo, pageSize, total } = paging;
@@ -85,7 +85,7 @@ export const ProjectList = () => {
         ),
       },
       {
-        title: <div className='text-center'>{i18n.t('org:iterative statistics')}</div>,
+        title: <div className="text-center">{i18n.t('org:iterative statistics')}</div>,
         dataIndex: 'stats',
         key: 'iteration',
         width: 200,
@@ -127,7 +127,7 @@ export const ProjectList = () => {
         key: 'activeTime',
         width: 110,
         sorter: true,
-        render: text => (text ? fromNow(text) : i18n.t('none')),
+        render: (text) => (text ? fromNow(text) : i18n.t('none')),
       },
       {
         title: i18n.t('total CPU allocation'),
@@ -171,7 +171,7 @@ export const ProjectList = () => {
               Math.round(addonUsed / totalNum * 100),
               Math.abs(100 - Math.round(serviceUsed / totalNum * 100) - Math.round(addonUsed / totalNum * 100)),
             ]);
-            const percentText = percent.map(item => `${item}%`);
+            const percentText = percent.map((item) => `${item}%`);
 
             return (
               <div className={`quota-container ${isOveruse ? 'overuse' : ''}`}>
@@ -196,11 +196,11 @@ export const ProjectList = () => {
           };
           return (
             <div style={{ minWidth: '200px' }}>
-              <div className='flex-box'>
+              <div className="flex-box">
                 <div style={{ width: '40px' }}>CPU:</div>
                 {renderBar(+cpuServiceUsed.toFixed(2), +cpuAddonUsed.toFixed(2), cpuQuota, 'Core')}
               </div>
-              <div className='flex-box'>
+              <div className="flex-box">
                 <div style={{ width: '40px' }}>MEM:</div>
                 {renderBar(+memServiceUsed.toFixed(2), +memAddonUsed.toFixed(2), memQuota, 'GiB')}
               </div>
@@ -253,7 +253,7 @@ export const ProjectList = () => {
           </div>
           <Table
             rowKey="id"
-            tableKey='prj'
+            tableKey="prj"
             dataSource={list}
             columns={getColumns()}
             rowClassName={() => 'pointer'}

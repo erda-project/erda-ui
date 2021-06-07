@@ -26,7 +26,7 @@ import './add-relation.scss';
 
 interface IProps {
   editAuth: boolean;
-  onSave(v: ISSUE.IssueStreamBody): void;
+  onSave: (v: ISSUE.IssueStreamBody) => void;
 }
 
 const initState = {
@@ -38,8 +38,8 @@ const initState = {
   selectedCreator: undefined,
 };
 export const AddRelation = ({ onSave, editAuth }: IProps) => {
-  const { projectId } = routeInfoStore.getState(s => s.params);
-  const { name: projectName } = projectStore.getState(s => s.info);
+  const { projectId } = routeInfoStore.getState((s) => s.params);
+  const { name: projectName } = projectStore.getState((s) => s.info);
 
   const [{
     visible,
@@ -107,7 +107,7 @@ export const AddRelation = ({ onSave, editAuth }: IProps) => {
         <Select
           className="filter-select"
           onSearch={(q) => getMyProjectApps({ q })}
-          onSelect={v => updater.selectApp(appList.find(a => a.id === v))}
+          onSelect={(v) => updater.selectApp(appList.find((a) => a.id === v))}
           showSearch
           value={selectApp ? selectApp.id : undefined}
           filterOption={false}
@@ -125,7 +125,7 @@ export const AddRelation = ({ onSave, editAuth }: IProps) => {
           className="filter-select"
           scopeType="app"
           scopeId={selectApp && selectApp.id}
-          onChange={(val:any) => updater.selectedCreator(val)}
+          onChange={(val: any) => updater.selectedCreator(val)}
           value={selectedCreator}
           placeholder={i18n.t('project:filter by creator')}
           extraQuery={{ scopeId: selectApp && selectApp.id }}
@@ -133,7 +133,7 @@ export const AddRelation = ({ onSave, editAuth }: IProps) => {
         <Select
           className="filter-select"
           onSearch={(q) => getAppMr(q)}
-          onSelect={v => updater.selectMr(mrList.find(a => a.id === v))}
+          onSelect={(v) => updater.selectMr(mrList.find((a) => a.id === v))}
           showSearch
           value={selectMr ? selectMr.id : undefined}
           filterOption={false}

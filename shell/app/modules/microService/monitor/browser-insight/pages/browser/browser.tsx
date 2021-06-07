@@ -19,7 +19,7 @@ import BrowserMap from './config/chartMap';
 
 
 const Browser = () => {
-  const chosenSortItem = monitorCommonStore.useStore(s => s.chosenSortItem);
+  const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
   const getAllChart = () => {
     return (
       <React.Fragment>

@@ -13,19 +13,19 @@
 
 import agent from 'agent';
 
-export const addResource = ({ type, ...data }:PURCHASE.AddResource) => {
+export const addResource = ({ type, ...data }: PURCHASE.AddResource) => {
   return agent.post(`/api/resource/aliyun/${type}`)
     .send(data)
     .then((response: any) => response.body);
 };
 
-export const getPurchaseList = (params: {name: string}):PURCHASE.PurchaseItem[] => {
+export const getPurchaseList = (params: {name: string}): PURCHASE.PurchaseItem[] => {
   return agent.get('/api/resource/deployments')
     .query(params)
     .then((response: any) => response.body);
 };
 
-export const getAvailableRegions = (data: Omit<PURCHASE.QueryZone, 'regionId'>):PURCHASE.Region[] => {
+export const getAvailableRegions = (data: Omit<PURCHASE.QueryZone, 'regionId'>): PURCHASE.Region[] => {
   return agent.post('/api/resource/aliyun/regions')
     .send(data)
     .then((response: any) => response.body);

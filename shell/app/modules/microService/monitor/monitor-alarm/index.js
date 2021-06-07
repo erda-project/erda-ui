@@ -17,7 +17,7 @@ function AlarmRouter() {
   return {
     path: 'alarm',
     pageName: i18n.t('alarm strategy'),
-    getComp: cb => cb(import('monitor-alarm/pages/alarm-index')),
+    getComp: (cb) => cb(import('monitor-alarm/pages/alarm-index')),
   };
 }
 

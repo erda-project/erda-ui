@@ -20,11 +20,11 @@ import { useEffectOnce } from 'react-use';
 import InfoBox from '../info-box';
 
 const Info = () => {
-  const RDSDetails = cloudServiceStore.useStore(s => s.RDSDetails);
+  const RDSDetails = cloudServiceStore.useStore((s) => s.RDSDetails);
   const { getRDSDetails } = cloudServiceStore.effects;
   const { clearRDSDetails } = cloudServiceStore.reducers;
 
-  const [rdsID, query] = routeInfoStore.useStore(s => [s.params.rdsID, s.query as any]);
+  const [rdsID, query] = routeInfoStore.useStore((s) => [s.params.rdsID, s.query as any]);
   const [isFetching] = useLoading(cloudServiceStore, ['getRDSDetails']);
 
   useEffectOnce(() => {

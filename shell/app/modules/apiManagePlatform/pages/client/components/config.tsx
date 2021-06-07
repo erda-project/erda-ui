@@ -13,7 +13,7 @@
 
 import i18n from 'i18n';
 
-export const contractStatueMap: { [k in API_CLIENT.ContractStatue]: { value: k, name: string } } = {
+export const contractStatueMap: { [k in API_CLIENT.ContractStatue]: { value: k; name: string } } = {
   proved: {
     value: 'proved',
     name: i18n.t('passed'),

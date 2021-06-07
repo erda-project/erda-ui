@@ -40,8 +40,8 @@ interface IInputItem {
   initialValue?: string;
   editDisabled?: boolean;
   isTextArea?: boolean;
-  onChange(e: React.ChangeEvent, name: string, nameId: string): void;
-  validate?(rule: any, value: any, callback: Function): void;
+  onChange: (e: React.ChangeEvent, name: string, nameId: string) => void;
+  validate?: (rule: any, value: any, callback: Function) => void;
   maxLength?: number;
 }
 const InputItem = ({
@@ -58,7 +58,7 @@ const InputItem = ({
           {
             validator: (rule, value, callback) => {
               if (dataSource) {
-                const hasSameKey = dataSource.some(item => rule.field !== (ROW_KEY + item.uniKey) && (item[ROW_KEY] === value));
+                const hasSameKey = dataSource.some((item) => rule.field !== (ROW_KEY + item.uniKey) && (item[ROW_KEY] === value));
                 const hasSameKeyOut = existKeys.includes(value);
                 if (hasSameKey) {
                   callback(i18n.t('common:key value must be unique'));
@@ -77,14 +77,14 @@ const InputItem = ({
       })(isTextArea ?
         <TextArea
           autoSize
-          onBlur={e => onChange(e, name, nameId)}
+          onBlur={(e) => onChange(e, name, nameId)}
           disabled={editDisabled}
           maxLength={maxLength}
         /> :
         <Input
           placeholder={i18n.t('common:please enter')}
           size="default"
-          onBlur={e => onChange(e, name, nameId)}
+          onBlur={(e) => onChange(e, name, nameId)}
           disabled={editDisabled}
           maxLength={maxLength}
         />)}
@@ -120,20 +120,20 @@ interface IProps {
   };
   size?: 'small' | 'middle' | 'default';
   className?: string;
-  addBtnText?: string,
+  addBtnText?: string;
   disableAdd?: boolean;
   disableDelete?: boolean;
   editDisabled?: boolean;
   isTextArea: boolean;
   keyDisabled?: boolean;
-  existKeys?: string[],
-  onDel?(data: object): void;
-  onChange?(data: object): void;
+  existKeys?: string[];
+  onDel?: (data: object) => void;
+  onChange?: (data: object) => void;
   validate?: {
-    key(rule: any, value: any, callback:Function): void
-    value(rule: any, value: any, callback:Function): void
+    key: (rule: any, value: any, callback: Function) => void;
+    value: (rule: any, value: any, callback: Function) => void;
   };
-  maxLength?:number;
+  maxLength?: number;
 }
 
 interface IState {
@@ -169,7 +169,7 @@ export class KeyValueTable extends React.Component<IProps, IState> {
     return as ? { ...otherData, [as]: { ...tbData } } : { ...otherData, ...tbData };
   }
 
-  static getDerivedStateFromProps(props: IProps, preState: IState): Partial<IState> | null{
+  static getDerivedStateFromProps(props: IProps, preState: IState): Partial<IState> | null {
     if (!isEqual(props.data, preState.preData)) {
       return {
         dataSource: convertToColumnData(props.data),
@@ -297,7 +297,7 @@ export class KeyValueTable extends React.Component<IProps, IState> {
               </Popconfirm>
             );
           },
-        }
+        },
       );
     }
 

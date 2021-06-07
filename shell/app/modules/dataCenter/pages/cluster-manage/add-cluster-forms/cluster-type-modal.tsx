@@ -61,13 +61,13 @@ export const clusterTypeMap = [
   ],
 ];
 
-const TypeCard = (props:any) => {
+const TypeCard = (props: any) => {
   const { onChosen, ...type } = props;
   const [isHover, setIsHover] = React.useState(false);
   const onHover = () => setIsHover(true);
   const outHover = () => setIsHover(false);
   return (
-    <div className='cluster-type-card' onMouseEnter={onHover} onMouseLeave={outHover} onClick={() => { onChosen(type); }}>
+    <div className="cluster-type-card" onMouseEnter={onHover} onMouseLeave={outHover} onClick={() => { onChosen(type); }}>
       <div className="type-icon">
         <img src={isHover ? get(type, 'icon.active') : get(type, 'icon.default')} />
       </div>
@@ -77,10 +77,10 @@ const TypeCard = (props:any) => {
   );
 };
 
-export const ClusterTypeModal = (props:any) => {
+export const ClusterTypeModal = (props: any) => {
   const { visible, toggleModal, onSubmit } = props;
 
-  const handleSubmit = (data:any) => {
+  const handleSubmit = (data: any) => {
     onSubmit(data.type);
     toggleModal();
   };
@@ -98,7 +98,7 @@ export const ClusterTypeModal = (props:any) => {
         {map(clusterTypeMap, (subItem, idx) => {
           return (
             <Row key={idx} gutter={16} className="cluster-type-row mb16">
-              {map(subItem, item => (
+              {map(subItem, (item) => (
                 <Col key={item.type} span={8}><TypeCard onChosen={handleSubmit} {...item} /></Col>
               ))}
             </Row>

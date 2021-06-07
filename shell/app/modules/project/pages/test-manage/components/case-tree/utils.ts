@@ -30,9 +30,9 @@ export const recycledRoot: TEST_SET.TestSetNode = {
 };
 
 interface IFunc {
-  treeData: object[] // treeData 树形结构
-  eventKey: string // 取值路径
-  valueKey?: string // 取值字段
+  treeData: object[]; // treeData 树形结构
+  eventKey: string; // 取值路径
+  valueKey?: string; // 取值字段
 }
 
 // 依据eventKey获取当前node或者该node某个字段的值
@@ -60,9 +60,9 @@ export const getNodeByPath = ({ treeData, eventKey, valueKey }: IFunc): any => {
 
 // 依据id获取当前node
 interface IById {
-  treeData: object[] // treeData 树形结构
-  id: number
-  recycled?: boolean
+  treeData: object[]; // treeData 树形结构
+  id: number;
+  recycled?: boolean;
 }
 
 export const getNodeById = ({ treeData, id, recycled = true }: IById): TEST_SET.TestSetNode | any => reduce(treeData, (result, single: any) => {
@@ -78,9 +78,9 @@ export const getNodeById = ({ treeData, id, recycled = true }: IById): TEST_SET.
 
 
 interface ISelectParams {
-  selectedKey: string
-  selectProjectId: number
-  projectId: number
+  selectedKey: string;
+  selectProjectId: number;
+  projectId: number;
 }
 export const getSelectedKeys = ({ selectedKey }: ISelectParams) => {
   if (!selectedKey) { // 初始时没有节点

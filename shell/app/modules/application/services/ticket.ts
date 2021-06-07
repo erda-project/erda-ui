@@ -47,7 +47,7 @@ export const reopenTicket = (ticketId: number) => {
 };
 
 // 这个接口不用传分页参数，返回类型需自定义
-export const getComments = (ticketId: number): { comments: TICKET.Comment[], total: number } => {
+export const getComments = (ticketId: number): { comments: TICKET.Comment[]; total: number } => {
   return agent.get('/api/comments')
     .query({ ticketID: ticketId })
     .then((response: any) => response.body);

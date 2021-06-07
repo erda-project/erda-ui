@@ -20,7 +20,7 @@ import { useUpdate } from 'common';
 import './member-label.scss';
 
 export const MemberLabels = () => {
-  const list = memberLabelStore.useStore(s => s.memberLabels);
+  const list = memberLabelStore.useStore((s) => s.memberLabels);
   const { getMemberLabels, updateMemberLabels } = memberLabelStore.effects;
 
   const inputRef = React.useRef(null);
@@ -44,7 +44,7 @@ export const MemberLabels = () => {
   });
 
   const deleteLabel = (item: string) => {
-    updateMemberLabels(filter(list, l => l !== item));
+    updateMemberLabels(filter(list, (l) => l !== item));
   };
 
   const onAdd = () => {
@@ -86,7 +86,7 @@ export const MemberLabels = () => {
           </div>
         </div> */}
       {list.map(({ label, name }) => (
-        <span key={label} className='label-item'>
+        <span key={label} className="label-item">
           {name}
           {/* <Icon type="close" onClick={(e) => { e.stopPropagation(); deleteLabel(label); }} /> */}
         </span>

@@ -13,30 +13,30 @@
 
 import agent from 'agent';
 
-export const getBlackList = ({ artifactId, ...query }:PUBLISHER.IListQuery): IPagingResp<PUBLISHER.IBlackList> => {
+export const getBlackList = ({ artifactId, ...query }: PUBLISHER.IListQuery): IPagingResp<PUBLISHER.IBlackList> => {
   return agent.get(`/api/publish-items/${artifactId}/blacklist`)
     .query(query)
     .then((response: any) => response.body);
 };
 
-export const addBlackList = ({ artifactId, ...data }:{artifactId:string}) => {
+export const addBlackList = ({ artifactId, ...data }: {artifactId: string}) => {
   return agent.post(`/api/publish-items/${artifactId}/blacklist`)
     .send(data)
     .then((response: any) => response.body);
 };
 
-export const deleteBlackList = ({ artifactId, blacklistId }: { artifactId: string, blacklistId: string }) => {
+export const deleteBlackList = ({ artifactId, blacklistId }: { artifactId: string; blacklistId: string }) => {
   return agent.delete(`/api/publish-items/${artifactId}/blacklist/${blacklistId}`)
     .then((response: any) => response.body);
 };
 
-export const getEraseList = ({ artifactId, ...query }:PUBLISHER.IListQuery): IPagingResp<PUBLISHER.IErase> => {
+export const getEraseList = ({ artifactId, ...query }: PUBLISHER.IListQuery): IPagingResp<PUBLISHER.IErase> => {
   return agent.get(`/api/publish-items/${artifactId}/erase`)
     .query(query)
     .then((response: any) => response.body);
 };
 
-export const addErase = ({ artifactId, ...data }:{artifactId:string}) => {
+export const addErase = ({ artifactId, ...data }: {artifactId: string}) => {
   return agent.post(`/api/publish-items/${artifactId}/erase`)
     .send(data)
     .then((response: any) => response.body);

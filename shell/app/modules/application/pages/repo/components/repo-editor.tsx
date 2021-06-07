@@ -34,10 +34,10 @@ interface IProps {
 }
 
 interface IState {
-  value?: string,
+  value?: string;
   blob?: REPOSITORY.IBlob;
-  isAddMode?: boolean,
-  fileName: string,
+  isAddMode?: boolean;
+  fileName: string;
 }
 
 const RepoEditor = ({ autoHeight, maxLines, ops, isDiceOrPipelineFile, name, blob = {} as REPOSITORY.IBlob, fileName = '' }: IProps) => {
@@ -46,7 +46,7 @@ const RepoEditor = ({ autoHeight, maxLines, ops, isDiceOrPipelineFile, name, blo
     isAddMode: true,
     fileName: '',
   } as IState);
-  const [tree, info, mode] = repoStore.useStore(s => [s.tree, s.info, s.mode]);
+  const [tree, info, mode] = repoStore.useStore((s) => [s.tree, s.info, s.mode]);
   const { commit, getRepoBlob, getRepoTree } = repoStore.effects;
   const { changeMode } = repoStore.reducers;
   React.useEffect(() => {

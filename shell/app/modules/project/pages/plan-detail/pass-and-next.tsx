@@ -19,31 +19,31 @@ import { CaseStatus } from './status-toggle';
 import './pass-and-next.scss';
 
 interface IProps {
-  hasNext: boolean,
-  current?: keyof typeof CaseStatus,
-  onClick(k: keyof typeof CaseStatus): any,
+  hasNext: boolean;
+  current?: keyof typeof CaseStatus;
+  onClick: (k: keyof typeof CaseStatus) => any;
 }
 
 export const PassAndNext = ({ hasNext, current, onClick }: IProps) => {
   return (
-    <div className='pass-and-next'>
+    <div className="pass-and-next">
       <Button onClick={() => onClick(CaseStatus.INIT)} disabled={current === CaseStatus.INIT}>
         <CustomIcon className="bg-color-icon" type="wh" />
         {i18n.t('project:not performed')}
       </Button>
-      <Button className='border-green' onClick={() => onClick(CaseStatus.PASSED)} disabled={current === CaseStatus.PASSED}>
+      <Button className="border-green" onClick={() => onClick(CaseStatus.PASSED)} disabled={current === CaseStatus.PASSED}>
         <CustomIcon className="bg-color-icon green" type="tg" />
         {i18n.t('project:pass')}
       </Button>
-      <Button className='border-yellow' onClick={() => onClick(CaseStatus.BLOCK)} disabled={current === CaseStatus.BLOCK}>
+      <Button className="border-yellow" onClick={() => onClick(CaseStatus.BLOCK)} disabled={current === CaseStatus.BLOCK}>
         <CustomIcon className="bg-color-icon yellow" type="zs" />
         {i18n.t('project:blocking')}
       </Button>
-      <Button className='border-red' onClick={() => onClick(CaseStatus.FAIL)} disabled={current === CaseStatus.FAIL}>
+      <Button className="border-red" onClick={() => onClick(CaseStatus.FAIL)} disabled={current === CaseStatus.FAIL}>
         <CustomIcon className="bg-color-icon red" type="wtg" />
         {i18n.t('project:not pass')}
       </Button>
-      {hasNext ? <span className='ml4'>{i18n.t('project:and next')}</span> : null}
+      {hasNext ? <span className="ml4">{i18n.t('project:and next')}</span> : null}
     </div>
   );
 };

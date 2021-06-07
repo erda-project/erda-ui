@@ -18,7 +18,7 @@ declare namespace MACHINE_MANAGE {
       id?: string;
       containerId?: string;
       clusterName?: string;
-      hostIP?:string;
+      hostIP?: string;
     };
     type: 'monitor' | 'log' | 'terminal';
     timeSwitch?: boolean;
@@ -26,44 +26,44 @@ declare namespace MACHINE_MANAGE {
   }
 
   interface IGroupInfoQuery {
-    orgName: string,
-    clusters: Array<{ clusterName: string, hostIPs?: string[] }>,
-    filters: IFilterQuery[],
-    groups: string[],
+    orgName: string;
+    clusters: Array<{ clusterName: string; hostIPs?: string[] }>;
+    filters: IFilterQuery[];
+    groups: string[];
   }
 
   interface IGroupInfo {
-    name: string | null,
+    name: string | null;
     metric: {
-      machines: number,
-      abnormalMachines: number,
-      cpuUsage: number,
-      cpuRequest: number,
-      cpuLimit: number,
-      cpuOrigin: number,
-      cpuTotal: number,
-      cpuAllocatable: number,
-      memUsage: number,
-      memRequest: number,
-      memLimit: number,
-      memOrigin: number,
-      memTotal: number,
-      memAllocatable: number,
-      diskUsage: number,
-      diskTotal: number,
-    },
-    machines: ORG_MACHINE.IMachine[] | null,
-    groups: IGroupInfo[] | null
+      machines: number;
+      abnormalMachines: number;
+      cpuUsage: number;
+      cpuRequest: number;
+      cpuLimit: number;
+      cpuOrigin: number;
+      cpuTotal: number;
+      cpuAllocatable: number;
+      memUsage: number;
+      memRequest: number;
+      memLimit: number;
+      memOrigin: number;
+      memTotal: number;
+      memAllocatable: number;
+      diskUsage: number;
+      diskTotal: number;
+    };
+    machines: ORG_MACHINE.IMachine[] | null;
+    groups: IGroupInfo[] | null;
   }
 
   interface IFilterQuery {
-    key: string,
-    values: string[],
+    key: string;
+    values: string[];
   }
 
   interface IOfflineMachine {
-    id: number,
-    siteIP: string
+    id: number;
+    siteIP: string;
   }
 }
 

@@ -19,13 +19,13 @@ import { WrappedFormUtils } from 'core/common/interface';
 import publisherStore from 'app/modules/publisher/stores/publisher';
 
 interface IProps {
-  visible: boolean,
-  formData?: PUBLISHER.IPublisher,
-  onCancel(): void,
-  afterSubmit?(isUpdate?:boolean, data?:PUBLISHER.IPublisher): any,
+  visible: boolean;
+  formData?: PUBLISHER.IPublisher;
+  onCancel: () => void;
+  afterSubmit?: (isUpdate?: boolean, data?: PUBLISHER.IPublisher) => any;
 }
 
-export const getPublisherFieldsList = (isEdit?:boolean) => {
+export const getPublisherFieldsList = (isEdit?: boolean) => {
   const fieldsList = [
     {
       label: i18n.t('publisher:publisher name'),

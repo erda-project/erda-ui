@@ -30,8 +30,8 @@ const colorMap = {
 const { Panel } = Collapse;
 interface IProps {
   list: Record<string, any>;
-  onChange(key:string, api: any): void;
-  onChangeVersion(id: number): void;
+  onChange: (key: string, api: any) => void;
+  onChangeVersion: (id: number) => void;
 }
 const ApiMenu = ({ list, onChange, onChangeVersion }: IProps) => {
   const [expandKey, setExpandKey] = React.useState('');
