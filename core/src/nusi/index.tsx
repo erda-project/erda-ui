@@ -59,6 +59,9 @@ import {
 } from 'antd-latest';
 import { FixedSelect } from './fixed-select';
 import FixRangePicker from './range-picker';
+import 'antd/lib/style/index.less';
+import 'antd-latest/lib/style/index.less';
+import '@terminus/nusi/styles/style/index.scss';
 import {
   Affix,
   Alert,

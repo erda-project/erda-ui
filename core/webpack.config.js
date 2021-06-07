@@ -20,9 +20,9 @@ const { getLessTheme, getScssTheme, themeColor } = require('./src/config/theme')
 const { ModuleFederationPlugin } = require('webpack').container;
 const AutomaticVendorFederation = require('@module-federation/automatic-vendor-federation');
 const packageJson = require('./package.json');
-const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+// const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 
-const smp = new SpeedMeasurePlugin();
+// const smp = new SpeedMeasurePlugin();
 const resolve = pathname => path.resolve(__dirname, pathname);
 
 const nusiRealPath = fs.realpathSync(resolve('./node_modules/@terminus/nusi'));
@@ -198,5 +198,5 @@ module.exports = () => {
     },
   };
 
-  return smp.wrap(merge(commonConfig, targetConfig));
+  return merge(commonConfig, targetConfig);
 };
