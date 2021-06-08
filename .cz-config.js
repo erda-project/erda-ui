@@ -25,7 +25,16 @@ module.exports = {
     { value: 'WIP', name: 'WIP:      正在进行中的改动' },
   ],
 
-  scopes: [{ name: 'common' }, { name: 'DOP' }, { name: 'MSP' }, { name: 'CMP' }, { name: 'SRE & ECP' }, { name: 'FDP' }, { name: 'admin' }],
+  scopes: [
+    { name: 'common' },
+    { name: 'dop' },
+    { name: 'msp' },
+    { name: 'cmp' },
+    { name: 'ecp' },
+    { name: 'fdp' },
+    { name: 'admin' },
+    { name: 'cli' },
+  ],
 
   allowTicketNumber: false,
   isTicketNumberRequired: false,

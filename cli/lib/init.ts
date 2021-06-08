@@ -25,14 +25,24 @@ const ALL_MODULES = ['core', 'shell', 'admin', 'fdp', 'market'];
 
 // precondition
 // pnpm & @erda-ui/cli & npm-check-updates installed globally
-export default async ({ hostName, port, override, backendUrl }: { hostName?: string; port?: string; override?: boolean; backendUrl?: string }) => {
+export default async ({
+  hostName,
+  port,
+  override,
+  backendUrl,
+}: {
+  hostName?: string;
+  port?: string;
+  override?: boolean;
+  backendUrl?: string;
+}) => {
   const currentDir = process.cwd();
   isCwdInRoot({ currentPath: currentDir });
 
-  let spinner = ora('installing npm-check-updates...').start();
-  const { stdout: msg } = await asyncExec('npm i -g npm-check-updates');
+  let spinner = ora('installing commitizen & npm-check-updates...').start();
+  const { stdout: msg } = await asyncExec('npm i -g npm-check-updates commitizen');
   logInfo(msg);
-  logSuccess('installed npm-check-updates globally to check package version😁');
+  logSuccess('installed commitizen & npm-check-updates globally successfully😁');
   spinner.stop();
 
   spinner = ora('installing dependencies...').start();
