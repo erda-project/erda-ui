@@ -41,7 +41,7 @@ module.exports = {
     'no-nested-ternary': 'off',
     'react/no-multi-comp': 'off',
     'jsx-first-prop-new-line': 'off',
-    'no-unused-vars': 1,
+    'no-unused-vars': 'off',
     'import/no-named-as-default': 'off',
     'import/no-named-as-default-member': 'off',
     'react-hooks/rules-of-hooks': 'error',
