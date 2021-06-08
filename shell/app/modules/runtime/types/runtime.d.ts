@@ -16,84 +16,84 @@ declare namespace RUNTIME {
   type DeployStatus = 'INIT' | 'WAITING' | 'DEPLOYING' | 'CANCELING' | 'CANCELED' | 'FAILED' | 'OK';
 
   interface Detail {
-    id: number
-    name: string
-    serviceGroupName: string
-    serviceGroupNamespace: string
-    source: string
-    status: string
-    deployStatus: DeployStatus
-    deleteStatus: string
-    releaseId: string
-    clusterId: number
-    clusterName: string
-    clusterType: string
-    resources: CPU_MEM_DISK
+    id: number;
+    name: string;
+    serviceGroupName: string;
+    serviceGroupNamespace: string;
+    source: string;
+    status: string;
+    deployStatus: DeployStatus;
+    deleteStatus: string;
+    releaseId: string;
+    clusterId: number;
+    clusterName: string;
+    clusterType: string;
+    resources: CPU_MEM_DISK;
     extra: {
-      applicationId: number,
-      buildId: number,
-      workspace: WORKSPACE
-    }
-    projectID: number
+      applicationId: number;
+      buildId: number;
+      workspace: WORKSPACE;
+    };
+    projectID: number;
     services: {
-      [k: string]: RUNTIME_SERVICE.Detail
-    }
+      [k: string]: RUNTIME_SERVICE.Detail;
+    };
     endpoints: { // 前端判断有expose的service
-      [k: string]: RUNTIME_SERVICE.Detail
-    }
-    timeCreated: string
-    createdAt: string
-    updatedAt: string
-    errors: null | string
+      [k: string]: RUNTIME_SERVICE.Detail;
+    };
+    timeCreated: string;
+    createdAt: string;
+    updatedAt: string;
+    errors: null | string;
   }
 
   interface AddonQuery {
-    projectId: number,
-    workspace: WORKSPACE,
-    value: string
+    projectId: number;
+    workspace: WORKSPACE;
+    value: string;
   }
 
   interface DeployRecord {
-    buildId: number
-    createdAt: string
-    failCause: string
-    finishedAt: null | string
-    id: number
-    operator: string
-    operatorAvatar: string
-    operatorName: string
-    outdated: boolean
-    phase: string
-    releaseId: string
-    releaseName: string
-    rollbackFrom: number
-    runtimeId: number
-    status: string
-    step: string
-    type: string
+    buildId: number;
+    createdAt: string;
+    failCause: string;
+    finishedAt: null | string;
+    id: number;
+    operator: string;
+    operatorAvatar: string;
+    operatorName: string;
+    outdated: boolean;
+    phase: string;
+    releaseId: string;
+    releaseName: string;
+    rollbackFrom: number;
+    runtimeId: number;
+    status: string;
+    step: string;
+    type: string;
   }
 
   interface DeployListQuery {
-    runtimeId: number
-    pageSize: number
-    pageNo: number
+    runtimeId: number;
+    pageSize: number;
+    pageNo: number;
   }
 
   interface RollbackBody {
-    runtimeId: number
-    deploymentId: number
+    runtimeId: number;
+    deploymentId: number;
   }
 
   interface CancelDeployBody {
-    runtimeId: string
-    operator: string
-    force: boolean
+    runtimeId: string;
+    operator: string;
+    force: boolean;
   }
 
 }
 
 interface CPU_MEM_DISK {
-  cpu: number,
-  mem: number,
-  disk: number
+  cpu: number;
+  mem: number;
+  disk: number;
 }

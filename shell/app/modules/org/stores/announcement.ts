@@ -28,8 +28,8 @@ import { eventHub } from 'common/utils/event-hub';
 import orgStore from 'app/org-home/stores/org';
 
 interface INotice extends IPagingResp<ORG_ANNOUNCEMENT.Item> {
-  publishedList: ORG_ANNOUNCEMENT.Item[],
-  noticePaging: any
+  publishedList: ORG_ANNOUNCEMENT.Item[];
+  noticePaging: any;
 }
 
 const initState: INotice = {
@@ -45,11 +45,11 @@ const announcementStore = createStore({
   state: initState,
   subscriptions() {
     eventHub.once('layout/mount', () => {
-      const loginUser = userStore.getState(s => s.loginUser);
-      const orgId = orgStore.getState(s => s.currentOrg.id)
+      const loginUser = userStore.getState((s) => s.loginUser);
+      const orgId = orgStore.getState((s) => s.currentOrg.id);
       // 非系统管理员
       if (!loginUser.isSysAdmin && orgId) {
-        announcementStore.effects.getAllNoticeListByStatus('published').then(list => {
+        announcementStore.effects.getAllNoticeListByStatus('published').then((list) => {
           layoutStore.reducers.setAnnouncementList(list);
         });
       }

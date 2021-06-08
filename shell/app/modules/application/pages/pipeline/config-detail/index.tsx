@@ -33,7 +33,7 @@ interface IProps{
 
 const PipelineConfigDetail = (props: IProps) => {
   const { nodeId, addDrawerProps = {}, scope, onCaseChange, scopeParams, editAuth } = props;
-  const [caseDetail] = fileTreeStore.useStore(s => [s.curNodeDetail]);
+  const [caseDetail] = fileTreeStore.useStore((s) => [s.curNodeDetail]);
   const { getTreeNodeDetailNew } = fileTreeStore;
   const { commit } = repoStore.effects;
   const [{ useCaseDetail, isLastRecord }, updater] = useUpdate({
@@ -88,7 +88,7 @@ const PipelineConfigDetail = (props: IProps) => {
 
   return (
     <div>
-      <div className='flex-box mb8'>
+      <div className="flex-box mb8">
         <span className="bold-500 title">{i18n.t('detail')}</span>
         {/* <RecordList ref={recordRef} curPipelineDetail={useCaseDetail} onSelectPipeline={onSelectPipeline} nodeId={nodeId} /> */}
       </div>

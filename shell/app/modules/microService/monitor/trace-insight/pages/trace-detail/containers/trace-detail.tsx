@@ -23,8 +23,8 @@ interface IProps{
 }
 
 const TraceDetail = ({ traceId }: IProps) => {
-  const params = routeInfoStore.useStore(s => s.params);
-  const [trace, spanDetail] = traceDetailStore.useStore(s => [s.traceDetail, s.spanDetail]);
+  const params = routeInfoStore.useStore((s) => s.params);
+  const [trace, spanDetail] = traceDetailStore.useStore((s) => [s.traceDetail, s.spanDetail]);
   const { getTraceDetail, getSpanDetail: viewSpanDetail } = traceDetailStore.effects;
   const [isFetching] = useLoading(traceDetailStore, ['getTraceDetail']);
 

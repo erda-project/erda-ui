@@ -18,18 +18,18 @@ import { Spin, Table, Badge } from 'app/nusi';
 import { Link } from 'react-router-dom';
 import { Icon as CustomIcon, Copy, IF } from 'common';
 import { goTo } from 'common/utils';
-import { PlanName, EnvName, CategoryName } from 'app/modules/addonPlatform/pages/common/configs';
+import { PLAN_NAME, ENV_NAME, CATEGORY_NAME } from 'app/modules/addonPlatform/pages/common/configs';
 import i18n from 'i18n';
 
 import './detail.scss';
 
 const addonStatusMap = {
-  Progressing: <Badge status='processing' text={i18n.t('org:processing')} />,
-  Healthy: <Badge status='success' text={i18n.t('healthy')} />,
-  UnHealthy: <Badge status='warning' text={i18n.t('unhealthy')} />,
-  Failed: <Badge status='error' text={i18n.t('failed')} />,
-  Unknown: <Badge status='default' text={i18n.t('unknown')} />,
-  Stopped: <Badge status='error' text={i18n.t('stopped')} />,
+  Progressing: <Badge status="processing" text={i18n.t('org:processing')} />,
+  Healthy: <Badge status="success" text={i18n.t('healthy')} />,
+  UnHealthy: <Badge status="warning" text={i18n.t('unhealthy')} />,
+  Failed: <Badge status="error" text={i18n.t('failed')} />,
+  Unknown: <Badge status="default" text={i18n.t('unknown')} />,
+  Stopped: <Badge status="error" text={i18n.t('stopped')} />,
 };
 
 const refTableList = [
@@ -47,8 +47,8 @@ const refTableList = [
     title: i18n.t('org:deploy detail page'),
     dataIndex: 'applicationId',
     key: 'applicationId',
-    align: 'center' as 'center',
-    render: (_text: string, row: { applicationId: number, projectId: number, runtimeId: number }) => {
+    align: 'center' as const,
+    render: (_text: string, row: { applicationId: number; projectId: number; runtimeId: number }) => {
       const { applicationId, projectId, runtimeId } = row;
       return (
         <Link to={goTo.resolve.runtimeDetailRoot({ projectId, appId: applicationId, runtimeId })}>
@@ -64,9 +64,9 @@ export const PureBaseAddonInfo = ({
   loading,
   extra,
 }: {
-  addonDetail: Merge<MIDDLEWARE_DASHBOARD.IBaseInfo, {addonStatus?: string}>,
-  loading: boolean,
-  extra: React.ReactNode
+  addonDetail: Merge<MIDDLEWARE_DASHBOARD.IBaseInfo, {addonStatus?: string}>;
+  loading: boolean;
+  extra: React.ReactNode;
 }) => {
   const itemConfigs = [
     {
@@ -80,7 +80,7 @@ export const PureBaseAddonInfo = ({
     {
       title: i18n.t('type'),
       value: 'category',
-      render: (category: string) => CategoryName[category],
+      render: (category: string) => CATEGORY_NAME[category],
     },
     {
       title: i18n.t('org:running cluster'),
@@ -89,12 +89,12 @@ export const PureBaseAddonInfo = ({
     {
       title: i18n.t('org:running environment'),
       value: 'workspace',
-      render: (workspace: string) => EnvName[workspace],
+      render: (workspace: string) => ENV_NAME[workspace],
     },
     {
       title: i18n.t('dcos:specifications'),
       value: 'plan',
-      render: (plan: string) => PlanName[plan],
+      render: (plan: string) => PLAN_NAME[plan],
     },
     {
       title: i18n.t('org:reference count'),

@@ -21,7 +21,7 @@ export const getLatestSonarStatistics = ({ applicationId }: { applicationId: str
     .then((response: any) => response.body);
 };
 
-export const getSonarResults = ({ type, key }: { type: string, key: string }): QA.Item[] => {
+export const getSonarResults = ({ type, key }: { type: string; key: string }): QA.Item[] => {
   return agent.get('/api/qa')
     .query({ type, key })
     .then((response: any) => response.body);

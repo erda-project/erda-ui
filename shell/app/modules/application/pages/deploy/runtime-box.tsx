@@ -43,23 +43,23 @@ interface IProps {
   lastOperateTime: string;
   deployStatus: string;
   canDeploy: boolean;
-  onDelete(runtimeId: string): void;
-  onRestart(runtimeId: string): void;
-  onUpdate(): void;
+  onDelete: (runtimeId: string) => void;
+  onRestart: (runtimeId: string) => void;
+  onUpdate: () => void;
 }
 
 const RuntimeBox = (props: IProps) => {
-  const permMap = usePerm(s => s.app.runtime);
-  const branchInfo = appStore.getState(s => s.branchInfo);
-  const params = routeInfoStore.getState(s => s.params);
-  const branchAuthObj = usePerm(s => s.app.pipeline);
+  const permMap = usePerm((s) => s.app.runtime);
+  const branchInfo = appStore.getState((s) => s.branchInfo);
+  const params = routeInfoStore.getState((s) => s.params);
+  const branchAuthObj = usePerm((s) => s.app.pipeline);
   const popoverComp = (
     isDeploying: boolean,
     id: number,
     onDelete: Function,
     onRestart: Function,
     env: string,
-    branch: string
+    branch: string,
   ) => (setVisible: Function) => {
     const updateAuth = get(find(branchInfo, { name: branch }), 'isProtect') ? branchAuthObj.executeProtected.pass : branchAuthObj.executeNormal.pass;
     return (
@@ -125,7 +125,7 @@ const RuntimeBox = (props: IProps) => {
   const isWaitApprove = deployStatus.toLowerCase() === approvalStatusMap.WaitApprove.value.toLowerCase();
   return (
     <Spin spinning={deleteStatus === 'DELETING'} tip={i18n.t('application:deleting')}>
-      <div className={`flex-box runtime-box ${isWaitApprove ? 'large' : ''}`} onClick={e => gotoRuntime(id, e)}>
+      <div className={`flex-box runtime-box ${isWaitApprove ? 'large' : ''}`} onClick={(e) => gotoRuntime(id, e)}>
         <div className="flex-box runtime-box-header">
           <div className="branch">
             <CustomIcon type="slbb" />
@@ -142,7 +142,7 @@ const RuntimeBox = (props: IProps) => {
           ? (
             <div>
               <Tooltip title={i18n.t('application:view version information')}>
-                <span className="text-link release-link" onClick={e => gotoRelease(releaseId, e)}>
+                <span className="text-link release-link" onClick={(e) => gotoRelease(releaseId, e)}>
                   <CustomIcon type="bb" />
                   <span>{cutStr(releaseId, 6, { suffix: '' })}</span>
                 </span>

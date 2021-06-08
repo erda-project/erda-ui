@@ -24,7 +24,7 @@ import { getPreviewData } from 'project/pages/auto-test/scenes';
 import { useUpdate } from 'common';
 
 const AutoTestPlanDetail = () => {
-  const { projectId, testPlanId } = routeInfoStore.useStore(s => s.params);
+  const { projectId, testPlanId } = routeInfoStore.useStore((s) => s.params);
   const [{ logVisible, logProps, resultVis, previewData }, updater, update] = useUpdate({
     logVisible: false,
     logProps: {},
@@ -54,8 +54,8 @@ const AutoTestPlanDetail = () => {
   return (
     <>
       <DiceConfigPage
-        scenarioType='auto-test-plan-detail'
-        scenarioKey='auto-test-plan-detail'
+        scenarioType="auto-test-plan-detail"
+        scenarioKey="auto-test-plan-detail"
         inParams={inParams}
       // 提供给后端测试，可在路由上带上useMock来查看mock的数据，以便后端检查，对接完成后删除
         useMock={location.search.includes('useMock') ? useMock : undefined}
@@ -107,7 +107,7 @@ const useMock = (payload: any) => {
   });
 };
 
-const getMockFileTree = (payload:any) => {
+const getMockFileTree = (payload: any) => {
   const data = cloneDeep(mock);
 
   if (get(payload, 'event.operation') === 'onSelectOption') {

@@ -17,19 +17,19 @@ declare namespace DCOS_SERVICES {
 
   interface metric {
     loading: boolean;
-    data: any[]
+    data: any[];
   }
 
   interface IState {
-    containerList: Service[],
-    serviceList: InstancesUsage[]
-    runtimeJson: null,
-    runtimeStatus: {},
-    serviceReqStatus: boolean,
+    containerList: Service[];
+    serviceList: InstancesUsage[];
+    runtimeJson: null;
+    runtimeStatus: {};
+    serviceReqStatus: boolean;
     metrics: {
-      cpu: metric,
-      mem: metric,
-    },
+      cpu: metric;
+      mem: metric;
+    };
   }
 
   interface QueryServices {
@@ -95,7 +95,7 @@ declare namespace DCOS_SERVICES {
       more: {
         'apm-demo-api': string;
         'apm-demo-ui': string;
-      }
-    }
+      };
+    };
   }
 }

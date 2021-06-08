@@ -14,18 +14,18 @@
 declare namespace CP_COMMON {
   interface Operation {
     [pro: string]: any;
-    key: string
-    reload: boolean
+    key: string;
+    reload: boolean;
     text?: string;
-    disabled?: boolean
-    disabledTip?: string
-    confirm?: string | IConfirm
-    command?: Command | Command[]
+    disabled?: boolean;
+    disabledTip?: string;
+    confirm?: string | IConfirm;
+    command?: Command | Command[];
     meta?: Obj;
     show?: boolean;
     prefixIcon?: string;
     fillMeta?: string;
-    showIndex?:number;
+    showIndex?: number;
   }
 
   interface IConfirm{
@@ -34,11 +34,11 @@ declare namespace CP_COMMON {
   }
 
   interface Command {
-    [pro: string]: any
-    key: string
-    target?: string,
-    state?: Obj
-    jumpOut?: boolean
+    [pro: string]: any;
+    key: string;
+    target?: string;
+    state?: Obj;
+    jumpOut?: boolean;
   }
 
   interface FormField {
@@ -52,7 +52,7 @@ declare namespace CP_COMMON {
     rules?: Obj[];
     required?: boolean;
     componentProps?: Obj;
-    removeWhen?: Array<Array<{field: string, operator: string, value: any}>>
-    disableWhen?: Array<Array<{[prop:string]:any}>>
+    removeWhen?: Array<Array<{field: string; operator: string; value: any}>>;
+    disableWhen?: Array<Array<{[prop: string]: any}>>;
   }
 }

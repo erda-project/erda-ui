@@ -20,7 +20,7 @@ declare namespace ConfogCenter {
 
   interface RespAppList {
     total: number;
-    list: string[]
+    list: string[];
   }
 
   interface GetConfigList {
@@ -29,13 +29,13 @@ declare namespace ConfogCenter {
   }
 
   interface RespConfigList {
-    [k: string]: any[]
+    [k: string]: any[];
   }
 
   interface SaveConfig {
     groupId: string;
-    tenantId:string;
-    configs: object[]
-    operationType?:string
+    tenantId: string;
+    configs: object[];
+    operationType?: string;
   }
 }

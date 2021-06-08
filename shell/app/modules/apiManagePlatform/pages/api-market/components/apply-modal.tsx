@@ -37,21 +37,21 @@ interface IState {
   createAppModal: boolean;
   infoModal: boolean;
   clientSk: API_CLIENT.ClientSk;
-  slaList: API_ACCESS.SlaItem[],
+  slaList: API_ACCESS.SlaItem[];
 }
 
 interface IProps {
   visible: boolean;
   dataSource: API_MARKET.Asset;
-  onCancel(): void;
+  onCancel: () => void;
 }
 
-type FormRef = {props: {form: WrappedFormUtils}};
+interface FormRef {props: {form: WrappedFormUtils}}
 
 const identifierReg = /^[a-zA-Z0-9_-]+$/;
 
 const createNewApp = {
-  value: 'create App', name: (<div className="hover-active text-link"><IconAddOne className="mr8"/>{i18n.t('create a new client')}</div>),
+  value: 'create App', name: (<div className="hover-active text-link"><IconAddOne className="mr8" />{i18n.t('create a new client')}</div>),
 } as any;
 
 const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
@@ -81,11 +81,11 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
     });
   }, [updater]);
   const getSla = React.useCallback((swaggerVersion: string) => {
-    getSlaList<Promise<API_MARKET.CommonResList<API_ACCESS.SlaItem[]>>>({ swaggerVersion, assetID: dataSource.assetID }).then(res => {
+    getSlaList<Promise<API_MARKET.CommonResList<API_ACCESS.SlaItem[]>>>({ swaggerVersion, assetID: dataSource.assetID }).then((res) => {
       let selectSla: number | undefined;
       if (res.success) {
-        const slaList = (res.data.list || []).filter(sla => sla.source !== 'system');
-        const defaultSla = slaList.find(sla => sla.default);
+        const slaList = (res.data.list || []).filter((sla) => sla.source !== 'system');
+        const defaultSla = slaList.find((sla) => sla.default);
         selectSla = slaList.length ? defaultSla?.id : undefined;
         update({
           slaList,
@@ -107,7 +107,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
       createAppModal: false,
     });
     if (visible) {
-      getVersionTree<Promise<API_MARKET.CommonResList<API_MARKET.VersionTreeItem[]>>>({ assetID: dataSource.assetID, patch: false, instantiation: false, access: true }).then(res => {
+      getVersionTree<Promise<API_MARKET.CommonResList<API_MARKET.VersionTreeItem[]>>>({ assetID: dataSource.assetID, patch: false, instantiation: false, access: true }).then((res) => {
         if (res.success) {
           updater.versions(res.data.list);
         } else {
@@ -163,7 +163,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
       });
     });
   };
-  const beforeSubmitCreateApp = (data:API_CLIENT.CreateClient) => {
+  const beforeSubmitCreateApp = (data: API_CLIENT.CreateClient) => {
     return createClient(data);
   };
   const handleCreateApp = ({ client }: {client: API_CLIENT.Client}) => {
@@ -174,7 +174,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
   const handleCloseInfo = () => {
     updater.infoModal(false);
   };
-  const filterOption = (name: string, option:React.ReactElement<any>) => {
+  const filterOption = (name: string, option: React.ReactElement<any>) => {
     const child = option.props.children;
     if (isObject(child)) {
       return true;
@@ -182,7 +182,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
       return (child as string).toLowerCase().includes(name);
     }
   };
-  const renderModalChild = (data: API_ACCESS.SlaItem[], selectKey: number, handleChange: (data: number)=>void) => {
+  const renderModalChild = (data: API_ACCESS.SlaItem[], selectKey: number, handleChange: (data: number) => void) => {
     return (
       <SLASelect dataSource={data} defaultSelectKey={selectKey} onChange={handleChange} />
     );
@@ -194,7 +194,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
       clientFormRef.current.props.form.setFieldsValue({ name });
     }
   };
-  const fieldsList:IFormItem[] = [
+  const fieldsList: IFormItem[] = [
     {
       label: i18n.t('API version'),
       name: 'swaggerVersion',
@@ -241,7 +241,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
               children: renderModalChild,
             }}
           >
-            {state.slaList.map(item => {
+            {state.slaList.map((item) => {
               return <SelectPro.Option key={item.id} value={item.id}>{item.name}</SelectPro.Option>;
             })}
           </SelectPro>
@@ -249,7 +249,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
       },
     },
   ];
-  const creteAppFieldsList:IFormItem[] = [
+  const creteAppFieldsList: IFormItem[] = [
     {
       label: i18n.t('client name'),
       name: 'displayName',

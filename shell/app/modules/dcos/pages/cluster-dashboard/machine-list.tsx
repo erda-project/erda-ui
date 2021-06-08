@@ -21,8 +21,8 @@ import orgMachineStore from '../../stores/machine';
 
 interface IProps {
   machineList: ORG_MACHINE.IMachine[];
-  onClickMachine(payload: object): void;
-  onClickInstance(payload: object): void;
+  onClickMachine: (payload: object) => void;
+  onClickInstance: (payload: object) => void;
 }
 export const PureMachineManager = ({
   machineList,
@@ -49,7 +49,7 @@ export const PureMachineManager = ({
 
     getMachineStatus(map(machineList, ({ ip }) => ip))
       .then((hostsStatus) => {
-        const machineListWithStatus = map(machineList, item => {
+        const machineListWithStatus = map(machineList, (item) => {
           const target = find(hostsStatus, { host_ip: item.ip });
           return target ? {
             ...item,

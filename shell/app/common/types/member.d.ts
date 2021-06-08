@@ -13,25 +13,25 @@
 
 declare namespace MEMBER {
   interface GetListQuery extends Partial<ScopeObj> {
-    pageNo: number
-    scope:MemberScope
-    pageSize: number
-    roles?: string[]
-    q?: string
+    pageNo: number;
+    scope: MemberScope;
+    pageSize: number;
+    roles?: string[];
+    q?: string;
   }
 
   interface ScopeObj{
-    scopeType:string;
-    scopeId:string;
+    scopeType: string;
+    scopeId: string;
   }
 
   interface GetListServiceQuery {
-    pageNo: number
-    pageSize: number
-    scopeType: string
-    scopeId: string
-    role?: string[]
-    q?: string
+    pageNo: number;
+    pageSize: number;
+    scopeType: string;
+    scopeId: string;
+    role?: string[];
+    q?: string;
   }
 
   interface GetRoleTypeQuery{
@@ -45,27 +45,27 @@ declare namespace MEMBER {
   }
 
   interface MemberScope {
-    id: string
-    type: string
+    id: string;
+    type: string;
   }
 
   interface UpdateMemberBody {
-    scope: MemberScope
-    roles: string[]
-    userIds: string[]
-    verifyCode?: string
-    targetScopeType?: string
-    targetScopeIds?: number[]
+    scope: MemberScope;
+    roles: string[];
+    userIds: string[];
+    verifyCode?: string;
+    targetScopeType?: string;
+    targetScopeIds?: number[];
   }
 
   interface RemoveMemberBody {
-    scope: MemberScope
-    userIds: string[]
-    needReload?: boolean
+    scope: MemberScope;
+    userIds: string[];
+    needReload?: boolean;
   }
 
   interface IMember{
-    name:string;
-    userId:string;
+    name: string;
+    userId: string;
   }
 }

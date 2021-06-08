@@ -69,11 +69,11 @@ const columns = [
   {
     title: i18n.t('type'),
     dataIndex: 'type',
-    render: (val: {value: string, tooltip: string[]}) => {
+    render: (val: {value: string; tooltip: string[]}) => {
       const { value, tooltip } = val || {};
       return tooltip ? (
         <Tooltip title={tooltip}>
-          <span className='color-active-bg'>{value}</span>
+          <span className="color-active-bg">{value}</span>
         </Tooltip>
       ) : value;
     } },

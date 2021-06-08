@@ -27,7 +27,7 @@ import { get, intersection, map, isEmpty } from 'lodash';
 interface IState {
   currentOrg: ORG.IOrg;
   curPathOrg: string;
-  orgs: ORG.IOrg[],
+  orgs: ORG.IOrg[];
   initFinish: boolean;
 }
 
@@ -46,7 +46,7 @@ const org = createStore({
       if (isIn('orgIndex')) {
         const isSysAdmin = getGlobal('erdaInfo.isSysAdmin');
         const { orgName } = params;
-        const [curPathOrg, initFinish] = org.getState(s => [s.curPathOrg, s.initFinish]);
+        const [curPathOrg, initFinish] = org.getState((s) => [s.curPathOrg, s.initFinish]);
         if (!isSysAdmin && initFinish && curPathOrg !== orgName && !isMatch(/\w\/notFound/)) {
           layoutStore.reducers.clearLayout();
           org.effects.getOrgByDomain({ orgName });
@@ -118,7 +118,7 @@ const org = createStore({
             const orgAccess = get(orgPermRes, 'data.access');
             // 当前无该企业权限
             if (!orgAccess) {
-              const joinOrgTip = map(orgPermRes.userInfo, u => u.nick).join(', ');
+              const joinOrgTip = map(orgPermRes.userInfo, (u) => u.nick).join(', ');
               userStore.reducers.setJoinOrgTip(joinOrgTip);
               goTo(goTo.pages.freshMan);
               return;
@@ -132,7 +132,7 @@ const org = createStore({
 
             if (orgAccess) { // 有企业权限，正常用户
               const appMap = {} as {
-                [k: string]: LAYOUT.IApp
+                [k: string]: LAYOUT.IApp;
               };
               permStore.reducers.updatePerm(orgPermQuery.scope, orgPermRes.data);
               const menusMap = getSubSiderInfoMap();
@@ -152,7 +152,7 @@ const org = createStore({
       }
     },
     async getJoinedOrgs({ call, select, update }, force?: boolean) {
-      const orgs = select(state => state.orgs);
+      const orgs = select((state) => state.orgs);
       if (isEmpty(orgs) || force) {
         const { list } = await call(getJoinedOrgs);
         update({ orgs: list });
@@ -213,7 +213,7 @@ const setLocationByAuth = (authObj: Obj) => {
     // },
   };
   if (hasAuth) {
-    map(checkMap, item => {
+    map(checkMap, (item) => {
       // 当前页，但是无权限，则重置
       if (item.isCurPage && isEmpty(item.authRole)) {
         let resetPath = goTo.resolve.orgRoot({ orgName });

@@ -128,7 +128,7 @@ const CertMap = {
 };
 
 const AppCertificateReference = () => {
-  const { appId } = routeInfoStore.useStore(s => s.params);
+  const { appId } = routeInfoStore.useStore((s) => s.params);
   const { pushToConfig, getList: getRefList } = certRefStore.effects;
 
   useUnmount(() => {
@@ -274,7 +274,7 @@ const AppCertificateReference = () => {
         label: i18n.t('env'),
         name: 'envs',
         type: 'select',
-        options: WORKSPACE_LIST.map(env => ({ name: env, value: env })),
+        options: WORKSPACE_LIST.map((env) => ({ name: env, value: env })),
         itemProps: {
           mode: 'multiple',
         },

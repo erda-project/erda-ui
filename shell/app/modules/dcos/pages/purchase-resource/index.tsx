@@ -37,7 +37,7 @@ const { Step } = Steps;
 
 interface IProps {
   form: WrappedFormUtils;
-  addResource: typeof purchaseStore.effects.addResource
+  addResource: typeof purchaseStore.effects.addResource;
 }
 
 class OrderPage extends React.Component<IProps, any> {
@@ -48,7 +48,7 @@ class OrderPage extends React.Component<IProps, any> {
 
   confirmData = {};
 
-  formData: {[key:string]: any} = {};
+  formData: {[key: string]: any} = {};
 
   changeStep = (step: number) => {
     if (step === 1) {
@@ -89,13 +89,13 @@ class OrderPage extends React.Component<IProps, any> {
       : this.props.form.getFieldsValue();
   };
 
-  getTipLabel = (text:string, tip:string) => (
+  getTipLabel = (text: string, tip: string) => (
     <Tooltip title={tip}>
       {text} <IconHelp />
     </Tooltip>
   );
 
-  getLinkLabel = (text:string, tip:string, href:string) => (
+  getLinkLabel = (text: string, tip: string, href: string) => (
     <Tooltip title={tip}>
       <a target="_blank" rel="noopener noreferrer" href={href}>{text} <IconLinkOne /></a>
     </Tooltip>
@@ -131,7 +131,7 @@ class OrderPage extends React.Component<IProps, any> {
         label: i18n.t('type'),
         name: 'resourceType',
         type: 'radioGroup',
-        options: ['ecs', 'redis', 'rds'].map(a => ({ name: a, value: a })),
+        options: ['ecs', 'redis', 'rds'].map((a) => ({ name: a, value: a })),
         initialValue: resourceType || 'ecs',
       },
       ...getFieldsBy[resourceType](),
@@ -179,7 +179,7 @@ class OrderPage extends React.Component<IProps, any> {
           label: i18n.t('dcos:duration'),
           name: 'ecs.period',
           type: 'select',
-          options: periodList.map(a => ({ value: a, name: a })),
+          options: periodList.map((a) => ({ value: a, name: a })),
           initialValue: periodList[0],
         },
       ];
@@ -196,7 +196,7 @@ class OrderPage extends React.Component<IProps, any> {
         ),
         name: 'ecs.nodeType',
         type: 'radioGroup',
-        options: ['master', 'pubilc', 'private'].map(a => ({ value: a, name: a })),
+        options: ['master', 'pubilc', 'private'].map((a) => ({ value: a, name: a })),
         initialValue: 'private',
         itemProps: {
           disabled: true,
@@ -245,7 +245,7 @@ class OrderPage extends React.Component<IProps, any> {
           label: `${i18n.t('dcos:duration')}(${i18n.t('dcos:month')}）`,
           name: 'redis.period',
           type: 'radioGroup',
-          options: periodList.map(a => ({ value: a, name: a })),
+          options: periodList.map((a) => ({ value: a, name: a })),
         },
       ];
     }
@@ -254,7 +254,7 @@ class OrderPage extends React.Component<IProps, any> {
         label: this.getLinkLabel(i18n.t('dcos:specifications'), i18n.t('dcos:see details'), 'https://help.aliyun.com/document_detail/61135.html'),
         name: 'redis.instanceClass',
         type: 'select',
-        options: fullList.map(item => ({
+        options: fullList.map((item) => ({
           name: `${item.text} (${i18n.t('dcos:maximum number of connections')}: ${item.maxConn}, ${i18n.t('dcos:maximum throughput')}: ${item.maxThrp})`,
           value: item.key,
         })),
@@ -340,7 +340,7 @@ class OrderPage extends React.Component<IProps, any> {
           label: i18n.t('dcos:duration'),
           name: 'rds.usedTime',
           type: 'radioGroup',
-          options: usedTimeList.map(a => ({ value: a, name: a })),
+          options: usedTimeList.map((a) => ({ value: a, name: a })),
         },
       ];
     }
@@ -349,7 +349,7 @@ class OrderPage extends React.Component<IProps, any> {
         label: this.getLinkLabel(i18n.t('dcos:payment type'), i18n.t('dcos:please select the specification'), 'https://help.aliyun.com/document_detail/26312.html'),
         name: 'rds.dbInstanceClass',
         type: 'select',
-        options: rdsConfig.map(item => ({
+        options: rdsConfig.map((item) => ({
           name: `${item.key} (${item.cpu} ${item.mem} ${i18n.t('dcos:maximum number of connections')}: ${item.maxConn}, ${i18n.t('dcos:maximum iops')}: ${item.maxIOPS})`,
           value: item.key,
         })),
@@ -379,7 +379,7 @@ class OrderPage extends React.Component<IProps, any> {
         label: i18n.t('version'),
         name: 'rds.engineVersion',
         type: 'radioGroup',
-        options: ['5.5', '5.6', '5.7'].map(a => ({ name: a, value: a })),
+        options: ['5.5', '5.6', '5.7'].map((a) => ({ name: a, value: a })),
       },
       {
         label: this.getTipLabel(i18n.t('dcos:storage disk capacity'), i18n.t('dcos:local ssd')),
@@ -438,7 +438,7 @@ class OrderPage extends React.Component<IProps, any> {
         label: i18n.t('dcos:database encoding'),
         name: 'rds.parameters.character_set_server',
         type: 'radioGroup',
-        options: characterSetLists.map(a => ({ name: a, value: a })),
+        options: characterSetLists.map((a) => ({ name: a, value: a })),
       },
     ];
   };
@@ -463,7 +463,7 @@ class OrderPage extends React.Component<IProps, any> {
     return (
       <div className="purchase-resource">
         <Steps className="step-wrap" current={step}>
-          {steps.map(item => <Step key={item.title} title={item.title} />)}
+          {steps.map((item) => <Step key={item.title} title={item.title} />)}
         </Steps>
         <div className="steps-content">
           <div className={step === 0 ? '' : 'hide'}>

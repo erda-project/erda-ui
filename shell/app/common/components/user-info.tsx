@@ -17,14 +17,14 @@ import { get } from 'lodash';
 
 interface IProps {
   id: string | number;
-  render?(data: ADMIN_USER.IPlatformUser, id?:string | number):React.ReactNode
+  render?: (data: ADMIN_USER.IPlatformUser, id?: string | number) => React.ReactNode;
 }
-const defaultRender = (data: ADMIN_USER.IPlatformUser, id:string | number) => {
+const defaultRender = (data: ADMIN_USER.IPlatformUser, id: string | number) => {
   return data.nick || data.name || id;
 };
 
 const UserInfo = ({ id, render = defaultRender }: IProps) => {
-  const userMap = userMapStore.useStore(s => s);
+  const userMap = userMapStore.useStore((s) => s);
   const userInfo = get(userMap, id, {});
   return <>{render(userInfo, id)}</>;
 };

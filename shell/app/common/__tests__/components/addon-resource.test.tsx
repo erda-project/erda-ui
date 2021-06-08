@@ -19,7 +19,7 @@ import { describe, it } from '@jest/globals';
 describe('AddonResource', () => {
   it('resourceInfo is empty', () => {
     const wrapper = shallow(
-      <AddonResource resourceInfo={{}} />
+      <AddonResource resourceInfo={{}} />,
     );
     expect(wrapper).toBeEmptyRender();
   });
@@ -34,7 +34,7 @@ describe('AddonResource', () => {
       version: '1.0.0',
     };
     const wrapper = mount(
-      <AddonResource resourceInfo={resourceInfo} />
+      <AddonResource resourceInfo={resourceInfo} />,
     );
     expect(wrapper.find('.info-key')).toHaveLength(7);
   });

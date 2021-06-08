@@ -23,11 +23,11 @@ interface IProps {
 }
 
 const RunDetail = (props: IProps) => {
-  const [caseDetail] = fileTreeStore.useStore(s => [s.curNodeDetail]);
+  const [caseDetail] = fileTreeStore.useStore((s) => [s.curNodeDetail]);
   const fileName = caseDetail.name;
-  const { appId } = routeInfoStore.useStore(s => s.params);
+  const { appId } = routeInfoStore.useStore((s) => s.params);
   const { branch, pagingYmlNames } = getBranchPath(caseDetail, appId);
-  
+
   return branch ? (
     <BuildDetail
       {...props}

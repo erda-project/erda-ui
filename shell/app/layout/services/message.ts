@@ -13,7 +13,7 @@
 
 import agent from 'agent';
 
-export const getMessageList = (query: { pageNo: number, pageSize?: number }): IPagingResp<LAYOUT.IMsg> => {
+export const getMessageList = (query: { pageNo: number; pageSize?: number }): IPagingResp<LAYOUT.IMsg> => {
   return agent.get('/api/mboxs')
     .query(query)
     .then((response: any) => response.body);

@@ -23,12 +23,12 @@ import { PAGINATION } from 'app/constants';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 
 interface IProps {
-  value?: any
-  onChange?: (...val: any) => void
+  value?: any;
+  onChange?: (...val: any) => void;
 }
 
 export default ({ value, onChange }: IProps) => {
-  const [params, { iterationIDs = [] }] = routeInfoStore.useStore(s => [s.params, s.query]);
+  const [params, { iterationIDs = [] }] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [list, setList] = React.useState([] as IOption[]);
 
   React.useEffect(() => {
@@ -46,7 +46,7 @@ export default ({ value, onChange }: IProps) => {
     return getRequirements({
       type: ISSUE_TYPE.REQUIREMENT,
       pageNo: 1,
-      iterationIDs: map(iterationIDs, item => +item),
+      iterationIDs: map(iterationIDs, (item) => +item),
       pageSize: PAGINATION.pageSize,
       projectID: +params.projectId,
       title,
@@ -70,7 +70,7 @@ export default ({ value, onChange }: IProps) => {
       }}
       allowClear
       valueItemRender={(item) => {
-        return item.label || get(find(list, single => String(single.value) === String(item.value)), 'label');
+        return item.label || get(find(list, (single) => String(single.value) === String(item.value)), 'label');
       }}
       dataFormatter={({ list: originList, total }) => ({
         total,

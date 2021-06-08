@@ -28,10 +28,10 @@ import './deploy-cluster.scss';
 * */
 let firstVisit = true;
 const DeployCluster = () => {
-  const deployingCluster = clusterStore.useStore(s => s.deployingCluster);
+  const deployingCluster = clusterStore.useStore((s) => s.deployingCluster);
   const { killDeployCluster, deployCluster, getCurDeployCluster } = clusterStore.effects;
   const { clearDeployCluster } = clusterStore.reducers;
-  const currentOrg = orgStore.useStore(s => s.currentOrg);
+  const currentOrg = orgStore.useStore((s) => s.currentOrg);
 
   const [logVisible, setLogVisible] = React.useState(false);
 

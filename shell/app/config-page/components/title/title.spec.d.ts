@@ -16,7 +16,7 @@
  */
 declare namespace CP_TITLE {
   interface Spec {
-    type: 'Title',
+    type: 'Title';
     props: IProps;
   }
 

@@ -25,13 +25,13 @@ import orgStore from 'app/org-home/stores/org';
 
 interface IProps {
   onClose: () => void;
-  onSubmit: ({ recordID }:{recordID:string}) => void;
+  onSubmit: ({ recordID }: {recordID: string}) => void;
   visible: boolean;
 }
 
 const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
   const formRef = React.useRef(null as any);
-  const clusterList = clusterStore.useStore(s => s.list);
+  const clusterList = clusterStore.useStore((s) => s.list);
   const { addCloudCluster } = clusterStore.effects;
 
   const [{ storage }, updater] = useUpdate({
@@ -274,12 +274,12 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
   ];
 
   const fields = [
-    ...map(basicFields, field => ({ ...field, category: 'basic' })),
-    ...map(springboardFields, field => ({ ...field, category: 'springboard' })),
-    ...map(storageFields, field => ({ ...field, category: 'storage' })),
-    ...map(networkFields, field => ({ ...field, category: 'network' })),
-    ...map(serverFields, field => ({ ...field, category: 'server' })),
-    ...map(machineFields, field => ({ ...field, category: 'machine' })),
+    ...map(basicFields, (field) => ({ ...field, category: 'basic' })),
+    ...map(springboardFields, (field) => ({ ...field, category: 'springboard' })),
+    ...map(storageFields, (field) => ({ ...field, category: 'storage' })),
+    ...map(networkFields, (field) => ({ ...field, category: 'network' })),
+    ...map(serverFields, (field) => ({ ...field, category: 'server' })),
+    ...map(machineFields, (field) => ({ ...field, category: 'machine' })),
   ];
 
   React.useEffect(() => {
@@ -291,7 +291,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       if (error) {
         return;
       }
-      const currentOrg = orgStore.getState(s => s.currentOrg);
+      const currentOrg = orgStore.getState((s) => s.currentOrg);
       const { id: orgId, name: orgName } = currentOrg;
       remove(values, 'storage');
       remove(values, 'isNewVpc');
@@ -326,7 +326,7 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
         <Form
           fields={fields}
           formRef={formRef}
-          formRender={({ RenderFields, form, fields: totalFields }:any) => {
+          formRender={({ RenderFields, form, fields: totalFields }: any) => {
             const bFields = filter(totalFields, { category: 'basic' });
             const sFields = filter(totalFields, { category: 'springboard' });
             const stFields = filter(totalFields, { category: 'storage' });

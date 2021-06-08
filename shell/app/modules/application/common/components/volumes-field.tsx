@@ -37,7 +37,7 @@ interface IItem {
 const defaultValue: IItem[] = [];
 
 export default class extends PureComponent<IVariableInputGroupProps, any> {
-  public state = {
+  state = {
     value: defaultValue,
   };
 
@@ -50,14 +50,14 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
     return prevState;
   }
 
-  public triggerChange = (changedValue: any) => {
+  triggerChange = (changedValue: any) => {
     const { onChange } = this.props;
     if (onChange) {
       onChange(changedValue);
     }
   };
 
-  public render() {
+  render() {
     const { required, label } = this.props;
     return (
       <div>

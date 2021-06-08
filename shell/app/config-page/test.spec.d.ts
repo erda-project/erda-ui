@@ -13,12 +13,12 @@
 
 declare namespace CP_TEST {
   interface Inf { // inf comment
-    a: number, // prop comment
-    b: string,
-    c: boolean,
-    d: string[],
-    e: any,
-    f?: null
+    a: number; // prop comment
+    b: string;
+    c: boolean;
+    d: string[];
+    e: any;
+    f?: null;
   }
   enum en {
     UP = 'UP1', // en type

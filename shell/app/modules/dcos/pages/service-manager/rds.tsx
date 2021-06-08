@@ -38,14 +38,14 @@ const specList = [
 ];
 // rds = mysql
 const RDS = () => {
-  const RDSList = cloudServiceStore.useStore(s => s.RDSList);
+  const RDSList = cloudServiceStore.useStore((s) => s.RDSList);
   const { addRDS, getRDSList } = cloudServiceStore.effects;
   const [loading] = useLoading(cloudServiceStore, ['getRDSList']);
   const { getVpcList } = networksStore.effects;
   const { getCloudRegion } = cloudCommonStore;
   const { clearVpcList } = networksStore.reducers;
-  const vpcList = networksStore.useStore(s => s.vpcList);
-  const [regions, cloudAccountExist] = cloudCommonStore.useStore(s => [s.regions, s.cloudAccountExist]);
+  const vpcList = networksStore.useStore((s) => s.vpcList);
+  const [regions, cloudAccountExist] = cloudCommonStore.useStore((s) => [s.regions, s.cloudAccountExist]);
 
   useEffectOnce(() => {
     getCloudRegion();
@@ -112,7 +112,7 @@ const RDS = () => {
         dataIndex: 'spec',
         render: (val: string) => (
           <Tooltip title={val}>
-            {get(find(specList, item => item.value === val), 'specName') || val}
+            {get(find(specList, (item) => item.value === val), 'specName') || val}
           </Tooltip>
         ),
       },
@@ -159,7 +159,7 @@ const RDS = () => {
         label: 'VPC',
         name: 'vpcID',
         type: 'select',
-        options: map(vpcList, item => ({ value: item.vpcID, name: `${item.vpcName} (${item.vpcID})` })),
+        options: map(vpcList, (item) => ({ value: item.vpcID, name: `${item.vpcName} (${item.vpcID})` })),
       },
       ...MysqlFieldsConfig.getFields(form, {
         chargeType,
@@ -197,7 +197,7 @@ const RDS = () => {
   const menu = (
     <Menu>
       {
-        operationButtons.map(button => (
+        operationButtons.map((button) => (
           <Menu.Item disabled={button.ifDisabled} key={button.name} onClick={button.cb}>{button.name}</Menu.Item>
         ))
       }

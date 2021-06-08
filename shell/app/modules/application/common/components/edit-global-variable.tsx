@@ -17,7 +17,8 @@ import { Form, Button } from 'app/nusi';
 import { cloneDeep, forEach, findIndex, uniqueId } from 'lodash';
 import VariableInputGroup from './variable-input-group';
 import i18n from 'i18n';
-import { Plus as IconPlus } from '@icon-park/react'
+import { Plus as IconPlus } from '@icon-park/react';
+
 const { Item } = Form;
 
 interface IEditGlobalVariableProps {
@@ -39,11 +40,11 @@ const convertGlobalVariableList = (globalVariable: any) => {
 };
 
 class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormComponentProps, any> {
-  public state = {
+  state = {
     globalVariableList: [],
   };
 
-  public UNSAFE_componentWillMount(): void {
+  UNSAFE_componentWillMount(): void {
     const list = convertGlobalVariableList(this.props.globalVariable);
     this.setState({
       globalVariableList: list.map((i: any) => (
@@ -55,7 +56,7 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
     });
   }
 
-  public render() {
+  render() {
     const { globalVariableList } = this.state;
     const { form, editing } = this.props;
     const { getFieldDecorator } = form;
@@ -70,7 +71,7 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
           },
         ],
       })(
-        <VariableInputGroup lock={false} disabled={!editing} onDelete={this.deleteVariable} />
+        <VariableInputGroup lock={false} disabled={!editing} onDelete={this.deleteVariable} />,
       );
       return <Item className="mr0" key={item.key}>{input}</Item>;
     });

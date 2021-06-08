@@ -47,10 +47,10 @@ declare namespace METRICS {
         name: string;
         data: any[];
       }>;
-      time: string,
-      title: string,
-      total: number
-    }
+      time: string;
+      title: string;
+      total: number;
+    };
   }
 
   interface LoadMetricItemQuery{
@@ -71,7 +71,7 @@ declare namespace METRICS {
     resourceType: string;
     resourceId: string;
     type: string;
-    chartQuery:LoadMetricItemQuery
+    chartQuery: LoadMetricItemQuery;
   }
 
   interface MetricItem {
@@ -80,36 +80,36 @@ declare namespace METRICS {
     time: number[];
     resuult: Array<{
       data: Array<{
-        [k: string]: any
+        [k: string]: any;
       }>;
-      name: string
-    }>
+      name: string;
+    }>;
   }
 
   interface ChartMetaQuerys {
     resourceType: string;
     query?: {
-      [k: string]: any
-    }
+      [k: string]: any;
+    };
   }
 
   interface Metric {
     name: string;
     data: Array<{
-      [k: string]: any
+      [k: string]: any;
     }>;
   }
 
   interface ChartMeta {
     resourceType: string;
     metrics: {
-      data: Metric[]
-    }
+      data: Metric[];
+    };
   }
 
   interface SetMetricItem {
     query: chartQuery | LoadMetricItemQuery;
     resourceType: string;
-    data: GatewayData | { id: string; data: MetricItem }
+    data: GatewayData | { id: string; data: MetricItem };
   }
 }

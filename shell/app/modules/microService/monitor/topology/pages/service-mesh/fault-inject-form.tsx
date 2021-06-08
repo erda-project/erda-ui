@@ -25,20 +25,20 @@ const { TabPane } = Tabs;
 const { Panel } = Collapse;
 
 interface IProps{
-  visible:boolean;
+  visible: boolean;
   type: string;
-  node:any;
-  onClose():void;
+  node: any;
+  onClose: () => void;
 }
 
 interface IHttpForm{
-  data?:TOPOLOGY.IFaultInjectHttp[],
-  submitForm(arg:TOPOLOGY.IFaultInjectHttp, { isAdd, isHttp }?:{isAdd?:boolean, isHttp?:boolean}):Promise<string | void>;
-  deleteHttp(arg:string):void;
+  data?: TOPOLOGY.IFaultInjectHttp[];
+  submitForm: (arg: TOPOLOGY.IFaultInjectHttp, { isAdd, isHttp }?: {isAdd?: boolean; isHttp?: boolean}) => Promise<string | void>;
+  deleteHttp: (arg: string) => void;
 }
 
 
-const validateDelayEmpty = (formRef:any) => (rule:any, val:string, callback:Function) => {
+const validateDelayEmpty = (formRef: any) => (rule: any, val: string, callback: Function) => {
   let curForm = null as any;
   if (formRef && formRef.current) {
     curForm = formRef.current;
@@ -50,13 +50,13 @@ const validateDelayEmpty = (formRef:any) => (rule:any, val:string, callback:Func
     const { fixedDelay, delayPercentage } = values;
     const pass = compact([fixedDelay, delayPercentage]).length !== 1;
     return callback(
-      pass ? undefined : (val ? undefined : i18n.t('microService:delay time and delay ratio should should be set at the same time'))
+      pass ? undefined : (val ? undefined : i18n.t('microService:delay time and delay ratio should should be set at the same time')),
     );
   }
   return callback();
 };
 
-const validateErrorEmpty = (formRef:any) => (rule:any, val:string, callback:Function) => {
+const validateErrorEmpty = (formRef: any) => (rule: any, val: string, callback: Function) => {
   let curForm = null as any;
   if (formRef && formRef.current) {
     curForm = formRef.current;
@@ -68,13 +68,13 @@ const validateErrorEmpty = (formRef:any) => (rule:any, val:string, callback:Func
     const { abortStatus, abortPercentage } = values;
     const pass = compact([abortStatus, abortPercentage]).length !== 1;
     return callback(
-      pass ? undefined : (val ? undefined : i18n.t('microService:error code and error ratio should be set at the same time'))
+      pass ? undefined : (val ? undefined : i18n.t('microService:error code and error ratio should be set at the same time')),
     );
   }
   return callback();
 };
 
-const HttpForm = ({ data = [], submitForm, deleteHttp }:IHttpForm) => {
+const HttpForm = ({ data = [], submitForm, deleteHttp }: IHttpForm) => {
   const [useData, setUseData] = React.useState([] as TOPOLOGY.IFaultInjectHttp[]);
   const formRef = React.useRef(null as any);
   const [{ searchKey, pageNo, showAdd }, updater] = useUpdate({
@@ -88,8 +88,8 @@ const HttpForm = ({ data = [], submitForm, deleteHttp }:IHttpForm) => {
     if (!isEmpty(data)) {
       setUseData(
         searchKey
-          ? filter(data, item => (item.path || '').toLowerCase().includes((searchKey || '').toLowerCase()))
-          : data
+          ? filter(data, (item) => (item.path || '').toLowerCase().includes((searchKey || '').toLowerCase()))
+          : data,
       );
     } else {
       setUseData([]);
@@ -187,16 +187,16 @@ const HttpForm = ({ data = [], submitForm, deleteHttp }:IHttpForm) => {
     },
   ];
 
-  const toggleShowAdd = (show?:boolean) => {
+  const toggleShowAdd = (show?: boolean) => {
     updater.showAdd(show === undefined ? !showAdd : show);
   };
 
-  const handleFormSubmit = (values:any) => {
+  const handleFormSubmit = (values: any) => {
     submitForm(values, { isAdd: true });
     toggleShowAdd(false);
   };
 
-  const onDelete = (item:TOPOLOGY.IFaultInjectHttp) => {
+  const onDelete = (item: TOPOLOGY.IFaultInjectHttp) => {
     deleteHttp(item.id);
     updater.pageNo(1);
   };
@@ -207,7 +207,7 @@ const HttpForm = ({ data = [], submitForm, deleteHttp }:IHttpForm) => {
     <div className="fault-inject-dubbo full-height">
       <div className="service-mesh-forms-container full-height">
         <div className="service-mesh-search">
-          <Input placeholder={i18n.t('microService:filter by path')} onChange={(e:any) => updater.searchKey(e.target.value)} />
+          <Input placeholder={i18n.t('microService:filter by path')} onChange={(e: any) => updater.searchKey(e.target.value)} />
           <Button type="primary" onClick={() => { toggleShowAdd(true); }}>{i18n.t('application:add')}</Button>
         </div>
         {
@@ -217,23 +217,23 @@ const HttpForm = ({ data = [], submitForm, deleteHttp }:IHttpForm) => {
             <div className="service-mesh-collapse-forms">
               <Collapse>
                 {
-                  map(currentData, item => (
+                  map(currentData, (item) => (
                     <Panel
                       header={(
                         <div className="collapse-form-header">
                           {item.path}
                           <Popconfirm
                             title={`${i18n.t('is it confirmed?')}`}
-                            onConfirm={(e:any) => {
+                            onConfirm={(e: any) => {
                               e.stopPropagation();
                               onDelete(item);
                             }}
-                            onCancel={(e:any) => { e.stopPropagation(); }}
+                            onCancel={(e: any) => { e.stopPropagation(); }}
                           >
                             <CustomIcon
                               className="pointer"
                               type="shanchu"
-                              onClick={(e:any) => e.stopPropagation()}
+                              onClick={(e: any) => e.stopPropagation()}
                             />
                           </Popconfirm>
                         </div>
@@ -275,11 +275,11 @@ const HttpForm = ({ data = [], submitForm, deleteHttp }:IHttpForm) => {
 };
 
 interface IHttpFormItem{
-  data?:TOPOLOGY.IFaultInjectHttp;
-  allData:TOPOLOGY.IFaultInjectHttp[];
-  submitForm(arg:TOPOLOGY.IFaultInjectHttp, { isAdd, isHttp }?:{isAdd?:boolean, isHttp?:boolean}):Promise<string | void>;
+  data?: TOPOLOGY.IFaultInjectHttp;
+  allData: TOPOLOGY.IFaultInjectHttp[];
+  submitForm: (arg: TOPOLOGY.IFaultInjectHttp, { isAdd, isHttp }?: {isAdd?: boolean; isHttp?: boolean}) => Promise<string | void>;
 }
-const HttpFormItem = ({ data, submitForm, allData }:IHttpFormItem) => {
+const HttpFormItem = ({ data, submitForm, allData }: IHttpFormItem) => {
   const formRef = React.useRef(null as any);
   React.useEffect(() => {
     const curFormRef = formRef && formRef.current;
@@ -403,12 +403,12 @@ const HttpFormItem = ({ data, submitForm, allData }:IHttpFormItem) => {
 };
 
 interface IDubboForm{
-  data?:TOPOLOGY.IFaultInjectDubbo[];
+  data?: TOPOLOGY.IFaultInjectDubbo[];
   hideNoRule: boolean;
-  submitForm(arg:TOPOLOGY.IFaultInjectDubbo, { isAdd, isHttp }?:{isAdd?:boolean, isHttp?:boolean}):Promise<string |void>;
-  onSwitchChange(value:boolean): void;
+  submitForm: (arg: TOPOLOGY.IFaultInjectDubbo, { isAdd, isHttp }?: {isAdd?: boolean; isHttp?: boolean}) => Promise<string |void>;
+  onSwitchChange: (value: boolean) => void;
 }
-const DubboForm = ({ data = [], submitForm, onSwitchChange, hideNoRule }:IDubboForm) => {
+const DubboForm = ({ data = [], submitForm, onSwitchChange, hideNoRule }: IDubboForm) => {
   const [useData, setUseData] = React.useState([] as TOPOLOGY.IFaultInjectDubbo[]);
   const [searchKey, setSearchKey] = React.useState();
   const [pageNo, setPageNo] = React.useState(1);
@@ -421,8 +421,8 @@ const DubboForm = ({ data = [], submitForm, onSwitchChange, hideNoRule }:IDubboF
     if (!isEmpty(data)) {
       setUseData(
         searchKey
-          ? filter(data, item => (item.interfaceName || '').toLowerCase().includes((searchKey || '').toLowerCase()))
-          : data
+          ? filter(data, (item) => (item.interfaceName || '').toLowerCase().includes((searchKey || '').toLowerCase()))
+          : data,
       );
     } else {
       setUseData([]);
@@ -435,14 +435,14 @@ const DubboForm = ({ data = [], submitForm, onSwitchChange, hideNoRule }:IDubboF
     <div className="fault-inject-dubbo full-height">
       <div className="service-mesh-forms-container full-height">
         <div className="service-mesh-search">
-          <Input placeholder={i18n.t('microService:filter by interface name')} onChange={(e:any) => setSearchKey(e.target.value)} />
+          <Input placeholder={i18n.t('microService:filter by interface name')} onChange={(e: any) => setSearchKey(e.target.value)} />
           <div className="hide-no-rule-interface full-height">
             <span className="hide-no-rule-interface-label full-height">{i18n.t('microService:hide no rule interface')}</span>
             <Switch
               checked={hideNoRule}
               checkedChildren="ON"
               unCheckedChildren="OFF"
-              onChange={(checked:boolean) => { setHideNoRule(checked); }}
+              onChange={(checked: boolean) => { setHideNoRule(checked); }}
             />
           </div>
         </div>
@@ -453,7 +453,7 @@ const DubboForm = ({ data = [], submitForm, onSwitchChange, hideNoRule }:IDubboF
             <div className="service-mesh-collapse-forms">
               <Collapse>
                 {
-                  map(currentData, item => (
+                  map(currentData, (item) => (
                     <Panel header={`${item.interfaceName}`} key={`${item.interfaceName}`}>
                       <div className="collapse-form-item fault-inject-dubbo">
                         <DubboFormItem data={{ ...item }} submitForm={submitForm} />
@@ -478,10 +478,10 @@ const DubboForm = ({ data = [], submitForm, onSwitchChange, hideNoRule }:IDubboF
 };
 
 interface IDubboFormItem{
-  data?:TOPOLOGY.IFaultInjectDubbo,
-  submitForm(arg:TOPOLOGY.IFaultInjectDubbo, { isAdd, isHttp }?:{isAdd?:boolean, isHttp?:boolean}):Promise<string | void>;
+  data?: TOPOLOGY.IFaultInjectDubbo;
+  submitForm: (arg: TOPOLOGY.IFaultInjectDubbo, { isAdd, isHttp }?: {isAdd?: boolean; isHttp?: boolean}) => Promise<string | void>;
 }
-const DubboFormItem = ({ data, submitForm }:IDubboFormItem) => {
+const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
   const formRef = React.useRef(null as any);
   React.useEffect(() => {
     const curFormRef = formRef && formRef.current;
@@ -495,7 +495,7 @@ const DubboFormItem = ({ data, submitForm }:IDubboFormItem) => {
       if (error) {
         return;
       }
-      submitForm({ ...data, ...values }).then(res => {
+      submitForm({ ...data, ...values }).then((res) => {
         form.setFieldsValue({ id: res });
       });
     });
@@ -563,7 +563,7 @@ const FaultInjectForm = (props: IProps) => {
   const { visible, node } = props;
   const { getFaultInject, saveFaultInject, deleteFaultInject } = serviceMeshStore.effects;
   const { clearFaultInject } = serviceMeshStore.reducers;
-  const faultInject = serviceMeshStore.useStore(s => s.faultInject);
+  const faultInject = serviceMeshStore.useStore((s) => s.faultInject);
   const [hideNoRule, setHideNoRule] = React.useState(false);
 
   const query = React.useMemo(() => {
@@ -579,7 +579,7 @@ const FaultInjectForm = (props: IProps) => {
     }
   }, [visible, node, query, getFaultInject, clearFaultInject]);
 
-  const submitForm = (values:any, extra:{isAdd?:boolean, isHttp?:boolean} = {}) => {
+  const submitForm = (values: any, extra: {isAdd?: boolean; isHttp?: boolean} = {}) => {
     const { isAdd, isHttp } = extra || {};
     if (isAdd) {
       return saveFaultInject({ query, data: values }).then((res) => {
@@ -588,7 +588,7 @@ const FaultInjectForm = (props: IProps) => {
     }
     const save = saveFaultInject({ query, data: values });
     if (isHttp) {
-      return save.then(res => {
+      return save.then((res) => {
         if (res) getFaultInject(query);
       });
     } else {
@@ -596,7 +596,7 @@ const FaultInjectForm = (props: IProps) => {
     }
   };
 
-  const deleteHttp = (id:string) => {
+  const deleteHttp = (id: string) => {
     deleteFaultInject({ id, ...query }).then((res) => {
       if (res)getFaultInject(query);
     });

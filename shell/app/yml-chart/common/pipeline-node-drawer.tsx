@@ -28,7 +28,7 @@ import ActionSelect from './action-select';
 import { getResource, getDefaultVersionConfig, mergeActionAndResource } from '../utils';
 import './pipeline-node-drawer.scss';
 import { protocolActionForms } from 'app/config-page/components/action-form';
-import ActionConfigForm from './action-config-form'
+import ActionConfigForm from './action-config-form';
 import { Plus as IconPlus, Help as IconHelp } from '@icon-park/react';
 
 const { Item } = Form;
@@ -58,11 +58,11 @@ const noop = () => {};
 const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
   const { nodeData: propsNodeData, editing, isCreate, otherTaskAlias = [], form, onSubmit: handleSubmit = noop, chosenActionName, chosenAction } = props;
   const { getActionConfigs } = appDeployStore.effects;
-  const [actionConfigs] = appDeployStore.useStore(s => [s.actionConfigs]);
+  const [actionConfigs] = appDeployStore.useStore((s) => [s.actionConfigs]);
 
-  useEffectOnce(()=>{
+  useEffectOnce(() => {
     getCurrentActionConfigs();
-  })
+  });
 
   const [loading] = useLoading(appDeployStore, ['getActionConfigs']);
   const { getFieldDecorator, getFieldValue } = form;
@@ -97,7 +97,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         let _resource = {} as any;
         if (propsNodeData && !isEmpty(propsNodeData)) {
           if (result.length > 0) {
-            _config = propsNodeData.version ? result.find(c => c.version === propsNodeData.version) : getDefaultVersionConfig(result);
+            _config = propsNodeData.version ? result.find((c) => c.version === propsNodeData.version) : getDefaultVersionConfig(result);
           }
           _resource = getResource(propsNodeData, _config);
         } else {
@@ -111,7 +111,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         });
       });
     }
-  }
+  };
 
   useUpdateEffect(() => {
     getCurrentActionConfigs();
@@ -136,7 +136,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
   };
 
   const changeActionVersion = (version: any) => {
-    const selectConfig = actionConfigs.find(config => config.version === version) as DEPLOY.ActionConfig;
+    const selectConfig = actionConfigs.find((config) => config.version === version) as DEPLOY.ActionConfig;
     updater.actionConfig(selectConfig);
     updater.resource(getResource(task as IStageTask, selectConfig));
   };
@@ -150,7 +150,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       },
     ],
   })(
-    <Input />
+    <Input />,
   );
 
   const loopData = getFieldDecorator('resource.loop', {
@@ -171,8 +171,8 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       onChange={changeActionVersion}
       placeholder={`${i18n.t('application:please choose version')}`}
     >
-      { actionConfigs.map(config => (<Option key={config.version} value={config.version}>{config.version}</Option>)) }
-    </Select >
+      { actionConfigs.map((config) => (<Option key={config.version} value={config.version}>{config.version}</Option>)) }
+    </Select >,
   );
 
   let alert;
@@ -266,7 +266,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     }
 
     const content = renderResource({ data: value.struct }, parentKey, dataSource);
-    if (!content || !Object.values(content).some(c => c)) return null;
+    if (!content || !Object.values(content).some((c) => c)) return null;
 
     return (
       <div key={parentKey}>
@@ -312,8 +312,8 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
           message: i18n.t('application:this item cannot be empty'),
         },
       ],
-      getValueFromEvent: (val: { value: string}[]) => {
-        return val?.length ? val.map(v => v.value) : val;
+      getValueFromEvent: (val: Array<{ value: string}>) => {
+        return val?.length ? val.map((v) => v.value) : val;
       },
     })(<ListInput disabled={!editing} label={getLabel(value.name, value.desc)} />);
     return (
@@ -366,7 +366,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         <span>
           {_label}&nbsp;
           <Tooltip title={labelTip}>
-            <IconHelp className='color-text-icon' />
+            <IconHelp className="color-text-icon" />
           </Tooltip>
         </span>
       );
@@ -463,7 +463,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       if (!error) {
         let data = cloneDeep(values);
         const resources = head(filter(resource.data, (item) => item.name === 'resources'));
-        const originResource = transform(get(resources, 'struct'), (result, item: { name: string, default: string | number }) => {
+        const originResource = transform(get(resources, 'struct'), (result, item: { name: string; default: string | number }) => {
           const { name, default: d } = item;
           // eslint-disable-next-line no-param-reassign
           result[name] = +d;
@@ -521,8 +521,8 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     <Spin spinning={loading}>
       <Form className="edit-service-container">
         {alert}
-        <Item className='hide'>{taskType}</Item>
-        <Item className='hide'>{loopData}</Item>
+        <Item className="hide">{taskType}</Item>
+        <Item className="hide">{loopData}</Item>
         {type ? <Item label={i18n.t('application:mission name')}>{taskName}</Item> : null}
         <Item label={i18nMap.version}>{actionVersion}</Item>
         <Item label={i18n.t('common:execution conditions')}>{executionCondition}</Item>
@@ -551,12 +551,12 @@ const PipelineNodeDrawer = (props: IPipelineNodeDrawerProps) => {
   const [key, setKey] = React.useState(1);
 
   React.useEffect(() => {
-    setKey(prev => prev + 1);
+    setKey((prev) => prev + 1);
   }, [visible]);
 
   return (
     <Drawer
-      className='yml-node-drawer'
+      className="yml-node-drawer"
       title={title}
       visible={visible}
       width={560}
@@ -573,7 +573,7 @@ const actionQuery = {
   configSheet: { labels: 'configsheet:true' },
 };
 
-interface IPipelineNodeForm { 
+interface IPipelineNodeForm {
   editing: boolean;
   nodeData?: null | AUTO_TEST.ICaseDetail;
   visible: boolean;
@@ -589,7 +589,7 @@ export const PipelineNodeForm = (props: IPipelineNodeForm) => {
   });
 
   useEffectOnce(() => {
-    visible && (getActionGroup(actionQuery[scope]) as unknown as Promise<any>).then((res:any) => {
+    visible && (getActionGroup(actionQuery[scope]) as unknown as Promise<any>).then((res: any) => {
       updater.originActions(get(res, 'data.action'));
     });
   });
@@ -607,7 +607,7 @@ export const PipelineNodeForm = (props: IPipelineNodeForm) => {
   }, [updater, curType]);
 
   React.useEffect(() => {
-    const curAction = find(flatten(map(originActions, item => item.items)), curItem => curItem.name === chosenActionName);
+    const curAction = find(flatten(map(originActions, (item) => item.items)), (curItem) => curItem.name === chosenActionName);
     updater.chosenAction(curAction);
   }, [chosenActionName, originActions, updater]);
 
@@ -635,7 +635,6 @@ export const PipelineNodeForm = (props: IPipelineNodeForm) => {
     </>
   );
 };
-
 
 
 export default PipelineNodeDrawer;

@@ -35,11 +35,11 @@ import { DownOne as IconDownOne } from '@icon-park/react';
 
 // mq = ons
 const MQ = () => {
-  const MQList = cloudServiceStore.useStore(s => s.MQList);
+  const MQList = cloudServiceStore.useStore((s) => s.MQList);
   const { addMQ, getMQList } = cloudServiceStore.effects;
   const [loading] = useLoading(cloudServiceStore, ['getMQList']);
   const { getCloudRegion } = cloudCommonStore;
-  const regions = cloudCommonStore.useStore(s => s.regions);
+  const regions = cloudCommonStore.useStore((s) => s.regions);
 
   const [{
     tagFormVis,
@@ -161,7 +161,7 @@ const MQ = () => {
   const menu = (
     <Menu>
       {
-        operationButtons.map(button => (
+        operationButtons.map((button) => (
           <Menu.Item disabled={button.ifDisabled} key={button.name} onClick={button.cb}>{button.name}</Menu.Item>
         ))
       }
@@ -199,7 +199,7 @@ const MQ = () => {
       <SetTagForm
         items={items}
         visible={tagFormVis}
-        resourceType='ONS'
+        resourceType="ONS"
         showProjectLabel
         showClustertLabel={false}
         onCancel={() => updater.tagFormVis(false)}

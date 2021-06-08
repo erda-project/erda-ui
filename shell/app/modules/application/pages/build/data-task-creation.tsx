@@ -83,14 +83,14 @@ class DataTaskCreation extends React.PureComponent<IProps, IState> {
     this.setState({ selectedKeys: [...sourceSelectedKeys, ...targetSelectedKeys] });
   };
 
-  public render() {
+  render() {
     const { isFetching, onCancel } = this.props;
     const { targetKeys, sourceFiles, selectedKeys } = this.state;
     return (
       <div className="data-task">
         <Spin spinning={isFetching}>
           <Transfer
-            rowKey={record => record.title}
+            rowKey={(record) => record.title}
             showSearch
             className="data-task-transfer"
             dataSource={sourceFiles}
@@ -116,7 +116,7 @@ class DataTaskCreation extends React.PureComponent<IProps, IState> {
 
 
 const Mapper = () => {
-  const workFlowFiles = dataTaskStore.useStore(s => s.workFlowFiles);
+  const workFlowFiles = dataTaskStore.useStore((s) => s.workFlowFiles);
   const [isFetching] = useLoading(dataTaskStore, ['getWorkFlowFiles']);
   const { getWorkFlowFiles } = dataTaskStore.effects;
   const { clearWorkFlowFiles } = dataTaskStore.reducers;

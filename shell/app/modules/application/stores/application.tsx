@@ -56,7 +56,7 @@ const appStore = createStore({
   subscriptions({ listenRoute }: IStoreSubs) {
     listenRoute(({ isIn, isLeaving, params }: IRouteInfo) => {
       const { appId } = params;
-      const curAppId = appStore.getState(s => s.curAppId);
+      const curAppId = appStore.getState((s) => s.curAppId);
       if (isIn('application')) {
         if (`${curAppId}` !== `${appId}`) {
           // 应用切换后才重新checkRouteAuth
@@ -96,7 +96,7 @@ const appStore = createStore({
   },
   effects: {
     async getAppDetail({ call, select, update }, applicationId: string, force?: boolean): Promise<IApplication> {
-      let detail = select(state => state.detail);
+      let detail = select((state) => state.detail);
       const newAppId = Number(applicationId);
       if (force || isEmpty(detail) || newAppId !== detail.id) {
         detail = await call(getAppDetail, newAppId);
@@ -110,8 +110,8 @@ const appStore = createStore({
       eventHub.emit('appStore/getAppDetail');
       return detail;
     },
-    async getAppBlockNetworkStatus({ call, select, update }, applicationId: string,) {
-      const detail = select(state => state.detail);
+    async getAppBlockNetworkStatus({ call, select, update }, applicationId: string) {
+      const detail = select((state) => state.detail);
       const { blockStatus, unBlockEnd, unBlockStart } = await call(getAppDetail, applicationId);
       update({
         detail: {
@@ -154,9 +154,9 @@ const appStore = createStore({
         goTo(goTo.pages.project, { projectId: params.projectId, replace: true });
       }
     },
-    async getBranchInfo({ call, update, select, getParams }, payload?: {appId?: string, enforce?: boolean}) {
+    async getBranchInfo({ call, update, select, getParams }, payload?: {appId?: string; enforce?: boolean}) {
       const { appId, enforce = false } = payload || {};
-      const { detail, branchInfo } = select(s => s);
+      const { detail, branchInfo } = select((s) => s);
       const newAppId = Number(appId);
       const params = getParams();
       if (enforce || (isEmpty(branchInfo) || newAppId !== detail.id)) {
@@ -185,7 +185,7 @@ const appStore = createStore({
       setTimeout(() => {
         let curAppMenu: any = appMenu;
         if (!curAppMenu) {
-          const subSiderInfoMap = layoutStore.getState(s => s.subSiderInfoMap);
+          const subSiderInfoMap = layoutStore.getState((s) => s.subSiderInfoMap);
           curAppMenu = get(subSiderInfoMap, 'application.menu');
         }
         // app首页重定向到第一个菜单链接

@@ -18,14 +18,14 @@ declare namespace CONFIG_PAGE {
     scenario: { // 场景
       scenarioKey: string; // 场景唯一id
       scenarioType: string; // 场景类型：由后端定义
-    },
-    inParams?: Obj,
+    };
+    inParams?: Obj;
     protocol?: PageConfig;
     event?: { // 用户触发的事件
       component: string; // 用户触发事件的组件ID
       operation: string; // 用户触发事件的操作名
       operationData: Obj; // 请求的数据
-    }
+    };
   }
 
   // 前端关心的结构
@@ -33,45 +33,44 @@ declare namespace CONFIG_PAGE {
     hierarchy: {
       root: string;
       structure: {
-        [pro: string]: string[] | { [pro: string]: string | string[] }
-      }
-    },
-    components: Obj<Comps>
+        [pro: string]: string[] | { [pro: string]: string | string[] };
+      };
+    };
+    components: Obj<Comps>;
   }
 
   type Comps = CP_CONTAINER.Spec
-    | CP_SPLIT_PAGE.Spec
-    | CP_FORM.Spec
-    | CP_FORM_MODAL.Spec
-    | CP_CARD.Spec
-    | CP_DRAWER.Spec
-    | CP_SPLIT_PAGE.Spec
-    | CP_TABS.Spec
-    | CP_TITLE.Spec
-    | CP_SORT_GROUP.Spec
-    | CP_BUTTON.Spec
-    | CP_FILTER.Spec
-    | CP_RADIO.Spec
-    | CP_FILE_TREE.Spec
-    | CP_PANEL.Spec
-    | CP_POPOVER.Spec
-    | CP_INPUT.Spec
-    | CP_EDIT_LIST.Spec
-    | CP_BREADCRUMB.Spec
-    | CP_TREE_SELECT.Spec
-    | CP_INFO_PREVIEW.Spec
-    | CP_SELECT_PRO.Spec
-    | CP_TEXT.Spec
-    | CP_ALERT.Spec
-    | CP_LIST.Spec
-    | CP_TABLE.Spec
-    | CP_TEXT.Spec
-    | CP_EMPTY_HOLDER.Spec
-    | CP_IMAGE.Spec
-    | CP_DROPDOWN_SELECT.Spec
-    | CP_TEXT_GROUP.Spec
-    | CP_TABLE_GROUP.Spec;
-
+  | CP_SPLIT_PAGE.Spec
+  | CP_FORM.Spec
+  | CP_FORM_MODAL.Spec
+  | CP_CARD.Spec
+  | CP_DRAWER.Spec
+  | CP_SPLIT_PAGE.Spec
+  | CP_TABS.Spec
+  | CP_TITLE.Spec
+  | CP_SORT_GROUP.Spec
+  | CP_BUTTON.Spec
+  | CP_FILTER.Spec
+  | CP_RADIO.Spec
+  | CP_FILE_TREE.Spec
+  | CP_PANEL.Spec
+  | CP_POPOVER.Spec
+  | CP_INPUT.Spec
+  | CP_EDIT_LIST.Spec
+  | CP_BREADCRUMB.Spec
+  | CP_TREE_SELECT.Spec
+  | CP_INFO_PREVIEW.Spec
+  | CP_SELECT_PRO.Spec
+  | CP_TEXT.Spec
+  | CP_ALERT.Spec
+  | CP_LIST.Spec
+  | CP_TABLE.Spec
+  | CP_TEXT.Spec
+  | CP_EMPTY_HOLDER.Spec
+  | CP_IMAGE.Spec
+  | CP_DROPDOWN_SELECT.Spec
+  | CP_TEXT_GROUP.Spec
+  | CP_TABLE_GROUP.Spec;
 
 
   // 单个组件基础定义
@@ -79,14 +78,14 @@ declare namespace CONFIG_PAGE {
     type: string;
     state?: Obj;
     data?: Obj;
-    props?: Obj,
+    props?: Obj;
     operations?: Obj<CP_COMMON.Operation>;
   }
 
   // 框架注入 的 props
   interface InjectProps {
     customProps?: Obj;
-    execOperation: (opObj: { [p: string]: any, key: string }, updateState?: any, extraUpdateInfo?: Obj) => void;
+    execOperation: (opObj: { [p: string]: any; key: string }, updateState?: any, extraUpdateInfo?: Obj) => void;
     updateState: (val: Obj) => void;
   }
 
@@ -94,10 +93,10 @@ declare namespace CONFIG_PAGE {
   }
 
   interface Command {
-    key: string
-    target?: string,
-    state?: Obj
-    jumpOut?: boolean
+    key: string;
+    target?: string;
+    state?: Obj;
+    jumpOut?: boolean;
   }
 
 }

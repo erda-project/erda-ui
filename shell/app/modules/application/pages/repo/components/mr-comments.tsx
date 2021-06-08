@@ -26,9 +26,9 @@ import appStore from 'application/stores/application';
 
 interface IEditBox {
   value: string;
-  onChange(e: Event): void;
-  onSubmit(): void;
-  onCancel?(): void;
+  onChange: (e: Event) => void;
+  onSubmit: () => void;
+  onCancel?: () => void;
 }
 export const CommentEditBox = ({ value, onChange, onSubmit, onCancel }: IEditBox) => {
   const prop = {} as any;
@@ -49,10 +49,10 @@ export const CommentEditBox = ({ value, onChange, onSubmit, onCancel }: IEditBox
 interface IDiscussion {
   comment: REPOSITORY.IComment;
   commentMap: any;
-  addComment(data: object): Promise<any>;
+  addComment: (data: object) => Promise<any>;
 }
 export const Discussion = ({ comment, commentMap, addComment }: IDiscussion) => {
-  const detail = appStore.useStore(s => s.detail);
+  const detail = appStore.useStore((s) => s.detail);
   const { type, data } = comment;
   const { oldPath, newPath } = data;
   let sections = [] as any[];

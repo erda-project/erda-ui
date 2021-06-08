@@ -30,8 +30,8 @@ import './iteration-item.scss';
 
 interface IProps {
   data: ITERATION.Detail;
-  onEdit(data: ITERATION.Detail): void;
-  deleteItem(data: ITERATION.Detail): void;
+  onEdit: (data: ITERATION.Detail) => void;
+  deleteItem: (data: ITERATION.Detail) => void;
 }
 
 const noop = () => { };
@@ -40,7 +40,7 @@ export const IterationItem = (props: IProps) => {
 
   const { getIterationsIssues } = iterationStore.effects;
   const { updateIssue } = issueStore.effects;
-  const issuesMap = iterationStore.useStore(s => s.issuesMap);
+  const issuesMap = iterationStore.useStore((s) => s.issuesMap);
   const { total, list } = issuesMap[data.id] || { total: 0, list: [] };
 
   const [{ isOpen, loading, curIssueDetail, drawerVisible, pageNo }, updater, update] = useUpdate({
@@ -70,7 +70,7 @@ export const IterationItem = (props: IProps) => {
   const [{ isOver }, drop] = useDrop({
     accept: BACKLOG_ISSUE_TYPE.undoneIssue,
     drop: (item: any) => ({ res: onIssueDrop(item.data) }), // drop需要返回一个Obj，如果直接返回Promise是无效的
-    collect: monitor => ({
+    collect: (monitor) => ({
       isOver: monitor.isOver(),
     }),
   });
@@ -102,17 +102,17 @@ export const IterationItem = (props: IProps) => {
 
   return (
     <div className={`backlog-iteration-item-container ${isOver ? 'drag-over' : ''}`} ref={drop}>
-      <div className='backlog-iteration-item flex-box hover-active-bg' onClick={() => updater.isOpen(!isOpen)}>
+      <div className="backlog-iteration-item flex-box hover-active-bg" onClick={() => updater.isOpen(!isOpen)}>
         <div className={'iteration-info full-height'}>
           <CustomIcon type="chevron-down" className={`open-icon ${isOpen ? 'open' : 'close'}`} />
           {ISSUE_ICON.iteration}
           {
             data
-              ? <Tooltip title={data.title}><div className='bold nowrap'>{data.title}</div></Tooltip>
+              ? <Tooltip title={data.title}><div className="bold nowrap">{data.title}</div></Tooltip>
               : null
           }
         </div>
-        <div className='iteration-time-duration full-height ml8 mr8 color-text-sub'>
+        <div className="iteration-time-duration full-height ml8 mr8 color-text-sub">
           {`${moment(data.startedAt).format('YYYY/MM/DD')} - ${moment(data.finishedAt).format('YYYY/MM/DD')}`}
         </div>
       </div>
@@ -121,7 +121,7 @@ export const IterationItem = (props: IProps) => {
           {
             isEmpty(list)
               ? <EmptyHolder relative />
-              : map(list, item => (
+              : map(list, (item) => (
                 <IssueItem
                   key={item.id}
                   data={item}
@@ -155,8 +155,8 @@ export const IterationItem = (props: IProps) => {
 };
 
 interface IIterationFormProps {
-  onCancel(): void;
-  onOk(data: ITERATION.CreateBody): void;
+  onCancel: () => void;
+  onOk: (data: ITERATION.CreateBody) => void;
 }
 
 export const IterarionForm = (props: IIterationFormProps) => {
@@ -207,15 +207,15 @@ export const IterarionForm = (props: IIterationFormProps) => {
     }
   };
   return (
-    <div className='backlog-iteration-item flex-box hover-active-bg'>
+    <div className="backlog-iteration-item flex-box hover-active-bg">
       <div className={'iteration-info full-height'}>
         <CustomIcon type="chevron-down" className={'open-icon close'} />
         {ISSUE_ICON.iteration}
         <Form fields={fields} formRef={formRef} formProps={{ layout: 'inline', className: 'backlog-iteration-form' }} />
       </div>
-      <div className='table-operations ml8'>
-        <span className='table-operations-btn' onClick={onAdd}>{i18n.t('save')}</span>
-        <span className='table-operations-btn' onClick={onCancel}>{i18n.t('cancel')}</span>
+      <div className="table-operations ml8">
+        <span className="table-operations-btn" onClick={onAdd}>{i18n.t('save')}</span>
+        <span className="table-operations-btn" onClick={onCancel}>{i18n.t('cancel')}</span>
       </div>
     </div>
   );

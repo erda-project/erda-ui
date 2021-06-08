@@ -15,7 +15,7 @@ import * as React from 'react';
 import PipelineManage from 'project/common/components/pipeline-manage';
 
 const DataConfig = () => {
-  return <PipelineManage scope='projectPipeline' />;
+  return <PipelineManage scope="projectPipeline" />;
 };
 
 export default DataConfig;

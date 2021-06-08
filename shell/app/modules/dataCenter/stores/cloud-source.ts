@@ -18,7 +18,7 @@ interface IState {
   overviewData: CLOUD_OVERVIEW.OverviewData;
   ecsTrendingData: CLOUD_OVERVIEW.ECSTrendingData;
 }
-const initState:IState = {
+const initState: IState = {
   ecsTrendingData: {} as CLOUD_OVERVIEW.ECSTrendingData,
   overviewData: {
     COMPUTE: {
@@ -71,7 +71,7 @@ const cloudSource = createStore({
   name: 'cloudSource',
   state: initState,
   effects: {
-    async getOverview({ call, update }, payload:CLOUD_OVERVIEW.Querys = {}) {
+    async getOverview({ call, update }, payload: CLOUD_OVERVIEW.Querys = {}) {
       const overviewData = await call(getOverview, payload);
       update({ overviewData });
     },

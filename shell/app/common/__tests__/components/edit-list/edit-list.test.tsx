@@ -75,7 +75,7 @@ const value = [{
 
 describe('edit-list', () => {
   describe('EditList', () => {
-    const $$ = (wrapper:ReactWrapper<any, any>, index: number):ReactWrapper<any, any> => {
+    const $$ = (wrapper: ReactWrapper<any, any>, index: number): ReactWrapper<any, any> => {
       return wrapper.find('.edit-list-item-box').at(index);
     };
     it('should render empty', () => {
@@ -88,7 +88,7 @@ describe('edit-list', () => {
           onBlurSave={blurSaveFn}
           onSave={saveFn}
           dataTemp={[]}
-        />
+        />,
       );
       expect(wrapper).toBeEmptyRender();
     });
@@ -104,7 +104,7 @@ describe('edit-list', () => {
           onBlurSave={blurSaveFn}
           onSave={saveFn}
           dataTemp={dataTemp}
-        />
+        />,
       );
       expect(wrapper.find('.edit-list-item-box')).toHaveLength(2);
       $$(wrapper, 1).find('.edit-list-item-textarea').simulate('change', { target: { value: '' } });

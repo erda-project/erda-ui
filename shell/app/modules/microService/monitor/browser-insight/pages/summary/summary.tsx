@@ -19,7 +19,7 @@ import SummaryMap from './config/chartMap';
 import './summary.scss';
 
 const Summary = () => {
-  const [chosenSortItem, sortTab] = monitorCommonStore.useStore(s => [s.chosenSortItem, s.sortTab]);
+  const [chosenSortItem, sortTab] = monitorCommonStore.useStore((s) => [s.chosenSortItem, s.sortTab]);
   let query = {};
   if (chosenSortItem) {
     const keyMap = {

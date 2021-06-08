@@ -26,12 +26,12 @@ interface IErrorTrackProps {
   data: MONITOR_EI.ITableData[];
   query: object;
   timeSpan: ITimeSpan;
-  viewLog(params: any): void;
-  fetchTraceContent(params: any): void;
+  viewLog: (params: any) => void;
+  fetchTraceContent: (params: any) => void;
 }
 
 export const webErrorTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceContent }: IErrorTrackProps) => {
-  const subErrorHttpList = EIAffairsStore.useStore(s => s.subErrorHttpList);
+  const subErrorHttpList = EIAffairsStore.useStore((s) => s.subErrorHttpList);
   const { getSubErrorHttpList } = EIAffairsStore.effects;
   const list = get(data, 'list') || [];
   const { startTimeMs: start, endTimeMs: end } = timeSpan || {};

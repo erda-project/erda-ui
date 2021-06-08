@@ -34,16 +34,16 @@ const defaultRuntimeDetail = {
 };
 
 interface State {
-  runtimeDetail: RUNTIME.Detail,
-  addons: ADDON.Instance[],
-  deploymentList: RUNTIME.DeployRecord[],
-  deploymentRecords: RUNTIME.DeployRecord[],
-  deploymentListPaging: IPaging,
-  deploymentRecordsPaging: IPaging,
-  showRedirect: boolean,
-  cancelDeploying: boolean,
-  hasChange: boolean,
-  deploymentListQuery: RUNTIME.DeployListQuery,
+  runtimeDetail: RUNTIME.Detail;
+  addons: ADDON.Instance[];
+  deploymentList: RUNTIME.DeployRecord[];
+  deploymentRecords: RUNTIME.DeployRecord[];
+  deploymentListPaging: IPaging;
+  deploymentRecordsPaging: IPaging;
+  showRedirect: boolean;
+  cancelDeploying: boolean;
+  hasChange: boolean;
+  deploymentListQuery: RUNTIME.DeployListQuery;
 }
 
 const initState: State = {
@@ -73,7 +73,7 @@ const runtime = createFlatStore({
     });
 
     registerWSHandler('R_DEPLOY_STATUS_UPDATE', ({ payload }) => {
-      const [runtimeDetail, deploymentListQuery] = runtime.getState(s => [s.runtimeDetail, s.deploymentListQuery]);
+      const [runtimeDetail, deploymentListQuery] = runtime.getState((s) => [s.runtimeDetail, s.deploymentListQuery]);
       if (payload.runtimeId === runtimeDetail.id) {
         runtime.updateRuntimeDeployStatus({ status: payload.status });
         runtime.getRuntimeDetail({ runtimeId: String(runtimeDetail.id), socketData: payload, fromSocket: true });
@@ -88,7 +88,7 @@ const runtime = createFlatStore({
     });
 
     registerWSHandler('R_RUNTIME_STATUS_CHANGED', ({ payload }) => {
-      const runtimeDetail = runtime.getState(s => s.runtimeDetail);
+      const runtimeDetail = runtime.getState((s) => s.runtimeDetail);
       if (payload.runtimeId === runtimeDetail.id) {
         runtime.updateRuntimeStatus(payload);
       }
@@ -96,29 +96,29 @@ const runtime = createFlatStore({
 
 
     registerWSHandler('R_RUNTIME_DELETING', ({ payload }) => {
-      const runtimeDetail = runtime.getState(s => s.runtimeDetail);
+      const runtimeDetail = runtime.getState((s) => s.runtimeDetail);
       if (payload.runtimeId === runtimeDetail.id) {
         runtime.updateRuntimeDeleteStatus();
       }
     });
 
     registerWSHandler('R_RUNTIME_DELETED', ({ payload }) => {
-      const runtimeDetail = runtime.getState(s => s.runtimeDetail);
+      const runtimeDetail = runtime.getState((s) => s.runtimeDetail);
       if (payload.runtimeId === runtimeDetail.id) {
         runtime.toggleRedirect(true);
       }
     });
 
     registerWSHandler('R_RUNTIME_SERVICE_STATUS_CHANGED', ({ payload }) => {
-      const runtimeDetail = runtime.getState(s => s.runtimeDetail);
+      const runtimeDetail = runtime.getState((s) => s.runtimeDetail);
       if (payload.runtimeId === runtimeDetail.id) {
         runtime.updateRuntimeServiceStatus(payload);
       }
     });
   },
   effects: {
-    async getRuntimeDetail({ call, select, update, getParams }, { runtimeId: r_id, socketData, fromSocket = false }: { runtimeId?: string, socketData?: any, fromSocket?: boolean }) {
-      let runtimeDetail = await select(state => state.runtimeDetail);
+    async getRuntimeDetail({ call, select, update, getParams }, { runtimeId: r_id, socketData, fromSocket = false }: { runtimeId?: string; socketData?: any; fromSocket?: boolean }) {
+      let runtimeDetail = await select((state) => state.runtimeDetail);
       let data = r_id;
       const { appId, runtimeId } = getParams();
 
@@ -153,9 +153,9 @@ const runtime = createFlatStore({
       const addons = await call(getRuntimeAddons, { ...payload, value: runtimeId });
       update({ addons });
     },
-    async cancelDeployment({ call, update, getParams }, { force, runtimeId }: { force: boolean, runtimeId?: string }) {
+    async cancelDeployment({ call, update, getParams }, { force, runtimeId }: { force: boolean; runtimeId?: string }) {
       const { runtimeId: rId } = getParams();
-      const { id } = userStore.getState(s => s.loginUser);
+      const { id } = userStore.getState((s) => s.loginUser);
       await call(cancelDeployment, { runtimeId: runtimeId || rId, force, operator: id });
       !runtimeId && update({ cancelDeploying: true });
     },
@@ -199,7 +199,7 @@ const runtime = createFlatStore({
     loadMoreDeploymentList(state, list: RUNTIME.DeployRecord[]) {
       state.deploymentList = state.deploymentList.concat(list);
     },
-    updateRuntimeStatus(state, payload: { status: RUNTIME.Status, errors: string | null }) {
+    updateRuntimeStatus(state, payload: { status: RUNTIME.Status; errors: string | null }) {
       state.runtimeDetail.status = payload.status;
       state.runtimeDetail.errors = payload.errors;
     },
@@ -210,7 +210,7 @@ const runtime = createFlatStore({
     updateRuntimeDeleteStatus(state) {
       state.runtimeDetail.deleteStatus = 'DELETING';
     },
-    updateRuntimeServiceStatus(state, payload: { serviceName: string, status: RUNTIME.Status, errors: RUNTIME_SERVICE.Err[] | null }) {
+    updateRuntimeServiceStatus(state, payload: { serviceName: string; status: RUNTIME.Status; errors: RUNTIME_SERVICE.Err[] | null }) {
       const { serviceName, status, errors } = payload;
       const targetService = state.runtimeDetail.services[serviceName];
       targetService.status = status;

@@ -27,7 +27,7 @@ interface IProps {
   machineList: any[];
   activedGroup: any;
   isClickState: boolean;
-  onActiveMachine(payload: object, key?: string): void;
+  onActiveMachine: (payload: object, key?: string) => void;
 }
 
 const GroupTabs = ({

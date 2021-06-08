@@ -36,9 +36,9 @@ export enum BACKLOG_ISSUE_TYPE {
 interface IIssueProps {
   data: ISSUE.Issue;
   issueType: BACKLOG_ISSUE_TYPE;
-  onClickIssue(data: ISSUE.Issue): void;
-  onDragDelete(): void;
-  onDelete?(data: ISSUE.Issue): void;
+  onClickIssue: (data: ISSUE.Issue) => void;
+  onDragDelete: () => void;
+  onDelete?: (data: ISSUE.Issue) => void;
 }
 
 const noop = () => Promise.resolve();
@@ -46,8 +46,8 @@ export const IssueItem = (props: IIssueProps) => {
   const { data, onDelete, onDragDelete, issueType, onClickIssue = noop } = props;
   const { title, type, priority, creator, assignee } = data;
   const curPriority = ISSUE_PRIORITY_MAP[priority] || {};
-  const userMap = userMapStore.useStore(s => s);
-  const projectPerm = usePerm(s => s.project);
+  const userMap = userMapStore.useStore((s) => s);
+  const projectPerm = usePerm((s) => s.project);
   const permObj = type === ISSUE_OPTION.REQUIREMENT ? projectPerm.requirement : (type === ISSUE_OPTION.TASK ? projectPerm.task : projectPerm.bug);
   const checkRole = [isCreator(creator), isAssignee(assignee)];
   const deleteAuth = getAuth(permObj.delete, checkRole);
@@ -83,16 +83,16 @@ export const IssueItem = (props: IIssueProps) => {
 
   return (
     <div className={`backlog-issue-item hover-active-bg ${editAuth ? 'draggable' : ''}`} ref={drag} onClick={() => onClickIssue(data)}>
-      <div className='issue-info full-height'>
-        <div className='backlog-item-content'>
+      <div className="issue-info full-height">
+        <div className="backlog-item-content">
           <IssueIcon type={type as ISSUE_OPTION} />
-          <Ellipsis className='bold' title={name} />
+          <Ellipsis className="bold" title={name} />
         </div>
-        <div className='backlog-item-info color-text-sub right-flex-box'>
-          <div className='backlog-item-priority mw-60'>
+        <div className="backlog-item-info color-text-sub right-flex-box">
+          <div className="backlog-item-priority mw-60">
             {curPriority.iconLabel}
           </div>
-          <div className='w-80'>
+          <div className="w-80">
             <Avatar showName name={username} size={20} wrapClassName="full-width" />
           </div>
           {
@@ -104,7 +104,7 @@ export const IssueItem = (props: IIssueProps) => {
                   overlay={
                     <Menu>
                       <WithAuth pass={deleteAuth} >
-                        <Menu.Item className='color-danger' onClick={(e) => { e.domEvent.stopPropagation(); confirmDelete(data); }}>
+                        <Menu.Item className="color-danger" onClick={(e) => { e.domEvent.stopPropagation(); confirmDelete(data); }}>
                           {i18n.t('delete')}
                         </Menu.Item>
                       </WithAuth>
@@ -112,8 +112,8 @@ export const IssueItem = (props: IIssueProps) => {
                   }
                   placement="bottomLeft"
                 >
-                  <span className="op-icon" onClick={e => e.stopPropagation()}>
-                    <CustomIcon className='hover-active' type='gd' />
+                  <span className="op-icon" onClick={(e) => e.stopPropagation()}>
+                    <CustomIcon className="hover-active" type="gd" />
                   </span>
                 </Dropdown>
               </div>
@@ -128,8 +128,8 @@ export const IssueItem = (props: IIssueProps) => {
 interface IIssueFormProps {
   className?: string;
   defaultIssueType?: 'TASK' | 'REQUIREMENT' | 'BUG';
-  onCancel(): void;
-  onOk(data: ISSUE.BacklogIssueCreateBody): Promise<any>;
+  onCancel: () => void;
+  onOk: (data: ISSUE.BacklogIssueCreateBody) => Promise<any>;
 }
 
 const placeholderMap = {
@@ -141,7 +141,7 @@ export const IssueForm = (props: IIssueFormProps) => {
   const { onCancel = noop, onOk = noop, className = '', defaultIssueType } = props;
   const [chosenType, setChosenType] = React.useState(defaultIssueType || ISSUE_OPTION.REQUIREMENT);
   const formRef = React.useRef(null as any);
-  const { projectId } = routeInfoStore.getState(s => s.params);
+  const { projectId } = routeInfoStore.getState((s) => s.params);
 
   const onAdd = () => {
     const curForm = formRef && formRef.current;
@@ -203,7 +203,7 @@ export const IssueForm = (props: IIssueFormProps) => {
         size: 'small',
         className: 'mt4 backlog-issue-add-assignee',
       },
-      initialValue: userStore.getState(s => s.loginUser.id),
+      initialValue: userStore.getState((s) => s.loginUser.id),
       getComp: () => {
         return (
           <MemberSelector
@@ -229,9 +229,9 @@ export const IssueForm = (props: IIssueFormProps) => {
       <div className={'backlog-issue-form-box full-height'}>
         <Form fields={fields} formRef={formRef} formProps={{ layout: 'inline', className: 'backlog-issue-add' }} />
       </div>
-      <div className='table-operations ml8'>
-        <span className='table-operations-btn' onClick={onAdd}>{i18n.t('save')}</span>
-        <span className='table-operations-btn' onClick={onCancel}>{i18n.t('cancel')}</span>
+      <div className="table-operations ml8">
+        <span className="table-operations-btn" onClick={onAdd}>{i18n.t('save')}</span>
+        <span className="table-operations-btn" onClick={onCancel}>{i18n.t('cancel')}</span>
       </div>
     </div>
   );

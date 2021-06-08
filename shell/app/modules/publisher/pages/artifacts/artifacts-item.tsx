@@ -22,7 +22,7 @@ import './artifacts-item.scss';
 interface IProps{
   data: PUBLISHER.IArtifacts;
   isActive?: boolean;
-  onClick?(o?: any): any;
+  onClick?: (o?: any) => any;
 }
 
 export const ArtifactsItem = (props: IProps) => {

@@ -14,7 +14,7 @@
 import { MonitorMetaDataScope, MonitorMetaDataMode, createMonitorMetaDataStore } from 'dataCenter/stores/_common-monitor-metadata.ts';
 import orgStore from 'app/org-home/stores/org';
 
-const getOrgName = () => orgStore.getState(s => s.currentOrg.name);
+const getOrgName = () => orgStore.getState((s) => s.currentOrg.name);
 const queryMonitorMetadata = createMonitorMetaDataStore(MonitorMetaDataScope.ORG, MonitorMetaDataMode.QUERY, getOrgName);
 
 export default queryMonitorMetadata;

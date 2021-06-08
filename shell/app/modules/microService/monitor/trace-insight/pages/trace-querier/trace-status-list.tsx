@@ -121,7 +121,7 @@ const TraceStatusList = (props: any) => {
     <div className="trace-status">
       <Spin spinning={isFetching}>
         <ul className="trace-status-list">
-          { _map(dataSource, item => renderListItem(item)) }
+          { _map(dataSource, (item) => renderListItem(item)) }
         </ul>
         <Pagination
           defaultCurrent={page}

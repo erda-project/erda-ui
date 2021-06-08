@@ -42,7 +42,7 @@ const MiddlewareDashboard = () => {
     projectList,
     middlewares,
     middelwaresPaging,
-  ] = middlewareDashboardStore.useStore(s => [
+  ] = middlewareDashboardStore.useStore((s) => [
     s.projectList,
     s.middlewares,
     s.middelwaresPaging,
@@ -182,7 +182,7 @@ const MiddlewareDashboard = () => {
                   onSearch={handleSearchProjects}
                   onChange={handleProjectChange}
                 >
-                  {map(projectList, d => <Option key={d.id}>{d.name}</Option>)}
+                  {map(projectList, (d) => <Option key={d.id}>{d.name}</Option>)}
                 </Select>
               </Col>
               <Col span={6} className="filter-item">
@@ -191,7 +191,7 @@ const MiddlewareDashboard = () => {
                   allowClear
                   className="filter-item-content"
                   placeholder={i18n.t('input Addon Name or Id to Search')}
-                  onChange={e => handleSearchAddon(e.target.value)}
+                  onChange={(e) => handleSearchAddon(e.target.value)}
                 />
               </Col>
               <Col span={6} className="filter-item">
@@ -200,7 +200,7 @@ const MiddlewareDashboard = () => {
                   allowClear
                   className="filter-item-content"
                   placeholder={i18n.t('dataCenter:enter the container IP to search')}
-                  onChange={e => handleSearchIp(e.target.value)}
+                  onChange={(e) => handleSearchIp(e.target.value)}
                 />
               </Col>
             </Row>

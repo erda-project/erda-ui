@@ -15,7 +15,7 @@ declare namespace MONITOR_TRACE {
 
   interface ITraceRequestResp {
     limit: number;
-    offset:number;
+    offset: number;
     total: number;
     history: IHistory[];
   }

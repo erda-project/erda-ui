@@ -40,7 +40,7 @@ const Common = createStore({
         const runtimeName = decodeURIComponent(params.runtimeName);
         Common.effects.getSIBaseInfo({
           runtimeName, terminusKey, applicationId, serviceName,
-        }).then((res:any) => {
+        }).then((res: any) => {
           res && Common.effects.getSIHeadMenu({
             terminus_key: terminusKey,
             runtime_name: runtimeName,
@@ -60,14 +60,14 @@ const Common = createStore({
       const headMenu = await call(getServiceMenu, payload);
       update({ headMenu });
     },
-    async getInstanceList({ call }, payload: { type: string; query: MONITOR_SI.IChartQuery, fetchApi: string; dataHandler(arg: any): any}) {
+    async getInstanceList({ call }, payload: { type: string; query: MONITOR_SI.IChartQuery; fetchApi: string; dataHandler: (arg: any) => any}) {
       const { type, query, fetchApi, dataHandler } = payload;
       const list = await call(getInstanceList, { fetchApi, ...query });
       await Common.reducers.getInstanceListSuccess({ type, list, dataHandler });
     },
-    async getSIBaseInfo({ call, update }, payload: {runtimeName: string, serviceName: string, applicationId: string, terminusKey: string}) {
+    async getSIBaseInfo({ call, update }, payload: {runtimeName: string; serviceName: string; applicationId: string; terminusKey: string}) {
       const { runtimeName, serviceName, applicationId, terminusKey } = payload;
-      const prevBaseInfo = Common.getState(s => s.baseInfo);
+      const prevBaseInfo = Common.getState((s) => s.baseInfo);
       if (!(prevBaseInfo && prevBaseInfo.runtimeName === runtimeName)) {
         const query = {
           runtime_name: runtimeName,
@@ -84,7 +84,7 @@ const Common = createStore({
     },
   },
   reducers: {
-    getInstanceListSuccess(state, payload: {type: string; list: IChartResult; dataHandler(arg: any): any}) {
+    getInstanceListSuccess(state, payload: {type: string; list: IChartResult; dataHandler: (arg: any) => any}) {
       const { instanceMap } = state;
       const { type, list, dataHandler } = payload;
       state.instanceMap = { ...instanceMap, [type]: dataHandler(list) };

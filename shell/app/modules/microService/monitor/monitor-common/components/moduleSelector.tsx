@@ -24,12 +24,12 @@ interface IProps{
   api: string;
   query: object;
   viewProps?: object;
-  onChange?(args: any): void;
-  dataHandler?(arg: any): any;
+  onChange?: (args: any) => void;
+  dataHandler?: (arg: any) => any;
 }
 
-const ModuleSelector = ({ type, api, dataHandler, query, onChange, viewProps }:IProps) => {
-  const [modules, timeSpan, chosenApp] = monitorCommonStore.useStore(s => [s.modules, s.timeSpan, s.chosenApp]);
+const ModuleSelector = ({ type, api, dataHandler, query, onChange, viewProps }: IProps) => {
+  const [modules, timeSpan, chosenApp] = monitorCommonStore.useStore((s) => [s.modules, s.timeSpan, s.chosenApp]);
   const { getModules } = monitorCommonStore.effects;
   const { clearModules, changeChosenModules } = monitorCommonStore.reducers;
 

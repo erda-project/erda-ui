@@ -37,10 +37,10 @@ function getOrgCenterRouter() {
             {
               path: 'createProject',
               breadcrumbName: i18n.t('add project'),
-              getComp: cb => cb(import('app/modules/org/pages/projects/create-project')),
+              getComp: (cb) => cb(import('app/modules/org/pages/projects/create-project')),
             },
             {
-              getComp: cb => cb(import('app/modules/org/pages/projects/project-list'), 'ProjectList'),
+              getComp: (cb) => cb(import('app/modules/org/pages/projects/project-list'), 'ProjectList'),
             },
             {
               path: ':projectId',
@@ -55,7 +55,7 @@ function getOrgCenterRouter() {
                   routes: [
                     {
                       breadcrumbName: i18n.t('project:dashboard'),
-                      getComp: cb => cb(import('project/pages/dashboard'), 'ProjectDashboard'),
+                      getComp: (cb) => cb(import('project/pages/dashboard'), 'ProjectDashboard'),
                       layout: {
                         fullHeight: true,
                       },
@@ -65,7 +65,7 @@ function getOrgCenterRouter() {
                 {
                   path: 'setting',
                   breadcrumbName: '{projectName}',
-                  getComp: cb => cb(import('app/modules/org/pages/projects/settings')),
+                  getComp: (cb) => cb(import('app/modules/org/pages/projects/settings')),
                 },
               ],
             },
@@ -80,7 +80,7 @@ function getOrgCenterRouter() {
               breadcrumbName: i18n.t('org:publisher info'),
               routes: [
                 {
-                  getComp: cb => cb(import('app/modules/publisher/pages/publisher-manage/publisher-setting')),
+                  getComp: (cb) => cb(import('app/modules/publisher/pages/publisher-manage/publisher-setting')),
                 },
               ],
             },
@@ -89,25 +89,25 @@ function getOrgCenterRouter() {
         {
           path: 'certificate',
           breadcrumbName: i18n.t('org:certificate'),
-          getComp: cb => cb(import('app/modules/org/pages/certificate')),
+          getComp: (cb) => cb(import('app/modules/org/pages/certificate')),
         },
         {
           path: 'safety',
           breadcrumbName: i18n.t('org:audit log'),
-          getComp: cb => cb(import('app/modules/org/pages/safety')),
+          getComp: (cb) => cb(import('app/modules/org/pages/safety')),
         },
         {
           path: 'approval/:approvalType',
           breadcrumbName: i18n.t('org:approval'),
           tabs: approvalTabs,
           ignoreTabQuery: true,
-          getComp: cb => cb(import('app/modules/org/pages/approval')),
+          getComp: (cb) => cb(import('app/modules/org/pages/approval')),
         },
         {
           path: 'announcement',
           pageName: i18n.t('org:announcement'),
           breadcrumbName: i18n.t('org:announcement'),
-          getComp: cb => cb(import('org/pages/announcement')),
+          getComp: (cb) => cb(import('org/pages/announcement')),
         },
         {
           path: 'setting',
@@ -117,13 +117,13 @@ function getOrgCenterRouter() {
               path: 'detail',
               layout: { fullHeight: true },
               breadcrumbName: i18n.t('org:org detail'),
-              getComp: cb => cb(import('app/modules/org/pages/setting/org-setting'), 'OrgSetting'),
+              getComp: (cb) => cb(import('app/modules/org/pages/setting/org-setting'), 'OrgSetting'),
             },
           ],
         },
       ],
     },
-  ]
+  ];
 }
 
 export default getOrgCenterRouter;

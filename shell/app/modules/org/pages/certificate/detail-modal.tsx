@@ -21,25 +21,25 @@ import certificateStore from '../../stores/certificate';
 
 interface IProps{
   id?: string;
-  onClose: ()=>void;
+  onClose: () => void;
   detail?: {
     type: string;
     iosInfo?: any;
     androidInfo?: any;
-  }
+  };
 }
 
 interface IInfoProps{
   title: string;
   value: any;
-  textItem?: Array<{label: string, key: string, type?: string}>;
+  textItem?: Array<{label: string; key: string; type?: string}>;
 }
 
 const defaultInfoItem = [
   { label: i18n.t('password'), key: 'password', type: 'password' },
 ];
 
-const getFileRender = (fileInfo: {fileName: string, uuid: string}, textItem: Array<{label: string, key: string, type?: string}> = defaultInfoItem) => {
+const getFileRender = (fileInfo: {fileName: string; uuid: string}, textItem: Array<{label: string; key: string; type?: string}> = defaultInfoItem) => {
   const { fileName, uuid, ...rest } = fileInfo;
   if (!uuid) return null;
   return (
@@ -56,7 +56,7 @@ const getFileRender = (fileInfo: {fileName: string, uuid: string}, textItem: Arr
   );
 };
 
-const getInfoRender = (data: any = {}, textItem: Array<{label: string, key: string, type?: string}>) => {
+const getInfoRender = (data: any = {}, textItem: Array<{label: string; key: string; type?: string}>) => {
   if (isEmpty(textItem)) return null;
   return (
     <>
@@ -70,7 +70,7 @@ const getInfoRender = (data: any = {}, textItem: Array<{label: string, key: stri
   );
 };
 
-const TextItem = ({ value, label, type }:{value: string, label: string, type?: string}) => {
+const TextItem = ({ value, label, type }: {value: string; label: string; type?: string}) => {
   const [show, setShow] = React.useState(false);
   const isPassword = type === 'password';
   return (
@@ -91,7 +91,7 @@ const TextItem = ({ value, label, type }:{value: string, label: string, type?: s
   );
 };
 
-const InfoItem = ({ title, value, textItem }:IInfoProps) => {
+const InfoItem = ({ title, value, textItem }: IInfoProps) => {
   if (isEmpty(value)) return null;
   return (
     <div className="mb24">
@@ -138,7 +138,7 @@ const DetailModal = ({ id, onClose, detail: originDetail }: IProps) => {
           detail: curDetail,
         });
       } else {
-        getDetail({ id }).then(res => {
+        getDetail({ id }).then((res) => {
           update({
             detail: res,
             detailMap: { ...detailMap, [`${id}`]: res },

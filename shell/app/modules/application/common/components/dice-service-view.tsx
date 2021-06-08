@@ -17,7 +17,7 @@ import i18n from 'i18n';
 import './dice-service-view.scss';
 
 interface IDataSource {
-  ports: Array<{ protocol: string, port: number }>;
+  ports: Array<{ protocol: string; port: number }>;
   expose: string[];
   hosts: string[];
   resources: {
@@ -26,13 +26,13 @@ interface IDataSource {
     disk: number;
     network: {
       mode: 'overlay' | 'host';
-    }
+    };
   };
   deployments: {
     mode: 'global' | 'replicated';
     replicas: number;
-    labels?: string[]
-  },
+    labels?: string[];
+  };
   envs: object;
 }
 
@@ -41,7 +41,7 @@ interface IPropertyViewProps {
 }
 
 export default class extends PureComponent<IPropertyViewProps, any> {
-  public render() {
+  render() {
     const { dataSource } = this.props;
     const { resources, deployments, ports, envs } = dataSource;
     const envKeys = Object.keys(envs || {});
@@ -66,7 +66,7 @@ export default class extends PureComponent<IPropertyViewProps, any> {
         </span>
         <span className="dice-service-detail-column">
           <span>{i18n.t('application:port')}：</span>
-          <span>{Array.isArray(ports) ? ports.map(p => (typeof p === 'object' ? `${p.protocol || ''}:${p.port}` : p)).join('/') : '-'}</span>
+          <span>{Array.isArray(ports) ? ports.map((p) => (typeof p === 'object' ? `${p.protocol || ''}:${p.port}` : p)).join('/') : '-'}</span>
         </span>
         {envContent}
       </div>

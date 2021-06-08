@@ -27,7 +27,7 @@ interface ISection {
   titleProps?: object;
   descProps?: object;
 }
-const sectionList:ISection[] = [{
+const sectionList: ISection[] = [{
   title: 'sectionList1-title',
   titleExtra: <div>sectionList1-titleExtra</div>,
   titleOperate: <div>sectionList1-titleOperate</div>,
@@ -45,8 +45,8 @@ const sectionList:ISection[] = [{
 describe('ConfigLayout', () => {
   it('should render successfully', () => {
     const wrapper = mount(
-      <ConfigLayout sectionList={sectionList} />
+      <ConfigLayout sectionList={sectionList} />,
     );
-    expect(wrapper.find('ConfigSection')).toHaveLength(sectionList.length)
+    expect(wrapper.find('ConfigSection')).toHaveLength(sectionList.length);
   });
 });

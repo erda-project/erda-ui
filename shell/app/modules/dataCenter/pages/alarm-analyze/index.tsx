@@ -32,8 +32,8 @@ import './index.scss';
 const { AlarmTrendChart, AlarmTypeProportionChart, AlarmProportionChart } = AlarmChart;
 
 const AlarmAnalyze = () => {
-  const orgId = orgStore.useStore(s => s.currentOrg.id);
-  const orgClusterList = clusterStore.useStore(s => s.list);
+  const orgId = orgStore.useStore((s) => s.currentOrg.id);
+  const orgClusterList = clusterStore.useStore((s) => s.list);
   const [filterClusters, setFilterClusters] = useState([] as string[]);
   const [fullCluster, setFullCluster] = useState([] as string[]);
   const [listFilter, setListFilter] = useState({});
@@ -45,7 +45,7 @@ const AlarmAnalyze = () => {
 
   useEffect(() => {
     if (!isEmpty(orgClusterList)) {
-      const clusterNames = map(orgClusterList, item => item.name);
+      const clusterNames = map(orgClusterList, (item) => item.name);
       setFullCluster(clusterNames);
       setFilterClusters(clusterNames);
     }

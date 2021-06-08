@@ -35,7 +35,7 @@ const PipelineManage = (props: IProps) => {
   const { scope = curScope } = props;
   const scopeConfigData = scopeConfig[scope];
   const { clearTreeNodeDetail } = fileTreeStore;
-  const [{ projectId, appId }, { nodeId, pipelineID }] = routeInfoStore.useStore(s => [s.params, s.query]);
+  const [{ projectId, appId }, { nodeId, pipelineID }] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const scopeParams = React.useMemo(() => ({ scopeID: projectId, scope: scopeConfigData.scope }), [projectId, scopeConfigData.scope]);
 
   const nodeIdRef = React.useRef(null as any);
@@ -45,7 +45,7 @@ const PipelineManage = (props: IProps) => {
   }, [nodeId]);
 
   if (pipelineID && !nodeId) {
-    getINodeByPipelineId({ pipelineId: pipelineID }).then((res:any) => {
+    getINodeByPipelineId({ pipelineId: pipelineID }).then((res: any) => {
       const inode = res?.data?.inode;
       inode && updateSearch({ nodeId: inode });
     });
@@ -59,29 +59,29 @@ const PipelineManage = (props: IProps) => {
   };
   return (
     <SplitPage>
-      <SplitPage.Left className='pipeline-manage-left'>
+      <SplitPage.Left className="pipeline-manage-left">
         {
           pipelineID && !nodeId
             ? <EmptyHolder relative />
             : <DiceConfigPage
-              scenarioType=''
-              scenarioKey={'app-pipeline-tree'}
-              inParams={inParams}
-              showLoading
+                scenarioType=""
+                scenarioKey={'app-pipeline-tree'}
+                inParams={inParams}
+                showLoading
               // 提供给后端测试，可在路由上带上useMock来查看mock的数据，以便后端检查，对接完成后删除
-              useMock={location.search.includes('useMock') ? useMock : undefined}
-              customProps={{
-                fileTree: {
-                  onClickNode: (_inode: string) => {
-                    if (nodeIdRef.current !== _inode) {
-                      clearTreeNodeDetail();
-                      setTimeout(() => {
-                        updateSearch({ nodeId: _inode, pipelineID: undefined });
-                      }, 0);
-                    }
+                useMock={location.search.includes('useMock') ? useMock : undefined}
+                customProps={{
+                  fileTree: {
+                    onClickNode: (_inode: string) => {
+                      if (nodeIdRef.current !== _inode) {
+                        clearTreeNodeDetail();
+                        setTimeout(() => {
+                          updateSearch({ nodeId: _inode, pipelineID: undefined });
+                        }, 0);
+                      }
+                    },
                   },
-                },
-              }}
+                }}
             />
         }
       </SplitPage.Left>
@@ -104,14 +104,14 @@ const useMock = (payload: any) => {
   });
 };
 
-const getMockFileTree = (payload:any) => {
+const getMockFileTree = (payload: any) => {
   const data = cloneDeep(mock);
   if (payload.event?.operation === 'delete') {
     const curData = data.protocol.components.fileTree.data;
-    data.protocol.components.fileTree.data = curData?.map(item => {
+    data.protocol.components.fileTree.data = curData?.map((item) => {
       return ({
         ...item,
-        children: (item.children || []).filter((cItem:any) => {
+        children: (item.children || []).filter((cItem: any) => {
           return cItem.key !== payload.event.operationData.meta.key;
         }),
       });

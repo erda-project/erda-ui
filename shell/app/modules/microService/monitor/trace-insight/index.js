@@ -35,23 +35,23 @@ function monitorTraceRouter() {
         path: 'debug',
         tabs: traceTabs,
         layout: { noWrapper: true },
-        getComp: cb => cb(import('trace-insight/pages/trace-querier/trace-querier')),
+        getComp: (cb) => cb(import('trace-insight/pages/trace-querier/trace-querier')),
       },
       {
         path: 'search',
         tabs: traceTabs,
         layout: { noWrapper: true },
-        getComp: cb => cb(import('trace-insight/pages/trace-querier/trace-search')),
+        getComp: (cb) => cb(import('trace-insight/pages/trace-querier/trace-search')),
       },
       {
         breadcrumbName: i18n.t('microService:transactions details'),
         path: ':traceId',
         layout: { noWrapper: true },
-        getComp: cb => cb(import('trace-insight/pages/trace-querier/trace-detail')),
+        getComp: (cb) => cb(import('trace-insight/pages/trace-querier/trace-detail')),
       },
       {
         layout: { noWrapper: true },
-        getComp: cb => cb(import('trace-insight/pages/trace-querier/trace-search')),
+        getComp: (cb) => cb(import('trace-insight/pages/trace-querier/trace-search')),
       },
     ],
   };

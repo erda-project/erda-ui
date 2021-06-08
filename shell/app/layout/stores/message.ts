@@ -26,10 +26,10 @@ export enum MSG_STATUS {
 }
 
 interface IState {
-  list: LAYOUT.IMsg[] | [],
-  detail: LAYOUT.IMsg | null,
-  unreadCount: number,
-  msgPaging: IPaging,
+  list: LAYOUT.IMsg[] | [];
+  detail: LAYOUT.IMsg | null;
+  unreadCount: number;
+  msgPaging: IPaging;
 }
 
 const initState: IState = {
@@ -47,16 +47,16 @@ const messageStore = createStore({
   name: 'message',
   state: initState,
   effects: {
-    async getMessageList({ call, update, select }, payload: { pageNo: number, pageSize?: number }) {
+    async getMessageList({ call, update, select }, payload: { pageNo: number; pageSize?: number }) {
       const { list } = await call(getMessageList, payload, { paging: { key: 'msgPaging' } });
-      const oldList: LAYOUT.IMsg[] = select(s => s.list);
+      const oldList: LAYOUT.IMsg[] = select((s) => s.list);
       update({ list: payload.pageNo === 1 ? list : oldList.concat(list) });
     },
     async getMessageStats({ call, update, select }) {
-      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const orgId = orgStore.getState((s) => s.currentOrg.id);
       if (orgId) {
         const result = await call(getMessageStats);
-        const unreadCount = select(s => s.unreadCount);
+        const unreadCount = select((s) => s.unreadCount);
         const count = result && result.unreadCount;
         update({ unreadCount: count });
         return { hasNewUnread: unreadCount < count };
@@ -68,8 +68,8 @@ const messageStore = createStore({
       if (hasRead) {
         update({ detail });
       } else {
-        const list: LAYOUT.IMsg[] = select(s => s.list);
-        const newList = list.map(item => (item.id === id ? { ...item, status: MSG_STATUS.READ } : item));
+        const list: LAYOUT.IMsg[] = select((s) => s.list);
+        const newList = list.map((item) => (item.id === id ? { ...item, status: MSG_STATUS.READ } : item));
         update({ detail, list: newList });
         await messageStore.effects.getMessageStats();
       }

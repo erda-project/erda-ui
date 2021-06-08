@@ -15,8 +15,8 @@ declare namespace COMMON_NOTIFY {
   interface INotifyGroupTarget {
     type: string;
     values: Array<{
-      receiver: string
-      secret?: string
+      receiver: string;
+      secret?: string;
     }>;
   }
   interface INotifyGroup {

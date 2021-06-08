@@ -26,8 +26,8 @@ interface IProps {
   inline?: boolean;
   query?: any;
   className?: string;
-  onChangeTime(args: any): void;
-  disabledDate?(arg: any): boolean;
+  onChangeTime: (args: any) => void;
+  disabledDate?: (arg: any) => boolean;
 }
 interface IState {
   value: [Moment, Moment];
@@ -53,7 +53,7 @@ class TimeSelector extends React.Component<IProps, IState> {
       const times = getTimeSpan(initTime);
       startTimeMs = times.startTimeMs;
       endTimeMs = times.endTimeMs as number;
-      // this.props.onChangeTime(initTime);
+      this.props.onChangeTime(initTime);
     }
     this.state = {
       value: [moment(startTimeMs), moment(endTimeMs)],
@@ -69,12 +69,10 @@ class TimeSelector extends React.Component<IProps, IState> {
     return null;
   }
 
-  onChangeTime = (value: any) => {
-    this.setState({ value });
-  };
-
-  onOk = (value: any) => { // 点击确定才修改数据
-    this.props.onChangeTime(value);
+  onChangeTime = (value: any) => { // After updating to Antd4.x, click OK to trigger the onChange
+    this.setState({ value }, () => {
+      this.props.onChangeTime(value);
+    });
   };
 
   onOpenChange = (status: boolean) => {
@@ -113,7 +111,6 @@ class TimeSelector extends React.Component<IProps, IState> {
           disabledDate={this.disabledDate}
           onOpenChange={this.onOpenChange}
           ranges={getTimeRanges()}
-          onOk={this.onOk}
         />
       </div>
     );

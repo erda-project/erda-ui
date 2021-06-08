@@ -26,17 +26,17 @@ export const ApiPoliciesHeader = () => {
   const [appList, setAppList] = React.useState([] as any[]);
   const [serviceList, setServiceList] = React.useState([] as any[]);
   const [runtimeEntry, setRuntimeEntry] = React.useState(false);
-  const query = routeInfoStore.useStore(s => s.query);
-  const [registerApps, runtimeEntryData, policyFilter] = gatewayStore.useStore(s => [s.registerApps, s.runtimeEntryData, s.policyFilter]);
+  const query = routeInfoStore.useStore((s) => s.query);
+  const [registerApps, runtimeEntryData, policyFilter] = gatewayStore.useStore((s) => [s.registerApps, s.runtimeEntryData, s.policyFilter]);
   const { updatePolicyFilter } = gatewayStore.reducers;
   const { diceApp, diceService } = policyFilter;
 
   React.useEffect(() => {
     if (registerApps.length > 0 && isEmpty(runtimeEntryData)) {
-      const list = registerApps.map(app => app.name);
+      const list = registerApps.map((app) => app.name);
       setAppList(list);
       if (diceApp) {
-        const targetApp = registerApps.find(rApp => rApp.name === diceApp);
+        const targetApp = registerApps.find((rApp) => rApp.name === diceApp);
         targetApp && setServiceList(targetApp.services);
       }
     }
@@ -59,7 +59,7 @@ export const ApiPoliciesHeader = () => {
   }, [query]);
 
   const onAppChange = (appName: string) => {
-    const targetApp = registerApps.find(rApp => rApp.name === appName);
+    const targetApp = registerApps.find((rApp) => rApp.name === appName);
     setServiceList(targetApp.services);
     updatePolicyFilter({ diceApp: appName, diceService: targetApp.services[0] });
   };

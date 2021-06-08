@@ -37,7 +37,7 @@ export const batchUpdateIssueState = (query: ISSUE_WORKFLOW.IUpdateQuery) => {
     .then((response: any) => response.body);
 };
 
-export const deleteIssueState = (query: {id: number, projectID:number}) => {
+export const deleteIssueState = (query: {id: number; projectID: number}) => {
   return agent.delete('/api/issues/actions/delete-state')
     .query(query)
     .then((response: any) => response.body);

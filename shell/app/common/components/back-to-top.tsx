@@ -20,7 +20,7 @@ import i18n from 'i18n';
 
 import './back-to-top.scss';
 
-const BackToTop = ({ containerId } : {containerId?: string}) => {
+const BackToTop = ({ containerId }: {containerId?: string}) => {
   const [visible, setVisible] = React.useState(false);
   const isMoving = React.useRef(false);
   const mainElement = React.useMemo(() => (document.querySelector(containerId ? `#${containerId}` : '#main')), [containerId]);

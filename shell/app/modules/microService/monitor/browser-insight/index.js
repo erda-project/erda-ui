@@ -38,42 +38,42 @@ const getBIRouter = () => ({
   routes: [
     {
       pageName: i18n.t('microService:browser insight'),
-      getComp: cb => cb(import('browser-insight/pages/overview/overview')),
+      getComp: (cb) => cb(import('browser-insight/pages/overview/overview')),
     },
     {
       path: 'page',
       // breadcrumbName: '访问页面',
       alwaysShowTabKey: 'bi/page',
       tabs,
-      getComp: cb => cb(import('browser-insight/pages/page/page')),
+      getComp: (cb) => cb(import('browser-insight/pages/page/page')),
     },
     {
       path: 'domain',
       // breadcrumbName: '访问域名',
       alwaysShowTabKey: 'bi/domain',
       tabs,
-      getComp: cb => cb(import('browser-insight/pages/domain/domain')),
+      getComp: (cb) => cb(import('browser-insight/pages/domain/domain')),
     },
     {
       path: 'ajax',
       // breadcrumbName: 'Ajax接口',
       alwaysShowTabKey: 'bi/ajax',
       tabs,
-      getComp: cb => cb(import('browser-insight/pages/ajax/ajax')),
+      getComp: (cb) => cb(import('browser-insight/pages/ajax/ajax')),
     },
     {
       path: 'script',
       // breadcrumbName: '脚本错误',
       alwaysShowTabKey: 'bi/script',
       tabs,
-      getComp: cb => cb(import('browser-insight/pages/script/script')),
+      getComp: (cb) => cb(import('browser-insight/pages/script/script')),
     },
     {
       path: 'browser',
       // breadcrumbName: '浏览器性能',
       alwaysShowTabKey: 'bi/browser',
       tabs,
-      getComp: cb => cb(import('browser-insight/pages/browser/browser')),
+      getComp: (cb) => cb(import('browser-insight/pages/browser/browser')),
     },
     {
       path: 'exception',
@@ -81,7 +81,7 @@ const getBIRouter = () => ({
       alwaysShowTabKey: 'bi/exception',
       tabs,
       TabRightComp: TimeSelector,
-      getComp: cb => cb(import('browser-insight/pages/exception/exception')),
+      getComp: (cb) => cb(import('browser-insight/pages/exception/exception')),
     },
     {
       path: 'position',
@@ -90,12 +90,12 @@ const getBIRouter = () => ({
       alwaysShowTabKey: 'bi/position',
       routes: [
         {
-          getComp: cb => cb(import('browser-insight/pages/position/position')),
+          getComp: (cb) => cb(import('browser-insight/pages/position/position')),
         },
         {
           path: 'comparative',
           breadcrumbName: i18n.t('microService:comparative analytics'),
-          getComp: cb => cb(import('browser-insight/pages/comparative/comparative')),
+          getComp: (cb) => cb(import('browser-insight/pages/comparative/comparative')),
         },
       ],
     },
@@ -104,7 +104,7 @@ const getBIRouter = () => ({
       // breadcrumbName: '摘要',
       alwaysShowTabKey: 'bi/summary',
       tabs,
-      getComp: cb => cb(import('browser-insight/pages/summary/summary')),
+      getComp: (cb) => cb(import('browser-insight/pages/summary/summary')),
     },
     ...(isZh
       ? [{
@@ -112,7 +112,7 @@ const getBIRouter = () => ({
         // breadcrumbName: '地理',
         alwaysShowTabKey: 'bi/geography',
         tabs,
-        getComp: cb => cb(import('browser-insight/pages/geography-china/geography-china')),
+        getComp: (cb) => cb(import('browser-insight/pages/geography-china/geography-china')),
       }]
       : []
     ),

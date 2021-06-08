@@ -207,20 +207,20 @@ const KVPairTable = (props: any) => {
 
 
 interface IProps {
-  visible: boolean,
-  data: TEST_ENV.Item | Obj,
-  disabled: boolean,
-  envID: number,
-  envType: TEST_ENV.EnvType,
-  onCancel(): any,
+  visible: boolean;
+  data: TEST_ENV.Item | Obj;
+  disabled: boolean;
+  envID: number;
+  envType: TEST_ENV.EnvType;
+  onCancel: () => any;
 }
 
-type FormRef = {props: {form: WrappedFormUtils}};
+interface FormRef {props: {form: WrappedFormUtils}}
 
-const headerListOption = headerList.map(o => ({ label: o, value: o }));
+const headerListOption = headerList.map((o) => ({ label: o, value: o }));
 export const TestEnvDetail = (props: IProps) => {
   const { data, disabled, visible, onCancel, envID, envType } = props;
-  const { testType = 'manual' } = routeInfoStore.useStore(s => s.params);
+  const { testType = 'manual' } = routeInfoStore.useStore((s) => s.params);
   const [{ headerMode, globalMode, headerJsonValid, globalJsonValid }, updater, update] = useUpdate({
     headerMode: 'form',
     globalMode: 'form',
@@ -254,7 +254,7 @@ export const TestEnvDetail = (props: IProps) => {
   const GlobalKeyComp = ({ record, update: _update, ...rest }: any) => (
     <Input
       value={record.key}
-      onChange={e => _update(e.target.value.trim())}
+      onChange={(e) => _update(e.target.value.trim())}
       maxLength={500}
       {...rest}
     />
@@ -267,11 +267,11 @@ export const TestEnvDetail = (props: IProps) => {
   );
 
   const KeyDescComp = ({ record, keyDesc, update: _update, ...rest }: any) => (
-    <Input maxLength={3000} value={record[keyDesc]} onChange={e => _update(e.target.value)} {...rest} />
+    <Input maxLength={3000} value={record[keyDesc]} onChange={(e) => _update(e.target.value)} {...rest} />
   );
 
   const ValueComp = ({ record, valueName, update: _update, ...rest }: any) => (
-    <Input maxLength={3000} value={record[valueName]} onChange={e => _update(e.target.value)} {...rest} />
+    <Input maxLength={3000} value={record[valueName]} onChange={(e) => _update(e.target.value)} {...rest} />
   );
 
   const getFieldsList = (_type: string, _headMode: string, _globalMode: string) => {
@@ -322,7 +322,7 @@ export const TestEnvDetail = (props: IProps) => {
         getComp: () => (
           <div className="flex-box">
             <div>
-              <span className='bold'>Header</span>
+              <span className="bold">Header</span>
             </div>
             <Radio.Group
               value={headerMode}
@@ -345,14 +345,14 @@ export const TestEnvDetail = (props: IProps) => {
                         reItem = { key: item.key, value: item.value };
                       }
                       return reItem;
-                    }), item => item.key), null, 2),
+                    }), (item) => item.key), null, 2),
                   });
                 }
                 updater.headerMode(e.target.value);
               }}
             >
-              <Radio.Button disabled={!headerJsonValid} value='form'>{i18n.t('common:form edit')}</Radio.Button>
-              <Radio.Button value='code'>{i18n.t('common:text edit')}</Radio.Button>
+              <Radio.Button disabled={!headerJsonValid} value="form">{i18n.t('common:form edit')}</Radio.Button>
+              <Radio.Button value="code">{i18n.t('common:text edit')}</Radio.Button>
             </Radio.Group>
           </div>
         ),
@@ -379,7 +379,7 @@ export const TestEnvDetail = (props: IProps) => {
       {
         getComp: () => (
           <div className="flex-box">
-            <span className='bold'>Global</span>
+            <span className="bold">Global</span>
             <Radio.Group
               value={globalMode}
               onChange={(e: RadioChangeEvent) => {
@@ -399,15 +399,15 @@ export const TestEnvDetail = (props: IProps) => {
                         const reItem = { desc, value, type, key: isObj ? k : item.key };
                         if (!reItem.type)reItem.type = typeMap.auto.string;
                         return reItem;
-                      }), item => item.key
+                      }), (item) => item.key,
                     ), null, 2),
                   });
                 }
                 updater.globalMode(e.target.value);
               }}
             >
-              <Radio.Button disabled={!globalJsonValid} value='form'>{i18n.t('common:form edit')}</Radio.Button>
-              <Radio.Button value='code'>{i18n.t('common:text edit')}</Radio.Button>
+              <Radio.Button disabled={!globalJsonValid} value="form">{i18n.t('common:form edit')}</Radio.Button>
+              <Radio.Button value="code">{i18n.t('common:text edit')}</Radio.Button>
             </Radio.Group>
           </div>
         ),
@@ -418,7 +418,7 @@ export const TestEnvDetail = (props: IProps) => {
       {
         name: 'global',
         required: false,
-        getComp: () => <KVPairTable disabled={disabled} KeyComp={GlobalKeyComp} DescComp={GlobalDescComp} descName="type" KeyDescComp={KeyDescComp} keyDesc='desc' />,
+        getComp: () => <KVPairTable disabled={disabled} KeyComp={GlobalKeyComp} DescComp={GlobalDescComp} descName="type" KeyDescComp={KeyDescComp} keyDesc="desc" />,
         itemProps: {
           type: globalFieldsStatus[0],
         },
@@ -496,7 +496,7 @@ export const TestEnvDetail = (props: IProps) => {
     onCancel();
   };
 
-  const onValuesChange = React.useCallback(debounce((_formRef: {form:WrappedFormUtils}, changeValues: Obj, allValues:Obj) => {
+  const onValuesChange = React.useCallback(debounce((_formRef: {form: WrappedFormUtils}, changeValues: Obj, allValues: Obj) => {
     if (changeValues.headerStr) {
       const curHeaderValid = isValidJsonStr(changeValues.headerStr);
       updater.headerJsonValid(curHeaderValid);
@@ -540,7 +540,7 @@ const JsonFileEditor = (p: JsonFileProps) => {
         fileExtension="json"
         minLines={4}
         readOnly={readOnly}
-        className='border-radius border-all'
+        className="border-radius border-all"
         maxLines={10}
         actions={{
           copy: true,
@@ -553,7 +553,7 @@ const JsonFileEditor = (p: JsonFileProps) => {
       />
       {
         _isValid ? null : (
-          <span className='color-danger'>{i18n.t('project:JSON format error')}</span>
+          <span className="color-danger">{i18n.t('project:JSON format error')}</span>
         )
       }
     </>

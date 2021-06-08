@@ -44,9 +44,9 @@ export const ResultView = (props: IProps) => {
   const resArr = compact([api_request, api_response, api_assert_detail, api_assert_success, status, result]) as any[];
 
   return (
-    <div className='test-case-execute-result'>
+    <div className="test-case-execute-result">
       {
-          map(resArr, (item:any) => {
+          map(resArr, (item: any) => {
             let jsonObj = {} as any;
             let jsonStr = item.value;
             try {
@@ -70,9 +70,9 @@ export const ResultView = (props: IProps) => {
             // const jsonObj = JSON.parse(item.value);
             // const jsonStr = JSON.stringify(item.value, null, 2);
             return (
-              <div className='test-case-execute-result-item mb12' key={item.name}>
-                <div className='label'>{labelMap[item.name] || item.name}</div>
-                <pre className='value'>{jsonStr}</pre>
+              <div className="test-case-execute-result-item mb12" key={item.name}>
+                <div className="label">{labelMap[item.name] || item.name}</div>
+                <pre className="value">{jsonStr}</pre>
               </div>
             );
           })
@@ -84,7 +84,7 @@ export const ResultView = (props: IProps) => {
 
 interface IResultViewDrawerProps extends IProps{
   visible: boolean;
-  onClose: ()=> void;
+  onClose: () => void;
 }
 
 export const ResultViewDrawer = (props: IResultViewDrawerProps) => {

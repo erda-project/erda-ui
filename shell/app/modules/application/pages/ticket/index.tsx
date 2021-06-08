@@ -24,7 +24,7 @@ import { useUnmount } from 'react-use';
 import orgStore from 'app/org-home/stores/org';
 
 export const ticketTabs = () => {
-  const openTotal = ticketStore.useStore(s => s.openTotal);
+  const openTotal = ticketStore.useStore((s) => s.openTotal);
   return [
     {
       key: 'all',
@@ -47,8 +47,8 @@ interface IProps {
 
 const Ticket = ({ scope }: IProps) => {
   const [visible, openModal, closeModal] = useSwitch(false);
-  const [params] = routeInfoStore.useStore(s => [s.params]);
-  const orgId = orgStore.getState(s => s.currentOrg.id);
+  const [params] = routeInfoStore.useStore((s) => [s.params]);
+  const orgId = orgStore.getState((s) => s.currentOrg.id);
   const { ticketType: tabKey } = params;
 
   const { addTicket } = ticketStore.effects;

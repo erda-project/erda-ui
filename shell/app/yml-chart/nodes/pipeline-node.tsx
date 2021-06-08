@@ -31,14 +31,14 @@ export const PipelineNode = (props: IProps) => {
   const { data, editing, onClickNode = noop, onDeleteNode = noop, ...rest } = props;
 
   const menu = (
-    <Menu onClick={({ domEvent, key }:any) => {
+    <Menu onClick={({ domEvent, key }: any) => {
       domEvent && domEvent.stopPropagation();
       if (key === 'delete') {
         onDeleteNode(data);
       }
     }}
     >
-      <Menu.Item key='delete'>
+      <Menu.Item key="delete">
         {i18n.t('application:delete')}
       </Menu.Item>
     </Menu>
@@ -49,20 +49,20 @@ export const PipelineNode = (props: IProps) => {
   };
 
   return (
-    <div className='yml-chart-node pipeline-node column-flex-box' onClick={onClick}>
+    <div className="yml-chart-node pipeline-node column-flex-box" onClick={onClick}>
       <div className={'pipeline-title py12'}>
         <div className="title-icon mr12">
           {
             data.logoUrl ? (
-              <img src={data.logoUrl} alt='logo' />
+              <img src={data.logoUrl} alt="logo" />
             ) : (
-              <CustomIcon type='wfw' color className='full-width full-height' />
+              <CustomIcon type="wfw" color className="full-width full-height" />
             )
           }
         </div>
         <div className="title-txt column-flex-box color-text">
-          <span className='mb4 nowrap fz16 bold name'>{data.displayName || data.type}</span>
-          <span className='nowrap fz12 type'>{data.alias}</span>
+          <span className="mb4 nowrap fz16 bold name">{data.displayName || data.type}</span>
+          <span className="nowrap fz12 type">{data.alias}</span>
         </div>
         {editing ? (
           <div>
@@ -72,7 +72,7 @@ export const PipelineNode = (props: IProps) => {
           </div>
         ) : null}
       </div>
-      <div className='pipeline-content flex-1 py12'>
+      <div className="pipeline-content flex-1 py12">
         {data.description}
       </div>
     </div>
@@ -94,7 +94,7 @@ const renderDataSource = (dataSource: any) => {
       break;
   }
 
-  return contents.map(item => item);
+  return contents.map((item) => item);
 };
 
 const renderObject = (dataSource: object) => {

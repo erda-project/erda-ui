@@ -34,14 +34,14 @@ const getMIRouter = () => ({
   routes: [
     {
       pageName: i18n.t('microService:app performance'),
-      getComp: cb => cb(import('mobile-insight/pages/overview/overview')),
+      getComp: (cb) => cb(import('mobile-insight/pages/overview/overview')),
     },
     {
       path: 'page',
       alwaysShowTabKey: 'mi/page',
       tabs,
       // breadcrumbName: 'Mobile Insight (访问页面)',
-      getComp: cb => cb(import('mobile-insight/pages/page/page')),
+      getComp: (cb) => cb(import('mobile-insight/pages/page/page')),
     },
     {
       path: 'position',
@@ -50,12 +50,12 @@ const getMIRouter = () => ({
       // breadcrumbName: 'Mobile Insight (定位分析)',
       routes: [
         {
-          getComp: cb => cb(import('mobile-insight/pages/position/position')),
+          getComp: (cb) => cb(import('mobile-insight/pages/position/position')),
         },
         {
           path: 'comparative',
           breadcrumbName: i18n.t('microService:comparative analytics'),
-          getComp: cb => cb(import('mobile-insight/pages/comparative/comparative')),
+          getComp: (cb) => cb(import('mobile-insight/pages/comparative/comparative')),
         },
       ],
     },
@@ -64,21 +64,21 @@ const getMIRouter = () => ({
       alwaysShowTabKey: 'mi/request',
       tabs,
       // breadcrumbName: 'Mobile Insight (请求)',
-      getComp: cb => cb(import('mobile-insight/pages/ajax/ajax')),
+      getComp: (cb) => cb(import('mobile-insight/pages/ajax/ajax')),
     },
     {
       path: 'script',
       alwaysShowTabKey: 'mi/script',
       tabs,
       // breadcrumbName: 'Mobile Insight (页面错误)',
-      getComp: cb => cb(import('mobile-insight/pages/script/script')),
+      getComp: (cb) => cb(import('mobile-insight/pages/script/script')),
     },
     {
       path: 'appversion',
       alwaysShowTabKey: 'mi/appversion',
       tabs,
       // breadcrumbName: 'Mobile Insight (应用版本)',
-      getComp: cb => cb(import('mobile-insight/pages/app/app')),
+      getComp: (cb) => cb(import('mobile-insight/pages/app/app')),
     },
     ...(isZh
       ? [{
@@ -86,7 +86,7 @@ const getMIRouter = () => ({
         alwaysShowTabKey: 'mi/geography',
         tabs,
         // breadcrumbName: 'Mobile Insight (地理)',
-        getComp: cb => cb(import('mobile-insight/pages/geography/geography-china')),
+        getComp: (cb) => cb(import('mobile-insight/pages/geography/geography-china')),
       }]
       : []
     ),
@@ -95,7 +95,7 @@ const getMIRouter = () => ({
       alwaysShowTabKey: 'mi/device',
       tabs,
       // breadcrumbName: 'Mobile Insight (设备)',
-      getComp: cb => cb(import('mobile-insight/pages/browser/browser')),
+      getComp: (cb) => cb(import('mobile-insight/pages/browser/browser')),
     },
   ],
 });

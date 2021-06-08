@@ -42,13 +42,13 @@ export const EmptyHolder = (props: CP_EMPTY_HOLDER.Props) => {
   if (!visible) {
     return null;
   }
-  
+
   return (
     <div className={`${cls} ${className}`} style={style}>
       <CustomIcon type={icon} color />
       <span>{tip} <span className="action">{action}</span></span>
     </div>
   );
-}
+};
 
 export default EmptyHolder;

@@ -21,7 +21,7 @@ import './addon-cards.scss';
 interface IProps {
   visible?: boolean;
   recordId: string;
-  toggleModal(visible: boolean): void;
+  toggleModal: (visible: boolean) => void;
 }
 
 export default (props: IProps) => {
@@ -32,7 +32,7 @@ export default (props: IProps) => {
 
   React.useEffect(() => {
     if (visible) {
-      clusterStore.effects.getClusterLogTasks({ recordIDs: recordId }).then(res => {
+      clusterStore.effects.getClusterLogTasks({ recordIDs: recordId }).then((res) => {
         if (res.list && res.list[0]) {
           updater.record(res.list[0]);
         }

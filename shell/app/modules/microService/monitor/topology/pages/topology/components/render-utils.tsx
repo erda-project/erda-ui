@@ -72,7 +72,7 @@ export const renderNodes = ({ nodeMap, groupNodeMap, groupChart }: any, snap: an
         outHover={() => outHover(node)}
         onClick={() => clickNode(node)}
       />,
-      document.getElementById(`${nodeId}`)
+      document.getElementById(`${nodeId}`),
     );
   });
   // 获取关联节点
@@ -220,7 +220,7 @@ const hoverAction = (isHover: boolean, params: any, snap: any, external: any, ch
               targetNode,
               sourceNode,
               hoverNodeExternal: get(hoverNode, externalKey),
-            }
+            },
           );
         }
       }
@@ -243,7 +243,7 @@ const hoverAction = (isHover: boolean, params: any, snap: any, external: any, ch
             targetNode,
             sourceNode,
             hoverNodeExternal: get(hoverNode, externalKey),
-          }
+          },
         );
       }
       link.attr({ ...svgAttr.polylineFade });
@@ -283,7 +283,7 @@ const hoverAction = (isHover: boolean, params: any, snap: any, external: any, ch
             targetNode,
             sourceNode,
             hoverNodeExternal: get(hoverNode, externalKey),
-          }
+          },
         );
       }
       link.attr({ ...svgAttr.polyline });
@@ -305,7 +305,7 @@ const hoverAction = (isHover: boolean, params: any, snap: any, external: any, ch
             targetNode,
             sourceNode,
             hoverNodeExternal: get(hoverNode, externalKey),
-          }
+          },
         );
       }
       link.attr({ ...svgAttr.polyline });

@@ -26,7 +26,7 @@ const { ELSE } = IF;
 const noop = () => { };
 
 // 根据不同动态类型获取内容
-const getContent = ({ action }: { context: any; action: any; }) => {
+const getContent = ({ action }: { context: any; action: any }) => {
   let content = null;
   let extraItems = null;
 
@@ -95,8 +95,8 @@ interface IProps {
   isLoading: boolean;
   hasMore?: boolean;
   customProps?: any;
-  CustomCard?: any // ({ activity }: { activity: IActivity }) => JSX.Element | null;
-  loadMore?(): void;
+  CustomCard?: any; // ({ activity }: { activity: IActivity }) => JSX.Element | null;
+  loadMore?: () => void;
 }
 
 export const ActiveCard = ({ operator, action, context }: IActivity) => {

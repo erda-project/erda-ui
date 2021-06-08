@@ -44,7 +44,7 @@ export const CasePipelineChart = (props: IProps) => {
     const { pipelineStages = [], runParams = [], pipelineTaskActionDetails = {} } = data || {};
     const stageTask = [] as PIPELINE.ITask[][];
     map(pipelineStages, ({ pipelineTasks }) => {
-      stageTask.push(map(pipelineTasks, item => {
+      stageTask.push(map(pipelineTasks, (item) => {
         const node = { ...item };
         if (pipelineTaskActionDetails?.[node.type]) {
           node.displayName = pipelineTaskActionDetails[node.type].displayName;
@@ -61,7 +61,7 @@ export const CasePipelineChart = (props: IProps) => {
   }, [update, data]);
 
   React.useEffect(() => {
-    update(prev => ({
+    update((prev) => ({
       displayData: resetData({ stagesData, inParamsData, outParamsData }),
       dataKey: prev.dataKey + 1,
     }));
@@ -83,7 +83,7 @@ export const CasePipelineChart = (props: IProps) => {
       external={{ nodeEleMap: {
         pipeline: RunCaseNode,
         startNode: () => <NodeEleMap.startNode disabled />,
-        endNode: () => <NodeEleMap.endNode disabled />
+        endNode: () => <NodeEleMap.endNode disabled />,
       } }}
     />
   );
@@ -95,11 +95,11 @@ export default CasePipelineChart;
 // 非编辑状态下: 插入开始节点，结束节点
 // 编辑状态下：插入开始节点、结束节点、层与层之间插入添加行节点
 interface IResetObj {
-  stagesData?: any[][],
-  inParamsData?: PIPELINE.IPipelineInParams[],
-  outParamsData?: PIPELINE.IPipelineOutParams[],
+  stagesData?: any[][];
+  inParamsData?: PIPELINE.IPipelineInParams[];
+  outParamsData?: PIPELINE.IPipelineOutParams[];
 }
-export const resetData = (data:IResetObj) => {
+export const resetData = (data: IResetObj) => {
   const { stagesData = [], inParamsData = [], outParamsData = [] } = data || {};
   const reData = [
     [{ data: inParamsData, [externalKey]: { nodeType: NodeType.startNode } }], // 插入开始节点

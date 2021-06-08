@@ -51,7 +51,7 @@ const typeMap = {
   kv: 'kv',
   file: 'dice-file',
 };
-const envKeys = ['default', ...WORKSPACE_LIST].map(k => k.toLowerCase());
+const envKeys = ['default', ...WORKSPACE_LIST].map((k) => k.toLowerCase());
 
 const configTypeMap = {
   mobile: 'MobileConfig',
@@ -60,17 +60,17 @@ const configTypeMap = {
 };
 
 interface IProps {
-  envToNs: Obj<string>
+  envToNs: Obj<string>;
   configs: PIPELINE_CONFIG.ConfigItemMap;
-  configType?: string,
-  addConfig(data: PIPELINE_CONFIG.AddConfigsBodyWithoutAppId): Promise<any>
-  updateConfig(data: PIPELINE_CONFIG.AddConfigsBodyWithoutAppId): Promise<any>
-  deleteConfig(data: Omit<PIPELINE_CONFIG.DeleteConfigQuery, 'appID'>): Promise<any>
-  importConfig?(data: PIPELINE_CONFIG.importConfigsBody): Promise<any>,
-  exportConfig?(data: Pick<PIPELINE_CONFIG.AddConfigsQuery, 'namespace_name'>): Promise<any>,
+  configType?: string;
+  addConfig: (data: PIPELINE_CONFIG.AddConfigsBodyWithoutAppId) => Promise<any>;
+  updateConfig: (data: PIPELINE_CONFIG.AddConfigsBodyWithoutAppId) => Promise<any>;
+  deleteConfig: (data: Omit<PIPELINE_CONFIG.DeleteConfigQuery, 'appID'>) => Promise<any>;
+  importConfig?: (data: PIPELINE_CONFIG.importConfigsBody) => Promise<any>;
+  exportConfig?: (data: Pick<PIPELINE_CONFIG.AddConfigsQuery, 'namespace_name'>) => Promise<any>;
 }
 const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig, deleteConfig, importConfig, exportConfig }: IProps) => {
-  const { appId } = routeInfoStore.useStore(s => s.params);
+  const { appId } = routeInfoStore.useStore((s) => s.params);
 
   const [{ envConfigMap, visible, importVisible, exportVisible, type, curEnv, editData, importValue, exportValue, activeKey, searchKey, isJsonInvalid }, updater, update] = useUpdate({
     envConfigMap: {},
@@ -93,19 +93,19 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
       return;
     }
     const temp: PIPELINE_CONFIG.ConfigItemMap = {};
-    envKeys.forEach(env => {
+    envKeys.forEach((env) => {
       temp[env] = configs[envToNs[env]] || [];
     });
     const defaultConfig = temp.default.map((m: PIPELINE_CONFIG.ConfigItem) => ({ ...m, namespace: envToNs.default }));
     const _nsConfigMap = { default: defaultConfig };
-    ['dev', 'test', 'staging', 'prod'].forEach(env => {
+    ['dev', 'test', 'staging', 'prod'].forEach((env) => {
       const duplicate = {};
       // 与默认环境数据进行合并
       _nsConfigMap[env] = [];
       [
         ...temp[env].reverse(),
-        ...defaultConfig.map(item => ({ ...item, isFromDefault: true })),
-      ].forEach(item => { // default的放在了后面，后面会整体反转一把，所以先反转一下temp里的
+        ...defaultConfig.map((item) => ({ ...item, isFromDefault: true })),
+      ].forEach((item) => { // default的放在了后面，后面会整体反转一把，所以先反转一下temp里的
         if (duplicate[item.key]) { // 如果key重复，丢弃后面default里的
           return;
         }
@@ -118,7 +118,7 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
     if (searchKey) {
       const expandKeys: string[] = [];
       map(_nsConfigMap, (itemList, k) => {
-        const newList = itemList.filter(item => item.key.toLowerCase().includes(searchKey.toLowerCase()));
+        const newList = itemList.filter((item) => item.key.toLowerCase().includes(searchKey.toLowerCase()));
         if (newList.length) {
           expandKeys.push(k);
         }
@@ -147,7 +147,7 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
   };
 
   const openImportModal = (env: string) => {
-    exportConfig && exportConfig({ namespace_name: envToNs[env] }).then(data => {
+    exportConfig && exportConfig({ namespace_name: envToNs[env] }).then((data) => {
       updater.importValue(JSON.stringify(data));
     });
     update({
@@ -167,7 +167,7 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
       exportVisible: true,
       curEnv: env,
     });
-    exportConfig && exportConfig({ namespace_name: envToNs[env] }).then(data => {
+    exportConfig && exportConfig({ namespace_name: envToNs[env] }).then((data) => {
       updater.exportValue(JSON.stringify(data));
     });
   };
@@ -303,7 +303,7 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
   return (
     <div>
       <Spin spinning={useLoading(configStore, ['getConfigs'])[0]}>
-        <CustomFilter config={filterConfig} onSubmit={v => updater.searchKey(v.key)} />
+        <CustomFilter config={filterConfig} onSubmit={(v) => updater.searchKey(v.key)} />
         <Collapse className="mb20 nowrap" activeKey={activeKey} onChange={togglePanel}>
           {
             map(envKeys, (env: string) => {
@@ -323,7 +323,7 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
                       <Button
                         type="primary"
                         ghost
-                        className='mr8 pull-right'
+                        className="mr8 pull-right"
                         onClick={() => {
                           openExportModal(env);
                         }}
@@ -333,7 +333,7 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
                       <Button
                         type="primary"
                         ghost
-                        className='mr8 pull-right'
+                        className="mr8 pull-right"
                         onClick={() => openImportModal(env)}
                       >
                         {i18n.t('import')}
@@ -382,7 +382,7 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
             }
           }}
         />
-        {isJsonInvalid && <span className='color-danger'>{i18n.t('application:the current input content is invalid JSON')}</span>}
+        {isJsonInvalid && <span className="color-danger">{i18n.t('application:the current input content is invalid JSON')}</span>}
       </Modal>
       <Modal
         visible={exportVisible}
@@ -404,8 +404,8 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
 };
 
 export const MobileConfig = () => {
-  const fullConfigs = configStore.useStore(s => s.fullConfigs);
-  const { appId } = routeInfoStore.useStore(s => s.params);
+  const fullConfigs = configStore.useStore((s) => s.fullConfigs);
+  const { appId } = routeInfoStore.useStore((s) => s.params);
   const envToNs: Obj<string> = {};
   const nsQuery = envKeys.map((env) => {
     envToNs[env] = `app-${appId}-${env}`;
@@ -432,14 +432,14 @@ export const MobileConfig = () => {
 };
 
 export const PipelineConfig = () => {
-  const fullConfigs = configStore.useStore(s => s.fullConfigs);
+  const fullConfigs = configStore.useStore((s) => s.fullConfigs);
   const [{ envToNs }, updater] = useUpdate({
     envToNs: {},
   });
   useEffectOnce(() => {
     configStore.getConfigNameSpaces().then((result) => {
       const temp = {};
-      map(result, item => {
+      map(result, (item) => {
         temp[item.workspace.toLowerCase() || 'default'] = item.namespace;
         return item.namespace;
       });
@@ -465,9 +465,9 @@ export const PipelineConfig = () => {
 };
 
 export const DeployConfig = () => {
-  const appDetail = appStore.useStore(s => s.detail);
-  const { appId } = routeInfoStore.useStore(s => s.params);
-  const fullConfigs = configStore.useStore(s => s.fullConfigs);
+  const appDetail = appStore.useStore((s) => s.detail);
+  const { appId } = routeInfoStore.useStore((s) => s.params);
+  const fullConfigs = configStore.useStore((s) => s.fullConfigs);
   const envToNs = React.useRef({});
   React.useEffect(() => {
     if (appDetail.workspaces) {

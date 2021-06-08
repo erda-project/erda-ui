@@ -13,100 +13,100 @@
 
 declare namespace ORG_DASHBOARD {
   interface IFilterType {
-    key: string,
-    name: string,
-    values: string[],
-    unit?: string,
-    prefix?: string,
+    key: string;
+    name: string;
+    values: string[];
+    unit?: string;
+    prefix?: string;
   }
 
   interface IGroupInfo {
-    name: string | null,
+    name: string | null;
     metric: {
-      machines: number,
-      abnormalMachines: number,
-      cpuUsage: number,
-      cpuRequest: number,
-      cpuLimit: number,
-      cpuOrigin: number,
-      cpuTotal: number,
-      cpuAllocatable: number,
-      memUsage: number,
-      memRequest: number,
-      memLimit: number,
-      memOrigin: number,
-      memTotal: number,
-      memAllocatable: number,
-      diskUsage: number,
-      diskTotal: number,
-    },
-    machines: ORG_MACHINE.IMachine[] | null,
-    groups: IGroupInfo[] | null,
-    clusterStatus: number,
+      machines: number;
+      abnormalMachines: number;
+      cpuUsage: number;
+      cpuRequest: number;
+      cpuLimit: number;
+      cpuOrigin: number;
+      cpuTotal: number;
+      cpuAllocatable: number;
+      memUsage: number;
+      memRequest: number;
+      memLimit: number;
+      memOrigin: number;
+      memTotal: number;
+      memAllocatable: number;
+      diskUsage: number;
+      diskTotal: number;
+    };
+    machines: ORG_MACHINE.IMachine[] | null;
+    groups: IGroupInfo[] | null;
+    clusterStatus: number;
   }
 
   interface IInstance {
-    clusterName: string
-    hostIP: string
-    containerId: string
-    instanceType: string
-    instanceId: string
-    image: string
-    count: null
-    orgId: string
-    orgName: string
-    projectId: string
-    projectName: string
-    applicationId: string
-    applicationName: string
-    workspace: string
-    runtimeId: string
-    runtimeName: string
-    serviceId: null
-    serviceName: string
-    jobId: string
-    cpuUsage: number
-    cpuRequest: number
-    cpuLimit: number
-    cpuOrigin: number
-    memUsage: number
-    memRequest: number
-    memLimit: number
-    memOrigin: number
-    diskUsage: number
-    diskLimit: number
-    status: string
-    unhealthy: number
+    clusterName: string;
+    hostIP: string;
+    containerId: string;
+    instanceType: string;
+    instanceId: string;
+    image: string;
+    count: null;
+    orgId: string;
+    orgName: string;
+    projectId: string;
+    projectName: string;
+    applicationId: string;
+    applicationName: string;
+    workspace: string;
+    runtimeId: string;
+    runtimeName: string;
+    serviceId: null;
+    serviceName: string;
+    jobId: string;
+    cpuUsage: number;
+    cpuRequest: number;
+    cpuLimit: number;
+    cpuOrigin: number;
+    memUsage: number;
+    memRequest: number;
+    memLimit: number;
+    memOrigin: number;
+    diskUsage: number;
+    diskLimit: number;
+    status: string;
+    unhealthy: number;
   }
 
   interface INodeLabel {
-    label: string
-    name: string
-    desc: string
-    isPrefix: boolean
+    label: string;
+    name: string;
+    desc: string;
+    isPrefix: boolean;
     group: string;
     groupName: string;
     groupLevel: number;
   }
 
   interface IFilterQuery {
-    key: string
-    values: string[]
+    key: string;
+    values: string[];
   }
 
   interface IGroupInfoQuery {
-    orgName: string
-    clusters: Array<{ clusterName: string, hostIPs?: string[] }>
-    filters: IFilterQuery[]
-    groups: string[]
+    orgName: string;
+    clusters: Array<{ clusterName: string; hostIPs?: string[] }>;
+    filters: IFilterQuery[];
+    groups: string[];
   }
 
   interface IInstanceListQuery {
-    instanceType: string
-    orgName?: string
-    clusters: Array<{ clusterName: string, hostIPs?: string[] }>
-    filters?: IFilterQuery[]
-    start?: string
+    instanceType: string;
+    orgName?: string;
+    clusters: Array<{ clusterName: string; hostIPs?: string[] }>;
+    filters?: IFilterQuery[];
+    start?: string;
   }
 
   interface IMachineQuery {

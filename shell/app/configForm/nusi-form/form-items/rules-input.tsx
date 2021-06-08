@@ -29,8 +29,8 @@ const ruleMap = {
     key: 'enum',
     name: '枚举',
     tip: '请输入枚举值，以`,`隔开',
-    valueFixIn: (val:string[]) => val && val.join(','),
-    valueFixOut: (val:string) => val && val.split(','),
+    valueFixIn: (val: string[]) => val && val.join(','),
+    valueFixOut: (val: string) => val && val.split(','),
   },
   validator: {
     key: 'validator',
@@ -62,7 +62,7 @@ interface IRule {
 
 interface IRuleValue {
   msg: string;
-  [pro:string]:any;
+  [pro: string]: any;
 }
 const ruleItem: IRule = {
   type: 'pattern',
@@ -73,38 +73,38 @@ const ruleItem: IRule = {
 interface IRuleItemProps {
   data: IRule;
   className?: string;
-  operation?:any;
-  updateItem(arg:any):void;
+  operation?: any;
+  updateItem: (arg: any) => void;
 }
 
-const RuleItem = ({ updateItem, data, className = '', operation = null }:IRuleItemProps) => {
+const RuleItem = ({ updateItem, data, className = '', operation = null }: IRuleItemProps) => {
   const curRule = { valueFixIn: noop, valueFixOut: noop, ...(ruleMap[data.type] || {}) };
   return (
     <div className={className}>
       <Select value={data.type} onChange={(val) => { updateItem({ type: val, value: undefined, msg: undefined }); }}>
-        {map(ruleMap, item => (
+        {map(ruleMap, (item) => (
           <Option key={item.key} value={item.key}>{item.name}</Option>
         ))}
       </Select>
       <Tooltip title={curRule.tip}>
-        <Input value={curRule.valueFixIn(data.value)} placeholder='请输入' onChange={(e) => updateItem({ value: curRule.valueFixOut(e.target.value) })} />
+        <Input value={curRule.valueFixIn(data.value)} placeholder="请输入" onChange={(e) => updateItem({ value: curRule.valueFixOut(e.target.value) })} />
       </Tooltip>
-      <Input value={data.msg} placeholder='请填写提示信息' onChange={(e) => updateItem({ msg: e.target.value })} />
+      <Input value={data.msg} placeholder="请填写提示信息" onChange={(e) => updateItem({ msg: e.target.value })} />
       {operation}
     </div>
   );
 };
 
-const changeRulesToValue = (rules:IRule[]) => {
-  return map(rules, item => {
+const changeRulesToValue = (rules: IRule[]) => {
+  return map(rules, (item) => {
     const { type, value, msg } = item;
     return { [type]: value, msg };
   });
 };
 
-const changeValueToRules = (value: Array<{msg: string, [pro:string]:any}>) => {
+const changeValueToRules = (value: Array<{msg: string; [pro: string]: any}>) => {
   const curRules = [] as IRule[];
-  map(value, item => {
+  map(value, (item) => {
     const { msg, ...rest } = item;
     const curKey = Object.keys(rest)[0];
     if (curKey && ruleMap[curKey]) {
@@ -169,7 +169,7 @@ export const FormRuleInput = ({
 export const config = {
   name: 'rulesInput',
   Component: FormRuleInput, // 某React组件，props中必须有value、onChange
-  requiredCheck: value => {
+  requiredCheck: (value) => {
     // 必填校验时，特殊的校验规则
     return [!isEmpty(value), i18n.t('can not be empty')];
   },

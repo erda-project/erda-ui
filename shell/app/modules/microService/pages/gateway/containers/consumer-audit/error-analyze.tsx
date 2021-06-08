@@ -31,16 +31,16 @@ import { useLoading } from 'app/common/stores/loading';
 const resourceInfo = { resourceType: 'multipleGroup', resourceId: 'error-analyze' };
 
 export const PureErrorAnalyze = () => {
-  const [params, query] = routeInfoStore.useStore(s => [s.params, s.query]);
-  const [projectInfo, apiFilterCondition] = gatewayStore.useStore(s => [s.projectInfo, s.apiFilterCondition]);
-  const metricItem = metricsMonitorStore.useStore(s => s.metricItem) || {};
+  const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const [projectInfo, apiFilterCondition] = gatewayStore.useStore((s) => [s.projectInfo, s.apiFilterCondition]);
+  const metricItem = metricsMonitorStore.useStore((s) => s.metricItem) || {};
   const { loadMetricItem } = metricsMonitorStore.effects;
   const [loadMetricItemLoading] = useLoading(metricsMonitorStore, ['loadMetricItem']);
   const [getProjectInfoLoading] = useLoading(gatewayStore, ['getProjectInfo']);
   const isFetching = loadMetricItemLoading || getProjectInfoLoading;
   const errorTypeData = get(metricItem, 'multipleGroup-error-analyze-error-type');
-  const timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
-  const chart = monitorChartStore.useStore(s => s.APIRequest);
+  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const chart = monitorChartStore.useStore((s) => s.APIRequest);
   const topErrorData = get(chart, 'top-error.results', []);
   const { env, projectId } = params;
   const { csmr, pack, papi, mthd } = query;
@@ -66,7 +66,7 @@ export const PureErrorAnalyze = () => {
       filter_mthd: mthd,
       sort: 'sum_err_sum',
       limit: 10,
-    } as any
+    } as any,
   );
 
   const [errorTypeQuery, setErrorTypeQuery] = React.useState(
@@ -75,7 +75,7 @@ export const PureErrorAnalyze = () => {
       ...commonQuery,
       avg: ['(err_mean*100)', '(cerr_mean*100)', '(serr_mean*100)'],
       customAPIPrefix: '/api/gateway/openapi/metrics/charts/',
-    } as any
+    } as any,
   );
 
   const TopError = React.useMemo(() => chartRender({

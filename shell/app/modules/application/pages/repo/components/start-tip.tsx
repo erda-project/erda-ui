@@ -84,7 +84,7 @@ git push -u dice --tags`}
 
 
 const StartTip = ({ showCreateFile = false }) => {
-  const appDetail = appStore.getState(s => s.detail);
+  const appDetail = appStore.getState((s) => s.detail);
   return isEmpty(appDetail) ? null : repoIntro({ showCreateFile, ...appDetail as any });
 };
 

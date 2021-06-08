@@ -59,8 +59,8 @@ interface INodeData{
       count: number;
       mqCount: number;
     };
-    [pro: string]: any
-  }>
+    [pro: string]: any;
+  }>;
 }
 
 // 画布常量定义
@@ -286,17 +286,17 @@ export const dataHandler = {
       const { nodeList, deepMap } = g;
       // 获取节点的层级map
       // const { deepMap: oldDeepMap } = dataHandler.getDeepthMap(nodeList, startNodes);
-      const curNodeIds = map(nodeList, item => item.id);
+      const curNodeIds = map(nodeList, (item) => item.id);
       let curNodeMap = {};
       map(
-        filter(originData, item => curNodeIds.includes(item.id)),
+        filter(originData, (item) => curNodeIds.includes(item.id)),
         (item, i2) => {
           curNodeMap[item.id] = item;
           // 作为节点的唯一ID
           set(curNodeMap[item.id], '_external.uniqName', `node-${i}-${i2}`);
           set(curNodeMap[item.id], '_external.outCountTotal', countMap[item.id].outCountTotal || 0);
           set(curNodeMap[item.id], '_external.inCountTotal', countMap[item.id].inCountTotal || 0);
-        }
+        },
       );
       curNodeMap = merge(curNodeMap, deepMap); // 合并节点层级属性
       // const {
@@ -501,7 +501,7 @@ export const dataHandler = {
   },
   // 获取节点组层级
   getGroupNodesDeepth: (nodeList: INode[]) => {
-    const nodeIds = uniq(map(nodeList, i => i.id));
+    const nodeIds = uniq(map(nodeList, (i) => i.id));
     const getTreeNodeList = (treeNodes: string[]) => {
       return filter(nodeList, (n: INode) => treeNodes.includes(n.id));
     };
@@ -604,9 +604,9 @@ export const dataHandler = {
             }
             return res;
           }, {}),
-          o => o
+          (o) => o,
         ),
-        l => -l.length
+        (l) => -l.length,
       );
     }
     // 最终得到的startNodes及对应的节点list
@@ -634,7 +634,7 @@ export const dataHandler = {
   // 获取节点父子节点数
   getNodesInOutTotal: (nodeList: INode[]) => {
     const dataMap = {};
-    const nodeIds = uniq(map(nodeList, i => i.id));
+    const nodeIds = uniq(map(nodeList, (i) => i.id));
     map(nodeIds, (nodeId) => {
       const outTotal = filter(nodeList, { parent: nodeId }).length;
       const inTotal = filter(nodeList, { id: nodeId }).length;
@@ -733,7 +733,7 @@ export const dataHandler = {
           sortBy(list, '_external.outTotal'),
           ({ _external: { id, outTotal } }, i) => {
             set(reMap[id], '_external.levelSort', outTotal * 100 + i);
-          }
+          },
         );
       } else {
         map(list, ({ _external: { id, outTotal } }, idx: number) => {
@@ -891,8 +891,8 @@ export const dataHandler = {
               { deep: targetDeepth, len: targetHeightDis },
               { deep: betweenMaxDeepth, len: betweenMaxHeight },
             ]
-            , o => o.len),
-            'deep'
+            , (o) => o.len),
+            'deep',
           );
           const curMaxEdge = edgePlusMap[`${curMaxDeep}`];
 
@@ -1319,7 +1319,7 @@ export const renderNodes = ({ nodeMap, groupNodeMap, groupChart }: IRender, snap
         outHover={() => outHover(node)}
         onClick={() => clickNode(node)}
       />,
-      document.getElementById(`${nodeId}`)
+      document.getElementById(`${nodeId}`),
     );
   });
   // 获取关联节点
@@ -1421,7 +1421,7 @@ export const renderNodes = ({ nodeMap, groupNodeMap, groupChart }: IRender, snap
 
 
 interface ILinkRender{
-  links: ILink[]
+  links: ILink[];
   nodeMap: object;
   boxHeight?: number;
   groupDeepth?: any;
@@ -1599,7 +1599,7 @@ const hoverAction = (isHover: boolean, params: any, snap: any, external: any) =>
               targetNode,
               sourceNode,
               hoverNodeExternal: get(hoverNode, '_external'),
-            }
+            },
           );
         }
       }
@@ -1622,7 +1622,7 @@ const hoverAction = (isHover: boolean, params: any, snap: any, external: any) =>
             targetNode,
             sourceNode,
             hoverNodeExternal: get(hoverNode, '_external'),
-          }
+          },
         );
       }
       link.attr({ ...svgAttr.polylineFade });
@@ -1666,7 +1666,7 @@ const hoverAction = (isHover: boolean, params: any, snap: any, external: any) =>
             targetNode,
             sourceNode,
             hoverNodeExternal: get(hoverNode, '_external'),
-          }
+          },
         );
       }
       link.attr({ ...svgAttr.polyline });
@@ -1688,7 +1688,7 @@ const hoverAction = (isHover: boolean, params: any, snap: any, external: any) =>
             targetNode,
             sourceNode,
             hoverNodeExternal: get(hoverNode, '_external'),
-          }
+          },
         );
       }
       link.attr({ ...svgAttr.polyline });

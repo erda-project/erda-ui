@@ -27,8 +27,8 @@ const appSiteIpManage = () => {
     chosenSite: {} as MACHINE_MANAGE.IMonitorInfo,
   });
 
-  const { id, siteName } = routeInfoStore.useStore(s => s.params);
-  const { appName } = routeInfoStore.useStore(s => s.query);
+  const { id, siteName } = routeInfoStore.useStore((s) => s.params);
+  const { appName } = routeInfoStore.useStore((s) => s.query);
   const inParams = {
     id: +id,
     appName,
@@ -39,26 +39,26 @@ const appSiteIpManage = () => {
     <div>
       <DiceConfigPage
         showLoading
-        scenarioKey='edge-app-site-ip'
-        scenarioType='edge-app-site-ip'
+        scenarioKey="edge-app-site-ip"
+        scenarioType="edge-app-site-ip"
         inParams={inParams}
         useMock={location.search.includes('useMock') ? useMock : undefined}
         customProps={{
           siteIpList: {
             operations: {
-              viewMonitor: (site: {meta:MACHINE_MANAGE.IMonitorInfo}) => {
+              viewMonitor: (site: {meta: MACHINE_MANAGE.IMonitorInfo}) => {
                 update({
                   monitorVisible: true,
                   chosenSite: site.meta,
                 });
               },
-              viewLog: (site: {meta:MACHINE_MANAGE.IMonitorInfo}) => {
+              viewLog: (site: {meta: MACHINE_MANAGE.IMonitorInfo}) => {
                 update({
                   monitorVisible: true,
                   chosenSite: site.meta,
                 });
               },
-              viewTerminal: (site: {meta:MACHINE_MANAGE.IMonitorInfo}) => {
+              viewTerminal: (site: {meta: MACHINE_MANAGE.IMonitorInfo}) => {
                 update({
                   monitorVisible: true,
                   chosenSite: site.meta,

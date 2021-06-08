@@ -23,9 +23,9 @@ interface IProps {
 
 const RepoSetting = (props: IProps) => {
   const { appDetail } = props;
-  const [info] = repoStore.useStore(s => [s.info]);
+  const [info] = repoStore.useStore((s) => [s.info]);
   const [isLocked, setIsLocked] = React.useState(false);
-  const operationAuth = usePerm(s => s.app.setting.repoSetting.lockRepo.pass);
+  const operationAuth = usePerm((s) => s.app.setting.repoSetting.lockRepo.pass);
 
   React.useEffect(() => {
     setIsLocked(info.isLocked);
@@ -41,7 +41,7 @@ const RepoSetting = (props: IProps) => {
   };
 
   return (
-    <div className='mb12'>
+    <div className="mb12">
       {i18n.t('lock repository')}：
       <WithAuth pass={operationAuth && !appDetail.isExternalRepo} >
         <Switch

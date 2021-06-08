@@ -17,9 +17,9 @@ import i18n from 'i18n';
 
 interface IProps{
   visible: boolean;
-  onClose: ()=> void;
-  onOk: (arg: any)=> void;
-  editData?: AUTO_TEST.ICaseDetail
+  onClose: () => void;
+  onOk: (arg: any) => void;
+  editData?: AUTO_TEST.ICaseDetail;
 }
 
 const fileSuffix = '.yml';

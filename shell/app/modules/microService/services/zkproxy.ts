@@ -34,7 +34,7 @@ const getNodeList = (
     az: string;
     appid: string;
     tenantid?: string;
-  }
+  },
 ): MS_ZK.INodeData => {
   return agent.get(`/api/tmc/mesh/listhostinterface/${projectId}/${env}`)
     .query(rest)
@@ -50,7 +50,7 @@ export const updateNodeRule = (
     az: string;
     tenantid?: string;
     ruleData: MS_ZK.INodeListItem;
-  }
+  },
 ) => {
   return agent.post(`/api/tmc/mesh/rule/host/${projectId}/${env}/${host}`)
     .query(rest)
@@ -71,7 +71,7 @@ export const getRunTimes = (appId: number) => {
 
 export const getBranchesRule = (
   { projectId, env, appId, az }:
-  { projectId: number; env: string; appId: string; az: string }
+  { projectId: number; env: string; appId: string; az: string },
 ) => {
   return agent.get(`/api/tmc/mesh/rule/branch/${projectId}/${env}/${appId}`)
     .query({ az })
@@ -85,7 +85,7 @@ export const updateBranchesRule = (
     appId: string;
     az: string;
     body: any;
-  }
+  },
 ) => {
   return agent.post(`/api/tmc/mesh/rule/branch/${projectId}/${env}/${appId}`)
     .query({ az })
@@ -95,7 +95,7 @@ export const updateBranchesRule = (
 
 export const clearBranchesRule = (
   { projectId, env, appId, az }:
-  { projectId: number; env: string; appId: string; az: string }
+  { projectId: number; env: string; appId: string; az: string },
 ) => {
   return agent.delete(`/api/tmc/mesh/rule/branch/${projectId}/${env}/${appId}`)
     .query({ az })
@@ -104,7 +104,7 @@ export const clearBranchesRule = (
 
 export const getZkInterfaceList = (
   { projectId, env, tenantGroup, az, runtimeId }:
-  { projectId: number, env: string, tenantGroup: string, az: string, runtimeId: number }
+  { projectId: number; env: string; tenantGroup: string; az: string; runtimeId: number },
 ) => {
   return agent.get(`/api/tmc/mesh/listinterface/${projectId}/${env.toLocaleLowerCase()}`)
     .query({ az, runtimeId, tenantGroup })

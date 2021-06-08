@@ -19,7 +19,7 @@ import { map, isEmpty, isNumber, filter, find, isArray, get, isEqual } from 'lod
 import { useEffectOnce, useDebounce, useDeepCompareEffect } from 'react-use';
 import { useUpdate, Icon as CustomIcon } from 'common';
 import { isPromise } from 'common/utils';
-import { CloseOne as IconCloseOne, Loading as IconLoading } from '@icon-park/react'
+import { CloseOne as IconCloseOne, Loading as IconLoading } from '@icon-park/react';
 import i18n from 'i18n';
 
 import './load-more-selector.scss';
@@ -50,23 +50,23 @@ interface IProps {
   notFoundContent?: React.ReactNode;
   dropdownMatchSelectWidth?: boolean;
   onChangeCategory?: Function;
-  size?: 'small' | 'normal',
-  valueChangeTrigger?: 'onChange' | 'onClose',
+  size?: 'small' | 'normal';
+  valueChangeTrigger?: 'onChange' | 'onClose';
   quickSelect?: React.ReactNode;
   resultsRender?: (displayName: IOption[], deleteValue: (item: IOption) => void, isMultiple?: boolean, list?: IOption[]) => React.ReactNode;
   onChange?: (arg: IOption[] | IOption, options: IOption | IOption[]) => void;
   onClickItem?: (arg: IOption[] | IOption) => void;
   valueItemRender?: (item: IOption, deleteValue: (item: IOption) => void, isMultiple?: boolean, list?: IOption[]) => React.ReactNode;
   chosenItemConvert?: (value: any, list: IOption[]) => any;
-  changeQuery?(q: string | undefined): void;
-  optionRender?(option: any, type: string): React.ReactNode;
-  onDropdownVisible?(visible: boolean): void;
+  changeQuery?: (q: string | undefined) => void;
+  optionRender?: (option: any, type: string) => React.ReactNode;
+  onDropdownVisible?: (visible: boolean) => void;
 }
 
 export interface IOption {
   label: string;
   value: string | number;
-  [pro: string]: any
+  [pro: string]: any;
 }
 
 const emptyFun = () => { };
@@ -75,23 +75,23 @@ const emptyArray = [] as IOption[];
 const changeValue = (value: Array<IOption | string | number> | string | number = emptyArray, list: IOption[] = [], chosenItem: IOption[] = []) => {
   let v = [] as IOption[];
   if (isArray(value)) {
-    v = map(value, item => {
+    v = map(value, (item) => {
       if (get(item, 'value') !== undefined) {
         return item;
       } else {
-        const curItem = find([...list, ...chosenItem], cItem => `${cItem.value}` === `${item}`) || {} as any;
+        const curItem = find([...list, ...chosenItem], (cItem) => `${cItem.value}` === `${item}`) || {} as any;
         return { ...curItem, value: item, label: curItem.label };
       }
     }) as IOption[];
   } else {
-    const curItem = find([...list, ...chosenItem], cItem => `${cItem.value}` === `${value}`) || {} as any;
+    const curItem = find([...list, ...chosenItem], (cItem) => `${cItem.value}` === `${value}`) || {} as any;
     v = [{ ...curItem, value, label: curItem.label }];
   }
   return v;
 };
 
 const defaultValueItemRender = (item: IOption, deleteValue: (item: IOption) => void, isMultiple?: boolean, list?: IOption[]) => {
-  const value = get(find(list, cItem => `${cItem.value}` === `${item.value}`), 'label') || item.label || item.value;
+  const value = get(find(list, (cItem) => `${cItem.value}` === `${item.value}`), 'label') || item.label || item.value;
   return isMultiple ? (
     <Tag key={item.value} size="small" closable onClose={() => deleteValue(item)}>
       {value}
@@ -146,7 +146,7 @@ const PureLoadMoreSelector = (props: IProps) => {
 
     if (forwardedRef) {
       forwardedRef.current = {
-        show: () => setVisible(p => !p),
+        show: () => setVisible((p) => !p),
       };
     }
 
@@ -209,9 +209,9 @@ const PureLoadMoreSelector = (props: IProps) => {
 
   React.useEffect(() => {
     if (chosenItemConvert) {
-      const val = map(chosenItem, item => {
+      const val = map(chosenItem, (item) => {
         if (item.label) return item;
-        const curVal = find(displayValue, cItem => `${cItem.value}` === `${item.value}`) || {};
+        const curVal = find(displayValue, (cItem) => `${cItem.value}` === `${item.value}`) || {};
         return !isEmpty(curVal) ? { ...item, ...curVal } : item;
       });
 
@@ -270,12 +270,12 @@ const PureLoadMoreSelector = (props: IProps) => {
   const deleteValue = (item: IOption) => {
     // 如果单选且不允许清除，则不能删数据
     if (!isMultiple && !allowClear) return;
-    setValue(filter(chosenItem, c => `${c.value}` !== `${item.value}`));
+    setValue(filter(chosenItem, (c) => `${c.value}` !== `${item.value}`));
   };
   const addValue = (item: IOption) => {
     if (isMultiple) {
-      if (find(chosenItem, cItem => `${cItem.value}` === `${item.value}`)) {
-        setValue(map(chosenItem, cItem => {
+      if (find(chosenItem, (cItem) => `${cItem.value}` === `${item.value}`)) {
+        setValue(map(chosenItem, (cItem) => {
           return cItem.value === item.value ? { ...item } : { ...cItem };
         }));
       } else {
@@ -299,17 +299,17 @@ const PureLoadMoreSelector = (props: IProps) => {
         {
           showSearch ?
             [
-              <MenuItem key='_search-item'>
+              <MenuItem key="_search-item">
                 <div className="search">
-                  <Input ref={searchRef} size="small" prefix={<CustomIcon type="search" />} placeholder={i18n.t('search by keywords')} value={q} onChange={e => setQ(e.target.value)} />
+                  <Input ref={searchRef} size="small" prefix={<CustomIcon type="search" />} placeholder={i18n.t('search by keywords')} value={q} onChange={(e) => setQ(e.target.value)} />
                 </div>
               </MenuItem>,
-              <Menu.Divider key='_search-divider' />,
+              <Menu.Divider key="_search-divider" />,
             ] : null
         }
         {
           isMultiple ? [
-            <MenuItem className='chosen-info' key="_chosen-info-item">
+            <MenuItem className="chosen-info" key="_chosen-info-item">
               <div className={''}>
                 {i18n.t('common:has chosen')}
                 &nbsp;
@@ -317,20 +317,20 @@ const PureLoadMoreSelector = (props: IProps) => {
                 &nbsp;
                 {i18n.t('common:item')}
               </div>
-              <span className='fake-link ml8' onClick={clearValue}>{i18n.t('common:clear select')}</span>
+              <span className="fake-link ml8" onClick={clearValue}>{i18n.t('common:clear select')}</span>
             </MenuItem>,
-            <Menu.Divider key='_chosen-info-divider' />,
+            <Menu.Divider key="_chosen-info-divider" />,
           ] : null
         }
         {
           quickSelect ? [
-            <MenuItem key='quick-select'>
+            <MenuItem key="quick-select">
               {quickSelect}
             </MenuItem>,
             <Menu.Divider />,
           ] : null
         }
-        <MenuItem className='options' key='options'>
+        <MenuItem className="options" key="options">
           <Comp {...props} width={contentWidth} clickItem={clickItem} value={chosenItem} isMultiple={isMultiple} />
           {/* {
             isMultiple && (
@@ -403,7 +403,7 @@ const OptionContainer = ({ list, value, clickItem, optionRender, isMultiple, vie
     <>
       {
         map(list, (item) => {
-          const curOpt = find(value, cItem => `${cItem.value}` === `${item.value}`) as IOption;
+          const curOpt = find(value, (cItem) => `${cItem.value}` === `${item.value}`) as IOption;
           const checked = !!curOpt;
           const options = optionRender ? optionRender(item, (viewType || '').toLowerCase()) : (item.label || item.value);
           return (
@@ -490,11 +490,11 @@ export interface ILoadMoreSelectorProps extends IProps {
   list?: IOption[];
   forwardedRef?: any;
   extraQuery?: object;
-  getData?(arg: any): Promise<{ list: IOption[], total: number }>;
-  dataFormatter?: (data: { list: any[], total: number }) => { list: IOption[], total: number };
+  getData?: (arg: any) => Promise<{ list: IOption[]; total: number }>;
+  dataFormatter?: (data: { list: any[]; total: number }) => { list: IOption[]; total: number };
 }
 
-const DefaultLoadMoreRender = ({ onLoadMore, loading }: { onLoadMore: () => void, loading: boolean; }) => {
+const DefaultLoadMoreRender = ({ onLoadMore, loading }: { onLoadMore: () => void; loading: boolean }) => {
   return (
     <div className="pointer load-more list-item" onClick={(e) => { e.stopPropagation(); onLoadMore(); }}>
       <IconLoading spin={loading} />
@@ -503,7 +503,7 @@ const DefaultLoadMoreRender = ({ onLoadMore, loading }: { onLoadMore: () => void
   );
 };
 
-const defaultDataFormatter = ({ list, total }: { list: any[], total: number }) => ({
+const defaultDataFormatter = ({ list, total }: { list: any[]; total: number }) => ({
   total,
   list: map(list, ({ name, id, ..._rest }) => ({
     ..._rest, name, id, label: name, value: id,
@@ -576,7 +576,7 @@ export const LoadMoreSelector = (props: ILoadMoreSelectorProps) => {
     updater.loading(true);
     const res = getData && getData(query);
     if (res && isPromise(res)) {
-      res.then(resData => {
+      res.then((resData) => {
         const { total, list: curList } = dataFormatter(resData);
         updater.hasMore(Math.ceil(total / pageSize) > query.pageNo);
         let newList = [];

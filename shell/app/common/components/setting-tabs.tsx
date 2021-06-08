@@ -38,7 +38,7 @@ interface ITabItemGroup {
 
 
 export const SettingsTabs = ({ dataSource, className = '' }: IProps) => {
-  const query = routeInfoStore.useStore(s => s.query);
+  const query = routeInfoStore.useStore((s) => s.query);
   const [activeKey, updateActive] = React.useState('');
   const [content, updateContent] = React.useState(null);
 

@@ -41,6 +41,6 @@ describe('OperationBar', () => {
     wrapper.find('Button.ops-bar-btn[type="primary"]').simulate('click');
     expect(fn).toHaveBeenLastCalledWith({ title: 'erda' });
     wrapper.find('Button.ops-bar-reset-btn').simulate('click');
-    expect(fn).toHaveBeenLastCalledWith({  });
+    expect(fn).toHaveBeenLastCalledWith({ });
   });
 });

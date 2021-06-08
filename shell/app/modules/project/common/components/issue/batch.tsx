@@ -22,18 +22,18 @@ import routeInfoStore from 'app/common/stores/route';
 import { usePerm } from 'user/common';
 
 interface IProps {
-  ids: any[],
-  all: boolean,
-  mine: boolean,
-  type: string,
-  iterationID?: number,
-  currentIterationIDs?: number[],
-  projectID: number,
-  onSubmit?(): void,
+  ids: any[];
+  all: boolean;
+  mine: boolean;
+  type: string;
+  iterationID?: number;
+  currentIterationIDs?: number[];
+  projectID: number;
+  onSubmit?: () => void;
 }
 export default ({ ids, all, mine, type, iterationID, currentIterationIDs, projectID, onSubmit }: IProps) => {
   const { batchUpdateIssue } = issueStore.effects;
-  const { params } = routeInfoStore.getState(s => s);
+  const { params } = routeInfoStore.getState((s) => s);
 
   const [state, updater] = useUpdate({
     formProps: {
@@ -43,7 +43,7 @@ export default ({ ids, all, mine, type, iterationID, currentIterationIDs, projec
     },
   });
   let hasAuth = false;
-  const authObj = usePerm(s => s.project);
+  const authObj = usePerm((s) => s.project);
   let stateMap = {};
   switch (type) {
     case ISSUE_TYPE.REQUIREMENT:

@@ -13,37 +13,37 @@
 
 declare namespace RELEASE {
   interface detail {
-    applicationId: number
-    applicationName: string
-    clusterName: string
-    createdAt: string
-    labels: { [k: string]: string }
-    orgId: number
-    projectId: number
-    projectName: string
-    reference: number
-    releaseId: string
-    releaseName: string
-    updatedAt: string
-    userId: string
-    version: string
+    applicationId: number;
+    applicationName: string;
+    clusterName: string;
+    createdAt: string;
+    labels: { [k: string]: string };
+    orgId: number;
+    projectId: number;
+    projectName: string;
+    reference: number;
+    releaseId: string;
+    releaseName: string;
+    updatedAt: string;
+    userId: string;
+    version: string;
   }
 
   interface ListQuery {
-    projectId?: number
-    applicationId?: number
-    q?: string
-    pageNo: number
-    pageSize: number
+    projectId?: number;
+    applicationId?: number;
+    q?: string;
+    pageNo: number;
+    pageSize: number;
     branchName?: string;
   }
 
   interface UpdateBody {
-    releaseId: string
-    desc: string
-    version: string
-    orgId: number
-    applicationId: number
-    projectId: number
+    releaseId: string;
+    desc: string;
+    version: string;
+    orgId: number;
+    applicationId: number;
+    projectId: number;
   }
 }

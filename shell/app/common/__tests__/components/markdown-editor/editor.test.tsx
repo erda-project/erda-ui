@@ -29,7 +29,7 @@ describe('Editor', () => {
     const wrapper = shallow(
       <Editor
         value={'### erda cloud'}
-      />
+      />,
     );
     agent.post = () => ({
       send: jest.fn().mockResolvedValue({

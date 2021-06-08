@@ -25,9 +25,9 @@ export const registComponent = ({ name, Component, ...rest }: any) => {
 // registComponent('select', FormSelect);
 
 export interface RegisterProps {
-  fixIn(v: any): any;
-  fixOut(v: any): any;
-  requiredCheck(v: any): any;
+  fixIn: (v: any) => any;
+  fixOut: (v: any) => any;
+  requiredCheck: (v: any) => any;
 }
 
 // 1. 原始组件肯定要包装一下，调整value和onChange的参数，适配Form传入的配置
@@ -119,7 +119,7 @@ type CheckItem = XOR<
 const genOrList = (
   originCheckList: CheckItem[][],
   mode: string,
-  cb: (con: CheckItem) => void
+  cb: (con: CheckItem) => void,
 ) => {
   return originCheckList.map((andList: CheckItem[]) => {
     const checkAndList = [] as Function[];
@@ -164,7 +164,7 @@ const genOrList = (
           break;
         case 'not_contains':
           checkAndList.push(
-            (data: any) => !get(data, con.field).includes(value)
+            (data: any) => !get(data, con.field).includes(value),
           );
           break;
         case 'empty':
@@ -319,7 +319,7 @@ interface Rule {
   min?: number;
   max?: number;
   equalWith?: string; // 和其他字段值一样，用于校验密码时
-  validator?(...v: any): Promise<any>;
+  validator?: (...v: any) => Promise<any>;
 }
 
 type validateTrigger = 'onChange' | 'onBlur';
@@ -348,8 +348,8 @@ export interface FormField {
   hideWhen?: CheckItem[][];
   disableWhen?: CheckItem[][];
   removeWhen?: CheckItem[][];
-  getComp?(v: any): React.ReactNode;
-  fixData?(v: any): any;
+  getComp?: (v: any) => React.ReactNode;
+  fixData?: (v: any) => any;
 }
 
 type ValidateResult = [boolean, string, PromiseLike<ValidateResult>?];
@@ -370,10 +370,10 @@ interface InnerFormField extends FormField {
   converted: boolean;
   registerRequiredCheck: (a: any) => any;
   getData: () => any;
-  validate(item:InnerFormField, data: any): ValidateResult;
-  checkHide(data: any): boolean;
-  checkDisabled(data: any): boolean;
-  checkRemove(data: any): boolean;
+  validate: (item: InnerFormField, data: any) => ValidateResult;
+  checkHide: (data: any) => boolean;
+  checkDisabled: (data: any) => boolean;
+  checkRemove: (data: any) => boolean;
 }
 
 type Mode = 'create' | 'edit';
@@ -385,11 +385,11 @@ interface FormProp {
   };
   children?: any;
   componentMap?: Obj;
-  onFinish?:(val:any, isEdit:boolean)=>void;
-  onFinishFailed?:(err:any, val:any, isEdit:boolean)=>void;
+  onFinish?: (val: any, isEdit: boolean) => void;
+  onFinishFailed?: (err: any, val: any, isEdit: boolean) => void;
   renderField?: (arg: any) => any;
-  onChange(changeItem:Obj, vs:Obj): any;
-  formRender?(arg:any): any;
+  onChange: (changeItem: Obj, vs: Obj) => any;
+  formRender?: (arg: any) => any;
 }
 const empty = null;
 export const Form = ({
@@ -415,21 +415,21 @@ export const Form = ({
     const curMode = Object.keys(value || {}).length ? 'edit' : 'create';
     formDataRef.current = cloneDeep({ ...value });
     setMode(curMode);
-    formRef.current.setFields(map([..._fields], item => ({ ...item, converted: false })), curMode);
+    formRef.current.setFields(map([..._fields], (item) => ({ ...item, converted: false })), curMode);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   const changeValue = (_val: object) => {
     if (!_val) return;
-    setFields(prev => {
+    setFields((prev) => {
       const fieldMap = {};
-      prev.forEach(f => {
+      prev.forEach((f) => {
         f.key && (fieldMap[f.key] = f);
       });
       const visibleChangeMap = {};
       const removeChangeMap = {};
       const disabledChangeMap = {};
-      const newList = prev.map(item => {
+      const newList = prev.map((item) => {
         if (has(_val, item.key)) {
           const copy = { ...item }; // 改变引用，触发重渲染
           copy.value = get(_val, copy.key);
@@ -443,21 +443,21 @@ export const Form = ({
             _hideSubscribes,
             _disabledSubscribes,
           } = copy;
-          _removeSubscribes.forEach(sk => {
+          _removeSubscribes.forEach((sk) => {
             const sub = fieldMap[sk];
             const thisResult = sub.checkRemove(formDataRef.current);
             if (sub.remove !== thisResult) {
               removeChangeMap[sub.key] = thisResult;
             }
           });
-          _hideSubscribes.forEach(sk => {
+          _hideSubscribes.forEach((sk) => {
             const sub = fieldMap[sk];
             const thisResult = !sub.checkHide(formDataRef.current);
             if (sub.visible !== thisResult) {
               visibleChangeMap[sub.key] = thisResult;
             }
           });
-          _disabledSubscribes.forEach(sk => {
+          _disabledSubscribes.forEach((sk) => {
             const sub = fieldMap[sk];
             const thisResult = sub.checkDisabled(formDataRef.current);
             if (sub.disabled !== thisResult) {
@@ -468,7 +468,7 @@ export const Form = ({
         }
         return item;
       });
-      return newList.map(f => {
+      return newList.map((f) => {
         let newF = f;
         if (removeChangeMap[f.key] !== undefined) {
           newF = { ...f, remove: removeChangeMap[f.key] }; // 改变field的引用，触发重渲染
@@ -485,11 +485,11 @@ export const Form = ({
   };
 
   // 获取当前值改变后需要清除的field
-  const getClearValue = (val:object = {}) => {
+  const getClearValue = (val: object = {}) => {
     const clearValues = {} as any;
     map(val, (v, k) => {
       const clearArr = get(find(fieldMapRef.current || [], { key: k }), 'clearWhen');
-      map(clearArr || [], item => {
+      map(clearArr || [], (item) => {
         if (val[item] === undefined && formDataRef.current[item] !== undefined)clearValues[item] = undefined;
       });
     });
@@ -522,14 +522,14 @@ export const Form = ({
       onChange(cloneDeep(formDataRef.current), curChangeValue);
     },
     setFieldValid: (k: string, v: any) => {
-      setFields(prev => prev.map(item => {
+      setFields((prev) => prev.map((item) => {
         return item.key === k ? { ...item, valid: v } : item;
       }));
     },
-    setFields: (arr:any[], _mode: string) => {
+    setFields: (arr: any[], _mode: string) => {
       const copyFields = cloneDeep(arr) as InnerFormField[];
       const _initialData = {};
-      copyFields.forEach(f => {
+      copyFields.forEach((f) => {
         if (f.defaultValue !== undefined && f.key) {
           set(defaultDataRef.current, f.key, f.defaultValue);
         }
@@ -542,13 +542,13 @@ export const Form = ({
         {},
         defaultDataRef.current,
         _initialData,
-        formDataRef.current
+        formDataRef.current,
       );
       // 解析hideWhen、removeWhen，调整_fields
 
       setFields(() => {
         const fieldMap = {};
-        copyFields.forEach(f => {
+        copyFields.forEach((f) => {
           if (!f.converted) {
             f._hideSubscribes = [];
             f._removeSubscribes = [];
@@ -559,14 +559,14 @@ export const Form = ({
           }
           f.key && (fieldMap[f.key] = f);
         });
-        return copyFields.map(item => {
+        return copyFields.map((item) => {
           // hideWhen/removeWhen/disableWhen需要放在converted之前，因为其他field若关联了converted的field，该部分值需要重置
           if (item.hideWhen) {
             item.checkHide = genCheckFn(
               genOrList(item.hideWhen, _mode, (con: any) => {
                 item._hideWatchers.push(con.field); // 依赖于谁，做提示用
                 !fieldMap[con.field]._hideSubscribes.includes(item.key) && fieldMap[con.field]._hideSubscribes.push(item.key); // 被谁依赖，触发依赖的更新
-              })
+              }),
             );
           } else {
             item.checkHide = () => false;
@@ -577,7 +577,7 @@ export const Form = ({
               genOrList(item.removeWhen, _mode, (con: any) => {
                 item._removeWatchers.push(con.field);
                 !fieldMap[con.field]._removeSubscribes.includes(item.key) && fieldMap[con.field]._removeSubscribes.push(item.key);
-              })
+              }),
             );
           } else {
             item.checkRemove = () => false;
@@ -590,7 +590,7 @@ export const Form = ({
               genOrList(item.disableWhen, _mode, (con: any) => {
                 item._disabledWatchers.push(con.field);
                 !fieldMap[con.field]._disabledSubscribes.includes(item.key) && fieldMap[con.field]._disabledSubscribes.push(item.key);
-              })
+              }),
             );
           } else {
             item.checkDisabled = () => false;
@@ -605,14 +605,14 @@ export const Form = ({
           if (!Array.isArray(item.rules)) {
             item.rules = [];
           }
-          item.registerRequiredCheck = fn => {
+          item.registerRequiredCheck = (fn) => {
             if (item.required && typeof fn === 'function') {
               item.rules.unshift({ validator: fn } as any);
             }
             item.registerRequiredCheck = noop;
           };
-          item.validate = genValidateFn(res => {
-            setFields(prev => prev.map(p => (p.key === item.key ? { ...p, valid: res } : p)));
+          item.validate = genValidateFn((res) => {
+            setFields((prev) => prev.map((p) => (p.key === item.key ? { ...p, valid: res } : p)));
           });
 
           if (!item.componentProps) {
@@ -631,7 +631,7 @@ export const Form = ({
             item.componentProps.onBlur = (...args: any) => {
               (originOnBlur || noop)(...args);
               // 因为onChange肯定在onBlur前触发，data是最新
-              setFields(prev => prev.map(p => (p.key === item.key
+              setFields((prev) => prev.map((p) => (p.key === item.key
                 ? { ...p, valid: item.validate(item, formDataRef.current) }
                 : p)));
             };
@@ -643,7 +643,7 @@ export const Form = ({
         });
       });
       formRef.current.onSubmit = (_onFinish = onFinish, _onFinishFailed = onFinishFailed) => {
-        formRef.current.validateFieldsAndScroll((err:any, val: any) => {
+        formRef.current.validateFieldsAndScroll((err: any, val: any) => {
           if (!err) {
             _onFinish(val, _mode === 'edit');
           } else {
@@ -657,7 +657,7 @@ export const Form = ({
       return !!fieldMapRef.current[k].isTouched; // 这里_fields是空数组，是个闭包
     },
     onSubmit: (_onFinish = onFinish, _onFinishFailed = onFinishFailed) => {
-      formRef.current.validateFieldsAndScroll((err:any, val: any) => {
+      formRef.current.validateFieldsAndScroll((err: any, val: any) => {
         if (!err) {
           _onFinish(val, mode === 'edit');
         } else {
@@ -666,7 +666,7 @@ export const Form = ({
       });
     },
     validateFieldsAndScroll(cb: Function) {
-      formRef.current.validate().then((checkInfo:any) => {
+      formRef.current.validate().then((checkInfo: any) => {
         const error = [] as any[];
         let failedKey = '';
         const _formData = formRef.current.getData();
@@ -692,7 +692,7 @@ export const Form = ({
       const asyncChecks = [] as Array<PromiseLike<ValidateResult>>;
       const checkInfo = {};
 
-      setFields(prev => prev.map(item => {
+      setFields((prev) => prev.map((item) => {
         const prevResult = item.valid;
         const newResult = item.validate(item, formDataRef.current);
         if (!item.remove) {
@@ -712,7 +712,7 @@ export const Form = ({
         return item;
       }));
       if (asyncChecks.length) {
-        return Promise.all(asyncChecks).then(rs => {
+        return Promise.all(asyncChecks).then((rs) => {
           const asyncResult = {};
           asyncKeys.forEach((k, i) => {
             asyncResult[k] = rs[i];
@@ -730,9 +730,9 @@ export const Form = ({
         formDataRef.current = merge({}, defaultDataRef.current);
       }
 
-      setFields(prev => {
+      setFields((prev) => {
         // 保持当前field，只重置数据等，而不是直接恢复到原始状态
-        return prev.map(item => {
+        return prev.map((item) => {
           const copy = { ...item };
           copy.key && (copy.value = get(formDataRef.current, copy.key));
           copy.isTouched = false;
@@ -745,7 +745,7 @@ export const Form = ({
     },
     getData: () => {
       const data = {};
-      Object.keys(fieldMapRef.current).forEach(k => {
+      Object.keys(fieldMapRef.current).forEach((k) => {
         // 数据要从formDataRef取，否则会有延迟
         const v = get(formDataRef.current, k);
         const isRemovedField = get(fieldMapRef.current, [k, 'remove']);
@@ -768,7 +768,7 @@ export const Form = ({
   });
 
   React.useEffect(() => {
-    _fields.forEach(f => {
+    _fields.forEach((f) => {
       f.key && (fieldMapRef.current[f.key] = f);
     });
     formRef.current.getFields = () => cloneDeep(_fields);
@@ -777,7 +777,7 @@ export const Form = ({
   if (!_fields.length) return null;
   // 渲染前排序
   const sortFields = _fields
-    .filter(f => !f.remove);
+    .filter((f) => !f.remove);
 
   /**
    * field:

@@ -50,12 +50,12 @@ const ENVS_MAP = {
 };
 
 interface IProps {
-  type: string,
+  type: string;
   canCreate: boolean;
-  setCurEnv(k: string): void,
+  setCurEnv: (k: string) => void;
 }
 const NewDeploy = ({ type, setCurEnv, canCreate }: IProps) => {
-  const permMap = usePerm(s => s.app.runtime);
+  const permMap = usePerm((s) => s.app.runtime);
   const className = classNames('runtime-box new-deploy center-flex-box', {
     disabled: canCreate,
     'hover-active': !canCreate,
@@ -63,7 +63,7 @@ const NewDeploy = ({ type, setCurEnv, canCreate }: IProps) => {
   return (
     <WithAuth pass={permMap[`${type.toLowerCase()}DeployOperation`].pass} >
       <div className={className} onClick={() => setCurEnv(type)}>
-        <CustomIcon type='tj1' className='fz24 mb16' />
+        <CustomIcon type="tj1" className="fz24 mb16" />
         <span>{i18n.t('application:Quickly create from artifacts')}</span>
       </div>
     </WithAuth>
@@ -71,10 +71,10 @@ const NewDeploy = ({ type, setCurEnv, canCreate }: IProps) => {
 };
 
 interface IFormProps {
-  curEnv: string,
-  isUpdate: boolean,
-  curBranch: string,
-  setCurEnv(k: string): void,
+  curEnv: string;
+  isUpdate: boolean;
+  curBranch: string;
+  setCurEnv: (k: string) => void;
 }
 
 const releaseOptionItem = (release: RELEASE.detail) => {
@@ -83,23 +83,23 @@ const releaseOptionItem = (release: RELEASE.detail) => {
   const displayStr = `${releaseId.slice(0, 6)} (${i18n.t('created at')}: ${moment(createdAt).format('YYYY-MM-DD HH:mm:ss')}; ${i18n.t('application:commit message')}: ${labels.gitCommitMessage})`;
   const tip = (
     <div onClick={(e: any) => e.stopPropagation()}>
-      <div className='break-all'>{i18n.t('commit')} ID: <GotoCommit length={6} commitId={labels.gitCommitId} gotoParams={{ jumpOut: true }} /></div>
+      <div className="break-all">{i18n.t('commit')} ID: <GotoCommit length={6} commitId={labels.gitCommitId} gotoParams={{ jumpOut: true }} /></div>
       <div>{i18n.t('application:commit message')}: {labels.gitCommitMessage}</div>
       <div>{i18n.t('created at')}: {moment(createdAt).format('YYYY-MM-DD HH:mm:ss')}</div>
     </div>
   );
   return (
     <Tooltip title={tip} key={releaseId}>
-      <span className='full-width nowrap'>{displayStr}</span>
+      <span className="full-width nowrap">{displayStr}</span>
     </Tooltip>
   );
 };
 
 const NewDeployForm = ({ curEnv, isUpdate, setCurEnv, curBranch }: IFormProps) => {
-  const branchInfo = appStore.useStore(s => s.branchInfo);
-  const { appId } = routeInfoStore.getState(s => s.params);
+  const branchInfo = appStore.useStore((s) => s.branchInfo);
+  const { appId } = routeInfoStore.getState((s) => s.params);
   const formRef = React.useRef(null as any);
-  const branchAuthObj = usePerm(s => s.app.pipeline);
+  const branchAuthObj = usePerm((s) => s.app.pipeline);
   const initBranch = curBranch || undefined;
   const [{ chosenBranch }, updater] = useUpdate({
     chosenBranch: undefined as undefined | string,
@@ -130,7 +130,7 @@ const NewDeployForm = ({ curEnv, isUpdate, setCurEnv, curBranch }: IFormProps) =
           }
         },
       },
-      options: () => map(branchInfo, item => {
+      options: () => map(branchInfo, (item) => {
         let tip = '';
         const branchAuth = !item.artifactWorkspace.includes(curEnv);
         if (branchAuth) {
@@ -161,7 +161,7 @@ const NewDeployForm = ({ curEnv, isUpdate, setCurEnv, curBranch }: IFormProps) =
             getData={getData}
             dataFormatter={({ list, total }) => ({
               total,
-              list: map(list, item => ({ ...item, label: item.releaseId, value: item.releaseId })),
+              list: map(list, (item) => ({ ...item, label: item.releaseId, value: item.releaseId })),
             })}
             optionRender={releaseOptionItem as any}
             valueItemRender={releaseOptionItem as any}
@@ -204,10 +204,10 @@ const NewDeployForm = ({ curEnv, isUpdate, setCurEnv, curBranch }: IFormProps) =
 };
 
 const Deploy = () => {
-  const runtimes = appDeployStore.useStore(s => s.runtimes);
-  const currentOrg = orgStore.useStore(s => s.currentOrg);
+  const runtimes = appDeployStore.useStore((s) => s.runtimes);
+  const currentOrg = orgStore.useStore((s) => s.currentOrg);
   const { blockoutConfig } = currentOrg;
-  const { blockStatus, unBlockEnd, unBlockStart } = appStore.useStore(s => s.detail);
+  const { blockStatus, unBlockEnd, unBlockStart } = appStore.useStore((s) => s.detail);
   const [loading] = useLoading(appDeployStore, ['getRunTimes']);
   const { getRunTimes, redeployRuntime, deleteRuntime } = appDeployStore.effects;
   const { clearDeploy } = appDeployStore.reducers;
@@ -226,7 +226,7 @@ const Deploy = () => {
 
   // 存在删除中的，就10s轮询检查
   React.useEffect(() => {
-    const hasDeleting = find(runtimes, item => item.deleteStatus === 'DELETING');
+    const hasDeleting = find(runtimes, (item) => item.deleteStatus === 'DELETING');
     clearInterval(timer.current);
     if (hasDeleting) {
       timer.current = setInterval(() => {
@@ -261,7 +261,7 @@ const Deploy = () => {
       confs: group.PROD || [],
     },
   };
-  const handleQuickCreate = (v:string, isBlock: boolean) => {
+  const handleQuickCreate = (v: string, isBlock: boolean) => {
     if (isBlock) {
       return;
     }
@@ -312,7 +312,7 @@ const Deploy = () => {
                   }
                   <NewDeploy canCreate={isBlocked} type={item.type} setCurEnv={(v) => { handleQuickCreate(v, isBlocked); }} />
                   {
-                    envBlocked && !!message ? <Alert className='mb16' showIcon type={appBlocked ? 'error' : 'normal'} message={message} /> : null
+                    envBlocked && !!message ? <Alert className="mb16" showIcon type={appBlocked ? 'error' : 'normal'} message={message} /> : null
                   }
                 </div>
               );

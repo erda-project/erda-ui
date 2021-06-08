@@ -31,7 +31,7 @@ interface IProps {
   getList: typeof gatewayStore.effects.getPolicyList;
   trafficControlPolicy: {
     policyList: GATEWAY.PolicyListItem[];
-  },
+  };
   consumer: GATEWAY.Consumer;
 }
 
@@ -187,7 +187,7 @@ class Policy extends React.Component<IProps, any> {
 }
 
 const mapper = () => {
-  const [trafficControlPolicy, consumer] = gatewayStore.useStore(s => [s.trafficControlPolicy, s.consumer]);
+  const [trafficControlPolicy, consumer] = gatewayStore.useStore((s) => [s.trafficControlPolicy, s.consumer]);
   const { getConsumer, getPolicyList: getList, addPolicy, updatePolicy, deletePolicy } = gatewayStore.effects;
   return {
     trafficControlPolicy,

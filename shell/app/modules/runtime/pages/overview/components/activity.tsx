@@ -38,18 +38,18 @@ const deployStatusCnMap = {
 interface DeployCardProps {
   activity: RUNTIME.DeployRecord;
   userMap: {
-    [key: string]: ILoginUser
+    [key: string]: ILoginUser;
   };
-  onOpenDeployLog(id: number): void;
-  onOpenDeployment(deployment: RUNTIME.DeployRecord): void;
+  onOpenDeployLog: (id: number) => void;
+  onOpenDeployment: (deployment: RUNTIME.DeployRecord) => void;
 }
 
 
 const Activity = () => {
-  const [deploymentList, paging] = runtimeStore.useStore(s => [s.deploymentList, s.deploymentListPaging]);
-  const slidePanelComps = commonStore.useStore(s => s.slidePanelComps);
-  const { appId, runtimeId } = routeInfoStore.useStore(s => s.params);
-  const userMap = userMapStore.useStore(e => e);
+  const [deploymentList, paging] = runtimeStore.useStore((s) => [s.deploymentList, s.deploymentListPaging]);
+  const slidePanelComps = commonStore.useStore((s) => s.slidePanelComps);
+  const { appId, runtimeId } = routeInfoStore.useStore((s) => s.params);
+  const userMap = userMapStore.useStore((e) => e);
   const [loading] = useLoading(runtimeStore, ['getDeploymentList']);
   const [{
     visible,
@@ -115,7 +115,7 @@ const Activity = () => {
             </div>
           </div>
           <div className="extra-items self-end">
-            <span className='color-primary pointer' onClick={() => onOpenDeployLog(id)}>{i18n.t('log')}</span>
+            <span className="color-primary pointer" onClick={() => onOpenDeployLog(id)}>{i18n.t('log')}</span>
           </div>
         </div>
         <div className="status mt8">

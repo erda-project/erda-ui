@@ -30,7 +30,7 @@ export interface IProps{
 
 const getOutputs = (data: AUTO_TEST.ISnippetDetailRes) => {
   let outputs = [] as string[];
-  map(data, item => {
+  map(data, (item) => {
     if (!isEmpty(item.outputs)) {
       outputs = outputs.concat(item.outputs);
     }
@@ -44,7 +44,7 @@ export const nodeSize = { WIDTH: 280, HEIGHT: 84 };
 export const CaseNode = (props: IProps) => {
   const { data, editing, onClickNode = noop, onDeleteNode = noop, ...rest } = props;
 
-  const projectId = routeInfoStore.getState(s => s.params.projectId);
+  const projectId = routeInfoStore.getState((s) => s.params.projectId);
 
   const [outputsDetail, setOutputsDetail] = React.useState([] as string[]);
   const [loaded, setLoaded] = React.useState(false);
@@ -55,14 +55,14 @@ export const CaseNode = (props: IProps) => {
   }, [data]);
 
   const menu = (
-    <Menu onClick={({ domEvent, key }:any) => {
+    <Menu onClick={({ domEvent, key }: any) => {
       domEvent && domEvent.stopPropagation();
       if (key === 'delete') {
         onDeleteNode(data);
       }
     }}
     >
-      <Menu.Item key='delete'>
+      <Menu.Item key="delete">
         {i18n.t('application:delete')}
       </Menu.Item>
     </Menu>
@@ -90,7 +90,7 @@ export const CaseNode = (props: IProps) => {
 
   let content = ' ';
   let name = ' ';
-  let IconComp = data.logoUrl ? <img src={data.logoUrl} className='full-width full-height' /> : <CustomIcon type={'jiedian'} color className='full-width full-height' />;
+  let IconComp = data.logoUrl ? <img src={data.logoUrl} className="full-width full-height" /> : <CustomIcon type={'jiedian'} color className="full-width full-height" />;
 
   const curNodeScope = get(data, 'snippet_config.labels.snippet_scope') || SCOPE_AUTOTEST;
   const scopeObj: Obj = find(map(scopeMap), { scope: curNodeScope }) || {};
@@ -105,7 +105,7 @@ export const CaseNode = (props: IProps) => {
     case 'snippet':
       name = `${scopeObj.name}: ${data.alias}`;
       content = getContent(curNodeScope);
-      IconComp = <CustomIcon type={scopeMap[curNodeScope] ? scopeMap[curNodeScope].icon : 'jiedian'} color className='full-width full-height' />;
+      IconComp = <CustomIcon type={scopeMap[curNodeScope] ? scopeMap[curNodeScope].icon : 'jiedian'} color className="full-width full-height" />;
       break;
     default:
       name = `${(data.displayName || data.type)}: ${data.alias}`;
@@ -153,7 +153,7 @@ export const CaseNode = (props: IProps) => {
           },
         });
       }
-      (getSnippetNodeDetail({ snippetConfigs }) as unknown as Promise<any>).then((res:any) => {
+      (getSnippetNodeDetail({ snippetConfigs }) as unknown as Promise<any>).then((res: any) => {
         setOutputsDetail(getOutputs(res.data));
         setLoaded(true);
       });
@@ -165,18 +165,18 @@ export const CaseNode = (props: IProps) => {
     if (!isEmpty(loop) && loop.break) {
       const { strategy = {} } = loop;
       const tip = (
-        <div onClick={(e:any) => e.stopPropagation()}>
-          <div className='bold'>{i18n.t('project:loop strategy')}</div>
-          {loop.break && <div className='pl8'>{`${i18n.t('project:end of loop condition')}: ${loop.break}`}</div>}
-          {strategy.max_times && <div className='pl8'>{`${i18n.t('project:maximum number of loop')}: ${strategy.max_times}`}</div>}
-          {strategy.decline_ratio && <div className='pl8'>{`${i18n.t('project:decline ratio')}: ${strategy.decline_ratio}`}</div>}
-          {strategy.decline_limit_sec && <div className='pl8'>{`${i18n.t('project:decline limit second')}: ${strategy.decline_limit_sec}${i18n.t('common:second')}`}</div>}
-          {strategy.interval_sec && <div className='pl8'>{`${i18n.t('project:interval second')}: ${strategy.interval_sec}${i18n.t('common:second')}`}</div>}
+        <div onClick={(e: any) => e.stopPropagation()}>
+          <div className="bold">{i18n.t('project:loop strategy')}</div>
+          {loop.break && <div className="pl8">{`${i18n.t('project:end of loop condition')}: ${loop.break}`}</div>}
+          {strategy.max_times && <div className="pl8">{`${i18n.t('project:maximum number of loop')}: ${strategy.max_times}`}</div>}
+          {strategy.decline_ratio && <div className="pl8">{`${i18n.t('project:decline ratio')}: ${strategy.decline_ratio}`}</div>}
+          {strategy.decline_limit_sec && <div className="pl8">{`${i18n.t('project:decline limit second')}: ${strategy.decline_limit_sec}${i18n.t('common:second')}`}</div>}
+          {strategy.interval_sec && <div className="pl8">{`${i18n.t('project:interval second')}: ${strategy.interval_sec}${i18n.t('common:second')}`}</div>}
         </div>
       );
       return (
         <Tooltip title={tip}>
-          <CustomIcon className='color-text-desc fz16 hover-active' type="xunhuan" onClick={(e) => e.stopPropagation()} />
+          <CustomIcon className="color-text-desc fz16 hover-active" type="xunhuan" onClick={(e) => e.stopPropagation()} />
         </Tooltip>
       );
     }
@@ -186,13 +186,13 @@ export const CaseNode = (props: IProps) => {
 
   return (
     <Tooltip title={editing ? undefined : tooltipTxt} onVisibleChange={onVisibleChange}>
-      <div className='yml-chart-node test-case-node column-flex-box' onClick={onClick}>
+      <div className="yml-chart-node test-case-node column-flex-box" onClick={onClick}>
         <div className={'case-title'}>
           <div className="title-icon mr12">
             {IconComp}
           </div>
           <div className="title-txt column-flex-box color-text">
-            <span className='nowrap fz16 bold name'>{name}</span>
+            <span className="nowrap fz16 bold name">{name}</span>
           </div>
           {editing ? (
             <div>
@@ -202,7 +202,7 @@ export const CaseNode = (props: IProps) => {
             </div>
           ) : getLoopRender()}
         </div>
-        <div className='nowrap mt8'>{content}</div>
+        <div className="nowrap mt8">{content}</div>
       </div>
     </Tooltip>
   );

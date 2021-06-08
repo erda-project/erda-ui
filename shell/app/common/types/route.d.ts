@@ -15,42 +15,42 @@
 
 interface IRoute {
   routeQuery: {
-    [prop: string]: any
+    [prop: string]: any;
   };
-  exact: boolean
-  key: string
-  path: string
-  relativePath: string
-  breadcrumbName?: string
-  _parent: IRoute
-  mark?: string
+  exact: boolean;
+  key: string;
+  path: string;
+  relativePath: string;
+  breadcrumbName?: string;
+  _parent: IRoute;
+  mark?: string;
   layout: {
-    [k: string]: any
-  }
+    [k: string]: any;
+  };
   encode?: boolean;
   eternal?: string;
   disabled?: boolean;
   pageName?: string;
-  changePath?(path: string): string;
-  component(): any
-  getComp(cb: Function): any
+  changePath?: (path: string) => string;
+  component: () => any;
+  getComp: (cb: Function) => any;
 }
 
 interface IRouteInfo {
-  routes: IRoute[],
+  routes: IRoute[];
   params: {
-    [k: string]: string
-  },
+    [k: string]: string;
+  };
   query: {
-    [k: string]: any
-  },
-  currentRoute: IRoute,
-  routeMarks: string[],
-  prevRouteInfo: IRouteInfo,
-  isIn(mark: string): boolean,
-  isMatch(pattern?: string | RegExp): boolean,
-  isEntering(mark: string): boolean,
-  isLeaving(mark: string): boolean,
+    [k: string]: any;
+  };
+  currentRoute: IRoute;
+  routeMarks: string[];
+  prevRouteInfo: IRouteInfo;
+  isIn: (mark: string) => boolean;
+  isMatch: (pattern?: string | RegExp) => boolean;
+  isEntering: (mark: string) => boolean;
+  isLeaving: (mark: string) => boolean;
 }
 
 type IListenRouteCb = (routeInfo: IRouteInfo) => any;
@@ -58,7 +58,7 @@ type IListenRouteCb = (routeInfo: IRouteInfo) => any;
 type RouterGetComp = (loadingMod: Promise<{ readonly default: () => any }>, key?: string) => any;
 
 interface IStoreSubs {
-  store: any
-  listenRoute(listener: IListenRouteCb): void
-  registerWSHandler(key: string, handler: (data: SocketMsg) => void): void
+  store: any;
+  listenRoute: (listener: IListenRouteCb) => void;
+  registerWSHandler: (key: string, handler: (data: SocketMsg) => void) => void;
 }

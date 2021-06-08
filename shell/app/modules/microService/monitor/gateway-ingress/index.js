@@ -27,25 +27,25 @@ const getGatewayIngressMonitorRouter = () => ({
   pageName: i18n.t('microService:ingress traffic monitoring'),
   routes: [
     {
-      getComp: cb => cb(import('microService/monitor/gateway-ingress/pages/qps/qps')),
+      getComp: (cb) => cb(import('microService/monitor/gateway-ingress/pages/qps/qps')),
     },
     {
       path: 'connection',
       alwaysShowTabKey: 'gateway-ingress/connection',
       tabs,
-      getComp: cb => cb(import('microService/monitor/gateway-ingress/pages/connection/connection')),
+      getComp: (cb) => cb(import('microService/monitor/gateway-ingress/pages/connection/connection')),
     },
     {
       path: 'traffic',
       alwaysShowTabKey: 'gateway-ingress/traffic',
       tabs,
-      getComp: cb => cb(import('microService/monitor/gateway-ingress/pages/traffic/traffic')),
+      getComp: (cb) => cb(import('microService/monitor/gateway-ingress/pages/traffic/traffic')),
     },
     {
       path: 'latency',
       alwaysShowTabKey: 'gateway-ingress/latency',
       tabs,
-      getComp: cb => cb(import('microService/monitor/gateway-ingress/pages/latency/latency')),
+      getComp: (cb) => cb(import('microService/monitor/gateway-ingress/pages/latency/latency')),
     },
   ],
 });

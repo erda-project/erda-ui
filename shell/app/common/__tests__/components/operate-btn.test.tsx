@@ -26,7 +26,7 @@ describe('OpreationBtn', () => {
         <a className="btns btns4" href="">btn1</a>
         <a className="btns btns5" href="">btn1</a>
         <a className="btns btns6" href="">btn1</a>
-      </TableActions>
+      </TableActions>,
     );
   };
   it('should render with default props', () => {

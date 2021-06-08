@@ -23,11 +23,11 @@ enum MY_APPROVAL_STATE {
 }
 
 const Approve = () => {
-  const status = routeInfoStore.getState(s => s.params.approvalType) || MY_APPROVAL_STATE.pending;
+  const status = routeInfoStore.getState((s) => s.params.approvalType) || MY_APPROVAL_STATE.pending;
   const [
     approvalList,
     approvalPaging,
-  ] = deployStore.useStore(s => [
+  ] = deployStore.useStore((s) => [
     s.approvalList,
     s.approvalPaging,
   ]);
@@ -37,7 +37,7 @@ const Approve = () => {
   } = deployStore.effects;
   const { clearDeployList } = deployStore.reducers;
   const [loading] = useLoading(deployStore, ['getApprovalList']);
-  const getList = (approvalStatus: string) => (query:any) => getApprovalList({ ...query, approvalStatus });
+  const getList = (approvalStatus: string) => (query: any) => getApprovalList({ ...query, approvalStatus });
 
   const propsMap = {
     getList: getList(status),
@@ -48,7 +48,7 @@ const Approve = () => {
     updateApproval,
   };
 
-  return <DeployList key={status} type='approve' status={status} {...propsMap} />;
+  return <DeployList key={status} type="approve" status={status} {...propsMap} />;
 };
 
 export default Approve;

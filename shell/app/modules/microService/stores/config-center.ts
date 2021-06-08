@@ -16,9 +16,9 @@ import i18n from 'i18n';
 import { createStore } from 'app/cube';
 
 interface IState {
-  appList: string[],
-  appListPaging: IPaging,
-  configListMap: Record<string, any>,
+  appList: string[];
+  appListPaging: IPaging;
+  configListMap: Record<string, any>;
 }
 
 const initState: IState = {

@@ -53,7 +53,7 @@ const ResourcesProportionChart = ({
         interval: 0,
         rotate: 40,
       },
-      data: map(data, item => item.name),
+      data: map(data, (item) => item.name),
     }],
   };
 
@@ -101,7 +101,7 @@ const ResourcesProportionChart = ({
         {
           name: totalName,
           type: 'bar',
-          data: map(data, item => item[totalValue]),
+          data: map(data, (item) => item[totalValue]),
           barGap: '-100%',
           itemStyle: {
             normal: {
@@ -125,7 +125,7 @@ const ResourcesProportionChart = ({
         {
           name: valueName,
           type: 'bar',
-          data: map(data, item => item[value]),
+          data: map(data, (item) => item[value]),
         },
       ],
     };

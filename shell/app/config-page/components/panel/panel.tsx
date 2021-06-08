@@ -16,7 +16,7 @@ import { Panel, Ellipsis } from 'app/nusi';
 import { map } from 'lodash';
 
 interface IField extends CP_PANEL.Field{
-  valueItem?: (props: Obj)=> any;
+  valueItem?: (props: Obj) => any;
 }
 
 export default (props: CP_PANEL.Props) => {
@@ -25,7 +25,7 @@ export default (props: CP_PANEL.Props) => {
 
   if (!visible) return null;
   const _fields = React.useMemo(() => {
-    return map(fields, item => geRenderValue(item));
+    return map(fields, (item) => geRenderValue(item));
   }, [fields]);
   return <Panel {...rest} fields={_fields} data={data?.data} />;
 };

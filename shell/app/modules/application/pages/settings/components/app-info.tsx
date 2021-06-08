@@ -30,7 +30,7 @@ import { theme } from 'app/themes';
 
 // 修改应用信息后，更新左侧菜单上方的信息
 const reloadHeadInfo = () => {
-  const detail = appStore.getState(s => s.detail);
+  const detail = appStore.getState((s) => s.detail);
   layoutStore.reducers.setSubSiderInfoMap({
     key: 'application',
     detail: { ...detail, icon: theme.appIcon }, // name不可编辑，若可编辑需重新加载Selector，参考project-info
@@ -38,14 +38,14 @@ const reloadHeadInfo = () => {
 };
 
 const PureAppInfo = (): JSX.Element => {
-  const appDetail = appStore.useStore(s => s.detail);
-  const loginUser = userStore.useStore(s => s.loginUser);
-  const projectId = routeInfoStore.useStore(s => s.params.projectId);
+  const appDetail = appStore.useStore((s) => s.detail);
+  const loginUser = userStore.useStore((s) => s.loginUser);
+  const projectId = routeInfoStore.useStore((s) => s.params.projectId);
   const { updateAppDetail, remove } = appStore.effects;
   const { protocol, host } = window.location;
 
   const [confirmAppName, setConfirmAppName] = React.useState('');
-  const permMap = usePerm(s => s.app.setting);
+  const permMap = usePerm((s) => s.app.setting);
   const gitRepo = `${protocol}//${host}/wb/${appDetail.projectName}/${appDetail.name}`;
   const fieldsList = [
     {
@@ -63,7 +63,7 @@ const PureAppInfo = (): JSX.Element => {
       label: i18n.t('application:app types'),
       name: 'mode',
       type: 'radioGroup',
-      options: filter(modeOptions, item => item.value !== 'ABILITY'),
+      options: filter(modeOptions, (item) => item.value !== 'ABILITY'),
       itemProps: {
         disabled: true,
       },

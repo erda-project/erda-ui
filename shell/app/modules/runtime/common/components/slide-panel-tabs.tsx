@@ -38,7 +38,7 @@ interface IProps {
   content: JSX.Element;
   visible: boolean;
   slidePanelComps: COMMON.SlideComp[];
-  closeSlidePanel(): void;
+  closeSlidePanel: () => void;
 }
 
 interface IState {
@@ -115,6 +115,6 @@ class PureSlidePanel extends React.Component<IProps, IState> {
 }
 
 export const SlidePanel = (p: any) => {
-  const slidePanelComps = commonStore.useStore(s => s.slidePanelComps);
+  const slidePanelComps = commonStore.useStore((s) => s.slidePanelComps);
   return <PureSlidePanel {...p} slidePanelComps={slidePanelComps} />;
 };

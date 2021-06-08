@@ -33,8 +33,8 @@ const sortList = [
 const limits = [10, 30, 50];
 
 export default () => {
-  const timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
-  const params = routeInfoStore.useStore(s => s.params);
+  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const params = routeInfoStore.useStore((s) => s.params);
   const { serviceName, terminusKey, serviceId } = params;
   const { getExceptionTypes } = topologyServiceStore;
   const [{ sort, limit, exceptionType, exceptionTypes }, updater] = useUpdate({
@@ -51,7 +51,7 @@ export default () => {
       terminusKey,
       start: timeSpan.startTimeMs,
       end: timeSpan.endTimeMs,
-    }).then(res => updater.exceptionTypes(res?.data));
+    }).then((res) => updater.exceptionTypes(res?.data));
   }, [serviceId, getExceptionTypes, serviceName, terminusKey, timeSpan.endTimeMs, timeSpan.startTimeMs, updater]);
 
   return (

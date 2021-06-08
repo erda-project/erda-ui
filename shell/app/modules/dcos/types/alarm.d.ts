@@ -13,34 +13,34 @@
 
 declare namespace ORG_ALARM {
   interface Ticket {
-    id: number
-    title: string
-    content: string
-    type: string
-    priority: string
-    status: string
-    key: string
-    orgID: string
-    metric: string
-    metricID: string
-    count: number
-    creator: string
-    lastOperator: string
+    id: number;
+    title: string;
+    content: string;
+    type: string;
+    priority: string;
+    status: string;
+    key: string;
+    orgID: string;
+    metric: string;
+    metricID: string;
+    count: number;
+    creator: string;
+    lastOperator: string;
     label: {
-      Path: string
-      Time: string
-      Type: string
-      cluster_name: string
-      host_ip: string
-      load5: number
-      type_id: string
+      Path: string;
+      Time: string;
+      Type: string;
+      cluster_name: string;
+      host_ip: string;
+      load5: number;
+      type_id: string;
       path: string;
-    }
-    targetType: string
-    targetID: string
-    createdAt: string
-    updatedAt: string
-    closedAt: string
-    triggeredAt: string
+    };
+    targetType: string;
+    targetID: string;
+    createdAt: string;
+    updatedAt: string;
+    closedAt: string;
+    triggeredAt: string;
   }
 }

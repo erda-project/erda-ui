@@ -25,25 +25,25 @@ declare namespace CP_TREE_SELECT {
   }
 
   interface Spec {
-    type: 'TreeSelect',
+    type: 'TreeSelect';
     data: IData;
     state?: IState;
     props?: IProps;
-    operations?: Obj<CP_COMMON.Operation>
+    operations?: Obj<CP_COMMON.Operation>;
   }
 
   interface IProps {
     visible?: boolean;
-    placeholder?: string,
-    title?: string,
+    placeholder?: string;
+    title?: string;
   }
 
   interface IState {
-    value?: string | { value: string, label: string};
+    value?: string | { value: string; label: string};
   }
 
   interface IData {
-    treeData: INode[]
+    treeData: INode[];
   }
 
     type Props = MakeProps<Spec>;

@@ -39,7 +39,7 @@ const getConf = (data: Record<string, any>, key: string| string[]) => {
 };
 
 const processTemp = (execOperation: Function) => (temp = []) => {
-  return map(temp, item => {
+  return map(temp, (item) => {
     const { render } = item;
     if (render?.type === 'inputSelect') {
       const p = {} as Obj;
@@ -82,14 +82,14 @@ const BODY_RAW_OPTION = [
 const formatTip = i18n.t('project:json-format-tip').replace(/</g, '{').replace(/>/g, '}');
 
 const tip = () => (
-  <div className='json-format-tip'>
-    <p className='json-format-tip-title'>*{i18n.t('Instructions')}</p>
-    <p className='json-format-tip-title'>{i18n.t('project:Method of parameter refers to variable')}</p>
+  <div className="json-format-tip">
+    <p className="json-format-tip-title">*{i18n.t('Instructions')}</p>
+    <p className="json-format-tip-title">{i18n.t('project:Method of parameter refers to variable')}</p>
     {
       map(formatTip.split(';'), (item) => (
         <div>
-          <p className='json-format-tip-type'>{item.split('/')[0]}</p>
-          <p className='json-format-tip-content'>{item.split('/')[1]}</p>
+          <p className="json-format-tip-type">{item.split('/')[0]}</p>
+          <p className="json-format-tip-content">{item.split('/')[1]}</p>
         </div>
       ))
     }
@@ -99,7 +99,7 @@ const tip = () => (
 
 export const APIEditor = (props: CP_API_EDITOR.Props) => {
   const { execOperation, operations, state } = props;
-  const configProps = produce(props.props, draft => {
+  const configProps = produce(props.props, (draft) => {
     const { commonTemp } = draft;
     map((commonTemp.target || []), (item) => {
       set(draft, `${item}.temp`, commonTemp.temp);
@@ -114,7 +114,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
   React.useEffect(() => {
     const apiSpec = produce(data?.apiSpec || {}, (draft) => {
       const headers = draft.headers || [];
-      const updateHeader = (type:string) => {
+      const updateHeader = (type: string) => {
         const exist = find(headers, { key: 'Content-Type' });
         if (exist) {
           exist.value = type;
@@ -162,7 +162,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
     }
     if (!isEmpty(out_params) && !errMsg) {
       const temp = {};
-      out_params.forEach(item => {
+      out_params.forEach((item) => {
         if (temp[item.key]) {
           errMsg = i18n.t('out params exist the same {key}', { key: item.key });
         } else {
@@ -170,7 +170,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
         }
       });
     }
-    const allowEmptys = configProps.asserts.comparisonOperators.filter(t => t.allowEmpty).map(t => t.value);
+    const allowEmptys = configProps.asserts.comparisonOperators.filter((t) => t.allowEmpty).map((t) => t.value);
     return {
       errMsg,
       value: {
@@ -182,7 +182,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
             if (allowEmptys.includes(item.operator)) {
               return !!item.arg;
             } else {
-              return Object.values(item).every(t => t);
+              return Object.values(item).every((t) => t);
             }
           }),
         },
@@ -205,7 +205,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
   if (!visible) return null;
 
   const updateApi = (k: string, v: any, autoSave = false, adjustData?: Function) => {
-    setAPI(prev => {
+    setAPI((prev) => {
       const newAPI = produce(prev, (draft) => {
         set(draft, k, v);
         switch (k) {
@@ -282,7 +282,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
         onClick={(e) => { handleExecute(e, allowSave); }}
       >
         {
-          menu.map(mItem => {
+          menu.map((mItem) => {
             return (
               <Menu.Item key={mItem.key}>{mItem.text}</Menu.Item>
             );
@@ -292,7 +292,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
     );
     apiExecuteButton = (
       <Dropdown overlay={dropdownMenu}>
-        <Button {...rest} className="ml12">{text} <CustomIcon type={'di'} className='ml4' /></Button>
+        <Button {...rest} className="ml12">{text} <CustomIcon type={'di'} className="ml4" /></Button>
       </Dropdown>
     );
   }
@@ -424,7 +424,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                                         className="copy-btn for-copy copy-request"
                                         data-clipboard-text={get(request, 'body.content', '')}
                                         shape="circle"
-                                        icon={<IconCopy/>}
+                                        icon={<IconCopy />}
                                       />
                                       <Copy selector=".copy-request" />
                                     </>
@@ -468,7 +468,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                 {
                   body ? (
                     <>
-                      <Button disabled={!body} className="copy-btn for-copy copy-response" data-clipboard-text={body} shape="circle" icon={<IconCopy/>} />
+                      <Button disabled={!body} className="copy-btn for-copy copy-response" data-clipboard-text={body} shape="circle" icon={<IconCopy />} />
                       <Copy selector=".copy-response" />
                     </>
                   ) : null
@@ -482,7 +482,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
     );
   }
   return (
-    <div className='api-item-editor'>
+    <div className="api-item-editor">
       <Spin size="small" spinning={(executingMap[index]) || false}>
         <div className="api-title case-index-hover">
           <Title title={i18n.t('interface name')} level={3} />
@@ -490,7 +490,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
             className="flex-1 mb24 mt8"
             placeholder={i18n.t('please enter {name}', { name: i18n.t('interface name') })}
             value={api.name}
-            onChange={e => updateApi('name', e.target.value)}
+            onChange={(e) => updateApi('name', e.target.value)}
             maxLength={50}
             // onBlur={handleBlurCapture}
           />
@@ -505,7 +505,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                   onChange={(val) => updateApi('method', val, false)}
                   placeholder={i18n.t('project:please choose')}
                 >
-                  {map(methodList, method => (
+                  {map(methodList, (method) => (
                     <Option value={method} key={method}>{method}</Option>
                   ))}
                 </Select>
@@ -513,7 +513,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
               className="url"
               placeholder={i18n.t('project:please enter')}
               value={api.url}
-              onChange={e => updateApi('url', e.target.value.trim())}
+              onChange={(e) => updateApi('url', e.target.value.trim())}
               // onBlur={handleBlurCapture}
             />
           </div>
@@ -791,7 +791,7 @@ const TestJsonEditor = (props: any) => {
     updateBody('content', newContent, false);
   };
 
-  const handleChange = (v:string) => {
+  const handleChange = (v: string) => {
     updateBody('content', v);
   };
 
@@ -833,8 +833,8 @@ const ValMap = {
       rows={8}
       value={val}
       autoSize
-      className='body-val-raw'
-      onChange={e => updateBody('content', e.target.value)}
+      className="body-val-raw"
+      onChange={(e) => updateBody('content', e.target.value)}
       // onBlur={e => updateBody('content', e.target.value, true)}
     />);
   },
@@ -907,7 +907,7 @@ const APIBody = (props: any) => {
    * @param autoSave {boolean}
    * @param resetContent {boolean}
    */
-  const changeType = (type: string, autoSave?: boolean, resetContent?:boolean) => {
+  const changeType = (type: string, autoSave?: boolean, resetContent?: boolean) => {
     if (!isEmpty(data.content) && resetContent) {
       Modal.confirm({
         title: i18n.t('confirm to switch Body type?'),
@@ -925,7 +925,7 @@ const APIBody = (props: any) => {
   return (
     <div className="case-api-body">
       <div className="body-type-chosen my8 px12">
-        <Radio.Group onChange={e => changeType(e.target.value, false, true)} value={isRaw ? 'raw' : realType}>
+        <Radio.Group onChange={(e) => changeType(e.target.value, false, true)} value={isRaw ? 'raw' : realType}>
           <Radio value={'none'}>none</Radio>
           <Radio value={BasicForm}>x-www-form-urlencoded</Radio>
           <Radio value={'raw'}>raw</Radio>
@@ -940,12 +940,12 @@ const APIBody = (props: any) => {
                 value={realType}
                 dropdownMatchSelectWidth={false}
               >
-                {map(BODY_RAW_OPTION, item => (
+                {map(BODY_RAW_OPTION, (item) => (
                   <Option key={item} value={item}>{item}</Option>
                 ))}
               </Select>
               <Tooltip title={tip}>
-                <CustomIcon type='help' className='ml4 mt8 fz14' />
+                <CustomIcon type="help" className="ml4 mt8 fz14" />
               </Tooltip>
             </span>
           ) : null
@@ -965,7 +965,7 @@ interface IKeyValProps {
   itemMap: object;
   opList?: any[];
   order: string[];
-  onChange(...args: any): any;
+  onChange: (...args: any) => any;
 }
 const KeyValEdit = (props: IKeyValProps) => {
   const { data, type, dataModel, itemMap, opList = [], onChange, order } = props;
@@ -1003,7 +1003,7 @@ const KeyValEdit = (props: IKeyValProps) => {
     }
     setValues(newVal);
     onChange(
-      newVal.filter((item: any) => !Object.values(item).every(v => !v)),
+      newVal.filter((item: any) => !Object.values(item).every((v) => !v)),
       autoSave,
       (newData: any, k: string) => {
         const { out_params, asserts } = newData;
@@ -1026,7 +1026,7 @@ const KeyValEdit = (props: IKeyValProps) => {
             }
           }
         }
-      }
+      },
     );
   };
 
@@ -1073,7 +1073,7 @@ const KeyValEdit = (props: IKeyValProps) => {
                           className="flex-1"
                           placeholder={i18n.t('project:please enter')}
                           value={val}
-                          onChange={e => updateValue(i, key, e.target.value)}
+                          onChange={(e) => updateValue(i, key, e.target.value)}
                           // onBlur={e => updateValue(i, key, e.target.value, true)}
                           {...compProps}
                           {...extraProps}

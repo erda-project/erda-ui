@@ -22,7 +22,7 @@ export const isPromise = (obj: any) => {
   );
 };
 
-export const useMount = fn => {
+export const useMount = (fn) => {
   React.useEffect(() => {
     fn();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -40,16 +40,16 @@ export const getData = ({ dataPath, valueKey, nameKey }) => {
       ],
     },
   };
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve(
-        map(get(mockData, `${dataPath}`), item => {
+        map(get(mockData, `${dataPath}`), (item) => {
           return {
             ...item,
             name: get(item, `${nameKey}`),
             value: get(item, `${valueKey}`),
           };
-        })
+        }),
       );
     }, 2000);
   });

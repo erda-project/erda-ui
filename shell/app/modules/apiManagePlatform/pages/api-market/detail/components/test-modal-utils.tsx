@@ -294,7 +294,7 @@ export const fillingUrl = (url: string, path: any[]) => {
   const replacePattern = /\{([\w.])+\}/g;
   const matches = fetchURl.match(replacePattern);
   if (matches) {
-    matches.forEach(match => {
+    matches.forEach((match) => {
       const key = match.slice(1, -1);
       const { value } = path.find((item: any) => item.key === key) || {} as any;
       if (value !== '' && typeof value !== 'undefined' && value !== null) {

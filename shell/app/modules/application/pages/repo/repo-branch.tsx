@@ -41,9 +41,9 @@ export const BRANCH_TABS = [
 ];
 
 const RepoBranch = () => {
-  const permMap = usePerm(s => s.app.repo.branch);
-  const [info, list] = repoStore.useStore(s => [s.info, s.branch]);
-  const branchInfo = appStore.useStore(s => s.branchInfo);
+  const permMap = usePerm((s) => s.app.repo.branch);
+  const [info, list] = repoStore.useStore((s) => [s.info, s.branch]);
+  const branchInfo = appStore.useStore((s) => s.branchInfo);
   const { deleteBranch, getListByType, setDefaultBranch } = repoStore.effects;
   const { clearListByType } = repoStore.reducers;
   const [isFetching] = useLoading(repoStore, ['getListByType']);
@@ -63,7 +63,7 @@ const RepoBranch = () => {
     getListByType({ type: 'branch', findBranch: branch });
   }, 300);
 
-  const handleChangeBranchName = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeBranchName = (e: React.ChangeEvent<HTMLInputElement>) => {
     getList(e.target.value);
   };
 
@@ -97,8 +97,8 @@ const RepoBranch = () => {
                       ) : <CustomIcon className="fz22" type="fz" />
                     }
                     <Link to={mergeRepoPathWith(`/tree/${name}`)}><span className="color-text hover-active">{name}</span></Link>
-                    {isDefault && <span className='tag-primary'>{i18n.t('default')}</span>}
-                    {isMerged && <span className='tag-success'>{i18n.t('application:Merged')}</span>}
+                    {isDefault && <span className="tag-primary">{i18n.t('default')}</span>}
+                    {isMerged && <span className="tag-success">{i18n.t('application:Merged')}</span>}
                   </div>
                   <div className="v-align color-text-sub">
                     <span className="inline-v-align"><Avatar showName name={committerName} />&nbsp;{i18n.t('committed at')}</span>

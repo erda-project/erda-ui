@@ -32,10 +32,10 @@ const { Option } = Select;
 
 
 const VPS = () => {
-  const vpcList = networksStore.useStore(s => s.vpcList);
+  const vpcList = networksStore.useStore((s) => s.vpcList);
   const { getVpcList } = networksStore.effects;
   const [loading] = useLoading(networksStore, ['getVpcList']);
-  const cloudAccountExist = cloudCommonStore.useStore(s => s.cloudAccountExist);
+  const cloudAccountExist = cloudCommonStore.useStore((s) => s.cloudAccountExist);
 
   const [{
     formVis,
@@ -114,7 +114,7 @@ const VPS = () => {
       customProps: {
         className: 'default-selector-width',
         placeholder: i18n.t('filter by {name}', { name: i18n.t('cloud vendor') }),
-        options: map(cloudVendor, item => (
+        options: map(cloudVendor, (item) => (
           <Option key={item.name} value={item.value}>{item.name}</Option>
         )),
         allowClear: true,
@@ -169,7 +169,7 @@ const VPS = () => {
   const menu = (
     <Menu>
       {
-        operationButtons.map(button => (
+        operationButtons.map((button) => (
           <Menu.Item disabled={button.ifDisabled} key={button.name} onClick={button.cb}>{button.name}</Menu.Item>
         ))
       }
@@ -197,7 +197,7 @@ const VPS = () => {
         <Dropdown disabled={!ifSelected} overlay={menu}>
           <Button type="primary">
             {i18n.t('batch setting')}
-            <IconDownOne className="ml4" theme='filled' size="16px" />
+            <IconDownOne className="ml4" theme="filled" size="16px" />
           </Button>
         </Dropdown>
       </div>
@@ -224,7 +224,7 @@ const VPS = () => {
         items={items}
         visible={tagFormVis}
         formData={tagFormData as any}
-        resourceType='VPC'
+        resourceType="VPC"
         onCancel={() => update({ tagFormVis: false, tagFormData: null })}
         afterSubmit={afterTagFormSubmit}
       />

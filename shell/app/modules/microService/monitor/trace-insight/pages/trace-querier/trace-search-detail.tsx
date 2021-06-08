@@ -18,7 +18,7 @@ import traceStore from '../../../../stores/trace';
 import { useLoading } from 'app/common/stores/loading';
 
 export default ({ traceId }: { traceId?: string }) => {
-  const spanDetailContent = traceStore.useStore(s => s.spanDetailContent);
+  const spanDetailContent = traceStore.useStore((s) => s.spanDetailContent);
   const { getTraceDetailContent, getSpanDetailContent } = traceStore;
   const [loading] = useLoading(traceStore, ['getTraceDetailContent']);
   const [{ traceRecords }, updater] = useUpdate({ traceRecords: {} });

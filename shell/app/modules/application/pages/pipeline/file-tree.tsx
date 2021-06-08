@@ -35,20 +35,20 @@ interface IProps{
 const FileTree = (props: IProps) => {
   const { scope, scopeParams } = props;
   const scopeConfigData = scopeConfig[scope];
-  const [params, query] = routeInfoStore.useStore(s => [s.params, s.query]);
+  const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
 
   const { appId, projectId } = params;
 
-  const branchInfo = appStore.useStore(s => s.branchInfo); // 分支保护信息
+  const branchInfo = appStore.useStore((s) => s.branchInfo); // 分支保护信息
 
   const { getCategoryByIdNew, createTreeNodeNew, deleteTreeNodeNew, getAncestorsNew, fuzzySearchNew, clearTreeNodeDetail } = fileTreeStore;
-  const [curNodeDetail] = fileTreeStore.useStore(s => [s.curNodeDetail]);
+  const [curNodeDetail] = fileTreeStore.useStore((s) => [s.curNodeDetail]);
   const [rootNode, setRootNode] = React.useState(null as TreeNode[] | null);
   const [editVis, setEditVis] = React.useState(false);
   const [editData, setEditData] = React.useState(undefined as any);
   const editHookRef = React.useRef(null as any);
-  const projectInfo = projectStore.useStore(s => s.info);
-  const branchAuthObj = usePerm(s => s.app.repo.branch);
+  const projectInfo = projectStore.useStore((s) => s.info);
+  const branchAuthObj = usePerm((s) => s.app.repo.branch);
 
   useUnmount(() => {
     clearTreeNodeDetail();
@@ -59,7 +59,7 @@ const FileTree = (props: IProps) => {
 
   const getRootNode = React.useCallback(async () => {
     const rootArray = await getCategoryByIdNew({ pinode: rootPinode, ...scopeParams });
-    setRootNode(map(rootArray, item => ({ ...item, iconType: 'fz' })));
+    setRootNode(map(rootArray, (item) => ({ ...item, iconType: 'fz' })));
   }, [getCategoryByIdNew, rootPinode, scopeParams]);
 
   React.useEffect(() => {
@@ -134,7 +134,7 @@ const FileTree = (props: IProps) => {
     ];
   };
 
-  const onSelectNode = ({ inode, isLeaf }: { inode: string, isLeaf: boolean }) => {
+  const onSelectNode = ({ inode, isLeaf }: { inode: string; isLeaf: boolean }) => {
     if (isLeaf && inode && query.nodeId !== inode) {
       clearTreeNodeDetail();
       setTimeout(() => {
@@ -194,7 +194,7 @@ const FileTree = (props: IProps) => {
             onSelectNode={onSelectNode}
             initTreeData={rootNode}
             iconMap={{
-              fz: <CustomIcon type='fz' className='color-text-sub' />,
+              fz: <CustomIcon type="fz" className="color-text-sub" />,
             }}
             currentKey={currentKey}
             searchGroup={{ file: scopeConfigData.text.searchFile, folder: scopeConfigData.text.searchFolder }}

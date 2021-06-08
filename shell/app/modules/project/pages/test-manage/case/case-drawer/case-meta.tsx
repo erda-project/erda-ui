@@ -26,8 +26,8 @@ interface IProps {
     createdAt: string;
     creatorID: string;
   };
-  onBlurCapture(e: React.FocusEvent): void;
-  onChange(key: string, value: any, autoSave: boolean): void;
+  onBlurCapture: (e: React.FocusEvent) => void;
+  onChange: (key: string, value: any, autoSave: boolean) => void;
 }
 
 const CaseMeta = ({ onBlurCapture, onChange, dataSource }: IProps) => {
@@ -40,14 +40,14 @@ const CaseMeta = ({ onBlurCapture, onChange, dataSource }: IProps) => {
           value={dataSource.priority}
           onChange={(v: any) => onChange('priority', v, true)}
         >
-          {priorityList.map(p => <Option key={p} value={p}>{p}</Option>)}
+          {priorityList.map((p) => <Option key={p} value={p}>{p}</Option>)}
         </Select>
       </div>
       <p className="color-text-desc my0">{i18n.t('project:founder')}</p>
       <p className="mt8 mb20">
         <Avatar
           showName
-          name={<UserInfo id={dataSource.creatorID} render={data => data.nick || data.name} />}
+          name={<UserInfo id={dataSource.creatorID} render={(data) => data.nick || data.name} />}
           size={28}
         />
       </p>

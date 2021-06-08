@@ -22,18 +22,18 @@ declare namespace CP_EDIT_LIST {
 
   interface IProps{
     visible?: boolean;
-    temp: Temp[]
+    temp: Temp[];
   }
 
   interface IState {
-    list: Obj[],
+    list: Obj[];
   }
 
   interface Temp {
-    title: string
-    key: string
-    width?: number
-    flex?: number
+    title: string;
+    key: string;
+    width?: number;
+    flex?: number;
     render: IRender;
   }
 

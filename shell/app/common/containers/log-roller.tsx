@@ -30,13 +30,13 @@ interface IProps {
   query?: {
     [prop: string]: string | number;
   };
-  fetchLog(query: object): Promise<any>;
-  clearLog(logKey?: string): void;
+  fetchLog: (query: object) => Promise<any>;
+  clearLog: (logKey?: string) => void;
 }
 
 interface IState {
-  backwardLoading: boolean,
-  rolling: boolean,
+  backwardLoading: boolean;
+  rolling: boolean;
   downloadLogModalVisible: boolean;
 }
 
@@ -49,7 +49,7 @@ interface IRequery {
   end?: DOMHighResTimeStamp;
   count?: number;
 }
-class LogRoller extends React.Component<IProps, IState> {
+export class LogRoller extends React.Component<IProps, IState> {
   private logRoller: PureLogRoller | null;
 
   private rollingTimeout: number | undefined;
@@ -219,8 +219,8 @@ class LogRoller extends React.Component<IProps, IState> {
   }
 }
 
-export default (props: { logKey: string, [k: string]: any }) => {
-  const logsMap = commonStore.useStore(s => s.logsMap);
+export default (props: { logKey: string; [k: string]: any }) => {
+  const logsMap = commonStore.useStore((s) => s.logsMap);
   const { fetchLog } = commonStore.effects;
   const { clearLog } = commonStore.reducers;
   const { content, fetchPeriod, ...rest } = logsMap[props.logKey] || {};

@@ -34,7 +34,7 @@ class MapChart extends React.Component {
       },
       series: map(results, (v) => {
         // 去除南海诸岛的显示：南海诸岛属于海南，本地图只需显示省级
-        const value = produce(v, draftData => {
+        const value = produce(v, (draftData) => {
           draftData.data.push({ name: '南海诸岛',
             itemStyle: {
               normal: { opacity: 0, label: { show: false }, borderWidth: '0', borderColor: '#10242b', areaStyle: { color: '#10242b' } },

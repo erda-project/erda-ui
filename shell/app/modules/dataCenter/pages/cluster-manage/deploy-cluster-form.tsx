@@ -260,7 +260,7 @@ const DeployClusterForm = (props: IProps) => {
       </div>
       <div className="right">
         {
-          formMenu.map(({ key, name }: { key: string, name: string }) => {
+          formMenu.map(({ key, name }: { key: string; name: string }) => {
             return (
               <div
                 key={key}

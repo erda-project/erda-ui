@@ -22,7 +22,7 @@ import './common.scss';
 
 interface ICommit {
   id: string;
-  author: REPOSITORY.ICommitter,
+  author: REPOSITORY.ICommitter;
   commitMessage: string;
 }
 

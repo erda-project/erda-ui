@@ -17,6 +17,6 @@ import { CustomDashboardScope } from 'app/modules/dataCenter/stores/_common-cust
 import CustomDashboardList from 'app/modules/dataCenter/common/custom-dashboard';
 
 export default () => {
-  const { terminusKey } = routeInfoStore.useStore(s => s.params);
+  const { terminusKey } = routeInfoStore.useStore((s) => s.params);
   return <CustomDashboardList scope={CustomDashboardScope.MICRO_SERVICE} scopeId={terminusKey} />;
 };

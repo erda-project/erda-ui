@@ -84,7 +84,7 @@ const RenderBody = ({ root, properties = {} }: {root: string; properties?: {[key
     let typeStr = type;
     let allowExpand = true;
     if (type === 'array') {
-      allowExpand = !bodyPath.some(t => t.data === items.properties);
+      allowExpand = !bodyPath.some((t) => t.data === items.properties);
       if (items.title) {
         typeStr = items.title;
       } else {
@@ -153,8 +153,8 @@ const RenderBody = ({ root, properties = {} }: {root: string; properties?: {[key
     if (!jump) {
       return;
     }
-    const newPath = bodyPath.filter(item => item.key <= key);
-    const a = newPath.map(t => t.params);
+    const newPath = bodyPath.filter((item) => item.key <= key);
+    const a = newPath.map((t) => t.params);
     a.shift();
     const property = key === 0 ? properties : data;
     setDataType(type);

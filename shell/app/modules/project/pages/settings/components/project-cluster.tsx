@@ -22,7 +22,7 @@ import projectStore from 'project/stores/project';
 import clusterStore from 'app/modules/dataCenter/stores/cluster';
 
 interface IProps {
-  hasEditAuth: boolean
+  hasEditAuth: boolean;
 }
 
 const workSpaceMap = {
@@ -34,9 +34,9 @@ const workSpaceMap = {
 const ProjectCluster = ({
   hasEditAuth,
 }: IProps) => {
-  const clusterList = clusterStore.useStore(s => s.list);
+  const clusterList = clusterStore.useStore((s) => s.list);
   const { getClusterList } = clusterStore.effects;
-  const info = projectStore.useStore(s => s.info);
+  const info = projectStore.useStore((s) => s.info);
   const { updateProject } = projectStore.effects;
 
   React.useEffect(() => {
@@ -103,7 +103,7 @@ const ProjectCluster = ({
       name={i18n.t('project:cluster setting')}
       desc={
         <span>{i18n.t('cluster-config-tip')}
-          <a href={HELP_DOCUMENT} target="_blank" rel='noopener noreferrer'> {i18n.t('help document')} </a>
+          <a href={HELP_DOCUMENT} target="_blank" rel="noopener noreferrer"> {i18n.t('help document')} </a>
         </span>
       }
       formName={i18n.t('project:cluster used by the environment')}

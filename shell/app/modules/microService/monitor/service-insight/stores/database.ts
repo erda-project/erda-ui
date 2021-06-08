@@ -16,8 +16,8 @@ import { getSubSlowDbList, getSubErrorDbList } from '../services';
 import { get } from 'lodash';
 
 interface IState {
-  subSlowDbList: Obj<MONITOR_SI.ITableData[]>
-  subErrorDbList: Obj<MONITOR_SI.ITableData[]>
+  subSlowDbList: Obj<MONITOR_SI.ITableData[]>;
+  subErrorDbList: Obj<MONITOR_SI.ITableData[]>;
 }
 const initState: IState = {
   subSlowDbList: {},
@@ -29,13 +29,13 @@ const Database = createStore({
   state: initState,
   effects: {
     async getSubSlowDbList({ call, update }, payload: MONITOR_SI.ITableDataQuery) {
-      const subSlowDbList = Database.getState(s => s.subSlowDbList) as any;
+      const subSlowDbList = Database.getState((s) => s.subSlowDbList) as any;
       const { filter_db_statement } = payload;
       const data = await call(getSubSlowDbList, { ...payload, filter_trace_sampled: true });
       update({ subSlowDbList: { ...subSlowDbList, [filter_db_statement]: get(data, 'results[0].data') || [] } });
     },
     async getSubErrorDbList({ call, update }, payload: MONITOR_SI.ITableDataQuery) {
-      const subErrorDbList = Database.getState(s => s.subErrorDbList) as any;
+      const subErrorDbList = Database.getState((s) => s.subErrorDbList) as any;
       const { filter_db_statement } = payload;
       const data = await call(getSubErrorDbList, payload);
       update({ subErrorDbList: { ...subErrorDbList, [filter_db_statement]: get(data, 'results[0].data') || [] } });

@@ -44,8 +44,8 @@ export const confirmRedeploy = () => {
 
 
 const RuntimeOverView = () => {
-  const params = routeInfoStore.useStore(s => s.params);
-  const [runtimeDetail, showRedirect, hasChange] = runtimeStore.useStore(s => [s.runtimeDetail, s.showRedirect, s.hasChange]);
+  const params = routeInfoStore.useStore((s) => s.params);
+  const [runtimeDetail, showRedirect, hasChange] = runtimeStore.useStore((s) => [s.runtimeDetail, s.showRedirect, s.hasChange]);
   const [loading] = useLoading(runtimeStore, ['getRuntimeDetail']);
   const [state, updater] = useUpdate({
     redirectVisible: false,

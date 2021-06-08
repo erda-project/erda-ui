@@ -16,6 +16,6 @@ import userStore from 'app/user/stores';
 
 
 export const connectUser = (Comp: any) => (p: any) => {
-  const loginUser = userStore.useStore(s => s.loginUser);
+  const loginUser = userStore.useStore((s) => s.loginUser);
   return <Comp {...p} loginUser={loginUser} />;
 };

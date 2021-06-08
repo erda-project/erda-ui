@@ -20,8 +20,9 @@ const { getLessTheme, getScssTheme, themeColor } = require('./src/config/theme')
 const { ModuleFederationPlugin } = require('webpack').container;
 const AutomaticVendorFederation = require('@module-federation/automatic-vendor-federation');
 const packageJson = require('./package.json');
+// const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 
-
+// const smp = new SpeedMeasurePlugin();
 const resolve = pathname => path.resolve(__dirname, pathname);
 
 const nusiRealPath = fs.realpathSync(resolve('./node_modules/@terminus/nusi'));
@@ -51,7 +52,6 @@ module.exports = () => {
     cache: {
       type: 'filesystem',
     },
-    devtool: 'source-map',
     resolve: {
       alias: {
         nusi: resolve('./src/nusi'),
@@ -66,6 +66,7 @@ module.exports = () => {
         {
           test: /\.(scss)$/,
           include: [
+            resolve('./src'),
             nusiRealPath,
           ],
           use: [
@@ -78,7 +79,6 @@ module.exports = () => {
                 sourceMap: false,
               },
             },
-            'postcss-loader',
             {
               loader: 'sass-loader',
               options: {
@@ -95,7 +95,6 @@ module.exports = () => {
             MiniCssExtractPlugin.loader,
             'thread-loader',
             'css-loader',
-            'postcss-loader',
             {
               loader: 'less-loader',
               options: {
@@ -108,6 +107,7 @@ module.exports = () => {
             },
           ],
           include: [
+            resolve('./src'),
             antdRealPath,
             antdLatestRealPath,
             nusiRealPath,
@@ -122,11 +122,13 @@ module.exports = () => {
           use: [
             'thread-loader',
             {
-              loader: 'ts-loader',
+              loader: 'babel-loader', // TODO tree sharking is not available in MF, will handle it later
               options: {
-                happyPackMode: true, // IMPORTANT! use happyPackMode mode to speed-up compilation and reduce errors reported to webpack
-                transpileOnly: true,
-                getCustomTransformers: resolve('webpack_ts.loader.js'),
+                presets: [
+                  '@babel/preset-env',
+                  '@babel/preset-react',
+                  '@babel/preset-typescript',
+                ],
               },
             },
           ],
@@ -141,7 +143,7 @@ module.exports = () => {
         'process.env.NODE_ENV': JSON.stringify(nodeEnv),
       }),
       new webpack.ContextReplacementPlugin(
-        /moment[\\\/]locale$/,
+        /moment[\\/]locale$/,
         /(zh-cn)\.js/
       ),
       new ModuleFederationPlugin({

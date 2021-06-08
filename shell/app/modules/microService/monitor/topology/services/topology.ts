@@ -31,13 +31,13 @@ export const getExceptionDetail = (query: TOPOLOGY.IExceptionQuery): IChartResul
     .then((response: any) => response.body);
 };
 
-export const getTopologyTags = (query:any) => {
+export const getTopologyTags = (query: any) => {
   return agent.get('/api/apm/topology/search/tags')
     .query(query)
     .then((response: any) => response.body);
 };
 
-export const getTagsOptions = (query:any) => {
+export const getTagsOptions = (query: any) => {
   return agent.get('/api/apm/topology/search/tagv')
     .query(query)
     .then((response: any) => response.body);

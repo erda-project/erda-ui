@@ -27,8 +27,8 @@ import SelectEnv from 'project/pages/test-manage/case/case-drawer/select-env';
 interface IProps {
   value: IApi[];
   mode?: string;
-  onChange(list: IApi[], autoSave?: boolean, adjustData?: Function): any;
-  executeApi?(api: object, i: number, extra?: {envId: number}): any;
+  onChange: (list: IApi[], autoSave?: boolean, adjustData?: Function) => any;
+  executeApi?: (api: object, i: number, extra?: {envId: number}) => any;
 }
 
 const formatJSON = (str: string) => {
@@ -71,15 +71,15 @@ export interface IApi {
     arg: string;
     operator: string;
     value: string;
-  }>>
+  }>>;
   status: string;
   apiResponse: string;
   apiRequest: string;
   assertResult: string;
   attemptTest?: {
-    asserts: null | { success: false, result: any[] };
-    response: null | { status: number, headers: object, body: object };
-    request: null | { method: string; url: string; params: object[]; headers: object[]; };
+    asserts: null | { success: false; result: any[] };
+    response: null | { status: number; headers: object; body: object };
+    request: null | { method: string; url: string; params: object[]; headers: object[] };
   };
 }
 
@@ -270,7 +270,7 @@ export const CaseAPI = (props: IProps) => {
 };
 
 const ApiItem = ({ api, index, showArr, inPlan, executingMap, setCurShow, handleExecute, updateApi, handleDelete, onMove, onCopyApi }: any) => {
-  const envList = testEnvStore.useStore(s => s.envList);
+  const envList = testEnvStore.useStore((s) => s.envList);
   const [dragRef, previewRef] = useListDnD({
     type: 'case-api',
     index,
@@ -288,7 +288,7 @@ const ApiItem = ({ api, index, showArr, inPlan, executingMap, setCurShow, handle
       : api.attemptTest && api.attemptTest.asserts && {
         success: api.attemptTest.asserts.success === true,
         error: api.attemptTest.asserts.success === false,
-      }
+      },
   );
   const curExecuteResult = api.attemptTest;
   let assertResult: any[] = [];
@@ -435,7 +435,7 @@ const ApiItem = ({ api, index, showArr, inPlan, executingMap, setCurShow, handle
                                   className="copy-btn for-copy copy-request"
                                   data-clipboard-text={get(request, 'body.content', '')}
                                   shape="circle"
-                                  icon={<IconCopy/>}
+                                  icon={<IconCopy />}
                                 />
                                 <Copy selector=".copy-request" />
                                 <pre className="response-body">
@@ -473,7 +473,7 @@ const ApiItem = ({ api, index, showArr, inPlan, executingMap, setCurShow, handle
                 <Table size="small" pagination={false} columns={columns} dataSource={responseHeaders} />
               </TabPane>
               <TabPane key="Body" tab="Body">
-                <Button disabled={!body} className="copy-btn for-copy copy-response" data-clipboard-text={body} shape="circle" icon={<IconCopy/>} />
+                <Button disabled={!body} className="copy-btn for-copy copy-response" data-clipboard-text={body} shape="circle" icon={<IconCopy />} />
                 <Copy selector=".copy-response" />
                 {responseBody}
               </TabPane>
@@ -494,7 +494,7 @@ const ApiItem = ({ api, index, showArr, inPlan, executingMap, setCurShow, handle
           <span>
             <CustomIcon className="copy-icon" type="fz1" onClick={() => onCopyApi(api, index)} />
           </span>
-          <Input className="flex-1" placeholder={i18n.t('project:input interface name')} value={api.name} onChange={e => updateApi(index, 'name', e.target.value)} maxLength={50} />
+          <Input className="flex-1" placeholder={i18n.t('project:input interface name')} value={api.name} onChange={(e) => updateApi(index, 'name', e.target.value)} maxLength={50} />
           <CustomIcon className={`${isShow ? 'arrow-down' : 'arrow-up'} api-op hover-active`} type="chevron-down" onClick={() => setCurShow(index)} />
           {
             inPlan
@@ -522,7 +522,7 @@ const ApiItem = ({ api, index, showArr, inPlan, executingMap, setCurShow, handle
                   onChange={(val: string) => updateApi(index, 'method', val, true)}
                   placeholder={i18n.t('project:please choose')}
                 >
-                  {map(HTTP_METHOD_LIST, method => (
+                  {map(HTTP_METHOD_LIST, (method) => (
                     <Option value={method} key={method}>{method}</Option>
                   ))}
                 </Select>
@@ -530,7 +530,7 @@ const ApiItem = ({ api, index, showArr, inPlan, executingMap, setCurShow, handle
               className="url"
               placeholder={i18n.t('project:please enter')}
               value={api.url}
-              onChange={e => updateApi(index, 'url', e.target.value.trim())}
+              onChange={(e) => updateApi(index, 'url', e.target.value.trim())}
             />
           </div>
           <div className="api-tabs">
@@ -869,7 +869,7 @@ const ValMap = {
   raw: (props: any) => {
     const { data, updateBody }: any = props;
     const val = isString(data.content) ? data.content : '';
-    return <TextArea rows={4} value={val} onChange={e => updateBody('content', e.target.value)} />;
+    return <TextArea rows={4} value={val} onChange={(e) => updateBody('content', e.target.value)} />;
   },
   'JSON(application/json)': (props: any) => <TestJsonEditor {...props} />,
 };
@@ -939,7 +939,7 @@ const APIBody = (props: any) => {
   return (
     <div className="case-api-body">
       <div className="body-type-chosen mb8 px12">
-        <Radio.Group onChange={e => changeType(e.target.value)} value={isRaw ? 'raw' : realType}>
+        <Radio.Group onChange={(e) => changeType(e.target.value)} value={isRaw ? 'raw' : realType}>
           <Radio value={'none'}>none</Radio>
           <Radio value={BasicForm}>x-www-form-urlencoded</Radio>
           <Radio value={'raw'}>raw</Radio>
@@ -953,7 +953,7 @@ const APIBody = (props: any) => {
               value={realType}
               dropdownMatchSelectWidth={false}
             >
-              {map(BODY_RAW_OPTION, item => (
+              {map(BODY_RAW_OPTION, (item) => (
                 <Option key={item} value={item}>{item}</Option>
               ))}
             </Select>
@@ -973,7 +973,7 @@ interface IKeyValProps {
   dataModel: object;
   itemMap: object;
   opList?: any[];
-  onChange(...args: any): any;
+  onChange: (...args: any) => any;
 }
 const KeyValEdit = (props: IKeyValProps) => {
   const { data, type, dataModel, itemMap, opList = [], onChange } = props;
@@ -1012,7 +1012,7 @@ const KeyValEdit = (props: IKeyValProps) => {
     setValues(newVal);
     onChange(
       // 去掉值都为空的
-      newVal.filter((item: any) => !Object.values(item).every(v => !v)),
+      newVal.filter((item: any) => !Object.values(item).every((v) => !v)),
       autoSave,
       (newData: any, i: number, k: string) => {
         const { outParams, asserts } = newData[i];
@@ -1036,7 +1036,7 @@ const KeyValEdit = (props: IKeyValProps) => {
             }
           }
         }
-      }
+      },
     );
   };
 
@@ -1079,7 +1079,7 @@ const KeyValEdit = (props: IKeyValProps) => {
                     <React.Fragment key={key}>
                       {Comp ?
                         <Comp className="flex-1" value={val} record={item} onChange={(curVal: any, autoSave: boolean) => updateValue(i, key, curVal, autoSave)} /> :
-                        <Input className="flex-1" placeholder={i18n.t('project:please enter')} value={val} onChange={e => updateValue(i, key, e.target.value)} {...compProps} {...extraProps} />
+                        <Input className="flex-1" placeholder={i18n.t('project:please enter')} value={val} onChange={(e) => updateValue(i, key, e.target.value)} {...compProps} {...extraProps} />
                       }
                       {Comp === Empty ? null : <div className="item-separate" />}
                     </React.Fragment>

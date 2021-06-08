@@ -19,7 +19,7 @@ import { shallow } from 'enzyme';
 describe('LoadMore', () => {
   it('should render well', () => {
     const wrapper = shallow(
-      <LoadMore />
+      <LoadMore />,
     );
     expect(wrapper).toBeEmptyRender();
     wrapper.setProps({
@@ -36,7 +36,7 @@ describe('LoadMore', () => {
         load={loadFn}
         initialLoad
         getContainer={() => {}}
-      />
+      />,
     );
     expect(loadFn).toHaveBeenCalled();
   });
@@ -50,7 +50,7 @@ describe('LoadMore', () => {
         load={loadFn}
         hasMore
         isLoading={false}
-      />, { attachTo: divEle }
+      />, { attachTo: divEle },
     );
     wrapper.setProps({
       hasMore: false,

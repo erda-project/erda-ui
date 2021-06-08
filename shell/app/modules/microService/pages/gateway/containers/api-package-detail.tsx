@@ -72,8 +72,8 @@ export const ApiPackageDetail = () => {
   const [apiPrefixs, setApiPrefixs] = React.useState([] as string[]);
   const formRef = React.useRef(null);
   const mutable = formData.mutable === undefined ? true : formData.mutable;
-  const params = routeInfoStore.useStore(s => s.params);
-  const [packageDetailApiList, paging, registerApps, apiPackageDetail] = gatewayStore.useStore(s => [s.packageDetailApiList, s.packageDetailApiListPaging, s.registerApps, s.apiPackageDetail]);
+  const params = routeInfoStore.useStore((s) => s.params);
+  const [packageDetailApiList, paging, registerApps, apiPackageDetail] = gatewayStore.useStore((s) => [s.packageDetailApiList, s.packageDetailApiListPaging, s.registerApps, s.apiPackageDetail]);
   const { getPackageDetailApiList, getApiPackageDetail, createPackageApi, updatePackageApi, deletePackageApi, getServiceRuntime, getServiceApiPrefix } = gatewayStore.effects;
   const { clearApiPackageDetail } = gatewayStore.reducers;
   const [isFetchList, isCreate, isUpdate] = useLoading(gatewayStore, ['getPackageDetailApiList', 'createPackageApi', 'updatePackageApi']);
@@ -248,7 +248,7 @@ export const ApiPackageDetail = () => {
         label: i18n.t('microService:service name'),
         type: 'select',
         name: 'redirectService',
-        options: map(serviceOptions, item => ({ value: item, name: item })),
+        options: map(serviceOptions, (item) => ({ value: item, name: item })),
         itemProps: {
           showSearch: true,
           placeholder: i18n.t('please choose {name}', { name: i18n.t('microService:service name') }),
@@ -480,7 +480,7 @@ export const ApiPackageDetail = () => {
           <div className="nowrap api-filter">
             <AppServiceFilter updateField={updateAppService} dataSource={pick(filter, ['diceApp', 'diceService'])} />
             <Select placeholder={i18n.t('microService:method')} value={method} onChange={(value: string) => setFilter({ ...filter, method: value })} className="filter-select mr16">
-              {HTTP_METHODS.map(({ name, value }: { name: string, value: string }) => <Option key={value} value={value}>{name}</Option>)}
+              {HTTP_METHODS.map(({ name, value }: { name: string; value: string }) => <Option key={value} value={value}>{name}</Option>)}
             </Select>
             {/* <Select placeholder={i18n.t('microService:source')} value={origin} onChange={(value: string) => setFilter({ ...filter, origin: value })} className="filter-select mr16">
               { Object.entries(ORIGIN_MAP).map(([key, value]) => <Option key={key} value={key}>{value}</Option>) }

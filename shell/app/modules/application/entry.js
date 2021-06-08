@@ -44,7 +44,7 @@ export default (registerModule) => {
       releaseStore,
       repoStore,
       testStore,
-      ticketStore
-    ]
+      ticketStore,
+    ],
   });
 };

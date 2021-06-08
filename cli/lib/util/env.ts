@@ -13,9 +13,9 @@
 
 import { join } from 'path';
 import fs from 'fs';
-import { forEach } from 'lodash';
 import { exit } from 'process';
 import { logError } from './log';
+import dotenv from 'dotenv';
 
 export const checkIsRoot = () => {
   if (!fs.existsSync(`${process.cwd()}/.env`)) {
@@ -24,23 +24,37 @@ export const checkIsRoot = () => {
   }
 };
 
-export const getModuleList = () => {
-  const { parsed: moduleEnv } = require('dotenv').config({ path: `${process.cwd()}/.env` });
-
-  const moduleList: Array<{ moduleName: string; moduleDir: string }> = [];
-  const modules: string[] = moduleEnv.PROD_MODULES.split(',');
-
-  forEach(modules, (m) => {
-    if (m) {
-      const modulePath = moduleEnv[`${m.toUpperCase()}_DIR`];
-      moduleList.push({
-        moduleName: m,
-        moduleDir: modulePath,
-      });
+export const isCwdInRoot = (params?: { currentPath?: string; alert?: boolean }) => {
+  const currentDir = params?.currentPath || process.cwd();
+  let isInRoot = true;
+  if (!fs.existsSync(join(currentDir, 'package.json'))) {
+    isInRoot = false;
+  } else {
+    const pkg = fs.readFileSync(join(currentDir, 'package.json'), 'utf8');
+    const { name } = JSON.parse(pkg);
+    if (name !== 'erda-ui') {
+      isInRoot = false;
     }
-  });
+  }
 
-  return moduleList;
+  if (!isInRoot && params?.alert) {
+    logError('please run this command under erda-ui root directory');
+    process.exit(1);
+  }
+  return isInRoot;
+};
+
+export const getEnvConfig = (currentDir?: string) => {
+  const { parsed } = dotenv.config({ path: `${currentDir || process.cwd()}/.env` });
+  if (!parsed) {
+    throw Error(`.env file not exist in ${process.cwd()}`);
+  }
+  return parsed;
+};
+
+export const getModuleList = () => {
+  const envConfig = getEnvConfig();
+  return envConfig.MODULES.split(',').map((m) => m.trim());
 };
 
 export const getCliDir = () => {
@@ -69,5 +83,4 @@ export const isWindows = process.platform === 'win32';
 export const isMacintosh = process.platform === 'darwin';
 export const isLinux = process.platform === 'linux';
 // yarn binary based on OS
-export const yarnCmd = isWindows ? 'yarn.cmd' : 'yarn';
 export const npmCmd = isWindows ? 'npm.cmd' : 'npm';

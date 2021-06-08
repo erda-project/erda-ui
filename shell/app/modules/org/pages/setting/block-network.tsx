@@ -34,7 +34,7 @@ const metaData = [
 ];
 
 const BlockNetwork = () => {
-  const currentOrg = orgStore.useStore(s => s.currentOrg);
+  const currentOrg = orgStore.useStore((s) => s.currentOrg);
   const { updateOrg } = orgStore.effects;
   const [isFetch, isUpdate] = useLoading(orgStore, ['getJoinedOrgs', 'updateOrg']);
   const [state, updater] = useUpdate({
@@ -61,7 +61,7 @@ const BlockNetwork = () => {
 
   return (
     <Spin spinning={isFetch || isUpdate}>
-      <Alert showIcon type="error" iconType='warning' message={i18n.t('org:after opening, the impact is greater, please confirm carefully before opening')} />
+      <Alert showIcon type="error" iconType="warning" message={i18n.t('org:after opening, the impact is greater, please confirm carefully before opening')} />
       <Row className="mt16">
         {
           metaData.map(({ value, label, disabled }) => {

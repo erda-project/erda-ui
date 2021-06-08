@@ -23,7 +23,7 @@ import { useLoading } from 'app/common/stores/loading';
 
 
 const CommitDetail = () => {
-  const [commitDetail, sonarMessage] = repoStore.useStore(s => [s.commitDetail, s.sonarMessage]);
+  const [commitDetail, sonarMessage] = repoStore.useStore((s) => [s.commitDetail, s.sonarMessage]);
   const { getCommitDetail } = repoStore.effects;
   const { clearCommitDetail, clearSonarMessage } = repoStore.reducers;
   const [isFetching] = useLoading(repoStore, ['getCommitDetail']);

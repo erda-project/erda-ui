@@ -25,14 +25,14 @@ import {
   INPUT_MAX_LENGTH, TEXTAREA_MAX_LENGTH, DEFAULT_NUMBER_PROPS, API_MEDIA_TYPE, DEFAULT_LENGTH_PROPS } from 'app/modules/apiManagePlatform/configs.ts';
 
 const { Option } = Select;
-const numberTypeOptions = map(NUMBER_TYPE_MAP, item => (
+const numberTypeOptions = map(NUMBER_TYPE_MAP, (item) => (
   <Option key={item} value={item}>{item.slice(0, 1).toUpperCase() + item.slice(1)}</Option>));
 
 export const RadioGroup = React.forwardRef((radioProps: {
-  options: Array<{name:string, value:string}>;
+  options: Array<{name: string; value: string}>;
   value: string;
-  disabled?:boolean;
-  onChange: (e:any)=>void;
+  disabled?: boolean;
+  onChange: (e: any) => void;
 }) => {
   const { options, onChange, value, disabled } = radioProps;
 
@@ -44,8 +44,8 @@ export const RadioGroup = React.forwardRef((radioProps: {
 });
 
 const DetailBtn = (detailBtnProps: {
-  visible: boolean,
-  onChange: (v:boolean)=>void
+  visible: boolean;
+  onChange: (v: boolean) => void;
 }) => {
   const { visible, onChange } = detailBtnProps;
   return (
@@ -64,11 +64,11 @@ const DetailBtn = (detailBtnProps: {
 
 // 枚举值
 export const EnumRef = React.forwardRef((enumProps: {
-  value: string[],
-  dataType: BASE_DATA_TYPE,
-  hideCheckBox?: boolean,
-  disabled?:boolean,
-  onChange: (v?:string[] | null)=>void
+  value: string[];
+  dataType: BASE_DATA_TYPE;
+  hideCheckBox?: boolean;
+  disabled?: boolean;
+  onChange: (v?: string[] | null) => void;
 }) => {
   const [{
     enumVisible,
@@ -92,8 +92,8 @@ export const EnumRef = React.forwardRef((enumProps: {
     }
   }, [onChange, updater]);
 
-  const onChangeHandle = (values:any[]) => {
-    const enumValues = !isEmpty(values) ? map(values, item => {
+  const onChangeHandle = (values: any[]) => {
+    const enumValues = !isEmpty(values) ? map(values, (item) => {
       return dataType === BASE_DATA_TYPE.number ? (Number(item) || 0) : item;
     }) : undefined;
     onChange(enumValues);
@@ -109,7 +109,7 @@ export const EnumRef = React.forwardRef((enumProps: {
           ? (
             <div>
               <span className="mr8">{i18n.t('project:enumerated value')}: </span>
-              {isEnumExist && map(enumProps?.value, item => <span className="tag-default">{item}</span>)}
+              {isEnumExist && map(enumProps?.value, (item) => <span className="tag-default">{item}</span>)}
             </div>
           )
           :
@@ -137,7 +137,7 @@ export const EnumRef = React.forwardRef((enumProps: {
 });
 
 // object类型的example展示
-export const ApiFileEditor = React.forwardRef((fileEditorProps:{value:any}) => {
+export const ApiFileEditor = React.forwardRef((fileEditorProps: {value: any}) => {
   const { value } = fileEditorProps;
   const _value = value ? JSON.stringify(value, null, 2) : JSON.stringify({}, null, 2);
   return <FileEditor {...fileEditorProps} fileExtension="json" value={_value} />;
@@ -183,7 +183,7 @@ export const stringPatternField = {
 };
 
 // string 最小长度
-export const stringMinLengthField = (dataTempStorage:Obj) => {
+export const stringMinLengthField = (dataTempStorage: Obj) => {
   return {
     type: InputNumber,
     label: i18n.t('project:minimum length'),
@@ -210,7 +210,7 @@ export const stringMinLengthField = (dataTempStorage:Obj) => {
   };
 };
 // string 最大长度
-export const stringMaxLengthField = (dataTempStorage:Obj) => {
+export const stringMaxLengthField = (dataTempStorage: Obj) => {
   return {
     type: InputNumber,
     label: i18n.t('project:the maximum length'),
@@ -279,7 +279,7 @@ export const numberFormatField = {
 };
 
 // number 最小值
-export const numberMinimumField = (dataTempStorage:Obj) => {
+export const numberMinimumField = (dataTempStorage: Obj) => {
   return {
     type: InputNumber,
     label: i18n.t('microService:minimum'),
@@ -306,7 +306,7 @@ export const numberMinimumField = (dataTempStorage:Obj) => {
 };
 
 // number 最大值
-export const numberMaximumField = (dataTempStorage:Obj) => {
+export const numberMaximumField = (dataTempStorage: Obj) => {
   return {
     type: InputNumber,
     label: i18n.t('microService:maximum value'),
@@ -379,7 +379,7 @@ export const descriptionField = {
 };
 
 // 枚举值的配置
-export const enumField = (curPropertyType:string) => {
+export const enumField = (curPropertyType: string) => {
   return {
     type: EnumRef,
     label: '',
@@ -400,7 +400,7 @@ export const mediaTypeField = {
   colSpan: 12,
   initialValue: 'application/json',
   customProps: {
-    options: map(API_MEDIA_TYPE, t => <Option key={t} value={t}>{t}</Option>),
+    options: map(API_MEDIA_TYPE, (t) => <Option key={t} value={t}>{t}</Option>),
   },
 };
 
@@ -423,10 +423,10 @@ export const detailBtnField = {
 
 
 export const getPropertyDetailFields = (props: {
-  type:BASE_DATA_TYPE,
-  curPropertyType:BASE_DATA_TYPE|string,
-  formData: Obj,
-}):any[] => {
+  type: BASE_DATA_TYPE;
+  curPropertyType: BASE_DATA_TYPE|string;
+  formData: Obj;
+}): any[] => {
   const { type, curPropertyType, formData } = props;
   if (type === BASE_DATA_TYPE.string || formData?.type === BASE_DATA_TYPE.string) {
     return [
@@ -455,12 +455,12 @@ export const getPropertyDetailFields = (props: {
 
 
 type IFormType = 'Response' | 'Query' | 'Parameters' | 'DataType' | 'Body' | 'Array';
-export const getPropertyFormSelector = (props:{
-  formType: IFormType,
-  dataTypeOptions: any[],
-  propertyNameMap: Obj,
-  AllDataTypes: string[],
-  detailVisible: boolean
+export const getPropertyFormSelector = (props: {
+  formType: IFormType;
+  dataTypeOptions: any[];
+  propertyNameMap: Obj;
+  AllDataTypes: string[];
+  detailVisible: boolean;
 }) => {
   const { formType, dataTypeOptions, propertyNameMap, AllDataTypes, detailVisible } = props;
   if (formType === 'Response' || formType === 'Body') {

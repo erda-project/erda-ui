@@ -20,7 +20,7 @@ import routeInfoStore from 'common/stores/route';
 import { cloneDeep } from 'app/external/custom-lodash';
 
 const SpaceList = () => {
-  const [{ projectId }] = routeInfoStore.useStore(s => [s.params]);
+  const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const inParams = {
     projectId: +projectId,
   };
@@ -28,8 +28,8 @@ const SpaceList = () => {
     <div>
       <DiceConfigPage
         showLoading
-        scenarioKey='auto-test-space-list'
-        scenarioType='auto-test-space-list'
+        scenarioKey="auto-test-space-list"
+        scenarioType="auto-test-space-list"
         inParams={inParams}
         useMock={location.search.includes('useMock') ? useMock : undefined}
       />

@@ -25,7 +25,7 @@ describe('JsonChecker', () => {
     }, null, 2);
     const onToggleFn = jest.fn();
     const wrapper = mount(
-      <JsonChecker jsonString={jsonString} onToggle={onToggleFn} />
+      <JsonChecker jsonString={jsonString} onToggle={onToggleFn} />,
     );
     wrapper.find('button').simulate('click');
     expect(wrapper.find('pre').text()).toBe(jsonString);

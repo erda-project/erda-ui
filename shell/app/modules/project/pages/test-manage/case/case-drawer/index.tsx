@@ -34,22 +34,22 @@ import RelatedBugs from 'project/pages/test-manage/case/case-drawer/related-bugs
 import { ShareOne as IconShareOne, Close as IconClose } from '@icon-park/react';
 
 interface IProps{
-  caseList?: TEST_CASE.TestCaseItem[],
+  caseList?: TEST_CASE.TestCaseItem[];
   scope: 'testPlan'| 'testCase';
   visible: boolean;
-  onClose():void;
-  afterClose?(saved: boolean):void
-  afterSave?(value: TEST_CASE.CaseBody, isEdit: boolean, response: any):Promise<void>
+  onClose: () => void;
+  afterClose?: (saved: boolean) => void;
+  afterSave?: (value: TEST_CASE.CaseBody, isEdit: boolean, response: any) => Promise<void>;
 }
 
 interface ICaseDetail extends TEST_CASE.CaseDetail{
-  id: number
+  id: number;
   apisFormat: IApi[];
 }
 
 interface IState {
   titleIsEmpty: boolean;
-  fullData: ICaseDetail
+  fullData: ICaseDetail;
 }
 
 const pickKeys = ['headers', 'method', 'params', 'body', 'outParams', 'asserts'];
@@ -67,10 +67,10 @@ const defaultData = {
   stepAndResults: [],
   priority: 'P3',
   apis: [],
-  apisFormat: []
+  apisFormat: [],
 } as any as ICaseDetail;
 
-const initState:IState = {
+const initState: IState = {
   titleIsEmpty: false,
   fullData: defaultData,
 };
@@ -114,10 +114,10 @@ const doCheck = (data: ICaseDetail) => {
 };
 
 const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }: IProps) => {
-  const params = routeInfoStore.useStore(s => s.params);
-  const caseDetail = testCaseStore.useStore(s => s.caseDetail);
-  const envList = testEnvStore.useStore(s => s.envList); 
-  const dirName = testSetStore.useStore(s => s.breadcrumbInfo.pathName);
+  const params = routeInfoStore.useStore((s) => s.params);
+  const caseDetail = testCaseStore.useStore((s) => s.caseDetail);
+  const envList = testEnvStore.useStore((s) => s.envList);
+  const dirName = testSetStore.useStore((s) => s.breadcrumbInfo.pathName);
   const { clearCaseDetail } = testCaseStore.reducers;
   const { editPartial, create: addTestCase, attemptTestApi } = testCaseStore.effects;
   const [isExecuting, fetchingDetail] = useLoading(testCaseStore, ['attemptTestApi', 'getCaseDetail']);
@@ -286,10 +286,10 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
 
   const append = (scope === 'testPlan' && editMode) || !fullData.apisFormat.length ? null : (
     <span className="color-text-desc hover-active" onClick={() => executeAllApi(fullData.apisFormat, { envId: 0 })}>
-      <SelectEnv envList={envList}  onClick={(env: any) => { executeAllApi(fullData.apisFormat, { envId: env.id }); }}>
+      <SelectEnv envList={envList} onClick={(env: any) => { executeAllApi(fullData.apisFormat, { envId: env.id }); }}>
         <>
           <CustomIcon type="play" />
-          {i18n.t('project:execute')} 
+          {i18n.t('project:execute')}
           <span className="fz12">({i18n.t('project:click-direct-no-env')})</span>
         </>
       </SelectEnv>
@@ -318,7 +318,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                 placeholder={i18n.t('project:use case title (required)')}
                 autoComplete="off"
                 value={fullData.name}
-                onChange={e => { updateFullData('name', e.target.value); }}
+                onChange={(e) => { updateFullData('name', e.target.value); }}
                 onBlur={checkName}
               />
             </div>
@@ -346,7 +346,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
             {
               editMode && (
                 <div className="inline-flex-box">
-                  <Avatar showName name={<UserInfo id={caseDetail.updaterID} render={data => data.nick || data.name} />} size={28} />&nbsp;{i18n.t('project:updated on')}&nbsp;{updateDate}
+                  <Avatar showName name={<UserInfo id={caseDetail.updaterID} render={(data) => data.nick || data.name} />} size={28} />&nbsp;{i18n.t('project:updated on')}&nbsp;{updateDate}
                 </div>
               )
             }

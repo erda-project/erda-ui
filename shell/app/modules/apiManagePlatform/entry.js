@@ -25,7 +25,7 @@ export default (registerModule) => {
       apiAccessStore,
       apiClientStore,
       apiDesignStore,
-      apiMarketStore
+      apiMarketStore,
     ],
     // routers,
   });

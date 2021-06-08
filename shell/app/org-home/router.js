@@ -26,7 +26,7 @@ export default function getOrgRouter() {
       breadcrumbName: '{curOrgName}',
       routes: [
         {
-          getComp: cb => cb(import('app/org-home/pages/personal-home')),
+          getComp: (cb) => cb(import('app/org-home/pages/personal-home')),
           layout: {
             hideHeader: true,
             showSubSidebar: false,
@@ -36,7 +36,7 @@ export default function getOrgRouter() {
         },
         {
           path: 'org-list',
-          getComp: cb => cb(import('app/org-home/pages/org-list'), 'OrgList'),
+          getComp: (cb) => cb(import('app/org-home/pages/org-list'), 'OrgList'),
           layout: {
             hideHeader: true,
             showSubSidebar: false,

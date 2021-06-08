@@ -34,7 +34,7 @@ export default class Container<State = {}, Props = {}> {
 
   setState(
     updater: any,
-    callback?: () => void
+    callback?: () => void,
   ): Promise<void> {
     return Promise.resolve().then(() => {
       let nextState;
@@ -52,7 +52,7 @@ export default class Container<State = {}, Props = {}> {
 
       this.state = { ...this.state, ...nextState };
 
-      const promises = this._listeners.map(listener => listener());
+      const promises = this._listeners.map((listener) => listener());
 
       return Promise.all(promises).then(() => {
         if (callback) {
@@ -63,7 +63,7 @@ export default class Container<State = {}, Props = {}> {
   }
 
   forceUpdate() {
-    this._forceUpdates.forEach(listener => listener());
+    this._forceUpdates.forEach((listener) => listener());
   }
 
   subscribe(fn: Listener, fu: Listener) {
@@ -72,7 +72,7 @@ export default class Container<State = {}, Props = {}> {
   }
 
   unsubscribe(fn: Listener, fu: Listener) {
-    this._listeners = this._listeners.filter(f => f !== fn);
-    this._forceUpdates = this._forceUpdates.filter(f => f !== fu);
+    this._listeners = this._listeners.filter((f) => f !== fn);
+    this._forceUpdates = this._forceUpdates.filter((f) => f !== fu);
   }
 }

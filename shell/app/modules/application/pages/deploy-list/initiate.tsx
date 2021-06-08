@@ -19,14 +19,14 @@ import DeployList, { approvalStatusMap } from './deploy-list';
 import runtimeStore from 'runtime/stores/runtime';
 
 const Initiate = () => {
-  const status = routeInfoStore.getState(s => s.params.initiateType) || approvalStatusMap.WaitApprove.value;
-  const [launchedDeployList, launchedDeployPaging] = deployStore.useStore(s => [s.launchedDeployList, s.launchedDeployPaging]);
+  const status = routeInfoStore.getState((s) => s.params.initiateType) || approvalStatusMap.WaitApprove.value;
+  const [launchedDeployList, launchedDeployPaging] = deployStore.useStore((s) => [s.launchedDeployList, s.launchedDeployPaging]);
   const { getLaunchedDeployList } = deployStore.effects;
   const { clearDeployList } = deployStore.reducers;
   const [loading] = useLoading(deployStore, ['getLaunchedDeployList']);
   const { cancelDeployment } = runtimeStore;
 
-  const getList = (approvalStatus: string) => (query:any) => getLaunchedDeployList({ ...query, approvalStatus });
+  const getList = (approvalStatus: string) => (query: any) => getLaunchedDeployList({ ...query, approvalStatus });
 
   const propsMap = {
     getList: getList(status),
@@ -36,7 +36,7 @@ const Initiate = () => {
     isFetching: loading,
     cancelDeployment,
   };
-  return <DeployList key={status} type='initiate' status={status} {...propsMap} />;
+  return <DeployList key={status} type="initiate" status={status} {...propsMap} />;
 };
 
 export default Initiate;

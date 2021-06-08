@@ -13,10 +13,10 @@
 
 import { goTo } from 'common/utils';
 import i18n from 'i18n';
-import { 
-  ApplicationOne as IconApplicationOne, 
-  DataAll as IconDataAll, 
-  SettingConfig as IconSettingConfig 
+import {
+  ApplicationOne as IconApplicationOne,
+  DataAll as IconDataAll,
+  SettingConfig as IconSettingConfig,
 } from '@icon-park/react';
 import React from 'react';
 

@@ -24,7 +24,7 @@ import { BuildLog } from 'application/pages/build-detail/build-log';
 import InfoPreview from 'config-page/components/info-preview/info-preview';
 
 const AutoTestScenes = () => {
-  const [{ projectId, spaceId }, query] = routeInfoStore.useStore(s => [s.params, s.query]);
+  const [{ projectId, spaceId }, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { pipelineId, nodeId, ...restQuery } = query || {};
   const [{ logVisible, logProps, urlQuery, resultVis, previewData }, updater, update] = useUpdate({
@@ -61,8 +61,8 @@ const AutoTestScenes = () => {
   return (
     <>
       <DiceConfigPage
-        scenarioType='auto-test-scenes'
-        scenarioKey='auto-test-scenes'
+        scenarioType="auto-test-scenes"
+        scenarioKey="auto-test-scenes"
         inParams={inParams}
         customProps={{
           executeTaskTable: {
@@ -156,7 +156,7 @@ export const getPreviewData = (d: any) => {
           <a download={item.value} href={`/api/files/${item.value}`}>
             {item.name || item.value}
           </a>
-        </div>
+        </div>,
       );
     } else {
       resultData.push({
@@ -169,7 +169,7 @@ export const getPreviewData = (d: any) => {
             props: {
               title: labelMap[item.name] || item.name,
               minHeight: 40,
-              actions: { copy: true }, 
+              actions: { copy: true },
             },
           },
         },
@@ -196,10 +196,10 @@ export const getPreviewData = (d: any) => {
     });
   }
 
-  map(sortBy(resKeys, sKey => {
+  map(sortBy(resKeys, (sKey) => {
     const idx = indexOf([...apiResultKeys, 'status', 'result'], sKey);
     return idx === -1 ? resKeys.length : idx;
-  }), key => {
+  }), (key) => {
     const curData = get(find(resultData, { key }), 'value') || {};
     if (curData?.data !== undefined || curData?.data !== null) {
       // 对应上方的key转换

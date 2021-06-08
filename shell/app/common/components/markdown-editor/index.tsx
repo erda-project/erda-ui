@@ -19,11 +19,11 @@ import { IF } from 'common';
 import './index.scss';
 
 interface ICanView {
-    menu?: boolean;
-    md?: boolean;
-    html?: boolean;
-    fullScreen?: boolean;
-    hideMenu?: boolean;
+  menu?: boolean;
+  md?: boolean;
+  html?: boolean;
+  fullScreen?: boolean;
+  hideMenu?: boolean;
 }
 
 const defaultCanView = {
@@ -32,7 +32,7 @@ const defaultCanView = {
   html: true,
   fullScreen: true,
   hideMenu: true,
-}
+};
 
 interface IProps {
   value?: string | null;
@@ -47,7 +47,7 @@ interface IProps {
   autoFocus?: boolean;
   canView?: ICanView;
   notClearAfterSubmit?: boolean;
-  style?: object,
+  style?: object;
   onSubmit?: (value: string, rate: number) => void;
   onChange?: (value: any) => void;
   onFocus?: (e: any) => void;
@@ -64,7 +64,7 @@ interface IState {
     md: boolean;
     html: boolean;
     menu: boolean;
-  }
+  };
 }
 
 export default class MarkdownEditor extends PureComponent<IProps, IState> {
@@ -86,7 +86,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
     };
   }
 
-  static getDerivedStateFromProps(nextProps:IProps, prevState: IState) {
+  static getDerivedStateFromProps(nextProps: IProps, prevState: IState) {
     if (nextProps.value !== prevState.tempContent) {
       return {
         ...prevState,
@@ -99,7 +99,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
 
   componentDidMount() {
     const mdRef = this.mdEditor?.current as any;
-    mdRef && mdRef.on('viewchange', (view: { html: boolean, md: boolean, menu: boolean }) => {
+    mdRef && mdRef.on('viewchange', (view: { html: boolean; md: boolean; menu: boolean }) => {
       this.setState({
         view,
       });
@@ -107,7 +107,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
         mdRef.nodeMdText.current && mdRef.nodeMdText.current.focus();
       }
     });
-    if(this.props.autoFocus && this.state.view.md && mdRef.nodeMdText.current){
+    if (this.props.autoFocus && this.state.view.md && mdRef.nodeMdText.current) {
       mdRef.nodeMdText.current.focus();
     }
   }
@@ -128,7 +128,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
     }
   };
 
-  onChange = (data: { html: string, text: string }) => {
+  onChange = (data: { html: string; text: string }) => {
     const { onChange, maxLength } = this.props;
     let v = data.text;
     if (maxLength && data.text.length > maxLength) {
@@ -160,7 +160,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
           onClick={this.onSubmit}
         >
           {btnText || i18n.t('common:submit')}
-        </Button>
+        </Button>,
       );
     }
 
@@ -172,7 +172,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
           onClick={this.onSetLS}
         >
           {i18n.t('application:temporary storage')}
-        </Button>
+        </Button>,
       );
     }
 
@@ -184,7 +184,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
           onClick={onCancel}
         >
           {i18n.t('common:cancel')}
-        </Button>
+        </Button>,
       );
     }
 

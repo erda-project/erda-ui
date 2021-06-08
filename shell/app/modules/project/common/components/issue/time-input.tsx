@@ -58,11 +58,11 @@ export const transToStr = (v?: string | number) => {
   const dayText = day > 0 ? `${day}d` : '';
   const hourText = hour > 0 ? `${hour}h` : '';
   const minText = min > 0 ? `${min}m` : '';
-  return [weekText, dayText, hourText, minText].filter(a => !!a).join(' ');
+  return [weekText, dayText, hourText, minText].filter((a) => !!a).join(' ');
 };
 
 interface IProps {
-  [k: string]: any
+  [k: string]: any;
   value?: string;
   originalValue: string;
   disabled?: boolean;
@@ -70,7 +70,7 @@ interface IProps {
   passAndTrigger?: boolean;
   triggerChangeOnButton?: boolean;
   tooltip?: React.ReactElement;
-  onChange?(v: number | string): void;
+  onChange?: (v: number | string) => void;
 }
 export const TimeInput = React.forwardRef(({
   value,
@@ -135,7 +135,7 @@ export const TimeInput = React.forwardRef(({
   };
 
   return (
-    <Tooltip placement='topLeft' title={tooltip}>
+    <Tooltip placement="topLeft" title={tooltip}>
       <Input
         allowClear
         className={showTip ? 'with-error' : ''}
@@ -144,16 +144,16 @@ export const TimeInput = React.forwardRef(({
         {...rest}
         ref={ref}
         value={transToStr(_value)}
-        onChange={e => onInputChange(e.target.value)}
+        onChange={(e) => onInputChange(e.target.value)}
         onBlur={() => setTimeout(onBlur, 200)}
       />
-      {showTip ? <span className='fz12 color-red'>{checkMsg}</span> : null}
+      {showTip ? <span className="fz12 color-red">{checkMsg}</span> : null}
       {
         triggerChangeOnButton && showBtn
           ? (
-            <div className='issue-part-save-group'>
-              <span className='issue-part-save' onClick={onSave}><CustomIcon className='mr0' type='duigou' /></span>
-              <span className='issue-part-cancel' onClick={onCancel}><CustomIcon className='mr0' type='gb' /></span>
+            <div className="issue-part-save-group">
+              <span className="issue-part-save" onClick={onSave}><CustomIcon className="mr0" type="duigou" /></span>
+              <span className="issue-part-cancel" onClick={onCancel}><CustomIcon className="mr0" type="gb" /></span>
             </div>
           )
           : null

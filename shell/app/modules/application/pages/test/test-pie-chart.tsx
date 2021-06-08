@@ -35,7 +35,7 @@ const TestPieChart = ({ data }: IProps): JSX.Element => {
     skipped: '#FEAB00',
     passed: '#2DC083',
   };
-  const useColor = result.map(item => colorsMap[item.type]);
+  const useColor = result.map((item) => colorsMap[item.type]);
   const getOption = () => {
     const option = {
       tooltip: {

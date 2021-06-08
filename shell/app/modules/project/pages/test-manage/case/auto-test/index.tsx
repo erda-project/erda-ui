@@ -15,7 +15,7 @@ import * as React from 'react';
 import PipelineManage from 'project/common/components/pipeline-manage';
 
 const AutoTest = () => {
-  return <PipelineManage scope='autoTest' />;
+  return <PipelineManage scope="autoTest" />;
 };
 
 export default AutoTest;

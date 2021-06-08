@@ -42,7 +42,7 @@ describe('PagingTable', () => {
         columns={columns}
         onEdit={editFn}
         onDelete={deleteFn}
-      />
+      />,
     );
     expect(getList).toHaveBeenCalledTimes(0);
     wrapper.find('.add-button').simulate('click');
@@ -66,7 +66,7 @@ describe('PagingTable', () => {
         {
           wrapperInstance.operation.render(dataSource[0])
         }
-      </div>
+      </div>,
     );
     temp.find('.table-operations-btn').at(0).simulate('click');
     expect(editFn).toHaveBeenLastCalledWith(dataSource[0]);
@@ -85,7 +85,7 @@ describe('PagingTable', () => {
       <PagingTable
         isForbidInitialFetch={false}
         getList={getList}
-      />
+      />,
     );
     expect(getList).toHaveBeenCalledTimes(1);
   });

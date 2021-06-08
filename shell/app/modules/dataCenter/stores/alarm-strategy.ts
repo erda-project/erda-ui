@@ -55,7 +55,7 @@ const alarmStrategy = createStore({
       await call(createAlert, payload, { successMsg: i18n.t('operated successfully') });
       await alarmStrategy.effects.getAlerts({ pageNo: 1 });
     },
-    async editAlert({ call }, payload: { body: COMMON_STRATEGY_NOTIFY.IAlertBody; id: string; }) {
+    async editAlert({ call }, payload: { body: COMMON_STRATEGY_NOTIFY.IAlertBody; id: string }) {
       await call(editAlert, payload, { successMsg: i18n.t('operated successfully') });
       await alarmStrategy.effects.getAlerts({ pageNo: 1 });
     },
@@ -71,7 +71,7 @@ const alarmStrategy = createStore({
       await alarmStrategy.effects.getAlerts({ pageNo: 1 });
     },
     async getAlarmScopes({ call, update }) {
-      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const orgId = orgStore.getState((s) => s.currentOrg.id);
       const orgClusterList = await call(getClusterList, { orgId });
       const alarmScopeMap = {};
       forEach(orgClusterList, ({ name }) => {

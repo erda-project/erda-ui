@@ -28,7 +28,7 @@ import { map } from 'lodash';
 
 interface IProps {
   artifactsId: string;
-  data: PUBLISHER.IArtifacts
+  data: PUBLISHER.IArtifacts;
 }
 
 const ArtifactsDetail = ({ data, artifactsId }: IProps) => {

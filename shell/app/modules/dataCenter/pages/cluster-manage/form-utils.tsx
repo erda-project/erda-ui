@@ -47,10 +47,10 @@ interface IField {
     [proName: string]: any;
     type?: string;
   };
-  getComp?(o?: any): any;
+  getComp?: (o?: any) => any;
 }
 
-export const FormUnitContainer = ({ children, title, curRef }: {children: any, title: string, curRef?: any }) => {
+export const FormUnitContainer = ({ children, title, curRef }: {children: any; title: string; curRef?: any }) => {
   const [isPresent, setIsPresent] = React.useState(true);
   return (
     <div className={`form-container ${isPresent ? 'show' : 'hidden'}`} ref={curRef}>

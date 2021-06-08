@@ -82,7 +82,7 @@ const ValMap = {
   raw: (props: any) => {
     const { data, updateBody }: any = props;
     const val = isString(data.content) ? data.content : '';
-    return <Input.TextArea rows={4} value={val} onChange={e => updateBody('content', e.target.value)} />;
+    return <Input.TextArea rows={4} value={val} onChange={(e) => updateBody('content', e.target.value)} />;
   },
   'application/json': (props: any) => <TestJsonEditor {...props} />,
 };
@@ -150,7 +150,7 @@ const APIBody = (props: any) => {
   return (
     <div className="case-api-body">
       <div className="body-type-chosen mb8 px12">
-        <Radio.Group onChange={e => changeType(e.target.value)} value={isRaw ? 'raw' : realType} disabled>
+        <Radio.Group onChange={(e) => changeType(e.target.value)} value={isRaw ? 'raw' : realType} disabled>
           <Radio value={'none'}>none</Radio>
           <Radio value={BasicForm}>x-www-form-urlencoded</Radio>
           <Radio value={'raw'}>raw</Radio>
@@ -165,7 +165,7 @@ const APIBody = (props: any) => {
               value={realType}
               dropdownMatchSelectWidth={false}
             >
-              {map(BODY_RAW_OPTION, item => (
+              {map(BODY_RAW_OPTION, (item) => (
                 <Option key={item} value={item}>{item}</Option>
               ))}
             </Select>

@@ -27,15 +27,15 @@ import './add-modal.scss';
 interface IProps{
   formData: any;
   modalVisible: boolean;
-  afterSubmit(args?: any): Promise<any>;
-  toggleModal(args?: any): void;
+  afterSubmit: (args?: any) => Promise<any>;
+  toggleModal: (args?: any) => void;
 }
 const AddModal = (props: IProps) => {
   const { formData, modalVisible, afterSubmit, toggleModal } = props;
 
-  const params = routeInfoStore.useStore(s => s.params);
+  const params = routeInfoStore.useStore((s) => s.params);
   const { saveService, updateMetric } = monitorStatusStore.effects;
-  const instance = monitorOverviewStore.useStore(s => s.instance);
+  const instance = monitorOverviewStore.useStore((s) => s.instance);
 
   const handelSubmit = (_data: MONITOR_STATUS.IMetricsBody) => {
     const { accountId, ...rest } = _data;

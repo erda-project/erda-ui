@@ -19,12 +19,12 @@ export const getAlarmRecordList = ({ tenantGroup, ...query }: Merge<ALARM_REPORT
     .then((response: any) => response.body);
 };
 
-export const getAlarmAttrs = (tenantGroup: string): { [k: string]: Array<{ key: string; display: string; }> } => {
+export const getAlarmAttrs = (tenantGroup: string): { [k: string]: Array<{ key: string; display: string }> } => {
   return agent.get(`/api/tmc/tenantGroup/${tenantGroup}/alert-record-attrs`)
     .then((response: any) => response.body);
 };
 
-export const getAlarmRecordDetail = ({ tenantGroup, groupId }: { groupId: string, tenantGroup: string}): ALARM_REPORT.RecordListItem => {
+export const getAlarmRecordDetail = ({ tenantGroup, groupId }: { groupId: string; tenantGroup: string}): ALARM_REPORT.RecordListItem => {
   return agent.get(`/api/tmc/tenantGroup/${tenantGroup}/alert-records/${groupId}`)
     .then((response: any) => response.body);
 };

@@ -27,7 +27,7 @@ interface IVariableInputGroupProps {
 }
 
 export default class extends PureComponent<IVariableInputGroupProps, any> {
-  public state = {
+  state = {
     key: '',
     value: '',
   };
@@ -47,14 +47,14 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
     return null;
   }
 
-  public triggerChange = (changedValue: any) => {
+  triggerChange = (changedValue: any) => {
     const { onChange } = this.props;
     if (onChange) {
       onChange(changedValue);
     }
   };
 
-  public render() {
+  render() {
     const { onDelete, lock, disabled } = this.props;
     const { key, value } = this.state;
     return (

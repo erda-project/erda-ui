@@ -24,7 +24,7 @@ export const requestTrace = (data?: MONITOR_TRACE.ITraceRequestBody): {requestId
 export const getTraceHistoryList = (query: {terminusKey: string}): MONITOR_TRACE.ITraceRequestResp => {
   return agent.get('/api/spot/trace-requests')
     .query({ limit: 200, ...query })
-    .then((response:any) => response.body);
+    .then((response: any) => response.body);
 };
 
 // https://yuque.antfin-inc.com/docs/share/e59c5eb3-fbfe-44f7-81a2-567e2fc26703#gsiniv

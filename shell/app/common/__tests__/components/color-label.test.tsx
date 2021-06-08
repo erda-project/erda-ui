@@ -29,7 +29,7 @@ describe('color-label', () => {
         onClose={onClose}
         onClick={onClick}
         style={{ color: 'red' }}
-      />
+      />,
     );
     expect(wrapper.hasClass('custom-class-name')).toEqual(true);
     expect(wrapper.find('.pk-tag')).toHaveText('·labels');

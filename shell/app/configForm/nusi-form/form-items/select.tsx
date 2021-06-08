@@ -87,7 +87,7 @@ const PureFormSelect = (props: any) => {
   registerRequiredCheck(_requiredCheck || requiredCheck);
 
   const customOptions = typeof options === 'function' ? options() : options;
-  const renderOptions = Array.isArray(customOptions) && customOptions.some(item => typeof item.$$typeof === 'symbol')
+  const renderOptions = Array.isArray(customOptions) && customOptions.some((item) => typeof item.$$typeof === 'symbol')
     ? customOptions
     : customOptions.map((s: any) => (
       <Option key={s.value} value={s.value}>
@@ -99,7 +99,7 @@ const PureFormSelect = (props: any) => {
   const _placeholder = placeholder || i18n.t('please select {name}', { name: label || key });
 
   const selectAllHandle = () => {
-    const allValues = map(customOptions, item => item.value);
+    const allValues = map(customOptions, (item) => item.value);
     form.setFieldValue(key, allValues);
   };
 
@@ -136,13 +136,13 @@ const PureFormSelect = (props: any) => {
                     <span
                       className="ml8 text-link"
                       onClick={selectAllHandle}
-                      onMouseDown={e => e.preventDefault()}
+                      onMouseDown={(e) => e.preventDefault()}
                     >{i18n.t('project:select all')}
                     </span>
                     <span
                       className="ml8 text-link"
                       onClick={selectAllCancel}
-                      onMouseDown={e => e.preventDefault()}
+                      onMouseDown={(e) => e.preventDefault()}
                     >{i18n.t('clear')}
                     </span>
                     <Divider style={{ margin: '8px 0' }} />
@@ -182,7 +182,7 @@ export const FormSelect = ({
 export const config = {
   name: 'select',
   Component: FormSelect, // 某React组件，props中必须有value、onChange
-  requiredCheck: value => {
+  requiredCheck: (value) => {
     // 必填校验时，特殊的校验规则
     return [(isArray(value) ? !isEmpty(value) : value !== undefined), i18n.t('can not be empty')];
   },

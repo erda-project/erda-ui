@@ -54,7 +54,7 @@ class AryFormatter extends Formatter {
   getCurAryTower(aryTower, unit) {
     let idx = 0;
     if (unit) {
-      idx = findIndex(aryTower, v => v.toLocaleUpperCase() === unit.toLocaleUpperCase());
+      idx = findIndex(aryTower, (v) => v.toLocaleUpperCase() === unit.toLocaleUpperCase());
       idx < 0 && (idx = 0);
     }
     return aryTower.slice(idx || 0);

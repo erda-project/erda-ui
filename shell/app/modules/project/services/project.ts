@@ -52,7 +52,7 @@ export const getDashboard = (type: string) => {
     .then((response: any) => response.body);
 };
 
-export const getAutoTestSpaceDetail = ({ spaceId }:{ spaceId: string }) => {
+export const getAutoTestSpaceDetail = ({ spaceId }: { spaceId: string }) => {
   return agent.get(`/api/autotests/spaces/${spaceId}`)
     .then((response: any) => response.body);
 };

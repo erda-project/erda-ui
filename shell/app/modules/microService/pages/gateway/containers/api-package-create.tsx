@@ -87,7 +87,7 @@ const BindDomainForm = (props: any) => {
                     },
                   ],
                 })(
-                  <Input className="bind-domain-input" onChange={(e: any) => changeItemValue(e.target.value, index)} />
+                  <Input className="bind-domain-input" onChange={(e: any) => changeItemValue(e.target.value, index)} />,
                 )
               }
               <div className="bind-domain-icons">
@@ -105,8 +105,8 @@ const BindDomainForm = (props: any) => {
 };
 
 export const PureApiPackage = () => {
-  const [params, query] = routeInfoStore.useStore(s => [s.params, s.query]);
-  const [apiPackageDetail, consumerAuthorizes, aliCloudDomian] = gatewayStore.useStore(s => [s.apiPackageDetail, s.consumerAuthorizes, s.aliCloudDomian]);
+  const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const [apiPackageDetail, consumerAuthorizes, aliCloudDomian] = gatewayStore.useStore((s) => [s.apiPackageDetail, s.consumerAuthorizes, s.aliCloudDomian]);
   const { getApiPackageDetail, createOpenApiConsumer, getConsumerAuthorizes, updateConsumerAuthorizes, createApiPackage, updateApiPackage, getAliCloudDomain, getCloudApiInfo, bindAliCloudDomain } = gatewayStore.effects;
   const { clearApiPackageDetail } = gatewayStore.reducers;
   const [isFetching, isGenAliuAuth, isUpdateApi, isCreateApi, isCreateConsumer] = useLoading(gatewayStore, ['getApiPackageDetail', 'generateAliCloudCredentialsAfterCreate', 'updateApiPackage', 'createApiPackage', 'createOpenApiConsumer']);
@@ -186,7 +186,7 @@ export const PureApiPackage = () => {
         itemProps: {
           disabled: editMode,
         },
-        options: filter(Object.entries(SCENE_MAP), item => item[0] !== 'unity').map(([key, value]) => ({ value: key, name: value })),
+        options: filter(Object.entries(SCENE_MAP), (item) => item[0] !== 'unity').map(([key, value]) => ({ value: key, name: value })),
       },
       {
         label: i18n.t('microService:name'),
@@ -278,7 +278,7 @@ export const PureApiPackage = () => {
         render: (_val: boolean, record: any) => (
           <Checkbox
             checked={state.consumerMap[record.id] && state.consumerMap[record.id].selected}
-            onChange={e => updater.consumerMap((prev: any) => {
+            onChange={(e) => updater.consumerMap((prev: any) => {
               return { ...prev, [record.id]: { ...record, selected: e.target.checked } };
             })}
           />
@@ -322,7 +322,7 @@ export const PureApiPackage = () => {
           dataSource={consumerAuthorizes}
           columns={columns}
           pagination={{ ...state.consumerPaging }}
-          onChange={pag => updater.consumerPaging(pag)}
+          onChange={(pag) => updater.consumerPaging(pag)}
         />
       </>
     );

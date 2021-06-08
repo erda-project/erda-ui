@@ -34,15 +34,15 @@ interface IDataItemProps {
   hasDesc?: boolean;
   className?: string;
   operation?: any;
-  updateItem(arg: any): void;
+  updateItem: (arg: any) => void;
 }
 
 const DataItem = ({ updateItem, data, hasDesc = true, className = '', operation = null }: IDataItemProps) => {
   return (
     <div className={className}>
-      <Input value={data.name} placeholder='请输入数据名称' onChange={(e) => updateItem({ name: e.target.value })} />
-      {hasDesc && <Input value={data.desc} placeholder='请输入数据描述' onChange={(e) => updateItem({ desc: e.target.value })} />}
-      <Input value={data.value} placeholder='请填写数据值' onChange={(e) => updateItem({ value: e.target.value })} />
+      <Input value={data.name} placeholder="请输入数据名称" onChange={(e) => updateItem({ name: e.target.value })} />
+      {hasDesc && <Input value={data.desc} placeholder="请输入数据描述" onChange={(e) => updateItem({ desc: e.target.value })} />}
+      <Input value={data.value} placeholder="请填写数据值" onChange={(e) => updateItem({ value: e.target.value })} />
       {operation}
     </div>
   );
@@ -104,7 +104,7 @@ export const FormDataStatic = ({
 export const config = {
   name: 'dataStatic',
   Component: FormDataStatic, // 某React组件，props中必须有value、onChange
-  requiredCheck: value => {
+  requiredCheck: (value) => {
     // 必填校验时，特殊的校验规则
     return [!isEmpty(value), i18n.t('can not be empty')];
   },

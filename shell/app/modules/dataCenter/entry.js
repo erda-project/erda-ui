@@ -63,7 +63,7 @@ export default (registerModule) => {
       podDetailStore,
       queryMonitorStore,
       storageStore,
-      taskStore
+      taskStore,
     ],
     // routers,
   });

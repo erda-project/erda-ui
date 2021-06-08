@@ -19,7 +19,7 @@ import { describe, it } from '@jest/globals';
 describe('SimpleLog', () => {
   it('render without props', () => {
     const wrapper = shallow(
-      <SimpleLog />
+      <SimpleLog />,
     );
     expect(wrapper.state()).toStrictEqual({ query: {} });
     expect(wrapper.find('SimpleLogRoller').prop('query')).toStrictEqual({});
@@ -34,7 +34,7 @@ describe('SimpleLog', () => {
       requestId: 123,
     };
     const wrapper = shallow(
-      <SimpleLog {...props} />
+      <SimpleLog {...props} />,
     );
     expect(wrapper.state()).toStrictEqual({ query: props });
     expect(wrapper.find('SimpleLogRoller').prop('query')).toStrictEqual(props);

@@ -67,6 +67,14 @@ module.exports = {
         '@typescript-eslint/interface-name-prefix': 'off',
         'indent': 0,
       }
+    },
+    {
+      files: ['**/*.js'], // none ts script like webpack config or legacy node scripts
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+        '@typescript-eslint/no-require-imports': 'off',
+        'no-console': 'off'
+      }
     }
   ]
 };

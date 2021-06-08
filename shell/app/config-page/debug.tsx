@@ -35,7 +35,7 @@ export default () => {
   };
 
   const onExecOp = ({ cId, op, reload, updateInfo }: any) => {
-    setLogs(prev => prev.concat({ time: moment().format('HH:mm:ss'), type: '操作', cId, opKey: op.text || op.key, command: JSON.stringify(op.command), reload, data: JSON.stringify(updateInfo, null, 2) }));
+    setLogs((prev) => prev.concat({ time: moment().format('HH:mm:ss'), type: '操作', cId, opKey: op.text || op.key, command: JSON.stringify(op.command), reload, data: JSON.stringify(updateInfo, null, 2) }));
   };
 
   return (
@@ -47,8 +47,8 @@ export default () => {
           value={text}
           onChange={setText}
         />
-        <Button type='primary' className='update-button' onClick={() => updateMock()}>更新</Button>
-        <Button type='primary' className='request-button' onClick={() => pageRef.current.reload(config)}>请求</Button>
+        <Button type="primary" className="update-button" onClick={() => updateMock()}>更新</Button>
+        <Button type="primary" className="request-button" onClick={() => pageRef.current.reload(config)}>请求</Button>
       </div>
       <div className="right full-height">
         <ErrorBoundary>
@@ -60,7 +60,7 @@ export default () => {
             inParams={config?.inParams}
             debugConfig={config}
             onExecOp={onExecOp}
-            updateConfig={v => { setConfig(v); setText(JSON.stringify(v, null, 2); }}
+            updateConfig={(v) => { setConfig(v); setText(JSON.stringify(v, null, 2)); }}
           />
         </ErrorBoundary>
         <div className="log-panel">
@@ -68,19 +68,19 @@ export default () => {
           {logs.map((log, i) => {
             return (
               <div key={i} className="log-item">
-                <span>{log.time} {log.reload && <CustomIcon type='refresh' />} {log.type} {log.cId}: {log.opKey}
-                  {log.command && <pre className='mb0'>{log.command}</pre>}
+                <span>{log.time} {log.reload && <CustomIcon type="refresh" />} {log.type} {log.cId}: {log.opKey}
+                  {log.command && <pre className="mb0">{log.command}</pre>}
                 </span>
                 {log.data && (
                   <Popover
-                    placement='top'
+                    placement="top"
                     content={
                       <div className="code-block auto-overflow" style={{ height: '600px', maxWidth: '600px' }}>
                         <pre className="prewrap">{log.data}</pre>
                       </div>
                     }
                   >
-                    <span className='fake-link'>
+                    <span className="fake-link">
                       查看数据
                     </span>
                   </Popover>

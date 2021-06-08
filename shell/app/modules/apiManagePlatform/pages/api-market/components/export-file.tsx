@@ -24,11 +24,11 @@ interface IProps {
   versionID: number;
   visible: boolean;
   specProtocol: API_MARKET.SpecProtocol;
-  onCancel(): void;
+  onCancel: () => void;
 }
 
 const ExportFile = ({ visible, onCancel, versionID, assetID, specProtocol: curProtocol }: IProps) => {
-  const fieldsList:IFormItem[] = React.useMemo(() => {
+  const fieldsList: IFormItem[] = React.useMemo(() => {
     const filterProtocolMap = pickBy(protocolMap, (_, protocol) => {
       const protocolPrefix = curProtocol?.substr(0, 4) || '';
       return protocol.indexOf(protocolPrefix) > -1;

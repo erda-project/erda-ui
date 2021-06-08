@@ -26,35 +26,35 @@ export interface IPipelineGraphicEditorProps{
   ymlObj: PIPELINE.IPipelineYmlStructure;
   editing: boolean;
   nameKey?: string;
-  onDeleteData:(arg: any) => void;
-  addDrawerProps?: Obj
+  onDeleteData: (arg: any) => void;
+  addDrawerProps?: Obj;
   onAddData: (arg: any) => void;
   onAddInParams?: (arg: any) => void;
   onAddOutParams?: (arg: any) => void;
   PipelineNodeDrawer?: (props: IPipelineNodeDrawerProps) => JSX.Element;
   InParamsDrawer?: (props: IInPramasDrawerProps) => JSX.Element;
   OutParamsDrawer?: (props: IOutParamsDrawerProps) => JSX.Element;
-  chartProps?:IChartProps
+  chartProps?: IChartProps;
 }
 
 interface IPureEditor {
   ymlObj: PIPELINE.IPipelineYmlStructure;
   editing: boolean;
-  onDeleteData:(arg: any) => void;
+  onDeleteData: (arg: any) => void;
   onClickNode: (arg: any) => void;
   chartProps?: IChartProps;
 }
 
 export interface IChartProps {
   nodeEleMap?: {
-    [pro:string]: React.ReactNode
+    [pro: string]: React.ReactNode;
   };
   chartSize?: {
     [pro: string]: {
       WIDTH: number;
       HEIGHT: number;
-    }
-  }
+    };
+  };
 }
 
 export const PurePipelineGraphicEditor = (props: IPureEditor) => {
@@ -77,7 +77,7 @@ export const PurePipelineGraphicEditor = (props: IPureEditor) => {
   }, [update, ymlObj]);
 
   React.useEffect(() => {
-    update(prev => ({
+    update((prev) => ({
       displayData: resetData({ stagesData, inParamsData, outParamsData }, editing),
       dataKey: prev.dataKey + 1,
     }));
@@ -93,7 +93,7 @@ export const PurePipelineGraphicEditor = (props: IPureEditor) => {
   };
   return (
     <YmlChart
-      chartId='pipeline-editor'
+      chartId="pipeline-editor"
       data={displayData}
       editing={editing}
       chartConfig={chartConfig}
@@ -240,11 +240,11 @@ export const PipelineGraphicEditor = (props: IPipelineGraphicEditorProps) => {
 // 非编辑状态下: 插入开始节点，结束节点
 // 编辑状态下：插入开始节点、结束节点、层与层之间插入添加行节点
 interface IResetObj {
-  stagesData?: any[][],
-  inParamsData?: PIPELINE.IPipelineInParams[],
-  outParamsData?: PIPELINE.IPipelineOutParams[],
+  stagesData?: any[][];
+  inParamsData?: PIPELINE.IPipelineInParams[];
+  outParamsData?: PIPELINE.IPipelineOutParams[];
 }
-export const resetData = (data:IResetObj, isEditing = false) => {
+export const resetData = (data: IResetObj, isEditing = false) => {
   const { stagesData = [], inParamsData = [], outParamsData = [] } = data || {};
   const reData = [
     [{ data: inParamsData, [externalKey]: { nodeType: NodeType.startNode } }], // 插入开始节点

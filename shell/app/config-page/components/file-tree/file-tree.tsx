@@ -34,9 +34,9 @@ const getAllMatchKeys = (_data: CP_FILE_TREE.INode[], searchKey?: string) => {
     } else if (curMatch) {
       matchSearchKeys = matchSearchKeys.concat(p.key);
     }
-    map(children, cItem => getMatchKeys(cItem, curKeys, curMatch));
+    map(children, (cItem) => getMatchKeys(cItem, curKeys, curMatch));
   };
-  map(_data, item => getMatchKeys(item, [item.key]));
+  map(_data, (item) => getMatchKeys(item, [item.key]));
   return uniq(matchSearchKeys);
 };
 
@@ -48,7 +48,7 @@ const insertTemp = {
 };
 const getInsertData = (_data: any[]) => {
   const newData = [] as any[];
-  _data.forEach(d => {
+  _data.forEach((d) => {
     const { addBefore, addAfter } = d.operations || {};
 
     if (addBefore && addBefore.disabled !== true) {
@@ -89,14 +89,14 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
           className: 'insert-node',
           title: (
             <div
-              className='pointer insert-node-title'
+              className="pointer insert-node-title"
               onClick={clickInsert}
             />
           ),
           icon: (
             <CustomIcon
-              type='cir-add'
-              className='insert-node-icon pointer'
+              type="cir-add"
+              className="insert-node-icon pointer"
               onClick={clickInsert}
             />
           ),
@@ -111,7 +111,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
         title: !isLeaf && clickToExpand
           ? (
             <div onClick={() => expandOpRef.current?.toggleExpand(d.key, d)}>
-              <Ellipsis title={d.title} align={{ offset: [26, 0] }} placement='right'>
+              <Ellipsis title={d.title} align={{ offset: [26, 0] }} placement="right">
                 {d.title}
               </Ellipsis>
             </div>
@@ -119,21 +119,21 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
           : (
             d.operations?.click?.disabled ? (
               <Tooltip title={d.operations.click.disabledTip}>
-                <span className='file-tree-disabled-node not-allowed full-width nowrap'>{d.title}</span>
+                <span className="file-tree-disabled-node not-allowed full-width nowrap">{d.title}</span>
               </Tooltip>
             ) : (
-              <div className='file-tree-title'>
-                <Ellipsis title={d.title} align={{ offset: [26, 0] }} placement='right'>{d.title}</Ellipsis>
+              <div className="file-tree-title">
+                <Ellipsis title={d.title} align={{ offset: [26, 0] }} placement="right">{d.title}</Ellipsis>
               </div>
             )
           ),
         ...(icon ? {
           icon: <CustomIcon style={{ height: '16px' }} type={icon as string} color={isColorIcon} className={`color-text-sub ${d.operations?.click?.disabled ? 'not-allowed' : ''}`} />,
         } : {}),
-        ...(children ? { children: compact(map(getInsertData(children), cItem => resetData(cItem))) } : {}),
+        ...(children ? { children: compact(map(getInsertData(children), (cItem) => resetData(cItem))) } : {}),
       };
     };
-    const _useData = compact(map(getInsertData(_data), item => resetData(item)));
+    const _useData = compact(map(getInsertData(_data), (item) => resetData(item)));
     return {
       useData: _useData,
       clickableNodes: _clickableNodes,
@@ -177,7 +177,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
     expandOpRef.current = {
       toggleExpand: (k: string, d: any) => {
         if (expandedKeys.includes(k)) {
-          updater.expandedKeys((prev: string[]) => filter([...prev], pItem => pItem !== k));
+          updater.expandedKeys((prev: string[]) => filter([...prev], (pItem) => pItem !== k));
         } else if (isEmpty(d.children) && d.operations?.click) {
           execOperation(d.operations?.click, { selectedKeys: state.selectedKeys, expandedKeys: state.expandedKeys });
         } else {
@@ -191,7 +191,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
   const getActions = (node: TreeNodeNormal): IAction[] => {
     const { operations: nodeOperations } = node as CP_FILE_TREE.INode;
     const _actions = [] as any[];
-    map(nodeOperations, item => {
+    map(nodeOperations, (item) => {
       const { disabled, disabledTip, text, confirm, show } = item;
       if (show !== false) {
         if (disabled) {
@@ -224,7 +224,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
     return _actions;
   };
 
-  const onExpand = (_expandedKeys: string[], expandObj:any) => {
+  const onExpand = (_expandedKeys: string[], expandObj: any) => {
     const curKey = get(expandObj, 'node.props.eventKey');
     const curData = find(data, { key: curKey }) || {} as Obj;
     const curDataChildren = get(curData, 'children');
@@ -292,7 +292,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
   }
 
   return (
-    <div className='dice-cp file-tree full-height'>
+    <div className="dice-cp file-tree full-height">
       { // 默认带上search
         searchable ? <Input onChange={onChangeSearch} value={searchKey} placeholder={i18n.t('press enter to search')} onPressEnter={onSearch} /> : null
       }
@@ -304,7 +304,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
         iconField="icon"
         onExpand={onExpand}
         onSelect={onClickNode}
-        className='file-tree-container'
+        className="file-tree-container"
         selectedKeys={selectedKeys}
         expandedKeys={expandedKeys}
         actions={getActions}

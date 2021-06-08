@@ -24,12 +24,12 @@ import issueWorkflowStore from 'project/stores/issue-workflow';
 const { Option } = Select;
 interface IWorkflowFormProps {
   issueType: ISSUE_WORKFLOW.IIssueType;
-  onOk():void;
-  onCancel():void;
+  onOk: () => void;
+  onCancel: () => void;
 }
 
 const WorkflowStateForm = React.forwardRef(({ issueType, onOk, onCancel }: IWorkflowFormProps) => {
-  const { projectId: projectID } = routeInfoStore.getState(s => s.params);
+  const { projectId: projectID } = routeInfoStore.getState((s) => s.params);
   const { addIssueState } = issueWorkflowStore._effects;
 
   const formRef = React.useRef(null as any);
@@ -77,7 +77,7 @@ const WorkflowStateForm = React.forwardRef(({ issueType, onOk, onCancel }: IWork
         type: 'static',
         static: () => {
           const optionMap = issueStateMap[issueType];
-          return map(Object.keys(optionMap), value => {
+          return map(Object.keys(optionMap), (value) => {
             return (
               <Option key={value} value={value}>
                 {optionMap[value]}
@@ -95,9 +95,9 @@ const WorkflowStateForm = React.forwardRef(({ issueType, onOk, onCancel }: IWork
       <div className={'backlog-issue-form-box'}>
         <Form fields={fields} formRef={formRef} formProps={{ layout: 'inline', className: 'backlog-issue-add' }} />
       </div>
-      <div className='table-operations ml8 mt8'>
-        <span className='table-operations-btn' onClick={onAdd}>{i18n.t('save')}</span>
-        <span className='table-operations-btn' onClick={onCancel}>{i18n.t('cancel')}</span>
+      <div className="table-operations ml8 mt8">
+        <span className="table-operations-btn" onClick={onAdd}>{i18n.t('save')}</span>
+        <span className="table-operations-btn" onClick={onCancel}>{i18n.t('cancel')}</span>
       </div>
     </div>
   );

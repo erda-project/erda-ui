@@ -15,15 +15,15 @@ import { createStore } from 'app/cube';
 import { getErrorsList, getEventIds, getEventDetail } from '../services/errors';
 
 interface IState {
-  filters: Obj<string>
+  filters: Obj<string>;
   errors: {
     list: MONITOR_ERROR.IError[];
     offset: number;
     limit: number;
     total: number;
-  }
+  };
   eventIds: string[];
-  eventDetail: MONITOR_ERROR.IEventDetail
+  eventDetail: MONITOR_ERROR.IEventDetail;
 }
 
 const defaultErrors = {
@@ -46,7 +46,7 @@ const error = createStore({
   effects: {
     async getErrorsList({ call, select, update, getParams }, payload: MONITOR_ERROR.IErrorQuery) {
       const { projectId } = getParams();
-      const preErrors = select(s => s.errors);
+      const preErrors = select((s) => s.errors);
       const { offset } = preErrors;
       if (Number(offset) === -1) return;// offset-1表示当前往下无数据
       const errors = await call(getErrorsList, { ...payload, offset, projectId });
@@ -68,7 +68,7 @@ const error = createStore({
     },
   },
   reducers: {
-    getErrorsListSuccess(state, payload: {errors:{errors: MONITOR_ERROR.IError[], offset: number; total: number;}, reqOffset: number}) {
+    getErrorsListSuccess(state, payload: {errors: {errors: MONITOR_ERROR.IError[]; offset: number; total: number}; reqOffset: number}) {
       const { errors, offset, total } = payload.errors;
       const oldList = state.errors.list;
       const list = `${payload.reqOffset}` === '0' ? errors : oldList.concat(errors);

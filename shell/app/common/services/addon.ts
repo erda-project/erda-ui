@@ -13,7 +13,7 @@
 
 import agent from 'agent';
 
-export const getAddonList = ({ path, orgId }: { path: string, orgId: number }): ADDON.Instance[] => {
+export const getAddonList = ({ path, orgId }: { path: string; orgId: number }): ADDON.Instance[] => {
   return agent.get(`/api/${path}/service/addons`) // path: 'orgCenter' | 'workBench'
     .query({ orgId })
     .then((response: any) => response.body);
@@ -40,7 +40,7 @@ export const getExportAddonSpec = (projectId: string | number): string => {
     .then((response: any) => response.body);
 };
 
-export const importCustomAddon = ({ projectId, body }: { projectId: string | number, body: Obj }) => {
+export const importCustomAddon = ({ projectId, body }: { projectId: string | number; body: Obj }) => {
   return agent.post(`/api/addon/action/yml-import?project=${projectId}`)
     .send(body)
     .then((response: any) => response.body);

@@ -136,7 +136,7 @@ export const daysRange = (num: number) => {
  * @param config.prefix 提示前缀
  * @param config.edgeNow edge time can't overflow current time
  */
-export const fromNow = (time: any, config?: { prefix?: string, edgeNow?: boolean }) => {
+export const fromNow = (time: any, config?: { prefix?: string; edgeNow?: boolean }) => {
   const { prefix = '', edgeNow = false } = config || {};
   const _time = (edgeNow && moment().isBefore(time)) ? new Date() : time;
   return (

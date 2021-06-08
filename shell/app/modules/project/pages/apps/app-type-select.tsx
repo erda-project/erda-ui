@@ -24,19 +24,19 @@ interface Img {
 interface IProps {
   imgOptions: Img[];
   value?: string;
-  onChangeType(value: string): void;
+  onChangeType: (value: string) => void;
 }
 export class AppTypeSelect extends React.PureComponent<IProps> {
   render() {
     const { imgOptions, value, onChangeType } = this.props;
     return (
       <div className="app-type-select">
-        {imgOptions.map(img => (
+        {imgOptions.map((img) => (
           <div
             key={img.name}
             className={classnames(
               'img-wrapper',
-              value === img.value && 'active'
+              value === img.value && 'active',
             )}
             onClick={() => onChangeType(img.value)}
           >

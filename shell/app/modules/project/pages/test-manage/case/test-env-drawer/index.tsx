@@ -19,7 +19,7 @@ import testEnvStore from 'project/stores/test-env';
 
 
 const TestEnvDrawer = () => {
-  const { envID, envType } = testEnvStore.useStore(s => s.envInfo);
+  const { envID, envType } = testEnvStore.useStore((s) => s.envInfo);
   return (
     <Drawer
       destroyOnClose

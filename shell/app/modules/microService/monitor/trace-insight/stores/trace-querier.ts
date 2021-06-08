@@ -18,7 +18,7 @@ import { createStore } from 'app/cube';
 
 import i18n from 'i18n';
 
-const transformTrace = (trace:MONITOR_TRACE.ITrace[]) => {
+const transformTrace = (trace: MONITOR_TRACE.ITrace[]) => {
   if (isEmpty(trace)) return {};
   const traceDetail = traceToMustache(trace);
   traceDetail.spans.forEach((i) => {
@@ -46,13 +46,13 @@ interface IState {
   traceDetailContent: MONITOR_TRACE.ITraceDetail | {};
   spanDetailContent: {
     visible: boolean;
-    span:any;
-  }
+    span: any;
+  };
   traceStatusListPaging: {
     page: number;
     size: number;
     total: number;
-  }
+  };
 }
 
 const DEFAULT_REQUEST_PARAMS = {
@@ -92,10 +92,10 @@ const traceQuerier = createStore({
     },
     async requestTrace({ select, call, getParams }, payload?: MONITOR_TRACE.ITraceRequestBody) {
       const { terminusKey, projectId } = getParams();
-      const requestTraceParams = select(s => s.requestTraceParams);
+      const requestTraceParams = select((s) => s.requestTraceParams);
       const { requestId: currentTraceRequestId } = await call(
         requestTrace,
-        { ...requestTraceParams, ...(payload || {}), terminusKey, projectId }
+        { ...requestTraceParams, ...(payload || {}), terminusKey, projectId },
       );
       traceQuerier.reducers.setCurrentTraceRequestId(currentTraceRequestId);
       await traceQuerier.effects.getTraceHistoryList();
@@ -114,7 +114,7 @@ const traceQuerier = createStore({
       });
     },
     async getTraceStatusDetail({ select, call, update }, payload: { requestId: string }) {
-      const currentTraceRequestId = select(s => s.currentTraceRequestId);
+      const currentTraceRequestId = select((s) => s.currentTraceRequestId);
       if (currentTraceRequestId !== payload.requestId) return;
 
       const traceStatusDetail = await call(getTraceStatus, payload);
@@ -131,7 +131,7 @@ const traceQuerier = createStore({
       }
     },
     async cancelTraceStatus({ select, call }, payload: { requestId: string}) {
-      const currentTraceRequestId = select(s => s.currentTraceRequestId);
+      const currentTraceRequestId = select((s) => s.currentTraceRequestId);
       await call(
         cancelTraceStatus,
         payload,
@@ -143,7 +143,7 @@ const traceQuerier = createStore({
 
       await traceQuerier.effects.getTraceStatusDetail({ requestId: currentTraceRequestId });
     },
-    async getTraceDetailContent({ call, update, getParams }, payload: {requestId: string, needReturn?: boolean}) {
+    async getTraceDetailContent({ call, update, getParams }, payload: {requestId: string; needReturn?: boolean}) {
       const { terminusKey } = getParams();
       const response = await call(getTraceDetailContent, { ...payload, terminusKey });
       // 接口返回timestamp为毫秒，duration为微秒，统一为微秒
@@ -164,7 +164,7 @@ const traceQuerier = createStore({
       }
       update({ traceDetailContent: content });
     },
-    async getSpanDetailContent({ call, update }, payload: {span: any, visible: boolean}) {
+    async getSpanDetailContent({ call, update }, payload: {span: any; visible: boolean}) {
       const response = await call(getSpanDetailContent, payload);
       const annotations = response.span.annotations || [];
       // 接口返回timestamp为毫秒，duration为微秒，统一为微秒
@@ -184,7 +184,7 @@ const traceQuerier = createStore({
     setCurrentTraceRequestId(state, payload: string) {
       state.currentTraceRequestId = payload;
     },
-    setTraceStatusListPaging(state, payload: {page?:number, size?: number; total?:number}) {
+    setTraceStatusListPaging(state, payload: {page?: number; size?: number; total?: number}) {
       state.traceStatusListPaging = {
         ...state.traceStatusListPaging,
         ...payload,

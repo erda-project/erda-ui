@@ -28,14 +28,14 @@ declare namespace TOPOLOGY{
       lineCount: number;
       mqCount: boolean;
       rt: number;
-    }
+    };
   }
 
   interface IGroup {
     category: string;
     id: string;
     name: string;
-    parents: IParent[]
+    parents: IParent[];
   }
 
   interface INode {
@@ -53,7 +53,7 @@ declare namespace TOPOLOGY{
       stopped: number;
     };
     name: string;
-    parents: IParent[]
+    parents: IParent[];
     runtimeId: string;
     runtimeName: string;
     serviceMesh: string;
@@ -108,32 +108,32 @@ declare namespace TOPOLOGY{
       margin: {
         x: number; // 节点横向间距
         y: number; // 节点纵向间距
-      },
-    },
+      };
+    };
     LINK: {
       linkDis: number; // 跨层级线间距
-    },
+    };
     padding: {// 单个独立图的padding
       x: number;
       y: number;
-    },
+    };
     groupPadding: {
       x: number;
       y: number;
-    },
+    };
     boxMargin: {
       x: number;
       y: number;
-    },
+    };
     svgAttr: {
       polyline: object;
       polylineFade: object;
-    },
+    };
     showBox: boolean; // 是否需要显示box
   }
 
   interface ILinkRender{
-    links: ILink[]
+    links: ILink[];
     nodeMap: object;
     boxHeight?: number;
     groupDeepth?: any;
@@ -171,7 +171,7 @@ declare namespace TOPOLOGY{
     delayPercentage: string;// 延时比例
     abortStatus: string;// 错误码
     abortPercentage: string;// 错误比例
-    enable:boolean;// 是否启用，true为启用，false为停用
+    enable: boolean;// 是否启用，true为启用，false为停用
   }
 
   interface IFaultInjectDubbo{
@@ -180,7 +180,7 @@ declare namespace TOPOLOGY{
     interfaceName: string;// 接口名称
     fixedDelay: string;// 延时时间
     delayPercentage: string;// 延时比例
-    enable:boolean;// 是否启用，true为启用，false为停用
+    enable: boolean;// 是否启用，true为启用，false为停用
   }
 
   interface IFaultInject{
@@ -202,17 +202,17 @@ declare namespace TOPOLOGY{
   }
 
   interface ICircuitBreakerSave extends IQuery{
-    data: ICircuitBreakerHttp | ICircuitBreakerDubbo
-    query: IServiceMeshQuery
+    data: ICircuitBreakerHttp | ICircuitBreakerDubbo;
+    query: IServiceMeshQuery;
   }
 
   interface IFaultInjectSave extends IQuery{
-    data: IFaultInjectHttp | IFaultInjectDubbo
-    query: IServiceMeshQuery
+    data: IFaultInjectHttp | IFaultInjectDubbo;
+    query: IServiceMeshQuery;
   }
 
   interface IFaultInjectDelete extends IQuery, IServiceMeshQuery{
-    id:string;
+    id: string;
   }
 
   interface ITopologyTagsQuery {

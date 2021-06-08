@@ -16,16 +16,16 @@ import { get } from 'lodash';
 import { loadChart } from '../services/monitorChart';
 
 const initState = {} as any;
-const defaultDataHandler = (dt:any) => dt;
+const defaultDataHandler = (dt: any) => dt;
 interface IChartQuery {
-  chartName:string;
-  moduleName:string;
-  query:{
-    [pro: string]:any;
-    extendHandler:object;
-    fetchApi:string;
+  chartName: string;
+  moduleName: string;
+  query: {
+    [pro: string]: any;
+    extendHandler: object;
+    fetchApi: string;
   };
-  dataHandler:Function | undefined;
+  dataHandler: Function | undefined;
 }
 
 interface ILoadSucProps {
@@ -41,7 +41,7 @@ const monitorChart = createStore({
   name: 'monitor-chart',
   state: initState,
   effects: {
-    async loadChart({ call }, payload:IChartQuery) {
+    async loadChart({ call }, payload: IChartQuery) {
       const { moduleName, chartName, query, dataHandler } = payload;
       monitorChart.reducers.startLoadingChart({ moduleName, chartName });
       const { extendHandler, ...restQuery } = query;
@@ -50,7 +50,7 @@ const monitorChart = createStore({
     },
   },
   reducers: {
-    startLoadingChart(state, { moduleName, chartName }: {moduleName: string, chartName: string }) {
+    startLoadingChart(state, { moduleName, chartName }: {moduleName: string; chartName: string }) {
       const curModule = state[moduleName] || {};
       if (curModule[chartName]) {
         // 使用内部loading而不是isFetching.effects下的，可以减少外部props从而减少一次render

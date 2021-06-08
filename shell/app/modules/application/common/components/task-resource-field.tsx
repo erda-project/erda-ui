@@ -117,7 +117,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
             <span className="ant-form-item-required" />
             Task Name:
           </span>
-          <Input onChange={e => this.changeCreateValue(e.target.value, 'name')} placeholder={`${i18n.t('application:please enter')} Resource`} />
+          <Input onChange={(e) => this.changeCreateValue(e.target.value, 'name')} placeholder={`${i18n.t('application:please enter')} Resource`} />
           <div className="resource-error">{validTaskName === true ? null : i18n.t('application:resource already exists, please change one')}</div>
         </div>
         <span className="resource-input-group-label">
@@ -145,7 +145,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
                   <span className="ant-form-item-required" />
                   Task Method:
                 </span>
-                <Select value={defaultKey} onChange={e => this.changeCreateValue(e, 'taskKey')} placeholder={i18n.t('application:please select method')} >
+                <Select value={defaultKey} onChange={(e) => this.changeCreateValue(e, 'taskKey')} placeholder={i18n.t('application:please select method')} >
                   {support.get ? <Option value="get">get</Option> : null}
                   {support.put ? <Option value="put">put</Option> : null}
                 </Select>
@@ -272,7 +272,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
           Name:
           <Input
             defaultValue={createViewData.name || ''}
-            onChange={e => this.changeCreateValue(e.target.value, 'name')}
+            onChange={(e) => this.changeCreateValue(e.target.value, 'name')}
             placeholder={`${i18n.t('application:please enter')} Resource`}
           />
         </div>

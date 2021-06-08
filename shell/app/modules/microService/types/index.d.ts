@@ -14,7 +14,7 @@
 declare namespace MS_INDEX {
 
   interface IMicroServiceProject {
-    tenantGroups: [ string, string, string, string ]
+    tenantGroups: [ string, string, string, string ];
     logoUrl: string;
     projectId: string;
     projectName: string;
@@ -23,20 +23,20 @@ declare namespace MS_INDEX {
 
   interface IMicroServiceMenu {
     href: string;
-    key: string, // menuKey，用于匹配菜单高亮
+    key: string; // menuKey，用于匹配菜单高亮
     clusterName: string;
     clusterType: string;
-    cnName: string,
-    enName: string,
-    exists?: boolean // false表示没有用到或还未拉起来，先展示引导页
+    cnName: string;
+    enName: string;
+    exists?: boolean; // false表示没有用到或还未拉起来，先展示引导页
     params: {
-      [key: string]: string
+      [key: string]: string;
       key: string;
       tenantId: string;
       terminusKey: string;
-      tenantGroup:string;
+      tenantGroup: string;
     };
-    children: IMicroServiceMenu[]
+    children: IMicroServiceMenu[];
   }
 
   interface Menu {
@@ -45,7 +45,7 @@ declare namespace MS_INDEX {
     key: string;
     text: string;
     prefix: string;
-    subMenu?: Menu[],
+    subMenu?: Menu[];
   }
 
   interface MenuMap {

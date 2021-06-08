@@ -28,13 +28,13 @@ import './record-list.scss';
 
 interface IProps{
   curPipelineDetail?: PIPELINE.IPipeline;
-  onSelectPipeline:(p: PIPELINE.IPipeline)=>void;
+  onSelectPipeline: (p: PIPELINE.IPipeline) => void;
   scope: string;
 }
 
-const RecordList = React.forwardRef((props: IProps, ref:any) => {
+const RecordList = React.forwardRef((props: IProps, ref: any) => {
   const { curPipelineDetail, onSelectPipeline, scope } = props;
-  const [pipelineRecordList, pipelineRecordPaging, caseDetail, pipelineReportList] = autoTestStore.useStore(s => [s.pipelineRecordList, s.pipelineRecordPaging, s.caseDetail, s.pipelineReportList]);
+  const [pipelineRecordList, pipelineRecordPaging, caseDetail, pipelineReportList] = autoTestStore.useStore((s) => [s.pipelineRecordList, s.pipelineRecordPaging, s.caseDetail, s.pipelineReportList]);
   const { getPipelineRecordList, clearPipelineRecord } = autoTestStore;
   const [loading] = useLoading(autoTestStore, ['getPipelineRecordList', 'getPipelineReport']);
   const { total, pageNo, pageSize } = pipelineRecordPaging;
@@ -63,7 +63,7 @@ const RecordList = React.forwardRef((props: IProps, ref:any) => {
     setIsPopoverVisible(false);
   };
 
-  const handlePopoverVisible = (visible:boolean) => {
+  const handlePopoverVisible = (visible: boolean) => {
     setIsPopoverVisible(visible);
   };
 
@@ -71,8 +71,8 @@ const RecordList = React.forwardRef((props: IProps, ref:any) => {
     return record.id !== get(curPipelineDetail, 'id') ? 'pipeline-record-list' : 'selected-row bold-500';
   };
 
-  const getList = (q:any = {}, forceUpdate = false) => {
-    getPipelineRecordList({ ymlNames: caseDetail.inode, sources: scopeConfigData.runPipelineSource, pageNo: 1, ...q }).then((res:any) => {
+  const getList = (q: any = {}, forceUpdate = false) => {
+    getPipelineRecordList({ ymlNames: caseDetail.inode, sources: scopeConfigData.runPipelineSource, pageNo: 1, ...q }).then((res: any) => {
       if (forceUpdate || isEmpty(curPipelineDetail)) {
         onSelectPipeline(get(res, 'list[0]'));
       }
@@ -119,7 +119,7 @@ const RecordList = React.forwardRef((props: IProps, ref:any) => {
       title: i18n.t('project:report'),
       key: 'report',
       width: 200,
-      render: (_:any, record:any) => (
+      render: (_: any, record: any) => (
         <div className="table-operations">
           <span
             className="table-operations-btn"
@@ -161,7 +161,7 @@ const RecordList = React.forwardRef((props: IProps, ref:any) => {
     );
   };
 
-  const viewReport = (id:number) => {
+  const viewReport = (id: number) => {
     hidePopover();
     getPipelineReport({ pipelineID: id });
     setIsDrawerVisible(true);
@@ -172,19 +172,19 @@ const RecordList = React.forwardRef((props: IProps, ref:any) => {
       title: i18n.t('project:total number of interfaces'),
       dataIndex: 'autoTestNum',
       align: 'center',
-      render: (_:any, record:any) => get(record, 'meta.autoTestNum', '-'),
+      render: (_: any, record: any) => get(record, 'meta.autoTestNum', '-'),
     },
     {
       title: i18n.t('project:case count'),
       dataIndex: 'autoTestCaseNum',
       align: 'center',
-      render: (_:any, record:any) => get(record, 'meta.autoTestCaseNum', '-'),
+      render: (_: any, record: any) => get(record, 'meta.autoTestCaseNum', '-'),
     },
     {
       title: i18n.t('project:interface execution rate'),
       dataIndex: 'apiExecutionRate',
       align: 'center',
-      render: (_:any, record:any) => {
+      render: (_: any, record: any) => {
         const { autoTestNum, autoTestNotExecNum } = get(record, 'meta');
         const executionRate = (autoTestNum - autoTestNotExecNum) / autoTestNum;
         return Number(executionRate) === executionRate ?
@@ -195,7 +195,7 @@ const RecordList = React.forwardRef((props: IProps, ref:any) => {
       title: i18n.t('project:interface pass rate'),
       dataIndex: 'apiPassRate',
       align: 'center',
-      render: (_:any, record:any) => {
+      render: (_: any, record: any) => {
         const { autoTestNum, autoTestSuccessNum } = get(record, 'meta');
         const passRate = autoTestSuccessNum / autoTestNum;
         return Number(passRate) === passRate ?
@@ -210,7 +210,7 @@ const RecordList = React.forwardRef((props: IProps, ref:any) => {
         placement="bottomRight"
         title={i18n.t('application:execute records')}
         content={renderRecordList()}
-        trigger='hover'
+        trigger="hover"
         visible={isPopoverVisible}
         onVisibleChange={handlePopoverVisible}
         arrowPointAtCenter
@@ -231,7 +231,7 @@ const RecordList = React.forwardRef((props: IProps, ref:any) => {
           dataSource={pipelineReportList}
           columns={reportColumns}
           loading={loading}
-          rowKey='id'
+          rowKey="id"
         />
       </Drawer>
     </>

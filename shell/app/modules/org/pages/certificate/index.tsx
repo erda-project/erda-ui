@@ -38,7 +38,7 @@ interface IFileChangeArg {
 }
 interface IUploadProps {
   form: WrappedFormUtils;
-  onChangeFile:({ uuid, fileName }: IFileChangeArg)=> void;
+  onChangeFile: ({ uuid, fileName }: IFileChangeArg) => void;
   fileNameKey: string;
   fileAccept: string;
 }
@@ -117,7 +117,7 @@ const Certificate = () => {
     detail: {} as Certificate.Detail,
     chosenRowId: undefined as undefined | number,
   });
-  const orgId = orgStore.useStore(s => s.currentOrg.id);
+  const orgId = orgStore.useStore((s) => s.currentOrg.id);
   const getColumns = (effects: any, { onEdit, reloadList }: any) => {
     const { deleteItem } = effects;
     const columns = [
@@ -217,7 +217,7 @@ const Certificate = () => {
           return (
             <Select
               placeholder={i18n.t('please select')}
-              onSelect={e => { curValue !== e && form.resetFields(['filename', 'uuid']); }}
+              onSelect={(e) => { curValue !== e && form.resetFields(['filename', 'uuid']); }}
             >
               {
                 map(typeMap, ({ value, label }) => (
@@ -238,7 +238,7 @@ const Certificate = () => {
           type: 'custom',
           ...getUploadFieldProps({
             form,
-            onChangeFile: ({ uuid, fileName }:IFileChangeArg) => {
+            onChangeFile: ({ uuid, fileName }: IFileChangeArg) => {
               form.setFieldsValue({
                 [`${keyPrefix.iosKeyChainP12}.fileName`]: fileName,
                 [`${keyPrefix.iosKeyChainP12}.uuid`]: uuid,
@@ -274,7 +274,7 @@ const Certificate = () => {
           type: 'custom',
           ...getUploadFieldProps({
             form,
-            onChangeFile: ({ uuid, fileName }:IFileChangeArg) => {
+            onChangeFile: ({ uuid, fileName }: IFileChangeArg) => {
               form.setFieldsValue({
                 [`${keyPrefix.iosDebug}.fileName`]: fileName,
                 [`${keyPrefix.iosDebug}.uuid`]: uuid,
@@ -296,7 +296,7 @@ const Certificate = () => {
           type: 'custom',
           ...getUploadFieldProps({
             form,
-            onChangeFile: ({ uuid, fileName }:IFileChangeArg) => {
+            onChangeFile: ({ uuid, fileName }: IFileChangeArg) => {
               form.setFieldsValue({
                 [`${keyPrefix.iosRelease}.fileName`]: fileName,
                 [`${keyPrefix.iosRelease}.uuid`]: uuid,
@@ -320,7 +320,7 @@ const Certificate = () => {
           type: 'radioGroup',
           initialValue: 'true',
           itemProps: {
-            onChange: (e:any) => {
+            onChange: (e: any) => {
               updater.manualCreate(e.target.value);
             },
           },
@@ -340,7 +340,7 @@ const Certificate = () => {
           type: 'custom',
           ...getUploadFieldProps({
             form,
-            onChangeFile: ({ uuid, fileName }:IFileChangeArg) => {
+            onChangeFile: ({ uuid, fileName }: IFileChangeArg) => {
               form.setFieldsValue({
                 'messageInfo.fileName': fileName,
                 'messageInfo.uuid': uuid,
@@ -361,7 +361,7 @@ const Certificate = () => {
           type: 'custom',
           ...getUploadFieldProps({
             form,
-            onChangeFile: ({ uuid, fileName }:IFileChangeArg) => {
+            onChangeFile: ({ uuid, fileName }: IFileChangeArg) => {
               form.setFieldsValue({
                 [`${keyPrefix.adrManualDebug}.fileName`]: fileName,
                 [`${keyPrefix.adrManualDebug}.uuid`]: uuid,
@@ -414,7 +414,7 @@ const Certificate = () => {
           type: 'custom',
           ...getUploadFieldProps({
             form,
-            onChangeFile: ({ uuid, fileName }:IFileChangeArg) => {
+            onChangeFile: ({ uuid, fileName }: IFileChangeArg) => {
               form.setFieldsValue({
                 [`${keyPrefix.adrManualRelease}.fileName`]: fileName,
                 [`${keyPrefix.adrManualRelease}.uuid`]: uuid,

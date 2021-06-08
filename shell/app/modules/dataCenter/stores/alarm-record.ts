@@ -25,12 +25,12 @@ import {
 } from '../services/alarm-record';
 
 interface IState {
-  recordList: ALARM_REPORT.RecordListItem[]
-  recordListPaging: IPaging
-  alarmAttrs: { [k: string]: Array<{ key: string; display: string; }> }
-  recordDetail: ALARM_REPORT.RecordListItem
-  alarmTimesChart: any
-  recordHistories: ALARM_REPORT.AlarmHistory[]
+  recordList: ALARM_REPORT.RecordListItem[];
+  recordListPaging: IPaging;
+  alarmAttrs: { [k: string]: Array<{ key: string; display: string }> };
+  recordDetail: ALARM_REPORT.RecordListItem;
+  alarmTimesChart: any;
+  recordHistories: ALARM_REPORT.AlarmHistory[];
 }
 
 const initState: IState = {
@@ -64,7 +64,7 @@ const alarmRecord = createFlatStore({
       update({ recordDetail });
     },
     async getAlarmTimesChart({ call, update }, query: Omit<ALARM_REPORT.AlarmTimesQuery, 'filter_dice_org_id'>) {
-      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const orgId = orgStore.getState((s) => s.currentOrg.id);
       const alarmTimesChart = await call(getAlarmTimesChart, { ...query, filter_dice_org_id: String(orgId) });
       update({ alarmTimesChart });
     },

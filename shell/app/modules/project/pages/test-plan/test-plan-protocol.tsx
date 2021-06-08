@@ -17,7 +17,7 @@ import routeInfoStore from 'common/stores/route';
 import { cloneDeep } from 'app/external/custom-lodash';
 
 const AutoTestPlanList = () => {
-  const [{ projectId }] = routeInfoStore.useStore(s => [s.params]);
+  const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const inParams = {
     projectId: +projectId,
   };
@@ -25,8 +25,8 @@ const AutoTestPlanList = () => {
     <div>
       <DiceConfigPage
         showLoading
-        scenarioKey='auto-test-plan-list'
-        scenarioType='auto-test-plan-list'
+        scenarioKey="auto-test-plan-list"
+        scenarioType="auto-test-plan-list"
         inParams={inParams}
         useMock={location.search.includes('useMock') ? useMock : undefined}
       />

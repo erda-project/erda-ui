@@ -17,8 +17,8 @@ import './sort-tab.scss';
 
 interface IProps{
   defaultChosen?: boolean;
-  tabList: ITab[]
-  onChange?(args: any): void;
+  tabList: ITab[];
+  onChange?: (args: any) => void;
 }
 interface IState{
   chosen: string;
@@ -63,7 +63,7 @@ class SortTab extends React.Component<IProps, IState> {
     return (
       <RadioGroup className="sort-tab" onChange={this.onChange} value={chosen} defaultValue={tabList[0].key}>
         {
-          tabList.map(item => <RadioButton key={item.key} value={item.key}>{item.name}</RadioButton>)
+          tabList.map((item) => <RadioButton key={item.key} value={item.key}>{item.name}</RadioButton>)
         }
       </RadioGroup>
     );

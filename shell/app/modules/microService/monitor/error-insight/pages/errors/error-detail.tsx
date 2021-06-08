@@ -38,7 +38,7 @@ const InfoCompMap = {
 };
 
 const ErrorDetail = () => {
-  const [eventIds, eventDetail] = monitorErrorStore.useStore(s => [s.eventIds, s.eventDetail]);
+  const [eventIds, eventDetail] = monitorErrorStore.useStore((s) => [s.eventIds, s.eventDetail]);
   const [getEventIdsLoading, getEventDetailLoading] = useLoading(monitorErrorStore, ['getEventIds', 'getEventDetail']);
   const { getEventIds, getEventDetail } = monitorErrorStore.effects;
   const { clearEventDetail } = monitorErrorStore.reducers;
@@ -170,7 +170,7 @@ const ErrorDetail = () => {
     );
   };
 
-  const showDrawerInfo = ({ type, payload }: { type: string, payload: object }) => {
+  const showDrawerInfo = ({ type, payload }: { type: string; payload: object }) => {
     update({
       infoVisible: true,
       infoType: type,
@@ -265,7 +265,7 @@ const ErrorDetail = () => {
               <div className="stack-list">
                 {
                     showAllStacks
-                      ? map(stacks || [], item => getStackItem(item))
+                      ? map(stacks || [], (item) => getStackItem(item))
                       : getStackItem((stacks || [])[0])
                   }
                 <IF check={stacks && stacks.length > 1}>

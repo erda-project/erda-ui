@@ -77,7 +77,7 @@ const start = (userData: ILoginUser) => {
       import('dcos/entry'),
       import('addonPlatform/entry'),
       ...Object.values(modules),
-    ].forEach((p) => p.then(m => m.default(registerModule)));
+    ].forEach((p) => p.then((m) => m.default(registerModule)));
     userStore.reducers.setLoginUser(userData); // 需要在app start之前初始化用户信息
     const Wrap = () => {
       const currentLocale = getCurrentLocale();

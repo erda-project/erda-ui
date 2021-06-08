@@ -17,21 +17,21 @@ import moment from 'moment';
 export const fetchContainerList = (query: Omit<DCOS_SERVICES.QueryServices, 'status'>): DCOS_SERVICES.Service[] => {
   return agent.get('/api/instances/actions/get-service')
     .query({ ...query, status: 'running' })
-    .then((response:any) => response.body);
+    .then((response: any) => response.body);
 };
 
 export const getRuntimeJson = ({ runtimeId }: {runtimeId: string}) => {
   return agent.get(`/api/runtimes/${runtimeId}/configuration`)
-    .then((response:any) => response.body);
+    .then((response: any) => response.body);
 };
 
 export const getRuntimeStatus = ({ runtimeIds }: {runtimeIds: string}): DCOS_SERVICES.Bulk => {
   return agent.get(`/api/runtimes/actions/bulk-get-status?runtimeIds=${runtimeIds}`)
-    .then((response:any) => response.body);
+    .then((response: any) => response.body);
 };
 
-export const getServiceList = ({ paths, environment, ip }: {paths: DCOS_SERVICES.path[]; environment: string; ip?: string;}): DCOS_SERVICES.InstancesUsage[] => {
-  const [clusterName, projectId, applicationId, runtimeId] = paths.map(p => p.q);
+export const getServiceList = ({ paths, environment, ip }: {paths: DCOS_SERVICES.path[]; environment: string; ip?: string}): DCOS_SERVICES.InstancesUsage[] => {
+  const [clusterName, projectId, applicationId, runtimeId] = paths.map((p) => p.q);
   const query: DCOS_SERVICES.QueryServiceList = {
     type: 'project',
     environment,
@@ -51,7 +51,7 @@ export const getServiceList = ({ paths, environment, ip }: {paths: DCOS_SERVICES
   }
   return agent.get(`/api/cmdb/clusters/${clusterName}/instances-usage`)
     .query(query)
-    .then((response:any) => response.body);
+    .then((response: any) => response.body);
 };
 
 // 获取度量接口：project/application/runtime/service/container
@@ -67,7 +67,7 @@ export const getMetrics = ({ type, paths, filter_workspace }: DCOS_SERVICES.Quer
     },
   };
 
-  const pathArr = paths.map(p => p.q);
+  const pathArr = paths.map((p) => p.q);
   const [filter_cluster_name, filter_project_id, filter_application_id, filter_runtime_id, filter_service_name] = pathArr;
   const queryParam = [
     { group: ['project_id', 'container_id'], reduce: 'sum', filter_cluster_name },
@@ -85,6 +85,6 @@ export const getMetrics = ({ type, paths, filter_workspace }: DCOS_SERVICES.Quer
 
   return agent.get(fetchMap[type].api)
     .query(query)
-    .then((response:any) => response.body);
+    .then((response: any) => response.body);
 };
 

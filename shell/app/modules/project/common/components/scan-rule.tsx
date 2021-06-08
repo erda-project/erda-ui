@@ -48,7 +48,7 @@ export default function ScanRule(props: IProps) {
   const { operationAuth, scopeId, scopeType } = props;
   const [{ isEdit, visible, currentId, appendedCurrent, metricValue, appendedRowKeys, optionalRowKeys, loading, operationOptionalRules }, updater, update] = useUpdate({ isEdit: false, visible: false, currentId: '', appendedCurrent: 1, metricValue: '', appendedRowKeys: [], optionalRowKeys: [], loading: false, operationOptionalRules: [] });
 
-  const [appendedScanRules, optionalScanRules] = scanRuleStore.useStore(s => [s.appendedScanRules, s.optionalScanRules]);
+  const [appendedScanRules, optionalScanRules] = scanRuleStore.useStore((s) => [s.appendedScanRules, s.optionalScanRules]);
 
   React.useEffect(() => {
     updater.operationOptionalRules(optionalScanRules);
@@ -57,7 +57,7 @@ export default function ScanRule(props: IProps) {
   const { getAppendedScanRules, deleteScanRule, getOptionalScanRules, updateScanRule, batchDeleteScanRule, batchInsertScanRule } = scanRuleStore;
 
   const updateOptionalScanRules = (record: SCAN_RULE.AppendedItem) => {
-    updater.operationOptionalRules((prev:any) => prev.map((p:any) => (p.id === record.id ? { ...record } : p)));
+    updater.operationOptionalRules((prev: any) => prev.map((p: any) => (p.id === record.id ? { ...record } : p)));
   };
 
   const appendedRowSelection = {
@@ -98,9 +98,9 @@ export default function ScanRule(props: IProps) {
             <Select
               style={{ width: 120 }}
               value={val}
-              onChange={value => handleChange(value, record)}
+              onChange={(value) => handleChange(value, record)}
             >
-              { map(valueRateMap, rate => <Option value={rate.value} key={rate.value}>{ rate.label }</Option>)}
+              { map(valueRateMap, (rate) => <Option value={rate.value} key={rate.value}>{ rate.label }</Option>)}
             </Select>
           );
         }
@@ -108,7 +108,7 @@ export default function ScanRule(props: IProps) {
           style={{ width: 120 }}
           value={val}
           suffix={valueTypeMap[record.valueType]}
-          onChange={e => handleChange(e.target.value, record)}
+          onChange={(e) => handleChange(e.target.value, record)}
         />);
       },
     },
@@ -141,10 +141,10 @@ export default function ScanRule(props: IProps) {
             return (
               <Select
                 style={{ width: 120 }}
-                onChange={value => updater.metricValue(`${value}`)}
+                onChange={(value) => updater.metricValue(`${value}`)}
                 defaultValue={isEdit && get(valueRateMap[item], 'label', '')}
               >
-                { map(valueRateMap, rate => <Option value={rate.value} key={rate.value}>{ rate.label }</Option>)}
+                { map(valueRateMap, (rate) => <Option value={rate.value} key={rate.value}>{ rate.label }</Option>)}
               </Select>
             );
           }
@@ -258,12 +258,12 @@ export default function ScanRule(props: IProps) {
     updater.optionalRowKeys(rowKeys);
   }
 
-  function handleChange(value:any, record:any) {
+  function handleChange(value: any, record: any) {
     updateOptionalScanRules({ ...record, metricValue: value });
     if (value === '') {
       // 当输入框的值清空后自动去除CheckBox的勾选
       updater.optionalRowKeys(
-        optionalRowKeys.filter((x: number) => x !== record.id)
+        optionalRowKeys.filter((x: number) => x !== record.id),
       );
     } else if (!optionalRowKeys.includes(record.id)) {
       // 当输入框有值且CheckBox未选中时自动勾选
@@ -291,7 +291,7 @@ export default function ScanRule(props: IProps) {
     });
   }
 
-  function checkRule(metrics:any[]) {
+  function checkRule(metrics: any[]) {
     let isIllegal = false;
 
     for (const { valueType, metricValue: value, decimalScale } of metrics) {
@@ -348,10 +348,10 @@ export default function ScanRule(props: IProps) {
 
   return (
     <>
-      <div className='mb12'>
+      <div className="mb12">
         <WithAuth pass={operationAuth} >
           <Button
-            type='primary'
+            type="primary"
             onClick={async () => {
               update({
                 visible: !visible,
@@ -370,8 +370,8 @@ export default function ScanRule(props: IProps) {
         <WithAuth pass={operationAuth} >
           <Button
             ghost
-            type='primary'
-            className='ml8'
+            type="primary"
+            className="ml8"
             onClick={handleBatchDelete}
           >
             {i18n.t('batch deletion')}
@@ -382,7 +382,7 @@ export default function ScanRule(props: IProps) {
       <Table
         columns={appendedColumns}
         dataSource={appendedScanRules}
-        rowKey='id'
+        rowKey="id"
         rowSelection={appendedRowSelection}
         pagination={{
           pageSize: 20,
@@ -414,7 +414,7 @@ export default function ScanRule(props: IProps) {
           loading={loading}
           columns={optionalColumns}
           dataSource={operationOptionalRules}
-          rowKey='id'
+          rowKey="id"
           rowSelection={optionalRowSelection}
         />
       </Modal>

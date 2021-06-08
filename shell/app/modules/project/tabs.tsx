@@ -20,19 +20,19 @@ import { Tooltip } from 'app/nusi';
 export const ITERATION_DETAIL_TABS = (params: Obj) => {
   const { breadcrumbInfoMap } = params;
   const iterationName = breadcrumbInfoMap?.iterationName;
-  const projectPerm = permStore.useStore(s => s.project);
+  const projectPerm = permStore.useStore((s) => s.project);
   const tabs = [
     {
       key: '../',
       hrefType: 'back',
       name: (
         <span>
-          <CustomIcon type='back' />
+          <CustomIcon type="back" />
           {i18n.t('project:iteration')}
           {iterationName ?
             (
               iterationName.length > 8 ?
-                <Tooltip title={iterationName} placement='topLeft'>
+                <Tooltip title={iterationName} placement="topLeft">
                   ({iterationName.slice(0, 8)}...)
                 </Tooltip>
                 : `(${iterationName})`
@@ -49,7 +49,7 @@ export const ITERATION_DETAIL_TABS = (params: Obj) => {
         projectPerm.requirement.read.pass,
         projectPerm.task.read.pass,
         projectPerm.bug.read.pass,
-      ].some(k => k),
+      ].some((k) => k),
     },
     {
       key: 'requirement',
@@ -78,7 +78,7 @@ export const AUTO_TEST_SPACE_TABS = (params: Obj) => {
       key: '../',
       hrefType: 'back',
       name: (
-        <span><CustomIcon type='back' />{i18n.t('project:test space')}{autoTestSpaceName ? `(${autoTestSpaceName})` : ''}</span>
+        <span><CustomIcon type="back" />{i18n.t('project:test space')}{autoTestSpaceName ? `(${autoTestSpaceName})` : ''}</span>
       ),
     },
     {
@@ -94,7 +94,7 @@ export const AUTO_TEST_SPACE_TABS = (params: Obj) => {
 };
 
 export const PROJECT_TABS = () => {
-  const projectPerm = permStore.useStore(s => s.project);
+  const projectPerm = permStore.useStore((s) => s.project);
 
   const tabs = [
     {
@@ -119,7 +119,7 @@ export const PROJECT_TABS = () => {
         projectPerm.requirement.read.pass,
         projectPerm.task.read.pass,
         projectPerm.bug.read.pass,
-      ].some(k => k),
+      ].some((k) => k),
     },
     {
       key: 'requirement',

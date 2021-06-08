@@ -26,6 +26,7 @@ import './repo-mr-form.scss';
 import routeInfoStore from 'common/stores/route';
 import layoutStore from 'layout/stores/layout';
 import { Down as IconDown } from '@icon-park/react';
+
 interface IModel {
   visible: boolean;
   tplContent: string;
@@ -33,8 +34,8 @@ interface IModel {
     path: string;
     names: string[];
   };
-  onOk(data: object): void;
-  onCancel(): void;
+  onOk: (data: object) => void;
+  onCancel: () => void;
 }
 const TplModel = ({ visible, tplContent, templateConfig, onOk, onCancel }: IModel) => {
   const { path } = templateConfig;
@@ -119,12 +120,12 @@ interface IProps {
   getRepoInfo: typeof repoStore.effects.getRepoInfo;
   clearMRStats: typeof repoStore.reducers.clearMRStats;
   commit: typeof repoStore.effects.commit;
-  onBranchChange(b: IBranchObj): void;
-  onShowComparison(): Promise<any>;
-  onCancel(): void;
-  onOk(data: any): void;
-  getTemplateConfig(): Promise<any>;
-  moveToDiff(): void;
+  onBranchChange: (b: IBranchObj) => void;
+  onShowComparison: () => Promise<any>;
+  onCancel: () => void;
+  onOk: (data: any) => void;
+  getTemplateConfig: () => Promise<any>;
+  moveToDiff: () => void;
 }
 
 interface IState {
@@ -346,7 +347,7 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
         initialValue: description || tplContent || '',
         getComp: () => (
           <MarkdownEditor
-            onChange={content => this.setState({ tplContent: content })}
+            onChange={(content) => this.setState({ tplContent: content })}
             extraRight={this.getTplSelect()}
           />
         ),
@@ -475,9 +476,9 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
 }
 
 const Mapper = () => {
-  const [info, mrStats, templateConfig] = repoStore.useStore(s => [s.info, s.mrStats, s.templateConfig]);
-  const params = routeInfoStore.useStore(s => s.params);
-  const sideFold = layoutStore.useStore(s => s.sideFold);
+  const [info, mrStats, templateConfig] = repoStore.useStore((s) => [s.info, s.mrStats, s.templateConfig]);
+  const params = routeInfoStore.useStore((s) => s.params);
+  const sideFold = layoutStore.useStore((s) => s.sideFold);
   const { getRepoInfo, getRepoBlob, getCompareDetail, getMRStats, createMR, operateMR, getTemplateConfig, commit } = repoStore.effects;
   const { clearMRStats } = repoStore.reducers;
   return {

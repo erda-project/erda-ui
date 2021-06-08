@@ -36,8 +36,8 @@ const filterStatistics = {
   },
 };
 const Connection = () => {
-  const clusterName = microServiceStore.useStore(s => s.clusterName);
-  const projectId = routeInfoStore.useStore(s => s.params.projectId);
+  const clusterName = microServiceStore.useStore((s) => s.clusterName);
+  const projectId = routeInfoStore.useStore((s) => s.params.projectId);
   const [chosenStatistics, setChosenStatistics] = React.useState(STATISTICS.avg.value);
   const query: any = { projectId, filter_cluster_name: clusterName };
 

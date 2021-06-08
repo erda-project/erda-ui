@@ -20,7 +20,7 @@ import errorHandler from './error-handler';
 
 const isExcludeOrgHeaderApi = (url) => {
   const excludeApis = ['/api/files'];
-  return some(excludeApis, api => api.startsWith(url));
+  return some(excludeApis, (api) => api.startsWith(url));
 };
 
 function handleUrl(req) {
@@ -125,7 +125,7 @@ const reqKeyList = [];
 // }
 
 // mf_share导出的模块内部会引用这里的agent，导致use方法被执行两次
-agent.use(req => {
+agent.use((req) => {
   if (!req._marked) {
     req._marked = true;
     handleUrl(req);

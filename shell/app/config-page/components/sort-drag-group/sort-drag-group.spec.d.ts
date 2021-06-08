@@ -17,7 +17,7 @@ declare namespace CP_SORT_GROUP {
     type: 'SortGroup';
     state: Obj;
     operations: Obj;
-    props?: IProps
+    props?: IProps;
     data: IData;
   }
 
@@ -27,31 +27,31 @@ declare namespace CP_SORT_GROUP {
   }
 
   interface IData {
-    type: string,
-    value: Item[],
+    type: string;
+    value: Item[];
   }
 
   interface Operation{
-    icon: string
-    hoverShow?: boolean
-    hoverTip?: string
-    key: string
-    reload: boolean
+    icon: string;
+    hoverShow?: boolean;
+    hoverTip?: string;
+    key: string;
+    reload: boolean;
     text?: string;
-    disabled?: boolean
-    disabledTip?: string
-    confirm?: string | {title: string, subTitle: string}
-    meta?: Obj
+    disabled?: boolean;
+    disabledTip?: string;
+    confirm?: string | {title: string; subTitle: string};
+    meta?: Obj;
     show?: boolean;
     prefixIcon?: string;
     fillMeta?: string;
   }
 
   interface Item {
-    id: number,
-    groupId: number,
-    title: string,
-    operations?: Obj<Operation>,
+    id: number;
+    groupId: number;
+    title: string;
+    operations?: Obj<Operation>;
   }
 
   type Props = MakeProps<Spec>;

@@ -33,11 +33,11 @@ import issueWorkflowStore from 'project/stores/issue-workflow';
 
 const { Option } = Select;
 const Ticket = () => {
-  const [{ projectId }, { id: queryId }] = routeInfoStore.getState(s => [s.params, s.query]);
+  const [{ projectId }, { id: queryId }] = routeInfoStore.getState((s) => [s.params, s.query]);
   const [loading] = useLoading(issueStore, ['getIssues']);
-  const totalWorkflowStateList = issueWorkflowStore.useStore(s => s.totalWorkflowStateList);
+  const totalWorkflowStateList = issueWorkflowStore.useStore((s) => s.totalWorkflowStateList);
   const ticketStateList = React.useMemo(() => {
-    const temp:any[] = [];
+    const temp: any[] = [];
 
     map(totalWorkflowStateList, ({ issueType, stateName, stateID, stateBelong }) => {
       if (issueType === ISSUE_TYPE.TICKET) {
@@ -49,12 +49,12 @@ const Ticket = () => {
     return temp;
   }, [totalWorkflowStateList]);
 
-  const [list, paging] = issueStore.useStore(s => [s.ticketList, s.ticketPaging]);
+  const [list, paging] = issueStore.useStore((s) => [s.ticketList, s.ticketPaging]);
   const { getIssues, updateIssue } = issueStore.effects;
   // const userMap = userMapStore.useStore(s => s);
-  const ticketPerm = usePerm(s => s.project.ticket);
+  const ticketPerm = usePerm((s) => s.project.ticket);
   const { getLabels } = projectLabelStore.effects;
-  const labelList = projectLabelStore.useStore(s => s.list);
+  const labelList = projectLabelStore.useStore((s) => s.list);
   useMount(() => {
     if (queryId) {
       update({
@@ -111,7 +111,7 @@ const Ticket = () => {
       customProps: {
         placeholder: i18n.t('filter by {name}', { name: i18n.t('project:priority') }),
         allowClear: true,
-        options: map(ISSUE_PRIORITY_MAP, item => {
+        options: map(ISSUE_PRIORITY_MAP, (item) => {
           const { value, iconLabel } = item;
           return (
             <Option key={value} value={value}>
@@ -127,7 +127,7 @@ const Ticket = () => {
       customProps: {
         placeholder: i18n.t('filter by {name}', { name: i18n.t('project:severity') }),
         allowClear: true,
-        options: map(BUG_SEVERITY_MAP, item => {
+        options: map(BUG_SEVERITY_MAP, (item) => {
           const { value, iconLabel } = item;
           return (
             <Option key={value} value={value}>
@@ -186,7 +186,7 @@ const Ticket = () => {
         placeholder: i18n.t('filter by {name}', { name: i18n.t('project:label') }),
         allowClear: true,
         mode: 'multiple',
-        options: map(labelList, item => {
+        options: map(labelList, (item) => {
           const { name: label, id } = item;
           return <Option key={id} value={String(id)}>{label}</Option>;
         }),
@@ -261,12 +261,12 @@ const Ticket = () => {
           opts.push({
             disabled: !item.permission,
             value: item.stateID,
-            iconLabel: <div className='v-align'>{ISSUE_ICON.state[item.stateBelong]}{item.stateName}</div>,
+            iconLabel: <div className="v-align">{ISSUE_ICON.state[item.stateBelong]}{item.stateName}</div>,
           });
         });
 
         return (<FieldSelector
-          field='state'
+          field="state"
           hasAuth={updateStatusAuth}
           value={v}
           record={record}
@@ -284,7 +284,7 @@ const Ticket = () => {
       render: (val: string, record: ISSUE.Ticket) => {
         const checkRole = [isCreator(record.creator), isAssignee(record.assignee)];
         const editAuth = getAuth(ticketPerm.edit, checkRole);
-        return <FieldSelector field='priority' hasAuth={editAuth} value={val || ISSUE_PRIORITY_MAP.NORMAL.value} record={record} updateRecord={(_val: string) => updateIssueRecord({ ...record, priority: _val })} options={map(ISSUE_PRIORITY_MAP)} />;
+        return <FieldSelector field="priority" hasAuth={editAuth} value={val || ISSUE_PRIORITY_MAP.NORMAL.value} record={record} updateRecord={(_val: string) => updateIssueRecord({ ...record, priority: _val })} options={map(ISSUE_PRIORITY_MAP)} />;
       },
     },
     {
@@ -294,7 +294,7 @@ const Ticket = () => {
       render: (val: string, record: ISSUE.Issue) => {
         const checkRole = [isCreator(record.creator), isAssignee(record.assignee)];
         const editAuth = getAuth(ticketPerm.edit, checkRole);
-        return <FieldSelector field='severity' hasAuth={editAuth} value={val} record={record} updateRecord={(_val: string) => updateIssueRecord({ ...record, severity: _val })} options={map(BUG_SEVERITY_MAP)} />;
+        return <FieldSelector field="severity" hasAuth={editAuth} value={val} record={record} updateRecord={(_val: string) => updateIssueRecord({ ...record, severity: _val })} options={map(BUG_SEVERITY_MAP)} />;
       },
     },
     {
@@ -311,7 +311,7 @@ const Ticket = () => {
               scopeId={projectId}
               dropdownMatchSelectWidth={false}
               valueItemRender={memberSelectorValueItem}
-              className='issue-member-selector'
+              className="issue-member-selector"
               allowClear={false}
               disabled={!editAuth}
               value={v}
@@ -381,7 +381,7 @@ const Ticket = () => {
   }, [paging.pageNo]);
 
   return (
-    <div className='project-ticket'>
+    <div className="project-ticket">
       <div className="top-button-group">
         <WithAuth pass={ticketPerm.create.pass} tipProps={{ placement: 'bottom' }}>
           <Button type="primary" onClick={() => updater.drawerVisible(true)}>{i18n.t('application:add ticket')}</Button>
@@ -392,7 +392,7 @@ const Ticket = () => {
         loading={loading}
         columns={columns}
         dataSource={list}
-        rowKey='id'
+        rowKey="id"
         pagination={pagination}
       />
       <EditIssueDrawer

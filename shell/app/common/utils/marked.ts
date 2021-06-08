@@ -122,7 +122,7 @@ export default (content?: string, renderFns = {}) => {
     link(href: string, title: string, text: string) {
       return `<a href="${href}" title="${title}" rel="noopener noreferrer" target="_blank">${text}</a>`;
     },
-  }
+  };
 
   Object.assign(renderer, overrideRenderFns, { ...defaultRenderFns, ...renderFns });
 

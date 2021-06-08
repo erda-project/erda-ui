@@ -14,16 +14,16 @@
 declare namespace CP_TEXT_GROUP {
 
   interface Spec {
-    type: 'TextGroup',
+    type: 'TextGroup';
     props: IProps;
-    operations?: Obj<CP_COMMON.Operation>
+    operations?: Obj<CP_COMMON.Operation>;
   }
 
   interface IProps {
     value: any;
     visible?: boolean;
     gapSize?: string;
-    align?: 'left' | 'center'
+    align?: 'left' | 'center';
   }
 
   interface IStatusTextItem {

@@ -13,7 +13,7 @@
 
 import agent from 'agent';
 
-export const getAppMR = ({ projectName, appName, query, authorId }: { projectName: string, appName: string, query?: string, authorId?: number }) => {
+export const getAppMR = ({ projectName, appName, query, authorId }: { projectName: string; appName: string; query?: string; authorId?: number }) => {
   return agent.get(`/api/repo/${projectName}/${appName}/merge-requests`)
     .query({ query, authorId })
     .then((response: any) => response.body);
@@ -69,7 +69,7 @@ export const getCommits = ({ search, repoPrefix, pageNo, pageSize, branch = '' }
     .then((response: any) => response.body);
 };
 
-export const getBranches = ({ repoPrefix, ...rest }: { repoPrefix: string, findBranch?: string }): REPOSITORY.IBranch => {
+export const getBranches = ({ repoPrefix, ...rest }: { repoPrefix: string; findBranch?: string }): REPOSITORY.IBranch => {
   return agent.get(`/api/repo/${repoPrefix}/branches`)
     .query(rest)
     .then((response: any) => response.body);
@@ -91,7 +91,7 @@ export const setDefaultBranch = ({ repoPrefix, branch }: Omit<REPOSITORY.CreateB
     .then((response: any) => response.body);
 };
 
-export const getAvailableAddonList = (query: { projectId: string; workspace: string; }): ADDON.Instance[] => {
+export const getAvailableAddonList = (query: { projectId: string; workspace: string }): ADDON.Instance[] => {
   return agent.get('/api/addons/actions/list-available')
     .query(query)
     .then((response: any) => response.body);
@@ -108,13 +108,13 @@ export const getAddonVersions = ({ addonName }: { addonName: string }): DEPLOY.A
     .then((response: any) => response.body);
 };
 
-export const getTags = ({ repoPrefix, ...rest }: { repoPrefix: string, findTags?:string }): REPOSITORY.ITag[] => {
+export const getTags = ({ repoPrefix, ...rest }: { repoPrefix: string; findTags?: string }): REPOSITORY.ITag[] => {
   return agent.get(`/api/repo/${repoPrefix}/tags`)
     .query(rest)
     .then((response: any) => response.body);
 };
 
-export const getMRs = ({ repoPrefix, ...data }: Merge<REPOSITORY.QueryMrs, { repoPrefix: string }>): { list: REPOSITORY.MRItem[], total: number } => {
+export const getMRs = ({ repoPrefix, ...data }: Merge<REPOSITORY.QueryMrs, { repoPrefix: string }>): { list: REPOSITORY.MRItem[]; total: number } => {
   return agent.get(`/api/repo/${repoPrefix}/merge-requests`)
     .query(data)
     .then((response: any) => response.body);
@@ -144,7 +144,7 @@ export const operateMR = ({ repoPrefix, mergeId, action, ...data }: Merge<REPOSI
     .then((response: any) => response.body);
 };
 
-export const getCommitDetail = ({ repoPrefix, commitId }: { repoPrefix: string; commitId: string; }): REPOSITORY.CommitDetail => {
+export const getCommitDetail = ({ repoPrefix, commitId }: { repoPrefix: string; commitId: string }): REPOSITORY.CommitDetail => {
   return agent.get(`/api/repo/${repoPrefix}/commit/${commitId}`)
     .then((response: any) => response.body);
 };
@@ -160,12 +160,12 @@ export const commit = ({ repoPrefix, data }: { data: REPOSITORY.Commit; repoPref
     .then((response: any) => response.body);
 };
 
-export const getComments = ({ repoPrefix, mergeId }: { repoPrefix: string; mergeId: string; }): REPOSITORY.MrNote[] => {
+export const getComments = ({ repoPrefix, mergeId }: { repoPrefix: string; mergeId: string }): REPOSITORY.MrNote[] => {
   return agent.get(`/api/repo/${repoPrefix}/merge-requests/${mergeId}/notes`)
     .then((response: any) => response.body);
 };
 
-export const addComment = ({ repoPrefix, mergeId, ...data }: Merge<Obj, { repoPrefix: string; mergeId: string; }>): REPOSITORY.MrNote => {
+export const addComment = ({ repoPrefix, mergeId, ...data }: Merge<Obj, { repoPrefix: string; mergeId: string }>): REPOSITORY.MrNote => {
   return agent.post(`/api/repo/${repoPrefix}/merge-requests/${mergeId}/notes`)
     .send(data)
     .then((response: any) => response.body);
@@ -207,26 +207,26 @@ export const deleteTag = ({ repoPrefix, tag }: REPOSITORY.CreateTag): boolean =>
 export const addBackup = ({ repoPrefix, commitId, remark, branchRef }: Merge<REPOSITORY.IBackupAppendBody, { repoPrefix: string }>) => {
   return agent.post(`/api/repo/${repoPrefix}/backup/${branchRef}`)
     .send({ commitId, remark })
-    .then((response:any) => response.body);
+    .then((response: any) => response.body);
 };
 
 export const getBackupList = ({ repoPrefix, pageNo, pageSize }: Merge<REPOSITORY.ICommitPaging, { repoPrefix: string }>) => {
   return agent.get(`/api/repo/${repoPrefix}/backup-list`)
     .query({ pageNo, pageSize })
-    .then((response:any) => response.body);
+    .then((response: any) => response.body);
 };
 
 export const deleteBackup = ({ repoPrefix, uuid }: Merge<REPOSITORY.IBackupUuid, { repoPrefix: string }>) => {
   return agent.delete(`/api/repo/${repoPrefix}/backup/${uuid}`)
-    .then((response:any) => response.body);
+    .then((response: any) => response.body);
 };
 
 export const getLatestCommit = ({ repoPrefix, branchRef }: Merge<REPOSITORY.IBackupBranch, { repoPrefix: string }>) => {
   return agent.get(`/api/repo/${repoPrefix}/branches/${branchRef}`)
-    .then((response:any) => response.body);
+    .then((response: any) => response.body);
 };
 
-export const setRepoLock = ({ repoPrefix, isLocked }: { repoPrefix: string; isLocked: boolean; }) => {
+export const setRepoLock = ({ repoPrefix, isLocked }: { repoPrefix: string; isLocked: boolean }) => {
   return agent.post(`/api/repo/${repoPrefix}/locked`)
     .send({ isLocked })
     .then((response: any) => response.body);

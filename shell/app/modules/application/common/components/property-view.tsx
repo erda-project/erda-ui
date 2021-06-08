@@ -22,7 +22,7 @@ interface IPropertyViewProps {
 }
 
 export default class extends PureComponent<IPropertyViewProps, any> {
-  public render() {
+  render() {
     const { dataSource, className } = this.props;
     return (
       <div className={classnames(className, 'property-view')}>
@@ -46,7 +46,7 @@ export default class extends PureComponent<IPropertyViewProps, any> {
         break;
     }
 
-    return contents.map(item => item);
+    return contents.map((item) => item);
   }
 
   private renderObject(dataSource: object) {

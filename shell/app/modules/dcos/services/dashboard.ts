@@ -14,8 +14,8 @@
 import agent from 'agent';
 
 interface IFilterTypeQuery {
-  clusterName: string
-  orgName: string
+  clusterName: string;
+  orgName: string;
 }
 export const getFilterTypes = (payload: IFilterTypeQuery): ORG_DASHBOARD.IFilterType[] => {
   return agent.get('/api/cluster/resources/types')
@@ -31,11 +31,11 @@ export const getGroupInfos = ({ orgName, ...rest }: ORG_DASHBOARD.IGroupInfoQuer
 };
 
 export interface IInstanceListQuery {
-  instanceType: string
-  orgName?: string
-  clusters: Array<{ clusterName: string, hostIPs?: string[] }>
-  filters?: ORG_DASHBOARD.IFilterQuery[]
-  start?: string
+  instanceType: string;
+  orgName?: string;
+  clusters: Array<{ clusterName: string; hostIPs?: string[] }>;
+  filters?: ORG_DASHBOARD.IFilterQuery[];
+  start?: string;
 }
 export const getInstanceList = ({ instanceType, orgName, clusters, filters, start }: ORG_DASHBOARD.IInstanceListQuery): ORG_DASHBOARD.IInstance => {
   return agent.post(`/api/cluster/resources/containers/${instanceType}`)

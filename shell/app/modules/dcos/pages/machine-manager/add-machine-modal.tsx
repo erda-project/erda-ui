@@ -25,8 +25,8 @@ interface IProps {
   currentOrg: ORG.IOrg;
   formData: Record<string, any>;
   orgs: any;
-  onCancel(): void;
-  onOk(data: Record<string, any>): void;
+  onCancel: () => void;
+  onOk: (data: Record<string, any>) => void;
 }
 
 class AddMachineModal extends React.PureComponent<IProps, any> {
@@ -40,7 +40,7 @@ class AddMachineModal extends React.PureComponent<IProps, any> {
     });
   };
 
-  handelSubmit = (data:Record<string, any>) => {
+  handelSubmit = (data: Record<string, any>) => {
     const { customTag, ...reData } = data;
     if (!Array.isArray(reData.hosts)) {
       reData.hosts = reData.hosts.split('\n');
@@ -169,6 +169,6 @@ class AddMachineModal extends React.PureComponent<IProps, any> {
 }
 
 export default (p: Omit<IProps, 'currentOrg' >) => {
-  const currentOrg = orgStore.useStore(s => s.currentOrg);
+  const currentOrg = orgStore.useStore((s) => s.currentOrg);
   return <AddMachineModal {...p} currentOrg={currentOrg} />;
-}
+};

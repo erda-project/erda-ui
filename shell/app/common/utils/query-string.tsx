@@ -35,7 +35,7 @@ function parse(queryStr: string, opt: object = {}) {
 /**
  * Stringify an object into a query string and sorting the keys.
  */
-function stringify(obj: { [key: string]: unknown; }, opt: object = {}) {
+function stringify(obj: { [key: string]: unknown }, opt: object = {}) {
   return queryString.stringify(obj, { ...option, ...opt });
 }
 
@@ -79,10 +79,10 @@ export function mergeSearch(obj?: { [prop: string]: any }, toString?: boolean, i
  * @param obj 需合并的query对象
  */
 
- interface IOpt {
-   gotoOption?: IGotoOptions;
-   [pro: string]: any;
- }
+interface IOpt {
+  gotoOption?: IGotoOptions;
+  [pro: string]: any;
+}
 export function updateSearch(search?: { [prop: string]: any }, opt?: IOpt) {
   const { gotoOption = {}, ...rest } = opt || { };
   goTo(`${location.pathname}?${mergeSearch(search, true, false, rest)}`, gotoOption);

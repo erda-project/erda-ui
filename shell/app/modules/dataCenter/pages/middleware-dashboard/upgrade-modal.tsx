@@ -19,15 +19,15 @@ import { WrappedFormUtils } from 'core/common/interface';
 import middlewareDashboardStore from 'dataCenter/stores/middleware-dashboard';
 import './modal.scss';
 
-type IObj = { [k: string]: any };
+interface IObj { [k: string]: any }
 
 interface IProps {
   form: WrappedFormUtils;
   formData: Merge<MIDDLEWARE_DASHBOARD.IMiddleBase, { name: string }>;
-  dataSource?: IObj
+  dataSource?: IObj;
   visible: boolean;
-  onCancel(): void;
-  afterSubmit?(): void;
+  onCancel: () => void;
+  afterSubmit?: () => void;
 }
 
 const { Item: FormItem } = Form;
@@ -38,7 +38,7 @@ const UpgradeModal = ({ formData, visible, form, onCancel, afterSubmit, dataSour
   React.useEffect(() => {
     if (visible) {
       if (!dataSource) {
-        middlewareDashboardStore.effects.getConfig(formData).then(res => {
+        middlewareDashboardStore.effects.getConfig(formData).then((res) => {
           setData(res.config || {});
         });
       } else {
@@ -85,7 +85,7 @@ const UpgradeModal = ({ formData, visible, form, onCancel, afterSubmit, dataSour
               form.getFieldDecorator('name', {
                 initialValue: formData.name,
               })(
-                <Input disabled />
+                <Input disabled />,
               )
             }
           </FormItem>

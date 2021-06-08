@@ -42,14 +42,14 @@ export const addRuntimeByRelease = (body: DEPLOY.AddByRelease) => {
     .then((response: any) => response.body);
 };
 
-export const getReleaseByWorkspace = ({ appId, ...rest }: {appId: string, workspace: string}): DEPLOY.IReleaseMap => {
+export const getReleaseByWorkspace = ({ appId, ...rest }: {appId: string; workspace: string}): DEPLOY.IReleaseMap => {
   return agent.get('/api/runtimes/actions/get-app-workspace-releases')
     .query({ appID: appId, ...rest })
     .then((response: any) => response.body);
 };
 
 // 我发起的
-export const getLaunchedDeployList = (query:IPagingReq): IPagingResp<DEPLOY.IDeploy> => {
+export const getLaunchedDeployList = (query: IPagingReq): IPagingResp<DEPLOY.IDeploy> => {
   return agent.get('/api/reviews/actions/list-launched-approval')
     .query(query)
     .then((response: any) => response.body);

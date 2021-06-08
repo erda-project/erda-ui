@@ -22,7 +22,7 @@ declare namespace NETWORKS {
   interface ICloudVpc {
     cidrBlock: string;
     regionID: string;
-    tags: Obj<boolean>,
+    tags: Obj<boolean>;
     vpcID: string;
     vpcName: string;
     vendor: string;
@@ -30,11 +30,11 @@ declare namespace NETWORKS {
   }
 
   interface IVpcCreateBody {
-    cidrBlock: string,
-    description: string,
-    region: string,
-    vendor: string,
-    vpcName: string
+    cidrBlock: string;
+    description: string;
+    region: string;
+    vendor: string;
+    vpcName: string;
   }
 
   interface ICloudVswQuery {
@@ -43,26 +43,26 @@ declare namespace NETWORKS {
     vpcID?: string;
   }
   interface ICloudVsw {
-    cidrBlock: string,
-    status: string,
-    vSwitchID: string,
-    vpcID: string,
-    zoneID: string,
-    zoneName: string,
-    vswName: string,
+    cidrBlock: string;
+    status: string;
+    vSwitchID: string;
+    vpcID: string;
+    zoneID: string;
+    zoneName: string;
+    vswName: string;
     vendor: string;
-    region: string,
-    tags: Obj<boolean>
+    region: string;
+    tags: Obj<boolean>;
   }
 
   interface IVswCreateBody {
-    cidrBlock: string,
-    description: string,
-    region: string,
-    vendor: string,
-    vpcID: string,
-    vswName: string,
-    zoneID: string
+    cidrBlock: string;
+    description: string;
+    region: string;
+    vendor: string;
+    vpcID: string;
+    vswName: string;
+    zoneID: string;
   }
 
   interface ICloudZoneQuery {

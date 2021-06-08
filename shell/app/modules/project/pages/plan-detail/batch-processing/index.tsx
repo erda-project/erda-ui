@@ -23,14 +23,14 @@ import testPlanStore from 'project/stores/test-plan';
 import { formatQuery } from 'project/utils/test-case';
 
 interface IProps {
-  afterDelete(data: number[]): void;
+  afterDelete: (data: number[]) => void;
 }
 
 const BatchProcessing = ({ afterDelete }: IProps) => {
   const [visible, setVisible] = useState(false);
-  const [caseTotal, choosenInfo] = testCaseStore.useStore(s => [s.caseTotal, s.choosenInfo]);
+  const [caseTotal, choosenInfo] = testCaseStore.useStore((s) => [s.caseTotal, s.choosenInfo]);
   const { isAll, primaryKeys } = choosenInfo;
-  const [params, query] = routeInfoStore.useStore(s => [s.params, s.query]);
+  const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const { openRemarkModal } = testPlanStore.reducers;
   const { planUserCaseBatch, deleteRelations, exportFiles } = testPlanStore.effects;
   const checked = isAll || !!size(primaryKeys);

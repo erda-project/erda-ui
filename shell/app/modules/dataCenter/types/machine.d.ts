@@ -13,34 +13,34 @@
 
 declare namespace ORG_MACHINE {
   interface IAddMachineBody {
-    clusterName: string // 操作的集群名
-    orgID: number // org id
-    hosts: string[] // 机器列表
-    labels: ORG_DASHBOARD.INodeLabel[] // 标签列表
-    port: number // SSH 端口
-    user: string // SSH 用户
-    password: string // SSH 密码
-    dataDiskDevice?: string // 数据盘设备名
+    clusterName: string; // 操作的集群名
+    orgID: number; // org id
+    hosts: string[]; // 机器列表
+    labels: ORG_DASHBOARD.INodeLabel[]; // 标签列表
+    port: number; // SSH 端口
+    user: string; // SSH 用户
+    password: string; // SSH 密码
+    dataDiskDevice?: string; // 数据盘设备名
   }
 
   interface IAddCloudMachineBody {
-    clusterName: string // 集群名称
-    orgID: number // 企业ID
-    cloudVendor: string
-    availabilityZone: string
-    chargeType: string
-    chargePeriod: number
-    accessKey: string
-    secretKey: string
-    cloudResource: string
-    instancePassword: string
-    instanceNum: number
-    instanceType: string
-    diskType: string
-    diskSize: number
-    decurityGroupIds: string[]
-    vSwitchId: string
-    labels: string[]
+    clusterName: string; // 集群名称
+    orgID: number; // 企业ID
+    cloudVendor: string;
+    availabilityZone: string;
+    chargeType: string;
+    chargePeriod: number;
+    accessKey: string;
+    secretKey: string;
+    cloudResource: string;
+    instancePassword: string;
+    instanceNum: number;
+    instanceType: string;
+    diskType: string;
+    diskSize: number;
+    decurityGroupIds: string[];
+    vSwitchId: string;
+    labels: string[];
   }
 
   interface IAddCloudMachineResp {
@@ -48,7 +48,7 @@ declare namespace ORG_MACHINE {
   }
 
   interface ICloudLogStatusQuery {
-    recordID: string
+    recordID: string;
   }
   interface ICloudLogStatusResp {
     recordID: string;
@@ -59,63 +59,63 @@ declare namespace ORG_MACHINE {
     status: string;
   }
   interface IMachine {
-    clusterName: string
-    ip: string
-    hostname: string
-    os: string
-    kernelVersion: string
-    labels: string
-    tasks: number
-    cpuUsage: number
-    cpuRequest: number
-    cpuLimit: number
-    cpuOrigin: number
-    cpuTotal: number
-    cpuAllocatable: number
-    memUsage: number
-    memRequest: number
-    memLimit: number
-    memOrigin: number
-    memTotal: number
-    memAllocatable: number
-    diskUsage: number
-    diskLimit: number
-    diskTotal: number
-    load1: number
-    load5: number
-    load15: number
-    health: true
-    abnormalMsg: string
-    status: string
-    cpuUsagePercent: number
-    memUsagePercent: number
-    diskUsagePercent: number
-    loadPercent: number
-    cpuDispPercent: number
-    memDispPercent: number
+    clusterName: string;
+    ip: string;
+    hostname: string;
+    os: string;
+    kernelVersion: string;
+    labels: string;
+    tasks: number;
+    cpuUsage: number;
+    cpuRequest: number;
+    cpuLimit: number;
+    cpuOrigin: number;
+    cpuTotal: number;
+    cpuAllocatable: number;
+    memUsage: number;
+    memRequest: number;
+    memLimit: number;
+    memOrigin: number;
+    memTotal: number;
+    memAllocatable: number;
+    diskUsage: number;
+    diskLimit: number;
+    diskTotal: number;
+    load1: number;
+    load5: number;
+    load15: number;
+    health: true;
+    abnormalMsg: string;
+    status: string;
+    cpuUsagePercent: number;
+    memUsagePercent: number;
+    diskUsagePercent: number;
+    loadPercent: number;
+    cpuDispPercent: number;
+    memDispPercent: number;
   }
 
   interface IMachineLabelBody {
-    clusterName: string // 操作的集群名
-    orgID: number // org id
-    hosts: string[] // 机器列表
-    labels: string[] // 标签列表
+    clusterName: string; // 操作的集群名
+    orgID: number; // org id
+    hosts: string[]; // 机器列表
+    labels: string[]; // 标签列表
   }
 
   interface IClusterOperateRecord {
-    clusterName: string
-    createTime: string
-    detail: string
-    orgID: string
-    recordID: string
-    recordType: string
-    status: string
-    userID: string
+    clusterName: string;
+    createTime: string;
+    detail: string;
+    orgID: string;
+    recordID: string;
+    recordType: string;
+    status: string;
+    userID: string;
   }
 
   interface IClusterOperateType {
-    rawRecordType: string,
-    recordType: string
+    rawRecordType: string;
+    recordType: string;
   }
 
   interface IDeleteMachineBody {

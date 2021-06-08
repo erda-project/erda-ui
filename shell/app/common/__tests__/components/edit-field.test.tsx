@@ -38,7 +38,7 @@ describe('EditField', () => {
         suffix={suffix}
         onChangeCb={changeCbFn}
         value="erda.cloud"
-      />
+      />,
     );
     expect(wrapper.find('.suffix')).toExist();
     expect(wrapper.find('.ant-form-item-required')).toExist();
@@ -69,7 +69,7 @@ describe('EditField', () => {
     const changeCbFn = jest.fn();
     const wrapper = shallow(
       <EditField
-        name='id'
+        name="id"
         label={label}
         type="select"
         onChangeCb={changeCbFn}
@@ -78,7 +78,7 @@ describe('EditField', () => {
           className: cls,
           options: <Select.Option value={1}>YES</Select.Option>,
         }}
-      />
+      />,
     );
     expect(wrapper.find('Option')).toHaveLength(1);
     expect(wrapper.find(`.${cls}`).prop('placeholder')).toBe(`${i18n.t('project:please set ')}${label}`);
@@ -109,7 +109,7 @@ describe('EditField', () => {
         type="markdown"
         value={text}
         itemProps={{}}
-      />
+      />,
     );
   });
   it('should render datePicker type', () => {
@@ -123,7 +123,7 @@ describe('EditField', () => {
         value={curr}
         onChangeCb={changeCbFn}
         itemProps={{}}
-      />
+      />,
     );
     expect(wrapper.find('Picker').at(0).prop('value').isSame(curr, 'date')).toBeTruthy();
     act(() => {
@@ -146,7 +146,7 @@ describe('EditField', () => {
         type="custom"
         getComp={getComp}
         itemProps={{}}
-      />
+      />,
     );
     expect(wrapper.find('.custom-render')).toExist();
   });
@@ -157,7 +157,7 @@ describe('EditField', () => {
           name="name"
           type={type}
           value="erda.cloud"
-        />
+        />,
       );
       expect(wrapper.find('.nowrap').text()).toBe('erda.cloud');
       wrapper.setProps({
@@ -177,7 +177,7 @@ describe('EditField', () => {
         type="dateReadonly"
         value={date}
         itemProps={{}}
-      />
+      />,
     );
     expect(wrapper.find('.prewrap').text()).toBe(date);
   });
