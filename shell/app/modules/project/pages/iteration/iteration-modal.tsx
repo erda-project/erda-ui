@@ -76,6 +76,10 @@ export default ({ visible, data, onClose }: IProps) => {
       required: false,
       itemProps: {
         maxLength: 4000,
+        autoSize: {
+          minRows: 8,
+          maxRows: 8,
+        }
       },
     },
   ];
