@@ -16,8 +16,8 @@ import { createFlatStore } from 'app/cube';
 import { getStatistic, searchLogAnalytics } from '../services/log-analytics';
 
 interface IState {
-  appList: IApplication[]
-  searchResult: LOG_ANALYTICS.SearchResult,
+  appList: IApplication[];
+  searchResult: LOG_ANALYTICS.SearchResult;
 }
 
 const initState: IState = {
@@ -32,7 +32,7 @@ const logAnalytics = createFlatStore({
   name: 'log-analytics',
   state: initState,
   effects: {
-    async getAppList({ call, update, getParams }, payload: { pageNo: number, pageSize: number, q?: string }) {
+    async getAppList({ call, update, getParams }, payload: { pageNo: number; pageSize: number; q?: string }) {
       const { projectId } = getParams();
       const { list: appList } = await call(getJoinedApps, { ...payload, projectID: projectId });
       update({ appList });

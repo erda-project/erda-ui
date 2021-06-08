@@ -21,7 +21,7 @@ import { StatusToggle } from '../status-toggle';
 
 interface IProps {
   record: TEST_CASE.CaseTableRecord;
-  afterDelete(data: number[]): void;
+  afterDelete: (data: number[]) => void;
 }
 
 const Operation = ({ record, afterDelete }: IProps) => {

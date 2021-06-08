@@ -38,7 +38,7 @@ interface IProps {
 
 export const TicketContent = ({ detail }: IProps) => {
   const { label, type, content, author, createdAt } = detail;
-  const params = routeInfoStore.useStore(s => s.params);
+  const params = routeInfoStore.useStore((s) => s.params);
 
   const getUrl = (path: string, ticket: TICKET.Ticket) => {
     const { projectId, appId, orgName } = params;
@@ -109,7 +109,7 @@ const initialState = {
 };
 
 const TicketDetail = () => {
-  const [detail, comments] = ticketStore.useStore(s => [s.detail, s.comments]);
+  const [detail, comments] = ticketStore.useStore((s) => [s.detail, s.comments]);
   const { getTicketDetail, getTicketComments, createTicketComments, closeTicket } = ticketStore.effects;
   const [getTicketDetailLoading, getTicketCommentsLoading] = useLoading(ticketStore, ['getTicketDetail', 'getTicketComments']);
   const [{
@@ -258,7 +258,7 @@ const TicketDetail = () => {
                   value={activedProject}
                   getData={getProjects}
                   placeholder={i18n.t('application:please select project')}
-                  dataFormatter={({ list, total }: { list: any[], total: number }) => ({
+                  dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
                     total,
                     list: map(list, (project) => {
                       const { name, id } = project;
@@ -291,7 +291,7 @@ const TicketDetail = () => {
                       activedIssueTitle: undefined,
                     });
                   }}
-                  dataFormatter={({ list, total }: { list: any[], total: number }) => ({
+                  dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
                     total,
                     list: map(list, (iteration) => {
                       const { title, id } = iteration;
@@ -325,7 +325,7 @@ const TicketDetail = () => {
                   extraQuery={{ projectID: activedProject, iterationID: activedIteration, type: activedIssueType }}
                   showSearch={false}
                   placeholder={i18n.t('application:please select issue')}
-                  dataFormatter={({ list, total }: { list: any[], total: number }) => ({
+                  dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
                     total,
                     list: map(list, (issue) => {
                       const { title, id } = issue;

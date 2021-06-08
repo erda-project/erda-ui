@@ -44,10 +44,10 @@ export const featureList = [
 ];
 
 const BIComparative = () => {
-  const timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
-  const data = comparativeStore.useStore(s => s.comparative);
+  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const data = comparativeStore.useStore((s) => s.comparative);
   const { loadComparative: loadDetail } = comparativeStore.effects;
-  const params = routeInfoStore.useStore(s => s.params);
+  const params = routeInfoStore.useStore((s) => s.params);
   const { terminusKey } = params || {} as any;
   const [target, setTarget] = React.useState('apdex');
   const [compareBy, setCompareBy] = React.useState('province');

@@ -27,7 +27,7 @@ export const updateAuthInfo = ({ packageId, apiId, consumers }: GATEWAY.UpdateAu
 export const getConsumer = (params: Merge<GATEWAY.Base, {az: string}>): GATEWAY.Consumer => {
   return agent.get('/api/gateway/consumer')
     .query(params)
-    .then((response:any) => response.body);
+    .then((response: any) => response.body);
 };
 
 export const getRegisterApps = (params: GATEWAY.GetRegisterApp): { apps: GATEWAY.RegisterApp[] } => {
@@ -90,7 +90,7 @@ export const getPackageDetailApiList = ({ packageId, ...restParams }: GATEWAY.Ge
     .then((response: any) => response.body);
 };
 
-export const getImportableApiList = ({ packageId, ...restParams }: Merge<GATEWAY.GetImportApi, GATEWAY.Package>): {apis: GATEWAY.ImportApiItem[], routePrefix: string} => {
+export const getImportableApiList = ({ packageId, ...restParams }: Merge<GATEWAY.GetImportApi, GATEWAY.Package>): {apis: GATEWAY.ImportApiItem[]; routePrefix: string} => {
   return agent.get(`/api/gateway/openapi/packages/${packageId}/loadserver`)
     .query({ ...restParams })
     .then((response: any) => response.body);
@@ -220,16 +220,16 @@ export const saveApiDomain = (params: GATEWAY.SaveDomain): GATEWAY.ApiDomain => 
     .then((response: any) => response.body);
 };
 
-export const getDeployedBranches = (params:GATEWAY.GetDomain): PROJECT.Detail => {
+export const getDeployedBranches = (params: GATEWAY.GetDomain): PROJECT.Detail => {
   return agent.get('/api/gateway/service-runtime')
     .query(params)
-    .then((response:any) => response.body);
+    .then((response: any) => response.body);
 };
 
 export const getApiLimits = ({ apiConsumer, apiPackage, ...rest }: GATEWAY.GetApiLimit): IPagingResp<GATEWAY.ApiLimitsItem> => {
   return agent.get('/api/gateway/openapi/limits')
     .query({ consumerId: apiConsumer, packageId: apiPackage, ...rest })
-    .then((response:any) => response.body);
+    .then((response: any) => response.body);
 };
 
 export const createApiLimit = ({ orgId, projectId, env, ...rest }: Merge<GATEWAY.updateLimit, GATEWAY.Base>): boolean => {
@@ -239,7 +239,7 @@ export const createApiLimit = ({ orgId, projectId, env, ...rest }: Merge<GATEWAY
     .then((response: any) => response.body);
 };
 
-export const updateApiLimit = ({ ruleId, ...rest }:Merge<GATEWAY.updateLimit, {ruleId: string}>): GATEWAY.ApiLimitsItem => {
+export const updateApiLimit = ({ ruleId, ...rest }: Merge<GATEWAY.updateLimit, {ruleId: string}>): GATEWAY.ApiLimitsItem => {
   return agent.patch(`/api/gateway/openapi/limits/${ruleId}`)
     .send(rest)
     .then((response: any) => response.body);
@@ -247,7 +247,7 @@ export const updateApiLimit = ({ ruleId, ...rest }:Merge<GATEWAY.updateLimit, {r
 
 export const deleteLimit = ({ ruleId }: {ruleId: string}): boolean => {
   return agent.delete(`/api/gateway/openapi/limits/${ruleId}`)
-    .then((response:any) => response.body);
+    .then((response: any) => response.body);
 };
 
 export const getSafetyWaf = (params: GATEWAY.GetSafety): GATEWAY.SafetyWaf => {
@@ -274,19 +274,19 @@ export const getSafetyCsrf = (params: GATEWAY.GetSafety): GATEWAY.SafetyCsrf => 
     .then((response: any) => response.body);
 };
 
-export const getBusinessProxy = (params:GATEWAY.GetBusiness):GATEWAY.BusinessProxy => {
+export const getBusinessProxy = (params: GATEWAY.GetBusiness): GATEWAY.BusinessProxy => {
   return agent.get('/api/gateway/policies/proxy')
     .query({ ...params })
     .then((response: any) => response.body);
 };
 
-export const getBusinessCors = (params:GATEWAY.GetBusiness):GATEWAY.BusinessCors => {
+export const getBusinessCors = (params: GATEWAY.GetBusiness): GATEWAY.BusinessCors => {
   return agent.get('/api/gateway/policies/cors')
     .query({ ...params })
     .then((response: any) => response.body);
 };
 
-export const getBusinessCustom = (params:GATEWAY.GetBusiness):GATEWAY.BusinessCustom => {
+export const getBusinessCustom = (params: GATEWAY.GetBusiness): GATEWAY.BusinessCustom => {
   return agent.get('/api/gateway/policies/custom')
     .query({ ...params })
     .then((response: any) => response.body);
@@ -324,7 +324,7 @@ export const saveSafetyCsrf = (params: GATEWAY.SaveCsrf): GATEWAY.SafetyCsrf => 
     .then((response: any) => response.body);
 };
 
-export const saveBusinessProxy = (params:GATEWAY.SaveProxy): GATEWAY.BusinessProxy => {
+export const saveBusinessProxy = (params: GATEWAY.SaveProxy): GATEWAY.BusinessProxy => {
   const { packageId, apiId, ...body } = params;
   return agent.put('/api/gateway/policies/proxy')
     .query({ packageId, apiId })
@@ -348,24 +348,24 @@ export const saveBusinessCustom = (params: GATEWAY.SaveCustom): GATEWAY.Business
     .then((response: any) => response.body);
 };
 
-export const addPolicy = ({ category, data }: {data: GATEWAY.UpdatePolicy, category: string}): {policyId: string} => {
+export const addPolicy = ({ category, data }: {data: GATEWAY.UpdatePolicy; category: string}): {policyId: string} => {
   return agent.post(`/api/gateway/policies/${category}`)
     .send({ ...data, category })
     .then((response: any) => response.body);
 };
 
-export const updatePolicy = ({ category, data }:{data: GATEWAY.UpdatePolicy, category: string}): GATEWAY.PolicyListItem => {
+export const updatePolicy = ({ category, data }: {data: GATEWAY.UpdatePolicy; category: string}): GATEWAY.PolicyListItem => {
   return agent.patch(`/api/gateway/policies/${category}/${data.policyId}`)
     .send({ ...data, category })
     .then((response: any) => response.body);
 };
 
-export const deletePolicy = ({ category, data }: {data: {policyId:string}; category: string;}): boolean => {
+export const deletePolicy = ({ category, data }: {data: {policyId: string}; category: string}): boolean => {
   return agent.delete(`/api/gateway/policies/${category}/${data.policyId}`)
     .then((response: any) => response.body);
 };
 
-export const createConsumer = ({ consumerName, orgId, projectId, env }: Merge<{ consumerName: string }, GATEWAY.Base>):{ConsumerId: string; ConsumerName: string} => {
+export const createConsumer = ({ consumerName, orgId, projectId, env }: Merge<{ consumerName: string }, GATEWAY.Base>): {ConsumerId: string; ConsumerName: string} => {
   return agent.post('/api/gateway/consumer')
     .send({ consumerName, orgId, projectId, env })
     .then((response: any) => response.body);
@@ -392,31 +392,31 @@ export const saveConsumerApiPolicy = (params: GATEWAY.SavePoliciesApi): boolean 
     .send({ ...params })
     .then((response: any) => response.body);
 };
-export const deleteConsumer = ({ consumerId }:{consumerId: string}): boolean => {
+export const deleteConsumer = ({ consumerId }: {consumerId: string}): boolean => {
   return agent.delete(`/api/gateway/consumer/${consumerId}`)
     .then((response: any) => response.body);
 };
 
-export const getAPISummary = (data: GATEWAY.Common):GATEWAY.Common => {
+export const getAPISummary = (data: GATEWAY.Common): GATEWAY.Common => {
   return agent.get('/api/spot/kong/request_list')
     .query(data)
     .then((response: any) => response.body);
 };
 
-export const getStatusCode = (data:GATEWAY.Common): string[] => {
+export const getStatusCode = (data: GATEWAY.Common): string[] => {
   return agent.get('/api/spot/kong/status_code')
     .query(data)
     .then((response: any) => response.body);
 };
 
-export const getStatusCodeChart = (data:GATEWAY.Common):GATEWAY.Common => {
+export const getStatusCodeChart = (data: GATEWAY.Common): GATEWAY.Common => {
   return agent.get('/api/spot/kong/status_code_chart')
     .query(data)
     .then((response: any) => response.body);
 };
 
 
-export const getErrorSummary = (data:GATEWAY.Common): GATEWAY.Common[] => {
+export const getErrorSummary = (data: GATEWAY.Common): GATEWAY.Common[] => {
   return agent.get('/api/spot/kong/error_percentage')
     .query(data)
     .then((response: any) => response.body);
@@ -434,31 +434,31 @@ export const getCloudApiInfo = (packageId: Omit<GATEWAY.Base, 'orgId'>): GATEWAY
     .then((response: any) => response.body);
 };
 
-export const getAliCloudDomain = ({ packageId }:GATEWAY.Package): GATEWAY.AliCloudDomain => {
+export const getAliCloudDomain = ({ packageId }: GATEWAY.Package): GATEWAY.AliCloudDomain => {
   return agent.get(`/api/gateway/openapi/packages/${packageId}/aliyun-bind`)
     .then((response: any) => response.body);
 };
 
-export const bindAliCloudDomain = ({ packageId }:GATEWAY.Package): GATEWAY.AliCloudDomain => {
+export const bindAliCloudDomain = ({ packageId }: GATEWAY.Package): GATEWAY.AliCloudDomain => {
   return agent.post(`/api/gateway/openapi/packages/${packageId}/aliyun-bind`)
     .then((response: any) => response.body);
 };
 
-export const generateAliCloudCredentials = ({ consumerId }:{consumerId:string}): GATEWAY.AliCloudCredentials[] => {
+export const generateAliCloudCredentials = ({ consumerId }: {consumerId: string}): GATEWAY.AliCloudCredentials[] => {
   return agent.post(`/api/gateway/openapi/consumers/${consumerId}/aliyun-credentials`)
     .then((response: any) => response.body);
 };
 
-export const generateAliCloudCredentialsAsync = ({ consumerId }:{consumerId:string}): GATEWAY.AliCloudCredentials[] => {
+export const generateAliCloudCredentialsAsync = ({ consumerId }: {consumerId: string}): GATEWAY.AliCloudCredentials[] => {
   return agent.post(`/api/gateway/openapi/consumers/${consumerId}/aliyun-credentials-async`)
     .then((response: any) => response.body);
 };
 
-export const getAliCloudCredentials = ({ consumerId }:{consumerId:string}): GATEWAY.AliCloudCredentials[] => {
+export const getAliCloudCredentials = ({ consumerId }: {consumerId: string}): GATEWAY.AliCloudCredentials[] => {
   return agent.get(`/api/gateway/openapi/consumers/${consumerId}/aliyun-credentials`)
     .then((response: any) => response.body);
 };
-export const deleteAliCloudCredentials = ({ consumerId }:{consumerId:string}): boolean => {
+export const deleteAliCloudCredentials = ({ consumerId }: {consumerId: string}): boolean => {
   return agent.delete(`/api/gateway/openapi/consumers/${consumerId}/aliyun-credentials`)
     .then((response: any) => response.body);
 };

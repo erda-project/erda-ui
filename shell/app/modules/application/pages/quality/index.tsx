@@ -65,10 +65,10 @@ const CodeQuality = () => {
   const [visible, setVisible] = React.useState(false);
   const [curSonarInfo, setCurSonarInfo] = React.useState({ name: '', path: '', language: '', lines: [] });
   // const appDetail = appStore.useStore(s => s.detail);
-  const { projectId, appId } = routeInfoStore.useStore(s => s.params);
+  const { projectId, appId } = routeInfoStore.useStore((s) => s.params);
   const { getSonarResults, getRepoBlob, getLatestSonarStatistics } = codeQualityStore.effects;
   const { clearSonarResults, clearRepoBlob } = codeQualityStore.reducers;
-  const [sonarStatistics, coverage, duplications, blob] = codeQualityStore.useStore(s => [s.sonarStatistics, s.coverage, s.duplications, s.blob]);
+  const [sonarStatistics, coverage, duplications, blob] = codeQualityStore.useStore((s) => [s.sonarStatistics, s.coverage, s.duplications, s.blob]);
   const [isFetchingSonarStatistics, isFetchingSonarResults, isFetchingRepoBlob] = useLoading(codeQualityStore, ['getLatestSonarStatistics', 'getSonarResults', 'getRepoBlob']);
   const [{ headerInfo }, updater] = useUpdate({
     headerInfo: {},
@@ -204,7 +204,7 @@ const CodeQuality = () => {
     };
     const { name, lines: originalLines, language } = curSonarInfo;
     const lines = originalLines
-      .map(line => parseInt(line, 10))
+      .map((line) => parseInt(line, 10))
       .sort((a, b) => a - b);
     const lineRanges: any[] = [];
 

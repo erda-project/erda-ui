@@ -78,7 +78,7 @@ export const EditCategory = (props: IProps) => {
         value={value}
         maxLength={50}
         onPressEnter={() => handleSave()}
-        onChange={e => setValue(e.target.value)}
+        onChange={(e) => setValue(e.target.value)}
       />
       <CustomIcon className="ml12 fz18 pointer" type="duigou" onClick={handleSave} />
       <CustomIcon className="ml12 fz18 pointer" type="close" onClick={props.onHide || handleHide} />
@@ -97,7 +97,7 @@ export const EditCategory = (props: IProps) => {
       trigger="click"
       placement="bottomRight"
       align={{ offset: [10, 0] }}
-      onVisibleChange={v => (v ? setVisible(v) : handleHide())}
+      onVisibleChange={(v) => (v ? setVisible(v) : handleHide())}
       footer={false}
     >
       {createButton || (

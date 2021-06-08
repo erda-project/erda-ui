@@ -57,7 +57,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
   const formRef = React.useRef<WrappedFormUtils>({} as any);
 
 
-  const [openApiDoc, apiLockState, formErrorNum] = apiDesignStore.useStore(s => [s.openApiDoc, s.apiLockState, s.formErrorNum]);
+  const [openApiDoc, apiLockState, formErrorNum] = apiDesignStore.useStore((s) => [s.openApiDoc, s.apiLockState, s.formErrorNum]);
   const { updateOpenApiDoc, updateFormErrorNum } = apiDesignStore;
 
   const dataPath = React.useMemo(() => [apiName, currentMethod], [apiName, currentMethod]);
@@ -71,7 +71,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
     } else {
       // 点击左侧api列表导致的内容变化，更新第一个不为空的method，更新resource内容，resource内容切换到summary
       let initialMethod = API_METHODS.get;
-      some(API_METHODS, method => {
+      some(API_METHODS, (method) => {
         if (!isEmpty(apiDetail[method])) {
           initialMethod = method;
           return true;
@@ -108,9 +108,9 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
     if (!pathParams) return;
 
     const prefixPath = !apiData ? ['paths', apiName] : [];
-    const tempDetail = produce(openApiDoc, draft => {
+    const tempDetail = produce(openApiDoc, (draft) => {
       if (!isEmpty(pathParams)) {
-        const _pathParams = map(pathParams, name => {
+        const _pathParams = map(pathParams, (name) => {
           return {
             ...DEFAULT_PATH_PARAM,
             name,
@@ -126,14 +126,14 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiData, apiName, pathParams, updateOpenApiDoc]);
 
-  const setFieldHandle = React.useCallback((key:string, fieldData:Obj, extraProps?: Obj) => {
+  const setFieldHandle = React.useCallback((key: string, fieldData: Obj, extraProps?: Obj) => {
     const prefixPath = !apiData?.apiMethod ? ['paths', ...dataPath] : [];
     const baseFormData = !apiData?.apiMethod ? openApiDoc : tempApiData;
 
     if (onQuoteChange && extraProps?.typeQuotePath) {
       const newTypeQuotePath = extraProps?.typeQuotePath ? ['paths', ...dataPath, ...extraProps.typeQuotePath] : [];
 
-      const tempQuotePathMap = produce(quotePathMap, draft => {
+      const tempQuotePathMap = produce(quotePathMap, (draft) => {
         if (extraProps?.quoteTypeName) {
           const { quoteTypeName } = extraProps;
           draft[quoteTypeName] = draft[quoteTypeName] || [];
@@ -143,7 +143,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
       onQuoteChange(tempQuotePathMap);
     }
 
-    const tempDetail = produce(baseFormData, draft => {
+    const tempDetail = produce(baseFormData, (draft) => {
       if (key !== 'responses') {
         const responseData = get(draft, [...prefixPath, 'responses']);
         // 设置默认的response
@@ -169,11 +169,11 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
       }
       // 设置默认的operationId
       if (!get(draft, [...prefixPath, 'operationId'])) {
-        const _operationIdList:string[] = [];
+        const _operationIdList: string[] = [];
         const { paths } = openApiDoc;
-        forEach(keys(paths), (pathName:string) => {
+        forEach(keys(paths), (pathName: string) => {
           const methodData = paths[pathName];
-          forEach(keys(methodData), item => {
+          forEach(keys(methodData), (item) => {
             methodData[item]?.operationId && _operationIdList.push(methodData[item]?.operationId);
           });
         });
@@ -203,7 +203,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
   const iconClassMap = React.useMemo(() => {
     const classMap = {};
     const emptyIcon = {};
-    forEach(API_METHODS, method => {
+    forEach(API_METHODS, (method) => {
       const tempMethodDetail = get(openApiDoc, ['paths', apiName, method]);
       const emptyMethodClass = !tempMethodDetail || isEmpty(tempMethodDetail) ? 'btn-icon-empty' : '';
       classMap[method] = `btn-icon btn-icon-${method} ${emptyMethodClass}`;
@@ -212,9 +212,9 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
     return { classMap, emptyIcon };
   }, [apiName, openApiDoc]);
 
-  const deleteMethod = React.useCallback((methodKey:API_METHODS) => {
+  const deleteMethod = React.useCallback((methodKey: API_METHODS) => {
     updater.open(false);
-    const tempDetail = produce(openApiDoc, draft => {
+    const tempDetail = produce(openApiDoc, (draft) => {
       unset(draft, ['paths', apiName, methodKey]);
     });
     updateOpenApiDoc(tempDetail);
@@ -224,19 +224,19 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
   }, [apiName, currentMethod, openApiDoc, updateOpenApiDoc, updater]);
 
 
-  const onApiNameChange = React.useCallback((name:string) => {
+  const onApiNameChange = React.useCallback((name: string) => {
     updater.apiDisplayName(name);
     props.onApiNameChange(name);
 
     // 获取api中的path parameters
-    const _pathParams = map(name.match(pathParamReg), item => {
+    const _pathParams = map(name.match(pathParamReg), (item) => {
       return item.slice(1, item.length - 1);
     });
     updater.pathParams(_pathParams);
 
     if (onQuoteChange && !isEmpty(quotePathMap)) {
-      const tempQuotePathMap = produce(quotePathMap, draft => {
-        forEach(keys(draft), k => {
+      const tempQuotePathMap = produce(quotePathMap, (draft) => {
+        forEach(keys(draft), (k) => {
           forEach(draft[k], (path, i) => {
             if (path.includes(apiDisplayName)) {
               const oldPathArray = path.slice(0, path.length - 1);
@@ -249,14 +249,14 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
     }
 
     if (!apiData?.apiMethod) {
-      const tempDetail = produce(openApiDoc, draft => {
+      const tempDetail = produce(openApiDoc, (draft) => {
         const apiTempData = get(draft, ['paths', apiName]);
         set(draft, ['paths', name], apiTempData);
         unset(draft, ['paths', apiName]);
       });
       updateOpenApiDoc(tempDetail);
     } else {
-      const tempDetail = produce(tempApiData, draft => {
+      const tempDetail = produce(tempApiData, (draft) => {
         set(draft, 'apiName', name);
       });
       updater.tempApiData(tempDetail);
@@ -275,7 +275,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
   }, [apiData, execOperation, operations, tempApiData]);
 
   const fieldList = React.useMemo(() => {
-    const existApiPathNames = keys(openApiDoc?.paths).filter(n => n !== apiDisplayName);
+    const existApiPathNames = keys(openApiDoc?.paths).filter((n) => n !== apiDisplayName);
     return [
       {
         type: Input,
@@ -288,7 +288,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
           disabled: apiLockState,
           addonBefore: apiData?.apiMethod,
           placeholder: i18n.t('please enter {name}', { name: i18n.t('API path') }),
-          onChange: (e:React.ChangeEvent<HTMLInputElement>) => {
+          onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
             const newApiName = e.target.value;
 
             if (newApiName && !existApiPathNames.includes(newApiName) && newApiName.startsWith('/')) {
@@ -335,12 +335,12 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
     }
   }, [open, selectRef, updater]);
 
-  const maskClick = React.useCallback((e:any) => {
+  const maskClick = React.useCallback((e: any) => {
     e.stopPropagation();
     updater.open(true);
   }, [updater]);
 
-  const labelClick = React.useCallback((e:any, methodKey:string) => {
+  const labelClick = React.useCallback((e: any, methodKey: string) => {
     e.stopPropagation();
     updater.open(false);
 
@@ -383,7 +383,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
                 const item = (
                   <div className="circle-container center-flex-box">
                     { iconClassMap.emptyIcon[methodKey] ? <div className={`${iconClassMap.classMap[methodKey]} disableIcon`} />
-                      : <CustomIcon type='duigou' className={iconClassMap.classMap[methodKey]} />
+                      : <CustomIcon type="duigou" className={iconClassMap.classMap[methodKey]} />
                     }
                   </div>
                 );
@@ -399,9 +399,9 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
                           title={`${i18n.t('common:confirm deletion')}?`}
                           onConfirm={() => deleteMethod(methodKey)}
                           disabled={apiLockState}
-                          overlayClassName='popconfirm-container'
+                          overlayClassName="popconfirm-container"
                           getPopupContainer={() => popconfirmRef?.current}
-                          onCancel={(e:any) => { e.stopPropagation(); updater.open(false); }}
+                          onCancel={(e: any) => { e.stopPropagation(); updater.open(false); }}
                         ><span>{ item }</span>
                         </Popconfirm>
                         : <span>{ item }</span>
@@ -414,12 +414,12 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
           </Select>
           : undefined
         }
-        <div className='mask' onClick={maskClick} />
+        <div className="mask" onClick={maskClick} />
       </div>
     );
   };
 
-  const onTabChange = (tabKey:string) => {
+  const onTabChange = (tabKey: string) => {
     const nextHandle = () => {
       updater.curTabKey(tabKey as API_RESOURCE_TAB);
       const _apiMethodDetail = get(openApiDoc, ['paths', apiName, currentMethod]) || {};

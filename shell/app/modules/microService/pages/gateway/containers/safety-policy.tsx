@@ -420,7 +420,7 @@ export const PureSafetyPolicy = () => {
                 <TextArea
                   disabled={enableGlobalIP || !ipEnable}
                   placeholder={i18n.t(
-                    'microService:you can enter ip address, use , separate'
+                    'microService:you can enter ip address, use , separate',
                   )}
                   className="policy-input"
                   rows={4}

@@ -27,9 +27,9 @@ const labelColor = (): string => {
 };
 
 const TagModal = () => {
-  const list = projectLabelStore.useStore(s => s.list);
+  const list = projectLabelStore.useStore((s) => s.list);
   const { getLabels, createLabel } = projectLabelStore.effects;
-  const oldCaseAction = testCaseStore.useStore(s => s.caseAction);
+  const oldCaseAction = testCaseStore.useStore((s) => s.caseAction);
   // const { updateTags } = testCaseStore.effects;
   const { closeNormalModal } = testCaseStore.reducers;
   const [confirmLoading] = useLoading(testCaseStore, ['updateTags']);

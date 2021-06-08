@@ -51,7 +51,7 @@ interface IState {
   reportTaskRecords: COMMON_ALARM_REPORT.ReportRecord[];
   reportTaskRecord: COMMON_ALARM_REPORT.ReportRecord;
   systemDashboards: COMMON_ALARM_REPORT.DashboardBlock[];
-  reportTypes: COMMON_ALARM_REPORT.ReportType[],
+  reportTypes: COMMON_ALARM_REPORT.ReportType[];
   reportTaskPaging: IPaging;
   reportTaskRecordPaging: IPaging;
 }
@@ -84,12 +84,12 @@ const alarmReportStore = createStore({
   },
   effects: {
     async createReportTask({ call }, payload: COMMON_ALARM_REPORT.ReportTaskQuery) {
-      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const orgId = orgStore.getState((s) => s.currentOrg.id);
       await call(createReportTask, { scope: 'org', scopeId: String(orgId), ...payload }, { successMsg: i18n.t('add successfully') });
       alarmReportStore.effects.getReportTasks(defaultPagingReq);
     },
     async getReportTasks({ call, update }, payload: IPagingReq) {
-      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const orgId = orgStore.getState((s) => s.currentOrg.id);
       const { list } = await call(getReportTasks, { scope: 'org', scopeId: String(orgId), ...payload }, { paging: { key: 'reportTaskPaging' } });
       update({ reportTasks: list });
     },
@@ -100,21 +100,21 @@ const alarmReportStore = createStore({
     },
     async updateReportTask({ call, select }, payload: Merge<COMMON_ALARM_REPORT.ReportTaskQuery, { id: number }>) {
       await call(updateReportTask, payload, { successMsg: i18n.t('update successfully') });
-      const { pageNo, pageSize } = select(s => s.reportTaskPaging);
+      const { pageNo, pageSize } = select((s) => s.reportTaskPaging);
       alarmReportStore.effects.getReportTasks({ pageNo, pageSize });
     },
     async deleteReportTask({ call }, id: number) {
       await call(deleteReportTask, id, { successMsg: i18n.t('deleted successfully') });
       alarmReportStore.effects.getReportTasks(defaultPagingReq);
     },
-    async switchReportTask({ call, select }, payload: { id: number; enable: boolean; }) {
-      const { pageNo, pageSize } = select(s => s.reportTaskPaging);
+    async switchReportTask({ call, select }, payload: { id: number; enable: boolean }) {
+      const { pageNo, pageSize } = select((s) => s.reportTaskPaging);
       await call(switchReportTask, payload, { successMsg: i18n.t('update successfully') });
       alarmReportStore.effects.getReportTasks({ pageNo, pageSize });
     },
-    async getReportTaskRecords({ call, update, getParams }, payload: Merge<IPagingReq, { start?: number; end?: number; }>) {
+    async getReportTaskRecords({ call, update, getParams }, payload: Merge<IPagingReq, { start?: number; end?: number }>) {
       const { taskId } = getParams();
-      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const orgId = orgStore.getState((s) => s.currentOrg.id);
       const { list } = await call(getReportTaskRecords, { scope: 'org', scopeId: String(orgId), taskId, ...payload }, { paging: { key: 'reportTaskRecordPaging' } });
       update({ reportTaskRecords: list });
     },

@@ -30,7 +30,7 @@ interface IProps {
   jsonString?: string;
   buttonText?: string;
   modalConfigs?: object;
-  onToggle?(visible: boolean): void;
+  onToggle?: (visible: boolean) => void;
 }
 
 interface IState {
@@ -76,7 +76,7 @@ export class JsonChecker extends React.PureComponent<IProps, IState> {
         </Button>
         <Modal className="json-checker-modal" {...configs}>
           <div className="json-detail-wrap">
-            <Button className="json-detail-btn for-copy" shape="circle" icon={<IconCopy/>} />
+            <Button className="json-detail-btn for-copy" shape="circle" icon={<IconCopy />} />
             <Copy selector=".for-copy" opts={{ text: () => jsonString }} />
             <pre>{ jsonString }</pre>
           </div>

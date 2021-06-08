@@ -48,7 +48,7 @@ const resetStatus = (time: number[], status: string[]) => {
 };
 
 const ThreeMonthUptime = () => {
-  const metricStatus = monitorStatusStore.useStore(s => s.metricStatus);
+  const metricStatus = monitorStatusStore.useStore((s) => s.metricStatus);
   const [isFetching] = useLoading(monitorStatusStore, ['getMetricStatus']);
   const { getMetricStatus } = monitorStatusStore.effects;
   const { clearMetricStatus } = monitorStatusStore.reducers;

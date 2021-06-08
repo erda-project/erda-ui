@@ -15,18 +15,18 @@ import i18n from 'i18n';
 import { filter } from 'lodash';
 import permStore from 'user/stores/permission';
 import { goTo } from 'common/utils';
-import { 
-  ApplicationOne as IconApplicationOne, 
-  DashboardCar as IconDashboardCar, 
-  List as IconList, 
-  Config as IconConfig, 
-  DataAll as IconDataAll 
+import {
+  ApplicationOne as IconApplicationOne,
+  DashboardCar as IconDashboardCar,
+  List as IconList,
+  Config as IconConfig,
+  DataAll as IconDataAll,
 } from '@icon-park/react';
 import React from 'react';
 import { Icon as CustomIcon } from 'common';
 
 export const getProjectMenu = (projectId: string, pathname: string) => {
-  const projectPerm = permStore.getState(s => s.project);
+  const projectPerm = permStore.getState((s) => s.project);
 
   const menu = [
     {
@@ -86,7 +86,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     },
     {
       href: goTo.resolve.projectService(),
-      icon: <CustomIcon type='kuozhanfuwu' />,
+      icon: <CustomIcon type="kuozhanfuwu" />,
       text: i18n.t('project:addon'),
       show: projectPerm.service.viewService.pass,
     },
@@ -115,7 +115,7 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
     },
   ];
 
-  const useableMenu = filter(menu, item => item.show);
+  const useableMenu = filter(menu, (item) => item.show);
   // let pathMatch = false;
   // useableMenu.forEach(m => {
   //   const { href: _href, isActive } = m;

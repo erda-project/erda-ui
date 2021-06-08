@@ -27,15 +27,15 @@ interface IErrorTrackProps {
   data: MONITOR_SI.ITableData[];
   query: any;
   timeSpan: ITimeSpan;
-  viewLog(params: any): void;
-  fetchTraceContent(params: any): void;
+  viewLog: (params: any) => void;
+  fetchTraceContent: (params: any) => void;
 }
 
 export const webErrorTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceContent }: IErrorTrackProps) => {
   const list = get(data, 'list') || [];
   const { startTimeMs: start, endTimeMs: end } = timeSpan || {};
   const { getSubErrorHttpList } = SIWebStore.effects;
-  const subErrorHttpList = SIWebStore.useStore(s => s.subErrorHttpList);
+  const subErrorHttpList = SIWebStore.useStore((s) => s.subErrorHttpList);
   const columns = [
     {
       title: 'Url',
@@ -103,7 +103,7 @@ export const webErrorTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceC
 
 export const dbErrorTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceContent }: IErrorTrackProps) => {
   const { getSubErrorDbList } = SIDataBaseStore.effects;
-  const subErrorDbList = SIDataBaseStore.useStore(s => s.subErrorDbList);
+  const subErrorDbList = SIDataBaseStore.useStore((s) => s.subErrorDbList);
   const list = get(data, 'list') || [];
   const { startTimeMs: start, endTimeMs: end } = timeSpan || {};
 

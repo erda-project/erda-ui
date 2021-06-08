@@ -35,12 +35,12 @@ import {
 import microServiceStore from 'microService/stores/micro-service';
 
 interface IState {
-  tagsTree: LOG_ANALYZE.TagsTree[]
-  logs: LOG_ANALYZE.Log[]
-  logStatistics: LOG_ANALYZE.LogStatistics
-  rules: LOG_ANALYZE.RuleListItem[]
-  templates: LOG_ANALYZE.RuleTemplate[]
-  curRule: LOG_ANALYZE.Rule,
+  tagsTree: LOG_ANALYZE.TagsTree[];
+  logs: LOG_ANALYZE.Log[];
+  logStatistics: LOG_ANALYZE.LogStatistics;
+  rules: LOG_ANALYZE.RuleListItem[];
+  templates: LOG_ANALYZE.RuleTemplate[];
+  curRule: LOG_ANALYZE.Rule;
 }
 
 const initState: IState = {
@@ -53,11 +53,11 @@ const initState: IState = {
 };
 
 const getScope = (useTk?: boolean) => {
-  const [routeMarks, params] = routeInfoStore.getState(s => [s.routeMarks, s.params]);
-  const orgName = orgStore.getState(s => s.currentOrg.name);
+  const [routeMarks, params] = routeInfoStore.getState((s) => [s.routeMarks, s.params]);
+  const orgName = orgStore.getState((s) => s.currentOrg.name);
   const inDataCenter = routeMarks.includes('dataCenter');
   const inMicroService = routeMarks.includes('microService');
-  const msMenuMap = microServiceStore.getState(s => s.msMenuMap);
+  const msMenuMap = microServiceStore.getState((s) => s.msMenuMap);
   const scope = inDataCenter ? 'org'
     : inMicroService ? 'micro-service' : '';
   const scopeID = inDataCenter ? orgName
@@ -80,7 +80,7 @@ const LogAnalyze = createFlatStore({
     },
     async getLogs({ call, update }, payload: LOG_ANALYZE.GetLogQuery) {
       const { data: logs = [] } = await call(getLogs, payload) || {};
-      update({ logs: map(logs, log => ({ ...log, uniId: uniqueId() })) });
+      update({ logs: map(logs, (log) => ({ ...log, uniId: uniqueId() })) });
     },
     async getLogStatistics({ call, update }, payload: LOG_ANALYZE.GetLogQuery) {
       const logStatistics = await call(getLogStatistics, payload);
@@ -88,7 +88,7 @@ const LogAnalyze = createFlatStore({
     },
     async getAddonLogs({ call, update }, payload: LOG_ANALYZE.AddonSearchQuery) {
       const { data: logs = [] } = await call(getAddonLogs, payload) || {};
-      update({ logs: map(logs, log => ({ ...log, uniId: uniqueId() })) });
+      update({ logs: map(logs, (log) => ({ ...log, uniId: uniqueId() })) });
     },
     async getAddonLogStatistics({ call, update }, payload: LOG_ANALYZE.AddonSearchQuery) {
       const logStatistics = await call(getAddonLogStatistics, payload);

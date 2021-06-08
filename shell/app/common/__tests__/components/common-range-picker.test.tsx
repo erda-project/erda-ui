@@ -42,7 +42,6 @@ describe('CommonRangePicker', () => {
     expect(date[1].isSame(today, 'date')).toBeTruthy();
     expect(wrapper.find('RangePicker').at(0).prop('disabledDate')(yesterday)).toBeFalsy();
     expect(wrapper.find('RangePicker').at(0).prop('disabledDate')(tomorrow)).toBeTruthy();
-    wrapper.find('RangePicker').at(0).prop('onOk')();
     expect(fn).toHaveBeenCalled();
   });
 });

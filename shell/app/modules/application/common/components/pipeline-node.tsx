@@ -63,15 +63,15 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
     RX: 20,
   };
 
-  public info = DiceYamlEditorItem.info;
+  info = DiceYamlEditorItem.info;
 
-  public state = {
+  state = {
     time: 0,
   };
 
   private interval: any;
 
-  public shouldComponentUpdate(nextProps: Readonly<IDiceYamlEditorItemProps>, nextState: Readonly<any>): boolean {
+  shouldComponentUpdate(nextProps: Readonly<IDiceYamlEditorItemProps>, nextState: Readonly<any>): boolean {
     const { data } = nextProps.item;
 
     if (!isEqual(data, this.props.item.data) || this.state.time !== nextState.time) {
@@ -81,7 +81,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
     return false;
   }
 
-  public UNSAFE_componentWillReceiveProps(nextProps: Readonly<IDiceYamlEditorItemProps>): void {
+  UNSAFE_componentWillReceiveProps(nextProps: Readonly<IDiceYamlEditorItemProps>): void {
     const { data } = nextProps.item;
 
     if (data.pipelineID !== this.props.item.data.pipelineID) {
@@ -95,11 +95,11 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
     }
   }
 
-  public UNSAFE_componentWillMount(): void {
+  UNSAFE_componentWillMount(): void {
     this.setTime(this.props);
   }
 
-  public componentWillUnmount(): void {
+  componentWillUnmount(): void {
     if (this.interval) {
       clearInterval(this.interval);
       this.interval = null;
@@ -109,7 +109,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
     }
   }
 
-  public render() {
+  render() {
     const { time } = this.state;
     const { item, className, onClick } = this.props;
     let titleContent = null;
@@ -133,9 +133,9 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
     }
 
     const statusContent = (
-      <span className='flex-1'>
+      <span className="flex-1">
         <span className="yaml-editor-item-status" style={{ background: approvalResult ? approvalResult.color : item.data.itemStatus.toLowerCase() }} />
-        <span className='inline-flex-box'>{approvalResult ? approvalResult.text : (status ? status.text : '-')}</span>
+        <span className="inline-flex-box">{approvalResult ? approvalResult.text : (status ? status.text : '-')}</span>
       </span>
     );
     if (item.data.name || item.data.displayName) {
@@ -160,7 +160,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
     ) : null;
 
     const logoUrl = get(item.data, 'logoUrl');
-    const icon = logoUrl ? <img src={logoUrl} alt='logo' className='pipeline-item-icon' /> : <CustomIcon className="pipeline-item-icon" type="wfw" color />;
+    const icon = logoUrl ? <img src={logoUrl} alt="logo" className="pipeline-item-icon" /> : <CustomIcon className="pipeline-item-icon" type="wfw" color />;
 
     const Container = this.isEmptyExtraInfo() ? Popover : React.Fragment;
     return (
@@ -171,7 +171,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
         >
           {icon}
           <span className="yaml-editor-item-title-name">
-            <div className='flex-box'>
+            <div className="flex-box">
               {titleContent}
               <span className="pipeline-node-icon">{this.renderIcon()}</span>
             </div>
@@ -255,7 +255,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
           temp.push(
             <div key={`meta-${String(index)}`} className="flow-chart-panel-msg-item">
               <span className="flow-chart-panel-msg-item-name">{m.name}</span> {m.value}
-            </div>
+            </div>,
           ));
         if (temp.length) {
           detailInfo.push(<h4>{i18n.t('application:details')}</h4>);
@@ -263,10 +263,10 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
         }
       }
       if (!isEmpty(files)) {
-        detailInfo.push(<h4 className='mt8'>{i18n.t('download')}</h4>);
+        detailInfo.push(<h4 className="mt8">{i18n.t('download')}</h4>);
         detailInfo.push(files.map((item, idx) => (
           item.value ? (
-            <div className='table-operations' key={`file-${String(idx)}`}>
+            <div className="table-operations" key={`file-${String(idx)}`}>
               <a className="table-operations-btn" download={item.value} href={`/api/files/${item.value}`}>
                 {item.name || item.value}
               </a>

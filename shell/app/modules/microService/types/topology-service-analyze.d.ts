@@ -28,7 +28,7 @@ declare namespace TOPOLOGY_SERVICE_ANALYZE {
   }
 
   interface TranslationSlowResp {
-    cols: Array<{ index: string; title: string; }>;
+    cols: Array<{ index: string; title: string }>;
     data: Array<Record<string, any>>;
   }
 

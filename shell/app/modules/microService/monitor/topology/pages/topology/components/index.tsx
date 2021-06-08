@@ -25,7 +25,7 @@ interface ITopologyParent{
   metric: {
     [proKey: string]: any;
     count: number;
-  }
+  };
 }
 
 interface INodeExternal{
@@ -61,8 +61,8 @@ interface IProps{
   linkTextEle: React.ReactNode;
   scale: number;
   boxEle?: React.ReactNode;
-  onClickNode(arg: any): void;
-  setScale(val:number): void;
+  onClickNode: (arg: any) => void;
+  setScale: (val: number) => void;
 }
 
 
@@ -82,7 +82,7 @@ const TopologyChart = (props: IProps) => {
   const chartBoxRef = React.useRef(null);
 
   React.useEffect(() => {
-    setChartKey(preChartKey => preChartKey + 1);
+    setChartKey((preChartKey) => preChartKey + 1);
   }, [data]);
 
   const setSize = (width: number, height: number) => {

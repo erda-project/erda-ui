@@ -56,7 +56,7 @@ const checkAssetReadAuthInApp = (appID: number, showNoAuth: boolean) => {
     type: 'app',
     routeMark: 'apiManage',
     cb: () => {
-      const hasAuth = permStore.getState(s => s.app.apiManage.apiMarket.read.pass);
+      const hasAuth = permStore.getState((s) => s.app.apiManage.apiMarket.read.pass);
       if (!hasAuth && showNoAuth) {
         goTo(goTo.pages.noAuth, { replace: true });
       }
@@ -72,13 +72,13 @@ const apiMarketStore = createStore({
       const { list } = await call(Service.getApiAssetsList, payload, { paging: { key: 'assetListPaging' } });
       let assetList = list || [];
       if (payload.pageNo && payload.pageNo > 1) {
-        const prevList = select(s => s.assetList);
+        const prevList = select((s) => s.assetList);
         assetList = [...prevList, ...list];
       }
       update({ assetList });
     },
     async createAsset({ call }, payload: Omit<API_MARKET.CreateAsset, 'orgID'>) {
-      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const orgId = orgStore.getState((s) => s.currentOrg.id);
       const res = await call(Service.createAsset, { ...payload, orgID: orgId }, { successMsg: i18n.t('default:created successfully') });
       return res;
     },
@@ -90,7 +90,7 @@ const apiMarketStore = createStore({
       const assetDetail = await call(Service.getAssetDetail, payload);
       const { assetName, projectID, creatorID, appID } = assetDetail.asset;
       breadcrumbStore.reducers.setInfo('assetName', assetName);
-      const isOrgManage = permStore.getState(s => s.org.apiAssetEdit.pass);
+      const isOrgManage = permStore.getState((s) => s.org.apiAssetEdit.pass);
       if (!isOrgManage && !isCreator(creatorID) && refreshAuth) {
         // 更新关联项目信息后，刷新权限
         if (projectID) {
@@ -99,7 +99,7 @@ const apiMarketStore = createStore({
             type: 'project',
             routeMark: 'apiManage',
             cb: () => {
-              const [hasReadAuth, hasEditAuth] = permStore.getState(s => [s.project.apiManage.apiMarket.read.pass, s.project.apiManage.apiMarket.edit.pass]);
+              const [hasReadAuth, hasEditAuth] = permStore.getState((s) => [s.project.apiManage.apiMarket.read.pass, s.project.apiManage.apiMarket.edit.pass]);
               if (!hasReadAuth) {
                 if (appID) {
                   checkAssetReadAuthInApp(appID, true);
@@ -132,7 +132,7 @@ const apiMarketStore = createStore({
       const name = `${assetName}（V ${major}.${minor}.${patch}）`;
       breadcrumbStore.reducers.setInfo('assetName', name);
       // 企业管理员
-      const isOrgManage = permStore.getState(s => s.org.apiAssetEdit.pass);
+      const isOrgManage = permStore.getState((s) => s.org.apiAssetEdit.pass);
       if (!isOrgManage) {
         // 如果是public，则所有人可以看，否则进行权限校验
         if (!isPublic) {
@@ -143,7 +143,7 @@ const apiMarketStore = createStore({
               type: 'project',
               routeMark: 'apiManage',
               cb: () => {
-                const hasAuth = permStore.getState(s => s.project.apiManage.apiMarket.read.pass);
+                const hasAuth = permStore.getState((s) => s.project.apiManage.apiMarket.read.pass);
                 if (!(hasAuth || isCreator(creatorID))) {
                   goTo(goTo.pages.noAuth, { replace: true });
                 }

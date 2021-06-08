@@ -21,7 +21,7 @@ declare namespace MONITOR_MI {
     group: string;
     range: string;
     ranges: string | string[];
-    source: true
+    source: true;
   }
 
 }

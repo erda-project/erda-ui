@@ -45,8 +45,7 @@ const menuFilterMap = {
   },
   orgCenter: { // 企业中心
     orgMarket: (item: IMenuItem) => {
-
-      const publisherId = orgStore.getState(s => s.currentOrg.publisherId);
+      const publisherId = orgStore.getState((s) => s.currentOrg.publisherId);
       const orgPublisherAuth = !!publisherId;
       return ENABLE_MPAAS && orgPublisherAuth ? item : null;
     },
@@ -65,7 +64,7 @@ const menuFilterMap = {
   },
   workBench: {
     workBenchPublisher: (item: IMenuItem) => {
-      const publisherId = orgStore.getState(s => s.currentOrg.publisherId);
+      const publisherId = orgStore.getState((s) => s.currentOrg.publisherId);
       const orgPublisherAuth = !!publisherId;
       return ENABLE_MPAAS && orgPublisherAuth ? item : null;
     },
@@ -73,11 +72,11 @@ const menuFilterMap = {
 };
 
 export const filterMenu = (menu: IMenuItem[], type: MENU_SCOPE) => {
-  return compact(map(menu, item => {
+  return compact(map(menu, (item) => {
     const func = get(menuFilterMap, `${type}.${item.key}`) || defaultFunc;
     const reItem = func(item);
     if (reItem && reItem.subMenu) {
-      reItem.subMenu = compact(map(reItem.subMenu, subItem => {
+      reItem.subMenu = compact(map(reItem.subMenu, (subItem) => {
         const subFunc = get(menuFilterMap, `${type}.${subItem.key}`) || defaultFunc;
         return subFunc(subItem);
       }));

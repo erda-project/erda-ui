@@ -25,21 +25,21 @@ const noop = () => { };
 
 
 interface IFilterItem {
-  name: string,
-  type?: string,
+  name: string;
+  type?: string;
   options?: Array<{
-    name: string,
-    value: string | number,
-  }> | Function,
-  Comp?: React.ReactElement<any>,
+    name: string;
+    value: string | number;
+  }> | Function;
+  Comp?: React.ReactElement<any>;
   label?: string;
-  onChange?(...a: any): any,
-  filterBarValueConvert?(...arg:any): string,
+  onChange?: (...a: any) => any;
+  filterBarValueConvert?: (...arg: any) => string;
   [prop: string]: any;
 }
 
 const defaultConvert = (val: string | any[]) => (isArray(val) ? val.join(',') : val);
-const defaultConvertSelect = (_val: any, options:any) => map(isArray(options) ? options : [options], item => item.props.children).join(',');
+const defaultConvertSelect = (_val: any, options: any) => map(isArray(options) ? options : [options], (item) => item.props.children).join(',');
 const Field = ({ type, update, options = [], onChange = noop, filterBarValueConvert, ...itemProps }: IFilterItem) => {
   let ItemComp = null;
   const specialConfig: any = {};
@@ -79,7 +79,7 @@ const Field = ({ type, update, options = [], onChange = noop, filterBarValueConv
           {
             typeof options === 'function'
               ? options()
-              : options.map(single => <Option key={single.value} value={`${single.value}`}>{single.name}</Option>)
+              : options.map((single) => <Option key={single.value} value={`${single.value}`}>{single.name}</Option>)
           }
         </Select>
       );
@@ -108,16 +108,16 @@ const Field = ({ type, update, options = [], onChange = noop, filterBarValueConv
 };
 
 interface IBaseFilterProps {
-  list: IFilterItem[],
-  showReset?: boolean,
-  query?: any,
-  syncUrlOnSearch?: boolean,
-  onChange?(value: object): any,
-  onSearch?(value: object): any,
-  onReset?(): any,
+  list: IFilterItem[];
+  showReset?: boolean;
+  query?: any;
+  syncUrlOnSearch?: boolean;
+  onChange?: (value: object) => any;
+  onSearch?: (value: object) => any;
+  onReset?: () => any;
 }
 interface IFilterCoreProps extends IBaseFilterProps {
-  children: Function,
+  children: Function;
 }
 
 
@@ -128,7 +128,7 @@ export const FilterBarHandle = {
     const strArr = str.split(FilterBarHandle.splitKey);
     const _data = {};
     if (!isEmpty(compact(strArr))) {
-      map(strArr, item => {
+      map(strArr, (item) => {
         const [key, val] = item.split('[');
         _data[key] = val.slice(0, -1);
       });
@@ -148,8 +148,8 @@ export interface IFilterReturnProps {
   CompList: JSX.Element[];
   resetButton: JSX.Element;
   searchButton: JSX.Element;
-  search(): any;
-  reset(): any;
+  search: () => any;
+  reset: () => any;
 }
 
 /**
@@ -172,7 +172,7 @@ export interface IFilterReturnProps {
 export const FilterCore = ({
   list, onSearch, onChange, onReset, syncUrlOnSearch, children,
 }: IFilterCoreProps) => {
-  const query = routeInfoStore.useStore(s => s.query);
+  const query = routeInfoStore.useStore((s) => s.query);
   const fieldList = [] as IFilterItem[];
   const initData = {};
   forEach(list, ({ ...rest }) => {
@@ -206,7 +206,7 @@ export const FilterCore = ({
     (onSearch || noop)(filterData);
     const QKey = FilterBarHandle.filterDataKey;
     syncUrlOnSearch && updateSearch(filterData, {
-      sort: (a:string, b:string) => (a === QKey ? 1 : (b === QKey ? -1 : 0)),
+      sort: (a: string, b: string) => (a === QKey ? 1 : (b === QKey ? -1 : 0)),
     });
   };
 
@@ -248,8 +248,8 @@ export const FilterCore = ({
 
 
 interface IFilterGroupProps extends IBaseFilterProps {
-  reversePosition?: boolean, // 交换左右块位置
-  children?: JSX.Element | null,
+  reversePosition?: boolean; // 交换左右块位置
+  children?: JSX.Element | null;
 }
 
 /**
@@ -301,9 +301,9 @@ interface IToolBarWithFilter extends IBaseFilterProps{
   children: any;
   filterValue: object;
   className?: string;
-  onClose?(): any;
+  onClose?: () => any;
 }
-export const ToolBarWithFilter: any = React.forwardRef((props: IToolBarWithFilter, ref:any) => {
+export const ToolBarWithFilter: any = React.forwardRef((props: IToolBarWithFilter, ref: any) => {
   const { list, children, onSearch: search = noop, onClose: close = noop, className = '', filterValue, ...rest } = props;
   const [{ visible }, updater] = useUpdate({ visible: false });
   const childrenWithProps = React.Children.map(children, (child) => {
@@ -348,7 +348,7 @@ export const ToolBarWithFilter: any = React.forwardRef((props: IToolBarWithFilte
     close();
   };
 
-  const getFilterValue = (val:any, name:string, convertFun: Function = noop) => {
+  const getFilterValue = (val: any, name: string, convertFun: Function = noop) => {
     const curVal = get(val, name);
     const searchStr = qs.parse(location.search)[FilterBarHandle.filterDataKey] || '' as string;
     const valueObj = { ...FilterBarHandle.queryToData(searchStr as string) };
@@ -362,16 +362,16 @@ export const ToolBarWithFilter: any = React.forwardRef((props: IToolBarWithFilte
   const FilterBar = React.useMemo(() => {
     const filterBar = [] as any[];
     const filterBarKeys = [] as string[];
-    map(list, item => {
+    map(list, (item) => {
       const curVal = getFilterValue(filterValue, item.name, item.filterBarValueConvert);
       if (!(curVal === undefined || curVal === '' || ((isArray(curVal) || isPlainObject(curVal)) && isEmpty(curVal)))) {
         filterBarKeys.push(item.name);
         filterBar.push(
           <Tag
-            className='mb4'
+            className="mb4"
             closable
             key={item.name}
-            onClose={(e:any) => {
+            onClose={(e: any) => {
               e.stopPropagation();
               const newData = {
                 ...filterValue,
@@ -385,18 +385,18 @@ export const ToolBarWithFilter: any = React.forwardRef((props: IToolBarWithFilte
             }}
           >
             {item.label}: {curVal}
-          </Tag>
+          </Tag>,
         );
       }
     });
     if (!isEmpty(filterBar)) {
       filterBar.push(
         <div
-          key='_clear'
-          className='clear'
+          key="_clear"
+          className="clear"
           onClick={() => {
             let newData = { ...filterValue };
-            map(filterBarKeys, _k => {
+            map(filterBarKeys, (_k) => {
               newData = {
                 ...newData,
                 [_k]: undefined,
@@ -410,7 +410,7 @@ export const ToolBarWithFilter: any = React.forwardRef((props: IToolBarWithFilte
           }}
         >
           {i18n.t('clear')}
-        </div>
+        </div>,
       );
     }
     return filterBar;
@@ -433,9 +433,9 @@ export const ToolBarWithFilter: any = React.forwardRef((props: IToolBarWithFilte
 
 interface IFilterButtonProps {
   btnClassName?: string;
-  onClick?():void;
+  onClick?: () => void;
 }
-ToolBarWithFilter.FilterButton = ({ onClick = noop, btnClassName = '' }:IFilterButtonProps) => {
+ToolBarWithFilter.FilterButton = ({ onClick = noop, btnClassName = '' }: IFilterButtonProps) => {
   return (
     <Tooltip title={i18n.t('common:advanced filter')}>
       <Button onClick={onClick} className={btnClassName}>
@@ -447,7 +447,7 @@ ToolBarWithFilter.FilterButton = ({ onClick = noop, btnClassName = '' }:IFilterB
 
 interface IIFilterDrawerProps extends IBaseFilterProps {
   visible: boolean;
-  onClose(): any;
+  onClose: () => any;
 }
 
 export const FilterGroupDrawer = ({

@@ -49,14 +49,14 @@ const LogItem = ({ log }: { log: COMMON.LogItem }) => {
 interface IProps {
   logKey: string;
   query: {
-    requestId?: string
-    applicationId?: string | number
-  }
-  style: Obj
-  [k: string]: any
+    requestId?: string;
+    applicationId?: string | number;
+  };
+  style: Obj;
+  [k: string]: any;
 }
 const SimpleLogRoller = ({ logKey, query = {}, style = {}, ...otherProps }: IProps) => {
-  const logsMap = commonStore.useStore(s => s.logsMap);
+  const logsMap = commonStore.useStore((s) => s.logsMap);
   const { fetchLog } = commonStore.effects;
   const { clearLog } = commonStore.reducers;
   const { content } = logsMap[logKey] || { content: [] };

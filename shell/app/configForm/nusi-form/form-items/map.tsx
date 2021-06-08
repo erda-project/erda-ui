@@ -27,9 +27,9 @@ const FormItem = Form.Item;
 interface IMapItemProps {
   data: Obj;
   className?: string;
-  operation?:any;
-  updateItem(arg:any):void;
-  itemRender?(data:Obj, updateItem:(arg:Obj)=>void): void;
+  operation?: any;
+  updateItem: (arg: any) => void;
+  itemRender?: (data: Obj, updateItem: (arg: Obj) => void) => void;
 }
 const changeValue = (obj: Obj[]) => obj;
 
@@ -45,7 +45,7 @@ const MapObjComp = (props: any) => {
     return createCombiner({
       valueFixIn: changeValue,
       valueFixOut: changeValue,
-      CombinerItem: ({ updateItem, data, className = '', operation = null }:IMapItemProps) => {
+      CombinerItem: ({ updateItem, data, className = '', operation = null }: IMapItemProps) => {
         return (
           <div className={`${className}`}>
             <Input.Group>
@@ -156,7 +156,7 @@ export const config = {
       return [false, i18n.t('can not be empty')];
     } else {
       let valid = true;
-      Object.keys(value).forEach(k => {
+      Object.keys(value).forEach((k) => {
         if (k?.endsWith('&repeat')) {
           valid = false;
         }
@@ -169,7 +169,7 @@ export const config = {
     let emptyKeyCount = 0;
     orderMap = {};
     let isEmptyItem = false;
-    map(itemData, ({ key: k, value: v }, index:number) => {
+    map(itemData, ({ key: k, value: v }, index: number) => {
       if (orderMap[k] === undefined) {
         orderMap[k] = !isEmptyItem ? index : index - 1;
       } else {
@@ -196,8 +196,8 @@ export const config = {
   },
   fixIn: (itemData: any) => {
     // 从schema到React组件映射时，修正传入React组件的value；
-    const mapParams:Array<{key:any, value:any}> = [];
-    map(Object.keys(itemData || {}), k => {
+    const mapParams: Array<{key: any; value: any}> = [];
+    map(Object.keys(itemData || {}), (k) => {
       const index = orderMap[k || 'undefined'] !== undefined ? orderMap[k || 'undefined'] : orderMap[''];
       if (k.endsWith('&repeat')) {
         mapParams[index] = ({ key: k.split('&repeat')[0], value: itemData[k] });
@@ -207,7 +207,7 @@ export const config = {
     });
 
     const list = isEmpty(itemData) ? [] : mapParams;
-    return list.filter(item => item);
+    return list.filter((item) => item);
   },
   extensionFix: (data: any, options: any) => {
     // 从schema到React组件映射时，修正传入React组件的配置项
@@ -223,7 +223,7 @@ export const formConfig = {
       basic: {
         key: 'basic',
         name: '基本配置',
-        fields: [...commonFields.filter(item => item.key !== 'defaultValue'), ...checkWhen],
+        fields: [...commonFields.filter((item) => item.key !== 'defaultValue'), ...checkWhen],
       },
       componentProps: {
         key: 'componentProps',

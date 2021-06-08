@@ -13,40 +13,40 @@
 
 declare namespace CP_RADIO {
   interface Spec {
-    type: 'Radio',
+    type: 'Radio';
     props: IProps;
     state: IState;
-    operations?: Obj<CP_COMMON.Operation>
+    operations?: Obj<CP_COMMON.Operation>;
   }
 
   interface IState{
-    childrenValue?: Obj,
-    value: string,
+    childrenValue?: Obj;
+    value: string;
   }
 
   interface IProps{
-    buttonStyle?: 'solid' | 'outline'
-    disabled?: boolean,
-    disabledTip?: string,
-    options?: Option[],
-    radioType?: string,
-    size?: 'small' | 'default' | 'large',
+    buttonStyle?: 'solid' | 'outline';
+    disabled?: boolean;
+    disabledTip?: string;
+    options?: Option[];
+    radioType?: string;
+    size?: 'small' | 'default' | 'large';
   }
 
   interface Option {
-    key: string,
-    text: string,
-    children?: IOptionChildren[], // 作为下拉选项
-    operations?: Obj<CP_COMMON.Operation>
-    prefixIcon?: string,
-    suffixIcon?: string,
-    tooltip?: string,
-    width?: string
+    key: string;
+    text: string;
+    children?: IOptionChildren[]; // 作为下拉选项
+    operations?: Obj<CP_COMMON.Operation>;
+    prefixIcon?: string;
+    suffixIcon?: string;
+    tooltip?: string;
+    width?: string;
   }
 
   interface IOptionChildren{
     key: string;
-    text: string
+    text: string;
   }
 
   type Props = MakeProps<Spec>;

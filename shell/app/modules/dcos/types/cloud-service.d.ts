@@ -19,34 +19,34 @@ declare namespace CLOUD_SERVICE {
   }
 
   interface IRDS {
-    chargeType: string,
-    id: string,
-    name: string,
-    spec: string,
-    status: string,
+    chargeType: string;
+    id: string;
+    name: string;
+    spec: string;
+    status: string;
     tag: {
       [s: string]: boolean;
     };
-    version: string
-    createTime: string,
-    region: string,
+    version: string;
+    createTime: string;
+    region: string;
   }
 
   interface IRDSCreateBody {
-    autoRenew: boolean,
-    chargePeriod: string,
-    chargeType: string,
-    clientToken: string,
-    instanceName: string,
-    region: string,
-    spec: string,
-    source: string,
-    specType: string,
-    storageSize: number,
-    storageType: string,
-    vendor: string,
-    vpcID: string,
-    zoneID: string
+    autoRenew: boolean;
+    chargePeriod: string;
+    chargeType: string;
+    clientToken: string;
+    instanceName: string;
+    region: string;
+    spec: string;
+    source: string;
+    specType: string;
+    storageSize: number;
+    storageType: string;
+    vendor: string;
+    vpcID: string;
+    zoneID: string;
   }
 
   interface IRDSAccountBody {
@@ -61,10 +61,10 @@ declare namespace CLOUD_SERVICE {
     description: string;
   }
 
-  type IRDSAccountPriv = {
+  interface IRDSAccountPriv {
     dBName: string;
     accountPrivilege: string;
-  };
+  }
 
   interface IRDSRevokeAccountPrivBody {
     instanceID: string;
@@ -104,7 +104,7 @@ declare namespace CLOUD_SERVICE {
       characterSetName: string;
       account: string;
       accountPrivilege?: string;
-    }>
+    }>;
   }
 
   interface IRDSAccountResp {
@@ -122,7 +122,7 @@ declare namespace CLOUD_SERVICE {
     dBDescription: string;
     accounts: Array<{
       account: string;
-    }>
+    }>;
   }
 
   interface IMQ {
@@ -158,7 +158,7 @@ declare namespace CLOUD_SERVICE {
     remark: string;
     createTime: string;
     tags: {
-      [tag:string]: boolean;
+      [tag: string]: boolean;
     };
   }
 
@@ -170,7 +170,7 @@ declare namespace CLOUD_SERVICE {
     topics: Array<{
       topicName: string;
       messageType: number;
-      remark: string
+      remark: string;
     }>;
   }
 
@@ -181,8 +181,8 @@ declare namespace CLOUD_SERVICE {
     instanceId: string;
     createTime: string;
     tags: {
-      [tag:string]: boolean;
-    }
+      [tag: string]: boolean;
+    };
   }
 
   interface IMQGroupBody {
@@ -234,7 +234,7 @@ declare namespace CLOUD_SERVICE {
 
   interface IDetailsResp {
     label: 'string';
-    items: Array<{ name: string; value: string; }>;
+    items: Array<{ name: string; value: string }>;
   }
 
 }

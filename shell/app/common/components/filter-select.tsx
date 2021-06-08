@@ -18,13 +18,13 @@ import './filter-select.scss';
 interface IProps {
   multiple: boolean;
   options: Array<{
-    value: string | number,
-    text: string,
-    hlName?: string,
+    value: string | number;
+    text: string;
+    hlName?: string;
   }>;
   fetching: boolean;
   value: number | [];
-  initFetch?(): void;
+  initFetch?: () => void;
 }
 interface IState {
   filtering: boolean;
@@ -84,7 +84,7 @@ export class FilterSelect extends React.PureComponent<IProps, IState> {
         _value = `${otherProps.value}`; // value must be string
       }
       if (Array.isArray(otherProps.value)) {
-        _value = otherProps.value.map(i => String(i));
+        _value = otherProps.value.map((i) => String(i));
       }
     }
 

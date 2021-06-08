@@ -13,19 +13,19 @@
 
 declare namespace CP_POPOVER {
   interface IProps {
-    size: 's' | 'm' | 'l'
+    size: 's' | 'm' | 'l';
     visible?: boolean;
     title?: string;
     placement?: 'left' | 'right' | 'top' | 'bottom' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight' | 'leftTop' | 'leftBottom' | 'rightTop' | 'rightBottom';
   }
 
   interface Spec {
-    type: 'Popover',
-    props: IProps
+    type: 'Popover';
+    props: IProps;
   }
 
   type Props = MakeProps<Spec> & {
-    children?: React.ReactNode | string,
-    content?: React.ReactNode,
+    children?: React.ReactNode | string;
+    content?: React.ReactNode;
   };
 }

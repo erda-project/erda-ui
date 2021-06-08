@@ -65,7 +65,7 @@ export const useMediaLt = (num: number, main = false, ignoreWidth = defaultIgnor
 
 export const useComponentWidth = () => {
   const [sized, { width }] = useSize(
-    () => <div style={{ width: '100%' }} />
+    () => <div style={{ width: '100%' }} />,
   );
   return [sized, width];
 };
@@ -107,14 +107,14 @@ export const useLocalStorage = (compName: string) => {
 };
 
 interface DragItem {
-  index: number
-  type: string
+  index: number;
+  type: string;
 }
 interface IDragProps {
   type: string;
   index: number;
-  onMove(dragIndex: number, hoverIndex: number): any;
-  collect?(monitor: DragSourceMonitor): any;
+  onMove: (dragIndex: number, hoverIndex: number) => any;
+  collect?: (monitor: DragSourceMonitor) => any;
 }
 
 /**
@@ -238,7 +238,7 @@ type ResetFn = () => void;
  * @return [state, updateAll, updater]
  */
 export const useUpdate = <T extends object>(
-  initState: NullableValue<T>
+  initState: NullableValue<T>,
 ): [NullableValue<T>, UpdaterFn<NullableValue<T>>, UpdateFn<NullableValue<T>>, ResetFn] => {
   const [state, _update] = useSetState<NullableValue<T>>(initState || {});
   // 使用ref，避免updater的更新方法中，在闭包里使用上次的state
@@ -249,7 +249,7 @@ export const useUpdate = <T extends object>(
   const update: any = React.useCallback((args: any) => {
     // 扩展 update 的使用, 使用方法同 useState((preState) => preState + 1)
     if (isFunction(args)) {
-      return updateRef.current(prev => args(prev));
+      return updateRef.current((prev) => args(prev));
     } else {
       return updateRef.current(args);
     }
@@ -314,8 +314,8 @@ interface ITempPagingParams<T> {
   initList?: T[];
   append?: boolean;
   listKey?: string;
-  basicParams?: Obj
-  service(params?: any): Promise<IPagingResp<T>>;
+  basicParams?: Obj;
+  service: (params?: any) => Promise<IPagingResp<T>>;
 }
 
 const emptyList: any[] = [];

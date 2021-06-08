@@ -22,20 +22,20 @@ import './issue-drawer.scss';
 type ElementChild = React.ElementType | JSX.Element | string;
 
 interface IProps {
-  children: ElementChild[] | undefined[],
-  visible: boolean,
-  editMode: boolean,
-  className?: string,
-  loading?: boolean,
-  canDelete?: boolean,
-  canCreate?: boolean,
-  shareLink?: string,
-  subDrawer?: JSX.Element | null,
-  confirmCloseTip?: string,
-  maskClosable?: boolean,
-  onClose(e: any): void;
-  onDelete?(): void;
-  handleCopy?(isCopy: boolean, copyTitle: string): void;
+  children: ElementChild[] | undefined[];
+  visible: boolean;
+  editMode: boolean;
+  className?: string;
+  loading?: boolean;
+  canDelete?: boolean;
+  canCreate?: boolean;
+  shareLink?: string;
+  subDrawer?: JSX.Element | null;
+  confirmCloseTip?: string;
+  maskClosable?: boolean;
+  onClose: (e: any) => void;
+  onDelete?: () => void;
+  handleCopy?: (isCopy: boolean, copyTitle: string) => void;
 }
 
 /**
@@ -64,7 +64,7 @@ export const IssueDrawer = (props: IProps) => {
   return (
     <Drawer
       className={`task-drawer ${className}`}
-      width="908"
+      width="70vw"
       placement="right"
       closable={false}
       visible={visible}
@@ -81,7 +81,7 @@ export const IssueDrawer = (props: IProps) => {
               <div className="task-drawer-op">
                 <IF check={editMode && shareLink}>
                   <Copy selector=".copy-share-link" tipName={i18n.t('project:share link')} />
-                  <IconShareOne className="for-copy copy-share-link mr4 ml12" size="16px" data-clipboard-text={shareLink}  />
+                  <IconShareOne className="for-copy copy-share-link mr4 ml12" size="16px" data-clipboard-text={shareLink} />
                 </IF>
                 <IF check={editMode}>
                   <WithAuth pass={canCreate}>

@@ -23,7 +23,7 @@ export default (registerModule) => {
       domainStore,
       logStore,
       serviceStore,
-      runtimeStore
+      runtimeStore,
     ],
   });
 };

@@ -32,7 +32,7 @@ const TraceCommonPanel = (props: IProps) => {
       {...otherProps}
     >
       <Card.Header title={isString(title) ? <h3 className="trace-common-panel-title bold-500">{title}</h3> : (title || null)} />
-      <div className='card-body'>
+      <div className="card-body">
         { children }
       </div>
     </Card>

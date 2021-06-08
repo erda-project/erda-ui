@@ -19,7 +19,7 @@ import { describe, it } from '@jest/globals';
 describe('ClassWrapper', () => {
   it('should empty render', () => {
     const wrapper = mount(
-      <ClassWrapper />
+      <ClassWrapper />,
     );
     expect(wrapper).toBeEmptyRender();
   });
@@ -27,7 +27,7 @@ describe('ClassWrapper', () => {
     const wrapper = mount(
       <ClassWrapper>
         erda
-      </ClassWrapper>
+      </ClassWrapper>,
     );
     expect(wrapper.text()).toBe('erda');
   });
@@ -37,7 +37,7 @@ describe('ClassWrapper', () => {
         <div className="children">
           erda
         </div>
-      </ClassWrapper>
+      </ClassWrapper>,
     );
     expect(wrapper.find('.children')).toExist();
   });

@@ -17,11 +17,10 @@ import { Command } from 'commander';
 import inquirer from 'inquirer';
 import build from '../lib/build';
 import release from '../lib/release';
-import copy from '../lib/copy';
 import addLicense from '../lib/add-license';
 import checkLicense from '../lib/check-license';
 import launcher from '../lib/launcher';
-import setup from '../lib/setup';
+import init from '../lib/init';
 import i18n from '../lib/i18n';
 import checkCliVersion from '../lib/check-cli-version';
 
@@ -44,12 +43,15 @@ program
 //   });
 
 program
-  .command('setup <module> <port>')
-  .description('setup env and tsconfig for module')
+  .command('init')
+  .description('install dependency & initialize .env config')
   .option('-s, --skip', 'skip the cli version check')
-  .action(async (moduleName, port, options) => {
+  .option('-p, --port <port>', 'set scheduler port')
+  .option('-b, --backendUrl <backendUrl>', 'set backend(api) url')
+  .option('-o, --override', 'ignore current .env file and override')
+  .action(async (options) => {
     await checkCliVersion(options);
-    setup(moduleName, port);
+    init(options);
   });
 
 program
@@ -59,17 +61,10 @@ program
   .option('-l, --local', 'enable local mode, if image arg is given, then local mode is forcibly')
   .option('-s, --skip', 'skip the cli version check')
   .option('-m, --enableSourceMap', 'generate source map')
+  .option('-o, --online', 'whether is online build')
   .action(async (options) => {
     await checkCliVersion(options);
     build(options);
-  });
-
-program
-  .command('copy <module>')
-  .option('-p, --distPath <dist>', 'Dist directory path', './dist')
-  .description('copy module build files to erda-ui public directory')
-  .action((module, options) => {
-    copy(module, options);
   });
 
 program

@@ -43,9 +43,9 @@ const showMap = {
 };
 
 export const PureAppSettings = () => {
-  const appDetail = appStore.useStore(s => s.detail);
-  const params = routeInfoStore.useStore(s => s.params);
-  const branchRuleOperation = usePerm(s => s.app.setting.branchRule.operation.pass);
+  const appDetail = appStore.useStore((s) => s.detail);
+  const params = routeInfoStore.useStore((s) => s.params);
+  const branchRuleOperation = usePerm((s) => s.app.setting.branchRule.operation.pass);
 
   const settingSource = [
     {
@@ -109,7 +109,7 @@ export const PureAppSettings = () => {
               sectionList={[{
                 title: i18n.t('application:application branch rule'),
                 desc: i18n.t('application:application-branch-rule-desc'),
-                children: <BranchRule operationAuth={branchRuleOperation} scopeId={+params.appId} scopeType='app' />,
+                children: <BranchRule operationAuth={branchRuleOperation} scopeId={+params.appId} scopeType="app" />,
               }]}
             />
           ),
@@ -275,7 +275,7 @@ export const PureAppSettings = () => {
   let dataSource = settingSource;
   if (!isEmpty(appDetail)) {
     const { mode } = appDetail;
-    dataSource = settingSource.filter(item => (showMap[mode].includes(item.groupKey)));
+    dataSource = settingSource.filter((item) => (showMap[mode].includes(item.groupKey)));
   }
 
   return (

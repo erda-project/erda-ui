@@ -71,22 +71,22 @@ interface IProps {
 
 export default ({ scopeType, scopeId }: IProps) => {
   const memberStore = memberStoreMap[scopeType];
-  const roleMap = memberStore.useStore(s => s.roleMap);
+  const roleMap = memberStore.useStore((s) => s.roleMap);
   const { getRoleMap } = memberStore.effects;
   const alarmStrategyStore = alarmStrategyStoreMap[scopeType];
-  const [alertList, alarmPaging, alarmScopeMap, alertTypes] = alarmStrategyStore.useStore(s => [s.alertList, s.alarmPaging, s.alarmScopeMap, s.alertTypes]);
+  const [alertList, alarmPaging, alarmScopeMap, alertTypes] = alarmStrategyStore.useStore((s) => [s.alertList, s.alarmPaging, s.alarmScopeMap, s.alertTypes]);
   const { total, pageNo, pageSize } = alarmPaging;
-  const orgId = orgStore.getState(s => s.currentOrg.id);
+  const orgId = orgStore.getState((s) => s.currentOrg.id);
   const [getAlertDetailLoading, getAlertsLoading, toggleAlertLoading] = useLoading(alarmStrategyStore, ['getAlertDetail', 'getAlerts', 'toggleAlert']);
   const { getAlerts, createAlert, editAlert, toggleAlert, deleteAlert, getAlertDetail, getAlarmScopes, getAlertTypes } = alarmStrategyStore.effects;
   const { getNotifyGroups } = notifyGroupStore.effects;
-  const notifyGroups = notifyGroupStore.useStore(s => s.notifyGroups);
+  const notifyGroups = notifyGroupStore.useStore((s) => s.notifyGroups);
   const [modalVisible, openModal, closeModal] = useSwitch(false);
 
-  const orgAddNotificationGroupAuth = usePerm(s => s.org.dataCenter.alarms.addNotificationGroup.pass);
+  const orgAddNotificationGroupAuth = usePerm((s) => s.org.dataCenter.alarms.addNotificationGroup.pass);
 
   const { getSMSNotifyConfig } = clusterStore.effects;
-  const enableMS = clusterStore.useStore(s => s.enableMS);
+  const enableMS = clusterStore.useStore((s) => s.enableMS);
   const notifyChannelMap = enableMS ? smsNotifyChannelOptionsMap : notifyChannelOptionsMap;
 
   const addNotificationGroupAuth = scopeType === ScopeType.ORG ? orgAddNotificationGroupAuth : true; // 企业中心的添加通知组，需要验证权限，项目的暂无埋点
@@ -136,9 +136,9 @@ export default ({ scopeType, scopeId }: IProps) => {
     let _allRules: any[] = [];
     forEach(alertTypes.alertTypeRules, ({ alertType, rules }) => {
       _alertTypeRuleMap[alertType.key] = rules;
-      forEach(rules, item => {
+      forEach(rules, (item) => {
         _allRuleMap[item.alertIndex.key] = item.alertIndex.display;
-        forEach(item.functions, subItem => {
+        forEach(item.functions, (subItem) => {
           _allRuleFieldMap[subItem.field.key] = subItem.field.display;
         });
       });
@@ -147,7 +147,7 @@ export default ({ scopeType, scopeId }: IProps) => {
           alertIndex: alertIndex.key,
           functions: map(functions, ({ field, ...subRest }) => ({ field: field.key, ...subRest })),
           ...rest,
-        }))
+        })),
       );
     });
     return [_alertTypeRuleMap, _allRuleFieldMap, _allRuleMap, _allRules];
@@ -219,7 +219,7 @@ export default ({ scopeType, scopeId }: IProps) => {
           value={value}
           onSelect={(window: any) => handleEditEditingRule(key, { key: 'window', value: Number(window) })}
         >
-          {map(windows, item => <Select.Option key={item} value={item}>{item}</Select.Option>)}
+          {map(windows, (item) => <Select.Option key={item} value={item}>{item}</Select.Option>)}
         </Select>
       ),
     },
@@ -299,7 +299,7 @@ export default ({ scopeType, scopeId }: IProps) => {
               content={
                 <div className="alarm-rule-collection">
                   {
-                    map(alertTypes.alertTypeRules, item => (
+                    map(alertTypes.alertTypeRules, (item) => (
                       <div
                         className="collection-item hover-active-bg"
                         key={item.alertType.key}
@@ -356,13 +356,13 @@ export default ({ scopeType, scopeId }: IProps) => {
               form.setFieldsValue({ groupType: [], groupId: id });
               updater.activedGroupId(id);
             }}
-            dropdownRender={menu => (
+            dropdownRender={(menu) => (
               <div>
                 {menu}
                 <Divider className="my4" />
                 <div
                   className="fz12 px8 py4 color-text-desc"
-                  onMouseDown={e => e.preventDefault()}
+                  onMouseDown={(e) => e.preventDefault()}
                 >
                   <WithAuth pass={addNotificationGroupAuth} >
                     <span className="hover-active" onClick={() => { goTo(notifyGroupPage[scopeType], { projectId: scopeId }); }}>{i18n.t('org:add more notification groups')}</span>
@@ -401,7 +401,7 @@ export default ({ scopeType, scopeId }: IProps) => {
       itemProps: {
         mode: 'multiple',
       },
-    },);
+    });
   }
 
   if (state.activedGroupId) {
@@ -451,11 +451,11 @@ export default ({ scopeType, scopeId }: IProps) => {
 
   // 移除表格编辑中的规则
   const handleRemoveEditingRule = (key: string) => {
-    updater.editingRules(filter(state.editingRules, item => item.key !== key));
+    updater.editingRules(filter(state.editingRules, (item) => item.key !== key));
   };
 
   // 编辑单条规则
-  const handleEditEditingRule = (key: string, item: { key: string; value: any; }) => {
+  const handleEditEditingRule = (key: string, item: { key: string; value: any }) => {
     const rules = cloneDeep(state.editingRules);
     const rule = find(rules, { key });
     const index = findIndex(rules, { key });
@@ -465,7 +465,7 @@ export default ({ scopeType, scopeId }: IProps) => {
   };
 
   // 编辑单条规则下的指标
-  const handleEditEditingRuleField = (key: string, index: number, item: { key: string; value: any; }) => {
+  const handleEditEditingRuleField = (key: string, index: number, item: { key: string; value: any }) => {
     const rules = cloneDeep(state.editingRules);
     const { functions } = find(rules, { key });
     const functionItem = functions[index];
@@ -494,7 +494,7 @@ export default ({ scopeType, scopeId }: IProps) => {
         appId: appIds || [],
         notifies,
       });
-      updater.editingRules(map(rules, rule => ({ key: uniqueId(), ...rule })));
+      updater.editingRules(map(rules, (rule) => ({ key: uniqueId(), ...rule })));
       updater.activedGroupId(notifies[0].groupId);
     });
   };
@@ -568,13 +568,13 @@ export default ({ scopeType, scopeId }: IProps) => {
       title: i18n.t('org:cluster'),
       dataIndex: 'clusterNames',
       width: 200,
-      render: (clusterNames: string[]) => map(clusterNames, clusterName => (alarmScopeMap[clusterName])).join(),
+      render: (clusterNames: string[]) => map(clusterNames, (clusterName) => (alarmScopeMap[clusterName])).join(),
     }]),
     ...insertWhen(scopeType === ScopeType.PROJECT, [{
       title: i18n.t('application'),
       dataIndex: 'appIds',
       width: 200,
-      render: (appIds: string[]) => map(appIds, appId => (alarmScopeMap[appId])).join(),
+      render: (appIds: string[]) => map(appIds, (appId) => (alarmScopeMap[appId])).join(),
     }]),
     {
       title: i18n.t('default:notification target'),
@@ -596,7 +596,7 @@ export default ({ scopeType, scopeId }: IProps) => {
       title: i18n.t('default:create time'),
       dataIndex: 'createTime',
       width: 180,
-      render: text => moment(text).format('YYYY-MM-DD HH:mm:ss'),
+      render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: i18n.t('default:operation'),
@@ -645,7 +645,7 @@ export default ({ scopeType, scopeId }: IProps) => {
       <Spin spinning={getAlertsLoading || toggleAlertLoading}>
         <Table
           tableKey="alarm-strategy"
-          rowKey='id'
+          rowKey="id"
           columns={alartListColumns}
           dataSource={alertList}
           pagination={{

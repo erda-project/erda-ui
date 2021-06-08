@@ -13,50 +13,50 @@
 
 declare namespace ALARM_REPORT {
   interface RecordListQuery {
-    alertState?: string
-    alertType?: string
-    handleState?: string
-    handleId?: number
-    clusters?: any
-    tenantGroup?: string
+    alertState?: string;
+    alertType?: string;
+    handleState?: string;
+    handleId?: number;
+    clusters?: any;
+    tenantGroup?: string;
   }
   interface RecordListItem {
-    id: number
-    groupId: string
-    title: string
-    alertState: string
-    alertType: string
-    handleState: string
-    handlerId: string
-    updateTime: number
-    handleTime: number
-    alertName: string
-    projectId?: number
-    issueId?: number
-    expressionId: number
+    id: number;
+    groupId: string;
+    title: string;
+    alertState: string;
+    alertType: string;
+    handleState: string;
+    handlerId: string;
+    updateTime: number;
+    handleTime: number;
+    alertName: string;
+    projectId?: number;
+    issueId?: number;
+    expressionId: number;
   }
   interface AlarmTimesQuery {
-    start: number
-    end: number
-    filter_alert_group_id: string
-    filter_dice_org_id?: string
-    filter_tenant_group?: string
-    count: string
+    start: number;
+    end: number;
+    filter_alert_group_id: string;
+    filter_dice_org_id?: string;
+    filter_tenant_group?: string;
+    count: string;
   }
   interface AlarmHistoriesQuery {
-    start: number
-    end: number
-    count?: number
-    groupId: string
-    tenantGroup?: string
+    start: number;
+    end: number;
+    count?: number;
+    groupId: string;
+    tenantGroup?: string;
   }
   interface AlarmHistory {
-    groupId: string
-    alertState: string
-    content: string
-    timestamp: number
-    title: string
-    displayUrl: string
-    isSilence: boolean
+    groupId: string;
+    alertState: string;
+    content: string;
+    timestamp: number;
+    title: string;
+    displayUrl: string;
+    isSilence: boolean;
   }
 }

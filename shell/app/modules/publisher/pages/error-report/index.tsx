@@ -65,9 +65,9 @@ const getLineChartLayout = (data: any) => {
   let xData = [] as string[];
   const metricData = [] as any[];
   const { time, results } = data;
-  xData = map(time, item => moment(item).format('MM-DD HH:mm'));
+  xData = map(time, (item) => moment(item).format('MM-DD HH:mm'));
   const resultData = get(results, '[0].data[0]');
-  map(resultData, item => {
+  map(resultData, (item) => {
     metricData.push({
       name: item.tag || item.name,
       type: 'line',
@@ -81,7 +81,7 @@ const getLineChartLayout = (data: any) => {
   };
 };
 
-const FilterVersion = ({ value, onChange, className, groups }: { value?: string, onChange: (val: string | undefined) => void, className?: string, groups: Array<{ label: string, value: string }> }) => {
+const FilterVersion = ({ value, onChange, className, groups }: { value?: string; onChange: (val: string | undefined) => void; className?: string; groups: Array<{ label: string; value: string }> }) => {
   return (
     <Select
       className={`${className || ''}`}
@@ -101,7 +101,7 @@ const FilterVersion = ({ value, onChange, className, groups }: { value?: string,
   );
 };
 
-const FilterTab = ({ value, onChange, className }: { value?: string, onChange: (val: string) => void, className?: string }) => {
+const FilterTab = ({ value, onChange, className }: { value?: string; onChange: (val: string) => void; className?: string }) => {
   const tabs = [
     { label: i18n.t('publisher:number of crashes'), value: 'tags.error' },
     { label: i18n.t('publisher:crash rate'), value: 'crashRate' },
@@ -126,8 +126,8 @@ const FilterTab = ({ value, onChange, className }: { value?: string, onChange: (
   );
 };
 
-const ErrorList = ({ artifactsId, timeSpan, version, monitorKey }: { artifactsId: string, timeSpan: ITimeSpan, version: string | undefined, monitorKey: PUBLISHER.MonitorKey}) => {
-  const errorList = errorReportStore.useStore(s => s.errorList);
+const ErrorList = ({ artifactsId, timeSpan, version, monitorKey }: { artifactsId: string; timeSpan: ITimeSpan; version: string | undefined; monitorKey: PUBLISHER.MonitorKey}) => {
+  const errorList = errorReportStore.useStore((s) => s.errorList);
   const { getErrorList } = errorReportStore.effects;
   const { clearErrorList } = errorReportStore.reducers;
   const [loading] = useLoading(errorReportStore, ['getErrorList']);
@@ -201,8 +201,8 @@ const ErrorList = ({ artifactsId, timeSpan, version, monitorKey }: { artifactsId
 
 const formatFilterData = (data: any) => {
   const result = get(data, 'results[0].data');
-  const list = [] as Array<{ label: string, value: string }>;
-  map(result, item => {
+  const list = [] as Array<{ label: string; value: string }>;
+  map(result, (item) => {
     map(item, ({ tag }) => list.push({ label: tag, value: tag }));
   });
   return list;
@@ -210,8 +210,8 @@ const formatFilterData = (data: any) => {
 
 const ErrorReport = (props: IProps) => {
   const { artifacts } = props;
-  const timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
-  const publishItemMonitors = publisherStore.useStore(s => s.publishItemMonitors);
+  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const publishItemMonitors = publisherStore.useStore((s) => s.publishItemMonitors);
   const publisherItemId = artifacts.id;
   const { getErrorTrend, getErrorChart, getAllVersion } = errorReportStore.effects;
   const [{ errorTrend, lineChartType, lineData, lineVersion, groups, selectMonitorKey }, updater] = useUpdate({
@@ -229,7 +229,7 @@ const ErrorReport = (props: IProps) => {
   }, [publishItemMonitors, selectMonitorKey]);
 
   React.useEffect(() => {
-    getErrorTrend({ publisherItemId, ...monitorKey }).then(res => updater.errorTrend(formatTrendData(res)));
+    getErrorTrend({ publisherItemId, ...monitorKey }).then((res) => updater.errorTrend(formatTrendData(res)));
     getAllVersion({
       publisherItemId,
       group: 'tags.av',
@@ -237,7 +237,7 @@ const ErrorReport = (props: IProps) => {
       start: moment().subtract(32, 'days').valueOf(),
       end: Date.now(),
       ...monitorKey,
-    }).then(res => updater.groups(formatFilterData(res)));
+    }).then((res) => updater.groups(formatFilterData(res)));
   }, [getAllVersion, getErrorTrend, monitorKey, publisherItemId, updater]);
 
   const lineChartQuery = React.useMemo(() => {
@@ -256,7 +256,7 @@ const ErrorReport = (props: IProps) => {
 
   React.useEffect(() => {
     if (lineChartQuery.cardinality || lineChartQuery.count) {
-      getErrorChart({ ...lineChartQuery, publisherItemId }).then(res => updater.lineData(res));
+      getErrorChart({ ...lineChartQuery, publisherItemId }).then((res) => updater.lineData(res));
     }
   }, [getErrorChart, lineChartQuery, publisherItemId, updater]);
 

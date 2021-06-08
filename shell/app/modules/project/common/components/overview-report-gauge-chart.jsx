@@ -44,7 +44,7 @@ export default class OverviewReportGaugeChart extends React.Component {
           axisLabel: {
             distance: 0,
             color: '#000',
-            formatter: value => (value % 20 === 0 ? value : ''),
+            formatter: (value) => (value % 20 === 0 ? value : ''),
           },
           axisTick: {
             splitNumber: 5,

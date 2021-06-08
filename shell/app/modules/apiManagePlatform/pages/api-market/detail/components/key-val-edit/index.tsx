@@ -20,7 +20,7 @@ import i18n from 'i18n';
 
 interface IKeyValProps {
   data: Array<{
-    [key: string]: any
+    [key: string]: any;
     required: boolean;
     error?: boolean;
   }>;
@@ -28,7 +28,7 @@ interface IKeyValProps {
   dataModel?: object;
   itemMap: any[];
   opList?: any[];
-  onChange(...args: any): any;
+  onChange: (...args: any) => any;
 }
 
 const KeyValueEdit = (props: IKeyValProps) => {

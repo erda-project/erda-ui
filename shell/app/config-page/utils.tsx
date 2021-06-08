@@ -37,7 +37,7 @@ export const OperationAction = (props: IOperationAction) => {
       <Popconfirm
         title={confirm}
         arrowPointAtCenter
-        placement='topRight'
+        placement="topRight"
         onConfirm={(e) => {
           e && e.stopPropagation();
           onClick(e);
@@ -62,7 +62,7 @@ export const OperationAction = (props: IOperationAction) => {
             e.stopPropagation();
             onClick(e);
           },
-        }
+        },
       )
     );
   }

@@ -41,7 +41,7 @@ const TestPlan = () => {
   const [modalProp, setModalProp] = useState({ visible: false, testPlanId: '', mode: 'add' } as IPlanModal);
   const { getPlanList } = testPlanStore.effects;
   const { clearPlanList } = testPlanStore.reducers;
-  const [page, planList] = testPlanStore.useStore(s => [s.planPaging, s.planList]);
+  const [page, planList] = testPlanStore.useStore((s) => [s.planPaging, s.planList]);
   const [isFetching] = useLoading(testPlanStore, ['getPlanList']);
 
   const updateModalProp = (a: object) => {
@@ -148,7 +148,7 @@ const TestPlan = () => {
     },
   ];
 
-  const filterConfig:FilterItemConfig[] = React.useMemo(() => [
+  const filterConfig: FilterItemConfig[] = React.useMemo(() => [
     {
       type: Select,
       name: 'status',

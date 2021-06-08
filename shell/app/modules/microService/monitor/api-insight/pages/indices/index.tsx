@@ -19,9 +19,9 @@ import gatewayStore from 'microService/stores/gateway';
 import { useMount } from 'react-use';
 
 const APIIndices = () => {
-  const { clusterName, gatewayInstance } = gatewayStore.useStore(s => s.consumer);
+  const { clusterName, gatewayInstance } = gatewayStore.useStore((s) => s.consumer);
   const { getConsumer } = gatewayStore.effects;
-  const projectId = routeInfoStore.useStore(s => s.params.projectId);
+  const projectId = routeInfoStore.useStore((s) => s.params.projectId);
   const shouldLoad = !!(gatewayInstance && clusterName);
   const commonFilter = {
     filter_addon_name: gatewayInstance,

@@ -21,8 +21,8 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 
 
 const RPC = () => {
-  const baseInfo = SICommonStore.useStore(s => s.baseInfo);
-  const chosenSortItem = monitorCommonStore.useStore(s => s.chosenSortItem);
+  const baseInfo = SICommonStore.useStore((s) => s.baseInfo);
+  const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
   const { filterQuery, shouldLoad }: any = getFilterParams({ baseInfo }, { prefix: 'filter_target_' });
   const chartQuery = chosenSortItem ? { ...filterQuery, filter_dubbo_service: chosenSortItem } : { ...filterQuery };
 

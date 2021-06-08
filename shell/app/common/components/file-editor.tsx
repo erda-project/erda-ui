@@ -105,7 +105,7 @@ const extMap = {
 };
 
 // fileEditor外层多包了一个div，用于宽高的设定，传了style，但是不需要其他属性影响子元素的样式
-const filterSizeStyle = (style:Obj) => {
+const filterSizeStyle = (style: Obj) => {
   const { height, width, minHeight, maxHeight, minWidth, maxWidth } = style || {};
 
   return {
@@ -165,19 +165,19 @@ export const FileEditor = ({ fileExtension, editorProps, options, autoHeight = f
 
   const curActions = compact([
     actions.copy ? (
-      <Tooltip title={i18n.t('copy')} key='copy'>
+      <Tooltip title={i18n.t('copy')} key="copy">
         <CustomIcon
-          type='fz1'
-          className='fz18 hover-active for-copy'
+          type="fz1"
+          className="fz18 hover-active for-copy"
           data-clipboard-text={value}
         />
       </Tooltip>
     ) : null,
     actions.format ? (
-      <Tooltip title={i18n.t('format')} key='format'>
+      <Tooltip title={i18n.t('format')} key="format">
         <CustomIcon
-          type='sx'
-          className='fz18 hover-active'
+          type="sx"
+          className="fz18 hover-active"
           onClick={() => {
             value && isValidJsonStr(value) && rest.onChange && rest.onChange(JSON.stringify(JSON.parse(value), null, 2));
           }}
@@ -187,7 +187,7 @@ export const FileEditor = ({ fileExtension, editorProps, options, autoHeight = f
   ]);
 
   const ActionComp = (curActions.length || actions.extra) ? (
-    <div className='flex-box file-editor-actions'>
+    <div className="flex-box file-editor-actions">
       {curActions}
       {actions.extra || null}
     </div>

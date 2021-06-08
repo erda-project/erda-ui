@@ -76,7 +76,7 @@ export const getSubSiderInfoMap = () => {
     // },
   };
 
-  const filtered = produce(menus, draft => {
+  const filtered = produce(menus, (draft) => {
     map(draft, (obj) => {
       // eslint-disable-next-line no-param-reassign
       obj.menu = filter(obj.menu, (m: any) => {

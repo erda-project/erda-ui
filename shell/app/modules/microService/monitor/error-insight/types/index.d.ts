@@ -31,10 +31,10 @@ declare namespace MONITOR_ERROR {
   interface IError{
     applicationId: string;
     className: string;
-    createTime:string;
+    createTime: string;
     errorId: string;
     eventCount: number;
-    exceptionMessage:string;
+    exceptionMessage: string;
     file: string;
     methodName: string;
     runtimeId: string;

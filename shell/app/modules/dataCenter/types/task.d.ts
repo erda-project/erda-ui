@@ -13,30 +13,30 @@
 
 declare namespace CLUSTER_TASK {
   interface Detail {
-    applicationID: number
-    applicationName: string
-    clusterName: string
-    costTimeSec: number
-    createdAt: string
-    env: string
-    orgID: number
-    pipelineID: number
-    projectID: number
-    projectName: string
-    queueTimeSec: number
-    releaseID: string
-    runtimeID: string
-    status: string
-    taskID: number
-    taskName: string
-    taskType: string
-    userID: string
+    applicationID: number;
+    applicationName: string;
+    clusterName: string;
+    costTimeSec: number;
+    createdAt: string;
+    env: string;
+    orgID: number;
+    pipelineID: number;
+    projectID: number;
+    projectName: string;
+    queueTimeSec: number;
+    releaseID: string;
+    runtimeID: string;
+    status: string;
+    taskID: number;
+    taskName: string;
+    taskType: string;
+    userID: string;
   }
 
   interface ListQuery {
-    pageSize: number
-    pageNo: number
-    type: string
-    cluster?: string
+    pageSize: number;
+    pageNo: number;
+    type: string;
+    cluster?: string;
   }
 }

@@ -11,43 +11,21 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const fs = require('fs');
 const path = require('path');
-
-const root = path.resolve(process.cwd(), '..');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { parsed: config } = require('dotenv').config({ path: `${root}/.env` });
-
-const backendUrl = config.DEV_HOST;
-const frontUrl = `local-core.${backendUrl.replace(/http(s?):\/\//, '')}`; // local与对应环境根域名一致
-
-console.log(`
-add config in host file:\n
-127.0.0.1  ${frontUrl}
-`);
 
 module.exports = {
   mode: 'development',
+  devtool: 'eval-cheap-module-source-map',
   watchOptions: {
     // aggregateTimeout: 500,
     ignored: ['node_modules', 'test'],
   },
-  devServer: {
-    contentBase: path.join(__dirname, 'public'),
-    host: frontUrl,
-    port: 5000,
-    historyApiFallback: true,
-    https: {
-      key: fs.readFileSync('../cert/dev/server.key'),
-      cert: fs.readFileSync('../cert/dev/server.crt'),
-    },
-    publicPath: '/',
-  },
   output: {
-    path: path.resolve(__dirname, './public'),
+    path: path.resolve(__dirname, '../public/static/core'),
     filename: 'scripts/[name].js',
     chunkFilename: 'scripts/[id].[contenthash].js',
-    publicPath: 'https://local-core.terminus-org.dev.terminus.io:5000/',
+    publicPath: '/static/core/',
   },
   plugins: [
     new MiniCssExtractPlugin({

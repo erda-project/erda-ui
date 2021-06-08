@@ -36,12 +36,12 @@ export const updateNotifyConfigs = ({ id, ...rest }: APP_NOTIFY.IUpdateNotifyQue
     .then((response: any) => response.body);
 };
 
-export const toggleNotifyConfigs = ({ id, action }: { id: number; action: string; }) => {
+export const toggleNotifyConfigs = ({ id, action }: { id: number; action: string }) => {
   return agent.put(`/api/notifies/${id}/actions/${action}`)
     .then((response: any) => response.body);
 };
 
-export const getNotifyItems = (query?: { scopeType: string; module: string; }): IPagingResp<APP_NOTIFY.INotifyItem> => {
+export const getNotifyItems = (query?: { scopeType: string; module: string }): IPagingResp<APP_NOTIFY.INotifyItem> => {
   return agent.get('/api/notify-items')
     .query(query)
     .then((response: any) => response.body);

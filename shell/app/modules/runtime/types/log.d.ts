@@ -13,26 +13,26 @@
 
 declare namespace RUNTIME_LOG {
   interface DockerLogQuery {
-    colonySoldier: string
-    host: string
-    targetId: string
+    colonySoldier: string;
+    host: string;
+    targetId: string;
   }
 
   interface DeployStatus {
-    deploymentId: number
-    status: string
-    phase: string
-    failCause: string
-    lastMessage: {}
+    deploymentId: number;
+    status: string;
+    phase: string;
+    failCause: string;
+    lastMessage: {};
     runtime: {
-      services: {}
+      services: {};
       endpoints: {
         [k: string]: {
-          publicHosts: string[]
-          host: string
-          ports: number[]
-        }
-      }
-    }
+          publicHosts: string[];
+          host: string;
+          ports: number[];
+        };
+      };
+    };
   }
 }

@@ -13,7 +13,7 @@
 
 import * as React from 'react';
 import { YmlChart } from 'yml-chart/chart';
-import { externalKey } from 'yml-chart/config'
+import { externalKey } from 'yml-chart/config';
 import { map } from 'lodash';
 import { useUpdate } from 'common';
 import PipelineNode from './pipeline-node';
@@ -51,7 +51,7 @@ export const AppPipelineChart = (props: IProps) => {
     const { pipelineStages = [], pipelineTaskActionDetails = {} } = data || {};
     const stageTask = [] as PIPELINE.ITask[][];
     map(pipelineStages, ({ pipelineTasks }) => {
-      stageTask.push(map(pipelineTasks, item => {
+      stageTask.push(map(pipelineTasks, (item) => {
         const node = { ...item } as any;
         if (pipelineTaskActionDetails[node.type]) {
           node.displayName = pipelineTaskActionDetails[node.type].displayName;
@@ -77,7 +77,7 @@ export const AppPipelineChart = (props: IProps) => {
   }, [update, data, changeType]);
 
   React.useEffect(() => {
-    update(prev => ({
+    update((prev) => ({
       displayData: resetData({ stagesData }),
       dataKey: prev.dataKey + 1,
     }));
@@ -105,9 +105,9 @@ export const AppPipelineChart = (props: IProps) => {
 export default AppPipelineChart;
 
 interface IResetObj {
-  stagesData?: any[][],
+  stagesData?: any[][];
 }
-export const resetData = (data:IResetObj) => {
+export const resetData = (data: IResetObj) => {
   const { stagesData = [] } = data || {};
   const reData = [] as any[][];
 

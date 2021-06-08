@@ -25,9 +25,9 @@ const { Option } = Select;
 
 export default function BackupManagement() {
   const [visible, setVisible] = React.useState(false);
-  const [backupList, backupPaging, info] = repoStore.useStore(s => [s.backupList, s.backupPaging, s.info]);
+  const [backupList, backupPaging, info] = repoStore.useStore((s) => [s.backupList, s.backupPaging, s.info]);
   const { addBackup, getBackupList, deleteBackup, getLatestCommit } = repoStore.effects;
-  const [newBackupAuth, deleteBackupAuth] = usePerm(s => [s.app.repo.backup.backupRepo.pass, s.app.repo.backup.deleteBackup.pass]);
+  const [newBackupAuth, deleteBackupAuth] = usePerm((s) => [s.app.repo.backup.backupRepo.pass, s.app.repo.backup.deleteBackup.pass]);
   const download = (uuid: string) => window.open(setApiWithOrg(`/api/backup/${uuid}`));
   const { branches = [] } = info;
   const columns: any[] = [
@@ -41,7 +41,7 @@ export default function BackupManagement() {
       title: i18n.t('application:commit ID'),
       width: 150,
       dataIndex: 'commitId',
-      render: (commitId: string) => <span className='for-copy' data-clipboard-text={commitId}>{commitId}</span>,
+      render: (commitId: string) => <span className="for-copy" data-clipboard-text={commitId}>{commitId}</span>,
     },
     {
       title: i18n.t('application:submit information'),
@@ -65,7 +65,7 @@ export default function BackupManagement() {
       width: 160,
       render: (_: any, record: REPOSITORY.BackupQuery) => {
         return (
-          <div className='table-operations'>
+          <div className="table-operations">
             <span
               className="table-operations-btn"
               onClick={() => download(record.uuid)}
@@ -107,7 +107,7 @@ export default function BackupManagement() {
         <Select
           showSearch
           optionFilterProp="children"
-          onSelect={value => {
+          onSelect={(value) => {
             getLatestCommit({ branchRef: value as string }).then((res: any) => {
               form.setFieldsValue({ commitId: get(res, 'backupLatestCommit.id') });
             });
@@ -200,7 +200,7 @@ export default function BackupManagement() {
       </div>
       <Table
         columns={columns}
-        rowKey='id'
+        rowKey="id"
         dataSource={backupList}
         pagination={backupPagination}
       />

@@ -16,7 +16,7 @@ import * as InfoServices from '../services/info';
 
 
 interface IState {
-  infoList: MS_INFO.IMicroServiceComponentInfo[]
+  infoList: MS_INFO.IMicroServiceComponentInfo[];
 }
 
 const initState: IState = {

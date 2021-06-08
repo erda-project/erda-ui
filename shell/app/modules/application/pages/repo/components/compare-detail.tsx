@@ -29,7 +29,7 @@ interface IProps {
 }
 
 const CompareDetail = ({ hideComment, disableComment = false }: IProps) => {
-  const [compareDetail, comments] = repoStore.useStore(s => [s.compareDetail, s.comments]);
+  const [compareDetail, comments] = repoStore.useStore((s) => [s.compareDetail, s.comments]);
   const { clearComments, clearCompareDetail } = repoStore.reducers;
   const { commits = [], diff, from, to } = compareDetail;
   const [isFetching] = useLoading(repoStore, ['getCompareDetail']);

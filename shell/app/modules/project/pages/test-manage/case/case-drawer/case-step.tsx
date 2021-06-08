@@ -22,7 +22,7 @@ import './case-step.scss';
 const { TextArea } = Input;
 interface IProps {
   value: IStep[] | null;
-  onChange(list: IStep[], autoSave: boolean): any;
+  onChange: (list: IStep[], autoSave: boolean) => any;
 }
 
 interface IStep {
@@ -115,11 +115,11 @@ const StepItem = ({ step, index, updateStep, handleDelete, onMove }: any) => {
           </span>
           <CustomIcon className="drag-icon" type="px" />
         </div>
-        <TextArea autoSize className="flex-1" placeholder={i18n.t('project:input step')} value={step.step} onChange={e => updateStep(index, 'step', e.target.value)} />
+        <TextArea autoSize className="flex-1" placeholder={i18n.t('project:input step')} value={step.step} onChange={(e) => updateStep(index, 'step', e.target.value)} />
         <CustomIcon className="delete-icon hover-active" type="sc1" onClick={() => handleDelete(index)} />
       </div>
       <div className="flex-box result-detail">
-        <TextArea autoSize placeholder={i18n.t('project:input expect result')} value={step.result} onChange={e => updateStep(index, 'result', e.target.value)} />
+        <TextArea autoSize placeholder={i18n.t('project:input expect result')} value={step.result} onChange={(e) => updateStep(index, 'result', e.target.value)} />
       </div>
     </div>
   );

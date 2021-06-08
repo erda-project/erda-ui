@@ -34,7 +34,7 @@ export default (props: CP_INFO_PREVIEW.Props) => {
 
   if (!visible) return null;
   return (
-    <div className='dice-cp-preview'>
+    <div className="dice-cp-preview">
       {
         map(render, (item, idx) => {
           if (item) {
@@ -56,7 +56,7 @@ export default (props: CP_INFO_PREVIEW.Props) => {
 
 interface IRenderProps{
   render: CP_INFO_PREVIEW.IRender;
-  data: any
+  data: any;
 }
 const clsPrex = 'dice-cp-preview-item';
 const RenderItem = (props: IRenderProps) => {
@@ -68,10 +68,10 @@ const RenderItem = (props: IRenderProps) => {
       const { titleExtra, ...restProps } = rProps || {};
       Comp = data || restProps.title ? (
         <div className={`${clsPrex} flex-box mb0`}>
-          <div className='flex-1'>
+          <div className="flex-1">
             <Title showDivider={false} title={data} {...restProps} />
           </div>
-          {titleExtra ? <div className='ml8'>{titleExtra}</div> : null}
+          {titleExtra ? <div className="ml8">{titleExtra}</div> : null}
         </div>
       ) : null;
     }
@@ -97,7 +97,7 @@ const RenderItem = (props: IRenderProps) => {
       Comp = path ? (
         <div className={`${clsPrex} dice-cp-preview-api`}>
           <Tag color={colorMap[method.toLowerCase()] || method.default}>{method.toUpperCase()}</Tag>
-          <div className='path'>{path}</div>
+          <div className="path">{path}</div>
         </div>
       ) : null;
     }
@@ -149,7 +149,7 @@ const RenderItem = (props: IRenderProps) => {
         <div className={_className}>
           {
             isArray(data)
-              ? map(data, itemProps => <span className="mr8" key={itemProps.value}><Text type='Text' props={itemProps} /></span>)
+              ? map(data, (itemProps) => <span className="mr8" key={itemProps.value}><Text type="Text" props={itemProps} /></span>)
               : <Text type="Text" props={data} />
           }
         </div>

@@ -24,8 +24,8 @@ import testPlanStore from 'project/stores/test-plan';
 import { ciStatusMap } from 'application/pages/build-detail/config';
 
 interface IProps {
-  activeItem: any,
-  onClickRow(record: object): any,
+  activeItem: any;
+  onClickRow: (record: object) => any;
 }
 
 type TableRecord = Merge<TEST_PLAN.Pipeline, {runIndex: string}>;
@@ -33,7 +33,7 @@ type TableRecord = Merge<TEST_PLAN.Pipeline, {runIndex: string}>;
 export const BuildHistory = ({ activeItem, onClickRow }: IProps) => {
   const { getExecuteRecords } = testPlanStore.effects;
   const [isFetchingRecords] = useLoading(testPlanStore, ['getExecuteRecords']);
-  const [recordPaging, executeRecords] = testPlanStore.useStore(s => [s.executeRecordsPaging, s.executeRecords]);
+  const [recordPaging, executeRecords] = testPlanStore.useStore((s) => [s.executeRecordsPaging, s.executeRecords]);
 
   const columns: Array<ColumnProps<TableRecord>> = [{
     title: i18n.t('version'),

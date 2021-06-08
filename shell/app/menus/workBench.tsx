@@ -27,7 +27,7 @@ import { Icon as CustomIcon } from 'common';
 import React from 'react';
 
 export const getWorkBenchMenu = () => {
-  const orgPerm = permStore.getState(s => s.org);
+  const orgPerm = permStore.getState((s) => s.org);
   return filterMenu(filter([
     {
       href: goTo.resolve.workBenchRoot(), // '/workBench/projects',
@@ -40,7 +40,7 @@ export const getWorkBenchMenu = () => {
       text: i18n.t('joined apps'),
     },
     {
-      icon: <CustomIcon type='apijishi' />,
+      icon: <CustomIcon type="apijishi" />,
       key: 'apiManage',
       text: i18n.t('API'),
       href: goTo.resolve.apiManageRoot(),
@@ -66,7 +66,7 @@ export const getWorkBenchMenu = () => {
     },
     {
       href: goTo.resolve.workBenchService(), // '/workBench/service',
-      icon: <CustomIcon type='kuozhanfuwu' />,
+      icon: <CustomIcon type="kuozhanfuwu" />,
       text: i18n.t('addon service'),
       show: orgPerm.workBench.addonService.read.pass,
     },
@@ -100,6 +100,6 @@ export const getWorkBenchMenu = () => {
       icon: <IconBookOne />,
       text: i18n.t('public project'),
     },
-  ], item => item.show !== false), MENU_SCOPE.workBench);
+  ], (item) => item.show !== false), MENU_SCOPE.workBench);
 };
 

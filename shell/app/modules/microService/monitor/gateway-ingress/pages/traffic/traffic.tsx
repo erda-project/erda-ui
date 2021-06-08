@@ -22,9 +22,9 @@ import microServiceStore from 'microService/stores/micro-service';
 
 const type = 'traffic';
 const Traffic = () => {
-  const clusterName = microServiceStore.useStore(s => s.clusterName);
-  const [projectId, terminusKey] = routeInfoStore.useStore(s => [s.params.projectId, s.params.terminusKey]);
-  const chosenDomain = gatewayIngressCommonStore.useStore(s => s.chosenDomain);
+  const clusterName = microServiceStore.useStore((s) => s.clusterName);
+  const [projectId, terminusKey] = routeInfoStore.useStore((s) => [s.params.projectId, s.params.terminusKey]);
+  const chosenDomain = gatewayIngressCommonStore.useStore((s) => s.chosenDomain);
   const [httpStatus, setHttpStatus] = React.useState();
   const query: any = { projectId, filter_cluster_name: clusterName };
   if (chosenDomain) {

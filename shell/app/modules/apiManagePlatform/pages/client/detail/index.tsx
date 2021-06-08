@@ -33,7 +33,7 @@ interface IState{
   showSecret: boolean;
   SLAVisible: boolean;
   trafficAuditVisible: boolean;
-  selectRecord: API_CLIENT.Contract
+  selectRecord: API_CLIENT.Contract;
 }
 
 const ClientDetail = () => {
@@ -53,7 +53,7 @@ const ClientDetail = () => {
     provingContractPaging,
     unprovedContractList,
     unprovedContractPaging,
-  ] = apiClientStore.useStore(s => [
+  ] = apiClientStore.useStore((s) => [
     s.clientDetail,
     s.disprovedContractList,
     s.disprovedContractPaging,
@@ -64,17 +64,17 @@ const ClientDetail = () => {
     s.unprovedContractList,
     s.unprovedContractPaging,
   ]);
-  const slaList = apiAccessStore.useStore(s => s.slaList);
+  const slaList = apiAccessStore.useStore((s) => s.slaList);
   const { getSlaList, updateContracts } = apiAccessStore.effects;
   const { clearSla } = apiAccessStore.reducers;
-  const params = routeInfoStore.useStore(s => s.params);
+  const params = routeInfoStore.useStore((s) => s.params);
   const { getClientDetail, getContractList } = apiClientStore.effects;
   const { clearContractList, clearClientDetail } = apiClientStore.reducers;
   const [isUpdateSLA] = useLoading(apiAccessStore, ['updateContracts']);
   const [isFetchDetail, isFetchList] = useLoading(apiClientStore, ['getClientDetail', 'getContractList']);
   React.useEffect(() => {
     if (params.id) {
-      getClientDetail({ clientID: +params.id }).then(res => {
+      getClientDetail({ clientID: +params.id }).then((res) => {
         getContractList({ status: defaultStatue, paging: true, pageNo: 1, clientID: res.client.id });
       });
     }
@@ -231,7 +231,7 @@ const ClientDetail = () => {
       </div>
       <UpdateSLA
         visible={SLAVisible}
-        slaList={slaList.filter(sla => sla.source !== 'system')}
+        slaList={slaList.filter((sla) => sla.source !== 'system')}
         metaData={{
           curSLAName: selectRecord.curSLAName,
           currentSLAID: selectRecord.curSLAID,

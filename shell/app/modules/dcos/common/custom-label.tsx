@@ -22,10 +22,10 @@ import { Close as IconClose } from '@icon-park/react';
 interface IProps {
   value?: string[] | string;
   labelName?: string;
-  onChange?(data: string[]): void;
+  onChange?: (data: string[]) => void;
 }
 const emptyFun = () => {};
-const emptyArr = [] as string[]
+const emptyArr = [] as string[];
 export const CustomLabel = React.forwardRef(({ value = emptyArr, onChange = emptyFun, labelName = i18n.t('dcos:add label') }: IProps, ref) => {
   const [labels, setLabels] = React.useState([] as string[]);
   const [showInput, setShowInput] = React.useState(false);
@@ -52,15 +52,15 @@ export const CustomLabel = React.forwardRef(({ value = emptyArr, onChange = empt
 
   const deleteLabel = (label: string) => {
     const labelArr = [...labels];
-    remove(labelArr, item => item === label);
+    remove(labelArr, (item) => item === label);
     onChange(labelArr);
   };
 
-  const addLabel = (e:any) => {
+  const addLabel = (e: any) => {
     const label = e.target.value;
     label && label.trim();
     if (label) {
-      const exitLabel = find(labels, item => item === label);
+      const exitLabel = find(labels, (item) => item === label);
       !exitLabel && onChange([...labels, label]);
     }
     toggleShowInput();
@@ -93,7 +93,7 @@ export const CustomLabel = React.forwardRef(({ value = emptyArr, onChange = empt
           className="custom-label-input"
           placeholder={i18n.t('common:please enter')}
           value={inputVal}
-          onChange={(e:any) => setInputVal(e.target.value)}
+          onChange={(e: any) => setInputVal(e.target.value)}
           onPressEnter={addLabel}
           onBlur={addLabel}
         />

@@ -28,7 +28,7 @@ const AssociatedAddons = ({
   projectId,
   environment,
 }: IProps) => {
-  const projectAddonCategory = workBenchStore.useStore(s => s.projectAddonCategory);
+  const projectAddonCategory = workBenchStore.useStore((s) => s.projectAddonCategory);
   useEffect(() => {
     workBenchStore.getProjectAddons(projectId);
   }, [projectId]);

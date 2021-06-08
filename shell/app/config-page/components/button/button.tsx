@@ -33,9 +33,9 @@ export const Button = (props: CP_BUTTON.Props) => {
 
   const content = (
     <>
-      {prefixIcon ? <CustomIcon type={prefixIcon} className='mr4' /> : null}
+      {prefixIcon ? <CustomIcon type={prefixIcon} className="mr4" /> : null}
       {text}
-      {suffixIcon ? <CustomIcon type={suffixIcon} className='ml4' /> : (isEmpty(menu) ? null : <CustomIcon type={'di'} className='ml4' />)}
+      {suffixIcon ? <CustomIcon type={suffixIcon} className="ml4" /> : (isEmpty(menu) ? null : <CustomIcon type={'di'} className="ml4" />)}
     </>
   );
   if (!visible) return null;
@@ -46,7 +46,7 @@ export const Button = (props: CP_BUTTON.Props) => {
 
   if (!isEmpty(menu)) {
     const dropdownMenu = (
-      <Menu onClick={(e:any) => {
+      <Menu onClick={(e: any) => {
         e.domEvent.stopPropagation();
         const curOp = find(menu, { key: e.key });
         if (curOp?.operations?.click) {
@@ -55,7 +55,7 @@ export const Button = (props: CP_BUTTON.Props) => {
         }
       }}
       >
-        {map(menu, mItem => {
+        {map(menu, (mItem) => {
           const curOp = mItem.operations?.click || {};
           if (curOp.confirm && curOp.disabled !== true) {
             return (
@@ -75,7 +75,7 @@ export const Button = (props: CP_BUTTON.Props) => {
           return (
             <Menu.Item key={mItem.key} disabled={mItem.disabled || curOp.disabled}>
               <Tooltip title={mItem.disabledTip || curOp.disabledTip}>
-                <div className='v-align'>
+                <div className="v-align">
                   {mItem.prefixIcon ? <CustomIcon type={mItem.prefixIcon} /> : null}
                   {mItem.text}
                 </div>

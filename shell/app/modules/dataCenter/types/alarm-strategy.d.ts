@@ -81,7 +81,7 @@ declare namespace COMMON_STRATEGY_NOTIFY {
         value: number;
         unit: string;
         policy: string;
-      },
+      };
       type: string;
       groupId: number;
       groupType: string;

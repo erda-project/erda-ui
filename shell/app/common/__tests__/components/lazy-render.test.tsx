@@ -34,7 +34,7 @@ describe('LazyRender', () => {
     const wrapper = mount(
       <LazyRender minHeight="100px">
         <div className="lazy-render-1" />
-      </LazyRender>
+      </LazyRender>,
     );
     expect(wrapper.find('.lazy-render-1')).not.toExist();
     const observerCallback = window.IntersectionObserver.mock.calls[0][0];

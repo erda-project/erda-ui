@@ -133,7 +133,7 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
     } as any);
   }
   const curBranch = branch || tag || info.defaultBranch;
-  
+
   return (
     <Spin spinning={isFetchingTree || false} wrapperClassName={tree.type === 'tree' ? 'flex-1' : ''}>
       <CommitBlock commit={tree.commit} />
@@ -192,7 +192,7 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
                     title: 'Last Update',
                     dataIndex: 'commit.author.when',
                     width: 115,
-                    render: text => (text ? fromNow(text) : ''),
+                    render: (text) => (text ? fromNow(text) : ''),
                   },
                 ]
               }
@@ -207,7 +207,7 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
   );
 };
 
-const RefComp = ({ form, info, defaultValue }: { defaultValue: Record<string, string>; form: any, info: { branches: string[], tags: string[] } }) => {
+const RefComp = ({ form, info, defaultValue }: { defaultValue: Record<string, string>; form: any; info: { branches: string[]; tags: string[] } }) => {
   const refType = form.getFieldValue('refType');
   const refValue = form.getFieldValue('refValue') || defaultValue[refType];
   const curForm = React.useRef(form);
@@ -254,11 +254,11 @@ const RefComp = ({ form, info, defaultValue }: { defaultValue: Record<string, st
 const RepoTreePage = () => {
   const [tipVisible, toggleTip] = React.useState(false);
   const [visible, setVisible] = React.useState(false);
-  const params = routeInfoStore.useStore(s => s.params);
-  const branchPerm = usePerm(s => s.app.repo.branch);
-  const appDetail = appStore.useStore(s => s.detail);
-  const [info, tree, mode] = repoStore.useStore(s => [s.info, s.tree, s.mode]);
-  const hasAuth = usePerm(s => s.app.externalRepo.edit.pass);
+  const params = routeInfoStore.useStore((s) => s.params);
+  const branchPerm = usePerm((s) => s.app.repo.branch);
+  const appDetail = appStore.useStore((s) => s.detail);
+  const [info, tree, mode] = repoStore.useStore((s) => [s.info, s.tree, s.mode]);
+  const hasAuth = usePerm((s) => s.app.externalRepo.edit.pass);
 
   const branchCreateAuth = branchPerm.writeProtected.pass;
 
@@ -316,7 +316,7 @@ const RepoTreePage = () => {
     return fieldsList;
   };
 
-  const beforeSubmit = async (values: { refValue: string, refType: string }) => {
+  const beforeSubmit = async (values: { refValue: string; refType: string }) => {
     if (values.refType === 'commitId') {
       const ret = await checkCommitId({ commitId: values.refValue });
       if (ret === 'error') {
@@ -327,7 +327,7 @@ const RepoTreePage = () => {
     return values;
   };
 
-  const onCreateBranch = (branchInfo: { refValue: string, branch: string }) => {
+  const onCreateBranch = (branchInfo: { refValue: string; branch: string }) => {
     createBranch(branchInfo).then((error: any) => {
       if (error) {
         message.error(i18n.t('application:create branch failed'));
@@ -383,7 +383,7 @@ const RepoTreePage = () => {
     const repoTypeConfig = get(repositoriesTypes, repoType, {});
     return (
       <div className="git-repo-config">
-        <div className='top-button-group'>
+        <div className="top-button-group">
           <WithAuth pass={hasAuth} >
             <Button type="primary" disabled={info.isLocked} onClick={() => { setShowEdit(true); }}>{i18n.t('default:edit')}</Button>
           </WithAuth>
@@ -418,7 +418,7 @@ const RepoTreePage = () => {
   if (info.empty && !mode.addFile) {
     return (
       <div>
-        <div className='top-button-group'>
+        <div className="top-button-group">
           <RepoDownload info={info} appDetail={appDetail} />
         </div>
         {info.empty && <StartTip showCreateFile={branchCreateAuth} />}
@@ -430,7 +430,7 @@ const RepoTreePage = () => {
   return (
     <div className={`repo-tree-page ${fullPage ? 'full-page' : ''}`}>
       <IF check={info.isLocked}>
-        <div className='repo-locked-alert'>
+        <div className="repo-locked-alert">
           <Alert message={i18n.t('lock-repository-tip')} type="error" />
         </div>
       </IF>

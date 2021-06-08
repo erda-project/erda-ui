@@ -20,8 +20,8 @@ import { useLoading } from 'app/common/stores/loading';
 
 const Chart = (props) => {
   const { getChartData } = projectResourceStore.effects;
-  const chartList = projectResourceStore.useStore(s => s.chartList);
-  const data = find(chartList, v => v === undefined) ? [] : chartList;
+  const chartList = projectResourceStore.useStore((s) => s.chartList);
+  const data = find(chartList, (v) => v === undefined) ? [] : chartList;
   const [isFetching] = useLoading(projectResourceStore, ['getChartData']);
 
   const getChartList = React.useCallback((payload = {}) => {

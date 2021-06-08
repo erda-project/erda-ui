@@ -37,14 +37,14 @@ const ENV_DIC = {
   PROD: i18n.t('production'),
 };
 
-const envOptions = Object.keys(ENV_DIC).map((key:string) => <Option key={key} value={key}>{ENV_DIC[key]}</Option>);
+const envOptions = Object.keys(ENV_DIC).map((key: string) => <Option key={key} value={key}>{ENV_DIC[key]}</Option>);
 
 
 const DomainManage = () => {
-  const [domainList, clusterList, paging] = domainStore.useStore(s => [s.domainList, s.clusterList, s.domainPaging]);
+  const [domainList, clusterList, paging] = domainStore.useStore((s) => [s.domainList, s.clusterList, s.domainPaging]);
   const { getDomainList, getClusterList } = domainStore.effects;
   const [loadingList] = useLoading(domainStore, ['getDomainList']);
-  const { projectName, projectID } = routeInfoStore.useStore(s => s.query);
+  const { projectName, projectID } = routeInfoStore.useStore((s) => s.query);
 
   const [{ projectData, query }, updater] = useUpdate({
     projectData: { value: projectID, label: projectName },
@@ -59,7 +59,7 @@ const DomainManage = () => {
     getClusterList();
   });
 
-  const chosenItemConvert = React.useCallback((selectItem: {value: number, label: string}) => {
+  const chosenItemConvert = React.useCallback((selectItem: {value: number; label: string}) => {
     if (isEmpty(selectItem)) {
       return [];
     }
@@ -74,7 +74,7 @@ const DomainManage = () => {
     }
   }, [projectData]);
 
-  const filterConfig = React.useMemo(():FilterItemConfig[] => [
+  const filterConfig = React.useMemo((): FilterItemConfig[] => [
     {
       type: Input,
       name: 'domain',
@@ -95,7 +95,7 @@ const DomainManage = () => {
       type: Select,
       name: 'type',
       customProps: {
-        options: map(Object.keys(SERVER_TYPES), value => <Option key={value} value={value}>{SERVER_TYPES[value]}</Option>),
+        options: map(Object.keys(SERVER_TYPES), (value) => <Option key={value} value={value}>{SERVER_TYPES[value]}</Option>),
         placeholder: i18n.t('please choose {name}', { name: i18n.t('attribution type') }),
         allowClear: true,
       },
@@ -108,12 +108,12 @@ const DomainManage = () => {
         allowClear: true,
         getData: getProjectListData,
         chosenItemConvert,
-        onChange: (id:number, record: {value:number, label:string}) => {
+        onChange: (id: number, record: {value: number; label: string}) => {
           updater.projectData({ value: id, label: record?.label || undefined });
         },
-        dataFormatter: ({ list, total }: { list: any[], total: number }) => ({
+        dataFormatter: ({ list, total }: { list: any[]; total: number }) => ({
           total,
-          list: map(list, project => {
+          list: map(list, (project) => {
             const { name, id } = project;
             return { label: name, value: id };
           }),
@@ -173,7 +173,7 @@ const DomainManage = () => {
       title: i18n.t('application:environment'),
       dataIndex: 'workspace',
       tip: true,
-      render: (key:string) => ENV_DIC[key],
+      render: (key: string) => ENV_DIC[key],
     },
   ];
 
@@ -188,7 +188,7 @@ const DomainManage = () => {
       const { projectID: projectId = '', tenantGroup = '', appID: appId = '', runtimeID: runtimeId = '', serviceName = '' } = link;
       return type !== 'other' ? [
         <span
-          className='fake-link mr4'
+          className="fake-link mr4"
           onClick={(e) => {
             e.stopPropagation();
             if (type === 'service') {

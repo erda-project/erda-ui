@@ -18,7 +18,7 @@ import i18n from 'i18n';
 import './statistics-selector.scss';
 
 interface IProps{
-  onChange(arg: any): void;
+  onChange: (arg: any) => void;
 }
 
 const { Option } = Select;

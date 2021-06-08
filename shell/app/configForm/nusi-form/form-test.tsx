@@ -174,7 +174,7 @@ export default () => {
     setIsRequired(!isRequired);
   };
 
-  const onFinish = (data:any) => {
+  const onFinish = (data: any) => {
     // eslint-disable-next-line no-console
     console.log('------', data);
   };
@@ -182,7 +182,7 @@ export default () => {
   return (
     <>
       <Form fields={formConfig} formRef={formRef} onFinish={onFinish}>
-        <Form.Submit Button={Button} type='primary' />
+        <Form.Submit Button={Button} type="primary" />
       </Form>
       <Button onClick={changeRequire}>切换</Button>
     </>

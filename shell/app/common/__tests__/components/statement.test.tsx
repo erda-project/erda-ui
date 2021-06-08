@@ -23,7 +23,7 @@ describe('IF', () => {
         <div className="if">if</div>
         <IF.ELSE />
         <div className="else">else</div>
-      </IF>
+      </IF>,
     );
     expect(wrapper.find('.else')).toExist();
     expect(wrapper.find('.if')).not.toExist();
@@ -37,7 +37,7 @@ describe('IF', () => {
         <div className="if">if</div>
         <IF.ELSE />
         <div className="else">else</div>
-      </IF>
+      </IF>,
     );
     expect(wrapper.find('.else')).toExist();
     expect(wrapper.find('.if')).not.toExist();
@@ -49,7 +49,7 @@ describe('IF', () => {
     const wrapper = shallow(
       <IF check={false}>
         <div className="if">if</div>
-      </IF>
+      </IF>,
     );
     expect(wrapper).toBeEmptyRender();
     wrapper.setProps({ check: true });
@@ -60,19 +60,19 @@ describe('IF', () => {
       <IF check={false}>
         <div className="if1">if</div>
         <div className="if2">if</div>
-      </IF>
+      </IF>,
     );
     expect(wrapper).toBeEmptyRender();
   });
   it('empty', () => {
     const wrapper = shallow(
-      <IF check={false} />
+      <IF check={false} />,
     );
     expect(wrapper).toBeEmptyRender();
   });
   it('else', () => {
     const wrapper = shallow(
-      <IF.ELSE />
+      <IF.ELSE />,
     );
     expect(wrapper).toBeEmptyRender();
   });

@@ -20,7 +20,7 @@ interface IProps {
 }
 
 const WaitWrapper = (Comp: React.ElementType) => ({ ...rest }: IProps) => {
-  const clusterType = microServiceStore.useStore(s => s.clusterType);
+  const clusterType = microServiceStore.useStore((s) => s.clusterType);
   // 没拿到集群类型前不渲染
   return clusterType ? <Comp {...rest} /> : null;
 };

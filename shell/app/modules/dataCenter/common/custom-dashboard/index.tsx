@@ -28,9 +28,9 @@ const storeMap = {
 };
 
 export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: string }) => {
-  const params = routeInfoStore.useStore(s => s.params);
+  const params = routeInfoStore.useStore((s) => s.params);
   const store = storeMap[scope];
-  const [customDashboardList, customDashboardPaging] = store.useStore(s => [s.customDashboardList, s.customDashboardPaging]);
+  const [customDashboardList, customDashboardPaging] = store.useStore((s) => [s.customDashboardList, s.customDashboardPaging]);
   const { getCustomDashboard, deleteCustomDashboard } = store;
   const { pageNo, total, pageSize } = customDashboardPaging;
   const [loading] = useLoading(store, ['getCustomDashboard']);

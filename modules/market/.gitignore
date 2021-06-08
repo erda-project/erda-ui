@@ -25,7 +25,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-/.erda
-*/.erda
 /dist/
 .pnpm-debug.log

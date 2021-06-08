@@ -19,7 +19,7 @@ import { isEmpty, map } from 'lodash';
 import { Link } from 'react-router-dom';
 import { goTo } from 'common/utils';
 import { IF, Copy, Icon as CustomIcon } from 'common';
-import { EnvName, PlanName } from 'app/modules/addonPlatform/pages/common/configs';
+import { ENV_NAME, PLAN_NAME } from 'app/modules/addonPlatform/pages/common/configs';
 import { getTranslateAddonName } from 'app/locales/utils';
 
 import './addon-detail-drawer.scss';
@@ -29,7 +29,7 @@ interface IProps {
   drawerVisible: boolean;
   addonDetail: ADDON.Instance;
   addonReferences: any[];
-  closeDrawer(e: any): void;
+  closeDrawer: (e: any) => void;
 }
 
 
@@ -46,8 +46,8 @@ const refTableList = [
     title: i18n.t('addonPlatform:deploy detail page'),
     dataIndex: 'applicationId',
     key: 'applicationId',
-    align: 'center' as 'center',
-    render: (_text: string, row: { applicationId: string, projectId: string, runtimeId: string }) => {
+    align: 'center' as const,
+    render: (_text: string, row: { applicationId: string; projectId: string; runtimeId: string }) => {
       const { applicationId: appId, projectId, runtimeId } = row;
       return (<Link to={goTo.resolve.runtimeDetailRoot({ appId, projectId, runtimeId })}><CustomIcon type="link1" /></Link>);
     },
@@ -72,9 +72,9 @@ const AddonDetailDrawer = (props: IProps) => {
 
   const instanceData = [
     { key: i18n.t('addon'), value: addonName },
-    { key: i18n.t('operating environment'), value: EnvName[workspace] },
+    { key: i18n.t('operating environment'), value: ENV_NAME[workspace] },
     { key: i18n.t('version'), value: version },
-    { key: i18n.t('specification'), value: PlanName[plan] },
+    { key: i18n.t('specification'), value: PLAN_NAME[plan] },
     { key: i18n.t('project'), value: projectName },
     { key: i18n.t('org:reference counts'), value: reference },
     { key: i18n.t('org:operation cluster'), value: cluster },

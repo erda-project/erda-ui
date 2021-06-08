@@ -52,7 +52,7 @@ const zkproxy = createStore({
     },
     async updateNodeRule(
       { call, getParams, getQuery },
-      payload: { host: string; tenantId?: string; ruleData: MS_ZK.INodeListItem; tenantid?: string; }
+      payload: { host: string; tenantId?: string; ruleData: MS_ZK.INodeListItem; tenantid?: string },
     ) {
       const { env, projectId } = getParams();
       const { az, appId } = getQuery();
@@ -67,7 +67,7 @@ const zkproxy = createStore({
       }
       // 如果没有id或id与url中的不一致则重新获取
       const newAppId = Number(appId);
-      let { appDetail } = await select(s => s);
+      let { appDetail } = await select((s) => s);
       if (isEmpty(appDetail) || newAppId !== appDetail.id) {
         appDetail = await call(zkproxyServices.getAppDetail, newAppId);
       }
@@ -77,7 +77,7 @@ const zkproxy = createStore({
       const { appId } = await getQuery();
       const runtimes = await call(zkproxyServices.getRunTimes, appId);
       const { env } = getParams();
-      update({ branches: map(filter(runtimes, item => item.extra.workspace === env), ({ name }) => name) });
+      update({ branches: map(filter(runtimes, (item) => item.extra.workspace === env), ({ name }) => name) });
     },
     async getBranchesRule({ call, update, getParams, getQuery }) {
       const { projectId, env } = getParams();
@@ -88,7 +88,7 @@ const zkproxy = createStore({
     },
     async updateBranchesRule(
       { call, getParams, getQuery },
-      payload: { body: { rule: MS_ZK.IBranchesRule[] } }
+      payload: { body: { rule: MS_ZK.IBranchesRule[] } },
     ) {
       const { projectId, env } = getParams();
       const { appId, az } = await getQuery();
@@ -101,7 +101,7 @@ const zkproxy = createStore({
       await call(zkproxyServices.clearBranchesRule, { projectId, env, appId, az }, { successMsg: i18n.t('update successfully') });
       await zkproxy.effects.getBranchesRule();
     },
-    async getZkInterfaceList({ call, update, getParams }, payload: { az: string; runtimeId: number; }) {
+    async getZkInterfaceList({ call, update, getParams }, payload: { az: string; runtimeId: number }) {
       const { projectId, env, tenantGroup } = getParams();
       const zkInterfaceList = await call(zkproxyServices.getZkInterfaceList, { projectId, env, tenantGroup, ...payload });
 

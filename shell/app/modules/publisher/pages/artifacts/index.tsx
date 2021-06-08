@@ -29,11 +29,11 @@ import { goTo } from 'common/utils';
 
 const { ELSE } = IF;
 const Artifacts = () => {
-  const { publisherItemId: id } = routeInfoStore.getState(s => s.params);
-  const [artifactsDetail] = publisherStore.useStore(s => [s.artifactsDetail]);
+  const { publisherItemId: id } = routeInfoStore.getState((s) => s.params);
+  const [artifactsDetail] = publisherStore.useStore((s) => [s.artifactsDetail]);
   const { deleteArtifacts, updateArtifacts, getArtifactDetail } = publisherStore.effects;
   const { clearArtifactsList, clearPublisherDetail } = publisherStore.reducers;
-  const publishOperationAuth = usePerm(s => s.org.publisher.operation.pass);
+  const publishOperationAuth = usePerm((s) => s.org.publisher.operation.pass);
   const [{ chosenArtifactsId, formModalVis, editData }, updater] = useUpdate({
     chosenArtifactsId: '',
     formModalVis: false,

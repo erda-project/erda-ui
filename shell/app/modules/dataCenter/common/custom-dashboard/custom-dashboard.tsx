@@ -63,9 +63,9 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
   });
 
   const store = storeMap[scope];
-  const timeSpan = store.useStore(s => s.timeSpan);
+  const timeSpan = store.useStore((s) => s.timeSpan);
   const { createCustomDashboard, updateCustomDashboard, getCustomDashboardDetail, updateTimeSpan, resetTimeSpan } = store;
-  const [params, query] = routeInfoStore.useStore(s => [s.params, s.query]);
+  const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const { dashboardId } = params;
   const isDashboardDetail = !!dashboardId;
   const isFromMicroService = scope === CustomDashboardScope.MICRO_SERVICE;
@@ -115,7 +115,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
       updater.dashboardDesc(desc || '');
 
       const { startTimeMs, endTimeMs } = timeSpan;
-      const layout = map(customDashboardDetail.viewConfig, viewItem => {
+      const layout = map(customDashboardDetail.viewConfig, (viewItem) => {
         const filters = get(viewItem, 'view.api.extraData.filters');
         const _viewItem = merge({}, viewItem, { view: { api: { query: {
           ...reduce(filters, (acc, { value, method, tag }) => {
@@ -184,13 +184,13 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
   };
 
   return (
-    <div className='custom-dashboard v-flex-box'>
+    <div className="custom-dashboard v-flex-box">
       <IF check={!editorToggleStatus}>
         <div className="header mb12">
           {/* <Select placeholder="自动刷新间隔" style={{ width: 200 }} allowClear>
             {map(AUTO_RELOAD_OPTIONS, ({ value, name }) => <Select.Option key={value} value={value}>{name}</Select.Option>)}
           </Select> */}
-          <IF check={!isEditMode}><CommonRangePicker defaultTime={[timeSpan.startTimeMs, timeSpan.endTimeMs]} disabledDate={() => false} onOk={v => updateTimeSpan(v)} /></IF>
+          <IF check={!isEditMode}><CommonRangePicker defaultTime={[timeSpan.startTimeMs, timeSpan.endTimeMs]} disabledDate={() => false} onOk={(v) => updateTimeSpan(v)} /></IF>
           <IF check={isEditMode}>
             <div className="dashboard-info-editor">
               <Input

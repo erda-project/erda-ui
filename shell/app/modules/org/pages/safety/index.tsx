@@ -24,10 +24,10 @@ import { getTimeRanges, qs, setApiWithOrg } from 'common/utils';
 import orgStore from 'app/org-home/stores/org';
 
 const AuditList = ({ sys }: { sys: boolean }) => {
-  const orgId = orgStore.useStore(s => s.currentOrg.id);
-  const userMap = userMapStore.useStore(s => s);
+  const orgId = orgStore.useStore((s) => s.currentOrg.id);
+  const userMap = userMapStore.useStore((s) => s);
   const [loading] = useLoading(auditStore, ['getList']);
-  const [list, paging] = auditStore.useStore(s => [s.auditList, s.auditPaging]);
+  const [list, paging] = auditStore.useStore((s) => [s.auditList, s.auditPaging]);
 
   const columns = [
     {
@@ -110,11 +110,11 @@ const AuditList = ({ sys }: { sys: boolean }) => {
   return (
     <>
       <div className="top-button-group">
-        <Button type='primary' onClick={onExport}>{i18n.t('export')}</Button>
+        <Button type="primary" onClick={onExport}>{i18n.t('export')}</Button>
       </div>
       <CustomFilter onSubmit={onSubmit} config={filterConfig} isConnectQuery />
       <Table
-        rowKey='id'
+        rowKey="id"
         columns={columns}
         dataSource={list}
         loading={loading}

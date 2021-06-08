@@ -50,7 +50,7 @@ declare namespace MONITOR_STATUS {
 
   interface IDashboardResp {
     downCount?: number;
-    metrics?: Obj<IDashboard>
+    metrics?: Obj<IDashboard>;
   }
 
   interface IDashboardDetailQuery {

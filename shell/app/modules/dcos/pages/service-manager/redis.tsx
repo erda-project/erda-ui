@@ -42,14 +42,14 @@ const specList = [
   ...RedisFieldConfig.spec.cluster,
 ];
 const Redis = () => {
-  const redisList = cloudServiceStore.useStore(s => s.redisList);
+  const redisList = cloudServiceStore.useStore((s) => s.redisList);
   const { addRedis, getRedisList } = cloudServiceStore.effects;
   const [loading] = useLoading(cloudServiceStore, ['getRedisList']);
   const { getVpcList } = networksStore.effects;
   const { getCloudRegion } = cloudCommonStore;
   const { clearVpcList } = networksStore.reducers;
-  const vpcList = networksStore.useStore(s => s.vpcList);
-  const [regions, cloudAccountExist] = cloudCommonStore.useStore(s => [s.regions, s.cloudAccountExist]);
+  const vpcList = networksStore.useStore((s) => s.vpcList);
+  const [regions, cloudAccountExist] = cloudCommonStore.useStore((s) => [s.regions, s.cloudAccountExist]);
 
   useEffectOnce(() => {
     getCloudRegion();
@@ -101,7 +101,7 @@ const Redis = () => {
         dataIndex: 'spec',
         render: (val: string) => (
           <Tooltip title={val}>
-            {get(find(specList, item => item.value === val), 'specName') || val}
+            {get(find(specList, (item) => item.value === val), 'specName') || val}
           </Tooltip>
         ),
       },
@@ -133,7 +133,7 @@ const Redis = () => {
         label: 'VPC',
         name: 'vpcID',
         type: 'select',
-        options: map(vpcList, item => ({ value: item.vpcID, name: item.vpcName })),
+        options: map(vpcList, (item) => ({ value: item.vpcID, name: item.vpcName })),
       },
       ...RedisFieldConfig.getFields({
         chargeType,
@@ -192,7 +192,7 @@ const Redis = () => {
   const menu = (
     <Menu>
       {
-        operationButtons.map(button => (
+        operationButtons.map((button) => (
           <Menu.Item disabled={button.ifDisabled} key={button.name} onClick={button.cb}>{button.name}</Menu.Item>
         ))
       }
@@ -238,7 +238,7 @@ const Redis = () => {
       <SetTagForm
         items={items}
         visible={tagFormVis}
-        resourceType='REDIS'
+        resourceType="REDIS"
         showProjectLabel
         showClustertLabel={false}
         onCancel={() => updater.tagFormVis(false)}

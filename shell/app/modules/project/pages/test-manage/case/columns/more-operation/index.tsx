@@ -24,7 +24,7 @@ import { TableActions } from 'common';
 import { rootId } from 'project/pages/test-manage/components/case-tree/utils';
 
 interface IProps {
-  record: TEST_CASE.CaseTableRecord
+  record: TEST_CASE.CaseTableRecord;
 }
 
 const MoreOperation = ({ record }: IProps) => {

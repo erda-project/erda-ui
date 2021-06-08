@@ -60,7 +60,7 @@ export class PureTab extends React.PureComponent<IProps> {
 }
 
 export const Tab = () => {
-  const routes = routeInfoStore.useStore(s => s.routes);
+  const routes = routeInfoStore.useStore((s) => s.routes);
   // 路由变化时routes和currentRoute可能不变化，比如最后一段是/:type，所以传一个path触发变化
   return <PureTab routes={routes} path={window.location.pathname} />;
 };

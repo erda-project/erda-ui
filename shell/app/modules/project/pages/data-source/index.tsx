@@ -28,9 +28,9 @@ import routeInfoStore from 'common/stores/route';
 
 const displayName = ['MySQL', 'Redis', 'Custom', 'AliCloud-Rds', 'AliCloud-Redis'];
 export default function DataSourceManagement() {
-  const addonList = workBenchStore.useStore(s => s.addonList);
-  const { projectId } = routeInfoStore.useStore(s => s.params);
-  const addonSpecList = customAddonStore.useStore(s => s.addonList).filter((item: any) => displayName.includes(item.displayName));
+  const addonList = workBenchStore.useStore((s) => s.addonList);
+  const { projectId } = routeInfoStore.useStore((s) => s.params);
+  const addonSpecList = customAddonStore.useStore((s) => s.addonList).filter((item: any) => displayName.includes(item.displayName));
   const timer = React.useRef<any>(0);
   const [loadingAddons] = useLoading(workBenchStore, ['getDataSourceAddons']);
   const [state, updater, update, reset] = useUpdate({
@@ -58,7 +58,7 @@ export default function DataSourceManagement() {
     let idExist = false;
     timer.current = setTimeout(() => {
       getDataSourceAddons({ displayName }).then((res) => {
-        if (!isEmpty((res || []).find(addon => addon.instanceId === id))) {
+        if (!isEmpty((res || []).find((addon) => addon.instanceId === id))) {
           idExist = true;
         }
         if (!idExist) {
@@ -85,7 +85,7 @@ export default function DataSourceManagement() {
       }).then(after);
     } else {
       const { addonName, name, plan, addonInstanceRoutingId, configs } = values;
-      const newAddonType = addonSpecList.find(a => a.addonName === addonName);
+      const newAddonType = addonSpecList.find((a) => a.addonName === addonName);
       // 添加租户 addon
       if (addonInstanceRoutingId) {
         const data = { name, addonInstanceRoutingId, configs };
@@ -144,7 +144,7 @@ export default function DataSourceManagement() {
               </div>
             )
           }
-          placement='left'
+          placement="left"
         >
           <Button
             type="primary"

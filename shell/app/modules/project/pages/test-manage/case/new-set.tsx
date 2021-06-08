@@ -18,7 +18,7 @@ import testSetStore from 'project/stores/test-set';
 import { Close as IconClose, Check as IconCheck } from '@icon-park/react';
 
 interface IProps {
-  afterCreate(data:TEST_SET.TestSet): void
+  afterCreate: (data: TEST_SET.TestSet) => void;
 }
 const NewSet = ({ afterCreate }: IProps) => {
   const [visible, setVisible] = React.useState(false);
@@ -56,7 +56,7 @@ const NewSet = ({ afterCreate }: IProps) => {
         placeholder={i18n.t('project:enter test set name')}
         value={value}
         maxLength={50}
-        onChange={e => setValue(e.target.value)}
+        onChange={(e) => setValue(e.target.value)}
         onKeyUp={handlePressEntry}
       />
       <IconCheck className="ml12 fz18 color-primary pointer" onClick={handleSave} />
@@ -72,7 +72,7 @@ const NewSet = ({ afterCreate }: IProps) => {
       trigger="click"
       placement="bottomRight"
       align={{ offset: [10, 0] }}
-      onVisibleChange={v => (v ? setVisible(v) : handleHide())}
+      onVisibleChange={(v) => (v ? setVisible(v) : handleHide())}
     >
       <Button type="primary">{i18n.t('project:add test set')}</Button>
     </Popover>

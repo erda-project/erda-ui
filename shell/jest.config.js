@@ -13,6 +13,8 @@
 
 const { forEach } = require('lodash');
 const tsconfig = require('./tsconfig.json');
+const fs = require('fs')
+const path = require('path')
 const moduleNameMapper = require('tsconfig-paths-jest')(tsconfig);
 const moduleMapper = {};
 const excludeModules = ['interface', 'common', 'layout', 'dice-env', 'user', 'configForm', 'charts'];
@@ -21,6 +23,8 @@ forEach(moduleNameMapper, (t, k) => {
     moduleMapper[`^${k}`] = t;
   }
 });
+const resolve = pathname => path.resolve(__dirname, pathname);
+const dashboardRealPath = fs.realpathSync(resolve('./node_modules/@terminus/dashboard-configurator'));
 
 module.exports = {
   verbose: true,
@@ -53,6 +57,7 @@ module.exports = {
     '^.+\\.(t|j)sx?$': 'ts-jest',
     '^.+\\js$': 'babel-jest',
     '@terminus/dashboard-configurator': 'ts-jest',
+    [dashboardRealPath]: 'ts-jest',
   },
   moduleNameMapper: {
     ...moduleMapper,
@@ -60,7 +65,7 @@ module.exports = {
     '^core/(.*)': '<rootDir>/../core/src/$1',
     '^cube$': '<rootDir>/../core/src/cube.ts',
     '^i18next$': '<rootDir>/../core/node_modules/i18next',
-    '^@terminus/nusi$': '<rootDir>/node_modules/@terminus/nusi/lib/index.js',
+    '^@terminus/nusi$': '<rootDir>/../core/node_modules/@terminus/nusi/lib/index.js',
     '^@terminus/nusi/dist/.*': '<rootDir>/node_modules/identity-obj-proxy/src/index.js',
     '^antd$': '<rootDir>/../core/node_modules/antd/lib/index.js',
     '^antd/dist/.*': '<rootDir>/node_modules/identity-obj-proxy/src/index.js',
@@ -98,7 +103,8 @@ module.exports = {
     enzymeAdapter: 'react16',
   },
   transformIgnorePatterns: [
-    'node_modules/(?!@terminus/dashboard-configurator/.*)',
+    // 'node_modules/(?!@terminus/dashboard-configurator/.*)',
+    dashboardRealPath
   ],
   testMatch: [
     '**/__tests__/**/*.test.+(tsx|ts|jsx|js)',

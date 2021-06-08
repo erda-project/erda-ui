@@ -31,8 +31,8 @@ const EMPTY_TIP = i18n.t('project:please select the parameters to be imported');
 interface IProps {
   visible: boolean;
   paramList: Obj[];
-  onClose: ()=>void;
-  onImport: (e:Obj[])=>void;
+  onClose: () => void;
+  onImport: (e: Obj[]) => void;
 }
 
 const ApiParamsModal = (props: IProps) => {
@@ -49,9 +49,9 @@ const ApiParamsModal = (props: IProps) => {
     disabledTip: EMPTY_TIP,
   });
 
-  const { inode } = routeInfoStore.useStore(s => s.query);
+  const { inode } = routeInfoStore.useStore((s) => s.query);
 
-  const schemaParams = apiDesignStore.useStore(s => s.schemaParams);
+  const schemaParams = apiDesignStore.useStore((s) => s.schemaParams);
   const { getSchemaParams, clearSchemaParams } = apiDesignStore;
 
   const [isFetching] = useLoading(apiDesignStore, ['getSchemaParams']);
@@ -96,15 +96,15 @@ const ApiParamsModal = (props: IProps) => {
     onImport(selectedParams);
   };
 
-  const handleSelect = React.useCallback((selectedRows:any[], tableName:string) => {
-    const existNames = map(paramList, item => item[API_FORM_KEY]);
+  const handleSelect = React.useCallback((selectedRows: any[], tableName: string) => {
+    const existNames = map(paramList, (item) => item[API_FORM_KEY]);
 
-    const _tempData = produce(selectedParamsMap, draft => {
+    const _tempData = produce(selectedParamsMap, (draft) => {
       draft[tableName] = selectedRows;
     });
     updater.selectedParamsMap(_tempData);
 
-    const isNoSame = every(_tempData[tableName], item => !existNames.includes(item[API_FORM_KEY]));
+    const isNoSame = every(_tempData[tableName], (item) => !existNames.includes(item[API_FORM_KEY]));
     if (!isNoSame) {
       update({
         isValidData: false,
@@ -114,8 +114,8 @@ const ApiParamsModal = (props: IProps) => {
       const paramsMap = {};
       let isValid = true;
 
-      forEach(values(_tempData), pList => {
-        forEach(pList, item => {
+      forEach(values(_tempData), (pList) => {
+        forEach(pList, (item) => {
           if (!paramsMap[item[API_FORM_KEY]]) {
             const tempItem = { ...item };
             tempItem[API_PROPERTY_REQUIRED] = true;
@@ -181,7 +181,7 @@ const ApiParamsModal = (props: IProps) => {
                             dataSource={list}
                             rowSelection={{
                               hideDefaultSelections: true,
-                              onChange: (_selectedKeys:string[], selectedRows:any[]) => {
+                              onChange: (_selectedKeys: string[], selectedRows: any[]) => {
                                 handleSelect(selectedRows, tableName);
                               },
                             }}

@@ -35,7 +35,7 @@ describe('MarkdownEditor', () => {
         onSetLS={onSetLS}
         onSubmit={onSubmit}
         onFocus={fn}
-      />
+      />,
     );
     expect(wrapper.find('.markdown-editor-content').children().prop('value')).toBe(defaultText);
     wrapper.find('.markdown-editor-content').children().simulate('blur');

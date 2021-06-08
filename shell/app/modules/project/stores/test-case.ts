@@ -47,31 +47,31 @@ import { TestOperation } from 'project/pages/test-manage/constants';
 const tempNewCase = { case: { desc: '', bugs: [], preCondition: '', stepAndResult: [] } };
 
 interface ICase {
-  visible?: boolean
-  case: typeof tempNewCase.case
+  visible?: boolean;
+  case: typeof tempNewCase.case;
 }
 interface ISelected {
-  projectID?: number
-  testCaseIDs: number[]
-  exclude?: number[]
-  testSetID?: number
+  projectID?: number;
+  testCaseIDs: number[];
+  exclude?: number[];
+  testSetID?: number;
 }
 interface IState {
-  choosenInfo: TEST_CASE.ChoosenInfo,
-  modalChoosenInfo: TEST_CASE.ChoosenInfo,
-  caseAction: TestOperation // 用例常规的批量操作
-  currCase: ICase
+  choosenInfo: TEST_CASE.ChoosenInfo;
+  modalChoosenInfo: TEST_CASE.ChoosenInfo;
+  caseAction: TestOperation; // 用例常规的批量操作
+  currCase: ICase;
   caseDetail: TEST_CASE.CaseDetail;
-  fields: TEST_CASE.Field[] // 新建用例需要的字段信息
-  currDetailCase: ICase
-  caseList: TEST_CASE.CaseDirectoryItem[]
-  caseTotal: number
-  modalCaseList: TEST_CASE.CaseDirectoryItem[] // 在计划详情中弹框中的 用例列表
-  modalCaseTotal: number // 在计划详情中弹框中的 用例列表总数
-  metaFields: TEST_CASE.Field[] // 后端元数据字段信息
-  oldBugIds: number[] // 详情原本的bugIds，和后面修改过的bugIds 做对比
-  oldQuery: any // 记录用例列表请求的上一个query，当前用于解决用例列表的跨多页选中效果
-  issueBugs: TEST_CASE.RelatedBug[]
+  fields: TEST_CASE.Field[]; // 新建用例需要的字段信息
+  currDetailCase: ICase;
+  caseList: TEST_CASE.CaseDirectoryItem[];
+  caseTotal: number;
+  modalCaseList: TEST_CASE.CaseDirectoryItem[]; // 在计划详情中弹框中的 用例列表
+  modalCaseTotal: number; // 在计划详情中弹框中的 用例列表总数
+  metaFields: TEST_CASE.Field[]; // 后端元数据字段信息
+  oldBugIds: number[]; // 详情原本的bugIds，和后面修改过的bugIds 做对比
+  oldQuery: any; // 记录用例列表请求的上一个query，当前用于解决用例列表的跨多页选中效果
+  issueBugs: TEST_CASE.RelatedBug[];
 }
 
 const defaultChoosenInfo: TEST_CASE.ChoosenInfo = {
@@ -148,7 +148,7 @@ const testCaseStore = createStore({
     },
     async exportFile({ call }, fileType: TEST_CASE.CaseFileType) {
       const { testCaseIDs, ...rest } = await testCaseStore.effects.getSelectedCaseIds();
-      const query = routeInfoStore.getState(s => s.query);
+      const query = routeInfoStore.getState((s) => s.query);
       const temp = { recycled: query.recycled === 'true' };
       const exportQuery = formatQuery({ ...rest, ...temp, fileType, testCaseID: testCaseIDs }) as any as TEST_CASE.ExportFileQuery;
       await call(exportFileInTestCase, exportQuery);
@@ -157,7 +157,7 @@ const testCaseStore = createStore({
       const { projectId: projectID } = getParams();
       const { testSetID } = getQuery();
       const { file } = payload;
-      let fileType:TEST_CASE.CaseFileType = 'excel';
+      let fileType: TEST_CASE.CaseFileType = 'excel';
       let reloadTestSetInfo = { isMove: false, testSetID: 0, parentID: 0, projectID } as IReloadTestSetInfo;
       if (regRules.xmind.pattern.test(file.name)) {
         reloadTestSetInfo = { ...reloadTestSetInfo, parentID: testSetID, testSetID };
@@ -171,7 +171,7 @@ const testCaseStore = createStore({
     },
     async create({ call, getParams }, payload: any) {
       const { projectId: strProjectId } = getParams();
-      const { breadcrumbInfo: { testSetID, testPlanID } } = testSetStore.getState(s => s);
+      const { breadcrumbInfo: { testSetID, testPlanID } } = testSetStore.getState((s) => s);
       const projectID = parseInt(strProjectId, 10);
       const res = await call(create, {
         ...payload,
@@ -180,14 +180,14 @@ const testCaseStore = createStore({
         recycled: false,
       },
       testPlanID,
-      { successMsg: i18n.t('project:create success') },);
+      { successMsg: i18n.t('project:create success') });
       return res;
     },
     async getSelectedCaseIds({ getParams, select }, mode?: TEST_CASE.PageScope): Promise<ISelected> { // 用例列表中选中的测试用例
       const { projectId: projectID } = getParams();
-      const testCase = select(s => s);
-      const testSet = testSetStore.getState(s => s);
-      const routeInfo = routeInfoStore.getState(s => s);
+      const testCase = select((s) => s);
+      const testSet = testSetStore.getState((s) => s);
+      const routeInfo = routeInfoStore.getState((s) => s);
       const { isAll, exclude, primaryKeys } = testCase[getChoosenName(mode)];
       const { testSetID } = testSet.breadcrumbInfo;
       if (mode === 'caseModal') {
@@ -215,8 +215,8 @@ const testCaseStore = createStore({
     },
     // 更新优先级
     async updatePriority({ call, select }, priority: TEST_CASE.Priority) {
-      const { primaryKeys } = select(s => s.choosenInfo);
-      const payload:Omit<TEST_CASE.BatchUpdate, 'recycled' | 'moveToTestSetID'> = { testCaseIDs: primaryKeys, priority };
+      const { primaryKeys } = select((s) => s.choosenInfo);
+      const payload: Omit<TEST_CASE.BatchUpdate, 'recycled' | 'moveToTestSetID'> = { testCaseIDs: primaryKeys, priority };
       const res = await call(batchUpdateCase, payload);
       testCaseStore.reducers.removeChoosenIds(payload.testCaseIDs);
       message.success(i18n.t('project:update completed'));
@@ -246,14 +246,14 @@ const testCaseStore = createStore({
       testCaseStore.effects.getCases();
     },
     async emptyListByTestSetId({ update }, targetTestSetId: number) {
-      const { testSetID } = testSetStore.getState(s => s.breadcrumbInfo);
+      const { testSetID } = testSetStore.getState((s) => s.breadcrumbInfo);
       if (targetTestSetId !== testSetID) {
         return;
       }
       update({ caseList: [], caseTotal: 0 });
       testCaseStore.reducers.triggerChoosenAll({ isAll: false, scope: 'testCase' });
     },
-    async updateCases({ call }, { query, payload }: { query: TEST_CASE.CaseFilter, payload: TEST_CASE.CaseBodyPart}) {
+    async updateCases({ call }, { query, payload }: { query: TEST_CASE.CaseFilter; payload: TEST_CASE.CaseBodyPart}) {
       await call(updateCases, { query, payload });
       message.success(i18n.t('update successfully'));
       testCaseStore.effects.getCases();
@@ -266,9 +266,9 @@ const testCaseStore = createStore({
     },
     async getCases({ call, select, update, getParams }, payload?: Merge<TEST_CASE.QueryCase, {scope: TEST_CASE.PageScope}>) {
       const { scope, ...rest } = payload || {} as Merge<TEST_CASE.QueryCase, {scope: TEST_CASE.PageScope}>;
-      const breadcrumbInfo = testSetStore.getState(s => s.breadcrumbInfo);
-      const oldQuery = select(s => s.oldQuery);
-      const query = routeInfoStore.getState(s => s.query);
+      const breadcrumbInfo = testSetStore.getState((s) => s.breadcrumbInfo);
+      const oldQuery = select((s) => s.oldQuery);
+      const query = routeInfoStore.getState((s) => s.query);
       const { projectId: projectID, testPlanId } = getParams();
       let { testSetID } = breadcrumbInfo;
       // 先取传过来的，再取url上的
@@ -336,7 +336,7 @@ const testCaseStore = createStore({
         return;
       }
       const { primaryKeys } = state.choosenInfo;
-      remove(primaryKeys, caseId => includes(ids, caseId));
+      remove(primaryKeys, (caseId) => includes(ids, caseId));
       state.choosenInfo = { ...state.choosenInfo, isAll: false, primaryKeys };
     },
     clearChoosenInfo(state, { mode }: {mode: TEST_CASE.PageScope}) {
@@ -360,7 +360,7 @@ const testCaseStore = createStore({
       } else {
         nextIsAll = false;
         if (includes(copy, id)) { // 已经选中时
-          remove(copy, caseId => caseId === id);
+          remove(copy, (caseId) => caseId === id);
         }
       }
       state[keyName] = { isAll: nextIsAll, exclude: [], primaryKeys: [...copy] };
@@ -385,7 +385,7 @@ const testCaseStore = createStore({
     dealFields(state, fields) {
       let fieldsVal = [...DEFAULT_FIELDS];
       fieldsVal = map(fieldsVal, (defaultField) => {
-        const metaField = find(fields, filedItem => filedItem.uniqueName === defaultField.uniqueName);
+        const metaField = find(fields, (filedItem) => filedItem.uniqueName === defaultField.uniqueName);
         if (metaField) {
           return metaField;
         }

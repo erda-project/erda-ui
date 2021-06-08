@@ -61,15 +61,15 @@ const dataHandler = {
     if (!isEmpty(nodeDeepthList)) {
       nodeDeepthList.forEach((g: any) => {
         const { nodeList, deepMap } = g || {};
-        const curNodeIds = map(nodeList, item => item.id);
+        const curNodeIds = map(nodeList, (item) => item.id);
         let curNodeMap = {};
         map(
-          filter(formatData, item => curNodeIds.includes(item.id)),
+          filter(formatData, (item) => curNodeIds.includes(item.id)),
           (item) => {
             curNodeMap[item.id] = item;
             // 作为节点的唯一ID
             set(curNodeMap[item.id], `${externalKey}.uniqName`, `node-${item.id}`);
-          }
+          },
         );
         curNodeMap = merge(curNodeMap, deepMap); // 合并节点层级属性
         const {
@@ -131,7 +131,7 @@ const dataHandler = {
   },
   // 获取节点组层级
   getGroupNodesDeepth: (nodeList: TOPOLOGY.INode[]): any => {
-    const nodeIds = uniq(map(nodeList, i => i.id));
+    const nodeIds = uniq(map(nodeList, (i) => i.id));
     const getTreeNodeList = (treeNodes: string[]) => {
       return filter(nodeList, (n: TOPOLOGY.INode) => treeNodes.includes(n.id));
     };
@@ -235,9 +235,9 @@ const dataHandler = {
             }
             return currentRes;
           }, {}),
-          o => o
+          (o) => o,
         ),
-        l => -l.length
+        (l) => -l.length,
       );
     }
     // 最终得到的startNodes及对应的节点list
@@ -311,7 +311,7 @@ const dataHandler = {
           sortBy(list, `${externalKey}.outTotal`),
           ({ [externalKey]: { id, outTotal } }, i) => {
             set(reMap[id], `${externalKey}.levelSort`, outTotal * 100 + i);
-          }
+          },
         );
       } else {
         map(list, ({ [externalKey]: { id, outTotal } }, idx: number) => {
@@ -437,13 +437,13 @@ const dataHandler = {
     };
   },
   // 获取图links
-  getLinks: (linkProps: {nodeList: TOPOLOGY.INode[], nodeMap: object, boxHeight:number, exceptLink?:any[], isCross?:boolean}) => {
+  getLinks: (linkProps: {nodeList: TOPOLOGY.INode[]; nodeMap: object; boxHeight: number; exceptLink?: any[]; isCross?: boolean}) => {
     const { nodeList, nodeMap, boxHeight, exceptLink = [], isCross = false } = linkProps;
     const links = [] as any;
     nodeList.forEach((node: TOPOLOGY.INode) => {
       const { parent, id } = node;
       if (parent) {
-        const curLink = find(exceptLink, item => item.source === parent && item.target === id);
+        const curLink = find(exceptLink, (item) => item.source === parent && item.target === id);
         if (!curLink) {
           const lk = { source: parent, target: id, nodeType: 'link' } as any;
           if (find(nodeList, { id: parent, parent: id })) { // 存在反向线
@@ -470,7 +470,7 @@ const dataHandler = {
 
     const deepthGroup = groupBy(nodeMap, `${externalKey}.deepth`);
     const edgePlusMap = {};
-    const getDeepthHeightDistance = (deepthKey: string,) => {
+    const getDeepthHeightDistance = (deepthKey: string) => {
       const curGroup = get(deepthGroup[deepthKey], `[0].${externalKey}.group`);
       const curSubGroupLevel = get(deepthGroup[deepthKey], `[0].${externalKey}.subGroupLevel`);
       if (isCross && curGroup === 'service') { // 如果是跨层级节点
@@ -480,16 +480,16 @@ const dataHandler = {
       return get(maxBy(deepthGroup[deepthKey], `${externalKey}.y`), `${externalKey}.y`, 0) - get(minBy(deepthGroup[deepthKey], `${externalKey}.y`), `${externalKey}.y`, 0);
     };
 
-    const getDeepthEdgeNode = (subLevel:number) => {
+    const getDeepthEdgeNode = (subLevel: number) => {
       const allList = flatten(map(deepthGroup));
-      const serviceList = filter(allList, item => get(item, `${externalKey}.group`) === 'service');
+      const serviceList = filter(allList, (item) => get(item, `${externalKey}.group`) === 'service');
       const serviceGroup = groupBy(serviceList, `${externalKey}.subGroupLevel`);
 
-      const maxNode = maxBy(serviceGroup[subLevel], item => {
+      const maxNode = maxBy(serviceGroup[subLevel], (item) => {
         const curExternal = item[externalKey];
         return curExternal.y;
       });
-      const minNode = minBy(serviceGroup[subLevel], item => {
+      const minNode = minBy(serviceGroup[subLevel], (item) => {
         const curExternal = item[externalKey];
         return curExternal.y;
       });
@@ -498,8 +498,8 @@ const dataHandler = {
 
     map(deepthGroup, (gList: any, lev) => { // 每个层级上跨层级线的边缘叠加数
       const curGroup = get(gList, `[0].${externalKey}.group`);
-      let curStartNode:any = minBy(gList, `${externalKey}.y`);
-      let curEndEdgeNode:any = maxBy(gList, `${externalKey}.y`);
+      let curStartNode: any = minBy(gList, `${externalKey}.y`);
+      let curEndEdgeNode: any = maxBy(gList, `${externalKey}.y`);
       if (isCross && curGroup === 'service') {
         const subLevel = get(deepthGroup[lev], `[0].${externalKey}.subGroupLevel`);
         const { maxNode, minNode } = getDeepthEdgeNode(subLevel);
@@ -604,8 +604,8 @@ const dataHandler = {
               { deep: targetDeepth, len: targetHeightDis },
               { deep: betweenMaxDeepth, len: betweenMaxHeight },
             ]
-            , o => o.len),
-            'deep'
+            , (o) => o.len),
+            'deep',
           );
           const curMaxEdge = edgePlusMap[`${curMaxDeep}`];
 

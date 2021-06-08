@@ -19,7 +19,7 @@ import DomainMap from './config/chartMap';
 import './domain.scss';
 
 const Domain = () => {
-  const chosenSortItem = monitorCommonStore.useStore(s => s.chosenSortItem);
+  const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
   const getAllChart = () => {
     return (
       <React.Fragment>

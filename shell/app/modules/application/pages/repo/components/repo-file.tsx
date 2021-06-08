@@ -35,16 +35,16 @@ interface IQaItem {
 }
 
 interface IProps {
-  maxLines?:number;
+  maxLines?: number;
   blob: REPOSITORY.IBlob;
   name: string;
   className: string;
   path: string;
-  ops?: React.ElementType | null,
+  ops?: React.ElementType | null;
   autoHeight?: boolean;
   params: any;
   appDetail: any;
-  getQaResult(param: object): Promise<any>;
+  getQaResult: (param: object) => Promise<any>;
 }
 
 interface IState {
@@ -235,16 +235,16 @@ class RepoFile extends React.PureComponent<IProps, IState> {
 
     if (!blob.binary) {
       const { qaResult, qaLine, isCheckQa } = this.state;
-      const data = (qaResult as IQaItem[]).filter(item => (
+      const data = (qaResult as IQaItem[]).filter((item) => (
         item.path === blob.path
         && Number(item.line) === Number(qaLine)
       ));
-      const annotations = data.map(item => ({
+      const annotations = data.map((item) => ({
         row: Number(item.line) - 1,
         text: item.message,
         type: 'error',
       }));
-      const markers = data.map(item => ({
+      const markers = data.map((item) => ({
         startRow: Number(item.line) - 1,
         endRow: Number(item.line) - 1,
         startCol: 0,
@@ -280,10 +280,10 @@ class RepoFile extends React.PureComponent<IProps, IState> {
 }
 
 const Mapper = () => {
-  const appDetail = appStore.useStore(s => s.detail);
-  const [blob, blame] = repoStore.useStore(s => [s.blob, s.blame]);
+  const appDetail = appStore.useStore((s) => s.detail);
+  const [blob, blame] = repoStore.useStore((s) => [s.blob, s.blame]);
   const { getQaResult } = repoStore.effects;
-  const params = routeInfoStore.useStore(s => s.params);
+  const params = routeInfoStore.useStore((s) => s.params);
   return {
     blob,
     blame,

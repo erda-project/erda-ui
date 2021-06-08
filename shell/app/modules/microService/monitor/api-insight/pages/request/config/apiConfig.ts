@@ -16,7 +16,7 @@ import { groupHandler, slowHandler } from 'common/utils/chart-utils';
 import { gatewayApiPrefix } from '../../config';
 
 export interface IOriginData {
-  time: number[],
+  time: number[];
   results: any[];
 }
 

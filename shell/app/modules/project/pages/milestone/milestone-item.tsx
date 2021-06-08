@@ -22,15 +22,15 @@ import './milestone-item.scss';
 import i18n from 'i18n';
 
 interface IProps {
-  item: ISSUE.Epic
-  onClickItem(task: ISSUE.Epic): any
+  item: ISSUE.Epic;
+  onClickItem: (task: ISSUE.Epic) => any;
 }
 
-export default ({ item, onClickItem }:IProps) => {
-  const dragAuth = permStore.useStore(s => s.project.epic.edit.pass);
+export default ({ item, onClickItem }: IProps) => {
+  const dragAuth = permStore.useStore((s) => s.project.epic.edit.pass);
   const [{ isDragging }, drag] = useDrag({
     item: { type: 'milestone', data: item },
-    collect: monitor => ({
+    collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
     canDrag: () => {
@@ -53,14 +53,14 @@ export default ({ item, onClickItem }:IProps) => {
         isDragging &&
         <Alert
           message={i18n.t('project:milestone-drag-tip')}
-          type='normal'
+          type="normal"
           showIcon
         />
       }
       <div key={item.id} onClick={() => onClickItem(item)} ref={drag}>
         <Card className={`shallow-shadow ${cls}`}>
-          <div className='milestone-item-container milestone-info-card-content pointer'>
-            <div className='milestone-item nowrap lt' >
+          <div className="milestone-item-container milestone-info-card-content pointer">
+            <div className="milestone-item nowrap lt" >
               <Tooltip placement="top" title={item.title} >
                 <span className="milestone-title">
                   {ISSUE_ICON.issue.EPIC}
@@ -68,11 +68,11 @@ export default ({ item, onClickItem }:IProps) => {
                 </span>
               </Tooltip>
               <span />
-              {item.labels && <TagsColumn labels={item.labels.map((l) => ({ label: l, color: 'red' }))} showCount={2} containerClassName='ml8' />}
+              {item.labels && <TagsColumn labels={item.labels.map((l) => ({ label: l, color: 'red' }))} showCount={2} containerClassName="ml8" />}
             </div>
             <div className="rt">
-              <div className='milestone-item'>
-                <Avatar wrapClassName='user-name' showName name={<UserInfo id={item.assignee} />} />
+              <div className="milestone-item">
+                <Avatar wrapClassName="user-name" showName name={<UserInfo id={item.assignee} />} />
               </div>
             </div>
           </div>

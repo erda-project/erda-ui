@@ -33,12 +33,12 @@ declare namespace ISSUE_WORKFLOW {
   }
   interface IIssueStateItem {
     issueType: ISSUE_TYPE;
-    index:number;
+    index: number;
     stateID: number;
     stateName: string;
     stateBelong: string;
     stateRelation: number[];
-    relations?:any[]
+    relations?: any[];
   }
 
   interface ICreateStateQuery {
@@ -53,6 +53,6 @@ declare namespace ISSUE_WORKFLOW {
     issueType: ISSUE_TYPE;
   }
   interface IUpdateQuery extends IStateQuery {
-    data: IIssueStateItem[]
+    data: IIssueStateItem[];
   }
 }

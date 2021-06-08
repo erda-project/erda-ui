@@ -72,7 +72,7 @@ const test = createStore({
     async getTestList({ select, call, update, getParams }, payload: { pageNo?: number }) {
       const { appId: applicationId } = getParams();
       const { list, total } = await call(TestServices.getTestList, { applicationId, ...payload }, { paging: { key: 'testListPaging' } });
-      const preList = select(state => state.list);
+      const preList = select((state) => state.list);
       const newList = preList.concat(list || []);
 
       update({
@@ -88,7 +88,7 @@ const test = createStore({
     async getTestDetail({ call, select, update, getParams }) {
       test.reducers.clearTestDetail();
       const { testId } = getParams();
-      const testDetailCache = select(state => state.testDetailCache);
+      const testDetailCache = select((state) => state.testDetailCache);
       let testDetail = testDetailCache[testId];
       if (testDetail) {
         update({ testDetail: { ...testDetail } });

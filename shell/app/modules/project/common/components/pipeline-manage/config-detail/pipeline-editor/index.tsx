@@ -40,9 +40,9 @@ const CasePipelineEditor = (props: IProps) => {
         ymlStr={ymlStr}
         editable={editable}
         title={i18n.t('pipeline')}
-        YmlGraphicEditor={(p:any) => <CaseYmlGraphicEditor scope={scope} addDrawerProps={addDrawerProps} {...p} />}
+        YmlGraphicEditor={(p: any) => <CaseYmlGraphicEditor scope={scope} addDrawerProps={addDrawerProps} {...p} />}
         onSubmit={onUpdateYml}
-        addDrawerProps={{...addDrawerProps, scope, showInParams: true, showOutParams: true}}
+        addDrawerProps={{ ...addDrawerProps, scope, showInParams: true, showOutParams: true }}
         chartProps={{
           chartSize: { pipeline: nodeSize },
           nodeEleMap: { pipeline: CaseNode },

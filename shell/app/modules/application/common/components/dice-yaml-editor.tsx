@@ -40,7 +40,7 @@ const PointComponent = {
 };
 
 export default class DiceYamlEditor extends Component<IDiceYamlEditorProps, any> {
-  public state = {
+  state = {
     selectedItem: null,
     onMouseDownItem: null,
     mouseDownPosition: null,
@@ -66,14 +66,14 @@ export default class DiceYamlEditor extends Component<IDiceYamlEditorProps, any>
     line: INodeLine;
   };
 
-  public async UNSAFE_componentWillMount() {
+  async UNSAFE_componentWillMount() {
     document.body.addEventListener('mouseup', this.onMouseUp);
     document.body.addEventListener('keyup', this.onKeyUp);
     window.addEventListener('resize', this.resize);
     this.loadData(this.props);
   }
 
-  public componentWillUnmount(): void {
+  componentWillUnmount(): void {
     document.body.removeEventListener('mouseup', this.onMouseUp);
     document.body.removeEventListener('keyup', this.onKeyUp);
     window.removeEventListener('resize', this.resize);
@@ -82,7 +82,7 @@ export default class DiceYamlEditor extends Component<IDiceYamlEditorProps, any>
     }
   }
 
-  public async UNSAFE_componentWillReceiveProps(nextProps: Readonly<IDiceYamlEditorProps>) {
+  async UNSAFE_componentWillReceiveProps(nextProps: Readonly<IDiceYamlEditorProps>) {
     const isDataSourceChanged = !isEqualWith(nextProps.dataSource, this.props.dataSource, isEqualCustomizer);
 
     if (isDataSourceChanged || !nextProps.isSelectedItem) {
@@ -90,7 +90,7 @@ export default class DiceYamlEditor extends Component<IDiceYamlEditorProps, any>
     }
   }
 
-  public render() {
+  render() {
     const { selectedItem, points, onMouseDownItem, mouseDownPosition, maxWidth, maxHeight, scale } = this.state;
     const { type } = this.props;
     const className = classnames(
@@ -276,7 +276,7 @@ export default class DiceYamlEditor extends Component<IDiceYamlEditorProps, any>
       });
     } else if (onMouseDownItem) {
       const groupIndex = Math.round(
-        (e.clientY - mouseDownPosition.y - info.PADDING_TOP) / (info.ITEM_HEIGHT + info.ITEM_MARGIN_BOTTOM)
+        (e.clientY - mouseDownPosition.y - info.PADDING_TOP) / (info.ITEM_HEIGHT + info.ITEM_MARGIN_BOTTOM),
       );
 
       if (groupIndex === onMouseDownItem.groupIndex || groupIndex === 0) {

@@ -32,14 +32,14 @@ interface IMapperProps {
     total: number;
   }>;
   clearList: () => void;
-  deleteItem?: (payload: any) => Promise<any>
+  deleteItem?: (payload: any) => Promise<any>;
   operationAuth?: { delete: boolean; edit: boolean; add: boolean };
   onItemClick: (item: PUBLISHER.IPublisher) => void;
 }
 
 export interface IPubliserListProps extends IMapperProps {
-  placeHolderMsg?: string
-  getList(p: any): Promise<any>
+  placeHolderMsg?: string;
+  getList: (p: any) => Promise<any>;
 }
 
 export const publisherTabs = () => {
@@ -63,8 +63,8 @@ export const PurePublisherList = ({ list = [], paging, getList, clearList, isFet
     q: undefined as string | undefined,
     formVisible: false,
   });
-  const { mode } = routeInfoStore.useStore(s => s.params);
-  const publishOperationAuth = usePerm(s => s.org.publisher.operation.pass);
+  const { mode } = routeInfoStore.useStore((s) => s.params);
+  const publishOperationAuth = usePerm((s) => s.org.publisher.operation.pass);
 
   useUnmount(clearList);
 
@@ -108,7 +108,7 @@ export const PurePublisherList = ({ list = [], paging, getList, clearList, isFet
     goTo(`../${type}/${id}`);
   };
 
-  const column:Array<ColumnProps<PUBLISHER.IPublisher>> = [
+  const column: Array<ColumnProps<PUBLISHER.IPublisher>> = [
     {
       title: i18n.t('publisher:publisher content name'),
       dataIndex: 'name',
@@ -123,20 +123,20 @@ export const PurePublisherList = ({ list = [], paging, getList, clearList, isFet
         title: i18n.t('publisher:version number'),
         width: 150,
         dataIndex: 'latestVersion',
-        render: text => text || '-',
+        render: (text) => text || '-',
       },
       {
         title: i18n.t('publisher:subscriptions'),
         width: 120,
         dataIndex: 'refCount',
-        render: text => text || 0,
+        render: (text) => text || 0,
       },
     ]),
     {
       title: i18n.t('default:status'),
       width: 100,
       dataIndex: 'public',
-      render: bool => {
+      render: (bool) => {
         return (
           <span className={`item-status ${bool ? 'on' : 'off'}`}>
             {

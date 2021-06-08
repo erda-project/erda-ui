@@ -27,7 +27,7 @@ export const deleteTreeNode = (payload: {inode: string}) => {
 };
 
 // 创建文档节点
-export const createTreeNode = (payload: {name: string, pinode:string}):API_SETTING.IFileTree => {
+export const createTreeNode = (payload: {name: string; pinode: string}): API_SETTING.IFileTree => {
   return agent.post('/api/apim/api-docs/filetree')
     .send({
       name: payload.name,
@@ -41,28 +41,28 @@ export const createTreeNode = (payload: {name: string, pinode:string}):API_SETTI
 };
 
 // 重命名文档节点
-export const renameTreeNode = (payload: {name: string, inode:string}):API_SETTING.IFileTree => {
+export const renameTreeNode = (payload: {name: string; inode: string}): API_SETTING.IFileTree => {
   return agent.put(`/api/apim/api-docs/filetree/${payload.inode}`)
     .send({ name: payload.name })
     .then((response: any) => response.body);
 };
 
 // 移动文档节点
-export const moveTreeNode = (payload: {pinode: string, inode:string}):API_SETTING.IFileTree => {
+export const moveTreeNode = (payload: {pinode: string; inode: string}): API_SETTING.IFileTree => {
   return agent.post(`/api/apim/api-docs/filetree/${payload.inode}/actions/move`)
     .send({ pinode: payload.pinode })
     .then((response: any) => response.body);
 };
 
 // 复制文档节点
-export const copyTreeNode = (payload: {pinode: string, inode:string}):API_SETTING.ICommonTreeData => {
+export const copyTreeNode = (payload: {pinode: string; inode: string}): API_SETTING.ICommonTreeData => {
   return agent.post(`/api/apim/api-docs/filetree/${payload.inode}/actions/copy`)
     .send({ pinode: payload.pinode })
     .then((response: any) => response.body);
 };
 
 // 文档节点详情
-export const getApiDetail = (inode:string):API_SETTING.IApiDetail => {
+export const getApiDetail = (inode: string): API_SETTING.IApiDetail => {
   return agent.get(`/api/apim/api-docs/filetree/${inode}`)
     .then((response: any) => response.body);
 };
@@ -82,13 +82,13 @@ export const getApiAssets = (payload: API_SETTING.IApiAssetsQuery) => {
 };
 
 // 获取库表中的参数列表
-export const getSchemaParams = (payload: {inode:string}):API_SETTING.ISchemaParams => {
+export const getSchemaParams = (payload: {inode: string}): API_SETTING.ISchemaParams => {
   return agent.get(`/api/apim/schemas/filetree/${payload.inode}`)
     .then((response: any) => response.body);
 };
 
 // 文档校验
-export const validateApiSwagger = (payload: {content:string}):API_SETTING.ISwaggerValidator => {
+export const validateApiSwagger = (payload: {content: string}): API_SETTING.ISwaggerValidator => {
   return agent.post('/api/apim/validate-swagger')
     .send(payload)
     .then((response: any) => response.body);

@@ -30,29 +30,29 @@ import { WithAuth, usePerm } from 'user/common';
 interface IProps{
   visible: boolean;
   issueType: ISSUE_TYPE;
-  onCloseModal: ()=>void;
+  onCloseModal: () => void;
 }
 
 const IssueWorkflowSettingModal = ({
   visible, onCloseModal, issueType,
 }: IProps) => {
-  const workflowStateList = issueWorkflowStore.useStore(s => s.workflowStateList);
+  const workflowStateList = issueWorkflowStore.useStore((s) => s.workflowStateList);
   const { deleteIssueState, getStatesByIssue, batchUpdateIssueState } = issueWorkflowStore;
-  const { projectId: projectID } = routeInfoStore.useStore(s => s.params);
+  const { projectId: projectID } = routeInfoStore.useStore((s) => s.params);
   const [{ dataList, formVisible, isChanged }, updater, update] = useUpdate({
     dataList: workflowStateList,
     formVisible: false,
     isChanged: false,
   });
 
-  const hasAuth = usePerm(s => s.project.setting.customWorkflow.operation.pass);
+  const hasAuth = usePerm((s) => s.project.setting.customWorkflow.operation.pass);
 
   const getDataList = React.useCallback(() => {
     getStatesByIssue({ projectID: +projectID, issueType });
   }, [getStatesByIssue, issueType, projectID]);
 
   React.useEffect(() => {
-    const tempList = map(workflowStateList, item => {
+    const tempList = map(workflowStateList, (item) => {
       return {
         ...item,
         relations: map(workflowStateList, ({ stateID, stateName }) => {
@@ -82,19 +82,19 @@ const IssueWorkflowSettingModal = ({
   }, [batchUpdateIssueState, projectID, dataList, issueType, onCancel]);
 
 
-  const onStateChange = (stateDataIndex:number, stateBelong:string) => {
-    const tempList = produce(dataList, draft => {
+  const onStateChange = (stateDataIndex: number, stateBelong: string) => {
+    const tempList = produce(dataList, (draft) => {
       draft[stateDataIndex].stateBelong = stateBelong;
     });
 
     update({ dataList: tempList, isChanged: true });
   };
 
-  const onRelationChange = (stateDataIndex:number, relationIndex:number, relatedState:boolean) => {
-    const tempList = produce(dataList, draft => {
+  const onRelationChange = (stateDataIndex: number, relationIndex: number, relatedState: boolean) => {
+    const tempList = produce(dataList, (draft) => {
       draft[stateDataIndex].relations[relationIndex].isRelated = relatedState;
-      const stateRelation:number[] = [];
-      map(draft[stateDataIndex].relations, data => {
+      const stateRelation: number[] = [];
+      map(draft[stateDataIndex].relations, (data) => {
         if (data.isRelated) {
           stateRelation.push(data.stateID);
         }
@@ -104,8 +104,8 @@ const IssueWorkflowSettingModal = ({
     update({ dataList: tempList, isChanged: true });
   };
 
-  const onChangeStateOrder = async (stateDataIndex:number, direction:number) => {
-    const tempList = produce(dataList, draft => {
+  const onChangeStateOrder = async (stateDataIndex: number, direction: number) => {
+    const tempList = produce(dataList, (draft) => {
       draft[stateDataIndex].index = stateDataIndex + direction;
       draft[stateDataIndex + direction].index = stateDataIndex;
       draft.sort((a, b) => a.index - b.index);
@@ -118,7 +118,7 @@ const IssueWorkflowSettingModal = ({
     getDataList();
   };
 
-  const onDeleteState = React.useCallback((stateID:number) => {
+  const onDeleteState = React.useCallback((stateID: number) => {
     deleteIssueState({ id: stateID, projectID: +projectID }).then(() => {
       getDataList();
     });
@@ -207,7 +207,7 @@ const IssueWorkflowSettingModal = ({
             <div className="flex-box">
               <div className="form-content-left">
                 {
-                  map(Object.values(issueStateMap[issueType]), (name:string) => {
+                  map(Object.values(issueStateMap[issueType]), (name: string) => {
                     return <div className="state-td" key={name}>{name}</div>;
                   })
                 }
@@ -218,7 +218,7 @@ const IssueWorkflowSettingModal = ({
                     return (
                       <div className={`state-radio-group ${flexWidthClass}`} key={stateID}>
                         {
-                          map(Object.keys(issueStateMap[issueType]), (k:string) => {
+                          map(Object.keys(issueStateMap[issueType]), (k: string) => {
                             return (
                               <div className="state-td" key={k}>
                                 <WithAuth pass={hasAuth} >

@@ -18,7 +18,7 @@ import { createStore } from 'app/cube';
 import { getModules } from '../services/monitorCommon';
 import i18n from 'i18n';
 
-const defaultHandler = (data:any) => {
+const defaultHandler = (data: any) => {
   const modules = map(data, (v, k) => {
     return { [k]: v };
   }) || [];
@@ -27,7 +27,7 @@ const defaultHandler = (data:any) => {
     forEach(m, (v, k) => {
       moduleMap.label = k;
       moduleMap.value = k;
-      moduleMap.children = v.map((item:any, i:number) => {
+      moduleMap.children = v.map((item: any, i: number) => {
         return { value: item, label: `${i18n.t('microService:instance')}${i + 1}` };
       });
     });
@@ -42,22 +42,22 @@ interface IChartQuery {
   type: string;
 }
 interface IState {
-  timeSpan: ITimeSpan,
+  timeSpan: ITimeSpan;
   modules: any;
   appGroup: any;
   chosenAppGroup: {
     [pro: string]: string | undefined;
-  }
+  };
   lastChosenAppGroup: string | undefined;
   subTab: string;
   sortTab: string;
   chosenSortItem: string;
   chosenModule: {
     [pro: string]: string;
-  }
-  chosenApp:{
+  };
+  chosenApp: {
     [pro: string]: string;
-  }
+  };
   projectApps: any[];
   projectAppsPaging: IPaging;
 }
@@ -90,15 +90,15 @@ const monitorCommon = createStore({
       const data = await call(getModules, { api, query });
       await monitorCommon.reducers.getAppGroupSuccess({ type, data, dataHandler });
     },
-    async getProjectApps({ call, getParams, select, update }, payload?: {loadMore?: boolean, q?: string, pageNo?: number}) {
+    async getProjectApps({ call, getParams, select, update }, payload?: {loadMore?: boolean; q?: string; pageNo?: number}) {
       const { projectId } = getParams();
       const { loadMore = true, pageNo = 1, ...rest } = payload || {};
       const { total, list } = await call(
         getApps,
         { ...rest, pageNo: 1, projectId, mode: 'SERVICE', pageSize: 1000 },
-        { paging: { key: 'projectAppsPaging' } }
+        { paging: { key: 'projectAppsPaging' } },
       );// 过滤业务应用
-      const oldList = select(s => s.projectApps);
+      const oldList = select((s) => s.projectApps);
       const newList = (loadMore && pageNo !== 1) ? oldList.concat(list) : list;
       update({ projectApps: newList });
       return { list, total };
@@ -137,7 +137,7 @@ const monitorCommon = createStore({
       state.chosenAppGroup = {};
       state.chosenSortItem = '';
     },
-    getModulesSuccess(state, payload: {data: any, dataHandler: Function | undefined, type: string}) {
+    getModulesSuccess(state, payload: {data: any; dataHandler: Function | undefined; type: string}) {
       const { data, dataHandler, type } = payload;
       const { modules } = state;
       modules[type] = isFunction(dataHandler) ? dataHandler(data) : defaultHandler(data);
@@ -160,7 +160,7 @@ const monitorCommon = createStore({
       state.appGroup = { ...appGroup };
       state.chosenAppGroup = { ...chosenAppGroup };
     },
-    getAppGroupSuccess(state, payload: {data: any, dataHandler: Function | undefined, type: string}) {
+    getAppGroupSuccess(state, payload: {data: any; dataHandler: Function | undefined; type: string}) {
       const { data, dataHandler, type } = payload;
       const { appGroup } = state;
       appGroup[type] = {

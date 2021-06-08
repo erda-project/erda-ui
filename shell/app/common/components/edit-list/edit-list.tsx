@@ -19,7 +19,7 @@ import i18n from 'i18n';
 import { useUpdateEffect } from 'react-use';
 import { getCheckListFromRule } from 'configForm/form/form';
 import { get, isEmpty, map, isEqual, isArray, isPlainObject, set, compact, includes, filter, debounce } from 'lodash';
-import { ReduceOne as IconReduceOne } from '@icon-park/react'
+import { ReduceOne as IconReduceOne } from '@icon-park/react';
 import './edit-list.scss';
 
 interface IData {
@@ -38,9 +38,9 @@ interface ITemp {
     required?: boolean;
     uniqueValue?: boolean;
     defaultValue?: any;
-    rules?: Array<{ msg: string, [k: string]: string }>
+    rules?: Array<{ msg: string; [k: string]: string }>;
     [pro: string]: any;
-  },
+  };
 }
 
 const defaultRender = {
@@ -62,7 +62,7 @@ const noop = () => { };
 
 const getTempData = (dataTemp: ITemp[], withTitle = false) => {
   const data = {};
-  map(dataTemp, temp => {
+  map(dataTemp, (temp) => {
     data[temp.key] = withTitle ? temp.title : (temp.render || defaultRender).defaultValue;
   });
   return data;
@@ -73,14 +73,14 @@ const getDuplicateValue = (arr: string[]) => filter(arr, (value, index, iteratee
 export const validateValue = (dataTemp: ITemp[], value: IData[]) => {
   const requiredKeys = [] as ITemp[];
   const uniqValueKeys = [] as ITemp[];
-  dataTemp.forEach(item => {
+  dataTemp.forEach((item) => {
     item.render?.required && requiredKeys.push(item);
     item.render?.uniqueValue && uniqValueKeys.push(item);
   });
 
   let validTip = '';
   if (!isEmpty(uniqValueKeys)) { // 唯一值的key
-    uniqValueKeys.forEach(uk => {
+    uniqValueKeys.forEach((uk) => {
       if (!validTip) {
         const duplicateValues = getDuplicateValue(compact(map(value, uk.key)));
         const sameKey = i18n.t('exist the same {key}', { key: duplicateValues.join(',') });
@@ -89,8 +89,8 @@ export const validateValue = (dataTemp: ITemp[], value: IData[]) => {
     });
   }
   if (!validTip) {
-    requiredKeys.forEach(rk => {
-      value.forEach(v => {
+    requiredKeys.forEach((rk) => {
+      value.forEach((v) => {
         if (!validTip) {
           const unValid = notEmptyValue(get(v, rk.key));
           !unValid && (validTip = i18n.t('{name} can not empty', { name: rk.title || rk.key }));
@@ -100,10 +100,10 @@ export const validateValue = (dataTemp: ITemp[], value: IData[]) => {
   }
 
   if (!validTip) {
-    dataTemp.forEach(item => {
+    dataTemp.forEach((item) => {
       const rules = item.render?.rules;
       if (!validTip && rules) {
-        value.forEach(v => {
+        value.forEach((v) => {
           if (!validTip)validTip = validRulesValue(rules, get(v, item.key));
         });
       }
@@ -198,9 +198,9 @@ const EditList = (props: IELProps) => {
 
 
   return (
-    <div className='edit-list'>
-      <div className='edit-list-box'>
-        { showTitle ? <ListItem dataTemp={dataTemp} isTitle operation={<IconReduceOne className='edit-list-item-operation not-allowed' />} /> : null}
+    <div className="edit-list">
+      <div className="edit-list-box">
+        { showTitle ? <ListItem dataTemp={dataTemp} isTitle operation={<IconReduceOne className="edit-list-item-operation not-allowed" />} /> : null}
         {
           map(value, (item, idx) => (
             <ListItem
@@ -211,7 +211,7 @@ const EditList = (props: IELProps) => {
               onBlurSave={onBlurSave}
               disabled={disabled}
               operation={(
-                <div className='table-operations'>
+                <div className="table-operations">
                   <span className={`table-operations-btn ${disabled ? 'not-allowed' : ''}`} onClick={() => !disabled && deleteItem(idx)}>{i18n.t('delete')}</span>
                 </div>
               )}
@@ -219,13 +219,13 @@ const EditList = (props: IELProps) => {
           ))
         }
       </div>
-      {validTip ? <div className='pa8 color-red'>{validTip}</div> : null}
-      <div className='edit-list-bottom mt4'>
+      {validTip ? <div className="pa8 color-red">{validTip}</div> : null}
+      <div className="edit-list-bottom mt4">
         {
           disabled ? (
-            <Button className='not-allowed' size='small'>{i18n.t('common:add')}</Button>
+            <Button className="not-allowed" size="small">{i18n.t('common:add')}</Button>
           ) : (
-            <Button className='' size='small' onClick={addItem}>{i18n.t('common:add')}</Button>
+            <Button className="" size="small" onClick={addItem}>{i18n.t('common:add')}</Button>
           )
         }
         {
@@ -274,7 +274,7 @@ const ListItem = (props: IListItemProps) => {
     : [dataTemp, value];
 
   return (
-    <div className='edit-list-item-box'>
+    <div className="edit-list-item-box">
       {
         map(temp, (item, idx) => <RenderItem key={idx} operation={operation} temp={item} value={get(useValue, item.key)} updateItem={updateItem(item.key)} {...rest} />)
       }
@@ -301,7 +301,7 @@ const notEmptyValue = (v: any) => {
 
 const validRulesValue = (rules: any[] = [], value: any) => {
   let validTip = '';
-  (rules || []).forEach(item => {
+  (rules || []).forEach((item) => {
     const checkList = getCheckListFromRule(item) || [];
     checkList.forEach((checkFun: any) => {
       if (!validTip) {
@@ -362,10 +362,10 @@ const RenderItem = (props: IRenderItem) => {
     case 'text':
     case 'custom':
       Comp = isTitle && titleTip ? (
-        <div className='left-flex-box'>
+        <div className="left-flex-box">
           {curVal}
           <Tooltip title={titleTip}>
-            <CustomIcon type='help' className='ml4 fz14' />
+            <CustomIcon type="help" className="ml4 fz14" />
           </Tooltip>
         </div>
       ) : curVal;
@@ -383,7 +383,7 @@ const RenderItem = (props: IRenderItem) => {
           {...rProps}
         >
           {
-            map(temp.render?.props?.options || [], item => {
+            map(temp.render?.props?.options || [], (item) => {
               return (
                 <Select.Option key={item.value} value={item.value}>
                   {item.label || item.value}
@@ -406,7 +406,7 @@ const RenderItem = (props: IRenderItem) => {
       );
       break;
     case 'input':
-      Comp = <Input className='nowrap' required={required} disabled={disabled} value={curVal as string} onChange={(e: any) => updateItem(e.target.value)} onBlur={() => onBlurSave()} {...rProps} />;
+      Comp = <Input className="nowrap" required={required} disabled={disabled} value={curVal as string} onChange={(e: any) => updateItem(e.target.value)} onBlur={() => onBlurSave()} {...rProps} />;
       break;
     case 'textarea':
       Comp = (

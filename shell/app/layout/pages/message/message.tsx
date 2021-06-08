@@ -82,7 +82,7 @@ const notifyMe = (msg: string, viewMsg: Function) => {
 };
 
 export const MessageCenter = ({ show }: { show: boolean }) => {
-  const [list, detail, msgPaging, unreadCount] = messageStore.useStore(s => [s.list, s.detail, s.msgPaging, s.unreadCount]);
+  const [list, detail, msgPaging, unreadCount] = messageStore.useStore((s) => [s.list, s.detail, s.msgPaging, s.unreadCount]);
   const { getMessageList, getMessageStats, readOneMessage } = messageStore.effects;
   const { resetDetail } = messageStore.reducers;
   const [loadingList] = useLoading(messageStore, ['getMessageList']);
@@ -157,7 +157,7 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
   };
 
   let curDate = '';
-  const groupList: Array<{ date: string, list: LAYOUT.IMsg[] }> = [];
+  const groupList: Array<{ date: string; list: LAYOUT.IMsg[] }> = [];
   list.forEach((item) => {
     const date = moment(item.createdAt).format('YYYY-MM-DD');
     if (date !== curDate) {

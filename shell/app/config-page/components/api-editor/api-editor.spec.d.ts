@@ -14,7 +14,7 @@
 declare namespace CP_API_EDITOR {
 
   interface Spec {
-    type: 'APIEditor',
+    type: 'APIEditor';
     props: IProps;
     state: IState;
     data: IData;
@@ -32,7 +32,7 @@ declare namespace CP_API_EDITOR {
   }
 
   interface IBody {
-    form: ICommonAttr
+    form: ICommonAttr;
   }
 
   interface ICommonAttr {
@@ -41,7 +41,7 @@ declare namespace CP_API_EDITOR {
 
   interface ICommonTemp {
     target: string[];
-    temp: Obj[]
+    temp: Obj[];
   }
 
   interface IApiExecute {
@@ -55,7 +55,7 @@ declare namespace CP_API_EDITOR {
   interface IApiExecuteMenu{
     text: string;
     key: string;
-    operations: Obj<CP_COMMON.Operation>
+    operations: Obj<CP_COMMON.Operation>;
   }
 
   interface IProps{
@@ -64,23 +64,23 @@ declare namespace CP_API_EDITOR {
     visible?: boolean;
     executingMap: Obj;
     asserts: IAssert;
-    body: IBody
+    body: IBody;
     commonTemp: ICommonTemp;
     headers: ICommonAttr;
     methodList: string[];
     params: ICommonTemp;
-    apiExecute: IApiExecute
+    apiExecute: IApiExecute;
   }
 
   interface IState {
     attemptTest: IStateAttemptTest;
-    data: IStateData
+    data: IStateData;
   }
 
   interface IStateData{
-    apiSpecId?: number,
-    stepId: number,
-    apiSpec: API,
+    apiSpecId?: number;
+    stepId: number;
+    apiSpec: API;
   }
 
   interface IStateAttemptTest {
@@ -95,8 +95,8 @@ declare namespace CP_API_EDITOR {
   }
 
   interface ITestDataAsserts {
-    success: boolean,
-    result: IAssertsResult[]
+    success: boolean;
+    result: IAssertsResult[];
   }
 
   interface IAssertsResult{
@@ -109,9 +109,9 @@ declare namespace CP_API_EDITOR {
   }
 
   interface ITestDataResponse {
-    status: number,
-    headers: Obj,
-    body: Obj | string,
+    status: number;
+    headers: Obj;
+    body: Obj | string;
   }
 
   interface ITestDataRequest {
@@ -127,7 +127,7 @@ declare namespace CP_API_EDITOR {
   }
 
   interface IMarketApi{
-    id: number,
+    id: number;
     path: string;
     description: string;
     version: string;
@@ -136,38 +136,38 @@ declare namespace CP_API_EDITOR {
   }
 
   interface API {
-    headers: Row[],
-    method: string,
-    url: string,
-    name: string,
-    params: Row[],
+    headers: Row[];
+    method: string;
+    url: string;
+    name: string;
+    params: Row[];
     body: IApiBody;
-    out_params: OutParam[],
-    asserts: Assert[][],
+    out_params: OutParam[];
+    asserts: Assert[][];
   }
 
   interface IApiBody{
-    type: string,
-    content: string | Obj,
+    type: string;
+    content: string | Obj;
   }
 
   interface Row {
-    key: string,
-    value: string | number,
-    desc: string
+    key: string;
+    value: string | number;
+    desc: string;
   }
 
   interface OutParam {
-    key: string,
-    source: string,
-    expression: string,
-    matchIndex?: string,
+    key: string;
+    source: string;
+    expression: string;
+    matchIndex?: string;
   }
 
   interface Assert {
-    arg: string,
-    operator: string,
-    value: string,
+    arg: string;
+    operator: string;
+    value: string;
   }
 
   type Props = MakeProps<Spec>;

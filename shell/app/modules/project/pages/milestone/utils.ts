@@ -15,12 +15,12 @@ import moment from 'moment';
 
 // 获得某天开始持续n天，每天的moment对象
 export function getDaysMomentFrom(fisrtDay: moment, daysNum: number) {
-  return Array.from(new Array(daysNum).keys()).map(v => moment(fisrtDay).add(v, 'days'));
+  return Array.from(new Array(daysNum).keys()).map((v) => moment(fisrtDay).add(v, 'days'));
 }
 
 export function sortByStartDate(list: ISSUE.Task[]) {
   return [...list].sort(
-    (a, b) => moment(a.planStartedAt || '2000-01-01').valueOf() - moment(b.planFinishedAt || '2000-01-01').valueOf()
+    (a, b) => moment(a.planStartedAt || '2000-01-01').valueOf() - moment(b.planFinishedAt || '2000-01-01').valueOf(),
   );
 }
 

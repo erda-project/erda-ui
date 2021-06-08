@@ -73,7 +73,7 @@ class ServiceTerminal extends React.Component {
       }
     }
 
-    const replaceProtocol = value => value.replace('http', 'ws');
+    const replaceProtocol = (value) => value.replace('http', 'ws');
     const _params = {
       // url: `${replaceProtocol(clusterDetail.urls.colonySoldier)}`,
       url: `${replaceProtocol(window.location.protocol)}//${window.location.host}/api/${getOrgFromPath()}/terminal?url=${clusterDetail.urls.colonySoldier}`,
@@ -89,7 +89,7 @@ class ServiceTerminal extends React.Component {
 }
 
 const mapper = () => {
-  const clusterDetail = clusterStore.useStore(s => s.detail);
+  const clusterDetail = clusterStore.useStore((s) => s.detail);
   const { getClusterDetail } = clusterStore.effects;
   return {
     clusterDetail,

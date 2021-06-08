@@ -29,8 +29,8 @@ import './status.scss';
 const { Option } = Select;
 
 const Status = () => {
-  const query = routeInfoStore.useStore(s => s.query);
-  const dashboard = monitorStatusStore.useStore(s => s.dashboard);
+  const query = routeInfoStore.useStore((s) => s.query);
+  const dashboard = monitorStatusStore.useStore((s) => s.dashboard);
   const [isFetchingList] = useLoading(monitorStatusStore, ['getProjectDashboard']);
   const { getProjectDashboard, deleteMetric } = monitorStatusStore.effects;
   const { clearDashboardInfo } = monitorStatusStore.reducers;
@@ -95,7 +95,7 @@ const Status = () => {
   }
   let filterData = data;
   if (filterType !== 'All') {
-    filterData = filter(filterData, item => item.status === filterType);
+    filterData = filter(filterData, (item) => item.status === filterType);
   }
 
   const typeMap = {
@@ -184,10 +184,10 @@ const Status = () => {
         !!requestId && (
           <span
             className="reason-analysis-span"
-            onClick={e => {
+            onClick={(e) => {
               handleDetailClick(
                 e,
-                resolvePath(`../error/request-detail/${requestId}`)
+                resolvePath(`../error/request-detail/${requestId}`),
               );
             }}
           >
@@ -203,8 +203,8 @@ const Status = () => {
       render: (id: string, record: any) => {
         return (
           <div className="table-operations">
-            <a className="table-operations-btn" key="edit" onClick={e => handleEdit(e, record)}>{i18n.t('microService:edit')}</a>
-            <a className="table-operations-btn" key="del" onClick={e => handleDelete(e, id)}>{i18n.t('microService:delete')}</a>
+            <a className="table-operations-btn" key="edit" onClick={(e) => handleEdit(e, record)}>{i18n.t('microService:edit')}</a>
+            <a className="table-operations-btn" key="del" onClick={(e) => handleDelete(e, id)}>{i18n.t('microService:delete')}</a>
           </div>
         );
       },

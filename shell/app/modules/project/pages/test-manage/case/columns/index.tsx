@@ -52,7 +52,7 @@ export const commonColumns: Array<ColumnProps<TEST_CASE.CaseTableRecord>> = [
     width: 85,
     tip: true,
     sorter: true,
-    render: (updatedID: any) => updatedID && <UserInfo id={updatedID} render={data => data.nick || data.name} />,
+    render: (updatedID: any) => updatedID && <UserInfo id={updatedID} render={(data) => data.nick || data.name} />,
   },
   {
     title: i18n.t('project:updated'),

@@ -13,40 +13,40 @@
 
 declare namespace ORG_CLUSTER {
   interface ICluster {
-    id: number
-    orgID: number
-    name: string
-    displayName: string
-    type: string
-    logo: string
-    cloudVendor: string
-    description: string
-    wildcardDomain: string
+    id: number;
+    orgID: number;
+    name: string;
+    displayName: string;
+    type: string;
+    logo: string;
+    cloudVendor: string;
+    description: string;
+    wildcardDomain: string;
     urls: {
-      colonySoldier: string
-      colonySoldierPublic: string
-      dingDingWarning: string
-      nexus: string
-      registry: string
-    }
+      colonySoldier: string;
+      colonySoldierPublic: string;
+      dingDingWarning: string;
+      nexus: string;
+      registry: string;
+    };
     settings: {
-      bpDockerBaseRegistry: string
-      ciHostPath: string
-      nexusUsername: string
-      registryAppID: string
-      registryHostPath: string
-      scriptBlacklist: string
-    }
+      bpDockerBaseRegistry: string;
+      ciHostPath: string;
+      nexusUsername: string;
+      registryAppID: string;
+      registryHostPath: string;
+      scriptBlacklist: string;
+    };
     scheduler: {
-      dcosURL?: string
-      authType: string
-      authUsername: string
-      authPassword: string
-      caCrt: string
-      clientCrt: string
-      clientKey: string
-      enableTag: boolean
-      edasConsoleAddr?: string // edas集群参数
+      dcosURL?: string;
+      authType: string;
+      authUsername: string;
+      authPassword: string;
+      caCrt: string;
+      clientCrt: string;
+      clientKey: string;
+      enableTag: boolean;
+      edasConsoleAddr?: string; // edas集群参数
       accessKey?: string;
       accessSecret?: string;
       clusterID?: string;
@@ -54,18 +54,18 @@ declare namespace ORG_CLUSTER {
       logicalRegionID?: string;
       k8sAddr?: string;
       regAddr?: string;
-    }
+    };
     config: {
-      bpDockerBaseRegistry: string
-      ciHostPath: string
-      colonySoldier: string
-      nexus: string
-      nexusUsername: string
-      registry: string
-      registryHostPath: string
-    }
-    createdAt: string
-    updatedAt: string
+      bpDockerBaseRegistry: string;
+      ciHostPath: string;
+      colonySoldier: string;
+      nexus: string;
+      nexusUsername: string;
+      registry: string;
+      registryHostPath: string;
+    };
+    createdAt: string;
+    updatedAt: string;
   }
   interface IAddClusterQuery {
     name: string;
@@ -119,9 +119,9 @@ declare namespace ORG_CLUSTER {
     displayName: string;
     labels: {
       [pro: string]: string;
-    }
+    };
     labelOrder: string[];
-    data: any[]
+    data: any[];
   }
 
   interface ICloudResourceDetail {

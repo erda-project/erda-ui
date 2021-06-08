@@ -32,7 +32,7 @@ const dubbo = createStore({
   name: 'zkproxy-dubbo',
   state: initState,
   effects: {
-    async getDubboDetailTime({ call, update, getParams }, payload: { az: string; interfacename: string; tenantId: string; }) {
+    async getDubboDetailTime({ call, update, getParams }, payload: { az: string; interfacename: string; tenantId: string }) {
       const { env, projectId } = getParams();
       const dubboDetailTime = await call(dubboServices.getDubboDetailTime, { env, projectId, ...payload });
       update({ dubboDetailTime });

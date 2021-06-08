@@ -22,8 +22,8 @@ interface IProps {
   visible: boolean;
   service: any;
   editDisabled?: boolean;
-  onOk(data: any): void;
-  onCancel(): void;
+  onOk: (data: any) => void;
+  onCancel: () => void;
 }
 
 const ResourceModal = ({ visible, service, editDisabled, onOk, onCancel }: IProps) => {

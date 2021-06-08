@@ -26,12 +26,12 @@ const scenarioConfig = {
   projects: {
     scenarioKey: 'project-list-my',
     scenarioType: 'project-list-my',
-  }
-}
+  },
+};
 
 const ProjectList = () => {
-  const currentRoute = routeInfoStore.getState(s => s.currentRoute);
-  const { scenarioKey, scenarioType } = scenarioConfig[get(currentRoute, 'relativePath')] || {}
+  const currentRoute = routeInfoStore.getState((s) => s.currentRoute);
+  const { scenarioKey, scenarioType } = scenarioConfig[get(currentRoute, 'relativePath')] || {};
   const [state, updater, update] = useUpdate({
     visible: false,
     metaData: {} as IMetaData,

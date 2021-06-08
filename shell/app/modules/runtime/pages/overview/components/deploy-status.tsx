@@ -51,7 +51,7 @@ const runtimeDeployStatus = {
 };
 
 interface IStatus {
-  deployStatus: RUNTIME.DeployStatus,
+  deployStatus: RUNTIME.DeployStatus;
 }
 const DeployStatus = ({ deployStatus }: IStatus) => {
   const state = runtimeDeployStatus[deployStatus];

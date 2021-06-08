@@ -27,11 +27,11 @@ import { Link } from 'react-router-dom';
 
 interface IFilter {
   placeHolderMsg: string | undefined;
-  onSubmit(value: Obj):void;
+  onSubmit: (value: Obj) => void;
 }
 
-const Filter = React.memo(({ onSubmit, placeHolderMsg }:IFilter) => {
-  const config:FilterItemConfig[] = React.useMemo(() => [
+const Filter = React.memo(({ onSubmit, placeHolderMsg }: IFilter) => {
+  const config: FilterItemConfig[] = React.useMemo(() => [
     {
       type: Input.Search,
       name: 'q',
@@ -46,17 +46,17 @@ const Filter = React.memo(({ onSubmit, placeHolderMsg }:IFilter) => {
 
 interface Iprops {
   placeHolderMsg?: string;
-  paging: IPaging,
-  isFetching: boolean,
-  list: IApplication[],
-  getList(payload: any): Promise<{list: IApplication[], total: number}>
-  clearList():void;
+  paging: IPaging;
+  isFetching: boolean;
+  list: IApplication[];
+  getList: (payload: any) => Promise<{list: IApplication[]; total: number}>;
+  clearList: () => void;
 }
 
 export const AppList = ({ placeHolderMsg = i18n.t('application:search by application name'), getList, clearList, list, paging, isFetching }: Iprops) => {
   const { pinApp, unpinApp } = userStore.effects;
   const [q, setQ] = React.useState();
-  const params = routeInfoStore.useStore(s => s.params);
+  const params = routeInfoStore.useStore((s) => s.params);
   const onSubmit = React.useCallback(({ q: value }: {q: string}) => {
     setQ(value);
   }, []);
@@ -77,7 +77,7 @@ export const AppList = ({ placeHolderMsg = i18n.t('application:search by applica
   const goToApp = ({ projectId, id: appId }: IApplication) => {
     goTo(goTo.pages.app, { projectId, appId });
   };
-  const goToProject = (e: React.MouseEvent, { projectId }: IApplication,) => {
+  const goToProject = (e: React.MouseEvent, { projectId }: IApplication) => {
     e.stopPropagation();
     goTo(goTo.pages.project, { projectId });
   };
@@ -97,7 +97,7 @@ export const AppList = ({ placeHolderMsg = i18n.t('application:search by applica
       title: i18n.t('project:application description'),
       dataIndex: 'desc',
       tip: true,
-      render: text => {
+      render: (text) => {
         const title = text || i18n.t('application:edit description in application setting');
         return <span>{title}</span>;
       },
@@ -124,12 +124,12 @@ export const AppList = ({ placeHolderMsg = i18n.t('application:search by applica
       title: i18n.t('update time'),
       width: 100,
       dataIndex: 'updatedAt',
-      render: text => (text ? fromNow(text) : i18n.t('no data')),
+      render: (text) => (text ? fromNow(text) : i18n.t('no data')),
     }, {
       title: i18n.t('application:application type'),
       width: 120,
       dataIndex: 'mode',
-      render: text => (modeOptions.find(mode => mode.value === text) as { name: string }).name,
+      render: (text) => (modeOptions.find((mode) => mode.value === text) as { name: string }).name,
     }, {
       title: i18n.t('application:operation'),
       width: 100,
@@ -173,7 +173,7 @@ export const AppList = ({ placeHolderMsg = i18n.t('application:search by applica
   );
 };
 export const MyAppList = () => {
-  const [list, appPaging] = userStore.useStore(s => [s.appList, s.appPaging]);
+  const [list, appPaging] = userStore.useStore((s) => [s.appList, s.appPaging]);
   const [userLoading] = useLoading(userStore, ['getJoinedApps']);
   const { getJoinedApps } = userStore.effects;
   const { clearAppList } = userStore.reducers;

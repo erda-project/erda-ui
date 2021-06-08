@@ -32,14 +32,14 @@ const linkMark = '##to_link:';
 
 
 interface IProps {
-  detailLogId: string
-  applicationId: number | string
-  query?: Obj
-  hasLogs?: boolean
+  detailLogId: string;
+  applicationId: number | string;
+  query?: Obj;
+  hasLogs?: boolean;
 }
 
 const DeployLog = ({ detailLogId, query, applicationId, hasLogs }: IProps) => {
-  const deploymentStatus = runtimeLogStore.useStore(s => s.deploymentStatus);
+  const deploymentStatus = runtimeLogStore.useStore((s) => s.deploymentStatus);
   const { pushSlideComp, popSlideComp } = commonStore.reducers;
 
   useMount(() => {
@@ -48,7 +48,7 @@ const DeployLog = ({ detailLogId, query, applicationId, hasLogs }: IProps) => {
 
   const renderStep = () => {
     // 当前已完成步骤中的最后一个
-    const finishedIndex = stepList.findIndex(a => a.key === deploymentStatus.phase);
+    const finishedIndex = stepList.findIndex((a) => a.key === deploymentStatus.phase);
     return (
       <div className="step-wrap">
         {
@@ -122,7 +122,7 @@ const DeployLog = ({ detailLogId, query, applicationId, hasLogs }: IProps) => {
       const checkContainerLog = () => {
         runtimeServiceStore.getServiceInstances(serviceName).then((tasks) => {
           const { runs = [], completedRuns = [] } = tasks || {};
-          const target = [...runs, ...completedRuns].find(item => item.id === containerId);
+          const target = [...runs, ...completedRuns].find((item) => item.id === containerId);
           if (target) {
             pushSlideComp({
               getComp: () => <ContainerLog instance={target} />,

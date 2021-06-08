@@ -36,7 +36,7 @@ import { Search as IconSearch, Plus as IconPlus } from '@icon-park/react';
 import './manual-test.scss';
 
 const ManualTest = () => {
-  const [query, params] = routeInfoStore.useStore(s => [s.query, s.params]);
+  const [query, params] = routeInfoStore.useStore((s) => [s.query, s.params]);
   const { getCases, getCaseDetail } = testCaseStore.effects;
   const { getTestEnvList } = testEnvStore;
   const caseRef = React.useRef(null as any);
@@ -110,7 +110,7 @@ const ManualTest = () => {
             {
               query.recycled !== 'true' && (
                 <>
-                  <Button type="primary" icon={<IconPlus/>} onClick={showCaseDrawer}>{i18n.t('project:add use case')}</Button>
+                  <Button type="primary" icon={<IconPlus />} onClick={showCaseDrawer}>{i18n.t('project:add use case')}</Button>
                   <ImportFile
                     afterImport={reloadTestSets}
                   />
@@ -132,7 +132,7 @@ const ManualTest = () => {
               style={{ width: '160px' }}
               placeholder={i18n.t('project:search for')}
               value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
+              onChange={(e) => setSearchQuery(e.target.value)}
               prefix={<IconSearch />}
             />
             <Button onClick={() => setEnhanceFilterVisible(true)}>

@@ -21,8 +21,8 @@ import routeInfoStore from 'common/stores/route';
 
 
 const AddonResource = () => {
-  const info = addonStore.useStore(s => s.addonDetail);
-  const insId = routeInfoStore.useStore(s => s.params.insId);
+  const info = addonStore.useStore((s) => s.addonDetail);
+  const insId = routeInfoStore.useStore((s) => s.params.insId);
   const [loading] = useLoading(addonStore, ['getAddonDetail']);
   React.useEffect(() => {
     addonStore.getAddonDetail(insId);

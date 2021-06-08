@@ -25,7 +25,7 @@ export const getClientList = <T = IPagingResp<API_CLIENT.ClientItem>>(payload: A
     .then((response: any) => response.body);
 };
 
-export const getClientDetail = ({ clientID }: API_CLIENT.Common):API_CLIENT.ClientItem => {
+export const getClientDetail = ({ clientID }: API_CLIENT.Common): API_CLIENT.ClientItem => {
   return agent.get(`/api/api-clients/${clientID}`)
     .then((response: any) => response.body);
 };

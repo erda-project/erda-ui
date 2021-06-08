@@ -21,10 +21,10 @@ import { CustomFilter, TableActions } from 'common';
 import { goTo } from 'common/utils';
 import { useLoading } from 'common/stores/loading';
 
-const formatData = (data: API_ACCESS.AccessListItem[]):API_ACCESS.ITableData[] => {
+const formatData = (data: API_ACCESS.AccessListItem[]): API_ACCESS.ITableData[] => {
   return data.map(({ children, ...rest }) => {
     return {
-      subData: children.map(child => ({ ...child, parents: rest })),
+      subData: children.map((child) => ({ ...child, parents: rest })),
       ...rest,
     };
   });
@@ -32,7 +32,7 @@ const formatData = (data: API_ACCESS.AccessListItem[]):API_ACCESS.ITableData[] =
 
 const AccessList = () => {
   const [keyword, setKeyword] = React.useState('');
-  const [accessList] = apiAccessStore.useStore(s => [s.accessList]);
+  const [accessList] = apiAccessStore.useStore((s) => [s.accessList]);
   const { getAccess, deleteAccess } = apiAccessStore.effects;
   const { clearAccess } = apiAccessStore.reducers;
   const [isFetch, isDelete] = useLoading(apiAccessStore, ['getAccess', 'deleteAccess']);
@@ -55,7 +55,7 @@ const AccessList = () => {
       getAccess({ pageNo: 1, paging: true, keyword });
     });
   };
-  const filterConfig = React.useMemo(():FilterItemConfig[] => [
+  const filterConfig = React.useMemo((): FilterItemConfig[] => [
     {
       type: Input.Search,
       name: 'keyword',
@@ -66,7 +66,7 @@ const AccessList = () => {
     },
 
   ], []);
-  const columns:Array<ColumnProps<API_ACCESS.ITableData>> = [{
+  const columns: Array<ColumnProps<API_ACCESS.ITableData>> = [{
     title: i18n.t('API name'),
     dataIndex: 'assetName',
   }, {
@@ -85,7 +85,7 @@ const AccessList = () => {
     {
       title: i18n.t('create time'),
       dataIndex: 'createdAt',
-      render: date => moment(date).format('YYYY-MM-DD HH:mm:ss'),
+      render: (date) => moment(date).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: i18n.t('operation'),
@@ -94,7 +94,7 @@ const AccessList = () => {
       render: ({ edit, delete: canDelete }: API_ACCESS.AccessPermission, record) => {
         return (
           <TableActions>
-            {edit ? <span onClick={e => { handleEdit(record, e); }}>{i18n.t('edit')}</span> : null }
+            {edit ? <span onClick={(e) => { handleEdit(record, e); }}>{i18n.t('edit')}</span> : null }
             {canDelete ? (
               <Popconfirm
                 title={i18n.t('confirm to {action}', { action: i18n.t('delete') })}
@@ -108,10 +108,10 @@ const AccessList = () => {
       },
     },
   ];
-  const expandedRowRender = (record:API_ACCESS.ITableData) => {
+  const expandedRowRender = (record: API_ACCESS.ITableData) => {
     return (
       <Table
-        rowKey='swaggerVersion'
+        rowKey="swaggerVersion"
         columns={subColumns}
         dataSource={record.subData}
         pagination={false}
@@ -130,11 +130,11 @@ const AccessList = () => {
   return (
     <Spin spinning={isFetch || isDelete}>
       <div className="top-button-group">
-        <Button type='primary' onClick={() => { goTo('./access/create'); }}>{i18n.t('establish')}</Button>
+        <Button type="primary" onClick={() => { goTo('./access/create'); }}>{i18n.t('establish')}</Button>
       </div>
       <CustomFilter config={filterConfig} onSubmit={handleSearch} />
       <Table
-        rowKey='assetID'
+        rowKey="assetID"
         columns={columns}
         dataSource={dataSource}
         expandedRowRender={expandedRowRender}

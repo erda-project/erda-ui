@@ -27,7 +27,7 @@ describe('Terminal', () => {
   it('should ', () => {
     jest.useFakeTimers();
     const wrapper = mount(
-      <Terminal />
+      <Terminal />,
     );
     jest.runAllTimers();
     expect(wrapper.find('span').text()).toBe('full screen');

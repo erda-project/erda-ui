@@ -34,8 +34,8 @@ import './index.scss';
 const ApiAssetDetail = () => {
   const [visible, setVisible] = React.useState(false);
   const [versionListVisible, setVersionListVisible] = React.useState(false);
-  const { assetID, versionID } = routeInfoStore.useStore(s => s.params);
-  const [assetVersionDetail, assetDetail, hasAccess, version, assetVersionList] = apiMarketStore.useStore(s => [
+  const { assetID, versionID } = routeInfoStore.useStore((s) => s.params);
+  const [assetVersionDetail, assetDetail, hasAccess, version, assetVersionList] = apiMarketStore.useStore((s) => [
     s.assetVersionDetail.spec, s.assetVersionDetail.asset, s.assetVersionDetail.hasAccess, s.assetVersionDetail.version, s.assetVersionList,
   ]);
   const { getAssetVersionDetail, getListOfVersions } = apiMarketStore.effects;
@@ -53,7 +53,7 @@ const ApiAssetDetail = () => {
     };
   }, [assetID, clearState, getAssetVersionDetail, setHeaderInfo, versionID]);
 
-  const currentVersion = React.useMemo(():API_MARKET.AssetVersionItem<OpenAPI.Document> => {
+  const currentVersion = React.useMemo((): API_MARKET.AssetVersionItem<OpenAPI.Document> => {
     if (!assetVersionDetail.spec) {
       return {} as API_MARKET.AssetVersionItem<OpenAPI.Document>;
     }
@@ -92,7 +92,7 @@ const ApiAssetDetail = () => {
     window.open(exportSwagger({ assetID, versionID: id, specProtocol }));
   };
 
-  const renderExport = (id: number, redord:API_MARKET.VersionItem) => {
+  const renderExport = (id: number, redord: API_MARKET.VersionItem) => {
     const filterProtocolMap = pickBy(protocolMap, (_, protocol) => {
       const protocolPrefix = redord.version?.specProtocol?.substr(0, 4) || '';
       return protocol.indexOf(protocolPrefix) > -1;
@@ -126,19 +126,19 @@ const ApiAssetDetail = () => {
       title: i18n.t('API description document protocol'),
       dataIndex: 'version.specProtocol',
       width: 200,
-      render: text => protocolMap[text].fullName,
+      render: (text) => protocolMap[text].fullName,
     },
     {
       title: i18n.t('creator'),
       dataIndex: 'version.creatorID',
       width: 200,
-      render: text => <Avatar showName name={<UserInfo id={text} />} />,
+      render: (text) => <Avatar showName name={<UserInfo id={text} />} />,
     },
     {
       title: i18n.t('create time'),
       dataIndex: 'version.createdAt',
       width: 200,
-      render: text => (text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : ''),
+      render: (text) => (text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : ''),
     },
     {
       title: i18n.t('operate'),
@@ -152,7 +152,7 @@ const ApiAssetDetail = () => {
       <div className="top-button-group">
         <Button onClick={showVersionList}>{i18n.t('version list')}</Button>
         {
-          hasAccess ? <Button type='primary' onClick={handleApply}>{i18n.t('apply call')}</Button> : null
+          hasAccess ? <Button type="primary" onClick={handleApply}>{i18n.t('apply call')}</Button> : null
         }
       </div>
       <Spin wrapperClassName="api-market-detail-loading" spinning={isLoading || isFetchVersionList}>

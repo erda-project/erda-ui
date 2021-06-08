@@ -36,7 +36,7 @@ describe('FileEditor', () => {
         actions={{ copy: true, format: true, extra }}
         value={dataStr}
         onChange={fn}
-      />
+      />,
     );
 
     expect(wrapper.find('.extra-action')).toExist();
@@ -47,7 +47,7 @@ describe('FileEditor', () => {
   });
   it('render readOnly', () => {
     const wrapper = mount(
-      <FileEditor fileExtension="md" className="file-editor" readOnly value={dataStr} />
+      <FileEditor fileExtension="md" className="file-editor" readOnly value={dataStr} />,
     );
     expect(wrapper.find('pre').text()).toContain(dataStr);
   });

@@ -49,7 +49,7 @@ export const FormSwitch = ({
   const curFixOut = itemFixOut || fixOut;
 
   registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = val => {
+  const handleChange = (val) => {
     form.setFieldValue(key, curFixOut(val));
     (componentProps.onChange || noop)(val);
   };
@@ -77,7 +77,7 @@ export const FormSwitch = ({
 export const config = {
   name: 'switch',
   Component: FormSwitch, // 某React组件，props中必须有value、onChange
-  requiredCheck: value => {
+  requiredCheck: (value) => {
     // 必填校验时，特殊的校验规则
     return [value !== undefined, i18n.t('can not be empty')];
   },

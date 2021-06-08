@@ -55,11 +55,11 @@ declare namespace COMMON_ALARM_REPORT {
   }
 
   interface GetAlarmReport{
-    type: string,
+    type: string;
     query: {
       filter_host_ip: string;
       timestamp: string;
-    },
+    };
   }
 
   interface AlarmReportQuerys {
@@ -68,12 +68,12 @@ declare namespace COMMON_ALARM_REPORT {
     end: string;
     filter_cluster_name: string;
     avg?: string[]|string;
-    max?:string;
-    group?:string;
+    max?: string;
+    group?: string;
   }
 
   interface QueryCmdLine {
-    timestamp: number,
+    timestamp: number;
     filter_cluster_name: string;
     filter_pid: string;
     process_name: string;

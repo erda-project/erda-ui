@@ -27,7 +27,7 @@ const titleMap = {
 };
 
 const ProjectTreeModal = () => {
-  const treeModalInfo = testSetStore.useStore(s => s.treeModalInfo);
+  const treeModalInfo = testSetStore.useStore((s) => s.treeModalInfo);
   const [confirmLoading] = useLoading(testSetStore, ['submitTreeModal']);
   const { submitTreeModal } = testSetStore.effects;
   const { closeTreeModal, updateTreeModalExtra } = testSetStore.reducers;

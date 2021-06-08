@@ -61,7 +61,7 @@ describe('KeyValueTable', () => {
         maxLength={10}
         isTextArea
         onChange={fn}
-      />
+      />,
     );
     const editor = wrapper.find('KeyValueTable');
     expect(editor.instance().getTableData()).toStrictEqual(data);
@@ -87,7 +87,7 @@ describe('KeyValueTable', () => {
         maxLength={10}
         onChange={fn}
         disableAdd
-      />
+      />,
     );
     const editor = wrapper.find('KeyValueTable');
     editor.find('Input').at(0).simulate('blur');

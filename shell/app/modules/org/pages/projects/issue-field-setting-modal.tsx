@@ -30,14 +30,14 @@ const { Option } = Select;
 interface IProps {
   visible: boolean;
   issueType: ISSUE_FIELD.IIssueType;
-  closeModal: ()=>void;
+  closeModal: () => void;
 }
 
 export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal }: IProps) => {
   const { addFieldItem, batchUpdateFieldsOrder, deleteFieldItem, getFieldsByIssue } = issueFieldStore.effects;
-  const [fieldList] = issueFieldStore.useStore(s => [s.fieldList]);
+  const [fieldList] = issueFieldStore.useStore((s) => [s.fieldList]);
   const { clearFieldList } = issueFieldStore.reducers;
-  const { id: orgID } = orgStore.useStore(s => s.currentOrg);
+  const { id: orgID } = orgStore.useStore((s) => s.currentOrg);
 
   const [{
     selectedField,
@@ -71,8 +71,8 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
     clearFieldList();
   };
 
-  const changePos = React.useCallback(async (index:number, direction:number) => {
-    const tempList = produce(fieldList, draft => {
+  const changePos = React.useCallback(async (index: number, direction: number) => {
+    const tempList = produce(fieldList, (draft) => {
       if (direction < 0) {
         draft[index - 1].index = index;
         draft[index].index = index - 1;
@@ -91,7 +91,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
     getFieldsByIssue({ propertyIssueType: issueType, orgID });
   }, [deleteFieldItem, getFieldsByIssue, issueType, orgID]);
 
-  const renderFieldItem = ({ displayName, propertyType }: {displayName:string, propertyType:string}) => (
+  const renderFieldItem = ({ displayName, propertyType }: {displayName: string; propertyType: string}) => (
     <>
       <div className="nowrap field-label">{displayName}</div>
       <div className="">
@@ -163,8 +163,8 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
                 className="flex-1 mr8"
                 value={selectedField?.propertyID}
                 placeholder={i18n.t('please choose {name}', { name: i18n.t('project:custom fields') })}
-                onChange={(e:any) => {
-                  const selectedFieldItem = find(filedOptions, t => t.propertyID === e) as ISSUE_FIELD.IFiledItem;
+                onChange={(e: any) => {
+                  const selectedFieldItem = find(filedOptions, (t) => t.propertyID === e) as ISSUE_FIELD.IFiledItem;
                   updater.selectedField(selectedFieldItem);
                 }}
               >

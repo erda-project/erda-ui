@@ -47,7 +47,7 @@ export const Filter = (props: CP_FILTER.Props) => {
     customProps?.onFilterChange && customProps.onFilterChange(value);
   };
 
-  const onQuickSelect = ({ key, value }: { key: string, value: any }) => {
+  const onQuickSelect = ({ key, value }: { key: string; value: any }) => {
     execOperation(operations && operations[key], { values, conditions: conditionsRef.current });
   };
 

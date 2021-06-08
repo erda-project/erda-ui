@@ -23,13 +23,13 @@ import { getAddonStatus } from 'dataCenter/services/middleware-dashboard';
 
 const Detail = () => {
   const [addonStatus, setAddonStatus] = React.useState('');
-  const [addonDetail] = middlewareDashboardStore.useStore(s => [s.baseInfo]);
-  const { instanceId } = routeInfoStore.getState(s => s.params);
+  const [addonDetail] = middlewareDashboardStore.useStore((s) => [s.baseInfo]);
+  const { instanceId } = routeInfoStore.getState((s) => s.params);
   const [loading] = useLoading(middlewareDashboardStore, ['getBaseInfo']);
   const { getConfig, getBaseInfo } = middlewareDashboardStore.effects;
   const timer = React.useRef(0 as any);
   useMount(() => {
-    getBaseInfo(instanceId).then(res => {
+    getBaseInfo(instanceId).then((res) => {
       const { isOperator, instanceId: addonID, addonName, cluster: clusterName } = res;
       if (isOperator) {
         getConfig({ addonID });
@@ -44,7 +44,7 @@ const Detail = () => {
     return () => middlewareDashboardStore.reducers.clearBaseInfo();
   });
 
-  const fetchAddonStatus = (data:MIDDLEWARE_DASHBOARD.IMiddleBase) => {
+  const fetchAddonStatus = (data: MIDDLEWARE_DASHBOARD.IMiddleBase) => {
     getAddonStatus(data).then((res: any) => {
       const { status } = res.data;
       if (status !== addonStatus) {

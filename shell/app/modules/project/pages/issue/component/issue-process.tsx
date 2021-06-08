@@ -18,10 +18,10 @@ import { goTo } from 'common/utils';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 
 interface IProps {
-  data:ISSUE.Requirement
+  data: ISSUE.Requirement;
 }
 
-const IssueProcess = ({ data }:IProps) => {
+const IssueProcess = ({ data }: IProps) => {
   if (!data.issueSummary) {
     return null;
   }

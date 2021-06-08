@@ -19,12 +19,12 @@ function monitorErrorRouter() {
     breadcrumbName: i18n.t('microService:error insight'),
     routes: [
       {
-        getComp: cb => cb(import('error-insight/pages/errors/error-overview')),
+        getComp: (cb) => cb(import('error-insight/pages/errors/error-overview')),
       },
       {
         path: ':errorType/:errorId',
         breadcrumbName: i18n.t('microService:error details'),
-        getComp: cb => cb(import('error-insight/pages/errors/error-detail')),
+        getComp: (cb) => cb(import('error-insight/pages/errors/error-detail')),
       },
     ],
   };

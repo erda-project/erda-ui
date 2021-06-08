@@ -35,7 +35,7 @@ const EraseStatus = {
   erasing: i18n.t('publisher:erasing'),
 };
 const BlackList = ({ artifactId }: IListProps) => {
-  const publishOperationAuth = usePerm(s => s.org.publisher.operation.pass);
+  const publishOperationAuth = usePerm((s) => s.org.publisher.operation.pass);
 
   const getColumns = ({ deleteItem }: any, { reloadList }: any) => ([
     {
@@ -130,7 +130,7 @@ const BlackList = ({ artifactId }: IListProps) => {
   return (
     <CRUDStoreTable<PUBLISHER.IBlackList>
       name={i18n.t('publisher:blacklist')}
-      rowKey={r => r.userId + r.deviceNo}
+      rowKey={(r) => r.userId + r.deviceNo}
       getColumns={getColumns}
       store={blackListStore}
       getFieldsList={getFieldsList}
@@ -148,7 +148,7 @@ const BlackList = ({ artifactId }: IListProps) => {
 };
 
 const EraseList = ({ artifactId }: IListProps) => {
-  const publishOperationAuth = usePerm(s => s.org.publisher.operation.pass);
+  const publishOperationAuth = usePerm((s) => s.org.publisher.operation.pass);
 
   const getColumns = () => ([
     {

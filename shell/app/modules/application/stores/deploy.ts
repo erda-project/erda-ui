@@ -87,7 +87,7 @@ const deploy = createStore({
   effects: {
     async getRunTimes({ call, getParams, update, select }) {
       const { appId } = getParams();
-      const oldRuntimes = select(s => s.runtimes);
+      const oldRuntimes = select((s) => s.runtimes);
       if (appId) {
         const runtimes = await call(getRunTimes, appId);
         if (runtimes !== null) {
@@ -165,7 +165,7 @@ const deploy = createStore({
       state.runtimes = newList;
     },
     deleteDeployRuntime(state, payload) {
-      const newList = state.runtimes.filter(item => item.id.toString() !== payload.runtimeId.toString());
+      const newList = state.runtimes.filter((item) => item.id.toString() !== payload.runtimeId.toString());
       state.runtimes = newList;
     },
     clearDeploy() {

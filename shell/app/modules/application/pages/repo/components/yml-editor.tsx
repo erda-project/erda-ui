@@ -78,7 +78,7 @@ const emptyObj = {};
 
 const YmlEditor = (props: IProps) => {
   // const params = routeInfoStore.useStore(s => s.params);
-  const [info, tree, propsGroupedAddonList, pipelineYmlStructure] = repoStore.useStore(s => [s.info, s.tree, s.groupedAddonList, s.pipelineYmlStructure]);
+  const [info, tree, propsGroupedAddonList, pipelineYmlStructure] = repoStore.useStore((s) => [s.info, s.tree, s.groupedAddonList, s.pipelineYmlStructure]);
   const { getAvailableAddonList, getAddonVersions, commit, getRepoBlob, parsePipelineYmlStructure } = repoStore.effects;
   const { changeMode } = repoStore.reducers;
   const [isFetchCommit, isFetchAddon] = useLoading(repoStore, ['commit', 'getAvailableAddonList']);
@@ -116,7 +116,7 @@ const YmlEditor = (props: IProps) => {
     groupedAddonList,
   } = state;
 
-  const actions = appDeployStore.useStore(s => s.actions);
+  const actions = appDeployStore.useStore((s) => s.actions);
   const { getActionConfigs, getActions } = appDeployStore.effects;
 
   const formRef: any = React.useRef(null);
@@ -502,7 +502,7 @@ const YmlEditor = (props: IProps) => {
 
   const renderCreatePipelineComponent = (stageTask: any) => {
     const pipelineTaskAlias = (get((editedYmlStructure as IPipelineYmlStructure), 'stages') || []).reduce((acc: string[], stage: any[]) => {
-      const stageTaskAlias = stage.map(task => task.alias);
+      const stageTaskAlias = stage.map((task) => task.alias);
       return acc.concat(stageTaskAlias);
     }, []);
     // eslint-disable-next-line no-param-reassign

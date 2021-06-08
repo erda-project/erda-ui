@@ -36,10 +36,10 @@ interface IData {
 }
 
 export const AddonCategory = () => {
-  const permMap = usePerm(s => s.project.service);
-  const addonSpecList = customAddonStore.useStore(s => s.addonList);
-  const [projectAddonCategory, addonInsList] = workBenchStore.useStore(s => [s.projectAddonCategory, s.addonList]);
-  const query = routeInfoStore.useStore(s => s.query);
+  const permMap = usePerm((s) => s.project.service);
+  const addonSpecList = customAddonStore.useStore((s) => s.addonList);
+  const [projectAddonCategory, addonInsList] = workBenchStore.useStore((s) => [s.projectAddonCategory, s.addonList]);
+  const query = routeInfoStore.useStore((s) => s.query);
   const timer = React.useRef<any>(0);
 
   useEffectOnce(() => {
@@ -70,7 +70,7 @@ export const AddonCategory = () => {
     let idExist = false;
     timer.current = setTimeout(() => {
       workBenchStore.getProjectAddons().then((res) => {
-        if (!isEmpty((res || []).find(addon => addon.instanceId === id))) {
+        if (!isEmpty((res || []).find((addon) => addon.instanceId === id))) {
           idExist = true;
         }
         if (!idExist) {
@@ -97,7 +97,7 @@ export const AddonCategory = () => {
       }).then(after);
     } else {
       const { addonName, name, plan, addonInstanceRoutingId, configs, importConfig } = values;
-      const newAddonType = addonSpecList.find(a => a.addonName === addonName);
+      const newAddonType = addonSpecList.find((a) => a.addonName === addonName);
       let config = null;
       if (importConfig) {
         try {

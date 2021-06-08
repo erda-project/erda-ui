@@ -43,7 +43,7 @@ export const ProjectSelector = (props: IProps) => {
       getData={getData}
       dataFormatter={({ list, total }) => ({
         total,
-        list: map(list, item => ({ ...item, label: item.displayName || item.name, value: item.id })),
+        list: map(list, (item) => ({ ...item, label: item.displayName || item.name, value: item.id })),
       })}
       optionRender={ProjectItem}
       {...props}
@@ -52,20 +52,20 @@ export const ProjectSelector = (props: IProps) => {
 };
 
 const headProjectRender = (val: any = {}) => {
-  const curProject = projectStore.getState(s => s.info);
+  const curProject = projectStore.getState((s) => s.info);
   const name = val.displayName || val.name || curProject.displayName || curProject.name || '';
   return (
-    <div className='head-project-name'>
-      <span className='nowrap fz16 bold'>{name}</span>
+    <div className="head-project-name">
+      <span className="nowrap fz16 bold">{name}</span>
       <CustomIcon className="caret" type="caret-down" />
     </div>
   );
 };
 
 export const HeadProjectSelector = () => {
-  const { projectId } = routeInfoStore.useStore(s => s.params);
+  const { projectId } = routeInfoStore.useStore((s) => s.params);
   return (
-    <div className='head-project-selector mt8'>
+    <div className="head-project-selector mt8">
       <ProjectSelector
         valueItemRender={headProjectRender}
         value={projectId}

@@ -19,7 +19,7 @@ import { describe, it, jest } from '@jest/globals';
 describe('NoAuthTip', () => {
   it('render with no children', () => {
     const wrapper = shallow(
-      <NoAuthTip />
+      <NoAuthTip />,
     );
     expect(wrapper.children()).not.toExist();
   });
@@ -28,7 +28,7 @@ describe('NoAuthTip', () => {
     const wrapper = shallow(
       <NoAuthTip>
         <button onClick={onClick} className="buttons">click me</button>
-      </NoAuthTip>
+      </NoAuthTip>,
     );
     expect(wrapper.find('.buttons')).toHaveClassName('not-allowed');
     expect(wrapper.find('.buttons').prop('disabled')).toBe(true);

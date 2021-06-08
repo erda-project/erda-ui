@@ -28,10 +28,10 @@ interface IProps {
   placeholder?: string;
   fullWidth?: boolean;
   mode?: string;
-  onChange?(v: string[]): void;
+  onChange?: (v: string[]) => void;
 }
 export default ({ value = [], onChange = () => { }, type, mode = 'multiple', placeholder, fullWidth, ...rest }: IProps) => {
-  const list = labelStore.useStore(s => s.list);
+  const list = labelStore.useStore((s) => s.list);
   const { getLabels } = labelStore.effects;
   const [loading] = useLoading(labelStore, ['getLabels']);
 
@@ -47,7 +47,7 @@ export default ({ value = [], onChange = () => { }, type, mode = 'multiple', pla
       placeholder={placeholder || i18n.t('please select labels')}
       mode={mode as any}
       style={{ width: fullWidth ? '100%' : '268px' }}
-      value={value && !isEmpty(list) ? value.map(v => String(v)) : undefined}
+      value={value && !isEmpty(list) ? value.map((v) => String(v)) : undefined}
       filterOption={filterOption}
       onChange={onChange as any}
       {...rest}

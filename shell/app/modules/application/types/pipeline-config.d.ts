@@ -18,64 +18,64 @@ declare namespace PIPELINE_CONFIG {
   }
 
   interface NamespaceItem {
-    id: string
-    namespace: string
-    workspace: string
+    id: string;
+    namespace: string;
+    workspace: string;
   }
 
   type ConfigType = 'kv' | 'dice-file';
 
   interface ConfigItem {
-    key: string
-    value: string
-    comment: string
-    status: string
-    source: string
-    type: ConfigType
-    encrypt: boolean
-    createTime: string
-    updateTime: string
+    key: string;
+    value: string;
+    comment: string;
+    status: string;
+    source: string;
+    type: ConfigType;
+    encrypt: boolean;
+    createTime: string;
+    updateTime: string;
     isFromDefault?: boolean;
   }
 
   interface AddConfigsQuery {
-    apiPrefix?: string
-    appID: string
-    namespace_name: string
-    encrypt: boolean
+    apiPrefix?: string;
+    appID: string;
+    namespace_name: string;
+    encrypt: boolean;
   }
 
   interface AddConfigsBody {
-    apiPrefix?: string
-    query: AddConfigsQuery
-    configs: ConfigItem[]
+    apiPrefix?: string;
+    query: AddConfigsQuery;
+    configs: ConfigItem[];
   }
 
   interface AddConfigsBodyWithoutAppId {
-    query: Omit<AddConfigsQuery, 'appID'>
-    configs: ConfigItem[]
+    query: Omit<AddConfigsQuery, 'appID'>;
+    configs: ConfigItem[];
   }
 
   interface importConfigsBody {
-    query: Omit<AddConfigsQuery, 'appID' | 'encrypt'>
-    configs: string
+    query: Omit<AddConfigsQuery, 'appID' | 'encrypt'>;
+    configs: string;
   }
 
   interface DeleteConfigQuery {
-    apiPrefix?: string
-    appID: string
-    namespace_name: string
-    key: string
+    apiPrefix?: string;
+    appID: string;
+    namespace_name: string;
+    key: string;
   }
 
   interface ConfigQuery {
-    apiPrefix?: string
-    namespace_name: string
-    decrypt: boolean
+    apiPrefix?: string;
+    namespace_name: string;
+    decrypt: boolean;
   }
 
   interface ConfigItemMap {
-    [k: string]: ConfigItem[]
+    [k: string]: ConfigItem[];
   }
 
   interface NameSpaces {

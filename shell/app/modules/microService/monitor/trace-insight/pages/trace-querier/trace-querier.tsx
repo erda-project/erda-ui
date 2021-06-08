@@ -44,7 +44,7 @@ const TraceInsightQuerier = ({
     traceStatusDetail,
     traceDetailContent,
     spanDetailContent,
-  ] = traceQuerierStore.useStore(s => [
+  ] = traceQuerierStore.useStore((s) => [
     s.requestTraceParams,
     s.traceHistoryList,
     s.currentTraceRequestId,
@@ -52,7 +52,7 @@ const TraceInsightQuerier = ({
     s.traceDetailContent,
     s.spanDetailContent,
   ]);
-  const urlQuery = routeInfoStore.useStore(s => s.query);
+  const urlQuery = routeInfoStore.useStore((s) => s.query);
   const [isTraceDetailContentFetching, isTraceHistoryFetching, isRequestTraceFetching] = useLoading(traceQuerierStore, ['getTraceDetailContent', 'getTraceHistoryList', 'requestTrace']);
 
   const {
@@ -169,11 +169,11 @@ const TraceInsightQuerier = ({
         }}
       >
         {
-          _map(HTTP_METHOD_LIST, item => (
+          _map(HTTP_METHOD_LIST, (item) => (
             <Option value={item} key={item}>{ item }</Option>
           ))
         }
-      </Select>
+      </Select>,
     );
 
     return (
@@ -193,7 +193,7 @@ const TraceInsightQuerier = ({
                   placeholder={i18n.t('microService|please enter a legal url, length limit: ', { nsSeparator: '|' }) + MAX_URL_LENGTH}
                   maxLength={MAX_URL_LENGTH}
                   onBlur={(e) => { handleSetRequestTraceParams({ url: e.target.value }); }}
-                />
+                />,
               )}
             </FormItem>
           </Col>

@@ -35,7 +35,7 @@ const TestEnv = ({
   envType: _envType,
   isSingle,
 }: IProps): JSX.Element => {
-  const { projectId, testType = 'manual' } = routeInfoStore.useStore(s => s.params);
+  const { projectId, testType = 'manual' } = routeInfoStore.useStore((s) => s.params);
   const routeEnvID = +projectId;
 
   const envID = _envID || routeEnvID;
@@ -43,7 +43,7 @@ const TestEnv = ({
 
   const [modalVisible, setModalVisible] = React.useState(false);
   const [editable, setEditable] = React.useState(true);
-  const [envList, autoEnvList, active] = testEnvStore.useStore(s => [s.envList, s.autoEnvList, s.active]);
+  const [envList, autoEnvList, active] = testEnvStore.useStore((s) => [s.envList, s.autoEnvList, s.active]);
 
   const [isEnvLoading, isAutoEnvLoading] = useLoading(testEnvStore, ['getTestEnvList', 'getAutoTestEnvList']);
 
@@ -69,7 +69,7 @@ const TestEnv = ({
     setModalVisible(true);
   };
 
-  const onDeleteHandle = React.useCallback((record:any) => {
+  const onDeleteHandle = React.useCallback((record: any) => {
     if (testType === 'manual') {
       testEnvStore.deleteTestEnv(record.id, { envID, envType });
     } else {
@@ -116,9 +116,9 @@ const TestEnv = ({
               }
               onDeleteHandle(record);
             }}
-            onCancel={e => e && e.stopPropagation()}
+            onCancel={(e) => e && e.stopPropagation()}
           >
-            <span className="table-operations-btn" onClick={e => e.stopPropagation()}>{i18n.t('delete')}</span>
+            <span className="table-operations-btn" onClick={(e) => e.stopPropagation()}>{i18n.t('delete')}</span>
           </Popconfirm>
         </div>
       ),
@@ -146,7 +146,7 @@ const TestEnv = ({
             </div>
           )
       }
-      <Alert className='color-text-desc mb8' message={testType === 'manual' ? i18n.t('project:test-env-config-tip') : i18n.t('project:auto-test-env-config-tip')} type="normal" showIcon />
+      <Alert className="color-text-desc mb8" message={testType === 'manual' ? i18n.t('project:test-env-config-tip') : i18n.t('project:auto-test-env-config-tip')} type="normal" showIcon />
       <Table
         rowKey={testType === 'manual' ? 'id' : 'ns'}
         columns={columns}

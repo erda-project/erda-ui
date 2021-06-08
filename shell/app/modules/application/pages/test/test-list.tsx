@@ -28,7 +28,7 @@ const getTestDuration = (duration: any) => {
   return (duration !== 0 && seconds === 0) ? `${duration / 1000000} ${i18n.t('application:milliseconds')}` : secondsToTime(seconds, true);
 };
 
-const ExecuteResult = ({ totals }: {totals: {tests: number, statuses: TEST.Statuses}}) => {
+const ExecuteResult = ({ totals }: {totals: {tests: number; statuses: TEST.Statuses}}) => {
   if (!totals) {
     return null;
   }
@@ -55,11 +55,11 @@ const ExecuteResult = ({ totals }: {totals: {tests: number, statuses: TEST.Statu
   );
 };
 
-const columns:Array<ColumnProps<TEST.RunTestItem>> = [
+const columns: Array<ColumnProps<TEST.RunTestItem>> = [
   {
     title: i18n.t('default:name'),
     dataIndex: 'name',
-    render: text => <span>{ cutStr(text, 30, { showTip: true }) }</span>,
+    render: (text) => <span>{ cutStr(text, 30, { showTip: true }) }</span>,
   },
   {
     title: i18n.t('application:branch'),
@@ -72,7 +72,7 @@ const columns:Array<ColumnProps<TEST.RunTestItem>> = [
   {
     title: i18n.t('default:create time'),
     dataIndex: 'createdAt',
-    render: text => fromNow(text),
+    render: (text) => fromNow(text),
   },
   {
     title: i18n.t('default:type'),
@@ -81,7 +81,7 @@ const columns:Array<ColumnProps<TEST.RunTestItem>> = [
   {
     title: i18n.t('application:time consuming'),
     dataIndex: 'totals.duration',
-    render: text => getTestDuration(text),
+    render: (text) => getTestDuration(text),
   },
   {
     title: i18n.t('project:execute result'),
@@ -92,7 +92,7 @@ const columns:Array<ColumnProps<TEST.RunTestItem>> = [
 ];
 
 const TestList = () => {
-  const [list, testListPaging] = applicationTestStore.useStore(s => [s.list, s.testListPaging]);
+  const [list, testListPaging] = applicationTestStore.useStore((s) => [s.list, s.testListPaging]);
   const [isFetching] = useLoading(applicationTestStore, ['getTestList']);
   const { getTestTypes, getTestList } = applicationTestStore.effects;
   const { clearTestList } = applicationTestStore.reducers;

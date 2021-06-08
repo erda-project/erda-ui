@@ -24,7 +24,7 @@ import './repo-tag.scss';
 
 
 const RepoTag = () => {
-  const list = repoStore.useStore(s => s.tag);
+  const list = repoStore.useStore((s) => s.tag);
   const [isFetching] = useLoading(repoStore, ['getListByType']);
   const { getListByType } = repoStore.effects;
   const { clearListByType } = repoStore.reducers;

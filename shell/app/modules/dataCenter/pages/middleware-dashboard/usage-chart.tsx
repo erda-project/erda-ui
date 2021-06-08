@@ -25,7 +25,7 @@ export const AddonUsageChart = () => {
     addonUsage,
     addonDailyUsage,
     overview,
-  ] = middlewareDashboardStore.useStore(s => [
+  ] = middlewareDashboardStore.useStore((s) => [
     s.addonUsage,
     s.addonDailyUsage,
     s.overview,
@@ -38,7 +38,7 @@ export const AddonUsageChart = () => {
   });
 
   const cpuAndMemUsage = React.useMemo(() => {
-    return ['cpu', 'mem'].map(type => {
+    return ['cpu', 'mem'].map((type) => {
       const legendData: string[] = [];
       const series = {
         name: i18n.t('org:usage proportion'),
@@ -71,7 +71,7 @@ export const AddonUsageChart = () => {
           name: type,
           type: 'line',
           axisIndex: i,
-          data: addonDailyUsage.resource.map(l => l[type]),
+          data: addonDailyUsage.resource.map((l) => l[type]),
         });
       });
     }

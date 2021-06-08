@@ -31,9 +31,9 @@ const defaultPageSize = PAGINATION.pageSize;
 interface Column {
   title: string;
   dataIndex: string;
-  className?:string;
+  className?: string;
   width?: number;
-  render?: (value: string, record: ORG_ANNOUNCEMENT.Item) => {}
+  render?: (value: string, record: ORG_ANNOUNCEMENT.Item) => {};
 }
 
 const statusMap = {
@@ -72,7 +72,7 @@ const NoticeManage = () => {
     formData: {},
     noticeId: undefined,
   });
-  const [list, { pageNo, total, pageSize }] = announcementStore.useStore(s => [s.list, s.noticePaging]);
+  const [list, { pageNo, total, pageSize }] = announcementStore.useStore((s) => [s.list, s.noticePaging]);
   const { effects } = announcementStore;
   const [loading] = useLoading(announcementStore, ['getAnnouncementList']);
   useEffect(() => {
@@ -101,7 +101,7 @@ const NoticeManage = () => {
       searchKey: value,
     });
   }, 200);
-  const editNotice = (id:any, content:any) => {
+  const editNotice = (id: any, content: any) => {
     update({
       formData: id ? { content } : {},
       noticeId: id,
@@ -115,9 +115,9 @@ const NoticeManage = () => {
     // after stop announcement, required to update published announcement list
     const list = await effects.getAllNoticeListByStatus('published');
     layoutStore.reducers.setAnnouncementList(list);
-  }
+  };
 
-  const publishAnnouncement = async (id:number) => {
+  const publishAnnouncement = async (id: number) => {
     await effects.publishAnnouncement({ id });
     updatePublishedList();
   };
@@ -147,13 +147,13 @@ const NoticeManage = () => {
     },
   }];
   // 大于一页显示分页
-  const pagination:PaginationConfig = {
+  const pagination: PaginationConfig = {
     total,
     pageSize,
     current: pageNo,
     onChange: (page: number) => { updateList(page); },
   };
-  const opCol:Column[] = [{
+  const opCol: Column[] = [{
     title: i18n.t('org:notice operation'),
     dataIndex: 'orgID',
     width: 160,

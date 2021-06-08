@@ -17,7 +17,7 @@ import { Input } from 'app/nusi';
 export default (props: CP_INPUT.Props) => {
   const { props: configProps, state: propsState, operations } = props;
   const [value, setValue] = React.useState(propsState?.value as string | undefined);
-  const onChange = (e:any) => {
+  const onChange = (e: any) => {
     setValue(e.target.value);
   };
   return (

@@ -34,7 +34,7 @@ declare namespace PIPELINE {
     image?: string;
     timeout?: string;
     resources: Obj;
-    if?: string
+    if?: string;
   }
 
   interface IStage {
@@ -73,7 +73,7 @@ declare namespace PIPELINE {
       showMessage?: {
         msg: string;
         stacks: string[];
-      }
+      };
     };
     id: string;
     status: string;
@@ -102,10 +102,10 @@ declare namespace PIPELINE {
       canDelete: boolean;
     };
     pipelineSnippetStages: any[];
-    pipelineCron: { [key: string]: any, id: number };
+    pipelineCron: { [key: string]: any; id: number };
     pipelineStages: IStage[];
-    pipelineTaskActionDetails: Obj<ITaskActionDetail>
-    runParams?: IPipelineInParams[]
+    pipelineTaskActionDetails: Obj<ITaskActionDetail>;
+    runParams?: IPipelineInParams[];
   }
 
   interface ITaskActionDetail {
@@ -126,10 +126,10 @@ declare namespace PIPELINE {
   interface IPipelineOutParams {
     name: string;
     desc: string;
-    ref: string
+    ref: string;
   }
 
-  type MetaData = { name: string, value: string };
+  interface MetaData { name: string; value: string }
 
   type IPipeline = Omit<IPipelineDetail, 'pipelineButton'>;
 

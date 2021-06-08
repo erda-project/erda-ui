@@ -30,7 +30,7 @@ export const createAlert = (body: COMMON_STRATEGY_NOTIFY.IAlertBody) => {
     .then((response: any) => response.body);
 };
 
-export const editAlert = ({ body, id }: { body: COMMON_STRATEGY_NOTIFY.IAlertBody; id: string; }) => {
+export const editAlert = ({ body, id }: { body: COMMON_STRATEGY_NOTIFY.IAlertBody; id: string }) => {
   return agent.put(`/api/orgCenter/alerts/${id}`)
     .send(body)
     .then((response: any) => response.body);
@@ -47,7 +47,7 @@ export const getAlertTypes = (scope: string): COMMON_STRATEGY_NOTIFY.IAlertType 
     .then((response: any) => response.body);
 };
 
-export const toggleAlert = ({ id, enable }: { id: string; enable: boolean; }) => {
+export const toggleAlert = ({ id, enable }: { id: string; enable: boolean }) => {
   return agent.put(`/api/orgCenter/alerts/${id}/switch`)
     .query({ enable })
     .then((response: any) => response.body);

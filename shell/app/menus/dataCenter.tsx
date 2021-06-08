@@ -14,7 +14,7 @@
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import { filterMenu, MENU_SCOPE } from './util';
-import { 
+import {
   Log as IconLog,
   ListTwo as IconListTwo,
   DataDisplay as IconDataDisplay,
@@ -51,7 +51,7 @@ export const getDataCenterMenu = () => {
         },
         {
           key: 'dataCenterResources',
-          href: goTo.resolve.dataCenterDomain(), //'/dataCenter/domain',
+          href: goTo.resolve.dataCenterDomain(), // '/dataCenter/domain',
           text: i18n.t('runtime:manage domain'),
         },
       ],
@@ -63,7 +63,7 @@ export const getDataCenterMenu = () => {
       text: i18n.t('services & jobs'),
       subMenu: [
         {
-          href: goTo.resolve.dataCenterServices(), //'/dataCenter/services',
+          href: goTo.resolve.dataCenterServices(), // '/dataCenter/services',
           text: i18n.t('services'),
         },
         {
@@ -71,7 +71,7 @@ export const getDataCenterMenu = () => {
           text: i18n.t('addon service'),
         },
         {
-          href: goTo.resolve.dataCenterJobs(), //'/dataCenter/jobs',
+          href: goTo.resolve.dataCenterJobs(), // '/dataCenter/jobs',
           text: i18n.t('job catalogue'),
         },
       ],
@@ -100,7 +100,7 @@ export const getDataCenterMenu = () => {
         },
         {
           text: i18n.t('alarm record'),
-          href: goTo.resolve.dataCenterAlarmRecord(), //'/dataCenter/alarm/record',
+          href: goTo.resolve.dataCenterAlarmRecord(), // '/dataCenter/alarm/record',
         },
         {
           text: i18n.t('alarm strategy'),
@@ -114,13 +114,13 @@ export const getDataCenterMenu = () => {
     },
     {
       key: 'dataCenterLog',
-      href: goTo.resolve.dataCenterLog(), //'/dataCenter/log',
+      href: goTo.resolve.dataCenterLog(), // '/dataCenter/log',
       icon: <IconLog />,
       text: i18n.t('log analyze'),
       subMenu: [
         {
           text: i18n.t('log query'),
-          href: goTo.resolve.dataCenterLogQuery(), //'/dataCenter/log/query',
+          href: goTo.resolve.dataCenterLogQuery(), // '/dataCenter/log/query',
         },
         {
           text: i18n.t('analyze rule'),

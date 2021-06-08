@@ -39,13 +39,13 @@ interface IConfigItem {
 const noop = () => {};
 export interface IPureFilterProps extends Omit<IFilterProps, 'config'> {
   config: IConfigItem[];
-  filterTirgger?: FILTER_TIRGGER,
+  filterTirgger?: FILTER_TIRGGER;
   connectUrlSearch?: boolean;
   urlExtra?: Obj;
   query?: Obj;
   updateSearch: (arg: Obj) => void;
-  formatFormData?(arg: Obj):Obj
-  onFilter?: (value:Obj, arg?:any) => void;
+  formatFormData?: (arg: Obj) => Obj;
+  onFilter?: (value: Obj, arg?: any) => void;
 }
 
 export const PureFilter = (props: IPureFilterProps) => {
@@ -98,7 +98,7 @@ export const PureFilter = (props: IPureFilterProps) => {
     }
   };
 
-  const onFieldChange = (_:string, params: any) => {
+  const onFieldChange = (_: string, params: any) => {
     if (filterTirgger === 'onChange') {
       changeFilterData(params.formData);
     }
@@ -127,7 +127,7 @@ export interface IDiceFilterProps extends Omit<IPureFilterProps, 'query'|'update
   updateSearch?: (arg: Obj) => void;
 }
 export const Filter = (props: IDiceFilterProps) => {
-  const query = routeInfoStore.getState(s => s.query);
+  const query = routeInfoStore.getState((s) => s.query);
   const updateSearch = React.useCallback((searchObj = {}) => _updateSearch(searchObj, { replace: true }), []);
 
   return <PureFilter query={query} updateSearch={updateSearch} {...props} />;

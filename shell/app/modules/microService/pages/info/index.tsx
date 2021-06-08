@@ -21,11 +21,11 @@ import microServiceInfoStore from '../../stores/info';
 import routeInfoStore from 'common/stores/route';
 
 const MSComponentInfo = () => {
-  const infoList = microServiceInfoStore.useStore(s => s.infoList);
+  const infoList = microServiceInfoStore.useStore((s) => s.infoList);
   const { getMSComponentInfo } = microServiceInfoStore.effects;
   const { clearMSComponentInfo } = microServiceInfoStore.reducers;
   const [loading] = useLoading(microServiceInfoStore, ['getMSComponentInfo']);
-  const insId = routeInfoStore.useStore(s => s.params.insId);
+  const insId = routeInfoStore.useStore((s) => s.params.insId);
 
   useEffectOnce(() => {
     getMSComponentInfo();

@@ -16,7 +16,7 @@ import i18n from 'i18n';
 const hostTerminal = {
   path: 'terminal/:host',
   breadcrumbName: i18n.t('dcos:console'),
-  getComp: cb => cb(import('dcos/common/containers/terminal')),
+  getComp: (cb) => cb(import('dcos/common/containers/terminal')),
 };
 
 function getDcosRouter() {
@@ -40,10 +40,10 @@ function getDcosRouter() {
                     {
                       path: 'add',
                       breadcrumbName: i18n.t('dcos:select machine'),
-                      getComp: cb => cb(import('dcos/pages/purchase-resource')),
+                      getComp: (cb) => cb(import('dcos/pages/purchase-resource')),
                     },
                     {
-                      getComp: cb => cb(import('dcos/pages/purchase-list')),
+                      getComp: (cb) => cb(import('dcos/pages/purchase-list')),
                     },
                   ],
                 },
@@ -56,7 +56,7 @@ function getDcosRouter() {
           ],
         },
         {
-          getComp: cb => cb(import('dcos/pages/cluster-dashboard')),
+          getComp: (cb) => cb(import('dcos/pages/cluster-dashboard')),
           layout: {
             noWrapper: true,
           },

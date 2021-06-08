@@ -27,11 +27,11 @@ import i18n from 'i18n';
 
 const Affairs = () => {
   const { getTraceDetailContent, getSpanDetailContent } = traceQuerierStore.effects;
-  const spanDetailContent = traceQuerierStore.useStore(s => s.spanDetailContent);
+  const spanDetailContent = traceQuerierStore.useStore((s) => s.spanDetailContent);
   const [isTraceDetailContentFetching] = useLoading(traceQuerierStore, ['getTraceDetailContent']);
-  const chosenSortItem = monitorCommonStore.useStore(s => s.chosenSortItem);
+  const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
 
-  const [terminusKey, hostName] = routeInfoStore.useStore(s => [s.params.terminusKey, s.params.hostName]);
+  const [terminusKey, hostName] = routeInfoStore.useStore((s) => [s.params.terminusKey, s.params.hostName]);
   const filterQuery = {
     filter_host: decodeURIComponent(hostName),
     filter_source_terminus_key: terminusKey,

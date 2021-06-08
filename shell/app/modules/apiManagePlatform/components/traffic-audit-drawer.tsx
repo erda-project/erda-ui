@@ -20,11 +20,11 @@ interface IProps {
   queries: {
     endpoint: string;
     client: string;
-    workspace: string,
+    workspace: string;
     projectID: number;
-  }
+  };
   visible: boolean;
-  onClose(): void;
+  onClose: () => void;
 }
 
 const TrafficAuditDrawer = ({ visible, onClose, queries }: IProps) => {

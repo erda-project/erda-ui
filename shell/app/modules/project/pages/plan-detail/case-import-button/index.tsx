@@ -26,8 +26,8 @@ import { commonColumns } from '../../test-manage/case/columns';
 import './index.scss';
 
 interface IProps {
-  visible: boolean
-  onCancel(): any
+  visible: boolean;
+  onCancel: () => any;
 }
 const { Option } = Select;
 const defaultQuery = { testSetID: 0, pageNo: 1, pageSize: 15 };
@@ -37,8 +37,8 @@ const CaseImport = ({ visible, onCancel }: IProps) => {
   const { getCases: oldGetCases } = testCaseStore.effects;
   const { clearChoosenInfo } = testCaseStore.reducers;
   const { addToPlanInCaseModal } = testPlanStore.effects;
-  const [{ testPlanId }, routeQuery] = routeInfoStore.useStore(s => [s.params, s.query]);
-  const [modalCaseTotal, modalChoosenInfo] = testCaseStore.useStore(s => [s.modalCaseTotal, s.modalChoosenInfo]);
+  const [{ testPlanId }, routeQuery] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const [modalCaseTotal, modalChoosenInfo] = testCaseStore.useStore((s) => [s.modalCaseTotal, s.modalChoosenInfo]);
   const { primaryKeys } = modalChoosenInfo;
   const checked = size(primaryKeys);
   const [confirmLoading] = useLoading(testPlanStore, ['addToPlanInCaseModal']);
@@ -142,7 +142,7 @@ const CaseImport = ({ visible, onCancel }: IProps) => {
             mode="multiple"
             value={priorityFilter}
             onChange={handleFilter}
-            className='mb16'
+            className="mb16"
           >
             {priorityList.map((item) => <Option value={item} key={item}>{item}</Option>)}
           </Select>

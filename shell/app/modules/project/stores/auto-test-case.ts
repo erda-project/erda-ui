@@ -85,20 +85,20 @@ const autoTestCase = createFlatStore({
       const result = await call(cancelBuild, payload, { successMsg: i18n.t('application:build cancelled') });
       return result;
     },
-    async runBuild({ call, update }, payload: { pipelineID: string, runPipelineParams?: any }) {
+    async runBuild({ call, update }, payload: { pipelineID: string; runPipelineParams?: any }) {
       const { pipelineID } = payload;
       const result = await call(runBuild, payload, { successMsg: i18n.t('application:start executing the build'), fullResult: true });
       const pipelineDetail = await call(getPipelineDetail, { pipelineID });
       update({ pipelineDetail, changeType: 'task' });
       return result;
     },
-    async reRunFailed({ call }, payload: { pipelineID: string, runPipelineParams?: any }): Promise<BUILD.IRerunResponse> {
+    async reRunFailed({ call }, payload: { pipelineID: string; runPipelineParams?: any }): Promise<BUILD.IRerunResponse> {
       const { pipelineID, runPipelineParams } = payload;
       const result = await call(reRunFailed, { pipelineID }, { successMsg: i18n.t('application:start retrying failed nodes') });
       await call(runBuild, { pipelineID: result.id, runPipelineParams });
       return result;
     },
-    async reRunEntire({ call }, payload: { pipelineID: string, runPipelineParams?: any }): Promise<BUILD.IRerunResponse> {
+    async reRunEntire({ call }, payload: { pipelineID: string; runPipelineParams?: any }): Promise<BUILD.IRerunResponse> {
       const { pipelineID, runPipelineParams } = payload;
       const result = await call(reRunEntire, { pipelineID }, { successMsg: i18n.t('application:start retrying build') });
       await call(runBuild, { pipelineID: result.id, runPipelineParams }); // 重试流水线只是新建一个流水线，不会自动跑
@@ -112,7 +112,7 @@ const autoTestCase = createFlatStore({
     //   }
     //   update({ pipelineDetail, changeType: 'flow' });
     // },
-    async updateTaskEnv({ call }, payload: { pipelineID: string, taskID: number, disabled: boolean }) {
+    async updateTaskEnv({ call }, payload: { pipelineID: string; taskID: number; disabled: boolean }) {
       const { pipelineID, taskID, disabled } = payload;
       await call(updateTaskEnv, { taskID, disabled, pipelineID });
     },

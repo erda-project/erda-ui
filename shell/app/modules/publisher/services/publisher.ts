@@ -107,17 +107,17 @@ export const addVersion = (data: PUBLISHER.IVersion) => {
     .then((response: any) => response.body);
 };
 
-export const publicVersion = ({ artifactsId, version }: { artifactsId: string, version: string }) => {
+export const publicVersion = ({ artifactsId, version }: { artifactsId: string; version: string }) => {
   return agent.post(`/api/publish-items/${artifactsId}/versions/${version}/actions/public`)
     .then((response: any) => response.body);
 };
 
-export const unpublicVersion = ({ artifactsId, version }: { artifactsId: string, version: string }) => {
+export const unpublicVersion = ({ artifactsId, version }: { artifactsId: string; version: string }) => {
   return agent.post(`/api/publish-items/${artifactsId}/versions/${version}/actions/unpublic`)
     .then((response: any) => response.body);
 };
 
-export const setDefaultVersion = ({ artifactsId, version }: { artifactsId: string, version: string }) => {
+export const setDefaultVersion = ({ artifactsId, version }: { artifactsId: string; version: string }) => {
   return agent.post(`/api/publish-items/${artifactsId}/versions/${version}/actions/default`)
     .then((response: any) => response.body);
 };

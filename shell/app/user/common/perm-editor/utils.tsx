@@ -13,9 +13,9 @@
 
 import { map, maxBy, sortBy, filter, some } from 'lodash';
 
-export const getTableList = (data:IPerm, scope:string, filterKey: string) => {
+export const getTableList = (data: IPerm, scope: string, filterKey: string) => {
   let list = [] as any[];
-  const countData = (curData:any, key = scope, depth = 0, prevData = {}) => {
+  const countData = (curData: any, key = scope, depth = 0, prevData = {}) => {
     if (!curData) return;
     if (curData.role) {
       list.push({ ...prevData, action: { ...curData, key } });
@@ -30,22 +30,22 @@ export const getTableList = (data:IPerm, scope:string, filterKey: string) => {
   countData(data);
 
   if (filterKey) {
-    list = filter(list, l => some(l, item => item.key.includes(filterKey) || item.name.includes(filterKey)));
+    list = filter(list, (l) => some(l, (item) => item.key.includes(filterKey) || item.name.includes(filterKey)));
   }
 
-  const maxDeepthObj = maxBy(list, item => Object.keys(item).length);
+  const maxDeepthObj = maxBy(list, (item) => Object.keys(item).length);
   const tableList = [] as any[];
-  map(list, item => {
+  map(list, (item) => {
     const itemData = { ...item };
     map(maxDeepthObj, (val, key) => {
       if (!itemData[key]) {
         itemData[key] = {};
       }
     });
-    const sortKeys = sortBy(Object.keys(itemData), k => (k.startsWith('depth') ? Number(k.slice(5)) : 1000));
-    itemData.actionKey = map(sortKeys, k => itemData[k].key || '__').join('');
+    const sortKeys = sortBy(Object.keys(itemData), (k) => (k.startsWith('depth') ? Number(k.slice(5)) : 1000));
+    itemData.actionKey = map(sortKeys, (k) => itemData[k].key || '__').join('');
     tableList.push(itemData);
   });
-  return map(sortBy(tableList, item => item.actionKey), ({ actionKey, ...rest }) => rest);
+  return map(sortBy(tableList, (item) => item.actionKey), ({ actionKey, ...rest }) => rest);
 };
 

@@ -22,7 +22,7 @@ const Image = (props: CP_IMAGE.Props) => {
   const cls = classnames({
     'cp-dice-image': true,
     [size]: true,
-    'circle': isCircle,
+    circle: isCircle,
     [display]: true,
   });
 
@@ -30,7 +30,7 @@ const Image = (props: CP_IMAGE.Props) => {
     return null;
   }
 
-  return <img src={src?.startsWith('/images') ? imgMap[src] : src} className={`${cls}`} />
-}
+  return <img src={src?.startsWith('/images') ? imgMap[src] : src} className={`${cls}`} />;
+};
 
 export default Image;

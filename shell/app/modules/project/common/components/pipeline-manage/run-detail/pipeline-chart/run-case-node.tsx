@@ -38,7 +38,7 @@ export const RunCaseNode = (props: IProps) => {
 
   // const content = ' ';
   let name = ' ';
-  let IconComp = data.logoUrl ? <img src={data.logoUrl} className='full-width full-height' /> : <CustomIcon type={'jiedian'} color className='full-width full-height' />;
+  let IconComp = data.logoUrl ? <img src={data.logoUrl} className="full-width full-height" /> : <CustomIcon type={'jiedian'} color className="full-width full-height" />;
   switch (data?.type) {
     // case 'api-test': {
     //   const url = get(data, 'params.url');
@@ -49,7 +49,7 @@ export const RunCaseNode = (props: IProps) => {
     // }
     case 'snippet':
       name = `${get(scopeObj, 'name') || i18n.t('project:reference use node')}: ${data.name}`;
-      IconComp = <CustomIcon type={scopeMap[curNodeScope] ? scopeMap[curNodeScope].icon : 'jiedian'} color className='full-width full-height' />;
+      IconComp = <CustomIcon type={scopeMap[curNodeScope] ? scopeMap[curNodeScope].icon : 'jiedian'} color className="full-width full-height" />;
       break;
     default:
       name = `${(data.displayName || data.type)}: ${data.name}`;
@@ -81,12 +81,12 @@ export const RunCaseNode = (props: IProps) => {
   const renderMenu = (operations: any[]) => {
     if (operations.length) {
       return (
-        <Menu onClick={({ domEvent, key }:any) => {
+        <Menu onClick={({ domEvent, key }: any) => {
           domEvent && domEvent.stopPropagation();
           onClick(key);
         }}
         >
-          {map(operations, op => (<Menu.Item key={op.key}>{op.name}</Menu.Item>))}
+          {map(operations, (op) => (<Menu.Item key={op.key}>{op.name}</Menu.Item>))}
         </Menu>
       );
     }
@@ -120,7 +120,7 @@ export const RunCaseNode = (props: IProps) => {
           temp.push(
             <div key={`meta-${String(index)}`} className="test-case-node-msg">
               <span className="test-case-node-msg-name">{m.name}</span> {m.value}
-            </div>
+            </div>,
           ));
         if (temp.length) {
           detailInfo.push(<h4>{i18n.t('application:details')}</h4>);
@@ -128,10 +128,10 @@ export const RunCaseNode = (props: IProps) => {
         }
       }
       if (!isEmpty(files)) {
-        detailInfo.push(<h4 className='mt8'>{i18n.t('download')}</h4>);
+        detailInfo.push(<h4 className="mt8">{i18n.t('download')}</h4>);
         detailInfo.push(files.map((item, idx) => (
           item.value ? (
-            <div className='table-operations' key={`file-${String(idx)}`}>
+            <div className="table-operations" key={`file-${String(idx)}`}>
               <a className="table-operations-btn" download={item.value} href={`/api/files/${item.value}`}>
                 {item.name || item.value}
               </a>
@@ -184,7 +184,7 @@ export const RunCaseNode = (props: IProps) => {
   const statusContent = (
     <span className={`mt8 test-case-status-box border-radius ${status.color.toLowerCase()}`}>
       <span className="test-case-result-status" style={{ background: status.color.toLowerCase() }} />
-      <span className='inline-flex-box'>{(status ? status.text : '-')}</span>
+      <span className="inline-flex-box">{(status ? status.text : '-')}</span>
     </span>
   );
 
@@ -203,7 +203,7 @@ export const RunCaseNode = (props: IProps) => {
           </div>
           <div className="title-txt column-flex-box color-text">
             <Tooltip title={name}>
-              <span className='nowrap fz16 bold name'>{name}</span>
+              <span className="nowrap fz16 bold name">{name}</span>
             </Tooltip>
           </div>
 

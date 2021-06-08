@@ -15,7 +15,7 @@ import child_process from 'child_process';
 import dayjs from 'dayjs';
 import notifier from 'node-notifier';
 import { logInfo, logSuccess, logError } from './util/log';
-import { getShellDir, registryDir, checkIsRoot } from './util/env';
+import { getShellDir, registryDir, isCwdInRoot } from './util/env';
 
 const { execSync, spawnSync } = child_process;
 
@@ -30,7 +30,7 @@ interface Props {
 
 export default async ({ image: baseImage, skip, enableSourceMap, local }: Props) => {
   try {
-    checkIsRoot();
+    isCwdInRoot();
     const rootDir = process.cwd();
     const extraOptions = [];
 

@@ -15,13 +15,13 @@ import { createStore } from 'app/cube';
 
 interface IState {
   infoMap: {
-    publisherName: string,
-    projectName: string,
-    appName: string,
-    runtimeName: string,
-    monitorStatusDetail: Obj,
-    SIBaseInfo: Obj,
-    opReportName: string,
+    publisherName: string;
+    projectName: string;
+    appName: string;
+    runtimeName: string;
+    monitorStatusDetail: Obj;
+    SIBaseInfo: Obj;
+    opReportName: string;
     publishModuleName: string;
     dashboardName: string;
     alarmRecordName: string;
@@ -31,7 +31,7 @@ interface IState {
     k8sName: string;
     testSpaceName: string;
     curOrgName: string;
-  }
+  };
 }
 
 const initState: IState = {

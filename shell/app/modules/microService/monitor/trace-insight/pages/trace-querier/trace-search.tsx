@@ -34,8 +34,8 @@ const limits = [10, 20, 50, 100];
 
 export default () => {
   const initialRange = [moment().subtract(1, 'hours'), moment()];
-  const [traceCount, traceSummary] = traceStore.useStore(s => [s.traceCount, s.traceSummary]);
-  const projectApps = monitorCommonStore.useStore(s => s.projectApps);
+  const [traceCount, traceSummary] = traceStore.useStore((s) => [s.traceCount, s.traceSummary]);
+  const projectApps = monitorCommonStore.useStore((s) => s.projectApps);
   const { getTraceCount, getTraceSummary } = traceStore;
   const { getProjectApps } = monitorCommonStore.effects;
   const { clearProjectApps } = monitorCommonStore.reducers;
@@ -75,6 +75,8 @@ export default () => {
       'tag.error': status === undefined ? undefined : !!_status,
       'tag.fields.applications_ids': appId,
       'tag.fields.services_distinct': service,
+      field_gt_errors_sum: _status === 1 ? 0 : undefined,
+      field_eq_errors_sum: _status === 0 ? 0 : undefined,
     });
   };
 
@@ -219,7 +221,7 @@ export default () => {
       width: 180,
       render: (_: any, record: any) => (
         <div className="table-operations">
-          <span onClick={e => handleCheckTraceDetail(e, record.trace_id)} className="table-operations-btn">{i18n.t('check detail')}</span>
+          <span onClick={(e) => handleCheckTraceDetail(e, record.trace_id)} className="table-operations-btn">{i18n.t('check detail')}</span>
         </div>
       ),
     },

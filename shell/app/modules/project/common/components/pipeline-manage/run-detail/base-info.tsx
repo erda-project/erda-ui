@@ -21,7 +21,7 @@ import i18n from 'i18n';
 import './base-info.scss';
 
 interface IProps{
-  data: PIPELINE.IPipelineDetail
+  data: PIPELINE.IPipelineDetail;
 }
 
 const BaseInfo = (props: IProps) => {
@@ -35,12 +35,12 @@ const BaseInfo = (props: IProps) => {
       label: i18n.t('status'),
       valueKey: 'status',
       valueItem: ({ value: val }: any) => {
-        const definedStatus = PipelineStatus.find(s => s.status === val) || { colorClass: 'gray', msg: val } as any;
+        const definedStatus = PipelineStatus.find((s) => s.status === val) || { colorClass: 'gray', msg: val } as any;
         if (definedStatus) {
           const { jumping, colorClass, msg } = definedStatus;
           const statusStyle = `flow-${colorClass} ${jumping ? 'jumping' : ''}`;
           return (
-            <div className='pipeline-detail-status'>
+            <div className="pipeline-detail-status">
               <span className={`status-icon ${statusStyle}`} />
               <span>{msg}</span>
             </div>
@@ -52,19 +52,19 @@ const BaseInfo = (props: IProps) => {
     {
       label: i18n.t('duration'),
       valueKey: 'costTimeSec',
-      valueItem: ({ value: val }:any) => {
+      valueItem: ({ value: val }: any) => {
         return val && val !== -1 ? `${i18n.t('application:time cost')} ${secondsToTime(+val)}` : '-';
       },
     },
     {
       label: i18n.t('common:start at'),
       valueKey: 'timeBegin',
-      valueItem: ({ value: val }:any) => (val ? moment(val).format('YYYY-MM-DD HH:mm:ss') : '-'),
+      valueItem: ({ value: val }: any) => (val ? moment(val).format('YYYY-MM-DD HH:mm:ss') : '-'),
     },
     {
       label: i18n.t('common:end at'),
       valueKey: 'timeEnd',
-      valueItem: ({ value: val }:any) => (val ? moment(val).format('YYYY-MM-DD HH:mm:ss') : '-'),
+      valueItem: ({ value: val }: any) => (val ? moment(val).format('YYYY-MM-DD HH:mm:ss') : '-'),
     },
   ];
 

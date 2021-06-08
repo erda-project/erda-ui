@@ -35,7 +35,7 @@ export interface IFlowItem {
 }
 
 export interface IArrowPosition extends IPosition {
-  direction: 'left' | 'right' | 'top' | 'bottom',
+  direction: 'left' | 'right' | 'top' | 'bottom';
 }
 
 export interface IDiceYamlEditorItemProps {
@@ -66,18 +66,18 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
     RX: 10,
   };
 
-  public info = DiceYamlEditorItem.info;
+  info = DiceYamlEditorItem.info;
 
   private interval: any;
 
-  public componentWillUnmount(): void {
+  componentWillUnmount(): void {
     if (this.interval) {
       clearInterval(this.interval);
       this.interval = null;
     }
   }
 
-  public render() {
+  render() {
     const { item, className, onClick } = this.props;
     let titleContent = null;
     const nameContent = (

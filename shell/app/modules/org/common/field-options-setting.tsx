@@ -27,7 +27,7 @@ const FieldOptionsSetting = (props: IProps) => {
 
   const onInputChangeHandle = React.useCallback((dataValue, index) => {
     const newData = dataValue;
-    const tempList:ISSUE_FIELD.IEnumData[] = produce(value, (draft:ISSUE_FIELD.IEnumData[]) => {
+    const tempList: ISSUE_FIELD.IEnumData[] = produce(value, (draft: ISSUE_FIELD.IEnumData[]) => {
       draft[index].name = newData;
 
       if (!draft[index + 1]) {
@@ -56,7 +56,7 @@ const FieldOptionsSetting = (props: IProps) => {
           <Input
             value={_value}
             placeholder={i18n.t('please enter {name}', { name: i18n.t('name') })}
-            onChange={(e:any) => {
+            onChange={(e: any) => {
               onInputChangeHandle(e.target.value, index);
             }}
           />
@@ -74,10 +74,10 @@ const FieldOptionsSetting = (props: IProps) => {
               style={{ cursor: 'pointer' }}
               type="shanchu"
               onClick={() => {
-                const tempList = produce(value, (draft:ISSUE_FIELD.IEnumData[]) => {
+                const tempList = produce(value, (draft: ISSUE_FIELD.IEnumData[]) => {
                   draft.splice(index, 1);
                 });
-                const list:ISSUE_FIELD.IEnumData[] = tempList.map((item: any, i: number) => {
+                const list: ISSUE_FIELD.IEnumData[] = tempList.map((item: any, i: number) => {
                   return { ...item, index: i };
                 });
                 onChange(list);

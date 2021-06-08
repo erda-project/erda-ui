@@ -20,7 +20,7 @@ interface IState {
   reportSeeting: PROJECT_REPORT.Config;
 }
 
-const initState:IState = {
+const initState: IState = {
   projectReportsPaging: {} as IPaging,
   reportSeeting: {} as PROJECT_REPORT.Config,
 };

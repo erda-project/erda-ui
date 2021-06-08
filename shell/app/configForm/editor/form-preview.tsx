@@ -23,12 +23,12 @@ import './form-preview.scss';
 
 interface IProps {
   formFields: IField[];
-  currentEditField:any;
+  currentEditField: any;
   Form?: any;
   renderField?: any;
-  componentMap:any;
+  componentMap: any;
   showGetConfig?: boolean;
-  copyField:(arg: IField, key:string)=>void;
+  copyField: (arg: IField, key: string) => void;
   addFormField: (arg: any) => void;
   deleteField: (arg: IField) => void;
   editField: (arg: IField) => void;
@@ -70,7 +70,7 @@ export const defaultPreviewField = ({
   );
 };
 
-export const FormPreview = React.forwardRef((props: IProps, ref:any) => {
+export const FormPreview = React.forwardRef((props: IProps, ref: any) => {
   const {
     addFormField,
     formFields,
@@ -114,7 +114,7 @@ export const FormPreview = React.forwardRef((props: IProps, ref:any) => {
         ...item,
         type: item.component,
         index,
-      }))
+      })),
     );
   }, [formFields]);
 
@@ -138,7 +138,7 @@ export const FormPreview = React.forwardRef((props: IProps, ref:any) => {
             if (key === 'rules') {
               useable = false;
               const useRules = [] as any[];
-              map(objItem, oItem => {
+              map(objItem, (oItem) => {
                 if (!oItem.validator)useRules.push(oItem);
               });
               if (!isEmpty(useRules)) {
@@ -179,7 +179,7 @@ export const FormPreview = React.forwardRef((props: IProps, ref:any) => {
 
   const onOk = () => {
     if (addForm && addForm.current) {
-      addForm.current.validateFieldsAndScroll((error:any, value:any) => {
+      addForm.current.validateFieldsAndScroll((error: any, value: any) => {
         if (!error) {
           if (isEdit) {
             copyField(copyData, value.key);
@@ -195,7 +195,7 @@ export const FormPreview = React.forwardRef((props: IProps, ref:any) => {
 
   const onAddGroupOk = () => {
     if (addGroupForm && addGroupForm.current) {
-      addGroupForm.current.validateFieldsAndScroll((error:any, value:any) => {
+      addGroupForm.current.validateFieldsAndScroll((error: any, value: any) => {
         if (!error) {
           const curGroupKey = get(curGroup, 'key');
           addFormField({ ...value, key: `${curGroupKey}.${value.key}`, group: curGroupKey });
@@ -267,7 +267,7 @@ export const FormPreview = React.forwardRef((props: IProps, ref:any) => {
       required: true,
       disabled: isEdit,
       dataSource: {
-        static: map(componentMap, (item:any) => ({ value: item.value, name: `${item.name}(${item.dataType || item.value})` })),
+        static: map(componentMap, (item: any) => ({ value: item.value, name: `${item.name}(${item.dataType || item.value})` })),
       },
       componentProps: {
         showSearch: true,
@@ -310,7 +310,7 @@ export const FormPreview = React.forwardRef((props: IProps, ref:any) => {
       required: true,
       disabled: isEdit,
       dataSource: {
-        static: filter(map(componentMap, (item:any) => ({ value: item.value, name: `${item.name}(${item.dataType || item.value})` })), (cItem:any) => cItem.value !== FORM_GROUP),
+        static: filter(map(componentMap, (item: any) => ({ value: item.value, name: `${item.name}(${item.dataType || item.value})` })), (cItem: any) => cItem.value !== FORM_GROUP),
       },
       componentProps: {
         showSearch: true,
@@ -338,9 +338,9 @@ export const FormPreview = React.forwardRef((props: IProps, ref:any) => {
         onChange={onFieldChange}
         renderField={renderF}
       />
-      <div className='mt16'>
+      <div className="mt16">
         <button className="dice-form-editor-button mr16" onClick={() => setModalVis(true)}>
-        +
+          +
         </button>
         {
           showGetConfig
@@ -348,7 +348,7 @@ export const FormPreview = React.forwardRef((props: IProps, ref:any) => {
               <>
                 <button className="dice-form-editor-button mr16" onClick={getConfig}>{i18n.t('common:get configuration')}</button>
 
-                <button className='dice-form-editor-button' onClick={doPreview}>{i18n.t('common:form preview')}</button>
+                <button className="dice-form-editor-button" onClick={doPreview}>{i18n.t('common:form preview')}</button>
               </>
             )
             : null
@@ -386,13 +386,13 @@ export const FormPreview = React.forwardRef((props: IProps, ref:any) => {
         <textarea
           ref={configRef}
           readOnly
-          className='config-pre'
+          className="config-pre"
           value={JSON.stringify(configInfo, null, 2)}
         />
       </Modal>
       {
         footer ? (
-          <div className='dice-form-preview-footer'>{footer}</div>
+          <div className="dice-form-preview-footer">{footer}</div>
         ) : null
       }
       <PreviewForm visible={previewVis} fields={previewFields} onClose={closePreview} />
@@ -407,7 +407,7 @@ const PreviewForm = (props: any) => {
 
   const formConfig = React.useMemo(() => fields, [fields]);
 
-  const onFinish = (data:any) => {
+  const onFinish = (data: any) => {
     onClose();
   };
 
@@ -415,7 +415,7 @@ const PreviewForm = (props: any) => {
     <NusiModal visible={visible} title={i18n.t('common:form preview')} footer={null} onCancel={onClose}>
       {visible ? (
         <DiceForm fields={formConfig} formRef={formRef} onFinish={onFinish}>
-          <DiceForm.Submit Button={Button} type='primary' />
+          <DiceForm.Submit Button={Button} type="primary" />
         </DiceForm>
       )
         : null}

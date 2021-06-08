@@ -27,11 +27,11 @@ import {
 
 
 interface IState {
-  active: TEST_ENV.Item | Obj,
-  envList: TEST_ENV.Item[],
-  autoEnvList: TEST_ENV.IAutoEnvItem[],
-  envInfo: TEST_ENV.EnvListQuery,
-  projectEnvList: TEST_ENV.Item[],
+  active: TEST_ENV.Item | Obj;
+  envList: TEST_ENV.Item[];
+  autoEnvList: TEST_ENV.IAutoEnvItem[];
+  envInfo: TEST_ENV.EnvListQuery;
+  projectEnvList: TEST_ENV.Item[];
 }
 
 const initState: IState = {

@@ -13,27 +13,36 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import inquirer from 'inquirer';
-import fs from 'fs';
+import path from 'path';
 import { promisify } from 'util';
 import child_process from 'child_process';
 import { logInfo, logSuccess, logWarn, logError } from './util/log';
 import {
   getPublicDir,
-  yarnCmd,
   getModuleList,
   registryDir,
   checkIsRoot,
 } from './util/env';
 import { exit } from 'process';
-import ora from 'ora';
 import generateVersion from './gen-version';
 import localIcon from './local-icon';
 
-const asyncExec = promisify(require('child_process').exec);
+const asyncExec = promisify(child_process.exec);
 
 const { execSync, exec } = child_process;
 
 const GET_BRANCH_CMD = "git branch | awk '/\\*/ { print $2; }'";
+
+const currentDir = process.cwd();
+const dirCollection: {[k: string]: string} = {
+  core: `${currentDir}/core`,
+  shell: `${currentDir}/shell`,
+  fdp: path.resolve(currentDir, '../erda-ui-enterprise/fdp'),
+  admin: path.resolve(currentDir, '../erda-ui-enterprise/admin'),
+  market: `${currentDir}/modules/market`,
+};
+const dirMap = new Map(Object.entries(dirCollection));
+const noneCurrentRepoModules = ['fdp', 'admin'];
 
 const getCurrentBranch = (dir: string) => {
   return new Promise<string>((resolve) => {
@@ -52,9 +61,9 @@ const checkBranch = async () => {
   const pList: Array<Promise<string>> = [getCurrentBranch(process.cwd())];
   const moduleList = getModuleList();
 
-  moduleList.forEach(({ moduleName, moduleDir }) => {
-    if (!['core', 'shell'].includes(moduleName)) {
-      pList.push(getCurrentBranch(moduleDir));
+  moduleList.forEach((moduleName) => {
+    if (noneCurrentRepoModules.includes(moduleName)) {
+      pList.push(getCurrentBranch(dirMap.get(moduleName)!));
     }
   });
 
@@ -64,8 +73,8 @@ const checkBranch = async () => {
 
   if (moduleBranches.length > 1) {
     logInfo('Current Branch of dependent modules:');
-    moduleList.filter(({ moduleName }) => !['core', 'shell'].includes(moduleName))
-      .forEach(({ moduleName }, index) => {
+    moduleList.filter((moduleName) => noneCurrentRepoModules.includes(moduleName))
+      .forEach((moduleName, index) => {
         logInfo(`${moduleName}:【${moduleBranches[index + 1]}】`);
       });
   }
@@ -106,7 +115,7 @@ const checkCodeUpToDate = async () => {
 };
 
 
-const checkReInstall = async (rebuildList: string[]) => {
+const checkReInstall = async () => {
   const answer = await inquirer.prompt([
     {
       type: 'confirm',
@@ -116,46 +125,12 @@ const checkReInstall = async (rebuildList: string[]) => {
     },
   ]);
   if (answer.reInstall) {
-    logInfo('start yarn');
-    await installDependencies(rebuildList);
+    logInfo('start installing');
+    const { stdout } = await asyncExec('pnpm i');
+    logSuccess(`dependency successfully updated! [${stdout}]`);
   } else {
     logWarn('Skip update Dependencies, please make sure it\'s up to date!');
   }
-};
-
-const installDependencies = async (rebuildList: string[]) => {
-  const pList: Array<Promise<void>> = [];
-  const { selectUpdateList } = await inquirer.prompt<{ selectUpdateList: string[] }>([
-    {
-      type: 'checkbox',
-      name: 'selectUpdateList',
-      message: 'Choose modules to update dependency',
-      choices: rebuildList,
-    },
-  ]);
-
-  const moduleList = getModuleList();
-  moduleList.filter(({ moduleName: name }) => selectUpdateList.includes(name)).forEach(({ moduleDir: dir, moduleName: name }) => {
-    if (rebuildList.includes(name)) {
-      logInfo(`Performing "${yarnCmd}" inside ${dir} folder`);
-      const installPromise = new Promise<void>((resolve) => {
-        exec(yarnCmd, { env: process.env, cwd: dir }, (error: unknown, stdout: string) => {
-          if (error) {
-            logError(`install error: ${error}`);
-            process.exit(1);
-          } else {
-            logSuccess(`【${name}】 successfully installed! [${stdout}]`);
-            resolve();
-          }
-        });
-      });
-
-      pList.push(installPromise);
-    }
-  });
-
-  await Promise.all(pList);
-  pList.length && logSuccess('update dependency successfully 😁!');
 };
 
 const clearPublic = async () => {
@@ -164,59 +139,46 @@ const clearPublic = async () => {
 };
 
 const checkModuleValid = async (isLocal: boolean) => {
-  let isAllValid = true;
   const moduleList = getModuleList();
-  moduleList.forEach((item) => {
-    if (!item.moduleDir) {
-      isAllValid = false;
-      logError(`${item.moduleName.toUpperCase()}_DIR is not exist in .env,\nyou can run "erda setup <module> <port>" to auto generate moduleDir`);
-    } else if (!fs.existsSync(item.moduleDir)) {
-      isAllValid = false;
-      logError(`${item.moduleName.toUpperCase()}_DIR is wrong, please check in .env,\nor you can run "erda setup <module> <port>" to update moduleDir`);
-    }
-  });
+  const outputModules = moduleList.join(',');
 
-  const outputModules = moduleList.map((item) => item.moduleName).join(',');
-
-  logInfo(`Output modules:【${outputModules}】`);
-
-  if (!isAllValid) {
-    process.exit(1);
-  } else if (isLocal) {
+  if (isLocal) {
     const answer = await inquirer.prompt([
       {
         type: 'confirm',
         name: 'coveredAllModules',
-        message: `Here are the modules【${outputModules}】detected in .env file.\nUse command "erda-ui setup" to inset missing modules, and then run again.`,
+        message: `Here are the MODULES to build【${outputModules}】which detected in .env file.\nIf any module missed or should exclude, please manually adjust .env MODULES config and then run again.`,
         default: true,
       },
     ]);
     if (!answer.coveredAllModules) {
       process.exit(1);
     }
+  } else {
+    logWarn(`Will start to build MODULES【${outputModules}】which detected in .env file.`);
   }
 };
 
-const buildModules = async (enableSourceMap: boolean, rebuildList: ReturnType<typeof getModuleList>) => {
+const buildModules = async (enableSourceMap: boolean, rebuildList: string[], isOnline: string) => {
   const pList: Array<Promise<void>> = [];
   const moduleList = getModuleList();
   const toBuildModules = rebuildList.length ? rebuildList : moduleList;
-  toBuildModules.forEach((item) => {
-    const { moduleName, moduleDir } = item;
-
+  toBuildModules.forEach((moduleName) => {
+    const moduleDir = dirMap.get(moduleName);
     const buildPromise = new Promise<void>((resolve) => {
-      const spinner = ora(`building ${moduleName}`).start();
-      exec('npm run build', { env: { ...process.env, enableSourceMap: enableSourceMap.toString() }, cwd: moduleDir }, (error, stdout, stderr) => {
+      const execProcess = exec('npm run build', { env: { ...process.env, isOnline, enableSourceMap: enableSourceMap.toString() }, cwd: moduleDir }, (error) => {
         if (error) {
           logError(`build error: ${error}`);
           process.exit(1);
         } else {
-          logInfo(stderr);
-          logSuccess(`【${moduleName}】build successfully! [${stdout}]`);
+          logSuccess(`【${moduleName}】build successfully!`);
           resolve();
-          spinner.stop();
         }
       });
+      // eslint-disable-next-line no-console
+      execProcess.stdout?.on('data', (data) => console.log(data));
+      // eslint-disable-next-line no-console
+      execProcess.stderr?.on('data', (data) => console.error(data));
     });
 
     pList.push(buildPromise);
@@ -280,7 +242,7 @@ const restoreFromDockerImage = async (image: string, requireBuildList: string[])
 
   const moduleList = getModuleList();
   // choose modules for this new build, the ones which not be chosen will reuse the image content
-  const modulesNames = moduleList.map((module) => module.moduleName).filter((name) => !requireBuildList.includes(name));
+  const modulesNames = moduleList.filter((name) => !requireBuildList.includes(name));
   let rebuildList = [...requireBuildList];
   if (modulesNames.length) {
     const { selectRebuildList } = await inquirer.prompt([
@@ -327,18 +289,17 @@ const getRequireBuildModules = async (image: string) => {
     headSha = headSha.replace(/\n/, '');
     const imageSha = image.split('-')[2];
     const { stdout: diff } = await asyncExec(`git diff --name-only ${imageSha} ${headSha}`);
-    const moduleList = getModuleList();
-    const rebuildList = moduleList.map((item) => item.moduleName);
+    const rebuildList = getModuleList();
+    if (new RegExp('^pnpm-lock.yaml', 'gm').test(diff)) {
+      logWarn('pnpm-lock.yaml changed since image commit, please remind to update this module dependency in next step.');
+    }
     rebuildList.forEach((module) => {
       if (new RegExp(`^${module}/`, 'gm').test(diff)) {
         logWarn(`module [${module}] code changed since image commit, will forcibly built it.`);
         requireBuildList.push(module);
-        if (new RegExp(`^${module}/package-lock.json`, 'gm').test(diff)) {
-          logWarn(`module [${module}] package-lock changed since image commit, please remind to update this module dependency in next step.`);
-        }
       }
     });
-    logWarn('fdp & admin module are maintained in separate git repository，please manually confirm whether require rebuild.');
+    logWarn('some modules are maintained in separate git repository，please manually confirm whether require rebuild.');
     return requireBuildList;
   } catch (error) {
     logError(error);
@@ -359,18 +320,21 @@ const getRequireBuildModules = async (image: string) => {
   }
 };
 
-export default async (options: { local?: boolean; image?: string; enableSourceMap?: boolean }) => {
+export default async (options: { local?: boolean; image?: string; enableSourceMap?: boolean; online?: boolean }) => {
   try {
-    const { image, enableSourceMap = false } = options;
+    const { image, enableSourceMap = false, online = false } = options;
     let { local } = options;
     if (image) {
       local = true;
     }
+    if (online) {
+      dirMap.set('fdp', path.resolve(currentDir, 'modules/fdp'));
+      dirMap.set('admin', path.resolve(currentDir, 'modules/admin'));
+    }
     checkIsRoot();
     await checkModuleValid(!!local);
 
-    const moduleList = getModuleList();
-    let rebuildList = moduleList.map((item) => item.moduleName);
+    let rebuildList = getModuleList();
 
     await clearPublic();
 
@@ -387,11 +351,10 @@ export default async (options: { local?: boolean; image?: string; enableSourceMa
         logInfo(`Will launch a partial build based on image ${image}`);
         rebuildList = await restoreFromDockerImage(image, requireBuildList);
       }
-      await checkReInstall(rebuildList);
+      await checkReInstall();
     }
 
-    await buildModules(enableSourceMap,
-      moduleList.filter((module) => rebuildList.includes(module.moduleName)));
+    await buildModules(enableSourceMap, rebuildList, `${online}`);
 
     generateVersion();
 

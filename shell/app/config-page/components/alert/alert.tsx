@@ -23,11 +23,11 @@ export default (props: CP_ALERT.Props) => {
   if (!visible) return null;
   const msgComp = isArray(message) ? (
     <div>
-      {map(message, (item, idx) => <pre className='mb8' key={idx}>{item}</pre>)}
+      {map(message, (item, idx) => <pre className="mb8" key={idx}>{item}</pre>)}
     </div>
   ) : message;
   return (
-    <Alert className='config-page-alert' message={msgComp} showIcon {...rest} />
+    <Alert className="config-page-alert" message={msgComp} showIcon {...rest} />
   );
 };
 

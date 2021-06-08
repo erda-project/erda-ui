@@ -15,7 +15,7 @@ import { FormComponentProps } from 'core/common/interface';
 import { isEqual, map, cloneDeep, keyBy, isEmpty } from 'lodash';
 import React, { PureComponent } from 'react';
 import classnames from 'classnames';
-import { PlanName } from 'app/modules/addonPlatform/pages/common/configs';
+import { PLAN_NAME } from 'app/modules/addonPlatform/pages/common/configs';
 import { convertAddonPlan } from '../yml-flow-util';
 import { Input, Form, Select, Radio, Button, Alert } from 'app/nusi';
 import addon_png from 'app/images/resources/addon.png';
@@ -40,7 +40,7 @@ interface ICreateAddOnProps {
   editing?: boolean;
   groupedAddonList: any[];
   className?: string;
-  getAddonVersions(addonName: string): Promise<any>;
+  getAddonVersions: (addonName: string) => Promise<any>;
 }
 
 interface IAddon {
@@ -122,7 +122,7 @@ const AddOn = ({ addon, className, onClick, editing, reselect, reselectFunc }: I
 };
 
 class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, any> {
-  public state = {
+  state = {
     groups: [],
     packUpTabs: new Set(),
     searchValue: undefined,
@@ -180,7 +180,7 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
     }
   }
 
-  public render() {
+  render() {
     const { editing, addOn } = this.props;
 
     const { selectedAddon, searchValue, isReset } = this.state;
@@ -259,7 +259,7 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
     if (selectedAddon.addonName || selectedAddon.name) {
       this.props.getAddonVersions(selectedAddon.addonName || selectedAddon.name).then((data) => {
         this.setState({
-          selectedAddonVersions: map(data, item => item.version),
+          selectedAddonVersions: map(data, (item) => item.version),
           versionMap: keyBy(data, 'version'),
           selectedAddonPlans: Object.keys(data[0].spec.plan || { basic: {} }),
         });
@@ -339,20 +339,20 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
     if (selectedAddon.plan) {
       plans.push({
         plan: planValue,
-        planCnName: PlanName[planValue],
+        planCnName: PLAN_NAME[planValue],
       });
     } else if (getFieldValue('version') && !isEmpty(versionMap)) {
       plans = map((versionMap[getFieldValue('version')].spec.plan || { basic: {} }), (_, k) => (
         {
           plan: k,
-          planCnName: PlanName[k],
+          planCnName: PLAN_NAME[k],
         }
       ));
     } else {
       plans = map({ basic: {} }, (_, k) => (
         {
           plan: k,
-          planCnName: PlanName[k],
+          planCnName: PLAN_NAME[k],
         }
       ));
     }
@@ -467,9 +467,9 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
           });
         }
 
-        const icon = packUpTabs.has(group.groupName) 
-        ? <IconDown className="head-icon" size="18px" />
-        : <IconUp className="head-icon" size="18px" />;
+        const icon = packUpTabs.has(group.groupName)
+          ? <IconDown className="head-icon" size="18px" />
+          : <IconUp className="head-icon" size="18px" />;
 
         const content = packUpTabs.has(group.groupName) ? (
           <div className="addon-group-body">

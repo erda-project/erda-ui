@@ -17,7 +17,7 @@ import PublisherFormModal, { getPublisherFieldsList } from './publisher-form-mod
 import { Button } from 'app/nusi';
 import i18n from 'i18n';
 
-export const PublisherInfo = ({ data, getDetail = () => {} }: { data: PUBLISHER.IPublisher | undefined, getDetail: () => void }) => {
+export const PublisherInfo = ({ data, getDetail = () => {} }: { data: PUBLISHER.IPublisher | undefined; getDetail: () => void }) => {
   const [{ formModalVis, editData }, updater] = useUpdate({
     formModalVis: false,
     editData: undefined as PUBLISHER.IPublisher | undefined,

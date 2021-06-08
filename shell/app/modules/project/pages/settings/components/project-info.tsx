@@ -29,16 +29,16 @@ import { HeadProjectSelector } from 'project/common/components/project-selector'
 import userStore from 'app/user/stores';
 
 interface IProps {
-  canEdit: boolean
-  canDelete: boolean
-  canEditQuota: boolean
-  showQuotaTip: boolean
+  canEdit: boolean;
+  canDelete: boolean;
+  canEditQuota: boolean;
+  showQuotaTip: boolean;
 }
 
 // 修改项目信息后，更新左侧菜单上方的信息
 let selectorKey = 1;
 const reloadHeadInfo = () => {
-  const detail = projectStore.getState(s => s.info);
+  const detail = projectStore.getState((s) => s.info);
   layoutStore.reducers.setSubSiderInfoMap({
     key: 'project',
     detail: { ...detail, icon: theme.projectIcon },
@@ -49,9 +49,9 @@ const reloadHeadInfo = () => {
 
 export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
   const { updateProject, deleteProject, getLeftResources } = projectStore.effects;
-  const loginUser = userStore.useStore(s => s.loginUser);
-  const orgName = routeInfoStore.useStore(s => s.params.orgName);
-  const info = projectStore.useStore(s => s.info);
+  const loginUser = userStore.useStore((s) => s.loginUser);
+  const orgName = routeInfoStore.useStore((s) => s.params.orgName);
+  const info = projectStore.useStore((s) => s.info);
   const [confirmProjectName, setConfirmProjectName] = React.useState('');
   const updatePrj = (values: Obj) => {
     const { cpuQuota, memQuota, isPublic } = values;

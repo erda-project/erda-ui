@@ -23,7 +23,7 @@ import './api-test.scss';
 interface IProps {
   disabled?: boolean;
   value?: IApi;
-  onChange(api: IApi, adjustData?: Function): any;
+  onChange: (api: IApi, adjustData?: Function) => any;
 }
 const formatJSON = (str: string) => {
   let res = str;
@@ -61,7 +61,7 @@ export interface IApi {
     arg: string;
     operator: string;
     value: string;
-  }>
+  }>;
 }
 const { Option } = Select;
 const { TabPane } = Tabs;
@@ -160,7 +160,7 @@ export const ApiItem = ({ value, onChange, disabled }: IProps) => {
               onChange={(val) => updateApi('method', val as string)}
               placeholder={i18n.t('project:please choose')}
             >
-              {map(HTTP_METHOD_LIST, method => (
+              {map(HTTP_METHOD_LIST, (method) => (
                 <Option value={method} key={method}>{method}</Option>
               ))}
             </Select>
@@ -168,7 +168,7 @@ export const ApiItem = ({ value, onChange, disabled }: IProps) => {
           className="url"
           placeholder={i18n.t('project:please enter')}
           value={api.url}
-          onChange={e => updateApi('url', e.target.value.trim())}
+          onChange={(e) => updateApi('url', e.target.value.trim())}
         />
       </div>
       <div className="api-tabs">
@@ -206,7 +206,7 @@ const ApiTabComps = {
           data={data}
           disabled={disabled}
           dataModel={dataModal}
-          dataMainKey='key'
+          dataMainKey="key"
           onChange={(val: any) => {
             onChange('params', val);
           }}
@@ -242,7 +242,7 @@ const ApiTabComps = {
           data={data}
           disabled={disabled}
           dataModel={dataModal}
-          dataMainKey='key'
+          dataMainKey="key"
           onChange={(val: any) => {
             onChange('headers', val);
           }}
@@ -290,7 +290,7 @@ const ApiTabComps = {
                 expression: '',
                 matchIndex: '',
               }}
-              dataMainKey='key'
+              dataMainKey="key"
               onChange={(val: any, adjustData?: Function) => {
                 onChange('out_params', val, adjustData);
               }}
@@ -347,7 +347,7 @@ const ApiTabComps = {
               data={(data?.asserts || [])}
               opList={[]}
               disabled={disabled}
-              dataMainKey='arg'
+              dataMainKey="arg"
               dataModel={{
                 arg: '',
                 operator: '',
@@ -459,7 +459,7 @@ const ValMap = {
           value: '',
           desc: '',
         }}
-        dataMainKey='key'
+        dataMainKey="key"
         onChange={(val: any) => {
           updateBody('content', val);
         }}
@@ -487,7 +487,7 @@ const ValMap = {
   raw: (props: any) => {
     const { data, updateBody, disabled }: any = props;
     const val = isString(data.content) ? data.content : '';
-    return <TextArea disabled={disabled} rows={10} value={val} onChange={e => updateBody('content', e.target.value)} />;
+    return <TextArea disabled={disabled} rows={10} value={val} onChange={(e) => updateBody('content', e.target.value)} />;
   },
   'JSON(application/json)': (props: any) => <TestJsonEditor {...props} />,
 };
@@ -551,7 +551,7 @@ const APIBody = (props: any) => {
   return (
     <div className="api-body">
       <div className="body-type-chosen mb8 px12">
-        <Radio.Group disabled={disabled} onChange={e => changeType(e.target.value)} value={isRaw ? 'raw' : realType}>
+        <Radio.Group disabled={disabled} onChange={(e) => changeType(e.target.value)} value={isRaw ? 'raw' : realType}>
           <Radio value={'none'}>none</Radio>
           <Radio value={BasicForm}>x-www-form-urlencoded</Radio>
           <Radio value={'raw'}>raw</Radio>
@@ -561,13 +561,13 @@ const APIBody = (props: any) => {
             <Select
               size="small"
               style={{ width: 160 }}
-              className='mt8'
+              className="mt8"
               onChange={(t) => changeType(t as string)}
               value={realType}
               disabled={disabled}
               dropdownMatchSelectWidth={false}
             >
-              {map(BODY_RAW_OPTION, item => (
+              {map(BODY_RAW_OPTION, (item) => (
                 <Option key={item} value={item}>{item}</Option>
               ))}
             </Select>
@@ -588,7 +588,7 @@ interface IKeyValProps {
   itemMap: object;
   opList?: any[];
   disabled?: boolean;
-  onChange(...args: any): any;
+  onChange: (...args: any) => any;
 }
 const KeyValEdit = (props: IKeyValProps) => {
   const { data, type, dataModel, dataMainKey, itemMap, opList = [], onChange, disabled } = props;
@@ -628,7 +628,7 @@ const KeyValEdit = (props: IKeyValProps) => {
       // 去掉key值都为空的无效值
       newVal.filter((item: Obj) => {
         if (dataMainKey) return item[dataMainKey];
-        return !Object.values(item).every(v => !v);
+        return !Object.values(item).every((v) => !v);
       }),
       (newData: any, k: string) => {
         const { out_params = [], asserts = [] } = newData;
@@ -651,7 +651,7 @@ const KeyValEdit = (props: IKeyValProps) => {
             }
           }
         }
-      }
+      },
     );
   };
   const handleDelete = (num: number) => {
@@ -694,7 +694,7 @@ const KeyValEdit = (props: IKeyValProps) => {
                     <React.Fragment key={key}>
                       {Comp ?
                         <Comp disabled={disabled} className="flex-1 width0" value={val} record={item} onChange={(curVal: any) => updateValue(i, key, trim ? curVal?.trim() : curVal)} /> :
-                        <Input className="flex-1 width0" placeholder={i18n.t('project:please enter')} disabled={disabled} value={val} onChange={e => updateValue(i, key, trim ? e.target.value?.trim() : e.target.value)} {...compProps} {...extraProps} />
+                        <Input className="flex-1 width0" placeholder={i18n.t('project:please enter')} disabled={disabled} value={val} onChange={(e) => updateValue(i, key, trim ? e.target.value?.trim() : e.target.value)} {...compProps} {...extraProps} />
                       }
                       {Comp === Empty ? null : <div className="item-separate" />}
                     </React.Fragment>

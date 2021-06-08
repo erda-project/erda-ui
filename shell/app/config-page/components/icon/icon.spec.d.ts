@@ -12,25 +12,25 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace CP_ICON {
-  
-  type IIconType = 
-  'lock' 
-  | 'unlock' 
-  | 'time' 
-  | 'application-one' 
+
+  type IIconType =
+  'lock'
+  | 'unlock'
+  | 'time'
+  | 'application-one'
   | 'user'
   | 'link-cloud-sucess'
   | 'link-cloud-faild'
   | 'category-management'
   | 'list-numbers'
-  | 'api-app'
-  
+  | 'api-app';
+
   type StrokeLinejoin = 'miter' | 'round' | 'bevel';
   type StrokeLinecap = 'butt' | 'round' | 'square';
   type Theme = 'outline' | 'filled' | 'two-tone' | 'multi-color';
 
   interface Spec {
-    type: 'Icon',
+    type: 'Icon';
     props: IProps;
   }
 

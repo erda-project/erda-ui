@@ -23,7 +23,7 @@ import { Holder, Icon } from 'common';
 import './index.scss';
 
 interface IProps {
-  data: Merge<MIDDLEWARE_DASHBOARD.IMiddleBase, { name: string }>
+  data: Merge<MIDDLEWARE_DASHBOARD.IMiddleBase, { name: string }>;
 }
 
 const translateData = (data: { [k: string]: string }) => {
@@ -61,7 +61,7 @@ const TableView = React.memo(({ data }: { data: any }) => {
 
 const TextView = React.memo(({ data }: { data: Record<string, any> }) => {
   return (
-    <div className='text-view'>
+    <div className="text-view">
       <Holder when={isEmpty(data)}>
         {
           map(data, (value, key) => {
@@ -76,7 +76,7 @@ const TextView = React.memo(({ data }: { data: Record<string, any> }) => {
 const UpgradeInfo = ({ data }: IProps) => {
   const [visible, setVisible] = React.useState(false);
   const [mode, setMode] = React.useState('key-value');
-  const { config = {} } = middlewareDashboardStore.useStore(s => s.addonConfig);
+  const { config = {} } = middlewareDashboardStore.useStore((s) => s.addonConfig);
   const [isLoading] = useLoading(middlewareDashboardStore, ['getConfig']);
   const viewCompMap = React.useMemo(() => {
     return {
@@ -94,7 +94,7 @@ const UpgradeInfo = ({ data }: IProps) => {
           <span className="title bold-500">
             {i18n.t('default:configuration information')}
             <Tooltip title={i18n.t('org:please fill in the real configuration information')}>
-              <Icon className='ml8' type="tishi" />
+              <Icon className="ml8" type="tishi" />
             </Tooltip>
           </span>
           <div>

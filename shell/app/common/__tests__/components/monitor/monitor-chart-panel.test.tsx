@@ -20,13 +20,13 @@ import { act } from 'react-dom/test-utils';
 describe('MonitorChartPanel', () => {
   it('render without resourceType', () => {
     const wrapper = shallow(
-      <MonitorChartPanel resourceId="A" defaultTime={1} />
+      <MonitorChartPanel resourceId="A" defaultTime={1} />,
     );
     expect(wrapper).toBeEmptyRender();
   });
   it('render without resourceId', () => {
     const wrapper = shallow(
-      <MonitorChartPanel resourceType="A" />
+      <MonitorChartPanel resourceType="A" />,
     );
     expect(wrapper).toBeEmptyRender();
   });
@@ -38,7 +38,7 @@ describe('MonitorChartPanel', () => {
       d: { name: 'd' },
     };
     const wrapper = shallow(
-      <MonitorChartPanel resourceType="a" resourceId="a" metrics={metrics} />
+      <MonitorChartPanel resourceType="a" resourceId="a" metrics={metrics} />,
     );
     expect(wrapper.find('MonitorChart')).toHaveLength(4);
     expect(wrapper.find('IF').prop('check')).toBeFalsy();
@@ -56,7 +56,7 @@ describe('MonitorChartPanel', () => {
       i: { name: 'i' },
     };
     const wrapper = shallow(
-      <MonitorChartPanel resourceType="a" resourceId="a" metrics={metrics} />
+      <MonitorChartPanel resourceType="a" resourceId="a" metrics={metrics} />,
     );
     expect(wrapper.find('MonitorChart')).toHaveLength(4);
     expect(wrapper.find('IF').prop('check')).toBeTruthy();

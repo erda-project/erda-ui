@@ -23,10 +23,10 @@ import routeInfoStore from 'app/common/stores/route';
 
 interface ICreateParams{
   moduleName: string;
-  chartName:string;
+  chartName: string;
   type: string;
   tabList: ITab[];
-  dataHandler?:Function;
+  dataHandler?: Function;
 }
 
 interface ITab{
@@ -39,7 +39,7 @@ interface IListProps{
   [pro: string]: any;
   shouldLoad?: boolean;
   loadData: (name: string, args: any) => Promise<object>;
-  setCommonState?(args: any): Promise<any>;
+  setCommonState?: (args: any) => Promise<any>;
 }
 
 export default {
@@ -95,15 +95,15 @@ export default {
         const nextObj = { ...nextQuery, extendHandler: '', dataHandler: '' };
         return isEqual(preObj, nextObj);
       };
-      const SortList = (props:IListProps) => {
+      const SortList = (props: IListProps) => {
         const { shouldLoad = true, viewProps, fetchApi, query } = props;
         const { loadChart } = monitorChartStore.effects;
         const { updateState: setCommonState } = monitorCommonStore.reducers;
-        const [timeSpan, chosenSortItem, chosenApp = {}, sortTab, subTab] = monitorCommonStore.useStore(s => [s.timeSpan, s.chosenSortItem, s.chosenApp, s.sortTab, s.subTab]);
-        const terminusKey = routeInfoStore.useStore(s => s.params.terminusKey);
+        const [timeSpan, chosenSortItem, chosenApp = {}, sortTab, subTab] = monitorCommonStore.useStore((s) => [s.timeSpan, s.chosenSortItem, s.chosenApp, s.sortTab, s.subTab]);
+        const terminusKey = routeInfoStore.useStore((s) => s.params.terminusKey);
         const sortListRef = React.useRef(null as any);
         const [curQuery, setCurQuery] = React.useState(getQuery({ ...props, terminusKey, timeSpan, chosenSortItem, chosenApp, sortTab, subTab }) as any);
-        const chart = monitorChartStore.useStore(s => s);
+        const chart = monitorChartStore.useStore((s) => s);
         const data = get(chart, `${moduleName}.${chartName}`, {});
 
         useEffectOnce(() => {

@@ -22,9 +22,9 @@ import {
 import i18n from 'i18n';
 
 interface IState {
-  list: RELEASE.detail[],
-  paging: IPaging,
-  detail: RELEASE.detail,
+  list: RELEASE.detail[];
+  paging: IPaging;
+  detail: RELEASE.detail;
 }
 
 const initState: IState = {

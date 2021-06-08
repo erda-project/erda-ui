@@ -17,7 +17,7 @@ import { map, get } from 'lodash';
 
 interface IProps {
   details: CLOUD_SERVICE.IDetailsResp[];
-  pannelProps?: Obj
+  pannelProps?: Obj;
 }
 
 const InfoBox = (props: IProps) => {
@@ -27,11 +27,11 @@ const InfoBox = (props: IProps) => {
       {
         map(details, (detail) => {
           return (
-            <div key={detail.label} className='mb12'>
+            <div key={detail.label} className="mb12">
               <Title
                 level={2}
                 title={detail.label}
-                className='mb8'
+                className="mb8"
               />
               <Panel
                 fields={map(get(detail, 'items'), (item) => {

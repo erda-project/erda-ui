@@ -14,14 +14,14 @@
 import agent from 'agent';
 
 export interface IMachineAlarmQuery {
-  startTime: number
-  endTime: number
-  orgID: number
-  type: string | string[]
+  startTime: number;
+  endTime: number;
+  orgID: number;
+  type: string | string[];
   targetType: string;
   metricID: string[];
-  pageSize: number
-  pageNo: number
+  pageSize: number;
+  pageNo: number;
 }
 export const getAlarmList = (query: IMachineAlarmQuery): IPagingResp<ORG_ALARM.Ticket> => {
   return agent.get('/api/tickets')

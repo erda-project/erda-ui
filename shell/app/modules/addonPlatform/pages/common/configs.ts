@@ -13,37 +13,37 @@
 
 import i18n from 'i18n';
 
-export enum PlanName {
-  basic = i18n.t('basic'),
-  professional = i18n.t('professional'),
-  ultimate = i18n.t('ultimate'),
-}
+export const PLAN_NAME = {
+  basic: i18n.t('basic'),
+  professional: i18n.t('professional'),
+  ultimate: i18n.t('ultimate'),
+};
 
-export enum EnvName {
-  DEV = i18n.t('develop'),
-  TEST = i18n.t('test'),
-  STAGING = i18n.t('staging'),
-  PROD = i18n.t('prod'),
-}
+export const ENV_NAME = {
+  DEV: i18n.t('develop'),
+  TEST: i18n.t('test'),
+  STAGING: i18n.t('staging'),
+  PROD: i18n.t('prod'),
+};
 
-export enum CategoryName {
-  custom = i18n.t('addonPlatform:custom'),
-  database = i18n.t('addonPlatform:database'),
-  distributed_cooperation = i18n.t('addonPlatform:distributed cooperation'),
-  message = i18n.t('addonPlatform:message'),
-  search = i18n.t('addonPlatform:search'),
-  content_management = i18n.t('addonPlatform:content management'),
-  security = i18n.t('addonPlatform:security'),
-  content = i18n.t('addonPlatform:content'),
-  new_retail = i18n.t('addonPlatform:new retail'),
-  traffic_load = i18n.t('addonPlatform:traffic load'),
-  'monitoring&logging' = i18n.t('addonPlatform:monitor & log'),
-  image_processing = i18n.t('addonPlatform:image processing'),
-  solution = i18n.t('addonPlatform:solution'),
-  general_ability = i18n.t('addonPlatform:general ability'),
-  srm = i18n.t('addonPlatform:srm'),
-  sound_processing = i18n.t('addonPlatform:sound processing'),
-}
+export const CATEGORY_NAME = {
+  custom: i18n.t('addonPlatform:custom'),
+  database: i18n.t('addonPlatform:database'),
+  distributed_cooperation: i18n.t('addonPlatform:distributed cooperation'),
+  message: i18n.t('addonPlatform:message'),
+  search: i18n.t('addonPlatform:search'),
+  content_management: i18n.t('addonPlatform:content management'),
+  security: i18n.t('addonPlatform:security'),
+  content: i18n.t('addonPlatform:content'),
+  new_retail: i18n.t('addonPlatform:new retail'),
+  traffic_load: i18n.t('addonPlatform:traffic load'),
+  'monitoring&logging': i18n.t('addonPlatform:monitor & log'),
+  image_processing: i18n.t('addonPlatform:image processing'),
+  solution: i18n.t('addonPlatform:solution'),
+  general_ability: i18n.t('addonPlatform:general ability'),
+  srm: i18n.t('addonPlatform:srm'),
+  sound_processing: i18n.t('addonPlatform:sound processing'),
+};
 
 export const CategoriesOrder = [
   i18n.t('addonPlatform:custom'),

@@ -34,7 +34,7 @@ const issueTypeMap = {
 };
 
 const Issues = () => {
-  const issueType = routeInfoStore.useStore(s => s.params.issueType);
+  const issueType = routeInfoStore.useStore((s) => s.params.issueType);
   const { Comp } = issueTypeMap[issueType] || {};
   return <>{Comp && <Comp />}</>;
 };

@@ -21,7 +21,7 @@ import { PipelineDetail } from './pipeline-detail';
 import { useEffectOnce } from 'react-use';
 
 const TestRecord = () => {
-  const [pipelineDetail, executeRecords = [], changeType] = testPlanStore.useStore(s => [s.pipelineDetail, s.executeRecords, s.changeType]);
+  const [pipelineDetail, executeRecords = [], changeType] = testPlanStore.useStore((s) => [s.pipelineDetail, s.executeRecords, s.changeType]);
   const [isFetchingDetail] = useLoading(testPlanStore, ['getPipelineDetail']);
   const { getPipelineDetail, getExecuteRecords } = testPlanStore.effects;
   const { clearPipelineDetail, clearExecuteRecords } = testPlanStore.reducers;

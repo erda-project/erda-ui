@@ -21,7 +21,7 @@ declare namespace CP_BREADCRUMB {
   }
 
   interface IData {
-    list: IBreadcrumbData[]
+    list: IBreadcrumbData[];
   }
 
   interface IBreadcrumbData {
@@ -38,7 +38,7 @@ declare namespace CP_BREADCRUMB {
   }
 
   interface IProps{
-    visible?: boolean,
+    visible?: boolean;
     separator?: string;
   }
 

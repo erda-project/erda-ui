@@ -19,11 +19,11 @@ import { goTo } from 'common/utils';
 import { Redirect } from 'react-router-dom';
 
 export const RedirectTo = () => {
-  return <Redirect to='./publisher/MOBILE' />;
+  return <Redirect to="./publisher/MOBILE" />;
 };
 
 const Mapper = () => {
-  const [joinedArtifactsList, joinedArtifactsPaging] = publisherStore.useStore(s => [s.joinedArtifactsList, s.joinedArtifactsPaging]);
+  const [joinedArtifactsList, joinedArtifactsPaging] = publisherStore.useStore((s) => [s.joinedArtifactsList, s.joinedArtifactsPaging]);
   const [loading] = useLoading(publisherStore, ['getJoinedArtifactsList']);
   const { getJoinedArtifactsList } = publisherStore.effects;
   const { clearJoinedArtifactsList } = publisherStore.reducers;

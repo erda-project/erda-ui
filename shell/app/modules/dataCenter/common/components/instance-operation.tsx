@@ -37,10 +37,10 @@ interface Instance {
 }
 
 interface IProps<T> {
-  console?: boolean
-  log?: boolean
-  monitor?: boolean
-  getProps(type: OPERATION, record: T): Obj
+  console?: boolean;
+  log?: boolean;
+  monitor?: boolean;
+  getProps: (type: OPERATION, record: T) => Obj;
 }
 
 /**

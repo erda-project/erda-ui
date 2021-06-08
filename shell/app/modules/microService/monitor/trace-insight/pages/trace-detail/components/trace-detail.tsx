@@ -21,7 +21,7 @@ import './trace-detail.scss';
 interface ISpanDetailProps{
   [pro: string]: any;
   spanDetail?: any;
-  viewSpanDetail?(args?: any): any;
+  viewSpanDetail?: (args?: any) => any;
 }
 const SpanDetail = (props: ISpanDetailProps) => {
   let uid = 1;
@@ -98,7 +98,7 @@ interface IProps{
   isFetching: boolean;
 }
 interface IState{
-  traceTree: any[]
+  traceTree: any[];
 }
 
 class TraceDetail extends React.Component<IProps, IState> {

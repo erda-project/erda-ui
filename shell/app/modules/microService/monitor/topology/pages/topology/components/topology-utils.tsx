@@ -153,7 +153,7 @@ const dataHandler = {
       }
       nodeMap[id] = setTopologyExternal(
         item,
-        { deepth: idx + 1, x, y, uniqName: id } as any
+        { deepth: idx + 1, x, y, uniqName: id } as any,
       );
     });
     return { boxWidth, boxHeight, nodeMap, groupBox };
@@ -182,15 +182,15 @@ const dataHandler = {
         if (!isEmpty(nodeDeepthList)) {
           nodeDeepthList.forEach((g: any, idx: number) => {
             const { startNodes, nodeList, deepMap } = g || {};
-            const curNodeIds = map(nodeList, item => item.id);
+            const curNodeIds = map(nodeList, (item) => item.id);
             let curNodeMap = {};
             map(
-              filter(originData, item => curNodeIds.includes(item.id)),
+              filter(originData, (item) => curNodeIds.includes(item.id)),
               (item, i2) => {
                 curNodeMap[item.id] = item;
                 // 作为节点的唯一ID
                 set(curNodeMap[item.id], `${externalKey}.uniqName`, `node-${item.id}`);
-              }
+              },
             );
             curNodeMap = merge(curNodeMap, deepMap); // 合并节点层级属性
             const {
@@ -242,15 +242,15 @@ const dataHandler = {
         if (!isEmpty(curG)) {
           curG.forEach((g: any) => {
             const { startNodes, nodeList, deepMap } = g || {};
-            const curNodeIds = map(nodeList, item => item.id);
+            const curNodeIds = map(nodeList, (item) => item.id);
             let curNodeMap = {};
             map(
-              filter(originData, item => curNodeIds.includes(item.id)),
+              filter(originData, (item) => curNodeIds.includes(item.id)),
               (item, i2) => {
                 curNodeMap[item.id] = item;
                 // 作为节点的唯一ID
                 set(curNodeMap[item.id], `${externalKey}.uniqName`, `node-${item.id}`);
-              }
+              },
             );
             curNodeMap = merge(curNodeMap, deepMap); // 合并节点层级属性
             const {
@@ -315,7 +315,7 @@ const dataHandler = {
   },
   // 获取节点组层级
   getGroupNodesDeepth: (nodeList: ITopologyNode[]) => {
-    const nodeIds = uniq(map(nodeList, i => i.id));
+    const nodeIds = uniq(map(nodeList, (i) => i.id));
     const getTreeNodeList = (treeNodes: string[]) => {
       return filter(nodeList, (n: ITopologyNode) => treeNodes.includes(n.id));
     };
@@ -419,9 +419,9 @@ const dataHandler = {
             }
             return currentRes;
           }, {}),
-          o => o
+          (o) => o,
         ),
-        l => -l.length
+        (l) => -l.length,
       );
     }
     // 最终得到的startNodes及对应的节点list
@@ -495,7 +495,7 @@ const dataHandler = {
           sortBy(list, `${externalKey}.outTotal`),
           ({ [externalKey]: { id, outTotal } }, i) => {
             set(reMap[id], `${externalKey}.levelSort`, outTotal * 100 + i);
-          }
+          },
         );
       } else {
         map(list, ({ [externalKey]: { id, outTotal } }, idx: number) => {
@@ -753,8 +753,8 @@ const dataHandler = {
               { deep: targetDeepth, len: targetLen },
               { deep: betweenMaxDeepth, len: betweenMaxLen },
             ]
-            , o => o.len),
-            'deep'
+            , (o) => o.len),
+            'deep',
           );
           const curMaxEdge = edgePlusMap[`${curMaxDeep}`];
 
@@ -940,7 +940,7 @@ export const renderNodes = ({ nodeMap, groupNodeMap, groupChart }: IRender, snap
         outHover={() => outHover(node)}
         onClick={() => clickNode(node)}
       />,
-      document.getElementById(`${nodeId}`)
+      document.getElementById(`${nodeId}`),
     );
   });
   // 获取关联节点
@@ -1039,7 +1039,7 @@ export const renderNodes = ({ nodeMap, groupNodeMap, groupChart }: IRender, snap
 };
 
 interface ILinkRender{
-  links: ILink[]
+  links: ILink[];
   nodeMap: object;
 }
 interface ILink{
@@ -1211,7 +1211,7 @@ const hoverAction = (isHover: boolean, params: any, snap: any, external: any, ch
               targetNode,
               sourceNode,
               hoverNodeExternal: get(hoverNode, externalKey),
-            }
+            },
           );
         }
       }
@@ -1234,7 +1234,7 @@ const hoverAction = (isHover: boolean, params: any, snap: any, external: any, ch
             targetNode,
             sourceNode,
             hoverNodeExternal: get(hoverNode, externalKey),
-          }
+          },
         );
       }
       link.attr({ ...svgAttr.polylineFade });
@@ -1274,7 +1274,7 @@ const hoverAction = (isHover: boolean, params: any, snap: any, external: any, ch
             targetNode,
             sourceNode,
             hoverNodeExternal: get(hoverNode, externalKey),
-          }
+          },
         );
       }
       link.attr({ ...svgAttr.polyline });
@@ -1296,7 +1296,7 @@ const hoverAction = (isHover: boolean, params: any, snap: any, external: any, ch
             targetNode,
             sourceNode,
             hoverNodeExternal: get(hoverNode, externalKey),
-          }
+          },
         );
       }
       link.attr({ ...svgAttr.polyline });

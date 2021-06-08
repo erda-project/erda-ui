@@ -24,12 +24,12 @@ import {
 } from '../services/alarm-record';
 
 interface IState {
-  recordList: ALARM_REPORT.RecordListItem[]
-  recordListPaging: IPaging
-  alarmAttrs: { [k: string]: Array<{ key: string; display: string; }> }
-  recordDetail: ALARM_REPORT.RecordListItem
-  alarmTimesChart: any
-  recordHistories: ALARM_REPORT.AlarmHistory[]
+  recordList: ALARM_REPORT.RecordListItem[];
+  recordListPaging: IPaging;
+  alarmAttrs: { [k: string]: Array<{ key: string; display: string }> };
+  recordDetail: ALARM_REPORT.RecordListItem;
+  alarmTimesChart: any;
+  recordHistories: ALARM_REPORT.AlarmHistory[];
 }
 
 const initState: IState = {
@@ -46,28 +46,28 @@ const alarmRecord = createFlatStore({
   state: initState,
   effects: {
     async getAlarmRecordList({ call, update }, query: Merge<ALARM_REPORT.RecordListQuery, IPagingReq>) {
-      const { tenantGroup } = routeInfoStore.getState(s => s.params);
+      const { tenantGroup } = routeInfoStore.getState((s) => s.params);
       const { list: recordList } = await call(getAlarmRecordList, { ...query, tenantGroup }, { paging: { key: 'recordListPaging' } });
       update({ recordList });
     },
     async getAlarmAttrs({ call, update }) {
-      const { tenantGroup } = routeInfoStore.getState(s => s.params);
+      const { tenantGroup } = routeInfoStore.getState((s) => s.params);
       const alarmAttrs = await call(getAlarmAttrs, tenantGroup);
       update({ alarmAttrs });
     },
     async getAlarmRecordDetail({ call, update }, groupId: string) {
-      const { tenantGroup } = routeInfoStore.getState(s => s.params);
+      const { tenantGroup } = routeInfoStore.getState((s) => s.params);
       const recordDetail = await call(getAlarmRecordDetail, { groupId, tenantGroup });
       breadcrumbStore.reducers.setInfo('alarmRecordName', recordDetail.alertName);
       update({ recordDetail });
     },
     async getAlarmTimesChart({ call, update }, query: Omit<ALARM_REPORT.AlarmTimesQuery, 'filter_tenant_group'>) {
-      const { tenantGroup } = routeInfoStore.getState(s => s.params);
+      const { tenantGroup } = routeInfoStore.getState((s) => s.params);
       const alarmTimesChart = await call(getAlarmTimesChart, { ...query, filter_tenant_group: String(tenantGroup) });
       update({ alarmTimesChart });
     },
     async getAlarmRecordHistories({ call, update }, payload: ALARM_REPORT.AlarmHistoriesQuery) {
-      const { tenantGroup } = routeInfoStore.getState(s => s.params);
+      const { tenantGroup } = routeInfoStore.getState((s) => s.params);
       const recordHistories = await call(getAlarmRecordHistories, { tenantGroup, ...payload });
       update({ recordHistories });
     },

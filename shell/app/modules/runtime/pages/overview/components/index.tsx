@@ -29,8 +29,8 @@ import { MenuUnfold } from '@icon-park/react';
 import './index.scss';
 
 const RuntimeOverView = () => {
-  const params = routeInfoStore.useStore(s => s.params);
-  const [runtimeDetail, addons] = runtimeStore.useStore(s => [s.runtimeDetail, s.addons]);
+  const params = routeInfoStore.useStore((s) => s.params);
+  const [runtimeDetail, addons] = runtimeStore.useStore((s) => [s.runtimeDetail, s.addons]);
   const services = {};
   const endpoints = {};
   map(runtimeDetail.services, (item, name) => {
@@ -95,7 +95,7 @@ const RuntimeOverView = () => {
           }
           // 旧的日志分析，从同项目同环境的monitor 里取consoleUrl拼接参数
           if (!tenantGroup) {
-            const samePrjMonitor = addons.find(a => a.addonName === 'monitor');
+            const samePrjMonitor = addons.find((a) => a.addonName === 'monitor');
             if (samePrjMonitor) {
               try {
                 tenantGroup = JSON.parse(samePrjMonitor.consoleUrl || '{}').tenantGroup;
@@ -228,12 +228,12 @@ const RuntimeOverView = () => {
                 </Responsive>
               </div>
             </IF>
-            <PipelineLog className='runtime-deploy-logs' resourceId={params.runtimeId} resourceType='runtime' isBuilding /> {/* runtime需要实时轮询 */}
+            <PipelineLog className="runtime-deploy-logs" resourceId={params.runtimeId} resourceType="runtime" isBuilding /> {/* runtime需要实时轮询 */}
           </ErrorBoundary>
         </Col>
         <Col span={proportion[1]} style={{ paddingRight: 'unset' }}>
           <div className="overview-body-title"><span className="align-middle">{i18n.t('runtime:activity')}</span>
-            <Tooltip title={i18n.t('runtime:folding')}><Button size="small" className="ml4" shape="circle" icon={<MenuUnfold/>} onClick={() => toggleFold(true)} /></Tooltip>
+            <Tooltip title={i18n.t('runtime:folding')}><Button size="small" className="ml4" shape="circle" icon={<MenuUnfold />} onClick={() => toggleFold(true)} /></Tooltip>
           </div>
           <ErrorBoundary>
             <ActivityLog />
@@ -243,7 +243,7 @@ const RuntimeOverView = () => {
       <IF check={proportion[1] === 0}>
         <span className="open-activity" onClick={() => setProportion([16, 8])}>
           <Tooltip title={i18n.t('runtime:expanding activities')}>
-            <Button size="small" shape="circle" icon={<MenuUnfold/>} onClick={() => toggleFold(false)} />
+            <Button size="small" shape="circle" icon={<MenuUnfold />} onClick={() => toggleFold(false)} />
           </Tooltip>
         </span>
       </IF>

@@ -28,32 +28,32 @@ import layoutStore from 'app/layout/stores/layout';
 import { PAGINATION } from 'app/constants';
 
 interface IState {
-  orgs: ORG.IOrg[],
-  projectList: PROJECT.Detail[],
-  projectPaging: IPaging,
-  appList: IApplication[],
-  appPaging: IPaging,
-  noAuth: boolean,
-  notFound: boolean,
-  authContact: string,
-  joinOrgTip: string,
-  loginUser: ILoginUser,
+  orgs: ORG.IOrg[];
+  projectList: PROJECT.Detail[];
+  projectPaging: IPaging;
+  appList: IApplication[];
+  appPaging: IPaging;
+  noAuth: boolean;
+  notFound: boolean;
+  authContact: string;
+  joinOrgTip: string;
+  loginUser: ILoginUser;
   licenseInfo: {
-    valid: boolean,
-    message: string,
-    currentHostCount?: number,
-    maxHostCount?: number,
-    user?: string,
-    expireDate?: string,
-    issueDate?: string,
-  },
+    valid: boolean;
+    message: string;
+    currentHostCount?: number;
+    maxHostCount?: number;
+    user?: string;
+    expireDate?: string;
+    issueDate?: string;
+  };
 }
 
 interface IPagingQuery {
-  [k: string]: any,
-  pageNo: number,
-  pageSize?: number,
-  loadMore?: boolean,
+  [k: string]: any;
+  pageNo: number;
+  pageSize?: number;
+  loadMore?: boolean;
 }
 
 const initState: IState = {
@@ -119,9 +119,8 @@ const userStore = createStore({
     async login({ call, select }) {
       const data = await call(login);
       // effects
-      const loginUser = select(s=>s.loginUser);
+      const loginUser = select((s) => s.loginUser);
       if (data && data.url) {
-
         !loginUser.isSysAdmin && window.localStorage.setItem('lastPath', window.location.href);
         window.location.href = data.url;
       }
@@ -129,7 +128,7 @@ const userStore = createStore({
     async logout({ call, select }) {
       const data = await call(logout);
       setLS('diceLoginState', false);
-      const loginUser = select(s=>s.loginUser);
+      const loginUser = select((s) => s.loginUser);
       if (data && data.url) {
         !loginUser.isSysAdmin && window.localStorage.setItem('lastPath', window.location.href);
         window.location.href = data.url;
@@ -157,7 +156,7 @@ const userStore = createStore({
       const { pageNo = 1, pageSize = PAGINATION.pageSize, searchKey, loadMore, ...rest } = payload;
       const params = { pageNo, pageSize, q: searchKey };
       const { list, total } = await call(getJoinedProjects, { ...params, ...rest }, { paging: { key: 'projectPaging' } });
-      let projectList = select(state => state.projectList);
+      let projectList = select((state) => state.projectList);
       if (loadMore && pageNo !== 1) {
         projectList = projectList.concat(list);
       } else {
@@ -170,7 +169,7 @@ const userStore = createStore({
       const { pageNo = 1, pageSize = PAGINATION.pageSize, q, loadMore, ...rest } = payload;
       const params = { pageNo, pageSize, q };
       const { list, total } = await call(getJoinedApps, { ...params, ...rest }, { paging: { key: 'appPaging' } });
-      let appList = select(state => state.appList);
+      let appList = select((state) => state.appList);
       if (loadMore) {
         appList = appList.concat(list);
       } else {
@@ -203,7 +202,7 @@ const userStore = createStore({
     },
     onIndexEnter(state) {
       const { loginUser } = state;
-      const { currentApp = {}, appList } = layoutStore.getState(s => s);
+      const { currentApp = {}, appList } = layoutStore.getState((s) => s);
       let pathname = currentApp.href;
       if (loginUser.id !== undefined) {
         const isSysManager = loginUser.isSysAdmin;

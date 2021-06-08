@@ -14,7 +14,7 @@
 declare namespace CP_FILE_TREE {
 
   interface Spec {
-    type: 'FileTree',
+    type: 'FileTree';
     data: IData;
     props: IProps;
   }
@@ -42,7 +42,7 @@ declare namespace CP_FILE_TREE {
     draggable?: boolean;
   }
   interface IData{
-    treeData: INode[]
+    treeData: INode[];
   }
 
   type Props = MakeProps<Spec>;
