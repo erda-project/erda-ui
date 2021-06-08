@@ -48,6 +48,7 @@ module.exports = [
   {
     name: 'mf_share',
     exposes: {
+      './layout/error-page': './app/layout/common/error-page.tsx',
       './layout/stores/layout': './app/layout/stores/layout.ts',
       './layout/entry': './app/layout/entry.js',
       './common/utils': './app/common/utils/index.ts',
