@@ -15,7 +15,7 @@ import { map, compact } from 'lodash';
 import { orgPerm } from './_perm-org';
 import { projectPerm } from './_perm-project';
 import { appPerm } from './_perm-app';
-import json2yaml from 'json-to-pretty-yaml';
+import yaml from 'js-yaml';
 
 
 export const permPrefix = 'UI';
@@ -80,7 +80,7 @@ export const changePerm2Yml = (permData: any, scope: string, ROLES: Obj) => {
     return postData;
   };
 
-  const ymlStr = json2yaml.stringify(setPostData(permData, [], { scope }));
+  const ymlStr = yaml.dump(setPostData(permData, [], { scope }));
   const ymlStrArr = compact(ymlStr.split('\n'));
   // 去除yml缩进多余
   return map(ymlStrArr, (yItem: string) => {
