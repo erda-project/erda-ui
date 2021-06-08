@@ -1122,7 +1122,6 @@ export const EditIssueDrawer = (props: IProps) => {
           name="content"
           disabled={!editAuth}
           placeHolder={i18n.t('project:no content yet')}
-          label={specialProps.contentLabel}
           type="markdown"
           onChangeCb={setFieldCb}
           itemProps={{

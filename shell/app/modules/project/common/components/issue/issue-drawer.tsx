@@ -64,7 +64,7 @@ export const IssueDrawer = (props: IProps) => {
   return (
     <Drawer
       className={`task-drawer ${className}`}
-      width="908"
+      width="70vw"
       placement="right"
       closable={false}
       visible={visible}
