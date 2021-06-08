@@ -4,14 +4,10 @@ module.exports = {
     es6: true,
   },
   globals: {
-    Cypress: "readonly",
-    cy: "readonly",
+    Cypress: 'readonly',
+    cy: 'readonly',
   },
-  extends: [
-    'eslint-config-ali/typescript/react',
-  ],
-  parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
+  extends: ['eslint-config-ali/typescript/react', 'prettier', 'prettier/@typescript-eslint', 'prettier/react'],
   parserOptions: {
     ecmaVersion: 2020, // specify the version of ECMAScript syntax you want to use: 2015 => (ES6)
     sourceType: 'module', // Allows for the use of imports
@@ -19,7 +15,7 @@ module.exports = {
       jsx: true, // enable JSX
       impliedStrict: true, // enable global strict mode
     },
-    project: ['./tsconfig.json'], // Specify it only for TypeScript files
+    project: ['./core/tsconfig.json', './shell/tsconfig.json'], // Specify it only for TypeScript files
     tsconfigRootDir: __dirname,
   },
   rules: {
@@ -40,9 +36,9 @@ module.exports = {
     '@typescript-eslint/ban-ts-ignore': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    "@typescript-eslint/no-unused-vars": [1, { "argsIgnorePattern": "^_", "varsIgnorePattern": "^ignored?$" }],
+    '@typescript-eslint/no-unused-vars': [1, { argsIgnorePattern: '^_', varsIgnorePattern: '^ignored?$' }],
     '@typescript-eslint/interface-name-prefix': 'off',
-    'indent': 0,
+    indent: 0,
   },
   overrides: [
     {
@@ -50,8 +46,8 @@ module.exports = {
       rules: {
         '@typescript-eslint/no-var-requires': 'off',
         '@typescript-eslint/no-require-imports': 'off',
-        'no-console': 'off'
-      }
-    }
-  ]
+        'no-console': 'off',
+      },
+    },
+  ],
 };
