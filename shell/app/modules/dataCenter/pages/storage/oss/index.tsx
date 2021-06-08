@@ -23,6 +23,7 @@ import { addAuthTooltipTitle } from 'app/modules/dataCenter/common/cloud-common'
 import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
 import { getCloudResourceTagsCol, getCloudResourceTimeCol, getCloudResourceRegionCol } from 'dataCenter/common/components/table-col';
 import { DownOne as IconDownOne } from '@icon-park/react';
+
 const { Option } = Select;
 
 const ACL_CONST = [
@@ -42,7 +43,7 @@ const ACL_CONST = [
 
 export default () => {
   const { getCloudRegion } = cloudCommonStore;
-  const [regions, cloudAccountExist] = cloudCommonStore.useStore(s => [s.regions, s.cloudAccountExist]);
+  const [regions, cloudAccountExist] = cloudCommonStore.useStore((s) => [s.regions, s.cloudAccountExist]);
   const { addItem } = cloudOSSStore.effects;
 
   const [{
@@ -165,7 +166,7 @@ export default () => {
   const menu = (
     <Menu>
       {
-        operationButtons.map(button => (
+        operationButtons.map((button) => (
           <Menu.Item disabled={button.ifDisabled} key={button.name} onClick={button.cb}>{button.name}</Menu.Item>
         ))
       }
@@ -176,7 +177,7 @@ export default () => {
     <Dropdown disabled={!ifSelected} overlay={menu}>
       <Button type="primary">
         {i18n.t('batch setting')}
-        <IconDownOne className="ml4" theme='filled' size="16px" />
+        <IconDownOne className="ml4" theme="filled" size="16px" />
       </Button>
     </Dropdown>
   );
@@ -205,7 +206,7 @@ export default () => {
       <SetTagForm
         items={items}
         visible={tagFormVis}
-        resourceType='OSS'
+        resourceType="OSS"
         showProjectLabel
         showClustertLabel={false}
         onCancel={() => updater.tagFormVis(false)}

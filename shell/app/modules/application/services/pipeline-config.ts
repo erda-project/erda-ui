@@ -13,7 +13,7 @@
 
 import agent from 'agent';
 
-export const getConfigs = ({ appID, payload, apiPrefix }: { appID: string, payload: PIPELINE_CONFIG.ConfigQuery[], apiPrefix?: string }): PIPELINE_CONFIG.ConfigItemMap => {
+export const getConfigs = ({ appID, payload, apiPrefix }: { appID: string; payload: PIPELINE_CONFIG.ConfigQuery[]; apiPrefix?: string }): PIPELINE_CONFIG.ConfigItemMap => {
   return agent.post(`/api/${apiPrefix || 'cicds'}/multinamespace/configs`)
     .query({ appID })
     .send({ namespaceParams: payload })
@@ -46,7 +46,7 @@ export const getConfigNameSpaces = (appID: string): PIPELINE_CONFIG.NameSpaces =
     .then((response: any) => response.body);
 };
 
-export const importConfigs = ({ query, configs }:PIPELINE_CONFIG.AddConfigsBody) => {
+export const importConfigs = ({ query, configs }: PIPELINE_CONFIG.AddConfigsBody) => {
   return agent.post('/api/config/actions/import')
     .query(query)
     .send(configs)

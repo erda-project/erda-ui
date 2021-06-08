@@ -31,20 +31,20 @@ interface IProps {
   service: RUNTIME_SERVICE.Detail;
   isEndpoint: boolean;
   name: string;
-  deployStatus: RUNTIME.DeployStatus
-  openSlidePanel(type: string, options?: any): void;
-  openDomainModalVisible(): void;
-  setTempData(payload: any): void;
+  deployStatus: RUNTIME.DeployStatus;
+  openSlidePanel: (type: string, options?: any) => void;
+  openDomainModalVisible: () => void;
+  setTempData: (payload: any) => void;
 }
 
 
 const ServiceDropdown = (props: IProps) => {
   const { service, name, setTempData, openSlidePanel, openDomainModalVisible, isEndpoint, deployStatus } = props;
-  const permMap = usePerm(s => s.app);
+  const permMap = usePerm((s) => s.app);
 
   const { status, addrs, envs, deployments: { replicas } } = service;
-  const runtimeDetail = runtimeStore.useStore(s => s.runtimeDetail);
-  const domainMap = runtimeDomainStore.useStore(s => s.domainMap);
+  const runtimeDetail = runtimeStore.useStore((s) => s.runtimeDetail);
+  const domainMap = runtimeDomainStore.useStore((s) => s.domainMap);
 
   const { id: runtimeId, extra } = runtimeDetail;
   const env = extra.workspace;
@@ -186,7 +186,7 @@ const ServiceDropdown = (props: IProps) => {
         overlay={menu}
         placement="bottomRight"
         trigger={['click']}
-        getPopupContainer={triggerNode => triggerNode.parentNode || document.body}
+        getPopupContainer={(triggerNode) => triggerNode.parentNode || document.body}
       >
         <CustomIcon className="fz24 hover-active" type="more" />
       </Dropdown>

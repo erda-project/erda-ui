@@ -19,7 +19,7 @@ export const getMachineStatus = (payload: ORG_DASHBOARD.IMachineQuery): ORG_DASH
     .then((response: any) => response.body);
 };
 
-export const deleteMachine = (payload:ORG_MACHINE.IDeleteMachineBody): ORG_MACHINE.IDeleteResp => {
+export const deleteMachine = (payload: ORG_MACHINE.IDeleteMachineBody): ORG_MACHINE.IDeleteResp => {
   return agent.delete('/api/nodes')
     .send(payload)
     .then((response: any) => response.body);

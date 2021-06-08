@@ -26,7 +26,7 @@ import issueFieldStore from 'org/stores/issue-field';
 import { useMount } from 'react-use';
 
 interface IProps{
-  issueType: ISSUE_TYPE
+  issueType: ISSUE_TYPE;
 }
 
 const getRealIssueType = (issueType: ISSUE_TYPE) => {
@@ -35,8 +35,8 @@ const getRealIssueType = (issueType: ISSUE_TYPE) => {
 };
 
 export default ({ issueType }: IProps) => {
-  const [{ projectId, iterationId }, { id: queryId, iterationID: queryItertationID, type: _queryType, ...restQuery }] = routeInfoStore.useStore(s => [s.params, s.query]);
-  const orgID = orgStore.getState(s => s.currentOrg.id);
+  const [{ projectId, iterationId }, { id: queryId, iterationID: queryItertationID, type: _queryType, ...restQuery }] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const orgID = orgStore.getState((s) => s.currentOrg.id);
   const queryType = _queryType && _queryType.toUpperCase();
   const [{ importFileVisible, filterObj, chosenIssueType, chosenIssueId, chosenIteration, urlQuery }, updater, update] = useUpdate({
     importFileVisible: false,
@@ -109,7 +109,7 @@ export default ({ issueType }: IProps) => {
     }
   };
 
-  const onCreate = (val:any) => {
+  const onCreate = (val: any) => {
     const filterIterationIDs = filterObj?.iterationIDs || [];
     const createTypeMap = {
       createRequirement: ISSUE_TYPE.REQUIREMENT,
@@ -130,8 +130,8 @@ export default ({ issueType }: IProps) => {
   return (
     <>
       <DiceConfigPage
-        scenarioKey='issue-manage'
-        scenarioType='issue-manage'
+        scenarioKey="issue-manage"
+        scenarioType="issue-manage"
         showLoading
         inParams={inParams}
         ref={reloadRef}
@@ -172,7 +172,7 @@ export default ({ issueType }: IProps) => {
               updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
               updater.pageNo(val?.pageNo || 1);
             },
-            clickTableItem: (_data:ISSUE.Issue) => {
+            clickTableItem: (_data: ISSUE.Issue) => {
               onChosenIssue(_data);
             },
           },

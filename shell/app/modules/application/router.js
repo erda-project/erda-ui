@@ -31,7 +31,7 @@ function getAppRouter() {
           ...getRuntimeRouter(),
           {
             layout: { noWrapper: true },
-            getComp: cb => cb(import('application/pages/deploy/deploy'), 'DeployWrap'),
+            getComp: (cb) => cb(import('application/pages/deploy/deploy'), 'DeployWrap'),
           },
         ],
       },
@@ -42,12 +42,12 @@ function getAppRouter() {
         routes: [
           {
             layout: { fullHeight: true },
-            getComp: cb => cb(import('application/pages/ticket')),
+            getComp: (cb) => cb(import('application/pages/ticket')),
           },
           {
             path: ':ticketId',
             breadcrumbName: i18n.t('application:issue detail'),
-            getComp: cb => cb(import('application/pages/ticket/ticket-detail')),
+            getComp: (cb) => cb(import('application/pages/ticket/ticket-detail')),
           },
         ],
       },
@@ -57,13 +57,13 @@ function getAppRouter() {
         pageName: i18n.t('application:files'),
         routes: [
           {
-            getComp: cb => cb(import('application/pages/repo/repo-tree')),
+            getComp: (cb) => cb(import('application/pages/repo/repo-tree')),
           },
           {
             path: 'tree/*',
             mark: 'repoTree',
             breadcrumbName: i18n.t('application:code'),
-            getComp: cb => cb(import('application/pages/repo/repo-tree')),
+            getComp: (cb) => cb(import('application/pages/repo/repo-tree')),
           },
           {
             path: 'branches',
@@ -74,11 +74,11 @@ function getAppRouter() {
                 path: 'compare/:branches*',
                 mark: 'repoCompare',
                 breadcrumbName: i18n.t('application:branch comparison'),
-                getComp: cb => cb(import('application/pages/repo/branch-compare-detail'), 'BranchCompareDetail'),
+                getComp: (cb) => cb(import('application/pages/repo/branch-compare-detail'), 'BranchCompareDetail'),
               },
               {
                 tabs: BRANCH_TABS,
-                getComp: cb => cb(import('application/pages/repo/repo-branch')),
+                getComp: (cb) => cb(import('application/pages/repo/repo-branch')),
               },
             ],
           },
@@ -89,7 +89,7 @@ function getAppRouter() {
             routes: [
               {
                 tabs: BRANCH_TABS,
-                getComp: cb => cb(import('application/pages/repo/repo-tag')),
+                getComp: (cb) => cb(import('application/pages/repo/repo-tag')),
               },
             ],
           },
@@ -99,14 +99,14 @@ function getAppRouter() {
               {
                 path: ':commitId',
                 breadcrumbName: i18n.t('application:commit details'),
-                getComp: cb => cb(import('application/pages/repo/commit-detail')),
+                getComp: (cb) => cb(import('application/pages/repo/commit-detail')),
               },
             ],
           },
           {
             path: 'commits/*', // commits后面可能有分支(包含/)，commit后面只有commitId
             breadcrumbName: i18n.t('application:commit history'),
-            getComp: cb => cb(import('application/pages/repo/repo-commit')),
+            getComp: (cb) => cb(import('application/pages/repo/repo-commit')),
           },
           {
             path: 'mr/:mrType',
@@ -116,23 +116,23 @@ function getAppRouter() {
               {
                 path: 'createMR',
                 breadcrumbName: i18n.t('application:new merge request'),
-                getComp: cb => cb(import('application/pages/repo/repo-mr-creation'), 'RepoMRCreation'),
+                getComp: (cb) => cb(import('application/pages/repo/repo-mr-creation'), 'RepoMRCreation'),
               },
               {
                 path: ':mergeId',
                 breadcrumbName: i18n.t('application:merge request detail'),
-                getComp: cb => cb(import('application/pages/repo/mr-detail')),
+                getComp: (cb) => cb(import('application/pages/repo/mr-detail')),
               },
               {
                 tabs: mrTabs,
-                getComp: cb => cb(import('application/pages/repo/repo-mr')),
+                getComp: (cb) => cb(import('application/pages/repo/repo-mr')),
               },
             ],
           },
           {
             path: 'backup',
             breadcrumbName: i18n.t('application:repo backup'),
-            getComp: cb => cb(import('app/modules/application/pages/repo/repo-backup')),
+            getComp: (cb) => cb(import('app/modules/application/pages/repo/repo-backup')),
           },
         ],
       },
@@ -140,7 +140,7 @@ function getAppRouter() {
         path: 'release',
         breadcrumbName: i18n.t('releases'),
         layout: { fullHeight: true, noWrapper: true },
-        getComp: cb => cb(import('app/modules/application/pages/release/release-list')),
+        getComp: (cb) => cb(import('app/modules/application/pages/release/release-list')),
       },
       {
         path: 'apiDesign',
@@ -149,7 +149,7 @@ function getAppRouter() {
         routes: [
           {
             layout: { fullHeight: true },
-            getComp: cb => cb(import('apiManagePlatform/pages/api-market/design')),
+            getComp: (cb) => cb(import('apiManagePlatform/pages/api-market/design')),
           },
         ],
       },
@@ -157,7 +157,7 @@ function getAppRouter() {
         path: 'pipeline',
         mark: 'pipeline',
         pageName: i18n.t('application:pipeline'),
-        getComp: cb => cb(import('application/pages/pipeline')),
+        getComp: (cb) => cb(import('application/pages/pipeline')),
         layout: { fullHeight: true },
       },
       // {
@@ -187,10 +187,10 @@ function getAppRouter() {
           {
             path: ':pipelineID',
             breadcrumbName: `${i18n.t('application:data task')}`,
-            getComp: cb => cb(import('application/pages/build/dataTask'), 'DataTask'),
+            getComp: (cb) => cb(import('application/pages/build/dataTask'), 'DataTask'),
           },
           {
-            getComp: cb => cb(import('application/pages/build/dataTask'), 'DataTask'),
+            getComp: (cb) => cb(import('application/pages/build/dataTask'), 'DataTask'),
           },
         ],
       },
@@ -201,17 +201,17 @@ function getAppRouter() {
           {
             path: 'starChart/:filePath',
             breadcrumbName: i18n.t('application:data model detail'),
-            getComp: cb => cb(import('application/pages/data-model/model-star-chart'), 'ModelStarChart'),
+            getComp: (cb) => cb(import('application/pages/data-model/model-star-chart'), 'ModelStarChart'),
           },
           {
-            getComp: cb => cb(import('application/pages/data-model/data-model'), 'DataModel'),
+            getComp: (cb) => cb(import('application/pages/data-model/data-model'), 'DataModel'),
           },
         ],
       },
       {
         path: 'dataMarket',
         breadcrumbName: i18n.t('application:data market'),
-        getComp: cb => cb(import('application/pages/data-market/data-market'), 'DataMarket'),
+        getComp: (cb) => cb(import('application/pages/data-market/data-market'), 'DataMarket'),
       },
       {
         path: 'test',
@@ -219,17 +219,17 @@ function getAppRouter() {
           {
             listKey: 'apps',
             breadcrumbName: i18n.t('application:test runs'),
-            getComp: cb => cb(import('application/pages/test/test-list')),
+            getComp: (cb) => cb(import('application/pages/test/test-list')),
           },
           {
             path: 'quality',
             breadcrumbName: i18n.t('application:quality reports'),
-            getComp: cb => cb(import('application/pages/quality'), 'CodeQualityWrap'),
+            getComp: (cb) => cb(import('application/pages/quality'), 'CodeQualityWrap'),
           },
           {
             path: ':testId',
             breadcrumbName: i18n.t('application:test detail'),
-            getComp: cb => cb(import('application/pages/test/test-detail-container')),
+            getComp: (cb) => cb(import('application/pages/test/test-detail-container')),
           },
         ],
       },
@@ -237,7 +237,7 @@ function getAppRouter() {
         path: 'setting',
         breadcrumbName: i18n.t('application:application setting'),
         layout: { fullHeight: true },
-        getComp: cb => cb(import('application/pages/settings/app-settings')),
+        getComp: (cb) => cb(import('application/pages/settings/app-settings')),
       },
     ],
   };

@@ -22,7 +22,7 @@ describe('icon', () => {
   it('should render base icon', () => {
     const onClick = jest.fn();
     const wrapper = mount(
-      <Icon type={iconType} onClick={onClick} className="icon-class" />
+      <Icon type={iconType} onClick={onClick} className="icon-class" />,
     );
     wrapper.find('.iconfont').simulate('click');
     expect(onClick).toHaveBeenCalled();
@@ -32,7 +32,7 @@ describe('icon', () => {
   it('should render colur icon', () => {
     const onClick = jest.fn();
     const wrapper = mount(
-      <Icon type={iconType} color onClick={onClick} className="icon-class" />
+      <Icon type={iconType} color onClick={onClick} className="icon-class" />,
     );
     wrapper.find('.icon').simulate('click');
     expect(onClick).toHaveBeenCalled();
@@ -43,13 +43,13 @@ describe('icon', () => {
   it('should type is ReactElement', () => {
     const type = <span>erda</span>;
     const wrapper = mount(
-      <Icon type={type} className="icon-class" />
+      <Icon type={type} className="icon-class" />,
     );
     expect(wrapper.children()).toHaveHTML('<span>erda</span>');
   });
   it('should type is preset', () => {
     const wrapper = mount(
-      <Icon type="ISSUE_ICON.issue.REQUIREMENT" />
+      <Icon type="ISSUE_ICON.issue.REQUIREMENT" />,
     );
     expect(wrapper.find('.requirement')).toExist();
   });

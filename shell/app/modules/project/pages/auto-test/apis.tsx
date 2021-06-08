@@ -17,13 +17,13 @@ import DiceConfigPage from 'app/config-page';
 import { cloneDeep } from 'lodash';
 
 const AutoTestApis = () => {
-  const { projectId } = routeInfoStore.useStore(s => s.params);
+  const { projectId } = routeInfoStore.useStore((s) => s.params);
   const inParams = {
     projectId,
   };
   return (
     <DiceConfigPage
-      scenarioType='auto-test-apis'
+      scenarioType="auto-test-apis"
       scenarioKey={'auto-test-apis'}
       inParams={inParams}
       // 提供给后端测试，可在路由上带上useMock来查看mock的数据，以便后端检查，对接完成后删除
@@ -41,14 +41,14 @@ const useMock = (payload: any) => {
   });
 };
 
-const getMockFileTree = (payload:any) => {
+const getMockFileTree = (payload: any) => {
   const data = cloneDeep(mock);
   if (payload.event?.operation === 'delete') {
     const curData = data.protocol.components.fileTree.data;
-    data.protocol.components.fileTree.data = curData?.map(item => {
+    data.protocol.components.fileTree.data = curData?.map((item) => {
       return ({
         ...item,
-        children: (item.children || []).filter((cItem:any) => {
+        children: (item.children || []).filter((cItem: any) => {
           return cItem.key !== payload.event.operationData.meta.key;
         }),
       });

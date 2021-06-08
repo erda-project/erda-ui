@@ -105,9 +105,9 @@ interface IProps {
   haveHost: boolean;
   haveStatus?: boolean;
   extraQuery: {
-    filter_cluster_name: string
+    filter_cluster_name: string;
   };
-  into(data: { q: string, name: string }): void;
+  into: (data: { q: string; name: string }) => void;
 }
 
 interface IInstance {
@@ -356,7 +356,7 @@ function ServiceList({ containerList, serviceList, depth, into, haveMetrics, hav
       } as any);
     }
   }
-  remove(cols as any, item => item === null);
+  remove(cols as any, (item) => item === null);
 
   return (
     <div className="service-table">

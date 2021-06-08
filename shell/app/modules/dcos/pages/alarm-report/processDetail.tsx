@@ -62,9 +62,9 @@ const ProcessDetailInfo = ({ processName, id, cmdline, ip, clusterName }: IProce
 };
 
 const ProcessDetail = () => {
-  const processCmdline = alarmReportStore.useStore(s => s.processCmdline);
+  const processCmdline = alarmReportStore.useStore((s) => s.processCmdline);
   const { getProcessCmdline } = alarmReportStore.effects;
-  const params = routeInfoStore.useStore(s => s.params);
+  const params = routeInfoStore.useStore((s) => s.params);
   const { clusterName: filter_cluster_name, processId: filter_pid } = params;
   const { ip: filter_host_ip, name: filter_process_name, timestamp }: any = qs.parse(window.location.search);
   const query = {

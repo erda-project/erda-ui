@@ -41,7 +41,7 @@ const FormGroupComp = (p: any) => {
       <div className={`dice-form-group-title fz14 bold py4 px2 flex-box ${cls}`} onClick={onClick}>
         <span>{title || key}</span>
         {
-            expandable ? <CustomIcon type='chevron-down' className='expand-icon' /> : null
+            expandable ? <CustomIcon type="chevron-down" className="expand-icon" /> : null
           }
       </div>
       <div className={`dice-form-group-children ${indentation ? 'pl16' : ''} ${direction === 'row' ? 'dice-form-group-children-row' : ''}`}>
@@ -51,7 +51,7 @@ const FormGroupComp = (p: any) => {
   );
 };
 
-export const FormGroup = () => React.memo((p:any) => <FormGroupComp {...p} />);
+export const FormGroup = () => React.memo((p: any) => <FormGroupComp {...p} />);
 
 export const config = {
   name: 'formGroup',

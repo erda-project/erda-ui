@@ -27,8 +27,8 @@ interface IProps {
   selectedItem: any;
   drawerVisible: boolean;
   isFetching: boolean;
-  closeDrawer(event: any): void;
-  getTableAttrs(params: { filePath: string, searchKey?: string, pageNo: number }): Promise<any>;
+  closeDrawer: (event: any) => void;
+  getTableAttrs: (params: { filePath: string; searchKey?: string; pageNo: number }) => Promise<any>;
 }
 
 const columns = [{

@@ -54,17 +54,17 @@ const statusMap = [
   { status: 'CancelByRemote', msg: i18n.t('stop by system'), colorClass: 'red' },
 ];
 interface IProps {
-  setup: { type: string, addTitle: string, categoryTitle: string, iconType: string };
+  setup: { type: string; addTitle: string; categoryTitle: string; iconType: string };
   goToDetailLink: Function;
   showModal: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
-  renderCreateModal(): any;
+  renderCreateModal: () => any;
 }
 
 interface IState {
   chosenCategory: string; // selected branch/workflow
   activeItem: BUILD.IActiveItem | null; // active item in combo pipeline list
   pipelines: BUILD.IComboPipeline[]; // comboPipelines filter by selected branch/workflow
-  categoryOptions: Array<{ value: string, label: string }>; // remove duplicate item of comboPipelines
+  categoryOptions: Array<{ value: string; label: string }>; // remove duplicate item of comboPipelines
 }
 
 const disableStatus = ['Initializing'];
@@ -79,15 +79,15 @@ const initialState: IState = {
 };
 
 export const Build = (props: IProps) => {
-  const [pipelineDetail, comboPipelines] = buildStore.useStore(s => [s.pipelineDetail, s.comboPipelines]);
+  const [pipelineDetail, comboPipelines] = buildStore.useStore((s) => [s.pipelineDetail, s.comboPipelines]);
   const { getPipelineDetail, getComboPipelines, getExecuteRecords } = buildStore.effects;
   const { clearComboPipelines, clearPipelineDetail } = buildStore.reducers;
-  const params = routeInfoStore.useStore(s => s.params);
+  const params = routeInfoStore.useStore((s) => s.params);
   const [getComboPipelinesLoading, addPipelineLoading, batchCreateTaskLoading] = useLoading(buildStore, ['getComboPipelines', 'addPipeline', 'batchCreateTask']);
   const { setup: { categoryTitle, type, iconType, addTitle }, goToDetailLink, renderCreateModal, showModal } = props;
   const keyProp = type === 'dataTask' ? 'ymlName' : 'branch';
 
-  const reducer = (state: IState, action: { type: string, data: any }): IState => {
+  const reducer = (state: IState, action: { type: string; data: any }): IState => {
     switch (action.type) {
       case 'changeCategory': {
         let filteredPipelines = comboPipelines;
@@ -186,8 +186,8 @@ export const Build = (props: IProps) => {
     comboPipelines && dispatch({ type: 'comboPipelinesUpdate', data: null });
   }, [comboPipelines, dispatch]);
 
-  const renderBuildStatus = ({ status: inputStatus, cancelUser }: { status: string, cancelUser: { name?: string } }) => {
-    const definedStatus = statusMap.find(s => s.status === inputStatus);
+  const renderBuildStatus = ({ status: inputStatus, cancelUser }: { status: string; cancelUser: { name?: string } }) => {
+    const definedStatus = statusMap.find((s) => s.status === inputStatus);
     if (definedStatus) {
       const { jumping, colorClass } = definedStatus;
       let { msg } = definedStatus;
@@ -251,11 +251,11 @@ export const Build = (props: IProps) => {
                 <IF check={!isBigData}>
                   <div className="yml-name nowrap flex-box">
                     <Tooltip title={ymlName} overlayClassName="commit-tip" >
-                      <span className='name nowrap'>
+                      <span className="name nowrap">
                         <CustomIcon type="wj" /><span className="nowrap">{ymlName}</span>
                       </span>
                     </Tooltip>
-                    <div className='workspace'>{workspace}</div>
+                    <div className="workspace">{workspace}</div>
                   </div>
                 </IF>
                 <div className="item-footer">
@@ -287,9 +287,9 @@ export const Build = (props: IProps) => {
                 return get(option, 'props.title').toLowerCase().indexOf(input.toLowerCase()) >= 0;
               }}
             >
-              <Option value="" title=''>{categoryTitle}</Option>
+              <Option value="" title="">{categoryTitle}</Option>
               {
-                categoryOptions.map(({ label, value }: { label: string, value: string }) => (
+                categoryOptions.map(({ label, value }: { label: string; value: string }) => (
                   type === 'dataTask'
                     ? <Option key={value} title={label} value={value}>{label.slice(label.lastIndexOf('/') + 1)}</Option>
                     : (

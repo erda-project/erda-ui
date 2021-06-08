@@ -22,7 +22,7 @@ import './domain-selector.scss';
 const { Option } = Select;
 
 const DomainSelector = () => {
-  const [domainList, chosenDomain] = gatewayIngressCommonStore.useStore(s => [s.domainList, s.chosenDomain]);
+  const [domainList, chosenDomain] = gatewayIngressCommonStore.useStore((s) => [s.domainList, s.chosenDomain]);
   const { getDomainList } = gatewayIngressCommonStore.effects;
   const { changeChosenDomain } = gatewayIngressCommonStore.reducers;
   React.useEffect(() => {
@@ -42,7 +42,7 @@ const DomainSelector = () => {
       placeholder={i18n.t('microService:please select a domain')}
     >
       {
-        map(domainList, domain => (
+        map(domainList, (domain) => (
           <Option value={domain} key={domain}>{domain}</Option>
         ))
       }

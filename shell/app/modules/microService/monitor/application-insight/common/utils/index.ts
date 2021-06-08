@@ -23,7 +23,7 @@ interface IProps{
   chosenApp: any;
 }
 
-export const getFilterParams = (props: IProps, { type, prefix }: {type: string, prefix: string}) => {
+export const getFilterParams = (props: IProps, { type, prefix }: {type: string; prefix: string}) => {
   const { chosenAppGroup, appGroup } = props;
 
   const appGroupLoading = appGroup[type] && appGroup[type].loading === false;

@@ -25,7 +25,7 @@ export const Submit = (props: any) => {
   };
   const ButtonComp = Button || 'button';
   return (
-    <ButtonComp className='dice-form-button' onClick={click} {...rest}>
+    <ButtonComp className="dice-form-button" onClick={click} {...rest}>
       {text}
     </ButtonComp>
   );
@@ -44,7 +44,7 @@ export const Reset = (props: any) => {
 
   const ButtonComp = Button || 'button';
   return (
-    <ButtonComp className='dice-form-button' onClick={click} {...rest}>
+    <ButtonComp className="dice-form-button" onClick={click} {...rest}>
       {text}
     </ButtonComp>
   );

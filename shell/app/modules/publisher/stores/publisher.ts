@@ -43,19 +43,19 @@ import {
 } from '../services/publisher';
 
 interface IState {
-  publisherList: PUBLISHER.IPublisher[],
-  publisherPaging: IPaging,
-  joinedPublisherList: PUBLISHER.IPublisher[],
-  joinedPublisherPaging: IPaging,
-  publisherDetail: PUBLISHER.IPublisher | undefined,
-  artifactsList: PUBLISHER.IArtifacts[],
-  artifactsPaging: IPaging,
-  joinedArtifactsList: PUBLISHER.IArtifacts[],
-  joinedArtifactsPaging: IPaging,
-  versionList: PUBLISHER.IVersion[],
-  versionPaging: IPaging,
-  artifactsDetail: PUBLISHER.IArtifacts,
-  onlineVersionData: PUBLISHER.IOnlineVersion[],
+  publisherList: PUBLISHER.IPublisher[];
+  publisherPaging: IPaging;
+  joinedPublisherList: PUBLISHER.IPublisher[];
+  joinedPublisherPaging: IPaging;
+  publisherDetail: PUBLISHER.IPublisher | undefined;
+  artifactsList: PUBLISHER.IArtifacts[];
+  artifactsPaging: IPaging;
+  joinedArtifactsList: PUBLISHER.IArtifacts[];
+  joinedArtifactsPaging: IPaging;
+  versionList: PUBLISHER.IVersion[];
+  versionPaging: IPaging;
+  artifactsDetail: PUBLISHER.IArtifacts;
+  onlineVersionData: PUBLISHER.IOnlineVersion[];
   publishItemMonitors: Record<string, PUBLISHER.MonitorItem>;
 }
 
@@ -95,9 +95,9 @@ const publisher = createStore({
     // 发布仓库
     async getPublisherList({ call, update, select }, payload: Parameters<typeof getPublisherList>[0]) {
       const { loadMore, ...rest } = payload;
-      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const orgId = orgStore.getState((s) => s.currentOrg.id);
       const result = await call(getPublisherList, { ...rest, orgId }, { paging: { key: 'publisherPaging' } });
-      let publisherList = select(state => state.publisherList);
+      let publisherList = select((state) => state.publisherList);
       if (loadMore && rest.pageNo !== 1) {
         publisherList = publisherList.concat(result.list);
       } else {
@@ -108,9 +108,9 @@ const publisher = createStore({
     },
     async getJoinedPublisherList({ call, update, select }, payload: Parameters<typeof getJoinedPublisherList>[0]) {
       const { loadMore, ...rest } = payload;
-      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const orgId = orgStore.getState((s) => s.currentOrg.id);
       const result = await call(getJoinedPublisherList, { ...rest, orgId }, { paging: { key: 'joinedPublisherPaging' } });
-      let joinedPublisherList = select(state => state.joinedPublisherList);
+      let joinedPublisherList = select((state) => state.joinedPublisherList);
       if (loadMore && rest.pageNo !== 1) {
         joinedPublisherList = joinedPublisherList.concat(result.list);
       } else {
@@ -120,12 +120,12 @@ const publisher = createStore({
       return { ...result };
     },
     async addPublisherList({ call }, payload: Parameters<typeof addPublisher>[0]) {
-      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const orgId = orgStore.getState((s) => s.currentOrg.id);
       const res = await call(addPublisher, { ...payload, orgId }, { successMsg: i18n.t('add successfully') });
       return res;
     },
     async updatePublisher({ call }, payload: Parameters<typeof updatePublisher>[0]) {
-      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const orgId = orgStore.getState((s) => s.currentOrg.id);
       const res = await call(updatePublisher, { ...payload, orgId }, { successMsg: i18n.t('application:modified successfully') });
       return res;
     },
@@ -143,7 +143,7 @@ const publisher = createStore({
     async getArtifactsList({ call, update, select }, payload: Merge<Parameters<typeof getArtifactsList>[0], 'loadMore'>) {
       const { loadMore, ...rest } = payload;
       const result = await call(getArtifactsList, { ...rest }, { paging: { key: 'artifactsPaging' } });
-      let artifactsList = select(state => state.artifactsList);
+      let artifactsList = select((state) => state.artifactsList);
       if (loadMore && rest.pageNo !== 1) {
         artifactsList = artifactsList.concat(result.list);
       } else {
@@ -156,7 +156,7 @@ const publisher = createStore({
     async getJoinedArtifactsList({ call, update, select }, payload: Merge<Parameters<typeof getJoinedArtifactsList>[0], 'loadMore'>) {
       const { loadMore, ...rest } = payload;
       const result = await call(getJoinedArtifactsList, { ...rest }, { paging: { key: 'joinedArtifactsPaging' } });
-      let joinedArtifactsList = select(state => state.joinedArtifactsList);
+      let joinedArtifactsList = select((state) => state.joinedArtifactsList);
       if (loadMore && rest.pageNo !== 1) {
         joinedArtifactsList = joinedArtifactsList.concat(result.list);
       } else {
@@ -166,7 +166,7 @@ const publisher = createStore({
       return { ...result };
     },
     async addArtifacts({ call }, payload) {
-      const publisherId = orgStore.getState(s => s.currentOrg.publisherId);
+      const publisherId = orgStore.getState((s) => s.currentOrg.publisherId);
       const res = await call(addArtifacts, { ...payload, publisherId: Number(publisherId) }, { successMsg: i18n.t('add successfully') });
       return res;
     },
@@ -181,7 +181,7 @@ const publisher = createStore({
     // 版本
     async getVersionList({ call, update, select }, payload: Parameters<typeof getVersionList>[0]) {
       const result = await call(getVersionList, payload, { paging: { key: 'versionPaging' } });
-      const prevList = select(s => s.versionList);
+      const prevList = select((s) => s.versionList);
       const newList = (payload.pageNo && payload.pageNo > 1) ? prevList.concat(result.list) : result.list;
       update({ versionList: newList });
       return { ...result };

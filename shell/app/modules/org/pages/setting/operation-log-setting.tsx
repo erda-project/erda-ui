@@ -20,7 +20,7 @@ import { useEffectOnce } from 'react-use';
 
 export const OperationLogSetting = () => {
   const [disableButton, setDisableButton] = React.useState(true);
-  const setting = auditStore.useStore(s => s.setting);
+  const setting = auditStore.useStore((s) => s.setting);
   const { getAuditLogSetting } = auditStore.effects;
   const { clearAuditLogSetting } = auditStore.reducers;
   const form = React.useRef();
@@ -61,7 +61,7 @@ export const OperationLogSetting = () => {
       fields={fieldsList}
       value={setting}
     >
-      <Form.Submit Button={Button} type='primary' onSubmit={onSubmit} disabled={disableButton} text={i18n.t('update')} />
+      <Form.Submit Button={Button} type="primary" onSubmit={onSubmit} disabled={disableButton} text={i18n.t('update')} />
     </Form>
   );
 };

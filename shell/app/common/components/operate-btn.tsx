@@ -87,7 +87,7 @@ const OperateBtn = ({ children, limit = 3, ellipses, className }: IProps) => {
   };
   const wrapClassName = classNames('table-operations operator-dropdown-wrap', className);
   return (
-    <div className={wrapClassName} onClick={e => e.stopPropagation()}>
+    <div className={wrapClassName} onClick={(e) => e.stopPropagation()}>
       {
         renderChild()
       }

@@ -44,7 +44,7 @@ const { Panel } = Collapse;
 const { confirm } = Modal;
 
 
-const ExternalRepoPage = ({ type }:{type?:string}) => {
+const ExternalRepoPage = ({ type }: {type?: string}) => {
   return type ? (
     <div>
       <p className="color-text-desc">{i18n.t('project:repository address')}</p>
@@ -56,17 +56,17 @@ const ExternalRepoPage = ({ type }:{type?:string}) => {
     </div>
   ) : <></>;
 };
-const ErrorEmptyHolder = ({ msg, branchName, docName, isLoading }:{ msg:string, branchName: string, docName: string, isLoading:boolean}) => {
+const ErrorEmptyHolder = ({ msg, branchName, docName, isLoading }: { msg: string; branchName: string; docName: string; isLoading: boolean}) => {
   if (isLoading) {
     return <EmptyHolder relative />;
   }
-  const [branchList] = apiDesignStore.useStore(s => [s.branchList]);
+  const [branchList] = apiDesignStore.useStore((s) => [s.branchList]);
 
   const apiDocsLink = goTo.resolve.apiDocs({ branchName, docName });
   const apiBranchLink = goTo.resolve.app();
   const isErrorDoc = msg && branchName && docName;
 
-  const validBranches = filter(branchList, b => b?.meta?.hasDoc);
+  const validBranches = filter(branchList, (b) => b?.meta?.hasDoc);
   let Comp = null;
 
   if (isErrorDoc) {
@@ -90,8 +90,8 @@ const ErrorEmptyHolder = ({ msg, branchName, docName, isLoading }:{ msg:string, 
   return Comp;
 };
 
-const ErrorPopover = ({ msg, branchName, docName }:{ msg: string, branchName: string, docName: string}) => {
-  const { projectId, appId } = routeInfoStore.useStore(s => s.params);
+const ErrorPopover = ({ msg, branchName, docName }: { msg: string; branchName: string; docName: string}) => {
+  const { projectId, appId } = routeInfoStore.useStore((s) => s.params);
 
   const gotoDetail = React.useCallback(() => {
     goTo(goTo.pages.apiDocs, { projectId, appId, branchName, docName });
@@ -108,7 +108,7 @@ const ErrorPopover = ({ msg, branchName, docName }:{ msg: string, branchName: st
     </div>
   );
   return (
-    <Popover placement='bottom' content={content} trigger='hover' >
+    <Popover placement="bottom" content={content} trigger="hover" >
       <div className="ml8">
         <CustomIcon type="tishi" />
         <span>{i18n.t('project:document is illegal')}</span>
@@ -153,7 +153,7 @@ const ApiDesign = () => {
     apiDetail: {},
   });
 
-  const { inode: inodeQuery, pinode: pinodeQuery } = routeInfoStore.useStore(s => s.query);
+  const { inode: inodeQuery, pinode: pinodeQuery } = routeInfoStore.useStore((s) => s.query);
 
   React.useEffect(() => {
     const [key] = contentKey.split('&DICE&');
@@ -163,9 +163,9 @@ const ApiDesign = () => {
       curDataType && updater.contentKey(`${key}&DICE&${curDataType}`);
     }
   }, [curApiName, contentKey, updater, curDataType]);
-  const { isExternalRepo, repoConfig } = appStore.useStore(s => s.detail);
+  const { isExternalRepo, repoConfig } = appStore.useStore((s) => s.detail);
 
-  const [openApiDoc, apiWs, apiLockState, isDocChanged, wsQuery, formErrorNum, isApiReadOnly, lockUser, docValidData] = apiDesignStore.useStore(s => [
+  const [openApiDoc, apiWs, apiLockState, isDocChanged, wsQuery, formErrorNum, isApiReadOnly, lockUser, docValidData] = apiDesignStore.useStore((s) => [
     s.openApiDoc, s.apiWs, s.apiLockState, s.isDocChanged, s.wsQuery, s.formErrorNum, s.isApiReadOnly, s.lockUser, s.docValidData,
   ]);
 
@@ -191,7 +191,7 @@ const ApiDesign = () => {
     changeRef.current = isDocChanged;
   }, [isDocChanged]);
 
-  const beforeunload = React.useCallback(e => {
+  const beforeunload = React.useCallback((e) => {
     const msg = `${i18n.t('project:not saved yet, confirm to leave')}?`;
     if (changeRef.current) {
       // eslint-disable-next-line no-param-reassign
@@ -206,7 +206,7 @@ const ApiDesign = () => {
     const fullKeys = keys(tempMap);
     let tempList = [];
     if (filterKey) {
-      tempList = filter(keys(tempMap), name => name.indexOf(filterKey) > -1);
+      tempList = filter(keys(tempMap), (name) => name.indexOf(filterKey) > -1);
     } else {
       tempList = fullKeys;
     }
@@ -219,7 +219,7 @@ const ApiDesign = () => {
     const fullKeys = keys(tempMap);
     let tempList = [];
     if (filterKey) {
-      tempList = filter(fullKeys, name => name.indexOf(filterKey) > -1);
+      tempList = filter(fullKeys, (name) => name.indexOf(filterKey) > -1);
     } else {
       tempList = fullKeys;
     }
@@ -228,8 +228,8 @@ const ApiDesign = () => {
   }, [filterKey, openApiDoc, updater]);
 
 
-  const onCreateDoc = (values: { name: string, pinode: string }) => {
-    createTreeNode(values).then(res => {
+  const onCreateDoc = (values: { name: string; pinode: string }) => {
+    createTreeNode(values).then((res) => {
       updater.newTreeNode(res);
     });
     updater.treeModalVisible(false);
@@ -287,7 +287,7 @@ const ApiDesign = () => {
       dataPath = ['components', 'schemas', newName];
     }
 
-    const tempDocDetail = produce(openApiDoc, draft => set(draft, dataPath, newData));
+    const tempDocDetail = produce(openApiDoc, (draft) => set(draft, dataPath, newData));
     updateOpenApiDoc(tempDocDetail);
 
     onContentChange(`${addKey}&DICE&${newName}`);
@@ -310,7 +310,7 @@ const ApiDesign = () => {
       }
     }
     const dataPath = key === 'RESOURCE' ? ['paths', name] : ['components', 'schemas', name];
-    const tempDocDetail = produce(openApiDoc, draft => {
+    const tempDocDetail = produce(openApiDoc, (draft) => {
       unset(draft, dataPath);
     });
     updateOpenApiDoc(tempDocDetail);
@@ -344,7 +344,7 @@ const ApiDesign = () => {
               onConfirm={(e: any) => { e.stopPropagation(); onDeleteHandle(key); }}
               onCancel={(e: any) => e.stopPropagation()}
             >
-              {!apiLockState && <CustomIcon type="shanchu" className="list-title-btn pointer" onClick={e => e?.stopPropagation()} />}
+              {!apiLockState && <CustomIcon type="shanchu" className="list-title-btn pointer" onClick={(e) => e?.stopPropagation()} />}
             </Popconfirm>
           </div>
           {
@@ -382,7 +382,7 @@ const ApiDesign = () => {
         }
       }
       if (innerData?.properties) {
-        forEach(keys(innerData.properties), item => {
+        forEach(keys(innerData.properties), (item) => {
           getQuotePath(innerData.properties[item], [...prefixPath, 'properties', item], pathMap);
         });
       }
@@ -393,13 +393,13 @@ const ApiDesign = () => {
 
     const tempMap = {};
     const pathMap = data.paths;
-    forEach(keys(pathMap), path => {
+    forEach(keys(pathMap), (path) => {
       const pathData = pathMap[path];
-      forEach(keys(pathData), method => {
+      forEach(keys(pathData), (method) => {
         const methodData = pathData[method];
         const _path = ['paths', path, method];
 
-        forEach(API_MEDIA_TYPE, mediaType => {
+        forEach(API_MEDIA_TYPE, (mediaType) => {
           // responses
           const responsePath = ['responses', '200', 'content', mediaType, 'schema'];
           const responseData = get(methodData, responsePath) || {};
@@ -495,10 +495,10 @@ const ApiDesign = () => {
     }
   };
 
-  const onPublishApi = React.useCallback((values:any) => {
+  const onPublishApi = React.useCallback((values: any) => {
     publishApi(values).then(() => {
       apiWs && apiWs.close();
-      getApiDetail(inodeQuery as string).then((data:any) => {
+      getApiDetail(inodeQuery as string).then((data: any) => {
         getQuoteMap(data.openApiDoc);
         updater.curTreeNodeData({
           ...curTreeNodeData,
@@ -521,7 +521,7 @@ const ApiDesign = () => {
     });
   }, [onContentChange, resetDocValidData, update, updateOpenApiDoc]);
 
-  const onToggleTreeVisible = React.useCallback((val:boolean) => {
+  const onToggleTreeVisible = React.useCallback((val: boolean) => {
     updater.popVisible(val);
   }, [updater]);
 
@@ -551,11 +551,11 @@ const ApiDesign = () => {
           isExternalRepo === true
             ? <ExternalRepoPage type={repoConfig?.type} />
             :
-            <div className='api-design'>
+            <div className="api-design">
               <div className="top-button-group">
-                <Button type='primary' onClick={() => updater.treeModalVisible(true)}>{i18n.t('project:new document')}</Button>
+                <Button type="primary" onClick={() => updater.treeModalVisible(true)}>{i18n.t('project:new document')}</Button>
               </div>
-              <div className='api-design-wrap'>
+              <div className="api-design-wrap">
                 <div className="search-wrap mb16 flex-box flex-start">
                   <ApiDocTree
                     treeNodeData={curTreeNodeData}
@@ -591,7 +591,7 @@ const ApiDesign = () => {
                     isEmpty(openApiDoc)
                       ? <ErrorEmptyHolder {...errorData} isLoading={getTreeListLoading} />
                       : (
-                        <div className='api-design-content'>
+                        <div className="api-design-content">
                           <div className="api-design-content-list column-flex-box flex-start">
                             <Input
                               placeholder={i18n.t('input keyword search')}
@@ -610,14 +610,14 @@ const ApiDesign = () => {
                                 <Panel header={renderPanelHead('RESOURCE')} key="RESOURCE">
                                   {
                                     !isEmpty(apiResourceList)
-                                      ? map(apiResourceList, name => renderListItem('RESOURCE', name))
+                                      ? map(apiResourceList, (name) => renderListItem('RESOURCE', name))
                                       : <EmptyHolder relative />
                                   }
                                 </Panel>
                                 <Panel header={renderPanelHead('DATATYPE')} key="DATATYPE">
                                   {
                                     !isEmpty(apiDataTypeList)
-                                      ? map(apiDataTypeList, name => renderListItem('DATATYPE', name))
+                                      ? map(apiDataTypeList, (name) => renderListItem('DATATYPE', name))
                                       : <EmptyHolder relative />
                                   }
                                 </Panel>

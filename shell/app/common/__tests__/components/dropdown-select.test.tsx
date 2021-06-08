@@ -48,7 +48,7 @@ describe('DropdownSelect', () => {
     const wrapper = mount(
       <DropdownSelect
         menuList={menuList}
-      />
+      />,
     );
     const Dropdown = wrapper.find('Dropdown').at(0);
     const overlay = Dropdown.prop('overlay').props.children;

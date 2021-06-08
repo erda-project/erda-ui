@@ -24,7 +24,7 @@ declare namespace TREE {
     meta?: { [p: string]: any };
   }
 
-  type GetSubTreeParams = { pinode: string, scope?: string, scopeID?: string };
+  interface GetSubTreeParams { pinode: string; scope?: string; scopeID?: string }
   type CreateRootNodeParams = Omit<NODE, 'meta' | 'inode'>;
   type CreateNodeParams = Omit<NODE, 'meta' | 'inode' | 'scope' | 'scopeID'>;
   type UpdateNodeParams = Pick<NODE, 'inode' | 'name' | 'desc'>;

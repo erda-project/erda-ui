@@ -29,7 +29,7 @@ export const AddRow = (props: IProps) => {
     onClickNode(data);
   };
   return (
-    <div className='yml-chart-node add-line' onClick={onClick}>
+    <div className="yml-chart-node add-line" onClick={onClick}>
       <Tooltip title={i18n.t('insert node')}>+</Tooltip>
     </div>
   );

@@ -55,7 +55,7 @@ export default class OverviewReportLineChart extends React.Component {
         {
           type: 'category',
           boundaryGap: false,
-          data: map(data.time, value => moment(value * 1000).format('MM/DD')) || [],
+          data: map(data.time, (value) => moment(value * 1000).format('MM/DD')) || [],
           splitLine: { show: false },
           axisLabel: {
             fontSize: 10,
@@ -114,7 +114,7 @@ export default class OverviewReportLineChart extends React.Component {
               },
             },
           },
-          data: map(data.results[0].data, item => secondToMinute(item)) || [0, 0, 0, 0, 0, 0, 0],
+          data: map(data.results[0].data, (item) => secondToMinute(item)) || [0, 0, 0, 0, 0, 0, 0],
         },
       ],
       color: ['#3690FF'],

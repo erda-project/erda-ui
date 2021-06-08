@@ -24,8 +24,8 @@ interface IProps {
   modalChildren?: JSX.Element;
   deleteItem?: string;
   confirmTip?: string;
-  onConfirm?(): void;
-  onCancel?(): void;
+  onConfirm?: () => void;
+  onCancel?: () => void;
 }
 const noop = () => { };
 
@@ -51,14 +51,14 @@ export const ConfirmDelete = (props: IProps) => {
   const _confirmTip = confirmTip || i18n.t('permanently delete {deleteItem}, please be cautious', { deleteItem });
   return (
     <div>
-      <div className='color-text-desc mb8'>{_confirmTip}</div>
+      <div className="color-text-desc mb8">{_confirmTip}</div>
       <span onClick={showModal}>
         {children || <Button ghost type="danger">{i18n.t('common:delete current {deleteItem}', { deleteItem }) }</Button>}
       </span>
       <Modal
         title={(
-          <div className='wrap-flex-box'>
-            <CustomIcon type='warning' className='mr4 color-warning fz20 bold' />
+          <div className="wrap-flex-box">
+            <CustomIcon type="warning" className="mr4 color-warning fz20 bold" />
             {_title}
           </div>
         )}

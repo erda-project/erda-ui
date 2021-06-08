@@ -18,10 +18,10 @@ import breadcrumbStore from 'app/layout/stores/breadcrumb';
 
 interface IState{
 
-  dashboard: MONITOR_STATUS.IDashboardResp,
-  detail: MONITOR_STATUS.IDashboardResp,
-  metricStatus: MONITOR_STATUS.IMetrics,
-  pastIncidents: MONITOR_STATUS.IPastIncidents[],
+  dashboard: MONITOR_STATUS.IDashboardResp;
+  detail: MONITOR_STATUS.IDashboardResp;
+  metricStatus: MONITOR_STATUS.IMetrics;
+  pastIncidents: MONITOR_STATUS.IPastIncidents[];
 }
 
 const initState: IState = {

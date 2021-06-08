@@ -39,7 +39,7 @@ enum ViewType {
 const noop = () => {};
 const PipelineEditor = (props: IYmlEditorProps) => {
   const { fileName, ops, editing, viewType: propsViewType = 'code', content = '', onUpdateViewType = noop } = props;
-  const [info, tree, editFile, blob] = repoStore.useStore(s => [s.info, s.tree, s.mode.editFile, s.blob]);
+  const [info, tree, editFile, blob] = repoStore.useStore((s) => [s.info, s.tree, s.mode.editFile, s.blob]);
   const { changeMode } = repoStore.reducers;
   const { commit, getRepoBlob } = repoStore.effects;
   const formRef: any = React.useRef(null);
@@ -269,7 +269,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
       }
       return false;
     }
-    return parsePipelineYmlStructure({ pipelineYmlContent: val }).then((res:any) => {
+    return parsePipelineYmlStructure({ pipelineYmlContent: val }).then((res: any) => {
       const ymlStr = get(res, 'data.ymlContent');
       update({
         ymlObj: (res && res.data),
@@ -306,7 +306,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
         className="flex-box"
         size="small"
         value={viewType}
-        onChange={(e:any) => changeViewType(e.target.value)}
+        onChange={(e: any) => changeViewType(e.target.value)}
       >
         <Radio.Button value={ViewType.graphic}>
           <CustomIcon type="lc" />
@@ -316,8 +316,8 @@ const PipelineEditor = (props: IYmlEditorProps) => {
         </Radio.Button>
       </Radio.Group>
       <Tooltip title={i18n.t('reset')}>
-        <Popconfirm title={i18n.t('confirm to reset?')} onConfirm={reset} placement='bottom'>
-          <CustomIcon type='zhongzhi' className='ml8 pointer' />
+        <Popconfirm title={i18n.t('confirm to reset?')} onConfirm={reset} placement="bottom">
+          <CustomIcon type="zhongzhi" className="ml8 pointer" />
         </Popconfirm>
       </Tooltip>
     </>
@@ -359,15 +359,15 @@ const PipelineEditor = (props: IYmlEditorProps) => {
       </FileContainer>
       <Modal
         visible={!isEmpty(errorMsg)}
-        title={<div><CustomIcon type='guanbi-fill' className='color-danger' />{i18n.t('error')}</div>}
+        title={<div><CustomIcon type="guanbi-fill" className="color-danger" />{i18n.t('error')}</div>}
         maskClosable={false}
         footer={[
-          <Button key='cancel' onClick={() => { updater.errorMsg(''); }}>{i18n.t('cancel')}</Button>,
+          <Button key="cancel" onClick={() => { updater.errorMsg(''); }}>{i18n.t('cancel')}</Button>,
           ...insertWhen(originYmlValid,
             [
               <Button
-                key='ok'
-                type='primary'
+                key="ok"
+                type="primary"
                 onClick={() => resetAndChangeViewType()}
               >
                 {i18n.t('application:reset and switch')}

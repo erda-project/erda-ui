@@ -25,7 +25,7 @@ export const getLogStatistics = (query: LOG_ANALYZE.GetLogQuery): LOG_ANALYZE.Lo
     .then((response: any) => response.body);
 };
 
-export const getLogs = (query: LOG_ANALYZE.GetLogQuery): { data: LOG_ANALYZE.Log[], total: number } => {
+export const getLogs = (query: LOG_ANALYZE.GetLogQuery): { data: LOG_ANALYZE.Log[]; total: number } => {
   return agent.get('/api/org/logs/search')
     .query(query)
     .then((response: any) => response.body);
@@ -37,7 +37,7 @@ export const getAddonLogStatistics = ({ addonID, ...query }: LOG_ANALYZE.AddonSe
     .then((response: any) => response.body);
 };
 
-export const getAddonLogs = ({ addonID, ...query }: LOG_ANALYZE.AddonSearchQuery): { data: LOG_ANALYZE.Log[], total: number } => {
+export const getAddonLogs = ({ addonID, ...query }: LOG_ANALYZE.AddonSearchQuery): { data: LOG_ANALYZE.Log[]; total: number } => {
   return agent.get(`/api/log-analytics/${addonID}/search`)
     .query(query)
     .then((response: any) => response.body);

@@ -26,17 +26,17 @@ const STEP = {
 };
 
 interface IProps {
-  visible: boolean,
-  category?: string,
-  addonInsList: ADDON.Instance[],
-  addonSpecList: CUSTOM_ADDON.Item[],
-  editData: ADDON.Instance | null,
-  onOk(data: CUSTOM_ADDON.AddBody): Promise<any>
-  onCancel(): void
+  visible: boolean;
+  category?: string;
+  addonInsList: ADDON.Instance[];
+  addonSpecList: CUSTOM_ADDON.Item[];
+  editData: ADDON.Instance | null;
+  onOk: (data: CUSTOM_ADDON.AddBody) => Promise<any>;
+  onCancel: () => void;
 }
 interface IState {
-  step: number,
-  currentType: string
+  step: number;
+  currentType: string;
   submitLoading: boolean;
   chosenWorkspace: string;
   onlyOneStep: boolean;
@@ -193,7 +193,7 @@ class AddonModal extends React.PureComponent<IProps, IState> {
 
   checkForms = (formRefs: any[]) => {
     return Promise.all(
-      formRefs.map(formRef => new Promise((resolve: any, reject: any) => {
+      formRefs.map((formRef) => new Promise((resolve: any, reject: any) => {
         if (formRef.current) {
           formRef.current.form.validateFields((error: any, values: Obj) => {
             if (error) {
@@ -203,7 +203,7 @@ class AddonModal extends React.PureComponent<IProps, IState> {
             resolve(values);
           });
         }
-      }))
+      })),
     );
   };
 

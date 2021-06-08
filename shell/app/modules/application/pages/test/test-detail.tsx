@@ -49,7 +49,7 @@ interface ITest{
 const { Option } = Select;
 const { Search } = Input;
 
-const convertTestCases = (tests: ITest[]) => map(tests, item => ({ ...item, key: uniqueId() }));
+const convertTestCases = (tests: ITest[]) => map(tests, (item) => ({ ...item, key: uniqueId() }));
 
 
 class TestDetail extends React.Component<IProps, IState> {
@@ -195,7 +195,7 @@ class TestDetail extends React.Component<IProps, IState> {
           <Col span={8} className="test-list-container">
             <ChartContainer title={i18n.t('application:test case')}>
               <div className="filter">
-                <Search placeholder={i18n.t('application:enter to filter use cases')} onChange={e => this.onSearchKeyChange(e.target.value)} />
+                <Search placeholder={i18n.t('application:enter to filter use cases')} onChange={(e) => this.onSearchKeyChange(e.target.value)} />
                 <Select value={filterKey} onChange={this.changeFilterKey}>
                   {
                         map(statusFilter, (item) => {
@@ -214,7 +214,7 @@ class TestDetail extends React.Component<IProps, IState> {
                       const { name, status, duration, key } = item;
                       const seconds = floor(parseInt(duration, 10) / (10 ** 9), 2); // duration为纳秒
                       return (
-                        <li className={`test-item ${key === checkedCaseKey ? 'active' : ''} ${status}`} key={key} onClick={e => this.showTestInfo(key, e)}>
+                        <li className={`test-item ${key === checkedCaseKey ? 'active' : ''} ${status}`} key={key} onClick={(e) => this.showTestInfo(key, e)}>
                           <span className="name"><span className={`status-point ${status}`} />{name}</span>
                           <span className="time">{(duration !== 0 && seconds === 0) ? `${duration / 1000000}${i18n.t('application:milliseconds')}` : secondsToTime(seconds, true)}</span>
                         </li>

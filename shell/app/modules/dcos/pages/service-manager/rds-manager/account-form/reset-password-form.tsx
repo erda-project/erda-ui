@@ -28,7 +28,7 @@ interface IProps {
   handleSubmit: (formRes: IFormRes) => void;
 }
 
-type FormRef = {props: {form: WrappedFormUtils}};
+interface FormRef {props: {form: WrappedFormUtils}}
 
 const ResetPasswordForm = (props: IProps) => {
   const { visible, onClose, handleSubmit } = props;

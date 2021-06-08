@@ -61,7 +61,7 @@ export default function getWorkBenchRouter() {
               ignoreTabQuery: true,
               routes: [
                 {
-                  getComp: cb => cb(import('application/pages/deploy-list/approve')),
+                  getComp: (cb) => cb(import('application/pages/deploy-list/approve')),
                 },
               ],
             },
@@ -70,7 +70,7 @@ export default function getWorkBenchRouter() {
               breadcrumbName: i18n.t('workBench:my initiated'),
               tabs: initiateTabs,
               ignoreTabQuery: true,
-              getComp: cb => cb(import('application/pages/deploy-list/initiate')),
+              getComp: (cb) => cb(import('application/pages/deploy-list/initiate')),
             },
           ],
         },
@@ -78,41 +78,41 @@ export default function getWorkBenchRouter() {
           path: 'apps',
           breadcrumbName: i18n.t('joined apps'),
           layout: { fullHeight: true },
-          getComp: cb => cb(import('application/common/app-list-protocol'), 'MyAppList'),
+          getComp: (cb) => cb(import('application/common/app-list-protocol'), 'MyAppList'),
         },
         {
           path: 'projects',
           pageName: i18n.t('joined projects'),
           breadcrumbName: i18n.t('joined projects'),
           layout: { fullHeight: true },
-          getComp: cb => cb(import('app/modules/workBench/pages/projects/project-list-protocol')),
+          getComp: (cb) => cb(import('app/modules/workBench/pages/projects/project-list-protocol')),
         },
         {
           path: 'public-projects',
           pageName: i18n.t('public project'),
           breadcrumbName: i18n.t('public project'),
           layout: { fullHeight: true },
-          getComp: cb => cb(import('app/modules/workBench/pages/projects/project-list-protocol')),
+          getComp: (cb) => cb(import('app/modules/workBench/pages/projects/project-list-protocol')),
         },
         {
           path: 'service',
           breadcrumbName: i18n.t('addon service'),
           layout: { fullHeight: true },
-          getComp: cb => cb(import('app/modules/workBench/pages/addons/addon-category'), 'AddonCategory'),
+          getComp: (cb) => cb(import('app/modules/workBench/pages/addons/addon-category'), 'AddonCategory'),
         },
         {
           path: 'publisher',
           breadcrumbName: i18n.t('publisher:joined publisher'),
           routes: [
             {
-              getComp: cb => cb(import('app/modules/workBench/pages/publisher'), 'RedirectTo'),
+              getComp: (cb) => cb(import('app/modules/workBench/pages/publisher'), 'RedirectTo'),
             },
             {
               path: ':mode',
               tabs: publisherTabs,
               routes: [
                 {
-                  getComp: cb => cb(import('app/modules/workBench/pages/publisher')),
+                  getComp: (cb) => cb(import('app/modules/workBench/pages/publisher')),
                 },
                 ...getPublisherRouter(),
               ],
@@ -129,12 +129,12 @@ export default function getWorkBenchRouter() {
                 {
                   path: 'overview',
                   breadcrumbName: i18n.t('workBench:addon info'),
-                  getComp: cb => cb(import('common/containers/addon-resource')),
+                  getComp: (cb) => cb(import('common/containers/addon-resource')),
                 },
                 {
                   path: 'settings',
                   breadcrumbName: i18n.t('workBench:addon setting'),
-                  getComp: cb => cb(import('common/components/addon-settings'), 'AddonSettings'),
+                  getComp: (cb) => cb(import('common/components/addon-settings'), 'AddonSettings'),
                 },
                 // {
                 //   path: 'log-analytics',
@@ -148,13 +148,13 @@ export default function getWorkBenchRouter() {
                     {
                       breadcrumbName: i18n.t('workBench:console'),
                       keepQuery: true,
-                      getComp: cb => cb(import('addonPlatform/pages/jvm-profiler/analysis')),
+                      getComp: (cb) => cb(import('addonPlatform/pages/jvm-profiler/analysis')),
                     },
                     {
                       path: ':profileId',
                       breadcrumbName: i18n.t('workBench:jvm profiler'),
                       keepQuery: true,
-                      getComp: cb => cb(import('addonPlatform/pages/jvm-profiler/jvm-overview')),
+                      getComp: (cb) => cb(import('addonPlatform/pages/jvm-profiler/jvm-overview')),
                     },
                   ],
                 },
@@ -167,25 +167,25 @@ export default function getWorkBenchRouter() {
           path: 'form-editor',
           breadcrumbName: 'form-editor',
           layout: { fullHeight: true },
-          getComp: cb => cb(import('workBench/pages/form-editor')),
+          getComp: (cb) => cb(import('workBench/pages/form-editor')),
         },
         {
           path: 'form-test',
           breadcrumbName: 'form-test',
-          getComp: cb => cb(import('app/configForm/nusi-form/form-test')),
+          getComp: (cb) => cb(import('app/configForm/nusi-form/form-test')),
         },
         ...getApiManagePlatformRouter(),
         {
           path: 'mock',
           pageName: '动态界面测试',
           // layout: { showSubSidebar: false, fullHeight: true },
-          getComp: cb => cb(import('app/config-page/mock')),
+          getComp: (cb) => cb(import('app/config-page/mock')),
         },
         {
           path: 'debug',
           pageName: '组件化协议调试',
           layout: { noWrapper: true },
-          getComp: cb => cb(import('config-page/debug')),
+          getComp: (cb) => cb(import('config-page/debug')),
         },
       ],
     },
@@ -193,7 +193,7 @@ export default function getWorkBenchRouter() {
       path: 'perm',
       pageName: i18n.t('role permissions description'),
       layout: { showSubSidebar: false, fullHeight: true },
-      getComp: cb => cb(import('user/common/perm-editor/perm-editor'), 'PermEditor'),
+      getComp: (cb) => cb(import('user/common/perm-editor/perm-editor'), 'PermEditor'),
     },
   ];
 }

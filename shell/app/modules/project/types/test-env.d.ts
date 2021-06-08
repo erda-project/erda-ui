@@ -15,35 +15,35 @@ declare namespace TEST_ENV {
   type EnvType = 'case' | 'project';
 
   interface Item extends CreateBody {
-    id: number
+    id: number;
   }
 
   interface ICommonCreateQuery {
-    name: string
-    domain: string
+    name: string;
+    domain: string;
     header: {
-      [k: string]: string
-    },
+      [k: string]: string;
+    };
     global: {
       [k: string]: {
-        value: string
-        type: string
-      }
-    },
+        value: string;
+        type: string;
+      };
+    };
   }
 
   interface CreateBody extends ICommonCreateQuery {
-    envType: EnvType
-    envID: number
+    envType: EnvType;
+    envID: number;
   }
 
   interface ICreateAutoTestEnv {
-    ns?: number
-    scopeID: string
-    scope: string
-    apiConfig: ICommonCreateQuery
-    displayName: string
-    desc: string
+    ns?: number;
+    scopeID: string;
+    scope: string;
+    apiConfig: ICommonCreateQuery;
+    displayName: string;
+    desc: string;
   }
 
   interface IAutoEnvItem {
@@ -51,14 +51,14 @@ declare namespace TEST_ENV {
     name: string;
     domain: string;
     header: {
-      [k: string]: string
+      [k: string]: string;
     };
     global: {
       [k: string]: {
         value: string;
         type: string;
-      }
-    },
+      };
+    };
     projectID: number;
     orgID: number;
     displayName: string;
@@ -70,37 +70,37 @@ declare namespace TEST_ENV {
       name: string;
       domain: string;
       header: {
-        [k: string]: string
+        [k: string]: string;
       };
       global: {
         [k: string]: {
           value: string;
           type: string;
-        }
-      },
-    }
+        };
+      };
+    };
     projectID: number;
     orgID: number;
     displayName: string;
     desc: string;
-    ns: string
+    ns: string;
   }
 
   interface EnvListQuery {
-    envID: number,
-    envType: EnvType
+    envID: number;
+    envType: EnvType;
   }
 
   interface IEnv {
-    id?: number,
-    name: string,
-    domain: string,
-    header: object,
-    global: object,
+    id?: number;
+    name: string;
+    domain: string;
+    header: object;
+    global: object;
   }
 
   interface IAutoEnvQuery {
-    scope: string
-    scopeID: number
+    scope: string;
+    scopeID: number;
   }
 }

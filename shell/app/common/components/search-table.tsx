@@ -20,16 +20,16 @@ import './search-table.scss';
 
 export interface IProps {
   needDebounce?: boolean;
-  placeholder?: string
+  placeholder?: string;
   triggerByEnter?: boolean;
   searchFullWidth?: boolean;
   extraItems?: React.ReactNode[] | React.ReactNode;
   searchPosition?: 'left' | 'right' ;
   extraPosition?: 'left' | 'right' ;
   searchValue?: string;
-  onSearch?: (searchKey: string) => void | any
+  onSearch?: (searchKey: string) => void | any;
   searchListOps?: {
-    list: object[],
+    list: object[];
     onUpdateOps?: (opsVal: any) => void;
   };
 }

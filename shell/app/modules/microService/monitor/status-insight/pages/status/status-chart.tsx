@@ -57,7 +57,7 @@ const StatusChart = (props: IProps) => {
           show: false,
           type: 'category',
           boundaryGap: false,
-          data: xAxisData.map(item => moment(item).format('HH:mm')),
+          data: xAxisData.map((item) => moment(item).format('HH:mm')),
         },
       ],
       yAxis: [
@@ -98,7 +98,7 @@ const StatusChart = (props: IProps) => {
                     color: 'rgba(1, 108, 209, 0.1)',
                   },
                 ],
-                false
+                false,
               ),
               shadowColor: 'rgba(228, 139, 76, 0.3)',
               shadowBlur: 10,

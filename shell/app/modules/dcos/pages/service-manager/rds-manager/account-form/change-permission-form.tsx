@@ -35,8 +35,8 @@ const RadioGroup = Radio.Group;
 
 const ChangePermissionForm = (props: IProps) => {
   const { visible, data, onClose, handleSubmit } = props;
-  const RDSDatabaseList = cloudServiceStore.useStore(s => s.RDSDatabaseList);
-  const [rdsID, query] = routeInfoStore.useStore(s => [s.params.rdsID, s.query]);
+  const RDSDatabaseList = cloudServiceStore.useStore((s) => s.RDSDatabaseList);
+  const [rdsID, query] = routeInfoStore.useStore((s) => [s.params.rdsID, s.query]);
   const { getRDSDatabaseList } = cloudServiceStore.effects;
 
   const [{
@@ -57,7 +57,7 @@ const ChangePermissionForm = (props: IProps) => {
   useEffect(() => {
     const newKeys: string[] = [];
     const newChoose = {};
-    forEach(get(data, 'databasePrivileges'), item => {
+    forEach(get(data, 'databasePrivileges'), (item) => {
       newKeys.push(item.dBName);
       newChoose[item.dBName] = item.accountPrivilege;
     });
@@ -95,7 +95,7 @@ const ChangePermissionForm = (props: IProps) => {
             }}
             value={permissionChoose[key]}
           >
-            {rdsAccountType.map(per => (
+            {rdsAccountType.map((per) => (
               <Radio key={per.value} value={per.value}>{per.name}</Radio>
             ))}
           </RadioGroup>
@@ -121,7 +121,7 @@ const ChangePermissionForm = (props: IProps) => {
       getComp: () => {
         return (
           <Transfer
-            dataSource={map(RDSDatabaseList, (db => ({
+            dataSource={map(RDSDatabaseList, ((db) => ({
               key: db.dBName,
               title: db.dBName,
             })))}

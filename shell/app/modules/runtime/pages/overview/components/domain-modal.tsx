@@ -33,15 +33,15 @@ interface IProps {
   serviceName: string;
   form: WrappedFormUtils;
   visible: boolean;
-  onCancel(): void;
+  onCancel: () => void;
 }
 
 
 const DomainModal = (props: IProps) => {
   const { form, visible, serviceName, onCancel } = props;
   const { id: runtimeId, releaseId, clusterType, extra: { workspace } } = runtimeStore.useStore((s: any) => s.runtimeDetail);
-  const domainMap = runtimeDomainStore.useStore(s => s.domainMap);
-  const { projectId } = routeInfoStore.useStore(s => s.params);
+  const domainMap = runtimeDomainStore.useStore((s) => s.domainMap);
+  const { projectId } = routeInfoStore.useStore((s) => s.params);
 
 
   const initDomains = cloneDeep(domainMap[serviceName]);
@@ -78,8 +78,8 @@ const DomainModal = (props: IProps) => {
               releaseId,
               serviceName,
               domains: map(
-                filter(domains, domain => (domain.domainType === 'DEFAULT' && domain.customDomain) || domain.domainType !== 'DEFAULT'),
-                domain => (domain.domainType === 'DEFAULT' ? (domain.customDomain + domain.rootDomain) : domain.domain)
+                filter(domains, (domain) => (domain.domainType === 'DEFAULT' && domain.customDomain) || domain.domainType !== 'DEFAULT'),
+                (domain) => (domain.domainType === 'DEFAULT' ? (domain.customDomain + domain.rootDomain) : domain.domain),
               ),
             }).then(() => {
               setTimeout(() => { // TODO: refactor
@@ -189,13 +189,13 @@ const DomainModal = (props: IProps) => {
                                 message: i18n.t('runtime:please fill in the correct domain name'),
                               },
                             ],
-                          }
+                          },
                         )(
                           <Input
                             placeholder={i18n.t('runtime:please fill in the domain name')}
                             addonAfter={rootDomain}
                             autoComplete="off"
-                          />
+                          />,
                         )}
                       </FormItem>
                     </Col>
@@ -237,7 +237,7 @@ const DomainModal = (props: IProps) => {
                         <Input
                           placeholder={i18n.t('runtime:custom-domain-tip')}
                           autoComplete="off"
-                        />
+                        />,
                       )}
                       {
                         <Popconfirm
@@ -254,7 +254,7 @@ const DomainModal = (props: IProps) => {
                   </Col>
                 </Row>
               );
-            }
+            },
           )}
         </div>
       </Form>

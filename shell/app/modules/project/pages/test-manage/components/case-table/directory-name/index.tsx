@@ -15,7 +15,7 @@ import React from 'react';
 import './index.scss';
 
 interface IProps {
-  name: string
+  name: string;
 }
 
 const DirectoryName = ({ name }: IProps) => <span className={'no-wrap test-manage-directory-name'}>{name}</span>;

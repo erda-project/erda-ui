@@ -50,7 +50,7 @@ export default (props: CP_RADIO.Props) => {
       value={state.value}
       onChange={(e: any) => onChange({ value: e.target.value })}
     >
-      {map(options, mItem => {
+      {map(options, (mItem) => {
         const { children, key, prefixIcon, text, tooltip, width, status, operations: itemOp } = mItem;
 
         if (isArray(children)) {
@@ -58,8 +58,8 @@ export default (props: CP_RADIO.Props) => {
           const childName = get(find(children, { key: curChildrenVal }), 'text');
           const getMenu = () => {
             return (
-              <Menu onClick={(e:any) => onChange({ value: key, childrenValue: { ...state.childrenValue, [key]: e.key } })}>
-                {map(children, g => {
+              <Menu onClick={(e: any) => onChange({ value: key, childrenValue: { ...state.childrenValue, [key]: e.key } })}>
+                {map(children, (g) => {
                   const extraProps = {} as Obj;
                   if (itemOp && itemOp[g.key]) {
                     extraProps.onClick = () => {
@@ -75,10 +75,10 @@ export default (props: CP_RADIO.Props) => {
             <Tooltip key={key} title={tooltip}>
               <Dropdown overlay={getMenu()}>
                 <RadioItem value={key} key={key}>
-                  <div className='flex-box'>
-                    {prefixIcon ? <CustomIcon type={prefixIcon} className='mr4' /> : null}
-                    <span className='nowrap' style={{ ...(width ? { width } : {}) }}>{childName}</span>
-                    <CustomIcon type='di' className='ml4' />
+                  <div className="flex-box">
+                    {prefixIcon ? <CustomIcon type={prefixIcon} className="mr4" /> : null}
+                    <span className="nowrap" style={{ ...(width ? { width } : {}) }}>{childName}</span>
+                    <CustomIcon type="di" className="ml4" />
                   </div>
                 </RadioItem>
               </Dropdown>
@@ -94,9 +94,9 @@ export default (props: CP_RADIO.Props) => {
           return (
             <Tooltip key={key} title={tooltip}>
               <RadioItem value={key} key={key} {...extraProps}>
-                <div className='flex-box'>
-                  {prefixIcon ? <CustomIcon type={prefixIcon} className='mr4' /> : null}
-                  {status ? <Badge status={status || 'default'} className='mr4' /> : null}
+                <div className="flex-box">
+                  {prefixIcon ? <CustomIcon type={prefixIcon} className="mr4" /> : null}
+                  {status ? <Badge status={status || 'default'} className="mr4" /> : null}
                   {text}
                 </div>
               </RadioItem>

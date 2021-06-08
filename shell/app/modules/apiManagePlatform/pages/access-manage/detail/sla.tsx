@@ -24,7 +24,7 @@ import { uniq } from 'lodash';
 import './sla.scss';
 
 interface IState {
-  slaItem: API_ACCESS.SlaItem,
+  slaItem: API_ACCESS.SlaItem;
   visible: boolean;
 }
 const Sla = () => {
@@ -32,7 +32,7 @@ const Sla = () => {
     visible: false,
     slaItem: {},
   });
-  const [assetID, swaggerVersion, slaLis, canEdit, clientPaging] = apiAccessStore.useStore(s => [
+  const [assetID, swaggerVersion, slaLis, canEdit, clientPaging] = apiAccessStore.useStore((s) => [
     s.accessDetail.access.assetID,
     s.accessDetail.access.swaggerVersion,
     s.slaList,
@@ -94,7 +94,7 @@ const Sla = () => {
     title: i18n.t('client count'),
     dataIndex: 'clientCount',
     width: 120,
-    render: count => count || 0,
+    render: (count) => count || 0,
   }, {
     title: i18n.t('authorization method'),
     dataIndex: 'approval',
@@ -104,7 +104,7 @@ const Sla = () => {
     title: i18n.t('operation'),
     dataIndex: 'id',
     width: 150,
-    render: (_id, record:API_ACCESS.SlaItem) => {
+    render: (_id, record: API_ACCESS.SlaItem) => {
       if (!canEdit || record.source === 'system') {
         return null;
       }

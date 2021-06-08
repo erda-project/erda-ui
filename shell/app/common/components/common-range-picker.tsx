@@ -22,9 +22,9 @@ import { RangePickerProps } from 'core/common/interface';
 const { RangePicker } = DatePicker;
 
 interface IProps extends RangePickerProps{
-  defaultTime?: number | Moment[] | number[]
-  disabledDate?(currentDate?: Moment): boolean
-  onOk(v: any): void
+  defaultTime?: number | Moment[] | number[];
+  disabledDate?: (currentDate?: Moment) => boolean;
+  onOk: (v: any) => void;
 }
 
 export default ({ defaultTime, disabledDate, onOk, ...rest }: IProps) => {

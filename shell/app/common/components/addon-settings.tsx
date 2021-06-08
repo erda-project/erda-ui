@@ -26,7 +26,7 @@ import { useMount } from 'react-use';
 
 interface IProps {
   insId: string;
-  addonConfig?: { config: Obj, canDel?: boolean, [k: string]: any };
+  addonConfig?: { config: Obj; canDel?: boolean; [k: string]: any };
   isFetching: boolean;
 }
 
@@ -77,14 +77,14 @@ const PureAddonSettings = ({ insId, addonConfig, isFetching }: IProps) => {
 };
 
 const AddonSettings = () => {
-  const insId = routeInfoStore.useStore(s => s.params.insId);
+  const insId = routeInfoStore.useStore((s) => s.params.insId);
   const [isFetching] = useLoading(addonStore, ['getAddonDetail']);
   const [{ addonConfig }, updater] = useUpdate({
     addonConfig: {},
   });
 
   useMount(() => {
-    addonStore.getAddonDetail(insId, true).then(res => {
+    addonStore.getAddonDetail(insId, true).then((res) => {
       updater.addonConfig(res);
     });
   });

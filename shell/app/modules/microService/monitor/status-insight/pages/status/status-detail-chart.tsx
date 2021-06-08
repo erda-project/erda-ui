@@ -68,7 +68,7 @@ const StatusDetailChart = (props: IProps) => {
               color: '#57617B',
             },
           },
-          data: xAxisData.map(item => moment(item).format(timeFormatMap[period])),
+          data: xAxisData.map((item) => moment(item).format(timeFormatMap[period])),
           axisLabel: {
             interval: 0,
             rotate: 50,
@@ -126,7 +126,7 @@ const StatusDetailChart = (props: IProps) => {
                     color: 'rgba(1, 108, 209, 0.1)',
                   },
                 ],
-                false
+                false,
               ),
               shadowColor: 'rgba(228, 139, 76, 0.3)',
               shadowBlur: 10,

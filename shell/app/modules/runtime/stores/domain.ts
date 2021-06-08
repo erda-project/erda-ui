@@ -20,7 +20,7 @@ import runtimeStore from './runtime';
 
 
 interface State {
-  domainMap: RUNTIME_DOMAIN.DomainMap,
+  domainMap: RUNTIME_DOMAIN.DomainMap;
 }
 
 const initState: State = {

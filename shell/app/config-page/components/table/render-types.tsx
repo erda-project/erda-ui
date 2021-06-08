@@ -28,7 +28,7 @@ export const getTitleRender = (cItem: CP_TABLE.Column) => {
       <div>
         {title}
         <Tooltip title={getTitleTip(titleTip)}>
-          <CustomIcon type="info" className='fz14 color-text-sub ml8' />
+          <CustomIcon type="info" className="fz14 color-text-sub ml8" />
         </Tooltip>
       </div>
     );
@@ -64,7 +64,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       }
       Comp = (
         <Tooltip title={val.value}>
-          <span className='fake-link nowrap' {..._p}>{val.value}</span>
+          <span className="fake-link nowrap" {..._p}>{val.value}</span>
         </Tooltip>
       );
     }
@@ -80,9 +80,9 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         Comp = (
           <div className={`table-render-twt full-width pl8 v-align ${hasPointer ? 'pointer' : ''}`} onClick={onClick}>
             {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
-            <div className='twt-text'>
-              <div className='nowrap'>{value}</div>
-              <TagsColumn labels={tags.map((l) => ({ label: l.tag, color: l.color }))} showCount={2} containerClassName='ml8' />
+            <div className="twt-text">
+              <div className="nowrap">{value}</div>
+              <TagsColumn labels={tags.map((l) => ({ label: l.tag, color: l.color }))} showCount={2} containerClassName="ml8" />
             </div>
           </div>
         );
@@ -95,7 +95,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
           {prefixIcon ? <CustomIcon type={prefixIcon} className={`mr4 ${colorClassName}`} /> : null}
           <Ellipsis title={value}>{value}</Ellipsis>
         </div>
-      )
+      );
     }
       break;
     case 'operationsDropdownMenu': // 下拉菜单的操作：可编辑列
@@ -112,7 +112,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         <>
           {map(val.value, (item, idx) => {
             return (
-              <Tooltip title={item.text} placement='leftTop' key={idx}>
+              <Tooltip title={item.text} placement="leftTop" key={idx}>
                 <div
                   className={`nowrap ${item?.linkStyle ? 'string-list-link' : ''}`}
                   onClick={() => {
@@ -138,7 +138,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         curUsers.push(get(extra, `userMap.${val.value}`) || {});
       }
       if (val.showIcon === false) {
-        Comp = map(curUsers, item => item.nick || item.name || item.id || i18n.t('common:empty')).join(', ');
+        Comp = map(curUsers, (item) => item.nick || item.name || item.id || i18n.t('common:empty')).join(', ');
       } else {
         Comp = (
           <div>
@@ -167,7 +167,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
             dropdownMatchSelectWidth={false}
             allowClear={false}
             valueItemRender={memberSelectorValueItem}
-            className='dice-config-table-member-selector'
+            className="dice-config-table-member-selector"
             disabled={val?.disabled}
             value={val?.value}
             onChange={(v) => {
@@ -242,7 +242,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       Comp = (
         <div className="dice-cp-text-tag full-width pl8 v-align">
           {prefix ? <div className="extra-tags px8 mr4" style={{ backgroundColor: prefix.bgColor }}>{prefix.text}</div> : null}
-          <div className='nowrap'>{text}</div>
+          <div className="nowrap">{text}</div>
           {suffix ? <div className="extra-tags px8 mr4" style={{ backgroundColor: suffix.bgColor }}>{suffix.text}</div> : null}
         </div>
       );
@@ -256,7 +256,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       Comp = (
         <div className="dice-cp-level-content full-width pl8 v-align">
           {
-            data.map(({ level, text }: { level: number, text: string },) => {
+            data.map(({ level, text }: { level: number; text: string }) => {
               return <div className={`mr4 level-${level}-content`}>{text}</div>;
             })
           }
@@ -284,10 +284,10 @@ const memberSelectorValueItem = (user: any) => {
   const { avatar, nick, name, label, value } = user;
   const displayName = nick || label || value || i18n.t('common:empty');
   return (
-    <div className='v-align dice-config-table-member-field-selector'>
+    <div className="v-align dice-config-table-member-field-selector">
       {/* <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('empty')} rect={'20x20'} type="avatar" /> */}
       <span className={'ml4 fz14 nowrap'} title={name}>{displayName}</span>
-      <CustomIcon className='arrow-icon' type='di' />
+      <CustomIcon className="arrow-icon" type="di" />
     </div>
   );
 };
@@ -305,12 +305,12 @@ interface IDropdownSelectorProps {
 const DropdownSelector = (props: IDropdownSelectorProps) => {
   const { disabled, disabledTip, operations, prefixIcon, value, execOperation } = props;
   const ValueRender = (
-    <div className='v-align hover-active dropdown-field-selector' onClick={(e: any) => e.stopPropagation()}>
-      <div className='v-align'>
+    <div className="v-align hover-active dropdown-field-selector" onClick={(e: any) => e.stopPropagation()}>
+      <div className="v-align">
         {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
-        {value || <span className='color-text-desc'>{i18n.t('unset')}</span>}
+        {value || <span className="color-text-desc">{i18n.t('unset')}</span>}
       </div>
-      <CustomIcon type='di' className='arrow-icon' />
+      <CustomIcon type="di" className="arrow-icon" />
     </div>
   );
 
@@ -325,7 +325,7 @@ const DropdownSelector = (props: IDropdownSelectorProps) => {
       {map(operations, (op) => (
         <Menu.Item disabled={op.disabled} key={op.key}>
           <Tooltip title={op.disabledTip}>
-            <div className='v-align'>
+            <div className="v-align">
               {op.prefixIcon ? <CustomIcon type={op.prefixIcon} /> : null}
               {op.text}
             </div>
@@ -347,7 +347,7 @@ const getTableOperation = (val: any, record: any, extra: any) => {
     const { confirm, disabled, disabledTip, text, ..._rest } = op;
     if (disabled === true) { // 无权限操作
       return (
-        <WithAuth noAuthTip={disabledTip} key={key} pass={false} ><span className='table-operations-btn '>{text}</span></WithAuth>
+        <WithAuth noAuthTip={disabledTip} key={key} pass={false} ><span className="table-operations-btn ">{text}</span></WithAuth>
       );
     } else if (confirm) { // 需要确认的操作
       return (
@@ -407,7 +407,7 @@ const getTableOperation = (val: any, record: any, extra: any) => {
 
 
 interface IGantteTitle {
-  dateRange: Array<{ month: number, date: string[] }>
+  dateRange: Array<{ month: number; date: string[] }>;
 }
 const GantteTitle = ({ dateRange }: IGantteTitle) => {
   if (isEmpty(dateRange)) {
@@ -425,7 +425,7 @@ const GantteTitle = ({ dateRange }: IGantteTitle) => {
                 </div>
                 <div>
                   {
-                    date.map(day => {
+                    date.map((day) => {
                       return (
                         <span key={day} className={'day'}>
                           <span>{day}</span>

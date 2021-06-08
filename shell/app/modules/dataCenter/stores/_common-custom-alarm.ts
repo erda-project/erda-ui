@@ -76,10 +76,10 @@ export const createCustomAlarmStore = (scope: CustomAlarmScope) => {
         const customAlarmDetail: COMMON_CUSTOM_ALARM.CustomAlarmDetail = await call(getCustomAlarmDetail, { id, tenantGroup });
         update({ customAlarmDetail });
       },
-      async switchCustomAlarm({ call, select, getParams }, payload: { id: number, enable: boolean }) {
+      async switchCustomAlarm({ call, select, getParams }, payload: { id: number; enable: boolean }) {
         const { tenantGroup } = getParams();
         await call(switchCustomAlarm, { ...payload, tenantGroup }, { successMsg: i18n.t('state switch successfully') });
-        const { pageSize, pageNo } = select(s => s.customAlarmPaging);
+        const { pageSize, pageNo } = select((s) => s.customAlarmPaging);
         customAlarmStore.effects.getCustomAlarms({ pageNo, pageSize });
       },
       async deleteCustomAlarm({ call, getParams }, id: number) {
@@ -92,7 +92,7 @@ export const createCustomAlarmStore = (scope: CustomAlarmScope) => {
         const data: COMMON_CUSTOM_ALARM.CustomMetrics = await call(getCustomMetrics, tenantGroup);
         if (isEmpty(data)) return;
         const { metrics, filterOperators, functionOperators, ...restData } = data;
-        const metricMap = keyBy(map(metrics, item => {
+        const metricMap = keyBy(map(metrics, (item) => {
           const fieldMap = keyBy(item.fields, 'field.key');
           const tagMap = keyBy(item.tags, 'tag.key');
           return { ...item, fieldMap, tagMap };

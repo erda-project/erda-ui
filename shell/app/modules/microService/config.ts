@@ -13,14 +13,14 @@
 
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
-import { 
-  Server as IconServer, 
-  MonitorCamera as IconMonitorCamera, 
-  NotebookAndPen as IconNotebookAndPen, 
-  Api as IconApi, 
-  Config as IconConfig, 
+import {
+  Server as IconServer,
+  MonitorCamera as IconMonitorCamera,
+  NotebookAndPen as IconNotebookAndPen,
+  Api as IconApi,
+  Config as IconConfig,
   Log as IconLog,
-  Components as IconComponents
+  Components as IconComponents,
 } from '@icon-park/react';
 
 export const envMap = {
@@ -31,17 +31,17 @@ export const envMap = {
 };
 
 interface IMSPathParams {
-  projectId: string | number
-  env: string
-  tenantGroup: string
-  tenantId: string | number
-  terminusKey: string
-  logKey: string
+  projectId: string | number;
+  env: string;
+  tenantGroup: string;
+  tenantId: string | number;
+  terminusKey: string;
+  logKey: string;
 }
 export const getMSFrontPathByKey = (key: string, params: IMSPathParams) => {
   const { projectId, env, tenantGroup, tenantId, terminusKey, logKey } = params;
 
-  const rootPath = `${goTo.resolve.microServiceOverviewRoot({projectId, env,tenantGroup })}/`;
+  const rootPath = `${goTo.resolve.microServiceOverviewRoot({ projectId, env, tenantGroup })}/`;
   const monitorPrefix = `monitor/${terminusKey}`;
 
   const targetPath = {

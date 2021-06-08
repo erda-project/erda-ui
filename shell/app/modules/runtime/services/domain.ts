@@ -18,7 +18,7 @@ export const getDomains = ({ runtimeId, domainType }: RUNTIME_DOMAIN.Query): RUN
     .then((response: any) => response.body);
 };
 
-export const updateDomains = ({ runtimeId, data }: { runtimeId: string, data: RUNTIME_DOMAIN.UpdateK8SDomainBody }) => {
+export const updateDomains = ({ runtimeId, data }: { runtimeId: string; data: RUNTIME_DOMAIN.UpdateK8SDomainBody }) => {
   return agent.put(`/api/runtimes/${runtimeId}/domains`)
     .send(data)
     .then((response: any) => response.body);

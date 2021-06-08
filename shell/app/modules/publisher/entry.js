@@ -27,7 +27,7 @@ export default (registerModule) => {
       eraseStore,
       errorStore,
       publisherStore,
-      statisticsStore
-    ]
+      statisticsStore,
+    ],
   });
 };

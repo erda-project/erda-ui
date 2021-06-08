@@ -20,8 +20,8 @@ import DeploymentTable from 'runtime/common/components/deployment-table';
 import runtimeStore from 'runtime/stores/runtime';
 import { useLoading } from 'app/common/stores/loading';
 
-export default ({ visible, onClose }: { visible: boolean, onClose: (e?: any) => void }) => {
-  const [deploymentRecords, paging] = runtimeStore.useStore(s => [s.deploymentRecords, s.deploymentRecordsPaging]);
+export default ({ visible, onClose }: { visible: boolean; onClose: (e?: any) => void }) => {
+  const [deploymentRecords, paging] = runtimeStore.useStore((s) => [s.deploymentRecords, s.deploymentRecordsPaging]);
   const [loading] = useLoading(runtimeStore, ['getRollbackList']);
 
   const rollbackRuntime = (id: number) => {

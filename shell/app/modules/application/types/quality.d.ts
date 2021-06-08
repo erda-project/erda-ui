@@ -13,31 +13,31 @@
 
 declare namespace QA {
   interface Stat {
-    bugs: string
-    coverage: string
-    vulnerabilities: string
-    codeSmells: string
-    duplications: string
-    sonarKey: string
-    path: string
-    ut: string
-    commitId: string
-    branch: string
-    time: string
-    rating: object
+    bugs: string;
+    coverage: string;
+    vulnerabilities: string;
+    codeSmells: string;
+    duplications: string;
+    sonarKey: string;
+    path: string;
+    ut: string;
+    commitId: string;
+    branch: string;
+    time: string;
+    rating: object;
   }
 
   interface Measure {
-    metric: string
-    value: string
+    metric: string;
+    value: string;
   }
 
   interface Item {
-    path: string
-    treeId: string
-    lines: string[]
-    name: string
-    language: string
-    measures: Measure[]
+    path: string;
+    treeId: string;
+    lines: string[];
+    name: string;
+    language: string;
+    measures: Measure[];
   }
 }

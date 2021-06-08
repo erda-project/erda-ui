@@ -24,8 +24,8 @@ interface IProps {
   cancelText?: string;
   onShow?: any;
   countDown?: number;
-  onConfirm?(): void;
-  onCancel?(): void;
+  onConfirm?: () => void;
+  onCancel?: () => void;
 }
 
 const { confirm } = Modal;
@@ -88,6 +88,6 @@ export const DeleteConfirm = (props: IProps) => {
     React.isValidElement(children) ? children : <span>{children}</span>,
     {
       onClick: showModal,
-    }
+    },
   );
 };

@@ -18,9 +18,9 @@ import { getJoinedProjects } from 'user/services/user';
 import i18n from 'i18n';
 
 interface IProps {
-  visible: boolean
-  toggleModal(): void
-  onOk(projectId: number): void
+  visible: boolean;
+  toggleModal: () => void;
+  onOk: (projectId: number) => void;
 }
 
 export default ({ visible, toggleModal, onOk }: IProps) => {
@@ -38,7 +38,7 @@ export default ({ visible, toggleModal, onOk }: IProps) => {
         <LoadMoreSelector
           getData={_getProjectList}
           placeholder={i18n.t('application:please select project')}
-          dataFormatter={({ list, total }: { list: any[], total: number }) => ({
+          dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
             total,
             list: map(list, (project) => {
               const { name, id } = project;
@@ -54,7 +54,7 @@ export default ({ visible, toggleModal, onOk }: IProps) => {
     },
   ];
 
-  const handleSubmit = ({ project }: { project:number }) => onOk(project);
+  const handleSubmit = ({ project }: { project: number }) => onOk(project);
 
   return (
     <FormModal

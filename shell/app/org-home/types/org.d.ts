@@ -14,27 +14,27 @@
 declare namespace ORG {
 
   interface IOrg {
-    createdAt: string
-    creator: string
-    desc: string
-    domain: string
+    createdAt: string;
+    creator: string;
+    desc: string;
+    domain: string;
     isPublic: boolean;
-    id: number
-    logo: string
-    name: string
+    id: number;
+    logo: string;
+    name: string;
     displayName: string;
-    operation: string
-    selected: boolean
-    status: string
-    type: string
-    updatedAt: string
+    operation: string;
+    selected: boolean;
+    status: string;
+    type: string;
+    updatedAt: string;
     publisherId: number;
     blockoutConfig: {
       blockDev: boolean;
       blockTest: boolean;
       blockStage: boolean;
       blockProd: boolean;
-    }
+    };
   }
 
   interface IOrgReq {

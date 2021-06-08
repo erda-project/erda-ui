@@ -51,9 +51,9 @@ const evnBlockMap: { [key in APPLICATION.Workspace]: string } = {
 
 interface IProps {
   activeItem: BUILD.IActiveItem | null;
-  getPipelines(pipelineID: number, buildDetailItem: BUILD.IActiveItem, isRerun: boolean): void;
-  getExecuteRecordsByPageNo(payload: any): void;
-  goToDetailLink({ pipelineID }: { pipelineID: string }): void;
+  getPipelines: (pipelineID: number, buildDetailItem: BUILD.IActiveItem, isRerun: boolean) => void;
+  getExecuteRecordsByPageNo: (payload: any) => void;
+  goToDetailLink: ({ pipelineID }: { pipelineID: string }) => void;
 }
 
 const extractData = (data: any) => pick(data, ['source', 'branch', 'ymlName']);
@@ -69,7 +69,7 @@ const BuildDetail = (props: IProps) => {
     isExpand: false,
     isBlocked: false,
   });
-  const permMap = usePerm(s => s.app.pipeline);
+  const permMap = usePerm((s) => s.app.pipeline);
   const { startStatus, logProps, logVisible, selectedRowId, hasAuth, isHistoryBuild, isExpand, isBlocked } = state;
   const toggleContainer: React.RefObject<HTMLDivElement> = React.useRef(null);
   const commitMsgRef: React.RefObject<HTMLDivElement> = React.useRef(null);
@@ -82,7 +82,7 @@ const BuildDetail = (props: IProps) => {
     executeRecords,
     recordPaging,
     changeType,
-  ] = buildStore.useStore(s => [
+  ] = buildStore.useStore((s) => [
     s.pipelineDetail,
     s.runtimeDetail,
     s.executeRecords,
@@ -90,9 +90,9 @@ const BuildDetail = (props: IProps) => {
     s.changeType,
   ]);
 
-  const branchInfo = appStore.useStore(s => s.branchInfo);
-  const currentOrg = orgStore.useStore(s => s.currentOrg);
-  const { blockStatus } = appStore.useStore(s => s.detail);
+  const branchInfo = appStore.useStore((s) => s.branchInfo);
+  const currentOrg = orgStore.useStore((s) => s.currentOrg);
+  const { blockStatus } = appStore.useStore((s) => s.detail);
   const appBlocked = blockStatus !== 'unblocked';
   const { blockoutConfig } = currentOrg;
   const rejectRef = React.useRef(null);
@@ -110,7 +110,7 @@ const BuildDetail = (props: IProps) => {
   } = buildStore.effects;
   const { updateApproval } = deployStore.effects;
   const { clearPipelineDetail } = buildStore.reducers;
-  const params = routeInfoStore.useStore(s => s.params);
+  const params = routeInfoStore.useStore((s) => s.params);
   const [getExecuteRecordsLoading, getPipelineDetailLoading, addPipelineLoading] = useLoading(buildStore, ['getExecuteRecords', 'getPipelineDetail', 'addPipeline']);
   React.useEffect(() => {
     const curWorkspace = get(find(branchInfo, { name: currentBranch }), 'workspace') as APPLICATION.Workspace;
@@ -372,7 +372,7 @@ const BuildDetail = (props: IProps) => {
     updater.logVisible(false);
   };
 
-  const updateEnv = (info: { id: number, disabled: boolean }) => {
+  const updateEnv = (info: { id: number; disabled: boolean }) => {
     const { id, disabled } = info;
     updateTaskEnv({ taskID: id, disabled, pipelineID: pipelineDetail.id }).then(() => {
       getPipelineDetail({ pipelineID: +pipelineID });
@@ -453,7 +453,7 @@ const BuildDetail = (props: IProps) => {
     const paddingEle = (
       <div className="build-operator mx0">
         <Tooltip title={i18n.t('preparing')}>
-          <IconLoading size="20px" strokeWidth={2} style={{transform: 'translateY(0)'}} spin />
+          <IconLoading size="20px" strokeWidth={2} style={{ transform: 'translateY(0)' }} spin />
         </Tooltip>
       </div>
     );
@@ -645,7 +645,7 @@ const BuildDetail = (props: IProps) => {
           </div>
           {
             needApproval ? (
-              <Alert message={i18n.t('application:deploy-approval-pipeline-tip')} className='mt4' type="normal" showIcon />
+              <Alert message={i18n.t('application:deploy-approval-pipeline-tip')} className="mt4" type="normal" showIcon />
             ) : null
           }
           <div className="main-info-parent">
@@ -696,7 +696,7 @@ const BuildDetail = (props: IProps) => {
                   </Col>}
               </Row>
               <div className="trigger-btn" onClick={toggleExpandInfo}>
-                { !isExpand 
+                { !isExpand
                   ? <IconDown size="18px" className="mr0" />
                   : <IconUp size="18px" className="mr0" />
                 }
@@ -715,7 +715,7 @@ const BuildDetail = (props: IProps) => {
             }
             <PipelineChart data={pipelineDetail as unknown as PIPELINE.IPipelineDetail} onClickNode={onClickNode} changeType={changeType} />
           </div>
-          <PipelineLog resourceId={routePipelineID} resourceType='pipeline' isBuilding={ciBuildStatusSet.executeStatus.includes(curStatus)} />
+          <PipelineLog resourceId={routePipelineID} resourceType="pipeline" isBuilding={ciBuildStatusSet.executeStatus.includes(curStatus)} />
         </div>
       </Spin>
       <BuildLog visible={logVisible} hideLog={hideLog} {...logProps} />

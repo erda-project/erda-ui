@@ -13,7 +13,7 @@
 
 import agent from 'agent';
 
-export const getBranchRules = (query: { scopeId: number, scopeType: string}): PROJECT.IBranchRule[] => {
+export const getBranchRules = (query: { scopeId: number; scopeType: string}): PROJECT.IBranchRule[] => {
   return agent.get('/api/branch-rules')
     .query(query)
     .then((response: any) => response.body);

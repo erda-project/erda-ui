@@ -59,11 +59,11 @@ describe('MetricsMonitor', () => {
     const listMetricByResourceType = jest.fn();
     const clearListMetrics = jest.fn();
     metricsMonitorStore.effects.listMetricByResourceType = listMetricByResourceType;
-    metricsMonitorStore.effects.loadMetricItem = jest.fn()
+    metricsMonitorStore.effects.loadMetricItem = jest.fn();
     metricsMonitorStore.reducers.clearListMetrics = clearListMetrics;
     jest.useFakeTimers();
     const wrapper = mount(
-      <MetricsMonitor {...props} />
+      <MetricsMonitor {...props} />,
     );
     act(() => {
       jest.runAllTimers();

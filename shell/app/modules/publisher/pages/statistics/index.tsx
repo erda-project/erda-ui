@@ -83,10 +83,10 @@ const formatTrendData = (data?: PUBLISHER.IStatisticsTrend) => {
 
 const getLineChartLayout = (data: any) => {
   const { time, results } = data;
-  const xData = map(time, item => moment(item).format('MM-DD HH:mm'));
+  const xData = map(time, (item) => moment(item).format('MM-DD HH:mm'));
   const resultData = get(results, '[0].data[0]');
   const metricData = [] as any[];
-  map(resultData, item => {
+  map(resultData, (item) => {
     metricData.push({
       name: item.tag || item.name,
       type: 'line',
@@ -106,10 +106,10 @@ const getPieChartLayout = (data: any) => {
   const metricData = [{
     name: i18n.t('publisher:proportion'),
     radius: '60%',
-    data: [] as Array<{ value: number, name: string }>,
+    data: [] as Array<{ value: number; name: string }>,
   }];
-  map(curDataList, dataItem => {
-    map(dataItem, item => {
+  map(curDataList, (dataItem) => {
+    map(dataItem, (item) => {
       metricData[0].data.push({ value: item.data, name: item.tag });
       legendData.push(item.tag);
     });
@@ -125,7 +125,7 @@ const tabs = [
   { label: i18n.t('publisher:operation counts'), value: 'tags.cid' },
   { label: i18n.t('publisher:cumulative users'), value: 'tags.uid' },
 ];
-const FilterTab = ({ onChange, className }: { onChange: (val: string) => void, className?: string }) => {
+const FilterTab = ({ onChange, className }: { onChange: (val: string) => void; className?: string }) => {
   const [value, setValue] = React.useState('fields.firstDayUserId_value');
 
   React.useEffect(() => {
@@ -147,8 +147,8 @@ const FilterTab = ({ onChange, className }: { onChange: (val: string) => void, c
 
 const Statistics = (props: IProps) => {
   const { artifacts } = props;
-  const timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
-  const publishItemMonitors = publisherStore.useStore(s => s.publishItemMonitors);
+  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const publishItemMonitors = publisherStore.useStore((s) => s.publishItemMonitors);
   const publisherItemId = artifacts.id;
   const { getStatisticsTrend, getStatisticsChart, getStatisticsPieChart } = statisticsStore.effects;
   const [{ totalTrend, lineType, lineData, pieVersionType, pieChannelType, pieVersionData, pieChannelData, selectMonitorKey }, updater] = useUpdate({
@@ -168,7 +168,7 @@ const Statistics = (props: IProps) => {
   }, [publishItemMonitors, selectMonitorKey]);
 
   React.useEffect(() => {
-    getStatisticsTrend({ publisherItemId, ...monitorKey }).then(res => updater.totalTrend(formatTrendData(res)));
+    getStatisticsTrend({ publisherItemId, ...monitorKey }).then((res) => updater.totalTrend(formatTrendData(res)));
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [monitorKey]);
 
@@ -194,7 +194,7 @@ const Statistics = (props: IProps) => {
   }, [lineChartQuery]);
 
   const getLineChartData = (q: any) => {
-    getStatisticsChart({ ...q, publisherItemId, ...monitorKey }).then(res => {
+    getStatisticsChart({ ...q, publisherItemId, ...monitorKey }).then((res) => {
       updater.lineData(res);
     });
   };
@@ -218,7 +218,7 @@ const Statistics = (props: IProps) => {
       end: new Date().getTime(), // 当前时间毫秒
       ...monitorKey,
     };
-    pieVersionType && getStatisticsPieChart(query).then(res => updater.pieVersionData(res));
+    pieVersionType && getStatisticsPieChart(query).then((res) => updater.pieVersionData(res));
   }, [pieVersionType, monitorKey]);
 
   React.useEffect(() => {
@@ -240,7 +240,7 @@ const Statistics = (props: IProps) => {
       end: new Date().getTime(), // 当前时间毫秒
       ...monitorKey,
     };
-    pieChannelType && getStatisticsPieChart(query).then(res => updater.pieChannelData(res));
+    pieChannelType && getStatisticsPieChart(query).then((res) => updater.pieChannelData(res));
   }, [pieChannelType, monitorKey]);
 
   const OnChangeLineType = React.useCallback((val: string) => {
@@ -372,7 +372,7 @@ const Statistics = (props: IProps) => {
     },
   ];
 
-  const config:FilterItemConfig[] = React.useMemo(() => [
+  const config: FilterItemConfig[] = React.useMemo(() => [
     {
       type: Input,
       name: 'ak',

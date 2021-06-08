@@ -22,10 +22,10 @@ import i18n from 'i18n';
 import { goTo } from 'common/utils';
 
 interface IProps{
-  list: ISSUE.IRelativeTestCase[]
+  list: ISSUE.IRelativeTestCase[];
 }
 export const IssueTestCaseRelation = ({ list }: IProps) => {
-  const projectId = routeInfoStore.useStore(s => s.params.projectId);
+  const projectId = routeInfoStore.useStore((s) => s.params.projectId);
   const columns = [
     {
       title: i18n.t('project:test case'),
@@ -62,6 +62,6 @@ export const IssueTestCaseRelation = ({ list }: IProps) => {
     },
   ];
   return (
-    <Table columns={columns} dataSource={list} rowKey='id' pagination={false} />
+    <Table columns={columns} dataSource={list} rowKey="id" pagination={false} />
   );
 };

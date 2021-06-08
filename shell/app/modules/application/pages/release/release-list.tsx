@@ -21,9 +21,9 @@ import { useLoading } from 'app/common/stores/loading';
 import { ReleaseItem } from './components/release-item';
 import ReleaseDetail from './components/release-detail';
 import releaseStore from 'application/stores/release';
-import { useEffectOnce } from 'react-use';
+import { useEffectOnce, useUpdateEffect } from 'react-use';
 import routeInfoStore from 'app/common/stores/route';
-import { useUpdateEffect } from 'react-use';
+
 import { getBranchInfo } from 'application/services/application';
 import appStore from 'application/stores/application';
 import { AppSelector } from 'application/common/app-selector';
@@ -34,12 +34,12 @@ const { ELSE } = IF;
 const { Option } = Select;
 
 const ReleaseList = () => {
-  const [list, paging] = releaseStore.useStore(s => [s.list, s.paging]);
+  const [list, paging] = releaseStore.useStore((s) => [s.list, s.paging]);
   const { pageNo: initPageNo, pageSize, total } = paging;
   const { getReleaseList } = releaseStore.effects;
   const { clearReleaseList } = releaseStore.reducers;
-  const appDetail = appStore.useStore(s => s.detail);
-  const [params, query] = routeInfoStore.useStore(s => [s.params, s.query]);
+  const appDetail = appStore.useStore((s) => s.detail);
+  const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const { projectId } = params;
   const [loading] = useLoading(releaseStore, ['getReleaseList']);
   const [state, updater, update] = useUpdate({
@@ -50,7 +50,7 @@ const ReleaseList = () => {
     queryObj: {
       q: query.q,
       branchName: query.branchName as undefined | string,
-    } as null | { q?: string, branchName?: string},
+    } as null | { q?: string; branchName?: string},
   });
   const {
     pageNo,
@@ -70,7 +70,7 @@ const ReleaseList = () => {
     if (projectId) {
       arg.projectId = +projectId;
     }
-    
+
     getReleaseList(arg);
   }, [applicationId, getReleaseList, pageNo, pageSize, projectId, queryObj]);
 
@@ -87,7 +87,7 @@ const ReleaseList = () => {
   }, [queryObj, applicationId]);
 
   React.useEffect(() => {
-    applicationId && getBranchInfo({ appId: +applicationId }).then((res:any) => {
+    applicationId && getBranchInfo({ appId: +applicationId }).then((res: any) => {
       updater.branchInfo(res.data || []);
     });
   }, [applicationId, updater]);
@@ -103,9 +103,9 @@ const ReleaseList = () => {
     <div className="release-list-container">
       <div className="release-list-page v-flex-box">
         <IF check={appDetail.isProjectLevel}>
-          <AppSelector 
-            projectId={`${projectId}`} 
-            className='mb8 mx16'
+          <AppSelector
+            projectId={`${projectId}`}
+            className="mb8 mx16"
             allowClear
             onChange={(_appId: number) => {
               update({
@@ -117,32 +117,32 @@ const ReleaseList = () => {
           />
         </IF>
         <Select
-          className='mb8 mx16'
+          className="mb8 mx16"
           value={queryObj?.branchName}
           onChange={(v: any) => updater.queryObj({ ...queryObj, branchName: v })}
           placeholder={i18n.t('filter by {name}', { name: i18n.t('application:branch') })}
           allowClear
         >
-          {map(branchInfo, branch => (
+          {map(branchInfo, (branch) => (
             <Option key={branch.name} value={branch.name}>
               <Tooltip title={branch.name}>{branch.name}</Tooltip>
             </Option>
           ))}
         </Select>
-        <div className='mb8 mx16'>
-          <DebounceSearch 
-            className='full-width'
-            value={queryObj?.q} 
-            placeholder={i18n.t('search by keywords')} 
+        <div className="mb8 mx16">
+          <DebounceSearch
+            className="full-width"
+            value={queryObj?.q}
+            placeholder={i18n.t('search by keywords')}
             onChange={(v: string) => {
               updater.queryObj({
                 ...queryObj,
-                q: v
-              })
-            }} 
+                q: v,
+              });
+            }}
           />
         </div>
-        <Spin spinning={loading} wrapperClassName='flex-1 auto-overflow'>
+        <Spin spinning={loading} wrapperClassName="flex-1 auto-overflow">
           {
             map(list, (item, index) => (
               <ReleaseItem data={item} key={item.releaseId} isActive={index === chosenPos} onClick={() => updater.chosenPos(index)} />

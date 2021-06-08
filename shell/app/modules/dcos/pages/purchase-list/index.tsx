@@ -173,8 +173,8 @@ class PurchaseList extends React.PureComponent<IProps, IState> {
 }
 
 const Mapper = () => {
-  const params = routeInfoStore.useStore(s => s.params);
-  const purchaseList = purchaseStore.useStore(s => s.purchaseList);
+  const params = routeInfoStore.useStore((s) => s.params);
+  const purchaseList = purchaseStore.useStore((s) => s.purchaseList);
   const { getPurchaseList } = purchaseStore.effects;
   const { clearPurchaseList } = purchaseStore.reducers;
   const { addMachine } = machineStore.effects;

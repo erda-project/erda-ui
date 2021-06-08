@@ -33,14 +33,14 @@ interface IProps{
   onSubmit: (arg: any) => void;
 }
 
-const checkValidRole = (data:Obj, role:Obj) => {
+const checkValidRole = (data: Obj, role: Obj) => {
   const roleKeys = map(role, 'value');
   const newData = cloneDeep(data);
 
   const check = (_d: Obj) => {
     // eslint-disable-next-line no-param-reassign
     if (_d.role)_d.role = intersection(_d.role, roleKeys);
-    map(_d, item => {
+    map(_d, (item) => {
       typeof item === 'object' && check(item);
     });
   };
@@ -79,7 +79,7 @@ const PermExport = (props: IProps) => {
 
   React.useEffect(() => {
     const inValidArr = [] as string[];
-    map(value, (item:any) => {
+    map(value, (item: any) => {
       const { _valueStr } = item;
       if (!isValidJsonStr(_valueStr))inValidArr.push(item.name);
     });
@@ -123,8 +123,8 @@ const PermExport = (props: IProps) => {
     }
   };
 
-  const CancelBtn = <Button key='cancel' onClick={onCancel}>{i18n.t('cancel')}</Button>;
-  const OkBtn = <Button key='ok' onClick={onOk} type='primary'>{i18n.t('ok')}</Button>;
+  const CancelBtn = <Button key="cancel" onClick={onCancel}>{i18n.t('cancel')}</Button>;
+  const OkBtn = <Button key="ok" onClick={onOk} type="primary">{i18n.t('ok')}</Button>;
   const modalProps = isEdit && type === 'json' ? ({
     maskClosable: false,
     footer: [CancelBtn, OkBtn],
@@ -205,9 +205,9 @@ ${_ymlStr}
   };
 
   return (
-    <div className='dice-perm-export flex-box'>
-      <Button className='mr8' size='small' onClick={() => setVisible(true)}>{i18n.t('project:export')}</Button>
-      <Button value='task' className='mr8' size='small' onClick={() => setTaskVisible(true)}>{i18n.t('add {name}', { name: i18n.t('task') })}</Button>
+    <div className="dice-perm-export flex-box">
+      <Button className="mr8" size="small" onClick={() => setVisible(true)}>{i18n.t('project:export')}</Button>
+      <Button value="task" className="mr8" size="small" onClick={() => setTaskVisible(true)}>{i18n.t('add {name}', { name: i18n.t('task') })}</Button>
       <Modal
         title={i18n.t('project:permission configuration')}
         visible={visible}
@@ -224,34 +224,34 @@ ${_ymlStr}
               value={type}
               onChange={(e: any) => setType(e.target.value)}
             >
-              <RadioButton value='json'>json</RadioButton>
-              <RadioButton value='yml'>yml</RadioButton>
+              <RadioButton value="json">json</RadioButton>
+              <RadioButton value="yml">yml</RadioButton>
             </RadioGroup>
           )}
-          renderTabBar={(p: any, DefaultTabBar) => <DefaultTabBar {...p} onKeyDown={(e:any) => e} />}
+          renderTabBar={(p: any, DefaultTabBar) => <DefaultTabBar {...p} onKeyDown={(e: any) => e} />}
         >
-          {map(value, (item:any, key:string) => {
+          {map(value, (item: any, key: string) => {
             const { _valueStr, ...rest } = item;
             const _roleStr = JSON.stringify(roleMap[key], null, 2);
             return (
               <TabPane tab={item.name} key={key}>
                 {
                   type === 'json' ? (
-                    <div className='flex-box dice-perm-export-data'>
-                      <div className='flex-1 mr8 column-flex-box'>
+                    <div className="flex-box dice-perm-export-data">
+                      <div className="flex-1 mr8 column-flex-box">
                         <span>{item.name}权限数据</span>
                         <textarea
                           readOnly={!isEdit}
-                          className='dice-perm-export-pre'
+                          className="dice-perm-export-pre"
                           value={_valueStr}
                           onChange={(e) => changeValueStr(e.target.value, key)}
                         />
                       </div>
-                      <div className='flex-1 ml8 column-flex-box'>
+                      <div className="flex-1 ml8 column-flex-box">
                         <span>{item.name}角色数据</span>
                         <textarea
                           readOnly
-                          className='dice-perm-export-pre'
+                          className="dice-perm-export-pre"
                           value={_roleStr}
                         />
                       </div>
@@ -259,7 +259,7 @@ ${_ymlStr}
                   ) : (
                     <textarea
                       readOnly
-                      className='dice-perm-export-pre'
+                      className="dice-perm-export-pre"
                       value={changePerm2Yml(rest, key, roleMap[key])}
                     />
                   )
@@ -268,7 +268,7 @@ ${_ymlStr}
             );
           })}
         </Tabs>
-        <div className='color-danger'>
+        <div className="color-danger">
           {type === 'json' && !isEmpty(invalidJson) ? `${invalidJson.join('/')} 为无效json` : ''}
         </div>
       </Modal>

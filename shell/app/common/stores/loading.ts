@@ -18,7 +18,7 @@ import loadingStore, { useLoading } from 'core/stores/loading';
  * @deprecated use useLoading instead
  */
 export function useSpace<T>(store: T & { name: string }): EffectKeys<ValueOf<T, 'effects' | '_effects'>> {
-  const loadingSpace = loadingStore.useStore(s => s[store.name]) || {};
+  const loadingSpace = loadingStore.useStore((s) => s[store.name]) || {};
   // add proxy to avoid return undefined in isLoading
   const loadingSpaceProxy = new Proxy(loadingSpace, {
     get: (target, propKey) => {

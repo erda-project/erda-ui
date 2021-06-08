@@ -24,11 +24,11 @@ interface IProps{
   type: string;
   viewProps?: object;
   api: string;
-  dataHandler: Function | undefined
+  dataHandler: Function | undefined;
 }
 
-const AppGroupSelector = ({ api, type, dataHandler, viewProps }:IProps) => {
-  const [appGroup, timeSpan, chosenApp, chosenAppGroup, lastChosenAppGroup] = monitorCommonStore.useStore(s => [s.appGroup, s.timeSpan, s.chosenApp, s.chosenAppGroup, s.lastChosenAppGroup]);
+const AppGroupSelector = ({ api, type, dataHandler, viewProps }: IProps) => {
+  const [appGroup, timeSpan, chosenApp, chosenAppGroup, lastChosenAppGroup] = monitorCommonStore.useStore((s) => [s.appGroup, s.timeSpan, s.chosenApp, s.chosenAppGroup, s.lastChosenAppGroup]);
   const { getAppGroup } = monitorCommonStore.effects;
   const { changeChosenAppGroup, clearAppGroup } = monitorCommonStore.reducers;
 
@@ -56,13 +56,13 @@ const AppGroupSelector = ({ api, type, dataHandler, viewProps }:IProps) => {
     const curGroup = curAppGroup && curAppGroup.data;
 
     const [chosen1, chosen2]: any[] = lastGroup || [];
-    const matchChosen1 = find(curGroup, g => g.value === chosen1);
+    const matchChosen1 = find(curGroup, (g) => g.value === chosen1);
     let val;
     // lastChoosenAppGroup值可能为[runtime]或[runtime,service]；
     // 若有runtime,再匹配该runtime下的children(service)，若无runtime，则不再匹配
     if (matchChosen1) {
       val = [matchChosen1.value];
-      const matchChosen2 = find(matchChosen1.children, g => g.value === chosen2);
+      const matchChosen2 = find(matchChosen1.children, (g) => g.value === chosen2);
       if (matchChosen2) {
         val.push(matchChosen2.value);
       }

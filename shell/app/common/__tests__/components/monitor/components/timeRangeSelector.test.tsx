@@ -34,7 +34,7 @@ describe('TimeSelector', () => {
         timeSpan={timeSpan}
         inline
         onChangeTime={onChangeTimeFn}
-      />
+      />,
     );
     expect(wrapper.find('.monitor-time-selector-inline')).toExist();
     const value = wrapper.find('RangePicker').at(0).prop('value') || [];

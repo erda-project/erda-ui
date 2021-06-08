@@ -30,12 +30,12 @@ import userStore from 'app/user/stores';
 const getUser = (user: ILoginUser) => (user ? (user.nick || user.name || user.email || user.phone || user.id) : i18n.t('application:system'));
 
 interface IState {
-  ticketList: TICKET.Ticket[],
-  paging: IPaging,
-  comments: TICKET.Comment[],
-  commentsTotal: number,
-  openTotal: number,
-  detail: TICKET.Ticket,
+  ticketList: TICKET.Ticket[];
+  paging: IPaging;
+  comments: TICKET.Comment[];
+  commentsTotal: number;
+  openTotal: number;
+  detail: TICKET.Ticket;
 }
 
 const initState: IState = {
@@ -58,7 +58,7 @@ const ticketStore = createStore({
         { paging: { key: 'paging', listKey: 'tickets' } },
       );
 
-      const userMap = userMapStore.getState(s => s);
+      const userMap = userMapStore.getState((s) => s);
 
       const ticketList = map(list, (ticket) => { // 在userInfo中获取对应的用户名
         const { creator, lastOperator, ...other } = ticket;
@@ -80,7 +80,7 @@ const ticketStore = createStore({
       const { ticketId } = getParams();
       const detail = await call(getTicketDetail, ticketId);
 
-      const userMap = userMapStore.getState(s => s);
+      const userMap = userMapStore.getState((s) => s);
       detail.author = getUser(userMap[detail.creator]);
       detail.lastOperator = getUser(userMap[detail.lastOperator]);
 
@@ -89,7 +89,7 @@ const ticketStore = createStore({
     async getTicketComments({ call, update, getParams }) {
       const { ticketId } = getParams();
       const { comments: list, total } = await call(getComments, ticketId);
-      const userMap = userMapStore.getState(s => s);
+      const userMap = userMapStore.getState((s) => s);
 
       list.forEach((comment) => {
         if (userMap[comment.userID]) {
@@ -101,7 +101,7 @@ const ticketStore = createStore({
     },
     async createTicketComments({ call, getParams }, payload: Omit<TICKET.CommentBody, 'ticketID' | 'userID'>) {
       const { ticketId } = getParams();
-      const { loginUser } = userStore.getState(s => s);
+      const { loginUser } = userStore.getState((s) => s);
       await call(createComment, {
         ...payload,
         ticketID: parseInt(ticketId, 10),
@@ -116,7 +116,7 @@ const ticketStore = createStore({
       await ticketStore.effects.getTicketDetail();
     },
     async addTicket({ call }, payload: TICKET.CreateBody) {
-      const { loginUser } = userStore.getState(s => s);
+      const { loginUser } = userStore.getState((s) => s);
       await call(addTicket, { ...payload, userID: loginUser.id });
     },
     async reopenTicket({ call, getParams }) {

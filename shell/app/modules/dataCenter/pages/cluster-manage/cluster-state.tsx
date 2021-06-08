@@ -24,19 +24,19 @@ import './cluster-state.scss';
 export const stateSeverityMap = {
   0: {
     displayName: i18n.t('dcos:healthy'),
-    icon: <CustomIcon type='cg' className='health' />,
+    icon: <CustomIcon type="cg" className="health" />,
   },
   1: {
     displayName: i18n.t('dcos:at risk'),
-    icon: <CustomIcon type='wks1' className='risk' />,
+    icon: <CustomIcon type="wks1" className="risk" />,
   },
   2: {
     displayName: i18n.t('dcos:partial failure'),
-    icon: <CustomIcon type='wks1' className='part-fault' />,
+    icon: <CustomIcon type="wks1" className="part-fault" />,
   },
   3: {
     displayName: i18n.t('dcos:serious failure'),
-    icon: <CustomIcon type='wks1' className='serious-fault' />,
+    icon: <CustomIcon type="wks1" className="serious-fault" />,
   },
 };
 
@@ -44,7 +44,7 @@ export const stateSeverityMap = {
 const clusterStateType = ['dice_addon', 'dice_component', 'kubernetes', 'machine'];
 
 const ClusterState: React.FC<{ clusterName: string }> = ({ clusterName: clusterNameFromProps }) => {
-  const { clusterName = clusterNameFromProps } = routeInfoStore.getState(s => s.params);
+  const { clusterName = clusterNameFromProps } = routeInfoStore.getState((s) => s.params);
   const [clusterStatus, setClusterStatus] = useState<Record<string, any>>({});
   const [dashboardLayout, setDashboardLayout] = useState<DC.Layout>([]);
   const { viewClusterStatus } = clusterStore.effects;
@@ -62,14 +62,14 @@ const ClusterState: React.FC<{ clusterName: string }> = ({ clusterName: clusterN
 
   return (
     <div className="v-flex-box">
-      <div className='cluster-state-wrapper mb16'>
+      <div className="cluster-state-wrapper mb16">
         {
           isEmpty(clusterStatus?.components)
             ? <EmptyHolder />
             : (
               <>
                 <h3>
-                  <span className='mr20'>
+                  <span className="mr20">
                     {`${get(clusterStatus, 'displayName', '')}:`}
                   </span>
                   <span>
@@ -77,19 +77,19 @@ const ClusterState: React.FC<{ clusterName: string }> = ({ clusterName: clusterN
                     {get(stateSeverityMap, `${get(clusterStatus, 'status')}.displayName`, '')}
                   </span>
                 </h3>
-                <div className='mt32 left-flex-box cluster-state-content'>
+                <div className="mt32 left-flex-box cluster-state-content">
                   {
                     clusterStateType.map((item) => {
                       return (
-                        <div className='mb20 mr32 cluster-state-item' key={`${item}`} >
-                          <span className='text-right cluster-state-item-name' >
+                        <div className="mb20 mr32 cluster-state-item" key={`${item}`} >
+                          <span className="text-right cluster-state-item-name" >
                             {`${get(clusterStatus, `components.${item}.displayName`, '')}:`}
                           </span>
-                          <span className='ml8 cluster-state-item-detail'>
+                          <span className="ml8 cluster-state-item-detail">
                             <span>
                               {get(stateSeverityMap, `${get(clusterStatus, `components.${item}.status`)}.icon`, '')}
                             </span>
-                            <span className='bold'>
+                            <span className="bold">
                               {get(stateSeverityMap, `${get(clusterStatus, `components.${item}.status`)}.displayName`, '')}
                             </span>
                           </span>

@@ -36,7 +36,7 @@ import './trace-detail.scss';
 interface ISpanDetailProps{
   [pro: string]: any;
   spanDetail?: any;
-  getSpanDetailContent?(args?: any): any;
+  getSpanDetailContent?: (args?: any) => any;
 }
 
 const SpanDetail = (props: ISpanDetailProps) => {
@@ -123,7 +123,7 @@ interface IProps{
   isFetching?: boolean;
 }
 interface IState{
-  traceTree: any[]
+  traceTree: any[];
 }
 
 

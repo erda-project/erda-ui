@@ -40,7 +40,7 @@ const domainManage = createStore({
   state: initState,
   effects: {
     async getClusterList({ call, update }) {
-      const userOrgId = orgStore.getState(s => s.currentOrg.id);
+      const userOrgId = orgStore.getState((s) => s.currentOrg.id);
       const clusterList = await call(getClusterList, { orgId: userOrgId });
       if (clusterList && clusterList.length) {
         update({ clusterList });

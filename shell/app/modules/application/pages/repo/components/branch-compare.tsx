@@ -25,8 +25,8 @@ import routeInfoStore from 'common/stores/route';
 import repoStore from 'application/stores/repo';
 
 const RepoBranchCompare = () => {
-  const [info] = repoStore.useStore(s => [s.info]);
-  const { branches: branch = '' } = routeInfoStore.useStore(s => s.params);
+  const [info] = repoStore.useStore((s) => [s.info]);
+  const { branches: branch = '' } = routeInfoStore.useStore((s) => s.params);
   const [from, to] = branch.split('...');
   const [state, updater, update] = useUpdate({
     from: decodeURIComponent(from) || '',

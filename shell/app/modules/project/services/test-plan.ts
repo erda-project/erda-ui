@@ -69,7 +69,7 @@ export function updateTestCaseRelations({ testPlanID, ...payload }: TEST_PLAN.Pl
 
 // 更新测试计划的时间
 export function updateDate({ testPlanId, date }: TEST_PLAN.PlanDate) {
-  const { params } = routeInfoStore.getState(s => s);
+  const { params } = routeInfoStore.getState((s) => s);
   const projectId = get(params, 'projectId');
   return agent.put(`/api/pmp/api/testing/testplan/${testPlanId}/update/date?projectId=${projectId}`)
     .query(date)
@@ -82,7 +82,7 @@ export function executeCaseApi({ testPlanID, ...rest }: TEST_PLAN.CaseApi) {
     .then((response: any) => response.body);
 }
 
-export const getExecuteRecords = ({ testPlanId, projectId, pageNo, pageSize }: TEST_PLAN.ExecuteRecordQuery): Promise<{pipelines: TEST_PLAN.Pipeline[], total: number, currentPageSize: number}> => {
+export const getExecuteRecords = ({ testPlanId, projectId, pageNo, pageSize }: TEST_PLAN.ExecuteRecordQuery): Promise<{pipelines: TEST_PLAN.Pipeline[]; total: number; currentPageSize: number}> => {
   return agent.get('/api/pipelines')
     .query({
       pageNum: pageNo,
@@ -105,6 +105,6 @@ export const cancelBuild = ({ testPlanID, pipelineID }: {testPlanID: string; pip
     .then((response: any) => response.body);
 };
 
-export const exportFiles = ({ testPlanID, queryParam }: {testPlanID: number, queryParam: string}) => {
+export const exportFiles = ({ testPlanID, queryParam }: {testPlanID: number; queryParam: string}) => {
   window.open(setApiWithOrg(`/api/testplans/${testPlanID}/actions/export?${queryParam}`));
 };

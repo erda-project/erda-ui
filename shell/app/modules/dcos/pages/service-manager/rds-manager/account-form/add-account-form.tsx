@@ -32,7 +32,7 @@ interface IProps {
   allAccountName: string[];
 }
 
-type FormRef = { props: { form: WrappedFormUtils } };
+interface FormRef { props: { form: WrappedFormUtils } }
 
 const AddAccountForm = (props: IProps) => {
   const { visible, onClose, handleSubmit, allAccountName } = props;

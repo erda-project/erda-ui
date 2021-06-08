@@ -32,11 +32,11 @@ interface ILimit {
   id: string;
   consumerId: string;
   consumerName: string;
-  packageId: string
+  packageId: string;
   packageName: string;
   method: string;
   apiPath: string;
-  limit: { qpd?: number, qpm?: number, qph?: number, qps?: number };
+  limit: { qpd?: number; qpm?: number; qph?: number; qps?: number };
 }
 
 enum LIMIT_TYPE {
@@ -51,7 +51,7 @@ export const PureApiLimits = () => {
   const [method, setMethod] = React.useState('GET');
   const [limitType, setLimitType] = React.useState(defaultLimitType);
   const [formData, setFormData] = React.useState({} as any);
-  const [apiFilterCondition, paging, apiLimits] = gatewayStore.useStore(s => [s.apiFilterCondition, s.apiLimitsPaging, s.apiLimits]);
+  const [apiFilterCondition, paging, apiLimits] = gatewayStore.useStore((s) => [s.apiFilterCondition, s.apiLimitsPaging, s.apiLimits]);
 
   const { getApiFilterCondition, getApiLimits, deleteLimit, createApiLimit, updateApiLimit } = gatewayStore.effects;
   const [isGetFilter, isGetLimit] = useLoading(gatewayStore, ['getApiFilterCondition', 'getApiLimits']);
@@ -63,7 +63,7 @@ export const PureApiLimits = () => {
   const { apiConsumers = [] } = apiFilterCondition;
   const selectBefore = (
     <Select value={method} onChange={setMethod} dropdownMatchSelectWidth={false}>
-      {HTTP_METHODS.map(item => <Option key={item.name} className="method-option" value={item.value}>{item.name}</Option>)}
+      {HTTP_METHODS.map((item) => <Option key={item.name} className="method-option" value={item.value}>{item.name}</Option>)}
     </Select>);
 
   React.useEffect(() => {
@@ -123,7 +123,7 @@ export const PureApiLimits = () => {
       label: i18n.t('microService:consumer name'),
       name: 'consumerId',
       type: 'select',
-      options: apiConsumers && apiConsumers.map(consumer => ({ name: consumer.name, value: consumer.id })),
+      options: apiConsumers && apiConsumers.map((consumer) => ({ name: consumer.name, value: consumer.id })),
       itemProps: { disabled: !isEmpty(formData) },
     },
     {
@@ -190,7 +190,7 @@ export const PureApiLimits = () => {
     },
   ];
 
-  const columns:Array<ColumnProps<ILimit>> = [
+  const columns: Array<ColumnProps<ILimit>> = [
     ...API_LIMIT_COLS,
     {
       title: i18n.t('operations'),

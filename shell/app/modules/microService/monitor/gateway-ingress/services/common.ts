@@ -14,7 +14,7 @@
 import agent from 'agent';
 
 export const getDomainList = (query: {
-  projectId: string,
+  projectId: string;
   env: string;
   orgId: number;
 }) => {

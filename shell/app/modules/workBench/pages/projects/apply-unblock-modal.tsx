@@ -32,8 +32,8 @@ export interface IMetaData {
 interface IProps {
   visible: boolean;
   metaData: IMetaData;
-  onCancel(): void;
-  afterSubmit?(res?: any): void;
+  onCancel: () => void;
+  afterSubmit?: (res?: any) => void;
 }
 
 const ApplyUnblockModal = ({ visible, onCancel, afterSubmit, metaData }: IProps) => {
@@ -51,7 +51,7 @@ const ApplyUnblockModal = ({ visible, onCancel, afterSubmit, metaData }: IProps)
       type: 'custom',
       name: 'appIDs',
       getComp: () => (
-        <AppSelector projectId={`${metaData.projectId}`} mode='multiple' />
+        <AppSelector projectId={`${metaData.projectId}`} mode="multiple" />
       ),
     },
     {
@@ -62,7 +62,7 @@ const ApplyUnblockModal = ({ visible, onCancel, afterSubmit, metaData }: IProps)
           placeholder={[i18n.t('common:start at'), i18n.t('common:end at')]}
           showTime={{ format: 'HH:mm' }}
           format="YYYY-MM-DD HH:mm"
-          disabledDate={time => !!time && (time.valueOf() < moment().subtract(1, 'd').valueOf())}
+          disabledDate={(time) => !!time && (time.valueOf() < moment().subtract(1, 'd').valueOf())}
           ranges={getTimeRanges()}
         />
       ),
@@ -85,7 +85,7 @@ const ApplyUnblockModal = ({ visible, onCancel, afterSubmit, metaData }: IProps)
       },
     },
   ];
-  const handleOk = (data: { targetName: string; appIDs: number[]; dataRange: Moment[]; desc: string; }) => {
+  const handleOk = (data: { targetName: string; appIDs: number[]; dataRange: Moment[]; desc: string }) => {
     const { dataRange, appIDs, desc, targetName } = data;
     const [start, end] = dataRange;
     const extra = {

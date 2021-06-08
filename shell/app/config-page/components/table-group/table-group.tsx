@@ -27,19 +27,19 @@ const TableBoard = (props: CP_TABLE_GROUP.ITableBoardProps) => {
   const extraProps = { execOperation, updateState };
 
   return (
-    <div className='table-board'>
+    <div className="table-board">
       <Text
         props={title?.props}
         operations={title?.operations}
         type="Text"
         {...extraProps}
       />
-      <div className='table-board-card mt8'>
-        <div className='ml4'>
+      <div className="table-board-card mt8">
+        <div className="ml4">
           <Title props={subtitle} type="Title" {...extraProps} />
         </div>
         <div className="mt12">
-          <div className='mb12 ml4'>
+          <div className="mb12 ml4">
             <Text props={description} type="Text" {...extraProps} />
           </div>
           <Table
@@ -49,7 +49,7 @@ const TableBoard = (props: CP_TABLE_GROUP.ITableBoardProps) => {
             {...extraProps}
             type="Table"
           />
-          <div className='mt12 ml4'>
+          <div className="mt12 ml4">
             <Text
               props={extraInfo?.props}
               operations={extraInfo?.operations}
@@ -116,7 +116,7 @@ const TableGroup = (props: CP_TABLE_GROUP.Props) => {
           );
         })
       }
-      {showLoadMore && <div className='load-more hover-active' onClick={loadMore}>{i18n.t('load more')}...</div>}
+      {showLoadMore && <div className="load-more hover-active" onClick={loadMore}>{i18n.t('load more')}...</div>}
     </div>
   );
 };

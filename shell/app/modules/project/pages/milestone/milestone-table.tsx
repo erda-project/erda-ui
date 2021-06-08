@@ -21,11 +21,11 @@ import './milestone-table.scss';
 import MilestoneGroup from './milestone-group';
 
 interface IProps {
-  iterationDetail?: ITERATION.Detail
-  epic: ISSUE.Epic[]
-  paging: IPaging
-  reload(): void;
-  onClickItem(task: ISSUE.Epic): void
+  iterationDetail?: ITERATION.Detail;
+  epic: ISSUE.Epic[];
+  paging: IPaging;
+  reload: () => void;
+  onClickItem: (task: ISSUE.Epic) => void;
 }
 
 export default ({ epic, onClickItem, reload }: IProps) => {

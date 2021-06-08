@@ -18,7 +18,7 @@ function getLayoutRouter() {
     {
       path: 'noAuth',
       breadcrumbName: i18n.t('layout:error page'),
-      getComp: cb => cb(import('layout/common/error-page'), 'NoAuth'),
+      getComp: (cb) => cb(import('layout/common/error-page'), 'NoAuth'),
       layout: {
         use: 'error',
         noWrapper: true,
@@ -27,7 +27,7 @@ function getLayoutRouter() {
     {
       path: 'freshMan',
       breadcrumbName: i18n.t('layout:error page'),
-      getComp: cb => cb(import('layout/common/error-page'), 'NotJoinOrg'),
+      getComp: (cb) => cb(import('layout/common/error-page'), 'NotJoinOrg'),
       layout: {
         use: 'error',
         noWrapper: true,
@@ -36,7 +36,7 @@ function getLayoutRouter() {
     {
       path: 'notFound',
       breadcrumbName: i18n.t('layout:error page'),
-      getComp: cb => cb(import('layout/common/error-page'), 'NotFound'),
+      getComp: (cb) => cb(import('layout/common/error-page'), 'NotFound'),
       layout: {
         use: 'error',
         noWrapper: true,
@@ -45,7 +45,7 @@ function getLayoutRouter() {
     {
       path: 'inviteToOrg',
       breadcrumbName: i18n.t('layout:join organization'),
-      getComp: cb => cb(import('layout/common/invite-to-org')),
+      getComp: (cb) => cb(import('layout/common/invite-to-org')),
       layout: {
         use: 'error',
         noWrapper: true,

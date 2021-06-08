@@ -26,7 +26,7 @@ interface IState {
   faultInject: TOPOLOGY.IFaultInject;
 }
 
-const initState:IState = {
+const initState: IState = {
   circuitBreaker: {
     http: {} as TOPOLOGY.ICircuitBreakerHttp,
     dubbo: [] as TOPOLOGY.ICircuitBreakerDubbo[],

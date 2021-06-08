@@ -25,11 +25,11 @@ interface IProps{
     curSLAName?: string;
     currentSLAID: number | undefined;
     defaultSLAID: number | undefined;
-    committedAt?: string
-  }
+    committedAt?: string;
+  };
   visible: boolean;
-  onCancel(): void;
-  onOk(id: number): void;
+  onCancel: () => void;
+  onOk: (id: number) => void;
 }
 
 const UpdateSLA = ({ visible, onCancel, metaData, slaList, onOk, confirmLoading }: IProps) => {
@@ -39,7 +39,7 @@ const UpdateSLA = ({ visible, onCancel, metaData, slaList, onOk, confirmLoading 
     const defaultSla = metaData.defaultSLAID || metaData.defaultSLAID === 0 ? metaData.defaultSLAID : firstSlaId;
     setSlaID(defaultSla);
   }, [metaData.defaultSLAID, firstSlaId]);
-  const currentSLA = React.useMemo<API_ACCESS.SlaItem>(() => slaList.find(sla => sla.id === metaData.currentSLAID) as API_ACCESS.SlaItem, [slaList, metaData.currentSLAID]);
+  const currentSLA = React.useMemo<API_ACCESS.SlaItem>(() => slaList.find((sla) => sla.id === metaData.currentSLAID) as API_ACCESS.SlaItem, [slaList, metaData.currentSLAID]);
   const handleCancel = () => {
     onCancel();
   };

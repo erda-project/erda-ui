@@ -29,14 +29,14 @@ declare namespace CLOUD_OVERVIEW {
         displayName: string;
         expireDays: number;
       };
-    }
+    };
   }
 
   interface OverviewData {
     COMPUTE: ResourceTypeData<computeSource>;
     NETWORK: ResourceTypeData<networkSource>;
     STORAGE: ResourceTypeData<storageSource>;
-    CLOUD_SERVICE: ResourceTypeData<cloudServiceSource>
+    CLOUD_SERVICE: ResourceTypeData<cloudServiceSource>;
   }
 
   interface ECSTrendingData {

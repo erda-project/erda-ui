@@ -20,7 +20,7 @@ export const getErrorsList = (query: MONITOR_ERROR.IErrorQuery): MONITOR_ERROR.I
 };
 
 
-export const getEventIds = ({ id, errorType, terminusKey }:MONITOR_ERROR.IEventIdsQuery): string[] => {
+export const getEventIds = ({ id, errorType, terminusKey }: MONITOR_ERROR.IEventIdsQuery): string[] => {
   const apiMap = {
     'request-detail': `/api/spot/trace/${id}/error-events`,
     'error-detail': `/api/spot/errors/${id}/error-events`,

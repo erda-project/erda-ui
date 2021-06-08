@@ -24,10 +24,10 @@ import { useMount } from 'react-use';
 import orgStore from 'app/org-home/stores/org';
 
 const IssueTypeManage = () => {
-  const [issueTimeMap] = issueFieldStore.useStore(s => [s.issueTimeMap]);
+  const [issueTimeMap] = issueFieldStore.useStore((s) => [s.issueTimeMap]);
   const { getIssueTime, getFieldsByIssue } = issueFieldStore.effects;
   const { clearFieldList } = issueFieldStore.reducers;
-  const { id: orgID } = orgStore.useStore(s => s.currentOrg);
+  const { id: orgID } = orgStore.useStore((s) => s.currentOrg);
 
   useMount(() => {
     getIssueTime({ orgID });
@@ -39,7 +39,7 @@ const IssueTypeManage = () => {
   });
 
   const list = React.useMemo(() => {
-    return map(keys(ISSUE_LIST_MAP), t => {
+    return map(keys(ISSUE_LIST_MAP), (t) => {
       return {
         ...ISSUE_LIST_MAP[t],
         updatedTime: issueTimeMap[t],
@@ -59,7 +59,7 @@ const IssueTypeManage = () => {
   const readonlyForm = (
     <div>
       {
-        map(list, item => {
+        map(list, (item) => {
           return (
             <div
               className="panel hover-active-bg"

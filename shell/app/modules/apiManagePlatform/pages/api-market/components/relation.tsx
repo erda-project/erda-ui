@@ -28,28 +28,28 @@ export type RelationMode = 'instance' | 'asset';
 
 interface IProps {
   visible: boolean;
-  mode: RelationMode,
+  mode: RelationMode;
   versionInfo: ChooseVersion;
 
-  onCancel(): void;
+  onCancel: () => void;
 }
 
 interface IState {
-  serviceList:Record<string, API_MARKET.AppInstanceItem[]>;
+  serviceList: Record<string, API_MARKET.AppInstanceItem[]>;
   branchList: API_MARKET.AppInstanceItem[];
   instanceList: API_MARKET.AppInstanceItem[];
   instanceType: API_MARKET.InstanceType;
   chooseProjectID: number | undefined;
 }
 
-type FormRef = { props: { form: WrappedFormUtils } };
+interface FormRef { props: { form: WrappedFormUtils } }
 
 const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
   const formRef = React.useRef<FormRef>({} as FormRef);
-  const [assetDetail, instance] = apiMarketStore.useStore(s => [s.assetDetail.asset, s.instance]);
+  const [assetDetail, instance] = apiMarketStore.useStore((s) => [s.assetDetail.asset, s.instance]);
   const defaultAppID = mode === 'asset' ? assetDetail.appID : instance.appID || assetDetail.appID;
   const defaultProjectID = mode === 'asset' ? assetDetail.projectID : instance.projectID || assetDetail.projectID;
-  const params = routeInfoStore.useStore(s => s.params);
+  const params = routeInfoStore.useStore((s) => s.params);
   const instanceType = get(instance, 'type', 'dice');
   const relationRef = useRef<{projectList: PROJECT.Detail[]; appList: IApplication[]}>({ projectList: [], appList: [] });
   const [state, updater, update] = useUpdate<IState>({
@@ -60,8 +60,8 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
     chooseProjectID: undefined,
   });
   const { getAssetDetail, editAsset, editInstance } = apiMarketStore.effects;
-  const getProjects = (query: { pageSize: number, pageNo: number, q?: string }) => {
-    return getMyProject<Promise<API_MARKET.CommonResList<PROJECT.Detail[]>>>({ ...query }).then(res => {
+  const getProjects = (query: { pageSize: number; pageNo: number; q?: string }) => {
+    return getMyProject<Promise<API_MARKET.CommonResList<PROJECT.Detail[]>>>({ ...query }).then((res) => {
       if (res.success) {
         const { projectList } = relationRef.current;
         const list = res.data?.list || [];
@@ -85,12 +85,12 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
     }
     return selectItem;
   };
-  const getApplications = React.useCallback((query: { pageSize: number, pageNo: number; q?: string }) => {
+  const getApplications = React.useCallback((query: { pageSize: number; pageNo: number; q?: string }) => {
     if (!state.chooseProjectID) {
       relationRef.current.appList = [];
       return;
     }
-    return getApps<Promise<API_MARKET.CommonResList<IApplication[]>>>({ ...query, projectId: state.chooseProjectID }).then(res => {
+    return getApps<Promise<API_MARKET.CommonResList<IApplication[]>>>({ ...query, projectId: state.chooseProjectID }).then((res) => {
       if (res.success) {
         const list = res.data?.list || [];
         const { appList } = relationRef.current;
@@ -125,16 +125,16 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
       });
       return;
     }
-    getAppInstance<Promise<{success: boolean; data: API_MARKET.AppInstanceItem[]}>>({ appID }).then(res => {
+    getAppInstance<Promise<{success: boolean; data: API_MARKET.AppInstanceItem[]}>>({ appID }).then((res) => {
       if (res.success) {
         const serviceList = groupBy(res.data || [], 'serviceName');
-        let branchList:API_MARKET.AppInstanceItem[] = [];
-        let instanceList:API_MARKET.AppInstanceItem[] = [];
+        let branchList: API_MARKET.AppInstanceItem[] = [];
+        let instanceList: API_MARKET.AppInstanceItem[] = [];
         if (instance.serviceName) {
           branchList = serviceList[instance.serviceName] || [];
         }
         if (instance.runtimeID) {
-          instanceList = branchList.filter(item => item.runtimeID === instance.runtimeID);
+          instanceList = branchList.filter((item) => item.runtimeID === instance.runtimeID);
         }
         update({
           serviceList,
@@ -162,7 +162,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
   }, [assetDetail.appID, instanceType, defaultProjectID, mode, visible, update, defaultAppID, getAppInstances]);
   const handleChange = (name: string, value: number | API_MARKET.InstanceType, clearFields: string[]) => {
     const temp = {};
-    clearFields.forEach(item => {
+    clearFields.forEach((item) => {
       temp[item] = undefined;
     });
     switch (name) {
@@ -198,7 +198,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
         break;
       case 'runtimeID':
         update({
-          instanceList: state.branchList.filter(item => item.runtimeID === +value),
+          instanceList: state.branchList.filter((item) => item.runtimeID === +value),
         });
         break;
       default:
@@ -211,7 +211,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
       const instantiationID = instance.id;
       const { minor, swaggerVersion } = versionInfo;
       const { projectID, appID, type, url, serviceName, runtimeID } = data;
-      const { workspace } = state.branchList.find(item => item.runtimeID === +runtimeID) || {};
+      const { workspace } = state.branchList.find((item) => item.runtimeID === +runtimeID) || {};
       const payload = {
         minor,
         swaggerVersion,
@@ -235,10 +235,10 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
       let projectName: string | undefined;
       let appName: string | undefined;
       if (data.projectID) {
-        projectName = get(projectList.find(item => item.id === +data.projectID), 'name');
+        projectName = get(projectList.find((item) => item.id === +data.projectID), 'name');
       }
       if (data.appID) {
-        appName = get(appList.find(item => item.id === +data.appID), 'name');
+        appName = get(appList.find((item) => item.id === +data.appID), 'name');
       }
       await editAsset({ ...asset, projectID: +data.projectID, appID: +data.appID, assetID: params.assetID, projectName, appName });
       onCancel();
@@ -277,7 +277,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
           <LoadMoreSelector
             chosenItemConvert={chosenItemConvertProject}
             getData={getProjects}
-            dataFormatter={({ list, total }: { list: any[], total: number }) => ({
+            dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
               total,
               list: map(list, ({ id, name }) => {
                 return {
@@ -308,7 +308,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
             chosenItemConvert={chosenItemConvertApp}
             extraQuery={{ projectId: state.chooseProjectID }}
             getData={getApplications}
-            dataFormatter={({ list, total }: { list: any[], total: number }) => ({
+            dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
               total,
               list: map(list, ({ id, name }) => {
                 return {
@@ -370,7 +370,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
           <Select placeholder={i18n.t('please select')}>
             {
               state.instanceList.map(({ serviceAddr }) => {
-                return (serviceAddr || []).map(url => <Select.Option key={url} value={url}><Ellipsis title={url} /></Select.Option>);
+                return (serviceAddr || []).map((url) => <Select.Option key={url} value={url}><Ellipsis title={url} /></Select.Option>);
               })
             }
           </Select>

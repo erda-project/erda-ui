@@ -25,16 +25,16 @@ interface IState {
 interface IProps {
   defaultSelectValue?: SelectValue;
   selectProps?: SelectProps;
-  inputProps?: InputProps,
+  inputProps?: InputProps;
   selectTip?: string;
   inputTip?: string;
   options: Array<{
     value: string | number;
     name: string;
-  }>
-  value?: IState
+  }>;
+  value?: IState;
 
-  onChange?(data: { inputValue?: string; selectValue?: SelectValue }): void;
+  onChange?: (data: { inputValue?: string; selectValue?: SelectValue }) => void;
 }
 
 const { Option } = Select;
@@ -64,7 +64,7 @@ const SelectInputGroup = (props: IProps) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     if (!('value' in props)) {
-      setState(pre => {
+      setState((pre) => {
         return {
           ...pre,
           inputValue,
@@ -77,7 +77,7 @@ const SelectInputGroup = (props: IProps) => {
 
   const handleSelectChange = (selectValue: SelectValue) => {
     if (!('value' in props)) {
-      setState(pre => {
+      setState((pre) => {
         return {
           ...pre,
           selectValue,
@@ -95,7 +95,7 @@ const SelectInputGroup = (props: IProps) => {
         {...selectProps}
       >
         {
-          options.map(op => <Option key={op.value} value={op.value}>{op.name}</Option>)
+          options.map((op) => <Option key={op.value} value={op.value}>{op.name}</Option>)
         }
       </Select>
       <span className="slash">/</span>

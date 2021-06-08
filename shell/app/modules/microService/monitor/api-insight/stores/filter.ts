@@ -21,7 +21,7 @@ interface IState{
     filter_upfs: undefined | string;
     filter_dsrv: undefined | string;
     filter_dapp: undefined | string;
-  },
+  };
 }
 
 const initState: IState = {
@@ -40,7 +40,7 @@ const filter = createStore({
   state: initState,
   effects: {
     async getSearchFields({ select }) {
-      const searchFields = select(s => s.searchFields);
+      const searchFields = select((s) => s.searchFields);
       return searchFields;
     },
   },

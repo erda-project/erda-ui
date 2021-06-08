@@ -22,8 +22,8 @@ import { TestOperation } from 'project/pages/test-manage/constants';
 import { FormModal } from 'common';
 
 interface IProps extends FormComponentProps {
-  onOk?: (values: any) => void
-  labelName?: string
+  onOk?: (values: any) => void;
+  labelName?: string;
 }
 
 const updateEventMap = {
@@ -36,7 +36,7 @@ const noop = () => { throw new Error('function is required'); };
 const MetaModal = ({ labelName: oldLabelName, onOk: oldOnOk }: IProps) => {
   const { getFields } = testCaseStore.effects;
   const { closeNormalModal } = testCaseStore.reducers;
-  const [oldCaseAction, metaFields] = testCaseStore.useStore(s => [s.caseAction, s.metaFields]);
+  const [oldCaseAction, metaFields] = testCaseStore.useStore((s) => [s.caseAction, s.metaFields]);
   // const confirmLoading = loadingStore.useSpace(testCaseStore)[updateEventMap[oldCaseAction]];
   const [confirmLoading] = useLoading(testCaseStore, [`${updateEventMap[oldCaseAction]}`]);
   const caseAction = (defaultMetaActions.includes(oldCaseAction) ? oldCaseAction : '') as string;

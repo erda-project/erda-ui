@@ -40,11 +40,11 @@ const defaultInstance: CUSTOM_ADDON.GatewayInstance = {
 };
 
 interface IProps {
-  form: WrappedFormUtils
-  addonProto: CUSTOM_ADDON.Item
-  editData: ADDON.Instance | null
+  form: WrappedFormUtils;
+  addonProto: CUSTOM_ADDON.Item;
+  editData: ADDON.Instance | null;
   workspace: string;
-  edit: React.RefObject<any>
+  edit: React.RefObject<any>;
   category?: string;
 }
 const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }: IProps) => {
@@ -132,7 +132,7 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
         label: i18n.t('resource:existing cloud instance'),
         name: 'instanceID',
         type: 'select',
-        options: state.existInstances.map(a => ({ name: `${a.name} (${a.id})`, value: a.id })),
+        options: state.existInstances.map((a) => ({ name: `${a.name} (${a.id})`, value: a.id })),
         // itemProps: { disabled: editData !== null },
       },
       ...subFields,

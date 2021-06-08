@@ -15,7 +15,7 @@ import * as React from 'react';
 import PipelineManage from 'project/common/components/pipeline-manage';
 
 const ConfigSheet = () => {
-  return <PipelineManage scope='configSheet' />;
+  return <PipelineManage scope="configSheet" />;
 };
 
 export default ConfigSheet;

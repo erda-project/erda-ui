@@ -16,7 +16,7 @@ declare namespace COMMON_CUSTOM_ALARM {
     id: number;
     name: string;
     metric: string;
-    window: number, // 周期，单位：min
+    window: number; // 周期，单位：min
     notifyTargets: string;
     dashboardId?: string;
     enable: boolean;
@@ -46,9 +46,9 @@ declare namespace COMMON_CUSTOM_ALARM {
   }
   type AlarmTarget = CommonKey;
   interface CustomMetricMap {
-    metricMap: { [name:string]: Metrics };
-    functionOperatorMap: { [name:string]: Operators };
-    filterOperatorMap: { [name:string]: Operators };
+    metricMap: { [name: string]: Metrics };
+    functionOperatorMap: { [name: string]: Operators };
+    filterOperatorMap: { [name: string]: Operators };
     aggregator: CommonKey[];
     notifySample: string;
   }

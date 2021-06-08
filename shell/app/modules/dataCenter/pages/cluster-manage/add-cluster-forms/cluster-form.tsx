@@ -53,7 +53,7 @@ const weekMap = {
   6: i18n.t('Saturday'),
 };
 
-const getDefaultMasterURL = (type:string, val = '', isEdgeCluster = true) => {
+const getDefaultMasterURL = (type: string, val = '', isEdgeCluster = true) => {
   const urlMap = {
     k8s: `inet://${val}?ssl=on/kubernetes.default.svc.cluster.local`,
     dcos: `inet://${val}/master.mesos`,
@@ -72,18 +72,18 @@ const ClusterBasicForm = ({
   clusterType,
   formData,
 }: {
-  form: WrappedFormUtils
-  editMode: boolean,
-  formData:any,
-  clusterList:ORG_CLUSTER.ICluster[],
-  clusterType:string;
+  form: WrappedFormUtils;
+  editMode: boolean;
+  formData: any;
+  clusterList: ORG_CLUSTER.ICluster[];
+  clusterType: string;
 }) => {
   const [isEdgeCluster, setIsEdgeCluster] = React.useState(get(formData, 'isEdgeCluster', true));
   const [wildcardDomain, setWildcardDomain] = React.useState('');
   const { getClusterNewDetail } = clusterStore.effects;
   const debounceCheckName = React.useCallback(debounce((nameStr: string, callback: Function) => {
     if (editMode) return callback();
-    nameStr && getClusterNewDetail({ clusterName: nameStr }).then((res:any) => {
+    nameStr && getClusterNewDetail({ clusterName: nameStr }).then((res: any) => {
       const { basic } = get(res, '[0]', {});
       const curIsEdgeCluster = get(basic, 'edgeCluster.value', true);
       setIsEdgeCluster(curIsEdgeCluster);
@@ -197,7 +197,7 @@ const ClusterBasicForm = ({
 
   return <RenderPureForm list={fieldsList} form={form} onlyItems />;
 };
-const ClusterSchedulerForm = ({ form, clusterType, formData, editMode }: { form: WrappedFormUtils, clusterType:string, formData: any, editMode: boolean, }) => {
+const ClusterSchedulerForm = ({ form, clusterType, formData, editMode }: { form: WrappedFormUtils; clusterType: string; formData: any; editMode: boolean }) => {
   const initialOpsConfig = formData && formData.opsConfig;
   const formValues = form.getFieldsValue();
   const { scheduler, opsConfig } = formValues || ({} as any);
@@ -310,7 +310,7 @@ const ClusterSchedulerForm = ({ form, clusterType, formData, editMode }: { form:
       type: 'radioGroup',
       options: map(scaleModeMap, (name, value) => ({ name, value })),
       required: false,
-    },);
+    });
   }
 
   if (opsConfig && opsConfig.scaleMode === 'scheduler') {
@@ -326,7 +326,7 @@ const ClusterSchedulerForm = ({ form, clusterType, formData, editMode }: { form:
             defaultValue={initialOpsConfig && moment(initialOpsConfig.launchTime)}
             disabledDate={(current: Moment) => current && current < moment().subtract(1, 'days')}
             showTime
-            onChange={date => { form.setFieldsValue({ 'opsConfig.launchTime': date }); }}
+            onChange={(date) => { form.setFieldsValue({ 'opsConfig.launchTime': date }); }}
           />
         </>
       ),
@@ -451,7 +451,7 @@ const ClusterSchedulerForm = ({ form, clusterType, formData, editMode }: { form:
   const fieldsList = clusterType ? fieldListMap[clusterType] : [];
   return <RenderPureForm list={fieldsList} form={form} onlyItems />;
 };
-const ClusterAddForm = (props:any) => {
+const ClusterAddForm = (props: any) => {
   const { form, mode, formData, clusterList, clusterType } = props;
   const [showMore, setShowMore] = React.useState(false);
 
@@ -480,7 +480,7 @@ interface IProps {
   visible: boolean;
   toggleModal: (isCancel?: boolean) => void;
   initData?: object | null;
-  clusterList:ORG_CLUSTER.ICluster[];
+  clusterList: ORG_CLUSTER.ICluster[];
   clusterType: string;
 }
 
@@ -496,7 +496,7 @@ export const AddClusterModal = (props: IProps) => {
   const handleSubmit = (values: any) => {
     const { scheduler, opsConfig } = values;
     const postData = { ...values };
-    if (every(opsConfig, item => isEmpty(item))) { postData.opsConfig = null; }
+    if (every(opsConfig, (item) => isEmpty(item))) { postData.opsConfig = null; }
     const cpuSubscribeRatio = get(scheduler, 'cpuSubscribeRatio');
     const repeatValue = get(opsConfig, 'repeatValue');
     const launchTime = get(opsConfig, 'launchTime');

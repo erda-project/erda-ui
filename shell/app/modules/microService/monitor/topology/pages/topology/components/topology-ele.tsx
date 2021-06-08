@@ -27,9 +27,9 @@ interface IProps {
   nodeEle: React.ReactNode;
   linkTextEle: React.ReactNode;
   boxEle: React.ReactNode;
-  onClickNode(arg: any): void;
-  setSize(...args: any): void;
-  setScale(arg: any):void;
+  onClickNode: (arg: any) => void;
+  setSize: (...args: any) => void;
+  setScale: (arg: any) => void;
 }
 let onDrag = false;
 const emptyFun = () => {};
@@ -40,14 +40,14 @@ const TopologyEle = (props: IProps) => {
   const boxRef = React.useRef(null);
 
   const handleWheel = React.useCallback(
-    throttle((e:any, scale:number) => {
+    throttle((e: any, scale: number) => {
       if (e.deltaY > 0 && scale < 1.8) {
         setScale(scale + 0.05);
       }
       if (e.deltaY < 0 && scale > 0.2) {
         setScale(scale - 0.05);
       }
-    }, 100, { trailing: false }), []
+    }, 100, { trailing: false }), [],
   );
 
   React.useEffect(() => {
@@ -70,7 +70,7 @@ const TopologyEle = (props: IProps) => {
           setTimeout(() => {
             onDrag = false;
           }, 0);
-        }
+        },
       );
       // 在g标签下建一个透明的rect占满g标签内部,用于承载drag的载体，否则g.drag只能作用于节点。
       const mask = curSvg.rect(0, 0, '300%', '300%').attr({ fill: 'transparent' });
@@ -104,7 +104,7 @@ const TopologyEle = (props: IProps) => {
         onClickNode: (detial: any) => {
           if (!onDrag)onClickNode(detial);
         },
-      }
+      },
     );
     const curBox = boxRef.current as any;
     curBox.style.width = `${containerWidth}px`;

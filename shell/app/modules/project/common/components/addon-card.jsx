@@ -17,7 +17,7 @@ import { ossImg } from 'common/utils';
 import classnames from 'classnames';
 import './addon-card.scss';
 
-const imgOrIcon = url => (url
+const imgOrIcon = (url) => (url
   ? <img className="addon-card__logo" src={ossImg(url, { w: 80 })} alt="addon" />
   : <CustomIcon style={{ fontSize: '40px' }} type="addon" />);
 

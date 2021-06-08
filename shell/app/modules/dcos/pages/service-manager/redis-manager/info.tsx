@@ -21,11 +21,11 @@ import InfoBox from '../info-box';
 
 
 const Info = () => {
-  const redisDetails = cloudServiceStore.useStore(s => s.redisDetails);
+  const redisDetails = cloudServiceStore.useStore((s) => s.redisDetails);
   const { getRedisDetails } = cloudServiceStore.effects;
   const { clearRedisDetails } = cloudServiceStore.reducers;
 
-  const [redisID, region] = routeInfoStore.useStore(s => [s.params.redisID, s.query.region]);
+  const [redisID, region] = routeInfoStore.useStore((s) => [s.params.redisID, s.query.region]);
   const [isFetching] = useLoading(cloudServiceStore, ['getRedisDetails']);
 
   useEffectOnce(() => {

@@ -14,7 +14,7 @@
 declare namespace PROJECT_REPORT {
   interface QueryConfig {
     projectId: string;
-    workspace: string
+    workspace: string;
   }
 
   interface Config {
@@ -40,7 +40,7 @@ declare namespace PROJECT_REPORT {
   }
 
   interface SetConfig extends QueryConfig {
-    setting: DailySetting | WeeklySetting
+    setting: DailySetting | WeeklySetting;
   }
 
   interface QueryReport extends QueryConfig {
@@ -62,6 +62,6 @@ declare namespace PROJECT_REPORT {
 
   interface GetReportDetail extends QueryConfig {
     type: 'weekly' | 'daily';
-    key: string
+    key: string;
   }
 }

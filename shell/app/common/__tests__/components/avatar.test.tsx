@@ -18,7 +18,7 @@ import { shallow } from 'enzyme';
 import { describe, it } from '@jest/globals';
 import userStore from 'user/stores';
 
-const loginUser:ILoginUser = {
+const loginUser: ILoginUser = {
   id: '123456',
   name: 'dice',
   nick: 'dice-jest',
@@ -44,7 +44,7 @@ describe('Avatar', () => {
         className="avatar-comp"
         showName
         name={loginUser.name}
-      />
+      />,
     );
     expect(wrapper.find('.avatar-comp')).toExist();
     expect(wrapper.find('Tooltip').find('span').text()).toBe(loginUser.name);
@@ -63,7 +63,7 @@ describe('Avatar', () => {
         showName
         name={loginUser.name}
         url={url}
-      />
+      />,
     );
     expect(wrapper.find('span').at(1).text()).toBe(loginUser.name);
     expect(wrapper.find({ alt: 'user-avatar' }).prop('src')).toContain(url);
@@ -78,7 +78,7 @@ describe('Avatar', () => {
         showName
         name={loginUser.name}
         wrapClassName={'wrapClassName'}
-      />
+      />,
     );
     expect(wrapper.find('.wrapClassName')).toExist();
   });
@@ -88,7 +88,7 @@ describe('Avatar', () => {
         className="avatar-comp"
         showName
         name={loginUser.name}
-      />
+      />,
     );
     expect(wrapper.find('.dice-avatar').prop('style')).toStrictEqual(sizeResult(24));
     wrapper.setProps({ size: 100 });
@@ -102,7 +102,7 @@ describe('AvatarList', () => {
       <AvatarList
         names={names}
         maxDisplay={3}
-      />
+      />,
     );
     expect(wrapper.find('Tooltip').children()).toHaveLength(4);
     expect(wrapper.find('Tooltip').children().last().text()).toBe('...');

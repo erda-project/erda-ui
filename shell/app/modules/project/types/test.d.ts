@@ -14,15 +14,15 @@
 declare namespace TEST_SET {
 
   interface TestSet {
-    id: number
-    name: string
-    parentID: number
-    recycled: boolean
-    isDeleted: boolean
-    directoryName: string
-    order: number
-    creatorId: string
-    updatedId: string
+    id: number;
+    name: string;
+    parentID: number;
+    recycled: boolean;
+    isDeleted: boolean;
+    directoryName: string;
+    order: number;
+    creatorId: string;
+    updatedId: string;
   }
 
   interface TestSetNode {
@@ -34,36 +34,36 @@ declare namespace TEST_SET {
     isLeaf?: boolean;
     iconClass?: string;
     iconType?: string;
-    children?: TestSetNode[]
+    children?: TestSetNode[];
   }
 
   interface CreateBody {
-    name: string
-    parentID: number
-    projectID: number
+    name: string;
+    parentID: number;
+    projectID: number;
   }
 
   interface GetQuery {
-    projectID: number
+    projectID: number;
     recycled: boolean;
     parentID: number;
     testPlanID?: number;
   }
 
   interface DeleteQuery {
-    testSetID: number
+    testSetID: number;
   }
 
   interface RecoverQuery {
-    testSetID: number
-    recoverToTestSetID: number
+    testSetID: number;
+    recoverToTestSetID: number;
   }
 
   interface MoveOrCopyQuery {
-    projectId: number
-    testSetId: number
-    parentId: number
-    selectProjectId?: number
+    projectId: number;
+    testSetId: number;
+    parentId: number;
+    selectProjectId?: number;
   }
 
   interface CopyTestSet {
@@ -73,7 +73,7 @@ declare namespace TEST_SET {
 
 
   interface updateBody {
-    testSetID: number
+    testSetID: number;
     name: string;
     moveToParentID: number;
   }
@@ -86,39 +86,39 @@ declare namespace TEST_CASE {
   type CaseFileType = 'xmind' | 'excel';
 
   interface API {
-    apiId: number
-    apiInfo: string
-    apiRequest: string
-    apiResponse: string
-    assertResult: string
-    projectId: number
-    status: string
-    usecaseId: number
-    usecaseOrder: number
+    apiId: number;
+    apiInfo: string;
+    apiRequest: string;
+    apiResponse: string;
+    assertResult: string;
+    projectId: number;
+    status: string;
+    usecaseId: number;
+    usecaseOrder: number;
   }
 
   interface CaseBody {
-    id?: number
-    apis: API[]
+    id?: number;
+    apis: API[];
     attachmentIds: [
       string
-    ]
-    bugIds: number[]
-    desc: string
-    descIssues: Array<{ additionalProperties: number }>
-    labels: LABEL.Item[]
-    module: number
-    preCondition: string
-    priority: string
-    projectId: number
-    recycled: boolean
-    selectProjectId: number
+    ];
+    bugIds: number[];
+    desc: string;
+    descIssues: Array<{ additionalProperties: number }>;
+    labels: LABEL.Item[];
+    module: number;
+    preCondition: string;
+    priority: string;
+    projectId: number;
+    recycled: boolean;
+    selectProjectId: number;
     stepAndResults: {
-      result: string
-      step: string
-    }
-    testSetId: number
-    title: string
+      result: string;
+      step: string;
+    };
+    testSetId: number;
+    title: string;
   }
 
   type CaseBodyPart = {
@@ -152,32 +152,32 @@ declare namespace TEST_CASE {
   }
 
   interface CaseFilter {
-    testSetId?: number
-    selectProjectId?: number
-    projectId?: number
-    usecaseIds?: number[]
-    testPlanId?: number
+    testSetId?: number;
+    selectProjectId?: number;
+    projectId?: number;
+    usecaseIds?: number[];
+    testPlanId?: number;
   }
 
   interface ImportData {
-    payload: FormData,
+    payload: FormData;
     query: {
       projectID: number;
       testSetID: number;
-      fileType: CaseFileType
-    }
+      fileType: CaseFileType;
+    };
   }
 
   interface TestApi {
-    apis: Array<{ url: string, id: string }>,
-    projectTestEnvID: number,
-    usecaseTestEnvID: number
+    apis: Array<{ url: string; id: string }>;
+    projectTestEnvID: number;
+    usecaseTestEnvID: number;
   }
 
   interface ChoosenInfo {
-    isAll: boolean,
-    primaryKeys: number[],
-    exclude: number[],
+    isAll: boolean;
+    primaryKeys: number[];
+    exclude: number[];
   }
 
   interface QueryCase {
@@ -207,7 +207,7 @@ declare namespace TEST_CASE {
   }
 
   interface ExportFileQuery extends Merge<QueryCase, QueryCaseSort> {
-    fileType: 'xmind' | 'excel'
+    fileType: 'xmind' | 'excel';
   }
 
   interface RelatedBug {
@@ -221,21 +221,21 @@ declare namespace TEST_CASE {
   }
 
   interface TestCaseItemDetail {
-    apis: null | API[],
-    attachments: null | string[],
-    bugIDs: null | number[],
+    apis: null | API[];
+    attachments: null | string[];
+    bugIDs: null | number[];
     createdAt: string;
     creatorID: string;
     desc: string;
     id: number;
-    labelIDs: null,
-    labels: null,
+    labelIDs: null;
+    labels: null;
     name: string;
     preCondition: string;
     priority: Priority;
     projectID: number;
     recycled: boolean;
-    stepAndResults: stepAndResult[],
+    stepAndResults: stepAndResult[];
     testSetID: number;
     updatedAt: string;
     updaterID: string;
@@ -246,7 +246,7 @@ declare namespace TEST_CASE {
       running: number;
       passed: number;
       failed: number;
-    },
+    };
   }
 
   interface TestCaseRelationItemDetail {
@@ -259,7 +259,7 @@ declare namespace TEST_CASE {
     };
     createdAt: string;
     creatorID: string;
-    execStatus: CaseResult
+    execStatus: CaseResult;
     executorID: string;
     id: number;
     issueBugs: RelatedBug[];
@@ -283,8 +283,8 @@ declare namespace TEST_CASE {
   }
 
   interface CasePage {
-    total: number
-    testSets: CaseDirectoryItem[]
+    total: number;
+    testSets: CaseDirectoryItem[];
   }
 
   interface stepAndResult {
@@ -303,11 +303,11 @@ declare namespace TEST_CASE {
   interface CaseRelationDetail {
     createdAt: string;
     creatorID: string;
-    execStatus: CaseResult,
+    execStatus: CaseResult;
     executorID: string;
     id: number;
     name: string;
-    priority: Priority
+    priority: Priority;
     testCaseID: number;
     testPlanID: number;
     testSetID: number;
@@ -319,23 +319,23 @@ declare namespace TEST_CASE {
       running: number;
       passed: number;
       failed: number;
-    },
-    issueBugs: RelatedBug[]
+    };
+    issueBugs: RelatedBug[];
   }
 
-  type CaseTableRecord = Merge<TestCaseItem, { parent: Omit<CaseDirectoryItem, 'testCases'>, children?: TestCaseItem[] }>;
+  type CaseTableRecord = Merge<TestCaseItem, { parent: Omit<CaseDirectoryItem, 'testCases'>; children?: TestCaseItem[] }>;
 
   interface BatchUpdate {
-    testCaseIDs: number[],
+    testCaseIDs: number[];
     priority?: Priority;
     recycled?: boolean;
     moveToTestSetID?: number;
   }
 
   interface BatchCopy {
-    copyToTestSetID: number
-    projectID: number
-    testCaseIDs: number[]
+    copyToTestSetID: number;
+    projectID: number;
+    testCaseIDs: number[];
   }
 
   interface RemoveRelation {

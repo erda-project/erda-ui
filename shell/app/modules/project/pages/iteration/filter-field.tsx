@@ -44,9 +44,9 @@ interface IOptionItem {
 }
 
 export default ({ queryCondition, type, listView }: IProps) => {
-  const [projectId, query] = routeInfoStore.getState(s => [s.params.projectId, s.query]);
-  const totalWorkflowStateList = issueWorkflowStore.useStore(s => s.totalWorkflowStateList);
-  const [bugStageList, taskTypeList] = issueFieldStore.useStore(s => [s.bugStageList, s.taskTypeList]);
+  const [projectId, query] = routeInfoStore.getState((s) => [s.params.projectId, s.query]);
+  const totalWorkflowStateList = issueWorkflowStore.useStore((s) => s.totalWorkflowStateList);
+  const [bugStageList, taskTypeList] = issueFieldStore.useStore((s) => [s.bugStageList, s.taskTypeList]);
 
   const taskTypeOption = React.useMemo(() => {
     return map(taskTypeList, ({ id, name }) => {
@@ -67,7 +67,7 @@ export default ({ queryCondition, type, listView }: IProps) => {
   }, [bugStageList]);
 
   const workflowStateOption = React.useMemo(() => {
-    const tempOptionList:IOptionItem[] = [];
+    const tempOptionList: IOptionItem[] = [];
     map(totalWorkflowStateList, ({ stateID, stateName, issueType }) => {
       if (issueType === query.type) {
         tempOptionList.push({
@@ -79,8 +79,8 @@ export default ({ queryCondition, type, listView }: IProps) => {
     return tempOptionList || [];
   }, [query.type, totalWorkflowStateList]);
 
-  const userMap = userMapStore.getState(s => s);
-  const loginUser = userStore.getState(s => s.loginUser);
+  const userMap = userMapStore.getState((s) => s);
+  const loginUser = userStore.getState((s) => s.loginUser);
 
   const filterList: any[] = useMemo(() => {
     const inRequirement = type === ISSUE_TYPE.REQUIREMENT;
@@ -104,8 +104,8 @@ export default ({ queryCondition, type, listView }: IProps) => {
     } = queryCondition;
 
     const userValueConvert = (val: string[] | string, options: any[]) => {
-      return map(isArray(val) ? val : [val], item => {
-        const curUser = existUser[item] || find(options, opt => opt.userId === `${item}`) || {};
+      return map(isArray(val) ? val : [val], (item) => {
+        const curUser = existUser[item] || find(options, (opt) => opt.userId === `${item}`) || {};
         return curUser.nick || curUser.name || item;
       }).join(', ');
     };
@@ -117,7 +117,7 @@ export default ({ queryCondition, type, listView }: IProps) => {
         label: i18n.t('project:label'),
         Comp: <LabelSelect type="issue" value={label} fullWidth />,
         filterBarValueConvert: (val: string[], options: any[] = []) => {
-          const reVal = compact(map(options, item => item.props.children)).join(',');
+          const reVal = compact(map(options, (item) => item.props.children)).join(',');
           return reVal;
         },
       },
@@ -134,7 +134,7 @@ export default ({ queryCondition, type, listView }: IProps) => {
           </Option>
         )),
         filterBarValueConvert: (val: string[] | string) => {
-          return map(isArray(val) ? val : [val], item => ISSUE_PRIORITY_MAP[item].label).join(', ');
+          return map(isArray(val) ? val : [val], (item) => ISSUE_PRIORITY_MAP[item].label).join(', ');
         },
       },
       ...insertWhen(inBug || inTicket, [
@@ -151,7 +151,7 @@ export default ({ queryCondition, type, listView }: IProps) => {
             </Option>
           )),
           filterBarValueConvert: (val: string[] | string) => {
-            return map(isArray(val) ? val : [val], item => BUG_SEVERITY_MAP[item].label).join(', ');
+            return map(isArray(val) ? val : [val], (item) => BUG_SEVERITY_MAP[item].label).join(', ');
           },
         },
       ]),
@@ -193,7 +193,7 @@ export default ({ queryCondition, type, listView }: IProps) => {
           label: i18n.t('project:import source'),
           options: bugStageOption,
           filterBarValueConvert: (val: string[] | string) => {
-            return map(isArray(val) ? val : [val], item => get(find(bugStageOption, { value: Number(item) }), 'name')).join(', ');
+            return map(isArray(val) ? val : [val], (item) => get(find(bugStageOption, { value: Number(item) }), 'name')).join(', ');
           },
         },
       ]),
@@ -206,7 +206,7 @@ export default ({ queryCondition, type, listView }: IProps) => {
           <RangePicker borderTime format={['MM-DD', 'MM-DD']} ranges={getTimeRanges()} />
         ),
         filterBarValueConvert: (val: string[]) => {
-          return map(val, item => moment(item).format('MM-DD')).join(' ~ ');
+          return map(val, (item) => moment(item).format('MM-DD')).join(' ~ ');
         },
       },
       {
@@ -218,7 +218,7 @@ export default ({ queryCondition, type, listView }: IProps) => {
           <RangePicker borderTime format={['MM-DD', 'MM-DD']} ranges={getTimeRanges()} />
         ),
         filterBarValueConvert: (val: string[]) => {
-          return map(val, item => moment(item).format('MM-DD')).join(' ~ ');
+          return map(val, (item) => moment(item).format('MM-DD')).join(' ~ ');
         },
       },
       ...insertWhen(!(inRequirement || (inTask && listView !== 'table')), [
@@ -229,7 +229,7 @@ export default ({ queryCondition, type, listView }: IProps) => {
           label: i18n.t('common:state'),
           options: workflowStateOption,
           filterBarValueConvert: (val: string[] | string) => {
-            return map(isArray(val) ? val : [val], item => get(find(totalWorkflowStateList, { stateID: Number(item) }), 'stateName')).join(', ');
+            return map(isArray(val) ? val : [val], (item) => get(find(totalWorkflowStateList, { stateID: Number(item) }), 'stateName')).join(', ');
           },
         },
       ]),
@@ -253,7 +253,7 @@ export default ({ queryCondition, type, listView }: IProps) => {
           allowClear: true,
           options: taskTypeOption,
           filterBarValueConvert: (val: string[] | string) => {
-            return map(isArray(val) ? val : [val], item => get(find(taskTypeOption, { value: Number(item) }), 'name')).join(', ');
+            return map(isArray(val) ? val : [val], (item) => get(find(taskTypeOption, { value: Number(item) }), 'name')).join(', ');
           },
         },
       ]),

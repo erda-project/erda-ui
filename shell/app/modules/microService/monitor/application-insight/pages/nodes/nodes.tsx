@@ -30,7 +30,7 @@ const PageMap = [
 
 const Nodes = () => {
   const type = 'node';
-  const chosenModule = monitorCommonStore.useStore(s => s.chosenModule);
+  const chosenModule = monitorCommonStore.useStore((s) => s.chosenModule);
   const curChosen = chosenModule[type];
 
   const opt = curChosen ? { query: { filter_instance_id: curChosen } } : { shouldLoad: false };

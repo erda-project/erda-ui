@@ -29,13 +29,13 @@ import repoStore from 'application/stores/repo';
 import './add-pipelineyml.scss';
 
 interface IState {
-  value: string,
-  fileName: string,
-  viewType: string,
-  txtValue: string,
-  ymlObj: null | IPipelineYmlStructure,
-  fileSuffix: string,
-  errorMsg: string,
+  value: string;
+  fileName: string;
+  viewType: string;
+  txtValue: string;
+  ymlObj: null | IPipelineYmlStructure;
+  fileSuffix: string;
+  errorMsg: string;
 }
 
 enum ViewType {
@@ -46,7 +46,7 @@ enum ViewType {
 const pipelineTempQuery = { scopeID: '0', scopeType: 'dice' };
 
 const AddPipelineYml = () => {
-  const [tree, info] = repoStore.useStore(s => [s.tree, s.info]);
+  const [tree, info] = repoStore.useStore((s) => [s.tree, s.info]);
   const { commit, getRepoTree } = repoStore.effects;
   const { changeMode } = repoStore.reducers;
   const isRootPath = tree && tree.path === '';// 是根目录
@@ -76,7 +76,7 @@ const AddPipelineYml = () => {
       }
       return false;
     }
-    return parsePipelineYmlStructure({ pipelineYmlContent: val }).then((res:any) => {
+    return parsePipelineYmlStructure({ pipelineYmlContent: val }).then((res: any) => {
       const ymlStr = get(res, 'data.ymlContent');
       update({
         ymlObj: (res && res.data),
@@ -180,7 +180,7 @@ const AddPipelineYml = () => {
         name: 'branch',
         type: 'select',
         initialValue: branch || 'master',
-        options: branches.map((a:string) => ({ name: a, value: a })),
+        options: branches.map((a: string) => ({ name: a, value: a })),
         itemProps: {
           placeholder: i18n.t('application:submit branch'),
           disabled: true,
@@ -213,7 +213,7 @@ const AddPipelineYml = () => {
         className="flex-box"
         size="small"
         value={viewType}
-        onChange={(e:any) => changeViewType(e.target.value)}
+        onChange={(e: any) => changeViewType(e.target.value)}
       >
         <Radio.Button value={ViewType.graphic}>
           <CustomIcon type="lc" />
@@ -223,7 +223,7 @@ const AddPipelineYml = () => {
         </Radio.Button>
       </Radio.Group>
       <Tooltip title={i18n.t('reset')}>
-        <CustomIcon type='zhongzhi' className='ml8 pointer' onClick={reset} />
+        <CustomIcon type="zhongzhi" className="ml8 pointer" onClick={reset} />
       </Tooltip>
     </>
   );
@@ -274,7 +274,7 @@ const AddPipelineYml = () => {
 
 
   return (
-    <div className='repo-add-pipelineyml'>
+    <div className="repo-add-pipelineyml">
       <Alert message={i18n.t('application:add-pipeline-tip')} type="normal" showIcon />
       <PipelineTemplateSelector
         ref={selectorRef}
@@ -284,12 +284,12 @@ const AddPipelineYml = () => {
         }}
       />
       <div ref={editViewRef}>
-        <div className='bold fz16 my12'>{i18n.t('application:pipeline configuration')}</div>
+        <div className="bold fz16 my12">{i18n.t('application:pipeline configuration')}</div>
         <FileContainer name={<FileNameInput value={fileName} disabled={isRootPath} onChange={(val: string) => updater.fileName(val)} addonAfter={fileSuffix} />} ops={ops}>
-          <div className='add-pipeline-file-container' >
+          <div className="add-pipeline-file-container" >
 
             <IF check={viewType === ViewType.graphic}>
-               <PipelineGraphicEditor
+              <PipelineGraphicEditor
                 ymlObj={ymlObj as PIPELINE.IPipelineYmlStructure}
                 editing
                 onDeleteData={onDeleteData}
@@ -324,13 +324,13 @@ const AddPipelineYml = () => {
       </div>
       <Modal
         visible={!isEmpty(errorMsg)}
-        title={<div><CustomIcon type='guanbi-fill' className='color-danger' />{i18n.t('error')}</div>}
+        title={<div><CustomIcon type="guanbi-fill" className="color-danger" />{i18n.t('error')}</div>}
         maskClosable={false}
         footer={[
-          <Button key='cancel' onClick={() => { updater.errorMsg(''); }}>{i18n.t('cancel')}</Button>,
+          <Button key="cancel" onClick={() => { updater.errorMsg(''); }}>{i18n.t('cancel')}</Button>,
           <Button
-            key='ok'
-            type='primary'
+            key="ok"
+            type="primary"
             onClick={() => resetAndChangeViewType()}
           >
             {i18n.t('application:reset and switch')}
@@ -349,11 +349,11 @@ interface ITemplateSelector{
   onChange: (val: any) => void;
 }
 
-const PipelineTemplateSelector = React.forwardRef((props: ITemplateSelector, ref:any) => {
+const PipelineTemplateSelector = React.forwardRef((props: ITemplateSelector, ref: any) => {
   const { onChange } = props;
   const [value, setValue] = React.useState(-1);
   const [ymlContentMap, setYmlContentMap] = React.useState({});
-  const pipelineTemplates = repoStore.useStore(s => s.pipelineTemplates);
+  const pipelineTemplates = repoStore.useStore((s) => s.pipelineTemplates);
   const { getPipelineTemplates, getPipelineTemplateYmlContent } = repoStore.effects;
 
   useMount(() => {
@@ -401,22 +401,22 @@ const PipelineTemplateSelector = React.forwardRef((props: ITemplateSelector, ref
         className={`pipeline-template-item border-radius pa16 ${value === id ? 'active-item' : ''}`}
         onClick={() => changeValue(id)}
       >
-        <div className='logo'>
+        <div className="logo">
           {
             logoUrl
               ? <img src={logoUrl} />
-              : <CustomIcon type='dm' className='template-icon' />
+              : <CustomIcon type="dm" className="template-icon" />
           }
         </div>
-        <div className='name my4'>{name}</div>
-        <div className='desc'>{desc}</div>
+        <div className="name my4">{name}</div>
+        <div className="desc">{desc}</div>
       </div>
     );
   };
 
   return (
-    <div className='pipeline-template'>
-      <div className='bold fz16 my12'>{i18n.t('application:template select')}</div>
+    <div className="pipeline-template">
+      <div className="bold fz16 my12">{i18n.t('application:template select')}</div>
       <CardsLayout dataList={pipelineTemplates} contentRender={templateRender} />
     </div>
   );

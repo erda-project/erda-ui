@@ -20,7 +20,7 @@ import i18n from 'i18n';
 
 interface IProps {
   editAuth?: boolean;
-  onSave?(v: string): void;
+  onSave?: (v: string) => void;
 }
 
 export const IssueCommentBox = (props: IProps) => {
@@ -33,9 +33,9 @@ export const IssueCommentBox = (props: IProps) => {
 
   return stateMap.visible ? (
     <div>
-      <div className='comment-box-markdown'>
+      <div className="comment-box-markdown">
         <MarkdownEditor
-          onChange={(val:any) => {
+          onChange={(val: any) => {
             updater.content(val);
           }}
           style={{ height: '140px' }}

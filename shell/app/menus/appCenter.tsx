@@ -32,12 +32,12 @@ export const appList: () => LAYOUT.IApp[] = () => filterMenu([
         return path;
       }
       path = goTo.resolve.workBenchRoot();
-      if (!appId && (projectId || routes.some(route => route.path === 'projects'))) {
+      if (!appId && (projectId || routes.some((route) => route.path === 'projects'))) {
         path = `/${orgName}/workBench/projects`;
       }
       return path;
     },
-    href: goTo.resolve.workBenchRoot()
+    href: goTo.resolve.workBenchRoot(),
   },
   {
     key: 'microService',

@@ -55,7 +55,7 @@ const AddOn = ({ addon, className, onClick, editing }: IAddOnProps) => {
 };
 
 export default class extends PureComponent<IProps, any> {
-  public state = {
+  state = {
     actions: [],
     // 源数组， 搜索走这个数组
     originActions: [],
@@ -84,7 +84,7 @@ export default class extends PureComponent<IProps, any> {
     return prevState;
   }
 
-  public render() {
+  render() {
     const { label, disabled, placeholder } = this.props;
     const { selectedItem, searchValue } = this.state;
 

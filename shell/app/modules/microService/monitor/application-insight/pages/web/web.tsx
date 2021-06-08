@@ -21,7 +21,7 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 
 const Web = () => {
   const type = 'web';
-  const [chosenSortItem, chosenApp, chosenAppGroup, appGroup] = monitorCommonStore.useStore(s => [s.chosenSortItem, s.chosenApp, s.chosenAppGroup, s.appGroup]);
+  const [chosenSortItem, chosenApp, chosenAppGroup, appGroup] = monitorCommonStore.useStore((s) => [s.chosenSortItem, s.chosenApp, s.chosenAppGroup, s.appGroup]);
   const { filterQuery, shouldLoad }: any = getFilterParams({ chosenSortItem, chosenApp, chosenAppGroup, appGroup }, { type, prefix: 'filter_target_' });
   const chartQuery = chosenSortItem ? { ...filterQuery, filter_http_path: chosenSortItem } : { ...filterQuery };
 

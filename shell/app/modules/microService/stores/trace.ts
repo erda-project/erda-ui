@@ -17,10 +17,10 @@ import traceToMustache from 'microService/monitor/trace-insight/common/utils/tra
 import { getTraceCount, getTraceSummary, getSpanDetailContent, getTraceDetailContent } from '../services/trace';
 
 interface IState {
-  traceCount: any
-  traceSummary: MS_MONITOR.ITraceSummary[]
-  spanDetailContent: any
-  traceDetailContent: any
+  traceCount: any;
+  traceSummary: MS_MONITOR.ITraceSummary[];
+  spanDetailContent: any;
+  traceDetailContent: any;
 }
 
 const initState: IState = {

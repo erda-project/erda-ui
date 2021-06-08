@@ -25,7 +25,7 @@ interface IData {
   min?: string;
 }
 
-const TablePanel = ({ isPage, data }: { isPage: boolean, data: object }) => {
+const TablePanel = ({ isPage, data }: { isPage: boolean; data: object }) => {
   const list = get(data, 'list') || [];
   const columns = [
     {

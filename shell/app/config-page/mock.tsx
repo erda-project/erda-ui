@@ -15,7 +15,7 @@ import * as React from 'react';
 import DiceConfigPage from 'app/config-page';
 
 const Mock = () => {
-  return <DiceConfigPage showLoading scenarioType='mock' scenarioKey={'mock'} useMock={useMock} />;
+  return <DiceConfigPage showLoading scenarioType="mock" scenarioKey={'mock'} useMock={useMock} />;
 };
 export default Mock;
 

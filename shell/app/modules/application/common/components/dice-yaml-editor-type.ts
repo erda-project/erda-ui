@@ -38,8 +38,8 @@ export interface IDiceFlowPointComponent {
 }
 
 export interface IDiceFlowDataSource {
-  centerItems: IDiceYamlEditorItem[],
-  dependsItems: IDiceYamlEditorItem[],
+  centerItems: IDiceYamlEditorItem[];
+  dependsItems: IDiceYamlEditorItem[];
 }
 
 export interface IDiceYamlEditorProps {

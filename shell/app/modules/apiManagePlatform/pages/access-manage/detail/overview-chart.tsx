@@ -19,9 +19,9 @@ import { isEqual } from 'lodash';
 interface IProps{
   queries: {
     endpoint: string;
-    workspace: string,
+    workspace: string;
     projectID: number;
-  }
+  };
 }
 
 const OverviewChart = ({ queries }: IProps) => {
@@ -33,6 +33,6 @@ const OverviewChart = ({ queries }: IProps) => {
   );
 };
 
-export default React.memo((props:IProps) => <OverviewChart {...props} />, (prevProps, nextProps) => {
+export default React.memo((props: IProps) => <OverviewChart {...props} />, (prevProps, nextProps) => {
   return isEqual(prevProps, nextProps);
 });

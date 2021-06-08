@@ -23,8 +23,8 @@ import gatewayStore from 'microService/stores/gateway';
 
 interface IProps {
   isNeedStatusFilters?: boolean;
-  updateFields(): void;
-  resetFields(): void;
+  updateFields: () => void;
+  resetFields: () => void;
 }
 
 const FilterNav = ({
@@ -32,8 +32,8 @@ const FilterNav = ({
   updateFields,
   resetFields,
 }: IProps) => {
-  const [runtimeEntryData] = gatewayStore.useStore(s => [s.runtimeEntryData]);
-  const searchFields = apiMonitorFilterStore.useStore(s => s.searchFields);
+  const [runtimeEntryData] = gatewayStore.useStore((s) => [s.runtimeEntryData]);
+  const searchFields = apiMonitorFilterStore.useStore((s) => s.searchFields);
   const {
     filter_hts,
     filter_upfs,

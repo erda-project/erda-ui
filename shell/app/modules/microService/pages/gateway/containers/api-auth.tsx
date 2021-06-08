@@ -23,13 +23,13 @@ import './api-auth.scss';
 interface IProps {
   apiId: string;
   visible: boolean;
-  onClose(): void;
+  onClose: () => void;
 }
 const ApiAuth = (props: IProps) => {
   const { visible, apiId, onClose } = props;
-  const { packageId } = routeInfoStore.useStore(s => s.params);
+  const { packageId } = routeInfoStore.useStore((s) => s.params);
   const [authDataTouched, setAuthDataTouched] = React.useState(false);
-  const [authInfoList, authInfoSelected] = gatewayStore.useStore(s => [s.authInfoList, s.authInfoSelected]);
+  const [authInfoList, authInfoSelected] = gatewayStore.useStore((s) => [s.authInfoList, s.authInfoSelected]);
   const [isFetchInfo, isUpdateInfo] = useLoading(gatewayStore, ['getAuthinfo', 'updateAuthinfo']);
   const isloading = isFetchInfo || isUpdateInfo;
   useEffect(() => {

@@ -38,37 +38,37 @@ export interface TreeNode extends Omit<TreeNodeNormal, 'title'> {
 }
 
 interface TreeAction {
-  preset?: string
+  preset?: string;
   node: string;
   func?: (key: string, node: TreeNodeNormal, hookFn?: (nodeKey: string, isCreate: boolean) => void) => void;
 }
 
 interface IProps {
   title?: string;
-  titleOperation?: Array<{ preset?: string, title?: string }>
+  titleOperation?: Array<{ preset?: string; title?: string }>;
   treeProps?: TreeProps;
   initTreeData: TreeNode[];
   currentKey?: string;
   actions?: {
     folderActions?: TreeAction[] | ((node: TreeNode) => TreeAction[]);
     fileActions?: TreeAction[] | ((node: TreeNode) => TreeAction[]);
-  }
+  };
   iconMap?: { [p: string]: JSX.Element };
-  searchGroup?: { file: string, folder: string };
+  searchGroup?: { file: string; folder: string };
   loading?: boolean;
   effects: {
     loadData: (params: { pinode: string }) => Promise<TreeNode[]>;
     getAncestors: (params: { inode: string }) => Promise<TreeNode[]>;
-    moveNode?: (params: { inode: string, pinode: string, isLeaf?: boolean }) => Promise<void>;
-    copyNode?: (params: { inode: string, pinode: string, isLeaf?: boolean }) => Promise<void>;
+    moveNode?: (params: { inode: string; pinode: string; isLeaf?: boolean }) => Promise<void>;
+    copyNode?: (params: { inode: string; pinode: string; isLeaf?: boolean }) => Promise<void>;
     createNode?: (params: TREE.CreateNodeParams) => Promise<void>;
     updateNode?: (params: TREE.UpdateNodeParams) => Promise<TreeNode>;
     deleteNode?: (params: { inode: string }, isCurrentKeyDeleted?: boolean) => Promise<void>;
     fuzzySearch?: (params: { fuzzy: string }) => Promise<TreeNode[]>;
-  }
+  };
   customNode?: (params: TreeNode) => JSX.Element | string;
   customNodeClassName?: string | ((params: TreeNode) => string);
-  onSelectNode: (params: { inode: string, isLeaf: boolean }) => void;
+  onSelectNode: (params: { inode: string; isLeaf: boolean }) => void;
 }
 
 const RENAME_FOLDER = 'renameFolder';
@@ -242,7 +242,7 @@ export const TreeCategory = ({
     rootKey: get(initTreeData, '0.key') || '0',
     cuttingNodeKey: null as null | string,
     copyingNodeKey: null as null | string,
-    filterOptions: { folderGroup: [], fileGroup: [] } as { folderGroup: Array<{ label: string, value: string }>, fileGroup: Array<{ label: string, value: string }> },
+    filterOptions: { folderGroup: [], fileGroup: [] } as { folderGroup: Array<{ label: string; value: string }>; fileGroup: Array<{ label: string; value: string }> },
   });
 
   const latestTreeData = useLatest(treeData);
@@ -474,7 +474,7 @@ export const TreeCategory = ({
     },
   });
 
-  const presetMap: { [p: string]: { node?: string | JSX.Element, func: (key: string) => void, condition?: (node: TreeNode) => boolean | IAction, hookFn?: (nodeKey: string, isCreate: boolean) => Promise<void> } | null } = {
+  const presetMap: { [p: string]: { node?: string | JSX.Element; func: (key: string) => void; condition?: (node: TreeNode) => boolean | IAction; hookFn?: (nodeKey: string, isCreate: boolean) => Promise<void> } | null } = {
     [NEW_FOLDER]: createNode ? {
       func: (key: string) => createTreeNode(key, true),
       condition: (node) => node.key !== copyingNodeKey && node.key !== cuttingNodeKey, // 本身是被复制或剪切中的节点不能创建新节点
@@ -591,7 +591,7 @@ export const TreeCategory = ({
     return generateActions(folderActions || [], execNode);
   };
 
-  const onDrop = async (info: { dragNode: NusiTreeNode, node: NusiTreeNode }) => {
+  const onDrop = async (info: { dragNode: NusiTreeNode; node: NusiTreeNode }) => {
     const { dragNode, node: dropNode } = info;
     const dragKey = dragNode.props.dataRef.key;
     let dropKey = dropNode.props.dataRef.key;
@@ -621,8 +621,8 @@ export const TreeCategory = ({
       return;
     }
     const searchResult = await fuzzySearch({ fuzzy: query });
-    const folderGroup = [] as Array<{ label: string, value: string }>;
-    const fileGroup = [] as Array<{ label: string, value: string }>;
+    const folderGroup = [] as Array<{ label: string; value: string }>;
+    const fileGroup = [] as Array<{ label: string; value: string }>;
     forEach(searchResult, ({ isLeaf, key, titleAlias }) => {
       if (isLeaf) {
         fileGroup.push({ label: titleAlias, value: `leaf-${key}` });

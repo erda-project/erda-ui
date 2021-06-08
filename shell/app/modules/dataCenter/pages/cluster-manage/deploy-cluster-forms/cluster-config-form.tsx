@@ -30,7 +30,7 @@ export const ClusterConfigForm = ({ form, isReadonly, data, curRef }: IFormProps
       name: `${formPrefix}.type`,
       type: 'radioGroup',
       initialValue: 'k8s',
-      options: ['k8s', 'dcos'].map(v => ({ value: v, name: v })),
+      options: ['k8s', 'dcos'].map((v) => ({ value: v, name: v })),
     },
     {
       label: i18n.t('org:DNS server'),

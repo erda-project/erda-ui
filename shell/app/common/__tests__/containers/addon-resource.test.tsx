@@ -56,7 +56,7 @@ describe('AddonResource', () => {
     const getAddonDetail = jest.fn();
     addonStore.getAddonDetail = getAddonDetail;
     mount(
-      <AddonResource />
+      <AddonResource />,
     );
     expect(getAddonDetail).toHaveBeenLastCalledWith(insId);
   });
@@ -64,7 +64,7 @@ describe('AddonResource', () => {
     const getAddonDetail = jest.fn();
     addonStore.getAddonDetail = getAddonDetail;
     const wrapper = shallow(
-      <AddonResource />
+      <AddonResource />,
     );
     expect(wrapper.find('AddonResource').prop('resourceInfo')).toStrictEqual(info.addonDetail);
     expect(wrapper.find('MonitorChartPanel').prop('resourceType')).toBe(info.addonDetail.addonName);

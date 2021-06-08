@@ -55,8 +55,8 @@ export const goTo = (pathStr: string, options?: IOptions) => {
     }
     return;
   } else if (pathStr.startsWith(goTo.pagePrefix)) {
-    const orgName = get(location.pathname.split('/'),'[1]') || '-';
-    const [urlParams, urlQuery] = routeInfoStore.getState(s => [s.params, s.query]);
+    const orgName = get(location.pathname.split('/'), '[1]') || '-';
+    const [urlParams, urlQuery] = routeInfoStore.getState((s) => [s.params, s.query]);
     const pathParams = { orgName, ...urlParams, ...urlQuery, ...rest };
     const curPath = goTo.pagePathMap[pathStr.replace(goTo.pagePrefix, '')];
     // 缺少参数
@@ -154,7 +154,7 @@ export enum pages {
   projectDashboard = '/{orgName}/workBench/projects/{projectId}/dashboard',
   projectResource = '/{orgName}/workBench/projects/{projectId}/resource',
   projectTicket = '/{orgName}/workBench/projects/{projectId}/ticket',
-  
+
   // app
   app = '/{orgName}/workBench/projects/{projectId}/apps/{appId}',
   repo = '/{orgName}/workBench/projects/{projectId}/apps/{appId}/repo',
@@ -327,8 +327,8 @@ mapValues(pages, (v, k) => {
   goTo.pages[k] = `${goTo.pagePrefix}${k}`;
   goTo.pagePathMap[k] = v.match(/\{.+\}/) ? pathFormat(v) : v;
   goTo.resolve[k] = (params?: Obj, prependOrigin?: boolean) => {
-    const orgName = get(location.pathname.split('/'),'[1]') || '-';
-    const [urlParams, urlQuery] = routeInfoStore.getState(s => [s.params, s.query]); 
+    const orgName = get(location.pathname.split('/'), '[1]') || '-';
+    const [urlParams, urlQuery] = routeInfoStore.getState((s) => [s.params, s.query]);
     const pathParams = { orgName, ...urlParams, ...urlQuery, ...params };
     const prefix = prependOrigin ? window.location.origin : '';
     const pagePath = pathFormat(v)(pathParams);

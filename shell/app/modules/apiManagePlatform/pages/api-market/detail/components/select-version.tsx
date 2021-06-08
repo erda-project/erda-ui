@@ -18,7 +18,7 @@ import routeInfoStore from 'common/stores/route';
 import i18n from 'i18n';
 
 interface IProps {
-  onChangeVersion(id: number): void;
+  onChangeVersion: (id: number) => void;
 }
 
 const formatVersion = (data: API_MARKET.VersionTreeItem[], versionID: number) => {
@@ -46,7 +46,7 @@ const formatVersion = (data: API_MARKET.VersionTreeItem[], versionID: number) =>
 const SelectVersion = ({ onChangeVersion }: IProps) => {
   const [versionList, setVersionList] = React.useState<API_MARKET.VersionTreeItem[]>([]);
   const [selectVersionID, setSelectVersionID] = React.useState<number| undefined>();
-  const { assetID, versionID } = routeInfoStore.useStore(s => s.params);
+  const { assetID, versionID } = routeInfoStore.useStore((s) => s.params);
   const getVersionList = React.useCallback(() => {
     if (assetID) {
       getVersionTree<Promise<API_MARKET.CommonResList<API_MARKET.VersionTreeItem[]>>>({
@@ -54,7 +54,7 @@ const SelectVersion = ({ onChangeVersion }: IProps) => {
         patch: false,
         instantiation: false,
         access: false,
-      }).then(res => {
+      }).then((res) => {
         if (res.success) {
           const list = res.data.list || [];
           setVersionList(list);

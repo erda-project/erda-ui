@@ -43,7 +43,7 @@ let tc = -1 as any;
 const requestInterval = 10000;// 前端自动轮询（snippet的状态暂时无法通过socket推送）
 const RunDetail = (props: IProps) => {
   const { runKey, scope } = props;
-  const [pipelineDetail] = autoTestStore.useStore(s => [s.pipelineDetail]);
+  const [pipelineDetail] = autoTestStore.useStore((s) => [s.pipelineDetail]);
 
   const recordRef = React.useRef(null as any);
 
@@ -115,10 +115,10 @@ const RunDetail = (props: IProps) => {
     if (isNumber(xPos)) {
       taskList = get(pipelineSnippetStages, `[${xPos}].pipelineTasks`);
     } else {
-      taskList = flatten(map(pipelineSnippetStages, item => item.pipelineTasks));
+      taskList = flatten(map(pipelineSnippetStages, (item) => item.pipelineTasks));
     }
     const nodeList = [] as PIPELINE.ITask[];
-    map(taskList, subItem => {
+    map(taskList, (subItem) => {
       if (subItem.name.startsWith(`${node.name}_`)) {
         nodeList.push(subItem);
       }
@@ -195,7 +195,7 @@ const RunDetail = (props: IProps) => {
     });
   };
 
-  const updateEnv = (info: { id: number, disabled: boolean }) => {
+  const updateEnv = (info: { id: number; disabled: boolean }) => {
     const { id, disabled } = info;
     updateTaskEnv({ taskID: id, disabled, pipelineID: pipelineDetail.id }).then(() => {
       getPipelineDetail({ pipelineID });
@@ -211,7 +211,7 @@ const RunDetail = (props: IProps) => {
   };
   const runBuild = (runPipelineParams?: any) => {
     updater.startStatus('ready');
-    runBuildCall({ pipelineID, runPipelineParams }).then((result:any) => {
+    runBuildCall({ pipelineID, runPipelineParams }).then((result: any) => {
       if (result.success) {
         updater.startStatus('start');
       } else {
@@ -266,7 +266,7 @@ const RunDetail = (props: IProps) => {
       <IF check={canCancel}>
         <DeleteConfirm title={`${i18n.t('application:confirm cancel current build')}?`} secondTitle="" onConfirm={() => { cancelBuild(); }}>
           <div className="build-operator">
-            <Button className='mr8'>{i18n.t('application:cancel build')}</Button>
+            <Button className="mr8">{i18n.t('application:cancel build')}</Button>
           </div>
         </DeleteConfirm>
       </IF>
@@ -300,7 +300,7 @@ const RunDetail = (props: IProps) => {
   };
 
   return (
-    <div className='pipeline-detail'>
+    <div className="pipeline-detail">
       <Spin spinning={isFetching}>
         <div className="info-header mb8">
           <div><span className="bold-500 title">{i18n.t('application:build detail')}</span></div>

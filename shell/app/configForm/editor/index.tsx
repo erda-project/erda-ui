@@ -29,7 +29,7 @@ const defaultProps = {
 export { DefaultEditor, DefaultPreview, defaultComponentMap };
 
 export interface IEditorProps{
-  fields?: IField[]
+  fields?: IField[];
 }
 
 export const createFormEditor = (props: any = defaultProps) => React.forwardRef((p: IEditorProps, ref: any) => {
@@ -50,7 +50,7 @@ export const createFormEditor = (props: any = defaultProps) => React.forwardRef(
     }
   }, [fields]);
 
-  const addFormField = (data:any) => {
+  const addFormField = (data: any) => {
     if (formRef && formRef.current) {
       const curFields = formRef.current.getFields();
       const newField = data.component === FORM_GROUP ? { ...data, group: data.key } : { ...basicField, ...data, label: data.key };
@@ -135,7 +135,7 @@ export const createFormEditor = (props: any = defaultProps) => React.forwardRef(
           fieldConfig={get(
             componentMap,
             `${chosenField.component}.fieldConfig`,
-            []
+            [],
           )}
         />
       </div>

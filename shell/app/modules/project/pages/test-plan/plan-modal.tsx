@@ -20,11 +20,11 @@ import testPlanStore from 'project/stores/test-plan';
 import { FormModalList } from 'interface/common';
 
 interface IProps {
-  visible: boolean
-  testPlanId?: string
-  textInfo?: string
-  mode: 'edit' | 'copy'| 'add' | ''
-  onCancel(): void
+  visible: boolean;
+  testPlanId?: string;
+  textInfo?: string;
+  mode: 'edit' | 'copy'| 'add' | '';
+  onCancel: () => void;
 }
 
 const TestPlanModal = (props: IProps) => {
@@ -36,8 +36,8 @@ const TestPlanModal = (props: IProps) => {
     onCancel,
   } = props;
   const [loading, setLoading] = React.useState(false);
-  const params = routeInfoStore.useStore(s => s.params);
-  const planItem = testPlanStore.useStore(s => s.planItem);
+  const params = routeInfoStore.useStore((s) => s.params);
+  const planItem = testPlanStore.useStore((s) => s.planItem);
   const { getTestPlanItem, addTestPlan, updateTestPlan } = testPlanStore.effects;
   const { cleanTestPlan } = testPlanStore.reducers;
   const { testType = 'manual' } = params;
@@ -100,7 +100,7 @@ const TestPlanModal = (props: IProps) => {
           },
         },
       ],
-      initialValue: map((planItem.partnerIDs || []), id => id.toString()),
+      initialValue: map((planItem.partnerIDs || []), (id) => id.toString()),
       config: {
         valuePropType: 'array',
       },

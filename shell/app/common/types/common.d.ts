@@ -13,26 +13,26 @@
 
 declare namespace COMMON {
   interface LogItem {
-    source: string
-    id: string
-    stream: string
-    timeBucket: string
-    timestamp: DOMHighResTimeStamp
-    offset: string
-    content: string
-    level: string
-    requestId: string
+    source: string;
+    id: string;
+    stream: string;
+    timeBucket: string;
+    timestamp: DOMHighResTimeStamp;
+    offset: string;
+    content: string;
+    level: string;
+    requestId: string;
   }
 
   interface LOG {
-    content: COMMON.LogItem[] // 内容
-    emptyTimes: number // 为空的次数
-    fetchPeriod: number // 拉取间隔
+    content: COMMON.LogItem[]; // 内容
+    emptyTimes: number; // 为空的次数
+    fetchPeriod: number; // 拉取间隔
   }
 
   interface SlideComp {
-    getTitle(): string | JSX.Element,
-    getComp(): React.ElementType | JSX.Element | null,
+    getTitle(): string | JSX.Element;
+    getComp(): React.ElementType | JSX.Element | null;
   }
 
 }

@@ -19,7 +19,7 @@ import i18n from 'i18n';
 import './issue-icon.scss';
 
 interface IProps{
-  type: 'ITERATION' | 'REQUIREMENT' | 'TASK' | 'BUG' | 'EPIC',
+  type: 'ITERATION' | 'REQUIREMENT' | 'TASK' | 'BUG' | 'EPIC';
   withName?: boolean;
 }
 
@@ -65,7 +65,7 @@ export const IssueIcon = ({ type, withName = false }: IProps) => {
   return withName ? iconLabel : icon;
 };
 
-export const getIssueTypeOption = (currentIssueType?: string) => map(ISSUE_OPTION, item => {
+export const getIssueTypeOption = (currentIssueType?: string) => map(ISSUE_OPTION, (item) => {
   const iconObj = ISSUE_TYPE_MAP[item];
   const { value, icon } = iconObj;
   return (

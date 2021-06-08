@@ -14,17 +14,17 @@
 import agent from 'agent';
 
 interface IValidateLicense {
-  currentHostCount: number
+  currentHostCount: number;
   license: {
     data: {
-      maxHostCount: number
-    }
-    expireDate: string
-    issueDate: string
-    user: string
-  }
-  message: string
-  valid: true
+      maxHostCount: number;
+    };
+    expireDate: string;
+    issueDate: string;
+    user: string;
+  };
+  message: string;
+  valid: true;
 }
 export const validateLicense = (): IValidateLicense => {
   return agent.get('/api/license')
@@ -42,16 +42,14 @@ export const logout = () => {
     .then((response: any) => response.body);
 };
 
-export const getJoinedProjects = ({ pageSize, pageNo, q, searchKey }: { pageSize: number, pageNo: number, q?: string, searchKey?: string })
-: IPagingResp<PROJECT.Detail> => {
+export const getJoinedProjects = ({ pageSize, pageNo, q, searchKey }: { pageSize: number; pageNo: number; q?: string; searchKey?: string }): IPagingResp<PROJECT.Detail> => {
   return agent
     .get('/api/projects/actions/list-my-projects')
     .query({ pageSize, pageNo, q: q || searchKey })
     .then((response: any) => response.body);
 };
 
-export const getJoinedApps = ({ pageSize, pageNo, q, projectID, ...rest }: { pageSize: number, pageNo: number, q?: string, projectID?: number, mode?: string })
-: IPagingResp<IApplication> => {
+export const getJoinedApps = ({ pageSize, pageNo, q, projectID, ...rest }: { pageSize: number; pageNo: number; q?: string; projectID?: number; mode?: string }): IPagingResp<IApplication> => {
   return agent
     .get('/api/applications/actions/list-my-applications')
     .query({ ...rest, pageSize, pageNo, q, projectId: projectID })

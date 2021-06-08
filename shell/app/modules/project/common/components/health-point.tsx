@@ -123,12 +123,12 @@ export const statusMap = {
 const fallback = { text: i18n.t('project:unknown'), state: 'default' };
 
 interface IProps {
-  type: string,
-  status: string,
-  msg?: string,
-  subText?: React.ElementType | null,
-  showText?: boolean,
-  showTextLeft?: boolean,
+  type: string;
+  status: string;
+  msg?: string;
+  subText?: React.ElementType | null;
+  showText?: boolean;
+  showTextLeft?: boolean;
 }
 const HealthPoint = ({ type, msg = '', status, subText = null, showText = false, showTextLeft = false }: IProps) => {
   const match = (statusMap[type] && statusMap[type][status]) || fallback;

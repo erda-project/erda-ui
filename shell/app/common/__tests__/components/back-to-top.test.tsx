@@ -20,7 +20,7 @@ import { render, unmountComponentAtNode } from 'react-dom';
 
 
 describe('BackToTop', () => {
-  Element.prototype.scrollTo = function (opt? :ScrollToOptions|number) {
+  Element.prototype.scrollTo = function (opt?: ScrollToOptions|number) {
     if (typeof opt !== 'number') {
       const { top, left } = opt as ScrollToOptions;
       this.scrollTop = top || 0;
@@ -38,7 +38,7 @@ describe('BackToTop', () => {
       render(
         <div id="child" style={{ height: '1000px' }}>
           <BackToTop />
-        </div>, div
+        </div>, div,
       );
     });
     window.scrollTo(0, 500);

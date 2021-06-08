@@ -62,9 +62,9 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
     RX: 20,
   };
 
-  public info = DiceYamlEditorItem.info;
+  info = DiceYamlEditorItem.info;
 
-  public render() {
+  render() {
     const { deleteItem, item, addLink, onMouseDown, style, editing, selectedItem } = this.props;
     const className = selectedItem ? 'selected-item' : null;
     let titleContent = null;
@@ -104,7 +104,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
       <div
         key={item.id}
         style={style}
-        onMouseOver={e => addLink && addLink(item, e)}
+        onMouseOver={(e) => addLink && addLink(item, e)}
         className={classnames('yaml-editor-item', className)}
       >
         <div
@@ -164,7 +164,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
       case 'bottom':
         return (
           <span
-            onMouseDown={e => addDepend && addDepend(item, e)}
+            onMouseDown={(e) => addDepend && addDepend(item, e)}
             className={`item-point bottom-point ${activePointClass}`}
           >
             <CustomIcon type="caret-top" />
@@ -179,7 +179,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
               <CustomIcon type="caret-top" />
             </span>
             <span
-              onMouseDown={e => addDepend && addDepend(item, e)}
+              onMouseDown={(e) => addDepend && addDepend(item, e)}
               className={`item-point bottom-point ${activePointClass}`}
             >
               <CustomIcon type="caret-top" />

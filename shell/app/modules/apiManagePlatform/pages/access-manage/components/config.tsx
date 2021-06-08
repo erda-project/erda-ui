@@ -13,7 +13,7 @@
 
 import i18n from 'i18n';
 
-export const authenticationMap: { [k in API_ACCESS.AuthenticationEnum]: { name: string, value: k } } = {
+export const authenticationMap: { [k in API_ACCESS.AuthenticationEnum]: { name: string; value: k } } = {
   'key-auth': {
     value: 'key-auth',
     name: i18n.t('microService:key authentication'),
@@ -24,18 +24,18 @@ export const authenticationMap: { [k in API_ACCESS.AuthenticationEnum]: { name: 
   },
 };
 
-export const authorizationMap: { [k in API_ACCESS.AuthorizationEnum]: { name: string, value: k } } = {
+export const authorizationMap: { [k in API_ACCESS.AuthorizationEnum]: { name: string; value: k } } = {
   auto: { value: 'auto', name: i18n.t('automatic authorization') },
   manual: { value: 'manual', name: i18n.t('manual authorization') },
 };
 
 export const contractStatueMap: {
   [k in API_ACCESS.ContractStatue]: {
-    value: k, name: string, actions: Array<{
+    value: k; name: string; actions: Array<{
       name: string;
       action: string;
-      value: API_ACCESS.ContractStatue | 'delete',
-    }>
+      value: API_ACCESS.ContractStatue | 'delete';
+    }>;
   }
 } = {
   // 已通过
@@ -105,7 +105,7 @@ export const slaUnitMap: { [k in API_ACCESS.SlaLimitUnit]: string } = {
   d: i18n.t('microService:times/day'),
 };
 
-export const slaAuthorizationMap: { [k in API_ACCESS.SlaApproval]: { name: string, value: k } } = {
+export const slaAuthorizationMap: { [k in API_ACCESS.SlaApproval]: { name: string; value: k } } = {
   auto: { value: 'auto', name: i18n.t('automatic authorization') },
   manual: { value: 'manual', name: i18n.t('manual authorization') },
 };

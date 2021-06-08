@@ -29,7 +29,7 @@ const monitorChildRouters = [
   {
     path: 'overview',
     breadcrumbName: i18n.t('microService:monitoring overview'),
-    getComp: cb => cb(import('microService/monitor/monitor-overview/pages/overview/overview')),
+    getComp: (cb) => cb(import('microService/monitor/monitor-overview/pages/overview/overview')),
   },
   getAIRouter(),
   getBIRouter(),
@@ -48,10 +48,10 @@ const monitorChildRouters = [
         path: ':dashboardId',
         breadcrumbName: '{dashboardName}',
         layout: { fullHeight: true },
-        getComp: cb => cb(import('microService/monitor/custom-dashboard/pages/custom-dashboard')),
+        getComp: (cb) => cb(import('microService/monitor/custom-dashboard/pages/custom-dashboard')),
       },
       {
-        getComp: cb => cb(import('monitor-alarm/pages/custom-alarm')),
+        getComp: (cb) => cb(import('monitor-alarm/pages/custom-alarm')),
       },
     ],
   },

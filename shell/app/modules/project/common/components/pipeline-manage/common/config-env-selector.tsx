@@ -55,11 +55,11 @@ const getInParamsValue = (_pipelineParams: PIPELINE.IPipelineInParams[]) => {
 const ConfigEnvSelector = (props: IProps) => {
   const { onTest, scope, canRunTest } = props;
   const scopeConfigData = scopeConfig[scope];
-  const [caseDetail, configEnvs] = autoTestStore.useStore(s => [s.caseDetail, s.configEnvs]);
-  const { id: orgId, name: orgName } = orgStore.useStore(s => s.currentOrg);
-  const projectId = routeInfoStore.useStore(s => s.params.projectId);
+  const [caseDetail, configEnvs] = autoTestStore.useStore((s) => [s.caseDetail, s.configEnvs]);
+  const { id: orgId, name: orgName } = orgStore.useStore((s) => s.currentOrg);
+  const projectId = routeInfoStore.useStore((s) => s.params.projectId);
   const { getAutoTestConfigEnv, clearConfigEnvs, getCaseDetail } = autoTestStore;
-  const info = projectStore.useStore(s => s.info);
+  const info = projectStore.useStore((s) => s.info);
   const { clusterConfig, name: projectName } = info;
 
   const [{ formVis, fields, inParamsForm, canDoTest, needModal, clusterList }, updater, update] = useUpdate({
@@ -88,7 +88,7 @@ const ConfigEnvSelector = (props: IProps) => {
           type: 'select',
           dataSource: {
             type: 'static',
-            static: map(clusterList, item => ({ name: item.workspace, value: item.key })),
+            static: map(clusterList, (item) => ({ name: item.workspace, value: item.key })),
           },
         },
       ]),
@@ -102,7 +102,7 @@ const ConfigEnvSelector = (props: IProps) => {
           type: 'select',
           dataSource: {
             type: 'static',
-            static: map([{ ns: '0', displayName: i18n.t('none') }, ...configEnvs], item => ({ name: item.displayName, value: item.ns })),
+            static: map([{ ns: '0', displayName: i18n.t('none') }, ...configEnvs], (item) => ({ name: item.displayName, value: item.ns })),
           },
         },
       ]),
@@ -111,7 +111,7 @@ const ConfigEnvSelector = (props: IProps) => {
           component: 'custom',
           getComp: () => {
             return (
-              <div className='bold-500 border-bottom'>
+              <div className="bold-500 border-bottom">
                 {i18n.t('project:params configuration')}
               </div>
             );
@@ -137,7 +137,7 @@ const ConfigEnvSelector = (props: IProps) => {
   const getLastRunParams = () => {
     const runParams = get(caseDetail, 'meta.runParams');
     const val = {};
-    map(runParams, item => { val[item.name] = item.value; });
+    map(runParams, (item) => { val[item.name] = item.value; });
     return val;
   };
 
@@ -205,7 +205,7 @@ const ConfigEnvSelector = (props: IProps) => {
       autoRunAtOnce: true,
       labels: { orgID: `${orgId}`, projectID: projectId, projectName, orgName },
       ...p,
-    }).then((res:any) => {
+    }).then((res: any) => {
       onTest(res.data);
     });
   };
@@ -221,7 +221,7 @@ const ConfigEnvSelector = (props: IProps) => {
     <div>
       <Tooltip title={canRunTest ? '' : i18n.t('project:pipeline-run-tip')}>
         <Button
-          type='primary'
+          type="primary"
           disabled={!canRunTest}
           onClick={(e) => {
             e.stopPropagation();

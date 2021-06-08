@@ -23,16 +23,16 @@ import * as React from 'react';
 import { Down as IconDown, Up as IconUp } from '@icon-park/react';
 
 interface IProps {
-  visible: boolean,
-  formData?: any,
-  cluster: ORG_CLUSTER.ICluster,
-  orgId: number,
-  onCancel(): void,
-  onSubmit(resp: any): any,
+  visible: boolean;
+  formData?: any;
+  cluster: ORG_CLUSTER.ICluster;
+  orgId: number;
+  onCancel: () => void;
+  onSubmit: (resp: any) => any;
 }
 
 const BasicForm = ({ form }: {form: WrappedFormUtils}) => {
-  const currentOrg = orgStore.useStore(s => s.currentOrg);
+  const currentOrg = orgStore.useStore((s) => s.currentOrg);
   const defaultOrgTag = `org-${currentOrg.name}`;// 取企业名打默认的tag:org-{orgName}
 
   const fieldsList = [
@@ -101,8 +101,8 @@ const MoreForm = ({ form }: {form: WrappedFormUtils}) => {
         min: 1,
         max: 1024,
         className: 'full-width',
-        formatter: (v:string) => `${v}G`,
-        parser: (v:string) => v.replace('G', ''),
+        formatter: (v: string) => `${v}G`,
+        parser: (v: string) => v.replace('G', ''),
       },
       extraProps: {
         extra: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 1024 }),
@@ -122,7 +122,7 @@ const MoreForm = ({ form }: {form: WrappedFormUtils}) => {
   return <RenderPureForm list={fieldsList} form={form} onlyItems />;
 };
 
-const CloudMachineAddForm = (props:any) => {
+const CloudMachineAddForm = (props: any) => {
   const { form, cluster } = props;
   const [showMore, setShowMore] = React.useState(false);
   const cloudVendor = get(cluster, 'cloudVendor');
@@ -149,12 +149,12 @@ const CloudMachineAddForm = (props:any) => {
 
 const CloudMachineFormModal = (props: IProps) => {
   const { formData, onCancel, visible, onSubmit, orgId, cluster } = props;
-  
+
   const handelSubmit = (data: any) => {
     const { customLabels = [], instanceNum, diskSize, cloudVendor: defaultVendor, ...rest } = data;
     // k8s(alicloud) 云集群(alicloud-ecs)  容器集群(alicloud-ack)
     const cloudVendor = cluster.cloudVendor || defaultVendor;
-  
+
     rest.labels = uniq((data.labels || []).concat(customLabels));
     const postData = {
       instanceNum: Number(instanceNum),

@@ -107,7 +107,7 @@ const ConnectChart = (props) => {
           normal: {
             show: isLabel,
             position: 'top',
-            formatter: label => label.data.label,
+            formatter: (label) => label.data.label,
           },
         },
         markLine: i === 0 ? markLine : {},
@@ -146,23 +146,23 @@ const ConnectChart = (props) => {
         unit: curUnit,
         axisLabel: {
           margin: 0,
-          formatter: val => getFormatter(curUnitType, unit).format(val, decimal),
+          formatter: (val) => getFormatter(curUnitType, unit).format(val, decimal),
         },
       };
     });
 
-    const formatTime = timeStr => moment(Number(timeStr)).format(moreThanOneDay ? 'D/M HH:mm' : 'HH:mm');
+    const formatTime = (timeStr) => moment(Number(timeStr)).format(moreThanOneDay ? 'D/M HH:mm' : 'HH:mm');
 
     const getTTUnitType = (i) => {
       const curYAxis = yAxis[i] || yAxis[yAxis.length - 1];
       return [curYAxis.unitType, curYAxis.unit];
     };
 
-    const genTTArray = param => param.map((unit, i) => {
+    const genTTArray = (param) => param.map((unit, i) => {
       return `<span style='color: ${unit.color}'>${cutStr(unit.seriesName, 20)} : ${getFormatter(...getTTUnitType(i)).format(unit.value, 2)}</span><br/>`;
     });
 
-    let defaultTTFormatter = param => `${param[0].name}<br/>${genTTArray(param).join('')}`;
+    let defaultTTFormatter = (param) => `${param[0].name}<br/>${genTTArray(param).join('')}`;
 
     if (time) {
       defaultTTFormatter = (param) => {
@@ -182,7 +182,7 @@ const ConnectChart = (props) => {
     if (haveTwoYAxis) {
       yAxis = yAxis.map((item, i) => {
         // 有数据和无数据的显示有差异
-        const hasData = some(results[i].data || [], _data => (Number(_data) !== 0));
+        const hasData = some(results[i].data || [], (_data) => (Number(_data) !== 0));
         let { name } = item;
         if (!hasData) {
           name = i === 0 ? `${'  '.repeat(item.name.length + 1)}${item.name}` : `${item.name}${'  '.repeat(item.name.length)}`;
@@ -218,7 +218,7 @@ const ConnectChart = (props) => {
         type: 'scroll',
         tooltip: {
           show: true,
-          formatter: t => cutStr(t.name, 100),
+          formatter: (t) => cutStr(t.name, 100),
         },
       },
       grid: {
@@ -240,8 +240,8 @@ const ConnectChart = (props) => {
           },
           axisLabel: {
             formatter: xAxis
-              ? value => value
-              : value => moment(Number(value)).format(moreThanOneDay ? 'D/M HH:mm' : 'HH:mm'),
+              ? (value) => value
+              : (value) => moment(Number(value)).format(moreThanOneDay ? 'D/M HH:mm' : 'HH:mm'),
           },
           splitLine: {
             show: false,
@@ -276,7 +276,7 @@ const ConnectChart = (props) => {
             style={{ width: 200 }}
             onChange={handleChange}
           >
-            {map(groups, item => <Option value={item} key={item}>{item}</Option>)}
+            {map(groups, (item) => <Option value={item} key={item}>{item}</Option>)}
           </Select>
         </div>
       </IF>

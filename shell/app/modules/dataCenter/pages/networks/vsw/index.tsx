@@ -29,14 +29,15 @@ import routeInfoStore from 'common/stores/route';
 import { getCloudResourceTagsCol, getCloudResourceIDNameCol, getCloudResourceStatusCol, getCloudResourceRegionCol } from 'dataCenter/common/components/table-col';
 import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
 import { DownOne as IconDownOne } from '@icon-park/react';
+
 const { Option } = Select;
 
 const VSW = () => {
-  const [vswList, vpcList] = networksStore.useStore(s => [s.vswList, s.vpcList]);
-  const vpcID = routeInfoStore.useStore(s => s.params.vpcID);
+  const [vswList, vpcList] = networksStore.useStore((s) => [s.vswList, s.vpcList]);
+  const vpcID = routeInfoStore.useStore((s) => s.params.vpcID);
   const { getVswList, getVpcList, getCloudZone, addVsw } = networksStore.effects;
   const [loading] = useLoading(networksStore, ['getVswList']);
-  const cloudAccountExist = cloudCommonStore.useStore(s => s.cloudAccountExist);
+  const cloudAccountExist = cloudCommonStore.useStore((s) => s.cloudAccountExist);
 
   useEffectOnce(() => {
     getVpcList({ pageNo: 1, pageSize: 20 });
@@ -65,7 +66,7 @@ const VSW = () => {
 
   React.useEffect(() => {
     const { regionID: vpcRegion, vendor: vpcVendor } = chosenVpc || {};
-    vpcRegion && vpcVendor && getCloudZone({ region: vpcRegion, vendor: vpcVendor }).then(res => {
+    vpcRegion && vpcVendor && getCloudZone({ region: vpcRegion, vendor: vpcVendor }).then((res) => {
       updater.zones(res);
     });
   }, [chosenVpc, getCloudZone, updater]);
@@ -123,7 +124,7 @@ const VSW = () => {
       customProps: {
         className: 'default-selector-width',
         placeholder: i18n.t('filter by {name}', { name: i18n.t('cloud vendor') }),
-        options: map(cloudVendor, item => (
+        options: map(cloudVendor, (item) => (
           <Option key={item.name} value={item.value}>{item.name}</Option>
         )),
         allowClear: true,
@@ -145,7 +146,7 @@ const VSW = () => {
         label: i18n.t('dataCenter:associate vpc network'),
         name: 'vpcID',
         type: 'select',
-        options: map(vpcList, item => ({ value: item.vpcID, name: `${item.vpcName}(${item.vpcID})` })),
+        options: map(vpcList, (item) => ({ value: item.vpcID, name: `${item.vpcName}(${item.vpcID})` })),
         itemProps: {
           showSearch: true,
           onChange: (val: string) => {
@@ -159,7 +160,7 @@ const VSW = () => {
         label: formConfig.label.Zone,
         name: 'zoneID',
         type: 'select',
-        options: map(zones, zone => ({ name: `${zone.localName}(${zone.zoneID})`, value: zone.zoneID })),
+        options: map(zones, (zone) => ({ name: `${zone.localName}(${zone.zoneID})`, value: zone.zoneID })),
       },
       {
         label: `IPv4 ${i18n.t('dataCenter:CIDR')}`,
@@ -233,7 +234,7 @@ const VSW = () => {
   const menu = (
     <Menu>
       {
-        operationButtons.map(button => (
+        operationButtons.map((button) => (
           <Menu.Item disabled={button.ifDisabled} key={button.name} onClick={button.cb}>{button.name}</Menu.Item>
         ))
       }
@@ -244,7 +245,7 @@ const VSW = () => {
     <Dropdown disabled={!ifSelected} overlay={menu}>
       <Button type="primary">
         {i18n.t('batch setting')}
-        <IconDownOne className="ml4" theme='filled' size="16px" />
+        <IconDownOne className="ml4" theme="filled" size="16px" />
       </Button>
     </Dropdown>
   );
@@ -279,7 +280,7 @@ const VSW = () => {
       <SetTagForm
         items={items}
         visible={tagFormVis}
-        resourceType='VSWITCH'
+        resourceType="VSWITCH"
         formData={tagFormData as any}
         onCancel={() => updater.tagFormVis(false)}
         afterSubmit={afterTagFormSubmit}

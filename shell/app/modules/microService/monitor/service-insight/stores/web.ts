@@ -16,8 +16,8 @@ import { get } from 'lodash';
 import { getSubSlowHttpList, getSubErrorHttpList } from '../services';
 
 interface IState {
-  subSlowHttpList: Obj<MONITOR_SI.ITableData[]>
-  subErrorHttpList: Obj<MONITOR_SI.ITableData[]>
+  subSlowHttpList: Obj<MONITOR_SI.ITableData[]>;
+  subErrorHttpList: Obj<MONITOR_SI.ITableData[]>;
 }
 
 const initState: IState = {
@@ -30,13 +30,13 @@ const Web = createStore({
   state: initState,
   effects: {
     async getSubSlowHttpList({ call, update }, payload: MONITOR_SI.ITableDataQuery) {
-      const subSlowHttpList = Web.getState(s => s.subSlowHttpList);
+      const subSlowHttpList = Web.getState((s) => s.subSlowHttpList);
       const { filter_http_path } = payload;
       const data = await call(getSubSlowHttpList, { ...payload, filter_trace_sampled: true });
       update({ subSlowHttpList: { ...subSlowHttpList, [filter_http_path]: get(data, 'results[0].data') || [] } });
     },
     async getSubErrorHttpList({ call, update }, payload: MONITOR_SI.ITableDataQuery) {
-      const subErrorHttpList = Web.getState(s => s.subErrorHttpList) as any;
+      const subErrorHttpList = Web.getState((s) => s.subErrorHttpList) as any;
       const { filter_http_path, filter_http_status_code } = payload;
       const errorKey = `${filter_http_path}_${filter_http_status_code}`;
       const data = await call(getSubErrorHttpList, payload);

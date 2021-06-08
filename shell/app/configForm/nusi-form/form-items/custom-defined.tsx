@@ -26,7 +26,7 @@ export const FormCustomDefined = ({
   extensionFix,
   requiredCheck,
   trigger = 'onChange',
-}: any = {}) => React.memo(({ fieldConfig, form }:any = {}) => {
+}: any = {}) => React.memo(({ fieldConfig, form }: any = {}) => {
   const {
     key,
     value,
@@ -47,7 +47,7 @@ export const FormCustomDefined = ({
   const curFixIn = itemFixIn || fixIn;
   const curFixOut = itemFixOut || fixOut;
   const Comp = typeof getComp === 'function' ? getComp({ form, fieldConfig }) : null;
-  const handleChange = (e:any) => {
+  const handleChange = (e: any) => {
     const fixFun = Comp.props.onChange || curFixOut;
     key && form.setFieldValue(key, fixFun(e));
     (componentProps.onChange || noop)(e);
@@ -91,7 +91,7 @@ export const config = {
     // 从schema到React组件映射时，修正传入React组件的value
     return value;
   },
-  extensionFix: (data: any, options:any) => {
+  extensionFix: (data: any, options: any) => {
     // 从schema到React组件映射时，修正传入React组件的配置项
     return data;
   },

@@ -37,7 +37,7 @@ const fieldExtraProps = {
   },
 };
 const CreationForm = () => {
-  const { params } = routeInfoStore.getState(s => s);
+  const { params } = routeInfoStore.getState((s) => s);
   const [mode, setMode] = React.useState(appMode.SERVICE);
   const [template, setTemplate] = React.useState([{ name: i18n.t('default:none'), value: '-1' }]);
   const [tempSelected, setTempSelected] = React.useState('-1');
@@ -104,7 +104,7 @@ const CreationForm = () => {
     }
   };
 
-  const useOption = filter(modeOptions, item => {
+  const useOption = filter(modeOptions, (item) => {
     // 创建时不需要展示能力应用
     const excludeOptions = [appMode.ABILITY];
     !ENABLE_MPAAS && excludeOptions.push(appMode.MOBILE);
@@ -139,8 +139,8 @@ const CreationForm = () => {
     {
       label: '',
       getComp: () => {
-        const cur = modeOptions.find(m => m.value === mode);
-        return <Alert className='color-text-desc' type='normal' message={cur?.desc} />;
+        const cur = modeOptions.find((m) => m.value === mode);
+        return <Alert className="color-text-desc" type="normal" message={cur?.desc} />;
       },
     },
     {
@@ -259,7 +259,7 @@ const CreationForm = () => {
       name: 'repoConfig.type',
       type: 'select',
       initialValue: RepositoryMode.Internal,
-      options: map(filter(repositoriesTypes, (v => v.usable)), ({ name, value }) => ({ name, value })),
+      options: map(filter(repositoriesTypes, ((v) => v.usable)), ({ name, value }) => ({ name, value })),
       itemProps: {
         disabled: mode === appMode.MOBILE && tempSelected !== '-1',
         onChange: (v) => {
@@ -328,7 +328,7 @@ const CreationForm = () => {
     },
   ];
 
-  return <Spin spinning={isCraeateApp || isInitApp} className='app-form-spin'><RenderForm wrappedComponentRef={formRef} layout="vertical" list={fieldsList} /></Spin>;
+  return <Spin spinning={isCraeateApp || isInitApp} className="app-form-spin"><RenderForm wrappedComponentRef={formRef} layout="vertical" list={fieldsList} /></Spin>;
 };
 
 

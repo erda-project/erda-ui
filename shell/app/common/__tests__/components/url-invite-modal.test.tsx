@@ -28,7 +28,7 @@ describe('UrlInviteModal', () => {
         code={code}
         tip="tips"
         url={url}
-      />
+      />,
     );
     expect(wrapper.find('Alert')).toExist();
     expect(wrapper.find('Alert').prop('message')).toBe('tips');

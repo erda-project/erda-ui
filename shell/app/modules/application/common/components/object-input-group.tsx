@@ -55,7 +55,7 @@ const convertGlobalVariableList = (props: any) => {
 };
 
 class ObjectInputGroup extends PureComponent<IEditGlobalVariableProps, any> {
-  public state = {
+  state = {
     globalVariableList: [],
     props: null,
   };
@@ -67,14 +67,14 @@ class ObjectInputGroup extends PureComponent<IEditGlobalVariableProps, any> {
     return null;
   }
 
-  public triggerChange = (changedValue: any) => {
+  triggerChange = (changedValue: any) => {
     const { onChange } = this.props;
     if (onChange) {
       onChange(changedValue);
     }
   };
 
-  public render() {
+  render() {
     const { globalVariableList } = this.state;
     const { label, required, isProperty, disabled } = this.props;
 

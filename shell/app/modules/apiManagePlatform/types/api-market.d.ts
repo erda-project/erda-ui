@@ -32,13 +32,13 @@ declare namespace API_MARKET {
   }
 
   interface CommonData<T> {
-    list: T,
+    list: T;
     total: number;
   }
 
   interface CommonResList<T> {
     success: boolean;
-    data: CommonData<T>
+    data: CommonData<T>;
   }
 
   type CommonQueryAssets = Omit<QueryAssets, 'pageNo' | 'pageSize' | 'keyword' | 'scope'>;
@@ -55,7 +55,7 @@ declare namespace API_MARKET {
     assetName: string;
     desc: string;
     logo: string;
-    versions: null,
+    versions: null;
     orgID: number;
     projectID: number;
     appID: number;
@@ -80,7 +80,7 @@ declare namespace API_MARKET {
 
   interface AssetDetail {
     asset: Asset;
-    permission: AssetPermission
+    permission: AssetPermission;
   }
 
   interface AssetVersion {
@@ -103,19 +103,19 @@ declare namespace API_MARKET {
   }
 
   interface VersionItem {
-    version: AssetVersion,
+    version: AssetVersion;
     spec: string;
     permission: {
       edit: boolean;
       delete: boolean;
-    }
+    };
   }
 
   interface AssetSpec {
     id: number;
     orgID: number;
     assetID: string;
-    versionID: number,
+    versionID: number;
     specProtocol: SpecProtocol;
     spec: string;
     creatorID: string;
@@ -127,7 +127,7 @@ declare namespace API_MARKET {
     asset: Asset;
     latestVersion: AssetVersion;
     latestSpec: AssetSpec;
-    permission: AssetPermission
+    permission: AssetPermission;
   }
 
   interface CreateAsset {
@@ -141,7 +141,7 @@ declare namespace API_MARKET {
       minorVersion?: number;
       patchVersion?: number;
       specProtocol: SpecProtocol;
-      specDiceFileUUID: string
+      specDiceFileUUID: string;
     }>;
   }
 
@@ -179,7 +179,7 @@ declare namespace API_MARKET {
   }
 
   interface AssetVersionDetail {
-    access: API_ACCESS.Access
+    access: API_ACCESS.Access;
     asset: Asset;
     version: AssetVersion;
     spec: AssetSpec;
@@ -189,7 +189,7 @@ declare namespace API_MARKET {
 
   interface QueryVersionDetail {
     assetID: string;
-    versionID: number,
+    versionID: number;
     asset: boolean;
     spec: boolean;
   }
@@ -218,7 +218,7 @@ declare namespace API_MARKET {
 
   interface QVersion {
     assetID: string;
-    versionID: number
+    versionID: number;
   }
 
   interface UpdateAssetVersion extends QVersion {
@@ -243,11 +243,11 @@ declare namespace API_MARKET {
     [k: string]: any;
 
     success: boolean;
-    data: T,
+    data: T;
     err: {
       code: string;
       msg: string;
-    }
+    };
   }
 
   interface CreateVersion {
@@ -256,7 +256,7 @@ declare namespace API_MARKET {
     minor?: number;
     patch?: number;
     specProtocol: SpecProtocol;
-    specDiceFileUUID: string
+    specDiceFileUUID: string;
   }
 
   interface VersionListItem {
@@ -270,7 +270,7 @@ declare namespace API_MARKET {
     assetID: string;
     orgID: number;
     total: number;
-    list: VersionListItem[]
+    list: VersionListItem[];
   }
 
   interface VersionTreeChild {
@@ -283,18 +283,18 @@ declare namespace API_MARKET {
 
   interface VersionTreeItem {
     swaggerVersion: string;
-    versions: VersionTreeChild[]
+    versions: VersionTreeChild[];
   }
 
   interface VersionTree {
     total: number;
-    list: VersionTreeItem[]
+    list: VersionTreeItem[];
   }
 
   interface exportSwagger {
     assetID: string;
     versionID: number;
-    specProtocol: SpecProtocol
+    specProtocol: SpecProtocol;
   }
 
   interface RelationInstance {
@@ -302,7 +302,7 @@ declare namespace API_MARKET {
     assetID: string;
     minor: number;
     major: number;
-    type: InstanceType,
+    type: InstanceType;
     url: string;
     projectID: number;
     appID: number;
@@ -323,7 +323,7 @@ declare namespace API_MARKET {
     swaggerVersion: string;
     major: number;
     minor: number;
-    type: 'dice' | 'external',
+    type: 'dice' | 'external';
     url: string;
     creatorID: string;
     updaterID: string;
@@ -343,7 +343,7 @@ declare namespace API_MARKET {
 
   interface IInstantiation {
     instantiation: Instantiation;
-    permission: InstantiationPermission
+    permission: InstantiationPermission;
   }
 
   interface QueryInstance {
@@ -374,22 +374,22 @@ declare namespace API_MARKET {
       body: {
         type: string;
         content: any;
-      }
-    }>
+      };
+    }>;
   }
 
   interface RunAttemptTestResponse {
     request: {
       url: string;
       method: string;
-    }
+    };
     response: {
       status: number;
       headers: Array<{
-        [k: string]: any
-      }>
+        [k: string]: any;
+      }>;
       body: string;
-    }
+    };
   }
 
   interface AppInstanceItem {
@@ -400,6 +400,6 @@ declare namespace API_MARKET {
     appID: number;
     serviceName: string;
     serviceAddr: string[];
-    serviceExpose: string[]
+    serviceExpose: string[];
   }
 }

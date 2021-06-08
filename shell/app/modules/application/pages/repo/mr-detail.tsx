@@ -38,10 +38,10 @@ interface IProps {
   isLocked: boolean;
   mrStats: any;
   defaultBranch: string;
-  userMap: Obj
+  userMap: Obj;
   params: any;
   permMap: AppPermType;
-  branchInfo: APPLICATION.IBranchInfo[]
+  branchInfo: APPLICATION.IBranchInfo[];
   getMRDetail: typeof repoStore.effects.getMRDetail;
   getMRStats: typeof repoStore.effects.getMRStats;
   operateMR: typeof repoStore.effects.operateMR;
@@ -274,7 +274,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
     ];
   };
 
-  handleSubmit = (data: { commitMessage: string, removeSourceBranch: boolean }) => {
+  handleSubmit = (data: { commitMessage: string; removeSourceBranch: boolean }) => {
     this.handleAction('merge', data);
     this.toggleModal(false);
     // 如果当前ls里的分支被删除。 立刻清除ls
@@ -374,11 +374,11 @@ class RepoMR extends React.PureComponent<IProps, IState> {
 }
 
 const Mapper = () => {
-  const permMap = usePerm(s => s.app);
-  const params = routeInfoStore.useStore(s => s.params);
-  const branchInfo = appStore.useStore(s => s.branchInfo);
-  const userMap = userMapStore.useStore(s => s);
-  const [mrDetail, mrStats, defaultBranch, isLocked] = repoStore.useStore(s => [s.mrDetail, s.mrStats, s.info.defaultBranch, s.info.isLocked]);
+  const permMap = usePerm((s) => s.app);
+  const params = routeInfoStore.useStore((s) => s.params);
+  const branchInfo = appStore.useStore((s) => s.branchInfo);
+  const userMap = userMapStore.useStore((s) => s);
+  const [mrDetail, mrStats, defaultBranch, isLocked] = repoStore.useStore((s) => [s.mrDetail, s.mrStats, s.info.defaultBranch, s.info.isLocked]);
   const { getMRDetail, getMRStats, operateMR, getCompareDetail } = repoStore.effects;
   const { clearMRDetail, clearMRStats } = repoStore.reducers;
   const [isFetching] = useLoading(repoStore, ['getMRDetail']);

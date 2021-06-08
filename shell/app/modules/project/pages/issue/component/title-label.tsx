@@ -20,23 +20,23 @@ import './title-label.scss';
 
 interface IProps{
   data: ISSUE.Issue;
-  onClick?: ()=> void;
+  onClick?: () => void;
 }
 
 const TitleLabel = (props: IProps) => {
   const { data, onClick } = props;
   const { title, labels, type } = data;
-  const labelList = projectLabelStore.useStore(s => s.list);
+  const labelList = projectLabelStore.useStore((s) => s.list);
 
   const colorMap = {} as Obj;
-  labelList.forEach(l => {
+  labelList.forEach((l) => {
     colorMap[l.name] = l.color;
   });
   return (
-    <div className='issue-title-label full-width pointer pl8 v-align' onClick={onClick}>
+    <div className="issue-title-label full-width pointer pl8 v-align" onClick={onClick}>
       {ISSUE_TYPE_MAP[type]?.icon}
-      <div className='issue-title-text'>
-        <div className='nowrap'>{title}</div>
+      <div className="issue-title-text">
+        <div className="nowrap">{title}</div>
         {renderLabels(colorMap, labels, 'issue-text-label', 2)}
       </div>
     </div>

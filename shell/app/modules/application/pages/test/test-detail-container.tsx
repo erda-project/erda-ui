@@ -25,7 +25,7 @@ import { useLoading } from 'app/common/stores/loading';
 interface IProps{
   testDetail: ITestDetail;
   isFetching: boolean;
-  getTestDetail(): Promise<any>
+  getTestDetail: () => Promise<any>;
 }
 interface IState{
   chosenSuiteIndex: number;
@@ -104,9 +104,9 @@ class TestDetailContainer extends React.Component<IProps, IState> {
       <Spin spinning={isFetching}>
         <div className="test-detail-header flex-box">
           <IF check={!isEmpty(detailOptions)}>
-            <Select onChange={v => this.changeDetail(+v)} dropdownMatchSelectWidth={false} defaultValue={chosenSuiteIndex} className="test-selector">
+            <Select onChange={(v) => this.changeDetail(+v)} dropdownMatchSelectWidth={false} defaultValue={chosenSuiteIndex} className="test-selector">
               {
-              map(detailOptions, opt => (<Option value={opt.value} key={`${opt.value}`}>{opt.text}</Option>))
+              map(detailOptions, (opt) => (<Option value={opt.value} key={`${opt.value}`}>{opt.text}</Option>))
             }
             </Select>
           </IF>
@@ -126,7 +126,7 @@ class TestDetailContainer extends React.Component<IProps, IState> {
 
 
 const Mapper = () => {
-  const testDetail = applicationTestStore.useStore(s => s.testDetail);
+  const testDetail = applicationTestStore.useStore((s) => s.testDetail);
   const [isFetching] = useLoading(applicationTestStore, ['getTestDetail']);
   const { getTestDetail } = applicationTestStore.effects;
   return {

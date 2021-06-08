@@ -22,7 +22,7 @@ export interface IYmlEditorProps {
   editing: boolean;
   viewType?: string;
   content?: string;
-  onUpdateViewType?:(val: string) => void;
+  onUpdateViewType?: (val: string) => void;
 }
 
 const Module = (props: IYmlEditorProps) => {

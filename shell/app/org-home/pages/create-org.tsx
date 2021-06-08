@@ -18,10 +18,10 @@ import './create-org.scss';
 export const CreateOrg = () => {
   return (
 
-    <div className='create-org-page'>
+    <div className="create-org-page">
       <DiceConfigPage
-        scenarioType='create-organization'
-        scenarioKey='create-organization'
+        scenarioType="create-organization"
+        scenarioKey="create-organization"
         useMock={location.search.includes('useMock') ? useMock : undefined}
       />
     </div>
@@ -53,70 +53,70 @@ const mock: CONFIG_PAGE.RenderConfig = {
           visible: true,
           fields: [
             {
-              label: "组织名称",
-              component: "input",
+              label: '组织名称',
+              component: 'input',
               required: true,
-              key: "组织名称"
+              key: '组织名称',
             },
             {
-              label: "组织域名",
-              component: "input",
+              label: '组织域名',
+              component: 'input',
               required: true,
-              key: "组织域名",
+              key: '组织域名',
               componentProps: {
-                addonBefore: "erda://"
-              }
+                addonBefore: 'erda://',
+              },
             },
             {
-              label: "备注",
-              component: "textarea",
-              key: "备注",
+              label: '备注',
+              component: 'textarea',
+              key: '备注',
               componentProps: {
                 autoSize: {
                   minRows: 4,
-                  maxRows: 8
-                }
-              }
+                  maxRows: 8,
+                },
+              },
             },
             {
-              label: "谁可以看到该组织",
-              component: "radio",
+              label: '谁可以看到该组织',
+              component: 'radio',
               required: true,
-              key: "谁可以看到该组织",
+              key: '谁可以看到该组织',
               componentProps: {
-                radioType: "radio",
-                displayDesc: true
+                radioType: 'radio',
+                displayDesc: true,
               },
               dataSource: {
                 static: [
                   {
-                    name: "私人的",
-                    desc: "小组及项目只能由成员查看",
-                    value: "private"
+                    name: '私人的',
+                    desc: '小组及项目只能由成员查看',
+                    value: 'private',
                   },
                   {
-                    name: "公开的",
-                    desc: "无需任何身份验证即可查看该组织和任何公开项目",
-                    value: "public"
+                    name: '公开的',
+                    desc: '无需任何身份验证即可查看该组织和任何公开项目',
+                    value: 'public',
                   },
-                ]
-              }
+                ],
+              },
             },
             {
-              label: "组织图标",
-              component: "upload",
-              key: "组织图标",
+              label: '组织图标',
+              component: 'upload',
+              key: '组织图标',
               componentProps: {
-                uploadText: "上传图片",
+                uploadText: '上传图片',
                 sizeLimit: 2,
                 supportFormat: [
-                  "png",
-                  "jpg",
-                  "jpeg",
-                  "gif",
-                  "bmp"
-                ]
-              }
+                  'png',
+                  'jpg',
+                  'jpeg',
+                  'gif',
+                  'bmp',
+                ],
+              },
             },
           ],
           readOnly: false, // 查看详情时，设置为true

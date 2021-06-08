@@ -71,7 +71,7 @@ describe('addon-settings', () => {
       await act(async () => {
         // render(<AddonSettings />, container);
         wrapper = mount(
-          <AddonSettings />
+          <AddonSettings />,
         );
       });
       wrapper.update();
@@ -86,7 +86,7 @@ describe('addon-settings', () => {
     };
     it('should render well', async () => {
       const wrapper = mount(
-        <PureAddonSettings insId={insId} />
+        <PureAddonSettings insId={insId} />,
       );
       expect(wrapper).toBeEmptyRender();
       wrapper.setProps({

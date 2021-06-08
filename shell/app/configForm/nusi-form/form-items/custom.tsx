@@ -27,7 +27,7 @@ export const FormInput = ({
   extensionFix,
   requiredCheck,
   trigger = 'onChange',
-}: any = {}) => React.memo(({ fieldConfig, form }:any = {}) => {
+}: any = {}) => React.memo(({ fieldConfig, form }: any = {}) => {
   const {
     label,
     visible,
@@ -58,7 +58,7 @@ export const FormInput = ({
 export const config = {
   name: 'custom',
   Component: FormInput, // 某React组件，props中必须有value、onChange
-  requiredCheck: value => {
+  requiredCheck: (value) => {
     // 必填校验时，特殊的校验规则
     return [value !== undefined && value !== '', i18n.t('can not be empty')];
   },

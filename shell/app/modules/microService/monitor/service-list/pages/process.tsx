@@ -26,9 +26,9 @@ import { get } from 'lodash';
 import './index.scss';
 
 export default () => {
-  const _timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
+  const _timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
   const { startTimeMs, endTimeMs } = _timeSpan;
-  const params = routeInfoStore.useStore(s => s.params);
+  const params = routeInfoStore.useStore((s) => s.params);
   const { terminusKey, serviceName, serviceId } = params;
   const { getProcessDashboardId, getInstanceIds } = topologyServiceStore;
   const [{ id, instanceId, instanceIds, timeSpan }, updater, update] = useUpdate({
@@ -46,7 +46,7 @@ export default () => {
       terminusKey,
       start: startTimeMs,
       end: endTimeMs,
-    }).then(res => {
+    }).then((res) => {
       const defaultInstanceId = get(res, ['data', 0, 'instanceId']);
       update({
         timeSpan: _timeSpan,
@@ -61,7 +61,7 @@ export default () => {
       serviceName,
       serviceId: window.decodeURIComponent(serviceId),
       terminusKey,
-    }).then(_id => updater.id(_id));
+    }).then((_id) => updater.id(_id));
   }, [serviceId, getProcessDashboardId, serviceName, terminusKey, updater]);
 
   return (

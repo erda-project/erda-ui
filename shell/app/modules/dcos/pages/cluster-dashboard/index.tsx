@@ -144,10 +144,10 @@ const SubMachineGroup = ({
   unitGroups: string[];
   groups?: ORG_DASHBOARD.IGroupInfo[];
   activeMachine: any;
-  setActivedMachine(payload: any): void;
-  setActivedGroup(subGroupName: string): void;
-  getMachineColourClass(machineInfo: any): string;
-  getMachineColourValue(machineInfo: any): { name: string; value: number; },
+  setActivedMachine: (payload: any) => void;
+  setActivedGroup: (subGroupName: string) => void;
+  getMachineColourClass: (machineInfo: any) => string;
+  getMachineColourValue: (machineInfo: any) => { name: string; value: number };
 }) => {
   const [subMachineContainerWidthHolder, setSubMachineContainerWidth] = useComponentWidth();
   const [subGroupContainerWidthHolder, subGroupContainerWidth] = useComponentWidth();
@@ -239,7 +239,7 @@ const SubMachineGroup = ({
 };
 
 const ClusterDashboard = () => {
-  const [filterGroup, groupInfos, unGroupInfo, clusterList, selectedGroups] = clusterDashboardStore.useStore(s => [s.filterGroup, s.groupInfos, s.unGroupInfo, s.clusterList, s.selectedGroups]);
+  const [filterGroup, groupInfos, unGroupInfo, clusterList, selectedGroups] = clusterDashboardStore.useStore((s) => [s.filterGroup, s.groupInfos, s.unGroupInfo, s.clusterList, s.selectedGroups]);
   const { getFilterTypes, getGroupInfos } = clusterDashboardStore.effects;
   const { setSelectedGroups } = clusterDashboardStore.reducers;
   const [loading] = useLoading(clusterDashboardStore, ['getGroupInfos']);
@@ -279,7 +279,7 @@ const ClusterDashboard = () => {
 
   const unitGroups = React.useMemo(() => {
     const tempList = [...selectedGroups, '', ''].slice(0, 2);
-    return tempList.map(item => UNIT_MAP[item] || '');
+    return tempList.map((item) => UNIT_MAP[item] || '');
   }, [selectedGroups]);
 
   useEffect(() => {
@@ -460,12 +460,12 @@ const ClusterDashboard = () => {
           </div>
         </IF>
         <IF check={selectedGroups.length}>
-          <div className='my8'>
+          <div className="my8">
             <span
-              className='cluster-state-link'
+              className="cluster-state-link"
               onClick={() => goTo(goTo.pages.dataCenterClusterState, { clusterName: activedGroup || groupName + unitGroups[0] })}
             >
-              <span className='mr20'>{i18n.t('dcos:global state of cluster')}:</span>
+              <span className="mr20">{i18n.t('dcos:global state of cluster')}:</span>
               <span>{get(stateSeverityMap, `${clusterStatus}.icon`)}</span>
               <span>{get(stateSeverityMap, `${clusterStatus}.displayName`)}</span>
             </span>
@@ -684,7 +684,7 @@ const ClusterDashboard = () => {
                 <IF check={!groupGridClass}>
                   {getMachineGroupWrapper()}
                   <IF.ELSE />
-                  {map(groupInfos, item => getMachineGroupWrapper(item, true))}
+                  {map(groupInfos, (item) => getMachineGroupWrapper(item, true))}
                 </IF>
               </IF>
             </div>

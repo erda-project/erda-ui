@@ -25,7 +25,7 @@ const NoAuthTip = ({ children, tip = i18n.t('common:no permission') }: any): any
         className: classnames(child.props.className, 'not-allowed'),
         onClick: undefined,
         disabled: true,
-      }
+      },
     );
     return <Tooltip title={tip}>{ele}</Tooltip>;
   });

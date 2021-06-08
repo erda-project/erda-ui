@@ -27,8 +27,8 @@ import { useLoading } from 'common/stores/loading';
 import { TASK_SP_FIELD, BUG_SP_FIELD } from 'org/common/config';
 
 const IssueFieldManage = () => {
-  const { id: orgID } = orgStore.useStore(s => s.currentOrg);
-  const tableData = issueFieldStore.useStore(s => s.fieldList);
+  const { id: orgID } = orgStore.useStore((s) => s.currentOrg);
+  const tableData = issueFieldStore.useStore((s) => s.fieldList);
   const { getFieldsByIssue, deleteFieldItem, getSpecialFieldOptions } = issueFieldStore.effects;
   const { clearFieldList } = issueFieldStore.reducers;
   const [{
@@ -46,10 +46,10 @@ const IssueFieldManage = () => {
   });
 
   const getSpecialField = React.useCallback(() => {
-    getSpecialFieldOptions({ orgID, issueType: 'TASK' }).then(res => {
+    getSpecialFieldOptions({ orgID, issueType: 'TASK' }).then((res) => {
       updater.taskSpecialField({ ...TASK_SP_FIELD, enumeratedValues: res });
     });
-    getSpecialFieldOptions({ orgID, issueType: 'BUG' }).then(res => {
+    getSpecialFieldOptions({ orgID, issueType: 'BUG' }).then((res) => {
       updater.bugSpecialField({ ...BUG_SP_FIELD, enumeratedValues: res });
     });
   }, [getSpecialFieldOptions, orgID, updater]);
@@ -98,22 +98,22 @@ const IssueFieldManage = () => {
       key: 'required',
       title: i18n.t('is required'),
       dataIndex: 'required',
-      render: (value:boolean) => (String(value) === 'true' ? i18n.t('common:yes') : i18n.t('common:no')),
+      render: (value: boolean) => (String(value) === 'true' ? i18n.t('common:yes') : i18n.t('common:no')),
     },
     {
       key: 'propertyType',
       title: i18n.t('type'),
       width: '200',
       dataIndex: 'propertyType',
-      render: (t:string) => <IssueIcon type={t} withName />,
+      render: (t: string) => <IssueIcon type={t} withName />,
     },
     {
       key: 'relatedIssue',
       title: i18n.t('project:related issue type'),
       width: '250',
       dataIndex: 'relatedIssue',
-      render: (types:string[]) => {
-        const fullTags = () => map(types, t => <span key={t} className="tag-default">{t}</span>);
+      render: (types: string[]) => {
+        const fullTags = () => map(types, (t) => <span key={t} className="tag-default">{t}</span>);
         return (
           <Tooltip
             title={fullTags()}
@@ -130,7 +130,7 @@ const IssueFieldManage = () => {
       width: 100,
       dataIndex: 'operation',
       className: 'operation',
-      render: (_text:any, record:ISSUE_FIELD.IFiledItem) => {
+      render: (_text: any, record: ISSUE_FIELD.IFiledItem) => {
         return (
           <div className="table-operations">
             <span
@@ -151,7 +151,7 @@ const IssueFieldManage = () => {
             </span>
             <WithAuth pass={!record?.isSpecialField} >
               <Popconfirm title={`${i18n.t('common:confirm to delete')}?`} onConfirm={() => { onDeleteField(record); }}>
-                <span className='table-operations-btn'>{i18n.t('common:delete')}</span>
+                <span className="table-operations-btn">{i18n.t('common:delete')}</span>
               </Popconfirm>
             </WithAuth>
           </div>

@@ -20,7 +20,7 @@ interface IProps {
 
 export const getFilterParams = (props: IProps, { prefix }: { prefix: string }) => {
   const { baseInfo } = props;
-  const { serviceName } = routeInfoStore.useStore(s => s.params);
+  const { serviceName } = routeInfoStore.useStore((s) => s.params);
   const { applicationId, terminusKey, runtimeName } = baseInfo;
 
   const filters = { application_id: applicationId, runtime_name: runtimeName, service_name: serviceName, terminus_key: terminusKey };

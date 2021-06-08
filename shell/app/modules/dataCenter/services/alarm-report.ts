@@ -41,13 +41,13 @@ export const deleteReportTask = (id: number) => {
     .then((response: any) => response.body);
 };
 
-export const switchReportTask = ({ id, enable }: { id: number; enable: boolean; }) => {
+export const switchReportTask = ({ id, enable }: { id: number; enable: boolean }) => {
   return agent.put(`/api/org/report/tasks/${id}/switch`)
     .query({ enable })
     .then((response: any) => response.body);
 };
 
-export const getReportTaskRecords = (payload: Merge<IPagingReq, Merge<IScope, { taskId: number; start?: number; end?: number; }>>): IPagingResp<COMMON_ALARM_REPORT.ReportRecord> => {
+export const getReportTaskRecords = (payload: Merge<IPagingReq, Merge<IScope, { taskId: number; start?: number; end?: number }>>): IPagingResp<COMMON_ALARM_REPORT.ReportRecord> => {
   return agent.get('/api/report/histories')
     .query(payload)
     .then((response: any) => response.body);
@@ -69,25 +69,25 @@ export const getReportTypes = (): IPagingResp<COMMON_ALARM_REPORT.ReportType> =>
     .then((response: any) => response.body);
 };
 
-export const getAlarmReport = ({ query, chartType }: {query: COMMON_ALARM_REPORT.AlarmReportQuerys, chartType: string}):COMMON_ALARM_REPORT.AlarmReports => {
+export const getAlarmReport = ({ query, chartType }: {query: COMMON_ALARM_REPORT.AlarmReportQuerys; chartType: string}): COMMON_ALARM_REPORT.AlarmReports => {
   return agent.get(`/api/orgCenter/metrics/${chartType}/histogram`)
     .query(query)
     .then((response: any) => response.body);
 };
 
-export const getSystemReport = ({ query }:{query: COMMON_ALARM_REPORT.AlarmReportQuerys}):COMMON_ALARM_REPORT.AlarmReports => {
+export const getSystemReport = ({ query }: {query: COMMON_ALARM_REPORT.AlarmReportQuerys}): COMMON_ALARM_REPORT.AlarmReports => {
   return agent.get('/api/orgCenter/metrics/machine_load/histogram')
     .query(query)
     .then((response: any) => response.body);
 };
 
-export const getCPUAlarmReport = ({ query }:{query: COMMON_ALARM_REPORT.AlarmReportQuerys}):COMMON_ALARM_REPORT.AlarmReports => {
+export const getCPUAlarmReport = ({ query }: {query: COMMON_ALARM_REPORT.AlarmReportQuerys}): COMMON_ALARM_REPORT.AlarmReports => {
   return agent.get('/api/orgCenter/metrics/machine_cpu/histogram')
     .query(query)
     .then((response: any) => response.body);
 };
 
-export const getProcessCmdline = (payload: COMMON_ALARM_REPORT.QueryCmdLine):COMMON_ALARM_REPORT.AlarmReports => {
+export const getProcessCmdline = (payload: COMMON_ALARM_REPORT.QueryCmdLine): COMMON_ALARM_REPORT.AlarmReports => {
   return agent.get('/api/orgCenter/metrics/procstat')
     .query(payload)
     .then((response: any) => response.body);

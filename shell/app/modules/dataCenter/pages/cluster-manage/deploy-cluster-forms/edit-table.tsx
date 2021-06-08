@@ -25,9 +25,9 @@ interface IEditableTableProps{
   form: WrappedFormUtils;
   columns: any[];
   data: any[];
-  add(...args: any): void;
-  del(...args: any): void;
-  edit(...args: any): void;
+  add: (...args: any) => void;
+  del: (...args: any) => void;
+  edit: (...args: any) => void;
 }
 export const EditableTable = (props: IEditableTableProps) => {
   const { columns, data, add, del, edit } = props;
@@ -119,7 +119,7 @@ interface ICellProps{
   options?: string[];
   index: number;
   rules?: any;
-  handleSave(args?: any): void;
+  handleSave: (args?: any) => void;
 }
 const EditableCell = (props: ICellProps) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -167,7 +167,7 @@ const EditableCell = (props: ICellProps) => {
           }
               </Select>
             ) : (
-              <Input ref={inputRef} onPressEnter={save} onBlur={save} />)
+              <Input ref={inputRef} onPressEnter={save} onBlur={save} />),
           )
         }
       </Form.Item>

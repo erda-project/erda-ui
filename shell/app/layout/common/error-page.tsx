@@ -16,14 +16,14 @@ import { Link } from 'react-router-dom';
 import { Icon as CustomIcon } from 'common';
 import { Button, Spin } from 'app/nusi';
 import i18n from 'i18n';
-import { goTo } from 'common/utils'
+import { goTo } from 'common/utils';
 import userStore from 'app/user/stores';
 
 
 import './error-page.scss';
 
 const NoAuth = () => {
-  const authContact = userStore.useStore(s => s.authContact);
+  const authContact = userStore.useStore((s) => s.authContact);
   return (
     <div className="no-auth-page basic-error-page">
       <div className="info">
@@ -52,7 +52,7 @@ const NoAuth = () => {
   );
 };
 
-const NotFound = ({ message, force } : { message?: string, force?: boolean }) => {
+const NotFound = ({ message, force }: { message?: string; force?: boolean }) => {
   const { _master } = window;
   if (_master && _master.isLoadingModule()) {
     return (
@@ -87,7 +87,7 @@ const NotFound = ({ message, force } : { message?: string, force?: boolean }) =>
 };
 
 const NotJoinOrg = () => {
-  const joinOrgTip = userStore.useStore(s => s.joinOrgTip);
+  const joinOrgTip = userStore.useStore((s) => s.joinOrgTip);
 
   return (
     <div className="basic-error-page">

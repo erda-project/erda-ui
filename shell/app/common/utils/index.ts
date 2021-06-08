@@ -126,7 +126,7 @@ export const regRules = {
 
 // 表单校验
 export const validators = {
-  validateNumberRange: ({ min, max }: { min: number, max: number }) => (rule: any, value: string, callback: Function) => {
+  validateNumberRange: ({ min, max }: { min: number; max: number }) => (rule: any, value: string, callback: Function) => {
     const reg = /^[0-9]+$/;
     return (!value || (reg.test(value) && Number(value) >= min && Number(value) <= max))
       ? callback()

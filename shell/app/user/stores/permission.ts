@@ -53,7 +53,7 @@ const getPermObj = (data: IPermResponseData, scope: string) => {
       const roleAttr = `${resourceStr ? `${resourceStr}.` : ''}${action}.role`;
       const prevRole = get(newPermObj, roleAttr);
       if (prevRole) {
-        map(prevRole, rItem => {
+        map(prevRole, (rItem) => {
           if (ROLES[rItem]) {
             totalRole.push(rItem);
           }
@@ -70,8 +70,8 @@ const permission = createStore({
   name: 'permission',
   state: permState,
   effects: {
-    async checkRouteAuth(_, payload: { id: string, type: string, cb?: any, routeMark: string, ignoreCache?: boolean }) {
-      const { routeMarks } = routeInfoStore.getState(s => s);
+    async checkRouteAuth(_, payload: { id: string; type: string; cb?: any; routeMark: string; ignoreCache?: boolean }) {
+      const { routeMarks } = routeInfoStore.getState((s) => s);
 
       const pathNeedCheckAuth = routeMarks.includes(payload.routeMark);
       if (pathNeedCheckAuth) {
@@ -93,10 +93,10 @@ const permission = createStore({
       }
     },
     async getScopePermMap({ call }, { cb = () => { }, scope, scopeID, routeMark }: {
-      scope: string,
-      scopeID: string,
-      routeMark?: string,
-      cb?(arg?: any): any,
+      scope: string;
+      scopeID: string;
+      routeMark?: string;
+      cb?: (arg?: any) => any;
     }) {
       const data = await call(getResourcePermissions, { scope, scopeID });
       const { access, exist, contactsWhenNoPermission } = data;
@@ -109,8 +109,8 @@ const permission = createStore({
       if (!access && !needShowNoAuth) {
         // 新的scope无权限时才清理，新的scope有权限时会在下面更新掉，无需清理
         permission.reducers.clearScopePerm(scope);
-        const userMap = userMapStore.getState(s => s);
-        userStore.reducers.setNoAuth(map(contactsWhenNoPermission || [], id => {
+        const userMap = userMapStore.getState((s) => s);
+        userStore.reducers.setNoAuth(map(contactsWhenNoPermission || [], (id) => {
           const match = userMap[id] || {};
           return `${match.nick || match.name} (${match.phone || match.email})`;
         }).join(', '));

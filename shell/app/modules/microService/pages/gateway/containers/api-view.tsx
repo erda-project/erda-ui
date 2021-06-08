@@ -61,7 +61,7 @@ const noExpandTypes = [
   'array[boolean]',
   'null',
 ];
-const RenderBody = ({ root, properties = {}, dataType: dType }: {root: string; properties?: {[key: string]: any}, dataType: string}) => {
+const RenderBody = ({ root, properties = {}, dataType: dType }: {root: string; properties?: {[key: string]: any}; dataType: string}) => {
   const [bodyPath, setBodyPath] = useState([{
     ...rootBodyPath,
     title: root || rootBodyPath.title,
@@ -102,7 +102,7 @@ const RenderBody = ({ root, properties = {}, dataType: dType }: {root: string; p
     let typeStr = type;
     let allowExpand = true;
     if (type === 'array') {
-      allowExpand = !bodyPath.some(t => t.data === items.properties);
+      allowExpand = !bodyPath.some((t) => t.data === items.properties);
       if (items.title) {
         typeStr = items.title;
       } else {
@@ -171,8 +171,8 @@ const RenderBody = ({ root, properties = {}, dataType: dType }: {root: string; p
     if (!jump) {
       return;
     }
-    const mewpath = bodyPath.filter(item => item.key <= key);
-    const a = mewpath.map(t => t.params);
+    const mewpath = bodyPath.filter((item) => item.key <= key);
+    const a = mewpath.map((t) => t.params);
     a.shift();
     const propertie = key === 0 ? properties : data;
     setDataType(type);

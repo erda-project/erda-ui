@@ -19,7 +19,7 @@ import routeInfoStore from 'common/stores/route';
 import { TEST_TYPE } from '../test-manage/case';
 
 const TestPlan = () => {
-  const testType = routeInfoStore.useStore(s => s.params.testType) || TEST_TYPE.manual;
+  const testType = routeInfoStore.useStore((s) => s.params.testType) || TEST_TYPE.manual;
 
   if (testType === 'auto') {
     return <AutoTestPlanList />;

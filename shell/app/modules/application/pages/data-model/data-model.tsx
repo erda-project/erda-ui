@@ -26,7 +26,7 @@ interface IProps {
   isFetching: boolean;
   businessProcessList: IModel[];
   dataModelPaging: IPaging;
-  modelBusinessScope: {businessDomain: any, dataDomains: any[], marketDomains: any[]};
+  modelBusinessScope: {businessDomain: any; dataDomains: any[]; marketDomains: any[]};
 }
 
 interface IModel {
@@ -63,7 +63,7 @@ const DataModel = (props: IProps) => {
 };
 
 const Mapper = () => {
-  const [businessProcessList, modelBusinessScope, dataModelPaging] = dataTaskStore.useStore(s => [s.businessProcessList, s.modelBusinessScope, s.businessProcessPaging]);
+  const [businessProcessList, modelBusinessScope, dataModelPaging] = dataTaskStore.useStore((s) => [s.businessProcessList, s.modelBusinessScope, s.businessProcessPaging]);
   const [isFetching] = useLoading(dataTaskStore, ['getBusinessProcesses']);
   const { getBusinessProcesses } = dataTaskStore.effects;
   const { clearBusinessProcesses } = dataTaskStore.reducers;

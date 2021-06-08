@@ -21,15 +21,15 @@ import testPlanStore from 'project/stores/test-plan';
 import i18n from 'i18n';
 
 interface IProps {
-  scope: 'testCase' | 'testPlan'
-  caseList: TEST_CASE.TestCaseItem[]
+  scope: 'testCase' | 'testPlan';
+  caseList: TEST_CASE.TestCaseItem[];
   editMode: boolean;
-  onClose(): void
-  onOk(bool: boolean): void
+  onClose: () => void;
+  onOk: (bool: boolean) => void;
 }
 
 const CaseFooter = ({ scope, caseList, editMode, onClose, onOk }: IProps) => {
-  const caseDetail = testCaseStore.useStore(s => s.caseDetail);
+  const caseDetail = testCaseStore.useStore((s) => s.caseDetail);
   const { getCaseDetail } = testCaseStore.effects;
   const { updateCasesStatus } = testPlanStore.effects;
   if (scope === 'testPlan' && editMode) {

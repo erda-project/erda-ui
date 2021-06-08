@@ -21,7 +21,7 @@ describe('Panel', () => {
     const wrapper = mount(
       <Panel style={{ height: 100 }} className="erda_panel" title="panel title">
         <div className="panel-child">panel-child</div>
-      </Panel>
+      </Panel>,
     );
     expect(wrapper).toHaveClassName('erda_panel');
     expect(wrapper).toHaveStyle('height', 100);

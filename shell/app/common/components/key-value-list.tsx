@@ -21,8 +21,8 @@ interface IParam {
   className?: string;
   depth?: number;
   shrink?: boolean;
-  textRender?(k: string, v: string): string | JSX.Element | null;
-  listRender?(b: string[]): React.ReactNodeArray | JSX.Element;
+  textRender?: (k: string, v: string) => string | JSX.Element | null;
+  listRender?: (b: string[]) => React.ReactNodeArray | JSX.Element;
 }
 export const KeyValueList = ({ data, title, className = '', depth = 1, textRender, listRender, shrink = false, ...rest }: IParam) => {
   return (

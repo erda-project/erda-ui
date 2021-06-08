@@ -30,10 +30,10 @@ const PageMap = [
 ];
 
 const Nodes = () => {
-  const DICE_CLUSTER_TYPE = microServiceStore.useStore(s => s.DICE_CLUSTER_TYPE);
+  const DICE_CLUSTER_TYPE = microServiceStore.useStore((s) => s.DICE_CLUSTER_TYPE);
   const isDcos = DICE_CLUSTER_TYPE === 'dcos';
   const type = 'node';
-  const [baseInfo, chosenInstance] = SICommonStore.useStore(s => [s.baseInfo, s.chosenInstance]);
+  const [baseInfo, chosenInstance] = SICommonStore.useStore((s) => [s.baseInfo, s.chosenInstance]);
   const { terminusKey, runtimeName, serviceName, applicationId } = baseInfo;
   const curChosen = chosenInstance[type];
 

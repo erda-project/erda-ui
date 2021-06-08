@@ -16,7 +16,7 @@ declare namespace CP_DRAWER {
     type: 'Drawer';
     operations?: Obj<CP_COMMON.Operation>;
     state: IState;
-    props: IProps
+    props: IProps;
   }
 
   interface IState{
@@ -24,14 +24,14 @@ declare namespace CP_DRAWER {
   }
 
   interface IProps{
-    title?: string,
-    closable?: boolean,
-    maskClosable?: boolean,
-    placement?: 'top' | 'right' | 'bottom' | 'left',
-    size?: 's' | 'm' | 'l' | 'xl', // s:256, m: 560, l: 800, xl: 1100
+    title?: string;
+    closable?: boolean;
+    maskClosable?: boolean;
+    placement?: 'top' | 'right' | 'bottom' | 'left';
+    size?: 's' | 'm' | 'l' | 'xl'; // s:256, m: 560, l: 800, xl: 1100
   }
 
   type Props = MakeProps<Spec> & {
-    content: Obj
+    content: Obj;
   };
 }

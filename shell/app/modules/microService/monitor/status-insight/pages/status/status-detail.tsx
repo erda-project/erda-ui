@@ -27,8 +27,8 @@ import routeInfoStore from 'common/stores/route';
 import { Info as IconInfo } from '@icon-park/react';
 
 const StatusDetail = () => {
-  const params = routeInfoStore.useStore(s => s.params);
-  const [detail, pastIncidents] = monitorStatusStore.useStore(s => [s.detail, s.pastIncidents]);
+  const params = routeInfoStore.useStore((s) => s.params);
+  const [detail, pastIncidents] = monitorStatusStore.useStore((s) => [s.detail, s.pastIncidents]);
   const { getStatusDetail, getPastIncidents } = monitorStatusStore.effects;
   const { clearStatusDetail } = monitorStatusStore.reducers;
   const [isFetching, setDatumFetching] = useLoading(monitorStatusStore, ['getStatusDetail', 'setDatumPoint']);
@@ -103,7 +103,7 @@ const StatusDetail = () => {
           <span>
             {data.name}&nbsp;&nbsp;
             {/* <a href={data.url} style={{ cursor: 'alias' }} target="_blank" rel="noopener noreferrer"> */}
-              ({data.url})
+            ({data.url})
             {/* </a> */}
           </span>
           <div>

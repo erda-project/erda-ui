@@ -27,14 +27,14 @@ import './record-list.scss';
 
 interface IProps{
   nodeId?: string;
-  curPipelineDetail?:AUTO_TEST.ICaseDetail;
-  onSelectPipeline:(p:AUTO_TEST.ICaseDetail | null)=>void;
+  curPipelineDetail?: AUTO_TEST.ICaseDetail;
+  onSelectPipeline: (p: AUTO_TEST.ICaseDetail | null) => void;
 }
-const RecordList = React.forwardRef((props: IProps, ref:any) => {
+const RecordList = React.forwardRef((props: IProps, ref: any) => {
   const { curPipelineDetail, onSelectPipeline, nodeId: propsNodeId } = props;
-  const query = routeInfoStore.useStore(s => s.query);
+  const query = routeInfoStore.useStore((s) => s.query);
   const curNodeId = propsNodeId || query.nodeId;
-  const [configDetailRecordList] = autoTestStore.useStore(s => [s.configDetailRecordList]);
+  const [configDetailRecordList] = autoTestStore.useStore((s) => [s.configDetailRecordList]);
   const { clearConfigDetailRecordList, getConfigDetailRecordList } = autoTestStore;
   const [loading] = useLoading(autoTestStore, ['getPipelineRecordList']);
   useEffectOnce(() => {
@@ -59,7 +59,7 @@ const RecordList = React.forwardRef((props: IProps, ref:any) => {
     curNodeId && getConfigDetailRecordList(curNodeId);
   };
   const renderRecordList = () => {
-    const userMap = userMapStore.useStore(s => s);
+    const userMap = userMapStore.useStore((s) => s);
     if (isEmpty(configDetailRecordList)) {
       return <p>{i18n.t('common:no data')}</p>;
     }
@@ -118,7 +118,7 @@ const RecordList = React.forwardRef((props: IProps, ref:any) => {
           scroll={{ y: 240 }}
           rowClassName={setRowClassName}
           onRow={(p) => ({
-            onClick: (e:any) => {
+            onClick: (e: any) => {
               e.stopPropagation();
               onSelectPipeline(p);
             },

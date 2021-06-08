@@ -43,17 +43,17 @@ const confirmTips: {[key in KeyAuth]: {}} = {
 };
 
 interface IState {
-  scope: IScope,
-  mode: IMode,
+  scope: IScope;
+  mode: IMode;
   visible: boolean;
   showRelation: boolean;
-  relationMode: RelationMode,
+  relationMode: RelationMode;
   chooseVersion: ChooseVersion;
 }
 const ApiVersions = () => {
   const versionRef = React.useRef(null as any);
-  const [assetDetail] = apiMarketStore.useStore(s => [s.assetDetail]);
-  const params = routeInfoStore.useStore(s => s.params);
+  const [assetDetail] = apiMarketStore.useStore((s) => [s.assetDetail]);
+  const params = routeInfoStore.useStore((s) => s.params);
   const [isFetchDetail, isFetchList] = useLoading(apiMarketStore, ['getAssetDetail', 'getListOfVersions']);
   const { getAssetDetail, deleteAsset, getListOfVersions, editAsset, getVersionTree } = apiMarketStore.effects;
   const { resetVersionList, clearAssetDetail, clearVersionTree } = apiMarketStore.reducers;
@@ -175,7 +175,7 @@ const ApiVersions = () => {
   );
   return (
     <Spin spinning={isFetchList || isFetchDetail}>
-      <div className='version-list'>
+      <div className="version-list">
         <div className="top-button-group">
           <UnityAuthWrap path={['apiMarket', 'delete']} userID={creatorID}>
             <Button type="danger" onClick={handleDeleteAsset}>{i18n.t('delete')}</Button>

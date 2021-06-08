@@ -47,7 +47,7 @@ export interface ILink extends IContentProps {
   linkProps: {
     title?: string | React.ReactNode;
     icon?: React.ReactNode;
-  }
+  };
   key: string;
 }
 
@@ -55,7 +55,7 @@ interface IProps {
   baseInfoConf?: IContentPanelProps;
   linkList?: ILink[];
   anchorContainer?: IAnchorContainer;
-  children?: React.ReactNode
+  children?: React.ReactNode;
 }
 
 const { Link } = Anchor;

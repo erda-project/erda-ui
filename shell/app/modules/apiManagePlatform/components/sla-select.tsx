@@ -20,7 +20,7 @@ import { slaAuthorizationMap, slaUnitMap } from 'apiManagePlatform/pages/access-
 interface IProps {
   defaultSelectKey?: number;
   dataSource: API_ACCESS.SlaItem[];
-  onChange?(data: number):void;
+  onChange?: (data: number) => void;
 }
 const { Panel } = Collapse;
 
@@ -40,7 +40,7 @@ const SLASelect = ({ dataSource, onChange, defaultSelectKey }: IProps) => {
     }
   };
   const filterData = React.useMemo(() => {
-    return dataSource.filter(item => item.name.toLowerCase().includes(filter.toLocaleLowerCase()));
+    return dataSource.filter((item) => item.name.toLowerCase().includes(filter.toLocaleLowerCase()));
   }, [filter, dataSource]);
   return (
     <>
@@ -60,7 +60,7 @@ const SLASelect = ({ dataSource, onChange, defaultSelectKey }: IProps) => {
             activeKey={activeKey}
           >
             {
-              filterData.map(item => {
+              filterData.map((item) => {
                 const limits = item.limits || [];
                 const header = (
                   <Row>
@@ -85,7 +85,7 @@ const SLASelect = ({ dataSource, onChange, defaultSelectKey }: IProps) => {
                         title: i18n.t('unit'),
                         dataIndex: 'unit',
                         width: 228,
-                        render: unit => slaUnitMap[unit],
+                        render: (unit) => slaUnitMap[unit],
                       }]}
                     />
                   </Panel>

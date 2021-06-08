@@ -21,7 +21,7 @@ const { Option } = Select;
 
 interface IProps{
   scale: number;
-  onChange(arg: number): void;
+  onChange: (arg: number) => void;
 }
 
 export const ScaleSelector = ({ scale, onChange }: IProps) => {

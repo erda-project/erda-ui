@@ -18,7 +18,7 @@ import AutoTestPlanDetail from './auto-test-plan-detail';
 import { TEST_TYPE } from '../test-manage/case';
 
 const TestPlan = () => {
-  const testType = routeInfoStore.getState(s => s.params.testType) || TEST_TYPE.manual;
+  const testType = routeInfoStore.getState((s) => s.params.testType) || TEST_TYPE.manual;
   return (
     testType === 'auto' ? <AutoTestPlanDetail /> : <TestPlanDetail />
   );

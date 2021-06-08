@@ -27,7 +27,7 @@ import ApplyUnblockModal, { IMetaData } from 'workBench/pages/projects/apply-unb
 
 const { Search } = Input;
 export const ProjectList = () => {
-  const [projectList, projectPaging] = userStore.useStore(s => [s.projectList, s.projectPaging]);
+  const [projectList, projectPaging] = userStore.useStore((s) => [s.projectList, s.projectPaging]);
   const { getJoinedProjects } = userStore.effects;
   const { clearProjectList } = userStore.reducers;
   const [loading] = useLoading(userStore, ['getJoinedProjects']);
@@ -127,7 +127,7 @@ export const ProjectList = () => {
                     }
                   </span>
                 </span>
-                <BlockNetworkStatus scope='project' canOperate={item.canUnblock} status={item.blockStatus} onClick={(k) => { handleShowApplyModal(k, item); }} />
+                <BlockNetworkStatus scope="project" canOperate={item.canUnblock} status={item.blockStatus} onClick={(k) => { handleShowApplyModal(k, item); }} />
               </div>
             </div>
           </div>

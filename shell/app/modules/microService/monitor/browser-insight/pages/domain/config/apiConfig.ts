@@ -16,7 +16,7 @@ import { sortHandler, multipleDataHandler, groupHandler, slowHandler } from 'com
 const commonQuery = {};
 export const ApiMap = {
   sortList: {
-    getFetchObj: ({ sortTab, subTab }: {sortTab: string, subTab: string}) => {
+    getFetchObj: ({ sortTab, subTab }: {sortTab: string; subTab: string}) => {
       const fetchMap = {
         time: { fetchApi: 'ta_top_avg_time', query: { group: 'host', avg: subTab || 'plt', limit: 20, sort: `avg_${subTab || 'plt'}` }, dataKey: `avg.${subTab || 'plt'}` },
         percent: { fetchApi: 'ta_top_percent_time', query: { group: 'host', sumPercent: subTab || 'plt', limit: 20, sort: `sumPercent_${subTab || 'plt'}` }, dataKey: `sumPercent.${subTab || 'plt'}` },

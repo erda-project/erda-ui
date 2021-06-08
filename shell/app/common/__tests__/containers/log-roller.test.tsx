@@ -37,7 +37,7 @@ describe('LogRoller', () => {
         fetchLog={fetchLogFn}
         logKey={logKey}
         clearLog={clearLog}
-      />
+      />,
     );
     wrapper.instance().rollingTimeout = 1;
     wrapper.instance().logRoller = {
@@ -51,7 +51,7 @@ describe('LogRoller', () => {
 
     wrapper.setProps({
       requestId: '123',
-      pause: true
+      pause: true,
     });
     expect(wrapper.instance().state.rolling).toBeFalsy();
     expect(wrapper.instance().rollingTimeout).toBeUndefined();

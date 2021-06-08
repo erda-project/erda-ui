@@ -16,12 +16,12 @@ import * as PurchaseServices from 'dcos/services/purchase';
 import i18n from 'i18n';
 
 interface IState {
-  purchaseList: PURCHASE.PurchaseItem[]
+  purchaseList: PURCHASE.PurchaseItem[];
   availableRegions: PURCHASE.Region[];
   availableZones: PURCHASE.Zone[];
 }
 
-const initState:IState = {
+const initState: IState = {
   purchaseList: [],
   availableRegions: [],
   availableZones: [],
@@ -31,7 +31,7 @@ const purchase = createStore({
   name: 'pruchase',
   state: initState,
   effects: {
-    async addResource({ call, getParams }, payload:PURCHASE.AddResource) {
+    async addResource({ call, getParams }, payload: PURCHASE.AddResource) {
       const params = getParams();
       const result = await call(PurchaseServices.addResource, { ...payload, clusterName: params.clusterName }, { successMsg: i18n.t('dcos:add resource successfully') });
       return result;
@@ -46,7 +46,7 @@ const purchase = createStore({
       const availableRegions = await call(PurchaseServices.getAvailableRegions, payload);
       update({ availableRegions });
     },
-    async getAvailableZones({ call, update }, payload:PURCHASE.QueryZone) {
+    async getAvailableZones({ call, update }, payload: PURCHASE.QueryZone) {
       const availableZones = await call(PurchaseServices.getAvailableZones, payload);
       update({ availableZones });
     },

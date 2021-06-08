@@ -28,9 +28,9 @@ export const AddNode = (props: IProps) => {
     onClickNode(data);
   };
   return (
-    <div className='yml-chart-node add-node' onClick={onClick}>
-      <CustomIcon type='tj1' className='add-icon mb12' />
-      <span className='add-node-txt'>{i18n.t('add {name}', { name: i18n.t('node') })}</span>
+    <div className="yml-chart-node add-node" onClick={onClick}>
+      <CustomIcon type="tj1" className="add-icon mb12" />
+      <span className="add-node-txt">{i18n.t('add {name}', { name: i18n.t('node') })}</span>
     </div>
   );
 };

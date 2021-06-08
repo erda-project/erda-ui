@@ -33,7 +33,7 @@ export class LazyRender extends React.PureComponent<IProps, IState> {
 
   componentDidMount() {
     if (this.wrapDom) {
-      this.intersectionObserver = new IntersectionObserver(entries => {
+      this.intersectionObserver = new IntersectionObserver((entries) => {
         // 如果不可见，就返回
         if (entries[0].intersectionRatio <= 0) return;
         this.setState({ render: true });
@@ -58,7 +58,7 @@ export class LazyRender extends React.PureComponent<IProps, IState> {
     return (
       <div
         style={{ minHeight }}
-        ref={ref => {
+        ref={(ref) => {
           this.wrapDom = ref;
         }}
       >

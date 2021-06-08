@@ -47,20 +47,20 @@ declare namespace CLOUD {
   'ONS_GROUP';
 
   interface SetTagBody {
-    resourceType: SetTagType,
-    instanceID?: string,
-    tags: string[],
-    items: TagItem[]
+    resourceType: SetTagType;
+    instanceID?: string;
+    tags: string[];
+    items: TagItem[];
   }
 
   interface TagItem {
-    vendor: string
-    region: string
+    vendor: string;
+    region: string;
 
     // Tag一级资源时，此处为空
     // Tag二级资源时，此处指定instance id, 如指定ons id, 然后在resource ids 中指定ons_group/ons_topic
-    instanceID?: string
-    resourceID: string
-    oldTags: string[]
+    instanceID?: string;
+    resourceID: string;
+    oldTags: string[];
   }
 }

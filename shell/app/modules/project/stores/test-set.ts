@@ -23,45 +23,45 @@ import {
 } from '../services/test-set';
 
 export interface IReloadTestSetInfo {
-  parentID?: number | null,
-  testSetID?: number | null,
-  projectID?: number | null,
-  selectProjectId?: number | null,
-  isMove: boolean,
-  reloadParent?: boolean, // 是否需要自己重新加载一下父级
+  parentID?: number | null;
+  testSetID?: number | null;
+  projectID?: number | null;
+  selectProjectId?: number | null;
+  isMove: boolean;
+  reloadParent?: boolean; // 是否需要自己重新加载一下父级
 }
 
 interface IBreadcrumbInfo { // 导入导出弹框中的面包屑
-  pathName: string, // 当前路径名称
-  testSetID: number, // 测试集id
-  testPlanID?: number | null, // 测试计划id，计划详情中可用
-  selectProjectId?: number
+  pathName: string; // 当前路径名称
+  testSetID: number; // 测试集id
+  testPlanID?: number | null; // 测试计划id，计划详情中可用
+  selectProjectId?: number;
 }
 
 interface ITreeExtra {
-  testSetID: number,
-  selectProjectId?: number
+  testSetID: number;
+  selectProjectId?: number;
 }
 
 interface ITreeModalInfo { // 项目测试集弹框
-  ids: number[], // 测试集/用例的ids
-  action: 'copy'| 'move' | 'recover', // 弹框操作 copy,move,recover
-  type: 'collection' | 'case' | 'multi', // 集合 'collection', 用例 'case', 用例多选'multi'
-  extra: {}, // 其他提交时需要的信息
-  treeExtra: ITreeExtra, // tree 选中时保存的信息
-  callback?: (data: Record<string, any>) => void // 回调函数
+  ids: number[]; // 测试集/用例的ids
+  action: 'copy'| 'move' | 'recover'; // 弹框操作 copy,move,recover
+  type: 'collection' | 'case' | 'multi'; // 集合 'collection', 用例 'case', 用例多选'multi'
+  extra: {}; // 其他提交时需要的信息
+  treeExtra: ITreeExtra; // tree 选中时保存的信息
+  callback?: (data: Record<string, any>) => void; // 回调函数
 }
 interface IState {
-  activeOuter: boolean
-  treeModalInfo: ITreeModalInfo
-  reloadTestSetInfo: IReloadTestSetInfo,
-  breadcrumbInfo: IBreadcrumbInfo,
+  activeOuter: boolean;
+  treeModalInfo: ITreeModalInfo;
+  reloadTestSetInfo: IReloadTestSetInfo;
+  breadcrumbInfo: IBreadcrumbInfo;
   // testSetInfo: {},
-  rootTestSets: [], // 页面级别的测试集树，用于test-breadcrumb共享
-  projectTestSet: TEST_SET.TestSet[],
-  modalTestSet: TEST_SET.TestSet[],
-  tempTestSet: TEST_SET.TestSet[],
-  testSetTreeInstance: any,
+  rootTestSets: []; // 页面级别的测试集树，用于test-breadcrumb共享
+  projectTestSet: TEST_SET.TestSet[];
+  modalTestSet: TEST_SET.TestSet[];
+  tempTestSet: TEST_SET.TestSet[];
+  testSetTreeInstance: any;
 }
 
 const initReloadTestSetInfo = {
@@ -101,7 +101,7 @@ const testSetStore = createStore({
   name: 'testSet',
   state: initState,
   effects: {
-    async getProjectTestSets({ call, update, getParams, select }, payload: Merge<Omit<TEST_SET.GetQuery, 'projectID'>, { mode: TEST_CASE.PageScope, forceUpdate?: boolean }>) {
+    async getProjectTestSets({ call, update, getParams, select }, payload: Merge<Omit<TEST_SET.GetQuery, 'projectID'>, { mode: TEST_CASE.PageScope; forceUpdate?: boolean }>) {
       const { projectId } = getParams();
       const { mode, forceUpdate = false, ...rest } = payload;
       if (!rest.parentID) {
@@ -122,7 +122,7 @@ const testSetStore = createStore({
           update({ tempTestSet: testSet });
         } else {
           // When projectTestSet is empty, it will trigger to execute useEffect which is unnecessary. The specific reasons mentioned above need to be investigated.
-          const prevProjectTestSet = select(s => s.projectTestSet);
+          const prevProjectTestSet = select((s) => s.projectTestSet);
           if (isEmpty(prevProjectTestSet) && isEmpty(testSet)) return;
           update({ projectTestSet: testSet });
         }
@@ -178,7 +178,7 @@ const testSetStore = createStore({
       testCaseStore.reducers.toggleDetailPanel({ visible: false });
     },
     // cut or copy testSets
-    async subSubmitTreeCollection({ call, getParams }, payload: { parentID: number, testSetID: number, action: string}) {
+    async subSubmitTreeCollection({ call, getParams }, payload: { parentID: number; testSetID: number; action: string}) {
       const { projectId: projectID } = getParams();
       const { parentID, action, testSetID } = payload;
       const isCopy = action === 'copy';
@@ -192,7 +192,7 @@ const testSetStore = createStore({
     },
     // 用例批量复制，移动，恢复
     async submitMultiCases({ select }) {
-      const { action, treeExtra } = select(s => s.treeModalInfo);
+      const { action, treeExtra } = select((s) => s.treeModalInfo);
       const { testSetID } = treeExtra;
       const isCopy = action === 'copy';
       const newQuery = await testCaseStore.effects.getSelectedCaseIds();
@@ -206,7 +206,7 @@ const testSetStore = createStore({
     },
     // 单个用例复制，移动, 恢复
     async submitTreeCase({ select }) {
-      const { ids, action, treeExtra } = select(s => s.treeModalInfo);
+      const { ids, action, treeExtra } = select((s) => s.treeModalInfo);
       const { testSetID } = treeExtra || {};
       const isCopy = action === 'copy';
       if (isCopy) {
@@ -218,7 +218,7 @@ const testSetStore = createStore({
       testSetStore.reducers.closeTreeModal();
     },
     async submitTreeSet({ select }) {
-      const { ids, treeExtra, callback } = select(s => s.treeModalInfo);
+      const { ids, treeExtra, callback } = select((s) => s.treeModalInfo);
       const { testSetID: recoverToTestSetID } = treeExtra;
       const testSetID = ids[0];
       await testSetStore.effects.recoverTestSet({ recoverToTestSetID, testSetID });
@@ -226,7 +226,7 @@ const testSetStore = createStore({
       testSetStore.reducers.closeTreeModal();
     },
     async submitTreeModal({ select }) {
-      const { type, treeExtra } = select(s => s.treeModalInfo);
+      const { type, treeExtra } = select((s) => s.treeModalInfo);
       if (isEmpty(treeExtra)) {
         message.error('project: please choose test set');
         return;

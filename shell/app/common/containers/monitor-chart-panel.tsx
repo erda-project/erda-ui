@@ -26,13 +26,13 @@ interface IProps {
   listMetric: any;
   params: any;
 
-  initFetch(...args: any): Promise<any>;
+  initFetch: (...args: any) => Promise<any>;
 }
 
 const MonitorChartPanel = (props: IProps) => {
   // const params = routeInfoStore.useStore(s => s.params);
   const { resourceType } = props;
-  const [listMetric] = metricsMonitorStore.useStore(s => [s.listMetric]);
+  const [listMetric] = metricsMonitorStore.useStore((s) => [s.listMetric]);
   const { listMetricByResourceType: initFetch } = metricsMonitorStore.effects;
   const { clearListMetrics } = metricsMonitorStore.reducers;
   const [data, setData] = React.useState({});
@@ -47,12 +47,12 @@ const MonitorChartPanel = (props: IProps) => {
 
   React.useEffect(() => {
     const metrics = listMetric[resourceType] || {};
-    const list = Object.keys(metrics).map(key => ({ key, value: metrics[key] }));
+    const list = Object.keys(metrics).map((key) => ({ key, value: metrics[key] }));
     const lazyLoad = () => {
       if (list.length) {
         setTimeout(() => {
           const { key, value } = list.shift() || {};
-          key && setData(prevData => ({ ...prevData, [key]: value }));
+          key && setData((prevData) => ({ ...prevData, [key]: value }));
           lazyLoad();
         }, 200);
       }

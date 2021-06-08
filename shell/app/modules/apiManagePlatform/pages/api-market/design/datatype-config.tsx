@@ -26,12 +26,12 @@ interface IProps {
   formData: Obj;
   dataType: string;
   quotePathMap: {
-    [prop:string]: string[][]
+    [prop: string]: string[][];
   };
   dataTypeNameMap: string[];
-  isEditMode:boolean;
-  onQuoteNameChange: (e:any)=>void
-  onDataTypeNameChange: (e:any)=>void
+  isEditMode: boolean;
+  onQuoteNameChange: (e: any) => void;
+  onDataTypeNameChange: (e: any) => void;
 }
 
 export default (props: IProps) => {
@@ -42,7 +42,7 @@ export default (props: IProps) => {
   });
   const { formData, onQuoteNameChange, quotePathMap, isEditMode, dataType, onDataTypeNameChange, dataTypeNameMap } = props;
   const { updateOpenApiDoc, updateFormErrorNum } = apiDesignStore;
-  const [openApiDoc] = apiDesignStore.useStore(s => [s.openApiDoc]);
+  const [openApiDoc] = apiDesignStore.useStore((s) => [s.openApiDoc]);
 
   const openApiDocRef = useLatest(openApiDoc);
   const quotePathMapRef = useLatest(quotePathMap);
@@ -58,7 +58,7 @@ export default (props: IProps) => {
     const tempTypes = get(openApiDoc, 'components.schemas') || {};
     const types = {};
     const forbiddenTypes = get(tempTypes, [dataType, 'x-dice-forbidden-types']) || [dataType];
-    forEach(keys(tempTypes), typeName => {
+    forEach(keys(tempTypes), (typeName) => {
       if (!forbiddenTypes?.includes(typeName)) {
         types[typeName] = tempTypes[typeName];
       }
@@ -66,9 +66,9 @@ export default (props: IProps) => {
     return types;
   }, [dataType, openApiDoc]);
 
-  const getForbiddenTypes = React.useCallback((data:Obj, storage:string[]) => {
+  const getForbiddenTypes = React.useCallback((data: Obj, storage: string[]) => {
     if (data?.properties) {
-      forEach(values(data.properties), item => {
+      forEach(values(data.properties), (item) => {
         const refTypePath = get(item, [QUOTE_PREFIX, 0, '$ref']) || data[QUOTE_PREFIX_NO_EXTENDED];
         if (refTypePath) {
           const tempQuoteName = refTypePath.split('#/components/schemas/')[1];
@@ -94,11 +94,11 @@ export default (props: IProps) => {
   const onFormChange = React.useCallback((_formKey: string, _formData: any, extraProps?: Obj) => {
     const quotedType = extraProps?.quoteTypeName;
 
-    const nName:string = _formData[API_FORM_KEY];// 当前正在编辑的类型的新name
+    const nName: string = _formData[API_FORM_KEY];// 当前正在编辑的类型的新name
     const tempMap = {};
     const originalDataTypeMap = get(openApiDocRef.current, ['components', 'schemas']);
 
-    const usedCustomTypes:string[] = [];// 获取所有引用当前类型的其他类型
+    const usedCustomTypes: string[] = [];// 获取所有引用当前类型的其他类型
     const refTypePath = get(_formData, [QUOTE_PREFIX, 0, '$ref']) || _formData[QUOTE_PREFIX_NO_EXTENDED];
     if (refTypePath) {
       const tempQuoteName = refTypePath.split('#/components/schemas/')[1];
@@ -107,10 +107,10 @@ export default (props: IProps) => {
 
     getForbiddenTypes(_formData, usedCustomTypes);
 
-    forEach(keys(originalDataTypeMap), (typeKey:string) => {
+    forEach(keys(originalDataTypeMap), (typeKey: string) => {
       if (typeKey !== dataType) {
         const isSelfUsed = usedCustomTypes.includes(typeKey); // 是否引用了当前正在编辑的类型
-        const _originalForbiddenTypes = filter(get(originalDataTypeMap, [typeKey, 'x-dice-forbidden-types']) || [], item => item !== dataType);
+        const _originalForbiddenTypes = filter(get(originalDataTypeMap, [typeKey, 'x-dice-forbidden-types']) || [], (item) => item !== dataType);
 
         if (!_originalForbiddenTypes.includes(typeKey)) { // 每个类型禁止引用自己
           _originalForbiddenTypes.push(typeKey);
@@ -128,9 +128,9 @@ export default (props: IProps) => {
       }
     });
 
-    let originalForbiddenTypes:string[] = _formData['x-dice-forbidden-types'] || [dataType];
+    let originalForbiddenTypes: string[] = _formData['x-dice-forbidden-types'] || [dataType];
     if (dataType !== nName) {
-      originalForbiddenTypes = originalForbiddenTypes.filter(item => item !== dataType && originalDataTypeMap[item]);
+      originalForbiddenTypes = originalForbiddenTypes.filter((item) => item !== dataType && originalDataTypeMap[item]);
       originalForbiddenTypes.push(nName);
     }
     tempMap[nName] = {
@@ -141,20 +141,20 @@ export default (props: IProps) => {
     if (dataType !== nName) {
       onDataTypeNameChange(nName);
 
-      const newPathMap = produce(quotePathMapRef.current, draft => {
-        draft[nName] = filter(draft[dataType], itemPath => get(openApiDocRef.current, itemPath));
+      const newPathMap = produce(quotePathMapRef.current, (draft) => {
+        draft[nName] = filter(draft[dataType], (itemPath) => get(openApiDocRef.current, itemPath));
         unset(draft, dataType);
       });
 
       const newHref = _formData.type === 'object' ? [{ $ref: `#/components/schemas/${nName}` }] : `#/components/schemas/${nName}`;
       const quotePrefix = (_formData.type === 'object') ? QUOTE_PREFIX : QUOTE_PREFIX_NO_EXTENDED;
 
-      const _tempDocDetail = produce(openApiDocRef.current, draft => {
+      const _tempDocDetail = produce(openApiDocRef.current, (draft) => {
         set(draft, 'components.schemas', tempMap);
       });
 
-      const tempDocDetail = produce(_tempDocDetail, draft => {
-        forEach(quotePathMapRef.current[dataType], curTypeQuotePath => {
+      const tempDocDetail = produce(_tempDocDetail, (draft) => {
+        forEach(quotePathMapRef.current[dataType], (curTypeQuotePath) => {
           if (get(draft, [...curTypeQuotePath, QUOTE_PREFIX]) || get(draft, [...curTypeQuotePath, QUOTE_PREFIX_NO_EXTENDED])) {
             unset(draft, [...curTypeQuotePath, QUOTE_PREFIX]);
             unset(draft, [...curTypeQuotePath, QUOTE_PREFIX_NO_EXTENDED]);
@@ -171,17 +171,17 @@ export default (props: IProps) => {
         const isQuotedBefore = get(openApiDocRef.current, `${prefixPath}.${QUOTE_PREFIX}.0.$ref`) || get(openApiDocRef.current, `${prefixPath}.${QUOTE_PREFIX_NO_EXTENDED}`);
         const oldQuotedType = isQuotedBefore ? isQuotedBefore.split('/').slice(-1)[0] : '';
 
-        const newPathMap = produce(quotePathMapRef.current, draft => {
+        const newPathMap = produce(quotePathMapRef.current, (draft) => {
           draft[quotedType] = draft[quotedType] || [];
           draft[quotedType].push(prefixPath.split('.'));
           if (oldQuotedType) {
-            draft[oldQuotedType] = filter(draft[oldQuotedType], item => item.join('.') !== prefixPath);
+            draft[oldQuotedType] = filter(draft[oldQuotedType], (item) => item.join('.') !== prefixPath);
           }
         });
         onQuoteNameChange(newPathMap);
       }
 
-      const tempDocDetail = produce(openApiDocRef.current, draft => {
+      const tempDocDetail = produce(openApiDocRef.current, (draft) => {
         set(draft, 'components.schemas', tempMap);
       });
       updateOpenApiDoc(tempDocDetail);

@@ -34,7 +34,7 @@ declare namespace APPROVAL {
     extra: {
       ios: string;
       android: string;
-    }
+    };
   }
 
   interface IApprovalQuery {
@@ -44,8 +44,8 @@ declare namespace APPROVAL {
   }
 
   interface UpdateBody {
-    id: string
-    status: ApprovalStatus
+    id: string;
+    status: ApprovalStatus;
   }
 
 }

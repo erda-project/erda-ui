@@ -14,7 +14,7 @@
 import * as React from 'react';
 
 interface IProps {
-  onChange(): void
+  onChange: () => void;
 }
 
 export class ClassWrapper extends React.PureComponent<IProps> {

@@ -29,13 +29,13 @@ export const getCloudResourceTagsCol = (config?: Obj) => {
       if (!_val) {
         return null;
       }
-      const tags = Object.keys(_val).map(key => get(key.split('/'), 1, ''));
+      const tags = Object.keys(_val).map((key) => get(key.split('/'), 1, ''));
       const showCount = 3;
       const showMore = tags.length > showCount && tags.length > 15 * showCount;
       const oneAndMoreTag = (
         <React.Fragment>
           {
-            tags.slice(0, showCount).map(l => (
+            tags.slice(0, showCount).map((l) => (
               <span key={l} className="tag-default">
                 {cutStr(l, 15)}
               </span>
@@ -46,7 +46,7 @@ export const getCloudResourceTagsCol = (config?: Obj) => {
               ?
                 <span>...&nbsp;&nbsp;</span>
               :
-              tags.slice(showCount).map(l => (
+              tags.slice(showCount).map((l) => (
                 <span key={l} className="tag-default">
                   {cutStr(l, 15)}
                 </span>
@@ -54,7 +54,7 @@ export const getCloudResourceTagsCol = (config?: Obj) => {
           }
         </React.Fragment>
       );
-      const fullTags = (withCut?: boolean) => tags.map(l => (
+      const fullTags = (withCut?: boolean) => tags.map((l) => (
         <span className="tag-default" key={l}>
           {withCut ? cutStr(l, 15) : l}
         </span>
@@ -173,7 +173,7 @@ export const getCloudResourceRegionCol = (dataIndex = 'regionID', msg?: any) => 
     render: (value: string, record: any) => {
       let reMsg = msg;
       typeof msg === 'function' && (reMsg = msg(value, record));
-      const regionObj = regionData.find(item => item.regionID === value);
+      const regionObj = regionData.find((item) => item.regionID === value);
       const region = i18n.language === 'zh' ? regionObj?.localName : regionObj?.regionID;
       const val = reMsg || region;
       return (<Tooltip title={val}>{val}</Tooltip>);

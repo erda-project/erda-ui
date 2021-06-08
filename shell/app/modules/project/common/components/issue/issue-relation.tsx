@@ -33,8 +33,8 @@ import './issue-relation.scss';
 import IterationSelect from './iteration-select';
 
 interface IProps {
-  issue: ISSUE.IssueType
-  iterationID: number | undefined
+  issue: ISSUE.IssueType;
+  iterationID: number | undefined;
   issueType?: string;
   onRelationChange?: () => void;
 }
@@ -57,11 +57,11 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
   const [relatedList, setRelatedList] = React.useState([] as ISSUE.IssueType[]);
   const [activeButtonType, setActiveButtonType] = React.useState('');
 
-  const [{ projectId }, { type: routeIssueType }] = routeInfoStore.getState(s => [s.params, s.query]);
+  const [{ projectId }, { type: routeIssueType }] = routeInfoStore.getState((s) => [s.params, s.query]);
   const issueType = propsIssueType || routeIssueType;
   const defaultIssueType = initTypeMap[issueType];
   const { getIssueRelation, addIssueRelation, deleteIssueRelation } = issueStore.effects;
-  const issueDetail = issueStore.useStore(s => s[`${issueType.toLowerCase()}Detail`]);
+  const issueDetail = issueStore.useStore((s) => s[`${issueType.toLowerCase()}Detail`]);
 
   React.useEffect(() => {
     if (!ref.current) {
@@ -84,7 +84,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
   useMount(() => {
     getList();
   });
-  const authObj = usePerm(s => s.project.task);
+  const authObj = usePerm((s) => s.project.task);
 
   const updateRecord = (record: ISSUE.Task, key: string, val: any) => {
     issueStore.effects.updateIssue({ ...record, [key]: val }).finally(() => {
@@ -107,9 +107,9 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
           );
         return (
           <Tooltip title={`${v}`}>
-            <Link to={url} target='_blank' className='flex-box flex-start  full-width'>
+            <Link to={url} target="_blank" className="flex-box flex-start  full-width">
               <IssueIcon type={record.type as any} />
-              <span className='flex-1 nowrap'>{`${v}`}</span>
+              <span className="flex-1 nowrap">{`${v}`}</span>
             </Link>
           </Tooltip>
         );
@@ -120,8 +120,8 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
       dataIndex: 'state',
       width: 100,
       render: (v: number, record: any) => {
-        const currentState = find(record?.issueButton, item => item.stateID === v);
-        return currentState ? <div className='v-align'>{ISSUE_ICON.state[currentState.stateBelong]}{currentState.stateName}</div> : undefined;
+        const currentState = find(record?.issueButton, (item) => item.stateID === v);
+        return currentState ? <div className="v-align">{ISSUE_ICON.state[currentState.stateBelong]}{currentState.stateName}</div> : undefined;
       },
     },
     {
@@ -163,13 +163,13 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
   const action = {
     render: (record: ISSUE.IssueType) => {
       return [
-        <WithAuth pass={authObj.edit.pass} key='remove-relation'>
+        <WithAuth pass={authObj.edit.pass} key="remove-relation">
           <Popconfirm
             title={`${i18n.t('confirm remove relation?')}`}
             placement="bottom"
             onConfirm={() => onDelete(record)}
           >
-            <span className='fake-link'>{i18n.t('project:disassociate')}</span>
+            <span className="fake-link">{i18n.t('project:disassociate')}</span>
           </Popconfirm>
         </WithAuth>,
       ];
@@ -192,7 +192,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
   };
 
   return (
-    <div className='issue-relation'>
+    <div className="issue-relation">
       <div>
         {
           issue.type === ISSUE_TYPE.TICKET
@@ -203,7 +203,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
             : (
               <>
                 <div>
-                  <WithAuth pass={usePerm(s => s.project.requirement.create.pass)}>
+                  <WithAuth pass={usePerm((s) => s.project.requirement.create.pass)}>
                     <Button
                       type={activeButtonType === 'create' ? 'primary' : 'default'}
                       onClick={() => setActiveButtonType('create')}
@@ -215,7 +215,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
                     <Button
                       type={activeButtonType === 'exist' ? 'primary' : 'default'}
                       onClick={() => setActiveButtonType('exist')}
-                      className='ml12'
+                      className="ml12"
                     >
                       {i18n.t('project:relating to existing issues')}
                     </Button>
@@ -244,18 +244,18 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
             )
         }
       </div>
-      <Title level={2} className='my8' title={i18n.t('project:relating to these issues')} />
+      <Title level={2} className="my8" title={i18n.t('project:relating to these issues')} />
       <Table
-        tableKey='relation'
+        tableKey="relation"
         columns={columns}
         rowAction={action}
         dataSource={relatingList}
         pagination={false}
         rowKey={(rec: ISSUE.IssueType, i: number) => `${i}${rec.id}`}
       />
-      <Title level={2} className='mt16 mb8' title={i18n.t('project:related by these issues')} />
+      <Title level={2} className="mt16 mb8" title={i18n.t('project:related by these issues')} />
       <Table
-        tableKey='related'
+        tableKey="related"
         columns={columns}
         dataSource={relatedList}
         pagination={false}
@@ -268,11 +268,11 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
 interface IAddProps {
   editAuth: boolean;
   projectId: string;
-  currentIssue: ISSUE.IssueType,
+  currentIssue: ISSUE.IssueType;
   iterationID: number | undefined;
   defaultIssueType: IDefaultIssueType;
-  onSave(v: number): void;
-  onCancel(): void;
+  onSave: (v: number) => void;
+  onCancel: () => void;
 }
 
 const initState = {
@@ -336,7 +336,7 @@ const AddIssueRelation = ({ onSave, editAuth, projectId, iterationID, currentIss
         <IterationSelect
           value={chosenIterationID}
           placeholder={i18n.t('project:owing iteration')}
-          width='174px'
+          width="174px"
           onChange={(v: number) => {
             update({ chosenIterationID: v, chosenIssue: undefined });
           }}
@@ -356,7 +356,7 @@ const AddIssueRelation = ({ onSave, editAuth, projectId, iterationID, currentIss
       </div>
       <div className="flex-box">
         <Select
-          className='issue-list flex-1 mt12'
+          className="issue-list flex-1 mt12"
           onSelect={(v: any) => updater.chosenIssue(v)}
           showSearch
           value={chosenIssue}
@@ -367,12 +367,12 @@ const AddIssueRelation = ({ onSave, editAuth, projectId, iterationID, currentIss
           placeholder={i18n.t('please select {name}', { name: i18n.t('project:issue') })}
         >
           {
-            map(filter(issueList, item => item.id !== currentIssue.id), issue => {
+            map(filter(issueList, (item) => item.id !== currentIssue.id), (issue) => {
               return (
                 <Option key={issue.id} value={issue.id}>
-                  <div className='flex-box flex-start'>
+                  <div className="flex-box flex-start">
                     <IssueIcon type={issue.type} />
-                    <span className='nowrap'>{issue.title}</span>
+                    <span className="nowrap">{issue.title}</span>
                   </div>
                 </Option>
               );
@@ -404,17 +404,17 @@ const AddIssueRelation = ({ onSave, editAuth, projectId, iterationID, currentIss
 interface IAddNewIssueProps {
   iterationID: number | undefined;
   defaultIssueType: IDefaultIssueType;
-  onSaveRelation(v: number): void;
-  onCancel(): void;
+  onSaveRelation: (v: number) => void;
+  onCancel: () => void;
 }
 
 const AddNewIssue = ({ onSaveRelation, iterationID, onCancel, defaultIssueType }: IAddNewIssueProps) => {
   const { createIssue } = iterationStore.effects;
-  const { projectId } = routeInfoStore.getState(s => s.params);
+  const { projectId } = routeInfoStore.getState((s) => s.params);
 
   return (
     <IssueForm
-      key='add'
+      key="add"
       className="mt12"
       onCancel={onCancel}
       defaultIssueType={defaultIssueType}
@@ -426,7 +426,7 @@ const AddNewIssue = ({ onSaveRelation, iterationID, onCancel, defaultIssueType }
           ...val,
         }).then((res: number) => {
           onSaveRelation(res); // 添加关联
-        })
+        });
       }}
     />
   );

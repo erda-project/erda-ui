@@ -32,7 +32,7 @@ interface IMrStats {
 }
 
 export const renderErrorBlock = (mrStats: IMrStats, pipelineID?: string, result?: string) => {
-  const params = routeInfoStore.getState(s => s.params);
+  const params = routeInfoStore.getState((s) => s.params);
   const { errorMsg, hasConflict, hasError, isMerged } = mrStats;
   const hasErrorBlock = hasError || hasConflict || isMerged || pipelineID;
   if (!hasErrorBlock) {
@@ -46,7 +46,7 @@ export const renderErrorBlock = (mrStats: IMrStats, pipelineID?: string, result?
 
   const renderAlert = (
     msg: any,
-    type: 'success' | 'normal' | 'warning' | 'error' | undefined
+    type: 'success' | 'normal' | 'warning' | 'error' | undefined,
   ) => <Alert className="mb16" message={msg} type={type} showIcon />;
 
   const msgCheckrunTypeMap = {
@@ -84,7 +84,7 @@ export const renderErrorBlock = (mrStats: IMrStats, pipelineID?: string, result?
             {i18n.t('application:pipeline')}
           </span>
         </span>,
-        msgCheckrunTypeMap[resultType as string]
+        msgCheckrunTypeMap[resultType as string],
       )}
     </div>
   );
@@ -103,8 +103,8 @@ interface IProps {
   defaultTargetBranch?: string;
   defaultRemoveSourceBranch?: boolean;
   onCompare: Function | null;
-  onChange(obj: object, isBranchChange: boolean): void;
-  moveToDiff(): void;
+  onChange: (obj: object, isBranchChange: boolean) => void;
+  moveToDiff: () => void;
 }
 
 interface IState {
@@ -282,7 +282,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
 }
 
 export default (p: IProps) => {
-  const defaultBranch = repoStore.useStore(s => s.info.defaultBranch);
+  const defaultBranch = repoStore.useStore((s) => s.info.defaultBranch);
 
   return <SourceTargetSelect {...p} defaultBranch={defaultBranch} />;
 };

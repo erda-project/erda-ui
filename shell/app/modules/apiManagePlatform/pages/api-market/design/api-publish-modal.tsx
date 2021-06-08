@@ -25,7 +25,7 @@ import orgStore from 'app/org-home/stores/org';
 const VERSION_TIP = (
   <div>
     <div>{i18n.t('project:tips of publish api 1')}</div>
-    <div><a href='https://semver.org/lang/zh-CN/' target="_blank" rel="noopener noreferrer">https://semver.org/lang/zh-CN/</a></div>
+    <div><a href="https://semver.org/lang/zh-CN/" target="_blank" rel="noopener noreferrer">https://semver.org/lang/zh-CN/</a></div>
     <div>{i18n.t('project:tips of publish api 2')}</div>
   </div>
 );
@@ -33,19 +33,19 @@ const VERSION_TIP = (
 const idReg = /^([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$/;
 interface IProps {
   visible: boolean;
-  treeNodeData: API_SETTING.ITreeNodeData,
-  onSubmit: (values:any)=>void
-  onClose: ()=>void;
+  treeNodeData: API_SETTING.ITreeNodeData;
+  onSubmit: (values: any) => void;
+  onClose: () => void;
 }
-type FormRef = {props: {form: WrappedFormUtils}};
+interface FormRef {props: {form: WrappedFormUtils}}
 
 const ApiPublishModal = (props: IProps) => {
   const { visible, onClose, onSubmit, treeNodeData } = props;
   const formRef = React.useRef({}) as MutableRefObject<FormRef>;
-  const [openApiDoc] = apiDesignStore.useStore(s => [s.openApiDoc]);
+  const [openApiDoc] = apiDesignStore.useStore((s) => [s.openApiDoc]);
 
-  const { appId, projectId } = routeInfoStore.useStore(s => s.params);
-  const orgId = orgStore.getState(s => s.currentOrg.id);
+  const { appId, projectId } = routeInfoStore.useStore((s) => s.params);
+  const orgId = orgStore.getState((s) => s.currentOrg.id);
 
   const [{
     formData,
@@ -97,7 +97,7 @@ const ApiPublishModal = (props: IProps) => {
       }],
     },
     {
-      label: <span>{i18n.t('project:release version')}<Tooltip title={VERSION_TIP} ><CustomIcon type='tishi' /></Tooltip></span>,
+      label: <span>{i18n.t('project:release version')}<Tooltip title={VERSION_TIP} ><CustomIcon type="tishi" /></Tooltip></span>,
       type: 'input',
       name: 'version',
       required: false,
@@ -111,11 +111,11 @@ const ApiPublishModal = (props: IProps) => {
     },
   ];
 
-  const onPublishApi = (values:{assetName:string, assetID:string, version:string}) => {
+  const onPublishApi = (values: {assetName: string; assetID: string; version: string}) => {
     if (openApiDoc?.paths && !isEmpty(openApiDoc.paths)) {
       const { assetName, assetID, version } = values;
       const [major, minor, patch] = version?.split('.') || [];
-      const _versions:Obj = { inode: treeNodeData.inode, specProtocol: 'oas3-yaml' };
+      const _versions: Obj = { inode: treeNodeData.inode, specProtocol: 'oas3-yaml' };
       if (version) {
         _versions.major = +major;
         _versions.minor = +minor;

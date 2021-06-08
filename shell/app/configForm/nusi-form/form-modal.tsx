@@ -18,7 +18,7 @@ import i18n from 'i18n';
 import './form-modal.scss';
 
 export interface IProps {
-  width?: number
+  width?: number;
   name?: string;
   title?: string;
   fieldList: any[];
@@ -27,10 +27,10 @@ export interface IProps {
   formRef?: any;
   modalProps?: object;
   marginStyle?: 'normal' | 'tense';
-  onCancel?(): void;
-  onFailed?(res?: object, isEdit?: boolean): void;
-  onFieldsChange?(v: Obj): void
-  onOk?(result: object, isEdit: boolean): Promise<any> | void;
+  onCancel?: () => void;
+  onFailed?: (res?: object, isEdit?: boolean) => void;
+  onFieldsChange?: (v: Obj) => void;
+  onOk?: (result: object, isEdit: boolean) => Promise<any> | void;
 }
 
 export const isPromise = (obj: any) => {

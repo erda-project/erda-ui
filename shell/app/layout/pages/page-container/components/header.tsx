@@ -24,9 +24,9 @@ import { Right as IconRight } from '@icon-park/react';
 import './header.scss';
 
 const Header = () => {
-  const [headerInfo, currentApp] = layoutStore.useStore(s => [s.headerInfo, s.currentApp]);
-  const [query, routes] = routeInfoStore.useStore(s => [s.query, s.routes]);
-  const infoMap = breadcrumbStore.useStore(s => s.infoMap);
+  const [headerInfo, currentApp] = layoutStore.useStore((s) => [s.headerInfo, s.currentApp]);
+  const [query, routes] = routeInfoStore.useStore((s) => [s.query, s.routes]);
+  const infoMap = breadcrumbStore.useStore((s) => s.infoMap);
   const lastRoute = React.useRef(undefined as undefined | IRoute);
   const lastRouteName = React.useRef(undefined as undefined | string);
   const [pageName, setPageName] = React.useState('');
@@ -38,7 +38,7 @@ const Header = () => {
     document.title = pageName ? `${pageName} · Erda` : 'Erda';
   }, [pageName]);
 
-  const checkHasTemplate = ({ name, params }: { name: string, params: object }) => {
+  const checkHasTemplate = ({ name, params }: { name: string; params: object }) => {
     const replacePattern = /\{([\w.])+\}/g;
     let breadcrumbName = name;
     const matches = (breadcrumbName as string).match(replacePattern);

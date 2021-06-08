@@ -20,7 +20,7 @@ const { Option } = Select;
 
 interface IProps{
   clusterList: ORG_CLUSTER.ICluster[];
-  onChange(args: string): void;
+  onChange: (args: string) => void;
 }
 export const ClusterSelector = ({ clusterList, onChange }: IProps) => {
   const [selected, setSelected] = React.useState('');

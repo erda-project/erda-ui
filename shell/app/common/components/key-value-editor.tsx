@@ -22,10 +22,10 @@ import './key-value-editor.scss';
 
 const trim = (str: string) => str.replace(/^\s+|\s+$/g, '');
 const convertToTextData = (data: object) => Object.keys(data || {}).reduce(
-  (all, k) => `${all}${k}: ${data[k]}\n`, ''
+  (all, k) => `${all}${k}: ${data[k]}\n`, '',
 );
 export const convertTextToMapData = (value: string) => value.split('\n')
-  .filter(row => row.length > 0)
+  .filter((row) => row.length > 0)
   .reduce((obj, r) => {
     const [k, ...v] = r.split(':');
     if (v.length) {
@@ -62,15 +62,15 @@ interface IProps {
   disableDelete?: boolean;
   existKeys?: string[];
   form: WrappedFormUtils;
-  onChange?(data: object): void;
+  onChange?: (data: object) => void;
   title?: string | React.ReactNode;
   validateField?: {
     table: {
-      key(rule: any, value: any, callback:Function): void;
-      value(rule: any, value: any, callback:Function): void;
+      key: (rule: any, value: any, callback: Function) => void;
+      value: (rule: any, value: any, callback: Function) => void;
     };
-    text(rule: any, value: {k: string; v: string}, callback: Function): void
-  }
+    text: (rule: any, value: {k: string; v: string}, callback: Function) => void;
+  };
   maxLength?: number;
 }
 

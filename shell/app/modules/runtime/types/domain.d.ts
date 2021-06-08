@@ -13,37 +13,37 @@
 
 declare namespace RUNTIME_DOMAIN {
   interface Query {
-    runtimeId: string
-    domainType: string
+    runtimeId: string;
+    domainType: string;
   }
 
   interface Item {
     packageId: string;
     tenantGroup: string;
-    appName: string
-    domain: string
-    domainType: string
-    customDomain: string
-    rootDomain: string
-    useHttps: boolean
+    appName: string;
+    domain: string;
+    domainType: string;
+    customDomain: string;
+    rootDomain: string;
+    useHttps: boolean;
   }
 
   interface DomainMap {
-    [k: string]: Item[]
+    [k: string]: Item[];
   }
 
   interface UpdateDomainBody {
-    runtimeId: string
-    serviceName: string
-    domains: string[]
-    releaseId: string
+    runtimeId: string;
+    serviceName: string;
+    domains: string[];
+    releaseId: string;
   }
 
   interface UpdateK8SDomainBody {
-    runtimeId: string | number
-    serviceName: string
-    domains: string[]
-    releaseId: string
+    runtimeId: string | number;
+    serviceName: string;
+    domains: string[];
+    releaseId: string;
   }
 
 }

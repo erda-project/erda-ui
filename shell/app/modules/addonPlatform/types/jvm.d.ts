@@ -13,60 +13,60 @@
 
 declare namespace JVM {
   interface ServiceIns {
-    applicationId: string
-    applicationName: string
+    applicationId: string;
+    applicationName: string;
     services: Array<{
-      serviceId: string
-      serviceName: string
+      serviceId: string;
+      serviceName: string;
       instances: Array<{
-        instanceId: string
-        instanceName: string
-      }>
-    }>
+        instanceId: string;
+        instanceName: string;
+      }>;
+    }>;
   }
 
   type ProfileState = 'pending' | 'running' | 'completed' | 'failed' | 'terminating';
 
   interface ProfileListQuery {
-    insId: string
-    state: ProfileState
-    pageNo?: number
-    pageSize?: number
+    insId: string;
+    state: ProfileState;
+    pageNo?: number;
+    pageSize?: number;
   }
 
   interface ProfileItem {
-    profiling: string
+    profiling: string;
     state: {
-      state: ProfileState
-      message: string
-    },
-    message: string
-    applicationName: string
-    serviceName: string
-    serviceInstanceName: string
-    createTime: number,
-    finishTime: number // pending、running状态时为0
+      state: ProfileState;
+      message: string;
+    };
+    message: string;
+    applicationName: string;
+    serviceName: string;
+    serviceInstanceName: string;
+    createTime: number;
+    finishTime: number; // pending、running状态时为0
   }
 
   interface PendingProfile {
-    id: string
-    resource: string
-    state: string
-    message: string
-    createTime: number
-    finishTime: number
+    id: string;
+    resource: string;
+    state: string;
+    message: string;
+    createTime: number;
+    finishTime: number;
   }
 
   interface StartProfileBody {
-    insId: string
-    applicationId: string
-    serviceId: string
-    serviceInstanceId: string
+    insId: string;
+    applicationId: string;
+    serviceId: string;
+    serviceInstanceId: string;
   }
 
   interface ProfileStatusQuery {
-    insId: string
-    profileId: string
+    insId: string;
+    profileId: string;
   }
 
   interface JVMInfoQuery extends ProfileStatusQuery {

@@ -64,22 +64,22 @@ export const FormRadio = ({
 
   const renderOptions = () => {
     if (typeof options === 'function') {
-      return options()
+      return options();
     }
 
     if (isEmpty(options)) {
-      return <div>请补充备选数据</div>
+      return <div>请补充备选数据</div>;
     }
 
     if (displayDesc) {
       return map(options, (item: any) => (
-        <div className='form-item-radio'>
+        <div className="form-item-radio">
           <RadioItem key={item.value} value={item.value}>
             {item.name}
-            <div className='form-item-desc'>{item.desc}</div>
+            <div className="form-item-desc">{item.desc}</div>
           </RadioItem>
         </div>
-      ))
+      ));
     }
 
     return (
@@ -88,8 +88,8 @@ export const FormRadio = ({
           {item.name}
         </RadioItem>
       ))
-    )
-  }
+    );
+  };
 
   return (
     <FormItem
@@ -117,7 +117,7 @@ export const FormRadio = ({
 export const config = {
   name: 'radio',
   Component: FormRadio, // 某React组件，props中必须有value、onChange
-  requiredCheck: value => {
+  requiredCheck: (value) => {
     // 必填校验时，特殊的校验规则
     return [value !== undefined && value !== '', i18n.t('can not be empty')];
   },

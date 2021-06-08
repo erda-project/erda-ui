@@ -24,9 +24,9 @@ import {
 } from '../services/addon';
 
 interface IState {
-  addonList: ADDON.Instance[],
-  addonReferences: ADDON.Reference[],
-  addonDetail: ADDON.Instance,
+  addonList: ADDON.Instance[];
+  addonReferences: ADDON.Reference[];
+  addonDetail: ADDON.Instance;
 }
 
 const initState: IState = {
@@ -42,10 +42,10 @@ const addon = createFlatStore({
   state: initState,
   effects: {
     async getAddonList({ call, update }) {
-      const routes = routeInfoStore.getState(s => s.routes);
+      const routes = routeInfoStore.getState((s) => s.routes);
       const [rootRoute] = routes.slice(-2, routes.length - 1);
       const { path } = rootRoute;
-      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const orgId = orgStore.getState((s) => s.currentOrg.id);
       const addonList = await call(getAddonList, { path, orgId });
       update({ addonList });
     },

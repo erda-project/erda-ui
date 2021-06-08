@@ -27,8 +27,8 @@ import { PAGINATION } from 'app/constants';
 const { Option } = Select;
 
 interface IProps {
-  importApiParams: {apis: any[], routePrefix: string, diceApp?: string, diceService?: string};
-  updateImportParams({ apis, routePrefix, diceApp, diceService }: {apis?: any[], routePrefix?: string, diceApp?: string, diceService?: string}): void;
+  importApiParams: {apis: any[]; routePrefix: string; diceApp?: string; diceService?: string};
+  updateImportParams: ({ apis, routePrefix, diceApp, diceService }: {apis?: any[]; routePrefix?: string; diceApp?: string; diceService?: string}) => void;
 }
 
 const apiColumns = [
@@ -56,7 +56,7 @@ const apiColumns = [
 export const ApiImport = ({ updateImportParams, importApiParams }: IProps) => {
   const [filter, setFilter] = React.useState({} as any);
   const { method, apiPath } = filter;
-  const [importableApis] = gatewayStore.useStore(s => [s.importableApis]);
+  const [importableApis] = gatewayStore.useStore((s) => [s.importableApis]);
   const { getImportableApiList } = gatewayStore.effects;
   const { clearImportableApis } = gatewayStore.reducers;
   // const isFetching = loadingStore.useSpace(gatewayStore).getImportableApiList
@@ -64,7 +64,7 @@ export const ApiImport = ({ updateImportParams, importApiParams }: IProps) => {
   const { apis: selectedApis, routePrefix, diceApp, diceService } = importApiParams; // 已经被导入的api
 
   React.useEffect(() => {
-    !isEmpty(importableApis) && diceApp && diceService && updateImportParams({ apis: originApis.filter(api => api.selected).map(api => api.apiId), routePrefix: originPrefix });
+    !isEmpty(importableApis) && diceApp && diceService && updateImportParams({ apis: originApis.filter((api) => api.selected).map((api) => api.apiId), routePrefix: originPrefix });
   }, [diceApp, diceService, importableApis, originApis, originPrefix, updateImportParams]);
 
   useUnmount(() => {
@@ -105,14 +105,14 @@ export const ApiImport = ({ updateImportParams, importApiParams }: IProps) => {
         key: 'all-data',
         text: i18n.t('microService:select all apis'),
         onSelect: () => {
-          updateImportParams({ apis: originApis.map(api => api.apiId) });
+          updateImportParams({ apis: originApis.map((api) => api.apiId) });
         },
       },
       {
         key: 'invert-all-data',
         text: i18n.t('microService:inverse selection of all apis'),
         onSelect: () => {
-          updateImportParams({ apis: originApis.filter(api => api.selected).map(api => api.apiId) });
+          updateImportParams({ apis: originApis.filter((api) => api.selected).map((api) => api.apiId) });
         },
       },
     ],
@@ -124,7 +124,7 @@ export const ApiImport = ({ updateImportParams, importApiParams }: IProps) => {
         <div>
           <AppServiceFilter updateField={updateAppService} dataSource={pick(importApiParams, ['diceApp', 'diceService'])} />
           <Select placeholder={i18n.t('microService:method')} value={method} onChange={(value: string) => setFilter({ ...filter, method: value })} className="filter-select mr16">
-            {HTTP_METHODS.map(({ name, value }: {name: string, value: string}) => <Option key={value} value={value}>{name}</Option>)}
+            {HTTP_METHODS.map(({ name, value }: {name: string; value: string}) => <Option key={value} value={value}>{name}</Option>)}
           </Select>
           <Input placeholder={i18n.t('microService:search api')} value={apiPath} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setFilter({ ...filter, apiPath: event.target.value })} className="filter-input" />
         </div>

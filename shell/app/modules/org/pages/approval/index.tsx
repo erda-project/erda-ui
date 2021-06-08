@@ -60,9 +60,9 @@ enum statusMap {
 }
 
 const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
-  const userMap = userMapStore.useStore(s => s);
+  const userMap = userMapStore.useStore((s) => s);
   const [loading] = useLoading(approvalStore, ['getApprovalList']);
-  const [list, paging] = approvalStore.useStore(s => {
+  const [list, paging] = approvalStore.useStore((s) => {
     return type === 'done'
       ? [s.doneList, s.donePaging]
       : [s.undoneList, s.undonePaging];
@@ -71,7 +71,7 @@ const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
   const { clearApprovalList } = approvalStore.reducers;
   const [{ status, chosenDetail }, updater] = useUpdate({
     status: undefined as string | undefined,
-    chosenDetail: {} as {type: string, iosInfo: any; androidInfo: any},
+    chosenDetail: {} as {type: string; iosInfo: any; androidInfo: any},
   });
 
   const getColumns = ({ reloadList }: { reloadList: () => void }) => {
@@ -231,7 +231,7 @@ const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
 };
 
 const Approval = () => {
-  const type = routeInfoStore.getState(s => s.params.approvalType) as APPROVAL.ApprovalType;
+  const type = routeInfoStore.getState((s) => s.params.approvalType) as APPROVAL.ApprovalType;
   return type ? <PureApproval type={type} key={type} /> : null;
 };
 

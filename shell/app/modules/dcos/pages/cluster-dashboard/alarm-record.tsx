@@ -27,9 +27,9 @@ import { IssueState } from 'project/common/components/issue/issue-state';
 import { AlarmState } from 'dataCenter/common/alarm-state';
 
 export default ({ clusters }: { clusters: any }) => {
-  const [recordList, paging, alarmAttrs] = alarmRecordStore.useStore(s => [s.recordList, s.recordListPaging, s.alarmAttrs]);
+  const [recordList, paging, alarmAttrs] = alarmRecordStore.useStore((s) => [s.recordList, s.recordListPaging, s.alarmAttrs]);
   const { getMachineAlarmRecordList, getAlarmAttrs } = alarmRecordStore;
-  const userMap = userMapStore.useStore(s => s);
+  const userMap = userMapStore.useStore((s) => s);
 
   const [loading] = useLoading(alarmRecordStore, ['getMachineAlarmRecordList']);
 
@@ -57,7 +57,7 @@ export default ({ clusters }: { clusters: any }) => {
       title: i18n.t('org:alarm status'),
       dataIndex: 'alertState',
       width: 150,
-      render: alertState => <AlarmState state={alertState} />,
+      render: (alertState) => <AlarmState state={alertState} />,
     },
     {
       title: i18n.t('org:alarm type'),
@@ -68,19 +68,19 @@ export default ({ clusters }: { clusters: any }) => {
       title: i18n.t('org:alarm time'),
       dataIndex: 'alertTime',
       width: 200,
-      render: alertTime => moment(alertTime).format('YYYY-MM-DD HH:mm:ss'),
+      render: (alertTime) => moment(alertTime).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: i18n.t('org:handle status'),
       dataIndex: 'handleState',
       width: 150,
-      render: handleState => (handleState ? <IssueState state={handleState} /> : '--'),
+      render: (handleState) => (handleState ? <IssueState state={handleState} /> : '--'),
     },
     {
       title: i18n.t('org:handle people'),
       dataIndex: 'handlerId',
       width: 150,
-      render: handlerId => {
+      render: (handlerId) => {
         const userInfo = userMap[handlerId];
         if (!userInfo) return '--';
         const { nick, name } = userInfo;
@@ -91,7 +91,7 @@ export default ({ clusters }: { clusters: any }) => {
       title: i18n.t('org:handle time'),
       dataIndex: 'handleTime',
       width: 200,
-      render: handleTime => (handleTime ? moment(handleTime).format('YYYY-MM-DD HH:mm:ss') : '--'),
+      render: (handleTime) => (handleTime ? moment(handleTime).format('YYYY-MM-DD HH:mm:ss') : '--'),
     },
   ];
 

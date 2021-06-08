@@ -19,7 +19,7 @@ const CommonDashboardStore = createFlatStore({
   name: 'commonDashboard',
   state: {},
   effects: {
-    async getCustomDashboard({ call }, payload: { id: string; isSystem?: boolean; }) {
+    async getCustomDashboard({ call }, payload: { id: string; isSystem?: boolean }) {
       const customDashboard = await call(getCustomDashboard, payload);
       return customDashboard?.viewConfig;
     },

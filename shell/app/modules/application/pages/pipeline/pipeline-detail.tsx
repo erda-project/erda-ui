@@ -32,7 +32,7 @@ import i18n from 'i18n';
 
 interface IProps{
   nodeId?: string;
-  addDrawerProps?: Obj
+  addDrawerProps?: Obj;
   scopeParams: {scope: string; scopeID: string};
   scope: string;
 }
@@ -42,23 +42,23 @@ const envBlockKeyMap = {
   TEST: 'blockTest',
   PROD: 'blockProd',
   STAGE: 'blockStage',
-}
+};
 
 const PipelineDetail = (props: IProps) => {
   const { nodeId: propsNodeId, addDrawerProps = {}, scope, ...rest } = props || {};
-  const [caseDetail] = fileTreeStore.useStore(s => [s.curNodeDetail]);
-  const [params, query] = routeInfoStore.useStore(s => [s.params, s.query]);
-  const orgBlockoutConfig = orgStore.useStore(s => s.currentOrg.blockoutConfig);
+  const [caseDetail] = fileTreeStore.useStore((s) => [s.curNodeDetail]);
+  const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const orgBlockoutConfig = orgStore.useStore((s) => s.currentOrg.blockoutConfig);
   const nodeId = propsNodeId || query.nodeId;
   const { branch, path, env } = getBranchPath(caseDetail, params.appId);
   const { addPipeline } = buildStore.effects;
   const { clearExecuteRecords } = buildStore.reducers;
-  const [deployPerm, branchAuthObj] = usePerm(s => [s.app.runtime, s.app.repo.branch]);
-  const [branchInfo, appBlockStatus] = appStore.useStore(s => [s.branchInfo, s.detail?.blockStatus]);
+  const [deployPerm, branchAuthObj] = usePerm((s) => [s.app.runtime, s.app.repo.branch]);
+  const [branchInfo, appBlockStatus] = appStore.useStore((s) => [s.branchInfo, s.detail?.blockStatus]);
 
   const envBlocked = get(orgBlockoutConfig, envBlockKeyMap[env], false);
-  
-  
+
+
   const [{ activeKey, runKey, canRunTest }, updater, update] = useUpdate({
     activeKey: 'configDetail',
     runKey: 1,
@@ -70,13 +70,13 @@ const PipelineDetail = (props: IProps) => {
   });
 
   const getDeployAuth = () => { // depoloy auth, same to deploy center
-    if( envBlocked && appBlockStatus !== 'unblocked'){ // network blocked
+    if (envBlocked && appBlockStatus !== 'unblocked') { // network blocked
       return {
         hasAuth: false,
         authTip: i18n.t('application:cannot deploy tips'),
-      }
-    } 
-    if(!deployPerm[`${env.toLowerCase()}DeployOperation`]){// no auth
+      };
+    }
+    if (!deployPerm[`${env.toLowerCase()}DeployOperation`]) { // no auth
       return { hasAuth: false };
     }
 
@@ -91,11 +91,11 @@ const PipelineDetail = (props: IProps) => {
       }
     }
     const hasUseableYml = ymlObj?.stages && !isEmpty(ymlObj?.stages);
-    if(!hasUseableYml) {
+    if (!hasUseableYml) {
       return {
         hasAuth: false,
         authTip: i18n.t('project:please add valid tasks to the pipeline below before operating'),
-      }
+      };
     }
     return { hasAuth: true };
   };
@@ -105,7 +105,7 @@ const PipelineDetail = (props: IProps) => {
     const branchAuth = isProtectBranch ? branchAuthObj.writeProtected.pass : branchAuthObj.writeNormal.pass;
     const authTip = isProtectBranch ? i18n.t('application:branch is protected, you have no permission yet') : undefined;
     return { hasAuth: branchAuth, authTip };
-  }
+  };
 
   // deploy auth not same as edit auth
   const deployAuthObj = getDeployAuth();
@@ -136,8 +136,8 @@ const PipelineDetail = (props: IProps) => {
       <Tabs
         tabBarExtraContent={
           canRunTest ? (
-            <WithAuth 
-              pass={deployAuthObj.hasAuth} 
+            <WithAuth
+              pass={deployAuthObj.hasAuth}
               noAuthTip={deployAuthObj.authTip}
             >
               <Button type="primary" onClick={addNewPipeline}>{i18n.t('application:add pipeline')}</Button>
@@ -150,7 +150,7 @@ const PipelineDetail = (props: IProps) => {
         }
         onChange={(aKey: string) => updater.activeKey(aKey)}
         activeKey={activeKey}
-        renderTabBar={(p: any, DefaultTabBar) => <DefaultTabBar {...p} onKeyDown={(e:any) => e} />}
+        renderTabBar={(p: any, DefaultTabBar) => <DefaultTabBar {...p} onKeyDown={(e: any) => e} />}
       >
         <Tabs.TabPane tab={i18n.t('configuration information')} key={'configDetail'}>
           <PipelineConfigDetail {...rest} onCaseChange={onCaseChange} scope={scope} nodeId={nodeId} addDrawerProps={addDrawerProps} editAuth={editAuthObj} />

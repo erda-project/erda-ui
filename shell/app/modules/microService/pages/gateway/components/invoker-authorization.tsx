@@ -32,15 +32,15 @@ interface IProps {
   needAuthApiList: GATEWAY.ApiListItem[];
   needAuthApiPaging: IPaging;
   consumerList: GATEWAY.IConsumer[];
-  trafficControlPolicy: { policyList: GATEWAY.PolicyListItem[]; };
+  trafficControlPolicy: { policyList: GATEWAY.PolicyListItem[] };
   authData: {
     keyAuth: {
       authTips: string;
       authData: GATEWAY.IAuthData_data[];
-    }
+    };
     oAuth: {
       authData: GATEWAY.IAuthData_data[];
-    }
+    };
   };
   authConsumer: Record<string, any>;
   isFetching: boolean;
@@ -280,12 +280,12 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
                 className="option-select"
                 style={{ width: '120px' }}
                 defaultValue={policyId}
-                onChange={value => this.handlePolicyChange(record, value as string)}
+                onChange={(value) => this.handlePolicyChange(record, value as string)}
               >
                 {
                   this.policyList
                     ?
-                    this.policyList.map((option: { policyId: string; displayName: string; }) => (
+                    this.policyList.map((option: { policyId: string; displayName: string }) => (
                       <Option key={option.policyId} value={option.policyId}>{option.displayName}</Option>
                     ))
                     :
@@ -337,13 +337,13 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
 
   getAuthedApi = (consumerName: string) => {
     const { apiList: { result }, consumerList } = this.props;
-    const consumer = consumerList.find(user => user.consumerName === consumerName);
+    const consumer = consumerList.find((user) => user.consumerName === consumerName);
     if (!consumer || !consumer.consumerApiInfos) {
       this.setState({ authedApiDataSource: [] });
       return;
     }
     const selected = consumer.consumerApiInfos
-      .filter(apiInfo => result.some((api: { apiId: any; }) => api.apiId === apiInfo.apiId))
+      .filter((apiInfo) => result.some((api: { apiId: any }) => api.apiId === apiInfo.apiId))
       .map((x) => { return { ...x, path: x.apiPath }; });
     this.setState({ authedApiDataSource: selected });
   };
@@ -396,7 +396,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
   handleAddAuthedApi = ({ apiId }: any) => {
     const { authedApiDataSource, selectedConsumerId } = this.state;
     const authedApis = authedApiDataSource
-      .map(item => item.apiId)
+      .map((item) => item.apiId)
       .concat(apiId);
     const param = {
       consumerId: selectedConsumerId,
@@ -412,8 +412,8 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
       onOk: () => {
         const { authedApiDataSource, selectedConsumerId } = this.state;
         const authedApis = authedApiDataSource
-          .map(item => item.apiId)
-          .filter(item => item !== apiId);
+          .map((item) => item.apiId)
+          .filter((item) => item !== apiId);
         const param = {
           consumerId: selectedConsumerId,
           apiList: authedApis,

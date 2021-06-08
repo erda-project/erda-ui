@@ -20,9 +20,9 @@ import apiMonitorFilterStore from '../../stores/filter';
 import gatewayStore from 'microService/stores/gateway';
 
 const APIRequest = () => {
-  const { clusterName } = gatewayStore.useStore(s => s.consumer);
-  const { projectId, env } = routeInfoStore.useStore(s => s.params);
-  const searchFields = apiMonitorFilterStore.useStore(s => s.searchFields);
+  const { clusterName } = gatewayStore.useStore((s) => s.consumer);
+  const { projectId, env } = routeInfoStore.useStore((s) => s.params);
+  const searchFields = apiMonitorFilterStore.useStore((s) => s.searchFields);
   const { resetSearchFields } = apiMonitorFilterStore.reducers;
   const { getSearchFields } = apiMonitorFilterStore.effects;
   const filter_dpid = projectId;

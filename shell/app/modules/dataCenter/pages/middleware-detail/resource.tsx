@@ -21,8 +21,8 @@ import { PureResourceList } from 'dataCenter/common/addon-detail/resource';
 
 
 const Resource = () => {
-  const resourceList = middlewareDashboardStore.useStore(s => s.resourceList);
-  const { params } = routeInfoStore.getState(s => s);
+  const resourceList = middlewareDashboardStore.useStore((s) => s.resourceList);
+  const { params } = routeInfoStore.getState((s) => s);
   const [loading] = useLoading(routeInfoStore, ['getResourceList']);
   const [renderOp, drawerComp] = useInstanceOperation<MIDDLEWARE_DASHBOARD.IResource>({
     log: true,

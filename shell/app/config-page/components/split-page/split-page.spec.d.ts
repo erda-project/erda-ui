@@ -13,7 +13,7 @@
 
 declare namespace CP_SPLIT_PAGE {
   interface Spec {
-    type: 'SplitPage'
+    type: 'SplitPage';
   }
 
   type Props = MakeProps<Spec> & {

@@ -129,20 +129,20 @@ const dataHandler = {
       }
       nodeMap[id] = setTopologyExternal(
         item,
-        { deepth: idx + 1, x, y, uniqName: id } as any
+        { deepth: idx + 1, x, y, uniqName: id } as any,
       );
     });
     return { boxWidth, boxHeight, nodeMap, groupBox };
   },
   // 获取n个独立的数据组Map
-  getGroupChart: (groupMap: any, subGroupNodes:any): any => {
+  getGroupChart: (groupMap: any, subGroupNodes: any): any => {
     if (isEmpty(groupMap)) return {};
     const allGroupMap = {};
     const { padding, boxMargin } = chartConfig;
     const addonLevelSortMap = { addon: 1, ability: 2 };
     // 获取subGroup的深度map：service层级
     const subGroupDeepth = dataHandler.getParentsGroupDeepth(subGroupNodes);
-    const allList: any[] = map(flatten(map(groupMap)), l => {
+    const allList: any[] = map(flatten(map(groupMap)), (l) => {
       const sExternal = l[externalKey] || {};
       const subGroupLevel = get(subGroupDeepth, `${sExternal.subGroup}.${externalKey}.deepth`, 1);
       return { ...l, [externalKey]: { ...sExternal, subGroupLevel } };
@@ -151,7 +151,7 @@ const dataHandler = {
     const newGroupList = sortBy(groupMap, `dataList[0].${externalKey}.groupLevel`);
     map(newGroupList, (list) => {
       // 设置节点的subGroupLevel
-      const reList = map(list, l => {
+      const reList = map(list, (l) => {
         const sExternal = l[externalKey] || {};
         const subGroupLevel = get(subGroupDeepth, `${sExternal.subGroup}.${externalKey}.deepth`, 1);
         return { ...l, [externalKey]: { ...sExternal, subGroupLevel } };
@@ -195,7 +195,7 @@ const dataHandler = {
         curWidth = maxBy(widthList);
         curHeight = sum(heightList) + (subLen) * (padding.y + boxMargin.y * 2) - padding.y;
       } else if (groupKey === 'service') {
-        map(deepthSizeMap, item => {
+        map(deepthSizeMap, (item) => {
           const w = get(maxBy(item), 'boxWidth');
           const h = sumBy(item, 'boxHeight') + item.length * boxMargin.y * 2 + (item.length - 1) * padding.y;
           curWidth += w + boxMargin.y * 2;
@@ -211,17 +211,17 @@ const dataHandler = {
     });
     return dataHandler.resetChartPostion(allGroupMap, allList);
   },
-  resetChartPostion: (chartMap: any, allList:any) => {
+  resetChartPostion: (chartMap: any, allList: any) => {
     const { padding, boxMargin, NODE: { margin } } = chartConfig;
     const newGroupList = sortBy(chartMap, `dataList[0].${externalKey}.groupLevel`);
     const reNodeMap = {};
-    const reLinks:any[] = [];
+    const reLinks: any[] = [];
     let totalWidth = padding.x;
     const totalHeight = get(maxBy(newGroupList, 'boxHeight'), 'boxHeight') + padding.y * 2 + boxMargin.y * 2;
     const groupBox = {};
-    const setNodeLink = (dataItem:any, xDistance:number, yDistance:number) => {
+    const setNodeLink = (dataItem: any, xDistance: number, yDistance: number) => {
       const { nodeMap, links, linkTopDistance = 0 } = dataItem;
-      map(nodeMap, (nodeItem:any, key:string) => {
+      map(nodeMap, (nodeItem: any, key: string) => {
         const externalProps = nodeItem[externalKey];
         reNodeMap[key] = {
           ...nodeItem,
@@ -230,13 +230,13 @@ const dataHandler = {
           },
         };
       });
-      map(links, (link:any) => {
+      map(links, (link: any) => {
         const externalLink = link[externalKey];
         reLinks.push({
           ...link,
           [externalKey]: {
             ...externalLink,
-            posArr: map(externalLink.posArr, (pos:number, idx:number) => {
+            posArr: map(externalLink.posArr, (pos: number, idx: number) => {
               return pos + (idx % 2 === 0 ? xDistance : (yDistance + linkTopDistance));
             }),
           },
@@ -244,7 +244,7 @@ const dataHandler = {
       });
     };
 
-    map(newGroupList, (group:any) => {
+    map(newGroupList, (group: any) => {
       const { boxHeight, boxWidth, children } = group;
       const groupKey = get(group, `dataList[0].${externalKey}.group`);
       if (groupKey !== 'addon') {
@@ -259,17 +259,17 @@ const dataHandler = {
           let widthDis = totalWidth + boxMargin.x + padding.y;
           totalWidth += padding.x;
           const subDeepGroup = sortBy(groupBy(children, `dataList[0].${externalKey}.subGroupLevel`), `dataList[0].${externalKey}.subGroupLevel`);
-          map(subDeepGroup, curDeep => {
+          map(subDeepGroup, (curDeep) => {
             let curDeepHeight = 0;
             const curDeepTotalHeight = sumBy(curDeep, 'boxHeight') + curDeep.length * (boxMargin.y * 2 + padding.y) - padding.y;
             const curDeepTotalWidth = get(maxBy(curDeep, 'boxWidth'), 'boxWidth');
             const subHeightDis = (boxHeight - curDeepTotalHeight) / 2;
-            map(curDeep, (subGroup:any) => {
+            map(curDeep, (subGroup: any) => {
               const { boxHeight: subHeight, boxWidth: subWidth, children: subChildren } = subGroup;
               const subGroupKey = get(subGroup, `dataList[0].${externalKey}.subGroup`);
               const xDis = widthDis;
               let yDis = heightDis + subHeightDis + curDeepHeight + padding.y;
-              map(subChildren, (item:any) => {
+              map(subChildren, (item: any) => {
                 const { boxHeight: chartHeight } = item;
                 setNodeLink(item, xDis, yDis);
                 yDis += chartHeight + padding.y;
@@ -287,13 +287,13 @@ const dataHandler = {
           });
         } else {
           let widthDis = totalWidth + boxMargin.x;
-          map(children, (subGroup:any) => {
+          map(children, (subGroup: any) => {
             const { boxHeight: subHeight, boxWidth: subWidth, children: subChildren } = subGroup;
             const subHeightDis = (boxHeight - subHeight) / 2;
             const xDis = widthDis;
             let yDis = heightDis + subHeightDis;
 
-            map(subChildren, (item:any) => {
+            map(subChildren, (item: any) => {
               const { boxHeight: chartHeight } = item;
               setNodeLink(item, xDis, yDis);
               yDis += chartHeight + padding.y;
@@ -308,7 +308,7 @@ const dataHandler = {
         const addonList = map(children);
         const addonTotalHeight = sumBy(addonList, 'boxHeight') + addonList.length * (padding.y + boxMargin.y * 2) - padding.y;
         const heightDis = (totalHeight - addonTotalHeight) / 2;
-        map(sortBy(children, 'addonLevel'), (subGroup:any, idx:number) => {
+        map(sortBy(children, 'addonLevel'), (subGroup: any, idx: number) => {
           const { boxHeight: subHeight, boxWidth: subWidth, children: subChildren } = subGroup;
           const subGroupKey = get(subGroup, `dataList[0].${externalKey}.subGroup`);
           const xDis = widthDis;
@@ -323,7 +323,7 @@ const dataHandler = {
             endX: totalWidth + subWidth + boxMargin.x * 2,
             endY: yDis + subHeight + boxMargin.y,
           };
-          map(subChildren, (item:any) => {
+          map(subChildren, (item: any) => {
             const { boxHeight: chartHeight } = item;
             setNodeLink(item, xDis, yDis);
             yDis += chartHeight + margin.y;
@@ -336,10 +336,10 @@ const dataHandler = {
     // return { boxWidth: totalWidth, boxHeight: totalHeight, nodeMap: reNodeMap, links: reLinks, groupBox };
     return dataHandler.getAcrossGroupLink({ boxWidth: totalWidth, boxHeight: totalHeight, nodeMap: reNodeMap, links: reLinks, groupBox }, allList);
   },
-  getAcrossGroupLink: ({ boxWidth, boxHeight, nodeMap, links, groupBox }:any, allList:any) => {
+  getAcrossGroupLink: ({ boxWidth, boxHeight, nodeMap, links, groupBox }: any, allList: any) => {
     const totalDeepGroup = groupBy(map(nodeMap), `${externalKey}.x`);
-    map(sortBy(map(totalDeepGroup), `${externalKey}.x`), (nodeList:any[], idx:number) => {
-      map(nodeList, node => {
+    map(sortBy(map(totalDeepGroup), `${externalKey}.x`), (nodeList: any[], idx: number) => {
+      map(nodeList, (node) => {
         set(nodeMap[node.id], `${externalKey}.deepth`, idx + 1);
       });
     });
@@ -372,13 +372,13 @@ const dataHandler = {
       boxWidth,
       boxHeight: boxHeight + linkTopDistance + linkDownDistance,
       nodeMap: reNodeMap,
-      links: map([...links, ...crossLink], item => {
+      links: map([...links, ...crossLink], (item) => {
         const curExternal = item[externalKey] || {};
         return {
           ...item,
           [externalKey]: {
             ...curExternal,
-            posArr: map(curExternal.posArr, (p, idx:number) => {
+            posArr: map(curExternal.posArr, (p, idx: number) => {
               return (idx % 2 === 1 ? p + linkTopDistance : p);
             }),
           } };
@@ -386,22 +386,22 @@ const dataHandler = {
       groupBox: reGroupBox,
     };
   },
-  getSingleChart: (list:TOPOLOGY.INode[], allList:TOPOLOGY.INode[]) => {
+  getSingleChart: (list: TOPOLOGY.INode[], allList: TOPOLOGY.INode[]) => {
     const formatData = dataHandler.getNodesFormat(list);
     const nodeDeepthList = dataHandler.getGroupNodesDeepth(formatData);
     const chartArr = [] as any[];
     if (!isEmpty(nodeDeepthList)) {
       nodeDeepthList.forEach((g: any) => {
         const { nodeList, deepMap } = g || {};
-        const curNodeIds = map(nodeList, item => item.id);
+        const curNodeIds = map(nodeList, (item) => item.id);
         let curNodeMap = {};
         map(
-          filter(allList, item => curNodeIds.includes(item.id)),
+          filter(allList, (item) => curNodeIds.includes(item.id)),
           (item) => {
             curNodeMap[item.id] = item;
             // 作为节点的唯一ID
             set(curNodeMap[item.id], `${externalKey}.uniqName`, `node-${item.id}`);
-          }
+          },
         );
         curNodeMap = merge(curNodeMap, deepMap); // 合并节点层级属性
         const {
@@ -476,7 +476,7 @@ const dataHandler = {
   },
   // 获取节点组层级
   getGroupNodesDeepth: (nodeList: TOPOLOGY.INode[]): any => {
-    const nodeIds = uniq(map(nodeList, i => i.id));
+    const nodeIds = uniq(map(nodeList, (i) => i.id));
     const getTreeNodeList = (treeNodes: string[]) => {
       return filter(nodeList, (n: TOPOLOGY.INode) => treeNodes.includes(n.id));
     };
@@ -578,9 +578,9 @@ const dataHandler = {
             }
             return res;
           }, {}),
-          o => o
+          (o) => o,
         ),
-        l => -l.length
+        (l) => -l.length,
       );
     }
     // 最终得到的startNodes及对应的节点list
@@ -709,7 +709,7 @@ const dataHandler = {
           sortBy(list, `${externalKey}.outTotal`),
           ({ [externalKey]: { id, outTotal } }, i) => {
             set(reMap[id], `${externalKey}.levelSort`, outTotal * 100 + i);
-          }
+          },
         );
       } else {
         map(list, ({ [externalKey]: { id, outTotal } }, idx: number) => {
@@ -779,13 +779,13 @@ const dataHandler = {
     };
   },
   // 获取图links
-  getLinks: (linkProps: {nodeList: TOPOLOGY.INode[], nodeMap: object, boxHeight:number, exceptLink?:any[], isCross?:boolean}) => {
+  getLinks: (linkProps: {nodeList: TOPOLOGY.INode[]; nodeMap: object; boxHeight: number; exceptLink?: any[]; isCross?: boolean}) => {
     const { nodeList, nodeMap, boxHeight, exceptLink = [], isCross = false } = linkProps;
     const links = [] as any;
     nodeList.forEach((node: TOPOLOGY.INode) => {
       const { parent, id } = node;
       if (parent) {
-        const curLink = find(exceptLink, item => item.source === parent && item.target === id);
+        const curLink = find(exceptLink, (item) => item.source === parent && item.target === id);
         if (!curLink) {
           const lk = { source: parent, target: id, nodeType: 'link' } as any;
           if (find(nodeList, { id: parent, parent: id })) { // 存在反向线
@@ -812,7 +812,7 @@ const dataHandler = {
 
     const deepthGroup = groupBy(nodeMap, `${externalKey}.deepth`);
     const edgePlusMap = {};
-    const getDeepthHeightDistance = (deepthKey: string,) => {
+    const getDeepthHeightDistance = (deepthKey: string) => {
       const curGroup = get(deepthGroup[deepthKey], `[0].${externalKey}.group`);
       const curSubGroupLevel = get(deepthGroup[deepthKey], `[0].${externalKey}.subGroupLevel`);
       if (isCross && curGroup === 'service') { // 如果是跨层级节点
@@ -822,16 +822,16 @@ const dataHandler = {
       return get(maxBy(deepthGroup[deepthKey], `${externalKey}.y`), `${externalKey}.y`, 0) - get(minBy(deepthGroup[deepthKey], `${externalKey}.y`), `${externalKey}.y`, 0);
     };
 
-    const getDeepthEdgeNode = (subLevel:number) => {
+    const getDeepthEdgeNode = (subLevel: number) => {
       const allList = flatten(map(deepthGroup));
-      const serviceList = filter(allList, item => get(item, `${externalKey}.group`) === 'service');
+      const serviceList = filter(allList, (item) => get(item, `${externalKey}.group`) === 'service');
       const serviceGroup = groupBy(serviceList, `${externalKey}.subGroupLevel`);
 
-      const maxNode = maxBy(serviceGroup[subLevel], item => {
+      const maxNode = maxBy(serviceGroup[subLevel], (item) => {
         const curExternal = item[externalKey];
         return curExternal.y;
       });
-      const minNode = minBy(serviceGroup[subLevel], item => {
+      const minNode = minBy(serviceGroup[subLevel], (item) => {
         const curExternal = item[externalKey];
         return curExternal.y;
       });
@@ -840,8 +840,8 @@ const dataHandler = {
 
     map(deepthGroup, (gList: any, lev) => { // 每个层级上跨层级线的边缘叠加数
       const curGroup = get(gList, `[0].${externalKey}.group`);
-      let curStartNode:any = minBy(gList, `${externalKey}.y`);
-      let curEndEdgeNode:any = maxBy(gList, `${externalKey}.y`);
+      let curStartNode: any = minBy(gList, `${externalKey}.y`);
+      let curEndEdgeNode: any = maxBy(gList, `${externalKey}.y`);
       if (isCross && curGroup === 'service') {
         const subLevel = get(deepthGroup[lev], `[0].${externalKey}.subGroupLevel`);
         const { maxNode, minNode } = getDeepthEdgeNode(subLevel);
@@ -946,8 +946,8 @@ const dataHandler = {
               { deep: targetDeepth, len: targetHeightDis },
               { deep: betweenMaxDeepth, len: betweenMaxHeight },
             ]
-            , o => o.len),
-            'deep'
+            , (o) => o.len),
+            'deep',
           );
           const curMaxEdge = edgePlusMap[`${curMaxDeep}`];
 

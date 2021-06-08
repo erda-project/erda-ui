@@ -26,7 +26,7 @@ export default (registerModule) => {
       dashboardStore,
       machineStore,
       purchaseStore,
-      servicesStore
+      servicesStore,
     ],
   });
 };

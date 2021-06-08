@@ -23,8 +23,8 @@ interface IProps {
   columns?: any[];
   applicationId: string;
   emptyText: string;
-  viewLog(params: any): void;
-  fetchTraceContent(params: any): void;
+  viewLog: (params: any) => void;
+  fetchTraceContent: (params: any) => void;
 }
 
 export const TraceExpandTable = ({ recordKey, dataSource, columns, viewLog, fetchTraceContent, emptyText, applicationId }: IProps) => {

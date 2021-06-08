@@ -25,7 +25,7 @@ import { goTo } from 'common/utils';
 import routeInfoStore from 'common/stores/route';
 import { useLoading } from 'common/stores/loading';
 
-const formatVersion = (data:API_MARKET.VersionTreeItem[]) => {
+const formatVersion = (data: API_MARKET.VersionTreeItem[]) => {
   return data.map(({ swaggerVersion, versions }) => {
     const major = get(versions, ['0', 'major']);
     return {
@@ -47,19 +47,19 @@ interface FormData{
 }
 
 interface IState{
-  projectList: Array<{projectID: number, projectName: string}>;
+  projectList: Array<{projectID: number; projectName: string}>;
   resourceVersions: API_MARKET.VersionTreeChild[];
   formData: FormData;
   instanceWorkSpace: '' | API_ACCESS.Workspace;
 }
 
-type FormRef = { props: { form: WrappedFormUtils } };
+interface FormRef { props: { form: WrappedFormUtils } }
 
 const AccessEdit = () => {
   const formRef = React.useRef<FormRef>({} as FormRef);
-  const { type, accessID } = routeInfoStore.useStore(s => s.params);
-  const [assetList, versionTree] = apiMarketStore.useStore(s => [s.assetList, s.versionTree]);
-  const [apiGateways, accessDetail] = apiAccessStore.useStore(s => [s.apiGateways, s.accessDetail]);
+  const { type, accessID } = routeInfoStore.useStore((s) => s.params);
+  const [assetList, versionTree] = apiMarketStore.useStore((s) => [s.assetList, s.versionTree]);
+  const [apiGateways, accessDetail] = apiAccessStore.useStore((s) => [s.apiGateways, s.accessDetail]);
   const { getApiGateway, createAccess, getAccessDetail, updateAccess } = apiAccessStore.effects;
   const { clearAccessDetail, clearApiGateways } = apiAccessStore.reducers;
   const { getAssetList, getVersionTree, getInstance } = apiMarketStore.effects;
@@ -86,7 +86,7 @@ const AccessEdit = () => {
         });
         getApiGateway({ projectID: access.projectID });
         getVersionTree({ assetID: access.assetID, patch: false, instantiation: true, access: false }).then(({ list }) => {
-          const { versions } = find(formatVersion(list), t => t.major === access.major) || {} as API_MARKET.VersionTreeItem;
+          const { versions } = find(formatVersion(list), (t) => t.major === access.major) || {} as API_MARKET.VersionTreeItem;
           updater.resourceVersions(versions);
         });
         updater.projectList([{ projectID: access.projectID, projectName: access.projectName }]);
@@ -100,7 +100,7 @@ const AccessEdit = () => {
     };
   });
   const assetVersions = React.useMemo(() => formatVersion(versionTree), [versionTree]);
-  const refreshApiGateway = (data?: {workspace: API_ACCESS.Workspace, addonInstanceID: string}) => {
+  const refreshApiGateway = (data?: {workspace: API_ACCESS.Workspace; addonInstanceID: string}) => {
     const projectID = formRef.current.props.form.getFieldValue('projectID');
     if (projectID) {
       getApiGateway({ projectID: +projectID });
@@ -127,7 +127,7 @@ const AccessEdit = () => {
       const name = envMap[item];
       const gatewayTemp = temp[item] || [];
       if (gatewayTemp.length) {
-        apiGateWays.push(...gatewayTemp.map(t => ({
+        apiGateWays.push(...gatewayTemp.map((t) => ({
           name: `${addonStatusMap[t.status]?.name}-${name}-${t.addonInstanceID}`,
           ...t,
         })));
@@ -137,7 +137,7 @@ const AccessEdit = () => {
           workspace: item,
           status: 'ATTACHED',
           name: (
-            <div className="flex-box" onClick={e => { gotoServer(e, item); }}>
+            <div className="flex-box" onClick={(e) => { gotoServer(e, item); }}>
               <span>{name}</span>
               <span className="text-link">{i18n.t('establish')}</span>
             </div>
@@ -152,7 +152,7 @@ const AccessEdit = () => {
       if (err) {
         return;
       }
-      const { workspace } = gateways.find(t => t.addonInstanceID === data.addonInstanceID) || {};
+      const { workspace } = gateways.find((t) => t.addonInstanceID === data.addonInstanceID) || {};
       const payload = { ...data, minor: +data.minor, major: +data.major, projectID: +data.projectID, workspace };
       if (accessID) {
         updateAccess(payload).then(() => {
@@ -170,7 +170,7 @@ const AccessEdit = () => {
     const temp = {} as FormData;
     let asset = {} as API_MARKET.Asset;
     let swaggerVersion = '';
-    clearFields.forEach(item => {
+    clearFields.forEach((item) => {
       temp[item] = undefined;
     });
     switch (name) {
@@ -180,7 +180,7 @@ const AccessEdit = () => {
         updater.projectList([]);
         break;
       case 'major':
-        versions = (find(assetVersions, t => t.major === +value) || {} as API_MARKET.VersionTreeItem).versions;
+        versions = (find(assetVersions, (t) => t.major === +value) || {} as API_MARKET.VersionTreeItem).versions;
         clearApiGateways();
         update({
           projectList: [],
@@ -190,7 +190,7 @@ const AccessEdit = () => {
       case 'minor':
         // eslint-disable-next-line no-case-declarations
         const { assetID, major } = formRef.current.props.form.getFieldsValue(['assetID', 'major']);
-        swaggerVersion = (assetVersions.find(item => item.major === +major) || {} as any).swaggerVersion;
+        swaggerVersion = (assetVersions.find((item) => item.major === +major) || {} as any).swaggerVersion;
         clearApiGateways();
         updater.projectList([]);
         getInstance({ assetID, swaggerVersion, minor: +value, major: +major }).then(({ instantiation }) => {
@@ -228,7 +228,7 @@ const AccessEdit = () => {
       label: i18n.t('API name'),
       name: 'assetID',
       type: 'select',
-      options: assetList.map(item => ({ name: item.asset.assetName, value: item.asset.assetID })),
+      options: assetList.map((item) => ({ name: item.asset.assetName, value: item.asset.assetID })),
       initialValue: access.assetID,
       itemProps: {
         placeholder: i18n.t('please select'),
@@ -248,7 +248,7 @@ const AccessEdit = () => {
       itemProps: {
         disabled: type === 'edit',
         placeholder: i18n.t('please select'),
-        onChange: (v:string) => {
+        onChange: (v: string) => {
           handleChange('major', v, ['minor', 'projectID', 'addonInstanceID']);
         },
       },
@@ -261,7 +261,7 @@ const AccessEdit = () => {
       options: map(state.resourceVersions, (item) => ({ name: `V${item.major}.${item.minor}.*`, value: item.minor })),
       itemProps: {
         placeholder: i18n.t('please select'),
-        onChange: (v:string) => {
+        onChange: (v: string) => {
           handleChange('minor', v, ['projectID', 'addonInstanceID']);
         },
       },
@@ -355,7 +355,7 @@ const AccessEdit = () => {
     },
   ];
   return (
-    <Spin spinning={isLoading.some(t => t)}>
+    <Spin spinning={isLoading.some((t) => t)}>
       <div>
         <RenderForm
           list={fieldsList}

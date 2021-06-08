@@ -20,7 +20,7 @@ interface IProps{
   onChange?: (key: string) => void;
   children?: any;
   activeKey?: string;
-  tabs: Array<{key: string, name:string; content: React.ReactChild}>
+  tabs: Array<{key: string; name: string; content: React.ReactChild}>;
 }
 
 export const Tabs = (props: IProps) => {
@@ -39,8 +39,8 @@ export const Tabs = (props: IProps) => {
   }, [activeKey]);
 
   return (
-    <div className='dice-form-tabs'>
-      <div className='tabs-menu'>
+    <div className="dice-form-tabs">
+      <div className="tabs-menu">
         {map(tabs, ({ key, name }) => {
           return (
             <div
@@ -54,12 +54,12 @@ export const Tabs = (props: IProps) => {
         })}
       </div>
       <div
-        className='tabs-content'
+        className="tabs-content"
         style={{
           marginLeft: `${(-activeIndex) * 100}%`,
         }}
       >
-        {map(tabs, ({ key, content }, index:number) => {
+        {map(tabs, ({ key, content }, index: number) => {
           const pos = index > activeIndex ? 'right' : (index === activeIndex ? 'center' : 'left');
           return (
             <div

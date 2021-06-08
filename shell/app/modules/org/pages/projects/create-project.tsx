@@ -43,13 +43,13 @@ interface ICardProps {
   icon: {
     default: string;
     active: string;
-  }
+  };
   description: string;
   disabled?: boolean;
 }
 
-export const useQuotaFields = (canEdit: boolean, showTip: boolean, usedResource: { cpuQuota: number, memQuota: number }) => {
-  const leftResource = projectStore.useStore(s => s.leftResources);
+export const useQuotaFields = (canEdit: boolean, showTip: boolean, usedResource: { cpuQuota: number; memQuota: number }) => {
+  const leftResource = projectStore.useStore((s) => s.leftResources);
   const { getLeftResources } = projectStore.effects;
   const { clearLeftResources } = projectStore.reducers;
   const [isLoading] = useLoading(projectStore, ['getLeftResources']);
@@ -207,8 +207,8 @@ const templateArr = [
 
 const CreationForm = () => {
   const { createProject } = projectStore.effects;
-  const orgId = orgStore.getState(s => s.currentOrg.id);
-  const clusterList = clusterStore.useStore(s => s.list);
+  const orgId = orgStore.getState((s) => s.currentOrg.id);
+  const clusterList = clusterStore.useStore((s) => s.list);
   const quotaFields = useQuotaFields(true, true, { cpuQuota: 0, memQuota: 0 });
   const [ifConfigCluster, setIfConfigCluster] = React.useState(true);
   quotaFields[0].label = (
@@ -238,7 +238,7 @@ const CreationForm = () => {
     <CompactSelect title={title}>
       <Select>
         {
-          (clusterList || []).map(cluster => (
+          (clusterList || []).map((cluster) => (
             <Option key={cluster.id} value={cluster.name}>{cluster.name}</Option>
           ))
         }
@@ -254,7 +254,7 @@ const CreationForm = () => {
       getComp: ({ form }: { form: WrappedFormUtils }) => (
         <div className="template-card-row flex-box">
           {
-            templateArr.map(item => (
+            templateArr.map((item) => (
               <TemplateCard
                 key={item.name}
                 chooseVal={form.getFieldsValue().template}
@@ -327,7 +327,7 @@ const CreationForm = () => {
     ...insertWhen(ifConfigCluster, [
       {
         label: (
-          <span className='mr4'>
+          <span className="mr4">
             {i18n.t('project:Cluster used by the environment')}
             <span className="fz12 ml4"> {i18n.t('project:Configure-cluster-environment')}</span>
           </span>

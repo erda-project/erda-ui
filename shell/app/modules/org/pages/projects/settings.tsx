@@ -49,7 +49,7 @@ const Setting = () => {
               desc: (
                 <div>
                   {i18n.t('edit members, set member roles, role permissions please refer to')}
-                  <Link to={goTo.resolve.perm({ scope: 'project'})} target="_blank">{i18n.t('role permissions description')}</Link>
+                  <Link to={goTo.resolve.perm({ scope: 'project' })} target="_blank">{i18n.t('role permissions description')}</Link>
                 </div>
               ),
               children: <MembersTable scopeKey={MemberScope.PROJECT} overwriteAuth={{ add: true, edit: true, delete: true }} />,

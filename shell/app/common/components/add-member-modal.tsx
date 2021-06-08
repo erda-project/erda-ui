@@ -27,11 +27,11 @@ import { Alert, message } from 'app/nusi';
 interface IProps {
   visible: boolean;
   roleMap: object;
-  memberLabels: Array<{ name: string, label: string }>;
+  memberLabels: Array<{ name: string; label: string }>;
   scope: MEMBER.MemberScope;
   queryParams: Obj;
-  toggleModal(): void;
-  updateMember?(values: MEMBER.UpdateMemberBody): void;
+  toggleModal: () => void;
+  updateMember?: (values: MEMBER.UpdateMemberBody) => void;
 }
 
 const storeMap = {
@@ -73,7 +73,7 @@ export const AddMemberModal = ({ scope, roleMap, visible, memberLabels, toggleMo
     return values;
   };
 
-  const appRoleMap = appMemberStore.useStore(s => s.roleMap);
+  const appRoleMap = appMemberStore.useStore((s) => s.roleMap);
 
   // 在项目级添加成员后，还需要给应用级授权角色
   useMount(() => scope.type === MemberScope.PROJECT && appMemberStore.effects.getRoleMap({ scopeType: MemberScope.APP }));
@@ -116,11 +116,11 @@ export const AddMemberModal = ({ scope, roleMap, visible, memberLabels, toggleMo
         mode: 'multiple',
         placeholder: i18n.t('select member label'),
       },
-      options: map(memberLabels, item => ({ name: item.name, value: item.label })),
+      options: map(memberLabels, (item) => ({ name: item.name, value: item.label })),
     }]),
     ...insertWhen(scope.type === MemberScope.PROJECT, [
       {
-        getComp: () => <Alert showIcon type='normal' message={i18n.t('common:You can set application-level roles at the same time')} />,
+        getComp: () => <Alert showIcon type="normal" message={i18n.t('common:You can set application-level roles at the same time')} />,
       },
       {
         label: i18n.t('application'),
@@ -133,7 +133,7 @@ export const AddMemberModal = ({ scope, roleMap, visible, memberLabels, toggleMo
             mode="multiple"
             placeholder={i18n.t('project:please select application')}
             extraQuery={{ projectId: scope.id }}
-            dataFormatter={({ list, total }: { list: any[], total: number }) => ({
+            dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
               total,
               list: map(list, (application) => {
                 const { name, id } = application;

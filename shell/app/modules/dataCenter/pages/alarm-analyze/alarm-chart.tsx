@@ -54,7 +54,7 @@ const CHART_MAP = {
           const { tag, name, data, ...rest }: any = item['count.tags.alert_id'] || {};
           return { ...rest, name: tag || name, data };
         }),
-        xAxis: isArray(time) && map(time, _time => moment(Number(_time)).format('MM/DD')),
+        xAxis: isArray(time) && map(time, (_time) => moment(Number(_time)).format('MM/DD')),
       };
     },
   },

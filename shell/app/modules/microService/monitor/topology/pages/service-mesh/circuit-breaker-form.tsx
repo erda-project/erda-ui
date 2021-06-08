@@ -26,14 +26,14 @@ const { Panel } = Collapse;
 const FormItem = Form.Item;
 
 interface IProps{
-  visible:boolean;
+  visible: boolean;
   type: string;
-  node:any;
-  onClose():void;
+  node: any;
+  onClose: () => void;
 }
 
 // @ts-ignore
-const validateEmpty = (formRef:any) => (rule:any, val:string, callback:Function) => {
+const validateEmpty = (formRef: any) => (rule: any, val: string, callback: Function) => {
   const curForm = formRef && formRef.current;
   if (curForm) {
     const values = curForm.getFieldsValue() as any;
@@ -41,18 +41,18 @@ const validateEmpty = (formRef:any) => (rule:any, val:string, callback:Function)
     const valuesLen = compact([consecutiveErrors, interval, baseEjectionTime, maxEjectionPercent]).length;
     const pass = valuesLen === 0 || valuesLen === 4;
     return callback(
-      pass ? undefined : (val ? undefined : i18n.t('microService:failure detection rules and instance isolation should be set at the same time'))
+      pass ? undefined : (val ? undefined : i18n.t('microService:failure detection rules and instance isolation should be set at the same time')),
     );
   }
   return callback();
 };
 
 interface IHttpForm{
-  data?:TOPOLOGY.ICircuitBreakerHttp,
-  submitForm(arg:TOPOLOGY.ICircuitBreakerHttp):Promise<string>;
+  data?: TOPOLOGY.ICircuitBreakerHttp;
+  submitForm: (arg: TOPOLOGY.ICircuitBreakerHttp) => Promise<string>;
 }
 
-const ErrorCheckForm = ({ form, formRef }: { form: WrappedFormUtils, formRef:any }) => {
+const ErrorCheckForm = ({ form, formRef }: { form: WrappedFormUtils; formRef: any }) => {
   return (
     <div className="error-check-form">
       <FormItem>
@@ -67,7 +67,7 @@ const ErrorCheckForm = ({ form, formRef }: { form: WrappedFormUtils, formRef:any
               className="error-check-item"
               suffix={i18n.t('common:second')}
               placeholder={`${i18n.t('advice value {value}', { value: 10 })}`} // 10
-            />
+            />,
           )
         }
       </FormItem>
@@ -84,7 +84,7 @@ const ErrorCheckForm = ({ form, formRef }: { form: WrappedFormUtils, formRef:any
               className="error-check-item"
               suffix={i18n.t('times')}
               placeholder={`${i18n.t('advice value {value}', { value: 30 })}`} // 30
-            />
+            />,
           )
         }
       </FormItem>
@@ -92,7 +92,7 @@ const ErrorCheckForm = ({ form, formRef }: { form: WrappedFormUtils, formRef:any
   );
 };
 
-const HttpForm = ({ data, submitForm }:IHttpForm) => {
+const HttpForm = ({ data, submitForm }: IHttpForm) => {
   const formRef = React.useRef(null as any);
   React.useEffect(() => {
     const curFormRef = formRef && formRef.current;
@@ -105,7 +105,7 @@ const HttpForm = ({ data, submitForm }:IHttpForm) => {
       if (error) {
         return;
       }
-      submitForm({ ...data, ...values }).then(res => {
+      submitForm({ ...data, ...values }).then((res) => {
         form.setFieldsValue({ id: res });
       });
     });
@@ -154,7 +154,7 @@ const HttpForm = ({ data, submitForm }:IHttpForm) => {
     },
     {
       label: i18n.t('microService:failure detection rules'),
-      getComp: ({ form }:{form:WrappedFormUtils}) => {
+      getComp: ({ form }: {form: WrappedFormUtils}) => {
         return <ErrorCheckForm form={form} formRef={formRef} />;
       },
     },
@@ -210,12 +210,12 @@ const HttpForm = ({ data, submitForm }:IHttpForm) => {
 
 
 interface IDubboForm{
-  data?:TOPOLOGY.ICircuitBreakerDubbo[];
+  data?: TOPOLOGY.ICircuitBreakerDubbo[];
   hideNoRule: boolean;
-  submitForm(arg:TOPOLOGY.ICircuitBreakerDubbo):Promise<string>;
-  onSwitchChange(value:boolean): void;
+  submitForm: (arg: TOPOLOGY.ICircuitBreakerDubbo) => Promise<string>;
+  onSwitchChange: (value: boolean) => void;
 }
-const DubboForm = ({ data = [], submitForm, hideNoRule, onSwitchChange }:IDubboForm) => {
+const DubboForm = ({ data = [], submitForm, hideNoRule, onSwitchChange }: IDubboForm) => {
   const [useData, setUseData] = React.useState([] as TOPOLOGY.ICircuitBreakerDubbo[]);
   const [searchKey, setSearchKey] = React.useState();
   const setHideNoRule = (value: boolean) => {
@@ -228,8 +228,8 @@ const DubboForm = ({ data = [], submitForm, hideNoRule, onSwitchChange }:IDubboF
     if (!isEmpty(data)) {
       setUseData(
         searchKey
-          ? filter(data, item => (item.interfaceName || '').toLowerCase().includes((searchKey || '').toLowerCase()))
-          : data
+          ? filter(data, (item) => (item.interfaceName || '').toLowerCase().includes((searchKey || '').toLowerCase()))
+          : data,
       );
     } else {
       setUseData([]);
@@ -242,14 +242,14 @@ const DubboForm = ({ data = [], submitForm, hideNoRule, onSwitchChange }:IDubboF
     <div className="circuit-breaker-dubbo full-height">
       <div className="service-mesh-forms-container full-height">
         <div className="service-mesh-search">
-          <Input placeholder={i18n.t('microService:filter by interface name')} onChange={(e:any) => setSearchKey(e.target.value)} />
+          <Input placeholder={i18n.t('microService:filter by interface name')} onChange={(e: any) => setSearchKey(e.target.value)} />
           <div className="hide-no-rule-interface full-height">
             <span className="hide-no-rule-interface-label full-height">{i18n.t('microService:hide no rule interface')}</span>
             <Switch
               checked={hideNoRule}
               checkedChildren="ON"
               unCheckedChildren="OFF"
-              onChange={(checked:boolean) => { setHideNoRule(checked); }}
+              onChange={(checked: boolean) => { setHideNoRule(checked); }}
             />
           </div>
         </div>
@@ -260,7 +260,7 @@ const DubboForm = ({ data = [], submitForm, hideNoRule, onSwitchChange }:IDubboF
             <div className="service-mesh-collapse-forms">
               <Collapse>
                 {
-                  map(currentData, item => (
+                  map(currentData, (item) => (
                     <Panel header={`${item.interfaceName}`} key={`${item.interfaceName}`}>
                       <div className="collapse-form-item">
                         <DubboFormItem data={item} submitForm={submitForm} />
@@ -285,10 +285,10 @@ const DubboForm = ({ data = [], submitForm, hideNoRule, onSwitchChange }:IDubboF
 };
 
 interface IDubboFormItem{
-  data?:TOPOLOGY.ICircuitBreakerDubbo,
-  submitForm(arg:TOPOLOGY.ICircuitBreakerDubbo):Promise<string>;
+  data?: TOPOLOGY.ICircuitBreakerDubbo;
+  submitForm: (arg: TOPOLOGY.ICircuitBreakerDubbo) => Promise<string>;
 }
-const DubboFormItem = ({ data, submitForm }:IDubboFormItem) => {
+const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
   const formRef = React.useRef(null as any);
 
   React.useEffect(() => {
@@ -303,7 +303,7 @@ const DubboFormItem = ({ data, submitForm }:IDubboFormItem) => {
       if (error) {
         return;
       }
-      submitForm({ ...data, ...values }).then(res => {
+      submitForm({ ...data, ...values }).then((res) => {
         form.setFieldsValue({ id: res });
       });
     });
@@ -348,7 +348,7 @@ const DubboFormItem = ({ data, submitForm }:IDubboFormItem) => {
     },
     {
       label: i18n.t('microService:failure detection rules'),
-      getComp: ({ form }:{form:WrappedFormUtils}) => {
+      getComp: ({ form }: {form: WrappedFormUtils}) => {
         return <ErrorCheckForm form={form} formRef={formRef} />;
       },
     },
@@ -402,7 +402,7 @@ const CircuitBreakerForm = (props: IProps) => {
   const { visible, node } = props;
   const { getCircuitBreaker, saveCircuitBreaker } = serviceMeshStore.effects;
   const { clearCircuitBreaker } = serviceMeshStore.reducers;
-  const circuitBreaker = serviceMeshStore.useStore(s => s.circuitBreaker);
+  const circuitBreaker = serviceMeshStore.useStore((s) => s.circuitBreaker);
   const [hideNoRule, setHideNoRule] = React.useState(false);
 
   const query = React.useMemo(() => {
@@ -418,7 +418,7 @@ const CircuitBreakerForm = (props: IProps) => {
     }
   }, [visible, node, query, getCircuitBreaker, clearCircuitBreaker]);
 
-  const submitForm = (values:any) => {
+  const submitForm = (values: any) => {
     return saveCircuitBreaker({ query, data: values });
   };
 

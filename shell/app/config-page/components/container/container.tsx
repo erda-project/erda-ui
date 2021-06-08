@@ -57,12 +57,12 @@ export const LRContainer = (props: CP_CONTAINER.Props) => {
   const leftCls = classnames({
     left: true,
     'flex-1': contentSetting !== 'start',
-  })
+  });
 
   return (
     <Container {...rest} props={{ ...(props.props || {}), direction: 'row' }}>
       <div className={leftCls}>{left}</div>
-      <div className='right'>{right}</div>
+      <div className="right">{right}</div>
     </Container>
   );
 };

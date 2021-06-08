@@ -33,7 +33,7 @@ export function Table(props: CP_TABLE.Props) {
   const { state: propsState, customProps, props: configProps, operations, data, execOperation } = props;
   const list = data?.list || [];
   const { visible = true, columns = [], title, pageSizeOptions, styleNames = {}, ...rest } = configProps || {};
-  const userMap = userMapStore.useStore(s => s);
+  const userMap = userMapStore.useStore((s) => s);
   const [state, updater, update] = useUpdate(handleState(propsState));
   const { total, pageSize, pageNo } = state;
 
@@ -56,13 +56,13 @@ export function Table(props: CP_TABLE.Props) {
     operations?.changePageSize && execOperation(operations.changePageSize, { pageNo: 1, pageSize: size });
   };
 
-  const tableColumns = map([...(columns || [])], cItem => ({
+  const tableColumns = map([...(columns || [])], (cItem) => ({
     ...cItem,
     ...getTitleRender(cItem),
     render: (val: any, record: Obj) => getRender(val, record, { execOperation, customProps, userMap }),
   })) as any[];
 
-  const isGanttTable = columns.find(item => item.titleRenderType === 'gantt');
+  const isGanttTable = columns.find((item) => item.titleRenderType === 'gantt');
 
   const pagination = {
     total: total || list.length,
@@ -95,7 +95,7 @@ export function Table(props: CP_TABLE.Props) {
 
   if (configProps?.expandedProps) {
     const { rowKey, columns: exColumns } = configProps.expandedProps || {};
-    const exTableColumns = map([...(exColumns || [])], cItem => ({
+    const exTableColumns = map([...(exColumns || [])], (cItem) => ({
       ...cItem,
       ...getTitleRender(cItem),
       render: (val: any, record: CP_TABLE.RowData) => getRender(val, record, { execOperation, customProps, userMap }),
@@ -109,7 +109,7 @@ export function Table(props: CP_TABLE.Props) {
 
   const cls = classnames({
     'dice-cp': true,
-    'table': true,
+    table: true,
     ...styleNames,
   });
 

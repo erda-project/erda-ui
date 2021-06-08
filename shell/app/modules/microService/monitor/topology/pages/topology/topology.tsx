@@ -37,7 +37,7 @@ const setNodeUniqId = (data: TOPOLOGY.ITopologyResp) => {
   const { nodes = [] } = data || {};
   let nodeId = 0;
   const allIds = {};
-  const reNodes = map(nodes, node => {
+  const reNodes = map(nodes, (node) => {
     const { id, parents = [] } = node;
     if (!allIds[id]) {
       nodeId += 1;
@@ -47,7 +47,7 @@ const setNodeUniqId = (data: TOPOLOGY.ITopologyResp) => {
       ...node,
       originId: id,
       id: allIds[id],
-      parents: map(parents, parent => {
+      parents: map(parents, (parent) => {
         const { id: pId } = parent;
         if (!allIds[pId]) {
           nodeId += 1;
@@ -69,8 +69,8 @@ const setNodeUniqId = (data: TOPOLOGY.ITopologyResp) => {
 
 
 const Topology = () => {
-  const params = routeInfoStore.useStore(s => s.params);
-  const timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
+  const params = routeInfoStore.useStore((s) => s.params);
+  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
   const { getProjectApps } = monitorCommonStore.effects;
   const [isFetching] = useLoading(topologyStore, ['getMonitorTopology']);
   const { clearMonitorTopology, setScale } = topologyStore.reducers;
@@ -81,7 +81,7 @@ const Topology = () => {
     scale,
     topologyTags,
     tagOptionsCollection,
-  ] = topologyStore.useStore(s => [s.topologyData, s.scale, s.topologyTags, s.tagOptionsCollection]);
+  ] = topologyStore.useStore((s) => [s.topologyData, s.scale, s.topologyTags, s.tagOptionsCollection]);
 
   const [topologyData, setTopologyData] = React.useState({} as TOPOLOGY.ITopologyResp);
   const [useData, setUseData] = React.useState({} as TOPOLOGY.ITopologyResp);
@@ -165,7 +165,7 @@ const Topology = () => {
     }
   }, [topologyData]);
 
-  const toggleDrawer = (_type?:string, _node?:any) => {
+  const toggleDrawer = (_type?: string, _node?: any) => {
     setDerviceMeshType(_type || '');
     setChosenNode(_node);
     setServiceMeshVis(!serviceMeshVis);
@@ -211,7 +211,7 @@ const Topology = () => {
           </div>
         </div>
         <div className="right">
-          <ScaleSelector scale={scale} onChange={val => setScale(val)} />
+          <ScaleSelector scale={scale} onChange={(val) => setScale(val)} />
         </div>
       </div>
       <div className="topology-content">

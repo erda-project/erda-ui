@@ -17,51 +17,51 @@ declare namespace ADDON {
 
   interface Instance {
     tenantOwner: string; // 实例为 tenant 时有值
-    instanceId: string
-    name: string
-    tag: string
-    addonName: string
-    displayName: string
-    desc: string
-    logoUrl: string
-    plan: string
-    version: string
-    category: string
+    instanceId: string;
+    name: string;
+    tag: string;
+    addonName: string;
+    displayName: string;
+    desc: string;
+    logoUrl: string;
+    plan: string;
+    version: string;
+    category: string;
     config: {
-      [k: string]: string
-    }
-    customAddonType: 'cloud' | 'custom'
-    shareScope: string
-    cluster: string
-    orgId: number
-    projectId: number
-    projectName: string
-    workspace: string
-    status: ADDON_STATUS
-    realInstanceId: string
-    reference: number
-    attachCount: number
-    platform: true
-    platformServiceType: 0 | 1 | 2// 0:中间件  1:微服务  2：通用平台
-    canDel: boolean
-    consoleUrl: string | null
-    createdAt: string
-    updatedAt: string
-    recordId: string
+      [k: string]: string;
+    };
+    customAddonType: 'cloud' | 'custom';
+    shareScope: string;
+    cluster: string;
+    orgId: number;
+    projectId: number;
+    projectName: string;
+    workspace: string;
+    status: ADDON_STATUS;
+    realInstanceId: string;
+    reference: number;
+    attachCount: number;
+    platform: true;
+    platformServiceType: 0 | 1 | 2;// 0:中间件  1:微服务  2：通用平台
+    canDel: boolean;
+    consoleUrl: string | null;
+    createdAt: string;
+    updatedAt: string;
+    recordId: string;
   }
 
   interface Reference {
-    orgId: number
-    projectId: number
-    projectName: string
-    applicationId: number
-    applicationName: string
-    runtimeId: number
-    runtimeName: string
+    orgId: number;
+    projectId: number;
+    projectName: string;
+    applicationId: number;
+    applicationName: string;
+    runtimeId: number;
+    runtimeName: string;
   }
 
   interface DataSourceAddon{
-    projectId: number,
-    displayName: string[],
+    projectId: number;
+    displayName: string[];
   }
 }

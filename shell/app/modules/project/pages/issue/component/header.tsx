@@ -91,14 +91,14 @@ const filterFixOut = (val: Obj) => {
 
 const IssueHeader = (props: IProps) => {
   const { onFilter, changeViewType, withPageNo, issueType, reloadData } = props;
-  const [params, query] = routeInfoStore.useStore(s => [s.params, s.query]);
+  const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const curViewGroup = viewGroupMap[issueType];
   const [{ filterObj, viewType, viewGroup }, updater, update] = useUpdate({
     filterObj: { ...(withPageNo ? { pageNo: 1 } : {}), ...(query || {}) } as Obj,
     viewType: query.viewType || ViewTypeMap.table.value,
     viewGroup: find(curViewGroup, { value: query.viewGroup }) ? query.viewGroup : curViewGroup[0].value,
   });
-  const orgID = orgStore.getState(s => s.currentOrg.id);
+  const orgID = orgStore.getState((s) => s.currentOrg.id);
   const filterBarRef = React.useRef(null as any);
 
   useEffectOnce(() => {
@@ -131,8 +131,8 @@ const IssueHeader = (props: IProps) => {
     doFilter({ ...newVal, ...(withPageNo ? { pageNo: 1 } : {}) });
   };
 
-  const loginUserId = userStore.getState(s => s.loginUser.id);
-  const requirementAuth = usePerm(s => s.project.requirement);
+  const loginUserId = userStore.getState((s) => s.loginUser.id);
+  const requirementAuth = usePerm((s) => s.project.requirement);
 
   const getDownloadUrl = () => {
     return setApiWithOrg(`/api/issues/actions/export-excel?${qs.stringify({ ...filterObj, pageNo: 1, projectID: params.projectId, type: issueType, IsDownload: false, orgID }, { arrayFormat: 'none' })}`);
@@ -142,7 +142,7 @@ const IssueHeader = (props: IProps) => {
 
 
   return (
-    <div className='issue-header'>
+    <div className="issue-header">
       <div>
         {params.iterationId === undefined &&
           <IterationSelect
@@ -162,7 +162,7 @@ const IssueHeader = (props: IProps) => {
         />
       </div>
       <ToolBarWithFilter
-        className='ml12-group'
+        className="ml12-group"
         list={useFilterList({ type: issueType, queryCondition: filterObj })}
         filterValue={filterObj}
         syncUrlOnSearch={false}
@@ -186,13 +186,13 @@ const IssueHeader = (props: IProps) => {
             updater.viewType(e.target.value);
           }}
         >
-          {map(ViewTypeMap, view => {
+          {map(ViewTypeMap, (view) => {
             if (view.value === 'kanban') {
               const curGrouName = get(find(curViewGroup, { value: viewGroup }), 'name');
               const getMenu = () => {
                 return (
-                  <Menu className='issue-view-type' onClick={(e: any) => update({ viewGroup: e.key, viewType: view.value })}>
-                    {map(curViewGroup, g => {
+                  <Menu className="issue-view-type" onClick={(e: any) => update({ viewGroup: e.key, viewType: view.value })}>
+                    {map(curViewGroup, (g) => {
                       return <Menu.Item className={`group-item ${curViewGroup === g.value ? 'chosen-group' : ''}`} key={g.value}>{g.name}</Menu.Item>;
                     })}
                   </Menu>
@@ -202,9 +202,9 @@ const IssueHeader = (props: IProps) => {
                 <Tooltip key={view.value} title={view.tip}>
                   <Dropdown overlay={getMenu()}>
                     <Radio.Button value={view.value}>
-                      <div className='flex-box'>
-                        <CustomIcon type={view.icon} className='mr4' />
-                        <span className='nowrap' style={{ width: 56 }}>{curGrouName}</span>
+                      <div className="flex-box">
+                        <CustomIcon type={view.icon} className="mr4" />
+                        <span className="nowrap" style={{ width: 56 }}>{curGrouName}</span>
                       </div>
                     </Radio.Button>
                   </Dropdown>
@@ -214,8 +214,8 @@ const IssueHeader = (props: IProps) => {
               return (
                 <Tooltip key={view.value} title={view.tip}>
                   <Radio.Button value={view.value}>
-                    <div className='flex-box'>
-                      <CustomIcon type={view.icon} className='mr4' />
+                    <div className="flex-box">
+                      <CustomIcon type={view.icon} className="mr4" />
                       {view.name}
                     </div>
                   </Radio.Button>
@@ -238,7 +238,7 @@ const IssueHeader = (props: IProps) => {
         }
         <Tooltip title={i18n.t('export')}>
           <WithAuth pass={requirementAuth.export.pass} >
-            <Button className='ml8' onClick={() => window.open(getDownloadUrl())}>
+            <Button className="ml8" onClick={() => window.open(getDownloadUrl())}>
               <CustomIcon type="export" />
             </Button>
           </WithAuth>

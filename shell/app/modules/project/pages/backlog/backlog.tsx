@@ -33,14 +33,14 @@ import './backlog.scss';
 
 
 const Backlog = () => {
-  const [backlogIssues, backlogIssuesPaging] = iterationStore.useStore(s => [s.backlogIssues, s.backlogIssuesPaging]);
+  const [backlogIssues, backlogIssuesPaging] = iterationStore.useStore((s) => [s.backlogIssues, s.backlogIssuesPaging]);
   const { getBacklogIssues, createIssue } = iterationStore.effects;
   const { clearBacklogIssues } = iterationStore.reducers;
   const { deleteIssue, updateIssue } = issueStore.effects;
-  const labelList = labelStore.useStore(s => s.list);
+  const labelList = labelStore.useStore((s) => s.list);
   const { getLabels } = labelStore.effects;
   const [loading] = useLoading(iterationStore, ['getBacklogIssues']);
-  const [{ projectId }, { id: queryId, issueType: queryType, ...restQuery }] = routeInfoStore.getState(s => [s.params, s.query]);
+  const [{ projectId }, { id: queryId, issueType: queryType, ...restQuery }] = routeInfoStore.getState((s) => [s.params, s.query]);
 
   const [{ isAdding, curIssueDetail, drawerVisible, filterState }, updater, update] = useUpdate({
     isAdding: false,
@@ -66,7 +66,7 @@ const Backlog = () => {
     };
   });
 
-  const addAuth = usePerm(s => s.project.requirement.create.pass);// 目前迭代、任务、缺陷添加权限都一致
+  const addAuth = usePerm((s) => s.project.requirement.create.pass);// 目前迭代、任务、缺陷添加权限都一致
 
   const onIssueDrop = (val: ISSUE.IssueType) => {
     return updateIssue({ ...val, iterationID: -1 }).then(() => {
@@ -77,7 +77,7 @@ const Backlog = () => {
   const [{ isOver }, drop] = useDrop({
     accept: BACKLOG_ISSUE_TYPE.iterationIssue,
     drop: (item: any) => ({ res: onIssueDrop(item.data) }), // drop需要返回一个Obj，如果直接返回Promise是无效的
-    collect: monitor => ({
+    collect: (monitor) => ({
       isOver: monitor.isOver(),
     }),
   });
@@ -149,7 +149,7 @@ const Backlog = () => {
       haveFilter: true,
       type: 'select' as const,
       placeholder: i18n.t('filter by {name}', { name: i18n.t('project:label') }),
-      options: map(labelList, item => ({ label: item.name, value: `${item.id}` })),
+      options: map(labelList, (item) => ({ label: item.name, value: `${item.id}` })),
     },
     {
       key: 'priority',
@@ -190,16 +190,16 @@ const Backlog = () => {
   const listRef = React.useRef(null as any);
   const isHide = !!listRef.current && listRef.current.scrollTop;
   return (
-    <div className='backlog-issues column-flex-box full-height' ref={drop}>
-      <div className='backlog-issues-title flex-box mb8'>
+    <div className="backlog-issues column-flex-box full-height" ref={drop}>
+      <div className="backlog-issues-title flex-box mb8">
         <div>
-          <span className='bold fz16 mr8'>{i18n.t('project:backlog')}</span>
-          <span className='color-text-desc'>{i18n.t('{num} {type}', { num: backlogIssues.length, type: i18n.t('project:issue') })}</span>
+          <span className="bold fz16 mr8">{i18n.t('project:backlog')}</span>
+          <span className="color-text-desc">{i18n.t('{num} {type}', { num: backlogIssues.length, type: i18n.t('project:issue') })}</span>
         </div>
         <div>
           <WithAuth pass={addAuth} >
-            <Button className='mr8' type='primary' onClick={onAdd}>
-              <CustomIcon type='cir-add' className='mr4' />
+            <Button className="mr8" type="primary" onClick={onAdd}>
+              <CustomIcon type="cir-add" className="mr4" />
               {i18n.t('add {name}', { name: i18n.t('project:issue') })}
             </Button>
           </WithAuth>
@@ -208,7 +208,7 @@ const Backlog = () => {
             title={i18n.t('project:confirm export')}
             onConfirm={() => window.open(downloadUrl)}
           >
-            <Button className='ml8 px8'>
+            <Button className="ml8 px8">
               <CustomIcon type="daochu" />
             </Button>
           </Popconfirm>
@@ -216,20 +216,20 @@ const Backlog = () => {
         </div>
       </div>
       <div className={'backlog-filter'}>
-        <ContractiveFilter delay={1000} conditions={conditionsFilter} initValue={filterState}onChange={onFilter} />
+        <ContractiveFilter delay={1000} conditions={conditionsFilter} initValue={filterState} onChange={onFilter} />
       </div>
       <div className={`backlog-issues-content spin-full-height ${isOver ? 'drag-over' : ''}`} ref={drop}>
         <Spin spinning={!isHide && loading}>
           {isEmpty(backlogIssues) && !isAdding && <EmptyBacklog addAuth={addAuth} onAdd={onAdd} />}
           <div className="list-container" ref={listRef}>
             {
-              <div className='backlog-issues-list'>
+              <div className="backlog-issues-list">
                 {
                 isAdding
                   ? (
                     <IssueForm
-                      key='add'
-                      className='backlog-issue-item hover-active-bg'
+                      key="add"
+                      className="backlog-issue-item hover-active-bg"
                       onCancel={() => updater.isAdding(false)}
                       onOk={(val: ISSUE.BacklogIssueCreateBody) => {
                         return createIssue({ ...val }).finally(() => {
@@ -241,7 +241,7 @@ const Backlog = () => {
                   )
                   : null
               }
-                {map(backlogIssues, item => (
+                {map(backlogIssues, (item) => (
                   <IssueItem
                     data={item}
                     key={item.id}
@@ -255,7 +255,7 @@ const Backlog = () => {
                 ))}
               </div>
           }
-            <div className='more-container'>
+            <div className="more-container">
               {listRef.current && <LoadMore threshold={10} getContainer={() => listRef.current} load={load} hasMore={backlogIssuesPaging.hasMore} isLoading={isHide && loading} />}
             </div>
           </div>
@@ -280,15 +280,15 @@ const Backlog = () => {
   );
 };
 
-const EmptyBacklog = ({ onAdd, addAuth }: { onAdd: () => void, addAuth: boolean }) => (
-  <div className='backlog-issues-empty-holder'>
-    <img src={backlog_db_svg} className='mb12' />
-    <div className='fz24 bold my8'>{i18n.t('project:backlog')}</div>
-    <div className='desc'>
+const EmptyBacklog = ({ onAdd, addAuth }: { onAdd: () => void; addAuth: boolean }) => (
+  <div className="backlog-issues-empty-holder">
+    <img src={backlog_db_svg} className="mb12" />
+    <div className="fz24 bold my8">{i18n.t('project:backlog')}</div>
+    <div className="desc">
       {i18n.t('project:add-todo-issue-tip1')}
       <WithAuth pass={addAuth} >
-        <Button className='px8' size='small' type="primary" ghost onClick={onAdd}>
-          <CustomIcon type='cir-add' className='mr4' />
+        <Button className="px8" size="small" type="primary" ghost onClick={onAdd}>
+          <CustomIcon type="cir-add" className="mr4" />
           {i18n.t('add {name}', { name: i18n.t('project:issue') })}
         </Button>
       </WithAuth>

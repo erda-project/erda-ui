@@ -26,10 +26,10 @@ import { useEffectOnce } from 'react-use';
 import AddAccountForm from './account-form/add-account-form';
 
 const RdsAccount = () => {
-  const [rdsID, query] = routeInfoStore.useStore(s => [s.params.rdsID, s.query]);
+  const [rdsID, query] = routeInfoStore.useStore((s) => [s.params.rdsID, s.query]);
   const { getRDSAccountList, addRDSAccount, resetRDSAccountPWD, revokeRDSAccountPriv } = cloudServiceStore.effects;
   const { clearRDSAccountList } = cloudServiceStore.reducers;
-  const RDSAccountList = cloudServiceStore.useStore(s => s.RDSAccountList);
+  const RDSAccountList = cloudServiceStore.useStore((s) => s.RDSAccountList);
   const [isFetching] = useLoading(cloudServiceStore, ['getRDSAccountList']);
 
   const [{
@@ -73,7 +73,7 @@ const RdsAccount = () => {
       title: i18n.t('dcos:owning database'),
       dataIndex: 'databasePrivileges',
       tip: true,
-      render: (_v: Array<{ dBName: string; accountPrivilege: string; }>) => {
+      render: (_v: Array<{ dBName: string; accountPrivilege: string }>) => {
         let str = null as any;
         map(_v, (item) => {
           str = <>{str}{item.dBName} （{item.accountPrivilege}）<br /></>;
@@ -90,7 +90,7 @@ const RdsAccount = () => {
         return (
           <div className="table-operations">
             <span
-              className='table-operations-btn'
+              className="table-operations-btn"
               onClick={() => {
                 update({
                   activeRow: record,
@@ -101,7 +101,7 @@ const RdsAccount = () => {
               {i18n.t('reset Password')}
             </span>
             <span
-              className='table-operations-btn'
+              className="table-operations-btn"
               onClick={() => {
                 update({
                   activeRow: record,
@@ -168,7 +168,7 @@ const RdsAccount = () => {
 
   return (
     <div>
-      <div className='text-right mb12'>
+      <div className="text-right mb12">
         <Button type="primary" onClick={() => updater.formVisible(true)} >
           {i18n.t('create an account')}
         </Button>

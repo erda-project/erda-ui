@@ -22,7 +22,7 @@ export interface IItem {
   key: string;
   name: string;
   required: string;
-  type: {value: string, enum?: any};
+  type: {value: string; enum?: any};
   children?: IItem[];
   description?: string;
 }
@@ -36,14 +36,14 @@ export interface IParameters{
   description?: string;
   schema: {
     type: IDataType;
-    format?:string;
+    format?: string;
     example?: string;
-    enum?:any[]
-  }
+    enum?: any[];
+  };
 }
 
 export interface IRequestBodyProperties{
-  [key:string]:{
+  [key: string]: {
     type: IDataType;
     enum: string[];
     description?: string;
@@ -52,10 +52,10 @@ export interface IRequestBodyProperties{
       enum?: any[];
       properties?: IRequestBodyProperties;
       required?: string[];
-    }
+    };
     properties: IRequestBodyProperties;
     required: string[];
-  }
+  };
 }
 
 export interface IRequestBodyContent{
@@ -63,16 +63,16 @@ export interface IRequestBodyContent{
     properties: IRequestBodyProperties;
     items?: IRequestBodyProperties;
     required: string[];
-    type: IDataType
+    type: IDataType;
   };
   type: IDataType;
 }
 
 export interface IRequestBody{
   content: {
-    [k: string]: IRequestBodyContent
+    [k: string]: IRequestBodyContent;
   };
-  'x-amf-mediaType': string
+  'x-amf-mediaType': string;
 }
 export interface IDataSource {
   _method: string;
@@ -85,10 +85,10 @@ export interface IDataSource {
     [k: number]: {
       description: string;
       content: {
-        [k: string]: IRequestBodyContent
-      }
-    }
-  }
+        [k: string]: IRequestBodyContent;
+      };
+    };
+  };
 }
 
 interface IProps {
@@ -102,7 +102,7 @@ interface IParseOas3 {
   apiInfo: {
     method: string;
     path: string;
-  },
+  };
   header: any[];
   path: any[];
   query: any[];
@@ -110,8 +110,8 @@ interface IParseOas3 {
   responsesStatus: any[];
   responsesBody: {
     data: any[];
-    type: IDataType
-  },
+    type: IDataType;
+  };
 }
 
 const columns = [
@@ -119,7 +119,7 @@ const columns = [
   { title: i18n.t('type'),
     width: 120,
     dataIndex: 'type',
-    render: ({ value, enum: enumData }:{value: IDataType, enum: string[]}) => {
+    render: ({ value, enum: enumData }: {value: IDataType; enum: string[]}) => {
       return isEmpty(enumData) ? value : (
         <Tooltip title={enumData.toString()}>
           <span className="hover-active">{value}</span>
@@ -144,7 +144,7 @@ const getSchema = (content = {}) => {
 /**
  * @description convert openApi3's body to openApi2's body
  */
-export const convertToOpenApi2 = (data:IDataSource) => {
+export const convertToOpenApi2 = (data: IDataSource) => {
   const { requestBody } = data;
   if (requestBody?.content) {
     const { content } = requestBody;
@@ -176,9 +176,9 @@ export const convertToOpenApi2 = (data:IDataSource) => {
   }
 };
 
-const transformBody = (data:IRequestBodyContent['schema']): any[] => {
+const transformBody = (data: IRequestBodyContent['schema']): any[] => {
   const wmap = new WeakMap();
-  const parse = (schema:IRequestBodyContent['schema'], parent: string) => {
+  const parse = (schema: IRequestBodyContent['schema'], parent: string) => {
     const { properties, required = [], allOf = [] } = schema;
     const allProperties = merge(get(allOf, [0, 'properties']), properties);
     return map(allProperties, (property, key) => {
@@ -223,7 +223,7 @@ const transformBody = (data:IRequestBodyContent['schema']): any[] => {
   return parse(cloneDeep(data), 'root');
 };
 
-export const parseOpenApi3 = (dataSource: IDataSource):IParseOas3 => {
+export const parseOpenApi3 = (dataSource: IDataSource): IParseOas3 => {
   const { _method, _path, summary, description, parameters = [], requestBody, responses } = dataSource;
   const info = {
     title: summary || description || _path,

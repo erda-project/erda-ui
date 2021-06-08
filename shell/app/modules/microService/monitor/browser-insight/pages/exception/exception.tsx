@@ -19,7 +19,7 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import './exception.scss';
 
 const Exception = () => {
-  const chosenSortItem = monitorCommonStore.useStore(s => s.chosenSortItem);
+  const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
 
   const getAllChart = () => {
     return (

@@ -26,7 +26,7 @@ describe('TimeSelector', () => {
   it('TimeSelector should work fine', () => {
     const onChangeTimeFn = jest.fn();
     const wrapper = shallow(
-      <TimeSelector onChangeTime={onChangeTimeFn} timeSpan={timeSpan} inline />
+      <TimeSelector onChangeTime={onChangeTimeFn} timeSpan={timeSpan} inline />,
     );
     expect(wrapper).toHaveClassName('monitor-time-selector-inline');
     wrapper.find('ForwardRef').prop('onChange')();
@@ -35,7 +35,7 @@ describe('TimeSelector', () => {
   it('render with defaultTime', () => {
     const onChangeTimeFn = jest.fn();
     const wrapper = shallow(
-      <TimeSelector onChangeTime={onChangeTimeFn} timeSpan={timeSpan} defaultTime={1} />
+      <TimeSelector onChangeTime={onChangeTimeFn} timeSpan={timeSpan} defaultTime={1} />,
     );
     expect(wrapper).toHaveClassName('monitor-time-selector');
   });

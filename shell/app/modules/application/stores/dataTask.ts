@@ -21,12 +21,12 @@ import { PAGINATION } from 'app/constants';
 import { isEmpty } from 'lodash';
 
 const getAppDetail = () => new Promise((resolve) => {
-  const { appId } = routeInfoStore.getState(s => s.params);
-  let appDetail = appStore.getState(s => s.detail);
+  const { appId } = routeInfoStore.getState((s) => s.params);
+  let appDetail = appStore.getState((s) => s.detail);
   const notSameApp = appId && String(appId) !== String(appDetail.id);
   if (!appId || notSameApp) {
     eventHub.once('appStore/getAppDetail', () => {
-      appDetail = appStore.getState(s => s.detail);
+      appDetail = appStore.getState((s) => s.detail);
       resolve(appDetail);
     });
   } else {
@@ -49,7 +49,7 @@ const dataTask = createStore({
   },
   effects: {
     async getWorkFlowFiles({ call, update }) {
-      const { gitRepoAbbrev } = appStore.getState(s => s.detail);
+      const { gitRepoAbbrev } = appStore.getState((s) => s.detail);
       if (gitRepoAbbrev) {
         let workFlowFiles = await call(dataTaskService.getWorkFlowFiles, { gitRepoAbbrev });
         workFlowFiles = workFlowFiles && workFlowFiles.map((file: any) => ({ title: file.name }));
@@ -63,18 +63,18 @@ const dataTask = createStore({
     },
     async getBusinessScope({ call, update }, payload) {
       const { compName } = payload;
-      let { gitRepo } = appStore.getState(s => s.detail);
+      let { gitRepo } = appStore.getState((s) => s.detail);
       if (!gitRepo) {
         await getAppDetail();
-        const appDetail = appStore.getState(s => s.detail);
+        const appDetail = appStore.getState((s) => s.detail);
         gitRepo = appDetail.gitRepo;
       }
       const businessScope = await call(dataTaskService.getBusinessScope, { remoteUri: gitRepo });
       compName === 'model' ? update({ modelBusinessScope: businessScope }) : update({ marketBusinessScope: businessScope });
     },
     async getBusinessProcesses({ call, update, select }, payload) {
-      const { gitRepo } = appStore.getState(s => s.detail);
-      const originalList = select(s => s.businessProcessList);
+      const { gitRepo } = appStore.getState((s) => s.detail);
+      const originalList = select((s) => s.businessProcessList);
 
       const { pageNo = 1, pageSize = PAGINATION.pageSize, searchKey, ...rest } = payload;
       const params = !isEmpty(searchKey) ? { pageNo, pageSize, keyWord: searchKey } : { pageNo, pageSize };
@@ -87,8 +87,8 @@ const dataTask = createStore({
       return { total, list: newList };
     },
     async getOutputTables({ call, update, select }, payload) {
-      const { gitRepo } = appStore.getState(s => s.detail);
-      const originalList = select(s => s.outputTableList);
+      const { gitRepo } = appStore.getState((s) => s.detail);
+      const originalList = select((s) => s.outputTableList);
 
       const { pageNo = 1, pageSize = PAGINATION.pageSize, searchKey, ...rest } = payload;
       const params = !isEmpty(searchKey) ? { pageNo, pageSize, keyWord: searchKey } : { pageNo, pageSize };
