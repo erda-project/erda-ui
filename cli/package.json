@@ -60,6 +60,11 @@
     "local-package-publisher": "^1.0.4",
     "ts-node": "^9.1.1"
   },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -e $GIT_PARAMS"
+    }
+  },
   "config": {
     "commitizen": {
       "path": "node_modules/cz-customizable"

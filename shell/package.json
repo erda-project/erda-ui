@@ -107,7 +107,6 @@
     "@module-federation/automatic-vendor-federation": "^1.2.1",
     "@paiva/translation-google": "^1.0.9",
     "@phenomnomnominal/tsquery": "^4.1.1",
-    "@svgr/webpack": "^4.1.0",
     "@types/classnames": "^2.2.6",
     "@types/clipboard": "^2.0.1",
     "@types/diff-match-patch": "^1.0.32",
@@ -179,6 +178,11 @@
     "webpack-cli": "^4.4.0",
     "webpack-dev-server": "^3.11.2",
     "webpack-merge": "^5.7.3"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -e $GIT_PARAMS"
+    }
   },
   "config": {
     "commitizen": {
