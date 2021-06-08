@@ -12,5 +12,5 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 interface Obj<T = any> {
-  [k: string]: T
+  [k: string]: T;
 }

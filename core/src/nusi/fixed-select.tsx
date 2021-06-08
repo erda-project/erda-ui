@@ -19,7 +19,7 @@ const { Option, OptGroup } = Select;
 const FixedSelect = React.forwardRef((props, ref) => {
   const options = props.children || get(props, 'options');
   return (
-    <Select ref={ref} getPopupContainer={triggerNode => triggerNode.parentElement as HTMLElement} {...props} >
+    <Select ref={ref} getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement} {...props} >
       {options}
     </Select>
   );

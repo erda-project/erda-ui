@@ -37,7 +37,7 @@ const { createStore, createFlatStore, use, storeMap } = cube({
         // markReq(prefixType(fn.name, model));
         let _payload = payload;
         if (pagingKey) {
-          const curPaging = select(s => s[pagingKey]); // 当前paging
+          const curPaging = select((s) => s[pagingKey]); // 当前paging
           const pageNo = +(payload.pageNo || paging.pageNo || defaultPaging.pageNo);
           const pageSize = +(payload.pageSize || paging.pageSize || curPaging.pageSize || defaultPaging.pageSize);
           _payload = { ...payload, pageNo, pageSize };

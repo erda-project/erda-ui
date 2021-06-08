@@ -28,7 +28,7 @@ const browserHistory = createBrowserHistory();
 setConfig('history', browserHistory);
 
 const App = () => {
-  const route = routeInfoStore.useStore(s => s.parsed);
+  const route = routeInfoStore.useStore((s) => s.parsed);
 
   React.useEffect(() => {
     browserHistory.listen((loc) => {
@@ -54,22 +54,22 @@ export const startApp = () => {
 };
 
 export interface IModule {
-  key: string,
-  stores?: any[],
-  routers?: IGetRouter,
+  key: string;
+  stores?: any[];
+  routers?: IGetRouter;
   locales?: {
-    key: string,
-    zh: Record<string, string>,
-    en: Record<string, string>,
-  },
-  Root?: React.ComponentType,
-  NotFound?: React.ComponentType,
+    key: string;
+    zh: Record<string, string>;
+    en: Record<string, string>;
+  };
+  Root?: React.ComponentType;
+  NotFound?: React.ComponentType;
 }
 
 export const registerModule = ({ key, stores, routers, locales, Root, NotFound }: IModule, cb?: () => void) => {
   if (locales && locales.zh && locales.en) {
     const namespaces = Object.keys(locales.zh);
-    namespaces.forEach(ns => {
+    namespaces.forEach((ns) => {
       i18n.addResourceBundle('zh', ns, locales.zh[ns]);
       i18n.addResourceBundle('en', ns, locales.en[ns]);
     });
@@ -87,5 +87,5 @@ export const registerModule = ({ key, stores, routers, locales, Root, NotFound }
 };
 
 export const registerModules = (modules: IModule[]) => {
-  (modules || []).map(item => registerModule(item));
+  (modules || []).map((item) => registerModule(item));
 };
