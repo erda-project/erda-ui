@@ -27,21 +27,21 @@ const { Option } = Select;
 
 interface IProps {
   modalVisible: boolean;
-  apiPathPrefix:string;
+  apiPathPrefix: string;
   currentService: string | undefined;
   diceApp: string | undefined;
   chosenRuntimeId: string | undefined;
   isRuntimeEntry: boolean;
   serviceAddressMap: Record<string, any>;
   dataSource: Record<string, any>;
-  onCancel(data?:any): void;
-  afterSubmit(): void;
+  onCancel: (data?: any) => void;
+  afterSubmit: () => void;
 }
 
-const AddApiModal = ({ modalVisible, onCancel, apiPathPrefix, currentService, diceApp, chosenRuntimeId, afterSubmit, isRuntimeEntry, serviceAddressMap, dataSource }:IProps) => {
-  const isK8S = microServiceStore.useStore(s => s.isK8S);
+const AddApiModal = ({ modalVisible, onCancel, apiPathPrefix, currentService, diceApp, chosenRuntimeId, afterSubmit, isRuntimeEntry, serviceAddressMap, dataSource }: IProps) => {
+  const isK8S = microServiceStore.useStore((s) => s.isK8S);
   const { addAPI, updateAPI } = gatewayStore.effects;
-  const [authPolicy, trafficControlPolicy] = gatewayStore.useStore(s => [s.authPolicy, s.trafficControlPolicy]);
+  const [authPolicy, trafficControlPolicy] = gatewayStore.useStore((s) => [s.authPolicy, s.trafficControlPolicy]);
   const [state, updater, update] = useUpdate({
     isEditingApi: false,
     chosenRedirectType: '',

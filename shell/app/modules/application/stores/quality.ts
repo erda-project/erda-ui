@@ -19,12 +19,12 @@ import { eventHub } from 'common/utils/event-hub';
 import { createStore } from 'app/cube';
 
 const getAppDetail = () => new Promise((resolve) => {
-  const { appId } = routeInfoStore.getState(s => s.params);
-  let appDetail = appStore.getState(s => s.detail);
+  const { appId } = routeInfoStore.getState((s) => s.params);
+  let appDetail = appStore.getState((s) => s.detail);
   const notSameApp = appId && String(appId) !== String(appDetail.id);
   if (!appId || notSameApp) {
     eventHub.once('appStore/getAppDetail', () => {
-      appDetail = appStore.getState(s => s.detail);
+      appDetail = appStore.getState((s) => s.detail);
       resolve(appDetail);
     });
   } else {
@@ -39,8 +39,8 @@ interface IBlob {
 interface IState {
   blob: IBlob;
   sonarStatistics: QA.Stat;
-  coverage: QA.Item[]
-  duplications: QA.Item[]
+  coverage: QA.Item[];
+  duplications: QA.Item[];
 }
 
 const initState: IState = {
@@ -75,7 +75,7 @@ const quality = createStore({
     },
     async getRepoBlob({ select, call, update }, payload: { path: string }) {
       const appDetail = await getAppDetail() as any;
-      const { branch } = select(state => state.sonarStatistics) as any;
+      const { branch } = select((state) => state.sonarStatistics) as any;
       const blob = await call(getFromRepo, {
         type: 'blob',
         repoPrefix: appDetail.gitRepoAbbrev,

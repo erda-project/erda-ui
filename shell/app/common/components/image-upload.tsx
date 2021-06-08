@@ -46,11 +46,11 @@ interface IProps {
   showHint?: boolean;
   queryData?: any;
   sizeLimit?: number;
-  afterUpload?(url?: string | string[]): void;
+  afterUpload?: (url?: string | string[]) => void;
 }
 interface IState {
   imageUrl?: string;
-  images: string[],
+  images: string[];
   queryData?: any;
 }
 export class ImageUpload extends Component<IProps, IState> {
@@ -63,7 +63,7 @@ export class ImageUpload extends Component<IProps, IState> {
     };
   }
 
-  static getDerivedStateFromProps(nextProps: IProps, preState: IState): Partial<IState>| null{
+  static getDerivedStateFromProps(nextProps: IProps, preState: IState): Partial<IState>| null {
     if (!isEqual(nextProps.value, preState.imageUrl)) {
       if (nextProps.isMulti) {
         return { images: nextProps.value as unknown as string[] };
@@ -201,7 +201,7 @@ export class ImageUpload extends Component<IProps, IState> {
     const _hintText = hintText || i18n.t('upload-image-limit {sizeLimit}', { sizeLimit });
 
     return (
-      <div className='image-upload-wrap'>
+      <div className="image-upload-wrap">
         <div className="wrap-flex-box">
           {this.renderUploadItem()}
         </div>

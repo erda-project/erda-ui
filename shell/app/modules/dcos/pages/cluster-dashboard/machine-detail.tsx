@@ -31,7 +31,7 @@ const itemConfigs = [
   },
   {
     title: i18n.t('tags'),
-    render: ({ labels }: any) => map((labels || '').split(','), label => <Tag key={label}>{label}</Tag>),
+    render: ({ labels }: any) => map((labels || '').split(','), (label) => <Tag key={label}>{label}</Tag>),
   },
   {
     title: 'CPU',

@@ -36,13 +36,13 @@ export default () => {
     activeMachine: {} as ORG_MACHINE.IMachine,
   });
 
-  const [{ siteName, clusterName }] = routeInfoStore.useStore(s => [s.query]);
-  const { id } = routeInfoStore.useStore(s => s.params);
+  const [{ siteName, clusterName }] = routeInfoStore.useStore((s) => [s.query]);
+  const { id } = routeInfoStore.useStore((s) => s.params);
 
   const [isFetching] = useLoading(machineManageStore, ['getGroupInfos']);
   const { getGroupInfos, clearGroupInfos, offlineMachine } = machineManageStore;
 
-  const [groupInfos] = machineManageStore.useStore(s => [s.groupInfos]);
+  const [groupInfos] = machineManageStore.useStore((s) => [s.groupInfos]);
 
   useUnmount(() => {
     clearGroupInfos();
@@ -67,19 +67,19 @@ export default () => {
 
   const tableList = React.useMemo(() => {
     const { machines } = groupInfos[0] || {};
-    return map(machines, m => {
+    return map(machines, (m) => {
       return m;
     });
   }, [groupInfos]);
 
-  const showMonitor = (record:ORG_MACHINE.IMachine) => {
+  const showMonitor = (record: ORG_MACHINE.IMachine) => {
     update({
       drawerVisible: true,
       activeMachine: record,
     });
   };
 
-  const offlineHandle = (record:ORG_MACHINE.IMachine) => {
+  const offlineHandle = (record: ORG_MACHINE.IMachine) => {
     offlineMachine({
       siteIP: record.ip,
       id: +id,
@@ -179,7 +179,7 @@ export default () => {
   return (
     <div className="machine-table">
       <Breadcrumb separator={<IconRight size="14px" />} className="path-breadcrumb mb8">
-        <Breadcrumb.Item className='hover-active' onClick={() => goTo(goTo.pages.edgeResource)}>{siteName}</Breadcrumb.Item>
+        <Breadcrumb.Item className="hover-active" onClick={() => goTo(goTo.pages.edgeResource)}>{siteName}</Breadcrumb.Item>
         <Breadcrumb.Item>{i18n.t('org:node list')}</Breadcrumb.Item>
       </Breadcrumb>
 

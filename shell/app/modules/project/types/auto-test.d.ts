@@ -30,12 +30,12 @@ declare namespace AUTO_TEST {
       pipelineYml: string;
       snippetAction: {
         [pro: string]: any;
-        snippet_config:{
+        snippet_config: {
           name: string;
           source: string;
-        }
-      }
-    }
+        };
+      };
+    };
   }
 
   interface ICaseTreeQuery{
@@ -68,7 +68,7 @@ declare namespace AUTO_TEST {
   }
 
   interface ISnippetDetailQuery{
-    snippetConfigs: ISnippetConfig[]
+    snippetConfigs: ISnippetConfig[];
   }
 
   interface ISnippetDetail{
@@ -79,7 +79,7 @@ declare namespace AUTO_TEST {
   }
 
   interface ISnippetDetailRes {
-    [pro:string]: ISnippetDetail;
+    [pro: string]: ISnippetDetail;
   }
 
   interface ICreateAndRunQuery{
@@ -89,8 +89,8 @@ declare namespace AUTO_TEST {
     clusterName: string;
     configManageNamespaces?: string[];
     autoRunAtOnce: boolean;
-    runParams?: Array<{name: string; value: string}>
-    labels?: {orgID: string; projectID: string}
+    runParams?: Array<{name: string; value: string}>;
+    labels?: {orgID: string; projectID: string};
   }
 
   interface IUpdateCaseBody {

@@ -65,7 +65,7 @@ const MonitorChartPanel = (props: IProps) => {
           })
         }
         <IF check={(keys(metrics).length > showNumber)}>
-          <div className="show-all" onClick={() => setShowNumber(prevNumber => prevNumber + 4)}>{i18n.t('load more')}</div>
+          <div className="show-all" onClick={() => setShowNumber((prevNumber) => prevNumber + 4)}>{i18n.t('load more')}</div>
         </IF>
       </div>
     </>

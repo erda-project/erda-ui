@@ -49,7 +49,7 @@ describe('str-num-date', () => {
     const wrapper = shallow(
       <div>
         {cutStr(title, 0, { suffix: '...', showTip: true })}
-      </div>
+      </div>,
     );
     expect(wrapper.find('Tooltip').prop('title')).toBe(title);
     expect(wrapper.find('Tooltip').children().text()).toBe('...');
@@ -79,7 +79,7 @@ describe('str-num-date', () => {
       <div>
         {fromNow(curr)}
         {fromNow(curr, { prefix: title })}
-      </div>
+      </div>,
     );
     expect(wrapper.find('Tooltip').at(0).prop('title')).toBe(curr.format('YYYY-MM-DD HH:mm:ss'));
     expect(wrapper.find('Tooltip').at(0).children().text()).toBe(curr.fromNow());
@@ -111,7 +111,7 @@ describe('str-num-date', () => {
   it('formatTime', () => {
     const dateStr = '2021-04-20 12:00:00';
     expect(formatTime(0)).toBeNull();
-    expect(formatTime(dateStr,)).toBe('2021-04-20');
+    expect(formatTime(dateStr)).toBe('2021-04-20');
     expect(formatTime(dateStr, 'YYYY-MM-DD HH:mm:ss')).toBe(dateStr);
   });
 });

@@ -21,19 +21,19 @@ import './org-list.scss';
 
 export const OrgList = () => {
   return (
-    <Card className='full-height ma12 auto-overflow'>
-      <div className='org-home-info mb20'>
-        <div className='info-img'>
+    <Card className="full-height ma12 auto-overflow">
+      <div className="org-home-info mb20">
+        <div className="info-img">
           <img src={erda_png} />
         </div>
-        <div className='info-text mt20'>
-          <span className='desc fz16 bold'>{i18n.t('org:org-intro')}</span>
+        <div className="info-text mt20">
+          <span className="desc fz16 bold">{i18n.t('org:org-intro')}</span>
         </div>
       </div>
-      <div className='org-home-list'>
-         <DiceConfigPage
-          scenarioType='org-list-all'
-          scenarioKey='org-list-all'
+      <div className="org-home-list">
+        <DiceConfigPage
+          scenarioType="org-list-all"
+          scenarioKey="org-list-all"
         />
       </div>
     </Card>

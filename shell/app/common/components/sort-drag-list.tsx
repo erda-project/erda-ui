@@ -21,20 +21,20 @@ import './sort-drag-list.scss';
 
 
 interface IBeginDragData<T> {
-  item: T,
-  index: number,
+  item: T;
+  index: number;
 }
 
 interface IEndDragData<T> {
-  sourceItem: T,
-  targetItem: T,
-  position: -1 | 0 | 1,
-  didDrop: boolean,
+  sourceItem: T;
+  targetItem: T;
+  position: -1 | 0 | 1;
+  didDrop: boolean;
 }
 
 interface IDragItemOp<T> {
   icon: string;
-  onClick(data: T): void
+  onClick: (data: T) => void;
 }
 
 const useDragAndDrop = ({ item, index, onBeginDrag, onEndDrag, onMove }: any) => {
@@ -163,8 +163,8 @@ const SortDragItem = ({
   }
 
   return (
-    <div ref={draggable ? node => drop(preview(node)) : undefined} key={index} className={`flex-box sort-drag-item ${hoverCls}`} onClick={() => onClick && onClick(item)}>
-      <div ref={draggable ? drag : undefined} className='px8 icon-block drag-handle' onClick={e => e.stopPropagation()}><CustomIcon type="up-down" /></div>
+    <div ref={draggable ? (node) => drop(preview(node)) : undefined} key={index} className={`flex-box sort-drag-item ${hoverCls}`} onClick={() => onClick && onClick(item)}>
+      <div ref={draggable ? drag : undefined} className="px8 icon-block drag-handle" onClick={(e) => e.stopPropagation()}><CustomIcon type="up-down" /></div>
       <div className="flex-1 ml4 nowrap pointer v-align sort-drag-item-title">
         <Ellipsis title={data.title}>{data.title}</Ellipsis>
       </div>
@@ -174,7 +174,7 @@ const SortDragItem = ({
             return op.disabled ? (
               <span
                 className={`icon-block hover-active px8 not-allowed ${op.hoverShow ? 'hover-show' : ''}`}
-                onClick={(e:any) => e && e.stopPropagation()}
+                onClick={(e: any) => e && e.stopPropagation()}
               >
                 <CustomIcon
                   type={op.icon}
@@ -192,7 +192,7 @@ const SortDragItem = ({
                   op.onClick(item);
                 }}
                 key={op.icon}
-                onCancel={(e:any) => e && e.stopPropagation()}
+                onCancel={(e: any) => e && e.stopPropagation()}
               >
                 <span
                   onClick={(e) => {
@@ -233,13 +233,13 @@ const SortDragItem = ({
 };
 
 interface SortDragGroupProps<T> {
-  index: number
-  group: { id: number, children: T[], [k: string]: any }
-  list: T[]
-  disableDropInItem?: boolean
+  index: number;
+  group: { id: number; children: T[]; [k: string]: any };
+  list: T[];
+  disableDropInItem?: boolean;
   draggable?: boolean;
   groupDraggable?: boolean;
-  disableDropInGroup?: boolean
+  disableDropInGroup?: boolean;
   onBeginDragItem?: (data: IBeginDragData<T>) => void;
   onEndDragItem?: (data: IEndDragData<T>) => void;
   onMoveItem?: (data: any) => void;
@@ -279,7 +279,7 @@ SortDragGroupProps<SortItemData>) => {
     }
   }
   return (
-    <div ref={draggable ? node => drop(preview(node)) : undefined} key={groupId} className={`sort-drag-group ${hoverCls}`}>
+    <div ref={draggable ? (node) => drop(preview(node)) : undefined} key={groupId} className={`sort-drag-group ${hoverCls}`}>
       {
         groupDraggable === false ? null : (
           <div ref={draggable ? drag : undefined} className="group-drag-handle center-flex-box">
@@ -287,7 +287,7 @@ SortDragGroupProps<SortItemData>) => {
           </div>
         )
       }
-      <div className='flex-1'>
+      <div className="flex-1">
         {list.map((item, i) => {
           return (
             <SortDragItem
@@ -297,7 +297,7 @@ SortDragGroupProps<SortItemData>) => {
               draggable={draggable}
               disableDropIn={disableDropInItem}
               onMove={onMoveItem}
-              onBeginDrag={res => onBeginDragItem({ ...res, size: list.length })}
+              onBeginDrag={(res) => onBeginDragItem({ ...res, size: list.length })}
               onEndDrag={onEndDragItem}
               onClick={onClickItem}
             />
@@ -324,37 +324,37 @@ const getHolder = (type: string) => {
 
 
 interface SortItemData {
-  type: string
+  type: string;
   draggable: boolean;
   data: {
-    id: number,
-    groupId: number,
-    title: string,
+    id: number;
+    groupId: number;
+    title: string;
     operations?: Array<{
-      icon: string,
-      hoverShow?: boolean,
-      hoverTip?: string,
-      onClick(item: SortItemData): void
-    }>,
-    [k: string]: any
-  }
-  isHolder?: boolean
+      icon: string;
+      hoverShow?: boolean;
+      hoverTip?: string;
+      onClick: (item: SortItemData) => void;
+    }>;
+    [k: string]: any;
+  };
+  isHolder?: boolean;
 }
 
 interface SortGroupData {
-  id: number,
-  children: SortItemData[],
+  id: number;
+  children: SortItemData[];
 }
 
 interface IProps {
-  value: SortItemData[]
-  disableDropInItem?: boolean
-  disableDropInGroup?: boolean
+  value: SortItemData[];
+  disableDropInItem?: boolean;
+  disableDropInGroup?: boolean;
   draggable?: boolean;
   groupDraggable?: boolean;
-  onChange?(data: any): void
-  onMoveItem?(data: any): void
-  onMoveGroup?(data: any): void
+  onChange?: (data: any) => void;
+  onMoveItem?: (data: any) => void;
+  onMoveGroup?: (data: any) => void;
   onClickItem?: (data: SortItemData['data']) => void;
 }
 const noop = () => { };
@@ -380,7 +380,7 @@ export const SortDragGroupList: React.FC<IProps> = ({ value, disableDropInItem, 
   }, [list]);
 
   const addHolder = () => {
-    setList(prev => (prev.find(a => a.isHolder) ? prev : prev.concat(getHolder(list[0].type))));
+    setList((prev) => (prev.find((a) => a.isHolder) ? prev : prev.concat(getHolder(list[0].type))));
   };
 
   const onBeginDragItem = ({ size }: IBeginDragData<SortItemData>) => {
@@ -392,7 +392,7 @@ export const SortDragGroupList: React.FC<IProps> = ({ value, disableDropInItem, 
   };
 
   const onEndDragItem = ({ sourceItem, targetItem, position }: IEndDragData<SortItemData>) => {
-    setList(prev => {
+    setList((prev) => {
       const newData = prev.filter((a) => !a.isHolder);
       // onChange && onChange(newData);
       return newData;

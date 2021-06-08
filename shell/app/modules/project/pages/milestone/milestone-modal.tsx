@@ -19,13 +19,13 @@ import issueStore from 'project/stores/issues';
 import * as React from 'react';
 
 interface IProps {
-  visible: boolean,
-  data?: ISSUE.Epic | null,
-  reload(): void,
-  onCancel(): void,
+  visible: boolean;
+  data?: ISSUE.Epic | null;
+  reload: () => void;
+  onCancel: () => void;
 }
 export const MilestoneModal = ({ visible, data, reload, onCancel }: IProps) => {
-  const params = routeInfoStore.useStore(s => s.params);
+  const params = routeInfoStore.useStore((s) => s.params);
   const {
     updateIssue,
     createIssue,
@@ -67,7 +67,7 @@ export const MilestoneModal = ({ visible, data, reload, onCancel }: IProps) => {
     },
   ];
 
-  const handleSubmit = (formData: { title: string; content: string; assignee: string, planFinishedAt: string }) => {
+  const handleSubmit = (formData: { title: string; content: string; assignee: string; planFinishedAt: string }) => {
     if (data) {
       updateIssue({ ...data, ...formData })
         .finally(() => {

@@ -17,7 +17,7 @@ import { describe, it, jest } from '@jest/globals';
 import { render } from 'react-dom';
 import agent from 'agent';
 
-let container:HTMLDivElement;
+let container: HTMLDivElement;
 
 describe('MonitorChart', () => {
   beforeEach(() => {
@@ -46,7 +46,7 @@ describe('MonitorChart', () => {
   });
   it('should ', (done) => {
     render(<MonitorChart
-      resourceType='erda'
+      resourceType="erda"
       resourceId="01"
       metricKey="a"
       chartQuery={{

@@ -38,7 +38,7 @@ export const rdsTabs = {
 };
 
 const RedisManager = () => {
-  const tabKey = routeInfoStore.useStore(s => s.params.tabKey);
+  const tabKey = routeInfoStore.useStore((s) => s.params.tabKey);
   return get(rdsTabs, `${tabKey}.content`) || null;
 };
 

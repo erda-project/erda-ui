@@ -23,9 +23,9 @@ import {
 } from '../services/jvm';
 
 interface OptionItem {
-  label: string,
-  value: string,
-  children?: OptionItem[],
+  label: string;
+  value: string;
+  children?: OptionItem[];
 }
 
 export enum ProfileStateMap {
@@ -37,12 +37,12 @@ export enum ProfileStateMap {
 }
 
 interface IState {
-  services: OptionItem[],
-  runningList: JVM.ProfileItem[],
-  runningPaging: IPaging,
-  historyList: JVM.ProfileItem[],
-  historyPaging: IPaging,
-  jvmInfo: { [k: string]: Array<{ key: string; value: string; }> },
+  services: OptionItem[];
+  runningList: JVM.ProfileItem[];
+  runningPaging: IPaging;
+  historyList: JVM.ProfileItem[];
+  historyPaging: IPaging;
+  jvmInfo: { [k: string]: Array<{ key: string; value: string }> };
 }
 
 const initState: IState = {
@@ -60,13 +60,13 @@ const jvmStore = createFlatStore({
   effects: {
     async getServiceInsList({ call, update }, insId: string) {
       const res = await call(getServiceInsList, insId);
-      const services = res.map(a => ({
+      const services = res.map((a) => ({
         label: a.applicationName,
         value: a.applicationId,
-        children: a.services.map(s => ({
+        children: a.services.map((s) => ({
           label: s.serviceName,
           value: s.serviceId,
-          children: s.instances.map(i => ({
+          children: s.instances.map((i) => ({
             label: i.instanceName,
             value: i.instanceId,
           })),
@@ -94,7 +94,7 @@ const jvmStore = createFlatStore({
     },
     async getJVMInfo({ select, call, update }, payload: JVM.JVMInfoQuery) {
       const { list } = await call(getJVMInfo, payload);
-      const preJvmInfo = select(s => s.jvmInfo);
+      const preJvmInfo = select((s) => s.jvmInfo);
       update({
         jvmInfo: {
           ...preJvmInfo,

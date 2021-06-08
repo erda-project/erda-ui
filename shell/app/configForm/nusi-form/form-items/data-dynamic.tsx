@@ -24,11 +24,11 @@ interface IProps{
     dataPath: string;
     valueKey: string;
     nameKey: string;
-  }
-  onChange:(arg: any)=>void;
+  };
+  onChange: (arg: any) => void;
 }
 
-export const DataDynamic = ({ value, onChange }:IProps) => {
+export const DataDynamic = ({ value, onChange }: IProps) => {
   const [data, setData] = React.useState(value);
 
   const updateData = (val: any) => {
@@ -39,12 +39,12 @@ export const DataDynamic = ({ value, onChange }:IProps) => {
   };
 
   return (
-    <div className='dice-form-nusi-data-dynamic'>
-      <Input value={data.api} onChange={(e) => updateData({ api: e.target.value })} onBlur={setChange} placeholder='api路径，若存在动态参数及其他特殊逻辑，请直接填写描述' />
-      <div className='data-path'>
-        <Input value={data.dataPath} onChange={(e) => updateData({ dataPath: e.target.value })} onBlur={setChange} placeholder='数据路径，如data.list' />
-        <Input value={data.nameKey} onChange={(e) => updateData({ nameKey: e.target.value })} onBlur={setChange} placeholder='展示字段' />
-        <Input value={data.valueKey} onChange={(e) => updateData({ valueKey: e.target.value })} onBlur={setChange} placeholder='取值字段' />
+    <div className="dice-form-nusi-data-dynamic">
+      <Input value={data.api} onChange={(e) => updateData({ api: e.target.value })} onBlur={setChange} placeholder="api路径，若存在动态参数及其他特殊逻辑，请直接填写描述" />
+      <div className="data-path">
+        <Input value={data.dataPath} onChange={(e) => updateData({ dataPath: e.target.value })} onBlur={setChange} placeholder="数据路径，如data.list" />
+        <Input value={data.nameKey} onChange={(e) => updateData({ nameKey: e.target.value })} onBlur={setChange} placeholder="展示字段" />
+        <Input value={data.valueKey} onChange={(e) => updateData({ valueKey: e.target.value })} onBlur={setChange} placeholder="取值字段" />
       </div>
     </div>
   );
@@ -98,7 +98,7 @@ export const FormDataDynamic = ({
 export const config = {
   name: 'dataDynamic',
   Component: FormDataDynamic, // 某React组件，props中必须有value、onChange
-  requiredCheck: value => {
+  requiredCheck: (value) => {
     // 必填校验时，特殊的校验规则
     return [!isEmpty(value), i18n.t('can not be empty')];
   },

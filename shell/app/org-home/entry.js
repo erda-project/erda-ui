@@ -14,12 +14,12 @@
 import getOrgRouter from './router';
 import PageContainer from 'layout/pages/page-container/page-container';
 import { NotFound } from 'layout/common/error-page';
-import orgStore from './stores/org'
+import orgStore from './stores/org';
 
 export default (registerModule) => {
   return registerModule({
     key: 'orgHome',
-    stores: [ orgStore ],
+    stores: [orgStore],
     routers: getOrgRouter,
     Root: PageContainer,
     NotFound,

@@ -14,8 +14,8 @@
 import agent from 'agent';
 
 interface IApproval {
-  data: IPagingResp<APPROVAL.Item>,
-  userIDs: string[]
+  data: IPagingResp<APPROVAL.Item>;
+  userIDs: string[];
 }
 
 export const getApprovalList = (payload: APPROVAL.IApprovalQuery): IApproval => {

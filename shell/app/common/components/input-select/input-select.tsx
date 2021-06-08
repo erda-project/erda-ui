@@ -27,11 +27,11 @@ interface IProps{
   showSearch?: boolean;
   dropdownMatchSelectWidth?: boolean;
   className?: string;
-  onChange:(v: string) => void;
+  onChange: (v: string) => void;
   onLoadData?: (selectedOptions: IOption[]) => void;
   valueConvert?: (v: number | string | string[]) => string;
   onBlur?: () => void;
-  [pro: string]: any
+  [pro: string]: any;
 }
 let compKey = 1;
 const noop = (v: any) => v;
@@ -66,10 +66,10 @@ const InputSelect = (props: IProps) => {
     // 控制点击外部关闭 dropdown
     const handleCloseDropdown = (e: MouseEvent) => {
       const wrappers = Array.from(
-        document.querySelectorAll(`.input-select-input-${compId}`)
+        document.querySelectorAll(`.input-select-input-${compId}`),
       );
       const dropdowns = Array.from(
-        document.querySelectorAll(`.input-select-dropdown-${compId} .dropdown-box`)
+        document.querySelectorAll(`.input-select-dropdown-${compId} .dropdown-box`),
       );
       const node = e.target as Node;
       const inner = wrappers
@@ -179,7 +179,7 @@ interface IOption {
 interface SelectorProps{
   showSearch?: boolean;
   width?: string;
-  dropdownMatchSelectWidth?: boolean,
+  dropdownMatchSelectWidth?: boolean;
   options: IOption[];
   onChange: (v: string | number | string[], op?: IOption) => void;
   loadData?: (selectOptions: IOption[]) => void;
@@ -187,11 +187,11 @@ interface SelectorProps{
 
 // 是否是单纯select组件
 const isSelectorData = (option: IOption[]) => {
-  return !some(option, op => has(op, 'isLeaf'));
+  return !some(option, (op) => has(op, 'isLeaf'));
 };
 
 const getFilterOptions = (options: IOption[], searchValue: string | undefined) => {
-  return filter(options, _op => (_op.label || '').toLowerCase().includes((searchValue || '').toLowerCase()));
+  return filter(options, (_op) => (_op.label || '').toLowerCase().includes((searchValue || '').toLowerCase()));
 };
 
 const Selector = (props: SelectorProps) => {
@@ -225,14 +225,14 @@ const PureSelect = (props: SelectorProps) => {
     <div className={'input-select-dropdown-box  dropdown-box column'} style={width ? { width } : undefined}>
       {
         showSearch ? (
-          <div className='pa4'>
-            <Input size='small' placeholder={i18n.t('filter')} value={searchValue} onFocus={e => e.stopPropagation()} onChange={onChangeSearch} onClick={e => e.stopPropagation()} />
+          <div className="pa4">
+            <Input size="small" placeholder={i18n.t('filter')} value={searchValue} onFocus={(e) => e.stopPropagation()} onChange={onChangeSearch} onClick={(e) => e.stopPropagation()} />
           </div>
         ) : null
       }
-      <div className='flex-1 input-select-options'>
+      <div className="flex-1 input-select-options">
         {
-        map(useOptions, op => {
+        map(useOptions, (op) => {
           return (
             <div
               key={op.value}
@@ -244,11 +244,11 @@ const PureSelect = (props: SelectorProps) => {
             >
               {
                   op.tooltip ? (
-                    <Tooltip title={op.tooltip} placement='right'>
-                      <span className='full-width'>{op.label}</span>
+                    <Tooltip title={op.tooltip} placement="right">
+                      <span className="full-width">{op.label}</span>
                     </Tooltip>
                   ) : (
-                    <Ellipsis placement='right' title={op.label}>{op.label}</Ellipsis>
+                    <Ellipsis placement="right" title={op.label}>{op.label}</Ellipsis>
                   )
                 }
             </div>
@@ -289,7 +289,7 @@ const Cascader = (props: SelectorProps) => {
     const lastVal = last(values);
     if (lastVal) {
       if (lastVal.isLeaf === false) { // 选中了非叶子节点，且无子，触发请求
-        loadData && (lastVal.children === undefined || lastVal.children === null) && loadData(map(values, vItem => {
+        loadData && (lastVal.children === undefined || lastVal.children === null) && loadData(map(values, (vItem) => {
           const { children, ...vRest } = vItem;
           return { ...vRest };
         }));
@@ -307,13 +307,13 @@ const Cascader = (props: SelectorProps) => {
   }, [options, updater, values]);
 
   return (
-    <div className='input-cascader-dropdown-box'>
+    <div className="input-cascader-dropdown-box">
       <OptionGroup options={options} showSearch={showSearch} onSelect={(v) => onSelect(v, 0)} chosenOption={values[0]} />
       {
         map(values, (vItem, idx) => {
           if (vItem.children !== undefined && vItem.children !== null) {
             return isEmpty(vItem.children) ? (
-              <div className='option-group' key={idx}><EmptyHolder relative /></div>
+              <div className="option-group" key={idx}><EmptyHolder relative /></div>
             ) : (
               <OptionGroup key={idx} options={vItem.children || []} showSearch={showSearch} onSelect={(v) => onSelect(v, idx + 1)} chosenOption={values[idx + 1]} />
             );
@@ -329,7 +329,7 @@ interface IOptionGroupProps{
   chosenOption?: IOption;
   showSearch?: boolean;
   options: IOption[];
-  onSelect: (v: IOption)=> void;
+  onSelect: (v: IOption) => void;
 }
 
 const OptionGroup = (props: IOptionGroupProps) => {
@@ -343,12 +343,12 @@ const OptionGroup = (props: IOptionGroupProps) => {
     updater.showShadow(e.target.scrollTop !== 0);
   };
   return (
-    <div className='option-group dropdown-box'>
+    <div className="option-group dropdown-box">
       {
         showSearch ? (
           <div className={`option-group-search pa4 ${showShadow ? 'shadow' : ''}`}>
             <Input
-              size='small'
+              size="small"
               value={searchValue}
               placeholder={i18n.t('filter')}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -360,7 +360,7 @@ const OptionGroup = (props: IOptionGroupProps) => {
       }
       <div className={'option-group-box '} onScroll={handleScroll}>
         {
-          map(getFilterOptions(options, searchValue), op => {
+          map(getFilterOptions(options, searchValue), (op) => {
             return (
               <div
                 key={op.value}
@@ -371,19 +371,19 @@ const OptionGroup = (props: IOptionGroupProps) => {
                 }}
               >
                 {
-                  op.tooltip 
+                  op.tooltip
                     ? (
-                      <Tooltip title={op.tooltip} placement='left'>
-                        <span className='full-width'>{op.label}</span>
+                      <Tooltip title={op.tooltip} placement="left">
+                        <span className="full-width">{op.label}</span>
                       </Tooltip>
-                      ) 
-                    : <Ellipsis placement='left' title={op.label}>{op.label}</Ellipsis>
+                    )
+                    : <Ellipsis placement="left" title={op.label}>{op.label}</Ellipsis>
                 }
                 {
                   op.isLeaf === false ? (
                     <CustomIcon
-                      type='chevronright'
-                      className='arrow'
+                      type="chevronright"
+                      className="arrow"
                     />
                   ) : null
                 }

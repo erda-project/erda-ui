@@ -27,9 +27,9 @@ interface IProps {
   copyText?: string;
   className?: string;
   tipName?: string;
-  onSuccess?(e: React.SyntheticEvent<HTMLSpanElement, Event>): void;
-  onError?(e: React.SyntheticEvent<HTMLSpanElement, Event>): void;
-  onEdit?(): void;
+  onSuccess?: (e: React.SyntheticEvent<HTMLSpanElement, Event>) => void;
+  onError?: (e: React.SyntheticEvent<HTMLSpanElement, Event>) => void;
+  onEdit?: () => void;
 }
 export class Copy extends React.PureComponent<IProps> {
   clipboard: any;

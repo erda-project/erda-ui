@@ -32,15 +32,15 @@ interface IProps{
 const FileTree = (props: IProps) => {
   const { scope } = props;
   const scopeConfigData = scopeConfig[scope];
-  const [params, query] = routeInfoStore.useStore(s => [s.params, s.query]);
+  const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const { getCategoryById, createTreeNode, createRootTreeNode, deleteTreeNode, updateTreeNode, moveTreeNode, copyTreeNode, getAncestors, fuzzySearch } = fileTreeStore;
-  const [caseDetail] = autoTestStore.useStore(s => [s.caseDetail]);
+  const [caseDetail] = autoTestStore.useStore((s) => [s.caseDetail]);
   const [rootNode, setRootNode] = React.useState(null as null | TreeNode);
   const [editVis, setEditVis] = React.useState(false);
   const { getCaseDetail, clearCaseDetail } = autoTestStore;
   const [editData, setEditData] = React.useState(undefined as any);
   const editHookRef = React.useRef(null as any);
-  const projectInfo = projectStore.useStore(s => s.info);
+  const projectInfo = projectStore.useStore((s) => s.info);
 
   useUnmount(() => {
     clearCaseDetail();
@@ -145,7 +145,7 @@ const FileTree = (props: IProps) => {
     },
   ];
 
-  const onSelectNode = ({ inode, isLeaf }: { inode: string, isLeaf: boolean }) => {
+  const onSelectNode = ({ inode, isLeaf }: { inode: string; isLeaf: boolean }) => {
     if (isLeaf && inode && query.caseId !== inode) {
       clearCaseDetail();
       setTimeout(() => {
@@ -230,7 +230,7 @@ const FileTree = (props: IProps) => {
           />
           : <EmptyHolder relative />
       }
-      <CaseEditForm editData={editData} visible={editVis} onOk={onOk} onClose={onClose} scope={scope}/>
+      <CaseEditForm editData={editData} visible={editVis} onOk={onOk} onClose={onClose} scope={scope} />
     </>
   );
 };

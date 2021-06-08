@@ -39,8 +39,8 @@ import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import issueFieldStore from 'org/stores/issue-field';
 
 interface IState {
-  issueList: ISSUE.Issue[],
-  issuePaging: IPaging,
+  issueList: ISSUE.Issue[];
+  issuePaging: IPaging;
   fullRequirementList: ISSUE.Requirement[];
   openRequirementList: ISSUE.Requirement[];
   workingRequirementList: ISSUE.Requirement[];
@@ -148,7 +148,7 @@ const issueStore = createStore({
     listenRoute(({ isEntering, isLeaving }) => {
       if (isEntering('issues')) {
         projectLabelStore.effects.getLabels({ type: 'issue' });
-        const orgID = orgStore.getState(s => s.currentOrg.id);
+        const orgID = orgStore.getState((s) => s.currentOrg.id);
         issueFieldStore.effects.getSpecialFieldOptions({ orgID, issueType: 'BUG' });
         issueFieldStore.effects.getSpecialFieldOptions({ orgID, issueType: 'TASK' });
       } else if (isLeaving('issues')) {
@@ -161,7 +161,7 @@ const issueStore = createStore({
       const { projectId: projectID, iterationId: iterationID } = getParams();
       const { loadMore } = payload;
       const { list = [] } = await call(getIssues, { iterationID, ...payload, projectID }, { paging: { key: 'issuePaging' } });
-      const oldList = select(s => s.issueList);
+      const oldList = select((s) => s.issueList);
       const newList = (loadMore && payload.pageNo !== 1) ? oldList.concat(list) : list;
       update({ issueList: newList });
       return list;
@@ -200,7 +200,7 @@ const issueStore = createStore({
         listKey = 'epicList';
       }
       const { list = [] } = await call(getIssues, { ...payload, projectID }, { paging: { key: pagingKey } });
-      const oldList = select(s => s[listKey]);
+      const oldList = select((s) => s[listKey]);
       const newList = (loadMore && payload.pageNo !== 1) ? oldList.concat(list) : list;
       update({ [listKey]: newList });
       return list;
@@ -243,7 +243,7 @@ const issueStore = createStore({
       const res = await call(updateIssue, payload);
       return res;
     },
-    async updateType({ call, getParams }, payload: { id: number, type: string }) {
+    async updateType({ call, getParams }, payload: { id: number; type: string }) {
       const { projectId } = getParams();
       await call(updateType, { ...payload, projectId: +projectId });
     },
@@ -261,7 +261,7 @@ const issueStore = createStore({
       const res = await call(addIssueRelation, payload, { successMsg: i18n.t('project:add relation successful') });
       return res;
     },
-    async deleteIssueRelation({ call }, payload: { id: number, relatedIssueID: number }) {
+    async deleteIssueRelation({ call }, payload: { id: number; relatedIssueID: number }) {
       const res = await call(deleteIssueRelation, payload, { successMsg: i18n.t('deleted successfully') });
       return res;
     },
@@ -281,8 +281,8 @@ const issueStore = createStore({
       update({ customFieldDetail });
       return customFieldDetail;
     },
-    async importIssueFile({ call }, payload: { file: any, issueType: string, projectID: number | string }) {
-      const orgID = orgStore.getState(s => s.currentOrg.id);
+    async importIssueFile({ call }, payload: { file: any; issueType: string; projectID: number | string }) {
+      const orgID = orgStore.getState((s) => s.currentOrg.id);
       const { file, issueType, projectID } = payload;
       const formData = convertToFormData(file);
       const res = await call(importFileInIssues, { payload: formData, query: { orgID, projectID: +projectID, type: issueType } });
@@ -320,7 +320,7 @@ const issueStore = createStore({
         doneRequirementsPaging: getDefaultPaging(),
       };
     },
-    clearIssues(state, { type, state: exState }: { type: keyof typeof ISSUE_TYPE, state?: string }) {
+    clearIssues(state, { type, state: exState }: { type: keyof typeof ISSUE_TYPE; state?: string }) {
       let pagingKey = '';
       let listKey = '';
       if (type === ISSUE_TYPE.REQUIREMENT) {

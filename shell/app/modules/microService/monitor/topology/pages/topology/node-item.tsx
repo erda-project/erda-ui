@@ -30,17 +30,17 @@ import './node-item.scss';
 import moment from 'moment';
 
 interface INodeEle{
-  [pro:string]:any;
+  [pro: string]: any;
   node: INode;
   terminusKey: string;
   timeSpan: ITimeSpan;
   nodeStyle: {
     width: number;
     height: number;
-  }
-  onHover(...args: any): void;
-  outHover(...args: any): void;
-  onClick(...args: any): void;
+  };
+  onHover: (...args: any) => void;
+  outHover: (...args: any) => void;
+  onClick: (...args: any) => void;
 }
 const MenuItem = Menu.Item;
 
@@ -83,9 +83,9 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
   const { name, id, type, applicationId, serviceName, applicationName, runtimeName, metric: { rt, count, error_rate, running, stopped } } = node;
   const { width, height } = nodeStyle;
   const style = { width, height };
-  const params = routeInfoStore.useStore(s => s.params);
-  const scale = topologyStore.useStore(s => s.scale);
-  const activedNode = topologyServiceStore.useStore(s => s.activedNode);
+  const params = routeInfoStore.useStore((s) => s.params);
+  const scale = topologyStore.useStore((s) => s.scale);
+  const activedNode = topologyServiceStore.useStore((s) => s.activedNode);
 
   React.useEffect(() => {
     if (hoverFlag === null) return;
@@ -183,7 +183,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
   const nodeOperations = (
     <Menu>
       <MenuItem
-        onClick={({ domEvent }:any) => {
+        onClick={({ domEvent }: any) => {
           domEvent.stopPropagation();
           rest.toggleDrawer(IMeshType.circuitBreaker, node);
         }}
@@ -191,7 +191,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
         {i18n.t('microService:circuit breaker')}
       </MenuItem>
       <MenuItem
-        onClick={({ domEvent }:any) => {
+        onClick={({ domEvent }: any) => {
           domEvent.stopPropagation();
           rest.toggleDrawer(IMeshType.faultInject, node);
         }}
@@ -285,7 +285,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
             {
               isMeshNode ? (
                 <div className="full-height">
-                  <CustomIcon type="sz" onClick={(e:any) => e.stopPropagation()} />
+                  <CustomIcon type="sz" onClick={(e: any) => e.stopPropagation()} />
                 </div>
               ) : null
             }
@@ -336,7 +336,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
             isMeshNode ? (
               <div className="full-height node-operation">
                 <Dropdown overlayClassName="topology-node-dropdown" overlay={nodeOperations}>
-                  <CustomIcon className="fz18 operation-item pl8 pr8 pb8" type="sz" onClick={(e:any) => e.stopPropagation()} />
+                  <CustomIcon className="fz18 operation-item pl8 pr8 pb8" type="sz" onClick={(e: any) => e.stopPropagation()} />
                 </Dropdown>
               </div>
             ) : null

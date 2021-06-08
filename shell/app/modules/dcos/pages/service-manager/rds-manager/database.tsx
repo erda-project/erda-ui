@@ -27,8 +27,8 @@ import { useEffectOnce } from 'react-use';
 
 const { Option } = Select;
 const DataBase = () => {
-  const [RDSDatabaseList, RDSAccountList] = cloudServiceStore.useStore(s => [s.RDSDatabaseList, s.RDSAccountList]);
-  const [rdsID, query] = routeInfoStore.useStore(s => [s.params.rdsID, s.query]);
+  const [RDSDatabaseList, RDSAccountList] = cloudServiceStore.useStore((s) => [s.RDSDatabaseList, s.RDSAccountList]);
+  const [rdsID, query] = routeInfoStore.useStore((s) => [s.params.rdsID, s.query]);
   const [isFetching] = useLoading(cloudServiceStore, ['getRDSDatabaseList']);
   const { addRDSDatabase, getRDSDatabaseList, getRDSAccountList } = cloudServiceStore.effects;
   const { clearRDSDatabaseList, clearRDSAccountList } = cloudServiceStore.reducers;
@@ -73,7 +73,7 @@ const DataBase = () => {
       dataIndex: 'accounts',
       tip: true,
       render: (_v: Array<{ Account: string }>) => {
-        return map(_v, item => <div key={item.Account}>{item.Account}</div>);
+        return map(_v, (item) => <div key={item.Account}>{item.Account}</div>);
       },
     },
     getRemarkCol('dBDescription'),
@@ -106,7 +106,7 @@ const DataBase = () => {
       label: i18n.t('dcos:support character set'),
       name: 'characterSetName',
       type: 'select',
-      options: characterSetLists.map(a => ({ name: a, value: a })),
+      options: characterSetLists.map((a) => ({ name: a, value: a })),
       initialValue: characterSetLists[3],
       itemProps: {
         style: {
@@ -134,7 +134,7 @@ const DataBase = () => {
                 });
               }}
             >
-              {RDSAccountList.map(user => (
+              {RDSAccountList.map((user) => (
                 <Option key={user.accountName} value={user.accountName}>{user.accountName}</Option>
               ))}
             </Select>
@@ -195,7 +195,7 @@ const DataBase = () => {
 
   return (
     <div>
-      <div className='text-right mb12'>
+      <div className="text-right mb12">
         <Button type="primary" onClick={() => updater.formVisible(true)} >
           {i18n.t('dcos:create database')}
         </Button>

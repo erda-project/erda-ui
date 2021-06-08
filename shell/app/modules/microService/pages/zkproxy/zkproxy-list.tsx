@@ -26,14 +26,14 @@ import { PAGINATION } from 'app/constants';
 import { goTo } from 'common/utils';
 
 const ZkproxyList = () => {
-  const [zkInterfaceList] = zkproxyStore.useStore(s => [s.zkInterfaceList]);
-  const [currentRoute, routeParams] = routeInfoStore.useStore(s => [s.currentRoute, s.params]);
+  const [zkInterfaceList] = zkproxyStore.useStore((s) => [s.zkInterfaceList]);
+  const [currentRoute, routeParams] = routeInfoStore.useStore((s) => [s.currentRoute, s.params]);
   const { env: workspace, projectId: projectID } = routeParams;
   const { getZkInterfaceList, getServiceByIp } = zkproxyStore.effects;
   const { setZkInterfaceConfig, clearZkproxyInterfaceList } = zkproxyStore.reducers;
 
   const [dataSource, setDataSource] = React.useState(zkInterfaceList);
-  const az = microServiceStore.getState(s => s.clusterName);
+  const az = microServiceStore.getState((s) => s.clusterName);
 
   useUnmount(() => {
     clearZkproxyInterfaceList();
@@ -53,12 +53,12 @@ const ZkproxyList = () => {
   }, [az, currentRoute.routeQuery, getZkInterfaceList]);
 
   const onSearch = (searchKey: string) => {
-    const filterList = filter(zkInterfaceList, item => item.interfacename.toLowerCase().includes(searchKey.toLowerCase()));
+    const filterList = filter(zkInterfaceList, (item) => item.interfacename.toLowerCase().includes(searchKey.toLowerCase()));
     setDataSource(filterList);
   };
 
-  const jumpToServicePage = (ip:string) => {
-    getServiceByIp({ projectID, workspace, ip }).then((res:MS_ZK.IServiceQueryData) => {
+  const jumpToServicePage = (ip: string) => {
+    getServiceByIp({ projectID, workspace, ip }).then((res: MS_ZK.IServiceQueryData) => {
       const { appID: appId, runtimeID: runtimeId, serviceName } = res;
       goTo(goTo.pages.runtimeDetail, { jumpOut: true, projectId: projectID, appId, runtimeId, serviceName });
     });
@@ -72,7 +72,7 @@ const ZkproxyList = () => {
     {
       title: i18n.t('microService:supplier list'),
       dataIndex: 'providerlist',
-      render: val => (val ? map(val, (item, i) => (
+      render: (val) => (val ? map(val, (item, i) => (
         <div key={`${i}${item}`}>
           {item}
           <Tooltip title={i18n.t('deployment details')}>
@@ -83,7 +83,7 @@ const ZkproxyList = () => {
     {
       title: i18n.t('microService:consumer list'),
       dataIndex: 'consumerlist',
-      render: val => (val ? map(val, (item, i) => (
+      render: (val) => (val ? map(val, (item, i) => (
         <div key={`${i}${item}`}>
           {item}
           <Tooltip title={i18n.t('deployment details')}>

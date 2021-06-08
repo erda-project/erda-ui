@@ -37,7 +37,7 @@ const networks = createStore({
       const res = await call(addVpc, payload);
       return res;
     },
-    async getVswList({ call, update }, payload:Merge<IPagingReq, NETWORKS.ICloudVswQuery>) {
+    async getVswList({ call, update }, payload: Merge<IPagingReq, NETWORKS.ICloudVswQuery>) {
       const { list: vswList } = await call(getVswList, payload);
       update({ vswList: vswList || [] });
     },

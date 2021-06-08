@@ -35,7 +35,7 @@ const FormSelect = ({
     requiredCheck: _requiredCheck,
   } = fieldConfig || {};
   registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = e => {
+  const handleChange = (e) => {
     form.setFieldValue(key, fixOut(e.target.value));
     (componentProps.onChange || noop)(e.target.value);
   };
@@ -62,7 +62,7 @@ const FormSelect = ({
 export const config = {
   name: 'select',
   Component: FormSelect, // 某React组件，props中必须有value、onChange
-  requiredCheck: value => {
+  requiredCheck: (value) => {
     // 必填校验时，特殊的校验规则
     return [value !== undefined, i18n.t('can not be empty')];
   },

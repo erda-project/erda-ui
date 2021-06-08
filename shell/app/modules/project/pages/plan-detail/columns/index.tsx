@@ -40,11 +40,11 @@ planDetailColumns.splice(
     dataIndex: 'executorID',
     key: 'executorID',
     width: 100,
-    render: text => <UserInfo id={text} render={data => data.nick || data.name} />,
-  }
+    render: (text) => <UserInfo id={text} render={(data) => data.nick || data.name} />,
+  },
 );
 
-export const getColumns = ({ afterDelete }: {afterDelete(data: number[]): void;}) => [
+export const getColumns = ({ afterDelete }: {afterDelete: (data: number[]) => void}) => [
   ...planDetailColumns,
   {
     title: i18n.t('project:operation'),

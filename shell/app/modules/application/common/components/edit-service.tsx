@@ -41,7 +41,7 @@ interface IFormComponentState {
 }
 
 class EditService extends PureComponent<IEditServiceProps & FormComponentProps, IFormComponentState> {
-  public state = {
+  state = {
     service: {},
     originName: null,
   };
@@ -56,7 +56,7 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
     return null;
   }
 
-  public render() {
+  render() {
     const {
       ports = [],
       binds = [],
@@ -86,7 +86,7 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
       ],
     })(<Input disabled={!editing} placeholder={i18n.t('application:please enter the service name')} />);
     const _ports: any[] = [];
-    map(ports, p => {
+    map(ports, (p) => {
       if (typeof p !== 'object') {
         _ports.push({ port: p });
       } else {

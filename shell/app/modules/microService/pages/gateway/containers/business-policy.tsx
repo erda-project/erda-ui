@@ -75,7 +75,7 @@ export const PureBusinessPolicy = () => {
   } = state;
 
   const [businessCors, businessCustom, businessProxy] = gatewayStore.useStore(
-    (s) => [s.businessCors, s.businessCustom, s.businessProxy]
+    (s) => [s.businessCors, s.businessCustom, s.businessProxy],
   );
   const {
     getBusinessCors,
@@ -199,7 +199,7 @@ export const PureBusinessPolicy = () => {
         proxyReqTimeout,
         proxyRespTimeout,
         global: enableGlobalBusinessProxy,
-      })
+      }),
     );
   };
 
@@ -213,7 +213,7 @@ export const PureBusinessPolicy = () => {
         credentials,
         maxAge,
         global: enableGlobalBusinessCors,
-      })
+      }),
     );
   };
 
@@ -223,7 +223,7 @@ export const PureBusinessPolicy = () => {
         switch: businessCustomEnable,
         config,
         global: enableGlobalBusinessCustom,
-      })
+      }),
     );
   };
 
@@ -584,7 +584,7 @@ export const PureBusinessPolicy = () => {
                 disabled={enableGlobalBusinessCustom || !businessCustomEnable}
                 rows={4}
                 placeholder={i18n.t(
-                  'microService:location block configuration'
+                  'microService:location block configuration',
                 )}
                 onChange={(e) => setConfig(e.target.value)}
               />

@@ -13,33 +13,33 @@
 
 
 interface IPermResponseData{
-  access: boolean,
-  exist: boolean,
-  role: string,
-  contactInfo?: string,
-  contactsWhenNoPermission: null | string[]
-  permissionList: IPerm[],
-  resourceRoleList?: IPerm[],
+  access: boolean;
+  exist: boolean;
+  role: string;
+  contactInfo?: string;
+  contactsWhenNoPermission: null | string[];
+  permissionList: IPerm[];
+  resourceRoleList?: IPerm[];
 }
 interface IPerm {
-  resource: string,
-  action: string,
-  resourceRole?: string,
+  resource: string;
+  action: string;
+  resourceRole?: string;
 }
 interface IAddPerm {
-  scope: string
-  permissionList: IPerm[]
+  scope: string;
+  permissionList: IPerm[];
 }
 
 interface IHasPermQuery {
-  scope: string,
-  resource: string,
-  action: string,
+  scope: string;
+  resource: string;
+  action: string;
 }
 
 interface IGetScopePermQuery {
-  scope: string,
-  scopeID: string,
+  scope: string;
+  scopeID: string;
 }
 
 
@@ -56,19 +56,19 @@ interface ILoginUser {
 
 interface IMember {
   id?: string;
-  userId: string
-  email: string
-  mobile: string
-  name: string
-  nick: string
-  avatar: string
-  status: string
+  userId: string;
+  email: string;
+  mobile: string;
+  name: string;
+  nick: string;
+  avatar: string;
+  status: string;
   scope: {
-    type: string
-    id: string
-  }
-  roles: string[]
-  removed: boolean
-  labels: string[] | null
+    type: string;
+    id: string;
+  };
+  roles: string[];
+  removed: boolean;
+  labels: string[] | null;
 }
 

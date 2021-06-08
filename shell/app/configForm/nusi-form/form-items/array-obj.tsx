@@ -22,22 +22,22 @@ import './array-obj.scss';
 const { Option } = Select;
 
 interface IArrayObjItemProps {
-  keys: string[] | Array<{key: string, name: string}>;
+  keys: string[] | Array<{key: string; name: string}>;
   data: Obj;
   className?: string;
-  operation?:any;
-  updateItem(arg:any):void;
-  itemRender?(data:Obj, updateItem:(arg:Obj)=>void): any;
+  operation?: any;
+  updateItem: (arg: any) => void;
+  itemRender?: (data: Obj, updateItem: (arg: Obj) => void) => any;
 }
 const defaultKeys = ['key', 'value'];
-const ArrayObjItem = ({ updateItem, data, className = '', operation = null, itemRender, keys = defaultKeys }:IArrayObjItemProps) => {
+const ArrayObjItem = ({ updateItem, data, className = '', operation = null, itemRender, keys = defaultKeys }: IArrayObjItemProps) => {
   return (
     <div className={`dice-form-array-obj ${className}`}>
       {
         itemRender
           ? itemRender(data, updateItem)
           : (
-            map(keys, item => {
+            map(keys, (item) => {
               const [key] = isString(item) ? [item, item] : [(get(item, 'key') || ''), (get(item, 'name') || '')];
               return key
                 ? <Input key={key} value={data[key]} placeholder={i18n.t('please enter')} onChange={(e) => updateItem({ [key]: e.target.value })} />
@@ -59,7 +59,7 @@ export const ArrayObj = createCombiner<Obj, Obj>({
   defaultItem: ({ keys = defaultKeys, defaultItem: _defaultItem }) => {
     if (_defaultItem) return _defaultItem;
     const dItem = {};
-    map(keys, item => {
+    map(keys, (item) => {
       const key = isString(item) ? item : (get(item, 'key') || '');
       key && (dItem[key] = undefined);
     });
@@ -78,7 +78,7 @@ const ArrayObjComp = (props: any) => {
     return createCombiner({
       valueFixIn: changeValue,
       valueFixOut: changeValue,
-      CombinerItem: ({ updateItem, data, className = '', operation = null, itemRender, keys = _objItems }:IArrayObjItemProps) => {
+      CombinerItem: ({ updateItem, data, className = '', operation = null, itemRender, keys = _objItems }: IArrayObjItemProps) => {
         return (
           <div className={`dice-form-array-obj ${className}`}>
             <div className={`dice-form-array-obj-item flex-1 ${direction === 'row' ? 'flex-box' : ''}`}>
@@ -86,7 +86,7 @@ const ArrayObjComp = (props: any) => {
                 itemRender
                   ? itemRender(data, updateItem)
                   : (
-                    map(keys, item => {
+                    map(keys, (item) => {
                       const {
                         key,
                         label,
@@ -108,14 +108,14 @@ const ArrayObjComp = (props: any) => {
                           break;
                         case 'select': {
                           const _options = isString(options)
-                            ? map(options.split(';'), oStr => {
+                            ? map(options.split(';'), (oStr) => {
                               const [k = '', v = ''] = oStr.split(':');
                               return { name: v, value: k };
                             })
                             : options;
                           CompItem = (
-                            <Select key={key} value={data[key]} placeholder={i18n.t('please select {name}', { name: label || key })} onChange={(v:any) => updateItem({ [key]: v })} {...itemComponentProps}>
-                              {map(_options, oItem => (<Option key={oItem.value} value={oItem.value}>{oItem.name}</Option>))}
+                            <Select key={key} value={data[key]} placeholder={i18n.t('please select {name}', { name: label || key })} onChange={(v: any) => updateItem({ [key]: v })} {...itemComponentProps}>
+                              {map(_options, (oItem) => (<Option key={oItem.value} value={oItem.value}>{oItem.name}</Option>))}
                             </Select>
                           );
                         }
@@ -131,7 +131,7 @@ const ArrayObjComp = (props: any) => {
                           const attrs = [] as any[];
                           if (isString(options)) {
                             const opts = options.split(';');
-                            map(opts, opt => {
+                            map(opts, (opt) => {
                               const [aK, aT] = opt.split(':');
                               if (aT && ['string', 'number', 'boolean'].includes(aT)) {
                                 attrs.push({ key: aK, type: aT });
@@ -140,7 +140,7 @@ const ArrayObjComp = (props: any) => {
                           }
                           CompItem = (
                             <div key={key}>
-                              <div className='bold mt8'>
+                              <div className="bold mt8">
                                 {getLabel(label || key, labelTip)}
                               </div>
                               {
@@ -199,7 +199,7 @@ const ArrayObjComp = (props: any) => {
               }
 
             </div>
-            <div className='operations'>
+            <div className="operations">
               {operation}
             </div>
           </div>
@@ -354,7 +354,7 @@ export const formConfig = {
                       required={false}
                     >
                       <Select key={'component'} value={_data.component || 'input'} placeholder={i18n.t('please select {name}', { name: '组件' })} onChange={(v) => updateItem({ component: v })}>
-                        {map(subComponent, oItem => (<Option key={oItem.value} value={oItem.value}>{oItem.name}</Option>))}
+                        {map(subComponent, (oItem) => (<Option key={oItem.value} value={oItem.value}>{oItem.name}</Option>))}
                       </Select>
                     </FormItem>
                     {

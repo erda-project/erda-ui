@@ -26,19 +26,19 @@ function getProjectRouter() {
           path: 'apps',
           breadcrumbName: i18n.t('project:applications'),
           layout: { fullHeight: true },
-          getComp: cb => cb(import('project/pages/apps/app-list'), 'ProjectAppList'),
+          getComp: (cb) => cb(import('project/pages/apps/app-list'), 'ProjectAppList'),
         },
         {
           path: 'apps/createApp',
           breadcrumbName: i18n.t('add application'),
-          getComp: cb => cb(import('project/pages/apps/app-form')),
+          getComp: (cb) => cb(import('project/pages/apps/app-form')),
         },
         {
           path: 'dashboard',
           routes: [
             {
               breadcrumbName: i18n.t('project:dashboard'),
-              getComp: cb => cb(import('project/pages/dashboard'), 'ProjectDashboard'),
+              getComp: (cb) => cb(import('project/pages/dashboard'), 'ProjectDashboard'),
               layout: {
                 fullHeight: true,
               },
@@ -53,8 +53,8 @@ function getProjectRouter() {
             {
               path: 'all',
               tabs: PROJECT_TABS,
-              keepTabQuery: ['viewType', 'viewGroup', 'iterationIDs'],
-              getComp: cb => cb(import('project/pages/issue/all')),
+              ignoreTabQuery: true,
+              getComp: (cb) => cb(import('project/pages/issue/all')),
               layout: {
                 noWrapper: true,
                 fullHeight: true,
@@ -63,8 +63,8 @@ function getProjectRouter() {
             {
               path: 'requirement',
               tabs: PROJECT_TABS,
-              keepTabQuery: ['viewType', 'viewGroup', 'iterationIDs'],
-              getComp: cb => cb(import('project/pages/issue/requirement')),
+              ignoreTabQuery: true,
+              getComp: (cb) => cb(import('project/pages/issue/requirement')),
               layout: {
                 noWrapper: true,
               },
@@ -72,8 +72,8 @@ function getProjectRouter() {
             {
               path: 'task',
               tabs: PROJECT_TABS,
-              keepTabQuery: ['viewType', 'viewGroup', 'iterationIDs'],
-              getComp: cb => cb(import('project/pages/issue/task')),
+              ignoreTabQuery: true,
+              getComp: (cb) => cb(import('project/pages/issue/task')),
               layout: {
                 noWrapper: true,
               },
@@ -81,8 +81,8 @@ function getProjectRouter() {
             {
               path: 'bug',
               tabs: PROJECT_TABS,
-              keepTabQuery: ['viewType', 'viewGroup', 'iterationIDs'],
-              getComp: cb => cb(import('project/pages/issue/bug')),
+              ignoreTabQuery: true,
+              getComp: (cb) => cb(import('project/pages/issue/bug')),
               layout: {
                 noWrapper: true,
               },
@@ -90,23 +90,25 @@ function getProjectRouter() {
             {
               path: 'backlog',
               tabs: PROJECT_TABS,
+              ignoreTabQuery: true,
               layout: { noWrapper: true, fullHeight: true },
-              getComp: cb => cb(import('project/pages/backlog')),
+              getComp: (cb) => cb(import('project/pages/backlog')),
             },
             {
               path: 'iteration',
               tabs: PROJECT_TABS,
+              ignoreTabQuery: true,
               routes: [
                 {
                   tabs: PROJECT_TABS,
-                  getComp: cb => cb(import('project/pages/iteration/table'), 'Iteration'),
+                  getComp: (cb) => cb(import('project/pages/iteration/table'), 'Iteration'),
                 },
                 {
                   path: ':iterationId/:issueType',
                   mark: 'iterationDetail',
-                  keepTabQuery: ['viewType', 'viewGroup', 'iterationIDs'],
+                  ignoreTabQuery: true,
                   tabs: ITERATION_DETAIL_TABS,
-                  getComp: cb => cb(import('project/pages/issue/')),
+                  getComp: (cb) => cb(import('project/pages/issue/')),
                   layout: {
                     noWrapper: true,
                   },
@@ -117,7 +119,7 @@ function getProjectRouter() {
               path: 'milestone',
               tabs: PROJECT_TABS,
               ignoreTabQuery: true,
-              getComp: cb => cb(import('project/pages/milestone'), 'Milestone'),
+              getComp: (cb) => cb(import('project/pages/milestone'), 'Milestone'),
               layout: { noWrapper: true, fullHeight: true },
             },
           ],
@@ -125,7 +127,7 @@ function getProjectRouter() {
         {
           path: 'ticket',
           breadcrumbName: i18n.t('project:tickets'),
-          getComp: cb => cb(import('project/pages/ticket')),
+          getComp: (cb) => cb(import('project/pages/ticket')),
         },
         {
           path: 'data-bank',
@@ -135,13 +137,13 @@ function getProjectRouter() {
               path: 'data-source',
               tabs: DATABANK_TABS,
               layout: { fullHeight: true },
-              getComp: cb => cb(import('project/pages/data-source')),
+              getComp: (cb) => cb(import('project/pages/data-source')),
             },
             {
               path: 'config-sheet',
               tabs: DATABANK_TABS,
               layout: { fullHeight: true },
-              getComp: cb => cb(import('project/pages/config-sheet')),
+              getComp: (cb) => cb(import('project/pages/config-sheet')),
             },
           ],
         },
@@ -149,7 +151,7 @@ function getProjectRouter() {
           path: 'pipelines',
           breadcrumbName: i18n.t('pipeline'),
           layout: { fullHeight: true },
-          getComp: cb => cb(import('project/pages/pipelines')),
+          getComp: (cb) => cb(import('project/pages/pipelines')),
         },
         {
           path: 'testCase',
@@ -161,7 +163,7 @@ function getProjectRouter() {
               layout: { fullHeight: true },
               ignoreTabQuery: true,
               pageName: i18n.t('project:test case'),
-              getComp: cb => cb(import('project/pages/test-manage/case/manual-test')),
+              getComp: (cb) => cb(import('project/pages/test-manage/case/manual-test')),
             },
             {
               path: 'auto',
@@ -171,7 +173,7 @@ function getProjectRouter() {
               routes: [
                 {
                   tabs: [], // 切换 tab 时，仍需进行鉴权，且不显示 tabs
-                  getComp: cb => cb(import('project/pages/auto-test/index')),
+                  getComp: (cb) => cb(import('project/pages/auto-test/index')),
                 },
                 {
                   path: ':spaceId/scenes',
@@ -191,7 +193,7 @@ function getProjectRouter() {
                       // ignoreTabQuery: true,
                       // tabs: AUTO_TEST_SPACE_TABS,
                       layout: { fullHeight: true },
-                      getComp: cb => cb(import('project/pages/auto-test/scenes')),
+                      getComp: (cb) => cb(import('project/pages/auto-test/scenes')),
                     },
                   ],
                 },
@@ -213,7 +215,7 @@ function getProjectRouter() {
                 {
                   tabs: [], // 切换 tab 时，仍需进行鉴权，且不显示 tabs
                   // breadcrumbName: i18n.t('project:auto test'),
-                  getComp: cb => cb(import('project/pages/test-plan/test-plan-protocol')),
+                  getComp: (cb) => cb(import('project/pages/test-plan/test-plan-protocol')),
                 },
                 {
                   path: ':testPlanId',
@@ -221,7 +223,7 @@ function getProjectRouter() {
                   mark: 'testPlanDetail',
                   layout: { fullHeight: true },
                   breadcrumbName: i18n.t('project:plan details'),
-                  getComp: cb => cb(import('project/pages/test-plan/auto-test-plan-detail')),
+                  getComp: (cb) => cb(import('project/pages/test-plan/auto-test-plan-detail')),
                 },
               ],
             },
@@ -234,7 +236,7 @@ function getProjectRouter() {
                 {
                   tabs: [], // 切换 tab 时，仍需进行鉴权，且不显示 tabs
                   // breadcrumbName: i18n.t('project:manual test'),
-                  getComp: cb => cb(import('project/pages/test-plan')),
+                  getComp: (cb) => cb(import('project/pages/test-plan')),
                 },
                 {
                   path: ':testPlanId',
@@ -242,7 +244,7 @@ function getProjectRouter() {
                   mark: 'testPlanDetail',
                   layout: { fullHeight: true },
                   breadcrumbName: i18n.t('project:plan details'),
-                  getComp: cb => cb(import('project/pages/test-plan/test-plan-detail')),
+                  getComp: (cb) => cb(import('project/pages/test-plan/test-plan-detail')),
                 },
               ],
             },
@@ -251,7 +253,7 @@ function getProjectRouter() {
         {
           path: 'testEnv/:testType',
           tabs: TEST_TABS,
-          getComp: cb => cb(import('project/pages/test-env/test-env')),
+          getComp: (cb) => cb(import('project/pages/test-env/test-env')),
           // routes: [
           //   {
           //     path: '',
@@ -271,25 +273,25 @@ function getProjectRouter() {
           path: 'service',
           breadcrumbName: i18n.t('project:addon'),
           layout: { fullHeight: true },
-          getComp: cb => cb(import('project/pages/addon/addon-category'), 'AddonCategory'),
+          getComp: (cb) => cb(import('project/pages/addon/addon-category'), 'AddonCategory'),
         },
         {
           path: 'resource',
           breadcrumbName: i18n.t('resource summary'),
-          getComp: cb => cb(import('project/pages/resource')),
+          getComp: (cb) => cb(import('project/pages/resource')),
         },
         {
           path: 'setting',
           breadcrumbName: `${i18n.t('project setting')}`,
           layout: { fullHeight: true },
-          getComp: cb => cb(import('project/pages/settings')),
+          getComp: (cb) => cb(import('project/pages/settings')),
         },
         getAppRouter(),
         {
           path: 'perm',
           pageName: i18n.t('role permissions description'),
           layout: { showSubSidebar: false, fullHeight: true },
-          getComp: cb => cb(import('user/common/perm-editor/perm-editor'), 'PermEditor'),
+          getComp: (cb) => cb(import('user/common/perm-editor/perm-editor'), 'PermEditor'),
         },
         // {
         //   path: 'auto-test',

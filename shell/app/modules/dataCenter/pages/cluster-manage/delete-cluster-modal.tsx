@@ -18,10 +18,10 @@ import i18n from 'i18n';
 import * as React from 'react';
 
 interface IProps {
-  visible: boolean,
-  curCluster: ORG_CLUSTER.ICluster | null,
-  onCancel(): void,
-  onSubmit(resp: {clusterName:string}): any,
+  visible: boolean;
+  curCluster: ORG_CLUSTER.ICluster | null;
+  onCancel: () => void;
+  onSubmit: (resp: {clusterName: string}) => any;
 }
 
 const DeleteClusterModal = ({

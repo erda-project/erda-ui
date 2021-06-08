@@ -24,8 +24,8 @@ import i18n from 'i18n';
 const AppVersionPush = () => {
   const { getVersionPushConfig, updateVersionPushConfig } = applicationStore.effects;
   const { clearVersionPushConfig } = applicationStore.reducers;
-  const versionPushConfig = applicationStore.useStore(s => s.versionPushConfig);
-  const orgId = orgStore.getState(s => s.currentOrg.id);
+  const versionPushConfig = applicationStore.useStore((s) => s.versionPushConfig);
+  const orgId = orgStore.getState((s) => s.currentOrg.id);
   const [chosenPublisehId, setChosenPublisehId] = React.useState('');
   useEffectOnce(() => {
     getVersionPushConfig();
@@ -66,7 +66,7 @@ const AppVersionPush = () => {
       .then((res: any) => res.data);
   };
 
-  const chosenItemConvert = ({ value, name }: {value: string, name: string}) => (val: {label: string; value: string}) => {
+  const chosenItemConvert = ({ value, name }: {value: string; name: string}) => (val: {label: string; value: string}) => {
     return (val && !val.label && `${val.value}` === `${value}`) ? { ...val, label: name } : val;
   };
 
@@ -109,7 +109,7 @@ const AppVersionPush = () => {
     }
   }, [update, updater, versionPushConfig]);
 
-  const getFieldsList = (form:WrappedFormUtils) => ([
+  const getFieldsList = (form: WrappedFormUtils) => ([
     {
       label: i18n.t('publisher:publisher'),
       name: 'publisherId',

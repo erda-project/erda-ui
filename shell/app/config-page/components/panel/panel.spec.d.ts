@@ -33,8 +33,8 @@ declare namespace CP_PANEL {
     numOfRowsLimit?: number;
   }
   interface Spec {
-    type: 'Panel'
-    props: IProps
+    type: 'Panel';
+    props: IProps;
   }
 
   type Props = MakeProps<Spec>;

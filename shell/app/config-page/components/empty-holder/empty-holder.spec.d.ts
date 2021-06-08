@@ -13,16 +13,16 @@
 
 declare namespace CP_EMPTY_HOLDER {
   interface Spec {
-    type: 'EmptyHolder',
+    type: 'EmptyHolder';
     props?: IProps;
   }
 
   interface IProps {
-    tip?: string,
-    icon?: string,
-    relative?: boolean,
-    style?: object,
-    action?: JSX.Element | null,
+    tip?: string;
+    icon?: string;
+    relative?: boolean;
+    style?: object;
+    action?: JSX.Element | null;
     className?: string;
     visible?: boolean;
     whiteBg?: boolean;

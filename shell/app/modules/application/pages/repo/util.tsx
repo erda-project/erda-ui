@@ -23,7 +23,7 @@ export const mergeRepoPathWith = (afterPath: string) => {
 
 export const renderAsLink = (replace: string, commitHash: string, text: string | React.ReactElement, className = '') => {
   const link = mergeRepoPathWith(`/${replace}/${commitHash}`);
-  return <Link className={`as-link ${className}`} to={link} onClick={e => e.stopPropagation()}>{text}</Link>;
+  return <Link className={`as-link ${className}`} to={link} onClick={(e) => e.stopPropagation()}>{text}</Link>;
 };
 
 // 例如：tree -> /projects/5/apps/3/repo/tree/feature/jf-build/addon-common

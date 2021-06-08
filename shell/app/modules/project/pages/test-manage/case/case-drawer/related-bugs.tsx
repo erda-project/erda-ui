@@ -34,8 +34,8 @@ interface IProps {
 }
 
 const RelatedBugs = ({ relationID }: IProps) => {
-  const { projectId } = routeInfoStore.useStore(s => s.params);
-  const issueBugs = testCaseStore.useStore(s => s.issueBugs);
+  const { projectId } = routeInfoStore.useStore((s) => s.params);
+  const issueBugs = testCaseStore.useStore((s) => s.issueBugs);
   const [{ showFilterBug, bugList, creator, priority, title, selectBug }, updater, update] = useUpdate({
     title: '',
     showFilterBug: false,
@@ -49,7 +49,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
     getIssues({ projectID: +projectId, type: 'BUG', pageSize: 20, ...query } as ISSUE.IssueListQuery).then((res) => {
       if (res.success) {
         updater.bugList(
-          res.data.list || []
+          res.data.list || [],
         );
       }
     });
@@ -74,14 +74,14 @@ const RelatedBugs = ({ relationID }: IProps) => {
     });
   };
 
-  const handleSelectCreator = (v:any) => {
+  const handleSelectCreator = (v: any) => {
     update({
       creator: v,
       selectBug: undefined,
     });
   };
 
-  const handleSelectPriority = (v:any) => {
+  const handleSelectPriority = (v: any) => {
     update({
       priority: v,
       selectBug: undefined,
@@ -92,7 +92,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
     if (!selectBug) {
       return;
     }
-    if ((issueBugs || []).some(item => item.issueID === selectBug)) {
+    if ((issueBugs || []).some((item) => item.issueID === selectBug)) {
       message.info(i18n.t('project:tips of duplicate association bug'));
       return;
     }
@@ -105,7 +105,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
     {
       title: i18n.t('default:title'),
       dataIndex: 'title',
-      render: (text:string, record) => {
+      render: (text: string, record) => {
         return (
           <Tooltip placement="topLeft" title={text}>
             <div className="flex-box flex-start text-link nowrap" onClick={() => { goToBugs(record); }}>
@@ -120,8 +120,8 @@ const RelatedBugs = ({ relationID }: IProps) => {
       title: i18n.t('default:status'),
       dataIndex: 'state',
       width: 90,
-      render: (stateName: string, record:any) => {
-        return stateName ? <div className='v-align'>{ISSUE_ICON.state[record?.stateBelong]}{stateName}</div> : undefined;
+      render: (stateName: string, record: any) => {
+        return stateName ? <div className="v-align">{ISSUE_ICON.state[record?.stateBelong]}{stateName}</div> : undefined;
       },
     },
     {
@@ -154,7 +154,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
       ];
     },
   };
-  const goToBugs = (record:TEST_CASE.RelatedBug) => {
+  const goToBugs = (record: TEST_CASE.RelatedBug) => {
     const { issueID, iterationID } = record;
     goTo(goTo.pages.bugList, { projectId,
       jumpOut: true,
@@ -189,7 +189,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
                 allowClear
               >
                 {
-                  map(ISSUE_PRIORITY_MAP, item => {
+                  map(ISSUE_PRIORITY_MAP, (item) => {
                     return <Option key={item.value} value={item.value}><CustomIcon className="priority-icon mr8" type={item.icon} color />{item.label}</Option>;
                   })
                 }
@@ -197,14 +197,14 @@ const RelatedBugs = ({ relationID }: IProps) => {
               <Select
                 className="filter-select"
                 value={selectBug}
-                onSelect={v => updater.selectBug(v)}
+                onSelect={(v) => updater.selectBug(v)}
                 onSearch={(q) => updater.title(q)}
                 showSearch
                 filterOption={false}
                 placeholder={i18n.t('name')}
               >
                 {
-                  map(bugList, item => {
+                  map(bugList, (item) => {
                     return (
                       <Option key={item.id} value={item.id} title={`${item.id}-${item.title}`}>
                         <div className="flex-box flex-start nowrap">
@@ -218,7 +218,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
               </Select>
             </div>
             <Button disabled={!selectBug} className="ml12" onClick={handleAddRelation}>{i18n.t('default:ok')}</Button>
-            <Button type='link' onClick={() => { updater.showFilterBug(false); }}>{i18n.t('default:cancel')}</Button>
+            <Button type="link" onClick={() => { updater.showFilterBug(false); }}>{i18n.t('default:cancel')}</Button>
           </div>
         ) : null
       }

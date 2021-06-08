@@ -31,7 +31,7 @@ const GotoCommit = ({
   className = '',
   gotoParams = {},
 }: any) => {
-  const params = routeInfoStore.useStore(s => s.params);
+  const params = routeInfoStore.useStore((s) => s.params);
   return (
     <span className={`goto-commit-link inline-v-align text-link ${className}`} onClick={() => { goTo(goTo.pages.commit, { projectId: projectId || params.projectId, appId: appId || params.appId, commitId, ...gotoParams }); }}>
       <CustomIcon type="commit" />

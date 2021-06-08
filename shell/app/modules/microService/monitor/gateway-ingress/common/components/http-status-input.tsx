@@ -19,7 +19,7 @@ import i18n from 'i18n';
 import './http-status-input.scss';
 
 interface IProps{
-  onChange(val: any): void;
+  onChange: (val: any) => void;
 }
 
 const HttpStatusInput = (props: IProps) => {

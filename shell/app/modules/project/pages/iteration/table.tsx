@@ -34,9 +34,9 @@ const iterationOptions = [
 
 export const Iteration = () => {
   const [status, setStatus] = React.useState('unarchive');
-  const [list, paging] = iterationStore.useStore(s => [s.iterationList, s.iterationPaging]);
+  const [list, paging] = iterationStore.useStore((s) => [s.iterationList, s.iterationPaging]);
 
-  const projectId = routeInfoStore.useStore(s => s.params.projectId);
+  const projectId = routeInfoStore.useStore((s) => s.params.projectId);
   const { getIterations, deleteIteration, editIteration: handleFiledIteration } = iterationStore.effects;
   const [isFetching] = useLoading(iterationStore, ['getIterations']);
   const { total, pageNo, pageSize } = paging;
@@ -72,7 +72,7 @@ export const Iteration = () => {
     updater.modalVisible(true);
   };
 
-  const onFiled = (record:ITERATION.Detail, operation:string) => {
+  const onFiled = (record: ITERATION.Detail, operation: string) => {
     const { id, startedAt, finishedAt, title, content } = record;
     handleFiledIteration({
       id,
@@ -96,7 +96,7 @@ export const Iteration = () => {
     isSave && getList({ pageNo });
   };
 
-  const [operationAuth, handleFiledAuth] = usePerm(s => [s.project.iteration.operation.pass, s.project.iteration.handleFiled.pass]);
+  const [operationAuth, handleFiledAuth] = usePerm((s) => [s.project.iteration.operation.pass, s.project.iteration.handleFiled.pass]);
 
   const columns = [
     {
@@ -104,7 +104,7 @@ export const Iteration = () => {
       dataIndex: 'title',
       width: 200,
       render: (val: string) => (
-        <Ellipsis className='fake-link nowrap' title={val} >
+        <Ellipsis className="fake-link nowrap" title={val} >
           {val}
         </Ellipsis>
       ),
@@ -118,13 +118,13 @@ export const Iteration = () => {
       title: i18n.t('period'),
       width: 230,
       dataIndex: 'startedAt',
-      render: (startedAt:string, record: ITERATION.Detail) => `${moment(startedAt).format('YYYY/MM/DD')} - ${moment(record.finishedAt).format('YYYY/MM/DD')}`,
+      render: (startedAt: string, record: ITERATION.Detail) => `${moment(startedAt).format('YYYY/MM/DD')} - ${moment(record.finishedAt).format('YYYY/MM/DD')}`,
     },
     {
       title: i18n.t('project:progress'),
       width: 120,
       dataIndex: 'issueSummary',
-      render: (_k:any, record: ITERATION.Detail) => {
+      render: (_k: any, record: ITERATION.Detail) => {
         const doneTotal = sumBy(map(record.issueSummary || {}), 'done') || 0;
         const totalCount = (sumBy(map(record.issueSummary || {}), 'undone') || 0) + doneTotal;
         const percent = ((totalCount ? doneTotal / totalCount : 0) * 100).toFixed(1);
@@ -139,7 +139,7 @@ export const Iteration = () => {
       render: (record: ITERATION.Detail) => {
         if (record.state === 'FILED') {
           return (
-            <div className="table-operations" onClick={e => e.stopPropagation()}>
+            <div className="table-operations" onClick={(e) => e.stopPropagation()}>
               <WithAuth pass={handleFiledAuth} >
                 <span
                   className="table-operations-btn"
@@ -152,7 +152,7 @@ export const Iteration = () => {
           );
         }
         return (
-          <div className="table-operations" onClick={e => e.stopPropagation()}>
+          <div className="table-operations" onClick={(e) => e.stopPropagation()}>
             <WithAuth pass={operationAuth} >
               <span className="table-operations-btn" onClick={() => onEdit(record)}>
                 {i18n.t('edit')}
@@ -183,14 +183,14 @@ export const Iteration = () => {
     },
   ];
 
-  const addAuth = usePerm(s => s.project.iteration.operation.pass);
+  const addAuth = usePerm((s) => s.project.iteration.operation.pass);
 
   return (
     <div className="iteration">
       <Select
-        className='mb16 default-selector-width'
+        className="mb16 default-selector-width"
         value={status}
-        onChange={(value:any) => setStatus(value)}
+        onChange={(value: any) => setStatus(value)}
       >
         {iterationOptions}
       </Select>
@@ -217,7 +217,7 @@ export const Iteration = () => {
           },
           onShowSizeChange: (cur, size: number) => getList({ pageNo: 1, pageSize: size }),
         }}
-        onRow={record => {
+        onRow={(record) => {
           return {
             onClick: () => {
               goTo(
@@ -226,7 +226,7 @@ export const Iteration = () => {
                   projectId,
                   iterationId: record.id,
                   issueType: 'all',
-                }
+                },
               );
             },
           };

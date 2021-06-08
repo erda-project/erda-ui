@@ -26,11 +26,11 @@ import { useLoading } from 'common/stores/loading';
 const BORDER_COLOR = '#333';
 
 interface IProps {
-  isFetchingTable: boolean
-  tableAttrsList: any[]
+  isFetchingTable: boolean;
+  tableAttrsList: any[];
   tableAttrsPaging: IPaging;
-  getStarChartSource(): Promise<any>;
-  getTableAttrs(): Promise<any>;
+  getStarChartSource: () => Promise<any>;
+  getTableAttrs: () => Promise<any>;
 }
 
 const convertStarsToFlowDataSource = (star: any) => {
@@ -116,7 +116,7 @@ const ModelStarChart = (props: any) => {
 };
 
 const Mapper = () => {
-  const [tableAttrsList, tableAttrsPaging] = dataTaskStore.useStore(s => [s.tableAttrsList, s.tableAttrsPaging]);
+  const [tableAttrsList, tableAttrsPaging] = dataTaskStore.useStore((s) => [s.tableAttrsList, s.tableAttrsPaging]);
   const [isFetching, isFetchingTable] = useLoading(dataTaskStore, ['getStarChartSource', 'getTableAttrs']);
   const { getStarChartSource, getTableAttrs } = dataTaskStore.effects;
 

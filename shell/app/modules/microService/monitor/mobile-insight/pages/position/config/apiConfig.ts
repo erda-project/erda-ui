@@ -18,7 +18,7 @@ interface IQuery{
   [pro: string]: any;
   range: string;
 }
-const handleApdex = (originData: object, { chartName, query }: {chartName: string, query: IQuery}) => {
+const handleApdex = (originData: object, { chartName, query }: {chartName: string; query: IQuery}) => {
   const xAxis: any[] = [];
   let results: any[] = [];
   const dataKey = `range.${query.range}`;

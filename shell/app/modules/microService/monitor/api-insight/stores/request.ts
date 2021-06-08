@@ -14,7 +14,7 @@
 import { createStore } from 'app/cube';
 
 interface IState{
-  searchFields: any,
+  searchFields: any;
 }
 
 const initState: IState = {

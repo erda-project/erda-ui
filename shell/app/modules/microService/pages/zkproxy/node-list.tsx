@@ -60,8 +60,8 @@ const fieldsList = [
 ];
 
 const NodeList = () => {
-  const nodeData = zkproxyStore.useStore(s => s.nodeData);
-  const infoList = microServiceInfoStore.useStore(s => s.infoList);
+  const nodeData = zkproxyStore.useStore((s) => s.nodeData);
+  const infoList = microServiceInfoStore.useStore((s) => s.infoList);
   const { getNodeList, updateNodeRule } = zkproxyStore.effects;
   const { getMSComponentInfo } = microServiceInfoStore.effects;
   const [state, updater, update] = useUpdate({
@@ -70,7 +70,7 @@ const NodeList = () => {
     tenantid: undefined,
   });
   const dataSource = (find(nodeData.node, ({ address }) => state.activeNode === address) || {}).rule;
-  const withSelectKeysDataSource = map(dataSource, item => ({ ...item, key: item.name }));
+  const withSelectKeysDataSource = map(dataSource, (item) => ({ ...item, key: item.name }));
   const isSelected = !isEmpty(state.selectedRowKeys);
   const [FormModal, toggle] = useFormModal();
 
@@ -86,7 +86,7 @@ const NodeList = () => {
   }, [nodeData, state.activeNode, updater]);
 
   React.useEffect(() => {
-    const info = find(infoList, item => item.addonName === 'registercenter');
+    const info = find(infoList, (item) => item.addonName === 'registercenter');
     if (info && get(info, 'config.DUBBO_TENANT_ID')) {
       updater.tenantid(get(info, 'config.DUBBO_TENANT_ID'));
     }
@@ -136,7 +136,7 @@ const NodeList = () => {
       host: state.activeNode,
       ruleData: {
         address: state.activeNode,
-        rule: map(state.selectedRowKeys, name => ({
+        rule: map(state.selectedRowKeys, (name) => ({
           name,
           weight,
         })),
@@ -181,7 +181,7 @@ const NodeList = () => {
           <div className="host-list-content">
             <Holder when={isEmpty(nodeData.node)}>
               {
-                map(nodeData.node, node => (
+                map(nodeData.node, (node) => (
                   <div
                     className={classnames({
                       'node-item': true,

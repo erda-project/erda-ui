@@ -15,7 +15,7 @@ import i18n from 'i18n';
 
 export type IProtocol = {
   [k in API_MARKET.SpecProtocol]: {
-    name: 'JSON' | 'YAML',
+    name: 'JSON' | 'YAML';
     fullName: string;
     suffix: string;
     pattern: RegExp;

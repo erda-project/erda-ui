@@ -38,13 +38,13 @@ const ReportTypeMap = {
 };
 
 export default () => {
-  const roleMap = memberStore.useStore(s => s.roleMap);
+  const roleMap = memberStore.useStore((s) => s.roleMap);
   const [
     reportTasks,
     reportTaskPaging,
     systemDashboards,
     reportTypes,
-  ] = alarmReportStore.useStore(s => [
+  ] = alarmReportStore.useStore((s) => [
     s.reportTasks,
     s.reportTaskPaging,
     s.systemDashboards,
@@ -60,16 +60,16 @@ export default () => {
     getReportTypes,
   } = alarmReportStore.effects;
   const { getNotifyGroups } = notifyGroupStore.effects;
-  const notifyGroups = notifyGroupStore.useStore(s => s.notifyGroups);
+  const notifyGroups = notifyGroupStore.useStore((s) => s.notifyGroups);
   const [loading] = useLoading(alarmReportStore, ['getReportTasks']);
-  const orgId = orgStore.getState(s => s.currentOrg.id);
+  const orgId = orgStore.getState((s) => s.currentOrg.id);
 
   const [modalVisible, openModal, closeModal] = useSwitch(false);
   const [{ editingTask }, updater] = useUpdate({
     editingTask: {},
   });
 
-  const addNotificationGroupAuth = usePerm(s => s.org.dataCenter.alarms.addNotificationGroup.pass); // 企业中心的添加通知组，需要验证权限，项目的暂无埋点
+  const addNotificationGroupAuth = usePerm((s) => s.org.dataCenter.alarms.addNotificationGroup.pass); // 企业中心的添加通知组，需要验证权限，项目的暂无埋点
 
   const { pageNo, pageSize, total } = reportTaskPaging;
 
@@ -123,13 +123,13 @@ export default () => {
                 'notifyTarget.groupType': [],
               });
             }}
-            dropdownRender={menu => (
+            dropdownRender={(menu) => (
               <div>
                 {menu}
                 <Divider className="my4" />
                 <div
                   className="fz12 px8 py4 color-text-desc"
-                  onMouseDown={e => e.preventDefault()}
+                  onMouseDown={(e) => e.preventDefault()}
                 >
                   <WithAuth pass={addNotificationGroupAuth} >
                     <span
@@ -213,7 +213,7 @@ export default () => {
       title: i18n.t('org:report type'),
       dataIndex: 'type',
       width: 100,
-      render: text => ReportTypeMap[text],
+      render: (text) => ReportTypeMap[text],
     },
     {
       title: i18n.t('default:notification target'),
@@ -235,7 +235,7 @@ export default () => {
       title: i18n.t('default:create time'),
       dataIndex: 'createdAt',
       width: 180,
-      render: text => moment(text).format('YYYY-MM-DD HH:mm:ss'),
+      render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: i18n.t('default:operation'),
@@ -281,7 +281,7 @@ export default () => {
       <Spin spinning={loading}>
         <Table
           tableKey="common-notify-list"
-          rowKey='id'
+          rowKey="id"
           className="common-notify-list"
           dataSource={reportTasks}
           columns={columns}

@@ -28,12 +28,12 @@ import './index.scss';
 const { confirm } = Modal;
 
 interface IAppSelectorProps {
-  initChoose: string,
+  initChoose: string;
   paging: IPaging;
   appList: string[];
   tenantId: string;
-  getAppList(arg: any): Promise<any>;
-  onChange(arg: any): void;
+  getAppList: (arg: any) => Promise<any>;
+  onChange: (arg: any) => void;
 }
 const AppSelector = (props: IAppSelectorProps) => {
   const { paging, appList = [], getAppList, onChange, tenantId, initChoose } = props;
@@ -88,7 +88,7 @@ const AppSelector = (props: IAppSelectorProps) => {
 
   const listComp = (
     <div className="sider-switch-list full-width">
-      <div className="input-wrap" onClick={e => e.stopPropagation()}>
+      <div className="input-wrap" onClick={(e) => e.stopPropagation()}>
         <Input placeholder={i18n.t('search')} onChange={filterAppList} value={searchKey} />
       </div>
       <ul>
@@ -120,9 +120,9 @@ interface IConfig {
 }
 
 const ConfigCenter = () => {
-  const params = routeInfoStore.useStore(s => s.params);
-  const msMenuMap = microServiceStore.useStore(s => s.msMenuMap);
-  const [appList, appListPaging, configListMap] = configCenterStore.useStore(s => [s.appList, s.appListPaging, s.configListMap]);
+  const params = routeInfoStore.useStore((s) => s.params);
+  const msMenuMap = microServiceStore.useStore((s) => s.msMenuMap);
+  const [appList, appListPaging, configListMap] = configCenterStore.useStore((s) => [s.appList, s.appListPaging, s.configListMap]);
   const { getAppList, getConfigList, saveConfig } = configCenterStore.effects;
   const { clearAppList, clearConfigListMap } = configCenterStore.reducers;
   const [chosenApp, setChosenApp] = React.useState('');
@@ -153,7 +153,7 @@ const ConfigCenter = () => {
       title: 'Key',
       dataIndex: 'key',
       sorter: (a: IConfig, b: IConfig) => a.key.charCodeAt(0) - b.key.charCodeAt(0),
-      render: text => (
+      render: (text) => (
         <div className="flex-box">
           <span className="for-copy nowrap" data-clipboard-text={text}>{text}</span>
         </div>

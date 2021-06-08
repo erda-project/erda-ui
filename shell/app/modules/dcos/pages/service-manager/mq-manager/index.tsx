@@ -38,7 +38,7 @@ export const mqTabs = {
 };
 
 const MQManager = () => {
-  const tabKey = routeInfoStore.useStore(s => s.params.tabKey);
+  const tabKey = routeInfoStore.useStore((s) => s.params.tabKey);
   return get(mqTabs, `${tabKey}.content`) || null;
 };
 

@@ -30,24 +30,24 @@ interface IVariableInputGroupProps {
 }
 
 export default class extends PureComponent<IVariableInputGroupProps, any> {
-  constructor(props:IVariableInputGroupProps) {
+  constructor(props: IVariableInputGroupProps) {
     super(props);
-    const ids:string[] = [];
-    const _values = map((props.value || []), (item)=> {
-      let id:string = uuid();
-      while(ids.includes(id)) {
+    const ids: string[] = [];
+    const _values = map((props.value || []), (item) => {
+      let id: string = uuid();
+      while (ids.includes(id)) {
         id = uuid();
       }
       ids.push(id);
 
       return {
         value: item,
-        id
+        id,
       };
-    })
+    });
     this.state = {
       value: _values,
-      ids
+      ids,
     };
   }
 
@@ -135,7 +135,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
 
     this.setState({
       value: reValue,
-      ids: [...ids, id]
+      ids: [...ids, id],
     });
   };
 
@@ -147,9 +147,9 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
     reIds.splice(index, 1);
 
     this.setState({
-      ids: reIds
+      ids: reIds,
     });
-    
+
     this.triggerChange(reValue);
   };
 }

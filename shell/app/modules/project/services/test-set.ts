@@ -25,7 +25,7 @@ export function getTestSetList(payload: TEST_SET.GetQuery): TEST_SET.TestSet[] {
     .query(payload)
     .then((response: any) => response.body);
 }
-export function getTestSetListInTestPlan({ testPlanID, parentID }: {testPlanID: number; parentID: number}):TEST_SET.TestSet[] {
+export function getTestSetListInTestPlan({ testPlanID, parentID }: {testPlanID: number; parentID: number}): TEST_SET.TestSet[] {
   return agent.get(`/api/testplans/${testPlanID}/testsets`)
     .query({ parentTestSetID: parentID })
     .then((response: any) => response.body);

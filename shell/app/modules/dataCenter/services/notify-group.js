@@ -16,27 +16,27 @@ import agent from 'agent';
 export const getNotifyGroupList = ({ pageNo, pageSize }) => {
   return agent.get('/api/notify-groups')
     .query({ pageNo, pageSize })
-    .then(response => response.body);
+    .then((response) => response.body);
 };
 
 export const addNotifyGroup = (data) => {
   return agent.post('/api/notify-groups')
     .send(data)
-    .then(response => response.body);
+    .then((response) => response.body);
 };
 
 export const getNotifyGroup = (id) => {
   return agent.get(`/api/notify-groups/${id}`)
-    .then(response => response.body);
+    .then((response) => response.body);
 };
 
 export const updateNotifyGroup = (data) => {
   return agent.put(`/api/notify-groups/${data.id}`)
     .send(data)
-    .then(response => response.body);
+    .then((response) => response.body);
 };
 
 export const deleteNotifyGroup = (data) => {
   return agent.delete(`/api/notify-groups/${data.id}`)
-    .then(response => response.body);
+    .then((response) => response.body);
 };

@@ -22,10 +22,10 @@ import './timeSelector.scss';
 
 interface IProps {
   defaultTime?: number | Moment[] | number[];
-  timeSpan: ITimeSpan
+  timeSpan: ITimeSpan;
   inline?: boolean;
   className?: string;
-  onChangeTime(args: any): void;
+  onChangeTime: (args: any) => void;
 }
 
 const timeSelectorPlan = {

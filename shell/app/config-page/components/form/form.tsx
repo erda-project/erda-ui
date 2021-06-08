@@ -54,7 +54,7 @@ export const Form = (props: CP_FORM.Props) => {
   };
 
   const fields = React.useMemo(() => {
-    const useableFields = map(_fields, item => {
+    const useableFields = map(_fields, (item) => {
       const curItem = { ...item };
 
       const curKeyOperation = get(curItem, 'operations.change');
@@ -92,8 +92,8 @@ export const Form = (props: CP_FORM.Props) => {
               !readOnly ?
                 (
                   <div>
-                    { operations?.submit && <PureForm.Submit Button={Button} type='primary' text={i18n.t('application:commit')} />}
-                    { operations?.cancel && <Button className='ml8' onClick={onCancel}>{i18n.t('common:cancel')}</Button>}
+                    { operations?.submit && <PureForm.Submit Button={Button} type="primary" text={i18n.t('application:commit')} />}
+                    { operations?.cancel && <Button className="ml8" onClick={onCancel}>{i18n.t('common:cancel')}</Button>}
                   </div>
                 )
                 : undefined
@@ -101,8 +101,8 @@ export const Form = (props: CP_FORM.Props) => {
           </PureForm>
         ) : (
           <div>
-            { operations?.submit && <Button type='primary' onClick={onOk}>{i18n.t('application:commit')}</Button> }
-            { operations?.cancel && <Button className='ml8' onClick={onCancel}>{i18n.t('common:cancel')}</Button>}
+            { operations?.submit && <Button type="primary" onClick={onOk}>{i18n.t('application:commit')}</Button> }
+            { operations?.cancel && <Button className="ml8" onClick={onCancel}>{i18n.t('common:cancel')}</Button>}
           </div>
         )
       }

@@ -27,8 +27,8 @@ interface IProps {
 
 const PureRepoBreadcrumb = ({ path, children, splitKey = 'tree' }: IProps) => {
   const list = [];
-  const appDetail = appStore.useStore(s => s.detail);
-  const [info, mode] = repoStore.useStore(s => [s.info, s.mode]);
+  const appDetail = appStore.useStore((s) => s.detail);
+  const [info, mode] = repoStore.useStore((s) => [s.info, s.mode]);
   const basePath = getSplitPathBy(splitKey).before;
   const { branch, tag } = getInfoFromRefName(info.refName);
   const curBranch = branch || tag || info.defaultBranch;
@@ -42,7 +42,7 @@ const PureRepoBreadcrumb = ({ path, children, splitKey = 'tree' }: IProps) => {
     const paths = path.split('/');
 
     let prevPath = `${basePath}/${curBranch}`;
-    paths.forEach(p => {
+    paths.forEach((p) => {
       prevPath = `${prevPath}/${p}`;
       list.push({
         text: p,
@@ -56,7 +56,7 @@ const PureRepoBreadcrumb = ({ path, children, splitKey = 'tree' }: IProps) => {
     <div className="repo-breadcrumb-container">
       <ul className="repo-breadcrumb">
         {
-          list.map(item => (
+          list.map((item) => (
             isEditing
               ? <li key={item.text + item.href} className="disable">{item.text}</li>
               : (

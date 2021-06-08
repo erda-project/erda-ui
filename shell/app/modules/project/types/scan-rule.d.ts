@@ -56,17 +56,17 @@ declare namespace SCAN_RULE {
   }
 
   interface AppendedItem {
-    id: number | string,
-    description: string,
-    scopeType: string,
-    scopeId: string,
-    metricKeyDesc: string,
-    metricKey: string,
-    metricKeyId: number,
-    operational: string,
-    decimalScale: string,
-    metricValue: string,
-    valueType: string,
+    id: number | string;
+    description: string;
+    scopeType: string;
+    scopeId: string;
+    metricKeyDesc: string;
+    metricKey: string;
+    metricKeyId: number;
+    operational: string;
+    decimalScale: string;
+    metricValue: string;
+    valueType: string;
   }
 
 }

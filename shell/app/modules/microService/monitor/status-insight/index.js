@@ -19,7 +19,7 @@ function monitorStatusRouter() {
     breadcrumbName: i18n.t('microService:status page'),
     routes: [
       {
-        getComp: cb => cb(import('status-insight/pages/status/status')),
+        getComp: (cb) => cb(import('status-insight/pages/status/status')),
       },
       {
         path: ':metricId',
@@ -36,7 +36,7 @@ function monitorStatusRouter() {
           return statusServiceName;
         }, // '监控详情',
         alwaysShowTabKey: 'status',
-        getComp: cb => cb(import('status-insight/pages/status/status-detail')),
+        getComp: (cb) => cb(import('status-insight/pages/status/status-detail')),
       },
     ],
   };

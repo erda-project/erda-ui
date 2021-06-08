@@ -31,7 +31,7 @@ const KeyCode = {
   BACKSPACE: 8, // 删除键
 };
 
-const validValue = (val:string) => {
+const validValue = (val: string) => {
   const tagReg = /^[_a-zA-Z][a-zA-Z0-9_]*[=]{1}[\s\S]+$/;
   if (tagReg.test(val)) {
     return true;
@@ -44,19 +44,19 @@ const validValue = (val:string) => {
 interface IOption {
   id: string | number;
   name: string;
-  displayName:string;
+  displayName: string;
 }
 
 interface IDynamicMenuData {
   dynamicMenu: LOG_ANALYZE.IDynamicChildren;
-  parentQuery?:object;
-  key?:string;
+  parentQuery?: object;
+  key?: string;
 }
 interface IProps {
   value: string[];
   placeholder?: string;
   className?: string;
-  width?:number;
+  width?: number;
   size?: 'small' | 'normal';
   dropdownClassName?: string;
   onChange?: (val: string[] | undefined) => void;
@@ -83,7 +83,7 @@ const LogTagSelector = (props: IProps) => {
   const menuRef = React.useRef(null as any);
 
   const { getTagsTree } = LogAnalyzeStore;
-  const tagsTree = LogAnalyzeStore.useStore(s => s.tagsTree);
+  const tagsTree = LogAnalyzeStore.useStore((s) => s.tagsTree);
 
   useEffectOnce(() => {
     document.body.addEventListener('click', dropdownHide);
@@ -127,26 +127,26 @@ const LogTagSelector = (props: IProps) => {
     updater.dropDownVis(true);
   };
 
-  const addValue = (val:string[] = []) => {
+  const addValue = (val: string[] = []) => {
     if (!isEmpty(val)) {
       onChange(uniq((value || []).concat(val)));
     }
   };
 
   const deleteValue = (val: string) => {
-    onChange(filter(value, item => item !== val));
+    onChange(filter(value, (item) => item !== val));
   };
 
-  const onKeyDown = (e:any) => {
+  const onKeyDown = (e: any) => {
     if (!inputValue && e && e.which === KeyCode.BACKSPACE) {
       value && value.length && deleteValue(value[value.length - 1]);
     }
   };
 
-  const onSelect = (val:string[]) => {
+  const onSelect = (val: string[]) => {
     const newValues = [] as string[];
     let inputOnFocus = false;
-    map(val, item => {
+    map(val, (item) => {
       if (item && item.endsWith('=')) { // 自定义值
         updater.inputValue(item);
         const inputRefObj = inputRef && inputRef.current as any;
@@ -200,29 +200,29 @@ const LogTagSelector = (props: IProps) => {
         overlayClassName={`tag-selector-dropdown ${dropdownClassName}`}
       >
 
-        <div className='tag-render' onClick={clickBox} ref={valueRef}>
-          <div className='tag-value-wrap'>
+        <div className="tag-render" onClick={clickBox} ref={valueRef}>
+          <div className="tag-value-wrap">
             {
             (placeholder && isEmpty(value) && !inputValue) ? (
-              <span className='placeholder'>{placeholder}</span>
+              <span className="placeholder">{placeholder}</span>
             ) : null
           }
-            <span className='input-mirror' ref={inputMirrorRef}>&nbsp;{inputValue || ''}</span>
-            <div className='value-list'>
+            <span className="input-mirror" ref={inputMirrorRef}>&nbsp;{inputValue || ''}</span>
+            <div className="value-list">
               {
               map(value || [], (item, idx) => (
-                <div className='value-item' key={`${idx}-${item}`}>
-                  <Tag className='value-tag' closable onClose={() => deleteValue(item)}>{item}</Tag>
+                <div className="value-item" key={`${idx}-${item}`}>
+                  <Tag className="value-tag" closable onClose={() => deleteValue(item)}>{item}</Tag>
                 </div>
               ))
             }
-              <div className='value-item'>
+              <div className="value-item">
                 <Input
-                  autoComplete='off'
-                  className='display-input'
+                  autoComplete="off"
+                  className="display-input"
                   ref={inputRef}
                   value={inputValue}
-                  onChange={(e:any) => updater.inputValue(e.target.value)}
+                  onChange={(e: any) => updater.inputValue(e.target.value)}
                   onBlur={onBlur}
                   onFocus={() => updater.isFocus(true)}
                   onPressEnter={() => inputValue && onSelect([inputValue])}
@@ -240,7 +240,7 @@ const LogTagSelector = (props: IProps) => {
 interface ICascaderSelectorProps {
   data: any;
   visible: boolean;
-  onSelect: (val:string[])=>void;
+  onSelect: (val: string[]) => void;
 }
 const CascaderSelector = (props: ICascaderSelectorProps) => {
   const { data, onSelect = noop } = props;
@@ -253,7 +253,7 @@ const CascaderSelector = (props: ICascaderSelectorProps) => {
     }
   }, [data]);
 
-  const getParentTag = (idx:number) => {
+  const getParentTag = (idx: number) => {
     const pTags = [] as string[];
     map(menus, (item, mIdx) => {
       if (mIdx < idx) {
@@ -264,7 +264,7 @@ const CascaderSelector = (props: ICascaderSelectorProps) => {
   };
 
   const ChildrenTypeMap = {
-    staticRender: (menuItem:any, { key, idx }:{key:string;idx:number}) => {
+    staticRender: (menuItem: any, { key, idx }: {key: string;idx: number}) => {
       const { tag, children, dynamic_children } = menuItem;
       const tip = (
         <div>
@@ -282,7 +282,7 @@ const CascaderSelector = (props: ICascaderSelectorProps) => {
       return (
         <div className={`menu-item ${isActive ? 'is-active' : ''}`} key={`${tag.name}${tag.key}`}>
           <span
-            className='menu-name'
+            className="menu-name"
             onClick={() => {
               const curTag = tag.value ? `${tag.key}=${tag.value}` : `${tag.key}=`;
               const parentTags = getParentTag(idx);
@@ -296,8 +296,8 @@ const CascaderSelector = (props: ICascaderSelectorProps) => {
           {
               (children || dynamic_children) ? (
                 <CustomIcon
-                  type='chevronright'
-                  className='arrow'
+                  type="chevronright"
+                  className="arrow"
                   onClick={() => {
                     setMenus((_menus) => {
                       const curDepth = idx + 1;
@@ -315,13 +315,13 @@ const CascaderSelector = (props: ICascaderSelectorProps) => {
         </div>
       );
     },
-    dynamicRender: (menuItem:any, { idx }: {idx:number}) => {
+    dynamicRender: (menuItem: any, { idx }: {idx: number}) => {
       const preChosenKey = menus[idx - 1] ? menus[idx - 1].key : '';
       return (
         <LoadMoreMenu
           menuInfo={menuItem}
           key={`${menuItem.dynamicMenu.dimension}${preChosenKey}`}
-          setDynamicMenu={(dynamicMenu: IDynamicMenuData, preKey, parentQuery:any = {}) => {
+          setDynamicMenu={(dynamicMenu: IDynamicMenuData, preKey, parentQuery: any = {}) => {
             setMenus((_menus) => {
               const curDepth = idx + 1;
               const preMenu = _menus.length > curDepth ? _menus.slice(0, curDepth) : [..._menus];
@@ -332,7 +332,7 @@ const CascaderSelector = (props: ICascaderSelectorProps) => {
               });
             });
           }}
-          onSelect={(curTag:string) => {
+          onSelect={(curTag: string) => {
             const parentTags = getParentTag(idx);
             onSelect(parentTags.concat(curTag));
           }}
@@ -341,12 +341,12 @@ const CascaderSelector = (props: ICascaderSelectorProps) => {
     },
   };
   return (
-    <div className='log-tag-menu-selector'>
-      <div className='log-tag-menus'>
-        {map(menus, (item, idx:number) => {
+    <div className="log-tag-menu-selector">
+      <div className="log-tag-menus">
+        {map(menus, (item, idx: number) => {
           const { menu, key, dynamicMenu } = item;
           return menu ? (
-            <div className='menu-box' key={`depth${idx}`}>
+            <div className="menu-box" key={`depth${idx}`}>
               {map(menu, (menuItem) => {
                 const { tag } = menuItem;
                 if (!isEmpty(tag)) {
@@ -366,23 +366,23 @@ const CascaderSelector = (props: ICascaderSelectorProps) => {
 };
 
 interface ILoadMoreProps{
-  menuInfo:IDynamicMenuData;
-  setDynamicMenu?:(arg: IDynamicMenuData, preKey:any, val: string|number) => void;
-  onSelect?:(arg: string) =>void;
+  menuInfo: IDynamicMenuData;
+  setDynamicMenu?: (arg: IDynamicMenuData, preKey: any, val: string|number) => void;
+  onSelect?: (arg: string) => void;
 }
 
 const loadMap = {
   project: {
     loadData: getJoinedProjects,
-    parentQuery: (val:any) => ({ projectId: val }),
+    parentQuery: (val: any) => ({ projectId: val }),
   },
   app: {
     loadData: getApps,
-    parentQuery: (val:any) => ({ applicationId: val }),
+    parentQuery: (val: any) => ({ applicationId: val }),
   },
 };
 
-const LoadMoreMenu = (props:ILoadMoreProps) => {
+const LoadMoreMenu = (props: ILoadMoreProps) => {
   const { menuInfo, setDynamicMenu = noop, onSelect = noop } = props;
 
   const [{ pageNo, pageSize, hasMore, list, loading }, updater] = useUpdate({
@@ -398,13 +398,13 @@ const LoadMoreMenu = (props:ILoadMoreProps) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNo, pageSize]);
 
-  const getData = (query:any) => {
+  const getData = (query: any) => {
     const loadFun = loadMap[menuInfo.dynamicMenu.dimension].loadData;
     if (loadFun) {
       updater.loading(true);
       const res = loadFun(query);
       if (res && isPromise(res)) {
-        res.then((resData:any) => {
+        res.then((resData: any) => {
           const { total, list: curList } = resData.data || {};
           updater.hasMore(Math.ceil(total / pageSize) > query.pageNo);
           let newList = [];
@@ -421,9 +421,9 @@ const LoadMoreMenu = (props:ILoadMoreProps) => {
   };
   const { dynamicMenu } = menuInfo;
   return (
-    <div className='load-more-menu menu-box' key={dynamicMenu.dimension}>
+    <div className="load-more-menu menu-box" key={dynamicMenu.dimension}>
       {
-        map(list, item => {
+        map(list, (item) => {
           const tip = (
             <div>
               <div>{item.displayName || item.name}</div>
@@ -442,7 +442,7 @@ const LoadMoreMenu = (props:ILoadMoreProps) => {
           return (
             <div key={item.id} className={`menu-item ${isActive ? 'is-active' : ''}`}>
               <span
-                className='menu-name'
+                className="menu-name"
                 onClick={() => {
                   dynamicMenu.key && onSelect(item.id ? `${dynamicMenu.key}=${item.id}` : `${dynamicMenu.key}=`);
                 }}
@@ -454,8 +454,8 @@ const LoadMoreMenu = (props:ILoadMoreProps) => {
               {
                 dynamicMenu.dynamic_children ? (
                   <CustomIcon
-                    type='chevronright'
-                    className='arrow'
+                    type="chevronright"
+                    className="arrow"
                     onClick={() => {
                       setDynamicMenu({
                         dynamicMenu: dynamicMenu.dynamic_children,

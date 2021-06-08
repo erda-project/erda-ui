@@ -22,11 +22,11 @@ import { formatTime } from 'common/utils';
 import { useUnmount } from 'react-use';
 
 export default () => {
-  const [publisherItemId, query] = routeInfoStore.useStore(s => [
+  const [publisherItemId, query] = routeInfoStore.useStore((s) => [
     s.params.publisherItemId,
     s.query,
   ]);
-  const detail = errorReportStore.useStore(s => s.errorDetail);
+  const detail = errorReportStore.useStore((s) => s.errorDetail);
   let tags: Obj = {};
   let log = i18n.t('publisher:no data');
   if (detail) {
@@ -68,7 +68,7 @@ export default () => {
     [i18n.t('publisher:ip address'), 'ip'],
     [i18n.t('publisher:client occurrence time'), 'timestamp', 'time'],
   ];
-  const basicFieldsList = fields.map(item => {
+  const basicFieldsList = fields.map((item) => {
     const [label, name, type] = item;
     const typeMap = {
       time: (val: string) => formatTime(val, 'YYYY-MM-DD HH:mm:ss'),
@@ -91,7 +91,7 @@ export default () => {
           <Copy
             selector=".for-copy"
           />
-          <Button className='for-copy' data-clipboard-text={log} type="primary" ghost>{i18n.t('copy')}</Button>
+          <Button className="for-copy" data-clipboard-text={log} type="primary" ghost>{i18n.t('copy')}</Button>
         </>
       ),
       children: (

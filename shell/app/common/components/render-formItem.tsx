@@ -67,7 +67,7 @@ export interface IFormItem {
   extraProps?: object;
   rules?: any[];
   config?: object;
-  options?: Array<{ name: string, value: string | number, disabled?: boolean }> | Function;
+  options?: Array<{ name: string; value: string | number; disabled?: boolean }> | Function;
   suffix?: string | null;
   formItemLayout?: object;
   className?: string;
@@ -76,9 +76,9 @@ export interface IFormItem {
   noColon?: boolean;
   isTailLayout?: boolean; // no label, put some offset to align right part
   onChange?: any;
-  addOne?(name: string | undefined): void;
-  dropOne?(name: string | undefined): void;
-  getComp?({ form }: { form: WrappedFormUtils }): React.ReactElement<any> | string;
+  addOne?: (name: string | undefined) => void;
+  dropOne?: (name: string | undefined) => void;
+  getComp?: ({ form }: { form: WrappedFormUtils }) => React.ReactElement<any> | string;
 }
 export const RenderFormItem = ({
   form,
@@ -124,7 +124,7 @@ export const RenderFormItem = ({
           {
             typeof options === 'function'
               ? options()
-              : options.map(single => <Option key={single.value} value={`${single.value}`} disabled={!!single.disabled}>{single.name}</Option>)
+              : options.map((single) => <Option key={single.value} value={`${single.value}`} disabled={!!single.disabled}>{single.name}</Option>)
           }
         </Select>
       );
@@ -154,7 +154,7 @@ export const RenderFormItem = ({
           {
             typeof options === 'function'
               ? options()
-              : options.map(single => <Radio.Button key={single.value} value={`${single.value}`} disabled={!!single.disabled}>{single.name}</Radio.Button>)
+              : options.map((single) => <Radio.Button key={single.value} value={`${single.value}`} disabled={!!single.disabled}>{single.name}</Radio.Button>)
           }
         </Radio.Group>
       );
@@ -210,13 +210,13 @@ export const RenderFormItem = ({
       : formLayout === 'horizontal' ? formItemLayout || defalutFormItemLayout : null;
 
   // generate rules
-  if (required && !rules.some(r => r.required === true)) {
+  if (required && !rules.some((r) => r.required === true)) {
     if (typeof label === 'string' && label.length) {
       const hasColon = !noColon && (label.endsWith(':') || label.endsWith('：'));
       rules.push({ required, message: `${i18n.t('common:please')}${action}${hasColon ? label.slice(0, label.length - 1) : label}` });
     }
   }
-  if (pattern && !rules.some(r => r.pattern && r.pattern.source === pattern.source)) {
+  if (pattern && !rules.some((r) => r.pattern && r.pattern.source === pattern.source)) {
     rules.push({ pattern, message });
   }
   // generate config
@@ -242,7 +242,7 @@ export const RenderFormItem = ({
       <span>
         {label}&nbsp;
         <Tooltip title={labelTip}>
-          <IconHelp className='color-text-icon' />
+          <IconHelp className="color-text-icon" />
         </Tooltip>
       </span>
     )

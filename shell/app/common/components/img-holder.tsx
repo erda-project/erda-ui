@@ -91,7 +91,7 @@ export const ImgHolder = (props: IProps) => {
   }
   let [w, h] = [200, 200];
   if (rect) {
-    [w, h] = rect.split('x').map(a => Number(a));
+    [w, h] = rect.split('x').map((a) => Number(a));
     style.width = `${w}px`;
     style.height = `${h}px`;
   }

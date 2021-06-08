@@ -41,7 +41,7 @@ export const EcsCloudOperationForm = ({ title, formData, fieldList, content, vis
       region: 'cn-hangzhou',
       vendor: 'alicloud',
     };
-    formData.selectedList.forEach(item => form.instanceIds.push(item.resourceID));
+    formData.selectedList.forEach((item) => form.instanceIds.push(item.resourceID));
     if (body.duration) {
       currentBody.duration = +body.duration;
     }

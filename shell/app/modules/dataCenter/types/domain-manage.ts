@@ -31,7 +31,7 @@ declare namespace DOMAIN_MANAGE {
       serviceName: string;
       workspace: IWorkspace;
       tenantGroup: string;
-    }
+    };
   }
 
   interface IDomainRequest {

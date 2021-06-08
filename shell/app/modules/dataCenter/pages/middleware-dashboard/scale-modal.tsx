@@ -23,10 +23,10 @@ import './modal.scss';
 
 interface IProps {
   visible: boolean;
-  formData: Merge<MIDDLEWARE_DASHBOARD.IScaleData, { name: string, projectName: string; }>;
+  formData: Merge<MIDDLEWARE_DASHBOARD.IScaleData, { name: string; projectName: string }>;
   form: WrappedFormUtils;
-  onCancel(): void;
-  afterSubmit?(): void;
+  onCancel: () => void;
+  afterSubmit?: () => void;
 }
 
 type cb = (str?: string) => void;
@@ -234,4 +234,4 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit, form }: IProps) 
   );
 };
 
-export default Form.create()(ScaleModal) as any as (p: Omit<IProps, 'form'>)=>JSX.Element;
+export default Form.create()(ScaleModal) as any as (p: Omit<IProps, 'form'>) => JSX.Element;

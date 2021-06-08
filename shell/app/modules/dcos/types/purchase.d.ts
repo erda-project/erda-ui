@@ -25,7 +25,7 @@ declare namespace PURCHASE {
   }
 
   interface PurchaseItem {
-    [k: string]: any
+    [k: string]: any;
     createdAt: string;
     type: string;
     status: {
@@ -56,7 +56,7 @@ declare namespace PURCHASE {
 
   interface CheckEscRes {
     available: boolean;
-    description: string
+    description: string;
   }
 
   interface Zone {
@@ -72,7 +72,7 @@ declare namespace PURCHASE {
   interface EcsSetting<T> {
     nodeType?: T;
     instanceType?: string;
-    instanceChargeType?: PayType
+    instanceChargeType?: PayType;
     systemDiskSize?: number;
     amount: number;
     periodUnit?: string;
@@ -111,18 +111,18 @@ declare namespace PURCHASE {
     dbName: string;
     Password: string;
     parameters: {
-      character_set_server: 'utf8' | 'gbk' | 'latin1' | 'utf8mb4'
-    }
+      character_set_server: 'utf8' | 'gbk' | 'latin1' | 'utf8mb4';
+    };
   }
 
   interface PageFormData {
     clusterName: string;
     vpcSetting: {
       vpcCidr: string;
-    }
+    };
     accessKeyId: string;
     accessKeySecret: string;
-    ecsSettings: EcsSettings<EcsType>
+    ecsSettings: EcsSettings<EcsType>;
     natSetting?: NatSetting;
     nasSetting?: NasSetting;
     redisSettings: RedisSettings;
@@ -133,7 +133,7 @@ declare namespace PURCHASE {
     clusterName: string;
     vpcSetting: {
       vpcCidr: string;
-    }
+    };
     accessKeyId: string;
     accessKeySecret: string;
     natSetting?: NatSetting;

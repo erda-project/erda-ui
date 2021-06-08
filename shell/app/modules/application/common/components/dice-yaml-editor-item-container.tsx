@@ -56,7 +56,7 @@ const Group = (props: any) => {
 };
 
 export default class extends React.PureComponent<IDiceYamlEditorMoveViewProps, any> {
-  public state = {
+  state = {
     groupIndex: -1,
     x: 0,
     y: 0,
@@ -99,7 +99,7 @@ export default class extends React.PureComponent<IDiceYamlEditorMoveViewProps, a
     return null;
   }
 
-  public componentDidMount(): void {
+  componentDidMount(): void {
     const { readonly, type } = this.props;
     if (!readonly || type === DiceFlowType.EDITOR) {
       const $el: any = document.getElementById('points-view');
@@ -110,7 +110,7 @@ export default class extends React.PureComponent<IDiceYamlEditorMoveViewProps, a
     }
   }
 
-  public componentWillUnmount(): void {
+  componentWillUnmount(): void {
     const { readonly, type } = this.props;
     if (!readonly || type === DiceFlowType.EDITOR) {
       const $el: any = document.getElementById('points-view');
@@ -121,7 +121,7 @@ export default class extends React.PureComponent<IDiceYamlEditorMoveViewProps, a
     }
   }
 
-  public render(): React.ReactNode {
+  render(): React.ReactNode {
     const { x, y, groupIndex } = this.state;
     const {
       onMouseDownItem,
@@ -291,7 +291,7 @@ export default class extends React.PureComponent<IDiceYamlEditorMoveViewProps, a
     if (onMouseDownItem && !this.inRender) {
       const groupIndex = Math.round(
         // @ts-ignore
-        (e.clientY - mouseDownPosition.y - info.PADDING_TOP) / (info.ITEM_HEIGHT + info.ITEM_MARGIN_BOTTOM)
+        (e.clientY - mouseDownPosition.y - info.PADDING_TOP) / (info.ITEM_HEIGHT + info.ITEM_MARGIN_BOTTOM),
       );
       this.inRender = true;
       this.setState({

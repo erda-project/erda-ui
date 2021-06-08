@@ -13,8 +13,8 @@
 
 declare namespace CP_CARD {
   interface Spec {
-    type: 'Card'
-    props: IProps
+    type: 'Card';
+    props: IProps;
   }
 
   interface IProps{

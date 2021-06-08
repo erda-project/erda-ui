@@ -26,15 +26,15 @@ const typeMap = {
 };
 
 interface IProps {
-  opsCol?: ColumnProps<{ [prop: string]: any }>
-  dataSource: RUNTIME.DeployRecord[]
-  paging: IPaging
-  loading: boolean
-  onChange?(pageNo: number, pageSize?: number): void
+  opsCol?: ColumnProps<{ [prop: string]: any }>;
+  dataSource: RUNTIME.DeployRecord[];
+  paging: IPaging;
+  loading: boolean;
+  onChange?: (pageNo: number, pageSize?: number) => void;
 }
 
 const DeploymentTable = ({ dataSource, paging, loading, onChange, opsCol }: IProps) => {
-  const userMap = userMapStore.useStore(s => s);
+  const userMap = userMapStore.useStore((s) => s);
   const columns: Array<ColumnProps<{ [prop: string]: any }>> = [
     {
       title: i18n.t('runtime:deployment id'),

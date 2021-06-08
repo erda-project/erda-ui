@@ -26,7 +26,7 @@ import { useEffectOnce } from 'react-use';
 const MountList = () => {
   const { getPurchaseList } = purchaseStore.effects;
   const { clearPurchaseList } = purchaseStore.reducers;
-  const purchaseList = purchaseStore.useStore(s => s.purchaseList);
+  const purchaseList = purchaseStore.useStore((s) => s.purchaseList);
   const [state, , update] = useUpdate({
     modalVisible: false,
     modalContent: null,
@@ -65,7 +65,7 @@ const MountList = () => {
     }
   });
   const columns = [
-    ...['ecs', 'nat', 'nas', 'rds', 'redis', 'slb', 'vpc'].map(k => (
+    ...['ecs', 'nat', 'nas', 'rds', 'redis', 'slb', 'vpc'].map((k) => (
       {
         title: k,
         dataIndex: k,

@@ -89,13 +89,13 @@ type LSWatcher = (value: any) => void;
 export const LSObserver = (() => {
   const obMap = {} as any;
   return {
-    watch(name:string, fn:LSWatcher) {
+    watch(name: string, fn: LSWatcher) {
       obMap[name] = fn;
     },
-    remove(name:string) {
+    remove(name: string) {
       obMap[name] = undefined;
     },
-    notify(name:string | null, val:any) {
+    notify(name: string | null, val: any) {
       if (name) {
         if (!name || !obMap[name]) return;
         const fun = obMap[name];

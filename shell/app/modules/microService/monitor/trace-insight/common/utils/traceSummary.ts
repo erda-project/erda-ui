@@ -20,7 +20,7 @@ function endpointsForSpan(span: any) {
   return union(
     (span.annotations || []).map((a: any) => a.endpoint),
     (span.binaryAnnotations || []).map((a: any) => a.endpoint),
-  ).filter(h => h != null);
+  ).filter((h) => h != null);
 }
 
 // What's the total duration of the spans in this trace?
@@ -51,7 +51,7 @@ export function traceDuration(spans: any) {
 export function getServiceNames(span: any) {
   return fp.flow(
     fp.map((ep: any) => ep.serviceName),
-    fp.filter(name => name != null && name !== ''),
+    fp.filter((name) => name != null && name !== ''),
     fp.uniqBy(identity),
   )(endpointsForSpan(span));
 }
@@ -132,7 +132,7 @@ export function getServiceName(span: any) {
 
 
 function getSpanTimestamps(spans: any) {
-  return flatMap(spans, span => getServiceNames(span).map(serviceName => ({
+  return flatMap(spans, (span) => getServiceNames(span).map((serviceName) => ({
     name: serviceName,
     timestamp: span.timestamp,
     duration: span.duration,
@@ -194,9 +194,9 @@ export function totalServiceTime(stamps: any, acc = 0): any {
     return acc;
   }
   const ts = minBy(filtered, (s: any) => s.timestamp);
-  const [current, next] = partition(filtered, t => t.timestamp >= ts.timestamp
+  const [current, next] = partition(filtered, (t) => t.timestamp >= ts.timestamp
         && t.timestamp + t.duration <= ts.timestamp + ts.duration);
-  const endTs = Math.max(...current.map(t => t.timestamp + t.duration));
+  const endTs = Math.max(...current.map((t) => t.timestamp + t.duration));
   return totalServiceTime(next, acc + (endTs - ts.timestamp));
 }
 
@@ -209,7 +209,7 @@ function formatDate(timestamp: number, utc: any) {
 }
 
 export function getGroupedTimestamps(summary: any) {
-  return groupBy(summary.spanTimestamps, sts => sts.name);
+  return groupBy(summary.spanTimestamps, (sts) => sts.name);
 }
 
 export function getServiceDurations(groupedTimestamps: any) {

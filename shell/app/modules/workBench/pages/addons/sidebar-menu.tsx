@@ -20,7 +20,7 @@ export const getSideMenu = ({ rootPath }: { rootPath: string }) => {
   const sideMenu = [
     {
       href: `${rootPath}/overview`,
-      icon: <CustomIcon type='overview' />,
+      icon: <CustomIcon type="overview" />,
       text: i18n.t('workBench:addon info'),
     },
     {

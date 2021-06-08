@@ -13,13 +13,13 @@
 
 declare namespace LAYOUT {
   interface IMsg {
-    id: number
-    title: string
-    content: string
-    module: string
-    status: string
-    createdAt: string
-    readAt: string | null
+    id: number;
+    title: string;
+    content: string;
+    module: string;
+    status: string;
+    createdAt: string;
+    readAt: string | null;
   }
 
   interface IApp {
@@ -31,23 +31,23 @@ declare namespace LAYOUT {
   }
 
   interface InviteToOrgPayload {
-    verifyCode: string
-    userIds: string[]
-    orgId: string
+    verifyCode: string;
+    userIds: string[];
+    orgId: string;
   }
 
   interface IInitLayout {
-    key: string
-    appList: IApp[]
-    currentApp: IApp,
-    menusMap: Obj<IMenuObj>
+    key: string;
+    appList: IApp[];
+    currentApp: IApp;
+    menusMap: Obj<IMenuObj>;
   }
 
   interface IMenuObj{
     menu: IMenu[];
     detail?: {
       displayName: string;
-    }
+    };
   }
 
   interface IMenu{

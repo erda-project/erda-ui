@@ -26,10 +26,10 @@ declare namespace MONITOR_EI {
     tags: {
       request_id: string;
       trace_sampled: string;
-    }
+    };
     fields: {
       elapsed_max: string;
-    }
+    };
   }
 
 }

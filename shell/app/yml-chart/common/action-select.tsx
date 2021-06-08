@@ -24,7 +24,7 @@ interface IProps {
   label: string;
   disabled?: boolean;
   placeholder: string;
-  originActions: any[],
+  originActions: any[];
   onChange: (params: any) => void;
 }
 
@@ -47,9 +47,9 @@ const AddOn = ({ addon, className, onClick, editing }: IAddOnProps) => {
     >
       {
         logoUrl ? (
-          <img alt='logo' src={logoUrl} className='actions-icon' />
+          <img alt="logo" src={logoUrl} className="actions-icon" />
         ) : (
-          <CustomIcon type='wfw' color className='actions-icon' />
+          <CustomIcon type="wfw" color className="actions-icon" />
         )
       }
       <span className="actions-info">
@@ -110,7 +110,7 @@ export default (props: IProps) => {
     }
     const actionsGroup = groupBy(actions, 'group');
     const addonsContent = (
-      <Collapse className='new-yml-editor-collapse' defaultActiveKey={get(Object.keys(actionsGroup), 0)}>
+      <Collapse className="new-yml-editor-collapse" defaultActiveKey={get(Object.keys(actionsGroup), 0)}>
         {
           map(actionsGroup, (actionArr, groupKey) => {
             const header = get(actionArr, '[0].groupDisplayName') || get(actionArr, '[0].group') || groupKey;

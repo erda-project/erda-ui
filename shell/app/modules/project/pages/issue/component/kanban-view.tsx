@@ -26,15 +26,15 @@ interface IProps{
   viewGroup: string;
   issueType: ISSUE_TYPE;
   viewType?: string;
-  onChosenIssue:(val:ISSUE.Issue) => void;
+  onChosenIssue: (val: ISSUE.Issue) => void;
 }
 
 const QKey = FilterBarHandle.filterDataKey;
 
-const KanbanView = React.forwardRef((props: IProps, ref:any) => {
+const KanbanView = React.forwardRef((props: IProps, ref: any) => {
   const { filterObj: propsFilter, viewGroup, issueType, viewType, onChosenIssue } = props;
-  const [{ projectId }] = routeInfoStore.useStore(s => [s.params]);
-  const loginUserId = userStore.useStore(s => s.loginUser.id);
+  const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
+  const loginUserId = userStore.useStore((s) => s.loginUser.id);
 
   const [{ inParams }, updater] = useUpdate({
     inParams: {},
@@ -45,7 +45,7 @@ const KanbanView = React.forwardRef((props: IProps, ref:any) => {
     return {
       ...omit(propsFilter, ['viewType', 'viewGroup', QKey]),
       ...(pageNo ? { pageNo: +pageNo } : {}),
-      ...(iterationIDs ? { iterationIDs: map(iterationIDs, i => +i) } : {}),
+      ...(iterationIDs ? { iterationIDs: map(iterationIDs, (i) => +i) } : {}),
       projectID: +projectId,
       boardType: viewGroup,
       userID: loginUserId,
@@ -71,7 +71,7 @@ const KanbanView = React.forwardRef((props: IProps, ref:any) => {
   React.useEffect(() => {
     // 把_Q_的放路由最后
     updateSearch({ ...propsFilter, viewType, viewGroup }, {
-      sort: (a:string, b:string) => (a === QKey ? 1 : (b === QKey ? -1 : 0)),
+      sort: (a: string, b: string) => (a === QKey ? 1 : (b === QKey ? -1 : 0)),
     });
   }, [propsFilter, viewType, viewGroup]);
 
@@ -86,7 +86,7 @@ const KanbanView = React.forwardRef((props: IProps, ref:any) => {
     },
   };
 
-  return <DiceConfigPage scenarioType='' inParams={inParams} scenarioKey={'issueKanban'} customProps={customProps} showLoading forceUpdateKey={['inParams']} />;
+  return <DiceConfigPage scenarioType="" inParams={inParams} scenarioKey={'issueKanban'} customProps={customProps} showLoading forceUpdateKey={['inParams']} />;
 });
 
 export default KanbanView;

@@ -19,7 +19,7 @@ interface ISelectEnvProps {
   children: JSX.Element;
   noEnv?: TEST_ENV.Item[];
   envList?: readonly TEST_ENV.Item[];
-  onClick(data: TEST_ENV.Item): void;
+  onClick: (data: TEST_ENV.Item) => void;
 }
 
 const SelectEnv = ({ children, onClick, noEnv = [], envList }: ISelectEnvProps) => {
@@ -35,7 +35,7 @@ const SelectEnv = ({ children, onClick, noEnv = [], envList }: ISelectEnvProps) 
     }}
     >
       {
-        map(envs, env => (
+        map(envs, (env) => (
           <Menu.Item key={env.id}>
             {env.name} {env.domain ? `(${env.domain})` : null}
           </Menu.Item>
@@ -45,7 +45,7 @@ const SelectEnv = ({ children, onClick, noEnv = [], envList }: ISelectEnvProps) 
   );
   const child = React.Children.count(children) === 1 ? children : <span>{children}</span>;
   return (
-    <Dropdown overlay={menu} placement='bottomRight'>
+    <Dropdown overlay={menu} placement="bottomRight">
       {child}
     </Dropdown>
   );

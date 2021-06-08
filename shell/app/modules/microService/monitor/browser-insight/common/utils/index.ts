@@ -20,7 +20,7 @@ interface IOriginData{
     [pro: string]: any;
     name: string;
     key: string;
-  }>
+  }>;
 }
 
 export const handlerName = (originData: IOriginData) => {
@@ -58,7 +58,7 @@ export const sortCreator = (moduleName: string, chartName: string, payload?: obj
       type: 'sortList',
       chartName: 'sortList',
       moduleName,
-      getFetchObj: ({ sortTab, subTab }: {sortTab: string, subTab: string}) => {
+      getFetchObj: ({ sortTab, subTab }: {sortTab: string; subTab: string}) => {
         const fetchMap = {
           time: { query: { sortBy: 'time' }, unit: 'ms' },
           percent: { query: { sortBy: 'percent' }, unit: '%' },

@@ -26,7 +26,7 @@ const FormItem = Form.Item;
 interface IVswCIDRProps {
   form: any;
   vpcCidrBlock?: string;
-  onChangeMask?:(val: number) => void;
+  onChangeMask?: (val: number) => void;
   formKey?: string;
 }
 
@@ -71,7 +71,7 @@ export const VswCIDRField = ({ form, vpcCidrBlock = '0.0.0.0/0', onChangeMask, f
     });
   };
 
-  const getFormItem = (index:number) => {
+  const getFormItem = (index: number) => {
     const options = IPItemOption[index] || [] as number[];
     return (
       <FormItem>
@@ -83,7 +83,7 @@ export const VswCIDRField = ({ form, vpcCidrBlock = '0.0.0.0/0', onChangeMask, f
                 { validator: validateIncludes(options) },
               ],
             })(
-              <Input disabled={options.length <= 1} />
+              <Input disabled={options.length <= 1} />,
             )
           }
         </Tooltip>
@@ -105,10 +105,10 @@ export const VswCIDRField = ({ form, vpcCidrBlock = '0.0.0.0/0', onChangeMask, f
         {
           form.getFieldDecorator(`${formKey}.4`)(
             <Select onChange={(val: any) => changeMask(val)}>
-              {map(maskOptions, item => {
+              {map(maskOptions, (item) => {
                 return <Option key={item} value={item}>{item}</Option>;
               })}
-            </Select>
+            </Select>,
           )
         }
       </FormItem>
@@ -119,8 +119,8 @@ export const VswCIDRField = ({ form, vpcCidrBlock = '0.0.0.0/0', onChangeMask, f
 
 interface ICIDRProps {
   value?: string;
-  onChange?: (val: string)=>void;
-  onChangeCIDRType:(val: string)=>void;
+  onChange?: (val: string) => void;
+  onChangeCIDRType: (val: string) => void;
   cidrType: string;
 }
 
@@ -133,7 +133,7 @@ export const VpcCIDRField = ({ value, onChange, cidrType, onChangeCIDRType }: IC
         }}
         value={value}
       >
-        {map(formConfig.options.defaultCIDR, item => (
+        {map(formConfig.options.defaultCIDR, (item) => (
           <Option key={item} value={item}>{item}</Option>
         ))}
       </Select>
@@ -142,7 +142,7 @@ export const VpcCIDRField = ({ value, onChange, cidrType, onChangeCIDRType }: IC
       <Input
         value={value}
         defaultValue={formConfig.options.defaultCIDR[0]}
-        onChange={(e:any) => {
+        onChange={(e: any) => {
           onChange && onChange(e.target.value);
         }}
       />
@@ -154,10 +154,10 @@ export const VpcCIDRField = ({ value, onChange, cidrType, onChangeCIDRType }: IC
       <Radio.Group
         className="mb8"
         value={cidrType}
-        onChange={(e:any) => onChangeCIDRType(e.target.value)}
+        onChange={(e: any) => onChangeCIDRType(e.target.value)}
       >
         {
-          map(formConfig.options.CIDRType, item => {
+          map(formConfig.options.CIDRType, (item) => {
             return <Radio key={item.value} value={item.value}>{item.name}</Radio>;
           })
         }

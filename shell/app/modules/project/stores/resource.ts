@@ -27,10 +27,10 @@ interface Istate {
   serviceList: RESOURCE.Instances[] | RESOURCE.ServiceItem[];
   chartList: Array<{
     loading: boolean;
-    results: RESOURCE.MetaData[],
+    results: RESOURCE.MetaData[];
     time: number[];
     title: string;
-  }>
+  }>;
 }
 
 const projectResource = createStore({
@@ -41,21 +41,21 @@ const projectResource = createStore({
   } as Istate,
   effects: {
     async getServiceList({ call, update }, payload: Omit<RESOURCE.QueryServiceList, 'org'>) {
-      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const orgId = orgStore.getState((s) => s.currentOrg.id);
       const serviceList = await call(ResourceServices.getServiceList, { ...payload, org: orgId });
       await update({ serviceList });
     },
     async getChartData({ call, getParams }, payload: Omit<RESOURCE.QuertChart, 'projectId' | 'query'>) {
       const { type } = payload;
       const { projectId } = getParams();
-      const { startTimeMs, endTimeMs } = monitorCommonStore.getState(s => s.timeSpan);
+      const { startTimeMs, endTimeMs } = monitorCommonStore.getState((s) => s.timeSpan);
       const query = { start: startTimeMs, end: endTimeMs };
       const data = await call(ResourceServices.getChartData, { type, projectId, ...payload, query });
       projectResource.reducers.getChartDataSuccess({ data, type });
     },
   },
   reducers: {
-    getChartDataSuccess(state, payload: { data: RESOURCE.CharData, type: string }) {
+    getChartDataSuccess(state, payload: { data: RESOURCE.CharData; type: string }) {
       const { type, data: listData } = payload;
       const { chartList } = state;
       // 去掉cpu内存统计图数据

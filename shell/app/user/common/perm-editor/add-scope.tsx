@@ -81,7 +81,7 @@ const AddScope = (props: IProps) => {
 
   return (
     <>
-      <Button type='primary' onClick={onOpen}>{i18n.t('add {name}', { name: 'scope' })}</Button>
+      <Button type="primary" onClick={onOpen}>{i18n.t('add {name}', { name: 'scope' })}</Button>
       <FormModal
         width={650}
         visible={visible}

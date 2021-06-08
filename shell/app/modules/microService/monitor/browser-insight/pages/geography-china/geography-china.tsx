@@ -19,7 +19,7 @@ import GeographyMap from './config/chartMap';
 
 
 const GeographyChina = () => {
-  const chosenSortItem = monitorCommonStore.useStore(s => s.chosenSortItem);
+  const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
   const getAllChart = () => {
     return (
       <React.Fragment>

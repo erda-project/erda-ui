@@ -43,7 +43,7 @@ declare namespace API_ACCESS {
     swaggerVersion: string;
     appCount: number;
     createdAt: string;
-    permission: AccessPermission
+    permission: AccessPermission;
   }
 
   interface AccessListItem {
@@ -66,7 +66,7 @@ declare namespace API_ACCESS {
     addonInstanceID: string;
     authentication: AuthenticationEnum;
     authorization: AuthorizationEnum;
-    bindDomains: string[]
+    bindDomains: string[];
   }
 
   interface Access {
@@ -104,14 +104,14 @@ declare namespace API_ACCESS {
   }
 
   interface AccessDetail {
-    access: Access,
+    access: Access;
     tenantGroup: {
       TenantGroupID: string;
-    },
+    };
     permission: {
       delete: boolean;
       edit: boolean;
-    }
+    };
   }
 
   interface ClientPermission {
@@ -132,7 +132,7 @@ declare namespace API_ACCESS {
   interface ContractInfo {
     client: API_CLIENT.Client;
     contract: API_CLIENT.Contract;
-    sk: API_CLIENT.ClientSk
+    sk: API_CLIENT.ClientSk;
   }
 
   interface OperationRecord {
@@ -153,7 +153,7 @@ declare namespace API_ACCESS {
   interface OperateContract {
     clientID: string;
     contractID: number;
-    status?: ContractStatue,
+    status?: ContractStatue;
     curSLAID?: number;
     requestSLAID?: number;
   }
@@ -199,7 +199,7 @@ declare namespace API_ACCESS {
     swaggerVersion: string;
     accessID: number;
     orgID: number;
-    limits: SlaLimit[],
+    limits: SlaLimit[];
     usedTo: string;
     updaterID: number;
     assetName: string;
@@ -209,7 +209,7 @@ declare namespace API_ACCESS {
 
   interface SlaData {
     total: number;
-    list: SlaItem[]
+    list: SlaItem[];
   }
 
   interface AddSla {
@@ -219,7 +219,7 @@ declare namespace API_ACCESS {
     desc: string;
     approval: SlaApproval;
     default: boolean;
-    limits: BaseSlaLimit[]
+    limits: BaseSlaLimit[];
   }
 
   type UpdateSla = Merge<AddSla, { slaID: number }>;
@@ -227,7 +227,7 @@ declare namespace API_ACCESS {
   interface DeleteSla {
     assetID: string;
     swaggerVersion: string;
-    slaID: number
+    slaID: number;
   }
 
   type DashboardType = 'apim_summary' | 'apim_client';
@@ -236,7 +236,7 @@ declare namespace API_ACCESS {
     type: DashboardType;
     endpoint?: string;
     client?: string;
-    workSpace?: Workspace,
+    workSpace?: Workspace;
     projectID?: number;
   }
 }

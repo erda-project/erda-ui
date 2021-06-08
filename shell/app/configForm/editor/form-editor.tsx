@@ -21,13 +21,13 @@ import './form-editor.scss';
 
 interface IProps {
   field: IField;
-  allField:IField[];
+  allField: IField[];
   fieldConfig: any;
   onChange: (data: any, field: IField) => void;
   Form?: any;
 }
 
-export const FormEditor = React.forwardRef((props: IProps, ref:any) => {
+export const FormEditor = React.forwardRef((props: IProps, ref: any) => {
   const { field, allField, fieldConfig = {}, onChange, Form = DefaultForm } = props;
   const form = React.useRef();
 
@@ -41,13 +41,13 @@ export const FormEditor = React.forwardRef((props: IProps, ref:any) => {
 
   // 整合一份总的field传递给Form，同时给field通过category分类，在Tab中使用
   const fields = reduce(fieldConfig, (sum: any[], item, fKey) => {
-    return sum.concat(map(item.fields, fItem => ({ ...fItem, category: fKey })));
+    return sum.concat(map(item.fields, (fItem) => ({ ...fItem, category: fKey })));
   }, []);
 
   return (
     <div className="dice-form-editor">
       <h4>{i18n.t('common:form edit')}</h4>
-      <div className='content'>
+      <div className="content">
         {isEmpty(field) ? (
           <div className="tip">
             <div className="tip-title mb16">{i18n.t('common:how to edit a form')}</div>
@@ -61,13 +61,13 @@ export const FormEditor = React.forwardRef((props: IProps, ref:any) => {
             formRef={form}
             onChange={onFieldChange}
             fields={fields}
-            formRender={({ RenderFields, form: formRef, fields: totalFields }:any) => {
+            formRender={({ RenderFields, form: formRef, fields: totalFields }: any) => {
               return (
                 <Tabs
-                  tabs={map(fieldConfig, item => {
+                  tabs={map(fieldConfig, (item) => {
                     // tab根据fieldConfig分类，再根据key对应上面注入的category收集对应分类下的field，这样达到同一个formRef控制多个RenderField
                     const { key, name } = item;
-                    const curField = filter(totalFields, fItem => fItem.category === key);
+                    const curField = filter(totalFields, (fItem) => fItem.category === key);
                     return {
                       key,
                       name,

@@ -20,12 +20,12 @@ interface IState {
   accessList: API_ACCESS.AccessListItem[];
   accessListPaging: IPaging;
   accessDetail: API_ACCESS.AccessDetail;
-  clientList: any[],
-  clientPaging: IPaging,
+  clientList: any[];
+  clientPaging: IPaging;
   apiGateways: API_ACCESS.ApiGateway[];
   operationRecord: API_ACCESS.OperationRecord[];
   slaList: API_ACCESS.SlaItem[];
-  slaListMapper: {[key: number]: API_ACCESS.SlaItem}
+  slaListMapper: {[key: number]: API_ACCESS.SlaItem};
 }
 
 const initState: IState = {
@@ -101,7 +101,7 @@ const apiAccess = createStore({
       const res = await call(Service.getSlaList, payload);
       const slaList = res.list || [];
       const slaListMapper = {};
-      slaList.forEach(sla => {
+      slaList.forEach((sla) => {
         slaListMapper[sla.id] = sla;
       });
 

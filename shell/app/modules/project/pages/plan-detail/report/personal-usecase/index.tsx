@@ -21,7 +21,7 @@ import { UserInfo } from 'common';
 import testPlanStore from 'project/stores/test-plan';
 
 const PersonalUseCase = () => {
-  const planReport = testPlanStore.useStore(s => s.planReport);
+  const planReport = testPlanStore.useStore((s) => s.planReport);
   const { executorStatus } = planReport;
   const dataSource = map(executorStatus, (statusMap, userID) => ({ ...statusMap, userID }));
 
@@ -30,31 +30,31 @@ const PersonalUseCase = () => {
       title: i18n.t('project:executor'),
       dataIndex: 'userID',
       key: 'userID',
-      render: (text) => (text ? <UserInfo id={text} render={data => data.nick || data.name} /> : 'unallocated'),
+      render: (text) => (text ? <UserInfo id={text} render={(data) => data.nick || data.name} /> : 'unallocated'),
     },
     {
       title: i18n.t('project:not performed'),
       dataIndex: 'init',
       key: 'init',
-      render: value => value || 0,
+      render: (value) => value || 0,
     },
     {
       title: i18n.t('project:passed'),
       dataIndex: 'succ',
       key: 'succ',
-      render: value => value || 0,
+      render: (value) => value || 0,
     },
     {
       title: i18n.t('project:not pass'),
       dataIndex: 'fail',
       key: 'fail',
-      render: value => value || 0,
+      render: (value) => value || 0,
     },
     {
       title: i18n.t('project:blocking'),
       dataIndex: 'block',
       key: 'block',
-      render: value => value || 0,
+      render: (value) => value || 0,
     },
   ];
 

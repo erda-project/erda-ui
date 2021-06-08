@@ -26,12 +26,12 @@ interface ISlowTrackProps {
   data: MONITOR_EI.ITableData[];
   query: object;
   timeSpan: ITimeSpan;
-  viewLog(params: any): void;
-  fetchTraceContent(params: any): void;
+  viewLog: (params: any) => void;
+  fetchTraceContent: (params: any) => void;
 }
 
 export const webSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceContent }: ISlowTrackProps) => {
-  const subSlowHttpList = EIAffairsStore.useStore(s => s.subSlowHttpList);
+  const subSlowHttpList = EIAffairsStore.useStore((s) => s.subSlowHttpList);
   const { getSubSlowHttpList } = EIAffairsStore.effects;
   const list = get(data, 'list') || [];
   const { startTimeMs: start, endTimeMs: end } = timeSpan || {};

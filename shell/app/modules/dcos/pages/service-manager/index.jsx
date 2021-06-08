@@ -313,7 +313,7 @@ class ServiceManager extends React.Component {
                 style={{ width: 300 }}
                 onChange={this.handleClusterChange}
               >
-                {map(list, v => <Option key={v.name} value={v.name}>{v.displayName || v.name}</Option>)}
+                {map(list, (v) => <Option key={v.name} value={v.name}>{v.displayName || v.name}</Option>)}
               </Select>
               <Input.Search
                 allowClear
@@ -356,8 +356,8 @@ class ServiceManager extends React.Component {
 }
 
 const Mapper = () => {
-  const [containerList, serviceList, runtimeJson, runtimeStatus, serviceReqStatus, metrics] = dcosServiceStore.useStore(s => [s.containerList, s.serviceList, s.runtimeJson, s.runtimeStatus, s.serviceReqStatus, s.metrics]);
-  const list = clusterStore.useStore(s => s.list);
+  const [containerList, serviceList, runtimeJson, runtimeStatus, serviceReqStatus, metrics] = dcosServiceStore.useStore((s) => [s.containerList, s.serviceList, s.runtimeJson, s.runtimeStatus, s.serviceReqStatus, s.metrics]);
+  const list = clusterStore.useStore((s) => s.list);
   const { getClusterList } = clusterStore.effects;
   const { getContainerList, getServiceList, getRuntimeJson, getRuntimeStatus } = dcosServiceStore.effects;
   const { clearRuntimeJson, clearRuntimeStatus } = dcosServiceStore.reducers;

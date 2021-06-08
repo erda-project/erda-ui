@@ -54,7 +54,7 @@ export const StorageForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
       name: `${formPrefix}.gluster.version`,
       type: 'radioGroup',
       initialValue: '4.1',
-      options: ['3.12', '4.0', '4.1', '5', '6'].map(v => ({ value: v, name: v })),
+      options: ['3.12', '4.0', '4.1', '5', '6'].map((v) => ({ value: v, name: v })),
     },
     {
       label: i18n.t('org:service IP list'),

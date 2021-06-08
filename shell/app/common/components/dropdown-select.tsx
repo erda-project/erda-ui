@@ -21,21 +21,21 @@ import { map } from 'lodash';
 const { SubMenu } = Menu;
 
 interface IProps {
-  [propName: string]: any,
-  buttonText?: string,
-  btnProps?: object,
-  overlay?: any,
-  menuList?: IMenuItem[],
+  [propName: string]: any;
+  buttonText?: string;
+  btnProps?: object;
+  overlay?: any;
+  menuList?: IMenuItem[];
   loading?: boolean;
-  trigger?: Array<'click' | 'hover' | 'contextMenu'>,
-  onClickMenu?(item: ClickParam): void,
+  trigger?: Array<'click' | 'hover' | 'contextMenu'>;
+  onClickMenu?: (item: ClickParam) => void;
 }
 
 interface IMenuItem {
-  key: string,
-  name: string,
-  disabled?: boolean,
-  children?: IMenuItem[],
+  key: string;
+  name: string;
+  disabled?: boolean;
+  children?: IMenuItem[];
 }
 
 export const DropdownSelect = (props: IProps) => {

@@ -37,8 +37,8 @@ declare namespace API_CLIENT {
   }
 
   interface Client {
-    id: number
-    orgID: number
+    id: number;
+    orgID: number;
     name: string;
     displayName: string;
     desc: string;
@@ -64,9 +64,9 @@ declare namespace API_CLIENT {
   }
 
   interface QueryContractList extends Common {
-    status: ContractStatue,
+    status: ContractStatue;
     pageNo?: number;
-    pageSize?:number;
+    pageSize?: number;
     paging: boolean;
   }
 
@@ -89,7 +89,7 @@ declare namespace API_CLIENT {
     requestSLAName: string;
     slaCommittedAt: string;
     clientDisplayName: string;
-    workspace: API_ACCESS.Workspace,
+    workspace: API_ACCESS.Workspace;
     projectID: number;
     endpointName: string;
     clientName: string;

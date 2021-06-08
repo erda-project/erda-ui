@@ -23,20 +23,20 @@ import clusterStore from '../../stores/cluster';
 import './cluster-detail.scss';
 
 const ClusterDetail = () => {
-  const { params } = routeInfoStore.getState(s => s);
+  const { params } = routeInfoStore.getState((s) => s);
   const { clusterName } = params;
   const { getClusterNewDetail } = clusterStore.effects;
   const [loading] = useLoading(clusterStore, ['getClusterNewDetail']);
   const [detail, setDetail] = React.useState({} as any);
 
   React.useEffect(() => {
-    clusterName && getClusterNewDetail({ clusterName }).then((res:any) => {
+    clusterName && getClusterNewDetail({ clusterName }).then((res: any) => {
       const { URLs: urls = {}, basic } = get(res, '[0]', {});
 
       const basicInfo = {};
-      map(basic, ({ name, value }:any) => { basicInfo[name] = value; });
+      map(basic, ({ name, value }: any) => { basicInfo[name] = value; });
       const URLs = {};
-      map(urls, ({ name, value }:any) => { URLs[name] = value; });
+      map(urls, ({ name, value }: any) => { URLs[name] = value; });
       const data = {} as any;
       !isEmpty(basicInfo) && (data[`${i18n.t('basic information')}`] = basicInfo);
       !isEmpty(URLs) && (data.URLs = URLs);

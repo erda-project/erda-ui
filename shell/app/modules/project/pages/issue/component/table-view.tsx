@@ -52,11 +52,11 @@ const endTimeTip = (time: string, isFinished: boolean) => {
   let tip = <span>{i18n.t('project:due in {num} days', { num: diffDay })}</span>;
   if (!isFinished) {
     if (diffDay === 0) {
-      tip = <span className='color-warning'>{i18n.t('due today')}</span>;
+      tip = <span className="color-warning">{i18n.t('due today')}</span>;
     } else if (diffDay === 1) {
-      tip = <span className='color-warning'>{i18n.t('due tomorrow')}</span>;
+      tip = <span className="color-warning">{i18n.t('due tomorrow')}</span>;
     } else if (diffDay < 0) {
-      tip = <span className='color-danger'>{i18n.t('project:due {num} days ago', { num: -diffDay })}</span>;
+      tip = <span className="color-danger">{i18n.t('project:due {num} days ago', { num: -diffDay })}</span>;
     }
   }
   return (
@@ -70,10 +70,10 @@ export const memberSelectorValueItem = (user: any) => {
   const { avatar, nick, name, label, value } = user;
   const displayName = nick || label || value || i18n.t('common:empty');
   return (
-    <div className='v-align hover-active issue-field-selector'>
+    <div className="v-align hover-active issue-field-selector">
       <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('empty')} rect={'20x20'} type="avatar" />
       <span className={'ml8 fz14'} title={name}>{displayName}</span>
-      <CustomIcon className='arrow-icon' type='di' />
+      <CustomIcon className="arrow-icon" type="di" />
     </div>
   );
 };
@@ -89,9 +89,9 @@ interface IFieldProps {
 
 export const FieldSelector = (props: IFieldProps) => {
   const { hasAuth, options, value, updateRecord, record, field } = props;
-  const chosenVal = get(find(options, op => op.value === value), 'iconLabel');
+  const chosenVal = get(find(options, (op) => op.value === value), 'iconLabel');
   const ValueRender = (
-    <div className='v-align hover-active issue-field-selector' onClick={(e: any) => e.stopPropagation()}>{chosenVal}<CustomIcon type='di' className='arrow-icon' /></div>
+    <div className="v-align hover-active issue-field-selector" onClick={(e: any) => e.stopPropagation()}>{chosenVal}<CustomIcon type="di" className="arrow-icon" /></div>
   );
 
   if (hasAuth === false) return <WithAuth pass={hasAuth} >{ValueRender}</WithAuth>;
@@ -113,15 +113,15 @@ export const FieldSelector = (props: IFieldProps) => {
 };
 
 const TableView = React.forwardRef((props: IProps, ref: any) => {
-  const totalWorkflowStateList = issueWorkflowStore.useStore(s => s.totalWorkflowStateList);
+  const totalWorkflowStateList = issueWorkflowStore.useStore((s) => s.totalWorkflowStateList);
   const { filterObj: propsFilter, issueType, viewType, onChosenIssue } = props;
-  const [params] = routeInfoStore.useStore(s => [s.params]);
+  const [params] = routeInfoStore.useStore((s) => [s.params]);
   const { getAllIssues, updateIssue } = issueStore.effects;
   const { clearIssues } = issueStore.reducers;
-  const [issueList, issuePaging] = issueStore.useStore(s => [s.issueList, s.issuePaging]);
+  const [issueList, issuePaging] = issueStore.useStore((s) => [s.issueList, s.issuePaging]);
   const [loading] = useLoading(issueStore, ['getAllIssues']);
 
-  const authObj = usePerm(s => s.project);
+  const authObj = usePerm((s) => s.project);
   const { pageSize, total } = issuePaging;
 
   const [{ filterObj }, updater] = useUpdate({
@@ -184,7 +184,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
 
   const columns: Array<ColumnProps<ISSUE.Issue>> = [
     {
-      title: <span className='pl8'>{i18n.t('title')}</span>,
+      title: <span className="pl8">{i18n.t('title')}</span>,
       // width: 400,
       dataIndex: 'title',
       className: 'title',
@@ -234,7 +234,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
       render: (val: string, record: ISSUE.Issue) => {
         const checkRole = [isCreator(record.creator), isAssignee(record.assignee)];
         const editAuth = getAuth(authObj[record.type.toLowerCase()].edit, checkRole);
-        return <FieldSelector field='priority' hasAuth={editAuth} value={val || ISSUE_PRIORITY_MAP.NORMAL.value} record={record} updateRecord={updateRecord} options={map(ISSUE_PRIORITY_MAP)} />;
+        return <FieldSelector field="priority" hasAuth={editAuth} value={val || ISSUE_PRIORITY_MAP.NORMAL.value} record={record} updateRecord={updateRecord} options={map(ISSUE_PRIORITY_MAP)} />;
       },
     },
     ...insertWhen(issueType === ISSUE_TYPE.BUG, [
@@ -246,7 +246,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
         render: (val: string, record: ISSUE.Issue) => {
           const checkRole = [isCreator(record.creator), isAssignee(record.assignee)];
           const editAuth = getAuth(authObj[record.type.toLowerCase()].edit, checkRole);
-          return <FieldSelector field='severity' hasAuth={editAuth} value={val} record={record} updateRecord={updateRecord} options={map(BUG_SEVERITY_MAP)} />;
+          return <FieldSelector field="severity" hasAuth={editAuth} value={val} record={record} updateRecord={updateRecord} options={map(BUG_SEVERITY_MAP)} />;
         },
       },
     ]),
@@ -264,11 +264,11 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
           opts.push({
             disabled: !item.permission,
             value: item.stateID,
-            iconLabel: <div className='v-align'>{ISSUE_ICON.state[item.stateBelong]}{item.stateName}</div>,
+            iconLabel: <div className="v-align">{ISSUE_ICON.state[item.stateBelong]}{item.stateName}</div>,
           });
         });
 
-        return <FieldSelector field='state' hasAuth={updateStatusAuth} value={val} record={record} updateRecord={updateRecord} options={opts} />;
+        return <FieldSelector field="state" hasAuth={updateStatusAuth} value={val} record={record} updateRecord={updateRecord} options={opts} />;
       },
     },
     {
@@ -286,7 +286,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
               scopeId={params.projectId}
               dropdownMatchSelectWidth={false}
               valueItemRender={memberSelectorValueItem}
-              className='issue-member-selector'
+              className="issue-member-selector"
               allowClear={false}
               disabled={!editAuth}
               value={userId}
@@ -313,7 +313,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
   ];
 
   return (
-    <div className='pa12 border-radius issue-table-view'>
+    <div className="pa12 border-radius issue-table-view">
       <Table
         rowKey="id"
         columns={columns}
@@ -323,7 +323,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
           current: +filterObj.pageNo,
           pageSize,
           total,
-          onChange: pgNo => { updater.filterObj({ ...filterObj, pageNo: pgNo }); },
+          onChange: (pgNo) => { updater.filterObj({ ...filterObj, pageNo: pgNo }); },
         }}
       />
     </div>

@@ -21,8 +21,8 @@ import './publisher-setting.scss';
 const PublisherSetting = () => {
   const { getPublisherDetail } = publisherStore.effects;
   const { clearPublisherDetail } = publisherStore.reducers;
-  const data = publisherStore.useStore(s => s.publisherDetail);
-  const publisherId = orgStore.getState(s => s.currentOrg.publisherId);
+  const data = publisherStore.useStore((s) => s.publisherDetail);
+  const publisherId = orgStore.getState((s) => s.currentOrg.publisherId);
 
   const getDetail = () => {
     getPublisherDetail({ publisherId });

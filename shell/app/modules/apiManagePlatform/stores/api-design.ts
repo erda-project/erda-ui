@@ -41,18 +41,18 @@ interface IState {
   apiLockState: boolean;
   isApiReadOnly: boolean;
   lockUser: string;
-  apiAssets: API_SETTING.IApiAsset[],
+  apiAssets: API_SETTING.IApiAsset[];
 
-  schemaParams: Obj[],
-  isDocChanged: boolean,
-  isApiDocError: boolean,
+  schemaParams: Obj[];
+  isDocChanged: boolean;
+  isApiDocError: boolean;
 
-  formErrorNum: number,
+  formErrorNum: number;
   docValidData: {
-    valid: boolean,
-    msg: string
-  },
-  isSaved: boolean
+    valid: boolean;
+    msg: string;
+  };
+  isSaved: boolean;
 }
 
 const initState: IState = {
@@ -120,7 +120,7 @@ const apiDesignStore = createFlatStore({
       });
       return res;
     },
-    async copyTreeNode({ call }, payload: { pinode: string, inode: string }) {
+    async copyTreeNode({ call }, payload: { pinode: string; inode: string }) {
       const data = await call(copyTreeNode, payload);
       return data;
     },
@@ -128,15 +128,15 @@ const apiDesignStore = createFlatStore({
       const data = await call(deleteTreeNode, payload, { successMsg: i18n.t('{action} successfully', { action: i18n.t('delete') }) });
       return data;
     },
-    async createTreeNode({ call }, payload: { pinode: string, name: string }) {
+    async createTreeNode({ call }, payload: { pinode: string; name: string }) {
       const data = await call(createTreeNode, payload, { successMsg: i18n.t('{action} successfully', { action: i18n.t('add') }) });
       return data;
     },
-    async renameTreeNode({ call }, payload: { name: string, inode: string }) {
+    async renameTreeNode({ call }, payload: { name: string; inode: string }) {
       const data = await call(renameTreeNode, payload, { successMsg: i18n.t('{action} successfully', { action: i18n.t('project:rename') }) });
       return data;
     },
-    async moveTreeNode({ call }, payload: { pinode: string, inode: string }) {
+    async moveTreeNode({ call }, payload: { pinode: string; inode: string }) {
       const data = await call(moveTreeNode, payload, { successMsg: i18n.t('{action} successfully', { action: i18n.t('project:move') }) });
       return data;
     },
@@ -147,7 +147,7 @@ const apiDesignStore = createFlatStore({
       if (!validData.valid) {
         message.warning(validData.msg);
       } else {
-        const { wsQuery, apiWs, openApiDoc } = select(s => s);
+        const { wsQuery, apiWs, openApiDoc } = select((s) => s);
         const wsCommand = {
           ...wsQuery,
           type: API_WS_MSG_TYPE.commit,
@@ -160,7 +160,7 @@ const apiDesignStore = createFlatStore({
       }
     },
     async autoSaveApi({ select }) {
-      const { wsQuery, apiWs, openApiDoc, formErrorNum, isDocChanged, docValidData } = select(s => s);
+      const { wsQuery, apiWs, openApiDoc, formErrorNum, isDocChanged, docValidData } = select((s) => s);
 
       if (formErrorNum > 0) {
         return;
@@ -189,7 +189,7 @@ const apiDesignStore = createFlatStore({
     },
     async getApiAssets({ call, update }, payload: API_SETTING.IApiAssetsQuery) {
       const { list } = await call(getApiAssets, payload);
-      const apiAssets = map(list, item => item.asset);
+      const apiAssets = map(list, (item) => item.asset);
       update({ apiAssets });
       return list;
     },
@@ -197,10 +197,10 @@ const apiDesignStore = createFlatStore({
       const data = await call(getSchemaParams, payload);
       const params = data?.meta?.schemas || {};
       const list: Obj[] = [];
-      map(keys(params), p => {
+      map(keys(params), (p) => {
         const propertyItem = { ...params[p], tableName: p };
         const { properties } = propertyItem;
-        const propertyList = map(keys(properties), propertyName => {
+        const propertyList = map(keys(properties), (propertyName) => {
           const propertyData = { ...properties[propertyName] };
           propertyData[API_FORM_KEY] = propertyName;
           propertyData[API_PROPERTY_REQUIRED] = propertyItem?.required?.includes(propertyName) || false;
@@ -213,7 +213,7 @@ const apiDesignStore = createFlatStore({
       return list;
     },
     async validateApiSwagger({ call, select, update }) {
-      const { openApiDoc } = select(s => s);
+      const { openApiDoc } = select((s) => s);
       const data = await call(validateApiSwagger, { content: JSON.stringify(openApiDoc) });
 
       const docValidData = {

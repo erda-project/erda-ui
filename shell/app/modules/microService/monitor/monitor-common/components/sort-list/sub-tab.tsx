@@ -18,8 +18,8 @@ import './sub-tab.scss';
 
 interface IProps{
   defaultChosen?: boolean;
-  tabList: ITab[]
-  onChange?(args: any): void;
+  tabList: ITab[];
+  onChange?: (args: any) => void;
 }
 
 interface ITab{
@@ -31,7 +31,7 @@ interface ITab{
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
-const SubTab = (props:IProps) => {
+const SubTab = (props: IProps) => {
   const { defaultChosen, tabList, onChange } = props;
   const [chosen, setChosen] = React.useState('');
 
@@ -52,9 +52,9 @@ const SubTab = (props:IProps) => {
   };
 
   return (
-    <RadioGroup className="sub-tab" value={chosen} onChange={e => setChosen(e.target.value)}>
+    <RadioGroup className="sub-tab" value={chosen} onChange={(e) => setChosen(e.target.value)}>
       {
-        tabList && tabList.map(tab => <RadioButton key={tab.key} value={tab.key} onClick={onClick} >{tab.name}</RadioButton>)
+        tabList && tabList.map((tab) => <RadioButton key={tab.key} value={tab.key} onClick={onClick} >{tab.name}</RadioButton>)
       }
     </RadioGroup>
   );

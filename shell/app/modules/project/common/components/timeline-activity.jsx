@@ -24,7 +24,7 @@ import './timeline-activity.scss';
 
 const { iconMap, textMap, typeMap } = activityConfig;
 
-const renderActiveItem = onClickLink => ({
+const renderActiveItem = (onClickLink) => ({
   id, actionType, operator, action, memoMap, detailLogId, createdAt, projectId, runtimeId,
 }) => (
   <div key={id} className="with-line">

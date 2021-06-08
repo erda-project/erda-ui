@@ -20,10 +20,10 @@ import {
 } from '../services/topology-service-analyze';
 
 interface IState {
-  activedNode?: Partial<TOPOLOGY.INode>,
+  activedNode?: Partial<TOPOLOGY.INode>;
 }
 
-const initState:IState = {
+const initState: IState = {
   activedNode: undefined,
 };
 const topologyServiceStore = createFlatStore({

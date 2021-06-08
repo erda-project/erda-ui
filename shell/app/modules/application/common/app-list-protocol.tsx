@@ -46,9 +46,9 @@ const Mapper = () => {
 };
 
 interface IProps extends ReturnType<typeof Mapper> {
-  placeHolderMsg?: string
+  placeHolderMsg?: string;
   isInProject?: boolean;
-  getList(p?: Obj): Promise<any>
+  getList: (p?: Obj) => Promise<any>;
 }
 
 const getBlockNetInfo = (app: IApplication) => {
@@ -70,8 +70,8 @@ const getBlockNetInfo = (app: IApplication) => {
 };
 
 const convertListData = (list: IApplication[], isInProject: boolean) => {
-  const appPerm = permStore.getState(s => s.app);
-  return list.map(l => {
+  const appPerm = permStore.getState((s) => s.app);
+  return list.map((l) => {
     const { id, name, desc, logo, projectName, projectId, projectDisplayName, isPublic, stats, updatedAt, mode, pined } = l;
     const extraInfos: CP_LIST.IIconInfo[] = [
       (isPublic ? { icon: 'unlock', text: i18n.t('application:public application') } : { icon: 'lock', text: i18n.t('application:private application') }),
@@ -89,7 +89,7 @@ const convertListData = (list: IApplication[], isInProject: boolean) => {
           :
           { icon: 'time', text: i18n.t('empty') }
       ),
-      { icon: 'category-management', text: (modeOptions.find(m => m.value === mode) as { name: string }).name, tooltip: i18n.t('application:application type') },
+      { icon: 'category-management', text: (modeOptions.find((m) => m.value === mode) as { name: string }).name, tooltip: i18n.t('application:application type') },
     ].concat(getBlockNetInfo(l));
 
     if ([appMode.MOBILE, appMode.LIBRARY, appMode.SERVICE].includes(mode)) {
@@ -246,7 +246,7 @@ export const PureAppList = ({
   clearList,
   isInProject = false,
 }: IProps) => {
-  const loginUser = userStore.useStore(s => s.loginUser);
+  const loginUser = userStore.useStore((s) => s.loginUser);
   const { pinApp, unpinApp } = userStore.effects;
 
   useEffectOnce(() => {
@@ -262,7 +262,7 @@ export const PureAppList = ({
     const publicFilter = ['public', 'private'].includes(fPublic) ? { public: fPublic } : {};
     const filterValues = { ...filterRest, ...publicFilter };
     const requestFun = (_query: Obj) => getList(_query).then((res: IApplictionRes) => {
-      const reData = produce(merge(getPageConfig(isInProject), payload), draf => {
+      const reData = produce(merge(getPageConfig(isInProject), payload), (draf) => {
         set(draf, 'protocol.components.list.data.list', res.list);
         set(draf, 'protocol.components.list.state', { total: res.total, pageNo: query.pageNo, pageSize: query.pageSize });
       });
@@ -315,21 +315,21 @@ export const PureAppList = ({
       <BlockNetworkTips />
       <DiceConfigPage
         showLoading={false}
-        scenarioKey='app-list'
-        scenarioType='app-list'
+        scenarioKey="app-list"
+        scenarioType="app-list"
         useMock={handleOperation}
         forceMock
         customProps={{
           list: {
-            clickItem: (_:unknown, _data: IApplication) => {
+            clickItem: (_: unknown, _data: IApplication) => {
               const { projectId, id } = _data;
               goTo(goTo.pages.app, { projectId, appId: id });
             },
-            gotoProject: (_:unknown, _data: IApplication) => {
+            gotoProject: (_: unknown, _data: IApplication) => {
               const { projectId } = _data;
               goTo(goTo.pages.project, { projectId });
             },
-            gotoDeploy: (_:unknown, _data: IApplication) => {
+            gotoDeploy: (_: unknown, _data: IApplication) => {
               const { projectId, id } = _data;
               goTo(goTo.pages.deploy, { projectId, appId: id });
             },

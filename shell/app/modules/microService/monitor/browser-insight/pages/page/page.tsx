@@ -19,7 +19,7 @@ import PageMap from './config/chartMap';
 import './page.scss';
 
 const Page = () => {
-  const chosenSortItem = monitorCommonStore.useStore(s => s.chosenSortItem);
+  const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
   const getAllChart = () => {
     return (
       <React.Fragment>

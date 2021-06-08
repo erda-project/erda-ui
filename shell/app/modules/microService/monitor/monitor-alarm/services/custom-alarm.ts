@@ -19,17 +19,17 @@ export const getCustomAlarms = ({ tenantGroup, ...rest }: COMMON_CUSTOM_ALARM.IP
     .then((response: any) => response.body);
 };
 
-export const getCustomAlarmDetail = ({ id, tenantGroup }: { id: number; tenantGroup: string; }): COMMON_CUSTOM_ALARM.CustomAlarmDetail => {
+export const getCustomAlarmDetail = ({ id, tenantGroup }: { id: number; tenantGroup: string }): COMMON_CUSTOM_ALARM.CustomAlarmDetail => {
   return agent.get(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/customize/alerts/${id}`)
     .then((response: any) => response.body);
 };
 
-export const switchCustomAlarm = ({ id, enable, tenantGroup }: { id: number; enable: boolean; tenantGroup: string; }) => {
+export const switchCustomAlarm = ({ id, enable, tenantGroup }: { id: number; enable: boolean; tenantGroup: string }) => {
   return agent.put(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/customize/alerts/${id}/switch?enable=${enable}`)
     .then((response: any) => response.body);
 };
 
-export const deleteCustomAlarm = ({ id, tenantGroup }: { id: number; tenantGroup: string; }) => {
+export const deleteCustomAlarm = ({ id, tenantGroup }: { id: number; tenantGroup: string }) => {
   return agent.delete(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/customize/alerts/${id}`)
     .then((response: any) => response.body);
 };

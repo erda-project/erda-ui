@@ -33,7 +33,7 @@ interface IProps {
 export const Avatar = (props: IProps) => {
   const { url, showName = false, useLoginUser = false, name, size = 24, className = '', wrapClassName = '' } = props;
   const isOccupiedShowName = showName === true;
-  const loginUser = userStore.useStore(s => s.loginUser);
+  const loginUser = userStore.useStore((s) => s.loginUser);
   const cls = classnames('dice-avatar', isOccupiedShowName ? 'mr4' : false, className);
 
   let userName = useLoginUser ? loginUser.nick : name;
@@ -43,7 +43,7 @@ export const Avatar = (props: IProps) => {
 
   let wrapName = (child: any) => child;
   if (isOccupiedShowName) {
-    wrapName = child => (
+    wrapName = (child) => (
       <span className={`dice-avatar-wrap ${wrapClassName}`}>
         {child}
         <Tooltip title={userName}><span className="nowrap flex-1" >{userName}</span></Tooltip>
@@ -52,7 +52,7 @@ export const Avatar = (props: IProps) => {
   }
 
   if (showName === 'tooltip') {
-    wrapName = child => <Tooltip title={userName}><span>{child}</span></Tooltip>;
+    wrapName = (child) => <Tooltip title={userName}><span>{child}</span></Tooltip>;
   }
 
   if (userAvatar) {
@@ -71,8 +71,8 @@ export const AvatarList = ({
   names,
   maxDisplay = 5,
 }: {
-  names: string[],
-  maxDisplay?: number,
+  names: string[];
+  maxDisplay?: number;
 }) => {
   const displayElements = [] as JSX.Element[];
   const tooltipElements = [] as JSX.Element[];

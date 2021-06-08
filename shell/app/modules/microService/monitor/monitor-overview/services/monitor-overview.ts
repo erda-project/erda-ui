@@ -27,7 +27,7 @@ export const getBiCapacityApdex = (params: MONITOR_OVERVIEW.IChartQuery): IChart
     .then((response: any) => response.body);
 };
 
-export const getBiCapacityAjaxErr = (params:MONITOR_OVERVIEW.IChartQuery) => {
+export const getBiCapacityAjaxErr = (params: MONITOR_OVERVIEW.IChartQuery) => {
   return agent.get(`${reqUrlPrefix}/ta_req_status/range`)
     .query(params)
     .then((response: any) => response.body);

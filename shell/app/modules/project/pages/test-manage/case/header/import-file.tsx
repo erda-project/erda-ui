@@ -22,7 +22,7 @@ import testCaseStore from 'project/stores/test-case';
 import './import-file.scss';
 
 interface IProps {
-  afterImport?(): void;
+  afterImport?: () => void;
 }
 
 const ImportFile = ({ afterImport }: IProps) => {

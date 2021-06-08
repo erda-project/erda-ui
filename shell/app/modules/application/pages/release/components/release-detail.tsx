@@ -33,7 +33,7 @@ interface IProps {
 
 const ReleaseDetail = ({ releaseId, data }: IProps) => {
   const { getReleaseDetail, updateInfo } = releaseStore.effects;
-  const appDetail = appStore.useStore(s => s.detail);
+  const appDetail = appStore.useStore((s) => s.detail);
   const { clearReleaseDetail } = releaseStore.reducers;
   const [state, updater] = useUpdate({
     chosenMenu: 'edit',

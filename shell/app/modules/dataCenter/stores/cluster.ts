@@ -67,8 +67,8 @@ const cluster = createStore({
       const enableMS = get(notifyConfig, 'config.enableMS');
       update({ enableMS });
     },
-    async getClusterList({ call, update }, payload: { orgId?: number; } = {}) {
-      const userOrgId = orgStore.getState(s => s.currentOrg.id);
+    async getClusterList({ call, update }, payload: { orgId?: number } = {}) {
+      const userOrgId = orgStore.getState((s) => s.currentOrg.id);
       const orgId = isEmpty(payload) ? userOrgId
         : payload.orgId || userOrgId;
       const list = await call(getClusterList, { orgId });
@@ -78,20 +78,20 @@ const cluster = createStore({
       return list || [];
     },
     async addCluster({ call }, payload: ORG_CLUSTER.IAddClusterQuery) {
-      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const orgId = orgStore.getState((s) => s.currentOrg.id);
       await call(addCluster, { ...payload, orgId }, { successMsg: i18n.t('dcos:add cluster success') });
       await cluster.effects.getClusterList({});
     },
     async updateCluster({ call, update, select }, payload: ORG_CLUSTER.IAddClusterQuery) {
-      const prevDetail = select(s => s.detail);
+      const prevDetail = select((s) => s.detail);
       await call(updateCluster, payload, { successMsg: i18n.t('dcos:modify cluster success') });
       if (payload.id === prevDetail.id) { // 修改了当前detail中的集群
         update({ detail: { ...prevDetail, ...payload } });
       }
       await cluster.effects.getClusterList({});
     },
-    async getClusterDetail({ call, update, select }, payload: { clusterId?: number; clusterName?: string; }) {
-      const prevDetail = select(s => s.detail);
+    async getClusterDetail({ call, update, select }, payload: { clusterId?: number; clusterName?: string }) {
+      const prevDetail = select((s) => s.detail);
       const { id, name } = prevDetail;
       if ((id && id === payload.clusterId) || (name && name === payload.clusterName)) return prevDetail;
       const detail = await call(getClusterDetail, payload);
@@ -114,14 +114,14 @@ const cluster = createStore({
       return true;
     },
     async getDeployClusterLog({ call, update }) {
-      const orgId = orgStore.getState(s => s.currentOrg.id);
-      const deployingCluster = cluster.getState(s => s.deployingCluster);
+      const orgId = orgStore.getState((s) => s.currentOrg.id);
+      const deployingCluster = cluster.getState((s) => s.deployingCluster);
       const { deployID } = deployingCluster || {};
       const deployClusterLog = await call(getDeployClusterLog, { deployID, orgID: orgId });
       update({ deployClusterLog });
     },
     async killDeployCluster({ call, update }) {
-      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const orgId = orgStore.getState((s) => s.currentOrg.id);
       await call(killDeployCluster, { orgID: orgId }, { successMsg: i18n.t('dcos:deployment has stopped') });
       update({ deployingCluster: {} });
     },
@@ -138,17 +138,17 @@ const cluster = createStore({
       return res;
     },
     async upgradeCluster({ call }, payload: { clusterName: string; precheck: boolean }) {
-      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const orgId = orgStore.getState((s) => s.currentOrg.id);
       const res = await call(upgradeCluster, { orgID: orgId, ...payload });
       return res;
     },
-    async deleteCluster({ call }, payload: { clusterName:string }) {
-      const orgId = orgStore.getState(s => s.currentOrg.id);
+    async deleteCluster({ call }, payload: { clusterName: string }) {
+      const orgId = orgStore.getState((s) => s.currentOrg.id);
       const res = await call(deleteCluster, { orgID: orgId, ...payload });
       cluster.effects.getClusterList();
       return res;
     },
-    async viewClusterStatus({ call }, payload:{clusterName:string}) {
+    async viewClusterStatus({ call }, payload: {clusterName: string}) {
       const res = await call(viewClusterStatus, { ...payload });
       return res;
     },
@@ -160,7 +160,7 @@ const cluster = createStore({
     async getClusterResourceDetail({ call, update }, payload: { cluster: string; resource: string }) {
       const { resource } = payload;
       const res = await call(getClusterResourceDetail, payload);
-      const cloudResourceDetail = cluster.getState(s => s.cloudResourceDetail) as ORG_CLUSTER.ICloudResourceDetail;
+      const cloudResourceDetail = cluster.getState((s) => s.cloudResourceDetail) as ORG_CLUSTER.ICloudResourceDetail;
       const newData = { ...cloudResourceDetail, [resource]: res };
       update({ cloudResourceDetail: newData });
       return newData;

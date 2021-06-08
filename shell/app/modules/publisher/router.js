@@ -21,17 +21,17 @@ function getPublisherRouter() {
       mark: 'publisher',
       routes: [
         {
-          getComp: cb => cb(import('app/modules/publisher/pages/artifacts')),
+          getComp: (cb) => cb(import('app/modules/publisher/pages/artifacts')),
         },
         {
           path: 'error',
           breadcrumbName: i18n.t('error detail'),
-          getComp: cb => cb(import('app/modules/publisher/pages/error-report/detail')),
+          getComp: (cb) => cb(import('app/modules/publisher/pages/error-report/detail')),
         },
         {
           path: 'topDetail/:topType',
           breadcrumbName: i18n.t('publisher:Top detail'),
-          getComp: cb => cb(import('app/modules/publisher/pages/statistics/detail')),
+          getComp: (cb) => cb(import('app/modules/publisher/pages/statistics/detail')),
         },
       ],
     },

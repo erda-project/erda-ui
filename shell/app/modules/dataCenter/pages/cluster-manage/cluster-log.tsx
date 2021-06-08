@@ -23,15 +23,15 @@ import './cluster-log.scss';
 import { Drawer, Switch } from 'app/nusi';
 
 let intervalObj = null as any;
-const StepListComp = ({ stepData, onClickStep, activeStep }: {stepData: any, onClickStep:any, activeStep:string}) => {
+const StepListComp = ({ stepData, onClickStep, activeStep }: {stepData: any; onClickStep: any; activeStep: string}) => {
   const steps = stepData;
-  const clickItem = (id:string) => {
+  const clickItem = (id: string) => {
     onClickStep(id);
   };
   return (
     <div className="cluster-log-step-wrap">
       {
-        steps.map((step:any) => {
+        steps.map((step: any) => {
           const { status = '', id, name, statusText } = step;
           const curStatus = status.toLowerCase();
           const disabled = curStatus === 'default';
@@ -53,14 +53,14 @@ const StepListComp = ({ stepData, onClickStep, activeStep }: {stepData: any, onC
   );
 };
 
-const getStepFromTasks = (taskData:any) => {
+const getStepFromTasks = (taskData: any) => {
   const stepList = [] as any[];
   const list = taskData.list || [];
-  map(list, listItem => {
+  map(list, (listItem) => {
     const pipelineStages = get(listItem, 'pipelineDetail.pipelineStages', []);
-    map(pipelineStages, item => {
+    map(pipelineStages, (item) => {
       const pipelineTasks = get(item, 'pipelineTasks', []);
-      map(pipelineTasks, task => {
+      map(pipelineTasks, (task) => {
         const { name, id, status } = task;
         const curStatus = ciStatusMap[status] || {};
         stepList.push({
@@ -79,18 +79,18 @@ const getStepFromTasks = (taskData:any) => {
 const getPureLog = (taskData: any) => {
   const pureLog = [] as string[];
   const list = taskData.list || [];
-  map(list, listItem => {
+  map(list, (listItem) => {
     pureLog.push(listItem.detail);
   });
   return pureLog;
 };
 
-const getCurTaskId = (state:any) => {
+const getCurTaskId = (state: any) => {
   const { userChosenTaskId, stepList } = state;
   if (userChosenTaskId) { // 当前用户选择，不自动切换step
     return userChosenTaskId;
   } else { // 用户未选择，自动定位到processing的taskId
-    let taskId = get(find(stepList, item => item.status === 'processing'), 'id');
+    let taskId = get(find(stepList, (item) => item.status === 'processing'), 'id');
     if (!taskId) { // 当前无processing，定位到第一个
       taskId = get(stepList, '[0].id');
     }
@@ -99,8 +99,8 @@ const getCurTaskId = (state:any) => {
 };
 
 export const ClusterLog = ({ recordID, onClose }: {
-  recordID?: string,
-  onClose(): void,
+  recordID?: string;
+  onClose: () => void;
 }) => {
   const [state, updater] = useUpdate({
     isStdErr: false,
@@ -135,7 +135,7 @@ export const ClusterLog = ({ recordID, onClose }: {
 
   const getLogStep = () => {
     clearGetLogStep();
-    recordID && getClusterLogTasks({ recordIDs: recordID }).then((res:any) => {
+    recordID && getClusterLogTasks({ recordIDs: recordID }).then((res: any) => {
       if (get(res, 'list[0].pipelineDetail')) {
         updater.stepList(getStepFromTasks(res));
       } else if (get(res, 'list[0].detail')) {
@@ -160,7 +160,7 @@ export const ClusterLog = ({ recordID, onClose }: {
     >
       {
         isEmpty(state.pureLog) || (curTaskId && recordID) ? null : (
-          <div className='cluster-log-pure-log'>
+          <div className="cluster-log-pure-log">
             {map(state.pureLog, (item, idx) => {
               return <div key={`${idx}`}>{item}</div>;
             })}
@@ -170,7 +170,7 @@ export const ClusterLog = ({ recordID, onClose }: {
       <StepListComp
         stepData={state.stepList}
         activeStep={curTaskId}
-        onClickStep={(taskId:string) => {
+        onClickStep={(taskId: string) => {
           updater.userChosenTaskId(taskId);
           getLogStep();
         }}

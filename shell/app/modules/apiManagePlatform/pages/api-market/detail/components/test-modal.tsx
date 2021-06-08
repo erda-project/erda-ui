@@ -25,7 +25,7 @@ import './test-modal.scss';
 
 const defaultSchema = 'https';
 
-type AutoInfo={clientID: string; clientSecret: string};
+interface AutoInfo {clientID: string; clientSecret: string}
 interface IProps {
   visible: boolean;
   dataSource: {
@@ -38,7 +38,7 @@ interface IProps {
     requestScheme: Record<string, any>;
   };
 
-  onCancel(): void;
+  onCancel: () => void;
 }
 
 interface IApis {
@@ -49,7 +49,7 @@ interface IApis {
     type: 'none' | 'application/x-www-form-urlencoded' | 'Text' | 'Text(text/plain)' | 'application/json';
     content: any;
   };
-  header: any[]
+  header: any[];
 }
 
 interface IState {
@@ -58,7 +58,7 @@ interface IState {
   resTab: API_MARKET.ResponseTabs;
   resBody: string;
   resHeader: any[];
-  schema: API_MARKET.Schema
+  schema: API_MARKET.Schema;
 }
 
 const screenController = screenFull as Screenfull;
@@ -66,7 +66,7 @@ const { TabPane } = Tabs;
 
 const TestModal = ({ visible, onCancel, dataSource }: IProps) => {
   const { runAttemptTest } = apiMarketStore.effects;
-  const [assetDetail, assetVersion] = apiMarketStore.useStore(s => [s.assetVersionDetail.asset, s.assetVersionDetail.version]);
+  const [assetDetail, assetVersion] = apiMarketStore.useStore((s) => [s.assetVersionDetail.asset, s.assetVersionDetail.version]);
   const [isRunning] = useLoading(apiMarketStore, ['runAttemptTest']);
   const [{ apis, fullscreen, resTab, resBody, resHeader, schema }, updater, update] = useUpdate<IState>({
     fullscreen: false,
@@ -194,7 +194,7 @@ const TestModal = ({ visible, onCancel, dataSource }: IProps) => {
         <Tooltip
           placement="right"
           title={fullscreen ? i18n.t('exit full screen') : i18n.t('full screen')}
-          getPopupContainer={el => el?.parentNode as HTMLElement}
+          getPopupContainer={(el) => el?.parentNode as HTMLElement}
         >
           <CustomIcon type={fullscreen ? 'shink' : 'grow'} />
         </Tooltip>

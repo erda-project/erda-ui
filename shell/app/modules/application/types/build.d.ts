@@ -62,7 +62,7 @@ declare namespace BUILD {
       showMessage?: {
         msg: string;
         stacks: string[];
-      }
+      };
     };
     id: number;
     status: string;
@@ -92,7 +92,7 @@ declare namespace BUILD {
     };
     pipelineCron: { [key: string]: any; id: number };
     pipelineStages: IStage[];
-    pipelineTaskActionDetails: Obj<ITaskActionDetail>
+    pipelineTaskActionDetails: Obj<ITaskActionDetail>;
   }
 
   interface ITaskActionDetail {
@@ -108,13 +108,13 @@ declare namespace BUILD {
     branch: string;
     extra: {
       diceWorkspace: string;
-    }
+    };
   }
 
   interface IGetExecRecordsReq {
     appID: number;
     branches: string;
-    sources: string
+    sources: string;
     ymlNames: string;
     pageNum: number;
     pageSize: number;
@@ -126,7 +126,7 @@ declare namespace BUILD {
     source: string;
   }
 
-  type MetaData = { name: string, value: string };
+  interface MetaData { name: string; value: string }
 
   type ExecuteRecord = Omit<IPipelineDetail, 'pipelineButton'>;
 

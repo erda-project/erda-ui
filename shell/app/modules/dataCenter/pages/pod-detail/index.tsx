@@ -40,10 +40,10 @@ const SUMMARY_KEY_MAP = {
 };
 
 const PodDetail = () => {
-  const podDetail = podDetailStore.useStore(s => s.podDetail);
+  const podDetail = podDetailStore.useStore((s) => s.podDetail);
   const { getPodDetail } = podDetailStore.effects;
   const [loading] = useLoading(podDetailStore, ['getPodDetail']);
-  const { cluster_name } = routeInfoStore.useStore(s => s.query);
+  const { cluster_name } = routeInfoStore.useStore((s) => s.query);
 
   useMount(() => {
     getPodDetail();

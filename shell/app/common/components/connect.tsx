@@ -14,12 +14,12 @@
 import * as React from 'react';
 
 
-type IMapper<P, M> = {
-  (props: Omit<P, keyof M>): M
-};
+interface IMapper<P, M> {
+  (props: Omit<P, keyof M>): M;
+}
 
 interface IConnectComp<P> {
-  (p: P): JSX.Element
+  (p: P): JSX.Element;
 }
 
 export function connectCube<P, M>(Comp: IConnectComp<P> | React.ComponentType<P>, mapper: IMapper<P, M>) {

@@ -47,7 +47,7 @@ export const ClusterAlarmList = ({
   filterType,
   query = {},
 }: IProps) => {
-  const [alarmList, paging] = machineStore.useStore(s => [s.alarmList, s.alarmListPaging]);
+  const [alarmList, paging] = machineStore.useStore((s) => [s.alarmList, s.alarmListPaging]);
   const { getAlarmListByCluster } = machineStore.effects;
   const { clearAlarmListByCluster } = machineStore.reducers;
   const [loading] = useLoading(machineStore, ['getAlarmListByCluster']);
@@ -132,7 +132,7 @@ export const ClusterAlarmList = ({
       title: i18n.t('org:alarm level'),
       dataIndex: 'priority',
       width: 100,
-      render: priority => {
+      render: (priority) => {
         const { text, state } = ruleTypeMap[priority];
         return <span className={`tag tag-${state}`}>{text}</span>;
       },

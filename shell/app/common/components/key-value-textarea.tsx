@@ -42,14 +42,14 @@ interface IProps {
   data: string;
   fieldName?: 'kv-text';
   form: WrappedFormUtils;
-  className ?: string;
-  autoSize ?: object;
-  rows ?: number;
-  placeholder ?: string;
-  editDisabled ?: boolean;
+  className?: string;
+  autoSize?: object;
+  rows?: number;
+  placeholder?: string;
+  editDisabled?: boolean;
   existKeys?: string[];
-  validate?(rule: any, value: {k: string; v: string}, callback: Function): void;
-  maxLength?:number;
+  validate?: (rule: any, value: {k: string; v: string}, callback: Function) => void;
+  maxLength?: number;
 }
 interface IState {
   textData: string;

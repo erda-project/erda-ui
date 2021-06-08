@@ -23,7 +23,7 @@ import { isEmpty, map } from 'lodash';
 
 interface IProps {
   issueType: string;
-  onClick: (val: string) => void
+  onClick: (val: string) => void;
 }
 
 const options = [
@@ -49,13 +49,13 @@ const infoMap = {
 };
 
 export default ({ onClick, issueType }: IProps) => {
-  const iterationList = iterationStore.useStore(s => s.iterationList);
-  const authObj = usePerm(s => s.project);
+  const iterationList = iterationStore.useStore((s) => s.iterationList);
+  const authObj = usePerm((s) => s.project);
   const typeInfo = infoMap[issueType];
 
   const menu = issueType === ISSUE_TYPE.ALL ? (
-    <Menu onClick={(e:any) => onClick(e.key)}>
-      {map(options, op => {
+    <Menu onClick={(e: any) => onClick(e.key)}>
+      {map(options, (op) => {
         return <Menu.Item key={op.value} disabled={!authObj[op.value.toLowerCase()].create.pass}>{op.iconLabel}</Menu.Item>;
       })}
     </Menu>
@@ -89,7 +89,7 @@ export default ({ onClick, issueType }: IProps) => {
             </Dropdown>
           ) :
             <WithAuth pass={authObj[issueType.toLowerCase()].create.pass} >
-              <Button type='primary' onClick={() => onClick(issueType)}>{btnContent}</Button>
+              <Button type="primary" onClick={() => onClick(issueType)}>{btnContent}</Button>
             </WithAuth>
         )
       }

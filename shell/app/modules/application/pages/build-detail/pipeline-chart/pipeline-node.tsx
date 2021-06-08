@@ -35,7 +35,7 @@ interface IProps {
 const { executeStatus } = ciNodeStatusSet;
 const PipelineNode = (props: IProps) => {
   const { data, onClickNode, className = '' } = props;
-  const curUserId = userStore.useStore(s => s.loginUser.id);
+  const curUserId = userStore.useStore((s) => s.loginUser.id);
 
   const intervalRef = React.useRef(null as any);
 
@@ -108,7 +108,7 @@ const PipelineNode = (props: IProps) => {
           temp.push(
             <div key={`meta-${String(index)}`} className="app-pipeline-chart-msg-item">
               <span className="app-pipeline-chart-msg-item-name">{m.name}</span> {m.value}
-            </div>
+            </div>,
           ));
         if (temp.length) {
           detailInfo.push(<h4>{i18n.t('application:details')}</h4>);
@@ -116,10 +116,10 @@ const PipelineNode = (props: IProps) => {
         }
       }
       if (!isEmpty(files)) {
-        detailInfo.push(<h4 className='mt8'>{i18n.t('download')}</h4>);
+        detailInfo.push(<h4 className="mt8">{i18n.t('download')}</h4>);
         detailInfo.push(files.map((item, idx) => (
           item.value ? (
-            <div className='table-operations' key={`file-${String(idx)}`}>
+            <div className="table-operations" key={`file-${String(idx)}`}>
               <a className="table-operations-btn" download={item.value} href={`/api/files/${item.value}`}>
                 {item.name || item.value}
               </a>
@@ -247,7 +247,7 @@ const PipelineNode = (props: IProps) => {
     }
 
     return (
-      <div className='flex-box pipeline-item-extra-op-list'>
+      <div className="flex-box pipeline-item-extra-op-list">
         {operations.map(([icon, mark, tip]) => {
           const clickFunc = debounce((e: any) => clickIcon(e, mark), 300);
           return (
@@ -286,9 +286,9 @@ const PipelineNode = (props: IProps) => {
   const status = ciStatusMap[data.status];
   const itemStatus = ciStatusMap[data.status].color;
   const statusContent = (
-    <span className='flex-1'>
+    <span className="flex-1">
       <span className="yaml-editor-item-status" style={{ background: itemStatus.toLowerCase() }} />
-      <span className='inline-flex-box'>{(status ? status.text : '-')}</span>
+      <span className="inline-flex-box">{(status ? status.text : '-')}</span>
     </span>
   );
   if (data.name || data.displayName) {
@@ -306,14 +306,14 @@ const PipelineNode = (props: IProps) => {
     classnames('app-pipeline-chart-node', className, data.status === 'Disabled' ? 'disabled-item' : '');
 
   const timeContent = time >= 0 ? (
-    <span className='v-align'>
+    <span className="v-align">
       <CustomIcon type="shijian" />
       <span>{secondsToTime(time || data.costTimeSec)}</span>
     </span>
   ) : null;
 
   const logoUrl = get(data, 'logoUrl');
-  const icon = logoUrl ? <img src={logoUrl} alt='logo' className='pipeline-item-logo' /> : <CustomIcon className="pipeline-item-logo" type="wfw" color />;
+  const icon = logoUrl ? <img src={logoUrl} alt="logo" className="pipeline-item-logo" /> : <CustomIcon className="pipeline-item-logo" type="wfw" color />;
 
   const Container = isEmptyExtraInfo() ? Popover : React.Fragment;
   return (
@@ -325,7 +325,7 @@ const PipelineNode = (props: IProps) => {
         <div className="flex-box pa12">
           {icon}
           <div className="yaml-editor-item-content py0 px4">
-            <div className='flex-box'>
+            <div className="flex-box">
               {titleContent}
               {renderOperation()}
             </div>

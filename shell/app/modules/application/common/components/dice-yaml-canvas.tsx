@@ -26,7 +26,7 @@ import React, { Component } from 'react';
 import Snap from 'snapsvg-cjs';
 
 interface IProps {
-  type: DiceFlowType,
+  type: DiceFlowType;
   pointComponent: any;
   dataSource: any[];
   selectedItem?: IEditorPoint | null;
@@ -37,7 +37,7 @@ interface IProps {
   maxWidth: number;
   maxHeight: number;
   mouseDownPosition?: IPosition | null;
-  lineStyle?: ILineStyle,
+  lineStyle?: ILineStyle;
 }
 
 export interface ILineStyle {
@@ -49,7 +49,7 @@ const SELECTED_COLOR = '#8c7acc';
 const SIGNAL_COLOR = 'rgba(91, 69, 194, 1)';
 
 export default class DiceYamlCanvas extends Component<IProps, any> {
-  public state = {
+  state = {
     svgLeft: 0,
     lines: [],
     width: 0,
@@ -76,7 +76,7 @@ export default class DiceYamlCanvas extends Component<IProps, any> {
 
   private deletedMovingPoint: any[] = [];
 
-  public shouldComponentUpdate(nextProps: Readonly<IProps>, nextState: Readonly<any>): boolean {
+  shouldComponentUpdate(nextProps: Readonly<IProps>, nextState: Readonly<any>): boolean {
     if (!isEqualWith(nextProps.dataSource, this.props.dataSource, isEqualCustomizer) ||
       nextProps.scale !== this.props.scale ||
       !isEqualWith(nextState, this.state)
@@ -87,7 +87,7 @@ export default class DiceYamlCanvas extends Component<IProps, any> {
     return false;
   }
 
-  public UNSAFE_componentWillReceiveProps(nextProps: Readonly<IProps>): void {
+  UNSAFE_componentWillReceiveProps(nextProps: Readonly<IProps>): void {
     if (!isEqualWith(nextProps.movingPoints, this.props.movingPoints, isEqualCustomizer)) {
       this.getDeletedMovingPoints(nextProps.movingPoints, this.props.movingPoints);
     }

@@ -18,7 +18,7 @@ import './personal-home.scss';
 import i18n from 'i18n';
 
 const PersonalHome = () => {
-  const curOrgName = orgStore.useStore(s => s.currentOrg.name);
+  const curOrgName = orgStore.useStore((s) => s.currentOrg.name);
   const inParams = { orgName: curOrgName || '-' };
 
   React.useEffect(() => {
@@ -30,19 +30,19 @@ const PersonalHome = () => {
   }, []);
 
   return (
-    <div className='home-page'>
-      <div className='home-page-sidebar'>
+    <div className="home-page">
+      <div className="home-page-sidebar">
         <DiceConfigPage
-          scenarioType='home-page-sidebar'
-          scenarioKey='home-page-sidebar'
+          scenarioType="home-page-sidebar"
+          scenarioKey="home-page-sidebar"
           key={curOrgName}
           inParams={inParams}
         />
       </div>
-      <div className='home-page-content full-width'>
+      <div className="home-page-content full-width">
         <DiceConfigPage
-          scenarioType='home-page-content'
-          scenarioKey='home-page-content'
+          scenarioType="home-page-content"
+          scenarioKey="home-page-content"
           key={curOrgName}
           inParams={inParams}
         />

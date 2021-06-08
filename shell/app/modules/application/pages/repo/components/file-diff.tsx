@@ -23,13 +23,13 @@ import MarkdownEditor from 'app/common/components/markdown-editor';
 import { isImage, setApiWithOrg } from 'app/common/utils';
 import { CommentBox } from 'application/common/components/comment-box';
 import Markdown from 'common/utils/marked';
-import { 
-  FileAddition as IconFileAddition, 
-  Delete as IconDelete, 
-  ArrowRight as IconArrowRight, 
-  FileCodeOne as IconFileCodeOne, 
-  RightOne as IconRightOne, 
-  DownOne as IconDownOne 
+import {
+  FileAddition as IconFileAddition,
+  Delete as IconDelete,
+  ArrowRight as IconArrowRight,
+  FileCodeOne as IconFileCodeOne,
+  RightOne as IconRightOne,
+  DownOne as IconDownOne,
 } from '@icon-park/react';
 
 import './file-diff.scss';
@@ -52,7 +52,7 @@ const getExpandParams = (path: string, sections: any[], content: string) => {
     lastLineNo = (last(sections[sections.length - 2].lines) as any).newLineNo;
     sectionIndex = sections.length - 2;
   } else {
-    sectionIndex = sections.findIndex(x => x.lines[0].content === content);
+    sectionIndex = sections.findIndex((x) => x.lines[0].content === content);
     const currentSection = sections[sectionIndex];
     firstLineNo = currentSection.lines[1].newLineNo;
   }
@@ -76,12 +76,12 @@ const getExpandParams = (path: string, sections: any[], content: string) => {
   return { path, since, to, bottom, unfold, offset, sectionIndex };
 };
 
-const TemporaryStorageIcon = ({ disableComment, onClick }: { disableComment?: boolean, onClick: () => void }) => (
+const TemporaryStorageIcon = ({ disableComment, onClick }: { disableComment?: boolean; onClick: () => void }) => (
   disableComment
     ? null
     : <CustomIcon className="temporary-storage-icon" type="jl" onClick={onClick} />);
 
-const CommentIcon = ({ disableComment, onClick }: { disableComment?: boolean, onClick: () => void }) => (
+const CommentIcon = ({ disableComment, onClick }: { disableComment?: boolean; onClick: () => void }) => (
   disableComment
     ? null
     : <CustomIcon className="hover-active comment-icon" type="message" onClick={onClick} />);
@@ -119,7 +119,7 @@ interface IProps {
     gitRepoAbbrev: string;
   };
   forwardRef?: React.Ref<HTMLDivElement>;
-  addComment(data: object): Promise<any>;
+  addComment: (data: object) => Promise<any>;
 }
 
 const generateDiffFilePath = (oldName: string, name: string) => {
@@ -173,7 +173,7 @@ export const FileDiff = ({
   const [hasLS, setHasLs] = useState({});
   const [isShowLS, setIsShowLS] = useState({});
 
-  const { projectId, appId, mergeId } = routeInfoStore.useStore(s => s.params);
+  const { projectId, appId, mergeId } = routeInfoStore.useStore((s) => s.params);
 
   if (!sections) {
     if (type === ACTION.ADD || type === ACTION.DELETE || type === ACTION.RENAME || isBin) { // TODO isBin 如何显示需要后续处理
@@ -429,7 +429,7 @@ export const FileDiff = ({
                                   <IF check={showCommentEdit}>
                                     <MarkdownEditor
                                       value={isShowLS[lineKey] ? tsComment.content : null}
-                                      onSubmit={note => addCommentFn({
+                                      onSubmit={(note) => addCommentFn({
                                         note,
                                       }).then(() => toggleEditFn(lineKey, false))}
                                       btnText={i18n.t('application:post comment')}
@@ -479,7 +479,7 @@ export const FileDiff = ({
                                 <IF check={showLeftCommentEdit}>
                                   <MarkdownEditor
                                     value={isShowLS[lineKey] ? tsComment.content : null}
-                                    onSubmit={note => addCommentFn({
+                                    onSubmit={(note) => addCommentFn({
                                       note,
                                     }).then(() => toggleLeftCommentEdit(lineKey, false))}
                                     btnText={i18n.t('application:post comment')}
@@ -498,7 +498,7 @@ export const FileDiff = ({
                                 <IF check={showRightCommentEdit}>
                                   <MarkdownEditor
                                     value={isShowLS[lineKey] ? tsComment.content : null}
-                                    onSubmit={note => addCommentFn({
+                                    onSubmit={(note) => addCommentFn({
                                       note,
                                     }).then(() => toggleRightCommentEdit(lineKey, false))}
                                     btnText={i18n.t('application:post comment')}
@@ -546,7 +546,7 @@ const FilesDiff = (props: IDiffProps) => {
   const [diffFileRefs, setDiffFileRefs] = React.useState({});
   const { getBlobRange, addComment: addCommentFunc } = repoStore.effects;
   const [renderList, setRenderList] = React.useState([] as REPOSITORY.IFile[]);
-  const appDetail = appStore.useStore(s => s.detail);
+  const appDetail = appStore.useStore((s) => s.detail);
 
   React.useEffect(() => {
     if (props.diff) {
@@ -639,7 +639,7 @@ const FilesDiff = (props: IDiffProps) => {
           </div>
         </div>
         <div className="diff-file-list">
-          {map(diff.files, file => (
+          {map(diff.files, (file) => (
             <div key={file.name} className="diff-file pointer" onClick={() => navigateToFile(file.name)}>
               <div className="diff-count">
                 <span className="diff-add-icon">+{file.addition}</span>

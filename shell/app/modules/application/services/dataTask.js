@@ -15,41 +15,41 @@ import agent from 'agent';
 
 export const getWorkFlowFiles = ({ gitRepoAbbrev }) => {
   return agent.get(`/api/repo/${gitRepoAbbrev}/tree-search?ref=master&pattern=*.workflow`)
-    .then(response => response.body);
+    .then((response) => response.body);
 };
 
 export const batchCreateTask = ({ appId, batchPipelineYmlPaths }) => {
   return agent.post('/api/pipelines/actions/batch-create')
     .send({ appID: +appId, autoRun: true, batchPipelineYmlPaths, branch: 'master', source: 'bigdata' })
-    .then(response => response.body);
+    .then((response) => response.body);
 };
 
 export const getBusinessScope = ({ remoteUri }) => {
   return agent.get('/api/analysis')
     .query({ remoteUri })
-    .then(response => response.body);
+    .then((response) => response.body);
 };
 
 export const getBusinessProcesses = ({ businessDomain, dataDomain, keyWord, remoteUri, pageSize, pageNo }) => {
   return agent.get('/api/analysis/businessProcesses')
     .query({ businessDomain, dataDomain, keyWord, remoteUri, pageSize, pageNo })
-    .then(response => response.body);
+    .then((response) => response.body);
 };
 
 export const getOutputTables = ({ businessDomain, marketDomain, keyWord, remoteUri, pageSize, pageNo }) => {
   return agent.get('/api/analysis/outputTables')
     .query({ businessDomain, marketDomain, keyWord, remoteUri, pageSize, pageNo })
-    .then(response => response.body);
+    .then((response) => response.body);
 };
 
 export const getTableAttrs = ({ filePath, searchKey, pageSize, pageNo }) => {
   return agent.get('/api/analysis/fuzzyAttrs')
     .query({ filePath, keyWord: searchKey || undefined, pageSize, pageNo })
-    .then(response => response.body);
+    .then((response) => response.body);
 };
 
 export const getStarChartSource = ({ filePath }) => {
   return agent.get('/api/analysis/star')
     .query({ filePath })
-    .then(response => response.body);
+    .then((response) => response.body);
 };

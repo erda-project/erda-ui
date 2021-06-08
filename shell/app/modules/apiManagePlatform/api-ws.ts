@@ -29,9 +29,9 @@ export const initApiWs = (payload: IInitApiWs) => {
   const { updateWsQuery, updateApiWs, updateApiLockState, autoSaveApi, updateLockUser, setDocChangedState, setSavedState } = apiDesignStore;
 
   const { pinode, inode } = payload;
-  let heartBeatTimer:any = null;
-  let autoSaveTimer:any = null;
-  let timer:any = null;
+  let heartBeatTimer: any = null;
+  let autoSaveTimer: any = null;
+  let timer: any = null;
   if ('WebSocket' in window) {
     // eslint-disable-next-line no-console
     console.log('您的浏览器支持 WebSocket!---', 'API Setting');

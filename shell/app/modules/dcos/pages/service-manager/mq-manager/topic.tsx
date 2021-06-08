@@ -25,10 +25,10 @@ import { useLoading } from 'common/stores/loading';
 import { Help as IconHelp } from '@icon-park/react';
 
 const Topic = () => {
-  const MQTopicList = cloudServiceStore.useStore(s => s.MQTopicList);
+  const MQTopicList = cloudServiceStore.useStore((s) => s.MQTopicList);
   const { getMQTopicList, addMQTopic } = cloudServiceStore.effects;
   const { clearMQTopicList } = cloudServiceStore.reducers;
-  const [mqID, query] = routeInfoStore.useStore(s => [s.params.mqID, s.query]);
+  const [mqID, query] = routeInfoStore.useStore((s) => [s.params.mqID, s.query]);
   const [isFetching] = useLoading(cloudServiceStore, ['getMQTopicList']);
 
   useEffectOnce(() => {
@@ -262,7 +262,7 @@ const Topic = () => {
         items={items}
         visible={tagFormVis}
         formData={tagFormData as any}
-        resourceType='ONS_TOPIC'
+        resourceType="ONS_TOPIC"
         instanceID={mqID}
         showClustertLabel={false}
         showProjectLabel

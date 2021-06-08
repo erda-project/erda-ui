@@ -32,14 +32,14 @@ interface IProps extends IWithAuth{
   wrap?: boolean;
 }
 
-const isCreator = (creatorID:string) => {
-  const currentLoginUser = userStore.getState(s => s.loginUser.id);
+const isCreator = (creatorID: string) => {
+  const currentLoginUser = userStore.getState((s) => s.loginUser.id);
   return creatorID === currentLoginUser;
 };
 
 const UnityAuthWrap = ({ userID, children, path, wrap = true, className, ...props }: IProps) => {
   const pathStr = path.join('.');
-  const [projectPerm, appPerm, canEditAsOrgManage] = usePerm(s => [s.project.apiManage, s.app.apiManage, s.org.apiAssetEdit.pass]);
+  const [projectPerm, appPerm, canEditAsOrgManage] = usePerm((s) => [s.project.apiManage, s.app.apiManage, s.org.apiAssetEdit.pass]);
   const hasAuth = canEditAsOrgManage || isCreator(userID) || get(projectPerm, `${pathStr}.pass`, false) || get(appPerm, `${pathStr}.pass`, false);
   if (!wrap) {
     return hasAuth ? React.cloneElement(children, {
@@ -55,7 +55,7 @@ const UnityAuthWrap = ({ userID, children, path, wrap = true, className, ...prop
 
 const hasAuth = (userID: string, path: IPath) => {
   const pathStr = path.join('.');
-  const [projectPerm, appPerm] = permStore.getState(s => [s.project.apiManage, s.app.apiManage]);
+  const [projectPerm, appPerm] = permStore.getState((s) => [s.project.apiManage, s.app.apiManage]);
   return isCreator(userID) || get(projectPerm, `${pathStr}.pass`, false) || get(appPerm, `${pathStr}.pass`, false);
 };
 

@@ -13,35 +13,35 @@
 
 declare namespace ITERATION {
   interface ListQuery {
-    pageNo?: number,
-    pageSize?: number,
-    projectID: number,
+    pageNo?: number;
+    pageSize?: number;
+    projectID: number;
     deadline?: string;
-    state?: string,
+    state?: string;
     withoutIssueSummary?: boolean;
   }
 
   interface DetailQuery {
-    id: number,
-    projectID: number,
+    id: number;
+    projectID: number;
   }
 
   interface Detail {
-    id: number
-    projectID: number
-    content: string
-    createdAt: string
-    creator: string
-    finishedAt: string
-    startedAt: string
-    title: string
-    updatedAt: string
+    id: number;
+    projectID: number;
+    content: string;
+    createdAt: string;
+    creator: string;
+    finishedAt: string;
+    startedAt: string;
+    title: string;
+    updatedAt: string;
     issueSummary: {
-      bug: IIssueSummary,
-      requirement: IIssueSummary,
-      task: IIssueSummary,
-    }
-    state:string
+      bug: IIssueSummary;
+      requirement: IIssueSummary;
+      task: IIssueSummary;
+    };
+    state: string;
   }
 
   interface IIssueSummary {

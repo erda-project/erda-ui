@@ -20,10 +20,10 @@ import i18n from 'i18n';
 import classnames from 'classnames';
 
 interface IProps {
-  visible: boolean
-  accept: string
-  onChange?(file: any): any
-  beforeUpload?(file:any):any
+  visible: boolean;
+  accept: string;
+  onChange?: (file: any) => any;
+  beforeUpload?: (file: any) => any;
 }
 
 const FileSelect = ({ accept, onChange, visible, beforeUpload }: IProps) => {

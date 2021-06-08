@@ -20,7 +20,7 @@ interface IProps{
   isCreate?: boolean;
   otherTaskAlias?: string[];
   chosenActionName: string;
-  chosenAction:any;
+  chosenAction: any;
   onSubmit?: (options: any) => void;
 }
 

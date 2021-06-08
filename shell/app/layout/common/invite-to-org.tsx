@@ -24,9 +24,9 @@ import routeInfoStore from 'common/stores/route';
 import { getOrgByDomain } from 'app/org-home/services/org';
 
 export default () => {
-  const loginUser = userStore.useStore(s => s.loginUser);
+  const loginUser = userStore.useStore((s) => s.loginUser);
   const { inviteToOrg } = layoutStore.effects;
-  const orgName = routeInfoStore.useStore(s => s.params.orgName);
+  const orgName = routeInfoStore.useStore((s) => s.params.orgName);
   const [inviting] = useLoading(layoutStore, ['inviteToOrg']);
   const { id, nick, name } = loginUser;
 

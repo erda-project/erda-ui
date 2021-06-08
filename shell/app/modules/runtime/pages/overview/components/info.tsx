@@ -42,15 +42,15 @@ const evnBlockMap: {[key in APPLICATION.Workspace]: string} = {
 
 
 const DeployInfo = () => {
-  const params = routeInfoStore.useStore(s => s.params);
-  const { blockStatus } = appStore.useStore(s => s.detail);
+  const params = routeInfoStore.useStore((s) => s.params);
+  const { blockStatus } = appStore.useStore((s) => s.detail);
   const appBlocked = blockStatus !== 'unblocked';
-  const currentOrg = orgStore.useStore(s => s.currentOrg);
+  const currentOrg = orgStore.useStore((s) => s.currentOrg);
 
   const { blockoutConfig } = currentOrg;
 
-  const permMap = usePerm(s => s.app);
-  const [runtimeDetail, cancelDeploying] = runtimeStore.useStore(s => [s.runtimeDetail, s.cancelDeploying]);
+  const permMap = usePerm((s) => s.app);
+  const [runtimeDetail, cancelDeploying] = runtimeStore.useStore((s) => [s.runtimeDetail, s.cancelDeploying]);
 
   const [state, updater] = useUpdate({
     visible: false,

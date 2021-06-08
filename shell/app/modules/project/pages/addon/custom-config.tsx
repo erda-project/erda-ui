@@ -18,8 +18,8 @@ import addonStore from 'common/stores/addon';
 import { FileEditor, useUpdate } from 'common';
 
 interface IProps {
-  visible: boolean,
-  onCancel(): void
+  visible: boolean;
+  onCancel: () => void;
 }
 const CustomAddonConfigModal = (props: IProps) => {
   const { visible, onCancel } = props;
@@ -28,7 +28,7 @@ const CustomAddonConfigModal = (props: IProps) => {
   });
 
   React.useEffect(() => {
-    visible && addonStore.getExportAddonSpec().then(data => {
+    visible && addonStore.getExportAddonSpec().then((data) => {
       try {
         updater.json(JSON.stringify(JSON.parse(data), null, 2));
       } catch (error) {
@@ -46,7 +46,7 @@ const CustomAddonConfigModal = (props: IProps) => {
       destroyOnClose
       footer={null}
     >
-      <Alert showIcon type='normal' className='mb8' message={i18n.t('project:transfer-custom-addon')} />
+      <Alert showIcon type="normal" className="mb8" message={i18n.t('project:transfer-custom-addon')} />
       <FileEditor
         fileExtension="json"
         value={json}

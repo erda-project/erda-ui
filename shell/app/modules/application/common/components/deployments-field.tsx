@@ -31,7 +31,7 @@ const defaultValue = {
 };
 
 export default class extends PureComponent<IVariableInputGroupProps, any> {
-  public state = {
+  state = {
     value: defaultValue,
   };
 
@@ -44,14 +44,14 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
     return null;
   }
 
-  public triggerChange = (changedValue: any) => {
+  triggerChange = (changedValue: any) => {
     const { onChange } = this.props;
     if (onChange) {
       onChange(changedValue);
     }
   };
 
-  public render() {
+  render() {
     const { disabled } = this.props;
     const { value } = this.state;
     const replicas = (

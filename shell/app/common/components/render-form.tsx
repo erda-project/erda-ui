@@ -109,7 +109,7 @@ interface IField {
     type?: string;
     [proName: string]: any;
   };
-  getComp?(o?: any): any;
+  getComp?: (o?: any) => any;
 }
 
 const ReadonlyForm = ({ fieldsList, data }: IReadonlyProps) => {
@@ -123,12 +123,12 @@ const ReadonlyForm = ({ fieldsList, data }: IReadonlyProps) => {
           readonlyView.push(
             <FormItem label={label} key={index} >
               <ImgHolder src={value} rect="100x100" text="image" />
-            </FormItem>
+            </FormItem>,
           );
         } else {
           readonlyView.push(
             <FormItem label={label} key={index}>
-              <p className='form-item-text'>
+              <p className="form-item-text">
                 {
                   Array.isArray(value) ? (
                     map(value, (v: string, i: number) => (
@@ -137,7 +137,7 @@ const ReadonlyForm = ({ fieldsList, data }: IReadonlyProps) => {
                   ) : <>&nbsp;&nbsp;{value !== undefined ? value.toString() : undefined}</>
                 }
               </p>
-            </FormItem>
+            </FormItem>,
           );
         }
       }

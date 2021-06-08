@@ -22,7 +22,7 @@ interface IProps {
   trigger?: 'hover' | 'click';
   iconStyle?: 'big-more-icon' | 'sm-more-icon';
   placement?: 'top' | 'left' | 'right' | 'bottom' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight' | 'leftTop' | 'leftBottom' | 'rightTop' | 'rightBottom';
-  content(setVisible: Function): React.ReactElement;
+  content: (setVisible: Function) => React.ReactElement;
 }
 
 export const MenuPopover = ({
@@ -39,7 +39,7 @@ export const MenuPopover = ({
       trigger={trigger || 'click'}
       onVisibleChange={setVisible}
     >
-      <CustomIcon type="more" className={`${iconStyle} hover-active`} onClick={e => e.stopPropagation()} />
+      <CustomIcon type="more" className={`${iconStyle} hover-active`} onClick={(e) => e.stopPropagation()} />
     </Popover>
   );
 };

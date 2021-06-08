@@ -20,6 +20,6 @@ declare namespace STORAGE {
     createDate: string;
     storageClass: string;
     location: string;
-    tags: Obj<boolean>
+    tags: Obj<boolean>;
   }
 }

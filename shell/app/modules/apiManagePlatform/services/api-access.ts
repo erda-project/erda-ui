@@ -25,7 +25,7 @@ export const createAccess = (payload: API_ACCESS.CreateAccess): Pick<API_ACCESS.
     .then((response: any) => response.body);
 };
 
-export const updateAccess = ({ accessID, ...rest }:Merge< API_ACCESS.CreateAccess, {accessID: number}>) => {
+export const updateAccess = ({ accessID, ...rest }: Merge< API_ACCESS.CreateAccess, {accessID: number}>) => {
   return agent.put(`/api/api-access/${accessID}`)
     .send(rest)
     .then((response: any) => response.body);
@@ -72,7 +72,7 @@ export const updateContracts = ({ clientID, contractID, ...rest }: API_ACCESS.Op
     .then((response: any) => response.body);
 };
 
-export const getSlaList = <T=API_ACCESS.SlaData>({ assetID, swaggerVersion }: API_ACCESS.GetSlaList):T => {
+export const getSlaList = <T=API_ACCESS.SlaData>({ assetID, swaggerVersion }: API_ACCESS.GetSlaList): T => {
   return agent.get(`/api/api-assets/${assetID}/swagger-versions/${swaggerVersion}/slas`)
     .then((response: any) => response.body);
 };

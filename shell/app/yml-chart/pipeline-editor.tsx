@@ -38,12 +38,12 @@ interface IPipelineEditorProps {
   title?: string;
   ymlStr: string;
   viewType?: string;
-  addDrawerProps?: Obj,
+  addDrawerProps?: Obj;
   editable: boolean;
   loading?: boolean;
   onChangeViewType?: (arg: string) => void;
   onSubmit?: (arg: string) => any;
-  chartProps?: IChartProps
+  chartProps?: IChartProps;
 }
 
 const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) => {
@@ -279,7 +279,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
         className="flex-box"
         size="small"
         value={viewType}
-        onChange={(e:any) => changeViewType(e.target.value)}
+        onChange={(e: any) => changeViewType(e.target.value)}
       >
         <Radio.Button value={ViewType.graphic}>
           <CustomIcon type="lc" />
@@ -290,15 +290,15 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
       </Radio.Group>
       {
         !editing ? (
-          <Button disabled={!editable} onClick={() => updater.editing(true)} className='ml8' size='small'>
+          <Button disabled={!editable} onClick={() => updater.editing(true)} className="ml8" size="small">
             {i18n.t('application:edit')}
           </Button>
         ) : (
-          <div className='px12 py8'>
-            <Button onClick={onCancel} size='small' >
+          <div className="px12 py8">
+            <Button onClick={onCancel} size="small" >
               {i18n.t('cancel')}
             </Button>
-            <Button onClick={handleSubmit} type='primary' className='ml8' size='small'>
+            <Button onClick={handleSubmit} type="primary" className="ml8" size="small">
               {i18n.t('save')}
             </Button>
           </div>
@@ -344,15 +344,15 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
       </FileContainer>
       <Modal
         visible={!isEmpty(errorMsg)}
-        title={<div><CustomIcon type='guanbi-fill' className='color-danger' />{i18n.t('error')}</div>}
+        title={<div><CustomIcon type="guanbi-fill" className="color-danger" />{i18n.t('error')}</div>}
         maskClosable={false}
         footer={[
-          <Button key='cancel' onClick={() => { updater.errorMsg(''); }}>{i18n.t('cancel')}</Button>,
+          <Button key="cancel" onClick={() => { updater.errorMsg(''); }}>{i18n.t('cancel')}</Button>,
           ...insertWhen(originYmlValid,
             [
               <Button
-                key='ok'
-                type='primary'
+                key="ok"
+                type="primary"
                 onClick={() => resetAndChangeViewType()}
               >
                 {i18n.t('application:reset and switch')}

@@ -16,8 +16,8 @@ import * as React from 'react';
 import './compact-select.scss';
 
 interface IProps {
-  title: string,
-  children: JSX.Element
+  title: string;
+  children: JSX.Element;
 }
 
 export const CompactSelect = ({ title, children, ...rest }: IProps) => {

@@ -30,7 +30,7 @@ interface IOption {
 
 const pushTask = (options: IOption) => {
   const { task, taskGroup, item, actions, editConvertor, pipelineTaskAlias } = options;
-  const otherTaskAlias = remove([...pipelineTaskAlias], alias => alias !== task.alias);
+  const otherTaskAlias = remove([...pipelineTaskAlias], (alias) => alias !== task.alias);
   const propertyViewDataSource = omit(task, ['alias', 'type', 'resources']);
   taskGroup.push({
     ...item,
@@ -97,7 +97,7 @@ export default ({ title, editGlobalVariable, editConvertor, actions, pipelineYml
         result.push([item]);
       } else if (index === 1 && currentItem) {
         const pipelineTaskAlias = currentItem.reduce((acc: string[], stage: any[]) => {
-          const stageTaskAlias = stage.map(task => task.alias);
+          const stageTaskAlias = stage.map((task) => task.alias);
           return acc.concat(stageTaskAlias);
         }, []);
 

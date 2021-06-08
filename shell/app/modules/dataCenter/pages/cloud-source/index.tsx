@@ -29,11 +29,11 @@ import { useLoading } from 'app/common/stores/loading';
 import './index.scss';
 
 const CloudSource = () => {
-  const [overviewData, ecsTrendingData] = cloudSourceStore.useStore(s => [s.overviewData, s.ecsTrendingData]);
+  const [overviewData, ecsTrendingData] = cloudSourceStore.useStore((s) => [s.overviewData, s.ecsTrendingData]);
   const { getOverview, getECSTrending } = cloudSourceStore.effects;
   const [getECSTrendingLoading, getOverviewLoading] = useLoading(cloudSourceStore, ['getECSTrending', 'getOverview']);
   const { getList } = cloudAccountStore.effects;
-  const accountsCount = cloudAccountStore.useStore(s => s.list.length);
+  const accountsCount = cloudAccountStore.useStore((s) => s.list.length);
 
   const getResourceInfo = () => {
     getList({ pageNo: 1, pageSize: 15 }).then((accountList: IPagingResp<CLOUD_ACCOUNTS.Account>) => {
@@ -109,7 +109,7 @@ const CloudSource = () => {
     };
   }, [overviewData]);
 
-  const getPieStaticData = (list: Array<{ status?: string; chargeType?: string; count: number; }>, key: string, formatter?: string) => {
+  const getPieStaticData = (list: Array<{ status?: string; chargeType?: string; count: number }>, key: string, formatter?: string) => {
     let total = 0;
     const metricData = [{
       name: i18n.t('publisher:proportion'),
@@ -146,7 +146,7 @@ const CloudSource = () => {
     }
     return ({
       time: data.time,
-      metricData: map(data.results[0].data, item => values(item)[0]),
+      metricData: map(data.results[0].data, (item) => values(item)[0]),
     });
   };
 
@@ -261,9 +261,9 @@ const CloudSource = () => {
           customRender: !expireData.total
             ? () => {
               return (
-                <div className='no-expire-tip'>
+                <div className="no-expire-tip">
                   <img src={ts_svg} alt="no-will-expire-resource" />
-                  <div className='color-text-sub'>{i18n.t('dataCenter:No service due within {num} days, please rest assured', { num: expireData.expireDays })}</div>
+                  <div className="color-text-sub">{i18n.t('dataCenter:No service due within {num} days, please rest assured', { num: expireData.expireDays })}</div>
                 </div>
               );
             }
@@ -325,8 +325,8 @@ const CloudSource = () => {
           customRender: () => {
             const bucket = get(overviewData, 'STORAGE.resourceTypeData.OSS_BUCKET') || {};
             return (
-              <div className='cloud-count-card'>
-                <div className='part hover-active' onClick={() => { goTo(goTo.pages.cloudSourceOss); }}>
+              <div className="cloud-count-card">
+                <div className="part hover-active" onClick={() => { goTo(goTo.pages.cloudSourceOss); }}>
                   <div className="count">
                     {bucket.totalCount || 0}
                   </div>
@@ -363,8 +363,8 @@ const CloudSource = () => {
           hideReload: true,
           customRender: () => {
             return (
-              <div className='cloud-count-card'>
-                <div className='part hover-active' onClick={() => { goTo(goTo.pages.cloudAccounts); }}>
+              <div className="cloud-count-card">
+                <div className="part hover-active" onClick={() => { goTo(goTo.pages.cloudAccounts); }}>
                   <div className="count">
                     {accountsCount || 0}
                   </div>
@@ -470,7 +470,7 @@ const CloudSource = () => {
 
   if (accountsCount > 0) {
     return (
-      <div className='cloud-source full-spin-height'>
+      <div className="cloud-source full-spin-height">
         <Spin spinning={getOverviewLoading}>
           <PureBoardGrid layout={getLayout()} />
         </Spin>
@@ -478,7 +478,7 @@ const CloudSource = () => {
     );
   }
   return (
-    <Card className='full-height center-flex-box'>
+    <Card className="full-height center-flex-box">
       <Guidance
         afterSubmit={getResourceInfo}
       />

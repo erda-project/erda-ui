@@ -23,7 +23,7 @@ export function getCategoryById(payload: TREE.GetSubTreeParams): TREE.NODE[] {
 }
 
 // 查询单个节点详情
-export const getTreeNodeDetail = ({ id }:{ id: string }): TREE.NODE => {
+export const getTreeNodeDetail = ({ id }: { id: string }): TREE.NODE => {
   return agent.get(`/api/autotests/filetree/${id}`)
     .then((response: any) => response.body);
 };
@@ -58,7 +58,7 @@ export function deleteTreeNode(payload: { inode: string }): TREE.NODE {
 }
 
 // 移动节点
-export function moveTreeNode(payload: { inode: string, pinode: string }): TREE.NODE {
+export function moveTreeNode(payload: { inode: string; pinode: string }): TREE.NODE {
   const { inode, pinode } = payload;
   return agent.post(`/api/autotests/filetree/${inode}/actions/move`)
     .send({ pinode })
@@ -66,7 +66,7 @@ export function moveTreeNode(payload: { inode: string, pinode: string }): TREE.N
 }
 
 // 复制节点
-export function copyTreeNode(payload: { inode: string, pinode: string }): TREE.NODE {
+export function copyTreeNode(payload: { inode: string; pinode: string }): TREE.NODE {
   const { inode, pinode } = payload;
   return agent.post(`/api/autotests/filetree/${inode}/actions/copy`)
     .send({ pinode })
@@ -90,7 +90,7 @@ export function fuzzySearch(payload: TREE.FuzzySearch): TREE.NODE[] {
 
 /** -----统一协议树标准接口  新版接口（3.21）-----* */
 
-export const getTreeNodeDetailNew = ({ id, ...rest }:{ id: string, scope: string, scopeID: string }): TREE.NODE => {
+export const getTreeNodeDetailNew = ({ id, ...rest }: { id: string; scope: string; scopeID: string }): TREE.NODE => {
   return agent.get(`/api/project-pipeline/filetree/${id}`)
     .query(rest)
     .then((response: any) => response.body);

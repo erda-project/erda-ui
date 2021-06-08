@@ -27,7 +27,7 @@ const constQuery = { // 当前一小时内
 };
 
 const Summary = () => {
-  const [aiCapacityData, biCapacityData] = monitorOverviewStore.useStore(s => [s.aiCapacityData, s.biCapacityData]);
+  const [aiCapacityData, biCapacityData] = monitorOverviewStore.useStore((s) => [s.aiCapacityData, s.biCapacityData]);
 
   const { getAiCapacityData, getBiCapacityApdex, getBiCapacityAjaxErr, getBiCapacityAjaxInfo } = monitorOverviewStore.effects;
 

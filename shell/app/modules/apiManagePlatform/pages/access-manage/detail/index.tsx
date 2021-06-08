@@ -37,9 +37,9 @@ const AccessDetail = () => {
   const [{ visible }, updater] = useUpdate<IState>({
     visible: false,
   });
-  const [accessDetail] = apiAccessStore.useStore(s => [s.accessDetail]);
+  const [accessDetail] = apiAccessStore.useStore((s) => [s.accessDetail]);
   const permission = accessDetail.permission || {};
-  const params = routeInfoStore.useStore(s => s.params);
+  const params = routeInfoStore.useStore((s) => s.params);
   const { getAccessDetail, getClient, deleteAccess } = apiAccessStore.effects;
   const { clearAccessDetail } = apiAccessStore.reducers;
   const [isFetch] = useLoading(apiAccessStore, ['getAccessDetail']);
@@ -94,7 +94,7 @@ const AccessDetail = () => {
     if (isEmpty(accessDetail.access.bindDomain)) {
       return null;
     }
-    return accessDetail.access.bindDomain.map(domain => <Ellipsis key={domain} title={domain} />);
+    return accessDetail.access.bindDomain.map((domain) => <Ellipsis key={domain} title={domain} />);
   }, [accessDetail.access.bindDomain]);
 
   const fields = {

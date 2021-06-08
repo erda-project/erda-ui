@@ -976,7 +976,7 @@ export const projectPerm = {
           'PD',
           'Dev',
           'QA',
-          'Ops'
+          'Ops',
         ],
         name: '查看',
       },
@@ -992,7 +992,7 @@ export const projectPerm = {
         'PM',
         'PD',
         'Dev',
-        'QA'
+        'QA',
       ],
       name: '查看',
     },

@@ -14,7 +14,7 @@
 import { createStore } from 'app/cube';
 import { getLS, removeLS, setLS, getDefaultPaging, goTo } from 'common/utils';
 import { getTranslateAddonList } from 'app/locales/utils';
-import { CategoryName } from 'addonPlatform/pages/common/configs';
+import { CATEGORY_NAME } from 'addonPlatform/pages/common/configs';
 import { reduce, zipWith, isEmpty, cloneDeep, get } from 'lodash';
 import appStore from 'application/stores/application';
 import * as RepoServices from 'application/services/repo';
@@ -42,7 +42,7 @@ const buildIdParams = (appId: string, info: REPOSITORY.IInfo) => {
   return { appId, commitId: info.commitId, branch: currentBranch };
 };
 
-const getSubList = (info: Obj, { projectId, appId }: { projectId: string, appId: string }) => {
+const getSubList = (info: Obj, { projectId, appId }: { projectId: string; appId: string }) => {
   const location = window.location as any;
   const repoRoot = goTo.resolve.repo({ projectId, appId });
   const branchInQuery = location.query && location.query.cb;
@@ -81,12 +81,12 @@ const getSubList = (info: Obj, { projectId, appId }: { projectId: string, appId:
 };
 
 const getAppDetail: () => Promise<IApplication> = () => new Promise((resolve) => {
-  const { appId } = routeInfoStore.getState(s => s.params);
-  let appDetail = appStore.getState(s => s.detail);
+  const { appId } = routeInfoStore.getState((s) => s.params);
+  let appDetail = appStore.getState((s) => s.detail);
   const notSameApp = appId && String(appId) !== String(appDetail.id);
   if (!appId || notSameApp) {
     eventHub.once('appStore/getAppDetail', () => {
-      appDetail = appStore.getState(s => s.detail);
+      appDetail = appStore.getState((s) => s.detail);
       resolve(appDetail);
     });
   } else {
@@ -185,7 +185,7 @@ const repoStore = createStore({
       const branch = zipWith(// 截取链接中的branch
         url.split('repo/tree/'),
         url.split('repo/commits/'),
-        (v1, v2) => v1 || v2
+        (v1, v2) => v1 || v2,
       )[1];
       const appDetail = await getAppDetail();
       if (appDetail.isExternalRepo) {
@@ -210,7 +210,7 @@ const repoStore = createStore({
     async getBuildId({ select, call, update }, payload): Promise<any> {
       let { info } = payload;
       if (!info) {
-        info = select(state => state.info);
+        info = select((state) => state.info);
       }
       const param = buildIdParams(payload.appId, info);
       if (!param) {
@@ -220,13 +220,13 @@ const repoStore = createStore({
       update({ buildId });
     },
     async getRepoTree({ getParams, select, update, call }, { force }: REPOSITORY.QueryRepoTree = { force: false }) {
-      const appDetail = appStore.getState(s => s.detail);
+      const appDetail = appStore.getState((s) => s.detail);
       const { appId } = getParams();
-      let info = select(state => state.info);
+      let info = select((state) => state.info);
       if (info.empty) {
         if (force) {
           await repoStore.effects.getRepoInfo();
-          info = select(state => state.info);
+          info = select((state) => state.info);
         } else {
           return;
         }
@@ -253,7 +253,7 @@ const repoStore = createStore({
       return blame;
     },
     async getRepoBlob({ call, update }, payload: Obj = {}) {
-      const { gitRepoAbbrev } = appStore.getState(s => s.detail);
+      const { gitRepoAbbrev } = appStore.getState((s) => s.detail);
       const blob = await call(RepoServices.getFromRepo, {
         type: 'blob',
         repoPrefix: gitRepoAbbrev,
@@ -280,11 +280,11 @@ const repoStore = createStore({
       let target: any;
       let commitId;
       if (type === 'compare') {
-        target = select(state => state.compareDetail);
+        target = select((state) => state.compareDetail);
         commitId = target && get(target, 'from');
         targetKey = 'compareDetail';
       } else if (type === 'commit' && params.commitId) {
-        target = select(state => state.commitDetail);
+        target = select((state) => state.commitDetail);
         commitId = params.commitId;
         targetKey = 'commitDetail';
       }
@@ -350,7 +350,7 @@ const repoStore = createStore({
       }
     },
     async createBranch({ call, getParams }, payload: { refValue: string; branch: string }) {
-      const appDetail = appStore.getState(s => s.detail);
+      const appDetail = appStore.getState((s) => s.detail);
       try {
         await call(RepoServices.createBranch, {
           repoPrefix: appDetail.gitRepoAbbrev,
@@ -387,8 +387,8 @@ const repoStore = createStore({
       }, { successMsg: i18n.t('default:deleted successfully'), errorMsg: i18n.t('application:failed to delete tag') });
       await repoStore.effects.getListByType({ type: 'tag' });
     },
-    async createTag({ call }, payload: { ref: string; tag: string, message: string }) {
-      const appDetail = appStore.getState(s => s.detail);
+    async createTag({ call }, payload: { ref: string; tag: string; message: string }) {
+      const appDetail = appStore.getState((s) => s.detail);
       const result = await call(RepoServices.createTag, {
         repoPrefix: appDetail.gitRepoAbbrev,
         ...payload,
@@ -402,15 +402,15 @@ const repoStore = createStore({
         repoPrefix: appDetail.gitRepoAbbrev,
         branch,
       }, { successMsg: i18n.t('application:set default branch successfully') });
-      const curBranches = select(s => s.branch);
+      const curBranches = select((s) => s.branch);
       update({
-        branch: curBranches.map(b => ({ ...b, isDefault: b.name === branch })),
+        branch: curBranches.map((b) => ({ ...b, isDefault: b.name === branch })),
       });
     },
     async getMrList({ call, select, update }, payload: REPOSITORY.QueryMrs) {
       const appDetail = await getAppDetail();
       const { pageNo = 1 } = payload;
-      const originalList = select(state => state.mrList);
+      const originalList = select((state) => state.mrList);
       const { list, total } = await call(RepoServices.getMRs, { repoPrefix: appDetail.gitRepoAbbrev, ...payload }, { paging: { key: 'mrPaging' } });
       const mrList = pageNo === 1 ? list : [...originalList, ...list];
       update({ mrList });
@@ -418,7 +418,7 @@ const repoStore = createStore({
     },
     async getCommitList({ call, select, update }, payload: REPOSITORY.QueryCommit = {}) {
       const appDetail = await getAppDetail();
-      const { commitPaging: paging, commit: prevList } = select(state => state);
+      const { commitPaging: paging, commit: prevList } = select((state) => state);
       const result = await call(RepoServices.getCommits, {
         repoPrefix: appDetail.gitRepoAbbrev,
         ...paging,
@@ -438,7 +438,7 @@ const repoStore = createStore({
       update({ commitDetail });
     },
     async checkCommitId({ call }, payload: { commitId: string }) {
-      const appDetail = appStore.getState(s => s.detail);
+      const appDetail = appStore.getState((s) => s.detail);
       try {
         const commitDetail = await call(RepoServices.getCommitDetail, {
           repoPrefix: appDetail.gitRepoAbbrev,
@@ -490,7 +490,7 @@ const repoStore = createStore({
       return res;
     },
     async getAvailableAddonList({ getParams, select, call }) {
-      const tree = select(state => state.tree);
+      const tree = select((state) => state.tree);
       const params = getParams();
       const options = {
         workspace: getEnvFromRefName(getInfoFromRefName(tree.refName).branch),
@@ -617,9 +617,9 @@ const repoStore = createStore({
   reducers: {
     getAvailableAddonListSuccess(state, { availableAddonList, addonInstanceList }) {
       const groupedAddonList = reduce([...getTranslateAddonList(availableAddonList, 'displayName'), ...getTranslateAddonList(addonInstanceList, 'displayName')], (result, value) => {
-        if (CategoryName[value.category]) {
+        if (CATEGORY_NAME[value.category]) {
           // eslint-disable-next-line no-param-reassign
-          (result[CategoryName[value.category]] || (result[CategoryName[value.category]] = [])).push(value);
+          (result[CATEGORY_NAME[value.category]] || (result[CATEGORY_NAME[value.category]] = [])).push(value);
         }
         return result;
       }, {});

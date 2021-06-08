@@ -16,7 +16,7 @@ import { Drawer, Tabs } from 'app/nusi';
 import i18n from 'i18n';
 import { get } from 'lodash';
 import { PipelineGraphicEditor } from 'app/yml-chart/common/pipeline-graphic-editor';
-import { PipelineNodeForm } from 'yml-chart/common/pipeline-node-drawer'
+import { PipelineNodeForm } from 'yml-chart/common/pipeline-node-drawer';
 import { CaseTreeSelector } from './case-tree-selector';
 import './case-yml-graphic-editor.scss';
 
@@ -51,7 +51,7 @@ const CaseNodeDrawer = (props: ICaseNodeDrawer) => {
   }, [visible, curNodeType]);
 
   React.useEffect(() => {
-    setKey(prev => prev + 1);
+    setKey((prev) => prev + 1);
   }, [visible]);
 
   const { excludeAction, curCaseId } = addDrawerProps || {};
@@ -63,7 +63,7 @@ const CaseNodeDrawer = (props: ICaseNodeDrawer) => {
       maskClosable={!editing}
       title={title}
       destroyOnClose
-      className='case-node-drawer'
+      className="case-node-drawer"
     >
       {
         excludeAction ? (
@@ -81,11 +81,11 @@ const CaseNodeDrawer = (props: ICaseNodeDrawer) => {
           />
         ) : (
           editing ? (
-            <Tabs className='full-height case-node-chosen-tabs' activeKey={chosenKey} onChange={(aKey: string) => editing && setChosenKey(aKey)}>
-              <Tabs.TabPane tab={i18n.t('add {name}', { name: i18n.t('task') })} key='addNode' disabled={!isCreate && chosenKey === 'addCaseRef'}>
+            <Tabs className="full-height case-node-chosen-tabs" activeKey={chosenKey} onChange={(aKey: string) => editing && setChosenKey(aKey)}>
+              <Tabs.TabPane tab={i18n.t('add {name}', { name: i18n.t('task') })} key="addNode" disabled={!isCreate && chosenKey === 'addCaseRef'}>
                 <PipelineNodeForm key={key} {...props} {...(curNodeType === 'snippet' ? { isCreate: true, nodeData: null } : {})} />
               </Tabs.TabPane>
-              <Tabs.TabPane tab={i18n.t('project:reference use node')} key='addCaseRef' disabled={!isCreate && chosenKey === 'addNode'}>
+              <Tabs.TabPane tab={i18n.t('project:reference use node')} key="addCaseRef" disabled={!isCreate && chosenKey === 'addNode'}>
                 <CaseTreeSelector
                   closeDrawer={closeDrawer}
                   key={key}
@@ -129,7 +129,7 @@ const CaseNodeDrawer = (props: ICaseNodeDrawer) => {
 const CaseYmlGraphicEditor = (props: any) => {
   const { addDrawerProps, scope } = props;
   return (
-    <PipelineGraphicEditor {...props} PipelineNodeDrawer={(p:any) => <CaseNodeDrawer {...p} addDrawerProps={addDrawerProps} scope={scope} />} />
+    <PipelineGraphicEditor {...props} PipelineNodeDrawer={(p: any) => <CaseNodeDrawer {...p} addDrawerProps={addDrawerProps} scope={scope} />} />
   );
 };
 

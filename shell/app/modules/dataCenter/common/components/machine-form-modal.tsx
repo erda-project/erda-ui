@@ -22,11 +22,11 @@ import { uniq } from 'lodash';
 import orgStore from 'app/org-home/stores/org';
 
 interface IProps {
-  visible: boolean,
-  formData?: any,
-  cluster: ORG_CLUSTER.ICluster | null,
-  onCancel(): void,
-  onSubmit?(resp: ORG_MACHINE.IClusterOperateRecord): any,
+  visible: boolean;
+  formData?: any;
+  cluster: ORG_CLUSTER.ICluster | null;
+  onCancel: () => void;
+  onSubmit?: (resp: ORG_MACHINE.IClusterOperateRecord) => any;
 }
 const MachineFormModal = ({
   visible,
@@ -38,7 +38,7 @@ const MachineFormModal = ({
   const [state, updater] = useUpdate({
     passwordVisible: false,
   });
-  const currentOrg = orgStore.useStore(s => s.currentOrg);
+  const currentOrg = orgStore.useStore((s) => s.currentOrg);
   const { addMachine } = machineStore.effects;
   const defaultOrgTag = `org-${currentOrg.name}`;// 取企业名打默认的tag:org-{orgName}
 

@@ -21,7 +21,7 @@ const machine = createStore({
   state: {},
   effects: {
     async getMachineStatus({ call }, payload: string[]) {
-      const { name: orgName } = orgStore.getState(s => s.currentOrg);
+      const { name: orgName } = orgStore.getState((s) => s.currentOrg);
       const hostsStatus = await call(getMachineStatus, { org_name: orgName, hosts: payload });
       return hostsStatus;
     },

@@ -26,7 +26,7 @@ const cronReg = /(?<minute>\S+)\s(?<hour>\S+)/;
 interface IProps {
   visible: boolean;
   formData: MIDDLEWARE_DASHBOARD.IMiddleBase;
-  onCancel(): void;
+  onCancel: () => void;
 }
 
 const { Option } = Select;

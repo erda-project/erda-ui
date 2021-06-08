@@ -22,29 +22,29 @@ const { Option } = Select;
 interface IProps{
   value: string[];
   allField: any[];
-  form:any
-  onChange(arg:string[]):void;
+  form: any;
+  onChange: (arg: string[]) => void;
 }
-const ClearFieldSelector = (props:IProps) => {
+const ClearFieldSelector = (props: IProps) => {
   const { value, onChange, allField, form } = props;
   const [options, setOptions] = React.useState([] as string[]);
   const [optionInit, setOptionInit] = React.useState(false);
 
   React.useEffect(() => {
     if (optionInit) {
-      setOptions(map(filter(allField, (item:any) => item.key !== form.getData().key), 'key'));
+      setOptions(map(filter(allField, (item: any) => item.key !== form.getData().key), 'key'));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [optionInit]);
 
   return (
     <Select
-      mode='multiple'
+      mode="multiple"
       value={value}
       onChange={onChange}
       onDropdownVisibleChange={(isOpen) => isOpen && !optionInit && setOptionInit(true)}
     >
-      {map(options, item => (<Option key={item} value={item}>{item}</Option>))}
+      {map(options, (item) => (<Option key={item} value={item}>{item}</Option>))}
     </Select>
   );
 };
@@ -101,7 +101,7 @@ export const FormClearWhen = ({
 export const config = {
   name: 'clearWhen',
   Component: FormClearWhen, // 某React组件，props中必须有value、onChange
-  requiredCheck: value => {
+  requiredCheck: (value) => {
     // 必填校验时，特殊的校验规则
     return [!isEmpty(value), i18n.t('can not be empty')];
   },

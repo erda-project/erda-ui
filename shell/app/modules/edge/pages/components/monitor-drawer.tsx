@@ -25,11 +25,11 @@ export enum OPERATION {
   MONITOR = 'monitor',
 }
 interface IMonitorDrawer {
-  visible: boolean,
-  data: MACHINE_MANAGE.IMonitorInfo,
-  onClose: ()=>void
+  visible: boolean;
+  data: MACHINE_MANAGE.IMonitorInfo;
+  onClose: () => void;
 }
-export const MonitorDrawer = (props:IMonitorDrawer) => {
+export const MonitorDrawer = (props: IMonitorDrawer) => {
   const [{
     slideTitle,
     content,

@@ -24,7 +24,7 @@ describe('PureMonitorChart', () => {
       data: [1],
     };
     const wrapper = shallow(
-      <PureMonitorChart title="PureMonitorChart title" timeSpan={timeSpan} />
+      <PureMonitorChart title="PureMonitorChart title" timeSpan={timeSpan} />,
     );
     expect(wrapper.find('.monitor-chart-title').text()).toBe('PureMonitorChart title');
     expect(wrapper.find('MonitorChartNew').prop('timeSpan')).toStrictEqual(timeSpan);

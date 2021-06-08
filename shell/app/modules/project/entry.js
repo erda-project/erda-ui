@@ -45,6 +45,6 @@ export default (registerModule) => {
       testEnvStore,
       testSetStore,
       testPlanStore,
-    ]
+    ],
   });
 };

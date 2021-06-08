@@ -28,8 +28,8 @@ import { getArtifactsList } from 'publisher/services/publisher';
 import { Copy as IconCopy } from '@icon-park/react';
 
 const AppLibraryReference = () => {
-  const appID = +routeInfoStore.useStore(s => s.params.appId);
-  const { name: appName } = appStore.useStore(s => s.detail);
+  const appID = +routeInfoStore.useStore((s) => s.params.appId);
+  const { name: appName } = appStore.useStore((s) => s.detail);
   const [state, updater, update] = useUpdate({
     visible: false,
     dependence: '',

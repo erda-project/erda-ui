@@ -29,14 +29,14 @@ import { ClusterLog } from './cluster-log';
 import orgStore from 'app/org-home/stores/org';
 
 export const OperationHistory = () => {
-  const currentOrg = orgStore.useStore(s => s.currentOrg);
-  const clusterList = clusterStore.useStore(s => s.list);
-  const [operationList, operationPaging, operationTypes] = machineStore.useStore(s => [s.operationList, s.operationPaging, s.operationTypes]);
+  const currentOrg = orgStore.useStore((s) => s.currentOrg);
+  const clusterList = clusterStore.useStore((s) => s.list);
+  const [operationList, operationPaging, operationTypes] = machineStore.useStore((s) => [s.operationList, s.operationPaging, s.operationTypes]);
   const { getClusterOperationHistory } = machineStore.effects;
   const [loading] = useLoading(machineStore, ['getClusterOperationHistory']);
-  const { clusterName: queryCluster, scope, recordType: recordTypeQuery } = routeInfoStore.getState(s => s.query);
+  const { clusterName: queryCluster, scope, recordType: recordTypeQuery } = routeInfoStore.getState((s) => s.query);
 
-  const userMap = userMapStore.useStore(s => s);
+  const userMap = userMapStore.useStore((s) => s);
 
   const [{ curRow, filters }, updater] = useUpdate({
     curRow: null,
@@ -197,9 +197,9 @@ export const OperationHistory = () => {
 };
 
 export const OperationLog = ({ recordID, onClose, StepList }: {
-  recordID?: string,
-  StepList?: any,
-  onClose(): void,
+  recordID?: string;
+  StepList?: any;
+  onClose: () => void;
 }) => {
   const [state, updater] = useUpdate({
     isStdErr: false,

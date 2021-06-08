@@ -111,12 +111,12 @@ interface ISingProps{
   showSearchByValue?: boolean;
   allowInput?: boolean;
   value: string;
-  onChange(data: string):void;
+  onChange: (data: string) => void;
   options: Array<{
     value: string;
     label: string;
     text: string;
-  }>
+  }>;
 }
 
 function SingleSelect(props: ISingProps) {
@@ -147,7 +147,7 @@ function SingleSelect(props: ISingProps) {
 
   function filter(inputValue: any, path: any, names: any) {
     return path.some(
-      (option: any) => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1
+      (option: any) => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1,
     );
   }
 
@@ -213,26 +213,26 @@ function SingleSelect(props: ISingProps) {
 interface IProps{
   data: Array<{
     key: string;
-  } & Omit<ISingProps, 'onChange'| 'value'>>,
+  } & Omit<ISingProps, 'onChange'| 'value'>>;
   value: {
     [k: string]: string;
-  }
-  onChangeMap:{
-    [k: string]:(value: string)=>void
   };
-  onChange(data: {[k: string]: string}):void;
+  onChangeMap: {
+    [k: string]: (value: string) => void;
+  };
+  onChange: (data: {[k: string]: string}) => void;
 }
 
 export default function MultiSelect(props: IProps) {
   const { data = [], value, onChangeMap, onChange: propsOnChange } = props;
-  const onChange = (k:string) => (v: any) => {
+  const onChange = (k: string) => (v: any) => {
     propsOnChange({ ...value, [k]: v });
     if (onChangeMap[k]) {
       onChangeMap[k](v);
     }
   };
   return (
-    <div className='flex-box'>
+    <div className="flex-box">
       {data.map((item: any, index: any) => {
         return <SingleSelect {...item} key={`${index}`} onChange={onChange(item.key)} value={get(value, item.key)} />;
       })}

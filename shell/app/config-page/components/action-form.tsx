@@ -24,11 +24,11 @@ import i18n from 'i18n';
 export interface IProps extends FormModalProps, CONFIG_PAGE.ICommonProps {
   name: string;
   props: {
-    fields: any[]
-  }
+    fields: any[];
+  };
 }
 
-//目前使用组件化协议的action-form白名单，后端还未实现接口控制，
+// 目前使用组件化协议的action-form白名单，后端还未实现接口控制，
 export const protocolActionForms = ['mysql-cli', 'redis-cli', 'api-test', 'dice-deploy-release', 'dice-deploy-rollback', 'git-checkout', 'git-push', 'gitbook', 'manual-review', 'dice-version-archive'];
 
 const clearEmptyField = (ObjData: any) => {
@@ -73,8 +73,8 @@ export const ActionForm = (props: IProps) => {
   const formRef = React.useRef(null as any);
 
   const useableFields = React.useMemo(() => {
-    const newFields = produce(fields, draft => {
-      return map(draft, item => {
+    const newFields = produce(fields, (draft) => {
+      return map(draft, (item) => {
         const curItem = { ...item, disabled: editing ? item.disabled : true };
         if (item.key === 'alias') {
           curItem.rules = [
@@ -97,7 +97,7 @@ export const ActionForm = (props: IProps) => {
         if (curKeyOperation) {
           curItem.componentProps = {
             ...curItem.componentProps,
-            onChange: (e:any) => {
+            onChange: (e: any) => {
               const val = curItem.component === 'input' ? e.target.value : e;
               execOperation({ ...curKeyOperation, key: 'change' }, { [curKey]: val });
             },
@@ -154,7 +154,7 @@ export const ActionForm = (props: IProps) => {
         formRef={formRef}
         value={formData}
       />
-      { editing ? <Button type='primary' ghost onClick={onSave}>{i18n.t('save')}</Button> : null}
+      { editing ? <Button type="primary" ghost onClick={onSave}>{i18n.t('save')}</Button> : null}
     </>
   );
 };

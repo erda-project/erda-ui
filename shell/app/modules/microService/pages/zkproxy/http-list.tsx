@@ -40,11 +40,11 @@ const HTTPList = () => {
     },
   ];
 
-  const serviceList = httpStore.useStore(s => s.serviceList);
-  const infoList = microServiceInfoStore.useStore(s => s.infoList);
-  const clusterName = microServiceStore.useStore(s => s.clusterName);
-  const { appId, az: qAz } = routeInfoStore.useStore(s => s.query);
-  const { env: workspace, projectId: projectID } = routeInfoStore.useStore(s => s.params);
+  const serviceList = httpStore.useStore((s) => s.serviceList);
+  const infoList = microServiceInfoStore.useStore((s) => s.infoList);
+  const clusterName = microServiceStore.useStore((s) => s.clusterName);
+  const { appId, az: qAz } = routeInfoStore.useStore((s) => s.query);
+  const { env: workspace, projectId: projectID } = routeInfoStore.useStore((s) => s.params);
   const { getServiceList, toggleIPStatus } = httpStore.effects;
   const { getMSComponentInfo } = microServiceInfoStore.effects;
   const [loading] = useLoading(httpStore, ['getServiceList']);
@@ -73,7 +73,7 @@ const HTTPList = () => {
   }, [appId, az, getServiceList, state.nacosId]);
 
   React.useEffect(() => {
-    const info = find(infoList, item => item.addonName === 'registercenter');
+    const info = find(infoList, (item) => item.addonName === 'registercenter');
     if (info && get(info, 'config.NACOS_TENANT_ID')) {
       updater.nacosId(get(info, 'config.NACOS_TENANT_ID'));
     }
@@ -93,7 +93,7 @@ const HTTPList = () => {
         dataIndex: 'address',
         render: (ip: string) => (
           <Tooltip title={i18n.t('deployment details')}>
-            <span className='hover-active' onClick={() => jumpToServicePage(ip)}>
+            <span className="hover-active" onClick={() => jumpToServicePage(ip)}>
               {ip}<CustomIcon type="link" />
             </span>
           </Tooltip>
@@ -152,7 +152,7 @@ const HTTPList = () => {
   };
 
   const onSearch = (searchKey: string) => {
-    const filterList = filter(serviceList, item => item.serviceName.toLowerCase().includes(searchKey.toLowerCase()));
+    const filterList = filter(serviceList, (item) => item.serviceName.toLowerCase().includes(searchKey.toLowerCase()));
     updater.dataSource(filterList);
   };
 

@@ -38,8 +38,8 @@ interface IField {
   hideWhenReadonly?: boolean; // readonly状态下隐藏
   type?: string;
   options?: Function | any[];
-  customRender?(value: any): any;
-  getComp?(o?: any): any;
+  customRender?: (value: any) => any;
+  getComp?: (o?: any) => any;
 }
 interface IState {
   modalVisible: boolean;
@@ -70,21 +70,21 @@ class SectionInfoEdit extends React.Component<IProps, IState> {
       if (!hideWhenReadonly && !(itemProps && itemProps.type === 'hidden' && !showInfo)) {
         let value = (name === undefined && getComp) ? getComp() : get(data, name || '');
         if (type === 'radioGroup' && !isFunction(options)) {
-          value = ((options as any[]).find(option => option.value === value) || {}).name;
+          value = ((options as any[]).find((option) => option.value === value) || {}).name;
         }
         if (value !== undefined && value !== null && value !== '') {
           if (viewType === 'image') {
             readonlyView.push(
               <FormItem label={label} key={index}>
                 <ImgHolder src={value} rect="100x100" text="image" />
-              </FormItem>
+              </FormItem>,
             );
           } else if (viewType === 'markdown') {
             readonlyView.push(
               <FormItem label={label} key={index}>
                 {/* eslint-disable-next-line react/no-danger */}
                 <p className="md-content" dangerouslySetInnerHTML={{ __html: Markdown(value) }} />
-              </FormItem>
+              </FormItem>,
             );
           } else if (type === 'select') {
             const objOptions = isFunction(options) ? options() : options;
@@ -92,19 +92,19 @@ class SectionInfoEdit extends React.Component<IProps, IState> {
             readonlyView.push(
               <FormItem label={label} key={index}>
                 <p>{target.name || ''}</p>
-              </FormItem>
+              </FormItem>,
             );
           } else if (type === 'checkbox') {
             readonlyView.push(
               <FormItem label={label} key={index}>
                 <p>{String(value)}</p>
-              </FormItem>
+              </FormItem>,
             );
           } else {
             readonlyView.push(
               <FormItem label={label} key={index}>
                 <div>{customRender ? customRender(value) : value}</div>
-              </FormItem>
+              </FormItem>,
             );
           }
         }

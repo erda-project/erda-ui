@@ -29,12 +29,12 @@ interface ServiceIns {
 
 interface IState {
   serviceInsMap: {
-    [k: string]: ServiceIns
-  },
-  taskMap: ServiceIns,
+    [k: string]: ServiceIns;
+  };
+  taskMap: ServiceIns;
   podListMap: {
-    [k: string]: RUNTIME_SERVICE.Pod[]
-  },
+    [k: string]: RUNTIME_SERVICE.Pod[];
+  };
 }
 
 const initState: IState = {
@@ -51,7 +51,7 @@ const runtimeService = createFlatStore({
   state: initState,
   subscriptions: ({ registerWSHandler }: IStoreSubs) => {
     registerWSHandler('R_RUNTIME_SERVICE_STATUS_CHANGED', ({ payload }) => {
-      const runtimeDetail = runtimeStore.getState(s => s.runtimeDetail);
+      const runtimeDetail = runtimeStore.getState((s) => s.runtimeDetail);
       if (payload.runtimeId === runtimeDetail.id) {
         runtimeService.getServiceInstances(payload.serviceName);
       }
@@ -59,7 +59,7 @@ const runtimeService = createFlatStore({
   },
   effects: {
     async getServiceInstances({ select, call, update, getParams }, serviceName: string) {
-      const serviceInsMap = select(s => s.serviceInsMap);
+      const serviceInsMap = select((s) => s.serviceInsMap);
       const { runtimeId: runtimeID } = getParams();
       const runningServiceIns = await call(getServiceInstances, {
         status: 'running',
@@ -79,7 +79,7 @@ const runtimeService = createFlatStore({
       };
 
       if (serviceIns.runs) {
-        serviceIns.runs = serviceIns.runs.map(ins => ({ ...ins, isRunning: true }));
+        serviceIns.runs = serviceIns.runs.map((ins) => ({ ...ins, isRunning: true }));
       }
       update({ serviceInsMap: { ...serviceInsMap, [serviceName]: serviceIns }, taskMap: { ...serviceIns } });
       return serviceIns;
@@ -89,7 +89,7 @@ const runtimeService = createFlatStore({
       const {
         extra: { workspace },
         name: runtimeName,
-      } = runtimeStore.getState(s => s.runtimeDetail);
+      } = runtimeStore.getState((s) => s.runtimeDetail);
       const data = getLS(`${runtimeId}`);
 
       if (isEmpty(data)) return;
@@ -104,7 +104,7 @@ const runtimeService = createFlatStore({
     },
     async getServicePods({ call, update, select }, payload: RUNTIME_SERVICE.PodQuery) {
       const podList = await call(getServicePods, payload);
-      const podListMap = select(s => s.podListMap);
+      const podListMap = select((s) => s.podListMap);
       update({ podListMap: { ...podListMap, [payload.service]: podList } });
     },
     async killServicePod({ call }, payload: RUNTIME_SERVICE.KillPodBody) {

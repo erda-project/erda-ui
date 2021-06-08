@@ -23,12 +23,12 @@ interface IProps {
   editMode: boolean;
   az: any;
   interfacename: string;
-  onCancel(): any;
+  onCancel: () => any;
 }
 
 
 const InterfaceForm = ({ visible, editMode, az, interfacename, onCancel }: IProps) => {
-  const zkInterfaceConfig = zkproxyStore.useStore(s => s.zkInterfaceConfig);
+  const zkInterfaceConfig = zkproxyStore.useStore((s) => s.zkInterfaceConfig);
   const { addZkInterfaceConfig } = zkproxyStore.effects;
 
   const fieldsList = [
@@ -40,7 +40,7 @@ const InterfaceForm = ({ visible, editMode, az, interfacename, onCancel }: IProp
       label: i18n.t('microService:load balancing'),
       name: 'lb_type',
       type: 'select',
-      options: ['LB_RANDOM', 'LB_ROUNDROBIN'].map(a => ({ name: a, value: a })),
+      options: ['LB_RANDOM', 'LB_ROUNDROBIN'].map((a) => ({ name: a, value: a })),
       itemProps: {
         disabled: !editMode,
       },
@@ -49,7 +49,7 @@ const InterfaceForm = ({ visible, editMode, az, interfacename, onCancel }: IProp
       label: i18n.t('microService:requests count per connection'),
       name: 'max_request_per_conn',
       type: 'select',
-      options: ['10', '100', '1000'].map(a => ({ name: a, value: a })),
+      options: ['10', '100', '1000'].map((a) => ({ name: a, value: a })),
       itemProps: {
         disabled: !editMode,
       },
@@ -58,7 +58,7 @@ const InterfaceForm = ({ visible, editMode, az, interfacename, onCancel }: IProp
       label: i18n.t('microService:maximum number of connections'),
       name: 'max_connections',
       type: 'select',
-      options: ['10', '100', '1000'].map(a => ({ name: a, value: a })),
+      options: ['10', '100', '1000'].map((a) => ({ name: a, value: a })),
       itemProps: {
         disabled: !editMode,
       },
@@ -67,7 +67,7 @@ const InterfaceForm = ({ visible, editMode, az, interfacename, onCancel }: IProp
       label: i18n.t('microService:maximum number of requests'),
       name: 'max_requests',
       type: 'select',
-      options: ['100', '1000', '10000'].map(a => ({ name: a, value: a })),
+      options: ['100', '1000', '10000'].map((a) => ({ name: a, value: a })),
       itemProps: {
         disabled: !editMode,
       },

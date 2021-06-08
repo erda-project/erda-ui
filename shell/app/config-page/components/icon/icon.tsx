@@ -22,7 +22,7 @@ const Icon = (props: CP_ICON.Props) => {
     return null;
   }
 
-  return <ErdaIcon iconType={iconType} {...extraProps} />
+  return <ErdaIcon iconType={iconType} {...extraProps} />;
 };
 
 export default Icon;

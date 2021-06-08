@@ -123,7 +123,7 @@ export function exportFileInTestCase(payload: TEST_CASE.ExportFileQuery) {
   window.open(`${window.location.origin}${setApiWithOrg(`/api/testcases/actions/export?${query}`)}`);
 }
 
-export function importFileInTestCase({ payload, query }:TEST_CASE.ImportData): {successCount: number} {
+export function importFileInTestCase({ payload, query }: TEST_CASE.ImportData): {successCount: number} {
   return agent.post('/api/testcases/actions/import')
     .query(query)
     .send(payload)
@@ -131,7 +131,7 @@ export function importFileInTestCase({ payload, query }:TEST_CASE.ImportData): {
 }
 
 // 批量更新测试用例
-export function updateCases({ query, payload }: { query: TEST_CASE.CaseFilter, payload: TEST_CASE.CaseBodyPart}) {
+export function updateCases({ query, payload }: { query: TEST_CASE.CaseFilter; payload: TEST_CASE.CaseBodyPart}) {
   return agent.put('/api/testcases/batch')
     .query(query)
     .send(payload)

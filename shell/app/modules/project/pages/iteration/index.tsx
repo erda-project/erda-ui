@@ -24,10 +24,10 @@ import IterationModal from './iteration-modal';
 import { WithAuth, usePerm } from 'user/common';
 
 export const Iteration = () => {
-  const [list, paging] = iterationStore.useStore(s => [s.iterationList, s.iterationPaging]);
+  const [list, paging] = iterationStore.useStore((s) => [s.iterationList, s.iterationPaging]);
   const { getIterations: getList, deleteIteration } = iterationStore.effects;
   const [isFetching] = useLoading(iterationStore, ['getIterations']);
-  const editAuth = usePerm(s => s.project.iteration.operation.pass);
+  const editAuth = usePerm((s) => s.project.iteration.operation.pass);
   const { total, pageNo, pageSize } = paging;
   const [state, updater] = useUpdate({
     modalVisible: false,
@@ -54,7 +54,7 @@ export const Iteration = () => {
   };
 
   const renderMenuPopover = (iteration: ITERATION.Detail) => (
-    setVisible: Function
+    setVisible: Function,
   ) => {
     return (
       <div>
@@ -124,7 +124,7 @@ export const Iteration = () => {
     isSave && getList({ pageNo });
   };
 
-  const addAuth = usePerm(s => s.project.iteration.operation.pass);
+  const addAuth = usePerm((s) => s.project.iteration.operation.pass);
   return (
     <div className="iteration">
       <div className="top-button-group">

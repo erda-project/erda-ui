@@ -13,20 +13,20 @@
 
 declare namespace CP_FORM_MODAL {
   interface Spec {
-    type: 'FormModal',
-    operations: Obj<CP_COMMON.Operation>,
-    props: IProps,
-    state: IState,
+    type: 'FormModal';
+    operations: Obj<CP_COMMON.Operation>;
+    props: IProps;
+    state: IState;
   }
 
   interface IState{
     formData: Obj | undefined;
     visible: boolean;
-    title?: string
+    title?: string;
   }
 
   interface IProps{
-    width?: number
+    width?: number;
     name?: string;
     title?: string;
     visible?: boolean;

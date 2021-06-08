@@ -39,7 +39,7 @@ declare namespace APP_NOTIFY {
   interface INotifySource {
     name: string;
     params: any;
-    sourceId: string
+    sourceId: string;
     sourceType: string;
   }
   interface INotify {

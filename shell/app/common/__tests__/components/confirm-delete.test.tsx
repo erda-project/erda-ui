@@ -37,7 +37,7 @@ describe('ConfirmDelete', () => {
     const temp = shallow(
       <div>
         {wrapper.find('Modal').prop('title')}
-      </div>
+      </div>,
     );
     expect(temp.html()).toContain(defaultTitle);
     expect(wrapper.find('p').text()).toBe(defaultSecondTitle);
@@ -55,7 +55,7 @@ describe('ConfirmDelete', () => {
         title={title}
       >
         <div className="confirm-children" />
-      </ConfirmDelete>
+      </ConfirmDelete>,
     );
     expect(wrapper.find('.color-text-desc').text()).toBe(confirmTip);
     expect(wrapper.find('.confirm-children')).toExist();

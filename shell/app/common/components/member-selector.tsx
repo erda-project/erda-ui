@@ -42,7 +42,7 @@ interface IOption {
 
 interface IProps extends ILoadMoreSelectorProps {
   scopeType: 'org' | 'project' | 'app' | 'uc';
-  showRole?:boolean;
+  showRole?: boolean;
   scopeId?: string;
   showSelfChosen?: boolean;
   quickSelectInOption?: boolean;
@@ -55,7 +55,7 @@ interface IPropsWithCategory extends ILoadMoreSelectorProps {
 
 const { Option } = Select;
 
-const optionRender = (user: IMember, roleMap?: object, _type?: string, showRole?:boolean) => {
+const optionRender = (user: IMember, roleMap?: object, _type?: string, showRole?: boolean) => {
   const { avatar, nick, name, roles } = user;
   return (
     <>
@@ -63,7 +63,7 @@ const optionRender = (user: IMember, roleMap?: object, _type?: string, showRole?
       {
         <span className="ml8" title={name}>
           {nick || i18n.t('common:empty')}
-          {(_type === 'normal' && roleMap && showRole) ? `(${map(roles, role => roleMap[role] || i18n.t('common:empty')).join(',')}` : ''}
+          {(_type === 'normal' && roleMap && showRole) ? `(${map(roles, (role) => roleMap[role] || i18n.t('common:empty')).join(',')}` : ''}
         </span>
       }
     </>
@@ -106,7 +106,7 @@ const valueItemRender = (size = 'normal') => (user: any, deleteValue: (item: any
 export const chosenItemConvert = (values: any, existUser: object) => {
   // existUser
   const curValues = isArray(values) ? values : (values && [values]);
-  const reValue = map(curValues, item => {
+  const reValue = map(curValues, (item) => {
     const curUser = existUser[item.value] || {};
     return item.label ? item : { ...curUser, ...item, label: curUser.nick || curUser.name };
   });
@@ -133,9 +133,9 @@ const getNotFoundContent = (scopeType: string) => {
 };
 export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCategory>, ref: any) => {
   const { scopeType = 'org', scopeId: _scopeId, showRole, type, notFoundContent, value, categorys: staticCagetory, getData: _getData, className = '', size, showSelfChosen = false, placeholder, quickSelectInOption, ...rest } = props;
-  const { projectId, appId } = routeInfoStore.useStore(s => s.params);
-  const { id: loginUserId } = userStore.getState(s => s.loginUser);
-  const orgId = orgStore.useStore(s => s.currentOrg.id);
+  const { projectId, appId } = routeInfoStore.useStore((s) => s.params);
+  const { id: loginUserId } = userStore.getState((s) => s.loginUser);
+  const orgId = orgStore.useStore((s) => s.currentOrg.id);
   const isUCMember = scopeType === 'uc';
   const scopeIdMap = {
     app: appId,
@@ -149,14 +149,14 @@ export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCat
     const memberStore = storeMap[scopeType];
     ({ getRoleMap } = memberStore.effects);
     scopeId = _scopeId || scopeIdMap[scopeType] as string;
-    roleMap = memberStore.useStore(s => s.roleMap);
+    roleMap = memberStore.useStore((s) => s.roleMap);
   }
   const [categories, setCategories] = React.useState([] as IOption[]);
   const [query, setQuery] = React.useState({} as any);
   const isCategoryMode = type === 'Category';
   const isStaticCategory = !isEmpty(staticCagetory);// 静态category模式
-  const userMap = userMapStore.useStore(s => s);
-  const loginUser = userStore.getState(s => s.loginUser);
+  const userMap = userMapStore.useStore((s) => s);
+  const loginUser = userStore.getState((s) => s.loginUser);
   const existUser = {
     ...(userMap || {}),
     [loginUser.id]: { ...loginUser },
@@ -212,7 +212,7 @@ export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCat
         })}
         optionRender={(item, _type) => optionRender(item as any, roleMap, _type, isCategoryMode || showRole)} // 若为category模式，默认normal情况显示角色
         valueItemRender={valueItemRender(size)}
-        chosenItemConvert={(v:any[]) => chosenItemConvert(v, existUser)}
+        chosenItemConvert={(v: any[]) => chosenItemConvert(v, existUser)}
         value={value}
         forwardedRef={ref}
         quickSelect={quickSelect}
@@ -246,7 +246,7 @@ const UserSelector = (props: any) => {
       const lackUser = difference(curValue, existUserId);
       if (lackUser.length && !searchLackUser) {
         setSearchLackUser(true);// 请求过一次后就不再请求
-        getUsers({ userID: lackUser }).then((res:any) => {
+        getUsers({ userID: lackUser }).then((res: any) => {
           setSearchResult(get(res, 'data.users'));
         });
       }
@@ -261,12 +261,12 @@ const UserSelector = (props: any) => {
     };
     setSearchKey(q);
     if (q.trim() !== '') {
-      getUsersNew(query).then((res:any) => {
+      getUsersNew(query).then((res: any) => {
         setSearchResult(get(res, 'data.users'));
       });
     }
   };
-  const userOptionRender = (member:IMember) => {
+  const userOptionRender = (member: IMember) => {
     const { avatar, nick, name } = member;
     const id = member.id || member.userId;
     return (
@@ -296,8 +296,8 @@ const UserSelector = (props: any) => {
 // 添加企业成员时，请求用户接口不一样
 export const AddMemberSelector = (props: IAddProps) => {
   const { scopeType } = props;
-  const orgId = orgStore.useStore(s => s.currentOrg.id);
-  const projectId = routeInfoStore.getState(s => s.params.projectId);
+  const orgId = orgStore.useStore((s) => s.currentOrg.id);
+  const projectId = routeInfoStore.getState((s) => s.params.projectId);
 
   const scopeInfoMap = {
     [MemberScope.ORG]: {}, // 添加企业成员，无scope

@@ -18,119 +18,119 @@ declare namespace LOG_ANALYZE {
   interface IDynamicChildren {
     key: string;
     dimension: string;
-    dynamic_children?: IDynamicChildren
+    dynamic_children?: IDynamicChildren;
   }
   interface TagsTree {
     tag: {
-      name: string
-      key: string
-      value?: string
-    },
+      name: string;
+      key: string;
+      value?: string;
+    };
     children?: TagsTree[];
-    dynamic_children?: IDynamicChildren
+    dynamic_children?: IDynamicChildren;
   }
 
   interface GetLogQuery {
-    [k: string]: string | number | string[] | undefined
-    start: number
-    end: number
-    query?: string
+    [k: string]: string | number | string[] | undefined;
+    start: number;
+    end: number;
+    query?: string;
   }
 
   interface Log {
-    offset: number
-    content: string
-    source: string
-    tags: { [k: string]: string }
-    timestamp: string
+    offset: number;
+    content: string;
+    source: string;
+    tags: { [k: string]: string };
+    timestamp: string;
   }
 
   interface AddonSearchQuery { // 作为addon，在微服务中的查询参数
-    [k: string]: any
-    clusterName: string
-    start: number
-    end: number
-    query?: string
-    size: number
-    version?: string
-    'tags.dice_application_name'?: string
-    'tags.dice_service_name'?: string
+    [k: string]: any;
+    clusterName: string;
+    start: number;
+    end: number;
+    query?: string;
+    size: number;
+    version?: string;
+    'tags.dice_application_name'?: string;
+    'tags.dice_service_name'?: string;
   }
 
   interface LogStatistics extends IChartResult {
-    title: string
-    total: number
-    interval: number
+    title: string;
+    total: number;
+    interval: number;
   }
 
   interface Scope {
-    scope: string
-    scopeID: string | number
+    scope: string;
+    scopeID: string | number;
   }
 
   interface RuleListItem {
-    create_time: string
-    enable: boolean
-    id: number
-    metric: string
-    name: string
-    org_id: number
-    org_name: string
-    update_time: number
-    types: string
+    create_time: string;
+    enable: boolean;
+    id: number;
+    metric: string;
+    name: string;
+    org_id: number;
+    org_name: string;
+    update_time: number;
+    types: string;
   }
 
   interface Processor {
-    type: string
+    type: string;
     config: {
-      pattern: string
+      pattern: string;
       keys: Array<{
-        key: string
-        name: string
-        type: string
-        uint: string
-      }>
-    }
+        key: string;
+        name: string;
+        type: string;
+        uint: string;
+      }>;
+    };
   }
 
   interface Rule {
-    id?: number
-    enable?: boolean
-    metric?: string
-    org_id?: number
-    org_name?: string
-    name: string
-    update_time?: number
-    create_time?: number
+    id?: number;
+    enable?: boolean;
+    metric?: string;
+    org_id?: number;
+    org_name?: string;
+    name: string;
+    update_time?: number;
+    create_time?: number;
     filters: Array<{
-      key: string
-      value: string
-    }>
-    processors: Processor[]
+      key: string;
+      value: string;
+    }>;
+    processors: Processor[];
   }
 
   interface Template {
-    content?: string
+    content?: string;
     filters: Array<{
-      key: string
-      value: string
-    }>
-    name: string
-    processors: Processor[]
+      key: string;
+      value: string;
+    }>;
+    name: string;
+    processors: Processor[];
   }
 
   interface RuleTemplate {
-    name: string
-    desc: string
+    name: string;
+    desc: string;
   }
 
   interface TestRuleQuery {
-    content: string
-    name: string
-    processors: Processor[]
+    content: string;
+    name: string;
+    processors: Processor[];
   }
 
   interface TestRuleResp {
-    fields: { [k: string]: any }
+    fields: { [k: string]: any };
   }
 }

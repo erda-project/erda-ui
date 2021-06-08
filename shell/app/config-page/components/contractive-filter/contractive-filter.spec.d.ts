@@ -13,15 +13,15 @@
 
 declare namespace CP_FILTER {
   interface Spec {
-    type: 'ContractiveFilter',
+    type: 'ContractiveFilter';
     props?: IProps;
-    operations: Obj<CP_COMMON.Operation>
+    operations: Obj<CP_COMMON.Operation>;
     state: IState;
   }
 
   interface IState {
-    values: Obj,
-    conditions: Condition[]
+    values: Obj;
+    conditions: Condition[];
   }
 
   interface IProps {
@@ -31,28 +31,28 @@ declare namespace CP_FILTER {
   }
 
   interface Condition {
-    key: string
-    label: string
-    type: ConditionType
-    emptyText?: string
+    key: string;
+    label: string;
+    type: ConditionType;
+    emptyText?: string;
     value?: Obj | string | number | string[] | number[];
-    fixed?: boolean,
-    showIndex?: number, // 0： 隐藏、其他显示
-    haveFilter?: boolean,
-    placeholder?: string
+    fixed?: boolean;
+    showIndex?: number; // 0： 隐藏、其他显示
+    haveFilter?: boolean;
+    placeholder?: string;
     quickSelect?: IQuickSelect;
-    options?: IOption[]
+    options?: IOption[];
   }
 
   interface IOption {
-    label: string
-    value: string | number
-    icon?: string
+    label: string;
+    value: string | number;
+    icon?: string;
   }
 
   interface IQuickSelect {
-    label: string,
-    operationKey: string,
+    label: string;
+    operationKey: string;
   }
 
   type ConditionType = 'select' | 'input' | 'dateRange';

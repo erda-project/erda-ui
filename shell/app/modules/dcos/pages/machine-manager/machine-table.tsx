@@ -187,13 +187,13 @@ class Operation extends React.PureComponent<IOperation> {
         <Row gutter={20}>
           <Col span={6}><span className="label">User: </span></Col>
           <Col span={18}>
-            <Input defaultValue={defaultParams.user} onChange={e => this.setValue('user', e.target.value)} />
+            <Input defaultValue={defaultParams.user} onChange={(e) => this.setValue('user', e.target.value)} />
           </Col>
         </Row>
         <Row gutter={20}>
           <Col span={6}><span className="label">Port: </span></Col>
           <Col span={18}>
-            <Input defaultValue={defaultParams.port} onChange={e => this.setValue('port', e.target.value)} />
+            <Input defaultValue={defaultParams.port} onChange={(e) => this.setValue('port', e.target.value)} />
           </Col>
         </Row>
       </div>);
@@ -219,11 +219,11 @@ interface IFilterDropdownProps {
   selectedKeys: any[];
   dataKey: string;
   placeholder?: string;
-  setSelectedKeys(arg: any): void;
-  confirm(): void;
-  clearFilters(): void;
-  handleSearch(...arg: any): void;
-  handleReset(...arg: any): void;
+  setSelectedKeys: (arg: any) => void;
+  confirm: () => void;
+  clearFilters: () => void;
+  handleSearch: (...arg: any) => void;
+  handleReset: (...arg: any) => void;
 }
 
 const FilterDropdownNumber = (props: IFilterDropdownProps) => {
@@ -241,7 +241,7 @@ const FilterDropdownNumber = (props: IFilterDropdownProps) => {
         <InputNumber
           size="small"
           value={more}
-          onChange={val => setMore(val)}
+          onChange={(val) => setMore(val)}
           onKeyDown={(e) => {
             if (e.key.toLocaleLowerCase() === 'enter') {
               handleSearch(selectedKeys, filterConfirm, dataKey);
@@ -255,7 +255,7 @@ const FilterDropdownNumber = (props: IFilterDropdownProps) => {
         <InputNumber
           size="small"
           value={less}
-          onChange={val => setLess(val)}
+          onChange={(val) => setLess(val)}
           onKeyDown={(e) => {
             if (e.key.toLocaleLowerCase() === 'enter') {
               handleSearch(selectedKeys, filterConfirm, dataKey);
@@ -290,7 +290,7 @@ const FilterDropdownInput = (props: IFilterDropdownProps) => {
       <Input
         placeholder={placeholder}
         value={selectedKeys[0]}
-        onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+        onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
         onPressEnter={() => handleSearch(selectedKeys, filterConfirm, dataKey)}
       />
       <div className="row button-wrap">
@@ -351,8 +351,8 @@ const FirstColTitle = ({ filterMap }: {filterMap: Record<string, any>}) => {
 interface IProps {
   list: ORG_MACHINE.IMachine[];
   isFetching: boolean;
-  gotoMachineMonitor(arg: any): void;
-  gotoMachineTasks(arg: any): void;
+  gotoMachineMonitor: (arg: any) => void;
+  gotoMachineTasks: (arg: any) => void;
 }
 
 const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching = false }: IProps) => {
@@ -364,7 +364,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
   const [curMachine, setCurMachine] = React.useState(null as any);
   const [curRecordID, setCurRecordID] = React.useState('');
   React.useEffect(() => {
-    const groupMachines = groupBy(list, item => item.status === 'normal');
+    const groupMachines = groupBy(list, (item) => item.status === 'normal');
     const { true: normalMachines, false: abnormalMachines } = groupMachines;
     const originData = (abnormalMachines || []).concat(normalMachines || []);
     const reData = originData.map((item) => {

@@ -19,13 +19,13 @@ import { Edit as IconEdit, Plus as IconPlus, Upload as IconUpload } from '@icon-
 
 interface IProps {
   title: React.ReactNode;
-  children: React.ReactNode
-  mode?: 'common' | 'add' | 'edit' | 'upload'
+  children: React.ReactNode;
+  mode?: 'common' | 'add' | 'edit' | 'upload';
   className?: string;
   append?: React.ReactNode;
   loading?: boolean;
 
-  onClick?(): void;
+  onClick?: () => void;
 }
 
 const noop = () => {};
@@ -40,12 +40,12 @@ const ContentPanel = ({ title, children, className = '', loading = false, append
   return (
     <div className={`content-panel ${className}`}>
       <Spin spinning={loading}>
-        <div className='flex-box title flex-start mb8'>
+        <div className="flex-box title flex-start mb8">
           <span>{title}</span>
           {mode !== 'common' ? <>{delimiter}{typeIcon[mode]}</> : null}
           {append ? <>{delimiter}{append}</> : null}
         </div>
-        <div className='content'>{children}</div>
+        <div className="content">{children}</div>
       </Spin>
     </div>
   );

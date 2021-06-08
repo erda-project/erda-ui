@@ -44,10 +44,10 @@ const VersionList = (props: IProps) => {
   const { artifacts } = props;
   const { id: artifactsId } = artifacts || {};
   const { getVersionList, setGrayAndPublish, getOnlineVersionData, getH5PackageNames } = publisherStore.effects;
-  const [list, paging, onlineVersionData] = publisherStore.useStore(s => [s.versionList, s.versionPaging, s.onlineVersionData]);
+  const [list, paging, onlineVersionData] = publisherStore.useStore((s) => [s.versionList, s.versionPaging, s.onlineVersionData]);
   const [isFetching] = useLoading(publisherStore, ['getVersionList']);
-  const publishOperationAuth = usePerm(s => s.org.publisher.operation.pass);
-  const { mode, publisherItemId } = routeInfoStore.useStore(s => s.params);
+  const publishOperationAuth = usePerm((s) => s.org.publisher.operation.pass);
+  const { mode, publisherItemId } = routeInfoStore.useStore((s) => s.params);
   const isMobile = mode === ArtifactsTypeMap.MOBILE.value;
   const [{ pageNo, formModalVis, h5packageNames, curPackageName, curMobileType, grayModalVisible, versionGrayData, uploadModalVisible }, updater] = useUpdate({
     pageNo: 1,
@@ -192,19 +192,19 @@ const VersionList = (props: IProps) => {
         isMobile && (
           <div className="flex-box">
             <Radio.Group
-              buttonStyle='solid'
-              className='mb16'
-              onChange={e => {
+              buttonStyle="solid"
+              className="mb16"
+              onChange={(e) => {
                 updater.curMobileType(e.target.value);
               }}
               value={curMobileType}
             >
-              <Radio.Button value='ios'>iOS</Radio.Button>
-              <Radio.Button value='android'>Android</Radio.Button>
+              <Radio.Button value="ios">iOS</Radio.Button>
+              <Radio.Button value="android">Android</Radio.Button>
               {
                 curPackageName ? (
                   <Dropdown overlay={(
-                    <Menu onClick={sel => {
+                    <Menu onClick={(sel) => {
                       updater.curMobileType('h5');
                       updater.curPackageName(sel.key);
                     }}
@@ -219,10 +219,10 @@ const VersionList = (props: IProps) => {
                     </Menu>
                     )}
                   >
-                    <Radio.Button value='h5'>H5{curPackageName ? `(${curPackageName})` : null} <CustomIcon style={{ lineHeight: 1 }} type="caret-down" /></Radio.Button>
+                    <Radio.Button value="h5">H5{curPackageName ? `(${curPackageName})` : null} <CustomIcon style={{ lineHeight: 1 }} type="caret-down" /></Radio.Button>
                   </Dropdown>
                 )
-                  : <Radio.Button value='h5'>H5</Radio.Button>
+                  : <Radio.Button value="h5">H5</Radio.Button>
               }
             </Radio.Group>
             <WithAuth pass={publishOperationAuth} disableMode>
@@ -269,10 +269,10 @@ const VersionList = (props: IProps) => {
                                   <>
                                     <Popover
                                       title={i18n.t('Supported iOS package versions')}
-                                      placement='bottom'
+                                      placement="bottom"
                                       content={(
                                         <div>
-                                          {map(_targetMobiles.ios, (n) => (<span className='tag-default mr4 mb4' key={n}>{n}</span>))}
+                                          {map(_targetMobiles.ios, (n) => (<span className="tag-default mr4 mb4" key={n}>{n}</span>))}
                                         </div>
                                       )}
                                     >
@@ -280,10 +280,10 @@ const VersionList = (props: IProps) => {
                                     </Popover>
                                     <Popover
                                       title={i18n.t('Supported Android package versions')}
-                                      placement='bottom'
+                                      placement="bottom"
                                       content={(
                                         <div>
-                                          {map(_targetMobiles.android, (n) => (<span className='tag-default mr4 mb4' key={n}>{n}</span>))}
+                                          {map(_targetMobiles.android, (n) => (<span className="tag-default mr4 mb4" key={n}>{n}</span>))}
                                         </div>
                                       )}
                                     >

@@ -28,16 +28,16 @@ interface IProps {
   searchOnce?: boolean;
   extraButton?: JSX.Element;
   CustomLogContent?: typeof React.Component;
-  onStartRolling(): void;
-  onGoToBottom(): void;
-  onCancelRolling(): void;
-  onGoToTop(): void;
-  onShowDownloadModal(): void;
-  transformContent?(): string;
+  onStartRolling: () => void;
+  onGoToBottom: () => void;
+  onCancelRolling: () => void;
+  onGoToTop: () => void;
+  onShowDownloadModal: () => void;
+  transformContent?: () => string;
 }
 
 interface IState {
-  fullScreen?: boolean,
+  fullScreen?: boolean;
 }
 export class LogRoller extends React.Component<IProps, IState> {
   prevDistanceToTop: number;
@@ -108,7 +108,7 @@ export class LogRoller extends React.Component<IProps, IState> {
       logContent = (
         <div className="log-content-wrap" onScroll={this.throttleScroll}>
           {
-            backwardLoading ? <IconLoading spin className="log-state top"/> : null
+            backwardLoading ? <IconLoading spin className="log-state top" /> : null
           }
           <div ref={(ref) => { this.preElm = ref; }} className="log-content"><ContentComp {...this.props} logs={content} transformContent={transformContent} /></div>
           {

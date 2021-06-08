@@ -38,7 +38,7 @@ export interface IPodDetail {
   instances?: IInstances[];
 }
 
-export const getPodDetail = (params: { name: string; timestamp: number; clusterName: string; }): IPodDetail => {
+export const getPodDetail = (params: { name: string; timestamp: number; clusterName: string }): IPodDetail => {
   return agent.get('/api/system/pod/metrics')
     .query(params)
     .then((response: any) => response.body);

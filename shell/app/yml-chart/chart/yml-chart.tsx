@@ -22,15 +22,15 @@ import './yml-chart.scss';
 export interface IData {
   [externalKey]: {
     nodeType: string;
-  }
+  };
 }
 
 interface IChartConfig {
   NODE?: {
-    [pro: string]: {WIDTH: number; HEIGHT: number}
-  },
-  MARGIN?: {X: number, Y: number};
-  PADDING?: {X: number, Y: number};
+    [pro: string]: {WIDTH: number; HEIGHT: number};
+  };
+  MARGIN?: {X: number; Y: number};
+  PADDING?: {X: number; Y: number};
 }
 
 interface IProps{
@@ -116,7 +116,7 @@ export const YmlChart = (props: IProps) => {
         editing,
         ...rest,
         ...external,
-      }
+      },
     );
     const curBox = boxRef.current as any;
     curBox.style.width = `${chartWidth}px`;

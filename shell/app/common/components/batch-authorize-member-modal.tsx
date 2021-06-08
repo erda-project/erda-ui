@@ -21,8 +21,8 @@ import appMemberStore from 'common/stores/application-member';
 import { getApps } from 'common/services';
 
 interface IProps {
-  projectId: string
-  [k: string]: any
+  projectId: string;
+  [k: string]: any;
 }
 
 export const BatchAuthorizeMemberModal = ({
@@ -30,7 +30,7 @@ export const BatchAuthorizeMemberModal = ({
   ...rest
 }: IProps) => {
   const { getRoleMap } = appMemberStore.effects;
-  const roleMap = appMemberStore.useStore(s => s.roleMap);
+  const roleMap = appMemberStore.useStore((s) => s.roleMap);
 
   useMount(() => getRoleMap({ scopeType: MemberScope.APP }));
 
@@ -50,7 +50,7 @@ export const BatchAuthorizeMemberModal = ({
           mode="multiple"
           placeholder={i18n.t('project:please select application')}
           extraQuery={{ projectId }}
-          dataFormatter={({ list, total }: { list: any[], total: number }) => ({
+          dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
             total,
             list: map(list, (application) => {
               const { name, id } = application;

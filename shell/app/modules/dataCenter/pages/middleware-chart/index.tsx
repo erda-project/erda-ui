@@ -22,8 +22,8 @@ import routeInfoStore from 'app/common/stores/route';
 import middlewareChartStore from '../../stores/middleware-chart';
 
 const MiddlewareChart = () => {
-  const { addon_id, timestamp, cluster_name } = routeInfoStore.useStore(s => s.query);
-  const [containerChartMetas, middlewareChartMetas] = middlewareChartStore.useStore(s => [s.containerChartMetas, s.middlewareChartMetas]);
+  const { addon_id, timestamp, cluster_name } = routeInfoStore.useStore((s) => s.query);
+  const [containerChartMetas, middlewareChartMetas] = middlewareChartStore.useStore((s) => [s.containerChartMetas, s.middlewareChartMetas]);
   const { getChartMeta, getContainerChart } = middlewareChartStore.effects;
   const [loading] = useLoading(middlewareChartStore, ['getChartMeta']);
   const timestampMap = React.useMemo(() => {
@@ -81,7 +81,7 @@ const MiddlewareChart = () => {
           });
         });
         const yAxisLength = yAxis.length;
-        const formatTime = time.map(t => moment(t).format('MM-DD HH:mm'));
+        const formatTime = time.map((t) => moment(t).format('MM-DD HH:mm'));
         return { xData: formatTime, metricData, yAxisLength, xAxisIsTime: true };
       },
     },

@@ -30,8 +30,8 @@ import { usePerm } from 'app/user/common';
 import ScanRule from 'project/common/components/scan-rule';
 
 const ProjectSettings = () => {
-  const { projectId } = routeInfoStore.useStore(s => s.params);
-  const permMap = usePerm(s => s.project);
+  const { projectId } = routeInfoStore.useStore((s) => s.params);
+  const permMap = usePerm((s) => s.project);
 
   const dataSource = [
     {
@@ -90,7 +90,7 @@ const ProjectSettings = () => {
               sectionList={[{
                 title: i18n.t('project:branch rule'),
                 desc: i18n.t('project:branch-config-tip'),
-                children: <BranchRule operationAuth={permMap.setting.branchRule.operation.pass} scopeId={+projectId} scopeType='project' />,
+                children: <BranchRule operationAuth={permMap.setting.branchRule.operation.pass} scopeId={+projectId} scopeType="project" />,
               }]}
             />
           ),
@@ -106,7 +106,7 @@ const ProjectSettings = () => {
                 children: <ScanRule
                   operationAuth={permMap.setting.scanRule.operation.pass}
                   scopeId={projectId}
-                  scopeType='project'
+                  scopeType="project"
                 />,
               }]}
             />

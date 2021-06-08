@@ -28,8 +28,8 @@ interface IProps{
   status: string;
   getList: (arg: object) => Promise<DEPLOY.IDeploy>;
   clearList: () => void;
-  cancelDeployment?: (arg: {runtimeId:number}) => Promise<any>;
-  updateApproval?:(arg:object) => Promise<any>;
+  cancelDeployment?: (arg: {runtimeId: number}) => Promise<any>;
+  updateApproval?: (arg: object) => Promise<any>;
   list: DEPLOY.IDeploy[];
   paging: IPaging;
   isFetching: boolean;
@@ -64,7 +64,7 @@ const fields = [
 
 const PureDeployList = (props: IProps) => {
   const { list, paging, getList, clearList, type, status, isFetching, updateApproval } = props;
-  const userMap = userMapStore.useStore(s => s);
+  const userMap = userMapStore.useStore((s) => s);
 
   useEffectOnce(() => {
     return () => {
@@ -92,7 +92,7 @@ const PureDeployList = (props: IProps) => {
       title: i18n.t('project/application/branch'),
       dataIndex: 'projectName',
       width: 240,
-      render: (projectName:string, record:any) => {
+      render: (projectName: string, record: any) => {
         const mainInfo = `${projectName}/${record.applicationName}/${record.branchName}`;
         return (
           <Tooltip title={mainInfo}>
@@ -156,7 +156,7 @@ const PureDeployList = (props: IProps) => {
       pending: {
         title: i18n.t('operate'),
         key: 'operation',
-        render: (_:any, record: DEPLOY.IDeploy) => {
+        render: (_: any, record: DEPLOY.IDeploy) => {
           return (
             <div className="table-operations">
               <Popconfirm
@@ -192,7 +192,7 @@ const PureDeployList = (props: IProps) => {
       Reject: {
         title: i18n.t('application:reason for rejection'),
         dataIndex: 'approvalReason',
-        render: (approvalReason:string) => {
+        render: (approvalReason: string) => {
           return (
             <Tooltip title={approvalReason}>
               {approvalReason}
@@ -251,7 +251,7 @@ const PureDeployList = (props: IProps) => {
       <CustomFilter onSubmit={onSubmit} onReset={onReset} config={filterConfig} isConnectQuery />
       <Spin spinning={isFetching}>
         <Table
-          rowKey='id'
+          rowKey="id"
           columns={columns}
           dataSource={list}
           pagination={paging ? autoPagination(paging) : false}

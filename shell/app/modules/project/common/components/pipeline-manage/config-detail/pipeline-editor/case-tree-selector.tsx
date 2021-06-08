@@ -27,7 +27,7 @@ import i18n from 'i18n';
 export interface IProps {
   nodeData: any;
   editing?: boolean;
-  onChange: (arg: any)=> void;
+  onChange: (arg: any) => void;
   closeDrawer: () => void;
   curCaseId: string;
   otherTaskAlias?: string[];
@@ -55,7 +55,7 @@ const useableScopeMap = {
 
 const getParams = (data: AUTO_TEST.ISnippetDetailRes) => {
   let params = [] as PIPELINE.IPipelineInParams[];
-  map(data, item => {
+  map(data, (item) => {
     if (!isEmpty(item.params)) {
       params = params.concat(item.params);
     }
@@ -73,8 +73,8 @@ const filterNull = (data: Obj) => {
   return res;
 };
 
-const convertTreeData = (data:AUTO_TEST.ICaseDetail[]) => {
-  return map(data, item => {
+const convertTreeData = (data: AUTO_TEST.ICaseDetail[]) => {
+  return map(data, (item) => {
     return {
       ...item,
       key: item.inode,
@@ -91,7 +91,7 @@ const convertTreeData = (data:AUTO_TEST.ICaseDetail[]) => {
 
 export const CaseTreeSelector = (props: IProps) => {
   const { onChange: propsOnChange, nodeData, closeDrawer, editing = false, curCaseId, otherTaskAlias = [], scope } = props;
-  const projectId = routeInfoStore.getState(s => s.params.projectId);
+  const projectId = routeInfoStore.getState((s) => s.params.projectId);
   const useableScope = useableScopeMap[scope];
   const formRef = React.useRef(null as any);
 
@@ -115,7 +115,7 @@ export const CaseTreeSelector = (props: IProps) => {
   const [{ value, chosenCase, fields, formValue, searchValue, dataList, chosenType }, updater, update] = useUpdate({
     value: undefined as any,
     chosenCase: _curCase.chosenCase as any,
-    fields: []as PIPELINE.IPipelineInParams[],
+    fields: [] as PIPELINE.IPipelineInParams[],
     formValue: undefined as any,
     searchValue: undefined as undefined | string,
     dataList: [] as any[],
@@ -167,7 +167,7 @@ export const CaseTreeSelector = (props: IProps) => {
               },
               rules: [
                 {
-                  validator: (v:string) => {
+                  validator: (v: string) => {
                     return [!otherTaskAlias.includes(v), i18n.t('{name} already exist', { name: i18n.t('name') })];
                   },
                 },
@@ -185,7 +185,7 @@ export const CaseTreeSelector = (props: IProps) => {
                 component: 'custom',
                 getComp: () => {
                   return (
-                    <div className='bold-500 border-bottom'>
+                    <div className="bold-500 border-bottom">
                       {i18n.t('project:node params')}
                     </div>
                   );
@@ -241,12 +241,12 @@ export const CaseTreeSelector = (props: IProps) => {
 
   const onLoadData = (treeNode?: any) => {
     const pinode = get(treeNode, 'props.id') || '0';// 根目录为0
-    return (getCategoryByIdNew({ pinode, scopeID: projectId, scope: chosenType })as unknown as Promise<any>).then((res: any) => {
+    return (getCategoryByIdNew({ pinode, scopeID: projectId, scope: chosenType }) as unknown as Promise<any>).then((res: any) => {
       const _list = convertTreeData(res.data);
       const allList = pinode === '0' ? [..._list] : [...dataList, ..._list];
 
-      const folders = allList.filter(node => !node.isLeaf);
-      const files = allList.filter(node => node.isLeaf);
+      const folders = allList.filter((node) => !node.isLeaf);
+      const files = allList.filter((node) => node.isLeaf);
       const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
 
       folders.sort((x, y) => collator.compare(x.title, y.title));
@@ -259,7 +259,7 @@ export const CaseTreeSelector = (props: IProps) => {
   const onChange = (chosenOne: any, _: any, extra: any) => {
     const chosenId = chosenOne.value;
     const curScope = get(extra, 'triggerNode.props.scope');
-    chosenId && curScope && (getTreeNodeDetailNew({ id: chosenId, scope: curScope, scopeID: projectId })as unknown as Promise<any>).then((res:any) => {
+    chosenId && curScope && (getTreeNodeDetailNew({ id: chosenId, scope: curScope, scopeID: projectId }) as unknown as Promise<any>).then((res: any) => {
       const node = res.data as AUTO_TEST.ICaseDetail;
       const snippet_config = get(node, 'meta.snippetAction.snippet_config') || {};
       if (isEmpty(snippet_config)) { // 没有snippet_config，为无效用例，不可引用
@@ -282,8 +282,8 @@ export const CaseTreeSelector = (props: IProps) => {
 
   const search = React.useCallback(debounce((q?: string) => {
     if (q) {
-      (fuzzySearchNew({ fuzzy: q, scopeID: projectId, scope: chosenType, recursive: true })as unknown as Promise<any>).then((res:any) => {
-        updater.dataList(filter(convertTreeData(res.data), item => item.isLeaf));
+      (fuzzySearchNew({ fuzzy: q, scopeID: projectId, scope: chosenType, recursive: true }) as unknown as Promise<any>).then((res: any) => {
+        updater.dataList(filter(convertTreeData(res.data), (item) => item.isLeaf));
       });
     } else {
       updater.dataList([]);
@@ -311,19 +311,19 @@ export const CaseTreeSelector = (props: IProps) => {
     }
   }, [chosenCase, updater]);
   return (
-    <div className='full-height auto-test-tree-selector'>
+    <div className="full-height auto-test-tree-selector">
 
       {
         isEmpty(useableScope) ? null : (
           <>
-            <div className='pb8 color-text-desc'>{i18n.t('please select {name}', { name: i18n.t('type') })}</div>
-            <Select value={chosenType} onChange={changeType} className='full-width'>
-              {map(useableScope, item => <Option key={item.scope} value={item.scope}>{item.name}</Option>)}
+            <div className="pb8 color-text-desc">{i18n.t('please select {name}', { name: i18n.t('type') })}</div>
+            <Select value={chosenType} onChange={changeType} className="full-width">
+              {map(useableScope, (item) => <Option key={item.scope} value={item.scope}>{item.name}</Option>)}
             </Select>
           </>
         )
       }
-      <div className='py8 color-text-desc'>{i18n.t('please select {name}', { name: i18n.t('node') })}</div>
+      <div className="py8 color-text-desc">{i18n.t('please select {name}', { name: i18n.t('node') })}</div>
       <TreeSelect
         searchValue={searchValue}
         showSearch
@@ -332,18 +332,18 @@ export const CaseTreeSelector = (props: IProps) => {
         onSearch={onSearch}
         treeDataSimpleMode
         filterTreeNode={false}
-        className='full-width mb16'
+        className="full-width mb16"
         value={value}
         dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
         placeholder={i18n.t('please select')}
         disabled={!editing}
         onChange={onChange}
         loadData={onLoadData}
-        treeData={map(dataList, item => ({ ...item, disabled: (item.isLeaf && item.inode === curCaseId) ? true : item.disabled }))}
+        treeData={map(dataList, (item) => ({ ...item, disabled: (item.isLeaf && item.inode === curCaseId) ? true : item.disabled }))}
       />
       {
         !isEmpty(fields) ? (
-          <div className='mb12'>
+          <div className="mb12">
             <Form
               fields={fields}
               value={formValue}
@@ -354,9 +354,9 @@ export const CaseTreeSelector = (props: IProps) => {
       }
       {
         editing ? (
-          <div className='footer'>
-            <Button onClick={closeDrawer} className='mr8'>{i18n.t('cancel')}</Button>
-            <Button type='primary' disabled={isEmpty(chosenCase)} onClick={() => onSubmit()}>{i18n.t('save')}</Button>
+          <div className="footer">
+            <Button onClick={closeDrawer} className="mr8">{i18n.t('cancel')}</Button>
+            <Button type="primary" disabled={isEmpty(chosenCase)} onClick={() => onSubmit()}>{i18n.t('save')}</Button>
           </div>
         ) : null
       }

@@ -21,10 +21,10 @@ import { getJoinedApps } from 'user/services/user';
 import { getReleaseList } from 'application/services/release';
 
 interface IProps {
-  visible: boolean,
-  artifacts:PUBLISHER.IArtifacts;
-  onCancel(): void,
-  afterSubmit?(): any,
+  visible: boolean;
+  artifacts: PUBLISHER.IArtifacts;
+  onCancel: () => void;
+  afterSubmit?: () => any;
 }
 
 const VersionFormModal = ({
@@ -44,7 +44,7 @@ const VersionFormModal = ({
     }
   }, [visible]);
 
-  const handelSubmit = (data:any) => {
+  const handelSubmit = (data: any) => {
     onCancel();
     const { releaseId } = data;
     addVersion({ artifactsId: artifacts.id, releaseId, version: chosenVersion }).then(() => {
@@ -71,7 +71,7 @@ const VersionFormModal = ({
         return (
           <LoadMoreSelector
             getData={getData}
-            dataFormatter={({ list, total }: { list: any[], total: number }) => ({
+            dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
               total,
               list: map(list, (app) => {
                 const { name, id, projectName, projectId } = app;
@@ -104,7 +104,7 @@ const VersionFormModal = ({
           <LoadMoreSelector
             getData={getArtifacts}
             extraQuery={{ applicationId: chosenApp }}
-            dataFormatter={({ list, total }: { list: any[], total: number }) => ({
+            dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
               total,
               list: map(list, (release) => {
                 const { releaseId, version } = release;

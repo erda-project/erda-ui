@@ -31,7 +31,7 @@ interface IState {
   spanDetail: {
     visible: boolean;
     span: any;
-  }
+  };
 }
 
 const initState = {

@@ -19,8 +19,8 @@ import testCaseStore from 'project/stores/test-case';
 import { CheckboxChangeEvent } from 'core/common/interface';
 
 interface IProps {
-  id: number | string
-  mode: TEST_CASE.PageScope
+  id: number | string;
+  mode: TEST_CASE.PageScope;
 }
 
 const getCaseCheckedStatus = (id: any, { isAll, exclude, primaryKeys }: TEST_CASE.ChoosenInfo) => {
@@ -31,7 +31,7 @@ const getCaseCheckedStatus = (id: any, { isAll, exclude, primaryKeys }: TEST_CAS
 };
 
 const CaseCheckBox = ({ mode, id }: IProps) => {
-  const [choosenInfo, modalChoosenInfo] = testCaseStore.useStore(s => [s.choosenInfo, s.modalChoosenInfo]);
+  const [choosenInfo, modalChoosenInfo] = testCaseStore.useStore((s) => [s.choosenInfo, s.modalChoosenInfo]);
   const { updateChoosenInfo } = testCaseStore.reducers;
   const info = getChoosenInfo(choosenInfo, modalChoosenInfo, mode);
   const checked = getCaseCheckedStatus(id, info);
@@ -40,7 +40,7 @@ const CaseCheckBox = ({ mode, id }: IProps) => {
       onClick={(e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation();
       }}
-      onChange={(e:CheckboxChangeEvent) => {
+      onChange={(e: CheckboxChangeEvent) => {
         updateChoosenInfo({ id, mode, checked: e.target.checked });
       }}
       checked={checked}

@@ -32,10 +32,10 @@ const typeMap = {
   file: 'dice-file',
 };
 interface IProps {
-  visible: boolean,
-  formData: PIPELINE_CONFIG.ConfigItem | null,
-  onOk(data: any, isAdd: boolean): any,
-  onCancel(): void,
+  visible: boolean;
+  formData: PIPELINE_CONFIG.ConfigItem | null;
+  onOk: (data: any, isAdd: boolean) => any;
+  onCancel: () => void;
 }
 export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps) => {
   const [{ type, uploadFile, uploading }, updater, _, reset] = useUpdate({

@@ -147,7 +147,7 @@ export default ({ scopeType }: { scopeType: string }) => {
 
     const { functions } = rules[0];
     update({
-      editingFields: map(functions, item => {
+      editingFields: map(functions, (item) => {
         const aggregations = get(types[get(fieldsMap[item.field], 'type')], 'aggregations');
         return {
           ...item,
@@ -166,7 +166,7 @@ export default ({ scopeType }: { scopeType: string }) => {
     const { window, metric: _metric, filters: _filters, group, activedMetricGroups } = rules[0];
     const { title, content, targets } = notifies[0];
     update({
-      editingFilters: map(_filters, item => ({ ...item, uniKey: uniqueId() })),
+      editingFilters: map(_filters, (item) => ({ ...item, uniKey: uniqueId() })),
       activedFormData: {
         id,
         name,
@@ -179,7 +179,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         notify: {
           title,
           content,
-          targets: filter(targets, target => target !== 'ticket'),
+          targets: filter(targets, (target) => target !== 'ticket'),
         },
       },
       selectedMetric: _metric,
@@ -231,7 +231,7 @@ export default ({ scopeType }: { scopeType: string }) => {
               size="small"
               defaultChecked={record.enable}
               loading={switchCustomAlarmLoading}
-              onChange={checked => switchCustomAlarm({ id: record.id, enable: checked })}
+              onChange={(checked) => switchCustomAlarm({ id: record.id, enable: checked })}
             />
           </div>
         );
@@ -247,7 +247,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         <Select
           defaultValue={value}
           className="full-width"
-          onSelect={tag => {
+          onSelect={(tag) => {
             handleEditEditingFilters(uniKey, [
               { key: 'tag', value: tag },
               { key: 'value', value: undefined },
@@ -265,7 +265,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         <Select
           defaultValue={value}
           className="full-width"
-          onSelect={operator => { handleEditEditingFilters(uniKey, [{ key: 'operator', value: operator }]); }}
+          onSelect={(operator) => { handleEditEditingFilters(uniKey, [{ key: 'operator', value: operator }]); }}
         >
           {map(filters, ({ operation, name }) => <Select.Option key={operation}>{name}</Select.Option>)}
         </Select>
@@ -367,7 +367,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         <Select
           defaultValue={value}
           className="full-width"
-          onSelect={operator => { handleEditEditingFields(uniKey, [{ key: 'operator', value: operator }]); }}
+          onSelect={(operator) => { handleEditEditingFields(uniKey, [{ key: 'operator', value: operator }]); }}
         >
           {map(get(types[aggregatorType], 'operations'), ({ operation, name }) => <Select.Option key={operation}>{name}</Select.Option>)}
         </Select>
@@ -481,7 +481,7 @@ export default ({ scopeType }: { scopeType: string }) => {
     ]);
   };
 
-  const editRule = (rules: any, uniKey: any, items: Array<{ key: string; value: any; }>) => {
+  const editRule = (rules: any, uniKey: any, items: Array<{ key: string; value: any }>) => {
     if (!uniKey) return;
     const _rules = cloneDeep(rules);
     const rule = find(_rules, { uniKey });
@@ -510,22 +510,22 @@ export default ({ scopeType }: { scopeType: string }) => {
     });
   };
 
-  const handleEditEditingFilters = (uniKey: any, items: Array<{ key: string; value: any; }>) => {
+  const handleEditEditingFilters = (uniKey: any, items: Array<{ key: string; value: any }>) => {
     updater.editingFilters(editRule(editingFilters, uniKey, items));
   };
 
-  const handleEditEditingFields = (uniKey: any, items: Array<{ key: string; value: any; }>) => {
+  const handleEditEditingFields = (uniKey: any, items: Array<{ key: string; value: any }>) => {
     updater.editingFields(editRule(editingFields, uniKey, items));
   };
 
   const debounceEditEditingFields = debounce(handleEditEditingFields, 500);
 
   const handleRemoveEditingFilter = (uniKey: string) => {
-    updater.editingFilters(filter(editingFilters, item => item.uniKey !== uniKey));
+    updater.editingFilters(filter(editingFilters, (item) => item.uniKey !== uniKey));
   };
 
   const handleRemoveEditingField = (uniKey: string) => {
-    updater.editingFields(filter(editingFields, item => item.uniKey !== uniKey));
+    updater.editingFields(filter(editingFields, (item) => item.uniKey !== uniKey));
   };
 
   const extraKeys = ['uniKey', 'aggregations', 'aggregatorType'];
@@ -536,7 +536,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         ...rule,
         metric: selectedMetric,
         functions: [omit(find(editingFields, { uniKey }), extraKeys)],
-        filters: map(editingFilters, item => omit(item, extraKeys)),
+        filters: map(editingFilters, (item) => omit(item, extraKeys)),
       }],
     };
     updater.previewerKey(uniKey);
@@ -577,7 +577,7 @@ export default ({ scopeType }: { scopeType: string }) => {
   };
 
   const someValueEmpty = (data: any[], key: string) => {
-    return some(data, item => isEmpty(toString(item[key])));
+    return some(data, (item) => isEmpty(toString(item[key])));
   };
 
   const beforeSubmit = (data: any) => {
@@ -606,15 +606,15 @@ export default ({ scopeType }: { scopeType: string }) => {
     });
   };
 
-  const handleUpdateCustomAlarm = (value: { name: string; rule: any; notify: any; }) => {
+  const handleUpdateCustomAlarm = (value: { name: string; rule: any; notify: any }) => {
     const _notify = merge({}, value.notify, { targets: [...(value.notify.targets || []), 'ticket'] });
     const payload = {
       name: value.name,
       rules: [{
         ...value.rule,
         metric: selectedMetric,
-        functions: map(editingFields, item => omit(item, extraKeys)),
-        filters: map(editingFilters, item => omit(item, extraKeys)),
+        functions: map(editingFields, (item) => omit(item, extraKeys)),
+        filters: map(editingFilters, (item) => omit(item, extraKeys)),
       }],
       notifies: [_notify],
     };
@@ -662,6 +662,11 @@ export default ({ scopeType }: { scopeType: string }) => {
           placeholder: i18n.t('org:please select index group'),
           onChange: (v: any) => {
             getMetaData({ groupId: v[v.length - 1] }).then(() => {
+              form.setFieldsValue({
+                rule: {
+                  group: undefined,
+                },
+              });
               update({
                 editingFilters: [],
                 editingFields: [],
@@ -745,7 +750,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         required: false,
         options: map(
           filter(customAlarmTargets, ({ key }) => key !== 'ticket'),
-          ({ key, display }) => ({ value: key, name: display })
+          ({ key, display }) => ({ value: key, name: display }),
         ),
         itemProps: {
           mode: 'multiple',
@@ -780,7 +785,7 @@ export default ({ scopeType }: { scopeType: string }) => {
               onBlur={(value) => {
                 form.setFieldsValue({ 'notify.content': value });
               }}
-              defaultMode='md'
+              defaultMode="md"
               placeholder={i18n.t('org:reference model sample input')}
               maxLength={512}
             />

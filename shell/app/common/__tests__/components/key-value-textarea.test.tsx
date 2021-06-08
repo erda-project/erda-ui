@@ -52,7 +52,7 @@ describe('KeyValueTextArea', () => {
         data={data}
         maxLength={10}
         existKeys={['type']}
-      />
+      />,
     );
     const editor = wrapper.find('KeyValueTextArea');
     expect(editor.instance().getTextData()).toBe(data);

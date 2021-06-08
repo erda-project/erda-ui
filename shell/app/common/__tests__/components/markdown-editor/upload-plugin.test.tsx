@@ -30,14 +30,14 @@ describe('UploadPlugin', () => {
         editor={{
           insertText: fn,
         }}
-      />
+      />,
     );
 
     const content = temp.find('Popover').prop('content');
     const wrapper = mount(
       <div>
         {content}
-      </div>
+      </div>,
     );
     const fileChangeData = {
       success: true,

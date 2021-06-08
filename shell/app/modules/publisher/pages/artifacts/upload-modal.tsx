@@ -28,15 +28,15 @@ import { Upload as IconUpload } from '@icon-park/react';
 
 export interface IProps{
   visible: boolean;
-  onCancel():void
-  afterUpload(type: PUBLISHER.OfflinePackageType):void;
+  onCancel: () => void;
+  afterUpload: (type: PUBLISHER.OfflinePackageType) => void;
 }
 
 const UploadModal = (props: IProps) => {
   const { visible, onCancel, afterUpload } = props;
   const [uploadFile, setUploadFile] = React.useState('');
   const File = React.useRef<File>();
-  const { publisherItemId } = routeInfoStore.useStore(s => s.params);
+  const { publisherItemId } = routeInfoStore.useStore((s) => s.params);
   const { uploadOfflinePackage } = publisherStore.effects;
   const [isLoading] = useLoading(publisherStore, ['uploadOfflinePackage']);
 
@@ -57,7 +57,7 @@ const UploadModal = (props: IProps) => {
     handleCancel();
     afterUpload(res);
   };
-  const fieldsList:IFormItem[] = [{
+  const fieldsList: IFormItem[] = [{
     label: i18n.t('file'),
     name: 'file',
     required: true,

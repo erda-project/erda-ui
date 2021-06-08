@@ -17,10 +17,10 @@ import { cutStr } from 'common/utils';
 import './tags-column.scss';
 
 export interface IProps {
-  labels: Array<{label:string, color: keyof typeof TagColorMap}>,
-  showCount?: number,
-  containerClassName?: string,
-  size?: 'small' | 'default',
+  labels: Array<{label: string; color: keyof typeof TagColorMap}>;
+  showCount?: number;
+  containerClassName?: string;
+  size?: 'small' | 'default';
 }
 
 export const TagColorMap = {
@@ -36,7 +36,7 @@ export const TagColorMap = {
 export const TagsColumn = ({ labels, showCount = 3, containerClassName = '', size = 'small' }: IProps) => {
   const showMore = labels.length > showCount;
 
-  const fullTags = (withCut?: boolean) => labels.map(l => (
+  const fullTags = (withCut?: boolean) => labels.map((l) => (
     <span className={`tag-default twt-tag-item ${size} ${TagColorMap[l.color || 'gray'] || 'gray'}`} key={l.label}>
       {withCut ? cutStr(l.label, 15) : l.label}
     </span>
@@ -45,7 +45,7 @@ export const TagsColumn = ({ labels, showCount = 3, containerClassName = '', siz
   const oneAndMoreTag = (
     <React.Fragment>
       {
-        labels.slice(0, showCount).map(l => (
+        labels.slice(0, showCount).map((l) => (
           <span key={l.label} className={`tag-default colorful-light-bg twt-tag-item ${size} ${TagColorMap[l.color || 'gray'] || 'gray'}`} >
             {cutStr(l.label, 15)}
           </span>
@@ -62,7 +62,7 @@ export const TagsColumn = ({ labels, showCount = 3, containerClassName = '', siz
               <span>...&nbsp;&nbsp;</span>
             </Tooltip>
           :
-          labels.slice(showCount).map(l => (
+          labels.slice(showCount).map((l) => (
             <span key={l.label} className={`tag-default colorful-light-bg twt-tag-item ${size} ${TagColorMap[l.color || 'gray'] || 'gray'}`} >
               {cutStr(l.label, 15)}
             </span>

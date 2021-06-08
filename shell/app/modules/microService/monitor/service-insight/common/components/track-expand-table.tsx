@@ -23,12 +23,12 @@ interface IProps {
   dataSource: Obj<MONITOR_SI.ITableData[]>;
   columns?: any[];
   emptyText: string;
-  viewLog(params: any): void;
-  fetchTraceContent(params: any): void;
+  viewLog: (params: any) => void;
+  fetchTraceContent: (params: any) => void;
 }
 
 export const TraceExpandTable = ({ recordKey, dataSource, columns, viewLog, fetchTraceContent, emptyText }: IProps) => {
-  const applicationId = routeInfoStore.useStore(s => s.params.applicationId);
+  const applicationId = routeInfoStore.useStore((s) => s.params.applicationId);
   let subDataSource = get(dataSource, recordKey);
 
   subDataSource = map(subDataSource, (item) => {

@@ -61,7 +61,7 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
       key: 'memory',
       width: 125,
       sorter: (a, b) => Number(a.memory) - Number(b.memory),
-      render: size => getFormatter('STORAGE', 'MB').format(size),
+      render: (size) => getFormatter('STORAGE', 'MB').format(size),
     },
   ];
 
@@ -127,7 +127,7 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
       key: 'memory',
       width: 125,
       sorter: (a, b) => Number(a.memory) - Number(b.memory),
-      render: size => getFormatter('STORAGE', 'MB').format(size),
+      render: (size) => getFormatter('STORAGE', 'MB').format(size),
     };
   }
   return (

@@ -21,8 +21,8 @@ import './overview.scss';
 
 
 const Overview = () => {
-  const baseInfo = SICommonStore.useStore(s => s.baseInfo);
-  const serviceName = routeInfoStore.useStore(s => s.params.serviceName);
+  const baseInfo = SICommonStore.useStore((s) => s.baseInfo);
+  const serviceName = routeInfoStore.useStore((s) => s.params.serviceName);
   const { applicationId, terminusKey, runtimeName } = baseInfo;
   const query = {
     filter_target_runtime_name: runtimeName,

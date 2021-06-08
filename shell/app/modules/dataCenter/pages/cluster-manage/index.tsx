@@ -25,7 +25,7 @@ import clusterStore from '../../stores/cluster';
 import { ClusterLog } from './cluster-log';
 
 const ClusterManage = () => {
-  const list = clusterStore.useStore(s => s.list);
+  const list = clusterStore.useStore((s) => s.list);
   const { addCluster, updateCluster, getClusterList } = clusterStore.effects;
   const [loading] = useLoading(clusterStore, ['getClusterList']);
   const [{ addModalVis,
@@ -61,7 +61,7 @@ const ClusterManage = () => {
   const toggleTypeModalVis = () => {
     updater.typeSelectorVis(!typeSelectorVis);
   };
-  const handleSelectType = (addType:string) => {
+  const handleSelectType = (addType: string) => {
     if (['k8s', 'edas', 'dcos'].includes(addType)) { // 导入集群
       updater.addClusterType(addType);
       handleShowAddClusterModal();
@@ -92,11 +92,11 @@ const ClusterManage = () => {
       addCluster({ ...restData });
     }
   };
-  const handleAddAliCloudContainer = ({ recordID }:{recordID:string}) => {
+  const handleAddAliCloudContainer = ({ recordID }: {recordID: string}) => {
     updater.logRecordId(recordID);
     updater.aliCloudContainerFormVisible(false);
   };
-  const handleAddAliCloudErdc = ({ recordID }:{recordID:string}) => {
+  const handleAddAliCloudErdc = ({ recordID }: {recordID: string}) => {
     updater.logRecordId(recordID);
     updater.aliCloudErdcFormVisible(false);
   };

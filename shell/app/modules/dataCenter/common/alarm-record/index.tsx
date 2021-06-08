@@ -45,10 +45,10 @@ const memberScopeMap = {
 
 export default ({ scope }: { scope: string }) => {
   const alarmRecordStore = storeMap[scope];
-  const [recordList, paging, alarmAttrs] = alarmRecordStore.useStore(s => [s.recordList, s.recordListPaging, s.alarmAttrs]);
+  const [recordList, paging, alarmAttrs] = alarmRecordStore.useStore((s) => [s.recordList, s.recordListPaging, s.alarmAttrs]);
   const { getAlarmRecordList, getAlarmAttrs } = alarmRecordStore;
-  const userMap = userMapStore.useStore(s => s);
-  const params = routeInfoStore.useStore(s => s.params);
+  const userMap = userMapStore.useStore((s) => s);
+  const params = routeInfoStore.useStore((s) => s.params);
 
   const [loading] = useLoading(alarmRecordStore, ['getAlarmRecordList']);
   useMount(() => { getAlarmAttrs(); });
@@ -67,7 +67,7 @@ export default ({ scope }: { scope: string }) => {
       title: i18n.t('org:alarm status'),
       dataIndex: 'alertState',
       width: 120,
-      render: alertState => <AlarmState state={alertState} />,
+      render: (alertState) => <AlarmState state={alertState} />,
     },
     {
       title: i18n.t('org:alarm type'),
@@ -78,19 +78,19 @@ export default ({ scope }: { scope: string }) => {
       title: i18n.t('org:alarm time'),
       dataIndex: 'alertTime',
       width: 180,
-      render: alertTime => moment(alertTime).format('YYYY-MM-DD HH:mm:ss'),
+      render: (alertTime) => moment(alertTime).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: i18n.t('org:handle status'),
       dataIndex: 'handleState',
       width: 100,
-      render: handleState => (handleState ? <IssueState state={handleState} /> : '--'),
+      render: (handleState) => (handleState ? <IssueState state={handleState} /> : '--'),
     },
     {
       title: i18n.t('org:handle people'),
       dataIndex: 'handlerId',
       width: 120,
-      render: handlerId => {
+      render: (handlerId) => {
         const userInfo = userMap[handlerId];
         if (!userInfo) return '--';
         const { nick, name } = userInfo;
@@ -101,7 +101,7 @@ export default ({ scope }: { scope: string }) => {
       title: i18n.t('org:handle time'),
       dataIndex: 'handleTime',
       width: 180,
-      render: handleTime => (handleTime ? moment(handleTime).format('YYYY-MM-DD HH:mm:ss') : '--'),
+      render: (handleTime) => (handleTime ? moment(handleTime).format('YYYY-MM-DD HH:mm:ss') : '--'),
     },
   ];
 
@@ -149,8 +149,8 @@ export default ({ scope }: { scope: string }) => {
     <>
       <CustomFilter onReset={onReset} onSubmit={onSubmit} config={filterConfig} isConnectQuery />
       <Table
-        tableKey='alarm-record'
-        rowKey={r => r.groupId}
+        tableKey="alarm-record"
+        rowKey={(r) => r.groupId}
         dataSource={recordList}
         loading={loading}
         columns={columns}

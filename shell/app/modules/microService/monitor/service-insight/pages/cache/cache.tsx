@@ -21,8 +21,8 @@ import SICommonStore from '../../stores/common';
 
 
 const Cache = () => {
-  const chosenSortItem = monitorCommonStore.useStore(s => s.chosenSortItem);
-  const baseInfo = SICommonStore.useStore(s => s.baseInfo);
+  const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
+  const baseInfo = SICommonStore.useStore((s) => s.baseInfo);
   const { filterQuery, shouldLoad }: any = getFilterParams({ baseInfo } as any, { prefix: 'filter_source_' });
   const chartQuery = chosenSortItem ? { ...filterQuery, filter_db_statement: chosenSortItem } : { ...filterQuery };
   return (

@@ -30,10 +30,10 @@ import LogAnalyzeStore from '../../stores/log-analyze';
 
 export default () => {
   const formRef = React.useRef(null as any);
-  const [templates, curRule] = LogAnalyzeStore.useStore(s => [s.templates, s.curRule]);
+  const [templates, curRule] = LogAnalyzeStore.useStore((s) => [s.templates, s.curRule]);
   const { getRuleTemplates, getRuleTemplate, getRule, createRule, editRule, testRule, clearCurRule } = LogAnalyzeStore;
   const [testRuleLoading, getRuleLoading, createRuleLoading, editRuleLoading] = useLoading(LogAnalyzeStore, ['testRule', 'getRule', 'createRule', 'editRule']);
-  const { params, query } = routeInfoStore.useStore(s => s);
+  const { params, query } = routeInfoStore.useStore((s) => s);
   const [processors, setProcessors] = React.useState<LOG_ANALYZE.Processor[]>([]);
   const isEditRule = !!params.ruleId;
   const pageSource = query.source;
@@ -70,9 +70,9 @@ export default () => {
     },
   ]), [templates, testRuleLoading]);
 
-  components.forEach(item => registComponent(item));
+  components.forEach((item) => registComponent(item));
 
-  const convertFilters = (filters: Array<{ key: string; value: string;}>) => {
+  const convertFilters = (filters: Array<{ key: string; value: string}>) => {
     return map(filters, ({ key, value }) => `${key}=${value}`);
   };
 
@@ -120,7 +120,7 @@ export default () => {
     let initialCurExtractResult = [] as any;
     const ids = regString.match(/\((.*?)\)/g);
     if (!isEmpty(ids)) {
-      initialCurExtractResult = map(ids, id => ({
+      initialCurExtractResult = map(ids, (id) => ({
         id,
         uniId: uniqueId(),
         key: undefined,
@@ -137,7 +137,7 @@ export default () => {
     clearCurRule();
   };
 
-  const editCurExtractResult = React.useCallback((beforeExtractResult, uniId: string, item: { key: string; value: any; }) => {
+  const editCurExtractResult = React.useCallback((beforeExtractResult, uniId: string, item: { key: string; value: any }) => {
     const results = cloneDeep(beforeExtractResult);
     const result = find(results, { uniId });
     const index = findIndex(results, { uniId });
@@ -159,7 +159,7 @@ export default () => {
         return;
       }
       const keys = get(processors[0], 'config.keys');
-      if (!every(keys, key => !!key.key)) {
+      if (!every(keys, (key) => !!key.key)) {
         message.warning(i18n.t('all key is required'));
         return;
       }
@@ -167,7 +167,7 @@ export default () => {
         content,
         name,
         processors,
-      }).then(result => {
+      }).then((result) => {
         const resultData = map(result, (value, key) => ({
           value,
           key,
@@ -278,7 +278,7 @@ export default () => {
       key: 'processors[0].config.keys',
       type: 'extractResultTable',
       componentProps: {
-        onChange: (value: any, uniId: string, item: { key: string; value: any; }) => editCurExtractResult(value, uniId, item),
+        onChange: (value: any, uniId: string, item: { key: string; value: any }) => editCurExtractResult(value, uniId, item),
       },
       category: 'extract',
     },
@@ -323,14 +323,14 @@ export default () => {
       }
       const { name, filters } = values;
       const keys = get(processors[0], 'config.keys');
-      if (!every(keys, key => !!key.key)) {
+      if (!every(keys, (key) => !!key.key)) {
         message.warning(i18n.t('all key is required'));
         return;
       }
-      const legalFilters = filter(filters, item => item.includes('='));
+      const legalFilters = filter(filters, (item) => item.includes('='));
       const payload = {
         name,
-        filters: map(legalFilters, item => {
+        filters: map(legalFilters, (item) => {
           const [key, value] = item.split('=');
           return { key, value };
         }),

@@ -57,7 +57,7 @@ export const updateIssue = ({ customUrl, ...form }: ISSUE.Issue) => {
 export const updateType = (payload: ISSUE.IUpdateIssueTypeQuery) => {
   return agent.put('/api/issues/actions/update-issue-type')
     .send(payload)
-    .then((response:any) => response.body);
+    .then((response: any) => response.body);
 };
 
 export const deleteIssue = (id: number) => {
@@ -83,7 +83,7 @@ export const addIssueRelation = (payload: ISSUE.ICreateRelationBody) => {
     .then((response: any) => response.body);
 };
 
-export const deleteIssueRelation = ({ id, relatedIssueID }: {id: number, relatedIssueID: number}) => {
+export const deleteIssueRelation = ({ id, relatedIssueID }: {id: number; relatedIssueID: number}) => {
   return agent.delete(`/api/issues/${id}/relations/${relatedIssueID}`)
     .then((response: any) => response.body);
 };
@@ -104,7 +104,7 @@ export const getFieldsByIssue = (payload: ISSUE.IFiledQuery) => {
     .then((response: any) => response.body);
 };
 
-export function importFileInIssues({ payload, query }:any): {successCount: number} {
+export function importFileInIssues({ payload, query }: any): {successCount: number} {
   return agent.post('/api/issues/actions/import-excel')
     .query(query)
     .send(payload)

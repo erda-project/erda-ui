@@ -13,8 +13,8 @@
 
 declare namespace MIDDLEWARE_DASHBOARD {
   interface IMiddlewaresQuery {
-    pageNo?: number,
-    pageSize?: number,
+    pageNo?: number;
+    pageSize?: number;
     workspace?: string;
     addonName?: string;
     projectId?: number;
@@ -57,7 +57,7 @@ declare namespace MIDDLEWARE_DASHBOARD {
     workspace: string;
     status: string;
     attachCount: number;
-    config: { [k: string]: string; };
+    config: { [k: string]: string };
     referenceInfos: ADDON.Reference[];
     cluster: string;
     createdAt: string;
@@ -83,24 +83,24 @@ declare namespace MIDDLEWARE_DASHBOARD {
   }
 
   interface AddonUsageQuery {
-    projectId?: string
-    addonName?: string
-    workspace?: string
+    projectId?: string;
+    addonName?: string;
+    workspace?: string;
   }
 
   interface AddonUsage {
     [k: string]: {
-      cpu: number
-      mem: number
-    }
+      cpu: number;
+      mem: number;
+    };
   }
 
   interface AddonDailyUsage {
-    abscissa: string[]
+    abscissa: string[];
     resource: Array<{
-      cpu: number
-      mem: number
-    }>
+      cpu: number;
+      mem: number;
+    }>;
   }
 
   interface IScaleData {
@@ -125,7 +125,7 @@ declare namespace MIDDLEWARE_DASHBOARD {
   }
 
   interface IBackupFiles extends IMiddleBase {
-    backupfile: string[]
+    backupfile: string[];
   }
 
   interface IUpdateBackup extends IMiddleBase{
@@ -137,14 +137,14 @@ declare namespace MIDDLEWARE_DASHBOARD {
 
   interface IUpdateConfig extends IMiddleBase {
     config: {
-      [key: string]: string | boolean | number
-    }
+      [key: string]: string | boolean | number;
+    };
   }
 
   interface IActionsConfig {
     config: {
-      [key: string]: string | boolean | number
-    },
+      [key: string]: string | boolean | number;
+    };
     cpu: number;
     mem: number;
     nodes: number;
@@ -156,9 +156,9 @@ declare namespace MIDDLEWARE_DASHBOARD {
     restoreStatus: string;
   }
   interface LeftResources {
-    totalCpu: number
-    totalMem: number
-    availableCpu: number,
-    availableMem: number
+    totalCpu: number;
+    totalMem: number;
+    availableCpu: number;
+    availableMem: number;
   }
 }

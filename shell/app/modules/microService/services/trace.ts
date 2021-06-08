@@ -32,7 +32,7 @@ export const getSpanDetailContent = ({ span, visible }: any) => {
   };
 };
 
-export const getTraceDetailContent = ({ requestId, terminusKey }: { requestId: string, terminusKey: string }) => {
+export const getTraceDetailContent = ({ requestId, terminusKey }: { requestId: string; terminusKey: string }) => {
   return agent.get(`/api/spot/trace/${requestId}`)
     .query({ terminusKey })
     .then((response: any) => response.body);

@@ -20,12 +20,12 @@ import routeInfoStore from 'common/stores/route';
 
 interface IProps extends IExtraProps {
   pageConfig: CONFIG_PAGE.PageConfig;
-  customProps?: Obj
+  customProps?: Obj;
 }
 
 interface IExtraProps {
-  execOperation: (cId: string, opObj: { key: string, [p: string]: any }, updateState?: { dataKey: string; dataVal: Obj }, extraUpdateInfo?: Obj) => void;
-  changeScenario: (s: { scenarioKey: string; scenarioType: string, inParams?: Obj }) => void;
+  execOperation: (cId: string, opObj: { key: string; [p: string]: any }, updateState?: { dataKey: string; dataVal: Obj }, extraUpdateInfo?: Obj) => void;
+  changeScenario: (s: { scenarioKey: string; scenarioType: string; inParams?: Obj }) => void;
   updateState: (dataKey: string, val: Obj) => void;
 }
 
@@ -34,7 +34,7 @@ const ConfigPageRender = (props: IProps) => {
   const { pageConfig, customProps, execOperation, changeScenario, updateState } = props;
   const { hierarchy, components = emptyObj } = pageConfig || {};
   const [componentsKey, setComponentsKey] = React.useState([] as string[]);
-  const routeParams = routeInfoStore.useStore(s => s.params);
+  const routeParams = routeInfoStore.useStore((s) => s.params);
   const containerMapRef = React.useRef(null as any);
 
   React.useEffect(() => {
@@ -68,7 +68,7 @@ const ConfigPageRender = (props: IProps) => {
         ? [op.fillMeta, { ...val }]
         : [[op.fillMeta], { [op.fillMeta]: val }];
 
-      map(fillAttrs, attr => {
+      map(fillAttrs, (attr) => {
         set(op, `meta.${attr}`, attrVals[attr]);
       });
     }
@@ -77,8 +77,8 @@ const ConfigPageRender = (props: IProps) => {
         const { key, state, target, jumpOut } = op.command;
         if (key === 'goto' && target) {
           const { params, query } = state || {};
-          const str_num_params = pickBy({ ...(val || {}), ...params }, v => ['string', 'number'].includes(typeof v));
-          const str_num_query = pickBy(query, v => ['string', 'number'].includes(typeof v));
+          const str_num_params = pickBy({ ...(val || {}), ...params }, (v) => ['string', 'number'].includes(typeof v));
+          const str_num_query = pickBy(query, (v) => ['string', 'number'].includes(typeof v));
           goTo(goTo.pages[target] || target, { ...routeParams, ...str_num_params, jumpOut, query: str_num_query });
           return;
         } else if (key === 'changeScenario') {
@@ -88,7 +88,7 @@ const ConfigPageRender = (props: IProps) => {
         return execOperation(
           _cId,
           op,
-          { dataKey: `${compPrefixKey}.${target}.state`, dataVal: state }
+          { dataKey: `${compPrefixKey}.${target}.state`, dataVal: state },
         );
       }
       return;
@@ -128,7 +128,7 @@ const ConfigPageRender = (props: IProps) => {
         map(structureItem, (vKey, pKey) => {
           if (isArray(vKey)) {
             p[pKey] = [];
-            map(vKey, vItem => {
+            map(vKey, (vItem) => {
               p[pKey].push(renderComp(vItem));
             });
           } else {

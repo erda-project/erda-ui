@@ -20,10 +20,10 @@ import DelayMap from './config/chartMap';
 import gatewayStore from 'microService/stores/gateway';
 
 const APIDelay = () => {
-  const { clusterName } = gatewayStore.useStore(s => s.consumer);
+  const { clusterName } = gatewayStore.useStore((s) => s.consumer);
   const { getConsumer } = gatewayStore.effects;
-  const { projectId, env } = routeInfoStore.useStore(s => s.params);
-  const searchFields = apiMonitorFilterStore.useStore(s => s.searchFields);
+  const { projectId, env } = routeInfoStore.useStore((s) => s.params);
+  const searchFields = apiMonitorFilterStore.useStore((s) => s.searchFields);
   const { resetSearchFields } = apiMonitorFilterStore.reducers;
   const { getSearchFields } = apiMonitorFilterStore.effects;
   const filter_dpid = projectId;

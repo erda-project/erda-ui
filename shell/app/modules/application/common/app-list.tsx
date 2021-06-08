@@ -28,7 +28,7 @@ import './app-list.scss';
 const { Search } = Input;
 
 const Mapper = () => {
-  const [list, appPaging] = userStore.useStore(s => [s.appList, s.appPaging]);
+  const [list, appPaging] = userStore.useStore((s) => [s.appList, s.appPaging]);
   const [userLoading] = useLoading(userStore, ['getJoinedApps']);
   const { getJoinedApps } = userStore.effects;
   const { clearAppList } = userStore.reducers;
@@ -42,8 +42,8 @@ const Mapper = () => {
 };
 
 interface IProps extends ReturnType<typeof Mapper> {
-  placeHolderMsg?: string
-  getList(p: any): Promise<any>
+  placeHolderMsg?: string;
+  getList: (p: any) => Promise<any>;
 }
 
 export const PureAppList = ({
@@ -56,7 +56,7 @@ export const PureAppList = ({
 }: IProps) => {
   const { pinApp, unpinApp } = userStore.effects;
   const [q, setQ] = React.useState('');
-  const params = routeInfoStore.useStore(s => s.params);
+  const params = routeInfoStore.useStore((s) => s.params);
 
   useUnmount(clearList);
 
@@ -119,7 +119,7 @@ export const PureAppList = ({
             <div className="item-desc nowrap">{item.desc || i18n.t('application:edit description in application setting')}</div>
             <div className="item-footer">
               <Tooltip title={`${i18n.t('application:own project')}: ${item.projectName}`}>
-                <span className="p-name hover-active" onClick={e => goToProject(item, e)}>
+                <span className="p-name hover-active" onClick={(e) => goToProject(item, e)}>
                   <CustomIcon type="xm-2" />
                   <span className="nowrap">{`${item.projectDisplayName}`}</span>
                 </span>
@@ -149,18 +149,18 @@ export const PureAppList = ({
                 </span>
               </span>
               <Tooltip title={i18n.t('application:application type')}>
-                <span><CustomIcon type="fenlei" /><span>{(modeOptions.find(mode => mode.value === item.mode) as { name: string }).name}</span></span>
+                <span><CustomIcon type="fenlei" /><span>{(modeOptions.find((mode) => mode.value === item.mode) as { name: string }).name}</span></span>
               </Tooltip>
-              <BlockNetworkStatus scope='app' canOperate={false} status={item.blockStatus} unBlockStart={item.unBlockStart} unBlockEnd={item.unBlockEnd} />
+              <BlockNetworkStatus scope="app" canOperate={false} status={item.blockStatus} unBlockStart={item.unBlockStart} unBlockEnd={item.unBlockEnd} />
             </div>
             <div className="to-top">
               <IF check={item.pined}>
                 <Tooltip title={i18n.t('application:cancel sticky')}>
-                  <span onClick={e => togglePin(e, item)}><CustomIcon type="qxzd" /></span>
+                  <span onClick={(e) => togglePin(e, item)}><CustomIcon type="qxzd" /></span>
                 </Tooltip>
                 <IF.ELSE />
                 <Tooltip title={i18n.t('application:sticky')}>
-                  <span onClick={e => togglePin(e, item)}><CustomIcon type="zd1" /></span>
+                  <span onClick={(e) => togglePin(e, item)}><CustomIcon type="zd1" /></span>
                 </Tooltip>
               </IF>
             </div>

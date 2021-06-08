@@ -16,7 +16,7 @@ import {
   Upload,
 } from 'app/nusi';
 import * as React from 'react';
-import { get } from 'lodash'
+import { get } from 'lodash';
 import { getLabel, noop } from './common';
 import { Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
@@ -62,11 +62,11 @@ export const FormUpload = ({
   const _placeholder = uploadText || '上传图片';
 
   const uploadButton = (
-    <div className='form-item-upload-button' >
-      <CustomIcon type='cir-add' className='fz20' />
+    <div className="form-item-upload-button" >
+      <CustomIcon type="cir-add" className="fz20" />
       <div>{_placeholder}</div>
     </div>
-  )
+  );
 
   function handleChange(info: any) {
     if (info.file.status === 'done') {
@@ -91,13 +91,13 @@ export const FormUpload = ({
       {...wrapperProps}
     >
       <Upload
-        listType='picture'
+        listType="picture"
         accept={accept}
         onChange={handleChange}
         {...getUploadProps({}, sizeLimit)}
       >
-        {imageUrl ? <img src={imageUrl} alt="avatar" className='form-item-upload-img' /> : uploadButton}
-        <div className='form-item-upload-tip'>支持格式: {supportFormat?.join(' / ')}，不超过 {sizeLimit} M</div>
+        {imageUrl ? <img src={imageUrl} alt="avatar" className="form-item-upload-img" /> : uploadButton}
+        <div className="form-item-upload-tip">支持格式: {supportFormat?.join(' / ')}，不超过 {sizeLimit} M</div>
       </Upload>
     </FormItem >
   );
@@ -106,7 +106,7 @@ export const FormUpload = ({
 export const config = {
   name: 'upload',
   Component: FormUpload, // 某React组件，props中必须有value、onChange
-  requiredCheck: value => {
+  requiredCheck: (value) => {
     // 必填校验时，特殊的校验规则
     return [value !== undefined && value !== '', i18n.t('can not be empty')];
   },
@@ -151,44 +151,44 @@ export const formConfig = {
             component: 'inputNumber',
           },
           {
-            label: "支持格式",
-            component: "select",
+            label: '支持格式',
+            component: 'select',
             required: true,
-            key: "componentProps.supportFormat",
+            key: 'componentProps.supportFormat',
             componentProps: {
-              mode: "multiple",
-              placeholder: "请选择支持格式",
+              mode: 'multiple',
+              placeholder: '请选择支持格式',
               options: [
                 {
-                  name: "png",
-                  desc: "",
-                  value: "png"
+                  name: 'png',
+                  desc: '',
+                  value: 'png',
                 },
                 {
-                  name: "jpg",
-                  desc: "",
-                  value: "jpg"
+                  name: 'jpg',
+                  desc: '',
+                  value: 'jpg',
                 },
                 {
-                  name: "jpeg",
-                  desc: "",
-                  value: "jpeg"
+                  name: 'jpeg',
+                  desc: '',
+                  value: 'jpeg',
                 },
                 {
-                  name: "gif",
-                  desc: "",
-                  value: "gif"
+                  name: 'gif',
+                  desc: '',
+                  value: 'gif',
                 },
                 {
-                  name: "bmp",
-                  desc: "",
-                  value: "bmp"
-                }
-              ]
+                  name: 'bmp',
+                  desc: '',
+                  value: 'bmp',
+                },
+              ],
             },
             dataSource: {
-              type: "static"
-            }
+              type: 'static',
+            },
           },
         ],
       },

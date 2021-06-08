@@ -19,7 +19,7 @@ import { Icon as CustomIcon } from 'common';
 import { Title as NusiTitle, Tooltip, Button, Popconfirm } from 'app/nusi';
 import { OperationAction } from 'config-page/utils';
 import imgMap from '../../img-map';
-import './title.scss'
+import './title.scss';
 
 const Title = (props: CP_TITLE.Props) => {
   const { props: configProps, execOperation } = props;
@@ -27,11 +27,11 @@ const Title = (props: CP_TITLE.Props) => {
 
   const titleComp = tips ? (
     <div className={`left-flex-box dice-cp-title-detail v-align ${size}`} >
-      {prefixIcon ? <CustomIcon type={prefixIcon} className='mr4 pre-icon' /> : null}
+      {prefixIcon ? <CustomIcon type={prefixIcon} className="mr4 pre-icon" /> : null}
       {prefixImg ? <img src={prefixImg.startsWith('/images') ? imgMap[prefixImg] : prefixImg} className={`${isCircle ? 'circle' : ''} pre-image`} /> : null}
       {title}
       <Tooltip title={tips}>
-        <CustomIcon type='help' className='ml4 fz14 pre-icon' />
+        <CustomIcon type="help" className="ml4 fz14 pre-icon" />
       </Tooltip>
       {
         subtitle ? <span className="subtitle">{subtitle}</span > : null
@@ -52,10 +52,10 @@ const Title = (props: CP_TITLE.Props) => {
     );
 
   const formatOperations = (operations || []).map((x, index) => {
-    const { text, visible, disabled, disabledTip, tooltip, confirm, reload, ...rest } = x?.props || {}
+    const { text, visible, disabled, disabledTip, tooltip, confirm, reload, ...rest } = x?.props || {};
 
     if (!visible) {
-      return { title: null }
+      return { title: null };
     }
 
     const onClick = () => {
@@ -65,7 +65,7 @@ const Title = (props: CP_TITLE.Props) => {
     };
 
     const buttonComp =
-      <OperationAction
+      (<OperationAction
         operation={{
           confirm,
           key: `${index}`,
@@ -75,25 +75,25 @@ const Title = (props: CP_TITLE.Props) => {
         }}
         onClick={onClick}
       >
-        <Button type='link' {...rest}>{text}</Button>
-      </OperationAction>
+        <Button type="link" {...rest}>{text}</Button>
+       </OperationAction>);
 
     const comp = (tooltip ?
-      <Tooltip key={`${index}`} title={tooltip}>
+      (<Tooltip key={`${index}`} title={tooltip}>
         {buttonComp}
-      </Tooltip> :
-      <React.Fragment key={`${index}`}>
+       </Tooltip>) :
+      (<React.Fragment key={`${index}`}>
         {buttonComp}
-      </React.Fragment >)
+       </React.Fragment >));
 
     return ({
-      title: comp
-    })
-  })
+      title: comp,
+    });
+  });
 
   return (
     visible ?
-      <div className='dice-cp-title'>
+      <div className="dice-cp-title">
         <NusiTitle
           title={titleComp}
           level={level}

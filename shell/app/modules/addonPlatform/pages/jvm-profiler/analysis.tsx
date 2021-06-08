@@ -27,13 +27,13 @@ export default () => {
     runningList,
     historyList,
     historyPaging,
-  ] = jvmStore.useStore(s => [
+  ] = jvmStore.useStore((s) => [
     s.services,
     s.runningList,
     s.historyList,
     s.historyPaging,
   ]);
-  const addonDetail = addonStore.useStore(s => s.addonDetail);
+  const addonDetail = addonStore.useStore((s) => s.addonDetail);
   // const loading = loadingStore.useSpace(jvmStore);
   const insId = addonDetail.realInstanceId;
   const runningTimer = React.useRef(-1);
@@ -87,7 +87,7 @@ export default () => {
   };
 
   const rollingState = React.useCallback((s) => {
-    jvmStore.getProfileStatus({ insId, profileId: s.id }).then(res => {
+    jvmStore.getProfileStatus({ insId, profileId: s.id }).then((res) => {
       switch (res.state) {
         case 'pending':
           pendingTimer.current = window.setTimeout(() => {
@@ -159,7 +159,7 @@ export default () => {
         dataIndex: 'createTime',
         key: 'createTime',
         width: 180,
-        render: v => formatTime(v, 'YYYY-MM-DD HH:mm:ss'),
+        render: (v) => formatTime(v, 'YYYY-MM-DD HH:mm:ss'),
       },
       isHistory
         ? {
@@ -167,13 +167,13 @@ export default () => {
           dataIndex: 'finishTime',
           key: 'finishTime',
           width: 180,
-          render: v => formatTime(v, 'YYYY-MM-DD HH:mm:ss'),
+          render: (v) => formatTime(v, 'YYYY-MM-DD HH:mm:ss'),
         }
         : {
           title: i18n.t('addonPlatform:started at'),
           key: 'startFrom',
           width: 120,
-          render: v => fromNow(v),
+          render: (v) => fromNow(v),
         },
       {
         title: i18n.t('operations'),

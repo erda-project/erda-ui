@@ -67,7 +67,7 @@ declare namespace MONITOR_SI {
     limit: number;
   }
   interface ITableData {
-    [pro: string]: any
+    [pro: string]: any;
     name: string;
     time: string;
     min: number;

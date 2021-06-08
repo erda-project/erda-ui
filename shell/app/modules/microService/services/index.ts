@@ -19,7 +19,7 @@ export const getMicroServiceProjectList = (): MS_INDEX.IMicroServiceProject[] =>
 };
 
 
-export const getMicroServiceMenuList = ({ tenantGroup, tenantId }: { tenantGroup: string, tenantId?: string }): MS_INDEX.IMicroServiceMenu[] => {
+export const getMicroServiceMenuList = ({ tenantGroup, tenantId }: { tenantGroup: string; tenantId?: string }): MS_INDEX.IMicroServiceMenu[] => {
   return agent.get(`/api/micro-service/menu/tenantGroup/${tenantGroup}`)
     .query({ tenantId })
     .then((response: any) => response.body);

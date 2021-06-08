@@ -19,7 +19,7 @@ import moment from 'moment';
 import testPlanStore from 'project/stores/test-plan';
 
 const NumberInfo = () => {
-  const planReport = testPlanStore.useStore(s => s.planReport);
+  const planReport = testPlanStore.useStore((s) => s.planReport);
   const { testPlan, relsCount, apiCount } = planReport;
   const data = React.useMemo(() => {
     const { startedAt, endedAt } = testPlan || {};
@@ -58,7 +58,7 @@ const NumberInfo = () => {
   return (
     <Row gutter={0} type="flex" justify="space-between" className="px16 py12 border-all">
       {
-        numInfo.map(info => (
+        numInfo.map((info) => (
           <Col span={4} key={info.label}>
             <div className="color-success fz20 text-center">{info.num || 0}</div>
             <div className="color-text-desc mt4 text-center">{info.label}</div>

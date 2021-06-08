@@ -35,8 +35,8 @@ export const caseStateMap = {
 
 interface IProps {
   isPlan?: boolean;
-  state: TEST_CASE.CaseResult | TEST_PLAN.PlanStatus,
-  onChange(k: string): any,
+  state: TEST_CASE.CaseResult | TEST_PLAN.PlanStatus;
+  onChange: (k: string) => any;
 }
 
 export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {

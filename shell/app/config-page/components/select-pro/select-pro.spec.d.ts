@@ -16,15 +16,15 @@
  */
 declare namespace CP_SELECT_PRO {
   interface Spec {
-    type: 'SelectPro',
-    operations: Obj<CP_COMMON.Operation>
+    type: 'SelectPro';
+    operations: Obj<CP_COMMON.Operation>;
     props: IProps;
     data: IData;
     state?: IState;
   }
 
   interface IData {
-    list: Obj[]
+    list: Obj[];
   }
 
   interface IState{

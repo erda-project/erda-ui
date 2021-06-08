@@ -87,11 +87,11 @@ export const componentFormConfig = {
 
 interface IRegisterFormProps {
   key: string;
-  componentConfig: {},
-  formConfig: {},
+  componentConfig: {};
+  formConfig: {};
 }
 export const registerFormComponent = (props: IRegisterFormProps[]) => {
-  map(props, item => {
+  map(props, (item) => {
     const { componentConfig, formConfig, key } = item;
     componentFormConfig[key] = { ...formConfig[key] };
     let curIndex = findIndex(components, { name: key });
@@ -103,5 +103,5 @@ export const registerFormComponent = (props: IRegisterFormProps[]) => {
 
 export const exceptField = (f: any[], exceptKeys: string | string[]) => {
   const _exceptKeys = isArray(exceptKeys) ? exceptKeys : [exceptKeys];
-  return filter(f, item => !_exceptKeys.includes(item.key));
+  return filter(f, (item) => !_exceptKeys.includes(item.key));
 };

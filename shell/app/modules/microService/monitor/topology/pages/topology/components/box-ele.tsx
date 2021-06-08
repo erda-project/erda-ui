@@ -21,7 +21,7 @@ interface IBoxEle{
     endX: number;
     startY: number;
     endY: number;
-  }
+  };
   name: string;
 }
 

@@ -30,7 +30,7 @@ export default () => {
     reportTaskRecords,
     reportTaskRecord,
     reportTaskRecordPaging,
-  ] = alarmReportStore.useStore(s => [
+  ] = alarmReportStore.useStore((s) => [
     s.reportTaskRecords,
     s.reportTaskRecord,
     s.reportTaskRecordPaging,
@@ -43,7 +43,7 @@ export default () => {
   const { clearReportTaskRecords, clearReportTaskRecord } = alarmReportStore.reducers;
   const [getReportTaskRecordsLoading, getReportTaskRecordLoading] = useLoading(alarmReportStore, ['getReportTaskRecords', 'getReportTaskRecord']);
   const { pageNo, pageSize, total } = reportTaskRecordPaging;
-  const { query } = routeInfoStore.getState(s => s);
+  const { query } = routeInfoStore.getState((s) => s);
   const [{ activedRecord }, updater] = useUpdate({
     activedRecord: query.recordId,
   });
@@ -64,7 +64,7 @@ export default () => {
       if (results[0].data.length > 1) {
         set(_item, 'view.staticData', {
           time,
-          metricData: map(results[0].data, itemData => values(itemData)[0]),
+          metricData: map(results[0].data, (itemData) => values(itemData)[0]),
         });
       } else {
         set(_item, 'view.staticData', {
@@ -136,7 +136,7 @@ export default () => {
           <RangePicker
             borderTime
             className="full-width"
-            onChange={dates => handleChange(pageNo, dates)}
+            onChange={(dates) => handleChange(pageNo, dates)}
             ranges={getTimeRanges()}
           />
         </div>
@@ -167,7 +167,7 @@ export default () => {
                 simple
                 defaultCurrent={1}
                 total={total}
-                onChange={no => handleChange(no)}
+                onChange={(no) => handleChange(no)}
               />
             </Holder>
           </Spin>

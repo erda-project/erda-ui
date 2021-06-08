@@ -18,7 +18,7 @@ import './page-container.scss';
 import './error-layout.scss';
 
 interface IProps {
-  layoutClass: string,
+  layoutClass: string;
   children: React.ReactChildren;
 }
 

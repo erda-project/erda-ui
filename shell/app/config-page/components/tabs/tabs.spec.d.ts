@@ -17,14 +17,14 @@ declare namespace CP_TABS {
     [pro: string]: any;
     key: string;
     name: string;
-    operations?: Obj<CP_COMMON.Operation>
+    operations?: Obj<CP_COMMON.Operation>;
   }
 
   interface Spec {
-    type: 'Tabs',
+    type: 'Tabs';
     state?: IState;
     props: IProps;
-    operations?: Obj<CP_COMMON.Operation>
+    operations?: Obj<CP_COMMON.Operation>;
   }
 
   interface IProps {
@@ -38,6 +38,6 @@ declare namespace CP_TABS {
 
   type Props = MakeProps<Spec> & {
     tabBarExtraContent?: React.ReactElement;
-    children?: React.ReactElement[]
+    children?: React.ReactElement[];
   };
 }

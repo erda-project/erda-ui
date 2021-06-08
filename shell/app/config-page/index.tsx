@@ -51,7 +51,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   });
   // 在非生产环境里，url中带useMock
   const useMockMark = forceMock || (unProduct && location.search.includes('useMock'));
-  const changeScenario = (s: { scenarioKey: string; scenarioType: string, inParams?: Obj }) => {
+  const changeScenario = (s: { scenarioKey: string; scenarioType: string; inParams?: Obj }) => {
     const { scenarioType: newType, scenarioKey: newKey, inParams: newInParams } = s;
     newKey && queryPageConfig({
       scenario: {
@@ -145,7 +145,7 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     updateConfig ? updateConfig(newConfig) : updater.pageConfig(newConfig);
   };
 
-  const execOperation = (cId: string, op: { key: string, reload?: boolean; partial?: boolean; }, updateInfo?: { dataKey: string, dataVal: Obj }, extraUpdateInfo?: Obj) => {
+  const execOperation = (cId: string, op: { key: string; reload?: boolean; partial?: boolean }, updateInfo?: { dataKey: string; dataVal: Obj }, extraUpdateInfo?: Obj) => {
     const { key, reload = false, partial, ..._rest } = op;
     onExecOp && onExecOp({ cId, op, reload, updateInfo });
     if (reload) { // 需要请求后端接口
@@ -205,13 +205,13 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
       />
     );
   }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    , [pageProtocol]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  , [pageProtocol]);
 
   return (
-    <div className='full-height'>
+    <div className="full-height">
       <div className={`page-config-spin ${showLoading && fetching ? 'spinning' : ''} `}>
-        <Spin spinning={(showLoading && fetching)} wrapperClassName='full-spin-height' />
+        <Spin spinning={(showLoading && fetching)} wrapperClassName="full-spin-height" />
       </div>
       {Content}
     </div>
