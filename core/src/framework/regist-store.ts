@@ -15,7 +15,6 @@ import { listenRoute } from '../stores/route';
 import { CubeState } from 'cube-state/dist/typings';
 import { registerWSHandler } from '../utils/ws';
 
-
 export const registStore = (store: CubeState.StoreItem) => {
   if (typeof store.subscriptions === 'function') {
     store.subscriptions({

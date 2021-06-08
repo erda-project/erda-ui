@@ -23,7 +23,6 @@ import antd_enUS from 'antd/es/locale-provider/en_US';
 import antd4_zhCN from 'antd-latest/es/locale-provider/zh_CN';
 import antd4_enUS from 'antd-latest/es/locale-provider/en_US';
 
-
 let userLanguage = window.navigator.userLanguage || window.navigator.language;
 userLanguage = userLanguage === 'zh-CN' ? 'zh' : 'en';
 
@@ -54,13 +53,11 @@ document.body.lang = currentLocale.key;
 export function setLocale(lng: string) {
   const localeObj = localeMap[lng] || localeMap[defaultLocale];
   moment.locale(localeObj.moment);
-  return i18n
-    .changeLanguage(lng.split('-')[0])
-    .then(() => {
-      currentLocale = localeObj;
-      window.localStorage.setItem('locale', currentLocale.key);
-      return currentLocale;
-    });
+  return i18n.changeLanguage(lng.split('-')[0]).then(() => {
+    currentLocale = localeObj;
+    window.localStorage.setItem('locale', currentLocale.key);
+    return currentLocale;
+  });
 }
 
 export function getCurrentLocale() {

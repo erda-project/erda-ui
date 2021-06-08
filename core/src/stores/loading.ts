@@ -13,7 +13,6 @@
 
 import { createStore, use } from 'cube';
 
-
 const loadingStore = createStore({
   name: 'loading',
   state: {} as Record<string, Record<string, boolean>>,
@@ -27,7 +26,7 @@ const loadingStore = createStore({
 
 export type ValueOf<T extends Record<string, any>, K> = K extends keyof T ? T[K] : never;
 export type EffectKeys<T> = {
-  [K in keyof T]: boolean
+  [K in keyof T]: boolean;
 };
 
 export type EKs<T> = keyof EffectKeys<ValueOf<T, 'effects'> | ValueOf<T, '_effects'>>;

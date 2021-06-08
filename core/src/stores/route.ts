@@ -16,7 +16,6 @@ import { parse } from 'query-string';
 import pathToRegexp from 'path-to-regexp';
 import { on, emit } from '../utils/event-hub';
 
-
 interface IRouteInfo {
   routes: SHELL.Route[];
   params: {
@@ -104,7 +103,8 @@ const routeInfoStore = createStore({
 
         if (match) {
           keys.forEach((k, j) => {
-            if (k.name !== 0) { // 移除 * 号匹配时的0字段
+            if (k.name !== 0) {
+              // 移除 * 号匹配时的0字段
               params[k.name] = match[j + 1];
             }
           });
@@ -156,6 +156,5 @@ export const listenRoute = (cb: Function) => {
   cb(routeInfoStore.getState((s) => s));
   on('@routeChange', cb);
 };
-
 
 export default routeInfoStore;

@@ -40,11 +40,7 @@ const App = () => {
     return null;
   }
 
-  return (
-    <Router history={browserHistory}>
-      {renderRoutes([route])}
-    </Router>
-  );
+  return <Router history={browserHistory}>{renderRoutes([route])}</Router>;
 };
 
 export const startApp = () => {

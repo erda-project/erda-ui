@@ -14,15 +14,13 @@
 import cube from 'cube-state';
 import { getConfig } from './config';
 
-
 const defaultPaging = {
   pageNo: 1,
   pageSize: 15,
   total: 0,
 };
 
-
-const noop = () => { };
+const noop = () => {};
 const { createStore, createFlatStore, use, storeMap } = cube({
   singleton: true,
   extendEffect({ update, select }) {
@@ -59,14 +57,14 @@ const { createStore, createFlatStore, use, storeMap } = cube({
               data.list = data.list || [];
               const currentPageNo = pageNoKey ? _payload[pageNoKey] : _payload.pageNo;
               const hasMore = Math.ceil(data.total / _payload.pageSize) > currentPageNo;
-              update({ [pagingKey]: { pageSize: _payload.pageSize, total: data.total, hasMore, pageNo: currentPageNo } });
+              update({
+                [pagingKey]: { pageSize: _payload.pageSize, total: data.total, hasMore, pageNo: currentPageNo },
+              });
             }
           } else {
             (getConfig('onAPIFail') || noop)('error', err.msg || errorMsg);
           }
-          return fullResult
-            ? result
-            : data === undefined ? {} : data;
+          return fullResult ? result : data === undefined ? {} : data;
         } else {
           if (process.env.NODE_ENV !== 'production') {
             // eslint-disable-next-line no-console
