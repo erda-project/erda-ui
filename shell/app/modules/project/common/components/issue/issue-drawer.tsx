@@ -35,7 +35,7 @@ interface IProps {
   subDrawer?: JSX.Element | null;
   confirmCloseTip?: string;
   maskClosable?: boolean;
-  data: DrawerData;
+  data: CreateDrawerData;
   onClose: (e: any) => void;
   onDelete?: () => void;
   handleCopy?: (isCopy: boolean, copyTitle: string) => void;
@@ -69,7 +69,7 @@ export const IssueDrawer = (props: IProps) => {
   const preData = preDataRef.current;
 
   React.useEffect(() => {
-    const isIssueDrawerChanged = (initData: DrawerData, currentData: DrawerData) => {
+    const isIssueDrawerChanged = (initData: CreateDrawerData, currentData: CreateDrawerData) => {
       setIsChanged(false);
 
       Object.keys(currentData).forEach((key) => {

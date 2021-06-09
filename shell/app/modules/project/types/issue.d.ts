@@ -237,7 +237,7 @@ declare namespace ISSUE {
   }
 }
 
-interface DrawerData {
+interface CreateDrawerData {
   [k: string]: any;
   assignee: string;
   bugStage: string;
@@ -247,4 +247,8 @@ interface DrawerData {
   planFinishedAt: string;
   severity: 'FATAL' | 'SERIOUS' | 'NORMAL' | 'SLIGHT' | 'SUGGEST';
   taskType: string;
+  title: string;
+  content: string;
+  issueManHour: {estimateTime: number, remainingTime: number};
+  label: string[];
 }
