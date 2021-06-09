@@ -57,7 +57,7 @@ interface IFilterItemProps {
   value: any;
   active: boolean;
   onVisibleChange: (visible: boolean) => void;
-  onChange: (data: { key: string; value: any }) => void;
+  onChange: (data: { key: string; value: any }, extra?: { forceChange?: boolean }) => void;
   onQuickSelect: (data: { key: string; value: any }) => void;
 }
 
@@ -78,18 +78,25 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
   const [inputVal, setInputVal] = React.useState(value);
   // const inputRef = React.useRef(null);
 
+  const debouncedChange = React.useRef(debounce(onChange, 500));
+
+  useUpdateEffect(() => {
+    debouncedChange?.current({ key, value: inputVal }, { forceChange: true });
+  }, [inputVal]);
+
   if (type === 'input') {
     return (
       <Input
         // autoFocus // 默认全部展示，不需要自动获取焦点
         value={inputVal}
         size="small"
+        allowClear
         // ref={inputRef}
         prefix={<CustomIcon type="search" />}
         placeholder={placeholder || i18n.t('press enter to search')}
         // onPressEnter={() => inputRef.current?.blur()}
         onChange={(e) => setInputVal(e.target.value)}
-        onPressEnter={() => onChange({ key, value: inputVal })}
+        // onPressEnter={() => onChange({ key, value: inputVal })}
       />
     );
   }
@@ -400,7 +407,8 @@ export const ContractiveFilter = ({ initValue, values, conditions: propsConditio
     return () => document.body.removeEventListener('click', handleCloseDropdown);
   }, []);
 
-  const handelItemChange = (vals: { key: string; value: any } | Obj, batchChange = false) => {
+  const handelItemChange = (vals: { key: string; value: any } | Obj, extra?: { batchChange?: boolean; forceChange?: boolean }) => {
+    const { batchChange = false, forceChange = false } = extra || {};
     let curValueMap = { ...valueMap };
     if (batchChange) {
       setValueMap((prev) => {
@@ -420,7 +428,7 @@ export const ContractiveFilter = ({ initValue, values, conditions: propsConditio
       });
       curValueMap = { ...curValueMap, [key]: value };
     }
-    if (delay) {
+    if (delay && !forceChange) {
       debouncedChange.current(curValueMap);
     } else {
       onChange(curValueMap);
@@ -443,7 +451,7 @@ export const ContractiveFilter = ({ initValue, values, conditions: propsConditio
         newValueMap[_k] = undefined;
       }
     });
-    handelItemChange(newValueMap, true);
+    handelItemChange(newValueMap, { batchChange: true });
   };
 
   const showList = sortBy(conditions.filter((a) => {
