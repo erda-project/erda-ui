@@ -30,10 +30,15 @@ import { authenticationMap } from 'apiManagePlatform/pages/access-manage/compone
 import { HTTP_METHODS } from 'app/modules/apiManagePlatform/pages/api-market/components/config';
 import { convertToOpenApi2 } from 'apiManagePlatform/pages/api-market/detail/components/api-preview-3.0';
 
-type ApiData = Merge<OpenAPI.Document, {basePath: string}>;
-type ApiMapItem = Merge<OpenAPI.Operation, {_method: string; _path: string}>;
-interface TagMap {[key: string]: ApiMapItem[]}
-interface AutoInfo {clientID: string; clientSecret: string}
+type ApiData = Merge<OpenAPI.Document, { basePath: string }>;
+type ApiMapItem = Merge<OpenAPI.Operation, { _method: string; _path: string }>;
+interface TagMap {
+  [key: string]: ApiMapItem[];
+}
+interface AutoInfo {
+  clientID: string;
+  clientSecret: string;
+}
 interface IProps {
   deprecated: boolean;
   specProtocol: API_MARKET.SpecProtocol;
@@ -50,7 +55,10 @@ interface IState {
 
 const ApiView = ({ dataSource, onChangeVersion, deprecated, specProtocol }: IProps) => {
   const params = routeInfoStore.useStore((s) => s.params);
-  const [hasAccess, accessDetail] = apiMarketStore.useStore((s) => [s.assetVersionDetail.hasAccess, s.assetVersionDetail.access]);
+  const [hasAccess, accessDetail] = apiMarketStore.useStore((s) => [
+    s.assetVersionDetail.hasAccess,
+    s.assetVersionDetail.access,
+  ]);
   const [{ apiData, currentApi, testModalVisible, authModal, authed }, updater, update] = useUpdate<IState>({
     apiData: {},
     currentApi: '',
@@ -60,13 +68,17 @@ const ApiView = ({ dataSource, onChangeVersion, deprecated, specProtocol }: IPro
   });
   React.useEffect(() => {
     if (dataSource.spec) {
-      SwaggerParser.dereference(cloneDeep(dataSource.spec), {}, (err: Error| null, data: OpenAPI.Document| undefined) => {
-        if (err) {
-          message.error(i18n.t('default:API description document parsing failed'));
-          throw err;
-        }
-        updater.apiData((data || {}) as ApiData);
-      });
+      SwaggerParser.dereference(
+        cloneDeep(dataSource.spec),
+        {},
+        (err: Error | null, data: OpenAPI.Document | undefined) => {
+          if (err) {
+            message.error(i18n.t('default:API description document parsing failed'));
+            throw err;
+          }
+          updater.apiData((data || {}) as ApiData);
+        },
+      );
     }
     return () => {
       updater.apiData({} as ApiData);
@@ -89,16 +101,19 @@ const ApiView = ({ dataSource, onChangeVersion, deprecated, specProtocol }: IPro
       sessionStorage.removeItem(`asset-${params.assetID}`);
     };
   }, [params.assetID]);
-  const fullingUrl = React.useCallback((path: string) => {
-    let url = path;
-    if (apiData.basePath && !['', '/'].includes(apiData.basePath)) {
-      url = apiData.basePath + path;
-    }
-    return url;
-  }, [apiData.basePath]);
+  const fullingUrl = React.useCallback(
+    (path: string) => {
+      let url = path;
+      if (apiData.basePath && !['', '/'].includes(apiData.basePath)) {
+        url = apiData.basePath + path;
+      }
+      return url;
+    },
+    [apiData.basePath],
+  );
   const [tagMap, apiMap] = React.useMemo(() => {
     const _tagMap = {} as TagMap;
-    const _apiMap = {} as {[K: string]: ApiMapItem};
+    const _apiMap = {} as { [K: string]: ApiMapItem };
     if (isEmpty(apiData.paths)) {
       return [{}, {}];
     }
@@ -107,7 +122,10 @@ const ApiView = ({ dataSource, onChangeVersion, deprecated, specProtocol }: IPro
       const httpRequests = pick(methodMap, HTTP_METHODS);
       const restParams = omit(methodMap, HTTP_METHODS);
       map(httpRequests, (api, method) => {
-        const parameters = uniqWith([...api.parameters || []].concat(restParams.parameters || []), (a, b) => a.in === b.in && a.name === b.name);
+        const parameters = uniqWith(
+          [...(api.parameters || [])].concat(restParams.parameters || []),
+          (a, b) => a.in === b.in && a.name === b.name,
+        );
         const item: ApiMapItem = {
           _method: method,
           _path,
@@ -115,7 +133,7 @@ const ApiView = ({ dataSource, onChangeVersion, deprecated, specProtocol }: IPro
           ...restParams,
           parameters,
         };
-        map((api.tags || ['OTHER']), (tagName) => {
+        map(api.tags || ['OTHER'], (tagName) => {
           if (_tagMap[tagName]) {
             _tagMap[tagName].push(item);
           } else {
@@ -129,9 +147,12 @@ const ApiView = ({ dataSource, onChangeVersion, deprecated, specProtocol }: IPro
     return [_tagMap, _apiMap];
   }, [apiData.paths, fullingUrl]);
 
-  const handleChange = React.useCallback((key: string) => {
-    updater.currentApi(key);
-  }, [updater]);
+  const handleChange = React.useCallback(
+    (key: string) => {
+      updater.currentApi(key);
+    },
+    [updater],
+  );
   const handleShowTest = () => {
     if (!authed) {
       message.error(i18n.t('please authenticate first'));
@@ -153,18 +174,30 @@ const ApiView = ({ dataSource, onChangeVersion, deprecated, specProtocol }: IPro
     <>
       <Button onClick={handleShowTest}>{i18n.t('test')}</Button>
       {
-        <Button className="ml8" onClick={() => { updater.authModal(true); }}>{authed ? i18n.t('recertification') : i18n.t('authentication')}</Button>
+        <Button
+          className="ml8"
+          onClick={() => {
+            updater.authModal(true);
+          }}
+        >
+          {authed ? i18n.t('recertification') : i18n.t('authentication')}
+        </Button>
       }
     </>
   ) : null;
-  const fieldsList: IFormItem[] = [{
-    label: 'clientID',
-    name: 'clientID',
-  }, ...insertWhen(accessDetail.authentication === authenticationMap['sign-auth'].value, [{
-    label: 'clientSecret',
-    name: 'clientSecret',
-    getComp: () => <Input.Password />,
-  }])];
+  const fieldsList: IFormItem[] = [
+    {
+      label: 'clientID',
+      name: 'clientID',
+    },
+    ...insertWhen(accessDetail.authentication === authenticationMap['sign-auth'].value, [
+      {
+        label: 'clientSecret',
+        name: 'clientSecret',
+        getComp: () => <Input.Password />,
+      },
+    ]),
+  ];
   const currentApiSource = apiMap[currentApi] || {};
   const parametersMap: Dictionary<any[]> = groupBy(currentApiSource.parameters, 'in');
   if (specProtocol && specProtocol.includes('oas3')) {
@@ -177,15 +210,17 @@ const ApiView = ({ dataSource, onChangeVersion, deprecated, specProtocol }: IPro
         <ApiMenu list={tagMap} onChange={handleChange} onChangeVersion={onChangeVersion} />
       </div>
       <div className="apis-view-right">
-        {
-          deprecated ? <Alert className="mb16" type="warning" message={i18n.t('the current version is deprecated')} /> : null
-        }
+        {deprecated ? (
+          <Alert className="mb16" type="warning" message={i18n.t('the current version is deprecated')} />
+        ) : null}
         <ApiDetail key={currentApi} dataSource={currentApiSource} extra={testButton} specProtocol={specProtocol} />
       </div>
       <TestModal
         key={`${currentApiSource._method}${currentApiSource._path}`}
         visible={testModalVisible}
-        onCancel={() => { updater.testModalVisible(false); }}
+        onCancel={() => {
+          updater.testModalVisible(false);
+        }}
         dataSource={{
           autoInfo,
           basePath: apiData.basePath,
@@ -200,7 +235,9 @@ const ApiView = ({ dataSource, onChangeVersion, deprecated, specProtocol }: IPro
         title={i18n.t('authentication')}
         visible={authModal}
         fieldsList={fieldsList}
-        onCancel={() => { updater.authModal(false); }}
+        onCancel={() => {
+          updater.authModal(false);
+        }}
         formData={getAuthInfo()}
         onOk={handleOk}
       />

@@ -105,7 +105,7 @@ import './multi-select.scss';
 
 const { Option } = Select;
 
-interface ISingProps{
+interface ISingProps {
   type: 'select' | 'cascader';
   showSearchByValueAndLabel?: boolean;
   showSearchByValue?: boolean;
@@ -146,9 +146,7 @@ function SingleSelect(props: ISingProps) {
   }
 
   function filter(inputValue: any, path: any, names: any) {
-    return path.some(
-      (option: any) => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1,
-    );
+    return path.some((option: any) => option.label.toLowerCase().indexOf(inputValue.toLowerCase()) > -1);
   }
 
   useUpdateEffect(() => {
@@ -210,17 +208,19 @@ function SingleSelect(props: ISingProps) {
   return null;
 }
 
-interface IProps{
-  data: Array<{
-    key: string;
-  } & Omit<ISingProps, 'onChange'| 'value'>>;
+interface IProps {
+  data: Array<
+    {
+      key: string;
+    } & Omit<ISingProps, 'onChange' | 'value'>
+  >;
   value: {
     [k: string]: string;
   };
   onChangeMap: {
     [k: string]: (value: string) => void;
   };
-  onChange: (data: {[k: string]: string}) => void;
+  onChange: (data: { [k: string]: string }) => void;
 }
 
 export default function MultiSelect(props: IProps) {

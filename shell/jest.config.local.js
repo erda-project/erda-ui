@@ -27,9 +27,7 @@ module.exports = {
   automock: false,
   clearMocks: true,
   coverageDirectory: 'coverage',
-  coveragePathIgnorePatterns: [
-    '/node_modules/',
-  ],
+  coveragePathIgnorePatterns: ['/node_modules/'],
   collectCoverage: false,
   collectCoverageFrom: [
     'app/common/**/*.{js,jsx,ts,tsx}',
@@ -43,12 +41,7 @@ module.exports = {
       isolatedModules: true,
     },
   },
-  moduleFileExtensions: [
-    'tsx',
-    'ts',
-    'jsx',
-    'js',
-  ],
+  moduleFileExtensions: ['tsx', 'ts', 'jsx', 'js'],
   transform: {
     '^.+\\.(t|j)sx?$': 'ts-jest',
     '^.+\\js$': 'babel-jest',
@@ -81,21 +74,13 @@ module.exports = {
     '\\.(css|less|scss)$': 'identity-obj-proxy',
   },
   preset: 'ts-jest/presets/js-with-ts',
-  setupFiles: [
-    '<rootDir>/test/setupJest.ts',
-    '<rootDir>/test/setupEnzyme.ts',
-    'jest-canvas-mock',
-  ],
+  setupFiles: ['<rootDir>/test/setupJest.ts', '<rootDir>/test/setupEnzyme.ts', 'jest-canvas-mock'],
   setupFilesAfterEnv: ['./node_modules/jest-enzyme/lib/index.js'],
   testEnvironmentOptions: {
     enzymeAdapter: 'react16',
   },
-  transformIgnorePatterns: [
-    'node_modules/(?!@terminus/dashboard-configurator/.*)',
-  ],
-  testMatch: [
-    '**/__tests__/**/*.test.+(tsx|ts|jsx|js)',
-  ],
+  transformIgnorePatterns: ['node_modules/(?!@terminus/dashboard-configurator/.*)'],
+  testMatch: ['**/__tests__/**/*.test.+(tsx|ts|jsx|js)'],
   testPathIgnorePatterns: [
     // '/node_modules/',
   ],

@@ -20,30 +20,33 @@ export const commonAttr = {
   moduleName: 'MIOverview',
   groupId: 'miOverview',
 };
-const chartMap = merge({
-  performanceInterval: {
-    ...commonAttr,
-    titleText: i18n.t('performance interval'),
-    chartName: 'performanceInterval',
-    viewProps: { unitType: 'TIME' },
+const chartMap = merge(
+  {
+    performanceInterval: {
+      ...commonAttr,
+      titleText: i18n.t('performance interval'),
+      chartName: 'performanceInterval',
+      viewProps: { unitType: 'TIME' },
+    },
+    pageError: {
+      titleText: i18n.t('microService:page fault'),
+      ...commonAttr,
+      chartName: 'pageError',
+    },
+    pagePerformanceTrends: {
+      ...commonAttr,
+      titleText: i18n.t('microService:access performance trends'),
+      groupId: '',
+      chartName: 'performanceTrends',
+    },
+    reqPerformanceTrends: {
+      ...commonAttr,
+      chartName: 'ajaxPerformanceTrends',
+      titleText: i18n.t('microService:request performance trends'),
+    },
   },
-  pageError: {
-    titleText: i18n.t('microService:page fault'),
-    ...commonAttr,
-    chartName: 'pageError',
-  },
-  pagePerformanceTrends: {
-    ...commonAttr,
-    titleText: i18n.t('microService:access performance trends'),
-    groupId: '',
-    chartName: 'performanceTrends',
-  },
-  reqPerformanceTrends: {
-    ...commonAttr,
-    chartName: 'ajaxPerformanceTrends',
-    titleText: i18n.t('microService:request performance trends'),
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   performanceInterval: chartRender(chartMap.performanceInterval) as any,

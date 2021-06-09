@@ -12,14 +12,13 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace CP_INPUT_SELECT {
-
-  interface IOption{
+  interface IOption {
     value: string;
     label: string;
     disabled?: boolean;
     children?: IOption[];
   }
-  interface IProps{
+  interface IProps {
     options: IOption[];
     visible: boolean;
   }
@@ -30,7 +29,7 @@ declare namespace CP_INPUT_SELECT {
     props: IProps;
   }
 
-  interface IState{
+  interface IState {
     value: string;
   }
 

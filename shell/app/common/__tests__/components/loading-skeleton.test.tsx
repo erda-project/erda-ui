@@ -19,16 +19,12 @@ import { act } from 'react-dom/test-utils';
 
 describe('loading-skeleton', () => {
   it('LoadingSkeleton should render well', () => {
-    const wrapper = mount(
-      <LoadingSkeleton />,
-    );
+    const wrapper = mount(<LoadingSkeleton />);
     expect(wrapper).toMatchSnapshot();
   });
   it('LoadingContent should render well', () => {
     jest.useFakeTimers();
-    const wrapper = mount(
-      <LoadingContent />,
-    );
+    const wrapper = mount(<LoadingContent />);
     expect(wrapper).toBeEmptyRender();
     act(() => {
       jest.runAllTimers();

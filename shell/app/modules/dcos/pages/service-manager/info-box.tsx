@@ -24,28 +24,22 @@ const InfoBox = (props: IProps) => {
   const { details, pannelProps = {} } = props;
   return (
     <div>
-      {
-        map(details, (detail) => {
-          return (
-            <div key={detail.label} className="mb12">
-              <Title
-                level={2}
-                title={detail.label}
-                className="mb8"
-              />
-              <Panel
-                fields={map(get(detail, 'items'), (item) => {
-                  return {
-                    label: item.name,
-                    value: item.value,
-                  };
-                })}
-                {...pannelProps}
-              />
-            </div>
-          );
-        })
-      }
+      {map(details, (detail) => {
+        return (
+          <div key={detail.label} className="mb12">
+            <Title level={2} title={detail.label} className="mb8" />
+            <Panel
+              fields={map(get(detail, 'items'), (item) => {
+                return {
+                  label: item.name,
+                  value: item.value,
+                };
+              })}
+              {...pannelProps}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 };

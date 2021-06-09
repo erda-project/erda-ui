@@ -37,7 +37,7 @@ interface IProps {
   width?: string;
   onChange?: (v: number[] | number) => void;
 }
-const noop = () => { };
+const noop = () => {};
 export default ({
   value,
   onChange = noop,
@@ -58,21 +58,26 @@ export default ({
   useEffectOnce(() => {
     if (!iterationList.length) {
       if (!loading) {
-        load({ projectID: projectId, pageNo: 1, pageSize: 100, withoutIssueSummary: true }).then(({ list }: { list: ITERATION.Detail[] }) => {
-          if (!isEmpty(list) && !value && autoSelectFirst) {
-            let currentId = 0;
-            list.forEach((a) => {
-              if (!currentId && moment().isBetween(moment(a.startedAt).startOf('day'), moment(a.finishedAt).endOf('day'))) {
-                currentId = a.id;
+        load({ projectID: projectId, pageNo: 1, pageSize: 100, withoutIssueSummary: true }).then(
+          ({ list }: { list: ITERATION.Detail[] }) => {
+            if (!isEmpty(list) && !value && autoSelectFirst) {
+              let currentId = 0;
+              list.forEach((a) => {
+                if (
+                  !currentId &&
+                  moment().isBetween(moment(a.startedAt).startOf('day'), moment(a.finishedAt).endOf('day'))
+                ) {
+                  currentId = a.id;
+                }
+              });
+              if (mode === 'multiple') {
+                onChange([currentId || list[0].id]);
+              } else {
+                onChange(currentId || list[0].id);
               }
-            });
-            if (mode === 'multiple') {
-              onChange([currentId || list[0].id]);
-            } else {
-              onChange(currentId || list[0].id);
             }
-          }
-        });
+          },
+        );
       }
     } else if (autoSelectFirst) {
       if (mode === 'multiple') {
@@ -86,9 +91,7 @@ export default ({
 
   const iterationOption = React.useMemo(() => {
     const list = isEmpty(iterationList) ? [] : [{ title: i18n.t('project:backlog'), id: -1 }, ...iterationList];
-    return addAllOption ?
-      [{ title: i18n.t('application:all iterations'), id: 'ALL' }, ...list]
-      : list;
+    return addAllOption ? [{ title: i18n.t('application:all iterations'), id: 'ALL' }, ...list] : list;
   }, [addAllOption, iterationList]);
 
   React.useEffect(() => {
@@ -99,15 +102,23 @@ export default ({
       disabled={disabled}
       className={className}
       style={{ width: fullWidth ? '100%' : width }}
-      value={value && !isEmpty(iterationList) ? (mode === 'multiple' ? value.map((item) => String(item)) : String(value)) : undefined}
+      value={
+        value && !isEmpty(iterationList)
+          ? mode === 'multiple'
+            ? value.map((item) => String(item))
+            : String(value)
+          : undefined
+      }
       onChange={onChange}
       placeholder={placeholder}
       allowClear={allowClear}
       mode={mode}
     >
-      {
-        map(iterationOption, ({ id, title }) => <Option key={id} value={String(id)}>{title}</Option>)
-      }
+      {map(iterationOption, ({ id, title }) => (
+        <Option key={id} value={String(id)}>
+          {title}
+        </Option>
+      ))}
     </Select>
   );
 };

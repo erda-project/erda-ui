@@ -24,45 +24,40 @@ export const FormApiTest = ({
   extensionFix,
   requiredCheck,
   trigger = 'onChange',
-}: any = {}) => React.memo(({ fieldConfig, form, getLabel }: any = {}) => {
-  const {
-    key,
-    value,
-    label,
-    visible,
-    valid = [],
-    disabled,
-    registerRequiredCheck = noop,
-    componentProps,
-    wrapperProps,
-    labelTip,
-    requiredCheck: _requiredCheck,
-  } = fieldConfig || {};
-  registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (e: any) => {
-    form.setFieldValue(key, fixOut(e));
-    (componentProps.onChange || noop)(e);
-  };
-  return (
-    <FormItem
-      colon
-      label={getLabel(label, labelTip)}
-      className={visible ? '' : 'hide'}
-      validateStatus={valid[0]}
-      help={valid[1]}
-      required={false}
-      {...wrapperProps}
-    >
-      <ApiItem
-        id={key}
-        {...componentProps}
-        disabled={disabled}
-        value={fixIn(value)}
-        onChange={handleChange}
-      />
-    </FormItem>
-  );
-});
+}: any = {}) =>
+  React.memo(({ fieldConfig, form, getLabel }: any = {}) => {
+    const {
+      key,
+      value,
+      label,
+      visible,
+      valid = [],
+      disabled,
+      registerRequiredCheck = noop,
+      componentProps,
+      wrapperProps,
+      labelTip,
+      requiredCheck: _requiredCheck,
+    } = fieldConfig || {};
+    registerRequiredCheck(_requiredCheck || requiredCheck);
+    const handleChange = (e: any) => {
+      form.setFieldValue(key, fixOut(e));
+      (componentProps.onChange || noop)(e);
+    };
+    return (
+      <FormItem
+        colon
+        label={getLabel(label, labelTip)}
+        className={visible ? '' : 'hide'}
+        validateStatus={valid[0]}
+        help={valid[1]}
+        required={false}
+        {...wrapperProps}
+      >
+        <ApiItem id={key} {...componentProps} disabled={disabled} value={fixIn(value)} onChange={handleChange} />
+      </FormItem>
+    );
+  });
 
 export const config = {
   name: 'apiTest',

@@ -15,7 +15,6 @@ import { replaceEmoji } from 'common/utils';
 import { emojiMap } from 'common/utils/emoji';
 import { describe, it } from '@jest/globals';
 
-
 describe('emoji', () => {
   it('should Data normal', () => {
     expect(replaceEmoji('not')).toBe('not');

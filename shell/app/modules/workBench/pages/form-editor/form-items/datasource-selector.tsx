@@ -22,62 +22,59 @@ import i18n from 'i18n';
 const FormItem = Form.Item;
 const noop = (a: any) => a;
 
-export const FormDataSourceSelector = ({
-  fixOut = noop,
-  fixIn = noop,
-  requiredCheck,
-}: any = {}) => React.memo(({ fieldConfig, form, getLabel }: any = {}) => {
-  const {
-    key,
-    value,
-    label,
-    visible,
-    valid = [],
-    disabled,
-    required,
-    registerRequiredCheck = noop,
-    componentProps,
-    wrapperProps,
-    labelTip,
-    requiredCheck: _requiredCheck,
-  } = fieldConfig || {};
-  const params = routeInfoStore.getState((s) => s.params);
-  const projectId = params.projectId || componentProps.projectId;
+export const FormDataSourceSelector = ({ fixOut = noop, fixIn = noop, requiredCheck }: any = {}) =>
+  React.memo(({ fieldConfig, form, getLabel }: any = {}) => {
+    const {
+      key,
+      value,
+      label,
+      visible,
+      valid = [],
+      disabled,
+      required,
+      registerRequiredCheck = noop,
+      componentProps,
+      wrapperProps,
+      labelTip,
+      requiredCheck: _requiredCheck,
+    } = fieldConfig || {};
+    const params = routeInfoStore.getState((s) => s.params);
+    const projectId = params.projectId || componentProps.projectId;
 
-  registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (e: any) => {
-    form.setFieldValue(key, fixOut(e));
-    (componentProps.onChange || noop)(e);
-  };
+    registerRequiredCheck(_requiredCheck || requiredCheck);
+    const handleChange = (e: any) => {
+      form.setFieldValue(key, fixOut(e));
+      (componentProps.onChange || noop)(e);
+    };
 
-  return (
-    <FormItem
-      colon
-      label={getLabel(label, labelTip)}
-      className={visible ? '' : 'hide'}
-      validateStatus={valid[0]}
-      help={valid[1]}
-      required={required}
-      {...wrapperProps}
-    >
-      <DataSourceSelector
-        id={key}
-        {...componentProps}
-        projectId={projectId}
-        disabled={disabled}
-        value={fixIn(value)}
-        onChange={handleChange}
-      />
-    </FormItem>
-  );
-});
+    return (
+      <FormItem
+        colon
+        label={getLabel(label, labelTip)}
+        className={visible ? '' : 'hide'}
+        validateStatus={valid[0]}
+        help={valid[1]}
+        required={required}
+        {...wrapperProps}
+      >
+        <DataSourceSelector
+          id={key}
+          {...componentProps}
+          projectId={projectId}
+          disabled={disabled}
+          value={fixIn(value)}
+          onChange={handleChange}
+        />
+      </FormItem>
+    );
+  });
 
 export const config = {
   name: 'dataSourceSelector',
   Component: FormDataSourceSelector, // 某React组件，props中必须有value、onChange
   requiredCheck: (value: any) => {
     // 必填校验时，特殊的校验规则
-    const invalid = Array.isArray(value) ? !isEmpty(value) : (value !== undefined && value !== '');
+    const invalid = Array.isArray(value) ? !isEmpty(value) : value !== undefined && value !== '';
     return [invalid, i18n.t('can not be empty')];
   },
   fixOut: (value: any, options) => {

@@ -83,8 +83,17 @@ export const Build = (props: IProps) => {
   const { getPipelineDetail, getComboPipelines, getExecuteRecords } = buildStore.effects;
   const { clearComboPipelines, clearPipelineDetail } = buildStore.reducers;
   const params = routeInfoStore.useStore((s) => s.params);
-  const [getComboPipelinesLoading, addPipelineLoading, batchCreateTaskLoading] = useLoading(buildStore, ['getComboPipelines', 'addPipeline', 'batchCreateTask']);
-  const { setup: { categoryTitle, type, iconType, addTitle }, goToDetailLink, renderCreateModal, showModal } = props;
+  const [getComboPipelinesLoading, addPipelineLoading, batchCreateTaskLoading] = useLoading(buildStore, [
+    'getComboPipelines',
+    'addPipeline',
+    'batchCreateTask',
+  ]);
+  const {
+    setup: { categoryTitle, type, iconType, addTitle },
+    goToDetailLink,
+    renderCreateModal,
+    showModal,
+  } = props;
   const keyProp = type === 'dataTask' ? 'ymlName' : 'branch';
 
   const reducer = (state: IState, action: { type: string; data: any }): IState => {
@@ -112,7 +121,16 @@ export const Build = (props: IProps) => {
           categoryOptions: comboPipelines.map((data: any) => {
             const { source, ymlName } = data;
             const keyValue = data[keyProp];
-            return { label: `${keyValue}${source !== 'dice' ? (source === 'qa' ? `（${i18n.t('application:code quality analytics')}: ${ymlName}）` : `（${source}: ${ymlName}）`) : `（${ymlName}）`}`, value: `${keyValue}-${source}-${ymlName}` };
+            return {
+              label: `${keyValue}${
+                source !== 'dice'
+                  ? source === 'qa'
+                    ? `（${i18n.t('application:code quality analytics')}: ${ymlName}）`
+                    : `（${source}: ${ymlName}）`
+                  : `（${ymlName}）`
+              }`,
+              value: `${keyValue}-${source}-${ymlName}`,
+            };
           }),
           activeItem: params.pipelineID ? state.activeItem : extractData(comboPipelines[0]),
         };
@@ -148,28 +166,43 @@ export const Build = (props: IProps) => {
       getPipelineDetail({ pipelineID: id }).then((res) => {
         if (res) {
           const detailType = { ...extractData(res), workspace: res.extra.diceWorkspace };
-          if (!isEqual(activeItem, detailType)) { // when add new for different branch / refresh
+          if (!isEqual(activeItem, detailType)) {
+            // when add new for different branch / refresh
             dispatch({ type: 'switchPipeline', data: { activeItem: detailType } });
           }
         }
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getPipelineDetail, params]); // when switch pipeline or create new
 
-  const isTargetComboPipeline = React.useCallback(({ branch, pagingYmlNames, source, workspace }: any) => {
-    return activeItem && isEqualWith({ branch, source, workspace }, activeItem, (v1, v2) => v1.source === v2.source && v1.branch === v2.branch && v1.workspace === v2.workspace) && pagingYmlNames.includes(activeItem.ymlName);
-  }, [activeItem]);
+  const isTargetComboPipeline = React.useCallback(
+    ({ branch, pagingYmlNames, source, workspace }: any) => {
+      return (
+        activeItem &&
+        isEqualWith(
+          { branch, source, workspace },
+          activeItem,
+          (v1, v2) => v1.source === v2.source && v1.branch === v2.branch && v1.workspace === v2.workspace,
+        ) &&
+        pagingYmlNames.includes(activeItem.ymlName)
+      );
+    },
+    [activeItem],
+  );
 
-  const getExecuteRecordsByPageNo = React.useCallback(({ pageNo }: { pageNo: number }) => {
-    if (isEmpty(comboPipelines)) {
-      return;
-    }
-    const targetCombo = comboPipelines.find(isTargetComboPipeline);
-    if (targetCombo && activeItem) {
-      getExecuteRecords({ ...activeItem, pagingYmlNames: targetCombo.pagingYmlNames, pageNo });
-    }
-  }, [activeItem, comboPipelines, getExecuteRecords, isTargetComboPipeline]);
+  const getExecuteRecordsByPageNo = React.useCallback(
+    ({ pageNo }: { pageNo: number }) => {
+      if (isEmpty(comboPipelines)) {
+        return;
+      }
+      const targetCombo = comboPipelines.find(isTargetComboPipeline);
+      if (targetCombo && activeItem) {
+        getExecuteRecords({ ...activeItem, pagingYmlNames: targetCombo.pagingYmlNames, pageNo });
+      }
+    },
+    [activeItem, comboPipelines, getExecuteRecords, isTargetComboPipeline],
+  );
 
   useUpdateEffect(() => {
     activeItem && !isEmpty(comboPipelines) && getExecuteRecordsByPageNo({ pageNo: 1 });
@@ -182,11 +215,18 @@ export const Build = (props: IProps) => {
     }
   }, [activeItem]);
 
-  useUpdateEffect(() => { // update pipeline list and select source according to comboPipelines
+  useUpdateEffect(() => {
+    // update pipeline list and select source according to comboPipelines
     comboPipelines && dispatch({ type: 'comboPipelinesUpdate', data: null });
   }, [comboPipelines, dispatch]);
 
-  const renderBuildStatus = ({ status: inputStatus, cancelUser }: { status: string; cancelUser: { name?: string } }) => {
+  const renderBuildStatus = ({
+    status: inputStatus,
+    cancelUser,
+  }: {
+    status: string;
+    cancelUser: { name?: string };
+  }) => {
     const definedStatus = statusMap.find((s) => s.status === inputStatus);
     if (definedStatus) {
       const { jumping, colorClass } = definedStatus;
@@ -196,7 +236,11 @@ export const Build = (props: IProps) => {
         msg = i18n.t('user {name} canceled', { name });
       }
       const statusStyle = `flow-${colorClass} ${jumping ? 'jumping' : ''}`;
-      return <Tooltip title={msg}><div className={`${statusStyle} status-icon`} /></Tooltip>;
+      return (
+        <Tooltip title={msg}>
+          <div className={`${statusStyle} status-icon`} />
+        </Tooltip>
+      );
     }
     return null;
   };
@@ -226,7 +270,8 @@ export const Build = (props: IProps) => {
           const displayName = isBigData ? ymlName.slice(ymlName.lastIndexOf('/') + 1) : branch;
           const toolTipName = isBigData ? ymlName : branch;
           if (!isDisable) {
-            liProps.onClick = () => dispatch({ type: 'switchPipeline', data: { activeItem: { branch, source, ymlName, workspace } } });
+            liProps.onClick = () =>
+              dispatch({ type: 'switchPipeline', data: { activeItem: { branch, source, ymlName, workspace } } });
           }
 
           const cls = classnames({
@@ -236,31 +281,39 @@ export const Build = (props: IProps) => {
             active: !isDisable && isTargetComboPipeline({ branch, source, pagingYmlNames, workspace }),
           });
           return (
-            <div
-              key={pipelineID}
-              className={cls}
-              {...liProps}
-            >
+            <div key={pipelineID} className={cls} {...liProps}>
               <div className="list-item flex-box">
                 <div className="title flex-box">
-                  <Tooltip title={toolTipName} overlayClassName="commit-tip" >
-                    <span className="branch-name bold-500 nowrap"><CustomIcon type={iconType} /><span className="nowrap">{displayName}</span></span>
+                  <Tooltip title={toolTipName} overlayClassName="commit-tip">
+                    <span className="branch-name bold-500 nowrap">
+                      <CustomIcon type={iconType} />
+                      <span className="nowrap">{displayName}</span>
+                    </span>
                   </Tooltip>
                   {!isBigData && renderBuildStatus({ status, cancelUser })}
                 </div>
                 <IF check={!isBigData}>
                   <div className="yml-name nowrap flex-box">
-                    <Tooltip title={ymlName} overlayClassName="commit-tip" >
+                    <Tooltip title={ymlName} overlayClassName="commit-tip">
                       <span className="name nowrap">
-                        <CustomIcon type="wj" /><span className="nowrap">{ymlName}</span>
+                        <CustomIcon type="wj" />
+                        <span className="nowrap">{ymlName}</span>
                       </span>
                     </Tooltip>
                     <div className="workspace">{workspace}</div>
                   </div>
                 </IF>
                 <div className="item-footer">
-                  {!isBigData && <span><CustomIcon type="commit" /><span>{limitedCommitId || ''}</span></span>}
-                  <span className="time">{fromNow(timeCreated)}{triggerMode === 'cron' && <CustomIcon type="clock" />}</span>
+                  {!isBigData && (
+                    <span>
+                      <CustomIcon type="commit" />
+                      <span>{limitedCommitId || ''}</span>
+                    </span>
+                  )}
+                  <span className="time">
+                    {fromNow(timeCreated)}
+                    {triggerMode === 'cron' && <CustomIcon type="clock" />}
+                  </span>
                   {isBigData && renderBuildStatus({ status, cancelUser })}
                 </div>
               </div>
@@ -287,23 +340,23 @@ export const Build = (props: IProps) => {
                 return get(option, 'props.title').toLowerCase().indexOf(input.toLowerCase()) >= 0;
               }}
             >
-              <Option value="" title="">{categoryTitle}</Option>
-              {
-                categoryOptions.map(({ label, value }: { label: string; value: string }) => (
-                  type === 'dataTask'
-                    ? <Option key={value} title={label} value={value}>{label.slice(label.lastIndexOf('/') + 1)}</Option>
-                    : (
-                      <Option key={value} title={label} value={value}>
-                        <Tooltip title={label}>{label}</Tooltip>
-                      </Option>
-                    )
-                ))
-              }
+              <Option value="" title="">
+                {categoryTitle}
+              </Option>
+              {categoryOptions.map(({ label, value }: { label: string; value: string }) =>
+                type === 'dataTask' ? (
+                  <Option key={value} title={label} value={value}>
+                    {label.slice(label.lastIndexOf('/') + 1)}
+                  </Option>
+                ) : (
+                  <Option key={value} title={label} value={value}>
+                    <Tooltip title={label}>{label}</Tooltip>
+                  </Option>
+                ),
+              )}
             </Select>
           </div>
-          <div className="build-list">
-            {renderList()}
-          </div>
+          <div className="build-list">{renderList()}</div>
         </div>
       </Spin>
     );
@@ -335,11 +388,11 @@ export const Build = (props: IProps) => {
       <SplitPage.Left width={300} className="pr0 spin-full-height">
         {renderLeftSection()}
       </SplitPage.Left>
-      <SplitPage.Right pl32>
-        {renderRightSection()}
-      </SplitPage.Right>
+      <SplitPage.Right pl32>{renderRightSection()}</SplitPage.Right>
       <div className="top-button-group">
-        <Button type="primary" onClick={showModal}>{addTitle}</Button>
+        <Button type="primary" onClick={showModal}>
+          {addTitle}
+        </Button>
       </div>
       {renderCreateModal()}
     </SplitPage>

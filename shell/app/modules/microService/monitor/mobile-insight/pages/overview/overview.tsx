@@ -31,7 +31,7 @@ const Overview = () => {
         </Col>
       </Row>
       <Row gutter={20}>
-        <Col span={12} >
+        <Col span={12}>
           <OverviewMap.pageError />
         </Col>
         <Col span={12}>
@@ -48,4 +48,3 @@ const Overview = () => {
 };
 
 export default Overview;
-

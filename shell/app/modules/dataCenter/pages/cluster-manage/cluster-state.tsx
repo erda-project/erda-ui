@@ -63,44 +63,38 @@ const ClusterState: React.FC<{ clusterName: string }> = ({ clusterName: clusterN
   return (
     <div className="v-flex-box">
       <div className="cluster-state-wrapper mb16">
-        {
-          isEmpty(clusterStatus?.components)
-            ? <EmptyHolder />
-            : (
-              <>
-                <h3>
-                  <span className="mr20">
-                    {`${get(clusterStatus, 'displayName', '')}:`}
-                  </span>
-                  <span>
-                    {get(stateSeverityMap, `${get(clusterStatus, 'status')}.icon`, '')}
-                    {get(stateSeverityMap, `${get(clusterStatus, 'status')}.displayName`, '')}
-                  </span>
-                </h3>
-                <div className="mt32 left-flex-box cluster-state-content">
-                  {
-                    clusterStateType.map((item) => {
-                      return (
-                        <div className="mb20 mr32 cluster-state-item" key={`${item}`} >
-                          <span className="text-right cluster-state-item-name" >
-                            {`${get(clusterStatus, `components.${item}.displayName`, '')}:`}
-                          </span>
-                          <span className="ml8 cluster-state-item-detail">
-                            <span>
-                              {get(stateSeverityMap, `${get(clusterStatus, `components.${item}.status`)}.icon`, '')}
-                            </span>
-                            <span className="bold">
-                              {get(stateSeverityMap, `${get(clusterStatus, `components.${item}.status`)}.displayName`, '')}
-                            </span>
-                          </span>
-                        </div>
-                      );
-                    })
-                  }
-                </div>
-              </>
-            )
-        }
+        {isEmpty(clusterStatus?.components) ? (
+          <EmptyHolder />
+        ) : (
+          <>
+            <h3>
+              <span className="mr20">{`${get(clusterStatus, 'displayName', '')}:`}</span>
+              <span>
+                {get(stateSeverityMap, `${get(clusterStatus, 'status')}.icon`, '')}
+                {get(stateSeverityMap, `${get(clusterStatus, 'status')}.displayName`, '')}
+              </span>
+            </h3>
+            <div className="mt32 left-flex-box cluster-state-content">
+              {clusterStateType.map((item) => {
+                return (
+                  <div className="mb20 mr32 cluster-state-item" key={`${item}`}>
+                    <span className="text-right cluster-state-item-name">
+                      {`${get(clusterStatus, `components.${item}.displayName`, '')}:`}
+                    </span>
+                    <span className="ml8 cluster-state-item-detail">
+                      <span>
+                        {get(stateSeverityMap, `${get(clusterStatus, `components.${item}.status`)}.icon`, '')}
+                      </span>
+                      <span className="bold">
+                        {get(stateSeverityMap, `${get(clusterStatus, `components.${item}.status`)}.displayName`, '')}
+                      </span>
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
       </div>
       <div className="flex-1">
         <PureBoardGrid layout={dashboardLayout} globalVariable={{ clusterName }} />

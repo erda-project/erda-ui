@@ -127,7 +127,6 @@ export const mockData: CP_SORT_GROUP.Spec = {
         title: '5',
         operations: {},
       },
-
     ],
   },
 };

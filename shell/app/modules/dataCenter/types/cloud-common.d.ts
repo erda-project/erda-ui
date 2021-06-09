@@ -34,17 +34,18 @@ declare namespace CLOUD {
   // 二级资源
   //  ONS_TOPIC
   //  ONS_GROUP
-  type SetTagType = 'VPC' |
-  'VSWITCH' |
-  'ROUTETABLE' |
-  'EIP' |
-  'OSS' |
-  'ONS' |
-  'REDIS' |
-  'RDS' |
-  'ECS' |
-  'ONS_TOPIC' |
-  'ONS_GROUP';
+  type SetTagType =
+    | 'VPC'
+    | 'VSWITCH'
+    | 'ROUTETABLE'
+    | 'EIP'
+    | 'OSS'
+    | 'ONS'
+    | 'REDIS'
+    | 'RDS'
+    | 'ECS'
+    | 'ONS_TOPIC'
+    | 'ONS_GROUP';
 
   interface SetTagBody {
     resourceType: SetTagType;

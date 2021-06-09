@@ -11,7 +11,27 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { isArray, reduce, isEmpty, find, uniq, map, filter, merge, groupBy, maxBy, values, keys, get, min, flatten, minBy, sortBy, cloneDeep, set } from 'lodash';
+import {
+  isArray,
+  reduce,
+  isEmpty,
+  find,
+  uniq,
+  map,
+  filter,
+  merge,
+  groupBy,
+  maxBy,
+  values,
+  keys,
+  get,
+  min,
+  flatten,
+  minBy,
+  sortBy,
+  cloneDeep,
+  set,
+} from 'lodash';
 // @ts-ignore
 import { CHART_CONFIG } from './config';
 import { externalKey } from './utils';
@@ -73,12 +93,12 @@ const dataHandler = {
         );
         curNodeMap = merge(curNodeMap, deepMap); // 合并节点层级属性
         const {
-          nodeMap, boxWidth, boxHeight, // categoryBox,
+          nodeMap,
+          boxWidth,
+          boxHeight, // categoryBox,
         } = dataHandler.getNodesPosition(curNodeMap); // 节点定位
 
-        const {
-          links, linkTopDistance, linkDownDistance,
-        } = dataHandler.getLinks({ nodeList, nodeMap, boxHeight }); // 获取链接（包含link定位）
+        const { links, linkTopDistance, linkDownDistance } = dataHandler.getLinks({ nodeList, nodeMap, boxHeight }); // 获取链接（包含link定位）
 
         let totalWidth = boxWidth;
         let totalHeight = boxHeight;
@@ -107,26 +127,31 @@ const dataHandler = {
   // 平铺节点: {name:x,parents:[...]} => [{name:x,parent:p1},...]
   getNodesFormat: (dataArr: TOPOLOGY.INode[]) => {
     if (!isArray(dataArr)) return [];
-    const data = reduce(dataArr, (res: any[], item) => {
-      const { id, parents, ...rest } = item;
-      if (parents && parents.length > 0) {
-        let pCount = 0;
-        parents.forEach((p: any) => {
-          const curParentId = (find(dataArr, { id: p.id }) || {}).id || '';
-          // 过滤不存在的节点和自己调自己的节点
-          if (curParentId && curParentId !== id) {
-            pCount += 1;
-            res.push({ parent: curParentId, parents, id, nodeType: 'node', ...rest });
+    const data = reduce(
+      dataArr,
+      (res: any[], item) => {
+        const { id, parents, ...rest } = item;
+        if (parents && parents.length > 0) {
+          let pCount = 0;
+          parents.forEach((p: any) => {
+            const curParentId = (find(dataArr, { id: p.id }) || {}).id || '';
+            // 过滤不存在的节点和自己调自己的节点
+            if (curParentId && curParentId !== id) {
+              pCount += 1;
+              res.push({ parent: curParentId, parents, id, nodeType: 'node', ...rest });
+            }
+          });
+          if (pCount === 0) {
+            // 有父但父count为0，则可能父节点不存在或只有自己是自己的父节点
+            res.push({ parent: '', id, parents, nodeType: 'node', ...rest });
           }
-        });
-        if (pCount === 0) { // 有父但父count为0，则可能父节点不存在或只有自己是自己的父节点
+        } else {
           res.push({ parent: '', id, parents, nodeType: 'node', ...rest });
         }
-      } else {
-        res.push({ parent: '', id, parents, nodeType: 'node', ...rest });
-      }
-      return res;
-    }, []);
+        return res;
+      },
+      [],
+    );
     return data;
   },
   // 获取节点组层级
@@ -147,7 +172,8 @@ const dataHandler = {
         for (let i = 0; i < children.length; i++) {
           traversal(children[i].id, IdList, deep + 1, nodeId);
         }
-      } else if (IdList.includes(nodeId)) { // 已经设置过层级的节点
+      } else if (IdList.includes(nodeId)) {
+        // 已经设置过层级的节点
         // 若当前线为环，则deep不变，已经在列，则取大deep
         const prevDeep = deepMap[nodeId][externalKey].deepth;
         const pDeep = pNode ? deepMap[pNode][externalKey].deepth : 0;
@@ -155,7 +181,7 @@ const dataHandler = {
         /** 层级变动需要顺延的两种情况
          *  1、非循环节点，且已设置深度小于当前深度，取更深后子节点顺延
          *  2、循环节点，且当前深度等于父节点深度，避免在同一层级，顺延
-        */
+         */
         if ((!isCircle && prevDeep < deep) || (isCircle && prevDeep === pDeep)) {
           deepMap[nodeId][externalKey].deepth = deep;
           // 有层级变动的节点，其下所有节点都需要顺延改变
@@ -187,54 +213,63 @@ const dataHandler = {
     }
     // 第一次循环未找出开始节点，则为n个树，需要找出n个开始节点
     if (!startNodes.length) {
-      const treeMap = reduce(traversalMap, (res: any, item: string[], key) => {
-        const currentRes = { ...res };
-        let isInclude = false;
-        map(res, (tree, treeKey) => {
-          // 有"全包含"关系的节点，比较找出路径最长的节点
-          const uniqLen = uniq([...tree, ...item]).length;
-          if (uniqLen === tree.length || uniqLen === item.length) {
-            isInclude = true;
-            if (item.length > tree.length) { // 写入更长的路径
-              delete currentRes[treeKey];
-              delete startNodesDataMap[treeKey];
-              currentRes[key] = item;
-              startNodesDataMap[key] = getTreeNodeList(item);
+      const treeMap = reduce(
+        traversalMap,
+        (res: any, item: string[], key) => {
+          const currentRes = { ...res };
+          let isInclude = false;
+          map(res, (tree, treeKey) => {
+            // 有"全包含"关系的节点，比较找出路径最长的节点
+            const uniqLen = uniq([...tree, ...item]).length;
+            if (uniqLen === tree.length || uniqLen === item.length) {
+              isInclude = true;
+              if (item.length > tree.length) {
+                // 写入更长的路径
+                delete currentRes[treeKey];
+                delete startNodesDataMap[treeKey];
+                currentRes[key] = item;
+                startNodesDataMap[key] = getTreeNodeList(item);
+              }
             }
+          });
+          if (!isInclude) {
+            currentRes[key] = item;
+            startNodesDataMap[key] = getTreeNodeList(item);
           }
-        });
-        if (!isInclude) {
-          currentRes[key] = item;
-          startNodesDataMap[key] = getTreeNodeList(item);
-        }
-        return currentRes;
-      }, {});
+          return currentRes;
+        },
+        {},
+      );
       startNodes = uniq(Object.keys(treeMap));
       sortTree = sortBy(
         map(
-          reduce(treeMap, (res: any, item, key) => {
-            const currentRes = { ...res };
-            const resList = map(res, (treeList, treeKey) => ({ list: treeList, treeKey }));
-            // filter所有map中的相同树，避免交叉树被遗漏，如当前item=[2,3]  res: [1,2] [4,3];
-            const sameTree = filter(resList, (resItem: any[]) => {
-              const { list } = resItem as any;
-              const concatArr = [...list, ...item];
-              const uniqLen = uniq([...concatArr]).length;
-              return uniqLen !== concatArr.length;
-            });
-            if (sameTree.length) {
-              let sameList: string[] = [];
-              sameTree.forEach((sameItem: any) => {
-                const { list, treeKey } = sameItem;
-                delete currentRes[treeKey];
-                sameList = sameList.concat(list);
+          reduce(
+            treeMap,
+            (res: any, item, key) => {
+              const currentRes = { ...res };
+              const resList = map(res, (treeList, treeKey) => ({ list: treeList, treeKey }));
+              // filter所有map中的相同树，避免交叉树被遗漏，如当前item=[2,3]  res: [1,2] [4,3];
+              const sameTree = filter(resList, (resItem: any[]) => {
+                const { list } = resItem as any;
+                const concatArr = [...list, ...item];
+                const uniqLen = uniq([...concatArr]).length;
+                return uniqLen !== concatArr.length;
               });
-              currentRes[key] = uniq([...item, ...sameList]);
-            } else {
-              currentRes[key] = item;
-            }
-            return currentRes;
-          }, {}),
+              if (sameTree.length) {
+                let sameList: string[] = [];
+                sameTree.forEach((sameItem: any) => {
+                  const { list, treeKey } = sameItem;
+                  delete currentRes[treeKey];
+                  sameList = sameList.concat(list);
+                });
+                currentRes[key] = uniq([...item, ...sameList]);
+              } else {
+                currentRes[key] = item;
+              }
+              return currentRes;
+            },
+            {},
+          ),
           (o) => o,
         ),
         (l) => -l.length,
@@ -247,7 +282,7 @@ const dataHandler = {
       nodeList.forEach((node) => {
         if (tree.includes(node.id)) {
           list.push(node);
-          if (startNodes.includes(node.id))starts.push(node.id);
+          if (startNodes.includes(node.id)) starts.push(node.id);
         }
       });
       let countDeepMap = dataHandler.getCountDeepMap(nodeList, starts);
@@ -268,7 +303,9 @@ const dataHandler = {
     const reMap = cloneDeep(deepMap);
     map(deepthGroup, (list: any) => {
       map(list, (item: any) => {
-        const { [externalKey]: { id, deepth } } = item;
+        const {
+          [externalKey]: { id, deepth },
+        } = item;
         const childrenDeep: number[] = [];
         map(nodeList, (dataItem: any) => {
           if (dataItem.parent === id) {
@@ -276,7 +313,8 @@ const dataHandler = {
           }
         });
         const childMinDeep = min(childrenDeep) || 1; // 找到子的最上层级;
-        if (childMinDeep - deepth > 1) { // 跨层级，将节点往后移动
+        if (childMinDeep - deepth > 1) {
+          // 跨层级，将节点往后移动
           reMap[id][externalKey].deepth = childMinDeep - 1;
         }
       });
@@ -294,7 +332,9 @@ const dataHandler = {
     const reMap = cloneDeep(deepMap);
     map(deepthGroup, (list: any, index) => {
       map(list, (item: any) => {
-        const { [externalKey]: { id } } = item;
+        const {
+          [externalKey]: { id },
+        } = item;
         reMap[id][externalKey].deepth = index + 1;
       });
     });
@@ -307,12 +347,9 @@ const dataHandler = {
     map(deepthGroup, (list: any, lev: string) => {
       const len = list.length;
       if (lev === '1') {
-        map(
-          sortBy(list, `${externalKey}.outTotal`),
-          ({ [externalKey]: { id, outTotal } }, i) => {
-            set(reMap[id], `${externalKey}.levelSort`, outTotal * 100 + i);
-          },
-        );
+        map(sortBy(list, `${externalKey}.outTotal`), ({ [externalKey]: { id, outTotal } }, i) => {
+          set(reMap[id], `${externalKey}.levelSort`, outTotal * 100 + i);
+        });
       } else {
         map(list, ({ [externalKey]: { id, outTotal } }, idx: number) => {
           const curNode = find(nodeList, { id });
@@ -320,7 +357,8 @@ const dataHandler = {
           let levelSort = idx;
           parents.forEach((p: any) => {
             const pMap = get(reMap, `[${p.id}].${externalKey}`);
-            if (pMap && Number(lev) - Number(pMap.deepth) === 1) { // 上层父
+            if (pMap && Number(lev) - Number(pMap.deepth) === 1) {
+              // 上层父
               levelSort = pMap.levelSort > levelSort ? levelSort : pMap.levelSort;
             }
           });
@@ -342,7 +380,8 @@ const dataHandler = {
         for (let i = 0; i < children.length; i++) {
           traversal(children[i].id, deep + 1, nodeId);
         }
-      } else if (deepMap[nodeId]) { // 已经设置过层级的节点
+      } else if (deepMap[nodeId]) {
+        // 已经设置过层级的节点
         // 若当前线为环，则deep不变，已经在列，则取大deep
         const prevDeep = deepMap[nodeId][externalKey].deepth;
         const pDeep = pNode ? deepMap[pNode][externalKey].deepth : 0;
@@ -350,7 +389,7 @@ const dataHandler = {
         /** 层级变动需要顺延的两种情况
          *  1、非循环节点，且已设置深度小于当前深度，取更深后子节点顺延
          *  2、循环节点，且当前深度等于父节点深度，避免在同一层级，顺延
-        */
+         */
 
         if ((!isCircle && prevDeep < deep) || (isCircle && prevDeep === pDeep)) {
           deepMap[nodeId][externalKey].deepth = deep;
@@ -390,7 +429,11 @@ const dataHandler = {
   getNodesPosition: (nodeMap: object) => {
     let boxWidth = 0;
     let boxHeight = 0;
-    const { NODE: { width, height, margin }, direction, padding } = chartConfig;
+    const {
+      NODE: { width, height, margin },
+      direction,
+      padding,
+    } = chartConfig;
     const curNodeMap = cloneDeep(nodeMap);
     if (!isEmpty(curNodeMap)) {
       const deepthGroup = groupBy(curNodeMap, `${externalKey}.deepth`);
@@ -409,7 +452,7 @@ const dataHandler = {
         let startY = padding.y;
         let startDistance = 0;
         if (direction === 'horizontal') {
-          startDistance = height / 2 + ((boxHeight - padding.y * 2) - (len * (height + margin.y) - margin.y)) / 2;
+          startDistance = height / 2 + (boxHeight - padding.y * 2 - (len * (height + margin.y) - margin.y)) / 2;
           startY += startDistance;
           startX += width / 2;
         } else if (direction === 'vertical') {
@@ -437,7 +480,13 @@ const dataHandler = {
     };
   },
   // 获取图links
-  getLinks: (linkProps: {nodeList: TOPOLOGY.INode[]; nodeMap: object; boxHeight: number; exceptLink?: any[]; isCross?: boolean}) => {
+  getLinks: (linkProps: {
+    nodeList: TOPOLOGY.INode[];
+    nodeMap: object;
+    boxHeight: number;
+    exceptLink?: any[];
+    isCross?: boolean;
+  }) => {
     const { nodeList, nodeMap, boxHeight, exceptLink = [], isCross = false } = linkProps;
     const links = [] as any;
     nodeList.forEach((node: TOPOLOGY.INode) => {
@@ -446,7 +495,8 @@ const dataHandler = {
         const curLink = find(exceptLink, (item) => item.source === parent && item.target === id);
         if (!curLink) {
           const lk = { source: parent, target: id, nodeType: 'link' } as any;
-          if (find(nodeList, { id: parent, parent: id })) { // 存在反向线
+          if (find(nodeList, { id: parent, parent: id })) {
+            // 存在反向线
             lk.hasReverse = true;
           }
           links.push(lk);
@@ -473,11 +523,15 @@ const dataHandler = {
     const getDeepthHeightDistance = (deepthKey: string) => {
       const curGroup = get(deepthGroup[deepthKey], `[0].${externalKey}.group`);
       const curSubGroupLevel = get(deepthGroup[deepthKey], `[0].${externalKey}.subGroupLevel`);
-      if (isCross && curGroup === 'service') { // 如果是跨层级节点
+      if (isCross && curGroup === 'service') {
+        // 如果是跨层级节点
         const { maxNode, minNode } = getDeepthEdgeNode(curSubGroupLevel);
         return get(maxNode, `${externalKey}.y`, 0) - get(minNode, `${externalKey}.y`, 0);
       }
-      return get(maxBy(deepthGroup[deepthKey], `${externalKey}.y`), `${externalKey}.y`, 0) - get(minBy(deepthGroup[deepthKey], `${externalKey}.y`), `${externalKey}.y`, 0);
+      return (
+        get(maxBy(deepthGroup[deepthKey], `${externalKey}.y`), `${externalKey}.y`, 0) -
+        get(minBy(deepthGroup[deepthKey], `${externalKey}.y`), `${externalKey}.y`, 0)
+      );
     };
 
     const getDeepthEdgeNode = (subLevel: number) => {
@@ -496,7 +550,8 @@ const dataHandler = {
       return { maxNode, minNode };
     };
 
-    map(deepthGroup, (gList: any, lev) => { // 每个层级上跨层级线的边缘叠加数
+    map(deepthGroup, (gList: any, lev) => {
+      // 每个层级上跨层级线的边缘叠加数
       const curGroup = get(gList, `[0].${externalKey}.group`);
       let curStartNode: any = minBy(gList, `${externalKey}.y`);
       let curEndEdgeNode: any = maxBy(gList, `${externalKey}.y`);
@@ -539,15 +594,10 @@ const dataHandler = {
       if (direction === 'horizontal') {
         // 相邻层级节点：在两节点之间水平中心点位置开始折线
         if (Math.abs(sourceNode.deepth - targetNode.deepth) === 1) {
-          const [p0_x, p1_x, p2_x] = xPos > 0 ? [
-            sourceNode.x - halfWidth,
-            sourceNode.x - halfMaginX - halfWidth,
-            targetNode.x + halfWidth,
-          ] : [
-            sourceNode.x + halfWidth,
-            sourceNode.x + halfMaginX + halfWidth,
-            targetNode.x - halfWidth,
-          ];
+          const [p0_x, p1_x, p2_x] =
+            xPos > 0
+              ? [sourceNode.x - halfWidth, sourceNode.x - halfMaginX - halfWidth, targetNode.x + halfWidth]
+              : [sourceNode.x + halfWidth, sourceNode.x + halfMaginX + halfWidth, targetNode.x - halfWidth];
 
           const p0_y = sourceNode.y;
           let p1_y = targetNode.y;
@@ -558,18 +608,21 @@ const dataHandler = {
           }
           posArr = [p0_x, p0_y, p1_x, p1_y, p2_x, p2_y];
         } else if (Math.abs(sourceNode.deepth - targetNode.deepth) > 1) {
-        // 跨层级节点：先移动到最上/下方，折线然后平移到目标节点的层级后，再次折线到目标
-          const [p0_x, p1_x, p2_x, p3_x] = xPos > 0 ? [
-            sourceNode.x - halfWidth,
-            sourceNode.x - halfMaginX - halfWidth,
-            targetNode.x + halfWidth + halfMaginX,
-            targetNode.x + halfWidth,
-          ] : [
-            sourceNode.x + halfWidth,
-            sourceNode.x + halfMaginX + halfWidth,
-            targetNode.x - halfWidth - halfMaginX,
-            targetNode.x - halfWidth,
-          ];
+          // 跨层级节点：先移动到最上/下方，折线然后平移到目标节点的层级后，再次折线到目标
+          const [p0_x, p1_x, p2_x, p3_x] =
+            xPos > 0
+              ? [
+                  sourceNode.x - halfWidth,
+                  sourceNode.x - halfMaginX - halfWidth,
+                  targetNode.x + halfWidth + halfMaginX,
+                  targetNode.x + halfWidth,
+                ]
+              : [
+                  sourceNode.x + halfWidth,
+                  sourceNode.x + halfMaginX + halfWidth,
+                  targetNode.x - halfWidth - halfMaginX,
+                  targetNode.x - halfWidth,
+                ];
 
           const sourceDeepth = nodeMap[source][externalKey].deepth;
           const targetDeepth = nodeMap[target][externalKey].deepth;
@@ -579,7 +632,10 @@ const dataHandler = {
           let betweenMaxHeight = 0;
           // 计算跨层级中间最高的层级，最高层级的数据长度
           map(edgePlusMap, (pos, deepKey) => {
-            if ((Number(deepKey) > sourceDeepth && Number(deepKey) < targetDeepth) || (Number(deepKey) < sourceDeepth && Number(deepKey) > targetDeepth)) {
+            if (
+              (Number(deepKey) > sourceDeepth && Number(deepKey) < targetDeepth) ||
+              (Number(deepKey) < sourceDeepth && Number(deepKey) > targetDeepth)
+            ) {
               // if (deepthGroup[deepKey].length > betweenMaxLen) {
               //   betweenMaxLen = deepthGroup[deepKey].length;
               //   betweenMaxDeepth = Number(deepKey);
@@ -596,15 +652,17 @@ const dataHandler = {
           const sourceHeightDis = getDeepthHeightDistance(sourceDeepth);
           const targetHeightDis = getDeepthHeightDistance(targetDeepth);
           const curMaxDeep: number = get(
-            maxBy([
-              // { deep: sourceDeepth, len: sourceLen },
-              // { deep: targetDeepth, len: targetLen },
-              // { deep: betweenMaxDeepth, len: betweenMaxLen },
-              { deep: sourceDeepth, len: sourceHeightDis },
-              { deep: targetDeepth, len: targetHeightDis },
-              { deep: betweenMaxDeepth, len: betweenMaxHeight },
-            ]
-            , (o) => o.len),
+            maxBy(
+              [
+                // { deep: sourceDeepth, len: sourceLen },
+                // { deep: targetDeepth, len: targetLen },
+                // { deep: betweenMaxDeepth, len: betweenMaxLen },
+                { deep: sourceDeepth, len: sourceHeightDis },
+                { deep: targetDeepth, len: targetHeightDis },
+                { deep: betweenMaxDeepth, len: betweenMaxHeight },
+              ],
+              (o) => o.len,
+            ),
             'deep',
           );
           const curMaxEdge = edgePlusMap[`${curMaxDeep}`];
@@ -621,11 +679,14 @@ const dataHandler = {
             xPos > 0
               ? ([p1_y, edgePlusMap[`${curMaxDeep}`].endY] = downBreak)
               : ([p1_y, edgePlusMap[`${curMaxDeep}`].startY] = upBreak);
-          } else if (sourceNode.y <= centerY && targetNode.y <= centerY) { // 中线上方，上折
+          } else if (sourceNode.y <= centerY && targetNode.y <= centerY) {
+            // 中线上方，上折
             [p1_y, edgePlusMap[`${curMaxDeep}`].startY] = upBreak;
-          } else if (sourceNode.y >= centerY && targetNode.y >= centerY) { // 中线下方，下折
+          } else if (sourceNode.y >= centerY && targetNode.y >= centerY) {
+            // 中线下方，下折
             [p1_y, edgePlusMap[`${curMaxDeep}`].endY] = downBreak;
-          } else { // 起点和终点分布在中线两边，则从起点就近折
+          } else {
+            // 起点和终点分布在中线两边，则从起点就近折
             yPos > 0
               ? ([p1_y, edgePlusMap[`${curMaxDeep}`].endY] = downBreak)
               : ([p1_y, edgePlusMap[`${curMaxDeep}`].startY] = upBreak);
@@ -648,7 +709,8 @@ const dataHandler = {
             ...nodeMap[target],
             parents: find(nodeMap[target].parents, { id: source }),
           },
-        } };
+        },
+      };
     });
 
     const edgePlusList = map(edgePlusMap);

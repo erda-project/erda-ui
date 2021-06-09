@@ -57,7 +57,9 @@ const machine = createStore({
       return call(addCloudMachine, payload);
     },
     async updaterMachineLabels({ call }, payload: ORG_MACHINE.IMachineLabelBody) {
-      await call(updaterMachineLabels, payload, { successMsg: i18n.t('org:set up successfully, wait for a while to take effect') });
+      await call(updaterMachineLabels, payload, {
+        successMsg: i18n.t('org:set up successfully, wait for a while to take effect'),
+      });
     },
     async getClusterOperationHistory({ call, update }, payload: IOpHistoryQuery) {
       const { list } = await call(getClusterOperationHistory, payload, { paging: { key: 'operationPaging' } });
@@ -71,17 +73,27 @@ const machine = createStore({
       const operationTypes = await call(getClusterOperationTypes);
       update({ operationTypes });
     },
-    async getAlarmListByCluster({ call, update }, payload: Pick<IMachineAlarmQuery, 'orgID'|'type' | 'endTime' | 'metricID' | 'pageNo' | 'pageSize' | 'startTime'>) {
+    async getAlarmListByCluster(
+      { call, update },
+      payload: Pick<
+        IMachineAlarmQuery,
+        'orgID' | 'type' | 'endTime' | 'metricID' | 'pageNo' | 'pageSize' | 'startTime'
+      >,
+    ) {
       const { pageNo, pageSize = 10, type } = payload;
       const orgId = orgStore.getState((s) => s.currentOrg.id);
-      const { list: alarmList, total } = await call(getAlarmList, {
-        ...payload,
-        type: type || ['machine', 'dice_component', 'dice_addon', 'kubernetes'],
-        targetType: 'org',
-        targetID: orgId,
-        pageNo,
-        pageSize,
-      }, { paging: { key: 'alarmListPaging', listKey: 'tickets' } });
+      const { list: alarmList, total } = await call(
+        getAlarmList,
+        {
+          ...payload,
+          type: type || ['machine', 'dice_component', 'dice_addon', 'kubernetes'],
+          targetType: 'org',
+          targetID: orgId,
+          pageNo,
+          pageSize,
+        },
+        { paging: { key: 'alarmListPaging', listKey: 'tickets' } },
+      );
       update({ alarmList });
       return {
         total,
@@ -95,6 +107,5 @@ const machine = createStore({
     },
   },
 });
-
 
 export default machine;

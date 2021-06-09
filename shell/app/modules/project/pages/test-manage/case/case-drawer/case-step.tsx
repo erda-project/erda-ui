@@ -44,12 +44,15 @@ const CaseSteps = ({ value, onChange }: IProps) => {
     setSteps(value || []);
   }, [value]);
 
-  const output = React.useCallback((data: IStep[], autoSave = false) => {
-    const list = data.map((item) => {
-      return { step: item.step, result: item.result };
-    });
-    onChange(list, autoSave);
-  }, [onChange]);
+  const output = React.useCallback(
+    (data: IStep[], autoSave = false) => {
+      const list = data.map((item) => {
+        return { step: item.step, result: item.result };
+      });
+      onChange(list, autoSave);
+    },
+    [onChange],
+  );
 
   const updateStep = (i: number, k: string, v: string) => {
     const tempStep = cloneDeep(steps);
@@ -81,20 +84,11 @@ const CaseSteps = ({ value, onChange }: IProps) => {
 
   return (
     <div className="case-step-list">
-      {
-        map(steps, (step, i) => {
-          return (
-            <StepItem
-              key={i}
-              step={step}
-              index={i}
-              updateStep={updateStep}
-              handleDelete={handleDelete}
-              onMove={onMove}
-            />
-          );
-        })
-      }
+      {map(steps, (step, i) => {
+        return (
+          <StepItem key={i} step={step} index={i} updateStep={updateStep} handleDelete={handleDelete} onMove={onMove} />
+        );
+      })}
     </div>
   );
 };
@@ -107,23 +101,31 @@ const StepItem = ({ step, index, updateStep, handleDelete, onMove }: any) => {
   });
 
   return (
-    <div ref={previewRef} key={index} className="case-step case-index-hover" >
+    <div ref={previewRef} key={index} className="case-step case-index-hover">
       <div className="flex-box step-detail">
         <div ref={dragRef} className="case-index-block">
-          <span className={`index-num ${step.invalid === true ? 'error' : ''}`}>
-            {index + 1}
-          </span>
+          <span className={`index-num ${step.invalid === true ? 'error' : ''}`}>{index + 1}</span>
           <CustomIcon className="drag-icon" type="px" />
         </div>
-        <TextArea autoSize className="flex-1" placeholder={i18n.t('project:input step')} value={step.step} onChange={(e) => updateStep(index, 'step', e.target.value)} />
+        <TextArea
+          autoSize
+          className="flex-1"
+          placeholder={i18n.t('project:input step')}
+          value={step.step}
+          onChange={(e) => updateStep(index, 'step', e.target.value)}
+        />
         <CustomIcon className="delete-icon hover-active" type="sc1" onClick={() => handleDelete(index)} />
       </div>
       <div className="flex-box result-detail">
-        <TextArea autoSize placeholder={i18n.t('project:input expect result')} value={step.result} onChange={(e) => updateStep(index, 'result', e.target.value)} />
+        <TextArea
+          autoSize
+          placeholder={i18n.t('project:input expect result')}
+          value={step.result}
+          onChange={(e) => updateStep(index, 'result', e.target.value)}
+        />
       </div>
     </div>
   );
 };
-
 
 export default CaseSteps;

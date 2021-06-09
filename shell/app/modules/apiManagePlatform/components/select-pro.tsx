@@ -17,13 +17,13 @@ import { Modal, NusiSelect as Select } from 'app/nusi';
 import { SelectProps, ModalProps } from 'core/common/interface';
 import { Intersection as IconIntersection } from '@icon-park/react';
 
-interface IModalProps<T> extends ModalProps{
-  children: (data: T[], selectKey: number| undefined, handleChange: (data: number) => void) => React.ReactNode;
+interface IModalProps<T> extends ModalProps {
+  children: (data: T[], selectKey: number | undefined, handleChange: (data: number) => void) => React.ReactNode;
   onCancel?: () => void;
   onOk?: () => void;
 }
 
-interface IProps<T> extends SelectProps<any>{
+interface IProps<T> extends SelectProps<any> {
   dataSource: T[];
   children: React.ReactNode;
   modalProps: IModalProps<T>;
@@ -32,7 +32,16 @@ interface IProps<T> extends SelectProps<any>{
   onModalClose?: () => void;
 }
 
-function SelectPro<T, S>({ value, dataSource, children, modalProps, onChange, onModalShow, onModalClose, ...prop }: IProps<T>) {
+function SelectPro<T, S>({
+  value,
+  dataSource,
+  children,
+  modalProps,
+  onChange,
+  onModalShow,
+  onModalClose,
+  ...prop
+}: IProps<T>) {
   const { onOk, children: modalChildren, ...modalRest } = modalProps || {};
   const [showModal, setShowModal] = React.useState(false);
   const [v, setV] = React.useState<undefined | number>(undefined);
@@ -74,16 +83,8 @@ function SelectPro<T, S>({ value, dataSource, children, modalProps, onChange, on
       >
         {children}
       </Select>
-      <Modal
-        {...modalRest}
-        visible={showModal}
-        onCancel={handleCancel}
-        onOk={handleOk}
-        destroyOnClose
-      >
-        {
-          modalChildren(dataSource, tempV, setTempV)
-        }
+      <Modal {...modalRest} visible={showModal} onCancel={handleCancel} onOk={handleOk} destroyOnClose>
+        {modalChildren(dataSource, tempV, setTempV)}
       </Modal>
     </>
   );

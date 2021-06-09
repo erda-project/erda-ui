@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace MONITOR_ERROR {
-
   interface IErrorQuery {
     startTime: number;
     endTime: number;
@@ -28,7 +27,7 @@ declare namespace MONITOR_ERROR {
     total: number;
   }
 
-  interface IError{
+  interface IError {
     applicationId: string;
     className: string;
     createTime: string;
@@ -74,5 +73,4 @@ declare namespace MONITOR_ERROR {
     line: number;
     methodName: string;
   }
-
 }

@@ -31,7 +31,7 @@ const changeValue = (target, props) => {
   const prefix = prefixPath.join('.');
 
   /* eslint-disable-next-line */
-  props.forEach(p => {
+  props.forEach((p) => {
     const key = target[p].slice(1);
     changedMap[key] = EMPTY;
     target[p] = prefix + key;
@@ -44,7 +44,7 @@ exports.default = function ({ types }) {
     name: 'locale-babel',
     pre(file) {
       const { sourceFileName } = file.opts;
-      const currentFile = sourceFileName.slice(4);// 'app/'.length === 4
+      const currentFile = sourceFileName.slice(4); // 'app/'.length === 4
       const { dir, name } = nodePath.parse(currentFile);
 
       const [module, subDir, compontent] = dir.split(nodePath.sep);
@@ -97,7 +97,9 @@ exports.default = function ({ types }) {
                 value = targetObj.value;
                 preChangedAttrs.push('value');
               } else {
-                console.log(`暂不支持复杂的国际化变量定义，请自行添加到locale文件中。文件：${this.file.opts.sourceFileName} 中的变量： ${firstArg.name}`);
+                console.log(
+                  `暂不支持复杂的国际化变量定义，请自行添加到locale文件中。文件：${this.file.opts.sourceFileName} 中的变量： ${firstArg.name}`,
+                );
               }
             }
           } else if (types.isTemplateLiteral(firstArg)) {

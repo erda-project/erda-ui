@@ -16,11 +16,19 @@ import { message } from 'app/nusi';
 import { createStore } from 'app/cube';
 import { getDefaultPaging } from 'common/utils';
 import {
-  addTestPlan, addToPlan,
-  getPlanList, getReport,
-  getTestPlanItem, getTestPlanItemDetail,
-  updateTestCaseRelations, cancelBuild, exportFiles,
-  updateTestPlan, executeCaseApi, getExecuteRecords, getExecuteRecordDetail,
+  addTestPlan,
+  addToPlan,
+  getPlanList,
+  getReport,
+  getTestPlanItem,
+  getTestPlanItemDetail,
+  updateTestCaseRelations,
+  cancelBuild,
+  exportFiles,
+  updateTestPlan,
+  executeCaseApi,
+  getExecuteRecords,
+  getExecuteRecordDetail,
 } from '../services/test-plan';
 import testCaseStore from './test-case';
 import testSetStore from './test-set';
@@ -53,13 +61,15 @@ interface IState {
   planItemDetail: TEST_PLAN.PlanBodySimpleResponse;
   relatedPlansPaging: IPaging;
   relatedPlans: TEST_PLAN.PlanBodySimpleResponse[];
-  planModalInfo: { // 添加计划的弹框
+  planModalInfo: {
+    // 添加计划的弹框
     type: string; // 集合 'collection', 用例 'case', 用例多选 'multi'
     ids: number[]; // 测试集/用例的ids
     selectProjectId: null | number; // 被打开时，选中的项目
   };
   planReport: TEST_PLAN.PlanReportResponse;
-  remarkModalInfo: { // 添加备注的弹框
+  remarkModalInfo: {
+    // 添加备注的弹框
     type: string; // 用例 'case', 用例多选 'multi'
     id: null | number;
     remark: string;
@@ -120,7 +130,11 @@ const testPlan = createStore({
   effects: {
     async getPlanList({ call, update, getParams }, payload?: Omit<TEST_PLAN.PlanListQuery, 'projectID'>) {
       const { projectId: projectID, testType = 'manual' } = getParams();
-      const result = await call(getPlanList, { pageNo: 1, pageSize: PAGINATION.pageSize, ...payload, projectID, type: typeMap[testType] }, { paging: { key: 'planPaging' } });
+      const result = await call(
+        getPlanList,
+        { pageNo: 1, pageSize: PAGINATION.pageSize, ...payload, projectID, type: typeMap[testType] },
+        { paging: { key: 'planPaging' } },
+      );
       update({ planList: result.list, planTotal: result.total });
       return result;
     },
@@ -146,10 +160,14 @@ const testPlan = createStore({
       const planItemDetail = await call(getTestPlanItemDetail, testPlanId);
       update({ planItemDetail });
     },
-    async getPlanRelateMe({ call, getParams, update, select }, payload: {pageNo: number; name?: string}) {
+    async getPlanRelateMe({ call, getParams, update, select }, payload: { pageNo: number; name?: string }) {
       const { id: userID } = userStore.getState((s) => s.loginUser);
       const { projectId } = getParams();
-      const { list } = await call(getPlanList, { ...payload, pageSize: 10, userID: +userID, projectID: +projectId }, { paging: { key: 'relatedPlansPaging' } });
+      const { list } = await call(
+        getPlanList,
+        { ...payload, pageSize: 10, userID: +userID, projectID: +projectId },
+        { paging: { key: 'relatedPlansPaging' } },
+      );
       let relatedPlans = list;
       if (payload.pageNo > 1) {
         const prevList = select((s) => s.relatedPlans);
@@ -157,7 +175,7 @@ const testPlan = createStore({
       }
       update({ relatedPlans });
     },
-    async updatePlanStatus({ call, select }, payload: {id: number; status: TEST_PLAN.PlanStatus}) {
+    async updatePlanStatus({ call, select }, payload: { id: number; status: TEST_PLAN.PlanStatus }) {
       const { ownerID, partnerIDs } = select((s) => s.planItemDetail);
       await call(updateTestPlan, { ownerID, partnerIDs, ...payload });
       testPlan.effects.getTestPlanItemDetail(payload.id);
@@ -166,11 +184,14 @@ const testPlan = createStore({
     async addToPlanByPlanModal({ call, select }, testPlanID: number) {
       const { type, ids } = select((s) => s.planModalInfo);
       let res = { totalCount: 0 };
-      if (type === 'collection') { // 测试集添加测试计划
+      if (type === 'collection') {
+        // 测试集添加测试计划
         res = await call(addToPlan, { testPlanID, testSetIDs: ids });
-      } else if (type === 'case') { // 测试用例添加测试计划
+      } else if (type === 'case') {
+        // 测试用例添加测试计划
         res = await call(addToPlan, { testPlanID, testCaseIDs: ids });
-      } else if (type === 'multi') { // 用例多选
+      } else if (type === 'multi') {
+        // 用例多选
         const { testCaseIDs } = await testCaseStore.effects.getSelectedCaseIds();
         res = await call(addToPlan, { testPlanID, testCaseIDs });
         testCaseStore.reducers.clearChoosenInfo({ mode: 'testCase' });
@@ -178,18 +199,25 @@ const testPlan = createStore({
       message.success(i18n.t('add {total} item successfully', { total: res.totalCount }));
     },
     // 测试计划中新建用例自动关联计划
-    async addSingleCaseToTestPlan({ call, getParams }, { testCaseIDs }: {testCaseIDs: number[]}) {
+    async addSingleCaseToTestPlan({ call, getParams }, { testCaseIDs }: { testCaseIDs: number[] }) {
       const { testPlanId: testPlanID } = getParams();
       const res = await call(addToPlan, { testPlanID, testCaseIDs });
       message.success(i18n.t('add {total} item successfully', { total: res.totalCount }));
       return res;
     },
-    async addToPlanInCaseModal({ call, getParams }, query: {testSetID: number; parentId: number}) {
+    async addToPlanInCaseModal({ call, getParams }, query: { testSetID: number; parentId: number }) {
       const { projectId, testPlanId: testPlanID } = getParams();
       const selectProjectId = projectId;
       const { testCaseIDs } = await testCaseStore.effects.getSelectedCaseIds('caseModal');
       const { totalCount } = await call(addToPlan, { testPlanID, testCaseIDs });
-      testSetStore.reducers.updateReloadTestSet({ isMove: false, testSetID: query.testSetID, parentID: query.parentId, reloadParent: true, selectProjectId, projectID: projectId });
+      testSetStore.reducers.updateReloadTestSet({
+        isMove: false,
+        testSetID: query.testSetID,
+        parentID: query.parentId,
+        reloadParent: true,
+        selectProjectId,
+        projectID: projectId,
+      });
       testCaseStore.reducers.triggerChoosenAll({ scope: 'caseModal', isAll: false });
       testCaseStore.effects.getCases();
       testPlan.effects.getTestPlanItemDetail(testPlanID);
@@ -199,7 +227,10 @@ const testPlan = createStore({
       const planReport = await call(getReport, testPlanID);
       update({ planReport });
     },
-    async deleteRelations({ call, getParams }, { relationIDs, type }: {relationIDs: number[]; type: 'multi' | 'single'}) {
+    async deleteRelations(
+      { call, getParams },
+      { relationIDs, type }: { relationIDs: number[]; type: 'multi' | 'single' },
+    ) {
       const { testPlanId: testPlanID } = getParams();
       let emptyTestSetIDs: number[] = [];
       if (type === 'single') {
@@ -220,7 +251,11 @@ const testPlan = createStore({
       const caseList = testCaseStore.getState((s) => s.caseList);
       const relationIDs: number[] = caseList.map(({ testSetID: id }) => id);
 
-      await call(updateTestCaseRelations, { relationIDs, delete: true, testPlanID, testSetID }, { successMsg: i18n.t('deleted successfully') });
+      await call(
+        updateTestCaseRelations,
+        { relationIDs, delete: true, testPlanID, testSetID },
+        { successMsg: i18n.t('deleted successfully') },
+      );
 
       testCaseStore.reducers.clearChoosenInfo({ mode: 'testPlan' });
       return relationIDs;
@@ -233,7 +268,10 @@ const testPlan = createStore({
       testCaseStore.reducers.clearChoosenInfo({ mode: 'testPlan' });
       testCaseStore.effects.getCases();
     },
-    async planUserCaseBatch({ call, getParams }, payload: Partial<Omit<TEST_PLAN.PlanBatch, 'testPlanID' | 'relationIDs'>>) {
+    async planUserCaseBatch(
+      { call, getParams },
+      payload: Partial<Omit<TEST_PLAN.PlanBatch, 'testPlanID' | 'relationIDs'>>,
+    ) {
       const { testPlanId } = getParams();
       const { testCaseIDs: relationIDs } = await testCaseStore.effects.getSelectedCaseIds();
       await call(updateTestCaseRelations, { testPlanID: testPlanId, relationIDs, ...payload });
@@ -246,7 +284,10 @@ const testPlan = createStore({
       await call(updateTestPlan, { id, ...payload });
       message.success(i18n.t('update successfully'));
     },
-    async updateDate({ call, getParams }, payload: Pick<TEST_PLAN.PlanSubmitBody, 'timestampSecEndedAt' | 'timestampSecStartedAt'>) {
+    async updateDate(
+      { call, getParams },
+      payload: Pick<TEST_PLAN.PlanSubmitBody, 'timestampSecEndedAt' | 'timestampSecStartedAt'>,
+    ) {
       const { testPlanId: id } = getParams();
       const newDate = await call(updateTestPlan, { id, ...payload });
       testPlan.effects.getReport(id);
@@ -254,11 +295,22 @@ const testPlan = createStore({
     },
     async executeCaseApi({ call, getParams }, payload: Omit<TEST_PLAN.CaseApi, 'testPlanID'>) {
       const { testPlanId: testPlanID } = getParams();
-      await call(executeCaseApi, { testPlanID, ...payload }, { successMsg: i18n.t('project:start performing interface testing, please wait') });
+      await call(
+        executeCaseApi,
+        { testPlanID, ...payload },
+        { successMsg: i18n.t('project:start performing interface testing, please wait') },
+      );
     },
-    async getExecuteRecords({ call, update, getParams }, payload: Omit<TEST_PLAN.ExecuteRecordQuery, 'projectId'| 'testPlanId'>) {
+    async getExecuteRecords(
+      { call, update, getParams },
+      payload: Omit<TEST_PLAN.ExecuteRecordQuery, 'projectId' | 'testPlanId'>,
+    ) {
       const { projectId, testPlanId } = getParams();
-      const { pipelines: executeRecords, total } = await call(getExecuteRecords, { projectId, testPlanId, ...payload }, { paging: { key: 'executeRecordsPaging', listKey: 'pipelines' } });
+      const { pipelines: executeRecords, total } = await call(
+        getExecuteRecords,
+        { projectId, testPlanId, ...payload },
+        { paging: { key: 'executeRecordsPaging', listKey: 'pipelines' } },
+      );
       update({ executeRecords });
       return { list: executeRecords, total };
     },
@@ -268,7 +320,11 @@ const testPlan = createStore({
     },
     async cancelBuild({ call, getParams }, { pipelineID }: { pipelineID: number }) {
       const { testPlanId: testPlanID } = getParams();
-      await call(cancelBuild, { pipelineID, testPlanID }, { successMsg: i18n.t('project:interface test has been canceled') });
+      await call(
+        cancelBuild,
+        { pipelineID, testPlanID },
+        { successMsg: i18n.t('project:interface test has been canceled') },
+      );
     },
     async exportFiles({ call, getParams }, queryParam: string) {
       const { testPlanId: testPlanID } = getParams();
@@ -312,14 +368,16 @@ const testPlan = createStore({
       if (pipelineDetail && pipelineDetail.id === pipelineID) {
         const { pipelineStages } = pipelineDetail;
 
-        pipelineStages.forEach((o: any) => o.pipelineTasks.forEach((task: any) => {
-          if (task.id === pipelineTaskID && runtimeID) {
-            const metadata = [{ name: 'runtimeID', value: runtimeID }];
-            // eslint-disable-next-line no-param-reassign
-            task.result.metadata = metadata;
-            state.changeType = 'task';
-          }
-        }));
+        pipelineStages.forEach((o: any) =>
+          o.pipelineTasks.forEach((task: any) => {
+            if (task.id === pipelineTaskID && runtimeID) {
+              const metadata = [{ name: 'runtimeID', value: runtimeID }];
+              // eslint-disable-next-line no-param-reassign
+              task.result.metadata = metadata;
+              state.changeType = 'task';
+            }
+          }),
+        );
       }
     },
     onTaskStatusChange(state, payload) {
@@ -328,15 +386,17 @@ const testPlan = createStore({
       if (pipelineDetail && pipelineDetail.id === pipelineID) {
         const { pipelineStages } = pipelineDetail;
 
-        pipelineStages.forEach((o: any) => o.pipelineTasks.forEach((task: any) => {
-          if (task.id === pipelineTaskID) {
-            // eslint-disable-next-line no-param-reassign
-            task.status = status;
-            // eslint-disable-next-line no-param-reassign
-            task.costTimeSec = costTimeSec;
-            state.changeType = 'task';
-          }
-        }));
+        pipelineStages.forEach((o: any) =>
+          o.pipelineTasks.forEach((task: any) => {
+            if (task.id === pipelineTaskID) {
+              // eslint-disable-next-line no-param-reassign
+              task.status = status;
+              // eslint-disable-next-line no-param-reassign
+              task.costTimeSec = costTimeSec;
+              state.changeType = 'task';
+            }
+          }),
+        );
       }
     },
   },

@@ -46,9 +46,7 @@ describe('FileEditor', () => {
     expect(fn).toHaveBeenLastCalledWith(dataStr);
   });
   it('render readOnly', () => {
-    const wrapper = mount(
-      <FileEditor fileExtension="md" className="file-editor" readOnly value={dataStr} />,
-    );
+    const wrapper = mount(<FileEditor fileExtension="md" className="file-editor" readOnly value={dataStr} />);
     expect(wrapper.find('pre').text()).toContain(dataStr);
   });
 });

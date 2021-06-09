@@ -89,7 +89,7 @@ declare namespace ORG_CLUSTER {
     id?: number;
   }
 
-  interface IAliyunCluster{
+  interface IAliyunCluster {
     orgID: number;
     orgName: string;
     cloudVendor: string;
@@ -135,4 +135,3 @@ declare namespace ORG_CLUSTER {
     components: any;
   }
 }
-

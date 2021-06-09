@@ -17,10 +17,18 @@ import { sortHandler, groupHandler } from 'common/utils/chart-utils';
 const commonQuery = {};
 export const ApiMap = {
   sortList: {
-    getFetchObj: ({ sortTab }: {sortTab: string}) => {
+    getFetchObj: ({ sortTab }: { sortTab: string }) => {
       const fetchMap = {
-        error: { fetchApi: 'ta_top_script_error', query: { group: 'error', count: 'count', limit: 20, sort: 'count_count', source: true }, dataKey: 'count.count' },
-        url: { fetchApi: 'ta_top_page_script_error', query: { group: 'doc_path', count: 'count', limit: 20, sort: 'count_count', source: true }, dataKey: 'count.count' },
+        error: {
+          fetchApi: 'ta_top_script_error',
+          query: { group: 'error', count: 'count', limit: 20, sort: 'count_count', source: true },
+          dataKey: 'count.count',
+        },
+        url: {
+          fetchApi: 'ta_top_page_script_error',
+          query: { group: 'doc_path', count: 'count', limit: 20, sort: 'count_count', source: true },
+          dataKey: 'count.count',
+        },
       };
       const { fetchApi = '', query = {}, dataKey = '' } = fetchMap[sortTab] || {};
       return { fetchApi, extendQuery: query, extendHandler: { dataKey } };

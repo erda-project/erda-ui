@@ -19,7 +19,6 @@ import routeInfoStore from 'app/common/stores/route';
 import apiMonitorFilterStore from '../../stores/filter';
 import gatewayStore from 'microService/stores/gateway';
 
-
 const APITransport = () => {
   const { clusterName } = gatewayStore.useStore((s) => s.consumer);
   const { getConsumer } = gatewayStore.effects;
@@ -60,11 +59,7 @@ const APITransport = () => {
 
   return (
     <>
-      <FilterNav
-        updateFields={updateFields}
-        resetFields={resetFields}
-        isNeedStatusFilters={false}
-      />
+      <FilterNav updateFields={updateFields} resetFields={resetFields} isNeedStatusFilters={false} />
       <Row gutter={20}>
         <Col span={12}>
           <TransportMap.requestSize

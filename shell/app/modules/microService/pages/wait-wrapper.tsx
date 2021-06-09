@@ -14,15 +14,16 @@
 import React from 'react';
 import microServiceStore from 'microService/stores/micro-service';
 
-
 interface IProps {
   children: React.ReactChildren;
 }
 
-const WaitWrapper = (Comp: React.ElementType) => ({ ...rest }: IProps) => {
-  const clusterType = microServiceStore.useStore((s) => s.clusterType);
-  // 没拿到集群类型前不渲染
-  return clusterType ? <Comp {...rest} /> : null;
-};
+const WaitWrapper =
+  (Comp: React.ElementType) =>
+  ({ ...rest }: IProps) => {
+    const clusterType = microServiceStore.useStore((s) => s.clusterType);
+    // 没拿到集群类型前不渲染
+    return clusterType ? <Comp {...rest} /> : null;
+  };
 
 export default (Comp: React.ElementType) => WaitWrapper(Comp);

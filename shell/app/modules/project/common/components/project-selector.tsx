@@ -21,7 +21,7 @@ import routeInfoStore from 'app/common/stores/route';
 import projectStore from 'project/stores/project';
 import './project-selector.scss';
 
-interface IProps{
+interface IProps {
   [pro: string]: any;
   value: string | number;
   onClickItem: (arg?: any) => void;
@@ -29,7 +29,11 @@ interface IProps{
 }
 
 const ProjectItem = (project: PROJECT.Detail) => {
-  return <Tooltip key={project.id} title={project.name}>{project.displayName || project.name}</Tooltip>;
+  return (
+    <Tooltip key={project.id} title={project.name}>
+      {project.displayName || project.name}
+    </Tooltip>
+  );
 };
 const noop = () => {};
 
@@ -69,7 +73,8 @@ export const HeadProjectSelector = () => {
       <ProjectSelector
         valueItemRender={headProjectRender}
         value={projectId}
-        onClickItem={(project: PROJECT.Detail) => { // 切换project
+        onClickItem={(project: PROJECT.Detail) => {
+          // 切换project
           goTo(goTo.pages.project, { projectId: project.id });
         }}
       />

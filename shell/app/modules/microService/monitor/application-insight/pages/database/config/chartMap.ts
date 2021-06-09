@@ -21,43 +21,46 @@ export const commonAttr = {
   moduleName: 'AIDataBase',
   groupId: 'AIDataBase',
 };
-const chartMap = merge({
-  sortTab: {
-    ...commonAttr,
-    type: 'sortTab',
-    tabList: [
-      { name: i18n.t('microService:average time'), key: 'rt' },
-      { name: i18n.t('microService:throughput'), key: 'throughput' },
-    ],
-  },
-  sortList: {
-    type: 'sortList',
-    ...commonAttr,
-    chartName: 'overviewSort',
-  },
-  responseTimes: {
-    titleText: i18n.t('microService:response time TOP 5'),
-    ...commonAttr,
-    chartName: 'responseTimes',
-    viewProps: {
-      unitType: 'TIME',
+const chartMap = merge(
+  {
+    sortTab: {
+      ...commonAttr,
+      type: 'sortTab',
+      tabList: [
+        { name: i18n.t('microService:average time'), key: 'rt' },
+        { name: i18n.t('microService:throughput'), key: 'throughput' },
+      ],
+    },
+    sortList: {
+      type: 'sortList',
+      ...commonAttr,
+      chartName: 'overviewSort',
+    },
+    responseTimes: {
+      titleText: i18n.t('microService:response time TOP 5'),
+      ...commonAttr,
+      chartName: 'responseTimes',
+      viewProps: {
+        unitType: 'TIME',
+      },
+    },
+    throughput: {
+      titleText: i18n.t('microService:throughput TOP 5'),
+      ...commonAttr,
+      chartName: 'throughput',
+      viewProps: {
+        unitType: 'CPM',
+      },
+    },
+    slowTrack: {
+      titleText: i18n.t('microService:slow sql trace TOP 10'),
+      ...commonAttr,
+      chartName: 'slowTrack',
+      viewRender: dbSlowTrackPanel,
     },
   },
-  throughput: {
-    titleText: i18n.t('microService:throughput TOP 5'),
-    ...commonAttr,
-    chartName: 'throughput',
-    viewProps: {
-      unitType: 'CPM',
-    },
-  },
-  slowTrack: {
-    titleText: i18n.t('microService:slow sql trace TOP 10'),
-    ...commonAttr,
-    chartName: 'slowTrack',
-    viewRender: dbSlowTrackPanel,
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   sortTab: sortRender(chartMap.sortTab) as any,
@@ -66,4 +69,3 @@ export default {
   throughput: chartRender(chartMap.throughput) as any,
   slowTrack: chartRender(chartMap.slowTrack) as any,
 };
-

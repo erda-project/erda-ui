@@ -26,9 +26,7 @@ const $$ = (className: string) => {
 
 describe('DeleteConfirm', () => {
   it('render with warn', () => {
-    let wrapper = shallow(
-      <DeleteConfirm />,
-    );
+    let wrapper = shallow(<DeleteConfirm />);
     expect(wrapper).toEqual({});
     wrapper = shallow(
       <DeleteConfirm>
@@ -45,12 +43,7 @@ describe('DeleteConfirm', () => {
     const onCancelFn = jest.fn();
     jest.useFakeTimers();
     const wrapper = shallow(
-      <DeleteConfirm
-        countDown={3}
-        onShow={onShowFn}
-        onConfirm={onConfirmFn}
-        onCancel={onCancelFn}
-      >
+      <DeleteConfirm countDown={3} onShow={onShowFn} onConfirm={onConfirmFn} onCancel={onCancelFn}>
         <div className="child">children</div>
       </DeleteConfirm>,
     );

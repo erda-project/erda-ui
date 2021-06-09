@@ -21,7 +21,6 @@ import './repo-commit.scss';
 import repoStore from 'application/stores/repo';
 import { useLoading } from 'app/common/stores/loading';
 
-
 const CommitDetail = () => {
   const [commitDetail, sonarMessage] = repoStore.useStore((s) => [s.commitDetail, s.sonarMessage]);
   const { getCommitDetail } = repoStore.effects;
@@ -42,11 +41,11 @@ const CommitDetail = () => {
     });
     if (sonarMessage.issues) {
       const issueGroup = groupBy(sonarMessage.issues, 'path');
-      map(issueGroup, ((issues, path) => {
+      map(issueGroup, (issues, path) => {
         if (fileMap[path]) {
           fileMap[path].issues = issues;
         }
-      }));
+      });
     }
   }
   return (

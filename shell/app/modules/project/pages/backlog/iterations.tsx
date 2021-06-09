@@ -58,7 +58,6 @@ const Iterations = () => {
 
   const onAdd = () => updater.isAdding(true);
 
-
   const onEdit = (val: ITERATION.Detail) => {
     update({
       editIteration: val,
@@ -76,10 +75,12 @@ const Iterations = () => {
       <div className="backlog-iterations-title  flex-box mb8">
         <div>
           <span className="bold fz16 mr8">{i18n.t('project:unfinished iteration')}</span>
-          <span className="color-text-desc">{i18n.t('{num} {type}', { num: undoneIterations.length, type: i18n.t('project:iteration') })}</span>
+          <span className="color-text-desc">
+            {i18n.t('{num} {type}', { num: undoneIterations.length, type: i18n.t('project:iteration') })}
+          </span>
         </div>
         <div>
-          <WithAuth pass={addAuth} >
+          <WithAuth pass={addAuth}>
             <Button className="px8 mt12" onClick={onAdd}>
               <CustomIcon type="cir-add" className="mr4" />
               {i18n.t('add {name}', { name: i18n.t('project:iteration') })}
@@ -89,7 +90,7 @@ const Iterations = () => {
       </div>
       <div className="backlog-iteration-content spin-full-height">
         <Spin spinning={loading}>
-          { isEmpty(undoneIterations) && !isAdding && <EmptyIteration addAuth={addAuth} onAdd={onAdd} />}
+          {isEmpty(undoneIterations) && !isAdding && <EmptyIteration addAuth={addAuth} onAdd={onAdd} />}
           {
             <div className="backlog-iterations-list">
               {map(undoneIterations, (item) => (
@@ -99,15 +100,10 @@ const Iterations = () => {
           }
         </Spin>
       </div>
-      <IterationModal
-        visible={isAdding}
-        data={null}
-        onClose={handleClose}
-      />
+      <IterationModal visible={isAdding} data={null} onClose={handleClose} />
     </div>
   );
 };
-
 
 const EmptyIteration = ({ onAdd, addAuth }: { onAdd: () => void; addAuth: boolean }) => (
   <div className="backlog-iterations-empty-holder">
@@ -115,7 +111,7 @@ const EmptyIteration = ({ onAdd, addAuth }: { onAdd: () => void; addAuth: boolea
     <div className="fz24 bold my8">{i18n.t('project:unfinished iteration')}</div>
     <div className="desc">
       {i18n.t('project:add-iteration-tip1')}
-      <WithAuth pass={addAuth} >
+      <WithAuth pass={addAuth}>
         <Button className="px8" size="small" type="primary" ghost onClick={onAdd}>
           <CustomIcon type="cir-add" className="mr4" />
           {i18n.t('add {name}', { name: i18n.t('project:iteration') })}

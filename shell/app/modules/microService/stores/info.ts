@@ -14,7 +14,6 @@
 import { createStore } from 'app/cube';
 import * as InfoServices from '../services/info';
 
-
 interface IState {
   infoList: MS_INFO.IMicroServiceComponentInfo[];
 }

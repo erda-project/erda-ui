@@ -75,12 +75,10 @@ declare namespace GATEWAY {
 
   type GetRegisterApp = Base;
 
-
   interface RegisterApp {
     name: string;
     services: string[];
   }
-
 
   interface ApiPackageItem {
     id: string;
@@ -182,7 +180,7 @@ declare namespace GATEWAY {
     policyName: string;
     displayName: string;
     config: {
-      [k in LimitType]: number
+      [k in LimitType]: number;
     };
     createAt: string;
   }

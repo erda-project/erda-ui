@@ -20,45 +20,46 @@ export const commonAttr = {
   moduleName: 'BIOverview',
   groupId: 'biOverview',
 };
-const chartMap = merge({
-  performanceInterval: {
-    ...commonAttr,
-    titleText: i18n.t('performance interval'),
-    chartName: 'performanceInterval',
-    viewProps: { unitType: 'TIME' },
-  },
-  scriptError: {
-    titleText: i18n.t('microService:script error'),
-    ...commonAttr,
-    chartName: 'scriptError',
-  },
-  pagePerformanceTrends: {
-    ...commonAttr,
-    titleText: i18n.t('microService:page performance trends'),
-    groupId: '',
-    chartName: 'performanceTrends',
-  },
-  ajaxPerformanceTrends: {
-    ...commonAttr,
-    chartName: 'ajaxPerformanceTrends',
-    titleText: i18n.t('microService:ajax performance trends'),
-  },
-  loadPVUV: {
-    moduleName: 'BIOverview',
-    chartName: 'loadPVUV',
-    viewProps: {
-      seriesType: 'bar',
-      tooltipFormatter: (data: any[]) => {
-        return (
-          `${data[0].name}<br/>
+const chartMap = merge(
+  {
+    performanceInterval: {
+      ...commonAttr,
+      titleText: i18n.t('performance interval'),
+      chartName: 'performanceInterval',
+      viewProps: { unitType: 'TIME' },
+    },
+    scriptError: {
+      titleText: i18n.t('microService:script error'),
+      ...commonAttr,
+      chartName: 'scriptError',
+    },
+    pagePerformanceTrends: {
+      ...commonAttr,
+      titleText: i18n.t('microService:page performance trends'),
+      groupId: '',
+      chartName: 'performanceTrends',
+    },
+    ajaxPerformanceTrends: {
+      ...commonAttr,
+      chartName: 'ajaxPerformanceTrends',
+      titleText: i18n.t('microService:ajax performance trends'),
+    },
+    loadPVUV: {
+      moduleName: 'BIOverview',
+      chartName: 'loadPVUV',
+      viewProps: {
+        seriesType: 'bar',
+        tooltipFormatter: (data: any[]) => {
+          return `${data[0].name}<br/>
           <span style='color: ${data[0].color}'>
             ${data[0].seriesName}：${data[0].value}
-          </span><br/>`
-        );
+          </span><br/>`;
+        },
       },
     },
   },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   performanceInterval: chartRender(chartMap.performanceInterval) as any,

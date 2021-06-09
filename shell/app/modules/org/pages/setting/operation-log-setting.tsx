@@ -56,13 +56,14 @@ export const OperationLogSetting = () => {
   };
 
   return (
-    <Form
-      formRef={form}
-      fields={fieldsList}
-      value={setting}
-    >
-      <Form.Submit Button={Button} type="primary" onSubmit={onSubmit} disabled={disableButton} text={i18n.t('update')} />
+    <Form formRef={form} fields={fieldsList} value={setting}>
+      <Form.Submit
+        Button={Button}
+        type="primary"
+        onSubmit={onSubmit}
+        disabled={disableButton}
+        text={i18n.t('update')}
+      />
     </Form>
   );
 };
-

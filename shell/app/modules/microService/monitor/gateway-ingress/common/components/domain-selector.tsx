@@ -41,11 +41,11 @@ const DomainSelector = () => {
       onChange={onChange}
       placeholder={i18n.t('microService:please select a domain')}
     >
-      {
-        map(domainList, (domain) => (
-          <Option value={domain} key={domain}>{domain}</Option>
-        ))
-      }
+      {map(domainList, (domain) => (
+        <Option value={domain} key={domain}>
+          {domain}
+        </Option>
+      ))}
     </Select>
   );
 };

@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 import getSIRouter from 'microService/monitor/service-insight';
 import getEIRouter from 'microService/monitor/external-insight';
 import getGatewayIngressMonitorRouter from 'microService/monitor/gateway-ingress';
@@ -31,9 +30,7 @@ function monitorTopologyRouter() {
       getEIRouter(),
       {
         path: ':applicationId/:runtimeName/:serviceName',
-        routes: [
-          getSIRouter(),
-        ],
+        routes: [getSIRouter()],
       },
     ],
   };

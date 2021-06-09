@@ -24,17 +24,8 @@ interface IProps {
 
 export const RepoMRModal = ({ visible, onOk, onCancel }: IProps) => {
   return (
-    <Modal
-      width={600}
-      title={i18n.t('application:merge demand')}
-      footer={null}
-      visible={visible}
-      onCancel={onCancel}
-    >
-      <RepoMRForm
-        onOk={onOk}
-        onCancel={onCancel}
-      />
+    <Modal width={600} title={i18n.t('application:merge demand')} footer={null} visible={visible} onCancel={onCancel}>
+      <RepoMRForm onOk={onOk} onCancel={onCancel} />
     </Modal>
   );
 };

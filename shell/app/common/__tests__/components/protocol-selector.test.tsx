@@ -28,7 +28,11 @@ describe('ProtocolInput', () => {
     expect(wrapper.find('Select').at(0).props().value).toBe('https://');
     wrapper.find('Select').at(0).props().onChange('http://');
     expect(onChange).toHaveBeenLastCalledWith('http://www.erda.cloud');
-    wrapper.find('Input').at(0).props().onChange({ target: { value: 'erda.cloud' } });
+    wrapper
+      .find('Input')
+      .at(0)
+      .props()
+      .onChange({ target: { value: 'erda.cloud' } });
     expect(onChange).toHaveBeenLastCalledWith('https://erda.cloud');
   });
 });

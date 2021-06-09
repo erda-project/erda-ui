@@ -44,7 +44,6 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps
     uploading: false,
   });
 
-
   const fieldsList = (_formRef: WrappedFormUtils, isEdit: boolean) => [
     {
       label: 'Key',
@@ -54,7 +53,10 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps
         disabled: isEdit,
       },
       rules: [
-        { pattern: /^[a-zA-Z_]+[.a-zA-Z0-9_-]*$/, message: i18n.t('common:start with letters, includes letters,number,dot, _, -') },
+        {
+          pattern: /^[a-zA-Z_]+[.a-zA-Z0-9_-]*$/,
+          message: i18n.t('common:start with letters, includes letters,number,dot, _, -'),
+        },
       ],
     },
     {
@@ -77,68 +79,69 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps
     },
     type === typeMap.kv
       ? {
-        label: 'Value',
-        name: 'value',
-        itemProps: {
-          maxLength: 4096,
-        },
-        config: {
-          getValueFromEvent: (e: any) => e.target.value,
-        },
-        required: formData ? formData.encrypt && isEdit : true, // 只有编辑加密的时，可为空，为空认为没有修改，不为空认为修改了
-      }
+          label: 'Value',
+          name: 'value',
+          itemProps: {
+            maxLength: 4096,
+          },
+          config: {
+            getValueFromEvent: (e: any) => e.target.value,
+          },
+          required: formData ? formData.encrypt && isEdit : true, // 只有编辑加密的时，可为空，为空认为没有修改，不为空认为修改了
+        }
       : {
-        label: i18n.t('file'),
-        name: 'value',
-        type: 'custom',
-        rules: [
-          { required: true, message: i18n.t('common:Please select the file to be uploaded') },
-        ],
-        config: {
-          getValueFromEvent: (e: any) => {
-            if (Array.isArray(e)) {
-              return e;
-            }
-            return e && e.fileList;
+          label: i18n.t('file'),
+          name: 'value',
+          type: 'custom',
+          rules: [{ required: true, message: i18n.t('common:Please select the file to be uploaded') }],
+          config: {
+            getValueFromEvent: (e: any) => {
+              if (Array.isArray(e)) {
+                return e;
+              }
+              return e && e.fileList;
+            },
+          },
+          getComp: ({ form }: { form: WrappedFormUtils }) => {
+            const uploadProps = getUploadProps(
+              {
+                onChange: ({ file, event }: any) => {
+                  if (event) {
+                    updater.uploading(true); // 上传后后端还要处理一阵，不使用进度条
+                  }
+                  if (file.response) {
+                    const { success, err, data } = file.response;
+                    if (!success) {
+                      message.error(err.msg);
+                    } else {
+                      form.setFieldsValue({
+                        value: data.uuid,
+                      });
+                      updater.uploadFile(data.name);
+                    }
+                    updater.uploading(false);
+                  }
+                  return file;
+                },
+              },
+              300,
+            );
+            return (
+              <div className="upload-container">
+                <Spin spinning={uploading} tip={i18n.t('uploading, please wait a moment')}>
+                  <Upload {...uploadProps}>
+                    <Button>
+                      <IconUpload /> {i18n.t('upload')}
+                    </Button>
+                  </Upload>
+                  <span className="color-text-desc ml8">
+                    {uploadFile ? i18n.t('have select {xx}', { xx: uploadFile }) : null}
+                  </span>
+                </Spin>
+              </div>
+            );
           },
         },
-        getComp: ({ form }: { form: WrappedFormUtils }) => {
-          const uploadProps = getUploadProps({
-            onChange: ({ file, event }: any) => {
-              if (event) {
-                updater.uploading(true); // 上传后后端还要处理一阵，不使用进度条
-              }
-              if (file.response) {
-                const { success, err, data } = file.response;
-                if (!success) {
-                  message.error(err.msg);
-                } else {
-                  form.setFieldsValue({
-                    value: data.uuid,
-                  });
-                  updater.uploadFile(data.name);
-                }
-                updater.uploading(false);
-              }
-              return file;
-            },
-          }, 300);
-          return (
-            <div className="upload-container">
-              <Spin spinning={uploading} tip={i18n.t('uploading, please wait a moment')}>
-                <Upload {...uploadProps}>
-                  <Button>
-                    <IconUpload /> {i18n.t('upload')}
-                  </Button>
-                </Upload>
-                <span className="color-text-desc ml8">
-                  {uploadFile ? i18n.t('have select {xx}', { xx: uploadFile }) : null}
-                </span>
-              </Spin>
-            </div>
-          );
-        },
-      },
     {
       label: i18n.t('application:remark'),
       name: 'comment',
@@ -163,8 +166,14 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps
       name={i18n.t('application:config')}
       fieldsList={fieldsList}
       visible={visible}
-      onOk={(data: any, isAdd: boolean) => { onOk(data, isAdd); reset(); }}
-      onCancel={() => { onCancel(); reset(); }}
+      onOk={(data: any, isAdd: boolean) => {
+        onOk(data, isAdd);
+        reset();
+      }}
+      onCancel={() => {
+        onCancel();
+        reset();
+      }}
       formData={formData}
       modalProps={{
         maskClosable: false,

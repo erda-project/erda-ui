@@ -48,6 +48,12 @@ export const sortRender = (obj: any) => {
   return (props: any) => {
     const { query: propsQuery } = props;
     return (
-      <SortPanel {...props} {...rest} query={{ ...query, ...propsQuery }} fetchApi={`/api/spot/tmc/metrics/${fetchApi || ''}`} />);
+      <SortPanel
+        {...props}
+        {...rest}
+        query={{ ...query, ...propsQuery }}
+        fetchApi={`/api/spot/tmc/metrics/${fetchApi || ''}`}
+      />
+    );
   };
 };

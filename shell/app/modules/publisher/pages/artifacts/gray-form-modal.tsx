@@ -37,9 +37,7 @@ const GrayFormModal = (props: IProps) => {
   const { setGrayAndPublish } = publisherStore.effects;
   const { publisherItemId } = routeInfoStore.useStore((s) => s.params);
 
-  const [{
-    selectedVersionType,
-  }, updater] = useUpdate({
+  const [{ selectedVersionType }, updater] = useUpdate({
     selectedVersionType: '',
   });
 
@@ -56,11 +54,13 @@ const GrayFormModal = (props: IProps) => {
       action: 'publish',
       publishItemID: +publisherItemId,
       publishItemVersionID: +id,
-    }).then(() => {
-      onOk();
-    }).finally(() => {
-      onCancel();
-    });
+    })
+      .then(() => {
+        onOk();
+      })
+      .finally(() => {
+        onCancel();
+      });
   };
 
   const fieldList = [
@@ -91,9 +91,11 @@ const GrayFormModal = (props: IProps) => {
         name: 'grayLevelPercent',
         type: 'inputNumber',
         required: false,
-        rules: [{
-          validator: validators.validateNumberRange({ min: 0, max: 100 }),
-        }],
+        rules: [
+          {
+            validator: validators.validateNumberRange({ min: 0, max: 100 }),
+          },
+        ],
         initialValue: (formData.versionStates === 'beta' && formData.grayLevelPercent) || 0,
         itemProps: {
           placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 0, max: 100 }),

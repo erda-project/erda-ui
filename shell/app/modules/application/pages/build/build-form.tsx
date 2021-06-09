@@ -86,9 +86,7 @@ const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
   // 是否为有效分支：有权限且有workspace
   const isUsefulBranch = (b?: APPLICATION.IBranchInfo) => {
     if (!b) return false;
-    let isUseful = b.isProtect
-      ? authObj.executeProtected.pass
-      : authObj.executeNormal.pass;
+    let isUseful = b.isProtect ? authObj.executeProtected.pass : authObj.executeNormal.pass;
     if (isUseful && !b.workspace) isUseful = false;
     return isUseful;
   };
@@ -116,10 +114,14 @@ const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
 
   const message = React.useMemo(() => {
     if (appBlocked) {
-      return projectSetting.blockNetwork.applyUnblock.pass ? i18n.t('application:tips of blockNetwork for manager') : i18n.t('application:tips of blockNetwork for common');
+      return projectSetting.blockNetwork.applyUnblock.pass
+        ? i18n.t('application:tips of blockNetwork for manager')
+        : i18n.t('application:tips of blockNetwork for common');
     }
     if (unBlockStart && unBlockEnd) {
-      return `${i18n.t('application:unblocking time period')}：${moment(unBlockStart).format('YYYY-MM-DD HH:mm')} ~ ${moment(unBlockEnd).format('YYYY-MM-DD HH:mm')}`;
+      return `${i18n.t('application:unblocking time period')}：${moment(unBlockStart).format(
+        'YYYY-MM-DD HH:mm',
+      )} ~ ${moment(unBlockEnd).format('YYYY-MM-DD HH:mm')}`;
     }
     return null;
   }, [appBlocked, unBlockStart, projectSetting.blockNetwork.applyUnblock.pass, unBlockEnd]);
@@ -129,22 +131,21 @@ const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
       name: 'branch',
       type: 'select',
       initialValue: initBranch,
-      options: () => branchInfo.map((e) => {
-        const { isProtect, name, workspace } = e;
-        let hasAuth = isProtect
-          ? authObj.executeProtected.pass
-          : authObj.executeNormal.pass;
-        let tip = hasAuth ? '' : i18n.t('application:branch is protected, you have no permission yet');
-        if (hasAuth && !workspace) {
-          hasAuth = false;
-          tip = i18n.t('application:branch have no matching deployment environment');
-        }
-        return (
-          <Option key={name} value={name} disabled={!hasAuth}>
-            <Tooltip title={tip}>{name}</Tooltip>
-          </Option>
-        );
-      }),
+      options: () =>
+        branchInfo.map((e) => {
+          const { isProtect, name, workspace } = e;
+          let hasAuth = isProtect ? authObj.executeProtected.pass : authObj.executeNormal.pass;
+          let tip = hasAuth ? '' : i18n.t('application:branch is protected, you have no permission yet');
+          if (hasAuth && !workspace) {
+            hasAuth = false;
+            tip = i18n.t('application:branch have no matching deployment environment');
+          }
+          return (
+            <Option key={name} value={name} disabled={!hasAuth}>
+              <Tooltip title={tip}>{name}</Tooltip>
+            </Option>
+          );
+        }),
       itemProps: {
         showSearch: true,
         onChange: changeBranch,
@@ -155,13 +156,14 @@ const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
       name: 'pipelineYmlName',
       type: 'select',
       initialValue: ymls[0],
-      options: () => ymls.map((n) => {
-        return (
-          <Option key={n} value={n}>
-            {n}
-          </Option>
-        );
-      }),
+      options: () =>
+        ymls.map((n) => {
+          return (
+            <Option key={n} value={n}>
+              {n}
+            </Option>
+          );
+        }),
       itemProps: {
         showSearch: true,
       },
@@ -194,9 +196,11 @@ const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
         disabled: true,
       },
     },
-    ...insertWhen(showTips && !!message, [{
-      getComp: () => <Alert className="mb16" showIcon type={appBlocked ? 'error' : 'normal'} message={message} />,
-    }]),
+    ...insertWhen(showTips && !!message, [
+      {
+        getComp: () => <Alert className="mb16" showIcon type={appBlocked ? 'error' : 'normal'} message={message} />,
+      },
+    ]),
   ];
 
   const renderFooter = React.useMemo(() => {
@@ -212,24 +216,16 @@ const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
     return (
       <>
         <Button onClick={onCancel}>{i18n.t('common:cancel')}</Button>
-        <Button onClick={handleOk} type="primary" disabled={showTips && appBlocked}>{i18n.t('common:confirm')}</Button>
+        <Button onClick={handleOk} type="primary" disabled={showTips && appBlocked}>
+          {i18n.t('common:confirm')}
+        </Button>
       </>
     );
   }, [appBlocked, onCancel, showTips]);
 
   return (
-    <Modal
-      title={title}
-      visible={visible}
-      footer={renderFooter}
-      onCancel={onCancel}
-    >
-      <RenderPureForm
-        className="build-branch-from"
-        form={form}
-        list={formList}
-        layout="vertical"
-      />
+    <Modal title={title} visible={visible} footer={renderFooter} onCancel={onCancel}>
+      <RenderPureForm className="build-branch-from" form={form} list={formList} layout="vertical" />
     </Modal>
   );
 };

@@ -13,7 +13,13 @@
 
 import { get } from 'lodash';
 import { createStore } from 'app/cube';
-import { getAiCapacityData, getBiCapacityAjaxErr, getBiCapacityAjaxInfo, getBiCapacityApdex, getMonitorInstance } from '../services/monitor-overview';
+import {
+  getAiCapacityData,
+  getBiCapacityAjaxErr,
+  getBiCapacityAjaxInfo,
+  getBiCapacityApdex,
+  getMonitorInstance,
+} from '../services/monitor-overview';
 
 interface IState {
   aiCapacityData: MONITOR_OVERVIEW.IAIData;

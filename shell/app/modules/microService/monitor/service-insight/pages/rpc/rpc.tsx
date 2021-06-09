@@ -19,7 +19,6 @@ import TopTabRight from 'service-insight/common/components/tab-right';
 import SICommonStore from '../../stores/common';
 import monitorCommonStore from 'common/stores/monitorCommon';
 
-
 const RPC = () => {
   const baseInfo = SICommonStore.useStore((s) => s.baseInfo);
   const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);

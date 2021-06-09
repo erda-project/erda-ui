@@ -23,8 +23,10 @@ import userMapStore from 'app/common/stores/user-map';
 import { useLoading } from 'app/common/stores/loading';
 import notifyGroupStore from '../../../../stores/notify-group';
 import appNotifyStore from '../../../../stores/notify';
-import { notifyChannelOptionsMap, ListTargets } from 'application/pages/settings/components/app-notify/common-notify-group';
-
+import {
+  notifyChannelOptionsMap,
+  ListTargets,
+} from 'application/pages/settings/components/app-notify/common-notify-group';
 
 import './index.scss';
 
@@ -43,9 +45,19 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
   const roleMap = memberStore.useStore((s) => s.roleMap);
   const { getRoleMap } = memberStore.effects;
   const [notifyConfigs, notifyItems] = appNotifyStore.useStore((s) => [s.notifyConfigs, s.notifyItems]);
-  const { getNotifyConfigs, deleteNotifyConfigs, createNotifyConfigs, updateNotifyConfigs, toggleNotifyConfigs, getNotifyItems } = appNotifyStore.effects;
+  const {
+    getNotifyConfigs,
+    deleteNotifyConfigs,
+    createNotifyConfigs,
+    updateNotifyConfigs,
+    toggleNotifyConfigs,
+    getNotifyItems,
+  } = appNotifyStore.effects;
   const notifyGroups = notifyGroupStore.useStore((s) => s.notifyGroups);
-  const [toggleNotifyConfigsLoading, getNotifyConfigsLoading] = useLoading(appNotifyStore, ['toggleNotifyConfigs', 'getNotifyConfigs']);
+  const [toggleNotifyConfigsLoading, getNotifyConfigsLoading] = useLoading(appNotifyStore, [
+    'toggleNotifyConfigs',
+    'getNotifyConfigs',
+  ]);
   const userMap = userMapStore.useStore((s) => s);
   const { getNotifyGroups } = notifyGroupStore.effects;
   const { clearNotifyGroups } = notifyGroupStore.reducers;
@@ -72,7 +84,13 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
 
   const handleEdit = (item: APP_NOTIFY.INotify) => {
     openModal();
-    const { id, name, notifyItems: items, channels, notifyGroup: { id: notifyGroupId } } = item;
+    const {
+      id,
+      name,
+      notifyItems: items,
+      channels,
+      notifyGroup: { id: notifyGroupId },
+    } = item;
     setActivedData({
       id,
       name,
@@ -161,7 +179,11 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
               setActivedGroupId(id);
             }}
           >
-            {map(notifyGroups, ({ id, name }) => (<Select.Option key={id} value={id}>{name}</Select.Option>))}
+            {map(notifyGroups, ({ id, name }) => (
+              <Select.Option key={id} value={id}>
+                {name}
+              </Select.Option>
+            ))}
           </Select>
         );
       },
@@ -171,16 +193,19 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
   if (activedGroupId) {
     const activedGroup = find(notifyGroups, ({ id }) => id === +activedGroupId);
 
-    fieldsList = [...fieldsList, {
-      name: 'channels',
-      label: i18n.t('application:method to inform'),
-      required: true,
-      type: 'select',
-      options: (activedGroup && notifyChannelOptionsMap[activedGroup.targets[0].type]) || [],
-      itemProps: {
-        mode: 'multiple',
+    fieldsList = [
+      ...fieldsList,
+      {
+        name: 'channels',
+        label: i18n.t('application:method to inform'),
+        required: true,
+        type: 'select',
+        options: (activedGroup && notifyChannelOptionsMap[activedGroup.targets[0].type]) || [],
+        itemProps: {
+          mode: 'multiple',
+        },
       },
-    }];
+    ];
   }
 
   const columns: Array<ColumnProps<APP_NOTIFY.INotify>> = [
@@ -193,7 +218,11 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
       dataIndex: 'notifyGroup.targets',
       tip: true,
       className: 'notify-info',
-      render: (targets) => <div className="flex-box"><ListTargets targets={targets} roleMap={roleMap} /></div>,
+      render: (targets) => (
+        <div className="flex-box">
+          <ListTargets targets={targets} roleMap={roleMap} />
+        </div>
+      ),
     },
     {
       title: i18n.t('default:creator'),
@@ -212,8 +241,17 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
       render: (text, record) => {
         return (
           <div className="table-operations">
-            <span className="table-operations-btn" onClick={() => handleEdit(record)}>{i18n.t('application:edit')}</span>
-            <span className="table-operations-btn" onClick={() => { handleDele(record.id); }}>{i18n.t('application:delete')}</span>
+            <span className="table-operations-btn" onClick={() => handleEdit(record)}>
+              {i18n.t('application:edit')}
+            </span>
+            <span
+              className="table-operations-btn"
+              onClick={() => {
+                handleDele(record.id);
+              }}
+            >
+              {i18n.t('application:delete')}
+            </span>
             <Switch
               size="small"
               defaultChecked={record.enabled}
@@ -236,7 +274,12 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
   return (
     <div className="notify-group-manage">
       <Tooltip title={i18n.t('application:new notification')}>
-        <div className="notify-group-action hover-active" onClick={() => { openModal(); }}>
+        <div
+          className="notify-group-action hover-active"
+          onClick={() => {
+            openModal();
+          }}
+        >
           <Button type="primary">{i18n.t('application:new notification')}</Button>
         </div>
       </Tooltip>
@@ -250,12 +293,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
         modalProps={{ destroyOnClose: true }}
       />
       <Spin spinning={getNotifyConfigsLoading}>
-        <Table
-          columns={columns}
-          dataSource={notifyConfigs}
-          rowKey="id"
-          pagination={false}
-        />
+        <Table columns={columns} dataSource={notifyConfigs} rowKey="id" pagination={false} />
       </Spin>
     </div>
   );

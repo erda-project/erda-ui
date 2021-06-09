@@ -20,37 +20,40 @@ export const commonAttr = {
   moduleName: 'SICache',
   groupId: 'SICache',
 };
-const chartMap = merge({
-  sortTab: {
-    ...commonAttr,
-    type: 'sortTab',
-    tabList: [
-      { name: i18n.t('microService:throughput'), key: 'throughput' },
-      { name: i18n.t('microService:average time'), key: 'rt' },
-    ],
-  },
-  sortList: {
-    type: 'sortList',
-    ...commonAttr,
-    chartName: 'overviewSort',
-  },
-  responseTimes: {
-    titleText: `${i18n.t('microService:response time')} TOP5`,
-    ...commonAttr,
-    chartName: 'responseTimes',
-    viewProps: {
-      unitType: 'TIME',
+const chartMap = merge(
+  {
+    sortTab: {
+      ...commonAttr,
+      type: 'sortTab',
+      tabList: [
+        { name: i18n.t('microService:throughput'), key: 'throughput' },
+        { name: i18n.t('microService:average time'), key: 'rt' },
+      ],
+    },
+    sortList: {
+      type: 'sortList',
+      ...commonAttr,
+      chartName: 'overviewSort',
+    },
+    responseTimes: {
+      titleText: `${i18n.t('microService:response time')} TOP5`,
+      ...commonAttr,
+      chartName: 'responseTimes',
+      viewProps: {
+        unitType: 'TIME',
+      },
+    },
+    throughput: {
+      titleText: `${i18n.t('microService:throughput')} TOP5`,
+      ...commonAttr,
+      chartName: 'throughput',
+      viewProps: {
+        unitType: 'CPM',
+      },
     },
   },
-  throughput: {
-    titleText: `${i18n.t('microService:throughput')} TOP5`,
-    ...commonAttr,
-    chartName: 'throughput',
-    viewProps: {
-      unitType: 'CPM',
-    },
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   sortTab: sortRender(chartMap.sortTab) as any,

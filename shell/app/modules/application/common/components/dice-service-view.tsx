@@ -66,7 +66,11 @@ export default class extends PureComponent<IPropertyViewProps, any> {
         </span>
         <span className="dice-service-detail-column">
           <span>{i18n.t('application:port')}：</span>
-          <span>{Array.isArray(ports) ? ports.map((p) => (typeof p === 'object' ? `${p.protocol || ''}:${p.port}` : p)).join('/') : '-'}</span>
+          <span>
+            {Array.isArray(ports)
+              ? ports.map((p) => (typeof p === 'object' ? `${p.protocol || ''}:${p.port}` : p)).join('/')
+              : '-'}
+          </span>
         </span>
         {envContent}
       </div>

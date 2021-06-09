@@ -48,48 +48,81 @@ export const useFields = (_fields: any[]) => {
 
 export const MysqlFieldsConfig = {
   basicTypes: [
-    { name: i18n.t('resource:1Core 2GB'), value: 'mysql.n2.small.1', specName: `${i18n.t('resource:Basic')} ${i18n.t('resource:1Core 2GB')}` },
-    { name: i18n.t('resource:4Core 8GB'), value: 'mysql.n2.large.1', specName: `${i18n.t('resource:Basic')} ${i18n.t('resource:4Core 8GB')}` },
-    { name: i18n.t('resource:8Core 32GB'), value: 'mysql.n4.xlarge.1', specName: `${i18n.t('resource:Basic')} ${i18n.t('resource:8Core 32GB')}` },
+    {
+      name: i18n.t('resource:1Core 2GB'),
+      value: 'mysql.n2.small.1',
+      specName: `${i18n.t('resource:Basic')} ${i18n.t('resource:1Core 2GB')}`,
+    },
+    {
+      name: i18n.t('resource:4Core 8GB'),
+      value: 'mysql.n2.large.1',
+      specName: `${i18n.t('resource:Basic')} ${i18n.t('resource:4Core 8GB')}`,
+    },
+    {
+      name: i18n.t('resource:8Core 32GB'),
+      value: 'mysql.n4.xlarge.1',
+      specName: `${i18n.t('resource:Basic')} ${i18n.t('resource:8Core 32GB')}`,
+    },
   ],
   highTypes: [
-    { name: i18n.t('resource:1Core 2GB'), value: 'rds.mysql.s1.small', specName: `${i18n.t('resource:High-availability')} ${i18n.t('resource:1Core 2GB')}` },
-    { name: i18n.t('resource:4Core 8GB'), value: 'rds.mysql.s3.large', specName: `${i18n.t('resource:High-availability')} ${i18n.t('resource:4Core 8GB')}` },
-    { name: i18n.t('resource:8Core 32GB'), value: 'rds.mysql.c1.xlarge', specName: `${i18n.t('resource:High-availability')} ${i18n.t('resource:8Core 32GB')}` },
+    {
+      name: i18n.t('resource:1Core 2GB'),
+      value: 'rds.mysql.s1.small',
+      specName: `${i18n.t('resource:High-availability')} ${i18n.t('resource:1Core 2GB')}`,
+    },
+    {
+      name: i18n.t('resource:4Core 8GB'),
+      value: 'rds.mysql.s3.large',
+      specName: `${i18n.t('resource:High-availability')} ${i18n.t('resource:4Core 8GB')}`,
+    },
+    {
+      name: i18n.t('resource:8Core 32GB'),
+      value: 'rds.mysql.c1.xlarge',
+      specName: `${i18n.t('resource:High-availability')} ${i18n.t('resource:8Core 32GB')}`,
+    },
   ],
-  getFields: (form: WrappedFormUtils, { chargeType, onChangeChargeType }: { chargeType: string; onChangeChargeType: (val: string) => void }) => {
+  getFields: (
+    form: WrappedFormUtils,
+    { chargeType, onChangeChargeType }: { chargeType: string; onChangeChargeType: (val: string) => void },
+  ) => {
     const basicSpecs = MysqlFieldsConfig.basicTypes.map((a) => a.value);
     const highSpecs = MysqlFieldsConfig.highTypes.map((a) => a.value);
     return [
       {
         label: i18n.t('instance name'),
         name: 'instanceName',
-        rules: [{
-          pattern: /^[a-zA-Z\u4e00-\u9fa5][a-zA-Z\u4e00-\u9fa50-9-_]{1,254}$/,
-          message: i18n.t('dataCenter:db-name-tip'),
-        }],
+        rules: [
+          {
+            pattern: /^[a-zA-Z\u4e00-\u9fa5][a-zA-Z\u4e00-\u9fa50-9-_]{1,254}$/,
+            message: i18n.t('dataCenter:db-name-tip'),
+          },
+        ],
       },
       {
         label: i18n.t('resource:specifications'),
         name: 'spec',
         type: 'select',
-        options: () => groupOptions([
-          {
-            name: i18n.t('resource:Basic'),
-            children: MysqlFieldsConfig.basicTypes,
-          },
-          {
-            name: i18n.t('resource:High-availability'),
-            children: MysqlFieldsConfig.highTypes,
-          },
-        ], (item) => {
-          const { name, value } = item;
-          return (
-            <Option key={value} value={value}>
-              <Tooltip title={value}>{name}</Tooltip>
-            </Option>
-          );
-        }),
+        options: () =>
+          groupOptions(
+            [
+              {
+                name: i18n.t('resource:Basic'),
+                children: MysqlFieldsConfig.basicTypes,
+              },
+              {
+                name: i18n.t('resource:High-availability'),
+                children: MysqlFieldsConfig.highTypes,
+              },
+            ],
+            (item) => {
+              const { name, value } = item;
+              return (
+                <Option key={value} value={value}>
+                  <Tooltip title={value}>{name}</Tooltip>
+                </Option>
+              );
+            },
+          ),
         itemProps: {
           onChange: (v: string) => {
             if (basicSpecs.includes(v)) {
@@ -155,15 +188,12 @@ export const useMysqlFields = (form: WrappedFormUtils) => {
     chargeType: 'PostPaid',
   });
 
-  return MysqlFieldsConfig.getFields(
-    form,
-    {
-      chargeType,
-      onChangeChargeType: (val) => {
-        updater.chargeType(val);
-      },
+  return MysqlFieldsConfig.getFields(form, {
+    chargeType,
+    onChangeChargeType: (val) => {
+      updater.chargeType(val);
     },
-  );
+  });
 };
 
 export const useOnsFields = () => {
@@ -175,7 +205,12 @@ export const useOnsFields = () => {
         maxLength: 64,
       },
       rules: [
-        { pattern: /^[a-z\u4e00-\u9fa5A-Z0-9_-]{3,64}$/, message: `${i18n.t('length is {min}~{max}', { min: 3, max: 64 })},${i18n.t('could include Chinese, English, numbers,-, _')}` },
+        {
+          pattern: /^[a-z\u4e00-\u9fa5A-Z0-9_-]{3,64}$/,
+          message: `${i18n.t('length is {min}~{max}', { min: 3, max: 64 })},${i18n.t(
+            'could include Chinese, English, numbers,-, _',
+          )}`,
+        },
       ],
     },
     {
@@ -186,7 +221,6 @@ export const useOnsFields = () => {
   ];
 };
 
-
 export const RedisFieldConfig = {
   spec: {
     standard: [
@@ -195,12 +229,30 @@ export const RedisFieldConfig = {
       { name: '8G', value: 'redis.master.large.default', specName: `${i18n.t('resource:standard edition')} 8G` },
     ],
     cluster: [
-      { name: '4G', value: 'redis.logic.sharding.2g.2db.0rodb.4proxy.default', specName: `${i18n.t('resource:cluster edition')} 4G` },
-      { name: '8G', value: 'redis.logic.sharding.4g.2db.0rodb.4proxy.default', specName: `${i18n.t('resource:cluster edition')} 8G` },
-      { name: '16G', value: 'redis.logic.sharding.8g.2db.0rodb.4proxy.default', specName: `${i18n.t('resource:cluster edition')} 16G` },
+      {
+        name: '4G',
+        value: 'redis.logic.sharding.2g.2db.0rodb.4proxy.default',
+        specName: `${i18n.t('resource:cluster edition')} 4G`,
+      },
+      {
+        name: '8G',
+        value: 'redis.logic.sharding.4g.2db.0rodb.4proxy.default',
+        specName: `${i18n.t('resource:cluster edition')} 8G`,
+      },
+      {
+        name: '16G',
+        value: 'redis.logic.sharding.8g.2db.0rodb.4proxy.default',
+        specName: `${i18n.t('resource:cluster edition')} 16G`,
+      },
     ],
   },
-  getFields: ({ chargeType, onChangeChargeType }: { chargeType: string; onChangeChargeType: (val: string) => void }) => {
+  getFields: ({
+    chargeType,
+    onChangeChargeType,
+  }: {
+    chargeType: string;
+    onChangeChargeType: (val: string) => void;
+  }) => {
     return [
       {
         label: i18n.t('resource:version'),
@@ -216,23 +268,27 @@ export const RedisFieldConfig = {
         label: i18n.t('resource:specifications'),
         name: 'spec',
         type: 'select',
-        options: () => groupOptions([
-          {
-            name: i18n.t('resource:standard edition'), // General-purpose
-            children: RedisFieldConfig.spec.standard,
-          },
-          {
-            name: i18n.t('resource:cluster edition'),
-            children: RedisFieldConfig.spec.cluster,
-          },
-        ], (item) => {
-          const { name, value } = item;
-          return (
-            <Option key={value} value={value}>
-              <Tooltip title={value}>{name}</Tooltip>
-            </Option>
-          );
-        }),
+        options: () =>
+          groupOptions(
+            [
+              {
+                name: i18n.t('resource:standard edition'), // General-purpose
+                children: RedisFieldConfig.spec.standard,
+              },
+              {
+                name: i18n.t('resource:cluster edition'),
+                children: RedisFieldConfig.spec.cluster,
+              },
+            ],
+            (item) => {
+              const { name, value } = item;
+              return (
+                <Option key={value} value={value}>
+                  <Tooltip title={value}>{name}</Tooltip>
+                </Option>
+              );
+            },
+          ),
       },
       {
         label: i18n.t('resource:instance name'),
@@ -241,7 +297,10 @@ export const RedisFieldConfig = {
           maxLength: 64,
         },
         rules: [
-          { pattern: /^[a-zA-Z\u4e00-\u9fa5](?!.*[@/=\s":<>{}[\]]).{1,127}$/, message: `${i18n.t('length is {min}~{max}', { min: 2, max: 128 })},${i18n.t('dataCenter:redis-name-tip')}` },
+          {
+            pattern: /^[a-zA-Z\u4e00-\u9fa5](?!.*[@/=\s":<>{}[\]]).{1,127}$/,
+            message: `${i18n.t('length is {min}~{max}', { min: 2, max: 128 })},${i18n.t('dataCenter:redis-name-tip')}`,
+          },
         ],
       },
       {
@@ -305,7 +364,12 @@ export const useDBFields = () => [
       maxLength: 64,
     },
     rules: [
-      { pattern: /^[a-zA-Z0-9_-]{2,64}$/, message: `${i18n.t('length is {min}~{max}', { min: 2, max: 64 })},${i18n.t('project:only allowed to consist of characters, numbers, _, and -')}` },
+      {
+        pattern: /^[a-zA-Z0-9_-]{2,64}$/,
+        message: `${i18n.t('length is {min}~{max}', { min: 2, max: 64 })},${i18n.t(
+          'project:only allowed to consist of characters, numbers, _, and -',
+        )}`,
+      },
     ],
   },
 ];
@@ -318,7 +382,12 @@ export const useTopicFields = () => [
       maxLength: 64,
     },
     rules: [
-      { pattern: /^[a-zA-Z0-9_-]{5,64}$/, message: `${i18n.t('length is {min}~{max}', { min: 5, max: 64 })},${i18n.t('project:only allowed to consist of characters, numbers, _, and -')}` },
+      {
+        pattern: /^[a-zA-Z0-9_-]{5,64}$/,
+        message: `${i18n.t('length is {min}~{max}', { min: 5, max: 64 })},${i18n.t(
+          'project:only allowed to consist of characters, numbers, _, and -',
+        )}`,
+      },
       {
         validator: (_rule: any, value: string, callback: Function) => {
           const prefixWrong = value.startsWith('CID') || value.startsWith('GID');
@@ -374,7 +443,12 @@ export const useBucketField = () => {
         maxLength: 64,
       },
       rules: [
-        { pattern: /^[a-zA-Z0-9_-]{3,64}$/, message: `${i18n.t('length is {min}~{max}', { min: 3, max: 64 })},${i18n.t('project:only allowed to consist of characters, numbers, _, and -')}` },
+        {
+          pattern: /^[a-zA-Z0-9_-]{3,64}$/,
+          message: `${i18n.t('length is {min}~{max}', { min: 3, max: 64 })},${i18n.t(
+            'project:only allowed to consist of characters, numbers, _, and -',
+          )}`,
+        },
       ],
     },
     {
@@ -392,37 +466,40 @@ export const useBucketField = () => {
 
 export const ChargeType = (chargeTypeName: string, chargePeriod: string, autoRenew: string, required = true) => {
   const [chargeType, setChargeType] = React.useState('PostPaid');
-  return [{
-    label: i18n.t('resource:charge type'),
-    name: chargeTypeName,
-    required,
-    type: 'radioGroup',
-    options: getOptions('chargeType'),
-    initialValue: chargeType,
-    itemProps: {
-      onChange: (e: any) => {
-        setChargeType(e.target.value);
-      },
-    },
-  },
-  ...insertWhen(chargeType === 'PrePaid', [
+  return [
     {
-      label: i18n.t('resource:charge period'),
-      name: chargePeriod,
+      label: i18n.t('resource:charge type'),
+      name: chargeTypeName,
       required,
-      type: 'select',
-      options: getOptions('chargePeriod'),
+      type: 'radioGroup',
+      options: getOptions('chargeType'),
+      initialValue: chargeType,
       itemProps: {
-        className: 'full-width',
+        onChange: (e: any) => {
+          setChargeType(e.target.value);
+        },
       },
     },
-    {
-      label: i18n.t('resource:whether to renew automatically'),
-      name: autoRenew,
-      required,
-      type: 'switch',
-      initialValue: true,
-    }])];
+    ...insertWhen(chargeType === 'PrePaid', [
+      {
+        label: i18n.t('resource:charge period'),
+        name: chargePeriod,
+        required,
+        type: 'select',
+        options: getOptions('chargePeriod'),
+        itemProps: {
+          className: 'full-width',
+        },
+      },
+      {
+        label: i18n.t('resource:whether to renew automatically'),
+        name: autoRenew,
+        required,
+        type: 'switch',
+        initialValue: true,
+      },
+    ]),
+  ];
 };
 
 export const SlbFields = (data: CUSTOM_ADDON.GatewayInstance[], form: WrappedFormUtils) => {
@@ -450,40 +527,45 @@ export const SlbFields = (data: CUSTOM_ADDON.GatewayInstance[], form: WrappedFor
         },
       },
     },
-    ...(source === '-1' ? [{
-      label: i18n.t('instance name'),
-      name: 'slb.name',
-      itemProps: {
-        maxLength: 30,
-      },
-      rules: [{
-        pattern: /^[a-zA-Z\u4e00-\u9fa5][a-zA-Z\u4e00-\u9fa50-9_]{3,39}$/,
-        message: i18n.t('resource:tips of ali cloud api gateway'),
-      }],
-    }, {
-      label: i18n.t('resource:specifications'),
-      name: 'slb.spec',
-      type: 'select',
-      options: [
-        { name: i18n.t('resource:share performance instance'), value: '-1' },
-        { name: `${i18n.t('resource:simple')}I(slb.s1.small)`, value: 'slb.s1.small' },
-        { name: `${i18n.t('resource:standard')}I(slb.s2.small)`, value: 'slb.s2.small' },
-        { name: `${i18n.t('resource:standard')}II(slb.s2.medium)`, value: 'slb.s2.medium' },
-        { name: `${i18n.t('resource:high level')}Ⅰ(slb.s3.small)`, value: 'slb.s3.small' },
-        { name: `${i18n.t('resource:high level')}II(slb.s3.medium)`, value: 'slb.s3.medium' },
-        { name: `${i18n.t('resource:strongest')}Ⅰ(slb.s3.large)`, value: 'slb.s3.large' },
-      ],
-    },
-    ...newInstance,
-    ] : [
-      {
-        name: 'slb.name',
-        itemProps: {
-          type: 'hidden',
-        },
-      },
-    ]
-    ),
+    ...(source === '-1'
+      ? [
+          {
+            label: i18n.t('instance name'),
+            name: 'slb.name',
+            itemProps: {
+              maxLength: 30,
+            },
+            rules: [
+              {
+                pattern: /^[a-zA-Z\u4e00-\u9fa5][a-zA-Z\u4e00-\u9fa50-9_]{3,39}$/,
+                message: i18n.t('resource:tips of ali cloud api gateway'),
+              },
+            ],
+          },
+          {
+            label: i18n.t('resource:specifications'),
+            name: 'slb.spec',
+            type: 'select',
+            options: [
+              { name: i18n.t('resource:share performance instance'), value: '-1' },
+              { name: `${i18n.t('resource:simple')}I(slb.s1.small)`, value: 'slb.s1.small' },
+              { name: `${i18n.t('resource:standard')}I(slb.s2.small)`, value: 'slb.s2.small' },
+              { name: `${i18n.t('resource:standard')}II(slb.s2.medium)`, value: 'slb.s2.medium' },
+              { name: `${i18n.t('resource:high level')}Ⅰ(slb.s3.small)`, value: 'slb.s3.small' },
+              { name: `${i18n.t('resource:high level')}II(slb.s3.medium)`, value: 'slb.s3.medium' },
+              { name: `${i18n.t('resource:strongest')}Ⅰ(slb.s3.large)`, value: 'slb.s3.large' },
+            ],
+          },
+          ...newInstance,
+        ]
+      : [
+          {
+            name: 'slb.name',
+            itemProps: {
+              type: 'hidden',
+            },
+          },
+        ]),
   ];
 };
 
@@ -512,58 +594,65 @@ export const ApiFields = (data: CUSTOM_ADDON.GatewayInstance[], form: WrappedFor
         },
       },
     },
-    ...(source === '-1' ? [{
-      label: i18n.t('instance name'),
-      name: 'name',
-      itemProps: {
-        maxLength: 30,
-      },
-      rules: [{
-        pattern: /^[a-zA-Z\u4e00-\u9fa5][a-zA-Z\u4e00-\u9fa50-9_]{3,39}$/,
-        message: i18n.t('resource:tips of ali cloud api gateway'),
-      }],
-    }, {
-      label: i18n.t('resource:specifications'),
-      name: 'spec',
-      type: 'select',
-      options: [
-        { name: 'api.s1.small', value: 'api.s1.small', maxQPS: 2500, MaxConnectCount: 50000, SLA: '99.95%' },
-        { name: 'api.s1.medium', value: 'api.s1.medium', maxQPS: 5000, MaxConnectCount: 100000, SLA: '99.95%' },
-        { name: 'api.s2.large', value: 'api.s2.large', maxQPS: 10000, MaxConnectCount: 200000, SLA: '99.95%' },
-      ],
-    },
-    {
-      label: i18n.t('microService:security strategy'),
-      type: 'select',
-      name: 'httpsPolicy',
-      options: [
-        { name: 'HTTPS1_1_TLS1_0', value: 'HTTPS1_1_TLS1_0' },
-        { name: 'HTTPS2_TLS1_0', value: 'HTTPS2_TLS1_0' },
-        { name: 'HTTPS2_TLS1_2', value: 'HTTPS2_TLS1_2' },
-      ],
-    },
-    ...newInstance,
-    {
-      name: 'source',
-      initialValue: 'addon',
-      itemProps: {
-        type: 'hidden',
-      },
-    }] : [
-      {
-        name: 'name',
-        itemProps: {
-          type: 'hidden',
-        },
-      },
-    ]),
+    ...(source === '-1'
+      ? [
+          {
+            label: i18n.t('instance name'),
+            name: 'name',
+            itemProps: {
+              maxLength: 30,
+            },
+            rules: [
+              {
+                pattern: /^[a-zA-Z\u4e00-\u9fa5][a-zA-Z\u4e00-\u9fa50-9_]{3,39}$/,
+                message: i18n.t('resource:tips of ali cloud api gateway'),
+              },
+            ],
+          },
+          {
+            label: i18n.t('resource:specifications'),
+            name: 'spec',
+            type: 'select',
+            options: [
+              { name: 'api.s1.small', value: 'api.s1.small', maxQPS: 2500, MaxConnectCount: 50000, SLA: '99.95%' },
+              { name: 'api.s1.medium', value: 'api.s1.medium', maxQPS: 5000, MaxConnectCount: 100000, SLA: '99.95%' },
+              { name: 'api.s2.large', value: 'api.s2.large', maxQPS: 10000, MaxConnectCount: 200000, SLA: '99.95%' },
+            ],
+          },
+          {
+            label: i18n.t('microService:security strategy'),
+            type: 'select',
+            name: 'httpsPolicy',
+            options: [
+              { name: 'HTTPS1_1_TLS1_0', value: 'HTTPS1_1_TLS1_0' },
+              { name: 'HTTPS2_TLS1_0', value: 'HTTPS2_TLS1_0' },
+              { name: 'HTTPS2_TLS1_2', value: 'HTTPS2_TLS1_2' },
+            ],
+          },
+          ...newInstance,
+          {
+            name: 'source',
+            initialValue: 'addon',
+            itemProps: {
+              type: 'hidden',
+            },
+          },
+        ]
+      : [
+          {
+            name: 'name',
+            itemProps: {
+              type: 'hidden',
+            },
+          },
+        ]),
   ];
 };
 
-export const useGatewayFields = (slb: CUSTOM_ADDON.GatewayInstance[], gateway: CUSTOM_ADDON.GatewayInstance[], form: WrappedFormUtils) => {
-  return [
-    ...SlbFields(slb, form),
-    ...ApiFields(gateway, form),
-  ];
+export const useGatewayFields = (
+  slb: CUSTOM_ADDON.GatewayInstance[],
+  gateway: CUSTOM_ADDON.GatewayInstance[],
+  form: WrappedFormUtils,
+) => {
+  return [...SlbFields(slb, form), ...ApiFields(gateway, form)];
 };
-

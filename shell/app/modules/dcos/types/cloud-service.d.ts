@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace CLOUD_SERVICE {
-
   interface ICloudServiceQuery {
     vendor: string;
     region: string;
@@ -137,9 +136,7 @@ declare namespace CLOUD_SERVICE {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface IMQCreateBody {
-
-  }
+  interface IMQCreateBody {}
 
   interface IMQManageQuery {
     vendor?: string;
@@ -236,5 +233,4 @@ declare namespace CLOUD_SERVICE {
     label: 'string';
     items: Array<{ name: string; value: string }>;
   }
-
 }

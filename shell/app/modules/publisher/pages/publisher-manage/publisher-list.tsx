@@ -23,7 +23,7 @@ import './publisher-list.scss';
 
 const { Search } = Input;
 
-interface IMapperProps{
+interface IMapperProps {
   list: PUBLISHER.IPublisher[];
   paging: IPaging;
   isFetching: boolean;
@@ -33,7 +33,7 @@ interface IMapperProps{
   }>;
   clearList: () => void;
   deleteItem?: (payload: any) => Promise<any>;
-  operationAuth?: {delete: boolean;edit: boolean;add: boolean};
+  operationAuth?: { delete: boolean; edit: boolean; add: boolean };
   onItemClick: (item: PUBLISHER.IPublisher) => void;
 }
 
@@ -53,23 +53,23 @@ export const PurePublisherList = ({
   operationAuth = { delete: false, edit: false, add: false },
   onItemClick,
 }: IPubliserListProps) => {
-  const [{
-    q,
-    formVisible,
-    editData,
-  }, updater] = useUpdate({
+  const [{ q, formVisible, editData }, updater] = useUpdate({
     q: undefined as string | undefined,
     formVisible: false,
     editData: undefined as PUBLISHER.IPublisher | undefined,
   });
   useUnmount(clearList);
 
-  useDebounce(() => {
-    getList({
-      q,
-      pageNo: 1,
-    });
-  }, 600, [q]);
+  useDebounce(
+    () => {
+      getList({
+        q,
+        pageNo: 1,
+      });
+    },
+    600,
+    [q],
+  );
 
   const onSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -109,73 +109,68 @@ export const PurePublisherList = ({
   };
 
   const onDelete = (item: PUBLISHER.IPublisher) => {
-    deleteItem && deleteItem({ publisherId: item.id }).then((res) => {
-      res && reLoadList();
-    });
+    deleteItem &&
+      deleteItem({ publisherId: item.id }).then((res) => {
+        res && reLoadList();
+      });
   };
 
   const Holder = ({ children }: any) => (isFetching || list.length ? children : <EmptyListHolder />);
   return (
     <div className="publisher-list-section">
-      {
-        operationAuth.add ? (
-          <div className="top-button-group">
-            <Button type="primary" onClick={() => openFormModal()}>{i18n.t('publisher:add publisher')}</Button>
-          </div>
-        ) : null
-      }
+      {operationAuth.add ? (
+        <div className="top-button-group">
+          <Button type="primary" onClick={() => openFormModal()}>
+            {i18n.t('publisher:add publisher')}
+          </Button>
+        </div>
+      ) : null}
       <Search className="search-input" placeholder={placeHolderMsg} value={q} onChange={onSearch} />
       <Holder>
         <ul>
-          {
-            list.map((item: any) => {
-              return (
-                <li key={item.name} className="publisher-item">
-                  <div className="item-container" onClick={() => goToPublisher(item)}>
-                    <div className="item-img">
-                      <IF check={item.logo}>
-                        <img src={ossImg(item.logo, { w: 64 })} alt="logo" />
-                        <IF.ELSE />
-                        <img src={fbck_svg} />
-                      </IF>
-                    </div>
-                    <div className="item-content">
-                      <div className="item-name nowrap bold-500">
-                        {item.name}
-                      </div>
-                      <div className="item-desc nowrap">{item.desc || i18n.t('publisher:edit description in edit mode')}</div>
-                    </div>
-                    <div className="item-operation" onClick={(e: any) => e.stopPropagation()}>
-                      {
-                        operationAuth.edit ? (
-                          <CustomIcon
-                            type="bj"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              openFormModal(item);
-                            }}
-                          />
-                        ) : null
-                      }
-                      {
-                        operationAuth.delete ? (
-                          <Popconfirm
-                            title={i18n.t('is it confirmed?')}
-                            onConfirm={(e: any) => {
-                              e.stopPropagation();
-                              onDelete(item);
-                            }}
-                          >
-                            <CustomIcon type="sc1" className="ml4" onClick={(e) => e.stopPropagation()} />
-                          </Popconfirm>
-                        ) : null
-                      }
+          {list.map((item: any) => {
+            return (
+              <li key={item.name} className="publisher-item">
+                <div className="item-container" onClick={() => goToPublisher(item)}>
+                  <div className="item-img">
+                    <IF check={item.logo}>
+                      <img src={ossImg(item.logo, { w: 64 })} alt="logo" />
+                      <IF.ELSE />
+                      <img src={fbck_svg} />
+                    </IF>
+                  </div>
+                  <div className="item-content">
+                    <div className="item-name nowrap bold-500">{item.name}</div>
+                    <div className="item-desc nowrap">
+                      {item.desc || i18n.t('publisher:edit description in edit mode')}
                     </div>
                   </div>
-                </li>
-              );
-            })
-          }
+                  <div className="item-operation" onClick={(e: any) => e.stopPropagation()}>
+                    {operationAuth.edit ? (
+                      <CustomIcon
+                        type="bj"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openFormModal(item);
+                        }}
+                      />
+                    ) : null}
+                    {operationAuth.delete ? (
+                      <Popconfirm
+                        title={i18n.t('is it confirmed?')}
+                        onConfirm={(e: any) => {
+                          e.stopPropagation();
+                          onDelete(item);
+                        }}
+                      >
+                        <CustomIcon type="sc1" className="ml4" onClick={(e) => e.stopPropagation()} />
+                      </Popconfirm>
+                    ) : null}
+                  </div>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       </Holder>
       <LoadMore load={load} hasMore={paging.hasMore} isLoading={isFetching} />

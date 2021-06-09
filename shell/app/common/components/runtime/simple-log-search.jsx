@@ -54,16 +54,17 @@ class LogSearchForm extends React.Component {
         <Form onSubmit={this.handleSubmit}>
           <FormItem className="log-search-logId">
             {getFieldDecorator('requestId', {
-              validate: [{
-                rules: [
-                  { required: true, message: `${i18n.t('common:please fill out')}request id` },
-                ],
-                trigger: 'onChange',
-              }] })(
-                <Input placeholder={`${i18n.t('common:please enter')}request id${i18n.t('search')}`} />,
-            )}
+              validate: [
+                {
+                  rules: [{ required: true, message: `${i18n.t('common:please fill out')}request id` }],
+                  trigger: 'onChange',
+                },
+              ],
+            })(<Input placeholder={`${i18n.t('common:please enter')}request id${i18n.t('search')}`} />)}
           </FormItem>
-          <Button className="log-search-btn" type="primary" htmlType="submit" icon={<IconSearch />} >{i18n.t('common:search for')}</Button>
+          <Button className="log-search-btn" type="primary" htmlType="submit" icon={<IconSearch />}>
+            {i18n.t('common:search for')}
+          </Button>
         </Form>
       </div>
     );

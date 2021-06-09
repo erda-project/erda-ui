@@ -83,7 +83,7 @@ const RENAME_FILE = 'renameFile';
 const CUSTOM_EDIT = 'customEdit';
 
 const newFolderOperation = (effect: ({ name }: { name: string }) => void) => ({
-  title: (<EditCategory onSubmit={effect} />),
+  title: <EditCategory onSubmit={effect} />,
 });
 
 /**
@@ -220,36 +220,38 @@ export const TreeCategory = ({
   customNode,
   customNodeClassName,
 }: IProps) => {
-  const {
-    loadData,
-    getAncestors,
-    copyNode,
-    moveNode,
-    createNode,
-    updateNode,
-    deleteNode,
-    fuzzySearch,
-  } = effects;
+  const { loadData, getAncestors, copyNode, moveNode, createNode, updateNode, deleteNode, fuzzySearch } = effects;
 
-  const [{ treeData, expandedKeys, isEditing, rootKey, cuttingNodeKey, copyingNodeKey, filterOptions }, updater] = useUpdate({
-    treeData: map(initTreeData || [], (data) => ({
-      ...data,
-      icon: getIcon(data, iconMap),
-      optionProps: { popover: { trigger: 'hover', getPopupContainer: () => document.body, onVisibleChange: (visible: boolean) => onPopMenuVisibleChange(data.isLeaf ? `leaf-${data.key}` : data.key, visible) } },
-    })) as TreeNode[],
-    expandedKeys: [] as string[],
-    isEditing: false,
-    rootKey: get(initTreeData, '0.key') || '0',
-    cuttingNodeKey: null as null | string,
-    copyingNodeKey: null as null | string,
-    filterOptions: { folderGroup: [], fileGroup: [] } as { folderGroup: Array<{ label: string; value: string }>; fileGroup: Array<{ label: string; value: string }> },
-  });
+  const [{ treeData, expandedKeys, isEditing, rootKey, cuttingNodeKey, copyingNodeKey, filterOptions }, updater] =
+    useUpdate({
+      treeData: map(initTreeData || [], (data) => ({
+        ...data,
+        icon: getIcon(data, iconMap),
+        optionProps: {
+          popover: {
+            trigger: 'hover',
+            getPopupContainer: () => document.body,
+            onVisibleChange: (visible: boolean) =>
+              onPopMenuVisibleChange(data.isLeaf ? `leaf-${data.key}` : data.key, visible),
+          },
+        },
+      })) as TreeNode[],
+      expandedKeys: [] as string[],
+      isEditing: false,
+      rootKey: get(initTreeData, '0.key') || '0',
+      cuttingNodeKey: null as null | string,
+      copyingNodeKey: null as null | string,
+      filterOptions: { folderGroup: [], fileGroup: [] } as {
+        folderGroup: Array<{ label: string; value: string }>;
+        fileGroup: Array<{ label: string; value: string }>;
+      },
+    });
 
   const latestTreeData = useLatest(treeData);
 
   const getClassName = (node: TreeNode) => {
     const { isLeaf } = node;
-    return isLeaf ? typeof customNodeClassName === 'function' ? customNodeClassName(node) : customNodeClassName : '';
+    return isLeaf ? (typeof customNodeClassName === 'function' ? customNodeClassName(node) : customNodeClassName) : '';
   };
 
   const onPopMenuVisibleChange = (key: string, visible: boolean) => {
@@ -264,26 +266,36 @@ export const TreeCategory = ({
     const dataCp = cloneDeep(latestTreeData.current);
     const parentNode = findTargetNode(parentKey, dataCp);
     if (parentNode) {
-      set(parentNode, 'children', map(children, (child) => {
-        const { isLeaf, key, title: cTitle, ...rest } = child;
-        let originChild = null; // 如果能找到此儿子本身存在，那么此儿子的儿子要保留
-        if (parentNode.children && findIndex(parentNode.children, { key }) > -1) {
-          originChild = find(parentNode.children, { key });
-        }
-        return {
-          ...rest,
-          title: customNode ? customNode(child) : cTitle,
-          titleAlias: typeof cTitle === 'string' ? cTitle : undefined,
-          isLeaf,
-          key: isLeaf ? `leaf-${key}` : key,
-          icon: getIcon({ isLeaf, type: rest.type, iconType: rest.iconType }, iconMap),
-          parentKey,
-          disabled: isEditing,
-          children: originChild?.children,
-          className: getClassName(child),
-          optionProps: { popover: { trigger: 'hover', getPopupContainer: () => document.body, onVisibleChange: (visible: boolean) => onPopMenuVisibleChange(isLeaf ? `leaf-${key}` : key, visible) } },
-        };
-      }));
+      set(
+        parentNode,
+        'children',
+        map(children, (child) => {
+          const { isLeaf, key, title: cTitle, ...rest } = child;
+          let originChild = null; // 如果能找到此儿子本身存在，那么此儿子的儿子要保留
+          if (parentNode.children && findIndex(parentNode.children, { key }) > -1) {
+            originChild = find(parentNode.children, { key });
+          }
+          return {
+            ...rest,
+            title: customNode ? customNode(child) : cTitle,
+            titleAlias: typeof cTitle === 'string' ? cTitle : undefined,
+            isLeaf,
+            key: isLeaf ? `leaf-${key}` : key,
+            icon: getIcon({ isLeaf, type: rest.type, iconType: rest.iconType }, iconMap),
+            parentKey,
+            disabled: isEditing,
+            children: originChild?.children,
+            className: getClassName(child),
+            optionProps: {
+              popover: {
+                trigger: 'hover',
+                getPopupContainer: () => document.body,
+                onVisibleChange: (visible: boolean) => onPopMenuVisibleChange(isLeaf ? `leaf-${key}` : key, visible),
+              },
+            },
+          };
+        }),
+      );
       updater.treeData(dataCp);
     }
   };
@@ -295,7 +307,8 @@ export const TreeCategory = ({
   };
 
   useMount(async () => {
-    if (currentKey) { // 刷新页面或首次加载时有具体文件id存在，需要自动展开树
+    if (currentKey) {
+      // 刷新页面或首次加载时有具体文件id存在，需要自动展开树
       let key = currentKey;
       if (currentKey.startsWith('leaf-')) {
         key = currentKey.slice(5);
@@ -303,7 +316,8 @@ export const TreeCategory = ({
       const ancestors = await getAncestors({ inode: key });
       const keys = map(ancestors, 'key');
       updater.expandedKeys(keys);
-    } else if (initTreeData && initTreeData.length === 1) { // 否则自动展开第一层
+    } else if (initTreeData && initTreeData.length === 1) {
+      // 否则自动展开第一层
       const categories = await loadData({ pinode: rootKey });
       appendChildren(rootKey, categories);
       updater.expandedKeys([rootKey]);
@@ -341,19 +355,18 @@ export const TreeCategory = ({
       onLoadTreeData(nodeKey);
       updater.isEditing(false);
     };
-    currentNode.children = [{
-      key: EDIT_KEY,
-      titleAlias: EDIT_KEY,
-      parentKey: nodeKey,
-      isLeaf: !isCreateFolder,
-      icon: getIcon({ isLeaf: !isCreateFolder }, iconMap),
-      disableAction: true,
-      title: <EditCategory
-        contentOnly
-        onSubmit={onEditFolder}
-        onHide={onHide}
-      />,
-    }, ...(currentNode.children || [])];
+    currentNode.children = [
+      {
+        key: EDIT_KEY,
+        titleAlias: EDIT_KEY,
+        parentKey: nodeKey,
+        isLeaf: !isCreateFolder,
+        icon: getIcon({ isLeaf: !isCreateFolder }, iconMap),
+        disableAction: true,
+        title: <EditCategory contentOnly onSubmit={onEditFolder} onHide={onHide} />,
+      },
+      ...(currentNode.children || []),
+    ];
     !expandedKeys.includes(nodeKey) && updater.expandedKeys(expandedKeys.concat(nodeKey));
     updater.treeData(dataCp);
   }
@@ -381,24 +394,26 @@ export const TreeCategory = ({
     };
     currentNode.key = EDIT_KEY;
     currentNode.disableAction = true;
-    currentNode.title = (<EditCategory
-      contentOnly
-      defaultName={currentNode.title as string}
-      onSubmit={onEditFolder}
-      onHide={onHide}
-    />);
+    currentNode.title = (
+      <EditCategory contentOnly defaultName={currentNode.title as string} onSubmit={onEditFolder} onHide={onHide} />
+    );
     updater.treeData(dataCp);
   };
 
   const handleMoveNode = async (nodeKey: string, parentKey: string) => {
     const targetNode = findTargetNode(nodeKey, treeData)!;
-    await moveNode!({ inode: targetNode.isLeaf ? nodeKey.slice(5) : nodeKey, pinode: parentKey, isLeaf: targetNode!.isLeaf });
+    await moveNode!({
+      inode: targetNode.isLeaf ? nodeKey.slice(5) : nodeKey,
+      pinode: parentKey,
+      isLeaf: targetNode!.isLeaf,
+    });
     if (cuttingNodeKey === nodeKey) {
       updater.cuttingNodeKey(null);
     }
     onLoadTreeData(targetNode.parentKey!); // 重新刷被剪切的父文件夹
     await onLoadTreeData(parentKey); // 重新刷被粘贴的父文件夹
-    if (!targetNode.isLeaf && !!targetNode.children) { // 如果剪切的是文件夹，那么可能这个文件夹已经被展开了，那么刷新父文件夹之后children就丢了。所有手动粘贴一下
+    if (!targetNode.isLeaf && !!targetNode.children) {
+      // 如果剪切的是文件夹，那么可能这个文件夹已经被展开了，那么刷新父文件夹之后children就丢了。所有手动粘贴一下
       const dataCp = cloneDeep(latestTreeData.current);
       const nodeInNewParent = findTargetNode(nodeKey, dataCp);
       if (nodeInNewParent) {
@@ -417,7 +432,8 @@ export const TreeCategory = ({
     } else if (copyingNodeKey) {
       const dataCp = cloneDeep(treeData);
       const targetNode = findTargetNode(copyingNodeKey, dataCp)!;
-      copyNode && await copyNode({ inode: targetNode.isLeaf ? copyingNodeKey.slice(5) : copyingNodeKey, pinode: nodeKey });
+      copyNode &&
+        (await copyNode({ inode: targetNode.isLeaf ? copyingNodeKey.slice(5) : copyingNodeKey, pinode: nodeKey }));
       targetNode.className = getClassName(targetNode);
       updater.copyingNodeKey(null);
       updater.treeData(dataCp);
@@ -431,7 +447,10 @@ export const TreeCategory = ({
   const onDelete = async (nodeKey: string) => {
     const currentNode = findTargetNode(nodeKey, treeData)!;
     // 检查当前删除的节点是不是currentKey的父级
-    await deleteNode!({ inode: currentNode.isLeaf ? nodeKey.slice(5) : nodeKey }, currentNode.isLeaf ? currentKey === nodeKey : isAncestor(treeData, currentKey, nodeKey));
+    await deleteNode!(
+      { inode: currentNode.isLeaf ? nodeKey.slice(5) : nodeKey },
+      currentNode.isLeaf ? currentKey === nodeKey : isAncestor(treeData, currentKey, nodeKey),
+    );
     onLoadTreeData(currentNode.parentKey!);
     if (nodeKey === copyingNodeKey) {
       updater.copyingNodeKey(null);
@@ -442,7 +461,8 @@ export const TreeCategory = ({
 
   const onCopyOrCut = (nodeKey: string, isCut: boolean) => {
     const dataCp = cloneDeep(treeData);
-    if (copyingNodeKey) { // 先把上一个剪切的点取消
+    if (copyingNodeKey) {
+      // 先把上一个剪切的点取消
       const originalNode = findTargetNode(copyingNodeKey, dataCp)!;
       originalNode.className = getClassName(originalNode);
     }
@@ -474,42 +494,72 @@ export const TreeCategory = ({
     },
   });
 
-  const presetMap: { [p: string]: { node?: string | JSX.Element; func: (key: string) => void; condition?: (node: TreeNode) => boolean | IAction; hookFn?: (nodeKey: string, isCreate: boolean) => Promise<void> } | null } = {
-    [NEW_FOLDER]: createNode ? {
-      func: (key: string) => createTreeNode(key, true),
-      condition: (node) => node.key !== copyingNodeKey && node.key !== cuttingNodeKey, // 本身是被复制或剪切中的节点不能创建新节点
-    } : null,
-    [RENAME_FOLDER]: updateNode ? {
-      func: (key: string) => renameTreeNode(key, true),
-      condition: (node) => node.key !== copyingNodeKey && node.key !== cuttingNodeKey, // 本身是被复制或剪切中的节点不能重命名
-    } : null,
-    [DELETE]: deleteNode ? {
-      node: (
-        <Popover
-          trigger="click"
-          content={i18n.t('project:confirm to delete?')}
-          onCancel={(e) => e.stopPropagation()}
-        >
-          <div onClick={(e) => { e.stopPropagation(); }}>{i18n.t('delete')}</div>
-        </Popover>),
-      func: async (key: string) => {
-        onDelete(key);
-      },
-    } : null,
-    [CUT]: moveNode ? {
-      func: (key: string) => onCopyOrCut(key, true),
-      condition: (node) => (node.key !== cuttingNodeKey ? true : cancelCutCopyAction(true)), // 本身就是被剪切的节点要被替换成取消
-    } : null,
-    [PASTE]: (moveNode || copyNode) ? {
-      func: (key: string) => onPaste(key),
-      condition: (node) => (!!cuttingNodeKey || !!copyingNodeKey)
-        && (cuttingNodeKey !== node.key && copyingNodeKey !== node.key)
-        && (!isAncestor(treeData, node.key, cuttingNodeKey) && !isAncestor(treeData, node.key, copyingNodeKey)), // 如果当前节点是已被剪切或复制的节点的儿子，那么不能粘贴， 否则会循环引用
-    } : null,
-    [COPY]: copyNode ? {
-      func: (key: string) => onCopyOrCut(key, false),
-      condition: (node) => (node.key !== copyingNodeKey ? true : cancelCutCopyAction(false)), // 本身就是被复制的节点要被替换成取消
-    } : null,
+  const presetMap: {
+    [p: string]: {
+      node?: string | JSX.Element;
+      func: (key: string) => void;
+      condition?: (node: TreeNode) => boolean | IAction;
+      hookFn?: (nodeKey: string, isCreate: boolean) => Promise<void>;
+    } | null;
+  } = {
+    [NEW_FOLDER]: createNode
+      ? {
+          func: (key: string) => createTreeNode(key, true),
+          condition: (node) => node.key !== copyingNodeKey && node.key !== cuttingNodeKey, // 本身是被复制或剪切中的节点不能创建新节点
+        }
+      : null,
+    [RENAME_FOLDER]: updateNode
+      ? {
+          func: (key: string) => renameTreeNode(key, true),
+          condition: (node) => node.key !== copyingNodeKey && node.key !== cuttingNodeKey, // 本身是被复制或剪切中的节点不能重命名
+        }
+      : null,
+    [DELETE]: deleteNode
+      ? {
+          node: (
+            <Popover
+              trigger="click"
+              content={i18n.t('project:confirm to delete?')}
+              onCancel={(e) => e.stopPropagation()}
+            >
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                {i18n.t('delete')}
+              </div>
+            </Popover>
+          ),
+          func: async (key: string) => {
+            onDelete(key);
+          },
+        }
+      : null,
+    [CUT]: moveNode
+      ? {
+          func: (key: string) => onCopyOrCut(key, true),
+          condition: (node) => (node.key !== cuttingNodeKey ? true : cancelCutCopyAction(true)), // 本身就是被剪切的节点要被替换成取消
+        }
+      : null,
+    [PASTE]:
+      moveNode || copyNode
+        ? {
+            func: (key: string) => onPaste(key),
+            condition: (node) =>
+              (!!cuttingNodeKey || !!copyingNodeKey) &&
+              cuttingNodeKey !== node.key &&
+              copyingNodeKey !== node.key &&
+              !isAncestor(treeData, node.key, cuttingNodeKey) &&
+              !isAncestor(treeData, node.key, copyingNodeKey), // 如果当前节点是已被剪切或复制的节点的儿子，那么不能粘贴， 否则会循环引用
+          }
+        : null,
+    [COPY]: copyNode
+      ? {
+          func: (key: string) => onCopyOrCut(key, false),
+          condition: (node) => (node.key !== copyingNodeKey ? true : cancelCutCopyAction(false)), // 本身就是被复制的节点要被替换成取消
+        }
+      : null,
     [CUSTOM_EDIT]: {
       func: noop,
       hookFn: async (nodeKey: string, isCreate: boolean) => {
@@ -525,56 +575,84 @@ export const TreeCategory = ({
         }
       },
     },
-    [NEW_FILE]: createNode ? {
-      func: (key: string) => createTreeNode(key, false),
-      condition: (node) => node.key !== copyingNodeKey && node.key !== cuttingNodeKey, // 本身是被复制或剪切中的节点不能创建新节点
-    } : null,
-    [RENAME_FILE]: updateNode ? {
-      func: (key: string) => renameTreeNode(key, false),
-      condition: (node) => node.key !== copyingNodeKey && node.key !== cuttingNodeKey, // 本身是被复制或剪切中的节点不能重命名
-    } : null,
+    [NEW_FILE]: createNode
+      ? {
+          func: (key: string) => createTreeNode(key, false),
+          condition: (node) => node.key !== copyingNodeKey && node.key !== cuttingNodeKey, // 本身是被复制或剪切中的节点不能创建新节点
+        }
+      : null,
+    [RENAME_FILE]: updateNode
+      ? {
+          func: (key: string) => renameTreeNode(key, false),
+          condition: (node) => node.key !== copyingNodeKey && node.key !== cuttingNodeKey, // 本身是被复制或剪切中的节点不能重命名
+        }
+      : null,
   };
 
   const generateActions = (rawActions: TreeAction[], node: TreeNode): IAction[] => {
-    const _actions = reduce(rawActions, (acc: IAction[], action) => {
-      const { preset, func, node: actionNode, hasAuth = true, authTip } = action;
-      if (preset) {
-        const defaultFn = (fn: (key: string, n: TreeNodeNormal) => Promise<void>, hook?: (nodeKey: string, isCreate: boolean) => Promise<void>) => async (key: string, n: TreeNodeNormal) => {
-          await fn(key, n);
-          func && func(key, n, hook);
-          onPopMenuVisibleChange(key, false);
-        };
-        const presetAction = presetMap[preset]; // 策略模式取具体action
-        if (presetAction) {
-          const { node: presetNode, func: presetFunc, condition, hookFn } = presetAction;
-          const addable = condition ? condition(node) : true; // condition为true则要添加
-          if (!addable) {
-            return acc;
-          }
-          if (typeof addable !== 'boolean') {
-            return acc.concat(addable);
-          }
-          if (preset === DELETE && !hasAuth) { // 没权限的时候，去除删除的确认框
+    const _actions = reduce(
+      rawActions,
+      (acc: IAction[], action) => {
+        const { preset, func, node: actionNode, hasAuth = true, authTip } = action;
+        if (preset) {
+          const defaultFn =
+            (
+              fn: (key: string, n: TreeNodeNormal) => Promise<void>,
+              hook?: (nodeKey: string, isCreate: boolean) => Promise<void>,
+            ) =>
+            async (key: string, n: TreeNodeNormal) => {
+              await fn(key, n);
+              func && func(key, n, hook);
+              onPopMenuVisibleChange(key, false);
+            };
+          const presetAction = presetMap[preset]; // 策略模式取具体action
+          if (presetAction) {
+            const { node: presetNode, func: presetFunc, condition, hookFn } = presetAction;
+            const addable = condition ? condition(node) : true; // condition为true则要添加
+            if (!addable) {
+              return acc;
+            }
+            if (typeof addable !== 'boolean') {
+              return acc.concat(addable);
+            }
+            if (preset === DELETE && !hasAuth) {
+              // 没权限的时候，去除删除的确认框
+              return acc.concat({
+                node: (
+                  <div>
+                    <WithAuth pass={hasAuth} noAuthTip={authTip}>
+                      <span>{actionNode}</span>
+                    </WithAuth>
+                  </div>
+                ),
+                func: noop,
+              });
+            }
             return acc.concat({
-              node: <div><WithAuth pass={hasAuth} noAuthTip={authTip}><span>{actionNode}</span></WithAuth></div>,
-              func: noop,
+              node: (
+                <div>
+                  <WithAuth pass={hasAuth} noAuthTip={authTip}>
+                    <span>{presetNode || actionNode}</span>
+                  </WithAuth>
+                </div>
+              ),
+              func: hasAuth ? defaultFn(presetFunc, hookFn) : noop,
             });
           }
-          return acc.concat({
-            node: <div><WithAuth pass={hasAuth} noAuthTip={authTip}><span>{presetNode || actionNode}</span></WithAuth></div>,
-            func: hasAuth ? defaultFn(presetFunc, hookFn) : noop,
-          });
+          return acc;
         }
-        return acc;
-      }
-      return func ? acc.concat({
-        func: (curKey: string, curNode: TreeNodeNormal) => {
-          func(curKey, curNode);
-          onPopMenuVisibleChange(curKey, false);
-        },
-        node: actionNode,
-      }) : acc;
-    }, []);
+        return func
+          ? acc.concat({
+              func: (curKey: string, curNode: TreeNodeNormal) => {
+                func(curKey, curNode);
+                onPopMenuVisibleChange(curKey, false);
+              },
+              node: actionNode,
+            })
+          : acc;
+      },
+      [],
+    );
     return _actions;
   };
 
@@ -584,10 +662,12 @@ export const TreeCategory = ({
       return [];
     }
     if (node.isLeaf) {
-      const fileActions = typeof actions?.fileActions === 'function' ? actions.fileActions(execNode) : actions?.fileActions;
+      const fileActions =
+        typeof actions?.fileActions === 'function' ? actions.fileActions(execNode) : actions?.fileActions;
       return generateActions(fileActions || [], execNode);
     }
-    const folderActions = typeof actions?.folderActions === 'function' ? actions.folderActions(execNode) : actions?.folderActions;
+    const folderActions =
+      typeof actions?.folderActions === 'function' ? actions.folderActions(execNode) : actions?.folderActions;
     return generateActions(folderActions || [], execNode);
   };
 
@@ -654,34 +734,49 @@ export const TreeCategory = ({
     const { file, folder } = searchGroup || { file: i18n.t('application:file'), folder: i18n.t('common:folder') };
     const options = [];
     if (folderGroup.length > 0) {
-      options.push(<OptGroup key="folder" label={folder}>{map(folderGroup, ({ value, label }) => <Option key={value} value={value}>{label}</Option>)}</OptGroup>);
+      options.push(
+        <OptGroup key="folder" label={folder}>
+          {map(folderGroup, ({ value, label }) => (
+            <Option key={value} value={value}>
+              {label}
+            </Option>
+          ))}
+        </OptGroup>,
+      );
     }
     if (fileGroup.length > 0) {
-      options.push(<OptGroup key="file" label={file}>{map(fileGroup, ({ value, label }) => <Option key={value} value={value}>{label}</Option>)}</OptGroup>);
+      options.push(
+        <OptGroup key="file" label={file}>
+          {map(fileGroup, ({ value, label }) => (
+            <Option key={value} value={value}>
+              {label}
+            </Option>
+          ))}
+        </OptGroup>,
+      );
     }
     return options;
   };
 
   return (
     <div>
-      { title ? <Title title={title} showDivider={false} operations={operations()} /> : null }
-      {
-        fuzzySearch ?
-          <Select
-            showSearch
-            placeholder={i18n.t('common:please enter keyword to search')}
-            showArrow={false}
-            filterOption
-            optionFilterProp={'children'}
-            notFoundContent={null}
-            onSearch={onSearch}
-            onChange={handleSearchChange}
-            className="full-width"
-            allowClear
-          >
-            { generateSearchOptions() }
-          </Select> : null
-      }
+      {title ? <Title title={title} showDivider={false} operations={operations()} /> : null}
+      {fuzzySearch ? (
+        <Select
+          showSearch
+          placeholder={i18n.t('common:please enter keyword to search')}
+          showArrow={false}
+          filterOption
+          optionFilterProp={'children'}
+          notFoundContent={null}
+          onSearch={onSearch}
+          onChange={handleSearchChange}
+          className="full-width"
+          allowClear
+        >
+          {generateSearchOptions()}
+        </Select>
+      ) : null}
       <Spin spinning={!!loading}>
         <Tree
           selectedKeys={currentKey ? [currentKey] : []}

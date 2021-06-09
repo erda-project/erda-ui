@@ -23,7 +23,7 @@ export enum IMeshType {
   circuitBreaker = 'circuitBreaker',
 }
 
-interface IProps{
+interface IProps {
   visible: boolean;
   type: string;
   node: any;
@@ -45,7 +45,7 @@ const ServiceMeshDrawer = (props: IProps) => {
       width={800}
       onClose={onClose}
     >
-      { visible ? <FormComp {...props} /> : null }
+      {visible ? <FormComp {...props} /> : null}
     </Drawer>
   );
 };

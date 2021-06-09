@@ -50,7 +50,8 @@ export const statusConfig = {
 };
 
 const compareClass = (rate: number) => {
-  if (rate > 100) { // 超过百分百
+  if (rate > 100) {
+    // 超过百分百
     return 'color-crash';
   } else if (rate > 60 && rate < 80) {
     return 'color-warning';
@@ -87,7 +88,8 @@ const ProgressItem = (percent: number, used: number, total: number, unit: string
       const _total = unit ? `${total} ${unit}` : getFormatter('STORAGE').format(total, 2);
       return (
         <div className="table-tooltip">
-          {`${i18n.t('dcos:usage amount')}：`}<span className={color}>{_used}</span> <br />
+          {`${i18n.t('dcos:usage amount')}：`}
+          <span className={color}>{_used}</span> <br />
           {`${i18n.t('dcos:assignment')}：${_total}`}
         </div>
       );
@@ -118,7 +120,16 @@ interface IInstance {
   host: string;
 }
 
-function ServiceList({ containerList, serviceList, depth, into, haveMetrics, haveHost = true, haveStatus = true, extraQuery }: IProps) {
+function ServiceList({
+  containerList,
+  serviceList,
+  depth,
+  into,
+  haveMetrics,
+  haveHost = true,
+  haveStatus = true,
+  extraQuery,
+}: IProps) {
   const [renderOp, drawer] = useInstanceOperation<IInstance>({
     log: true,
     console: true,
@@ -146,7 +157,9 @@ function ServiceList({ containerList, serviceList, depth, into, haveMetrics, hav
   if (depth && depth < 5) {
     list = serviceList;
     // 设一个id作为rocord的key，避免切换rowKey时新数据还没拿到引起rowKey和record的key不一致
-    list.forEach((item: any, i: number) => { set(item, 'id', item.id || item.name || i); });
+    list.forEach((item: any, i: number) => {
+      set(item, 'id', item.id || item.name || i);
+    });
     const titleMap = ['', 'PROJECT', 'APPLICATION', 'RUNTIME', 'SERVICE', 'CONTAINER'];
     const titleCnMap = {
       '': '',
@@ -166,7 +179,8 @@ function ServiceList({ containerList, serviceList, depth, into, haveMetrics, hav
         // width: 320,
         render: (text: string, record: any) => (
           <span className="bold hover-table-text" onClick={() => into({ q: text, name: record.name })}>
-            <CustomIcon type={iconMap[depth]} />{record.name}
+            <CustomIcon type={iconMap[depth]} />
+            {record.name}
           </span>
         ),
       },
@@ -256,15 +270,19 @@ function ServiceList({ containerList, serviceList, depth, into, haveMetrics, hav
         title: 'IP',
         key: 'ip_addr',
         // width: 120,
-        sorter: (a: any, b: any) => Number((a.ip_addr || a.ipAddress || '').replace(/\./g, '')) - Number((b.ip_addr || b.ipAddress || '').replace(/\./g, '')),
+        sorter: (a: any, b: any) =>
+          Number((a.ip_addr || a.ipAddress || '').replace(/\./g, '')) -
+          Number((b.ip_addr || b.ipAddress || '').replace(/\./g, '')),
         render: (record: any) => record.ip_addr || record.ipAddress || i18n.t('dcos:no ip address'),
       },
-      haveHost ? {
-        title: i18n.t('dcos:host address'),
-        key: 'host_private_addr',
-        width: 120,
-        render: (record: any) => record.host_private_addr || record.host || i18n.t('dcos:no host address'),
-      } : null,
+      haveHost
+        ? {
+            title: i18n.t('dcos:host address'),
+            key: 'host_private_addr',
+            width: 120,
+            render: (record: any) => record.host_private_addr || record.host || i18n.t('dcos:no host address'),
+          }
+        : null,
       {
         title: i18n.t('image'),
         key: 'image',
@@ -276,8 +294,12 @@ function ServiceList({ containerList, serviceList, depth, into, haveMetrics, hav
             return null;
           }
           return (
-            <Tooltip title={`${i18n.t('click to copy')}:${text}`} overlayClassName="tooltip-word-break" >
-              <span className="image-name for-copy-image" data-clipboard-tip={i18n.t('image name')} data-clipboard-text={text} >
+            <Tooltip title={`${i18n.t('click to copy')}:${text}`} overlayClassName="tooltip-word-break">
+              <span
+                className="image-name for-copy-image"
+                data-clipboard-tip={i18n.t('image name')}
+                data-clipboard-text={text}
+              >
                 {getImageText(text)}
               </span>
             </Tooltip>
@@ -316,7 +338,7 @@ function ServiceList({ containerList, serviceList, depth, into, haveMetrics, hav
         },
         render: (total: number, record: any) => {
           if (!haveMetrics) return getFormatter('STORAGE', 'MB').format(total);
-          const used = (getMetricsInfo(record, 'memUsage') || 0);
+          const used = getMetricsInfo(record, 'memUsage') || 0;
           const { percent, statusClass } = countPercent(used, total);
           return ProgressItem(percent, used, total, '', statusClass);
         },
@@ -330,17 +352,23 @@ function ServiceList({ containerList, serviceList, depth, into, haveMetrics, hav
         render: (size: number) => getFormatter('STORAGE', 'MB').format(size),
       },
       // TODO: 集群组件目前无状态，3.5暂时去除，后续提供后打开
-      haveStatus ? {
-        title: i18n.t('status'),
-        dataIndex: 'status',
-        key: 'status',
-        width: 100,
-        align: 'center',
-        render: (text: string) => {
-          const stateObj = get(statusConfig, `CONTAINER.${text}`) || statusConfig.Unknown;
-          return <Tooltip title={text || 'Unknown'}><Badge status={stateObj.state} /></Tooltip>;
-        },
-      } : null,
+      haveStatus
+        ? {
+            title: i18n.t('status'),
+            dataIndex: 'status',
+            key: 'status',
+            width: 100,
+            align: 'center',
+            render: (text: string) => {
+              const stateObj = get(statusConfig, `CONTAINER.${text}`) || statusConfig.Unknown;
+              return (
+                <Tooltip title={text || 'Unknown'}>
+                  <Badge status={stateObj.state} />
+                </Tooltip>
+              );
+            },
+          }
+        : null,
       {
         title: i18n.t('operations'),
         key: 'operation',

@@ -16,7 +16,6 @@ import { getAuthenticateList } from '../services/authenticate';
 import { addBlackList, addErase } from '../services/safety';
 import i18n from 'i18n';
 
-
 interface IState {
   list: PUBLISHER.IAuthenticate[];
 }

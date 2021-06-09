@@ -20,7 +20,6 @@ import microServiceStore from 'microService/stores/micro-service';
 
 import './tab-right.scss';
 
-
 // 一层group查询，instance
 const instanceGroupHandler = (dataKey: string) => (originData: object) => {
   const results = get(originData, 'results[0].data') || [];
@@ -33,18 +32,26 @@ const instanceGroupHandler = (dataKey: string) => (originData: object) => {
 
 const reqUrlPrefix = '/api/spot/tmc/metrics';
 
-const TabRight = ({ type = '' }: {type?: string}) => {
+const TabRight = ({ type = '' }: { type?: string }) => {
   const DICE_CLUSTER_TYPE = microServiceStore.useStore((s) => s.DICE_CLUSTER_TYPE);
   const isDcos = DICE_CLUSTER_TYPE === 'dcos';
   const modulesMap = {
     jvm: {
       api: `${reqUrlPrefix}/jvm_memory`,
-      query: { latestTimestamp: 'usage_percent', sort: ['count', 'latestTimestamp_usage_percent'], group: isDcos ? ['instance_id'] : ['service_ip'] },
+      query: {
+        latestTimestamp: 'usage_percent',
+        sort: ['count', 'latestTimestamp_usage_percent'],
+        group: isDcos ? ['instance_id'] : ['service_ip'],
+      },
       dataHandler: instanceGroupHandler('latestTimestamp.usage_percent'),
     },
     node: {
       api: `${reqUrlPrefix}/nodejs_memory`,
-      query: { latestTimestamp: 'heap_total', sort: ['count', 'latestTimestamp_heap_total'], group: isDcos ? ['instance_id'] : ['service_ip'] },
+      query: {
+        latestTimestamp: 'heap_total',
+        sort: ['count', 'latestTimestamp_heap_total'],
+        group: isDcos ? ['instance_id'] : ['service_ip'],
+      },
       dataHandler: instanceGroupHandler('latestTimestamp.heap_total'),
     },
   };

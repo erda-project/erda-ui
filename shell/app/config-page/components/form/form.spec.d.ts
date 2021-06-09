@@ -19,11 +19,11 @@ declare namespace CP_FORM {
     state: IState;
   }
 
-  interface IState{
+  interface IState {
     formData: Obj | undefined;
   }
 
-  interface IProps{
+  interface IProps {
     width?: number;
     name?: string;
     title?: string;
@@ -32,7 +32,6 @@ declare namespace CP_FORM {
     formData?: Obj;
     readOnly?: boolean;
   }
-
 
   type Props = MakeProps<Spec> & {
     props: {

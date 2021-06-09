@@ -21,7 +21,6 @@ import i18n from 'i18n';
 import './trace-status-list.scss';
 import { PauseOne as IconPauseOne, Loading as IconLoading, ReduceOne as IconReduceOne } from '@icon-park/react';
 
-
 const TraceStatusList = (props: any) => {
   const {
     dataSource,
@@ -53,13 +52,7 @@ const TraceStatusList = (props: any) => {
     }
   };
 
-  const renderListItem = ({
-    id,
-    status,
-    statusName,
-    updateTime,
-    requestId,
-  }: any) => {
+  const renderListItem = ({ id, status, statusName, updateTime, requestId }: any) => {
     // 状态，0：初始化、1：成功、2：失败、3：主动取消 对应 statusNodeList 数组下标
     const statusNodeList = [
       {
@@ -67,7 +60,7 @@ const TraceStatusList = (props: any) => {
         node: (
           <span>
             <span className="request-status-text">
-              <IconLoading /> { statusName }
+              <IconLoading /> {statusName}
             </span>
             <Tooltip title={i18n.t('microService:cancel')}>
               <span
@@ -85,30 +78,34 @@ const TraceStatusList = (props: any) => {
       },
       {
         className: 'success',
-        node: <span><CustomIcon className="success" type="yuanxingxuanzhongfill" /> { statusName }</span>,
+        node: (
+          <span>
+            <CustomIcon className="success" type="yuanxingxuanzhongfill" /> {statusName}
+          </span>
+        ),
       },
       {
         className: 'failure',
-        node: <span><CustomIcon className="failure" type="guanbi-fill" /> { statusName }</span>,
+        node: (
+          <span>
+            <CustomIcon className="failure" type="guanbi-fill" /> {statusName}
+          </span>
+        ),
       },
       {
         className: 'cancel',
-        node: <span><IconReduceOne theme="filled" /> { statusName }</span>,
+        node: (
+          <span>
+            <IconReduceOne theme="filled" /> {statusName}
+          </span>
+        ),
       },
     ];
 
     return (
-      <li
-        key={id}
-        onClick={() => goTo(`./${requestId}`)}
-        className="trace-status-list-item"
-      >
-        <span className="update-time nowrap">
-          { moment(updateTime).format('YYYY-MM-DD HH:mm:ss') }
-        </span>
-        <span className={`request-status ${statusNodeList[status].className}`}>
-          { statusNodeList[status].node }
-        </span>
+      <li key={id} onClick={() => goTo(`./${requestId}`)} className="trace-status-list-item">
+        <span className="update-time nowrap">{moment(updateTime).format('YYYY-MM-DD HH:mm:ss')}</span>
+        <span className={`request-status ${statusNodeList[status].className}`}>{statusNodeList[status].node}</span>
       </li>
     );
   };
@@ -120,9 +117,7 @@ const TraceStatusList = (props: any) => {
   return (
     <div className="trace-status">
       <Spin spinning={isFetching}>
-        <ul className="trace-status-list">
-          { _map(dataSource, (item) => renderListItem(item)) }
-        </ul>
+        <ul className="trace-status-list">{_map(dataSource, (item) => renderListItem(item))}</ul>
         <Pagination
           defaultCurrent={page}
           total={total}

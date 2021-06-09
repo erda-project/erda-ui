@@ -14,13 +14,18 @@
 import agent from 'agent';
 
 export const getMetaGroups = (q: MONITOR_COMMON_METADATA.CommonMetaQuery): any[] => {
-  return agent.get('/api/metadata/groups')
+  return agent
+    .get('/api/metadata/groups')
     .query(q)
     .then((response: any) => response.body);
 };
 
-export const getMetaData = ({ groupId, ...q }: Merge<{ groupId: string }, MONITOR_COMMON_METADATA.CommonMetaQuery>): MONITOR_COMMON_METADATA.MetaData => {
-  return agent.get(`/api/metadata/groups/${groupId}`)
+export const getMetaData = ({
+  groupId,
+  ...q
+}: Merge<{ groupId: string }, MONITOR_COMMON_METADATA.CommonMetaQuery>): MONITOR_COMMON_METADATA.MetaData => {
+  return agent
+    .get(`/api/metadata/groups/${groupId}`)
     .query(q)
     .then((response: any) => response.body);
 };

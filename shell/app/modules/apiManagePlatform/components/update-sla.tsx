@@ -18,7 +18,7 @@ import SLASelect from 'apiManagePlatform/components/sla-select';
 import { insertWhen } from 'common/utils';
 import moment from 'moment';
 
-interface IProps{
+interface IProps {
   confirmLoading: boolean;
   slaList: API_ACCESS.SlaItem[];
   metaData: {
@@ -39,21 +39,27 @@ const UpdateSLA = ({ visible, onCancel, metaData, slaList, onOk, confirmLoading 
     const defaultSla = metaData.defaultSLAID || metaData.defaultSLAID === 0 ? metaData.defaultSLAID : firstSlaId;
     setSlaID(defaultSla);
   }, [metaData.defaultSLAID, firstSlaId]);
-  const currentSLA = React.useMemo<API_ACCESS.SlaItem>(() => slaList.find((sla) => sla.id === metaData.currentSLAID) as API_ACCESS.SlaItem, [slaList, metaData.currentSLAID]);
+  const currentSLA = React.useMemo<API_ACCESS.SlaItem>(
+    () => slaList.find((sla) => sla.id === metaData.currentSLAID) as API_ACCESS.SlaItem,
+    [slaList, metaData.currentSLAID],
+  );
   const handleCancel = () => {
     onCancel();
   };
   const handleOk = () => {
     onOk(slaID as number);
   };
-  const fields = [{
-    label: i18n.t('SLA name'),
-    value: metaData.curSLAName || currentSLA?.name,
-  },
-  ...insertWhen(!!metaData.committedAt, [{
-    label: i18n.t('commit date'),
-    value: moment(metaData.committedAt).format('YYYY-MM-DD HH:mm:ss'),
-  }]),
+  const fields = [
+    {
+      label: i18n.t('SLA name'),
+      value: metaData.curSLAName || currentSLA?.name,
+    },
+    ...insertWhen(!!metaData.committedAt, [
+      {
+        label: i18n.t('commit date'),
+        value: moment(metaData.committedAt).format('YYYY-MM-DD HH:mm:ss'),
+      },
+    ]),
   ];
   return (
     <Modal
@@ -68,10 +74,13 @@ const UpdateSLA = ({ visible, onCancel, metaData, slaList, onOk, confirmLoading 
       <div className="fz16 bold-500 mb12">{i18n.t('current SLA')}</div>
       <Panel fields={fields} />
       <div className="fz16 bold-500 mb12">{i18n.t('replace SLA')}</div>
-      <SLASelect dataSource={slaList} defaultSelectKey={metaData.defaultSLAID || metaData.defaultSLAID === 0 ? metaData.defaultSLAID : slaList[0]?.id} onChange={setSlaID} />
+      <SLASelect
+        dataSource={slaList}
+        defaultSelectKey={metaData.defaultSLAID || metaData.defaultSLAID === 0 ? metaData.defaultSLAID : slaList[0]?.id}
+        onChange={setSlaID}
+      />
     </Modal>
   );
 };
-
 
 export default UpdateSLA;

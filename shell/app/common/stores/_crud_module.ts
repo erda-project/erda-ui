@@ -82,7 +82,6 @@ export const createCRUDStore = <P>(props: IProps<P>) => {
   return effects ? thisStore.extend({ effects }) : thisStore;
 };
 
-
 export interface ICRUDStore extends ReturnType<typeof createCRUDStore> {
   [pro: string]: any;
 }
@@ -100,35 +99,42 @@ export const createCRUDService = <P>({ API }: IServiceProps) => {
   const replacePattern = /\{([\w.])+\}/g;
   const services = {
     getList: (payload: any): IPagingResp<P> => {
-      return agent.get(API.get)
+      return agent
+        .get(API.get)
         .query(payload)
         .then((response: any) => response.body);
     },
-    addItem: API.add ? (data: P) => {
-      return agent.post(API.add)
-        .send(data)
-        .then((response: any) => response.body);
-    } : undefined,
-    updateItem: API.update ? (payload: P) => {
-      let api = API.delete || '';
-      const matches = (API.delete as string).match(replacePattern);
-      map(matches, (match) => {
-        api = api.replace(match, payload[match]);
-      });
-      return agent.put(api)
-        .send(payload)
-        .then((response: any) => response.body);
-    } : undefined,
-    deleteItem: API.delete ? (payload: any) => {
-      let api = API.delete || '';
-      const matches = (API.delete as string).match(replacePattern);
-      map(matches, (match) => {
-        api = api.replace(match, payload[match]);
-      });
-      return agent.delete(api)
-        .then((response: any) => response.body);
-    } : undefined,
+    addItem: API.add
+      ? (data: P) => {
+          return agent
+            .post(API.add)
+            .send(data)
+            .then((response: any) => response.body);
+        }
+      : undefined,
+    updateItem: API.update
+      ? (payload: P) => {
+          let api = API.delete || '';
+          const matches = (API.delete as string).match(replacePattern);
+          map(matches, (match) => {
+            api = api.replace(match, payload[match]);
+          });
+          return agent
+            .put(api)
+            .send(payload)
+            .then((response: any) => response.body);
+        }
+      : undefined,
+    deleteItem: API.delete
+      ? (payload: any) => {
+          let api = API.delete || '';
+          const matches = (API.delete as string).match(replacePattern);
+          map(matches, (match) => {
+            api = api.replace(match, payload[match]);
+          });
+          return agent.delete(api).then((response: any) => response.body);
+        }
+      : undefined,
   };
   return services;
 };
-

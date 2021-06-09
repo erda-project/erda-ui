@@ -22,9 +22,7 @@ import routeInfoStore from 'app/common/stores/route';
 import podDetailStore from '../../stores/pod-detail';
 import { useInstanceOperation } from '../../common/components/instance-operation';
 
-import {
-  IInstances,
-} from '../../services/pod-detail';
+import { IInstances } from '../../services/pod-detail';
 
 import './index.scss';
 
@@ -48,7 +46,6 @@ const PodDetail = () => {
   useMount(() => {
     getPodDetail();
   });
-
 
   const [renderOp, drawer] = useInstanceOperation<IInstances>({
     log: true,
@@ -110,24 +107,17 @@ const PodDetail = () => {
           <div className="base-info mb32">
             <span className="title bold-500">{i18n.t('basic information')}</span>
             <div className="info-grid">
-              {
-                map(SUMMARY_KEY_MAP, (label, key) => (
-                  <div key={key}>
-                    <div className="param-k nowrap">{label}</div>
-                    <div className="param-v nowrap">{podDetail.summary ? podDetail.summary[key] : '--'}</div>
-                  </div>
-                ))
-              }
+              {map(SUMMARY_KEY_MAP, (label, key) => (
+                <div key={key}>
+                  <div className="param-k nowrap">{label}</div>
+                  <div className="param-v nowrap">{podDetail.summary ? podDetail.summary[key] : '--'}</div>
+                </div>
+              ))}
             </div>
           </div>
           <div className="instance mb32">
             <span className="title bold-500">{i18n.t('org:instance list')} TOP10</span>
-            <Table
-              rowKey="containerId"
-              pagination={false}
-              columns={columns}
-              dataSource={podDetail.instances || []}
-            />
+            <Table rowKey="containerId" pagination={false} columns={columns} dataSource={podDetail.instances || []} />
             {drawer}
           </div>
         </div>

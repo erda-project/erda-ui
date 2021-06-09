@@ -21,56 +21,59 @@ export const commonAttr = {
   moduleName: 'MIAjax',
   groupId: 'miAjax',
 };
-const chartMap = merge({
-  sortTab: sortCreator(commonAttr.moduleName, 'sortTab'),
-  sortList: {
-    ...commonAttr,
-    type: 'sortList',
-    chartName: 'sortList',
-  },
-  rspTopN: {
-    titleText: `${i18n.t('microService:response time')} TOP5`,
-    ...commonAttr,
-    chartName: 'rspTopN',
-    viewProps: {
-      unitType: 'TIME',
+const chartMap = merge(
+  {
+    sortTab: sortCreator(commonAttr.moduleName, 'sortTab'),
+    sortList: {
+      ...commonAttr,
+      type: 'sortList',
+      chartName: 'sortList',
+    },
+    rspTopN: {
+      titleText: `${i18n.t('microService:response time')} TOP5`,
+      ...commonAttr,
+      chartName: 'rspTopN',
+      viewProps: {
+        unitType: 'TIME',
+      },
+    },
+    cpmTopN: {
+      titleText: `${i18n.t('microService:throughput')} TOP5`,
+      ...commonAttr,
+      chartName: 'cpmTopN',
+      viewProps: {
+        unitType: 'CPM',
+      },
+    },
+    postTopN: {
+      titleText: i18n.t('microService:send data'),
+      ...commonAttr,
+      chartName: 'postTopN',
+      viewProps: {
+        unitType: 'CAPACITY',
+      },
+    },
+    receiveTopN: {
+      titleText: i18n.t('microService:receive data'),
+      ...commonAttr,
+      chartName: 'receiveTopN',
+      viewProps: {
+        unitType: 'CAPACITY',
+      },
+    },
+    ajaxPerformanceTrends: {
+      ...commonAttr,
+      titleText: i18n.t('microService:access performance trends'),
+      chartName: 'performanceTrends',
+    },
+    statusTopN: {
+      titleText: i18n.t('microService:http status code'),
+      ...commonAttr,
+      chartName: 'statusTopN',
     },
   },
-  cpmTopN: {
-    titleText: `${i18n.t('microService:throughput')} TOP5`,
-    ...commonAttr,
-    chartName: 'cpmTopN',
-    viewProps: {
-      unitType: 'CPM',
-    },
-  },
-  postTopN: {
-    titleText: i18n.t('microService:send data'),
-    ...commonAttr,
-    chartName: 'postTopN',
-    viewProps: {
-      unitType: 'CAPACITY',
-    },
-  },
-  receiveTopN: {
-    titleText: i18n.t('microService:receive data'),
-    ...commonAttr,
-    chartName: 'receiveTopN',
-    viewProps: {
-      unitType: 'CAPACITY',
-    },
-  },
-  ajaxPerformanceTrends: {
-    ...commonAttr,
-    titleText: i18n.t('microService:access performance trends'),
-    chartName: 'performanceTrends',
-  },
-  statusTopN: {
-    titleText: i18n.t('microService:http status code'),
-    ...commonAttr,
-    chartName: 'statusTopN',
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   sortTab: sortRender(chartMap.sortTab) as any,
@@ -82,4 +85,3 @@ export default {
   ajaxPerformanceTrends: chartRender(chartMap.ajaxPerformanceTrends) as any,
   statusTopN: chartRender(chartMap.statusTopN) as any,
 };
-

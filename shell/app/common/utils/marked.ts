@@ -53,14 +53,13 @@ hljs.registerLanguage('bash', bash);
 let inited = false;
 const renderer = new Markdown.Renderer();
 
-const removePreview = (el: HTMLElement| Element) => {
+const removePreview = (el: HTMLElement | Element) => {
   el.remove();
   const originEle = document.getElementsByClassName('md-img-preview')[0];
   if (originEle) {
     (originEle.parentElement as HTMLElement).focus();
   }
 };
-
 
 window.previewFun = function (el: HTMLElement) {
   if (el) {
@@ -89,7 +88,9 @@ window.removeDom = (el: HTMLElement) => {
 
 const overrideRenderFns = {
   image(src: string, title: string) {
-    return `<div tabindex="-1" onclick="removeDom(this)"><img class="md-img-preview" src="${src}" onclick="previewFun(this)" alt="${title || 'preview-image'}" /></div>`;
+    return `<div tabindex="-1" onclick="removeDom(this)"><img class="md-img-preview" src="${src}" onclick="previewFun(this)" alt="${
+      title || 'preview-image'
+    }" /></div>`;
   },
 };
 

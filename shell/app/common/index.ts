@@ -66,7 +66,13 @@ export { EditField } from './components/edit-field';
 export { default as MarkdownEditor } from './components/markdown-editor';
 export { default as ColorLabel } from './components/color-label';
 export { DropdownSelect } from './components/dropdown-select';
-export { FilterGroup, FilterGroupDrawer, FilterGroupV, ToolBarWithFilter, FilterBarHandle } from './components/filter-group/filter-group';
+export {
+  FilterGroup,
+  FilterGroupDrawer,
+  FilterGroupV,
+  ToolBarWithFilter,
+  FilterBarHandle,
+} from './components/filter-group/filter-group';
 export { default as TimeSelector } from './components/monitor/timeSelector';
 export { default as SimpleLog } from './components/runtime/simple-log';
 export { default as SimpleLogRoller } from './components/runtime/simple-log-roller';

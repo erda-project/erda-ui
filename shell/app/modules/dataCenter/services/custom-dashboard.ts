@@ -14,35 +14,47 @@
 import agent from 'agent';
 
 export const createCustomDashboard = (payload: Custom_Dashboard.DashboardItem) => {
-  return agent.post('/api/dashboard/blocks')
+  return agent
+    .post('/api/dashboard/blocks')
     .send(payload)
     .then((response: any) => response.body);
 };
 
 export const updateCustomDashboard = (payload: Custom_Dashboard.DashboardItem) => {
-  return agent.put(`/api/dashboard/blocks/${payload.id}`)
+  return agent
+    .put(`/api/dashboard/blocks/${payload.id}`)
     .send(payload)
     .then((response: any) => response.body);
 };
 
 export const deleteCustomDashboard = ({ id }: { id: string; scopeId: string }) => {
-  return agent.delete(`/api/dashboard/blocks/${id}`)
+  return agent.delete(`/api/dashboard/blocks/${id}`).then((response: any) => response.body);
+};
+
+export const getCustomDashboardDetail = ({
+  id,
+  isSystem = false,
+}: {
+  id: string;
+  scopeId?: string;
+  isSystem?: boolean;
+}): Custom_Dashboard.DashboardItem => {
+  return agent
+    .get(isSystem ? `/api/dashboard/system/blocks/${id}` : `/api/dashboard/blocks/${id}`)
     .then((response: any) => response.body);
 };
 
-export const getCustomDashboardDetail = ({ id, isSystem = false }: { id: string; scopeId?: string; isSystem?: boolean }): Custom_Dashboard.DashboardItem => {
-  return agent.get(isSystem ? `/api/dashboard/system/blocks/${id}` : `/api/dashboard/blocks/${id}`)
-    .then((response: any) => response.body);
-};
-
-export const getCustomDashboard = (payload: Custom_Dashboard.GetDashboardPayload): IPagingResp<Custom_Dashboard.DashboardItem> => {
-  return agent.get('/api/dashboard/blocks')
+export const getCustomDashboard = (
+  payload: Custom_Dashboard.GetDashboardPayload,
+): IPagingResp<Custom_Dashboard.DashboardItem> => {
+  return agent
+    .get('/api/dashboard/blocks')
     .query(payload)
     .then((response: any) => response.body);
 };
 
-export const getChartData = ({ url, query }: { url: string; query?: any }) => (
-  agent.get(url)
+export const getChartData = ({ url, query }: { url: string; query?: any }) =>
+  agent
+    .get(url)
     .query(query)
-    .then((response: any) => response.body)
-);
+    .then((response: any) => response.body);

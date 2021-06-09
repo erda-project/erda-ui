@@ -37,16 +37,12 @@ const EraseStatus = {
 const BlackList = ({ artifactId }: IListProps) => {
   const publishOperationAuth = usePerm((s) => s.org.publisher.operation.pass);
 
-  const getColumns = ({ deleteItem }: any, { reloadList }: any) => ([
+  const getColumns = ({ deleteItem }: any, { reloadList }: any) => [
     {
       title: i18n.t('user ID'),
       dataIndex: 'userId',
       render: (val: string) => (
-        <span
-          className="for-copy"
-          data-clipboard-tip={i18n.t('user ID')}
-          data-clipboard-text={val}
-        >
+        <span className="for-copy" data-clipboard-tip={i18n.t('user ID')} data-clipboard-text={val}>
           {val}
         </span>
       ),
@@ -55,11 +51,7 @@ const BlackList = ({ artifactId }: IListProps) => {
       title: i18n.t('user name'),
       dataIndex: 'userName',
       render: (val: string) => (
-        <span
-          className="for-copy"
-          data-clipboard-tip={i18n.t('user name')}
-          data-clipboard-text={val}
-        >
+        <span className="for-copy" data-clipboard-tip={i18n.t('user name')} data-clipboard-text={val}>
           {val}
         </span>
       ),
@@ -68,11 +60,7 @@ const BlackList = ({ artifactId }: IListProps) => {
       title: i18n.t('device ID'),
       dataIndex: 'deviceNo',
       render: (val: string) => (
-        <span
-          className="for-copy"
-          data-clipboard-tip={i18n.t('device ID')}
-          data-clipboard-text={val}
-        >
+        <span className="for-copy" data-clipboard-tip={i18n.t('device ID')} data-clipboard-text={val}>
           {val}
         </span>
       ),
@@ -90,7 +78,7 @@ const BlackList = ({ artifactId }: IListProps) => {
       render: (_v: any, record: PUBLISHER.IBlackList) => {
         return (
           <div className="table-operations">
-            <WithAuth pass={publishOperationAuth} >
+            <WithAuth pass={publishOperationAuth}>
               <span
                 className="table-operations-btn"
                 onClick={() => {
@@ -98,14 +86,15 @@ const BlackList = ({ artifactId }: IListProps) => {
                     reloadList();
                   });
                 }}
-              >{i18n.t('remove')}
+              >
+                {i18n.t('remove')}
               </span>
             </WithAuth>
           </div>
         );
       },
     },
-  ]);
+  ];
   const getFieldsList = () => {
     const fieldsList = [
       {
@@ -150,16 +139,12 @@ const BlackList = ({ artifactId }: IListProps) => {
 const EraseList = ({ artifactId }: IListProps) => {
   const publishOperationAuth = usePerm((s) => s.org.publisher.operation.pass);
 
-  const getColumns = () => ([
+  const getColumns = () => [
     {
       title: i18n.t('device ID'),
       dataIndex: 'deviceNo',
       render: (val: string) => (
-        <span
-          className="for-copy"
-          data-clipboard-tip={i18n.t('device ID')}
-          data-clipboard-text={val}
-        >
+        <span className="for-copy" data-clipboard-tip={i18n.t('device ID')} data-clipboard-text={val}>
           {val}
         </span>
       ),
@@ -175,7 +160,7 @@ const EraseList = ({ artifactId }: IListProps) => {
       width: 120,
       render: (val: string) => EraseStatus[val],
     },
-  ]);
+  ];
 
   const getFieldsList = () => {
     const fieldsList = [
@@ -196,7 +181,6 @@ const EraseList = ({ artifactId }: IListProps) => {
       getColumns={getColumns}
       store={eraseListStore}
       getFieldsList={getFieldsList}
-
       hasAddAuth={publishOperationAuth}
       extraQuery={{ artifactId }}
       handleFormSubmit={(data, { addItem }) => {
@@ -225,4 +209,3 @@ const SafetyManage = (props: IProps) => {
 };
 
 export default SafetyManage;
-

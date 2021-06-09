@@ -19,7 +19,7 @@ import AutoTest from 'project/pages/auto-test';
 
 export enum TEST_TYPE {
   manual = 'manual',
-  auto = 'auto'
+  auto = 'auto',
 }
 
 const TestCompMap = {

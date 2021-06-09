@@ -68,23 +68,28 @@ class ConfigFormModal extends React.PureComponent {
     const { modalVisible, dataSource, existKeys } = this.state;
     const { title, keyDisabled, isNeedTextArea, isValueTextArea, disableAdd, disableDelete } = this.props;
 
-    const fieldsList = [{
-      name: 'configs',
-      getComp: ({ form }) => {
-        return (
-          <KeyValueEditor
-            dataSource={dataSource}
-            disableDelete={disableDelete}
-            form={form}
-            keyDisabled={keyDisabled}
-            isNeedTextArea={isNeedTextArea}
-            isValueTextArea={isValueTextArea}
-            disableAdd={disableAdd}
-            existKeys={existKeys}
-            ref={(ref) => { this.editor = ref; }}
-          />);
+    const fieldsList = [
+      {
+        name: 'configs',
+        getComp: ({ form }) => {
+          return (
+            <KeyValueEditor
+              dataSource={dataSource}
+              disableDelete={disableDelete}
+              form={form}
+              keyDisabled={keyDisabled}
+              isNeedTextArea={isNeedTextArea}
+              isValueTextArea={isValueTextArea}
+              disableAdd={disableAdd}
+              existKeys={existKeys}
+              ref={(ref) => {
+                this.editor = ref;
+              }}
+            />
+          );
+        },
       },
-    }];
+    ];
     return (
       <Modal
         title={title || i18n.t('common:new configuration')}
@@ -96,7 +101,12 @@ class ConfigFormModal extends React.PureComponent {
         maskClosable={false}
         destroyOnClose
       >
-        <RenderForm list={fieldsList} ref={(ref) => { this.form = ref; }} />
+        <RenderForm
+          list={fieldsList}
+          ref={(ref) => {
+            this.form = ref;
+          }}
+        />
       </Modal>
     );
   }

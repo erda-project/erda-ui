@@ -30,7 +30,7 @@ import userMapStore from 'app/common/stores/user-map';
 
 export enum BACKLOG_ISSUE_TYPE {
   iterationIssue = 'iterationIssue',
-  undoneIssue = 'undoneIssue'
+  undoneIssue = 'undoneIssue',
 }
 
 interface IIssueProps {
@@ -48,7 +48,12 @@ export const IssueItem = (props: IIssueProps) => {
   const curPriority = ISSUE_PRIORITY_MAP[priority] || {};
   const userMap = userMapStore.useStore((s) => s);
   const projectPerm = usePerm((s) => s.project);
-  const permObj = type === ISSUE_OPTION.REQUIREMENT ? projectPerm.requirement : (type === ISSUE_OPTION.TASK ? projectPerm.task : projectPerm.bug);
+  const permObj =
+    type === ISSUE_OPTION.REQUIREMENT
+      ? projectPerm.requirement
+      : type === ISSUE_OPTION.TASK
+      ? projectPerm.task
+      : projectPerm.bug;
   const checkRole = [isCreator(creator), isAssignee(assignee)];
   const deleteAuth = getAuth(permObj.delete, checkRole);
   const editAuth = getAuth(permObj.edit, checkRole);
@@ -82,43 +87,49 @@ export const IssueItem = (props: IIssueProps) => {
   };
 
   return (
-    <div className={`backlog-issue-item hover-active-bg ${editAuth ? 'draggable' : ''}`} ref={drag} onClick={() => onClickIssue(data)}>
+    <div
+      className={`backlog-issue-item hover-active-bg ${editAuth ? 'draggable' : ''}`}
+      ref={drag}
+      onClick={() => onClickIssue(data)}
+    >
       <div className="issue-info full-height">
         <div className="backlog-item-content">
           <IssueIcon type={type as ISSUE_OPTION} />
           <Ellipsis className="bold" title={name} />
         </div>
         <div className="backlog-item-info color-text-sub right-flex-box">
-          <div className="backlog-item-priority mw-60">
-            {curPriority.iconLabel}
-          </div>
+          <div className="backlog-item-priority mw-60">{curPriority.iconLabel}</div>
           <div className="w-80">
             <Avatar showName name={username} size={20} wrapClassName="full-width" />
           </div>
-          {
-            onDelete ? (
-              <div>
-                <Dropdown
-                  trigger={['click']}
-                  overlayClassName="contractive-filter-item-dropdown"
-                  overlay={
-                    <Menu>
-                      <WithAuth pass={deleteAuth} >
-                        <Menu.Item className="color-danger" onClick={(e) => { e.domEvent.stopPropagation(); confirmDelete(data); }}>
-                          {i18n.t('delete')}
-                        </Menu.Item>
-                      </WithAuth>
-                    </Menu>
-                  }
-                  placement="bottomLeft"
-                >
-                  <span className="op-icon" onClick={(e) => e.stopPropagation()}>
-                    <CustomIcon className="hover-active" type="gd" />
-                  </span>
-                </Dropdown>
-              </div>
-            ) : null
-          }
+          {onDelete ? (
+            <div>
+              <Dropdown
+                trigger={['click']}
+                overlayClassName="contractive-filter-item-dropdown"
+                overlay={
+                  <Menu>
+                    <WithAuth pass={deleteAuth}>
+                      <Menu.Item
+                        className="color-danger"
+                        onClick={(e) => {
+                          e.domEvent.stopPropagation();
+                          confirmDelete(data);
+                        }}
+                      >
+                        {i18n.t('delete')}
+                      </Menu.Item>
+                    </WithAuth>
+                  </Menu>
+                }
+                placement="bottomLeft"
+              >
+                <span className="op-icon" onClick={(e) => e.stopPropagation()}>
+                  <CustomIcon className="hover-active" type="gd" />
+                </span>
+              </Dropdown>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>
@@ -205,14 +216,7 @@ export const IssueForm = (props: IIssueFormProps) => {
       },
       initialValue: userStore.getState((s) => s.loginUser.id),
       getComp: () => {
-        return (
-          <MemberSelector
-            scopeType="project"
-            scopeId={String(projectId)}
-            allowClear={false}
-            size="small"
-          />
-        );
+        return <MemberSelector scopeType="project" scopeId={String(projectId)} allowClear={false} size="small" />;
       },
     },
   ];
@@ -230,10 +234,13 @@ export const IssueForm = (props: IIssueFormProps) => {
         <Form fields={fields} formRef={formRef} formProps={{ layout: 'inline', className: 'backlog-issue-add' }} />
       </div>
       <div className="table-operations ml8">
-        <span className="table-operations-btn" onClick={onAdd}>{i18n.t('save')}</span>
-        <span className="table-operations-btn" onClick={onCancel}>{i18n.t('cancel')}</span>
+        <span className="table-operations-btn" onClick={onAdd}>
+          {i18n.t('save')}
+        </span>
+        <span className="table-operations-btn" onClick={onCancel}>
+          {i18n.t('cancel')}
+        </span>
       </div>
     </div>
   );
 };
-

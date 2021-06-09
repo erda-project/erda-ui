@@ -40,7 +40,15 @@ interface IState {
   fileName: string;
 }
 
-const RepoEditor = ({ autoHeight, maxLines, ops, isDiceOrPipelineFile, name, blob = {} as REPOSITORY.IBlob, fileName = '' }: IProps) => {
+const RepoEditor = ({
+  autoHeight,
+  maxLines,
+  ops,
+  isDiceOrPipelineFile,
+  name,
+  blob = {} as REPOSITORY.IBlob,
+  fileName = '',
+}: IProps) => {
   const [state, updater, update] = useUpdate({
     value: '',
     isAddMode: true,
@@ -69,9 +77,7 @@ const RepoEditor = ({ autoHeight, maxLines, ops, isDiceOrPipelineFile, name, blo
 
   const handleSubmit = (form: any) => {
     const { isAddMode, value } = state;
-    const path = isAddMode
-      ? `${tree.path ? `${tree.path}/` : ''}${state.fileName}`
-      : tree.path;
+    const path = isAddMode ? `${tree.path ? `${tree.path}/` : ''}${state.fileName}` : tree.path;
 
     if (isDiceOrPipelineFile) {
       try {
@@ -151,14 +157,26 @@ const RepoEditor = ({ autoHeight, maxLines, ops, isDiceOrPipelineFile, name, blo
     ];
     return fieldsList;
   };
-  const [fileNameComp, fileExtension] = state.isAddMode ? [<Input
-    name="name"
-    placeholder={i18n.t('application:file name')}
-    maxLength={255}
-    onChange={(e) => { updater.fileName(e.target.value.trim()); }}
-  />, 'xml'] : [state.fileName, state.fileName.split('.').pop()];
+  const [fileNameComp, fileExtension] = state.isAddMode
+    ? [
+        <Input
+          name="name"
+          placeholder={i18n.t('application:file name')}
+          maxLength={255}
+          onChange={(e) => {
+            updater.fileName(e.target.value.trim());
+          }}
+        />,
+        'xml',
+      ]
+    : [state.fileName, state.fileName.split('.').pop()];
   return (
-    <FileContainer name={fileNameComp} ops={ops} isEditing={!state.isAddMode} className="repo-file-editor flex-1 v-flex">
+    <FileContainer
+      name={fileNameComp}
+      ops={ops}
+      isEditing={!state.isAddMode}
+      className="repo-file-editor flex-1 v-flex"
+    >
       <FileEditor
         name={state.fileName}
         fileExtension={fileExtension || 'xml'}
@@ -168,10 +186,7 @@ const RepoEditor = ({ autoHeight, maxLines, ops, isDiceOrPipelineFile, name, blo
         maxLines={maxLines}
         onChange={onChange}
       />
-      <RenderForm
-        className="commit-file-form"
-        list={getFieldsList()}
-      />
+      <RenderForm className="commit-file-form" list={getFieldsList()} />
     </FileContainer>
   );
 };

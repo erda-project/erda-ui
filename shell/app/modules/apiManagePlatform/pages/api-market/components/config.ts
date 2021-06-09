@@ -19,7 +19,7 @@ export type IProtocol = {
     fullName: string;
     suffix: string;
     pattern: RegExp;
-  }
+  };
 };
 
 export const protocolMap: IProtocol = {

@@ -87,11 +87,7 @@ export default ({ title, editGlobalVariable, editConvertor, actions, pipelineYml
             return <PropertyView dataSource={currentItem} />;
           },
           editView: (editing: boolean) => (
-            <EditGlobalVariable
-              editing={editing}
-              globalVariable={currentItem}
-              onSubmit={editGlobalVariable}
-            />
+            <EditGlobalVariable editing={editing} globalVariable={currentItem} onSubmit={editGlobalVariable} />
           ),
         };
         result.push([item]);
@@ -123,24 +119,22 @@ export default ({ title, editGlobalVariable, editConvertor, actions, pipelineYml
       }
     });
   } else {
-    result.push([{
-      id: 'qj-1',
-      icon: 'qj',
-      title: i18n.t('application:deploy global variables'),
-      name: i18n.t('application:deploy global variables'),
-      lineTo: ['all'],
-      allowMove: false,
-      content: () => {
-        return null;
+    result.push([
+      {
+        id: 'qj-1',
+        icon: 'qj',
+        title: i18n.t('application:deploy global variables'),
+        name: i18n.t('application:deploy global variables'),
+        lineTo: ['all'],
+        allowMove: false,
+        content: () => {
+          return null;
+        },
+        editView: (editing: boolean) => (
+          <EditGlobalVariable editing={editing} globalVariable={{}} onSubmit={editGlobalVariable} />
+        ),
       },
-      editView: (editing: boolean) => (
-        <EditGlobalVariable
-          editing={editing}
-          globalVariable={{}}
-          onSubmit={editGlobalVariable}
-        />
-      ),
-    }]);
+    ]);
   }
   return {
     editorData: result,

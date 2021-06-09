@@ -55,12 +55,7 @@ export const getPublisherFieldsList = (isEdit?: boolean) => {
   return fieldsList;
 };
 
-const PublisherFormModal = ({
-  visible,
-  formData,
-  onCancel,
-  afterSubmit = () => { },
-}: IProps) => {
+const PublisherFormModal = ({ visible, formData, onCancel, afterSubmit = () => {} }: IProps) => {
   const { addPublisherList, updatePublisher } = publisherStore.effects;
   const handelSubmit = (data: PUBLISHER.IPublisher) => {
     onCancel();

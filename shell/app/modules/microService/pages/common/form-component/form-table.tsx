@@ -117,16 +117,10 @@ export default class FormTable extends React.Component<any, any> {
         // 带_开头的配置最后传入到组件都会被过滤掉
         _extra,
       };
-      children = (
-        <FormItem _config={_config} combineConfig={combineConfig} fromTable />
-      );
+      children = <FormItem _config={_config} combineConfig={combineConfig} fromTable />;
     }
 
-    return (
-      <td>
-        {children}
-      </td>
-    );
+    return <td>{children}</td>;
   };
 
   combineConfig = (config: any, { index }: any) => {
@@ -208,4 +202,3 @@ function getColumns(columns: any[], mode: string) {
     return p;
   }, []);
 }
-

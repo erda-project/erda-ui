@@ -18,13 +18,7 @@ import { describe, it } from '@jest/globals';
 
 describe('CircleProgress', () => {
   it('render', () => {
-    const wrapper = mount(
-      <CircleProgress
-        left={0}
-        right={0}
-        autoFontSize={false}
-      />,
-    );
+    const wrapper = mount(<CircleProgress left={0} right={0} autoFontSize={false} />);
     expect(wrapper.find('Progress.circle-progress').find('Progress.circle-progress').prop('percent')).toBe(0);
     expect(wrapper.find('Progress.circle-progress')).not.toHaveClassName('small-font');
     wrapper.setProps({

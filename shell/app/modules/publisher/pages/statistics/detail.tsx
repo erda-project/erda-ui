@@ -45,7 +45,12 @@ const FilterTab = ({ tabs, defaultValue, onChange, className }: IFilterTabProp) 
     onChangeFilterTabRef.current(value);
   }, [value]);
   return (
-    <RadioGroup className={`${className || ''}`} size="small" value={value} onChange={(e: any) => setValue(e.target.value)}>
+    <RadioGroup
+      className={`${className || ''}`}
+      size="small"
+      value={value}
+      onChange={(e: any) => setValue(e.target.value)}
+    >
       {map(tabs, ({ label, value: val }) => {
         return (
           <Radio.Button key={val} value={val}>
@@ -57,7 +62,16 @@ const FilterTab = ({ tabs, defaultValue, onChange, className }: IFilterTabProp) 
   );
 };
 
-const FilterGroup = ({ onChange, className, groups, ...rest }: { onChange: (val: string | undefined) => void; className?: string; groups: Array<{ [pro: string]: any; label: string; value: string }> }) => {
+const FilterGroup = ({
+  onChange,
+  className,
+  groups,
+  ...rest
+}: {
+  onChange: (val: string | undefined) => void;
+  className?: string;
+  groups: Array<{ [pro: string]: any; label: string; value: string }>;
+}) => {
   const [value, setValue] = React.useState(undefined as undefined | string);
   const onChangeFilterGroupRef = React.useRef(onChange);
 
@@ -67,18 +81,20 @@ const FilterGroup = ({ onChange, className, groups, ...rest }: { onChange: (val:
   return (
     <Select
       className={`${className || ''}`}
-      onChange={(val: SelectValue) => { setValue(val as string); }}
+      onChange={(val: SelectValue) => {
+        setValue(val as string);
+      }}
       allowClear
       value={value}
       {...rest}
     >
-      {
-        map(groups, ({ value: val, label }) => {
-          return (
-            <Option key={val} value={val}>{label}</Option>
-          );
-        })
-      }
+      {map(groups, ({ value: val, label }) => {
+        return (
+          <Option key={val} value={val}>
+            {label}
+          </Option>
+        );
+      })}
     </Select>
   );
 };
@@ -111,7 +127,6 @@ const formatFilterData = (data: any) => {
   return list;
 };
 
-
 const StatisticList = ({ artifactsId, monitorKey }: { artifactsId: string; monitorKey: PUBLISHER.MonitorKey }) => {
   const TODAY = 'today';
   const YESTERDAY = 'yesterday';
@@ -123,9 +138,7 @@ const StatisticList = ({ artifactsId, monitorKey }: { artifactsId: string; monit
     endAt: TODAY,
   });
   React.useEffect(() => {
-    const endAtStr = endAt === TODAY
-      ? String(moment().valueOf())
-      : String(moment().startOf('day').valueOf());
+    const endAtStr = endAt === TODAY ? String(moment().valueOf()) : String(moment().startOf('day').valueOf());
     getVersionStatistics({ artifactsId, endTime: endAtStr, ...monitorKey });
   }, [artifactsId, endAt, getVersionStatistics, monitorKey]);
 
@@ -238,8 +251,8 @@ const StatisticsDetail = () => {
     getLineChartData(lineChartQuery);
   }, [getTopLineChart, lineChartQuery, monitorKey, publisherItemId, updater]);
 
-  const lineChart = React.useMemo(() => (
-    [
+  const lineChart = React.useMemo(
+    () => [
       {
         w: 24,
         h: 9,
@@ -255,8 +268,9 @@ const StatisticsDetail = () => {
           staticData: getLineChartLayout(lineData),
         },
       },
-    ]
-  ), [lineData]);
+    ],
+    [lineData],
+  );
   const topTypeMap = {
     version: {
       title: i18n.t('publisher:top10 version'),

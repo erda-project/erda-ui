@@ -45,7 +45,6 @@ export const ISSUE_PRIORITY_MAP = {
 export const ISSUE_PRIORITY_ICON_STYLE = { height: '20px', width: '20px', verticalAlign: 'sub' };
 export const ISSUE_PRIORITY_LIST = Object.values(ISSUE_PRIORITY_MAP);
 
-
 export const REQUIREMENT_STATE_MAP = {
   OPEN: { icon: 'wh', label: i18n.t('project:open') },
   WORKING: { icon: 'jxz', label: i18n.t('project:working') },
@@ -74,13 +73,12 @@ export const TASK_PANEL_ICON = {
   DONE: 'yjs',
 };
 
-
 export const BUG_STATE_MAP = {
   OPEN: { icon: 'wh', label: i18n.t('project:open') },
   RESOLVED: { icon: 'tg', label: i18n.t('project:resolved') },
   REOPEN: { icon: 'zt', label: i18n.t('project:reopen') },
-  WONTFIX: { icon: 'zs', label: i18n.t('project:won\'t fix') },
-  DUP: { icon: 'zs', label: i18n.t('project:won\'t fix, duplicated') },
+  WONTFIX: { icon: 'zs', label: i18n.t("project:won't fix") },
+  DUP: { icon: 'zs', label: i18n.t("project:won't fix, duplicated") },
   CLOSED: { icon: 'tg', label: i18n.t('project:closed') },
 };
 export const BUG_STATE = Object.keys(BUG_STATE_MAP);
@@ -91,19 +89,17 @@ export const ISSUE_STATE_MAP = {
   ...BUG_STATE_MAP,
 };
 
-
 export const ISSUE_BUTTON_STATE = {
   canOpen: { label: i18n.t('project:open'), state: 'OPEN' },
   canDup: { label: i18n.t('project:duplicated'), state: 'DUP' },
   canReOpen: { label: i18n.t('project:reopen'), state: 'REOPEN' },
   canResolved: { label: i18n.t('project:resolved'), state: 'RESOLVED' },
   canTesting: { label: i18n.t('project:testing'), state: 'TESTING' },
-  canWontfix: { label: i18n.t('project:won\'t fix'), state: 'WONTFIX' },
+  canWontfix: { label: i18n.t("project:won't fix"), state: 'WONTFIX' },
   canWorking: { label: i18n.t('project:working'), state: 'WORKING' },
   canClosed: { label: i18n.t('project:close'), state: 'CLOSED' },
   canDone: { label: i18n.t('project:completed'), state: 'DONE' },
 };
-
 
 export const EDIT_PROPS = {
   [ISSUE_TYPE.REQUIREMENT]: {

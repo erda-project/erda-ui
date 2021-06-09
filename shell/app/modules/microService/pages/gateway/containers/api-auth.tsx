@@ -40,13 +40,16 @@ const ApiAuth = (props: IProps) => {
     }
   }, [apiId, packageId, visible]);
 
-  const column: Array<ColumnProps<any>> = [{
-    title: i18n.t('microService:calling method name'),
-    dataIndex: 'name',
-  }, {
-    title: i18n.t('microService:calling method description'),
-    dataIndex: 'description',
-  }];
+  const column: Array<ColumnProps<any>> = [
+    {
+      title: i18n.t('microService:calling method name'),
+      dataIndex: 'name',
+    },
+    {
+      title: i18n.t('microService:calling method description'),
+      dataIndex: 'description',
+    },
+  ];
   const handleClose = () => {
     setAuthDataTouched(false);
     onClose();
@@ -67,15 +70,12 @@ const ApiAuth = (props: IProps) => {
     });
   };
   return (
-    <Drawer
-      visible={visible}
-      onClose={handleClose}
-      className={'api-auth-drawer'}
-      width={600}
-    >
+    <Drawer visible={visible} onClose={handleClose} className={'api-auth-drawer'} width={600}>
       <Spin spinning={isloading}>
         <p className="api-auth-drawer_title">{i18n.t('microService:caller authorization')}</p>
-        <Button disabled={!authDataTouched} type="primary" className="mb16" onClick={handleAuth}>{i18n.t('microService:confirm authorization')}</Button>
+        <Button disabled={!authDataTouched} type="primary" className="mb16" onClick={handleAuth}>
+          {i18n.t('microService:confirm authorization')}
+        </Button>
         <Table
           rowKey="id"
           rowSelection={{

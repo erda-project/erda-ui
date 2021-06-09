@@ -13,10 +13,10 @@
 
 declare namespace MS_INFO {
   interface IMicroServiceComponentInfo {
-    'addonName': string;
-    'cnName': string;
-    'enName': string;
-    'config': {
+    addonName: string;
+    cnName: string;
+    enName: string;
+    config: {
       [key: string]: string;
     };
   }

@@ -14,14 +14,16 @@
 import agent from 'agent';
 
 export const getGroupInfos = ({ orgName, ...rest }: MACHINE_MANAGE.IGroupInfoQuery): MACHINE_MANAGE.IGroupInfo => {
-  return agent.post('/api/cluster/resources/group')
+  return agent
+    .post('/api/cluster/resources/group')
     .query({ orgName })
     .send(rest)
     .then((response: any) => response.body);
 };
 
 export const offlineMachine = ({ id, siteIP }: MACHINE_MANAGE.IOfflineMachine) => {
-  return agent.delete(`/api/edge/site/offline/${id}`)
+  return agent
+    .delete(`/api/edge/site/offline/${id}`)
     .send({ siteIP })
     .then((response: any) => response.body);
 };

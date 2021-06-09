@@ -102,7 +102,7 @@ const AddOn = ({ addon, className, onClick, editing, reselect, reselectFunc }: I
   };
 
   return (
-    <div onClick={() => (onClick && editing) && onClick(addon)} className={classnames('dice-yml-add-on', className)}>
+    <div onClick={() => onClick && editing && onClick(addon)} className={classnames('dice-yml-add-on', className)}>
       <span className="add-on-icon-container">
         <img src={imgSrc} className="add-on-icon" alt="addon-image" onError={onError} />
       </span>
@@ -110,11 +110,13 @@ const AddOn = ({ addon, className, onClick, editing, reselect, reselectFunc }: I
         <div className="add-on-info-name">
           <span className="display-name">{addon.displayName}</span>
           {addon.instanceId ? <span className="tag-default">{i18n.t('application:instance')}</span> : null}
-          {reselect ? <a onClick={reselectFunc} className="reselect">{i18n.t('application:reselect')}</a> : null}
+          {reselect ? (
+            <a onClick={reselectFunc} className="reselect">
+              {i18n.t('application:reselect')}
+            </a>
+          ) : null}
         </div>
-        <div className="add-on-info-description">
-          { addon.desc || '' }
-        </div>
+        <div className="add-on-info-description">{addon.desc || ''}</div>
       </span>
       <div className="add-on-border-bottom" />
     </div>
@@ -137,7 +139,10 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
 
   static getDerivedStateFromProps(nextProps: Readonly<ICreateAddOnProps>, prevState: any): any {
     const result = getGroupData(nextProps);
-    if (!isEqual(nextProps.groupedAddonList, prevState.propsGroupedAddonList) || !isEqual(result, prevState.editAddon)) {
+    if (
+      !isEqual(nextProps.groupedAddonList, prevState.propsGroupedAddonList) ||
+      !isEqual(result, prevState.editAddon)
+    ) {
       const { groupedAddonList, groups } = convertData(nextProps.groupedAddonList);
       let addonResource: any = null;
       if (nextProps.addOn && result) {
@@ -175,7 +180,7 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
 
   componentDidUpdate(prevProps, prevState) {
     const { selectedAddon } = this.state;
-    if (selectedAddon && (selectedAddon !== prevState.selectedAddon)) {
+    if (selectedAddon && selectedAddon !== prevState.selectedAddon) {
       this.getAddonVersions();
     }
   }
@@ -191,7 +196,11 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
         <Alert
           className="addon-error-tag"
           showIcon
-          message={editing ? i18n.t('application:the current instance does not exist, please add it again!') : i18n.t('application:yml-addon-not-exist-tip')}
+          message={
+            editing
+              ? i18n.t('application:the current instance does not exist, please add it again!')
+              : i18n.t('application:yml-addon-not-exist-tip')
+          }
           type="error"
         />
       );
@@ -214,11 +223,7 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
     if (selectedAddon) {
       content = (
         <React.Fragment>
-          <AddOn
-            reselect={editing}
-            reselectFunc={this.clear}
-            addon={selectedAddon}
-          />
+          <AddOn reselect={editing} reselectFunc={this.clear} addon={selectedAddon} />
         </React.Fragment>
       );
     }
@@ -226,30 +231,25 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
 
     const showContent = (
       <>
-        <div className="add-on-head">
-          {content}
-        </div>
+        <div className="add-on-head">{content}</div>
         {!selectedAddon ? this.renderSelectContent() : this.renderForm()}
       </>
     );
 
     return (
       <div className={classnames('add-on-select', className)}>
-        {
-          alert ? (
-            editing ? (
-              <>
-                {alert}
-                {showContent}
-              </>
-            ) : (
-              alert
-            )
+        {alert ? (
+          editing ? (
+            <>
+              {alert}
+              {showContent}
+            </>
           ) : (
-            showContent
+            alert
           )
-        }
-
+        ) : (
+          showContent
+        )}
       </div>
     );
   }
@@ -330,7 +330,9 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
         placeholder={i18n.t('application:please select the version')}
         onSelect={() => setFieldsValue({ plan: undefined })}
       >
-        { selectedAddonVersions.map((v: string) => <Option key={v}>{v}</Option>) }
+        {selectedAddonVersions.map((v: string) => (
+          <Option key={v}>{v}</Option>
+        ))}
       </Select>,
     );
 
@@ -342,19 +344,15 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
         planCnName: PLAN_NAME[planValue],
       });
     } else if (getFieldValue('version') && !isEmpty(versionMap)) {
-      plans = map((versionMap[getFieldValue('version')].spec.plan || { basic: {} }), (_, k) => (
-        {
-          plan: k,
-          planCnName: PLAN_NAME[k],
-        }
-      ));
+      plans = map(versionMap[getFieldValue('version')].spec.plan || { basic: {} }, (_, k) => ({
+        plan: k,
+        planCnName: PLAN_NAME[k],
+      }));
     } else {
-      plans = map({ basic: {} }, (_, k) => (
-        {
-          plan: k,
-          planCnName: PLAN_NAME[k],
-        }
-      ));
+      plans = map({ basic: {} }, (_, k) => ({
+        plan: k,
+        planCnName: PLAN_NAME[k],
+      }));
     }
     const plan = getFieldDecorator('plan', {
       initialValue: convertAddonPlan(planValue),
@@ -366,7 +364,11 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
       ],
     })(
       <RadioGroup disabled={this.isEditing()}>
-        { plans.map((p: any) => <RadioButton key={p.plan} value={p.plan}>{p.planCnName}</RadioButton>) }
+        {plans.map((p: any) => (
+          <RadioButton key={p.plan} value={p.plan}>
+            {p.planCnName}
+          </RadioButton>
+        ))}
       </RadioGroup>,
     );
 
@@ -377,8 +379,12 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
         <Item label={i18n.t('application:configuration')}>{plan}</Item>
         {editing ? (
           <Item className="add-on-form-btn-group">
-            <Button className="mr8" onClick={cancel}>{i18n.t('application:cancel')}</Button>
-            <Button type="primary" onClick={this.submitAddon}>{i18n.t('application:save')}</Button>
+            <Button className="mr8" onClick={cancel}>
+              {i18n.t('application:cancel')}
+            </Button>
+            <Button type="primary" onClick={this.submitAddon}>
+              {i18n.t('application:save')}
+            </Button>
           </Item>
         ) : null}
       </Form>
@@ -439,57 +445,54 @@ class CreateAddOn extends PureComponent<ICreateAddOnProps & FormComponentProps, 
     const { editing } = this.props;
     const { packUpTabs, groups, selectedAddon, searchValue } = this.state;
 
-    return groups
-      .map((group: IAddonGroup) => {
-        let addonsContent = [];
-        let headClass = 'empty-content';
-        if (packUpTabs.has(group.groupName)) {
-          addonsContent = group.data.map((addon: IAddon) => {
-            if (searchValue && !addon.name.includes(searchValue) && !addon.displayName.includes(searchValue)) {
-              return null;
-            }
+    return groups.map((group: IAddonGroup) => {
+      let addonsContent = [];
+      let headClass = 'empty-content';
+      if (packUpTabs.has(group.groupName)) {
+        addonsContent = group.data.map((addon: IAddon) => {
+          if (searchValue && !addon.name.includes(searchValue) && !addon.displayName.includes(searchValue)) {
+            return null;
+          }
 
-            headClass = null;
-            let activeClass = null;
-            // @ts-ignore
-            if (selectedAddon && selectedAddon.instanceId === addon.instanceId) {
-              activeClass = 'add-on-selected';
-            }
-            return (
-              <AddOn
-                editing={editing}
-                className={activeClass}
-                addon={addon}
-                key={addon.instanceId || addon.id}
-                onClick={this.selectedAddonAction}
-              />
-            );
-          });
-        }
+          headClass = null;
+          let activeClass = null;
+          // @ts-ignore
+          if (selectedAddon && selectedAddon.instanceId === addon.instanceId) {
+            activeClass = 'add-on-selected';
+          }
+          return (
+            <AddOn
+              editing={editing}
+              className={activeClass}
+              addon={addon}
+              key={addon.instanceId || addon.id}
+              onClick={this.selectedAddonAction}
+            />
+          );
+        });
+      }
 
-        const icon = packUpTabs.has(group.groupName)
-          ? <IconDown className="head-icon" size="18px" />
-          : <IconUp className="head-icon" size="18px" />;
+      const icon = packUpTabs.has(group.groupName) ? (
+        <IconDown className="head-icon" size="18px" />
+      ) : (
+        <IconUp className="head-icon" size="18px" />
+      );
 
-        const content = packUpTabs.has(group.groupName) ? (
-          <div className="addon-group-body">
-            {addonsContent}
+      const content = packUpTabs.has(group.groupName) ? <div className="addon-group-body">{addonsContent}</div> : null;
+
+      return (
+        <div key={group.groupName} className="yml-addon-group">
+          <div
+            className={classnames('addon-group-head', headClass)}
+            onClick={() => this.triggerGroupTab(group.groupName)}
+          >
+            {icon}
+            <span className="group-name">{group.groupName}</span>
           </div>
-        ) : null;
-
-        return (
-          <div key={group.groupName} className="yml-addon-group">
-            <div
-              className={classnames('addon-group-head', headClass)}
-              onClick={() => this.triggerGroupTab(group.groupName)}
-            >
-              {icon}
-              <span className="group-name">{group.groupName}</span>
-            </div>
-            {content}
-          </div>
-        );
-      });
+          {content}
+        </div>
+      );
+    });
   };
 
   private triggerGroupTab = (name: string) => {

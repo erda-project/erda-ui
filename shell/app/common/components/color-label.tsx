@@ -16,7 +16,7 @@ import classnames from 'classnames';
 import { Tag } from 'app/nusi';
 import './color-label.scss';
 
-interface IProps{
+interface IProps {
   color?: string;
   className?: string;
   style?: object;
@@ -26,12 +26,12 @@ interface IProps{
 }
 
 export default ({ color, className, style, onClick, onClose, name }: IProps) => {
-  const classes = classnames(
-    `bg-label-${color}`,
-    className,
-  );
+  const classes = classnames(`bg-label-${color}`, className);
 
   return (
-    <Tag className={classes} style={style} onClick={onClick} onClose={onClose}><span style={{ marginRight: 3 }}>·</span>{name}</Tag>
+    <Tag className={classes} style={style} onClick={onClick} onClose={onClose}>
+      <span style={{ marginRight: 3 }}>·</span>
+      {name}
+    </Tag>
   );
 };

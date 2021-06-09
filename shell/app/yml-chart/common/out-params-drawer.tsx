@@ -21,7 +21,7 @@ import routeInfoStore from 'common/stores/route';
 
 import './out-params-drawer.scss';
 
-export interface IOutParamsDrawerProps{
+export interface IOutParamsDrawerProps {
   visible: boolean;
   nodeData: PIPELINE.IPipelineOutParams[];
   editing: boolean;
@@ -89,74 +89,88 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
     });
   }, [nodeData]);
 
-  const fields = React.useMemo(() => [
-    {
-      label: i18n.t('application:outputs configuration'),
-      component: 'arrayObj',
-      key: 'outputs',
-      required: false,
-      disabled: !editing,
-      wrapperProps: {
-        // extra: '修改角色key或删除角色后，导出数据会删除对应的角色',
-      },
-      componentProps: {
-        defaultItem: { name: '', ref: '' },
-        itemRender: (_data: Obj, updateItem: Function) => {
-          return (
-            <div className="out-params-content full-width">
-              <Input key="name" className={`flex-1 content-item mr8 ${!_data.name ? 'empty-error' : ''}`} disabled={!editing} value={_data.name} onChange={(e: any) => updateItem({ name: e.target.value })} placeholder={i18n.t('please enter {name}', { name: i18n.t('project:parameter name') })} />
-              <Select key="ref" className={`flex-1 content-item ${!_data.ref ? 'empty-error' : ''}`} disabled={!editing} value={_data.ref} onChange={(val: any) => updateItem({ ref: val })} placeholder={i18n.t('please choose {name}', { name: i18n.t('project:parameter value') })}>
-                {
-                map(outputList, (item) => (
-                  <Select.Option key={item}><Tooltip title={item}>{item}</Tooltip></Select.Option>
-                ))
-              }
-              </Select>
-            </div>
-          );
+  const fields = React.useMemo(
+    () => [
+      {
+        label: i18n.t('application:outputs configuration'),
+        component: 'arrayObj',
+        key: 'outputs',
+        required: false,
+        disabled: !editing,
+        wrapperProps: {
+          // extra: '修改角色key或删除角色后，导出数据会删除对应的角色',
         },
-      },
-      rules: [
-        {
-          validator: (val = []) => {
-            let tip = '';
-            const nameArr = map(val, 'name');
-            const refArr = map(val, 'ref');
-            const reg = /^[a-zA-Z0-9_]*$/;
-
-            if (compact(nameArr).length !== val.length || compact(refArr).length !== val.length) {
-              tip = i18n.t('{name} can not empty');
-            } else if (uniq(nameArr).length !== val.length) {
-              tip = i18n.t('exist the same {key}', { key: 'key' });
-            } else {
-              map(nameArr, (nameItem: string) => {
-                if (!tip) {
-                  tip =
-                    nameItem.length > 50
-                      ?
-                      `${i18n.t('project:parameter name')} ${i18n.t('length is {min}~{max}', { min: 1, max: 50 })}`
-                      : (
-                        !reg.test(nameItem)
-                          ?
-                          `${i18n.t('project:parameter name')} ${i18n.t('includes letters,number,_')}` : ''
-                      );
-                }
-              });
-            }
-            // if (!tip) {
-            //   const keyReg = /^[a-zA-Z]+$/;
-            //   valueArr.forEach((item) => {
-            //     if (!keyReg.test(item)) {
-            //       tip = i18n.t('key only can be letters');
-            //     }
-            //   });
-            // }
-            return [!tip, tip];
+        componentProps: {
+          defaultItem: { name: '', ref: '' },
+          itemRender: (_data: Obj, updateItem: Function) => {
+            return (
+              <div className="out-params-content full-width">
+                <Input
+                  key="name"
+                  className={`flex-1 content-item mr8 ${!_data.name ? 'empty-error' : ''}`}
+                  disabled={!editing}
+                  value={_data.name}
+                  onChange={(e: any) => updateItem({ name: e.target.value })}
+                  placeholder={i18n.t('please enter {name}', { name: i18n.t('project:parameter name') })}
+                />
+                <Select
+                  key="ref"
+                  className={`flex-1 content-item ${!_data.ref ? 'empty-error' : ''}`}
+                  disabled={!editing}
+                  value={_data.ref}
+                  onChange={(val: any) => updateItem({ ref: val })}
+                  placeholder={i18n.t('please choose {name}', { name: i18n.t('project:parameter value') })}
+                >
+                  {map(outputList, (item) => (
+                    <Select.Option key={item}>
+                      <Tooltip title={item}>{item}</Tooltip>
+                    </Select.Option>
+                  ))}
+                </Select>
+              </div>
+            );
           },
         },
-      ],
-    },
-  ], [editing, outputList]);
+        rules: [
+          {
+            validator: (val = []) => {
+              let tip = '';
+              const nameArr = map(val, 'name');
+              const refArr = map(val, 'ref');
+              const reg = /^[a-zA-Z0-9_]*$/;
+
+              if (compact(nameArr).length !== val.length || compact(refArr).length !== val.length) {
+                tip = i18n.t('{name} can not empty');
+              } else if (uniq(nameArr).length !== val.length) {
+                tip = i18n.t('exist the same {key}', { key: 'key' });
+              } else {
+                map(nameArr, (nameItem: string) => {
+                  if (!tip) {
+                    tip =
+                      nameItem.length > 50
+                        ? `${i18n.t('project:parameter name')} ${i18n.t('length is {min}~{max}', { min: 1, max: 50 })}`
+                        : !reg.test(nameItem)
+                        ? `${i18n.t('project:parameter name')} ${i18n.t('includes letters,number,_')}`
+                        : '';
+                  }
+                });
+              }
+              // if (!tip) {
+              //   const keyReg = /^[a-zA-Z]+$/;
+              //   valueArr.forEach((item) => {
+              //     if (!keyReg.test(item)) {
+              //       tip = i18n.t('key only can be letters');
+              //     }
+              //   });
+              // }
+              return [!tip, tip];
+            },
+          },
+        ],
+      },
+    ],
+    [editing, outputList],
+  );
 
   React.useEffect(() => {
     if (formRef && formRef.current) {
@@ -173,34 +187,35 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
     }
   };
 
-  const drawerProps = editing ? {
-    title: i18n.t('application:outputs configuration'),
-    maskClosable: false,
-  } : {
-    title: i18n.t('application:outputs form'),
-    maskClosable: true,
-  };
-  return (
-    <Drawer visible={visible} destroyOnClose onClose={closeDrawer} width={600} {...drawerProps} className="pipeline-out-params-drawer">
-      <Form
-        fields={fields}
-        value={formValue}
-        formRef={formRef}
-      />
-      {
-        editing ? (
-          <div className="pipeline-out-params-drawer-footer">
-            <Button onClick={closeDrawer} className="mr8">
-              {i18n.t('cancel')}
-            </Button>
-            <Button onClick={onSubmit} type="primary">
-              {i18n.t('ok')}
-            </Button>
-          </div>
-        ) : (
-          null
-        )
+  const drawerProps = editing
+    ? {
+        title: i18n.t('application:outputs configuration'),
+        maskClosable: false,
       }
+    : {
+        title: i18n.t('application:outputs form'),
+        maskClosable: true,
+      };
+  return (
+    <Drawer
+      visible={visible}
+      destroyOnClose
+      onClose={closeDrawer}
+      width={600}
+      {...drawerProps}
+      className="pipeline-out-params-drawer"
+    >
+      <Form fields={fields} value={formValue} formRef={formRef} />
+      {editing ? (
+        <div className="pipeline-out-params-drawer-footer">
+          <Button onClick={closeDrawer} className="mr8">
+            {i18n.t('cancel')}
+          </Button>
+          <Button onClick={onSubmit} type="primary">
+            {i18n.t('ok')}
+          </Button>
+        </div>
+      ) : null}
     </Drawer>
   );
 };

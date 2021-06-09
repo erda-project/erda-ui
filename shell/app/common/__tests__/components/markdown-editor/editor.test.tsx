@@ -26,11 +26,7 @@ describe('Editor', () => {
   it('should Editor work fine', () => {
     const file = new File([], 'xxx.png', { type: 'image/png' });
     const itemsInfo = [{ type: 'image/png', kind: 'string' }];
-    const wrapper = shallow(
-      <Editor
-        value={'### erda cloud'}
-      />,
-    );
+    const wrapper = shallow(<Editor value={'### erda cloud'} />);
     agent.post = () => ({
       send: jest.fn().mockResolvedValue({
         body: {

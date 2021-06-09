@@ -71,14 +71,19 @@ interface IProps {
 }
 
 const Title = ({
-  eventKey, id, name: oldName, recycled, editMode, readOnly, className,
-  onOperateNode, onRemoveNode, onUpdateNode,
+  eventKey,
+  id,
+  name: oldName,
+  recycled,
+  editMode,
+  readOnly,
+  className,
+  onOperateNode,
+  onRemoveNode,
+  onUpdateNode,
   customActions = [],
 }: IProps) => {
-  const {
-    renameTestSet, createTestSet,
-    deleteTestSetToRecycle, deleteTestSetEntirely,
-  } = testSetStore.effects;
+  const { renameTestSet, createTestSet, deleteTestSetToRecycle, deleteTestSetEntirely } = testSetStore.effects;
   const { openTreeModal } = testSetStore.reducers;
   const { openPlanModal } = testPlanStore.reducers;
   const [isEdit, setIsEdit] = useState(includes(eventKey, TEMP_MARK));
@@ -184,7 +189,8 @@ const Title = ({
         message.error(i18n.t('project:name cannot use forward backslash, please re-enter '));
         return;
       }
-      if (!includes(eventKey, TEMP_MARK)) { // 重命名
+      if (!includes(eventKey, TEMP_MARK)) {
+        // 重命名
         renameTestSet({ name, testSetID: id }).then((info: TEST_SET.TestSet) => {
           nameRef.current = info.name || name;
           toggleEdit(false);
@@ -282,27 +288,24 @@ const Title = ({
     return (
       <Dropdown overlay={getMenu()} trigger={['contextMenu']}>
         <div className={`flex-1 inline-flex-box position-relative ${className}`}>
-          <div className="flex-1 node-name">
-            {value}
-          </div>
-          {
-            !isRoot ?
-              <Dropdown overlay={getMenu()} overlayClassName="case-tree-menu" trigger={['click']} align={{ offset: [32, -32] }}>
-                <div className="case-tree-op" onClick={(e: any) => e.stopPropagation()} >
-                  <IconMore />
-                </div>
-              </Dropdown>
-              : undefined
-          }
+          <div className="flex-1 node-name">{value}</div>
+          {!isRoot ? (
+            <Dropdown
+              overlay={getMenu()}
+              overlayClassName="case-tree-menu"
+              trigger={['click']}
+              align={{ offset: [32, -32] }}
+            >
+              <div className="case-tree-op" onClick={(e: any) => e.stopPropagation()}>
+                <IconMore />
+              </div>
+            </Dropdown>
+          ) : undefined}
         </div>
       </Dropdown>
     );
   }
-  return (
-    <div className={`flex-1 node-name ${className}`}>
-      {value}
-    </div>
-  );
+  return <div className={`flex-1 node-name ${className}`}>{value}</div>;
 };
 
 export default Title;

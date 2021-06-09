@@ -55,24 +55,29 @@ const AccessList = () => {
       getAccess({ pageNo: 1, paging: true, keyword });
     });
   };
-  const filterConfig = React.useMemo((): FilterItemConfig[] => [
-    {
-      type: Input.Search,
-      name: 'keyword',
-      customProps: {
-        placeholder: i18n.t('default:search by keywords'),
-        autoComplete: 'off',
+  const filterConfig = React.useMemo(
+    (): FilterItemConfig[] => [
+      {
+        type: Input.Search,
+        name: 'keyword',
+        customProps: {
+          placeholder: i18n.t('default:search by keywords'),
+          autoComplete: 'off',
+        },
       },
+    ],
+    [],
+  );
+  const columns: Array<ColumnProps<API_ACCESS.ITableData>> = [
+    {
+      title: i18n.t('API name'),
+      dataIndex: 'assetName',
     },
-
-  ], []);
-  const columns: Array<ColumnProps<API_ACCESS.ITableData>> = [{
-    title: i18n.t('API name'),
-    dataIndex: 'assetName',
-  }, {
-    title: i18n.t('number of versions'),
-    dataIndex: 'totalChildren',
-  }];
+    {
+      title: i18n.t('number of versions'),
+      dataIndex: 'totalChildren',
+    },
+  ];
   const subColumns: Array<ColumnProps<API_ACCESS.ITableSubAccess>> = [
     {
       title: i18n.t('version'),
@@ -94,15 +99,25 @@ const AccessList = () => {
       render: ({ edit, delete: canDelete }: API_ACCESS.AccessPermission, record) => {
         return (
           <TableActions>
-            {edit ? <span onClick={(e) => { handleEdit(record, e); }}>{i18n.t('edit')}</span> : null }
+            {edit ? (
+              <span
+                onClick={(e) => {
+                  handleEdit(record, e);
+                }}
+              >
+                {i18n.t('edit')}
+              </span>
+            ) : null}
             {canDelete ? (
               <Popconfirm
                 title={i18n.t('confirm to {action}', { action: i18n.t('delete') })}
-                onConfirm={(e) => { handleDelete(record, e); }}
+                onConfirm={(e) => {
+                  handleDelete(record, e);
+                }}
               >
                 <span>{i18n.t('delete')}</span>
               </Popconfirm>
-            ) : null }
+            ) : null}
           </TableActions>
         );
       },
@@ -117,7 +132,9 @@ const AccessList = () => {
         pagination={false}
         onRow={(data: API_ACCESS.ITableSubAccess) => {
           return {
-            onClick: () => { goToDetail(data); },
+            onClick: () => {
+              goToDetail(data);
+            },
           };
         }}
       />
@@ -130,15 +147,17 @@ const AccessList = () => {
   return (
     <Spin spinning={isFetch || isDelete}>
       <div className="top-button-group">
-        <Button type="primary" onClick={() => { goTo('./access/create'); }}>{i18n.t('establish')}</Button>
+        <Button
+          type="primary"
+          onClick={() => {
+            goTo('./access/create');
+          }}
+        >
+          {i18n.t('establish')}
+        </Button>
       </div>
       <CustomFilter config={filterConfig} onSubmit={handleSearch} />
-      <Table
-        rowKey="assetID"
-        columns={columns}
-        dataSource={dataSource}
-        expandedRowRender={expandedRowRender}
-      />
+      <Table rowKey="assetID" columns={columns} dataSource={dataSource} expandedRowRender={expandedRowRender} />
     </Spin>
   );
 };

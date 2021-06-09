@@ -15,13 +15,12 @@ import { createStore } from 'app/cube';
 import { getMemberLabels } from '../services';
 
 interface IState {
-  memberLabels: Array<{label: string; name: string}>;
+  memberLabels: Array<{ label: string; name: string }>;
 }
 
 const initState: IState = {
   memberLabels: [],
 };
-
 
 const memberLabel = createStore({
   name: 'memberLabel',

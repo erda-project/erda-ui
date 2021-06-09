@@ -21,9 +21,7 @@ import { useEffectOnce } from 'react-use';
 import './project-label.scss';
 import { Close as IconClose, Plus as IconPlus } from '@icon-park/react';
 
-const colors = [
-  'red', 'orange', 'blue', 'green', 'purple', 'gray',
-];
+const colors = ['red', 'orange', 'blue', 'green', 'purple', 'gray'];
 
 export default () => {
   const list = projectLabel.useStore((s) => s.list);
@@ -91,9 +89,7 @@ export default () => {
       rules: [
         {
           validator: (_, value: string, callback: any) => {
-            return value && value.trim().length > 0
-              ? callback()
-              : callback(i18n.t('common:can not be all spaces'));
+            return value && value.trim().length > 0 ? callback() : callback(i18n.t('common:can not be all spaces'));
           },
         },
       ],
@@ -111,23 +107,19 @@ export default () => {
         const v = form.getFieldValue('color') || colors[0];
         return (
           <div className="color-list colorful-bg">
-            {
-              colors.map((c) => (
-                <span
-                  key={c}
-                  className={`color-option ${c} ${v === c ? 'active' : ''}`}
-                  onClick={() => form.setFieldsValue({ color: c })}
-                >
-                  <CustomIcon type="duigou" />
-                </span>
-              ))
-            }
+            {colors.map((c) => (
+              <span
+                key={c}
+                className={`color-option ${c} ${v === c ? 'active' : ''}`}
+                onClick={() => form.setFieldsValue({ color: c })}
+              >
+                <CustomIcon type="duigou" />
+              </span>
+            ))}
           </div>
         );
       },
-      rules: [
-        { required: true, message: i18n.t('project:please select color') },
-      ],
+      rules: [{ required: true, message: i18n.t('project:please select color') }],
     },
   ];
 
@@ -141,7 +133,13 @@ export default () => {
         {list.map((label) => (
           <span className={`label-item ${label.color}`} key={label.id} onClick={() => onClickLabel(label)}>
             {label.name}
-            <IconClose className="ml4" onClick={(e) => { e.stopPropagation(); handleDelete(label); }} />
+            <IconClose
+              className="ml4"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDelete(label);
+              }}
+            />
           </span>
         ))}
       </div>
@@ -156,4 +154,3 @@ export default () => {
     </div>
   );
 };
-

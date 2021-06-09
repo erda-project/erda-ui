@@ -17,7 +17,7 @@ import { resolvePath } from 'common/utils';
 import { Icon as CustomIcon } from 'common';
 import './monitor-panel.scss';
 
-interface IProps{
+interface IProps {
   [pro: string]: any;
   className?: string;
   title?: string;
@@ -33,7 +33,11 @@ const MonitorPanel = ({ className, title, children, getCustomComp, moreUrl }: IP
         <span className="title">{title}</span>
         <div className="title-right">
           {typeof getCustomComp === 'function' ? getCustomComp() : null}
-          { moreUrl ? <Link to={resolvePath(moreUrl)}><CustomIcon className="detail" type="double-right-caret" /></Link> : null}
+          {moreUrl ? (
+            <Link to={resolvePath(moreUrl)}>
+              <CustomIcon className="detail" type="double-right-caret" />
+            </Link>
+          ) : null}
         </div>
       </div>
       {children}

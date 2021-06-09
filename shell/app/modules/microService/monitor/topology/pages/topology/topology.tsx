@@ -67,7 +67,6 @@ const setNodeUniqId = (data: TOPOLOGY.ITopologyResp) => {
   };
 };
 
-
 const Topology = () => {
   const params = routeInfoStore.useStore((s) => s.params);
   const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
@@ -76,12 +75,12 @@ const Topology = () => {
   const { clearMonitorTopology, setScale } = topologyStore.reducers;
   const { setActivedNode } = topologyServiceStore;
   const { getMonitorTopology, getTopologyTags, getTagsOptions } = topologyStore.effects;
-  const [
-    sourceData,
-    scale,
-    topologyTags,
-    tagOptionsCollection,
-  ] = topologyStore.useStore((s) => [s.topologyData, s.scale, s.topologyTags, s.tagOptionsCollection]);
+  const [sourceData, scale, topologyTags, tagOptionsCollection] = topologyStore.useStore((s) => [
+    s.topologyData,
+    s.scale,
+    s.topologyTags,
+    s.tagOptionsCollection,
+  ]);
 
   const [topologyData, setTopologyData] = React.useState({} as TOPOLOGY.ITopologyResp);
   const [useData, setUseData] = React.useState({} as TOPOLOGY.ITopologyResp);
@@ -108,10 +107,7 @@ const Topology = () => {
     // filterTags = { a: ['a1', 'a2'], b: ['b1']}
     // 需要转换成 ['a:a1', 'a:a2', 'b:b1']
     const tags = Object.keys(filterTags || {}).reduce(
-      (acc: string[], key) => [
-        ...acc,
-        ...(filterTags[key] || []).map((x: string) => `${key}:${x}`),
-      ],
+      (acc: string[], key) => [...acc, ...(filterTags[key] || []).map((x: string) => `${key}:${x}`)],
       [],
     );
 
@@ -139,15 +135,14 @@ const Topology = () => {
   }, [topologyTags, timeSpan]);
 
   React.useEffect(() => {
-    getTopologyTags({ terminusKey: params.terminusKey })
-      .then((res) => {
-        const initialTags = {};
-        res.forEach((item: TOPOLOGY.ISingleTopologyTags) => {
-          Object.assign(initialTags, { [item.tag]: [] });
-        });
-
-        setFilterTags(initialTags);
+    getTopologyTags({ terminusKey: params.terminusKey }).then((res) => {
+      const initialTags = {};
+      res.forEach((item: TOPOLOGY.ISingleTopologyTags) => {
+        Object.assign(initialTags, { [item.tag]: [] });
       });
+
+      setFilterTags(initialTags);
+    });
   }, [params.terminusKey]);
 
   React.useEffect(() => {
@@ -183,20 +178,24 @@ const Topology = () => {
     toggleDrawer,
   };
 
-  const conditionsFilter = React.useMemo(() => topologyTags.map((item: TOPOLOGY.ISingleTopologyTags) => ({
-    type: 'select',
-    key: item.tag,
-    label: item.label,
-    fixed: item.tag === 'application',
-    showIndex: 0,
-    haveFilter: true,
-    emptyText: i18n.t('application:all'),
-    options: (get(tagOptionsCollection, item.tag, []) || []).map((x: string) => ({ value: x, label: x })),
-  })), [tagOptionsCollection, topologyTags]);
+  const conditionsFilter = React.useMemo(
+    () =>
+      topologyTags.map((item: TOPOLOGY.ISingleTopologyTags) => ({
+        type: 'select',
+        key: item.tag,
+        label: item.label,
+        fixed: item.tag === 'application',
+        showIndex: 0,
+        haveFilter: true,
+        emptyText: i18n.t('application:all'),
+        options: (get(tagOptionsCollection, item.tag, []) || []).map((x: string) => ({ value: x, label: x })),
+      })),
+    [tagOptionsCollection, topologyTags],
+  );
 
   return (
     <div className="topology-container">
-      <div className="topology-header" >
+      <div className="topology-header">
         <div className="left">
           <TimeSelector />
           <div className="topology-filter mb12">

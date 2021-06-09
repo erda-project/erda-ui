@@ -55,9 +55,7 @@ class ArtifactsFormModal extends React.PureComponent<IProps, any> {
       {
         label: i18n.t('publisher:publisher content name'),
         name: 'name',
-        rules: [
-          regRules.commonStr,
-        ],
+        rules: [regRules.commonStr],
         itemProps: {
           disabled: isEdit,
           maxLength: 200,
@@ -96,20 +94,26 @@ class ArtifactsFormModal extends React.PureComponent<IProps, any> {
         name: 'logo',
         viewType: 'image',
         required: false,
-        getComp: ({ form }: { form: WrappedFormUtils }) => <ImageUpload id="logo" form={form} showHint queryData={{ public: true }} />,
+        getComp: ({ form }: { form: WrappedFormUtils }) => (
+          <ImageUpload id="logo" form={form} showHint queryData={{ public: true }} />
+        ),
       },
-      ...insertWhen(state.type !== ArtifactsTypeMap.api.value, [{
-        label: `${i18n.t('publisher:set gray release')} (%)`,
-        name: 'grayLevelPercent',
-        type: 'inputNumber',
-        required: false,
-        rules: [{
-          validator: validators.validateNumberRange({ min: 0, max: 100 }),
-        }],
-        itemProps: {
-          placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 0, max: 100 }),
+      ...insertWhen(state.type !== ArtifactsTypeMap.api.value, [
+        {
+          label: `${i18n.t('publisher:set gray release')} (%)`,
+          name: 'grayLevelPercent',
+          type: 'inputNumber',
+          required: false,
+          rules: [
+            {
+              validator: validators.validateNumberRange({ min: 0, max: 100 }),
+            },
+          ],
+          itemProps: {
+            placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 0, max: 100 }),
+          },
         },
-      }]),
+      ]),
       ...insertWhen(state.type === ArtifactsTypeMap.MOBILE.value, [
         {
           label: i18n.t('publisher:jail break control'),
@@ -136,22 +140,26 @@ class ArtifactsFormModal extends React.PureComponent<IProps, any> {
           label: i18n.t('publisher:center coordinates of longitude'),
           name: 'geofenceLon',
           rules: [
-            { pattern: /^[-+]?(0?\d{1,2}\.\d{1,6}|1[0-7]?\d{1}\.\d{1,6}|180\.0{1,6})$/, message: `-180.0～+180.0, ${i18n.t('publisher:1-6 decimal places')}` },
+            {
+              pattern: /^[-+]?(0?\d{1,2}\.\d{1,6}|1[0-7]?\d{1}\.\d{1,6}|180\.0{1,6})$/,
+              message: `-180.0～+180.0, ${i18n.t('publisher:1-6 decimal places')}`,
+            },
           ],
         },
         {
           label: i18n.t('publisher:center coordinates of latitude'),
           name: 'geofenceLat',
           rules: [
-            { pattern: /^[-+]?([0-8]?\d{1}\.\d{1,6}|90\.0{1,6})$/, message: `-90.0～+90.0, ${i18n.t('publisher:1-6 decimal places')}` },
+            {
+              pattern: /^[-+]?([0-8]?\d{1}\.\d{1,6}|90\.0{1,6})$/,
+              message: `-90.0～+90.0, ${i18n.t('publisher:1-6 decimal places')}`,
+            },
           ],
         },
         {
           label: i18n.t('publisher:radius of center distance'),
           name: 'geofenceRadius',
-          rules: [
-            { pattern: /^[0-9]+$/, message: i18n.t('please fill in the correct value') },
-          ],
+          rules: [{ pattern: /^[0-9]+$/, message: i18n.t('please fill in the correct value') }],
           itemProps: {
             suffix: i18n.t('meters'),
           },
@@ -162,28 +170,34 @@ class ArtifactsFormModal extends React.PureComponent<IProps, any> {
   };
 
   changeType = (type: string) => {
-    this.setState({
-      type,
-    }, () => {
-      if (type === ArtifactsTypeMap.MOBILE.value) {
-        const { isGeofence } = this.state;
-        const { form, formData } = this.props;
-        const keys = isGeofence ? ['isGeofence', 'geofenceLon', 'geofenceLat', 'geofenceRadius'] : ['isGeofence'];
-        form.setFieldsValue(pick(formData, keys));
-      }
-    });
+    this.setState(
+      {
+        type,
+      },
+      () => {
+        if (type === ArtifactsTypeMap.MOBILE.value) {
+          const { isGeofence } = this.state;
+          const { form, formData } = this.props;
+          const keys = isGeofence ? ['isGeofence', 'geofenceLon', 'geofenceLat', 'geofenceRadius'] : ['isGeofence'];
+          form.setFieldsValue(pick(formData, keys));
+        }
+      },
+    );
   };
 
   changeGeofence = (isGeofence: boolean) => {
-    this.setState({
-      isGeofence,
-    }, () => {
-      if (isGeofence) {
-        const { form, formData } = this.props;
-        const keys = ['geofenceLon', 'geofenceLat', 'geofenceRadius'];
-        form.setFieldsValue(pick(formData, keys));
-      }
-    });
+    this.setState(
+      {
+        isGeofence,
+      },
+      () => {
+        if (isGeofence) {
+          const { form, formData } = this.props;
+          const keys = ['geofenceLon', 'geofenceLat', 'geofenceRadius'];
+          form.setFieldsValue(pick(formData, keys));
+        }
+      },
+    );
   };
 
   submit = (checkedValues: PUBLISHER.IArtifacts) => {
@@ -202,12 +216,14 @@ class ArtifactsFormModal extends React.PureComponent<IProps, any> {
     const submitResult = this.state.isAdd ? addArtifacts : updateArtifacts;
 
     this.setState({ confirmLoading: true });
-    submitResult(data).then((res) => {
-      onCancel();
-      afterSubmit && afterSubmit(!this.state.isAdd, this.state.isAdd ? res : data);
-    }).finally(() => {
-      this.setState({ confirmLoading: false });
-    });
+    submitResult(data)
+      .then((res) => {
+        onCancel();
+        afterSubmit && afterSubmit(!this.state.isAdd, this.state.isAdd ? res : data);
+      })
+      .finally(() => {
+        this.setState({ confirmLoading: false });
+      });
   };
 
   handleOk = () => {
@@ -221,7 +237,8 @@ class ArtifactsFormModal extends React.PureComponent<IProps, any> {
         let submitValue = values;
         if (beforeSubmit) {
           submitValue = beforeSubmit(values, form);
-          if (isPromise(submitValue)) { // 当需要在提交前做后端检查且不能清除表单域的情况下，可以在beforeSubmit返回promise，通过then结果判定是否真实提交
+          if (isPromise(submitValue)) {
+            // 当需要在提交前做后端检查且不能清除表单域的情况下，可以在beforeSubmit返回promise，通过then结果判定是否真实提交
             return submitValue.then((checkedValues: any) => {
               if (checkedValues === null) {
                 return resolve();
@@ -241,21 +258,24 @@ class ArtifactsFormModal extends React.PureComponent<IProps, any> {
     const { formData = {} as PUBLISHER.IArtifacts, visible } = nextprops;
     const isAdd = isEmpty(formData);
     if (!this.props.visible && visible) {
-      this.setState({
-        isGeofence: formData.isGeofence || false,
-        isAdd,
-        type: formData.type || ArtifactsTypeMap.MOBILE.value,
-      }, () => {
-        const fieldsList = this.getFieldsList();
-        const keys = fieldsList.filter((f) => f.name !== undefined).map((f) => f.name) as string[];
-        if (!isAdd) {
-          setTimeout(() => {
-            this.props.form.setFieldsValue(pick(formData as object, keys));
-          }, 0);
-        } else {
-          this.props.form.resetFields();
-        }
-      });
+      this.setState(
+        {
+          isGeofence: formData.isGeofence || false,
+          isAdd,
+          type: formData.type || ArtifactsTypeMap.MOBILE.value,
+        },
+        () => {
+          const fieldsList = this.getFieldsList();
+          const keys = fieldsList.filter((f) => f.name !== undefined).map((f) => f.name) as string[];
+          if (!isAdd) {
+            setTimeout(() => {
+              this.props.form.setFieldsValue(pick(formData as object, keys));
+            }, 0);
+          } else {
+            this.props.form.resetFields();
+          }
+        },
+      );
     }
   }
 
@@ -263,19 +283,13 @@ class ArtifactsFormModal extends React.PureComponent<IProps, any> {
     const { isAdd, confirmLoading } = this.state;
     const { form, visible, onCancel } = this.props;
     const fieldsList = this.getFieldsList();
-    const title = (isAdd ? i18n.t('add {name}', { name: modalName }) : i18n.t('edit {name}', { name: modalName }));
+    const title = isAdd ? i18n.t('add {name}', { name: modalName }) : i18n.t('edit {name}', { name: modalName });
     let content = null;
     if (fieldsList) {
       content = <RenderPureForm layout="vertical" list={fieldsList} form={form} />;
     }
     return (
-      <Modal
-        title={title}
-        visible={visible}
-        onCancel={onCancel}
-        confirmLoading={confirmLoading}
-        onOk={this.handleOk}
-      >
+      <Modal title={title} visible={visible} onCancel={onCancel} confirmLoading={confirmLoading} onOk={this.handleOk}>
         {content}
       </Modal>
     );

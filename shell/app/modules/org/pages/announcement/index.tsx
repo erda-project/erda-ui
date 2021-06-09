@@ -42,28 +42,33 @@ const statusMap = {
   deprecated: i18n.t('org:notice deprecated'),
 };
 
-const columns: Column[] = [{
-  title: 'ID',
-  dataIndex: 'id',
-  width: 70,
-}, {
-  title: i18n.t('org:notice content'),
-  dataIndex: 'content',
-}, {
-  title: i18n.t('org:notice createdAt'),
-  dataIndex: 'createdAt',
-  width: 180,
-  render(value) {
-    return moment(value).format('YYYY-MM-DD HH:mm:ss');
+const columns: Column[] = [
+  {
+    title: 'ID',
+    dataIndex: 'id',
+    width: 70,
   },
-}, {
-  title: i18n.t('org:notice status'),
-  dataIndex: 'status',
-  width: 100,
-  render(value) {
-    return statusMap[value];
+  {
+    title: i18n.t('org:notice content'),
+    dataIndex: 'content',
   },
-}];
+  {
+    title: i18n.t('org:notice createdAt'),
+    dataIndex: 'createdAt',
+    width: 180,
+    render(value) {
+      return moment(value).format('YYYY-MM-DD HH:mm:ss');
+    },
+  },
+  {
+    title: i18n.t('org:notice status'),
+    dataIndex: 'status',
+    width: 100,
+    render(value) {
+      return statusMap[value];
+    },
+  },
+];
 
 const NoticeManage = () => {
   const [{ showModal, searchKey, noticeId, formData }, updater, update] = useUpdate({
@@ -79,7 +84,7 @@ const NoticeManage = () => {
     effects.getAnnouncementList({ content: searchKey, pageNo: 1, pageSize: defaultPageSize });
   }, [effects, searchKey]);
 
-  const handleOk = ({ content }: {content: string}) => {
+  const handleOk = ({ content }: { content: string }) => {
     const saveService = noticeId ? effects.updateAnnouncement : effects.addAnnouncement;
     saveService({ id: noticeId, content }).then(() => {
       updater.showModal(false);
@@ -137,53 +142,86 @@ const NoticeManage = () => {
     });
   };
 
-  const fieldList = [{
-    label: i18n.t('org:notice content'),
-    name: 'content',
-    required: true,
-    type: 'textArea',
-    itemProps: {
-      maxLength: 1000,
+  const fieldList = [
+    {
+      label: i18n.t('org:notice content'),
+      name: 'content',
+      required: true,
+      type: 'textArea',
+      itemProps: {
+        maxLength: 1000,
+      },
     },
-  }];
+  ];
   // 大于一页显示分页
   const pagination: PaginationConfig = {
     total,
     pageSize,
     current: pageNo,
-    onChange: (page: number) => { updateList(page); },
+    onChange: (page: number) => {
+      updateList(page);
+    },
   };
-  const opCol: Column[] = [{
-    title: i18n.t('org:notice operation'),
-    dataIndex: 'orgID',
-    width: 160,
-    render(_value, { status, content, id }) {
-      return (
-        <div className="operation-td">
-          {
-            status === 'published' ? (
-              <Popconfirm title={`${i18n.t('org:confirm to deprecate')}?`} onConfirm={() => { deprecateNotice(id); }}>
+  const opCol: Column[] = [
+    {
+      title: i18n.t('org:notice operation'),
+      dataIndex: 'orgID',
+      width: 160,
+      render(_value, { status, content, id }) {
+        return (
+          <div className="operation-td">
+            {status === 'published' ? (
+              <Popconfirm
+                title={`${i18n.t('org:confirm to deprecate')}?`}
+                onConfirm={() => {
+                  deprecateNotice(id);
+                }}
+              >
                 <span>{i18n.t('org:notice deprecate')}</span>
               </Popconfirm>
             ) : (
               <>
-                <span onClick={() => { publishAnnouncement(id); }}>{i18n.t('org:notice publish')}</span>
-                <span onClick={() => { editNotice(id, content); }}>{i18n.t('org:notice edit')}</span>
-                <Popconfirm title={`${i18n.t('common:confirm to delete')}?`} onConfirm={() => { deleteAnnouncement(id); }}>
+                <span
+                  onClick={() => {
+                    publishAnnouncement(id);
+                  }}
+                >
+                  {i18n.t('org:notice publish')}
+                </span>
+                <span
+                  onClick={() => {
+                    editNotice(id, content);
+                  }}
+                >
+                  {i18n.t('org:notice edit')}
+                </span>
+                <Popconfirm
+                  title={`${i18n.t('common:confirm to delete')}?`}
+                  onConfirm={() => {
+                    deleteAnnouncement(id);
+                  }}
+                >
                   <span>{i18n.t('org:notice delete')}</span>
                 </Popconfirm>
               </>
-            )
-          }
-        </div>
-      );
+            )}
+          </div>
+        );
+      },
     },
-  }];
+  ];
   return (
     <div className="org-notice-manage">
       <Spin spinning={loading}>
         <div className="top-button-group">
-          <Button type="primary" onClick={() => { editNotice(undefined, undefined); }}>{i18n.t('org:create notice')}</Button>
+          <Button
+            type="primary"
+            onClick={() => {
+              editNotice(undefined, undefined);
+            }}
+          >
+            {i18n.t('org:create notice')}
+          </Button>
         </div>
         <div className="notice-filter">
           <Search
@@ -193,18 +231,15 @@ const NoticeManage = () => {
             placeholder={i18n.t('org:search by content')}
           />
         </div>
-        <Table
-          rowKey="id"
-          columns={[...columns, ...opCol]}
-          dataSource={list}
-          pagination={pagination}
-        />
+        <Table rowKey="id" columns={[...columns, ...opCol]} dataSource={list} pagination={pagination} />
         <FormModal
           formData={formData}
           name={i18n.t('org:notice')}
           fieldsList={fieldList}
           visible={showModal}
-          onCancel={useCallback(() => { updater.showModal(false); }, [updater])}
+          onCancel={useCallback(() => {
+            updater.showModal(false);
+          }, [updater])}
           modalProps={{
             destroyOnClose: true,
             maskClosable: false,

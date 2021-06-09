@@ -17,33 +17,35 @@ import { ApiMap } from './apiConfig';
 import SummaryDetail from '../summary-detail';
 import i18n from 'i18n';
 
-const chartMap = merge({
-  sortTab: {
-    moduleName: 'BISummary',
-    type: 'sortTab',
-    tabList: [
-      { name: i18n.t('microService:access domain'), key: 'host' },
-      { name: i18n.t('microService:access page'), key: 'url' },
-      { name: i18n.t('microService:system'), key: 'os' },
-      { name: i18n.t('microService:browser'), key: 'browser' },
-      { name: i18n.t('microService:device'), key: 'device' },
-    ],
+const chartMap = merge(
+  {
+    sortTab: {
+      moduleName: 'BISummary',
+      type: 'sortTab',
+      tabList: [
+        { name: i18n.t('microService:access domain'), key: 'host' },
+        { name: i18n.t('microService:access page'), key: 'url' },
+        { name: i18n.t('microService:system'), key: 'os' },
+        { name: i18n.t('microService:browser'), key: 'browser' },
+        { name: i18n.t('microService:device'), key: 'device' },
+      ],
+    },
+    sortList: {
+      moduleName: 'BISummary',
+      type: 'sortList',
+      chartName: 'biSummarySort',
+    },
+    summaryDetail: {
+      moduleName: 'BISummary',
+      chartName: 'summaryDetail',
+      viewRender: SummaryDetail,
+    },
   },
-  sortList: {
-    moduleName: 'BISummary',
-    type: 'sortList',
-    chartName: 'biSummarySort',
-  },
-  summaryDetail: {
-    moduleName: 'BISummary',
-    chartName: 'summaryDetail',
-    viewRender: SummaryDetail,
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   sortTab: sortRender(chartMap.sortTab) as any,
   sortList: sortRender(chartMap.sortList) as any,
   summaryDetail: chartRender(chartMap.summaryDetail) as any,
 };
-

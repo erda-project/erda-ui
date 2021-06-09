@@ -69,10 +69,36 @@ interface IProps {
   importConfig?: (data: PIPELINE_CONFIG.importConfigsBody) => Promise<any>;
   exportConfig?: (data: Pick<PIPELINE_CONFIG.AddConfigsQuery, 'namespace_name'>) => Promise<any>;
 }
-const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig, deleteConfig, importConfig, exportConfig }: IProps) => {
+const VariableConfig = ({
+  envToNs,
+  configs,
+  configType,
+  addConfig,
+  updateConfig,
+  deleteConfig,
+  importConfig,
+  exportConfig,
+}: IProps) => {
   const { appId } = routeInfoStore.useStore((s) => s.params);
 
-  const [{ envConfigMap, visible, importVisible, exportVisible, type, curEnv, editData, importValue, exportValue, activeKey, searchKey, isJsonInvalid }, updater, update] = useUpdate({
+  const [
+    {
+      envConfigMap,
+      visible,
+      importVisible,
+      exportVisible,
+      type,
+      curEnv,
+      editData,
+      importValue,
+      exportValue,
+      activeKey,
+      searchKey,
+      isJsonInvalid,
+    },
+    updater,
+    update,
+  ] = useUpdate({
     envConfigMap: {},
     visible: false,
     importVisible: false,
@@ -86,7 +112,6 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
     searchKey: '',
     isJsonInvalid: false,
   });
-
 
   React.useEffect(() => {
     if (isEmpty(envToNs)) {
@@ -102,11 +127,10 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
       const duplicate = {};
       // 与默认环境数据进行合并
       _nsConfigMap[env] = [];
-      [
-        ...temp[env].reverse(),
-        ...defaultConfig.map((item) => ({ ...item, isFromDefault: true })),
-      ].forEach((item) => { // default的放在了后面，后面会整体反转一把，所以先反转一下temp里的
-        if (duplicate[item.key]) { // 如果key重复，丢弃后面default里的
+      [...temp[env].reverse(), ...defaultConfig.map((item) => ({ ...item, isFromDefault: true }))].forEach((item) => {
+        // default的放在了后面，后面会整体反转一把，所以先反转一下temp里的
+        if (duplicate[item.key]) {
+          // 如果key重复，丢弃后面default里的
           return;
         }
         duplicate[item.key] = true;
@@ -128,7 +152,6 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
     }
   }, [appId, envToNs, configs, searchKey, updater]);
 
-
   const openModal = (data: IKey | null, env: string) => {
     update({
       editData: data,
@@ -147,9 +170,10 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
   };
 
   const openImportModal = (env: string) => {
-    exportConfig && exportConfig({ namespace_name: envToNs[env] }).then((data) => {
-      updater.importValue(JSON.stringify(data));
-    });
+    exportConfig &&
+      exportConfig({ namespace_name: envToNs[env] }).then((data) => {
+        updater.importValue(JSON.stringify(data));
+      });
     update({
       importVisible: true,
       curEnv: env,
@@ -167,9 +191,10 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
       exportVisible: true,
       curEnv: env,
     });
-    exportConfig && exportConfig({ namespace_name: envToNs[env] }).then((data) => {
-      updater.exportValue(JSON.stringify(data));
-    });
+    exportConfig &&
+      exportConfig({ namespace_name: envToNs[env] }).then((data) => {
+        updater.exportValue(JSON.stringify(data));
+      });
   };
 
   const closeExportModal = () => {
@@ -185,9 +210,15 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
       sorter: (a: IKey, b: IKey) => a.key.charCodeAt(0) - b.key.charCodeAt(0),
       render: (text: string, { isFromDefault, source }: IKey) => (
         <div className="flex-box">
-          <span className="for-copy nowrap" data-clipboard-text={text}>{text}</span>
+          <span className="for-copy nowrap" data-clipboard-text={text}>
+            {text}
+          </span>
           <span>
-            {source === 'certificate' && <Tooltip title={i18n.t('common:from certificate push')}><IconInfo className="ml4 color-text-sub" /></Tooltip>}
+            {source === 'certificate' && (
+              <Tooltip title={i18n.t('common:from certificate push')}>
+                <IconInfo className="ml4 color-text-sub" />
+              </Tooltip>
+            )}
             {isFromDefault && <span className="tag tag-warning ml4">{i18n.t('common:default')}</span>}
           </span>
         </div>
@@ -198,15 +229,19 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
       dataIndex: 'value',
       className: 'nowrap',
       render: (text: string, record: IKey) => {
-        return record.type === typeMap.kv
-          ? record.encrypt
-            ? '******'
-            : (
-              <Tooltip title={text} placement="leftTop">
-                <span className="for-copy" data-clipboard-text={text}>{text}</span>
-              </Tooltip>
-            )
-          : '-';
+        return record.type === typeMap.kv ? (
+          record.encrypt ? (
+            '******'
+          ) : (
+            <Tooltip title={text} placement="leftTop">
+              <span className="for-copy" data-clipboard-text={text}>
+                {text}
+              </span>
+            </Tooltip>
+          )
+        ) : (
+          '-'
+        );
       },
     },
     {
@@ -240,14 +275,14 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
             <IF check={canDelete && !record.isFromDefault}>
               <Popconfirm
                 title={`${i18n.t('application:confirm delete configuration')}？`}
-                onConfirm={() => deleteConfig({
-                  key: record.key,
-                  namespace_name: record.namespace,
-                })}
+                onConfirm={() =>
+                  deleteConfig({
+                    key: record.key,
+                    namespace_name: record.namespace,
+                  })
+                }
               >
-                <span className="table-operations-btn">
-                  {i18n.t('delete')}
-                </span>
+                <span className="table-operations-btn">{i18n.t('delete')}</span>
               </Popconfirm>
             </IF>
           </div>
@@ -267,27 +302,35 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
   };
 
   const handleImportSubmit = () => {
-    return importConfig && importConfig({
-      query: { namespace_name: envToNs[curEnv] },
-      configs: importValue,
-    }).then(() => {
-      closeImportModal();
-      updater.importValue('');
-    });
+    return (
+      importConfig &&
+      importConfig({
+        query: { namespace_name: envToNs[curEnv] },
+        configs: importValue,
+      }).then(() => {
+        closeImportModal();
+        updater.importValue('');
+      })
+    );
   };
 
   const togglePanel = (keys: string | string[]) => {
     updater.activeKey(keys as string[]);
   };
 
-  const filterConfig = React.useMemo(() => [{
-    type: Input,
-    name: 'key',
-    customProps: {
-      placeholder: i18n.t('common:search by {name}', { name: 'Key' }),
-      autoComplete: 'off',
-    },
-  }], []);
+  const filterConfig = React.useMemo(
+    () => [
+      {
+        type: Input,
+        name: 'key',
+        customProps: {
+          placeholder: i18n.t('common:search by {name}', { name: 'Key' }),
+          autoComplete: 'off',
+        },
+      },
+    ],
+    [],
+  );
 
   const isValidJsonStr = (_jsonStr: string) => {
     try {
@@ -298,65 +341,45 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
     }
   };
 
-  const formattedImportValue = isValidJsonStr(importValue) ? JSON.stringify(importValue ? JSON.parse(importValue) : '{}', null, 2) : importValue;
+  const formattedImportValue = isValidJsonStr(importValue)
+    ? JSON.stringify(importValue ? JSON.parse(importValue) : '{}', null, 2)
+    : importValue;
 
   return (
     <div>
       <Spin spinning={useLoading(configStore, ['getConfigs'])[0]}>
         <CustomFilter config={filterConfig} onSubmit={(v) => updater.searchKey(v.key)} />
         <Collapse className="mb20 nowrap" activeKey={activeKey} onChange={togglePanel}>
-          {
-            map(envKeys, (env: string) => {
-              return (
-                <Panel header={ENV_I18N[env]} key={env}>
-                  <Button
-                    type="primary"
-                    className="mb12"
-                    ghost
-                    onClick={() => openModal(null, env)}
-                  >
-                    {i18n.t('application:add variable')}
-                  </Button>
-                  {
-                    configType === configTypeMap.deploy &&
-                    <>
-                      <Button
-                        type="primary"
-                        ghost
-                        className="mr8 pull-right"
-                        onClick={() => {
-                          openExportModal(env);
-                        }}
-                      >
-                        {i18n.t('export')}
-                      </Button>
-                      <Button
-                        type="primary"
-                        ghost
-                        className="mr8 pull-right"
-                        onClick={() => openImportModal(env)}
-                      >
-                        {i18n.t('import')}
-                      </Button>
-                    </>
-                  }
-                  <Table
-                    tableKey="env"
-                    dataSource={envConfigMap[env]}
-                    columns={getColumns(env)}
-                  />
-                </Panel>
-              );
-            })
-          }
+          {map(envKeys, (env: string) => {
+            return (
+              <Panel header={ENV_I18N[env]} key={env}>
+                <Button type="primary" className="mb12" ghost onClick={() => openModal(null, env)}>
+                  {i18n.t('application:add variable')}
+                </Button>
+                {configType === configTypeMap.deploy && (
+                  <>
+                    <Button
+                      type="primary"
+                      ghost
+                      className="mr8 pull-right"
+                      onClick={() => {
+                        openExportModal(env);
+                      }}
+                    >
+                      {i18n.t('export')}
+                    </Button>
+                    <Button type="primary" ghost className="mr8 pull-right" onClick={() => openImportModal(env)}>
+                      {i18n.t('import')}
+                    </Button>
+                  </>
+                )}
+                <Table tableKey="env" dataSource={envConfigMap[env]} columns={getColumns(env)} />
+              </Panel>
+            );
+          })}
         </Collapse>
       </Spin>
-      <VariableConfigForm
-        visible={visible}
-        formData={editData}
-        onCancel={closeModal}
-        onOk={handelSubmit}
-      />
+      <VariableConfigForm visible={visible} formData={editData} onCancel={closeModal} onOk={handelSubmit} />
       <Modal
         visible={importVisible}
         onOk={handleImportSubmit}
@@ -382,7 +405,9 @@ const VariableConfig = ({ envToNs, configs, configType, addConfig, updateConfig,
             }
           }}
         />
-        {isJsonInvalid && <span className="color-danger">{i18n.t('application:the current input content is invalid JSON')}</span>}
+        {isJsonInvalid && (
+          <span className="color-danger">{i18n.t('application:the current input content is invalid JSON')}</span>
+        )}
       </Modal>
       <Modal
         visible={exportVisible}
@@ -445,10 +470,12 @@ export const PipelineConfig = () => {
       });
       updater.envToNs(temp);
 
-      configStore.getConfigs(result.map(({ namespace }) => ({
-        namespace_name: namespace,
-        decrypt: false,
-      })));
+      configStore.getConfigs(
+        result.map(({ namespace }) => ({
+          namespace_name: namespace,
+          decrypt: false,
+        })),
+      );
     });
     return () => configStore.clearConfigs();
   });

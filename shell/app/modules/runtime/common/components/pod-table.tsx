@@ -33,12 +33,14 @@ const PodTable = (props: IProps) => {
 
   React.useEffect(() => {
     updater.loading(true);
-    runtimeServiceStore.getServicePods({
-      runtimeID,
-      service,
-    }).then(() => {
-      updater.loading(false);
-    });
+    runtimeServiceStore
+      .getServicePods({
+        runtimeID,
+        service,
+      })
+      .then(() => {
+        updater.loading(false);
+      });
   }, [service, runtimeID, updater]);
 
   const handleKill = (record: RUNTIME_SERVICE.Pod) => {
@@ -48,15 +50,18 @@ const PodTable = (props: IProps) => {
       </div>
     );
 
-    const onOk = () => runtimeServiceStore.killServicePod({
-      runtimeID: +runtimeID,
-      podName: record.podName,
-    }).then(() => {
-      runtimeServiceStore.getServicePods({
-        runtimeID,
-        service,
-      });
-    });
+    const onOk = () =>
+      runtimeServiceStore
+        .killServicePod({
+          runtimeID: +runtimeID,
+          podName: record.podName,
+        })
+        .then(() => {
+          runtimeServiceStore.getServicePods({
+            runtimeID,
+            service,
+          });
+        });
 
     Modal.confirm({
       title: i18n.t('runtime:confirm to kill the pod'),
@@ -105,10 +110,7 @@ const PodTable = (props: IProps) => {
       render: (_v: any, record: RUNTIME_SERVICE.Pod) => {
         return (
           <div className="table-operations">
-            <span
-              className="table-operations-btn"
-              onClick={() => handleKill(record)}
-            >
+            <span className="table-operations-btn" onClick={() => handleKill(record)}>
               {i18n.t('kill')}
             </span>
           </div>

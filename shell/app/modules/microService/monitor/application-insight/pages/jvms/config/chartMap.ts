@@ -19,76 +19,79 @@ import i18n from 'i18n';
 export const commonAttr = {
   moduleName: 'AIJvms',
 };
-const chartMap = merge({
-  heapMemoryUsage: {
-    titleText: 'Heap memory usage',
-    ...commonAttr,
-    chartName: 'heapMemoryUsage',
-    viewProps: {
-      unitType: 'CAPACITY',
+const chartMap = merge(
+  {
+    heapMemoryUsage: {
+      titleText: 'Heap memory usage',
+      ...commonAttr,
+      chartName: 'heapMemoryUsage',
+      viewProps: {
+        unitType: 'CAPACITY',
+      },
+    },
+    nonHeapMemoryUsage: {
+      titleText: 'Non Heap memory usage',
+      ...commonAttr,
+      chartName: 'nonHeapMemoryUsage',
+      viewProps: {
+        unitType: 'CAPACITY',
+      },
+    },
+    PSEdenSpace: {
+      titleText: 'Eden-Space',
+      ...commonAttr,
+      chartName: 'PSEdenSpace',
+      viewProps: {
+        unitType: 'CAPACITY',
+      },
+    },
+    PSOldGen: {
+      titleText: 'Old-Gen',
+      ...commonAttr,
+      chartName: 'PSOldGen',
+      viewProps: {
+        unitType: 'CAPACITY',
+        gridBottom: 100,
+      },
+    },
+    PSSurvivorSpace: {
+      titleText: 'Survivor-Space',
+      ...commonAttr,
+      chartName: 'PSSurvivorSpace',
+      viewProps: {
+        unitType: 'CAPACITY',
+      },
+    },
+    GCMarkSweep: {
+      titleText: `GC ${i18n.t('times')}`,
+      ...commonAttr,
+      chartName: 'GCMarkSweep',
+    },
+    GCScavenge: {
+      titleText: `GC ${i18n.t('microService:average time')}`,
+      ...commonAttr,
+      chartName: 'GCScavenge',
+      viewProps: {
+        unitType: 'TIME',
+        isTwoYAxis: true,
+      },
+    },
+    classCount: {
+      titleText: 'Class count',
+      ...commonAttr,
+      chartName: 'ClassCount',
+      viewProps: {
+        isTwoYAxis: true,
+      },
+    },
+    thread: {
+      titleText: 'Thread',
+      ...commonAttr,
+      chartName: 'Thread',
     },
   },
-  nonHeapMemoryUsage: {
-    titleText: 'Non Heap memory usage',
-    ...commonAttr,
-    chartName: 'nonHeapMemoryUsage',
-    viewProps: {
-      unitType: 'CAPACITY',
-    },
-  },
-  PSEdenSpace: {
-    titleText: 'Eden-Space',
-    ...commonAttr,
-    chartName: 'PSEdenSpace',
-    viewProps: {
-      unitType: 'CAPACITY',
-    },
-  },
-  PSOldGen: {
-    titleText: 'Old-Gen',
-    ...commonAttr,
-    chartName: 'PSOldGen',
-    viewProps: {
-      unitType: 'CAPACITY',
-      gridBottom: 100,
-    },
-  },
-  PSSurvivorSpace: {
-    titleText: 'Survivor-Space',
-    ...commonAttr,
-    chartName: 'PSSurvivorSpace',
-    viewProps: {
-      unitType: 'CAPACITY',
-    },
-  },
-  GCMarkSweep: {
-    titleText: `GC ${i18n.t('times')}`,
-    ...commonAttr,
-    chartName: 'GCMarkSweep',
-  },
-  GCScavenge: {
-    titleText: `GC ${i18n.t('microService:average time')}`,
-    ...commonAttr,
-    chartName: 'GCScavenge',
-    viewProps: {
-      unitType: 'TIME',
-      isTwoYAxis: true,
-    },
-  },
-  classCount: {
-    titleText: 'Class count',
-    ...commonAttr,
-    chartName: 'ClassCount',
-    viewProps: {
-      isTwoYAxis: true,
-    },
-  },
-  thread: {
-    titleText: 'Thread',
-    ...commonAttr,
-    chartName: 'Thread',
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   heapMemoryUsage: chartRender(chartMap.heapMemoryUsage) as any,

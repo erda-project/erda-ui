@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace TEST_SET {
-
   interface TestSet {
     id: number;
     name: string;
@@ -71,7 +70,6 @@ declare namespace TEST_SET {
     testSetID: number;
   }
 
-
   interface updateBody {
     testSetID: number;
     name: string;
@@ -100,9 +98,7 @@ declare namespace TEST_CASE {
   interface CaseBody {
     id?: number;
     apis: API[];
-    attachmentIds: [
-      string
-    ];
+    attachmentIds: [string];
     bugIds: number[];
     desc: string;
     descIssues: Array<{ additionalProperties: number }>;
@@ -323,7 +319,10 @@ declare namespace TEST_CASE {
     issueBugs: RelatedBug[];
   }
 
-  type CaseTableRecord = Merge<TestCaseItem, { parent: Omit<CaseDirectoryItem, 'testCases'>; children?: TestCaseItem[] }>;
+  type CaseTableRecord = Merge<
+    TestCaseItem,
+    { parent: Omit<CaseDirectoryItem, 'testCases'>; children?: TestCaseItem[] }
+  >;
 
   interface BatchUpdate {
     testCaseIDs: number[];

@@ -19,7 +19,7 @@ import { useUpdateEffect, useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 import './input-select.scss';
 
-interface IProps{
+interface IProps {
   value: string | undefined;
   disabled?: boolean;
   options?: IOption[];
@@ -36,9 +36,22 @@ interface IProps{
 let compKey = 1;
 const noop = (v: any) => v;
 const InputSelect = (props: IProps) => {
-  const { options = [], value: propsValue, onChange = noop, onLoadData = noop, disabled, valueConvert = noop, dropdownClassName = '', dropdownMatchSelectWidth = true, className = '', onBlur: propsOnBlur, showSearch = true, ...rest } = props || {};
+  const {
+    options = [],
+    value: propsValue,
+    onChange = noop,
+    onLoadData = noop,
+    disabled,
+    valueConvert = noop,
+    dropdownClassName = '',
+    dropdownMatchSelectWidth = true,
+    className = '',
+    onBlur: propsOnBlur,
+    showSearch = true,
+    ...rest
+  } = props || {};
   const [state, updater, update] = useUpdate({
-    value: propsValue || undefined as string | undefined,
+    value: propsValue || (undefined as string | undefined),
     dropDownVis: false,
     contentWidth: undefined,
     compId: 1,
@@ -65,16 +78,10 @@ const InputSelect = (props: IProps) => {
   React.useEffect(() => {
     // 控制点击外部关闭 dropdown
     const handleCloseDropdown = (e: MouseEvent) => {
-      const wrappers = Array.from(
-        document.querySelectorAll(`.input-select-input-${compId}`),
-      );
-      const dropdowns = Array.from(
-        document.querySelectorAll(`.input-select-dropdown-${compId} .dropdown-box`),
-      );
+      const wrappers = Array.from(document.querySelectorAll(`.input-select-input-${compId}`));
+      const dropdowns = Array.from(document.querySelectorAll(`.input-select-dropdown-${compId} .dropdown-box`));
       const node = e.target as Node;
-      const inner = wrappers
-        .concat(dropdowns)
-        .some((wrap) => wrap.contains(node));
+      const inner = wrappers.concat(dropdowns).some((wrap) => wrap.contains(node));
       if (!inner && !inputFocRef.current) {
         updater.dropDownVis(false);
       }
@@ -120,7 +127,13 @@ const InputSelect = (props: IProps) => {
     return (
       <Menu className={'input-select-dropdown-menu'} ref={menuRef}>
         <Menu.Item>
-          <Selector options={options} width={state.contentWidth} onChange={onChosenChange} loadData={loadData} showSearch={showSearch} />
+          <Selector
+            options={options}
+            width={state.contentWidth}
+            onChange={onChosenChange}
+            loadData={loadData}
+            showSearch={showSearch}
+          />
         </Menu.Item>
       </Menu>
     );
@@ -166,7 +179,6 @@ const InputSelect = (props: IProps) => {
 
 export default InputSelect;
 
-
 interface IOption {
   label: string;
   value: string | number;
@@ -176,7 +188,7 @@ interface IOption {
   tooltip?: string;
 }
 
-interface SelectorProps{
+interface SelectorProps {
   showSearch?: boolean;
   width?: string;
   dropdownMatchSelectWidth?: boolean;
@@ -223,16 +235,20 @@ const PureSelect = (props: SelectorProps) => {
   const useOptions = getFilterOptions(options, searchValue);
   return (
     <div className={'input-select-dropdown-box  dropdown-box column'} style={width ? { width } : undefined}>
-      {
-        showSearch ? (
-          <div className="pa4">
-            <Input size="small" placeholder={i18n.t('filter')} value={searchValue} onFocus={(e) => e.stopPropagation()} onChange={onChangeSearch} onClick={(e) => e.stopPropagation()} />
-          </div>
-        ) : null
-      }
+      {showSearch ? (
+        <div className="pa4">
+          <Input
+            size="small"
+            placeholder={i18n.t('filter')}
+            value={searchValue}
+            onFocus={(e) => e.stopPropagation()}
+            onChange={onChangeSearch}
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      ) : null}
       <div className="flex-1 input-select-options">
-        {
-        map(useOptions, (op) => {
+        {map(useOptions, (op) => {
           return (
             <div
               key={op.value}
@@ -242,19 +258,18 @@ const PureSelect = (props: SelectorProps) => {
                 onSelect(op);
               }}
             >
-              {
-                  op.tooltip ? (
-                    <Tooltip title={op.tooltip} placement="right">
-                      <span className="full-width">{op.label}</span>
-                    </Tooltip>
-                  ) : (
-                    <Ellipsis placement="right" title={op.label}>{op.label}</Ellipsis>
-                  )
-                }
+              {op.tooltip ? (
+                <Tooltip title={op.tooltip} placement="right">
+                  <span className="full-width">{op.label}</span>
+                </Tooltip>
+              ) : (
+                <Ellipsis placement="right" title={op.label}>
+                  {op.label}
+                </Ellipsis>
+              )}
             </div>
           );
-        })
-      }
+        })}
       </div>
       {isEmpty(useOptions) ? <EmptyHolder relative /> : null}
     </div>
@@ -288,12 +303,18 @@ const Cascader = (props: SelectorProps) => {
   useUpdateEffect(() => {
     const lastVal = last(values);
     if (lastVal) {
-      if (lastVal.isLeaf === false) { // 选中了非叶子节点，且无子，触发请求
-        loadData && (lastVal.children === undefined || lastVal.children === null) && loadData(map(values, (vItem) => {
-          const { children, ...vRest } = vItem;
-          return { ...vRest };
-        }));
-      } else { // 选中叶子，触发onChange
+      if (lastVal.isLeaf === false) {
+        // 选中了非叶子节点，且无子，触发请求
+        loadData &&
+          (lastVal.children === undefined || lastVal.children === null) &&
+          loadData(
+            map(values, (vItem) => {
+              const { children, ...vRest } = vItem;
+              return { ...vRest };
+            }),
+          );
+      } else {
+        // 选中叶子，触发onChange
         onChange(map(values, 'value') as string[]);
       }
     }
@@ -308,24 +329,35 @@ const Cascader = (props: SelectorProps) => {
 
   return (
     <div className="input-cascader-dropdown-box">
-      <OptionGroup options={options} showSearch={showSearch} onSelect={(v) => onSelect(v, 0)} chosenOption={values[0]} />
-      {
-        map(values, (vItem, idx) => {
-          if (vItem.children !== undefined && vItem.children !== null) {
-            return isEmpty(vItem.children) ? (
-              <div className="option-group" key={idx}><EmptyHolder relative /></div>
-            ) : (
-              <OptionGroup key={idx} options={vItem.children || []} showSearch={showSearch} onSelect={(v) => onSelect(v, idx + 1)} chosenOption={values[idx + 1]} />
-            );
-          }
-          return null;
-        })
-      }
+      <OptionGroup
+        options={options}
+        showSearch={showSearch}
+        onSelect={(v) => onSelect(v, 0)}
+        chosenOption={values[0]}
+      />
+      {map(values, (vItem, idx) => {
+        if (vItem.children !== undefined && vItem.children !== null) {
+          return isEmpty(vItem.children) ? (
+            <div className="option-group" key={idx}>
+              <EmptyHolder relative />
+            </div>
+          ) : (
+            <OptionGroup
+              key={idx}
+              options={vItem.children || []}
+              showSearch={showSearch}
+              onSelect={(v) => onSelect(v, idx + 1)}
+              chosenOption={values[idx + 1]}
+            />
+          );
+        }
+        return null;
+      })}
     </div>
   );
 };
 
-interface IOptionGroupProps{
+interface IOptionGroupProps {
   chosenOption?: IOption;
   showSearch?: boolean;
   options: IOption[];
@@ -344,55 +376,43 @@ const OptionGroup = (props: IOptionGroupProps) => {
   };
   return (
     <div className="option-group dropdown-box">
-      {
-        showSearch ? (
-          <div className={`option-group-search pa4 ${showShadow ? 'shadow' : ''}`}>
-            <Input
-              size="small"
-              value={searchValue}
-              placeholder={i18n.t('filter')}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                updater.searchValue(e.target.value);
-              }}
-            />
-          </div>
-        ) : null
-      }
+      {showSearch ? (
+        <div className={`option-group-search pa4 ${showShadow ? 'shadow' : ''}`}>
+          <Input
+            size="small"
+            value={searchValue}
+            placeholder={i18n.t('filter')}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              updater.searchValue(e.target.value);
+            }}
+          />
+        </div>
+      ) : null}
       <div className={'option-group-box '} onScroll={handleScroll}>
-        {
-          map(getFilterOptions(options, searchValue), (op) => {
-            return (
-              <div
-                key={op.value}
-                className={`option-item ${op.value === chosenOption?.value ? 'color-active-bg' : ''}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onSelect(op);
-                }}
-              >
-                {
-                  op.tooltip
-                    ? (
-                      <Tooltip title={op.tooltip} placement="left">
-                        <span className="full-width">{op.label}</span>
-                      </Tooltip>
-                    )
-                    : <Ellipsis placement="left" title={op.label}>{op.label}</Ellipsis>
-                }
-                {
-                  op.isLeaf === false ? (
-                    <CustomIcon
-                      type="chevronright"
-                      className="arrow"
-                    />
-                  ) : null
-                }
-              </div>
-            );
-          })
-        }
+        {map(getFilterOptions(options, searchValue), (op) => {
+          return (
+            <div
+              key={op.value}
+              className={`option-item ${op.value === chosenOption?.value ? 'color-active-bg' : ''}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                onSelect(op);
+              }}
+            >
+              {op.tooltip ? (
+                <Tooltip title={op.tooltip} placement="left">
+                  <span className="full-width">{op.label}</span>
+                </Tooltip>
+              ) : (
+                <Ellipsis placement="left" title={op.label}>
+                  {op.label}
+                </Ellipsis>
+              )}
+              {op.isLeaf === false ? <CustomIcon type="chevronright" className="arrow" /> : null}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
 };
-

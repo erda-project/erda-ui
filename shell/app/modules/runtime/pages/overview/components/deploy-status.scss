@@ -59,8 +59,8 @@
     }
 
     &.running {
-      -webkit-animation: opacity .8s 0s ease-in-out infinite alternate;
-      animation: opacity .8s 0s ease-in-out infinite alternate;
+      -webkit-animation: opacity 0.8s 0s ease-in-out infinite alternate;
+      animation: opacity 0.8s 0s ease-in-out infinite alternate;
     }
   }
 

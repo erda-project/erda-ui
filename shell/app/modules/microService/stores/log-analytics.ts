@@ -37,7 +37,8 @@ const logAnalytics = createFlatStore({
       const { list: appList } = await call(getJoinedApps, { ...payload, projectID: projectId });
       update({ appList });
     },
-    async searchLogAnalytics({ call, update }, payload: LOG_ANALYTICS.SearchQuery) { // info.config.TERMINUS_LOG_KEY
+    async searchLogAnalytics({ call, update }, payload: LOG_ANALYTICS.SearchQuery) {
+      // info.config.TERMINUS_LOG_KEY
       const searchResult = await call(searchLogAnalytics, payload);
       searchResult.data && update({ searchResult });
     },

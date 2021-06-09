@@ -61,9 +61,16 @@ export class Terminal extends React.Component<IProps, IState> {
   render() {
     const { max } = this.state;
     return (
-      <div ref={(term) => { this.terminal = term; }} className={`terminal-container${max ? ' show-max' : ''}`}>
+      <div
+        ref={(term) => {
+          this.terminal = term;
+        }}
+        className={`terminal-container${max ? ' show-max' : ''}`}
+      >
         <div className="terminal-control btn-line-rtl">
-          <Button className="resize-button" onClick={this.changeSize} type="ghost">{max ? i18n.t('default:exit full screen') : i18n.t('default:full screen')}</Button>
+          <Button className="resize-button" onClick={this.changeSize} type="ghost">
+            {max ? i18n.t('default:exit full screen') : i18n.t('default:full screen')}
+          </Button>
         </div>
       </div>
     );

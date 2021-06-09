@@ -2,7 +2,11 @@
   &.info-card {
     &.dragging {
       background: repeating-linear-gradient(
-        45deg, $color-dark-06, $color-dark-06 2px, $color-white-8 0, $color-white-8 8px
+        45deg,
+        $color-dark-06,
+        $color-dark-06 2px,
+        $color-white-8 0,
+        $color-white-8 8px
       );
       cursor: move;
 

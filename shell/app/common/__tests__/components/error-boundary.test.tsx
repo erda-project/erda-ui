@@ -42,14 +42,8 @@ describe('ErrorBoundary', () => {
     expect(history.location.pathname).toBe('/');
   });
   it('errorCatcher should work well', () => {
-    const Copm = errorCatcher(
-      <div className="error-catcher" />,
-    );
-    const wrapper = mount(
-      <div>
-        {Copm}
-      </div>,
-    );
+    const Copm = errorCatcher(<div className="error-catcher" />);
+    const wrapper = mount(<div>{Copm}</div>);
     expect(wrapper.find('.error-catcher')).toExist();
   });
 });

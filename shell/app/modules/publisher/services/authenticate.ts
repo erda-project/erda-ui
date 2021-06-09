@@ -14,7 +14,8 @@
 import agent from 'agent';
 
 export const getAuthenticateList = ({ artifactId, ...query }: PUBLISHER.IListQuery): PUBLISHER.IAuthenticate[] => {
-  return agent.get(`/api/publish-items/${artifactId}/certification`)
+  return agent
+    .get(`/api/publish-items/${artifactId}/certification`)
     .query(query)
     .then((response: any) => response.body);
 };

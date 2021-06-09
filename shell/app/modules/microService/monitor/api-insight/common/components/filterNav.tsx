@@ -27,19 +27,10 @@ interface IProps {
   resetFields: () => void;
 }
 
-const FilterNav = ({
-  isNeedStatusFilters = true,
-  updateFields,
-  resetFields,
-}: IProps) => {
+const FilterNav = ({ isNeedStatusFilters = true, updateFields, resetFields }: IProps) => {
   const [runtimeEntryData] = gatewayStore.useStore((s) => [s.runtimeEntryData]);
   const searchFields = apiMonitorFilterStore.useStore((s) => s.searchFields);
-  const {
-    filter_hts,
-    filter_upfs,
-    filter_dsrv,
-    filter_dapp,
-  } = searchFields;
+  const { filter_hts, filter_upfs, filter_dsrv, filter_dapp } = searchFields;
   const { updateSearchFields } = apiMonitorFilterStore.reducers;
 
   React.useEffect(() => {
@@ -74,14 +65,18 @@ const FilterNav = ({
                 <Input
                   placeholder={i18n.t('microService:http status code')}
                   value={filter_hts}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => { updateSearchFields({ filter_hts: e.target.value }); }}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    updateSearchFields({ filter_hts: e.target.value });
+                  }}
                 />
               </Col>
               <Col span={4}>
                 <Input
                   placeholder={i18n.t('microService:backend status code')}
                   value={filter_upfs}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => { updateSearchFields({ filter_upfs: e.target.value }); }}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    updateSearchFields({ filter_upfs: e.target.value });
+                  }}
                 />
               </Col>
             </IF>
@@ -91,8 +86,12 @@ const FilterNav = ({
       <div className="filter-container flex-box">
         <TimeSelector inline />
         <div className="search-actions flex-box ml20">
-          <Button className="mr8" onClick={resetAll}>{i18n.t('reset')}</Button>
-          <Button type="primary" ghost onClick={updateFields}>{i18n.t('search')}</Button>
+          <Button className="mr8" onClick={resetAll}>
+            {i18n.t('reset')}
+          </Button>
+          <Button type="primary" ghost onClick={updateFields}>
+            {i18n.t('search')}
+          </Button>
         </div>
       </div>
     </div>

@@ -17,7 +17,6 @@ import { TimeSelector } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import AjaxMap from './config/chartMap';
 
-
 const Ajax = () => {
   const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
 
@@ -50,11 +49,7 @@ const Ajax = () => {
             <AjaxMap.sortList />
           </div>
         </Col>
-        <Col span={16}>
-          {
-              chosenSortItem ? getDetailChart() : getAllChart()
-          }
-        </Col>
+        <Col span={16}>{chosenSortItem ? getDetailChart() : getAllChart()}</Col>
       </Row>
     </div>
   );

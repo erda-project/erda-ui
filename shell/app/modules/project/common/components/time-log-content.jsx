@@ -22,16 +22,16 @@ const AU = new AnsiUp();
 const TimeLogContent = ({ logs }) => {
   return (
     <div className="log-list-box">
-      {
-        map(logs, (log, i) => {
-          return (
-            <div key={i} className="log-item">
-              <span className="log-item-logtime">{moment(parseInt(log.timestamp / 1000000, 10)).format('YYYY-MM-DD HH:mm:ss')}</span>
-              <pre className="log-item-content" dangerouslySetInnerHTML={{ __html: AU.ansi_to_html(log.message) }} />
-            </div>
-          );
-        })
-      }
+      {map(logs, (log, i) => {
+        return (
+          <div key={i} className="log-item">
+            <span className="log-item-logtime">
+              {moment(parseInt(log.timestamp / 1000000, 10)).format('YYYY-MM-DD HH:mm:ss')}
+            </span>
+            <pre className="log-item-content" dangerouslySetInnerHTML={{ __html: AU.ansi_to_html(log.message) }} />
+          </div>
+        );
+      })}
     </div>
   );
 };

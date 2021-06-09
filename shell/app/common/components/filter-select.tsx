@@ -31,7 +31,6 @@ interface IState {
   filteredList: object[];
 }
 
-
 export class FilterSelect extends React.PureComponent<IProps, IState> {
   state = {
     filtering: false,
@@ -39,7 +38,7 @@ export class FilterSelect extends React.PureComponent<IProps, IState> {
   };
 
   componentDidMount() {
-    const noop = () => { };
+    const noop = () => {};
     (this.props.initFetch || noop)();
   }
 
@@ -53,7 +52,13 @@ export class FilterSelect extends React.PureComponent<IProps, IState> {
         if (index > -1) {
           const prefix = item.text.slice(0, index);
           const suffix = item.text.slice(index + value.length);
-          const hlName = <span>{prefix}<span className="hl">{value}</span>{suffix}</span>;
+          const hlName = (
+            <span>
+              {prefix}
+              <span className="hl">{value}</span>
+              {suffix}
+            </span>
+          );
           iFiltered.push({ ...item, hlName });
         }
       });
@@ -74,9 +79,7 @@ export class FilterSelect extends React.PureComponent<IProps, IState> {
   };
 
   render() {
-    const {
-      multiple, options, fetching, ...otherProps
-    } = this.props;
+    const { multiple, options, fetching, ...otherProps } = this.props;
     const { filtering, filteredList } = this.state;
     let _value: string | string[] = '';
     if (otherProps.value !== undefined && otherProps.value !== null) {
@@ -87,7 +90,6 @@ export class FilterSelect extends React.PureComponent<IProps, IState> {
         _value = otherProps.value.map((i) => String(i));
       }
     }
-
 
     return (
       <Select
@@ -100,13 +102,11 @@ export class FilterSelect extends React.PureComponent<IProps, IState> {
         allowClear
         notFoundContent={fetching ? <Spin size="small" /> : null}
       >
-        {
-          (filtering ? filteredList : options).map(({ value, text, hlName }) => (
-            <Select.Option key={value} value={value} className="suggestions-option">
-              {hlName || text}
-            </Select.Option>
-          ))
-        }
+        {(filtering ? filteredList : options).map(({ value, text, hlName }) => (
+          <Select.Option key={value} value={value} className="suggestions-option">
+            {hlName || text}
+          </Select.Option>
+        ))}
       </Select>
     );
   }

@@ -20,7 +20,12 @@ import i18n from 'i18n';
 import buildStore from 'application/stores/build';
 import routeInfoStore from 'app/common/stores/route';
 
-const setup = { type: 'dataTask', addTitle: i18n.t('application:new task'), categoryTitle: i18n.t('application:all tasks'), iconType: 'rw' };
+const setup = {
+  type: 'dataTask',
+  addTitle: i18n.t('application:new task'),
+  categoryTitle: i18n.t('application:all tasks'),
+  iconType: 'rw',
+};
 
 export const DataTask = () => {
   const { getComboPipelines, batchCreateTask } = buildStore.effects;
@@ -28,7 +33,7 @@ export const DataTask = () => {
 
   const [modalVisible, setModalVisible] = React.useState(false);
 
-  const goToDetailLink = ({ pipelineID }: {pipelineID: number}, replace?: boolean) => {
+  const goToDetailLink = ({ pipelineID }: { pipelineID: number }, replace?: boolean) => {
     const { projectId, appId } = params;
     goTo(goTo.pages.dataTask, { projectId, appId, pipelineID, replace });
   };
@@ -64,19 +69,12 @@ export const DataTask = () => {
         footer={null}
         onCancel={resetModal}
       >
-        <DataTaskCreation
-          onOk={addTask}
-          onCancel={resetModal}
-        />
-      </Modal>);
+        <DataTaskCreation onOk={addTask} onCancel={resetModal} />
+      </Modal>
+    );
   };
 
   return (
-    <Build
-      goToDetailLink={goToDetailLink}
-      setup={setup}
-      renderCreateModal={renderCreateModal}
-      showModal={showModal}
-    />
+    <Build goToDetailLink={goToDetailLink} setup={setup} renderCreateModal={renderCreateModal} showModal={showModal} />
   );
 };

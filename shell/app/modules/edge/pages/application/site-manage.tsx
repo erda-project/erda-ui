@@ -37,11 +37,12 @@ const appSiteManage = () => {
   );
 };
 
-const useMock = (payload: Record<string, any>) => new Promise((resolve) => {
-  setTimeout(() => {
-    resolve(getMock(payload));
-  }, 100);
-});
+const useMock = (payload: Record<string, any>) =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(getMock(payload));
+    }, 100);
+  });
 
 const getMock = (payload?: Record<string, any>) => {
   // console.clear();
@@ -152,7 +153,8 @@ const mock: CONFIG_PAGE.RenderConfig = {
                       state: { params: { id: 1, siteName: 'beijing-001' }, query: { appName: 'test' } },
                     },
                   },
-                } },
+                },
+              },
               deployStatus: { renderType: 'textWithBadge', value: '部署中', status: 'processing' },
               operate: {
                 renderType: 'tableOperation',
@@ -207,9 +209,7 @@ const mock: CONFIG_PAGE.RenderConfig = {
       appSiteBreadcrumb: {
         type: 'Breadcrumb',
         data: {
-          list: [
-            { key: 'appName', item: '站点列表' },
-          ],
+          list: [{ key: 'appName', item: '站点列表' }],
         },
         operations: {
           click: {

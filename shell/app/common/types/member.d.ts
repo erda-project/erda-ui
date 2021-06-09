@@ -20,7 +20,7 @@ declare namespace MEMBER {
     q?: string;
   }
 
-  interface ScopeObj{
+  interface ScopeObj {
     scopeType: string;
     scopeId: string;
   }
@@ -34,12 +34,12 @@ declare namespace MEMBER {
     q?: string;
   }
 
-  interface GetRoleTypeQuery{
+  interface GetRoleTypeQuery {
     scopeType: string;
     scopeId?: number; // 不同企业根据是否开启发布商，角色会有区别，需要传scopeId
   }
 
-  interface IRoleType{
+  interface IRoleType {
     role: string;
     name: string;
   }
@@ -64,7 +64,7 @@ declare namespace MEMBER {
     needReload?: boolean;
   }
 
-  interface IMember{
+  interface IMember {
     name: string;
     userId: string;
   }

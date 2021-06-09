@@ -19,9 +19,10 @@ import { getModules } from '../services/monitorCommon';
 import i18n from 'i18n';
 
 const defaultHandler = (data: any) => {
-  const modules = map(data, (v, k) => {
-    return { [k]: v };
-  }) || [];
+  const modules =
+    map(data, (v, k) => {
+      return { [k]: v };
+    }) || [];
   const reModules = map(modules, (m) => {
     const moduleMap = {} as any;
     forEach(m, (v, k) => {
@@ -90,16 +91,19 @@ const monitorCommon = createStore({
       const data = await call(getModules, { api, query });
       await monitorCommon.reducers.getAppGroupSuccess({ type, data, dataHandler });
     },
-    async getProjectApps({ call, getParams, select, update }, payload?: {loadMore?: boolean; q?: string; pageNo?: number}) {
+    async getProjectApps(
+      { call, getParams, select, update },
+      payload?: { loadMore?: boolean; q?: string; pageNo?: number },
+    ) {
       const { projectId } = getParams();
       const { loadMore = true, pageNo = 1, ...rest } = payload || {};
       const { total, list } = await call(
         getApps,
         { ...rest, pageNo: 1, projectId, mode: 'SERVICE', pageSize: 1000 },
         { paging: { key: 'projectAppsPaging' } },
-      );// 过滤业务应用
+      ); // 过滤业务应用
       const oldList = select((s) => s.projectApps);
-      const newList = (loadMore && pageNo !== 1) ? oldList.concat(list) : list;
+      const newList = loadMore && pageNo !== 1 ? oldList.concat(list) : list;
       update({ projectApps: newList });
       return { list, total };
     },
@@ -108,14 +112,14 @@ const monitorCommon = createStore({
     updateState(state, payload) {
       return { ...state, ...payload };
     },
-    changeChosenModules(state, payload: { type: string; chosenModule: string}) {
+    changeChosenModules(state, payload: { type: string; chosenModule: string }) {
       const { type, chosenModule: curModule } = payload;
       const { chosenModule } = state;
       chosenModule[type] = curModule;
       state.chosenModule = { ...chosenModule };
       state.chosenSortItem = '';
     },
-    getProjectAppsSuccess(state, payload: { list: any[]; pageNo: number}) {
+    getProjectAppsSuccess(state, payload: { list: any[]; pageNo: number }) {
       const oldList = state.projectApps;
       const { list, pageNo = 1 } = payload;
       let newList = list as any[];
@@ -124,7 +128,7 @@ const monitorCommon = createStore({
       }
       state.projectApps = newList;
     },
-    changeChosenApp(state, payload: {chosenApp: { id: string; name: string } }) {
+    changeChosenApp(state, payload: { chosenApp: { id: string; name: string } }) {
       const { chosenApp = {} } = payload;
       // 修改选中app,则同步取消chosenSortItem;
       state.chosenApp = chosenApp;
@@ -137,13 +141,13 @@ const monitorCommon = createStore({
       state.chosenAppGroup = {};
       state.chosenSortItem = '';
     },
-    getModulesSuccess(state, payload: {data: any; dataHandler: Function | undefined; type: string}) {
+    getModulesSuccess(state, payload: { data: any; dataHandler: Function | undefined; type: string }) {
       const { data, dataHandler, type } = payload;
       const { modules } = state;
       modules[type] = isFunction(dataHandler) ? dataHandler(data) : defaultHandler(data);
       state.modules = { ...modules };
     },
-    changeChosenAppGroup(state, payload: { type: string; chosenAppGroup: string}) {
+    changeChosenAppGroup(state, payload: { type: string; chosenAppGroup: string }) {
       const { type, chosenAppGroup: curChosen } = payload;
       const { chosenAppGroup } = state;
       chosenAppGroup[type] = curChosen;
@@ -160,7 +164,7 @@ const monitorCommon = createStore({
       state.appGroup = { ...appGroup };
       state.chosenAppGroup = { ...chosenAppGroup };
     },
-    getAppGroupSuccess(state, payload: {data: any; dataHandler: Function | undefined; type: string}) {
+    getAppGroupSuccess(state, payload: { data: any; dataHandler: Function | undefined; type: string }) {
       const { data, dataHandler, type } = payload;
       const { appGroup } = state;
       appGroup[type] = {

@@ -16,8 +16,7 @@
  * @example cy.get('#select').selectHack('123')
  */
 Cypress.Commands.add('selectHack', { prevSubject: true }, (selector, label) => {
-  cy.get(selector).click().next().contains(label)
-    .click();
+  cy.get(selector).click().next().contains(label).click();
 });
 /**
  * upload file
@@ -36,7 +35,7 @@ Cypress.Commands.add('upload', { prevSubject: true }, (prevSubject, filePath) =>
  * @param alias {string} cy.router 的别名
  */
 Cypress.Commands.add('waitResponse', (alias, code = 200) => {
-  cy.wait(alias).then(res => {
+  cy.wait(alias).then((res) => {
     expect(res.status).to.equal(code);
   });
 });

@@ -13,26 +13,41 @@
 
 import agent from 'agent';
 
-export const getProcessDashboardId = (query: TOPOLOGY_SERVICE_ANALYZE.CommonQuery): TOPOLOGY_SERVICE_ANALYZE.ProcessDashboardId => {
-  return agent.get('/api/apm/topology/process/dashboardId')
+export const getProcessDashboardId = (
+  query: TOPOLOGY_SERVICE_ANALYZE.CommonQuery,
+): TOPOLOGY_SERVICE_ANALYZE.ProcessDashboardId => {
+  return agent
+    .get('/api/apm/topology/process/dashboardId')
     .query(query)
     .then((response: any) => response.body);
 };
 
-export const getTraceSlowTranslation = (query: Merge<TOPOLOGY_SERVICE_ANALYZE.CommonQuery, { operation: string; start: number; end: number; sort: 'DESC' | 'ASC' }>): TOPOLOGY_SERVICE_ANALYZE.TranslationSlowResp => {
-  return agent.get('/api/apm/topology/translation/slow')
+export const getTraceSlowTranslation = (
+  query: Merge<
+    TOPOLOGY_SERVICE_ANALYZE.CommonQuery,
+    { operation: string; start: number; end: number; sort: 'DESC' | 'ASC' }
+  >,
+): TOPOLOGY_SERVICE_ANALYZE.TranslationSlowResp => {
+  return agent
+    .get('/api/apm/topology/translation/slow')
     .query(query)
     .then((response: any) => response.body);
 };
 
-export const getExceptionTypes = (query: Merge<TOPOLOGY_SERVICE_ANALYZE.CommonQuery, TOPOLOGY_SERVICE_ANALYZE.TimestampQuery>): { data?: string[] } => {
-  return agent.get('/api/apm/topology/exception/types')
+export const getExceptionTypes = (
+  query: Merge<TOPOLOGY_SERVICE_ANALYZE.CommonQuery, TOPOLOGY_SERVICE_ANALYZE.TimestampQuery>,
+): { data?: string[] } => {
+  return agent
+    .get('/api/apm/topology/exception/types')
     .query(query)
     .then((response: any) => response.body);
 };
 
-export const getInstanceIds = (query: Merge<TOPOLOGY_SERVICE_ANALYZE.CommonQuery, TOPOLOGY_SERVICE_ANALYZE.TimestampQuery>): { data?: TOPOLOGY_SERVICE_ANALYZE.InstanceId[] } => {
-  return agent.get('/api/apm/topology/service/instance/ids')
+export const getInstanceIds = (
+  query: Merge<TOPOLOGY_SERVICE_ANALYZE.CommonQuery, TOPOLOGY_SERVICE_ANALYZE.TimestampQuery>,
+): { data?: TOPOLOGY_SERVICE_ANALYZE.InstanceId[] } => {
+  return agent
+    .get('/api/apm/topology/service/instance/ids')
     .query(query)
     .then((response: any) => response.body);
 };

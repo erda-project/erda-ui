@@ -17,11 +17,4 @@ import { PipelineNode } from './pipeline-node';
 import { StartNode } from './start-node';
 import { EndNode } from './end-node';
 
-export {
-  AddRow,
-  AddNode,
-  PipelineNode,
-  StartNode,
-  EndNode,
-};
-
+export { AddRow, AddNode, PipelineNode, StartNode, EndNode };

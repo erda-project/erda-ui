@@ -12,7 +12,20 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import moment from 'moment';
-import { union, head, last, flatMap, findIndex, minBy, partition, groupBy, sortBy, toPairs, orderBy, identity } from 'lodash';
+import {
+  union,
+  head,
+  last,
+  flatMap,
+  findIndex,
+  minBy,
+  partition,
+  groupBy,
+  sortBy,
+  toPairs,
+  orderBy,
+  identity,
+} from 'lodash';
 import fp from 'lodash/fp';
 import { Constants } from './traceConstants';
 
@@ -35,10 +48,7 @@ export function traceDuration(spans: any) {
     return [timestamp, timestamp + duration];
   }
   // turns (timestamp, timestamp + duration) into an ordered list
-  const timestamps = fp.flow(
-    fp.flatMap(makeList),
-    fp.sortBy(identity),
-  )(spans);
+  const timestamps = fp.flow(fp.flatMap(makeList), fp.sortBy(identity))(spans);
 
   if (timestamps.length < 2) {
     return null;
@@ -130,15 +140,15 @@ export function getServiceName(span: any) {
   return firstAnn ? firstAnn.endpoint.serviceName : null;
 }
 
-
 function getSpanTimestamps(spans: any) {
-  return flatMap(spans, (span) => getServiceNames(span).map((serviceName) => ({
-    name: serviceName,
-    timestamp: span.timestamp,
-    duration: span.duration,
-  })));
+  return flatMap(spans, (span) =>
+    getServiceNames(span).map((serviceName) => ({
+      name: serviceName,
+      timestamp: span.timestamp,
+      duration: span.duration,
+    })),
+  );
 }
-
 
 // returns 'critical' if one of the spans has an ERROR binary annotation, else
 // returns 'transient' if one of the spans has an ERROR annotation, else
@@ -149,8 +159,10 @@ export function getTraceErrorType(spans: any) {
     const span = spans[i];
     if (findIndex(span.binaryAnnotations || [], (ann: any) => ann.key === Constants.ERROR) !== -1) {
       return 'critical';
-    } else if (traceType === 'none' &&
-               findIndex(span.annotations || [], (ann: any) => ann.value === Constants.ERROR) !== -1) {
+    } else if (
+      traceType === 'none' &&
+      findIndex(span.annotations || [], (ann: any) => ann.value === Constants.ERROR) !== -1
+    ) {
       traceType = 'transient';
     }
   }
@@ -158,8 +170,7 @@ export function getTraceErrorType(spans: any) {
 }
 
 function endpointEquals(e1: any, e2: any) {
-  return (e1.ipv4 === e2.ipv4 || e1.ipv6 === e2.ipv6)
-    && e1.port === e2.port && e1.serviceName === e2.serviceName;
+  return (e1.ipv4 === e2.ipv4 || e1.ipv6 === e2.ipv6) && e1.port === e2.port && e1.serviceName === e2.serviceName;
 }
 
 export function traceSummary(spans: any = []) {
@@ -167,7 +178,8 @@ export function traceSummary(spans: any = []) {
     return null;
   }
   const duration = traceDuration(spans) || 0; // 获取span时间轴长（最大时间-最小时间）
-  const endpoints = fp.flow(// 筛选出所有的终端(获取binaryAnnotations中的serviceName)
+  const endpoints = fp.flow(
+    // 筛选出所有的终端(获取binaryAnnotations中的serviceName)
     fp.flatMap(endpointsForSpan),
     fp.uniqWith(endpointEquals),
   )(spans);
@@ -194,8 +206,10 @@ export function totalServiceTime(stamps: any, acc = 0): any {
     return acc;
   }
   const ts = minBy(filtered, (s: any) => s.timestamp);
-  const [current, next] = partition(filtered, (t) => t.timestamp >= ts.timestamp
-        && t.timestamp + t.duration <= ts.timestamp + ts.duration);
+  const [current, next] = partition(
+    filtered,
+    (t) => t.timestamp >= ts.timestamp && t.timestamp + t.duration <= ts.timestamp + ts.duration,
+  );
   const endTs = Math.max(...current.map((t) => t.timestamp + t.duration));
   return totalServiceTime(next, acc + (endTs - ts.timestamp));
 }
@@ -213,11 +227,14 @@ export function getGroupedTimestamps(summary: any) {
 }
 
 export function getServiceDurations(groupedTimestamps: any) {
-  return sortBy(toPairs(groupedTimestamps).map(([name, sts]: any) => ({
-    name,
-    count: sts.length,
-    max: parseInt(`${Math.max(...sts.map((t: any) => t.duration)) / 1000}`, 10),
-  })), 'name');
+  return sortBy(
+    toPairs(groupedTimestamps).map(([name, sts]: any) => ({
+      name,
+      count: sts.length,
+      max: parseInt(`${Math.max(...sts.map((t: any) => t.duration)) / 1000}`, 10),
+    })),
+    'name',
+  );
 }
 
 export function mkDurationStr(duration: any) {

@@ -27,56 +27,59 @@ import { Icon as CustomIcon } from 'common';
 
 // 应用中心菜单
 export const getOrgCenterMenu = () => {
-  return filterMenu([
-    {
-      key: 'orgProjects',
-      href: goTo.resolve.orgCenterRoot(), // '/orgCenter/projects',
-      icon: <IconApiApp />,
-      text: i18n.t('projects'),
-    },
-    {
-      key: 'orgMarket',
-      href: goTo.resolve.orgCenterMarket(), // '/orgCenter/market',
-      icon: <IconCeMarking />,
-      text: i18n.t('layout:market'),
-      subMenu: [
-        {
-          key: 'orgMarketPublisher',
-          text: i18n.t('org:publisher info'),
-          href: goTo.resolve.orgCenterPublisherSetting(), // '/orgCenter/market/publisher/setting',
-        },
-      ],
-    },
-    {
-      key: 'orgCertificate',
-      href: goTo.resolve.orgCenterCertificate(), // '/orgCenter/certificate',
-      icon: <IconCertificate />,
-      text: i18n.t('layout:certificate'),
-    },
-    {
-      key: 'orgApproval',
-      href: goTo.resolve.orgCenterApprovalUndone(), // '/orgCenter/approval/undone',
-      icon: <CustomIcon type="shenpiguanli" />,
-      text: i18n.t('layout:approval'),
-      prefix: `${goTo.resolve.orgCenterApproval()}/`,
-    },
-    {
-      key: 'orgAnnouncement',
-      href: goTo.resolve.orgCenterAnnouncement(), // '/orgCenter/announcement',
-      icon: <IconBill />,
-      text: i18n.t('org:announcement'),
-    },
-    {
-      key: 'orgSafety',
-      href: goTo.resolve.orgCenterSafety(), // '/orgCenter/safety',
-      icon: <IconLog />,
-      text: i18n.t('org:audit log'),
-    },
-    {
-      key: 'orgSetting',
-      href: goTo.resolve.dataCenterSetting(), // '/orgCenter/setting/detail',
-      icon: <IconCity />,
-      text: i18n.t('org setting'),
-    },
-  ], MENU_SCOPE.orgCenter);
+  return filterMenu(
+    [
+      {
+        key: 'orgProjects',
+        href: goTo.resolve.orgCenterRoot(), // '/orgCenter/projects',
+        icon: <IconApiApp />,
+        text: i18n.t('projects'),
+      },
+      {
+        key: 'orgMarket',
+        href: goTo.resolve.orgCenterMarket(), // '/orgCenter/market',
+        icon: <IconCeMarking />,
+        text: i18n.t('layout:market'),
+        subMenu: [
+          {
+            key: 'orgMarketPublisher',
+            text: i18n.t('org:publisher info'),
+            href: goTo.resolve.orgCenterPublisherSetting(), // '/orgCenter/market/publisher/setting',
+          },
+        ],
+      },
+      {
+        key: 'orgCertificate',
+        href: goTo.resolve.orgCenterCertificate(), // '/orgCenter/certificate',
+        icon: <IconCertificate />,
+        text: i18n.t('layout:certificate'),
+      },
+      {
+        key: 'orgApproval',
+        href: goTo.resolve.orgCenterApprovalUndone(), // '/orgCenter/approval/undone',
+        icon: <CustomIcon type="shenpiguanli" />,
+        text: i18n.t('layout:approval'),
+        prefix: `${goTo.resolve.orgCenterApproval()}/`,
+      },
+      {
+        key: 'orgAnnouncement',
+        href: goTo.resolve.orgCenterAnnouncement(), // '/orgCenter/announcement',
+        icon: <IconBill />,
+        text: i18n.t('org:announcement'),
+      },
+      {
+        key: 'orgSafety',
+        href: goTo.resolve.orgCenterSafety(), // '/orgCenter/safety',
+        icon: <IconLog />,
+        text: i18n.t('org:audit log'),
+      },
+      {
+        key: 'orgSetting',
+        href: goTo.resolve.dataCenterSetting(), // '/orgCenter/setting/detail',
+        icon: <IconCity />,
+        text: i18n.t('org setting'),
+      },
+    ],
+    MENU_SCOPE.orgCenter,
+  );
 };

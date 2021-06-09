@@ -78,52 +78,63 @@ const RepoBranch = () => {
         <Alert message={i18n.t('lock-repository-tip')} type="error" />
       </IF>
       <div className="repo-branch-list">
-        {
-          list.map((item) => {
-            const { name, id, commit, isProtect, isDefault, isMerged } = item;
-            const { commitMessage, author = {} } = commit || {};
-            const { name: committerName, when } = author as any;
-            const isProtectBranch = get(find(branchInfo, { name }), 'isProtect');
-            const curAuth = isProtectBranch ? permMap.writeProtected.pass : permMap.writeNormal.pass;
-            return (
-              <div key={name} className="branch-item flex-box">
-                <div className="branch-item-left">
-                  <div className="bold-500 v-align fz16 mb12">
-                    {
-                      isProtect ? (
-                        <Tooltip title={i18n.t('protected branch')}>
-                          <CustomIcon className="fz22 color-green" type="baohu" />
-                        </Tooltip>
-                      ) : <CustomIcon className="fz22" type="fz" />
-                    }
-                    <Link to={mergeRepoPathWith(`/tree/${name}`)}><span className="color-text hover-active">{name}</span></Link>
-                    {isDefault && <span className="tag-primary">{i18n.t('default')}</span>}
-                    {isMerged && <span className="tag-success">{i18n.t('application:Merged')}</span>}
-                  </div>
-                  <div className="v-align color-text-sub">
-                    <span className="inline-v-align"><Avatar showName name={committerName} />&nbsp;{i18n.t('committed at')}</span>
-                    <span className="ml4">{fromNow(when)}</span>
-                    <span className="ml24 color-text-desc nowrap flex-1">
-                      <GotoCommit length={6} commitId={id} />
-                      &nbsp;·&nbsp;
-                      <Tooltip title={commitMessage.length > 50 ? commitMessage : null}>
-                        <Link className="color-text-desc hover-active" to={getCommitPath(id)}>{replaceEmoji(commitMessage)}</Link>
-                      </Tooltip>
-                    </span>
-                  </div>
+        {list.map((item) => {
+          const { name, id, commit, isProtect, isDefault, isMerged } = item;
+          const { commitMessage, author = {} } = commit || {};
+          const { name: committerName, when } = author as any;
+          const isProtectBranch = get(find(branchInfo, { name }), 'isProtect');
+          const curAuth = isProtectBranch ? permMap.writeProtected.pass : permMap.writeNormal.pass;
+          return (
+            <div key={name} className="branch-item flex-box">
+              <div className="branch-item-left">
+                <div className="bold-500 v-align fz16 mb12">
+                  {isProtect ? (
+                    <Tooltip title={i18n.t('protected branch')}>
+                      <CustomIcon className="fz22 color-green" type="baohu" />
+                    </Tooltip>
+                  ) : (
+                    <CustomIcon className="fz22" type="fz" />
+                  )}
+                  <Link to={mergeRepoPathWith(`/tree/${name}`)}>
+                    <span className="color-text hover-active">{name}</span>
+                  </Link>
+                  {isDefault && <span className="tag-primary">{i18n.t('default')}</span>}
+                  {isMerged && <span className="tag-success">{i18n.t('application:Merged')}</span>}
                 </div>
-                <div className="branch-item-right">
-                  <Button className="mr12" disabled={info.isLocked} onClick={() => goToCompare(name)}>{i18n.t('application:compare')}</Button>
-                  <DeleteConfirm
-                    onConfirm={() => {
-                      deleteBranch({ branch: name });
-                    }}
-                  >
-                    <WithAuth pass={curAuth} >
-                      <Button disabled={info.isLocked || isDefault} className="mr12" ghost type="danger">{i18n.t('delete')}</Button>
-                    </WithAuth>
-                  </DeleteConfirm>
-                  <Dropdown overlay={(
+                <div className="v-align color-text-sub">
+                  <span className="inline-v-align">
+                    <Avatar showName name={committerName} />
+                    &nbsp;{i18n.t('committed at')}
+                  </span>
+                  <span className="ml4">{fromNow(when)}</span>
+                  <span className="ml24 color-text-desc nowrap flex-1">
+                    <GotoCommit length={6} commitId={id} />
+                    &nbsp;·&nbsp;
+                    <Tooltip title={commitMessage.length > 50 ? commitMessage : null}>
+                      <Link className="color-text-desc hover-active" to={getCommitPath(id)}>
+                        {replaceEmoji(commitMessage)}
+                      </Link>
+                    </Tooltip>
+                  </span>
+                </div>
+              </div>
+              <div className="branch-item-right">
+                <Button className="mr12" disabled={info.isLocked} onClick={() => goToCompare(name)}>
+                  {i18n.t('application:compare')}
+                </Button>
+                <DeleteConfirm
+                  onConfirm={() => {
+                    deleteBranch({ branch: name });
+                  }}
+                >
+                  <WithAuth pass={curAuth}>
+                    <Button disabled={info.isLocked || isDefault} className="mr12" ghost type="danger">
+                      {i18n.t('delete')}
+                    </Button>
+                  </WithAuth>
+                </DeleteConfirm>
+                <Dropdown
+                  overlay={
                     <Menu
                       onClick={(e) => {
                         switch (e.key) {
@@ -135,23 +146,23 @@ const RepoBranch = () => {
                         }
                       }}
                     >
-                      <Menu.Item key="setDefault" disabled={!curAuth || info.isLocked || isDefault}>{i18n.t('application:set default')}</Menu.Item>
+                      <Menu.Item key="setDefault" disabled={!curAuth || info.isLocked || isDefault}>
+                        {i18n.t('application:set default')}
+                      </Menu.Item>
                     </Menu>
-                  )}
-                  >
-                    <Button>
-                      <CustomIcon type="more" />
-                    </Button>
-                  </Dropdown>
-                </div>
+                  }
+                >
+                  <Button>
+                    <CustomIcon type="more" />
+                  </Button>
+                </Dropdown>
               </div>
-            );
-          })
-        }
+            </div>
+          );
+        })}
       </div>
     </Spin>
   );
 };
-
 
 export default RepoBranch;

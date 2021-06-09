@@ -24,7 +24,7 @@ import './perm-export.scss';
 const { TabPane } = Tabs;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
-interface IProps{
+interface IProps {
   roleMap: Obj;
   projectId: string;
   activeScope: string;
@@ -39,7 +39,7 @@ const checkValidRole = (data: Obj, role: Obj) => {
 
   const check = (_d: Obj) => {
     // eslint-disable-next-line no-param-reassign
-    if (_d.role)_d.role = intersection(_d.role, roleKeys);
+    if (_d.role) _d.role = intersection(_d.role, roleKeys);
     map(_d, (item) => {
       typeof item === 'object' && check(item);
     });
@@ -57,11 +57,9 @@ const PermExport = (props: IProps) => {
   const [taskVisible, setTaskVisible] = React.useState(false);
   const [invalidJson, setInvalidJson] = React.useState([] as string[]);
 
-
   React.useEffect(() => {
     setTabKey(activeScope);
   }, [activeScope]);
-
 
   React.useEffect(() => {
     if (visible || taskVisible) {
@@ -81,7 +79,7 @@ const PermExport = (props: IProps) => {
     const inValidArr = [] as string[];
     map(value, (item: any) => {
       const { _valueStr } = item;
-      if (!isValidJsonStr(_valueStr))inValidArr.push(item.name);
+      if (!isValidJsonStr(_valueStr)) inValidArr.push(item.name);
     });
     setInvalidJson(inValidArr);
   }, [value]);
@@ -123,14 +121,25 @@ const PermExport = (props: IProps) => {
     }
   };
 
-  const CancelBtn = <Button key="cancel" onClick={onCancel}>{i18n.t('cancel')}</Button>;
-  const OkBtn = <Button key="ok" onClick={onOk} type="primary">{i18n.t('ok')}</Button>;
-  const modalProps = isEdit && type === 'json' ? ({
-    maskClosable: false,
-    footer: [CancelBtn, OkBtn],
-  }) : ({
-    footer: [CancelBtn],
-  });
+  const CancelBtn = (
+    <Button key="cancel" onClick={onCancel}>
+      {i18n.t('cancel')}
+    </Button>
+  );
+  const OkBtn = (
+    <Button key="ok" onClick={onOk} type="primary">
+      {i18n.t('ok')}
+    </Button>
+  );
+  const modalProps =
+    isEdit && type === 'json'
+      ? {
+          maskClosable: false,
+          footer: [CancelBtn, OkBtn],
+        }
+      : {
+          footer: [CancelBtn],
+        };
 
   const taskFieldsList = [
     {
@@ -149,7 +158,12 @@ const PermExport = (props: IProps) => {
     {
       label: i18n.t('project:assignee'),
       name: 'assignee',
-      getComp: () => (projectId ? <MemberSelector allowClear={false} scopeType="project" scopeId={projectId} /> : '请在具体项目下添加任务'),
+      getComp: () =>
+        projectId ? (
+          <MemberSelector allowClear={false} scopeType="project" scopeId={projectId} />
+        ) : (
+          '请在具体项目下添加任务'
+        ),
     },
     {
       label: i18n.t('description'),
@@ -166,8 +180,8 @@ const PermExport = (props: IProps) => {
     const curScope = activeScope;
     const curPerm = value[activeScope];
     const curScopeName = curPerm.name;
-    const { _valueStr, ...rest } = curPerm;// 当前权限
-    const curRole = roleMap[curScope];// 当前角色
+    const { _valueStr, ...rest } = curPerm; // 当前权限
+    const curRole = roleMap[curScope]; // 当前角色
     const _roleMapStr = JSON.stringify(curRole, null, 2);
     const _ymlStr = changePerm2Yml(rest, curScope, curRole);
     const content = `${v.content || ''}
@@ -206,8 +220,12 @@ ${_ymlStr}
 
   return (
     <div className="dice-perm-export flex-box">
-      <Button className="mr8" size="small" onClick={() => setVisible(true)}>{i18n.t('project:export')}</Button>
-      <Button value="task" className="mr8" size="small" onClick={() => setTaskVisible(true)}>{i18n.t('add {name}', { name: i18n.t('task') })}</Button>
+      <Button className="mr8" size="small" onClick={() => setVisible(true)}>
+        {i18n.t('project:export')}
+      </Button>
+      <Button value="task" className="mr8" size="small" onClick={() => setTaskVisible(true)}>
+        {i18n.t('add {name}', { name: i18n.t('task') })}
+      </Button>
       <Modal
         title={i18n.t('project:permission configuration')}
         visible={visible}
@@ -219,15 +237,12 @@ ${_ymlStr}
         <Tabs
           activeKey={tabKey}
           onChange={(curKey: string) => setTabKey(curKey)}
-          tabBarExtraContent={(
-            <RadioGroup
-              value={type}
-              onChange={(e: any) => setType(e.target.value)}
-            >
+          tabBarExtraContent={
+            <RadioGroup value={type} onChange={(e: any) => setType(e.target.value)}>
               <RadioButton value="json">json</RadioButton>
               <RadioButton value="yml">yml</RadioButton>
             </RadioGroup>
-          )}
+          }
           renderTabBar={(p: any, DefaultTabBar) => <DefaultTabBar {...p} onKeyDown={(e: any) => e} />}
         >
           {map(value, (item: any, key: string) => {
@@ -235,35 +250,25 @@ ${_ymlStr}
             const _roleStr = JSON.stringify(roleMap[key], null, 2);
             return (
               <TabPane tab={item.name} key={key}>
-                {
-                  type === 'json' ? (
-                    <div className="flex-box dice-perm-export-data">
-                      <div className="flex-1 mr8 column-flex-box">
-                        <span>{item.name}权限数据</span>
-                        <textarea
-                          readOnly={!isEdit}
-                          className="dice-perm-export-pre"
-                          value={_valueStr}
-                          onChange={(e) => changeValueStr(e.target.value, key)}
-                        />
-                      </div>
-                      <div className="flex-1 ml8 column-flex-box">
-                        <span>{item.name}角色数据</span>
-                        <textarea
-                          readOnly
-                          className="dice-perm-export-pre"
-                          value={_roleStr}
-                        />
-                      </div>
+                {type === 'json' ? (
+                  <div className="flex-box dice-perm-export-data">
+                    <div className="flex-1 mr8 column-flex-box">
+                      <span>{item.name}权限数据</span>
+                      <textarea
+                        readOnly={!isEdit}
+                        className="dice-perm-export-pre"
+                        value={_valueStr}
+                        onChange={(e) => changeValueStr(e.target.value, key)}
+                      />
                     </div>
-                  ) : (
-                    <textarea
-                      readOnly
-                      className="dice-perm-export-pre"
-                      value={changePerm2Yml(rest, key, roleMap[key])}
-                    />
-                  )
-                }
+                    <div className="flex-1 ml8 column-flex-box">
+                      <span>{item.name}角色数据</span>
+                      <textarea readOnly className="dice-perm-export-pre" value={_roleStr} />
+                    </div>
+                  </div>
+                ) : (
+                  <textarea readOnly className="dice-perm-export-pre" value={changePerm2Yml(rest, key, roleMap[key])} />
+                )}
               </TabPane>
             );
           })}

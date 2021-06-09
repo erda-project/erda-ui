@@ -20,7 +20,5 @@ export default (props: CP_INPUT.Props) => {
   const onChange = (e: any) => {
     setValue(e.target.value);
   };
-  return (
-    <Input value={value} onChange={onChange} {...configProps} />
-  );
+  return <Input value={value} onChange={onChange} {...configProps} />;
 };

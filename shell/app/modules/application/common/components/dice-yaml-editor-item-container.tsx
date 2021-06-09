@@ -11,10 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import {
-  DiceFlowType,
-  IEditorPoint,
-} from 'application/common/components/dice-yaml-editor-type';
+import { DiceFlowType, IEditorPoint } from 'application/common/components/dice-yaml-editor-type';
 import { IDiceYamlEditorItem } from 'application/common/components/dice-yaml-editor-item';
 import PointComponentAbstract from 'application/common/components/point-component-abstract';
 import React from 'react';
@@ -46,13 +43,7 @@ interface IDiceYamlEditorMoveViewProps {
 }
 
 const Group = (props: any) => {
-  return (
-    <div
-      {...props}
-    >
-      {props.children}
-    </div>
-  );
+  return <div {...props}>{props.children}</div>;
 };
 
 export default class extends React.PureComponent<IDiceYamlEditorMoveViewProps, any> {
@@ -70,9 +61,9 @@ export default class extends React.PureComponent<IDiceYamlEditorMoveViewProps, a
   private selectedItem: any;
 
   static getDerivedStateFromProps(nextProps: any, prevState: any) {
-    if (nextProps.onMouseDownItem &&
-      (nextProps.onMouseDownItem.position.y !== prevState.y ||
-        nextProps.onMouseDownItem.position.x !== prevState.x)
+    if (
+      nextProps.onMouseDownItem &&
+      (nextProps.onMouseDownItem.position.y !== prevState.y || nextProps.onMouseDownItem.position.x !== prevState.x)
     ) {
       return {
         scale: nextProps.scale,
@@ -84,7 +75,8 @@ export default class extends React.PureComponent<IDiceYamlEditorMoveViewProps, a
       };
     }
 
-    if (nextProps.maxWidth !== prevState.maxWidth ||
+    if (
+      nextProps.maxWidth !== prevState.maxWidth ||
       nextProps.scale !== prevState.scale ||
       !isEqual(nextProps.points, prevState.points) ||
       nextProps.maxHeight !== prevState.maxHeight
@@ -173,11 +165,7 @@ export default class extends React.PureComponent<IDiceYamlEditorMoveViewProps, a
           >
             <div className="new-point" />
           </Group>
-          {onMouseDownItem ? <Component
-            className="item-moving"
-            style={style}
-            item={onMouseDownItem}
-          /> : null}
+          {onMouseDownItem ? <Component className="item-moving" style={style} item={onMouseDownItem} /> : null}
         </React.Fragment>
       );
     }
@@ -226,9 +214,9 @@ export default class extends React.PureComponent<IDiceYamlEditorMoveViewProps, a
         hadNewItem = item.find((i: any) => i.status === 'new');
       }
       group = item.map((subItem: IEditorPoint) => {
-        const key = subItem.name + (subItem.data ? (subItem.data.type || '') : '');
+        const key = subItem.name + (subItem.data ? subItem.data.type || '' : '');
         // @ts-ignore
-        const className = (hadNewItem ? hadNewItem.status === subItem.status : selectedItemKey === key);
+        const className = hadNewItem ? hadNewItem.status === subItem.status : selectedItemKey === key;
         if (className) {
           hadSelectedItem = true;
         }
@@ -251,9 +239,9 @@ export default class extends React.PureComponent<IDiceYamlEditorMoveViewProps, a
         );
       });
 
-      const groupClassName = (groupIndex !== -1 && groupIndex === pointGroupIndex) ?
-        'drop-over dice-yaml-group' : 'dice-yaml-group';
-      const selectedClass = (hadSelectedItem && isSelectedItem) ? 'selected-group' : null;
+      const groupClassName =
+        groupIndex !== -1 && groupIndex === pointGroupIndex ? 'drop-over dice-yaml-group' : 'dice-yaml-group';
+      const selectedClass = hadSelectedItem && isSelectedItem ? 'selected-group' : null;
 
       if (type === DiceFlowType.EDITOR || type === DiceFlowType.PIPELINE) {
         return (
@@ -274,7 +262,7 @@ export default class extends React.PureComponent<IDiceYamlEditorMoveViewProps, a
 
   private clickItem = (item: any, type?: string) => {
     const { clickItem } = this.props;
-    const key = item.name + (item.data ? (item.data.type || '') : '');
+    const key = item.name + (item.data ? item.data.type || '' : '');
     this.setState({
       selectedItemKey: key,
     });
@@ -294,13 +282,16 @@ export default class extends React.PureComponent<IDiceYamlEditorMoveViewProps, a
         (e.clientY - mouseDownPosition.y - info.PADDING_TOP) / (info.ITEM_HEIGHT + info.ITEM_MARGIN_BOTTOM),
       );
       this.inRender = true;
-      this.setState({
-        groupIndex,
-        x: e.clientX - mouseDownPosition.x,
-        y: e.clientY - mouseDownPosition.y,
-      }, () => {
-        this.inRender = false;
-      });
+      this.setState(
+        {
+          groupIndex,
+          x: e.clientX - mouseDownPosition.x,
+          y: e.clientY - mouseDownPosition.y,
+        },
+        () => {
+          this.inRender = false;
+        },
+      );
     } else if (!onMouseDownItem && this.groupIndex !== -1 && !this.selectedItem) {
       this.setState({
         groupIndex: -1,

@@ -25,8 +25,7 @@ interface IProps {
 
 export default ({ visible, toggleModal, onOk }: IProps) => {
   const _getProjectList = (q: any) => {
-    return getJoinedProjects({ ...q })
-      .then((res: any) => res.data);
+    return getJoinedProjects({ ...q }).then((res: any) => res.data);
   };
 
   const fieldList = [

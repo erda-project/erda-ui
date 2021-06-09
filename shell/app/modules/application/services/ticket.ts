@@ -14,18 +14,19 @@
 import agent from 'agent';
 
 export const getTicketList = (params: TICKET.ListQuery): IPagingResp<TICKET.Ticket> => {
-  return agent.get('/api/tickets')
+  return agent
+    .get('/api/tickets')
     .query(params)
     .then((response: any) => response.body);
 };
 
 export const getTicketDetail = (ticketId: number): TICKET.Ticket => {
-  return agent.get(`/api/tickets/${ticketId}`)
-    .then((response: any) => response.body);
+  return agent.get(`/api/tickets/${ticketId}`).then((response: any) => response.body);
 };
 
 export const addTicket = (data: TICKET.CreateBody) => {
-  return agent.post('/api/tickets')
+  return agent
+    .post('/api/tickets')
     .send(data)
     .then((response: any) => response.body);
 };
@@ -37,24 +38,24 @@ export const addTicket = (data: TICKET.CreateBody) => {
 // };
 
 export const closeTicket = (ticketId: number) => {
-  return agent.put(`/api/tickets/${ticketId}/actions/close`)
-    .then((response: any) => response.body);
+  return agent.put(`/api/tickets/${ticketId}/actions/close`).then((response: any) => response.body);
 };
 
 export const reopenTicket = (ticketId: number) => {
-  return agent.put(`/api/tickets/${ticketId}/actions/reopen`)
-    .then((response: any) => response.body);
+  return agent.put(`/api/tickets/${ticketId}/actions/reopen`).then((response: any) => response.body);
 };
 
 // 这个接口不用传分页参数，返回类型需自定义
 export const getComments = (ticketId: number): { comments: TICKET.Comment[]; total: number } => {
-  return agent.get('/api/comments')
+  return agent
+    .get('/api/comments')
     .query({ ticketID: ticketId })
     .then((response: any) => response.body);
 };
 
 export const createComment = (payload: TICKET.CommentBody) => {
-  return agent.post('/api/comments')
+  return agent
+    .post('/api/comments')
     .send(payload)
     .then((response: any) => response.body);
 };

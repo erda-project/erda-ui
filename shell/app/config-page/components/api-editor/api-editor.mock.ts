@@ -82,10 +82,7 @@ export const mockData: CP_API_EDITOR.Spec = {
       },
     },
     commonTemp: {
-      target: [
-        'headers',
-        'body.form',
-      ],
+      target: ['headers', 'body.form'],
       temp: [
         {
           key: 'key',
@@ -165,16 +162,7 @@ export const mockData: CP_API_EDITOR.Spec = {
     headers: {
       showTitle: false,
     },
-    methodList: [
-      'GET',
-      'POST',
-      'PUT',
-      'DELETE',
-      'OPTIONS',
-      'PATCH',
-      'COPY',
-      'HEAD',
-    ],
+    methodList: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'COPY', 'HEAD'],
     params: {
       showTitle: false,
       temp: [
@@ -351,24 +339,26 @@ export const mockData: CP_API_EDITOR.Spec = {
         id: '',
         method: 'PUT',
         name: 'test put',
-        out_params: [{
-          key: 'code',
-          source: 'status',
-          expression: 'status',
-          matchIndex: '',
-        },
-        {
-          key: 'success',
-          source: 'body:json',
-          expression: 'success',
-          matchIndex: '',
-        },
-        {
-          key: 'total',
-          source: 'body:json',
-          expression: 'data.total',
-          matchIndex: '',
-        }],
+        out_params: [
+          {
+            key: 'code',
+            source: 'status',
+            expression: 'status',
+            matchIndex: '',
+          },
+          {
+            key: 'success',
+            source: 'body:json',
+            expression: 'success',
+            matchIndex: '',
+          },
+          {
+            key: 'total',
+            source: 'body:json',
+            expression: 'data.total',
+            matchIndex: '',
+          },
+        ],
         params: [
           {
             desc: '',
@@ -389,6 +379,10 @@ export const mockData: CP_API_EDITOR.Spec = {
       key: 'onChange',
       reload: true,
     },
-    close: { key: 'closeApiEdit', reload: false, command: { key: 'set', target: 'apiEditorDrawer', state: { visible: false } } },
+    close: {
+      key: 'closeApiEdit',
+      reload: false,
+      command: { key: 'set', target: 'apiEditorDrawer', state: { visible: false } },
+    },
   },
 };

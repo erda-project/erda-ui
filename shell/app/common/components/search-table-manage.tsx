@@ -73,10 +73,7 @@ export class SearchTableManage extends React.PureComponent<IProps, IState> {
     return (
       <div>
         <Spin spinning={isFetching}>
-          <SearchTable
-            searchListOps={searchListOps}
-            extraItems={extraItems}
-          >
+          <SearchTable searchListOps={searchListOps} extraItems={extraItems}>
             <Table
               rowKey="id"
               dataSource={tableList}
@@ -102,4 +99,3 @@ export class SearchTableManage extends React.PureComponent<IProps, IState> {
     );
   }
 }
-

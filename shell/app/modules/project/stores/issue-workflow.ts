@@ -55,7 +55,7 @@ const issueWorkflowStore = createFlatStore({
     async batchUpdateIssueState({ call }, payload: ISSUE_WORKFLOW.IUpdateQuery) {
       return call(batchUpdateIssueState, payload, { successMsg: i18n.t('update successfully') });
     },
-    async deleteIssueState({ call }, payload: {id: number; projectID: number}) {
+    async deleteIssueState({ call }, payload: { id: number; projectID: number }) {
       return call(deleteIssueState, payload, { successMsg: i18n.t('deleted successfully') });
     },
     async addIssueState({ call }, payload: ISSUE_WORKFLOW.ICreateStateQuery) {
@@ -68,6 +68,5 @@ const issueWorkflowStore = createFlatStore({
     },
   },
 });
-
 
 export default issueWorkflowStore;

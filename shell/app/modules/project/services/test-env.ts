@@ -14,47 +14,51 @@
 import agent from 'agent';
 
 export const createTestEnv = (data: TEST_ENV.CreateBody): TEST_ENV.Item => {
-  return agent.post('/api/testenv')
+  return agent
+    .post('/api/testenv')
     .send(data)
     .then((response: any) => response.body);
 };
 
 export const createAutoTestEnv = (data: TEST_ENV.ICreateAutoTestEnv) => {
-  return agent.post('/api/autotests/global-configs')
+  return agent
+    .post('/api/autotests/global-configs')
     .send(data)
     .then((response: any) => response.body);
 };
 
 export const updateTestEnv = (data: TEST_ENV.Item): number => {
-  return agent.put(`/api/testenv/${data.id}`)
+  return agent
+    .put(`/api/testenv/${data.id}`)
     .send(data)
     .then((response: any) => response.body);
 };
 
 export const updateAutoTestEnv = (data: TEST_ENV.ICreateAutoTestEnv) => {
-  return agent.put(`/api/autotests/global-configs/${data.ns}`)
+  return agent
+    .put(`/api/autotests/global-configs/${data.ns}`)
     .send(data)
     .then((response: any) => response.body);
 };
 
 export const deleteAutoTestEnv = (ns: string): string => {
-  return agent.delete(`/api/autotests/global-configs/${ns}`)
-    .then((response: any) => response.body);
+  return agent.delete(`/api/autotests/global-configs/${ns}`).then((response: any) => response.body);
 };
 
 export const deleteTestEnv = (id: number): string => {
-  return agent.delete(`/api/testenv/${id}`)
-    .then((response: any) => response.body);
+  return agent.delete(`/api/testenv/${id}`).then((response: any) => response.body);
 };
 
 export const getTestEnvList = (params: TEST_ENV.EnvListQuery): TEST_ENV.Item[] => {
-  return agent.get('/api/testenv/actions/list-envs')
+  return agent
+    .get('/api/testenv/actions/list-envs')
     .query(params)
     .then((response: any) => response.body);
 };
 
 export const getAutoTestEnvList = (params: TEST_ENV.IAutoEnvQuery): TEST_ENV.IAutoEnvData[] => {
-  return agent.get('/api/autotests/global-configs')
+  return agent
+    .get('/api/autotests/global-configs')
     .query(params)
     .then((response: any) => response.body);
 };

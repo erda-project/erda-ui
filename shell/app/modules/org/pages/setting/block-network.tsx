@@ -61,24 +61,29 @@ const BlockNetwork = () => {
 
   return (
     <Spin spinning={isFetch || isUpdate}>
-      <Alert showIcon type="error" iconType="warning" message={i18n.t('org:after opening, the impact is greater, please confirm carefully before opening')} />
+      <Alert
+        showIcon
+        type="error"
+        iconType="warning"
+        message={i18n.t('org:after opening, the impact is greater, please confirm carefully before opening')}
+      />
       <Row className="mt16">
-        {
-          metaData.map(({ value, label, disabled }) => {
-            return (
-              <Col key={value} span={6}>
-                <div className="mb4 color-text-desc">{label}</div>
-                <Switch
-                  checked={get(state.blockoutConfig, value, false)}
-                  checkedChildren={i18n.t('default:on')}
-                  unCheckedChildren={i18n.t('default:off')}
-                  disabled={disabled}
-                  onChange={(isOn) => { toggleBlockNetwork(isOn, value); }}
-                />
-              </Col>
-            );
-          })
-        }
+        {metaData.map(({ value, label, disabled }) => {
+          return (
+            <Col key={value} span={6}>
+              <div className="mb4 color-text-desc">{label}</div>
+              <Switch
+                checked={get(state.blockoutConfig, value, false)}
+                checkedChildren={i18n.t('default:on')}
+                unCheckedChildren={i18n.t('default:off')}
+                disabled={disabled}
+                onChange={(isOn) => {
+                  toggleBlockNetwork(isOn, value);
+                }}
+              />
+            </Col>
+          );
+        })}
       </Row>
     </Spin>
   );

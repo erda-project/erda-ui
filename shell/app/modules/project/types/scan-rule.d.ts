@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace SCAN_RULE {
-
   interface IAppendedQuery {
     scopeId: string;
     scopeType: string;
@@ -68,5 +67,4 @@ declare namespace SCAN_RULE {
     metricValue: string;
     valueType: string;
   }
-
 }

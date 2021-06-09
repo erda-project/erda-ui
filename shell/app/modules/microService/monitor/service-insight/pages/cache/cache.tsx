@@ -19,7 +19,6 @@ import TopTabRight from 'service-insight/common/components/tab-right';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import SICommonStore from '../../stores/common';
 
-
 const Cache = () => {
   const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
   const baseInfo = SICommonStore.useStore((s) => s.baseInfo);

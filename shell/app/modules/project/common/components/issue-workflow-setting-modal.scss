@@ -38,7 +38,7 @@
       font-size: $p8;
       text-decoration: none;
       opacity: 0;
-      transition: opacity .15s;
+      transition: opacity 0.15s;
 
       &:hover {
         opacity: 1;
@@ -49,13 +49,12 @@
       padding: $p4;
       color: $primary;
       opacity: 0;
-      transition: opacity .15s;
+      transition: opacity 0.15s;
 
       &:hover {
         opacity: 1;
       }
     }
-
   }
 
   .add-option-btn {
@@ -89,7 +88,7 @@
     white-space: nowrap;
     text-align: center;
   }
-  
+
   .state-radio-btn {
     color: $color-primary;
   }
@@ -97,5 +96,4 @@
   .state-transfer-name {
     width: 60px;
   }
-  
 }

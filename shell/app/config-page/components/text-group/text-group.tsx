@@ -25,8 +25,8 @@ const TextGroup = (props: CP_TEXT_GROUP.Props) => {
   if (isArray(value)) {
     return (
       <div className={`dice-cp-text-group ${align}`}>
-        {map(value, (item, index) =>
-          (<div key={`${index}`} className={`${item?.gapSize || gapSize}`}>
+        {map(value, (item, index) => (
+          <div key={`${index}`} className={`${item?.gapSize || gapSize}`}>
             <Text
               type="Text"
               execOperation={execOperation}
@@ -34,9 +34,9 @@ const TextGroup = (props: CP_TEXT_GROUP.Props) => {
               props={item?.props}
               operations={operations}
             />
-           </div>))
-        }
-      </div >
+          </div>
+        ))}
+      </div>
     );
   }
 

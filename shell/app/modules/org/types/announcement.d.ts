@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace ORG_ANNOUNCEMENT {
-
   type Status = 'unpublished' | 'published' | 'deprecated';
 
   interface Action {

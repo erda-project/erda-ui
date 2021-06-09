@@ -20,7 +20,7 @@ import BoxEle from './box-ele';
 
 import './index.scss';
 
-interface ITopologyParent{
+interface ITopologyParent {
   id: string;
   metric: {
     [proKey: string]: any;
@@ -28,7 +28,7 @@ interface ITopologyParent{
   };
 }
 
-interface INodeExternal{
+interface INodeExternal {
   x: number;
   y: number;
   deepth: number;
@@ -53,7 +53,7 @@ export interface ITopologyNode {
   topologyExternal: INodeExternal;
 }
 
-interface IProps{
+interface IProps {
   nodeExternalParam: Obj;
   data: TOPOLOGY.ITopologyResp;
   isFetching: boolean;
@@ -64,7 +64,6 @@ interface IProps{
   onClickNode: (arg: any) => void;
   setScale: (val: number) => void;
 }
-
 
 const getScaleByWidth = (width: number) => {
   if (width <= 1440) {
@@ -77,7 +76,17 @@ const getScaleByWidth = (width: number) => {
 };
 
 const TopologyChart = (props: IProps) => {
-  const { data, isFetching, nodeExternalParam, onClickNode, nodeEle, linkTextEle, boxEle = BoxEle, setScale, scale } = props;
+  const {
+    data,
+    isFetching,
+    nodeExternalParam,
+    onClickNode,
+    nodeEle,
+    linkTextEle,
+    boxEle = BoxEle,
+    setScale,
+    scale,
+  } = props;
   const [chartKey, setChartKey] = React.useState(1);
   const chartBoxRef = React.useRef(null);
 

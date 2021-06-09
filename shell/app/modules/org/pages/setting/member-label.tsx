@@ -49,8 +49,8 @@ export const MemberLabels = () => {
 
   const onAdd = () => {
     updater.showAdd(true);
-    const curInput = inputRef && inputRef.current as any;
-    if (curInput)curInput.focus();
+    const curInput = inputRef && (inputRef.current as any);
+    if (curInput) curInput.focus();
   };
 
   const addItem = () => {

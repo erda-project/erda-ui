@@ -31,64 +31,77 @@ export const authorizationMap: { [k in API_ACCESS.AuthorizationEnum]: { name: st
 
 export const contractStatueMap: {
   [k in API_ACCESS.ContractStatue]: {
-    value: k; name: string; actions: Array<{
+    value: k;
+    name: string;
+    actions: Array<{
       name: string;
       action: string;
       value: API_ACCESS.ContractStatue | 'delete';
     }>;
-  }
+  };
 } = {
   // 已通过
   proved: {
     value: 'proved',
     name: i18n.t('passed'),
-    actions: [{
-      name: i18n.t('revoke'),
-      action: 'revoke',
-      value: 'unproved',
-    }, {
-      name: i18n.t('delete'),
-      action: 'delete',
-      value: 'delete',
-    }],
+    actions: [
+      {
+        name: i18n.t('revoke'),
+        action: 'revoke',
+        value: 'unproved',
+      },
+      {
+        name: i18n.t('delete'),
+        action: 'delete',
+        value: 'delete',
+      },
+    ],
   },
   // 待审核
   proving: {
     value: 'proving',
     name: i18n.t('pending'),
-    actions: [{
-      name: i18n.t('agree'),
-      action: 'agree',
-      value: 'proved',
-    }, {
-      name: i18n.t('refuse'),
-      action: 'refuse',
-      value: 'disproved',
-    }],
+    actions: [
+      {
+        name: i18n.t('agree'),
+        action: 'agree',
+        value: 'proved',
+      },
+      {
+        name: i18n.t('refuse'),
+        action: 'refuse',
+        value: 'disproved',
+      },
+    ],
   },
   // 已拒绝
   disproved: {
     value: 'disproved',
     name: i18n.t('rejected'),
-    actions: [{
-      name: i18n.t('delete'),
-      action: 'delete',
-      value: 'delete',
-    }],
+    actions: [
+      {
+        name: i18n.t('delete'),
+        action: 'delete',
+        value: 'delete',
+      },
+    ],
   },
   // 已撤销
   unproved: {
     value: 'unproved',
     name: i18n.t('revoked'),
-    actions: [{
-      name: i18n.t('restore'),
-      action: 'restore',
-      value: 'proved',
-    }, {
-      name: i18n.t('delete'),
-      action: 'delete',
-      value: 'delete',
-    }],
+    actions: [
+      {
+        name: i18n.t('restore'),
+        action: 'restore',
+        value: 'proved',
+      },
+      {
+        name: i18n.t('delete'),
+        action: 'delete',
+        value: 'delete',
+      },
+    ],
   },
 };
 export const envMap = {
@@ -110,7 +123,7 @@ export const slaAuthorizationMap: { [k in API_ACCESS.SlaApproval]: { name: strin
   manual: { value: 'manual', name: i18n.t('manual authorization') },
 };
 
-export const addonStatusMap: {[k in API_ACCESS.AddonStatus]: {status: k; name: string}} = {
+export const addonStatusMap: { [k in API_ACCESS.AddonStatus]: { status: k; name: string } } = {
   PENDING: {
     status: 'PENDING',
     name: i18n.t('runtime:prepublish'),

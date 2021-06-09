@@ -19,10 +19,12 @@ import { describe, it, jest } from '@jest/globals';
 import { act } from 'react-dom/test-utils';
 import { createStore } from 'app/cube';
 
-const columns = [{
-  title: 'NAME',
-  dataIndex: 'name',
-}];
+const columns = [
+  {
+    title: 'NAME',
+    dataIndex: 'name',
+  },
+];
 const filterConfig = [
   {
     type: Input,
@@ -39,15 +41,15 @@ describe('crud-table.', () => {
   let edit: any;
   const getColumns = ({ onEdit }) => {
     edit = onEdit;
-    return [
-      ...columns,
-    ];
+    return [...columns];
   };
   const getFieldsList = () => {
-    return [{
-      name: 'formName',
-      label: 'formName',
-    }];
+    return [
+      {
+        name: 'formName',
+        label: 'formName',
+      },
+    ];
   };
   describe('CRUDTable', () => {
     it('should work well', () => {
@@ -111,14 +113,11 @@ describe('crud-table.', () => {
         },
       });
       const effects = {
-        getList, addItem, updateItem,
+        getList,
+        addItem,
+        updateItem,
       };
-      const wrapper = shallow(
-        <CRUDStoreTable
-          store={{ ...store, effects }}
-          getColumns={getColumns}
-        />,
-      );
+      const wrapper = shallow(<CRUDStoreTable store={{ ...store, effects }} getColumns={getColumns} />);
       expect(wrapper.find('CRUDTable').prop('list')).toStrictEqual(list);
       expect(wrapper.find('CRUDTable').prop('paging')).toStrictEqual(paging);
       const handleFormSubmit = wrapper.find('CRUDTable').prop('handleFormSubmit');

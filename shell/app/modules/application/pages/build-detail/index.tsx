@@ -16,7 +16,16 @@ import moment from 'moment';
 import * as React from 'react';
 import cronstrue from 'cronstrue/i18n';
 import { Spin, Badge, Modal, Popover, Table, Row, Col, Tooltip, Menu, Dropdown, Alert, Input } from 'app/nusi';
-import { EmptyHolder, Icon as CustomIcon, DeleteConfirm, Avatar, IF, NoAuthTip, SwitchAutoScroll, useUpdate } from 'common';
+import {
+  EmptyHolder,
+  Icon as CustomIcon,
+  DeleteConfirm,
+  Avatar,
+  IF,
+  NoAuthTip,
+  SwitchAutoScroll,
+  useUpdate,
+} from 'common';
 import { goTo, secondsToTime, replaceEmoji } from 'common/utils';
 import GotoCommit from 'application/common/components/goto-commit';
 import { ColumnProps } from 'core/common/interface';
@@ -40,7 +49,7 @@ const { TextArea } = Input;
 const { ELSE } = IF;
 const { confirm } = Modal;
 
-const noop = () => { };
+const noop = () => {};
 
 const evnBlockMap: { [key in APPLICATION.Workspace]: string } = {
   DEV: 'blockDev',
@@ -76,13 +85,7 @@ const BuildDetail = (props: IProps) => {
   const cronMsgRef: React.RefObject<HTMLDivElement> = React.useRef(null);
   const { getPipelines, getExecuteRecordsByPageNo, activeItem } = props;
   const currentBranch = activeItem?.branch;
-  const [
-    pipelineDetail,
-    runtimeDetail,
-    executeRecords,
-    recordPaging,
-    changeType,
-  ] = buildStore.useStore((s) => [
+  const [pipelineDetail, runtimeDetail, executeRecords, recordPaging, changeType] = buildStore.useStore((s) => [
     s.pipelineDetail,
     s.runtimeDetail,
     s.executeRecords,
@@ -111,7 +114,11 @@ const BuildDetail = (props: IProps) => {
   const { updateApproval } = deployStore.effects;
   const { clearPipelineDetail } = buildStore.reducers;
   const params = routeInfoStore.useStore((s) => s.params);
-  const [getExecuteRecordsLoading, getPipelineDetailLoading, addPipelineLoading] = useLoading(buildStore, ['getExecuteRecords', 'getPipelineDetail', 'addPipeline']);
+  const [getExecuteRecordsLoading, getPipelineDetailLoading, addPipelineLoading] = useLoading(buildStore, [
+    'getExecuteRecords',
+    'getPipelineDetail',
+    'addPipeline',
+  ]);
   React.useEffect(() => {
     const curWorkspace = get(find(branchInfo, { name: currentBranch }), 'workspace') as APPLICATION.Workspace;
     const envBlocked = get(blockoutConfig, evnBlockMap[curWorkspace], false);
@@ -129,8 +136,9 @@ const BuildDetail = (props: IProps) => {
       updater.isHistoryBuild(false);
       if (!isEmpty(executeRecords)) {
         const [firstRecord] = executeRecords;
-        updater.isHistoryBuild(isEqual(extractData(firstRecord), extractData(pipelineDetail))
-          && firstRecord.id !== pipelineDetail.id);
+        updater.isHistoryBuild(
+          isEqual(extractData(firstRecord), extractData(pipelineDetail)) && firstRecord.id !== pipelineDetail.id,
+        );
       }
     }
   }, [executeRecords, pipelineDetail]);
@@ -152,11 +160,14 @@ const BuildDetail = (props: IProps) => {
     updater.isExpand(!isExpand);
   };
 
-  const onClickOutsideHandler = React.useCallback((event: any) => {
-    if (toggleContainer.current && !toggleContainer.current.contains(event.target)) {
-      updater.isExpand(false);
-    }
-  }, [updater]);
+  const onClickOutsideHandler = React.useCallback(
+    (event: any) => {
+      if (toggleContainer.current && !toggleContainer.current.contains(event.target)) {
+        updater.isExpand(false);
+      }
+    },
+    [updater],
+  );
 
   React.useEffect(() => {
     if (!isExpand) {
@@ -171,7 +182,19 @@ const BuildDetail = (props: IProps) => {
   }
 
   const { appId, projectId, pipelineID: routePipelineID } = params;
-  const { id: pipelineID, env, branch, pipelineButton, pipelineCron, costTimeSec = -1, extra, commit, commitDetail, pipelineStages: stages = [], pipelineTaskActionDetails } = pipelineDetail;
+  const {
+    id: pipelineID,
+    env,
+    branch,
+    pipelineButton,
+    pipelineCron,
+    costTimeSec = -1,
+    extra,
+    commit,
+    commitDetail,
+    pipelineStages: stages = [],
+    pipelineTaskActionDetails,
+  } = pipelineDetail;
   const _taskActionDetails = pipelineTaskActionDetails || {};
 
   const initBuildDetail = (id: number, detailType?: BUILD.IActiveItem) => {
@@ -219,28 +242,32 @@ const BuildDetail = (props: IProps) => {
 
   const runBuild = () => {
     updater.startStatus('ready');
-    runBuildCall({ pipelineID }).then((result) => {
-      if (result.success) {
-        updater.startStatus('start');
-      } else {
-        updater.startStatus('unstart');
-      }
-    }).catch(() => updater.startStatus('unstart'));
+    runBuildCall({ pipelineID })
+      .then((result) => {
+        if (result.success) {
+          updater.startStatus('start');
+        } else {
+          updater.startStatus('unstart');
+        }
+      })
+      .catch(() => updater.startStatus('unstart'));
   };
 
   const reRunPipeline = (isEntire: boolean) => {
     updater.startStatus('padding');
     const reRunFunc = !isEntire ? reRunFailed : reRunEntire;
-    reRunFunc({ pipelineID }).then((result) => {
-      const _detail = {
-        source: result.source,
-        branch: result.branch,
-        ymlName: result.ymlName,
-        workspace: result.extra.diceWorkspace,
-      };
-      initBuildDetail(result.id, _detail);
-      updater.startStatus('start');
-    }).catch(() => updater.startStatus('unstart'));
+    reRunFunc({ pipelineID })
+      .then((result) => {
+        const _detail = {
+          source: result.source,
+          branch: result.branch,
+          ymlName: result.ymlName,
+          workspace: result.extra.diceWorkspace,
+        };
+        initBuildDetail(result.id, _detail);
+        updater.startStatus('start');
+      })
+      .catch(() => updater.startStatus('unstart'));
   };
 
   const cancelBuild = () => {
@@ -299,7 +326,10 @@ const BuildDetail = (props: IProps) => {
         const typeTarget = node.findInMeta((item: BUILD.MetaData) => item.name === 'type') || {};
         if (publishItemIDTarget) {
           // 跳转到发布内容
-          goTo(goTo.pages.publisherContent, { type: typeTarget.value || 'MOBILE', publisherItemId: publishItemIDTarget.value });
+          goTo(goTo.pages.publisherContent, {
+            type: typeTarget.value || 'MOBILE',
+            publisherItemId: publishItemIDTarget.value,
+          });
         }
         break;
       }
@@ -352,9 +382,7 @@ const BuildDetail = (props: IProps) => {
     if (reviewIdObj) {
       confirm({
         title: i18n.t('Reason for reject'),
-        content: (
-          <TextArea ref={rejectRef} />
-        ),
+        content: <TextArea ref={rejectRef} />,
         onOk() {
           updateApproval({
             id: +reviewIdObj.value,
@@ -395,7 +423,12 @@ const BuildDetail = (props: IProps) => {
       <div className="build-operator">
         <IF check={hasAuth}>
           <Tooltip title={i18n.t('application:start cron')}>
-            <CustomIcon type="js" onClick={() => { startBuildCron(cronID); }} />
+            <CustomIcon
+              type="js"
+              onClick={() => {
+                startBuildCron(cronID);
+              }}
+            />
           </Tooltip>
           <ELSE />
           <NoAuthTip>
@@ -409,7 +442,13 @@ const BuildDetail = (props: IProps) => {
       <div className="cron-btn">
         <IF check={canStopCron}>
           <IF check={hasAuth}>
-            <DeleteConfirm title={`${i18n.t('application:confirm cancel cron build')}?`} secondTitle="" onConfirm={() => { cancelBuildCron(cronID); }}>
+            <DeleteConfirm
+              title={`${i18n.t('application:confirm cancel cron build')}?`}
+              secondTitle=""
+              onConfirm={() => {
+                cancelBuildCron(cronID);
+              }}
+            >
               <div className="build-operator">
                 <Tooltip title={i18n.t('application:cancel cron build')}>
                   <CustomIcon type="qxjs" />
@@ -424,9 +463,7 @@ const BuildDetail = (props: IProps) => {
             </NoAuthTip>
           </IF>
           <ELSE />
-          <IF check={canStartCron}>
-            {cronRunBtn}
-          </IF>
+          <IF check={canStartCron}>{cronRunBtn}</IF>
         </IF>
         {renderOnceRunBtn({ execTitle: i18n.t('application:execute at once') })}
       </div>
@@ -437,15 +474,28 @@ const BuildDetail = (props: IProps) => {
     const { canRerunFailed, canRerun } = pipelineButton;
     return (
       <Menu>
-        {canRerunFailed &&
+        {canRerunFailed && (
           <Menu.Item>
-            <span className={isBlocked ? 'disabled' : ''} onClick={() => { reRunPipeline(false); }}>{`${i18n.t('application:rerun failed node')}(${i18n.t('application:commit unchanged')})`}</span>
-          </Menu.Item>}
-        {canRerun &&
+            <span
+              className={isBlocked ? 'disabled' : ''}
+              onClick={() => {
+                reRunPipeline(false);
+              }}
+            >{`${i18n.t('application:rerun failed node')}(${i18n.t('application:commit unchanged')})`}</span>
+          </Menu.Item>
+        )}
+        {canRerun && (
           <Menu.Item>
-            <span className={isBlocked ? 'disabled' : ''} onClick={() => { reRunPipeline(true); }}>{`${i18n.t('application:rerun whole pipeline')}(${i18n.t('application:commit unchanged')})`}</span>
-          </Menu.Item>}
-      </Menu>);
+            <span
+              className={isBlocked ? 'disabled' : ''}
+              onClick={() => {
+                reRunPipeline(true);
+              }}
+            >{`${i18n.t('application:rerun whole pipeline')}(${i18n.t('application:commit unchanged')})`}</span>
+          </Menu.Item>
+        )}
+      </Menu>
+    );
   };
 
   const renderOnceRunBtn = ({ execTitle }: { execTitle: string }) => {
@@ -460,13 +510,22 @@ const BuildDetail = (props: IProps) => {
 
     return (
       <IF check={canManualRun}>
-        <IF check={startStatus !== 'unstart'} >
+        <IF check={startStatus !== 'unstart'}>
           {paddingEle}
           <ELSE />
           <div className="build-operator">
             <IF check={hasAuth}>
               <Tooltip title={execTitle}>
-                {isBlocked ? <CustomIcon className="disabled" type="play1" /> : <CustomIcon onClick={() => { runBuild(); }} type="play1" />}
+                {isBlocked ? (
+                  <CustomIcon className="disabled" type="play1" />
+                ) : (
+                  <CustomIcon
+                    onClick={() => {
+                      runBuild();
+                    }}
+                    type="play1"
+                  />
+                )}
               </Tooltip>
               <ELSE />
               <NoAuthTip>
@@ -478,7 +537,13 @@ const BuildDetail = (props: IProps) => {
         <ELSE />
         <IF check={canCancel}>
           <IF check={hasAuth}>
-            <DeleteConfirm title={`${i18n.t('application:confirm cancel current build')}?`} secondTitle="" onConfirm={() => { cancelBuild(); }}>
+            <DeleteConfirm
+              title={`${i18n.t('application:confirm cancel current build')}?`}
+              secondTitle=""
+              onConfirm={() => {
+                cancelBuild();
+              }}
+            >
               <div className="build-operator">
                 <Tooltip title={i18n.t('application:cancel build')}>
                   <CustomIcon type="pause" />
@@ -513,11 +578,16 @@ const BuildDetail = (props: IProps) => {
               <IF check={canRerun}>
                 <IF check={hasAuth}>
                   <Tooltip title={`${i18n.t('application:rerun whole pipeline')}`}>
-                    {
-                      isBlocked
-                        ? <CustomIcon className="disabled" type="refresh" />
-                        : <CustomIcon onClick={() => { reRunPipeline(true); }} type="refresh" />
-                    }
+                    {isBlocked ? (
+                      <CustomIcon className="disabled" type="refresh" />
+                    ) : (
+                      <CustomIcon
+                        onClick={() => {
+                          reRunPipeline(true);
+                        }}
+                        type="refresh"
+                      />
+                    )}
                   </Tooltip>
                   <ELSE />
                   <NoAuthTip>
@@ -544,49 +614,66 @@ const BuildDetail = (props: IProps) => {
     if (isEmpty(executeRecords)) {
       return <p>{i18n.t('common:no data')}</p>;
     }
-    const columns: Array<ColumnProps<any>> = [{
-      title: i18n.t('version'),
-      dataIndex: 'runIndex',
-      width: 80,
-      align: 'center',
-      render: (runIndex: any, record: any) => (<span className="run-index">{record.triggerMode === 'cron' && <CustomIcon type="clock" />}{runIndex}</span>),
-    }, {
-      title: 'ID',
-      dataIndex: 'id',
-      width: 120,
-      align: 'center',
-    }, {
-      title: `${i18n.t('commit')}ID`,
-      dataIndex: 'commit',
-      width: 100,
-      render: (commitText: string) => (<span> {(commitText || '').slice(0, 6)} </span>),
-    }, {
-      title: i18n.t('status'),
-      dataIndex: 'status',
-      width: 100,
-      render: (status: string) => (
-        <span>
-          <span className="nowrap">{ciStatusMap[status].text}</span>
-          <Badge className="ml4" status={ciStatusMap[status].status} />
-        </span>
-      ),
-    }, {
-      title: i18n.t('trigger time'),
-      dataIndex: 'timeCreated',
-      width: 200,
-      render: (timeCreated: number) => moment(new Date(timeCreated)).format('YYYY-MM-DD HH:mm:ss'),
-    }];
+    const columns: Array<ColumnProps<any>> = [
+      {
+        title: i18n.t('version'),
+        dataIndex: 'runIndex',
+        width: 80,
+        align: 'center',
+        render: (runIndex: any, record: any) => (
+          <span className="run-index">
+            {record.triggerMode === 'cron' && <CustomIcon type="clock" />}
+            {runIndex}
+          </span>
+        ),
+      },
+      {
+        title: 'ID',
+        dataIndex: 'id',
+        width: 120,
+        align: 'center',
+      },
+      {
+        title: `${i18n.t('commit')}ID`,
+        dataIndex: 'commit',
+        width: 100,
+        render: (commitText: string) => <span> {(commitText || '').slice(0, 6)} </span>,
+      },
+      {
+        title: i18n.t('status'),
+        dataIndex: 'status',
+        width: 100,
+        render: (status: string) => (
+          <span>
+            <span className="nowrap">{ciStatusMap[status].text}</span>
+            <Badge className="ml4" status={ciStatusMap[status].status} />
+          </span>
+        ),
+      },
+      {
+        title: i18n.t('trigger time'),
+        dataIndex: 'timeCreated',
+        width: 200,
+        render: (timeCreated: number) => moment(new Date(timeCreated)).format('YYYY-MM-DD HH:mm:ss'),
+      },
+    ];
 
     const { total, pageNo, pageSize } = recordPaging;
-    const startIndex = total - (pageSize * (pageNo - 1));
+    const startIndex = total - pageSize * (pageNo - 1);
     const dataSource = map(executeRecords, (item, index) => {
       return { ...item, runIndex: '#'.concat(String(startIndex - index)) };
     });
 
     return (
       <div className="build-history-wp">
-        <div className="refresh-newest-btn" onClick={() => { getExecuteRecordsByPageNo({ pageNo: 1 }); }}>
-          <CustomIcon type="shuaxin" />{i18n.t('fetch latest records')}
+        <div
+          className="refresh-newest-btn"
+          onClick={() => {
+            getExecuteRecordsByPageNo({ pageNo: 1 });
+          }}
+        >
+          <CustomIcon type="shuaxin" />
+          {i18n.t('fetch latest records')}
         </div>
         <Table
           rowKey="runIndex"
@@ -607,13 +694,11 @@ const BuildDetail = (props: IProps) => {
     );
   };
 
-  const getAutoTooltipMsg = (ref: any, text: any) => { // show tooltip only when text overflow
+  const getAutoTooltipMsg = (ref: any, text: any) => {
+    // show tooltip only when text overflow
     const { current = {} } = ref;
     if (current != null && current.scrollWidth > current.clientWidth) {
-      return (
-        <Tooltip title={text}>
-          {text}
-        </Tooltip>);
+      return <Tooltip title={text}>{text}</Tooltip>;
     }
     return text;
   };
@@ -630,7 +715,12 @@ const BuildDetail = (props: IProps) => {
       <Spin spinning={getPipelineDetailLoading || addPipelineLoading || getExecuteRecordsLoading}>
         <div className="info">
           <div className="info-header">
-            <div><span className="bold-500 title">{i18n.t('application:build detail')}</span><span className={`${isHistoryBuild ? 'visible' : 'invisible'} his-build-icon`}>{i18n.t('historical build')}</span></div>
+            <div>
+              <span className="bold-500 title">{i18n.t('application:build detail')}</span>
+              <span className={`${isHistoryBuild ? 'visible' : 'invisible'} his-build-icon`}>
+                {i18n.t('historical build')}
+              </span>
+            </div>
             <div className="info-header-right">
               <Popover
                 placement="bottomRight"
@@ -643,11 +733,14 @@ const BuildDetail = (props: IProps) => {
               {renderRunBtn()}
             </div>
           </div>
-          {
-            needApproval ? (
-              <Alert message={i18n.t('application:deploy-approval-pipeline-tip')} className="mt4" type="normal" showIcon />
-            ) : null
-          }
+          {needApproval ? (
+            <Alert
+              message={i18n.t('application:deploy-approval-pipeline-tip')}
+              className="mt4"
+              type="normal"
+              showIcon
+            />
+          ) : null}
           <div className="main-info-parent">
             <div className={style} ref={toggleContainer}>
               <Row>
@@ -657,7 +750,7 @@ const BuildDetail = (props: IProps) => {
                 </Col>
                 <Col span={12}>
                   <div className="info-label">{i18n.t('application:commit message')}：</div>
-                  <div className="nowrap" ref={commitMsgRef} >
+                  <div className="nowrap" ref={commitMsgRef}>
                     {getAutoTooltipMsg(commitMsgRef, replaceEmoji(commitDetail.comment))}
                   </div>
                 </Col>
@@ -665,7 +758,9 @@ const BuildDetail = (props: IProps) => {
               <Row>
                 <Col span={12}>
                   <div className="info-label">{i18n.t('commit')} ID：</div>
-                  <div className="hover-py"><GotoCommit length={6} commitId={commit} /></div>
+                  <div className="hover-py">
+                    <GotoCommit length={6} commitId={commit} />
+                  </div>
                 </Col>
                 <Col span={12}>
                   <div className="info-label">{i18n.t('commit date')}：</div>
@@ -687,35 +782,49 @@ const BuildDetail = (props: IProps) => {
                   <div className="info-label">{i18n.t('pipeline')} ID：</div>
                   {pipelineID}
                 </Col>
-                {cronMsg &&
+                {cronMsg && (
                   <Col span={12}>
                     <div className="info-label">{i18n.t('timing time')}：</div>
-                    <div className="nowrap" ref={cronMsgRef} >
+                    <div className="nowrap" ref={cronMsgRef}>
                       {getAutoTooltipMsg(cronMsgRef, cronMsg)}
                     </div>
-                  </Col>}
+                  </Col>
+                )}
               </Row>
               <div className="trigger-btn" onClick={toggleExpandInfo}>
-                { !isExpand
-                  ? <IconDown size="18px" className="mr0" />
-                  : <IconUp size="18px" className="mr0" />
-                }
+                {!isExpand ? <IconDown size="18px" className="mr0" /> : <IconUp size="18px" className="mr0" />}
               </div>
             </div>
           </div>
           <div>
-            {
-              showMessage && showMessage.msg
-                ? (
-                  <div className="build-detail-err-msg mb8">
-                    <div className="build-err-header"><IconAttention size="18px" className="build-err-icon" /><pre>{showMessage.msg}</pre></div>
-                    <div className="build-err-stack"><ul style={{ listStyle: 'disc' }}>{showMessage.stacks.map((stack, i) => <li key={`${stack}-${String(i)}`}><pre style={{ overflow: 'hidden', whiteSpace: 'pre-wrap' }}>{stack}</pre></li>)}</ul></div>
-                  </div>
-                ) : null
-            }
-            <PipelineChart data={pipelineDetail as unknown as PIPELINE.IPipelineDetail} onClickNode={onClickNode} changeType={changeType} />
+            {showMessage && showMessage.msg ? (
+              <div className="build-detail-err-msg mb8">
+                <div className="build-err-header">
+                  <IconAttention size="18px" className="build-err-icon" />
+                  <pre>{showMessage.msg}</pre>
+                </div>
+                <div className="build-err-stack">
+                  <ul style={{ listStyle: 'disc' }}>
+                    {showMessage.stacks.map((stack, i) => (
+                      <li key={`${stack}-${String(i)}`}>
+                        <pre style={{ overflow: 'hidden', whiteSpace: 'pre-wrap' }}>{stack}</pre>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ) : null}
+            <PipelineChart
+              data={pipelineDetail as unknown as PIPELINE.IPipelineDetail}
+              onClickNode={onClickNode}
+              changeType={changeType}
+            />
           </div>
-          <PipelineLog resourceId={routePipelineID} resourceType="pipeline" isBuilding={ciBuildStatusSet.executeStatus.includes(curStatus)} />
+          <PipelineLog
+            resourceId={routePipelineID}
+            resourceType="pipeline"
+            isBuilding={ciBuildStatusSet.executeStatus.includes(curStatus)}
+          />
         </div>
       </Spin>
       <BuildLog visible={logVisible} hideLog={hideLog} {...logProps} />

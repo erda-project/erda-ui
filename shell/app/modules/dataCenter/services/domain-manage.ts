@@ -13,19 +13,16 @@
 
 import agent from 'agent';
 
-export const getClusterList = ({
-  orgId,
-}: {
-  orgId: number;
-}): ORG_CLUSTER.ICluster[] => {
-  return agent.get('/api/clusters')
+export const getClusterList = ({ orgId }: { orgId: number }): ORG_CLUSTER.ICluster[] => {
+  return agent
+    .get('/api/clusters')
     .query({ orgID: orgId })
     .then((response: any) => response.body);
 };
 
 export const getDomainList = (params: DOMAIN_MANAGE.IDomainRequest): IPagingResp<DOMAIN_MANAGE.IDomain> => {
-  return agent.get('/api/domains')
+  return agent
+    .get('/api/domains')
     .query(params)
     .then((response: any) => response.body);
 };
-

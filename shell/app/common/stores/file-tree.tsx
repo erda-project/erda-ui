@@ -24,7 +24,6 @@ import {
   copyTreeNode,
   getAncestors,
   fuzzySearch,
-
   getCategoryByIdNew,
   getTreeNodeDetailNew,
   fuzzySearchNew,

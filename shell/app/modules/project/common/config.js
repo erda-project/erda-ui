@@ -144,10 +144,9 @@ export const issueStateMap = {
   BUG: {
     OPEN: i18n.t('application:pending'),
     WORKING: i18n.t('addonPlatform:processing'),
-    WONTFIX: i18n.t('project:won\'t fix'),
+    WONTFIX: i18n.t("project:won't fix"),
     REOPEN: i18n.t('project:reopen'),
     RESOLVED: i18n.t('project:resolved'),
     CLOSED: i18n.t('closed'),
   },
 };
-

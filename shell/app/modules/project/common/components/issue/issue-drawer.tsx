@@ -51,7 +51,22 @@ interface IProps {
  * @param onClose
  */
 export const IssueDrawer = (props: IProps) => {
-  const { className = '', canCreate = false, canDelete = false, subDrawer = null, children, editMode, shareLink, loading = false, visible, onClose, onDelete, confirmCloseTip, handleCopy, ...rest } = props;
+  const {
+    className = '',
+    canCreate = false,
+    canDelete = false,
+    subDrawer = null,
+    children,
+    editMode,
+    shareLink,
+    loading = false,
+    visible,
+    onClose,
+    onDelete,
+    confirmCloseTip,
+    handleCopy,
+    ...rest
+  } = props;
   const [
     title = IssueDrawer.Empty,
     main = IssueDrawer.Empty,
@@ -75,13 +90,15 @@ export const IssueDrawer = (props: IProps) => {
         <IF check={title !== IssueDrawer.Empty}>
           <div className="task-drawer-header">
             <div className="flex-box">
-              <div className="flex-1 nowrap">
-                {title}
-              </div>
+              <div className="flex-1 nowrap">{title}</div>
               <div className="task-drawer-op">
                 <IF check={editMode && shareLink}>
                   <Copy selector=".copy-share-link" tipName={i18n.t('project:share link')} />
-                  <IconShareOne className="for-copy copy-share-link mr4 ml12" size="16px" data-clipboard-text={shareLink} />
+                  <IconShareOne
+                    className="for-copy copy-share-link mr4 ml12"
+                    size="16px"
+                    data-clipboard-text={shareLink}
+                  />
                 </IF>
                 <IF check={editMode}>
                   <WithAuth pass={canCreate}>
@@ -94,7 +111,7 @@ export const IssueDrawer = (props: IProps) => {
                           value={copyTitle}
                           onChange={(e) => setCopyTitle(e.target.value)}
                         />
-                    }
+                      }
                       onOk={() => {
                         if (copyTitle === '') {
                           message.error(i18n.t('project:The title can not be empty'));
@@ -112,25 +129,24 @@ export const IssueDrawer = (props: IProps) => {
                     </Popover>
                   </WithAuth>
                 </IF>
-                {
-                  onDelete
-                    ? (
-                      <WithAuth pass={canDelete} >
-                        <Popconfirm title={`${i18n.t('common:confirm deletion')}?`} placement="bottomRight" onConfirm={onDelete}>
-                          <IconDelete className="hover-active ml12" size="16px" />
-                        </Popconfirm>
-                      </WithAuth>
-                    )
-                    : null
-                }
-                {
-                  confirmCloseTip ? (
-                    <Popconfirm title={confirmCloseTip} placement="bottomRight" onConfirm={onClose}>
-                      <IconCheck className="ml12 pointer" size="16px" />
+                {onDelete ? (
+                  <WithAuth pass={canDelete}>
+                    <Popconfirm
+                      title={`${i18n.t('common:confirm deletion')}?`}
+                      placement="bottomRight"
+                      onConfirm={onDelete}
+                    >
+                      <IconDelete className="hover-active ml12" size="16px" />
                     </Popconfirm>
-                  )
-                    : <IconCheck className="ml12 pointer" size="16px" onClick={onClose} />
-                }
+                  </WithAuth>
+                ) : null}
+                {confirmCloseTip ? (
+                  <Popconfirm title={confirmCloseTip} placement="bottomRight" onConfirm={onClose}>
+                    <IconCheck className="ml12 pointer" size="16px" />
+                  </Popconfirm>
+                ) : (
+                  <IconCheck className="ml12 pointer" size="16px" onClick={onClose} />
+                )}
               </div>
             </div>
           </div>
@@ -138,24 +154,16 @@ export const IssueDrawer = (props: IProps) => {
         {subDrawer}
         <div className="task-drawer-body" style={footer !== IssueDrawer.Empty ? { paddingBottom: '60px' } : {}}>
           <div className="task-drawer-main">
-            <div className="task-drawer-content">
-              {main}
-            </div>
-            <div className="task-drawer-tabs">
-              {tabs}
-            </div>
+            <div className="task-drawer-content">{main}</div>
+            <div className="task-drawer-tabs">{tabs}</div>
           </div>
           <IF check={meta !== IssueDrawer.Empty}>
-            <div className="task-drawer-meta">
-              {meta}
-            </div>
+            <div className="task-drawer-meta">{meta}</div>
           </IF>
         </div>
       </Spin>
       <IF check={footer !== IssueDrawer.Empty}>
-        <div className="task-drawer-footer">
-          {footer}
-        </div>
+        <div className="task-drawer-footer">{footer}</div>
       </IF>
     </Drawer>
   );

@@ -17,8 +17,7 @@ import { regLog } from 'common/components/log/log-util';
 import AnsiUp from 'ansi_up';
 import commonStore from 'app/common/stores/common';
 
-
-const noop = () => { };
+const noop = () => {};
 const AU = new AnsiUp();
 
 const LogItem = ({ log }: { log: COMMON.LogItem }) => {
@@ -37,9 +36,7 @@ const LogItem = ({ log }: { log: COMMON.LogItem }) => {
   const reContent = AU.ansi_to_html(showContent);
   return (
     <div className="log-insight-item">
-      <span className="log-item-logtime">
-        {time}
-      </span>
+      <span className="log-item-logtime">{time}</span>
       <span className={`log-item-level ${level.toLowerCase()}`}>{level}</span>
       <pre className="log-item-content" dangerouslySetInnerHTML={{ __html: reContent }} />
     </div>
@@ -74,7 +71,7 @@ const SimpleLogRoller = ({ logKey, query = {}, style = {}, ...otherProps }: IPro
 
   const scrollToTop = () => scrollTo(0);
 
-  const scrollToBottom = React.useCallback(() => scrollTo(999999999), []);// safari下设置过大的数值无效，所以给一个理论上足够大的值
+  const scrollToBottom = React.useCallback(() => scrollTo(999999999), []); // safari下设置过大的数值无效，所以给一个理论上足够大的值
 
   React.useEffect(() => {
     const { requestId, applicationId } = query;
@@ -96,7 +93,6 @@ const SimpleLogRoller = ({ logKey, query = {}, style = {}, ...otherProps }: IPro
     }
     return () => clearLog();
   }, [clearLog, fetchLog, logKey, query, scrollToBottom, updater]);
-
 
   return (
     <div className="log-viewer" style={style}>

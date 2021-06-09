@@ -13,51 +13,54 @@
 
 import agent from 'agent';
 
-export const getCustomAlarms = (params: COMMON_CUSTOM_ALARM.IPageParam): IPagingResp<COMMON_CUSTOM_ALARM.CustomAlarms> => {
-  return agent.get('/api/orgCenter/customize/alerts')
+export const getCustomAlarms = (
+  params: COMMON_CUSTOM_ALARM.IPageParam,
+): IPagingResp<COMMON_CUSTOM_ALARM.CustomAlarms> => {
+  return agent
+    .get('/api/orgCenter/customize/alerts')
     .query(params)
     .then((response: any) => response.body);
 };
 
 export const getCustomAlarmDetail = ({ id }: { id: number }): COMMON_CUSTOM_ALARM.CustomAlarmDetail => {
-  return agent.get(`/api/orgCenter/customize/alerts/${id}`)
-    .then((response: any) => response.body);
+  return agent.get(`/api/orgCenter/customize/alerts/${id}`).then((response: any) => response.body);
 };
 
 export const switchCustomAlarm = ({ id, enable }: { id: number; enable: boolean }) => {
-  return agent.put(`/api/orgCenter/customize/alerts/${id}/switch?enable=${enable}`)
+  return agent
+    .put(`/api/orgCenter/customize/alerts/${id}/switch?enable=${enable}`)
     .then((response: any) => response.body);
 };
 
 export const deleteCustomAlarm = ({ id }: { id: number }) => {
-  return agent.delete(`/api/orgCenter/customize/alerts/${id}`)
-    .then((response: any) => response.body);
+  return agent.delete(`/api/orgCenter/customize/alerts/${id}`).then((response: any) => response.body);
 };
 
 export const getCustomMetrics = (): COMMON_CUSTOM_ALARM.CustomMetrics => {
-  return agent.get('/api/orgCenter/customize/alerts/metrics')
-    .then((response: any) => response.body);
+  return agent.get('/api/orgCenter/customize/alerts/metrics').then((response: any) => response.body);
 };
 
 export const getCustomAlarmTargets = (): { targets: COMMON_CUSTOM_ALARM.AlarmTarget[] } => {
-  return agent.get('/api/orgCenter/customize/alerts/notifies/targets')
-    .then((response: any) => response.body);
+  return agent.get('/api/orgCenter/customize/alerts/notifies/targets').then((response: any) => response.body);
 };
 
 export const createCustomAlarm = (payload: COMMON_CUSTOM_ALARM.CustomAlarmQuery) => {
-  return agent.post('/api/orgCenter/customize/alerts')
+  return agent
+    .post('/api/orgCenter/customize/alerts')
     .send(payload)
     .then((response: any) => response.body);
 };
 
 export const editCustomAlarm = ({ id, ...rest }: COMMON_CUSTOM_ALARM.CustomAlarmQuery) => {
-  return agent.put(`/api/orgCenter/customize/alerts/${id}`)
+  return agent
+    .put(`/api/orgCenter/customize/alerts/${id}`)
     .send(rest)
     .then((response: any) => response.body);
 };
 
 export const getPreviewMetaData = ({ ...payload }: COMMON_CUSTOM_ALARM.CustomAlarmQuery) => {
-  return agent.post('/api/orgCenter/customize/alerts/dash-preview/query')
+  return agent
+    .post('/api/orgCenter/customize/alerts/dash-preview/query')
     .send(payload)
     .then((response: any) => response.body);
 };

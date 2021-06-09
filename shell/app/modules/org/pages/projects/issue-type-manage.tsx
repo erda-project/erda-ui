@@ -58,40 +58,34 @@ const IssueTypeManage = () => {
 
   const readonlyForm = (
     <div>
-      {
-        map(list, (item) => {
-          return (
-            <div
-              className="panel hover-active-bg"
-              key={item.type}
-              onClick={() => {
-                getFieldsByIssue({ propertyIssueType: item.type, orgID });
-                update({
-                  modalVisible: true,
-                  issueType: item.type as ISSUE_FIELD.IIssueType,
-                });
-              }}
-            >
-              <div className="common-list-item">
-                <div className="list-item-left">
-                  <div className="flex-box">
-                    <IssueIcon type={item.type} withName />
-                  </div>
-                  <div className="sub">
-                    <span>{i18n.t('update time')}：</span>
-                    <span>{item.updatedTime || i18n.t('project:no modify')}</span>
-                  </div>
+      {map(list, (item) => {
+        return (
+          <div
+            className="panel hover-active-bg"
+            key={item.type}
+            onClick={() => {
+              getFieldsByIssue({ propertyIssueType: item.type, orgID });
+              update({
+                modalVisible: true,
+                issueType: item.type as ISSUE_FIELD.IIssueType,
+              });
+            }}
+          >
+            <div className="common-list-item">
+              <div className="list-item-left">
+                <div className="flex-box">
+                  <IssueIcon type={item.type} withName />
+                </div>
+                <div className="sub">
+                  <span>{i18n.t('update time')}：</span>
+                  <span>{item.updatedTime || i18n.t('project:no modify')}</span>
                 </div>
               </div>
             </div>
-          );
-        })
-      }
-      <IssueFieldSettingModal
-        visible={modalVisible}
-        issueType={issueType}
-        closeModal={onClose}
-      />
+          </div>
+        );
+      })}
+      <IssueFieldSettingModal visible={modalVisible} issueType={issueType} closeModal={onClose} />
     </div>
   );
 

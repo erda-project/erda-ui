@@ -81,7 +81,9 @@ const runtime = createFlatStore({
           runtime.getDeploymentList({ pageNo: 1, pageSize: 10 });
         }
         if (payload.phase === 'COMPLETED' && payload.status === 'OK') {
-          runtimeDomainStore.getDomains({ domainType: ['k8s', 'edas'].includes(runtimeDetail.clusterType) ? 'k8s-domains' : 'domains' });
+          runtimeDomainStore.getDomains({
+            domainType: ['k8s', 'edas'].includes(runtimeDetail.clusterType) ? 'k8s-domains' : 'domains',
+          });
           runtime.getDeploymentList({ ...deploymentListQuery });
         }
       }
@@ -93,7 +95,6 @@ const runtime = createFlatStore({
         runtime.updateRuntimeStatus(payload);
       }
     });
-
 
     registerWSHandler('R_RUNTIME_DELETING', ({ payload }) => {
       const runtimeDetail = runtime.getState((s) => s.runtimeDetail);
@@ -117,7 +118,14 @@ const runtime = createFlatStore({
     });
   },
   effects: {
-    async getRuntimeDetail({ call, select, update, getParams }, { runtimeId: r_id, socketData, fromSocket = false }: { runtimeId?: string; socketData?: any; fromSocket?: boolean }) {
+    async getRuntimeDetail(
+      { call, select, update, getParams },
+      {
+        runtimeId: r_id,
+        socketData,
+        fromSocket = false,
+      }: { runtimeId?: string; socketData?: any; fromSocket?: boolean },
+    ) {
       let runtimeDetail = await select((state) => state.runtimeDetail);
       let data = r_id;
       const { appId, runtimeId } = getParams();
@@ -143,7 +151,10 @@ const runtime = createFlatStore({
       update({ runtimeDetail });
       breadcrumbStore.reducers.setInfo('runtimeName', runtimeDetail.name);
       const domainType = ['k8s', 'edas'].includes(runtimeDetail.clusterType) ? 'k8s-domains' : 'domains';
-      const { extra: { workspace }, projectID } = runtimeDetail;
+      const {
+        extra: { workspace },
+        projectID,
+      } = runtimeDetail;
       await runtime.getRuntimeAddons({ projectId: projectID, workspace });
       runtimeDomainStore.getDomains({ domainType });
       return runtimeDetail;
@@ -162,7 +173,11 @@ const runtime = createFlatStore({
     // 回滚记录
     async getRollbackList({ call, update, getParams }, payload: Omit<RUNTIME.DeployListQuery, 'runtimeId'>) {
       const { runtimeId } = getParams();
-      const { list, total } = await call(getDeploymentList, { runtimeId, ...payload }, { paging: { key: 'deploymentRecordsPaging' } });
+      const { list, total } = await call(
+        getDeploymentList,
+        { runtimeId, ...payload },
+        { paging: { key: 'deploymentRecordsPaging' } },
+      );
       update({ deploymentRecords: list });
       return { total, list };
     },
@@ -180,7 +195,11 @@ const runtime = createFlatStore({
     },
     async rollbackRuntime({ call, getParams }, deploymentId: number) {
       const { runtimeId } = getParams();
-      await call(rollbackRuntime, { runtimeId, deploymentId }, { successMsg: i18n.t('runtime:start rolling back runtime') });
+      await call(
+        rollbackRuntime,
+        { runtimeId, deploymentId },
+        { successMsg: i18n.t('runtime:start rolling back runtime') },
+      );
     },
     async redeployRuntime({ call, getParams, update }) {
       const { runtimeId } = getParams();
@@ -210,7 +229,10 @@ const runtime = createFlatStore({
     updateRuntimeDeleteStatus(state) {
       state.runtimeDetail.deleteStatus = 'DELETING';
     },
-    updateRuntimeServiceStatus(state, payload: { serviceName: string; status: RUNTIME.Status; errors: RUNTIME_SERVICE.Err[] | null }) {
+    updateRuntimeServiceStatus(
+      state,
+      payload: { serviceName: string; status: RUNTIME.Status; errors: RUNTIME_SERVICE.Err[] | null },
+    ) {
       const { serviceName, status, errors } = payload;
       const targetService = state.runtimeDetail.services[serviceName];
       targetService.status = status;

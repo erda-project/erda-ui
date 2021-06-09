@@ -56,24 +56,20 @@ export const IssueActivities = (props: IProps) => {
           <>
             <div className="left-flex-box">
               <Avatar name={user.nick || user.name} showName />
-                &nbsp;
-              <span>
-                {i18n.t('project:remarked at')}
-              </span>
-                  &nbsp;
-              <span>
-                {fromNow(updatedAt, { edgeNow: true })}
-              </span>
+              &nbsp;
+              <span>{i18n.t('project:remarked at')}</span>
+              &nbsp;
+              <span>{fromNow(updatedAt, { edgeNow: true })}</span>
             </div>
             {streamType !== 'Comment' && <span className="ml8">{content}</span>}
-            {streamType === 'Comment' &&
+            {streamType === 'Comment' && (
               <article
                 className="md-content"
                 style={{ minHeight: 'auto' }}
                 // eslint-disable-next-line react/no-danger
                 dangerouslySetInnerHTML={{ __html: Markdown(content || '') }}
               />
-            }
+            )}
           </>
         );
         break;
@@ -102,9 +98,7 @@ export const IssueActivities = (props: IProps) => {
     return (
       <div key={sId} className="border-bottom pa12">
         {renderContent}
-        <div className="color-text-desc mt4">
-          {moment(updatedAt).format('YYYY-MM-DD HH:mm:ss')}
-        </div>
+        <div className="color-text-desc mt4">{moment(updatedAt).format('YYYY-MM-DD HH:mm:ss')}</div>
       </div>
     );
   };
@@ -116,9 +110,7 @@ export const IssueActivities = (props: IProps) => {
           {map(daySplit, (items: [], day) => (
             <TimelineItem key={day}>
               <div className="day-split">{day}</div>
-              <div className="border-top border-left border-right">
-                {items.map(renderStream)}
-              </div>
+              <div className="border-top border-left border-right">{items.map(renderStream)}</div>
             </TimelineItem>
           ))}
           <TimelineItem />

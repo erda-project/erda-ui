@@ -72,17 +72,16 @@
         border-color: $color-active;
       }
     }
-
   }
 
   .md-content-preview {
-    min-height: 100px;    
+    min-height: 100px;
     max-height: 60vh;
     overflow: auto;
     background-color: $color-light-bg;
     border: 1px solid $color-border;
     cursor: text;
-  
+
     &:hover {
       border: 1px solid $primary;
     }

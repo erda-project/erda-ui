@@ -31,11 +31,16 @@ interface IVswCIDRProps {
 }
 
 const validateIncludes = (options: any[]) => (rule: any, value: string, callback: Function) => {
-  return callback((!value || options.includes(+value)) ? undefined : i18n.t('invalid input'));
+  return callback(!value || options.includes(+value) ? undefined : i18n.t('invalid input'));
 };
 const maxMask = 29;
 const minMask = 16;
-export const VswCIDRField = ({ form, vpcCidrBlock = '0.0.0.0/0', onChangeMask, formKey = 'cidrBlock' }: IVswCIDRProps) => {
+export const VswCIDRField = ({
+  form,
+  vpcCidrBlock = '0.0.0.0/0',
+  onChangeMask,
+  formKey = 'cidrBlock',
+}: IVswCIDRProps) => {
   const [{ maskOptions, IPItemOption }, updater, update] = useUpdate({
     maskOptions: [] as number[],
     IPItemOption: {} as number[][],
@@ -55,7 +60,7 @@ export const VswCIDRField = ({ form, vpcCidrBlock = '0.0.0.0/0', onChangeMask, f
       maskOptions: allOpt.slice(curMin),
       IPItemOption: options,
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vpcCidrBlock]);
 
   const changeMask = (val: string) => {
@@ -72,20 +77,16 @@ export const VswCIDRField = ({ form, vpcCidrBlock = '0.0.0.0/0', onChangeMask, f
   };
 
   const getFormItem = (index: number) => {
-    const options = IPItemOption[index] || [] as number[];
+    const options = IPItemOption[index] || ([] as number[]);
     return (
       <FormItem>
         <Tooltip title={getIPTooltipText(options)}>
-          {
-            form.getFieldDecorator(`${formKey}.${index}`, {
-              rules: [
-                { required: true, message: i18n.t('{name} can not empty') },
-                { validator: validateIncludes(options) },
-              ],
-            })(
-              <Input disabled={options.length <= 1} />,
-            )
-          }
+          {form.getFieldDecorator(`${formKey}.${index}`, {
+            rules: [
+              { required: true, message: i18n.t('{name} can not empty') },
+              { validator: validateIncludes(options) },
+            ],
+          })(<Input disabled={options.length <= 1} />)}
         </Tooltip>
       </FormItem>
     );
@@ -102,20 +103,21 @@ export const VswCIDRField = ({ form, vpcCidrBlock = '0.0.0.0/0', onChangeMask, f
       {getFormItem(3)}
       <span className="split">/</span>
       <FormItem>
-        {
-          form.getFieldDecorator(`${formKey}.4`)(
-            <Select onChange={(val: any) => changeMask(val)}>
-              {map(maskOptions, (item) => {
-                return <Option key={item} value={item}>{item}</Option>;
-              })}
-            </Select>,
-          )
-        }
+        {form.getFieldDecorator(`${formKey}.4`)(
+          <Select onChange={(val: any) => changeMask(val)}>
+            {map(maskOptions, (item) => {
+              return (
+                <Option key={item} value={item}>
+                  {item}
+                </Option>
+              );
+            })}
+          </Select>,
+        )}
       </FormItem>
     </div>
   );
 };
-
 
 interface ICIDRProps {
   value?: string;
@@ -134,7 +136,9 @@ export const VpcCIDRField = ({ value, onChange, cidrType, onChangeCIDRType }: IC
         value={value}
       >
         {map(formConfig.options.defaultCIDR, (item) => (
-          <Option key={item} value={item}>{item}</Option>
+          <Option key={item} value={item}>
+            {item}
+          </Option>
         ))}
       </Select>
     ),
@@ -151,16 +155,14 @@ export const VpcCIDRField = ({ value, onChange, cidrType, onChangeCIDRType }: IC
 
   return (
     <div>
-      <Radio.Group
-        className="mb8"
-        value={cidrType}
-        onChange={(e: any) => onChangeCIDRType(e.target.value)}
-      >
-        {
-          map(formConfig.options.CIDRType, (item) => {
-            return <Radio key={item.value} value={item.value}>{item.name}</Radio>;
-          })
-        }
+      <Radio.Group className="mb8" value={cidrType} onChange={(e: any) => onChangeCIDRType(e.target.value)}>
+        {map(formConfig.options.CIDRType, (item) => {
+          return (
+            <Radio key={item.value} value={item.value}>
+              {item.name}
+            </Radio>
+          );
+        })}
       </Radio.Group>
       {CIDRBlockMap[cidrType]}
     </div>

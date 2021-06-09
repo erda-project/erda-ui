@@ -51,22 +51,19 @@ export const notifyChannelOptionsMap = {
 };
 
 // 当群组为成员或外部成员时，通知方式包含 电话/短信
-export const smsNotifyChannelOptionsMap = Object.assign({},
-  notifyChannelOptionsMap,
-  {
-    [TargetType.USER]: [
-      { name: i18n.t('application:email'), value: 'email' },
-      { name: i18n.t('site message'), value: 'mbox' },
-      { name: i18n.t('SMS'), value: 'sms' },
-      { name: i18n.t('phone'), value: 'vms' },
-    ],
-    [TargetType.EXTERNAL_USER]: [
-      { name: i18n.t('application:email'), value: 'email' },
-      { name: i18n.t('SMS'), value: 'sms' },
-      { name: i18n.t('phone'), value: 'vms' },
-    ],
-  });
-
+export const smsNotifyChannelOptionsMap = Object.assign({}, notifyChannelOptionsMap, {
+  [TargetType.USER]: [
+    { name: i18n.t('application:email'), value: 'email' },
+    { name: i18n.t('site message'), value: 'mbox' },
+    { name: i18n.t('SMS'), value: 'sms' },
+    { name: i18n.t('phone'), value: 'vms' },
+  ],
+  [TargetType.EXTERNAL_USER]: [
+    { name: i18n.t('application:email'), value: 'email' },
+    { name: i18n.t('SMS'), value: 'sms' },
+    { name: i18n.t('phone'), value: 'vms' },
+  ],
+});
 
 const groupTargetMap = {
   user: i18n.t('application:member'),
@@ -91,7 +88,13 @@ interface IProps {
   memberStore: any;
 }
 
-export const ListTargets = ({ targets = [], roleMap }: { targets: COMMON_STRATEGY_NOTIFY.INotifyTarget[]; roleMap: any }) => {
+export const ListTargets = ({
+  targets = [],
+  roleMap,
+}: {
+  targets: COMMON_STRATEGY_NOTIFY.INotifyTarget[];
+  roleMap: any;
+}) => {
   const userMap = userMapStore.useStore((s) => s);
   const { values = [], type } = targets[0] || {};
   const firstValue = head(values)?.receiver as string;
@@ -106,22 +109,26 @@ export const ListTargets = ({ targets = [], roleMap }: { targets: COMMON_STRATEG
   );
   switch (type) {
     case TargetType.USER:
-      text = `${userMap[firstValue] ? userMap[firstValue].nick : '--'} ${i18n.t('application:and {length} others', { length: values.length })}`;
+      text = `${userMap[firstValue] ? userMap[firstValue].nick : '--'} ${i18n.t('application:and {length} others', {
+        length: values.length,
+      })}`;
       targetsEle = (
         <>
           <div className="group-members mr8">
-            {map(take(values, 3), (obj: { receiver: string }) => <Avatar name={obj.receiver} size={24} key={obj.receiver} />)}
+            {map(take(values, 3), (obj: { receiver: string }) => (
+              <Avatar name={obj.receiver} size={24} key={obj.receiver} />
+            ))}
           </div>
           <Tooltip title={text}>
-            <span className="color-text-sub">
-              {text}
-            </span>
+            <span className="color-text-sub">{text}</span>
           </Tooltip>
         </>
       );
       break;
     case TargetType.EXTERNAL_USER:
-      text = `${JSON.parse(firstValue).username} ${i18n.t('application:and {length} others', { length: values.length })}`;
+      text = `${JSON.parse(firstValue).username} ${i18n.t('application:and {length} others', {
+        length: values.length,
+      })}`;
       targetsEle = (
         <>
           <div className="group-members mr8">
@@ -131,9 +138,7 @@ export const ListTargets = ({ targets = [], roleMap }: { targets: COMMON_STRATEG
             })}
           </div>
           <Tooltip title={text}>
-            <span className="color-text-sub">
-              {text}
-            </span>
+            <span className="color-text-sub">{text}</span>
           </Tooltip>
         </>
       );
@@ -144,9 +149,7 @@ export const ListTargets = ({ targets = [], roleMap }: { targets: COMMON_STRATEG
         <>
           <CustomIcon type="sidebarUser" className="color-text-desc" />
           <Tooltip title={text}>
-            <span className="group-address color-text-sub">
-              {text}
-            </span>
+            <span className="group-address color-text-sub">{text}</span>
           </Tooltip>
         </>
       );
@@ -157,10 +160,7 @@ export const ListTargets = ({ targets = [], roleMap }: { targets: COMMON_STRATEG
   return targetsEle;
 };
 
-const NotifyGroup = ({
-  memberStore,
-  commonPayload,
-}: IProps) => {
+const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
   const notifyGroups = notifyGroupStore.useStore((s) => s.notifyGroups);
   const userMap = userMapStore.useStore((s) => s);
 
@@ -254,10 +254,12 @@ const NotifyGroup = ({
       updateNotifyGroups({
         id,
         name,
-        targets: [{
-          type: targetType,
-          values: _values,
-        }],
+        targets: [
+          {
+            type: targetType,
+            values: _values,
+          },
+        ],
       }).then(() => {
         handleCancel();
         handleGetNotifyGroups();
@@ -267,10 +269,12 @@ const NotifyGroup = ({
     createNotifyGroups({
       ...commonPayload,
       name,
-      targets: [{
-        type: targetType,
-        values: _values,
-      }],
+      targets: [
+        {
+          type: targetType,
+          values: _values,
+        },
+      ],
     }).then(() => {
       handleCancel();
       handleGetNotifyGroups();
@@ -303,9 +307,16 @@ const NotifyGroup = ({
         return (
           <Select
             defaultValue={groupType}
-            onSelect={(value: any) => { updater.groupType(value); form.setFieldsValue({ targets: undefined }); }}
+            onSelect={(value: any) => {
+              updater.groupType(value);
+              form.setFieldsValue({ targets: undefined });
+            }}
           >
-            {map(groupTargetMap, (name, value) => <Select.Option value={value} key="value">{name}</Select.Option>)}
+            {map(groupTargetMap, (name, value) => (
+              <Select.Option value={value} key="value">
+                {name}
+              </Select.Option>
+            ))}
           </Select>
         );
       },
@@ -322,13 +333,7 @@ const NotifyGroup = ({
         label: groupTargetMap[groupType],
         required: true,
         getComp: () => {
-          return (
-            <MemberSelector
-              {...commonPayload}
-              mode="multiple"
-              type="Category"
-            />
-          );
+          return <MemberSelector {...commonPayload} mode="multiple" type="Category" />;
         },
       };
       break;
@@ -400,7 +405,11 @@ const NotifyGroup = ({
       dataIndex: 'targets',
       className: 'notify-info',
       tip: true,
-      render: (targets) => <div className="flex-box"><ListTargets targets={targets} roleMap={roleMap} /></div>,
+      render: (targets) => (
+        <div className="flex-box">
+          <ListTargets targets={targets} roleMap={roleMap} />
+        </div>
+      ),
     },
     {
       title: i18n.t('default:creator'),
@@ -419,19 +428,32 @@ const NotifyGroup = ({
       render: (id: number, record) => {
         return (
           <div className="table-operations">
-            <span className="table-operations-btn" onClick={() => handleEdit(record)}>{i18n.t('application:edit')}</span>
-            <span className="table-operations-btn" onClick={() => { handleDele(id); }}>{i18n.t('application:delete')}</span>
+            <span className="table-operations-btn" onClick={() => handleEdit(record)}>
+              {i18n.t('application:edit')}
+            </span>
+            <span
+              className="table-operations-btn"
+              onClick={() => {
+                handleDele(id);
+              }}
+            >
+              {i18n.t('application:delete')}
+            </span>
           </div>
         );
       },
     },
   ];
 
-
   return (
     <div className="notify-group-manage">
       <Tooltip title={i18n.t('application:new Group')}>
-        <div className="notify-group-action hover-active" onClick={() => { openModal(); }}>
+        <div
+          className="notify-group-action hover-active"
+          onClick={() => {
+            openModal();
+          }}
+        >
           <Button type="primary">{i18n.t('application:new Group')}</Button>
         </div>
       </Tooltip>
@@ -441,17 +463,14 @@ const NotifyGroup = ({
         visible={modalVisible}
         fieldsList={fieldsList}
         formData={activedData}
-        onOk={(values: any) => { handleSubmit(values, isEditing && activedData.id); }}
+        onOk={(values: any) => {
+          handleSubmit(values, isEditing && activedData.id);
+        }}
         onCancel={handleCancel}
         modalProps={{ destroyOnClose: true }}
       />
       <Spin spinning={loading}>
-        <Table
-          rowKey="id"
-          dataSource={notifyGroups}
-          columns={columns}
-          pagination={false}
-        />
+        <Table rowKey="id" dataSource={notifyGroups} columns={columns} pagination={false} />
       </Spin>
     </div>
   );

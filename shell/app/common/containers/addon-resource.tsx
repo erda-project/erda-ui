@@ -19,7 +19,6 @@ import addonStore from 'common/stores/addon';
 import { useLoading } from 'app/common/stores/loading';
 import routeInfoStore from 'common/stores/route';
 
-
 const AddonResource = () => {
   const info = addonStore.useStore((s) => s.addonDetail);
   const insId = routeInfoStore.useStore((s) => s.params.insId);
@@ -30,10 +29,7 @@ const AddonResource = () => {
   const { addonName, cluster, realInstanceId } = info as any;
   return (
     <Spin spinning={loading}>
-      <PureAddonResource
-        resourceInfo={info}
-        resourceId={insId}
-      />
+      <PureAddonResource resourceInfo={info} resourceId={insId} />
       <IF check={addonName && cluster && realInstanceId}>
         <MetricsMonitor
           resourceType={addonName}

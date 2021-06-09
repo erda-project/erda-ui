@@ -22,7 +22,7 @@ import repoStore from 'application/stores/repo';
 import routeInfoStore from 'app/common/stores/route';
 import { DownOne as IconDownOne } from '@icon-park/react';
 
-const noop = () => { };
+const noop = () => {};
 
 interface IMrStats {
   errorMsg: string;
@@ -44,10 +44,9 @@ export const renderErrorBlock = (mrStats: IMrStats, pipelineID?: string, result?
     resultType = 'progress';
   }
 
-  const renderAlert = (
-    msg: any,
-    type: 'success' | 'normal' | 'warning' | 'error' | undefined,
-  ) => <Alert className="mb16" message={msg} type={type} showIcon />;
+  const renderAlert = (msg: any, type: 'success' | 'normal' | 'warning' | 'error' | undefined) => (
+    <Alert className="mb16" message={msg} type={type} showIcon />
+  );
 
   const msgCheckrunTypeMap = {
     success: 'success',
@@ -66,26 +65,26 @@ export const renderErrorBlock = (mrStats: IMrStats, pipelineID?: string, result?
       {hasError && renderAlert(errorMsg, 'error')}
       {hasConflict && renderAlert(i18n.t('application:have conflict'), 'error')}
       {isMerged && renderAlert(i18n.t('application:no changes to merge'), 'normal')}
-      {pipelineID && renderAlert(
-        <span>
-          <span>{msgCheckrunTypeTipMap[resultType as string]}&nbsp;&nbsp;
-          </span>
-          <span
-            className="hover-active text-link"
-            onClick={() => {
-              goTo(goTo.pages.pipeline, {
-                projectId: params.projectId,
-                appId: params.appId,
-                pipelineID,
-                replace: false,
-              });
-            }}
-          >
-            {i18n.t('application:pipeline')}
-          </span>
-        </span>,
-        msgCheckrunTypeMap[resultType as string],
-      )}
+      {pipelineID &&
+        renderAlert(
+          <span>
+            <span>{msgCheckrunTypeTipMap[resultType as string]}&nbsp;&nbsp;</span>
+            <span
+              className="hover-active text-link"
+              onClick={() => {
+                goTo(goTo.pages.pipeline, {
+                  projectId: params.projectId,
+                  appId: params.appId,
+                  pipelineID,
+                  replace: false,
+                });
+              }}
+            >
+              {i18n.t('application:pipeline')}
+            </span>
+          </span>,
+          msgCheckrunTypeMap[resultType as string],
+        )}
     </div>
   );
 };
@@ -141,7 +140,8 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
       const currentState = {
         sourceBranch: value.sourceBranch || defaultSourceBranch,
         targetBranch: value.targetBranch || defaultTargetBranch,
-        removeSourceBranch: typeof value.removeSourceBranch === 'boolean' ? value.removeSourceBranch : defaultRemoveSourceBranch || false,
+        removeSourceBranch:
+          typeof value.removeSourceBranch === 'boolean' ? value.removeSourceBranch : defaultRemoveSourceBranch || false,
       };
       return currentState;
     }
@@ -194,34 +194,30 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
       return (
         <div className="repo-source-target-select">
           <div className="branch-select-row">
-            <BranchSelect
-              {...{ branches: [], hideTagList: true, current: sourceBranch || '' }}
-              disabled
-            >
+            <BranchSelect {...{ branches: [], hideTagList: true, current: sourceBranch || '' }} disabled>
               <span>{i18n.t('compare')}:</span>
-              <span className="branch-name bold nowrap">
-                {sourceBranch || null}
-              </span>
+              <span className="branch-name bold nowrap">{sourceBranch || null}</span>
               <IF check={sourceBranch}>
                 <IconDownOne theme="filled" size="16px" />
               </IF>
             </BranchSelect>
-            <div className="branch-merge-arrow"><CustomIcon type="arrow-right" /></div>
-            <BranchSelect
-              {...{ branches: [], hideTagList: true, current: targetBranch || '' }}
-              disabled
-            >
+            <div className="branch-merge-arrow">
+              <CustomIcon type="arrow-right" />
+            </div>
+            <BranchSelect {...{ branches: [], hideTagList: true, current: targetBranch || '' }} disabled>
               <span>{i18n.t('based on')}:</span>
-              <span className="branch-name bold nowrap">
-                {targetBranch || null}
-              </span>
+              <span className="branch-name bold nowrap">{targetBranch || null}</span>
               <IF check={targetBranch}>
                 <IconDownOne theme="filled" size="16px" />
               </IF>
             </BranchSelect>
           </div>
           {renderErrorBlock(mrStats)}
-          <span className={`show-diff-btn ${couldShowDiff ? '' : 'invisible'}`}><Button type="primary" onClick={this.props.moveToDiff}>{i18n.t('view comparison results')}</Button></span>
+          <span className={`show-diff-btn ${couldShowDiff ? '' : 'invisible'}`}>
+            <Button type="primary" onClick={this.props.moveToDiff}>
+              {i18n.t('view comparison results')}
+            </Button>
+          </span>
         </div>
       );
     }
@@ -235,23 +231,21 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
             disabled={disableSourceBranch}
           >
             <span>{i18n.t('compare')}:</span>
-            <span className="branch-name bold nowrap">
-              {sourceBranch || null}
-            </span>
+            <span className="branch-name bold nowrap">{sourceBranch || null}</span>
             <IF check={sourceBranch}>
               <IconDownOne theme="filled" size="16px" />
             </IF>
           </BranchSelect>
-          <div className="branch-merge-arrow"><CustomIcon type="arrow-right" /></div>
+          <div className="branch-merge-arrow">
+            <CustomIcon type="arrow-right" />
+          </div>
           <BranchSelect
             {...{ branches, hideTagList: true, current: targetBranch || '' }}
             onChange={this.handleChange('targetBranch')}
             disabled={disableTargetBranch}
           >
             <span>{i18n.t('based on')}:</span>
-            <span className="branch-name bold nowrap">
-              {targetBranch || null}
-            </span>
+            <span className="branch-name bold nowrap">{targetBranch || null}</span>
             <IF check={targetBranch}>
               <IconDownOne theme="filled" size="16px" />
             </IF>
@@ -261,21 +255,21 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
           </IF> */}
         </div>
         {renderErrorBlock(mrStats)}
-        {
-          disableRemoveSource
-            ? (
-              <Checkbox className="delete-after-merge" disabled checked={false}>
-                {i18n.t('application:delete source branch after merge')}
-                ({i18n.t('application:default branch cannot be remove')})
-              </Checkbox>
-            )
-            : (
-              <Checkbox className="delete-after-merge" onChange={this.handleCheck} checked={removeSourceBranch}>
-                {i18n.t('application:delete source branch after merge')}
-              </Checkbox>
-            )
-        }
-        <span className={`show-diff-btn ${couldShowDiff ? '' : 'invisible'}`}><Button type="primary" onClick={this.props.moveToDiff}>{i18n.t('view comparison results')}</Button></span>
+        {disableRemoveSource ? (
+          <Checkbox className="delete-after-merge" disabled checked={false}>
+            {i18n.t('application:delete source branch after merge')}(
+            {i18n.t('application:default branch cannot be remove')})
+          </Checkbox>
+        ) : (
+          <Checkbox className="delete-after-merge" onChange={this.handleCheck} checked={removeSourceBranch}>
+            {i18n.t('application:delete source branch after merge')}
+          </Checkbox>
+        )}
+        <span className={`show-diff-btn ${couldShowDiff ? '' : 'invisible'}`}>
+          <Button type="primary" onClick={this.props.moveToDiff}>
+            {i18n.t('view comparison results')}
+          </Button>
+        </span>
       </div>
     );
   }

@@ -48,7 +48,6 @@ export const listMock: CP_LIST.Spec = {
             key: 'click',
             show: false,
             reload: false,
-
           },
           toManage: {
             key: 'toManage',
@@ -74,9 +73,7 @@ export const listMock: CP_LIST.Spec = {
         title: '测试2',
         description: '测试测试',
         prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-        extraInfos: [
-          { icon: 'help', text: '1234', tooltip: '提示信息' },
-        ],
+        extraInfos: [{ icon: 'help', text: '1234', tooltip: '提示信息' }],
       },
     ],
   },

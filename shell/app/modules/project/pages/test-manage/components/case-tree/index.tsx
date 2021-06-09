@@ -23,7 +23,16 @@ import routeInfoStore from 'common/stores/route';
 import testCaseStore from 'project/stores/test-case';
 import testSetStore from 'project/stores/test-set';
 import projectStore from 'project/stores/project';
-import { getNodeById, getNodeByPath, rootId, rootKey, recycledId, recycledKey, recycledRoot, getEventKeyId } from './utils';
+import {
+  getNodeById,
+  getNodeByPath,
+  rootId,
+  rootKey,
+  recycledId,
+  recycledKey,
+  recycledRoot,
+  getEventKeyId,
+} from './utils';
 import Title from './title';
 import { TEMP_MARK, TestOperation, editModeEnum } from 'project/pages/test-manage/constants';
 import './index.scss';
@@ -85,8 +94,14 @@ const expandKeys2tree = (keys: string[]): IExpandTree[] => {
 };
 
 const TestSet = ({
-  needRecycled = false, needActiveKey = true, readOnly = false, needBreadcrumb = false,
-  onSelect: oldOnSelect, mode, testPlanID, testSetRef,
+  needRecycled = false,
+  needActiveKey = true,
+  readOnly = false,
+  needBreadcrumb = false,
+  onSelect: oldOnSelect,
+  mode,
+  testPlanID,
+  testSetRef,
   customActions = [],
 }: IProps) => {
   const [activeKey, setActiveKey] = useState(rootKey);
@@ -96,14 +111,20 @@ const TestSet = ({
   const [treeData, setTreeData] = useState([] as TEST_SET.TestSetNode[]);
   const firstBuild = useRef(true);
   const query = routeInfoStore.useStore((s) => s.query);
-  const [projectTestSet, modalTestSet, tempTestSet, reloadTestSetInfo, activeOuter] = testSetStore.useStore((s) => [s.projectTestSet, s.modalTestSet, s.tempTestSet, s.reloadTestSetInfo, s.activeOuter]);
+  const [projectTestSet, modalTestSet, tempTestSet, reloadTestSetInfo, activeOuter] = testSetStore.useStore((s) => [
+    s.projectTestSet,
+    s.modalTestSet,
+    s.tempTestSet,
+    s.reloadTestSetInfo,
+    s.activeOuter,
+  ]);
   const { getProjectTestSets, getTestSetChildren, updateBreadcrumb, subSubmitTreeCollection } = testSetStore.effects;
   const { emptyReloadTestSet, clearActiveOuter } = testSetStore.reducers;
   const projectInfo = projectStore.useStore((s) => s.info);
   const { getCases } = testCaseStore.effects;
   const { triggerChoosenAll: resetChoosenAll } = testCaseStore.reducers;
 
-  const testSet: {[k in TEST_CASE.PageScope]: any} = {
+  const testSet: { [k in TEST_CASE.PageScope]: any } = {
     testCase: projectTestSet,
     testPlan: projectTestSet,
     caseModal: modalTestSet,
@@ -131,10 +152,7 @@ const TestSet = ({
       ...data,
     };
     const parent = getNodeByPath({ treeData, eventKey: rootKey });
-    parent.children = [
-      newNode,
-      ...(parent.children || []),
-    ];
+    parent.children = [newNode, ...(parent.children || [])];
     setTreeData([...treeData]);
   };
   const reloadLoadData = (id: number, eventKey: string, recycled: boolean) => {
@@ -165,10 +183,12 @@ const TestSet = ({
     });
   };
 
-  const [expandTree, expandIds] = React.useMemo<[IExpandTree[], Array<{id: number; key: string; pKey: string}>]>(() => {
+  const [expandTree, expandIds] = React.useMemo<
+    [IExpandTree[], Array<{ id: number; key: string; pKey: string }>]
+  >(() => {
     const result: IExpandTree[] = [];
     // 展开节点ID，需去重，防止一个节点请求多次
-    const temp: Array<{id: number; key: string; pKey: string}> = [];
+    const temp: Array<{ id: number; key: string; pKey: string }> = [];
     // 最深层级路径
     const deepestPath: string[] = [];
     const keys = [...expandedKeys];
@@ -198,7 +218,9 @@ const TestSet = ({
     // 最深层级转换为tree
     const tree = expandKeys2tree(deepestPath);
     // 合并tree
-    tree.forEach((child) => { mergeTree(result, child); });
+    tree.forEach((child) => {
+      mergeTree(result, child);
+    });
     return [result, uniqBy(temp, 'id')];
   }, [expandedKeys]);
 
@@ -208,9 +230,17 @@ const TestSet = ({
     } else {
       let newActiveKey = rootKey;
       let tempIndex = 0;
-      const promiseArr: Array<PromiseLike<{testSetID: number; key: string;pKey: string; list: TEST_SET.TestSet[]}>> = [];
+      const promiseArr: Array<PromiseLike<{ testSetID: number; key: string; pKey: string; list: TEST_SET.TestSet[] }>> =
+        [];
       expandIds.forEach(({ id, key, pKey }) => {
-        promiseArr.push(getTestSetChildren({ testPlanID, recycled: false, parentID: id, mode }).then((res) => ({ testSetID: id, key, pKey, list: res || [] })));
+        promiseArr.push(
+          getTestSetChildren({ testPlanID, recycled: false, parentID: id, mode }).then((res) => ({
+            testSetID: id,
+            key,
+            pKey,
+            list: res || [],
+          })),
+        );
       });
       // 请求所有展开的节点
       Promise.all(promiseArr).then((data) => {
@@ -263,7 +293,7 @@ const TestSet = ({
       // onSelect([rootKey]);
       firstBuild.current = false;
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [treeData, query.caseId, query.eventKey]);
 
   useEffect(() => {
@@ -271,11 +301,18 @@ const TestSet = ({
       onAddNode(rootKey);
       clearActiveOuter();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeOuter]);
 
   useEffect(() => {
-    const normalNodes: TEST_SET.TestSetNode[] = currentTestSet.map(({ id, name, recycled, parentID }: any) => ({ title: name, key: `${rootKey}-${id}`, id, recycled, parentID, isLeaf: false }));
+    const normalNodes: TEST_SET.TestSetNode[] = currentTestSet.map(({ id, name, recycled, parentID }: any) => ({
+      title: name,
+      key: `${rootKey}-${id}`,
+      id,
+      recycled,
+      parentID,
+      isLeaf: false,
+    }));
     const nextActiveKey = firstBuild.current && query.eventKey && needActiveKey ? query.eventKey : rootKey;
     setActiveKey(nextActiveKey);
     setExpandedKeys([rootKey]);
@@ -300,7 +337,7 @@ const TestSet = ({
         testPlanID,
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTestSet, projectInfo]);
   useEffect(() => {
     const expandId: string[] = (query.eventKey || '').split('-');
@@ -328,79 +365,77 @@ const TestSet = ({
         loadTreeNode(eventKeys.splice(1), isInRecycleBin);
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [treeData, query.caseId, query.eventKey, mode, query.testSetID, getCases, testPlanID]);
 
   // 复制/移动/引入测试集
   useEffect(() => {
     if (!isEmpty(reloadTestSetInfo)) {
       const { isMove, reloadParent, parentID, testSetID } = reloadTestSetInfo;
-      const currentNode = getNodeById({ treeData, id: testSetID as number, recycled: false }) || {} as TEST_SET.TestSetNode;
+      const currentNode =
+        getNodeById({ treeData, id: testSetID as number, recycled: false }) || ({} as TEST_SET.TestSetNode);
       let parentNode = null;
-      if (reloadParent && currentNode) { // 当前节点的父级是否存在
+      if (reloadParent && currentNode) {
+        // 当前节点的父级是否存在
         parentNode = getNodeById({ treeData, id: currentNode.parentID, recycled: false });
-      } else if (parentID || parentID === 0) { // 传入的父级是否存在
+      } else if (parentID || parentID === 0) {
+        // 传入的父级是否存在
         parentNode = getNodeById({ treeData, id: parentID, recycled: false });
       }
-      if (reloadParent && !parentNode) { // 那就根节点, 因为添加层级较深的测试集节点时parentId存在但parentNode不存在，见#139377
+      if (reloadParent && !parentNode) {
+        // 那就根节点, 因为添加层级较深的测试集节点时parentId存在但parentNode不存在，见#139377
         parentNode = getNodeById({ treeData, id: 0, recycled: false });
       }
-      if (parentNode) { // 目标节点存在，则更新
+      if (parentNode) {
+        // 目标节点存在，则更新
         fetchData(parentNode.id, parentNode.key, parentNode.recycled);
         emptyReloadTestSet();
       }
-      if (isMove && currentNode) { // 移动后,需要清空发起节点
+      if (isMove && currentNode) {
+        // 移动后,需要清空发起节点
         onRemoveNode(currentNode.key);
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reloadTestSetInfo]);
 
-  const renderTreeNodes = (data: any[]) => data.map((item) => {
-    const isRootNode = item.key === rootKey;
-    const titleProps = {
-      name: item.title,
-      readOnly,
-      id: item.id,
-      editMode,
-      className: isRootNode ? 'root-tree-node' : '',
-      recycled: item.recycled,
-      eventKey: item.key,
-      copyOrClipKey,
-      customActions,
-      onOperateNode,
-      onUpdateNode,
-      onRemoveNode,
-    };
-    const icon = <CustomIcon type={item.iconType || 'wjj1'} className={item.iconClass || (!isRootNode && item.recycled ? 'color-danger' : 'color-yellow')} />;
-    const className = classnames({
-      active: activeKey === item.key,
-      copy: copyOrClipKey === item.key && editMode === 'copy',
-      clip: copyOrClipKey === item.key && editMode === 'clip',
-    });
-    if (!isEmpty(item.children)) {
-      return (
-        <TreeNode
-          key={item.key}
-          className={className}
-          icon={icon}
-          title={<Title {...titleProps} />}
-          dataRef={item}
-        >
-          {renderTreeNodes(item.children)}
-        </TreeNode>
+  const renderTreeNodes = (data: any[]) =>
+    data.map((item) => {
+      const isRootNode = item.key === rootKey;
+      const titleProps = {
+        name: item.title,
+        readOnly,
+        id: item.id,
+        editMode,
+        className: isRootNode ? 'root-tree-node' : '',
+        recycled: item.recycled,
+        eventKey: item.key,
+        copyOrClipKey,
+        customActions,
+        onOperateNode,
+        onUpdateNode,
+        onRemoveNode,
+      };
+      const icon = (
+        <CustomIcon
+          type={item.iconType || 'wjj1'}
+          className={item.iconClass || (!isRootNode && item.recycled ? 'color-danger' : 'color-yellow')}
+        />
       );
-    }
-    return (
-      <TreeNode
-        {...item}
-        title={<Title {...titleProps} />}
-        className={className}
-        icon={icon}
-        dataRef={item}
-      />
-    );
-  });
+      const className = classnames({
+        active: activeKey === item.key,
+        copy: copyOrClipKey === item.key && editMode === 'copy',
+        clip: copyOrClipKey === item.key && editMode === 'clip',
+      });
+      if (!isEmpty(item.children)) {
+        return (
+          <TreeNode key={item.key} className={className} icon={icon} title={<Title {...titleProps} />} dataRef={item}>
+            {renderTreeNodes(item.children)}
+          </TreeNode>
+        );
+      }
+      return <TreeNode {...item} title={<Title {...titleProps} />} className={className} icon={icon} dataRef={item} />;
+    });
 
   const getChildrenById = (id: number, parentKey: string, isRecycled = false) => {
     return getTestSetChildren({
@@ -408,26 +443,33 @@ const TestSet = ({
       recycled: isRecycled,
       parentID: id,
       mode,
-    }).then((children) => (children || []).map(({ id: childId, name, recycled, parentID }) => ({
-      id: childId,
-      title: name,
-      key: `${parentKey}-${childId}`,
-      isLeaf: false,
-      recycled,
-      parentID,
-      children: [],
-    })));
+    }).then((children) =>
+      (children || []).map(({ id: childId, name, recycled, parentID }) => ({
+        id: childId,
+        title: name,
+        key: `${parentKey}-${childId}`,
+        isLeaf: false,
+        recycled,
+        parentID,
+        children: [],
+      })),
+    );
   };
 
   // 加载数据
   const fetchData = (id: number | string, eventKey: string, recycled = false) => {
     const isRoot = id === rootId;
-    const newId = id === recycledId ? 0 : id as number;
+    const newId = id === recycledId ? 0 : (id as number);
     return getChildrenById(newId, eventKey, recycled).then((pureChildren: any) => {
-      const children = map(pureChildren, (single) => { // 依旧保留原有子级
+      const children = map(pureChildren, (single) => {
+        // 依旧保留原有子级
         const existNode = getNodeByPath({ treeData, eventKey: single.key });
         if (existNode) {
-          return { ...single, parentID: newId === 0 && recycled ? recycledId : single.parentID, children: existNode.children };
+          return {
+            ...single,
+            parentID: newId === 0 && recycled ? recycledId : single.parentID,
+            children: existNode.children,
+          };
         } else {
           return { ...single, parentID: newId === 0 && recycled ? recycledId : single.parentID };
         }
@@ -459,7 +501,13 @@ const TestSet = ({
   // 新建测试集
   const onAddNode = (eventKey: string) => {
     const parent = getNodeByPath({ treeData, eventKey });
-    const newId: number = max(map(filter(parent.children, ({ id }) => includes(id, TEMP_MARK)), ({ id }) => parseInt(id.substring(3, id.length), 10))) as number || 0;
+    const newId: number =
+      (max(
+        map(
+          filter(parent.children, ({ id }) => includes(id, TEMP_MARK)),
+          ({ id }) => parseInt(id.substring(3, id.length), 10),
+        ),
+      ) as number) || 0;
     const idPrefix = `${TEMP_MARK}${newId + 1}`;
     const tempNode = {
       title: i18n.t('project:new test set'),
@@ -469,19 +517,14 @@ const TestSet = ({
       parentID: parent.id,
       isLeaf: false,
     };
-    if (includes(expandedKeys, eventKey)) { // 展开过
-      parent.children = [
-        tempNode,
-        ...(parent.children || []),
-      ];
+    if (includes(expandedKeys, eventKey)) {
+      // 展开过
+      parent.children = [tempNode, ...(parent.children || [])];
       setTreeData([...treeData]);
       return;
     }
     getChildrenById(parent.id, parent.key).then((children: any) => {
-      parent.children = [
-        tempNode,
-        ...(children || []),
-      ];
+      parent.children = [tempNode, ...(children || [])];
       setExpandedKeys([eventKey, ...expandedKeys]);
     });
   };
@@ -500,7 +543,11 @@ const TestSet = ({
         setEditMode(TestOperation.clip);
         break;
       case TestOperation.paste:
-        subSubmitTreeCollection({ parentID: getEventKeyId(eventKey), action: editMode, testSetID: getEventKeyId(copyOrClipKey) });
+        subSubmitTreeCollection({
+          parentID: getEventKeyId(eventKey),
+          action: editMode,
+          testSetID: getEventKeyId(copyOrClipKey),
+        });
         setCopyOrClipKey('');
         setEditMode('');
         break;
@@ -525,7 +572,8 @@ const TestSet = ({
     remove(parent.children, ({ key }) => key === eventKey);
     parent.children = [...parent.children];
     setTreeData([...treeData]);
-    if (parent) { // 节点移动/还原/删除/彻底删除时，选中父级节点，以解决面包屑/用例列表的更新问题
+    if (parent) {
+      // 节点移动/还原/删除/彻底删除时，选中父级节点，以解决面包屑/用例列表的更新问题
       onSelect([parent.key]);
     }
   };
@@ -552,7 +600,8 @@ const TestSet = ({
   const onRecoverFromRecycled = (eventKey: string, { recoverToTestSetID }: TEST_SET.RecoverQuery) => {
     // 获取恢复至的节点
     const targetNode = getNodeById({ treeData, id: recoverToTestSetID, recycled: false }) as TEST_SET.TestSetNode;
-    if (isEmpty(targetNode) || !includes(expandedKeys, targetNode.key)) { // 如果父级没有展示出来，或者没有展开过，那么此时无需更新父级节点
+    if (isEmpty(targetNode) || !includes(expandedKeys, targetNode.key)) {
+      // 如果父级没有展示出来，或者没有展开过，那么此时无需更新父级节点
       onRemoveNode(eventKey);
       return;
     }
@@ -584,9 +633,10 @@ const TestSet = ({
 
     const isRecycledNode = eventKey === recycledKey;
     const current = getNodeByPath({ treeData, eventKey }) as TEST_SET.TestSetNode;
-    const recycled = current && current.recycled as boolean;
+    const recycled = current && (current.recycled as boolean);
     const testSetID = (isRecycledNode ? 0 : current && current.id) || rootId;
-    if (oldOnSelect) { // 复制、移动时，弹框的选中
+    if (oldOnSelect) {
+      // 复制、移动时，弹框的选中
       if (eventKey) {
         oldOnSelect({ testSetID, parentID: current.parentID, recycled });
       } else {
@@ -603,12 +653,16 @@ const TestSet = ({
     }
     const list = eventKey.split('-');
     let pathName = '';
-    reduce(list, (oldKey: string, tempKey: string) => {
-      const newKey = oldKey ? `${oldKey}-${tempKey}` : tempKey;
-      const currentTitle = getNodeByPath({ treeData, eventKey: newKey, valueKey: 'title' });
-      pathName += pathName ? `/${currentTitle}` : currentTitle;
-      return newKey;
-    }, '');
+    reduce(
+      list,
+      (oldKey: string, tempKey: string) => {
+        const newKey = oldKey ? `${oldKey}-${tempKey}` : tempKey;
+        const currentTitle = getNodeByPath({ treeData, eventKey: newKey, valueKey: 'title' });
+        pathName += pathName ? `/${currentTitle}` : currentTitle;
+        return newKey;
+      },
+      '',
+    );
     // 新建case时用到
     updateBreadcrumb({
       pathName,
@@ -640,4 +694,6 @@ const TestSet = ({
   );
 };
 
-export default React.forwardRef((props: Omit<IProps, 'testSetRef'>, ref) => { return (<TestSet {...props} testSetRef={ref} />); });
+export default React.forwardRef((props: Omit<IProps, 'testSetRef'>, ref) => {
+  return <TestSet {...props} testSetRef={ref} />;
+});

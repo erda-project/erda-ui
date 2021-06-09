@@ -39,7 +39,7 @@ export default ({ value, onChange }: IProps) => {
         setList(sortBy(uniqBy([...list, ...nextList], 'value'), 'value'));
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   const _getRequirements = ({ q: title, ...rest }: any) => {
@@ -70,12 +70,20 @@ export default ({ value, onChange }: IProps) => {
       }}
       allowClear
       valueItemRender={(item) => {
-        return item.label || get(find(list, (single) => String(single.value) === String(item.value)), 'label');
+        return (
+          item.label ||
+          get(
+            find(list, (single) => String(single.value) === String(item.value)),
+            'label',
+          )
+        );
       }}
       dataFormatter={({ list: originList, total }) => ({
         total,
         list: map(originList, ({ title, id: singleId, ..._rest }) => ({
-          ..._rest, label: title, value: singleId,
+          ..._rest,
+          label: title,
+          value: singleId,
         })),
       })}
     />

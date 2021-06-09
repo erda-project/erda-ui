@@ -34,12 +34,15 @@ export const getTitleRender = (cItem: CP_TABLE.Column) => {
     );
   }
   switch (cItem.titleRenderType) {
-    case 'gantt': {
-      let totalDay = 0;
-      map(cItem.data, ({ date }) => { totalDay += date.length; });
-      res.title = <GantteTitle dateRange={cItem.data} />;
-      res.width = cItem?.width || totalDay * 50 || 400;
-    }
+    case 'gantt':
+      {
+        let totalDay = 0;
+        map(cItem.data, ({ date }) => {
+          totalDay += date.length;
+        });
+        res.title = <GantteTitle dateRange={cItem.data} />;
+        res.width = cItem?.width || totalDay * 50 || 400;
+      }
       break;
     default:
       break;
@@ -47,29 +50,31 @@ export const getTitleRender = (cItem: CP_TABLE.Column) => {
   return res;
 };
 
-
 const DAY_WIDTH = 32;
 export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
   let Comp = val;
   switch (get(val, 'renderType')) {
-    case 'linkText': {
-      const { operations } = val;
-      const _p = {} as any;
-      if (operations?.click || extra.customProps?.clickTableItem) {
-        _p.onClick = (e: any) => {
-          e.stopPropagation();
-          operations?.click && extra.execOperation(operations.click);
-          extra.customProps?.clickTableItem && extra.customProps.clickTableItem(record);
-        };
+    case 'linkText':
+      {
+        const { operations } = val;
+        const _p = {} as any;
+        if (operations?.click || extra.customProps?.clickTableItem) {
+          _p.onClick = (e: any) => {
+            e.stopPropagation();
+            operations?.click && extra.execOperation(operations.click);
+            extra.customProps?.clickTableItem && extra.customProps.clickTableItem(record);
+          };
+        }
+        Comp = (
+          <Tooltip title={val.value}>
+            <span className="fake-link nowrap" {..._p}>
+              {val.value}
+            </span>
+          </Tooltip>
+        );
       }
-      Comp = (
-        <Tooltip title={val.value}>
-          <span className="fake-link nowrap" {..._p}>{val.value}</span>
-        </Tooltip>
-      );
-    }
       break;
-    case 'textWithTags':// 文本后带tag的样式渲染
+    case 'textWithTags': // 文本后带tag的样式渲染
       {
         const { value, prefixIcon, tags, operations = {} } = val;
         const hasPointer = operations?.click || extra.customProps?.clickTableItem;
@@ -82,21 +87,26 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
             {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
             <div className="twt-text">
               <div className="nowrap">{value}</div>
-              <TagsColumn labels={tags.map((l) => ({ label: l.tag, color: l.color }))} showCount={2} containerClassName="ml8" />
+              <TagsColumn
+                labels={tags.map((l) => ({ label: l.tag, color: l.color }))}
+                showCount={2}
+                containerClassName="ml8"
+              />
             </div>
           </div>
         );
       }
       break;
-    case 'textWithIcon': {
-      const { value, prefixIcon, colorClassName, hoverActive = '' } = val;
-      Comp = (
-        <div className={`${hoverActive} v-align`}>
-          {prefixIcon ? <CustomIcon type={prefixIcon} className={`mr4 ${colorClassName}`} /> : null}
-          <Ellipsis title={value}>{value}</Ellipsis>
-        </div>
-      );
-    }
+    case 'textWithIcon':
+      {
+        const { value, prefixIcon, colorClassName, hoverActive = '' } = val;
+        Comp = (
+          <div className={`${hoverActive} v-align`}>
+            {prefixIcon ? <CustomIcon type={prefixIcon} className={`mr4 ${colorClassName}`} /> : null}
+            <Ellipsis title={value}>{value}</Ellipsis>
+          </div>
+        );
+      }
       break;
     case 'operationsDropdownMenu': // 下拉菜单的操作：可编辑列
       Comp = <DropdownSelector {...val} {...extra} />;
@@ -120,7 +130,8 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
                       extra.customProps.clickTableItem(item);
                     }
                   }}
-                >{item.text}
+                >
+                  {item.text}
                 </div>
               </Tooltip>
             );
@@ -128,36 +139,42 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         </>
       );
       break;
-    case 'userAvatar': {
-      const curUsers = [];
-      if (isArray(val.value)) {
-        val.value.forEach((vItem: any) => {
-          curUsers.push(get(extra, `userMap.${vItem}`) || {});
-        });
-      } else {
-        curUsers.push(get(extra, `userMap.${val.value}`) || {});
-      }
-      if (val.showIcon === false) {
-        Comp = map(curUsers, (item) => item.nick || item.name || item.id || i18n.t('common:empty')).join(', ');
-      } else {
-        Comp = (
-          <div>
-            {
-              map(curUsers, (cU, idx) => {
+    case 'userAvatar':
+      {
+        const curUsers = [];
+        if (isArray(val.value)) {
+          val.value.forEach((vItem: any) => {
+            curUsers.push(get(extra, `userMap.${vItem}`) || {});
+          });
+        } else {
+          curUsers.push(get(extra, `userMap.${val.value}`) || {});
+        }
+        if (val.showIcon === false) {
+          Comp = map(curUsers, (item) => item.nick || item.name || item.id || i18n.t('common:empty')).join(', ');
+        } else {
+          Comp = (
+            <div>
+              {map(curUsers, (cU, idx) => {
                 return (
                   <span key={idx}>
-                    {val.showIcon === false ? null : <ImgHolder src={cU.avatar} text={cU.nick ? cU.nick.substring(0, 1) : i18n.t('empty')} rect="20x20" type="avatar" />}
+                    {val.showIcon === false ? null : (
+                      <ImgHolder
+                        src={cU.avatar}
+                        text={cU.nick ? cU.nick.substring(0, 1) : i18n.t('empty')}
+                        rect="20x20"
+                        type="avatar"
+                      />
+                    )}
                     <span className="ml2 mr4" title={cU.name}>
                       {cU.nick || cU.name || val.value || i18n.t('common:empty')}
                     </span>
                   </span>
                 );
-              })
-            }
-          </div>
-        );
+              })}
+            </div>
+          );
+        }
       }
-    }
       break;
     case 'memberSelector':
       Comp = (
@@ -181,97 +198,96 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
     case 'gantt':
       Comp = (
         <div className="dice-config-table-slide-wrap">
-          {
-            map(val.value, ({ restTime, offset, tooltip, delay, actualTime, tooltipPosition = 'leftTop' }, idx) => (
-              <Tooltip title={tooltip} placement={tooltipPosition} key={idx}>
-                <div
-                  className="dice-config-table-slide-wrap-item"
-                  style={{
-                    transform: `translate(${offset * DAY_WIDTH}px, 0)`,
-                  }}
-                >
-                  <div
-                    className="slide-actual-time"
-                    style={{ width: `${actualTime * DAY_WIDTH}px` }}
-                  />
-                  <div
-                    className="slide-rest-time"
-                    style={{ width: `${restTime * DAY_WIDTH}px` }}
-                  />
-                  <div
-                    className="slide-delay-time"
-                    style={{ width: `${delay * DAY_WIDTH}px` }}
-                  />
-                </div>
-              </Tooltip>
-            ))
-          }
+          {map(val.value, ({ restTime, offset, tooltip, delay, actualTime, tooltipPosition = 'leftTop' }, idx) => (
+            <Tooltip title={tooltip} placement={tooltipPosition} key={idx}>
+              <div
+                className="dice-config-table-slide-wrap-item"
+                style={{
+                  transform: `translate(${offset * DAY_WIDTH}px, 0)`,
+                }}
+              >
+                <div className="slide-actual-time" style={{ width: `${actualTime * DAY_WIDTH}px` }} />
+                <div className="slide-rest-time" style={{ width: `${restTime * DAY_WIDTH}px` }} />
+                <div className="slide-delay-time" style={{ width: `${delay * DAY_WIDTH}px` }} />
+              </div>
+            </Tooltip>
+          ))}
         </div>
       );
       break;
-    case 'datePicker': {
-      const { displayTip } = val; // 带展示tip的
-      const DisplayTipComp = displayTip ? (
-        <span className={`date-picker-display-tip color-${displayTip.color} `}>{displayTip.text}</span>
-      ) : null;
-      // const DateUpdateComp = (
-      //   <DatePicker
-      //     className={'full-width date-picker '}
-      //     allowClear={false}
-      //     dropdownClassName={`dc-table-date-picker result-${val.textAlign || 'left'}`}
-      //     value={val.value ? moment(val.value) : undefined}
-      //     placeholder={i18n.t('unset')}
-      //     onChange={(v) => extra.execOperation(val?.operations?.onChange, v)}
-      //     format="YYYY-MM-DD"
-      //     disabledDate={getDisabledDate(val)}
-      //     showTime={false}
-      //     disabled={val?.disabled}
-      //   />
-      // );
-      // Comp = (
-      //   <div className={`dice-config-table-date-picker ${DisplayTipComp ? 'with-display-tip' : ''} `}>
-      //     {/* {DateUpdateComp} */}
-      //     {/* {DisplayTipComp} */}
-      //   </div>
-      // );
-      Comp = val.value ? moment(val.value).format('YYYY-MM-DD') : '';
-    }
+    case 'datePicker':
+      {
+        const { displayTip } = val; // 带展示tip的
+        const DisplayTipComp = displayTip ? (
+          <span className={`date-picker-display-tip color-${displayTip.color} `}>{displayTip.text}</span>
+        ) : null;
+        // const DateUpdateComp = (
+        //   <DatePicker
+        //     className={'full-width date-picker '}
+        //     allowClear={false}
+        //     dropdownClassName={`dc-table-date-picker result-${val.textAlign || 'left'}`}
+        //     value={val.value ? moment(val.value) : undefined}
+        //     placeholder={i18n.t('unset')}
+        //     onChange={(v) => extra.execOperation(val?.operations?.onChange, v)}
+        //     format="YYYY-MM-DD"
+        //     disabledDate={getDisabledDate(val)}
+        //     showTime={false}
+        //     disabled={val?.disabled}
+        //   />
+        // );
+        // Comp = (
+        //   <div className={`dice-config-table-date-picker ${DisplayTipComp ? 'with-display-tip' : ''} `}>
+        //     {/* {DateUpdateComp} */}
+        //     {/* {DisplayTipComp} */}
+        //   </div>
+        // );
+        Comp = val.value ? moment(val.value).format('YYYY-MM-DD') : '';
+      }
       break;
-    case 'textWithExtraTag': {
-      const { text, prefix, suffix } = val;
-      Comp = (
-        <div className="dice-cp-text-tag full-width pl8 v-align">
-          {prefix ? <div className="extra-tags px8 mr4" style={{ backgroundColor: prefix.bgColor }}>{prefix.text}</div> : null}
-          <div className="nowrap">{text}</div>
-          {suffix ? <div className="extra-tags px8 mr4" style={{ backgroundColor: suffix.bgColor }}>{suffix.text}</div> : null}
-        </div>
-      );
-    }
+    case 'textWithExtraTag':
+      {
+        const { text, prefix, suffix } = val;
+        Comp = (
+          <div className="dice-cp-text-tag full-width pl8 v-align">
+            {prefix ? (
+              <div className="extra-tags px8 mr4" style={{ backgroundColor: prefix.bgColor }}>
+                {prefix.text}
+              </div>
+            ) : null}
+            <div className="nowrap">{text}</div>
+            {suffix ? (
+              <div className="extra-tags px8 mr4" style={{ backgroundColor: suffix.bgColor }}>
+                {suffix.text}
+              </div>
+            ) : null}
+          </div>
+        );
+      }
       break;
     case 'textWithBadge':
       Comp = val.status ? <Badge status={val.status || 'default'} text={val.value} /> : val.value;
       break;
-    case 'textWithLevel': {
-      const { data = [] } = val;
-      Comp = (
-        <div className="dice-cp-level-content full-width pl8 v-align">
-          {
-            data.map(({ level, text }: { level: number; text: string }) => {
+    case 'textWithLevel':
+      {
+        const { data = [] } = val;
+        Comp = (
+          <div className="dice-cp-level-content full-width pl8 v-align">
+            {data.map(({ level, text }: { level: number; text: string }) => {
               return <div className={`mr4 level-${level}-content`}>{text}</div>;
-            })
-          }
-        </div>
-      );
-    }
+            })}
+          </div>
+        );
+      }
       break;
-    case 'copyText': {
-      const value: CP_TEXT.ICopyText = val?.value;
-      const textProps = {
-        renderType: 'copyText' as CP_TEXT.IRenderType,
-        value,
-      };
-      Comp = <Text type="Text" props={textProps} />;
-    }
+    case 'copyText':
+      {
+        const value: CP_TEXT.ICopyText = val?.value;
+        const textProps = {
+          renderType: 'copyText' as CP_TEXT.IRenderType,
+          value,
+        };
+        Comp = <Text type="Text" props={textProps} />;
+      }
       break;
     default:
       Comp = <Ellipsis title={`${val}`}>{`${val}`}</Ellipsis>;
@@ -286,7 +302,9 @@ const memberSelectorValueItem = (user: any) => {
   return (
     <div className="v-align dice-config-table-member-field-selector">
       {/* <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('empty')} rect={'20x20'} type="avatar" /> */}
-      <span className={'ml4 fz14 nowrap'} title={name}>{displayName}</span>
+      <span className={'ml4 fz14 nowrap'} title={name}>
+        {displayName}
+      </span>
       <CustomIcon className="arrow-icon" type="di" />
     </div>
   );
@@ -314,7 +332,12 @@ const DropdownSelector = (props: IDropdownSelectorProps) => {
     </div>
   );
 
-  if (disabled === true) return <WithAuth pass={false} noAuthTip={disabledTip} >{ValueRender}</WithAuth>;
+  if (disabled === true)
+    return (
+      <WithAuth pass={false} noAuthTip={disabledTip}>
+        {ValueRender}
+      </WithAuth>
+    );
 
   const onClick = (e: any) => {
     e.domEvent.stopPropagation();
@@ -345,11 +368,15 @@ const DropdownSelector = (props: IDropdownSelectorProps) => {
 const getTableOperation = (val: any, record: any, extra: any) => {
   const getTableOperationItem = (op: CP_COMMON.Operation, key: string, _record: any) => {
     const { confirm, disabled, disabledTip, text, ..._rest } = op;
-    if (disabled === true) { // 无权限操作
+    if (disabled === true) {
+      // 无权限操作
       return (
-        <WithAuth noAuthTip={disabledTip} key={key} pass={false} ><span className="table-operations-btn ">{text}</span></WithAuth>
+        <WithAuth noAuthTip={disabledTip} key={key} pass={false}>
+          <span className="table-operations-btn ">{text}</span>
+        </WithAuth>
       );
-    } else if (confirm) { // 需要确认的操作
+    } else if (confirm) {
+      // 需要确认的操作
       return (
         <Popconfirm
           title={confirm}
@@ -360,10 +387,13 @@ const getTableOperation = (val: any, record: any, extra: any) => {
           key={key}
           onCancel={(e: any) => e && e.stopPropagation()}
         >
-          <span className="table-operations-btn" onClick={(e: any) => e.stopPropagation()}>{text}</span>
+          <span className="table-operations-btn" onClick={(e: any) => e.stopPropagation()}>
+            {text}
+          </span>
         </Popconfirm>
       );
-    } else { // 普通的操作
+    } else {
+      // 普通的操作
       return (
         <span
           className="table-operations-btn"
@@ -375,17 +405,21 @@ const getTableOperation = (val: any, record: any, extra: any) => {
             if (customFunc) {
               customFunc(op);
             }
-          }
-          }
-        >{text}
+          }}
+        >
+          {text}
         </span>
       );
     }
   };
 
   const operationList = [] as any[];
-  if (val.operations) { // 根据配置的operations展示
-    const ops = sortBy(filter(map(val.operations) || [], (item: CP_COMMON.Operation) => item.show !== false), 'showIndex');
+  if (val.operations) {
+    // 根据配置的operations展示
+    const ops = sortBy(
+      filter(map(val.operations) || [], (item: CP_COMMON.Operation) => item.show !== false),
+      'showIndex',
+    );
 
     map(ops, (item: CP_COMMON.Operation) => {
       if (item) {
@@ -398,13 +432,8 @@ const getTableOperation = (val: any, record: any, extra: any) => {
   //     operationList.push(getTableOperationItem(op, key, record));
   //   });
   // }
-  return (
-    <div className="table-operations">
-      {operationList}
-    </div>
-  );
+  return <div className="table-operations">{operationList}</div>;
 };
-
 
 interface IGantteTitle {
   dateRange: Array<{ month: number; date: string[] }>;
@@ -414,30 +443,27 @@ const GantteTitle = ({ dateRange }: IGantteTitle) => {
     return <div style={{ height: '40px', lineHeight: '40px', textAlign: 'center' }}>{i18n.t('default:date')}</div>;
   }
   return (
-    <div className="gantt-date-title" >
+    <div className="gantt-date-title">
       <div className="month-list">
-        {
-          map(dateRange, ({ month, date }, idx) => {
-            return (
-              <div className="date-range" style={{ width: `${date.length * DAY_WIDTH}px` }} key={idx}>
-                <div key={month} className="month">
-                  {month}{i18n.t('month')}
-                </div>
-                <div>
-                  {
-                    date.map((day) => {
-                      return (
-                        <span key={day} className={'day'}>
-                          <span>{day}</span>
-                        </span>
-                      );
-                    })
-                  }
-                </div>
+        {map(dateRange, ({ month, date }, idx) => {
+          return (
+            <div className="date-range" style={{ width: `${date.length * DAY_WIDTH}px` }} key={idx}>
+              <div key={month} className="month">
+                {month}
+                {i18n.t('month')}
               </div>
-            );
-          })
-        }
+              <div>
+                {date.map((day) => {
+                  return (
+                    <span key={day} className={'day'}>
+                      <span>{day}</span>
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -460,10 +486,7 @@ const getTitleTip = (tip: string | string[]) => {
         _s = _s.replaceAll(v[1], '</span>');
       }
     });
-    tipComp.push((
-      <div key={idx} dangerouslySetInnerHTML={{ __html: _s }} />
-    ));
+    tipComp.push(<div key={idx} dangerouslySetInnerHTML={{ __html: _s }} />);
   });
   return tipComp;
 };
-

@@ -14,10 +14,7 @@
 import { createStore } from 'app/cube';
 import { map, isFunction } from 'lodash';
 import routeInfoStore from 'app/common/stores/route';
-import {
-  getMetaGroups,
-  getMetaData,
-} from '../services/monitor-common-metadata';
+import { getMetaGroups, getMetaData } from '../services/monitor-common-metadata';
 
 export interface IState {
   metaGroups: any[];
@@ -35,7 +32,11 @@ export enum MonitorMetaDataMode {
   ANALYSIS = 'analysis',
 }
 
-export const createMonitorMetaDataStore = (scope: MonitorMetaDataScope, mode: MonitorMetaDataMode, scopeId?: string | (() => string)) => {
+export const createMonitorMetaDataStore = (
+  scope: MonitorMetaDataScope,
+  mode: MonitorMetaDataMode,
+  scopeId?: string | (() => string),
+) => {
   const initState: IState = {
     metaGroups: [],
     metaConstantMap: { types: {}, filters: [] } as MONITOR_COMMON_METADATA.MetaConstantMap,
@@ -82,13 +83,14 @@ export const createMonitorMetaDataStore = (scope: MonitorMetaDataScope, mode: Mo
     },
     reducers: {
       convertGroups(state, groups: any[]) {
-        const convertGroups: any = (data: any[]) => map(data, ({ id, name, children }) => {
-          if (children) {
-            return { value: id, label: name, children: convertGroups(children) };
-          } else {
-            return { value: id, label: name };
-          }
-        });
+        const convertGroups: any = (data: any[]) =>
+          map(data, ({ id, name, children }) => {
+            if (children) {
+              return { value: id, label: name, children: convertGroups(children) };
+            } else {
+              return { value: id, label: name };
+            }
+          });
         state.metaGroups = convertGroups(groups);
       },
     },

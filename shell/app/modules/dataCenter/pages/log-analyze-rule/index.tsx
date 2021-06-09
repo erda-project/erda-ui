@@ -53,7 +53,14 @@ export default () => {
       dataIndex: 'id',
       render: (_, record: LOG_ANALYZE.RuleListItem) => (
         <div className="table-operations">
-          <a className="table-operations-btn" onClick={() => { goTo(`./${record.id}`); }}>{i18n.t('edit')}</a>
+          <a
+            className="table-operations-btn"
+            onClick={() => {
+              goTo(`./${record.id}`);
+            }}
+          >
+            {i18n.t('edit')}
+          </a>
           <Popconfirm title={`${i18n.t('common:confirm deletion')}?`} onConfirm={() => deleteRule(record.id)}>
             <span className="table-operations-btn">{i18n.t('delete')}</span>
           </Popconfirm>
@@ -71,14 +78,11 @@ export default () => {
   return (
     <div className="log-analyze-rule">
       <div className="top-button-group">
-        <Button type="primary" onClick={() => goTo('./add')}>{i18n.t('org:create analyze rule')}</Button>
+        <Button type="primary" onClick={() => goTo('./add')}>
+          {i18n.t('org:create analyze rule')}
+        </Button>
       </div>
-      <Table
-        tableKey="log-query-message"
-        rowKey="id"
-        dataSource={rules}
-        columns={columns}
-      />
+      <Table tableKey="log-query-message" rowKey="id" dataSource={rules} columns={columns} />
     </div>
   );
 };

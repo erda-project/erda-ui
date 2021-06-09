@@ -66,9 +66,20 @@ class SectionInfoEdit extends React.Component<IProps, IState> {
     const readonlyView: JSX.Element[] = [];
     const fList = typeof fieldsList === 'function' ? fieldsList() : fieldsList;
     forEach(fList, (item, index) => {
-      const { itemProps, label, name, viewType, customRender, getComp, showInfo, type, options = [], hideWhenReadonly } = item;
+      const {
+        itemProps,
+        label,
+        name,
+        viewType,
+        customRender,
+        getComp,
+        showInfo,
+        type,
+        options = [],
+        hideWhenReadonly,
+      } = item;
       if (!hideWhenReadonly && !(itemProps && itemProps.type === 'hidden' && !showInfo)) {
-        let value = (name === undefined && getComp) ? getComp() : get(data, name || '');
+        let value = name === undefined && getComp ? getComp() : get(data, name || '');
         if (type === 'radioGroup' && !isFunction(options)) {
           value = ((options as any[]).find((option) => option.value === value) || {}).name;
         }
@@ -120,12 +131,18 @@ class SectionInfoEdit extends React.Component<IProps, IState> {
   render() {
     const { modalVisible } = this.state;
     const { data, fieldsList, hasAuth, readonlyForm, name, desc, formName, extraSections } = this.props;
-    let sectionList = [{
-      title: name,
-      desc,
-      titleOperate: hasAuth ? <Button type="primary" ghost onClick={this.toggleModal}>{i18n.t('edit')}</Button> : null,
-      children: readonlyForm || this.getReadonlyInfo(),
-    }];
+    let sectionList = [
+      {
+        title: name,
+        desc,
+        titleOperate: hasAuth ? (
+          <Button type="primary" ghost onClick={this.toggleModal}>
+            {i18n.t('edit')}
+          </Button>
+        ) : null,
+        children: readonlyForm || this.getReadonlyInfo(),
+      },
+    ];
     if (!isEmpty(extraSections)) {
       sectionList = concat(sectionList, extraSections);
     }
@@ -148,4 +165,3 @@ class SectionInfoEdit extends React.Component<IProps, IState> {
 }
 
 export { SectionInfoEdit };
-

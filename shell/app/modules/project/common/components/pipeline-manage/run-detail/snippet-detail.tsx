@@ -20,7 +20,7 @@ import i18n from 'i18n';
 import { ResultView } from './result-view';
 import './snippet-detail.scss';
 
-interface IProps{
+interface IProps {
   pipelineDetail: PIPELINE.IPipelineDetail;
   dataList?: PIPELINE.ITask;
   visible: boolean;
@@ -38,8 +38,7 @@ const SnippetDetail = (props: IProps) => {
   });
 
   const isEmptyExtraInfo = (_data: any) => {
-    if (isEmpty(_data.result) ||
-      (!_data.result.version && !_data.result.metadata && !_data.result.errors)) {
+    if (isEmpty(_data.result) || (!_data.result.version && !_data.result.metadata && !_data.result.errors)) {
       return false;
     }
     return true;
@@ -67,12 +66,15 @@ const SnippetDetail = (props: IProps) => {
       const skip = ['linkRuntime'];
       if (!isEmpty(metadata)) {
         const temp: any[] = [];
-        (metadata || []).forEach((m: any, index: number) => !skip.includes(m.name) &&
-          temp.push(
-            <div key={`meta-${String(index)}`} className="test-case-node-msg">
-              <span className="test-case-node-msg-name">{m.name}</span> {m.value}
-            </div>,
-          ));
+        (metadata || []).forEach(
+          (m: any, index: number) =>
+            !skip.includes(m.name) &&
+            temp.push(
+              <div key={`meta-${String(index)}`} className="test-case-node-msg">
+                <span className="test-case-node-msg-name">{m.name}</span> {m.value}
+              </div>,
+            ),
+        );
         if (temp.length) {
           detailInfo.push(<h4>{i18n.t('application:details')}</h4>);
           detailInfo.push(...temp);
@@ -80,42 +82,50 @@ const SnippetDetail = (props: IProps) => {
       }
       if (!isEmpty(files)) {
         detailInfo.push(<h4 className="mt8">{i18n.t('download')}</h4>);
-        detailInfo.push(files.map((item, idx) => (
-          item.value ? (
-            <div className="table-operations" key={`file-${String(idx)}`}>
-              <a className="table-operations-btn" download={item.value} href={`/api/files/${item.value}`}>
-                {item.name || item.value}
-              </a>
-            </div>
-          ) : null
-        )));
+        detailInfo.push(
+          files.map((item, idx) =>
+            item.value ? (
+              <div className="table-operations" key={`file-${String(idx)}`}>
+                <a className="table-operations-btn" download={item.value} href={`/api/files/${item.value}`}>
+                  {item.name || item.value}
+                </a>
+              </div>
+            ) : null,
+          ),
+        );
       }
       if (!isEmpty(errors)) {
         detailInfo.push(<h4 className="mt8">{i18n.t('application:error')}</h4>);
-        detailInfo.push(errors.map((error, idx) => (
-          <div key={`error-${String(idx)}`} className="test-case-node-msg">
-            <span className="test-case-node-msg-name error">{error.name || 'error'}</span>
-            {error.value || error.msg}
-          </div>
-        )));
+        detailInfo.push(
+          errors.map((error, idx) => (
+            <div key={`error-${String(idx)}`} className="test-case-node-msg">
+              <span className="test-case-node-msg-name error">{error.name || 'error'}</span>
+              {error.value || error.msg}
+            </div>
+          )),
+        );
       }
     }
     return {
       title: (
         <div key={_data.id} className="panel-info">
-          {detailInfo.map((e: any, index: number) => <div key={String(index)}>{e}</div>)}
+          {detailInfo.map((e: any, index: number) => (
+            <div key={String(index)}>{e}</div>
+          ))}
         </div>
       ),
-      overlayStyle: result ? {
-        width: 'auto',
-        maxWidth: '420px',
-        height: 'auto',
-        maxHeight: '520px',
-        minWidth: '200px',
-        padding: '10px',
-        overflow: 'auto',
-        wordBreak: 'break-all',
-      } : null,
+      overlayStyle: result
+        ? {
+            width: 'auto',
+            maxWidth: '420px',
+            height: 'auto',
+            maxHeight: '520px',
+            minWidth: '200px',
+            padding: '10px',
+            overflow: 'auto',
+            wordBreak: 'break-all',
+          }
+        : null,
       placement: 'right',
     };
   };
@@ -151,23 +161,33 @@ const SnippetDetail = (props: IProps) => {
 
   const hasResult = find(get(chosenData, 'result.metadata') || [], { name: 'api_request' });
   return (
-    <Drawer className="auto-test-snippet-drawer" title={i18n.t('detail')} width={'80%'} destroyOnClose onClose={onClose} visible={visible}>
+    <Drawer
+      className="auto-test-snippet-drawer"
+      title={i18n.t('detail')}
+      width={'80%'}
+      destroyOnClose
+      onClose={onClose}
+      visible={visible}
+    >
       <div className="snippet-detail">
         <div className="left">
-          {
-            map(dataList as PIPELINE.ITask[], (data) => {
-              return (
-                <Tooltip key={data.id} {...renderTooltipTitle(data)}>
-                  <div className={`snippet-item nowrap ${data.id === get(chosenData, 'id') ? 'is-active' : ''}`} onClick={() => clickNode(data)}>{data.name}</div>
-                </Tooltip>
-              );
-            })
-          }
+          {map(dataList as PIPELINE.ITask[], (data) => {
+            return (
+              <Tooltip key={data.id} {...renderTooltipTitle(data)}>
+                <div
+                  className={`snippet-item nowrap ${data.id === get(chosenData, 'id') ? 'is-active' : ''}`}
+                  onClick={() => clickNode(data)}
+                >
+                  {data.name}
+                </div>
+              </Tooltip>
+            );
+          })}
         </div>
         <div className="right">
           <Tabs key={get(chosenData, 'id')} activeKey={actKey} onChange={(aK: string) => updater.actKey(aK)}>
             <Tabs.TabPane tab={i18n.t('log')} key="log">
-              {actKey === 'log' && logProps.logId ? <BuildLog withoutDrawer {...logProps} /> : <EmptyHolder relative /> }
+              {actKey === 'log' && logProps.logId ? <BuildLog withoutDrawer {...logProps} /> : <EmptyHolder relative />}
             </Tabs.TabPane>
             <Tabs.TabPane tab={i18n.t('project:execute result')} key="result">
               {hasResult ? <ResultView data={chosenData} /> : <EmptyHolder relative />}

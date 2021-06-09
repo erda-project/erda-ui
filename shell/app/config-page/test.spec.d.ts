@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace CP_TEST {
-  interface Inf { // inf comment
+  interface Inf {
+    // inf comment
     a: number; // prop comment
     b: string;
     c: boolean;
@@ -22,7 +23,7 @@ declare namespace CP_TEST {
   }
   enum en {
     UP = 'UP1', // en type
-    LEFT = 'LEFT2'
+    LEFT = 'LEFT2',
   }
   // line comment
   type Ta = 'a' | 'b'; // type comment

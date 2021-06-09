@@ -136,13 +136,15 @@ export default abstract class Component<State, Props> extends Container<State, P
       const allValue = this.form.getFieldsValue();
       const value = get(allValue, name);
       if (!isEmpty(value)) {
-        const fieldValue = uniq(value.reduce((p: any, c: any) => {
-          const v = c[field];
-          if (v) {
-            p.push(v);
-          }
-          return p;
-        }, []));
+        const fieldValue = uniq(
+          value.reduce((p: any, c: any) => {
+            const v = c[field];
+            if (v) {
+              p.push(v);
+            }
+            return p;
+          }, []),
+        );
         return options.filter(({ value: v }) => {
           return !fieldValue.includes(v);
         });

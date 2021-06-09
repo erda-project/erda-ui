@@ -13,8 +13,5 @@
 
 import routeInfoStore, { listenRoute } from 'core/stores/route';
 
-
-export {
-  listenRoute,
-};
+export { listenRoute };
 export default routeInfoStore;

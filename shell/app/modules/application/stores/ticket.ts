@@ -27,7 +27,8 @@ import i18n from 'i18n';
 import { map } from 'lodash';
 import userStore from 'app/user/stores';
 
-const getUser = (user: ILoginUser) => (user ? (user.nick || user.name || user.email || user.phone || user.id) : i18n.t('application:system'));
+const getUser = (user: ILoginUser) =>
+  user ? user.nick || user.name || user.email || user.phone || user.id : i18n.t('application:system');
 
 interface IState {
   ticketList: TICKET.Ticket[];
@@ -52,15 +53,14 @@ const ticketStore = createStore({
   state: initState,
   effects: {
     async getTicketList({ call, update }, payload: Merge<TICKET.ListQuery, { filters: Obj }>) {
-      const { list = [], total } = await call(
-        getTicketList,
-        payload,
-        { paging: { key: 'paging', listKey: 'tickets' } },
-      );
+      const { list = [], total } = await call(getTicketList, payload, {
+        paging: { key: 'paging', listKey: 'tickets' },
+      });
 
       const userMap = userMapStore.getState((s) => s);
 
-      const ticketList = map(list, (ticket) => { // 在userInfo中获取对应的用户名
+      const ticketList = map(list, (ticket) => {
+        // 在userInfo中获取对应的用户名
         const { creator, lastOperator, ...other } = ticket;
         return {
           ...other,
@@ -123,7 +123,6 @@ const ticketStore = createStore({
       const { ticketId } = getParams();
       await call(reopenTicket, ticketId);
     },
-
   },
   reducers: {
     clearTicketDetail(state) {
@@ -134,6 +133,5 @@ const ticketStore = createStore({
     },
   },
 });
-
 
 export default ticketStore;

@@ -30,7 +30,15 @@ interface IProps {
   mode?: string;
   onChange?: (v: string[]) => void;
 }
-export default ({ value = [], onChange = () => { }, type, mode = 'multiple', placeholder, fullWidth, ...rest }: IProps) => {
+export default ({
+  value = [],
+  onChange = () => {},
+  type,
+  mode = 'multiple',
+  placeholder,
+  fullWidth,
+  ...rest
+}: IProps) => {
   const list = labelStore.useStore((s) => s.list);
   const { getLabels } = labelStore.effects;
   const [loading] = useLoading(labelStore, ['getLabels']);
@@ -52,7 +60,11 @@ export default ({ value = [], onChange = () => { }, type, mode = 'multiple', pla
       onChange={onChange as any}
       {...rest}
     >
-      {map(list, ({ id, name }) => <Option key={id} value={String(id)}>{name}</Option>)}
+      {map(list, ({ id, name }) => (
+        <Option key={id} value={String(id)}>
+          {name}
+        </Option>
+      ))}
     </Select>
   );
 };

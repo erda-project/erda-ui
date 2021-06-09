@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace CP_BREADCRUMB {
-
   interface Spec {
     type: 'Breadcrumb';
     operations: Obj<CP_COMMON.Operation>;
@@ -34,10 +33,9 @@ declare namespace CP_BREADCRUMB {
   interface IMenu {
     key: string;
     item: string;
-
   }
 
-  interface IProps{
+  interface IProps {
     visible?: boolean;
     separator?: string;
   }

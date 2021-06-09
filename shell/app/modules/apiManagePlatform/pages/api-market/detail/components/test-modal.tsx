@@ -25,7 +25,10 @@ import './test-modal.scss';
 
 const defaultSchema = 'https';
 
-interface AutoInfo {clientID: string; clientSecret: string}
+interface AutoInfo {
+  clientID: string;
+  clientSecret: string;
+}
 interface IProps {
   visible: boolean;
   dataSource: {
@@ -66,7 +69,10 @@ const { TabPane } = Tabs;
 
 const TestModal = ({ visible, onCancel, dataSource }: IProps) => {
   const { runAttemptTest } = apiMarketStore.effects;
-  const [assetDetail, assetVersion] = apiMarketStore.useStore((s) => [s.assetVersionDetail.asset, s.assetVersionDetail.version]);
+  const [assetDetail, assetVersion] = apiMarketStore.useStore((s) => [
+    s.assetVersionDetail.asset,
+    s.assetVersionDetail.version,
+  ]);
   const [isRunning] = useLoading(apiMarketStore, ['runAttemptTest']);
   const [{ apis, fullscreen, resTab, resBody, resHeader, schema }, updater, update] = useUpdate<IState>({
     fullscreen: false,
@@ -154,16 +160,18 @@ const TestModal = ({ visible, onCancel, dataSource }: IProps) => {
       clientSecret: dataSource.autoInfo.clientSecret,
       assetID: assetDetail.assetID,
       swaggerVersion: assetVersion.swaggerVersion,
-      apis: [{
-        schema,
-        method: dataSource.method,
-        url,
-        header,
-        params: apis.params,
-        body: { type: bodyType, content: bodyValue },
-      }],
+      apis: [
+        {
+          schema,
+          method: dataSource.method,
+          url,
+          header,
+          params: apis.params,
+          body: { type: bodyType, content: bodyValue },
+        },
+      ],
     }).then(({ response }) => {
-      const headers = map((response.headers || {}), (value, key) => ({ key, value }));
+      const headers = map(response.headers || {}, (value, key) => ({ key, value }));
       let bodyData = '';
       if (response.status !== 200) {
         try {
@@ -217,53 +225,53 @@ const TestModal = ({ visible, onCancel, dataSource }: IProps) => {
         <div className="flex-1">
           <Input.Group compact>
             <Input style={{ width: '10%' }} disabled value={dataSource.method} />
-            <Select style={{ width: '15%' }} defaultValue={defaultSchema} onChange={(v) => { updater.schema(v); }}>
-              <Select.Option key="https" value="https">HTTPS</Select.Option>
-              <Select.Option key="http" value="http">HTTP</Select.Option>
+            <Select
+              style={{ width: '15%' }}
+              defaultValue={defaultSchema}
+              onChange={(v) => {
+                updater.schema(v);
+              }}
+            >
+              <Select.Option key="https" value="https">
+                HTTPS
+              </Select.Option>
+              <Select.Option key="http" value="http">
+                HTTP
+              </Select.Option>
             </Select>
             <Input disabled style={{ width: '75%' }} value={completeUrl} />
           </Input.Group>
         </div>
-        <Button className="ml8" type="primary" loading={isRunning} onClick={handleRunTest}>{i18n.t('execute')}</Button>
+        <Button className="ml8" type="primary" loading={isRunning} onClick={handleRunTest}>
+          {i18n.t('execute')}
+        </Button>
       </div>
       <Tabs className="mb16">
-        {
-          APITabs.map((item) => {
-            const { title, dataIndex, render } = item;
-            const data = apis[dataIndex] || [];
-            return (
-              <TabPane tab={title} key={dataIndex}>
-                {
-                  render({ onChange: updateApis, data, type: dataIndex, record: apis })
-                }
-              </TabPane>
-            );
-          })
-        }
+        {APITabs.map((item) => {
+          const { title, dataIndex, render } = item;
+          const data = apis[dataIndex] || [];
+          return (
+            <TabPane tab={title} key={dataIndex}>
+              {render({ onChange: updateApis, data, type: dataIndex, record: apis })}
+            </TabPane>
+          );
+        })}
       </Tabs>
       <Tabs defaultActiveKey="header" activeKey={resTab} className="mb12" onChange={changeTabs}>
-        {
-          map(ResponseTabs, ({ name, value }) => {
-            // return <Radio.Button key={value} value={value}>{name}</Radio.Button>;
-            return (
-              <TabPane tab={name} key={value}>
-                {
-                  value === 'body' ? (
-                    <div>
-                      <FileEditor
-                        fileExtension="json"
-                        value={resBody}
-                        minLines={8}
-                        maxLines={20}
-                        readOnly
-                      />
-                    </div>
-                  ) : <Table columns={commonColumn} pagination={false} dataSource={resHeader} />
-                }
-              </TabPane>
-            );
-          })
-        }
+        {map(ResponseTabs, ({ name, value }) => {
+          // return <Radio.Button key={value} value={value}>{name}</Radio.Button>;
+          return (
+            <TabPane tab={name} key={value}>
+              {value === 'body' ? (
+                <div>
+                  <FileEditor fileExtension="json" value={resBody} minLines={8} maxLines={20} readOnly />
+                </div>
+              ) : (
+                <Table columns={commonColumn} pagination={false} dataSource={resHeader} />
+              )}
+            </TabPane>
+          );
+        })}
       </Tabs>
     </Modal>
   );

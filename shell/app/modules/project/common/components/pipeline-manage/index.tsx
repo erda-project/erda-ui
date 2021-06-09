@@ -19,7 +19,7 @@ import routeInfoStore from 'app/common/stores/route';
 import FileTree from './file-tree';
 import './index.scss';
 
-interface IProps{
+interface IProps {
   scope: string;
 }
 
@@ -32,9 +32,7 @@ const PipelineManage = (props: IProps) => {
         <FileTree scope={scope} />
       </SplitPage.Left>
       <SplitPage.Right>
-        {
-          caseId ? <PipelineDetail key={caseId} scope={scope} /> : <EmptyHolder relative />
-        }
+        {caseId ? <PipelineDetail key={caseId} scope={scope} /> : <EmptyHolder relative />}
       </SplitPage.Right>
     </SplitPage>
   );

@@ -17,7 +17,14 @@ import { EmptyHolder, useUpdate } from 'common';
 import { get, find } from 'lodash';
 
 export default (props: CP_TABS.Props) => {
-  const { children, tabBarExtraContent, props: configProps, state: propsState, operations, execOperation } = props || {};
+  const {
+    children,
+    tabBarExtraContent,
+    props: configProps,
+    state: propsState,
+    operations,
+    execOperation,
+  } = props || {};
   const { tabMenu, visible = true } = configProps || {};
 
   const [state, updater, update] = useUpdate({
@@ -45,18 +52,20 @@ export default (props: CP_TABS.Props) => {
 
   if (!visible) return null;
   return (
-    <Tabs activeKey={state.activeKey} tabBarExtraContent={tabBarExtraContent} onChange={changeTab} renderTabBar={(p: any, DefaultTabBar) => <DefaultTabBar {...p} onKeyDown={(e: any) => e} />}>
-      {
-        tabMenu.map((item, idx) => {
-          const TabComp = (children && children[idx]) || <EmptyHolder relative />;
-          return (
-            <Tabs.TabPane key={item.key} tab={item.name}>
-              {TabComp}
-            </Tabs.TabPane>
-          );
-        })
-      }
+    <Tabs
+      activeKey={state.activeKey}
+      tabBarExtraContent={tabBarExtraContent}
+      onChange={changeTab}
+      renderTabBar={(p: any, DefaultTabBar) => <DefaultTabBar {...p} onKeyDown={(e: any) => e} />}
+    >
+      {tabMenu.map((item, idx) => {
+        const TabComp = (children && children[idx]) || <EmptyHolder relative />;
+        return (
+          <Tabs.TabPane key={item.key} tab={item.name}>
+            {TabComp}
+          </Tabs.TabPane>
+        );
+      })}
     </Tabs>
   );
 };
-

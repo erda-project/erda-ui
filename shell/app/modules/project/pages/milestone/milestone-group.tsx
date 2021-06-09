@@ -30,7 +30,7 @@ export default ({ ele, onClickItem, reload }: IProps) => {
   let timePoint;
   const targetDate = moment(date as string);
   const now = moment();
-  if ((targetDate).isBefore(now, 'month')) {
+  if (targetDate.isBefore(now, 'month')) {
     timePoint = 'gray';
   } else if (targetDate.isSame(now, 'month')) {
     timePoint = 'green';
@@ -56,15 +56,11 @@ export default ({ ele, onClickItem, reload }: IProps) => {
       <Timeline.Item key={date} color={timePoint}>
         <h3>{date}</h3>
         <div className={`milestone-module ${isOver ? 'milestone-drag-over' : ''}`}>
-          {
-            list.map((item: any) => {
-              return (
-                <MilestoneItem key={item.id} item={item} onClickItem={onClickItem} />
-              );
-            })
-          }
+          {list.map((item: any) => {
+            return <MilestoneItem key={item.id} item={item} onClickItem={onClickItem} />;
+          })}
         </div>
-
       </Timeline.Item>
-    </div>);
+    </div>
+  );
 };

@@ -36,21 +36,15 @@ const repoIntro = ({ name: repoName, showCreateFile, gitRepoNew }: IProps) => {
       <div>
         <div className="section-title mt0">
           {i18n.t('application:new application')}
-          {
-            showCreateFile ? (
-              <Tooltip title={i18n.t('application:create new file')}>
-                <CustomIcon type="xjym" onClick={() => changeMode({ addFile: true })} />
-              </Tooltip>
-            ) : null
-          }
+          {showCreateFile ? (
+            <Tooltip title={i18n.t('application:create new file')}>
+              <CustomIcon type="xjym" onClick={() => changeMode({ addFile: true })} />
+            </Tooltip>
+          ) : null}
         </div>
         <div className="sub-title">1. {i18n.t('application:clone application')}</div>
         <FileContainer name="clone.sh">
-          <FileEditor
-            fileExtension="sh"
-            value={`git clone ${repo}`}
-            readOnly
-          />
+          <FileEditor fileExtension="sh" value={`git clone ${repo}`} readOnly />
         </FileContainer>
         <div className="sub-title">2. {i18n.t('application:commit branch')}</div>
         <FileContainer name="push.sh">
@@ -82,10 +76,9 @@ git push -u dice --tags`}
   );
 };
 
-
 const StartTip = ({ showCreateFile = false }) => {
   const appDetail = appStore.getState((s) => s.detail);
-  return isEmpty(appDetail) ? null : repoIntro({ showCreateFile, ...appDetail as any });
+  return isEmpty(appDetail) ? null : repoIntro({ showCreateFile, ...(appDetail as any) });
 };
 
 export default StartTip;

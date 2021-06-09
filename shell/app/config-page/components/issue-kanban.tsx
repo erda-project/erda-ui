@@ -64,7 +64,7 @@ export interface IProps extends CONFIG_PAGE.ICommonProps {
     isLoadMore: boolean;
   };
 }
-const noop = () => { };
+const noop = () => {};
 const IssueKanban = (props: IProps) => {
   const { state, data, props: configProps, operations, execOperation = noop, updateState = noop } = props || {};
 
@@ -79,10 +79,12 @@ const IssueKanban = (props: IProps) => {
     if (data?.refreshBoard) {
       setBoard(data?.board || []);
     } else {
-      setBoard((prev) => map(prev, (item, index) => {
-        const curNewData = get(data, `board[${index}]`);
-        return curNewData || item;
-      }));
+      setBoard((prev) =>
+        map(prev, (item, index) => {
+          const curNewData = get(data, `board[${index}]`);
+          return curNewData || item;
+        }),
+      );
     }
   }, [data]);
 
@@ -103,45 +105,44 @@ const IssueKanban = (props: IProps) => {
   if (!visible) return null;
   return (
     <div className="dice-cp issue-kanban">
-      {
-        map(board || [], (item) => {
-          return (
-            item
-              ? <Kanban {...props} exitLabel={labelList} data={item} key={item.key || item.label} isLoadMore={isLoadMore} />
-              : null
-          );
-        })
-      }
-      {
-        operations?.CreateCustom ? (
-          <div className="issue-kanban-col add-item">
-            {
-              showAdd ? (
-                <div className="mt20">
-                  <Input value={addValue} className="mb8" onChange={(e) => updater.addValue(e.target.value)} placeholder={i18n.t('project:input custom board name')} onPressEnter={doAdd} />
-                  <div className="flex-box">
-                    <Button onClick={hideAdd} className="mr8">{i18n.t('cancel')}</Button>
-                    <Button onClick={doAdd} type="primary">{i18n.t('ok')}</Button>
-                  </div>
-                </div>
-              ) : (
-                operations?.CreateCustom?.disabled ? (
-                  <Tooltip title={operations?.CreateCustom?.disabledTip}>
-                    <CustomIcon type="tj1" className="pointer add-icon not-allowed" />
-                  </Tooltip>
-                ) : <CustomIcon type="tj1" className="pointer add-icon" onClick={() => updater.showAdd(true)} />
-              )
-            }
-          </div>
-        ) : null
-      }
-      {isEmpty(data?.board || []) ? (
-        <EmptyHolder relative className="full-width" />
+      {map(board || [], (item) => {
+        return item ? (
+          <Kanban {...props} exitLabel={labelList} data={item} key={item.key || item.label} isLoadMore={isLoadMore} />
+        ) : null;
+      })}
+      {operations?.CreateCustom ? (
+        <div className="issue-kanban-col add-item">
+          {showAdd ? (
+            <div className="mt20">
+              <Input
+                value={addValue}
+                className="mb8"
+                onChange={(e) => updater.addValue(e.target.value)}
+                placeholder={i18n.t('project:input custom board name')}
+                onPressEnter={doAdd}
+              />
+              <div className="flex-box">
+                <Button onClick={hideAdd} className="mr8">
+                  {i18n.t('cancel')}
+                </Button>
+                <Button onClick={doAdd} type="primary">
+                  {i18n.t('ok')}
+                </Button>
+              </div>
+            </div>
+          ) : operations?.CreateCustom?.disabled ? (
+            <Tooltip title={operations?.CreateCustom?.disabledTip}>
+              <CustomIcon type="tj1" className="pointer add-icon not-allowed" />
+            </Tooltip>
+          ) : (
+            <CustomIcon type="tj1" className="pointer add-icon" onClick={() => updater.showAdd(true)} />
+          )}
+        </div>
       ) : null}
+      {isEmpty(data?.board || []) ? <EmptyHolder relative className="full-width" /> : null}
     </div>
   );
 };
-
 
 interface IKanbanProps extends CONFIG_PAGE.ICommonProps {
   data: IData;
@@ -182,7 +183,7 @@ const Kanban = (props: IKanbanProps) => {
       execOperation(drag, { dropTarget: labelKey });
     },
     collect: (monitor) => {
-      const item = (monitor?.getItem && monitor?.getItem());
+      const item = monitor?.getItem && monitor?.getItem();
       const targetKeys = get(item, 'data.drag.targetKeys') || {};
       let _isAllowDrop = true;
       if (!isEmpty(targetKeys) && !targetKeys[labelKey]) {
@@ -217,7 +218,12 @@ const Kanban = (props: IKanbanProps) => {
         extraInfo: (
           <div className="issue-kanban-info mt8 flex-box color-text-desc">
             <div className="flex-box">
-              {curStateObj ? <div className="v-align mr8">{ISSUE_ICON.state[curStateObj.stateBelong]}{curStateObj.stateName}</div> : null}
+              {curStateObj ? (
+                <div className="v-align mr8">
+                  {ISSUE_ICON.state[curStateObj.stateBelong]}
+                  {curStateObj.stateName}
+                </div>
+              ) : null}
               {priority && ISSUE_PRIORITY_MAP[priority] ? ISSUE_PRIORITY_MAP[priority].iconLabel : null}
             </div>
             {assigneeObj ? <span>{assigneeObj.nick || assigneeObj.name}</span> : null}
@@ -244,7 +250,10 @@ const Kanban = (props: IKanbanProps) => {
       setLabelVal(label);
       return notify('error', i18n.t('{name} already exist', { name: labelVal }));
     }
-    execOperation({ key: 'UpdateCustom', ...(boardOp?.UpdateCustom || {}) }, { panelName: labelVal, panelID: labelKey });
+    execOperation(
+      { key: 'UpdateCustom', ...(boardOp?.UpdateCustom || {}) },
+      { panelName: labelVal, panelID: labelKey },
+    );
   };
 
   const handleScroll = (e: any) => {
@@ -256,62 +265,73 @@ const Kanban = (props: IKanbanProps) => {
   };
 
   return (
-    <div className={classnames(`issue-kanban-col ${cls}`, { 'issue-kanban-col-special-pdd': updateBoardOp })} ref={drop}>
+    <div
+      className={classnames(`issue-kanban-col ${cls}`, { 'issue-kanban-col-special-pdd': updateBoardOp })}
+      ref={drop}
+    >
       <div className={`flex-box issue-kanban-col-header ${showShadow ? 'shadow' : ''} ${updateBoardOp ? 'inp' : ''}`}>
         <div className="fz16 bold-500 flex-1 flex-box">
-          {
-            updateBoardOp ? (
-              updateAuth ? (
-                <Input className="fz16 bold-500 issue-kanban-label-input" value={labelVal} onChange={(e: any) => setLabelVal(e.target.value)} onPressEnter={doUpdate} onBlur={doUpdate} />
-              ) : (
-                <Tooltip title={updateBoardOp?.disabledTip || i18n.t('common:no permission to operate')}>
-                  <Input className="fz16 bold-500 issue-kanban-label-input update-disabled" readOnly value={labelVal} />
-                </Tooltip>
-              )
-            ) : label
-          }
+          {updateBoardOp ? (
+            updateAuth ? (
+              <Input
+                className="fz16 bold-500 issue-kanban-label-input"
+                value={labelVal}
+                onChange={(e: any) => setLabelVal(e.target.value)}
+                onPressEnter={doUpdate}
+                onBlur={doUpdate}
+              />
+            ) : (
+              <Tooltip title={updateBoardOp?.disabledTip || i18n.t('common:no permission to operate')}>
+                <Input className="fz16 bold-500 issue-kanban-label-input update-disabled" readOnly value={labelVal} />
+              </Tooltip>
+            )
+          ) : (
+            label
+          )}
           <span className="color-text-desc ml12 fz14">{total}</span>
         </div>
-        {
-          deleteBoardOp ? (
-            deleteBoardOp?.confirm ? (
-              <WithAuth pass={deleteAuth} noAuthTip={deleteBoardOp?.disabledTip} >
-                <Popconfirm title={deleteBoardOp?.confirm} onConfirm={() => execOperation({ key: 'DeleteCustom', ...boardOp?.DeleteCustom }, { panelID: labelKey })}>
-                  <CustomIcon type="shanchu" className="delete-item  pointer ml12" />
-                </Popconfirm>
-              </WithAuth>
-            ) :
-              <WithAuth pass={deleteAuth} noAuthTip={deleteBoardOp?.disabledTip}>
-                <CustomIcon type="shanchu" className="delete-item pointer ml12" onClick={() => execOperation({ key: 'DeleteCustom', ...boardOp?.DeleteCustom }, { panelID: labelKey })} />
-              </WithAuth>
-          ) : null
-        }
-
+        {deleteBoardOp ? (
+          deleteBoardOp?.confirm ? (
+            <WithAuth pass={deleteAuth} noAuthTip={deleteBoardOp?.disabledTip}>
+              <Popconfirm
+                title={deleteBoardOp?.confirm}
+                onConfirm={() =>
+                  execOperation({ key: 'DeleteCustom', ...boardOp?.DeleteCustom }, { panelID: labelKey })
+                }
+              >
+                <CustomIcon type="shanchu" className="delete-item  pointer ml12" />
+              </Popconfirm>
+            </WithAuth>
+          ) : (
+            <WithAuth pass={deleteAuth} noAuthTip={deleteBoardOp?.disabledTip}>
+              <CustomIcon
+                type="shanchu"
+                className="delete-item pointer ml12"
+                onClick={() => execOperation({ key: 'DeleteCustom', ...boardOp?.DeleteCustom }, { panelID: labelKey })}
+              />
+            </WithAuth>
+          )
+        ) : null}
       </div>
       <div className="issue-kanban-col-content" onScroll={handleScroll}>
-        {
-          map(list, (item) => {
-            return (
-              <Card
-                key={item.id}
-                execOperation={execOperation}
-                props={{ cardType, className: 'list-item', data: changeData(item) }}
-                customProps={rest.customProps}
-              />
-            );
-          })
-        }
-        {
-          hasMore
-            ? (
-              <div className="hover-active py4 text-center load-more" onClick={() => loadMore()}>{i18n.t('load more')}</div>
-            )
-            : null
-        }
+        {map(list, (item) => {
+          return (
+            <Card
+              key={item.id}
+              execOperation={execOperation}
+              props={{ cardType, className: 'list-item', data: changeData(item) }}
+              customProps={rest.customProps}
+            />
+          );
+        })}
+        {hasMore ? (
+          <div className="hover-active py4 text-center load-more" onClick={() => loadMore()}>
+            {i18n.t('load more')}
+          </div>
+        ) : null}
       </div>
     </div>
   );
 };
-
 
 export default IssueKanban;

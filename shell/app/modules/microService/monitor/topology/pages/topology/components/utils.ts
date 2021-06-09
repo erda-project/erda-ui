@@ -24,10 +24,10 @@ export const getTopologyExternal = (node: any, key?: string) => {
   return get(node, key ? `${externalKey}.${key}` : externalKey, {});
 };
 
-interface IParent{
+interface IParent {
   id: string;
 }
-interface IData{
+interface IData {
   [pro: string]: any;
   id: string;
   group?: string;
@@ -40,4 +40,3 @@ export const setTopologyExternal = (node: any, data: IData) => {
   const defaultData = { group: 'topology', subGroup: 'topology', groupLevel: 1 };
   return set(node, externalKey, { ...defaultData, ...curExternal, ...data });
 };
-

@@ -11,10 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import {
-  Form,
-  Radio,
-} from 'app/nusi';
+import { Form, Radio } from 'app/nusi';
 import * as React from 'react';
 import { get, map, isEmpty } from 'lodash';
 import { getLabel, noop } from './common';
@@ -30,89 +27,82 @@ export const FormRadio = ({
   extensionFix,
   requiredCheck,
   trigger = 'onChange',
-}: any = {}) => React.memo(({ fieldConfig, form }: any = {}) => {
-  const {
-    key,
-    value,
-    label,
-    visible,
-    valid = [],
-    disabled,
-    required,
-    dataSource,
-    registerRequiredCheck = noop,
-    componentProps,
-    wrapperProps,
-    labelTip,
-    fixIn: itemFixIn,
-    fixOut: itemFixOut,
-    requiredCheck: _requiredCheck,
-  } = fieldConfig || {};
+}: any = {}) =>
+  React.memo(({ fieldConfig, form }: any = {}) => {
+    const {
+      key,
+      value,
+      label,
+      visible,
+      valid = [],
+      disabled,
+      required,
+      dataSource,
+      registerRequiredCheck = noop,
+      componentProps,
+      wrapperProps,
+      labelTip,
+      fixIn: itemFixIn,
+      fixOut: itemFixOut,
+      requiredCheck: _requiredCheck,
+    } = fieldConfig || {};
 
-  const curFixIn = itemFixIn || fixIn;
-  const curFixOut = itemFixOut || fixOut;
+    const curFixIn = itemFixIn || fixIn;
+    const curFixOut = itemFixOut || fixOut;
 
-  registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (e: any) => {
-    form.setFieldValue(key, curFixOut(e.target.value));
-    (componentProps.onChange || noop)(e);
-  };
+    registerRequiredCheck(_requiredCheck || requiredCheck);
+    const handleChange = (e: any) => {
+      form.setFieldValue(key, curFixOut(e.target.value));
+      (componentProps.onChange || noop)(e);
+    };
 
-  const { radioType, options: cOptions, displayDesc } = componentProps;
-  const RadioItem = radioType === 'button' ? Radio.Button : Radio;
-  const options = cOptions || get(dataSource, 'static') || [];
+    const { radioType, options: cOptions, displayDesc } = componentProps;
+    const RadioItem = radioType === 'button' ? Radio.Button : Radio;
+    const options = cOptions || get(dataSource, 'static') || [];
 
-  const renderOptions = () => {
-    if (typeof options === 'function') {
-      return options();
-    }
+    const renderOptions = () => {
+      if (typeof options === 'function') {
+        return options();
+      }
 
-    if (isEmpty(options)) {
-      return <div>请补充备选数据</div>;
-    }
+      if (isEmpty(options)) {
+        return <div>请补充备选数据</div>;
+      }
 
-    if (displayDesc) {
+      if (displayDesc) {
+        return map(options, (item: any) => (
+          <div className="form-item-radio">
+            <RadioItem key={item.value} value={item.value}>
+              {item.name}
+              <div className="form-item-desc">{item.desc}</div>
+            </RadioItem>
+          </div>
+        ));
+      }
+
       return map(options, (item: any) => (
-        <div className="form-item-radio">
-          <RadioItem key={item.value} value={item.value}>
-            {item.name}
-            <div className="form-item-desc">{item.desc}</div>
-          </RadioItem>
-        </div>
-      ));
-    }
-
-    return (
-      map(options, (item: any) => (
         <RadioItem key={item.value} value={item.value}>
           {item.name}
         </RadioItem>
-      ))
-    );
-  };
+      ));
+    };
 
-  return (
-    <FormItem
-      colon
-      label={getLabel(label, labelTip)}
-      className={visible ? '' : 'hide'}
-      validateStatus={valid[0]}
-      help={valid[1]}
-      required={required}
-      {...wrapperProps}
-    >
-      <Radio.Group
-        id={key}
-        {...componentProps}
-        disabled={disabled}
-        value={curFixIn(value)}
-        onChange={handleChange}
+    return (
+      <FormItem
+        colon
+        label={getLabel(label, labelTip)}
+        className={visible ? '' : 'hide'}
+        validateStatus={valid[0]}
+        help={valid[1]}
+        required={required}
+        {...wrapperProps}
       >
-        {renderOptions()}
-      </Radio.Group>
-    </FormItem>
-  );
-});
+        <Radio.Group id={key} {...componentProps} disabled={disabled} value={curFixIn(value)} onChange={handleChange}>
+          {renderOptions()}
+        </Radio.Group>
+      </FormItem>
+    );
+  });
 
 export const config = {
   name: 'radio',

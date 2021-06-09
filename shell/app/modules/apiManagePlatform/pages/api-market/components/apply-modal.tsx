@@ -29,8 +29,8 @@ import { AddOne as IconAddOne } from '@icon-park/react';
 
 interface IState {
   selectVersion: string | undefined;
-  selectClient: string| number | undefined;
-  selectSla: string| number | undefined;
+  selectClient: string | number | undefined;
+  selectSla: string | number | undefined;
   versions: API_MARKET.VersionTreeItem[];
   clients: API_CLIENT.ClientItem[];
   applyModal: boolean;
@@ -46,12 +46,20 @@ interface IProps {
   onCancel: () => void;
 }
 
-interface FormRef {props: {form: WrappedFormUtils}}
+interface FormRef {
+  props: { form: WrappedFormUtils };
+}
 
 const identifierReg = /^[a-zA-Z0-9_-]+$/;
 
 const createNewApp = {
-  value: 'create App', name: (<div className="hover-active text-link"><IconAddOne className="mr8" />{i18n.t('create a new client')}</div>),
+  value: 'create App',
+  name: (
+    <div className="hover-active text-link">
+      <IconAddOne className="mr8" />
+      {i18n.t('create a new client')}
+    </div>
+  ),
 } as any;
 
 const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
@@ -72,42 +80,55 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
     slaList: [],
   });
   const getClients = React.useCallback(() => {
-    getClientList<Promise<API_MARKET.CommonResList<API_CLIENT.ClientItem[]>>>({ pageNo: 1, paging: false }).then((res) => {
-      if (res.success) {
-        updater.clients(res.data.list || []);
-      } else {
-        updater.clients([]);
-      }
-    });
+    getClientList<Promise<API_MARKET.CommonResList<API_CLIENT.ClientItem[]>>>({ pageNo: 1, paging: false }).then(
+      (res) => {
+        if (res.success) {
+          updater.clients(res.data.list || []);
+        } else {
+          updater.clients([]);
+        }
+      },
+    );
   }, [updater]);
-  const getSla = React.useCallback((swaggerVersion: string) => {
-    getSlaList<Promise<API_MARKET.CommonResList<API_ACCESS.SlaItem[]>>>({ swaggerVersion, assetID: dataSource.assetID }).then((res) => {
-      let selectSla: number | undefined;
-      if (res.success) {
-        const slaList = (res.data.list || []).filter((sla) => sla.source !== 'system');
-        const defaultSla = slaList.find((sla) => sla.default);
-        selectSla = slaList.length ? defaultSla?.id : undefined;
-        update({
-          slaList,
-          selectSla,
-        });
-      } else {
-        selectSla = undefined;
-        update({
-          slaList: [],
-          selectSla,
-        });
-      }
-      formRef.current.props.form.setFieldsValue({ slaID: selectSla });
-    });
-  }, [dataSource.assetID, update]);
+  const getSla = React.useCallback(
+    (swaggerVersion: string) => {
+      getSlaList<Promise<API_MARKET.CommonResList<API_ACCESS.SlaItem[]>>>({
+        swaggerVersion,
+        assetID: dataSource.assetID,
+      }).then((res) => {
+        let selectSla: number | undefined;
+        if (res.success) {
+          const slaList = (res.data.list || []).filter((sla) => sla.source !== 'system');
+          const defaultSla = slaList.find((sla) => sla.default);
+          selectSla = slaList.length ? defaultSla?.id : undefined;
+          update({
+            slaList,
+            selectSla,
+          });
+        } else {
+          selectSla = undefined;
+          update({
+            slaList: [],
+            selectSla,
+          });
+        }
+        formRef.current.props.form.setFieldsValue({ slaID: selectSla });
+      });
+    },
+    [dataSource.assetID, update],
+  );
   React.useEffect(() => {
     update({
       applyModal: visible,
       createAppModal: false,
     });
     if (visible) {
-      getVersionTree<Promise<API_MARKET.CommonResList<API_MARKET.VersionTreeItem[]>>>({ assetID: dataSource.assetID, patch: false, instantiation: false, access: true }).then((res) => {
+      getVersionTree<Promise<API_MARKET.CommonResList<API_MARKET.VersionTreeItem[]>>>({
+        assetID: dataSource.assetID,
+        patch: false,
+        instantiation: false,
+        access: true,
+      }).then((res) => {
         if (res.success) {
           updater.versions(res.data.list);
         } else {
@@ -166,7 +187,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
   const beforeSubmitCreateApp = (data: API_CLIENT.CreateClient) => {
     return createClient(data);
   };
-  const handleCreateApp = ({ client }: {client: API_CLIENT.Client}) => {
+  const handleCreateApp = ({ client }: { client: API_CLIENT.Client }) => {
     getClients();
     updater.selectClient(client.id);
     handleCreateAppCancel();
@@ -183,9 +204,7 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
     }
   };
   const renderModalChild = (data: API_ACCESS.SlaItem[], selectKey: number, handleChange: (data: number) => void) => {
-    return (
-      <SLASelect dataSource={data} defaultSelectKey={selectKey} onChange={handleChange} />
-    );
+    return <SLASelect dataSource={data} defaultSelectKey={selectKey} onChange={handleChange} />;
   };
   const nameToId = (e: React.FocusEvent<HTMLInputElement>) => {
     const name = e.target.value;
@@ -211,7 +230,9 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
       name: 'clientID',
       type: 'select',
       initialValue: state.selectClient,
-      options: state.clients.map(({ client }) => ({ value: client.id, name: client.displayName || client.name })).concat(createNewApp),
+      options: state.clients
+        .map(({ client }) => ({ value: client.id, name: client.displayName || client.name }))
+        .concat(createNewApp),
       itemProps: {
         placeholder: i18n.t('please select'),
         onSelect: handleSelectApp,
@@ -242,7 +263,11 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
             }}
           >
             {state.slaList.map((item) => {
-              return <SelectPro.Option key={item.id} value={item.id}>{item.name}</SelectPro.Option>;
+              return (
+                <SelectPro.Option key={item.id} value={item.id}>
+                  {item.name}
+                </SelectPro.Option>
+              );
             })}
           </SelectPro>
         );
@@ -311,17 +336,28 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
       >
         <p className="mb8">
           {i18n.t('tips after apply prev')}
-          <span onClick={() => { goTo(goTo.pages.apiMyVisit); }} className="text-link">{i18n.t('my visit')}</span>
+          <span
+            onClick={() => {
+              goTo(goTo.pages.apiMyVisit);
+            }}
+            className="text-link"
+          >
+            {i18n.t('my visit')}
+          </span>
           {i18n.t('tips after apply next')}
         </p>
         <p className="mb8">{i18n.t('tips after approval')}</p>
         <p className="mb4">
           <span className="bold-500">ClientID: </span>
-          <span className="for-copy" data-clipboard-text={state.clientSk.clientID}>{state.clientSk.clientID}</span>
+          <span className="for-copy" data-clipboard-text={state.clientSk.clientID}>
+            {state.clientSk.clientID}
+          </span>
         </p>
         <p className="mb4">
           <span className="bold-500">ClientSecret: </span>
-          <span className="for-copy" data-clipboard-text={state.clientSk.clientSecret}>{state.clientSk.clientSecret}</span>
+          <span className="for-copy" data-clipboard-text={state.clientSk.clientSecret}>
+            {state.clientSk.clientSecret}
+          </span>
         </p>
         <Copy selector=".for-copy" />
       </Modal>

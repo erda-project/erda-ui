@@ -46,12 +46,21 @@ export class PagingTable extends React.PureComponent {
       render: (record) => {
         return (
           <div className="table-operations">
-            {props.onEdit ? <span className="table-operations-btn" onClick={() => props.onEdit(record)}>{i18n.t('common:edit')}</span> : null}
-            {
-              props.onDelete
-                ? <span className="table-operations-btn" onClick={() => confirm({ title: i18n.t('common:confirm deletion'), onOk: () => props.onDelete(record) })}>{i18n.t('common:delete')}</span>
-                : null
-            }
+            {props.onEdit ? (
+              <span className="table-operations-btn" onClick={() => props.onEdit(record)}>
+                {i18n.t('common:edit')}
+              </span>
+            ) : null}
+            {props.onDelete ? (
+              <span
+                className="table-operations-btn"
+                onClick={() =>
+                  confirm({ title: i18n.t('common:confirm deletion'), onOk: () => props.onDelete(record) })
+                }
+              >
+                {i18n.t('common:delete')}
+              </span>
+            ) : null}
           </div>
         );
       },
@@ -80,35 +89,50 @@ export class PagingTable extends React.PureComponent {
   };
 
   render() {
-    const { dataSource, isFetching = false, total, title = null, onAdd, columns, rowKey, basicOperation = false, buttonClass = '', tableProps = {} } = this.props;
+    const {
+      dataSource,
+      isFetching = false,
+      total,
+      title = null,
+      onAdd,
+      columns,
+      rowKey,
+      basicOperation = false,
+      buttonClass = '',
+      tableProps = {},
+    } = this.props;
     const { pageNo, pageSize } = this.page;
-    const opRow = title || onAdd
-      ? (
+    const opRow =
+      title || onAdd ? (
         <div className="op-row">
-          {
-            onAdd ? <Button type="primary" className={`add-btn ${buttonClass}`} onClick={() => onAdd(/* 这里不要改动，避免传参数 */)}>{i18n.t('common:add')}</Button> : null
-          }
+          {onAdd ? (
+            <Button
+              type="primary"
+              className={`add-btn ${buttonClass}`}
+              onClick={() => onAdd(/* 这里不要改动，避免传参数 */)}
+            >
+              {i18n.t('common:add')}
+            </Button>
+          ) : null}
           {title ? <span className="table-title">{title}</span> : null}
         </div>
       ) : null;
 
     return (
       <div className="paging-table">
-        { opRow }
+        {opRow}
         <Table
           rowKey={rowKey || 'id'}
           loading={isFetching}
           columns={basicOperation ? columns.concat(this.operation) : columns}
           dataSource={dataSource}
-          pagination={
-            {
-              current: pageNo,
-              pageSize,
-              total,
-              onChange: this.onChangePage,
-              // hideOnSinglePage: true,
-            }
-          }
+          pagination={{
+            current: pageNo,
+            pageSize,
+            total,
+            onChange: this.onChangePage,
+            // hideOnSinglePage: true,
+          }}
           {...tableProps}
         />
       </div>

@@ -15,12 +15,12 @@ import * as React from 'react';
 import { map, get, findIndex } from 'lodash';
 import './tabs.scss';
 
-interface IProps{
+interface IProps {
   defaultActiveKey?: string;
   onChange?: (key: string) => void;
   children?: any;
   activeKey?: string;
-  tabs: Array<{key: string; name: string; content: React.ReactChild}>;
+  tabs: Array<{ key: string; name: string; content: React.ReactChild }>;
 }
 
 export const Tabs = (props: IProps) => {
@@ -35,7 +35,7 @@ export const Tabs = (props: IProps) => {
 
   React.useEffect(() => {
     onChange && onChange(activeKey);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeKey]);
 
   return (
@@ -56,16 +56,13 @@ export const Tabs = (props: IProps) => {
       <div
         className="tabs-content"
         style={{
-          marginLeft: `${(-activeIndex) * 100}%`,
+          marginLeft: `${-activeIndex * 100}%`,
         }}
       >
         {map(tabs, ({ key, content }, index: number) => {
-          const pos = index > activeIndex ? 'right' : (index === activeIndex ? 'center' : 'left');
+          const pos = index > activeIndex ? 'right' : index === activeIndex ? 'center' : 'left';
           return (
-            <div
-              className={`tabs-content-item ${pos}`}
-              key={key}
-            >
+            <div className={`tabs-content-item ${pos}`} key={key}>
               {content}
             </div>
           );

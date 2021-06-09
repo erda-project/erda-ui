@@ -29,7 +29,7 @@ interface IProps {
 }
 
 const { confirm } = Modal;
-const noop = () => { };
+const noop = () => {};
 
 export const DeleteConfirm = (props: IProps) => {
   const { children, countDown = 0 } = props;
@@ -84,10 +84,7 @@ export const DeleteConfirm = (props: IProps) => {
       }
     }, 1000) as any;
   };
-  return React.cloneElement(
-    React.isValidElement(children) ? children : <span>{children}</span>,
-    {
-      onClick: showModal,
-    },
-  );
+  return React.cloneElement(React.isValidElement(children) ? children : <span>{children}</span>, {
+    onClick: showModal,
+  });
 };

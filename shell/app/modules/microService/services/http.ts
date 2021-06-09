@@ -39,13 +39,15 @@ export /**
  * @returns
  */
 const getServiceList = ({ projectId, env, az, appId, nacosId, tenantGroup }: ICommonQuery) => {
-  return agent.get(`/api/tmc/mesh/listhttpinterface/${projectId}/${env}`)
+  return agent
+    .get(`/api/tmc/mesh/listhttpinterface/${projectId}/${env}`)
     .query({ az, appid: appId, nacosId, tenantGroup })
     .then((response: any) => response.body);
 };
 
 export const toggleIPStatus = ({ projectId, env, az, appId, nacosId, body, tenantGroup }: IToggleIPStatus) => {
-  return agent.post(`/api/tmc/mesh/enable/${projectId}/${env}`)
+  return agent
+    .post(`/api/tmc/mesh/enable/${projectId}/${env}`)
     .query({ az, appid: appId, nacosId, tenantGroup })
     .send(body)
     .then((response: any) => response.body);

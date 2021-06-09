@@ -42,7 +42,9 @@ interface IState {
   chooseProjectID: number | undefined;
 }
 
-interface FormRef { props: { form: WrappedFormUtils } }
+interface FormRef {
+  props: { form: WrappedFormUtils };
+}
 
 const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
   const formRef = React.useRef<FormRef>({} as FormRef);
@@ -51,7 +53,10 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
   const defaultProjectID = mode === 'asset' ? assetDetail.projectID : instance.projectID || assetDetail.projectID;
   const params = routeInfoStore.useStore((s) => s.params);
   const instanceType = get(instance, 'type', 'dice');
-  const relationRef = useRef<{projectList: PROJECT.Detail[]; appList: IApplication[]}>({ projectList: [], appList: [] });
+  const relationRef = useRef<{ projectList: PROJECT.Detail[]; appList: IApplication[] }>({
+    projectList: [],
+    appList: [],
+  });
   const [state, updater, update] = useUpdate<IState>({
     serviceList: {},
     branchList: [],
@@ -72,7 +77,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
       }
     });
   };
-  const chosenItemConvertProject = (selectItem: {label: string}) => {
+  const chosenItemConvertProject = (selectItem: { label: string }) => {
     if (isEmpty(selectItem)) {
       return [];
     }
@@ -85,23 +90,29 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
     }
     return selectItem;
   };
-  const getApplications = React.useCallback((query: { pageSize: number; pageNo: number; q?: string }) => {
-    if (!state.chooseProjectID) {
-      relationRef.current.appList = [];
-      return;
-    }
-    return getApps<Promise<API_MARKET.CommonResList<IApplication[]>>>({ ...query, projectId: state.chooseProjectID }).then((res) => {
-      if (res.success) {
-        const list = res.data?.list || [];
-        const { appList } = relationRef.current;
-        relationRef.current.appList = uniqBy([...appList, ...list], 'id');
-        return { list, total: res.data.total };
-      } else {
-        return { list: [], total: 0 };
+  const getApplications = React.useCallback(
+    (query: { pageSize: number; pageNo: number; q?: string }) => {
+      if (!state.chooseProjectID) {
+        relationRef.current.appList = [];
+        return;
       }
-    });
-  }, [state.chooseProjectID]);
-  const chosenItemConvertApp = (selectItem: {label: string}) => {
+      return getApps<Promise<API_MARKET.CommonResList<IApplication[]>>>({
+        ...query,
+        projectId: state.chooseProjectID,
+      }).then((res) => {
+        if (res.success) {
+          const list = res.data?.list || [];
+          const { appList } = relationRef.current;
+          relationRef.current.appList = uniqBy([...appList, ...list], 'id');
+          return { list, total: res.data.total };
+        } else {
+          return { list: [], total: 0 };
+        }
+      });
+    },
+    [state.chooseProjectID],
+  );
+  const chosenItemConvertApp = (selectItem: { label: string }) => {
     if (isEmpty(selectItem)) {
       return [];
     }
@@ -116,34 +127,37 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
     }
     return selectItem;
   };
-  const getAppInstances = React.useCallback((appID: number) => {
-    if (!appID) {
-      update({
-        serviceList: {},
-        branchList: [],
-        instanceList: [],
-      });
-      return;
-    }
-    getAppInstance<Promise<{success: boolean; data: API_MARKET.AppInstanceItem[]}>>({ appID }).then((res) => {
-      if (res.success) {
-        const serviceList = groupBy(res.data || [], 'serviceName');
-        let branchList: API_MARKET.AppInstanceItem[] = [];
-        let instanceList: API_MARKET.AppInstanceItem[] = [];
-        if (instance.serviceName) {
-          branchList = serviceList[instance.serviceName] || [];
-        }
-        if (instance.runtimeID) {
-          instanceList = branchList.filter((item) => item.runtimeID === instance.runtimeID);
-        }
+  const getAppInstances = React.useCallback(
+    (appID: number) => {
+      if (!appID) {
         update({
-          serviceList,
-          branchList,
-          instanceList,
+          serviceList: {},
+          branchList: [],
+          instanceList: [],
         });
+        return;
       }
-    });
-  }, [instance.runtimeID, instance.serviceName, update]);
+      getAppInstance<Promise<{ success: boolean; data: API_MARKET.AppInstanceItem[] }>>({ appID }).then((res) => {
+        if (res.success) {
+          const serviceList = groupBy(res.data || [], 'serviceName');
+          let branchList: API_MARKET.AppInstanceItem[] = [];
+          let instanceList: API_MARKET.AppInstanceItem[] = [];
+          if (instance.serviceName) {
+            branchList = serviceList[instance.serviceName] || [];
+          }
+          if (instance.runtimeID) {
+            instanceList = branchList.filter((item) => item.runtimeID === instance.runtimeID);
+          }
+          update({
+            serviceList,
+            branchList,
+            instanceList,
+          });
+        }
+      });
+    },
+    [instance.runtimeID, instance.serviceName, update],
+  );
   React.useEffect(() => {
     if (visible) {
       update({
@@ -235,12 +249,25 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
       let projectName: string | undefined;
       let appName: string | undefined;
       if (data.projectID) {
-        projectName = get(projectList.find((item) => item.id === +data.projectID), 'name');
+        projectName = get(
+          projectList.find((item) => item.id === +data.projectID),
+          'name',
+        );
       }
       if (data.appID) {
-        appName = get(appList.find((item) => item.id === +data.appID), 'name');
+        appName = get(
+          appList.find((item) => item.id === +data.appID),
+          'name',
+        );
       }
-      await editAsset({ ...asset, projectID: +data.projectID, appID: +data.appID, assetID: params.assetID, projectName, appName });
+      await editAsset({
+        ...asset,
+        projectID: +data.projectID,
+        appID: +data.appID,
+        assetID: params.assetID,
+        projectName,
+        appName,
+      });
       onCancel();
       getAssetDetail({ assetID: params.assetID }, true);
     }
@@ -258,132 +285,145 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
             handleChange('type', e.target.value, []);
           },
         },
-        options: [{
-          name: i18n.t('internal'),
-          value: 'dice',
-        }, {
-          name: i18n.t('external'),
-          value: 'external',
-        }],
+        options: [
+          {
+            name: i18n.t('internal'),
+            value: 'dice',
+          },
+          {
+            name: i18n.t('external'),
+            value: 'external',
+          },
+        ],
       },
     ]),
-    ...insertWhen(mode === 'asset' || (mode === 'instance' && state.instanceType === 'dice'), [{
-      label: i18n.t('project name'),
-      name: 'projectID',
-      required: false,
-      initialValue: defaultProjectID,
-      getComp: () => {
-        return (
-          <LoadMoreSelector
-            chosenItemConvert={chosenItemConvertProject}
-            getData={getProjects}
-            dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
-              total,
-              list: map(list, ({ id, name }) => {
-                return {
-                  label: name,
-                  value: id,
-                };
-              }),
-            })}
-          />
-        );
-      },
-      itemProps: {
-        allowClear: true,
-        placeholder: i18n.t('please select'),
-        onChange: (v: number) => {
-          handleChange('projectID', v, ['appID', 'serviceName', 'runtimeID', 'url']);
-        },
-      },
-    },
-    {
-      label: i18n.t('application:app name'),
-      name: 'appID',
-      initialValue: defaultAppID,
-      required: false,
-      getComp: () => {
-        return (
-          <LoadMoreSelector
-            chosenItemConvert={chosenItemConvertApp}
-            extraQuery={{ projectId: state.chooseProjectID }}
-            getData={getApplications}
-            dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
-              total,
-              list: map(list, ({ id, name }) => {
-                return {
-                  label: name,
-                  value: id,
-                };
-              }),
-            })}
-          />
-        );
-      },
-      itemProps: {
-        allowClear: true,
-        placeholder: i18n.t('please select'),
-        onChange: (v) => {
-          handleChange('appID', v, ['serviceName', 'runtimeID', 'url']);
-        },
-      },
-    }]),
-    ...insertWhen(mode === 'instance', [
-      ...(state.instanceType === 'dice' ? [{
-        label: i18n.t('service name'),
+    ...insertWhen(mode === 'asset' || (mode === 'instance' && state.instanceType === 'dice'), [
+      {
+        label: i18n.t('project name'),
+        name: 'projectID',
         required: false,
-        type: 'select',
-        initialValue: get(instance, 'serviceName'),
-        options: map(state.serviceList, (_v, k) => ({ name: k, value: k })),
-        name: 'serviceName',
-        itemProps: {
-          allowClear: true,
-          placeholder: i18n.t('please select'),
-          onChange: (v) => {
-            handleChange('serviceName', v, ['runtimeID', 'url']);
-          },
+        initialValue: defaultProjectID,
+        getComp: () => {
+          return (
+            <LoadMoreSelector
+              chosenItemConvert={chosenItemConvertProject}
+              getData={getProjects}
+              dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
+                total,
+                list: map(list, ({ id, name }) => {
+                  return {
+                    label: name,
+                    value: id,
+                  };
+                }),
+              })}
+            />
+          );
         },
-      }, {
-        label: i18n.t('microService:deployment branch'),
-        required: false,
-        type: 'select',
-        name: 'runtimeID',
-        initialValue: get(instance, 'runtimeID'),
-        options: map(state.branchList, ({ runtimeID, runtimeName }) => ({ name: runtimeName, value: runtimeID })),
         itemProps: {
           allowClear: true,
           placeholder: i18n.t('please select'),
           onChange: (v: number) => {
-            handleChange('runtimeID', v, ['url']);
+            handleChange('projectID', v, ['appID', 'serviceName', 'runtimeID', 'url']);
           },
         },
-      }, {
-        label: i18n.t('instance'),
-        type: 'select',
-        name: 'url',
-        initialValue: instanceType === 'dice' ? get(instance, 'url') : undefined,
+      },
+      {
+        label: i18n.t('application:app name'),
+        name: 'appID',
+        initialValue: defaultAppID,
         required: false,
+        getComp: () => {
+          return (
+            <LoadMoreSelector
+              chosenItemConvert={chosenItemConvertApp}
+              extraQuery={{ projectId: state.chooseProjectID }}
+              getData={getApplications}
+              dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
+                total,
+                list: map(list, ({ id, name }) => {
+                  return {
+                    label: name,
+                    value: id,
+                  };
+                }),
+              })}
+            />
+          );
+        },
         itemProps: {
           allowClear: true,
+          placeholder: i18n.t('please select'),
+          onChange: (v) => {
+            handleChange('appID', v, ['serviceName', 'runtimeID', 'url']);
+          },
         },
-        getComp: () => (
-          <Select placeholder={i18n.t('please select')}>
+      },
+    ]),
+    ...insertWhen(mode === 'instance', [
+      ...(state.instanceType === 'dice'
+        ? [
             {
-              state.instanceList.map(({ serviceAddr }) => {
-                return (serviceAddr || []).map((url) => <Select.Option key={url} value={url}><Ellipsis title={url} /></Select.Option>);
-              })
-            }
-          </Select>
-        ),
-      }] : [{
-        label: i18n.t('instance'),
-        name: 'url',
-        required: false,
-        initialValue: instanceType === 'dice' ? undefined : get(instance, 'url'),
-        rules: [
-          { pattern: regRules.url, message: i18n.t('tips of valid instance address') },
-        ],
-      }]),
+              label: i18n.t('service name'),
+              required: false,
+              type: 'select',
+              initialValue: get(instance, 'serviceName'),
+              options: map(state.serviceList, (_v, k) => ({ name: k, value: k })),
+              name: 'serviceName',
+              itemProps: {
+                allowClear: true,
+                placeholder: i18n.t('please select'),
+                onChange: (v) => {
+                  handleChange('serviceName', v, ['runtimeID', 'url']);
+                },
+              },
+            },
+            {
+              label: i18n.t('microService:deployment branch'),
+              required: false,
+              type: 'select',
+              name: 'runtimeID',
+              initialValue: get(instance, 'runtimeID'),
+              options: map(state.branchList, ({ runtimeID, runtimeName }) => ({ name: runtimeName, value: runtimeID })),
+              itemProps: {
+                allowClear: true,
+                placeholder: i18n.t('please select'),
+                onChange: (v: number) => {
+                  handleChange('runtimeID', v, ['url']);
+                },
+              },
+            },
+            {
+              label: i18n.t('instance'),
+              type: 'select',
+              name: 'url',
+              initialValue: instanceType === 'dice' ? get(instance, 'url') : undefined,
+              required: false,
+              itemProps: {
+                allowClear: true,
+              },
+              getComp: () => (
+                <Select placeholder={i18n.t('please select')}>
+                  {state.instanceList.map(({ serviceAddr }) => {
+                    return (serviceAddr || []).map((url) => (
+                      <Select.Option key={url} value={url}>
+                        <Ellipsis title={url} />
+                      </Select.Option>
+                    ));
+                  })}
+                </Select>
+              ),
+            },
+          ]
+        : [
+            {
+              label: i18n.t('instance'),
+              name: 'url',
+              required: false,
+              initialValue: instanceType === 'dice' ? undefined : get(instance, 'url'),
+              rules: [{ pattern: regRules.url, message: i18n.t('tips of valid instance address') }],
+            },
+          ]),
     ]),
   ];
   return (

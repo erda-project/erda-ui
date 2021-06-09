@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace TREE {
-
   interface NODE {
     type: 'f' | 'd'; // FILE | DIR
     inode: string; // id
@@ -24,7 +23,11 @@ declare namespace TREE {
     meta?: { [p: string]: any };
   }
 
-  interface GetSubTreeParams { pinode: string; scope?: string; scopeID?: string }
+  interface GetSubTreeParams {
+    pinode: string;
+    scope?: string;
+    scopeID?: string;
+  }
   type CreateRootNodeParams = Omit<NODE, 'meta' | 'inode'>;
   type CreateNodeParams = Omit<NODE, 'meta' | 'inode' | 'scope' | 'scopeID'>;
   type UpdateNodeParams = Pick<NODE, 'inode' | 'name' | 'desc'>;
@@ -39,9 +42,8 @@ declare namespace TREE {
     fromPinode?: string;
   }
 
-  interface scopeParams{
+  interface scopeParams {
     scope: string;
     scopeID: string;
   }
-
 }

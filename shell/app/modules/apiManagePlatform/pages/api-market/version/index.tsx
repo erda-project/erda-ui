@@ -29,9 +29,9 @@ import i18n from 'i18n';
 import { DownOne as IconDownOne } from '@icon-park/react';
 import './index.scss';
 
-type KeyAuth = 'public'| 'private';
+type KeyAuth = 'public' | 'private';
 
-const confirmTips: {[key in KeyAuth]: {}} = {
+const confirmTips: { [key in KeyAuth]: {} } = {
   public: {
     title: i18n.t('confirm to {action}', { action: i18n.t('set as {type}', { type: i18n.t('public') }) }),
     content: i18n.t('confirm of public API'),
@@ -84,9 +84,12 @@ const ApiVersions = () => {
       visible: true,
     });
   };
-  const handleSelectVersion = React.useCallback((data: ChooseVersion) => {
-    updater.chooseVersion(data);
-  }, [updater]);
+  const handleSelectVersion = React.useCallback(
+    (data: ChooseVersion) => {
+      updater.chooseVersion(data);
+    },
+    [updater],
+  );
   const showRelation = (relationMode: RelationMode) => {
     update({
       showRelation: true,
@@ -108,7 +111,7 @@ const ApiVersions = () => {
       },
     });
   };
-  const toggleAssetPublic = ({ key }: Merge<ClickParam, {key: KeyAuth}>) => {
+  const toggleAssetPublic = ({ key }: Merge<ClickParam, { key: KeyAuth }>) => {
     Modal.confirm({
       ...confirmTips[key],
       onOk: () => {
@@ -122,49 +125,66 @@ const ApiVersions = () => {
       },
     });
   };
-  const reloadPage = React.useCallback((data) => {
-    if (state.scope === 'asset') {
-      getAssetDetail({ assetID: params.assetID });
-    } else if (state.scope === 'version') {
-      getListOfVersions({ assetID: params.assetID, major: data.major, minor: data.minor, spec: false });
-      getVersionTree({ assetID: params.assetID, patch: false, instantiation: false, access: false }).then(() => {
-        versionRef.current.handleTreeSelect({
-          swaggerVersion: data.swaggerVersion,
-          major: data.major,
-          minor: data.minor,
+  const reloadPage = React.useCallback(
+    (data) => {
+      if (state.scope === 'asset') {
+        getAssetDetail({ assetID: params.assetID });
+      } else if (state.scope === 'version') {
+        getListOfVersions({ assetID: params.assetID, major: data.major, minor: data.minor, spec: false });
+        getVersionTree({ assetID: params.assetID, patch: false, instantiation: false, access: false }).then(() => {
+          versionRef.current.handleTreeSelect({
+            swaggerVersion: data.swaggerVersion,
+            major: data.major,
+            minor: data.minor,
+          });
         });
-      });
-    }
-  }, [state.scope, getAssetDetail, params.assetID, getListOfVersions, getVersionTree]);
+      }
+    },
+    [state.scope, getAssetDetail, params.assetID, getListOfVersions, getVersionTree],
+  );
   const fields = React.useMemo(() => {
     const updatedAt = get(asset, 'updatedAt');
     return {
-      base: [{
-        label: i18n.t('API name'),
-        value: <Ellipsis title={get(asset, 'assetName')} />,
-      }, {
-        label: 'API ID',
-        value: <Ellipsis title={get(asset, 'assetID')} />,
-      }, {
-        label: i18n.t('API description'),
-        value: <Ellipsis title={get(asset, 'desc', '-')} />,
-      }, {
-        label: i18n.t('update time'),
-        value: updatedAt && moment(updatedAt).format('YYYY-MM-DD HH:mm:ss'),
-      }, {
-        label: i18n.t('creator'),
-        value: <UserInfo id={get(asset, 'creatorID')} />,
-      }, {
-        label: i18n.t('API logo'),
-        value: <span className="asset-logo">{asset.logo ? <img src={ossImg(asset.logo, { w: 100 })} alt="logo" /> : <CustomIcon color type="mrapi" />}</span>,
-      }],
-      relation: [{
-        label: i18n.t('project name'),
-        value: get(asset, 'projectName'),
-      }, {
-        label: i18n.t('application:app name'),
-        value: get(asset, 'appName'),
-      }],
+      base: [
+        {
+          label: i18n.t('API name'),
+          value: <Ellipsis title={get(asset, 'assetName')} />,
+        },
+        {
+          label: 'API ID',
+          value: <Ellipsis title={get(asset, 'assetID')} />,
+        },
+        {
+          label: i18n.t('API description'),
+          value: <Ellipsis title={get(asset, 'desc', '-')} />,
+        },
+        {
+          label: i18n.t('update time'),
+          value: updatedAt && moment(updatedAt).format('YYYY-MM-DD HH:mm:ss'),
+        },
+        {
+          label: i18n.t('creator'),
+          value: <UserInfo id={get(asset, 'creatorID')} />,
+        },
+        {
+          label: i18n.t('API logo'),
+          value: (
+            <span className="asset-logo">
+              {asset.logo ? <img src={ossImg(asset.logo, { w: 100 })} alt="logo" /> : <CustomIcon color type="mrapi" />}
+            </span>
+          ),
+        },
+      ],
+      relation: [
+        {
+          label: i18n.t('project name'),
+          value: get(asset, 'projectName'),
+        },
+        {
+          label: i18n.t('application:app name'),
+          value: get(asset, 'appName'),
+        },
+      ],
     };
   }, [asset]);
   const menu = (
@@ -178,12 +198,15 @@ const ApiVersions = () => {
       <div className="version-list">
         <div className="top-button-group">
           <UnityAuthWrap path={['apiMarket', 'delete']} userID={creatorID}>
-            <Button type="danger" onClick={handleDeleteAsset}>{i18n.t('delete')}</Button>
+            <Button type="danger" onClick={handleDeleteAsset}>
+              {i18n.t('delete')}
+            </Button>
           </UnityAuthWrap>
           <UnityAuthWrap path={['apiMarket', 'publicAsset']} userID={creatorID}>
             <Dropdown overlay={menu}>
-              <Button >
-                {asset.public ? i18n.t('public') : i18n.t('private')}<IconDownOne theme="filled" size="16px" />
+              <Button>
+                {asset.public ? i18n.t('public') : i18n.t('private')}
+                <IconDownOne theme="filled" size="16px" />
               </Button>
             </Dropdown>
           </UnityAuthWrap>
@@ -193,7 +216,8 @@ const ApiVersions = () => {
               onClick={() => {
                 showAssetModal('asset', 'edit');
               }}
-            >{i18n.t('default:edit')}
+            >
+              {i18n.t('default:edit')}
             </Button>
           </UnityAuthWrap>
         </div>
@@ -204,40 +228,68 @@ const ApiVersions = () => {
               fields: fields.base,
             },
           }}
-          linkList={[{
-            key: 'connection relation',
-            linkProps: {
-              title: i18n.t('connection relation'),
-              icon: <CustomIcon type="guanlianguanxi" color />,
+          linkList={[
+            {
+              key: 'connection relation',
+              linkProps: {
+                title: i18n.t('connection relation'),
+                icon: <CustomIcon type="guanlianguanxi" color />,
+              },
+              titleProps: {
+                operations: [
+                  {
+                    title: (
+                      <UnityAuthWrap path={['apiMarket', 'relatedProjectOrApp']} userID={creatorID}>
+                        <Button
+                          onClick={() => {
+                            showRelation('asset');
+                          }}
+                        >
+                          {i18n.t('edit')}
+                        </Button>
+                      </UnityAuthWrap>
+                    ),
+                  },
+                ],
+              },
+              panelProps: {
+                fields: fields.relation,
+              },
             },
-            titleProps: {
-              operations: [{ title: (
-                <UnityAuthWrap path={['apiMarket', 'relatedProjectOrApp']} userID={creatorID}>
-                  <Button onClick={() => { showRelation('asset'); }}>{i18n.t('edit')}</Button>
-                </UnityAuthWrap>
-              ) }],
+            {
+              key: 'version manage',
+              linkProps: {
+                title: i18n.t('default:version manage'),
+                icon: <CustomIcon type="banbenguanli" color />,
+              },
+              titleProps: {
+                operations: [
+                  {
+                    title: (
+                      <UnityAuthWrap path={['apiMarket', 'addVersion']} userID={creatorID}>
+                        <Button
+                          onClick={() => {
+                            showAssetModal('version', 'add');
+                          }}
+                        >
+                          {i18n.t('add {name}', { name: i18n.t('version') })}
+                        </Button>
+                      </UnityAuthWrap>
+                    ),
+                  },
+                ],
+              },
+              crossLine: true,
+              getComp: () => (
+                <VersionInfo
+                  ref={versionRef}
+                  assetID={params.assetID}
+                  onRelation={showRelation}
+                  onSelectVersion={handleSelectVersion}
+                />
+              ),
             },
-            panelProps: {
-              fields: fields.relation,
-            },
-          }, {
-            key: 'version manage',
-            linkProps: {
-              title: i18n.t('default:version manage'),
-              icon: <CustomIcon type="banbenguanli" color />,
-            },
-            titleProps: {
-              operations: [{ title: (
-                <UnityAuthWrap path={['apiMarket', 'addVersion']} userID={creatorID}>
-                  <Button onClick={() => { showAssetModal('version', 'add'); }}>
-                    {i18n.t('add {name}', { name: i18n.t('version') })}
-                  </Button>
-                </UnityAuthWrap>
-              ) }],
-            },
-            crossLine: true,
-            getComp: () => <VersionInfo ref={versionRef} assetID={params.assetID} onRelation={showRelation} onSelectVersion={handleSelectVersion} />,
-          }]}
+          ]}
         />
       </div>
       <AssetModal

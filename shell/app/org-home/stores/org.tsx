@@ -130,14 +130,17 @@ const org = createStore({
               ...payload,
             });
 
-            if (orgAccess) { // 有企业权限，正常用户
+            if (orgAccess) {
+              // 有企业权限，正常用户
               const appMap = {} as {
                 [k: string]: LAYOUT.IApp;
               };
               permStore.reducers.updatePerm(orgPermQuery.scope, orgPermRes.data);
               const menusMap = getSubSiderInfoMap();
               const appCenterAppList = getAppCenterAppList();
-              appCenterAppList.forEach((a) => { appMap[a.key] = a; });
+              appCenterAppList.forEach((a) => {
+                appMap[a.key] = a;
+              });
               layoutStore.reducers.initLayout({
                 appList: appCenterAppList,
                 currentApp: appMap.workBench,

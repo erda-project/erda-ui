@@ -14,10 +14,7 @@
 import { createStore } from 'app/cube';
 import orgStore from 'app/org-home/stores/org';
 import { PAGINATION } from 'app/constants';
-import {
-  getDomainList,
-  getClusterList,
-} from '../services/domain-manage';
+import { getDomainList, getClusterList } from '../services/domain-manage';
 
 interface IState {
   clusterList: ORG_CLUSTER.ICluster[];
@@ -52,9 +49,7 @@ const domainManage = createStore({
       update({ domainList });
     },
   },
-  reducers: {
-
-  },
+  reducers: {},
 });
 
 export default domainManage;

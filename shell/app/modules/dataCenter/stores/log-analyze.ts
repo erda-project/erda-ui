@@ -58,14 +58,14 @@ const getScope = (useTk?: boolean) => {
   const inDataCenter = routeMarks.includes('dataCenter');
   const inMicroService = routeMarks.includes('microService');
   const msMenuMap = microServiceStore.getState((s) => s.msMenuMap);
-  const scope = inDataCenter ? 'org'
-    : inMicroService ? 'micro-service' : '';
-  const scopeID = inDataCenter ? orgName
-    : inMicroService ?
-      useTk
-        ? msMenuMap.AnalyzeRule?.params.terminusKey
-        : params.addonId
-      : '';
+  const scope = inDataCenter ? 'org' : inMicroService ? 'micro-service' : '';
+  const scopeID = inDataCenter
+    ? orgName
+    : inMicroService
+    ? useTk
+      ? msMenuMap.AnalyzeRule?.params.terminusKey
+      : params.addonId
+    : '';
   return { scope, scopeID };
 };
 
@@ -79,7 +79,7 @@ const LogAnalyze = createFlatStore({
       return tagsTree;
     },
     async getLogs({ call, update }, payload: LOG_ANALYZE.GetLogQuery) {
-      const { data: logs = [] } = await call(getLogs, payload) || {};
+      const { data: logs = [] } = (await call(getLogs, payload)) || {};
       update({ logs: map(logs, (log) => ({ ...log, uniId: uniqueId() })) });
     },
     async getLogStatistics({ call, update }, payload: LOG_ANALYZE.GetLogQuery) {
@@ -87,7 +87,7 @@ const LogAnalyze = createFlatStore({
       update({ logStatistics });
     },
     async getAddonLogs({ call, update }, payload: LOG_ANALYZE.AddonSearchQuery) {
-      const { data: logs = [] } = await call(getAddonLogs, payload) || {};
+      const { data: logs = [] } = (await call(getAddonLogs, payload)) || {};
       update({ logs: map(logs, (log) => ({ ...log, uniId: uniqueId() })) });
     },
     async getAddonLogStatistics({ call, update }, payload: LOG_ANALYZE.AddonSearchQuery) {
@@ -124,7 +124,7 @@ const LogAnalyze = createFlatStore({
       LogAnalyze.getRules();
     },
     async testRule({ call }, payload: LOG_ANALYZE.TestRuleQuery) {
-      const { fields = [] } = await call(testRule(getScope(true)), payload) || {};
+      const { fields = [] } = (await call(testRule(getScope(true)), payload)) || {};
       return fields;
     },
   },

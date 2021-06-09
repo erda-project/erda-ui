@@ -59,11 +59,25 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
     const { key, value } = this.state;
     return (
       <div className="variable-input-group">
-        <Input disabled={disabled} className="variable-input" value={key} onChange={this.changeKey} placeholder={i18n.t('application:please enter the key')} />
+        <Input
+          disabled={disabled}
+          className="variable-input"
+          value={key}
+          onChange={this.changeKey}
+          placeholder={i18n.t('application:please enter the key')}
+        />
         <span className="variable-equal">=</span>
-        <Input disabled={disabled} className="variable-input" value={value} onChange={this.changeValue} placeholder={i18n.t('application:please input the value')} />
+        <Input
+          disabled={disabled}
+          className="variable-input"
+          value={value}
+          onChange={this.changeValue}
+          placeholder={i18n.t('application:please input the value')}
+        />
         {lock !== false ? <IconLock className="variable-icon variable-input-lock" /> : null}
-        {disabled ? null : <IconDelete className={`variable-icon pointer ${lock === false && 'ml12'}`} onClick={() => onDelete(key)} />}
+        {disabled ? null : (
+          <IconDelete className={`variable-icon pointer ${lock === false && 'ml12'}`} onClick={() => onDelete(key)} />
+        )}
       </div>
     );
   }

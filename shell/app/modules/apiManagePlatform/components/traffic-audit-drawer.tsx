@@ -39,13 +39,7 @@ const TrafficAuditDrawer = ({ visible, onClose, queries }: IProps) => {
   };
 
   return (
-    <Drawer
-      title={i18n.t('traffic audit')}
-      visible={visible}
-      width={1000}
-      onClose={handleClose}
-      destroyOnClose
-    >
+    <Drawer title={i18n.t('traffic audit')} visible={visible} width={1000} onClose={handleClose} destroyOnClose>
       <CommonChart type="apim_client" extraQuery={query} />
     </Drawer>
   );

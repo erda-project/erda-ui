@@ -35,9 +35,7 @@ const parseLinkInContent = (content, pushSlideComp) => {
       <React.Fragment>
         {'['}
         <a onClick={() => pushSlideComp(requestId)}>
-          <Tooltip title={rest.length ? `[${requestId},${rest}]` : `[${requestId}]`}>
-            {serviceName}
-          </Tooltip>
+          <Tooltip title={rest.length ? `[${requestId},${rest}]` : `[${requestId}]`}>{serviceName}</Tooltip>
         </a>
         {`] ${logInfo[1]}`}
       </React.Fragment>
@@ -47,27 +45,27 @@ const parseLinkInContent = (content, pushSlideComp) => {
   }
 };
 
-const getLogItem = (pushSlideComp) => ({ log }) => {
-  const { content } = log;
-  let time = '';
-  let level = '';
-  if (regLog.LOGSTART.test(content)) {
-    const [parrent, _time, _level, _params] = regLog.LOGSTART.exec(content);
-    time = _time;
-    level = _level;
-  }
+const getLogItem =
+  (pushSlideComp) =>
+  ({ log }) => {
+    const { content } = log;
+    let time = '';
+    let level = '';
+    if (regLog.LOGSTART.test(content)) {
+      const [parrent, _time, _level, _params] = regLog.LOGSTART.exec(content);
+      time = _time;
+      level = _level;
+    }
 
-  const reContent = parseLinkInContent(AU.ansi_to_html(content), pushSlideComp);
-  return (
-    <div className="container-log-item">
-      {
-        time && <span className="log-item-logtime">{time}</span>
-      }
-      {level && <span className={`log-item-level ${level.toLowerCase()}`}>{level}</span>}
-      <pre className="log-item-content">{reContent}</pre>
-    </div>
-  );
-};
+    const reContent = parseLinkInContent(AU.ansi_to_html(content), pushSlideComp);
+    return (
+      <div className="container-log-item">
+        {time && <span className="log-item-logtime">{time}</span>}
+        {level && <span className={`log-item-level ${level.toLowerCase()}`}>{level}</span>}
+        <pre className="log-item-content">{reContent}</pre>
+      </div>
+    );
+  };
 
 // 容器日志规则：
 /** **
@@ -80,7 +78,6 @@ const getLogItem = (pushSlideComp) => ({ log }) => {
  * 此处传入的props.instance 中  id=taskId,containerId=containerId
 
 */
-
 
 class RuntimeContainerLog extends React.Component {
   constructor(props) {
@@ -107,7 +104,8 @@ class RuntimeContainerLog extends React.Component {
       getComp: () => <SimpleLog {...p} />,
       getTitle: () => (
         <span>
-          <IconLeftOne className="hover-active" theme="filled" size="16px" onClick={() => this.props.popSlideComp()} />&nbsp;
+          <IconLeftOne className="hover-active" theme="filled" size="16px" onClick={() => this.props.popSlideComp()} />
+          &nbsp;
           {i18n.t('runtime:monitor log')}
         </span>
       ),
@@ -115,7 +113,9 @@ class RuntimeContainerLog extends React.Component {
   };
 
   getLogId = () => {
-    const { instance: { id, containerId } } = this.props;
+    const {
+      instance: { id, containerId },
+    } = this.props;
     const { logNameMap } = this.state;
     const reId = id || containerId;
     const logName = logNameMap[reId] || defaultLogName;
@@ -123,7 +123,8 @@ class RuntimeContainerLog extends React.Component {
   };
 
   render() {
-    const { style, logsMap, dockerLogMap, instance, params, isStopped, sourceType, extraQuery, fetchApi, hasLogs } = this.props;
+    const { style, logsMap, dockerLogMap, instance, params, isStopped, sourceType, extraQuery, fetchApi, hasLogs } =
+      this.props;
     const { activeId, logNameMap } = this.state;
 
     const { id, containerId, updatedAt } = instance;
@@ -136,7 +137,14 @@ class RuntimeContainerLog extends React.Component {
     }
 
     const logName = logNameMap[reId] || defaultLogName;
-    const switchLog = <Switch checkedChildren={i18n.t('runtime:error')} unCheckedChildren={i18n.t('runtime:standard')} checked={logName === 'stderr'} onChange={() => this.toggleLogName(reId)} />;
+    const switchLog = (
+      <Switch
+        checkedChildren={i18n.t('runtime:error')}
+        unCheckedChildren={i18n.t('runtime:standard')}
+        checked={logName === 'stderr'}
+        onChange={() => this.toggleLogName(reId)}
+      />
+    );
     const logRoller = (
       <LogRoller
         query={{ id: reId, source, stream: logName, end, fetchApi, ...extraQuery }}

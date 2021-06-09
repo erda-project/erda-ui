@@ -77,8 +77,7 @@ const getUploadComp = ({ form, onChangeFile, fileNameKey, fileAccept }: IUploadP
           <span>{fileName}</span>
           <CustomIcon type="thin-del" className="hover-active" onClick={deleteFile} />
         </div>
-      )
-      }
+      )}
     </div>
   );
 };
@@ -94,9 +93,7 @@ export const keyPrefix = {
 
 const getUploadFieldProps = ({ form, onChangeFile, fileNameKey, fileAccept }: IUploadProps) => {
   return {
-    rules: [
-      { required: true, message: i18n.t('common:Please select the file to be uploaded') },
-    ],
+    rules: [{ required: true, message: i18n.t('common:Please select the file to be uploaded') }],
     config: {
       getValueFromEvent: (e: any) => {
         if (Array.isArray(e)) return e;
@@ -149,26 +146,25 @@ const Certificate = () => {
         render: (_v: any, record: Certificate.Detail) => {
           return (
             <div className="table-operations">
-              {
-                record.type === 'Message' ? (
-                  <a
-                    className="table-operations-btn"
-                    download={get(record, 'messageInfo.uuid')}
-                    href={`/api/files/${get(record, 'messageInfo.uuid')}`}
-                  >
-                    {i18n.t('download')}
-                  </a>
-                ) : (
-                  <span
-                    className="table-operations-btn"
-                    onClick={() => updater.chosenRowId(record.id)}
-                  >
-                    {i18n.t('download')}
-                  </span>
-                )
-              }
+              {record.type === 'Message' ? (
+                <a
+                  className="table-operations-btn"
+                  download={get(record, 'messageInfo.uuid')}
+                  href={`/api/files/${get(record, 'messageInfo.uuid')}`}
+                >
+                  {i18n.t('download')}
+                </a>
+              ) : (
+                <span className="table-operations-btn" onClick={() => updater.chosenRowId(record.id)}>
+                  {i18n.t('download')}
+                </span>
+              )}
               {/* <span className="table-operations-btn" onClick={() => onEdit(record)}>{i18n.t('edit')}</span> */}
-              <DeleteConfirm title={i18n.t('delete certificate')} secondTitle={i18n.t('org:confirm-delete-certificate')} onConfirm={() => deleteItem(record).then(() => reloadList())}>
+              <DeleteConfirm
+                title={i18n.t('delete certificate')}
+                secondTitle={i18n.t('org:confirm-delete-certificate')}
+                onConfirm={() => deleteItem(record).then(() => reloadList())}
+              >
                 <span className="table-operations-btn">{i18n.t('delete')}</span>
               </DeleteConfirm>
             </div>
@@ -217,13 +213,15 @@ const Certificate = () => {
           return (
             <Select
               placeholder={i18n.t('please select')}
-              onSelect={(e) => { curValue !== e && form.resetFields(['filename', 'uuid']); }}
+              onSelect={(e) => {
+                curValue !== e && form.resetFields(['filename', 'uuid']);
+              }}
             >
-              {
-                map(typeMap, ({ value, label }) => (
-                  <Option key={value} value={value}>{label}</Option>
-                ))
-              }
+              {map(typeMap, ({ value, label }) => (
+                <Option key={value} value={value}>
+                  {label}
+                </Option>
+              ))}
             </Select>
           );
         },
@@ -254,9 +252,7 @@ const Certificate = () => {
           name: `${keyPrefix.iosKeyChainP12}.password`,
           type: 'custom',
           required: false,
-          rules: [
-            { pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` },
-          ],
+          rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
           itemProps: {
             placeholder: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}`,
           },
@@ -324,7 +320,10 @@ const Certificate = () => {
               updater.manualCreate(e.target.value);
             },
           },
-          options: [{ name: i18n.t('manually create'), value: 'true' }, { name: i18n.t('auto create'), value: 'false' }],
+          options: [
+            { name: i18n.t('manually create'), value: 'true' },
+            { name: i18n.t('auto create'), value: 'false' },
+          ],
         },
       ],
       Message: [
@@ -382,9 +381,7 @@ const Certificate = () => {
           label: `Debug-key ${i18n.t('password')}`,
           name: `${keyPrefix.adrManualDebug}.keyPassword`,
           type: 'custom',
-          rules: [
-            { pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` },
-          ],
+          rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
           itemProps: {
             placeholder: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}`,
           },
@@ -394,9 +391,7 @@ const Certificate = () => {
           label: `Debug-store ${i18n.t('password')}`,
           name: `${keyPrefix.adrManualDebug}.storePassword`,
           type: 'custom',
-          rules: [
-            { pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` },
-          ],
+          rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
           itemProps: {
             placeholder: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}`,
           },
@@ -435,9 +430,7 @@ const Certificate = () => {
           label: `Release-key ${i18n.t('password')}`,
           name: `${keyPrefix.adrManualRelease}.keyPassword`,
           type: 'custom',
-          rules: [
-            { pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` },
-          ],
+          rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
           itemProps: {
             placeholder: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}`,
           },
@@ -447,9 +440,7 @@ const Certificate = () => {
           label: `Release-store ${i18n.t('password')}`,
           name: `${keyPrefix.adrManualRelease}.storePassword`,
           type: 'custom',
-          rules: [
-            { pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` },
-          ],
+          rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
           itemProps: {
             placeholder: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}`,
           },
@@ -470,9 +461,7 @@ const Certificate = () => {
         {
           label: `Debug-key ${i18n.t('password')}`,
           name: `${keyPrefix.adrAuto}.debugKeyStore.keyPassword`,
-          rules: [
-            { pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` },
-          ],
+          rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
           itemProps: {
             placeholder: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}`,
           },
@@ -481,9 +470,7 @@ const Certificate = () => {
         {
           label: `Debug-store ${i18n.t('password')}`,
           name: `${keyPrefix.adrAuto}.debugKeyStore.storePassword`,
-          rules: [
-            { pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` },
-          ],
+          rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
           itemProps: {
             placeholder: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}`,
           },
@@ -496,9 +483,7 @@ const Certificate = () => {
         {
           label: `Release-key ${i18n.t('password')}`,
           name: `${keyPrefix.adrAuto}.releaseKeyStore.keyPassword`,
-          rules: [
-            { pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` },
-          ],
+          rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
           itemProps: {
             placeholder: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}`,
           },
@@ -507,9 +492,7 @@ const Certificate = () => {
         {
           label: `Release-store ${i18n.t('password')}`,
           name: `${keyPrefix.adrAuto}.releaseKeyStore.storePassword`,
-          rules: [
-            { pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` },
-          ],
+          rules: [{ pattern: /^[\s\S]{6,30}$/, message: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}` }],
           itemProps: {
             placeholder: `${i18n.t('length is {min}~{max}', { min: 6, max: 30 })}`,
           },
@@ -542,31 +525,33 @@ const Certificate = () => {
       ],
     } as any;
 
-    let fieldsList = basicFieldsList.concat((typeFieldsMap[chosenType] || []));
+    let fieldsList = basicFieldsList.concat(typeFieldsMap[chosenType] || []);
     if (chosenType === 'Android') {
       fieldsList = fieldsList.concat(createFieldsMap[manualCreate === 'true' ? 'manual' : 'auto']);
     }
     return fieldsList;
   };
 
-  const filterConfig = React.useMemo(() => [
-    {
-      type: Input,
-      name: 'q',
-      customProps: {
-        placeholder: i18n.t('search by name'),
+  const filterConfig = React.useMemo(
+    () => [
+      {
+        type: Input,
+        name: 'q',
+        customProps: {
+          placeholder: i18n.t('search by name'),
+        },
       },
-    },
-  ], []);
+    ],
+    [],
+  );
 
-  const handleFormSubmit = (data: Certificate.Detail, { addItem }: {addItem: (arg: any) => Promise<any>}) => {
+  const handleFormSubmit = (data: Certificate.Detail, { addItem }: { addItem: (arg: any) => Promise<any> }) => {
     const reData = { ...data, orgId };
     if (reData.androidInfo) {
       reData.androidInfo.manualCreate = `${reData.androidInfo.manualCreate}` === 'true';
     }
     return addItem(reData);
   };
-
 
   return (
     <>

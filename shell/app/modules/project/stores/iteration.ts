@@ -34,7 +34,7 @@ interface IState {
   iterationDetail: ITERATION.Detail;
   iterationPaging: IPaging;
   undoneIterations: ITERATION.Detail[];
-  issuesMap: Merge<Obj<ISSUE.Issue[]>, {[k: string]: any}>;
+  issuesMap: Merge<Obj<ISSUE.Issue[]>, { [k: string]: any }>;
   backlogIssues: ISSUE.Issue[];
   backlogIssuesPaging: IPaging;
 }
@@ -80,11 +80,19 @@ const iteration = createStore({
     },
     async createIteration({ call, getParams }, payload: ITERATION.CreateBody) {
       const { projectId } = getParams();
-      return call(createProjectIteration, { ...payload, projectID: +projectId, state: 'UNFILED' }, { successMsg: i18n.t('created successfully') });
+      return call(
+        createProjectIteration,
+        { ...payload, projectID: +projectId, state: 'UNFILED' },
+        { successMsg: i18n.t('created successfully') },
+      );
     },
     async editIteration({ call, getParams }, payload: Omit<ITERATION.UpdateBody, 'projectID'>) {
       const { projectId } = getParams();
-      return call(editProjectIteration, { ...payload, projectID: +projectId }, { successMsg: i18n.t('update successfully') });
+      return call(
+        editProjectIteration,
+        { ...payload, projectID: +projectId },
+        { successMsg: i18n.t('update successfully') },
+      );
     },
     async deleteIteration({ call }, id: number) {
       await call(deleteIteration, id, { successMsg: i18n.t('deleted successfully') });
@@ -95,7 +103,10 @@ const iteration = createStore({
       update({ undoneIterations: list });
       return list;
     },
-    async getIterationsIssues({ call, update, select, getParams }, { iterationId, pageNo }: { iterationId: number; pageNo: number }) {
+    async getIterationsIssues(
+      { call, update, select, getParams },
+      { iterationId, pageNo }: { iterationId: number; pageNo: number },
+    ) {
       const preIssuesMap = select((s) => s.issuesMap);
       const { projectId: projectID } = getParams();
       const { list = [], total } = await call(getIssues, { iterationID: iterationId, projectID, pageNo });
@@ -124,7 +135,11 @@ const iteration = createStore({
     async createIssue({ call, getParams }, payload: ISSUE.BacklogIssueCreateBody) {
       const { projectId: projectID } = getParams();
       const userId = userStore.getState((s) => s.loginUser.id);
-      const res = await call(createIssue, { assignee: userId, iterationID: -1, projectID: +projectID, ...payload } as ISSUE.Issue, { successMsg: i18n.t('created successfully') });
+      const res = await call(
+        createIssue,
+        { assignee: userId, iterationID: -1, projectID: +projectID, ...payload } as ISSUE.Issue,
+        { successMsg: i18n.t('created successfully') },
+      );
       return res;
     },
   },

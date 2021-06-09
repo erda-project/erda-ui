@@ -19,12 +19,12 @@ declare namespace CP_RADIO {
     operations?: Obj<CP_COMMON.Operation>;
   }
 
-  interface IState{
+  interface IState {
     childrenValue?: Obj;
     value: string;
   }
 
-  interface IProps{
+  interface IProps {
     buttonStyle?: 'solid' | 'outline';
     disabled?: boolean;
     disabledTip?: string;
@@ -44,7 +44,7 @@ declare namespace CP_RADIO {
     width?: string;
   }
 
-  interface IOptionChildren{
+  interface IOptionChildren {
     key: string;
     text: string;
   }

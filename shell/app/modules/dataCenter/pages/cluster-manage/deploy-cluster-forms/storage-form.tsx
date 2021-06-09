@@ -18,14 +18,14 @@ import { RenderPureForm, ReadonlyForm } from 'common';
 import { isEmpty, get } from 'lodash';
 import { Switch } from 'app/nusi';
 
-
 // 存储配置
 export const StorageForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
   const formPrefix = 'config.storage';
   const [isNas, setIsNas] = React.useState(true);
   React.useEffect(() => {
     const storage = get(data, formPrefix) || {};
-    if (!storage.nas && !isEmpty(storage.gluster)) { // gluster
+    if (!storage.nas && !isEmpty(storage.gluster)) {
+      // gluster
       setIsNas(false);
     } else {
       setIsNas(true);
@@ -39,7 +39,9 @@ export const StorageForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
       rules: [{ ...regRulesMap.absolutePath }],
     },
     {
-      getComp: () => <Switch checkedChildren="nas" unCheckedChildren="gluster" checked={isNas} onClick={() => setIsNas(!isNas)} />,
+      getComp: () => (
+        <Switch checkedChildren="nas" unCheckedChildren="gluster" checked={isNas} onClick={() => setIsNas(!isNas)} />
+      ),
     },
   ];
   const nasFields = [
@@ -107,16 +109,14 @@ export const StorageForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
       initialValue: '/brick',
     },
   ];
-  fieldsList = fieldsList.concat(isNas ? nasFields : glusterFields as any);
+  fieldsList = fieldsList.concat(isNas ? nasFields : (glusterFields as any));
   return (
     <FormUnitContainer title={i18n.t('org:storage configs')} curRef={curRef}>
-      {
-        isReadonly ? (
-          <ReadonlyForm fieldsList={fieldsList} data={data} />
-        ) : (
-          <RenderPureForm list={fieldsList} form={form} layout="vertical" className="deploy-form-render" />
-        )
-      }
+      {isReadonly ? (
+        <ReadonlyForm fieldsList={fieldsList} data={data} />
+      ) : (
+        <RenderPureForm list={fieldsList} form={form} layout="vertical" className="deploy-form-render" />
+      )}
     </FormUnitContainer>
   );
 };

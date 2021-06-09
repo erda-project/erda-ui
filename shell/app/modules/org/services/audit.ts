@@ -14,19 +14,22 @@
 import agent from 'agent';
 
 export const getAuditList = (payload: AUDIT.ListQuery): IPagingResp<AUDIT.Item> => {
-  return agent.get('/api/audits/actions/list')
+  return agent
+    .get('/api/audits/actions/list')
     .query(payload)
     .then((response: any) => response.body);
 };
 
 export const getAuditLogSetting = (orgId: number): AUDIT.LogSetting => {
-  return agent.get('/api/audits/actions/setting')
+  return agent
+    .get('/api/audits/actions/setting')
     .query({ orgId })
     .then((response: any) => response.body);
 };
 
 export const updateAuditLogSetting = (data: AUDIT.LogSettingBody) => {
-  return agent.put('/api/audits/actions/setting')
+  return agent
+    .put('/api/audits/actions/setting')
     .send(data)
     .then((response: any) => response.body);
 };

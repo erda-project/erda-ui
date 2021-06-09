@@ -17,10 +17,7 @@ import * as React from 'react';
 
 import './circle-progress.scss';
 
-
-export const CircleProgress = ({
-  left = 0, right = 0, autoFontSize = true, className = '', ...rest
-}) => {
+export const CircleProgress = ({ left = 0, right = 0, autoFontSize = true, className = '', ...rest }) => {
   let fontSize = '';
   if (autoFontSize) {
     fontSize = `${left}${right}`.length > 5 ? 'small-font' : '';

@@ -16,7 +16,6 @@ import { Row, Col } from 'app/nusi';
 import { TimeSelector } from 'common';
 import ScriptMap from './config/chartMap';
 
-
 const Script = () => {
   const getAllChart = () => {
     return (
@@ -37,11 +36,7 @@ const Script = () => {
             <ScriptMap.sortList />
           </div>
         </Col>
-        <Col span={16}>
-          {
-              getAllChart()
-          }
-        </Col>
+        <Col span={16}>{getAllChart()}</Col>
       </Row>
     </div>
   );

@@ -34,41 +34,32 @@ export const getCloudResourceTagsCol = (config?: Obj) => {
       const showMore = tags.length > showCount && tags.length > 15 * showCount;
       const oneAndMoreTag = (
         <React.Fragment>
-          {
-            tags.slice(0, showCount).map((l) => (
+          {tags.slice(0, showCount).map((l) => (
+            <span key={l} className="tag-default">
+              {cutStr(l, 15)}
+            </span>
+          ))}
+          {showMore ? (
+            <span>...&nbsp;&nbsp;</span>
+          ) : (
+            tags.slice(showCount).map((l) => (
               <span key={l} className="tag-default">
                 {cutStr(l, 15)}
               </span>
             ))
-          }
-          {
-            showMore
-              ?
-                <span>...&nbsp;&nbsp;</span>
-              :
-              tags.slice(showCount).map((l) => (
-                <span key={l} className="tag-default">
-                  {cutStr(l, 15)}
-                </span>
-              ))
-          }
+          )}
         </React.Fragment>
       );
-      const fullTags = (withCut?: boolean) => tags.map((l) => (
-        <span className="tag-default" key={l}>
-          {withCut ? cutStr(l, 15) : l}
-        </span>
-      ));
+      const fullTags = (withCut?: boolean) =>
+        tags.map((l) => (
+          <span className="tag-default" key={l}>
+            {withCut ? cutStr(l, 15) : l}
+          </span>
+        ));
       return (
         <div className="cloud-resource-tags-container">
-          <Tooltip
-            title={fullTags()}
-            placement="top"
-            overlayClassName="tags-tooltip"
-          >
-            <span className="cloud-resource-tags-box">
-              {showMore ? oneAndMoreTag : fullTags(true)}
-            </span>
+          <Tooltip title={fullTags()} placement="top" overlayClassName="tags-tooltip">
+            <span className="cloud-resource-tags-box">{showMore ? oneAndMoreTag : fullTags(true)}</span>
           </Tooltip>
         </div>
       );
@@ -87,16 +78,12 @@ export const getCloudResourceIDNameCol = (dataIndex = 'id', nameKey = 'name', cl
         <div>
           <div>
             <Tooltip title={val}>
-              <div
-                className="for-copy nowrap"
-                data-clipboard-tip="ID"
-                data-clipboard-text={val}
-              >
+              <div className="for-copy nowrap" data-clipboard-tip="ID" data-clipboard-text={val}>
                 {val || i18n.t('common:empty')}
               </div>
             </Tooltip>
           </div>
-          <div onClick={() => (click && click(val, record))} className={linkStyle}>
+          <div onClick={() => click && click(val, record)} className={linkStyle}>
             {record[nameKey]}
           </div>
         </div>
@@ -126,18 +113,19 @@ export const getCloudResourceTimeCol = (title = i18n.t('create time'), dataIndex
 };
 
 type IResourceType = 'rds' | 'ecs' | 'vpc' | 'mq' | 'vsw' | 'oss' | 'redis' | 'account';
-export const getCloudResourceStatusCol = (resourceType: IResourceType, title = i18n.t('status'), dataIndex = 'status') => {
-  return ({
+export const getCloudResourceStatusCol = (
+  resourceType: IResourceType,
+  title = i18n.t('status'),
+  dataIndex = 'status',
+) => {
+  return {
     title,
     dataIndex,
     width: 90,
     render: (value: string) => {
-      return (<Badge
-        status={statusMap[resourceType][value]?.status || 'default'}
-        text={value}
-      />);
+      return <Badge status={statusMap[resourceType][value]?.status || 'default'} text={value} />;
     },
-  });
+  };
 };
 
 const chooseShowTime = (value: string, time: string, msg?: string) => {
@@ -145,11 +133,19 @@ const chooseShowTime = (value: string, time: string, msg?: string) => {
   return (
     <div>
       <div>{chargeTypeMap[value].name || value}</div>
-      <span>{msg}{formatTime}</span>
-    </div>);
+      <span>
+        {msg}
+        {formatTime}
+      </span>
+    </div>
+  );
 };
-export const getCloudResourceChargeTypeCol = (dataIndex = 'chargeType', startTime = 'startTime', expireTime = 'expireTime') => {
-  return ({
+export const getCloudResourceChargeTypeCol = (
+  dataIndex = 'chargeType',
+  startTime = 'startTime',
+  expireTime = 'expireTime',
+) => {
+  return {
     title: i18n.t('dataCenter:payment methods'),
     dataIndex,
     width: 170,
@@ -161,13 +157,13 @@ export const getCloudResourceChargeTypeCol = (dataIndex = 'chargeType', startTim
         val = chooseShowTime('PrePaid', record[expireTime], `${i18n.t('dcos:expire time')}: `);
       }
 
-      return (<Tooltip title={val}>{val}</Tooltip>);
+      return <Tooltip title={val}>{val}</Tooltip>;
     },
-  });
+  };
 };
 
 export const getCloudResourceRegionCol = (dataIndex = 'regionID', msg?: any) => {
-  return ({
+  return {
     title: i18n.t('region'),
     dataIndex,
     render: (value: string, record: any) => {
@@ -176,18 +172,18 @@ export const getCloudResourceRegionCol = (dataIndex = 'regionID', msg?: any) => 
       const regionObj = regionData.find((item) => item.regionID === value);
       const region = i18n.language === 'zh' ? regionObj?.localName : regionObj?.regionID;
       const val = reMsg || region;
-      return (<Tooltip title={val}>{val}</Tooltip>);
+      return <Tooltip title={val}>{val}</Tooltip>;
     },
-  });
+  };
 };
 
 export const getRemarkCol = (dataIndex = 'remark') => {
-  return ({
+  return {
     title: i18n.t('application:remark'),
     dataIndex,
     tip: true,
     render: (_v: string) => {
       return _v || '_';
     },
-  });
+  };
 };

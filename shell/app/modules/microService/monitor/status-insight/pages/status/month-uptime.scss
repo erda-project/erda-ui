@@ -41,7 +41,7 @@
         font-size: 12px;
         text-align: center;
         opacity: 0;
-        transition: opacity .1s linear;
+        transition: opacity 0.1s linear;
         content: attr(data-date);
       }
 

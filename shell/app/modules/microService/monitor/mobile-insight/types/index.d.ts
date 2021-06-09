@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace MONITOR_MI {
-
   interface IComparativeQuery {
     fetchApi: string;
     start: number;
@@ -23,5 +22,4 @@ declare namespace MONITOR_MI {
     ranges: string | string[];
     source: true;
   }
-
 }

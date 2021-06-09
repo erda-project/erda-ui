@@ -64,33 +64,42 @@ const CaseImport = ({ visible, onCancel }: IProps) => {
     });
   }, [priorityFilter]);
 
-  const getCases = useCallback((newQuery: TEST_CASE.QueryCase) => {
-    oldGetCases({ ...newQuery, scope: 'caseModal' });
-    setQuery(newQuery);
-  }, [oldGetCases]);
+  const getCases = useCallback(
+    (newQuery: TEST_CASE.QueryCase) => {
+      oldGetCases({ ...newQuery, scope: 'caseModal' });
+      setQuery(newQuery);
+    },
+    [oldGetCases],
+  );
 
-  const onSelect = useCallback((info: any) => {
-    if (!info) {
-      return;
-    }
-    const { testSetID, parentID } = info;
-    const searchQuery: any = { ...query, parentID, testSetID };
-    // 左侧选择集合变了时，重置pageNO
-    if (testSetID !== query.testSetID) {
-      searchQuery.pageNo = 1;
-    }
+  const onSelect = useCallback(
+    (info: any) => {
+      if (!info) {
+        return;
+      }
+      const { testSetID, parentID } = info;
+      const searchQuery: any = { ...query, parentID, testSetID };
+      // 左侧选择集合变了时，重置pageNO
+      if (testSetID !== query.testSetID) {
+        searchQuery.pageNo = 1;
+      }
 
-    getCases({
-      ...searchQuery,
-      priority: priorityFilter,
-      notInTestPlanID: testPlanId,
-      testPlanId: undefined, // 引用的弹框里不传testPlanId，要置为undefined
-    });
-  }, [getCases, priorityFilter, query, testPlanId]);
+      getCases({
+        ...searchQuery,
+        priority: priorityFilter,
+        notInTestPlanID: testPlanId,
+        testPlanId: undefined, // 引用的弹框里不传testPlanId，要置为undefined
+      });
+    },
+    [getCases, priorityFilter, query, testPlanId],
+  );
 
-  const onTableChange = useCallback((newQuery: object) => {
-    setQuery({ ...query, ...newQuery });
-  }, [query]);
+  const onTableChange = useCallback(
+    (newQuery: object) => {
+      setQuery({ ...query, ...newQuery });
+    },
+    [query],
+  );
 
   const onOk = () => {
     if (!modalCaseTotal || !checked) {
@@ -107,7 +116,13 @@ const CaseImport = ({ visible, onCancel }: IProps) => {
   };
 
   const modalQuery = useMemo(() => {
-    return { testSetID: query.testSetID, pageNo: query.pageNo || 1, notInTestPlanID: testPlanId, pageSize: query.pageSize, priority: priorityFilter };
+    return {
+      testSetID: query.testSetID,
+      pageNo: query.pageNo || 1,
+      notInTestPlanID: testPlanId,
+      pageSize: query.pageSize,
+      priority: priorityFilter,
+    };
   }, [query.testSetID, query.pageNo, query.pageSize, testPlanId, priorityFilter]);
 
   const handleCancel = () => {
@@ -144,15 +159,14 @@ const CaseImport = ({ visible, onCancel }: IProps) => {
             onChange={handleFilter}
             className="mb16"
           >
-            {priorityList.map((item) => <Option value={item} key={item}>{item}</Option>)}
+            {priorityList.map((item) => (
+              <Option value={item} key={item}>
+                {item}
+              </Option>
+            ))}
           </Select>
 
-          <CaseTable
-            columns={commonColumns}
-            scope="caseModal"
-            onChange={onTableChange}
-            modalQuery={modalQuery}
-          />
+          <CaseTable columns={commonColumns} scope="caseModal" onChange={onTableChange} modalQuery={modalQuery} />
         </div>
       </div>
     </Modal>

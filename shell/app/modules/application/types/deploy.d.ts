@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace DEPLOY {
-
   interface Runtime {
     clusterId: number;
     clusterName: string;
@@ -120,7 +119,6 @@ declare namespace DEPLOY {
     };
   }
 
-
   interface IDeploy {
     commitMessage: string;
     commitId: string;
@@ -153,7 +151,7 @@ declare namespace DEPLOY {
     approvalReason: string;
   }
 
-  interface IUpdateApproveBody{
+  interface IUpdateApproveBody {
     id: number;
     reject: boolean;
     reason?: string;

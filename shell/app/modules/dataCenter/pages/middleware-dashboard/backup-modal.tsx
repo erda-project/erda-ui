@@ -38,7 +38,6 @@ const periods = [
   { value: '0 12 * * ?', name: 'every day' },
 ];
 
-
 const BackupModal = ({ visible, formData, onCancel }: IProps) => {
   const [strategies, setStrategies] = React.useState([] as any[]);
   React.useEffect(() => {
@@ -100,11 +99,9 @@ const BackupModal = ({ visible, formData, onCancel }: IProps) => {
               handleChange(index, value as string, 'backupRules');
             }}
           >
-            {
-              periods.map(({ name, value }) => {
-                return <Option value={value}>{name}</Option>;
-              })
-            }
+            {periods.map(({ name, value }) => {
+              return <Option value={value}>{name}</Option>;
+            })}
           </Select>
         );
       },
@@ -159,11 +156,10 @@ const BackupModal = ({ visible, formData, onCancel }: IProps) => {
       label: '',
       getComp: () => (
         <>
-          <Button type="ghost" className="mb8 mt8" onClick={handleAddStrategy}>{i18n.t('default:add strategy')}</Button>
-          <Table
-            columns={columns}
-            dataSource={strategies}
-          />
+          <Button type="ghost" className="mb8 mt8" onClick={handleAddStrategy}>
+            {i18n.t('default:add strategy')}
+          </Button>
+          <Table columns={columns} dataSource={strategies} />
         </>
       ),
     },

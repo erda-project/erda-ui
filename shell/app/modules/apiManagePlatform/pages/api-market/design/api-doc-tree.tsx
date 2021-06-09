@@ -40,9 +40,7 @@ interface IApiDocTree {
   onVisibleChange: (val: boolean) => void;
 }
 const ApiDocTree = React.memo((props: IApiDocTree) => {
-  const [{
-    treeList,
-  }, updater] = useUpdate({
+  const [{ treeList }, updater] = useUpdate({
     treeList: [] as API_SETTING.IFileTree[],
   });
 
@@ -52,7 +50,11 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
   const { inode: inodeQuery, pinode: pinodeQuery } = routeInfoStore.useStore((s) => s.query);
 
   const [branchList, apiWs, isDocChanged, isSaved, wsQuery] = apiDesignStore.useStore((s) => [
-    s.branchList, s.apiWs, s.isDocChanged, s.isSaved, s.wsQuery,
+    s.branchList,
+    s.apiWs,
+    s.isDocChanged,
+    s.isSaved,
+    s.wsQuery,
   ]);
 
   const { getTreeList, getApiDetail, deleteTreeNode, renameTreeNode, setSavedState, commitSaveApi } = apiDesignStore;
@@ -93,25 +95,24 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
     }
   }, [treeList]);
 
-  const jumpToNewDoc = React.useCallback(({ inode, branches, pinode }: {
-    inode: string;
-    pinode: string;
-    branches?: API_SETTING.IFileTree[];
-  }) => {
-    if (!inode || !pinode) return;
+  const jumpToNewDoc = React.useCallback(
+    ({ inode, branches, pinode }: { inode: string; pinode: string; branches?: API_SETTING.IFileTree[] }) => {
+      if (!inode || !pinode) return;
 
-    apiWs && apiWs.close();
-    const _branchList = branches || branchList;
+      apiWs && apiWs.close();
+      const _branchList = branches || branchList;
 
-    getApiDetail(inode).then((data) => {
-      getQuoteMap(data.openApiDoc);
-      updateSearch({ inode, pinode });
-      const _branch = find(_branchList, { inode: pinode });
-      const _curNodeData = { inode, pinode, branchName: _branch?.name, asset: data?.asset, apiDocName: data?.name };
+      getApiDetail(inode).then((data) => {
+        getQuoteMap(data.openApiDoc);
+        updateSearch({ inode, pinode });
+        const _branch = find(_branchList, { inode: pinode });
+        const _curNodeData = { inode, pinode, branchName: _branch?.name, asset: data?.asset, apiDocName: data?.name };
 
-      onSelectDoc(_curNodeData);
-    });
-  }, [apiWs, branchList, getApiDetail, getQuoteMap, onSelectDoc]);
+        onSelectDoc(_curNodeData);
+      });
+    },
+    [apiWs, branchList, getApiDetail, getQuoteMap, onSelectDoc],
+  );
 
   React.useEffect(() => {
     if (isSaved) {
@@ -226,7 +227,7 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
         });
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newTreeNode]);
 
   const onLoadData = (treeNode: any) => {
@@ -276,24 +277,21 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
   const content = (
     <React.Fragment>
       <div className="list-wrap">
-        {
-          isEmpty(treeList)
-            ? <EmptyHolder relative />
-            :
-            (
-              <Tree
-                className="api-tree"
-                blockNode
-                defaultExpandedKeys={[pinodeQuery]}
-                selectedKeys={[inodeQuery]}
-                loadData={onLoadData}
-                onSelect={onSelectTreeNode}
-                ref={treeRef}
-              >
-                {renderTreeNodes(treeList)}
-              </Tree>
-            )
-        }
+        {isEmpty(treeList) ? (
+          <EmptyHolder relative />
+        ) : (
+          <Tree
+            className="api-tree"
+            blockNode
+            defaultExpandedKeys={[pinodeQuery]}
+            selectedKeys={[inodeQuery]}
+            loadData={onLoadData}
+            onSelect={onSelectTreeNode}
+            ref={treeRef}
+          >
+            {renderTreeNodes(treeList)}
+          </Tree>
+        )}
       </div>
     </React.Fragment>
   );
@@ -335,7 +333,8 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
   };
 
   React.useEffect(() => {
-    const popoverHide = (e: any) => { // 点击外部，隐藏选项
+    const popoverHide = (e: any) => {
+      // 点击外部，隐藏选项
       // eslint-disable-next-line react/no-find-dom-node
       const el2 = ReactDOM.findDOMNode(treeRef.current) as HTMLElement;
       if (!(el2 && el2.contains(e.target))) {
@@ -363,7 +362,11 @@ const ApiDocTree = React.memo((props: IApiDocTree) => {
         className={`api-file-select ${!treeNodeData?.apiDocName ? 'color-text-desc' : ''}`}
       >
         <span>{i18n.t('document')}：</span>
-        <span className="name nowrap">{treeNodeData?.branchName ? `${treeNodeData?.branchName}/${treeNodeData?.apiDocName}` : i18n.t('common:no data')}</span>
+        <span className="name nowrap">
+          {treeNodeData?.branchName
+            ? `${treeNodeData?.branchName}/${treeNodeData?.apiDocName}`
+            : i18n.t('common:no data')}
+        </span>
         <IconDownOne size="16px" theme="filled" />
       </button>
     </Popover>

@@ -44,58 +44,56 @@ const TagSelect = React.forwardRef((tagProps: ITagSelect) => {
 
   const content = (
     <Menu className="api-resource-tag-select">
-      {
-        map(options, ({ name }) => {
-          return (
-            <Menu.Item key={name} onClick={(e) => onChange(e.key)} >
-              <div className="flex-box tag-option">
-                <span>{name}</span>
-                {
-                  name !== 'other' &&
-                  <CustomIcon
-                    type="shanchu"
-                    className="tag-option-btn"
-                    onClick={(e) => { e.stopPropagation(); onDelete(name); }}
-                  />
-                }
-              </div>
-            </Menu.Item>
-          );
-        })
-      }
+      {map(options, ({ name }) => {
+        return (
+          <Menu.Item key={name} onClick={(e) => onChange(e.key)}>
+            <div className="flex-box tag-option">
+              <span>{name}</span>
+              {name !== 'other' && (
+                <CustomIcon
+                  type="shanchu"
+                  className="tag-option-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDelete(name);
+                  }}
+                />
+              )}
+            </div>
+          </Menu.Item>
+        );
+      })}
     </Menu>
   );
 
   return (
     <div className="api-tag-select">
-      {
-        disabled ?
+      {disabled ? (
+        <Input
+          placeholder={i18n.t('project:please select or enter the tag')}
+          value={value}
+          maxLength={INPUT_MAX_LENGTH}
+          disabled={disabled}
+        />
+      ) : (
+        <Dropdown overlay={content} trigger={['click']}>
           <Input
+            maxLength={INPUT_MAX_LENGTH}
             placeholder={i18n.t('project:please select or enter the tag')}
             value={value}
-            maxLength={INPUT_MAX_LENGTH}
-            disabled={disabled}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              onInput(e.target.value);
+            }}
+            onBlur={onSubmit}
           />
-          :
-          <Dropdown overlay={content} trigger={['click']}>
-            <Input
-              maxLength={INPUT_MAX_LENGTH}
-              placeholder={i18n.t('project:please select or enter the tag')}
-              value={value}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { onInput(e.target.value); }}
-              onBlur={onSubmit}
-            />
-          </Dropdown>
-      }
+        </Dropdown>
+      )}
     </div>
   );
 });
 
 const ResourceSummary = React.memo((props: IProps) => {
-  const [{
-    tagList,
-    operationIdList,
-  }, updater] = useUpdate({
+  const [{ tagList, operationIdList }, updater] = useUpdate({
     tagList: [],
     operationIdList: [],
   });
@@ -144,101 +142,113 @@ const ResourceSummary = React.memo((props: IProps) => {
     }
   }, [onChange, tagList]);
 
+  const onDeleteTag = React.useCallback(
+    (tagName: string) => {
+      const newList = filter(tagList, (item) => item?.name !== tagName);
+      const tempDocDetail = produce(openApiDoc, (draft) => {
+        set(draft, 'tags', newList);
+        forEach(keys(draft.paths), (apiName: string) => {
+          const apiData = draft.paths[apiName];
 
-  const onDeleteTag = React.useCallback((tagName: string) => {
-    const newList = filter(tagList, (item) => item?.name !== tagName);
-    const tempDocDetail = produce(openApiDoc, (draft) => {
-      set(draft, 'tags', newList);
-      forEach(keys(draft.paths), (apiName: string) => {
-        const apiData = draft.paths[apiName];
-
-        forEach(keys(apiData), (method) => {
-          if (get(draft, ['paths', apiName, method, 'tags', '0']) === tagName) {
-            draft.paths[apiName][method].tags = [DEFAULT_TAG];
-          }
+          forEach(keys(apiData), (method) => {
+            if (get(draft, ['paths', apiName, method, 'tags', '0']) === tagName) {
+              draft.paths[apiName][method].tags = [DEFAULT_TAG];
+            }
+          });
         });
       });
-    });
-    updateOpenApiDoc(tempDocDetail);
-    const curTag = formRef.current!.getFieldsValues()?.tags;
-    if (curTag === tagName) {
-      formRef.current!.setFieldsValue({ tags: undefined });
-    }
-  }, [openApiDoc, tagList, updateOpenApiDoc]);
-
-  const setField = React.useCallback((propertyName: string, val: string| string[]) => {
-    const curFormData = formRef.current!.getFieldsValues();
-    if (propertyName !== 'operationId' && !curFormData?.operationId) {
-      let _operationId = 'operationId';
-      const _operationIdList: string[] = totalOperationIdList;
-      while (_operationIdList.includes(_operationId)) {
-        _operationId += '1';
+      updateOpenApiDoc(tempDocDetail);
+      const curTag = formRef.current!.getFieldsValues()?.tags;
+      if (curTag === tagName) {
+        formRef.current!.setFieldsValue({ tags: undefined });
       }
-      formRef.current!.setFieldsValue({ operationId: _operationId });
-    }
-    if (propertyName !== 'tags' && !curFormData?.tags) {
-      formRef.current!.setFieldsValue({ tags: ['other'] });
-    }
-    onChange('summary', { propertyName, propertyData: val });
-  }, [onChange, totalOperationIdList]);
+    },
+    [openApiDoc, tagList, updateOpenApiDoc],
+  );
 
-  const fieldList = React.useMemo(() => [
-    {
-      type: Input,
-      label: i18n.t('name'),
-      name: 'operationId',
-      colSpan: 24,
-      required: false,
-      customProps: {
-        maxLength: INPUT_MAX_LENGTH,
-        disabled: !isEditMode,
-        onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-          const newName = e.target.value;
-          if (!operationIdList.includes(newName)) {
-            setField('operationId', newName);
-          }
-        },
-      },
-      validator: [
-        {
-          validator: (_rule: any, value: string, callback: (msg?: string) => void) => {
-            if (operationIdList.includes(value)) {
-              callback(i18n.t('exist the same {key}', { key: i18n.t('name') }));
-            } else {
-              callback();
+  const setField = React.useCallback(
+    (propertyName: string, val: string | string[]) => {
+      const curFormData = formRef.current!.getFieldsValues();
+      if (propertyName !== 'operationId' && !curFormData?.operationId) {
+        let _operationId = 'operationId';
+        const _operationIdList: string[] = totalOperationIdList;
+        while (_operationIdList.includes(_operationId)) {
+          _operationId += '1';
+        }
+        formRef.current!.setFieldsValue({ operationId: _operationId });
+      }
+      if (propertyName !== 'tags' && !curFormData?.tags) {
+        formRef.current!.setFieldsValue({ tags: ['other'] });
+      }
+      onChange('summary', { propertyName, propertyData: val });
+    },
+    [onChange, totalOperationIdList],
+  );
+
+  const fieldList = React.useMemo(
+    () => [
+      {
+        type: Input,
+        label: i18n.t('name'),
+        name: 'operationId',
+        colSpan: 24,
+        required: false,
+        customProps: {
+          maxLength: INPUT_MAX_LENGTH,
+          disabled: !isEditMode,
+          onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+            const newName = e.target.value;
+            if (!operationIdList.includes(newName)) {
+              setField('operationId', newName);
             }
           },
         },
-      ],
-    },
-    {
-      name: 'tags',
-      label: i18n.t('project:grouping'),
-      colSpan: 24,
-      type: TagSelect,
-      customProps: {
-        disabled: !isEditMode,
-        options: tagList,
-        onChange: (e: string) => { setField('tags', [e]); },
-        onDelete: onDeleteTag,
-        onSubmit: onCreateTag,
-        onInput: (e: string) => { formRef.current!.setFieldsValue({ tags: e }); },
+        validator: [
+          {
+            validator: (_rule: any, value: string, callback: (msg?: string) => void) => {
+              if (operationIdList.includes(value)) {
+                callback(i18n.t('exist the same {key}', { key: i18n.t('name') }));
+              } else {
+                callback();
+              }
+            },
+          },
+        ],
       },
-    },
-    {
-      type: MarkdownEditor,
-      label: i18n.t('project:description'),
-      name: 'description',
-      colSpan: 24,
-      required: false,
-      customProps: {
-        defaultMode: !isEditMode ? 'html' : 'md',
-        readOnly: !isEditMode,
-        maxLength: TEXTAREA_MAX_LENGTH,
-        onChange: (val: string) => setField('description', val),
+      {
+        name: 'tags',
+        label: i18n.t('project:grouping'),
+        colSpan: 24,
+        type: TagSelect,
+        customProps: {
+          disabled: !isEditMode,
+          options: tagList,
+          onChange: (e: string) => {
+            setField('tags', [e]);
+          },
+          onDelete: onDeleteTag,
+          onSubmit: onCreateTag,
+          onInput: (e: string) => {
+            formRef.current!.setFieldsValue({ tags: e });
+          },
+        },
       },
-    },
-  ], [isEditMode, onCreateTag, onDeleteTag, operationIdList, setField, tagList]);
+      {
+        type: MarkdownEditor,
+        label: i18n.t('project:description'),
+        name: 'description',
+        colSpan: 24,
+        required: false,
+        customProps: {
+          defaultMode: !isEditMode ? 'html' : 'md',
+          readOnly: !isEditMode,
+          maxLength: TEXTAREA_MAX_LENGTH,
+          onChange: (val: string) => setField('description', val),
+        },
+      },
+    ],
+    [isEditMode, onCreateTag, onDeleteTag, operationIdList, setField, tagList],
+  );
 
   return (
     <FormBuilder isMultiColumn wrappedComponentRef={formRef}>

@@ -19,7 +19,7 @@ import { Form } from 'workBench/pages/form-editor/index';
 import i18n from 'i18n';
 import './in-params-drawer.scss';
 
-export interface IInPramasDrawerProps{
+export interface IInPramasDrawerProps {
   visible: boolean;
   nodeData: { data: PIPELINE.IPipelineInParams[] };
   editing: boolean;
@@ -43,46 +43,54 @@ const InParamsDrawer = (props: IInPramasDrawerProps) => {
     }
   };
   React.useEffect(() => {
-    setFields(map(ymlDataToFormData(get(nodeData, 'data') || []), (item) => {
-      return editing ? { ...item } : { ...item, disabled: true };
-    }));
+    setFields(
+      map(ymlDataToFormData(get(nodeData, 'data') || []), (item) => {
+        return editing ? { ...item } : { ...item, disabled: true };
+      }),
+    );
   }, [editing, nodeData, visible]);
 
   React.useEffect(() => {
     setFormKey((preFormKey) => preFormKey + 1);
   }, [fields]);
 
-  const drawerProps = editing ? {
-    title: i18n.t('application:params form configuration'),
-    width: '80%',
-    maskClosable: false,
-  } : {
-    title: i18n.t('application:params form'),
-    width: '40%',
-    maskClosable: true,
-  };
+  const drawerProps = editing
+    ? {
+        title: i18n.t('application:params form configuration'),
+        width: '80%',
+        maskClosable: false,
+      }
+    : {
+        title: i18n.t('application:params form'),
+        width: '40%',
+        maskClosable: true,
+      };
 
   return (
-    <Drawer visible={visible} onClose={closeDrawer} {...drawerProps} destroyOnClose className="pipeline-in-params-drawer">
-      {
-        editing ? (
-          <>
-            <FormEditor fields={fields} ref={formEditorRef} />
-            <div className="pipeline-in-params-drawer-footer">
-              <Button onClick={closeDrawer} className="mr8">
-                {i18n.t('cancel')}
-              </Button>
-              <Button onClick={onSubmit} type="primary">
-                {i18n.t('ok')}
-              </Button>
-            </div>
-          </>
-        ) : (
-          isEmpty(fields) ? (
-            <div>{i18n.t('project:have no params')}</div>
-          ) : <Form fields={fields} key={formKey} />
-        )
-      }
+    <Drawer
+      visible={visible}
+      onClose={closeDrawer}
+      {...drawerProps}
+      destroyOnClose
+      className="pipeline-in-params-drawer"
+    >
+      {editing ? (
+        <>
+          <FormEditor fields={fields} ref={formEditorRef} />
+          <div className="pipeline-in-params-drawer-footer">
+            <Button onClick={closeDrawer} className="mr8">
+              {i18n.t('cancel')}
+            </Button>
+            <Button onClick={onSubmit} type="primary">
+              {i18n.t('ok')}
+            </Button>
+          </div>
+        </>
+      ) : isEmpty(fields) ? (
+        <div>{i18n.t('project:have no params')}</div>
+      ) : (
+        <Form fields={fields} key={formKey} />
+      )}
     </Drawer>
   );
 };
@@ -93,7 +101,7 @@ interface IFormData {
   key: string; // 对应name
   required: boolean; // 对应required
   defaultValue?: string; // 对应default
-  component: string;// 对应type
+  component: string; // 对应type
   label: string; // 等于key，不可修改
   labelTip?: string; // 对应desc
 }
@@ -107,41 +115,45 @@ const componentList = map(typeMapping, 'component');
 
 // formData转为ymlData
 export const formDataToYmlData = (data: IFormData[]): PIPELINE.IPipelineInParams[] => {
-  return compact(map(data, (item) => {
-    const { key, required, defaultValue, component, labelTip } = item;
-    const type = get(find(typeMapping, { component }), 'type') || component;
-    let _default = defaultValue as any;
-    if (type === 'int') _default = isNaN(+_default) ? undefined : +_default;
-    if (type === 'boolean')_default = isBoolean(_default) ? _default : (_default === 'true');
-    if (!key) return null;
-    const dataItem = {
-      name: key,
-      required,
-      default: _default || undefined,
-      type,
-      desc: labelTip,
-    };
-    const res = {};
-    map(dataItem, (val, k) => {
-      if (val !== undefined) {
-        res[k] = val;
-      }
-    });
-    return res as PIPELINE.IPipelineInParams;
-  }));
+  return compact(
+    map(data, (item) => {
+      const { key, required, defaultValue, component, labelTip } = item;
+      const type = get(find(typeMapping, { component }), 'type') || component;
+      let _default = defaultValue as any;
+      if (type === 'int') _default = isNaN(+_default) ? undefined : +_default;
+      if (type === 'boolean') _default = isBoolean(_default) ? _default : _default === 'true';
+      if (!key) return null;
+      const dataItem = {
+        name: key,
+        required,
+        default: _default || undefined,
+        type,
+        desc: labelTip,
+      };
+      const res = {};
+      map(dataItem, (val, k) => {
+        if (val !== undefined) {
+          res[k] = val;
+        }
+      });
+      return res as PIPELINE.IPipelineInParams;
+    }),
+  );
 };
 
 export const ymlDataToFormData = (data: PIPELINE.IPipelineInParams[], val: Obj = {}): IFormData[] => {
   return map(data, (item) => {
     const { name, required = false, default: _default, type, desc, inConfig, value } = item;
-    let _defaultVal = (val[item.name] !== null && val[item.name] !== undefined) ? val[item.name] : (_default || undefined);
+    let _defaultVal = val[item.name] !== null && val[item.name] !== undefined ? val[item.name] : _default || undefined;
     const component = get(find(typeMapping, { type }), 'component') || type;
     let labelTip = desc;
-    if ((_defaultVal !== null && _defaultVal !== undefined) && value === _defaultVal) {
-      labelTip = `${inConfig ? i18n.t('application:default value comes from the environment configuration') : ''}; ${desc}`;
+    if (_defaultVal !== null && _defaultVal !== undefined && value === _defaultVal) {
+      labelTip = `${
+        inConfig ? i18n.t('application:default value comes from the environment configuration') : ''
+      }; ${desc}`;
     }
-    if (type === 'boolean' && _defaultVal !== true)_defaultVal = false;
-    if (type === 'int')_defaultVal = _defaultVal === null ? undefined : (isNaN(+_defaultVal) ? undefined : +_defaultVal);
+    if (type === 'boolean' && _defaultVal !== true) _defaultVal = false;
+    if (type === 'int') _defaultVal = _defaultVal === null ? undefined : isNaN(+_defaultVal) ? undefined : +_defaultVal;
     return {
       key: name,
       label: name,
@@ -152,4 +164,3 @@ export const ymlDataToFormData = (data: PIPELINE.IPipelineInParams[], val: Obj =
     };
   });
 };
-

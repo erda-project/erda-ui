@@ -60,13 +60,17 @@ export const PureAppList = ({
 
   useUnmount(clearList);
 
-  useDebounce(() => {
-    params.projectId && clearList();
-    getList({
-      q,
-      pageNo: 1,
-    });
-  }, 600, [clearList, q, getList, params.projectId]);
+  useDebounce(
+    () => {
+      params.projectId && clearList();
+      getList({
+        q,
+        pageNo: 1,
+      });
+    },
+    600,
+    [clearList, q, getList, params.projectId],
+  );
 
   const onSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -116,7 +120,9 @@ export const PureAppList = ({
             <div className="item-name nowrap bold-500">
               <span className="mr16">{item.name}</span>
             </div>
-            <div className="item-desc nowrap">{item.desc || i18n.t('application:edit description in application setting')}</div>
+            <div className="item-desc nowrap">
+              {item.desc || i18n.t('application:edit description in application setting')}
+            </div>
             <div className="item-footer">
               <Tooltip title={`${i18n.t('application:own project')}: ${item.projectName}`}>
                 <span className="p-name hover-active" onClick={(e) => goToProject(item, e)}>
@@ -141,26 +147,35 @@ export const PureAppList = ({
               <span className="time">
                 <CustomIcon type="sj" />
                 <span>
-                  {
-                    item.updatedAt
-                      ? fromNow(item.updatedAt, { prefix: `${i18n.t('update time')}:` })
-                      : i18n.t('empty')
-                  }
+                  {item.updatedAt ? fromNow(item.updatedAt, { prefix: `${i18n.t('update time')}:` }) : i18n.t('empty')}
                 </span>
               </span>
               <Tooltip title={i18n.t('application:application type')}>
-                <span><CustomIcon type="fenlei" /><span>{(modeOptions.find((mode) => mode.value === item.mode) as { name: string }).name}</span></span>
+                <span>
+                  <CustomIcon type="fenlei" />
+                  <span>{(modeOptions.find((mode) => mode.value === item.mode) as { name: string }).name}</span>
+                </span>
               </Tooltip>
-              <BlockNetworkStatus scope="app" canOperate={false} status={item.blockStatus} unBlockStart={item.unBlockStart} unBlockEnd={item.unBlockEnd} />
+              <BlockNetworkStatus
+                scope="app"
+                canOperate={false}
+                status={item.blockStatus}
+                unBlockStart={item.unBlockStart}
+                unBlockEnd={item.unBlockEnd}
+              />
             </div>
             <div className="to-top">
               <IF check={item.pined}>
                 <Tooltip title={i18n.t('application:cancel sticky')}>
-                  <span onClick={(e) => togglePin(e, item)}><CustomIcon type="qxzd" /></span>
+                  <span onClick={(e) => togglePin(e, item)}>
+                    <CustomIcon type="qxzd" />
+                  </span>
                 </Tooltip>
                 <IF.ELSE />
                 <Tooltip title={i18n.t('application:sticky')}>
-                  <span onClick={(e) => togglePin(e, item)}><CustomIcon type="zd1" /></span>
+                  <span onClick={(e) => togglePin(e, item)}>
+                    <CustomIcon type="zd1" />
+                  </span>
                 </Tooltip>
               </IF>
             </div>
@@ -174,16 +189,11 @@ export const PureAppList = ({
       <BlockNetworkTips />
       <Search className="search-input" placeholder={placeHolderMsg} value={q} onChange={onSearch} />
       <Holder>
-        <List
-          dataSource={list}
-          renderItem={renderList}
-        />
+        <List dataSource={list} renderItem={renderList} />
       </Holder>
       <LoadMore load={load} hasMore={paging.hasMore} isLoading={isFetching} />
     </div>
   );
 };
 
-
 export const MyAppList = connectCube(PureAppList, Mapper);
-

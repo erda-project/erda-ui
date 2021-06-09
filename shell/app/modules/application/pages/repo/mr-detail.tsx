@@ -131,10 +131,12 @@ class RepoMR extends React.PureComponent<IProps, IState> {
   };
 
   handleAction = (action: REPOSITORY.MROperation, data?: Obj) => {
-    this.props.operateMR({
-      action,
-      ...data,
-    }).then(() => goTo('../'));
+    this.props
+      .operateMR({
+        action,
+        ...data,
+      })
+      .then(() => goTo('../'));
   };
 
   afterEdit = () => {
@@ -147,14 +149,22 @@ class RepoMR extends React.PureComponent<IProps, IState> {
   };
 
   getSourceBranchAuth = () => {
-    const { branchInfo, mrDetail: { sourceBranch }, permMap: appPerm } = this.props;
+    const {
+      branchInfo,
+      mrDetail: { sourceBranch },
+      permMap: appPerm,
+    } = this.props;
     const sourceBranchProtect = get(find(branchInfo, { name: sourceBranch }), 'isProtect');
     const repoPerm = appPerm.repo;
     return sourceBranchProtect ? repoPerm.branch.writeProtected.pass : repoPerm.branch.writeNormal.pass; // 源将被删除且源分支被保护
   };
 
   getTargetBranchAuth = () => {
-    const { branchInfo, mrDetail: { targetBranch }, permMap: appPerm } = this.props;
+    const {
+      branchInfo,
+      mrDetail: { targetBranch },
+      permMap: appPerm,
+    } = this.props;
     const targetBranchProtect = get(find(branchInfo, { name: targetBranch }), 'isProtect');
     const repoPerm = appPerm.repo;
     return targetBranchProtect ? repoPerm.branch.writeProtected.pass : repoPerm.branch.writeNormal.pass; // 目标分支被保护
@@ -162,7 +172,8 @@ class RepoMR extends React.PureComponent<IProps, IState> {
 
   getSlots = () => {
     const { mrDetail, permMap: appPerm, userMap, isLocked } = this.props;
-    const { state, authorId, mergeUserId, closeUserId, createdAt, mergeAt, closeAt, removeSourceBranch, assigneeId } = mrDetail;
+    const { state, authorId, mergeUserId, closeUserId, createdAt, mergeAt, closeAt, removeSourceBranch, assigneeId } =
+      mrDetail;
     const repoPerm = appPerm.repo;
     const mergable = get(this.state, 'checkRunData.mergable', false);
 
@@ -189,25 +200,23 @@ class RepoMR extends React.PureComponent<IProps, IState> {
               <Button onClick={() => this.toggleEditMode(true)}>{i18n.t('edit')}</Button>
             </WithAuth>
             <WithAuth pass={closeAuth} tipProps={{ placement: 'bottom' }}>
-              <Button type="primary" ghost onClick={() => this.handleAction('close')}>{i18n.t('close')}</Button>
+              <Button type="primary" ghost onClick={() => this.handleAction('close')}>
+                {i18n.t('close')}
+              </Button>
             </WithAuth>
             <WithAuth pass={mergeAuth} tipProps={{ placement: 'bottom' }} noAuthTip={mergeNoAuthTip}>
-              <Button type="primary" ghost onClick={() => this.toggleModal(true)} disabled={isLocked || !mergable} >
+              <Button type="primary" ghost onClick={() => this.toggleModal(true)} disabled={isLocked || !mergable}>
                 {i18n.t('merge')}
               </Button>
             </WithAuth>
           </React.Fragment>
         ),
         update: [
-          (
-            <React.Fragment>
-              <Avatar className="mr4 mb4" name={authorUser.nick} />
-              <Tooltip title={authorUser.name}>
-                {authorUser.nick}
-              </Tooltip>
-              {i18n.t('created at')}&nbsp;{fromNow(createdAt)}
-            </React.Fragment>
-          ),
+          <React.Fragment>
+            <Avatar className="mr4 mb4" name={authorUser.nick} />
+            <Tooltip title={authorUser.name}>{authorUser.nick}</Tooltip>
+            {i18n.t('created at')}&nbsp;{fromNow(createdAt)}
+          </React.Fragment>,
         ],
       };
     } else if (state === 'merged') {
@@ -223,12 +232,11 @@ class RepoMR extends React.PureComponent<IProps, IState> {
         //   </React.Fragment>
         // ),
         update: [
-          (
-            <React.Fragment>
-              <Avatar showName wrapClassName="mr4" name={mergeUser.nick} />
-              {i18n.t('merged at')}&nbsp;{fromNow(mergeAt)}{`${removeSourceBranch ? `, ${i18n.t('application:source branch has been deleted')}` : ''}`}
-            </React.Fragment>
-          ),
+          <React.Fragment>
+            <Avatar showName wrapClassName="mr4" name={mergeUser.nick} />
+            {i18n.t('merged at')}&nbsp;{fromNow(mergeAt)}
+            {`${removeSourceBranch ? `, ${i18n.t('application:source branch has been deleted')}` : ''}`}
+          </React.Fragment>,
         ],
       };
     }
@@ -237,15 +245,12 @@ class RepoMR extends React.PureComponent<IProps, IState> {
     return {
       headerAction: null,
       update: [
-        (
-          <React.Fragment>
-            <Avatar className="mr4 mb4" name={closeUser.nick} />
-            <Tooltip title={closeUser.name}>
-              {closeUser.nick}
-            </Tooltip>
-            {i18n.t('closed at')}&nbsp;{fromNow(closeAt)}{`${removeSourceBranch ? `, ${i18n.t('application:source branch has been deleted')}` : ''}`}
-          </React.Fragment>
-        ),
+        <React.Fragment>
+          <Avatar className="mr4 mb4" name={closeUser.nick} />
+          <Tooltip title={closeUser.name}>{closeUser.nick}</Tooltip>
+          {i18n.t('closed at')}&nbsp;{fromNow(closeAt)}
+          {`${removeSourceBranch ? `, ${i18n.t('application:source branch has been deleted')}` : ''}`}
+        </React.Fragment>,
       ],
     };
   };
@@ -253,15 +258,17 @@ class RepoMR extends React.PureComponent<IProps, IState> {
   getFieldsList = () => {
     const { defaultBranch, mrDetail } = this.props;
     return [
-      ...insertWhen(defaultBranch !== mrDetail.sourceBranch, [{
-        label: i18n.t('application:whether to delete the source branch'),
-        name: 'removeSourceBranch',
-        type: 'checkbox',
-        required: false,
-        itemProps: {
-          disabled: !this.getSourceBranchAuth(),
+      ...insertWhen(defaultBranch !== mrDetail.sourceBranch, [
+        {
+          label: i18n.t('application:whether to delete the source branch'),
+          name: 'removeSourceBranch',
+          type: 'checkbox',
+          required: false,
+          itemProps: {
+            disabled: !this.getSourceBranchAuth(),
+          },
         },
-      }]),
+      ]),
       {
         label: i18n.t('application:commit message'),
         name: 'commitMessage',
@@ -289,13 +296,27 @@ class RepoMR extends React.PureComponent<IProps, IState> {
   };
 
   getStateIcon = () => {
-    const { mrDetail: { state } } = this.props;
-    return <span className={`mr-${state}-icon`}>{state === 'merged' ? i18n.t('application:have merged') : state === 'open' ? i18n.t('application:opening mr') : i18n.t('closed')}</span>;
+    const {
+      mrDetail: { state },
+    } = this.props;
+    return (
+      <span className={`mr-${state}-icon`}>
+        {state === 'merged'
+          ? i18n.t('application:have merged')
+          : state === 'open'
+          ? i18n.t('application:opening mr')
+          : i18n.t('closed')}
+      </span>
+    );
   };
 
   render() {
     const { isFetching, mrStats, mrDetail, isLocked } = this.props;
-    const { checkrun, result, mergable } = get(this.state, 'checkRunData', { checkrun: [], result: 'success', mergable: false });
+    const { checkrun, result, mergable } = get(this.state, 'checkRunData', {
+      checkrun: [],
+      result: 'success',
+      mergable: false,
+    });
     const { modalVisible } = this.state;
     const { title, description, sourceBranch, targetBranch, score, scoreNum } = mrDetail;
 
@@ -305,26 +326,19 @@ class RepoMR extends React.PureComponent<IProps, IState> {
     const { editMode } = this.state;
     if (editMode) {
       return (
-        <RepoMRForm
-          editMode
-          formData={mrDetail}
-          onOk={this.afterEdit}
-          onCancel={() => this.toggleEditMode(false)}
-        />
+        <RepoMRForm editMode formData={mrDetail} onOk={this.afterEdit} onCancel={() => this.toggleEditMode(false)} />
       );
     }
 
     const slots = this.getSlots();
     const { defaultCommitMessage, ...rest } = mrDetail;
     let average_score = score / (scoreNum * 20);
-    average_score -= average_score % 0.5;// 评分组件需要按 0.5 取整，如 1.7 会只显示一颗心，1.5 才会显示一颗半
+    average_score -= average_score % 0.5; // 评分组件需要按 0.5 取整，如 1.7 会只显示一颗心，1.5 才会显示一颗半
     return (
       <Spin spinning={isFetching}>
         <div className="repo-mr-detail">
           <BackToTop />
-          <div className="top-button-group">
-            {slots.headerAction}
-          </div>
+          <div className="top-button-group">{slots.headerAction}</div>
           {/*  由 mergable 区分 进行中 和 已完成， 进行中不可合并，已完成可合并。已完成又分为成功和失败。 进行中、失败和成功分别作不同表示 */}
           {mergable && renderErrorBlock(mrStats, get(checkrun, '0.pipelineId'), result)}
           {!mergable && renderErrorBlock(mrStats, get(checkrun, '0.pipelineId'), String(mergable))}
@@ -342,21 +356,31 @@ class RepoMR extends React.PureComponent<IProps, IState> {
             onCancel={() => this.toggleModal(false)}
           />
 
-          <div className="section-title mb0"><div>{this.getStateIcon()}{title}</div></div>
+          <div className="section-title mb0">
+            <div>
+              {this.getStateIcon()}
+              {title}
+            </div>
+          </div>
           <div className="branch-info">
             <span>
-              {i18n.t('application:source branch')}：
-              <span className="branch-name">{sourceBranch}</span>
+              {i18n.t('application:source branch')}：<span className="branch-name">{sourceBranch}</span>
             </span>
-            <span><CustomIcon type="arrow-right" /></span>
-            <span>{i18n.t('application:target branch')}：<span className="branch-name">{targetBranch}</span></span>
+            <span>
+              <CustomIcon type="arrow-right" />
+            </span>
+            <span>
+              {i18n.t('application:target branch')}：<span className="branch-name">{targetBranch}</span>
+            </span>
             <span className="mr-rate">
               {i18n.t('application:overall score')}：<Rate allowHalf disabled value={average_score} />
             </span>
           </div>
           <div className="detail-desc-block">
             <div className="title">
-              {slots.update.map((item, i) => <span key={String(i)}>{item}</span>)}
+              {slots.update.map((item, i) => (
+                <span key={String(i)}>{item}</span>
+              ))}
             </div>
             <article
               className="md-content"
@@ -378,7 +402,12 @@ const Mapper = () => {
   const params = routeInfoStore.useStore((s) => s.params);
   const branchInfo = appStore.useStore((s) => s.branchInfo);
   const userMap = userMapStore.useStore((s) => s);
-  const [mrDetail, mrStats, defaultBranch, isLocked] = repoStore.useStore((s) => [s.mrDetail, s.mrStats, s.info.defaultBranch, s.info.isLocked]);
+  const [mrDetail, mrStats, defaultBranch, isLocked] = repoStore.useStore((s) => [
+    s.mrDetail,
+    s.mrStats,
+    s.info.defaultBranch,
+    s.info.isLocked,
+  ]);
   const { getMRDetail, getMRStats, operateMR, getCompareDetail } = repoStore.effects;
   const { clearMRDetail, clearMRStats } = repoStore.reducers;
   const [isFetching] = useLoading(repoStore, ['getMRDetail']);

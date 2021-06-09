@@ -15,7 +15,6 @@ import * as React from 'react';
 import { ContractiveFilter } from 'common';
 import { useMount } from 'react-use';
 
-
 export const Filter = (props: CP_FILTER.Props) => {
   const { state, execOperation, operations, props: configProps, customProps } = props;
   const { delay, visible = true, fullWidth = false } = configProps || {};
@@ -56,6 +55,14 @@ export const Filter = (props: CP_FILTER.Props) => {
   }
 
   return (
-    <ContractiveFilter conditions={stateConditions as any} values={values} delay={delay || 1000} onChange={onChange} onQuickSelect={onQuickSelect} onConditionsChange={onConditionsChange} fullWidth={fullWidth} />
+    <ContractiveFilter
+      conditions={stateConditions as any}
+      values={values}
+      delay={delay || 1000}
+      onChange={onChange}
+      onQuickSelect={onQuickSelect}
+      onConditionsChange={onConditionsChange}
+      fullWidth={fullWidth}
+    />
   );
 };

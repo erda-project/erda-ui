@@ -11,7 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-self.addEventListener('message', function (e) {
-  const data = JSON.parse(e.data?.meta?.blob?.content)
-  self.postMessage(data);
-}, false);
+self.addEventListener(
+  'message',
+  function (e) {
+    const data = JSON.parse(e.data?.meta?.blob?.content);
+    self.postMessage(data);
+  },
+  false,
+);

@@ -20,7 +20,6 @@ import { get, isEqual, map } from 'lodash';
 import { getUploadProps } from 'common/utils/upload-props';
 import { WrappedFormUtils } from 'core/common/interface';
 
-
 import './image-upload.scss';
 
 interface IProps {
@@ -58,12 +57,12 @@ export class ImageUpload extends Component<IProps, IState> {
     super(props);
     this.state = {
       imageUrl: props.isMulti ? undefined : props.value,
-      images: props.isMulti ? (props.value as unknown as string[] || []) : [],
+      images: props.isMulti ? (props.value as unknown as string[]) || [] : [],
       queryData: props?.queryData,
     };
   }
 
-  static getDerivedStateFromProps(nextProps: IProps, preState: IState): Partial<IState>| null {
+  static getDerivedStateFromProps(nextProps: IProps, preState: IState): Partial<IState> | null {
     if (!isEqual(nextProps.value, preState.imageUrl)) {
       if (nextProps.isMulti) {
         return { images: nextProps.value as unknown as string[] };
@@ -77,36 +76,35 @@ export class ImageUpload extends Component<IProps, IState> {
   getUploadProps(qData: any) {
     const { form, id, sizeLimit = 1, afterUpload, isMulti } = this.props;
     const { images = [] } = this.state;
-    return getUploadProps({
-      queryData: qData,
-      onChange: (info: any) => {
-        const { response } = info.file;
-        if (!response) {
-          return;
-        }
-        const url = (get(response, 'data.url') || '').replace(/^http(s)?:/g, '');
-        if (url) {
-          if (isMulti) {
-            this.setState({ images: [...images, url] });
-          } else {
-            this.setState({ imageUrl: url });
+    return getUploadProps(
+      {
+        queryData: qData,
+        onChange: (info: any) => {
+          const { response } = info.file;
+          if (!response) {
+            return;
           }
-          form && form.setFieldsValue({ [id]: isMulti ? [...images, url] : url });
-          afterUpload && afterUpload(isMulti ? [...images, url] : url);
-        }
+          const url = (get(response, 'data.url') || '').replace(/^http(s)?:/g, '');
+          if (url) {
+            if (isMulti) {
+              this.setState({ images: [...images, url] });
+            } else {
+              this.setState({ imageUrl: url });
+            }
+            form && form.setFieldsValue({ [id]: isMulti ? [...images, url] : url });
+            afterUpload && afterUpload(isMulti ? [...images, url] : url);
+          }
+        },
       },
-    }, sizeLimit);
+      sizeLimit,
+    );
   }
 
   renderPureUploadItem(uploadText: string, queryData: any) {
     return (
       <div className="image-upload mr8 mb8" key="upload">
         <Input type="hidden" />
-        <Upload
-          className="pure-upload"
-          accept=".jpg, .jpeg, .png, .gif"
-          {...this.getUploadProps(queryData)}
-        >
+        <Upload className="pure-upload" accept=".jpg, .jpeg, .png, .gif" {...this.getUploadProps(queryData)}>
           <div>
             <CustomIcon key="icon" type="cir-add" />
             <div key="text">{uploadText}</div>
@@ -182,18 +180,14 @@ export class ImageUpload extends Component<IProps, IState> {
     const { uploadText = i18n.t('upload image'), isMulti = false } = this.props;
     const { imageUrl, images, queryData } = this.state;
 
-    return (
-      isMulti
-        ?
-        [
+    return isMulti
+      ? [
           ...map(images, (url, idx) => this.renderPureImageItem(url, idx)),
           this.renderPureUploadItem(uploadText as string, queryData),
         ]
-        :
-        imageUrl
-          ? this.renderPureImageItem(imageUrl as string)
-          : this.renderPureUploadItem(uploadText as string, queryData)
-    );
+      : imageUrl
+      ? this.renderPureImageItem(imageUrl as string)
+      : this.renderPureUploadItem(uploadText as string, queryData);
   }
 
   render() {
@@ -202,9 +196,7 @@ export class ImageUpload extends Component<IProps, IState> {
 
     return (
       <div className="image-upload-wrap">
-        <div className="wrap-flex-box">
-          {this.renderUploadItem()}
-        </div>
+        <div className="wrap-flex-box">{this.renderUploadItem()}</div>
         {showHint ? <div className="hint">{_hintText}</div> : null}
       </div>
     );

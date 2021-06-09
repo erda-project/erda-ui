@@ -9,7 +9,6 @@
         outline: 1px solid $color-active-border;
       }
     }
-
   }
 
   .disable-edit {
@@ -20,7 +19,6 @@
         color: $color-disabled;
       }
     }
-
   }
 
   .read-only {
@@ -29,7 +27,6 @@
         display: none;
       }
     }
-
   }
 }
 
@@ -41,7 +38,7 @@
   word-break: break-word;
 
   p {
-    white-space: normal!important;
+    white-space: normal !important;
   }
 
   > *:first-child {

@@ -30,7 +30,6 @@ import './api-package-detail.scss';
 const { Option } = Select;
 const { confirm } = Modal;
 
-
 interface IPackageApi {
   apiId: string;
   apiPath: string;
@@ -73,10 +72,27 @@ export const ApiPackageDetail = () => {
   const formRef = React.useRef(null);
   const mutable = formData.mutable === undefined ? true : formData.mutable;
   const params = routeInfoStore.useStore((s) => s.params);
-  const [packageDetailApiList, paging, registerApps, apiPackageDetail] = gatewayStore.useStore((s) => [s.packageDetailApiList, s.packageDetailApiListPaging, s.registerApps, s.apiPackageDetail]);
-  const { getPackageDetailApiList, getApiPackageDetail, createPackageApi, updatePackageApi, deletePackageApi, getServiceRuntime, getServiceApiPrefix } = gatewayStore.effects;
+  const [packageDetailApiList, paging, registerApps, apiPackageDetail] = gatewayStore.useStore((s) => [
+    s.packageDetailApiList,
+    s.packageDetailApiListPaging,
+    s.registerApps,
+    s.apiPackageDetail,
+  ]);
+  const {
+    getPackageDetailApiList,
+    getApiPackageDetail,
+    createPackageApi,
+    updatePackageApi,
+    deletePackageApi,
+    getServiceRuntime,
+    getServiceApiPrefix,
+  } = gatewayStore.effects;
   const { clearApiPackageDetail } = gatewayStore.reducers;
-  const [isFetchList, isCreate, isUpdate] = useLoading(gatewayStore, ['getPackageDetailApiList', 'createPackageApi', 'updatePackageApi']);
+  const [isFetchList, isCreate, isUpdate] = useLoading(gatewayStore, [
+    'getPackageDetailApiList',
+    'createPackageApi',
+    'updatePackageApi',
+  ]);
   const isFetching = isFetchList || isCreate || isUpdate;
 
   const { total } = paging;
@@ -149,7 +165,13 @@ export const ApiPackageDetail = () => {
   };
 
   const editForm = (record: IPackageApi) => {
-    const { apiPath: recordApiPath = '', redirectPath = '', redirectAddr = '', method: methodValue = 'all', ...restFields } = record;
+    const {
+      apiPath: recordApiPath = '',
+      redirectPath = '',
+      redirectAddr = '',
+      method: methodValue = 'all',
+      ...restFields
+    } = record;
     const [editProtocol, redirectAddrContent] = (redirectAddr || HTTP_PREFIX).split('//');
     setProtocol(`${editProtocol}//`);
     setChosenRedirectType(restFields.redirectType);
@@ -194,7 +216,12 @@ export const ApiPackageDetail = () => {
       dataIndex: 'apiPath',
       key: 'apiPath',
       width: '30%',
-      render: (text: string) => (<Tooltip title={`${domain}${text}`}>{domain}{text}</Tooltip>),
+      render: (text: string) => (
+        <Tooltip title={`${domain}${text}`}>
+          {domain}
+          {text}
+        </Tooltip>
+      ),
     },
     ...PACKAGE_DETAIL_COLS,
     {
@@ -202,22 +229,41 @@ export const ApiPackageDetail = () => {
       width: 180,
       render: (record: any) => (
         <div className="table-operations">
-          <span className={mutable ? 'table-operations-btn' : 'table-operations-btn not-allowed'} onClick={() => { if (mutable) editForm(record); }}>{i18n.t('microService:edit')}</span>
-          <span className="table-operations-btn" onClick={() => goTo(goTo.pages.apiStrategy, { ...params, apiId: record.apiId })}>{i18n.t('microService:strategy', { packageId: record.id })}</span>
+          <span
+            className={mutable ? 'table-operations-btn' : 'table-operations-btn not-allowed'}
+            onClick={() => {
+              if (mutable) editForm(record);
+            }}
+          >
+            {i18n.t('microService:edit')}
+          </span>
           <span
             className="table-operations-btn"
-            onClick={() => confirm({
-              title: i18n.t('microService:confirm deletion?'),
-              onOk: () => onDelete(record),
-            })}
+            onClick={() => goTo(goTo.pages.apiStrategy, { ...params, apiId: record.apiId })}
+          >
+            {i18n.t('microService:strategy', { packageId: record.id })}
+          </span>
+          <span
+            className="table-operations-btn"
+            onClick={() =>
+              confirm({
+                title: i18n.t('microService:confirm deletion?'),
+                onOk: () => onDelete(record),
+              })
+            }
           >
             {i18n.t('microService:delete')}
           </span>
-          {
-            apiPackageDetail.scene === 'openapi' ? (
-              <span className="table-operations-btn" onClick={() => { handleAuth(record); }}>{i18n.t('default:authorize')}</span>
-            ) : null
-          }
+          {apiPackageDetail.scene === 'openapi' ? (
+            <span
+              className="table-operations-btn"
+              onClick={() => {
+                handleAuth(record);
+              }}
+            >
+              {i18n.t('default:authorize')}
+            </span>
+          ) : null}
         </div>
       ),
     },
@@ -239,7 +285,11 @@ export const ApiPackageDetail = () => {
             setRuntimeId(undefined);
             const curForm = get(formRef, 'current.props.form');
             if (curForm) {
-              curForm.setFieldsValue({ redirectService: undefined, redirectRuntimeId: undefined, redirectPath: undefined });
+              curForm.setFieldsValue({
+                redirectService: undefined,
+                redirectRuntimeId: undefined,
+                redirectPath: undefined,
+              });
             }
           },
         },
@@ -270,13 +320,13 @@ export const ApiPackageDetail = () => {
         itemProps: {
           showSearch: true,
           placeholder: i18n.t('please choose {name}', { name: i18n.t('microService:deployment branch') }),
-          onChange: ((val: string) => {
+          onChange: (val: string) => {
             setRuntimeId(val);
             const curForm = get(formRef, 'current.props.form');
             if (curForm) {
               curForm.setFieldsValue({ redirectPath: undefined });
             }
-          }),
+          },
         },
       },
       {
@@ -297,18 +347,13 @@ export const ApiPackageDetail = () => {
           dropdownRender: (menu: React.ReactElement) => (
             <>
               {menu}
-              {
-                apiPrefixs && apiPrefixs.length ?
-                  <div className="border-top color-primary text-right">
-                    <span
-                      className="mr4 hover-text"
-                      onMouseDown={addServiceAPI}
-                    >
-                      {i18n.t('microService:add {scope} API', { scope: i18n.t('microService:service') })}
-                    </span>
-                  </div>
-                  : null
-              }
+              {apiPrefixs && apiPrefixs.length ? (
+                <div className="border-top color-primary text-right">
+                  <span className="mr4 hover-text" onMouseDown={addServiceAPI}>
+                    {i18n.t('microService:add {scope} API', { scope: i18n.t('microService:service') })}
+                  </span>
+                </div>
+              ) : null}
             </>
           ),
         },
@@ -361,7 +406,8 @@ export const ApiPackageDetail = () => {
         placeholder: i18n.t('microService:match the URL path prefix, and remove the prefix'),
       },
     },
-    { // 转发方式
+    {
+      // 转发方式
       label: i18n.t('microService:forwarding type'),
       name: 'redirectType',
       type: 'radioGroup',
@@ -473,26 +519,65 @@ export const ApiPackageDetail = () => {
       <Spin spinning={isFetching}>
         <div className="mb16">
           {/* <Button type="primary" className="mr16" onClick={importOn}>{i18n.t('microService:import service api')}</Button> */}
-          <Button type="primary" className="mr16" onClick={openModal}>{i18n.t('microService:create router')}</Button>
-          <Button type="primary" className="mr16" onClick={() => { goTo(goTo.pages.apiStrategy, params); }}>{i18n.t('microService:global strategy')}</Button>
+          <Button type="primary" className="mr16" onClick={openModal}>
+            {i18n.t('microService:create router')}
+          </Button>
+          <Button
+            type="primary"
+            className="mr16"
+            onClick={() => {
+              goTo(goTo.pages.apiStrategy, params);
+            }}
+          >
+            {i18n.t('microService:global strategy')}
+          </Button>
         </div>
         <div className="mb16 flex-box">
           <div className="nowrap api-filter">
             <AppServiceFilter updateField={updateAppService} dataSource={pick(filter, ['diceApp', 'diceService'])} />
-            <Select placeholder={i18n.t('microService:method')} value={method} onChange={(value: string) => setFilter({ ...filter, method: value })} className="filter-select mr16">
-              {HTTP_METHODS.map(({ name, value }: { name: string; value: string }) => <Option key={value} value={value}>{name}</Option>)}
+            <Select
+              placeholder={i18n.t('microService:method')}
+              value={method}
+              onChange={(value: string) => setFilter({ ...filter, method: value })}
+              className="filter-select mr16"
+            >
+              {HTTP_METHODS.map(({ name, value }: { name: string; value: string }) => (
+                <Option key={value} value={value}>
+                  {name}
+                </Option>
+              ))}
             </Select>
             {/* <Select placeholder={i18n.t('microService:source')} value={origin} onChange={(value: string) => setFilter({ ...filter, origin: value })} className="filter-select mr16">
               { Object.entries(ORIGIN_MAP).map(([key, value]) => <Option key={key} value={key}>{value}</Option>) }
             </Select> */}
-            <Select placeholder={i18n.t('microService:api sorting')} value={sortField ? `${sortField}-${sortType}` : undefined} onChange={setSortBy} className="filter-select mr16">
-              {Object.entries(SORT_MAP).map(([key, value]) => <Option key={key} value={key}>{value}</Option>)}
+            <Select
+              placeholder={i18n.t('microService:api sorting')}
+              value={sortField ? `${sortField}-${sortType}` : undefined}
+              onChange={setSortBy}
+              className="filter-select mr16"
+            >
+              {Object.entries(SORT_MAP).map(([key, value]) => (
+                <Option key={key} value={key}>
+                  {value}
+                </Option>
+              ))}
             </Select>
-            <Input placeholder={i18n.t('microService:search api')} value={apiPath} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setFilter({ ...filter, apiPath: event.target.value })} className="filter-input" />
+            <Input
+              placeholder={i18n.t('microService:search api')}
+              value={apiPath}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                setFilter({ ...filter, apiPath: event.target.value })
+              }
+              className="filter-input"
+            />
           </div>
           <div className="nowrap filter-btn">
-            <Button className="ml16 mr8" onClick={onReset}>{i18n.t('microService:reset')}</Button>
-            <Button type="primary" ghost onClick={onSearchClick}>{i18n.t('search')}</Button>
+            <Button className="ml16 mr8" onClick={onReset}>
+              {i18n.t('microService:reset')}
+            </Button>
+            <Button type="primary" ghost onClick={onSearchClick}>
+              {i18n.t('search')}
+            </Button>
           </div>
         </div>
       </Spin>
@@ -517,8 +602,10 @@ export const ApiPackageDetail = () => {
       <CallerAuthDrawer
         visible={authModal}
         apiId={apiid}
-        onClose={() => { setAuthModal(false); }}
+        onClose={() => {
+          setAuthModal(false);
+        }}
       />
-    </div >
+    </div>
   );
 };

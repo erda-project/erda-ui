@@ -30,7 +30,9 @@ const displayName = ['MySQL', 'Redis', 'Custom', 'AliCloud-Rds', 'AliCloud-Redis
 export default function DataSourceManagement() {
   const addonList = workBenchStore.useStore((s) => s.addonList);
   const { projectId } = routeInfoStore.useStore((s) => s.params);
-  const addonSpecList = customAddonStore.useStore((s) => s.addonList).filter((item: any) => displayName.includes(item.displayName));
+  const addonSpecList = customAddonStore
+    .useStore((s) => s.addonList)
+    .filter((item: any) => displayName.includes(item.displayName));
   const timer = React.useRef<any>(0);
   const [loadingAddons] = useLoading(workBenchStore, ['getDataSourceAddons']);
   const [state, updater, update, reset] = useUpdate({
@@ -77,12 +79,14 @@ export default function DataSourceManagement() {
     };
     if (state.editData) {
       const { instanceId, projectId: currentProjectId, orgId } = state.editData;
-      return customAddonStore.updateCustomAddonConfig({
-        config: values.configs,
-        instanceId,
-        projectId: +currentProjectId,
-        orgId,
-      }).then(after);
+      return customAddonStore
+        .updateCustomAddonConfig({
+          config: values.configs,
+          instanceId,
+          projectId: +currentProjectId,
+          orgId,
+        })
+        .then(after);
     } else {
       const { addonName, name, plan, addonInstanceRoutingId, configs } = values;
       const newAddonType = addonSpecList.find((a) => a.addonName === addonName);
@@ -135,22 +139,14 @@ export default function DataSourceManagement() {
       <div className="top-button-group">
         <Tooltip
           title={
-            (
-              <div>
-                {i18n.t('project:add-data-source-tip-1')}
-                <Link to={goTo.resolve.projectService({ projectId })}>
-                  {i18n.t('project:add-data-source-tip-2')}
-                </Link>
-              </div>
-            )
+            <div>
+              {i18n.t('project:add-data-source-tip-1')}
+              <Link to={goTo.resolve.projectService({ projectId })}>{i18n.t('project:add-data-source-tip-2')}</Link>
+            </div>
           }
           placement="left"
         >
-          <Button
-            type="primary"
-          >
-            {i18n.t('project:add data source')}
-          </Button>
+          <Button type="primary">{i18n.t('project:add data source')}</Button>
         </Tooltip>
       </div>
       <AddonModal

@@ -18,7 +18,12 @@ import i18n from 'i18n';
 import { useEffectOnce } from 'react-use';
 import { WrappedFormUtils } from 'core/common/interface';
 import { map, groupBy, find, get, isEmpty } from 'lodash';
-import { authenticationMap, authorizationMap, envMap, addonStatusMap } from 'apiManagePlatform/pages/access-manage/components/config';
+import {
+  authenticationMap,
+  authorizationMap,
+  envMap,
+  addonStatusMap,
+} from 'apiManagePlatform/pages/access-manage/components/config';
 import apiAccessStore from 'apiManagePlatform/stores/api-access';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';
 import { goTo } from 'common/utils';
@@ -36,7 +41,7 @@ const formatVersion = (data: API_MARKET.VersionTreeItem[]) => {
   });
 };
 
-interface FormData{
+interface FormData {
   assetID: string;
   projectID: string;
   major: number;
@@ -46,14 +51,16 @@ interface FormData{
   bindDomain: string[];
 }
 
-interface IState{
-  projectList: Array<{projectID: number; projectName: string}>;
+interface IState {
+  projectList: Array<{ projectID: number; projectName: string }>;
   resourceVersions: API_MARKET.VersionTreeChild[];
   formData: FormData;
   instanceWorkSpace: '' | API_ACCESS.Workspace;
 }
 
-interface FormRef { props: { form: WrappedFormUtils } }
+interface FormRef {
+  props: { form: WrappedFormUtils };
+}
 
 const AccessEdit = () => {
   const formRef = React.useRef<FormRef>({} as FormRef);
@@ -64,7 +71,12 @@ const AccessEdit = () => {
   const { clearAccessDetail, clearApiGateways } = apiAccessStore.reducers;
   const { getAssetList, getVersionTree, getInstance } = apiMarketStore.effects;
   const { clearVersionTree, clearState } = apiMarketStore.reducers;
-  const [isfetchApi, ...isLoading] = useLoading(apiAccessStore, ['getApiGateway', 'getAccessDetail', 'createAccess', 'updateAccess']);
+  const [isfetchApi, ...isLoading] = useLoading(apiAccessStore, [
+    'getApiGateway',
+    'getAccessDetail',
+    'createAccess',
+    'updateAccess',
+  ]);
   const [isfetchIns] = useLoading(apiMarketStore, ['getInstance']);
   const [state, updater, update] = useUpdate<IState>({
     projectList: [],
@@ -85,10 +97,13 @@ const AccessEdit = () => {
           updater.instanceWorkSpace(instantiation.workspace);
         });
         getApiGateway({ projectID: access.projectID });
-        getVersionTree({ assetID: access.assetID, patch: false, instantiation: true, access: false }).then(({ list }) => {
-          const { versions } = find(formatVersion(list), (t) => t.major === access.major) || {} as API_MARKET.VersionTreeItem;
-          updater.resourceVersions(versions);
-        });
+        getVersionTree({ assetID: access.assetID, patch: false, instantiation: true, access: false }).then(
+          ({ list }) => {
+            const { versions } =
+              find(formatVersion(list), (t) => t.major === access.major) || ({} as API_MARKET.VersionTreeItem);
+            updater.resourceVersions(versions);
+          },
+        );
         updater.projectList([{ projectID: access.projectID, projectName: access.projectName }]);
       });
     }
@@ -100,7 +115,7 @@ const AccessEdit = () => {
     };
   });
   const assetVersions = React.useMemo(() => formatVersion(versionTree), [versionTree]);
-  const refreshApiGateway = (data?: {workspace: API_ACCESS.Workspace; addonInstanceID: string}) => {
+  const refreshApiGateway = (data?: { workspace: API_ACCESS.Workspace; addonInstanceID: string }) => {
     const projectID = formRef.current.props.form.getFieldValue('projectID');
     if (projectID) {
       getApiGateway({ projectID: +projectID });
@@ -114,30 +129,39 @@ const AccessEdit = () => {
     const projectId = formRef.current.props.form.getFieldValue('projectID');
     window.refreshApiGateway = refreshApiGateway;
     goTo(goTo.pages.projectService, { projectId, jumpOut: true, query: { env, addon: 'api-gateway' } });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const gateways = React.useMemo(() => {
     if (!state.projectList.length || isfetchApi) {
       return [];
     }
-    const workspace: API_ACCESS.Workspace[] = !state.instanceWorkSpace ? ['DEV', 'TEST', 'STAGING', 'PROD'] : [state.instanceWorkSpace];
+    const workspace: API_ACCESS.Workspace[] = !state.instanceWorkSpace
+      ? ['DEV', 'TEST', 'STAGING', 'PROD']
+      : [state.instanceWorkSpace];
     const temp = groupBy(apiGateways, 'workspace');
-    const apiGateWays: Array<Merge<{name: React.ReactNode }, API_ACCESS.ApiGateway>> = [];
+    const apiGateWays: Array<Merge<{ name: React.ReactNode }, API_ACCESS.ApiGateway>> = [];
     workspace.forEach((item) => {
       const name = envMap[item];
       const gatewayTemp = temp[item] || [];
       if (gatewayTemp.length) {
-        apiGateWays.push(...gatewayTemp.map((t) => ({
-          name: `${addonStatusMap[t.status]?.name}-${name}-${t.addonInstanceID}`,
-          ...t,
-        })));
+        apiGateWays.push(
+          ...gatewayTemp.map((t) => ({
+            name: `${addonStatusMap[t.status]?.name}-${name}-${t.addonInstanceID}`,
+            ...t,
+          })),
+        );
       } else {
         apiGateWays.push({
           addonInstanceID: `${item}-noAPIGateway`,
           workspace: item,
           status: 'ATTACHED',
           name: (
-            <div className="flex-box" onClick={(e) => { gotoServer(e, item); }}>
+            <div
+              className="flex-box"
+              onClick={(e) => {
+                gotoServer(e, item);
+              }}
+            >
               <span>{name}</span>
               <span className="text-link">{i18n.t('establish')}</span>
             </div>
@@ -180,7 +204,7 @@ const AccessEdit = () => {
         updater.projectList([]);
         break;
       case 'major':
-        versions = (find(assetVersions, (t) => t.major === +value) || {} as API_MARKET.VersionTreeItem).versions;
+        versions = (find(assetVersions, (t) => t.major === +value) || ({} as API_MARKET.VersionTreeItem)).versions;
         clearApiGateways();
         update({
           projectList: [],
@@ -190,7 +214,7 @@ const AccessEdit = () => {
       case 'minor':
         // eslint-disable-next-line no-case-declarations
         const { assetID, major } = formRef.current.props.form.getFieldsValue(['assetID', 'major']);
-        swaggerVersion = (assetVersions.find((item) => item.major === +major) || {} as any).swaggerVersion;
+        swaggerVersion = (assetVersions.find((item) => item.major === +major) || ({} as any)).swaggerVersion;
         clearApiGateways();
         updater.projectList([]);
         getInstance({ assetID, swaggerVersion, minor: +value, major: +major }).then(({ instantiation }) => {
@@ -200,7 +224,7 @@ const AccessEdit = () => {
             temp.projectID = `${instantiation.projectID}`;
             projectList = [{ projectID: instantiation.projectID, projectName: instantiation.projectName }];
           } else {
-            asset = (find(assetList, (t) => t.asset.assetID === assetID) || {} as API_MARKET.AssetListItem).asset;
+            asset = (find(assetList, (t) => t.asset.assetID === assetID) || ({} as API_MARKET.AssetListItem)).asset;
             temp.projectID = `${asset.projectID}`;
             projectList = [{ projectID: asset.projectID, projectName: asset.projectName }];
           }
@@ -237,7 +261,6 @@ const AccessEdit = () => {
           handleChange('assetID', v, ['projectID', 'major', 'minor', 'addonInstanceID']);
         },
       },
-
     },
     {
       label: i18n.t('API version'),
@@ -287,18 +310,20 @@ const AccessEdit = () => {
       getComp(): React.ReactElement<any> | string {
         return <MultiInput placeholder={`${i18n.t('such as')}: example.com`} />;
       },
-      rules: [{
-        validator: (_rule: any, value: string[], callback: Function) => {
-          const domainReg = /^([a-z]|\d|-|\*)+(\.([a-z]|\d|-|\*)+)+$/;
-          let errMsg: any;
-          (value || []).forEach((domain, index) => {
-            if (!domainReg.test(domain) && !errMsg) {
-              errMsg = i18n.t('item {index} should be lowercase letters, numbers, dot, -, *', { index: index + 1 });
-            }
-          });
-          callback(errMsg);
+      rules: [
+        {
+          validator: (_rule: any, value: string[], callback: Function) => {
+            const domainReg = /^([a-z]|\d|-|\*)+(\.([a-z]|\d|-|\*)+)+$/;
+            let errMsg: any;
+            (value || []).forEach((domain, index) => {
+              if (!domainReg.test(domain) && !errMsg) {
+                errMsg = i18n.t('item {index} should be lowercase letters, numbers, dot, -, *', { index: index + 1 });
+              }
+            });
+            callback(errMsg);
+          },
         },
-      }],
+      ],
     },
     {
       label: i18n.t('API gateway'),
@@ -312,7 +337,9 @@ const AccessEdit = () => {
       })),
       itemProps: {
         placeholder: i18n.t('please select'),
-        onFocus: () => { refreshApiGateway(); },
+        onFocus: () => {
+          refreshApiGateway();
+        },
         notFoundContent: isfetchApi || isfetchIns ? <Spin size="small" /> : null,
       },
     },
@@ -357,11 +384,7 @@ const AccessEdit = () => {
   return (
     <Spin spinning={isLoading.some((t) => t)}>
       <div>
-        <RenderForm
-          list={fieldsList}
-          layout="vertical"
-          wrappedComponentRef={formRef}
-        />
+        <RenderForm list={fieldsList} layout="vertical" wrappedComponentRef={formRef} />
       </div>
     </Spin>
   );

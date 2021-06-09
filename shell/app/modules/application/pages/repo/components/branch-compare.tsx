@@ -54,30 +54,22 @@ const RepoBranchCompare = () => {
   const { branches, tags } = info;
   return (
     <div className="repo-branch-compare" key={window.location.pathname}>
-      <BranchSelect
-        {...{ branches, tags, current: encodeURIComponent(state.from) }}
-        onChange={onChange('from')}
-      >
+      <BranchSelect {...{ branches, tags, current: encodeURIComponent(state.from) }} onChange={onChange('from')}>
         <span>{i18n.t('application:base')}:</span>
-        <span className="branch-name bold nowrap">
-          {state.from || null}
-        </span>
+        <span className="branch-name bold nowrap">{state.from || null}</span>
         {state.from ? <IconDownOne theme="filled" size="16px" /> : null}
       </BranchSelect>
       <span className="switch-branch" onClick={switchBranch}>
         <IconSwitch />
       </span>
-      <BranchSelect
-        {...{ branches, tags, current: state.to }}
-        onChange={onChange('to')}
-      >
+      <BranchSelect {...{ branches, tags, current: state.to }} onChange={onChange('to')}>
         <span>{i18n.t('application:compare')}:</span>
-        <span className="branch-name bold nowrap">
-          {state.to || null}
-        </span>
+        <span className="branch-name bold nowrap">{state.to || null}</span>
         {state.to ? <IconDownOne theme="filled" size="16px" /> : null}
       </BranchSelect>
-      <Button className="compare-button" type="primary" onClick={goToCompare} disabled={!state.from || !state.to}>{i18n.t('application:compare')}</Button>
+      <Button className="compare-button" type="primary" onClick={goToCompare} disabled={!state.from || !state.to}>
+        {i18n.t('application:compare')}
+      </Button>
     </div>
   );
 };

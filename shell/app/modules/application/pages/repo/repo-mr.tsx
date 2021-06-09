@@ -30,7 +30,12 @@ export const mrTabs = () => {
     },
     {
       key: 'open',
-      name: <span>{i18n.t('application:opening mr')}<span className="dice-badge">{info ? info.mergeRequestCount : 0}</span></span>,
+      name: (
+        <span>
+          {i18n.t('application:opening mr')}
+          <span className="dice-badge">{info ? info.mergeRequestCount : 0}</span>
+        </span>
+      ),
     },
     {
       key: 'merged',
@@ -53,7 +58,11 @@ const PureRepoMR = () => {
     <div>
       <div className="top-button-group">
         <WithAuth pass={permObj.create} tipProps={{ placement: 'bottom' }}>
-          <Button disabled={info.empty || info.isLocked} type="primary" onClick={() => goTo('./createMR', { forbidRepeat: true })}>
+          <Button
+            disabled={info.empty || info.isLocked}
+            type="primary"
+            onClick={() => goTo('./createMR', { forbidRepeat: true })}
+          >
             {i18n.t('application:new merge request')}
           </Button>
         </WithAuth>

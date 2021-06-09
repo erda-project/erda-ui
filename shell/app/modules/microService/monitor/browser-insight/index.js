@@ -30,7 +30,6 @@ if (isZh()) {
   tabs.push({ key: 'bi/geography', name: i18n.t('microService:geography') });
 }
 
-
 const getBIRouter = () => ({
   path: 'bi',
   // breadcrumbName: '浏览性能',
@@ -107,17 +106,17 @@ const getBIRouter = () => ({
       getComp: (cb) => cb(import('browser-insight/pages/summary/summary')),
     },
     ...(isZh
-      ? [{
-        path: 'geography',
-        // breadcrumbName: '地理',
-        alwaysShowTabKey: 'bi/geography',
-        tabs,
-        getComp: (cb) => cb(import('browser-insight/pages/geography-china/geography-china')),
-      }]
-      : []
-    ),
+      ? [
+          {
+            path: 'geography',
+            // breadcrumbName: '地理',
+            alwaysShowTabKey: 'bi/geography',
+            tabs,
+            getComp: (cb) => cb(import('browser-insight/pages/geography-china/geography-china')),
+          },
+        ]
+      : []),
   ],
 });
-
 
 export default getBIRouter;

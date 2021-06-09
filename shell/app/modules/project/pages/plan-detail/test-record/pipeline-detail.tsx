@@ -21,7 +21,6 @@ import * as React from 'react';
 import i18n from 'i18n';
 import { Attention as IconAttention } from '@icon-park/react';
 
-
 interface IProps {
   pipelineDetail: IPipelineDetail;
   isFetching: boolean;
@@ -68,10 +67,14 @@ export class PipelineDetail extends React.Component<IProps, IState> {
     if (!isEmpty(pipelineDetail)) {
       if (pipelineDetail.id === prevPipelineDetail.id) {
         if (state.startStatus === 'unstart') {
-          nextState.startStatus = ciBuildStatusSet.beforeRunningStatus.includes(pipelineDetail.status) ? 'unstart' : 'start';
+          nextState.startStatus = ciBuildStatusSet.beforeRunningStatus.includes(pipelineDetail.status)
+            ? 'unstart'
+            : 'start';
         }
       } else {
-        nextState.startStatus = ciBuildStatusSet.beforeRunningStatus.includes(pipelineDetail.status) ? 'unstart' : 'start';
+        nextState.startStatus = ciBuildStatusSet.beforeRunningStatus.includes(pipelineDetail.status)
+          ? 'unstart'
+          : 'start';
       }
     }
     return nextState;
@@ -135,18 +138,29 @@ export class PipelineDetail extends React.Component<IProps, IState> {
     return (
       <div className="full-spin-height">
         <Spin spinning={isFetching}>
-          {
-            showMessage && showMessage.msg
-              ? (
-                <div className="build-detail-err-msg">
-                  <div className="build-err-header"><IconAttention className="build-err-icon" /><pre>{showMessage.msg}</pre></div>
-                  <div className="build-err-stack"><ul style={{ listStyle: 'disc' }}>{showMessage.stacks.map((stack: any) => <li><pre>{stack}</pre></li>)}</ul></div>
-                </div>
-              )
-              : (
-                <PipelineChart data={pipelineDetail as unknown as PIPELINE.IPipelineDetail} onClickNode={this.onClickNode} changeType={changeType} />
-              )
-          }
+          {showMessage && showMessage.msg ? (
+            <div className="build-detail-err-msg">
+              <div className="build-err-header">
+                <IconAttention className="build-err-icon" />
+                <pre>{showMessage.msg}</pre>
+              </div>
+              <div className="build-err-stack">
+                <ul style={{ listStyle: 'disc' }}>
+                  {showMessage.stacks.map((stack: any) => (
+                    <li>
+                      <pre>{stack}</pre>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ) : (
+            <PipelineChart
+              data={pipelineDetail as unknown as PIPELINE.IPipelineDetail}
+              onClickNode={this.onClickNode}
+              changeType={changeType}
+            />
+          )}
         </Spin>
         <BuildLog visible={logVisible} hideLog={this.hideLog} {...logProps} />
       </div>

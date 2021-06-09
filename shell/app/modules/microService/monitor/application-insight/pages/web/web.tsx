@@ -18,11 +18,18 @@ import WebMap from './config/chartMap';
 import TopTabRight from 'application-insight/common/components/tab-right';
 import monitorCommonStore from 'common/stores/monitorCommon';
 
-
 const Web = () => {
   const type = 'web';
-  const [chosenSortItem, chosenApp, chosenAppGroup, appGroup] = monitorCommonStore.useStore((s) => [s.chosenSortItem, s.chosenApp, s.chosenAppGroup, s.appGroup]);
-  const { filterQuery, shouldLoad }: any = getFilterParams({ chosenSortItem, chosenApp, chosenAppGroup, appGroup }, { type, prefix: 'filter_target_' });
+  const [chosenSortItem, chosenApp, chosenAppGroup, appGroup] = monitorCommonStore.useStore((s) => [
+    s.chosenSortItem,
+    s.chosenApp,
+    s.chosenAppGroup,
+    s.appGroup,
+  ]);
+  const { filterQuery, shouldLoad }: any = getFilterParams(
+    { chosenSortItem, chosenApp, chosenAppGroup, appGroup },
+    { type, prefix: 'filter_target_' },
+  );
   const chartQuery = chosenSortItem ? { ...filterQuery, filter_http_path: chosenSortItem } : { ...filterQuery };
 
   return (
@@ -46,4 +53,3 @@ const Web = () => {
   );
 };
 export default Web;
-

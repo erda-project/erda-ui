@@ -33,7 +33,6 @@
           .pk-tree-iconEle {
             cursor: default !important;
           }
-
         }
 
         .pk-tree-iconEle {
@@ -67,7 +66,7 @@
     color: $color-active;
     font-size: 16px;
     opacity: 0;
-    transition: opacity .1s ease-out;
+    transition: opacity 0.1s ease-out;
     pointer-events: none;
   }
 

@@ -77,8 +77,7 @@ const UploadPlugin = (props: any) => {
   );
 };
 // 如果需要的话，可以在这里定义默认选项
-UploadPlugin.defaultConfig = {
-};
+UploadPlugin.defaultConfig = {};
 UploadPlugin.align = 'right';
 UploadPlugin.pluginName = 'upload';
 

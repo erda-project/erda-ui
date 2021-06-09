@@ -134,6 +134,4 @@ declare namespace PROJECT {
     type: string;
     desc: string;
   }
-
-
 }

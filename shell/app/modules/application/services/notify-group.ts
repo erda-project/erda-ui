@@ -13,25 +13,29 @@
 
 import agent from 'agent';
 
-export const getNotifyGroups = (query?: COMMON_NOTIFY.IGetNotifyGroupQuery): IPagingResp<COMMON_NOTIFY.INotifyGroup> => {
-  return agent.get('/api/notify-groups')
+export const getNotifyGroups = (
+  query?: COMMON_NOTIFY.IGetNotifyGroupQuery,
+): IPagingResp<COMMON_NOTIFY.INotifyGroup> => {
+  return agent
+    .get('/api/notify-groups')
     .query(query)
     .then((response: any) => response.body);
 };
 
 export const deleteNotifyGroups = (id: string) => {
-  return agent.delete(`/api/notify-groups/${id}`)
-    .then((response: any) => response.body);
+  return agent.delete(`/api/notify-groups/${id}`).then((response: any) => response.body);
 };
 
 export const createNotifyGroups = (payload: COMMON_NOTIFY.ICreateNotifyGroupQuery) => {
-  return agent.post('/api/notify-groups')
+  return agent
+    .post('/api/notify-groups')
     .send(payload)
     .then((response: any) => response.body);
 };
 
 export const updateNotifyGroups = ({ id, ...rest }: COMMON_NOTIFY.ICreateNotifyGroupQuery) => {
-  return agent.put(`/api/notify-groups/${id}`)
+  return agent
+    .put(`/api/notify-groups/${id}`)
     .send(rest)
     .then((response: any) => response.body);
 };

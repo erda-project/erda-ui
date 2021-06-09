@@ -48,12 +48,7 @@ const FileSelect = ({ accept, onChange, visible, beforeUpload }: IProps) => {
   };
 
   return (
-    <Upload
-      accept={accept}
-      showUploadList={false}
-      customRequest={customRequest}
-      beforeUpload={handleBeforeUpload}
-    >
+    <Upload accept={accept} showUploadList={false} customRequest={customRequest} beforeUpload={handleBeforeUpload}>
       <Button className={classnames({ placeholder: !fileData, 'upload-file-tip': true })}>
         {fileData ? fileData.name : i18n.t('common:Please select the file to be uploaded')}
       </Button>

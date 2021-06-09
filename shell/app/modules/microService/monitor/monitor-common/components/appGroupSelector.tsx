@@ -20,7 +20,7 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 
-interface IProps{
+interface IProps {
   type: string;
   viewProps?: object;
   api: string;
@@ -28,10 +28,15 @@ interface IProps{
 }
 
 const AppGroupSelector = ({ api, type, dataHandler, viewProps }: IProps) => {
-  const [appGroup, timeSpan, chosenApp, chosenAppGroup, lastChosenAppGroup] = monitorCommonStore.useStore((s) => [s.appGroup, s.timeSpan, s.chosenApp, s.chosenAppGroup, s.lastChosenAppGroup]);
+  const [appGroup, timeSpan, chosenApp, chosenAppGroup, lastChosenAppGroup] = monitorCommonStore.useStore((s) => [
+    s.appGroup,
+    s.timeSpan,
+    s.chosenApp,
+    s.chosenAppGroup,
+    s.lastChosenAppGroup,
+  ]);
   const { getAppGroup } = monitorCommonStore.effects;
   const { changeChosenAppGroup, clearAppGroup } = monitorCommonStore.reducers;
-
 
   useEffectOnce(() => {
     getGroup();
@@ -43,7 +48,6 @@ const AppGroupSelector = ({ api, type, dataHandler, viewProps }: IProps) => {
   React.useEffect(() => {
     getGroup({ timeSpan, chosenApp });
   }, [timeSpan, chosenApp]);
-
 
   const onChangeChosenAppGroup = (val: string[]) => {
     changeChosenAppGroup({ chosenAppGroup: val, type });

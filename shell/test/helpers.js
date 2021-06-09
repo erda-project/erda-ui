@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 // import { expect } from 'chai';
-import { mount, render, shallow, configure} from 'enzyme';
+import { mount, render, shallow, configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import renderer from 'react-test-renderer';
 

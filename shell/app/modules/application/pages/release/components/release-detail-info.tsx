@@ -16,7 +16,6 @@ import * as React from 'react';
 import moment from 'moment';
 import { KeyValueList } from 'common';
 
-
 interface IProps {
   data?: RELEASE.detail;
 }
@@ -29,9 +28,11 @@ const ReleaseDetailInfo = ({ data }: IProps) => {
   const listRender = (list: string[]) => {
     return (
       <ul className="image-list">
-        {
-          list.map((image: string) => <li key={image} className="image-item">{image}</li>)
-        }
+        {list.map((image: string) => (
+          <li key={image} className="image-item">
+            {image}
+          </li>
+        ))}
       </ul>
     );
   };

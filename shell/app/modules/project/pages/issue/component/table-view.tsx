@@ -45,7 +45,12 @@ interface IProps {
 }
 const QKey = FilterBarHandle.filterDataKey;
 
-const unFinishState = [ISSUE_STATE_MAP.OPEN.value, ISSUE_STATE_MAP.WORKING.value, ISSUE_STATE_MAP.TESTING.value, ISSUE_STATE_MAP.REOPEN.value];// 未完成状态枚举
+const unFinishState = [
+  ISSUE_STATE_MAP.OPEN.value,
+  ISSUE_STATE_MAP.WORKING.value,
+  ISSUE_STATE_MAP.TESTING.value,
+  ISSUE_STATE_MAP.REOPEN.value,
+]; // 未完成状态枚举
 
 const endTimeTip = (time: string, isFinished: boolean) => {
   const diffDay = moment(time).endOf('day').diff(moment().endOf('day'), 'day');
@@ -59,11 +64,7 @@ const endTimeTip = (time: string, isFinished: boolean) => {
       tip = <span className="color-danger">{i18n.t('project:due {num} days ago', { num: -diffDay })}</span>;
     }
   }
-  return (
-    <Tooltip title={moment(time).format('YYYY-MM-DD')}>
-      {tip}
-    </Tooltip>
-  );
+  return <Tooltip title={moment(time).format('YYYY-MM-DD')}>{tip}</Tooltip>;
 };
 
 export const memberSelectorValueItem = (user: any) => {
@@ -72,7 +73,9 @@ export const memberSelectorValueItem = (user: any) => {
   return (
     <div className="v-align hover-active issue-field-selector">
       <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('empty')} rect={'20x20'} type="avatar" />
-      <span className={'ml8 fz14'} title={name}>{displayName}</span>
+      <span className={'ml8 fz14'} title={name}>
+        {displayName}
+      </span>
       <CustomIcon className="arrow-icon" type="di" />
     </div>
   );
@@ -89,12 +92,18 @@ interface IFieldProps {
 
 export const FieldSelector = (props: IFieldProps) => {
   const { hasAuth, options, value, updateRecord, record, field } = props;
-  const chosenVal = get(find(options, (op) => op.value === value), 'iconLabel');
+  const chosenVal = get(
+    find(options, (op) => op.value === value),
+    'iconLabel',
+  );
   const ValueRender = (
-    <div className="v-align hover-active issue-field-selector" onClick={(e: any) => e.stopPropagation()}>{chosenVal}<CustomIcon type="di" className="arrow-icon" /></div>
+    <div className="v-align hover-active issue-field-selector" onClick={(e: any) => e.stopPropagation()}>
+      {chosenVal}
+      <CustomIcon type="di" className="arrow-icon" />
+    </div>
   );
 
-  if (hasAuth === false) return <WithAuth pass={hasAuth} >{ValueRender}</WithAuth>;
+  if (hasAuth === false) return <WithAuth pass={hasAuth}>{ValueRender}</WithAuth>;
 
   const onClick = (e: any) => {
     e.domEvent.stopPropagation();
@@ -102,7 +111,11 @@ export const FieldSelector = (props: IFieldProps) => {
   };
   const menu = (
     <Menu onClick={onClick}>
-      {map(options, (op) => <Menu.Item disabled={op.disabled} key={op.value}>{op.iconLabel}</Menu.Item>)}
+      {map(options, (op) => (
+        <Menu.Item disabled={op.disabled} key={op.value}>
+          {op.iconLabel}
+        </Menu.Item>
+      ))}
     </Menu>
   );
   return (
@@ -126,15 +139,21 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
 
   const [{ filterObj }, updater] = useUpdate({
     filterObj: {
-      type: issueType === ISSUE_TYPE.ALL ? [ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK, ISSUE_TYPE.BUG, ISSUE_TYPE.EPIC] : issueType,
+      type:
+        issueType === ISSUE_TYPE.ALL
+          ? [ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK, ISSUE_TYPE.BUG, ISSUE_TYPE.EPIC]
+          : issueType,
       pageNo: issuePaging.pageNo,
       ...propsFilter,
     } as Obj,
   });
 
-  const getList = React.useCallback((q: Obj = {}) => {
-    getAllIssues(omit({ ...filterObj, ...q }, QKey));
-  }, [filterObj, getAllIssues]);
+  const getList = React.useCallback(
+    (q: Obj = {}) => {
+      getAllIssues(omit({ ...filterObj, ...q }, QKey));
+    },
+    [filterObj, getAllIssues],
+  );
 
   React.useEffect(() => {
     if (ref) {
@@ -161,11 +180,13 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
 
   React.useEffect(() => {
     // 把_Q_的放路由最后
-    updateSearch({ ...propsFilter, pageNo: filterObj.pageNo, viewType }, {
-      sort: (a: string, b: string) => (a === QKey ? 1 : (b === QKey ? -1 : 0)),
-    });
+    updateSearch(
+      { ...propsFilter, pageNo: filterObj.pageNo, viewType },
+      {
+        sort: (a: string, b: string) => (a === QKey ? 1 : b === QKey ? -1 : 0),
+      },
+    );
   }, [propsFilter, filterObj.pageNo, viewType]);
-
 
   useUpdateEffect(() => {
     updater.filterObj((prev: Obj) => ({ ...prev, ...propsFilter }));
@@ -234,7 +255,16 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
       render: (val: string, record: ISSUE.Issue) => {
         const checkRole = [isCreator(record.creator), isAssignee(record.assignee)];
         const editAuth = getAuth(authObj[record.type.toLowerCase()].edit, checkRole);
-        return <FieldSelector field="priority" hasAuth={editAuth} value={val || ISSUE_PRIORITY_MAP.NORMAL.value} record={record} updateRecord={updateRecord} options={map(ISSUE_PRIORITY_MAP)} />;
+        return (
+          <FieldSelector
+            field="priority"
+            hasAuth={editAuth}
+            value={val || ISSUE_PRIORITY_MAP.NORMAL.value}
+            record={record}
+            updateRecord={updateRecord}
+            options={map(ISSUE_PRIORITY_MAP)}
+          />
+        );
       },
     },
     ...insertWhen(issueType === ISSUE_TYPE.BUG, [
@@ -246,7 +276,16 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
         render: (val: string, record: ISSUE.Issue) => {
           const checkRole = [isCreator(record.creator), isAssignee(record.assignee)];
           const editAuth = getAuth(authObj[record.type.toLowerCase()].edit, checkRole);
-          return <FieldSelector field="severity" hasAuth={editAuth} value={val} record={record} updateRecord={updateRecord} options={map(BUG_SEVERITY_MAP)} />;
+          return (
+            <FieldSelector
+              field="severity"
+              hasAuth={editAuth}
+              value={val}
+              record={record}
+              updateRecord={updateRecord}
+              options={map(BUG_SEVERITY_MAP)}
+            />
+          );
         },
       },
     ]),
@@ -264,11 +303,25 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
           opts.push({
             disabled: !item.permission,
             value: item.stateID,
-            iconLabel: <div className="v-align">{ISSUE_ICON.state[item.stateBelong]}{item.stateName}</div>,
+            iconLabel: (
+              <div className="v-align">
+                {ISSUE_ICON.state[item.stateBelong]}
+                {item.stateName}
+              </div>
+            ),
           });
         });
 
-        return <FieldSelector field="state" hasAuth={updateStatusAuth} value={val} record={record} updateRecord={updateRecord} options={opts} />;
+        return (
+          <FieldSelector
+            field="state"
+            hasAuth={updateStatusAuth}
+            value={val}
+            record={record}
+            updateRecord={updateRecord}
+            options={opts}
+          />
+        );
       },
     },
     {
@@ -280,7 +333,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
         const checkRole = [isCreator(record.creator), isAssignee(record.assignee)];
         const editAuth = getAuth(authObj[record.type.toLowerCase()].edit, checkRole);
         return (
-          <WithAuth pass={editAuth} >
+          <WithAuth pass={editAuth}>
             <MemberSelector
               scopeType="project"
               scopeId={params.projectId}
@@ -323,7 +376,9 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
           current: +filterObj.pageNo,
           pageSize,
           total,
-          onChange: (pgNo) => { updater.filterObj({ ...filterObj, pageNo: pgNo }); },
+          onChange: (pgNo) => {
+            updater.filterObj({ ...filterObj, pageNo: pgNo });
+          },
         }}
       />
     </div>

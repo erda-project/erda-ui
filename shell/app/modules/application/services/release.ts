@@ -14,26 +14,29 @@
 import agent from 'agent';
 
 export const getReleaseList = (params: RELEASE.ListQuery): IPagingResp<RELEASE.detail> => {
-  return agent.get('/api/releases')
+  return agent
+    .get('/api/releases')
     .query(params)
     .then((response: any) => response.body);
 };
 
 export const updateInfo = ({ releaseId, ...data }: RELEASE.UpdateBody) => {
-  return agent.put(`/api/releases/${releaseId}`)
+  return agent
+    .put(`/api/releases/${releaseId}`)
     .send(data)
     .then((response: any) => response.body);
 };
 
 export const getReleaseDetail = (releaseId: string): RELEASE.detail => {
-  return agent.get(`/api/releases/${releaseId}`)
-    .then((response: any) => response.body);
+  return agent.get(`/api/releases/${releaseId}`).then((response: any) => response.body);
 };
 
 export const getDiceYml = (releaseId: string): string => {
   const req = agent.get(`/api/releases/${releaseId}/actions/get-dice`);
   req.set('Accept', 'application/x-yaml');
-  return req
-    // 当前直接返回yml内容，若改为json格式返回这里改成body
-    .then((response: any) => response.text);
+  return (
+    req
+      // 当前直接返回yml内容，若改为json格式返回这里改成body
+      .then((response: any) => response.text)
+  );
 };

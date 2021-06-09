@@ -25,7 +25,6 @@ export const orgRoleMap = {
   Guest: { name: '访客用户', value: 'Guest' },
 };
 
-
 // 通过权限配置页面导出数据覆盖，勿手动修改
 export const orgPerm = {
   name: '企业',
@@ -34,29 +33,13 @@ export const orgPerm = {
     read: {
       pass: false,
       name: '查看',
-      role: [
-        'Manager',
-        'Dev',
-        'Support',
-        'DataManager',
-        'Reporter',
-        'PublisherManager',
-        'Guest',
-      ],
+      role: ['Manager', 'Dev', 'Support', 'DataManager', 'Reporter', 'PublisherManager', 'Guest'],
     },
     apiManage: {
       name: 'API管理',
       read: {
         pass: false,
-        role: [
-          'Manager',
-          'Dev',
-          'Support',
-          'DataManager',
-          'Reporter',
-          'PublisherManager',
-          'Guest',
-        ],
+        role: ['Manager', 'Dev', 'Support', 'DataManager', 'Reporter', 'PublisherManager', 'Guest'],
         name: '查看',
       },
     },
@@ -64,15 +47,7 @@ export const orgPerm = {
       name: '扩展服务',
       read: {
         pass: false,
-        role: [
-          'Manager',
-          'Dev',
-          'Support',
-          'DataManager',
-          'Reporter',
-          'PublisherManager',
-          'Guest',
-        ],
+        role: ['Manager', 'Dev', 'Support', 'DataManager', 'Reporter', 'PublisherManager', 'Guest'],
         name: '查看',
       },
     },
@@ -80,15 +55,7 @@ export const orgPerm = {
       name: '我的发布',
       read: {
         pass: false,
-        role: [
-          'Manager',
-          'Dev',
-          'Support',
-          'DataManager',
-          'Reporter',
-          'PublisherManager',
-          'Guest',
-        ],
+        role: ['Manager', 'Dev', 'Support', 'DataManager', 'Reporter', 'PublisherManager', 'Guest'],
         name: '查看',
       },
     },
@@ -96,57 +63,35 @@ export const orgPerm = {
   entryMicroService: {
     pass: false,
     name: '微服务治理平台',
-    role: [
-      'Manager',
-      'Dev',
-      'Support',
-      'DataManager',
-    ],
+    role: ['Manager', 'Dev', 'Support', 'DataManager'],
   },
   entryFastData: {
     pass: false,
     name: '快数据平台',
-    role: [
-      'Manager',
-      'DataManager',
-      'DataEngineer',
-      'Support',
-    ],
+    role: ['Manager', 'DataManager', 'DataEngineer', 'Support'],
   },
   entryOrgCenter: {
     pass: false,
     name: '企业中心',
-    role: [
-      'Manager',
-      'Support',
-    ],
+    role: ['Manager', 'Support'],
   },
   apiAssetEdit: {
     pass: false,
     name: 'API 资源编辑',
-    role: [
-      'Manager',
-    ],
+    role: ['Manager'],
   },
   dataCenter: {
     name: '云管平台',
     showApp: {
       pass: false,
-      role: [
-        'Manager',
-        'Ops',
-        'Support',
-      ],
+      role: ['Manager', 'Ops', 'Support'],
       name: '应用菜单显示',
     },
     alarms: {
       name: '运维告警',
       addNotificationGroup: {
         pass: false,
-        role: [
-          'Manager',
-          'Support',
-        ],
+        role: ['Manager', 'Support'],
         name: '添加通知组',
       },
     },
@@ -155,10 +100,7 @@ export const orgPerm = {
     name: '发布管理',
     operation: {
       pass: false,
-      role: [
-        'PublisherManager',
-        'Manager',
-      ],
+      role: ['PublisherManager', 'Manager'],
       name: '操作(添加/发布/下架等)',
     },
   },
@@ -166,19 +108,12 @@ export const orgPerm = {
     name: '边缘计算平台',
     view: {
       pass: false,
-      role: [
-        'Manager',
-        'EdgeOps',
-        'Support',
-      ],
+      role: ['Manager', 'EdgeOps', 'Support'],
       name: '查看',
     },
     operate: {
       pass: false,
-      role: [
-        'Manager',
-        'EdgeOps',
-      ],
+      role: ['Manager', 'EdgeOps'],
       name: '操作(新建/编辑/删除/发布/下线/重启)',
     },
   },

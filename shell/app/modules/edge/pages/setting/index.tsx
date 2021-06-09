@@ -34,11 +34,12 @@ const configSetList = () => {
   );
 };
 
-const useMock = (payload: Record<string, any>) => new Promise((resolve) => {
-  setTimeout(() => {
-    resolve(getMock(payload));
-  }, 100);
-});
+const useMock = (payload: Record<string, any>) =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(getMock(payload));
+    }, 100);
+  });
 
 const getMock = (payload?: Record<string, any>) => {
   // console.clear();
@@ -88,37 +89,39 @@ const mock: CONFIG_PAGE.RenderConfig = {
           ],
         },
         data: {
-          list: [{
-            id: 1,
-            configSetName: '配置集名称',
-            operate: {
-              renderType: 'tableOperation',
-              operations: {
-                viewDetail: {
-                  showIndex: 2,
-                  key: 'viewDetail',
-                  text: '详情',
-                  reload: false,
-                  command: {
-                    key: 'goto',
-                    target: 'edgeSettingDetail',
-                    jumpOut: false,
-                    state: { params: { id: 11 }, query: { configSetName: '配置集名称' } },
+          list: [
+            {
+              id: 1,
+              configSetName: '配置集名称',
+              operate: {
+                renderType: 'tableOperation',
+                operations: {
+                  viewDetail: {
+                    showIndex: 2,
+                    key: 'viewDetail',
+                    text: '详情',
+                    reload: false,
+                    command: {
+                      key: 'goto',
+                      target: 'edgeSettingDetail',
+                      jumpOut: false,
+                      state: { params: { id: 11 }, query: { configSetName: '配置集名称' } },
+                    },
                   },
-                },
-                delete: {
-                  showIndex: 1,
-                  key: 'delete',
-                  text: '删除',
-                  confirm: '是否确认删除',
-                  reload: true,
-                  meta: { id: 1 },
-                  disabled: false,
-                  disabledTip: '无法删除',
+                  delete: {
+                    showIndex: 1,
+                    key: 'delete',
+                    text: '删除',
+                    confirm: '是否确认删除',
+                    reload: true,
+                    meta: { id: 1 },
+                    disabled: false,
+                    disabledTip: '无法删除',
+                  },
                 },
               },
             },
-          }],
+          ],
         },
       },
       topHead: { type: 'RowContainer', props: { isTopHead: true } },
@@ -155,7 +158,11 @@ const mock: CONFIG_PAGE.RenderConfig = {
               required: true,
               componentProps: {
                 placeholder: '请选择集群',
-                options: [{ name: '集群1', value: 'test1' }, { name: '集群2', value: 'test2' }, { name: '集群3', value: 'test3' }],
+                options: [
+                  { name: '集群1', value: 'test1' },
+                  { name: '集群2', value: 'test2' },
+                  { name: '集群3', value: 'test3' },
+                ],
               },
             },
           ],
@@ -168,7 +175,11 @@ const mock: CONFIG_PAGE.RenderConfig = {
       clusterAddButton: {
         type: 'Button',
         operations: {
-          click: { key: 'addCluster', reload: false, command: { key: 'set', state: { visible: true }, target: 'configSetFormModal' } },
+          click: {
+            key: 'addCluster',
+            reload: false,
+            command: { key: 'set', state: { visible: true }, target: 'configSetFormModal' },
+          },
         },
         props: {
           text: '新建配置集',

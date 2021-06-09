@@ -30,4 +30,3 @@ export const PureBoardGrid = ({ ...restProps }: DC.PureBoardGridProps) => {
   setLocale(locale);
   return <DCPureBoardGrid {...restProps} />;
 };
-

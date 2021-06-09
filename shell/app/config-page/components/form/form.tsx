@@ -21,7 +21,7 @@ import { useUpdate } from 'common';
 export const Form = (props: CP_FORM.Props) => {
   const { state, props: configProps, operations, execOperation, updateState } = props;
 
-  const { formData: fD } = state || {} as any;
+  const { formData: fD } = state || ({} as any);
   const [{ formData }, updater, update] = useUpdate({
     formData: fD,
   });
@@ -79,33 +79,35 @@ export const Form = (props: CP_FORM.Props) => {
   return (
     <>
       {title ? <Title title={title} level={2} showDivider={false} /> : null}
-      {
-        !isEmpty(fields) ? (
-          <PureForm
-            {...rest}
-            fields={fields || []}
-            formRef={formRef}
-            onFinish={onFinish}
-            value={formData}
-          >
-            {
-              !readOnly ?
-                (
-                  <div>
-                    { operations?.submit && <PureForm.Submit Button={Button} type="primary" text={i18n.t('application:commit')} />}
-                    { operations?.cancel && <Button className="ml8" onClick={onCancel}>{i18n.t('common:cancel')}</Button>}
-                  </div>
-                )
-                : undefined
-            }
-          </PureForm>
-        ) : (
-          <div>
-            { operations?.submit && <Button type="primary" onClick={onOk}>{i18n.t('application:commit')}</Button> }
-            { operations?.cancel && <Button className="ml8" onClick={onCancel}>{i18n.t('common:cancel')}</Button>}
-          </div>
-        )
-      }
+      {!isEmpty(fields) ? (
+        <PureForm {...rest} fields={fields || []} formRef={formRef} onFinish={onFinish} value={formData}>
+          {!readOnly ? (
+            <div>
+              {operations?.submit && (
+                <PureForm.Submit Button={Button} type="primary" text={i18n.t('application:commit')} />
+              )}
+              {operations?.cancel && (
+                <Button className="ml8" onClick={onCancel}>
+                  {i18n.t('common:cancel')}
+                </Button>
+              )}
+            </div>
+          ) : undefined}
+        </PureForm>
+      ) : (
+        <div>
+          {operations?.submit && (
+            <Button type="primary" onClick={onOk}>
+              {i18n.t('application:commit')}
+            </Button>
+          )}
+          {operations?.cancel && (
+            <Button className="ml8" onClick={onCancel}>
+              {i18n.t('common:cancel')}
+            </Button>
+          )}
+        </div>
+      )}
     </>
   );
 };

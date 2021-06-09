@@ -48,7 +48,7 @@ class OrderPage extends React.Component<IProps, any> {
 
   confirmData = {};
 
-  formData: {[key: string]: any} = {};
+  formData: { [key: string]: any } = {};
 
   changeStep = (step: number) => {
     if (step === 1) {
@@ -75,18 +75,18 @@ class OrderPage extends React.Component<IProps, any> {
 
   handleSubmit = () => {
     const { resourceType, ...data } = this.formData;
-    this.props.addResource({
-      type: resourceType,
-      [resourceType]: data[resourceType],
-    }).then(() => {
-      goTo('../');
-    });
+    this.props
+      .addResource({
+        type: resourceType,
+        [resourceType]: data[resourceType],
+      })
+      .then(() => {
+        goTo('../');
+      });
   };
 
   getFormValue = (field?: string) => {
-    return field
-      ? this.props.form.getFieldValue(field)
-      : this.props.form.getFieldsValue();
+    return field ? this.props.form.getFieldValue(field) : this.props.form.getFieldsValue();
   };
 
   getTipLabel = (text: string, tip: string) => (
@@ -97,7 +97,9 @@ class OrderPage extends React.Component<IProps, any> {
 
   getLinkLabel = (text: string, tip: string, href: string) => (
     <Tooltip title={tip}>
-      <a target="_blank" rel="noopener noreferrer" href={href}>{text} <IconLinkOne /></a>
+      <a target="_blank" rel="noopener noreferrer" href={href}>
+        {text} <IconLinkOne />
+      </a>
     </Tooltip>
   );
 
@@ -140,7 +142,7 @@ class OrderPage extends React.Component<IProps, any> {
         isTailLayout: true,
         tailFormItemLayout,
         getComp: () => (
-          <React.Fragment >
+          <React.Fragment>
             <Button type="primary" onClick={() => this.changeStep(1)}>
               {i18n.t('dcos:ok')}
             </Button>
@@ -218,10 +220,12 @@ class OrderPage extends React.Component<IProps, any> {
         name: 'ecs.systemDiskSize',
         type: 'inputNumber',
         itemProps: { step: 1, min: 20, max: 500, placeholder: i18n.t('dcos:20 to 500') },
-        rules: [{
-          required: true,
-          message: i18n.t('dcos:please fill in the system disk capacity'),
-        }],
+        rules: [
+          {
+            required: true,
+            message: i18n.t('dcos:please fill in the system disk capacity'),
+          },
+        ],
       },
       {
         label: i18n.t('dcos:purchased instances'),
@@ -251,17 +255,25 @@ class OrderPage extends React.Component<IProps, any> {
     }
     return [
       {
-        label: this.getLinkLabel(i18n.t('dcos:specifications'), i18n.t('dcos:see details'), 'https://help.aliyun.com/document_detail/61135.html'),
+        label: this.getLinkLabel(
+          i18n.t('dcos:specifications'),
+          i18n.t('dcos:see details'),
+          'https://help.aliyun.com/document_detail/61135.html',
+        ),
         name: 'redis.instanceClass',
         type: 'select',
         options: fullList.map((item) => ({
-          name: `${item.text} (${i18n.t('dcos:maximum number of connections')}: ${item.maxConn}, ${i18n.t('dcos:maximum throughput')}: ${item.maxThrp})`,
+          name: `${item.text} (${i18n.t('dcos:maximum number of connections')}: ${item.maxConn}, ${i18n.t(
+            'dcos:maximum throughput',
+          )}: ${item.maxThrp})`,
           value: item.key,
         })),
-        rules: [{
-          required: true,
-          message: i18n.t('dcos:please select the specification'),
-        }],
+        rules: [
+          {
+            required: true,
+            message: i18n.t('dcos:please select the specification'),
+          },
+        ],
       },
       {
         label: i18n.t('dcos:payment type'),
@@ -316,9 +328,7 @@ class OrderPage extends React.Component<IProps, any> {
     const { passwordVisible } = this.state;
     let extra: any[] = [];
     if (rds && rds.payType === 'PrePaid') {
-      const usedTimeList = rds.period === 'Year'
-        ? [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        : [1, 2, 3];
+      const usedTimeList = rds.period === 'Year' ? [1, 2, 3, 4, 5, 6, 7, 8, 9] : [1, 2, 3];
       extra = [
         {
           label: i18n.t('dcos:time unit'),
@@ -346,17 +356,25 @@ class OrderPage extends React.Component<IProps, any> {
     }
     return [
       {
-        label: this.getLinkLabel(i18n.t('dcos:payment type'), i18n.t('dcos:please select the specification'), 'https://help.aliyun.com/document_detail/26312.html'),
+        label: this.getLinkLabel(
+          i18n.t('dcos:payment type'),
+          i18n.t('dcos:please select the specification'),
+          'https://help.aliyun.com/document_detail/26312.html',
+        ),
         name: 'rds.dbInstanceClass',
         type: 'select',
         options: rdsConfig.map((item) => ({
-          name: `${item.key} (${item.cpu} ${item.mem} ${i18n.t('dcos:maximum number of connections')}: ${item.maxConn}, ${i18n.t('dcos:maximum iops')}: ${item.maxIOPS})`,
+          name: `${item.key} (${item.cpu} ${item.mem} ${i18n.t('dcos:maximum number of connections')}: ${
+            item.maxConn
+          }, ${i18n.t('dcos:maximum iops')}: ${item.maxIOPS})`,
           value: item.key,
         })),
-        rules: [{
-          required: true,
-          message: i18n.t('dcos:specifications'),
-        }],
+        rules: [
+          {
+            required: true,
+            message: i18n.t('dcos:specifications'),
+          },
+        ],
       },
       {
         label: i18n.t('dcos:see details'),
@@ -386,10 +404,12 @@ class OrderPage extends React.Component<IProps, any> {
         name: 'rds.dbInstanceStorage',
         type: 'inputNumber',
         itemProps: { step: 5, min: 50, max: 2000, placeholder: i18n.t('dcos:50 to 2000 gb') },
-        rules: [{
-          required: true,
-          message: i18n.t('dcos:please fill in the storage capacity'),
-        }],
+        rules: [
+          {
+            required: true,
+            message: i18n.t('dcos:please fill in the storage capacity'),
+          },
+        ],
       },
       {
         label: i18n.t('dcos:account name'),
@@ -463,7 +483,9 @@ class OrderPage extends React.Component<IProps, any> {
     return (
       <div className="purchase-resource">
         <Steps className="step-wrap" current={step}>
-          {steps.map((item) => <Step key={item.title} title={item.title} />)}
+          {steps.map((item) => (
+            <Step key={item.title} title={item.title} />
+          ))}
         </Steps>
         <div className="steps-content">
           <div className={step === 0 ? '' : 'hide'}>
@@ -487,7 +509,6 @@ class OrderPage extends React.Component<IProps, any> {
     );
   }
 }
-
 
 const mapper = () => {
   const { addResource } = purchaseStore.effects;

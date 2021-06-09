@@ -72,9 +72,7 @@ $border-style: 1px solid $color-border;
 }
 
 .ant-progress-bg {
-  background-image: linear-gradient(
-    90deg, $color-primary-light, $color-primary
-  );
+  background-image: linear-gradient(90deg, $color-primary-light, $color-primary);
   // border-top-right-radius: 0;
   // border-bottom-right-radius: 0;
   border-top-left-radius: 100px;
@@ -84,9 +82,7 @@ $border-style: 1px solid $color-border;
 .ant-progress {
   &.progress-full {
     .ant-progress-bg {
-      background-image: linear-gradient(
-        90deg, $color-primary-light, $color-primary
-      );
+      background-image: linear-gradient(90deg, $color-primary-light, $color-primary);
       border-top-right-radius: 100px;
       border-bottom-right-radius: 100px;
     }
@@ -95,9 +91,9 @@ $border-style: 1px solid $color-border;
 
 .ant-form-item > label:after {
   position: relative;
-  top: -.5px;
+  top: -0.5px;
   margin: 0 8px 0 2px;
-  content: ":";
+  content: ':';
 }
 
 .ant-confirm {
@@ -176,16 +172,17 @@ $border-style: 1px solid $color-border;
 
 .ant-table-thead > tr > th {
   font-weight: 500;
-  background-color: rgba(0, 0, 0, .06);
+  background-color: rgba(0, 0, 0, 0.06);
 }
 
-.dice-layout .pk-table-tbody>tr>td,
-.dice-layout .pk-table-thead>tr>th,
+.dice-layout .pk-table-tbody > tr > td,
+.dice-layout .pk-table-thead > tr > th,
 .dice-layout .pk-table-column-header-title {
   white-space: nowrap;
 }
 
-.dice-layout .pk-form-item-no-label { // TODO: use nusi api to hide pk-no-label
+.dice-layout .pk-form-item-no-label {
+  // TODO: use nusi api to hide pk-no-label
   display: none !important;
 }
 
@@ -258,38 +255,12 @@ $border-style: 1px solid $color-border;
 /* stylelint-disable */
 .ant-table-small > .ant-table-content > .ant-table-header > table,
 .ant-table-small > .ant-table-content > .ant-table-body > table,
-.ant-table-small
-> .ant-table-content
-> .ant-table-scroll
-> .ant-table-header
-> table,
-.ant-table-small
-> .ant-table-content
-> .ant-table-scroll
-> .ant-table-body
-> table,
-.ant-table-small
-> .ant-table-content
-> .ant-table-fixed-left
-> .ant-table-header
-> table,
-.ant-table-small
-> .ant-table-content
-> .ant-table-fixed-right
-> .ant-table-header
-> table,
-.ant-table-small
-> .ant-table-content
-> .ant-table-fixed-left
-> .ant-table-body-outer
-> .ant-table-body-inner
-> table,
-.ant-table-small
-> .ant-table-content
-> .ant-table-fixed-right
-> .ant-table-body-outer
-> .ant-table-body-inner
-> table {
+.ant-table-small > .ant-table-content > .ant-table-scroll > .ant-table-header > table,
+.ant-table-small > .ant-table-content > .ant-table-scroll > .ant-table-body > table,
+.ant-table-small > .ant-table-content > .ant-table-fixed-left > .ant-table-header > table,
+.ant-table-small > .ant-table-content > .ant-table-fixed-right > .ant-table-header > table,
+.ant-table-small > .ant-table-content > .ant-table-fixed-left > .ant-table-body-outer > .ant-table-body-inner > table,
+.ant-table-small > .ant-table-content > .ant-table-fixed-right > .ant-table-body-outer > .ant-table-body-inner > table {
   padding: 0;
 }
 
@@ -387,7 +358,7 @@ div.ant-transfer-list-body-with-search {
   }
 
   .ant-tree-node-content-wrapper:hover {
-      background-color: $color-tree-bg;
+    background-color: $color-tree-bg;
   }
 
   &.case-tree .ant-tree-node-content-wrapper {
@@ -412,7 +383,8 @@ div.ant-transfer-list-body-with-search {
     padding-right: 8px;
   }
 
-  &.ant-tree-directory div.ant-tree-treenode-selected:hover::before, &.ant-tree-directory div.ant-tree-treenode-selected::before {
+  &.ant-tree-directory div.ant-tree-treenode-selected:hover::before,
+  &.ant-tree-directory div.ant-tree-treenode-selected::before {
     background: $color-tree-bg-active;
   }
 

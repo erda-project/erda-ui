@@ -49,26 +49,25 @@ export default ({ item, onClickItem }: IProps) => {
 
   return (
     <>
-      {
-        isDragging &&
-        <Alert
-          message={i18n.t('project:milestone-drag-tip')}
-          type="normal"
-          showIcon
-        />
-      }
+      {isDragging && <Alert message={i18n.t('project:milestone-drag-tip')} type="normal" showIcon />}
       <div key={item.id} onClick={() => onClickItem(item)} ref={drag}>
         <Card className={`shallow-shadow ${cls}`}>
           <div className="milestone-item-container milestone-info-card-content pointer">
-            <div className="milestone-item nowrap lt" >
-              <Tooltip placement="top" title={item.title} >
+            <div className="milestone-item nowrap lt">
+              <Tooltip placement="top" title={item.title}>
                 <span className="milestone-title">
                   {ISSUE_ICON.issue.EPIC}
                   {item.title}
                 </span>
               </Tooltip>
               <span />
-              {item.labels && <TagsColumn labels={item.labels.map((l) => ({ label: l, color: 'red' }))} showCount={2} containerClassName="ml8" />}
+              {item.labels && (
+                <TagsColumn
+                  labels={item.labels.map((l) => ({ label: l, color: 'red' }))}
+                  showCount={2}
+                  containerClassName="ml8"
+                />
+              )}
             </div>
             <div className="rt">
               <div className="milestone-item">

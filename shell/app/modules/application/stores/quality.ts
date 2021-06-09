@@ -18,19 +18,20 @@ import appStore from 'application/stores/application';
 import { eventHub } from 'common/utils/event-hub';
 import { createStore } from 'app/cube';
 
-const getAppDetail = () => new Promise((resolve) => {
-  const { appId } = routeInfoStore.getState((s) => s.params);
-  let appDetail = appStore.getState((s) => s.detail);
-  const notSameApp = appId && String(appId) !== String(appDetail.id);
-  if (!appId || notSameApp) {
-    eventHub.once('appStore/getAppDetail', () => {
-      appDetail = appStore.getState((s) => s.detail);
+const getAppDetail = () =>
+  new Promise((resolve) => {
+    const { appId } = routeInfoStore.getState((s) => s.params);
+    let appDetail = appStore.getState((s) => s.detail);
+    const notSameApp = appId && String(appId) !== String(appDetail.id);
+    if (!appId || notSameApp) {
+      eventHub.once('appStore/getAppDetail', () => {
+        appDetail = appStore.getState((s) => s.detail);
+        resolve(appDetail);
+      });
+    } else {
       resolve(appDetail);
-    });
-  } else {
-    resolve(appDetail);
-  }
-});
+    }
+  });
 
 interface IBlob {
   content: string;
@@ -74,13 +75,13 @@ const quality = createStore({
       }
     },
     async getRepoBlob({ select, call, update }, payload: { path: string }) {
-      const appDetail = await getAppDetail() as any;
+      const appDetail = (await getAppDetail()) as any;
       const { branch } = select((state) => state.sonarStatistics) as any;
-      const blob = await call(getFromRepo, {
+      const blob = (await call(getFromRepo, {
         type: 'blob',
         repoPrefix: appDetail.gitRepoAbbrev,
         path: `/${branch}/${payload.path}`,
-      }) as IBlob;
+      })) as IBlob;
       update({ blob });
     },
   },

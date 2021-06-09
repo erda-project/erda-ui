@@ -25,7 +25,6 @@ import {
   deleteAutoTestEnv,
 } from '../services/test-env';
 
-
 interface IState {
   active: TEST_ENV.Item | Obj;
   envList: TEST_ENV.Item[];
@@ -50,22 +49,30 @@ const testEnv = createFlatStore({
   state: initState,
   effects: {
     async createTestEnv({ call }, payload: TEST_ENV.CreateBody, query: TEST_ENV.EnvListQuery) {
-      const newData = await call(createTestEnv, payload, { successMsg: i18n.t('project:add environment configuration is successful') });
+      const newData = await call(createTestEnv, payload, {
+        successMsg: i18n.t('project:add environment configuration is successful'),
+      });
       testEnv.getTestEnvList(query);
       testEnv.setActiveEnv(newData);
     },
     async createAutoTestEnv({ call }, payload: TEST_ENV.ICreateAutoTestEnv, query: TEST_ENV.IAutoEnvQuery) {
-      const newData = await call(createAutoTestEnv, payload, { successMsg: i18n.t('project:add environment configuration is successful') });
+      const newData = await call(createAutoTestEnv, payload, {
+        successMsg: i18n.t('project:add environment configuration is successful'),
+      });
       testEnv.getAutoTestEnvList(query);
       testEnv.setActiveEnv(newData);
     },
     async updateTestEnv({ call }, payload: TEST_ENV.Item, query: TEST_ENV.EnvListQuery) {
-      await call(updateTestEnv, payload, { successMsg: i18n.t('project:update environment configuration is successful') });
+      await call(updateTestEnv, payload, {
+        successMsg: i18n.t('project:update environment configuration is successful'),
+      });
       testEnv.getTestEnvList(query);
       testEnv.setActiveEnv(payload);
     },
     async updateAutoTestEnv({ call }, payload: TEST_ENV.ICreateAutoTestEnv) {
-      await call(updateAutoTestEnv, payload, { successMsg: i18n.t('project:update environment configuration is successful') });
+      await call(updateAutoTestEnv, payload, {
+        successMsg: i18n.t('project:update environment configuration is successful'),
+      });
       testEnv.getAutoTestEnvList({ scope: payload.scope, scopeID: Number(payload.scopeID) });
       testEnv.setActiveEnv(payload);
     },
@@ -75,7 +82,9 @@ const testEnv = createFlatStore({
       testEnv.setActiveEnv({});
     },
     async deleteAutoTestEnv({ call }, ns: string, query: TEST_ENV.IAutoEnvQuery) {
-      await call(deleteAutoTestEnv, ns, { successMsg: i18n.t('project:delete environment configuration successfully') });
+      await call(deleteAutoTestEnv, ns, {
+        successMsg: i18n.t('project:delete environment configuration successfully'),
+      });
       testEnv.getAutoTestEnvList(query);
       testEnv.setActiveEnv({});
     },
@@ -119,6 +128,5 @@ const testEnv = createFlatStore({
     },
   },
 });
-
 
 export default testEnv;

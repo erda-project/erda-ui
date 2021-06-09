@@ -135,7 +135,9 @@ const DataBase = () => {
               }}
             >
               {RDSAccountList.map((user) => (
-                <Option key={user.accountName} value={user.accountName}>{user.accountName}</Option>
+                <Option key={user.accountName} value={user.accountName}>
+                  {user.accountName}
+                </Option>
               ))}
             </Select>
             <span
@@ -196,17 +198,11 @@ const DataBase = () => {
   return (
     <div>
       <div className="text-right mb12">
-        <Button type="primary" onClick={() => updater.formVisible(true)} >
+        <Button type="primary" onClick={() => updater.formVisible(true)}>
           {i18n.t('dcos:create database')}
         </Button>
       </div>
-      <Table
-        loading={isFetching}
-        columns={columns}
-        dataSource={RDSDatabaseList}
-        rowKey="dBName"
-        tableKey="db-manage"
-      />
+      <Table loading={isFetching} columns={columns} dataSource={RDSDatabaseList} rowKey="dBName" tableKey="db-manage" />
       <FormModal
         title={i18n.t('dcos:create database')}
         visible={formVisible}

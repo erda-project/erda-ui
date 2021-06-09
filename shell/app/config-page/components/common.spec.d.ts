@@ -28,7 +28,7 @@ declare namespace CP_COMMON {
     showIndex?: number;
   }
 
-  interface IConfirm{
+  interface IConfirm {
     title: string;
     subTitle: string;
   }
@@ -52,7 +52,7 @@ declare namespace CP_COMMON {
     rules?: Obj[];
     required?: boolean;
     componentProps?: Obj;
-    removeWhen?: Array<Array<{field: string; operator: string; value: any}>>;
-    disableWhen?: Array<Array<{[prop: string]: any}>>;
+    removeWhen?: Array<Array<{ field: string; operator: string; value: any }>>;
+    disableWhen?: Array<Array<{ [prop: string]: any }>>;
   }
 }

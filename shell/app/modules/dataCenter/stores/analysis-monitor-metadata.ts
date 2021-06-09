@@ -11,10 +11,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { MonitorMetaDataScope, MonitorMetaDataMode, createMonitorMetaDataStore } from 'app/modules/dataCenter/stores/_common-monitor-metadata';
+import {
+  MonitorMetaDataScope,
+  MonitorMetaDataMode,
+  createMonitorMetaDataStore,
+} from 'app/modules/dataCenter/stores/_common-monitor-metadata';
 import orgStore from 'app/org-home/stores/org';
 
 const getOrgName = () => orgStore.getState((s) => s.currentOrg.name);
-const analysisMonitorMetadata = createMonitorMetaDataStore(MonitorMetaDataScope.ORG, MonitorMetaDataMode.ANALYSIS, getOrgName);
+const analysisMonitorMetadata = createMonitorMetaDataStore(
+  MonitorMetaDataScope.ORG,
+  MonitorMetaDataMode.ANALYSIS,
+  getOrgName,
+);
 
 export default analysisMonitorMetadata;

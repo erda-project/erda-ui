@@ -42,16 +42,16 @@ const DownloadLogFormModal = ({ start, visible, query, onCancel }: IProps) => {
     const duration = startTime.valueOf() + endTime * 60 * 1000;
     requestQuery.end = Math.min(duration, now) * 1000000;
     const customRequestQuery = { ...requestQuery, count: 200, source: 'job', id: `pipeline-task-${taskID}` };
-    const logFile = downloadAPI ? `${downloadAPI}?${qs.stringify(customRequestQuery)}` : `${fetchApi || '/api/runtime/logs'}/actions/download?${qs.stringify(requestQuery)}`;
+    const logFile = downloadAPI
+      ? `${downloadAPI}?${qs.stringify(customRequestQuery)}`
+      : `${fetchApi || '/api/runtime/logs'}/actions/download?${qs.stringify(requestQuery)}`;
     window.open(setApiWithOrg(logFile));
     onCancel();
   };
 
   const disabledStartDate = (startValue: Moment | undefined) => {
     if (!startValue) return false;
-    return (
-      moment().subtract(DAY_RANGE + 1, 'days') > startValue || startValue > moment()
-    );
+    return moment().subtract(DAY_RANGE + 1, 'days') > startValue || startValue > moment();
   };
 
   const fieldsList = [
@@ -59,7 +59,7 @@ const DownloadLogFormModal = ({ start, visible, query, onCancel }: IProps) => {
       name: 'startTime',
       label: i18n.t('common:start at'),
       required: true,
-      getComp: ({ form }: {form: WrappedFormUtils}) => (
+      getComp: ({ form }: { form: WrappedFormUtils }) => (
         <DatePicker
           className="full-width"
           disabledDate={disabledStartDate}
@@ -78,7 +78,7 @@ const DownloadLogFormModal = ({ start, visible, query, onCancel }: IProps) => {
       name: 'endTime',
       label: i18n.t('common:duration(minutes)'),
       required: true,
-      getComp: ({ form }: {form: WrappedFormUtils}) => (
+      getComp: ({ form }: { form: WrappedFormUtils }) => (
         <InputNumber
           min={1}
           max={60}
@@ -99,7 +99,9 @@ const DownloadLogFormModal = ({ start, visible, query, onCancel }: IProps) => {
       visible={visible}
       fieldsList={fieldsList}
       onOk={handleDownload}
-      onCancel={() => { onCancel(); }}
+      onCancel={() => {
+        onCancel();
+      }}
       modalProps={{ destroyOnClose: true }}
     />
   );

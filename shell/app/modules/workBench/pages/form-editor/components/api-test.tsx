@@ -66,21 +66,8 @@ export interface IApi {
 const { Option } = Select;
 const { TabPane } = Tabs;
 const { TextArea } = Input;
-const HTTP_METHOD_LIST = [
-  'GET',
-  'POST',
-  'PUT',
-  'DELETE',
-  'OPTIONS',
-  'PATCH',
-  'COPY',
-  'HEAD',
-];
-const BODY_RAW_OPTION = [
-  'Text',
-  'Text(text/plain)',
-  'application/json',
-];
+const HTTP_METHOD_LIST = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'COPY', 'HEAD'];
+const BODY_RAW_OPTION = ['Text', 'Text(text/plain)', 'application/json'];
 export const getEmptyApi = () => {
   return {
     url: '',
@@ -161,7 +148,9 @@ export const ApiItem = ({ value, onChange, disabled }: IProps) => {
               placeholder={i18n.t('project:please choose')}
             >
               {map(HTTP_METHOD_LIST, (method) => (
-                <Option value={method} key={method}>{method}</Option>
+                <Option value={method} key={method}>
+                  {method}
+                </Option>
               ))}
             </Select>
           }
@@ -180,7 +169,13 @@ export const ApiItem = ({ value, onChange, disabled }: IProps) => {
                   disabled={disabled}
                   data={
                     isArray(dataKey)
-                      ? reduce(dataKey, (obj, k) => { return { ...obj, [k]: api[k] }; }, {})
+                      ? reduce(
+                          dataKey,
+                          (obj, k) => {
+                            return { ...obj, [k]: api[k] };
+                          },
+                          {},
+                        )
                       : api[dataKey]
                   }
                   onChange={updateApi}
@@ -344,7 +339,7 @@ const ApiTabComps = {
           <div className="table-body">
             <KeyValEdit
               type="asserts"
-              data={(data?.asserts || [])}
+              data={data?.asserts || []}
               opList={[]}
               disabled={disabled}
               dataMainKey="arg"
@@ -368,11 +363,13 @@ const ApiTabComps = {
                         onChange={onCurChange}
                         disabled={disabled}
                       >
-                        {
-                          data.out_params?.map((option: any) => {
-                            return option.key === '' ? null : <Option key={option.key} value={option.key}>{option.key}</Option>;
-                          })
-                        }
+                        {data.out_params?.map((option: any) => {
+                          return option.key === '' ? null : (
+                            <Option key={option.key} value={option.key}>
+                              {option.key}
+                            </Option>
+                          );
+                        })}
                       </Select>
                     );
                   },
@@ -428,7 +425,15 @@ const TestJsonEditor = (props: any) => {
   }, [val]);
   return (
     <div className="test-json-editor">
-      <Button className="json-format-btn" size="small" onClick={() => { setContent(formatJSON(content)); }}>{i18n.t('format')}</Button>
+      <Button
+        className="json-format-btn"
+        size="small"
+        onClick={() => {
+          setContent(formatJSON(content));
+        }}
+      >
+        {i18n.t('format')}
+      </Button>
       <FileEditor
         fileExtension="json"
         value={content}
@@ -444,16 +449,14 @@ const TestJsonEditor = (props: any) => {
 };
 const BasicForm = 'application/x-www-form-urlencoded';
 const ValMap = {
-  none: () => (
-    <div className="body-val-none">{i18n.t('project:the current request has no body')}</div>
-  ),
+  none: () => <div className="body-val-none">{i18n.t('project:the current request has no body')}</div>,
   [BasicForm]: (props: any) => {
     const { data, updateBody, disabled }: any = props;
     return (
       <KeyValEdit
         type="body"
         disabled={disabled}
-        data={isString(data.content) ? [] : data.content as any}
+        data={isString(data.content) ? [] : (data.content as any)}
         dataModel={{
           key: '',
           value: '',
@@ -487,7 +490,9 @@ const ValMap = {
   raw: (props: any) => {
     const { data, updateBody, disabled }: any = props;
     const val = isString(data.content) ? data.content : '';
-    return <TextArea disabled={disabled} rows={10} value={val} onChange={(e) => updateBody('content', e.target.value)} />;
+    return (
+      <TextArea disabled={disabled} rows={10} value={val} onChange={(e) => updateBody('content', e.target.value)} />
+    );
   },
   'JSON(application/json)': (props: any) => <TestJsonEditor {...props} />,
 };
@@ -556,23 +561,23 @@ const APIBody = (props: any) => {
           <Radio value={BasicForm}>x-www-form-urlencoded</Radio>
           <Radio value={'raw'}>raw</Radio>
         </Radio.Group>
-        {
-          isRaw ? (
-            <Select
-              size="small"
-              style={{ width: 160 }}
-              className="mt8"
-              onChange={(t) => changeType(t as string)}
-              value={realType}
-              disabled={disabled}
-              dropdownMatchSelectWidth={false}
-            >
-              {map(BODY_RAW_OPTION, (item) => (
-                <Option key={item} value={item}>{item}</Option>
-              ))}
-            </Select>
-          ) : null
-        }
+        {isRaw ? (
+          <Select
+            size="small"
+            style={{ width: 160 }}
+            className="mt8"
+            onChange={(t) => changeType(t as string)}
+            value={realType}
+            disabled={disabled}
+            dropdownMatchSelectWidth={false}
+          >
+            {map(BODY_RAW_OPTION, (item) => (
+              <Option key={item} value={item}>
+                {item}
+              </Option>
+            ))}
+          </Select>
+        ) : null}
       </div>
       <div className="body-value-container px12">
         {CurValueComp && <CurValueComp disabled={disabled} data={data} updateBody={updateBody} />}
@@ -635,11 +640,12 @@ const KeyValEdit = (props: IKeyValProps) => {
         if (k === 'out_params') {
           // 修改出参时修改对应断言
           const oldKey = oldVal[idx].key;
-          asserts && asserts.forEach((a: any) => {
-            if (a.arg === oldKey) {
-              set(a, 'arg', out_params[idx].key);
-            }
-          });
+          asserts &&
+            asserts.forEach((a: any) => {
+              if (a.arg === oldKey) {
+                set(a, 'arg', out_params[idx].key);
+              }
+            });
         }
         // 更新断言时同时清除小试中对应断言的结果
         if (k.startsWith('asserts')) {
@@ -663,7 +669,9 @@ const KeyValEdit = (props: IKeyValProps) => {
       // 删除出参时删除对应断言，data为apis全部数据
       if (k === 'out_params') {
         const outParamKeys = {};
-        out_params.forEach((p: any) => { outParamKeys[p.key] = true; });
+        out_params.forEach((p: any) => {
+          outParamKeys[p.key] = true;
+        });
         // 只保留arg没填或者在out_params有匹配的断言
         const newAsserts = asserts && asserts.filter((a: any) => a.arg === '' || outParamKeys[a.arg]);
         set(newData, 'asserts', newAsserts);
@@ -680,50 +688,60 @@ const KeyValEdit = (props: IKeyValProps) => {
   const keyArr = Object.keys(dataModel);
   return (
     <div className="key-val-container">
-      {
-        map(values, (item, i) => {
-          const lastItem = i === values.length - 1;
-          return (
-            <div className="key-val-item" key={i} >
-              {
-                map(keyArr, (key: string) => {
-                  const val = item[key];
-                  const { Comp, props: compProps, getProps, trim = false } = itemMap[key];
-                  const extraProps = getProps ? getProps(item) : {};
-                  return (
-                    <React.Fragment key={key}>
-                      {Comp ?
-                        <Comp disabled={disabled} className="flex-1 width0" value={val} record={item} onChange={(curVal: any) => updateValue(i, key, trim ? curVal?.trim() : curVal)} /> :
-                        <Input className="flex-1 width0" placeholder={i18n.t('project:please enter')} disabled={disabled} value={val} onChange={(e) => updateValue(i, key, trim ? e.target.value?.trim() : e.target.value)} {...compProps} {...extraProps} />
-                      }
-                      {Comp === Empty ? null : <div className="item-separate" />}
-                    </React.Fragment>
-                  );
-                })
-              }
-              {
-                !disabled ? (
-                  <div className="key-val-operation">
-                    {opList[i] || null}
-                    {
-                      type === 'out_params'
-                        ? (
-                          <Popconfirm
-                            title={i18n.t('project:del-param-sync-assert')}
-                            onConfirm={() => handleDelete(i)}
-                          >
-                            <CustomIcon type="sc1" className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'} />
-                          </Popconfirm>
-                        )
-                        : <CustomIcon type="sc1" onClick={() => { handleDelete(i); }} className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'} />
-                    }
-                  </div>
-                ) : null
-              }
-            </div>
-          );
-        })
-      }
+      {map(values, (item, i) => {
+        const lastItem = i === values.length - 1;
+        return (
+          <div className="key-val-item" key={i}>
+            {map(keyArr, (key: string) => {
+              const val = item[key];
+              const { Comp, props: compProps, getProps, trim = false } = itemMap[key];
+              const extraProps = getProps ? getProps(item) : {};
+              return (
+                <React.Fragment key={key}>
+                  {Comp ? (
+                    <Comp
+                      disabled={disabled}
+                      className="flex-1 width0"
+                      value={val}
+                      record={item}
+                      onChange={(curVal: any) => updateValue(i, key, trim ? curVal?.trim() : curVal)}
+                    />
+                  ) : (
+                    <Input
+                      className="flex-1 width0"
+                      placeholder={i18n.t('project:please enter')}
+                      disabled={disabled}
+                      value={val}
+                      onChange={(e) => updateValue(i, key, trim ? e.target.value?.trim() : e.target.value)}
+                      {...compProps}
+                      {...extraProps}
+                    />
+                  )}
+                  {Comp === Empty ? null : <div className="item-separate" />}
+                </React.Fragment>
+              );
+            })}
+            {!disabled ? (
+              <div className="key-val-operation">
+                {opList[i] || null}
+                {type === 'out_params' ? (
+                  <Popconfirm title={i18n.t('project:del-param-sync-assert')} onConfirm={() => handleDelete(i)}>
+                    <CustomIcon type="sc1" className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'} />
+                  </Popconfirm>
+                ) : (
+                  <CustomIcon
+                    type="sc1"
+                    onClick={() => {
+                      handleDelete(i);
+                    }}
+                    className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'}
+                  />
+                )}
+              </div>
+            ) : null}
+          </div>
+        );
+      })}
     </div>
   );
 };

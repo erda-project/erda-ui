@@ -16,7 +16,8 @@ import { scopeMap } from './config';
 
 const autoTestConfig = {
   scope: scopeMap.autoTest.scope,
-  text: { // 文案
+  text: {
+    // 文案
     fileTreeTitle: i18n.t('project:test set'), // 文件树title、
     addFolder: i18n.t('project:new sub testset'), // 添加文件夹
     addFile: i18n.t('common:new use case'), // 添加文件
@@ -31,7 +32,8 @@ const autoTestConfig = {
 
 const projectPipelineConfig = {
   scope: scopeMap.projectPipeline.scope,
-  text: { // 文案
+  text: {
+    // 文案
     fileTreeTitle: i18n.t('pipeline'), // 文件树title、
     addFolder: i18n.t('add {name}', { name: i18n.t('directory') }), // 添加文件夹
     addFile: i18n.t('add {name}', { name: i18n.t('pipeline') }), // 添加文件
@@ -46,7 +48,8 @@ const projectPipelineConfig = {
 
 const configSheetConfig = {
   scope: scopeMap.configSheet.scope,
-  text: { // 文案
+  text: {
+    // 文案
     fileTreeTitle: i18n.t('config sheet'), // 文件树title、
     addFolder: i18n.t('add {name}', { name: i18n.t('directory') }), // 添加文件夹
     addFile: i18n.t('add {name}', { name: i18n.t('config sheet') }), // 添加文件

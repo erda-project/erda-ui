@@ -21,7 +21,11 @@ import i18n from 'i18n';
 import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
 import { addAuthTooltipTitle } from 'app/modules/dataCenter/common/cloud-common';
 import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
-import { getCloudResourceTagsCol, getCloudResourceTimeCol, getCloudResourceRegionCol } from 'dataCenter/common/components/table-col';
+import {
+  getCloudResourceTagsCol,
+  getCloudResourceTimeCol,
+  getCloudResourceRegionCol,
+} from 'dataCenter/common/components/table-col';
 import { DownOne as IconDownOne } from '@icon-park/react';
 
 const { Option } = Select;
@@ -46,12 +50,7 @@ export default () => {
   const [regions, cloudAccountExist] = cloudCommonStore.useStore((s) => [s.regions, s.cloudAccountExist]);
   const { addItem } = cloudOSSStore.effects;
 
-  const [{
-    tagFormVis,
-    items,
-    ifSelected,
-    stateChangeKey,
-  }, updater, update] = useUpdate({
+  const [{ tagFormVis, items, ifSelected, stateChangeKey }, updater, update] = useUpdate({
     tagFormVis: false,
     items: [] as CLOUD.TagItem[],
     ifSelected: false,
@@ -132,24 +131,31 @@ export default () => {
     resetTable();
   };
 
-  const filterConfig = React.useMemo(() => [
-    {
-      type: Input,
-      name: 'name',
-      customProps: {
-        placeholder: i18n.t('dataCenter:please enter bucket name'),
-        allowClear: true,
+  const filterConfig = React.useMemo(
+    () => [
+      {
+        type: Input,
+        name: 'name',
+        customProps: {
+          placeholder: i18n.t('dataCenter:please enter bucket name'),
+          allowClear: true,
+        },
       },
-    },
-    {
-      type: Select,
-      name: 'vendor',
-      customProps: {
-        placeholder: i18n.t('dataCenter:please choose vendor'),
-        options: [<Option key="aliyun" value="aliyun">{i18n.t('aliyun')}</Option>],
+      {
+        type: Select,
+        name: 'vendor',
+        customProps: {
+          placeholder: i18n.t('dataCenter:please choose vendor'),
+          options: [
+            <Option key="aliyun" value="aliyun">
+              {i18n.t('aliyun')}
+            </Option>,
+          ],
+        },
       },
-    },
-  ], []);
+    ],
+    [],
+  );
 
   const handleFormSubmit = (data: STORAGE.OSS) => {
     const { name, acl, ...rest } = data;
@@ -157,19 +163,21 @@ export default () => {
     return addItem(requestData);
   };
 
-  const operationButtons = [{
-    name: `${i18n.t('set tags')}`,
-    cb: () => updater.tagFormVis(true),
-    ifDisabled: false,
-  }];
+  const operationButtons = [
+    {
+      name: `${i18n.t('set tags')}`,
+      cb: () => updater.tagFormVis(true),
+      ifDisabled: false,
+    },
+  ];
 
   const menu = (
     <Menu>
-      {
-        operationButtons.map((button) => (
-          <Menu.Item disabled={button.ifDisabled} key={button.name} onClick={button.cb}>{button.name}</Menu.Item>
-        ))
-      }
+      {operationButtons.map((button) => (
+        <Menu.Item disabled={button.ifDisabled} key={button.name} onClick={button.cb}>
+          {button.name}
+        </Menu.Item>
+      ))}
     </Menu>
   );
 

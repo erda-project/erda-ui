@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 import React from 'react';
 import i18n from 'i18n';
 import routeInfoStore from 'app/common/stores/route';
@@ -50,45 +49,46 @@ const WorkflowStateForm = React.forwardRef(({ issueType, onOk, onCancel }: IWork
     }
   };
 
-  const fields = React.useMemo(() => [
-    {
-      label: '',
-      component: 'input',
-      key: 'stateName',
-      required: true,
-      componentProps: {
-        style: { width: '320px' },
-        placeholder: i18n.t('please enter {name}', { name: i18n.t('project:state display name') }),
-      },
-      rules: [
-        { min: 1, max: 7, msg: i18n.t('length is {min}~{max}', { min: 1, max: 7 }) },
-      ],
-    },
-    {
-      label: '',
-      component: 'select',
-      key: 'stateBelong',
-      required: true,
-      componentProps: {
-        style: { width: '320px' },
-        placeholder: i18n.t('please select {name}', { name: i18n.t('project:owning state') }),
-      },
-      dataSource: {
-        type: 'static',
-        static: () => {
-          const optionMap = issueStateMap[issueType];
-          return map(Object.keys(optionMap), (value) => {
-            return (
-              <Option key={value} value={value}>
-                {optionMap[value]}
-              </Option>
-            );
-          });
+  const fields = React.useMemo(
+    () => [
+      {
+        label: '',
+        component: 'input',
+        key: 'stateName',
+        required: true,
+        componentProps: {
+          style: { width: '320px' },
+          placeholder: i18n.t('please enter {name}', { name: i18n.t('project:state display name') }),
         },
+        rules: [{ min: 1, max: 7, msg: i18n.t('length is {min}~{max}', { min: 1, max: 7 }) }],
       },
-      type: 'select',
-    },
-  ], [issueType]);
+      {
+        label: '',
+        component: 'select',
+        key: 'stateBelong',
+        required: true,
+        componentProps: {
+          style: { width: '320px' },
+          placeholder: i18n.t('please select {name}', { name: i18n.t('project:owning state') }),
+        },
+        dataSource: {
+          type: 'static',
+          static: () => {
+            const optionMap = issueStateMap[issueType];
+            return map(Object.keys(optionMap), (value) => {
+              return (
+                <Option key={value} value={value}>
+                  {optionMap[value]}
+                </Option>
+              );
+            });
+          },
+        },
+        type: 'select',
+      },
+    ],
+    [issueType],
+  );
 
   return (
     <div className={'backlog-issue-form flex-box flex-start align-top'}>
@@ -96,8 +96,12 @@ const WorkflowStateForm = React.forwardRef(({ issueType, onOk, onCancel }: IWork
         <Form fields={fields} formRef={formRef} formProps={{ layout: 'inline', className: 'backlog-issue-add' }} />
       </div>
       <div className="table-operations ml8 mt8">
-        <span className="table-operations-btn" onClick={onAdd}>{i18n.t('save')}</span>
-        <span className="table-operations-btn" onClick={onCancel}>{i18n.t('cancel')}</span>
+        <span className="table-operations-btn" onClick={onAdd}>
+          {i18n.t('save')}
+        </span>
+        <span className="table-operations-btn" onClick={onCancel}>
+          {i18n.t('cancel')}
+        </span>
       </div>
     </div>
   );

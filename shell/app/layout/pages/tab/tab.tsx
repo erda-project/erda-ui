@@ -38,7 +38,13 @@ export class PureTab extends React.PureComponent<IProps> {
     if (lastRouteWithPath) {
       const lastPathPart = last(path.split('/')) || '';
       const {
-        relativePath, tabs, ignoreTabQuery, keepTabQuery, tabKey = lastPathPart, alwaysShowTabKey, TabRightComp,
+        relativePath,
+        tabs,
+        ignoreTabQuery,
+        keepTabQuery,
+        tabKey = lastPathPart,
+        alwaysShowTabKey,
+        TabRightComp,
       } = lastRouteWithPath;
       // 如果最后一级路径有:号，则不用严格匹配
       if (alwaysShowTabKey || ((relativePath === lastPathPart || relativePath.includes(':')) && tabs)) {

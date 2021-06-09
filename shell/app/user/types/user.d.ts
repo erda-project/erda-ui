@@ -11,8 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
-interface IPermResponseData{
+interface IPermResponseData {
   access: boolean;
   exist: boolean;
   role: string;
@@ -42,7 +41,6 @@ interface IGetScopePermQuery {
   scopeID: string;
 }
 
-
 interface ILoginUser {
   id: string;
   email: string;
@@ -71,4 +69,3 @@ interface IMember {
   removed: boolean;
   labels: string[] | null;
 }
-

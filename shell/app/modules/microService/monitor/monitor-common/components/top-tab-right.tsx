@@ -16,7 +16,7 @@ import { ModuleSelector } from 'monitor-common';
 import { TimeSelector } from 'common';
 import './top-nav-right.scss';
 
-interface IProps{
+interface IProps {
   params?: any;
 }
 
@@ -24,7 +24,7 @@ const TopTabRight = (props: IProps) => {
   const { params } = props;
   return (
     <div className="top-nav-right">
-      { params && <ModuleSelector query={params} /> }
+      {params && <ModuleSelector query={params} />}
       <TimeSelector />
     </div>
   );

@@ -21,16 +21,17 @@ import i18n from 'i18n';
 import './filter-group.scss';
 
 const { Option } = Select;
-const noop = () => { };
-
+const noop = () => {};
 
 interface IFilterItem {
   name: string;
   type?: string;
-  options?: Array<{
-    name: string;
-    value: string | number;
-  }> | Function;
+  options?:
+    | Array<{
+        name: string;
+        value: string | number;
+      }>
+    | Function;
   Comp?: React.ReactElement<any>;
   label?: string;
   onChange?: (...a: any) => any;
@@ -39,7 +40,8 @@ interface IFilterItem {
 }
 
 const defaultConvert = (val: string | any[]) => (isArray(val) ? val.join(',') : val);
-const defaultConvertSelect = (_val: any, options: any) => map(isArray(options) ? options : [options], (item) => item.props.children).join(',');
+const defaultConvertSelect = (_val: any, options: any) =>
+  map(isArray(options) ? options : [options], (item) => item.props.children).join(',');
 const Field = ({ type, update, options = [], onChange = noop, filterBarValueConvert, ...itemProps }: IFilterItem) => {
   let ItemComp = null;
   const specialConfig: any = {};
@@ -52,13 +54,14 @@ const Field = ({ type, update, options = [], onChange = noop, filterBarValueConv
         const newData = update(itemProps.name, args[0], filterDisplayName);
         onChange(...args, newData);
       };
-      ItemComp = typeof getComp === 'function'
-        ? getComp(wrapOnChange)
-        : Comp
+      ItemComp =
+        typeof getComp === 'function'
+          ? getComp(wrapOnChange)
+          : Comp
           ? React.cloneElement(Comp, {
-            ...rest,
-            onChange: wrapOnChange,
-          })
+              ...rest,
+              onChange: wrapOnChange,
+            })
           : null;
       break;
     case 'select':
@@ -76,11 +79,13 @@ const Field = ({ type, update, options = [], onChange = noop, filterBarValueConv
       };
       ItemComp = (
         <Select {...rest} onChange={wrapOnChange}>
-          {
-            typeof options === 'function'
-              ? options()
-              : options.map((single) => <Option key={single.value} value={`${single.value}`}>{single.name}</Option>)
-          }
+          {typeof options === 'function'
+            ? options()
+            : options.map((single) => (
+                <Option key={single.value} value={`${single.value}`}>
+                  {single.name}
+                </Option>
+              ))}
         </Select>
       );
       break;
@@ -89,9 +94,7 @@ const Field = ({ type, update, options = [], onChange = noop, filterBarValueConv
         const newData = update(itemProps.name, value);
         onChange(value, newData);
       };
-      ItemComp = (
-        <InputNumber {...rest} onChange={wrapOnChange} />
-      );
+      ItemComp = <InputNumber {...rest} onChange={wrapOnChange} />;
       break;
     case 'input':
     default:
@@ -99,9 +102,7 @@ const Field = ({ type, update, options = [], onChange = noop, filterBarValueConv
         const newData = update(itemProps.name, e.target.value);
         onChange(e, newData);
       };
-      ItemComp = (
-        <Input {...rest} onChange={wrapOnChange} />
-      );
+      ItemComp = <Input {...rest} onChange={wrapOnChange} />;
       break;
   }
   return ItemComp || null;
@@ -119,7 +120,6 @@ interface IBaseFilterProps {
 interface IFilterCoreProps extends IBaseFilterProps {
   children: Function;
 }
-
 
 export const FilterBarHandle = {
   splitKey: '||',
@@ -169,9 +169,7 @@ export interface IFilterReturnProps {
     * reset, // 重置方法，自定义按钮时使用
   ```
  */
-export const FilterCore = ({
-  list, onSearch, onChange, onReset, syncUrlOnSearch, children,
-}: IFilterCoreProps) => {
+export const FilterCore = ({ list, onSearch, onChange, onReset, syncUrlOnSearch, children }: IFilterCoreProps) => {
   const query = routeInfoStore.useStore((s) => s.query);
   const fieldList = [] as IFilterItem[];
   const initData = {};
@@ -185,7 +183,6 @@ export const FilterCore = ({
     initData[FilterBarHandle.filterDataKey] = query[FilterBarHandle.filterDataKey];
   }
   const [filterData, setFilterData] = React.useState(initData);
-
 
   const update = (name: string, value: any, displayName?: string) => {
     const newData = {
@@ -205,9 +202,10 @@ export const FilterCore = ({
   const search = () => {
     (onSearch || noop)(filterData);
     const QKey = FilterBarHandle.filterDataKey;
-    syncUrlOnSearch && updateSearch(filterData, {
-      sort: (a: string, b: string) => (a === QKey ? 1 : (b === QKey ? -1 : 0)),
-    });
+    syncUrlOnSearch &&
+      updateSearch(filterData, {
+        sort: (a: string, b: string) => (a === QKey ? 1 : b === QKey ? -1 : 0),
+      });
   };
 
   const reset = () => {
@@ -235,7 +233,11 @@ export const FilterCore = ({
     );
   });
   const resetButton = <Button onClick={reset}>{i18n.t('common:reset')}</Button>;
-  const searchButton = <Button type="primary" onClick={search}>{i18n.t('search')}</Button>;
+  const searchButton = (
+    <Button type="primary" onClick={search}>
+      {i18n.t('search')}
+    </Button>
+  );
 
   return children({
     CompList, // 字段组件列表
@@ -245,7 +247,6 @@ export const FilterCore = ({
     reset, // 重置方法，自定义按钮时使用
   });
 };
-
 
 interface IFilterGroupProps extends IBaseFilterProps {
   reversePosition?: boolean; // 交换左右块位置
@@ -261,16 +262,16 @@ interface IFilterGroupProps extends IBaseFilterProps {
  * @param onReset 传入时会显示重置按钮，并在点击时触发
  */
 export const FilterGroup = ({
-  list, reversePosition = false, onSearch, onChange, onReset, syncUrlOnSearch, children,
+  list,
+  reversePosition = false,
+  onSearch,
+  onChange,
+  onReset,
+  syncUrlOnSearch,
+  children,
 }: IFilterGroupProps) => {
   return (
-    <FilterCore
-      list={list}
-      onSearch={onSearch}
-      onChange={onChange}
-      onReset={onReset}
-      syncUrlOnSearch={syncUrlOnSearch}
-    >
+    <FilterCore list={list} onSearch={onSearch} onChange={onChange} onReset={onReset} syncUrlOnSearch={syncUrlOnSearch}>
       {({ CompList, resetButton, searchButton }: IFilterReturnProps) => {
         let left = CompList;
         let right = children || (
@@ -284,12 +285,8 @@ export const FilterGroup = ({
         }
         return (
           <div className="filter-group-bar flex-box">
-            <div className="filter-group-left flex-1">
-              {left}
-            </div>
-            <div className="filter-group-right ml24">
-              {right}
-            </div>
+            <div className="filter-group-left flex-1">{left}</div>
+            <div className="filter-group-right ml24">{right}</div>
           </div>
         );
       }}
@@ -297,21 +294,29 @@ export const FilterGroup = ({
   );
 };
 
-interface IToolBarWithFilter extends IBaseFilterProps{
+interface IToolBarWithFilter extends IBaseFilterProps {
   children: any;
   filterValue: object;
   className?: string;
   onClose?: () => any;
 }
 export const ToolBarWithFilter: any = React.forwardRef((props: IToolBarWithFilter, ref: any) => {
-  const { list, children, onSearch: search = noop, onClose: close = noop, className = '', filterValue, ...rest } = props;
+  const {
+    list,
+    children,
+    onSearch: search = noop,
+    onClose: close = noop,
+    className = '',
+    filterValue,
+    ...rest
+  } = props;
   const [{ visible }, updater] = useUpdate({ visible: false });
   const childrenWithProps = React.Children.map(children, (child) => {
-    return child?.type === ToolBarWithFilter.FilterButton ? (
-      React.cloneElement(child, {
-        onClick: () => updater.visible(true),
-      })
-    ) : child;
+    return child?.type === ToolBarWithFilter.FilterButton
+      ? React.cloneElement(child, {
+          onClick: () => updater.visible(true),
+        })
+      : child;
   });
 
   React.useEffect(() => {
@@ -333,12 +338,12 @@ export const ToolBarWithFilter: any = React.forwardRef((props: IToolBarWithFilte
         },
       };
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterValue, ref]);
 
   const onSearch = (val: object) => {
     const reVal = { ...val };
-    if (!reVal[FilterBarHandle.filterDataKey])reVal[FilterBarHandle.filterDataKey] = undefined; // 除去空字符串
+    if (!reVal[FilterBarHandle.filterDataKey]) reVal[FilterBarHandle.filterDataKey] = undefined; // 除去空字符串
     search(reVal);
     onClose();
   };
@@ -350,10 +355,11 @@ export const ToolBarWithFilter: any = React.forwardRef((props: IToolBarWithFilte
 
   const getFilterValue = (val: any, name: string, convertFun: Function = noop) => {
     const curVal = get(val, name);
-    const searchStr = qs.parse(location.search)[FilterBarHandle.filterDataKey] || '' as string;
+    const searchStr = qs.parse(location.search)[FilterBarHandle.filterDataKey] || ('' as string);
     const valueObj = { ...FilterBarHandle.queryToData(searchStr as string) };
     let finalVal = get(valueObj, name);
-    if (isEmpty(finalVal) && curVal) { // filter有值但在_Q_中找不到，则直接调用convertFun,
+    if (isEmpty(finalVal) && curVal) {
+      // filter有值但在_Q_中找不到，则直接调用convertFun,
       finalVal = convertFun(curVal) || curVal;
     }
     return isArray(finalVal) ? finalVal.join(', ') : finalVal;
@@ -414,18 +420,13 @@ export const ToolBarWithFilter: any = React.forwardRef((props: IToolBarWithFilte
       );
     }
     return filterBar;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterValue, location.search]);
-
 
   return (
     <div className={`toolbar-with-filter ${isEmpty(FilterBar) ? '' : 'with-data'}`}>
-      <div className={`tools-container ${className}`}>
-        {childrenWithProps}
-      </div>
-      <div className={'filter-bar'}>
-        {FilterBar}
-      </div>
+      <div className={`tools-container ${className}`}>{childrenWithProps}</div>
+      <div className={'filter-bar'}>{FilterBar}</div>
       <FilterGroupDrawer {...rest} visible={visible} list={list} onSearch={onSearch} onClose={onClose} />
     </div>
   );
@@ -451,7 +452,13 @@ interface IIFilterDrawerProps extends IBaseFilterProps {
 }
 
 export const FilterGroupDrawer = ({
-  visible, onClose, list, onSearch, onChange, onReset, syncUrlOnSearch,
+  visible,
+  onClose,
+  list,
+  onSearch,
+  onChange,
+  onReset,
+  syncUrlOnSearch,
 }: IIFilterDrawerProps) => {
   return (
     <Drawer
@@ -462,46 +469,54 @@ export const FilterGroupDrawer = ({
       title={i18n.t('common:advanced filter')}
       className="dice-drawer advanced-filter-drawer"
     >
-      <FilterCore list={list} onSearch={onSearch} onChange={onChange} onReset={onReset} syncUrlOnSearch={syncUrlOnSearch} >
+      <FilterCore
+        list={list}
+        onSearch={onSearch}
+        onChange={onChange}
+        onReset={onReset}
+        syncUrlOnSearch={syncUrlOnSearch}
+      >
         {({ CompList, search }: IFilterReturnProps) => {
           return (
             <div className="filter-group-drawer">
-              {
-                CompList.length === 1 ?
-                  (
-                    <div>
-                      <div className="filter-label">{list[0].label}</div>
-                      {CompList[0]}
-                    </div>
-                  )
-                  : CompList.map((item, i: number) => {
-                    if (i % 2 === 1) {
-                      return null;
-                    }
-                    const hasSecond = !!list[i + 1];
-                    return (
-                      <Row key={list[i].name} gutter={12}>
+              {CompList.length === 1 ? (
+                <div>
+                  <div className="filter-label">{list[0].label}</div>
+                  {CompList[0]}
+                </div>
+              ) : (
+                CompList.map((item, i: number) => {
+                  if (i % 2 === 1) {
+                    return null;
+                  }
+                  const hasSecond = !!list[i + 1];
+                  return (
+                    <Row key={list[i].name} gutter={12}>
+                      <Col span={12}>
+                        <div className="filter-label">{list[i].label}</div>
+                        {item}
+                      </Col>
+                      {hasSecond ? (
                         <Col span={12}>
-                          <div className="filter-label">{list[i].label}</div>
-                          {item}
+                          <div className="filter-label">{list[i + 1].label}</div>
+                          {CompList[i + 1]}
                         </Col>
-                        {
-                          hasSecond
-                            ? (
-                              <Col span={12}>
-                                <div className="filter-label">{list[i + 1].label}</div>
-                                {CompList[i + 1]}
-                              </Col>
-                            )
-                            : null
-                        }
-                      </Row>
-                    );
-                  })
-              }
+                      ) : null}
+                    </Row>
+                  );
+                })
+              )}
               <div className="drawer-footer ml12-group">
-                <Button onClick={() => { onClose(); }}>{i18n.t('common:cancel')}</Button>
-                <Button type="primary" ghost onClick={search}>{i18n.t('common:filter')}</Button>
+                <Button
+                  onClick={() => {
+                    onClose();
+                  }}
+                >
+                  {i18n.t('common:cancel')}
+                </Button>
+                <Button type="primary" ghost onClick={search}>
+                  {i18n.t('common:filter')}
+                </Button>
               </div>
             </div>
           );
@@ -525,25 +540,21 @@ export const FilterGroupV = ({ list, onSearch, onChange, onReset, syncUrlOnSearc
         return (
           <div className="filter-group-bar multi-line">
             <Row type="flex" gutter={20}>
-              {
-                CompList.map((item, i: number) => {
-                  const data = list[i];
-                  return (
-                    <Col key={data.name} span={data.percent || 6} className="filter-item flex-box">
-                      <div className="filter-item-label">{data.label}</div>
-                      <div className="filter-item-content">{item}</div>
-                      {
-                        i === list.length - 1 && (
-                          <div className="ml16 ml12-group">
-                            {resetButton}
-                            {searchButton}
-                          </div>
-                        )
-                      }
-                    </Col>
-                  );
-                })
-              }
+              {CompList.map((item, i: number) => {
+                const data = list[i];
+                return (
+                  <Col key={data.name} span={data.percent || 6} className="filter-item flex-box">
+                    <div className="filter-item-label">{data.label}</div>
+                    <div className="filter-item-content">{item}</div>
+                    {i === list.length - 1 && (
+                      <div className="ml16 ml12-group">
+                        {resetButton}
+                        {searchButton}
+                      </div>
+                    )}
+                  </Col>
+                );
+              })}
             </Row>
           </div>
         );

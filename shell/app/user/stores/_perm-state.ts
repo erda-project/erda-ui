@@ -17,7 +17,6 @@ import { projectPerm } from './_perm-project';
 import { appPerm } from './_perm-app';
 import yaml from 'js-yaml';
 
-
 export const permPrefix = 'UI';
 export const permState = {
   org: orgPerm,
@@ -70,7 +69,8 @@ export const changePerm2Yml = (permData: any, scope: string, ROLES: Obj) => {
       const resourceArr = reResource.split('.');
       dataItem.action = resourceArr.pop();
       dataItem.resource = resourceArr.join('.');
-      if (customRole.length) { // 含自定义角色resource_role
+      if (customRole.length) {
+        // 含自定义角色resource_role
         dataItem.resource_role = customRole.join(',');
         postData.push(dataItem);
       } else {
@@ -87,4 +87,3 @@ export const changePerm2Yml = (permData: any, scope: string, ROLES: Obj) => {
     return yItem.startsWith('  ') ? yItem.replace('  ', '') : yItem;
   }).join('\n');
 };
-

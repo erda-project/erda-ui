@@ -48,8 +48,8 @@ program
   .option('-b, --backendUrl <backendUrl>', 'set backend(api) url')
   .option('-o, --override', 'ignore current .env file and override')
   .action(async (options) => {
-    await checkCliVersion(options);
     init(options);
+    await checkCliVersion(options);
   });
 
 program

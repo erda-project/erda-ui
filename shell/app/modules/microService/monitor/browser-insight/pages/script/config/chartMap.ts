@@ -22,40 +22,43 @@ const commonAttr = {
   groupId: 'BIScript',
 };
 
-const chartMap = merge({
-  sortTab: {
-    moduleName: 'BIScript',
-    type: 'sortTab',
-    tabList: [
-      { name: i18n.t('microService:error message'), key: 'error' },
-      { name: i18n.t('microService:error page'), key: 'url' },
-    ],
-  },
-  sortList: {
-    moduleName: 'BIScript',
-    type: 'sortList',
-    chartName: 'BIScriptSort',
-    viewProps: {
-      onClickItem: null,
+const chartMap = merge(
+  {
+    sortTab: {
+      moduleName: 'BIScript',
+      type: 'sortTab',
+      tabList: [
+        { name: i18n.t('microService:error message'), key: 'error' },
+        { name: i18n.t('microService:error page'), key: 'url' },
+      ],
+    },
+    sortList: {
+      moduleName: 'BIScript',
+      type: 'sortList',
+      chartName: 'BIScriptSort',
+      viewProps: {
+        onClickItem: null,
+      },
+    },
+    errorTopN: {
+      titleText: i18n.t('microService:javascript error count'),
+      ...commonAttr,
+      chartName: 'errorTopN',
+    },
+    browsersTopN: {
+      titleText: i18n.t('microService:browser error count'),
+      ...commonAttr,
+      chartName: 'browsersTopN',
+    },
+    scriptDetail: {
+      titleText: i18n.t('microService:error details'),
+      ...commonAttr,
+      chartName: 'scriptDetail',
+      viewRender: ScriptDetail,
     },
   },
-  errorTopN: {
-    titleText: i18n.t('microService:javascript error count'),
-    ...commonAttr,
-    chartName: 'errorTopN',
-  },
-  browsersTopN: {
-    titleText: i18n.t('microService:browser error count'),
-    ...commonAttr,
-    chartName: 'browsersTopN',
-  },
-  scriptDetail: {
-    titleText: i18n.t('microService:error details'),
-    ...commonAttr,
-    chartName: 'scriptDetail',
-    viewRender: ScriptDetail,
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   sortTab: sortRender(chartMap.sortTab) as any,

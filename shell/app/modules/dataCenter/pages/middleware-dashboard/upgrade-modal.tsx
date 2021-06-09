@@ -19,7 +19,9 @@ import { WrappedFormUtils } from 'core/common/interface';
 import middlewareDashboardStore from 'dataCenter/stores/middleware-dashboard';
 import './modal.scss';
 
-interface IObj { [k: string]: any }
+interface IObj {
+  [k: string]: any;
+}
 
 interface IProps {
   form: WrappedFormUtils;
@@ -77,28 +79,16 @@ const UpgradeModal = ({ formData, visible, form, onCancel, afterSubmit, dataSour
     >
       <Row gutter={[80, 0]}>
         <Col span={12}>
-          <FormItem
-            label={i18n.t('default:name')}
-            required
-          >
-            {
-              form.getFieldDecorator('name', {
-                initialValue: formData.name,
-              })(
-                <Input disabled />,
-              )
-            }
+          <FormItem label={i18n.t('default:name')} required>
+            {form.getFieldDecorator('name', {
+              initialValue: formData.name,
+            })(<Input disabled />)}
           </FormItem>
         </Col>
       </Row>
       <Row>
         <Col span={24}>
-          <KeyValueEditor
-            dataSource={data}
-            form={form}
-            ref={editor}
-            maxLength={2018}
-          />
+          <KeyValueEditor dataSource={data} form={form} ref={editor} maxLength={2018} />
         </Col>
       </Row>
     </Modal>

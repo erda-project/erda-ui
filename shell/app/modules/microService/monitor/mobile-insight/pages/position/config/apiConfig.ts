@@ -14,11 +14,11 @@
 import { get, map } from 'lodash';
 import i18n from 'i18n';
 
-interface IQuery{
+interface IQuery {
   [pro: string]: any;
   range: string;
 }
-const handleApdex = (originData: object, { chartName, query }: {chartName: string; query: IQuery}) => {
+const handleApdex = (originData: object, { chartName, query }: { chartName: string; query: IQuery }) => {
   const xAxis: any[] = [];
   let results: any[] = [];
   const dataKey = `range.${query.range}`;
@@ -28,7 +28,11 @@ const handleApdex = (originData: object, { chartName, query }: {chartName: strin
       const { count, percent, min, max } = item;
       let name = '';
       if (chartName === 'apdex') {
-        name = [i18n.t('microService:satisfied'), i18n.t('microService:tolerable'), i18n.t('microService:not satisfied')][i];
+        name = [
+          i18n.t('microService:satisfied'),
+          i18n.t('microService:tolerable'),
+          i18n.t('microService:not satisfied'),
+        ][i];
       } else {
         name = `[${min},${max}]`;
       }

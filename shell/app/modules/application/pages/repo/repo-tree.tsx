@@ -45,19 +45,19 @@ interface IDownProp {
 }
 
 const RepoDownload = (props: IDownProp) => {
-  const { info, appDetail: { projectName, name, gitRepoAbbrev, token, gitRepoNew } } = props;
+  const {
+    info,
+    appDetail: { projectName, name, gitRepoAbbrev, token, gitRepoNew },
+  } = props;
   const { protocol, host } = window.location;
   const gitRepo = `${protocol}//${gitRepoNew}`;
   const { branch, tag } = getInfoFromRefName(info.refName);
   const currentBranch = branch || tag || info.defaultBranch;
-  const download = (format: string) => window.open(setApiWithOrg(`/api/repo/${gitRepoAbbrev}/archive/${currentBranch}.${format}`));
+  const download = (format: string) =>
+    window.open(setApiWithOrg(`/api/repo/${gitRepoAbbrev}/archive/${currentBranch}.${format}`));
   const renderAddonAfter = (text: string, tip: string) => {
     return (
-      <span
-        className="copy-btn for-copy"
-        data-clipboard-text={text}
-        data-clipboard-tip={tip}
-      >
+      <span className="copy-btn for-copy" data-clipboard-text={text} data-clipboard-tip={tip}>
         <IconCopy />
       </span>
     );
@@ -67,22 +67,37 @@ const RepoDownload = (props: IDownProp) => {
     <Popover
       overlayClassName="repo-clone-popover"
       placement="bottomRight"
-      title={
-        <h3 className="clone-repo-name">{name}</h3>
-      }
+      title={<h3 className="clone-repo-name">{name}</h3>}
       content={
         <div className="clone-content">
           <div className="addr">
-            <Input className="full-width" value={gitRepo} addonAfter={renderAddonAfter(gitRepo, i18n.t('application:repo address'))} />
+            <Input
+              className="full-width"
+              value={gitRepo}
+              addonAfter={renderAddonAfter(gitRepo, i18n.t('application:repo address'))}
+            />
           </div>
           <Copy selector=".for-copy" />
           <ButtonGroup className="download-btn-group mb16">
-            <Button size="small" onClick={() => download('tar')}> tar </Button>
-            <Button size="small" onClick={() => download('tar.gz')}> tar.gz </Button>
-            <Button size="small" onClick={() => download('zip')}> zip </Button>
+            <Button size="small" onClick={() => download('tar')}>
+              {' '}
+              tar{' '}
+            </Button>
+            <Button size="small" onClick={() => download('tar.gz')}>
+              {' '}
+              tar.gz{' '}
+            </Button>
+            <Button size="small" onClick={() => download('zip')}>
+              {' '}
+              zip{' '}
+            </Button>
           </ButtonGroup>
           <p className="label mb8">username</p>
-          <Input className="full-width mb16" value={info.username} addonAfter={renderAddonAfter(info.username, 'username')} />
+          <Input
+            className="full-width mb16"
+            value={info.username}
+            addonAfter={renderAddonAfter(info.username, 'username')}
+          />
           <p className="label mb8">token</p>
           <Input className="full-width mb16" value={token} addonAfter={renderAddonAfter(token, 'token')} />
         </div>
@@ -90,7 +105,9 @@ const RepoDownload = (props: IDownProp) => {
       trigger="click"
     >
       <div className="repo-clone-btn">
-        <Button type="primary" ghost>{i18n.t('application:repo address')}</Button>
+        <Button type="primary" ghost>
+          {i18n.t('application:repo address')}
+        </Button>
       </div>
     </Popover>
   );
@@ -117,7 +134,10 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
 
     return (
       <div className="repo-tree-holder">
-        <EmptyHolder tip={`${i18n.t('application:current branch or path')}：${after} ${i18n.t('is not exist')}。`} action={<Link to={before.slice(0, -'/tree'.length)}>{i18n.t('back to repo home')}</Link>} />
+        <EmptyHolder
+          tip={`${i18n.t('application:current branch or path')}：${after} ${i18n.t('is not exist')}。`}
+          action={<Link to={before.slice(0, -'/tree'.length)}>{i18n.t('back to repo home')}</Link>}
+        />
       </div>
     );
   }
@@ -137,77 +157,89 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
   return (
     <Spin spinning={isFetchingTree || false} wrapperClassName={tree.type === 'tree' ? 'flex-1' : ''}>
       <CommitBlock commit={tree.commit} />
-      {
-        tree.type === 'tree'
-          ?
-            <React.Fragment>
-              <Table
-                className="repo-tree"
-                dataSource={dataSource}
-                pagination={false}
-                rowKey="name"
-                onRow={({ name, id }) => {
-                  const tropicalPathName = encodeURI(name);
-                  return {
-                    onClick: () => {
-                      if (inIndexPage) {
-                        goTo(`./tree/${curBranch}/${tropicalPathName}`, { forbidRepeat: true });
-                      } else if (name === '..' && !id) {
-                        goTo('../', { forbidRepeat: true });
-                      } else {
-                        goTo(`./${tropicalPathName}`, { forbidRepeat: true });
-                      }
-                    },
-                  };
-                }}
-                columns={
-                [
-                  {
-                    title: 'Name',
-                    dataIndex: 'name',
-                    width: '30%',
-                    render: (text, record) => {
-                      const iconProps = record.type === 'tree'
-                        ? { type: 'folder' }
-                        : { type: 'page' };
-                      return (
-                        <span className="column-name">
-                          {record.type ? <CustomIcon className="mr8" {...iconProps} /> : null}
-                          {text}
-                        </span>
-                      );
-                    },
-                  },
-                  {
-                    title: 'Last Commit',
-                    dataIndex: 'commit.commitMessage',
-                    width: '55%',
-                    render: (text, record) => (
-                      <Skeleton active loading={!record.commit} paragraph={false}>
-                        {renderAsLink('commit', record.commit && record.commit.id, cutStr(replaceEmoji(text), 100), 'repo-link')}
-                      </Skeleton>
-                    ),
-                  },
-                  {
-                    title: 'Last Update',
-                    dataIndex: 'commit.author.when',
-                    width: 115,
-                    render: (text) => (text ? fromNow(text) : ''),
-                  },
-                ]
-              }
-              />
-              <IF check={tree.readmeFile}>
-                <RepoFileContainer noEdit name={tree.readmeFile} path={`/${commitId || curBranch}${tree.path ? `/${tree.path}` : ''}/${tree.readmeFile}`} />
-              </IF>
-            </React.Fragment>
-          : <RepoFileContainer maxLines={50} name={tree.entry.name} path={`/${commitId || curBranch}/${tree.path || ''}`} />
-      }
+      {tree.type === 'tree' ? (
+        <React.Fragment>
+          <Table
+            className="repo-tree"
+            dataSource={dataSource}
+            pagination={false}
+            rowKey="name"
+            onRow={({ name, id }) => {
+              const tropicalPathName = encodeURI(name);
+              return {
+                onClick: () => {
+                  if (inIndexPage) {
+                    goTo(`./tree/${curBranch}/${tropicalPathName}`, { forbidRepeat: true });
+                  } else if (name === '..' && !id) {
+                    goTo('../', { forbidRepeat: true });
+                  } else {
+                    goTo(`./${tropicalPathName}`, { forbidRepeat: true });
+                  }
+                },
+              };
+            }}
+            columns={[
+              {
+                title: 'Name',
+                dataIndex: 'name',
+                width: '30%',
+                render: (text, record) => {
+                  const iconProps = record.type === 'tree' ? { type: 'folder' } : { type: 'page' };
+                  return (
+                    <span className="column-name">
+                      {record.type ? <CustomIcon className="mr8" {...iconProps} /> : null}
+                      {text}
+                    </span>
+                  );
+                },
+              },
+              {
+                title: 'Last Commit',
+                dataIndex: 'commit.commitMessage',
+                width: '55%',
+                render: (text, record) => (
+                  <Skeleton active loading={!record.commit} paragraph={false}>
+                    {renderAsLink(
+                      'commit',
+                      record.commit && record.commit.id,
+                      cutStr(replaceEmoji(text), 100),
+                      'repo-link',
+                    )}
+                  </Skeleton>
+                ),
+              },
+              {
+                title: 'Last Update',
+                dataIndex: 'commit.author.when',
+                width: 115,
+                render: (text) => (text ? fromNow(text) : ''),
+              },
+            ]}
+          />
+          <IF check={tree.readmeFile}>
+            <RepoFileContainer
+              noEdit
+              name={tree.readmeFile}
+              path={`/${commitId || curBranch}${tree.path ? `/${tree.path}` : ''}/${tree.readmeFile}`}
+            />
+          </IF>
+        </React.Fragment>
+      ) : (
+        <RepoFileContainer maxLines={50} name={tree.entry.name} path={`/${commitId || curBranch}/${tree.path || ''}`} />
+      )}
     </Spin>
   );
 };
 
-const RefComp = ({ form, info, defaultValue }: { defaultValue: Record<string, string>; form: any; info: { branches: string[]; tags: string[] } }) => {
+const RefComp = ({
+  form,
+  info,
+  defaultValue,
+}: {
+  defaultValue: Record<string, string>;
+  form: any;
+  info: { branches: string[]; tags: string[] };
+}) => {
   const refType = form.getFieldValue('refType');
   const refValue = form.getFieldValue('refValue') || defaultValue[refType];
   const curForm = React.useRef(form);
@@ -236,16 +268,15 @@ const RefComp = ({ form, info, defaultValue }: { defaultValue: Record<string, st
           onChange={handleSelectChange}
           filterOption={(input, option: any) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
         >
-          {options && options.map((option: string) => (
-            <Option key={option} value={option}>{option}</Option>
-          ))}
+          {options &&
+            options.map((option: string) => (
+              <Option key={option} value={option}>
+                {option}
+              </Option>
+            ))}
         </Select>
         <IF.ELSE />
-        <Input
-          type="text"
-          value={refValue}
-          onChange={handleTextChange}
-        />
+        <Input type="text" value={refValue} onChange={handleTextChange} />
       </IF>
     </div>
   );
@@ -265,7 +296,7 @@ const RepoTreePage = () => {
   const { clearRepoTree } = repoStore.reducers;
   const { checkCommitId, createBranch } = repoStore.effects;
   const [showEdit, setShowEdit] = React.useState(false);
-  const repoNavRef = React.useRef<{target: {type: string; current: string}}>(null);
+  const repoNavRef = React.useRef<{ target: { type: string; current: string } }>(null);
   useUnmount(() => {
     clearRepoTree();
   });
@@ -285,7 +316,11 @@ const RepoTreePage = () => {
         name: 'refType',
         type: 'radioGroup',
         initialValue: type,
-        options: [{ name: 'Branch', value: 'branch' }, { name: 'Tag', value: 'tag' }, { name: 'commit SHA', value: 'commitId' }],
+        options: [
+          { name: 'Branch', value: 'branch' },
+          { name: 'Tag', value: 'tag' },
+          { name: 'commit SHA', value: 'commitId' },
+        ],
       },
       {
         label: i18n.t('application:based on'),
@@ -351,58 +386,71 @@ const RepoTreePage = () => {
     setShowEdit(false);
   };
   if (appDetail.isExternalRepo) {
-    const repoConfigFieldsList = [{
-      label: i18n.t('project:repository address'),
-      name: 'repoConfig.url',
-      itemProps: {
-        disabled: true,
-        placeholder: i18n.t('default:please enter'),
+    const repoConfigFieldsList = [
+      {
+        label: i18n.t('project:repository address'),
+        name: 'repoConfig.url',
+        itemProps: {
+          disabled: true,
+          placeholder: i18n.t('default:please enter'),
+        },
       },
-    }, {
-      label: i18n.t('default:user name'),
-      name: 'repoConfig.username',
-      itemProps: {
-        placeholder: i18n.t('default:please enter'),
+      {
+        label: i18n.t('default:user name'),
+        name: 'repoConfig.username',
+        itemProps: {
+          placeholder: i18n.t('default:please enter'),
+        },
       },
-    }, {
-      label: i18n.t('default:password'),
-      name: 'repoConfig.password',
-      type: 'custom',
-      getComp: () => <Input.Password />,
-      itemProps: {
-        placeholder: i18n.t('default:please enter'),
+      {
+        label: i18n.t('default:password'),
+        name: 'repoConfig.password',
+        type: 'custom',
+        getComp: () => <Input.Password />,
+        itemProps: {
+          placeholder: i18n.t('default:please enter'),
+        },
       },
-    }, {
-      label: i18n.t('project:repository description'),
-      type: 'textArea',
-      name: 'repoConfig.desc',
-      required: false,
-      itemProps: { rows: 4, maxLength: 50, style: { resize: 'none' } },
-    }];
+      {
+        label: i18n.t('project:repository description'),
+        type: 'textArea',
+        name: 'repoConfig.desc',
+        required: false,
+        itemProps: { rows: 4, maxLength: 50, style: { resize: 'none' } },
+      },
+    ];
     const { type: repoType, ...rest } = appDetail.repoConfig as APPLICATION.GitRepoConfig;
     const repoTypeConfig = get(repositoriesTypes, repoType, {});
     return (
       <div className="git-repo-config">
         <div className="top-button-group">
-          <WithAuth pass={hasAuth} >
-            <Button type="primary" disabled={info.isLocked} onClick={() => { setShowEdit(true); }}>{i18n.t('default:edit')}</Button>
+          <WithAuth pass={hasAuth}>
+            <Button
+              type="primary"
+              disabled={info.isLocked}
+              onClick={() => {
+                setShowEdit(true);
+              }}
+            >
+              {i18n.t('default:edit')}
+            </Button>
           </WithAuth>
         </div>
         <Form layout="vertical">
-          <FormItem label={i18n.t('project:repository source')} >
-            <p >{repoTypeConfig.name}</p>
+          <FormItem label={i18n.t('project:repository source')}>
+            <p>{repoTypeConfig.name}</p>
             <img className="logo" src={repoTypeConfig.logo} width="46px" />
           </FormItem>
           <FormItem label={i18n.t('project:repository address')}>
-            <a href={rest.url} target="_blank" rel="noopener noreferrer" >{rest.url}</a>
+            <a href={rest.url} target="_blank" rel="noopener noreferrer">
+              {rest.url}
+            </a>
           </FormItem>
-          {
-            rest.desc ? (
-              <FormItem label={i18n.t('project:repository description')}>
-                <p>{rest.desc}</p>
-              </FormItem>
-            ) : null
-          }
+          {rest.desc ? (
+            <FormItem label={i18n.t('project:repository description')}>
+              <p>{rest.desc}</p>
+            </FormItem>
+          ) : null}
         </Form>
         <FormModal
           visible={showEdit}
@@ -451,10 +499,22 @@ const RepoTreePage = () => {
         {/* <Button onClick={() => goTo(goTo.pages.repoBackup, { ...params })}>{i18n.t('application:repo backup')}</Button> */}
         <RepoDownload info={info} appDetail={appDetail} />
         <WithAuth pass={branchPerm.writeNormal.pass} tipProps={{ placement: 'bottom' }}>
-          <Button type="primary" disabled={info.isLocked} onClick={() => { setVisible(true); }}>{i18n.t('application:new branch')}</Button>
+          <Button
+            type="primary"
+            disabled={info.isLocked}
+            onClick={() => {
+              setVisible(true);
+            }}
+          >
+            {i18n.t('application:new branch')}
+          </Button>
         </WithAuth>
       </div>
-      {mode.addFile ? <RepoEditor /> : <RepoTree info={info} tree={tree} isFetchingInfo={isFetchingInfo} isFetchingTree={isFetchingTree} />}
+      {mode.addFile ? (
+        <RepoEditor />
+      ) : (
+        <RepoTree info={info} tree={tree} isFetchingInfo={isFetchingInfo} isFetchingTree={isFetchingTree} />
+      )}
       <FormModal
         visible={visible}
         name={i18n.t('application:branch')}

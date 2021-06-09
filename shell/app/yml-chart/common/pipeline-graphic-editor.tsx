@@ -22,7 +22,7 @@ import DefaultPipelineNodeDrawer, { IPipelineNodeDrawerProps } from './pipeline-
 import DefaultInParamsDrawer, { IInPramasDrawerProps } from './in-params-drawer';
 import DefaultOutParamsDrawer, { IOutParamsDrawerProps } from './out-params-drawer';
 
-export interface IPipelineGraphicEditorProps{
+export interface IPipelineGraphicEditorProps {
   ymlObj: PIPELINE.IPipelineYmlStructure;
   editing: boolean;
   nameKey?: string;
@@ -121,7 +121,11 @@ export const PipelineGraphicEditor = (props: IPipelineGraphicEditorProps) => {
     OutParamsDrawer = DefaultOutParamsDrawer,
     ...rest
   } = props;
-  const [{ chosenNode, inParamsNode, outParamsNode, isCreate, drawerVis, inParamsDrawerVis, outParamsDrawerVis }, updater, update] = useUpdate({
+  const [
+    { chosenNode, inParamsNode, outParamsNode, isCreate, drawerVis, inParamsDrawerVis, outParamsDrawerVis },
+    updater,
+    update,
+  ] = useUpdate({
     chosenNode: null as any,
     isCreate: false,
     drawerVis: false,
@@ -214,25 +218,25 @@ export const PipelineGraphicEditor = (props: IPipelineGraphicEditorProps) => {
         otherTaskAlias={otherTaskAlias as string[]}
         onSubmit={onSubmit}
       />
-      {
-        (showInParams && InParamsDrawer) ? <InParamsDrawer
+      {showInParams && InParamsDrawer ? (
+        <InParamsDrawer
           visible={inParamsDrawerVis}
           nodeData={inParamsNode as any}
           editing={editing}
           closeDrawer={() => update({ inParamsDrawerVis: false, inParamsNode: null })}
           onSubmit={setInParams}
-        /> : null
-      }
-      {
-        (showOutParams && OutParamsDrawer) ? <OutParamsDrawer
+        />
+      ) : null}
+      {showOutParams && OutParamsDrawer ? (
+        <OutParamsDrawer
           visible={outParamsDrawerVis}
           nodeData={outParamsNode as any}
           editing={editing}
           closeDrawer={() => update({ outParamsDrawerVis: false, outParamsNode: null })}
           onSubmit={setOutParams}
           ymlObj={ymlObj}
-        /> : null
-      }
+        />
+      ) : null}
     </>
   );
 };
@@ -254,18 +258,22 @@ export const resetData = (data: IResetObj, isEditing = false) => {
   } else if (isEditing) {
     reData.push([{ [externalKey]: { nodeType: NodeType.addRow, insertX: 0 } }]); // 中间追加添加行
     map(stagesData, (item, index) => {
-      reData.push(map(item, (subItem, subIndex) => ({
-        ...subItem,
-        [externalKey]: { nodeType: 'pipeline', name: subItem.alias, xIndex: index, yIndex: subIndex },
-      })));
+      reData.push(
+        map(item, (subItem, subIndex) => ({
+          ...subItem,
+          [externalKey]: { nodeType: 'pipeline', name: subItem.alias, xIndex: index, yIndex: subIndex },
+        })),
+      );
       reData.push([{ [externalKey]: { nodeType: NodeType.addRow, insertPos: index + 1 } }]); // 末尾追加添加行
     });
   } else {
     map(stagesData, (item, index) => {
-      reData.push(map(item, (subItem, subIndex) => ({
-        ...subItem,
-        [externalKey]: { nodeType: 'pipeline', name: subItem.alias, xIndex: index, yIndex: subIndex },
-      })));
+      reData.push(
+        map(item, (subItem, subIndex) => ({
+          ...subItem,
+          [externalKey]: { nodeType: 'pipeline', name: subItem.alias, xIndex: index, yIndex: subIndex },
+        })),
+      );
     });
   }
   reData.push([{ data: outParamsData, [externalKey]: { nodeType: NodeType.endNode } }]); // 添加结束节点

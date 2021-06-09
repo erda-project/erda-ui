@@ -13,8 +13,8 @@
 
 const { forEach } = require('lodash');
 const tsconfig = require('./tsconfig.json');
-const fs = require('fs')
-const path = require('path')
+const fs = require('fs');
+const path = require('path');
 const moduleNameMapper = require('tsconfig-paths-jest')(tsconfig);
 const moduleMapper = {};
 const excludeModules = ['interface', 'common', 'layout', 'dice-env', 'user', 'configForm', 'charts'];
@@ -23,7 +23,7 @@ forEach(moduleNameMapper, (t, k) => {
     moduleMapper[`^${k}`] = t;
   }
 });
-const resolve = pathname => path.resolve(__dirname, pathname);
+const resolve = (pathname) => path.resolve(__dirname, pathname);
 const dashboardRealPath = fs.realpathSync(resolve('./node_modules/@terminus/dashboard-configurator'));
 
 module.exports = {
@@ -31,9 +31,7 @@ module.exports = {
   automock: false,
   clearMocks: true,
   coverageDirectory: 'coverage',
-  coveragePathIgnorePatterns: [
-    '/node_modules/',
-  ],
+  coveragePathIgnorePatterns: ['/node_modules/'],
   collectCoverage: false,
   collectCoverageFrom: [
     'app/common/**/*.{js,jsx,ts,tsx}',
@@ -47,12 +45,7 @@ module.exports = {
       isolatedModules: true,
     },
   },
-  moduleFileExtensions: [
-    'tsx',
-    'ts',
-    'jsx',
-    'js',
-  ],
+  moduleFileExtensions: ['tsx', 'ts', 'jsx', 'js'],
   transform: {
     '^.+\\.(t|j)sx?$': 'ts-jest',
     '^.+\\js$': 'babel-jest',
@@ -93,22 +86,16 @@ module.exports = {
     '\\.(css|less|scss)$': 'identity-obj-proxy',
   },
   preset: 'ts-jest/presets/js-with-ts',
-  setupFiles: [
-    '<rootDir>/test/setupJest.ts',
-    '<rootDir>/test/setupEnzyme.ts',
-    'jest-canvas-mock',
-  ],
+  setupFiles: ['<rootDir>/test/setupJest.ts', '<rootDir>/test/setupEnzyme.ts', 'jest-canvas-mock'],
   setupFilesAfterEnv: ['./node_modules/jest-enzyme/lib/index.js'],
   testEnvironmentOptions: {
     enzymeAdapter: 'react16',
   },
   transformIgnorePatterns: [
     // 'node_modules/(?!@terminus/dashboard-configurator/.*)',
-    dashboardRealPath
+    dashboardRealPath,
   ],
-  testMatch: [
-    '**/__tests__/**/*.test.+(tsx|ts|jsx|js)',
-  ],
+  testMatch: ['**/__tests__/**/*.test.+(tsx|ts|jsx|js)'],
   testPathIgnorePatterns: [
     // '/node_modules/',
   ],

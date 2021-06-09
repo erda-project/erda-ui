@@ -37,10 +37,7 @@ import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
 import { skipInfoStatusMap } from 'dataCenter/pages/cloud-source/config';
 import { DownOne as IconDownOne } from '@icon-park/react';
 
-const specList = [
-  ...RedisFieldConfig.spec.standard,
-  ...RedisFieldConfig.spec.cluster,
-];
+const specList = [...RedisFieldConfig.spec.standard, ...RedisFieldConfig.spec.cluster];
 const Redis = () => {
   const redisList = cloudServiceStore.useStore((s) => s.redisList);
   const { addRedis, getRedisList } = cloudServiceStore.effects;
@@ -58,28 +55,20 @@ const Redis = () => {
     };
   });
 
-  const [{
-    chargeType,
-    chosenRegion,
-    tagFormVis,
-    items,
-    ifSelected,
-    stateChangeKey,
-    recordID,
-  }, updater, update] = useUpdate({
-    chargeType: 'PostPaid',
-    chosenRegion: undefined as string | undefined,
-    tagFormVis: false,
-    items: [] as CLOUD.TagItem[],
-    ifSelected: false,
-    stateChangeKey: 1,
-    recordID: '',
-  });
+  const [{ chargeType, chosenRegion, tagFormVis, items, ifSelected, stateChangeKey, recordID }, updater, update] =
+    useUpdate({
+      chargeType: 'PostPaid',
+      chosenRegion: undefined as string | undefined,
+      tagFormVis: false,
+      items: [] as CLOUD.TagItem[],
+      ifSelected: false,
+      stateChangeKey: 1,
+      recordID: '',
+    });
 
   React.useEffect(() => {
     chosenRegion && getVpcList({ region: chosenRegion });
   }, [chosenRegion, getVpcList]);
-
 
   const getColumns = () => {
     const columns = [
@@ -101,7 +90,10 @@ const Redis = () => {
         dataIndex: 'spec',
         render: (val: string) => (
           <Tooltip title={val}>
-            {get(find(specList, (item) => item.value === val), 'specName') || val}
+            {get(
+              find(specList, (item) => item.value === val),
+              'specName',
+            ) || val}
           </Tooltip>
         ),
       },
@@ -183,19 +175,21 @@ const Redis = () => {
     }
   };
 
-  const operationButtons = [{
-    name: `${i18n.t('set tags')}`,
-    cb: () => updater.tagFormVis(true),
-    ifDisabled: false,
-  }];
+  const operationButtons = [
+    {
+      name: `${i18n.t('set tags')}`,
+      cb: () => updater.tagFormVis(true),
+      ifDisabled: false,
+    },
+  ];
 
   const menu = (
     <Menu>
-      {
-        operationButtons.map((button) => (
-          <Menu.Item disabled={button.ifDisabled} key={button.name} onClick={button.cb}>{button.name}</Menu.Item>
-        ))
-      }
+      {operationButtons.map((button) => (
+        <Menu.Item disabled={button.ifDisabled} key={button.name} onClick={button.cb}>
+          {button.name}
+        </Menu.Item>
+      ))}
     </Menu>
   );
 
@@ -245,10 +239,7 @@ const Redis = () => {
         afterSubmit={afterTagFormSubmit}
       />
       <Copy selector=".for-copy" />
-      <ClusterLog
-        recordID={recordID}
-        onClose={() => updater.recordID('')}
-      />
+      <ClusterLog recordID={recordID} onClose={() => updater.recordID('')} />
     </>
   );
 };

@@ -47,6 +47,4 @@ const MSComponentInfo = () => {
   );
 };
 
-
 export default MSComponentInfo;
-

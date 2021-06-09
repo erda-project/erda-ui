@@ -13,35 +13,35 @@
 
 import agent from 'agent';
 
-
 export const getIssues = (query: ISSUE.IssueListQuery): Promise<IPagingResp<ISSUE.IssueType>> => {
-  return agent.get('/api/issues')
+  return agent
+    .get('/api/issues')
     .query(query)
     .then((response: any) => response.body);
 };
 
-
 export const getIssueDetail = ({ id }: ISSUE.IssueDetailQuery): Promise<ISSUE.IssueType> => {
-  return agent.get(`/api/issues/${id}`)
-    .then((response: any) => response.body);
+  return agent.get(`/api/issues/${id}`).then((response: any) => response.body);
 };
 
 export const getIssueStreams = ({ id, ...rest }: ISSUE.IssueStreamListQuery): IPagingResp<ISSUE.IssueStream> => {
-  return agent.get(`/api/issues/${id}/streams`)
+  return agent
+    .get(`/api/issues/${id}/streams`)
     .query(rest)
     .then((response: any) => response.body);
 };
 
-
 export const addIssueStream = ({ id, ...rest }: Merge<ISSUE.IssueStreamBody, { id: number }>) => {
-  return agent.post(`/api/issues/${id}/streams`)
+  return agent
+    .post(`/api/issues/${id}/streams`)
     .send(rest)
     .then((response: any) => response.body);
 };
 
 export const createIssue = ({ customUrl, ...form }: ISSUE.Issue) => {
   const url = customUrl || '/api/issues';
-  return agent.post(url)
+  return agent
+    .post(url)
     .send(form)
     .then((response: any) => response.body);
 };
@@ -49,63 +49,66 @@ export const createIssue = ({ customUrl, ...form }: ISSUE.Issue) => {
 export const updateIssue = ({ customUrl, ...form }: ISSUE.Issue) => {
   const { id } = form;
   const url = customUrl || '/api/issues';
-  return agent.put(`${url}/${id}`)
+  return agent
+    .put(`${url}/${id}`)
     .send(form)
     .then((response: any) => response.body);
 };
 
 export const updateType = (payload: ISSUE.IUpdateIssueTypeQuery) => {
-  return agent.put('/api/issues/actions/update-issue-type')
+  return agent
+    .put('/api/issues/actions/update-issue-type')
     .send(payload)
     .then((response: any) => response.body);
 };
 
 export const deleteIssue = (id: number) => {
-  return agent.delete(`/api/issues/${id}`)
-    .then((response: any) => response.body);
+  return agent.delete(`/api/issues/${id}`).then((response: any) => response.body);
 };
 
 export const batchUpdateIssue = (body: ISSUE.BatchUpdateBody) => {
-  return agent.put('/api/issues/actions/batch-update')
+  return agent
+    .put('/api/issues/actions/batch-update')
     .send(body)
     .then((response: any) => response.body);
 };
 
-export const getIssueRelation = ({ id }: {id: number}): ISSUE.RelationIssue => {
-  return agent.get(`/api/issues/${id}/relations`)
-    .then((response: any) => response.body);
+export const getIssueRelation = ({ id }: { id: number }): ISSUE.RelationIssue => {
+  return agent.get(`/api/issues/${id}/relations`).then((response: any) => response.body);
 };
 
 export const addIssueRelation = (payload: ISSUE.ICreateRelationBody) => {
   const { id, ...rest } = payload;
-  return agent.post(`/api/issues/${id}/relations`)
+  return agent
+    .post(`/api/issues/${id}/relations`)
     .send(rest)
     .then((response: any) => response.body);
 };
 
-export const deleteIssueRelation = ({ id, relatedIssueID }: {id: number; relatedIssueID: number}) => {
-  return agent.delete(`/api/issues/${id}/relations/${relatedIssueID}`)
-    .then((response: any) => response.body);
+export const deleteIssueRelation = ({ id, relatedIssueID }: { id: number; relatedIssueID: number }) => {
+  return agent.delete(`/api/issues/${id}/relations/${relatedIssueID}`).then((response: any) => response.body);
 };
 
 export const getMilestone = (): Promise<IPagingResp<ISSUE.IssueType>> => {
-  return agent.get('/api/issues/actions/get-milestone')
-    .then((response: any) => response.body);
+  return agent.get('/api/issues/actions/get-milestone').then((response: any) => response.body);
 };
 export const addFieldsToIssue = (payload: ISSUE.ICreateField) => {
-  return agent.post('/api/issues/actions/create-property-instance')
+  return agent
+    .post('/api/issues/actions/create-property-instance')
     .send(payload)
     .then((response: any) => response.body);
 };
 
 export const getFieldsByIssue = (payload: ISSUE.IFiledQuery) => {
-  return agent.get('/api/issues/actions/get-property-instance')
+  return agent
+    .get('/api/issues/actions/get-property-instance')
     .query(payload)
     .then((response: any) => response.body);
 };
 
-export function importFileInIssues({ payload, query }: any): {successCount: number} {
-  return agent.post('/api/issues/actions/import-excel')
+export function importFileInIssues({ payload, query }: any): { successCount: number } {
+  return agent
+    .post('/api/issues/actions/import-excel')
     .query(query)
     .send(payload)
     .then((response: any) => response.body);

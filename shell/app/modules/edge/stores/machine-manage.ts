@@ -14,10 +14,7 @@
 import { createFlatStore } from 'app/cube';
 import orgStore from 'app/org-home/stores/org';
 import i18n from 'i18n';
-import {
-  getGroupInfos,
-  offlineMachine,
-} from '../services/machine-manage';
+import { getGroupInfos, offlineMachine } from '../services/machine-manage';
 
 interface IState {
   groupInfos: MACHINE_MANAGE.IGroupInfo[];
@@ -41,7 +38,9 @@ const machineManageStore = createFlatStore({
       return groupInfos;
     },
     async offlineMachine({ call }, payload: MACHINE_MANAGE.IOfflineMachine) {
-      await call(offlineMachine, payload, { successMsg: i18n.t('edge:it is getting offline and it will take a effect later') });
+      await call(offlineMachine, payload, {
+        successMsg: i18n.t('edge:it is getting offline and it will take a effect later'),
+      });
     },
   },
   reducers: {

@@ -53,9 +53,7 @@ const Domain = () => {
           </div>
         </Col>
         <Col className="bi-domain-charts" span={16}>
-          {
-            chosenSortItem ? getDetailChart() : getAllChart()
-          }
+          {chosenSortItem ? getDetailChart() : getAllChart()}
         </Col>
       </Row>
     </div>

@@ -30,11 +30,7 @@ interface IMonitorDrawer {
   onClose: () => void;
 }
 export const MonitorDrawer = (props: IMonitorDrawer) => {
-  const [{
-    slideTitle,
-    content,
-    delayRender,
-  }, updater, update] = useUpdate({
+  const [{ slideTitle, content, delayRender }, updater, update] = useUpdate({
     slideTitle: '',
     content: null,
     delayRender: null,
@@ -63,24 +59,14 @@ export const MonitorDrawer = (props: IMonitorDrawer) => {
       case OPERATION.MONITOR: {
         update({
           slideTitle: i18n.t('monitor'),
-          delayRender: () => (
-            <ResourceUsageCharts
-              {...record}
-              instance={instance}
-            />
-          ),
+          delayRender: () => <ResourceUsageCharts {...record} instance={instance} />,
         });
         break;
       }
       case OPERATION.LOG: {
         update({
           slideTitle: i18n.t('dcos:container log'),
-          content: (
-            <ContainerLog
-              {...record}
-              instance={{ ...instance }}
-            />
-          ),
+          content: <ContainerLog {...record} instance={{ ...instance }} />,
         });
         break;
       }
@@ -102,13 +88,7 @@ export const MonitorDrawer = (props: IMonitorDrawer) => {
   }, [delayRender, updater, visible]);
 
   return (
-    <Drawer
-      width="80%"
-      visible={visible}
-      title={slideTitle}
-      destroyOnClose
-      onClose={onClose}
-    >
+    <Drawer width="80%" visible={visible} title={slideTitle} destroyOnClose onClose={onClose}>
       {content}
     </Drawer>
   );

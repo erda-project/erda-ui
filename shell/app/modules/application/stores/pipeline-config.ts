@@ -45,16 +45,24 @@ const pipelineConfig = createFlatStore({
       const { appId } = getParams();
       const newConfigs = await call(getConfigs, { appID: appId, payload, apiPrefix });
       const { fullConfigs, unEncryptConfigs, encryptConfigs } = select((s) => s);
-      const newUnEncryptConfigs = reduce(newConfigs, (result, value, key) => {
-        // eslint-disable-next-line no-param-reassign
-        result[key] = filter(value, { encrypt: false });
-        return result;
-      }, {});
-      const newEncryptConfigs = reduce(newConfigs, (result, value, key) => {
-        // eslint-disable-next-line no-param-reassign
-        result[key] = filter(value, { encrypt: true });
-        return result;
-      }, {});
+      const newUnEncryptConfigs = reduce(
+        newConfigs,
+        (result, value, key) => {
+          // eslint-disable-next-line no-param-reassign
+          result[key] = filter(value, { encrypt: false });
+          return result;
+        },
+        {},
+      );
+      const newEncryptConfigs = reduce(
+        newConfigs,
+        (result, value, key) => {
+          // eslint-disable-next-line no-param-reassign
+          result[key] = filter(value, { encrypt: true });
+          return result;
+        },
+        {},
+      );
 
       update({
         fullConfigs: {
@@ -89,7 +97,11 @@ const pipelineConfig = createFlatStore({
       );
       pipelineConfig.getConfigs([{ namespace_name: payload.query.namespace_name, decrypt: false }], apiPrefix);
     },
-    async removeConfig({ getParams, call }, { namespace_name, key }: Omit<PIPELINE_CONFIG.DeleteConfigQuery, 'appID'>, apiPrefix?: string) {
+    async removeConfig(
+      { getParams, call },
+      { namespace_name, key }: Omit<PIPELINE_CONFIG.DeleteConfigQuery, 'appID'>,
+      apiPrefix?: string,
+    ) {
       const { appId: appID } = getParams();
       await call(
         removeConfigs,
@@ -98,7 +110,11 @@ const pipelineConfig = createFlatStore({
       );
       pipelineConfig.getConfigs([{ namespace_name, decrypt: false }], apiPrefix);
     },
-    async removeConfigWithoutDeploy({ getParams, call }, { namespace_name, key }: Omit<PIPELINE_CONFIG.DeleteConfigQuery, 'appID'>, apiPrefix?: string) {
+    async removeConfigWithoutDeploy(
+      { getParams, call },
+      { namespace_name, key }: Omit<PIPELINE_CONFIG.DeleteConfigQuery, 'appID'>,
+      apiPrefix?: string,
+    ) {
       const { appId: appID } = getParams();
       await call(
         removeConfigs,

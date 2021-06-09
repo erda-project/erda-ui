@@ -18,15 +18,18 @@ import { useDebounce } from 'react-use';
 
 export { SplitPage } from './split-page';
 
-
 export const useWatchTableWidth = (selector: string) => {
   const client = layoutStore.useStore((s) => s.client);
   const [tableWidth, setTableWidth] = React.useState(0);
   React.useLayoutEffect(() => {
     setTableWidth(get(document.querySelector(selector), ['clientWidth'], 0));
   }, [selector]);
-  useDebounce(() => {
-    setTableWidth(get(document.querySelector(selector), ['clientWidth'], 0));
-  }, 50, [client]);
+  useDebounce(
+    () => {
+      setTableWidth(get(document.querySelector(selector), ['clientWidth'], 0));
+    },
+    50,
+    [client],
+  );
   return [tableWidth];
 };

@@ -33,7 +33,8 @@ const defaultFunc = (a: any) => a;
 
 const { ONLY_FDP, ENABLE_MPAAS } = diceEnv || {};
 const menuFilterMap = {
-  appCenter: { // 应用中心
+  appCenter: {
+    // 应用中心
     workBench: hiddenWhenOnlyFDP,
     microService: hiddenWhenOnlyFDP,
     edge: hiddenWhenOnlyFDP,
@@ -43,7 +44,8 @@ const menuFilterMap = {
       return { ...item, name, breadcrumbName: name };
     },
   },
-  orgCenter: { // 企业中心
+  orgCenter: {
+    // 企业中心
     orgMarket: (item: IMenuItem) => {
       const publisherId = orgStore.getState((s) => s.currentOrg.publisherId);
       const orgPublisherAuth = !!publisherId;
@@ -51,7 +53,8 @@ const menuFilterMap = {
     },
     orgCertificate: (item: IMenuItem) => (ENABLE_MPAAS ? item : null),
   },
-  dataCenter: { // 云管平台
+  dataCenter: {
+    // 云管平台
     dataCenterOverview: (item: IMenuItem) => {
       const text = ONLY_FDP ? i18n.t('resource data') : i18n.t('cluster overview');
       return { ...item, text };
@@ -72,15 +75,19 @@ const menuFilterMap = {
 };
 
 export const filterMenu = (menu: IMenuItem[], type: MENU_SCOPE) => {
-  return compact(map(menu, (item) => {
-    const func = get(menuFilterMap, `${type}.${item.key}`) || defaultFunc;
-    const reItem = func(item);
-    if (reItem && reItem.subMenu) {
-      reItem.subMenu = compact(map(reItem.subMenu, (subItem) => {
-        const subFunc = get(menuFilterMap, `${type}.${subItem.key}`) || defaultFunc;
-        return subFunc(subItem);
-      }));
-    }
-    return reItem;
-  }));
+  return compact(
+    map(menu, (item) => {
+      const func = get(menuFilterMap, `${type}.${item.key}`) || defaultFunc;
+      const reItem = func(item);
+      if (reItem && reItem.subMenu) {
+        reItem.subMenu = compact(
+          map(reItem.subMenu, (subItem) => {
+            const subFunc = get(menuFilterMap, `${type}.${subItem.key}`) || defaultFunc;
+            return subFunc(subItem);
+          }),
+        );
+      }
+      return reItem;
+    }),
+  );
 };

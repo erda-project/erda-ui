@@ -78,15 +78,17 @@ const Detail = () => {
       );
     }
     return node;
-  }, [addonDetail.addonName, addonDetail.cluster, addonDetail.isOperator, addonDetail.name, addonDetail.projectId, addonDetail.projectName, instanceId]);
+  }, [
+    addonDetail.addonName,
+    addonDetail.cluster,
+    addonDetail.isOperator,
+    addonDetail.name,
+    addonDetail.projectId,
+    addonDetail.projectName,
+    instanceId,
+  ]);
 
-  return (
-    <PureBaseAddonInfo
-      addonDetail={{ ...addonDetail, addonStatus }}
-      loading={loading}
-      extra={extraNode}
-    />
-  );
+  return <PureBaseAddonInfo addonDetail={{ ...addonDetail, addonStatus }} loading={loading} extra={extraNode} />;
 };
 
 export default Detail;

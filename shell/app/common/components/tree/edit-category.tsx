@@ -50,7 +50,9 @@ export const EditCategory = (props: IProps) => {
     if (contentOnly) {
       document.body.addEventListener('click', onClickNoneSelf);
     }
-    return () => { contentOnly && document.body.removeEventListener('click', onClickNoneSelf); };
+    return () => {
+      contentOnly && document.body.removeEventListener('click', onClickNoneSelf);
+    };
   });
 
   const handleSave = async () => {
@@ -101,7 +103,10 @@ export const EditCategory = (props: IProps) => {
       footer={false}
     >
       {createButton || (
-      <Button type="primary" onClick={() => value && onSubmit({ name: value })}><CustomIcon type="cir-add" className="mr4" />{i18n.t('add')}</Button>
+        <Button type="primary" onClick={() => value && onSubmit({ name: value })}>
+          <CustomIcon type="cir-add" className="mr4" />
+          {i18n.t('add')}
+        </Button>
       )}
     </Popover>
   );

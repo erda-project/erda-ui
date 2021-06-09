@@ -13,51 +13,80 @@
 
 import agent from 'agent';
 
-export const getCustomAlarms = ({ tenantGroup, ...rest }: COMMON_CUSTOM_ALARM.IPageParam): IPagingResp<COMMON_CUSTOM_ALARM.CustomAlarms> => {
-  return agent.get(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/customize/alerts`)
+export const getCustomAlarms = ({
+  tenantGroup,
+  ...rest
+}: COMMON_CUSTOM_ALARM.IPageParam): IPagingResp<COMMON_CUSTOM_ALARM.CustomAlarms> => {
+  return agent
+    .get(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/customize/alerts`)
     .query(rest)
     .then((response: any) => response.body);
 };
 
-export const getCustomAlarmDetail = ({ id, tenantGroup }: { id: number; tenantGroup: string }): COMMON_CUSTOM_ALARM.CustomAlarmDetail => {
-  return agent.get(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/customize/alerts/${id}`)
+export const getCustomAlarmDetail = ({
+  id,
+  tenantGroup,
+}: {
+  id: number;
+  tenantGroup: string;
+}): COMMON_CUSTOM_ALARM.CustomAlarmDetail => {
+  return agent
+    .get(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/customize/alerts/${id}`)
     .then((response: any) => response.body);
 };
 
-export const switchCustomAlarm = ({ id, enable, tenantGroup }: { id: number; enable: boolean; tenantGroup: string }) => {
-  return agent.put(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/customize/alerts/${id}/switch?enable=${enable}`)
+export const switchCustomAlarm = ({
+  id,
+  enable,
+  tenantGroup,
+}: {
+  id: number;
+  enable: boolean;
+  tenantGroup: string;
+}) => {
+  return agent
+    .put(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/customize/alerts/${id}/switch?enable=${enable}`)
     .then((response: any) => response.body);
 };
 
 export const deleteCustomAlarm = ({ id, tenantGroup }: { id: number; tenantGroup: string }) => {
-  return agent.delete(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/customize/alerts/${id}`)
+  return agent
+    .delete(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/customize/alerts/${id}`)
     .then((response: any) => response.body);
 };
 
 export const getCustomMetrics = (tenantGroup: string): COMMON_CUSTOM_ALARM.CustomMetrics => {
-  return agent.get(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/customize/alerts/metrics`)
+  return agent
+    .get(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/customize/alerts/metrics`)
     .then((response: any) => response.body);
 };
 
 export const getCustomAlarmTargets = (tenantGroup: string): { targets: COMMON_CUSTOM_ALARM.AlarmTarget[] } => {
-  return agent.get(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/customize/alerts/notifies/targets`)
+  return agent
+    .get(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/customize/alerts/notifies/targets`)
     .then((response: any) => response.body);
 };
 
 export const createCustomAlarm = ({ tenantGroup, ...rest }: COMMON_CUSTOM_ALARM.CustomAlarmQuery) => {
-  return agent.post(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/customize/alerts`)
+  return agent
+    .post(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/customize/alerts`)
     .send(rest)
     .then((response: any) => response.body);
 };
 
 export const editCustomAlarm = ({ tenantGroup, id, ...rest }: COMMON_CUSTOM_ALARM.CustomAlarmQuery) => {
-  return agent.put(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/customize/alerts/${id}`)
+  return agent
+    .put(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/customize/alerts/${id}`)
     .send(rest)
     .then((response: any) => response.body);
 };
 
-export const getPreviewMetaData = ({ tenantGroup, ...payload }: Merge<COMMON_CUSTOM_ALARM.CustomAlarmQuery, 'tenantGroup'>) => {
-  return agent.post(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/customize/alerts/dash-preview/query`)
+export const getPreviewMetaData = ({
+  tenantGroup,
+  ...payload
+}: Merge<COMMON_CUSTOM_ALARM.CustomAlarmQuery, 'tenantGroup'>) => {
+  return agent
+    .post(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/customize/alerts/dash-preview/query`)
     .send(payload)
     .then((response: any) => response.body);
 };

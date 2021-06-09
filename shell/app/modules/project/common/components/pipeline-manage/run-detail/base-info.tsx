@@ -20,7 +20,7 @@ import i18n from 'i18n';
 
 import './base-info.scss';
 
-interface IProps{
+interface IProps {
   data: PIPELINE.IPipelineDetail;
 }
 
@@ -35,7 +35,7 @@ const BaseInfo = (props: IProps) => {
       label: i18n.t('status'),
       valueKey: 'status',
       valueItem: ({ value: val }: any) => {
-        const definedStatus = PipelineStatus.find((s) => s.status === val) || { colorClass: 'gray', msg: val } as any;
+        const definedStatus = PipelineStatus.find((s) => s.status === val) || ({ colorClass: 'gray', msg: val } as any);
         if (definedStatus) {
           const { jumping, colorClass, msg } = definedStatus;
           const statusStyle = `flow-${colorClass} ${jumping ? 'jumping' : ''}`;
@@ -68,9 +68,7 @@ const BaseInfo = (props: IProps) => {
     },
   ];
 
-  return (
-    <Panel fields={fields} data={data} />
-  );
+  return <Panel fields={fields} data={data} />;
 };
 
 export default BaseInfo;

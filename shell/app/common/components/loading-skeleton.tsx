@@ -35,9 +35,11 @@ export const LoadingSkeleton = () => {
 
 export const LoadingContent = () => {
   const [show, setShow] = React.useState(false);
-  const timer = React.useRef(setTimeout(() => {
-    setShow(true);
-  }, 300));
+  const timer = React.useRef(
+    setTimeout(() => {
+      setShow(true);
+    }, 300),
+  );
 
   useUnmount(() => {
     clearTimeout(timer.current);

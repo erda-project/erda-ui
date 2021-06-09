@@ -17,7 +17,7 @@ import PureMonitorChart from 'common/components/monitor/monitor-chart';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import metricsMonitorStore from 'common/stores/metrics';
 
-interface IProps{
+interface IProps {
   resourceType: string;
   resourceId: string;
   metricKey: string;

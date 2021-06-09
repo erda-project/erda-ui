@@ -19,11 +19,23 @@ import { theme } from '../theme';
 const ChartRender = ({ data, hasData, getOption, ...rest }) => {
   if (!hasData) {
     // loading = undefined 表示第一次加载
-    return (data && (data.loading === undefined || data.loading))
-      ? <Echarts key="chart" showLoading option={{}} notMerge theme="monitor" themeObj={theme} {...rest} />
-      : <EmptyHolder />;
+    return data && (data.loading === undefined || data.loading) ? (
+      <Echarts key="chart" showLoading option={{}} notMerge theme="monitor" themeObj={theme} {...rest} />
+    ) : (
+      <EmptyHolder />
+    );
   }
-  return <Echarts key="chart" showLoading={data.loading} option={getOption()} notMerge theme="monitor" themeObj={theme} {...rest} />;
+  return (
+    <Echarts
+      key="chart"
+      showLoading={data.loading}
+      option={getOption()}
+      notMerge
+      theme="monitor"
+      themeObj={theme}
+      {...rest}
+    />
+  );
 };
 
 export default ChartRender;

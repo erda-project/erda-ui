@@ -31,9 +31,7 @@ const workSpaceMap = {
   STAGING: i18n.t('staging environment'),
   PROD: i18n.t('prod environment'),
 };
-const ProjectCluster = ({
-  hasEditAuth,
-}: IProps) => {
+const ProjectCluster = ({ hasEditAuth }: IProps) => {
   const clusterList = clusterStore.useStore((s) => s.list);
   const { getClusterList } = clusterStore.effects;
   const info = projectStore.useStore((s) => s.info);
@@ -102,8 +100,12 @@ const ProjectCluster = ({
       updateInfo={updateProject}
       name={i18n.t('project:cluster setting')}
       desc={
-        <span>{i18n.t('cluster-config-tip')}
-          <a href={HELP_DOCUMENT} target="_blank" rel="noopener noreferrer"> {i18n.t('help document')} </a>
+        <span>
+          {i18n.t('cluster-config-tip')}
+          <a href={HELP_DOCUMENT} target="_blank" rel="noopener noreferrer">
+            {' '}
+            {i18n.t('help document')}{' '}
+          </a>
         </span>
       }
       formName={i18n.t('project:cluster used by the environment')}
