@@ -52,6 +52,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': [1, { argsIgnorePattern: '^_', varsIgnorePattern: '^ignored?$' }],
     '@typescript-eslint/interface-name-prefix': 'off',
     indent: 0,
+    'react/jsx-no-undef': 0,
   },
   overrides: [
     {

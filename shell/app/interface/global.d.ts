@@ -17,6 +17,12 @@ declare module 'path';
 declare module 'ansi_up';
 declare module 'lodash/_stringToPath';
 
+declare let If: React.FunctionComponent<{ condition: boolean }>;
+declare let For: React.FunctionComponent<{ each: string; index: string; of: any[] }>;
+declare let Choose: React.FunctionComponent;
+declare let When: React.FunctionComponent<{ condition: boolean }>;
+declare let Otherwise: React.FunctionComponent;
+
 declare module '*.json' {
   const value: any;
   export default value;
@@ -92,14 +98,14 @@ type RefreshApiGateway = <T>(data: T) => void;
 
 interface Window {
   _master: {
-    registModule(key: string, module: object): void;
-    getModule(key: string): object;
-    insert(key: string[] | string, requireVendorModules?: string[]): void;
-    stopLoadingModule(): void;
-    isLoadingModule(): boolean;
-    on(type: string, cb: Function, clearInit: boolean): Function;
-    off(type: string, cb: Function): void;
-    emit(type: string, data: any): void;
+    registModule: (key: string, module: object) => void;
+    getModule: (key: string) => object;
+    insert: (key: string[] | string, requireVendorModules?: string[]) => void;
+    stopLoadingModule: () => void;
+    isLoadingModule: () => boolean;
+    on: (type: string, cb: Function, clearInit: boolean) => Function;
+    off: (type: string, cb: Function) => void;
+    emit: (type: string, data: any) => void;
   };
   _modules: {
     [key: string]: object;
@@ -107,8 +113,8 @@ interface Window {
   React: any;
   app: {
     _store: {
-      getState(): any;
-      dispatch(arg: { [k: string]: any; type: string; payload: any }): any;
+      getState: () => any;
+      dispatch: (arg: { [k: string]: any; type: string; payload: any }) => any;
     };
   };
   diceEnv: {
@@ -118,8 +124,8 @@ interface Window {
     UC_PUBLIC_URL: string; // 包含protocol
   };
   refreshApiGateway: RefreshApiGateway | null;
-  previewFun(el: HTMLElement): void;
-  removeDom(el: HTMLElement): void;
+  previewFun: (el: HTMLElement) => void;
+  removeDom: (el: HTMLElement) => void;
 }
 
 interface IAction {
@@ -184,7 +190,7 @@ interface IRoute {
   // eslint-disable-next-line no-undef
   TabRightComp?: typeof React.Component;
   relativePath: string;
-  connectToTab(a: object[] | Function): React.ComponentClass;
+  connectToTab: (a: object[] | Function) => React.ComponentClass;
 }
 
 interface ITimeSpan {

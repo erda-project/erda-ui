@@ -37,7 +37,6 @@ const mainVersion = packageJson.version.slice(0, -2);
 const resolve = (pathname) => path.resolve(__dirname, pathname);
 
 const dashboardRealPath = fs.realpathSync(resolve('./node_modules/@terminus/dashboard-configurator'));
-const tcsRealPath = fs.realpathSync(resolve('./node_modules/tsx-control-statements'));
 
 module.exports = () => {
   const nodeEnv = process.env.NODE_ENV || 'development';
@@ -152,13 +151,14 @@ module.exports = () => {
         },
         {
           test: /\.(tsx?|jsx?)$/,
-          include: [resolve('app'), dashboardRealPath, tcsRealPath],
+          include: [resolve('app'), dashboardRealPath],
           use: [
             'thread-loader',
             {
               loader: 'babel-loader', // TODO tree sharking is not available in MF, will handle it later
               options: {
                 presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
+                plugins: ['jsx-control-statements'],
               },
             },
           ],

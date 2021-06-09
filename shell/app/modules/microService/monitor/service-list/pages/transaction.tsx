@@ -13,7 +13,6 @@
 
 import React, { useMemo, useCallback } from 'react';
 import { map } from 'lodash';
-import { If } from 'tsx-control-statements/components';
 import i18n from 'i18n';
 import { DC } from '@terminus/dashboard-configurator';
 import { Radio, Search, Select, Drawer, Tag, Table } from 'app/nusi';
