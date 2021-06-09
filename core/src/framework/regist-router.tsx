@@ -18,7 +18,6 @@ import { produce } from 'immer';
 
 const EmptyContainer = ({ route }: { route: RouteConfig }) => renderRoutes(route.routes);
 
-
 // in react-router v4, there is no `getComponent` to pass a callback to load comp, instead introduce this asyncComponent to implement it.
 // this is also solution for dva/dynamic
 const asyncComponent = (getComponent: () => Promise<ComponentType>) => {
@@ -56,16 +55,21 @@ const parseRoutes = (rootRoute: SHELL.ParsedRoute) => {
       route._parent = _parent;
       route.key = route.key ? route.key : `${_deep}-${i + 1}`;
       const relativePath = route.relativePath || route.path || '';
-      route.path = _parent.path !== '/' ? relativePath === '' ? _parent.path : `${_parent.path}/${relativePath}` : `/${relativePath}`;
+      route.path =
+        _parent.path !== '/'
+          ? relativePath === ''
+            ? _parent.path
+            : `${_parent.path}/${relativePath}`
+          : `/${relativePath}`;
       route.relativePath = relativePath;
 
       const { wrapper } = route;
       // replace getComp to component
       if (route.getComp) {
-        route.component = asyncComponent(
-          () => route.getComp((importPromise: Promise<any>, key = 'default') => {
-            return importPromise.then(mod => (wrapper ? wrapper(mod[key]) : mod[key]));
-          })
+        route.component = asyncComponent(() =>
+          route.getComp((importPromise: Promise<any>, key = 'default') => {
+            return importPromise.then((mod) => (wrapper ? wrapper(mod[key]) : mod[key]));
+          }),
         );
         route.exact = route.exact || true;
       } else if (!route.component && route.routes) {
@@ -83,11 +87,14 @@ const parseRoutes = (rootRoute: SHELL.ParsedRoute) => {
       return route;
     });
   };
-  return [{
-    ...rootCopy,
-    key: '0',
-    routes: walk(rootCopy.routes.concat(notFoundRoute), rootCopy, 1)
-  }, routeMap];
+  return [
+    {
+      ...rootCopy,
+      key: '0',
+      routes: walk(rootCopy.routes.concat(notFoundRoute), rootCopy, 1),
+    },
+    routeMap,
+  ];
 };
 
 const sortRoutes = (r: SHELL.ParsedRoute) => {
@@ -95,14 +102,17 @@ const sortRoutes = (r: SHELL.ParsedRoute) => {
   const newRoutes = keys.sort((a, b) => {
     const aLev = a.split('/').length;
     const bLev = b.split('/').length;
-    if (aLev !== bLev) { // 层级不同的，深层级往前放
+    if (aLev !== bLev) {
+      // 层级不同的，深层级往前放
       return bLev - aLev;
-    } else { // 层级一样的，* 匹配的往后放
+    } else {
+      // 层级一样的，* 匹配的往后放
       const aMathAll = a.split('*').length;
       const bMathAll = b.split('*').length;
       if (aMathAll !== bMathAll) {
         return aMathAll - bMathAll;
-      } else { //  层级一样的，且无*匹配的，:匹配多的的往后放
+      } else {
+        //  层级一样的，且无*匹配的，:匹配多的的往后放
         const aMaths = a.split(':').length;
         const bMaths = b.split(':').length;
         return aMaths - bMaths;
@@ -118,55 +128,55 @@ let NewestNotFound = () => 'Page not found';
 
 export type IGetRouter = () => SHELL.Route[] | SHELL.Route[];
 export interface CompMap {
-  Root?: ComponentType<any>,
-  NotFound?: ComponentType<any>,
+  Root?: ComponentType<any>;
+  NotFound?: ComponentType<any>;
 }
 
 const resetRouter = (routers: Obj<SHELL.Route[]>) => {
-  return produce(routers, (draft)=>{
+  return produce(routers, (draft) => {
     const routerMarkObj: Obj = {};
     const toMarkObj: Obj = {};
     const getRouterMarks = (_r: SHELL.Route[], _path: string) => {
       _r.forEach((rItem: SHELL.Route, idx: number) => {
         const { mark, routes: _rs, toMark } = rItem;
-        if(mark && !routerMarkObj[mark]){
+        if (mark && !routerMarkObj[mark]) {
           routerMarkObj[mark] = rItem;
         }
-        if(toMark){
+        if (toMark) {
           toMarkObj[toMark] = (toMarkObj[toMark] || []).concat({ router: rItem, key: `${_path}.[${idx}]` });
         }
-  
-        if(_rs){
+
+        if (_rs) {
           getRouterMarks(_rs, `${_path}.[${idx}].routes`);
         }
-      })
-    }
-  
-    map(draft, (rItem, key)=>{
+      });
+    };
+
+    map(draft, (rItem, key) => {
       getRouterMarks(rItem, key);
-    })
-  
-    map(toMarkObj, (_toObjArr, k)=>{
-      map(_toObjArr,_toObj=>{
+    });
+
+    map(toMarkObj, (_toObjArr, k) => {
+      map(_toObjArr, (_toObj) => {
         const { key, router: _toRouter } = _toObj;
-        if(_toRouter && routerMarkObj[k]){
+        if (_toRouter && routerMarkObj[k]) {
           _toRouter.toMark = undefined;
           routerMarkObj[k].routes = (routerMarkObj[k].routes || []).concat(_toRouter);
           set(draft, key, undefined);
         }
-      })
-    })
-  })
-}
+      });
+    });
+  });
+};
 
 export const registRouters = (key: string, routers: IGetRouter, { Root, NotFound }: CompMap = {}) => {
-  const rs = typeof routers === 'function' ? routers() : (routers || []);
-  NewestRoot = Root || NewestRoot as any;
-  NewestNotFound = NotFound || NewestNotFound as any;
+  const rs = typeof routers === 'function' ? routers() : routers || [];
+  NewestRoot = Root || (NewestRoot as any);
+  NewestNotFound = NotFound || (NewestNotFound as any);
   if (rs.length) {
-    moduleRouteMap = produce(moduleRouteMap, draft => {
+    moduleRouteMap = produce(moduleRouteMap, (draft) => {
       draft[key] = rs;
-    })
+    });
     const reRoutes = resetRouter(moduleRouteMap);
     const [parsed, routeMap] = parseRoutes({
       path: '/',

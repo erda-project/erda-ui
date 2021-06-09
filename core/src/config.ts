@@ -18,5 +18,6 @@ const config = {
 };
 
 export const getConfig = (key: keyof typeof config) => config[key];
-export const setConfig = (key: keyof typeof config, value: any) => { config[key] = value; };
-
+export const setConfig = (key: keyof typeof config, value: any) => {
+  config[key] = value;
+};

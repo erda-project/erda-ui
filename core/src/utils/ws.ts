@@ -14,7 +14,7 @@
 import SockJS from 'sockjs-client';
 
 interface IHandlerMap {
-  [k: string]: Array<(d: any) => void>
+  [k: string]: Array<(d: any) => void>;
 }
 
 const handlerMap: IHandlerMap = {};
@@ -35,7 +35,7 @@ export function connect(api: string) {
   socket.onmessage = (e: any) => {
     const data = JSON.parse(e.data);
     console.log('receive message:', data);
-    (handlerMap[data.type] || []).forEach(cb => cb(data));
+    (handlerMap[data.type] || []).forEach((cb) => cb(data));
   };
 
   socket.reconnect = () => {

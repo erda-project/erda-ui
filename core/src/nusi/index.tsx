@@ -11,12 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
-import {
-  ConfigProvider as AntdConfigProvider,
-  Form,
-  Icon,
-} from 'antd';
+import { ConfigProvider as AntdConfigProvider, Form, Icon } from 'antd';
 import {
   Button,
   BackTop,
@@ -109,7 +104,6 @@ const isZh = locale === 'zh';
 let temp = Tooltip;
 temp.defaultProps.type = 'shallow';
 
-
 temp = Pagination;
 temp.defaultProps = {
   ...Pagination.defaultProps,
@@ -192,7 +186,6 @@ export {
   AntdConfigProvider,
   Antd4ConfigProvider,
   AntTable,
-
   NusiConfigProvider,
   NusiTree,
   NusiPopover,

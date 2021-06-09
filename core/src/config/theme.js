@@ -30,7 +30,8 @@ module.exports.getLessTheme = (themeColor) => {
     '@btn-height-sm': '28px',
     '@btn-padding-sm': '0 11px;',
     '@border-radius-base': '3px;',
-    '@font-family': '"Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif',
+    '@font-family':
+      '"Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif',
   };
 };
 

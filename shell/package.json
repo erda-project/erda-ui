@@ -26,7 +26,6 @@
     "fix-memory-limit": "cross-env-shell LIMIT=4096 increase-memory-limit",
     "login": "./bash/login-ssh.sh",
     "lint-fix": "eslint --fix app --ext '.js,.jsx,.tsx,.ts,.d.ts'",
-    "stylelint-fix": "stylelint 'app/**/*.scss' --config .stylelintrc.json --fix",
     "lint": "lint-staged",
     "gen-sni": "node ./tools/gen-snippets",
     "gen-cp-md": "node ./tools/gen-cp-md",
@@ -104,13 +103,9 @@
     "@babel/preset-env": "^7.14.4",
     "@babel/preset-react": "^7.13.13",
     "@babel/preset-typescript": "^7.13.0",
-    "@commitlint/cli": "^7.0.0",
-    "@commitlint/config-conventional": "^7.0.1",
-    "@commitlint/read": "^7.5.0",
     "@module-federation/automatic-vendor-federation": "^1.2.1",
     "@paiva/translation-google": "^1.0.9",
     "@phenomnomnominal/tsquery": "^4.1.1",
-    "@svgr/webpack": "^4.1.0",
     "@types/classnames": "^2.2.6",
     "@types/clipboard": "^2.0.1",
     "@types/diff-match-patch": "^1.0.32",
@@ -137,12 +132,9 @@
     "cross-env": "^5.2.0",
     "css-minimizer-webpack-plugin": "^1.2.0",
     "cssnano": "^4.1.3",
-    "cz-customizable": "^6.3.0",
     "dotenv": "^8.2.0",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",
-    "eslint": "^7.28.0",
-    "eslint-config-ali": "~12.1.0",
     "event-hooks-webpack-plugin": "^2.2.0",
     "filemanager-webpack-plugin": "^3.1.0",
     "git-revision-webpack-plugin": "^3.0.6",
@@ -173,9 +165,6 @@
     "react-test-renderer": "^16.7.0",
     "sass": "^1.32.4",
     "speed-measure-webpack-plugin": "^1.5.0",
-    "stylelint": "^12.0.1",
-    "stylelint-config-rational-order": "^0.1.2",
-    "stylelint-scss": "^3.19.0",
     "swagger-parser-mock": "^1.1.1",
     "thread-loader": "^3.0.1",
     "ts-jest": "26.5.6",
@@ -191,15 +180,13 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
       "commit-msg": "commitlint -e $GIT_PARAMS"
     }
   },
-  "lint-staged": {
-    "{app}/**/*.scss": "npm run stylelint-fix",
-    "{app}/**/*.{js,jsx,ts,tsx}": [
-      "git add"
-    ]
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    }
   },
   "browserslist": [
     "> 1%",

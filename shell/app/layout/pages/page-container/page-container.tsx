@@ -19,7 +19,7 @@ import SideBar from 'layout/pages/page-container/components/sidebar';
 import SubSideBar from 'layout/pages/page-container/components/sub-sidebar';
 import Header from 'layout/pages/page-container/components/header';
 import { NoAuth, NotFound } from 'app/layout/common/error-page';
-import { Location } from 'interface/common';
+import { Location } from 'app/interface/common';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DiceLicense } from './dice-license';
@@ -49,7 +49,11 @@ interface IProps {
 const PageContainer = ({ route }: IProps) => {
   const [loginUser, noAuth, notFound] = userStore.useStore((s: any) => [s.loginUser, s.noAuth, s.notFound]);
   const currentOrg = orgStore.useStore((s) => s.currentOrg);
-  const [showMessage, customMain, announcementList] = layoutStore.useStore((s) => [s.showMessage, s.customMain, s.announcementList]);
+  const [showMessage, customMain, announcementList] = layoutStore.useStore((s) => [
+    s.showMessage,
+    s.customMain,
+    s.announcementList,
+  ]);
   const [currentRoute, isIn] = routeInfoStore.useStore((s) => [s.currentRoute, s.isIn]);
   const [state, updater] = useUpdate({
     startInit: false,
@@ -79,13 +83,12 @@ const PageContainer = ({ route }: IProps) => {
       checkVersion();
     }
     const checkLoginStatus = () => {
-      agent.get('/api/users/me')
-        .catch((error: any) => {
-          const { statusCode } = error.response;
-          if ([401].includes(statusCode)) {
-            userStore.effects.login();
-          }
-        });
+      agent.get('/api/users/me').catch((error: any) => {
+        const { statusCode } = error.response;
+        if ([401].includes(statusCode)) {
+          userStore.effects.login();
+        }
+      });
     };
 
     // 注册并监听登录状态的变化
@@ -149,34 +152,28 @@ const PageContainer = ({ route }: IProps) => {
       <ErrorBoundary>
         <DndProvider backend={HTML5Backend}>
           {typeof customMain === 'function' ? customMain() : customMain}
-          {renderRoutes(route.routes)/* 这里必须始终调用，不用根据customMain判断 */}
+          {renderRoutes(route.routes) /* 这里必须始终调用，不用根据customMain判断 */}
         </DndProvider>
       </ErrorBoundary>
     );
-    MainContent = noWrapper
-      ? Inner
-      : (
-        <Card className={(layout && layout.fullHeight) ? 'full-height auto-overflow' : ''}>
-          {Inner}
-        </Card>
-      );
+    MainContent = noWrapper ? (
+      Inner
+    ) : (
+      <Card className={layout && layout.fullHeight ? 'full-height auto-overflow' : ''}>{Inner}</Card>
+    );
   }
 
   return (
     <>
-      {
-        announcementList.length ? (
-          <div className={noticeClass}>
-            <Carousel arrows autoplay autoplaySpeed={5000}>
-              {
-                announcementList.map((announcement) => {
-                  return <div key={announcement.id}>{announcement.content}</div>;
-                })
-              }
-            </Carousel>
-          </div>
-        ) : null
-      }
+      {announcementList.length ? (
+        <div className={noticeClass}>
+          <Carousel arrows autoplay autoplaySpeed={5000}>
+            {announcementList.map((announcement) => {
+              return <div key={announcement.id}>{announcement.content}</div>;
+            })}
+          </Carousel>
+        </div>
+      ) : null}
       <div className={layoutClass}>
         <Shell
           layout="vertical"
@@ -187,7 +184,12 @@ const PageContainer = ({ route }: IProps) => {
           sideNavigation={showSubSidebar ? <SubSideBar /> : undefined}
           pageHeader={!hideHeader ? <Header /> : undefined}
         >
-          <div id="main" ref={mainEle} style={{ opacity: showMessage ? 0 : undefined }} className={hideHeader ? 'pa0' : ''}>
+          <div
+            id="main"
+            ref={mainEle}
+            style={{ opacity: showMessage ? 0 : undefined }}
+            className={hideHeader ? 'pa0' : ''}
+          >
             {MainContent}
           </div>
           {!loginUser.isSysAdmin && <MessageCenter show={showMessage} />}
