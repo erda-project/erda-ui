@@ -220,7 +220,7 @@ const IssueMetaFields = React.forwardRef(({ labels, isEditMode, isBacklog, editA
         },
       };
     });
-  }, [customFieldDetail, editAuth, projectId, urlParams.projectId]);
+  }, [customFieldDetail, editAuth, projectId, urlParams.projectId, expandCustomFields]);
 
   let editFieldList = [
     ...insertWhen(isEditMode, [
@@ -1053,6 +1053,7 @@ export const EditIssueDrawer = (props: IProps) => {
       confirmCloseTip={isEditMode ? undefined : i18n.t('project:close-issue-tip')}
       handleCopy={handleSubmit}
       maskClosable={isEditMode}
+      data={formData}
     // loading={
     //   loading.createIssue || loading.getIssueDetail || loading.updateIssue
     // }

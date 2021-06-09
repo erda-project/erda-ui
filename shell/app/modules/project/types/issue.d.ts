@@ -237,3 +237,14 @@ declare namespace ISSUE {
   }
 }
 
+interface DrawerData {
+  assignee: string;
+  bugStage: 'demandDesign';
+  priority: 'URGENT' | 'HIGH' | 'NORMAL' | 'LOW';
+  complexity: 'DIFFICULT' | 'NORMAL' | 'EASY';
+  iterationID: number;
+  planFinishedAt: string | undefined;
+  severity: 'FATAL' | 'SERIOUS' | 'NORMAL' | 'SLIGHT' | 'SUGGEST';
+  taskType: string;
+  [k: string]: any;
+}
