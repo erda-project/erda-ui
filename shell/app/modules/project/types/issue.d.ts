@@ -238,6 +238,7 @@ declare namespace ISSUE {
 }
 
 interface DrawerData {
+  [k: string]: any;
   assignee: string;
   bugStage: 'demandDesign';
   priority: 'URGENT' | 'HIGH' | 'NORMAL' | 'LOW';
@@ -246,5 +247,4 @@ interface DrawerData {
   planFinishedAt: string | undefined;
   severity: 'FATAL' | 'SERIOUS' | 'NORMAL' | 'SLIGHT' | 'SUGGEST';
   taskType: string;
-  [k: string]: any;
 }
