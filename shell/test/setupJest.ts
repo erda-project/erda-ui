@@ -37,15 +37,6 @@ jest.mock('i18n', () => {
     }),
   };
 });
-jest.mock('tsx-control-statements/components', () => {
-  return {
-    Choose: (props) => props.children,
-    When: (props) => props.children,
-    If: (props) => props.children,
-    Otherwise: (props) => props.children,
-    With: (props) => props.children,
-  };
-});
 
 jest.mock('holderjs', () => {
   return {
