@@ -67,7 +67,9 @@ export default async ({ fileType }: { fileType: string }) => {
   }
 
   const suffixMap: { [k: string]: boolean } = {};
-  suffixList.forEach((a) => { suffixMap[a.startsWith('.') ? a : `.${a}`] = true; });
+  suffixList.forEach((a) => {
+    suffixMap[a.startsWith('.') ? a : `.${a}`] = true;
+  });
 
   const { confirm } = await inquirer.prompt([
     {

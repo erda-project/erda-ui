@@ -28,9 +28,7 @@ const program = new Command();
 
 inquirer.registerPrompt('directory', require('inquirer-select-directory'));
 
-program
-  .version(`erda-ui/cli ${require('../../package').version}`)
-  .usage('<command> [options]');
+program.version(`erda-ui/cli ${require('../../package').version}`).usage('<command> [options]');
 
 // program
 //   .command('setup [env]')
@@ -56,7 +54,9 @@ program
 
 program
   .command('build')
-  .description('bundle files to public directory, pass true to launch a local full compilation build, pass image sha to launch a local partial compilation build based on image')
+  .description(
+    'bundle files to public directory, pass true to launch a local full compilation build, pass image sha to launch a local partial compilation build based on image',
+  )
   .option('-i, --image <image>', 'image sha as build base, e.g. 1.0-20210506-48bd74')
   .option('-l, --local', 'enable local mode, if image arg is given, then local mode is forcibly')
   .option('-s, --skip', 'skip the cli version check')
@@ -84,9 +84,7 @@ program
   .option('-s, --skip', 'skip the cli version check')
   .action(async (_workDir, options) => {
     await checkCliVersion(options);
-    const workDir = _workDir
-      ? path.resolve(process.cwd(), _workDir)
-      : process.cwd();
+    const workDir = _workDir ? path.resolve(process.cwd(), _workDir) : process.cwd();
     i18n({ workDir });
   });
 
@@ -116,6 +114,5 @@ program
     await checkCliVersion(options);
     launcher();
   });
-
 
 program.parse(process.argv);

@@ -30,7 +30,7 @@ export default async () => {
     logError('Empty .env config');
     exit(1);
   }
-  const envModules: {[k: string]: string} = {}; // collect modules in .env
+  const envModules: { [k: string]: string } = {}; // collect modules in .env
   Object.keys(envConfig).forEach((item) => {
     if (item.endsWith('_DIR') && item !== 'ERDA_DIR') {
       envModules[item.slice(0, item.indexOf('_DIR')).toLowerCase()] = envConfig[item];
@@ -42,17 +42,19 @@ export default async () => {
     exit(0);
   }
 
-  pm2.connect((err) => { // connect to pm2 deamon
+  pm2.connect((err) => {
+    // connect to pm2 deamon
     if (err) {
       logError(err);
       process.exit(2);
     }
 
-    pm2.list(async (listErr, list) => { // find all launched modules
+    pm2.list(async (listErr, list) => {
+      // find all launched modules
       if (listErr) throw listErr;
       let launchedList: string[] = [];
       if (list.length) {
-        launchedList = list.map(({ name }) => (name!));
+        launchedList = list.map(({ name }) => name!);
         logInfo(`Module [${chalk.yellowBright(launchedList.join(', '))}] launched already`);
       }
 
@@ -63,7 +65,7 @@ export default async () => {
         exit(0);
       }
 
-      const { selectedList } = await inquirer.prompt<{selectedList: string[]}>([
+      const { selectedList } = await inquirer.prompt<{ selectedList: string[] }>([
         {
           type: 'checkbox',
           name: 'selectedList',
@@ -90,7 +92,8 @@ export default async () => {
       });
 
       // @ts-ignore api mistake
-      pm2.start(ecosystem, (startErr) => { // start pm2 process
+      pm2.start(ecosystem, (startErr) => {
+        // start pm2 process
         if (startErr) throw startErr;
         logSuccess(`Module [${selectedList.join(',')}] has been launched, view log to check module status`);
         pm2.disconnect();
@@ -105,7 +108,9 @@ export default async () => {
  * @param {*} maintainModules
  */
 const showCommands = (maintainModules: string[]) => {
-  logWarn('Please ensure PM2 installed globally, then you can run commands below to manage your PM2 processes anywhere in your OS');
+  logWarn(
+    'Please ensure PM2 installed globally, then you can run commands below to manage your PM2 processes anywhere in your OS',
+  );
   const commandTable = new Table({ head: [''].concat(maintainModules) });
   const logCommands: string[] = [];
   const restartCommands: string[] = [];

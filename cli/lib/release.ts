@@ -38,9 +38,11 @@ export default async ({ image: baseImage, skip, enableSourceMap, local }: Props)
     enableSourceMap && extraOptions.push('-m');
     local && extraOptions.push('-l');
 
-    const buildProcess = await spawnSync('erda-ui', baseImage
-      ? ['build', '-i', baseImage, ...extraOptions]
-      : ['build', ...extraOptions], { env: process.env, cwd: rootDir, stdio: 'inherit' });
+    const buildProcess = await spawnSync(
+      'erda-ui',
+      baseImage ? ['build', '-i', baseImage, ...extraOptions] : ['build', ...extraOptions],
+      { env: process.env, cwd: rootDir, stdio: 'inherit' },
+    );
 
     if (buildProcess.status === 1) {
       process.exit(1);
@@ -48,10 +50,10 @@ export default async ({ image: baseImage, skip, enableSourceMap, local }: Props)
 
     const date = dayjs().format('YYYYMMDD');
     const shortSha = await execSync(GET_SHA_CMD);
-    const sha = shortSha.toString().replace(/\n/, '');// remove the backmost line feed
+    const sha = shortSha.toString().replace(/\n/, ''); // remove the backmost line feed
     const pJson = require(`${getShellDir()}/package.json`);
     const version = pJson.version.slice(0, -2);
-    const tag = `${version}-${date}-${sha}`;// 3.20-2020520-182737976
+    const tag = `${version}-${date}-${sha}`; // 3.20-2020520-182737976
 
     const image = `${registryDir}:${tag}`;
     await execSync(`docker build -f local_Dockerfile -t ${image} . || exit 1`, { stdio: 'inherit', cwd: rootDir });
@@ -59,7 +61,6 @@ export default async ({ image: baseImage, skip, enableSourceMap, local }: Props)
 
     logInfo(`start pushing image to registry:【${registryDir}】`);
     await execSync(`docker push ${image} || exit 1`, { stdio: 'inherit' });
-
 
     notifier.notify({
       title: 'Success',
@@ -73,4 +74,3 @@ export default async ({ image: baseImage, skip, enableSourceMap, local }: Props)
     process.exit(1);
   }
 };
-

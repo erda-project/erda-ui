@@ -54,7 +54,10 @@ const findExistWords = (toTransChineseWords: string[]) => {
     toTransChineseWords.forEach((zhWord) => {
       // 当存在现有翻译且translatedWords还没包含它时，加入已被翻译列表，并从未翻译列表中移除
       if (invertTranslatedWords[zhWord] && !translatedWords[zhWord]) {
-        translatedWords[zhWord] = namespaceKey === 'default' ? invertTranslatedWords[zhWord] : `${namespaceKey}:${invertTranslatedWords[zhWord]}`;
+        translatedWords[zhWord] =
+          namespaceKey === 'default'
+            ? invertTranslatedWords[zhWord]
+            : `${namespaceKey}:${invertTranslatedWords[zhWord]}`;
         remove(_notTranslatedWords, (w) => w === zhWord);
       }
     });
@@ -62,7 +65,12 @@ const findExistWords = (toTransChineseWords: string[]) => {
   notTranslatedWords = notTranslatedWords.concat(_notTranslatedWords);
 };
 
-const extractI18nFromFile = (content: string, filePath: string, isEnd: boolean, resolve: (value: void | PromiseLike<void>) => void) => {
+const extractI18nFromFile = (
+  content: string,
+  filePath: string,
+  isEnd: boolean,
+  resolve: (value: void | PromiseLike<void>) => void,
+) => {
   // 只处理代码文件
   if (!['.tsx', '.ts', '.js', '.jsx'].includes(path.extname(filePath)) && !isEnd) {
     return;
@@ -81,7 +89,9 @@ const extractI18nFromFile = (content: string, filePath: string, isEnd: boolean, 
   }
 
   // 传入需要被翻译的中文列表，前提是不在notTranslatedWords和translatedWords中出现
-  findExistWords(toTransChineseWords.filter((zhWord) => !notTranslatedWords.includes(zhWord) && !translatedWords[zhWord]));
+  findExistWords(
+    toTransChineseWords.filter((zhWord) => !notTranslatedWords.includes(zhWord) && !translatedWords[zhWord]),
+  );
   if (isEnd) {
     // 所有文件遍历完毕 notTranslatedWords 按原来的形式写入temp-zh-words
     if (notTranslatedWords.length > 0) {
@@ -101,7 +111,12 @@ const extractI18nFromFile = (content: string, filePath: string, isEnd: boolean, 
   }
 };
 
-const restoreSourceFile = (content: string, filePath: string, isEnd: boolean, resolve: (value: void | PromiseLike<void>) => void) => {
+const restoreSourceFile = (
+  content: string,
+  filePath: string,
+  isEnd: boolean,
+  resolve: (value: void | PromiseLike<void>) => void,
+) => {
   if (!['.tsx', '.ts', '.js', '.jsx'].includes(path.extname(filePath)) && !isEnd) {
     return;
   }
@@ -225,7 +240,8 @@ export default async ({ workDir: _workDir }: { workDir: string }) => {
       await inquirer.prompt({
         name: 'confirm',
         type: 'confirm',
-        message: '请仔细检查temp-translated-words.json的已存在翻译是否合适，如果不满意请将内容移入temp-zh-words.json中，没问题或人工修改后按回车继续',
+        message:
+          '请仔细检查temp-translated-words.json的已存在翻译是否合适，如果不满意请将内容移入temp-zh-words.json中，没问题或人工修改后按回车继续',
       });
     }
     const tempWords = JSON.parse(fs.readFileSync(tempFilePath, { encoding: 'utf-8' }));
@@ -268,7 +284,7 @@ export default async ({ workDir: _workDir }: { workDir: string }) => {
           if (get(zhResource, `${backupNamespace}.${tempZhMap[key]}`)) {
             // 如果此时又来一个`奔跑中`，那就无法自动处理了，属于极小概率事件，由使用者自行处理
             logError(key, '在目标namespace和备用namespace两个命名空间都有相同翻译了，请手动解决这个问题');
-            throw (new Error('duplicate translation'));
+            throw new Error('duplicate translation');
           } else {
             logWarn('<', key, '> 有相同的namespace和翻译已存在，自动转入备用namespace');
             specialWords.push(key);
