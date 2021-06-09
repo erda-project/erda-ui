@@ -21,7 +21,7 @@ import { useDeepCompareEffect, useUpdateEffect } from 'react-use';
 import routeInfoStore from '../stores/route';
 import './custom-filter.scss';
 import { PaginationConfig, SorterResult } from 'core/common/interface';
-import { IUseFilterProps, IUseMultiFilterProps } from 'interface/common';
+import { IUseFilterProps, IUseMultiFilterProps } from 'app/interface/common';
 
 import classNames from 'classnames';
 import { PAGINATION } from 'app/constants';
@@ -62,69 +62,76 @@ export const CustomFilter = (props: IFilterProps) => {
   const filterRef: any = React.useRef(null as any);
   const [prevQuery, setPrevQuery] = React.useState({});
 
-  const search = React.useCallback(debounce(() => {
-    filterRef && filterRef.current && filterRef.current.search();
-  }, 400), []);
+  const search = React.useCallback(
+    debounce(() => {
+      filterRef && filterRef.current && filterRef.current.search();
+    }, 400),
+    [],
+  );
 
-  const transformConfig = React.useCallback((c: FilterItemConfig) => {
-    const { type, ...cRest } = c;
-    let _type = type;
-    const Comp = type;
-    if (!showButton) {
-      switch (_type) {
-        case Input:
-        case Input.Search:
-          _type = React.forwardRef((inputProps: any, ref) => {
-            const { onChange, ...rest } = inputProps;
-            return (
-              <Comp
-                ref={ref}
-                onChange={(e: any) => {
-                  onChange(e.target.value || undefined);
-                  search();
-                }}
-                allowClear
-                {...rest}
-              />);
-          });
-          break;
-        case Select:
-          _type = React.forwardRef((selectProps: any, ref) => {
-            const { onChange, options, ...rest } = selectProps;
-            return (
-              <Select
-                ref={ref}
-                onChange={(v: string) => {
-                  onChange(v);
-                  filterRef && filterRef.current && filterRef.current.search();
-                }}
-                allowClear
-                {...rest}
-              >
-                {typeof options === 'function' ? options() : options}
-              </Select>
-            );
-          });
-          break;
-        default:
-          _type = React.forwardRef((compProps: any, ref) => {
-            const { onChange, ...rest } = compProps;
-            return (
-              <Comp
-                forwardedRef={ref}
-                onChange={(v: any) => {
-                  onChange(v);
-                  filterRef && filterRef.current && filterRef.current.search();
-                }}
-                {...rest}
-              />
-            );
-          });
-          break;
+  const transformConfig = React.useCallback(
+    (c: FilterItemConfig) => {
+      const { type, ...cRest } = c;
+      let _type = type;
+      const Comp = type;
+      if (!showButton) {
+        switch (_type) {
+          case Input:
+          case Input.Search:
+            _type = React.forwardRef((inputProps: any, ref) => {
+              const { onChange, ...rest } = inputProps;
+              return (
+                <Comp
+                  ref={ref}
+                  onChange={(e: any) => {
+                    onChange(e.target.value || undefined);
+                    search();
+                  }}
+                  allowClear
+                  {...rest}
+                />
+              );
+            });
+            break;
+          case Select:
+            _type = React.forwardRef((selectProps: any, ref) => {
+              const { onChange, options, ...rest } = selectProps;
+              return (
+                <Select
+                  ref={ref}
+                  onChange={(v: string) => {
+                    onChange(v);
+                    filterRef && filterRef.current && filterRef.current.search();
+                  }}
+                  allowClear
+                  {...rest}
+                >
+                  {typeof options === 'function' ? options() : options}
+                </Select>
+              );
+            });
+            break;
+          default:
+            _type = React.forwardRef((compProps: any, ref) => {
+              const { onChange, ...rest } = compProps;
+              return (
+                <Comp
+                  forwardedRef={ref}
+                  onChange={(v: any) => {
+                    onChange(v);
+                    filterRef && filterRef.current && filterRef.current.search();
+                  }}
+                  {...rest}
+                />
+              );
+            });
+            break;
+        }
       }
-    }
-    return { type: _type, ...cRest };
-  }, [filterRef, search, showButton]);
+      return { type: _type, ...cRest };
+    },
+    [filterRef, search, showButton],
+  );
 
   const fields = filterRef && filterRef.current && filterRef.current.form.getFields();
 
@@ -148,12 +155,13 @@ export const CustomFilter = (props: IFilterProps) => {
         const startValue = query[startName];
         const endValue = query[endName];
         if (startValue && endValue) {
-          curFilterForm && curFilterForm.setFieldsValue({
-            [name]: [
-              moment(isNaN(+startValue) ? startValue : +startValue), // 如果是时间戳字符串，应转为number类型
-              moment(isNaN(+endValue) ? endValue : +endValue),
-            ],
-          });
+          curFilterForm &&
+            curFilterForm.setFieldsValue({
+              [name]: [
+                moment(isNaN(+startValue) ? startValue : +startValue), // 如果是时间戳字符串，应转为number类型
+                moment(isNaN(+endValue) ? endValue : +endValue),
+              ],
+            });
         } else {
           curFilterForm && curFilterForm.setFieldsValue([]);
         }
@@ -161,16 +169,18 @@ export const CustomFilter = (props: IFilterProps) => {
       }
 
       if (query[name] !== undefined) {
-        curFilterForm && curFilterForm.setFieldsValue({
-          [name]: customTransformer ?
-            customTransformer(query[name], query) :
-            valueType === 'number' ?
-              Number(query[name]) :
-              valueType === 'boolean' ?
-                !!query[name] :
-                query[name],
-        });
-      } else { // 置为空
+        curFilterForm &&
+          curFilterForm.setFieldsValue({
+            [name]: customTransformer
+              ? customTransformer(query[name], query)
+              : valueType === 'number'
+              ? Number(query[name])
+              : valueType === 'boolean'
+              ? !!query[name]
+              : query[name],
+          });
+      } else {
+        // 置为空
         curFilterForm && curFilterForm.setFieldsValue({ [name]: undefined });
       }
     });
@@ -205,49 +215,40 @@ export const CustomFilter = (props: IFilterProps) => {
   );
 };
 
-const convertFilterParamsToUrlFormat = (
-  fullRange?: boolean,
-  dateFormat?: string,
-) => (
-  condition: { [prop: string]: any },
-  fieldConvertor?: {
-    [k: string]: (value: any, allQuery?: any) => string | string[] | undefined;
-  },
-) => {
-  const formatCondition = {};
-  forIn(condition, (v, k) => {
-    const fieldConvertFunc = get(fieldConvertor, k);
-    if (Array.isArray(v) && v.length === 2 && every(v, (item) => moment.isMoment(item))) {
-      // handle date range
-      const [start, end] = v as [Moment, Moment];
-      const format = dateFormat || 'YYYY-MM-DD HH:mm:ss';
-      let startName = `${k}From`;
-      let endName = `${k}To`;
-      const rangeNames = k.split(',');
-      if (rangeNames.length === 2) {
-        [startName, endName] = rangeNames;
+const convertFilterParamsToUrlFormat =
+  (fullRange?: boolean, dateFormat?: string) =>
+  (
+    condition: { [prop: string]: any },
+    fieldConvertor?: {
+      [k: string]: (value: any, allQuery?: any) => string | string[] | undefined;
+    },
+  ) => {
+    const formatCondition = {};
+    forIn(condition, (v, k) => {
+      const fieldConvertFunc = get(fieldConvertor, k);
+      if (Array.isArray(v) && v.length === 2 && every(v, (item) => moment.isMoment(item))) {
+        // handle date range
+        const [start, end] = v as [Moment, Moment];
+        const format = dateFormat || 'YYYY-MM-DD HH:mm:ss';
+        let startName = `${k}From`;
+        let endName = `${k}To`;
+        const rangeNames = k.split(',');
+        if (rangeNames.length === 2) {
+          [startName, endName] = rangeNames;
+        }
+        const startMoment = fullRange ? start.startOf('day') : start;
+        const endMoment = fullRange ? end.endOf('day') : end;
+        set(formatCondition, startName, format === 'int' ? startMoment.valueOf() : startMoment.format(format));
+        set(formatCondition, endName, format === 'int' ? endMoment.valueOf() : endMoment.format(format));
+      } else if (fieldConvertFunc) {
+        // handle custom field
+        set(formatCondition, k, fieldConvertFunc(v, condition));
+      } else {
+        set(formatCondition, k, v);
       }
-      const startMoment = fullRange ? start.startOf('day') : start;
-      const endMoment = fullRange ? end.endOf('day') : end;
-      set(
-        formatCondition,
-        startName,
-        format === 'int' ? startMoment.valueOf() : startMoment.format(format),
-      );
-      set(
-        formatCondition,
-        endName,
-        format === 'int' ? endMoment.valueOf() : endMoment.format(format),
-      );
-    } else if (fieldConvertFunc) {
-      // handle custom field
-      set(formatCondition, k, fieldConvertFunc(v, condition));
-    } else {
-      set(formatCondition, k, v);
-    }
-  });
-  return formatCondition;
-};
+    });
+    return formatCondition;
+  };
 
 interface IProps {
   fieldConvertor?: {
@@ -307,7 +308,13 @@ export function useFilter<T>(props: ISingleFilterProps<T>): IUseFilterProps {
   const { pageNo: pNo, ...restQuery } = query;
 
   const [state, update] = useUpdate({
-    searchQuery: localMode ? {} : isEmpty(restQuery) ? initQuery : !isEmpty(excludeQuery) ? omit(restQuery, excludeQuery) : { ...initQuery, ...restQuery },
+    searchQuery: localMode
+      ? {}
+      : isEmpty(restQuery)
+      ? initQuery
+      : !isEmpty(excludeQuery)
+      ? omit(restQuery, excludeQuery)
+      : { ...initQuery, ...restQuery },
     pageNo: Number(localMode ? 1 : pNo || 1),
     loaded: false,
     currentPath: currentRoute.path,
@@ -315,10 +322,13 @@ export function useFilter<T>(props: ISingleFilterProps<T>): IUseFilterProps {
 
   const { searchQuery, pageNo, loaded, currentPath } = state;
 
-  const fetchData = React.useCallback(debounce((q: any) => {
-    const { [FilterBarHandle.filterDataKey]: _Q_, ...restQ } = q;
-    getData({ ...restQ });
-  }, debounceGap), [getData]);
+  const fetchData = React.useCallback(
+    debounce((q: any) => {
+      const { [FilterBarHandle.filterDataKey]: _Q_, ...restQ } = q;
+      getData({ ...restQ });
+    }, debounceGap),
+    [getData],
+  );
 
   const updateSearchQuery = React.useCallback(() => {
     // 这里异步处理一把是为了不出现dva报错。dva移除后可以考虑放开
@@ -361,13 +371,8 @@ export function useFilter<T>(props: ISingleFilterProps<T>): IUseFilterProps {
     }
   };
 
-  const onSubmit = (condition: {
-    [prop: string]: any;
-  }) => {
-    const formatCondition = convertFilterParamsToUrlFormat(
-      fullRange,
-      dateFormat,
-    )(condition, fieldConvertor);
+  const onSubmit = (condition: { [prop: string]: any }) => {
+    const formatCondition = convertFilterParamsToUrlFormat(fullRange, dateFormat)(condition, fieldConvertor);
     if (isEqual(formatCondition, searchQuery)) {
       // 如果查询条件没有变化，重复点击查询，还是要强制刷新
       fetchDataWithQuery(1);
@@ -383,7 +388,15 @@ export function useFilter<T>(props: ISingleFilterProps<T>): IUseFilterProps {
       fetchDataWithQuery(1);
     } else {
       // reset之后理论上值要变回最开始？
-      update.searchQuery(localMode ? {} : isEmpty(restQuery) ? initQuery : !isEmpty(excludeQuery) ? omit(restQuery, excludeQuery) : restQuery);
+      update.searchQuery(
+        localMode
+          ? {}
+          : isEmpty(restQuery)
+          ? initQuery
+          : !isEmpty(excludeQuery)
+          ? omit(restQuery, excludeQuery)
+          : restQuery,
+      );
       update.pageNo(1);
     }
   };
@@ -411,7 +424,8 @@ export function useFilter<T>(props: ISingleFilterProps<T>): IUseFilterProps {
   const sizeChangePagination = (paging: IPaging) => {
     const { pageSize: pSize, total } = paging;
     let sizeOptions = PAGINATION.pageSizeOptions;
-    if (!sizeOptions.includes(`${pageSize}`)) { // 备选项中不存在默认的页数
+    if (!sizeOptions.includes(`${pageSize}`)) {
+      // 备选项中不存在默认的页数
       sizeOptions.push(`${pageSize}`);
     }
     sizeOptions = sortBy(sizeOptions, (item) => +item);
@@ -475,9 +489,7 @@ interface IMultiModeProps extends IProps {
  * @param requiredKeys 选传 当requiredKeys中的任何参数为空时，终止search行为，当下一次参数有值了才查询。用于页面初始化时某key参数需要异步拿到，不能直接查询的场景
  * @return {queryCondition, onSubmit, onReset, onPageChange, pageNo, fetchDataWithQuery }
  */
-export const useMultiFilter = (
-  props: IMultiModeProps,
-): IUseMultiFilterProps => {
+export const useMultiFilter = (props: IMultiModeProps): IUseMultiFilterProps => {
   const {
     getData,
     excludeQuery = [],
@@ -505,17 +517,11 @@ export const useMultiFilter = (
 
   const [state, update] = useUpdate({
     groupSearchQuery: multiGroupEnums.reduce((acc, item) => {
-      acc[item] =
-        (item === activeType) || shareQuery
-          ? pickQueryValue()
-          : {};
+      acc[item] = item === activeType || shareQuery ? pickQueryValue() : {};
       return acc;
     }, {}),
     groupPageNo: multiGroupEnums.reduce((acc, item) => {
-      acc[item] =
-        item === activeType
-          ? Number(pNo || 1)
-          : 1;
+      acc[item] = item === activeType ? Number(pNo || 1) : 1;
       return acc;
     }, {}),
     activeGroup: activeType,
@@ -532,7 +538,8 @@ export const useMultiFilter = (
     return 1;
   }, [activeGroup, groupPageNo]);
 
-  useDeepCompareEffect(() => { // 因为multiGroupEnums随着渲染一直变化引用，所以使用useDeepCompareEffect
+  useDeepCompareEffect(() => {
+    // 因为multiGroupEnums随着渲染一直变化引用，所以使用useDeepCompareEffect
     if (activeType !== activeGroup) {
       update.activeGroup(activeType);
     }
@@ -545,10 +552,7 @@ export const useMultiFilter = (
     }
   }, [query, currentPath, currentRoute]);
 
-  const currentFetchEffect =
-    getData.length === 1
-      ? getData[0]
-      : getData[multiGroupEnums.indexOf(activeGroup)];
+  const currentFetchEffect = getData.length === 1 ? getData[0] : getData[multiGroupEnums.indexOf(activeGroup)];
 
   const searchQuery = React.useMemo(() => {
     if (activeGroup) {
@@ -596,13 +600,8 @@ export const useMultiFilter = (
     }
   };
 
-  const onSubmit = (condition: {
-    [prop: string]: any;
-  }) => {
-    const formatCondition = convertFilterParamsToUrlFormat(
-      fullRange,
-      dateFormat,
-    )(condition, fieldConvertor);
+  const onSubmit = (condition: { [prop: string]: any }) => {
+    const formatCondition = convertFilterParamsToUrlFormat(fullRange, dateFormat)(condition, fieldConvertor);
     if (isEqual(formatCondition, searchQuery)) {
       // 如果查询条件没有变化，重复点击查询，还是要强制刷新
       fetchDataWithQuery(1);

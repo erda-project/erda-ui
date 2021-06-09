@@ -91,7 +91,6 @@
       "i18n": ["app/i18n.ts"],
       "dice-env": ["./app/external/env.js"],
       "agent": ["./app/agent.js"],
-      "interface": ["./interface"],
       "app/*": ["./app/*"],
       "core/main": ["../core/src/index"],
       "core/cube": ["../core/src/cube"],
