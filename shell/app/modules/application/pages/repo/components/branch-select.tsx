@@ -31,7 +31,7 @@ interface IProps {
   commitId?: string | null;
   disabled?: boolean;
   hideTagList?: boolean;
-  onChange?(commitId: string): void;
+  onChange?: (commitId: string) => void;
 }
 
 interface IState {
@@ -94,8 +94,8 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
       );
     }
 
-    const branchList = branches.filter(b => b.includes(filterKey));
-    const tagList = tags.filter(t => t.includes(filterKey));
+    const branchList = branches.filter((b) => b.includes(filterKey));
+    const tagList = tags.filter((t) => t.includes(filterKey));
     const commitList = commitId
       ? (
         <React.Fragment>
@@ -111,13 +111,13 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
 
     const content = (
       <React.Fragment>
-        <Search placeholder={hideTagList ? i18n.t('application:enter branch name to filter') : i18n.t('application:enter branch or tag name to filter')} key={inputKey} autoFocus onBlur={this.handleBlur} value={filterKey} onChange={e => this.filter(e.target.value)} />
+        <Search placeholder={hideTagList ? i18n.t('application:enter branch name to filter') : i18n.t('application:enter branch or tag name to filter')} key={inputKey} autoFocus onBlur={this.handleBlur} value={filterKey} onChange={(e) => this.filter(e.target.value)} />
         <div className="list-wrap">
           {commitList}
           <div className="title">{i18n.t('application:branch')} ({branchList.length})</div>
           <ul>
             {
-              branchList.map(branch => (
+              branchList.map((branch) => (
                 <li className="branch-item" onClick={() => onChange(branch)} key={branch}>
                   {branch === current ? <IconCheck /> : null}<span>{branch}</span>
                 </li>
@@ -130,7 +130,7 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
                 <div className="title">{i18n.t('application:tag')} ({tagList.length})</div>
                 <ul>
                   {
-                    tagList.map(tag => (
+                    tagList.map((tag) => (
                       <li className="branch-item" onClick={() => onChange(tag)} key={tag}>
                         {tag === current ? <IconCheck /> : null} <span>{tag}</span>
                       </li>

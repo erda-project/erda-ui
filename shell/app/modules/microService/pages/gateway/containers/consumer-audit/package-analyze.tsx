@@ -25,13 +25,13 @@ import metricsMonitorStore from 'common/stores/metrics';
 const resourceInfo = { resourceType: 'multipleGroup', resourceId: 'package-analyze' };
 
 export const PurePackageAnalyze = () => {
-  const [params, query] = routeInfoStore.useStore(s => [s.params, s.query]);
-  const [timeSpan] = monitorCommonStore.useStore(s => [s.timeSpan]);
-  const metricItem = metricsMonitorStore.useStore(s => s.metricItem) || {};
+  const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const [timeSpan] = monitorCommonStore.useStore((s) => [s.timeSpan]);
+  const metricItem = metricsMonitorStore.useStore((s) => s.metricItem) || {};
   const { loadGatewayMetricItem } = metricsMonitorStore.effects;
   const succSumData = metricItem['multipleGroup-package-analyze-pa-succ-sum'] || {};
   const realTimeData = metricItem['multipleGroup-package-analyze-pa-real-time'] || {};
-  const [projectInfo, apiFilterCondition] = gatewayStore.useStore(s => [s.projectInfo, s.apiFilterCondition]);
+  const [projectInfo, apiFilterCondition] = gatewayStore.useStore((s) => [s.projectInfo, s.apiFilterCondition]);
   const { env, projectId } = params;
   const { csmr } = query;
   const { start, end } = daysRange(7);
@@ -55,7 +55,7 @@ export const PurePackageAnalyze = () => {
       sum: 'succ_sum',
       ...commonQuery,
       points: 7,
-    } as any
+    } as any,
   );
 
   const [realTimeQuery, setRealTimeQuery] = useState(
@@ -65,7 +65,7 @@ export const PurePackageAnalyze = () => {
       end: endTimeMs,
       ...commonQuery,
       sumCps: ['cnt_sum', 'succ_sum', 'err_sum', 'lim_sum'],
-    } as any
+    } as any,
   );
 
   const [succSumStaticData, setSuccSumStaticData] = useState({} as any);

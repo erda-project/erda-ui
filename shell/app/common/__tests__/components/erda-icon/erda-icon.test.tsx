@@ -21,10 +21,10 @@ describe('ErdaIcon', () => {
     const fn = jest.fn();
     const wrapper = mount(
       <ErdaIcon
-        iconType='lock'
+        iconType="lock"
         className="customize-cls"
         onClick={fn}
-      />
+      />,
     );
     expect(wrapper.find('.i-icon').hasClass('customize-cls')).toBeTruthy();
     wrapper.find('.i-icon').simulate('click');
@@ -33,8 +33,8 @@ describe('ErdaIcon', () => {
   it('render with illegal icon Type', () => {
     const wrapper = mount(
       <ErdaIcon
-        iconType='illegal'
-      />
+        iconType="illegal"
+      />,
     );
     expect(wrapper).toHaveHTML('<span>Not Exists</span>');
   });

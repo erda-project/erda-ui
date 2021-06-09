@@ -30,7 +30,7 @@ describe('Copy', () => {
           {copytext}
         </div>
         <Copy selector="for_copy-select" className="for-copy" copyText="Copy">copy</Copy>
-      </div>
+      </div>,
     );
     wrapper.mount();
     expect(wrapper.find('span.for-copy').length).toEqual(1);

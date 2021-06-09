@@ -49,27 +49,27 @@ const formatVersionTree = (data: API_MARKET.VersionTreeItem[]) => {
 };
 
 export interface ChooseVersion {
-  swaggerVersion: string; major: number; minor: number; selectedKeys: string[]
+  swaggerVersion: string; major: number; minor: number; selectedKeys: string[];
 }
 
 interface IProps {
   assetID: string;
   versionRef: React.Ref<any>;
-  onRelation(mode: RelationMode): void;
-  onSelectVersion?(data: ChooseVersion): void;
+  onRelation: (mode: RelationMode) => void;
+  onSelectVersion?: (data: ChooseVersion) => void;
 }
 
 interface IState {
   showExport: boolean;
   versionItem: API_MARKET.AssetVersion;
-  chooseVersionInfo: ChooseVersion
+  chooseVersionInfo: ChooseVersion;
   expandedKeys: string[];
 }
 
-const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }:IProps) => {
-  const params = routeInfoStore.useStore(s => s.params);
+const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProps) => {
+  const params = routeInfoStore.useStore((s) => s.params);
   const { getVersionTree, getListOfVersions, getInstance, deleteAssetVersion, updateAssetVersion } = apiMarketStore.effects;
-  const [assetVersionList, versionTree, instance, assetDetail, instancePermission] = apiMarketStore.useStore(s => [s.assetVersionList, s.versionTree, s.instance, s.assetDetail, s.instancePermission]);
+  const [assetVersionList, versionTree, instance, assetDetail, instancePermission] = apiMarketStore.useStore((s) => [s.assetVersionList, s.versionTree, s.instance, s.assetDetail, s.instancePermission]);
   const creatorID = get(assetDetail, ['asset', 'creatorID']);
   const instanceUrl = get(instance, 'url');
   const [state, updater, update] = useUpdate<IState>({
@@ -201,18 +201,18 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }:IProps
     {
       title: i18n.t('API description document protocol'),
       dataIndex: 'version.specProtocol',
-      render: text => protocolMap[text].fullName,
+      render: (text) => protocolMap[text].fullName,
     },
     {
       title: i18n.t('creator'),
       dataIndex: 'version.creatorID',
-      render: text => <Avatar showName name={<UserInfo id={text} />} />,
+      render: (text) => <Avatar showName name={<UserInfo id={text} />} />,
     },
     {
       title: i18n.t('create time'),
       dataIndex: 'version.createdAt',
       width: 180,
-      render: text => (text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : ''),
+      render: (text) => (text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : ''),
     },
     {
       title: i18n.t('operate'),
@@ -220,16 +220,16 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }:IProps
       width: 200,
       render: (_text, { version }) => (
         <TableActions>
-          <span onClick={e => {
+          <span onClick={(e) => {
             handleExport(version, e);
           }}
           >{i18n.t('export')}
           </span>
           <UnityAuthWrap wrap={false} userID={creatorID} path={['apiMarket', 'deleteVersion']}>
-            <span onClick={(e => { handleDeleteVersion(version, e); })}>{i18n.t('delete')}</span>
+            <span onClick={((e) => { handleDeleteVersion(version, e); })}>{i18n.t('delete')}</span>
           </UnityAuthWrap>
           <UnityAuthWrap wrap={false} userID={creatorID} path={['apiMarket', 'addVersion']}>
-            <span onClick={(e => { toggleDeprecated(version, e); })}>
+            <span onClick={((e) => { toggleDeprecated(version, e); })}>
               {version.deprecated ? i18n.t('revert deprecated version') : i18n.t('deprecate version')}
             </span>
           </UnityAuthWrap>

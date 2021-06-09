@@ -36,7 +36,7 @@ describe('CompSwitcher', () => {
         >
           <div className="comp-switcher-child" />
         </CompSwitcher>
-      </div>
+      </div>,
     );
     expect(wrapper.find('.comp-1')).toExist();
     expect(wrapper.find('.comp-switcher-child')).not.toExist();
@@ -50,7 +50,7 @@ describe('CompSwitcher', () => {
         >
           <div className="comp-switcher-child" />
         </CompSwitcher>
-      </div>
+      </div>,
     );
     expect(wrapper.find('.comp-switcher-child')).toExist();
   });

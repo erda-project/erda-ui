@@ -16,6 +16,6 @@ import agent from 'agent';
 export const loadComparative = ({ fetchApi, ...rest }) => {
   return agent.get(`/api/spot/tmc/metrics/${fetchApi}`)
     .query(rest)
-    .then(response => response.body);
+    .then((response) => response.body);
 };
 

@@ -21,14 +21,14 @@ import { get, map } from 'lodash';
 
 const BasicInfo = () => {
   const { updateDate } = testPlanStore.effects;
-  const { testPlan } = testPlanStore.useStore(s => s.planReport);
-  const userMap = userMapStore.useStore(s => s);
+  const { testPlan } = testPlanStore.useStore((s) => s.planReport);
+  const userMap = userMapStore.useStore((s) => s);
   const data = React.useMemo(() => {
     const { startedAt, endedAt, ownerID, partnerIDs = [] } = testPlan || {};
     const startDate = startedAt ? moment(startedAt).format('YYYY-MM-DD') : undefined;
     const endDate = endedAt ? moment(endedAt).format('YYYY-MM-DD') : undefined;
     const ownerName = get(userMap, [ownerID, 'nick'], '');
-    const partnerNames = map(partnerIDs, partnerID => get(userMap, [partnerID, 'nick'], ''));
+    const partnerNames = map(partnerIDs, (partnerID) => get(userMap, [partnerID, 'nick'], ''));
     const partnerNameStr = partnerNames.join(' ');
     return { startDate, endDate, ownerName, partnerNames, partnerNameStr };
   }, [testPlan, userMap]);
@@ -69,7 +69,7 @@ const BasicInfo = () => {
   return (
     <Row>
       {
-        basicInfo.map(info => (
+        basicInfo.map((info) => (
           <Col span={12} className="mt16" key={info.label}>
             <div className="color-text-desc">{info.label}</div>
             <div className="mt8 fz14">

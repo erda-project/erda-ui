@@ -45,24 +45,24 @@ const RESOURCE_TYPE_MAP = {
 };
 
 interface IState {
-  selectedGroups: string[],
-  clusterList: ORG_CLUSTER.ICluster[],
-  machineList: ORG_MACHINE.IMachine[],
-  filterGroup: ORG_DASHBOARD.IFilterType[],
-  unGroupInfo: Omit<ORG_DASHBOARD.IGroupInfo, 'groups'> | {},
-  groupInfos: ORG_DASHBOARD.IGroupInfo[],
-  serviceList: ORG_DASHBOARD.IInstance[],
-  jobList: ORG_DASHBOARD.IInstance[],
-  instanceList: ORG_DASHBOARD.IInstance[],
+  selectedGroups: string[];
+  clusterList: ORG_CLUSTER.ICluster[];
+  machineList: ORG_MACHINE.IMachine[];
+  filterGroup: ORG_DASHBOARD.IFilterType[];
+  unGroupInfo: Omit<ORG_DASHBOARD.IGroupInfo, 'groups'> | {};
+  groupInfos: ORG_DASHBOARD.IGroupInfo[];
+  serviceList: ORG_DASHBOARD.IInstance[];
+  jobList: ORG_DASHBOARD.IInstance[];
+  instanceList: ORG_DASHBOARD.IInstance[];
   chartList: Array<{
-    title: string,
-    loading: boolean,
-    time?: any[],
-    results?: any[],
-  }>,
-  alarmList: ORG_ALARM.Ticket[],
-  alarmPaging: IPaging,
-  nodeLabels: ORG_DASHBOARD.INodeLabel[],
+    title: string;
+    loading: boolean;
+    time?: any[];
+    results?: any[];
+  }>;
+  alarmList: ORG_ALARM.Ticket[];
+  alarmPaging: IPaging;
+  nodeLabels: ORG_DASHBOARD.INodeLabel[];
 }
 
 
@@ -91,10 +91,10 @@ const dashboard = createStore({
   state: initState,
   effects: {
     async getFilterTypes({ call, update }) {
-      const { id: orgId, name: orgName } = orgStore.getState(s => s.currentOrg);
+      const { id: orgId, name: orgName } = orgStore.getState((s) => s.currentOrg);
       const clusterList = await call(getClusterList, { orgId });
       if (isEmpty(clusterList)) return;
-      const clusterNameString = map(clusterList, item => item.name).join();
+      const clusterNameString = map(clusterList, (item) => item.name).join();
       const filterGroup = await call(getFilterTypes, { clusterName: clusterNameString, orgName });
 
       update({
@@ -104,7 +104,7 @@ const dashboard = createStore({
       });
     },
     async getGroupInfos({ call, update }, payload: Omit<ORG_DASHBOARD.IGroupInfoQuery, 'orgName'>) {
-      const { name: orgName } = orgStore.getState(s => s.currentOrg);
+      const { name: orgName } = orgStore.getState((s) => s.currentOrg);
       const data = await call(getGroupInfos, { orgName, ...payload });
       const { groups: groupInfos, ...unGroupInfo } = data || {};
 
@@ -114,14 +114,14 @@ const dashboard = createStore({
       });
     },
     async getNodeLabels({ call, update }) {
-      let nodeLabels = dashboard.getState(s => s.nodeLabels);
+      let nodeLabels = dashboard.getState((s) => s.nodeLabels);
       if (!nodeLabels.length) {
         nodeLabels = await call(getNodeLabels);
         update({ nodeLabels });
       }
     },
     async getInstanceList({ call, update }, { clusters, filters, instanceType, isWithoutOrg }: Merge<ORG_DASHBOARD.IInstanceListQuery, { isWithoutOrg?: boolean }>) {
-      const { name: orgName } = orgStore.getState(s => s.currentOrg);
+      const { name: orgName } = orgStore.getState((s) => s.currentOrg);
       const list = await call(getInstanceList, { instanceType, orgName: isWithoutOrg ? undefined : orgName, clusters, filters });
       const instanceMap = {
         service: 'serviceList',
@@ -133,16 +133,16 @@ const dashboard = createStore({
       });
     },
     async getChartData({ call }, payload) {
-      const { name: orgName } = orgStore.getState(s => s.currentOrg);
+      const { name: orgName } = orgStore.getState((s) => s.currentOrg);
       const { type, ...rest } = payload;
-      const timeSpan = monitorCommonStore.getState(s => s.timeSpan);
+      const timeSpan = monitorCommonStore.getState((s) => s.timeSpan);
       const { startTimeMs, endTimeMs } = timeSpan;
       const query = { start: startTimeMs, end: endTimeMs, orgName };
       const data = await call(getChartData, { url: RESOURCE_TYPE_MAP[type].url, ...rest, query });
       dashboard.reducers.getChartDataSuccess({ data, type, orgName });
     },
     async getAlarmList({ call, update }, payload: Pick<IMachineAlarmQuery, 'endTime' | 'metricID' | 'pageNo' | 'pageSize' | 'startTime'>) {
-      const { id: orgID } = orgStore.getState(s => s.currentOrg);
+      const { id: orgID } = orgStore.getState((s) => s.currentOrg);
       const { list: alarmList, total } = await call(getAlarmList, {
         ...payload,
         orgID,

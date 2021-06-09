@@ -72,10 +72,10 @@ export const CommitList = ({ commits = [] }: {commits: REPOSITORY.ICommit[]}) =>
 };
 
 const RepoCommit = () => {
-  const [info, commitPaging, list] = repoStore.useStore(s => [s.info, s.commitPaging, s.commit]);
+  const [info, commitPaging, list] = repoStore.useStore((s) => [s.info, s.commitPaging, s.commit]);
   const { getCommitList } = repoStore.effects;
   const { resetCommitPaging, clearListByType } = repoStore.reducers;
-  const { appId } = routeInfoStore.useStore(s => s.params);
+  const { appId } = routeInfoStore.useStore((s) => s.params);
   const [isFetching] = useLoading(repoStore, ['getCommitList']);
   const [searchValue, setSearchValue] = React.useState('');
   React.useEffect(() => {

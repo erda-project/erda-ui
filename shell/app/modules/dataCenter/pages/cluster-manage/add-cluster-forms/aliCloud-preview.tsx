@@ -18,7 +18,7 @@ import { useUpdate } from 'common';
 import i18n from 'i18n';
 import { chargeTypeMap, chargePeriodMap } from '../config';
 
-const AliCloudPreview = ({ visible, onClose, onOk, dataSource }: { visible: boolean, onClose: Function, onOk: Function, dataSource: any[] }) => {
+const AliCloudPreview = ({ visible, onClose, onOk, dataSource }: { visible: boolean; onClose: Function; onOk: Function; dataSource: any[] }) => {
   const [{ checkedRead }, updater] = useUpdate({
     checkedRead: false,
   });
@@ -32,8 +32,8 @@ const AliCloudPreview = ({ visible, onClose, onOk, dataSource }: { visible: bool
     {
       title: i18n.t('org:product configuration'),
       dataIndex: 'resourceProfile',
-      render: (value:string[]) => {
-        return map(value, item => <div key={item}>{item}</div>);
+      render: (value: string[]) => {
+        return map(value, (item) => <div key={item}>{item}</div>);
       },
     },
     {
@@ -45,13 +45,13 @@ const AliCloudPreview = ({ visible, onClose, onOk, dataSource }: { visible: bool
       title: i18n.t('org:billing method'),
       dataIndex: 'chargeType',
       width: 100,
-      render: (v:string) => get(chargeTypeMap, `${v}.name`),
+      render: (v: string) => get(chargeTypeMap, `${v}.name`),
     },
     {
       title: i18n.t('org:purchase time'),
       dataIndex: 'chargePeriod',
       width: 100,
-      render: (v:string) => get(find(chargePeriodMap, { value: Number(v) }), 'name', '-'),
+      render: (v: string) => get(find(chargePeriodMap, { value: Number(v) }), 'name', '-'),
     },
   ];
 

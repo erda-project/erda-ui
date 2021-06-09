@@ -17,7 +17,7 @@ import routeInfoStore from 'common/stores/route';
 import { cloneDeep } from 'app/external/custom-lodash';
 
 const configItemList = () => {
-  const [{ id }] = routeInfoStore.useStore(s => [s.params]);
+  const [{ id }] = routeInfoStore.useStore((s) => [s.params]);
   const inParams = {
     id: +id,
   };
@@ -26,8 +26,8 @@ const configItemList = () => {
     <div>
       <DiceConfigPage
         showLoading
-        scenarioKey='edge-configSet-item'
-        scenarioType='edge-configSet-item'
+        scenarioKey="edge-configSet-item"
+        scenarioType="edge-configSet-item"
         inParams={inParams}
         useMock={location.search.includes('useMock') ? useMock : undefined}
       />

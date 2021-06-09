@@ -21,9 +21,9 @@ export const SortDragGroupList = (props: CP_SORT_GROUP.Props) => {
   const { delay, ...rest } = configProps || {};
   const _list = data.value || empty;
 
-  const dealData = (list:any[], type: string) => {
-    return list.map(_data => {
-      const _operations = map(_data.operations || [], op => {
+  const dealData = (list: any[], type: string) => {
+    return list.map((_data) => {
+      const _operations = map(_data.operations || [], (op) => {
         return {
           ...op,
           onClick: (obj: any) => {

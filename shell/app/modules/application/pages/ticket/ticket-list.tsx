@@ -20,17 +20,17 @@ import { useLoading } from 'app/common/stores/loading';
 import ticketStore from 'application/stores/ticket';
 import i18n from 'i18n';
 import { ColumnProps } from 'core/common/interface';
-import { IUseFilterProps } from 'interface/common'
+import { IUseFilterProps } from 'interface/common';
 import routeInfoStore from 'common/stores/route';
 
 import './ticket-list.scss';
 
 interface IFilter {
-  onSubmit(value: Obj):void;
-  onReset(): void;
+  onSubmit: (value: Obj) => void;
+  onReset: () => void;
 }
 
-const Filter = React.memo(({ onReset, onSubmit }:IFilter) => {
+const Filter = React.memo(({ onReset, onSubmit }: IFilter) => {
   const filterConfig = React.useMemo(() => {
     return [
       {
@@ -68,10 +68,10 @@ const updateKeyMap = {
 };
 
 export const TicketList = (props: Pick<IUseFilterProps, 'onSubmit'| 'onReset'| 'onPageChange'>) => {
-  const [ticketList, paging] = ticketStore.useStore(s => [s.ticketList, s.paging]);
+  const [ticketList, paging] = ticketStore.useStore((s) => [s.ticketList, s.paging]);
   const { onSubmit, onReset, onPageChange } = props;
   const [loading] = useLoading(ticketStore, ['getTicketList']);
-  const { ticketType } = routeInfoStore.useStore(s => s.params);
+  const { ticketType } = routeInfoStore.useStore((s) => s.params);
 
   const handleSubmit = React.useCallback(onSubmit, []);
   const handleReset = React.useCallback(onReset, []);
@@ -81,7 +81,7 @@ export const TicketList = (props: Pick<IUseFilterProps, 'onSubmit'| 'onReset'| '
       title: 'ID',
       dataIndex: 'id',
       width: 80,
-      render: text => `#${text}`,
+      render: (text) => `#${text}`,
     },
     {
       title: i18n.t('title'),
@@ -91,7 +91,7 @@ export const TicketList = (props: Pick<IUseFilterProps, 'onSubmit'| 'onReset'| '
       title: i18n.t('type'),
       dataIndex: 'type',
       width: 140,
-      render: text => {
+      render: (text) => {
         const type = getTicketType().find((t) => t.value === text);
         return type ? type.name : '-';
       },
@@ -100,7 +100,7 @@ export const TicketList = (props: Pick<IUseFilterProps, 'onSubmit'| 'onReset'| '
       title: i18n.t('application:priority'),
       dataIndex: 'priority',
       width: 90,
-      render: text => {
+      render: (text) => {
         const priority: any = TicketPriority.find((t: any) => t.value === text);
         return (
           <span className={priority.color}>

@@ -20,11 +20,11 @@ import {
 } from '../services/approval';
 
 interface IState {
-  doneList: APPROVAL.Item[],
-  donePaging: IPaging,
-  undoneList: APPROVAL.Item[],
-  undonePaging: IPaging,
-  userIDs: string[]
+  doneList: APPROVAL.Item[];
+  donePaging: IPaging;
+  undoneList: APPROVAL.Item[];
+  undonePaging: IPaging;
+  userIDs: string[];
 }
 
 const initState: IState = {

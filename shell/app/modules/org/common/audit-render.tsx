@@ -45,7 +45,7 @@ export default (record: AUDIT.Item) => {
   const parse = (str: string) => {
     let copyStr = str;
     const expressionList = copyStr.match(expressionReg);
-    (expressionList || []).forEach(m => {
+    (expressionList || []).forEach((m) => {
       const expression = m.slice(1, -1);
       const parsedExp = expression.replaceAll('@', 'context.');
       let executeResult = '';
@@ -59,7 +59,7 @@ export default (record: AUDIT.Item) => {
     });
     const replaceList = copyStr.match(replaceReg);
     // <<dynamicKey>> 支持国际化,比如： <<issueType>> => <<replaceMap[context[issueType]]>>
-    (replaceList || []).forEach(m => {
+    (replaceList || []).forEach((m) => {
       const key = m.slice(2, -2);
       const dynamicKey = fullContext[key];
       if (!dynamicKey) {
@@ -114,7 +114,7 @@ export default (record: AUDIT.Item) => {
       }
       if (urlKey && !goTo.resolve[urlKey]) {
         logErr(`audit urlKey: ${urlKey} not exist in goTo`, record);
-        contentList.push(<span key={`${String(mIndex)}-1`} className='bold'>{contextValue}</span>);
+        contentList.push(<span key={`${String(mIndex)}-1`} className="bold">{contextValue}</span>);
         return;
       }
       const [before] = after.split(m);
@@ -122,16 +122,16 @@ export default (record: AUDIT.Item) => {
       contentList.push(before);
       // 如果是users，展示为用户头像列表
       if (_contextKey === '@users') {
-        const userList = map(contextValue, userInfo => {
+        const userList = map(contextValue, (userInfo) => {
           const { nick, name } = userInfo;
           return nick || name;
         });
         contentList.push(userList.join(', '));
       } else if (urlKey) {
-        contentList.push(<Link key={`${String(mIndex)}-2`} target="_blank" className='bold' to={goTo.resolve[urlKey](fullContext)}>{contextValue}</Link>);
+        contentList.push(<Link key={`${String(mIndex)}-2`} target="_blank" className="bold" to={goTo.resolve[urlKey](fullContext)}>{contextValue}</Link>);
       } else {
         // 没有()部分，就只替换，不加链接
-        contentList.push(<span key={`${String(mIndex)}-3`} className='bold'>{contextValue}</span>);
+        contentList.push(<span key={`${String(mIndex)}-3`} className="bold">{contextValue}</span>);
       }
     });
     return contentList.concat([after]);

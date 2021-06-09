@@ -14,30 +14,30 @@
 declare namespace LABEL {
 
   interface CreateBody {
-    name: string,
-    type: string,
+    name: string;
+    type: string;
     color: string;
-    projectID?: number,
+    projectID?: number;
   }
 
   interface UpdateBody {
-    name: string,
+    name: string;
   }
 
   interface ListQuery {
-    projectID?: number,
-    type: string,
-    key?: string
+    projectID?: number;
+    type: string;
+    key?: string;
   }
 
   interface Item {
-    id: number,
-    projectID: number,
-    type: string,
-    name: string,
-    color: string,
-    creator: string,
-    createdAt: string,
-    updatedAt: string,
+    id: number;
+    projectID: number;
+    type: string;
+    name: string;
+    color: string;
+    creator: string;
+    createdAt: string;
+    updatedAt: string;
   }
 }

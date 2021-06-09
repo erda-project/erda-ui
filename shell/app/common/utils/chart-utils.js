@@ -39,7 +39,7 @@ import { get, map, isEmpty, forEach, reduce } from 'lodash';
  *  */
 
 // groupHandler: 获取返回数据中data下的单个key的data
-export const groupHandler = dataItemKey => (originData) => {
+export const groupHandler = (dataItemKey) => (originData) => {
   if (isEmpty(originData)) return {};
   const { results, time } = originData;
   const res = get(results, '[0].data') || [];
@@ -58,7 +58,7 @@ export const groupHandler = dataItemKey => (originData) => {
 };
 
 // sort返回数据为：{list:[{name,value},...]}
-export const sortHandler = dataItemKey => (originData = [], { extendHandler }) => {
+export const sortHandler = (dataItemKey) => (originData = [], { extendHandler }) => {
   const list = get(originData, 'results[0].data') || [];
   const dataKey = dataItemKey || (extendHandler && extendHandler.dataKey);
   return { list: map(list, (item) => {
@@ -68,7 +68,7 @@ export const sortHandler = dataItemKey => (originData = [], { extendHandler }) =
 };
 
 // 慢加载：返回值为：{list:[{....}]}
-export const slowHandler = dataKeys => (originData = []) => {
+export const slowHandler = (dataKeys) => (originData = []) => {
   if (isEmpty(originData)) return {};
   const list = get(originData, 'results[0].data') || [];
   return {
@@ -120,7 +120,7 @@ export const errorDbHandler = () => (originData = []) => {
 };
 
 // 获取多组数据: 返回值中取data[0]下的多个不同维度的key数据
-export const multipleDataHandler = dataKeys => (originData) => {
+export const multipleDataHandler = (dataKeys) => (originData) => {
   if (isEmpty(originData)) return {};
   const { time, results } = originData || {};
   const data = get(results, '[0].data[0]') || {};
@@ -131,7 +131,7 @@ export const multipleDataHandler = dataKeys => (originData) => {
   return { time, results: reData };
 };
 
-export const multipleGroupDataHandler = dataKeys => (originData) => {
+export const multipleGroupDataHandler = (dataKeys) => (originData) => {
   if (isEmpty(originData)) return {};
   const { time, results } = originData || {};
   const data = get(results, '[0].data') || [];

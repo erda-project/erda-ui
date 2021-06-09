@@ -26,7 +26,7 @@ describe('FileSelect', () => {
         visible
         onChange={fn}
         beforeUpload={beforeUpload}
-      />
+      />,
     );
     wrapper.find('input').simulate('change', {
       target: {

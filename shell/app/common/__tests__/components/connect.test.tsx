@@ -35,7 +35,7 @@ describe('connectCube', () => {
     const wrapper = mount(
       <div>
         <C />
-      </div>
+      </div>,
     );
     expect(wrapper.find('.connect-cube')).toExist();
   });

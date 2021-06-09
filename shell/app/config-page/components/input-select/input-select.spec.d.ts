@@ -17,15 +17,15 @@ declare namespace CP_INPUT_SELECT {
     value: string;
     label: string;
     disabled?: boolean;
-    children?: IOption[]
+    children?: IOption[];
   }
   interface IProps{
-    options: IOption[]
+    options: IOption[];
     visible: boolean;
   }
 
   interface Spec {
-    type: 'InputSelect',
+    type: 'InputSelect';
     state: IState;
     props: IProps;
   }

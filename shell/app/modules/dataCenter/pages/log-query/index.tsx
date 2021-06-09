@@ -48,12 +48,12 @@ const sizeList = [50, 100, 200, 500, 1000];
 
 export default () => {
   const initialRange = React.useMemo(() => [moment().subtract(1, 'hours'), moment()], []);
-  const [logStatistics, logs] = LogAnalyzeStore.useStore(s => [s.logStatistics, s.logs]);
+  const [logStatistics, logs] = LogAnalyzeStore.useStore((s) => [s.logStatistics, s.logs]);
   const { getLogStatistics, getLogs, getAddonLogStatistics, getAddonLogs } = LogAnalyzeStore;
-  const [isIn, params] = routeInfoStore.useStore(s => [s.isIn, s.params]);
+  const [isIn, params] = routeInfoStore.useStore((s) => [s.isIn, s.params]);
   const [pageNo, setPageNo] = React.useState(1);
   const [loadingLogs, loadingAddonLogs] = useLoading(LogAnalyzeStore, ['getLogStatistics', 'getAddonLogStatistics']);
-  const clusterName = microServiceStore.useStore(s => s.clusterName);
+  const clusterName = microServiceStore.useStore((s) => s.clusterName);
 
   useUnmount(() => {
     LogAnalyzeStore.clearLogs();
@@ -187,7 +187,7 @@ export default () => {
         customValidValue: (val: string, beforeVals: string[]) => {
           const tagReg = /^[_a-zA-Z][a-zA-Z0-9_]*[=]{1}[\s\S]+$/;
           if (tagReg.test(val)) {
-            const beforeKeys = map(beforeVals, beforeVal => beforeVal.split('=')[0]);
+            const beforeKeys = map(beforeVals, (beforeVal) => beforeVal.split('=')[0]);
             if (beforeKeys.includes(val.split('=')[0])) {
               message.warning(i18n.t('org:the same key already exists'));
               return false;
@@ -251,7 +251,7 @@ export default () => {
       render: ({ tags, content, source }: LOG_ANALYZE.Log) => (
         <div className="table-operations">
           <a
-            onClick={e => handleCheckTraceDetail(e, tags['request-id'])}
+            onClick={(e) => handleCheckTraceDetail(e, tags['request-id'])}
             className={classnames({
               'table-operations-btn': true,
               'not-allowed': !tags['request-id'],
@@ -260,7 +260,7 @@ export default () => {
             {i18n.t('microService:transactions')}
           </a>
           <a
-            onClick={e => {
+            onClick={(e) => {
               if (source === 'sls') return;
               handleCreateRule(e, tags, content);
             }}

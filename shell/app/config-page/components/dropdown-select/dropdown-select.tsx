@@ -26,19 +26,19 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
   const [filterValue, setFilterValue] = React.useState('');
   const [active, setActive] = React.useState(false);
 
-  const label = React.useMemo(() => get(options?.find(item => item.value === value), 'label', ''), [value]);
+  const label = React.useMemo(() => get(options?.find((item) => item.value === value), 'label', ''), [value]);
 
   const gotoSpecificPage = (item: CP_DROPDOWN_SELECT.IQuickSelect) => {
-    item?.operations && item?.operations?.click && execOperation(item.operations.click)
-  }
+    item?.operations && item?.operations?.click && execOperation(item.operations.click);
+  };
 
   React.useEffect(() => {
     // 控制点击外部关闭 dropdown
     const handleCloseDropdown = (e: MouseEvent) => {
       const dropdowns = Array.from(
-        document.querySelectorAll('.dropdown-select')
+        document.querySelectorAll('.dropdown-select'),
       );
-      const dropdownButton = document.querySelector('.dropdown-select-button')
+      const dropdownButton = document.querySelector('.dropdown-select-button');
       const node = e.target as Node;
       const inner = dropdowns
         .some((wrap) => wrap.contains(node));
@@ -63,52 +63,54 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
             placeholder={i18n.t('common:search')}
             prefix={<CustomIcon type="search" />}
             value={filterValue}
-            onChange={e => setFilterValue(e.target.value)}
+            onChange={(e) => setFilterValue(e.target.value)}
           />
         </Menu.Item>
 
-        <Menu.Divider key='divider1' />
+        <Menu.Divider key="divider1" />
         {
           map(options, (item: CP_DROPDOWN_SELECT.IOptionItem, index: number) => {
             // 前端搜索
             if (!item.label.toLowerCase().includes(filterValue)) {
-              return null
+              return null;
             }
 
             return (
               <Menu.Item
                 key={`${index}`}
                 disabled={item.disabled}
-                className='hover-active'
+                className="hover-active"
                 onClick={() => {
                   setActive(false);
                   if (item.operations?.click) {
-                    execOperation(item.operations.click, item)
+                    execOperation(item.operations.click, item);
                   }
                 }
-                }>
+                }
+              >
                 <div className="flex-box full-width">
                   <span>
                     {item.prefixIcon ? <CustomIcon type={item.prefixIcon} /> : null}
-                    {item.prefixImgSrc ? <img src={item.prefixImgSrc} className='cp-dice-dropdown-select-image mr8' /> : null}
+                    {item.prefixImgSrc ? <img src={item.prefixImgSrc} className="cp-dice-dropdown-select-image mr8" /> : null}
                     {item.label}
                   </span>
                   <span>
-                    {value === item.value ? <CustomIcon type='duigou' className='color-primary ml8' /> : null}
+                    {value === item.value ? <CustomIcon type="duigou" className="color-primary ml8" /> : null}
                   </span>
                 </div>
               </Menu.Item>
-            )
+            );
           })
         }
-        <Menu.Divider key='divider2' />
+        <Menu.Divider key="divider2" />
         {
           quickSelect.length > 0 ?
             map(quickSelect, (item, index) => (
               <Menu.Item
                 key={`${index}`}
-                className='hover-active'
-                onClick={() => gotoSpecificPage(item)}>
+                className="hover-active"
+                onClick={() => gotoSpecificPage(item)}
+              >
                 {item?.label || null}
               </Menu.Item>
             )) : null
@@ -130,7 +132,7 @@ const DropdownSelect = (props: CP_DROPDOWN_SELECT.Props) => {
       {...restProps}
     >
       <span
-        className='dropdown-select-button hover-active'
+        className="dropdown-select-button hover-active"
         onClick={() => setActive(!active)}
       >
         {propsState?.label || label}

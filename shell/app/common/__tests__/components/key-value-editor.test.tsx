@@ -36,7 +36,7 @@ describe('KeyValueEditor', () => {
     const wrapper = mount(
       <Comp
         dataSource={data}
-      />
+      />,
     );
     const editor = wrapper.find('KeyValueEditor');
     expect(wrapper.find('KeyValueTable')).toExist();

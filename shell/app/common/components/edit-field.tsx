@@ -24,12 +24,12 @@ import classnames from 'classnames';
 import './edit-field.scss';
 
 interface IMdProps {
-  value?: string
-  originalValue?: string
-  disabled?: boolean
-  hasEdited?: boolean
-  onChange(v: string): void
-  onSave(v?: string, fieldType?:string): void
+  value?: string;
+  originalValue?: string;
+  disabled?: boolean;
+  hasEdited?: boolean;
+  onChange: (v: string) => void;
+  onSave: (v?: string, fieldType?: string) => void;
 }
 export const EditMd = ({ value, onChange, onSave, disabled, originalValue, hasEdited, ...rest }: IMdProps) => {
   const [v, setV] = React.useState(value);
@@ -48,7 +48,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, hasEd
       onSubmit(_v: string) {
         onSave(_v);
         setShowBtn(false);
-        setMdEditing(false)
+        setMdEditing(false);
       },
       onCancel() {
         setV(originalValue); // 取消时不应调用保存，加个内部状态来还原数据
@@ -61,19 +61,19 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, hasEd
     <MarkdownEditor
       {...rest}
       value={v}
-      defaultMode='md'
+      defaultMode="md"
       autoFocus
       canView={{ html: false }}
       onChange={onChange}
-      onBlur={(_v:string) => onSave(_v, 'markdown')}
+      onBlur={(_v: string) => onSave(_v, 'markdown')}
       onFocus={() => setShowBtn(true)}
       readOnly={disabled}
       notClearAfterSubmit
       {...btnProps}
     />
   ) : (
-    <div className='md-content-preview border-radius pa8' onClick={() => setMdEditing(true)}>
-      <div className='md-content' dangerouslySetInnerHTML={{ __html: Markdown(v || '') }} />
+    <div className="md-content-preview border-radius pa8" onClick={() => setMdEditing(true)}>
+      <div className="md-content" dangerouslySetInnerHTML={{ __html: Markdown(v || '') }} />
     </div>
   );
 };
@@ -93,7 +93,7 @@ interface IProps {
   getComp?: any;
   suffix?: any;
   showRequiredMark?: boolean;
-  valueRender?(value: any): React.ReactNode;
+  valueRender?: (value: any) => React.ReactNode;
 }
 
 export const EditField = React.forwardRef((props: IProps, _compRef) => {
@@ -117,7 +117,7 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
   const originalValue = get(data, name);
 
   const compRef = _compRef || React.useRef(null as React.RefObject<unknown>);
-  
+
   const [state, updater] = useUpdate({
     editMode: false,
     editValue: undefined as unknown as string,
@@ -264,7 +264,7 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
       updater.editMode(false);
     }
   };
-  
+
   return (
     <div className={`common-edit-field ${className}`}>
       {label &&
@@ -272,7 +272,7 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
         className={classnames(
           labelStyle === 'desc' ? 'color-text-sub' : 'color-text',
           'mb4',
-          showRequiredMark ? 'ant-form-item-required' : ''
+          showRequiredMark ? 'ant-form-item-required' : '',
         )}
         style={{ paddingLeft: '10px' }}
       >

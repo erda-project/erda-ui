@@ -22,7 +22,7 @@ describe('MultiInput', () => {
   it('render default', () => {
     const onChange = jest.fn();
     const wrapper = mount(
-      <MultiInput onChange={onChange} />
+      <MultiInput onChange={onChange} />,
     );
     expect(wrapper.find('.multi-input-item')).toHaveLength(1);
     expect(wrapper.find({ type: 'minus-circle' })).not.toExist();
@@ -41,7 +41,7 @@ describe('MultiInput', () => {
   it('render with init data', () => {
     let value = ['erda.cloud', 'doc.erda.cloud'];
     const wrapper = mount(
-      <MultiInput value={value} onChange={(v:string[]) => { value = v; }} />
+      <MultiInput value={value} onChange={(v: string[]) => { value = v; }} />,
     );
     expect(wrapper.find('.multi-input-item')).toHaveLength(value.length);
     wrapper.find('.minus-circle').at(0).simulate('click');

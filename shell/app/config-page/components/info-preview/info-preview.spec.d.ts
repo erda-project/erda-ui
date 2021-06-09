@@ -16,7 +16,7 @@ declare namespace CP_INFO_PREVIEW {
   interface IRender {
     type: string;
     dataIndex?: string;
-    props?: Obj
+    props?: Obj;
   }
 
   interface Spec {
@@ -26,11 +26,11 @@ declare namespace CP_INFO_PREVIEW {
   }
 
   interface IData {
-    info: Obj
+    info: Obj;
   }
 
   interface IProps{
-    render: IRender[]
+    render: IRender[];
     visible?: boolean;
   }
 

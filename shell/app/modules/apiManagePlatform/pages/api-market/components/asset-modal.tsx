@@ -22,7 +22,7 @@ import { insertWhen } from 'common/utils';
 import { map } from 'lodash';
 import apiMarketStore from 'apiManagePlatform/stores/api-market';
 import { protocolMap } from './config';
-import { Upload as IconUpload} from '@icon-park/react';
+import { Upload as IconUpload } from '@icon-park/react';
 
 export type IScope = 'asset'| 'version';
 export type IMode = 'add'| 'edit';
@@ -32,12 +32,12 @@ interface IProps {
   mode: IMode;
   formData?: API_MARKET.Asset;
   visible: boolean;
-  onCancel(): void;
-  afterSubmit?(data: any):void;
+  onCancel: () => void;
+  afterSubmit?: (data: any) => void;
 }
-type FormRef = {props: {form: WrappedFormUtils}};
+interface FormRef {props: {form: WrappedFormUtils}}
 
-const allSuffix = map(protocolMap, t => t.suffix).join(',');
+const allSuffix = map(protocolMap, (t) => t.suffix).join(',');
 const idReg = /^([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$/;
 
 const titleMap: {[key in IScope]: {[type in IMode]: string}} = {
@@ -89,7 +89,7 @@ const formatPayload = (scope: IScope, mode: IMode, data: any, formData?: API_MAR
   return payload;
 };
 
-const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }:IProps) => {
+const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: IProps) => {
   const { createAsset, addNewVersion, editAsset } = apiMarketStore.effects;
   const [suffix, setSuffix] = React.useState(allSuffix);
   const formRef = React.useRef({}) as MutableRefObject<FormRef>;
@@ -117,7 +117,7 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }:IP
   };
   const showVersionField = scope === 'version' || (scope === 'asset' && mode === 'add');
   const showAssetField = scope === 'asset';
-  const fieldsList:IFormItem[] = [
+  const fieldsList: IFormItem[] = [
     ...insertWhen(showAssetField, [
       {
         label: i18n.t('API name'),

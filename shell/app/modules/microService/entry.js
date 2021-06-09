@@ -29,18 +29,18 @@ export default (registerModule) => {
   return registerModule({
     key: 'microService',
     stores: [
-			configCenterStore,
-			dubboStore,
-			gatewayStore,
-			httpStore,
-			infoStore,
-			microServiceStore,
-			projectReportStore,
-			topologyStore,
-			traceStore,
-			zkproxyStore,
-			logStore
-		],
+      configCenterStore,
+      dubboStore,
+      gatewayStore,
+      httpStore,
+      infoStore,
+      microServiceStore,
+      projectReportStore,
+      topologyStore,
+      traceStore,
+      zkproxyStore,
+      logStore,
+    ],
     // routers,
   });
 };

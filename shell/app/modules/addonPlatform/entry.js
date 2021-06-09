@@ -18,7 +18,7 @@ export default (registerModule) => {
   return registerModule({
     key: 'addonPlatform',
     stores: [
-      jvmStore
+      jvmStore,
     ],
   });
 };

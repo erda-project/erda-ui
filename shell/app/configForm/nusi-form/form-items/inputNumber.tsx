@@ -28,7 +28,7 @@ export const FormInputNumber = ({
   extensionFix,
   requiredCheck,
   trigger = 'onChange',
-}: any = {}) => React.memo(({ fieldConfig, form }:any = {}) => {
+}: any = {}) => React.memo(({ fieldConfig, form }: any = {}) => {
   const {
     key,
     value,
@@ -50,7 +50,7 @@ export const FormInputNumber = ({
   const curFixOut = itemFixOut || fixOut;
 
   registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (val:any) => {
+  const handleChange = (val: any) => {
     form.setFieldValue(key, curFixOut(val));
     (componentProps.onChange || noop)(val);
   };
@@ -82,7 +82,7 @@ export const FormInputNumber = ({
 export const config = {
   name: 'inputNumber',
   Component: FormInputNumber, // 某React组件，props中必须有value、onChange
-  requiredCheck: value => {
+  requiredCheck: (value) => {
     // 必填校验时，特殊的校验规则
     return [value !== undefined && value !== '', i18n.t('can not be empty')];
   },

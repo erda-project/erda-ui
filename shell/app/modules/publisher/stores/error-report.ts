@@ -22,8 +22,8 @@ import {
 import { get } from 'lodash';
 
 interface IState {
-  errorList: PUBLISHER.ErrorItem[],
-  errorDetail: PUBLISHER.ErrorDetail | null,
+  errorList: PUBLISHER.ErrorItem[];
+  errorDetail: PUBLISHER.ErrorDetail | null;
 }
 const initState: IState = {
   errorList: [],

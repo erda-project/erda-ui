@@ -24,8 +24,8 @@ import { removeMember } from 'common/services/index';
 import i18n from 'i18n';
 
 export const OrgInfo = () => {
-  const currentOrg = orgStore.useStore(s => s.currentOrg);
-  const loginUser = userStore.useStore(s => s.loginUser);
+  const currentOrg = orgStore.useStore((s) => s.currentOrg);
+  const loginUser = userStore.useStore((s) => s.loginUser);
   const [isPublisher, setIsPublisher] = React.useState(false);
   const fieldsList = [
     {

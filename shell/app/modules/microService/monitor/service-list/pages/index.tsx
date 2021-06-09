@@ -22,8 +22,8 @@ import topologyStore from 'topology/stores/topology';
 import routeInfoStore from 'app/common/stores/route';
 
 export default () => {
-  const timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
-  const params = routeInfoStore.useStore(s => s.params);
+  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const params = routeInfoStore.useStore((s) => s.params);
   const [layout, setLayout] = useState([]);
   const [serviceName, setServiceName] = useState<string | undefined>(undefined);
   const { getCustomDashboardDetail } = topologyStore.effects;
@@ -36,7 +36,7 @@ export default () => {
   }), [params.terminusKey, serviceName, timeSpan.endTimeMs, timeSpan.startTimeMs]);
 
   useEffect(() => {
-    getCustomDashboardDetail({ id: 'services' }).then(res => {
+    getCustomDashboardDetail({ id: 'services' }).then((res) => {
       setLayout(res);
     });
   }, [getCustomDashboardDetail]);
@@ -50,7 +50,7 @@ export default () => {
           serviceName: cellValue,
           applicationId: dataSource?.application_id,
           serviceId: window.encodeURIComponent(dataSource?.service_id || ''),
-        }
+        },
       );
     }
   };

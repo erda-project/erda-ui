@@ -36,11 +36,11 @@ interface IProps {
   query: any;
   filters: GATEWAY.ApiFilter;
   consumer: { endpoint: any };
-  apiList: any,
-  registerApps: any[],
-  apiDomain: { domainPrefix: string, domainSuffix: string };
+  apiList: any;
+  registerApps: any[];
+  apiDomain: { domainPrefix: string; domainSuffix: string };
   isK8S: boolean;
-  runtimeEntryData: { diceApp: string, services: any[] };
+  runtimeEntryData: { diceApp: string; services: any[] };
   getServiceRuntime: typeof gatewayStore.effects.getServiceRuntime;
   getList: typeof gatewayStore.effects.getAPIList;
   clearList: typeof gatewayStore.reducers.cleanAPIList;
@@ -185,7 +185,7 @@ class API extends React.Component<IProps, IState> {
     }
   };
 
-  queryApis = (params?: { isReset?: boolean; pageNo?: any; pageSize?: any; }) => {
+  queryApis = (params?: { isReset?: boolean; pageNo?: any; pageSize?: any }) => {
     const { getList, filters, isK8S } = this.props;
     const { diceApp, currentService, chosenRuntimeId } = this.state;
     const { isReset, pageNo = 1, pageSize = 10 } = params || {};
@@ -309,7 +309,7 @@ class API extends React.Component<IProps, IState> {
   };
 
   setApp = (app: string) => {
-    const currentApp = this.props.registerApps.find(rApp => rApp.name === app);
+    const currentApp = this.props.registerApps.find((rApp) => rApp.name === app);
     this.setState({ diceApp: app, serviceList: currentApp.services, currentService: currentApp.services[0] });
   };
 
@@ -369,7 +369,7 @@ class API extends React.Component<IProps, IState> {
     const { filters, registerApps, apiDomain, isK8S } = this.props;
     const { isRuntimeEntry, diceApp, currentService, serviceList, customDomain, runtimeList, chosenRuntimeId } = this.state;
     const { registerType, apiPath, method, sortType, sortField } = filters;
-    const appSource = registerApps.map(app => app.name);
+    const appSource = registerApps.map((app) => app.name);
     const { domainSuffix, domainPrefix } = apiDomain;
 
     return (
@@ -419,7 +419,7 @@ class API extends React.Component<IProps, IState> {
               <Option value="outer">{i18n.t('microService:external network')}</Option>
             </Select> */}
             <Select allowClear className="api-select mr20" placeholder={i18n.t('microService:filter by calling method')} value={method} onChange={this.setMethod}>
-              {HTTP_METHODS.map(item => <Option key={item.name} value={item.value}>{item.name}</Option>)}
+              {HTTP_METHODS.map((item) => <Option key={item.name} value={item.value}>{item.name}</Option>)}
             </Select>
             <Select
               allowClear
@@ -548,9 +548,9 @@ class API extends React.Component<IProps, IState> {
 }
 
 const mapper = () => {
-  const [consumer, apiList, filters, registerApps, apiDomain, runtimeEntryData] = gatewayStore.useStore(s => [s.consumer, s.apiList, s.filters, s.registerApps, s.apiDomain, s.runtimeEntryData]);
-  const isK8S = microServiceStore.useStore(s => s.isK8S);
-  const [params, query] = routeInfoStore.useStore(s => [s.params, s.query]);
+  const [consumer, apiList, filters, registerApps, apiDomain, runtimeEntryData] = gatewayStore.useStore((s) => [s.consumer, s.apiList, s.filters, s.registerApps, s.apiDomain, s.runtimeEntryData]);
+  const isK8S = microServiceStore.useStore((s) => s.isK8S);
+  const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const { getServiceRuntime, getConsumer, getPolicyList, getAPIList: getList, getRuntimeDetail, deleteAPI, updateFilters, getGatewayAddonInfo, getApiDomain, saveApiDomain, getDeployedBranches } = gatewayStore.effects;
   const { cleanAPIList: clearList, clearApiFilter } = gatewayStore.reducers;
   return {

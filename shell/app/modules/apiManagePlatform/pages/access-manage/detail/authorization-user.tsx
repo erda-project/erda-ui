@@ -32,8 +32,8 @@ interface IState {
   selectContract: API_CLIENT.Contract;
 }
 
-const AuthorizationUser = ({ swaggerVersion, assetID }: {swaggerVersion: string, assetID: string;}) => {
-  const [clientList, clientPaging, slaList, accessDetail] = apiAccessStore.useStore(s => [s.clientList, s.clientPaging, s.slaList, s.accessDetail.access]);
+const AuthorizationUser = ({ swaggerVersion, assetID }: {swaggerVersion: string; assetID: string}) => {
+  const [clientList, clientPaging, slaList, accessDetail] = apiAccessStore.useStore((s) => [s.clientList, s.clientPaging, s.slaList, s.accessDetail.access]);
   const { deleteContracts, updateContracts, getClient, getSlaList } = apiAccessStore.effects;
   const [isFetch, isUpdateSLA] = useLoading(apiAccessStore, ['getClient', 'updateContracts']);
   const [state, updater, update] = useUpdate<IState>({
@@ -43,7 +43,7 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: {swaggerVersion: string,
     selectContract: {},
     trafficAuditVisible: false,
   });
-  const showModal = (record:API_ACCESS.Client) => {
+  const showModal = (record: API_ACCESS.Client) => {
     update({
       visible: true,
       selectedClient: record,
@@ -142,7 +142,7 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: {swaggerVersion: string,
             status !== 'disproved' && <span className="table-operations-btn" onClick={() => { handleUpdateSLA(contract); }}>{i18n.t('replace SLA')}</span>
           }
           {
-            (contractStatueMap[status].actions || []).map(item => {
+            (contractStatueMap[status].actions || []).map((item) => {
               return (
                 <Popconfirm
                   key={item.value}
@@ -161,7 +161,7 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: {swaggerVersion: string,
   return (
     <>
       <Table
-        rowKey={record => record.client.clientID}
+        rowKey={(record) => record.client.clientID}
         columns={columns}
         dataSource={clientList}
         loading={isFetch}

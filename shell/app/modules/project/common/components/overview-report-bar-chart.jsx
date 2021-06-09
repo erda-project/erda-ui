@@ -45,7 +45,7 @@ export default class OverviewReportBarChart extends React.Component {
       },
       xAxis: {
         type: 'category',
-        data: map(data.time, value => moment(value * 1000).format('MM/DD')) || [],
+        data: map(data.time, (value) => moment(value * 1000).format('MM/DD')) || [],
         splitLine: { show: false },
         axisLabel: {
           fontSize: 10,

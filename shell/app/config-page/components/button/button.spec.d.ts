@@ -14,8 +14,8 @@
 declare namespace CP_BUTTON {
   interface Spec {
     type: 'Button';
-    operations?: Obj<CP_COMMON.Operation>
-    props?: IProps,
+    operations?: Obj<CP_COMMON.Operation>;
+    props?: IProps;
   }
 
   interface IProps {
@@ -32,11 +32,11 @@ declare namespace CP_BUTTON {
     visible?: boolean;
   }
   interface MenuItem {
-    key: string
-    text: string
-    disabled?: boolean
-    disabledTip?: string
-    prefixIcon?: string
+    key: string;
+    text: string;
+    disabled?: boolean;
+    disabledTip?: string;
+    prefixIcon?: string;
     confirm?: string;
     operations: Obj<CP_COMMON.Operation>;
   }

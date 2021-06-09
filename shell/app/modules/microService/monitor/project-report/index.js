@@ -34,18 +34,18 @@ function projectReportRouter() {
         path: 'weekly',
         tabs: reportTabs,
         alwaysShowTabKey: 'weekly',
-        getComp: cb => cb(import('microService/monitor/project-report/pages/weekly')),
+        getComp: (cb) => cb(import('microService/monitor/project-report/pages/weekly')),
       },
       {
         path: 'daily',
         tabs: reportTabs,
         alwaysShowTabKey: 'daily',
-        getComp: cb => cb(import('microService/monitor/project-report/pages/daily')),
+        getComp: (cb) => cb(import('microService/monitor/project-report/pages/daily')),
       },
       {
         pageName: i18n.t('microService:project report'),
         layout: { fullHeight: true },
-        getComp: cb => cb(import('microService/monitor/project-report/pages/weekly')),
+        getComp: (cb) => cb(import('microService/monitor/project-report/pages/weekly')),
       },
     ],
   };

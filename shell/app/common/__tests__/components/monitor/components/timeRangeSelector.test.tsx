@@ -34,7 +34,7 @@ describe('TimeSelector', () => {
         timeSpan={timeSpan}
         inline
         onChangeTime={onChangeTimeFn}
-      />
+      />,
     );
     expect(wrapper.find('.monitor-time-selector-inline')).toExist();
     const value = wrapper.find('RangePicker').at(0).prop('value') || [];
@@ -47,7 +47,6 @@ describe('TimeSelector', () => {
     wrapper.find('RangePicker').at(0).prop('onOpenChange')(false);
     const { value: newValue1 = [] } = wrapper.state();
     expect(newValue1[0].isSame(start, 'date')).toBeTruthy();
-    wrapper.find('RangePicker').at(0).prop('onOk')();
     expect(onChangeTimeFn).toHaveBeenCalled();
     wrapper.setProps({
       inline: false,

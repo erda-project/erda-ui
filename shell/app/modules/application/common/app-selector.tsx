@@ -37,27 +37,27 @@ const AppItem = (app: IApplication) => {
 
 interface IChosenItem {
   value: string;
-  label?: string
+  label?: string;
 }
 export const chosenItemConvert = (values: IChosenItem[] | IChosenItem) => {
-  const curApp = appStore.getState(s => s.detail);
+  const curApp = appStore.getState((s) => s.detail);
   const curValues = isArray(values) ? values : (values && [values]);
   const existApp = {};
-  if(curApp.id) existApp[curApp.id] = curApp;
-  const reValue = map(curValues, item => {
+  if (curApp.id) existApp[curApp.id] = curApp;
+  const reValue = map(curValues, (item) => {
     const appItem = existApp[item.value] || {};
     return item.label ? item : { ...appItem, ...item, label: appItem.displayName || appItem.name };
   });
 
-  const lackLabelItems = filter(reValue, item => !item.label);
+  const lackLabelItems = filter(reValue, (item) => !item.label);
   if (isEmpty(lackLabelItems)) {
     return reValue;
   }
 
   // if there are some lack label items, then get label from servicel
-  return Promise.all(map(lackLabelItems, item => getAppDetail(item.value))).then((res: IApplication[]) => {
+  return Promise.all(map(lackLabelItems, (item) => getAppDetail(item.value))).then((res: IApplication[]) => {
     const newValue = map(reValue, (val) => {
-      const appItem = find(map(res,'data'), resItem => `${resItem.id}` === `${val.value}`);
+      const appItem = find(map(res, 'data'), (resItem) => `${resItem.id}` === `${val.value}`);
       return appItem ? { ...appItem, ...val, label: appItem.displayName || appItem.name } : { ...val };
     });
     return newValue;
@@ -66,7 +66,7 @@ export const chosenItemConvert = (values: IChosenItem[] | IChosenItem) => {
 
 export const AppSelector = (props: IProps) => {
   const { projectId: _projectId, ...rest } = props;
-  const pId = routeInfoStore.useStore(s => s.params.projectId);
+  const pId = routeInfoStore.useStore((s) => s.params.projectId);
   const projectId = _projectId || pId;
   const getData = (_q: Obj = {}) => {
     if (!projectId) return;
@@ -76,10 +76,10 @@ export const AppSelector = (props: IProps) => {
   return (
     <LoadMoreSelector
       getData={getData}
-      placeholder={i18n.t('common:search by {name}', {name: i18n.t('application')})}
+      placeholder={i18n.t('common:search by {name}', { name: i18n.t('application') })}
       dataFormatter={({ list, total }) => ({
         total,
-        list: map(list, item => ({ ...item, label: item.displayName || item.name, value: item.id })),
+        list: map(list, (item) => ({ ...item, label: item.displayName || item.name, value: item.id })),
       })}
       optionRender={AppItem}
       chosenItemConvert={(v: IChosenItem[] | IChosenItem) => chosenItemConvert(v)}
@@ -89,20 +89,20 @@ export const AppSelector = (props: IProps) => {
 };
 
 const headAppRender = (val: any = {}) => {
-  const curApp = appStore.getState(s => s.detail);
+  const curApp = appStore.getState((s) => s.detail);
   const name = val.displayName || val.name || curApp.displayName || curApp.name || '';
   return (
-    <div className='head-app-name'>
-      <span className='nowrap fz16 bold'>{name}</span>
+    <div className="head-app-name">
+      <span className="nowrap fz16 bold">{name}</span>
       <CustomIcon className="caret" type="caret-down" />
     </div>
   );
 };
 
 export const HeadAppSelector = () => {
-  const { appId, projectId } = routeInfoStore.useStore(s => s.params);
+  const { appId, projectId } = routeInfoStore.useStore((s) => s.params);
   return (
-    <div className='head-app-selector mt8'>
+    <div className="head-app-selector mt8">
       <AppSelector
         valueItemRender={headAppRender}
         value={appId}

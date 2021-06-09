@@ -28,7 +28,7 @@ import { PAGINATION } from 'app/constants';
 import userStore from 'user/stores';
 
 const getEmptyTestSetIds = (ids: number[]): number[] => {
-  const caseList = testCaseStore.getState(s => s.caseList);
+  const caseList = testCaseStore.getState((s) => s.caseList);
   const data: number[] = [];
   caseList.forEach(({ testSetID, testCases, testCaseCountWithoutFilter }) => {
     let sum = 0;
@@ -45,7 +45,7 @@ const getEmptyTestSetIds = (ids: number[]): number[] => {
 };
 
 interface IState {
-  planPaging: IPaging,
+  planPaging: IPaging;
   planList: TEST_PLAN.PlanBodySimpleResponse[];
   planTotal: number;
   planItem: TEST_PLAN.PlanBodySimpleResponse;
@@ -54,22 +54,22 @@ interface IState {
   relatedPlansPaging: IPaging;
   relatedPlans: TEST_PLAN.PlanBodySimpleResponse[];
   planModalInfo: { // 添加计划的弹框
-    type: string, // 集合 'collection', 用例 'case', 用例多选 'multi'
-    ids: number[], // 测试集/用例的ids
-    selectProjectId: null | number // 被打开时，选中的项目
-  }
-  planReport: TEST_PLAN.PlanReportResponse
+    type: string; // 集合 'collection', 用例 'case', 用例多选 'multi'
+    ids: number[]; // 测试集/用例的ids
+    selectProjectId: null | number; // 被打开时，选中的项目
+  };
+  planReport: TEST_PLAN.PlanReportResponse;
   remarkModalInfo: { // 添加备注的弹框
-    type: string, // 用例 'case', 用例多选 'multi'
-    id: null | number,
-    remark: string
-  }
-  rowSelectIssueModalVisible: boolean
+    type: string; // 用例 'case', 用例多选 'multi'
+    id: null | number;
+    remark: string;
+  };
+  rowSelectIssueModalVisible: boolean;
   statsByModule: TEST_PLAN.PlanStats;
   pipelineDetail: TEST_PLAN.PipeLineDetail;
-  executeRecordsPaging: IPaging,
-  executeRecords: TEST_PLAN.Pipeline[]
-  changeType: 'stage' | 'node' | '' | 'task' // ws更新流水线的类型：stage | node | task
+  executeRecordsPaging: IPaging;
+  executeRecords: TEST_PLAN.Pipeline[];
+  changeType: 'stage' | 'node' | '' | 'task'; // ws更新流水线的类型：stage | node | task
 }
 
 const defaultPlanModalInfo = {
@@ -146,25 +146,25 @@ const testPlan = createStore({
       const planItemDetail = await call(getTestPlanItemDetail, testPlanId);
       update({ planItemDetail });
     },
-    async getPlanRelateMe({ call, getParams, update, select }, payload: {pageNo: number, name?: string}) {
-      const { id: userID } = userStore.getState(s => s.loginUser);
+    async getPlanRelateMe({ call, getParams, update, select }, payload: {pageNo: number; name?: string}) {
+      const { id: userID } = userStore.getState((s) => s.loginUser);
       const { projectId } = getParams();
       const { list } = await call(getPlanList, { ...payload, pageSize: 10, userID: +userID, projectID: +projectId }, { paging: { key: 'relatedPlansPaging' } });
       let relatedPlans = list;
       if (payload.pageNo > 1) {
-        const prevList = select(s => s.relatedPlans);
+        const prevList = select((s) => s.relatedPlans);
         relatedPlans = [...prevList, ...list];
       }
       update({ relatedPlans });
     },
-    async updatePlanStatus({ call, select }, payload:{id: number; status: TEST_PLAN.PlanStatus}) {
-      const { ownerID, partnerIDs } = select(s => s.planItemDetail);
+    async updatePlanStatus({ call, select }, payload: {id: number; status: TEST_PLAN.PlanStatus}) {
+      const { ownerID, partnerIDs } = select((s) => s.planItemDetail);
       await call(updateTestPlan, { ownerID, partnerIDs, ...payload });
       testPlan.effects.getTestPlanItemDetail(payload.id);
     },
     // 测试用例中添加用例至测试计划
     async addToPlanByPlanModal({ call, select }, testPlanID: number) {
-      const { type, ids } = select(s => s.planModalInfo);
+      const { type, ids } = select((s) => s.planModalInfo);
       let res = { totalCount: 0 };
       if (type === 'collection') { // 测试集添加测试计划
         res = await call(addToPlan, { testPlanID, testSetIDs: ids });
@@ -217,8 +217,8 @@ const testPlan = createStore({
     },
     async deleteTestPlans({ call, getParams }, testSetID: number) {
       const { testPlanId: testPlanID } = getParams();
-      const caseList = testCaseStore.getState(s => s.caseList);
-      const relationIDs:number[] = caseList.map(({ testSetID: id }) => id);
+      const caseList = testCaseStore.getState((s) => s.caseList);
+      const relationIDs: number[] = caseList.map(({ testSetID: id }) => id);
 
       await call(updateTestCaseRelations, { relationIDs, delete: true, testPlanID, testSetID }, { successMsg: i18n.t('deleted successfully') });
 
@@ -227,7 +227,7 @@ const testPlan = createStore({
     },
     async updateCasesStatus({ call, getParams }, payload: Omit<TEST_PLAN.PlanBatch, 'testPlanID'>) {
       const { testPlanId } = getParams();
-      const { id: executorID } = userStore.getState(s => s.loginUser);
+      const { id: executorID } = userStore.getState((s) => s.loginUser);
       await call(updateTestCaseRelations, { executorID, testPlanID: testPlanId, ...payload });
       testPlan.effects.getTestPlanItemDetail(testPlanId);
       testCaseStore.reducers.clearChoosenInfo({ mode: 'testPlan' });

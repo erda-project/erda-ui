@@ -15,6 +15,7 @@ import { goTo } from 'common/utils';
 import i18n from 'i18n';
 import { Server as IconServer } from '@icon-park/react';
 import React from 'react';
+
 export const getMicroServiceMenu = () => {
   return [
     {

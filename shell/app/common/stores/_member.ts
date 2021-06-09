@@ -28,15 +28,15 @@ export enum MemberScope {
 }
 
 export interface IState {
-  paging: IPaging,
-  list: IMember[],
-  roleMap:Obj
-  roleMapMark: boolean
+  paging: IPaging;
+  list: IMember[];
+  roleMap: Obj;
+  roleMapMark: boolean;
 }
 
 interface UpdaterMemberExtra {
-  isSelf?: boolean,
-  forbidReload?: boolean
+  isSelf?: boolean;
+  forbidReload?: boolean;
   queryParams?: Obj;
   successMsg?: boolean;
 }
@@ -53,8 +53,8 @@ export const createMemberStore = (scopeKey: MemberScope) => {
     name: `${scopeKey}Member`,
     state: initState,
     effects: {
-      async getRoleMap({ call, update, select }, payload:MEMBER.GetRoleTypeQuery) {
-        const roleMapMark = select(s => s.roleMapMark);
+      async getRoleMap({ call, update, select }, payload: MEMBER.GetRoleTypeQuery) {
+        const roleMapMark = select((s) => s.roleMapMark);
         if (roleMapMark) return;
         update({ roleMapMark: true });
         const result = await call(getRoleMap, payload);
@@ -86,7 +86,7 @@ export const createMemberStore = (scopeKey: MemberScope) => {
         if (forbidReload) {
           return;
         }
-        const { pageNo } = thisStore.getState(s => s.paging);
+        const { pageNo } = thisStore.getState((s) => s.paging);
         await thisStore.effects.getMemberList({
           ...queryParams,
           pageNo,
@@ -102,7 +102,7 @@ export const createMemberStore = (scopeKey: MemberScope) => {
       },
       async removeMember({ call }, payload: MEMBER.RemoveMemberBody, query?: Omit<MEMBER.GetListQuery, 'scope'>) {
         const { userIds, scope, needReload = true } = payload;
-        const { id } = userStore.getState(s => s.loginUser);
+        const { id } = userStore.getState((s) => s.loginUser);
         const isSelf = userIds[0] === id; // 现在只有单个移除
         let successMsg = i18n.t('delete member success');
         if (isSelf) {
@@ -123,7 +123,7 @@ export const createMemberStore = (scopeKey: MemberScope) => {
             goTo('/', { replace: true });
           }
         } else if (query) {
-          const { total } = thisStore.getState(s => s.paging);
+          const { total } = thisStore.getState((s) => s.paging);
           const { pageNo, pageSize, ...rest } = query;
           await thisStore.effects.getMemberList({
             ...rest,
@@ -140,7 +140,7 @@ export const createMemberStore = (scopeKey: MemberScope) => {
       },
 
       async genOrgInviteCode({ call }) {
-        const orgId = orgStore.getState(s => s.currentOrg.id);
+        const orgId = orgStore.getState((s) => s.currentOrg.id);
         const result = await call(genOrgInviteCode, { orgId });
         return result;
       },

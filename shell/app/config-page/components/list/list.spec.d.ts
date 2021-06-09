@@ -14,8 +14,8 @@
 declare namespace CP_LIST {
   interface Spec {
     type: 'List';
-    operations?: Obj<CP_COMMON.Operation>
-    props?: IProps,
+    operations?: Obj<CP_COMMON.Operation>;
+    props?: IProps;
     data: IData;
     state?: IState;
   }
@@ -33,13 +33,13 @@ declare namespace CP_LIST {
     isLoadMore?: boolean;
     alignCenter?: boolean;
     noBorder?: boolean;
-    pageSizeOptions?: string[]
+    pageSizeOptions?: string[];
   }
 
   type ISize = 'middle' | 'large' | 'small';
 
   interface IData {
-    list: IListData[]
+    list: IListData[];
   }
 
   interface IListData {
@@ -49,7 +49,7 @@ declare namespace CP_LIST {
     description?: string;
     prefixImg?: string | React.ReactNode;
     extraInfos?: IIconInfo[];
-    operations?: Obj<CP_COMMON.Operation>
+    operations?: Obj<CP_COMMON.Operation>;
   }
 
   interface IIconInfo {
@@ -57,7 +57,7 @@ declare namespace CP_LIST {
     text: string;
     type?: 'success' | 'normal' | 'warning' | 'error';
     tooltip?: string;
-    operations?: Obj<CP_COMMON.Operation>
+    operations?: Obj<CP_COMMON.Operation>;
   }
 
   type Props = MakeProps<Spec>;

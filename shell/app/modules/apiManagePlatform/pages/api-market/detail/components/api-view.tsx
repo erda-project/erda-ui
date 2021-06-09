@@ -30,15 +30,15 @@ import { authenticationMap } from 'apiManagePlatform/pages/access-manage/compone
 import { HTTP_METHODS } from 'app/modules/apiManagePlatform/pages/api-market/components/config';
 import { convertToOpenApi2 } from 'apiManagePlatform/pages/api-market/detail/components/api-preview-3.0';
 
-type ApiData = Merge<OpenAPI.Document, {basePath: string;}>;
+type ApiData = Merge<OpenAPI.Document, {basePath: string}>;
 type ApiMapItem = Merge<OpenAPI.Operation, {_method: string; _path: string}>;
-type TagMap = {[key: string]: ApiMapItem[]};
-type AutoInfo={clientID: string; clientSecret: string};
+interface TagMap {[key: string]: ApiMapItem[]}
+interface AutoInfo {clientID: string; clientSecret: string}
 interface IProps {
   deprecated: boolean;
   specProtocol: API_MARKET.SpecProtocol;
-  dataSource: API_MARKET.AssetVersionItem<OpenAPI.Document>
-  onChangeVersion(id: number): void;
+  dataSource: API_MARKET.AssetVersionItem<OpenAPI.Document>;
+  onChangeVersion: (id: number) => void;
 }
 interface IState {
   apiData: ApiData;
@@ -49,8 +49,8 @@ interface IState {
 }
 
 const ApiView = ({ dataSource, onChangeVersion, deprecated, specProtocol }: IProps) => {
-  const params = routeInfoStore.useStore(s => s.params);
-  const [hasAccess, accessDetail] = apiMarketStore.useStore(s => [s.assetVersionDetail.hasAccess, s.assetVersionDetail.access]);
+  const params = routeInfoStore.useStore((s) => s.params);
+  const [hasAccess, accessDetail] = apiMarketStore.useStore((s) => [s.assetVersionDetail.hasAccess, s.assetVersionDetail.access]);
   const [{ apiData, currentApi, testModalVisible, authModal, authed }, updater, update] = useUpdate<IState>({
     apiData: {},
     currentApi: '',
@@ -60,7 +60,7 @@ const ApiView = ({ dataSource, onChangeVersion, deprecated, specProtocol }: IPro
   });
   React.useEffect(() => {
     if (dataSource.spec) {
-      SwaggerParser.dereference(cloneDeep(dataSource.spec), {}, (err: Error| null, data:OpenAPI.Document| undefined) => {
+      SwaggerParser.dereference(cloneDeep(dataSource.spec), {}, (err: Error| null, data: OpenAPI.Document| undefined) => {
         if (err) {
           message.error(i18n.t('default:API description document parsing failed'));
           throw err;
@@ -98,7 +98,7 @@ const ApiView = ({ dataSource, onChangeVersion, deprecated, specProtocol }: IPro
   }, [apiData.basePath]);
   const [tagMap, apiMap] = React.useMemo(() => {
     const _tagMap = {} as TagMap;
-    const _apiMap = {} as {[K:string]: ApiMapItem};
+    const _apiMap = {} as {[K: string]: ApiMapItem};
     if (isEmpty(apiData.paths)) {
       return [{}, {}];
     }
@@ -115,7 +115,7 @@ const ApiView = ({ dataSource, onChangeVersion, deprecated, specProtocol }: IPro
           ...restParams,
           parameters,
         };
-        map((api.tags || ['OTHER']), tagName => {
+        map((api.tags || ['OTHER']), (tagName) => {
           if (_tagMap[tagName]) {
             _tagMap[tagName].push(item);
           } else {
@@ -157,7 +157,7 @@ const ApiView = ({ dataSource, onChangeVersion, deprecated, specProtocol }: IPro
       }
     </>
   ) : null;
-  const fieldsList:IFormItem[] = [{
+  const fieldsList: IFormItem[] = [{
     label: 'clientID',
     name: 'clientID',
   }, ...insertWhen(accessDetail.authentication === authenticationMap['sign-auth'].value, [{

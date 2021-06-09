@@ -31,16 +31,16 @@ interface IProps {
   name: string;
   className: string;
   path: string;
-  ops?: React.ElementType | null,
+  ops?: React.ElementType | null;
   params: any;
   isFetchingRepoBlame: boolean;
-  getRepoBlame(mode: object): Promise<any>;
+  getRepoBlame: (mode: object) => Promise<any>;
 }
 
 interface IRepoBlameCommitItem {
-  style: {},
+  style: {};
   commitId: string;
-  commitMessage: string,
+  commitMessage: string;
   author: REPOSITORY.ICommitter;
   params: any;
 }
@@ -98,9 +98,9 @@ export const RepoBlame = ({
   ops,
 }: IProps) => {
   let content = null;
-  const [blob, blame] = repoStore.useStore(s => [s.blob, s.blame]);
+  const [blob, blame] = repoStore.useStore((s) => [s.blob, s.blame]);
   const { getRepoBlame } = repoStore.effects;
-  const params = routeInfoStore.useStore(e => e.params);
+  const params = routeInfoStore.useStore((e) => e.params);
   const [isFetchingRepoBlame] = useLoading(repoStore, ['getRepoBlame']);
   const fileExtension = name.split('.').pop();
   const { content: blobContent = '' } = blob;

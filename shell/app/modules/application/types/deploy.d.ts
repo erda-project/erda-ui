@@ -20,9 +20,9 @@ declare namespace DEPLOY {
     deleteStatus: string;
     deployStatus: string;
     extra: {
-      applicationId: number,
-      buildId: number,
-      workspace: WORKSPACE
+      applicationId: number;
+      buildId: number;
+      workspace: WORKSPACE;
     };
     id: number;
     lastOperateTime: string;
@@ -32,7 +32,7 @@ declare namespace DEPLOY {
     name: string;
     projectID: number;
     releaseId: string;
-    resources: { cpu: number, disk: number, mem: number };
+    resources: { cpu: number; disk: number; mem: number };
     source: 'PIPELINE';
     status: string;
     timeCreated: string;
@@ -55,7 +55,7 @@ declare namespace DEPLOY {
   interface IGroupExtensionActionObj {
     name: string;
     displayName: string;
-    items: ExtensionAction[]
+    items: ExtensionAction[];
   }
 
   interface ActionConfig {
@@ -68,7 +68,7 @@ declare namespace DEPLOY {
       name: string;
       options: {
         fetchHistoryBPConfig: boolean;
-      }
+      };
       params: Array<{
         desc: string;
         name: string;
@@ -76,9 +76,9 @@ declare namespace DEPLOY {
       }>;
       public: boolean;
       supportedVersions: string[];
-      type: 'action'
+      type: 'action';
       version: string;
-    }
+    };
     dice: {
       jobs: {
         [keyName: string]: {
@@ -88,74 +88,74 @@ declare namespace DEPLOY {
             cpu: number;
             disk: number;
             mem: number;
-          }
-        }
-      }
-    }
+          };
+        };
+      };
+    };
     readme: string;
-    isDefault: false
+    isDefault: false;
     public: boolean;
   }
 
   interface AddByRelease {
-    releaseId: string
-    workspace: string
-    projectId: number
-    applicationId: number
+    releaseId: string;
+    workspace: string;
+    projectId: number;
+    applicationId: number;
   }
 
   interface IRelease {
     releaseId: string;
     releaseName: string;
-    labels:{
+    labels: {
       gitCommitId: string;
       gitCommitMessage: string;
-    }
+    };
     createdAt: string;
   }
   interface IReleaseMap {
-    [k:string]: {
+    [k: string]: {
       total: number;
-      list:IRelease[]
-    }
+      list: IRelease[];
+    };
   }
 
 
   interface IDeploy {
-    commitMessage: string,
-    commitId: string,
-    branchName: string,
-    projectId: number,
-    projectName: string,
-    applicationId: number,
-    applicationName: string,
-    runtimeName: string,
-    finishedAt: string,
-    createdAt: string,
-    operatorAvatar: string,
-    operatorName: string,
-    operator: string,
-    approvedAt: string,
-    approvedByUser: string,
-    needApproval: boolean,
-    outdated: boolean,
-    failCause: string,
-    step: string,
-    phase: string,
-    status: string,
-    type: string,
-    releaseName: string,
-    releaseId: string,
-    buildId: string,
-    runtimeId: number,
-    id: number,
-    approvalStatus: string,
-    approvalReason: string,
+    commitMessage: string;
+    commitId: string;
+    branchName: string;
+    projectId: number;
+    projectName: string;
+    applicationId: number;
+    applicationName: string;
+    runtimeName: string;
+    finishedAt: string;
+    createdAt: string;
+    operatorAvatar: string;
+    operatorName: string;
+    operator: string;
+    approvedAt: string;
+    approvedByUser: string;
+    needApproval: boolean;
+    outdated: boolean;
+    failCause: string;
+    step: string;
+    phase: string;
+    status: string;
+    type: string;
+    releaseName: string;
+    releaseId: string;
+    buildId: string;
+    runtimeId: number;
+    id: number;
+    approvalStatus: string;
+    approvalReason: string;
   }
 
   interface IUpdateApproveBody{
     id: number;
     reject: boolean;
-    reason?:string;
+    reason?: string;
   }
 }

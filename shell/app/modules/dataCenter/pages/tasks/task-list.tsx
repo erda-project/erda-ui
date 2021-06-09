@@ -79,12 +79,12 @@ interface IProps {
 const ServicesList = ({
   taskType,
 }: IProps) => {
-  const orgClusterList = clusterStore.useStore(s => s.list);
-  const currentOrg = orgStore.useStore(s => s.currentOrg);
-  const [list, { pageNo, pageSize, total }] = clusterTaskStore.useStore(s => [s.list, s.paging]);
+  const orgClusterList = clusterStore.useStore((s) => s.list);
+  const currentOrg = orgStore.useStore((s) => s.currentOrg);
+  const [list, { pageNo, pageSize, total }] = clusterTaskStore.useStore((s) => [s.list, s.paging]);
   const { getTaskList } = clusterTaskStore.effects;
   const { resetState } = clusterTaskStore.reducers;
-  const userMap = userMapStore.useStore(s => s);
+  const userMap = userMapStore.useStore((s) => s);
   const [loading] = useLoading(clusterTaskStore, ['getTaskList']);
   const [cluster, setCluster] = React.useState();
 

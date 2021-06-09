@@ -26,7 +26,7 @@ import './cluster-dashboard.scss';
 const DD_HOOK_PREFIX = 'https://oapi.dingtalk.com/';
 
 interface IClusterIndices {
-  constants: Array<{ key: string; name: string; icon?: string; }>;
+  constants: Array<{ key: string; name: string; icon?: string }>;
   dataSource: any;
 }
 
@@ -41,7 +41,7 @@ interface IClusterIndicesItem {
   value: number;
   isErrorValue?: boolean;
   className?: string;
-  onClickItem?(): void;
+  onClickItem?: () => void;
 }
 
 export const DashboardItem = ({
@@ -97,7 +97,7 @@ export const ClusterIndicesPanel = ({
 );
 
 const ClusterDashboard = () => {
-  const list = clusterStore.useStore(s => s.list);
+  const list = clusterStore.useStore((s) => s.list);
   const { getClusterList } = clusterStore.effects;
 
   const [addModalVis, setAddModalVis] = useState(false);

@@ -22,10 +22,10 @@ import { useLoading } from 'app/common/stores/loading';
 interface IProps {
   visible: boolean;
   formData: MIDDLEWARE_DASHBOARD.IMiddleBase;
-  onCancel(): void;
+  onCancel: () => void;
 }
 
-const RestoreModal = ({ visible, formData, onCancel }:IProps) => {
+const RestoreModal = ({ visible, formData, onCancel }: IProps) => {
   const [backupFiles, setBackupFiles] = React.useState([]);
   const [isFetch] = useLoading(middlewareDashboardStore, ['getBackupFiles']);
   React.useEffect(() => {
@@ -36,7 +36,7 @@ const RestoreModal = ({ visible, formData, onCancel }:IProps) => {
     }
   }, [visible]);
   const canRestore = React.useMemo(() => {
-    return backupFiles.every(file => file.status);
+    return backupFiles.every((file) => file.status);
   }, [backupFiles]);
   const handleRestore = () => {
 

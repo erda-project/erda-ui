@@ -18,16 +18,16 @@ import * as React from 'react';
 import './time-input.scss';
 
 interface ITextProps {
-  [k: string]: any
+  [k: string]: any;
   value?: string;
   originalValue: string;
   displayName: string;
   disabled?: boolean;
   showErrTip?: boolean;
   passAndTrigger?: boolean;
-  rule?: any,
+  rule?: any;
   triggerChangeOnButton?: boolean;
-  onChange?(v: number | string): void;
+  onChange?: (v: number | string) => void;
 }
 
 export const TextFieldInput = React.forwardRef(({
@@ -106,16 +106,16 @@ export const TextFieldInput = React.forwardRef(({
         {...rest}
         ref={ref}
         value={_value}
-        onChange={e => onInputChange(e.target.value)}
+        onChange={(e) => onInputChange(e.target.value)}
         onBlur={onBlur}
       />
-      {showTip ? <span className='fz12 color-red'>{checkMsg}</span> : null}
+      {showTip ? <span className="fz12 color-red">{checkMsg}</span> : null}
       {
         triggerChangeOnButton && showBtn
           ? (
-            <div className='issue-part-save-group'>
-              <span className='issue-part-save' onClick={onSave}><CustomIcon className='mr0' type='duigou' /></span>
-              <span className='issue-part-cancel' onClick={onCancel}><CustomIcon className='mr0' type='gb' /></span>
+            <div className="issue-part-save-group">
+              <span className="issue-part-save" onClick={onSave}><CustomIcon className="mr0" type="duigou" /></span>
+              <span className="issue-part-cancel" onClick={onCancel}><CustomIcon className="mr0" type="gb" /></span>
             </div>
           )
           : null
@@ -125,9 +125,9 @@ export const TextFieldInput = React.forwardRef(({
 });
 
 interface INumberProps {
-  [k: string]: any
+  [k: string]: any;
   value?: number;
-  onChange?(v: number): void;
+  onChange?: (v: number) => void;
 }
 
 export const NumberFieldInput = React.forwardRef(({
@@ -143,7 +143,7 @@ export const NumberFieldInput = React.forwardRef(({
     setValue(_v);
   };
 
-  const onSave = (v:number) => {
+  const onSave = (v: number) => {
     onChange(v);
   };
 
@@ -153,8 +153,8 @@ export const NumberFieldInput = React.forwardRef(({
         {...rest}
         value={_value}
         ref={ref}
-        onChange={v => onInputChange(v)}
-        onBlur={e => onSave(e.target.value)}
+        onChange={(v) => onInputChange(v)}
+        onBlur={(e) => onSave(e.target.value)}
       />
     </>
   );

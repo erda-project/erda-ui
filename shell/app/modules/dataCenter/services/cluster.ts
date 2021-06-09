@@ -16,7 +16,7 @@ import agent from 'agent';
 export const getClusterList = ({
   orgId,
 }: {
-  orgId: number
+  orgId: number;
 }): ORG_CLUSTER.ICluster[] => {
   return agent.get('/api/clusters')
     .query({ orgID: orgId })
@@ -40,15 +40,15 @@ export const getClusterDetail = ({
   clusterId,
   clusterName,
 }: {
-  clusterId?: number
-  clusterName?: string
+  clusterId?: number;
+  clusterName?: string;
 }): ORG_CLUSTER.ICluster => {
   return agent.get(`/api/clusters/${clusterId || clusterName}`)
     .then((response: any) => response.body);
 };
 
 export const getClusterNewDetail = (query: {
-  clusterName?: string
+  clusterName?: string;
 }): ORG_CLUSTER.ICluster => {
   return agent.get('/api/cluster')
     .query(query)
@@ -99,9 +99,9 @@ export const getClusterLogTasks = (data: { recordIDs: string }) => {
 };
 
 export const upgradeCluster = (payload: {
-  orgID: number
-  clusterName: string
-  precheck: boolean
+  orgID: number;
+  clusterName: string;
+  precheck: boolean;
 }) => {
   return agent.post('/api/cluster/actions/upgrade')
     .send(payload)
@@ -109,8 +109,8 @@ export const upgradeCluster = (payload: {
 };
 
 export const deleteCluster = (payload: {
-  orgID: number
-  clusterName: string
+  orgID: number;
+  clusterName: string;
 }) => {
   return agent.delete('/api/cluster')
     .send(payload)
@@ -118,7 +118,7 @@ export const deleteCluster = (payload: {
 };
 
 export const viewClusterStatus = (payload: {
-  clusterName: string
+  clusterName: string;
 }): ORG_CLUSTER.IViewClusterStatus => {
   return agent.get('/api/org/clusters/status')
     .query(payload)
@@ -131,13 +131,13 @@ export const getClusterResourceList = (query: { cluster: string }): ORG_CLUSTER.
     .then((response: any) => response.body);
 };
 
-export const getClusterResourceDetail = (query: { cluster: string, resource: string }): ORG_CLUSTER.ICloudResourceDetailItem => {
+export const getClusterResourceDetail = (query: { cluster: string; resource: string }): ORG_CLUSTER.ICloudResourceDetailItem => {
   return agent.get('/api/ops/cloud-resource')
     .query(query)
     .then((response: any) => response.body);
 };
 
-export const getSMSNotifyConfig = ({ orgId }:{orgId:number}) => {
+export const getSMSNotifyConfig = ({ orgId }: {orgId: number}) => {
   return agent.get(`/api/orgs/${orgId}/actions/get-notify-config`)
     .then((response: any) => response.body);
 };

@@ -24,20 +24,20 @@ import gqct_png from 'app/images/gqct.png';
 import './dice-license.scss';
 
 export const DiceLicense = () => {
-  const licenseInfo = userStore.useStore(s => s.licenseInfo);
-  const orgName = orgStore.useStore(s => s.currentOrg.name) || '-';
+  const licenseInfo = userStore.useStore((s) => s.licenseInfo);
+  const orgName = orgStore.useStore((s) => s.currentOrg.name) || '-';
   const { valid, message, expireDate, user, issueDate, maxHostCount, currentHostCount } = licenseInfo;
   const { validateLicense } = userStore.effects;
-  
+
   React.useEffect(() => {
     if (orgName !== '-') {
-      validateLicense().then(({ showAlert }: { valid: boolean, showAlert?: boolean }) => {
+      validateLicense().then(({ showAlert }: { valid: boolean; showAlert?: boolean }) => {
         if (showAlert) {
           notify('warning', i18n.t('layout:get license failed'));
         }
       });
     }
-  }, [orgName])
+  }, [orgName]);
 
   const rowOneData = [
     {

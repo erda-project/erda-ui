@@ -38,13 +38,13 @@ const getComponents = (instance: any, model: any) => {
 };
 
 interface IProps {
-  model: any
-  props: any
-  param?: any[]
-  loading: boolean
-  children: any
-  className?: string
-  formProps?: any
+  model: any;
+  props: any;
+  param?: any[];
+  loading: boolean;
+  children: any;
+  className?: string;
+  formProps?: any;
 }
 
 const DUMMY_STATE = {};
@@ -133,7 +133,7 @@ const createFormComponent = (model: any, View: any) => {
 
     publishAll(options: any) {
       if (this._subscribers) {
-        Object.keys(this._subscribers).forEach(key => this.publish(key, options));
+        Object.keys(this._subscribers).forEach((key) => this.publish(key, options));
       }
     }
 

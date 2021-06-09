@@ -21,7 +21,7 @@ import { TestOperation } from 'project/pages/test-manage/constants';
 
 
 const ChangeResult = () => {
-  const { caseTotal, choosenInfo: { primaryKeys } } = testCaseStore.useStore(s => s);
+  const { caseTotal, choosenInfo: { primaryKeys } } = testCaseStore.useStore((s) => s);
   const { openNormalModal } = testCaseStore.reducers;
 
   const checked = size(primaryKeys);

@@ -26,7 +26,7 @@ const colors = [
 ];
 
 export default () => {
-  const list = projectLabel.useStore(s => s.list);
+  const list = projectLabel.useStore((s) => s.list);
   const { getLabels, createLabel, updateLabel, deleteLabel } = projectLabel.effects;
   const { clearList } = projectLabel.reducers;
 
@@ -112,7 +112,7 @@ export default () => {
         return (
           <div className="color-list colorful-bg">
             {
-              colors.map(c => (
+              colors.map((c) => (
                 <span
                   key={c}
                   className={`color-option ${c} ${v === c ? 'active' : ''}`}
@@ -138,7 +138,7 @@ export default () => {
           <IconPlus size="14px" />
           {i18n.t('project:add label')}
         </span>
-        {list.map(label => (
+        {list.map((label) => (
           <span className={`label-item ${label.color}`} key={label.id} onClick={() => onClickLabel(label)}>
             {label.name}
             <IconClose className="ml4" onClick={(e) => { e.stopPropagation(); handleDelete(label); }} />

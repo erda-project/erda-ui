@@ -20,7 +20,7 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import i18n from 'i18n';
 
 const Overview = () => {
-  const chosenApp = monitorCommonStore.useStore(s => s.chosenApp);
+  const chosenApp = monitorCommonStore.useStore((s) => s.chosenApp);
   const filter_target_application_id = chosenApp && chosenApp.id;
   const shouldLoad = filter_target_application_id !== undefined;
   return (

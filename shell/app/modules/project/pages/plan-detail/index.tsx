@@ -44,10 +44,10 @@ const { TabPane } = Tabs;
 
 let clear = () => { };
 const TestPlanDetail = () => {
-  const planItemDetail = testPlanStore.useStore(s => s.planItemDetail);
-  const params = routeInfoStore.useStore(s => s.params);
+  const planItemDetail = testPlanStore.useStore((s) => s.planItemDetail);
+  const params = routeInfoStore.useStore((s) => s.params);
   const { getCases, getCaseDetail } = testCaseStore.effects;
-  
+
   const {
     getTestPlanItemDetail, updatePlanStatus, addSingleCaseToTestPlan,
     executeCaseApi, getExecuteRecords, cancelBuild: cancelPipeline,
@@ -89,7 +89,6 @@ const TestPlanDetail = () => {
     clear = loopTimer(loop, 3000);
   };
 
-  
 
   React.useEffect(() => {
     setLoadingRecords(true);
@@ -229,7 +228,7 @@ const TestPlanDetail = () => {
                   <Input
                     style={{ width: '160px' }}
                     placeholder={i18n.t('project:search for')}
-                    onChange={e => debouncedSearch({ query: e.target.value })}
+                    onChange={(e) => debouncedSearch({ query: e.target.value })}
                     prefix={<IconSearch />}
                   />
                   <Button onClick={() => setEnhanceFilterVisible(true)}>

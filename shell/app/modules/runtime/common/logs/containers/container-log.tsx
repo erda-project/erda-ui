@@ -18,9 +18,9 @@ import './container-log.scss';
 import runtimeLogStore from 'runtime/stores/log';
 
 export default (p: any) => {
-  const logsMap = commonStore.useStore(s => s.logsMap);
+  const logsMap = commonStore.useStore((s) => s.logsMap);
   const { clearLog } = commonStore.reducers;
-  const dockerLogMap = runtimeLogStore.useStore(s => s.dockerLogMap);
+  const dockerLogMap = runtimeLogStore.useStore((s) => s.dockerLogMap);
   const { pushSlideComp, popSlideComp } = commonStore.reducers;
   return <PureContainerLog logsMap={logsMap} clearLog={clearLog} dockerLogMap={dockerLogMap} pushSlideComp={pushSlideComp} popSlideComp={popSlideComp} {...p} />;
 };

@@ -31,13 +31,13 @@ import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/iss
 
 
 export const Milestone = () => {
-  const [{ iterationIDs: iterIds }, { startFinishedAt, ...restQuery }] = routeInfoStore.useStore(s => [s.params, s.query]);
-  const labelList = labelStore.useStore(s => s.list);
+  const [{ iterationIDs: iterIds }, { startFinishedAt, ...restQuery }] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const labelList = labelStore.useStore((s) => s.list);
   const [loading] = useLoading(issueStore, ['getIssues']);
   const [
     epicList,
     epicPaging,
-  ] = issueStore.useStore(s => [
+  ] = issueStore.useStore((s) => [
     s.epicList,
     s.epicPaging,
   ]);
@@ -110,7 +110,7 @@ export const Milestone = () => {
       haveFilter: true,
       type: 'select' as const,
       placeholder: i18n.t('filter by {name}', { name: i18n.t('project:label') }),
-      options: map(labelList, item => ({ label: item.name, value: `${item.id}` })),
+      options: map(labelList, (item) => ({ label: item.name, value: `${item.id}` })),
     },
     {
       key: 'priority',
@@ -136,7 +136,7 @@ export const Milestone = () => {
     },
   ], [labelList]);
 
-  const epicAuth = usePerm(s => s.project.epic);
+  const epicAuth = usePerm((s) => s.project.epic);
 
   const closeModal = ({ hasEdited, isCreate, isDelete }: CloseDrawerParam) => {
     updater.modalVisible(false);
@@ -157,9 +157,9 @@ export const Milestone = () => {
   };
   return (
     <div className="project-milestone">
-      <div className='search-container white-bg'>
+      <div className="search-container white-bg">
         <DatePicker
-          className='milestone-date-picker'
+          className="milestone-date-picker"
           onPanelChange={rangeFilter}
           mode="year"
           defaultValue={moment()}
@@ -171,7 +171,7 @@ export const Milestone = () => {
         <WithAuth pass={epicAuth.create.pass} >
           <Button
             className="top-button-group"
-            type='primary'
+            type="primary"
             onClick={() => updater.modalVisible(true)}
           >{i18n.t('project:create milestone')}
           </Button>

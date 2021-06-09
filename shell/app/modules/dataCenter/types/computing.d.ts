@@ -42,6 +42,6 @@ declare namespace COMPUTING {
     failedInstances: Array<{
       message: string;
       instanceId: string;
-    }>
+    }>;
   }
 }

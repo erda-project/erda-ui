@@ -16,16 +16,16 @@ declare namespace ORG_ANNOUNCEMENT {
   type Status = 'unpublished' | 'published' | 'deprecated';
 
   interface Action {
-    id: number
+    id: number;
   }
 
   interface SaveNew {
-    content: string
+    content: string;
   }
 
   interface SaveEdit {
-    id: string
-    content: string
+    id: string;
+    content: string;
   }
 
   interface QueryList {
@@ -37,10 +37,10 @@ declare namespace ORG_ANNOUNCEMENT {
 
   interface Item {
     id: number;
-    orgID: number,
-    content: string,
-    status: string
+    orgID: number;
+    content: string;
+    status: string;
     createdAt: string;
-    updatedAt: string
+    updatedAt: string;
   }
 }

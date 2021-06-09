@@ -44,9 +44,9 @@ declare namespace ISSUE_FIELD {
   }
 
   interface IEnumData {
-    name:any;
-    id?:number;
-    index?:number;
+    name: any;
+    id?: number;
+    index?: number;
   }
 
   interface IFiledItem {

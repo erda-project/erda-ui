@@ -25,7 +25,7 @@ const RULE_TYPE_MAP = {
 };
 
 export default () => {
-  const [rules] = LogAnalyzeStore.useStore(s => [s.rules]);
+  const [rules] = LogAnalyzeStore.useStore((s) => [s.rules]);
   const { getRules, toggleRule, deleteRule } = LogAnalyzeStore;
   const [loading] = useLoading(LogAnalyzeStore, ['toggleRule']);
   useMount(() => {
@@ -61,7 +61,7 @@ export default () => {
             size="small"
             defaultChecked={record.enable}
             loading={loading}
-            onChange={checked => toggleRule({ id: record.id, enable: checked })}
+            onChange={(checked) => toggleRule({ id: record.id, enable: checked })}
           />
         </div>
       ),

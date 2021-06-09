@@ -42,8 +42,8 @@ declare namespace RESOURCE {
     success: boolean;
     data: null;
     err: {
-      msg: any
-    }
+      msg: any;
+    };
   }
 
   interface QueryServiceList {
@@ -58,8 +58,8 @@ declare namespace RESOURCE {
   interface QuertChart {
     query: {
       start: number;
-      end: number
-    },
+      end: number;
+    };
     projectId: string;
     type: string;
     startLevel: string;
@@ -74,21 +74,21 @@ declare namespace RESOURCE {
     axisIndex: number;
     chartType: string;
     data: number[];
-    name:string;
+    name: string;
     tag: string;
-    unit:string;
+    unit: string;
     unitType: string;
   }
 
   interface CharData {
     results: Array<{
       data: Array<{
-        [k: string]:MetaData
+        [k: string]: MetaData;
       }>;
       name: string;
     }>;
     time: number[];
     title: string;
-    total: number
+    total: number;
   }
 }

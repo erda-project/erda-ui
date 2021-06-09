@@ -14,7 +14,7 @@
 import React, { ReactNode } from 'react';
 import { Badge, Tooltip } from 'app/nusi';
 import { ossImg } from 'common/utils';
-import { PlanName } from 'app/modules/addonPlatform/pages/common/configs';
+import { PLAN_NAME } from 'app/modules/addonPlatform/pages/common/configs';
 import addon_png from 'app/images/resources/addon.png';
 import './addon-card.scss';
 import i18n from 'i18n';
@@ -59,7 +59,7 @@ const AddonCard = (props: IProps) => {
       <div className="addon-card-text mr8">
         <Tooltip title={showName}><div className="name nowrap">{showName}</div></Tooltip>
         <div className="sub-info">
-          <span>{PlanName[plan]}</span>
+          <span>{PLAN_NAME[plan]}</span>
           <span className="ml8">{version}</span>
         </div>
       </div>

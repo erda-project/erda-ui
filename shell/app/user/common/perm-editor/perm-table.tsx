@@ -48,7 +48,7 @@ export interface IRoleChange {
   checked: boolean;
 }
 
-export const PermTable = (props:IProps) => {
+export const PermTable = (props: IProps) => {
   const { data, scope, roleMap, filterKey, ...rest } = props;
   const curRoleMap = roleMap[scope];
   const [startInit, setStartInit] = React.useState(false);
@@ -62,7 +62,7 @@ export const PermTable = (props:IProps) => {
     setStartInit(true);
   }, []);
 
-  const onHover = (hk:string) => setHoverKey(hk);
+  const onHover = (hk: string) => setHoverKey(hk);
   const outHover = () => setHoverKey('');
 
   const onBodyScroll = () => {
@@ -73,23 +73,23 @@ export const PermTable = (props:IProps) => {
     bodyScrollRef.current.scrollLeft = headScrollRef.current.scrollLeft;
   };
 
-  const permColumnKeys = sortBy(Object.keys(get(tableList, '[0]') || {}), item => {
+  const permColumnKeys = sortBy(Object.keys(get(tableList, '[0]') || {}), (item) => {
     return item.startsWith('depth') ? Number(item.slice(5)) : item === 'action' ? 1000 : 10000;
   });
-  const roleColumnKeys = map(curRoleMap, item => `role-${item.value}`);
+  const roleColumnKeys = map(curRoleMap, (item) => `role-${item.value}`);
   return (
-    <div className='perm-editor-container full-height'>
-      <div className='perm-head'>
-        <div className='head-container column-head'>
+    <div className="perm-editor-container full-height">
+      <div className="perm-head">
+        <div className="head-container column-head">
           {getPermHead({ columnKeys: permColumnKeys, scope })}
         </div>
-        <div className='head-container role-head' ref={headScrollRef} onScroll={onHeadScroll}>
+        <div className="head-container role-head" ref={headScrollRef} onScroll={onHeadScroll}>
           {getPermHead({ columnKeys: roleColumnKeys, scope, curRoleMap })}
         </div>
       </div>
-      <div className='perm-body'>
-        <div className='perm-body-scroll-box'>
-          <div className='column-container column-perm'>
+      <div className="perm-body">
+        <div className="perm-body-scroll-box">
+          <div className="column-container column-perm">
             <PermColumn
               columnKeys={permColumnKeys}
               list={tableList}
@@ -102,7 +102,7 @@ export const PermTable = (props:IProps) => {
               {...rest}
             />
           </div>
-          <div className='column-container column-role' ref={bodyScrollRef} onScroll={onBodyScroll}>
+          <div className="column-container column-role" ref={bodyScrollRef} onScroll={onBodyScroll}>
             <RoleColumn
               columnKeys={roleColumnKeys}
               permColumnKeys={permColumnKeys}
@@ -122,9 +122,9 @@ export const PermTable = (props:IProps) => {
   );
 };
 
-const getPermHead = (params: {columnKeys: string[], scope:string, curRoleMap?: Obj}) => {
+const getPermHead = (params: {columnKeys: string[]; scope: string; curRoleMap?: Obj}) => {
   const { columnKeys, scope, curRoleMap = {} } = params;
-  return map(columnKeys, item => {
+  return map(columnKeys, (item) => {
     const headText = item.startsWith('depth')
       ? `${+item.slice(5) + 1}级权限`
       : (item === 'action'
@@ -141,7 +141,7 @@ const getPermHead = (params: {columnKeys: string[], scope:string, curRoleMap?: O
       <div className={`column-head-item ${scope}-head-column-${item}`} key={item}>
         <div className={`head-text nowrap head-column-${item}`} style={{ width }}>
           {headText}
-          { roleText ? <div className='fz12'>{roleText}</div> : null}
+          { roleText ? <div className="fz12">{roleText}</div> : null}
         </div>
       </div>
     );
@@ -158,7 +158,7 @@ interface IGetColumnParmas{
   originRoleMap: Obj;
   currentData: Obj;
   permColumnKeys?: string[];
-  onLoad:()=>void;
+  onLoad: () => void;
   onChangeRole?: (arg: IRoleChange) => void;
   onChangeData?: (arg: any) => void;
   deleteData?: (dataKey: string) => void;
@@ -166,7 +166,7 @@ interface IGetColumnParmas{
   onHover: (arg: string) => void;
   outHover: (arg: string) => void;
 }
-const PermColumn = (props:IGetColumnParmas) => {
+const PermColumn = (props: IGetColumnParmas) => {
   const { list: tableList, columnKeys, scope, currentData, onHover, outHover, hoverKey = '', isEdit, deleteData = noop, editData = noop, onLoad } = props;
   useMount(() => {
     onLoad();
@@ -176,14 +176,14 @@ const PermColumn = (props:IGetColumnParmas) => {
       {
         map(columnKeys, (curColumnKey, index) => {
           const list = [] as any[];
-          map(tableList, item => {
+          map(tableList, (item) => {
             const parentObj = {};
-            const parentKeys = columnKeys.slice(0, findIndex(columnKeys, k => k === curColumnKey));
-            map(parentKeys, pKey => {
+            const parentKeys = columnKeys.slice(0, findIndex(columnKeys, (k) => k === curColumnKey));
+            map(parentKeys, (pKey) => {
               parentObj[pKey] = item[pKey];
             });
             const curData = { ...item[curColumnKey], data: item, parents: parentObj };
-            const curIndex = findIndex(list, lItem => {
+            const curIndex = findIndex(list, (lItem) => {
               return lItem.key === curData.key && isEqual(lItem.parents, parentObj);
             });
             if (curIndex !== -1) {
@@ -195,15 +195,15 @@ const PermColumn = (props:IGetColumnParmas) => {
           const itemKey = `${scope}-perm-column-${curColumnKey}`;
           return (
             <div className={'perm-column'} key={itemKey}>
-              {map(list, item => {
+              {map(list, (item) => {
                 const { count, name, key = blankKey, parents } = item;
-                const dataKey = map(parents, pItem => pItem.key || blankKey).concat(key).join('.');
+                const dataKey = map(parents, (pItem) => pItem.key || blankKey).concat(key).join('.');
                 const isActive = hoverKey.includes(dataKey);
                 const cls = classnames({
                   'perm-column-item': true,
                   'hover-active-item': isActive,
                 });
-                const realDataKey = filter(dataKey.split('.'), k => k !== blankKey).join('.');
+                const realDataKey = filter(dataKey.split('.'), (k) => k !== blankKey).join('.');
                 return (
                   <div
                     key={`${dataKey}-${name || ''}-${key}`}
@@ -217,7 +217,7 @@ const PermColumn = (props:IGetColumnParmas) => {
                     </Tooltip>
                     {
                       (isEdit && key !== blankKey && hoverKey === dataKey) ? (
-                        <div className='perm-operation'>
+                        <div className="perm-operation">
                           <PermOperation
                             index={index}
                             curDataKey={realDataKey}
@@ -249,16 +249,16 @@ const RoleColumn = (props: IGetColumnParmas) => {
   return (
     <>
       {
-        map(columnKeys, curColumnKey => {
+        map(columnKeys, (curColumnKey) => {
           return (
             <div className={`perm-column ${scope}-perm-column-${curColumnKey}`} key={curColumnKey}>
               {
                 map(tableList, (item, idx) => {
                   const curRoleKey = curColumnKey.slice(5);
-                  const dataKey = map(permColumnKeys, pKey => item[pKey].key || blankKey).concat(blankKey).join('.');
+                  const dataKey = map(permColumnKeys, (pKey) => item[pKey].key || blankKey).concat(blankKey).join('.');
                   const isActive = hoverKey.includes(dataKey);
                   const isChecked = item.action.role.includes(curRoleKey);
-                  const realDataKey = filter(dataKey.split('.'), k => k !== blankKey).join('.');
+                  const realDataKey = filter(dataKey.split('.'), (k) => k !== blankKey).join('.');
                   const cls = classnames({
                     iconfont: true,
                     'perm-column-item': true,
@@ -296,7 +296,7 @@ interface IOperationProps {
   curDataKey: string;
   curColumnKey: string;
   dataItem: Obj;
-  wholeData:Obj;
+  wholeData: Obj;
   deleteData?: (dataKey: string) => void;
   editData?: (arg: any) => void;
 }
@@ -333,8 +333,8 @@ const PermOperation = (props: IOperationProps) => {
   const [addFormVis, setAddFormVis] = React.useState(false);
   const addFormRef = React.useRef(null as any);
 
-  const handleAddSubmit = (form:any) => {
-    form.validateFields((err:any, values:{addStr: string}) => {
+  const handleAddSubmit = (form: any) => {
+    form.validateFields((err: any, values: {addStr: string}) => {
       if (!err) {
         const { addStr = '' } = values;
         const permArr = addStr.split('>');
@@ -344,7 +344,7 @@ const PermOperation = (props: IOperationProps) => {
             const actionStrArr = item.split('');
             const actions = actionStrArr.slice(1, actionStrArr.length - 1).join('').split(',');
             const actionObj = {};
-            map(actions, aItem => {
+            map(actions, (aItem) => {
               const [aKey, aName] = aItem.split(':');
               actionObj[aKey] = { ...actionData, name: aName };
             });
@@ -406,7 +406,7 @@ const PermOperation = (props: IOperationProps) => {
       className: 'mb4',
       extraProps: { ...fieldLayout },
       getComp: ({ form }: { form: any }) => (
-        <div className='center-flex-box'>
+        <div className="center-flex-box">
           <Button type="primary" onClick={() => handleAddSubmit(form)}>
             添加
           </Button>
@@ -415,8 +415,8 @@ const PermOperation = (props: IOperationProps) => {
     },
   ];
 
-  const handleEditSubmit = (form:any) => {
-    form.validateFields((err:any, values:Obj) => {
+  const handleEditSubmit = (form: any) => {
+    form.validateFields((err: any, values: Obj) => {
       if (!err) {
         editData({ ...values, keyPath: keyArr.join('.'), preKey: curKey });
         setEditFormVis(false);
@@ -463,7 +463,7 @@ const PermOperation = (props: IOperationProps) => {
       className: 'mb4',
       extraProps: { ...fieldLayout },
       getComp: ({ form }: { form: any }) => (
-        <div className='center-flex-box'>
+        <div className="center-flex-box">
           <Button type="primary" onClick={() => handleEditSubmit(form)}>
             保存
           </Button>
@@ -474,47 +474,47 @@ const PermOperation = (props: IOperationProps) => {
 
   const deleteOp = index !== 0 ? (
     <DeleteConfirm
-      key='delete'
-      title='确认删除?'
+      key="delete"
+      title="确认删除?"
       secondTitle={`${curColumnKey !== 'action' ? `删除 (${dataItem.name}), 将会删除其所有关联子权限` : ''}`}
       onConfirm={() => {
         deleteData(curDataKey);
       }}
     >
-      <CustomIcon className='perm-op-item' type='shanchu' />
+      <CustomIcon className="perm-op-item" type="shanchu" />
     </DeleteConfirm>
   ) : null;
 
   const addOp = curColumnKey !== 'action' ? (
     <Popover
-      key='add'
+      key="add"
       placement="right"
-      overlayClassName='dice-perm-edit-form add'
-      title='添加'
+      overlayClassName="dice-perm-edit-form add"
+      title="添加"
       content={<RenderForm ref={addFormRef} list={addFieldList} />}
       visible={addFormVis}
       onVisibleChange={setAddFormVis}
     >
-      <CustomIcon type='cir-add' className='perm-op-item' />
+      <CustomIcon type="cir-add" className="perm-op-item" />
     </Popover>
   ) : null;
 
   const editOp = (
     <Popover
-      overlayClassName='dice-perm-edit-form edit'
-      content={<RenderForm ref={editFormRef} list={editFieldList} layout='vertical' />}
+      overlayClassName="dice-perm-edit-form edit"
+      content={<RenderForm ref={editFormRef} list={editFieldList} layout="vertical" />}
       placement="right"
       title="编辑"
-      key='edit'
+      key="edit"
       visible={editFormVis}
       onVisibleChange={setEditFormVis}
     >
-      <CustomIcon className='perm-op-item' type='setting' />
+      <CustomIcon className="perm-op-item" type="setting" />
     </Popover>
   );
   const optArr = [deleteOp, editOp, addOp];
   return (
-    <div className='perm-operation-box'>
+    <div className="perm-operation-box">
       {optArr}
     </div>
   );

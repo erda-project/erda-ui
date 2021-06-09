@@ -30,7 +30,7 @@ const inDataCenterPage = () => window.location.pathname.includes('dataCenter/');
 
 
 interface IState {
-  addonList: CUSTOM_ADDON.Item[]
+  addonList: CUSTOM_ADDON.Item[];
 }
 
 const initState: IState = {
@@ -52,20 +52,20 @@ const customAddon = createFlatStore({
 
     async addDiceAddonIns({ call, getParams }, payload: Omit<CUSTOM_ADDON.AddDiceAddOns, 'projectId'| 'clusterName'>) {
       const { projectId } = getParams();
-      const clusterConfig = projectStore.getState(s => s.info.clusterConfig);
+      const clusterConfig = projectStore.getState((s) => s.info.clusterConfig);
       return call(addDiceAddonIns, { ...payload, projectId: +projectId, clusterName: clusterConfig[payload.workspace] }, { successMsg: i18n.t('project:The creation of the service takes a while, please wait a moment') });
     },
     async addTenantAddonIns({ call }, payload: CUSTOM_ADDON.AddTenantAddon) {
       return call(addTenantAddonIns, payload, { successMsg: i18n.t('project:The creation of the service takes a while, please wait a moment') });
     },
     async updateCustomAddonConfig({ call }, query: Omit<CUSTOM_ADDON.UpdateBody, 'operatorId'>) {
-      const { id: operatorId } = userStore.getState(s => s.loginUser);
+      const { id: operatorId } = userStore.getState((s) => s.loginUser);
       return call(updateCustomAddonConfig, { ...query, operatorId: +operatorId }, { successMsg: i18n.t('update successfully') });
     },
     async getAddonsList({ call, update, getParams }) {
-      const orgId = orgStore.getState(s => s.currentOrg.id);
+      const orgId = orgStore.getState((s) => s.currentOrg.id);
       const { projectId } = getParams();
-      const _params:CUSTOM_ADDON.QueryCustoms = { org_id: orgId };
+      const _params: CUSTOM_ADDON.QueryCustoms = { org_id: orgId };
       if (!inDataCenterPage()) {
         _params.project_id = projectId;
       }
@@ -74,7 +74,7 @@ const customAddon = createFlatStore({
         update({ addonList });
       }
     },
-    async getCloudGateway({ call, getParams }, payload:Omit<CUSTOM_ADDON.QueryCloudGateway, 'projectID'>) {
+    async getCloudGateway({ call, getParams }, payload: Omit<CUSTOM_ADDON.QueryCloudGateway, 'projectID'>) {
       const { projectId } = getParams();
       return call(getCloudGateway, { ...payload, projectID: projectId });
     },

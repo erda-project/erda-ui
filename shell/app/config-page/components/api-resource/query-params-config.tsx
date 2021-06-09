@@ -20,8 +20,8 @@ import { API_FORM_KEY, API_PROPERTY_REQUIRED, API_RESOURCE_TAB } from 'app/modul
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 
 interface IExtraProps {
-  quoteTypeName:string,
-  typeQuotePath:Array<string|number>
+  quoteTypeName: string;
+  typeQuotePath: Array<string|number>;
 }
 interface IProps {
   paramIn: 'query' | 'header';
@@ -45,7 +45,7 @@ export const QueryParamsConfig = (props: IProps) => {
   React.useEffect(() => {
     const _paramList = formData.parameters || {};
     const properties = {};
-    forEach(_paramList, item => {
+    forEach(_paramList, (item) => {
       if (item?.in === paramIn) {
         properties[item[API_FORM_KEY] || item.name] = item?.schema || item;
       }
@@ -63,8 +63,8 @@ export const QueryParamsConfig = (props: IProps) => {
 
     const _extraProps = { quoteTypeName, typeQuotePath: [] } as IExtraProps;
     if (formKey) {
-      const tempDetail = produce(formData, draft => {
-        const newParameters = map(values(_formData?.properties), item => {
+      const tempDetail = produce(formData, (draft) => {
+        const newParameters = map(values(_formData?.properties), (item) => {
           const tempItem = {
             in: paramIn,
             name: item[API_FORM_KEY],
@@ -74,7 +74,7 @@ export const QueryParamsConfig = (props: IProps) => {
           tempItem[API_FORM_KEY] = item[API_FORM_KEY];
           return tempItem;
         });
-        const parametersWithoutChange = filter(formData?.parameters, item => item?.in !== paramIn) || [];
+        const parametersWithoutChange = filter(formData?.parameters, (item) => item?.in !== paramIn) || [];
         const allParameters = [...newParameters, ...parametersWithoutChange];
 
         if (typeQuotePath && quoteTypeName) {

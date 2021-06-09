@@ -34,8 +34,8 @@ const ENVS_MAP = {
 };
 
 const Governance = () => {
-  const [branchesRule, branches, appDetail] = zkproxyStore.useStore(s => [s.branchesRule, s.branches, s.appDetail]);
-  const { env } = routeInfoStore.useStore(s => s.params);
+  const [branchesRule, branches, appDetail] = zkproxyStore.useStore((s) => [s.branchesRule, s.branches, s.appDetail]);
+  const { env } = routeInfoStore.useStore((s) => s.params);
   const { getBranches, getBranchesRule, updateBranchesRule, getAppDetail, clearBranchesRule } = zkproxyStore.effects;
   const [getAppDetailLoading, getBranchesLoading, getBranchesRuleLoading] = useLoading(zkproxyStore, ['getAppDetail', 'getBranches', 'getBranchesRule']);
 
@@ -112,7 +112,7 @@ const Governance = () => {
           <p className="bold-500 fz16 mb16">{i18n.t('microService:weight configuration')}</p>
           <ul className="branches-rule-list px16 mb24">
             {
-              map(branches, name => (
+              map(branches, (name) => (
                 <li className="branches-rule-item py12 flex-box border-bottom" key={name}>
                   <div className="flex-box fz16">
                     <CustomIcon type="fz" />
@@ -122,8 +122,8 @@ const Governance = () => {
                     value={state.ruleMap[name] || 0}
                     min={0}
                     max={100}
-                    formatter={value => `${value}%`}
-                    parser={value => (value ? +value.replace('%', '') : 0)}
+                    formatter={(value) => `${value}%`}
+                    parser={(value) => (value ? +value.replace('%', '') : 0)}
                     onChange={(value) => { handleChange(value, name); }}
                     precision={0}
                   />

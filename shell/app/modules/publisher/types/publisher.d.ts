@@ -13,72 +13,72 @@
 
 declare namespace PUBLISHER {
   interface IAuthenticate {
-    userName?: string
-    userId: string
-    deviceNo: string
-    createdAt: string
+    userName?: string;
+    userId: string;
+    deviceNo: string;
+    createdAt: string;
   }
 
   interface IListQuery extends IPagingReq, MonitorKey {
-    artifactId: string
-    q?: string
+    artifactId: string;
+    q?: string;
   }
 
   interface IBlackList {
-    id: string
-    userName: number
-    userId: string
-    deviceNo: string
-    createdAt: string
+    id: string;
+    userName: number;
+    userId: string;
+    deviceNo: string;
+    createdAt: string;
   }
   interface IListQuery extends MonitorKey{
-    pageNo: number
-    pageSize: number
+    pageNo: number;
+    pageSize: number;
   }
 
   type EraseStatus = 'success' | 'failure' | 'erasing';
 
   interface IErase {
-    deviceNo: string
-    createdAt: string
-    eraseStatus: EraseStatus
+    deviceNo: string;
+    createdAt: string;
+    eraseStatus: EraseStatus;
   }
 
   interface IPublisher {
-    id: string
-    name: string
-    logo: string
-    desc: string
-    type: string
+    id: string;
+    name: string;
+    logo: string;
+    desc: string;
+    type: string;
   }
 
   interface PublisherListQuery {
-    orgId: number
-    pageNo: number
-    pageSize: number
-    loadMore?: boolean
-    q?: string
+    orgId: number;
+    pageNo: number;
+    pageSize: number;
+    loadMore?: boolean;
+    q?: string;
   }
 
   interface IArtifacts {
-    id: string
-    name: string
-    orgId: string
-    publisherId: number
-    type: string
-    logo: string
-    public: boolean
-    desc: string
-    updatedAt: string
-    createdAt: string
+    id: string;
+    name: string;
+    orgId: string;
+    publisherId: number;
+    type: string;
+    logo: string;
+    public: boolean;
+    desc: string;
+    updatedAt: string;
+    createdAt: string;
     grayLevelPercent: string;
     noJailbreak: boolean;
-    isGeofence: boolean
+    isGeofence: boolean;
     downloadUrl?: string;
     geofenceLon?: string | number;
     geofenceLat?: string | number;
     geofenceRadius?: string | number;
-    versionStates?: versionType
+    versionStates?: versionType;
   }
 
   interface ArtifactsListQuery {
@@ -92,10 +92,10 @@ declare namespace PUBLISHER {
   }
 
   interface IMeta {
-    appId: string
-    appName: string
-    projectId: string
-    projectName: string
+    appId: string;
+    appName: string;
+    projectId: string;
+    projectName: string;
   }
 
   interface IResource {
@@ -109,7 +109,7 @@ declare namespace PUBLISHER {
       fileId: number;
       packageName: string;
       version: string;
-    },
+    };
     name: string;
     type: MobileType;
     url: string;
@@ -118,22 +118,22 @@ declare namespace PUBLISHER {
   type versionType = 'release' | 'beta';
 
   interface IVersion {
-    id: string
-    buildId: string
-    version: string
-    releaseId: string
-    logo: string
-    desc: string
-    public: boolean
-    isDefault: boolean
-    artifactsId?: string
+    id: string;
+    buildId: string;
+    version: string;
+    releaseId: string;
+    logo: string;
+    desc: string;
+    public: boolean;
+    isDefault: boolean;
+    artifactsId?: string;
     createdAt: string;
-    meta: IMeta
-    versionStates: versionType
-    grayLevelPercent?: number
+    meta: IMeta;
+    versionStates: versionType;
+    grayLevelPercent?: number;
     targetMobiles: {
-      ios: string[],
-      android: string[],
+      ios: string[];
+      android: string[];
     };
     mobileType: MobileType;
     resources: IResource[];
@@ -142,20 +142,20 @@ declare namespace PUBLISHER {
   type MobileType = 'ios' | 'android' | 'h5';
 
   interface VersionListQuery {
-    artifactsId: string
-    mobileType?: MobileType
+    artifactsId: string;
+    mobileType?: MobileType;
     packageName?: string;
-    pageNo: number
-    pageSize: number
+    pageNo: number;
+    pageSize: number;
   }
 
   interface IUpdateGrayQuery {
-    action: 'publish' | 'unpublish'
-    publishItemID: number
-    publishItemVersionID: number
-    versionStates: versionType
+    action: 'publish' | 'unpublish';
+    publishItemID: number;
+    publishItemVersionID: number;
+    versionStates: versionType;
     packageName?: string;
-    grayLevelPercent?: number
+    grayLevelPercent?: number;
   }
 
   interface IOnlineVersionQuery {
@@ -165,36 +165,36 @@ declare namespace PUBLISHER {
   }
 
   interface IOnlineVersion {
-    id: number
-    version: string
-    public: boolean
-    versionStates: versionType
-    grayLevelPercent: string
+    id: number;
+    version: string;
+    public: boolean;
+    versionStates: versionType;
+    grayLevelPercent: string;
   }
 
   interface AllVersionQuery extends MonitorKey{
-    publisherItemId: string
-    group: string
-    count: string
-    start: number
-    end: number
+    publisherItemId: string;
+    group: string;
+    count: string;
+    start: number;
+    end: number;
   }
 
   interface IStatisticsTrend {
     '7dAvgActiveUsers': number;
-    '7dAvgActiveUsersGrowth': number,
-    '7dAvgDuration': number,
-    '7dAvgDurationGrowth': number,
-    '7dAvgNewUsers': number,
-    '7dAvgNewUsersGrowth': number,
-    '7dAvgNewUsersRetention': number,
-    '7dAvgNewUsersRetentionGrowth': number,
-    '7dTotalActiveUsers': number,
-    '7dTotalActiveUsersGrowth': number,
-    monthTotalActiveUsers: number,
-    monthTotalActiveUsersGrowth: number,
-    totalCrashRate: number,
-    totalUsers: number
+    '7dAvgActiveUsersGrowth': number;
+    '7dAvgDuration': number;
+    '7dAvgDurationGrowth': number;
+    '7dAvgNewUsers': number;
+    '7dAvgNewUsersGrowth': number;
+    '7dAvgNewUsersRetention': number;
+    '7dAvgNewUsersRetentionGrowth': number;
+    '7dTotalActiveUsers': number;
+    '7dTotalActiveUsersGrowth': number;
+    monthTotalActiveUsers: number;
+    monthTotalActiveUsersGrowth: number;
+    totalCrashRate: number;
+    totalUsers: number;
   }
 
   interface IErrorTrend extends MonitorKey{
@@ -203,66 +203,66 @@ declare namespace PUBLISHER {
     affectUsersProportionGrowth: string;
     crashRate: string;
     crashRateGrowth: string;
-    crashTimes: number
+    crashTimes: number;
   }
 
   interface ErrorListQuery extends MonitorKey{
-    artifactsId: string
-    start: number
-    end: number
-    filter_av?: string
+    artifactsId: string;
+    start: number;
+    end: number;
+    filter_av?: string;
   }
 
   interface ErrorItem {
-    affectUsers: number,
-    appVersion: string,
-    errSummary: string,
-    timeOfFirst: string,
-    timeOfRecent: string,
-    totalErr: number
+    affectUsers: number;
+    appVersion: string;
+    errSummary: string;
+    timeOfFirst: string;
+    timeOfRecent: string;
+    totalErr: number;
   }
   interface ErrorDetailQuery extends MonitorKey{
-    artifactsId: string,
-    start: number,
-    end: number,
-    filter_error: string,
-    limit: number,
+    artifactsId: string;
+    start: number;
+    end: number;
+    filter_error: string;
+    limit: number;
   }
 
   interface ErrorDetail {
-    '@timestamp': number,
+    '@timestamp': number;
     fields: {
-      count: number
-    },
-    name: string,
+      count: number;
+    };
+    name: string;
     tags: {
-      av: string,
-      br: string,
-      md: string,
-      dh: string,
-      channel: string,
-      cid: string,
-      cpu: string,
-      device: string,
-      doc_path: string,
-      gps: string,
-      host: string,
-      ip: string,
-      jb: string,
-      mem: string,
-      ns: string,
-      os: string,
-      osv: string,
-      osn: string,
-      rom: string,
-      tk: string,
-      type: string,
-      uid: string,
-      vid: string,
-      stack_trace: string,
-      error: string,
-    },
-    timestamp: number
+      av: string;
+      br: string;
+      md: string;
+      dh: string;
+      channel: string;
+      cid: string;
+      cpu: string;
+      device: string;
+      doc_path: string;
+      gps: string;
+      host: string;
+      ip: string;
+      jb: string;
+      mem: string;
+      ns: string;
+      os: string;
+      osv: string;
+      osn: string;
+      rom: string;
+      tk: string;
+      type: string;
+      uid: string;
+      vid: string;
+      stack_trace: string;
+      error: string;
+    };
+    timestamp: number;
   }
 
   interface IError {
@@ -285,37 +285,37 @@ declare namespace PUBLISHER {
     group?: string;
     filter_av?: string;
     filter_ch?: string;
-    count?: string
+    count?: string;
     limit?: number;
   }
 
   interface VersionStatisticQuery extends MonitorKey{
-    artifactsId: string
-    endTime: string
+    artifactsId: string;
+    endTime: string;
   }
 
   interface VersionStatistic {
-    activeUsers: number,
-    activeUsersGrowth: string,
-    launches: number,
-    newUsers: number,
-    totalUsers: number,
-    totalUsersGrowth: string,
-    upgradeUser: number,
-    versionOrChannel: string
+    activeUsers: number;
+    activeUsersGrowth: string;
+    launches: number;
+    newUsers: number;
+    totalUsers: number;
+    totalUsersGrowth: string;
+    upgradeUser: number;
+    versionOrChannel: string;
   }
 
   interface QueryLibVersion {
-    libID: number
+    libID: number;
   }
   interface LibVersion {
     libName: string;
-    version: string
+    version: string;
   }
 
   interface MonitorKey{
     ak?: string;
-    ai?: string
+    ai?: string;
   }
 
   interface MonitorItem{
@@ -330,6 +330,6 @@ declare namespace PUBLISHER {
 
   interface OfflinePackage{
     publishItemId: string;
-    data: FormData
+    data: FormData;
   }
 }

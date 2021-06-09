@@ -15,8 +15,8 @@ import agent from 'agent';
 
 interface RESP<T> {
   success: boolean;
-  data: T,
-  err: Record<string, any>
+  data: T;
+  err: Record<string, any>;
 }
 
 
@@ -25,7 +25,7 @@ const transResponseToStandard = <T>(body: any): T | RESP<null> => {
 };
 
 export const getServiceList = ({ paths, org, startLevel }: RESOURCE.QueryServiceList): RESOURCE.Instances[] | RESOURCE.ServiceItem[] => {
-  const pathArr = paths.map(p => p.q);
+  const pathArr = paths.map((p) => p.q);
   let projectId;
   let applicationId;
   let runtimeId;
@@ -63,7 +63,7 @@ export const getChartData = ({ type, paths, query, startLevel, projectId }: RESO
       query: { last: 'mem_usage' },
     },
   };
-  const pathArr = paths.map(p => p.q);
+  const pathArr = paths.map((p) => p.q);
   let filter_project_id = projectId;
   let filter_application_id;
   let filter_runtime_id;

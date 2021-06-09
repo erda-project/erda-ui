@@ -23,10 +23,10 @@ const setup = { type: 'pipeline', addTitle: i18n.t('application:add pipeline'), 
 
 export const Pipeline = () => {
   const [visible, setVisible] = React.useState(false);
-  const params = routeInfoStore.useStore(s => s.params);
+  const params = routeInfoStore.useStore((s) => s.params);
   const { addPipeline: addPipelineCall, getComboPipelines } = buildStore.effects;
 
-  const goToDetailLink = React.useCallback(({ pipelineID }: { comboPipelines?: BUILD.IComboPipeline[], branch?: string, ymlName?: string, pipelineID?: number }, replace?: boolean) => {
+  const goToDetailLink = React.useCallback(({ pipelineID }: { comboPipelines?: BUILD.IComboPipeline[]; branch?: string; ymlName?: string; pipelineID?: number }, replace?: boolean) => {
     const { projectId, appId } = params;
     pipelineID && goTo(goTo.pages.pipeline, { projectId, appId, pipelineID, replace });
   }, [params]);

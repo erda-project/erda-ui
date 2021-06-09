@@ -19,7 +19,7 @@ import { describe, it } from '@jest/globals';
 describe('EmptyHolder Comp', () => {
   it('render EmptyHolder', () => {
     const wrapper = shallow(
-      <EmptyHolder />
+      <EmptyHolder />,
     );
     expect(wrapper.children().at(0).prop('type')).toBe('empty');
     expect(wrapper.children().at(1).text()).toContain('no data');
@@ -34,7 +34,7 @@ describe('EmptyHolder Comp', () => {
   });
   it('render EmptyListHolder', () => {
     const wrapper = shallow(
-      <EmptyListHolder />
+      <EmptyListHolder />,
     );
     expect(wrapper.children().at(0).prop('type')).toBe('empty-s');
     expect(wrapper.children().at(1).text()).toContain('no data');
@@ -53,7 +53,7 @@ describe('EmptyHolder Comp', () => {
         showHolder={() => false}
       >
         <div className="holder-children">children</div>
-      </Holder>
+      </Holder>,
     );
     expect(wrapper.find('.holder-children')).toExist();
   });

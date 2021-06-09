@@ -71,7 +71,7 @@ describe('SearchTable', () => {
         }}
       >
         <div className="search_table">search table children</div>
-      </SearchTable>
+      </SearchTable>,
     );
     expect(wrapper.find('.extra-items-right')).toExist();
     expect(wrapper.find('OperationBar')).toExist();

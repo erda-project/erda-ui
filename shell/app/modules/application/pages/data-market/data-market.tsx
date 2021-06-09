@@ -29,7 +29,7 @@ interface IProps {
   getTableAttrs: any;
   isFetchingTable: boolean;
   tableAttrsPaging: IPaging;
-  marketBusinessScope: { businessDomain: any, dataDomains: any[], marketDomains: any[] };
+  marketBusinessScope: { businessDomain: any; dataDomains: any[]; marketDomains: any[] };
 }
 
 const pageConfig = { iconType: 'bg', domainName: 'marketDomain', domainPlaceholder: i18n.t('application:select a market area') };
@@ -82,7 +82,7 @@ const Mapper = () => {
     marketBusinessScope,
     dataMarketPaging,
     tableAttrsPaging,
-  ] = dataTaskStore.useStore(s => [
+  ] = dataTaskStore.useStore((s) => [
     s.outputTableList,
     s.tableAttrsList,
     s.marketBusinessScope,

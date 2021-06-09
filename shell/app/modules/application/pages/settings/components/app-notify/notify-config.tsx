@@ -40,13 +40,13 @@ interface IProps {
 }
 
 export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
-  const roleMap = memberStore.useStore(s => s.roleMap);
+  const roleMap = memberStore.useStore((s) => s.roleMap);
   const { getRoleMap } = memberStore.effects;
-  const [notifyConfigs, notifyItems] = appNotifyStore.useStore(s => [s.notifyConfigs, s.notifyItems]);
+  const [notifyConfigs, notifyItems] = appNotifyStore.useStore((s) => [s.notifyConfigs, s.notifyItems]);
   const { getNotifyConfigs, deleteNotifyConfigs, createNotifyConfigs, updateNotifyConfigs, toggleNotifyConfigs, getNotifyItems } = appNotifyStore.effects;
-  const notifyGroups = notifyGroupStore.useStore(s => s.notifyGroups);
+  const notifyGroups = notifyGroupStore.useStore((s) => s.notifyGroups);
   const [toggleNotifyConfigsLoading, getNotifyConfigsLoading] = useLoading(appNotifyStore, ['toggleNotifyConfigs', 'getNotifyConfigs']);
-  const userMap = userMapStore.useStore(s => s);
+  const userMap = userMapStore.useStore((s) => s);
   const { getNotifyGroups } = notifyGroupStore.effects;
   const { clearNotifyGroups } = notifyGroupStore.reducers;
 
@@ -102,7 +102,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
         id: activedData.id,
         withGroup: false,
         notifyGroupId: +notifyGroupId,
-        notifyItemIds: map(notifyItemIds, id => +id),
+        notifyItemIds: map(notifyItemIds, (id) => +id),
         channels: channels.join(','),
       }).then(() => {
         closeModal();
@@ -116,7 +116,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
       enabled: false,
       withGroup: false,
       notifyGroupId: +notifyGroupId,
-      notifyItemIds: map(notifyItemIds, id => +id),
+      notifyItemIds: map(notifyItemIds, (id) => +id),
       channels: channels.join(','),
     }).then(() => {
       closeModal();
@@ -193,17 +193,17 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
       dataIndex: 'notifyGroup.targets',
       tip: true,
       className: 'notify-info',
-      render: targets => <div className="flex-box"><ListTargets targets={targets} roleMap={roleMap} /></div>,
+      render: (targets) => <div className="flex-box"><ListTargets targets={targets} roleMap={roleMap} /></div>,
     },
     {
       title: i18n.t('default:creator'),
       dataIndex: 'creator',
-      render: text => userMap[text]?.nick,
+      render: (text) => userMap[text]?.nick,
     },
     {
       title: i18n.t('default:create time'),
       dataIndex: 'createdAt',
-      render: text => moment(text).format('YYYY-MM-DD HH:mm:ss'),
+      render: (text) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: i18n.t('default:operation'),

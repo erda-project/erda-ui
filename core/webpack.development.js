@@ -16,15 +16,16 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'development',
+  devtool: 'eval-cheap-module-source-map',
   watchOptions: {
     // aggregateTimeout: 500,
     ignored: ['node_modules', 'test'],
   },
   output: {
-    path: path.resolve(__dirname, './public'),
+    path: path.resolve(__dirname, '../public/static/core'),
     filename: 'scripts/[name].js',
     chunkFilename: 'scripts/[id].[contenthash].js',
-    publicPath: 'https://local-core.terminus-org.dev.terminus.io:5000/',
+    publicPath: '/static/core/',
   },
   plugins: [
     new MiniCssExtractPlugin({

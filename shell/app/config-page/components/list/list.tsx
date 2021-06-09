@@ -88,7 +88,7 @@ const List = (props: CP_LIST.Props) => {
   };
 
   return (
-    <div className='cp-list'>
+    <div className="cp-list">
       {
         currentList.length > 0 ? (
           <>
@@ -96,11 +96,11 @@ const List = (props: CP_LIST.Props) => {
               return <Item size={size} customProps={customProps} execOperation={execOperation} key={getKey(item, idx)} data={item} alignCenter={alignCenter} noBorder={noBorder} />;
             })}
             {!isLoadMore && pagination ? (
-              <Pagination className='right-flex-box mt12' {...pagination} />
+              <Pagination className="right-flex-box mt12" {...pagination} />
             ) : null
             }
             {isLoadMore && total > Math.max(state.combineList?.length, 0)
-              && <div className='hover-active load-more' onClick={loadMore}>{i18n.t('more')}</div>}
+              && <div className="hover-active load-more" onClick={loadMore}>{i18n.t('more')}</div>}
           </>
         ) : <EmptyHolder relative />
       }
@@ -114,21 +114,21 @@ interface ItemProps {
   data: CP_LIST.IListData;
   alignCenter?: boolean;
   noBorder?: boolean;
-  execOperation: (opObj: { key: string, [p: string]: any }, updateData?: any) => void;
+  execOperation: (opObj: { key: string; [p: string]: any }, updateData?: any) => void;
   customProps?: Obj;
 }
 const Item = (props: ItemProps) => {
   const { execOperation, size = 'middle', data, alignCenter = false,
     noBorder = false, customProps } = props;
   const { operations = {}, prefixImg, title, titlePrifxIcon, prefixImgCircle, titlePrifxIconTip, titleSuffixIcon, titleSuffixIconTip, description = '', extraInfos } = data || {};
-  const actions = sortBy(filter(map(operations) || [], item => item.show !== false), 'showIndex');
+  const actions = sortBy(filter(map(operations) || [], (item) => item.show !== false), 'showIndex');
 
   const itemClassNames = classnames({
     'v-align': alignCenter,
     'no-border': noBorder,
     [size]: size,
     'cp-list-item': true,
-    'pointer': true,
+    pointer: true,
   });
   const onClickItem = () => {
     if (operations?.click) {
@@ -143,39 +143,39 @@ const Item = (props: ItemProps) => {
     <div className={itemClassNames} onClick={onClickItem}>
       {
         isString(prefixImg) ? (
-          <div className='cp-list-item-prefix-img'>
+          <div className="cp-list-item-prefix-img">
             <img src={prefixImg.startsWith('/images') ? imgMap[prefixImg] : prefixImg as string} className={`item-prefix-img ${prefixImgCircle ? 'prefix-img-circle' : ''}`} />
           </div>
         ) : (
-            prefixImg ? (
-              <div className='cp-list-item-prefix-img'>
-                {prefixImg}
-              </div>
-            ) : null
-          )
+          prefixImg ? (
+            <div className="cp-list-item-prefix-img">
+              {prefixImg}
+            </div>
+          ) : null
+        )
       }
-      <div className='cp-list-item-body'>
-        <div className={`body-title`}>
+      <div className="cp-list-item-body">
+        <div className={'body-title'}>
           {
             titlePrifxIcon ? (
               <Tooltip title={titlePrifxIconTip}>
-                <CustomIcon type={titlePrifxIcon} className='title-icon mr8' />
+                <CustomIcon type={titlePrifxIcon} className="title-icon mr8" />
               </Tooltip>
             ) : null
           }
-          <Ellipsis className='bold title-text' title={title} />
+          <Ellipsis className="bold title-text" title={title} />
           {
             titleSuffixIcon ? (
               <Tooltip title={titleSuffixIconTip}>
-                <CustomIcon type={titleSuffixIcon} className='title-icon ml8' />
+                <CustomIcon type={titleSuffixIcon} className="title-icon ml8" />
               </Tooltip>
             ) : null
           }
         </div>
-        {description ? <Ellipsis className='body-description' title={description} /> : null}
+        {description ? <Ellipsis className="body-description" title={description} /> : null}
         {
           extraInfos ? (
-            <div className='body-extra-info'>
+            <div className="body-extra-info">
               {
                 extraInfos.map((info, idx) => {
                   const extraProps = {} as Obj;
@@ -193,7 +193,7 @@ const Item = (props: ItemProps) => {
                     <Tooltip key={idx} title={info.tooltip}>
                       <span className={`info-item type-${info.type || 'normal'}`} {...extraProps}>
                         {info.icon ? <ErdaIcon iconType={info.icon} size={16} /> : null}
-                        <span className='info-text nowrap'>{info.text}</span>
+                        <span className="info-text nowrap">{info.text}</span>
                       </span>
                     </Tooltip>
                   );
@@ -205,9 +205,9 @@ const Item = (props: ItemProps) => {
       </div>
       {
         actions?.length ? (
-          <div className='cp-list-item-operations' onClick={e => e?.stopPropagation()}>
+          <div className="cp-list-item-operations" onClick={(e) => e?.stopPropagation()}>
             {
-              actions.map(action => {
+              actions.map((action) => {
                 return (
                   <OperationAction
                     key={action.key}
@@ -219,7 +219,7 @@ const Item = (props: ItemProps) => {
                       }
                     }}
                   >
-                    <Button type='link'>{action.text}</Button>
+                    <Button type="link">{action.text}</Button>
                   </OperationAction>
                 );
               })

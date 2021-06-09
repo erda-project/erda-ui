@@ -23,15 +23,15 @@ import { IData } from './yml-chart';
 
 interface IChartConfig extends Omit<typeof CHART_CONFIG, 'MARGIN'> {
   NODE: {
-    [pro: string]: {WIDTH: number; HEIGHT: number}
-  },
+    [pro: string]: {WIDTH: number; HEIGHT: number};
+  };
   MARGIN: {X: number; Y: number};
 }
 
 interface IExternal {
   [pro: string]: any;
   nodeEleMap?: {
-    [pro:string]: React.ReactNode
+    [pro: string]: React.ReactNode;
   };
   editing: boolean;
 }
@@ -46,7 +46,7 @@ export interface IExternalData {
     nodeType: string;
     xIndex: number;
     yIndex: number;
-  }
+  };
 }
 
 const NodeEleMap = {
@@ -70,14 +70,14 @@ const getNodePostion = (data: IData[][], chartConfig: IChartConfig, external: IE
   const { PADDING, NODE, MARGIN } = chartConfig;
   const nodeData = [] as IData[][];
   const isEdit = external && external.editing;
-  const boxSizeArr = map(data, item => {
+  const boxSizeArr = map(data, (item) => {
     return {
       width: PADDING.X * 2 + (item.length - 1) * MARGIN.X + sumBy(item, (subItem: IData) => get(NODE, `${subItem[externalKey].nodeType}.WIDTH`) as unknown as number || 0),
       height: get(NODE, `${get(item, `[0].${externalKey}.nodeType`)}.HEIGHT`) as unknown as number,
       itemWidth: get(NODE, `${get(item, `[0].${externalKey}.nodeType`)}.WIDTH`) as unknown as number,
     };
   });
-  const maxWidthBox = maxBy(boxSizeArr, item => item.width) as Obj || { width: 0, height: 0 };
+  const maxWidthBox = maxBy(boxSizeArr, (item) => item.width) as Obj || { width: 0, height: 0 };
   const dataLen = data.length;
   let chartHeight = PADDING.Y;
   map(data, (item, index) => {
@@ -110,7 +110,7 @@ const getNodePostion = (data: IData[][], chartConfig: IChartConfig, external: IE
   } as {
     chartHeight: number;
     chartWidth: number;
-    nodeData: IExternalData[][]
+    nodeData: IExternalData[][];
   };
 };
 
@@ -162,7 +162,7 @@ const renderNodes = (nodeData: any[][], chart: any, chartConfig: IChartConfig, e
           {...external}
           data={node}
         />,
-        document.getElementById(`${chartId}-${nodeId}`)
+        document.getElementById(`${chartId}-${nodeId}`),
       );
       if (isEdit && nodeLen === subIndex + 1 && ![NodeType.startNode, NodeType.endNode, NodeType.addRow].includes(curStartNode.nodeType)) { // 编辑态，末尾追加添加节点
         const add_xPos = x + width / 2 + MARGIN.X;
@@ -188,7 +188,7 @@ const renderNodes = (nodeData: any[][], chart: any, chartConfig: IChartConfig, e
               },
             }}
           />,
-          document.getElementById(`${addNodeId}`)
+          document.getElementById(`${addNodeId}`),
         );
       }
     });
@@ -202,12 +202,12 @@ const getLinkPosition = (data: IExternalData [][], chartConfig: IChartConfig, ex
   if (data.length > 1) {
     map(data, (item, index) => {
       const targetNodes = data[index + 1];
-      map(item, subItem => {
+      map(item, (subItem) => {
         if (targetNodes) {
           const firstTarget = get(targetNodes, `[0].${externalKey}`);
           const lastTarget = get(targetNodes, `[${targetNodes.length - 1}].${externalKey}`);
           const centerX = firstTarget.x + (lastTarget.x - firstTarget.x) / 2;
-          map(targetNodes, targetNode => {
+          map(targetNodes, (targetNode) => {
             const startPos = subItem[externalKey];
             const endPos = targetNode[externalKey];
             const startAddRow = startPos.nodeType === NodeType.addRow;
@@ -303,12 +303,12 @@ const getLinkPosition = (data: IExternalData [][], chartConfig: IChartConfig, ex
   };
 };
 // 渲染link
-const renderLinks = (linkData: any[], chart: any, chartConfig: IChartConfig, external:any) => {
+const renderLinks = (linkData: any[], chart: any, chartConfig: IChartConfig, external: any) => {
   const { LINK } = chartConfig;
   const { startMarker, endMarker } = LINK;
   const markerStart = chart.circle(...startMarker.pos).attr(startMarker.attr).marker(...startMarker.marker);
   const markerEnd = chart.image(...endMarker.image).attr(endMarker.attr).marker(...endMarker.marker);
-  map(linkData, link => {
+  map(linkData, (link) => {
     const { path, id, needStartMark, needEndMark } = link;
     chart.path(path).attr({
       id,

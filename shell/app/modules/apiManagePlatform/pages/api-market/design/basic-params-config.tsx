@@ -42,23 +42,23 @@ interface IPropertyItemForm {
   siblingProperties?: Obj[];
   extraDataTypes?: Obj;
   allDataTypes?: string[];
-  onChange: (formKey:string, e:any, extraProps?:Obj)=>void;
-  onSetMediaType?: ({ propertyKey, propertyData } : { propertyKey: string, propertyData: string })=>void;
-  updateErrorNum?: (n: number, name:string) => void;
-  onFormErrorNumChange?: (n: number, name:string) => void;
+  onChange: (formKey: string, e: any, extraProps?: Obj) => void;
+  onSetMediaType?: ({ propertyKey, propertyData }: { propertyKey: string; propertyData: string }) => void;
+  updateErrorNum?: (n: number, name: string) => void;
+  onFormErrorNumChange?: (n: number, name: string) => void;
 }
 
 interface ISetFieldProps {
-  propertyType?:string;
-  propertyKey?:string,
-  propertyData?:any,
+  propertyType?: string;
+  propertyKey?: string;
+  propertyData?: any;
 }
 
 interface IFormErrorMap {
-  [prop:string]: number
+  [prop: string]: number;
 }
 
-export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
+export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
   const { formData, onChange, formType = 'Query', isEditMode = true } = props;
 
   const [{
@@ -97,19 +97,19 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
   React.useImperativeHandle(paramListTempStorageRef, () => paramListTempStorage);
   React.useImperativeHandle(dataTempStorageRef, () => dataTempStorage);
 
-  const isCurTypeOf = React.useCallback((type:BASE_DATA_TYPE) => {
+  const isCurTypeOf = React.useCallback((type: BASE_DATA_TYPE) => {
     return (curPropertyType === type || get(props, ['extraDataTypes', curPropertyType, 'type']) === type);
   }, [curPropertyType, props]);
 
   const isBasicDataType = React.useMemo(() => {
-    return some(BASE_DATA_TYPE, item => item === curPropertyType);
+    return some(BASE_DATA_TYPE, (item) => item === curPropertyType);
   }, [curPropertyType]);
 
-  const getRefTypePath = React.useCallback((data:Obj):string => {
+  const getRefTypePath = React.useCallback((data: Obj): string => {
     return get(data, [QUOTE_PREFIX, 0, '$ref']) || get(data, [QUOTE_PREFIX_NO_EXTENDED]) || '';
   }, []);
 
-  const getExampleData = React.useCallback((data:Obj) => {
+  const getExampleData = React.useCallback((data: Obj) => {
     if (!data) return '';
 
     const refTypePath = getRefTypePath(data);
@@ -119,17 +119,17 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
     const curType = data.type || customTypeData.type;
 
     if (curType === 'object') {
-      const newExample:Obj = refTypePath ? getExampleData(customTypeData) : {};
+      const newExample: Obj = refTypePath ? getExampleData(customTypeData) : {};
 
       const customProperties = data.properties || {};
-      forEach(keys(customProperties), pName => {
+      forEach(keys(customProperties), (pName) => {
         const propertyItem = customProperties[pName];
         newExample[pName] = getExampleData(propertyItem);
       });
 
       return newExample;
     } else if (curType === 'array') {
-      const newExample:any = refTypePath ? getExampleData(customTypeData) : getExampleData(data.items);
+      const newExample: any = refTypePath ? getExampleData(customTypeData) : getExampleData(data.items);
       return refTypePath ? newExample : [newExample];
     } else if (refTypePath && customTypeData.example !== undefined) {
       return customTypeData.example;
@@ -158,7 +158,7 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
     const requiredNames = formData?.required || [];
     updater.dataTempStorage(formData);
 
-    const tempList = map(keys(innerProperties), (pKey:string) => {
+    const tempList = map(keys(innerProperties), (pKey: string) => {
       const _temp = { ...innerProperties[pKey] };
       if (formData?.type === 'object' && Array.isArray(formData?.required)) {
         _temp[API_PROPERTY_REQUIRED] = requiredNames.includes(pKey);
@@ -193,7 +193,7 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
 
 
   const AllDataTypes = React.useMemo(() => {
-    return filter(props?.allDataTypes, item => item !== dataTempStorage[API_FORM_KEY]) || [];
+    return filter(props?.allDataTypes, (item) => item !== dataTempStorage[API_FORM_KEY]) || [];
   }, [dataTempStorage, props]);
 
   const onToggleDetail = React.useCallback((visible) => {
@@ -214,13 +214,13 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
 
   const propertyNameMap = React.useMemo(() => {
     const list = props?.siblingProperties || [];
-    return map(list, item => item[API_FORM_KEY]);
+    return map(list, (item) => item[API_FORM_KEY]);
   }, [props]);
 
   const setFields = React.useCallback((fieldProps: ISetFieldProps) => {
     const { propertyKey = '', propertyData } = fieldProps;
     if (propertyKey === API_MEDIA && props.onSetMediaType) {
-      props.onSetMediaType(fieldProps as {propertyKey:string, propertyData:string});
+      props.onSetMediaType(fieldProps as {propertyKey: string; propertyData: string});
       return;
     }
     if (propertyKey === 'operation') {
@@ -228,7 +228,7 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
       return;
     }
     if (formRef?.current) {
-      const newFormData = produce(dataTempStorageRef.current, (draft:any) => {
+      const newFormData = produce(dataTempStorageRef.current, (draft: any) => {
         if (curPropertyType === 'array' && !['description', 'type', API_FORM_KEY, API_PROPERTY_REQUIRED].includes(propertyKey)) {
           set(draft, `items.${propertyKey}`, propertyData);
         } else {
@@ -326,12 +326,12 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
 
   const dataTypeOptions = React.useMemo(() => {
     if (!props?.extraDataTypes) {
-      return map(BASE_DATA_TYPE, item => (
+      return map(BASE_DATA_TYPE, (item) => (
         <Option key={item} value={item}>{item.slice(0, 1).toUpperCase() + item.slice(1)}</Option>));
     } else {
-      const basicDataTypeOptions = map(BASE_DATA_TYPE, item => (
+      const basicDataTypeOptions = map(BASE_DATA_TYPE, (item) => (
         <Option key={item} value={item}>{item.slice(0, 1).toUpperCase() + item.slice(1)}</Option>));
-      const extraOptions = map(keys(props.extraDataTypes), typeName => (
+      const extraOptions = map(keys(props.extraDataTypes), (typeName) => (
         <Option key={typeName} value={typeName}>{typeName}</Option>
       )) || [];
 
@@ -341,10 +341,10 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
 
 
   const updateErrorNum = React.useCallback((num, name) => {
-    const _formErrorMap:IFormErrorMap = {};
+    const _formErrorMap: IFormErrorMap = {};
     _formErrorMap[name] = num;
     if (curPropertyType === 'object') {
-      forEach(paramListTempStorage, param => {
+      forEach(paramListTempStorage, (param) => {
         const pName = param[API_FORM_KEY];
         if (pName === name) {
           _formErrorMap[pName] = num;
@@ -361,7 +361,7 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
     props.onFormErrorNumChange && props.onFormErrorNumChange(totalError, dataTempStorage[API_FORM_KEY]);
   }, [curPropertyType, dataTempStorage, formErrorMap, paramListTempStorage, props, updater]);
 
-  const onChangePropertyName = React.useCallback((e:React.ChangeEvent<HTMLInputElement>) => {
+  const onChangePropertyName = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const newName = e.target.value;
     const { pattern } = regRules.specialLetter;
     const nameMap = formType === 'DataType' ? AllDataTypes : propertyNameMap;
@@ -369,7 +369,7 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
 
     const isSameWithBaseType = (formType === 'DataType') && (newName.toLocaleLowerCase() in BASE_DATA_TYPE);
     if (newName !== '' && !pattern.test(newName) && !nameMap.includes(newName) && !isSameWithBaseType) {
-      const temp = produce(dataTempStorageRef.current, draft => {
+      const temp = produce(dataTempStorageRef.current, (draft) => {
         set(draft, API_FORM_KEY, newName);
       });
       isErrorValue = false;
@@ -395,7 +395,7 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
     }
   }, [AllDataTypes, curPropertyType, dataTempStorage, errorMap, formType, onChange, propertyNameMap, updateErrorNum, updater]);
 
-  const onChangeNumberValue = React.useCallback(({ propertyKey, propertyData }:{propertyKey:string, propertyData:number}) => {
+  const onChangeNumberValue = React.useCallback(({ propertyKey, propertyData }: {propertyKey: string; propertyData: number}) => {
     let isErrorValue = true;
 
     if (propertyKey === 'minLength') {
@@ -457,15 +457,15 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
       fields.push(...tempFields);
     }
 
-    return map(fields, fieldItem => {
-      const tempFieldItem = produce(fieldItem, draft => {
+    return map(fields, (fieldItem) => {
+      const tempFieldItem = produce(fieldItem, (draft) => {
         if (['minLength', 'maxLength', 'minimum', 'maximum'].includes(draft.name)) {
-          set(draft, 'customProps.onChange', (e:React.ChangeEvent<HTMLInputElement> | any) => {
+          set(draft, 'customProps.onChange', (e: React.ChangeEvent<HTMLInputElement> | any) => {
             const newNum = !(Object.prototype.toString.call(e) === '[object Object]') ? e : +e.target.value;
             onChangeNumberValue({ propertyKey: fieldItem?.name, propertyData: newNum });
           });
         } else {
-          set(draft, 'customProps.onChange', (e:React.ChangeEvent<HTMLInputElement> | any) => {
+          set(draft, 'customProps.onChange', (e: React.ChangeEvent<HTMLInputElement> | any) => {
             const newVal = !(Object.prototype.toString.call(e) === '[object Object]') ? e : e.target.value;
             setFields({ propertyKey: fieldItem?.name, propertyData: newVal });
           });
@@ -478,7 +478,7 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
 
   const onArrayItemChange = (_formKey: string, _formData: any, extraProps?: Obj) => {
     const newExample = [getExampleData(_formData)];
-    const tempData = produce(dataTempStorageRef.current, draft => {
+    const tempData = produce(dataTempStorageRef.current, (draft) => {
       draft.items = _formData;
       draft.example = newExample;
     });
@@ -491,21 +491,21 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
   };
 
   const updateInnerParamList = (formKey: string, _formData: any, extraProps?: Obj) => {
-    const tempList = produce(paramListTempStorageRef.current, draft => {
+    const tempList = produce(paramListTempStorageRef.current, (draft) => {
       forEach(draft, (item, index) => {
         if (item[API_FORM_KEY] === formKey) {
           draft[index] = _formData;
         }
       });
     });
-    const requiredNames:string[] = [];
+    const requiredNames: string[] = [];
 
     const refTypePath = getRefTypePath(dataTempStorage);
     const customDataType = refTypePath ? refTypePath.split('/').slice(-1)[0] : '';
 
-    const objectExample:Obj = { ...getExampleData(get(props, ['extraDataTypes', customDataType])) };
+    const objectExample: Obj = { ...getExampleData(get(props, ['extraDataTypes', customDataType])) };
 
-    forEach(tempList, item => {
+    forEach(tempList, (item) => {
       const _example = item?.example || DATATYPE_EXAMPLE_MAP[item?.type];
       if (item[API_PROPERTY_REQUIRED]) {
         requiredNames.push(item[API_FORM_KEY]);
@@ -517,10 +517,10 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
 
     if (props.onChange && tempList?.length) {
       const newProperties = {};
-      forEach(tempList, item => {
+      forEach(tempList, (item) => {
         newProperties[item[API_FORM_KEY]] = item;
       });
-      const tempData = produce(dataTempStorageRef.current, draft => {
+      const tempData = produce(dataTempStorageRef.current, (draft) => {
         draft.properties = newProperties;
         draft.type = 'object';
         draft.required = requiredNames;
@@ -532,7 +532,7 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
     }
   };
 
-  const deleteParamByFormKey = (_data: Obj, index:number) => {
+  const deleteParamByFormKey = (_data: Obj, index: number) => {
     const tempList = paramListTempStorage.filter((_record, i) => index !== i);
 
     updater.innerParamList(tempList);
@@ -540,15 +540,15 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
 
     const tempProperties = {};
     const newExample = {};
-    const requiredNames:string[] = [];
+    const requiredNames: string[] = [];
 
-    forEach(tempList, item => {
+    forEach(tempList, (item) => {
       tempProperties[item[API_FORM_KEY]] = item;
       newExample[item[API_FORM_KEY]] = item?.example;
       item[API_PROPERTY_REQUIRED] && requiredNames.push(item[API_FORM_KEY]);
     });
 
-    const newFormData = produce(dataTempStorage, draft => {
+    const newFormData = produce(dataTempStorage, (draft) => {
       set(draft, 'properties', tempProperties);
       set(draft, 'example', newExample);
       set(draft, 'required', requiredNames);
@@ -558,7 +558,7 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
   };
 
   const getExistNames = React.useCallback(() => {
-    const existNames = map(paramListTempStorage, item => item[API_FORM_KEY]);
+    const existNames = map(paramListTempStorage, (item) => item[API_FORM_KEY]);
 
     const refTypePath = getRefTypePath(dataTempStorage);
     const customDataType = refTypePath ? refTypePath.split('/').slice(-1)[0] : '';
@@ -571,7 +571,7 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
   }, [curPropertyType, dataTempStorage, getRefTypePath, paramListTempStorage, props]);
 
   // object类型的批量添加参数
-  const addParamList = React.useCallback((newList:Obj[]) => {
+  const addParamList = React.useCallback((newList: Obj[]) => {
     const refTypePath = getRefTypePath(dataTempStorage);
     const customDataType = refTypePath ? refTypePath.split('/').slice(-1)[0] : '';
 
@@ -580,18 +580,18 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
     updater.paramListTempStorage(tempList);
 
     const tempProperties = {};
-    forEach(tempList, item => {
+    forEach(tempList, (item) => {
       tempProperties[item[API_FORM_KEY]] = item;
     });
     const newExample = refTypePath ? { ...get(props, `extraDataTypes.${customDataType}.example`) } : {};
 
-    const requiredNames:string[] = [];
-    forEach(tempList, property => {
+    const requiredNames: string[] = [];
+    forEach(tempList, (property) => {
       property[API_PROPERTY_REQUIRED] && requiredNames.push(property[API_FORM_KEY]);
       newExample[property[API_FORM_KEY]] = property?.example;
     });
 
-    const newFormData = produce(dataTempStorage, draft => {
+    const newFormData = produce(dataTempStorage, (draft) => {
       set(draft, 'properties', tempProperties);
       set(draft, 'type', 'object');
       set(draft, 'example', newExample);
@@ -629,21 +629,21 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
 
   const onCloseParamsModal = () => updater.paramsModalVisible(false);
 
-  const onImport = (importedParams:Obj[]) => {
+  const onImport = (importedParams: Obj[]) => {
     onCloseParamsModal();
     addParamList(importedParams);
   };
 
   const formFieldsSelector = React.useMemo(() => {
     const tempFields = getPropertyFormSelector({ formType, dataTypeOptions, propertyNameMap, AllDataTypes, detailVisible });
-    return map(tempFields, (fieldItem:any) => {
-      const tempFieldItem = produce(fieldItem, (draft: { name: string; }) => {
+    return map(tempFields, (fieldItem: any) => {
+      const tempFieldItem = produce(fieldItem, (draft: { name: string }) => {
         if (draft.name === API_FORM_KEY && ['DataType', 'Query'].includes(formType)) {
           set(draft, 'customProps.onChange', onChangePropertyName);
         } else if (draft.name === 'operation') {
           set(draft, 'customProps.onChange', onToggleDetail);
         } else {
-          set(draft, 'customProps.onChange', (e:React.ChangeEvent<HTMLInputElement> | string | boolean) => {
+          set(draft, 'customProps.onChange', (e: React.ChangeEvent<HTMLInputElement> | string | boolean) => {
             const newVal = (typeof e === 'string' || typeof e === 'boolean') ? e : e.target.value;
             setFields({ propertyKey: fieldItem?.name, propertyData: newVal });
           });
@@ -696,7 +696,7 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
                         isEditMode={isEditMode}
                         onChange={updateInnerParamList}
                         extraDataTypes={props?.extraDataTypes}
-                        siblingProperties={filter(innerParamList, item => item[API_FORM_KEY] !== record[API_FORM_KEY])}
+                        siblingProperties={filter(innerParamList, (item) => item[API_FORM_KEY] !== record[API_FORM_KEY])}
                       />
                     </FormBuilder>
                   </div>
@@ -735,7 +735,7 @@ export const PropertyItemForm = React.memo((props:IPropertyItemForm) => {
                   onChange={onArrayItemChange}
                   isEditMode={isEditMode}
                   extraDataTypes={props?.extraDataTypes}
-                  siblingProperties={filter(innerParamList, item => item[API_FORM_KEY] !== dataTempStorage.items[API_FORM_KEY])}
+                  siblingProperties={filter(innerParamList, (item) => item[API_FORM_KEY] !== dataTempStorage.items[API_FORM_KEY])}
                 />
               </div>
             }

@@ -19,16 +19,16 @@ interface IProps{
   isCreate?: boolean;
   otherTaskAlias?: string[];
   chosenActionName: string;
-  chosenAction:any;
+  chosenAction: any;
   onSubmit?: (options: any) => void;
 }
 
 const ActionConfigForm = (props: IProps) => {
   const { chosenActionName } = props;
   const inParams = {
-    actionData: props.nodeData
-  }
-  return <DiceConfigPage inParams={inParams} showLoading={false} scenarioType='action' scenarioKey={chosenActionName} customProps={{ actionForm: props }} />;
+    actionData: props.nodeData,
+  };
+  return <DiceConfigPage inParams={inParams} showLoading={false} scenarioType="action" scenarioKey={chosenActionName} customProps={{ actionForm: props }} />;
 };
 
 export default ActionConfigForm;

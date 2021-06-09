@@ -16,7 +16,7 @@ import agent from 'agent';
 export const getClusterList = ({
   orgId,
 }: {
-  orgId: number
+  orgId: number;
 }): ORG_CLUSTER.ICluster[] => {
   return agent.get('/api/clusters')
     .query({ orgID: orgId })

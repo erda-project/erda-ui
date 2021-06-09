@@ -18,11 +18,11 @@ import './empty-holder.scss';
 import i18n from 'i18n';
 
 interface IEmptyProps {
-  tip?: string,
-  icon?: string | JSX.Element,
-  relative?: boolean,
-  style?: object,
-  action?: JSX.Element | null,
+  tip?: string;
+  icon?: string | JSX.Element;
+  relative?: boolean;
+  style?: object;
+  action?: JSX.Element | null;
   className?: string;
 }
 export const EmptyHolder = ({

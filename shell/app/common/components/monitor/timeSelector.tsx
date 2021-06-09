@@ -23,12 +23,12 @@ interface IProps{
   className?: string;
   defaultTime?: number | Moment[] | number[];
   inline?: boolean;
-  disabledDate?(arg: any): boolean;
+  disabledDate?: (arg: any) => boolean;
 }
 const TimeSelectorContainer = (props: IProps) => {
   const { changeTimeSpan: onChangeTime } = monitorCommonStore.reducers;
-  const timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
-  const query = routeInfoStore.useStore(s => s.query);
+  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const query = routeInfoStore.useStore((s) => s.query);
   const { rangeMode = true, ...rest } = props;
   const fullProps = { ...rest, timeSpan, query, onChangeTime };
   return rangeMode ? <TimeRangeSelector {...fullProps} /> : <TimeSelector {...fullProps} />;

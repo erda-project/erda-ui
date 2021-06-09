@@ -16,8 +16,8 @@ import { uploadFile, fetchLog, getRenderPageLayout } from '../services';
 import { has } from 'lodash';
 
 interface State {
-  logsMap: Obj<COMMON.LOG>
-  slidePanelComps: COMMON.SlideComp[]
+  logsMap: Obj<COMMON.LOG>;
+  slidePanelComps: COMMON.SlideComp[];
 }
 
 const initState: State = {
@@ -38,7 +38,7 @@ const common = createStore({
       const res = await call(getRenderPageLayout, payload);
       return res;
     },
-    async fetchLog({ call }, { logKey, ...query }: { [k: string]: any, logKey: string }) {
+    async fetchLog({ call }, { logKey, ...query }: { [k: string]: any; logKey: string }) {
       let lines = [] as COMMON.LogItem[];
       if (has(query, 'fetchApi') && !query.fetchApi) {
         return;
@@ -58,7 +58,7 @@ const common = createStore({
     },
   },
   reducers: {
-    queryLogSuccess(state, lines: COMMON.LogItem[], meta: { logKey: string, count?: number }) {
+    queryLogSuccess(state, lines: COMMON.LogItem[], meta: { logKey: string; count?: number }) {
       const { logKey, count = 0 } = meta;
       const { logsMap } = state;
       const oldLog = logsMap[logKey] || {};

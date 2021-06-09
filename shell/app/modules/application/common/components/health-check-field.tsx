@@ -30,7 +30,7 @@ const defaultValue = {
 };
 
 export default class extends PureComponent<IVariableInputGroupProps, any> {
-  constructor(props:IVariableInputGroupProps) {
+  constructor(props: IVariableInputGroupProps) {
     super(props);
     const keys = Object.keys(props.value);
     let healthCheckKey;
@@ -55,14 +55,14 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
     };
   }
 
-  public triggerChange = (changedValue: any) => {
+  triggerChange = (changedValue: any) => {
     const { onChange } = this.props;
     if (onChange) {
       onChange(changedValue);
     }
   };
 
-  public render() {
+  render() {
     const { disabled } = this.props;
     const { healthCheckKey } = this.state;
 

@@ -54,7 +54,7 @@ const SelectPro = (props: CP_SELECT_PRO.Props) => {
     switch (renderType) {
       case 'apiProto': {
         const { id, method, assetName, version, operationID, path } = item;
-        const tips = [assetName, version, operationID].filter(t => !!t);
+        const tips = [assetName, version, operationID].filter((t) => !!t);
         option = (
           <Option value={id} key={id} label={`${method} ${path}`}>
             <div className="color-text-sub nowrap" >{tips.join(' / ')}</div>
@@ -78,7 +78,7 @@ const SelectPro = (props: CP_SELECT_PRO.Props) => {
   }, wait), [wait]);
 
   const restProps = React.useMemo(() => {
-    const obj:SelectProps<any> = omit(configProps, customizeProps);
+    const obj: SelectProps<any> = omit(configProps, customizeProps);
     if (configProps.showSearch) {
       obj.onSearch = handleSearch;
     }

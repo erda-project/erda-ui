@@ -69,7 +69,7 @@ describe('TreeUtils', () => {
       const wrapper = shallow(
         <div>
           {getIcon({ isLeaf: true, type: 'info' })}
-        </div>
+        </div>,
       );
       expect(wrapper.children().prop('type')).toBe('dm');
       expect(wrapper.children()).toHaveStyle({ height: '16px' });
@@ -78,7 +78,7 @@ describe('TreeUtils', () => {
       const wrapper = shallow(
         <div>
           {getIcon({ isLeaf: false, type: 'info' })}
-        </div>
+        </div>,
       );
       expect(wrapper.children().prop('type')).toBe('folder');
       expect(wrapper.children()).toHaveStyle({ height: '16px' });
@@ -87,7 +87,7 @@ describe('TreeUtils', () => {
       const wrapper = shallow(
         <div>
           {getIcon({ isLeaf: false, type: 'info' }, iconMap)}
-        </div>
+        </div>,
       );
       expect(wrapper.find('.icon-info')).toExist();
     });
@@ -95,7 +95,7 @@ describe('TreeUtils', () => {
       const wrapper = shallow(
         <div>
           {getIcon({ isLeaf: false, iconType: 'warning' }, iconMap)}
-        </div>
+        </div>,
       );
       expect(wrapper.find('.icon-warning')).toExist();
     });
@@ -103,7 +103,7 @@ describe('TreeUtils', () => {
       const wrapper = shallow(
         <div>
           {getIcon({ isLeaf: false, iconType: 'warning2' }, iconMap)}
-        </div>
+        </div>,
       );
     });
   });

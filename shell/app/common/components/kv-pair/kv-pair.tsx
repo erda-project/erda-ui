@@ -26,35 +26,35 @@ export interface IKVRecord {
 
 interface IKVProp {
   value?: Array<{
-    [prop: string]: any,
-    key: string,
-    value: string,
-  }>,
-  children: Function,
-  keyName?: string,
-  keyDesc?: string,
+    [prop: string]: any;
+    key: string;
+    value: string;
+  }>;
+  children: Function;
+  keyName?: string;
+  keyDesc?: string;
   descName?: string;
-  valueName?: string,
-  KeyComp?: any,
+  valueName?: string;
+  KeyComp?: any;
   DescComp?: any;
-  ValueComp?: any,
-  OpComp?: any,
-  compProps?: object, // 其他传给所有Comp的prop，例如disabled
-  emptyHolder?: boolean, // 没有数据时显示一个空行
-  autoAppend?: boolean, // 自动追加空行
-  onChange(value: object): any,
+  ValueComp?: any;
+  OpComp?: any;
+  compProps?: object; // 其他传给所有Comp的prop，例如disabled
+  emptyHolder?: boolean; // 没有数据时显示一个空行
+  autoAppend?: boolean; // 自动追加空行
+  onChange: (value: object) => any;
 }
 
-const DefaultKey = ({ record, keyName, update, ...rest }: any) => <Input maxLength={100} value={record[keyName]} onChange={e => update(e.target.value)} {...rest} />;
-const DefaultValue = ({ record, valueName, update, ...rest }: any) => <Input maxLength={1000} value={record[valueName]} onChange={e => update(e.target.value)} {...rest} />;
+const DefaultKey = ({ record, keyName, update, ...rest }: any) => <Input maxLength={100} value={record[keyName]} onChange={(e) => update(e.target.value)} {...rest} />;
+const DefaultValue = ({ record, valueName, update, ...rest }: any) => <Input maxLength={1000} value={record[valueName]} onChange={(e) => update(e.target.value)} {...rest} />;
 const DefaultOp = ({ index, className = '', deleteIndex, ...rest }: any) => {
   return rest.disabled
     ? <IconDelete className={`not-allowed ${className}`} {...rest} />
     : <IconDelete className={className} onClick={() => deleteIndex(index)} {...rest} />;
 };
-const getEmpty = (keyName: string, valueName: string, descName: string, keyDesc:string,) => ({ [keyName]: '', [valueName]: '', [descName]: '', [keyDesc]: '' });
+const getEmpty = (keyName: string, valueName: string, descName: string, keyDesc: string) => ({ [keyName]: '', [valueName]: '', [descName]: '', [keyDesc]: '' });
 
-const lastIsEmpty = (list: any[], keyName: string, valueName: string, descName: string, keyDesc:string) => {
+const lastIsEmpty = (list: any[], keyName: string, valueName: string, descName: string, keyDesc: string) => {
   const lastItem = last(list);
   return lastItem && !lastItem[keyName] && !lastItem[valueName] && !lastItem[descName] && !lastItem[keyDesc];
 };

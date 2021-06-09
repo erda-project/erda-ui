@@ -23,15 +23,15 @@ interface IProps {
   download: string;
   visible: boolean;
   projectID: number | string;
-  onClose:()=>void;
-  afterImport?(): void;
+  onClose: () => void;
+  afterImport?: () => void;
 }
 
 const ImportFile = ({ afterImport, issueType, download, projectID, visible, onClose }: IProps) => {
   const [uploadLoading, setUploadLoading] = useState(false);
   const { importIssueFile } = issueStore.effects;
   const [confirmLoading] = useLoading(issueStore, ['importIssueFile']);
-  const beforeUpload = (file:any) => {
+  const beforeUpload = (file: any) => {
     const isLt20M = file.size / 1024 / 1024 < 20;
     if (!isLt20M) {
       message.error(i18n.t('project:file must smaller than 20MB!'));
@@ -44,7 +44,7 @@ const ImportFile = ({ afterImport, issueType, download, projectID, visible, onCl
     setUploadLoading(false);
   };
 
-  const onSuccess = (res:any) => {
+  const onSuccess = (res: any) => {
     const { successNumber, falseNumber, uuid } = res;
     if (falseNumber === 0) {
       message.success(i18n.t('project:imported {total} item successfully', { total: successNumber }));

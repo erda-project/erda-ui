@@ -19,7 +19,7 @@ import './cards-layout.scss';
 
 interface IProps {
   dataList?: any[];
-  contentRender(content: any): any;
+  contentRender: (content: any) => any;
 }
 
 const getCardGridClass = (compWidth: number) => {
@@ -54,7 +54,7 @@ const CardsLayout = (props: IProps) => {
       {widthHolder}
       <IF check={!isEmpty(dataList) && gridClass}>
         <ul className={`card-list-container ${gridClass}`}>
-          { dataList && dataList.map(content => contentRender(content)) }
+          { dataList && dataList.map((content) => contentRender(content)) }
         </ul>
       </IF>
     </>

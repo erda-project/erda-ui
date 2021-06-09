@@ -28,8 +28,8 @@ import './index.scss';
 
 const DetailIntro = () => {
   const { getReport, updateSummary } = testPlanStore.effects;
-  const planReport = testPlanStore.useStore(s => s.planReport);
-  const { testPlanId } = routeInfoStore.useStore(s => s.params);
+  const planReport = testPlanStore.useStore((s) => s.planReport);
+  const { testPlanId } = routeInfoStore.useStore((s) => s.params);
 
   React.useEffect(() => {
     testPlanId && getReport(+testPlanId);

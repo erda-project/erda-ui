@@ -151,7 +151,7 @@ const extraColumnsMap = {
 
 const BranchRule = (props: IProps) => {
   const { operationAuth, scopeId, scopeType } = props;
-  const branchRules = branchRuleStore.useStore(s => s.branchRules);
+  const branchRules = branchRuleStore.useStore((s) => s.branchRules);
   const { addBranchRule, getBranchRules, deleteBranchRule, updateBranchRule, clearBranchRule } = branchRuleStore;
   const isProject = scopeType === 'project';
   const [{ modalVis, editData }, updater, update] = useUpdate({
@@ -308,14 +308,14 @@ const BranchRule = (props: IProps) => {
   };
   return (
     <div>
-      <div className='mb12'>
+      <div className="mb12">
         <WithAuth pass={operationAuth} >
-          <Button ghost type='primary' onClick={() => updater.modalVis(true)}>{i18n.t('project:new branch rule')}</Button>
+          <Button ghost type="primary" onClick={() => updater.modalVis(true)}>{i18n.t('project:new branch rule')}</Button>
         </WithAuth>
       </div>
       <Table
-        rowKey='id'
-        tableKey='branch-rule'
+        rowKey="id"
+        tableKey="branch-rule"
         dataSource={branchRules}
         columns={columns}
       />

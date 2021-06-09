@@ -42,11 +42,11 @@ declare namespace TEST {
     totals: {
       tests: number;
       duration: number;
-      statuses: Statuses,
+      statuses: Statuses;
     };
     parserType: string;
     envs: null;
     workspace: string;
-    suites: null,
+    suites: null;
   }
 }

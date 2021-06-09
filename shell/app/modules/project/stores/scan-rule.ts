@@ -16,8 +16,8 @@ import { getAppendedScanRules, updateScanRule, getOptionalScanRules, deleteScanR
 import i18n from 'i18n';
 
 interface IState {
-  appendedScanRules: SCAN_RULE.AppendedItem[],
-  optionalScanRules: SCAN_RULE.AppendedItem[],
+  appendedScanRules: SCAN_RULE.AppendedItem[];
+  optionalScanRules: SCAN_RULE.AppendedItem[];
 }
 
 const initState: IState = {

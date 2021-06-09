@@ -136,7 +136,7 @@ export const getLineOption = (data: IStaticData, optionExtra = {}) => {
       unit: curUnit,
       axisLabel: {
         margin: 0,
-        formatter: val => getFormatter(curUnitType, metric.unit).format(val, decimal),
+        formatter: (val) => getFormatter(curUnitType, metric.unit).format(val, decimal),
       },
     };
   });
@@ -155,11 +155,11 @@ export const getLineOption = (data: IStaticData, optionExtra = {}) => {
     return [curYAxis.unitType, curYAxis.unit];
   };
 
-  const genTTArray = param => param.map((unit, i) => {
+  const genTTArray = (param) => param.map((unit, i) => {
     return `<span style='color: ${unit.color}'>${cutStr(unit.seriesName, 20)} : ${getFormatter(...getTTUnitType(i)).format(unit.value, 2)}</span><br/>`;
   });
 
-  let defaultTTFormatter = param => `${param[0].name}<br/>${genTTArray(param).join('')}`;
+  let defaultTTFormatter = (param) => `${param[0].name}<br/>${genTTArray(param).join('')}`;
 
   if (xAxisIsTime) {
     defaultTTFormatter = (param) => {
@@ -179,7 +179,7 @@ export const getLineOption = (data: IStaticData, optionExtra = {}) => {
   if (haveTwoYAxis) {
     yAxis = yAxis.map((item, i) => {
       // 有数据和无数据的显示有差异
-      const hasData = some(results[i].data || [], _data => (Number(_data) !== 0));
+      const hasData = some(results[i].data || [], (_data) => (Number(_data) !== 0));
       let { name } = item;
       if (!hasData) {
         name = i === 0 ? `${'  '.repeat(item.name.length + 1)}${item.name}` : `${item.name}${'  '.repeat(item.name.length)}`;
@@ -215,7 +215,7 @@ export const getLineOption = (data: IStaticData, optionExtra = {}) => {
       type: 'scroll',
       tooltip: {
         show: true,
-        formatter: t => cutStr(t.name, 100),
+        formatter: (t) => cutStr(t.name, 100),
       },
     },
     grid: {
@@ -236,7 +236,7 @@ export const getLineOption = (data: IStaticData, optionExtra = {}) => {
           show: false,
         },
         axisLabel: {
-          formatter: (value:string|number) => moment(Number(value)).format(moreThanOneDay ? 'M/D HH:mm' : 'HH:mm'),
+          formatter: (value: string|number) => moment(Number(value)).format(moreThanOneDay ? 'M/D HH:mm' : 'HH:mm'),
         },
         splitLine: {
           show: false,

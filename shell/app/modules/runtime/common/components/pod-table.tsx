@@ -25,7 +25,7 @@ interface IProps {
 
 const PodTable = (props: IProps) => {
   const { runtimeID, service } = props;
-  const podListMap = runtimeServiceStore.useStore(s => s.podListMap);
+  const podListMap = runtimeServiceStore.useStore((s) => s.podListMap);
   const podList = podListMap[service] || [];
   const [state, updater] = useUpdate({
     loading: false,

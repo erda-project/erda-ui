@@ -25,10 +25,10 @@ interface IProps{
 
 const PipelineManage = (props: IProps) => {
   const { scope } = props;
-  const caseId = routeInfoStore.useStore(s => s.query.caseId);
+  const caseId = routeInfoStore.useStore((s) => s.query.caseId);
   return (
     <SplitPage>
-      <SplitPage.Left className='pipeline-manage-left'>
+      <SplitPage.Left className="pipeline-manage-left">
         <FileTree scope={scope} />
       </SplitPage.Left>
       <SplitPage.Right>

@@ -32,10 +32,10 @@ interface IProps {
   visible: boolean;
   slidePanelComps: COMMON.SlideComp[];
   title?: string;
-  hideLog(payload: any): void;
-  clearLog(logKey?: string): void;
-  pushSlideComp(payload: any): void;
-  popSlideComp(): void;
+  hideLog: (payload: any) => void;
+  clearLog: (logKey?: string) => void;
+  pushSlideComp: (payload: any) => void;
+  popSlideComp: () => void;
 }
 
 interface IState {
@@ -156,7 +156,7 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
 
 export const BuildLog = (p: any) => {
   const { clearLog } = commonStore.reducers;
-  const slidePanelComps = commonStore.useStore(s => s.slidePanelComps);
+  const slidePanelComps = commonStore.useStore((s) => s.slidePanelComps);
   const { pushSlideComp, popSlideComp } = commonStore.reducers;
   return <PureBuildLog {...p} clearLog={clearLog} slidePanelComps={slidePanelComps} pushSlideComp={pushSlideComp} popSlideComp={popSlideComp} />;
 };

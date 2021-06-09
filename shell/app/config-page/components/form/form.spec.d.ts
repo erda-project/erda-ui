@@ -24,7 +24,7 @@ declare namespace CP_FORM {
   }
 
   interface IProps{
-    width?: number
+    width?: number;
     name?: string;
     title?: string;
     visible?: boolean;
@@ -40,8 +40,8 @@ declare namespace CP_FORM {
       modalProps?: Obj;
       onCancel?(): void;
       onFailed?(res?: object, isEdit?: boolean): void;
-      onFieldsChange?(v: Obj): void
+      onFieldsChange?(v: Obj): void;
       onOk?(result: object, isEdit: boolean): Promise<any> | void;
-    }
+    };
   };
 }

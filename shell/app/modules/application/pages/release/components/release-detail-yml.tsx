@@ -35,7 +35,7 @@ const ReleaseDetailYml = ({ releaseId }: IProps) => {
   return (
     <div className="release-detail-page">
       <IF check={yml}>
-        <FileContainer className='mt12' name="dice.yml">
+        <FileContainer className="mt12" name="dice.yml">
           <FileEditor
             name="dice.yml"
             fileExtension="yml"

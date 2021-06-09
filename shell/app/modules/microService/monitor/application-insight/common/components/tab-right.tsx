@@ -23,7 +23,7 @@ interface IParams{
   choosenApp: {
     [pro: string]: any;
     id: string;
-  }
+  };
 }
 
 // 三层group查询，数据为三层嵌套  runtime.service.instance，

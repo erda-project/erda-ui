@@ -33,8 +33,8 @@ interface IState {
 }
 
 const RepoMrTable = ({ type }: IProps) => {
-  const [mrList, mrPaging] = repoStore.useStore(s => [s.mrList, s.mrPaging]);
-  const userMap = userMapStore.useStore(s => s);
+  const [mrList, mrPaging] = repoStore.useStore((s) => [s.mrList, s.mrPaging]);
+  const userMap = userMapStore.useStore((s) => s);
 
   const [state, , update] = useUpdate({
     authorId: undefined,
@@ -134,7 +134,7 @@ const RepoMrTable = ({ type }: IProps) => {
                     </div>
                     <div className="sub-title left-flex-box">
                       <span className="mr4">
-                      #{item.mergeId}
+                        #{item.mergeId}
                       </span>
                       <span className="mr24 left-flex-box">
                         <Tooltip title={curActor.name}>

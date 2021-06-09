@@ -20,9 +20,9 @@ import { RangePicker } from 'app/nusi';
 import * as React from 'react';
 
 interface IProps {
-  visible: boolean,
-  data: ITERATION.Detail | null,
-  onClose(isSave: boolean): void,
+  visible: boolean;
+  data: ITERATION.Detail | null;
+  onClose: (isSave: boolean) => void;
 }
 export default ({ visible, data, onClose }: IProps) => {
   const { createIteration, editIteration } = iterationStore.effects;
@@ -76,6 +76,10 @@ export default ({ visible, data, onClose }: IProps) => {
       required: false,
       itemProps: {
         maxLength: 4000,
+        autoSize: {
+          minRows: 8,
+          maxRows: 8,
+        }
       },
     },
   ];

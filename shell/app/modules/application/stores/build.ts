@@ -75,7 +75,7 @@ const build = createStore({
   },
   effects: {
     async getBuildRuntimeDetail({ call, select, update }, payload: { runtimeId: number }): Promise<RUNTIME.Detail> {
-      const { id } = select(state => state.runtimeDetail);
+      const { id } = select((state) => state.runtimeDetail);
       if (id === payload.runtimeId) {
         return {} as RUNTIME.Detail;
       }
@@ -117,7 +117,7 @@ const build = createStore({
       const result = await call(cancelBuild, payload, { successMsg: i18n.t('application:build cancelled') });
       return result;
     },
-    async getExecuteRecords({ call, update, getParams }, payload: { branch: string; source: string, pageNo: number, pagingYmlNames: string[] }) {
+    async getExecuteRecords({ call, update, getParams }, payload: { branch: string; source: string; pageNo: number; pagingYmlNames: string[] }) {
       const { appId } = getParams();
       const { branch, source, pageNo, pagingYmlNames } = payload;
       const pagingYmlNamesStr = (pagingYmlNames || []).join(',');
@@ -126,7 +126,7 @@ const build = createStore({
       update({ executeRecords });
       return executeRecords;
     },
-    async updateTaskEnv({ call }, payload: { pipelineID: number, taskID: number, disabled: boolean }) {
+    async updateTaskEnv({ call }, payload: { pipelineID: number; taskID: number; disabled: boolean }) {
       const { pipelineID, taskID, disabled } = payload;
       await call(updateTaskEnv, { taskID, disabled, pipelineID });
     },
@@ -136,21 +136,21 @@ const build = createStore({
       return detail;
     },
     async getComboPipelines({ call, update, getParams }) {
-      const { routes } = routeInfoStore.getState(s => s);
+      const { routes } = routeInfoStore.getState((s) => s);
       const { appId } = getParams();
-      const params = routes.some(route => route.path === 'dataTask') ? { sources: 'bigdata', branches: 'master' } : {};
+      const params = routes.some((route) => route.path === 'dataTask') ? { sources: 'bigdata', branches: 'master' } : {};
       const comboPipelines = await call(getComboPipelines, { ...params, appId });
       update({ comboPipelines });
       return comboPipelines;
     },
     async onPipelineStatusChange({ select, update, call }, payload: any) {
       const { pipelineID, status, costTimeSec } = payload;
-      let { pipelineDetail, comboPipelines } = select(s => s);
+      let { pipelineDetail, comboPipelines } = select((s) => s);
       if (pipelineDetail && pipelineDetail.id === pipelineID) {
         pipelineDetail = await call(getPipelineDetail, { pipelineID });
       }
       const cpComboPipelines = cloneDeep(comboPipelines);
-      const targetBuild = cpComboPipelines.find(o => o.pipelineID === pipelineID);
+      const targetBuild = cpComboPipelines.find((o) => o.pipelineID === pipelineID);
       if (targetBuild) {
         targetBuild.status = status;
         targetBuild.costTimeSec = costTimeSec;
@@ -164,7 +164,7 @@ const build = createStore({
       return result;
     },
     async getPipelineLog({ call, select, getParams, update }, payload: { resourceId: string; resourceType: string }) {
-      const [pipelineLogID, logList] = select(s => [s.pipelineLogID, s.pipelineLog]);
+      const [pipelineLogID, logList] = select((s) => [s.pipelineLogID, s.pipelineLog]);
       const { appId } = getParams();
       const query = {
         ...payload,
@@ -204,7 +204,7 @@ const build = createStore({
       const { pipelineDetail } = state;
       if (pipelineDetail && pipelineDetail.id === pipelineID) {
         const { pipelineStages } = pipelineDetail;
-        pipelineStages.forEach(o => o.pipelineTasks.forEach((task) => {
+        pipelineStages.forEach((o) => o.pipelineTasks.forEach((task) => {
           if (task.id === pipelineTaskID && runtimeID) {
             const metadata = [{ name: 'runtimeID', value: runtimeID }];
             task.result.metadata = metadata;
@@ -218,7 +218,7 @@ const build = createStore({
       const { pipelineDetail } = state;
       if (pipelineDetail && pipelineDetail.id === pipelineID) {
         const { pipelineStages } = pipelineDetail;
-        pipelineStages.forEach(o => o.pipelineTasks.forEach((task) => {
+        pipelineStages.forEach((o) => o.pipelineTasks.forEach((task) => {
           if (task.id === pipelineTaskID) {
             task.status = status;
             task.costTimeSec = costTimeSec;

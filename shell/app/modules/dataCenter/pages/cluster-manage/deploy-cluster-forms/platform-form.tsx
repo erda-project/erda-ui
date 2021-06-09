@@ -90,7 +90,7 @@ export const PlatformForm = ({ form, isReadonly, data, curRef }: IFormProps) => 
       name: `${formPrefix}.scheme`,
       type: 'radioGroup',
       initialValue: 'http',
-      options: ['http', 'https'].map(v => ({ value: v, name: v })),
+      options: ['http', 'https'].map((v) => ({ value: v, name: v })),
       itemProps: {
         onChange: (e: any) => {
           const port = e.target.value === 'http' ? 80 : 443;

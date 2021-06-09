@@ -33,9 +33,9 @@ const filterStatistics = {
   },
 };
 const Latency = () => {
-  const clusterName = microServiceStore.useStore(s => s.clusterName);
-  const [projectId, terminusKey] = routeInfoStore.useStore(s => [s.params.projectId, s.params.terminusKey]);
-  const chosenDomain = gatewayIngressCommonStore.useStore(s => s.chosenDomain);
+  const clusterName = microServiceStore.useStore((s) => s.clusterName);
+  const [projectId, terminusKey] = routeInfoStore.useStore((s) => [s.params.projectId, s.params.terminusKey]);
+  const chosenDomain = gatewayIngressCommonStore.useStore((s) => s.chosenDomain);
   const [chosenStatistics, setChosenStatistics] = React.useState(STATISTICS.avg.value);
   const [httpStatus, setHttpStatus] = React.useState();
   const query: any = { projectId, filter_cluster_name: clusterName };

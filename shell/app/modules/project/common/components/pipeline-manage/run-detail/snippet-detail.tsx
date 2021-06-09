@@ -21,10 +21,10 @@ import { ResultView } from './result-view';
 import './snippet-detail.scss';
 
 interface IProps{
-  pipelineDetail: PIPELINE.IPipelineDetail,
-  dataList?: PIPELINE.ITask,
+  pipelineDetail: PIPELINE.IPipelineDetail;
+  dataList?: PIPELINE.ITask;
   visible: boolean;
-  onClose: ()=>void;
+  onClose: () => void;
   detailType?: string;
 }
 
@@ -47,7 +47,7 @@ const SnippetDetail = (props: IProps) => {
 
   const renderTooltipTitle = (_data: any): any => {
     const { result } = _data;
-    const detailInfo = [<div className='mb4'>{`${i18n.t('name')}: ${_data.name}`}</div>] as any[];
+    const detailInfo = [<div className="mb4">{`${i18n.t('name')}: ${_data.name}`}</div>] as any[];
 
     if (result && isEmptyExtraInfo(_data)) {
       const { errors: perError = [], metadata: preMetadata = [] } = result;
@@ -71,7 +71,7 @@ const SnippetDetail = (props: IProps) => {
           temp.push(
             <div key={`meta-${String(index)}`} className="test-case-node-msg">
               <span className="test-case-node-msg-name">{m.name}</span> {m.value}
-            </div>
+            </div>,
           ));
         if (temp.length) {
           detailInfo.push(<h4>{i18n.t('application:details')}</h4>);
@@ -79,10 +79,10 @@ const SnippetDetail = (props: IProps) => {
         }
       }
       if (!isEmpty(files)) {
-        detailInfo.push(<h4 className='mt8'>{i18n.t('download')}</h4>);
+        detailInfo.push(<h4 className="mt8">{i18n.t('download')}</h4>);
         detailInfo.push(files.map((item, idx) => (
           item.value ? (
-            <div className='table-operations' key={`file-${String(idx)}`}>
+            <div className="table-operations" key={`file-${String(idx)}`}>
               <a className="table-operations-btn" download={item.value} href={`/api/files/${item.value}`}>
                 {item.name || item.value}
               </a>
@@ -151,11 +151,11 @@ const SnippetDetail = (props: IProps) => {
 
   const hasResult = find(get(chosenData, 'result.metadata') || [], { name: 'api_request' });
   return (
-    <Drawer className='auto-test-snippet-drawer' title={i18n.t('detail')} width={'80%'} destroyOnClose onClose={onClose} visible={visible}>
-      <div className='snippet-detail'>
-        <div className='left'>
+    <Drawer className="auto-test-snippet-drawer" title={i18n.t('detail')} width={'80%'} destroyOnClose onClose={onClose} visible={visible}>
+      <div className="snippet-detail">
+        <div className="left">
           {
-            map(dataList as PIPELINE.ITask[], data => {
+            map(dataList as PIPELINE.ITask[], (data) => {
               return (
                 <Tooltip key={data.id} {...renderTooltipTitle(data)}>
                   <div className={`snippet-item nowrap ${data.id === get(chosenData, 'id') ? 'is-active' : ''}`} onClick={() => clickNode(data)}>{data.name}</div>
@@ -164,12 +164,12 @@ const SnippetDetail = (props: IProps) => {
             })
           }
         </div>
-        <div className='right'>
-          <Tabs key={get(chosenData, 'id')} activeKey={actKey} onChange={(aK:string) => updater.actKey(aK)}>
-            <Tabs.TabPane tab={i18n.t('log')} key='log'>
+        <div className="right">
+          <Tabs key={get(chosenData, 'id')} activeKey={actKey} onChange={(aK: string) => updater.actKey(aK)}>
+            <Tabs.TabPane tab={i18n.t('log')} key="log">
               {actKey === 'log' && logProps.logId ? <BuildLog withoutDrawer {...logProps} /> : <EmptyHolder relative /> }
             </Tabs.TabPane>
-            <Tabs.TabPane tab={i18n.t('project:execute result')} key='result'>
+            <Tabs.TabPane tab={i18n.t('project:execute result')} key="result">
               {hasResult ? <ResultView data={chosenData} /> : <EmptyHolder relative />}
             </Tabs.TabPane>
           </Tabs>

@@ -53,8 +53,8 @@ const getTimeRange = async (projectID: number, iterationId?: number) => {
 };
 
 export const ProjectDashboard = () => {
-  const [projectId, isIn] = routeInfoStore.useStore(s => [s.params.projectId, s.isIn]);
-  const iterationID = routeInfoStore.useStore(s => s.query.iterationID);
+  const [projectId, isIn] = routeInfoStore.useStore((s) => [s.params.projectId, s.isIn]);
+  const iterationID = routeInfoStore.useStore((s) => s.query.iterationID);
   const [{ layout, boardData, type }, updater] = useUpdate({ layout: [], boardData: {}, type: DashboardType.BUG });
 
   React.useEffect(() => {
@@ -63,8 +63,8 @@ export const ProjectDashboard = () => {
 
   React.useEffect(() => {
     if (projectId && boardData && boardData.viewConfig) {
-      getTimeRange(+projectId, iterationID).then(timeRange => {
-        const _layout = map(boardData.viewConfig, viewItem => {
+      getTimeRange(+projectId, iterationID).then((timeRange) => {
+        const _layout = map(boardData.viewConfig, (viewItem) => {
           const query = get(viewItem, 'view.api.query') || {};
           const { start, end } = query;
           const _viewItem = merge(
@@ -98,7 +98,7 @@ export const ProjectDashboard = () => {
 
   return (
     <div className="project-dashboard">
-      <div className='flex-box mb12'>
+      <div className="flex-box mb12">
         <RadioGroup onChange={(e: any) => updater.type(e.target.value)} value={type}>
           <RadioButton value={DashboardType.BUG}>{i18n.t('project:bug')}</RadioButton>
           <RadioButton value={DashboardType.WORKING}>{i18n.t('project:workload')}</RadioButton>
@@ -107,7 +107,7 @@ export const ProjectDashboard = () => {
           allowClear
           placeholder={i18n.t('project:view by iteration')}
           value={iterationID}
-          onChange={v => updateSearch({ iterationID: v || undefined })}
+          onChange={(v) => updateSearch({ iterationID: v || undefined })}
         />
       </div>
 

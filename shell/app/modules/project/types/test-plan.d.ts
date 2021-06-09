@@ -14,20 +14,20 @@
 declare namespace TEST_PLAN {
   type PlanStatus = 'DOING' | 'DONE' | 'PAUSE';
   interface Plan {
-    name: string,
-    ownerName: string,
-    ownerID: number,
-    partnerIDs: string[],
-    partnerNames: null,
-    relatedModuleNames: null,
-    relatedIterative: null,
-    relatedIterativeId: null,
-    status: PlanStatus,
-    statusName: string,
-    summary: null,
-    useCaseTotalCount: number,
-    useCaseTestedCount: number,
-    useCasePassedCount: number,
+    name: string;
+    ownerName: string;
+    ownerID: number;
+    partnerIDs: string[];
+    partnerNames: null;
+    relatedModuleNames: null;
+    relatedIterative: null;
+    relatedIterativeId: null;
+    status: PlanStatus;
+    statusName: string;
+    summary: null;
+    useCaseTotalCount: number;
+    useCaseTestedCount: number;
+    useCasePassedCount: number;
     relsCount: {
       total: number;
       init: number;
@@ -35,37 +35,37 @@ declare namespace TEST_PLAN {
       fail: number;
       block: number;
     };
-    refBugCount: number,
-    refUnclosedBugCount: number,
-    startDate: null,
-    endDate: null,
-    creatorId: null,
-    updatedId: null,
-    projectID: null,
-    apiTotalCount: null,
-    apiPassedCount: null,
-    apiPassedPercent: null,
-    actorResult: null,
-    id: number,
-    createdAt: string,
-    updatedAt: string,
-    defaultId: boolean
+    refBugCount: number;
+    refUnclosedBugCount: number;
+    startDate: null;
+    endDate: null;
+    creatorId: null;
+    updatedId: null;
+    projectID: null;
+    apiTotalCount: null;
+    apiPassedCount: null;
+    apiPassedPercent: null;
+    actorResult: null;
+    id: number;
+    createdAt: string;
+    updatedAt: string;
+    defaultId: boolean;
   }
 
   interface PlanListQuery {
-    projectID: number
-    pageNo: number
-    pageSize?: number
+    projectID: number;
+    pageNo: number;
+    pageSize?: number;
     type?: string;
-    name?: string
+    name?: string;
     status?: string[];
     userID?: number;
   }
 
   interface PlanPaging {
-    list: PlanBodySimpleResponse[]
-    total: number
-    pageSize: number
+    list: PlanBodySimpleResponse[];
+    total: number;
+    pageSize: number;
   }
 
   interface PlanSubmitBody {
@@ -81,8 +81,8 @@ declare namespace TEST_PLAN {
   }
 
   interface PlanBodySimpleResponse {
-    id: number
-    name: string
+    id: number;
+    name: string;
     ownerID: number;
     partnerIDs: number[];
     status: PlanStatus;
@@ -99,20 +99,20 @@ declare namespace TEST_PLAN {
       succ: number;
       fail: number;
       block: number;
-    }
+    };
   }
 
   interface PlanBodyResponse extends PlanBodySimpleResponse {
-    refBugCount: number
-    refUnclosedBugCount: number
-    startDate: string
-    endDate: string
-    updatedId: number
-    projectID: number
-    apiTotalCount: number
-    apiPassedCount: number
-    apiPassedPercent: number
-    actorResult: null
+    refBugCount: number;
+    refUnclosedBugCount: number;
+    startDate: string;
+    endDate: string;
+    updatedId: number;
+    projectID: number;
+    apiTotalCount: number;
+    apiPassedCount: number;
+    apiPassedPercent: number;
+    actorResult: null;
   }
 
   interface relationsCase {
@@ -126,7 +126,7 @@ declare namespace TEST_PLAN {
       id: number;
       name: string;
       ownerID: string;
-      partnerIDs: string[],
+      partnerIDs: string[];
       status: PlanStatus;
       projectID: number;
       creator: string;
@@ -141,32 +141,32 @@ declare namespace TEST_PLAN {
         succ: number;
         fail: number;
         block: number;
-      }
-    },
+      };
+    };
     relsCount: {
       total: number;
       init: number;
       succ: number;
       fail: number;
       block: number;
-    },
+    };
     apiCount: {
       total: number;
       created: number;
       running: number;
       passed: number;
       failed: number;
-    },
+    };
     executorStatus: {
-      [k: string] : {
+      [k: string]: {
         total: number;
         init: number;
         succ: number;
         fail: number;
         block: number;
-      }
-    },
-    userIDs: string[]
+      };
+    };
+    userIDs: string[];
   }
 
   interface PlanBatch {
@@ -179,32 +179,32 @@ declare namespace TEST_PLAN {
   }
 
   interface PlanDate {
-    testPlanId: number
-    date: { [key: string]: string }
+    testPlanId: number;
+    date: { [key: string]: string };
   }
 
   interface PlanStats {
-    name: string
-    names: string[]
-    datas: Array<{ name: string, value: number, data: null }>
+    name: string;
+    names: string[];
+    datas: Array<{ name: string; value: number; data: null }>;
   }
 
   interface CaseApi {
-    testPlanID: number
-    envID: number
-    testCaseIDs: number[]
+    testPlanID: number;
+    envID: number;
+    testCaseIDs: number[];
   }
 
   interface ExecuteRecordQuery {
-    testPlanId: string
-    projectId: number
-    pageNo: number
-    pageSize: number
+    testPlanId: string;
+    projectId: number;
+    pageNo: number;
+    pageSize: number;
   }
 
   interface ExecuteRecordDetailQuery {
-    runVersion?: string
-    pipelineID: number
+    runVersion?: string;
+    pipelineID: number;
   }
 
   interface Pipeline {
@@ -214,15 +214,15 @@ declare namespace TEST_PLAN {
     triggerMode?: string;
     extra: {
       diceWorkspace: string;
-      isAutoRun: true
-    },
+      isAutoRun: true;
+    };
     filterLabels: {
       diceWorkspace: string;
       orgName: string;
       projectID: string;
       testPlanID: string;
-    },
-    normalLabels: Record<string, any>,
+    };
+    normalLabels: Record<string, any>;
     clusterName: string;
     status: string;
     progress: number;
@@ -236,17 +236,17 @@ declare namespace TEST_PLAN {
   interface PipelineTask {
     id: number;
     pipelineID: number;
-    stageID:number;
+    stageID: number;
     name: string;
     opType: string;
     type: string;
     status: string;
     extra: {
       uuid: string;
-      allowFailure: false
-    },
+      allowFailure: false;
+    };
     result: Record<string, any>;
-    costTimeSec:number;
+    costTimeSec: number;
     queueTimeSec: number;
     timeBegin: string;
     timeEnd: string;
@@ -255,11 +255,11 @@ declare namespace TEST_PLAN {
   }
 
   interface PipeLineStage{
-    id:number;
+    id: number;
     pipelineID: number;
     name: string;
     status: string;
-    costTimeSec:number;
+    costTimeSec: number;
     timeBegin: string;
     timeEnd: string;
     timeCreated: string;
@@ -275,14 +275,14 @@ declare namespace TEST_PLAN {
       orgName: string;
       projectID: string;
       testPlanID: string;
-    },
+    };
     source: string;
     ymlName: string;
     ymlContent: string;
     extra: {
       diceWorkspace: string;
       isAutoRun: boolean;
-    },
+    };
     namespace: string;
     clusterName: string;
     status: string;
@@ -292,7 +292,7 @@ declare namespace TEST_PLAN {
     timeEnd: string;
     timeCreated: string;
     timeUpdated: string;
-    pipelineStages: PipeLineStage[]
+    pipelineStages: PipeLineStage[];
     pipelineCron: {
       id: number;
       timeCreated: string;
@@ -304,7 +304,7 @@ declare namespace TEST_PLAN {
       pipelineYmlName: string;
       basePipelineID: number;
       enable: boolean | null;
-    },
+    };
     pipelineButton: {
       canManualRun: boolean;
       canCancel: boolean;
@@ -316,6 +316,6 @@ declare namespace TEST_PLAN {
       canPause: boolean;
       canUnpause: boolean;
       canDelete: boolean;
-    }
+    };
   }
 }

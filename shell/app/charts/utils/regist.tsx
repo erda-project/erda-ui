@@ -36,7 +36,7 @@ export const registChartControl = () => {
           style={{ width: width || 200 }}
           onChange={handleChange}
         >
-          { map(groups, item => <Option value={item} key={item}><Tooltip title={item}>{ item }</Tooltip></Option>) }
+          { map(groups, (item) => <Option value={item} key={item}><Tooltip title={item}>{ item }</Tooltip></Option>) }
         </Select>
       </div>);
   });

@@ -20,7 +20,7 @@ interface IOriginData{
     [pro: string]: any;
     name: string;
     key: string;
-  }>
+  }>;
 }
 
 export const handlerName = (originData: IOriginData) => {
@@ -35,7 +35,7 @@ export const handlerName = (originData: IOriginData) => {
   return { ...originData, results: newResults };
 };
 
-export const sortCreator = (moduleName:string, chartName:string, payload?: object) => {
+export const sortCreator = (moduleName: string, chartName: string, payload?: object) => {
   const commonSort = {
     sortTab: {
       type: 'sortTab',
@@ -58,7 +58,7 @@ export const sortCreator = (moduleName:string, chartName:string, payload?: objec
       type: 'sortList',
       chartName: 'sortList',
       moduleName,
-      getFetchObj: ({ sortTab, subTab }: {sortTab: string, subTab: string}) => {
+      getFetchObj: ({ sortTab, subTab }: {sortTab: string; subTab: string}) => {
         const fetchMap = {
           time: { query: { sortBy: 'time' }, unit: 'ms' },
           percent: { query: { sortBy: 'percent' }, unit: '%' },

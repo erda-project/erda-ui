@@ -18,13 +18,13 @@ import { goTo, updateSearch } from 'common/utils';
 import RepoFile from './repo-file';
 import RepoEditor from './repo-editor';
 import { isEmpty, get, find } from 'lodash';
-import { useUpdateEffect } from 'react-use';
+import { useUpdateEffect, useMount } from 'react-use';
 import { RepoBlame } from './repo-blame';
 import DiceYamlEditor from './yml-editor';
 import { needRenderWorkFlowView, isPipelineWorkflowYml, isPipelineYml, isInDiceDirectory, isYml } from 'application/common/yml-flow-util';
 import repoStore from 'application/stores/repo';
 import routeInfoStore from 'common/stores/route';
-import{ useMount } from 'react-use';
+
 import appStore from 'application/stores/application';
 import { getInfoFromRefName } from '../util';
 import { useLoading } from 'app/common/stores/loading';
@@ -52,9 +52,9 @@ const RepoFileContainerComp = (props: IProps) => {
     modalVisible: false,
     viewType: 'graphic',
   });
-  const [params, query] = routeInfoStore.useStore(s => [s.params, s.query]);
+  const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const { name: fileName } = props;
-  const [info, blob, mode, pipelineYmlStructure, tree] = repoStore.useStore(s => [s.info, s.blob, s.mode, s.pipelineYmlStructure, s.tree]);
+  const [info, blob, mode, pipelineYmlStructure, tree] = repoStore.useStore((s) => [s.info, s.blob, s.mode, s.pipelineYmlStructure, s.tree]);
   const [parsePipelineYmlStructureLoading, getRepoBlobLoading] = useLoading(repoStore, ['parsePipelineYmlStructure', 'getRepoBlob']);
   const { commit, getRepoBlob } = repoStore.effects;
   const { changeMode } = repoStore.reducers;
@@ -62,16 +62,16 @@ const RepoFileContainerComp = (props: IProps) => {
     updater.modalVisible(modalVisible);
   };
 
-  useMount(()=>{
-    if(query?.editPipeline){
+  useMount(() => {
+    if (query?.editPipeline) {
       // clear editPipeline in query, replace=true to forbidden Previous useless url
-      updateSearch({ editPipeline: undefined }, { gotoOption: { replace: true }});
+      updateSearch({ editPipeline: undefined }, { gotoOption: { replace: true } });
       // url change produce a mode reset in repo store, use setTimeout delay changeMode after reset.
-      setTimeout(()=>{
-        changeMode({ editFile: true })
-      })
+      setTimeout(() => {
+        changeMode({ editFile: true });
+      });
     }
-  })
+  });
 
   // 是否为dice.yml 或 pipeline.yml
   const isDiceOrPipelineFile = React.useMemo(() => {
@@ -305,7 +305,7 @@ const RepoFileContainerComp = (props: IProps) => {
         name: 'branch',
         type: 'select',
         initialValue: branch,
-        options: (info.branches || []).map(a => ({ name: a, value: a })),
+        options: (info.branches || []).map((a) => ({ name: a, value: a })),
         itemProps: {
           disabled: true,
         },
@@ -338,9 +338,9 @@ interface IContainerProps extends Partial<IProps> {
 const RepoFileContainer = (props: IContainerProps) => {
   const { getRepoBlob } = repoStore.effects;
   const { clearRepoBlob } = repoStore.reducers;
-  const [detail, branchInfo] = appStore.useStore(s => [s.detail, s.branchInfo]);
+  const [detail, branchInfo] = appStore.useStore((s) => [s.detail, s.branchInfo]);
   const { gitRepoAbbrev } = detail;
-  const permMap = usePerm(s => s.app);
+  const permMap = usePerm((s) => s.app);
   const { path } = props;
   React.useEffect(() => {
     if (gitRepoAbbrev) {

@@ -24,7 +24,7 @@ import './index.scss';
 interface IProps {
   visible: boolean;
   dataSource: API_CLIENT.ClientItem;
-  onCancel(): void;
+  onCancel: () => void;
 }
 
 const { TabPane } = Tabs;
@@ -42,7 +42,7 @@ const DetailModal = ({ visible, onCancel, dataSource }: IProps) => {
     provingContractPaging,
     unprovedContractList,
     unprovedContractPaging,
-  ] = apiClientStore.useStore(s => [
+  ] = apiClientStore.useStore((s) => [
     s.disprovedContractList,
     s.disprovedContractPaging,
     s.provedContractList,

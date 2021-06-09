@@ -19,9 +19,9 @@ import { getClusterDetail } from 'dcos/services/cluster';
 
 
 interface State {
-  deploymentStatus: RUNTIME_LOG.DeployStatus,
-  dockerLogMap: {},
-  slideLogComps: JSX.Element[],
+  deploymentStatus: RUNTIME_LOG.DeployStatus;
+  dockerLogMap: {};
+  slideLogComps: JSX.Element[];
 }
 
 const initState: State = {
@@ -35,7 +35,7 @@ const runtimeLog = createFlatStore({
   state: initState,
   subscriptions: ({ registerWSHandler }: IStoreSubs) => {
     registerWSHandler('R_DEPLOY_STATUS_UPDATE', ({ payload }) => {
-      const [runtimeDetail] = runtimeStore.getState(s => [s.runtimeDetail]);
+      const [runtimeDetail] = runtimeStore.getState((s) => [s.runtimeDetail]);
       if (payload.runtimeId === runtimeDetail.id) {
         runtimeLog.changeStep(payload.phase);
       }
@@ -46,9 +46,9 @@ const runtimeLog = createFlatStore({
       const deploymentStatus = await call(getDeploymentStatus, deployId);
       update({ deploymentStatus });
     },
-    async getDockerLog({ call, getParams }, payload: Omit<Merge<RUNTIME_LOG.DockerLogQuery, { logKey: string, clusterName?: string }>, 'colonySoldier'>) {
+    async getDockerLog({ call, getParams }, payload: Omit<Merge<RUNTIME_LOG.DockerLogQuery, { logKey: string; clusterName?: string }>, 'colonySoldier'>) {
       const { logKey, host, targetId, clusterName } = payload;
-      const runtimeDetail = runtimeStore.getState(s => s.runtimeDetail);
+      const runtimeDetail = runtimeStore.getState((s) => s.runtimeDetail);
 
       const params = getParams(); // TODO: 这里在哪里复用有clusterName？
       const clusterDetail = await call(getClusterDetail, {
@@ -69,7 +69,7 @@ const runtimeLog = createFlatStore({
     },
   },
   reducers: {
-    queryLogSuccess(state, { logKey, dockerLog }: { logKey: string, dockerLog: string }) {
+    queryLogSuccess(state, { logKey, dockerLog }: { logKey: string; dockerLog: string }) {
       const { dockerLogMap } = state;
       state.dockerLogMap = {
         ...dockerLogMap,

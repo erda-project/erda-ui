@@ -24,10 +24,10 @@ export enum IMeshType {
 }
 
 interface IProps{
-  visible:boolean;
+  visible: boolean;
   type: string;
-  node:any;
-  onClose():void;
+  node: any;
+  onClose: () => void;
 }
 
 const FormMap = {

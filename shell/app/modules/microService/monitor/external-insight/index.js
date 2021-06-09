@@ -25,7 +25,7 @@ const getEIRouter = () => ({
     {
       path: 'affairs',
       tabs,
-      getComp: cb => cb(import('microService/monitor/external-insight/pages/affairs/affairs')),
+      getComp: (cb) => cb(import('microService/monitor/external-insight/pages/affairs/affairs')),
     },
   ],
 });

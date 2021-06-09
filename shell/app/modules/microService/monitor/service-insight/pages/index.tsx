@@ -16,8 +16,8 @@ import SICommonStore from '../stores/common';
 
 
 export const SITabs = () => {
-  const headMenu = SICommonStore.useStore(s => s.headMenu);
-  const showTabs: Array<{ key: string, name: string }> = [];
+  const headMenu = SICommonStore.useStore((s) => s.headMenu);
+  const showTabs: Array<{ key: string; name: string }> = [];
   map(headMenu, ({ key, value }) => {
     showTabs.push({
       key,

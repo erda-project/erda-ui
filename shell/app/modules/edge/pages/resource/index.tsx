@@ -17,7 +17,7 @@ import routeInfoStore from 'common/stores/route';
 import { cloneDeep } from 'app/external/custom-lodash';
 
 const siteList = () => {
-  const [{ projectId }] = routeInfoStore.useStore(s => [s.params]);
+  const [{ projectId }] = routeInfoStore.useStore((s) => [s.params]);
   const inParams = {
     projectId: +projectId,
   };
@@ -26,8 +26,8 @@ const siteList = () => {
     <div>
       <DiceConfigPage
         showLoading
-        scenarioKey='edge-site'
-        scenarioType='edge-site'
+        scenarioKey="edge-site"
+        scenarioType="edge-site"
         inParams={inParams}
         useMock={location.search.includes('useMock') ? useMock : undefined}
       />
@@ -242,7 +242,7 @@ const mock: CONFIG_PAGE.RenderConfig = {
             { type: 'Desc', dataIndex: 'siteName', props: { title: '站点' } },
             { type: 'Desc', dataIndex: 'firstStep', props: { title: '步骤一' } },
             { type: 'Desc', dataIndex: 'secondStep', props: { title: '步骤二' } },
-            { type: 'FileEditor', dataIndex: 'operationCode', props: { actions: { copy: true } } }
+            { type: 'FileEditor', dataIndex: 'operationCode', props: { actions: { copy: true } } },
           ],
         },
       },

@@ -21,29 +21,29 @@ import './combiner.scss';
 
 interface IProps<P, O>{
   CombinerItem: any;
-  valueFixIn?:(val:P[])=>O[];
-  valueFixOut?:(val: O[])=>P[];
+  valueFixIn?: (val: P[]) => O[];
+  valueFixOut?: (val: O[]) => P[];
   defaultItem?: (props: any) => O;
 }
 
 export interface ICompProps<P, O>{
   value: P[];
-  onChange: (arg:P[])=>void;
+  onChange: (arg: P[]) => void;
 }
 
-const defaultFix = (a:any) => a;
-export function createCombiner<P, O>({ CombinerItem, valueFixIn = defaultFix, valueFixOut = defaultFix, defaultItem }:IProps<P, O>) {
+const defaultFix = (a: any) => a;
+export function createCombiner<P, O>({ CombinerItem, valueFixIn = defaultFix, valueFixOut = defaultFix, defaultItem }: IProps<P, O>) {
   return (props: ICompProps<P, O>) => {
     const { value, onChange, disabled, ...rest } = props;
     const changeData = (val: any) => {
       onChange(valueFixOut(cloneDeep(val)));
     };
 
-    const updateItem = (d: any, index:number) => {
+    const updateItem = (d: any, index: number) => {
       const newVal = map(valueFixIn(value), (val, idx) => {
         if (isPlainObject(val)) {
           if (index === idx) {
-            const curVal = produce(val, (draft:Obj) => {
+            const curVal = produce(val, (draft: Obj) => {
               const curKey = Object.keys(d)[0];
               set(draft, curKey, d[curKey]);
             });
@@ -66,30 +66,30 @@ export function createCombiner<P, O>({ CombinerItem, valueFixIn = defaultFix, va
       changeData(filter(value, (_, idx) => index !== idx));
     };
     return (
-      <div className='dice-form-nusi-combiner-component'>
+      <div className="dice-form-nusi-combiner-component">
         {map(valueFixIn(value), (item, index) => (
           <CombinerItem
             {...rest}
             disabled={disabled}
-            className='combiner-item'
+            className="combiner-item"
             key={`${index}`}
             data={item}
-            updateItem={(d:any) => {
+            updateItem={(d: any) => {
               updateItem(d, index);
             }}
             operation={(
               disabled
-                ? <IconReduceOne className='combiner-operation not-allowed' />
-                : <IconReduceOne className='combiner-operation' onClick={() => deleteItem(index)} />
+                ? <IconReduceOne className="combiner-operation not-allowed" />
+                : <IconReduceOne className="combiner-operation" onClick={() => deleteItem(index)} />
             )}
           />
         ))}
         {
           disabled ? (
-            <IconAddOne className='combiner-operation not-allowed' />
+            <IconAddOne className="combiner-operation not-allowed" />
           ) : (
             <Tooltip title={i18n.t('common:click to add item')}>
-              <IconAddOne className='combiner-operation' onClick={addItem} />
+              <IconAddOne className="combiner-operation" onClick={addItem} />
             </Tooltip>
           )
         }

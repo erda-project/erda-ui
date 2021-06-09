@@ -39,14 +39,14 @@ const comparativeStore = createStore({
     },
   },
   reducers: {
-    loadComparativeSuccess(state, payload: { result: IChartResult, type: string; query: MONITOR_MI.IComparativeQuery }) {
+    loadComparativeSuccess(state, payload: { result: IChartResult; type: string; query: MONITOR_MI.IComparativeQuery }) {
       const { result, type, query } = payload;
       const dataKey = `range.${query.range}`;
       const list = get(result, 'results[0].data');
       let reData = [] as any[];
       if (list) {
         reData = map(list, (l) => {
-          const xAxis:string[] = [];
+          const xAxis: string[] = [];
           let results = [];
           let titleText = '';
           const curData = get(l, `['${dataKey}']`);

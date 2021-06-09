@@ -48,9 +48,9 @@ interface IProps {
 }
 const PageContainer = ({ route }: IProps) => {
   const [loginUser, noAuth, notFound] = userStore.useStore((s: any) => [s.loginUser, s.noAuth, s.notFound]);
-  const currentOrg = orgStore.useStore(s => s.currentOrg);
-  const [showMessage, customMain, announcementList] = layoutStore.useStore(s => [s.showMessage, s.customMain, s.announcementList]);
-  const [currentRoute, isIn] = routeInfoStore.useStore(s => [s.currentRoute, s.isIn]);
+  const currentOrg = orgStore.useStore((s) => s.currentOrg);
+  const [showMessage, customMain, announcementList] = layoutStore.useStore((s) => [s.showMessage, s.customMain, s.announcementList]);
+  const [currentRoute, isIn] = routeInfoStore.useStore((s) => [s.currentRoute, s.isIn]);
   const [state, updater] = useUpdate({
     startInit: false,
   });
@@ -169,7 +169,7 @@ const PageContainer = ({ route }: IProps) => {
           <div className={noticeClass}>
             <Carousel arrows autoplay autoplaySpeed={5000}>
               {
-                announcementList.map(announcement => {
+                announcementList.map((announcement) => {
                   return <div key={announcement.id}>{announcement.content}</div>;
                 })
               }
@@ -179,10 +179,10 @@ const PageContainer = ({ route }: IProps) => {
       }
       <div className={layoutClass}>
         <Shell
-          layout='vertical'
+          layout="vertical"
           fixed
-          className='dice-main-shell'
-          theme='BL'
+          className="dice-main-shell"
+          theme="BL"
           globalNavigation={<SideBar />}
           sideNavigation={showSubSidebar ? <SubSideBar /> : undefined}
           pageHeader={!hideHeader ? <Header /> : undefined}

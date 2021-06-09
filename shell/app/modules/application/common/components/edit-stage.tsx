@@ -45,7 +45,7 @@ const getDefaultVersionConfig = (actionConfigs: DEPLOY.ActionConfig[]) => {
   if (isEmpty(actionConfigs)) {
     return undefined;
   }
-  const defaultConfig = actionConfigs.find(config => config.isDefault);
+  const defaultConfig = actionConfigs.find((config) => config.isDefault);
   return defaultConfig || actionConfigs[0];
 };
 
@@ -62,7 +62,7 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
   const { actions, otherTaskAlias, form, editing, isCreateTask, onSubmit: handleSubmit, task: PropsTask } = props;
   const { getFieldDecorator, getFieldValue } = form;
 
-  const actionConfigs = deployStore.useStore(s => s.actionConfigs);
+  const actionConfigs = deployStore.useStore((s) => s.actionConfigs);
   const { getActionConfigs } = deployStore.effects;
   const [loading] = useLoading(deployStore, ['getActionConfigs']);
   React.useEffect(() => {
@@ -76,7 +76,7 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
   React.useEffect(() => {
     let config;
     if (actionConfigs.length > 0) {
-      config = PropsTask.version ? actionConfigs.find(c => c.version === PropsTask.version) :
+      config = PropsTask.version ? actionConfigs.find((c) => c.version === PropsTask.version) :
         getDefaultVersionConfig(actionConfigs);
     }
 
@@ -125,7 +125,7 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
   };
 
   const changeActionVersion = (version: string) => {
-    const selectConfig = actionConfigs.find(config => config.version === version) as DEPLOY.ActionConfig;
+    const selectConfig = actionConfigs.find((config) => config.version === version) as DEPLOY.ActionConfig;
     updater.actionConfig(selectConfig);
     updater.resource(getResource(task, selectConfig));
   };
@@ -145,7 +145,7 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
       actions={actions}
       onChange={changeResourceType}
       placeholder={`${i18n.t('application:please choose task type')}`}
-    />
+    />,
   );
 
   const actionVersion = getFieldDecorator('resource.version', {
@@ -162,8 +162,8 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
       onChange={changeActionVersion}
       placeholder={`${i18n.t('application:please choose version')}`}
     >
-      { actionConfigs.map(config => (<Option key={config.version} value={config.version}>{config.version}</Option>)) }
-    </Select >
+      { actionConfigs.map((config) => (<Option key={config.version} value={config.version}>{config.version}</Option>)) }
+    </Select >,
   );
 
   let alert;
@@ -262,7 +262,7 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
     }
 
     const content = renderResource({ data: value.struct }, parentKey, dataSource);
-    if (!content || !Object.values(content).some(c => c)) return null;
+    if (!content || !Object.values(content).some((c) => c)) return null;
 
     return (
       <div key={parentKey}>
@@ -440,7 +440,7 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
       if (!error) {
         let data = cloneDeep(values);
         const resources = head(filter(state.resource.data, (item) => item.name === 'resources'));
-        const originResource = transform(get(resources, 'struct'), (result, item: { name: string, default: string | number }) => {
+        const originResource = transform(get(resources, 'struct'), (result, item: { name: string; default: string | number }) => {
           const { name, default: d } = item;
           // eslint-disable-next-line no-param-reassign
           result[name] = +d;

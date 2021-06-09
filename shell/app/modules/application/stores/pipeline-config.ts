@@ -24,10 +24,10 @@ import { reduce, filter } from 'lodash';
 import i18n from 'app/i18n';
 
 interface IState {
-  fullConfigs: PIPELINE_CONFIG.ConfigItemMap,
-  encryptConfigs: PIPELINE_CONFIG.ConfigItemMap,
-  unEncryptConfigs: PIPELINE_CONFIG.ConfigItemMap,
-  total: number,
+  fullConfigs: PIPELINE_CONFIG.ConfigItemMap;
+  encryptConfigs: PIPELINE_CONFIG.ConfigItemMap;
+  unEncryptConfigs: PIPELINE_CONFIG.ConfigItemMap;
+  total: number;
 }
 
 const initState: IState = {
@@ -44,7 +44,7 @@ const pipelineConfig = createFlatStore({
     async getConfigs({ getParams, select, call, update }, payload: PIPELINE_CONFIG.ConfigQuery[], apiPrefix?: string) {
       const { appId } = getParams();
       const newConfigs = await call(getConfigs, { appID: appId, payload, apiPrefix });
-      const { fullConfigs, unEncryptConfigs, encryptConfigs } = select(s => s);
+      const { fullConfigs, unEncryptConfigs, encryptConfigs } = select((s) => s);
       const newUnEncryptConfigs = reduce(newConfigs, (result, value, key) => {
         // eslint-disable-next-line no-param-reassign
         result[key] = filter(value, { encrypt: false });
@@ -76,7 +76,7 @@ const pipelineConfig = createFlatStore({
       await call(
         addConfigs,
         { ...payload, query: { ...payload.query, appID }, apiPrefix },
-        { successMsg: i18n.t('application:added successfully') }
+        { successMsg: i18n.t('application:added successfully') },
       );
       pipelineConfig.getConfigs([{ namespace_name: payload.query.namespace_name, decrypt: false }], apiPrefix);
     },
@@ -85,7 +85,7 @@ const pipelineConfig = createFlatStore({
       await call(
         addConfigs, // 溪杨说创建和更新暂时使用同一个接口
         { ...payload, query: { ...payload.query, appID }, apiPrefix },
-        { successMsg: i18n.t('application:modified successfully') }
+        { successMsg: i18n.t('application:modified successfully') },
       );
       pipelineConfig.getConfigs([{ namespace_name: payload.query.namespace_name, decrypt: false }], apiPrefix);
     },
@@ -94,7 +94,7 @@ const pipelineConfig = createFlatStore({
       await call(
         removeConfigs,
         { namespace_name, key, appID, apiPrefix },
-        { successMsg: i18n.t('application:deleted successfully') }
+        { successMsg: i18n.t('application:deleted successfully') },
       );
       pipelineConfig.getConfigs([{ namespace_name, decrypt: false }], apiPrefix);
     },
@@ -103,7 +103,7 @@ const pipelineConfig = createFlatStore({
       await call(
         removeConfigs,
         { namespace_name, key, appID, apiPrefix },
-        { successMsg: i18n.t('application:deleted successfully') }
+        { successMsg: i18n.t('application:deleted successfully') },
       );
       pipelineConfig.getConfigs([{ namespace_name, decrypt: false }], apiPrefix);
     },
@@ -112,11 +112,11 @@ const pipelineConfig = createFlatStore({
       const { namespaces } = await call(getConfigNameSpaces, appID);
       return namespaces;
     },
-    async importConfigs({ call }, payload:any, apiPrefix?: string) {
+    async importConfigs({ call }, payload: any, apiPrefix?: string) {
       await call(
         importConfigs,
         { configs: JSON.parse(payload.configs), query: { ...payload.query } },
-        { successMsg: i18n.t('imported successfully') }
+        { successMsg: i18n.t('imported successfully') },
       );
       pipelineConfig.getConfigs([{ namespace_name: payload.query.namespace_name, decrypt: false }], apiPrefix);
     },

@@ -16,6 +16,6 @@ import AlarmRecordDetail, { AlarmRecordScope } from 'app/modules/dataCenter/comm
 import routeInfoStore from 'app/common/stores/route';
 
 export default () => {
-  const { tenantGroup } = routeInfoStore.useStore(s => s.params);
+  const { tenantGroup } = routeInfoStore.useStore((s) => s.params);
   return <AlarmRecordDetail scope={AlarmRecordScope.MICRO_SERVICE} tenantGroup={tenantGroup} />;
 };

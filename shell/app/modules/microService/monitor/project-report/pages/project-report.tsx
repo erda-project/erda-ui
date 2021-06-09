@@ -39,7 +39,7 @@ const ProjectReport = ({
     reportDetail: '',
     dateRange: [],
   });
-  const [projectReportsPaging, reportSeeting] = projectReportStore.useStore(s => [s.projectReportsPaging, s.reportSeeting]);
+  const [projectReportsPaging, reportSeeting] = projectReportStore.useStore((s) => [s.projectReportsPaging, s.reportSeeting]);
   const [isFetching, isFetchingDetail] = useLoading(projectReportStore, ['getProjectReport', 'getProjectReportDetail']);
   const { getProjectReport, getProjectReportDetail, getProjectReportSetting, setProjectReportSetting } = projectReportStore.effects;
   useMount(() => {

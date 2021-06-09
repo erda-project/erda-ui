@@ -35,7 +35,7 @@ const opHint = (operation: string, selectedList: CLOUD.TagItem[]) => {
   const menu = (
     <Menu>
       {
-        selectedList.map(item => (
+        selectedList.map((item) => (
           <Menu.Item key={item.instanceID}>{item.instanceID}</Menu.Item>
         ))
       }
@@ -46,9 +46,9 @@ const opHint = (operation: string, selectedList: CLOUD.TagItem[]) => {
       <IconHelp className="mr4 bg-color-icon yellow" />
       <span>{i18n.t('dataCenter:your chosen')}</span>
       <Dropdown overlay={menu}>
-        <a onClick={e => e.preventDefault()}>
+        <a onClick={(e) => e.preventDefault()}>
           {i18n.t('{num} {type}', { num: selectedList.length, type: i18n.t('instance') })}
-          <IconDownOne className="ml4" theme='filled' size="16px" />
+          <IconDownOne className="ml4" theme="filled" size="16px" />
         </a>
       </Dropdown>
       <span>{i18n.t('dataCenter:will execute {operation} operation', { operation })}，{i18n.t('is it confirmed {action}?', { action: i18n.t('execute') })}</span>
@@ -58,8 +58,8 @@ const opHint = (operation: string, selectedList: CLOUD.TagItem[]) => {
 export default () => {
   const { getCloudRegion } = cloudCommonStore;
   const { stopCloudECS, startCloudECS, restartCloudECS, renewalCloudECS } = cloudECSStore.effects;
-  const regions = cloudCommonStore.useStore(s => s.regions);
-  const clusterList = clusterStore.useStore(s => s.list);
+  const regions = cloudCommonStore.useStore((s) => s.regions);
+  const clusterList = clusterStore.useStore((s) => s.list);
 
   useEffectOnce(() => {
     !clusterList.length && clusterStore.effects.getClusterList();
@@ -220,7 +220,7 @@ export default () => {
         placeholder: i18n.t('please select labels'),
         allowClear: true,
         options: () => {
-          return map(clusterList, item => <Option key={item.name} value={item.name}>{`dice-cluster/${item.name}`}</Option>);
+          return map(clusterList, (item) => <Option key={item.name} value={item.name}>{`dice-cluster/${item.name}`}</Option>);
         },
       },
     },
@@ -380,7 +380,7 @@ export default () => {
   const menu = (
     <Menu>
       {
-        operationButtons.map(button => (
+        operationButtons.map((button) => (
           <Menu.Item disabled={button.ifDisabled} key={button.name} onClick={button.cb}>{button.name}</Menu.Item>
         ))
       }
@@ -393,7 +393,7 @@ export default () => {
         <Dropdown disabled={!ifSelected} overlay={menu}>
           <Button type="primary">
             {i18n.t('batch setting')}
-            <IconDownOne className="ml4" theme='filled' size="16px" />
+            <IconDownOne className="ml4" theme="filled" size="16px" />
           </Button>
         </Dropdown>
       </div>

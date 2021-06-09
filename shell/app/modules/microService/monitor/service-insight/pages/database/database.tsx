@@ -28,10 +28,10 @@ import i18n from 'i18n';
 
 const Database = () => {
   const { getTraceDetailContent, getSpanDetailContent } = traceQuerierStore.effects;
-  const spanDetailContent = traceQuerierStore.useStore(s => s.spanDetailContent);
+  const spanDetailContent = traceQuerierStore.useStore((s) => s.spanDetailContent);
   const [isTraceDetailContentFetching] = useLoading(traceQuerierStore, ['getTraceDetailContent']);
-  const chosenSortItem = monitorCommonStore.useStore(s => s.chosenSortItem);
-  const baseInfo = SICommonStore.useStore(s => s.baseInfo);
+  const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
+  const baseInfo = SICommonStore.useStore((s) => s.baseInfo);
   const [logVisible, openLog, closeLog] = useSwitch(false);
   const [tracingVisible, tracingOn, tracingOff] = useSwitch(false);
   const [traceRecords, setTraceRecords] = React.useState({});

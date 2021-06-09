@@ -20,12 +20,12 @@ import middlewareDashboardStore from 'dataCenter/stores/middleware-dashboard';
 import { useLoading } from 'app/common/stores/loading';
 
 interface IProps {
-  data: Merge<MIDDLEWARE_DASHBOARD.IMiddleBase, {name:string, projectID: string, projectName: string}>
+  data: Merge<MIDDLEWARE_DASHBOARD.IMiddleBase, {name: string; projectID: string; projectName: string}>;
 }
 
 const ScaleInfo = ({ data }: IProps) => {
   const [visible, setVisible] = React.useState(false);
-  const addonConfig = middlewareDashboardStore.getState(s => s.addonConfig);
+  const addonConfig = middlewareDashboardStore.getState((s) => s.addonConfig);
   const [isLoading] = useLoading(middlewareDashboardStore, ['getConfig']);
   const baseInfo = React.useMemo(() => {
     const { mem, nodes, cpu } = addonConfig;
@@ -72,7 +72,7 @@ const ScaleInfo = ({ data }: IProps) => {
         </div>
         <Row>
           {
-            items.map(item => {
+            items.map((item) => {
               const text = get(baseInfo, item.dataIndex, '--');
               return (
                 <Col span={6} key={item.title}>

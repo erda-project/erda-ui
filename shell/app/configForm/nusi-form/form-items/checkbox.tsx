@@ -29,7 +29,7 @@ export const FormCheckBox = ({
   extensionFix,
   requiredCheck,
   trigger = 'onChange',
-}: any = {}) => React.memo(({ fieldConfig, form }:any = {}) => {
+}: any = {}) => React.memo(({ fieldConfig, form }: any = {}) => {
   const {
     key,
     value,
@@ -50,7 +50,7 @@ export const FormCheckBox = ({
   const curFixIn = itemFixIn || fixIn;
   const curFixOut = itemFixOut || fixOut;
   registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (v:any[]) => {
+  const handleChange = (v: any[]) => {
     form.setFieldValue(key, curFixOut(v));
     (componentProps.onChange || noop)(v);
   };
@@ -75,7 +75,7 @@ export const FormCheckBox = ({
       >
         {
           isEmpty(options) ? <div>请补充备选数据</div> : (
-            map(options, (item:any) => (
+            map(options, (item: any) => (
               <Checkbox key={item.value} value={item.value}>
                 {item.name}
               </Checkbox>
@@ -90,7 +90,7 @@ export const FormCheckBox = ({
 export const config = {
   name: 'checkbox',
   Component: FormCheckBox, // 某React组件，props中必须有value、onChange
-  requiredCheck: value => {
+  requiredCheck: (value) => {
     // 必填校验时，特殊的校验规则
     return [!isEmpty(value), i18n.t('can not be empty')];
   },

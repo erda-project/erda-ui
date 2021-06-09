@@ -20,15 +20,15 @@ import i18n from 'i18n';
 import './input-array.scss';
 
 interface IInputArrayItemProps {
-  keys: string[] | Array<{key: string, name: string}>;
+  keys: string[] | Array<{key: string; name: string}>;
   data: string | undefined;
   className?: string;
-  operation?:any;
-  updateItem(arg:any):void;
-  itemRender?(data: string | undefined, updateItem:(arg:string)=>void): void;
+  operation?: any;
+  updateItem: (arg: any) => void;
+  itemRender?: (data: string | undefined, updateItem: (arg: string) => void) => void;
 }
 
-const InputItem = ({ updateItem, data, className = '', operation = null, itemRender }:IInputArrayItemProps) => {
+const InputItem = ({ updateItem, data, className = '', operation = null, itemRender }: IInputArrayItemProps) => {
   return (
     <div className={`dice-form-input-array ${className}`}>
       {

@@ -13,9 +13,8 @@
 
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
-const root = path.resolve(process.cwd(), '..');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'production',
@@ -39,5 +38,5 @@ module.exports = {
       filename: 'style/[name].[contenthash].css',
       ignoreOrder: true,
     }),
-  ]
+  ],
 };

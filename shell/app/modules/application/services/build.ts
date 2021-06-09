@@ -13,7 +13,7 @@
 
 import agent from 'agent';
 
-export const getRuntimeDetail = ({ runtimeId } : { runtimeId: number }): RUNTIME.Detail => {
+export const getRuntimeDetail = ({ runtimeId }: { runtimeId: number }): RUNTIME.Detail => {
   return agent.get(`/api/runtimes/${runtimeId}`)
     .then((response: any) => response.body);
 };
@@ -61,7 +61,7 @@ export const getExecuteRecords = (params: BUILD.IGetExecRecordsReq): IPagingResp
     .then((response: any) => response.body);
 };
 
-export const updateTaskEnv = ({ pipelineID, taskID, disabled }: { pipelineID: number, taskID: number, disabled: boolean }) => {
+export const updateTaskEnv = ({ pipelineID, taskID, disabled }: { pipelineID: number; taskID: number; disabled: boolean }) => {
   // const paramDisable = disabled || undefined; // recover it when add pause
   return agent.put(`/api/cicds/${pipelineID}`)
     .send({ taskOperates: [{ taskID, disable: disabled }] })
@@ -74,7 +74,7 @@ export const addPipeline = ({ appId, ...rest }: Merge<BUILD.CreatePipelineBody, 
     .then((response: any) => response.body);
 };
 
-export const getComboPipelines = ({ appId, branches, sources }: { appId: number, branches?: string, sources?: string }) => {
+export const getComboPipelines = ({ appId, branches, sources }: { appId: number; branches?: string; sources?: string }) => {
   return agent.get('/api/cicds/actions/app-invoked-combos')
     .query({ appID: appId, branches, sources })
     .then((response: any) => response.body);
@@ -102,5 +102,5 @@ export const getPipelineYmlList = (query: BUILD.PipelineYmlListQuery): string[] 
 export const getINodeByPipelineId = (query: {pipelineId: string}) => {
   return agent.get('/api/cicd-pipeline/filetree/actions/get-inode-by-pipeline')
     .query(query)
-    .then((response:any) => response.body);
+    .then((response: any) => response.body);
 };

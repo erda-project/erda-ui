@@ -13,27 +13,27 @@
 
 declare namespace Custom_Dashboard {
   interface UpdateDashboardPayload {
-    name?: string
-    desc?: string
-    viewConfig?: any
+    name?: string;
+    desc?: string;
+    viewConfig?: any;
   }
 
   interface GetDashboardPayload {
-    scope: string
-    scopeId: string
-    pageNo?: number
-    pageSize?: number
+    scope: string;
+    scopeId: string;
+    pageNo?: number;
+    pageSize?: number;
   }
 
   interface DashboardItem {
-    id?: string
-    desc?: string
-    name: string
-    scope: string
-    scopeId?: string
-    viewConfig: any
-    createdAt?: number
-    updatedAt?: number
-    version?: string
+    id?: string;
+    desc?: string;
+    name: string;
+    scope: string;
+    scopeId?: string;
+    viewConfig: any;
+    createdAt?: number;
+    updatedAt?: number;
+    version?: string;
   }
 }

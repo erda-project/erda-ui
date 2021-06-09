@@ -47,7 +47,7 @@ const parseLinkInContent = (content, pushSlideComp) => {
   }
 };
 
-const getLogItem = pushSlideComp => ({ log }) => {
+const getLogItem = (pushSlideComp) => ({ log }) => {
   const { content } = log;
   let time = '';
   let level = '';

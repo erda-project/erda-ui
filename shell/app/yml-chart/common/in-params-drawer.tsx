@@ -43,13 +43,13 @@ const InParamsDrawer = (props: IInPramasDrawerProps) => {
     }
   };
   React.useEffect(() => {
-    setFields(map(ymlDataToFormData(get(nodeData, 'data') || []), item => {
+    setFields(map(ymlDataToFormData(get(nodeData, 'data') || []), (item) => {
       return editing ? { ...item } : { ...item, disabled: true };
     }));
   }, [editing, nodeData, visible]);
 
   React.useEffect(() => {
-    setFormKey(preFormKey => preFormKey + 1);
+    setFormKey((preFormKey) => preFormKey + 1);
   }, [fields]);
 
   const drawerProps = editing ? {
@@ -63,13 +63,13 @@ const InParamsDrawer = (props: IInPramasDrawerProps) => {
   };
 
   return (
-    <Drawer visible={visible} onClose={closeDrawer} {...drawerProps} destroyOnClose className='pipeline-in-params-drawer'>
+    <Drawer visible={visible} onClose={closeDrawer} {...drawerProps} destroyOnClose className="pipeline-in-params-drawer">
       {
         editing ? (
           <>
             <FormEditor fields={fields} ref={formEditorRef} />
-            <div className='pipeline-in-params-drawer-footer'>
-              <Button onClick={closeDrawer} className='mr8'>
+            <div className="pipeline-in-params-drawer-footer">
+              <Button onClick={closeDrawer} className="mr8">
                 {i18n.t('cancel')}
               </Button>
               <Button onClick={onSubmit} type="primary">
@@ -107,7 +107,7 @@ const componentList = map(typeMapping, 'component');
 
 // formData转为ymlData
 export const formDataToYmlData = (data: IFormData[]): PIPELINE.IPipelineInParams[] => {
-  return compact(map(data, item => {
+  return compact(map(data, (item) => {
     const { key, required, defaultValue, component, labelTip } = item;
     const type = get(find(typeMapping, { component }), 'type') || component;
     let _default = defaultValue as any;
@@ -132,7 +132,7 @@ export const formDataToYmlData = (data: IFormData[]): PIPELINE.IPipelineInParams
 };
 
 export const ymlDataToFormData = (data: PIPELINE.IPipelineInParams[], val: Obj = {}): IFormData[] => {
-  return map(data, item => {
+  return map(data, (item) => {
     const { name, required = false, default: _default, type, desc, inConfig, value } = item;
     let _defaultVal = (val[item.name] !== null && val[item.name] !== undefined) ? val[item.name] : (_default || undefined);
     const component = get(find(typeMapping, { type }), 'component') || type;

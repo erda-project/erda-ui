@@ -24,11 +24,11 @@ const setup = { type: 'dataTask', addTitle: i18n.t('application:new task'), cate
 
 export const DataTask = () => {
   const { getComboPipelines, batchCreateTask } = buildStore.effects;
-  const params = routeInfoStore.useStore(s => s.params);
+  const params = routeInfoStore.useStore((s) => s.params);
 
   const [modalVisible, setModalVisible] = React.useState(false);
 
-  const goToDetailLink = ({ pipelineID }: {pipelineID: number}, replace ?: boolean) => {
+  const goToDetailLink = ({ pipelineID }: {pipelineID: number}, replace?: boolean) => {
     const { projectId, appId } = params;
     goTo(goTo.pages.dataTask, { projectId, appId, pipelineID, replace });
   };

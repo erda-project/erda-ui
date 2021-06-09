@@ -27,7 +27,7 @@ const nameMaps = {
 
 const ChartsResult = () => {
   const [s, setS] = React.useState(0);
-  const { relsCount = {} } = testPlanStore.useStore(state => state.planReport);
+  const { relsCount = {} } = testPlanStore.useStore((state) => state.planReport);
 
   React.useEffect(() => {
     setTimeout(() => setS(1), 0);
@@ -36,9 +36,9 @@ const ChartsResult = () => {
   const layout = React.useMemo(() => {
     const nameMap = {};
     const color: string[] = [];
-    const names:string[] = [];
-    const data: Array<{name: string, value: number}> = [];
-    map(keys(nameMaps), key => {
+    const names: string[] = [];
+    const data: Array<{name: string; value: number}> = [];
+    map(keys(nameMaps), (key) => {
       const value = get(relsCount, key);
       if (value) {
         const name = nameMaps[key];

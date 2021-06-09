@@ -30,14 +30,14 @@ import './perm-editor.scss';
 
 const { TabPane } = Tabs;
 interface IAction {
-  name:string;
+  name: string;
   role: string[];
 }
 
 interface IPermItem {
   name: string;
   children?: IPerm;
-  actions?: IAction[]
+  actions?: IAction[];
 }
 
 interface IPerm {
@@ -74,7 +74,7 @@ const getRoleMap = (_roleMap: Obj, isEdit: boolean) => {
 };
 
 export const PermEditor = () => {
-  const [{ scope }, { projectId }] = routeInfoStore.useStore(s => [s.query, s.params]);
+  const [{ scope }, { projectId }] = routeInfoStore.useStore((s) => [s.query, s.params]);
   const [{ data, tabKey, searchKey, roleMap, reloadKey }, updater, update] = useUpdate({
     data: permData,
     tabKey: scope || 'org',
@@ -88,17 +88,17 @@ export const PermEditor = () => {
   const isEdit = !!projectId;
   const onChangeRole = (_data: IRoleChange) => {
     const { key, role, checked } = _data;
-    const newData = produce(data, draft => {
+    const newData = produce(data, (draft) => {
       if (role) {
         const curDataRole = get(draft, `${key}.role`);
-        set(draft, `${key}.role`, checked ? uniq([...curDataRole, role]) : filter(curDataRole, r => r !== role));
+        set(draft, `${key}.role`, checked ? uniq([...curDataRole, role]) : filter(curDataRole, (r) => r !== role));
       }
     });
     updater.data(newData);
   };
 
   const deleteData = (_dataKey: string) => {
-    const newData = produce(data, draft => {
+    const newData = produce(data, (draft) => {
       set(draft, _dataKey, undefined);
     });
     updater.data(newData);
@@ -106,7 +106,7 @@ export const PermEditor = () => {
 
   const editData = (val: Obj) => {
     const { key, name, keyPath, preKey, subData } = val;
-    const newData = produce(data, draft => {
+    const newData = produce(data, (draft) => {
       const curKeyPath = keyPath ? `${keyPath}.` : '';
       const curData = get(draft, `${curKeyPath}${preKey}`);
       if (subData) {
@@ -147,12 +147,12 @@ export const PermEditor = () => {
     });
   };
   return (
-    <div className='dice-perm-editor full-height'>
+    <div className="dice-perm-editor full-height">
       {
         isEdit ? (
-          <div className='top-button-group'>
+          <div className="top-button-group">
             <AddScope onSubmit={addScope} currentData={data} />
-            <Button type='primary' ghost onClick={reset}>{i18n.t('reset')}</Button>
+            <Button type="primary" ghost onClick={reset}>{i18n.t('reset')}</Button>
           </div>
         ) : null
       }
@@ -160,8 +160,8 @@ export const PermEditor = () => {
       <Tabs
         activeKey={tabKey}
         tabBarExtraContent={(
-          <div className='flex-box mt8'>
-            <DebounceSearch size='small' value={searchKey} className='mr8' onChange={updater.searchKey} />
+          <div className="flex-box mt8">
+            <DebounceSearch size="small" value={searchKey} className="mr8" onChange={updater.searchKey} />
             {
             isEdit
               ? (
@@ -174,11 +174,11 @@ export const PermEditor = () => {
             }
           </div>
         )}
-        renderTabBar={(p: any, DefaultTabBar) => <DefaultTabBar {...p} onKeyDown={(e:any) => e} />}
+        renderTabBar={(p: any, DefaultTabBar) => <DefaultTabBar {...p} onKeyDown={(e: any) => e} />}
         onChange={(curKey: string) => update({ searchKey: '', tabKey: curKey })}
       >
         {
-          map(data, (item:IPermItem, key: string) => {
+          map(data, (item: IPermItem, key: string) => {
             if (!item) return null;
             const { name } = item;
             return (

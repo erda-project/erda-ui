@@ -32,9 +32,9 @@ interface IProps {
 
 const ReleaseDetailEdit = (props: IProps) => {
   const { data, updateInfo } = props;
-  const userMap = userMapStore.useStore(s => s);
+  const userMap = userMapStore.useStore((s) => s);
 
-  const infoEditAuth = usePerm(s => s.app.release.info.edit.pass);
+  const infoEditAuth = usePerm((s) => s.app.release.info.edit.pass);
   if (!data || isEmpty(data)) {
     return null;
   }

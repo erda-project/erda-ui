@@ -36,13 +36,13 @@ const IF = ({ children, check }: any) => {
   if (bool) {
     return (
       <>
-        {...ifSection}
+        {ifSection}
       </>
     );
   } else if (hasElse) {
     return (
       <>
-        {...elseSection}
+        {elseSection}
       </>
     );
   }

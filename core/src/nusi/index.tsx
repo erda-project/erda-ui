@@ -13,28 +13,9 @@
 
 
 import {
-  Col,
   ConfigProvider as AntdConfigProvider,
-  Dropdown,
-  Empty,
   Form,
   Icon,
-  notification,
-  Row,
-  Skeleton,
-  Slider,
-  Spin,
-  Steps,
-  Switch,
-  Transfer,
-  Tree,
-  TreeSelect,
-  Tabs,
-  TimePicker,
-  Timeline,
-  Upload,
-  version,
-  Table as AntTable,
 } from 'antd';
 import {
   Button,
@@ -43,25 +24,44 @@ import {
   Carousel,
   Cascader,
   Checkbox,
+  Col,
   Collapse,
   ConfigProvider as Antd4ConfigProvider,
   Comment,
   Divider,
-  Drawer,
   DatePicker,
+  Drawer,
+  Dropdown,
+  Empty,
   Input,
   message,
   Menu,
   Modal,
+  notification,
   Popconfirm,
   Popover,
   Rate,
+  Row,
+  Skeleton,
+  Slider,
+  Spin,
+  Steps,
+  Switch,
+  Table as AntTable,
+  Tabs,
+  Transfer,
+  Tree,
+  TreeSelect,
+  Timeline,
+  TimePicker,
+  Upload,
+  version,
 } from 'antd-latest';
+import { FixedSelect } from './fixed-select';
+import FixRangePicker from './range-picker';
 import '@terminus/nusi/dist/nusi.scss';
 import 'antd/dist/antd.less';
 import 'antd-latest/dist/antd.less';
-import { FixedSelect } from './fixed-select';
-import FixRangePicker from './range-picker';
 import {
   Affix,
   Alert,

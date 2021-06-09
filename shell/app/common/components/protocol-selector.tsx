@@ -21,7 +21,7 @@ const HTTPS_PREFIX = 'https://';
 
 interface IProps {
   value: string;
-  onChange(params: string): void;
+  onChange: (params: string) => void;
 }
 
 export const ProtocolSelector = ({ value, onChange }: IProps) => {
@@ -36,7 +36,7 @@ export const ProtocolSelector = ({ value, onChange }: IProps) => {
 interface IInputProps {
   initProtocol?: string;
   value?: string;
-  onChange?(params: string): void;
+  onChange?: (params: string) => void;
   [prop: string]: any;
 }
 
@@ -54,10 +54,10 @@ export const ProtocolInput = ({ value = '', onChange, ...rest }: IInputProps) =>
 
   return (
     <Input
-      addonBefore={<ProtocolSelector value={protocol} onChange={v => onChange && onChange(`${v}${inputValue}`)} />}
+      addonBefore={<ProtocolSelector value={protocol} onChange={(v) => onChange && onChange(`${v}${inputValue}`)} />}
       maxLength={100}
       value={inputValue}
-      onChange={e => onChange && onChange(`${protocol}${e.target.value.trim()}`)}
+      onChange={(e) => onChange && onChange(`${protocol}${e.target.value.trim()}`)}
       {...rest}
     />
   );

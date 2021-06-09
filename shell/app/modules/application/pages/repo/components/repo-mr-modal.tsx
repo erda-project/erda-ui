@@ -17,9 +17,9 @@ import RepoMRForm from './repo-mr-form';
 import i18n from 'i18n';
 
 interface IProps {
-  visible: boolean,
-  onOk(): void;
-  onCancel(): void;
+  visible: boolean;
+  onOk: () => void;
+  onCancel: () => void;
 }
 
 export const RepoMRModal = ({ visible, onOk, onCancel }: IProps) => {

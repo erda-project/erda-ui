@@ -17,7 +17,7 @@ declare namespace ISSUE {
     permission: boolean;
     stateBelong: string;
     stateID: number;
-    stateName:string;
+    stateName: string;
   }
   interface Issue {
     id: number;
@@ -37,14 +37,14 @@ declare namespace ISSUE {
     creator: string;
     assignee: string;
     labels: string[];
-    testPlanCaseRels: IRelativeTestCase[]
+    testPlanCaseRels: IRelativeTestCase[];
     issueButton: IIssueButton[];
     issueSummary: null | {
       processingCount: number;
       doneCount: number;
-    }
-    issueManHour: issueManHour
-    customUrl?: string
+    };
+    issueManHour: issueManHour;
+    customUrl?: string;
     taskType: string;
   }
 
@@ -67,13 +67,13 @@ declare namespace ISSUE {
   }
 
   interface issueManHour {
-    thisElapsedTime: number, // 此次记录的工时
-    estimateTime: number, // 预估工时，int64单位是分钟
-    elapsedTime: number, // 已用工时，int64单位是分钟
-    remainingTime: number // 剩余工时，int64单位是分钟
-    startTime: string, // 此次工作开始的时间
-    workContent: string
-    isModifiedRemainingTime: boolean // 是否保存过剩余工时
+    thisElapsedTime: number; // 此次记录的工时
+    estimateTime: number; // 预估工时，int64单位是分钟
+    elapsedTime: number; // 已用工时，int64单位是分钟
+    remainingTime: number; // 剩余工时，int64单位是分钟
+    startTime: string; // 此次工作开始的时间
+    workContent: string;
+    isModifiedRemainingTime: boolean; // 是否保存过剩余工时
   }
 
   type RequirementState = 'OPEN' | 'WORKING' | 'TESTING' | 'DONE';
@@ -114,7 +114,7 @@ declare namespace ISSUE {
     streamType: string;
     createdAt: string;
     updatedAt: string;
-    mrInfo?: IssueStreamMrInfo
+    mrInfo?: IssueStreamMrInfo;
   }
 
   interface IssueStreamMrInfo {
@@ -124,44 +124,44 @@ declare namespace ISSUE {
   }
 
   interface IssueListQuery {
-    pageSize?: number,
-    state?: string,
-    type?: string | string[],
-    pageNo?: number,
-    projectID: number,
-    iterationID?: number,
-    label?: number[],
+    pageSize?: number;
+    state?: string;
+    type?: string | string[];
+    pageNo?: number;
+    projectID: number;
+    iterationID?: number;
+    label?: number[];
     title?: string;
   }
   interface IssueStreamListQuery {
-    pageSize?: number,
-    pageNo: number,
-    id: number,
+    pageSize?: number;
+    pageNo: number;
+    id: number;
   }
   interface IssueDetailQuery {
-    id: number,
+    id: number;
   }
   interface IssueStreamBody {
     type?: string;
     content: string;
-    mrInfo?: IssueStreamMrInfo
+    mrInfo?: IssueStreamMrInfo;
   }
   interface BatchUpdateBody {
-    all: boolean, // +required 是否全量更新
-    mine: boolean, // +required 是否过滤我的
-    ids?: number[]// +optional all为false时，不可为空
-    assignee?: string,
-    state?: string,
-    newIterationID?: number,
-    currentIterationID?: number, // 当前迭代id
-    currentIterationIDs?: number[], // 当前迭代id
-    type: string // 事件类型
+    all: boolean; // +required 是否全量更新
+    mine: boolean; // +required 是否过滤我的
+    ids?: number[];// +optional all为false时，不可为空
+    assignee?: string;
+    state?: string;
+    newIterationID?: number;
+    currentIterationID?: number; // 当前迭代id
+    currentIterationIDs?: number[]; // 当前迭代id
+    type: string; // 事件类型
   }
 
   interface IGetIssueQuery extends Omit<ISSUE.IssueListQuery, 'projectID'> {
-    loadMore?: boolean,
-    startFinishedAt?:number,
-    endFinishedAt?:number,
+    loadMore?: boolean;
+    startFinishedAt?: number;
+    endFinishedAt?: number;
   }
 
   interface TaskMap {
@@ -169,10 +169,10 @@ declare namespace ISSUE {
       label: string;
       value: string;
       icon: string | React.ReactNode;
-      nextStates: TaskState[]
-      color:string;
+      nextStates: TaskState[];
+      color: string;
       iconLabel: React.ReactNode;
-    }
+    };
   }
 
   interface BacklogIssueCreateBody {
@@ -190,8 +190,8 @@ declare namespace ISSUE {
     title?: string;
     priority?: 'URGENT' | 'HIGH' | 'NORMAL' | 'LOW';
     label?: string[];
-    pageNo?:number;
-    loadMore?:boolean;
+    pageNo?: number;
+    loadMore?: boolean;
   }
 
   interface ICreateRelationBody {
@@ -207,28 +207,28 @@ declare namespace ISSUE {
   }
 
   interface IssueMilestoneEpic {
-    planFinishedAt:string,
-    title:string,
-    id:number,
-    relationNum:number,
-    relationClosedNum:number
+    planFinishedAt: string;
+    title: string;
+    id: number;
+    relationNum: number;
+    relationClosedNum: number;
   }
   interface IssueMilestone {
     year: number;
     month: number;
-    epic: IssueMilestoneEpic[]
+    epic: IssueMilestoneEpic[];
   }
   interface IUpdateIssueTypeQuery {
-    id: number,
-    type: string
-    projectId: number,
+    id: number;
+    type: string;
+    projectId: number;
   }
 
   interface ICreateField {
     orgID: number;
     projectID: number;
     issueID: number;
-    property: ISSUE_FIELD.IFiledItem[]
+    property: ISSUE_FIELD.IFiledItem[];
   }
   interface IFiledQuery {
     issueID: number;

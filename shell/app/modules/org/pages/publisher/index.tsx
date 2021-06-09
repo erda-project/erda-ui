@@ -17,7 +17,7 @@ import { useLoading } from 'app/common/stores/loading';
 import { goTo } from 'common/utils';
 
 const Mapper = () => {
-  const [publisherList, publisherPaging] = publisherStore.useStore(s => [s.publisherList, s.publisherPaging]);
+  const [publisherList, publisherPaging] = publisherStore.useStore((s) => [s.publisherList, s.publisherPaging]);
   const [userLoading] = useLoading(publisherStore, ['getPublisherList']);
   const { getPublisherList, deletePublisher } = publisherStore.effects;
   const { clearPublisherList } = publisherStore.reducers;
@@ -33,7 +33,7 @@ const Mapper = () => {
       edit: false,
       add: true,
     },
-    onItemClick: (publisher:PUBLISHER.IPublisher) => {
+    onItemClick: (publisher: PUBLISHER.IPublisher) => {
       goTo(`./${publisher.id}/setting`);
     },
   };

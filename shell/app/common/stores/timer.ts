@@ -14,9 +14,9 @@
 import { createFlatStore } from 'app/cube';
 
 interface IState {
-  '5s': number,
-  '10s': number,
-  '1min': number,
+  '5s': number;
+  '10s': number;
+  '1min': number;
 }
 
 const initState: IState = {
@@ -48,4 +48,4 @@ export const timerStore = createFlatStore({
 
 export default timerStore;
 
-export const useRefresh = (duration: keyof IState) => timerStore.useStore(s => s[duration]);
+export const useRefresh = (duration: keyof IState) => timerStore.useStore((s) => s[duration]);

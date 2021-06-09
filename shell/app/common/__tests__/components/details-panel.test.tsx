@@ -63,7 +63,7 @@ describe('DetailsPanel', () => {
     const wrapper = mount(
       <DetailsPanel
         {...props}
-      />
+      />,
     );
     expect(wrapper.find({ title: 'DetailsPanel' })).toExist();
     expect(wrapper.find('AnchorLink')).toHaveLength(2);

@@ -63,13 +63,13 @@ const getDataSource = (caseList: TEST_CASE.CaseDirectoryItem[], scope: TEST_CASE
 };
 
 interface IProps {
-  query?: any
-  columns: Array<ColumnProps<TEST_CASE.CaseTableRecord>>
+  query?: any;
+  columns: Array<ColumnProps<TEST_CASE.CaseTableRecord>>;
   testPlanId?: number;
-  scope: TEST_CASE.PageScope,
-  modalQuery?: any
-  onChange?: (query: object) => void
-  onClickRow?(record: object, recordList?: object[]): void
+  scope: TEST_CASE.PageScope;
+  modalQuery?: any;
+  onChange?: (query: object) => void;
+  onClickRow?: (record: object, recordList?: object[]) => void;
 }
 
 const defaultPageNo = 1;
@@ -80,13 +80,13 @@ const CaseTable = ({
   onChange, testPlanId, modalQuery = {},
 }: IProps) => {
   const isModal = scope === 'caseModal';
-  const client = layoutStore.useStore(s => s.client);
-  const projectInfo = projectStore.useStore(s => s.info);
+  const client = layoutStore.useStore((s) => s.client);
+  const projectInfo = projectStore.useStore((s) => s.info);
   const { getCases: oldGetCases } = testCaseStore.effects;
   const { updateBreadcrumb } = testSetStore.effects;
   const [loading] = useLoading(testCaseStore, ['getCases']);
-  const routeQuery = queryProp || routeInfoStore.useStore(s => s.query);
-  const [metaFields, pageCaseList, pageCaseTotal, modalCaseList, modalCaseTotal] = testCaseStore.useStore(s => [s.metaFields, s.caseList, s.caseTotal, s.modalCaseList, s.modalCaseTotal]);
+  const routeQuery = queryProp || routeInfoStore.useStore((s) => s.query);
+  const [metaFields, pageCaseList, pageCaseTotal, modalCaseList, modalCaseTotal] = testCaseStore.useStore((s) => [s.metaFields, s.caseList, s.caseTotal, s.modalCaseList, s.modalCaseTotal]);
   const caseList = (isModal ? modalCaseList : pageCaseList);
   const caseTotal = (isModal ? modalCaseTotal : pageCaseTotal) as number;
 
@@ -153,7 +153,7 @@ const CaseTable = ({
             return <span className="color-text">{`#${record.testCaseID}`}</span>;
           }
           return {
-            children: <Ellipsis className="color-text-desc" title={record.directory}/>,
+            children: <Ellipsis className="color-text-desc" title={record.directory} />,
             props: {
               colSpan: 7,
             },

@@ -16,7 +16,7 @@ import moment from 'moment';
 import { monthMap } from 'app/locales/utils';
 import './month-uptime.scss';
 
-const MonthUptime = ({ timestamp, data = [] }: { timestamp: number, data?: any[] }) => {
+const MonthUptime = ({ timestamp, data = [] }: { timestamp: number; data?: any[] }) => {
   const momentObj = moment(timestamp);
   // 本月是几月
   const month = momentObj.get('month') + 1;

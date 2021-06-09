@@ -67,7 +67,7 @@ export const PureConsumerManage = () => {
     formData,
     selectedPackages,
   } = state;
-  const [openApiConsumerList, paging, consumerAuthPackages, authConfig, aliCloudCredentials] = gatewayStore.useStore(s => [s.openApiConsumerList, s.openApiConsumerListPaging, s.consumerAuthPackages, s.authConfig, s.aliCloudCredentials]);
+  const [openApiConsumerList, paging, consumerAuthPackages, authConfig, aliCloudCredentials] = gatewayStore.useStore((s) => [s.openApiConsumerList, s.openApiConsumerListPaging, s.consumerAuthPackages, s.authConfig, s.aliCloudCredentials]);
   const { getOpenApiConsumerList, createOpenApiConsumer, getConsumerAuthPackages, updateConsumerAuthPackages, updateOpenApiConsumer, getConsumerCredentials, updateConsumerCredentials, deleteOpenApiConsumer, generateAliCloudCredentials, getAliCloudCredentials, deleteAliCloudCredentials } = gatewayStore.effects;
   const { clearAliCloudCredentials } = gatewayStore.reducers;
   const [isFetching, isFetchAliAuth, isGenAliAuth, isDelAliAuth, credentialsLoading] = useLoading(gatewayStore, ['getOpenApiConsumerList', 'getAliCloudCredentials', 'generateAliCloudCredentials', 'deleteAliCloudCredentials', 'getConsumerCredentials']);
@@ -78,7 +78,7 @@ export const PureConsumerManage = () => {
   }, [getOpenApiConsumerList]);
 
   React.useEffect(() => {
-    updater.selectedPackages(consumerAuthPackages.filter(cp => cp.selected).map(p => p.id));
+    updater.selectedPackages(consumerAuthPackages.filter((cp) => cp.selected).map((p) => p.id));
   }, [consumerAuthPackages, updater]);
 
   const editForm = (record: IOpenApiConsumer) => {
@@ -96,7 +96,7 @@ export const PureConsumerManage = () => {
       content: `${i18n.t('microService:confirm delete this parameter')}：${key || name}`,
       onOk: () => {
         const configCopy = cloneDeep(authConfig);
-        const targetData = configCopy.find(config => config.authType === type) as GATEWAY.IAuthConfig;
+        const targetData = configCopy.find((config) => config.authType === type) as GATEWAY.IAuthConfig;
         targetData.authData.data = targetData.authData.data.filter((item: any) => item.id !== id);
         updateConsumerCredentials({ consumerId: currentConsumerId, authConfig: { auths: configCopy } });
       },
@@ -182,14 +182,14 @@ export const PureConsumerManage = () => {
     },
   ];
   const renderAuthParamsContent = () => {
-    const keyAuth = authConfig.find(config => config.authType === KEY_AUTH);
-    const oAuth = authConfig.find(config => config.authType === OAUTH);
-    const hamcAuth = authConfig.find(config => config.authType === HMAC_AUTH);
-    const signAuth = authConfig.find(config => config.authType === SIGN_AUTH);
+    const keyAuth = authConfig.find((config) => config.authType === KEY_AUTH);
+    const oAuth = authConfig.find((config) => config.authType === OAUTH);
+    const hamcAuth = authConfig.find((config) => config.authType === HMAC_AUTH);
+    const signAuth = authConfig.find((config) => config.authType === SIGN_AUTH);
 
     return (
       <div className="auth-params-content">
-        <Tabs defaultActiveKey='1' size='small'>
+        <Tabs defaultActiveKey="1" size="small">
           <TabPane
             tab={(
               <>
@@ -284,7 +284,7 @@ export const PureConsumerManage = () => {
 
   const handleAddAuth = ({ key, redirect_uri, ...rest }: any, type: string) => {
     const configCopy = cloneDeep(authConfig);
-    const targetData = configCopy.find(config => config.authType === type);
+    const targetData = configCopy.find((config) => config.authType === type);
     const data = targetData ? targetData.authData.data : [];
     if (type === KEY_AUTH) {
       data.push({ key });
@@ -384,7 +384,7 @@ export const PureConsumerManage = () => {
         key: 'all-data',
         text: i18n.t('microService:select all endpoints'),
         onSelect: () => {
-          updater.selectedPackages(consumerAuthPackages.map(p => p.id));
+          updater.selectedPackages(consumerAuthPackages.map((p) => p.id));
           updater.authDataTouched(true);
         },
       },

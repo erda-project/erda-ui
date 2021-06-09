@@ -21,31 +21,31 @@ import routeInfoStore from 'app/common/stores/route';
 import monitorCommonStore from 'common/stores/monitorCommon';
 
 interface ILoadObj {
-  id: number
-  query: object
-  dataHandler?: Function
-  loadChart(args: any): void;
+  id: number;
+  query: object;
+  dataHandler?: Function;
+  loadChart: (args: any) => void;
 }
 
 interface IChartProps {
-  [pro: string]: any
-  titleText: string | boolean
-  viewType: string
-  viewRender: any
-  viewProps: object
-  groupId: string
-  shouldLoad: boolean
-  timeSpan: ITimeSpan
-  terminusKey: string
-  chosenApp: object
-  fetchApi: string
-  params: object
+  [pro: string]: any;
+  titleText: string | boolean;
+  viewType: string;
+  viewRender: any;
+  viewProps: object;
+  groupId: string;
+  shouldLoad: boolean;
+  timeSpan: ITimeSpan;
+  terminusKey: string;
+  chosenApp: object;
+  fetchApi: string;
+  params: object;
 }
 
 interface ICreateChartProps {
-  moduleName: string
-  chartName: string
-  dataHandler?: Function
+  moduleName: string;
+  chartName: string;
+  dataHandler?: Function;
 }
 
 let chartId = 0;
@@ -102,7 +102,7 @@ const ChartBaseFactory = {
           } else {
             // eslint-disable-next-line no-console
             console.error(
-              `there has no key:${curKey} in chartFactory, or the value of the key is undefined.`
+              `there has no key:${curKey} in chartFactory, or the value of the key is undefined.`,
             );
           }
         });
@@ -127,14 +127,14 @@ const ChartBaseFactory = {
       const { query = emptyObj, fetchApi } = otherProps;
       const { loadChart } = monitorChartStore.effects;
       const { clearChartData } = monitorChartStore.reducers;
-      const chart = monitorChartStore.useStore(s => s);
+      const chart = monitorChartStore.useStore((s) => s);
       const data = get(chart, `${moduleName}.${chartName}`, {});
       const [
         timeSpan,
         chosenSortItem,
         chosenApp = {},
-      ] = monitorCommonStore.useStore(s => [s.timeSpan, s.chosenSortItem, s.chosenApp]);
-      const terminusKey = routeInfoStore.useStore(s => s.params.terminusKey);
+      ] = monitorCommonStore.useStore((s) => [s.timeSpan, s.chosenSortItem, s.chosenApp]);
+      const terminusKey = routeInfoStore.useStore((s) => s.params.terminusKey);
       const [curQuery, setCurQuery] = React.useState(getQuery({
         ...props,
         timeSpan,

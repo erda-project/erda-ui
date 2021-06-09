@@ -33,18 +33,18 @@ export interface ITableProps<P> {
   showTopAdd?: boolean;
   hasAddAuth?: boolean;
   addAuthTooltipTitle?: JSX.Element | string;
-  list: P[],
-  paging?: IPaging,
+  list: P[];
+  paging?: IPaging;
   filterConfig?: FilterItemConfig[];
   showSearchButton?: boolean;
   tableProps?: any;
   extraOperation?: React.ReactNode | (() => React.ReactNode);
-  getList(arg: any): Promise<any>;
-  clearList?(arg?: any): Promise<any> | void;
-  handleFormSubmit?(data: any, isEdit: boolean): Promise<any> | void;
-  getFieldsList?(form: WrappedFormUtils, isEdit: boolean): IFormItem[];
-  getColumns({ onEdit, reloadList }: { onEdit: (arg: P) => void, reloadList: () => void }): Array<ColumnProps<P>>;
-  onModalClose?(vis: boolean): void;
+  getList: (arg: any) => Promise<any>;
+  clearList?: (arg?: any) => Promise<any> | void;
+  handleFormSubmit?: (data: any, isEdit: boolean) => Promise<any> | void;
+  getFieldsList?: (form: WrappedFormUtils, isEdit: boolean) => IFormItem[];
+  getColumns: ({ onEdit, reloadList }: { onEdit: (arg: P) => void; reloadList: () => void }) => Array<ColumnProps<P>>;
+  onModalClose?: (vis: boolean) => void;
 }
 
 const emptyArr = [] as any[];
@@ -186,9 +186,9 @@ export function CRUDTable<P>(props: ITableProps<P>) {
 }
 
 export interface ICRUDStoreProps<P> {
-  name?: string
-  formTitle?: string
-  rowKey?: string | ((r: P) => string)
+  name?: string;
+  formTitle?: string;
+  rowKey?: string | ((r: P) => string);
   filterConfig?: FilterItemConfig[];
   store: ICRUDStore;
   extraQuery?: any;
@@ -204,26 +204,26 @@ export interface ICRUDStoreProps<P> {
       updateItem,
       isEdit,
     }: {
-      addItem: (arg: any) => Promise<any>
-      updateItem: (arg: any) => Promise<any>
+      addItem: (arg: any) => Promise<any>;
+      updateItem: (arg: any) => Promise<any>;
       isEdit: boolean;
     }
   ) => Promise<any>;
-  getColumns(
+  getColumns: (
     effects: any,
     {
       onEdit,
       reloadList,
     }: { onEdit: (arg: any) => void; reloadList: () => void }
-  ): Array<ColumnProps<P>>;
-  onModalClose?(vis: boolean): void;
+  ) => Array<ColumnProps<P>>;
+  onModalClose?: (vis: boolean) => void;
 }
 export function CRUDStoreTable<P>(props: ICRUDStoreProps<P>) {
   const { store, getColumns, handleFormSubmit: handleSubmit, ...rest } = props;
   const [loadingList] = useLoading(store, ['getList']);
   const { getList, addItem, updateItem } = store.effects;
   const { clearList } = store.reducers;
-  const [list, paging] = store.useStore(s => [s.list, s.paging]);
+  const [list, paging] = store.useStore((s) => [s.list, s.paging]);
   const handleFormSubmit = (data: P, isEdit: boolean) => {
     if (typeof handleSubmit === 'function') {
       return handleSubmit(data, { isEdit, updateItem, addItem });

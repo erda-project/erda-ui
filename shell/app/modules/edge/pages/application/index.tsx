@@ -30,8 +30,8 @@ const applicationList = () => {
     <div>
       <DiceConfigPage
         showLoading
-        scenarioKey='edge-application'
-        scenarioType='edge-application'
+        scenarioKey="edge-application"
+        scenarioType="edge-application"
         useMock={location.search.includes('useMock') ? useMock : undefined}
       />
       {

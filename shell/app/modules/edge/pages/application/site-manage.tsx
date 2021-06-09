@@ -17,8 +17,8 @@ import routeInfoStore from 'common/stores/route';
 import { cloneDeep } from 'app/external/custom-lodash';
 
 const appSiteManage = () => {
-  const { id } = routeInfoStore.useStore(s => s.params);
-  const { appName } = routeInfoStore.useStore(s => s.query);
+  const { id } = routeInfoStore.useStore((s) => s.params);
+  const { appName } = routeInfoStore.useStore((s) => s.query);
   const inParams = {
     id: +id,
     appName,
@@ -28,8 +28,8 @@ const appSiteManage = () => {
     <div>
       <DiceConfigPage
         showLoading
-        scenarioKey='edge-app-site'
-        scenarioType='edge-app-site'
+        scenarioKey="edge-app-site"
+        scenarioType="edge-app-site"
         inParams={inParams}
         useMock={location.search.includes('useMock') ? useMock : undefined}
       />

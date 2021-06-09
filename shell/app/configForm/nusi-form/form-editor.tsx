@@ -26,7 +26,7 @@ import './form-editor.scss';
 
 export { registerFormComponent, commonFields, basicField, rulesField, checkWhen, exceptField };
 
-export const FormEditor = React.forwardRef((props: any, ref:any) => {
+export const FormEditor = React.forwardRef((props: any, ref: any) => {
   return <DefaultEditor {...props} Form={Form} ref={ref} />;
 });
 
@@ -63,7 +63,7 @@ export const previewRenderField = ({
   );
 };
 
-export const FormPreview = React.forwardRef((props: any, ref:any) => {
+export const FormPreview = React.forwardRef((props: any, ref: any) => {
   return <DefaultPreview {...props} Form={Form} renderField={previewRenderField} ref={ref} />;
 });
 

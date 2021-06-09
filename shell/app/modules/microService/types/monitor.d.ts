@@ -14,43 +14,43 @@
 declare namespace MS_MONITOR {
 
   interface ICreateChartProps{
-    moduleName:string;
-    chartName:string;
-    dataHandler?:Function;
+    moduleName: string;
+    chartName: string;
+    dataHandler?: Function;
   }
 
   interface ITraceCountQuery {
-    cardinality: string
-    align: boolean
-    start?: number
-    end?: number
-    filter_terminus_key: string
+    cardinality: string;
+    align: boolean;
+    start?: number;
+    end?: number;
+    filter_terminus_key: string;
     'filter_fields.applications_ids'?: number;
     'filter_fields.services_distinct'?: string;
-    field_gt_errors_sum?: number
-    field_eq_errors_sum?: number
-    points?: number
+    field_gt_errors_sum?: number;
+    field_eq_errors_sum?: number;
+    points?: number;
   }
 
   interface ITraceSummaryQuery {
-    start: number
-    end: number
-    limit: number
-    'tag.error': boolean | undefined
-    'tag.fields.applications_ids': number
-    'tag.fields.services_distinct': string
-    field_gt_errors_sum?: number
-    field_eq_errors_sum?: number
+    start: number;
+    end: number;
+    limit: number;
+    'tag.error': boolean | undefined;
+    'tag.fields.applications_ids': number;
+    'tag.fields.services_distinct': string;
+    field_gt_errors_sum?: number;
+    field_eq_errors_sum?: number;
   }
 
   interface ITraceSummary {
-    elapsed: number
-    start_time: number
+    elapsed: number;
+    start_time: number;
     labels: Array<{
-      key: string
-      count: string
-    }>
-    operation_name: string
-    trace_id: string
+      key: string;
+      count: string;
+    }>;
+    operation_name: string;
+    trace_id: string;
   }
 }

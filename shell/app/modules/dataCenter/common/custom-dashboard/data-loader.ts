@@ -31,7 +31,7 @@ export const createLoadDataFn = (api: any, chartType: string) => async (payload?
     if (results[0].data.length > 1) {
       return {
         ...rest,
-        metricData: map(results[0].data, item => values(item)[0]),
+        metricData: map(results[0].data, (item) => values(item)[0]),
       };
     } else {
       return {
@@ -51,10 +51,10 @@ export const createLoadDataFn = (api: any, chartType: string) => async (payload?
   // 新的统一返回结构
   if (chartType === 'chart:map') {
     const { cols, data: _data } = data;
-    const aliases = filter(map(cols, col => col.key), alias => alias !== 'map_name');
-    const metricData = map(aliases, alias => ({
+    const aliases = filter(map(cols, (col) => col.key), (alias) => alias !== 'map_name');
+    const metricData = map(aliases, (alias) => ({
       name: alias,
-      data: map(_data, item => ({
+      data: map(_data, (item) => ({
         name: item.map_name,
         value: item[alias],
       })),

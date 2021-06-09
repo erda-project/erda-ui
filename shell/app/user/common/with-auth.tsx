@@ -42,12 +42,12 @@ interface IPermObj {
 }
 
 export const isCreator = (creatorId: string) => {
-  const loginUserId = userStore.getState(s => s.loginUser.id);
+  const loginUserId = userStore.getState((s) => s.loginUser.id);
   return (`${loginUserId}` === `${creatorId}` ? 'Creator' : '');
 };
 
 export const isAssignee = (assigneeId: string) => {
-  const loginUserId = userStore.getState(s => s.loginUser.id);
+  const loginUserId = userStore.getState((s) => s.loginUser.id);
   return (`${loginUserId}` === `${assigneeId}` ? 'Assignee' : '');
 };
 
@@ -62,14 +62,14 @@ export const getAuth = (permObj: IPermObj, checkRole: string[]) => {
 
 
 export interface IWithAuth {
-  [k: string]: any,
-  children: any,
-  pass?: boolean | { pass: boolean, role: string[], name: string },
-  disableMode?: boolean,
-  noAuthTip?: string | JSX.Element,
+  [k: string]: any;
+  children: any;
+  pass?: boolean | { pass: boolean; role: string[]; name: string };
+  disableMode?: boolean;
+  noAuthTip?: string | JSX.Element;
   tipProps?: any;
-  customRole?: string
-  use?(s: typeof permState): boolean,
+  customRole?: string;
+  use?: (s: typeof permState) => boolean;
 }
 
 /**

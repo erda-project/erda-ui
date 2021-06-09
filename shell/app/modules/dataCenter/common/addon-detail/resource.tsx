@@ -23,10 +23,10 @@ import { PAGINATION } from 'app/constants';
 type IResource = MIDDLEWARE_DASHBOARD.IResource;
 
 interface IProps {
-  resourceList: MIDDLEWARE_DASHBOARD.IResource[],
-  loading: boolean,
-  drawerComp: JSX.Element,
-  renderOp(record: any): JSX.Element,
+  resourceList: MIDDLEWARE_DASHBOARD.IResource[];
+  loading: boolean;
+  drawerComp: JSX.Element;
+  renderOp: (record: any) => JSX.Element;
 }
 export const PureResourceList = ({
   renderOp,

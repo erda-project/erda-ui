@@ -85,7 +85,7 @@ const apiPackageCols = [
 ];
 
 export const PureApiPackage = () => {
-  const [apiPackageList, paging] = gatewayStore.useStore(s => [s.apiPackageList, s.apiPackageListPaging]);
+  const [apiPackageList, paging] = gatewayStore.useStore((s) => [s.apiPackageList, s.apiPackageListPaging]);
   const { getApiPackageList, createApiPackage, deletePackage, updateApiPackage } = gatewayStore.effects;
   const { clearApiPackageList } = gatewayStore.reducers;
   const [isFetching] = useLoading(gatewayStore, ['getApiPackageList']);

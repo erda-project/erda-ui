@@ -16,6 +16,6 @@ import routeInfoStore from 'app/common/stores/route';
 import AlarmStrategy from 'app/modules/dataCenter/common/alarm-strategy';
 
 export default () => {
-  const params = routeInfoStore.useStore(s => s.params);
+  const params = routeInfoStore.useStore((s) => s.params);
   return <AlarmStrategy scopeType="project" scopeId={params.projectId} />;
 };

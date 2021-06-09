@@ -35,27 +35,27 @@ interface IState {
 }
 const currentLocale = getCurrentLocale();
 
-const generateMSMenu = (menuData: MS_INDEX.IMicroServiceMenu[], params: Record<string, any>, query:Record<string, any>) => {
+const generateMSMenu = (menuData: MS_INDEX.IMicroServiceMenu[], params: Record<string, any>, query: Record<string, any>) => {
   let queryStr = '';
   if (!isEmpty(query)) {
     queryStr = `?${qs.stringify(query)}`;
   }
 
-  return menuData.filter(m => m.exists).map((menu) => {
+  return menuData.filter((m) => m.exists).map((menu) => {
     const { key, cnName, enName, children } = menu;
     const href = getMSFrontPathByKey(key, { ...menu.params, ...params } as any);
 
     const IconComp = MSIconMap[key];
     const siderMenu = {
       key,
-      icon: IconComp  ? <IconComp /> : 'zujian',
+      icon: IconComp ? <IconComp /> : 'zujian',
       text: currentLocale.key === 'zh' ? cnName : enName,
       href: `${href}${queryStr}`,
       prefix: `${href}`,
       subMenu: [] as any,
     };
     if (children.length) {
-      siderMenu.subMenu = children.filter(m => m.exists).map((child) => {
+      siderMenu.subMenu = children.filter((m) => m.exists).map((child) => {
         const childHref = getMSFrontPathByKey(child.key, { ...child.params, ...params } as any);
         return {
           key: child.key,
@@ -85,9 +85,9 @@ const microServiceStore = createStore({
   name: 'microService',
   state: initState,
   subscriptions({ listenRoute }: IStoreSubs) {
-    listenRoute(({ isEntering, isLeaving }:IRouteInfo) => {
+    listenRoute(({ isEntering, isLeaving }: IRouteInfo) => {
       if (isEntering('microServiceDetail')) {
-        microServiceStore.effects.getMicroServiceMenuList().then((msMenu:MS_INDEX.IMicroServiceMenu[]) => {
+        microServiceStore.effects.getMicroServiceMenuList().then((msMenu: MS_INDEX.IMicroServiceMenu[]) => {
           if (msMenu.length) {
             const DICE_CLUSTER_NAME = msMenu[0].clusterName;
             const DICE_CLUSTER_TYPE = msMenu[0].clusterType || '';
@@ -112,8 +112,8 @@ const microServiceStore = createStore({
       await update({ microServiceProjectList });
     },
     async getMicroServiceMenuList({ call, select, update }) {
-      const [params, routes, query] = routeInfoStore.getState(s => [s.params, s.routes, s.query]);
-      let microServiceMenu = await select(s => s.microServiceMenu);
+      const [params, routes, query] = routeInfoStore.getState((s) => [s.params, s.routes, s.query]);
+      let microServiceMenu = await select((s) => s.microServiceMenu);
       const { env, projectId, tenantGroup, tenantId } = params;
       let menuData: MS_INDEX.IMicroServiceMenu[] = [];
       if (isEmpty(microServiceMenu)) {
@@ -135,7 +135,7 @@ const microServiceStore = createStore({
 
       layoutStore.reducers.setSubSiderInfoMap({
         key: 'microServiceDetail',
-        menu: filter(microServiceMenu, n => !isEmpty(n)),
+        menu: filter(microServiceMenu, (n) => !isEmpty(n)),
         loading: false,
         detail: {
           logoClassName: 'big-icon',

@@ -39,7 +39,7 @@ const PageMap = [
 
 const Jvms = () => {
   const type = 'jvm';
-  const chosenModule = monitorCommonStore.useStore(s => s.chosenModule);
+  const chosenModule = monitorCommonStore.useStore((s) => s.chosenModule);
   const curChosen = chosenModule[type];
 
   const opt = curChosen ? { query: { filter_instance_id: curChosen } } : { shouldLoad: false };

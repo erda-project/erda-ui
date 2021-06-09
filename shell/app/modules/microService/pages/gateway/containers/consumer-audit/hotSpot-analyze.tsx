@@ -31,17 +31,17 @@ import { useLoading } from 'app/common/stores/loading';
 const resourceInfo = { resourceType: 'multipleGroup', resourceId: 'hotSpot-analyze' };
 
 export const PureHotSpotAnalyze = () => {
-  const [params, query] = routeInfoStore.useStore(s => [s.params, s.query]);
-  const [projectInfo, apiFilterCondition] = gatewayStore.useStore(s => [s.projectInfo, s.apiFilterCondition]);
-  const metricItem = metricsMonitorStore.useStore(s => s.metricItem);
+  const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const [projectInfo, apiFilterCondition] = gatewayStore.useStore((s) => [s.projectInfo, s.apiFilterCondition]);
+  const metricItem = metricsMonitorStore.useStore((s) => s.metricItem);
   const realTimeData = get(metricItem, 'ultipleGroup-hotSpot-analyze-ha-real-time');
   const { loadMetricItem } = metricsMonitorStore.effects;
   const [loadMetricItemLoading] = useLoading(metricsMonitorStore, ['loadMetricItem']);
   const [getProjectInfoLoading] = useLoading(gatewayStore, ['getProjectInfo']);
   const isFetching = loadMetricItemLoading || getProjectInfoLoading;
 
-  const timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
-  const chart = monitorChartStore.useStore(s => s.APIRequest);
+  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const chart = monitorChartStore.useStore((s) => s.APIRequest);
   const hotSpotData = get(chart, 'hot-spot.results', []);
   const { env, projectId } = params;
   const { csmr, pack, papi, mthd } = query;
@@ -68,7 +68,7 @@ export const PureHotSpotAnalyze = () => {
       sort: 'sum_succ_sum',
       limit: 10,
       points: 7,
-    } as any
+    } as any,
   );
 
   const [realTimeQuery, setRealTimeQuery] = React.useState(
@@ -77,7 +77,7 @@ export const PureHotSpotAnalyze = () => {
       ...commonQuery,
       sumCps: 'succ_sum',
       customAPIPrefix: '/api/gateway/openapi/metrics/charts/',
-    } as any
+    } as any,
   );
 
   const HotSpot = React.useMemo(() => chartRender({

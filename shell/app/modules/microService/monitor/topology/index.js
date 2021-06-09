@@ -25,7 +25,7 @@ function monitorTopologyRouter() {
     routes: [
       {
         layout: { fullHeight: true },
-        getComp: cb => cb(import('topology/pages/topology/topology')),
+        getComp: (cb) => cb(import('topology/pages/topology/topology')),
       },
       getGatewayIngressMonitorRouter(),
       getEIRouter(),

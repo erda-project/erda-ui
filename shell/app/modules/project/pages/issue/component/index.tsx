@@ -23,13 +23,13 @@ import routeInfoStore from 'common/stores/route';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 
 interface IProps {
-  issueType: ISSUE_TYPE
+  issueType: ISSUE_TYPE;
 }
 
 
 export default (props: IProps) => {
   const { issueType } = props;
-  const [params, { id: queryId }] = routeInfoStore.useStore(s => [s.params, s.query]);
+  const [params, { id: queryId }] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const [{ filterObj, viewType, viewGroup, chosenIssueId, chosenIteration, chosenIssueType }, updater, update] = useUpdate({
     filterObj: undefined as undefined | Obj,
     viewType: '',
@@ -88,7 +88,7 @@ export default (props: IProps) => {
   };
 
   return (
-    <div className='issue'>
+    <div className="issue">
       <CreateButton onClick={onCreate} issueType={issueType} />
       <IssueHeader reloadData={reloadData} onFilter={onFilter} changeViewType={changeViewType} withPageNo={viewType === ViewTypeMap.table.value} issueType={issueType} />
 

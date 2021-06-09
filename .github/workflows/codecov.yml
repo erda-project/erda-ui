@@ -29,20 +29,31 @@ jobs:
       - name: checkout code
         uses: actions/checkout@v2
 
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-pnpm-modules
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-jest-${{ env.cache-name }}-${{ matrix.node-version }}
+
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
 
-      - name: Install dependence for core
-        working-directory: './core'
+      - name: Set pnpm
+        uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.0.2
+
+      - name: Install Dependencies
         run: |
-          npm ci
+          pnpm i
 
       - name: Run Tests
         working-directory: './shell'
         run: |
-          npm ci
           npm run test:coverage
           npm run copy:coverage
 

@@ -23,7 +23,7 @@ declare namespace CP_TABLE {
   }
 
   interface IData {
-    list: Obj[]
+    list: Obj[];
   }
 
   interface IProps {
@@ -38,26 +38,26 @@ declare namespace CP_TABLE {
     pagination?: boolean;
     expandedProps?: {
       columns: Column[];
-      rowKey: string,
-    }
+      rowKey: string;
+    };
   }
 
   interface IState {
-    total: number,
-    pageNo: number,
-    pageSize: number,
-    selectedRowKeys?: string[],
+    total: number;
+    pageNo: number;
+    pageSize: number;
+    selectedRowKeys?: string[];
   }
 
   type Props = MakeProps<Spec>;
 
   interface Column {
-    title: string
-    dataIndex: string
-    titleRenderType?: string
-    width?: number
-    titleTip?: string | string[]
-    data?: any
+    title: string;
+    dataIndex: string;
+    titleRenderType?: string;
+    width?: number;
+    titleTip?: string | string[];
+    data?: any;
   }
 
   type RenderType =
@@ -75,11 +75,11 @@ declare namespace CP_TABLE {
     | 'linkText';
 
   interface Row_Obj {
-    [k: string]: any,
-    renderType: RenderType,
-    value?: any,
-    prefixIcon?: string,
-    operations?: Obj<CP_COMMON.Operation>,
+    [k: string]: any;
+    renderType: RenderType;
+    value?: any;
+    prefixIcon?: string;
+    operations?: Obj<CP_COMMON.Operation>;
   }
 
 }

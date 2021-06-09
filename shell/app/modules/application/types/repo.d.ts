@@ -33,7 +33,7 @@ declare namespace REPOSITORY {
 
   interface GetInfo {
     repoPrefix: string;
-    branch: string
+    branch: string;
   }
 
   interface GetFromRepo {
@@ -76,7 +76,7 @@ declare namespace REPOSITORY {
       'newLine': number;
       'oldCommitId': string;
       'newCommitId': string;
-    },
+    };
     'authorId': string;
     'author': {
       [prop: string]: any;
@@ -84,7 +84,7 @@ declare namespace REPOSITORY {
       'id': number;
       'nickName': string;
       'username': string;
-    },
+    };
     'createdAt': string;
     'updatedAt': string;
   }
@@ -165,13 +165,13 @@ declare namespace REPOSITORY {
     targetBranch: string;
     sourceSha: string;
     targetSha: string;
-    removeSourceBranch: true,
+    removeSourceBranch: true;
     state: string;
     defaultCommitMessage: string;
     createdAt: string;
     updatedAt: string;
-    closeAt: string,
-    mergeAt: string
+    closeAt: string;
+    mergeAt: string;
   }
 
 
@@ -179,15 +179,15 @@ declare namespace REPOSITORY {
     id: string;
     name: string;
     commit: ICommit;
-    isDefault: boolean
-    isProtect: boolean
-    isMerged: boolean
+    isDefault: boolean;
+    isProtect: boolean;
+    isMerged: boolean;
   }
 
   interface CreateBranch {
     repoPrefix: string;
     branch: string;
-    refValue: string
+    refValue: string;
   }
 
 
@@ -238,7 +238,7 @@ declare namespace REPOSITORY {
     groupedAddonList: any[];
     templateConfig: REPOSITORY.ITemplateConfig;
     pipelineYmlStructure: IPipelineYmlStructure;
-    mrPaging: any,
+    mrPaging: any;
   }
 
   interface QueryCompareDetail {
@@ -257,14 +257,14 @@ declare namespace REPOSITORY {
   interface CommitAction {
     action: 'add' | 'update' | 'delete';
     content?: string;
-    path: string,
-    pathType: string,
+    path: string;
+    pathType: string;
   }
 
   interface Commit {
     message: string;
-    branch: string,
-    actions: CommitAction[]
+    branch: string;
+    actions: CommitAction[];
   }
 
   type MrStats = Pick<Mr, 'sourceBranch' | 'targetBranch'>;
@@ -272,20 +272,20 @@ declare namespace REPOSITORY {
   type MrType = ('all' | 'open' | 'merged' | 'closed');
 
   interface QueryRepoTree {
-    force: boolean
+    force: boolean;
   }
 
   interface QueryMrs {
     state: REPOSITORY.MrType;
     assigneeId?: number;
     authorId?: number;
-    pageNo?: number
+    pageNo?: number;
   }
 
   interface QueryBuildId {
     commitId: string;
     branch: string;
-    appId: string
+    appId: string;
   }
 
   interface QueryBlobRange {
@@ -310,7 +310,7 @@ declare namespace REPOSITORY {
       newLineNo: number;
       type: string;
       content: string;
-    }>
+    }>;
   }
 
   interface QueryCommit {
@@ -328,9 +328,9 @@ declare namespace REPOSITORY {
     tagger: {
       email: string;
       name: string;
-      when: string
-    },
-    message: string
+      when: string;
+    };
+    message: string;
   }
 
   interface IMrState {
@@ -345,19 +345,19 @@ declare namespace REPOSITORY {
   interface OperateMR {
     commitMessage?: string;
     removeSourceBranch?: string;
-    action: MROperation,
+    action: MROperation;
     mergeId: string;
   }
 
   interface CommitDetail {
-    commit: ICommit,
+    commit: ICommit;
     diff: {
       filesChanged: number;
       totalAddition: number;
       totalDeletion: number;
       files: IFile[];
       isFinish: string;
-    }
+    };
   }
 
   interface QueryCompare {
@@ -367,7 +367,7 @@ declare namespace REPOSITORY {
   }
 
   interface CompareDetail {
-    commits: ICommit[],
+    commits: ICommit[];
     commitsCount: number;
     diff: {
       filesChanged: number;
@@ -389,29 +389,29 @@ declare namespace REPOSITORY {
     newCommitId: string;
     note: string;
     data: {
-      diffLines: null,
+      diffLines: null;
       oldPath: string;
       newPath: string;
       oldLine: number;
       newLine: number;
       oldCommitId: string;
       newCommitId: string;
-    },
+    };
     authorId: string;
     author: {
       email: string;
       id: number;
       nickName: string;
       username: string;
-    },
+    };
     createdAt: string;
     updatedAt: string;
   }
 
   interface MrTemplate {
-    branch: string,
-    path: string,
-    names: string[]
+    branch: string;
+    path: string;
+    names: string[];
   }
 
   interface IPipelineTemplate {
@@ -443,30 +443,30 @@ declare namespace REPOSITORY {
   }
 
   interface BackupQuery {
-    id: string,
-    remark: string,
-    uuid: string,
-    name: string,
-    size: string,
-    url: string,
-    type: string,
-    from: string,
-    commitId: string,
-    creator: string,
-    createdAt: string,
-    updatedAt: string
+    id: string;
+    remark: string;
+    uuid: string;
+    name: string;
+    size: string;
+    url: string;
+    type: string;
+    from: string;
+    commitId: string;
+    creator: string;
+    createdAt: string;
+    updatedAt: string;
   }
   interface IBackupAppendBody {
-    commitId: string,
-    remark: string,
-    branchRef: string,
+    commitId: string;
+    remark: string;
+    branchRef: string;
   }
 
   interface IBackupUuid {
-    uuid: string,
+    uuid: string;
   }
 
   interface IBackupBranch {
-    branchRef: string,
+    branchRef: string;
   }
 }

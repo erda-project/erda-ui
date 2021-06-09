@@ -13,38 +13,38 @@
 
 declare namespace TICKET {
   interface Ticket {
-    id: number
-    title: string
-    content: string
-    type: string
-    priority: string
-    status: string
-    key: string
-    orgID: string
-    metric: string
-    metricID: string
-    count: 1
-    creator: string
-    lastOperator: string
+    id: number;
+    title: string;
+    content: string;
+    type: string;
+    priority: string;
+    status: string;
+    key: string;
+    orgID: string;
+    metric: string;
+    metricID: string;
+    count: 1;
+    creator: string;
+    lastOperator: string;
     label: {
-      branch: string
-      code: string
-      endLine: string
-      line: string
-      lineCode: string
-      message: string
-      path: string
-      rule: string
-      severity: string
-      startLine: string
-      status: string
-    }
-    targetType: string
-    targetID: string
-    createdAt: string
-    updatedAt: string
-    closedAt: string
-    triggeredAt: string
+      branch: string;
+      code: string;
+      endLine: string;
+      line: string;
+      lineCode: string;
+      message: string;
+      path: string;
+      rule: string;
+      severity: string;
+      startLine: string;
+      status: string;
+    };
+    targetType: string;
+    targetID: string;
+    createdAt: string;
+    updatedAt: string;
+    closedAt: string;
+    triggeredAt: string;
     author: string; // userMap注入
     lastOperatorUser: string;
   }
@@ -52,57 +52,57 @@ declare namespace TICKET {
   type Status = 'all' | 'open' | 'closed';
 
   interface ListQuery {
-    pageNo: number
-    pageSize: number
-    targetType: string
-    targetID: number
-    status?: string
-    q?: string
-    priority?: string
-    type?: string
+    pageNo: number;
+    pageSize: number;
+    targetType: string;
+    targetID: number;
+    status?: string;
+    q?: string;
+    priority?: string;
+    type?: string;
   }
 
   interface CreateBody {
-    title: string
-    content: string
-    type: string
-    priority: string
-    status: string
-    userID: string
-    targetID: string
-    targetType: string
+    title: string;
+    content: string;
+    type: string;
+    priority: string;
+    status: string;
+    userID: string;
+    targetID: string;
+    targetType: string;
   }
 
   interface CommentBody {
-    content?: string
+    content?: string;
     irComment?: {
-      issueID: number
-      issueTitle: string
-      projectID: number
-      iterationID: number
-      issueType: string
-    }
-    commentType: string
-    ticketID: number
-    userID: string
+      issueID: number;
+      issueTitle: string;
+      projectID: number;
+      iterationID: number;
+      issueType: string;
+    };
+    commentType: string;
+    ticketID: number;
+    userID: string;
   }
 
   interface Comment {
-    commentType: string
-    content: string
-    createdAt: string
-    id: number
+    commentType: string;
+    content: string;
+    createdAt: string;
+    id: number;
     irComment: {
-      issueID: number,
-      issueTitle: string
-      issueType: string
-      iterationID: number,
-      projectID: number
-    }
-    ticketID: number
-    updatedAt: string
-    userID: string
-    author?: string // userMap注入
+      issueID: number;
+      issueTitle: string;
+      issueType: string;
+      iterationID: number;
+      projectID: number;
+    };
+    ticketID: number;
+    updatedAt: string;
+    userID: string;
+    author?: string; // userMap注入
   }
 
   interface TicketType {

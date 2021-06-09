@@ -25,7 +25,7 @@ export const ProjectAppList = () => {
   const { getProjectApps } = projectStore.effects;
   const { clearProjectAppList } = projectStore.reducers;
 
-  const permMap = usePerm(s => s.project);
+  const permMap = usePerm((s) => s.project);
 
   return (
     <React.Fragment>

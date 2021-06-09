@@ -19,18 +19,18 @@ import agent from 'agent';
 import i18n from 'i18n';
 
 export interface Effects {
-  [key: string]: EffectFn
+  [key: string]: EffectFn;
 }
 export type EffectFn = (...payload: any) => Promise<any>;
 interface IProps<P> {
   name: string;
   services: {
-    get(arg: any): IPagingResp<P>;
-    add?(arg: any): Promise<any>;
-    update?(arg: any): Promise<any>;
-    delete?(arg: any): Promise<any>;
-  }
-  effects?: CubeState.EnhanceEffects<IState<P>>,
+    get: (arg: any) => IPagingResp<P>;
+    add?: (arg: any) => Promise<any>;
+    update?: (arg: any) => Promise<any>;
+    delete?: (arg: any) => Promise<any>;
+  };
+  effects?: CubeState.EnhanceEffects<IState<P>>;
 }
 export interface IState<P> {
   paging: IPaging;
@@ -93,7 +93,7 @@ interface IServiceProps {
     add?: string;
     update?: string;
     delete?: string;
-  },
+  };
 }
 
 export const createCRUDService = <P>({ API }: IServiceProps) => {

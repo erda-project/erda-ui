@@ -58,9 +58,9 @@ export const TicketForm = ({
   onOk,
   onCancel,
 }: {
-  visible: boolean,
-  onOk(values: any): void,
-  onCancel(): void,
+  visible: boolean;
+  onOk: (values: any) => void;
+  onCancel: () => void;
 }) => {
   const fieldsList = [
     {

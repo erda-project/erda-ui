@@ -29,7 +29,7 @@ const { Option } = Select;
 interface IProps {
   member: IMember | null;
   type: MemberScope;
-  closeModal(): void;
+  closeModal: () => void;
 }
 
 const storeMap = {
@@ -46,8 +46,8 @@ export const AuthorizeMemberModal = ({
   const memberStore = storeMap[type];
   const { updateMembers, removeMember } = memberStore.effects;
   const { getRoleMap } = appMemberStore.effects;// 应用授权，只查询项目的角色
-  const roleMap = appMemberStore.useStore(s => s.roleMap);
-  const { params } = routeInfoStore.getState(s => s);
+  const roleMap = appMemberStore.useStore((s) => s.roleMap);
+  const { params } = routeInfoStore.getState((s) => s);
 
   const [list, paging, loading, load, clear] = useTempPaging<IApplication>({
     service: getApps,
@@ -81,7 +81,7 @@ export const AuthorizeMemberModal = ({
           <Select
             style={{ width: 180 }}
             value={text || undefined}
-            mode='multiple'
+            mode="multiple"
             onChange={(v: string[]) => {
               if (member) {
                 const payload = { scope: { id: String(record.id), type: MemberScope.APP }, userIds: [member.userId] };

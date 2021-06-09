@@ -26,7 +26,7 @@ interface ILogItem {
 
 interface IItemProps {
   log: ILogItem;
-  transformContent?(content: string): {content: string, suffix: any};
+  transformContent?: (content: string) => {content: string; suffix: any};
 }
 const DefaultLogItem = ({ log, transformContent }: IItemProps) => {
   const { content, timestamp } = log;
@@ -54,7 +54,7 @@ const DefaultLogItem = ({ log, transformContent }: IItemProps) => {
 
 interface IProps {
   logs: ILogItem[];
-  CustomLogItem?(content: string): string;
+  CustomLogItem?: (content: string) => string;
 }
 const LogContent = ({ logs, CustomLogItem, ...rest }: IProps) => {
   const ItemRender: Function = CustomLogItem || DefaultLogItem;

@@ -26,9 +26,9 @@ interface IProps{
 
 const MonitorChart = (props: IProps) => {
   const { resourceType, resourceId, metricKey, chartQuery } = props;
-  const metricData = metricsMonitorStore.useStore(s => s.metricItem);
+  const metricData = metricsMonitorStore.useStore((s) => s.metricItem);
   const initFetch = metricsMonitorStore.effects.loadMetricItem;
-  const timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
+  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
 
   React.useEffect(() => {
     loadMetricData();

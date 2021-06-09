@@ -24,7 +24,7 @@ export const getLabel = (label: string, labelTip: string) => {
       <span>
         {label}&nbsp;
         <Tooltip title={labelTip}>
-          <IconHelp className='color-text-icon' />
+          <IconHelp className="color-text-icon" />
         </Tooltip>
       </span>
     );
@@ -32,4 +32,4 @@ export const getLabel = (label: string, labelTip: string) => {
   return _label;
 };
 
-export const noop = (a:any) => a;
+export const noop = (a: any) => a;

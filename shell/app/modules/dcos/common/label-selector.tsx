@@ -19,20 +19,20 @@ import './label-selector.scss';
 
 interface IProps {
   labelOptions?: Array<{
-    [p: string]: any,
-    name: string,
-    value: string,
-    desc?: string,
-    group:string,
-    groupName:string,
-    groupLevel:number,
-  }>
+    [p: string]: any;
+    name: string;
+    value: string;
+    desc?: string;
+    group: string;
+    groupName: string;
+    groupLevel: number;
+  }>;
   value?: string[];
-  onChange?(data: string[]): void;
+  onChange?: (data: string[]) => void;
 }
 
 const LabelSelector = React.forwardRef(({ labelOptions, value = [], onChange }: IProps, ref) => {
-  const nodeLabels = clusterDashboardStore.useStore(s => s.nodeLabels);
+  const nodeLabels = clusterDashboardStore.useStore((s) => s.nodeLabels);
   const { getNodeLabels } = clusterDashboardStore.effects;
   const [labelList, setLabelList] = React.useState([] as any[]);
 
@@ -42,7 +42,7 @@ const LabelSelector = React.forwardRef(({ labelOptions, value = [], onChange }: 
 
   React.useEffect(() => {
     if (labelOptions === undefined) {
-      setLabelList(nodeLabels.filter(l => !l.isPrefix).map(l => ({ ...l, value: l.label, name: l.label })));
+      setLabelList(nodeLabels.filter((l) => !l.isPrefix).map((l) => ({ ...l, value: l.label, name: l.label })));
     } else {
       setLabelList(labelOptions);
     }
@@ -61,19 +61,19 @@ const LabelSelector = React.forwardRef(({ labelOptions, value = [], onChange }: 
   groupList = sortBy(groupList, 'groupLevel');
 
   const handleChange = (item: string, isActive: boolean) => {
-    const newList = isActive ? value.filter(label => label !== item) : value.concat(item);
+    const newList = isActive ? value.filter((label) => label !== item) : value.concat(item);
     onChange && onChange(newList);
   };
 
   return (
     <div ref={ref} className="label-selector-container">
       {
-        map(groupList, (item:any) => {
+        map(groupList, (item: any) => {
           const { name, children } = item;
           return (
             <div className="label-group" key={name}>
               <span className="label-group-name">{name}: </span>
-              {map(children, (cItem:any) => {
+              {map(children, (cItem: any) => {
                 const isActive = value.includes(cItem.value);
                 return (
                   <span

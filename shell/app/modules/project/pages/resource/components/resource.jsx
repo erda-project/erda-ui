@@ -107,9 +107,9 @@ class ProjectResource extends React.PureComponent {
 }
 
 export default (props) => {
-  const info = projectStore.useStore(s => s.info);
-  const params = routeInfoStore.useStore(s => s.params);
-  const { name: applicationName } = appStore.useStore(s => s.detail);
-  const timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
+  const info = projectStore.useStore((s) => s.info);
+  const params = routeInfoStore.useStore((s) => s.params);
+  const { name: applicationName } = appStore.useStore((s) => s.detail);
+  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
   return <ProjectResource {...props} projectName={info.name} applicationName={applicationName} params={params} timeSpan={timeSpan} />;
 };

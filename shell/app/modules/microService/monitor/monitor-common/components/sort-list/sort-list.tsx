@@ -21,7 +21,7 @@ interface IProps{
   data: {
     loading: boolean | undefined;
     list: IData[];
-  },
+  };
   onClickItem?: (args: string) => void;
 }
 

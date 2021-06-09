@@ -44,16 +44,16 @@ export const Modal = (props: IProps) => {
 
   return (
     <div className={`dice-form-modal ${visible ? 'open' : ''}`}>
-      <div className='mask' onClick={clickMask}>
+      <div className="mask" onClick={clickMask}>
         <div className={'container shallow-shadow'} style={{ width }} onClick={(e) => e.stopPropagation()}>
           <div className="title">
             {title}
-            <span className='close' onClick={onCancel}>x</span>
+            <span className="close" onClick={onCancel}>x</span>
           </div>
           <div className="content">{visible ? children : null}</div>
-          <div className='footer'>
-            <button className='dice-form-editor-button footer-btn' onClick={onCancel}>取消</button>
-            <button className='dice-form-editor-button footer-btn primary' onClick={clickOk}>确定</button>
+          <div className="footer">
+            <button className="dice-form-editor-button footer-btn" onClick={onCancel}>取消</button>
+            <button className="dice-form-editor-button footer-btn primary" onClick={clickOk}>确定</button>
           </div>
         </div>
       </div>

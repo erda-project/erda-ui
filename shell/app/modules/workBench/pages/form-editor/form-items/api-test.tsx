@@ -17,14 +17,14 @@ import * as React from 'react';
 import { commonFields, exceptField } from 'app/configForm/nusi-form/form-items';
 
 const FormItem = Form.Item;
-const noop = (d:any) => d;
+const noop = (d: any) => d;
 export const FormApiTest = ({
   fixOut = noop,
   fixIn = noop,
   extensionFix,
   requiredCheck,
   trigger = 'onChange',
-}: any = {}) => React.memo(({ fieldConfig, form, getLabel }:any = {}) => {
+}: any = {}) => React.memo(({ fieldConfig, form, getLabel }: any = {}) => {
   const {
     key,
     value,
@@ -39,7 +39,7 @@ export const FormApiTest = ({
     requiredCheck: _requiredCheck,
   } = fieldConfig || {};
   registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (e:any) => {
+  const handleChange = (e: any) => {
     form.setFieldValue(key, fixOut(e));
     (componentProps.onChange || noop)(e);
   };

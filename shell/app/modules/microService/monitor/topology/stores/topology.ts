@@ -16,11 +16,11 @@ import { getMonitorTopology, getTopologyTags, getTagsOptions } from '../services
 import { getCustomDashboardDetail } from 'dataCenter/services/custom-dashboard';
 
 interface IState {
-  topologyData: TOPOLOGY.ITopologyResp,
-  isSimpleNode: boolean,
-  scale: number,
-  topologyTags: TOPOLOGY.ISingleTopologyTags[] | [],
-  tagOptionsCollection: object,
+  topologyData: TOPOLOGY.ITopologyResp;
+  isSimpleNode: boolean;
+  scale: number;
+  topologyTags: TOPOLOGY.ISingleTopologyTags[] | [];
+  tagOptionsCollection: object;
 }
 
 const initState = {
@@ -46,11 +46,11 @@ const topology = createStore({
     },
     async getTagsOptions({ call, update, select }, payload: TOPOLOGY.ITopologyTagOptionQuery) {
       const tagOptions = await call(getTagsOptions, payload);
-      const tagOptionsCollection = select(s => s.tagOptionsCollection);
+      const tagOptionsCollection = select((s) => s.tagOptionsCollection);
       update({ tagOptionsCollection: { ...tagOptionsCollection, [payload.tag]: tagOptions } });
       return tagOptions;
     },
-    async getCustomDashboardDetail({ call }, payload: { id: string; scopeId?: string; }) {
+    async getCustomDashboardDetail({ call }, payload: { id: string; scopeId?: string }) {
       const customDashboardDetail = await call(getCustomDashboardDetail, { ...payload, isSystem: true });
       return customDashboardDetail?.viewConfig;
     },

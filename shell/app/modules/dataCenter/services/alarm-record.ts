@@ -27,7 +27,7 @@ export const getMachineAlarmRecordList = ({ clusters, ...query }: Merge<ALARM_RE
     .then((response: any) => response.body);
 };
 
-export const getAlarmAttrs = (): { [k: string]: Array<{ key: string; display: string; }> } => {
+export const getAlarmAttrs = (): { [k: string]: Array<{ key: string; display: string }> } => {
   return agent.get('/api/org-alert-record-attrs')
     .then((response: any) => response.body);
 };

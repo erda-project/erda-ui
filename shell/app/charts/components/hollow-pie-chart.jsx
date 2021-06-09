@@ -25,7 +25,7 @@ const HollowPieChart = ({ data }) => {
     failed: '#F56B6B',
     canceled: '#F4C254',
   };
-  const useColor = result.map(item => colorsMap[item.type]);
+  const useColor = result.map((item) => colorsMap[item.type]);
   const success = (find(result, { type: 'succeed' }) || { value: 0 }).value;
   const total = reduce(result, (sum, item) => sum + item.value, 0) || 1;
 

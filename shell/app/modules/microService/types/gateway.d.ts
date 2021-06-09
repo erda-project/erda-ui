@@ -40,13 +40,13 @@ declare namespace GATEWAY {
   }
 
   interface UpdateAuthInfo extends GetAuthInfo {
-    consumers: string[]
+    consumers: string[];
   }
 
   interface RuntimeEntryData {
     diceApp: string;
     services: {
-      [k: string]: RUNTIME_SERVICE.Detail
+      [k: string]: RUNTIME_SERVICE.Detail;
     };
   }
 
@@ -57,12 +57,12 @@ declare namespace GATEWAY {
   }
 
   interface Consumer {
-    endpoint: Endpoint,
+    endpoint: Endpoint;
     consumerId: string;
     consumerName: string;
     authConfig: any;
     gatewayInstance: string;
-    clusterName: string
+    clusterName: string;
   }
 
   interface AuthInfoItem {
@@ -78,7 +78,7 @@ declare namespace GATEWAY {
 
   interface RegisterApp {
     name: string;
-    services: string[]
+    services: string[];
   }
 
 
@@ -102,7 +102,7 @@ declare namespace GATEWAY {
   interface UpdateConsumerAuthByConsumers {
     data: {
       consumers: string[];
-    }
+    };
     packageId: string;
   }
 
@@ -126,8 +126,8 @@ declare namespace GATEWAY {
   }
 
   interface ApiFilterCondition {
-    apiPackages: ApiPackageItem[]
-    apiConsumers: ConsumersName[]
+    apiPackages: ApiPackageItem[];
+    apiConsumers: ConsumersName[];
   }
 
   interface ConsumersName {
@@ -137,11 +137,11 @@ declare namespace GATEWAY {
     createAt: string;
   }
 
-  type ConsumerAuthPackages = Merge<ApiPackageItem, { selected: boolean; }>;
+  type ConsumerAuthPackages = Merge<ApiPackageItem, { selected: boolean }>;
 
   interface UpdateConsumerAuthByPackages {
     consumerId: string;
-    packages: string[]
+    packages: string[];
   }
 
   interface IAuthData_data {
@@ -161,7 +161,7 @@ declare namespace GATEWAY {
     authTips: string;
     authData: {
       total: number;
-      data: IAuthData_data[]
+      data: IAuthData_data[];
     };
   }
 
@@ -169,7 +169,7 @@ declare namespace GATEWAY {
     consumerName: string;
     consumerId: string;
     authConfig: {
-      auths: IAuthConfig[]
+      auths: IAuthConfig[];
     };
     endpoint: Endpoint;
     gatewayInstance: string;
@@ -183,7 +183,7 @@ declare namespace GATEWAY {
     displayName: string;
     config: {
       [k in LimitType]: number
-    },
+    };
     createAt: string;
   }
 
@@ -211,7 +211,7 @@ declare namespace GATEWAY {
     displayPath: string;
     outerNetEnable: boolean;
     registerType: string;
-    needAuth: boolean,
+    needAuth: boolean;
     method: string;
     description: string;
     redirectAddr: string;
@@ -222,12 +222,12 @@ declare namespace GATEWAY {
       groupId: string;
       groupName: string;
       displayName: string;
-    },
+    };
     createAt: string;
     policies: null | string[];
     swagger: {
       [key: string]: any;
-    }
+    };
   }
 
   interface ApiPage {
@@ -259,7 +259,7 @@ declare namespace GATEWAY {
   }
 
   interface ApiDomain {
-    domainSuffix: string
+    domainSuffix: string;
     domainPrefix: string;
   }
 
@@ -289,7 +289,7 @@ declare namespace GATEWAY {
     service_name: string;
     service_port: number;
     inner_address: string;
-    use_apigw: number
+    use_apigw: number;
     is_endpoint: number;
     id: string;
     is_deleted: string;
@@ -318,8 +318,8 @@ declare namespace GATEWAY {
     method: string;
     apiPath: string;
     limit: {
-      qps: number
-    },
+      qps: number;
+    };
     id: string;
     createAt: string;
     consumerName: string;
@@ -369,7 +369,7 @@ declare namespace GATEWAY {
     ipRate?: {
       rate?: number;
       unit: string;
-    }
+    };
   }
 
   interface SafetyServerGuard {
@@ -405,7 +405,7 @@ declare namespace GATEWAY {
     ipRate?: {
       rate: string;
       unit: string;
-    }
+    };
   }
 
   interface SaveServerGuard extends GetSafety {
@@ -504,7 +504,7 @@ declare namespace GATEWAY {
     displayName: string;
     config: {
       [k in LimitType]: number;
-    }
+    };
     policyName: string;
   }
 
@@ -540,8 +540,8 @@ declare namespace GATEWAY {
   interface UpdateCredentials {
     consumerId: string;
     authConfig: {
-      auths: IAuthConfig[]
-    }
+      auths: IAuthConfig[];
+    };
   }
 
   interface updateConsumer {
@@ -550,24 +550,24 @@ declare namespace GATEWAY {
         auths: Array<{
           authType: string;
           authData: {
-            data: IAuthData_data[]
-          }
-        }>
-      }
+            data: IAuthData_data[];
+          };
+        }>;
+      };
     };
     consumerId: string;
   }
 
   interface SaveConsumerApi {
     consumerId: string;
-    apiList: any[]
+    apiList: any[];
   }
 
   interface SavePoliciesApi {
     list: Array<{
       consumerApiId: string;
-      policies: any
-    }>
+      policies: any;
+    }>;
   }
 
   interface Common {
@@ -577,7 +577,7 @@ declare namespace GATEWAY {
   interface QueryApiPrefix extends Base {
     app: string;
     service: string;
-    runtimeId: string
+    runtimeId: string;
   }
 
   interface AliCloudDomain {

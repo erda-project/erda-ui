@@ -12,10 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Select } from 'antd';
+import { Select } from 'antd-latest';
 import { get } from 'lodash';
 
-const { Option } = Select;
+const { Option, OptGroup } = Select;
 const FixedSelect = React.forwardRef((props, ref) => {
   const options = props.children || get(props, 'options');
   return (
@@ -26,6 +26,7 @@ const FixedSelect = React.forwardRef((props, ref) => {
 });
 
 FixedSelect.Option = Option;
+FixedSelect.OptGroup = OptGroup;
 
 export {
   FixedSelect,

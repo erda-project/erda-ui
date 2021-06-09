@@ -22,7 +22,7 @@ import { WithAuth, usePerm } from 'user/common';
 import { IF } from 'common';
 
 export const mrTabs = () => {
-  const info = repoStore.useStore(s => s.info);
+  const info = repoStore.useStore((s) => s.info);
   return [
     {
       key: 'all',
@@ -44,9 +44,9 @@ export const mrTabs = () => {
 };
 
 const PureRepoMR = () => {
-  const info = repoStore.useStore(s => s.info);
-  const params = routeInfoStore.useStore(s => s.params);
-  const permObj = usePerm(s => s.app.repo.mr);
+  const info = repoStore.useStore((s) => s.info);
+  const params = routeInfoStore.useStore((s) => s.params);
+  const permObj = usePerm((s) => s.app.repo.mr);
   const { mrType = 'open' } = params;
 
   return (

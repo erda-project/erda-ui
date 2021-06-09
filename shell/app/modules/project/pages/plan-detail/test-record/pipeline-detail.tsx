@@ -50,7 +50,7 @@ interface IPipelineDetail {
   commitDetail: any;
   pipelineButton: any;
   pipelineCron: any;
-  pipelineStages: any
+  pipelineStages: any;
 }
 
 export class PipelineDetail extends React.Component<IProps, IState> {

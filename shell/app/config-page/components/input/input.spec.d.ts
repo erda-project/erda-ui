@@ -19,11 +19,11 @@ declare namespace CP_INPUT {
   }
 
   interface IState{
-    value?: string
+    value?: string;
   }
 
   interface IProps{
-    disabled?: boolean
+    disabled?: boolean;
     placeholder?: string;
   }
 

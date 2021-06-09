@@ -40,7 +40,7 @@ export const useFields = (_fields: any[]) => {
   };
 
   const removeFields = (fieldNames: string[]) => {
-    setFields(prev => prev.filter(f => fieldNames.includes(f.name)));
+    setFields((prev) => prev.filter((f) => fieldNames.includes(f.name)));
   };
 
   return [fields, { updateFields, removeFields }];
@@ -57,9 +57,9 @@ export const MysqlFieldsConfig = {
     { name: i18n.t('resource:4Core 8GB'), value: 'rds.mysql.s3.large', specName: `${i18n.t('resource:High-availability')} ${i18n.t('resource:4Core 8GB')}` },
     { name: i18n.t('resource:8Core 32GB'), value: 'rds.mysql.c1.xlarge', specName: `${i18n.t('resource:High-availability')} ${i18n.t('resource:8Core 32GB')}` },
   ],
-  getFields: (form: WrappedFormUtils, { chargeType, onChangeChargeType }: { chargeType: string, onChangeChargeType: (val: string) => void }) => {
-    const basicSpecs = MysqlFieldsConfig.basicTypes.map(a => a.value);
-    const highSpecs = MysqlFieldsConfig.highTypes.map(a => a.value);
+  getFields: (form: WrappedFormUtils, { chargeType, onChangeChargeType }: { chargeType: string; onChangeChargeType: (val: string) => void }) => {
+    const basicSpecs = MysqlFieldsConfig.basicTypes.map((a) => a.value);
+    const highSpecs = MysqlFieldsConfig.highTypes.map((a) => a.value);
     return [
       {
         label: i18n.t('instance name'),
@@ -82,7 +82,7 @@ export const MysqlFieldsConfig = {
             name: i18n.t('resource:High-availability'),
             children: MysqlFieldsConfig.highTypes,
           },
-        ], item => {
+        ], (item) => {
           const { name, value } = item;
           return (
             <Option key={value} value={value}>
@@ -162,7 +162,7 @@ export const useMysqlFields = (form: WrappedFormUtils) => {
       onChangeChargeType: (val) => {
         updater.chargeType(val);
       },
-    }
+    },
   );
 };
 
@@ -200,7 +200,7 @@ export const RedisFieldConfig = {
       { name: '16G', value: 'redis.logic.sharding.8g.2db.0rodb.4proxy.default', specName: `${i18n.t('resource:cluster edition')} 16G` },
     ],
   },
-  getFields: ({ chargeType, onChangeChargeType }: { chargeType: string, onChangeChargeType: (val: string) => void }) => {
+  getFields: ({ chargeType, onChangeChargeType }: { chargeType: string; onChangeChargeType: (val: string) => void }) => {
     return [
       {
         label: i18n.t('resource:version'),
@@ -225,7 +225,7 @@ export const RedisFieldConfig = {
             name: i18n.t('resource:cluster edition'),
             children: RedisFieldConfig.spec.cluster,
           },
-        ], item => {
+        ], (item) => {
           const { name, value } = item;
           return (
             <Option key={value} value={value}>
@@ -390,7 +390,7 @@ export const useBucketField = () => {
   ];
 };
 
-export const ChargeType = (chargeTypeName: string, chargePeriod: string, autoRenew: string, required = true,) => {
+export const ChargeType = (chargeTypeName: string, chargePeriod: string, autoRenew: string, required = true) => {
   const [chargeType, setChargeType] = React.useState('PostPaid');
   return [{
     label: i18n.t('resource:charge type'),

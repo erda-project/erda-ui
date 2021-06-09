@@ -33,15 +33,15 @@ const { DirectoryTree, TreeNode } = Tree;
 interface IActionItem {
   key: string;
   name: string;
-  onclick: (prop: any)=>void;
+  onclick: (prop: any) => void;
 }
 interface IProps {
-  mode: TEST_CASE.PageScope
-  needRecycled?: boolean,
-  needActiveKey?: boolean,
-  readOnly?: boolean,
-  needBreadcrumb?: boolean,
-  testPlanID?: number,
+  mode: TEST_CASE.PageScope;
+  needRecycled?: boolean;
+  needActiveKey?: boolean;
+  readOnly?: boolean;
+  needBreadcrumb?: boolean;
+  testPlanID?: number;
   onSelect?: (info?: any) => void;
   testSetRef: React.Ref<any>;
   customActions?: IActionItem[];
@@ -49,22 +49,22 @@ interface IProps {
 
 interface IExpandTree {
   id: number;
-  children: IExpandTree[]
+  children: IExpandTree[];
 }
 
 interface ITree {
   list: TEST_SET.TestSetNode[];
   key: string;
   pKey: string;
-  testSetID: number
+  testSetID: number;
 }
 
-const mergeTree = (source: IExpandTree[], child:IExpandTree) => {
-  const curItem = source.find(item => item.id === child.id);
+const mergeTree = (source: IExpandTree[], child: IExpandTree) => {
+  const curItem = source.find((item) => item.id === child.id);
   if (!curItem) {
     source.push(child);
   } else if (curItem.children && child.children) {
-    child.children.forEach(childData => mergeTree(curItem.children, childData));
+    child.children.forEach((childData) => mergeTree(curItem.children, childData));
   }
 };
 
@@ -95,15 +95,15 @@ const TestSet = ({
   const [expandedKeys, setExpandedKeys] = useState([] as string[]);
   const [treeData, setTreeData] = useState([] as TEST_SET.TestSetNode[]);
   const firstBuild = useRef(true);
-  const query = routeInfoStore.useStore(s => s.query);
-  const [projectTestSet, modalTestSet, tempTestSet, reloadTestSetInfo, activeOuter] = testSetStore.useStore(s => [s.projectTestSet, s.modalTestSet, s.tempTestSet, s.reloadTestSetInfo, s.activeOuter]);
+  const query = routeInfoStore.useStore((s) => s.query);
+  const [projectTestSet, modalTestSet, tempTestSet, reloadTestSetInfo, activeOuter] = testSetStore.useStore((s) => [s.projectTestSet, s.modalTestSet, s.tempTestSet, s.reloadTestSetInfo, s.activeOuter]);
   const { getProjectTestSets, getTestSetChildren, updateBreadcrumb, subSubmitTreeCollection } = testSetStore.effects;
   const { emptyReloadTestSet, clearActiveOuter } = testSetStore.reducers;
-  const projectInfo = projectStore.useStore(s => s.info);
+  const projectInfo = projectStore.useStore((s) => s.info);
   const { getCases } = testCaseStore.effects;
   const { triggerChoosenAll: resetChoosenAll } = testCaseStore.reducers;
 
-  const testSet:{[k in TEST_CASE.PageScope]: any} = {
+  const testSet: {[k in TEST_CASE.PageScope]: any} = {
     testCase: projectTestSet,
     testPlan: projectTestSet,
     caseModal: modalTestSet,
@@ -145,9 +145,9 @@ const TestSet = ({
     }
   };
 
-  const updateTree = (tree: IExpandTree[], data:ITree[], newTreeData: TEST_SET.TestSetNode[]) => {
+  const updateTree = (tree: IExpandTree[], data: ITree[], newTreeData: TEST_SET.TestSetNode[]) => {
     tree.forEach(({ id, children }) => {
-      const newTree = data.find(item => item.testSetID === id);
+      const newTree = data.find((item) => item.testSetID === id);
       if (!isEmpty(newTree)) {
         const { key, list } = newTree as ITree;
         if (key === rootKey) {
@@ -165,26 +165,26 @@ const TestSet = ({
     });
   };
 
-  const [expandTree, expandIds] = React.useMemo<[IExpandTree[], Array<{id: number, key: string; pKey: string}>]>(() => {
+  const [expandTree, expandIds] = React.useMemo<[IExpandTree[], Array<{id: number; key: string; pKey: string}>]>(() => {
     const result: IExpandTree[] = [];
     // 展开节点ID，需去重，防止一个节点请求多次
-    const temp: Array<{id: number, key: string, pKey: string}> = [];
+    const temp: Array<{id: number; key: string; pKey: string}> = [];
     // 最深层级路径
     const deepestPath: string[] = [];
     const keys = [...expandedKeys];
     // 将expandedKeys倒序
     keys.sort((a, b) => b.split('-').length - a.split('-').length);
     // 获取不重复的最深路径
-    keys.forEach(expandedKey => {
-      const flag = deepestPath.some(s => s.includes(expandedKey));
+    keys.forEach((expandedKey) => {
+      const flag = deepestPath.some((s) => s.includes(expandedKey));
       if (!flag) {
         deepestPath.push(expandedKey);
       }
     });
-    deepestPath.forEach(str => {
-      const idArr = str.split('-').map(id => +id);
+    deepestPath.forEach((str) => {
+      const idArr = str.split('-').map((id) => +id);
       const keyTemp: number[] = [];
-      idArr.forEach(id => {
+      idArr.forEach((id) => {
         const pKey = keyTemp.join('-');
         keyTemp.push(id);
         const key = keyTemp.join('-');
@@ -198,7 +198,7 @@ const TestSet = ({
     // 最深层级转换为tree
     const tree = expandKeys2tree(deepestPath);
     // 合并tree
-    tree.forEach(child => { mergeTree(result, child); });
+    tree.forEach((child) => { mergeTree(result, child); });
     return [result, uniqBy(temp, 'id')];
   }, [expandedKeys]);
 
@@ -210,14 +210,14 @@ const TestSet = ({
       let tempIndex = 0;
       const promiseArr: Array<PromiseLike<{testSetID: number; key: string;pKey: string; list: TEST_SET.TestSet[]}>> = [];
       expandIds.forEach(({ id, key, pKey }) => {
-        promiseArr.push(getTestSetChildren({ testPlanID, recycled: false, parentID: id, mode }).then(res => ({ testSetID: id, key, pKey, list: res || [] })));
+        promiseArr.push(getTestSetChildren({ testPlanID, recycled: false, parentID: id, mode }).then((res) => ({ testSetID: id, key, pKey, list: res || [] })));
       });
       // 请求所有展开的节点
-      Promise.all(promiseArr).then(data => {
+      Promise.all(promiseArr).then((data) => {
         const activeKeys = activeKey.split('-');
-        const trees:ITree[] = [];
+        const trees: ITree[] = [];
         data.forEach(({ list, key, pKey, testSetID }) => {
-          const targetIndex = activeKeys.findIndex(t => t === `${testSetID}`);
+          const targetIndex = activeKeys.findIndex((t) => t === `${testSetID}`);
           if (targetIndex !== -1 && !!list.length) {
             tempIndex = Math.max(targetIndex, tempIndex);
           }
@@ -303,7 +303,7 @@ const TestSet = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTestSet, projectInfo]);
   useEffect(() => {
-    const expandId:string[] = (query.eventKey || '').split('-');
+    const expandId: string[] = (query.eventKey || '').split('-');
     // 是否为回收站内的case
     const isInRecycleBin = expandId.includes('recycled');
     // 测试计划测试用例需要打开分享链接
@@ -321,7 +321,7 @@ const TestSet = ({
       getCases({ testSetID: +query.testSetID, pageNo: 1, testPlanID, recycled: isInRecycleBin, scope: mode });
       setExpandedKeys(eventKeys || [rootKey]);
       setActiveKey(query.eventKey);
-      const secondLevel = treeData[0].children.find(t => t.key === secondLevelKey) || {};
+      const secondLevel = treeData[0].children.find((t) => t.key === secondLevelKey) || {};
       const firstChildren = get(secondLevel, 'children', []);
       if (!isEmpty(secondLevel) && firstChildren.length === 0) {
         // 逐级请求节点
@@ -544,7 +544,7 @@ const TestSet = ({
   // 移动到回收站
   const onMoveToRecycled = (eventKey: string) => {
     fetchData(recycledId, recycledKey, true);
-    remove(expandedKeys, key => key === eventKey);
+    remove(expandedKeys, (key) => key === eventKey);
     onRemoveNode(eventKey);
   };
 
@@ -573,7 +573,7 @@ const TestSet = ({
     }
     if (clickInSwitcher) {
       nativeEvent.stopPropagation();
-      remove(nextExpandedKeys, key => includes(key, TEMP_MARK));
+      remove(nextExpandedKeys, (key) => includes(key, TEMP_MARK));
       setExpandedKeys(nextExpandedKeys);
     }
   };

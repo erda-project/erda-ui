@@ -26,7 +26,7 @@ describe('board-grid', () => {
       const wrapper = shallow(
         <BoardGrid
           {...props}
-        />
+        />,
       );
       expect(wrapper.prop('name')).toBe(props.name);
       expect(wrapper.prop('id')).toBe(props.id);
@@ -51,7 +51,7 @@ describe('board-grid', () => {
         <PureBoardGrid
           {...props}
           layout={layout}
-        />
+        />,
       );
       expect(wrapper.prop('name')).toBe(props.name);
       expect(wrapper.prop('id')).toBe(props.id);

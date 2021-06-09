@@ -22,8 +22,8 @@ import { RadioChangeEvent } from 'core/common/interface';
 interface IProps {
   visible: boolean;
   formData: PUBLISHER.IVersion;
-  onCancel: ()=>void;
-  onOk: ()=>void;
+  onCancel: () => void;
+  onOk: () => void;
 }
 
 interface IQuery {
@@ -35,7 +35,7 @@ interface IQuery {
 const GrayFormModal = (props: IProps) => {
   const { visible, onOk, onCancel, formData } = props;
   const { setGrayAndPublish } = publisherStore.effects;
-  const { publisherItemId } = routeInfoStore.useStore(s => s.params);
+  const { publisherItemId } = routeInfoStore.useStore((s) => s.params);
 
   const [{
     selectedVersionType,

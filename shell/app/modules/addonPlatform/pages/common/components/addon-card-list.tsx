@@ -51,7 +51,7 @@ interface IProps {
   hideSearch?: boolean;
   showDataSourceSearch?: boolean;
   showDataSourceSelect?: boolean;
-  onEitAddon?(addon: ADDON.Instance): void;
+  onEitAddon?: (addon: ADDON.Instance) => void;
 }
 
 const searchFilter = (source: ADDON.Instance, searchKey: string, properties: string[]) => {
@@ -138,7 +138,7 @@ const AddonCardList = (props: IProps) => {
       const resolvedFilterDataSource: any[] = [];
       const categories = Object.keys(addonCategory);
       forEach(categories, (v) => {
-        const targetItem = find(filterDataSource, item => item[0] === v);
+        const targetItem = find(filterDataSource, (item) => item[0] === v);
         targetItem && resolvedFilterDataSource.push(targetItem);
       });
       setDataSource(resolvedFilterDataSource);
@@ -172,14 +172,14 @@ const AddonCardList = (props: IProps) => {
     if (activeCategory === targetCategory) {
       return;
     }
-    setActiveCategory(targetCategory)
+    setActiveCategory(targetCategory);
     scrollToTarget(targetCategory);
   };
 
   const renderCategoryList = () => {
     if (addonCategory) {
       const categories = Object.keys(addonCategory);
-      const resolvedCategories = categories.filter(v => CategoriesOrder.includes(v));
+      const resolvedCategories = categories.filter((v) => CategoriesOrder.includes(v));
       return resolvedCategories.map((key: string) => (
         <li
           key={key}

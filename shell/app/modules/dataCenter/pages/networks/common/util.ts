@@ -21,7 +21,7 @@ export const getSubnetNum = (subnet: string) => {
     const val = item.includes('/') ? item.split('/') : [item];
     num.push(...val);
   });
-  return map(num, item => (item ? +item : undefined));
+  return map(num, (item) => (item ? +item : undefined));
 };
 
 // 获取可用ip数：规则同阿里云，减去4个
@@ -29,7 +29,7 @@ export const getSubnetCount = (mask: number) => Math.pow(2, 32 - mask) - 4;
 
 // 根据网段获取子网ip的取值范围: subnet: 192.168.0.0/16 toMask: 24
 // => [[192],[168],[0,...255],[0]]
-export const getIPItemOption = (subnet:string, _toMask = 32) => {
+export const getIPItemOption = (subnet: string, _toMask = 32) => {
   const ipNum = getSubnetNum(subnet);
   if (!validIp(ipNum.slice(0, 4))) return Array(4).fill([0]);
   const mask = +(ipNum.pop() as number); // 网段掩码
@@ -50,7 +50,7 @@ export const getIPItemOption = (subnet:string, _toMask = 32) => {
       }
     });
     map(chunk(newBinArr, 8), (item, index) => {
-      itemRange[index] = sortBy(map(serialArray(item), bin => parseInt(bin, 2)));
+      itemRange[index] = sortBy(map(serialArray(item), (bin) => parseInt(bin, 2)));
     });
   }
   return itemRange;
@@ -101,14 +101,14 @@ const serialArray = (arr: number[][]) => {
 const validIp = (ip: any[] | string) => {
   if (isEmpty(ip)) return false;
   const ipNum = isString(ip) ? ip.split('.') : ip;
-  return every(ipNum, item => !isNaN(+item) && item <= 255 && item >= 0);
+  return every(ipNum, (item) => !isNaN(+item) && item <= 255 && item >= 0);
 };
 
 // ip转为二进制
 const ip2Binary = (ip: any[]) => {
   if (!validIp(ip)) return [];
   const ipNum = isString(ip) ? ip.split('.') : ip;
-  return map(ipNum, item => d2b(+item));
+  return map(ipNum, (item) => d2b(+item));
 };
 
 // 数字 -> 二进制（补全8位）
@@ -150,7 +150,7 @@ const validSubnetMask = (subnet: string) => {
   if (!validIp(ipNum)) return false;
   const len = Math.ceil(mask / 8); // 位数
   const emptyPos = ipNum.slice(len, ipNum.length);
-  if (!every(emptyPos, item => item === 0)) return false;
+  if (!every(emptyPos, (item) => item === 0)) return false;
   return true;
 };
 

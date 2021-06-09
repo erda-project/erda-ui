@@ -30,17 +30,17 @@ const { Option } = Select;
 
 interface IFilterTabProp {
   tabs: Array<{
-    label: string,
-    value: string | number,
-  }>,
-  defaultValue?: string,
-  className?: string,
-  onChange(val: string | undefined): void,
+    label: string;
+    value: string | number;
+  }>;
+  defaultValue?: string;
+  className?: string;
+  onChange: (val: string | undefined) => void;
 }
 const FilterTab = ({ tabs, defaultValue, onChange, className }: IFilterTabProp) => {
   const [value, setValue] = React.useState(defaultValue);
   const onChangeFilterTabRef = React.useRef(onChange);
-  
+
   React.useEffect(() => {
     onChangeFilterTabRef.current(value);
   }, [value]);
@@ -57,7 +57,7 @@ const FilterTab = ({ tabs, defaultValue, onChange, className }: IFilterTabProp) 
   );
 };
 
-const FilterGroup = ({ onChange, className, groups, ...rest }: { onChange: (val: string | undefined) => void, className?: string, groups: Array<{ [pro: string]: any, label: string, value: string }> }) => {
+const FilterGroup = ({ onChange, className, groups, ...rest }: { onChange: (val: string | undefined) => void; className?: string; groups: Array<{ [pro: string]: any; label: string; value: string }> }) => {
   const [value, setValue] = React.useState(undefined as undefined | string);
   const onChangeFilterGroupRef = React.useRef(onChange);
 
@@ -85,10 +85,10 @@ const FilterGroup = ({ onChange, className, groups, ...rest }: { onChange: (val:
 
 const getLineChartLayout = (data: any) => {
   const { time, results } = data;
-  const xData = map(time, item => moment(item).format('MM-DD HH:mm'));
+  const xData = map(time, (item) => moment(item).format('MM-DD HH:mm'));
   const resultData = get(results, '[0].data[0]');
   const metricData = [] as any[];
-  map(resultData, item => {
+  map(resultData, (item) => {
     metricData.push({
       name: item.tag || item.name,
       type: 'line',
@@ -104,18 +104,18 @@ const getLineChartLayout = (data: any) => {
 
 const formatFilterData = (data: any) => {
   const result = get(data, 'results[0].data');
-  const list = [] as Array<{ label: string, value: string }>;
-  map(result, item => {
+  const list = [] as Array<{ label: string; value: string }>;
+  map(result, (item) => {
     map(item, ({ tag }) => list.push({ label: tag, value: tag }));
   });
   return list;
 };
 
 
-const StatisticList = ({ artifactsId, monitorKey }: { artifactsId: string, monitorKey: PUBLISHER.MonitorKey }) => {
+const StatisticList = ({ artifactsId, monitorKey }: { artifactsId: string; monitorKey: PUBLISHER.MonitorKey }) => {
   const TODAY = 'today';
   const YESTERDAY = 'yesterday';
-  const versionStatisticList = statisticsStore.useStore(s => s.versionStatisticList);
+  const versionStatisticList = statisticsStore.useStore((s) => s.versionStatisticList);
   const { getVersionStatistics } = statisticsStore.effects;
   const { clearVersionStatistic } = statisticsStore.reducers;
   const [loading] = useLoading(statisticsStore, ['getVersionStatistics']);
@@ -190,8 +190,8 @@ const StatisticList = ({ artifactsId, monitorKey }: { artifactsId: string, monit
 };
 
 const StatisticsDetail = () => {
-  const timeSpan = monitorCommonStore.useStore(s => s.timeSpan);
-  const [{ publisherItemId, topType }, monitorKey] = routeInfoStore.useStore(s => [s.params, s.query]);
+  const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
+  const [{ publisherItemId, topType }, monitorKey] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const { getAllGroup, getTopLineChart } = statisticsStore.effects;
 
   const [{ lineGroup, lineData, lineFilter, groups }, updater] = useUpdate({
@@ -208,7 +208,7 @@ const StatisticsDetail = () => {
       start: moment().subtract(32, 'days').valueOf(),
       end: new Date().getTime(),
       ...monitorKey,
-    }).then(res => updater.groups(formatFilterData(res)));
+    }).then((res) => updater.groups(formatFilterData(res)));
   });
 
   const lineChartQuery = React.useMemo(() => {
@@ -232,7 +232,7 @@ const StatisticsDetail = () => {
 
   React.useEffect(() => {
     const getLineChartData = (q: any) => {
-      q.cardinality && getTopLineChart({ ...q, publisherItemId, ...monitorKey }).then(res => updater.lineData(res));
+      q.cardinality && getTopLineChart({ ...q, publisherItemId, ...monitorKey }).then((res) => updater.lineData(res));
     };
 
     getLineChartData(lineChartQuery);

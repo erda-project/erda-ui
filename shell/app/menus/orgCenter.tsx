@@ -14,13 +14,13 @@
 import i18n from 'i18n';
 import { filterMenu, MENU_SCOPE } from './util';
 import { goTo } from 'common/utils';
-import { 
-  ApiApp as IconApiApp, 
-  CeMarking as IconCeMarking, 
-  Certificate as IconCertificate, 
-  Bill as IconBill, 
-  Log as IconLog, 
-  City as IconCity 
+import {
+  ApiApp as IconApiApp,
+  CeMarking as IconCeMarking,
+  Certificate as IconCertificate,
+  Bill as IconBill,
+  Log as IconLog,
+  City as IconCity,
 } from '@icon-park/react';
 import React from 'react';
 import { Icon as CustomIcon } from 'common';

@@ -14,9 +14,9 @@
 declare namespace CP_TEXT {
   type IRenderType = 'linkText' | 'text' | 'statusText' | 'copyText' | 'textWithIcon';
   interface Spec {
-    type: 'Text',
+    type: 'Text';
     props: IProps;
-    operations?: Obj<CP_COMMON.Operation>
+    operations?: Obj<CP_COMMON.Operation>;
   }
 
   interface IProps {

@@ -32,7 +32,7 @@ export interface IOutParamsDrawerProps{
 
 const getOutputs = (data: AUTO_TEST.ISnippetDetailRes) => {
   let outputs = [] as string[];
-  map(data, item => {
+  map(data, (item) => {
     if (!isEmpty(item.outputs)) {
       outputs = outputs.concat(item.outputs);
     }
@@ -43,7 +43,7 @@ const getOutputs = (data: AUTO_TEST.ISnippetDetailRes) => {
 const noop = () => {};
 const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
   const { visible, closeDrawer, onSubmit: submit = noop, nodeData, editing, ymlObj } = props;
-  const projectId = routeInfoStore.getState(s => s.params.projectId);
+  const projectId = routeInfoStore.getState((s) => s.params.projectId);
   const formRef = React.useRef(null as any);
   const [outputList, setOutputList] = React.useState([] as string[]);
   const [formValue, setFormValue] = React.useState({} as Obj);
@@ -77,7 +77,7 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
           });
         }
       });
-      getSnippetNodeDetail({ snippetConfigs }).then((res:any) => {
+      getSnippetNodeDetail({ snippetConfigs }).then((res: any) => {
         setOutputList(getOutputs(res.data));
       });
     }
@@ -103,11 +103,11 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
         defaultItem: { name: '', ref: '' },
         itemRender: (_data: Obj, updateItem: Function) => {
           return (
-            <div className='out-params-content full-width'>
-              <Input key='name' className={`flex-1 content-item mr8 ${!_data.name ? 'empty-error' : ''}`} disabled={!editing} value={_data.name} onChange={(e: any) => updateItem({ name: e.target.value })} placeholder={i18n.t('please enter {name}', { name: i18n.t('project:parameter name') })} />
-              <Select key='ref' className={`flex-1 content-item ${!_data.ref ? 'empty-error' : ''}`} disabled={!editing} value={_data.ref} onChange={(val: any) => updateItem({ ref: val })} placeholder={i18n.t('please choose {name}', { name: i18n.t('project:parameter value') })}>
+            <div className="out-params-content full-width">
+              <Input key="name" className={`flex-1 content-item mr8 ${!_data.name ? 'empty-error' : ''}`} disabled={!editing} value={_data.name} onChange={(e: any) => updateItem({ name: e.target.value })} placeholder={i18n.t('please enter {name}', { name: i18n.t('project:parameter name') })} />
+              <Select key="ref" className={`flex-1 content-item ${!_data.ref ? 'empty-error' : ''}`} disabled={!editing} value={_data.ref} onChange={(val: any) => updateItem({ ref: val })} placeholder={i18n.t('please choose {name}', { name: i18n.t('project:parameter value') })}>
                 {
-                map(outputList, item => (
+                map(outputList, (item) => (
                   <Select.Option key={item}><Tooltip title={item}>{item}</Tooltip></Select.Option>
                 ))
               }
@@ -181,7 +181,7 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
     maskClosable: true,
   };
   return (
-    <Drawer visible={visible} destroyOnClose onClose={closeDrawer} width={600} {...drawerProps} className='pipeline-out-params-drawer'>
+    <Drawer visible={visible} destroyOnClose onClose={closeDrawer} width={600} {...drawerProps} className="pipeline-out-params-drawer">
       <Form
         fields={fields}
         value={formValue}
@@ -189,8 +189,8 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
       />
       {
         editing ? (
-          <div className='pipeline-out-params-drawer-footer'>
-            <Button onClick={closeDrawer} className='mr8'>
+          <div className="pipeline-out-params-drawer-footer">
+            <Button onClick={closeDrawer} className="mr8">
               {i18n.t('cancel')}
             </Button>
             <Button onClick={onSubmit} type="primary">

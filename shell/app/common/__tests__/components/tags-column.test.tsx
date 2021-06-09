@@ -19,7 +19,7 @@ import { shallow } from 'enzyme';
 import { describe, it } from '@jest/globals';
 
 
-const labels:IProps['labels'] = [
+const labels: IProps['labels'] = [
   { label: 'green label;green label', color: 'green' },
   { label: 'red label;red label', color: 'red' },
   { label: 'orange label;orange label', color: 'orange' },
@@ -33,7 +33,7 @@ describe('TagsColumn', () => {
     const wrapper = shallow(
       <TagsColumn
         labels={labels}
-      />
+      />,
     );
     expect(wrapper.find('.tags-box').children('span.tag-default')).toHaveLength(3);
     expect(wrapper.find('span.tag-default')).toHaveClassName('small');
@@ -49,7 +49,7 @@ describe('TagsColumn', () => {
         showCount={labels.length}
         size="default"
         containerClassName="containerClassName"
-      />
+      />,
     );
     expect(wrapper).toHaveClassName('containerClassName');
     expect(wrapper.find('.tags-box').children('span.tag-default')).toHaveLength(labels.length);

@@ -36,7 +36,7 @@ export const getInfoBlock = (fieldsList: IInfoBlockField[], data: any) => {
   return (
     <Row gutter={20}>
       {
-        map(fieldsList, item => {
+        map(fieldsList, (item) => {
           let val = item.value || (item.name && get(data, item.name));
           if (val !== undefined && val !== null && val !== '') {
             val = item.render ? item.render(val) : val;
@@ -48,7 +48,7 @@ export const getInfoBlock = (fieldsList: IInfoBlockField[], data: any) => {
                     item.viewType === 'image'
                       ? <ImgHolder src={val} rect="100x100" text="image" />
                       : item.viewType === 'images'
-                        ? map(val, url => <span key={url} className="mr8"><ImgHolder src={url} rect="100x100" text="image" /></span>)
+                        ? map(val, (url) => <span key={url} className="mr8"><ImgHolder src={url} rect="100x100" text="image" /></span>)
                         : <Tooltip title={val}>{val}</Tooltip>
                   }
                 </div>
