@@ -16,7 +16,8 @@
     "build": "cross-env-shell NODE_ENV=production 'npm run build-core'",
     "build-core": "npm run clean && webpack",
     "analyze": "webpack --config webpack.analyze.js --progress --color",
-    "clean": "rm -rf ../public/static/core"
+    "clean": "rm -rf ../public/static/core",
+    "lint-fix": "eslint --fix src --ext '.js,.jsx,.tsx,.ts,.d.ts'"
   },
   "author": "Erda-FE",
   "license": "AGPL",
@@ -43,15 +44,13 @@
     "sockjs-client": "^1.1.5",
     "superagent": "^5.2.2",
     "superagent-use": "^0.1.0",
-    "typescript": "^3.7.5"
+    "typescript": "^4.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",
     "@babel/preset-env": "^7.14.4",
     "@babel/preset-react": "^7.13.13",
     "@babel/preset-typescript": "^7.13.0",
-    "@commitlint/cli": "^7.0.0",
-    "@commitlint/read": "^7.5.0",
     "@module-federation/automatic-vendor-federation": "^1.2.1",
     "@types/lodash": "^4.14.118",
     "@types/node": "^10.12.18",
@@ -63,21 +62,10 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/superagent": "^4.1.7",
     "@types/webpack": "^4.4.20",
-    "@typescript-eslint/eslint-plugin": "^2.15.0",
-    "@typescript-eslint/parser": "^2.15.0",
     "autoprefixer": "^6.5.3",
-    "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
     "cross-env": "^5.2.0",
     "dotenv": "^8.2.0",
-    "eslint": "^6.8.0",
-    "eslint-config-ali": "^9.0.2",
-    "eslint-import-resolver-webpack": "^0.12.0",
-    "eslint-plugin-compat": "^3.3.0",
-    "eslint-plugin-import": "^2.19.1",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.17.0",
-    "eslint-plugin-react-hooks": "^2.3.0",
     "husky": "^1.2.0",
     "less-loader": "^7.2.1",
     "lint-staged": "^7.2.2",
@@ -91,6 +79,16 @@
     "webpack-cli": "^4.4.0",
     "webpack-dev-server": "^3.11.2",
     "webpack-merge": "^5.7.3"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -e $GIT_PARAMS"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    }
   },
   "browserslist": [
     "> 1%",

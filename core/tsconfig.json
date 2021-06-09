@@ -3,10 +3,7 @@
     "target": "es5",
     "outDir": "dist",
     "module": "ESNext",
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["dom", "esnext"],
     "allowJs": true,
     "checkJs": false,
     "jsx": "react",
@@ -24,33 +21,15 @@
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
-      "nusi": [
-        "./src/nusi"
-      ],
-      "i18n": [
-        "./src/i18n"
-      ],
-      "cube": [
-        "./src/cube"
-      ],
-      "custom-lodash": [
-        "./src/custom-lodash"
-      ],
-      "common": [
-        "./src/common"
-      ],
-      "common/*": [
-        "../shell/app/common/*"
-      ],
-      "common/all": [
-        "../shell/app/common/index"
-      ],
-      "nusi/all": [
-        "../shell/app/external/nusi"
-      ]
+      "nusi": ["./src/nusi"],
+      "i18n": ["./src/i18n"],
+      "cube": ["./src/cube"],
+      "custom-lodash": ["./src/custom-lodash"],
+      "common": ["./src/common"],
+      "common/*": ["../shell/app/common/*"],
+      "common/all": ["../shell/app/common/index"],
+      "nusi/all": ["../shell/app/external/nusi"]
     }
   },
-  "include": [
-    "./src/**/*",
-  ]
+  "include": ["./src/**/*"]
 }

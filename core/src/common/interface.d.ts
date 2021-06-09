@@ -37,11 +37,11 @@ export { PanelProps } from '@terminus/nusi/es/panel/index';
 export { IAnchorContainer } from '@terminus/nusi/es/anchor/interface';
 export { TreeProps } from '@terminus/nusi/es/tree';
 export { TransferItem } from '@terminus/nusi/es/transfer/index';
-export { 
-  AntTreeNode as NusiTreeNode, 
-  AntTreeNodeSelectedEvent as NusiTreeNodeSelectedEvent, 
-  IAction, 
-  TreeNodeNormal, 
-  AntTreeNodeDropEvent as NusiTreeNodeDropEvent 
+export {
+  AntTreeNode as NusiTreeNode,
+  AntTreeNodeSelectedEvent as NusiTreeNodeSelectedEvent,
+  IAction,
+  TreeNodeNormal,
+  AntTreeNodeDropEvent as NusiTreeNodeDropEvent,
 } from '@terminus/nusi/es/tree/interface';
 export { Theme } from '@terminus/nusi/es/global-navigation/interface';

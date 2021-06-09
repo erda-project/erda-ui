@@ -1,3 +1,16 @@
+// Copyright (c) 2021 Terminus, Inc.
+//
+// This program is free software: you can use, redistribute, and/or modify
+// it under the terms of the GNU Affero General Public License, version 3
+// or later ("AGPL"), as published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 module.exports = {
   env: {
     browser: true,
@@ -7,11 +20,7 @@ module.exports = {
     Cypress: 'readonly',
     cy: 'readonly',
   },
-  extends: [
-    'eslint-config-ali/typescript/react',
-  ],
-  parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
+  extends: ['eslint-config-ali/typescript/react', 'prettier', 'prettier/@typescript-eslint', 'prettier/react'],
   parserOptions: {
     ecmaVersion: 2020, // specify the version of ECMAScript syntax you want to use: 2015 => (ES6)
     sourceType: 'module', // Allows for the use of imports
@@ -19,19 +28,20 @@ module.exports = {
       jsx: true, // enable JSX
       impliedStrict: true, // enable global strict mode
     },
-    project: ['./tsconfig.json'], // Specify it only for TypeScript files
+    project: ['./core/tsconfig.json', './shell/tsconfig.json'], // Specify it only for TypeScript files
     tsconfigRootDir: __dirname,
   },
   rules: {
     'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['draft', 'state'] }],
     'import/prefer-default-export': 'off',
+    // 'react/jsx-filename-extension': [2, { 'extensions': ['.js', '.jsx', '.ts', '.tsx'] }],
     'react/prop-types': 'off',
     'arrow-body-style': 'off',
     'max-len': 'off',
     'no-nested-ternary': 'off',
     'react/no-multi-comp': 'off',
     'jsx-first-prop-new-line': 'off',
-    'no-unused-vars': 1,
+    'no-unused-vars': 'off',
     'import/no-named-as-default': 'off',
     'import/no-named-as-default-member': 'off',
     'react-hooks/rules-of-hooks': 'error',
@@ -45,7 +55,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['**/*.js'], // none ts scripts, like webpack config or legacy node scripts
+      files: ['**/*.js'], // none ts script like webpack config or legacy node scripts
       rules: {
         '@typescript-eslint/no-var-requires': 'off',
         '@typescript-eslint/no-require-imports': 'off',

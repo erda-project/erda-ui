@@ -11,25 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { listenRoute } from '../stores/route';
-import { CubeState } from 'cube-state/dist/typings';
-import { registerWSHandler } from '../utils/ws';
-
-export const registStore = (store: CubeState.StoreItem) => {
-  if (typeof store.subscriptions === 'function') {
-    store.subscriptions({
-      listenRoute,
-      store,
-      registerWSHandler,
-    });
-  }
-  return () => {
-    if (typeof store.unsubscribe === 'function') {
-      store.unsubscribe({
-        listenRoute,
-        store,
-        registerWSHandler,
-      });
-    }
-  };
+module.exports = {
+  printWidth: 120,
+  tabWidth: 2,
+  semi: true,
+  singleQuote: true,
+  trailingComma: 'all',
+  arrowParens: 'always',
 };

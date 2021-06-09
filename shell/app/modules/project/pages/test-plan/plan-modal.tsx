@@ -17,24 +17,18 @@ import React from 'react';
 import { FormModal, MemberSelector } from 'common';
 import routeInfoStore from 'common/stores/route';
 import testPlanStore from 'project/stores/test-plan';
-import { FormModalList } from 'interface/common';
+import { FormModalList } from 'app/interface/common';
 
 interface IProps {
   visible: boolean;
   testPlanId?: string;
   textInfo?: string;
-  mode: 'edit' | 'copy'| 'add' | '';
+  mode: 'edit' | 'copy' | 'add' | '';
   onCancel: () => void;
 }
 
 const TestPlanModal = (props: IProps) => {
-  const {
-    testPlanId,
-    mode,
-    visible,
-    textInfo,
-    onCancel,
-  } = props;
+  const { testPlanId, mode, visible, textInfo, onCancel } = props;
   const [loading, setLoading] = React.useState(false);
   const params = routeInfoStore.useStore((s) => s.params);
   const planItem = testPlanStore.useStore((s) => s.planItem);
@@ -73,9 +67,7 @@ const TestPlanModal = (props: IProps) => {
     {
       label: i18n.t('project:plan name'),
       name: 'name',
-      rules: [
-        { required: true, message: i18n.t('project:please fill in the test plan name') },
-      ],
+      rules: [{ required: true, message: i18n.t('project:please fill in the test plan name') }],
       initialValue: planItem.name,
       itemProps: {
         placeholder: i18n.t('project:add test plan name'),
@@ -96,11 +88,15 @@ const TestPlanModal = (props: IProps) => {
         { required: true, message: i18n.t('project:please add test participants') },
         {
           validator: (_rule: any, value: any, callback: Function) => {
-            if (value && value.length > 60) { callback(i18n.t("project:can't exceed 60 people")); return; } callback();
+            if (value && value.length > 60) {
+              callback(i18n.t("project:can't exceed 60 people"));
+              return;
+            }
+            callback();
           },
         },
       ],
-      initialValue: map((planItem.partnerIDs || []), (id) => id.toString()),
+      initialValue: map(planItem.partnerIDs || [], (id) => id.toString()),
       config: {
         valuePropType: 'array',
       },
@@ -123,7 +119,13 @@ const TestPlanModal = (props: IProps) => {
   ];
   return (
     <FormModal
-      title={mode === 'copy' ? i18n.t('project:copy and create a new plan') : (testPlanId ? i18n.t('project:edit test plan') : i18n.t('project:new test plan'))}
+      title={
+        mode === 'copy'
+          ? i18n.t('project:copy and create a new plan')
+          : testPlanId
+          ? i18n.t('project:edit test plan')
+          : i18n.t('project:new test plan')
+      }
       visible={visible}
       onOk={handleOk}
       modalProps={{
