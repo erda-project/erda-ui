@@ -17,7 +17,6 @@ import { TimeSelector } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import BrowserMap from './config/chartMap';
 
-
 const Browser = () => {
   const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
   const getAllChart = () => {
@@ -48,9 +47,7 @@ const Browser = () => {
             <BrowserMap.sortList />
           </div>
         </Col>
-        <Col span={16}>
-          {chosenSortItem ? getDetailChart() : getAllChart()}
-        </Col>
+        <Col span={16}>{chosenSortItem ? getDetailChart() : getAllChart()}</Col>
       </Row>
     </div>
   );

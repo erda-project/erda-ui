@@ -32,25 +32,24 @@ const { env } = defaultConfig.url.match(reg).groups || {};
  * @see https://yuque.antfin.com/terminus_paas_dev/front/xfk4zg#XhhKW
  * @example cy.loginWithoutUI({ url: '/workBench/projects' });
  */
-Cypress.Commands.add('loginWithoutUI', ({
-  userName = defaultConfig.userName,
-  password = defaultConfig.password,
-  url = defaultConfig.url,
-} = {}) => {
-  cy.request({
-    url: loginUrlMap[env],
-    method: 'post',
-    body: {
-      identify: userName,
-      password,
-      remember: true,
-    },
-  }).should(res => {
-    cy.log(JSON.stringify(res.body));
-    expect(res.body.success).to.eq(true);
-    Cypress.Cookies.defaults({
-      preserve: ['OPENAPISESSION', 'OPENAPI-CSRF-TOKEN', 'taid'],
+Cypress.Commands.add(
+  'loginWithoutUI',
+  ({ userName = defaultConfig.userName, password = defaultConfig.password, url = defaultConfig.url } = {}) => {
+    cy.request({
+      url: loginUrlMap[env],
+      method: 'post',
+      body: {
+        identify: userName,
+        password,
+        remember: true,
+      },
+    }).should((res) => {
+      cy.log(JSON.stringify(res.body));
+      expect(res.body.success).to.eq(true);
+      Cypress.Cookies.defaults({
+        preserve: ['OPENAPISESSION', 'OPENAPI-CSRF-TOKEN', 'taid'],
+      });
+      cy.visit(url);
     });
-    cy.visit(url);
-  });
-});
+  },
+);

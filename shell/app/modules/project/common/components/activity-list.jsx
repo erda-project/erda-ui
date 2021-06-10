@@ -17,7 +17,13 @@ import ActivityItem from './activity-item';
 import i18n from 'i18n';
 
 const activityList = ({
-  list = [], params, singleLine, ItemComp = ActivityItem, isFetching = false, isJumping = false, onClickLink,
+  list = [],
+  params,
+  singleLine,
+  ItemComp = ActivityItem,
+  isFetching = false,
+  isJumping = false,
+  onClickLink,
 }) => {
   const spinProp = {};
   if (isJumping) {
@@ -26,7 +32,9 @@ const activityList = ({
   return (
     <Spin {...spinProp} spinning={isFetching || isJumping}>
       <div className="activity-list">
-        {list.map((item, i) => <ItemComp {...item} onClickLink={onClickLink} singleLine={singleLine} params={params} key={i} />)}
+        {list.map((item, i) => (
+          <ItemComp {...item} onClickLink={onClickLink} singleLine={singleLine} params={params} key={i} />
+        ))}
       </div>
     </Spin>
   );

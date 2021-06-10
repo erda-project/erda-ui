@@ -16,7 +16,6 @@ import { LazyRender } from 'common';
 import { describe, it, jest, beforeAll, afterAll } from '@jest/globals';
 import { mount } from 'enzyme';
 
-
 describe('LazyRender', () => {
   const windowIntersectionObserver = window.IntersectionObserver;
   const disconnect = jest.fn();

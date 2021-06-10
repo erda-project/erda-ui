@@ -33,10 +33,7 @@ const ServiceList = (props: IProps) => {
     getServiceList({ paths: props.paths, startLevel: props.startLevel });
   }, [getServiceList, props.paths, props.startLevel]);
 
-  return (
-    <PureServiceList {...props} depth={props.paths.length} serviceList={serviceList} isFetching={isFetching} />
-  );
+  return <PureServiceList {...props} depth={props.paths.length} serviceList={serviceList} isFetching={isFetching} />;
 };
 
 export default React.memo(ServiceList);
-

@@ -46,27 +46,23 @@ export const PureConsumerAnalyze = () => {
     projectId,
   };
 
-  const [succSumQuery, setSuccSumQuery] = React.useState(
-    {
-      fetchMetricKey: 'kong_success',
-      start,
-      end,
-      sum: 'succ_sum',
-      ...commonQuery,
-      points: 7,
-      align: false,
-    } as any,
-  );
+  const [succSumQuery, setSuccSumQuery] = React.useState({
+    fetchMetricKey: 'kong_success',
+    start,
+    end,
+    sum: 'succ_sum',
+    ...commonQuery,
+    points: 7,
+    align: false,
+  } as any);
 
-  const [realTimeQuery, setRealTimeQuery] = React.useState(
-    {
-      fetchMetricKey: 'kong_traffic',
-      start: startTimeMs,
-      end: endTimeMs,
-      ...commonQuery,
-      sumCps: ['cnt_sum', 'succ_sum', 'err_sum', 'lim_sum'],
-    } as any,
-  );
+  const [realTimeQuery, setRealTimeQuery] = React.useState({
+    fetchMetricKey: 'kong_traffic',
+    start: startTimeMs,
+    end: endTimeMs,
+    ...commonQuery,
+    sumCps: ['cnt_sum', 'succ_sum', 'err_sum', 'lim_sum'],
+  } as any);
 
   const [succSumStaticData, setSuccSumStaticData] = React.useState({} as any);
   const [selectedGroup, setSelectedGroup] = React.useState();
@@ -121,11 +117,13 @@ export const PureConsumerAnalyze = () => {
   }, [projectInfo]);
 
   React.useEffect(() => {
-    succSumQuery.filter_cluster_name && loadGatewayMetricItem({ ...resourceInfo, type: 'ca-succ-sum', chartQuery: succSumQuery });
+    succSumQuery.filter_cluster_name &&
+      loadGatewayMetricItem({ ...resourceInfo, type: 'ca-succ-sum', chartQuery: succSumQuery });
   }, [succSumQuery]);
 
   React.useEffect(() => {
-    realTimeQuery.filter_cluster_name && loadGatewayMetricItem({ ...resourceInfo, type: 'ca-real-time', chartQuery: realTimeQuery });
+    realTimeQuery.filter_cluster_name &&
+      loadGatewayMetricItem({ ...resourceInfo, type: 'ca-real-time', chartQuery: realTimeQuery });
   }, [realTimeQuery]);
 
   const filters = [
@@ -137,7 +135,7 @@ export const PureConsumerAnalyze = () => {
     },
   ];
 
-  const onSearch = ({ pack: value }: {pack: string}) => {
+  const onSearch = ({ pack: value }: { pack: string }) => {
     setSuccSumQuery({ ...succSumQuery, filter_pack: value });
     setRealTimeQuery({ ...realTimeQuery, filter_pack: value });
   };

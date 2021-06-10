@@ -18,7 +18,7 @@ import CaseYmlGraphicEditor from './case-yml-graphic-editor';
 import { CaseNode, nodeSize } from './case-node';
 import i18n from 'i18n';
 
-interface IProps{
+interface IProps {
   caseDetail: AUTO_TEST.ICaseDetail;
   addDrawerProps: Obj;
   onUpdateYml: (ymlStr: string) => void;
@@ -33,7 +33,7 @@ stages: []
 const CasePipelineEditor = (props: IProps) => {
   const { caseDetail, onUpdateYml, addDrawerProps, scope, editable } = props;
   const curPipelineYml = get(caseDetail, 'meta.pipelineYml') || defaultPipelineYml;
-  const ymlStr = isEmpty(caseDetail) ? '' : curPipelineYml;//
+  const ymlStr = isEmpty(caseDetail) ? '' : curPipelineYml; //
   return (
     <div>
       <PipelineEditor

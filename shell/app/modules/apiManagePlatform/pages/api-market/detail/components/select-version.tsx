@@ -22,7 +22,7 @@ interface IProps {
 }
 
 const formatVersion = (data: API_MARKET.VersionTreeItem[], versionID: number) => {
-  let selectID: number| undefined;
+  let selectID: number | undefined;
   const treeData = data.map(({ versions, swaggerVersion }) => {
     return {
       value: swaggerVersion,
@@ -45,7 +45,7 @@ const formatVersion = (data: API_MARKET.VersionTreeItem[], versionID: number) =>
 
 const SelectVersion = ({ onChangeVersion }: IProps) => {
   const [versionList, setVersionList] = React.useState<API_MARKET.VersionTreeItem[]>([]);
-  const [selectVersionID, setSelectVersionID] = React.useState<number| undefined>();
+  const [selectVersionID, setSelectVersionID] = React.useState<number | undefined>();
   const { assetID, versionID } = routeInfoStore.useStore((s) => s.params);
   const getVersionList = React.useCallback(() => {
     if (assetID) {

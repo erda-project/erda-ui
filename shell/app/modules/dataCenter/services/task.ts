@@ -13,9 +13,9 @@
 
 import agent from 'agent';
 
-
 export const getTaskList = (payload: CLUSTER_TASK.ListQuery): IPagingResp<CLUSTER_TASK.Detail> => {
-  return agent.get('/api/org/actions/list-running-tasks')
+  return agent
+    .get('/api/org/actions/list-running-tasks')
     .query(payload)
     .then((response: any) => {
       const { data, ...rest } = response.body;

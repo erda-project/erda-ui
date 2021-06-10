@@ -57,18 +57,18 @@ const AppVersionPush = () => {
   });
 
   const getPublishers = (q: any) => {
-    return getPublisherList({ ...q, orgId })
-      .then((res: any) => res.data);
+    return getPublisherList({ ...q, orgId }).then((res: any) => res.data);
   };
   const getArtifacts = (q: any) => {
     if (!chosenPublisehId) return;
-    return getArtifactsList({ ...q, publisherId: chosenPublisehId })
-      .then((res: any) => res.data);
+    return getArtifactsList({ ...q, publisherId: chosenPublisehId }).then((res: any) => res.data);
   };
 
-  const chosenItemConvert = ({ value, name }: {value: string; name: string}) => (val: {label: string; value: string}) => {
-    return (val && !val.label && `${val.value}` === `${value}`) ? { ...val, label: name } : val;
-  };
+  const chosenItemConvert =
+    ({ value, name }: { value: string; name: string }) =>
+    (val: { label: string; value: string }) => {
+      return val && !val.label && `${val.value}` === `${value}` ? { ...val, label: name } : val;
+    };
 
   React.useEffect(() => {
     if (versionPushConfig) {
@@ -109,7 +109,7 @@ const AppVersionPush = () => {
     }
   }, [update, updater, versionPushConfig]);
 
-  const getFieldsList = (form: WrappedFormUtils) => ([
+  const getFieldsList = (form: WrappedFormUtils) => [
     {
       label: i18n.t('publisher:publisher'),
       name: 'publisherId',
@@ -194,7 +194,7 @@ const AppVersionPush = () => {
         );
       },
     },
-  ]);
+  ];
   return (
     <SectionInfoEdit
       hasAuth

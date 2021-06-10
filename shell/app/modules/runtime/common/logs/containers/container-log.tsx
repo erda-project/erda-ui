@@ -22,5 +22,14 @@ export default (p: any) => {
   const { clearLog } = commonStore.reducers;
   const dockerLogMap = runtimeLogStore.useStore((s) => s.dockerLogMap);
   const { pushSlideComp, popSlideComp } = commonStore.reducers;
-  return <PureContainerLog logsMap={logsMap} clearLog={clearLog} dockerLogMap={dockerLogMap} pushSlideComp={pushSlideComp} popSlideComp={popSlideComp} {...p} />;
+  return (
+    <PureContainerLog
+      logsMap={logsMap}
+      clearLog={clearLog}
+      dockerLogMap={dockerLogMap}
+      pushSlideComp={pushSlideComp}
+      popSlideComp={popSlideComp}
+      {...p}
+    />
+  );
 };

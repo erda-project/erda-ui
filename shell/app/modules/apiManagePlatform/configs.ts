@@ -13,12 +13,12 @@
 
 import i18n from 'i18n';
 
-export enum BASE_DATA_TYPE{
-  string='string',
-  number='number',
-  boolean='boolean',
-  array='array',
-  object='object',
+export enum BASE_DATA_TYPE {
+  string = 'string',
+  number = 'number',
+  boolean = 'boolean',
+  array = 'array',
+  object = 'object',
 }
 
 export const REQUIRED_OPTIONS = [
@@ -33,14 +33,14 @@ export const RADIO_OPTIONS = [
 ];
 
 export enum NUMBER_TYPE_MAP {
-  int32='int32',
-  int64='int64',
-  int='int',
-  long='long',
-  float='float',
-  double='double',
-  int16='int16',
-  int8='int8',
+  int32 = 'int32',
+  int64 = 'int64',
+  int = 'int',
+  long = 'long',
+  float = 'float',
+  double = 'double',
+  int16 = 'int16',
+  int8 = 'int8',
 }
 
 export const DATATYPE_EXAMPLE_MAP = {
@@ -73,18 +73,17 @@ export const API_MEDIA_TYPE = ['application/json', 'application/xml'];
 export const API_PROTOCOLS = ['HTTP', 'HTTPS'];
 
 export enum API_WS_MSG_TYPE {
-  beat='heart_beat_request',
-  save='auto_save_request',
-  commit='commit_request',
-  error='error_response',
-  submit='submit_request',
+  beat = 'heart_beat_request',
+  save = 'auto_save_request',
+  commit = 'commit_request',
+  error = 'error_response',
+  submit = 'submit_request',
 }
 
 export const LIST_TITLE_MAP = {
   RESOURCE: i18n.t('project:API list'),
   DATATYPE: i18n.t('project:DATA TYPES'),
 };
-
 
 export const DEFAULT_TAG = 'other';
 
@@ -96,7 +95,8 @@ export const API_MEDIA = 'x-dice-media';
 export const API_FORBIDDEN_TYPES = 'x-dice-forbidden-types';
 
 export const VERSION_RULE = {
-  pattern: /^(?:[1-9]\d*|0)\.(?:[1-9]\d*|0)\.(?:[1-9]\d*|0)$/, message: i18n.t('valid version number tips'),
+  pattern: /^(?:[1-9]\d*|0)\.(?:[1-9]\d*|0)\.(?:[1-9]\d*|0)$/,
+  message: i18n.t('valid version number tips'),
 };
 
 export const READONLY_TIP = i18n.t('project:read only and inoperable');
@@ -134,7 +134,10 @@ export const NAME_REG = /^[a-z]([A-Z][a-z]+)*/;
 
 export const MAX_VALUE = 1000000000000000;
 export const MIN_VALUE = -1000000000000000;
-export const NUMBER_PLACEHOLDER = i18n.t('please enter a number between {min} ~ {max}', { min: '-10^15', max: '10^15' });
+export const NUMBER_PLACEHOLDER = i18n.t('please enter a number between {min} ~ {max}', {
+  min: '-10^15',
+  max: '10^15',
+});
 export const DEFAULT_NUMBER_PROPS = {
   min: MIN_VALUE,
   max: MAX_VALUE,
@@ -152,11 +155,11 @@ export const DEFAULT_LENGTH_PROPS = {
 
 export enum API_RESOURCE_TAB {
   Summary = 'Summary',
-  Params ='Params',
+  Params = 'Params',
   Headers = 'Headers',
-  Body='Body',
-  Response='Response',
-  Test='Test'
+  Body = 'Body',
+  Response = 'Response',
+  Test = 'Test',
 }
 
 export const API_LOCK_WARNING = i18n.t('project:is editing, document is locked');

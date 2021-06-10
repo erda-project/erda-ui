@@ -160,11 +160,14 @@ class RepoFile extends React.PureComponent<IProps, IState> {
         // getSplitPathBy中window.location.pathname自动encode过，故此处需要encode
         const afterBranch = decodeURIComponent(getSplitPathBy(curBranch).after.slice(1));
         let pass = false;
-        if (!afterBranch) { // 仓库首页 /repo 时，blob路径没有/说明是对的
+        if (!afterBranch) {
+          // 仓库首页 /repo 时，blob路径没有/说明是对的
           pass = !blob.path.includes('/');
-        } else if (urlIsFilePath) { // 在文件路径下时，对比path和blob.path
+        } else if (urlIsFilePath) {
+          // 在文件路径下时，对比path和blob.path
           pass = afterBranch === blob.path;
-        } else { // 在文件夹路径下时，移除blob.path最后一段，与path进行对比
+        } else {
+          // 在文件夹路径下时，移除blob.path最后一段，与path进行对比
           pass = afterBranch === blob.path.split('/').slice(0, -1).join('/');
         }
         if (!pass) {
@@ -210,7 +213,10 @@ class RepoFile extends React.PureComponent<IProps, IState> {
         };
         return (
           <FileContainer name={name} ops={ops} className={`repo-file ${className}`}>
-            <article className="md-content md-key" dangerouslySetInnerHTML={{ __html: Markdown(blob.content, renderFns) }} />
+            <article
+              className="md-content md-key"
+              dangerouslySetInnerHTML={{ __html: Markdown(blob.content, renderFns) }}
+            />
           </FileContainer>
         );
       } else if (['png', 'jpg', 'jpeg', 'gif', 'bmp'].includes(fileExtension)) {
@@ -227,7 +233,10 @@ class RepoFile extends React.PureComponent<IProps, IState> {
       } else if (fileExtension === 'svg') {
         return (
           <FileContainer name={name} ops={ops} className={`repo-file ${className}`}>
-            <div className="text-center mt16" dangerouslySetInnerHTML={{ __html: blob.content && blob.content.replace('script', '') }} />
+            <div
+              className="text-center mt16"
+              dangerouslySetInnerHTML={{ __html: blob.content && blob.content.replace('script', '') }}
+            />
           </FileContainer>
         );
       }
@@ -235,10 +244,9 @@ class RepoFile extends React.PureComponent<IProps, IState> {
 
     if (!blob.binary) {
       const { qaResult, qaLine, isCheckQa } = this.state;
-      const data = (qaResult as IQaItem[]).filter((item) => (
-        item.path === blob.path
-        && Number(item.line) === Number(qaLine)
-      ));
+      const data = (qaResult as IQaItem[]).filter(
+        (item) => item.path === blob.path && Number(item.line) === Number(qaLine),
+      );
       const annotations = data.map((item) => ({
         row: Number(item.line) - 1,
         text: item.message,
@@ -269,7 +277,7 @@ class RepoFile extends React.PureComponent<IProps, IState> {
     return (
       <FileContainer name={name} ops={ops} className={`repo-file ${className}`}>
         <div className="center-flex-box raw-file-container">
-          <a href={fileSrc} target="_blank" rel="noopener noreferrer" >
+          <a href={fileSrc} target="_blank" rel="noopener noreferrer">
             <IconDownload />
             <div className="mt4"> {i18n.t('application:download')} </div>
           </a>

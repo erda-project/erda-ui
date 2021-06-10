@@ -19,19 +19,11 @@ import { cloneDeep, findIndex, isEqualWith } from 'lodash';
 import classnames from 'classnames';
 import IDiceYamlEditorMoveView from './dice-yaml-editor-item-container';
 import IDiceYamlCanvas from './dice-yaml-canvas';
-import {
-  getItemName,
-  randomId,
-  isEqualCustomizer,
-} from '../yml-flow-util';
+import { getItemName, randomId, isEqualCustomizer } from '../yml-flow-util';
 import diceFlowUtil from '../dice-flow-util';
 // @ts-ignore
 import './dice-yaml-editor.scss';
-import {
-  IDiceYamlEditorProps,
-  INodeLine,
-  DiceFlowType,
-} from './dice-yaml-editor-type';
+import { IDiceYamlEditorProps, INodeLine, DiceFlowType } from './dice-yaml-editor-type';
 
 const PointComponent = {
   [DiceFlowType.EDITOR]: DiceYamlEditorItem,
@@ -93,10 +85,7 @@ export default class DiceYamlEditor extends Component<IDiceYamlEditorProps, any>
   render() {
     const { selectedItem, points, onMouseDownItem, mouseDownPosition, maxWidth, maxHeight, scale } = this.state;
     const { type } = this.props;
-    const className = classnames(
-      'yaml-editor-content',
-      type === 'DATA_MARKET' ? 'data-market' : null,
-    );
+    const className = classnames('yaml-editor-content', type === 'DATA_MARKET' ? 'data-market' : null);
 
     return (
       <div id="yaml-editor-content" className={className}>
@@ -140,11 +129,14 @@ export default class DiceYamlEditor extends Component<IDiceYamlEditorProps, any>
 
     this.resizeTimeout = setTimeout(() => {
       const result = this.calculateItemPosition(this.props);
-      this.setState({
-        ...result,
-      }, () => {
-        this.resizeTimeout = null;
-      });
+      this.setState(
+        {
+          ...result,
+        },
+        () => {
+          this.resizeTimeout = null;
+        },
+      );
     }, 300);
   };
 
@@ -191,7 +183,9 @@ export default class DiceYamlEditor extends Component<IDiceYamlEditorProps, any>
       // @ts-ignore
       const lineTo = points[fromPoint.groupIndex][fromPoint.index].lineTo || [];
 
-      const index = findIndex(lineTo, (o) => { return o === toPoint.name; });
+      const index = findIndex(lineTo, (o) => {
+        return o === toPoint.name;
+      });
       lineTo.splice(index, 1);
       this.setState({
         points: cloneDeep(points),
@@ -223,10 +217,7 @@ export default class DiceYamlEditor extends Component<IDiceYamlEditorProps, any>
         content: () => null,
       };
       const point: any = points[selectedItem.groupIndex][selectedItem.index];
-      point.lineTo = [
-        ...(point.lineTo || []),
-        newItem.name,
-      ];
+      point.lineTo = [...(point.lineTo || []), newItem.name];
 
       getCreateView && getCreateView(newItem, point.name);
       newItem.index = item ? item.length : 0;
@@ -245,29 +236,29 @@ export default class DiceYamlEditor extends Component<IDiceYamlEditorProps, any>
         points[newItem.groupIndex].push(newItem);
       }
 
-      this.setState({
-        selectedItem: null,
-        points: cloneDeep(points),
-      }, () => {
-        if (this.newLine) {
-          this.newLine.svgLine.remove();
-        }
-      });
+      this.setState(
+        {
+          selectedItem: null,
+          points: cloneDeep(points),
+        },
+        () => {
+          if (this.newLine) {
+            this.newLine.svgLine.remove();
+          }
+        },
+      );
       this.reset();
     } else if (this.selectToLinkItem && selectedItem) {
-      const linked = selectedItem.lineTo && selectedItem.lineTo.find((item: any) => item === this.selectToLinkItem.name);
+      const linked =
+        selectedItem.lineTo && selectedItem.lineTo.find((item: any) => item === this.selectToLinkItem.name);
       // 连接某个节点
-      if (!connectSiblingNode &&
-        (this.selectToLinkItem.groupIndex <= selectedItem.groupIndex || linked)) {
+      if (!connectSiblingNode && (this.selectToLinkItem.groupIndex <= selectedItem.groupIndex || linked)) {
         this.reset();
         return true;
       }
 
       const point: any = points[selectedItem.groupIndex][selectedItem.index];
-      point.lineTo = [
-        ...(point.lineTo || []),
-        ...this.selectToLinkItem.name,
-      ];
+      point.lineTo = [...(point.lineTo || []), ...this.selectToLinkItem.name];
 
       updateConnect && updateConnect(selectedItem.name, this.selectToLinkItem.name);
       this.setState({

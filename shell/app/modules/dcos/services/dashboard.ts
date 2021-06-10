@@ -18,13 +18,15 @@ interface IFilterTypeQuery {
   orgName: string;
 }
 export const getFilterTypes = (payload: IFilterTypeQuery): ORG_DASHBOARD.IFilterType[] => {
-  return agent.get('/api/cluster/resources/types')
+  return agent
+    .get('/api/cluster/resources/types')
     .query(payload)
     .then((response: any) => response.body);
 };
 
 export const getGroupInfos = ({ orgName, ...rest }: ORG_DASHBOARD.IGroupInfoQuery): ORG_DASHBOARD.IGroupInfo => {
-  return agent.post('/api/cluster/resources/group')
+  return agent
+    .post('/api/cluster/resources/group')
     .query({ orgName })
     .send(rest)
     .then((response: any) => response.body);
@@ -37,16 +39,22 @@ export interface IInstanceListQuery {
   filters?: ORG_DASHBOARD.IFilterQuery[];
   start?: string;
 }
-export const getInstanceList = ({ instanceType, orgName, clusters, filters, start }: ORG_DASHBOARD.IInstanceListQuery): ORG_DASHBOARD.IInstance => {
-  return agent.post(`/api/cluster/resources/containers/${instanceType}`)
+export const getInstanceList = ({
+  instanceType,
+  orgName,
+  clusters,
+  filters,
+  start,
+}: ORG_DASHBOARD.IInstanceListQuery): ORG_DASHBOARD.IInstance => {
+  return agent
+    .post(`/api/cluster/resources/containers/${instanceType}`)
     .query({ orgName, start })
     .send({ clusters, filters })
     .then((response: any) => response.body);
 };
 
 export const getNodeLabels = (): ORG_DASHBOARD.INodeLabel[] => {
-  return agent.get('/api/node-labels')
-    .then((response: any) => response.body);
+  return agent.get('/api/node-labels').then((response: any) => response.body);
 };
 
 // TODO: add type define
@@ -58,7 +66,8 @@ export const getChartData = ({ query, clusters, url }: any) => {
     ...query,
   };
 
-  return agent.post(url)
+  return agent
+    .post(url)
     .query(fetchQuery)
     .send({ clusters })
     .then((response: any) => response.body);

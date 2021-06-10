@@ -17,7 +17,6 @@ import moment from 'moment';
 import { ChartRender } from 'charts';
 import i18n from 'i18n';
 
-
 export default class OverviewReportBarChart extends React.Component {
   getOption = () => {
     const { data } = this.props;
@@ -25,7 +24,8 @@ export default class OverviewReportBarChart extends React.Component {
     const option = {
       tooltip: {
         trigger: 'axis',
-        axisPointer: { // 坐标轴指示器，坐标轴触发有效
+        axisPointer: {
+          // 坐标轴指示器，坐标轴触发有效
           type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
         },
       },
@@ -98,7 +98,21 @@ export default class OverviewReportBarChart extends React.Component {
 
   render() {
     // const { data } = this.props;
-    const opts = { data: [[{ name: '', key: '', data: [{ name: 'satisfied', count: 347, percent: 0.916 }, { name: 'tolerated', count: 32, percent: 0.084 }, { name: 'frustrated', count: 0, percent: 0 }] }]] };
+    const opts = {
+      data: [
+        [
+          {
+            name: '',
+            key: '',
+            data: [
+              { name: 'satisfied', count: 347, percent: 0.916 },
+              { name: 'tolerated', count: 32, percent: 0.084 },
+              { name: 'frustrated', count: 0, percent: 0 },
+            ],
+          },
+        ],
+      ],
+    };
     return <ChartRender {...opts} hasData={size(opts.data) > 0} getOption={this.getOption} />;
   }
 }

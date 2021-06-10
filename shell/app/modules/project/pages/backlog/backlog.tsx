@@ -31,7 +31,6 @@ import backlog_db_svg from 'app/images/backlog-db.svg';
 import i18n from 'i18n';
 import './backlog.scss';
 
-
 const Backlog = () => {
   const [backlogIssues, backlogIssuesPaging] = iterationStore.useStore((s) => [s.backlogIssues, s.backlogIssuesPaging]);
   const { getBacklogIssues, createIssue } = iterationStore.effects;
@@ -40,7 +39,10 @@ const Backlog = () => {
   const labelList = labelStore.useStore((s) => s.list);
   const { getLabels } = labelStore.effects;
   const [loading] = useLoading(iterationStore, ['getBacklogIssues']);
-  const [{ projectId }, { id: queryId, issueType: queryType, ...restQuery }] = routeInfoStore.getState((s) => [s.params, s.query]);
+  const [{ projectId }, { id: queryId, issueType: queryType, ...restQuery }] = routeInfoStore.getState((s) => [
+    s.params,
+    s.query,
+  ]);
 
   const [{ isAdding, curIssueDetail, drawerVisible, filterState }, updater, update] = useUpdate({
     isAdding: false,
@@ -66,7 +68,7 @@ const Backlog = () => {
     };
   });
 
-  const addAuth = usePerm((s) => s.project.requirement.create.pass);// 目前迭代、任务、缺陷添加权限都一致
+  const addAuth = usePerm((s) => s.project.requirement.create.pass); // 目前迭代、任务、缺陷添加权限都一致
 
   const onIssueDrop = (val: ISSUE.IssueType) => {
     return updateIssue({ ...val, iterationID: -1 }).then(() => {
@@ -86,11 +88,13 @@ const Backlog = () => {
     updateSearch(filterState);
   }, [filterState]);
 
-  const getList = React.useCallback((filters: Obj = {}, goTop = true) => {
-    goTop && (listRef.current.scrollTop = 0);
-    return getBacklogIssues({ ...filterState, ...filters });
-  }, [filterState, getBacklogIssues]);
-
+  const getList = React.useCallback(
+    (filters: Obj = {}, goTop = true) => {
+      goTop && (listRef.current.scrollTop = 0);
+      return getBacklogIssues({ ...filterState, ...filters });
+    },
+    [filterState, getBacklogIssues],
+  );
 
   const onDelete = (val: ISSUE.Issue) => {
     deleteIssue(val.id).then(() => {
@@ -116,64 +120,63 @@ const Backlog = () => {
       getList();
     }
   };
-  const conditionsFilter = React.useMemo(() => [
-    {
-      type: 'select',
-      key: 'type',
-      label: i18n.t('type'),
-      placeholder: i18n.t('filter by {name}', { name: i18n.t('type') }),
-      fixed: false,
-      emptyText: i18n.t('application:all'),
-      showIndex: 1,
-      options: [
-        ISSUE_TYPE_MAP.REQUIREMENT,
-        ISSUE_TYPE_MAP.TASK,
-        ISSUE_TYPE_MAP.BUG,
-      ],
-    },
-    {
-      key: 'title',
-      label: i18n.t('title'),
-      emptyText: i18n.t('application:all'),
-      fixed: true,
-      showIndex: 2,
-      placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
-      type: 'input' as const,
-    },
-    {
-      key: 'label',
-      label: i18n.t('project:label'),
-      emptyText: i18n.t('application:all'),
-      fixed: false,
-      showIndex: 3,
-      haveFilter: true,
-      type: 'select' as const,
-      placeholder: i18n.t('filter by {name}', { name: i18n.t('project:label') }),
-      options: map(labelList, (item) => ({ label: item.name, value: `${item.id}` })),
-    },
-    {
-      key: 'priority',
-      label: i18n.t('project:priority'),
-      emptyText: i18n.t('application:all'),
-      fixed: false,
-      showIndex: 4,
-      type: 'select' as const,
-      placeholder: i18n.t('filter by {name}', { name: i18n.t('project:priority') }),
-      options: map(ISSUE_PRIORITY_MAP),
-    },
-    // {
-    //   key: 'assginee',
-    //   label: i18n.t('project:assignee'),
-    //   emptyText: i18n.t('application:all'),
-    //   fixed: false,
-    //   showIndex: 0,
-    //   customProps: {
-    //     mode: 'multiple',
-    //     scopeType: 'project',
-    //   },
-    //   type: 'memberSelector' as const,
-    // },
-  ], [labelList]);
+  const conditionsFilter = React.useMemo(
+    () => [
+      {
+        type: 'select',
+        key: 'type',
+        label: i18n.t('type'),
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('type') }),
+        fixed: false,
+        emptyText: i18n.t('application:all'),
+        showIndex: 1,
+        options: [ISSUE_TYPE_MAP.REQUIREMENT, ISSUE_TYPE_MAP.TASK, ISSUE_TYPE_MAP.BUG],
+      },
+      {
+        key: 'title',
+        label: i18n.t('title'),
+        emptyText: i18n.t('application:all'),
+        fixed: true,
+        showIndex: 2,
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
+        type: 'input' as const,
+      },
+      {
+        key: 'label',
+        label: i18n.t('project:label'),
+        emptyText: i18n.t('application:all'),
+        fixed: false,
+        showIndex: 3,
+        haveFilter: true,
+        type: 'select' as const,
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('project:label') }),
+        options: map(labelList, (item) => ({ label: item.name, value: `${item.id}` })),
+      },
+      {
+        key: 'priority',
+        label: i18n.t('project:priority'),
+        emptyText: i18n.t('application:all'),
+        fixed: false,
+        showIndex: 4,
+        type: 'select' as const,
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('project:priority') }),
+        options: map(ISSUE_PRIORITY_MAP),
+      },
+      // {
+      //   key: 'assginee',
+      //   label: i18n.t('project:assignee'),
+      //   emptyText: i18n.t('application:all'),
+      //   fixed: false,
+      //   showIndex: 0,
+      //   customProps: {
+      //     mode: 'multiple',
+      //     scopeType: 'project',
+      //   },
+      //   type: 'memberSelector' as const,
+      // },
+    ],
+    [labelList],
+  );
 
   const onFilter = (val: Obj) => {
     updater.filterState(val);
@@ -181,7 +184,12 @@ const Backlog = () => {
   };
 
   const curType = isEmpty(filterState.type) ? map(ISSUE_OPTION) : filterState.type;
-  const downloadUrl = setApiWithOrg(`/api/issues/actions/export-excel?${qs.stringify({ ...filterState, iterationID: -1, projectID: projectId, type: curType }, { arrayFormat: 'none' })}`);
+  const downloadUrl = setApiWithOrg(
+    `/api/issues/actions/export-excel?${qs.stringify(
+      { ...filterState, iterationID: -1, projectID: projectId, type: curType },
+      { arrayFormat: 'none' },
+    )}`,
+  );
 
   const load = React.useCallback(() => {
     return getList({ loadMore: true, pageNo: backlogIssuesPaging.pageNo + 1 }, false);
@@ -194,25 +202,23 @@ const Backlog = () => {
       <div className="backlog-issues-title flex-box mb8">
         <div>
           <span className="bold fz16 mr8">{i18n.t('project:backlog')}</span>
-          <span className="color-text-desc">{i18n.t('{num} {type}', { num: backlogIssues.length, type: i18n.t('project:issue') })}</span>
+          <span className="color-text-desc">
+            {i18n.t('{num} {type}', { num: backlogIssues.length, type: i18n.t('project:issue') })}
+          </span>
         </div>
         <div>
-          <WithAuth pass={addAuth} >
+          <WithAuth pass={addAuth}>
             <Button className="mr8" type="primary" onClick={onAdd}>
               <CustomIcon type="cir-add" className="mr4" />
               {i18n.t('add {name}', { name: i18n.t('project:issue') })}
             </Button>
           </WithAuth>
 
-          <Popconfirm
-            title={i18n.t('project:confirm export')}
-            onConfirm={() => window.open(downloadUrl)}
-          >
+          <Popconfirm title={i18n.t('project:confirm export')} onConfirm={() => window.open(downloadUrl)}>
             <Button className="ml8 px8">
               <CustomIcon type="daochu" />
             </Button>
           </Popconfirm>
-
         </div>
       </div>
       <div className={'backlog-filter'}>
@@ -224,23 +230,19 @@ const Backlog = () => {
           <div className="list-container" ref={listRef}>
             {
               <div className="backlog-issues-list">
-                {
-                isAdding
-                  ? (
-                    <IssueForm
-                      key="add"
-                      className="backlog-issue-item hover-active-bg"
-                      onCancel={() => updater.isAdding(false)}
-                      onOk={(val: ISSUE.BacklogIssueCreateBody) => {
-                        return createIssue({ ...val }).finally(() => {
-                          updater.isAdding(true);
-                          getList();
-                        });
-                      }}
-                    />
-                  )
-                  : null
-              }
+                {isAdding ? (
+                  <IssueForm
+                    key="add"
+                    className="backlog-issue-item hover-active-bg"
+                    onCancel={() => updater.isAdding(false)}
+                    onOk={(val: ISSUE.BacklogIssueCreateBody) => {
+                      return createIssue({ ...val }).finally(() => {
+                        updater.isAdding(true);
+                        getList();
+                      });
+                    }}
+                  />
+                ) : null}
                 {map(backlogIssues, (item) => (
                   <IssueItem
                     data={item}
@@ -254,28 +256,35 @@ const Backlog = () => {
                   />
                 ))}
               </div>
-          }
+            }
             <div className="more-container">
-              {listRef.current && <LoadMore threshold={10} getContainer={() => listRef.current} load={load} hasMore={backlogIssuesPaging.hasMore} isLoading={isHide && loading} />}
+              {listRef.current && (
+                <LoadMore
+                  threshold={10}
+                  getContainer={() => listRef.current}
+                  load={load}
+                  hasMore={backlogIssuesPaging.hasMore}
+                  isLoading={isHide && loading}
+                />
+              )}
             </div>
           </div>
         </Spin>
       </div>
 
-      {
-        drawerVisible
-          ? (
-            <EditIssueDrawer
-              iterationID={-1}
-              id={curIssueDetail.id}
-              shareLink={`${location.href.split('?')[0]}?${mergeSearch({ id: curIssueDetail.id, issueType: curIssueDetail.type }, true)}`}
-              issueType={curIssueDetail.type}
-              visible={drawerVisible}
-              closeDrawer={closeDrawer}
-            />
-          )
-          : null
-      }
+      {drawerVisible ? (
+        <EditIssueDrawer
+          iterationID={-1}
+          id={curIssueDetail.id}
+          shareLink={`${location.href.split('?')[0]}?${mergeSearch(
+            { id: curIssueDetail.id, issueType: curIssueDetail.type },
+            true,
+          )}`}
+          issueType={curIssueDetail.type}
+          visible={drawerVisible}
+          closeDrawer={closeDrawer}
+        />
+      ) : null}
     </div>
   );
 };
@@ -286,7 +295,7 @@ const EmptyBacklog = ({ onAdd, addAuth }: { onAdd: () => void; addAuth: boolean 
     <div className="fz24 bold my8">{i18n.t('project:backlog')}</div>
     <div className="desc">
       {i18n.t('project:add-todo-issue-tip1')}
-      <WithAuth pass={addAuth} >
+      <WithAuth pass={addAuth}>
         <Button className="px8" size="small" type="primary" ghost onClick={onAdd}>
           <CustomIcon type="cir-add" className="mr4" />
           {i18n.t('add {name}', { name: i18n.t('project:issue') })}
@@ -298,4 +307,3 @@ const EmptyBacklog = ({ onAdd, addAuth }: { onAdd: () => void; addAuth: boolean 
 );
 
 export default Backlog;
-

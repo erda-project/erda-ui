@@ -25,12 +25,7 @@ const tomorrow = moment().add(1, 'days');
 describe('CommonRangePicker', () => {
   it('should render well', () => {
     const fn = jest.fn();
-    const wrapper = mount(
-      <CommonRangePicker
-        onOk={fn}
-        defaultTime={[today, tomorrow]}
-      />,
-    );
+    const wrapper = mount(<CommonRangePicker onOk={fn} defaultTime={[today, tomorrow]} />);
     // expect(wrapper).toMatchSnapshot();
     act(() => {
       wrapper.find('RangePicker').at(0).prop('onChange')([yesterday, today]);
@@ -45,4 +40,3 @@ describe('CommonRangePicker', () => {
     expect(fn).toHaveBeenCalled();
   });
 });
-

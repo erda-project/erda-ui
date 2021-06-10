@@ -46,7 +46,9 @@ export default async ({ fileType, directory, filter }: { fileType: string; direc
   }
 
   const suffixMap: { [k: string]: boolean } = {};
-  suffixList.forEach((a) => { suffixMap[a.startsWith('.') ? a : `.${a}`] = true; });
+  suffixList.forEach((a) => {
+    suffixMap[a.startsWith('.') ? a : `.${a}`] = true;
+  });
 
   const showWarnLog = ['all', 'warn'].includes(filter);
   const showSuccessLog = ['all', 'success'].includes(filter);

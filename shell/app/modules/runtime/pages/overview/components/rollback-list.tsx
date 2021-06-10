@@ -33,8 +33,14 @@ export default ({ visible, onClose }: { visible: boolean; onClose: (e?: any) => 
     const { id, releaseId, createdAt } = record;
     const content = (
       <div className="record-info">
-        <div><span className="info-name">ReleaseId：</span><span>{releaseId}</span></div>
-        <div><span className="info-name">{i18n.t('runtime:deploy at')}：</span><span>{moment(createdAt).format('YYYY-MM-DD HH:mm:ss')}</span></div>
+        <div>
+          <span className="info-name">ReleaseId：</span>
+          <span>{releaseId}</span>
+        </div>
+        <div>
+          <span className="info-name">{i18n.t('runtime:deploy at')}：</span>
+          <span>{moment(createdAt).format('YYYY-MM-DD HH:mm:ss')}</span>
+        </div>
       </div>
     );
     Modal.confirm({
@@ -64,23 +70,18 @@ export default ({ visible, onClose }: { visible: boolean; onClose: (e?: any) => 
       }
       return (
         <Tooltip title={title}>
-          {
-            disabled
-              ? <CustomIcon className="hover-active not-allowed" type="rollback" />
-              : <CustomIcon className="hover-active" onClick={() => confirmRollback(record)} type="rollback" />
-          }
+          {disabled ? (
+            <CustomIcon className="hover-active not-allowed" type="rollback" />
+          ) : (
+            <CustomIcon className="hover-active" onClick={() => confirmRollback(record)} type="rollback" />
+          )}
         </Tooltip>
       );
     },
   };
 
   return (
-    <Drawer
-      title={i18n.t('runtime:rollback history')}
-      visible={visible}
-      onClose={onClose}
-      width="80%"
-    >
+    <Drawer title={i18n.t('runtime:rollback history')} visible={visible} onClose={onClose} width="80%">
       <DeploymentTable
         dataSource={deploymentRecords}
         paging={paging}

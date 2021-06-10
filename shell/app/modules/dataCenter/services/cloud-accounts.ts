@@ -14,19 +14,22 @@
 import agent from 'agent';
 
 export const getCloudAccounts = (params: IPagingReq): IPagingResp<CLOUD_ACCOUNTS.Account> => {
-  return agent.get('/api/cloud-account')
+  return agent
+    .get('/api/cloud-account')
     .query(params)
     .then((response: any) => response.body);
 };
 
 export const addCloudAccount = (params: CLOUD_ACCOUNTS.Account) => {
-  return agent.post('/api/cloud-account')
+  return agent
+    .post('/api/cloud-account')
     .send(params)
     .then((response: any) => response.body);
 };
 
 export const deleteCloudAccount = (params: CLOUD_ACCOUNTS.DeleteAccountParam) => {
-  return agent.delete('/api/cloud-account')
+  return agent
+    .delete('/api/cloud-account')
     .send(params)
     .then((response: any) => response.body);
 };

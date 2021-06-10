@@ -24,7 +24,6 @@ import i18n from 'i18n';
 import userMapStore from 'app/common/stores/user-map';
 import releaseStore from 'app/modules/application/stores/release';
 
-
 interface IProps {
   data?: RELEASE.detail;
   updateInfo: typeof releaseStore.effects.updateInfo;
@@ -56,7 +55,9 @@ const ReleaseDetailEdit = (props: IProps) => {
     },
     {
       label: i18n.t('application:submit id'),
-      getComp: () => <GotoCommit commitId={labels.gitCommitId} projectId={projectId} appId={applicationId} length={6} />,
+      getComp: () => (
+        <GotoCommit commitId={labels.gitCommitId} projectId={projectId} appId={applicationId} length={6} />
+      ),
       itemProps: {
         type: 'hidden',
       },
@@ -73,9 +74,7 @@ const ReleaseDetailEdit = (props: IProps) => {
         return (
           <span>
             <Avatar className="mr4 mb4" name={nick || name} />
-            <Tooltip title={name || '暂无'}>
-              {nick || '暂无'}
-            </Tooltip>
+            <Tooltip title={name || '暂无'}>{nick || '暂无'}</Tooltip>
           </span>
         );
       },
@@ -96,12 +95,7 @@ const ReleaseDetailEdit = (props: IProps) => {
   };
   return (
     <div className="release-detail-page">
-      <SectionInfoEdit
-        hasAuth={infoEditAuth}
-        data={data}
-        fieldsList={fieldsList}
-        updateInfo={doUpdate}
-      />
+      <SectionInfoEdit hasAuth={infoEditAuth} data={data} fieldsList={fieldsList} updateInfo={doUpdate} />
     </div>
   );
 };

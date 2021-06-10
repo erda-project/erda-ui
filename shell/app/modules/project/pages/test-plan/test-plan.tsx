@@ -79,7 +79,12 @@ const TestPlan = () => {
       title: i18n.t('project:plan name'),
       dataIndex: 'name',
       render: (text, record) => {
-        return <div className="title v-align">{iconMap[record.status]}{record.id}-{text}</div>;
+        return (
+          <div className="title v-align">
+            {iconMap[record.status]}
+            {record.id}-{text}
+          </div>
+        );
       },
     },
     {
@@ -131,7 +136,7 @@ const TestPlan = () => {
                 updateModalProp({ visible: true, mode: 'edit', testPlanId: id });
               }}
             >
-              { i18n.t('project:edit')}
+              {i18n.t('project:edit')}
             </span>
             <span
               className="table-operations-btn"
@@ -140,7 +145,7 @@ const TestPlan = () => {
                 updateModalProp({ visible: true, mode: 'copy', testPlanId: id });
               }}
             >
-              { i18n.t('project:copy and create')}
+              {i18n.t('project:copy and create')}
             </span>
           </div>
         );
@@ -148,37 +153,46 @@ const TestPlan = () => {
     },
   ];
 
-  const filterConfig: FilterItemConfig[] = React.useMemo(() => [
-    {
-      type: Select,
-      name: 'status',
-      customProps: {
-        options: statusMap.map(({ label, value }) => <Option key={value} value={value}>{label}</Option>),
-        allowClear: true,
-        placeholder: i18n.t('project:select status'),
-        mode: 'multiple',
+  const filterConfig: FilterItemConfig[] = React.useMemo(
+    () => [
+      {
+        type: Select,
+        name: 'status',
+        customProps: {
+          options: statusMap.map(({ label, value }) => (
+            <Option key={value} value={value}>
+              {label}
+            </Option>
+          )),
+          allowClear: true,
+          placeholder: i18n.t('project:select status'),
+          mode: 'multiple',
+        },
       },
-    },
-    {
-      type: Input,
-      name: 'name',
-      customProps: {
-        placeholder: i18n.t('default:search by name'),
-        autoComplete: 'off',
+      {
+        type: Input,
+        name: 'name',
+        customProps: {
+          placeholder: i18n.t('default:search by name'),
+          autoComplete: 'off',
+        },
       },
-    },
-  ], []);
+    ],
+    [],
+  );
 
   return (
     <div>
       <div className="top-button-group">
-        <Button
-          type="primary"
-          onClick={() => updateModalProp({ visible: true, mode: 'add', testPlanId: undefined })}
-        >
+        <Button type="primary" onClick={() => updateModalProp({ visible: true, mode: 'add', testPlanId: undefined })}>
           {i18n.t('project:new plan')}
         </Button>
-        <PlanModal {...modalProp} onCancel={() => { updateModalProp({ visible: false }); }} />
+        <PlanModal
+          {...modalProp}
+          onCancel={() => {
+            updateModalProp({ visible: false });
+          }}
+        />
       </div>
       <CustomFilter config={filterConfig} onSubmit={onSearch} />
       <Spin spinning={isFetching}>
@@ -190,7 +204,9 @@ const TestPlan = () => {
           dataSource={planList}
           onRow={(plan: TEST_PLAN.Plan) => {
             return {
-              onClick: () => { goTo(`./${plan.id}`); },
+              onClick: () => {
+                goTo(`./${plan.id}`);
+              },
             };
           }}
           pagination={{

@@ -16,25 +16,24 @@ import { parse } from 'query-string';
 import pathToRegexp from 'path-to-regexp';
 import { on, emit } from '../utils/event-hub';
 
-
 interface IRouteInfo {
-  routes: SHELL.Route[],
+  routes: SHELL.Route[];
   params: {
-    [k: string]: string
-  },
+    [k: string]: string;
+  };
   query: {
-    [k: string]: any
-  },
-  currentRoute: SHELL.Route | {},
-  routeMarks: string[],
-  routePatterns: string[],
-  routeMap: Record<string, any>,
-  parsed: any,
-  prevRouteInfo: IRouteInfo
-  isIn(mark: string): boolean,
-  isMatch(pattern?: string | RegExp): boolean,
-  isEntering(mark: string): boolean,
-  isLeaving(mark: string): boolean,
+    [k: string]: any;
+  };
+  currentRoute: SHELL.Route | {};
+  routeMarks: string[];
+  routePatterns: string[];
+  routeMap: Record<string, any>;
+  parsed: any;
+  prevRouteInfo: IRouteInfo;
+  isIn: (mark: string) => boolean;
+  isMatch: (pattern?: string | RegExp) => boolean;
+  isEntering: (mark: string) => boolean;
+  isLeaving: (mark: string) => boolean;
 }
 
 const initRouteInfo: IRouteInfo = {
@@ -72,7 +71,7 @@ const routeInfoStore = createStore({
   name: 'routeInfo',
   state: initRouteInfo,
   reducers: {
-    $_updateRouteInfo(state, location: { pathname: string, search: string }, extraData?: any) {
+    $_updateRouteInfo(state, location: { pathname: string; search: string }, extraData?: any) {
       const { pathname, search } = location;
       const prevRouteInfo = state;
       if (prevPath === pathname && search === prevSearch) {
@@ -104,7 +103,8 @@ const routeInfoStore = createStore({
 
         if (match) {
           keys.forEach((k, j) => {
-            if (k.name !== 0) { // 移除 * 号匹配时的0字段
+            if (k.name !== 0) {
+              // 移除 * 号匹配时的0字段
               params[k.name] = match[j + 1];
             }
           });
@@ -153,9 +153,8 @@ const routeInfoStore = createStore({
 
 export const listenRoute = (cb: Function) => {
   // 初始化时也调用一次
-  cb(routeInfoStore.getState(s => s));
+  cb(routeInfoStore.getState((s) => s));
   on('@routeChange', cb);
 };
-
 
 export default routeInfoStore;

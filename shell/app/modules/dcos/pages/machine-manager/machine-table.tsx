@@ -45,23 +45,15 @@ const countPercent = (used: number, total: number) => {
   return { percent, statusClass };
 };
 
-const ProgressItem = ({
-  percent,
-  used,
-  total,
-  unit,
-  unitType,
-}: any) => (
+const ProgressItem = ({ percent, used, total, unit, unitType }: any) => (
   <div className="machine-percent">
     <Tooltip
       placement="top"
       title={
-          unitType
-            ?
-            `${getFormatter(unitType).format(used)} / ${getFormatter(unitType).format(total)}`
-            :
-            `${round(used, 2)} ${unit} / ${round(total, 2)} ${unit}`
-        }
+        unitType
+          ? `${getFormatter(unitType).format(used)} / ${getFormatter(unitType).format(total)}`
+          : `${round(used, 2)} ${unit} / ${round(total, 2)} ${unit}`
+      }
     >
       <div
         className={classNames({
@@ -77,25 +69,17 @@ const ProgressItem = ({
   </div>
 );
 
-export const DoubleProgressItem = ({
-  usedPercent,
-  requestPercent,
-  usage,
-  request,
-  total,
-  unit,
-  unitType,
-}: any) => {
+export const DoubleProgressItem = ({ usedPercent, requestPercent, usage, request, total, unit, unitType }: any) => {
   const requestEle = (
     <Tooltip
       key="request"
       placement="top"
       title={
         unitType
-          ?
-          `${i18n.t('org:allocation')}: ${getFormatter(unitType).format(request)} / ${getFormatter(unitType).format(total)}`
-          :
-          `${i18n.t('org:allocation')}: ${round(request, 2)} ${unit} / ${round(total, 2)} ${unit}`
+          ? `${i18n.t('org:allocation')}: ${getFormatter(unitType).format(request)} / ${getFormatter(unitType).format(
+              total,
+            )}`
+          : `${i18n.t('org:allocation')}: ${round(request, 2)} ${unit} / ${round(total, 2)} ${unit}`
       }
     >
       <div className="machine-percent-bar machine-percent-bottom-bar pointer" style={{ width: `${requestPercent}%` }}>
@@ -109,10 +93,8 @@ export const DoubleProgressItem = ({
       placement="top"
       title={
         unitType
-          ?
-          `${i18n.t('used')}${getFormatter(unitType).format(usage)} / ${getFormatter(unitType).format(total)}`
-          :
-          `${i18n.t('used')}${round(usage, 2)} ${unit} / ${round(total, 2)} ${unit}`
+          ? `${i18n.t('used')}${getFormatter(unitType).format(usage)} / ${getFormatter(unitType).format(total)}`
+          : `${i18n.t('used')}${round(usage, 2)} ${unit} / ${round(total, 2)} ${unit}`
       }
     >
       <div
@@ -185,29 +167,30 @@ class Operation extends React.PureComponent<IOperation> {
     const content = (
       <div className="terminal-confirm">
         <Row gutter={20}>
-          <Col span={6}><span className="label">User: </span></Col>
+          <Col span={6}>
+            <span className="label">User: </span>
+          </Col>
           <Col span={18}>
             <Input defaultValue={defaultParams.user} onChange={(e) => this.setValue('user', e.target.value)} />
           </Col>
         </Row>
         <Row gutter={20}>
-          <Col span={6}><span className="label">Port: </span></Col>
+          <Col span={6}>
+            <span className="label">Port: </span>
+          </Col>
           <Col span={18}>
             <Input defaultValue={defaultParams.port} onChange={(e) => this.setValue('port', e.target.value)} />
           </Col>
         </Row>
-      </div>);
+      </div>
+    );
 
     return (
       <React.Fragment>
-        <span className="table-operations-btn" onClick={() => this.openModal(content)}>{i18n.t('console')}</span>
-        <Drawer
-          title={i18n.t('console')}
-          visible={visible}
-          onClose={this.closeSlidePanel}
-          width="80%"
-          destroyOnClose
-        >
+        <span className="table-operations-btn" onClick={() => this.openModal(content)}>
+          {i18n.t('console')}
+        </span>
+        <Drawer title={i18n.t('console')} visible={visible} onClose={this.closeSlidePanel} width="80%" destroyOnClose>
           <Terminal host={record.ip} user={user} port={port} clusterName={record.clusterName} />
         </Drawer>
       </React.Fragment>
@@ -227,8 +210,16 @@ interface IFilterDropdownProps {
 }
 
 const FilterDropdownNumber = (props: IFilterDropdownProps) => {
-  const { setSelectedKeys, selectedKeys, confirm: filterConfirm, clearFilters, handleSearch, handleReset, dataKey } = props;
-  const initialVal = (selectedKeys[0] || []);
+  const {
+    setSelectedKeys,
+    selectedKeys,
+    confirm: filterConfirm,
+    clearFilters,
+    handleSearch,
+    handleReset,
+    dataKey,
+  } = props;
+  const initialVal = selectedKeys[0] || [];
   const [more, setMore] = React.useState(initialVal[0] || '');
   const [less, setLess] = React.useState(initialVal[1] || '');
   React.useEffect(() => {
@@ -284,7 +275,16 @@ const FilterDropdownNumber = (props: IFilterDropdownProps) => {
 };
 
 const FilterDropdownInput = (props: IFilterDropdownProps) => {
-  const { setSelectedKeys, selectedKeys, confirm: filterConfirm, clearFilters, handleSearch, handleReset, dataKey, placeholder = '' } = props;
+  const {
+    setSelectedKeys,
+    selectedKeys,
+    confirm: filterConfirm,
+    clearFilters,
+    handleSearch,
+    handleReset,
+    dataKey,
+    placeholder = '',
+  } = props;
   return (
     <div className="filter-dropdown">
       <Input
@@ -320,7 +320,7 @@ const filterFunc = {
     return res;
   },
   numberRange: (record: ORG_MACHINE.IMachine, val: string[] = [], key: string) => {
-    const [more, less] = val[0] || [] as any;
+    const [more, less] = val[0] || ([] as any);
     const curVal = get(record, key);
     if (!isNaN(curVal)) {
       if (more && Number(curVal) <= Number(more)) {
@@ -334,7 +334,7 @@ const filterFunc = {
   },
 };
 
-const FirstColTitle = ({ filterMap }: {filterMap: Record<string, any>}) => {
+const FirstColTitle = ({ filterMap }: { filterMap: Record<string, any> }) => {
   const curFilter = (filterMap as any).ip;
   if (!isEmpty(curFilter)) {
     return (
@@ -430,7 +430,13 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
   const getInputFilter = (key: string, conf: object) => {
     return {
       filterDropdown: (_props: any) => (
-        <FilterDropdownInput {..._props} {...conf} handleSearch={handleSearch} handleReset={handleReset} dataKey={key} />
+        <FilterDropdownInput
+          {..._props}
+          {...conf}
+          handleSearch={handleSearch}
+          handleReset={handleReset}
+          dataKey={key}
+        />
       ),
       filterIcon: (filtered: boolean) => {
         return <CustomIcon type="search" className={`filter-search-icon ${filtered ? 'active' : 'normal'}`} />;
@@ -456,7 +462,8 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
     if (moreTip || lessTip) {
       return (
         <div className="title-with-search">
-          <span className="main-title">{defaultTitle} </span><br />
+          <span className="main-title">{defaultTitle} </span>
+          <br />
           <IF check={!!moreTip}>
             <span className="search-value">{`${moreTip}`}</span> <br />
           </IF>
@@ -476,21 +483,24 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
       fixed: 'left',
       dataIndex: 'ip',
       // ...getInputFilter('ip', { placeholder: '根据IP搜索' }),
-      sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.ip.replace(/\./g, '')) - Number(b.ip.replace(/\./g, '')),
+      sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) =>
+        Number(a.ip.replace(/\./g, '')) - Number(b.ip.replace(/\./g, '')),
       render: (value: string, record: ORG_MACHINE.IMachine) => {
         const { status, abnormalMsg } = record;
         return (
           <div>
             <span className="status-pointer">
-              {
-                status === 'normal'
-                  ?
-                  null
-                  :
-                  <HealthPoint type="machine" status={status === 'normal' ? 'normal' : 'warning'} msg={abnormalMsg || i18n.t('dcos:unknown state')} />
-              }
+              {status === 'normal' ? null : (
+                <HealthPoint
+                  type="machine"
+                  status={status === 'normal' ? 'normal' : 'warning'}
+                  msg={abnormalMsg || i18n.t('dcos:unknown state')}
+                />
+              )}
             </span>
-            <span className="bold hover-table-text status nowrap" onClick={() => gotoMachineMonitor(record)}>{value}</span>
+            <span className="bold hover-table-text status nowrap" onClick={() => gotoMachineMonitor(record)}>
+              {value}
+            </span>
           </div>
         );
       },
@@ -502,10 +512,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
       sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.tasks) - Number(b.tasks),
       render: (_val: string, record: ORG_MACHINE.IMachine) => {
         return (
-          <span
-            onClick={() => gotoMachineTasks(record)}
-            className="bold hover-table-text"
-          >
+          <span onClick={() => gotoMachineTasks(record)} className="bold hover-table-text">
             {record.tasks}
           </span>
           // record.tasks
@@ -559,7 +566,8 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
       title: i18n.t('org:Disk usage'),
       width: 125,
       dataIndex: 'diskProportion',
-      sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.diskUsage / a.diskTotal) - Number(b.diskUsage / b.diskTotal),
+      sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) =>
+        Number(a.diskUsage / a.diskTotal) - Number(b.diskUsage / b.diskTotal),
       render: (value: string, data: ORG_MACHINE.IMachine) => {
         const { diskTotal, diskUsage } = data;
         const { percent } = value as any;
@@ -598,9 +606,18 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
       render: (_id: string, record: ORG_MACHINE.IMachine) => {
         return (
           <TableActions>
-            <span className="table-operations-btn" onClick={() => update({ recordData: record })}>{i18n.t('set tags')}</span>
+            <span className="table-operations-btn" onClick={() => update({ recordData: record })}>
+              {i18n.t('set tags')}
+            </span>
             <Operation record={record} />
-            <span onClick={() => { setCurMachine(record); setmachineOffLineVis(true); }}>{i18n.t('org:offline')}</span>
+            <span
+              onClick={() => {
+                setCurMachine(record);
+                setmachineOffLineVis(true);
+              }}
+            >
+              {i18n.t('org:offline')}
+            </span>
           </TableActions>
         );
       },
@@ -619,20 +636,20 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
         scroll={{ x: 1500 }}
         dataSource={filterList}
       />
-      <MachineTagForm machine={stateMap.recordData as ORG_MACHINE.IMachine} visible={!!stateMap.recordData} onCancel={() => updater.recordData(null)} />
+      <MachineTagForm
+        machine={stateMap.recordData as ORG_MACHINE.IMachine}
+        visible={!!stateMap.recordData}
+        onCancel={() => updater.recordData(null)}
+      />
       <MachineOffLineModal
         visible={machineOffLineVis}
         onCancel={closeMachineOffLine}
         formData={curMachine}
         onSubmit={machineOffLine}
       />
-      <ClusterLog
-        recordID={curRecordID}
-        onClose={() => setCurRecordID('')}
-      />
+      <ClusterLog recordID={curRecordID} onClose={() => setCurRecordID('')} />
     </div>
   );
 };
-
 
 export default React.memo(MachineTable, (prev, next) => prev.list === next.list && prev.isFetching === next.isFetching);

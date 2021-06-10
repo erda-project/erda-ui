@@ -18,7 +18,7 @@ import { useUpdate } from 'common';
 import { FormModal } from 'app/configForm/nusi-form/form-modal';
 import i18n from 'i18n';
 
-interface IProps{
+interface IProps {
   currentData: Obj;
   onSubmit: (arg: Obj) => void;
 }
@@ -81,7 +81,9 @@ const AddScope = (props: IProps) => {
 
   return (
     <>
-      <Button type="primary" onClick={onOpen}>{i18n.t('add {name}', { name: 'scope' })}</Button>
+      <Button type="primary" onClick={onOpen}>
+        {i18n.t('add {name}', { name: 'scope' })}
+      </Button>
       <FormModal
         width={650}
         visible={visible}

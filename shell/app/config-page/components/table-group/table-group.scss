@@ -16,7 +16,7 @@
 
   .table-board {
     margin-top: 16px;
-    
+
     &:first-child {
       margin-top: 0px;
     }
@@ -24,17 +24,17 @@
     .table-board-card {
       padding: 16px;
       background: white;
-      border: 1px solid rgba(0,0,0,0.10);
+      border: 1px solid rgba(0, 0, 0, 0.1);
       border-radius: 6px;
-      background-color: #FFFFFF;
+      background-color: #ffffff;
 
-      >.pk-title {
+      > .pk-title {
         margin-bottom: 8px;
       }
     }
   }
 
-  .pk-table-small .pk-table-tbody>tr>td {
+  .pk-table-small .pk-table-tbody > tr > td {
     padding-left: 4px !important;
   }
 

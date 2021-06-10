@@ -20,7 +20,7 @@ import middlewareDashboardStore from 'dataCenter/stores/middleware-dashboard';
 import { useLoading } from 'app/common/stores/loading';
 
 interface IProps {
-  data: Merge<MIDDLEWARE_DASHBOARD.IMiddleBase, {name: string; projectID: string; projectName: string}>;
+  data: Merge<MIDDLEWARE_DASHBOARD.IMiddleBase, { name: string; projectID: string; projectName: string }>;
 }
 
 const ScaleInfo = ({ data }: IProps) => {
@@ -37,11 +37,7 @@ const ScaleInfo = ({ data }: IProps) => {
     {
       title: i18n.t('default:name'),
       dataIndex: 'name',
-      render: (text: string) => (
-        <Tooltip title={text}>
-          {text}
-        </Tooltip>
-      ),
+      render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,
     },
     {
       title: i18n.t('dataCenter:count of nodes'),
@@ -64,24 +60,24 @@ const ScaleInfo = ({ data }: IProps) => {
       <div className="scale-info mb32">
         <div className="flex-box">
           <span className="title bold-500">{i18n.t('dataCenter:resource information')}</span>
-          <Button onClick={() => {
-            setVisible(true);
-          }}
-          >{i18n.t('default:edit')}
+          <Button
+            onClick={() => {
+              setVisible(true);
+            }}
+          >
+            {i18n.t('default:edit')}
           </Button>
         </div>
         <Row>
-          {
-            items.map((item) => {
-              const text = get(baseInfo, item.dataIndex, '--');
-              return (
-                <Col span={6} key={item.title}>
-                  <div className="param-k nowrap">{item.title}</div>
-                  <div className="param-v nowrap">{item.render ? item.render(text) : text}</div>
-                </Col>
-              );
-            })
-          }
+          {items.map((item) => {
+            const text = get(baseInfo, item.dataIndex, '--');
+            return (
+              <Col span={6} key={item.title}>
+                <div className="param-k nowrap">{item.title}</div>
+                <div className="param-v nowrap">{item.render ? item.render(text) : text}</div>
+              </Col>
+            );
+          })}
         </Row>
         <ScaleModal
           visible={visible}

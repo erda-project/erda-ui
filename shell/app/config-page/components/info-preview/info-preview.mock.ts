@@ -18,35 +18,25 @@ export const mockData: CP_INFO_PREVIEW.Spec = {
       title: '创建用户',
       desc: '这里是描述信息',
       apiInfo: { method: 'POST', path: '/api/xxxx' },
-      header: [
-        { name: 'Accept', desc: '接受类型', required: '是', defaultValue: 'JSON' },
-      ],
-      urlParams: [
-        { name: 'a', type: 'string', desc: 'a', required: '是', defaultValue: '123' },
-      ],
+      header: [{ name: 'Accept', desc: '接受类型', required: '是', defaultValue: 'JSON' }],
+      urlParams: [{ name: 'a', type: 'string', desc: 'a', required: '是', defaultValue: '123' }],
       body: [
-        { name: 'info',
+        {
+          name: 'info',
           type: 'Object',
           desc: 'info',
           required: '是',
           defaultValue: '-',
           children: [
-            { name: 'menu',
+            {
+              name: 'menu',
               type: 'Array',
               desc: 'menu',
               required: '否',
               defaultValue: '-',
               children: [
-                { name: 'menuName',
-                  type: 'string',
-                  desc: 'menu1',
-                  required: '否',
-                  defaultValue: '-' },
-                { name: 'menuType',
-                  type: 'string',
-                  desc: 'menu1',
-                  required: '否',
-                  defaultValue: '-' },
+                { name: 'menuName', type: 'string', desc: 'menu1', required: '否', defaultValue: '-' },
+                { name: 'menuType', type: 'string', desc: 'menu1', required: '否', defaultValue: '-' },
               ],
             },
           ],
@@ -58,7 +48,6 @@ export const mockData: CP_INFO_PREVIEW.Spec = {
           menu2: [{ menuName: 'xxx', menuType: 'xxx' }],
           menu3: [{ menuName: 'xxx', menuType: 'xxx' }],
           menu4: [{ menuName: 'xxx', menuType: 'xxx' }],
-
         },
       },
     },

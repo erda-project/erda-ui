@@ -108,12 +108,16 @@ const DiceYamlEditorDrawer = (props: IDiceYamlEditorDrawerProps) => {
     <div style={style} className="yaml-editor-drawer">
       <div className="yaml-editor-drawer-title">
         {title}
-        <IconClose
-          onClick={onClose}
-          className="yaml-editor-drawer-close"
-        />
+        <IconClose onClick={onClose} className="yaml-editor-drawer-close" />
       </div>
-      <div ref={(e: any) => { drawerContent = e; }} className={className}>{content}</div>
+      <div
+        ref={(e: any) => {
+          drawerContent = e;
+        }}
+        className={className}
+      >
+        {content}
+      </div>
     </div>
   );
 };

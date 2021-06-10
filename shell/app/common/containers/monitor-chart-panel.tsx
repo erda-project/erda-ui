@@ -44,7 +44,6 @@ const MonitorChartPanel = (props: IProps) => {
     clearListMetrics();
   });
 
-
   React.useEffect(() => {
     const metrics = listMetric[resourceType] || {};
     const list = Object.keys(metrics).map((key) => ({ key, value: metrics[key] }));
@@ -60,8 +59,11 @@ const MonitorChartPanel = (props: IProps) => {
     lazyLoad();
   }, [listMetric, resourceType]);
 
-
-  return <Holder when={isEmpty(data)}><PureMonitorChartPanel {...props} metrics={data} /></Holder>;
+  return (
+    <Holder when={isEmpty(data)}>
+      <PureMonitorChartPanel {...props} metrics={data} />
+    </Holder>
+  );
 };
 
 export default MonitorChartPanel;

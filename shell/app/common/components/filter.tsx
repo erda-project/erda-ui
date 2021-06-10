@@ -21,7 +21,7 @@ import { updateSearch as _updateSearch } from 'common/utils';
 
 enum FILTER_TIRGGER {
   onChange = 'onChange',
-  onSubmit = 'onSubmit'
+  onSubmit = 'onSubmit',
 }
 
 interface IConfigItem {
@@ -49,7 +49,17 @@ export interface IPureFilterProps extends Omit<IFilterProps, 'config'> {
 }
 
 export const PureFilter = (props: IPureFilterProps) => {
-  const { filterTirgger = 'onChange', connectUrlSearch = false, updateSearch, onFilter = noop, query = {}, className = '', formatFormData, urlExtra, ...rest } = props;
+  const {
+    filterTirgger = 'onChange',
+    connectUrlSearch = false,
+    updateSearch,
+    onFilter = noop,
+    query = {},
+    className = '',
+    formatFormData,
+    urlExtra,
+    ...rest
+  } = props;
   // const query = routeInfoStore.getState(s => s.query);
   const filterRef: any = React.useRef(null as any);
   useMount(() => {
@@ -118,12 +128,14 @@ export const PureFilter = (props: IPureFilterProps) => {
       className={`dice-filter my12 ${className}`}
       {...rest}
       {...(filterProps[filterTirgger] || {})}
-      onRef={(ref: any) => { filterRef.current = ref; }}
+      onRef={(ref: any) => {
+        filterRef.current = ref;
+      }}
     />
   );
 };
 
-export interface IDiceFilterProps extends Omit<IPureFilterProps, 'query'|'updateSearch'>{
+export interface IDiceFilterProps extends Omit<IPureFilterProps, 'query' | 'updateSearch'> {
   updateSearch?: (arg: Obj) => void;
 }
 export const Filter = (props: IDiceFilterProps) => {

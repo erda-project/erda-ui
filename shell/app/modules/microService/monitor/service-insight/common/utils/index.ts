@@ -23,7 +23,12 @@ export const getFilterParams = (props: IProps, { prefix }: { prefix: string }) =
   const { serviceName } = routeInfoStore.useStore((s) => s.params);
   const { applicationId, terminusKey, runtimeName } = baseInfo;
 
-  const filters = { application_id: applicationId, runtime_name: runtimeName, service_name: serviceName, terminus_key: terminusKey };
+  const filters = {
+    application_id: applicationId,
+    runtime_name: runtimeName,
+    service_name: serviceName,
+    terminus_key: terminusKey,
+  };
   const shouldLoad = applicationId !== undefined && terminusKey && runtimeName && serviceName;
 
   const filterQuery = mapKeys(filters, (_val, key) => `${prefix}${key}`);

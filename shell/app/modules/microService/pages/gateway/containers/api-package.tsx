@@ -56,13 +56,14 @@ const apiPackageCols = [
     key: 'bindDomain',
     width: '20%',
     render: (domains: string[]) => (
-      <Tooltip title={(
-        <>
-          {
-            map(domains, (domain: string) => (<div key={domain}>{domain}</div>))
-          }
-        </>
-      )}
+      <Tooltip
+        title={
+          <>
+            {map(domains, (domain: string) => (
+              <div key={domain}>{domain}</div>
+            ))}
+          </>
+        }
       >
         {domains.join('; ')}
       </Tooltip>
@@ -120,15 +121,26 @@ export const PureApiPackage = () => {
         const isUnity = record.scene === 'unity';
         return (
           <div className="table-operations">
-            <span className={`table-operations-btn ${isUnity ? 'not-allowed' : ''}`} onClick={() => { !isUnity && goTo(`./${record.id}/edit`); }}>{i18n.t('microService:edit')}</span>
-            <span className="table-operations-btn" onClick={() => goTo(`./${record.id}/detail`)}>{i18n.t('microService:details')}</span>
+            <span
+              className={`table-operations-btn ${isUnity ? 'not-allowed' : ''}`}
+              onClick={() => {
+                !isUnity && goTo(`./${record.id}/edit`);
+              }}
+            >
+              {i18n.t('microService:edit')}
+            </span>
+            <span className="table-operations-btn" onClick={() => goTo(`./${record.id}/detail`)}>
+              {i18n.t('microService:details')}
+            </span>
             {/* <span className="table-operations-btn" onClick={() => goTo(auditLink)}>{i18n.t('microService:audit')}</span> */}
             <span
               className="table-operations-btn"
-              onClick={() => confirm({
-                title: i18n.t('microService:confirm deletion?'),
-                onOk: () => onDelete(record),
-              })}
+              onClick={() =>
+                confirm({
+                  title: i18n.t('microService:confirm deletion?'),
+                  onOk: () => onDelete(record),
+                })
+              }
             >
               {i18n.t('microService:delete')}
             </span>
@@ -147,13 +159,23 @@ export const PureApiPackage = () => {
     {
       label: i18n.t('microService:name'),
       name: 'name',
-      rules: [{ pattern: /^\w{1,20}$/g, message: i18n.t('microService:please enter a name consisting of 20 alphanumeric characters') }],
+      rules: [
+        {
+          pattern: /^\w{1,20}$/g,
+          message: i18n.t('microService:please enter a name consisting of 20 alphanumeric characters'),
+        },
+      ],
       itemProps: { disabled: !isEmpty(formData) },
     },
     {
       label: i18n.t('microService:binding domain'),
       name: 'bindDomain',
-      rules: [{ pattern: /^([a-z]|\d|-|\*)+(\.([a-z]|\d|-|\*)+)+$/g, message: i18n.t('microService:lowercase letters, numbers, dot, -, *') }],
+      rules: [
+        {
+          pattern: /^([a-z]|\d|-|\*)+(\.([a-z]|\d|-|\*)+)+$/g,
+          message: i18n.t('microService:lowercase letters, numbers, dot, -, *'),
+        },
+      ],
       itemProps: {
         spellCheck: false,
       },
@@ -207,7 +229,9 @@ export const PureApiPackage = () => {
   return (
     <div className="api-package">
       <div className="mb16" style={{ float: 'right', zIndex: 1, position: 'relative' }}>
-        <Button type="primary" onClick={() => goTo('./create')}>{i18n.t('microService:create a endpoint')}</Button>
+        <Button type="primary" onClick={() => goTo('./create')}>
+          {i18n.t('microService:create a endpoint')}
+        </Button>
       </div>
       <Filter config={filterField} onFilter={onFilter} connectUrlSearch urlExtra={urlExtra} />
       <PagingTable

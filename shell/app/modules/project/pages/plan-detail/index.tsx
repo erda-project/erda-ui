@@ -42,15 +42,19 @@ import { Search as IconSearch, Down as IconDown } from '@icon-park/react';
 
 const { TabPane } = Tabs;
 
-let clear = () => { };
+let clear = () => {};
 const TestPlanDetail = () => {
   const planItemDetail = testPlanStore.useStore((s) => s.planItemDetail);
   const params = routeInfoStore.useStore((s) => s.params);
   const { getCases, getCaseDetail } = testCaseStore.effects;
 
   const {
-    getTestPlanItemDetail, updatePlanStatus, addSingleCaseToTestPlan,
-    executeCaseApi, getExecuteRecords, cancelBuild: cancelPipeline,
+    getTestPlanItemDetail,
+    updatePlanStatus,
+    addSingleCaseToTestPlan,
+    executeCaseApi,
+    getExecuteRecords,
+    cancelBuild: cancelPipeline,
     deleteTestPlans,
   } = testPlanStore.effects;
   const [isFetching] = useLoading(testPlanStore, ['getTestPlanItemDetail']);
@@ -70,41 +74,45 @@ const TestPlanDetail = () => {
   const caseRef = React.useRef(null as any);
 
   // TODO: ws推送推不过来，先用轮询处理，ws可用后就不需要了
-  const loop = React.useCallback((clearTimer?: any) => {
-    // 执行后记录翻到第一页并更新状态
-    getExecuteRecords({ pageNo: 1, pageSize: 15 }).then((res: any) => {
-      if (res.total) {
-        setFirstRecord(res.list[0]);
-        if (res.list[0].status !== 'Running') {
+  const loop = React.useCallback(
+    (clearTimer?: any) => {
+      // 执行后记录翻到第一页并更新状态
+      getExecuteRecords({ pageNo: 1, pageSize: 15 }).then((res: any) => {
+        if (res.total) {
+          setFirstRecord(res.list[0]);
+          if (res.list[0].status !== 'Running') {
+            clearTimer && clearTimer();
+            getCases();
+          }
+        } else {
           clearTimer && clearTimer();
-          getCases();
         }
-      } else {
-        clearTimer && clearTimer();
-      }
-    });
-  }, [getCases, getExecuteRecords]);
+      });
+    },
+    [getCases, getExecuteRecords],
+  );
   const handleExecute = (data: Omit<TEST_PLAN.CaseApi, 'testPlanID'>) => {
     executeCaseApi(data).then(() => loop());
     clear = loopTimer(loop, 3000);
   };
 
-
   React.useEffect(() => {
     setLoadingRecords(true);
     // 从pipeline记录第一条拿执行状态，需要改为后端把状态放在计划详情里，为了不影响记录那里的分页，这里单独调用
-    getExecuteRecordsService({ projectId: +params.projectId, pageNo: 1, pageSize: 1, testPlanId: params.testPlanId }).then((res: any) => {
-      if (res.success) {
-        const first: TEST_PLAN.Pipeline = get(res, 'data.pipelines[0]');
-        setFirstRecord(first);
-        // 如果再进来时还是Running状态，继续定时拉取
-        if (first && first.status === 'Running') {
-          clear = loopTimer(loop, 3000);
+    getExecuteRecordsService({ projectId: +params.projectId, pageNo: 1, pageSize: 1, testPlanId: params.testPlanId })
+      .then((res: any) => {
+        if (res.success) {
+          const first: TEST_PLAN.Pipeline = get(res, 'data.pipelines[0]');
+          setFirstRecord(first);
+          // 如果再进来时还是Running状态，继续定时拉取
+          if (first && first.status === 'Running') {
+            clear = loopTimer(loop, 3000);
+          }
         }
-      }
-    }).finally(() => {
-      setLoadingRecords(false);
-    });
+      })
+      .finally(() => {
+        setLoadingRecords(false);
+      });
     return () => {
       clear();
     };
@@ -124,10 +132,14 @@ const TestPlanDetail = () => {
     const { timestampSecUpdatedAtBegin, timestampSecUpdatedAtEnd } = q;
     const currentQ = { ...q };
     if (timestampSecUpdatedAtBegin) {
-      currentQ.timestampSecUpdatedAtBegin = moment(+timestampSecUpdatedAtBegin).startOf('day').format('X');
+      currentQ.timestampSecUpdatedAtBegin = moment(+timestampSecUpdatedAtBegin)
+        .startOf('day')
+        .format('X');
     }
     if (timestampSecUpdatedAtEnd) {
-      currentQ.timestampSecUpdatedAtEnd = moment(+timestampSecUpdatedAtEnd).endOf('day').format('X');
+      currentQ.timestampSecUpdatedAtEnd = moment(+timestampSecUpdatedAtEnd)
+        .endOf('day')
+        .format('X');
     }
     updateSearch(currentQ);
     getCases(currentQ);
@@ -172,36 +184,52 @@ const TestPlanDetail = () => {
   return (
     <div className="test-plan-detail">
       <div className="top-button-group">
-        <StatusToggle isPlan state={planItemDetail.status} onChange={(status: TEST_PLAN.PlanStatus) => updatePlanStatus({ id: +params.testPlanId, status })} />
-        {
-          firstRecord && firstRecord.status === 'Running'
-            ? <Button loading={loadingRecords} onClick={() => cancelPipeline({ pipelineID: firstRecord.id })}>{i18n.t('project:cancel interface test')}</Button>
-            : (
-              <EnvSelect execute={handleExecute}>
-                <Button loading={loadingRecords}>{i18n.t('project:start interface test')} <IconDown size="16px" /></Button>
-              </EnvSelect>
-            )
-        }
-        <Button type="primary" ghost onClick={() => updateModalProp({ visible: true, mode: 'edit' })}>{i18n.t('project:edit')}</Button>
-        <Button type="primary" onClick={() => updateModalProp({ visible: true, mode: 'copy' })}>{i18n.t('project:copy')}</Button>
-        <PlanModal testPlanId={params.testPlanId} {...modalProp} onCancel={() => { updateModalProp({ visible: false, mode: '' }); setReportKey(reportKey + 1); }} />
+        <StatusToggle
+          isPlan
+          state={planItemDetail.status}
+          onChange={(status: TEST_PLAN.PlanStatus) => updatePlanStatus({ id: +params.testPlanId, status })}
+        />
+        {firstRecord && firstRecord.status === 'Running' ? (
+          <Button loading={loadingRecords} onClick={() => cancelPipeline({ pipelineID: firstRecord.id })}>
+            {i18n.t('project:cancel interface test')}
+          </Button>
+        ) : (
+          <EnvSelect execute={handleExecute}>
+            <Button loading={loadingRecords}>
+              {i18n.t('project:start interface test')} <IconDown size="16px" />
+            </Button>
+          </EnvSelect>
+        )}
+        <Button type="primary" ghost onClick={() => updateModalProp({ visible: true, mode: 'edit' })}>
+          {i18n.t('project:edit')}
+        </Button>
+        <Button type="primary" onClick={() => updateModalProp({ visible: true, mode: 'copy' })}>
+          {i18n.t('project:copy')}
+        </Button>
+        <PlanModal
+          testPlanId={params.testPlanId}
+          {...modalProp}
+          onCancel={() => {
+            updateModalProp({ visible: false, mode: '' });
+            setReportKey(reportKey + 1);
+          }}
+        />
       </div>
       <Spin spinning={isFetching}>
         <BaseInfo />
       </Spin>
       <Tabs className="test-detail-tabs" type="card" onChange={changeTabKey}>
         <TabPane tab={i18n.t('project:test case')} key="case">
-
           <SplitPage className="full-tab-content">
             <SplitPage.Left fixedSplit className="case-tree-container">
               <CaseTree
-                ref={(e) => { caseRef.current = e; }}
+                ref={(e) => {
+                  caseRef.current = e;
+                }}
                 needBreadcrumb
                 mode="testPlan"
                 testPlanID={+params.testPlanId}
-                customActions={[
-                  { key: 'delete', name: i18n.t('delete'), onclick: deleteTestPlans },
-                ]}
+                customActions={[{ key: 'delete', name: i18n.t('delete'), onclick: deleteTestPlans }]}
               />
             </SplitPage.Left>
             <SplitPage.Right>
@@ -236,7 +264,7 @@ const TestPlanDetail = () => {
                   </Button>
                   <CaseFilterDrawer visible={enhanceFilterVisible} onSearch={onSearch} onClose={closeEnhanceFilter} />
                 </div>
-              </div >
+              </div>
               <CaseTable
                 testPlanId={+params.testPlanId}
                 columns={getColumns({ afterDelete: afterDeleteTestCase })}
@@ -263,7 +291,9 @@ const TestPlanDetail = () => {
                   setDrawerVisible(false);
                 }}
                 afterSave={handleAutoRelatedNewCase}
-                afterClose={(saved) => { saved && getCases(); }}
+                afterClose={(saved) => {
+                  saved && getCases();
+                }}
               />
             </SplitPage.Right>
           </SplitPage>

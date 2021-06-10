@@ -20,7 +20,6 @@ const tabs = [
   { key: 'gateway-ingress/latency', name: i18n.t('microService:latency') },
 ];
 
-
 const getGatewayIngressMonitorRouter = () => ({
   path: 'gateway-ingress',
   tabs,

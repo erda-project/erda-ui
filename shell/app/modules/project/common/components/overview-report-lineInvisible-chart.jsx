@@ -15,7 +15,6 @@ import * as React from 'react';
 import { size } from 'lodash';
 import { ChartRender } from 'charts';
 
-
 export default class OverviewReportLineInvisibleChart extends React.Component {
   getOption = () => {
     const { data } = this.props;
@@ -54,11 +53,16 @@ export default class OverviewReportLineInvisibleChart extends React.Component {
                 y: 0,
                 x2: 0,
                 y2: 1,
-                colorStops: [{
-                  offset: 0, color: '#ECF4FF', // 0% 处的颜色
-                }, {
-                  offset: 1, color: '#FFF', // 100% 处的颜色
-                }],
+                colorStops: [
+                  {
+                    offset: 0,
+                    color: '#ECF4FF', // 0% 处的颜色
+                  },
+                  {
+                    offset: 1,
+                    color: '#FFF', // 100% 处的颜色
+                  },
+                ],
                 globalCoord: false, // 缺省为 false
               },
             },

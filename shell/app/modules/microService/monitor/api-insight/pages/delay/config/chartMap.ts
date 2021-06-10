@@ -22,33 +22,36 @@ export const commonAttr = {
   groupId: 'apiDelay',
 };
 
-const chartMap = merge({
-  requestDelay: {
-    ...commonAttr,
-    titleText: i18n.t('microService:request delay'),
-    chartName: 'requestDelay',
-    viewProps: {
-      unitType: 'TIME',
+const chartMap = merge(
+  {
+    requestDelay: {
+      ...commonAttr,
+      titleText: i18n.t('microService:request delay'),
+      chartName: 'requestDelay',
+      viewProps: {
+        unitType: 'TIME',
+      },
+    },
+    requestDelayTop: {
+      ...commonAttr,
+      titleText: i18n.t('microService:request delay TOP 10'),
+      chartName: 'requestDelayTop',
+      viewRender: apiDelayPanel,
+    },
+    backendDelay: {
+      ...commonAttr,
+      titleText: i18n.t('microService:backend delay'),
+      chartName: 'backendDelay',
+    },
+    backendDelayTop: {
+      ...commonAttr,
+      titleText: i18n.t('microService:backend delay TOP 10'),
+      chartName: 'backendDelayTop',
+      viewRender: apiDelayPanel,
     },
   },
-  requestDelayTop: {
-    ...commonAttr,
-    titleText: i18n.t('microService:request delay TOP 10'),
-    chartName: 'requestDelayTop',
-    viewRender: apiDelayPanel,
-  },
-  backendDelay: {
-    ...commonAttr,
-    titleText: i18n.t('microService:backend delay'),
-    chartName: 'backendDelay',
-  },
-  backendDelayTop: {
-    ...commonAttr,
-    titleText: i18n.t('microService:backend delay TOP 10'),
-    chartName: 'backendDelayTop',
-    viewRender: apiDelayPanel,
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   requestDelay: chartRender(chartMap.requestDelay) as any,

@@ -22,23 +22,16 @@ const confirmTip = 'confirm to delete this project';
 const secondTitle = 'confirm to delete this project in secondTitle';
 const title = 'this is a title';
 const defaultConfirmTip = i18n.t('permanently delete {deleteItem}, please be cautious', { deleteItem });
-const defaultSecondTitle = i18n.t('common:{deleteItem} cannot recover after deletion, confirm deletion', { deleteItem });
+const defaultSecondTitle = i18n.t('common:{deleteItem} cannot recover after deletion, confirm deletion', {
+  deleteItem,
+});
 const defaultTitle = i18n.t('common:confirm delete current {deleteItem}', { deleteItem });
-
 
 describe('ConfirmDelete', () => {
   it('render with default props ', () => {
-    const wrapper = shallow(
-      <ConfirmDelete
-        deleteItem={deleteItem}
-      />,
-    );
+    const wrapper = shallow(<ConfirmDelete deleteItem={deleteItem} />);
     expect(wrapper.find('.color-text-desc').text()).toBe(defaultConfirmTip);
-    const temp = shallow(
-      <div>
-        {wrapper.find('Modal').prop('title')}
-      </div>,
-    );
+    const temp = shallow(<div>{wrapper.find('Modal').prop('title')}</div>);
     expect(temp.html()).toContain(defaultTitle);
     expect(wrapper.find('p').text()).toBe(defaultSecondTitle);
   });

@@ -15,9 +15,4 @@ import CaseTable from './case-table';
 import MetaModal from './meta-modal';
 import CaseTree from './case-tree';
 
-export {
-  CaseTable,
-  MetaModal,
-  CaseTree,
-};
-
+export { CaseTable, MetaModal, CaseTree };

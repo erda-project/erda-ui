@@ -18,7 +18,7 @@ import { renderLabels } from 'project/common/components/issue/issue-labels';
 
 import './title-label.scss';
 
-interface IProps{
+interface IProps {
   data: ISSUE.Issue;
   onClick?: () => void;
 }

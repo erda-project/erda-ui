@@ -23,16 +23,23 @@ import './list.scss';
 
 const emptyArr = [] as any[];
 const List = (props: CP_LIST.Props) => {
-  const { customProps, execOperation, operations,
-    props: configProps, data, state: propsState } = props;
+  const { customProps, execOperation, operations, props: configProps, data, state: propsState } = props;
   const { list = emptyArr } = data || {};
   const [state, updater, update] = useUpdate({
     ...propsState,
     combineList: list,
   });
   const { total = 0, pageSize, pageNo = 1 } = state || {};
-  const { isLoadMore = false, visible = true, size = 'middle', rowKey, alignCenter = false,
-    noBorder = false, pageSizeOptions, ...rest } = configProps || {};
+  const {
+    isLoadMore = false,
+    visible = true,
+    size = 'middle',
+    rowKey,
+    alignCenter = false,
+    noBorder = false,
+    pageSizeOptions,
+    ...rest
+  } = configProps || {};
   const currentList = (isLoadMore ? state.combineList : list) || [];
   // 将接口返回的list和之前的list进行拼接
   React.useEffect(() => {
@@ -53,26 +60,31 @@ const List = (props: CP_LIST.Props) => {
   }, [propsState, list, update, data]);
 
   const pagination = React.useMemo(() => {
-    return isNumber(pageNo) ? {
-      total: total || list?.length,
-      current: pageNo || 1,
-      pageSize: pageSize || 20,
-      onChange: (no: number) => changePage(no),
-      ...(pageSizeOptions ? {
-        showSizeChanger: true,
-        pageSizeOptions,
-        onShowSizeChange: (_no: number, pSize: number) => {
-          changePageSize(pSize);
-        },
-      } : {}),
-    } : undefined;
+    return isNumber(pageNo)
+      ? {
+          total: total || list?.length,
+          current: pageNo || 1,
+          pageSize: pageSize || 20,
+          onChange: (no: number) => changePage(no),
+          ...(pageSizeOptions
+            ? {
+                showSizeChanger: true,
+                pageSizeOptions,
+                onShowSizeChange: (_no: number, pSize: number) => {
+                  changePageSize(pSize);
+                },
+              }
+            : {}),
+        }
+      : undefined;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNo, pageSize, total]);
 
   if (!visible) return null;
 
   const changePage = (pNo: number) => {
-    operations?.changePageNo && execOperation(operations.changePageNo, operations.changePageNo.fillMeta ? pNo : { pageNo: pNo });
+    operations?.changePageNo &&
+      execOperation(operations.changePageNo, operations.changePageNo.fillMeta ? pNo : { pageNo: pNo });
   };
 
   const loadMore = () => {
@@ -89,22 +101,31 @@ const List = (props: CP_LIST.Props) => {
 
   return (
     <div className="cp-list">
-      {
-        currentList.length > 0 ? (
-          <>
-            {currentList.map((item, idx) => {
-              return <Item size={size} customProps={customProps} execOperation={execOperation} key={getKey(item, idx)} data={item} alignCenter={alignCenter} noBorder={noBorder} />;
-            })}
-            {!isLoadMore && pagination ? (
-              <Pagination className="right-flex-box mt12" {...pagination} />
-            ) : null
-            }
-            {isLoadMore && total > Math.max(state.combineList?.length, 0)
-              && <div className="hover-active load-more" onClick={loadMore}>{i18n.t('more')}</div>}
-          </>
-        ) : <EmptyHolder relative />
-      }
-
+      {currentList.length > 0 ? (
+        <>
+          {currentList.map((item, idx) => {
+            return (
+              <Item
+                size={size}
+                customProps={customProps}
+                execOperation={execOperation}
+                key={getKey(item, idx)}
+                data={item}
+                alignCenter={alignCenter}
+                noBorder={noBorder}
+              />
+            );
+          })}
+          {!isLoadMore && pagination ? <Pagination className="right-flex-box mt12" {...pagination} /> : null}
+          {isLoadMore && total > Math.max(state.combineList?.length, 0) && (
+            <div className="hover-active load-more" onClick={loadMore}>
+              {i18n.t('more')}
+            </div>
+          )}
+        </>
+      ) : (
+        <EmptyHolder relative />
+      )}
     </div>
   );
 };
@@ -118,10 +139,23 @@ interface ItemProps {
   customProps?: Obj;
 }
 const Item = (props: ItemProps) => {
-  const { execOperation, size = 'middle', data, alignCenter = false,
-    noBorder = false, customProps } = props;
-  const { operations = {}, prefixImg, title, titlePrifxIcon, prefixImgCircle, titlePrifxIconTip, titleSuffixIcon, titleSuffixIconTip, description = '', extraInfos } = data || {};
-  const actions = sortBy(filter(map(operations) || [], (item) => item.show !== false), 'showIndex');
+  const { execOperation, size = 'middle', data, alignCenter = false, noBorder = false, customProps } = props;
+  const {
+    operations = {},
+    prefixImg,
+    title,
+    titlePrifxIcon,
+    prefixImgCircle,
+    titlePrifxIconTip,
+    titleSuffixIcon,
+    titleSuffixIconTip,
+    description = '',
+    extraInfos,
+  } = data || {};
+  const actions = sortBy(
+    filter(map(operations) || [], (item) => item.show !== false),
+    'showIndex',
+  );
 
   const itemClassNames = classnames({
     'v-align': alignCenter,
@@ -141,92 +175,77 @@ const Item = (props: ItemProps) => {
 
   return (
     <div className={itemClassNames} onClick={onClickItem}>
-      {
-        isString(prefixImg) ? (
-          <div className="cp-list-item-prefix-img">
-            <img src={prefixImg.startsWith('/images') ? imgMap[prefixImg] : prefixImg as string} className={`item-prefix-img ${prefixImgCircle ? 'prefix-img-circle' : ''}`} />
-          </div>
-        ) : (
-          prefixImg ? (
-            <div className="cp-list-item-prefix-img">
-              {prefixImg}
-            </div>
-          ) : null
-        )
-      }
+      {isString(prefixImg) ? (
+        <div className="cp-list-item-prefix-img">
+          <img
+            src={prefixImg.startsWith('/images') ? imgMap[prefixImg] : (prefixImg as string)}
+            className={`item-prefix-img ${prefixImgCircle ? 'prefix-img-circle' : ''}`}
+          />
+        </div>
+      ) : prefixImg ? (
+        <div className="cp-list-item-prefix-img">{prefixImg}</div>
+      ) : null}
       <div className="cp-list-item-body">
         <div className={'body-title'}>
-          {
-            titlePrifxIcon ? (
-              <Tooltip title={titlePrifxIconTip}>
-                <CustomIcon type={titlePrifxIcon} className="title-icon mr8" />
-              </Tooltip>
-            ) : null
-          }
+          {titlePrifxIcon ? (
+            <Tooltip title={titlePrifxIconTip}>
+              <CustomIcon type={titlePrifxIcon} className="title-icon mr8" />
+            </Tooltip>
+          ) : null}
           <Ellipsis className="bold title-text" title={title} />
-          {
-            titleSuffixIcon ? (
-              <Tooltip title={titleSuffixIconTip}>
-                <CustomIcon type={titleSuffixIcon} className="title-icon ml8" />
-              </Tooltip>
-            ) : null
-          }
+          {titleSuffixIcon ? (
+            <Tooltip title={titleSuffixIconTip}>
+              <CustomIcon type={titleSuffixIcon} className="title-icon ml8" />
+            </Tooltip>
+          ) : null}
         </div>
         {description ? <Ellipsis className="body-description" title={description} /> : null}
-        {
-          extraInfos ? (
-            <div className="body-extra-info">
-              {
-                extraInfos.map((info, idx) => {
-                  const extraProps = {} as Obj;
-                  if (info.operations?.click) {
-                    extraProps.onClick = (e: MouseEvent) => {
-                      e && e.stopPropagation();
-                      const curOp = (info.operations as Obj<CP_COMMON.Operation>).click;
-                      execOperation(curOp, data);
-                      if (customProps && customProps[curOp.key]) {
-                        customProps[curOp.key](curOp, data);
-                      }
-                    };
+        {extraInfos ? (
+          <div className="body-extra-info">
+            {extraInfos.map((info, idx) => {
+              const extraProps = {} as Obj;
+              if (info.operations?.click) {
+                extraProps.onClick = (e: MouseEvent) => {
+                  e && e.stopPropagation();
+                  const curOp = (info.operations as Obj<CP_COMMON.Operation>).click;
+                  execOperation(curOp, data);
+                  if (customProps && customProps[curOp.key]) {
+                    customProps[curOp.key](curOp, data);
                   }
-                  return (
-                    <Tooltip key={idx} title={info.tooltip}>
-                      <span className={`info-item type-${info.type || 'normal'}`} {...extraProps}>
-                        {info.icon ? <ErdaIcon iconType={info.icon} size={16} /> : null}
-                        <span className="info-text nowrap">{info.text}</span>
-                      </span>
-                    </Tooltip>
-                  );
-                })
+                };
               }
-            </div>
-          ) : null
-        }
-      </div>
-      {
-        actions?.length ? (
-          <div className="cp-list-item-operations" onClick={(e) => e?.stopPropagation()}>
-            {
-              actions.map((action) => {
-                return (
-                  <OperationAction
-                    key={action.key}
-                    operation={action}
-                    onClick={() => {
-                      execOperation(action);
-                      if (customProps && customProps[action.key]) {
-                        customProps[action.key](action, data);
-                      }
-                    }}
-                  >
-                    <Button type="link">{action.text}</Button>
-                  </OperationAction>
-                );
-              })
-            }
+              return (
+                <Tooltip key={idx} title={info.tooltip}>
+                  <span className={`info-item type-${info.type || 'normal'}`} {...extraProps}>
+                    {info.icon ? <ErdaIcon iconType={info.icon} size={16} /> : null}
+                    <span className="info-text nowrap">{info.text}</span>
+                  </span>
+                </Tooltip>
+              );
+            })}
           </div>
-        ) : null
-      }
+        ) : null}
+      </div>
+      {actions?.length ? (
+        <div className="cp-list-item-operations" onClick={(e) => e?.stopPropagation()}>
+          {actions.map((action) => {
+            return (
+              <OperationAction
+                key={action.key}
+                operation={action}
+                onClick={() => {
+                  execOperation(action);
+                  if (customProps && customProps[action.key]) {
+                    customProps[action.key](action, data);
+                  }
+                }}
+              >
+                <Button type="link">{action.text}</Button>
+              </OperationAction>
+            );
+          })}
+        </div>
+      ) : null}
     </div>
   );
 };

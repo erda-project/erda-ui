@@ -13,12 +13,13 @@
 
 import agent from 'agent';
 
-interface IChartQuery{
+interface IChartQuery {
   [pro: string]: any;
   fetchApi: string;
 }
 export const loadChart = ({ fetchApi, ...query }: IChartQuery): IChartResult => {
-  return agent.get(fetchApi)
+  return agent
+    .get(fetchApi)
     .query(query)
     .then((response: any) => response.body);
 };

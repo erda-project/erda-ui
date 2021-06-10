@@ -33,7 +33,7 @@ export class ErrorBoundary extends React.Component<IProps, IState> {
     errorTime: Date.now(),
   };
 
-  static getDerivedStateFromProps(_nextProps: IProps, preState: IState): Partial<IState>| null {
+  static getDerivedStateFromProps(_nextProps: IProps, preState: IState): Partial<IState> | null {
     // 渲染children报错时如果重置，可能下一次渲染children又会报错，导致死循环
     // 如果距离上次报错不足100ms，认为是同一个报错，但是如果children渲染时长超过100ms，可能还是有问题
     const now = Date.now();
@@ -60,8 +60,12 @@ export class ErrorBoundary extends React.Component<IProps, IState> {
         <div className="error-boundary">
           <CustomIcon type="web-error" />
           <div className="error-desc">
-            <span>{i18n.t('common:sorry')}，{this.props.name || i18n.t('common:error occurred')}</span>
-            <Button size="large" type="primary" onClick={() => goTo('/')}>{i18n.t('common:back to home')}</Button>
+            <span>
+              {i18n.t('common:sorry')}，{this.props.name || i18n.t('common:error occurred')}
+            </span>
+            <Button size="large" type="primary" onClick={() => goTo('/')}>
+              {i18n.t('common:back to home')}
+            </Button>
           </div>
         </div>
       );

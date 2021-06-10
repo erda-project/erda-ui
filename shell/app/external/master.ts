@@ -63,7 +63,6 @@ function registModels(models: IModel[]) {
   }
 }
 
-
 // export function unRegistModule(moduleName) {
 //   moduleMap[moduleName] = undefined;
 // }
@@ -75,7 +74,6 @@ export function getModule(moduleName: string) {
 export function getModuleMap() {
   return { ...moduleMap };
 }
-
 
 // 全局的eventHub
 const hub = {};
@@ -98,7 +96,6 @@ export function emit(type: string, data: any) {
   }
   hub[type].forEach((cb: Function) => cb(data));
 }
-
 
 // 插入独立模块entry script
 const inserted = {};

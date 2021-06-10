@@ -46,12 +46,12 @@ const getMockFileTree = (payload: any) => {
   if (payload.event?.operation === 'delete') {
     const curData = data.protocol.components.fileTree.data;
     data.protocol.components.fileTree.data = curData?.map((item) => {
-      return ({
+      return {
         ...item,
         children: (item.children || []).filter((cItem: any) => {
           return cItem.key !== payload.event.operationData.meta.key;
         }),
-      });
+      };
     });
   }
 
@@ -173,175 +173,212 @@ let mock = {
           selectedKeys: ['/api/get/1'],
         },
         operations: {
-          addGroup: { // 添加第一层节点
-
+          addGroup: {
+            // 添加第一层节点
           },
-          search: { // 搜索：异步？
-
+          search: {
+            // 搜索：异步？
           },
           drag: {
             key: 'drag',
             reload: true,
           },
         },
-        data: { treeData: [
-          {
-            key: 'g1',
-            title: '分组',
-            icon: 'folder',
-            isColorIcon: true,
-            isLeaf: false,
-            clickToExpand: true,
-            selectable: true,
-            operations: {
-              addNode: {
-                key: 'addNode',
-                text: '添加api',
-                reload: false,
-                command: { key: 'set', target: 'fileFormModal', state: { visible: true } },
+        data: {
+          treeData: [
+            {
+              key: 'g1',
+              title: '分组',
+              icon: 'folder',
+              isColorIcon: true,
+              isLeaf: false,
+              clickToExpand: true,
+              selectable: true,
+              operations: {
+                addNode: {
+                  key: 'addNode',
+                  text: '添加api',
+                  reload: false,
+                  command: { key: 'set', target: 'fileFormModal', state: { visible: true } },
+                },
+                addBefore: {
+                  key: 'addBefore',
+                  show: false,
+                  reload: false,
+                  command: {
+                    key: 'set',
+                    target: 'fileFormModal',
+                    state: { visible: true, formData: { targetNode: 'g1', position: 'xx' } },
+                  },
+                },
+                addAfter: {
+                  key: 'addAfter',
+                  show: false,
+                  reload: false,
+                  command: {
+                    key: 'set',
+                    target: 'fileFormModal',
+                    state: { visible: true, targetNode: 'g1', position: 'xx' },
+                  },
+                },
+                // export: {
+                //   key: 'export',
+                //   text: '导入api',
+                //   reload: true,
+                // },
               },
-              addBefore: {
-                key: 'addBefore',
-                show: false,
-                reload: false,
-                command: { key: 'set', target: 'fileFormModal', state: { visible: true, formData: { targetNode: 'g1', position: 'xx' } } },
-              },
-              addAfter: {
-                key: 'addAfter',
-                show: false,
-                reload: false,
-                command: { key: 'set', target: 'fileFormModal', state: { visible: true, targetNode: 'g1', position: 'xx' } },
-              },
-              // export: {
-              //   key: 'export',
-              //   text: '导入api',
-              //   reload: true,
-              // },
+              children: [
+                {
+                  title: '/api/get/11111111111111111111111111111111111111111111',
+                  key: '/api/get/1',
+                  icon: 'dm',
+                  isLeaf: true,
+                  operations: {
+                    delete: {
+                      key: 'delete',
+                      text: '删除',
+                      disabled: true,
+                      disabledTip: '无法删除',
+                    },
+                    addBefore: {
+                      key: 'addBefore',
+                      show: false,
+                      reload: false,
+                      command: {
+                        key: 'set',
+                        target: 'fileFormModal',
+                        state: { visible: true, targetNode: '/api/get/1', position: 'xx' },
+                      },
+                    },
+                    addAfter: {
+                      key: 'addAfter',
+                      show: false,
+                      reload: false,
+                      command: {
+                        key: 'set',
+                        target: 'fileFormModal',
+                        state: { visible: true, targetNode: '/api/get/1', position: 'xx' },
+                      },
+                    },
+                  },
+                },
+                {
+                  key: '/api/get/2',
+                  title: '/api/get/22222222222222222222222222222222',
+                  icon: 'dm',
+                  isLeaf: true,
+                  operations: {
+                    delete: {
+                      key: 'delete',
+                      text: '删除',
+                      confirm: '是否确认删除',
+                      reload: true,
+                      meta: { key: '/api/get/2', group: 'g1' },
+                    },
+                    addAfter: {
+                      key: 'addAfter',
+                      show: false,
+                      reload: false,
+                      command: {
+                        key: 'set',
+                        target: 'fileFormModal',
+                        state: { visible: true, targetNode: '/api/get/2', position: 'xx' },
+                      },
+                    },
+                  },
+                },
+                {
+                  key: '/api/get/3',
+                  title: '/api/get/333333333333333333332222222222222222',
+                  icon: 'dm',
+                  isLeaf: true,
+                  operations: {
+                    delete: {
+                      key: 'delete',
+                      text: '删除',
+                      confirm: '是否确认删除',
+                      reload: true,
+                      meta: { key: '/api/get/3', group: 'g1' },
+                    },
+                    addAfter: {
+                      key: 'addAfter',
+                      show: false,
+                      reload: false,
+                      command: {
+                        key: 'set',
+                        target: 'fileFormModal',
+                        state: { visible: true, targetNode: '/api/get/3', position: 'xx' },
+                      },
+                    },
+                  },
+                },
+              ],
             },
-            children: [
-              {
-                title: '/api/get/11111111111111111111111111111111111111111111',
-                key: '/api/get/1',
-                icon: 'dm',
-                isLeaf: true,
-                operations: {
-                  delete: {
-                    key: 'delete',
-                    text: '删除',
-                    disabled: true,
-                    disabledTip: '无法删除',
-                  },
-                  addBefore: {
-                    key: 'addBefore',
-                    show: false,
-                    reload: false,
-                    command: { key: 'set', target: 'fileFormModal', state: { visible: true, targetNode: '/api/get/1', position: 'xx' } },
-                  },
-                  addAfter: {
-                    key: 'addAfter',
-                    show: false,
-                    reload: false,
-                    command: { key: 'set', target: 'fileFormModal', state: { visible: true, targetNode: '/api/get/1', position: 'xx' } },
+            {
+              key: 'g2',
+              title: '分组2',
+              icon: 'folder',
+              isColorIcon: true,
+              isLeaf: false,
+              selectable: true,
+              clickToExpand: true,
+              operations: {
+                addNode: {
+                  key: 'addNode',
+                  text: '添加api',
+                  reload: false,
+                  command: { key: 'set', target: 'fileFormModal', state: { visible: true } },
+                },
+                addAfter: {
+                  key: 'addAfter',
+                  show: false,
+                  reload: false,
+                  command: {
+                    key: 'set',
+                    target: 'fileFormModal',
+                    state: { visible: true, targetNode: 'g2', position: 'xx' },
                   },
                 },
               },
-              {
-                key: '/api/get/2',
-                title: '/api/get/22222222222222222222222222222222',
-                icon: 'dm',
-                isLeaf: true,
-                operations: {
-                  delete: {
-                    key: 'delete',
-                    text: '删除',
-                    confirm: '是否确认删除',
-                    reload: true,
-                    meta: { key: '/api/get/2', group: 'g1' },
-                  },
-                  addAfter: {
-                    key: 'addAfter',
-                    show: false,
-                    reload: false,
-                    command: { key: 'set', target: 'fileFormModal', state: { visible: true, targetNode: '/api/get/2', position: 'xx' } },
-                  },
-                },
-              },
-              {
-                key: '/api/get/3',
-                title: '/api/get/333333333333333333332222222222222222',
-                icon: 'dm',
-                isLeaf: true,
-                operations: {
-                  delete: {
-                    key: 'delete',
-                    text: '删除',
-                    confirm: '是否确认删除',
-                    reload: true,
-                    meta: { key: '/api/get/3', group: 'g1' },
-                  },
-                  addAfter: {
-                    key: 'addAfter',
-                    show: false,
-                    reload: false,
-                    command: { key: 'set', target: 'fileFormModal', state: { visible: true, targetNode: '/api/get/3', position: 'xx' } },
+              children: [
+                {
+                  key: '/api/user/1',
+                  title: '/api/user/1',
+                  icon: 'dm',
+                  isLeaf: true,
+                  operations: {
+                    delete: {
+                      key: 'delete',
+                      text: '删除',
+                      confirm: '是否确认删除',
+                      reload: true,
+                      meta: { key: '/api/user/2', group: 'g2' },
+                    },
+                    addBefore: {
+                      key: 'addBefore',
+                      show: false,
+                      reload: false,
+                      command: {
+                        key: 'set',
+                        target: 'fileFormModal',
+                        state: { visible: true, targetNode: '/api/user/1', position: 'xx' },
+                      },
+                    },
+                    addAfter: {
+                      key: 'addAfter',
+                      show: false,
+                      reload: false,
+                      command: {
+                        key: 'set',
+                        target: 'fileFormModal',
+                        state: { visible: true, targetNode: '/api/user/1', position: 'xx' },
+                      },
+                    },
                   },
                 },
-              },
-            ],
-          },
-          {
-            key: 'g2',
-            title: '分组2',
-            icon: 'folder',
-            isColorIcon: true,
-            isLeaf: false,
-            selectable: true,
-            clickToExpand: true,
-            operations: {
-              addNode: {
-                key: 'addNode',
-                text: '添加api',
-                reload: false,
-                command: { key: 'set', target: 'fileFormModal', state: { visible: true } },
-              },
-              addAfter: {
-                key: 'addAfter',
-                show: false,
-                reload: false,
-                command: { key: 'set', target: 'fileFormModal', state: { visible: true, targetNode: 'g2', position: 'xx' } },
-              },
+              ],
             },
-            children: [
-              {
-                key: '/api/user/1',
-                title: '/api/user/1',
-                icon: 'dm',
-                isLeaf: true,
-                operations: {
-                  delete: {
-                    key: 'delete',
-                    text: '删除',
-                    confirm: '是否确认删除',
-                    reload: true,
-                    meta: { key: '/api/user/2', group: 'g2' },
-                  },
-                  addBefore: {
-                    key: 'addBefore',
-                    show: false,
-                    reload: false,
-                    command: { key: 'set', target: 'fileFormModal', state: { visible: true, targetNode: '/api/user/1', position: 'xx' } },
-                  },
-                  addAfter: {
-                    key: 'addAfter',
-                    show: false,
-                    reload: false,
-                    command: { key: 'set', target: 'fileFormModal', state: { visible: true, targetNode: '/api/user/1', position: 'xx' } },
-                  },
-                },
-              },
-            ],
-          },
-        ],
+          ],
         },
         props: {
           title: '场景目录',
@@ -349,9 +386,7 @@ let mock = {
           titleButton: {
             text: '新建',
             operations: {
-              click: {
-
-              },
+              click: {},
             },
           },
         },
@@ -427,7 +462,8 @@ let mock = {
       },
       exportTable: {
         type: 'Table',
-        operations: { // 当用户翻页的时候，我会先把上面state的pageNo改掉，然后再告诉你我执行了这个operation
+        operations: {
+          // 当用户翻页的时候，我会先把上面state的pageNo改掉，然后再告诉你我执行了这个operation
           changePageNo: {
             key: 'changePageNo',
             reload: true,
@@ -514,7 +550,8 @@ let mock = {
         },
         data: {
           list: [
-            { id: 1,
+            {
+              id: 1,
               interfaceName: '创建企业',
               interfacePath: {
                 renderType: 'textWithExtraTag',
@@ -533,17 +570,21 @@ let mock = {
               },
               menu: {
                 renderType: 'textWithLevel',
-                data: [{
-                  level: 1,
-                  text: 'DevOps',
-                }, {
-                  level: 2,
-                  text: 'v3.21',
-                }],
+                data: [
+                  {
+                    level: 1,
+                    text: 'DevOps',
+                  },
+                  {
+                    level: 2,
+                    text: 'v3.21',
+                  },
+                ],
               },
               updatedAt: '2021-01-01 12:00:00',
             },
-            { id: 2,
+            {
+              id: 2,
               interfaceName: '创建项目',
               interfacePath: {
                 renderType: 'textWithExtraTag',
@@ -562,17 +603,21 @@ let mock = {
               },
               menu: {
                 renderType: 'textWithLevel',
-                data: [{
-                  level: 1,
-                  text: 'DevOps',
-                }, {
-                  level: 2,
-                  text: 'v3.21',
-                }],
+                data: [
+                  {
+                    level: 1,
+                    text: 'DevOps',
+                  },
+                  {
+                    level: 2,
+                    text: 'v3.21',
+                  },
+                ],
               },
               updatedAt: '2021-01-01 12:00:00',
             },
-            { id: 3,
+            {
+              id: 3,
               interfaceName: '创建应用',
               interfacePath: {
                 renderType: 'textWithExtraTag',
@@ -591,17 +636,21 @@ let mock = {
               },
               menu: {
                 renderType: 'textWithLevel',
-                data: [{
-                  level: 1,
-                  text: 'DevOps',
-                }, {
-                  level: 2,
-                  text: 'v3.21',
-                }],
+                data: [
+                  {
+                    level: 1,
+                    text: 'DevOps',
+                  },
+                  {
+                    level: 2,
+                    text: 'v3.21',
+                  },
+                ],
               },
               updatedAt: '2021-01-01 12:00:00',
             },
-            { id: 4,
+            {
+              id: 4,
               interfaceName: '编辑企业',
               interfacePath: {
                 renderType: 'textWithExtraTag',
@@ -620,13 +669,16 @@ let mock = {
               },
               menu: {
                 renderType: 'textWithLevel',
-                data: [{
-                  level: 1,
-                  text: 'DevOps',
-                }, {
-                  level: 2,
-                  text: 'v3.21',
-                }],
+                data: [
+                  {
+                    level: 1,
+                    text: 'DevOps',
+                  },
+                  {
+                    level: 2,
+                    text: 'v3.21',
+                  },
+                ],
               },
               updatedAt: '2021-01-01 12:00:00',
             },
@@ -655,13 +707,16 @@ let mock = {
               componentProps: {
                 placeholder: '请选择状态',
                 allowClear: true,
-                options: [{
-                  value: 'unfinished',
-                  label: '未完成',
-                }, {
-                  value: 'finished',
-                  label: '已完成',
-                }],
+                options: [
+                  {
+                    value: 'unfinished',
+                    label: '未完成',
+                  },
+                  {
+                    value: 'finished',
+                    label: '已完成',
+                  },
+                ],
               },
             },
           ],

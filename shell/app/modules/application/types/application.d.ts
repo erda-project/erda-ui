@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace APPLICATION {
-  type Workspace = 'DEV'| 'TEST'| 'STAGING' |'PROD';
+  type Workspace = 'DEV' | 'TEST' | 'STAGING' | 'PROD';
   interface createBody {
     mode: string;
     name: string;
@@ -23,7 +23,7 @@ declare namespace APPLICATION {
     isExternalRepo: boolean;
   }
 
-  interface GitRepoConfig{
+  interface GitRepoConfig {
     type: string;
     username: string;
     password: string;
@@ -31,7 +31,7 @@ declare namespace APPLICATION {
     desc: string;
   }
 
-  interface initApp{
+  interface initApp {
     mobileAppName: string;
     mobileDisplayName: string;
     bundleID: string;
@@ -39,13 +39,13 @@ declare namespace APPLICATION {
     applicationID: number;
   }
 
-  interface queryTemplate{
+  interface queryTemplate {
     mode: string;
   }
 
   type appMode = 'SERVICE' | 'MOBILE' | 'LIBRARY' | 'BIGDATA' | 'ABILITY';
 
-  interface IQuery{
+  interface IQuery {
     pageNo: number;
     pageSize: number;
   }
@@ -66,7 +66,6 @@ declare namespace APPLICATION {
     name: string;
     workspace: Workspace;
   }
-
 }
 
 interface IApplication {

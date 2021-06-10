@@ -16,7 +16,10 @@ import { ChartBaseFactory, SortBaseFactory } from 'monitor-common';
 
 export const chartRender = (obj: any) => {
   if (!obj) return null;
-  const reQuery = { ...(obj.query || {}), dependentKey: { start: 'startTimeMs', end: 'endTimeMs', filter_tk: 'terminusKey' } };
+  const reQuery = {
+    ...(obj.query || {}),
+    dependentKey: { start: 'startTimeMs', end: 'endTimeMs', filter_tk: 'terminusKey' },
+  };
   const { fetchApi: api, ...rest } = obj;
   return (props: any) => {
     const { query, fetchApi, ...ownProps } = props;
@@ -33,5 +36,7 @@ export const sortRender = (obj: any) => {
   const { query = {}, fetchApi, ...rest } = obj;
   const SortPanel = SortBaseFactory.create({ ...rest });
   query.dependentKey = { start: 'startTimeMs', end: 'endTimeMs', filter_tk: 'terminusKey' };
-  return (props: any) => <SortPanel {...props} {...rest} query={query} fetchApi={`/api/spot/tmc/metrics/${fetchApi || ''}`} />;
+  return (props: any) => (
+    <SortPanel {...props} {...rest} query={query} fetchApi={`/api/spot/tmc/metrics/${fetchApi || ''}`} />
+  );
 };

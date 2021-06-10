@@ -47,22 +47,15 @@ export const Drawer = (props: CP_DRAWER.Props) => {
   };
 
   return (
-    <NusiDrawer
-      destroyOnClose
-      {...rest}
-      visible={state.visible}
-      width={widthMap[size]}
-      onClose={onClose}
-    >
-      <div className="dice-cp-drawer-content">
-        {content}
-      </div>
-      {
-        operations?.submit &&
+    <NusiDrawer destroyOnClose {...rest} visible={state.visible} width={widthMap[size]} onClose={onClose}>
+      <div className="dice-cp-drawer-content">{content}</div>
+      {operations?.submit && (
         <div className="dice-cp-drawer-operation border-top">
-          <NusiButton onClick={onSubmit} type="primary">{operations.submit?.text || i18n.t('ok')}</NusiButton>
+          <NusiButton onClick={onSubmit} type="primary">
+            {operations.submit?.text || i18n.t('ok')}
+          </NusiButton>
         </div>
-      }
+      )}
     </NusiDrawer>
   );
 };

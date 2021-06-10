@@ -43,7 +43,10 @@ export const PureMicroServiceEntry = (props: IProps) => {
   });
 
   React.useEffect(() => {
-    microServiceProjectList && setFilteredList(microServiceProjectList.filter((ms) => ms.projectName.toLowerCase().includes(searchKey.toLowerCase())));
+    microServiceProjectList &&
+      setFilteredList(
+        microServiceProjectList.filter((ms) => ms.projectName.toLowerCase().includes(searchKey.toLowerCase())),
+      );
   }, [microServiceProjectList, searchKey]);
 
   const onSearchKeyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,7 +55,9 @@ export const PureMicroServiceEntry = (props: IProps) => {
   };
 
   const onClickEnv = (tenantGroup: string, projectId: string, env: string) => {
-    props.onClickEnv ? props.onClickEnv({ tenantGroup, projectId }) : goTo(goTo.pages.microServiceOverview, { tenantGroup, projectId, env });
+    props.onClickEnv
+      ? props.onClickEnv({ tenantGroup, projectId })
+      : goTo(goTo.pages.microServiceOverview, { tenantGroup, projectId, env });
   };
 
   const cardRender = (content: any) => {
@@ -61,21 +66,41 @@ export const PureMicroServiceEntry = (props: IProps) => {
     return (
       <div className="micro-service-item" key={projectId}>
         <div className="ms-item-main">
-          <div className="item-img"><CustomIcon color type={theme.orgIcon} /></div>
+          <div className="item-img">
+            <CustomIcon color type={theme.orgIcon} />
+          </div>
           <div className="ms-item-info">
             <Tooltip title={projectName}>
               <div className="title bold-500 nowrap">{projectName}</div>
             </Tooltip>
             <div className="footer">
-              <span><CustomIcon type="yy-4" /></span>
+              <span>
+                <CustomIcon type="yy-4" />
+              </span>
             </div>
           </div>
         </div>
         <div className="ms-item-footer flex-box">
-          <span className="env-btn"><Button disabled={!dev} onClick={() => onClickEnv(dev, projectId, 'DEV')}>{envMap.DEV}</Button></span>
-          <span className="env-btn"><Button disabled={!test} onClick={() => onClickEnv(test, projectId, 'TEST')}>{envMap.TEST}</Button></span>
-          <span className="env-btn"><Button disabled={!staging} onClick={() => onClickEnv(staging, projectId, 'STAGING')}>{envMap.STAGING}</Button></span>
-          <span className="env-btn"><Button disabled={!prod} onClick={() => onClickEnv(prod, projectId, 'PROD')}>{envMap.PROD}</Button></span>
+          <span className="env-btn">
+            <Button disabled={!dev} onClick={() => onClickEnv(dev, projectId, 'DEV')}>
+              {envMap.DEV}
+            </Button>
+          </span>
+          <span className="env-btn">
+            <Button disabled={!test} onClick={() => onClickEnv(test, projectId, 'TEST')}>
+              {envMap.TEST}
+            </Button>
+          </span>
+          <span className="env-btn">
+            <Button disabled={!staging} onClick={() => onClickEnv(staging, projectId, 'STAGING')}>
+              {envMap.STAGING}
+            </Button>
+          </span>
+          <span className="env-btn">
+            <Button disabled={!prod} onClick={() => onClickEnv(prod, projectId, 'PROD')}>
+              {envMap.PROD}
+            </Button>
+          </span>
         </div>
       </div>
     );
@@ -93,13 +118,15 @@ export const PureMicroServiceEntry = (props: IProps) => {
           />
         </div>
         <div className="addons-content">
-          {!isEmpty(filteredList) ? <CardsLayout dataList={filteredList} contentRender={cardRender} /> : <EmptyListHolder />}
+          {!isEmpty(filteredList) ? (
+            <CardsLayout dataList={filteredList} contentRender={cardRender} />
+          ) : (
+            <EmptyListHolder />
+          )}
         </div>
       </Spin>
     </section>
   );
 };
 
-
 export { PureMicroServiceEntry as MicroServiceEntry };
-

@@ -27,7 +27,6 @@ import { PAGINATION } from 'app/constants';
 const { TabPane } = Tabs;
 const { RangePicker } = DatePicker;
 
-
 const LogCountChart = ({ chartQuery, loadData }: any) => {
   const layout = [
     {
@@ -73,7 +72,6 @@ const LogCountChart = ({ chartQuery, loadData }: any) => {
   return <PureBoardGrid layout={layout} />;
 };
 
-
 const LogAnalytics = () => {
   const routeQuery = routeInfoStore.useStore((s) => s.query);
   const addonDetail = addonStore.useStore((s) => s.addonDetail);
@@ -118,7 +116,6 @@ const LogAnalytics = () => {
       logAnalyticsStore.clearResult();
     };
   }, [addonDetail.cluster, addonDetail.config.TERMINUS_LOG_KEY, search]);
-
 
   const onAppSearch = debounce((val: string) => {
     logAnalyticsStore.getAppList({
@@ -226,37 +223,35 @@ const LogAnalytics = () => {
       <Panel title={i18n.t('microService:log count')} className="block">
         {addonDetail.cluster && <LogCountChart chartQuery={{ ...queryData.current }} loadData={getChartData} />}
       </Panel>
-      <div className="section-title mt24 mb0">
-        {i18n.t('microService:detail')}
-      </div>
+      <div className="section-title mt24 mb0">{i18n.t('microService:detail')}</div>
       <Holder when={isEmpty(curList)}>
-        {
-          map(curList, (item) => {
-            return (
-              <div key={item.offset} className="log-analytic-item">
-                <div className="title">
-                  <span>{i18n.t('application')}：{item.tags.dice_application_name}</span>
-                  <span>{i18n.t('service')}：{item.tags.dice_service_name}</span>
-                  <span>{i18n.t('time')}：{formatTime(item.timestamp, 'YYYY-MM-DD HH:mm:ss')}</span>
-                </div>
-                <div className="content">
-                  <Tabs defaultActiveKey="1" size="small" className="log-content-tabs">
-                    <TabPane tab="Text" key="1">
-                      <pre className="code-block">
-                        {item.content}
-                      </pre>
-                    </TabPane>
-                    <TabPane tab="JSON" key="2">
-                      <pre className="code-block">
-                        {JSON.stringify(item, null, 2)}
-                      </pre>
-                    </TabPane>
-                  </Tabs>
-                </div>
+        {map(curList, (item) => {
+          return (
+            <div key={item.offset} className="log-analytic-item">
+              <div className="title">
+                <span>
+                  {i18n.t('application')}：{item.tags.dice_application_name}
+                </span>
+                <span>
+                  {i18n.t('service')}：{item.tags.dice_service_name}
+                </span>
+                <span>
+                  {i18n.t('time')}：{formatTime(item.timestamp, 'YYYY-MM-DD HH:mm:ss')}
+                </span>
               </div>
-            );
-          })
-        }
+              <div className="content">
+                <Tabs defaultActiveKey="1" size="small" className="log-content-tabs">
+                  <TabPane tab="Text" key="1">
+                    <pre className="code-block">{item.content}</pre>
+                  </TabPane>
+                  <TabPane tab="JSON" key="2">
+                    <pre className="code-block">{JSON.stringify(item, null, 2)}</pre>
+                  </TabPane>
+                </Tabs>
+              </div>
+            </div>
+          );
+        })}
         <Pagination
           current={state.pageNo}
           pageSize={state.pageSize}
@@ -269,6 +264,5 @@ const LogAnalytics = () => {
     </div>
   );
 };
-
 
 export default LogAnalytics;

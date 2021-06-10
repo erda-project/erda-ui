@@ -11,12 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
-import {
-  Form,
-  Input,
-  Col,
-} from 'app/nusi';
+import { Form, Input, Col } from 'app/nusi';
 import { getLabel, noop, createCombiner } from 'app/configForm/nusi-form/form-items/common';
 import * as React from 'react';
 import { commonFields, checkWhen } from 'app/configForm/nusi-form/form-items/common/config';
@@ -33,12 +28,18 @@ interface IMapItemProps {
 }
 const changeValue = (obj: Obj[]) => obj;
 
-const defaultItem = [{ key: 'key', type: 'input' }, { key: 'value', type: 'input' }];
+const defaultItem = [
+  { key: 'key', type: 'input' },
+  { key: 'value', type: 'input' },
+];
 const MapObjComp = (props: any) => {
   const { value, onChange, disabled, componentProps } = props;
 
   const { objItems } = componentProps || {};
-  const { key: keyPlaceholder = i18n.t('please enter {name}', { name: 'key' }), value: valuePlaceholder = i18n.t('please enter {name}', { name: 'value' }) } = componentProps?.placeholder || {};
+  const {
+    key: keyPlaceholder = i18n.t('please enter {name}', { name: 'key' }),
+    value: valuePlaceholder = i18n.t('please enter {name}', { name: 'value' }),
+  } = componentProps?.placeholder || {};
 
   const Comp: any = React.useMemo(() => {
     const _objItems = isEmpty(objItems) ? defaultItem : objItems;
@@ -69,7 +70,9 @@ const MapObjComp = (props: any) => {
                   placeholder={valuePlaceholder}
                   disabled={disabled}
                   value={data.value}
-                  onChange={(e) => { updateItem({ value: e.target.value }); }}
+                  onChange={(e) => {
+                    updateItem({ value: e.target.value });
+                  }}
                 />
               </Col>
             </Input.Group>
@@ -80,7 +83,7 @@ const MapObjComp = (props: any) => {
       defaultItem: () => {
         const dItem = {};
         map(_objItems, (item) => {
-          const key = isString(item) ? item : (get(item, 'key') || '');
+          const key = isString(item) ? item : get(item, 'key') || '';
           key && (dItem[key] = undefined);
         });
         return dItem;
@@ -88,65 +91,48 @@ const MapObjComp = (props: any) => {
     });
   }, [componentProps, disabled, keyPlaceholder, objItems, valuePlaceholder]);
 
-  return (
-    <Comp
-      value={value}
-      onChange={onChange}
-      disabled={disabled}
-      {...componentProps}
-    />
-  );
+  return <Comp value={value} onChange={onChange} disabled={disabled} {...componentProps} />;
 };
 
 let orderMap = {};
 
-export const FormMap = ({
-  fixOut = noop,
-  fixIn = noop,
-  extensionFix,
-  requiredCheck,
-  trigger = 'onChange',
-}) => React.memo(({ fieldConfig, form }: any) => {
-  const {
-    key,
-    value,
-    label,
-    visible,
-    valid,
-    disabled,
-    registerRequiredCheck,
-    componentProps = {},
-    defaultValue,
-    required,
-    wrapperProps,
-    labelTip,
-    requiredCheck: _requiredCheck,
-  } = fieldConfig;
-  registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (val: any) => {
-    form.setFieldValue(key, fixOut(val));
-    (componentProps.onChange || noop)(val);
-  };
+export const FormMap = ({ fixOut = noop, fixIn = noop, extensionFix, requiredCheck, trigger = 'onChange' }) =>
+  React.memo(({ fieldConfig, form }: any) => {
+    const {
+      key,
+      value,
+      label,
+      visible,
+      valid,
+      disabled,
+      registerRequiredCheck,
+      componentProps = {},
+      defaultValue,
+      required,
+      wrapperProps,
+      labelTip,
+      requiredCheck: _requiredCheck,
+    } = fieldConfig;
+    registerRequiredCheck(_requiredCheck || requiredCheck);
+    const handleChange = (val: any) => {
+      form.setFieldValue(key, fixOut(val));
+      (componentProps.onChange || noop)(val);
+    };
 
-  return (
-    <FormItem
-      colon
-      label={getLabel(label, labelTip)}
-      className={visible ? '' : 'hide'}
-      validateStatus={valid[0]}
-      help={valid[1]}
-      required={required}
-      {...wrapperProps}
-    >
-      <MapObjComp
-        value={fixIn(value)}
-        onChange={handleChange}
-        disabled={disabled}
-        componentProps={componentProps}
-      />
-    </FormItem>
-  );
-});
+    return (
+      <FormItem
+        colon
+        label={getLabel(label, labelTip)}
+        className={visible ? '' : 'hide'}
+        validateStatus={valid[0]}
+        help={valid[1]}
+        required={required}
+        {...wrapperProps}
+      >
+        <MapObjComp value={fixIn(value)} onChange={handleChange} disabled={disabled} componentProps={componentProps} />
+      </FormItem>
+    );
+  });
 
 export const config = {
   name: 'map',
@@ -196,13 +182,13 @@ export const config = {
   },
   fixIn: (itemData: any) => {
     // 从schema到React组件映射时，修正传入React组件的value；
-    const mapParams: Array<{key: any; value: any}> = [];
+    const mapParams: Array<{ key: any; value: any }> = [];
     map(Object.keys(itemData || {}), (k) => {
       const index = orderMap[k || 'undefined'] !== undefined ? orderMap[k || 'undefined'] : orderMap[''];
       if (k.endsWith('&repeat')) {
-        mapParams[index] = ({ key: k.split('&repeat')[0], value: itemData[k] });
+        mapParams[index] = { key: k.split('&repeat')[0], value: itemData[k] };
       } else {
-        mapParams[index] = ({ key: k, value: itemData[k] });
+        mapParams[index] = { key: k, value: itemData[k] };
       }
     });
 

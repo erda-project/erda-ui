@@ -14,4 +14,3 @@
 import ProjectResource from './components/resource';
 
 export default ProjectResource;
-

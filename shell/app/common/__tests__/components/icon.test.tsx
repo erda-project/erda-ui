@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 import React from 'react';
 import { Icon } from 'common';
 import { mount } from 'enzyme';
@@ -21,9 +20,7 @@ describe('icon', () => {
   const iconType = 'loading';
   it('should render base icon', () => {
     const onClick = jest.fn();
-    const wrapper = mount(
-      <Icon type={iconType} onClick={onClick} className="icon-class" />,
-    );
+    const wrapper = mount(<Icon type={iconType} onClick={onClick} className="icon-class" />);
     wrapper.find('.iconfont').simulate('click');
     expect(onClick).toHaveBeenCalled();
     expect(wrapper.find(`i.icon-${iconType}`).length).toBe(1);
@@ -31,9 +28,7 @@ describe('icon', () => {
   });
   it('should render colur icon', () => {
     const onClick = jest.fn();
-    const wrapper = mount(
-      <Icon type={iconType} color onClick={onClick} className="icon-class" />,
-    );
+    const wrapper = mount(<Icon type={iconType} color onClick={onClick} className="icon-class" />);
     wrapper.find('.icon').simulate('click');
     expect(onClick).toHaveBeenCalled();
     expect(wrapper.find('svg.icon').length).toBe(1);
@@ -42,15 +37,11 @@ describe('icon', () => {
   });
   it('should type is ReactElement', () => {
     const type = <span>erda</span>;
-    const wrapper = mount(
-      <Icon type={type} className="icon-class" />,
-    );
+    const wrapper = mount(<Icon type={type} className="icon-class" />);
     expect(wrapper.children()).toHaveHTML('<span>erda</span>');
   });
   it('should type is preset', () => {
-    const wrapper = mount(
-      <Icon type="ISSUE_ICON.issue.REQUIREMENT" />,
-    );
+    const wrapper = mount(<Icon type="ISSUE_ICON.issue.REQUIREMENT" />);
     expect(wrapper.find('.requirement')).toExist();
   });
 });

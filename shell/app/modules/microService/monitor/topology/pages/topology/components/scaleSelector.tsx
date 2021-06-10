@@ -19,7 +19,7 @@ import './scaleSelector.scss';
 
 const { Option } = Select;
 
-interface IProps{
+interface IProps {
   scale: number;
   onChange: (arg: number) => void;
 }
@@ -27,7 +27,7 @@ interface IProps{
 export const ScaleSelector = ({ scale, onChange }: IProps) => {
   const [curScale, setCurScale] = React.useState(1);
   React.useEffect(() => {
-    if (curScale !== scale)setCurScale(scale);
+    if (curScale !== scale) setCurScale(scale);
   }, [curScale, scale]);
   const scaleOpt = [
     { name: '20%', value: 0.2 },
@@ -48,13 +48,28 @@ export const ScaleSelector = ({ scale, onChange }: IProps) => {
 
   return (
     <div className="scale-selector">
-      <IconMinus size="16px" className="scale-minus scale-op" onClick={() => changeScale(Number((curScale - 0.2).toFixed(1)))} />
-      <Select value={`${(curScale * 100).toFixed(0)}%`} onChange={changeScale} showArrow={false} dropdownMatchSelectWidth={false}>
+      <IconMinus
+        size="16px"
+        className="scale-minus scale-op"
+        onClick={() => changeScale(Number((curScale - 0.2).toFixed(1)))}
+      />
+      <Select
+        value={`${(curScale * 100).toFixed(0)}%`}
+        onChange={changeScale}
+        showArrow={false}
+        dropdownMatchSelectWidth={false}
+      >
         {map(scaleOpt, ({ name, value }) => (
-          <Option key={value} value={value}>{name}</Option>
+          <Option key={value} value={value}>
+            {name}
+          </Option>
         ))}
       </Select>
-      <IconPlus size="16px" className="scale-plus scale-op" onClick={() => changeScale(Number((curScale + 0.2).toFixed(1)))} />
+      <IconPlus
+        size="16px"
+        className="scale-plus scale-op"
+        onClick={() => changeScale(Number((curScale + 0.2).toFixed(1)))}
+      />
     </div>
   );
 };

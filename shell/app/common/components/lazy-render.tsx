@@ -67,4 +67,3 @@ export class LazyRender extends React.PureComponent<IProps, IState> {
     );
   }
 }
-

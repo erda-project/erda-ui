@@ -47,12 +47,10 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
   UNSAFE_componentWillMount(): void {
     const list = convertGlobalVariableList(this.props.globalVariable);
     this.setState({
-      globalVariableList: list.map((i: any) => (
-        {
-          ...i,
-          id: uniqueId('var-'),
-        }
-      )),
+      globalVariableList: list.map((i: any) => ({
+        ...i,
+        id: uniqueId('var-'),
+      })),
     });
   }
 
@@ -70,10 +68,12 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
             message: i18n.t('application:environment variables cannot be empty'),
           },
         ],
-      })(
-        <VariableInputGroup lock={false} disabled={!editing} onDelete={this.deleteVariable} />,
+      })(<VariableInputGroup lock={false} disabled={!editing} onDelete={this.deleteVariable} />);
+      return (
+        <Item className="mr0" key={item.key}>
+          {input}
+        </Item>
       );
-      return <Item className="mr0" key={item.key}>{input}</Item>;
     });
 
     return (
@@ -84,7 +84,11 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
         </div>
         {content}
         <div className="mt12">
-          {editing ? <Button type="primary" ghost onClick={this.onSubmit}>{i18n.t('application:save')}</Button> : null}
+          {editing ? (
+            <Button type="primary" ghost onClick={this.onSubmit}>
+              {i18n.t('application:save')}
+            </Button>
+          ) : null}
         </div>
       </Form>
     );

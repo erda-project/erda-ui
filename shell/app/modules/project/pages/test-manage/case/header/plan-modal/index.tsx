@@ -20,7 +20,11 @@ import { FormModal } from 'common';
 
 const commonQuery = { status: ['DOING', 'PAUSE'], type: 'm' };
 const PlanModal = () => {
-  const [relatedPlans, relatedPlansPaging, planModalInfo] = testPlanStore.useStore((s) => [s.relatedPlans, s.relatedPlansPaging, s.planModalInfo]);
+  const [relatedPlans, relatedPlansPaging, planModalInfo] = testPlanStore.useStore((s) => [
+    s.relatedPlans,
+    s.relatedPlansPaging,
+    s.planModalInfo,
+  ]);
   const [confirmLoading] = useLoading(testPlanStore, ['addToPlanByPlanModal']);
   const [name, setName] = React.useState('');
   const { closePlanModal } = testPlanStore.reducers;
@@ -83,7 +87,6 @@ const PlanModal = () => {
       onOk={onOk}
       confirmLoading={confirmLoading}
       destroyOnClose
-
     />
   );
 };

@@ -49,13 +49,7 @@ export const EcsCloudOperationForm = ({ title, formData, fieldList, content, vis
   };
   return (
     <>
-      <FormModal
-        title={title}
-        visible={visible}
-        fieldsList={fieldList}
-        onCancel={onClose}
-        onOk={onOk}
-      >
+      <FormModal title={title} visible={visible} fieldsList={fieldList} onCancel={onClose} onOk={onOk}>
         {content}
       </FormModal>
     </>

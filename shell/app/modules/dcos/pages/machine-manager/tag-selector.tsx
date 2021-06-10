@@ -19,7 +19,6 @@ import clusterDashboardStore from '../../stores/dashboard';
 
 const { Option } = Select;
 
-
 interface IProps {
   value?: string[];
   onChange: (data: string[]) => void;
@@ -38,7 +37,9 @@ const TagSelector = React.forwardRef(({ value, onChange }: IProps) => {
       getPopupContainer={(triggerNode) => triggerNode.parentNode}
       onChange={onChange}
     >
-      {map(nodeLabels, (tag) => <Option key={tag.label}>{tag.label}</Option>)}
+      {map(nodeLabels, (tag) => (
+        <Option key={tag.label}>{tag.label}</Option>
+      ))}
     </Select>
   );
 });

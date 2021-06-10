@@ -25,7 +25,6 @@ import traceQuerierStore from 'trace-insight/stores/trace-querier';
 import { useLoading } from 'app/common/stores/loading';
 import i18n from 'i18n';
 
-
 const Database = () => {
   const { getTraceDetailContent, getSpanDetailContent } = traceQuerierStore.effects;
   const spanDetailContent = traceQuerierStore.useStore((s) => s.spanDetailContent);
@@ -70,17 +69,21 @@ const Database = () => {
         <Col span={16}>
           <DataBaseMap.responseTimes shouldLoad={shouldLoad} query={chartQuery} />
           <DataBaseMap.throughput shouldLoad={shouldLoad} query={chartQuery} />
-          <DataBaseMap.slowTrack shouldLoad={shouldLoad} query={filterQuery} viewLog={viewLog} fetchTraceContent={fetchTraceContent} />
-          <DataBaseMap.errorTrack shouldLoad={shouldLoad} query={filterQuery} viewLog={viewLog} fetchTraceContent={fetchTraceContent} />
+          <DataBaseMap.slowTrack
+            shouldLoad={shouldLoad}
+            query={filterQuery}
+            viewLog={viewLog}
+            fetchTraceContent={fetchTraceContent}
+          />
+          <DataBaseMap.errorTrack
+            shouldLoad={shouldLoad}
+            query={filterQuery}
+            viewLog={viewLog}
+            fetchTraceContent={fetchTraceContent}
+          />
         </Col>
       </Row>
-      <Drawer
-        destroyOnClose
-        title={i18n.t('runtime:monitor log')}
-        width="80%"
-        visible={logVisible}
-        onClose={hideLog}
-      >
+      <Drawer destroyOnClose title={i18n.t('runtime:monitor log')} width="80%" visible={logVisible} onClose={hideLog}>
         <SimpleLog requestId={logQuery} applicationId={applicationId} />
       </Drawer>
       <Drawer

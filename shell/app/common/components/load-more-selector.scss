@@ -31,7 +31,7 @@
     &:hover {
       border: 1px solid $primary;
       outline: 0;
-      box-shadow: 0 0 0 2px rgba($primary, .2);
+      box-shadow: 0 0 0 2px rgba($primary, 0.2);
 
       .close {
         visibility: visible;

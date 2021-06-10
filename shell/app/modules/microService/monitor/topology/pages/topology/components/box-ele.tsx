@@ -15,7 +15,7 @@ import * as React from 'react';
 
 import './box-ele.scss';
 
-interface IBoxEle{
+interface IBoxEle {
   pos: {
     startX: number;
     endX: number;

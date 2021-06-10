@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace CP_EDIT_LIST {
-
   interface Spec {
     type: 'EditList';
     operations: Obj<CP_COMMON.Operation>;
@@ -20,7 +19,7 @@ declare namespace CP_EDIT_LIST {
     props: IProps;
   }
 
-  interface IProps{
+  interface IProps {
     visible?: boolean;
     temp: Temp[];
   }
@@ -37,7 +36,7 @@ declare namespace CP_EDIT_LIST {
     render: IRender;
   }
 
-  interface IRender{
+  interface IRender {
     [pro: string]: any;
     type: 'input' | 'text' | 'select' | 'inputSelect';
     required?: boolean;

@@ -40,7 +40,11 @@ const CaseMeta = ({ onBlurCapture, onChange, dataSource }: IProps) => {
           value={dataSource.priority}
           onChange={(v: any) => onChange('priority', v, true)}
         >
-          {priorityList.map((p) => <Option key={p} value={p}>{p}</Option>)}
+          {priorityList.map((p) => (
+            <Option key={p} value={p}>
+              {p}
+            </Option>
+          ))}
         </Select>
       </div>
       <p className="color-text-desc my0">{i18n.t('project:founder')}</p>
@@ -52,7 +56,9 @@ const CaseMeta = ({ onBlurCapture, onChange, dataSource }: IProps) => {
         />
       </p>
       <p className="color-text-desc my0">{i18n.t('create time')}</p>
-      <p className="mt8 mb20">{dataSource.createdAt ? moment(dataSource.createdAt).format('YYYY-MM-DD HH:mm:ss') : ''}</p>
+      <p className="mt8 mb20">
+        {dataSource.createdAt ? moment(dataSource.createdAt).format('YYYY-MM-DD HH:mm:ss') : ''}
+      </p>
     </div>
   );
 };

@@ -23,25 +23,30 @@ export interface IOriginData {
 const commonQuery = {};
 
 // 特殊处理：多组多维度数据结构
-export const multiGroupsAndDimensionDataHandler = (dataKeys: string[], tagLength?: number) => (originData: IOriginData) => {
-  if (isEmpty(originData)) return {};
-  const { time = [], results = [] } = originData || {};
-  const data = get(results, '[0].data') || [];
-  const parsedData = reduce(data, (result: any, value) => {
-    const reData: any[] = [];
-    const ip = value[dataKeys[0]].tag.slice(0, tagLength || 8);
-    forEach(dataKeys, (item) => {
-      const dataItem: any = value[item];
-      if (dataItem) {
-        dataItem.tag = dataItem.name;
-        reData.push(dataItem);
-      }
-    });
-    return { ...result, [ip]: reData };
-  }, {});
+export const multiGroupsAndDimensionDataHandler =
+  (dataKeys: string[], tagLength?: number) => (originData: IOriginData) => {
+    if (isEmpty(originData)) return {};
+    const { time = [], results = [] } = originData || {};
+    const data = get(results, '[0].data') || [];
+    const parsedData = reduce(
+      data,
+      (result: any, value) => {
+        const reData: any[] = [];
+        const ip = value[dataKeys[0]].tag.slice(0, tagLength || 8);
+        forEach(dataKeys, (item) => {
+          const dataItem: any = value[item];
+          if (dataItem) {
+            dataItem.tag = dataItem.name;
+            reData.push(dataItem);
+          }
+        });
+        return { ...result, [ip]: reData };
+      },
+      {},
+    );
 
-  return { time, results: parsedData };
-};
+    return { time, results: parsedData };
+  };
 
 export const ApiMap = {
   qps: {
@@ -60,6 +65,9 @@ export const ApiMap = {
     isCustomApi: true,
     fetchApi: `${gatewayApiPrefix}/kong_connection/histogram`,
     query: { ...commonQuery, group: 'myip', avg: ['crd_mean', 'cwr_mean', 'cac_mean', 'cwa_mean'] },
-    dataHandler: multiGroupsAndDimensionDataHandler(['avg.crd_mean', 'avg.cwr_mean', 'avg.cac_mean', 'avg.cwa_mean'], 20),
+    dataHandler: multiGroupsAndDimensionDataHandler(
+      ['avg.crd_mean', 'avg.cwr_mean', 'avg.cac_mean', 'avg.cwa_mean'],
+      20,
+    ),
   },
 };

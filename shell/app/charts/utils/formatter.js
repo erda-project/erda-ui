@@ -16,9 +16,10 @@ import { findIndex } from 'lodash';
 class Formatter {
   toFixed(value, fixed = 2) {
     let fixValue = Number(value).toFixed(fixed);
-    if (parseFloat(fixValue) === 0 && value > 0) { // fix之后值为0,改为科学计数
+    if (parseFloat(fixValue) === 0 && value > 0) {
+      // fix之后值为0,改为科学计数
       const reFix = Math.floor(Math.log(value) / Math.LN10);
-      fixValue = (value * (10 ** -reFix)).toFixed(1);
+      fixValue = (value * 10 ** -reFix).toFixed(1);
       return `${fixValue}e${reFix}`;
     }
     return /\.(0)+$/.test(fixValue) ? `${parseInt(fixValue, 10)}` : fixValue;
@@ -45,7 +46,7 @@ class AryFormatter extends Formatter {
       let power = Math.floor(Math.log(value) / Math.log(ary));
       power = power < aryTower.length ? power : aryTower.length - 1;
       power = power > 0 ? power : 0;
-      const displayValue = this.toFixed(value / (ary ** power), fixed);
+      const displayValue = this.toFixed(value / ary ** power, fixed);
       return `${displayValue} ${aryTower[power]}`;
     }
     return value;
@@ -125,7 +126,8 @@ const MonitorChartFormatterMap = (unitType, unit) => {
     TIME: new TimeFormatter(unit),
     STORAGE: new StorageFormatter(unit),
   };
-  if (!formatterMap[unitType] && unit) { // 有自身单位且不需要转换数据的，如unit= 次/s
+  if (!formatterMap[unitType] && unit) {
+    // 有自身单位且不需要转换数据的，如unit= 次/s
     return new OwnUnit(unit);
   }
   return formatterMap[(unitType || '').toLocaleUpperCase()];

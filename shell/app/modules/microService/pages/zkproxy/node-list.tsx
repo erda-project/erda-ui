@@ -127,7 +127,9 @@ const NodeList = () => {
     Modal.confirm({
       title: batchOptionsMap[type],
       content: `${i18n.t('microService:The selected interface weight will be set to')} ${weight}`,
-      onOk: () => { handleUpdateNodeRule({ weight }); },
+      onOk: () => {
+        handleUpdateNodeRule({ weight });
+      },
     });
   };
 
@@ -180,31 +182,42 @@ const NodeList = () => {
           <p className="mb12 bold-500">{i18n.t('microService:node list')}</p>
           <div className="host-list-content">
             <Holder when={isEmpty(nodeData.node)}>
-              {
-                map(nodeData.node, (node) => (
-                  <div
-                    className={classnames({
-                      'node-item': true,
-                      py4: true,
-                      px12: true,
-                      mb12: true,
-                      'hover-active-bg': true,
-                      active: state.activeNode === node.address,
-                    })}
-                    key={node.address}
-                    onClick={() => { handleToggleNode(node.address); }}
-                  >
-                    {node.address}
-                  </div>
-                ))
-              }
+              {map(nodeData.node, (node) => (
+                <div
+                  className={classnames({
+                    'node-item': true,
+                    py4: true,
+                    px12: true,
+                    mb12: true,
+                    'hover-active-bg': true,
+                    active: state.activeNode === node.address,
+                  })}
+                  key={node.address}
+                  onClick={() => {
+                    handleToggleNode(node.address);
+                  }}
+                >
+                  {node.address}
+                </div>
+              ))}
             </Holder>
           </div>
         </Card>
       </div>
       <div className="host-detail">
         <div className="batch-actions mb16">
-          { map(batchOptionsMap, (name, type) => <Button key={type} disabled={!isSelected || nodeData.node.length < 2} className="mr8" onClick={() => { handleBatchOption(type); }}>{name}</Button>) }
+          {map(batchOptionsMap, (name, type) => (
+            <Button
+              key={type}
+              disabled={!isSelected || nodeData.node.length < 2}
+              className="mr8"
+              onClick={() => {
+                handleBatchOption(type);
+              }}
+            >
+              {name}
+            </Button>
+          ))}
           <FormModal
             title={i18n.t('microService:batch custom weight')}
             width={400}

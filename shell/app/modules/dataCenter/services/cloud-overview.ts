@@ -14,12 +14,12 @@
 import agent from 'agent';
 
 export const getOverview = (payload: CLOUD_OVERVIEW.Querys): CLOUD_OVERVIEW.OverviewData => {
-  return agent.get('/api/cloud-resource-overview')
+  return agent
+    .get('/api/cloud-resource-overview')
     .query(payload)
     .then((response: any) => response.body);
 };
 
 export const getECSTrending = () => {
-  return agent.get('/api/ecs-trending')
-    .then((response: any) => response.body);
+  return agent.get('/api/ecs-trending').then((response: any) => response.body);
 };

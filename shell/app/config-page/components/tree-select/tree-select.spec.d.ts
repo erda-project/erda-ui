@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace CP_TREE_SELECT {
-
   interface INode {
     key: string;
     id: string;
@@ -39,12 +38,12 @@ declare namespace CP_TREE_SELECT {
   }
 
   interface IState {
-    value?: string | { value: string; label: string};
+    value?: string | { value: string; label: string };
   }
 
   interface IData {
     treeData: INode[];
   }
 
-    type Props = MakeProps<Spec>;
+  type Props = MakeProps<Spec>;
 }

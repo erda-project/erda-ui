@@ -18,7 +18,7 @@ import { ISSUE_OPTION, ISSUE_TYPE_MAP } from 'project/common/components/issue/is
 import i18n from 'i18n';
 import './issue-icon.scss';
 
-interface IProps{
+interface IProps {
   type: 'ITERATION' | 'REQUIREMENT' | 'TASK' | 'BUG' | 'EPIC';
   withName?: boolean;
 }
@@ -65,12 +65,13 @@ export const IssueIcon = ({ type, withName = false }: IProps) => {
   return withName ? iconLabel : icon;
 };
 
-export const getIssueTypeOption = (currentIssueType?: string) => map(ISSUE_OPTION, (item) => {
-  const iconObj = ISSUE_TYPE_MAP[item];
-  const { value, icon } = iconObj;
-  return (
-    <Option key={value} value={value} data-icon={icon} disabled={value === currentIssueType}>
-      <IssueIcon type={item} withName />
-    </Option>
-  );
-});
+export const getIssueTypeOption = (currentIssueType?: string) =>
+  map(ISSUE_OPTION, (item) => {
+    const iconObj = ISSUE_TYPE_MAP[item];
+    const { value, icon } = iconObj;
+    return (
+      <Option key={value} value={value} data-icon={icon} disabled={value === currentIssueType}>
+        <IssueIcon type={item} withName />
+      </Option>
+    );
+  });

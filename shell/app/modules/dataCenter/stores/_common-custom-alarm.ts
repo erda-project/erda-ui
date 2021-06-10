@@ -66,14 +66,24 @@ export const createCustomAlarmStore = (scope: CustomAlarmScope) => {
     name: `${scope}CustomAlarm`,
     state: initState,
     effects: {
-      async getCustomAlarms({ call, update, getParams }, payload?: Omit<COMMON_CUSTOM_ALARM.IPageParam, 'tenantGroup'>) {
+      async getCustomAlarms(
+        { call, update, getParams },
+        payload?: Omit<COMMON_CUSTOM_ALARM.IPageParam, 'tenantGroup'>,
+      ) {
         const { tenantGroup } = getParams();
-        const { list: customAlarms } = await call(getCustomAlarms, { ...payload, tenantGroup }, { paging: { key: 'customAlarmPaging' } });
+        const { list: customAlarms } = await call(
+          getCustomAlarms,
+          { ...payload, tenantGroup },
+          { paging: { key: 'customAlarmPaging' } },
+        );
         update({ customAlarms });
       },
       async getCustomAlarmDetail({ call, update, getParams }, id: number) {
         const { tenantGroup } = getParams();
-        const customAlarmDetail: COMMON_CUSTOM_ALARM.CustomAlarmDetail = await call(getCustomAlarmDetail, { id, tenantGroup });
+        const customAlarmDetail: COMMON_CUSTOM_ALARM.CustomAlarmDetail = await call(getCustomAlarmDetail, {
+          id,
+          tenantGroup,
+        });
         update({ customAlarmDetail });
       },
       async switchCustomAlarm({ call, select, getParams }, payload: { id: number; enable: boolean }) {
@@ -92,11 +102,14 @@ export const createCustomAlarmStore = (scope: CustomAlarmScope) => {
         const data: COMMON_CUSTOM_ALARM.CustomMetrics = await call(getCustomMetrics, tenantGroup);
         if (isEmpty(data)) return;
         const { metrics, filterOperators, functionOperators, ...restData } = data;
-        const metricMap = keyBy(map(metrics, (item) => {
-          const fieldMap = keyBy(item.fields, 'field.key');
-          const tagMap = keyBy(item.tags, 'tag.key');
-          return { ...item, fieldMap, tagMap };
-        }), 'name.key');
+        const metricMap = keyBy(
+          map(metrics, (item) => {
+            const fieldMap = keyBy(item.fields, 'field.key');
+            const tagMap = keyBy(item.tags, 'tag.key');
+            return { ...item, fieldMap, tagMap };
+          }),
+          'name.key',
+        );
         const filterOperatorMap = keyBy(filterOperators, 'key');
         const functionOperatorMap = keyBy(functionOperators, 'key');
         update({ customMetricMap: { ...restData, filterOperatorMap, functionOperatorMap, metricMap } });
@@ -116,7 +129,10 @@ export const createCustomAlarmStore = (scope: CustomAlarmScope) => {
         await call(editCustomAlarm, { ...payload, tenantGroup }, { successMsg: i18n.t('update successfully') });
         customAlarmStore.effects.getCustomAlarms();
       },
-      async getPreviewMetaData({ call, getParams }, payload: Omit<COMMON_CUSTOM_ALARM.CustomAlarmQuery, 'tenantGroup'>) {
+      async getPreviewMetaData(
+        { call, getParams },
+        payload: Omit<COMMON_CUSTOM_ALARM.CustomAlarmQuery, 'tenantGroup'>,
+      ) {
         const { tenantGroup } = getParams();
         const metaData = await call(getPreviewMetaData, { ...payload, tenantGroup });
         return metaData;

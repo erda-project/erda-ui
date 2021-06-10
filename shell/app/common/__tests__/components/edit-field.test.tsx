@@ -104,26 +104,14 @@ describe('EditField', () => {
   // TODO 2021/5/28 processing
   it.skip('should render markdown type', () => {
     const text = 'this is a piece of text';
-    const wrapper = shallow(
-      <EditField
-        type="markdown"
-        value={text}
-        itemProps={{}}
-      />,
-    );
+    const wrapper = shallow(<EditField type="markdown" value={text} itemProps={{}} />);
   });
   it('should render datePicker type', () => {
     const curr = moment();
     const prev = curr.add(-1, 'days');
     const changeCbFn = jest.fn();
     const wrapper = mount(
-      <EditField
-        name="date"
-        type="datePicker"
-        value={curr}
-        onChangeCb={changeCbFn}
-        itemProps={{}}
-      />,
+      <EditField name="date" type="datePicker" value={curr} onChangeCb={changeCbFn} itemProps={{}} />,
     );
     expect(wrapper.find('Picker').at(0).prop('value').isSame(curr, 'date')).toBeTruthy();
     act(() => {
@@ -134,35 +122,18 @@ describe('EditField', () => {
   });
   it('should render custom type', () => {
     const getComp = () => {
-      return (
-        <div className="custom-render">
-          custom-render
-        </div>
-      );
+      return <div className="custom-render">custom-render</div>;
     };
-    const wrapper = shallow(
-      <EditField
-        name="tips"
-        type="custom"
-        getComp={getComp}
-        itemProps={{}}
-      />,
-    );
+    const wrapper = shallow(<EditField name="tips" type="custom" getComp={getComp} itemProps={{}} />);
     expect(wrapper.find('.custom-render')).toExist();
   });
   it('should render readonly or last_readonly type', () => {
-    const test = (type: 'readonly'|'last_readonly') => {
-      const wrapper = mount(
-        <EditField
-          name="name"
-          type={type}
-          value="erda.cloud"
-        />,
-      );
+    const test = (type: 'readonly' | 'last_readonly') => {
+      const wrapper = mount(<EditField name="name" type={type} value="erda.cloud" />);
       expect(wrapper.find('.nowrap').text()).toBe('erda.cloud');
       wrapper.setProps({
         value: 'erda',
-        valueRender: (v: string) => (<div className="value-render">{v}</div>),
+        valueRender: (v: string) => <div className="value-render">{v}</div>,
       });
       expect(wrapper.find('.value-render').text()).toBe('erda');
     };
@@ -171,14 +142,7 @@ describe('EditField', () => {
   });
   it('should render dateReadonly type', () => {
     const date = '2021-05-29';
-    const wrapper = mount(
-      <EditField
-        name="date"
-        type="dateReadonly"
-        value={date}
-        itemProps={{}}
-      />,
-    );
+    const wrapper = mount(<EditField name="date" type="dateReadonly" value={date} itemProps={{}} />);
     expect(wrapper.find('.prewrap').text()).toBe(date);
   });
 });

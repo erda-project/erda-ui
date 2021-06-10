@@ -34,7 +34,7 @@
     .case-tree-op,
     .ant-tree-title {
       background-color: #d7d1de;
-      transition: background-color .3s;
+      transition: background-color 0.3s;
     }
   }
 
@@ -43,25 +43,18 @@
   }
 
   > li.ant-tree-treenode-selected > span.ant-tree-node-content-wrapper::before,
-  .ant-tree-child-tree
-  > li.ant-tree-treenode-selected
-  > span.ant-tree-node-content-wrapper::before {
+  .ant-tree-child-tree > li.ant-tree-treenode-selected > span.ant-tree-node-content-wrapper::before {
     color: $color-primary;
     background: $color-active-bg;
   }
-
 
   .ant-tree-node-content-wrapper:hover::before {
     background: $color-hover !important;
   }
 
   > li span.ant-tree-node-content-wrapper.ant-tree-node-selected,
-  .ant-tree-child-tree
-  > li
-  span.ant-tree-node-content-wrapper.ant-tree-node-selected,
-  .ant-tree-child-tree
-  > li.ant-tree-treenode-selected
-  > span.ant-tree-switcher {
+  .ant-tree-child-tree > li span.ant-tree-node-content-wrapper.ant-tree-node-selected,
+  .ant-tree-child-tree > li.ant-tree-treenode-selected > span.ant-tree-switcher {
     color: $color-text-sub;
   }
 
@@ -166,7 +159,7 @@
   right: 0;
   // background-color: $color-active-bg;
   opacity: 0;
-  transition: opacity .3s;
+  transition: opacity 0.3s;
   pointer-events: none;
 
   i {

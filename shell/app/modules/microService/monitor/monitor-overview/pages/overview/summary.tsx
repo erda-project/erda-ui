@@ -21,7 +21,8 @@ import { useEffectOnce } from 'react-use';
 import { useLoading } from 'app/common/stores/loading';
 import i18n from 'i18n';
 
-const constQuery = { // 当前一小时内
+const constQuery = {
+  // 当前一小时内
   end: Date.now(),
   start: Date.now() - 60 * 60 * 1000,
 };
@@ -29,9 +30,13 @@ const constQuery = { // 当前一小时内
 const Summary = () => {
   const [aiCapacityData, biCapacityData] = monitorOverviewStore.useStore((s) => [s.aiCapacityData, s.biCapacityData]);
 
-  const { getAiCapacityData, getBiCapacityApdex, getBiCapacityAjaxErr, getBiCapacityAjaxInfo } = monitorOverviewStore.effects;
+  const { getAiCapacityData, getBiCapacityApdex, getBiCapacityAjaxErr, getBiCapacityAjaxInfo } =
+    monitorOverviewStore.effects;
 
-  const [isBiCapacityFetching, isAiCapacityFetching] = useLoading(monitorOverviewStore, ['getBiCapacityAjaxInfo', 'getAiCapacityData']);
+  const [isBiCapacityFetching, isAiCapacityFetching] = useLoading(monitorOverviewStore, [
+    'getBiCapacityAjaxInfo',
+    'getAiCapacityData',
+  ]);
 
   useEffectOnce(() => {
     getAiCapacityData({ avg: 'elapsed_mean', sumCpm: 'elapsed_count', ...constQuery });
@@ -97,6 +102,4 @@ const Summary = () => {
   );
 };
 
-
 export default Summary;
-

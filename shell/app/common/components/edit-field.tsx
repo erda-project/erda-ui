@@ -43,20 +43,21 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, hasEd
       setShowBtn(false);
     }
   }, [hasEdited]);
-  const btnProps = (showBtn && !disabled)
-    ? {
-      onSubmit(_v: string) {
-        onSave(_v);
-        setShowBtn(false);
-        setMdEditing(false);
-      },
-      onCancel() {
-        setV(originalValue); // 取消时不应调用保存，加个内部状态来还原数据
-        setShowBtn(false);
-        setMdEditing(false);
-      },
-    }
-    : {};
+  const btnProps =
+    showBtn && !disabled
+      ? {
+          onSubmit(_v: string) {
+            onSave(_v);
+            setShowBtn(false);
+            setMdEditing(false);
+          },
+          onCancel() {
+            setV(originalValue); // 取消时不应调用保存，加个内部状态来还原数据
+            setShowBtn(false);
+            setMdEditing(false);
+          },
+        }
+      : {};
   return mdEditing ? (
     <MarkdownEditor
       {...rest}
@@ -82,7 +83,17 @@ interface IProps {
   name: string;
   label?: string;
   labelStyle?: 'normal' | 'desc';
-  type?: 'input' | 'textArea' | 'select' | 'markdown' | 'datePicker' | 'custom' | 'readonly' | 'dateReadonly' | 'planTime' | 'last_readonly';
+  type?:
+    | 'input'
+    | 'textArea'
+    | 'select'
+    | 'markdown'
+    | 'datePicker'
+    | 'custom'
+    | 'readonly'
+    | 'dateReadonly'
+    | 'planTime'
+    | 'last_readonly';
   onChangeCb?: Function;
   value?: any;
   placeHolder?: string;
@@ -175,7 +186,8 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
           {...rest}
         >
           {isFunction(options) ? options() : options}
-        </Select>);
+        </Select>
+      );
       break;
     }
     // 需要增加保存、取消按钮，暂时关闭
@@ -184,24 +196,18 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
     //   break;
     case 'markdown':
       // 创建时不需要提交、取消按钮
-      Comp = !itemProps.isEditMode
-        ? (
-          <MarkdownEditor
-            {...itemProps}
-            value={editValue}
-            onChange={onBlur}
-          />
-        )
-        : (
-          <EditMd
-            {...itemProps}
-            value={editValue}
-            onChange={updater.editValue}
-            onSave={onBlur}
-            originalValue={originalValue}
-            disabled={disabled}
-          />
-        );
+      Comp = !itemProps.isEditMode ? (
+        <MarkdownEditor {...itemProps} value={editValue} onChange={onBlur} />
+      ) : (
+        <EditMd
+          {...itemProps}
+          value={editValue}
+          onChange={updater.editValue}
+          onSave={onBlur}
+          originalValue={originalValue}
+          disabled={disabled}
+        />
+      );
       break;
     case 'datePicker':
       Comp = (
@@ -216,33 +222,28 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
           disabled={disabled}
           ranges={getTimeRanges()}
           {...itemProps}
-        />);
+        />
+      );
       break;
     case 'custom': {
       // onChange用于改变内部状态，确保组件不重渲染，避免输入框重渲染后光标位置重置。onSave用于保存，比如在onBlur时才保存
-      Comp = getComp({ onChange: updater.editValue, onSave: onSelectChange, value: editValue, disabled, originalValue });
+      Comp = getComp({
+        onChange: updater.editValue,
+        onSave: onSelectChange,
+        value: editValue,
+        disabled,
+        originalValue,
+      });
       break;
     }
     case 'readonly':
-      Comp = (
-        <div className="nowrap pl12">
-          {valueRender ? valueRender(editValue) : editValue}
-        </div>
-      );
+      Comp = <div className="nowrap pl12">{valueRender ? valueRender(editValue) : editValue}</div>;
       break;
     case 'last_readonly':
-      Comp = (
-        <div className="nowrap">
-          {valueRender ? valueRender(editValue) : editValue}
-        </div>
-      );
+      Comp = <div className="nowrap">{valueRender ? valueRender(editValue) : editValue}</div>;
       break;
     case 'dateReadonly':
-      Comp = (
-        <div className="prewrap pointer pl12">
-          {moment(editValue).format('YYYY-MM-DD')}
-        </div>
-      );
+      Comp = <div className="prewrap pointer pl12">{moment(editValue).format('YYYY-MM-DD')}</div>;
       break;
     default:
       Comp = (
@@ -267,17 +268,18 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
 
   return (
     <div className={`common-edit-field ${className}`}>
-      {label &&
-      <div
-        className={classnames(
-          labelStyle === 'desc' ? 'color-text-sub' : 'color-text',
-          'mb4',
-          showRequiredMark ? 'ant-form-item-required' : '',
-        )}
-        style={{ paddingLeft: '10px' }}
-      >
-        {label}
-      </div>}
+      {label && (
+        <div
+          className={classnames(
+            labelStyle === 'desc' ? 'color-text-sub' : 'color-text',
+            'mb4',
+            showRequiredMark ? 'ant-form-item-required' : '',
+          )}
+          style={{ paddingLeft: '10px' }}
+        >
+          {label}
+        </div>
+      )}
       <div onClick={onClick} className={classnames({ 'edit-comp-text': editMode })}>
         {Comp}
         {suffix}

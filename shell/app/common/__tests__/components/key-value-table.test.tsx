@@ -24,11 +24,7 @@ const data = {
 };
 
 const Comp = Form.create()((props) => {
-  return (
-    <KeyValueTable
-      {...props}
-    />
-  );
+  return <KeyValueTable {...props} />;
 });
 
 describe('KeyValueTable', () => {
@@ -55,14 +51,7 @@ describe('KeyValueTable', () => {
   });
   it('should render with TextArea', () => {
     const fn = jest.fn();
-    const wrapper = mount(
-      <Comp
-        data={data}
-        maxLength={10}
-        isTextArea
-        onChange={fn}
-      />,
-    );
+    const wrapper = mount(<Comp data={data} maxLength={10} isTextArea onChange={fn} />);
     const editor = wrapper.find('KeyValueTable');
     expect(editor.instance().getTableData()).toStrictEqual(data);
     expect(editor.state().dataSource).toHaveLength(3);
@@ -81,14 +70,7 @@ describe('KeyValueTable', () => {
   });
   it('should render with Input', () => {
     const fn = jest.fn();
-    const wrapper = mount(
-      <Comp
-        data={data}
-        maxLength={10}
-        onChange={fn}
-        disableAdd
-      />,
-    );
+    const wrapper = mount(<Comp data={data} maxLength={10} onChange={fn} disableAdd />);
     const editor = wrapper.find('KeyValueTable');
     editor.find('Input').at(0).simulate('blur');
     expect(fn).toHaveBeenCalled();

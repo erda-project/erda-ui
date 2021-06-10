@@ -76,7 +76,9 @@ const jvmStore = createFlatStore({
     },
     async getProfileList({ call, update }, data: Merge<JVM.ProfileListQuery, { isHistory: boolean }>) {
       const { isHistory, ...rest } = data;
-      const { list } = await call(getProfileList, rest, { paging: { key: isHistory ? 'historyPaging' : 'runningPaging' } });
+      const { list } = await call(getProfileList, rest, {
+        paging: { key: isHistory ? 'historyPaging' : 'runningPaging' },
+      });
       if (isHistory) {
         update({ historyList: list });
       } else {

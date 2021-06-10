@@ -40,13 +40,7 @@ describe('InputSelect', () => {
   it('should render well', () => {
     const onChangeFn = jest.fn();
     const onBlurFn = jest.fn();
-    const wrapper = mount(
-      <InputSelect
-        className="input-select-inp"
-        onChange={onChangeFn}
-        onBlur={onBlurFn}
-      />,
-    );
+    const wrapper = mount(<InputSelect className="input-select-inp" onChange={onChangeFn} onBlur={onBlurFn} />);
     act(() => {
       wrapper.find('Input.input-select-inp').prop('onFocus')(new Event('focus'));
       wrapper.find('Input.input-select-inp').prop('onBlur')();
@@ -96,12 +90,18 @@ describe('InputSelect', () => {
     expect(onChangeFn).toHaveBeenLastCalledWith(options[1].value);
     expect(wrapper.find('.option-item').at(1).prop('className')).toContain('color-active-bg');
     act(() => {
-      wrapper.find('.input-select-dropdown-box').find('Input').simulate('change', { target: { value: options[0].value } });
+      wrapper
+        .find('.input-select-dropdown-box')
+        .find('Input')
+        .simulate('change', { target: { value: options[0].value } });
     });
     wrapper.update();
     expect(wrapper.find('.option-item')).toHaveLength(1);
     act(() => {
-      wrapper.find('.input-select-dropdown-box').find('Input').simulate('change', { target: { value: '' } });
+      wrapper
+        .find('.input-select-dropdown-box')
+        .find('Input')
+        .simulate('change', { target: { value: '' } });
     });
     wrapper.update();
     expect(wrapper.find('.option-item')).toHaveLength(options.length);
@@ -112,23 +112,21 @@ describe('InputSelect', () => {
       return {
         ...item,
         isLeaf: index % 2 === 0,
-        children: isLeaf ? [] : [{
-          ...item,
-          label: `${item.label}-child`,
-          value: `${item.value}-child`,
-        }],
+        children: isLeaf
+          ? []
+          : [
+              {
+                ...item,
+                label: `${item.label}-child`,
+                value: `${item.value}-child`,
+              },
+            ],
       };
     });
     const onChangeFn = jest.fn();
     const onBlurFn = jest.fn();
     const wrapper = mount(
-      <InputSelect
-        className="input-select-inp"
-        onChange={onChangeFn}
-        onBlur={onBlurFn}
-        value="dev"
-        options={op}
-      />,
+      <InputSelect className="input-select-inp" onChange={onChangeFn} onBlur={onBlurFn} value="dev" options={op} />,
     );
     act(() => {
       wrapper.find('Input.input-select-inp').prop('onFocus')(new Event('focus'));
@@ -140,12 +138,18 @@ describe('InputSelect', () => {
     expect(wrapper.find('.option-item').at(0).find('.arrow')).not.toExist();
     expect(wrapper.find('.option-item').at(1).find('.arrow')).toExist();
     act(() => {
-      wrapper.find('.option-group-search').find('Input').simulate('change', { target: { value: options[0].value } });
+      wrapper
+        .find('.option-group-search')
+        .find('Input')
+        .simulate('change', { target: { value: options[0].value } });
     });
     wrapper.update();
     expect(wrapper.find('.option-item')).toHaveLength(1);
     act(() => {
-      wrapper.find('.option-group-search').find('Input').simulate('change', { target: { value: '' } });
+      wrapper
+        .find('.option-group-search')
+        .find('Input')
+        .simulate('change', { target: { value: '' } });
     });
     wrapper.update();
     act(() => {
@@ -160,12 +164,7 @@ describe('InputSelect', () => {
     // expect(onChangeFn).toHaveBeenLastCalledWith(op[1].children[0]);
   });
   it('should render with disabled', () => {
-    const wrapper = mount(
-      <InputSelect
-        value="dev"
-        disabled
-      />,
-    );
+    const wrapper = mount(<InputSelect value="dev" disabled />);
     expect(wrapper.find('Input').prop('value')).toBe('dev');
     expect(wrapper.find('Input').prop('disabled')).toBe(true);
   });

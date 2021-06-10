@@ -17,8 +17,16 @@ export const ApiMap = {
   sortList: {
     getFetchObj: ({ sortTab }: { sortTab: string }) => {
       const fetchMap = {
-        rt: { fetchApi: 'ai_rpc_top_time', query: { group: 'dubbo_service', avg: 'elapsed_mean', limit: 10, sort: 'avg_elapsed_mean' }, dataKey: 'avg.elapsed_mean' },
-        throughput: { fetchApi: 'ai_rpc_top_cpm', query: { group: 'dubbo_service', limit: 10, sort: 'sumCpm_elapsed_count', sumCpm: 'elapsed_count' }, dataKey: 'sumCpm.elapsed_count' },
+        rt: {
+          fetchApi: 'ai_rpc_top_time',
+          query: { group: 'dubbo_service', avg: 'elapsed_mean', limit: 10, sort: 'avg_elapsed_mean' },
+          dataKey: 'avg.elapsed_mean',
+        },
+        throughput: {
+          fetchApi: 'ai_rpc_top_cpm',
+          query: { group: 'dubbo_service', limit: 10, sort: 'sumCpm_elapsed_count', sumCpm: 'elapsed_count' },
+          dataKey: 'sumCpm.elapsed_count',
+        },
       };
       const { query = {}, fetchApi = '', dataKey = '' } = fetchMap[sortTab] || {};
       return { fetchApi, extendQuery: { ...query }, extendHandler: { dataKey } };
@@ -37,8 +45,21 @@ export const ApiMap = {
   },
   slowTrack: {
     fetchApi: 'application_rpc_slow',
-    query: { group: 'dubbo_service', limit: 10, sort: 'max_elapsed_max', max: 'elapsed_max', min: 'elapsed_min', maxFieldTimestamp: 'elapsed_max', source: true, sum: 'elapsed_count' },
-    dataHandler: slowHandler(['max:max.elapsed_max', 'count:sum.elapsed_count', 'time:maxFieldTimestamp.elapsed_max', 'min:min.elapsed_min']),
+    query: {
+      group: 'dubbo_service',
+      limit: 10,
+      sort: 'max_elapsed_max',
+      max: 'elapsed_max',
+      min: 'elapsed_min',
+      maxFieldTimestamp: 'elapsed_max',
+      source: true,
+      sum: 'elapsed_count',
+    },
+    dataHandler: slowHandler([
+      'max:max.elapsed_max',
+      'count:sum.elapsed_count',
+      'time:maxFieldTimestamp.elapsed_max',
+      'min:min.elapsed_min',
+    ]),
   },
 };
-

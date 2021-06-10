@@ -45,13 +45,11 @@ export const ClusterSSHForm = ({ form, isReadonly, data, curRef }: IFormProps) =
   ];
   return (
     <FormUnitContainer title={i18n.t('org:cluster ssh infos')} curRef={curRef}>
-      {
-        isReadonly ? (
-          <ReadonlyForm fieldsList={fieldsList} data={data} />
-        ) : (
-          <RenderPureForm list={fieldsList} form={form} layout="vertical" className="deploy-form-render" />
-        )
-      }
+      {isReadonly ? (
+        <ReadonlyForm fieldsList={fieldsList} data={data} />
+      ) : (
+        <RenderPureForm list={fieldsList} form={form} layout="vertical" className="deploy-form-render" />
+      )}
     </FormUnitContainer>
   );
 };

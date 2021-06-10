@@ -25,7 +25,6 @@ import './release-detail.scss';
 import { appMode } from 'application/common/config';
 import appStore from 'application/stores/application';
 
-
 interface IProps {
   releaseId: string;
   data?: RELEASE.detail;
@@ -59,16 +58,15 @@ const ReleaseDetail = ({ releaseId, data }: IProps) => {
             <Menu.Item key="edit">{i18n.t('application:details')}</Menu.Item>
             <Menu.Item key="info">{i18n.t('application:basic information')}</Menu.Item>
             {![appMode.MOBILE].includes(appDetail.mode) && <Menu.Item key="yml">dice.yml</Menu.Item>}
-          </Menu >
+          </Menu>
         </div>
       </div>
 
       {chosenMenu === 'edit' && <ReleaseEdit data={data} updateInfo={updateInfo} />}
       {chosenMenu === 'info' && <ReleaseInfo data={data} />}
       {chosenMenu === 'yml' && <DetailYml releaseId={releaseId} />}
-    </div >
+    </div>
   );
 };
-
 
 export default ReleaseDetail;

@@ -49,7 +49,10 @@ const formatVersionTree = (data: API_MARKET.VersionTreeItem[]) => {
 };
 
 export interface ChooseVersion {
-  swaggerVersion: string; major: number; minor: number; selectedKeys: string[];
+  swaggerVersion: string;
+  major: number;
+  minor: number;
+  selectedKeys: string[];
 }
 
 interface IProps {
@@ -68,8 +71,15 @@ interface IState {
 
 const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProps) => {
   const params = routeInfoStore.useStore((s) => s.params);
-  const { getVersionTree, getListOfVersions, getInstance, deleteAssetVersion, updateAssetVersion } = apiMarketStore.effects;
-  const [assetVersionList, versionTree, instance, assetDetail, instancePermission] = apiMarketStore.useStore((s) => [s.assetVersionList, s.versionTree, s.instance, s.assetDetail, s.instancePermission]);
+  const { getVersionTree, getListOfVersions, getInstance, deleteAssetVersion, updateAssetVersion } =
+    apiMarketStore.effects;
+  const [assetVersionList, versionTree, instance, assetDetail, instancePermission] = apiMarketStore.useStore((s) => [
+    s.assetVersionList,
+    s.versionTree,
+    s.instance,
+    s.assetDetail,
+    s.instancePermission,
+  ]);
   const creatorID = get(assetDetail, ['asset', 'creatorID']);
   const instanceUrl = get(instance, 'url');
   const [state, updater, update] = useUpdate<IState>({
@@ -107,7 +117,15 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
   useImperativeHandle(versionRef, () => ({
     handleTreeSelect,
   }));
-  const handleTreeSelect = ({ swaggerVersion, major, minor }: {swaggerVersion: string; major: number; minor: number}) => {
+  const handleTreeSelect = ({
+    swaggerVersion,
+    major,
+    minor,
+  }: {
+    swaggerVersion: string;
+    major: number;
+    minor: number;
+  }) => {
     const temp = {
       major,
       minor,
@@ -170,7 +188,10 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
       },
     });
   };
-  const toggleDeprecated = ({ id, deprecated, major, minor, patch, assetName }: API_MARKET.AssetVersion, e: React.MouseEvent<HTMLSpanElement>) => {
+  const toggleDeprecated = (
+    { id, deprecated, major, minor, patch, assetName }: API_MARKET.AssetVersion,
+    e: React.MouseEvent<HTMLSpanElement>,
+  ) => {
     e.stopPropagation();
     const name = `${assetName} ${major}.${minor}.${patch}`;
     let icon: string | undefined = 'warning';
@@ -220,16 +241,28 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
       width: 200,
       render: (_text, { version }) => (
         <TableActions>
-          <span onClick={(e) => {
-            handleExport(version, e);
-          }}
-          >{i18n.t('export')}
+          <span
+            onClick={(e) => {
+              handleExport(version, e);
+            }}
+          >
+            {i18n.t('export')}
           </span>
           <UnityAuthWrap wrap={false} userID={creatorID} path={['apiMarket', 'deleteVersion']}>
-            <span onClick={((e) => { handleDeleteVersion(version, e); })}>{i18n.t('delete')}</span>
+            <span
+              onClick={(e) => {
+                handleDeleteVersion(version, e);
+              }}
+            >
+              {i18n.t('delete')}
+            </span>
           </UnityAuthWrap>
           <UnityAuthWrap wrap={false} userID={creatorID} path={['apiMarket', 'addVersion']}>
-            <span onClick={((e) => { toggleDeprecated(version, e); })}>
+            <span
+              onClick={(e) => {
+                toggleDeprecated(version, e);
+              }}
+            >
               {version.deprecated ? i18n.t('revert deprecated version') : i18n.t('deprecate version')}
             </span>
           </UnityAuthWrap>
@@ -264,35 +297,19 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
         <div className="flex-box">
           <div className="title color-text bold-500 fz16 my12">{i18n.t('related instance')}</div>
           <UnityAuthWrap userID={creatorID} path={['apiMarket', 'relatedInstance']}>
-            <Button onClick={handleRelation}>
-              {i18n.t('edit')}
-            </Button>
+            <Button onClick={handleRelation}>{i18n.t('edit')}</Button>
           </UnityAuthWrap>
         </div>
-        {
-          instance.type === 'dice' ? (
-            <>
-              <div className="color-text-desc instance-label">{i18n.t('service name')}</div>
-              <div className="color-text-sub bold-500 instance-name mb12">
-                {
-                  get(instance, 'serviceName', '-')
-                }
-              </div>
-              <div className="color-text-desc instance-label">{i18n.t('microService:deployment branch')}</div>
-              <div className="color-text-sub bold-500 instance-name mb12">
-                {
-                  get(instance, 'runtimeName', '-')
-                }
-              </div>
-            </>
-          ) : null
-        }
+        {instance.type === 'dice' ? (
+          <>
+            <div className="color-text-desc instance-label">{i18n.t('service name')}</div>
+            <div className="color-text-sub bold-500 instance-name mb12">{get(instance, 'serviceName', '-')}</div>
+            <div className="color-text-desc instance-label">{i18n.t('microService:deployment branch')}</div>
+            <div className="color-text-sub bold-500 instance-name mb12">{get(instance, 'runtimeName', '-')}</div>
+          </>
+        ) : null}
         <div className="color-text-desc instance-label">{i18n.t('related instance')}</div>
-        <div className="color-text-sub bold-500 instance-name mb24">
-          {
-            instanceUrl || '-'
-          }
-        </div>
+        <div className="color-text-sub bold-500 instance-name mb24">{instanceUrl || '-'}</div>
         <div className="title color-text bold-500 fz16 mb12">{i18n.t('version list')}</div>
         <Table<API_MARKET.VersionItem>
           rowKey={({ version: { major, minor, patch } }) => `${major}-${minor}-${patch}`}
@@ -319,4 +336,6 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
   );
 };
 
-export default React.forwardRef((props: Omit<IProps, 'versionRef'>, ref) => <VersionInfo {...props} versionRef={ref} />);
+export default React.forwardRef((props: Omit<IProps, 'versionRef'>, ref) => (
+  <VersionInfo {...props} versionRef={ref} />
+));

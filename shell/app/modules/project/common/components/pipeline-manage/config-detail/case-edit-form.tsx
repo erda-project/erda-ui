@@ -15,7 +15,7 @@ import * as React from 'react';
 import { FormModal } from 'common';
 import i18n from 'i18n';
 
-interface IProps{
+interface IProps {
   visible: boolean;
   onClose: () => void;
   onOk: (arg: any) => void;

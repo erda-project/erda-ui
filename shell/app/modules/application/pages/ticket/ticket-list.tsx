@@ -20,7 +20,7 @@ import { useLoading } from 'app/common/stores/loading';
 import ticketStore from 'application/stores/ticket';
 import i18n from 'i18n';
 import { ColumnProps } from 'core/common/interface';
-import { IUseFilterProps } from 'interface/common';
+import { IUseFilterProps } from 'app/interface/common';
 import routeInfoStore from 'common/stores/route';
 
 import './ticket-list.scss';
@@ -38,7 +38,11 @@ const Filter = React.memo(({ onReset, onSubmit }: IFilter) => {
         name: 'type',
         customProps: {
           placeholder: i18n.t('filter by {name}', { name: i18n.t('type') }),
-          options: getTicketType().map(({ name, value }) => <Option key={value} value={value}>{name}</Option>),
+          options: getTicketType().map(({ name, value }) => (
+            <Option key={value} value={value}>
+              {name}
+            </Option>
+          )),
         },
       },
       {
@@ -46,7 +50,11 @@ const Filter = React.memo(({ onReset, onSubmit }: IFilter) => {
         name: 'priority',
         customProps: {
           placeholder: i18n.t('filter by {name}', { name: i18n.t('application:priority') }),
-          options: TicketPriority.map((priorityType: any) => <Option key={priorityType.value} value={priorityType.value}>{priorityType.name}</Option>),
+          options: TicketPriority.map((priorityType: any) => (
+            <Option key={priorityType.value} value={priorityType.value}>
+              {priorityType.name}
+            </Option>
+          )),
         },
       },
       {
@@ -67,7 +75,7 @@ const updateKeyMap = {
   closed: 'closedAt',
 };
 
-export const TicketList = (props: Pick<IUseFilterProps, 'onSubmit'| 'onReset'| 'onPageChange'>) => {
+export const TicketList = (props: Pick<IUseFilterProps, 'onSubmit' | 'onReset' | 'onPageChange'>) => {
   const [ticketList, paging] = ticketStore.useStore((s) => [s.ticketList, s.paging]);
   const { onSubmit, onReset, onPageChange } = props;
   const [loading] = useLoading(ticketStore, ['getTicketList']);
@@ -102,11 +110,7 @@ export const TicketList = (props: Pick<IUseFilterProps, 'onSubmit'| 'onReset'| '
       width: 90,
       render: (text) => {
         const priority: any = TicketPriority.find((t: any) => t.value === text);
-        return (
-          <span className={priority.color}>
-            {priority.name}
-          </span>
-        );
+        return <span className={priority.color}>{priority.name}</span>;
       },
     },
     {
@@ -156,7 +160,9 @@ export const TicketList = (props: Pick<IUseFilterProps, 'onSubmit'| 'onReset'| '
           }}
           onRow={(record: TICKET.Ticket) => {
             return {
-              onClick: () => { goTo(`./${record.id}`); },
+              onClick: () => {
+                goTo(`./${record.id}`);
+              },
             };
           }}
         />

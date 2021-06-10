@@ -39,7 +39,6 @@ export const CHART_NODE_SIZE = {
   },
 };
 
-
 export const CHART_CONFIG = {
   MARGIN: {
     NORMAL: {

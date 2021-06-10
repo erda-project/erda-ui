@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace MONITOR_EI {
-
   interface ITableData {
     name: string;
     httpCode: string;
@@ -31,5 +30,4 @@ declare namespace MONITOR_EI {
       elapsed_max: string;
     };
   }
-
 }

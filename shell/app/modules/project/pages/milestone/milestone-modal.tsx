@@ -26,10 +26,7 @@ interface IProps {
 }
 export const MilestoneModal = ({ visible, data, reload, onCancel }: IProps) => {
   const params = routeInfoStore.useStore((s) => s.params);
-  const {
-    updateIssue,
-    createIssue,
-  } = issueStore.effects;
+  const { updateIssue, createIssue } = issueStore.effects;
 
   const fieldsList = [
     {
@@ -48,12 +45,7 @@ export const MilestoneModal = ({ visible, data, reload, onCancel }: IProps) => {
       name: 'assignee',
       label: i18n.t('project:assignee to'),
       getComp: () => {
-        return (
-          <MemberSelector
-            scopeType="project"
-            scopeId={params.projectId}
-          />
-        );
+        return <MemberSelector scopeType="project" scopeId={params.projectId} />;
       },
     },
     {
@@ -69,22 +61,20 @@ export const MilestoneModal = ({ visible, data, reload, onCancel }: IProps) => {
 
   const handleSubmit = (formData: { title: string; content: string; assignee: string; planFinishedAt: string }) => {
     if (data) {
-      updateIssue({ ...data, ...formData })
-        .finally(() => {
-          reload();
-          onCancel();
-        });
+      updateIssue({ ...data, ...formData }).finally(() => {
+        reload();
+        onCancel();
+      });
     } else {
       createIssue({
-        ...formData as any,
+        ...(formData as any),
         projectID: +params.projectId,
         type: ISSUE_TYPE.EPIC,
         iterationID: -1,
-      })
-        .finally(() => {
-          reload();
-          onCancel();
-        });
+      }).finally(() => {
+        reload();
+        onCancel();
+      });
     }
   };
 

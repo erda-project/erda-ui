@@ -49,33 +49,46 @@ const SelectPro = (props: CP_SELECT_PRO.Props) => {
     }
   };
 
-  const renderOption = React.useCallback((item) => {
-    let option: React.ReactNode = null;
-    switch (renderType) {
-      case 'apiProto': {
-        const { id, method, assetName, version, operationID, path } = item;
-        const tips = [assetName, version, operationID].filter((t) => !!t);
-        option = (
-          <Option value={id} key={id} label={`${method} ${path}`}>
-            <div className="color-text-sub nowrap" >{tips.join(' / ')}</div>
-            <div className="color-text">{method} {path}</div>
-          </Option>
-        );
+  const renderOption = React.useCallback(
+    (item) => {
+      let option: React.ReactNode = null;
+      switch (renderType) {
+        case 'apiProto':
+          {
+            const { id, method, assetName, version, operationID, path } = item;
+            const tips = [assetName, version, operationID].filter((t) => !!t);
+            option = (
+              <Option value={id} key={id} label={`${method} ${path}`}>
+                <div className="color-text-sub nowrap">{tips.join(' / ')}</div>
+                <div className="color-text">
+                  {method} {path}
+                </div>
+              </Option>
+            );
+          }
+          break;
+        default:
+          option = (
+            <Option value={item.id} key={item.id}>
+              {item.name}
+            </Option>
+          );
       }
-        break;
-      default:
-        option = <Option value={item.id} key={item.id}>{item.name}</Option>;
-    }
-    return option;
-  }, [renderType]);
+      return option;
+    },
+    [renderType],
+  );
 
   const content = React.useMemo(() => {
-    return map((data?.list || []), renderOption);
+    return map(data?.list || [], renderOption);
   }, [data, renderOption]);
 
-  const handleSearch = React.useCallback(debounce((val: string) => {
-    execOperation(operations?.onSearch, val);
-  }, wait), [wait]);
+  const handleSearch = React.useCallback(
+    debounce((val: string) => {
+      execOperation(operations?.onSearch, val);
+    }, wait),
+    [wait],
+  );
 
   const restProps = React.useMemo(() => {
     const obj: SelectProps<any> = omit(configProps, customizeProps);
@@ -87,12 +100,7 @@ const SelectPro = (props: CP_SELECT_PRO.Props) => {
 
   return (
     <>
-      <NusiSelect
-        filterOption={false}
-        {...restProps}
-        value={selectVal}
-        onChange={handleChange}
-      >
+      <NusiSelect filterOption={false} {...restProps} value={selectVal} onChange={handleChange}>
         {content}
       </NusiSelect>
     </>

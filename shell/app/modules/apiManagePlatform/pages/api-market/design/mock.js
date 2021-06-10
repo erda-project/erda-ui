@@ -551,26 +551,16 @@ const mock = {
       },
       data2xx: {
         type: 'object',
-        required: [
-          'newProperty',
-          'newProperty1',
-        ],
+        required: ['newProperty', 'newProperty1'],
         properties: {
           newProperty: {
             type: 'object',
-            required: [
-              'newProperty',
-              'newProperty1',
-              'newProperty2',
-              'newProperty3',
-            ],
+            required: ['newProperty', 'newProperty1', 'newProperty2', 'newProperty3'],
             description: 'description',
             properties: {
               newProperty: {
                 type: 'object',
-                required: [
-                  'newProperty',
-                ],
+                required: ['newProperty'],
                 properties: {
                   newProperty: {
                     example: 'Example',
@@ -609,11 +599,7 @@ const mock = {
       some_tableg: {
         description: 'hhh',
         type: 'object',
-        required: [
-          'id',
-          'name',
-          'age',
-        ],
+        required: ['id', 'name', 'age'],
         properties: {
           id: {
             example: 1.0,
@@ -653,7 +639,7 @@ const mock = {
       description: 'Everything about your Pets',
       externalDocs: {
         description: 'Find out more',
-        url: 'http:\/\/swagger.io',
+        url: 'http://swagger.io',
       },
       name: 'pet',
     },
@@ -665,7 +651,7 @@ const mock = {
       description: 'Operations about user',
       externalDocs: {
         description: 'Find out more about our store',
-        url: 'http:\/\/swagger.io',
+        url: 'http://swagger.io',
       },
       name: 'user',
     },

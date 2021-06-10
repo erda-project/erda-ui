@@ -59,14 +59,13 @@ export const useMediaSize = () => {
   return [largeThan600, largeThan1024, largeThan1440];
 };
 
-export const useMediaGt = (num: number, main = false, ignoreWidth = defaultIgnoreWidth) => useMedia(`(min-width: ${num + (main ? ignoreWidth : 0)}px)`);
-export const useMediaLt = (num: number, main = false, ignoreWidth = defaultIgnoreWidth) => useMedia(`(max-width: ${num + (main ? ignoreWidth : 0)}px)`);
-
+export const useMediaGt = (num: number, main = false, ignoreWidth = defaultIgnoreWidth) =>
+  useMedia(`(min-width: ${num + (main ? ignoreWidth : 0)}px)`);
+export const useMediaLt = (num: number, main = false, ignoreWidth = defaultIgnoreWidth) =>
+  useMedia(`(max-width: ${num + (main ? ignoreWidth : 0)}px)`);
 
 export const useComponentWidth = () => {
-  const [sized, { width }] = useSize(
-    () => <div style={{ width: '100%' }} />,
-  );
+  const [sized, { width }] = useSize(() => <div style={{ width: '100%' }} />);
   return [sized, width];
 };
 
@@ -146,8 +145,7 @@ export const useListDnD = ({ type, index, onMove, collect }: IDragProps) => {
       const hoverBoundingRect = dragRef.current!.getBoundingClientRect();
 
       // Get vertical middle
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
 
       // Determine mouse position
       const clientOffset = monitor.getClientOffset();
@@ -190,12 +188,11 @@ export const useListDnD = ({ type, index, onMove, collect }: IDragProps) => {
   return [dragRef, previewRef, collectedProps];
 };
 
-
 type UpdateFn<T> = (patch: Partial<T> | ((prevState: T) => Partial<T>)) => void;
 type UpdatePartFn<U> = (patch: U | Function) => void;
 
 type UpdaterFn<T> = {
-  [K in keyof T]: UpdatePartFn<T[K]>
+  [K in keyof T]: UpdatePartFn<T[K]>;
 };
 
 // 测试 useUpdate 类型
@@ -222,12 +219,14 @@ type UpdaterFn<T> = {
 //   return null;
 // };
 
-
 type NullableValue<T> = {
-  [K in keyof T]: T[K] extends null ? null | Obj // 初始状态里对象值可能是null
-    : T[K] extends never[] ? any[] // 初始值是空数组，则认为可放任意结构数组
-      : T[K] extends { [p: string]: never } ? Obj // 初始值是空对象，不限制内部结构，是object类型即可
-        : T[K]
+  [K in keyof T]: T[K] extends null
+    ? null | Obj // 初始状态里对象值可能是null
+    : T[K] extends never[]
+    ? any[] // 初始值是空数组，则认为可放任意结构数组
+    : T[K] extends { [p: string]: never }
+    ? Obj // 初始值是空对象，不限制内部结构，是object类型即可
+    : T[K];
 };
 
 type ResetFn = () => void;
@@ -282,10 +281,12 @@ export const useUpdate = <T extends object>(
  * @param param.Form 分离的FormModal
  * @return [FormModal, toggle]
  */
-export const useFormModal = ({ visible: initVisible = false, Form = FormModal } = {
-  visible: false,
-  Form: FormModal,
-}) => {
+export const useFormModal = (
+  { visible: initVisible = false, Form = FormModal } = {
+    visible: false,
+    Form: FormModal,
+  },
+) => {
   const [visible, toggleVisible] = React.useState(!!initVisible);
   const toggle = (vi: boolean) => {
     const newVal = typeof vi === 'boolean' ? vi : !visible;
@@ -297,10 +298,7 @@ export const useFormModal = ({ visible: initVisible = false, Form = FormModal } 
     return <Form onCancel={onCancel} {...props} visible={visible} />;
   };
 
-  return [
-    Modal,
-    toggle as any,
-  ];
+  return [Modal, toggle as any];
 };
 
 const defaultPaging = {
@@ -335,49 +333,47 @@ export function useTempPaging<T>({
   basicParams = emptyObj,
   service,
   listKey = 'list',
-}: ITempPagingParams<T>): [
-    T[],
-    IPaging,
-    boolean,
-    (params?: any) => Promise<any>,
-    () => void
-  ] {
+}: ITempPagingParams<T>): [T[], IPaging, boolean, (params?: any) => Promise<any>, () => void] {
   const [loading, setLoading] = React.useState(false);
   const [list, setList] = React.useState(initList);
   const [paging, setPaging] = React.useState(defaultPaging);
 
   const basic = React.useRef(basicParams);
 
-  const load = React.useCallback((params: Obj = {}) => {
-    setLoading(true);
-    return service({ pageNo: paging.pageNo, pageSize: paging.pageSize, ...basic.current, ...params })
-      .then((result: any) => {
-        if (result.success && result.data) {
-          const newList = result.data[listKey];
-          const { total } = result.data;
-          if (Array.isArray(newList)) {
-            if (append) {
-              setList(list.concat(newList));
-            } else {
-              setList(newList);
+  const load = React.useCallback(
+    (params: Obj = {}) => {
+      setLoading(true);
+      return service({ pageNo: paging.pageNo, pageSize: paging.pageSize, ...basic.current, ...params })
+        .then((result: any) => {
+          if (result.success && result.data) {
+            const newList = result.data[listKey];
+            const { total } = result.data;
+            if (Array.isArray(newList)) {
+              if (append) {
+                setList(list.concat(newList));
+              } else {
+                setList(newList);
+              }
             }
+            const nextPageNo = params.pageNo || paging.pageNo;
+            const nextPageSize = params.pageSize || paging.pageSize;
+            setPaging({
+              pageNo: nextPageNo,
+              pageSize: nextPageSize,
+              total,
+              hasMore: Math.ceil(total / nextPageSize) > nextPageNo,
+            });
+            return result.data;
+          } else {
+            notify('error', result.err.msg);
           }
-          const nextPageNo = params.pageNo || paging.pageNo;
-          const nextPageSize = params.pageSize || paging.pageSize;
-          setPaging({
-            pageNo: nextPageNo,
-            pageSize: nextPageSize,
-            total,
-            hasMore: Math.ceil(total / nextPageSize) > nextPageNo,
-          });
-          return result.data;
-        } else {
-          notify('error', result.err.msg);
-        }
-      }).finally(() => {
-        setLoading(false);
-      });
-  }, [append, list, listKey, paging, service]);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    },
+    [append, list, listKey, paging, service],
+  );
 
   const clear = React.useCallback(() => {
     setList([]);

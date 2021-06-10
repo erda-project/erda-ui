@@ -21,10 +21,10 @@
 
   &.new-deploy {
     color: $color-text-icon;
-    background: rgba(255, 255, 255, .3);
-    border: 2px dotted rgba(0, 0, 0, .1);
+    background: rgba(255, 255, 255, 0.3);
+    border: 2px dotted rgba(0, 0, 0, 0.1);
     box-shadow: none;
-    transition: all .1s ease-in-out;
+    transition: all 0.1s ease-in-out;
 
     &:hover {
       border-color: $color-active;

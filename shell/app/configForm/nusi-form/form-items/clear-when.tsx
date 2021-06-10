@@ -19,7 +19,7 @@ import i18n from 'i18n';
 
 const { Option } = Select;
 
-interface IProps{
+interface IProps {
   value: string[];
   allField: any[];
   form: any;
@@ -32,9 +32,14 @@ const ClearFieldSelector = (props: IProps) => {
 
   React.useEffect(() => {
     if (optionInit) {
-      setOptions(map(filter(allField, (item: any) => item.key !== form.getData().key), 'key'));
+      setOptions(
+        map(
+          filter(allField, (item: any) => item.key !== form.getData().key),
+          'key',
+        ),
+      );
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [optionInit]);
 
   return (
@@ -44,59 +49,52 @@ const ClearFieldSelector = (props: IProps) => {
       onChange={onChange}
       onDropdownVisibleChange={(isOpen) => isOpen && !optionInit && setOptionInit(true)}
     >
-      {map(options, (item) => (<Option key={item} value={item}>{item}</Option>))}
+      {map(options, (item) => (
+        <Option key={item} value={item}>
+          {item}
+        </Option>
+      ))}
     </Select>
   );
 };
 
-
 const FormItem = Form.Item;
 
-export const FormClearWhen = ({
-  fixOut = noop,
-  fixIn = noop,
-  extensionFix,
-  requiredCheck,
-  trigger = 'onChange',
-}) => React.memo(({ fieldConfig, form, allField }: any) => {
-  const {
-    key,
-    value,
-    label,
-    visible,
-    valid,
-    registerRequiredCheck,
-    componentProps,
-    required,
-    wrapperProps,
-    labelTip,
-    requiredCheck: _requiredCheck,
-  } = fieldConfig;
-  registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (val: any) => {
-    form.setFieldValue(key, fixOut(val));
-    (componentProps.onChange || noop)(val);
-  };
+export const FormClearWhen = ({ fixOut = noop, fixIn = noop, extensionFix, requiredCheck, trigger = 'onChange' }) =>
+  React.memo(({ fieldConfig, form, allField }: any) => {
+    const {
+      key,
+      value,
+      label,
+      visible,
+      valid,
+      registerRequiredCheck,
+      componentProps,
+      required,
+      wrapperProps,
+      labelTip,
+      requiredCheck: _requiredCheck,
+    } = fieldConfig;
+    registerRequiredCheck(_requiredCheck || requiredCheck);
+    const handleChange = (val: any) => {
+      form.setFieldValue(key, fixOut(val));
+      (componentProps.onChange || noop)(val);
+    };
 
-  return (
-    <FormItem
-      colon
-      label={getLabel(label, labelTip)}
-      className={visible ? '' : 'hide'}
-      validateStatus={valid[0]}
-      help={valid[1]}
-      required={required}
-      {...wrapperProps}
-    >
-      <ClearFieldSelector
-        value={fixIn(value)}
-        onChange={handleChange}
-        allField={allField}
-        form={form}
-      />
-    </FormItem>
-  );
-});
+    return (
+      <FormItem
+        colon
+        label={getLabel(label, labelTip)}
+        className={visible ? '' : 'hide'}
+        validateStatus={valid[0]}
+        help={valid[1]}
+        required={required}
+        {...wrapperProps}
+      >
+        <ClearFieldSelector value={fixIn(value)} onChange={handleChange} allField={allField} form={form} />
+      </FormItem>
+    );
+  });
 
 export const config = {
   name: 'clearWhen',

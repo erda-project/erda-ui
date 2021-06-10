@@ -55,18 +55,23 @@ const rootBodyPath = {
   key: 0,
   data: {},
 };
-const noExpandTypes = [
-  'array[string]',
-  'array[number]',
-  'array[boolean]',
-  'null',
-];
-const RenderBody = ({ root, properties = {}, dataType: dType }: {root: string; properties?: {[key: string]: any}; dataType: string}) => {
-  const [bodyPath, setBodyPath] = useState([{
-    ...rootBodyPath,
-    title: root || rootBodyPath.title,
-    name: root || rootBodyPath.name,
-  }]);
+const noExpandTypes = ['array[string]', 'array[number]', 'array[boolean]', 'null'];
+const RenderBody = ({
+  root,
+  properties = {},
+  dataType: dType,
+}: {
+  root: string;
+  properties?: { [key: string]: any };
+  dataType: string;
+}) => {
+  const [bodyPath, setBodyPath] = useState([
+    {
+      ...rootBodyPath,
+      title: root || rootBodyPath.title,
+      name: root || rootBodyPath.name,
+    },
+  ]);
   const [bodyData, setBodyData] = useState({});
   const [dataType, setDataType] = useState('object');
   useEffect(() => {
@@ -86,16 +91,19 @@ const RenderBody = ({ root, properties = {}, dataType: dType }: {root: string; p
     const data = type === 'array' ? items.properties : property || rsetParmas;
     setDataType(type);
     setBodyData(data);
-    setBodyPath([...bodyPath, {
-      title: params,
-      name: type === 'array' ? params : title,
-      params,
-      type,
-      key: bodyPath.length,
-      data,
-    }]);
+    setBodyPath([
+      ...bodyPath,
+      {
+        title: params,
+        name: type === 'array' ? params : title,
+        params,
+        type,
+        key: bodyPath.length,
+        data,
+      },
+    ]);
   };
-  const generatorType = (params: string, item: {[k: string]: any; type: string; items: Record<string, any>}) => {
+  const generatorType = (params: string, item: { [k: string]: any; type: string; items: Record<string, any> }) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { type, items = {}, enum: enums = [], properties: property, description, ...rest } = item;
     const rsetParmas = get(values(rest), '[0].properties') || {};
@@ -130,36 +138,33 @@ const RenderBody = ({ root, properties = {}, dataType: dType }: {root: string; p
       let showExpand = true;
       if (['object', 'array'].includes(paramsProps.type)) {
         const { type, allowExpand } = generatorType(params, paramsProps);
-        paramsType = type; showExpand = allowExpand;
+        paramsType = type;
+        showExpand = allowExpand;
       }
       return (
         <Row type="flex" key={params} className="params-row bb mb4 ml20">
           <Col span={6}>
-            <div className="param-key nowrap">
-              {params}
-            </div>
+            <div className="param-key nowrap">{params}</div>
           </Col>
           <Col span={6}>
             <div className="param-type nowrap">
-              {
-                ['object', 'array'].includes(paramsProps.type) && showExpand ? (
-                  <span
-                    className={`mb12 nowrap ${noExpandTypes.includes(paramsType) ? '' : 'highlight '}`}
-                    onClick={() => {
-                      expand(params, paramsProps);
-                    }}
-                  >
-                    {paramsType}
-                  </span>
-                ) : paramsType
-              }
+              {['object', 'array'].includes(paramsProps.type) && showExpand ? (
+                <span
+                  className={`mb12 nowrap ${noExpandTypes.includes(paramsType) ? '' : 'highlight '}`}
+                  onClick={() => {
+                    expand(params, paramsProps);
+                  }}
+                >
+                  {paramsType}
+                </span>
+              ) : (
+                paramsType
+              )}
             </div>
           </Col>
           <Col span={12}>
             <Tooltip title={paramsProps.description} placement={'topLeft'}>
-              <div className="param-description nowrap">
-                {paramsProps.description || ''}
-              </div>
+              <div className="param-description nowrap">{paramsProps.description || ''}</div>
             </Tooltip>
           </Col>
         </Row>
@@ -167,7 +172,7 @@ const RenderBody = ({ root, properties = {}, dataType: dType }: {root: string; p
     });
   };
 
-  const changeRoute = ({ key, type, data }: {key: number; type: string; data: any}, jump: boolean) => {
+  const changeRoute = ({ key, type, data }: { key: number; type: string; data: any }, jump: boolean) => {
     if (!jump) {
       return;
     }
@@ -190,11 +195,10 @@ const RenderBody = ({ root, properties = {}, dataType: dType }: {root: string; p
             onClick={() => {
               changeRoute(item, index !== bodyPath.length - 1);
             }}
-          >{item.title}
+          >
+            {item.title}
           </span>
-          {
-            index === bodyPath.length - 1 ? null : <span className="separator">/</span>
-          }
+          {index === bodyPath.length - 1 ? null : <span className="separator">/</span>}
         </Fragment>
       );
     });
@@ -202,14 +206,8 @@ const RenderBody = ({ root, properties = {}, dataType: dType }: {root: string; p
 
   return (
     <>
-      <div className="api-router">
-        {
-          renderBodyPath()
-        }
-      </div>
-      {
-        dataType ? <p className="tips">if type is: {dataType}</p> : null
-      }
+      <div className="api-router">{renderBodyPath()}</div>
+      {dataType ? <p className="tips">if type is: {dataType}</p> : null}
       {renderBody(bodyData)}
     </>
   );
@@ -218,34 +216,34 @@ const RenderBody = ({ root, properties = {}, dataType: dType }: {root: string; p
 const renderCommonParams = (params: any[] = []) => {
   return (
     <>
-      {
-        params.map((item: any) => {
-          const subType = item.items ? `[${item.items.type}]` : null;
-          const { name, required, type, format, description } = item;
-          return (
-            <Row type="flex" key={name} className="params-row bb mb4">
-              <Col span={6}>
-                <div className="param-key">
-                  {name}&nbsp;{required ? '(required)' : null}
-                </div>
-              </Col>
-              <Col span={6}>
-                <div className="param-type">{type || 'object'}{format ? `(${format})` : null}{subType}</div>
-              </Col>
-              <Col span={12}>
-                <div className="param-description">
-                  {description}
-                </div>
-              </Col>
-            </Row>
-          );
-        })
-      }
+      {params.map((item: any) => {
+        const subType = item.items ? `[${item.items.type}]` : null;
+        const { name, required, type, format, description } = item;
+        return (
+          <Row type="flex" key={name} className="params-row bb mb4">
+            <Col span={6}>
+              <div className="param-key">
+                {name}&nbsp;{required ? '(required)' : null}
+              </div>
+            </Col>
+            <Col span={6}>
+              <div className="param-type">
+                {type || 'object'}
+                {format ? `(${format})` : null}
+                {subType}
+              </div>
+            </Col>
+            <Col span={12}>
+              <div className="param-description">{description}</div>
+            </Col>
+          </Row>
+        );
+      })}
     </>
   );
 };
 
-const ApiView = ({ api }: { api: any}) => {
+const ApiView = ({ api }: { api: any }) => {
   const parametersMap: Dictionary<any[]> = groupBy(api.parameters, 'in');
   const { schema: bodySchema = {} } = parametersMap.body ? parametersMap.body[0] || {} : {};
   const renderParameters = (paramMap: Dictionary<any[]>) => {
@@ -253,23 +251,25 @@ const ApiView = ({ api }: { api: any}) => {
       return (
         <Fragment key={paramsType}>
           <div className="api-properties-title">{paramsTitleMap[paramsType]}</div>
-          {
-            Object.keys(bodyContentType).includes(paramsType) ? (
-              <div className="mb32">
-                <p className="tips">Request payload in application/json, application/x-www-form-urlencoded, or application/xml</p>
-                <p className="tips mb16">format.{bodyContentType[paramsType] || 'application/json'}</p>
-                {
-                  paramsType === 'body' ? <RenderBody root="Request Body" dataType={bodySchema.type || 'object'} properties={bodySchema.properties || bodySchema.items.properties || {}} /> : renderCommonParams(params)
-                }
-              </div>
-            ) : (
-              <div className="mb20">
-                {
-                  renderCommonParams(params)
-                }
-              </div>
-            )
-          }
+          {Object.keys(bodyContentType).includes(paramsType) ? (
+            <div className="mb32">
+              <p className="tips">
+                Request payload in application/json, application/x-www-form-urlencoded, or application/xml
+              </p>
+              <p className="tips mb16">format.{bodyContentType[paramsType] || 'application/json'}</p>
+              {paramsType === 'body' ? (
+                <RenderBody
+                  root="Request Body"
+                  dataType={bodySchema.type || 'object'}
+                  properties={bodySchema.properties || bodySchema.items.properties || {}}
+                />
+              ) : (
+                renderCommonParams(params)
+              )}
+            </div>
+          ) : (
+            <div className="mb20">{renderCommonParams(params)}</div>
+          )}
         </Fragment>
       );
     });
@@ -278,7 +278,9 @@ const ApiView = ({ api }: { api: any}) => {
     <div key={api._key} id={api._key} className="api-view">
       <div className="api-view-title colorful-bg">
         <span className={`api-method ${methodColorMap[api._method]}`}>{api._method.toUpperCase()}</span>
-        <span className="api-path"><Copy>{api._path}</Copy></span>
+        <span className="api-path">
+          <Copy>{api._path}</Copy>
+        </span>
         <div className="api-desc nowrap mb16">
           <Tooltip placement="bottom" title={api.description}>
             {api.description}
@@ -289,48 +291,48 @@ const ApiView = ({ api }: { api: any}) => {
         {renderParameters(parametersMap)}
         <div className="api-properties-title">Responses</div>
         <div className="mb32">
-          {
-            map(api.responses, (resp, code) => {
-              const currentResp = { ...resp };
-              const status = parseInt(code, 10);
-              if (status === 200 && resp.schema) {
-                const { properties = {}, items } = resp.schema;
-                if (resp.schema.type === 'object') {
-                  if (!items) {
-                    currentResp.schema.properties = {
-                      ...properties,
-                    };
-                  }
-                } else if (resp.schema.type === 'array') {
-                  if (!items) {
-                    currentResp.schema.items = {
-                      properties: {},
-                    };
-                  }
+          {map(api.responses, (resp, code) => {
+            const currentResp = { ...resp };
+            const status = parseInt(code, 10);
+            if (status === 200 && resp.schema) {
+              const { properties = {}, items } = resp.schema;
+              if (resp.schema.type === 'object') {
+                if (!items) {
+                  currentResp.schema.properties = {
+                    ...properties,
+                  };
+                }
+              } else if (resp.schema.type === 'array') {
+                if (!items) {
+                  currentResp.schema.items = {
+                    properties: {},
+                  };
                 }
               }
-              return (
-                <div key={code} className="api-section api-resp">
-                  <Row type="flex" justify="space-between" align="top">
-                    <Col span={6}>
-                      <div className="key">
-                        {code}
-                      </div>
+            }
+            return (
+              <div key={code} className="api-section api-resp">
+                <Row type="flex" justify="space-between" align="top">
+                  <Col span={6}>
+                    <div className="key">{code}</div>
+                  </Col>
+                  {status === 200 && currentResp.schema && ['object', 'array'].includes(currentResp.schema.type) ? (
+                    <Col span={24}>
+                      <RenderBody
+                        dataType={currentResp.schema.type}
+                        root="Response Body"
+                        properties={currentResp.schema.properties || currentResp.schema.items.properties}
+                      />
                     </Col>
-                    {
-                      status === 200 && currentResp.schema && ['object', 'array'].includes(currentResp.schema.type) ? (
-                        <Col span={24}><RenderBody dataType={currentResp.schema.type} root="Response Body" properties={currentResp.schema.properties || currentResp.schema.items.properties} /></Col>
-                      ) : (
-                        <Col span={18}>
-                          <div>{currentResp.description}</div>
-                        </Col>
-                      )
-                    }
-                  </Row>
-                </div>
-              );
-            })
-          }
+                  ) : (
+                    <Col span={18}>
+                      <div>{currentResp.description}</div>
+                    </Col>
+                  )}
+                </Row>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

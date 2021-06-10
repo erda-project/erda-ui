@@ -1,4 +1,4 @@
-@import "./common/util.scss";
+@import './common/util.scss';
 
 .dice-form-preview {
   .form-preview-item {
@@ -53,7 +53,7 @@
     width: 100%;
     min-height: 300px;
     padding: 16px;
-    background-color: rgba(0, 0, 0, .06);
+    background-color: rgba(0, 0, 0, 0.06);
     border: none;
     border-radius: $radius;
     outline: 0;

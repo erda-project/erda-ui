@@ -14,7 +14,6 @@
 import userStore from './stores/index';
 import permStore from './stores/permission';
 
-
 export default (registerModule) => {
   return registerModule({
     key: 'user',

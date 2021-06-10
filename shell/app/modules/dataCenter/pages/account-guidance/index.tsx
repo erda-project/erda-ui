@@ -45,13 +45,11 @@ const TypeCard = (props: ITypeProps) => {
   const isAbleHover = isHover && !type.disabled;
   return (
     <div
-      className={
-        `guidance-type-card
-        ${type.disabled ? 'not-allowed' : ''}`
-      }
+      className={`guidance-type-card
+        ${type.disabled ? 'not-allowed' : ''}`}
       onMouseEnter={onHover}
       onMouseLeave={outHover}
-      onClick={!type.disabled ? onClick : () => { }}
+      onClick={!type.disabled ? onClick : () => {}}
     >
       <div className="type-icon">
         <img src={isAbleHover ? get(type, 'icon.active') : get(type, 'icon.default')} alt="cloud-type" />
@@ -78,13 +76,16 @@ const cloudAccountArr = [
     description: i18n.t('stay tuned'),
     disabled: true,
   },
-
 ];
 
-const selectArr = reduce(cloudAccountArr, (arr: any[], { name, val: value }) => {
-  if (name && value) arr.push({ value, name });
-  return arr;
-}, []);
+const selectArr = reduce(
+  cloudAccountArr,
+  (arr: any[], { name, val: value }) => {
+    if (name && value) arr.push({ value, name });
+    return arr;
+  },
+  [],
+);
 
 interface IProps {
   afterSubmit?: (resBody: any) => any;
@@ -94,10 +95,7 @@ const AccountGuidance = (props: IProps) => {
   const { afterSubmit } = props;
   const { addItem } = cloudAccountStore.effects;
 
-  const [{
-    formVisible,
-    initialSelect,
-  }, updater] = useUpdate({
+  const [{ formVisible, initialSelect }, updater] = useUpdate({
     formVisible: false,
     initialSelect: '',
   });
@@ -114,12 +112,7 @@ const AccountGuidance = (props: IProps) => {
         <p className="guidance-desc color-text-sub mb24">{i18n.t('dataCenter:after-config-can-do')}</p>
         <div className="guidance-type-row mb16">
           {map(cloudAccountArr, (item) => (
-            <TypeCard
-              key={item.type}
-              updater={updater}
-              onChosen={() => updater.formVisible(true)}
-              {...item}
-            />
+            <TypeCard key={item.type} updater={updater} onChosen={() => updater.formVisible(true)} {...item} />
           ))}
         </div>
       </div>

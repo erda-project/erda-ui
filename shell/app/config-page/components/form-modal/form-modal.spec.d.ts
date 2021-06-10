@@ -19,13 +19,13 @@ declare namespace CP_FORM_MODAL {
     state: IState;
   }
 
-  interface IState{
+  interface IState {
     formData: Obj | undefined;
     visible: boolean;
     title?: string;
   }
 
-  interface IProps{
+  interface IProps {
     width?: number;
     name?: string;
     title?: string;

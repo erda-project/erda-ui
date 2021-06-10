@@ -37,11 +37,12 @@ const SpaceList = () => {
   );
 };
 
-const useMock = (payload: Record<string, any>) => new Promise((resolve) => {
-  setTimeout(() => {
-    resolve(getMock(payload));
-  }, 100);
-});
+const useMock = (payload: Record<string, any>) =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(getMock(payload));
+    }, 100);
+  });
 
 const getMock = (payload?: Record<string, any>) => {
   const temp = cloneDeep(mock);
@@ -100,68 +101,71 @@ const mock: CONFIG_PAGE.RenderConfig = {
           ],
         },
         data: {
-          list: [{
-            id: 1,
-            name: '测试空间 A',
-            desc: '测试description',
-            status: { renderType: 'textWithBadge', value: '复制中', status: 'processing' },
-            // status枚举 "default" | "success" | "processing" | "error" | "warning" | undefined
-            operate: {
-              renderType: 'tableOperation',
-              operations: {
-                edit: {
-                  key: 'edit',
-                  text: '编辑',
-                  reload: true,
-                  meta: { id: 1 },
-                },
-                copy: {
-                  key: 'copy',
-                  text: '复制',
-                  reload: true,
-                  meta: { id: 1 },
-                },
-                delete: {
-                  key: 'delete',
-                  text: '删除',
-                  confirm: '是否确认删除',
-                  reload: true,
-                  meta: { id: 1 },
-                  disabled: true,
-                  disabledTip: '无法删除',
-                },
-              },
-            },
-          }, {
-            id: 3,
-            name: '测试空间 B',
-            desc: '测试description',
-            status: { renderType: 'textWithBadge', value: '复制失败', status: 'error' },
-            operate: {
-              renderType: 'tableOperation',
-              operations: {
-                edit: {
-                  key: 'edit',
-                  text: '编辑',
-                  reload: true,
-                  meta: { id: 1 },
-                },
-                copy: {
-                  key: 'copy',
-                  text: '复制',
-                  reload: true,
-                  meta: { id: 1 },
-                },
-                delete: {
-                  key: 'delete',
-                  text: '删除',
-                  confirm: '是否确认删除',
-                  reload: true,
-                  meta: { id: 1 },
+          list: [
+            {
+              id: 1,
+              name: '测试空间 A',
+              desc: '测试description',
+              status: { renderType: 'textWithBadge', value: '复制中', status: 'processing' },
+              // status枚举 "default" | "success" | "processing" | "error" | "warning" | undefined
+              operate: {
+                renderType: 'tableOperation',
+                operations: {
+                  edit: {
+                    key: 'edit',
+                    text: '编辑',
+                    reload: true,
+                    meta: { id: 1 },
+                  },
+                  copy: {
+                    key: 'copy',
+                    text: '复制',
+                    reload: true,
+                    meta: { id: 1 },
+                  },
+                  delete: {
+                    key: 'delete',
+                    text: '删除',
+                    confirm: '是否确认删除',
+                    reload: true,
+                    meta: { id: 1 },
+                    disabled: true,
+                    disabledTip: '无法删除',
+                  },
                 },
               },
             },
-          }],
+            {
+              id: 3,
+              name: '测试空间 B',
+              desc: '测试description',
+              status: { renderType: 'textWithBadge', value: '复制失败', status: 'error' },
+              operate: {
+                renderType: 'tableOperation',
+                operations: {
+                  edit: {
+                    key: 'edit',
+                    text: '编辑',
+                    reload: true,
+                    meta: { id: 1 },
+                  },
+                  copy: {
+                    key: 'copy',
+                    text: '复制',
+                    reload: true,
+                    meta: { id: 1 },
+                  },
+                  delete: {
+                    key: 'delete',
+                    text: '删除',
+                    confirm: '是否确认删除',
+                    reload: true,
+                    meta: { id: 1 },
+                  },
+                },
+              },
+            },
+          ],
         },
       },
       topHead: { type: 'RowContainer', props: { isTopHead: true } },
@@ -210,7 +214,11 @@ const mock: CONFIG_PAGE.RenderConfig = {
       spaceAddButton: {
         type: 'Button',
         operations: {
-          click: { key: 'addSpace', reload: false, command: { key: 'set', state: { visible: true }, target: 'spaceFormModal' } },
+          click: {
+            key: 'addSpace',
+            reload: false,
+            command: { key: 'set', state: { visible: true }, target: 'spaceFormModal' },
+          },
         },
         props: {
           text: '新建空间',

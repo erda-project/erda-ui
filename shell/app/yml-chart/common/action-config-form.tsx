@@ -12,8 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 import * as React from 'react';
 import DiceConfigPage from 'app/config-page/index';
+import routeInfoStore from 'common/stores/route';
 
-interface IProps{
+interface IProps {
   nodeData: null | IStageTask;
   editing: boolean;
   isCreate?: boolean;
@@ -25,10 +26,21 @@ interface IProps{
 
 const ActionConfigForm = (props: IProps) => {
   const { chosenActionName } = props;
+  const { projectId } = routeInfoStore.useStore((s) => s.params);
+
   const inParams = {
     actionData: props.nodeData,
+    projectId,
   };
-  return <DiceConfigPage inParams={inParams} showLoading={false} scenarioType="action" scenarioKey={chosenActionName} customProps={{ actionForm: props }} />;
+  return (
+    <DiceConfigPage
+      inParams={inParams}
+      showLoading={false}
+      scenarioType="action"
+      scenarioKey={chosenActionName}
+      customProps={{ actionForm: props }}
+    />
+  );
 };
 
 export default ActionConfigForm;

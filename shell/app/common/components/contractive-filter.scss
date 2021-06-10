@@ -21,7 +21,7 @@
     padding: 4px 8px;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color .1s ease-out;
+    transition: background-color 0.1s ease-out;
 
     &-value {
       max-width: 180px;
@@ -34,7 +34,7 @@
     i {
       margin-right: 0;
       color: $lightgray;
-      transition: color .1s ease-out;
+      transition: color 0.1s ease-out;
     }
 
     &:hover {
@@ -125,7 +125,7 @@
   .results {
     padding: 4px 0;
     border: 0;
-  
+
     &:hover {
       border: 0;
       box-shadow: unset;

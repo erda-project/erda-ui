@@ -53,7 +53,7 @@ declare namespace METRICS {
     };
   }
 
-  interface LoadMetricItemQuery{
+  interface LoadMetricItemQuery {
     filter_dpid: string;
     filter_denv: string;
     start: string;

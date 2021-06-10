@@ -16,7 +16,7 @@ import { get, find, set, floor, isEmpty, reduce, flatten, map, filter } from 'lo
 import i18n from 'i18n';
 import './link-text.scss';
 
-interface ILinkTextProps{
+interface ILinkTextProps {
   textUnderLine: boolean;
   data: {
     showText: string;
@@ -30,7 +30,7 @@ interface ILinkTextProps{
 const getOutCountTotal = (node: TOPOLOGY.INode, originData: TOPOLOGY.INode[]) => {
   const allParents = flatten(map(originData, 'parents'));
   const curOutList = filter(allParents, { id: node.id });
-  return reduce(curOutList, (sum, { metric: { count } }) => (count + sum), 0) || 1;
+  return reduce(curOutList, (sum, { metric: { count } }) => count + sum, 0) || 1;
 };
 
 export const linkTextHoverAction = (isHover: boolean, textEle: any, external?: any) => {
@@ -48,10 +48,10 @@ export const linkTextHoverAction = (isHover: boolean, textEle: any, external?: a
     const curParent: any = find(targetNode.parents, { id: sourceNode.id }) || { metric: { count: 0 } };
     // hover节点是起点，则计算占出的百分比
     if (hoverNode.id === sourceNode.id) {
-      percent = curParent.metric.count / outCountTotal * 100;
+      percent = (curParent.metric.count / outCountTotal) * 100;
     } else if (hoverNode.id === targetNode.id) {
       // hover节点是终点，则计算占入的百分比
-      percent = curParent.metric.count / inCountTotal * 100;
+      percent = (curParent.metric.count / inCountTotal) * 100;
     }
     set(textEle, 'innerHTML', `${showText}<br />${floor(percent, 2)}%`);
   } else {
@@ -64,7 +64,16 @@ const LinkText = (props: ILinkTextProps) => {
   const mqCount = get(data, 'metric.mqCount');
   const showText = `${i18n.t(`${mqCount ? 'consume count' : 'call count'}`)}:${get(data, 'metric.count', 0)}`;
   return (
-    <div onMouseEnter={onHover} data-mq-count={mqCount} onMouseLeave={outHover} className={`line-text ${textUnderLine ? 'under-line' : 'on-line'}`} data-show-text={showText} id={id}>{showText}</div>
+    <div
+      onMouseEnter={onHover}
+      data-mq-count={mqCount}
+      onMouseLeave={outHover}
+      className={`line-text ${textUnderLine ? 'under-line' : 'on-line'}`}
+      data-show-text={showText}
+      id={id}
+    >
+      {showText}
+    </div>
   );
 };
 

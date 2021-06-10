@@ -19,7 +19,6 @@ import routeInfoStore from 'app/common/stores/route';
 import SICommonStore from '../../stores/common';
 import './overview.scss';
 
-
 const Overview = () => {
   const baseInfo = SICommonStore.useStore((s) => s.baseInfo);
   const serviceName = routeInfoStore.useStore((s) => s.params.serviceName);

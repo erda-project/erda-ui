@@ -13,36 +13,38 @@
 
 import agent from 'agent';
 
-
 // 获取项目迭代列表
 export function getProjectIterations(payload: ITERATION.ListQuery): IPagingResp<ITERATION.Detail> {
   const { pageSize, ...rest } = payload;
-  return agent.get('/api/iterations')
+  return agent
+    .get('/api/iterations')
     .query({ ...rest, pageSize: pageSize || 10 })
     .then((response: any) => response.body);
 }
 
 export function getIterationDetail(payload: ITERATION.DetailQuery): Promise<ITERATION.Detail> {
   const { id, ...rest } = payload;
-  return agent.get(`/api/iterations/${id}`)
+  return agent
+    .get(`/api/iterations/${id}`)
     .query(rest)
     .then((response: any) => response.body);
 }
 
 // 创建项目迭代
 export function createProjectIteration(payload: ITERATION.CreateBody) {
-  return agent.post('/api/iterations')
+  return agent
+    .post('/api/iterations')
     .send(payload)
     .then((response: any) => response.body);
 }
 
 export function editProjectIteration({ id, ...rest }: ITERATION.UpdateBody) {
-  return agent.put(`/api/iterations/${id}`)
+  return agent
+    .put(`/api/iterations/${id}`)
     .send(rest)
     .then((response: any) => response.body);
 }
 
 export function deleteIteration(id: number) {
-  return agent.delete(`/api/iterations/${id}`)
-    .then((response: any) => response.body);
+  return agent.delete(`/api/iterations/${id}`).then((response: any) => response.body);
 }

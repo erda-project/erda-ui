@@ -66,7 +66,9 @@ const ProjectSettings = () => {
                   desc: (
                     <div>
                       {i18n.t('edit members, set member roles, role permissions please refer to')}
-                      <Link to={goTo.resolve.perm({ scope: 'project' })} target="_blank">{i18n.t('role permissions description')}</Link>
+                      <Link to={goTo.resolve.perm({ scope: 'project' })} target="_blank">
+                        {i18n.t('role permissions description')}
+                      </Link>
                     </div>
                   ),
                   children: <MembersTable scopeKey={MemberScope.PROJECT} showAuthorize />,
@@ -75,7 +77,6 @@ const ProjectSettings = () => {
             />
           ),
         },
-
       ],
     },
     {
@@ -87,11 +88,19 @@ const ProjectSettings = () => {
           tabKey: 'branchRule',
           content: (
             <ConfigLayout
-              sectionList={[{
-                title: i18n.t('project:branch rule'),
-                desc: i18n.t('project:branch-config-tip'),
-                children: <BranchRule operationAuth={permMap.setting.branchRule.operation.pass} scopeId={+projectId} scopeType="project" />,
-              }]}
+              sectionList={[
+                {
+                  title: i18n.t('project:branch rule'),
+                  desc: i18n.t('project:branch-config-tip'),
+                  children: (
+                    <BranchRule
+                      operationAuth={permMap.setting.branchRule.operation.pass}
+                      scopeId={+projectId}
+                      scopeType="project"
+                    />
+                  ),
+                },
+              ]}
             />
           ),
         },
@@ -100,15 +109,19 @@ const ProjectSettings = () => {
           tabKey: 'scanRule',
           content: (
             <ConfigLayout
-              sectionList={[{
-                title: i18n.t('project:code quality access control'),
-                desc: i18n.t('project:access-control-desc'),
-                children: <ScanRule
-                  operationAuth={permMap.setting.scanRule.operation.pass}
-                  scopeId={projectId}
-                  scopeType="project"
-                />,
-              }]}
+              sectionList={[
+                {
+                  title: i18n.t('project:code quality access control'),
+                  desc: i18n.t('project:access-control-desc'),
+                  children: (
+                    <ScanRule
+                      operationAuth={permMap.setting.scanRule.operation.pass}
+                      scopeId={projectId}
+                      scopeType="project"
+                    />
+                  ),
+                },
+              ]}
             />
           ),
         },
@@ -123,11 +136,13 @@ const ProjectSettings = () => {
           tabKey: 'issueManage',
           content: (
             <ConfigLayout
-              sectionList={[{
-                title: i18n.t('project:issue workflow'),
-                desc: i18n.t('project:issue-workflow-config-tip'),
-                children: <IssueWorkflow />,
-              }]}
+              sectionList={[
+                {
+                  title: i18n.t('project:issue workflow'),
+                  desc: i18n.t('project:issue-workflow-config-tip'),
+                  children: <IssueWorkflow />,
+                },
+              ]}
             />
           ),
         },
@@ -160,7 +175,12 @@ const ProjectSettings = () => {
               sectionList={[
                 {
                   title: i18n.t('application:help you better organize your notifications'),
-                  children: <NotifyConfig memberStore={memberStore} commonPayload={{ scopeType: 'project', scopeId: projectId, module: 'workbench' }} />,
+                  children: (
+                    <NotifyConfig
+                      memberStore={memberStore}
+                      commonPayload={{ scopeType: 'project', scopeId: projectId, module: 'workbench' }}
+                    />
+                  ),
                 },
               ]}
             />
@@ -174,13 +194,17 @@ const ProjectSettings = () => {
               sectionList={[
                 {
                   title: i18n.t('application:organize notification groups to set up notifications'),
-                  children: <NotifyGroup memberStore={memberStore} commonPayload={{ scopeType: 'project', scopeId: String(projectId) }} />,
+                  children: (
+                    <NotifyGroup
+                      memberStore={memberStore}
+                      commonPayload={{ scopeType: 'project', scopeId: String(projectId) }}
+                    />
+                  ),
                 },
               ]}
             />
           ),
         },
-
       ],
     },
   ];
@@ -202,12 +226,7 @@ const ProjectSettings = () => {
   //   });
   // }
 
-  return (
-    <SettingsTabs
-      dataSource={dataSource}
-    />
-  );
+  return <SettingsTabs dataSource={dataSource} />;
 };
-
 
 export default ProjectSettings;

@@ -31,11 +31,19 @@ export const PassAndNext = ({ hasNext, current, onClick }: IProps) => {
         <CustomIcon className="bg-color-icon" type="wh" />
         {i18n.t('project:not performed')}
       </Button>
-      <Button className="border-green" onClick={() => onClick(CaseStatus.PASSED)} disabled={current === CaseStatus.PASSED}>
+      <Button
+        className="border-green"
+        onClick={() => onClick(CaseStatus.PASSED)}
+        disabled={current === CaseStatus.PASSED}
+      >
         <CustomIcon className="bg-color-icon green" type="tg" />
         {i18n.t('project:pass')}
       </Button>
-      <Button className="border-yellow" onClick={() => onClick(CaseStatus.BLOCK)} disabled={current === CaseStatus.BLOCK}>
+      <Button
+        className="border-yellow"
+        onClick={() => onClick(CaseStatus.BLOCK)}
+        disabled={current === CaseStatus.BLOCK}
+      >
         <CustomIcon className="bg-color-icon yellow" type="zs" />
         {i18n.t('project:blocking')}
       </Button>

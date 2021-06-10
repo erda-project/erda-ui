@@ -30,7 +30,7 @@ import orgStore from 'app/org-home/stores/org';
 
 import './cluster-list.scss';
 
-interface ICardProps{
+interface ICardProps {
   cluster: ORG_CLUSTER.ICluster;
   detail: any;
   toggleAddMachine: () => void;
@@ -42,7 +42,8 @@ interface ICardProps{
 
 const MenuItem = Menu.Item;
 const ClusterCard = (props: ICardProps) => {
-  const { cluster, toggleAddCloudMachine, toggleAddMachine, checkClusterUpdate, onEdit, onDeleteCluster, detail } = props;
+  const { cluster, toggleAddCloudMachine, toggleAddMachine, checkClusterUpdate, onEdit, onDeleteCluster, detail } =
+    props;
   const { displayName, description, cloudVendor, type, name } = cluster;
   const { addMachine, addCloudMachine, edit, upgrade, deleteCluster } = {
     addMachine: { title: i18n.t('org:add machine'), onClick: () => toggleAddMachine() },
@@ -64,7 +65,9 @@ const ClusterCard = (props: ICardProps) => {
       {map(clusterOpsMap[cloudVendor || type] || [], (op) => {
         return (
           <MenuItem key={op.title}>
-            <a onClick={op.onClick} className="cluster-op-text">{op.title}</a>
+            <a onClick={op.onClick} className="cluster-op-text">
+              {op.title}
+            </a>
           </MenuItem>
         );
       })}
@@ -79,7 +82,14 @@ const ClusterCard = (props: ICardProps) => {
         </div>
         <div className="cluster-text">
           <div className="name bold-500 nowrap">
-            <span className="hover-active" onClick={() => { goTo(`./${cluster.name}/detail`); }}>{displayName || name}</span>
+            <span
+              className="hover-active"
+              onClick={() => {
+                goTo(`./${cluster.name}/detail`);
+              }}
+            >
+              {displayName || name}
+            </span>
           </div>
           <div className="description">
             <Tooltip title={description}>
@@ -111,7 +121,6 @@ const ClusterCard = (props: ICardProps) => {
           </Dropdown>
         </div>
       </div>
-
     </div>
   );
 };
@@ -160,8 +169,8 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
   };
 
   const checkClusterUpdate = (cluster: ORG_CLUSTER.ICluster) => {
-    upgradeCluster({ clusterName: cluster.name, precheck: true })
-      .then(({ status, precheckHint }: { status: number; precheckHint: string }) => {
+    upgradeCluster({ clusterName: cluster.name, precheck: true }).then(
+      ({ status, precheckHint }: { status: number; precheckHint: string }) => {
         switch (status) {
           case 3:
             Modal.warning({
@@ -191,7 +200,8 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
           default:
             break;
         }
-      });
+      },
+    );
   };
 
   const togglelDeleteModal = (item?: ORG_CLUSTER.ICluster) => {
@@ -203,16 +213,17 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       updater.deleteModalVis(false);
     }
   };
-  const submitDelete = ({ clusterName }: {clusterName: string}) => {
+  const submitDelete = ({ clusterName }: { clusterName: string }) => {
     // 删除后根据recordID查看操作纪录接口中的详情作为提示
     deleteCluster({ clusterName }).then((deleteRes: any) => {
       const { recordID: deleteRecordID } = deleteRes || {};
-      deleteRecordID && getClusterOperationHistory({ recordIDs: deleteRecordID } as any).then((listRes: any) => {
-        const curRecord = get(listRes, 'data.list[0]') || {} as any;
-        if (curRecord && curRecord.status === 'failed') {
-          notify('error', curRecord.detail);
-        }
-      });
+      deleteRecordID &&
+        getClusterOperationHistory({ recordIDs: deleteRecordID } as any).then((listRes: any) => {
+          const curRecord = get(listRes, 'data.list[0]') || ({} as any);
+          if (curRecord && curRecord.status === 'failed') {
+            notify('error', curRecord.detail);
+          }
+        });
     });
     togglelDeleteModal();
   };
@@ -223,12 +234,31 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
   const renderMenu = (record: ORG_CLUSTER.ICluster) => {
     const clusterDetail = getClusterDetail(record.name);
     const isEdgeCluster = get(clusterDetail, 'basic.edgeCluster.value', true);
-    const { addMachine, addCloudMachines, edit, upgrade, deleteCluster: deleteClusterCall } = {
-      addMachine: { title: i18n.t('org:add machine'), onClick: () => { updater.modalVisibleRow(record); } },
-      addCloudMachines: { title: i18n.t('org:add alibaba cloud machine'), onClick: () => toggleAddCloudMachine(record) },
+    const {
+      addMachine,
+      addCloudMachines,
+      edit,
+      upgrade,
+      deleteCluster: deleteClusterCall,
+    } = {
+      addMachine: {
+        title: i18n.t('org:add machine'),
+        onClick: () => {
+          updater.modalVisibleRow(record);
+        },
+      },
+      addCloudMachines: {
+        title: i18n.t('org:add alibaba cloud machine'),
+        onClick: () => toggleAddCloudMachine(record),
+      },
       edit: { title: i18n.t('common:change setting'), onClick: () => onEdit({ ...record, isEdgeCluster }) },
       upgrade: { title: i18n.t('org:cluster upgrade'), onClick: () => checkClusterUpdate(record) },
-      deleteCluster: { title: i18n.t('org:cluster offline'), onClick: () => { togglelDeleteModal(record); } },
+      deleteCluster: {
+        title: i18n.t('org:cluster offline'),
+        onClick: () => {
+          togglelDeleteModal(record);
+        },
+      },
     };
     const clusterOpsMap = {
       dcos: [addMachine, edit, deleteClusterCall],
@@ -241,11 +271,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
 
     return map(clusterOpsMap[record.cloudVendor || record.type] || [], (op) => {
       return (
-        <span
-          className="fake-link mr4"
-          key={op.title}
-          onClick={op.onClick}
-        >
+        <span className="fake-link mr4" key={op.title} onClick={op.onClick}>
           {op.title}
         </span>
       );
@@ -256,7 +282,16 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       title: i18n.t('org:cluster name'),
       dataIndex: 'displayName',
       tip: true,
-      render: (text, record) => <span className="hover-active" onClick={() => { goTo(`./${record.name}/detail`); }}>{text || record.name}</span>,
+      render: (text, record) => (
+        <span
+          className="hover-active"
+          onClick={() => {
+            goTo(`./${record.name}/detail`);
+          }}
+        >
+          {text || record.name}
+        </span>
+      ),
     },
     {
       title: i18n.t('default:description'),
@@ -269,7 +304,9 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
       dataIndex: 'edgeCluster',
       render: (_text, record) => {
         const clusterDetail = getClusterDetail(record.name);
-        return get(clusterDetail, 'basic.edgeCluster.value', true) ? i18n.t('org:edge cluster') : i18n.t('org:center cluster');
+        return get(clusterDetail, 'basic.edgeCluster.value', true)
+          ? i18n.t('org:edge cluster')
+          : i18n.t('org:center cluster');
       },
     },
     {
@@ -320,10 +357,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         onCancel={() => toggleAddCloudMachine()}
         onSubmit={onAddCloudMachine}
       />
-      <ClusterLog
-        recordID={state.afterAdd && state.afterAdd.recordID}
-        onClose={() => updater.afterAdd(null)}
-      />
+      <ClusterLog recordID={state.afterAdd && state.afterAdd.recordID} onClose={() => updater.afterAdd(null)} />
       <DeleteClusterModal
         visible={state.deleteModalVis}
         onCancel={() => togglelDeleteModal()}
@@ -331,13 +365,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
         curCluster={state.curDeleteCluster}
       />
       <div>
-        <Table
-          columns={columns}
-          dataSource={dataSource}
-          pagination={false}
-          rowKey="id"
-          rowAction={actions}
-        />
+        <Table columns={columns} dataSource={dataSource} pagination={false} rowKey="id" rowAction={actions} />
       </div>
     </>
   );

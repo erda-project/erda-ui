@@ -33,7 +33,9 @@ const Affairs = createStore({
       const subSlowHttpList = select((s) => s.subSlowHttpList);
       const { filter_source_service_name } = payload;
       const data = await call(getSubSlowHttpList, payload);
-      update({ subSlowHttpList: { ...subSlowHttpList, [filter_source_service_name]: get(data, 'results[0].data') || [] } });
+      update({
+        subSlowHttpList: { ...subSlowHttpList, [filter_source_service_name]: get(data, 'results[0].data') || [] },
+      });
     },
     async getSubErrorHttpList({ call, update, select }, payload: IChartQuery) {
       const subErrorHttpList = select((s) => s.subErrorHttpList);

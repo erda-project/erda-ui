@@ -21,4 +21,3 @@ export const monitorIcon = 'monitor-icon';
 
 export const docUrl = 'dice-docs';
 export const domain = 'https://dice-docs.terminus.io';
-

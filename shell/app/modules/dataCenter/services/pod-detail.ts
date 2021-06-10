@@ -39,7 +39,8 @@ export interface IPodDetail {
 }
 
 export const getPodDetail = (params: { name: string; timestamp: number; clusterName: string }): IPodDetail => {
-  return agent.get('/api/system/pod/metrics')
+  return agent
+    .get('/api/system/pod/metrics')
     .query(params)
     .then((response: any) => response.body);
 };

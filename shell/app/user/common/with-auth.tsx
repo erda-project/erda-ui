@@ -34,7 +34,6 @@ const defaultTip = i18n.t('common:no permission to operate');
 //   return pass;
 // };
 
-
 interface IPermObj {
   pass: boolean;
   role: string[];
@@ -43,12 +42,12 @@ interface IPermObj {
 
 export const isCreator = (creatorId: string) => {
   const loginUserId = userStore.getState((s) => s.loginUser.id);
-  return (`${loginUserId}` === `${creatorId}` ? 'Creator' : '');
+  return `${loginUserId}` === `${creatorId}` ? 'Creator' : '';
 };
 
 export const isAssignee = (assigneeId: string) => {
   const loginUserId = userStore.getState((s) => s.loginUser.id);
-  return (`${loginUserId}` === `${assigneeId}` ? 'Assignee' : '');
+  return `${loginUserId}` === `${assigneeId}` ? 'Assignee' : '';
 };
 
 export const getAuth = (permObj: IPermObj, checkRole: string[]) => {
@@ -59,7 +58,6 @@ export const getAuth = (permObj: IPermObj, checkRole: string[]) => {
   }
   return false;
 };
-
 
 export interface IWithAuth {
   [k: string]: any;
@@ -97,9 +95,11 @@ export const WithAuth = ({
 }: IWithAuth) => {
   const checked = usePerm(use || (() => false));
   let authPass = pass !== undefined ? pass : checked;
-  if (typeof authPass === 'object' && authPass.pass !== undefined) { // 兼容传入的不是布尔值
+  if (typeof authPass === 'object' && authPass.pass !== undefined) {
+    // 兼容传入的不是布尔值
     const _pass = authPass.pass;
-    if (!_pass && customRole) { // 匹配自定义角色
+    if (!_pass && customRole) {
+      // 匹配自定义角色
       authPass = authPass.role.includes(customRole);
     } else {
       authPass = _pass;
@@ -113,14 +113,12 @@ export const WithAuth = ({
 
       return (
         <Tooltip title={noAuthTip} {...tipProps}>
-          {
-            React.cloneElement(_children, {
-              ...rest,
-              disabled: true,
-              className: classnames(_children.props.className, 'disabled not-allowed'),
-              onClick: (e: any) => e && e.stopPropagation && e.stopPropagation(),
-            })
-          }
+          {React.cloneElement(_children, {
+            ...rest,
+            disabled: true,
+            className: classnames(_children.props.className, 'disabled not-allowed'),
+            onClick: (e: any) => e && e.stopPropagation && e.stopPropagation(),
+          })}
         </Tooltip>
       );
     }

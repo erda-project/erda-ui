@@ -15,17 +15,13 @@ import React from 'react';
 import { get, map } from 'lodash';
 
 export const isPromise = (obj: any) => {
-  return (
-    !!obj &&
-    (typeof obj === 'object' || typeof obj === 'function') &&
-    typeof obj.then === 'function'
-  );
+  return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
 };
 
 export const useMount = (fn) => {
   React.useEffect(() => {
     fn();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
 

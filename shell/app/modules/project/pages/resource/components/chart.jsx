@@ -28,12 +28,7 @@ const Chart = (props) => {
           return (
             <Col key={item.title} span={12}>
               <ChartContainer title={item.title}>
-                <MonitorChartNew
-                  {...chartConfig[item.title]}
-                  timeSpan={timeSpan}
-                  data={item}
-                  title={item.title}
-                />
+                <MonitorChartNew {...chartConfig[item.title]} timeSpan={timeSpan} data={item} title={item.title} />
               </ChartContainer>
             </Col>
           );
@@ -42,6 +37,5 @@ const Chart = (props) => {
     </div>
   );
 };
-
 
 export default Chart;

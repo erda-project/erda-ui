@@ -20,7 +20,7 @@ import i18n from 'i18n';
 import './input-array.scss';
 
 interface IInputArrayItemProps {
-  keys: string[] | Array<{key: string; name: string}>;
+  keys: string[] | Array<{ key: string; name: string }>;
   data: string | undefined;
   className?: string;
   operation?: any;
@@ -31,13 +31,11 @@ interface IInputArrayItemProps {
 const InputItem = ({ updateItem, data, className = '', operation = null, itemRender }: IInputArrayItemProps) => {
   return (
     <div className={`dice-form-input-array ${className}`}>
-      {
-        itemRender
-          ? itemRender(data, updateItem)
-          : (
-            <Input value={data} placeholder={i18n.t('please enter')} onChange={(e) => updateItem(e.target.value)} />
-          )
-      }
+      {itemRender ? (
+        itemRender(data, updateItem)
+      ) : (
+        <Input value={data} placeholder={i18n.t('please enter')} onChange={(e) => updateItem(e.target.value)} />
+      )}
       {operation}
     </div>
   );
@@ -58,43 +56,40 @@ export const FormInputArray = ({
   extensionFix,
   requiredCheck,
   trigger = 'onChange',
-}: any) => React.memo(({ fieldConfig, form }: any) => {
-  const {
-    key,
-    value,
-    label,
-    visible,
-    valid,
-    registerRequiredCheck,
-    componentProps,
-    required,
-    wrapperProps,
-    labelTip,
-    requiredCheck: _requiredCheck,
-  } = fieldConfig;
-  registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (val: any) => {
-    form.setFieldValue(key, fixOut(val));
-    (componentProps.onChange || noop)(val);
-  };
-  return (
-    <FormItem
-      colon
-      label={getLabel(label, labelTip)}
-      className={visible ? '' : 'hide'}
-      validateStatus={valid[0]}
-      help={valid[1]}
-      required={required}
-      {...wrapperProps}
-    >
-      <InputArray
-        value={fixIn(value)}
-        onChange={handleChange}
-        {...componentProps}
-      />
-    </FormItem>
-  );
-});
+}: any) =>
+  React.memo(({ fieldConfig, form }: any) => {
+    const {
+      key,
+      value,
+      label,
+      visible,
+      valid,
+      registerRequiredCheck,
+      componentProps,
+      required,
+      wrapperProps,
+      labelTip,
+      requiredCheck: _requiredCheck,
+    } = fieldConfig;
+    registerRequiredCheck(_requiredCheck || requiredCheck);
+    const handleChange = (val: any) => {
+      form.setFieldValue(key, fixOut(val));
+      (componentProps.onChange || noop)(val);
+    };
+    return (
+      <FormItem
+        colon
+        label={getLabel(label, labelTip)}
+        className={visible ? '' : 'hide'}
+        validateStatus={valid[0]}
+        help={valid[1]}
+        required={required}
+        {...wrapperProps}
+      >
+        <InputArray value={fixIn(value)} onChange={handleChange} {...componentProps} />
+      </FormItem>
+    );
+  });
 
 export const config = {
   name: 'inputArray',
@@ -116,7 +111,6 @@ export const config = {
     return data;
   },
 };
-
 
 export const formConfig = {
   inputArray: {

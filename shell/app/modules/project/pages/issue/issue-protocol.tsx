@@ -25,7 +25,7 @@ import ImportFile from 'project/pages/issue/component/import-file';
 import issueFieldStore from 'org/stores/issue-field';
 import { useMount } from 'react-use';
 
-interface IProps{
+interface IProps {
   issueType: ISSUE_TYPE;
 }
 
@@ -35,20 +35,22 @@ const getRealIssueType = (issueType: ISSUE_TYPE) => {
 };
 
 export default ({ issueType }: IProps) => {
-  const [{ projectId, iterationId }, { id: queryId, iterationID: queryItertationID, type: _queryType, ...restQuery }] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const [{ projectId, iterationId }, { id: queryId, iterationID: queryItertationID, type: _queryType, ...restQuery }] =
+    routeInfoStore.useStore((s) => [s.params, s.query]);
   const orgID = orgStore.getState((s) => s.currentOrg.id);
   const queryType = _queryType && _queryType.toUpperCase();
-  const [{ importFileVisible, filterObj, chosenIssueType, chosenIssueId, chosenIteration, urlQuery }, updater, update] = useUpdate({
-    importFileVisible: false,
-    filterObj: {},
-    chosenIssueId: queryId,
-    chosenIteration: queryItertationID || 0,
-    urlQuery: restQuery,
-    chosenIssueType: queryType as undefined | ISSUE_TYPE,
-    pageNo: 1,
-    viewType: '',
-    viewGroup: '',
-  });
+  const [{ importFileVisible, filterObj, chosenIssueType, chosenIssueId, chosenIteration, urlQuery }, updater, update] =
+    useUpdate({
+      importFileVisible: false,
+      filterObj: {},
+      chosenIssueId: queryId,
+      chosenIteration: queryItertationID || 0,
+      urlQuery: restQuery,
+      chosenIssueType: queryType as undefined | ISSUE_TYPE,
+      pageNo: 1,
+      viewType: '',
+      viewGroup: '',
+    });
   const { getFieldsByIssue: getCustomFieldsByProject } = issueFieldStore.effects;
   useMount(() => {
     getCustomFieldsByProject({
@@ -71,7 +73,12 @@ export default ({ issueType }: IProps) => {
 
   const getDownloadUrl = (IsDownload = false) => {
     const useableFilterObj = filterObjRef?.current?.issuePagingRequest || {};
-    return setApiWithOrg(`/api/issues/actions/export-excel?${qs.stringify({ ...useableFilterObj, pageNo: 1, projectID: projectId, type: getRealIssueType(issueType), IsDownload, orgID }, { arrayFormat: 'none' })}`);
+    return setApiWithOrg(
+      `/api/issues/actions/export-excel?${qs.stringify(
+        { ...useableFilterObj, pageNo: 1, projectID: projectId, type: getRealIssueType(issueType), IsDownload, orgID },
+        { arrayFormat: 'none' },
+      )}`,
+    );
   };
 
   const reloadData = () => {
@@ -104,7 +111,8 @@ export default ({ issueType }: IProps) => {
       chosenIteration: 0,
       chosenIssueType: undefined,
     });
-    if (hasEdited || isCreate || isDelete) { // 有变更再刷新列表
+    if (hasEdited || isCreate || isDelete) {
+      // 有变更再刷新列表
       reloadData();
     }
   };
@@ -136,24 +144,29 @@ export default ({ issueType }: IProps) => {
         inParams={inParams}
         ref={reloadRef}
         useMock={location.search.includes('useMock') ? useMock : undefined}
-        customProps={{ // 后端未对接，由前端接管的事件
-          issueAddButton: { // 添加：打开滑窗
+        customProps={{
+          // 后端未对接，由前端接管的事件
+          issueAddButton: {
+            // 添加：打开滑窗
             click: onCreate,
           },
-          issueFilter: { // filter: 改变url
+          issueFilter: {
+            // filter: 改变url
             onFilterChange: (val: Obj) => {
               updater.filterObj(val);
               updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
             },
           },
-          issueViewGroup: { // 视图切换： 改变url
+          issueViewGroup: {
+            // 视图切换： 改变url
             onStateChange: (val: Obj) => {
               updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
               // updater.viewType(val?.value);
               // updater.viewType(val?.childrenValue?.kanban);
             },
           },
-          issueTable: { // 表格视图： pageNo改变url，点击item打开滑窗详情
+          issueTable: {
+            // 表格视图： pageNo改变url，点击item打开滑窗详情
             onStateChange: (val: Obj) => {
               updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
               // updater.pageNo(val?.pageNo || 1);
@@ -162,12 +175,14 @@ export default ({ issueType }: IProps) => {
               onChosenIssue(_data);
             },
           },
-          issueKanban: { // 看板：点击单个看板节点，打开滑窗
+          issueKanban: {
+            // 看板：点击单个看板节点，打开滑窗
             clickNode: (_data: ISSUE.Issue) => {
               onChosenIssue(_data);
             },
           },
-          issueGantt: { // 点击单个看板任务：打开滑窗
+          issueGantt: {
+            // 点击单个看板任务：打开滑窗
             onStateChange: (val: Obj) => {
               updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
               updater.pageNo(val?.pageNo || 1);
@@ -176,43 +191,46 @@ export default ({ issueType }: IProps) => {
               onChosenIssue(_data);
             },
           },
-          issueImport: { // 导入
+          issueImport: {
+            // 导入
             click: () => {
               updater.importFileVisible(true);
             },
           },
-          issueExport: { // 导出
+          issueExport: {
+            // 导出
             click: () => window.open(getDownloadUrl()),
           },
         }}
       />
-      {
-        [ISSUE_TYPE.BUG, ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK].includes(issueType) ? (
-          <ImportFile
-            issueType={issueType}
-            download={getDownloadUrl(true)}
-            projectID={projectId}
-            visible={importFileVisible}
-            onClose={() => { updater.importFileVisible(false); }}
-            afterImport={() => {
-              reloadData();
-            }}
-          />
-        ) : null
-      }
+      {[ISSUE_TYPE.BUG, ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK].includes(issueType) ? (
+        <ImportFile
+          issueType={issueType}
+          download={getDownloadUrl(true)}
+          projectID={projectId}
+          visible={importFileVisible}
+          onClose={() => {
+            updater.importFileVisible(false);
+          }}
+          afterImport={() => {
+            reloadData();
+          }}
+        />
+      ) : null}
 
-      {
-        chosenIssueType ? (
-          <EditIssueDrawer
-            iterationID={chosenIteration}
-            id={chosenIssueId}
-            issueType={chosenIssueType as ISSUE_TYPE}
-            shareLink={`${location.href.split('?')[0]}?${mergeSearch({ id: chosenIssueId, iterationID: chosenIteration, type: chosenIssueType }, true)}`}
-            visible={drawerVisible}
-            closeDrawer={onCloseDrawer}
-          />
-        ) : null
-      }
+      {chosenIssueType ? (
+        <EditIssueDrawer
+          iterationID={chosenIteration}
+          id={chosenIssueId}
+          issueType={chosenIssueType as ISSUE_TYPE}
+          shareLink={`${location.href.split('?')[0]}?${mergeSearch(
+            { id: chosenIssueId, iterationID: chosenIteration, type: chosenIssueType },
+            true,
+          )}`}
+          visible={drawerVisible}
+          closeDrawer={onCloseDrawer}
+        />
+      ) : null}
     </>
   );
 };
@@ -326,9 +344,7 @@ const issueKanban = {
               },
             ],
             issueSummary: null,
-            labels: [
-
-            ],
+            labels: [],
             issueManHour: {
               estimateTime: 0,
               thisElapsedTime: 0,
@@ -468,9 +484,7 @@ const issueKanban = {
               },
             ],
             issueSummary: null,
-            labels: [
-              'a',
-            ],
+            labels: ['a'],
             issueManHour: {
               estimateTime: 0,
               thisElapsedTime: 0,
@@ -610,9 +624,7 @@ const issueKanban = {
               },
             ],
             issueSummary: null,
-            labels: [
-
-            ],
+            labels: [],
             issueManHour: {
               estimateTime: 0,
               thisElapsedTime: 0,
@@ -737,9 +749,7 @@ const issueKanban = {
               },
             ],
             issueSummary: null,
-            labels: [
-              'a',
-            ],
+            labels: ['a'],
             issueManHour: {
               estimateTime: 180,
               thisElapsedTime: 0,
@@ -879,9 +889,7 @@ const issueKanban = {
               },
             ],
             issueSummary: null,
-            labels: [
-
-            ],
+            labels: [],
             issueManHour: {
               estimateTime: 0,
               thisElapsedTime: 0,
@@ -986,12 +994,8 @@ const issueKanban = {
       },
     ],
   },
-  state: {
-
-  },
-  operations: {
-
-  },
+  state: {},
+  operations: {},
 };
 
 const issueTable = {
@@ -1001,7 +1005,8 @@ const issueTable = {
     pageSize: 10,
     pageNo: 1, // 这里注意，如果filter组件里有数据变化，这里的pageNo要重置为1，就是用户改变查询参数后，要从第一页开始
   },
-  operations: { // 当用户翻页的时候，我会先把上面state的pageNo改掉，然后再告诉你我执行了这个operation
+  operations: {
+    // 当用户翻页的时候，我会先把上面state的pageNo改掉，然后再告诉你我执行了这个operation
     changePageNo: {
       key: 'changePageNo',
       reload: true,
@@ -1025,14 +1030,24 @@ const issueTable = {
         id: '1111', // 唯一key
         type: 'REQUIREMENT',
         iterationID: 9,
-        title: { renderType: 'textWithTags', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111111', tags: [{ tag: 'tag1', color: 'red' }, { tag: 'tag2', color: 'blue' }, { tag: 'tag3', color: 'green' }] },
+        title: {
+          renderType: 'textWithTags',
+          prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
+          value: '111111',
+          tags: [
+            { tag: 'tag1', color: 'red' },
+            { tag: 'tag2', color: 'blue' },
+            { tag: 'tag3', color: 'green' },
+          ],
+        },
         progress: { renderType: 'progress', value: '30' },
         severity: {
           renderType: 'operationsDropdownMenu',
           value: '严重',
           prefixIcon: 'ISSUE_ICON.severity.XX',
           operations: {
-            changePriorityTo1: { // 这个key后端定，
+            changePriorityTo1: {
+              // 这个key后端定，
               key: 'changePriorityTo1', // 这个key一定要有
               reload: true,
               disabled: true, // 根据实际情况
@@ -1047,7 +1062,8 @@ const issueTable = {
           value: '高',
           prefixIcon: 'ISSUE_ICON.priority.HIGH',
           operations: {
-            changePriorityTo1: { // 这个key后端定，
+            changePriorityTo1: {
+              // 这个key后端定，
               key: 'changePriorityTo1', // 这个key一定要有
               reload: true,
               // disabled: true, // 根据实际情况
@@ -1073,7 +1089,8 @@ const issueTable = {
           disabled: true,
           disabledTip: '没权限',
           operations: {
-            changePriorityTo1: { // 这个key后端定，
+            changePriorityTo1: {
+              // 这个key后端定，
               key: 'changePriorityTo1', // 这个key一定要有
               reload: true,
               text: '待处理',
@@ -1139,7 +1156,8 @@ const issueGantt = {
     pageSize: 10,
     pageNo: 1, // 这里注意，如果filter组件里有数据变化，这里的pageNo要重置为1，就是用户改变查询参数后，要从第一页开始
   },
-  operations: { // 当用户翻页的时候，我会先把上面state的pageNo改掉，然后再告诉你我执行了这个operation
+  operations: {
+    // 当用户翻页的时候，我会先把上面state的pageNo改掉，然后再告诉你我执行了这个operation
     changePageNo: {
       reload: true,
     },
@@ -1157,14 +1175,12 @@ const issueGantt = {
         },
         issues: {
           renderType: 'string-list',
-          value: [
-            { text: '任务C', id: '3', type: 'REQUIREMENT', iterationID: 2 },
-          ],
+          value: [{ text: '任务C', id: '3', type: 'REQUIREMENT', iterationID: 2 }],
         },
-        dateRange: { renderType: 'gantt',
-          value: [
-            { tooltip: '任务A', restTime: 5, offset: 0, delay: 0, actualTime: 13 },
-          ] },
+        dateRange: {
+          renderType: 'gantt',
+          value: [{ tooltip: '任务A', restTime: 5, offset: 0, delay: 0, actualTime: 13 }],
+        },
       },
       {
         id: 2,
@@ -1175,17 +1191,30 @@ const issueGantt = {
           name: '端点',
           nick: '端点',
         },
-        issues: { renderType: 'string-list',
+        issues: {
+          renderType: 'string-list',
           value: [
-            { text: '接口测试计划中引入测试用例，测试用例比较多的时候一个个的引入效率太低', id: '1', type: 'TASK', iterationID: 2, linkStyle: true },
-          ] },
-        dateRange:
-          {
-            renderType: 'gantt',
-            value: [
-              { tooltip: '接口测试计划中引入测试用例，测试用例比较多的时候一个个的引入效率太低', restTime: 0, offset: 1, delay: 1, actualTime: 5 },
-            ],
-          },
+            {
+              text: '接口测试计划中引入测试用例，测试用例比较多的时候一个个的引入效率太低',
+              id: '1',
+              type: 'TASK',
+              iterationID: 2,
+              linkStyle: true,
+            },
+          ],
+        },
+        dateRange: {
+          renderType: 'gantt',
+          value: [
+            {
+              tooltip: '接口测试计划中引入测试用例，测试用例比较多的时候一个个的引入效率太低',
+              restTime: 0,
+              offset: 1,
+              delay: 1,
+              actualTime: 5,
+            },
+          ],
+        },
         deadline: {
           renderType: 'datePicker',
           value: '2021-01-31T00:00:00+08:00',
@@ -1221,7 +1250,8 @@ const issueGantt = {
           '#red#红色#>red#：代表截止到目前的超时时间段',
         ],
       },
-      { title: '甘特图',
+      {
+        title: '甘特图',
         dataIndex: 'dateRange',
         titleRenderType: 'gantt',
         width: 800,
@@ -1234,7 +1264,8 @@ const issueGantt = {
             month: 1,
             date: ['1', '2', 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
           },
-        ] },
+        ],
+      },
     ],
   },
 };
@@ -1664,7 +1695,6 @@ const mock = {
           onChange: {
             key: 'changeViewType',
             reload: true,
-
           },
         },
       },
@@ -1678,7 +1708,8 @@ const mock = {
               prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
               disabled: true,
               disabledTip: '无权限',
-              operations: { // 这次未将创建滑窗接入，暂不reload
+              operations: {
+                // 这次未将创建滑窗接入，暂不reload
                 click: { key: 'createRequirement', reload: false },
               },
             },

@@ -42,20 +42,27 @@ export const getNodeByPath = ({ treeData, eventKey, valueKey }: IFunc): any => {
   }
   const list = eventKey.split('-').join(' children ').split(' ');
   if (valueKey) list.push(valueKey);
-  return reduce(list, (result, singleKey) => {
-    if (!result) { // 第一次
-      const firstKey = get(treeData, [0, 'key']);
-      if (firstKey === singleKey) {
-        return get(treeData, [0]);
+  return reduce(
+    list,
+    (result, singleKey) => {
+      if (!result) {
+        // 第一次
+        const firstKey = get(treeData, [0, 'key']);
+        if (firstKey === singleKey) {
+          return get(treeData, [0]);
+        }
+      } else if (singleKey === 'children') {
+        // 子节点则继续返回
+        return get(result, ['children']);
+      } else if (isArray(result)) {
+        // 获取children中匹配的node
+        return find(result, ({ id }: any) => `${id}` === singleKey);
       }
-    } else if (singleKey === 'children') { // 子节点则继续返回
-      return get(result, ['children']);
-    } else if (isArray(result)) { // 获取children中匹配的node
-      return find(result, ({ id }: any) => `${id}` === singleKey);
-    }
-    // 最终单个节点的某个字段，比如key、title、id等
-    return get(result, [singleKey]);
-  }, '');
+      // 最终单个节点的某个字段，比如key、title、id等
+      return get(result, [singleKey]);
+    },
+    '',
+  );
 };
 
 // 依据id获取当前node
@@ -65,17 +72,23 @@ interface IById {
   recycled?: boolean;
 }
 
-export const getNodeById = ({ treeData, id, recycled = true }: IById): TEST_SET.TestSetNode | any => reduce(treeData, (result, single: any) => {
-  if (result) { // 已经查出来了
-    return result;
-  }
-  if (id === single.id && recycled === single.recycled) { // 找到了
-    return single;
-  }
-  // 继续在子级查找
-  return getNodeById({ treeData: single.children, id, recycled });
-}, null);
-
+export const getNodeById = ({ treeData, id, recycled = true }: IById): TEST_SET.TestSetNode | any =>
+  reduce(
+    treeData,
+    (result, single: any) => {
+      if (result) {
+        // 已经查出来了
+        return result;
+      }
+      if (id === single.id && recycled === single.recycled) {
+        // 找到了
+        return single;
+      }
+      // 继续在子级查找
+      return getNodeById({ treeData: single.children, id, recycled });
+    },
+    null,
+  );
 
 interface ISelectParams {
   selectedKey: string;
@@ -83,7 +96,8 @@ interface ISelectParams {
   projectId: number;
 }
 export const getSelectedKeys = ({ selectedKey }: ISelectParams) => {
-  if (!selectedKey) { // 初始时没有节点
+  if (!selectedKey) {
+    // 初始时没有节点
     return ['0'];
   }
   return [selectedKey];

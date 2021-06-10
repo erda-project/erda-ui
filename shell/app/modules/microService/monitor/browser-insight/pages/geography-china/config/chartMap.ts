@@ -23,47 +23,50 @@ const commonAttr = {
   moduleName: 'BIGeography',
   groupId: 'BIGeography',
 };
-const chartMap = merge({
-  sortTab: sortCreator(commonAttr.moduleName, 'sortTab'),
-  sortList: {
-    ...commonAttr,
-    type: 'sortList',
-    chartName: 'sortList',
-  },
-  performanceInterval: {
-    ...commonAttr,
-    titleText: i18n.t('performance interval'),
-    chartName: 'performanceInterval',
-  },
-  pagePerformanceTrends: {
-    ...commonAttr,
-    titleText: i18n.t('microService:performance trend'),
-    chartName: 'performanceTrends',
-  },
-  regionalLoadingTime: {
-    titleText: i18n.t('microService:regional average load time'),
-    ...commonAttr,
-    chartName: 'geography-china',
-    viewType: 'map',
-    viewProps: {
-      mapData: ChinaMap,
-      formatter(params: any) {
-        const data = params.data || {};
-        if (!data) return `${data.name}`;
-        if (!data.name) return null;
-        const tps = data.tps ? `${floor(data.tps, 3)} cpm` : i18n.t('microService:no data');
-        const time = data.value ? `${floor(data.value, 3)} s` : i18n.t('microService:no data');
-        return `${data.name} <br /> 吞吐量: ${tps} <br /> ${i18n.t('microService:average load time')}: ${time}`;
+const chartMap = merge(
+  {
+    sortTab: sortCreator(commonAttr.moduleName, 'sortTab'),
+    sortList: {
+      ...commonAttr,
+      type: 'sortList',
+      chartName: 'sortList',
+    },
+    performanceInterval: {
+      ...commonAttr,
+      titleText: i18n.t('performance interval'),
+      chartName: 'performanceInterval',
+    },
+    pagePerformanceTrends: {
+      ...commonAttr,
+      titleText: i18n.t('microService:performance trend'),
+      chartName: 'performanceTrends',
+    },
+    regionalLoadingTime: {
+      titleText: i18n.t('microService:regional average load time'),
+      ...commonAttr,
+      chartName: 'geography-china',
+      viewType: 'map',
+      viewProps: {
+        mapData: ChinaMap,
+        formatter(params: any) {
+          const data = params.data || {};
+          if (!data) return `${data.name}`;
+          if (!data.name) return null;
+          const tps = data.tps ? `${floor(data.tps, 3)} cpm` : i18n.t('microService:no data');
+          const time = data.value ? `${floor(data.value, 3)} s` : i18n.t('microService:no data');
+          return `${data.name} <br /> 吞吐量: ${tps} <br /> ${i18n.t('microService:average load time')}: ${time}`;
+        },
       },
     },
+    slowTrack: {
+      titleText: i18n.t('microService:slow loading tracking'),
+      ...commonAttr,
+      chartName: 'slow',
+      viewRender: SlowTrack,
+    },
   },
-  slowTrack: {
-    titleText: i18n.t('microService:slow loading tracking'),
-    ...commonAttr,
-    chartName: 'slow',
-    viewRender: SlowTrack,
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   sortTab: sortRender(chartMap.sortTab) as any,

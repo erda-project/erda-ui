@@ -27,7 +27,11 @@ export const ApiPoliciesHeader = () => {
   const [serviceList, setServiceList] = React.useState([] as any[]);
   const [runtimeEntry, setRuntimeEntry] = React.useState(false);
   const query = routeInfoStore.useStore((s) => s.query);
-  const [registerApps, runtimeEntryData, policyFilter] = gatewayStore.useStore((s) => [s.registerApps, s.runtimeEntryData, s.policyFilter]);
+  const [registerApps, runtimeEntryData, policyFilter] = gatewayStore.useStore((s) => [
+    s.registerApps,
+    s.runtimeEntryData,
+    s.policyFilter,
+  ]);
   const { updatePolicyFilter } = gatewayStore.reducers;
   const { diceApp, diceService } = policyFilter;
 
@@ -71,16 +75,33 @@ export const ApiPoliciesHeader = () => {
   return (
     <section className="api-policies-header mb16">
       <div className={`app-service-select mr16 ${runtimeEntry ? 'hide' : ''}`}>
-        <Select placeholder={i18n.t('microService:application name')} className="filter-select" value={diceApp} onChange={onAppChange}>
-          { map(appList, (appName, key) => <Option key={key} value={appName}>{appName}</Option>) }
+        <Select
+          placeholder={i18n.t('microService:application name')}
+          className="filter-select"
+          value={diceApp}
+          onChange={onAppChange}
+        >
+          {map(appList, (appName, key) => (
+            <Option key={key} value={appName}>
+              {appName}
+            </Option>
+          ))}
         </Select>
       </div>
       <div>
-        <Select placeholder={i18n.t('microService:service name')} className="filter-select" value={diceService} onChange={onServiceChange}>
-          { map(serviceList, (serviceName, key) => <Option key={key} value={serviceName}>{serviceName}</Option>) }
+        <Select
+          placeholder={i18n.t('microService:service name')}
+          className="filter-select"
+          value={diceService}
+          onChange={onServiceChange}
+        >
+          {map(serviceList, (serviceName, key) => (
+            <Option key={key} value={serviceName}>
+              {serviceName}
+            </Option>
+          ))}
         </Select>
       </div>
     </section>
   );
 };
-

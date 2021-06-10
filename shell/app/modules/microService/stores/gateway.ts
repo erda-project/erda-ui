@@ -188,11 +188,11 @@ const gatewayStore = createStore({
     });
   },
   effects: {
-    async getRuntimeDetail({ call }, payload: {runtimeId: number | string}) {
+    async getRuntimeDetail({ call }, payload: { runtimeId: number | string }) {
       const res = await call(getRuntimeDetail, payload);
       return res;
     },
-    async getRuntimeEntryData({ call, update }, payload: {runtimeId: string; appId: string}) {
+    async getRuntimeEntryData({ call, update }, payload: { runtimeId: string; appId: string }) {
       const { runtimeId, appId } = payload;
       const { name: appName } = await call(getAppDetail, appId);
       const { services } = await call(getRuntimeDetail, { runtimeId });
@@ -245,7 +245,11 @@ const gatewayStore = createStore({
     async saveApiDomain({ call, update, getParams }, payload: Omit<GATEWAY.SaveDomain, keyof GATEWAY.Base>) {
       const { projectId, env } = getParams();
       const orgId = orgStore.getState((s) => s.currentOrg.id);
-      const apiDomain = await call(gatewayServices.saveApiDomain, { orgId, projectId, env, ...payload }, { successMsg: i18n.t('update successfully') });
+      const apiDomain = await call(
+        gatewayServices.saveApiDomain,
+        { orgId, projectId, env, ...payload },
+        { successMsg: i18n.t('update successfully') },
+      );
       update({ apiDomain });
     },
     async getSafetyWaf({ call, update, getParams }, payload: Omit<GATEWAY.GetSafety, 'packageId'> = {}) {
@@ -306,49 +310,77 @@ const gatewayStore = createStore({
     },
     async saveSafetyWaf({ call, update, getParams }, payload: Omit<GATEWAY.SaveWrf, 'packageId'>) {
       const { packageId } = getParams();
-      const safetyWaf = await call(gatewayServices.saveSafetyWaf, { packageId, ...payload }, { successMsg: i18n.t('update successfully') });
+      const safetyWaf = await call(
+        gatewayServices.saveSafetyWaf,
+        { packageId, ...payload },
+        { successMsg: i18n.t('update successfully') },
+      );
       if (payload.apiId) {
         update({ safetyWaf });
       }
     },
     async saveSafetyIP({ call, update, getParams }, payload: Omit<GATEWAY.SaveIp, 'packageId'>) {
       const { packageId } = getParams();
-      const safetyIP = await call(gatewayServices.saveSafetyIP, { packageId, ...payload }, { successMsg: i18n.t('update successfully') });
+      const safetyIP = await call(
+        gatewayServices.saveSafetyIP,
+        { packageId, ...payload },
+        { successMsg: i18n.t('update successfully') },
+      );
       if (payload.apiId) {
         update({ safetyIP });
       }
     },
     async saveSafetyServerGuard({ call, update, getParams }, payload: Omit<GATEWAY.SaveServerGuard, 'packageId'>) {
       const { packageId } = getParams();
-      const safetyServerGuard = await call(gatewayServices.saveSafetyServerGuard, { packageId, ...payload }, { successMsg: i18n.t('update successfully') });
+      const safetyServerGuard = await call(
+        gatewayServices.saveSafetyServerGuard,
+        { packageId, ...payload },
+        { successMsg: i18n.t('update successfully') },
+      );
       if (payload.apiId) {
         update({ safetyServerGuard });
       }
     },
     async saveSafetyCsrf({ call, update, getParams }, payload: Omit<GATEWAY.SaveCsrf, 'packageId'>) {
       const { packageId } = getParams();
-      const safetyCsrf = await call(gatewayServices.saveSafetyCsrf, { packageId, ...payload }, { successMsg: i18n.t('update successfully') });
+      const safetyCsrf = await call(
+        gatewayServices.saveSafetyCsrf,
+        { packageId, ...payload },
+        { successMsg: i18n.t('update successfully') },
+      );
       if (payload.apiId) {
         update({ safetyCsrf });
       }
     },
     async saveBusinessProxy({ call, update, getParams }, payload: Omit<GATEWAY.SaveProxy, 'packageId'>) {
       const { packageId } = getParams();
-      const businessProxy = await call(gatewayServices.saveBusinessProxy, { packageId, ...payload }, { successMsg: i18n.t('update successfully') });
+      const businessProxy = await call(
+        gatewayServices.saveBusinessProxy,
+        { packageId, ...payload },
+        { successMsg: i18n.t('update successfully') },
+      );
       if (payload.apiId) {
         update({ businessProxy });
       }
     },
     async saveBusinessCors({ call, update, getParams }, payload: Omit<GATEWAY.SaveCors, 'packageId'>) {
       const { packageId } = getParams();
-      const businessCors = await call(gatewayServices.saveBusinessCors, { packageId, ...payload }, { successMsg: i18n.t('update successfully') });
+      const businessCors = await call(
+        gatewayServices.saveBusinessCors,
+        { packageId, ...payload },
+        { successMsg: i18n.t('update successfully') },
+      );
       if (payload.apiId) {
         update({ businessCors });
       }
     },
     async saveBusinessCustom({ call, update, getParams }, payload: Omit<GATEWAY.SaveCustom, 'packageId'>) {
       const { packageId } = getParams();
-      const businessCustom = await call(gatewayServices.saveBusinessCustom, { packageId, ...payload }, { successMsg: i18n.t('update successfully') });
+      const businessCustom = await call(
+        gatewayServices.saveBusinessCustom,
+        { packageId, ...payload },
+        { successMsg: i18n.t('update successfully') },
+      );
       if (payload.apiId) {
         update({ businessCustom });
       }
@@ -368,8 +400,12 @@ const gatewayStore = createStore({
     async getConsumerDetail({ call, update }, payload) {
       const { authConfig } = await call(gatewayServices.getConsumerDetail, payload);
       if (authConfig && authConfig.auths) {
-        const keyAuth = authConfig.auths.find((item: GATEWAY.IAuthConfig) => item.authType === 'key-auth') as GATEWAY.IAuthConfig;
-        const oAuth = authConfig.auths.find((item: GATEWAY.IAuthConfig) => item.authType === 'oauth2') as GATEWAY.IAuthConfig;
+        const keyAuth = authConfig.auths.find(
+          (item: GATEWAY.IAuthConfig) => item.authType === 'key-auth',
+        ) as GATEWAY.IAuthConfig;
+        const oAuth = authConfig.auths.find(
+          (item: GATEWAY.IAuthConfig) => item.authType === 'oauth2',
+        ) as GATEWAY.IAuthConfig;
 
         update({
           authData: {
@@ -389,20 +425,30 @@ const gatewayStore = createStore({
       await gatewayStore.effects.getConsumerDetail(payload.consumerId);
     },
     async saveConsumerApi({ call }, payload) {
-      const result = await call(gatewayServices.saveConsumerApi, payload, { successMsg: i18n.t('operated successfully') });
+      const result = await call(gatewayServices.saveConsumerApi, payload, {
+        successMsg: i18n.t('operated successfully'),
+      });
       if (result) {
         gatewayStore.effects.getConsumerList();
       }
     },
     async saveConsumerApiPolicy({ call }, payload: GATEWAY.SavePoliciesApi) {
-      const result = await call(gatewayServices.saveConsumerApiPolicy, payload, { successMsg: i18n.t('setting successfully') });
+      const result = await call(gatewayServices.saveConsumerApiPolicy, payload, {
+        successMsg: i18n.t('setting successfully'),
+      });
       if (result) {
         gatewayStore.effects.getConsumerList();
       }
     },
-    async getAPIList({ call, update, getParams }, payload: Merge<Merge<Omit<GATEWAY.GetApiList, keyof GATEWAY.Base>, GATEWAY.Query>, {filters: GATEWAY.ApiFilter}>) {
+    async getAPIList(
+      { call, update, getParams },
+      payload: Merge<
+        Merge<Omit<GATEWAY.GetApiList, keyof GATEWAY.Base>, GATEWAY.Query>,
+        { filters: GATEWAY.ApiFilter }
+      >,
+    ) {
       const orgId = orgStore.getState((s) => s.currentOrg.id);
-      const { projectId, env } = getParams() as {projectId: string; env: GATEWAY.EnvType};
+      const { projectId, env } = getParams() as { projectId: string; env: GATEWAY.EnvType };
       const apiList = await call(gatewayServices.getAPIList, {
         page: payload.pageNo,
         size: payload.pageSize,
@@ -459,19 +505,27 @@ const gatewayStore = createStore({
       const { projectId, env } = getParams();
       const { consumerId } = consumer;
 
-      const res = await call(gatewayServices.addAPI, {
-        ...payload,
-        orgId,
-        env,
-        projectId,
-        consumerId,
-      }, { successMsg: i18n.t('add successfully') });
+      const res = await call(
+        gatewayServices.addAPI,
+        {
+          ...payload,
+          orgId,
+          env,
+          projectId,
+          consumerId,
+        },
+        { successMsg: i18n.t('add successfully') },
+      );
       return res;
     },
-    async updateAPI({ select, call, getParams }, payload: Merge<GATEWAY.AddAPI, {apiId: string}>) {
+    async updateAPI({ select, call, getParams }, payload: Merge<GATEWAY.AddAPI, { apiId: string }>) {
       const { projectId, env } = getParams();
       const { consumerId } = select((s: IState) => s.consumer);
-      const newAPI = await call(gatewayServices.updateAPI, { ...payload, env, projectId, consumerId }, { successMsg: i18n.t('update successfully') });
+      const newAPI = await call(
+        gatewayServices.updateAPI,
+        { ...payload, env, projectId, consumerId },
+        { successMsg: i18n.t('update successfully') },
+      );
       gatewayStore.reducers.updateAPISuccess(newAPI);
     },
     async deleteAPI({ select, call }, { apiId }: GATEWAY.ApiListItem) {
@@ -527,7 +581,7 @@ const gatewayStore = createStore({
       });
       update({ errorSummary });
     },
-    async getPolicyList({ call, update, getParams }, payload: {category: string}) {
+    async getPolicyList({ call, update, getParams }, payload: { category: string }) {
       const orgId = orgStore.getState((s) => s.currentOrg.id);
       const { env, projectId } = getParams();
       const result = await call(gatewayServices.getPolicyList, {
@@ -551,7 +605,7 @@ const gatewayStore = createStore({
         update(obj);
       }
     },
-    async addPolicy({ call, getParams }, payload: {data: GATEWAY.UpdatePolicy; category: string}) {
+    async addPolicy({ call, getParams }, payload: { data: GATEWAY.UpdatePolicy; category: string }) {
       const orgId = orgStore.getState((s) => s.currentOrg.id);
       const { env, projectId } = getParams();
       // eslint-disable-next-line no-param-reassign
@@ -564,7 +618,7 @@ const gatewayStore = createStore({
       await call(gatewayServices.addPolicy, payload, { successMsg: i18n.t('add successfully') });
       gatewayStore.effects.getPolicyList({ category: 'trafficControl' });
     },
-    async updatePolicy({ call, getParams }, payload: {data: GATEWAY.UpdatePolicy; category: string}) {
+    async updatePolicy({ call, getParams }, payload: { data: GATEWAY.UpdatePolicy; category: string }) {
       const orgId = orgStore.getState((s) => s.currentOrg.id);
       const { env } = getParams();
       // eslint-disable-next-line no-param-reassign
@@ -576,14 +630,18 @@ const gatewayStore = createStore({
       const newData = await call(gatewayServices.updatePolicy, payload, { successMsg: i18n.t('update successfully') });
       gatewayStore.reducers.updateTrafficControlPolicySuccess(newData);
     },
-    async deletePolicy({ call }, payload: {data: {policyId: string}; category: string}) {
+    async deletePolicy({ call }, payload: { data: { policyId: string }; category: string }) {
       await call(gatewayServices.deletePolicy, payload, { successMsg: i18n.t('deleted successfully') });
       gatewayStore.effects.getPolicyList({ category: 'trafficControl' });
     },
     async getApiPackageList({ call, update, getParams }, payload: Partial<GATEWAY.Query> = { pageNo: 1 }) {
       const { projectId, env } = getParams();
       const orgId = orgStore.getState((s) => s.currentOrg.id);
-      const { total, list: apiPackageList } = await call(gatewayServices.getApiPackageList, { orgId, projectId, env, ...payload }, { paging: { key: 'apiPackageListPaging' } });
+      const { total, list: apiPackageList } = await call(
+        gatewayServices.getApiPackageList,
+        { orgId, projectId, env, ...payload },
+        { paging: { key: 'apiPackageListPaging' } },
+      );
       update({ apiPackageList });
       return { list: apiPackageList, total };
     },
@@ -603,24 +661,39 @@ const gatewayStore = createStore({
       update({ apiPackageDetail });
       return apiPackageDetail;
     },
-    async deletePackage({ call }, payload: {packageId: number}) {
+    async deletePackage({ call }, payload: { packageId: number }) {
       await call(gatewayServices.deletePackage, { ...payload }, { successMsg: i18n.t('deleted successfully') });
       gatewayStore.effects.getApiPackageList();
     },
-    async getPackageDetailApiList({ call, update, getParams }, payload: Omit<GATEWAY.GetPackageDetailApiList, 'packageId'>) {
+    async getPackageDetailApiList(
+      { call, update, getParams },
+      payload: Omit<GATEWAY.GetPackageDetailApiList, 'packageId'>,
+    ) {
       const { packageId } = getParams();
-      const { list: packageDetailApiList, total } = await call(gatewayServices.getPackageDetailApiList, { packageId, ...payload }, { paging: { key: 'packageDetailApiListPaging' } });
+      const { list: packageDetailApiList, total } = await call(
+        gatewayServices.getPackageDetailApiList,
+        { packageId, ...payload },
+        { paging: { key: 'packageDetailApiListPaging' } },
+      );
       update({ packageDetailApiList });
       return { list: packageDetailApiList, total };
     },
     async createPackageApi({ call, getParams }, payload: GATEWAY.CreatePackageApi) {
       const { packageId } = getParams();
-      const res = await call(gatewayServices.createPackageApi, { packageId, ...payload }, { successMsg: i18n.t('add successfully') });
+      const res = await call(
+        gatewayServices.createPackageApi,
+        { packageId, ...payload },
+        { successMsg: i18n.t('add successfully') },
+      );
       return res;
     },
     async updatePackageApi({ call, getParams }, payload) {
       const { packageId } = getParams();
-      const res = await call(gatewayServices.updatePackageApi, { packageId, ...payload }, { successMsg: i18n.t('update successfully') });
+      const res = await call(
+        gatewayServices.updatePackageApi,
+        { packageId, ...payload },
+        { successMsg: i18n.t('update successfully') },
+      );
       return res;
     },
     async getImportableApiList({ call, update, getParams }, payload) {
@@ -630,86 +703,136 @@ const gatewayStore = createStore({
     },
     async importApis({ call, getParams }, payload: GATEWAY.Common) {
       const { packageId } = getParams();
-      const res = await call(gatewayServices.importApis, { packageId, ...payload }, { successMsg: i18n.t('imported successfully') });
+      const res = await call(
+        gatewayServices.importApis,
+        { packageId, ...payload },
+        { successMsg: i18n.t('imported successfully') },
+      );
       return res;
     },
-    async deletePackageApi({ call, getParams }, payload: {apiId: string}) {
+    async deletePackageApi({ call, getParams }, payload: { apiId: string }) {
       const { packageId } = getParams();
-      const res = await call(gatewayServices.deletePackageApi, { packageId, ...payload }, { successMsg: i18n.t('deleted successfully') });
+      const res = await call(
+        gatewayServices.deletePackageApi,
+        { packageId, ...payload },
+        { successMsg: i18n.t('deleted successfully') },
+      );
       return res;
     },
     async getConsumerAuthorizes({ call, update }, payload: GATEWAY.Package) {
       const consumerAuthorizes = await call(gatewayServices.getConsumerAuthorizes, payload);
       update({ consumerAuthorizes });
     },
-    async updateConsumerAuthorizes({ call, update }, payload: Merge<GATEWAY.UpdateConsumerAuthByConsumers, {newList: GATEWAY.AuthInfoItem[]}>) {
+    async updateConsumerAuthorizes(
+      { call, update },
+      payload: Merge<GATEWAY.UpdateConsumerAuthByConsumers, { newList: GATEWAY.AuthInfoItem[] }>,
+    ) {
       await call(gatewayServices.updateConsumerAuthorizes, payload);
       update({ consumerAuthorizes: payload.newList });
     },
     async getOpenApiConsumerList({ call, update, getParams }, payload: Partial<GATEWAY.Query>) {
       const { projectId, env } = getParams();
       const orgId = orgStore.getState((s) => s.currentOrg.id);
-      const { total, list: openApiConsumerList } = await call(gatewayServices.getOpenApiConsumerList, { orgId, projectId, env, ...payload }, { paging: { key: 'openApiConsumerListPaging' } });
+      const { total, list: openApiConsumerList } = await call(
+        gatewayServices.getOpenApiConsumerList,
+        { orgId, projectId, env, ...payload },
+        { paging: { key: 'openApiConsumerListPaging' } },
+      );
       update({ openApiConsumerList });
       return { list: openApiConsumerList, total };
     },
-    async createOpenApiConsumer({ call, getParams }, payload: Pick<GATEWAY.CreateOpenApiConsumer, 'name'| 'description'>) {
+    async createOpenApiConsumer(
+      { call, getParams },
+      payload: Pick<GATEWAY.CreateOpenApiConsumer, 'name' | 'description'>,
+    ) {
       const { projectId, env } = getParams();
       const orgId = orgStore.getState((s) => s.currentOrg.id);
-      const res = call(gatewayServices.createOpenApiConsumer, { orgId, projectId, env, ...payload }, { successMsg: i18n.t('add successfully') });
+      const res = call(
+        gatewayServices.createOpenApiConsumer,
+        { orgId, projectId, env, ...payload },
+        { successMsg: i18n.t('add successfully') },
+      );
       return res;
     },
-    async updateOpenApiConsumer({ call }, payload: {id: string; description: string}) {
-      const res = call(gatewayServices.updateOpenApiConsumer, { ...payload }, { successMsg: i18n.t('update successfully') });
+    async updateOpenApiConsumer({ call }, payload: { id: string; description: string }) {
+      const res = call(
+        gatewayServices.updateOpenApiConsumer,
+        { ...payload },
+        { successMsg: i18n.t('update successfully') },
+      );
       return res;
     },
-    async deleteOpenApiConsumer({ call }, payload: {consumerId: string}) {
-      const res = await call(gatewayServices.deleteOpenApiConsumer, { ...payload }, { successMsg: i18n.t('deleted successfully') });
+    async deleteOpenApiConsumer({ call }, payload: { consumerId: string }) {
+      const res = await call(
+        gatewayServices.deleteOpenApiConsumer,
+        { ...payload },
+        { successMsg: i18n.t('deleted successfully') },
+      );
       return res;
     },
-    async getConsumerCredentials({ call, update }, payload: {consumerId: string}) {
-      const { authConfig: { auths } } = await call(gatewayServices.getConsumerCredentials, { ...payload });
+    async getConsumerCredentials({ call, update }, payload: { consumerId: string }) {
+      const {
+        authConfig: { auths },
+      } = await call(gatewayServices.getConsumerCredentials, { ...payload });
       update({ authConfig: auths });
     },
     async updateConsumerCredentials({ call, update }, payload: GATEWAY.UpdateCredentials) {
-      const { authConfig: { auths } } = await call(gatewayServices.updateConsumerCredentials, { ...payload }, { successMsg: i18n.t('update successfully') });
+      const {
+        authConfig: { auths },
+      } = await call(
+        gatewayServices.updateConsumerCredentials,
+        { ...payload },
+        { successMsg: i18n.t('update successfully') },
+      );
       update({ authConfig: auths });
     },
-    async getConsumerAuthPackages({ call, update }, payload: {consumerId: string}) {
+    async getConsumerAuthPackages({ call, update }, payload: { consumerId: string }) {
       const consumerAuthPackages = await call(gatewayServices.getConsumerAuthPackages, { ...payload });
       update({ consumerAuthPackages });
     },
     async updateConsumerAuthPackages({ call }, payload: GATEWAY.UpdateConsumerAuthByPackages) {
-      await call(gatewayServices.updateConsumerAuthPackages, { ...payload }, { successMsg: i18n.t('update successfully') });
+      await call(
+        gatewayServices.updateConsumerAuthPackages,
+        { ...payload },
+        { successMsg: i18n.t('update successfully') },
+      );
     },
     async getApiFilterCondition({ call, getParams, update }) {
       const { projectId, env } = getParams();
       const orgId = orgStore.getState((s) => s.currentOrg.id);
-      const [apiPackages, apiConsumers] = await Promise.all([
+      const [apiPackages, apiConsumers] = (await Promise.all([
         call(gatewayServices.getApiPackages, { orgId, projectId, env }),
         call(gatewayServices.getApiConsumers, { orgId, projectId, env }),
-      ]) as any as [ GATEWAY.ApiPackageItem[], GATEWAY.ConsumersName[] ];
+      ])) as any as [GATEWAY.ApiPackageItem[], GATEWAY.ConsumersName[]];
       const apiFilterCondition = { apiPackages, apiConsumers };
       update({ apiFilterCondition });
     },
     async getApiLimits({ call, update, getParams }, payload: GATEWAY.GetApiLimit) {
       const { projectId, env, packageId } = getParams();
       const orgId = orgStore.getState((s) => s.currentOrg.id);
-      const { total, list: apiLimits } = await call(gatewayServices.getApiLimits, { orgId, projectId, env, packageId, ...payload }, { paging: { key: 'apiLimitsPaging' } });
+      const { total, list: apiLimits } = await call(
+        gatewayServices.getApiLimits,
+        { orgId, projectId, env, packageId, ...payload },
+        { paging: { key: 'apiLimitsPaging' } },
+      );
       update({ apiLimits });
       return { list: apiLimits, total };
     },
     async createApiLimit({ call, getParams }, payload: GATEWAY.updateLimit) {
       const { projectId, env, packageId } = getParams();
       const orgId = orgStore.getState((s) => s.currentOrg.id);
-      const res = await call(gatewayServices.createApiLimit, { ...payload, orgId, projectId, env, packageId }, { successMsg: i18n.t('created successfully') });
+      const res = await call(
+        gatewayServices.createApiLimit,
+        { ...payload, orgId, projectId, env, packageId },
+        { successMsg: i18n.t('created successfully') },
+      );
       return res;
     },
-    async updateApiLimit({ call }, payload: Merge<GATEWAY.updateLimit, {ruleId: string}>) {
+    async updateApiLimit({ call }, payload: Merge<GATEWAY.updateLimit, { ruleId: string }>) {
       const res = await call(gatewayServices.updateApiLimit, payload, { successMsg: i18n.t('update successfully') });
       return res;
     },
-    async deleteLimit({ call }, payload: {ruleId: string}) {
+    async deleteLimit({ call }, payload: { ruleId: string }) {
       const res = call(gatewayServices.deleteLimit, payload, { successMsg: i18n.t('deleted successfully') });
       return res;
     },
@@ -718,10 +841,19 @@ const gatewayStore = createStore({
       const projectInfo = await call(getProjectInfo, projectId);
       update({ projectInfo });
     },
-    async getDeployedBranches({ call, getParams, update }, { diceService, diceApp }: {diceService: string; diceApp: string}) {
+    async getDeployedBranches(
+      { call, getParams, update },
+      { diceService, diceApp }: { diceService: string; diceApp: string },
+    ) {
       const { projectId, env } = getParams();
       const orgId = orgStore.getState((s) => s.currentOrg.id);
-      const projectInfo = await call(gatewayServices.getDeployedBranches, { projectId, env, orgId, diceService, diceApp });
+      const projectInfo = await call(gatewayServices.getDeployedBranches, {
+        projectId,
+        env,
+        orgId,
+        diceService,
+        diceApp,
+      });
       update({ projectInfo });
     },
     async getAuthinfo({ call, update }, payload: GATEWAY.GetAuthInfo) {
@@ -745,21 +877,21 @@ const gatewayStore = createStore({
       return res;
     },
 
-    async generateAliCloudCredentialsAfterCreate({ call }, payload: {consumerId: string}) {
+    async generateAliCloudCredentialsAfterCreate({ call }, payload: { consumerId: string }) {
       const aliCloudCredentials = await call(gatewayServices.generateAliCloudCredentials, payload);
       return aliCloudCredentials;
     },
-    async generateAliCloudCredentials({ call, update }, payload: {consumerId: string}) {
+    async generateAliCloudCredentials({ call, update }, payload: { consumerId: string }) {
       const aliCloudCredentials = await call(gatewayServices.generateAliCloudCredentials, payload);
       update({ aliCloudCredentials });
       return aliCloudCredentials;
     },
-    async getAliCloudCredentials({ call, update }, payload: {consumerId: string}) {
+    async getAliCloudCredentials({ call, update }, payload: { consumerId: string }) {
       const aliCloudCredentials = await call(gatewayServices.getAliCloudCredentials, payload);
       update({ aliCloudCredentials });
       return aliCloudCredentials;
     },
-    async deleteAliCloudCredentials({ call }, payload: {consumerId: string}) {
+    async deleteAliCloudCredentials({ call }, payload: { consumerId: string }) {
       const res = await call(gatewayServices.deleteAliCloudCredentials, payload);
       return res;
     },
@@ -811,7 +943,8 @@ const gatewayStore = createStore({
     },
     cleanAPIList(state) {
       state.apiList = {
-        result: [], page: {} as GATEWAY.ApiPage,
+        result: [],
+        page: {} as GATEWAY.ApiPage,
       };
     },
     clearApiFilter(state) {
@@ -828,7 +961,9 @@ const gatewayStore = createStore({
     },
     updateTrafficControlPolicySuccess(state, payload) {
       const trafficControlPolicy = { ...state.trafficControlPolicy };
-      trafficControlPolicy.policyList = trafficControlPolicy.policyList.map((item) => (item.policyId === payload.policyId ? payload : item));
+      trafficControlPolicy.policyList = trafficControlPolicy.policyList.map((item) =>
+        item.policyId === payload.policyId ? payload : item,
+      );
       state.trafficControlPolicy = trafficControlPolicy;
     },
     clearAliCloudCredentials(state) {

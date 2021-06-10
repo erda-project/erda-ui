@@ -16,7 +16,6 @@
     .name-input {
       flex-grow: 1;
     }
-    
   }
 
   .param-config-form {
@@ -38,18 +37,18 @@
     position: relative;
     display: flex;
     flex-wrap: nowrap;
-   
+
     .pk-form {
       .pk-col-24 {
         padding-left: 0 !important;
       }
     }
-    
+
     .pk-form-item-label {
       height: 0;
       padding-bottom: 0 !important;
     }
-    
+
     .mask {
       position: absolute;
       top: 0;
@@ -59,16 +58,13 @@
       cursor: pointer;
     }
 
-    
     .select-container {
       .ant-select-dropdown-menu-item {
         height: 34px;
-        padding: 0; 
+        padding: 0;
         line-height: 34px;
       }
     }
-
-  
 
     .ant-input {
       border-top-left-radius: 0;
@@ -85,19 +81,16 @@
 
       &:hover,
       &:focus {
-        border-color: #d9d9d9 ;
+        border-color: #d9d9d9;
         outline: 0;
       }
 
       .anticon-down {
         margin: 2px 5px 0 0;
         font-size: 10px;
-        
       }
-
-     
     }
-   
+
     .icon-shanchu {
       margin: 8px 0 0 5px;
     }
@@ -115,11 +108,8 @@
         top: 9px;
         width: $p12;
         height: $p12;
-        
       }
     }
-
-    
   }
 
   .popconfirm-container {
@@ -134,11 +124,10 @@
       border: 1px solid rgba($primary, 0);
       border-radius: $radius;
       cursor: pointer;
-      transition: all .3s;
+      transition: all 0.3s;
 
       &:hover {
         .btn-label {
-
           border-right: 1px solid $lightgray;
         }
       }
@@ -148,7 +137,7 @@
         width: 100px;
         padding-left: 10px;
       }
-      
+
       .circle-container {
         position: absolute;
         top: 0;
@@ -171,42 +160,42 @@
         text-align: center;
         border: 1px solid rgba($primary, 0);
         border-radius: 50%;
-       
+
         &-get {
           background-color: #00b49d;
           border-color: #00b49d;
         }
-  
+
         &-post {
           background-color: #b890fa;
           border-color: #b890fa;
         }
-  
+
         &-put {
           background-color: #f2be24;
           border-color: #f2be24;
         }
-  
+
         &-patch {
           background-color: #4b44c9;
           border-color: #4b44c9;
         }
-  
+
         &-delete {
           background-color: #d1344e;
           border-color: #d1344e;
         }
-  
+
         &-options {
           background-color: #00b5d1;
           border-color: #00b5d1;
         }
-  
+
         &-head {
           background-color: #17bc65;
           border-color: #17bc65;
         }
-  
+
         &-empty {
           background-color: rgba($primary, 0);
         }
@@ -214,19 +203,17 @@
     }
   }
 
-
   .pk-form-builder.normal .pk-radio-group,
   .pk-form-builder.normal .pk-checkbox-group,
   .pk-form-builder.normal .pk-rate {
     padding: 0;
   }
 
-
   .pk-radio-group-small .pk-radio-button-wrapper {
     height: 32px;
     line-height: 28px;
   }
-  
+
   .api-tag-select {
     &-btn {
       padding: $p8;
@@ -258,6 +245,3 @@
     }
   }
 }
-
-
-

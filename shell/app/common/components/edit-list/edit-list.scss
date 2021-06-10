@@ -18,7 +18,7 @@
     line-height: 34px;
     border-bottom: 1px solid $border-color;
 
-    textarea.edit-list-item-textarea{
+    textarea.edit-list-item-textarea {
       height: 30px;
       resize: none;
     }
@@ -27,14 +27,12 @@
       min-width: 100px;
     }
 
-
-
     &.required-item {
       &::before {
         position: absolute;
         left: 2px;
         color: $red;
-        content: "*";
+        content: '*';
       }
     }
 
@@ -55,7 +53,7 @@
         border: 1px solid $red !important;
 
         &:focus {
-          box-shadow: 0 0 0 2px rgb($red, .2);
+          box-shadow: 0 0 0 2px rgb($red, 0.2);
         }
       }
     }

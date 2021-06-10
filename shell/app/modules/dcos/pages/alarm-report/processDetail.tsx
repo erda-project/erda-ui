@@ -21,7 +21,6 @@ import './processDetail.scss';
 import routeInfoStore from 'common/stores/route';
 import alarmReportStore from 'dataCenter/stores/alarm-report';
 
-
 interface IProcessDetailInfo {
   processName: string;
   id: string;
@@ -42,19 +41,19 @@ const ProcessDetailInfo = ({ processName, id, cmdline, ip, clusterName }: IProce
       <div className="process-configuration-panel">
         <div>
           <span>ID :</span>
-          <span>{ id }</span>
+          <span>{id}</span>
         </div>
         <div>
           <span>CmdLine :</span>
-          <span>{ `${cutStr(cmdline, 50)}` }</span>
+          <span>{`${cutStr(cmdline, 50)}`}</span>
         </div>
         <div>
           <span>{i18n.t('dcos:machine')} IP :</span>
-          <span>{ ip }</span>
+          <span>{ip}</span>
         </div>
         <div>
           <span>{i18n.t('dcos:own cluster')} :</span>
-          <span>{ clusterName }</span>
+          <span>{clusterName}</span>
         </div>
       </div>
     </div>
@@ -99,13 +98,11 @@ const ProcessDetail = () => {
         cmdline={processCmdline}
       />
       <Row gutter={20}>
-        {
-          processChartList.map((ProcessChart: any, key) => (
-            <Col span={12} key={String(key)}>
-              <ProcessChart {...processChartAttrs} />
-            </Col>
-          ))
-        }
+        {processChartList.map((ProcessChart: any, key) => (
+          <Col span={12} key={String(key)}>
+            <ProcessChart {...processChartAttrs} />
+          </Col>
+        ))}
       </Row>
     </div>
   );

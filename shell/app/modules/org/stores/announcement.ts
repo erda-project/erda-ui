@@ -39,7 +39,6 @@ const initState: INotice = {
   noticePaging: getDefaultPaging(),
 };
 
-
 const announcementStore = createStore({
   name: 'announcement',
   state: initState,

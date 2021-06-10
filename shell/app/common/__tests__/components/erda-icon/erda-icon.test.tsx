@@ -19,23 +19,13 @@ import { ErdaIcon } from 'common';
 describe('ErdaIcon', () => {
   it('render with iconType', () => {
     const fn = jest.fn();
-    const wrapper = mount(
-      <ErdaIcon
-        iconType="lock"
-        className="customize-cls"
-        onClick={fn}
-      />,
-    );
+    const wrapper = mount(<ErdaIcon iconType="lock" className="customize-cls" onClick={fn} />);
     expect(wrapper.find('.i-icon').hasClass('customize-cls')).toBeTruthy();
     wrapper.find('.i-icon').simulate('click');
     expect(fn).toHaveBeenCalled();
   });
   it('render with illegal icon Type', () => {
-    const wrapper = mount(
-      <ErdaIcon
-        iconType="illegal"
-      />,
-    );
+    const wrapper = mount(<ErdaIcon iconType="illegal" />);
     expect(wrapper).toHaveHTML('<span>Not Exists</span>');
   });
 });

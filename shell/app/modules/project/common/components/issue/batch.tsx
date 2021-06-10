@@ -59,53 +59,56 @@ export default ({ ids, all, mine, type, iterationID, currentIterationIDs, projec
       break;
   }
 
-  const onClick = React.useCallback(({ key }: any) => {
-    switch (key) {
-      case 'assign':
-        updater.formProps({
-          visible: true,
-          title: i18n.t('update assign'),
-          fieldsList: [
-            {
-              name: 'assignee',
-              label: i18n.t('project:assignee'),
-              getComp: () => <MemberSelector scopeType="project" scopeId={params.projectId} />,
-            },
-          ],
-        });
-        break;
-      case 'state':
-        updater.formProps({
-          visible: true,
-          title: i18n.t('update state'),
-          fieldsList: [
-            {
-              label: i18n.t('common:state'),
-              name: 'state',
-              type: 'select',
-              options: map(stateMap, (s, k) => ({ name: s.label, value: k })),
-            },
-          ],
-        });
-        break;
-      case 'move':
-        updater.formProps({
-          visible: true,
-          title: i18n.t('project:move to iteration'),
-          fieldsList: [
-            {
-              label: i18n.t('project:iteration'),
-              name: 'newIterationID',
-              type: 'custom',
-              getComp: () => <IterationSelect fullWidth />,
-            },
-          ],
-        });
-        break;
-      default:
-        break;
-    }
-  }, [params.projectId, stateMap, updater]);
+  const onClick = React.useCallback(
+    ({ key }: any) => {
+      switch (key) {
+        case 'assign':
+          updater.formProps({
+            visible: true,
+            title: i18n.t('update assign'),
+            fieldsList: [
+              {
+                name: 'assignee',
+                label: i18n.t('project:assignee'),
+                getComp: () => <MemberSelector scopeType="project" scopeId={params.projectId} />,
+              },
+            ],
+          });
+          break;
+        case 'state':
+          updater.formProps({
+            visible: true,
+            title: i18n.t('update state'),
+            fieldsList: [
+              {
+                label: i18n.t('common:state'),
+                name: 'state',
+                type: 'select',
+                options: map(stateMap, (s, k) => ({ name: s.label, value: k })),
+              },
+            ],
+          });
+          break;
+        case 'move':
+          updater.formProps({
+            visible: true,
+            title: i18n.t('project:move to iteration'),
+            fieldsList: [
+              {
+                label: i18n.t('project:iteration'),
+                name: 'newIterationID',
+                type: 'custom',
+                getComp: () => <IterationSelect fullWidth />,
+              },
+            ],
+          });
+          break;
+        default:
+          break;
+      }
+    },
+    [params.projectId, stateMap, updater],
+  );
 
   const handleSubmit = (values: any) => {
     batchUpdateIssue({
@@ -144,13 +147,7 @@ export default ({ ids, all, mine, type, iterationID, currentIterationIDs, projec
           ghost: true,
         }}
       />
-      <FormModal
-        width={520}
-        {...state.formProps}
-        onOk={handleSubmit}
-        onCancel={() => closeModal()}
-      />
+      <FormModal width={520} {...state.formProps} onOk={handleSubmit} onCancel={() => closeModal()} />
     </>
   );
 };
-

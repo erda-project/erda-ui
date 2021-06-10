@@ -26,7 +26,7 @@ import routeInfoStore from 'common/stores/route';
 import moment from 'moment';
 import './index.scss';
 
-export const assetTabs: Array<{key: API_MARKET.AssetScope; name: string}> = [
+export const assetTabs: Array<{ key: API_MARKET.AssetScope; name: string }> = [
   {
     key: 'mine',
     name: i18n.t('my responsible'),
@@ -63,7 +63,7 @@ const ApiMarketList = () => {
     showApplyModal: false,
   });
   const [assetList, assetListPaging] = apiMarketStore.useStore((s) => [s.assetList, s.assetListPaging]);
-  const { scope } = routeInfoStore.useStore((s) => s.params) as {scope: API_MARKET.AssetScope};
+  const { scope } = routeInfoStore.useStore((s) => s.params) as { scope: API_MARKET.AssetScope };
   const { getAssetList } = apiMarketStore.effects;
   const { resetAssetList } = apiMarketStore.reducers;
   const [isFetchList] = useLoading(apiMarketStore, ['getAssetList']);
@@ -76,25 +76,31 @@ const ApiMarketList = () => {
       ...params,
     });
   };
-  useDebounce(() => {
-    getList({ keyword, pageNo: 1, scope });
-  }, 200, [keyword, scope]);
+  useDebounce(
+    () => {
+      getList({ keyword, pageNo: 1, scope });
+    },
+    200,
+    [keyword, scope],
+  );
 
   const reload = () => {
     getList({ keyword, pageNo: 1, scope });
   };
 
-  const filterConfig = React.useMemo((): FilterItemConfig[] => [
-    {
-      type: Input.Search,
-      name: 'keyword',
-      customProps: {
-        placeholder: i18n.t('default:search by keywords'),
-        autoComplete: 'off',
+  const filterConfig = React.useMemo(
+    (): FilterItemConfig[] => [
+      {
+        type: Input.Search,
+        name: 'keyword',
+        customProps: {
+          placeholder: i18n.t('default:search by keywords'),
+          autoComplete: 'off',
+        },
       },
-    },
-
-  ], []);
+    ],
+    [],
+  );
 
   const handleSearch = (query: Record<string, any>) => {
     updater.keyword(query.keyword);
@@ -129,8 +135,12 @@ const ApiMarketList = () => {
     });
   };
 
-
-  const showAssetModal = (assetScope: IScope, mode: IMode, e?: React.MouseEvent<HTMLElement>, record?: API_MARKET.Asset) => {
+  const showAssetModal = (
+    assetScope: IScope,
+    mode: IMode,
+    e?: React.MouseEvent<HTMLElement>,
+    record?: API_MARKET.Asset,
+  ) => {
     e && e.stopPropagation();
     update({
       scope: assetScope,
@@ -172,20 +182,50 @@ const ApiMarketList = () => {
       render: ({ manage, addVersion, hasAccess }: API_MARKET.AssetPermission, { asset }) => {
         return (
           <TableActions>
-            {manage ? <span onClick={(e) => { handleManage(e, asset); }}>{i18n.t('manage')}</span> : null}
-            {addVersion ? <span onClick={(e) => { showAssetModal('version', 'add', e, asset); }}>{i18n.t('add {name}', { name: i18n.t('version') })}</span> : null}
-            {hasAccess ? <span onClick={(e) => { handleApply(e, asset); }}>{i18n.t('apply call')}</span> : null}
+            {manage ? (
+              <span
+                onClick={(e) => {
+                  handleManage(e, asset);
+                }}
+              >
+                {i18n.t('manage')}
+              </span>
+            ) : null}
+            {addVersion ? (
+              <span
+                onClick={(e) => {
+                  showAssetModal('version', 'add', e, asset);
+                }}
+              >
+                {i18n.t('add {name}', { name: i18n.t('version') })}
+              </span>
+            ) : null}
+            {hasAccess ? (
+              <span
+                onClick={(e) => {
+                  handleApply(e, asset);
+                }}
+              >
+                {i18n.t('apply call')}
+              </span>
+            ) : null}
           </TableActions>
         );
       },
     },
   ];
 
-
   return (
     <div className="api-market-list">
       <div className="top-button-group">
-        <Button type="primary" onClick={() => { showAssetModal('asset', 'add'); }}>{i18n.t('default:create resource')}</Button>
+        <Button
+          type="primary"
+          onClick={() => {
+            showAssetModal('asset', 'add');
+          }}
+        >
+          {i18n.t('default:create resource')}
+        </Button>
       </div>
       <CustomFilter config={filterConfig} onSubmit={handleSearch} />
       <Table
@@ -198,7 +238,9 @@ const ApiMarketList = () => {
         }}
         onRow={(record) => {
           return {
-            onClick: () => { gotoVersion(record); },
+            onClick: () => {
+              gotoVersion(record);
+            },
           };
         }}
         onChange={handleTableChange}

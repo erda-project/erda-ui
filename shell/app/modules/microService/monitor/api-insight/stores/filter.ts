@@ -13,7 +13,7 @@
 
 import { createStore } from 'app/cube';
 
-interface IState{
+interface IState {
   searchFields: {
     filter_api: undefined | string;
     filter_mthd: undefined | string;
@@ -52,7 +52,6 @@ const filter = createStore({
       state.searchFields = {} as any;
     },
   },
-
 });
 
 export default filter;

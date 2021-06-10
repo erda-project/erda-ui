@@ -34,20 +34,35 @@ interface IProps {
 let onDrag = false;
 const emptyFun = () => {};
 const TopologyEle = (props: IProps) => {
-  const { data, zoom, setSize, onClickNode = emptyFun, nodeExternalParam, nodeEle, linkTextEle, boxEle, setScale } = props;
+  const {
+    data,
+    zoom,
+    setSize,
+    onClickNode = emptyFun,
+    nodeExternalParam,
+    nodeEle,
+    linkTextEle,
+    boxEle,
+    setScale,
+  } = props;
   const svgRef = React.useRef(null);
   const svgGroupRef = React.useRef(null);
   const boxRef = React.useRef(null);
 
   const handleWheel = React.useCallback(
-    throttle((e: any, scale: number) => {
-      if (e.deltaY > 0 && scale < 1.8) {
-        setScale(scale + 0.05);
-      }
-      if (e.deltaY < 0 && scale > 0.2) {
-        setScale(scale - 0.05);
-      }
-    }, 100, { trailing: false }), [],
+    throttle(
+      (e: any, scale: number) => {
+        if (e.deltaY > 0 && scale < 1.8) {
+          setScale(scale + 0.05);
+        }
+        if (e.deltaY < 0 && scale > 0.2) {
+          setScale(scale - 0.05);
+        }
+      },
+      100,
+      { trailing: false },
+    ),
+    [],
   );
 
   React.useEffect(() => {
@@ -57,16 +72,19 @@ const TopologyEle = (props: IProps) => {
     if (curSvg) {
       svgGroupRef.current = curSvg.g().drag(
         // 此处不能改为箭头函数，api会报错
-        function (dx: number, dy: number) { // onmove
+        function (dx: number, dy: number) {
+          // onmove
           onDrag = true;
           this.attr({
             transform: this.data('origTransform') + (this.data('origTransform') ? 'T' : 't') + [dx, dy],
           });
         },
-        function () { // onstart
+        function () {
+          // onstart
           this.data('origTransform', this.transform().local);
         },
-        () => { // onend
+        () => {
+          // onend
           setTimeout(() => {
             onDrag = false;
           }, 0);
@@ -84,28 +102,23 @@ const TopologyEle = (props: IProps) => {
     const scale = new Snap.Matrix();
     scale.scale(zoom, zoom);
     /** safari中svg标签不支持transform元素。
-    * 解决：
-    *    新建一个g标签，将所有子svg图都添加到该group
-    *    通过控制g标签的transform来达到缩放全局的需求
-    */
+     * 解决：
+     *    新建一个g标签，将所有子svg图都添加到该group
+     *    通过控制g标签的transform来达到缩放全局的需求
+     */
     curG.transform(scale);
   }, [zoom]);
 
   React.useEffect(() => {
-    const { containerHeight, containerWidth } = renderTopology(
-      data,
-      svgRef.current,
-      svgGroupRef.current,
-      {
-        ...nodeExternalParam,
-        nodeEle,
-        boxEle,
-        linkTextEle,
-        onClickNode: (detial: any) => {
-          if (!onDrag)onClickNode(detial);
-        },
+    const { containerHeight, containerWidth } = renderTopology(data, svgRef.current, svgGroupRef.current, {
+      ...nodeExternalParam,
+      nodeEle,
+      boxEle,
+      linkTextEle,
+      onClickNode: (detial: any) => {
+        if (!onDrag) onClickNode(detial);
       },
-    );
+    });
     const curBox = boxRef.current as any;
     curBox.style.width = `${containerWidth}px`;
     curBox.style.height = `${containerHeight}px`;
@@ -122,12 +135,7 @@ const TopologyEle = (props: IProps) => {
           handleWheel(e, zoom);
         }}
       >
-        <svg
-          id="topology-svg"
-          width="100%"
-          height="100%"
-          className={`topology-svg ${zoom > 1 ? 'enlarge' : ''}`}
-        />
+        <svg id="topology-svg" width="100%" height="100%" className={`topology-svg ${zoom > 1 ? 'enlarge' : ''}`} />
       </div>
     </div>
   );

@@ -81,13 +81,24 @@ const RuleItem = ({ updateItem, data, className = '', operation = null }: IRuleI
   const curRule = { valueFixIn: noop, valueFixOut: noop, ...(ruleMap[data.type] || {}) };
   return (
     <div className={className}>
-      <Select value={data.type} onChange={(val) => { updateItem({ type: val, value: undefined, msg: undefined }); }}>
+      <Select
+        value={data.type}
+        onChange={(val) => {
+          updateItem({ type: val, value: undefined, msg: undefined });
+        }}
+      >
         {map(ruleMap, (item) => (
-          <Option key={item.key} value={item.key}>{item.name}</Option>
+          <Option key={item.key} value={item.key}>
+            {item.name}
+          </Option>
         ))}
       </Select>
       <Tooltip title={curRule.tip}>
-        <Input value={curRule.valueFixIn(data.value)} placeholder="请输入" onChange={(e) => updateItem({ value: curRule.valueFixOut(e.target.value) })} />
+        <Input
+          value={curRule.valueFixIn(data.value)}
+          placeholder="请输入"
+          onChange={(e) => updateItem({ value: curRule.valueFixOut(e.target.value) })}
+        />
       </Tooltip>
       <Input value={data.msg} placeholder="请填写提示信息" onChange={(e) => updateItem({ msg: e.target.value })} />
       {operation}
@@ -102,7 +113,7 @@ const changeRulesToValue = (rules: IRule[]) => {
   });
 };
 
-const changeValueToRules = (value: Array<{msg: string; [pro: string]: any}>) => {
+const changeValueToRules = (value: Array<{ msg: string; [pro: string]: any }>) => {
   const curRules = [] as IRule[];
   map(value, (item) => {
     const { msg, ...rest } = item;
@@ -123,48 +134,40 @@ export const RulesInput = createCombiner<IRuleValue, IRule>({
 
 const FormItem = Form.Item;
 
-export const FormRuleInput = ({
-  fixOut = noop,
-  fixIn = noop,
-  extensionFix,
-  requiredCheck,
-  trigger = 'onChange',
-}) => React.memo(({ fieldConfig, form }: any) => {
-  const {
-    key,
-    value,
-    label,
-    visible,
-    valid,
-    registerRequiredCheck,
-    componentProps,
-    required,
-    wrapperProps,
-    labelTip,
-    requiredCheck: _requiredCheck,
-  } = fieldConfig;
-  registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (val: any) => {
-    form.setFieldValue(key, fixOut(val));
-    (componentProps.onChange || noop)(val);
-  };
-  return (
-    <FormItem
-      colon
-      label={getLabel(label, labelTip)}
-      className={visible ? '' : 'hide'}
-      validateStatus={valid[0]}
-      help={valid[1]}
-      required={required}
-      {...wrapperProps}
-    >
-      <RulesInput
-        value={fixIn(value)}
-        onChange={handleChange}
-      />
-    </FormItem>
-  );
-});
+export const FormRuleInput = ({ fixOut = noop, fixIn = noop, extensionFix, requiredCheck, trigger = 'onChange' }) =>
+  React.memo(({ fieldConfig, form }: any) => {
+    const {
+      key,
+      value,
+      label,
+      visible,
+      valid,
+      registerRequiredCheck,
+      componentProps,
+      required,
+      wrapperProps,
+      labelTip,
+      requiredCheck: _requiredCheck,
+    } = fieldConfig;
+    registerRequiredCheck(_requiredCheck || requiredCheck);
+    const handleChange = (val: any) => {
+      form.setFieldValue(key, fixOut(val));
+      (componentProps.onChange || noop)(val);
+    };
+    return (
+      <FormItem
+        colon
+        label={getLabel(label, labelTip)}
+        className={visible ? '' : 'hide'}
+        validateStatus={valid[0]}
+        help={valid[1]}
+        required={required}
+        {...wrapperProps}
+      >
+        <RulesInput value={fixIn(value)} onChange={handleChange} />
+      </FormItem>
+    );
+  });
 
 export const config = {
   name: 'rulesInput',

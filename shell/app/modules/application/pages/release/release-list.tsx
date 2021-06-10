@@ -50,15 +50,9 @@ const ReleaseList = () => {
     queryObj: {
       q: query.q,
       branchName: query.branchName as undefined | string,
-    } as null | { q?: string; branchName?: string},
+    } as null | { q?: string; branchName?: string },
   });
-  const {
-    pageNo,
-    applicationId,
-    queryObj,
-    chosenPos,
-    branchInfo,
-  } = state;
+  const { pageNo, applicationId, queryObj, chosenPos, branchInfo } = state;
 
   React.useEffect(() => {
     const arg: any = {
@@ -87,9 +81,10 @@ const ReleaseList = () => {
   }, [queryObj, applicationId]);
 
   React.useEffect(() => {
-    applicationId && getBranchInfo({ appId: +applicationId }).then((res: any) => {
-      updater.branchInfo(res.data || []);
-    });
+    applicationId &&
+      getBranchInfo({ appId: +applicationId }).then((res: any) => {
+        updater.branchInfo(res.data || []);
+      });
   }, [applicationId, updater]);
 
   const changePage = (num: number) => {
@@ -98,7 +93,7 @@ const ReleaseList = () => {
     }
   };
 
-  const releaseId = get(list, `[${chosenPos}].releaseId`) || '' as string;
+  const releaseId = get(list, `[${chosenPos}].releaseId`) || ('' as string);
   return (
     <div className="release-list-container">
       <div className="release-list-page v-flex-box">
@@ -143,12 +138,17 @@ const ReleaseList = () => {
           />
         </div>
         <Spin spinning={loading} wrapperClassName="flex-1 auto-overflow">
-          {
-            map(list, (item, index) => (
-              <ReleaseItem data={item} key={item.releaseId} isActive={index === chosenPos} onClick={() => updater.chosenPos(index)} />
-            ))
-          }
-          <IF check={list.length === 0 && !query.q}><EmptyListHolder /></IF>
+          {map(list, (item, index) => (
+            <ReleaseItem
+              data={item}
+              key={item.releaseId}
+              isActive={index === chosenPos}
+              onClick={() => updater.chosenPos(index)}
+            />
+          ))}
+          <IF check={list.length === 0 && !query.q}>
+            <EmptyListHolder />
+          </IF>
         </Spin>
         <IF check={query.q}>
           <div className="search-tip">
@@ -168,6 +168,5 @@ const ReleaseList = () => {
     </div>
   );
 };
-
 
 export default ReleaseList;

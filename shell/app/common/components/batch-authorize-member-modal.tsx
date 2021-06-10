@@ -25,65 +25,58 @@ interface IProps {
   [k: string]: any;
 }
 
-export const BatchAuthorizeMemberModal = ({
-  projectId,
-  ...rest
-}: IProps) => {
+export const BatchAuthorizeMemberModal = ({ projectId, ...rest }: IProps) => {
   const { getRoleMap } = appMemberStore.effects;
   const roleMap = appMemberStore.useStore((s) => s.roleMap);
 
   useMount(() => getRoleMap({ scopeType: MemberScope.APP }));
 
   const _getApps = (q: any) => {
-    return getApps({ ...q })
-      .then((res: any) => res.data);
+    return getApps({ ...q }).then((res: any) => res.data);
   };
 
-  const fieldsList = React.useMemo(() => [
-    {
-      label: i18n.t('application'),
-      name: 'applications',
-      type: 'custom',
-      getComp: () => (
-        <LoadMoreSelector
-          getData={_getApps}
-          mode="multiple"
-          placeholder={i18n.t('project:please select application')}
-          extraQuery={{ projectId }}
-          dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
-            total,
-            list: map(list, (application) => {
-              const { name, id } = application;
-              return {
-                ...application,
-                label: name,
-                value: id,
-              };
-            }),
-          })}
-        />
-      ),
-    },
-    {
-      label: i18n.t('role'),
-      name: 'roles',
-      type: 'select',
-      itemProps: {
-        mode: 'multiple',
-        placeholder: i18n.t('project:please set'),
+  const fieldsList = React.useMemo(
+    () => [
+      {
+        label: i18n.t('application'),
+        name: 'applications',
+        type: 'custom',
+        getComp: () => (
+          <LoadMoreSelector
+            getData={_getApps}
+            mode="multiple"
+            placeholder={i18n.t('project:please select application')}
+            extraQuery={{ projectId }}
+            dataFormatter={({ list, total }: { list: any[]; total: number }) => ({
+              total,
+              list: map(list, (application) => {
+                const { name, id } = application;
+                return {
+                  ...application,
+                  label: name,
+                  value: id,
+                };
+              }),
+            })}
+          />
+        ),
       },
-      options: [
-        // { name: i18n.t('not member'), value: '' },
-        ...map(roleMap, (v: string, k: string) => ({ name: v, value: k })),
-      ],
-    },
-  ], [projectId, roleMap]);
-
-  return (
-    <FormModal
-      title={i18n.t('common:batch authorize application')}
-      fieldsList={fieldsList}
-      {...rest}
-    />
+      {
+        label: i18n.t('role'),
+        name: 'roles',
+        type: 'select',
+        itemProps: {
+          mode: 'multiple',
+          placeholder: i18n.t('project:please set'),
+        },
+        options: [
+          // { name: i18n.t('not member'), value: '' },
+          ...map(roleMap, (v: string, k: string) => ({ name: v, value: k })),
+        ],
+      },
+    ],
+    [projectId, roleMap],
   );
+
+  return <FormModal title={i18n.t('common:batch authorize application')} fieldsList={fieldsList} {...rest} />;
 };

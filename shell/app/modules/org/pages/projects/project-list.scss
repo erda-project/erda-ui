@@ -27,7 +27,7 @@
         width: 1px;
         height: 60%;
         background-color: $color-border;
-        content: "";
+        content: '';
       }
     }
   }
@@ -67,15 +67,15 @@
       text-align: center;
 
       &:nth-child(1) {
-        background: rgba(106, 84, 158, .10);
+        background: rgba(106, 84, 158, 0.1);
       }
 
       &:nth-child(2) {
-        background: rgba(106, 84, 158, .16);
+        background: rgba(106, 84, 158, 0.16);
       }
 
       &:nth-child(3) {
-        background: repeating-linear-gradient(45deg, rgba(114, 82, 82, .09), transparent 4px);
+        background: repeating-linear-gradient(45deg, rgba(114, 82, 82, 0.09), transparent 4px);
       }
 
       &.border-right-color {

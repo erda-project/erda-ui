@@ -36,7 +36,7 @@ export default (props: CP_RADIO.Props) => {
 
   React.useEffect(() => {
     customProps?.onStateChange && customProps.onStateChange(state);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
   const onChange = (val: any) => {
@@ -45,20 +45,18 @@ export default (props: CP_RADIO.Props) => {
   };
 
   return (
-    <Radio.Group
-      {...rest}
-      value={state.value}
-      onChange={(e: any) => onChange({ value: e.target.value })}
-    >
+    <Radio.Group {...rest} value={state.value} onChange={(e: any) => onChange({ value: e.target.value })}>
       {map(options, (mItem) => {
         const { children, key, prefixIcon, text, tooltip, width, status, operations: itemOp } = mItem;
 
         if (isArray(children)) {
-          const curChildrenVal = get(state, `childrenValue.${key}`) || get(children, '[0].key') as string;
+          const curChildrenVal = get(state, `childrenValue.${key}`) || (get(children, '[0].key') as string);
           const childName = get(find(children, { key: curChildrenVal }), 'text');
           const getMenu = () => {
             return (
-              <Menu onClick={(e: any) => onChange({ value: key, childrenValue: { ...state.childrenValue, [key]: e.key } })}>
+              <Menu
+                onClick={(e: any) => onChange({ value: key, childrenValue: { ...state.childrenValue, [key]: e.key } })}
+              >
                 {map(children, (g) => {
                   const extraProps = {} as Obj;
                   if (itemOp && itemOp[g.key]) {
@@ -66,7 +64,15 @@ export default (props: CP_RADIO.Props) => {
                       execOperation(itemOp[g.key]);
                     };
                   }
-                  return <Menu.Item className={`${curChildrenVal === g.key ? 'color-active-bg' : ''}`} key={g.key} {...extraProps}>{g.text}</Menu.Item>;
+                  return (
+                    <Menu.Item
+                      className={`${curChildrenVal === g.key ? 'color-active-bg' : ''}`}
+                      key={g.key}
+                      {...extraProps}
+                    >
+                      {g.text}
+                    </Menu.Item>
+                  );
                 })}
               </Menu>
             );
@@ -77,7 +83,9 @@ export default (props: CP_RADIO.Props) => {
                 <RadioItem value={key} key={key}>
                   <div className="flex-box">
                     {prefixIcon ? <CustomIcon type={prefixIcon} className="mr4" /> : null}
-                    <span className="nowrap" style={{ ...(width ? { width } : {}) }}>{childName}</span>
+                    <span className="nowrap" style={{ ...(width ? { width } : {}) }}>
+                      {childName}
+                    </span>
                     <CustomIcon type="di" className="ml4" />
                   </div>
                 </RadioItem>

@@ -76,30 +76,27 @@ const getExpandParams = (path: string, sections: any[], content: string) => {
   return { path, since, to, bottom, unfold, offset, sectionIndex };
 };
 
-const TemporaryStorageIcon = ({ disableComment, onClick }: { disableComment?: boolean; onClick: () => void }) => (
-  disableComment
-    ? null
-    : <CustomIcon className="temporary-storage-icon" type="jl" onClick={onClick} />);
+const TemporaryStorageIcon = ({ disableComment, onClick }: { disableComment?: boolean; onClick: () => void }) =>
+  disableComment ? null : <CustomIcon className="temporary-storage-icon" type="jl" onClick={onClick} />;
 
-const CommentIcon = ({ disableComment, onClick }: { disableComment?: boolean; onClick: () => void }) => (
-  disableComment
-    ? null
-    : <CustomIcon className="hover-active comment-icon" type="message" onClick={onClick} />);
+const CommentIcon = ({ disableComment, onClick }: { disableComment?: boolean; onClick: () => void }) =>
+  disableComment ? null : <CustomIcon className="hover-active comment-icon" type="message" onClick={onClick} />;
 
 const CommentListBox = ({ comments }: { comments: REPOSITORY.IComment[] }) => {
   if (!comments) {
     return null;
   }
   return (
-    <>{comments.map((comment: REPOSITORY.IComment) => (
-      <CommentBox
-        key={comment.id}
-        user={comment.author.nickName}
-        time={comment.createdAt}
-        action={i18n.t('application:commented at')}
-        content={Markdown(comment.note || '')}
-      />
-    ))}
+    <>
+      {comments.map((comment: REPOSITORY.IComment) => (
+        <CommentBox
+          key={comment.id}
+          user={comment.author.nickName}
+          time={comment.createdAt}
+          action={i18n.t('application:commented at')}
+          content={Markdown(comment.note || '')}
+        />
+      ))}
     </>
   );
 };
@@ -134,9 +131,17 @@ const generateDiffFilePath = (oldName: string, name: string) => {
   diff.forEach((part: any[]) => {
     const [type, content] = part;
     if (type === -1) {
-      old.push(<span key={`${type}-${content}`} className="highlight-red">{content}</span>);
+      old.push(
+        <span key={`${type}-${content}`} className="highlight-red">
+          {content}
+        </span>,
+      );
     } else if (type === 1) {
-      now.push(<span key={`${type}-${content}`} className="highlight-green">{content}</span >);
+      now.push(
+        <span key={`${type}-${content}`} className="highlight-green">
+          {content}
+        </span>,
+      );
     } else {
       old.push(<span key={`${type}-${content}`}>{content}</span>);
       now.push(<span key={`${type}-${content}`}>{content}</span>);
@@ -176,30 +181,38 @@ export const FileDiff = ({
   const { projectId, appId, mergeId } = routeInfoStore.useStore((s) => s.params);
 
   if (!sections) {
-    if (type === ACTION.ADD || type === ACTION.DELETE || type === ACTION.RENAME || isBin) { // TODO isBin 如何显示需要后续处理
+    if (type === ACTION.ADD || type === ACTION.DELETE || type === ACTION.RENAME || isBin) {
+      // TODO isBin 如何显示需要后续处理
       const { old, now } = generateDiffFilePath(oldName, name);
       const fileSrcPrefix = `/api/repo/${appDetail.gitRepoAbbrev}/raw`;
       const fileIsImage = isImage(name);
       const imageAddress = fileIsImage ? `${fileSrcPrefix}/${commitId}/${name}` : '';
 
-      const text = {
-        [ACTION.ADD]: <IconFileAddition className="fz16 color-green" />,
-        [ACTION.DELETE]: <IconDelete className="fz16 color-red" />,
-        [ACTION.RENAME]: i18n.t('application:file moved'),
-      }[type] || '';
+      const text =
+        {
+          [ACTION.ADD]: <IconFileAddition className="fz16 color-green" />,
+          [ACTION.DELETE]: <IconDelete className="fz16 color-red" />,
+          [ACTION.RENAME]: i18n.t('application:file moved'),
+        }[type] || '';
 
       return (
         <div ref={forwardRef} className="file-diff">
           <IF check={type === 'rename'}>
             <div className="file-title-move">
-              <div className="bold nowrap"><IconFileCodeOne className="mr8" />{old}</div>
+              <div className="bold nowrap">
+                <IconFileCodeOne className="mr8" />
+                {old}
+              </div>
               <IconArrowRight className="file-move-arrow" />
               <div className="bold nowrap">{now}</div>
             </div>
             <div className="file-static-info">{text}</div>
             <IF.ELSE />
             <div className="file-title inline-flex-box">
-              <div className="bold nowrap"><IconFileCodeOne className="mr8" />{name} {text || null}</div>
+              <div className="bold nowrap">
+                <IconFileCodeOne className="mr8" />
+                {name} {text || null}
+              </div>
             </div>
             <IF check={fileIsImage}>
               <div className="text-center my16">
@@ -213,7 +226,9 @@ export const FileDiff = ({
     return null;
   }
   const issueLineMap = {};
-  issues.forEach((issue) => { issueLineMap[issue.line] = issue; });
+  issues.forEach((issue) => {
+    issueLineMap[issue.line] = issue;
+  });
 
   const toggleLeftCommentEdit = (lineKey: string, visible: boolean) => {
     setLeftCommentEditVisible({
@@ -257,7 +272,10 @@ export const FileDiff = ({
 
   const handleSetLS = (lineKey: string, content: string) => {
     const timestamp = new Date().getTime();
-    localStorage.setItem(`mr-comment-${projectId}-${appId}-${mergeId}-${name}-${lineKey}`, JSON.stringify({ content, timestamp }));
+    localStorage.setItem(
+      `mr-comment-${projectId}-${appId}-${mergeId}-${name}-${lineKey}`,
+      JSON.stringify({ content, timestamp }),
+    );
     setHasLs({
       ...hasLS,
       [lineKey]: true,
@@ -266,9 +284,13 @@ export const FileDiff = ({
 
   return (
     <div ref={forwardRef} className="file-diff">
-      <div className="file-title" onClick={() => { setFileExpanding(!isExpanding); }}>
-        {
-          title ||
+      <div
+        className="file-title"
+        onClick={() => {
+          setFileExpanding(!isExpanding);
+        }}
+      >
+        {title || (
           <div className="bold">
             <IF check={!isExpanding}>
               <IconRightOne theme="filled" size="16px" className="mr8" />
@@ -278,248 +300,303 @@ export const FileDiff = ({
             <IconFileCodeOne className="mr8" />
             {name}
           </div>
-        }
+        )}
       </div>
       <IF check={!isExpanding}>
         <div className="file-content-collapsed">
           {i18n.t('application:comparison result has been folded')}。
-          <span className="click-to-expand text-link" onClick={() => { setFileExpanding(!isExpanding); }}>{i18n.t('application:click to expand')}</span>
+          <span
+            className="click-to-expand text-link"
+            onClick={() => {
+              setFileExpanding(!isExpanding);
+            }}
+          >
+            {i18n.t('application:click to expand')}
+          </span>
         </div>
         <ELSE />
         <table>
-          {
-            sections.map((section, i) => {
-              const prefixMap = {
-                delete: '-',
-                add: '+',
-              };
-              const fileKey = `${name}_${i}`;
-              return (
-                <tbody key={fileKey} className="file-diff-section">
-                  {
-                    section.lines.map(({ oldLineNo, newLineNo, type: actionType, content }) => {
-                      if (hideSectionTitle && actionType === 'section') {
-                        return null;
-                      }
-                      const hasWhiteSpace = content.match(/^\s+/);
-                      let _content: any = content;
-                      let paddingLeft = 0;
-                      if (hasWhiteSpace && content.startsWith('\t')) {
-                        const spaceLength = hasWhiteSpace[0].length;
-                        // tab缩进使用2个em空白显示
-                        paddingLeft = spaceLength * 2;
-                        _content = _content.slice(spaceLength);
-                      }
-                      let leftContent = content;
-                      let rightContent = content;
-                      if (actionType === 'add') {
-                        leftContent = '';
-                        rightContent = content;
-                      } else if (actionType === 'delete') {
-                        leftContent = content;
-                        rightContent = '';
-                      }
-                      const lineIssue = issueLineMap[newLineNo];
-                      if (lineIssue) {
-                        const { textRange, message } = lineIssue;
-                        _content = (
-                          <span>
-                            <span>{content.slice(0, textRange.startOffset)}</span>
-                            <Tooltip title={message}><span className="issue-word">{content.slice(textRange.startOffset, textRange.endOffset)}</span></Tooltip>
-                            <span>{content.slice(textRange.endOffset)}</span>
+          {sections.map((section, i) => {
+            const prefixMap = {
+              delete: '-',
+              add: '+',
+            };
+            const fileKey = `${name}_${i}`;
+            return (
+              <tbody key={fileKey} className="file-diff-section">
+                {section.lines.map(({ oldLineNo, newLineNo, type: actionType, content }) => {
+                  if (hideSectionTitle && actionType === 'section') {
+                    return null;
+                  }
+                  const hasWhiteSpace = content.match(/^\s+/);
+                  let _content: any = content;
+                  let paddingLeft = 0;
+                  if (hasWhiteSpace && content.startsWith('\t')) {
+                    const spaceLength = hasWhiteSpace[0].length;
+                    // tab缩进使用2个em空白显示
+                    paddingLeft = spaceLength * 2;
+                    _content = _content.slice(spaceLength);
+                  }
+                  let leftContent = content;
+                  let rightContent = content;
+                  if (actionType === 'add') {
+                    leftContent = '';
+                    rightContent = content;
+                  } else if (actionType === 'delete') {
+                    leftContent = content;
+                    rightContent = '';
+                  }
+                  const lineIssue = issueLineMap[newLineNo];
+                  if (lineIssue) {
+                    const { textRange, message } = lineIssue;
+                    _content = (
+                      <span>
+                        <span>{content.slice(0, textRange.startOffset)}</span>
+                        <Tooltip title={message}>
+                          <span className="issue-word">
+                            {content.slice(textRange.startOffset, textRange.endOffset)}
                           </span>
-                        );
-                      }
-                      const isUnfoldLine = oldLineNo === -1 && newLineNo === -1;
-                      const unfoldClassName = isUnfoldLine && getBlobRange ? 'unfold-btn' : '';
-                      const oldPrefix = oldLineNo > 0 ? oldLineNo : '';
-                      const newPrefix = newLineNo > 0 ? newLineNo : '';
-                      const actionPrefix = prefixMap[actionType] || '';
-                      const codeStyle = { paddingLeft: `${paddingLeft}em`, whiteSpace: 'pre-wrap', display: 'inline-block' } as React.CSSProperties;
-                      const handleExpand = () => {
-                        if (oldLineNo !== -1 || newLineNo !== -1 || !getBlobRange) {
-                          return;
-                        }
-                        const params = getExpandParams(file.name, sections, content);
-                        getBlobRange({ ...params, type: mode });
+                        </Tooltip>
+                        <span>{content.slice(textRange.endOffset)}</span>
+                      </span>
+                    );
+                  }
+                  const isUnfoldLine = oldLineNo === -1 && newLineNo === -1;
+                  const unfoldClassName = isUnfoldLine && getBlobRange ? 'unfold-btn' : '';
+                  const oldPrefix = oldLineNo > 0 ? oldLineNo : '';
+                  const newPrefix = newLineNo > 0 ? newLineNo : '';
+                  const actionPrefix = prefixMap[actionType] || '';
+                  const codeStyle = {
+                    paddingLeft: `${paddingLeft}em`,
+                    whiteSpace: 'pre-wrap',
+                    display: 'inline-block',
+                  } as React.CSSProperties;
+                  const handleExpand = () => {
+                    if (oldLineNo !== -1 || newLineNo !== -1 || !getBlobRange) {
+                      return;
+                    }
+                    const params = getExpandParams(file.name, sections, content);
+                    getBlobRange({ ...params, type: mode });
+                  };
+                  const lineKey = `${oldLineNo}_${newLineNo}`;
+                  const comments = commentMap[lineKey];
+                  // 编辑框显示条件：只判断icon点击后的状态
+                  const showLeftCommentEdit = leftCommentEditVisible[lineKey];
+                  // icon显示条件：未禁用、无数据（有的话通过回复按钮显示编辑框）、lineNo不为-1、编辑框未显示
+                  const showLeftCommentIcon = !disableComment && !comments && oldLineNo !== -1 && !showLeftCommentEdit;
+                  // 如果有数据或者编辑框，显示追加行
+                  const showLeftCommentLine = comments || showLeftCommentEdit;
+                  // 暂存key
+                  const tsKey = `mr-comment-${projectId}-${appId}-${mergeId}-${name}-${lineKey}`;
+
+                  const tsCommentObj = localStorage.getItem(tsKey);
+
+                  const tsComment = tsCommentObj ? JSON.parse(tsCommentObj) : {};
+
+                  // 暂存icon展示条件：可评论，存在暂存内容
+                  const showTsCommentIcon = !disableComment && !!tsCommentObj;
+
+                  const showRightCommentEdit = rightCommentEditVisible[lineKey];
+                  const showRightCommentIcon =
+                    !disableComment && !comments && newLineNo !== -1 && !showRightCommentEdit;
+                  const showRightCommentLine = comments || showRightCommentEdit;
+
+                  const addCommentFn = (_data: object) => {
+                    let data = {
+                      type: 'diff_note',
+                      oldPath: oldName,
+                      newPath: name,
+                      oldLine: oldLineNo,
+                      newLine: newLineNo,
+                      ..._data,
+                    } as any;
+                    if (comments) {
+                      data = {
+                        type: 'diff_note_reply',
+                        discussionId: comments[comments.length - 1].discussionId,
+                        ..._data,
                       };
-                      const lineKey = `${oldLineNo}_${newLineNo}`;
-                      const comments = commentMap[lineKey];
-                      // 编辑框显示条件：只判断icon点击后的状态
-                      const showLeftCommentEdit = leftCommentEditVisible[lineKey];
-                      // icon显示条件：未禁用、无数据（有的话通过回复按钮显示编辑框）、lineNo不为-1、编辑框未显示
-                      const showLeftCommentIcon = !disableComment && !comments && oldLineNo !== -1 && !showLeftCommentEdit;
-                      // 如果有数据或者编辑框，显示追加行
-                      const showLeftCommentLine = comments || showLeftCommentEdit;
-                      // 暂存key
-                      const tsKey = `mr-comment-${projectId}-${appId}-${mergeId}-${name}-${lineKey}`;
+                    }
+                    if (tsCommentObj) {
+                      localStorage.removeItem(tsKey);
+                    }
+                    return addComment(data);
+                  };
 
-                      const tsCommentObj = localStorage.getItem(tsKey);
+                  const lineCls = classnames({
+                    'file-diff-line': true,
+                    [actionType]: true,
+                    'issue-line': lineIssue,
+                  });
+                  if (showStyle === 'inline') {
+                    const showCommentEdit = showLeftCommentEdit || showRightCommentEdit;
+                    const showCommentLine = comments || showCommentEdit;
+                    let toggleEditFn = toggleLeftCommentEdit;
+                    if (oldLineNo < 0) {
+                      toggleEditFn = toggleRightCommentEdit;
+                    }
 
-                      const tsComment = tsCommentObj ? JSON.parse(tsCommentObj) : {};
-
-                      // 暂存icon展示条件：可评论，存在暂存内容
-                      const showTsCommentIcon = !disableComment && !!tsCommentObj;
-
-                      const showRightCommentEdit = rightCommentEditVisible[lineKey];
-                      const showRightCommentIcon = !disableComment && !comments && newLineNo !== -1 && !showRightCommentEdit;
-                      const showRightCommentLine = comments || showRightCommentEdit;
-
-                      const addCommentFn = (_data: object) => {
-                        let data = {
-                          type: 'diff_note',
-                          oldPath: oldName,
-                          newPath: name,
-                          oldLine: oldLineNo,
-                          newLine: newLineNo,
-                          ..._data,
-                        } as any;
-                        if (comments) {
-                          data = {
-                            type: 'diff_note_reply',
-                            discussionId: comments[comments.length - 1].discussionId,
-                            ..._data,
-                          };
-                        }
-                        if (tsCommentObj) {
-                          localStorage.removeItem(tsKey);
-                        }
-                        return addComment(data);
-                      };
-
-                      const lineCls = classnames({
-                        'file-diff-line': true,
-                        [actionType]: true,
-                        'issue-line': lineIssue,
-                      });
-                      if (showStyle === 'inline') {
-                        const showCommentEdit = showLeftCommentEdit || showRightCommentEdit;
-                        const showCommentLine = comments || showCommentEdit;
-                        let toggleEditFn = toggleLeftCommentEdit;
-                        if (oldLineNo < 0) {
-                          toggleEditFn = toggleRightCommentEdit;
-                        }
-
-                        return (
-                          <React.Fragment key={`${lineKey}`}>
-                            <tr className={lineCls}>
-                              {/* <td className={lineIssue ? 'issue-td' : 'none-issue-td'}>
+                    return (
+                      <React.Fragment key={`${lineKey}`}>
+                        <tr className={lineCls}>
+                          {/* <td className={lineIssue ? 'issue-td' : 'none-issue-td'}>
                                 {lineIssue ? <Icon className="issue-icon" type="exclamation-circle" /> : null}
                               </td> */}
-                              <td className={`diff-line-num old-line ${unfoldClassName}`} onClick={handleExpand} data-prefix={oldPrefix}>
-                                {showTsCommentIcon && <TemporaryStorageIcon onClick={() => (oldLineNo < 0 ? handleRightGetLS(lineKey, true) : handleLeftGetLS(lineKey, true))} />}
-                                <IF check={showLeftCommentIcon}>
-                                  <CommentIcon onClick={() => toggleLeftCommentEdit(lineKey, true)} />
-                                  <ELSE />
-                                  <IF check={showRightCommentIcon}>
-                                    <CommentIcon onClick={() => toggleRightCommentEdit(lineKey, true)} />
-                                  </IF>
-                                </IF>
-                              </td>
-                              <td className={`diff-line-num new-line ${unfoldClassName}`} onClick={handleExpand} data-prefix={newPrefix} />
-                              <td className="diff-line-content" data-prefix={actionPrefix}>
-                                <pre><code style={codeStyle}>{_content}</code></pre>
-                              </td>
-                            </tr>
-                            <IF check={showCommentLine}>
-                              <tr>
-                                <td colSpan={2} />
-                                <td className="comment-box-td">
-                                  <CommentListBox comments={comments} />
-                                  <IF check={showCommentEdit}>
-                                    <MarkdownEditor
-                                      value={isShowLS[lineKey] ? tsComment.content : null}
-                                      onSubmit={(note) => addCommentFn({
-                                        note,
-                                      }).then(() => toggleEditFn(lineKey, false))}
-                                      btnText={i18n.t('application:post comment')}
-                                      onCancel={() => toggleEditFn(lineKey, false)}
-                                      onSetLS={(v) => handleSetLS(lineKey, v)}
-                                    />
-                                    <ELSE />
-                                    <Button onClick={() => toggleEditFn(lineKey, true)}>{i18n.t('application:reply')}</Button>
-                                  </IF>
-                                </td>
-                              </tr>
+                          <td
+                            className={`diff-line-num old-line ${unfoldClassName}`}
+                            onClick={handleExpand}
+                            data-prefix={oldPrefix}
+                          >
+                            {showTsCommentIcon && (
+                              <TemporaryStorageIcon
+                                onClick={() =>
+                                  oldLineNo < 0 ? handleRightGetLS(lineKey, true) : handleLeftGetLS(lineKey, true)
+                                }
+                              />
+                            )}
+                            <IF check={showLeftCommentIcon}>
+                              <CommentIcon onClick={() => toggleLeftCommentEdit(lineKey, true)} />
+                              <ELSE />
+                              <IF check={showRightCommentIcon}>
+                                <CommentIcon onClick={() => toggleRightCommentEdit(lineKey, true)} />
+                              </IF>
                             </IF>
-                          </React.Fragment>
-                        );
-                      }
-                      return (
-                        <React.Fragment key={`${lineKey}`}>
-                          <tr className={lineCls}>
-                            {/* <td data-prefix={oldPrefix} className={lineIssue ? 'issue-td' : 'none-issue-td'}>
-                              {lineIssue ? <Icon className="issue-icon" type="exclamation-circle" /> : null}
-                            </td> */}
-                            <td className={`diff-line-num old-line ${unfoldClassName}`} onClick={handleExpand} data-prefix={oldPrefix}>
-                              {showTsCommentIcon && <TemporaryStorageIcon onClick={() => handleLeftGetLS(lineKey, true)} />}
-                              {showLeftCommentIcon && <CommentIcon onClick={() => toggleLeftCommentEdit(lineKey, true)} />}
-                            </td>
-                            <td className="diff-line-content" data-prefix={leftContent === '' ? '' : actionPrefix}>
-                              <pre><code style={codeStyle}>{leftContent}</code></pre>
-                            </td>
-                            <td className={`diff-line-num new-line ${unfoldClassName}`} onClick={handleExpand} data-prefix={newPrefix}>
-                              {showTsCommentIcon && <TemporaryStorageIcon onClick={() => handleRightGetLS(lineKey, true)} />}
-                              {showRightCommentIcon && <CommentIcon onClick={() => toggleRightCommentEdit(lineKey, true)} />}
-                            </td>
-                            <td className="diff-line-content" data-prefix={rightContent === '' ? '' : actionPrefix}>
-                              <pre><code style={codeStyle}>{rightContent}</code></pre>
+                          </td>
+                          <td
+                            className={`diff-line-num new-line ${unfoldClassName}`}
+                            onClick={handleExpand}
+                            data-prefix={newPrefix}
+                          />
+                          <td className="diff-line-content" data-prefix={actionPrefix}>
+                            <pre>
+                              <code style={codeStyle}>{_content}</code>
+                            </pre>
+                          </td>
+                        </tr>
+                        <IF check={showCommentLine}>
+                          <tr>
+                            <td colSpan={2} />
+                            <td className="comment-box-td">
+                              <CommentListBox comments={comments} />
+                              <IF check={showCommentEdit}>
+                                <MarkdownEditor
+                                  value={isShowLS[lineKey] ? tsComment.content : null}
+                                  onSubmit={(note) =>
+                                    addCommentFn({
+                                      note,
+                                    }).then(() => toggleEditFn(lineKey, false))
+                                  }
+                                  btnText={i18n.t('application:post comment')}
+                                  onCancel={() => toggleEditFn(lineKey, false)}
+                                  onSetLS={(v) => handleSetLS(lineKey, v)}
+                                />
+                                <ELSE />
+                                <Button onClick={() => toggleEditFn(lineKey, true)}>
+                                  {i18n.t('application:reply')}
+                                </Button>
+                              </IF>
                             </td>
                           </tr>
-                          <IF check={showLeftCommentLine || showRightCommentLine}>
-                            <tr>
-                              <td />
-                              <td className="comment-box-td">
-                                <IF check={oldLineNo > 0}>
-                                  <CommentListBox comments={comments} />
-                                  <IF check={comments && !showLeftCommentEdit}>
-                                    <Button onClick={() => toggleLeftCommentEdit(lineKey, true)}>{i18n.t('application:reply')}</Button>
-                                  </IF>
-                                </IF>
-                                <IF check={showLeftCommentEdit}>
-                                  <MarkdownEditor
-                                    value={isShowLS[lineKey] ? tsComment.content : null}
-                                    onSubmit={(note) => addCommentFn({
-                                      note,
-                                    }).then(() => toggleLeftCommentEdit(lineKey, false))}
-                                    btnText={i18n.t('application:post comment')}
-                                    onCancel={() => toggleLeftCommentEdit(lineKey, false)}
-                                  />
-                                </IF>
-                              </td>
-                              <td />
-                              <td className="comment-box-td">
-                                <IF check={newLineNo > 0}>
-                                  <CommentListBox comments={comments} />
-                                  <IF check={comments && !showRightCommentEdit}>
-                                    <Button onClick={() => toggleRightCommentEdit(lineKey, true)}>{i18n.t('application:reply')}</Button>
-                                  </IF>
-                                </IF>
-                                <IF check={showRightCommentEdit}>
-                                  <MarkdownEditor
-                                    value={isShowLS[lineKey] ? tsComment.content : null}
-                                    onSubmit={(note) => addCommentFn({
-                                      note,
-                                    }).then(() => toggleRightCommentEdit(lineKey, false))}
-                                    btnText={i18n.t('application:post comment')}
-                                    onCancel={() => toggleRightCommentEdit(lineKey, false)}
-                                  />
-                                </IF>
-                              </td>
-                            </tr>
-                          </IF>
-                        </React.Fragment>
-                      );
-                    })
+                        </IF>
+                      </React.Fragment>
+                    );
                   }
-                </tbody>
-              );
-            })
-          }
+                  return (
+                    <React.Fragment key={`${lineKey}`}>
+                      <tr className={lineCls}>
+                        {/* <td data-prefix={oldPrefix} className={lineIssue ? 'issue-td' : 'none-issue-td'}>
+                              {lineIssue ? <Icon className="issue-icon" type="exclamation-circle" /> : null}
+                            </td> */}
+                        <td
+                          className={`diff-line-num old-line ${unfoldClassName}`}
+                          onClick={handleExpand}
+                          data-prefix={oldPrefix}
+                        >
+                          {showTsCommentIcon && <TemporaryStorageIcon onClick={() => handleLeftGetLS(lineKey, true)} />}
+                          {showLeftCommentIcon && <CommentIcon onClick={() => toggleLeftCommentEdit(lineKey, true)} />}
+                        </td>
+                        <td className="diff-line-content" data-prefix={leftContent === '' ? '' : actionPrefix}>
+                          <pre>
+                            <code style={codeStyle}>{leftContent}</code>
+                          </pre>
+                        </td>
+                        <td
+                          className={`diff-line-num new-line ${unfoldClassName}`}
+                          onClick={handleExpand}
+                          data-prefix={newPrefix}
+                        >
+                          {showTsCommentIcon && (
+                            <TemporaryStorageIcon onClick={() => handleRightGetLS(lineKey, true)} />
+                          )}
+                          {showRightCommentIcon && (
+                            <CommentIcon onClick={() => toggleRightCommentEdit(lineKey, true)} />
+                          )}
+                        </td>
+                        <td className="diff-line-content" data-prefix={rightContent === '' ? '' : actionPrefix}>
+                          <pre>
+                            <code style={codeStyle}>{rightContent}</code>
+                          </pre>
+                        </td>
+                      </tr>
+                      <IF check={showLeftCommentLine || showRightCommentLine}>
+                        <tr>
+                          <td />
+                          <td className="comment-box-td">
+                            <IF check={oldLineNo > 0}>
+                              <CommentListBox comments={comments} />
+                              <IF check={comments && !showLeftCommentEdit}>
+                                <Button onClick={() => toggleLeftCommentEdit(lineKey, true)}>
+                                  {i18n.t('application:reply')}
+                                </Button>
+                              </IF>
+                            </IF>
+                            <IF check={showLeftCommentEdit}>
+                              <MarkdownEditor
+                                value={isShowLS[lineKey] ? tsComment.content : null}
+                                onSubmit={(note) =>
+                                  addCommentFn({
+                                    note,
+                                  }).then(() => toggleLeftCommentEdit(lineKey, false))
+                                }
+                                btnText={i18n.t('application:post comment')}
+                                onCancel={() => toggleLeftCommentEdit(lineKey, false)}
+                              />
+                            </IF>
+                          </td>
+                          <td />
+                          <td className="comment-box-td">
+                            <IF check={newLineNo > 0}>
+                              <CommentListBox comments={comments} />
+                              <IF check={comments && !showRightCommentEdit}>
+                                <Button onClick={() => toggleRightCommentEdit(lineKey, true)}>
+                                  {i18n.t('application:reply')}
+                                </Button>
+                              </IF>
+                            </IF>
+                            <IF check={showRightCommentEdit}>
+                              <MarkdownEditor
+                                value={isShowLS[lineKey] ? tsComment.content : null}
+                                onSubmit={(note) =>
+                                  addCommentFn({
+                                    note,
+                                  }).then(() => toggleRightCommentEdit(lineKey, false))
+                                }
+                                btnText={i18n.t('application:post comment')}
+                                onCancel={() => toggleRightCommentEdit(lineKey, false)}
+                              />
+                            </IF>
+                          </td>
+                        </tr>
+                      </IF>
+                    </React.Fragment>
+                  );
+                })}
+              </tbody>
+            );
+          })}
         </table>
       </IF>
     </div>
-
   );
 };
 
@@ -596,13 +673,16 @@ const FilesDiff = (props: IDiffProps) => {
 
   const { diff, comments, disableComment } = props;
 
-  const renderDiffFiles = React.useCallback((leftCount: number) => {
-    window.requestIdleCallback(() => {
-      const oneTimeCount = leftCount >= 10 ? 10 : leftCount; // 每次渲染10个文件
-      const newList = renderList.concat(diff.files.slice(renderList.length, renderList.length + oneTimeCount));
-      setRenderList(newList);
-    });
-  }, [diff, renderList]);
+  const renderDiffFiles = React.useCallback(
+    (leftCount: number) => {
+      window.requestIdleCallback(() => {
+        const oneTimeCount = leftCount >= 10 ? 10 : leftCount; // 每次渲染10个文件
+        const newList = renderList.concat(diff.files.slice(renderList.length, renderList.length + oneTimeCount));
+        setRenderList(newList);
+      });
+    },
+    [diff, renderList],
+  );
 
   React.useEffect(() => {
     if (diff && diff.files && renderList.length < diff.files.length) {
@@ -622,13 +702,24 @@ const FilesDiff = (props: IDiffProps) => {
       <div className={expandDiffFiles ? 'commit-summary-expand' : 'commit-summary-hide'}>
         <div className="commit-summary">
           <div>
-            <span>{i18n.t('application:showing')}
-              <span className="changed-count ml8">{filesChanged} {i18n.t('application:changed file(s)')}</span>
-              <Tooltip title={expandDiffFiles ? i18n.t('application:collapse file') : i18n.t('application:expand file')}>
-                <span className="ml8 pointer df-icon" onClick={onToggleDiffFiles}>{expandDiffFiles ? <CustomIcon type="sq" /> : <CustomIcon type="zk" />}</span>
+            <span>
+              {i18n.t('application:showing')}
+              <span className="changed-count ml8">
+                {filesChanged} {i18n.t('application:changed file(s)')}
+              </span>
+              <Tooltip
+                title={expandDiffFiles ? i18n.t('application:collapse file') : i18n.t('application:expand file')}
+              >
+                <span className="ml8 pointer df-icon" onClick={onToggleDiffFiles}>
+                  {expandDiffFiles ? <CustomIcon type="sq" /> : <CustomIcon type="zk" />}
+                </span>
               </Tooltip>
-              <span className="add-count ml8">{totalAddition} {i18n.t('application:additions')}</span>
-              <span className="del-count ml8">{totalDeletion} {i18n.t('application:deletions')}</span>
+              <span className="add-count ml8">
+                {totalAddition} {i18n.t('application:additions')}
+              </span>
+              <span className="del-count ml8">
+                {totalDeletion} {i18n.t('application:deletions')}
+              </span>
             </span>
           </div>
           <div className="toggle-view-btn">
@@ -650,33 +741,31 @@ const FilesDiff = (props: IDiffProps) => {
           ))}
         </div>
       </div>
-      <div className="file-diff-list" >
-        {
-          renderList.map((file: REPOSITORY.IFile) => {
-            const commentMap = fileCommentMap[file.name] || {};
-            let ref = null;
-            if (!isEmpty(diffFileRefs)) {
-              ref = diffFileRefs[file.name];
-            }
-            return (
-              <FileDiffWithRef
-                key={file.name}
-                file={file}
-                commentMap={commentMap}
-                getBlobRange={getBlobRange}
-                showStyle={showStyle}
-                disableComment={disableComment}
-                addComment={addComment}
-                mode={props.mode}
-                ref={ref}
-                appDetail={appDetail}
-              />
-            );
-          })
-        }
+      <div className="file-diff-list">
+        {renderList.map((file: REPOSITORY.IFile) => {
+          const commentMap = fileCommentMap[file.name] || {};
+          let ref = null;
+          if (!isEmpty(diffFileRefs)) {
+            ref = diffFileRefs[file.name];
+          }
+          return (
+            <FileDiffWithRef
+              key={file.name}
+              file={file}
+              commentMap={commentMap}
+              getBlobRange={getBlobRange}
+              showStyle={showStyle}
+              disableComment={disableComment}
+              addComment={addComment}
+              mode={props.mode}
+              ref={ref}
+              appDetail={appDetail}
+            />
+          );
+        })}
       </div>
-    </div>);
+    </div>
+  );
 };
-
 
 export default FilesDiff;

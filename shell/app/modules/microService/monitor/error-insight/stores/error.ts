@@ -48,7 +48,7 @@ const error = createStore({
       const { projectId } = getParams();
       const preErrors = select((s) => s.errors);
       const { offset } = preErrors;
-      if (Number(offset) === -1) return;// offset-1表示当前往下无数据
+      if (Number(offset) === -1) return; // offset-1表示当前往下无数据
       const errors = await call(getErrorsList, { ...payload, offset, projectId });
       if (errors) {
         error.reducers.getErrorsListSuccess({ errors, reqOffset: offset });
@@ -61,14 +61,17 @@ const error = createStore({
       const eventIds = await call(getEventIds, { id: errorId, errorType, terminusKey });
       update({ eventIds });
     },
-    async getEventDetail({ call, update, getParams }, payload: {id: string}) {
+    async getEventDetail({ call, update, getParams }, payload: { id: string }) {
       const { terminusKey } = getParams();
       const eventDetail = await call(getEventDetail, { ...payload, terminusKey });
       update({ eventDetail });
     },
   },
   reducers: {
-    getErrorsListSuccess(state, payload: {errors: {errors: MONITOR_ERROR.IError[]; offset: number; total: number}; reqOffset: number}) {
+    getErrorsListSuccess(
+      state,
+      payload: { errors: { errors: MONITOR_ERROR.IError[]; offset: number; total: number }; reqOffset: number },
+    ) {
       const { errors, offset, total } = payload.errors;
       const oldList = state.errors.list;
       const list = `${payload.reqOffset}` === '0' ? errors : oldList.concat(errors);

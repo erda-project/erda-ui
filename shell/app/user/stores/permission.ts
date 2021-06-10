@@ -92,12 +92,20 @@ const permission = createStore({
         });
       }
     },
-    async getScopePermMap({ call }, { cb = () => { }, scope, scopeID, routeMark }: {
-      scope: string;
-      scopeID: string;
-      routeMark?: string;
-      cb?: (arg?: any) => any;
-    }) {
+    async getScopePermMap(
+      { call },
+      {
+        cb = () => {},
+        scope,
+        scopeID,
+        routeMark,
+      }: {
+        scope: string;
+        scopeID: string;
+        routeMark?: string;
+        cb?: (arg?: any) => any;
+      },
+    ) {
       const data = await call(getResourcePermissions, { scope, scopeID });
       const { access, exist, contactsWhenNoPermission } = data;
       if (exist === false) {
@@ -110,10 +118,12 @@ const permission = createStore({
         // 新的scope无权限时才清理，新的scope有权限时会在下面更新掉，无需清理
         permission.reducers.clearScopePerm(scope);
         const userMap = userMapStore.getState((s) => s);
-        userStore.reducers.setNoAuth(map(contactsWhenNoPermission || [], (id) => {
-          const match = userMap[id] || {};
-          return `${match.nick || match.name} (${match.phone || match.email})`;
-        }).join(', '));
+        userStore.reducers.setNoAuth(
+          map(contactsWhenNoPermission || [], (id) => {
+            const match = userMap[id] || {};
+            return `${match.nick || match.name} (${match.phone || match.email})`;
+          }).join(', '),
+        );
 
         return;
       }

@@ -16,7 +16,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: transparentize($color-primary, .94);
+      background-color: transparentize($color-primary, 0.94);
 
       .stage-icon {
         font-size: 40px;

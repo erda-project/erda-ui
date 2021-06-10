@@ -19,14 +19,15 @@ interface IApproval {
 }
 
 export const getApprovalList = (payload: APPROVAL.IApprovalQuery): IApproval => {
-  return agent.get('/api/approves/actions/list-approves')
+  return agent
+    .get('/api/approves/actions/list-approves')
     .query(payload)
     .then((response: any) => response.body);
 };
 
 export const updateApproval = ({ id: approveId, ...data }: APPROVAL.UpdateBody) => {
-  return agent.put(`/api/approves/${approveId}`)
+  return agent
+    .put(`/api/approves/${approveId}`)
     .send(data)
     .then((response: any) => response.body);
 };
-

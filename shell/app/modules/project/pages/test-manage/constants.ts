@@ -20,9 +20,9 @@ export const labelType = 'issue';
 export const TEMP_MARK = 'tmp';
 
 export enum TestSetMenuType {
-  root='root',
-  normal='normal',
-  recycled='recycled',
+  root = 'root',
+  normal = 'normal',
+  recycled = 'recycled',
 }
 
 export enum TestOperation {
@@ -41,7 +41,7 @@ export enum TestOperation {
   priority = 'priority',
   tag = 'tag',
   testPlanTestCasesExecutionResult = 'testPlanTestCasesExecutionResult',
-  testPlanStatus = 'testPlanStatus'
+  testPlanStatus = 'testPlanStatus',
 }
 
 export type editModeEnum = 'copy' | 'clip' | '';

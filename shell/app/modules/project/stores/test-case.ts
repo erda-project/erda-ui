@@ -43,7 +43,6 @@ import {
 } from '../services/test-case';
 import { TestOperation } from 'project/pages/test-manage/constants';
 
-
 const tempNewCase = { case: { desc: '', bugs: [], preCondition: '', stepAndResult: [] } };
 
 interface ICase {
@@ -107,12 +106,21 @@ const testCaseStore = createStore({
   name: 'testCase',
   state: initState,
   effects: {
-    async getCaseDetail({ call, update, getParams }, payload: Merge<TEST_CASE.QueryCaseDetail, {scope: 'testPlan'| 'testCase'}>) {
+    async getCaseDetail(
+      { call, update, getParams },
+      payload: Merge<TEST_CASE.QueryCaseDetail, { scope: 'testPlan' | 'testCase' }>,
+    ) {
       const { testPlanId } = getParams();
       let issueBugs: TEST_CASE.RelatedBug[] = [];
       let caseDetail = {} as TEST_CASE.CaseDetail;
       if (payload.scope === 'testPlan') {
-        const { issueBugs: relationBugs, execStatus, apiCount, testCaseID, id } = await call(getDetailRelations, { ...payload, testPlanID: testPlanId });
+        const {
+          issueBugs: relationBugs,
+          execStatus,
+          apiCount,
+          testCaseID,
+          id,
+        } = await call(getDetailRelations, { ...payload, testPlanID: testPlanId });
         const detail = await call(getDetail, { id: testCaseID, testPlanID: testPlanId });
         caseDetail = {
           ...detail,
@@ -150,7 +158,12 @@ const testCaseStore = createStore({
       const { testCaseIDs, ...rest } = await testCaseStore.effects.getSelectedCaseIds();
       const query = routeInfoStore.getState((s) => s.query);
       const temp = { recycled: query.recycled === 'true' };
-      const exportQuery = formatQuery({ ...rest, ...temp, fileType, testCaseID: testCaseIDs }) as any as TEST_CASE.ExportFileQuery;
+      const exportQuery = formatQuery({
+        ...rest,
+        ...temp,
+        fileType,
+        testCaseID: testCaseIDs,
+      }) as any as TEST_CASE.ExportFileQuery;
       await call(exportFileInTestCase, exportQuery);
     },
     async importTestCase({ call, getParams, getQuery }, payload: { file: any }) {
@@ -171,19 +184,25 @@ const testCaseStore = createStore({
     },
     async create({ call, getParams }, payload: any) {
       const { projectId: strProjectId } = getParams();
-      const { breadcrumbInfo: { testSetID, testPlanID } } = testSetStore.getState((s) => s);
+      const {
+        breadcrumbInfo: { testSetID, testPlanID },
+      } = testSetStore.getState((s) => s);
       const projectID = parseInt(strProjectId, 10);
-      const res = await call(create, {
-        ...payload,
-        testSetID: testSetID || 0,
-        projectID,
-        recycled: false,
-      },
-      testPlanID,
-      { successMsg: i18n.t('project:create success') });
+      const res = await call(
+        create,
+        {
+          ...payload,
+          testSetID: testSetID || 0,
+          projectID,
+          recycled: false,
+        },
+        testPlanID,
+        { successMsg: i18n.t('project:create success') },
+      );
       return res;
     },
-    async getSelectedCaseIds({ getParams, select }, mode?: TEST_CASE.PageScope): Promise<ISelected> { // 用例列表中选中的测试用例
+    async getSelectedCaseIds({ getParams, select }, mode?: TEST_CASE.PageScope): Promise<ISelected> {
+      // 用例列表中选中的测试用例
       const { projectId: projectID } = getParams();
       const testCase = select((s) => s);
       const testSet = testSetStore.getState((s) => s);
@@ -216,7 +235,10 @@ const testCaseStore = createStore({
     // 更新优先级
     async updatePriority({ call, select }, priority: TEST_CASE.Priority) {
       const { primaryKeys } = select((s) => s.choosenInfo);
-      const payload: Omit<TEST_CASE.BatchUpdate, 'recycled' | 'moveToTestSetID'> = { testCaseIDs: primaryKeys, priority };
+      const payload: Omit<TEST_CASE.BatchUpdate, 'recycled' | 'moveToTestSetID'> = {
+        testCaseIDs: primaryKeys,
+        priority,
+      };
       const res = await call(batchUpdateCase, payload);
       testCaseStore.reducers.removeChoosenIds(payload.testCaseIDs);
       message.success(i18n.t('project:update completed'));
@@ -233,10 +255,12 @@ const testCaseStore = createStore({
     },
     async deleteEntirely({ call }, id?: number) {
       let tempIds = [];
-      if (id) { // 单条
+      if (id) {
+        // 单条
         tempIds = [id];
         await call(deleteEntirely, { testCaseIDs: tempIds });
-      } else { // 批量
+      } else {
+        // 批量
         const newQuery = await testCaseStore.effects.getSelectedCaseIds();
         tempIds = newQuery.testCaseIDs || [];
         await call(deleteEntirely, { testCaseIDs: tempIds });
@@ -253,7 +277,7 @@ const testCaseStore = createStore({
       update({ caseList: [], caseTotal: 0 });
       testCaseStore.reducers.triggerChoosenAll({ isAll: false, scope: 'testCase' });
     },
-    async updateCases({ call }, { query, payload }: { query: TEST_CASE.CaseFilter; payload: TEST_CASE.CaseBodyPart}) {
+    async updateCases({ call }, { query, payload }: { query: TEST_CASE.CaseFilter; payload: TEST_CASE.CaseBodyPart }) {
       await call(updateCases, { query, payload });
       message.success(i18n.t('update successfully'));
       testCaseStore.effects.getCases();
@@ -264,8 +288,11 @@ const testCaseStore = createStore({
       message.success(i18n.t('copy successfully'));
       testCaseStore.effects.getCases();
     },
-    async getCases({ call, select, update, getParams }, payload?: Merge<TEST_CASE.QueryCase, {scope: TEST_CASE.PageScope}>) {
-      const { scope, ...rest } = payload || {} as Merge<TEST_CASE.QueryCase, {scope: TEST_CASE.PageScope}>;
+    async getCases(
+      { call, select, update, getParams },
+      payload?: Merge<TEST_CASE.QueryCase, { scope: TEST_CASE.PageScope }>,
+    ) {
+      const { scope, ...rest } = payload || ({} as Merge<TEST_CASE.QueryCase, { scope: TEST_CASE.PageScope }>);
       const breadcrumbInfo = testSetStore.getState((s) => s.breadcrumbInfo);
       const oldQuery = select((s) => s.oldQuery);
       const query = routeInfoStore.getState((s) => s.query);
@@ -279,7 +306,8 @@ const testCaseStore = createStore({
       }
       // 1、当筛选器、表格的page、sorter发生变更时
       // 2、及时性的筛选信息
-      if (scope === 'caseModal') { // 如果是在计划详情中的用例弹框时，传入的参数覆盖url上的参数
+      if (scope === 'caseModal') {
+        // 如果是在计划详情中的用例弹框时，传入的参数覆盖url上的参数
         const newQuery = { ...query, ...rest, testSetID, projectID, query: undefined }; // Set the query outside the modal to undefined, prevent to filter modal data
         const { testSets, total } = await call(getCases, formatQuery({ pageSize: 15, ...newQuery }));
         update({ modalCaseList: testSets, modalCaseTotal: total });
@@ -299,12 +327,20 @@ const testCaseStore = createStore({
     },
     async removeRelation({ call, getParams }, payload: Omit<TEST_CASE.RemoveRelation, 'testPlanID'>) {
       const { testPlanId } = getParams();
-      const res = await call(removeRelation, { ...payload, testPlanID: testPlanId }, { successMsg: i18n.t('project:disassociated successfully') });
+      const res = await call(
+        removeRelation,
+        { ...payload, testPlanID: testPlanId },
+        { successMsg: i18n.t('project:disassociated successfully') },
+      );
       return res;
     },
     async addRelation({ call, getParams }, payload: Omit<TEST_CASE.AddRelation, 'testPlanID'>) {
       const { testPlanId } = getParams();
-      const res = await call(addRelation, { ...payload, testPlanID: testPlanId }, { successMsg: i18n.t('project:associated successful') });
+      const res = await call(
+        addRelation,
+        { ...payload, testPlanID: testPlanId },
+        { successMsg: i18n.t('project:associated successful') },
+      );
       return res;
     },
   },
@@ -315,7 +351,7 @@ const testCaseStore = createStore({
     closeNormalModal(state) {
       state.caseAction = '';
     },
-    triggerChoosenAll(state, { isAll, scope }: {isAll: boolean; scope: TEST_CASE.PageScope}) {
+    triggerChoosenAll(state, { isAll, scope }: { isAll: boolean; scope: TEST_CASE.PageScope }) {
       if (scope === 'temp') {
         return;
       }
@@ -339,7 +375,7 @@ const testCaseStore = createStore({
       remove(primaryKeys, (caseId) => includes(ids, caseId));
       state.choosenInfo = { ...state.choosenInfo, isAll: false, primaryKeys };
     },
-    clearChoosenInfo(state, { mode }: {mode: TEST_CASE.PageScope}) {
+    clearChoosenInfo(state, { mode }: { mode: TEST_CASE.PageScope }) {
       const keyName = getChoosenName(mode);
       state[keyName] = {
         isAll: false,
@@ -359,7 +395,8 @@ const testCaseStore = createStore({
         nextIsAll = copy.length === caseCount;
       } else {
         nextIsAll = false;
-        if (includes(copy, id)) { // 已经选中时
+        if (includes(copy, id)) {
+          // 已经选中时
           remove(copy, (caseId) => caseId === id);
         }
       }
@@ -414,10 +451,14 @@ const testCaseStore = createStore({
       });
       detailCase.attachments = attachments;
       const desc = detailCase.desc && detailCase.desc !== '<p></p>' ? detailCase.desc : '';
-      const preCondition = detailCase.preCondition && detailCase.preCondition !== '<p></p>' ? detailCase.preCondition : '';
+      const preCondition =
+        detailCase.preCondition && detailCase.preCondition !== '<p></p>' ? detailCase.preCondition : '';
       detailCase.desc = desc;
       detailCase.preCondition = preCondition;
-      state.currDetailCase = { ...state.currDetailCase, case: { ...detailCase, descIssues: detailCase.descIssues || [] } };
+      state.currDetailCase = {
+        ...state.currDetailCase,
+        case: { ...detailCase, descIssues: detailCase.descIssues || [] },
+      };
       state.oldBugIds = detailCase.bugs && detailCase.bugs.map(({ id }: any) => id);
     },
     clearCurrCase(state) {

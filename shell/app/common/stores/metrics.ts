@@ -63,15 +63,15 @@ const metricsMonitorStore = createStore({
       const dataKeys: string[] = [];
       forEach(keyEnum, (key) => {
         if (query[key]) {
-          isArray(query[key]) ?
-            forEach(query[key], (subKey) => {
-              dataKeys.push(`${key}.${subKey}`);
-            })
+          isArray(query[key])
+            ? forEach(query[key], (subKey) => {
+                dataKeys.push(`${key}.${subKey}`);
+              })
             : dataKeys.push(`${key}.${query[key]}`);
         }
       });
-      let getDataFun = groupHandler(dataKeys[0]);// 按照group取单维度数据
-      if ((resourceType === 'machine' && !query.group)) {
+      let getDataFun = groupHandler(dataKeys[0]); // 按照group取单维度数据
+      if (resourceType === 'machine' && !query.group) {
         // 如果是机器监控，若无group查询则取多维度数据，
         // 后续addon监控是否需要遵循这一规则（无group查询取多维度）还不确定
         getDataFun = multipleDataHandler(dataKeys);

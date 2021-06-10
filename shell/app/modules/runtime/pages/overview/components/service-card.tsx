@@ -65,17 +65,10 @@ const ServiceCard = (props: IProps) => {
   const [serviceInsMap] = runtimeServiceStore.useStore((s) => [s.serviceInsMap]);
   const domainMap = runtimeDomainStore.useStore((s) => s.domainMap);
   const permMap = usePerm((s) => s.app);
-  const [{
-    title,
-    visible,
-    instances,
-    withTabs,
-    content,
-    slideVisible,
-    isFetching,
-    tempData,
-    domainModalVisible,
-  }, updater] = useUpdate({
+  const [
+    { title, visible, instances, withTabs, content, slideVisible, isFetching, tempData, domainModalVisible },
+    updater,
+  ] = useUpdate({
     title: '',
     isFetching: false,
     visible: false,
@@ -93,7 +86,6 @@ const ServiceCard = (props: IProps) => {
       updater.tempData(serviceConfig.services[name]);
     }
   });
-
 
   React.useEffect(() => {
     if (serviceInsMap[name] !== undefined && serviceInsMap[name] !== instances) {
@@ -216,15 +208,11 @@ const ServiceCard = (props: IProps) => {
       }
       case 'record': {
         updater.withTabs({});
-        updater.content(
-          <InstanceTable
-            instances={insMap}
-            withHeader={false}
-          />,
-        );
+        updater.content(<InstanceTable instances={insMap} withHeader={false} />);
         break;
       }
-      default: break;
+      default:
+        break;
     }
     updater.slideVisible(true);
   };
@@ -239,8 +227,8 @@ const ServiceCard = (props: IProps) => {
 
   useMount(() => {
     if (serviceName === name) {
-      (jumpFrom === 'ipPage') && togglePanel();
-      (jumpFrom === 'domainPage') && updater.domainModalVisible(true);
+      jumpFrom === 'ipPage' && togglePanel();
+      jumpFrom === 'domainPage' && updater.domainModalVisible(true);
     }
   });
 
@@ -249,13 +237,19 @@ const ServiceCard = (props: IProps) => {
     updater.tempData(data);
   };
 
-
-  const { resources, status, deployments: { replicas }, errors } = merge(service, tempData) as RUNTIME_SERVICE.Detail;
+  const {
+    resources,
+    status,
+    deployments: { replicas },
+    errors,
+  } = merge(service, tempData) as RUNTIME_SERVICE.Detail;
   const { cpu, mem } = resources;
   const expose = map(domainMap[name], 'domain').filter((domain) => !!domain);
 
   const resourceInfo = (
-    <span className="resources nowrap">{`${i18n.t('instance')} ${replicas} / CPU ${cpu} / ${i18n.t('memory')} ${mem}MB`}</span>
+    <span className="resources nowrap">{`${i18n.t('instance')} ${replicas} / CPU ${cpu} / ${i18n.t(
+      'memory',
+    )} ${mem}MB`}</span>
   );
 
   const serviceClass = classNames({
@@ -293,10 +287,12 @@ const ServiceCard = (props: IProps) => {
     const hasCustomDomain = expose && expose.length > 0;
     const isOpsForbidden = FORBIDDEN_STATUS_LIST.includes(runtimeDetail.deployStatus);
 
-    let links = expose && expose[0]
-      ? <a className="mr12" href={`//${expose[0]}`} target="_blank" rel="noopener noreferrer" >{i18n.t('runtime:visit domain')}</a>
-      :
-      (
+    let links =
+      expose && expose[0] ? (
+        <a className="mr12" href={`//${expose[0]}`} target="_blank" rel="noopener noreferrer">
+          {i18n.t('runtime:visit domain')}
+        </a>
+      ) : (
         <span
           className="domain-links hover-active"
           onClick={(e) => {
@@ -317,7 +313,13 @@ const ServiceCard = (props: IProps) => {
     if (expose && expose.length > 1) {
       const linkContent = (
         <ul className="popover-links">
-          {map(expose, (link) => <li key={link}><a href={`//${link}`} target="_blank" rel="noopener noreferrer">{link}</a></li>)}
+          {map(expose, (link) => (
+            <li key={link}>
+              <a href={`//${link}`} target="_blank" rel="noopener noreferrer">
+                {link}
+              </a>
+            </li>
+          ))}
         </ul>
       );
       links = (
@@ -328,7 +330,12 @@ const ServiceCard = (props: IProps) => {
     }
     return (
       <div className="endpoint-ops">
-        {hasCustomDomain ? null : <><CustomIcon className="warning-info" type="tishi" /><span className="warning-info mr12">{i18n.t('runtime:not set domain')}</span></>}
+        {hasCustomDomain ? null : (
+          <>
+            <CustomIcon className="warning-info" type="tishi" />
+            <span className="warning-info mr12">{i18n.t('runtime:not set domain')}</span>
+          </>
+        )}
         {links}
         {commonOps}
       </div>
@@ -344,7 +351,9 @@ const ServiceCard = (props: IProps) => {
         <div className="service-ops table-operations">
           <IF check={isRunning}>
             <IF check={(permMap.runtime[`${runtimeDetail.extra.workspace.toLowerCase()}Console`] || {}).pass}>
-              <span className="table-operations-btn" onClick={() => openSlidePanel('terminal', { ...record })}>{i18n.t('terminal')}</span>
+              <span className="table-operations-btn" onClick={() => openSlidePanel('terminal', { ...record })}>
+                {i18n.t('terminal')}
+              </span>
 
               <IF.ELSE />
 
@@ -353,8 +362,12 @@ const ServiceCard = (props: IProps) => {
               </NoAuthTip>
             </IF>
           </IF>
-          <span className="table-operations-btn" onClick={() => openSlidePanel('monitor', { ...record })}>{i18n.t('container monitor')}</span>
-          <span className="table-operations-btn" onClick={() => openSlidePanel('log', { ...record })}>{i18n.t('log')}</span>
+          <span className="table-operations-btn" onClick={() => openSlidePanel('monitor', { ...record })}>
+            {i18n.t('container monitor')}
+          </span>
+          <span className="table-operations-btn" onClick={() => openSlidePanel('log', { ...record })}>
+            {i18n.t('log')}
+          </span>
         </div>
       );
     },
@@ -365,17 +378,16 @@ const ServiceCard = (props: IProps) => {
     const { ctx, msg } = errors[0];
     const { instanceId } = ctx;
     const wrapTooltip = (children: any, text: string) => {
-      return (
-        <Tooltip title={text} >
-          {children}
-        </Tooltip>
-      );
+      return <Tooltip title={text}>{children}</Tooltip>;
     };
     const msgContent = `${msg}，${i18n.t('runtime:please view container log')}`;
     errorMsg = (
       <span
         className="log-link"
-        onClick={(e) => { e.stopPropagation(); openSlidePanel('log', { id: instanceId }); }}
+        onClick={(e) => {
+          e.stopPropagation();
+          openSlidePanel('log', { id: instanceId });
+        }}
       >
         {msgContent}
       </span>
@@ -389,7 +401,9 @@ const ServiceCard = (props: IProps) => {
     <React.Fragment>
       <div className={`${serviceClass} mb20`}>
         <div className="service-card" onClick={() => togglePanel()}>
-          <div className="service-card-icon-wrapper"><CustomIcon type={isEndpoint ? 'mysql1' : 'wfw1'} color /></div>
+          <div className="service-card-icon-wrapper">
+            <CustomIcon type={isEndpoint ? 'mysql1' : 'wfw1'} color />
+          </div>
           <div className="service-card-info">
             <div className="info-msg">
               <IF check={status !== 'Healthy'}>
@@ -398,9 +412,7 @@ const ServiceCard = (props: IProps) => {
               <span className="name fz16">{name}</span>
               {resourceInfo}
             </div>
-            <div className="error-msg fz12 nowrap">
-              {errorMsg}
-            </div>
+            <div className="error-msg fz12 nowrap">{errorMsg}</div>
           </div>
           <div className="service-card-operation" onClick={(e) => e.stopPropagation()}>
             {getOperation()}
@@ -409,17 +421,10 @@ const ServiceCard = (props: IProps) => {
         <div className="inner-content">
           <Tabs defaultActiveKey="service-details">
             <TabPane tab={i18n.t('runtime:service details')} key="service-details">
-              <InstanceTable
-                isFetching={isFetching}
-                instances={instances}
-                opsCol={opsCol}
-              />
+              <InstanceTable isFetching={isFetching} instances={instances} opsCol={opsCol} />
             </TabPane>
             <TabPane tab={i18n.t('pod detail')} key="pod-detail">
-              <PodTable
-                runtimeID={runtimeId}
-                service={name}
-              />
+              <PodTable runtimeID={runtimeId} service={name} />
             </TabPane>
           </Tabs>
         </div>

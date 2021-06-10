@@ -56,7 +56,9 @@ const zkproxy = createStore({
     ) {
       const { env, projectId } = getParams();
       const { az, appId } = getQuery();
-      await call(zkproxyServices.updateNodeRule, { env, projectId, az, appid: appId, ...payload } as any, { successMsg: i18n.t('operated successfully') });
+      await call(zkproxyServices.updateNodeRule, { env, projectId, az, appid: appId, ...payload } as any, {
+        successMsg: i18n.t('operated successfully'),
+      });
       await zkproxy.effects.getNodeList();
     },
     async getAppDetail({ call, update, select, getQuery }) {
@@ -77,33 +79,53 @@ const zkproxy = createStore({
       const { appId } = await getQuery();
       const runtimes = await call(zkproxyServices.getRunTimes, appId);
       const { env } = getParams();
-      update({ branches: map(filter(runtimes, (item) => item.extra.workspace === env), ({ name }) => name) });
+      update({
+        branches: map(
+          filter(runtimes, (item) => item.extra.workspace === env),
+          ({ name }) => name,
+        ),
+      });
     },
     async getBranchesRule({ call, update, getParams, getQuery }) {
       const { projectId, env } = getParams();
       const { appId, az } = await getQuery();
       if (!appId || !az) return;
-      const data: { rule: MS_ZK.IBranchesRule[] } | null = await call(zkproxyServices.getBranchesRule, { projectId, env, appId, az });
+      const data: { rule: MS_ZK.IBranchesRule[] } | null = await call(zkproxyServices.getBranchesRule, {
+        projectId,
+        env,
+        appId,
+        az,
+      });
       update({ branchesRule: data && data.rule ? data.rule : [] });
     },
-    async updateBranchesRule(
-      { call, getParams, getQuery },
-      payload: { body: { rule: MS_ZK.IBranchesRule[] } },
-    ) {
+    async updateBranchesRule({ call, getParams, getQuery }, payload: { body: { rule: MS_ZK.IBranchesRule[] } }) {
       const { projectId, env } = getParams();
       const { appId, az } = await getQuery();
-      await call(zkproxyServices.updateBranchesRule, { projectId, env, appId, az, ...payload }, { successMsg: i18n.t('update successfully') });
+      await call(
+        zkproxyServices.updateBranchesRule,
+        { projectId, env, appId, az, ...payload },
+        { successMsg: i18n.t('update successfully') },
+      );
       await zkproxy.effects.getBranchesRule();
     },
     async clearBranchesRule({ call, getParams, getQuery }) {
       const { projectId, env } = getParams();
       const { appId, az } = await getQuery();
-      await call(zkproxyServices.clearBranchesRule, { projectId, env, appId, az }, { successMsg: i18n.t('update successfully') });
+      await call(
+        zkproxyServices.clearBranchesRule,
+        { projectId, env, appId, az },
+        { successMsg: i18n.t('update successfully') },
+      );
       await zkproxy.effects.getBranchesRule();
     },
     async getZkInterfaceList({ call, update, getParams }, payload: { az: string; runtimeId: number }) {
       const { projectId, env, tenantGroup } = getParams();
-      const zkInterfaceList = await call(zkproxyServices.getZkInterfaceList, { projectId, env, tenantGroup, ...payload });
+      const zkInterfaceList = await call(zkproxyServices.getZkInterfaceList, {
+        projectId,
+        env,
+        tenantGroup,
+        ...payload,
+      });
 
       update({ zkInterfaceList });
     },

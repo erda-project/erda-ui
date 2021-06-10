@@ -28,10 +28,7 @@ import 'dcos/pages/machine-manager/machine-table.scss';
 import { Right as IconRight } from '@icon-park/react';
 
 export default () => {
-  const [{
-    drawerVisible,
-    activeMachine,
-  }, updater, update] = useUpdate({
+  const [{ drawerVisible, activeMachine }, updater, update] = useUpdate({
     drawerVisible: false,
     activeMachine: {} as ORG_MACHINE.IMachine,
   });
@@ -87,7 +84,6 @@ export default () => {
       getMachineList();
     });
   };
-
 
   const columns: Array<ColumnProps<ORG_MACHINE.IMachine>> = [
     {
@@ -148,10 +144,13 @@ export default () => {
       className: 'machine-labels',
       render: (value: string) => {
         const keyArray = value?.split(',') || [];
-        return (<TagsColumn labels={keyArray.map((label) => {
-          return { label };
-        })}
-        />);
+        return (
+          <TagsColumn
+            labels={keyArray.map((label) => {
+              return { label };
+            })}
+          />
+        );
       },
     },
     {
@@ -162,7 +161,9 @@ export default () => {
       render: (_id: string, record: ORG_MACHINE.IMachine) => {
         return (
           <TableActions>
-            <span className="table-operations-btn" onClick={() => showMonitor(record)} >{i18n.t('machine overview')}</span>
+            <span className="table-operations-btn" onClick={() => showMonitor(record)}>
+              {i18n.t('machine overview')}
+            </span>
             <PopConfirm title={`${i18n.t('confirm offline')}?`} onConfirm={() => offlineHandle(record)}>
               <span className="table-operations-btn">{i18n.t('microService:offline')}</span>
             </PopConfirm>
@@ -179,7 +180,9 @@ export default () => {
   return (
     <div className="machine-table">
       <Breadcrumb separator={<IconRight size="14px" />} className="path-breadcrumb mb8">
-        <Breadcrumb.Item className="hover-active" onClick={() => goTo(goTo.pages.edgeResource)}>{siteName}</Breadcrumb.Item>
+        <Breadcrumb.Item className="hover-active" onClick={() => goTo(goTo.pages.edgeResource)}>
+          {siteName}
+        </Breadcrumb.Item>
         <Breadcrumb.Item>{i18n.t('org:node list')}</Breadcrumb.Item>
       </Breadcrumb>
 
@@ -204,4 +207,3 @@ export default () => {
     </div>
   );
 };
-

@@ -27,12 +27,7 @@ interface IProps {
   afterSubmit?: () => any;
 }
 
-const VersionFormModal = ({
-  visible,
-  onCancel,
-  artifacts,
-  afterSubmit = () => {},
-}: IProps) => {
+const VersionFormModal = ({ visible, onCancel, artifacts, afterSubmit = () => {} }: IProps) => {
   const { addVersion } = publisherStore.effects;
   const { type } = artifacts;
   const [chosenApp, setChosenApp] = React.useState('');
@@ -52,7 +47,7 @@ const VersionFormModal = ({
     });
   };
 
-  const fieldsList = (form: WrappedFormUtils) => ([
+  const fieldsList = (form: WrappedFormUtils) => [
     {
       label: i18n.t('application'),
       name: 'app',
@@ -65,8 +60,7 @@ const VersionFormModal = ({
       },
       getComp: () => {
         const getData = (q: any) => {
-          return getJoinedApps({ ...q, mode: type })
-            .then((res: any) => res.data);
+          return getJoinedApps({ ...q, mode: type }).then((res: any) => res.data);
         };
         return (
           <LoadMoreSelector
@@ -97,8 +91,7 @@ const VersionFormModal = ({
       getComp: () => {
         const getArtifacts = (q: any) => {
           if (!chosenApp) return;
-          return getReleaseList({ ...q, applicationId: chosenApp })
-            .then((res: any) => res.data);
+          return getReleaseList({ ...q, applicationId: chosenApp }).then((res: any) => res.data);
         };
         return (
           <LoadMoreSelector
@@ -119,7 +112,7 @@ const VersionFormModal = ({
         );
       },
     },
-  ]);
+  ];
 
   return (
     <FormModal

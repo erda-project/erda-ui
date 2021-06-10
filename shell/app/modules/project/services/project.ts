@@ -13,46 +13,45 @@
 
 import agent from 'agent';
 
-
 export const getProjectList = ({ query, ...rest }: PROJECT.ListQuery): IPagingResp<PROJECT.Detail> => {
-  return agent.get('/api/projects')
+  return agent
+    .get('/api/projects')
     .query({ ...rest, q: query })
     .then((response: any) => response.body);
 };
 
 export const getProjectInfo = (projectId: string | number): Promise<PROJECT.Detail> => {
-  return agent.get(`/api/projects/${projectId}`)
-    .then((response: any) => response.body);
+  return agent.get(`/api/projects/${projectId}`).then((response: any) => response.body);
 };
 
 export const createProject = (form: PROJECT.CreateBody) => {
-  return agent.post('/api/projects')
+  return agent
+    .post('/api/projects')
     .send(form)
     .then((response: any) => response.body);
 };
 
 export const updateProject = ({ projectId, ...values }: Merge<PROJECT.UpdateBody, { projectId: string | number }>) => {
-  return agent.put(`/api/projects/${projectId}`)
+  return agent
+    .put(`/api/projects/${projectId}`)
     .send(values)
     .then((response: any) => response.body);
 };
 
 export const deleteProject = (projectId: string | number) => {
-  return agent.delete(`/api/projects/${projectId}`)
-    .then((response: any) => response.body);
+  return agent.delete(`/api/projects/${projectId}`).then((response: any) => response.body);
 };
 
 export const getLeftResources = (): PROJECT.LeftResources => {
-  return agent.get('/api/orgs/actions/fetch-resources')
-    .then((response: any) => response.body);
+  return agent.get('/api/orgs/actions/fetch-resources').then((response: any) => response.body);
 };
 
 export const getDashboard = (type: string) => {
-  return agent.get(`/api/dashboard/system/blocks/${type}?scope=report&scopeId=org`)
+  return agent
+    .get(`/api/dashboard/system/blocks/${type}?scope=report&scopeId=org`)
     .then((response: any) => response.body);
 };
 
 export const getAutoTestSpaceDetail = ({ spaceId }: { spaceId: string }) => {
-  return agent.get(`/api/autotests/spaces/${spaceId}`)
-    .then((response: any) => response.body);
+  return agent.get(`/api/autotests/spaces/${spaceId}`).then((response: any) => response.body);
 };

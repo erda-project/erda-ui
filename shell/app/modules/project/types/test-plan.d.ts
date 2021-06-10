@@ -254,7 +254,7 @@ declare namespace TEST_PLAN {
     timeUpdated: string;
   }
 
-  interface PipeLineStage{
+  interface PipeLineStage {
     id: number;
     pipelineID: number;
     name: string;

@@ -18,7 +18,7 @@ import { getLabel, noop } from './common';
 import i18n from 'i18n';
 import './data-dynamic.scss';
 
-interface IProps{
+interface IProps {
   value: {
     api: string;
     dataPath: string;
@@ -40,11 +40,31 @@ export const DataDynamic = ({ value, onChange }: IProps) => {
 
   return (
     <div className="dice-form-nusi-data-dynamic">
-      <Input value={data.api} onChange={(e) => updateData({ api: e.target.value })} onBlur={setChange} placeholder="api路径，若存在动态参数及其他特殊逻辑，请直接填写描述" />
+      <Input
+        value={data.api}
+        onChange={(e) => updateData({ api: e.target.value })}
+        onBlur={setChange}
+        placeholder="api路径，若存在动态参数及其他特殊逻辑，请直接填写描述"
+      />
       <div className="data-path">
-        <Input value={data.dataPath} onChange={(e) => updateData({ dataPath: e.target.value })} onBlur={setChange} placeholder="数据路径，如data.list" />
-        <Input value={data.nameKey} onChange={(e) => updateData({ nameKey: e.target.value })} onBlur={setChange} placeholder="展示字段" />
-        <Input value={data.valueKey} onChange={(e) => updateData({ valueKey: e.target.value })} onBlur={setChange} placeholder="取值字段" />
+        <Input
+          value={data.dataPath}
+          onChange={(e) => updateData({ dataPath: e.target.value })}
+          onBlur={setChange}
+          placeholder="数据路径，如data.list"
+        />
+        <Input
+          value={data.nameKey}
+          onChange={(e) => updateData({ nameKey: e.target.value })}
+          onBlur={setChange}
+          placeholder="展示字段"
+        />
+        <Input
+          value={data.valueKey}
+          onChange={(e) => updateData({ valueKey: e.target.value })}
+          onBlur={setChange}
+          placeholder="取值字段"
+        />
       </div>
     </div>
   );
@@ -52,48 +72,40 @@ export const DataDynamic = ({ value, onChange }: IProps) => {
 
 const FormItem = Form.Item;
 
-export const FormDataDynamic = ({
-  fixOut = noop,
-  fixIn = noop,
-  extensionFix,
-  requiredCheck,
-  trigger = 'onChange',
-}) => React.memo(({ fieldConfig, form }: any) => {
-  const {
-    key,
-    value,
-    label,
-    visible,
-    valid,
-    registerRequiredCheck,
-    componentProps,
-    required,
-    wrapperProps,
-    labelTip,
-    requiredCheck: _requiredCheck,
-  } = fieldConfig;
-  registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (val: any) => {
-    form.setFieldValue(key, fixOut(val));
-    (componentProps.onChange || noop)(val);
-  };
-  return (
-    <FormItem
-      colon
-      label={getLabel(label, labelTip)}
-      className={visible ? '' : 'hide'}
-      validateStatus={valid[0]}
-      help={valid[1]}
-      required={required}
-      {...wrapperProps}
-    >
-      <DataDynamic
-        value={fixIn(value)}
-        onChange={handleChange}
-      />
-    </FormItem>
-  );
-});
+export const FormDataDynamic = ({ fixOut = noop, fixIn = noop, extensionFix, requiredCheck, trigger = 'onChange' }) =>
+  React.memo(({ fieldConfig, form }: any) => {
+    const {
+      key,
+      value,
+      label,
+      visible,
+      valid,
+      registerRequiredCheck,
+      componentProps,
+      required,
+      wrapperProps,
+      labelTip,
+      requiredCheck: _requiredCheck,
+    } = fieldConfig;
+    registerRequiredCheck(_requiredCheck || requiredCheck);
+    const handleChange = (val: any) => {
+      form.setFieldValue(key, fixOut(val));
+      (componentProps.onChange || noop)(val);
+    };
+    return (
+      <FormItem
+        colon
+        label={getLabel(label, labelTip)}
+        className={visible ? '' : 'hide'}
+        validateStatus={valid[0]}
+        help={valid[1]}
+        required={required}
+        {...wrapperProps}
+      >
+        <DataDynamic value={fixIn(value)} onChange={handleChange} />
+      </FormItem>
+    );
+  });
 
 export const config = {
   name: 'dataDynamic',

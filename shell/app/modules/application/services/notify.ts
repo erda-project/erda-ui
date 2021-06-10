@@ -14,35 +14,37 @@
 import agent from 'agent';
 
 export const getNotifyConfigs = (query: COMMON_NOTIFY.IGetNotifyGroupQuery): IPagingResp<APP_NOTIFY.INotify> => {
-  return agent.get('/api/notifies')
+  return agent
+    .get('/api/notifies')
     .query(query)
     .then((response: any) => response.body);
 };
 
 export const deleteNotifyConfigs = (id: string | number) => {
-  return agent.delete(`/api/notifies/${id}`)
-    .then((response: any) => response.body);
+  return agent.delete(`/api/notifies/${id}`).then((response: any) => response.body);
 };
 
 export const createNotifyConfigs = (payload: APP_NOTIFY.IUpdateNotifyQuery) => {
-  return agent.post('/api/notifies')
+  return agent
+    .post('/api/notifies')
     .send(payload)
     .then((response: any) => response.body);
 };
 
 export const updateNotifyConfigs = ({ id, ...rest }: APP_NOTIFY.IUpdateNotifyQuery) => {
-  return agent.put(`/api/notifies/${id}`)
+  return agent
+    .put(`/api/notifies/${id}`)
     .send(rest)
     .then((response: any) => response.body);
 };
 
 export const toggleNotifyConfigs = ({ id, action }: { id: number; action: string }) => {
-  return agent.put(`/api/notifies/${id}/actions/${action}`)
-    .then((response: any) => response.body);
+  return agent.put(`/api/notifies/${id}/actions/${action}`).then((response: any) => response.body);
 };
 
 export const getNotifyItems = (query?: { scopeType: string; module: string }): IPagingResp<APP_NOTIFY.INotifyItem> => {
-  return agent.get('/api/notify-items')
+  return agent
+    .get('/api/notify-items')
     .query(query)
     .then((response: any) => response.body);
 };

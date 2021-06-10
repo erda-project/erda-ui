@@ -34,11 +34,7 @@ describe('UploadPlugin', () => {
     );
 
     const content = temp.find('Popover').prop('content');
-    const wrapper = mount(
-      <div>
-        {content}
-      </div>,
-    );
+    const wrapper = mount(<div>{content}</div>);
     const fileChangeData = {
       success: true,
       err: {
@@ -61,7 +57,9 @@ describe('UploadPlugin', () => {
     }, 'uploading...');
     expect(imgUpload.prop('onChange')({ file: { status: 'done' } })).toBeUndefined();
     assertMessage(() => {
-      expect(imgUpload.prop('onChange')({ file: { status: 'done', response: { err: { msg: 'error message' } } } })).toBeUndefined();
+      expect(
+        imgUpload.prop('onChange')({ file: { status: 'done', response: { err: { msg: 'error message' } } } }),
+      ).toBeUndefined();
     }, 'error message');
     expect(imgUpload.prop('onChange')({ file: { status: 'done', response: fileChangeData } })).toBeUndefined();
     expect(fn).toHaveBeenLastCalledWith('\n![file name（100）](file/path)\n');

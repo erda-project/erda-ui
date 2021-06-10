@@ -31,7 +31,6 @@ import i18n from 'i18n';
 
 import './ticket-detail.scss';
 
-
 interface IProps {
   detail: TICKET.Ticket;
 }
@@ -63,8 +62,10 @@ export const TicketContent = ({ detail }: IProps) => {
       case 'vulnerability':
       case 'codeSmell':
         url = !isEmpty(label) ? getUrl(label.path, detail) : null;
-        note = label.path ? `${label.code}\n
-${i18n.t('application:jump to code')}：[${linkLabel || label.path}](${url})` : content;
+        note = label.path
+          ? `${label.code}\n
+${i18n.t('application:jump to code')}：[${linkLabel || label.path}](${url})`
+          : content;
         break;
       default:
         note = content;
@@ -79,23 +80,13 @@ ${i18n.t('application:jump to code')}：[${linkLabel || label.path}](${url})` : 
   if (label && label.lineCode) {
     _note = _note.replace(label.lineCode, `$t_start${label.lineCode}$t_end`);
     _content = Markdown(_note || '');
-    _content = _content
-      .replace('$t_start', '<div class="error">')
-      .replace('$t_end', '</div>');
+    _content = _content.replace('$t_start', '<div class="error">').replace('$t_end', '</div>');
   } else {
     _content = Markdown(_note || '');
   }
 
-  return (
-    <CommentBox
-      user={author}
-      time={createdAt}
-      action={i18n.t('application:built in')}
-      content={_content}
-    />
-  );
+  return <CommentBox user={author} time={createdAt} action={i18n.t('application:built in')} content={_content} />;
 };
-
 
 const { TabPane } = Tabs;
 const { Option } = Select;
@@ -111,14 +102,12 @@ const initialState = {
 const TicketDetail = () => {
   const [detail, comments] = ticketStore.useStore((s) => [s.detail, s.comments]);
   const { getTicketDetail, getTicketComments, createTicketComments, closeTicket } = ticketStore.effects;
-  const [getTicketDetailLoading, getTicketCommentsLoading] = useLoading(ticketStore, ['getTicketDetail', 'getTicketComments']);
-  const [{
-    activedProject,
-    activedIteration,
-    activedIssueType,
-    activedIssue,
-    activedIssueTitle,
-  }, , update] = useUpdate(initialState);
+  const [getTicketDetailLoading, getTicketCommentsLoading] = useLoading(ticketStore, [
+    'getTicketDetail',
+    'getTicketComments',
+  ]);
+  const [{ activedProject, activedIteration, activedIssueType, activedIssue, activedIssueTitle }, , update] =
+    useUpdate(initialState);
 
   useMount(() => {
     getTicketDetail();
@@ -136,30 +125,30 @@ const TicketDetail = () => {
     });
   };
 
-  const closedBtn = detail.status === 'open' ? (
-    <div className="top-button-group">
-      <Button type="primary" onClick={() => closeTicket()}>{i18n.t('application:close')}</Button>
-    </div>
-  ) : null;
+  const closedBtn =
+    detail.status === 'open' ? (
+      <div className="top-button-group">
+        <Button type="primary" onClick={() => closeTicket()}>
+          {i18n.t('application:close')}
+        </Button>
+      </div>
+    ) : null;
 
   const type = getTicketType().find((t) => t.value === detail.type);
   const priority = TicketPriority.find((t: any) => t.value === detail.priority);
 
   const getProjects = (q: any) => {
-    return getProjectList({ ...q })
-      .then((res: any) => res.data);
+    return getProjectList({ ...q }).then((res: any) => res.data);
   };
 
   const getIterations = (q: any) => {
     if (!activedProject) return;
-    return getProjectIterations({ ...q })
-      .then((res: any) => res.data);
+    return getProjectIterations({ ...q }).then((res: any) => res.data);
   };
 
   const getIssues = (q: any) => {
     if (!(activedProject && activedIteration && activedIssueType)) return;
-    return getProjectIssues({ ...q })
-      .then((res: any) => res.data);
+    return getProjectIssues({ ...q }).then((res: any) => res.data);
   };
 
   const handleAssociationIssue = () => {
@@ -198,57 +187,49 @@ const TicketDetail = () => {
           <div className="section-line" />
         </div>
         <Spin spinning={getTicketCommentsLoading}>
-          {
-            comments.map((comment) => (
-              comment.commentType === 'issueRelation'
-                ? (
-                  <div className="comments-association-box">
-                    <Avatar name={comment.author} showName size={28} />
-                    <span className="mx4">{i18n.t('at')}</span>
-                    <span className="mx4">{fromNow(comment.createdAt)}</span>
-                    <span className="mx4">{i18n.t('application:associated issue')}</span>
-                    <span
-                      className="text-link"
-                      onClick={() => {
-                        let page = '';
-                        const { issueType, projectID, issueID } = comment.irComment;
-                        switch (issueType) {
-                          case 'task':
-                            page = goTo.pages.taskList;
-                            break;
-                          case 'bug':
-                            page = goTo.pages.bugList;
-                            break;
-                          default:
-                            break;
-                        }
-                        goTo(page, { projectId: projectID, taskId: issueID, jumpOut: true });
-                      }}
-                    >
-                      {comment.irComment.issueTitle}
-                    </span>
-                  </div>
-                )
-                : (
-                  <CommentBox
-                    className="mb16"
-                    key={comment.id}
-                    user={comment.author}
-                    time={comment.createdAt}
-                    action={i18n.t('application:commented at')}
-                    content={comment.content}
-                  />
-                )
-            ))
-          }
+          {comments.map((comment) =>
+            comment.commentType === 'issueRelation' ? (
+              <div className="comments-association-box">
+                <Avatar name={comment.author} showName size={28} />
+                <span className="mx4">{i18n.t('at')}</span>
+                <span className="mx4">{fromNow(comment.createdAt)}</span>
+                <span className="mx4">{i18n.t('application:associated issue')}</span>
+                <span
+                  className="text-link"
+                  onClick={() => {
+                    let page = '';
+                    const { issueType, projectID, issueID } = comment.irComment;
+                    switch (issueType) {
+                      case 'task':
+                        page = goTo.pages.taskList;
+                        break;
+                      case 'bug':
+                        page = goTo.pages.bugList;
+                        break;
+                      default:
+                        break;
+                    }
+                    goTo(page, { projectId: projectID, taskId: issueID, jumpOut: true });
+                  }}
+                >
+                  {comment.irComment.issueTitle}
+                </span>
+              </div>
+            ) : (
+              <CommentBox
+                className="mb16"
+                key={comment.id}
+                user={comment.author}
+                time={comment.createdAt}
+                action={i18n.t('application:commented at')}
+                content={comment.content}
+              />
+            ),
+          )}
         </Spin>
         <Tabs>
           <TabPane tab={i18n.t('comment')} key="comment">
-            <MarkdownEditor
-              onSubmit={handleSubmit}
-              maxLength={5000}
-              btnText={i18n.t('application:submit comments')}
-            />
+            <MarkdownEditor onSubmit={handleSubmit} maxLength={5000} btnText={i18n.t('application:submit comments')} />
           </TabPane>
           <TabPane tab={i18n.t('relate to issue')} key="relate">
             <div className="flex-box">
@@ -345,12 +326,7 @@ const TicketDetail = () => {
                 />
               </div>
               <div className="options-wrap">
-                <Button
-                  className="mr8"
-                  type="primary"
-                  disabled={!activedIssue}
-                  onClick={handleAssociationIssue}
-                >
+                <Button className="mr8" type="primary" disabled={!activedIssue} onClick={handleAssociationIssue}>
                   {i18n.t('association')}
                 </Button>
                 <Button onClick={() => update(initialState)}>{i18n.t('reset')}</Button>
@@ -362,6 +338,5 @@ const TicketDetail = () => {
     </div>
   );
 };
-
 
 export default TicketDetail;

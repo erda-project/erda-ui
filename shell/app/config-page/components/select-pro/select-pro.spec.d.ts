@@ -27,11 +27,11 @@ declare namespace CP_SELECT_PRO {
     list: Obj[];
   }
 
-  interface IState{
+  interface IState {
     value?: string;
   }
 
-  interface IProps{
+  interface IProps {
     renderType: string;
     showSearch: boolean;
     optionLabelProp?: string;

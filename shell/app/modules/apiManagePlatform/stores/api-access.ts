@@ -25,7 +25,7 @@ interface IState {
   apiGateways: API_ACCESS.ApiGateway[];
   operationRecord: API_ACCESS.OperationRecord[];
   slaList: API_ACCESS.SlaItem[];
-  slaListMapper: {[key: number]: API_ACCESS.SlaItem};
+  slaListMapper: { [key: number]: API_ACCESS.SlaItem };
 }
 
 const initState: IState = {
@@ -44,7 +44,7 @@ const initState: IState = {
   apiGateways: [],
   operationRecord: [],
   slaList: [],
-  slaListMapper: {} as {[key: number]: API_ACCESS.SlaItem},
+  slaListMapper: {} as { [key: number]: API_ACCESS.SlaItem },
 };
 
 const apiAccess = createStore({
@@ -57,16 +57,24 @@ const apiAccess = createStore({
       return res;
     },
     async createAccess({ call }, payload: API_ACCESS.CreateAccess) {
-      const res = await call(Service.createAccess, payload, { successMsg: i18n.t('{action} successfully', { action: i18n.t('add') }) });
+      const res = await call(Service.createAccess, payload, {
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('add') }),
+      });
       return res;
     },
     async updateAccess({ call, getParams }, payload: API_ACCESS.CreateAccess) {
       const { accessID } = getParams();
-      const res = await call(Service.updateAccess, { ...payload, accessID }, { successMsg: i18n.t('{action} successfully', { action: i18n.t('update') }) });
+      const res = await call(
+        Service.updateAccess,
+        { ...payload, accessID },
+        { successMsg: i18n.t('{action} successfully', { action: i18n.t('update') }) },
+      );
       return res;
     },
     async deleteAccess({ call }, payload: API_ACCESS.AccessID) {
-      const res = await call(Service.deleteAccess, payload, { successMsg: i18n.t('{action} successfully', { action: i18n.t('delete') }) });
+      const res = await call(Service.deleteAccess, payload, {
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('delete') }),
+      });
       return res;
     },
     async getAccessDetail({ call, update }, payload: API_ACCESS.AccessID) {
@@ -90,11 +98,15 @@ const apiAccess = createStore({
       return res;
     },
     async deleteContracts({ call }, payload: Omit<API_ACCESS.OperateContract, 'status'>) {
-      const res = await call(Service.deleteContracts, payload, { successMsg: i18n.t('{action} successfully', { action: i18n.t('delete') }) });
+      const res = await call(Service.deleteContracts, payload, {
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('delete') }),
+      });
       return res;
     },
     async updateContracts({ call }, payload: API_ACCESS.OperateContract) {
-      const res = await call(Service.updateContracts, payload, { successMsg: i18n.t('{action} successfully', { action: i18n.t('update') }) });
+      const res = await call(Service.updateContracts, payload, {
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('update') }),
+      });
       return res;
     },
     async getSlaList({ call, update }, payload: API_ACCESS.GetSlaList) {
@@ -113,15 +125,21 @@ const apiAccess = createStore({
       return res;
     },
     async addSla({ call }, payload: API_ACCESS.AddSla) {
-      const res = await call(Service.addSla, payload, { successMsg: i18n.t('{action} successfully', { action: i18n.t('add') }) });
+      const res = await call(Service.addSla, payload, {
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('add') }),
+      });
       return res;
     },
     async updateSla({ call }, payload: API_ACCESS.UpdateSla) {
-      const res = await call(Service.updateSla, payload, { successMsg: i18n.t('{action} successfully', { action: i18n.t('update') }) });
+      const res = await call(Service.updateSla, payload, {
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('update') }),
+      });
       return res;
     },
     async deleteSla({ call }, payload: API_ACCESS.DeleteSla) {
-      const res = await call(Service.deleteSla, payload, { successMsg: i18n.t('{action} successfully', { action: i18n.t('delete') }) });
+      const res = await call(Service.deleteSla, payload, {
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('delete') }),
+      });
       return res;
     },
   },

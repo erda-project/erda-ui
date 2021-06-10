@@ -45,14 +45,17 @@ describe('MonitorChart', () => {
     };
   });
   it('should ', (done) => {
-    render(<MonitorChart
-      resourceType="erda"
-      resourceId="01"
-      metricKey="a"
-      chartQuery={{
-        fetchMetricKey: 'cloud',
-      }}
-    />, container);
+    render(
+      <MonitorChart
+        resourceType="erda"
+        resourceId="01"
+        metricKey="a"
+        chartQuery={{
+          fetchMetricKey: 'cloud',
+        }}
+      />,
+      container,
+    );
     done();
   });
 });

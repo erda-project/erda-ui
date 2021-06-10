@@ -17,12 +17,12 @@ import { PaginationConfig, SorterResult, WrappedFormUtils } from 'core/common/in
 import { IFormItem } from 'common/components/render-formItem';
 
 export interface Location extends history.Location {
-  query: any
+  query: any;
 }
 
 declare global {
   interface Window {
-    sysNotify(): any
+    sysNotify(): any;
   }
 }
 

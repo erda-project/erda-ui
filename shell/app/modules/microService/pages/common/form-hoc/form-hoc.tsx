@@ -153,12 +153,7 @@ const createFormComponent = (model: any, View: any) => {
     render() {
       // 重置所有组件计数器
       this.publishAll({ loop: true, index: 0 });
-      const element = (
-        <View
-          model={model}
-          onValidate={this.onValidate}
-        />
-      );
+      const element = <View model={model} onValidate={this.onValidate} />;
       this.publishAll({ loop: false });
       return element;
     }
@@ -203,11 +198,7 @@ export default class FormHoc extends Component<IProps, any> {
     this.model.setProps(props);
 
     const FormComponent = (
-      <Form
-        layout="vertical"
-        {...formProps}
-        className={classnames('form-hoc', className)}
-      >
+      <Form layout="vertical" {...formProps} className={classnames('form-hoc', className)}>
         <Spin spinning={loading}>
           <this.Component />
         </Spin>

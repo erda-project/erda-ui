@@ -12,15 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import {
-  Input,
-  Select,
-  Button,
-  InputNumber,
-  Collapse,
-  Switch,
-  Icon,
-} from 'app/nusi';
+import { Input, Select, Button, InputNumber, Collapse, Switch, Icon } from 'app/nusi';
 import { isEmpty, map } from 'lodash';
 import { IF, useUpdate } from 'common';
 import { useMount } from 'react-use';
@@ -86,12 +78,7 @@ export const PureSafetyPolicy = () => {
     enableGlobalSafetyCsrf,
   } = state;
 
-  const [
-    safetyWaf,
-    safetyIP,
-    safetyServerGuard,
-    safetyCsrf,
-  ] = gatewayStore.useStore((s) => [
+  const [safetyWaf, safetyIP, safetyServerGuard, safetyCsrf] = gatewayStore.useStore((s) => [
     s.safetyWaf,
     s.safetyIP,
     s.safetyServerGuard,
@@ -106,7 +93,11 @@ export const PureSafetyPolicy = () => {
     saveSafetyServerGuard,
     saveSafetyCsrf,
   } = gatewayStore.effects;
-  const [isSavingSafetyCsrf, isSavingSafetyServerGuard, isSavingSafetyIP] = useLoading(gatewayStore, ['saveSafetyCsrf', 'saveSafetyServerGuard', 'saveSafetyIP']);
+  const [isSavingSafetyCsrf, isSavingSafetyServerGuard, isSavingSafetyIP] = useLoading(gatewayStore, [
+    'saveSafetyCsrf',
+    'saveSafetyServerGuard',
+    'saveSafetyIP',
+  ]);
   useMount(() => {
     hasGlobalSwitch && getPolicies();
     getGlobalPolicies();
@@ -116,11 +107,7 @@ export const PureSafetyPolicy = () => {
   // 无appId：无全局开关、只要global数据
   React.useEffect(() => {
     if (!isEmpty(safetyWaf) || !isEmpty(globalWaf)) {
-      const mixed = hasGlobalSwitch
-        ? enableGlobalWaf
-          ? { ...safetyWaf, ...globalWaf }
-          : safetyWaf
-        : globalWaf;
+      const mixed = hasGlobalSwitch ? (enableGlobalWaf ? { ...safetyWaf, ...globalWaf } : safetyWaf) : globalWaf;
       setRemoveRules(mixed.removeRules);
       setWafEnable(mixed.wafEnable);
       setSafetyWafEnable(mixed.switch);
@@ -129,11 +116,7 @@ export const PureSafetyPolicy = () => {
 
   React.useEffect(() => {
     if (!isEmpty(safetyIP) || !isEmpty(globalIP)) {
-      const mixed = hasGlobalSwitch
-        ? enableGlobalIP
-          ? { ...safetyIP, ...globalIP }
-          : safetyIP
-        : globalIP;
+      const mixed = hasGlobalSwitch ? (enableGlobalIP ? { ...safetyIP, ...globalIP } : safetyIP) : globalIP;
       setIPEnable(mixed.switch);
       setIPSource(mixed.ipSource);
       setIPAclType(mixed.ipAclType);
@@ -156,12 +139,7 @@ export const PureSafetyPolicy = () => {
       setRefuseCode(mixed.refuseCode);
       setRefuseResponse(mixed.refuseResponse);
     }
-  }, [
-    safetyServerGuard,
-    globalServerGuard,
-    enableGlobalServerGuard,
-    hasGlobalSwitch,
-  ]);
+  }, [safetyServerGuard, globalServerGuard, enableGlobalServerGuard, hasGlobalSwitch]);
 
   React.useEffect(() => {
     if (!isEmpty(safetyCsrf) || !isEmpty(globalSafetyCsrf)) {
@@ -384,8 +362,7 @@ export const PureSafetyPolicy = () => {
                 onChange={setIPSource}
               >
                 <Option key="remoteIp" value="remoteIp">
-                  {i18n.t('microService:peer')} IP{' '}
-                  {i18n.t('microService:address')}
+                  {i18n.t('microService:peer')} IP {i18n.t('microService:address')}
                 </Option>
                 <Option key="xRealIp" value="xRealIp">
                   {i18n.t('microService:request header')} x-real-ip
@@ -397,9 +374,7 @@ export const PureSafetyPolicy = () => {
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              IP {i18n.t('microService:black and white list')}
-            </span>
+            <span className="policy-label">IP {i18n.t('microService:black and white list')}</span>
             <div className="policy-content-group">
               <div className="policy-content mb16">
                 <Select
@@ -419,9 +394,7 @@ export const PureSafetyPolicy = () => {
               <div className="policy-content">
                 <TextArea
                   disabled={enableGlobalIP || !ipEnable}
-                  placeholder={i18n.t(
-                    'microService:you can enter ip address, use , separate',
-                  )}
+                  placeholder={i18n.t('microService:you can enter ip address, use , separate')}
                   className="policy-input"
                   rows={4}
                   onChange={handleSetIPAclList}
@@ -431,9 +404,7 @@ export const PureSafetyPolicy = () => {
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              {i18n.t('microService:maximum concurrency')}
-            </span>
+            <span className="policy-label">{i18n.t('microService:maximum concurrency')}</span>
             <div className="policy-content">
               <InputNumber
                 disabled={enableGlobalIP || !ipEnable}
@@ -444,9 +415,7 @@ export const PureSafetyPolicy = () => {
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              {i18n.t('microService:request speed limit')}
-            </span>
+            <span className="policy-label">{i18n.t('microService:request speed limit')}</span>
             <div className="policy-content">
               <InputGroup compact>
                 <InputNumber
@@ -467,22 +436,14 @@ export const PureSafetyPolicy = () => {
                     setIPRate({ ...ipRate, unit });
                   }}
                 >
-                  <Option value="qps">
-                    {i18n.t('microService:times/second')}
-                  </Option>
-                  <Option value="qpm">
-                    {i18n.t('microService:times/minutes')}
-                  </Option>
+                  <Option value="qps">{i18n.t('microService:times/second')}</Option>
+                  <Option value="qpm">{i18n.t('microService:times/minutes')}</Option>
                 </Select>
               </InputGroup>
             </div>
           </div>
           <div className="gateway-policy-item">
-            <Button
-              loading={isSavingSafetyIP}
-              type="primary"
-              onClick={() => handleUpdateSafetyIP()}
-            >
+            <Button loading={isSavingSafetyIP} type="primary" onClick={() => handleUpdateSafetyIP()}>
               {i18n.t('microService:submit')}
             </Button>
           </div>
@@ -519,9 +480,7 @@ export const PureSafetyPolicy = () => {
           key="guard"
         >
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              {i18n.t('microService:maximum throughput')}
-            </span>
+            <span className="policy-label">{i18n.t('microService:maximum throughput')}</span>
             <div className="policy-content">
               <InputGroup compact>
                 <InputNumber
@@ -532,16 +491,12 @@ export const PureSafetyPolicy = () => {
                   onChange={setMaxTps}
                   placeholder={i18n.t('microService:please key in numbers')}
                 />
-                <span className="unit">
-                  {i18n.t('microService:times/second')}
-                </span>
+                <span className="unit">{i18n.t('microService:times/second')}</span>
               </InputGroup>
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              {i18n.t('microService:maximum extra delay')}
-            </span>
+            <span className="policy-label">{i18n.t('microService:maximum extra delay')}</span>
             <div className="policy-content">
               <InputGroup compact>
                 <InputNumber
@@ -552,16 +507,12 @@ export const PureSafetyPolicy = () => {
                   onChange={setExtraLatency}
                   placeholder={i18n.t('microService:milliseconds')}
                 />
-                <span className="unit">
-                  {i18n.t('microService:milliseconds')}
-                </span>
+                <span className="unit">{i18n.t('microService:milliseconds')}</span>
               </InputGroup>
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              {i18n.t('microService:reject status code')}
-            </span>
+            <span className="policy-label">{i18n.t('microService:reject status code')}</span>
             <div className="policy-content">
               <InputNumber
                 disabled={enableGlobalServerGuard || !serverGuardEnable}
@@ -573,9 +524,7 @@ export const PureSafetyPolicy = () => {
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              {i18n.t('microService:refuse to answer')}
-            </span>
+            <span className="policy-label">{i18n.t('microService:refuse to answer')}</span>
             <div className="policy-content">
               <Input
                 disabled={enableGlobalServerGuard || !serverGuardEnable}
@@ -586,11 +535,7 @@ export const PureSafetyPolicy = () => {
             </div>
           </div>
           <div className="gateway-policy-item">
-            <Button
-              loading={isSavingSafetyServerGuard}
-              type="primary"
-              onClick={() => handleUpdateSafetyServerGuard()}
-            >
+            <Button loading={isSavingSafetyServerGuard} type="primary" onClick={() => handleUpdateSafetyServerGuard()}>
               {i18n.t('microService:submit')}
             </Button>
           </div>
@@ -627,9 +572,7 @@ export const PureSafetyPolicy = () => {
           key="csrf"
         >
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              {i18n.t('microService:identification')} cookie
-            </span>
+            <span className="policy-label">{i18n.t('microService:identification')} cookie</span>
             <div className="policy-content">
               <Input
                 className="policy-input"
@@ -640,9 +583,7 @@ export const PureSafetyPolicy = () => {
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              secure {i18n.t('microService:switch')}
-            </span>
+            <span className="policy-label">secure {i18n.t('microService:switch')}</span>
             <div className="policy-content">
               <Switch
                 disabled={enableGlobalSafetyCsrf || !csrfEnable}
@@ -656,9 +597,7 @@ export const PureSafetyPolicy = () => {
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              token {i18n.t('microService:name')}
-            </span>
+            <span className="policy-label">token {i18n.t('microService:name')}</span>
             <div className="policy-content">
               <Input
                 className="policy-input"
@@ -669,9 +608,7 @@ export const PureSafetyPolicy = () => {
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              token {i18n.t('microService:domain name')}
-            </span>
+            <span className="policy-label">token {i18n.t('microService:domain name')}</span>
             <div className="policy-content">
               <Input
                 className="policy-input"
@@ -682,9 +619,7 @@ export const PureSafetyPolicy = () => {
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              token {i18n.t('microService:expire date')}
-            </span>
+            <span className="policy-label">token {i18n.t('microService:expire date')}</span>
             <div className="policy-content">
               <InputGroup compact>
                 <InputNumber
@@ -700,9 +635,7 @@ export const PureSafetyPolicy = () => {
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              token {i18n.t('microService:renewal cycle')}
-            </span>
+            <span className="policy-label">token {i18n.t('microService:renewal cycle')}</span>
             <div className="policy-content">
               <InputGroup compact>
                 <InputNumber
@@ -718,9 +651,7 @@ export const PureSafetyPolicy = () => {
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              {i18n.t('microService:failure status code')}
-            </span>
+            <span className="policy-label">{i18n.t('microService:failure status code')}</span>
             <div className="policy-content">
               <InputNumber
                 disabled={enableGlobalSafetyCsrf || !csrfEnable}
@@ -732,9 +663,7 @@ export const PureSafetyPolicy = () => {
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              {i18n.t('microService:failed response')}
-            </span>
+            <span className="policy-label">{i18n.t('microService:failed response')}</span>
             <div className="policy-content">
               <Input
                 className="policy-input"
@@ -745,9 +674,7 @@ export const PureSafetyPolicy = () => {
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              {i18n.t('microService:close verification')}
-            </span>
+            <span className="policy-label">{i18n.t('microService:close verification')}</span>
             <div className="policy-content">
               <Select
                 className="safety-select policy-input"
@@ -765,11 +692,7 @@ export const PureSafetyPolicy = () => {
             </div>
           </div>
           <div className="gateway-policy-item">
-            <Button
-              loading={isSavingSafetyCsrf}
-              type="primary"
-              onClick={() => handleUpdateSafetyCsrf()}
-            >
+            <Button loading={isSavingSafetyCsrf} type="primary" onClick={() => handleUpdateSafetyCsrf()}>
               {i18n.t('microService:submit')}
             </Button>
           </div>

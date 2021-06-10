@@ -33,9 +33,7 @@ const FormItem = Form.Item;
 
 class RenderPureForm extends React.Component<IProps> {
   render() {
-    const {
-      list, form, className = '', layout = 'horizontal', formItemLayout, onlyItems = false, style,
-    } = this.props;
+    const { list, form, className = '', layout = 'horizontal', formItemLayout, onlyItems = false, style } = this.props;
     const itemLayout = layout === 'horizontal' ? formItemLayout : null;
     const items = list.map((info, i) => {
       if (info.subList) {
@@ -49,44 +47,39 @@ class RenderPureForm extends React.Component<IProps> {
           return (
             <Row key={`sub-row${String(i)}`}>
               {rowFields.map((subField, j) => {
-                let { itemProps: { span = 24 } } = subField;
-                const { itemProps: { type } } = subField;
+                let {
+                  itemProps: { span = 24 },
+                } = subField;
+                const {
+                  itemProps: { type },
+                } = subField;
                 if (type === 'hidden' || compType === 'hidden') {
                   span = 0;
                 }
                 return (
-                  <Col key={`sub-field${String(j)}`} span={span} >
-                    <RenderFormItem
-                      form={form}
-                      formItemLayout={itemLayout}
-                      formLayout={layout}
-                      {...subField}
-                    />
-                  </Col>);
+                  <Col key={`sub-field${String(j)}`} span={span}>
+                    <RenderFormItem form={form} formItemLayout={itemLayout} formLayout={layout} {...subField} />
+                  </Col>
+                );
               })}
             </Row>
           );
         });
         if (getComp && compType !== 'hidden') {
           const Comp = getComp;
-          return (
-            <Comp key={`sub-comp${String(i)}`}>
-              {subRows}
-            </Comp>);
+          return <Comp key={`sub-comp${String(i)}`}>{subRows}</Comp>;
         }
         return subRows;
       } else {
-        return (<RenderFormItem
-          key={info.name || i}
-          form={form}
-          formItemLayout={itemLayout}
-          formLayout={layout}
-          {...info}
-        />);
+        return (
+          <RenderFormItem key={info.name || i} form={form} formItemLayout={itemLayout} formLayout={layout} {...info} />
+        );
       }
     });
     const formClass = classNames(className, 'render-form');
-    return onlyItems ? items : (
+    return onlyItems ? (
+      items
+    ) : (
       <Form className={formClass} layout={layout} style={style}>
         {items}
       </Form>
@@ -96,8 +89,7 @@ class RenderPureForm extends React.Component<IProps> {
 
 const RenderForm = Form.create()(RenderPureForm) as any;
 
-
-interface IReadonlyProps{
+interface IReadonlyProps {
   fieldsList: IField[];
   data?: any;
 }
@@ -117,11 +109,11 @@ const ReadonlyForm = ({ fieldsList, data }: IReadonlyProps) => {
   forEach(fieldsList, (item, index) => {
     const { itemProps, label, name, viewType, getComp } = item;
     if (!(itemProps && itemProps.type === 'hidden') && label) {
-      const value = (name === undefined && getComp) ? getComp() : get(data, name || '');
+      const value = name === undefined && getComp ? getComp() : get(data, name || '');
       if (value !== undefined && value !== null && value !== '') {
         if (viewType === 'image') {
           readonlyView.push(
-            <FormItem label={label} key={index} >
+            <FormItem label={label} key={index}>
               <ImgHolder src={value} rect="100x100" text="image" />
             </FormItem>,
           );
@@ -129,13 +121,16 @@ const ReadonlyForm = ({ fieldsList, data }: IReadonlyProps) => {
           readonlyView.push(
             <FormItem label={label} key={index}>
               <p className="form-item-text">
-                {
-                  Array.isArray(value) ? (
-                    map(value, (v: string, i: number) => (
-                      <span key={`${i}${v}`}>&nbsp;&nbsp;{isPlainObject(v) ? JSON.stringify(v) : v.toString()}<br /></span>
-                    ))
-                  ) : <>&nbsp;&nbsp;{value !== undefined ? value.toString() : undefined}</>
-                }
+                {Array.isArray(value) ? (
+                  map(value, (v: string, i: number) => (
+                    <span key={`${i}${v}`}>
+                      &nbsp;&nbsp;{isPlainObject(v) ? JSON.stringify(v) : v.toString()}
+                      <br />
+                    </span>
+                  ))
+                ) : (
+                  <>&nbsp;&nbsp;{value !== undefined ? value.toString() : undefined}</>
+                )}
               </p>
             </FormItem>,
           );
@@ -143,16 +138,7 @@ const ReadonlyForm = ({ fieldsList, data }: IReadonlyProps) => {
       }
     }
   });
-  return (
-    <Form layout="vertical" >
-      {readonlyView}
-    </Form>
-  );
+  return <Form layout="vertical">{readonlyView}</Form>;
 };
 
-
-export {
-  RenderForm,
-  RenderPureForm,
-  ReadonlyForm,
-};
+export { RenderForm, RenderPureForm, ReadonlyForm };

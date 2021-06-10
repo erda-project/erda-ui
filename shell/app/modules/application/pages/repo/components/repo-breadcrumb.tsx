@@ -55,16 +55,17 @@ const PureRepoBreadcrumb = ({ path, children, splitKey = 'tree' }: IProps) => {
   return (
     <div className="repo-breadcrumb-container">
       <ul className="repo-breadcrumb">
-        {
-          list.map((item) => (
-            isEditing
-              ? <li key={item.text + item.href} className="disable">{item.text}</li>
-              : (
-                <li key={item.text + item.href}>
-                  <span onClick={() => goTo(item.href)}>{item.text}</span>
-                </li>
-              )))
-        }
+        {list.map((item) =>
+          isEditing ? (
+            <li key={item.text + item.href} className="disable">
+              {item.text}
+            </li>
+          ) : (
+            <li key={item.text + item.href}>
+              <span onClick={() => goTo(item.href)}>{item.text}</span>
+            </li>
+          ),
+        )}
       </ul>
       {children}
     </div>

@@ -17,7 +17,6 @@ import { LogRoller as PureLogRoller } from '../components/log/log-roller';
 import { DownloadLogModal } from '../components/log/download-log-modal';
 import commonStore from '../stores/common';
 
-
 const getCurTimeNs = () => new Date().getTime() * 1000000;
 
 interface IProps {
@@ -94,7 +93,8 @@ export class LogRoller extends React.Component<IProps, IState> {
 
   fetchLog = (direction: Direction) => {
     const { fetchLog, fetchPeriod, query = {} } = this.props;
-    if (Direction.forward === direction) { // 下翻
+    if (Direction.forward === direction) {
+      // 下翻
       // 传入query.end，不往下继续查询(结束的container log)
       if (query.end) return this.cancelRolling();
       fetchLog(this.getQuery(direction)).then(() => {
@@ -105,7 +105,8 @@ export class LogRoller extends React.Component<IProps, IState> {
           }
         }
       });
-    } else if (Direction.backward === direction) { // 上翻
+    } else if (Direction.backward === direction) {
+      // 上翻
       if (this.state.backwardLoading) return;
       this.setState({ backwardLoading: true });
       const beforeHeight = this.logRoller && this.logRoller.preElm.scrollHeight; // 请求前的scrollheight
@@ -138,7 +139,7 @@ export class LogRoller extends React.Component<IProps, IState> {
     } else if (Direction.backward === direction) {
       reQuery.start = 0;
       const firstItem = first(content);
-      reQuery.end = firstItem ? firstItem.timestamp : (Number(end) || getCurTimeNs());
+      reQuery.end = firstItem ? firstItem.timestamp : Number(end) || getCurTimeNs();
       reQuery.count = -1 * Number(size);
     }
     return { ...reQuery, ...rest, logKey };
@@ -184,20 +185,16 @@ export class LogRoller extends React.Component<IProps, IState> {
   };
 
   render() {
-    const {
-      content,
-      query,
-      style = {},
-      hasLogs = true,
-      ...otherProps
-    } = this.props;
+    const { content, query, style = {}, hasLogs = true, ...otherProps } = this.props;
     const { rolling, backwardLoading, downloadLogModalVisible } = this.state;
     const lastItem = last(content);
 
     return (
       <div className="log-viewer" style={style}>
         <PureLogRoller
-          ref={(ref) => { this.logRoller = ref; }}
+          ref={(ref) => {
+            this.logRoller = ref;
+          }}
           content={content}
           onStartRolling={this.startRolling}
           onCancelRolling={this.cancelRolling}
@@ -215,7 +212,8 @@ export class LogRoller extends React.Component<IProps, IState> {
           query={query}
           onCancel={this.toggleDownloadModal}
         />
-      </div>);
+      </div>
+    );
   }
 }
 

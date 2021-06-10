@@ -12,13 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace MS_INDEX {
-
   interface IMicroServiceProject {
-    tenantGroups: [ string, string, string, string ];
+    tenantGroups: [string, string, string, string];
     logoUrl: string;
     projectId: string;
     projectName: string;
-    envs: [ string, string, string, string ];
+    envs: [string, string, string, string];
   }
 
   interface IMicroServiceMenu {
@@ -51,5 +50,4 @@ declare namespace MS_INDEX {
   interface MenuMap {
     [k: string]: IMicroServiceMenu;
   }
-
 }

@@ -160,9 +160,13 @@ const issueStore = createStore({
     async getAllIssues({ call, update, select, getParams }, payload: ISSUE.IGetIssueQuery) {
       const { projectId: projectID, iterationId: iterationID } = getParams();
       const { loadMore } = payload;
-      const { list = [] } = await call(getIssues, { iterationID, ...payload, projectID }, { paging: { key: 'issuePaging' } });
+      const { list = [] } = await call(
+        getIssues,
+        { iterationID, ...payload, projectID },
+        { paging: { key: 'issuePaging' } },
+      );
       const oldList = select((s) => s.issueList);
-      const newList = (loadMore && payload.pageNo !== 1) ? oldList.concat(list) : list;
+      const newList = loadMore && payload.pageNo !== 1 ? oldList.concat(list) : list;
       update({ issueList: newList });
       return list;
     },
@@ -201,7 +205,7 @@ const issueStore = createStore({
       }
       const { list = [] } = await call(getIssues, { ...payload, projectID }, { paging: { key: pagingKey } });
       const oldList = select((s) => s[listKey]);
-      const newList = (loadMore && payload.pageNo !== 1) ? oldList.concat(list) : list;
+      const newList = loadMore && payload.pageNo !== 1 ? oldList.concat(list) : list;
       update({ [listKey]: newList });
       return list;
     },
@@ -285,7 +289,10 @@ const issueStore = createStore({
       const orgID = orgStore.getState((s) => s.currentOrg.id);
       const { file, issueType, projectID } = payload;
       const formData = convertToFormData(file);
-      const res = await call(importFileInIssues, { payload: formData, query: { orgID, projectID: +projectID, type: issueType } });
+      const res = await call(importFileInIssues, {
+        payload: formData,
+        query: { orgID, projectID: +projectID, type: issueType },
+      });
       return res;
     },
   },

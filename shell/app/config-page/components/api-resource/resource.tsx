@@ -19,7 +19,13 @@ import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { ResponseConfig } from './response-config';
 import { QueryParamsConfig } from './query-params-config';
 import { map, unset, isEmpty, set, get, keys, some, forEach } from 'lodash';
-import { API_METHODS, INPUT_MAX_LENGTH, DEFAULT_PATH_PARAM, DEFAULT_RESPONSE, API_RESOURCE_TAB } from 'app/modules/apiManagePlatform/configs.ts';
+import {
+  API_METHODS,
+  INPUT_MAX_LENGTH,
+  DEFAULT_PATH_PARAM,
+  DEFAULT_RESPONSE,
+  API_RESOURCE_TAB,
+} from 'app/modules/apiManagePlatform/configs.ts';
 import { produce } from 'immer';
 import ResourceSummary from './resource-summary';
 import { WrappedFormUtils } from 'core/common/interface';
@@ -35,15 +41,11 @@ const pathParamReg = /{(\w+)}/g;
 const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourceProps>) => {
   const { quotePathMap, onQuoteChange, apiName, apiDetail } = props;
 
-  const [{
-    currentMethod,
-    apiMethodDetail,
-    curTabKey,
-    apiDisplayName,
-    tempApiData,
-    pathParams,
-    open,
-  }, updater, update] = useUpdate({
+  const [
+    { currentMethod, apiMethodDetail, curTabKey, apiDisplayName, tempApiData, pathParams, open },
+    updater,
+    update,
+  ] = useUpdate({
     currentMethod: API_METHODS.get as API_SETTING.ApiMethod,
     apiMethodDetail: {} as Obj,
     curTabKey: API_RESOURCE_TAB.Summary,
@@ -56,12 +58,14 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
   const { apiData, execOperation, operations } = props?.data || {};
   const formRef = React.useRef<WrappedFormUtils>({} as any);
 
-
-  const [openApiDoc, apiLockState, formErrorNum] = apiDesignStore.useStore((s) => [s.openApiDoc, s.apiLockState, s.formErrorNum]);
+  const [openApiDoc, apiLockState, formErrorNum] = apiDesignStore.useStore((s) => [
+    s.openApiDoc,
+    s.apiLockState,
+    s.formErrorNum,
+  ]);
   const { updateOpenApiDoc, updateFormErrorNum } = apiDesignStore;
 
   const dataPath = React.useMemo(() => [apiName, currentMethod], [apiName, currentMethod]);
-
 
   React.useEffect(() => {
     if (apiData?.apiMethod) {
@@ -87,7 +91,6 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
     updater.pathParams(null);
     updater.curTabKey(API_RESOURCE_TAB.Summary); // API切换后重置tab
   }, [apiDetail, apiData, updater, tempApiData]);
-
 
   React.useEffect(() => {
     let _name = '';
@@ -123,82 +126,84 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
       }
     });
     updateOpenApiDoc(tempDetail);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apiData, apiName, pathParams, updateOpenApiDoc]);
 
-  const setFieldHandle = React.useCallback((key: string, fieldData: Obj, extraProps?: Obj) => {
-    const prefixPath = !apiData?.apiMethod ? ['paths', ...dataPath] : [];
-    const baseFormData = !apiData?.apiMethod ? openApiDoc : tempApiData;
+  const setFieldHandle = React.useCallback(
+    (key: string, fieldData: Obj, extraProps?: Obj) => {
+      const prefixPath = !apiData?.apiMethod ? ['paths', ...dataPath] : [];
+      const baseFormData = !apiData?.apiMethod ? openApiDoc : tempApiData;
 
-    if (onQuoteChange && extraProps?.typeQuotePath) {
-      const newTypeQuotePath = extraProps?.typeQuotePath ? ['paths', ...dataPath, ...extraProps.typeQuotePath] : [];
+      if (onQuoteChange && extraProps?.typeQuotePath) {
+        const newTypeQuotePath = extraProps?.typeQuotePath ? ['paths', ...dataPath, ...extraProps.typeQuotePath] : [];
 
-      const tempQuotePathMap = produce(quotePathMap, (draft) => {
-        if (extraProps?.quoteTypeName) {
-          const { quoteTypeName } = extraProps;
-          draft[quoteTypeName] = draft[quoteTypeName] || [];
-          draft[quoteTypeName].push(newTypeQuotePath);
+        const tempQuotePathMap = produce(quotePathMap, (draft) => {
+          if (extraProps?.quoteTypeName) {
+            const { quoteTypeName } = extraProps;
+            draft[quoteTypeName] = draft[quoteTypeName] || [];
+            draft[quoteTypeName].push(newTypeQuotePath);
+          }
+        });
+        onQuoteChange(tempQuotePathMap);
+      }
+
+      const tempDetail = produce(baseFormData, (draft) => {
+        if (key !== 'responses') {
+          const responseData = get(draft, [...prefixPath, 'responses']);
+          // 设置默认的response
+          if (!responseData) {
+            set(draft, [...prefixPath, 'responses'], DEFAULT_RESPONSE);
+          }
+
+          if (key === 'summary') {
+            set(draft, [...prefixPath, fieldData?.propertyName], fieldData?.propertyData);
+            if (fieldData?.propertyName === 'operationId') {
+              set(draft, [...prefixPath, 'summary'], fieldData?.propertyData);
+            }
+            if (fieldData?.newTags) {
+              set(draft, 'tags', fieldData?.newTags);
+              message.success(i18n.t('project:create category successfully'));
+            }
+          } else if (key === 'query' || key === 'header') {
+            set(draft, [...prefixPath, 'parameters'], fieldData?.parameters);
+          }
+        }
+        if (key === 'responses' || key === 'requestBody') {
+          set(draft, [...prefixPath, key], fieldData[key]);
+        }
+        // 设置默认的operationId
+        if (!get(draft, [...prefixPath, 'operationId'])) {
+          const _operationIdList: string[] = [];
+          const { paths } = openApiDoc;
+          forEach(keys(paths), (pathName: string) => {
+            const methodData = paths[pathName];
+            forEach(keys(methodData), (item) => {
+              methodData[item]?.operationId && _operationIdList.push(methodData[item]?.operationId);
+            });
+          });
+          let _operationId = 'operationId';
+          while (_operationIdList.includes(_operationId)) {
+            _operationId += '1';
+          }
+          set(draft, [...prefixPath, 'operationId'], _operationId);
+        }
+        // 设置默认的tags
+        if (!get(draft, [...prefixPath, 'tags'])) {
+          set(draft, [...prefixPath, 'tags'], ['other']);
+        }
+        if (!draft.tags) {
+          set(draft, 'tags', [{ name: 'other' }]);
         }
       });
-      onQuoteChange(tempQuotePathMap);
-    }
 
-    const tempDetail = produce(baseFormData, (draft) => {
-      if (key !== 'responses') {
-        const responseData = get(draft, [...prefixPath, 'responses']);
-        // 设置默认的response
-        if (!responseData) {
-          set(draft, [...prefixPath, 'responses'], DEFAULT_RESPONSE);
-        }
-
-        if (key === 'summary') {
-          set(draft, [...prefixPath, fieldData?.propertyName], fieldData?.propertyData);
-          if (fieldData?.propertyName === 'operationId') {
-            set(draft, [...prefixPath, 'summary'], fieldData?.propertyData);
-          }
-          if (fieldData?.newTags) {
-            set(draft, 'tags', fieldData?.newTags);
-            message.success(i18n.t('project:create category successfully'));
-          }
-        } else if (key === 'query' || key === 'header') {
-          set(draft, [...prefixPath, 'parameters'], fieldData?.parameters);
-        }
+      if (!apiData?.apiMethod) {
+        updateOpenApiDoc(tempDetail);
+      } else {
+        updater.tempApiData(tempDetail);
       }
-      if (key === 'responses' || key === 'requestBody') {
-        set(draft, [...prefixPath, key], fieldData[key]);
-      }
-      // 设置默认的operationId
-      if (!get(draft, [...prefixPath, 'operationId'])) {
-        const _operationIdList: string[] = [];
-        const { paths } = openApiDoc;
-        forEach(keys(paths), (pathName: string) => {
-          const methodData = paths[pathName];
-          forEach(keys(methodData), (item) => {
-            methodData[item]?.operationId && _operationIdList.push(methodData[item]?.operationId);
-          });
-        });
-        let _operationId = 'operationId';
-        while (_operationIdList.includes(_operationId)) {
-          _operationId += '1';
-        }
-        set(draft, [...prefixPath, 'operationId'], _operationId);
-      }
-      // 设置默认的tags
-      if (!get(draft, [...prefixPath, 'tags'])) {
-        set(draft, [...prefixPath, 'tags'], ['other']);
-      }
-      if (!draft.tags) {
-        set(draft, 'tags', [{ name: 'other' }]);
-      }
-    });
-
-    if (!apiData?.apiMethod) {
-      updateOpenApiDoc(tempDetail);
-    } else {
-      updater.tempApiData(tempDetail);
-    }
-  }, [apiData, dataPath, onQuoteChange, openApiDoc, quotePathMap, tempApiData, updateOpenApiDoc, updater]);
-
+    },
+    [apiData, dataPath, onQuoteChange, openApiDoc, quotePathMap, tempApiData, updateOpenApiDoc, updater],
+  );
 
   const iconClassMap = React.useMemo(() => {
     const classMap = {};
@@ -212,66 +217,80 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
     return { classMap, emptyIcon };
   }, [apiName, openApiDoc]);
 
-  const deleteMethod = React.useCallback((methodKey: API_METHODS) => {
-    updater.open(false);
-    const tempDetail = produce(openApiDoc, (draft) => {
-      unset(draft, ['paths', apiName, methodKey]);
-    });
-    updateOpenApiDoc(tempDetail);
-    if (currentMethod === methodKey) {
-      updater.apiMethodDetail({});
-    }
-  }, [apiName, currentMethod, openApiDoc, updateOpenApiDoc, updater]);
-
-
-  const onApiNameChange = React.useCallback((name: string) => {
-    updater.apiDisplayName(name);
-    props.onApiNameChange(name);
-
-    // 获取api中的path parameters
-    const _pathParams = map(name.match(pathParamReg), (item) => {
-      return item.slice(1, item.length - 1);
-    });
-    updater.pathParams(_pathParams);
-
-    if (onQuoteChange && !isEmpty(quotePathMap)) {
-      const tempQuotePathMap = produce(quotePathMap, (draft) => {
-        forEach(keys(draft), (k) => {
-          forEach(draft[k], (path, i) => {
-            if (path.includes(apiDisplayName)) {
-              const oldPathArray = path.slice(0, path.length - 1);
-              draft[k][i] = [...oldPathArray, name];
-            }
-          });
-        });
-      });
-      onQuoteChange(tempQuotePathMap);
-    }
-
-    if (!apiData?.apiMethod) {
+  const deleteMethod = React.useCallback(
+    (methodKey: API_METHODS) => {
+      updater.open(false);
       const tempDetail = produce(openApiDoc, (draft) => {
-        const apiTempData = get(draft, ['paths', apiName]);
-        set(draft, ['paths', name], apiTempData);
-        unset(draft, ['paths', apiName]);
+        unset(draft, ['paths', apiName, methodKey]);
       });
       updateOpenApiDoc(tempDetail);
-    } else {
-      const tempDetail = produce(tempApiData, (draft) => {
-        set(draft, 'apiName', name);
+      if (currentMethod === methodKey) {
+        updater.apiMethodDetail({});
+      }
+    },
+    [apiName, currentMethod, openApiDoc, updateOpenApiDoc, updater],
+  );
+
+  const onApiNameChange = React.useCallback(
+    (name: string) => {
+      updater.apiDisplayName(name);
+      props.onApiNameChange(name);
+
+      // 获取api中的path parameters
+      const _pathParams = map(name.match(pathParamReg), (item) => {
+        return item.slice(1, item.length - 1);
       });
-      updater.tempApiData(tempDetail);
-    }
-  }, [apiData, apiDisplayName, apiName, onQuoteChange, openApiDoc, props, quotePathMap, tempApiData, updateOpenApiDoc, updater]);
+      updater.pathParams(_pathParams);
+
+      if (onQuoteChange && !isEmpty(quotePathMap)) {
+        const tempQuotePathMap = produce(quotePathMap, (draft) => {
+          forEach(keys(draft), (k) => {
+            forEach(draft[k], (path, i) => {
+              if (path.includes(apiDisplayName)) {
+                const oldPathArray = path.slice(0, path.length - 1);
+                draft[k][i] = [...oldPathArray, name];
+              }
+            });
+          });
+        });
+        onQuoteChange(tempQuotePathMap);
+      }
+
+      if (!apiData?.apiMethod) {
+        const tempDetail = produce(openApiDoc, (draft) => {
+          const apiTempData = get(draft, ['paths', apiName]);
+          set(draft, ['paths', name], apiTempData);
+          unset(draft, ['paths', apiName]);
+        });
+        updateOpenApiDoc(tempDetail);
+      } else {
+        const tempDetail = produce(tempApiData, (draft) => {
+          set(draft, 'apiName', name);
+        });
+        updater.tempApiData(tempDetail);
+      }
+    },
+    [
+      apiData,
+      apiDisplayName,
+      apiName,
+      onQuoteChange,
+      openApiDoc,
+      props,
+      quotePathMap,
+      tempApiData,
+      updateOpenApiDoc,
+      updater,
+    ],
+  );
 
   const hasBody = !['get', 'head'].includes(currentMethod);
 
   const onSaveApiData = React.useCallback(() => {
-    execOperation && execOperation(operations.submit, {
-      apiData: { ...tempApiData,
-        apiMethod: apiData?.apiMethod,
-        apiName: tempApiData?.name || apiData?.apiName,
-      },
-    });
+    execOperation &&
+      execOperation(operations.submit, {
+        apiData: { ...tempApiData, apiMethod: apiData?.apiMethod, apiName: tempApiData?.name || apiData?.apiName },
+      });
   }, [apiData, execOperation, operations, tempApiData]);
 
   const fieldList = React.useMemo(() => {
@@ -322,7 +341,8 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
   const selectRef = React.useRef(null) as any;
 
   React.useEffect(() => {
-    const selectHide = (e: any) => { // 点击外部，隐藏选项
+    const selectHide = (e: any) => {
+      // 点击外部，隐藏选项
       // eslint-disable-next-line react/no-find-dom-node
       const el2 = ReactDOM.findDOMNode(selectRef.current) as HTMLElement;
       if (!(el2 && el2.contains(e.target))) {
@@ -335,85 +355,102 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
     }
   }, [open, selectRef, updater]);
 
-  const maskClick = React.useCallback((e: any) => {
-    e.stopPropagation();
-    updater.open(true);
-  }, [updater]);
+  const maskClick = React.useCallback(
+    (e: any) => {
+      e.stopPropagation();
+      updater.open(true);
+    },
+    [updater],
+  );
 
-  const labelClick = React.useCallback((e: any, methodKey: string) => {
-    e.stopPropagation();
-    updater.open(false);
+  const labelClick = React.useCallback(
+    (e: any, methodKey: string) => {
+      e.stopPropagation();
+      updater.open(false);
 
-    const nextHandle = () => {
-      const _apiMethodDetail = get(openApiDoc, ['paths', apiName, methodKey]) || {};
-      update({
-        currentMethod: methodKey as API_SETTING.ApiMethod,
-        curTabKey: API_RESOURCE_TAB.Summary,
-        apiMethodDetail: _apiMethodDetail,
-      });
+      const nextHandle = () => {
+        const _apiMethodDetail = get(openApiDoc, ['paths', apiName, methodKey]) || {};
+        update({
+          currentMethod: methodKey as API_SETTING.ApiMethod,
+          curTabKey: API_RESOURCE_TAB.Summary,
+          apiMethodDetail: _apiMethodDetail,
+        });
 
-      updateFormErrorNum(0);
-      formRef.current.setFieldsValue({ apiName });
-    };
+        updateFormErrorNum(0);
+        formRef.current.setFieldsValue({ apiName });
+      };
 
-    if (formErrorNum > 0) {
-      confirm({
-        title: i18n.t('project:whether to confirm to leave, leaving will not save the error information'),
-        onOk() {
-          nextHandle();
-        },
-      });
-    } else {
-      nextHandle();
-    }
-  }, [apiName, formErrorNum, openApiDoc, update, updateFormErrorNum, updater]);
+      if (formErrorNum > 0) {
+        confirm({
+          title: i18n.t('project:whether to confirm to leave, leaving will not save the error information'),
+          onOk() {
+            nextHandle();
+          },
+        });
+      } else {
+        nextHandle();
+      }
+    },
+    [apiName, formErrorNum, openApiDoc, update, updateFormErrorNum, updater],
+  );
 
   const renderSelectMenu = () => {
     return (
       <div className="select-container" ref={selectRef}>
-        {!apiData?.apiMethod ?
+        {!apiData?.apiMethod ? (
           <Select
             style={{ marginRight: '8px', width: '141px' }}
             defaultValue={currentMethod}
             open={open}
             value={currentMethod}
           >
-            {
-              map(API_METHODS, (methodKey) => {
-                const item = (
-                  <div className="circle-container center-flex-box">
-                    { iconClassMap.emptyIcon[methodKey] ? <div className={`${iconClassMap.classMap[methodKey]} disableIcon`} />
-                      : <CustomIcon type="duigou" className={iconClassMap.classMap[methodKey]} />
-                    }
-                  </div>
-                );
-                return (
-                  <Option value={methodKey} key={methodKey}>
+            {map(API_METHODS, (methodKey) => {
+              const item = (
+                <div className="circle-container center-flex-box">
+                  {iconClassMap.emptyIcon[methodKey] ? (
+                    <div className={`${iconClassMap.classMap[methodKey]} disableIcon`} />
+                  ) : (
+                    <CustomIcon type="duigou" className={iconClassMap.classMap[methodKey]} />
+                  )}
+                </div>
+              );
+              return (
+                <Option value={methodKey} key={methodKey}>
+                  <div
+                    className={`api-method-option ${currentMethod === methodKey ? 'api-method-option-active' : ''}`}
+                    key={methodKey}
+                  >
                     <div
-                      className={`api-method-option ${(currentMethod === methodKey) ? 'api-method-option-active' : ''}`}
-                      key={methodKey}
+                      className="btn-label"
+                      onClick={(e) => {
+                        labelClick(e, methodKey);
+                      }}
                     >
-                      <div className="btn-label" onClick={(e) => { labelClick(e, methodKey); }}>{methodKey.toUpperCase()}</div>
-                      {get(openApiDoc, ['paths', apiName, methodKey]) ?
-                        <Popconfirm
-                          title={`${i18n.t('common:confirm deletion')}?`}
-                          onConfirm={() => deleteMethod(methodKey)}
-                          disabled={apiLockState}
-                          overlayClassName="popconfirm-container"
-                          getPopupContainer={() => popconfirmRef?.current}
-                          onCancel={(e: any) => { e.stopPropagation(); updater.open(false); }}
-                        ><span>{ item }</span>
-                        </Popconfirm>
-                        : <span>{ item }</span>
-                      }
+                      {methodKey.toUpperCase()}
                     </div>
-                  </Option>
-                );
-              })
-            }
+                    {get(openApiDoc, ['paths', apiName, methodKey]) ? (
+                      <Popconfirm
+                        title={`${i18n.t('common:confirm deletion')}?`}
+                        onConfirm={() => deleteMethod(methodKey)}
+                        disabled={apiLockState}
+                        overlayClassName="popconfirm-container"
+                        getPopupContainer={() => popconfirmRef?.current}
+                        onCancel={(e: any) => {
+                          e.stopPropagation();
+                          updater.open(false);
+                        }}
+                      >
+                        <span>{item}</span>
+                      </Popconfirm>
+                    ) : (
+                      <span>{item}</span>
+                    )}
+                  </div>
+                </Option>
+              );
+            })}
           </Select>
-          : undefined
-        }
+        ) : undefined}
         <div className="mask" onClick={maskClick} />
       </div>
     );
@@ -442,7 +479,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
 
   return (
     <div className="api-resource" ref={popconfirmRef}>
-      <div className="popover" >
+      <div className="popover">
         {renderSelectMenu()}
         <FormBuilder isMultiColumn wrappedComponentRef={formRef} className="full-width">
           <Fields fields={fieldList} />
@@ -450,10 +487,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
       </div>
 
       <div className="api-resource-tabs">
-        <Tabs
-          activeKey={curTabKey}
-          onChange={onTabChange}
-        >
+        <Tabs activeKey={curTabKey} onChange={onTabChange}>
           <TabPane tab={API_RESOURCE_TAB.Summary} key={API_RESOURCE_TAB.Summary}>
             <ResourceSummary formData={apiMethodDetail} onChange={setFieldHandle} isEditMode={!apiLockState} />
           </TabPane>
@@ -476,14 +510,16 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
             />
           </TabPane>
           <TabPane tab={API_RESOURCE_TAB.Body} key={API_RESOURCE_TAB.Body} disabled={!hasBody}>
-            {hasBody && <ResponseConfig
-              formData={apiMethodDetail}
-              paramIn="requestBody"
-              onChange={setFieldHandle}
-              dataPath={dataPath}
-              isEditMode={!apiLockState}
-              resourceKey={curTabKey}
-            />}
+            {hasBody && (
+              <ResponseConfig
+                formData={apiMethodDetail}
+                paramIn="requestBody"
+                onChange={setFieldHandle}
+                dataPath={dataPath}
+                isEditMode={!apiLockState}
+                resourceKey={curTabKey}
+              />
+            )}
           </TabPane>
           <TabPane tab={API_RESOURCE_TAB.Response} key={API_RESOURCE_TAB.Response}>
             <ResponseConfig
@@ -495,18 +531,18 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
               resourceKey={curTabKey}
             />
           </TabPane>
-          { apiData?.apiMethod && <TabPane tab={API_RESOURCE_TAB.Test} key={API_RESOURCE_TAB.Test} /> }
+          {apiData?.apiMethod && <TabPane tab={API_RESOURCE_TAB.Test} key={API_RESOURCE_TAB.Test} />}
         </Tabs>
-        {
-          apiData?.apiMethod && (
+        {apiData?.apiMethod && (
           <div className="right-flex-box">
-            <Button type="primary" onClick={onSaveApiData}>{i18n.t('save')}</Button>
-          </div>)
-        }
+            <Button type="primary" onClick={onSaveApiData}>
+              {i18n.t('save')}
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
 export default ApiResource;
-

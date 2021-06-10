@@ -37,24 +37,17 @@ interface IProps {
   onEitAddon?: (addon: ADDON.Instance) => void;
 }
 
-
 export const AddonCards = (props: IProps) => {
   const { dataSource, categoryRefs, onEitAddon } = props;
-  const [{
-    drawerVisible,
-    modalVisible,
-    recordId,
-    logoUrlMap,
-    prjMonitorMap,
-    customConfigVisible,
-  }, updater] = useUpdate({
-    drawerVisible: false,
-    modalVisible: false,
-    recordId: '',
-    logoUrlMap: {}, // 因为有条件渲染，不能放到每个CartRender内部管理
-    prjMonitorMap: {},
-    customConfigVisible: false,
-  });
+  const [{ drawerVisible, modalVisible, recordId, logoUrlMap, prjMonitorMap, customConfigVisible }, updater] =
+    useUpdate({
+      drawerVisible: false,
+      modalVisible: false,
+      recordId: '',
+      logoUrlMap: {}, // 因为有条件渲染，不能放到每个CartRender内部管理
+      prjMonitorMap: {},
+      customConfigVisible: false,
+    });
   const [addonDetail, addonReferences] = addonStore.useStore((s) => [s.addonDetail, s.addonReferences]);
 
   React.useEffect(() => {
@@ -89,11 +82,13 @@ export const AddonCards = (props: IProps) => {
   const onClickCard = (content: ADDON.Instance) => {
     const jumpOut = !props.isPlatform;
     const { addonName, projectId, workspace, instanceId, platformServiceType, consoleUrl } = content;
-    if (addonName === 'terminus-roost') { // roost的platformServiceType是 1，特殊处理
+    if (addonName === 'terminus-roost') {
+      // roost的platformServiceType是 1，特殊处理
       window.open(`${window.location.protocol}//${consoleUrl}`);
       return;
     }
-    if (addonName === 'log-analytics') { // 3.20把日志分析移到了微服务下面，兼容旧的日志分析实例
+    if (addonName === 'log-analytics') {
+      // 3.20把日志分析移到了微服务下面，兼容旧的日志分析实例
       let tenantGroup = '';
       try {
         tenantGroup = JSON.parse(consoleUrl || '{}').tenantGroup;
@@ -192,11 +187,19 @@ export const AddonCards = (props: IProps) => {
     };
 
     return (
-      <div className="addon-item-container pointer" key={`${instanceId || realInstanceId}-${projectId}-${workspace}`} onClick={() => onClickCard(content)}>
-        <span className="env-icon bold-500" data-env={ENV_NAME[workspace].slice(0, 1).toUpperCase()}><CustomIcon type="bq" color /></span>
+      <div
+        className="addon-item-container pointer"
+        key={`${instanceId || realInstanceId}-${projectId}-${workspace}`}
+        onClick={() => onClickCard(content)}
+      >
+        <span className="env-icon bold-500" data-env={ENV_NAME[workspace].slice(0, 1).toUpperCase()}>
+          <CustomIcon type="bq" color />
+        </span>
         <div className="addon-item">
           <div className="addon-item-main">
-            <div className="icon-wrap"><img src={logoUrlMap[instanceId]} style={{ width: '40px' }} alt="addon-logo" onError={onError} /></div>
+            <div className="icon-wrap">
+              <img src={logoUrlMap[instanceId]} style={{ width: '40px' }} alt="addon-logo" onError={onError} />
+            </div>
             <div className="addon-item-info">
               <div className="nowrap">
                 <IF check={status === 'ATTACHING' || status === 'ATTACHFAILED'}>
@@ -204,7 +207,8 @@ export const AddonCards = (props: IProps) => {
                 </IF>
                 <Tooltip title={name}>
                   <span className="title bold-500">
-                    {name}{tag ? `（${tag}）` : null}
+                    {name}
+                    {tag ? `（${tag}）` : null}
                   </span>
                 </Tooltip>
               </div>
@@ -221,13 +225,17 @@ export const AddonCards = (props: IProps) => {
             <div className="info flex-box">
               <Tooltip title={projectName}>
                 <span className="nowrap project-name">
-                  <CustomIcon type="overview" />{projectName}
+                  <CustomIcon type="overview" />
+                  {projectName}
                 </span>
               </Tooltip>
-              <span className="nowrap"><CustomIcon type="js1" />{reference}</span>
+              <span className="nowrap">
+                <CustomIcon type="js1" />
+                {reference}
+              </span>
             </div>
             <IF check={!props.isPlatform}>
-              <div className="btn-group" >
+              <div className="btn-group">
                 <IF check={status === 'ATTACHING' || status === 'ATTACHFAILED'}>
                   <Tooltip title={i18n.t('log')}>
                     <span
@@ -237,7 +245,8 @@ export const AddonCards = (props: IProps) => {
                         updater.modalVisible(true);
                         updater.recordId(content.recordId);
                       }}
-                    ><CustomIcon type="jincheng" />
+                    >
+                      <CustomIcon type="jincheng" />
                     </span>
                   </Tooltip>
                 </IF>
@@ -251,18 +260,21 @@ export const AddonCards = (props: IProps) => {
                         // edit third addon
                         onEitAddon && onEitAddon(content);
                       }}
-                    ><CustomIcon type="bj1" />
+                    >
+                      <CustomIcon type="bj1" />
                     </span>
                   </Tooltip>
                 </IF>
                 <Tooltip title={i18n.t('check detail')}>
-                  <span onClick={(e) => {
-                    e.stopPropagation();
-                    addonStore.getAddonDetail(instanceId);
-                    addonStore.getAddonReferences(instanceId);
-                    openDrawer();
-                  }}
-                  ><CustomIcon type="ch" />
+                  <span
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      addonStore.getAddonDetail(instanceId);
+                      addonStore.getAddonReferences(instanceId);
+                      openDrawer();
+                    }}
+                  >
+                    <CustomIcon type="ch" />
                   </span>
                 </Tooltip>
               </div>
@@ -276,38 +288,38 @@ export const AddonCards = (props: IProps) => {
   return (
     <>
       <Holder when={isEmpty(dataSource)}>
-        {
-          !isEmpty(categoryRefs)
-            ?
-              <ul className="addon-list" ref={props.forwardedRef}>
-                {dataSource && dataSource.map((category: [string, any[]]) => {
-                  const [title, contents] = category;
-                  const liRef = categoryRefs && categoryRefs.find((x) => x[title]);
-                  let extra = null;
-                  if (get(contents, '[0].category') === 'custom') {
-                    extra = (
-                      <Button
-                        size="small"
-                        className="ml8"
-                        onClick={() => updater.customConfigVisible(true)}
-                      >{i18n.t('project:view config')}
-                      </Button>
-                    );
-                  }
-                  return (
-                    <li className="addon-category-section" key={title} ref={liRef[title]}>
-                      <span className="content-title bold-500">{title}{extra}</span>
-                      <div className="addons-container" >
-                        <CardsLayout dataList={contents} contentRender={CardRender} />
-                      </div>
-                    </li>);
-                })}
-              </ul>
-            :
-              <div className="addon-list">
-                <CardsLayout dataList={dataSource} contentRender={CardRender} />
-              </div>
-        }
+        {!isEmpty(categoryRefs) ? (
+          <ul className="addon-list" ref={props.forwardedRef}>
+            {dataSource &&
+              dataSource.map((category: [string, any[]]) => {
+                const [title, contents] = category;
+                const liRef = categoryRefs && categoryRefs.find((x) => x[title]);
+                let extra = null;
+                if (get(contents, '[0].category') === 'custom') {
+                  extra = (
+                    <Button size="small" className="ml8" onClick={() => updater.customConfigVisible(true)}>
+                      {i18n.t('project:view config')}
+                    </Button>
+                  );
+                }
+                return (
+                  <li className="addon-category-section" key={title} ref={liRef[title]}>
+                    <span className="content-title bold-500">
+                      {title}
+                      {extra}
+                    </span>
+                    <div className="addons-container">
+                      <CardsLayout dataList={contents} contentRender={CardRender} />
+                    </div>
+                  </li>
+                );
+              })}
+          </ul>
+        ) : (
+          <div className="addon-list">
+            <CardsLayout dataList={dataSource} contentRender={CardRender} />
+          </div>
+        )}
       </Holder>
       <AddonDetailDrawer
         closeDrawer={closeDrawer}
@@ -321,4 +333,3 @@ export const AddonCards = (props: IProps) => {
     </>
   );
 };
-

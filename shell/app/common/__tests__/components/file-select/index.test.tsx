@@ -21,13 +21,7 @@ describe('FileSelect', () => {
   it('FileSelect should work well', () => {
     const fn = jest.fn();
     const beforeUpload = jest.fn();
-    const wrapper = mount(
-      <FileSelect
-        visible
-        onChange={fn}
-        beforeUpload={beforeUpload}
-      />,
-    );
+    const wrapper = mount(<FileSelect visible onChange={fn} beforeUpload={beforeUpload} />);
     wrapper.find('input').simulate('change', {
       target: {
         files: [{ file: 'foo.png', name: 'foo.png' }],

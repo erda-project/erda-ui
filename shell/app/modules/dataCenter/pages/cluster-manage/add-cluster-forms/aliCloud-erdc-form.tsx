@@ -25,7 +25,7 @@ import orgStore from 'app/org-home/stores/org';
 
 interface IProps {
   onClose: () => void;
-  onSubmit: ({ recordID }: {recordID: string}) => void;
+  onSubmit: ({ recordID }: { recordID: string }) => void;
   visible: boolean;
 }
 
@@ -92,11 +92,12 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
       required: true,
       defaultValue: get(clusterSpecMap.erdc, 'prod.value'),
       dataSource: {
-        static: () => map(clusterSpecMap.erdc, ({ name, value }) => (
-          <Radio.Button key={value} value={value}>
-            {name}
-          </Radio.Button>
-        )),
+        static: () =>
+          map(clusterSpecMap.erdc, ({ name, value }) => (
+            <Radio.Button key={value} value={value}>
+              {name}
+            </Radio.Button>
+          )),
       },
     },
     {

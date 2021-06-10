@@ -13,7 +13,7 @@
 
 import { isEmpty, get, mapKeys } from 'lodash';
 
-interface IProps{
+interface IProps {
   [pro: string]: any;
   chosenAppGroup: any;
   appGroup: {
@@ -23,7 +23,7 @@ interface IProps{
   chosenApp: any;
 }
 
-export const getFilterParams = (props: IProps, { type, prefix }: {type: string; prefix: string}) => {
+export const getFilterParams = (props: IProps, { type, prefix }: { type: string; prefix: string }) => {
   const { chosenAppGroup, appGroup } = props;
 
   const appGroupLoading = appGroup[type] && appGroup[type].loading === false;

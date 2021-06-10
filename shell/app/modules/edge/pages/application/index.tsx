@@ -18,10 +18,7 @@ import { useUpdate } from 'common';
 import { MonitorDrawer } from '../components/monitor-drawer';
 
 const applicationList = () => {
-  const [{
-    monitorVisible,
-    chosenSite,
-  }, updater] = useUpdate({
+  const [{ monitorVisible, chosenSite }, updater] = useUpdate({
     monitorVisible: false,
     chosenSite: {} as MACHINE_MANAGE.IMonitorInfo,
   });
@@ -34,24 +31,19 @@ const applicationList = () => {
         scenarioType="edge-application"
         useMock={location.search.includes('useMock') ? useMock : undefined}
       />
-      {
-        !isEmpty(chosenSite) ? (
-          <MonitorDrawer
-            data={chosenSite}
-            visible={monitorVisible}
-            onClose={() => updater.monitorVisible(false)}
-          />
-        ) : null
-      }
+      {!isEmpty(chosenSite) ? (
+        <MonitorDrawer data={chosenSite} visible={monitorVisible} onClose={() => updater.monitorVisible(false)} />
+      ) : null}
     </div>
   );
 };
 
-const useMock = (payload: Record<string, any>) => new Promise((resolve) => {
-  setTimeout(() => {
-    resolve(getMock(payload));
-  }, 100);
-});
+const useMock = (payload: Record<string, any>) =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(getMock(payload));
+    }, 100);
+  });
 
 const getMock = (payload?: Record<string, any>) => {
   // console.clear();
@@ -104,9 +96,7 @@ const formFields = [
       ],
       allowClear: true,
     },
-    removeWhen: [
-      [{ field: 'deployResource', operator: '=', value: 'MIDDLEWARE' }],
-    ],
+    removeWhen: [[{ field: 'deployResource', operator: '=', value: 'MIDDLEWARE' }]],
   },
   {
     key: 'middlewareType',
@@ -115,14 +105,10 @@ const formFields = [
     required: true,
     componentProps: {
       placeholder: '请选择中间件类型',
-      options: [
-        { name: 'MYSQL', value: 'MYSQL' },
-      ],
+      options: [{ name: 'MYSQL', value: 'MYSQL' }],
       disabled: false,
     },
-    removeWhen: [
-      [{ field: 'deployResource', operator: '=', value: 'MIRROR' }],
-    ],
+    removeWhen: [[{ field: 'deployResource', operator: '=', value: 'MIRROR' }]],
   },
   {
     key: 'cluster',
@@ -186,9 +172,7 @@ const formFields = [
       disabled: false,
       allowClear: true,
     },
-    removeWhen: [
-      [{ field: 'deployResource', operator: '=', value: 'MIDDLEWARE' }],
-    ],
+    removeWhen: [[{ field: 'deployResource', operator: '=', value: 'MIDDLEWARE' }]],
   },
   {
     key: 'copyNum',
@@ -200,9 +184,7 @@ const formFields = [
       precision: 0,
       disabled: false,
     },
-    removeWhen: [
-      [{ field: 'deployResource', operator: '=', value: 'MIDDLEWARE' }],
-    ],
+    removeWhen: [[{ field: 'deployResource', operator: '=', value: 'MIDDLEWARE' }]],
   },
   {
     label: '',
@@ -216,9 +198,7 @@ const formFields = [
       disabled: false,
       direction: 'row',
     },
-    removeWhen: [
-      [{ field: 'deployResource', operator: '=', value: 'MIDDLEWARE' }],
-    ],
+    removeWhen: [[{ field: 'deployResource', operator: '=', value: 'MIDDLEWARE' }]],
   },
   {
     label: 'cpu需求(核)',
@@ -262,9 +242,7 @@ const formFields = [
       title: '镜像配置',
       direction: 'row',
     },
-    removeWhen: [
-      [{ field: 'deployResource', operator: '=', value: 'MIDDLEWARE' }],
-    ],
+    removeWhen: [[{ field: 'deployResource', operator: '=', value: 'MIDDLEWARE' }]],
   },
   {
     label: '镜像地址',
@@ -310,9 +288,7 @@ const formFields = [
       direction: 'row',
       title: '健康检查配置',
     },
-    removeWhen: [
-      [{ field: 'deployResource', operator: '=', value: 'MIDDLEWARE' }],
-    ],
+    removeWhen: [[{ field: 'deployResource', operator: '=', value: 'MIDDLEWARE' }]],
   },
   {
     key: 'healthCheckConfig.healthCheckType',
@@ -340,9 +316,7 @@ const formFields = [
       placeholder: '请输入健康检查命令',
       disabled: false,
     },
-    removeWhen: [
-      [{ field: 'healthCheckConfig.healthCheckType', operator: '=', value: 'HTTP' }],
-    ],
+    removeWhen: [[{ field: 'healthCheckConfig.healthCheckType', operator: '=', value: 'HTTP' }]],
   },
   {
     label: '检查路径',
@@ -355,9 +329,7 @@ const formFields = [
       maxLength: 50,
       disabled: false,
     },
-    removeWhen: [
-      [{ field: 'healthCheckConfig.healthCheckType', operator: '=', value: 'COMMAND' }],
-    ],
+    removeWhen: [[{ field: 'healthCheckConfig.healthCheckType', operator: '=', value: 'COMMAND' }]],
   },
   {
     label: '端口',
@@ -371,9 +343,7 @@ const formFields = [
       precision: 0,
       className: 'full-width',
     },
-    removeWhen: [
-      [{ field: 'healthCheckConfig.healthCheckType', operator: '=', value: 'COMMAND' }],
-    ],
+    removeWhen: [[{ field: 'healthCheckConfig.healthCheckType', operator: '=', value: 'COMMAND' }]],
   },
   {
     label: '',
@@ -388,9 +358,7 @@ const formFields = [
       title: '端口映射',
       disabled: false,
     },
-    removeWhen: [
-      [{ field: 'deployResource', operator: '=', value: 'MIDDLEWARE' }],
-    ],
+    removeWhen: [[{ field: 'deployResource', operator: '=', value: 'MIDDLEWARE' }]],
   },
   {
     label: '映射规则 (协议-容器端口-服务端口)',
@@ -640,7 +608,8 @@ const mock: CONFIG_PAGE.RenderConfig = {
               valueName: {
                 renderType: 'copyText',
                 value: {
-                  text: 'post', copyText: 'post',
+                  text: 'post',
+                  copyText: 'post',
                 },
               },
             },
@@ -649,7 +618,8 @@ const mock: CONFIG_PAGE.RenderConfig = {
               valueName: {
                 renderType: 'copyText',
                 value: {
-                  text: 'terminus', copyText: 'terminus',
+                  text: 'terminus',
+                  copyText: 'terminus',
                 },
               },
             },
@@ -659,7 +629,11 @@ const mock: CONFIG_PAGE.RenderConfig = {
       addAppButton: {
         type: 'Button',
         operations: {
-          click: { key: 'addApp', reload: false, command: { key: 'set', state: { visible: true }, target: 'addAppDrawer' } },
+          click: {
+            key: 'addApp',
+            reload: false,
+            command: { key: 'set', state: { visible: true }, target: 'addAppDrawer' },
+          },
         },
         props: {
           text: '发布应用',

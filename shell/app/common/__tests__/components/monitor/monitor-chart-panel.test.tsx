@@ -19,15 +19,11 @@ import { act } from 'react-dom/test-utils';
 
 describe('MonitorChartPanel', () => {
   it('render without resourceType', () => {
-    const wrapper = shallow(
-      <MonitorChartPanel resourceId="A" defaultTime={1} />,
-    );
+    const wrapper = shallow(<MonitorChartPanel resourceId="A" defaultTime={1} />);
     expect(wrapper).toBeEmptyRender();
   });
   it('render without resourceId', () => {
-    const wrapper = shallow(
-      <MonitorChartPanel resourceType="A" />,
-    );
+    const wrapper = shallow(<MonitorChartPanel resourceType="A" />);
     expect(wrapper).toBeEmptyRender();
   });
   it('render with metrics length less than 4', () => {
@@ -37,9 +33,7 @@ describe('MonitorChartPanel', () => {
       c: { name: 'c' },
       d: { name: 'd' },
     };
-    const wrapper = shallow(
-      <MonitorChartPanel resourceType="a" resourceId="a" metrics={metrics} />,
-    );
+    const wrapper = shallow(<MonitorChartPanel resourceType="a" resourceId="a" metrics={metrics} />);
     expect(wrapper.find('MonitorChart')).toHaveLength(4);
     expect(wrapper.find('IF').prop('check')).toBeFalsy();
   });
@@ -55,9 +49,7 @@ describe('MonitorChartPanel', () => {
       h: { name: 'h' },
       i: { name: 'i' },
     };
-    const wrapper = shallow(
-      <MonitorChartPanel resourceType="a" resourceId="a" metrics={metrics} />,
-    );
+    const wrapper = shallow(<MonitorChartPanel resourceType="a" resourceId="a" metrics={metrics} />);
     expect(wrapper.find('MonitorChart')).toHaveLength(4);
     expect(wrapper.find('IF').prop('check')).toBeTruthy();
     act(() => {

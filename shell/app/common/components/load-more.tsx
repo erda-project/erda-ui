@@ -95,7 +95,8 @@ export class LoadMore extends React.Component<IProps> {
     }
 
     // 每次请求完成且渲染后，checkHeight
-    if (!this.props.isLoading && prevProps.isLoading && this.props.hasMore) { // fix issue when initialLoad is false and screen is too big and hasMore is true, but only one page displayed.
+    if (!this.props.isLoading && prevProps.isLoading && this.props.hasMore) {
+      // fix issue when initialLoad is false and screen is too big and hasMore is true, but only one page displayed.
       this.checkHeight();
     }
   }
@@ -125,8 +126,10 @@ export class LoadMore extends React.Component<IProps> {
   };
 
   render() {
-    return this.props.isLoading
-      ? <Spin tip={`${i18n.t('loading')}...`}><div style={{ minHeight: '60px' }} /></Spin>
-      : null;
+    return this.props.isLoading ? (
+      <Spin tip={`${i18n.t('loading')}...`}>
+        <div style={{ minHeight: '60px' }} />
+      </Spin>
+    ) : null;
   }
 }

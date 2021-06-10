@@ -95,7 +95,7 @@
     }
 
     &.sub-machine-group {
-      background: rgba($black, .04);
+      background: rgba($black, 0.04);
     }
 
     .group-title {
@@ -122,7 +122,7 @@
   align-items: center;
   color: $color-text-sub;
   font-size: $p12;
-  
+
   &:hover {
     color: $color-primary !important;
     cursor: pointer;
@@ -161,8 +161,8 @@
     right: 0;
     bottom: 0;
     left: 0;
-    content: "";
-    background: rgba(#fafafa, .96);
+    content: '';
+    background: rgba(#fafafa, 0.96);
   }
 
   @mixin column($list...) {
@@ -183,7 +183,7 @@
     height: 20px;
     border: 1px solid transparent;
     border-radius: $radius;
-    transition: .2s;
+    transition: 0.2s;
 
     &:hover {
       z-index: 1;
@@ -221,7 +221,7 @@
       font-size: 12px;
       background: $black;
       border-radius: 20px;
-      transform: scale(.8);
+      transform: scale(0.8);
       cursor: pointer;
     }
   }

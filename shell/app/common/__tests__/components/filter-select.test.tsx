@@ -38,15 +38,7 @@ const options = [
 describe('FileSelect', () => {
   it('render with empty options', () => {
     const initFetchFn = jest.fn();
-    const wrapper = mount(
-      <FilterSelect
-        multiple
-        value={[1, 2]}
-        options={[]}
-        fetching
-        initFetch={initFetchFn}
-      />,
-    );
+    const wrapper = mount(<FilterSelect multiple value={[1, 2]} options={[]} fetching initFetch={initFetchFn} />);
     expect(initFetchFn).toHaveBeenCalled();
     expect(wrapper.find('Select').at(0).prop('notFoundContent')).toBeTruthy();
     wrapper.setProps({
@@ -55,14 +47,7 @@ describe('FileSelect', () => {
     expect(wrapper.find('Select').at(0).prop('notFoundContent')).toBeNull();
   });
   it('render with options', () => {
-    const wrapper = mount(
-      <FilterSelect
-        multiple={false}
-        value={options[0].value}
-        options={options}
-        fetching
-      />,
-    );
+    const wrapper = mount(<FilterSelect multiple={false} value={options[0].value} options={options} fetching />);
     wrapper.find('Select').at(0).prop('onSearch')(options[1].text);
     expect(wrapper.state().filteredList).toHaveLength(1);
     wrapper.find('Select').at(0).prop('onSearch')('');

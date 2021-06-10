@@ -12,13 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import {
-  Menu,
-  Dropdown,
-  Input,
-  DatePicker,
-  Checkbox,
-} from 'app/nusi';
+import { Menu, Dropdown, Input, DatePicker, Checkbox } from 'app/nusi';
 import { Icon as CustomIcon, MemberSelector } from 'common';
 import moment, { Moment } from 'moment';
 import { useUpdateEffect, useMount } from 'react-use';
@@ -57,7 +51,7 @@ interface IFilterItemProps {
   value: any;
   active: boolean;
   onVisibleChange: (visible: boolean) => void;
-  onChange: (data: { key: string; value: any }) => void;
+  onChange: (data: { key: string; value: any }, extra?: { forceChange?: boolean }) => void;
   onQuickSelect: (data: { key: string; value: any }) => void;
 }
 
@@ -78,18 +72,25 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
   const [inputVal, setInputVal] = React.useState(value);
   // const inputRef = React.useRef(null);
 
+  const debouncedChange = React.useRef(debounce(onChange, 500));
+
+  useUpdateEffect(() => {
+    debouncedChange?.current({ key, value: inputVal }, { forceChange: true });
+  }, [inputVal]);
+
   if (type === 'input') {
     return (
       <Input
         // autoFocus // 默认全部展示，不需要自动获取焦点
         value={inputVal}
         size="small"
+        allowClear
         // ref={inputRef}
         prefix={<CustomIcon type="search" />}
         placeholder={placeholder || i18n.t('press enter to search')}
         // onPressEnter={() => inputRef.current?.blur()}
         onChange={(e) => setInputVal(e.target.value)}
-        onPressEnter={() => onChange({ key, value: inputVal })}
+        // onPressEnter={() => onChange({ key, value: inputVal })}
       />
     );
   }
@@ -99,56 +100,58 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
     const _options = options || [];
     const { mode = 'multiple' } = customProps || {};
     const isSigleMode = mode === 'single';
-    const valueText = _options
-      .filter((a) => _value.includes(a.value))
-      .map((a) => a.label)
-      .join(',') || emptyText;
+    const valueText =
+      _options
+        .filter((a) => _value.includes(a.value))
+        .map((a) => a.label)
+        .join(',') || emptyText;
     const ops = (
       <Menu>
-        {haveFilter && (
-          [
-            <Menu.Item key="search-item">
-              <Input
-                autoFocus
-                size="small"
-                placeholder={i18n.t('common:search')}
-                prefix={<CustomIcon type="search" />}
-                value={filterMap[key]}
-                onChange={(e) => {
-                  const v = e.target.value;
-                  setFilterMap((prev) => {
-                    return {
-                      ...prev,
-                      [key]: v.toLowerCase(),
-                    };
-                  });
-                }}
-              />
-            </Menu.Item>,
-            <Menu.Divider key="divider1" />,
-          ]
-        )}
-        {
-          !isSigleMode && ( // 单选模式下不展示已选择n项
-            [
-              <Menu.Item key="select-info" className="flex-box not-select px6 py0">
-                <span>{i18n.t('common:selected')} {_value.length} {i18n.t('common:items')}</span>
-                <span className="fake-link ml8" onClick={() => onChange({ key, value: undefined })}>{i18n.t('common:clear select')}</span>
-              </Menu.Item>,
-              <Menu.Divider key="divider2" />,
-            ]
-          )
-        }
-        {
-          quickSelect && !isEmpty(quickSelect) ? (
-            [
+        {haveFilter && [
+          <Menu.Item key="search-item">
+            <Input
+              autoFocus
+              size="small"
+              placeholder={i18n.t('common:search')}
+              prefix={<CustomIcon type="search" />}
+              value={filterMap[key]}
+              onChange={(e) => {
+                const v = e.target.value;
+                setFilterMap((prev) => {
+                  return {
+                    ...prev,
+                    [key]: v.toLowerCase(),
+                  };
+                });
+              }}
+            />
+          </Menu.Item>,
+          <Menu.Divider key="divider1" />,
+        ]}
+        {!isSigleMode && [ // 单选模式下不展示已选择n项
+          <Menu.Item key="select-info" className="flex-box not-select px6 py0">
+            <span>
+              {i18n.t('common:selected')} {_value.length} {i18n.t('common:items')}
+            </span>
+            <span className="fake-link ml8" onClick={() => onChange({ key, value: undefined })}>
+              {i18n.t('common:clear select')}
+            </span>
+          </Menu.Item>,
+          <Menu.Divider key="divider2" />,
+        ]}
+        {quickSelect && !isEmpty(quickSelect)
+          ? [
               <Menu.Item key="quick-select-menu-item">
-                <span className="fake-link flex-box" onClick={() => onQuickSelect({ key: quickSelect.operationKey, value: itemData })}>{quickSelect.label}</span>
+                <span
+                  className="fake-link flex-box"
+                  onClick={() => onQuickSelect({ key: quickSelect.operationKey, value: itemData })}
+                >
+                  {quickSelect.label}
+                </span>
               </Menu.Item>,
               <Menu.Divider key="divider3" />,
             ]
-          ) : null
-        }
+          : null}
         <Menu.Item key="options" className="pa0 options-container">
           {_options.map((op) => {
             if (filterMap[key] && !String(op.label).toLowerCase().includes(filterMap[key])) {
@@ -210,17 +213,30 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
     const { borderTime } = customProps || {};
 
     const disabledDate = (isStart: boolean) => (current: Moment | undefined) => {
-      return !!current && (
-        isStart
-          ? (endDate ? (borderTime ? current.startOf('dates') : current) > moment(endDate) : false)
-          : (startDate ? (borderTime ? current.endOf('dates') : current) < moment(startDate) : false)
+      return (
+        !!current &&
+        (isStart
+          ? endDate
+            ? (borderTime ? current.startOf('dates') : current) > moment(endDate)
+            : false
+          : startDate
+          ? (borderTime ? current.endOf('dates') : current) < moment(startDate)
+          : false)
       );
     };
 
     const getTimeValue = (v: any[]) => {
       if (borderTime) {
-        const startVal = v[0] ? moment(isString(v[0]) ? +v[0] : v[0]).startOf('dates').valueOf() : v[0];
-        const endVal = v[1] ? moment(isString(v[1]) ? +v[1] : v[1]).endOf('dates').valueOf() : v[1];
+        const startVal = v[0]
+          ? moment(isString(v[0]) ? +v[0] : v[0])
+              .startOf('dates')
+              .valueOf()
+          : v[0];
+        const endVal = v[1]
+          ? moment(isString(v[1]) ? +v[1] : v[1])
+              .endOf('dates')
+              .valueOf()
+          : v[1];
         return [startVal, endVal];
       }
       return v;
@@ -262,7 +278,8 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
               memberSelectorRef.current.show();
             }
           }}
-        >{usersText}
+        >
+          {usersText}
         </span>
       );
     };
@@ -277,7 +294,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
       >
         <span className="color-text-desc mr2">{label}</span>
         <MemberSelector
-          {...(customProps || {}) as any}
+          {...((customProps || {}) as any)}
           onChange={(v) => {
             onChange({ key, value: v });
           }}
@@ -298,7 +315,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
   return null;
 };
 
-const noop = () => { };
+const noop = () => {};
 interface ContractiveFilterProps {
   initValue?: Obj; // 初始化
   values?: Obj; // 完全受控
@@ -329,7 +346,7 @@ const getInitConditions = (conditions: ICondition[], valueMap: Obj) => {
   const reConditions = map(conditions, (item) => {
     const curValue = valueMap[item.key];
     // 有值默认展示
-    if ((curValue !== undefined || (isArray(curValue) && !isEmpty(curValue)))) {
+    if (curValue !== undefined || (isArray(curValue) && !isEmpty(curValue))) {
       curMax += 1;
       return { ...item, showIndex: curMax };
     }
@@ -338,8 +355,20 @@ const getInitConditions = (conditions: ICondition[], valueMap: Obj) => {
   return reConditions;
 };
 
-export const ContractiveFilter = ({ initValue, values, conditions: propsConditions, delay, visible = true, onChange, onQuickSelect = noop, onConditionsChange = noop, fullWidth = false }: ContractiveFilterProps) => {
-  const [conditions, setConditions] = React.useState(getInitConditions(propsConditions || [], values || initValue || {}));
+export const ContractiveFilter = ({
+  initValue,
+  values,
+  conditions: propsConditions,
+  delay,
+  visible = true,
+  onChange,
+  onQuickSelect = noop,
+  onConditionsChange = noop,
+  fullWidth = false,
+}: ContractiveFilterProps) => {
+  const [conditions, setConditions] = React.useState(
+    getInitConditions(propsConditions || [], values || initValue || {}),
+  );
   const [hideFilterKey, setHideFilterKey] = React.useState('');
   const [closeAll, setCloseAll] = React.useState(false);
   const [valueMap, setValueMap] = React.useState(values || initValue || {});
@@ -355,10 +384,7 @@ export const ContractiveFilter = ({ initValue, values, conditions: propsConditio
 
   // 当从props传进来的conditions变化时调用setConditions
   React.useEffect(() => {
-    const preShowIndexMap = conditions.reduce(
-      (acc, x) => ({ ...acc, [x.key]: x.showIndex }),
-      {},
-    );
+    const preShowIndexMap = conditions.reduce((acc, x) => ({ ...acc, [x.key]: x.showIndex }), {});
     // 记录已选中的标签项，保留已选中标签项的showIndex
     const keepShowIndexConditions = propsConditions.map((item) => ({
       ...item,
@@ -376,20 +402,12 @@ export const ContractiveFilter = ({ initValue, values, conditions: propsConditio
   React.useEffect(() => {
     // 控制点击外部关闭 dropdown
     const handleCloseDropdown = (e: MouseEvent) => {
-      const wrappers = Array.from(
-        document.querySelectorAll('.contractive-filter-item-wrap'),
-      );
-      const dropdowns = Array.from(
-        document.querySelectorAll('.contractive-filter-item-dropdown'),
-      );
+      const wrappers = Array.from(document.querySelectorAll('.contractive-filter-item-wrap'));
+      const dropdowns = Array.from(document.querySelectorAll('.contractive-filter-item-dropdown'));
 
-      const datePcikers = Array.from(
-        document.querySelectorAll('.contractive-filter-date-picker'),
-      );
+      const datePcikers = Array.from(document.querySelectorAll('.contractive-filter-date-picker'));
       const node = e.target as Node;
-      const inner = wrappers
-        .concat(dropdowns)
-        .some((wrap) => wrap.contains(node));
+      const inner = wrappers.concat(dropdowns).some((wrap) => wrap.contains(node));
       const isDatePicker = datePcikers.some((wrap) => wrap.contains(node));
 
       if (!inner && isDatePicker) {
@@ -400,7 +418,11 @@ export const ContractiveFilter = ({ initValue, values, conditions: propsConditio
     return () => document.body.removeEventListener('click', handleCloseDropdown);
   }, []);
 
-  const handelItemChange = (vals: { key: string; value: any } | Obj, batchChange = false) => {
+  const handelItemChange = (
+    vals: { key: string; value: any } | Obj,
+    extra?: { batchChange?: boolean; forceChange?: boolean },
+  ) => {
+    const { batchChange = false, forceChange = false } = extra || {};
     let curValueMap = { ...valueMap };
     if (batchChange) {
       setValueMap((prev) => {
@@ -420,7 +442,7 @@ export const ContractiveFilter = ({ initValue, values, conditions: propsConditio
       });
       curValueMap = { ...curValueMap, [key]: value };
     }
-    if (delay) {
+    if (delay && !forceChange) {
       debouncedChange.current(curValueMap);
     } else {
       onChange(curValueMap);
@@ -429,13 +451,15 @@ export const ContractiveFilter = ({ initValue, values, conditions: propsConditio
 
   // 清除选中
   const handleClearSelected = () => {
-    setConditions((prev) => map(prev, (pItem) => {
-      if (pItem.fixed || pItem.type === 'input') {
-        return { ...pItem };
-      } else {
-        return { ...pItem, showIndex: 0 };
-      }
-    }));
+    setConditions((prev) =>
+      map(prev, (pItem) => {
+        if (pItem.fixed || pItem.type === 'input') {
+          return { ...pItem };
+        } else {
+          return { ...pItem, showIndex: 0 };
+        }
+      }),
+    );
     const newValueMap = { ...valueMap };
     map(newValueMap, (_v, _k) => {
       const curConditions = conditions[_k] || {};
@@ -443,17 +467,20 @@ export const ContractiveFilter = ({ initValue, values, conditions: propsConditio
         newValueMap[_k] = undefined;
       }
     });
-    handelItemChange(newValueMap, true);
+    handelItemChange(newValueMap, { batchChange: true });
   };
 
-  const showList = sortBy(conditions.filter((a) => {
-    const curValue = valueMap[a.key];
-    // 有值默认展示
-    if (a.type !== 'input' && (curValue !== undefined || (isArray(curValue) && !isEmpty(curValue)))) {
-      return true;
-    }
-    return (a.showIndex || a.fixed) && a.type !== 'input';
-  }), 'showIndex');
+  const showList = sortBy(
+    conditions.filter((a) => {
+      const curValue = valueMap[a.key];
+      // 有值默认展示
+      if (a.type !== 'input' && (curValue !== undefined || (isArray(curValue) && !isEmpty(curValue)))) {
+        return true;
+      }
+      return (a.showIndex || a.fixed) && a.type !== 'input';
+    }),
+    'showIndex',
+  );
 
   return (
     <div className="contractive-filter-bar">
@@ -486,88 +513,85 @@ export const ContractiveFilter = ({ initValue, values, conditions: propsConditio
         </span>
       ))}
 
-      {
-        displayConditionsLen > 0 && (
-          <span className={`contractive-filter-item-wrap ${fullWidth ? 'full-width' : ''}`}>
-            <Dropdown
-              trigger={['click']}
-              overlayClassName="contractive-filter-item-dropdown"
-              overlay={
-                <Menu>
-                  <Menu.Item className="not-select">
-                    <Input
-                      autoFocus
-                      size="small"
-                      prefix={<CustomIcon type="search" />}
-                      onClick={(e) => e.stopPropagation()}
-                      value={hideFilterKey}
-                      onChange={(e) => setHideFilterKey(e.target.value.toLowerCase())}
-                      placeholder={i18n.t('common:Filter conditions')}
-                    />
-                  </Menu.Item>
-                  <Menu.Divider />
-                  <Menu.Item className="not-select px6 py0">
-                    <div className="flex-box">
-                      <span>{i18n.t('common:selected')} {showList.filter((a) => a.fixed !== true).length} {i18n.t('common:items')}</span>
-                      <span className="fake-link" onClick={handleClearSelected}>{i18n.t('common:clear select')}</span>
-                    </div>
-                  </Menu.Item>
-                  <Menu.Divider />
-                  {conditions.map((item) => {
-                    const { key, label, fixed, type } = item;
-                    if (fixed || type === 'input' || !item.label.toLowerCase().includes(hideFilterKey)) {
-                      return null;
+      {displayConditionsLen > 0 && (
+        <span className={`contractive-filter-item-wrap ${fullWidth ? 'full-width' : ''}`}>
+          <Dropdown
+            trigger={['click']}
+            overlayClassName="contractive-filter-item-dropdown"
+            overlay={
+              <Menu>
+                <Menu.Item className="not-select">
+                  <Input
+                    autoFocus
+                    size="small"
+                    prefix={<CustomIcon type="search" />}
+                    onClick={(e) => e.stopPropagation()}
+                    value={hideFilterKey}
+                    onChange={(e) => setHideFilterKey(e.target.value.toLowerCase())}
+                    placeholder={i18n.t('common:Filter conditions')}
+                  />
+                </Menu.Item>
+                <Menu.Divider />
+                <Menu.Item className="not-select px6 py0">
+                  <div className="flex-box">
+                    <span>
+                      {i18n.t('common:selected')} {showList.filter((a) => a.fixed !== true).length}{' '}
+                      {i18n.t('common:items')}
+                    </span>
+                    <span className="fake-link" onClick={handleClearSelected}>
+                      {i18n.t('common:clear select')}
+                    </span>
+                  </div>
+                </Menu.Item>
+                <Menu.Divider />
+                {conditions.map((item) => {
+                  const { key, label, fixed, type } = item;
+                  if (fixed || type === 'input' || !item.label.toLowerCase().includes(hideFilterKey)) {
+                    return null;
+                  }
+                  const handleClick = () => {
+                    const haveShow = !!showList.find((a) => a.key === key);
+                    setConditions(setConditionShowIndex(conditions, item.key, !haveShow));
+                    if (!haveShow) {
+                      setCloseAll(false);
+                      setActiveMap((prev) => ({ ...prev, [item.key]: true }));
                     }
-                    const handleClick = () => {
-                      const haveShow = !!showList.find((a) => a.key === key);
-                      setConditions(setConditionShowIndex(conditions, item.key, !haveShow));
-                      if (!haveShow) {
-                        setCloseAll(false);
-                        setActiveMap((prev) => ({ ...prev, [item.key]: true }));
-                      }
-                    };
-                    return (
-                      <Menu.Item
-                        key={key}
-                        className="option-item"
-                        onClick={handleClick}
-                      >
-                        <Checkbox checked={!!showList.find((a) => a.key === key)} className="mr8" /> {label}
-                      </Menu.Item>
-                    );
-                  })}
-                </Menu>
-              }
-              placement="bottomLeft"
-            >
-              <span className="contractive-filter-item">
-                <CustomIcon type="tj1" className="fz12 mr2 color-text" />
-                <span>{i18n.t('common:filter')}</span>
-                <CustomIcon type="caret-down" />
-              </span>
-            </Dropdown>
-          </span>
-        )
-      }
-
-      {
-        inputList.map((item) => (
-          <span
-            className={`contractive-filter-item-wrap ${fullWidth ? 'full-width' : ''}`}
-            key={item.key}
-            onClick={() => setCloseAll(false)}
+                  };
+                  return (
+                    <Menu.Item key={key} className="option-item" onClick={handleClick}>
+                      <Checkbox checked={!!showList.find((a) => a.key === key)} className="mr8" /> {label}
+                    </Menu.Item>
+                  );
+                })}
+              </Menu>
+            }
+            placement="bottomLeft"
           >
-            <FilterItem
-              itemData={item}
-              value={valueMap[item.key]}
-              active={closeAll ? false : activeMap[item.key]}
-              onVisibleChange={(v) => setActiveMap((prev) => ({ ...prev, [item.key]: v }))}
-              onChange={handelItemChange}
-              onQuickSelect={onQuickSelect}
-            />
-          </span>
-        ))
-      }
+            <span className="contractive-filter-item">
+              <CustomIcon type="tj1" className="fz12 mr2 color-text" />
+              <span>{i18n.t('common:filter')}</span>
+              <CustomIcon type="caret-down" />
+            </span>
+          </Dropdown>
+        </span>
+      )}
+
+      {inputList.map((item) => (
+        <span
+          className={`contractive-filter-item-wrap ${fullWidth ? 'full-width' : ''}`}
+          key={item.key}
+          onClick={() => setCloseAll(false)}
+        >
+          <FilterItem
+            itemData={item}
+            value={valueMap[item.key]}
+            active={closeAll ? false : activeMap[item.key]}
+            onVisibleChange={(v) => setActiveMap((prev) => ({ ...prev, [item.key]: v }))}
+            onChange={handelItemChange}
+            onQuickSelect={onQuickSelect}
+          />
+        </span>
+      ))}
     </div>
   );
 };

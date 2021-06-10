@@ -1,4 +1,4 @@
-@import "../util.scss";
+@import '../util.scss';
 
 .dice-form-modal {
   position: fixed;
@@ -8,7 +8,7 @@
   width: 0%;
   height: 100%;
   border-radius: 5px;
-  transition: width .5s;
+  transition: width 0.5s;
 
   .mask {
     position: fixed;

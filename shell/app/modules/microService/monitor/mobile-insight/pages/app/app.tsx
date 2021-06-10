@@ -17,7 +17,6 @@ import AppMap from './config/chartMap';
 import { TimeSelector } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';
 
-
 const App = () => {
   const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
   const getAllChart = () => {
@@ -27,7 +26,7 @@ const App = () => {
         <AppMap.timeTopN />
         <AppMap.cpmTopN />
         {
-         // <AppMap.slowTrack />
+          // <AppMap.slowTrack />
         }
       </React.Fragment>
     );
@@ -55,11 +54,7 @@ const App = () => {
             <AppMap.sortList />
           </div>
         </Col>
-        <Col span={16}>
-          {
-            chosenSortItem ? getDetailChart() : getAllChart()
-          }
-        </Col>
+        <Col span={16}>{chosenSortItem ? getDetailChart() : getAllChart()}</Col>
       </Row>
     </div>
   );

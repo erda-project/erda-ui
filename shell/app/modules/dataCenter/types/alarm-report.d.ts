@@ -54,7 +54,7 @@ declare namespace COMMON_ALARM_REPORT {
     dashboardBlock: DashboardBlock;
   }
 
-  interface GetAlarmReport{
+  interface GetAlarmReport {
     type: string;
     query: {
       filter_host_ip: string;
@@ -67,7 +67,7 @@ declare namespace COMMON_ALARM_REPORT {
     start: string;
     end: string;
     filter_cluster_name: string;
-    avg?: string[]|string;
+    avg?: string[] | string;
     max?: string;
     group?: string;
   }
@@ -81,7 +81,6 @@ declare namespace COMMON_ALARM_REPORT {
     end: string;
     group: string;
   }
-
 
   interface AlarmReports {
     timer: number;

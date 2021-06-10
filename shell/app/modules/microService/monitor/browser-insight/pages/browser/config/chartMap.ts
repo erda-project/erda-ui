@@ -22,52 +22,54 @@ export const commonAttr = {
   groupId: 'BIBrowser',
 };
 
-const chartMap = merge({
-  sortTab: sortCreator(commonAttr.moduleName, 'sortTab'),
-  sortList: {
-    ...commonAttr,
-    type: 'sortList',
-    chartName: 'sortList',
-  },
-  timeTopN: {
-    titleText: i18n.t('microService:average load time - browser type'),
-    ...commonAttr,
-    chartName: 'timeTopN',
-    viewProps: {
-      unitType: 'TIME',
+const chartMap = merge(
+  {
+    sortTab: sortCreator(commonAttr.moduleName, 'sortTab'),
+    sortList: {
+      ...commonAttr,
+      type: 'sortList',
+      chartName: 'sortList',
+    },
+    timeTopN: {
+      titleText: i18n.t('microService:average load time - browser type'),
+      ...commonAttr,
+      chartName: 'timeTopN',
+      viewProps: {
+        unitType: 'TIME',
+      },
+    },
+    cpmTopN: {
+      titleText: i18n.t('microService:throughput - browser type'),
+      ...commonAttr,
+      chartName: 'cpmTopN',
+      viewProps: {
+        unitType: 'CPM',
+      },
+    },
+    browserPerformanceInterval: {
+      ...commonAttr,
+      chartName: 'performanceInterval',
+      titleText: i18n.t('microService:browser performance trends'),
+    },
+    singleTimeTopN: {
+      titleText: i18n.t('microService:average load time'),
+      ...commonAttr,
+      chartName: 'singleTimeTopN',
+      viewProps: {
+        unitType: 'TIME',
+      },
+    },
+    singleCpmTopN: {
+      titleText: i18n.t('microService:throughput'),
+      ...commonAttr,
+      chartName: 'singleCpmTopN',
+      viewProps: {
+        unitType: 'CPM',
+      },
     },
   },
-  cpmTopN: {
-    titleText: i18n.t('microService:throughput - browser type'),
-    ...commonAttr,
-    chartName: 'cpmTopN',
-    viewProps: {
-      unitType: 'CPM',
-    },
-  },
-  browserPerformanceInterval: {
-    ...commonAttr,
-    chartName: 'performanceInterval',
-    titleText: i18n.t('microService:browser performance trends'),
-  },
-  singleTimeTopN: {
-    titleText: i18n.t('microService:average load time'),
-    ...commonAttr,
-    chartName: 'singleTimeTopN',
-    viewProps: {
-      unitType: 'TIME',
-    },
-  },
-  singleCpmTopN: {
-    titleText: i18n.t('microService:throughput'),
-    ...commonAttr,
-    chartName: 'singleCpmTopN',
-    viewProps: {
-      unitType: 'CPM',
-    },
-  },
-
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   sortTab: sortRender(chartMap.sortTab) as any,
@@ -78,4 +80,3 @@ export default {
   singleTimeTopN: chartRender(chartMap.singleTimeTopN) as any,
   singleCpmTopN: chartRender(chartMap.singleCpmTopN) as any,
 };
-

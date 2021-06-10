@@ -14,7 +14,6 @@
 import { map } from 'lodash';
 import SICommonStore from '../stores/common';
 
-
 export const SITabs = () => {
   const headMenu = SICommonStore.useStore((s) => s.headMenu);
   const showTabs: Array<{ key: string; name: string }> = [];

@@ -34,17 +34,9 @@ const IF = ({ children, check }: any) => {
     }
   });
   if (bool) {
-    return (
-      <>
-        {ifSection}
-      </>
-    );
+    return <>{ifSection}</>;
   } else if (hasElse) {
-    return (
-      <>
-        {elseSection}
-      </>
-    );
+    return <>{elseSection}</>;
   }
   return null;
 };
@@ -58,4 +50,3 @@ function ELSE() {
 ELSE.displayName = 'ELSE';
 
 export { IF };
-

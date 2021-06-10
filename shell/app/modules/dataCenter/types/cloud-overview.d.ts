@@ -19,9 +19,9 @@ declare namespace CLOUD_OVERVIEW {
   type computeSource = 'ECS';
   type networkSource = 'VPC' | 'VSWITCH';
   type storageSource = 'OSS_BUCKET';
-  type cloudServiceSource = 'RDS'| 'ROCKET_MQ' | 'REDIS';
+  type cloudServiceSource = 'RDS' | 'ROCKET_MQ' | 'REDIS';
 
-  interface ResourceTypeData<T>{
+  interface ResourceTypeData<T> {
     resourceTypeData: {
       // @ts-ignore
       [p in T]: {
@@ -43,5 +43,4 @@ declare namespace CLOUD_OVERVIEW {
     time: number[];
     results: any[];
   }
-
 }

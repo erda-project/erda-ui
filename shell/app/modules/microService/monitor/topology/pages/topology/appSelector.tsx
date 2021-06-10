@@ -24,7 +24,7 @@ import './appSelector.scss';
 
 const { Option } = Select;
 
-interface IProps{
+interface IProps {
   changeApp: (args: any) => void;
 }
 
@@ -63,11 +63,11 @@ const AppSelector = (props: IProps) => {
       value={choosenApp}
       onChange={handleChange}
     >
-      {
-        map(appList, ({ id, name }) => (
-          <Option key={`${id}`} value={`${id}`}>{name}</Option>
-        ))
-      }
+      {map(appList, ({ id, name }) => (
+        <Option key={`${id}`} value={`${id}`}>
+          {name}
+        </Option>
+      ))}
     </Select>
   );
 };

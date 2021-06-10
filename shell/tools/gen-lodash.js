@@ -60,7 +60,7 @@ const dealFile = (content, filePath, isEnd) => {
           newContent = newContent.replace(`\n${full}`, '');
         }
       }
-      keys.add(...importPart.split(',').map(item => item.trim()));
+      keys.add(...importPart.split(',').map((item) => item.trim()));
     }
     match = reg.exec(content);
   }
@@ -90,7 +90,6 @@ export {${str}
     });
   }
 };
-
 
 walker({
   root: path.resolve(__dirname, '../app'),

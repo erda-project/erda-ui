@@ -14,9 +14,7 @@
 import { AddNode, StartNode, AddRow, PipelineNode, EndNode } from './nodes';
 import { externalKey } from './chart/config';
 
-export {
-  externalKey,
-};
+export { externalKey };
 
 export enum NodeType {
   addNode = 'addNode',
@@ -52,4 +50,3 @@ export const CHART_NODE_SIZE = {
     HEIGHT: 32,
   },
 };
-

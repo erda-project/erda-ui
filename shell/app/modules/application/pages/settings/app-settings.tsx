@@ -68,7 +68,9 @@ export const PureAppSettings = () => {
                   desc: (
                     <div>
                       {i18n.t('edit members, set member roles, role permissions please refer to')}
-                      <Link to={goTo.resolve.perm({ scope: 'app' })} target="_blank">{i18n.t('role permissions description')}</Link>
+                      <Link to={goTo.resolve.perm({ scope: 'app' })} target="_blank">
+                        {i18n.t('role permissions description')}
+                      </Link>
                     </div>
                   ),
                   children: <MembersTable scopeKey={MemberScope.APP} />,
@@ -106,11 +108,13 @@ export const PureAppSettings = () => {
           tabKey: 'branchRule',
           content: (
             <ConfigLayout
-              sectionList={[{
-                title: i18n.t('application:application branch rule'),
-                desc: i18n.t('application:application-branch-rule-desc'),
-                children: <BranchRule operationAuth={branchRuleOperation} scopeId={+params.appId} scopeType="app" />,
-              }]}
+              sectionList={[
+                {
+                  title: i18n.t('application:application branch rule'),
+                  desc: i18n.t('application:application-branch-rule-desc'),
+                  children: <BranchRule operationAuth={branchRuleOperation} scopeId={+params.appId} scopeType="app" />,
+                },
+              ]}
             />
           ),
         },
@@ -182,7 +186,12 @@ export const PureAppSettings = () => {
               sectionList={[
                 {
                   title: i18n.t('application:help you better organize your notifications'),
-                  children: <NotifyConfig memberStore={memberStore} commonPayload={{ scopeType: 'app', scopeId: params.appId, module: 'workbench' }} />,
+                  children: (
+                    <NotifyConfig
+                      memberStore={memberStore}
+                      commonPayload={{ scopeType: 'app', scopeId: params.appId, module: 'workbench' }}
+                    />
+                  ),
                 },
               ]}
             />
@@ -196,7 +205,12 @@ export const PureAppSettings = () => {
               sectionList={[
                 {
                   title: i18n.t('application:organize notification groups to set up notifications'),
-                  children: <NotifyGroup memberStore={memberStore} commonPayload={{ scopeType: 'app', scopeId: params.appId }} />,
+                  children: (
+                    <NotifyGroup
+                      memberStore={memberStore}
+                      commonPayload={{ scopeType: 'app', scopeId: params.appId }}
+                    />
+                  ),
                 },
               ]}
             />
@@ -240,33 +254,36 @@ export const PureAppSettings = () => {
           },
         ];
         if ([appMode.MOBILE].includes(get(appDetail, 'mode'))) {
-          list.push({
-            tabTitle: i18n.t('application:subscribe module'),
-            tabKey: 'libraryImport',
-            content: (
-              <ConfigLayout
-                sectionList={[
-                  {
-                    title: i18n.t('application:refer-to-market'),
-                    children: <LibraryImport />,
-                  },
-                ]}
-              />
-            ),
-          }, {
-            tabTitle: i18n.t('application:reference certificate'),
-            tabKey: 'certificateImport',
-            content: (
-              <ConfigLayout
-                sectionList={[
-                  {
-                    title: i18n.t('application:apply-reference-certificate'),
-                    children: <CertificateImport />,
-                  },
-                ]}
-              />
-            ),
-          });
+          list.push(
+            {
+              tabTitle: i18n.t('application:subscribe module'),
+              tabKey: 'libraryImport',
+              content: (
+                <ConfigLayout
+                  sectionList={[
+                    {
+                      title: i18n.t('application:refer-to-market'),
+                      children: <LibraryImport />,
+                    },
+                  ]}
+                />
+              ),
+            },
+            {
+              tabTitle: i18n.t('application:reference certificate'),
+              tabKey: 'certificateImport',
+              content: (
+                <ConfigLayout
+                  sectionList={[
+                    {
+                      title: i18n.t('application:apply-reference-certificate'),
+                      children: <CertificateImport />,
+                    },
+                  ]}
+                />
+              ),
+            },
+          );
         }
         return list;
       })(),
@@ -275,15 +292,10 @@ export const PureAppSettings = () => {
   let dataSource = settingSource;
   if (!isEmpty(appDetail)) {
     const { mode } = appDetail;
-    dataSource = settingSource.filter((item) => (showMap[mode].includes(item.groupKey)));
+    dataSource = settingSource.filter((item) => showMap[mode].includes(item.groupKey));
   }
 
-  return (
-    <SettingsTabs
-      className="app-settings-main"
-      dataSource={dataSource}
-    />
-  );
+  return <SettingsTabs className="app-settings-main" dataSource={dataSource} />;
 };
 
 export default PureAppSettings;

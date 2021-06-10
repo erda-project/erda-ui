@@ -68,7 +68,10 @@ export default class OverviewReportGaugeChart extends React.Component {
           },
           axisLine: {
             lineStyle: {
-              color: [[rate / 100, rate < 50 ? '#F44638' : '#308DFF'], [1, '#E0E0E0']],
+              color: [
+                [rate / 100, rate < 50 ? '#F44638' : '#308DFF'],
+                [1, '#E0E0E0'],
+              ],
               width: 20,
             },
           },

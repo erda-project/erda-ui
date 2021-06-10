@@ -21,10 +21,10 @@ import { config as dataStaticConfig } from './data-static';
 import { config as dataDynamicConfig } from './data-dynamic';
 import { config as customDefinedConfig } from './custom-defined';
 
-
 // 有formConfig,对外提供选择
 import { config as inputConfig, formConfig as inputFormConfig } from './input';
 import { config as selectConfig, formConfig as selectFormConfig } from './select';
+import { config as inputSelectConfig, formConfig as inputSelectFormConfig } from './input-select';
 import { config as switchConfig, formConfig as switchFormConfig } from './switch';
 import { config as textareaConfig, formConfig as textareaFormConfig } from './textarea';
 import { config as inputNumberConfig, formConfig as inputNumberFormConfig } from './inputNumber';
@@ -57,6 +57,7 @@ export const components = [
   checkboxConfig,
   customConfig,
   datePickerConfig,
+  inputSelectConfig,
   customDefinedConfig,
   arrayObjConfig,
   inputArrayConfig,
@@ -74,6 +75,7 @@ export const componentFormConfig = {
   ...radioFormConfig,
   ...checkboxFormConfig,
   ...datePickerFormConfig,
+  ...inputSelectFormConfig,
   ...customFormConfig,
   ...arrayObjFormConfig,
   ...inputArrayFormConfig,

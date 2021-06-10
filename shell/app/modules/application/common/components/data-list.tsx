@@ -23,14 +23,14 @@ import './data-list.scss';
 
 interface IProps {
   compName: string;
-  businessScope: {businessDomain: any; dataDomains: any[]; marketDomains: any[]};
+  businessScope: { businessDomain: any; dataDomains: any[]; marketDomains: any[] };
   getBusinessScope: Function;
   clearBusinessScope: Function;
   getList: any;
   isFetching: boolean;
   list: any[];
   listPaging: IPaging;
-  pageConfig: {iconType: string; domainName: string; domainPlaceholder: string};
+  pageConfig: { iconType: string; domainName: string; domainPlaceholder: string };
   onItemClick: (params: any) => Function;
 }
 
@@ -45,7 +45,12 @@ const DataList = (props: IProps) => {
   const domainSource = domainName === 'dataDomain' ? dataDomains : marketDomains;
 
   const onSearch = (_event: any, isReset?: boolean) => {
-    getList({ [domainName]: isReset ? undefined : selectedDomain, businessDomain: businessDomain.enName, searchKey: isReset ? '' : searchKey, pageNo: 1 });
+    getList({
+      [domainName]: isReset ? undefined : selectedDomain,
+      businessDomain: businessDomain.enName,
+      searchKey: isReset ? '' : searchKey,
+      pageNo: 1,
+    });
   };
 
   useEffectOnce(() => {
@@ -75,7 +80,8 @@ const DataList = (props: IProps) => {
     setSelectedDomain(value);
   };
 
-  const getDataList = () => { // load more has to return a promise
+  const getDataList = () => {
+    // load more has to return a promise
     return getList({ [domainName]: selectedDomain, businessDomain: businessDomain.enName, searchKey });
   };
 
@@ -83,11 +89,24 @@ const DataList = (props: IProps) => {
     <div className="data-list">
       <section className="header flex-box">
         <div className="header-left">
-          <Select className="data-select" placeholder={i18n.t('application:select a business domain')} value={!isEmpty(businessDomain) ? businessDomain.enName : ''}>
+          <Select
+            className="data-select"
+            placeholder={i18n.t('application:select a business domain')}
+            value={!isEmpty(businessDomain) ? businessDomain.enName : ''}
+          >
             {!isEmpty(businessDomain) && <Option value={businessDomain.enName}>{businessDomain.cnName}</Option>}
           </Select>
-          <Select className="data-select" placeholder={domainPlaceholder} value={selectedDomain} onChange={onSelectDataDomain}>
-            { domainSource.map((domain: any) => <Option key={domain.enName} value={domain.enName}>{domain.cnName}</Option>) }
+          <Select
+            className="data-select"
+            placeholder={domainPlaceholder}
+            value={selectedDomain}
+            onChange={onSelectDataDomain}
+          >
+            {domainSource.map((domain: any) => (
+              <Option key={domain.enName} value={domain.enName}>
+                {domain.cnName}
+              </Option>
+            ))}
           </Select>
           <Input
             className="data-select"
@@ -99,7 +118,9 @@ const DataList = (props: IProps) => {
         </div>
         <div className="header-right">
           <Button onClick={onReset}>{i18n.t('application:reset')}</Button>
-          <Button type="primary" ghost onClick={onSearch}>{i18n.t('search')}</Button>
+          <Button type="primary" ghost onClick={onSearch}>
+            {i18n.t('search')}
+          </Button>
         </div>
       </section>
       <section className="data-list-content">
@@ -111,9 +132,11 @@ const DataList = (props: IProps) => {
                   <li key={item.enName} className="model-item">
                     <div className="item-container" onClick={() => onItemClick(item)}>
                       <div className="item-header">
-                        <CustomIcon type={iconType} /><span>{item.cnName}</span><span>{item.enName}</span>
+                        <CustomIcon type={iconType} />
+                        <span>{item.cnName}</span>
+                        <span>{item.enName}</span>
                       </div>
-                      <div className="item-footer flex-box" >
+                      <div className="item-footer flex-box">
                         <span className="nowrap">{item.desc}</span>
                         <span className="item-table nowrap">{item.table}</span>
                       </div>
@@ -123,12 +146,7 @@ const DataList = (props: IProps) => {
               })}
             </ul>
           </Holder>
-          <LoadMore
-            load={getDataList}
-            hasMore={listPaging.hasMore}
-            initialLoad={false}
-            isLoading={isFetching}
-          />
+          <LoadMore load={getDataList} hasMore={listPaging.hasMore} initialLoad={false} isLoading={isFetching} />
         </Spin>
       </section>
     </div>

@@ -28,15 +28,19 @@ const ClusterManage = () => {
   const list = clusterStore.useStore((s) => s.list);
   const { addCluster, updateCluster, getClusterList } = clusterStore.effects;
   const [loading] = useLoading(clusterStore, ['getClusterList']);
-  const [{ addModalVis,
-    typeSelectorVis,
-    addModalFormData,
-    addClusterType,
-    logRecordId,
-    cloudVendor,
-    aliCloudContainerFormVisible,
-    aliCloudErdcFormVisible,
-  }, updater] = useUpdate({
+  const [
+    {
+      addModalVis,
+      typeSelectorVis,
+      addModalFormData,
+      addClusterType,
+      logRecordId,
+      cloudVendor,
+      aliCloudContainerFormVisible,
+      aliCloudErdcFormVisible,
+    },
+    updater,
+  ] = useUpdate({
     addModalVis: false,
     typeSelectorVis: false,
     addModalFormData: null,
@@ -62,7 +66,8 @@ const ClusterManage = () => {
     updater.typeSelectorVis(!typeSelectorVis);
   };
   const handleSelectType = (addType: string) => {
-    if (['k8s', 'edas', 'dcos'].includes(addType)) { // 导入集群
+    if (['k8s', 'edas', 'dcos'].includes(addType)) {
+      // 导入集群
       updater.addClusterType(addType);
       handleShowAddClusterModal();
     } else if (['alicloud-cs', 'alicloud-cs-managed'].includes(addType)) {
@@ -92,11 +97,11 @@ const ClusterManage = () => {
       addCluster({ ...restData });
     }
   };
-  const handleAddAliCloudContainer = ({ recordID }: {recordID: string}) => {
+  const handleAddAliCloudContainer = ({ recordID }: { recordID: string }) => {
     updater.logRecordId(recordID);
     updater.aliCloudContainerFormVisible(false);
   };
-  const handleAddAliCloudErdc = ({ recordID }: {recordID: string}) => {
+  const handleAddAliCloudErdc = ({ recordID }: { recordID: string }) => {
     updater.logRecordId(recordID);
     updater.aliCloudErdcFormVisible(false);
   };
@@ -105,22 +110,17 @@ const ClusterManage = () => {
     <div className="cluster-manage-ct">
       <Spin spinning={loading}>
         <Holder when={isEmpty(list)}>
-          <ClusterList
-            dataSource={list}
-            onEdit={handleShowAddClusterModal}
-          />
+          <ClusterList dataSource={list} onEdit={handleShowAddClusterModal} />
         </Holder>
       </Spin>
       <div className="top-button-group">
         <Button onClick={() => goTo('./history')}>{i18n.t('org:operation history')}</Button>
-        <Button type="primary" onClick={() => updater.typeSelectorVis(true)}>{i18n.t('org:add cluster')}</Button>
+        <Button type="primary" onClick={() => updater.typeSelectorVis(true)}>
+          {i18n.t('org:add cluster')}
+        </Button>
         {/* <Button type="primary" onClick={() => goTo('./addCluster')}>{i18n.t('org:deploy cluster')}</Button> */}
       </div>
-      <ClusterTypeModal
-        visible={typeSelectorVis}
-        toggleModal={toggleTypeModalVis}
-        onSubmit={handleSelectType}
-      />
+      <ClusterTypeModal visible={typeSelectorVis} toggleModal={toggleTypeModalVis} onSubmit={handleSelectType} />
       <AddClusterModal
         visible={addModalVis}
         initData={addModalFormData}
@@ -129,20 +129,23 @@ const ClusterManage = () => {
         clusterType={addClusterType}
         clusterList={list}
       />
-      <ClusterLog
-        recordID={logRecordId}
-        onClose={() => updater.logRecordId('')}
-      />
+      <ClusterLog recordID={logRecordId} onClose={() => updater.logRecordId('')} />
       <AliCloudContainerForm
         cloudVendor={cloudVendor}
         visible={aliCloudContainerFormVisible}
         onSubmit={handleAddAliCloudContainer}
-        onClose={() => { toggleTypeModalVis(); updater.aliCloudContainerFormVisible(false); }}
+        onClose={() => {
+          toggleTypeModalVis();
+          updater.aliCloudContainerFormVisible(false);
+        }}
       />
       <AliCloudErdcForm
         visible={aliCloudErdcFormVisible}
         onSubmit={handleAddAliCloudErdc}
-        onClose={() => { toggleTypeModalVis(); updater.aliCloudErdcFormVisible(false); }}
+        onClose={() => {
+          toggleTypeModalVis();
+          updater.aliCloudErdcFormVisible(false);
+        }}
       />
     </div>
   );

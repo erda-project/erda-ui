@@ -80,9 +80,7 @@ export const PermTable = (props: IProps) => {
   return (
     <div className="perm-editor-container full-height">
       <div className="perm-head">
-        <div className="head-container column-head">
-          {getPermHead({ columnKeys: permColumnKeys, scope })}
-        </div>
+        <div className="head-container column-head">{getPermHead({ columnKeys: permColumnKeys, scope })}</div>
         <div className="head-container role-head" ref={headScrollRef} onScroll={onHeadScroll}>
           {getPermHead({ columnKeys: roleColumnKeys, scope, curRoleMap })}
         </div>
@@ -122,14 +120,14 @@ export const PermTable = (props: IProps) => {
   );
 };
 
-const getPermHead = (params: {columnKeys: string[]; scope: string; curRoleMap?: Obj}) => {
+const getPermHead = (params: { columnKeys: string[]; scope: string; curRoleMap?: Obj }) => {
   const { columnKeys, scope, curRoleMap = {} } = params;
   return map(columnKeys, (item) => {
     const headText = item.startsWith('depth')
       ? `${+item.slice(5) + 1}级权限`
-      : (item === 'action'
-        ? '权限操作' : get(curRoleMap, `${item.slice(5)}.name`) || '-'
-      );
+      : item === 'action'
+      ? '权限操作'
+      : get(curRoleMap, `${item.slice(5)}.name`) || '-';
     const isRoleHead = item.startsWith('role-');
     let width;
     if (!isRoleHead) {
@@ -141,14 +139,14 @@ const getPermHead = (params: {columnKeys: string[]; scope: string; curRoleMap?: 
       <div className={`column-head-item ${scope}-head-column-${item}`} key={item}>
         <div className={`head-text nowrap head-column-${item}`} style={{ width }}>
           {headText}
-          { roleText ? <div className="fz12">{roleText}</div> : null}
+          {roleText ? <div className="fz12">{roleText}</div> : null}
         </div>
       </div>
     );
   });
 };
 
-interface IGetColumnParmas{
+interface IGetColumnParmas {
   list: any[];
   columnKeys: string[];
   scope: string;
@@ -167,126 +165,153 @@ interface IGetColumnParmas{
   outHover: (arg: string) => void;
 }
 const PermColumn = (props: IGetColumnParmas) => {
-  const { list: tableList, columnKeys, scope, currentData, onHover, outHover, hoverKey = '', isEdit, deleteData = noop, editData = noop, onLoad } = props;
+  const {
+    list: tableList,
+    columnKeys,
+    scope,
+    currentData,
+    onHover,
+    outHover,
+    hoverKey = '',
+    isEdit,
+    deleteData = noop,
+    editData = noop,
+    onLoad,
+  } = props;
   useMount(() => {
     onLoad();
   });
   return (
     <>
-      {
-        map(columnKeys, (curColumnKey, index) => {
-          const list = [] as any[];
-          map(tableList, (item) => {
-            const parentObj = {};
-            const parentKeys = columnKeys.slice(0, findIndex(columnKeys, (k) => k === curColumnKey));
-            map(parentKeys, (pKey) => {
-              parentObj[pKey] = item[pKey];
-            });
-            const curData = { ...item[curColumnKey], data: item, parents: parentObj };
-            const curIndex = findIndex(list, (lItem) => {
-              return lItem.key === curData.key && isEqual(lItem.parents, parentObj);
-            });
-            if (curIndex !== -1) {
-              set(list, `[${curIndex}].count`, list[curIndex].count + 1);
-            } else {
-              list.push({ ...curData, count: 1 });
-            }
-          });
-          const itemKey = `${scope}-perm-column-${curColumnKey}`;
-          return (
-            <div className={'perm-column'} key={itemKey}>
-              {map(list, (item) => {
-                const { count, name, key = blankKey, parents } = item;
-                const dataKey = map(parents, (pItem) => pItem.key || blankKey).concat(key).join('.');
-                const isActive = hoverKey.includes(dataKey);
-                const cls = classnames({
-                  'perm-column-item': true,
-                  'hover-active-item': isActive,
-                });
-                const realDataKey = filter(dataKey.split('.'), (k) => k !== blankKey).join('.');
-                return (
-                  <div
-                    key={`${dataKey}-${name || ''}-${key}`}
-                    className={cls}
-                    style={{ height: 40 * count }}
-                    onMouseEnter={() => onHover(dataKey)}
-                    onMouseLeave={() => outHover(dataKey)}
-                  >
-                    <Tooltip title={name}>
-                      <div className={`nowrap ${itemKey}`}>{ name || '-'}</div>
-                    </Tooltip>
-                    {
-                      (isEdit && key !== blankKey && hoverKey === dataKey) ? (
-                        <div className="perm-operation">
-                          <PermOperation
-                            index={index}
-                            curDataKey={realDataKey}
-                            curColumnKey={curColumnKey}
-                            dataItem={item}
-                            deleteData={deleteData}
-                            editData={editData}
-                            wholeData={currentData}
-                          />
-                        </div>
-                      ) : null
-                    }
-                  </div>
-                );
-              })}
-            </div>
+      {map(columnKeys, (curColumnKey, index) => {
+        const list = [] as any[];
+        map(tableList, (item) => {
+          const parentObj = {};
+          const parentKeys = columnKeys.slice(
+            0,
+            findIndex(columnKeys, (k) => k === curColumnKey),
           );
-        })
-      }
+          map(parentKeys, (pKey) => {
+            parentObj[pKey] = item[pKey];
+          });
+          const curData = { ...item[curColumnKey], data: item, parents: parentObj };
+          const curIndex = findIndex(list, (lItem) => {
+            return lItem.key === curData.key && isEqual(lItem.parents, parentObj);
+          });
+          if (curIndex !== -1) {
+            set(list, `[${curIndex}].count`, list[curIndex].count + 1);
+          } else {
+            list.push({ ...curData, count: 1 });
+          }
+        });
+        const itemKey = `${scope}-perm-column-${curColumnKey}`;
+        return (
+          <div className={'perm-column'} key={itemKey}>
+            {map(list, (item) => {
+              const { count, name, key = blankKey, parents } = item;
+              const dataKey = map(parents, (pItem) => pItem.key || blankKey)
+                .concat(key)
+                .join('.');
+              const isActive = hoverKey.includes(dataKey);
+              const cls = classnames({
+                'perm-column-item': true,
+                'hover-active-item': isActive,
+              });
+              const realDataKey = filter(dataKey.split('.'), (k) => k !== blankKey).join('.');
+              return (
+                <div
+                  key={`${dataKey}-${name || ''}-${key}`}
+                  className={cls}
+                  style={{ height: 40 * count }}
+                  onMouseEnter={() => onHover(dataKey)}
+                  onMouseLeave={() => outHover(dataKey)}
+                >
+                  <Tooltip title={name}>
+                    <div className={`nowrap ${itemKey}`}>{name || '-'}</div>
+                  </Tooltip>
+                  {isEdit && key !== blankKey && hoverKey === dataKey ? (
+                    <div className="perm-operation">
+                      <PermOperation
+                        index={index}
+                        curDataKey={realDataKey}
+                        curColumnKey={curColumnKey}
+                        dataItem={item}
+                        deleteData={deleteData}
+                        editData={editData}
+                        wholeData={currentData}
+                      />
+                    </div>
+                  ) : null}
+                </div>
+              );
+            })}
+          </div>
+        );
+      })}
     </>
   );
 };
 
 const RoleColumn = (props: IGetColumnParmas) => {
-  const { list: tableList, columnKeys, scope, onHover, outHover, hoverKey, permColumnKeys = [], isEdit, onChangeRole = noop, originData, originRoleMap, onLoad } = props;
+  const {
+    list: tableList,
+    columnKeys,
+    scope,
+    onHover,
+    outHover,
+    hoverKey,
+    permColumnKeys = [],
+    isEdit,
+    onChangeRole = noop,
+    originData,
+    originRoleMap,
+    onLoad,
+  } = props;
   useMount(() => {
     onLoad();
   });
   return (
     <>
-      {
-        map(columnKeys, (curColumnKey) => {
-          return (
-            <div className={`perm-column ${scope}-perm-column-${curColumnKey}`} key={curColumnKey}>
-              {
-                map(tableList, (item, idx) => {
-                  const curRoleKey = curColumnKey.slice(5);
-                  const dataKey = map(permColumnKeys, (pKey) => item[pKey].key || blankKey).concat(blankKey).join('.');
-                  const isActive = hoverKey.includes(dataKey);
-                  const isChecked = item.action.role.includes(curRoleKey);
-                  const realDataKey = filter(dataKey.split('.'), (k) => k !== blankKey).join('.');
-                  const cls = classnames({
-                    iconfont: true,
-                    'perm-column-item': true,
-                    'role-column': true,
-                    [`${isEdit ? 'edit' : 'readonly'}-${isChecked ? 'checked' : 'un-checked'}`]: true,
-                    'hover-active-item': isActive,
-                    changed: !get(originRoleMap, `${scope}.${curRoleKey}`) || get(originData, `${realDataKey}`) === undefined || (get(originData, `${realDataKey}.role`) || []).includes(curRoleKey) !== isChecked, // 跟源数据相比，是否改变
-                  });
-                  const eles = document.getElementsByClassName(`${scope}-head-column-${curColumnKey}`);
-                  const width = get(eles, '[0].offsetWidth');
-                  return (
-                    <div
-                      key={`${scope}-perm-column-${curColumnKey}-${idx}`}
-                      className={cls}
-                      style={{ height: 40, width }}
-                      onMouseEnter={() => onHover(dataKey)}
-                      onMouseLeave={() => outHover(dataKey)}
-                      onClick={() => {
-                        isEdit && onChangeRole({ key: realDataKey, role: curRoleKey, checked: !isChecked });
-                      }}
-                    />
-                  );
-                })
-              }
-            </div>
-          );
-        })
-      }
+      {map(columnKeys, (curColumnKey) => {
+        return (
+          <div className={`perm-column ${scope}-perm-column-${curColumnKey}`} key={curColumnKey}>
+            {map(tableList, (item, idx) => {
+              const curRoleKey = curColumnKey.slice(5);
+              const dataKey = map(permColumnKeys, (pKey) => item[pKey].key || blankKey)
+                .concat(blankKey)
+                .join('.');
+              const isActive = hoverKey.includes(dataKey);
+              const isChecked = item.action.role.includes(curRoleKey);
+              const realDataKey = filter(dataKey.split('.'), (k) => k !== blankKey).join('.');
+              const cls = classnames({
+                iconfont: true,
+                'perm-column-item': true,
+                'role-column': true,
+                [`${isEdit ? 'edit' : 'readonly'}-${isChecked ? 'checked' : 'un-checked'}`]: true,
+                'hover-active-item': isActive,
+                changed:
+                  !get(originRoleMap, `${scope}.${curRoleKey}`) ||
+                  get(originData, `${realDataKey}`) === undefined ||
+                  (get(originData, `${realDataKey}.role`) || []).includes(curRoleKey) !== isChecked, // 跟源数据相比，是否改变
+              });
+              const eles = document.getElementsByClassName(`${scope}-head-column-${curColumnKey}`);
+              const width = get(eles, '[0].offsetWidth');
+              return (
+                <div
+                  key={`${scope}-perm-column-${curColumnKey}-${idx}`}
+                  className={cls}
+                  style={{ height: 40, width }}
+                  onMouseEnter={() => onHover(dataKey)}
+                  onMouseLeave={() => outHover(dataKey)}
+                  onClick={() => {
+                    isEdit && onChangeRole({ key: realDataKey, role: curRoleKey, checked: !isChecked });
+                  }}
+                />
+              );
+            })}
+          </div>
+        );
+      })}
     </>
   );
 };
@@ -334,28 +359,35 @@ const PermOperation = (props: IOperationProps) => {
   const addFormRef = React.useRef(null as any);
 
   const handleAddSubmit = (form: any) => {
-    form.validateFields((err: any, values: {addStr: string}) => {
+    form.validateFields((err: any, values: { addStr: string }) => {
       if (!err) {
         const { addStr = '' } = values;
         const permArr = addStr.split('>');
-        const newData = reduce(reverse(permArr), (sumObj, item, idx) => {
-          let reObj = { ...sumObj };
-          if (idx === 0) {
-            const actionStrArr = item.split('');
-            const actions = actionStrArr.slice(1, actionStrArr.length - 1).join('').split(',');
-            const actionObj = {};
-            map(actions, (aItem) => {
-              const [aKey, aName] = aItem.split(':');
-              actionObj[aKey] = { ...actionData, name: aName };
-            });
-            reObj = { ...reObj, ...actionObj };
+        const newData = reduce(
+          reverse(permArr),
+          (sumObj, item, idx) => {
+            let reObj = { ...sumObj };
+            if (idx === 0) {
+              const actionStrArr = item.split('');
+              const actions = actionStrArr
+                .slice(1, actionStrArr.length - 1)
+                .join('')
+                .split(',');
+              const actionObj = {};
+              map(actions, (aItem) => {
+                const [aKey, aName] = aItem.split(':');
+                actionObj[aKey] = { ...actionData, name: aName };
+              });
+              reObj = { ...reObj, ...actionObj };
+              return reObj;
+            } else {
+              const [key, name] = item.split(':');
+              reObj = { [key]: { name, ...reObj } };
+            }
             return reObj;
-          } else {
-            const [key, name] = item.split(':');
-            reObj = { [key]: { name, ...reObj } };
-          }
-          return reObj;
-        }, {});
+          },
+          {},
+        );
         editData({ keyPath: keyArr.join('.'), preKey: curKey, subData: newData });
         setAddFormVis(false);
       }
@@ -380,7 +412,10 @@ const PermOperation = (props: IOperationProps) => {
                   errorTip = addTip;
                 } else {
                   const actionStrArr = strArr[i].split('');
-                  const actions = actionStrArr.slice(1, actionStrArr.length - 1).join('').split(',');
+                  const actions = actionStrArr
+                    .slice(1, actionStrArr.length - 1)
+                    .join('')
+                    .split(',');
                   for (let j = 0, len2 = actions.length; j < len2; j++) {
                     !errorTip && (errorTip = regPermKey(actions[j]));
                   }
@@ -472,32 +507,34 @@ const PermOperation = (props: IOperationProps) => {
     },
   ];
 
-  const deleteOp = index !== 0 ? (
-    <DeleteConfirm
-      key="delete"
-      title="确认删除?"
-      secondTitle={`${curColumnKey !== 'action' ? `删除 (${dataItem.name}), 将会删除其所有关联子权限` : ''}`}
-      onConfirm={() => {
-        deleteData(curDataKey);
-      }}
-    >
-      <CustomIcon className="perm-op-item" type="shanchu" />
-    </DeleteConfirm>
-  ) : null;
+  const deleteOp =
+    index !== 0 ? (
+      <DeleteConfirm
+        key="delete"
+        title="确认删除?"
+        secondTitle={`${curColumnKey !== 'action' ? `删除 (${dataItem.name}), 将会删除其所有关联子权限` : ''}`}
+        onConfirm={() => {
+          deleteData(curDataKey);
+        }}
+      >
+        <CustomIcon className="perm-op-item" type="shanchu" />
+      </DeleteConfirm>
+    ) : null;
 
-  const addOp = curColumnKey !== 'action' ? (
-    <Popover
-      key="add"
-      placement="right"
-      overlayClassName="dice-perm-edit-form add"
-      title="添加"
-      content={<RenderForm ref={addFormRef} list={addFieldList} />}
-      visible={addFormVis}
-      onVisibleChange={setAddFormVis}
-    >
-      <CustomIcon type="cir-add" className="perm-op-item" />
-    </Popover>
-  ) : null;
+  const addOp =
+    curColumnKey !== 'action' ? (
+      <Popover
+        key="add"
+        placement="right"
+        overlayClassName="dice-perm-edit-form add"
+        title="添加"
+        content={<RenderForm ref={addFormRef} list={addFieldList} />}
+        visible={addFormVis}
+        onVisibleChange={setAddFormVis}
+      >
+        <CustomIcon type="cir-add" className="perm-op-item" />
+      </Popover>
+    ) : null;
 
   const editOp = (
     <Popover
@@ -513,9 +550,5 @@ const PermOperation = (props: IOperationProps) => {
     </Popover>
   );
   const optArr = [deleteOp, editOp, addOp];
-  return (
-    <div className="perm-operation-box">
-      {optArr}
-    </div>
-  );
+  return <div className="perm-operation-box">{optArr}</div>;
 };

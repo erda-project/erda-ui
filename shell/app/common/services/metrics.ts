@@ -14,28 +14,43 @@
 import agent from 'agent';
 
 export const listMetricByResourceType = ({ resourceType, query = {} }: METRICS.ChartMetaQuerys): METRICS.ChartMeta => {
-  return agent.get(`/api/spot/chart/meta?type=${resourceType}`)
+  return agent
+    .get(`/api/spot/chart/meta?type=${resourceType}`)
     .query(query)
     .then((response: any) => {
-      return ({ resourceType, metrics: response.body || {} });
+      return { resourceType, metrics: response.body || {} };
     });
 };
 
-export const loadMetricItem = ({ type, resourceType, resourceId, chartQuery, ...rest }: METRICS.LoadMetricItemQuerys): { id: string; data: METRICS.MetricItem } => {
+export const loadMetricItem = ({
+  type,
+  resourceType,
+  resourceId,
+  chartQuery,
+  ...rest
+}: METRICS.LoadMetricItemQuerys): { id: string; data: METRICS.MetricItem } => {
   const { fetchMetricKey, customAPIPrefix, ...query } = chartQuery;
   const apiPrefix = customAPIPrefix || '/api/metrics/charts/';
-  return agent.get(`${apiPrefix}${fetchMetricKey}/histogram`)
+  return agent
+    .get(`${apiPrefix}${fetchMetricKey}/histogram`)
     .query({ ...rest, ...query })
     .then((response: any) => {
-      return ({ id: `${resourceType}-${resourceId}-${type}`, data: response.body });
+      return { id: `${resourceType}-${resourceId}-${type}`, data: response.body };
     });
 };
 
-export const loadGatewayMetricItem = ({ type, resourceType, resourceId, chartQuery, ...rest }: METRICS.GetGateway): METRICS.GatewayData => {
+export const loadGatewayMetricItem = ({
+  type,
+  resourceType,
+  resourceId,
+  chartQuery,
+  ...rest
+}: METRICS.GetGateway): METRICS.GatewayData => {
   const { fetchMetricKey, ...query } = chartQuery;
-  return agent.get(`/api/gateway/openapi/metrics/charts/${fetchMetricKey}/histogram`)
+  return agent
+    .get(`/api/gateway/openapi/metrics/charts/${fetchMetricKey}/histogram`)
     .query({ ...rest, ...query })
     .then((response: any) => {
-      return ({ id: `${resourceType}-${resourceId}-${type}`, data: response.body });
+      return { id: `${resourceType}-${resourceId}-${type}`, data: response.body };
     });
 };

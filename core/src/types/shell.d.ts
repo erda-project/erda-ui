@@ -14,7 +14,7 @@
 declare namespace SHELL {
   interface Route {
     routeQuery?: {
-      [prop: string]: any
+      [prop: string]: any;
     };
     query?: any;
     path: string;

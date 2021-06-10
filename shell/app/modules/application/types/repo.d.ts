@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace REPOSITORY {
-
   interface ITree {
     path: string;
     type: string;
@@ -43,7 +42,6 @@ declare namespace REPOSITORY {
     type: 'blame' | 'raw' | 'blob' | 'tree';
   }
 
-
   interface IInfo {
     [key: string]: any;
     refName: string;
@@ -53,42 +51,39 @@ declare namespace REPOSITORY {
     username: string;
   }
 
-
   interface IMode {
     addFile: boolean;
     editFile: boolean;
     fileBlame: boolean;
   }
 
-
   interface IComment {
-    'id': number;
-    'type': 'diff_note' | 'diff_note_reply' | 'normal';
-    'discussionId': string;
-    'oldCommitId': string;
-    'newCommitId': string;
-    'note': string;
-    'data': {
-      'diffLines': any[];
-      'oldPath': string;
-      'newPath': string;
-      'oldLine': number;
-      'newLine': number;
-      'oldCommitId': string;
-      'newCommitId': string;
+    id: number;
+    type: 'diff_note' | 'diff_note_reply' | 'normal';
+    discussionId: string;
+    oldCommitId: string;
+    newCommitId: string;
+    note: string;
+    data: {
+      diffLines: any[];
+      oldPath: string;
+      newPath: string;
+      oldLine: number;
+      newLine: number;
+      oldCommitId: string;
+      newCommitId: string;
     };
-    'authorId': string;
-    'author': {
+    authorId: string;
+    author: {
       [prop: string]: any;
-      'email': string;
-      'id': number;
-      'nickName': string;
-      'username': string;
+      email: string;
+      id: number;
+      nickName: string;
+      username: string;
     };
-    'createdAt': string;
-    'updatedAt': string;
+    createdAt: string;
+    updatedAt: string;
   }
-
 
   interface IBlob {
     binary: boolean;
@@ -97,13 +92,11 @@ declare namespace REPOSITORY {
     refName: string;
   }
 
-
   interface IBlame {
     commit: ICommit;
     startLineNo: number;
     endLineNo: number;
   }
-
 
   interface ISection {
     lines: Array<{
@@ -113,7 +106,6 @@ declare namespace REPOSITORY {
       type: string;
     }>;
   }
-
 
   interface IFile {
     name: string;
@@ -129,7 +121,6 @@ declare namespace REPOSITORY {
     index: string;
   }
 
-
   interface ICommit {
     id: string;
     author: ICommitter;
@@ -138,13 +129,11 @@ declare namespace REPOSITORY {
     committer: ICommitter;
   }
 
-
   interface ICommitter {
     email: string;
     name: string;
     when: string;
   }
-
 
   interface IMrDetail {
     [prop: string]: any;
@@ -174,7 +163,6 @@ declare namespace REPOSITORY {
     mergeAt: string;
   }
 
-
   interface IBranch {
     id: string;
     name: string;
@@ -189,7 +177,6 @@ declare namespace REPOSITORY {
     branch: string;
     refValue: string;
   }
-
 
   interface CreateTag {
     repoPrefix: string;
@@ -269,7 +256,7 @@ declare namespace REPOSITORY {
 
   type MrStats = Pick<Mr, 'sourceBranch' | 'targetBranch'>;
 
-  type MrType = ('all' | 'open' | 'merged' | 'closed');
+  type MrType = 'all' | 'open' | 'merged' | 'closed';
 
   interface QueryRepoTree {
     force: boolean;

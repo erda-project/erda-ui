@@ -31,7 +31,9 @@ export const ProjectAppList = () => {
     <React.Fragment>
       <div className="top-button-group">
         <WithAuth pass={permMap.addApp} disableMode={false}>
-          <Button type="primary" onClick={() => goTo('./createApp')}>{i18n.t('project:add application')}</Button>
+          <Button type="primary" onClick={() => goTo('./createApp')}>
+            {i18n.t('project:add application')}
+          </Button>
         </WithAuth>
       </div>
       <PureAppList getList={getProjectApps} clearList={clearProjectAppList} isFetching={loading} isInProject />

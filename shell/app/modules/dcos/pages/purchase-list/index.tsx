@@ -120,7 +120,7 @@ class PurchaseList extends React.PureComponent<IProps, IState> {
             );
           } else if (status === 'Skipped') {
             detail = <Badge status="default" text={i18n.t('dcos:success')} />;
-          } else if ((Date.now() - record.createdAt) > (0.5 * 3600 * 1000)) {
+          } else if (Date.now() - record.createdAt > 0.5 * 3600 * 1000) {
             // 超过半小时仍waiting则为超时
             detail = <Badge status="error" text={i18n.t('dcos:jump over')} />;
           }
@@ -146,20 +146,21 @@ class PurchaseList extends React.PureComponent<IProps, IState> {
             [info] = info;
             [config] = config;
           }
-          return <Button disabled={!isSuccess} onClick={() => this.toggleModal(record.info)}>{i18n.t('dcos:add to cluster')}</Button>;
+          return (
+            <Button disabled={!isSuccess} onClick={() => this.toggleModal(record.info)}>
+              {i18n.t('dcos:add to cluster')}
+            </Button>
+          );
         },
       },
     ];
 
     return (
       <div className="purchase-list-table">
-        <Button className="top-button-group mb12" type="primary" onClick={() => goTo('./add')}>{i18n.t('common:add')}</Button>
-        <Table
-          rowKey="createdAt"
-          pagination={false}
-          columns={columns}
-          dataSource={dataSource}
-        />
+        <Button className="top-button-group mb12" type="primary" onClick={() => goTo('./add')}>
+          {i18n.t('common:add')}
+        </Button>
+        <Table rowKey="createdAt" pagination={false} columns={columns} dataSource={dataSource} />
         <AddMachineModal
           clusterName={params.clusterName}
           modalVisible={modalVisible}

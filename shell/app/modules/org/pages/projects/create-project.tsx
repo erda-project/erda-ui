@@ -48,7 +48,11 @@ interface ICardProps {
   disabled?: boolean;
 }
 
-export const useQuotaFields = (canEdit: boolean, showTip: boolean, usedResource: { cpuQuota: number; memQuota: number }) => {
+export const useQuotaFields = (
+  canEdit: boolean,
+  showTip: boolean,
+  usedResource: { cpuQuota: number; memQuota: number },
+) => {
   const leftResource = projectStore.useStore((s) => s.leftResources);
   const { getLeftResources } = projectStore.effects;
   const { clearLeftResources } = projectStore.reducers;
@@ -61,7 +65,7 @@ export const useQuotaFields = (canEdit: boolean, showTip: boolean, usedResource:
     };
   });
 
-  const leftCpu = Math.round((get(leftResource, 'availableCpu') || 0) + usedResource.cpuQuota);// 编辑时，可用值需要加上当前项目已经占用的
+  const leftCpu = Math.round((get(leftResource, 'availableCpu') || 0) + usedResource.cpuQuota); // 编辑时，可用值需要加上当前项目已经占用的
   const leftMem = Math.round((get(leftResource, 'availableMem') || 0) + usedResource.memQuota);
   const totalMem = Math.round(get(leftResource, 'totalMem') || 0);
   const totalCpu = Math.round(get(leftResource, 'totalCpu') || 0);
@@ -115,11 +119,17 @@ export const useQuotaFields = (canEdit: boolean, showTip: boolean, usedResource:
     const tip = (
       <>
         <div>
-          <span className="mr16">{i18n.t('project:total cluster resources')}：CPU：{totalCpu}{i18n.t('default:core')}</span>
+          <span className="mr16">
+            {i18n.t('project:total cluster resources')}：CPU：{totalCpu}
+            {i18n.t('default:core')}
+          </span>
           <span>MEM：{totalMem}GiB</span>
         </div>
         <div>
-          <span className="mr16">{i18n.t('dataCenter:available resources')}：CPU：{leftCpu}{i18n.t('default:core')}</span>
+          <span className="mr16">
+            {i18n.t('dataCenter:available resources')}：CPU：{leftCpu}
+            {i18n.t('default:core')}
+          </span>
           <span>MEM：{leftMem}GiB</span>
         </div>
       </>
@@ -128,7 +138,11 @@ export const useQuotaFields = (canEdit: boolean, showTip: boolean, usedResource:
       required: false,
       showInfo: true,
       hideWhenReadonly: true,
-      getComp: () => <Spin spinning={isLoading}><Alert message={tip} type="normal" /></Spin>,
+      getComp: () => (
+        <Spin spinning={isLoading}>
+          <Alert message={tip} type="normal" />
+        </Spin>
+      ),
     });
   }
   return fields;
@@ -155,10 +169,7 @@ const TemplateCard = (props: ICardProps) => {
   ]);
 
   return (
-    <div
-      className={cln}
-      onClick={onClick}
-    >
+    <div className={cln} onClick={onClick}>
       <div className="template-icon">
         <img
           className="full-width full-height"
@@ -167,9 +178,7 @@ const TemplateCard = (props: ICardProps) => {
         />
       </div>
       <div className="template-name fz14 color-text pt8 pb4">{type.name}</div>
-      <div className="template-description fz12 color-text-sub">
-        {type.description}
-      </div>
+      <div className="template-description fz12 color-text-sub">{type.description}</div>
     </div>
   );
 };
@@ -224,12 +233,11 @@ const CreationForm = () => {
   const handleSubmit = (form: WrappedFormUtils) => {
     form.validateFields((err, values) => {
       if (!err) {
-        createProject({ ...values, orgId, cpuQuota: +values.cpuQuota, memQuota: +values.memQuota })
-          .then((res: any) => {
-            if (res.success) {
-              goTo('../');
-            }
-          });
+        createProject({ ...values, orgId, cpuQuota: +values.cpuQuota, memQuota: +values.memQuota }).then((res: any) => {
+          if (res.success) {
+            goTo('../');
+          }
+        });
       }
     });
   };
@@ -237,11 +245,11 @@ const CreationForm = () => {
   const getCompactSelect = (title: string) => (
     <CompactSelect title={title}>
       <Select>
-        {
-          (clusterList || []).map((cluster) => (
-            <Option key={cluster.id} value={cluster.name}>{cluster.name}</Option>
-          ))
-        }
+        {(clusterList || []).map((cluster) => (
+          <Option key={cluster.id} value={cluster.name}>
+            {cluster.name}
+          </Option>
+        ))}
       </Select>
     </CompactSelect>
   );
@@ -253,20 +261,18 @@ const CreationForm = () => {
       initialValue: templateArr[0].val,
       getComp: ({ form }: { form: WrappedFormUtils }) => (
         <div className="template-card-row flex-box">
-          {
-            templateArr.map((item) => (
-              <TemplateCard
-                key={item.name}
-                chooseVal={form.getFieldsValue().template}
-                choose={(e: any) => {
-                  form.setFieldsValue({
-                    template: e,
-                  });
-                }}
-                {...item}
-              />
-            ))
-          }
+          {templateArr.map((item) => (
+            <TemplateCard
+              key={item.name}
+              chooseVal={form.getFieldsValue().template}
+              choose={(e: any) => {
+                form.setFieldsValue({
+                  template: e,
+                });
+              }}
+              {...item}
+            />
+          ))}
         </div>
       ),
     },
@@ -298,7 +304,8 @@ const CreationForm = () => {
       rules: [
         { max: 40, message: i18n.t('cannot exceed 40 characters') },
         {
-          pattern: /^[a-z0-9]+(-[a-z0-9]+)*$/, message: i18n.t('project-app-name-tip'),
+          pattern: /^[a-z0-9]+(-[a-z0-9]+)*$/,
+          message: i18n.t('project-app-name-tip'),
         },
         {
           validator: (_rule: any, value: any, callback: (message?: string) => void) => {
@@ -316,10 +323,7 @@ const CreationForm = () => {
     },
     {
       getComp: () => (
-        <Checkbox
-          defaultChecked={ifConfigCluster}
-          onChange={() => setIfConfigCluster(!ifConfigCluster)}
-        >
+        <Checkbox defaultChecked={ifConfigCluster} onChange={() => setIfConfigCluster(!ifConfigCluster)}>
           {i18n.t('org:need to configure project cluster resources')}
         </Checkbox>
       ),
@@ -381,7 +385,7 @@ const CreationForm = () => {
     {
       label: '',
       getComp: ({ form }: { form: WrappedFormUtils }) => (
-        <React.Fragment >
+        <React.Fragment>
           <Button className="btn-save" type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}
           </Button>
@@ -393,12 +397,7 @@ const CreationForm = () => {
     },
   ];
 
-  return (
-    <RenderForm
-      layout="vertical"
-      list={fieldsList}
-    />
-  );
+  return <RenderForm layout="vertical" list={fieldsList} />;
 };
 
 export default CreationForm;

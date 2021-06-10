@@ -14,17 +14,16 @@
 import agent from 'agent';
 
 export const getTestTypes = () => {
-  return agent.get('/api/qa/actions/all-test-type')
-    .then((response) => response.body);
+  return agent.get('/api/qa/actions/all-test-type').then((response) => response.body);
 };
 
 export const getTestList = (query) => {
-  return agent.get('/api/qa/actions/test-list')
+  return agent
+    .get('/api/qa/actions/test-list')
     .query(query)
     .then((response) => response.body);
 };
 
 export const getTestDetail = (id) => {
-  return agent.get(`/api/qa/test/${id}`)
-    .then((response) => response.body);
+  return agent.get(`/api/qa/test/${id}`).then((response) => response.body);
 };

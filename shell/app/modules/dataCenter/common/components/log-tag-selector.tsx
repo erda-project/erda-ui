@@ -63,7 +63,6 @@ interface IProps {
   customValidValue?: (val: string, beforeVals: string[]) => boolean;
 }
 
-
 const noop = () => {};
 
 const LogTagSelector = (props: IProps) => {
@@ -112,15 +111,15 @@ const LogTagSelector = (props: IProps) => {
   // }, [updater, value]);
 
   React.useEffect(() => {
-    const inputMirrorRefObj = inputMirrorRef && inputMirrorRef.current as any;
-    const inputRefObj = inputRef && inputRef.current as any;
+    const inputMirrorRefObj = inputMirrorRef && (inputMirrorRef.current as any);
+    const inputRefObj = inputRef && (inputRef.current as any);
     if (inputRefObj) {
       inputRefObj.input.style.width = `${inputMirrorRefObj.offsetWidth + 10}px`;
     }
   }, [inputValue]);
 
   const clickBox = () => {
-    const inputRefObj = inputRef && inputRef.current as any;
+    const inputRefObj = inputRef && (inputRef.current as any);
     if (inputRefObj) {
       inputRefObj.focus();
     }
@@ -147,9 +146,10 @@ const LogTagSelector = (props: IProps) => {
     const newValues = [] as string[];
     let inputOnFocus = false;
     map(val, (item) => {
-      if (item && item.endsWith('=')) { // 自定义值
+      if (item && item.endsWith('=')) {
+        // 自定义值
         updater.inputValue(item);
-        const inputRefObj = inputRef && inputRef.current as any;
+        const inputRefObj = inputRef && (inputRef.current as any);
         if (inputRefObj) {
           inputRefObj.focus();
           inputOnFocus = true;
@@ -173,7 +173,8 @@ const LogTagSelector = (props: IProps) => {
     );
   };
 
-  const dropdownHide = (e: any) => { // 点击外部，隐藏选项
+  const dropdownHide = (e: any) => {
+    // 点击外部，隐藏选项
     const menuEl = menuRef && menuRef.current;
     const valueEl = valueRef && valueRef.current;
     // eslint-disable-next-line react/no-find-dom-node
@@ -199,23 +200,20 @@ const LogTagSelector = (props: IProps) => {
         visible={dropDownVis}
         overlayClassName={`tag-selector-dropdown ${dropdownClassName}`}
       >
-
         <div className="tag-render" onClick={clickBox} ref={valueRef}>
           <div className="tag-value-wrap">
-            {
-            (placeholder && isEmpty(value) && !inputValue) ? (
-              <span className="placeholder">{placeholder}</span>
-            ) : null
-          }
-            <span className="input-mirror" ref={inputMirrorRef}>&nbsp;{inputValue || ''}</span>
+            {placeholder && isEmpty(value) && !inputValue ? <span className="placeholder">{placeholder}</span> : null}
+            <span className="input-mirror" ref={inputMirrorRef}>
+              &nbsp;{inputValue || ''}
+            </span>
             <div className="value-list">
-              {
-              map(value || [], (item, idx) => (
+              {map(value || [], (item, idx) => (
                 <div className="value-item" key={`${idx}-${item}`}>
-                  <Tag className="value-tag" closable onClose={() => deleteValue(item)}>{item}</Tag>
+                  <Tag className="value-tag" closable onClose={() => deleteValue(item)}>
+                    {item}
+                  </Tag>
                 </div>
-              ))
-            }
+              ))}
               <div className="value-item">
                 <Input
                   autoComplete="off"
@@ -264,18 +262,18 @@ const CascaderSelector = (props: ICascaderSelectorProps) => {
   };
 
   const ChildrenTypeMap = {
-    staticRender: (menuItem: any, { key, idx }: {key: string;idx: number}) => {
+    staticRender: (menuItem: any, { key, idx }: { key: string; idx: number }) => {
       const { tag, children, dynamic_children } = menuItem;
       const tip = (
         <div>
           <div>{tag.name}</div>
           {
             <div>
-              {
-                tag.value ? `${i18n.t('tag')}: ${tag.key}=${tag.value}` : `${i18n.t('tag')}: ${tag.key}=${i18n.t('customize')}`
-              }
+              {tag.value
+                ? `${i18n.t('tag')}: ${tag.key}=${tag.value}`
+                : `${i18n.t('tag')}: ${tag.key}=${i18n.t('customize')}`}
             </div>
-            }
+          }
         </div>
       );
       const isActive = tag.value ? `${tag.key}=${tag.value}` === key : key?.includes(`${tag.key}=`);
@@ -289,33 +287,29 @@ const CascaderSelector = (props: ICascaderSelectorProps) => {
               onSelect(parentTags.concat(curTag));
             }}
           >
-            <Tooltip title={tip}>
-              {tag.name}
-            </Tooltip>
+            <Tooltip title={tip}>{tag.name}</Tooltip>
           </span>
-          {
-              (children || dynamic_children) ? (
-                <CustomIcon
-                  type="chevronright"
-                  className="arrow"
-                  onClick={() => {
-                    setMenus((_menus) => {
-                      const curDepth = idx + 1;
-                      const preMenu = _menus.length > curDepth ? _menus.slice(0, curDepth) : [..._menus];
-                      set(preMenu, `[${preMenu.length - 1}].key`, tag.value ? `${tag.key}=${tag.value}` : `${tag.key}=`);
-                      return preMenu.concat({
-                        menu: children,
-                        dynamicMenu: dynamic_children,
-                      });
-                    });
-                  }}
-                />
-              ) : null
-            }
+          {children || dynamic_children ? (
+            <CustomIcon
+              type="chevronright"
+              className="arrow"
+              onClick={() => {
+                setMenus((_menus) => {
+                  const curDepth = idx + 1;
+                  const preMenu = _menus.length > curDepth ? _menus.slice(0, curDepth) : [..._menus];
+                  set(preMenu, `[${preMenu.length - 1}].key`, tag.value ? `${tag.key}=${tag.value}` : `${tag.key}=`);
+                  return preMenu.concat({
+                    menu: children,
+                    dynamicMenu: dynamic_children,
+                  });
+                });
+              }}
+            />
+          ) : null}
         </div>
       );
     },
-    dynamicRender: (menuItem: any, { idx }: {idx: number}) => {
+    dynamicRender: (menuItem: any, { idx }: { idx: number }) => {
       const preChosenKey = menus[idx - 1] ? menus[idx - 1].key : '';
       return (
         <LoadMoreMenu
@@ -356,18 +350,18 @@ const CascaderSelector = (props: ICascaderSelectorProps) => {
                 }
               })}
             </div>
-          ) : (dynamicMenu ? (
+          ) : dynamicMenu ? (
             ChildrenTypeMap.dynamicRender(item, { idx })
-          ) : null);
+          ) : null;
         })}
       </div>
     </div>
   );
 };
 
-interface ILoadMoreProps{
+interface ILoadMoreProps {
   menuInfo: IDynamicMenuData;
-  setDynamicMenu?: (arg: IDynamicMenuData, preKey: any, val: string|number) => void;
+  setDynamicMenu?: (arg: IDynamicMenuData, preKey: any, val: string | number) => void;
   onSelect?: (arg: string) => void;
 }
 
@@ -395,7 +389,7 @@ const LoadMoreMenu = (props: ILoadMoreProps) => {
 
   React.useEffect(() => {
     getData({ pageNo, pageSize, ...(menuInfo.parentQuery || {}) });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNo, pageSize]);
 
   const getData = (query: any) => {
@@ -422,61 +416,63 @@ const LoadMoreMenu = (props: ILoadMoreProps) => {
   const { dynamicMenu } = menuInfo;
   return (
     <div className="load-more-menu menu-box" key={dynamicMenu.dimension}>
-      {
-        map(list, (item) => {
-          const tip = (
-            <div>
-              <div>{item.displayName || item.name}</div>
-              {
-                  dynamicMenu.key ? (
-                    <div>
-                      {
-                        item.id ? `${i18n.t('tag')}: ${dynamicMenu.key}=${item.id}` : `${i18n.t('tag')}: ${dynamicMenu.key}=${i18n.t('customize')}`
-                      }
-                    </div>
-                  ) : null
-                }
-            </div>
-          );
-          const isActive = item.id ? `${dynamicMenu.key}=${item.id}` === `${menuInfo.key}` : menuInfo.key?.includes(dynamicMenu.key);
-          return (
-            <div key={item.id} className={`menu-item ${isActive ? 'is-active' : ''}`}>
-              <span
-                className="menu-name"
+      {map(list, (item) => {
+        const tip = (
+          <div>
+            <div>{item.displayName || item.name}</div>
+            {dynamicMenu.key ? (
+              <div>
+                {item.id
+                  ? `${i18n.t('tag')}: ${dynamicMenu.key}=${item.id}`
+                  : `${i18n.t('tag')}: ${dynamicMenu.key}=${i18n.t('customize')}`}
+              </div>
+            ) : null}
+          </div>
+        );
+        const isActive = item.id
+          ? `${dynamicMenu.key}=${item.id}` === `${menuInfo.key}`
+          : menuInfo.key?.includes(dynamicMenu.key);
+        return (
+          <div key={item.id} className={`menu-item ${isActive ? 'is-active' : ''}`}>
+            <span
+              className="menu-name"
+              onClick={() => {
+                dynamicMenu.key && onSelect(item.id ? `${dynamicMenu.key}=${item.id}` : `${dynamicMenu.key}=`);
+              }}
+            >
+              <Tooltip title={tip}>{item.name}</Tooltip>
+            </span>
+            {dynamicMenu.dynamic_children ? (
+              <CustomIcon
+                type="chevronright"
+                className="arrow"
                 onClick={() => {
-                  dynamicMenu.key && onSelect(item.id ? `${dynamicMenu.key}=${item.id}` : `${dynamicMenu.key}=`);
+                  setDynamicMenu(
+                    {
+                      dynamicMenu: dynamicMenu.dynamic_children,
+                    },
+                    `${dynamicMenu.key}=${item.id}`,
+                    loadMap[dynamicMenu.dimension].parentQuery(item.id),
+                  );
                 }}
-              >
-                <Tooltip title={tip}>
-                  {item.name}
-                </Tooltip>
-              </span>
-              {
-                dynamicMenu.dynamic_children ? (
-                  <CustomIcon
-                    type="chevronright"
-                    className="arrow"
-                    onClick={() => {
-                      setDynamicMenu({
-                        dynamicMenu: dynamicMenu.dynamic_children,
-                      }, `${dynamicMenu.key}=${item.id}`, loadMap[dynamicMenu.dimension].parentQuery(item.id));
-                    }}
-                  />
-                ) : null
-              }
-            </div>
-          );
-        })
-      }
-      {
-        isEmpty(list) ? <EmptyHolder relative /> : null
-      }
-      { hasMore ? (
-        <div className="pointer load-more" onClick={(e) => { e.stopPropagation(); updater.pageNo(pageNo + 1); }}>
+              />
+            ) : null}
+          </div>
+        );
+      })}
+      {isEmpty(list) ? <EmptyHolder relative /> : null}
+      {hasMore ? (
+        <div
+          className="pointer load-more"
+          onClick={(e) => {
+            e.stopPropagation();
+            updater.pageNo(pageNo + 1);
+          }}
+        >
           <IconLoading spin={loading} strokeWidth={2} />
           {i18n.t('load more')}
         </div>
-      ) : null }
+      ) : null}
     </div>
   );
 };

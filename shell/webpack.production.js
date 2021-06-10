@@ -22,7 +22,6 @@ const FileManagerPlugin = require('filemanager-webpack-plugin');
 const moment = require('moment');
 // const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 
-
 const gitRevisionPlugin = new GitRevisionPlugin();
 const banner = `commit: ${gitRevisionPlugin.commithash().slice(0, 6)}
 branch: ${gitRevisionPlugin.branch()}
@@ -43,28 +42,32 @@ module.exports = {
       filename: 'style/[name].[contenthash].css',
       ignoreOrder: true,
     }),
-    ...(process.env.enableSourceMap === 'true' ? [
-      new FileManagerPlugin({
-        events: {
-          onEnd: {
-            mkdir: ['sourcemap'],
-            copy: [
-              {
-                source: '../public/static/shell/scripts/*.map',
-                destination: 'sourcemap/',
+    ...(process.env.enableSourceMap === 'true'
+      ? [
+          new FileManagerPlugin({
+            events: {
+              onEnd: {
+                mkdir: ['sourcemap'],
+                copy: [
+                  {
+                    source: '../public/static/shell/scripts/*.map',
+                    destination: 'sourcemap/',
+                  },
+                ],
+                delete: [
+                  {
+                    source: '../public/static/shell/scripts/*.map',
+                    options: {
+                      force: true,
+                    },
+                  },
+                ],
               },
-            ],
-            delete: [{
-              source: '../public/static/shell/scripts/*.map',
-              options: {
-                force: true,
-              },
-            }],
-          },
-        },
-        runTasksInSeries: true,
-      }),
-    ] : []),
+            },
+            runTasksInSeries: true,
+          }),
+        ]
+      : []),
 
     // 需要https
     // new SWPrecacheWebpackPlugin({

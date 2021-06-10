@@ -24,11 +24,7 @@ interface IProps {
   onClickMachine: (payload: object) => void;
   onClickInstance: (payload: object) => void;
 }
-export const PureMachineManager = ({
-  machineList,
-  onClickMachine,
-  onClickInstance,
-}: IProps) => {
+export const PureMachineManager = ({ machineList, onClickMachine, onClickInstance }: IProps) => {
   const { getMachineStatus } = orgMachineStore.effects;
   const [loading] = useLoading(clusterDashboardStore, ['getGroupInfos']);
   const [state, updater] = useUpdate({
@@ -47,18 +43,19 @@ export const PureMachineManager = ({
 
     updater.machineListWithStatus(machineList);
 
-    getMachineStatus(map(machineList, ({ ip }) => ip))
-      .then((hostsStatus) => {
-        const machineListWithStatus = map(machineList, (item) => {
-          const target = find(hostsStatus, { host_ip: item.ip });
-          return target ? {
-            ...item,
-            status: target.status_level,
-            abnormalMsg: target.abnormal_msg,
-          } : {};
-        }) as ORG_MACHINE.IMachine[];
-        updater.machineListWithStatus(machineListWithStatus);
-      });
+    getMachineStatus(map(machineList, ({ ip }) => ip)).then((hostsStatus) => {
+      const machineListWithStatus = map(machineList, (item) => {
+        const target = find(hostsStatus, { host_ip: item.ip });
+        return target
+          ? {
+              ...item,
+              status: target.status_level,
+              abnormalMsg: target.abnormal_msg,
+            }
+          : {};
+      }) as ORG_MACHINE.IMachine[];
+      updater.machineListWithStatus(machineListWithStatus);
+    });
   }, [getMachineStatus, machineList, updater]);
 
   return (

@@ -52,7 +52,6 @@ interface IState {
   };
 }
 
-
 const initState: IState = {
   currentApp: {} as LAYOUT.IApp,
   appList: [],
@@ -81,7 +80,12 @@ const layout = createStore({
         if (isEntering('pipeline') || isEntering('dataTask') || isEntering('deploy') || isEntering('testPlanDetail')) {
           // call ws when enter page
           sendMsgUtilWsReady(diceWs, { command: '__attach' });
-        } else if (isLeaving('pipeline') || isLeaving('dataTask') || isLeaving('deploy') || isLeaving('testPlanDetail')) {
+        } else if (
+          isLeaving('pipeline') ||
+          isLeaving('dataTask') ||
+          isLeaving('deploy') ||
+          isLeaving('testPlanDetail')
+        ) {
           sendMsgUtilWsReady(diceWs, { command: '__detach' });
         }
       });
@@ -98,20 +102,21 @@ const layout = createStore({
         switchToApp('microService');
       } else if (isIn('edge')) {
         switchToApp('edge');
-      // } else if (isIn('sysAdmin')) {
-      //   switchToApp(appMap.sysAdmin);
+        // } else if (isIn('sysAdmin')) {
+        //   switchToApp(appMap.sysAdmin);
       } else if (isIn('apiManage')) {
         switchToApp('apiManage');
       } else if (isIn('fdp')) {
         switchToApp('diceFdp');
       }
 
-      if (isEntering('orgCenter')
-        || isEntering('dataCenter')
-        || isEntering('workBench')
-        || isEntering('microService')
-        || isEntering('edge')
-        || isEntering('sysAdmin')
+      if (
+        isEntering('orgCenter') ||
+        isEntering('dataCenter') ||
+        isEntering('workBench') ||
+        isEntering('microService') ||
+        isEntering('edge') ||
+        isEntering('sysAdmin')
       ) {
         enableIconfont('dice-icon');
       }
@@ -142,7 +147,8 @@ const layout = createStore({
 
       ws.send(JSON.stringify({ command, scope: { type: scopeType, id } }));
     },
-    async getDiceVersion({ call }) { //
+    async getDiceVersion({ call }) {
+      //
       const result = await call(getDiceVersion);
       return result;
     },
@@ -157,7 +163,7 @@ const layout = createStore({
       if (typeof payload === 'function') {
         _payload = payload();
       }
-      const { appList, currentApp, menusMap = {}, key } = _payload as LAYOUT.IInitLayout || {};
+      const { appList, currentApp, menusMap = {}, key } = (_payload as LAYOUT.IInitLayout) || {};
       if (key === 'sysAdmin' && !getGlobal('erdaInfo.isSysAdmin')) return;
       if (appList?.length) state.appList = appList;
       if (currentApp) state.currentApp = currentApp;

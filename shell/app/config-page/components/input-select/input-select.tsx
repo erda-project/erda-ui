@@ -20,7 +20,7 @@ export default (props: CP_INPUT_SELECT.Props) => {
   const { options, visible = true, ...rest } = configProps || {};
 
   const [state, updater, update] = useUpdate({
-    value: propsState.value || undefined as string | undefined,
+    value: propsState.value || (undefined as string | undefined),
   });
 
   useUpdateEffect(() => {
@@ -44,4 +44,3 @@ export default (props: CP_INPUT_SELECT.Props) => {
   if (!visible) return null;
   return <InputSelect {...rest} options={options} onChange={onChange} value={state.value} onLoadData={loadData} />;
 };
-

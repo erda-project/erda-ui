@@ -13,14 +13,20 @@
 
 import agent from 'agent';
 
-
-export const getTraceDetail = ({ traceId, terminusKey }: {traceId: string; terminusKey: string}): MONITOR_TRACE.ITrace[] => {
-  return agent.get(`/api/spot/trace/${traceId}`)
+export const getTraceDetail = ({
+  traceId,
+  terminusKey,
+}: {
+  traceId: string;
+  terminusKey: string;
+}): MONITOR_TRACE.ITrace[] => {
+  return agent
+    .get(`/api/spot/trace/${traceId}`)
     .query({ terminusKey })
     .then((response: any) => response.body);
 };
 
-export const getSpanDetail = ({ span, visible }: {span: any; visible: boolean}) => {
+export const getSpanDetail = ({ span, visible }: { span: any; visible: boolean }) => {
   return {
     visible,
     span,

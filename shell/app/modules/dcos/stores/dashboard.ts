@@ -18,16 +18,9 @@ import { getClusterList } from 'app/modules/dataCenter/services/cluster';
 import { getAlarmList, IMachineAlarmQuery } from '../services/alarm';
 import monitorCommonStore from 'common/stores/monitorCommon';
 
-import {
-  getFilterTypes,
-  getGroupInfos,
-  getNodeLabels,
-  getInstanceList,
-  getChartData,
-} from '../services/dashboard';
+import { getFilterTypes, getGroupInfos, getNodeLabels, getInstanceList, getChartData } from '../services/dashboard';
 import orgStore from 'app/org-home/stores/org';
 import { createStore } from 'app/cube';
-
 
 const RESOURCE_TYPE_MAP = {
   cpu: {
@@ -64,7 +57,6 @@ interface IState {
   alarmPaging: IPaging;
   nodeLabels: ORG_DASHBOARD.INodeLabel[];
 }
-
 
 const initState: IState = {
   selectedGroups: [],
@@ -120,9 +112,22 @@ const dashboard = createStore({
         update({ nodeLabels });
       }
     },
-    async getInstanceList({ call, update }, { clusters, filters, instanceType, isWithoutOrg }: Merge<ORG_DASHBOARD.IInstanceListQuery, { isWithoutOrg?: boolean }>) {
+    async getInstanceList(
+      { call, update },
+      {
+        clusters,
+        filters,
+        instanceType,
+        isWithoutOrg,
+      }: Merge<ORG_DASHBOARD.IInstanceListQuery, { isWithoutOrg?: boolean }>,
+    ) {
       const { name: orgName } = orgStore.getState((s) => s.currentOrg);
-      const list = await call(getInstanceList, { instanceType, orgName: isWithoutOrg ? undefined : orgName, clusters, filters });
+      const list = await call(getInstanceList, {
+        instanceType,
+        orgName: isWithoutOrg ? undefined : orgName,
+        clusters,
+        filters,
+      });
       const instanceMap = {
         service: 'serviceList',
         job: 'jobList',
@@ -141,15 +146,22 @@ const dashboard = createStore({
       const data = await call(getChartData, { url: RESOURCE_TYPE_MAP[type].url, ...rest, query });
       dashboard.reducers.getChartDataSuccess({ data, type, orgName });
     },
-    async getAlarmList({ call, update }, payload: Pick<IMachineAlarmQuery, 'endTime' | 'metricID' | 'pageNo' | 'pageSize' | 'startTime'>) {
+    async getAlarmList(
+      { call, update },
+      payload: Pick<IMachineAlarmQuery, 'endTime' | 'metricID' | 'pageNo' | 'pageSize' | 'startTime'>,
+    ) {
       const { id: orgID } = orgStore.getState((s) => s.currentOrg);
-      const { list: alarmList, total } = await call(getAlarmList, {
-        ...payload,
-        orgID,
-        targetID: orgID,
-        type: 'machine',
-        targetType: 'org',
-      }, { paging: { key: 'alarmPaging', listKey: 'tickets' } });
+      const { list: alarmList, total } = await call(
+        getAlarmList,
+        {
+          ...payload,
+          orgID,
+          targetID: orgID,
+          type: 'machine',
+          targetType: 'org',
+        },
+        { paging: { key: 'alarmPaging', listKey: 'tickets' } },
+      );
       update({ alarmList });
       return {
         total,
@@ -165,8 +177,16 @@ const dashboard = createStore({
       const INDEX_MAP = { cpu: 0, mem: 1, count: 2 };
       const { title } = RESOURCE_TYPE_MAP[type];
       const KEYS_MAP = {
-        cpu: ['group_reduce.{group=tags.addon_id&avg=fields.cpu_allocation&reduce=sum}', 'group_reduce.{group=tags.service_id&avg=fields.cpu_allocation&reduce=sum}', 'group_reduce.{group=tags.job_id&avg=fields.cpu_allocation&reduce=sum}'],
-        mem: ['group_reduce.{group=tags.addon_id&avg=fields.mem_allocation&reduce=sum}', 'group_reduce.{group=tags.service_id&avg=fields.mem_allocation&reduce=sum}', 'group_reduce.{group=tags.job_id&avg=fields.mem_allocation&reduce=sum}'],
+        cpu: [
+          'group_reduce.{group=tags.addon_id&avg=fields.cpu_allocation&reduce=sum}',
+          'group_reduce.{group=tags.service_id&avg=fields.cpu_allocation&reduce=sum}',
+          'group_reduce.{group=tags.job_id&avg=fields.cpu_allocation&reduce=sum}',
+        ],
+        mem: [
+          'group_reduce.{group=tags.addon_id&avg=fields.mem_allocation&reduce=sum}',
+          'group_reduce.{group=tags.service_id&avg=fields.mem_allocation&reduce=sum}',
+          'group_reduce.{group=tags.job_id&avg=fields.mem_allocation&reduce=sum}',
+        ],
         count: ['cardinality.tags.addon_id', 'cardinality.tags.job_id', 'cardinality.tags.service_id'],
       };
 

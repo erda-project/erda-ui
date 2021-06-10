@@ -13,33 +13,37 @@
 
 import agent from 'agent';
 
-export const getIssueList = (query: {projectID: number}): ISSUE_WORKFLOW.IIssueItem[] => {
-  return agent.get('/api/issues/actions/get-states')
+export const getIssueList = (query: { projectID: number }): ISSUE_WORKFLOW.IIssueItem[] => {
+  return agent
+    .get('/api/issues/actions/get-states')
     .query(query)
     .then((response: any) => response.body);
 };
 
 export const getStatesByIssue = (query: ISSUE_WORKFLOW.IStateQuery): ISSUE_WORKFLOW.IIssueStateItem[] => {
-  return agent.get('/api/issues/actions/get-state-relations')
+  return agent
+    .get('/api/issues/actions/get-state-relations')
     .query(query)
     .then((response: any) => response.body);
 };
 
 export const addIssueState = (query: ISSUE_WORKFLOW.ICreateStateQuery) => {
-  return agent.post('/api/issues/actions/create-state')
+  return agent
+    .post('/api/issues/actions/create-state')
     .send(query)
     .then((response: any) => response.body);
 };
 
 export const batchUpdateIssueState = (query: ISSUE_WORKFLOW.IUpdateQuery) => {
-  return agent.put('/api/issues/actions/update-state-relation')
+  return agent
+    .put('/api/issues/actions/update-state-relation')
     .send(query)
     .then((response: any) => response.body);
 };
 
-export const deleteIssueState = (query: {id: number; projectID: number}) => {
-  return agent.delete('/api/issues/actions/delete-state')
+export const deleteIssueState = (query: { id: number; projectID: number }) => {
+  return agent
+    .delete('/api/issues/actions/delete-state')
     .query(query)
     .then((response: any) => response.body);
 };
-

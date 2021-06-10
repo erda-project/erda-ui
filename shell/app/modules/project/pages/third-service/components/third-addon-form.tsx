@@ -21,7 +21,6 @@ import React, { forwardRef, useImperativeHandle } from 'react';
 import routeInfoStore from 'common/stores/route';
 import { AddonType } from 'project/pages/third-service/components/config';
 
-
 const { Option } = Select;
 
 const MODE_MAP = {
@@ -46,7 +45,8 @@ interface IProps {
   setOneStep: (f: boolean) => void;
 }
 const ThirdAddonForm = (props: IProps) => {
-  const { form, configKV, addonInsList, addonSpecList, editData, currentAddon, category, onFieldChange, setOneStep } = props;
+  const { form, configKV, addonInsList, addonSpecList, editData, currentAddon, category, onFieldChange, setOneStep } =
+    props;
   const curAddon = currentAddon || {};
   const query = routeInfoStore.useStore((s) => s.query);
   const [{ workspace, mode, createType }, updater] = useUpdate({
@@ -70,13 +70,14 @@ const ThirdAddonForm = (props: IProps) => {
     const defaultValue = editData && editData.config;
     const defaultKV = defaultValue || {};
     if (isEmpty(defaultValue)) {
-      (tenantVars || []).forEach((k: string) => { defaultKV[k] = ''; });
+      (tenantVars || []).forEach((k: string) => {
+        defaultKV[k] = '';
+      });
     }
     return {
       ...defaultKV,
     };
   };
-
 
   const modeToField = {
     [MODE_MAP.NEW]: [
@@ -86,18 +87,20 @@ const ThirdAddonForm = (props: IProps) => {
         itemProps: {
           disabled: editData !== null || query.addon === AddonType.APIGateway,
           onChange(v: string) {
-            updater.workspace(v); form.validateFields(['name'], { force: true });
+            updater.workspace(v);
+            form.validateFields(['name'], { force: true });
           },
         },
         type: 'select',
         // 数据源管理页面：新增数据源暂时只能为【测试环境】
-        options: category ? [{ name: i18n.t('test'), value: 'TEST' }]
+        options: category
+          ? [{ name: i18n.t('test'), value: 'TEST' }]
           : [
-            { name: i18n.t('develop'), value: 'DEV' },
-            { name: i18n.t('test'), value: 'TEST' },
-            { name: i18n.t('staging'), value: 'STAGING' },
-            { name: i18n.t('prod'), value: 'PROD' },
-          ],
+              { name: i18n.t('develop'), value: 'DEV' },
+              { name: i18n.t('test'), value: 'TEST' },
+              { name: i18n.t('staging'), value: 'STAGING' },
+              { name: i18n.t('prod'), value: 'PROD' },
+            ],
         initialValue: query.env || (category ? 'TEST' : 'DEV'),
       },
       ...insertWhen(curAddon.plan, [
@@ -107,7 +110,8 @@ const ThirdAddonForm = (props: IProps) => {
           itemProps: {
             disabled: editData !== null || query.addon === AddonType.APIGateway,
             onChange(v: string) {
-              updater.workspace(v); form.validateFields(['name'], { force: true });
+              updater.workspace(v);
+              form.validateFields(['name'], { force: true });
             },
           },
           type: 'select',
@@ -118,31 +122,30 @@ const ThirdAddonForm = (props: IProps) => {
       {
         label: i18n.t('tag'),
         name: 'tag',
-        initialValue: editData ? (editData.tag || '') : null,
+        initialValue: editData ? editData.tag || '' : null,
         itemProps: { disabled: editData !== null },
         required: false,
       },
     ],
     [MODE_MAP.EXIST]: curAddon.supportTenant
       ? [
-        {
-          label: i18n.t('resource:existing instance'),
-          name: 'addonInstanceRoutingId',
-          type: 'select',
-          options: filter(addonInsList, (a) => a.addonName === curAddon.addonName && !a.tenantOwner).map((a) => ({ value: a.instanceId, name: a.name })),
-        },
-        {
-          getComp: () => (
-            <>
-              <KeyValueEditor
-                form={form}
-                dataSource={getKeyValueEditorValue()}
-                ref={configKV}
-              />
-            </>
-          ),
-        },
-      ]
+          {
+            label: i18n.t('resource:existing instance'),
+            name: 'addonInstanceRoutingId',
+            type: 'select',
+            options: filter(addonInsList, (a) => a.addonName === curAddon.addonName && !a.tenantOwner).map((a) => ({
+              value: a.instanceId,
+              name: a.name,
+            })),
+          },
+          {
+            getComp: () => (
+              <>
+                <KeyValueEditor form={form} dataSource={getKeyValueEditorValue()} ref={configKV} />
+              </>
+            ),
+          },
+        ]
       : [],
   };
 
@@ -155,15 +158,22 @@ const ThirdAddonForm = (props: IProps) => {
       type: 'select',
       initialValue: editData ? editData.addonName : query.addon || null,
       itemProps: {
-        onChange(v: string) { onFieldChange('addonName', v); },
+        onChange(v: string) {
+          onFieldChange('addonName', v);
+        },
         disabled: editData !== null || query.addon === AddonType.APIGateway,
       },
-      options: () => map(addonSpecList, (v) => <Option key={v.id} value={v.addonName}>{v.displayName}</Option>),
+      options: () =>
+        map(addonSpecList, (v) => (
+          <Option key={v.id} value={v.addonName}>
+            {v.displayName}
+          </Option>
+        )),
     };
     const nameField = {
       label: i18n.t('project:name'),
       name: 'name',
-      initialValue: editData ? (editData.name || '') : null,
+      initialValue: editData ? editData.name || '' : null,
       itemProps: { disabled: editData !== null },
       rules: [
         { max: 30, message: i18n.t('project:no more than 30 characters') },
@@ -231,12 +241,7 @@ const ThirdAddonForm = (props: IProps) => {
           {
             label: i18n.t('project:Config content'),
             name: 'importConfig',
-            getComp: () => (
-              <FileEditor
-                fileExtension="json"
-                minLines={8}
-              />
-            ),
+            getComp: () => <FileEditor fileExtension="json" minLines={8} />,
           },
         ];
       }
@@ -248,22 +253,12 @@ const ThirdAddonForm = (props: IProps) => {
         ...appendField,
       ];
     }
-    return [
-      typeField,
-      nameField,
-      ...insertWhen(curAddon.supportTenant, [tenantField]),
-      ...appendField,
-    ];
+    return [typeField, nameField, ...insertWhen(curAddon.supportTenant, [tenantField]), ...appendField];
   };
 
   return (
     <div className="third-addon-form">
-      <RenderPureForm
-        className={'addon-ins-form'}
-        layout="vertical"
-        form={form}
-        list={getFields()}
-      />
+      <RenderPureForm className={'addon-ins-form'} layout="vertical" form={form} list={getFields()} />
     </div>
   );
 };
@@ -275,4 +270,6 @@ const FCForm = forwardRef((props: IProps, ref: any) => {
   return <ThirdAddonForm {...props} />;
 });
 
-export default Form.create()(FCForm) as any as (p: Merge<Omit<IProps, 'form'>, { wrappedComponentRef: any }>) => JSX.Element;
+export default Form.create()(FCForm) as any as (
+  p: Merge<Omit<IProps, 'form'>, { wrappedComponentRef: any }>,
+) => JSX.Element;

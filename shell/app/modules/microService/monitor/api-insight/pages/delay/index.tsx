@@ -58,10 +58,7 @@ const APIDelay = () => {
 
   return (
     <>
-      <FilterNav
-        updateFields={updateFields}
-        resetFields={resetFields}
-      />
+      <FilterNav updateFields={updateFields} resetFields={resetFields} />
       <Row gutter={20}>
         <Col span={12}>
           <DelayMap.requestDelay
@@ -105,6 +102,5 @@ const APIDelay = () => {
     </>
   );
 };
-
 
 export default APIDelay;

@@ -19,12 +19,15 @@ interface RESP<T> {
   err: Record<string, any>;
 }
 
-
 const transResponseToStandard = <T>(body: any): T | RESP<null> => {
   return body.error ? { success: false, data: null, err: { msg: body.error } } : body;
 };
 
-export const getServiceList = ({ paths, org, startLevel }: RESOURCE.QueryServiceList): RESOURCE.Instances[] | RESOURCE.ServiceItem[] => {
+export const getServiceList = ({
+  paths,
+  org,
+  startLevel,
+}: RESOURCE.QueryServiceList): RESOURCE.Instances[] | RESOURCE.ServiceItem[] => {
   const pathArr = paths.map((p) => p.q);
   let projectId;
   let applicationId;
@@ -48,8 +51,7 @@ export const getServiceList = ({ paths, org, startLevel }: RESOURCE.QueryService
     ];
   }
 
-  return agent.get(fetchApiArr[pathArr.length - 1])
-    .then((response: any) => transResponseToStandard(response.body));
+  return agent.get(fetchApiArr[pathArr.length - 1]).then((response: any) => transResponseToStandard(response.body));
 };
 
 export const getChartData = ({ type, paths, query, startLevel, projectId }: RESOURCE.QuertChart): RESOURCE.CharData => {
@@ -74,7 +76,14 @@ export const getChartData = ({ type, paths, query, startLevel, projectId }: RESO
     queryParam = [
       { filter_project_id, filter_application_id, group: 'container_id', reduce: 'sum' },
       { filter_project_id, filter_application_id, filter_runtime_id, group: 'container_id', reduce: 'sum' },
-      { filter_project_id, filter_application_id, filter_runtime_id, filter_service_name, group: 'container_id', reduce: 'sum' },
+      {
+        filter_project_id,
+        filter_application_id,
+        filter_runtime_id,
+        filter_service_name,
+        group: 'container_id',
+        reduce: 'sum',
+      },
     ];
   } else {
     [filter_project_id, filter_application_id, filter_runtime_id, filter_service_name] = pathArr;
@@ -82,10 +91,16 @@ export const getChartData = ({ type, paths, query, startLevel, projectId }: RESO
       { filter_project_id, group: 'container_id', reduce: 'sum' },
       { filter_project_id, filter_application_id, group: 'container_id', reduce: 'sum' },
       { filter_project_id, filter_application_id, filter_runtime_id, group: 'container_id', reduce: 'sum' },
-      { filter_project_id, filter_application_id, filter_runtime_id, filter_service_name, group: 'container_id', reduce: 'sum' },
+      {
+        filter_project_id,
+        filter_application_id,
+        filter_runtime_id,
+        filter_service_name,
+        group: 'container_id',
+        reduce: 'sum',
+      },
     ];
   }
-
 
   const fetchObj = fetchMap[type].query;
   const fetchApi = fetchMap[type].api;
@@ -99,7 +114,8 @@ export const getChartData = ({ type, paths, query, startLevel, projectId }: RESO
     ...query,
   };
 
-  return agent.get(fetchApi)
+  return agent
+    .get(fetchApi)
     .query(finalQuery)
     .then((response: any) => transResponseToStandard(response.body));
 };

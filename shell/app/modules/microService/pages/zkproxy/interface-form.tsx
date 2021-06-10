@@ -17,7 +17,6 @@ import zkproxyStore from '../../stores/zkproxy';
 import './zkproxy-list.scss';
 import i18n from 'i18n';
 
-
 interface IProps {
   visible: boolean;
   editMode: boolean;
@@ -25,7 +24,6 @@ interface IProps {
   interfacename: string;
   onCancel: () => any;
 }
-
 
 const InterfaceForm = ({ visible, editMode, az, interfacename, onCancel }: IProps) => {
   const zkInterfaceConfig = zkproxyStore.useStore((s) => s.zkInterfaceConfig);

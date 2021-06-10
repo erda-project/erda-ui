@@ -41,29 +41,36 @@ export const OrgInfo = () => {
       },
       rules: [
         { required: true, message: i18n.t('org:please enter the org identify') },
-        { pattern: /^[a-z0-9-]*$/, message: i18n.t('org:only allowed to consist of lower case characters, numbers and -') },
+        {
+          pattern: /^[a-z0-9-]*$/,
+          message: i18n.t('org:only allowed to consist of lower case characters, numbers and -'),
+        },
       ],
     },
     {
       label: i18n.t('org:org name'),
       name: 'displayName',
     },
-    ...insertWhen(!currentOrg.publisherId, [{
-      label: i18n.t('admin:become a publisher'),
-      required: false,
-      name: 'isPublisher',
-      type: 'switch',
-      itemProps: {
-        onChange: (v: boolean) => setIsPublisher(v),
+    ...insertWhen(!currentOrg.publisherId, [
+      {
+        label: i18n.t('admin:become a publisher'),
+        required: false,
+        name: 'isPublisher',
+        type: 'switch',
+        itemProps: {
+          onChange: (v: boolean) => setIsPublisher(v),
+        },
       },
-    }]),
-    ...insertWhen(isPublisher, [{
-      label: i18n.t('admin:publisher name'),
-      name: 'publisherName',
-      itemProps: {
-        maxLength: 50,
+    ]),
+    ...insertWhen(isPublisher, [
+      {
+        label: i18n.t('admin:publisher name'),
+        name: 'publisherName',
+        itemProps: {
+          maxLength: 50,
+        },
       },
-    }]),
+    ]),
     {
       label: i18n.t('org:notice language'),
       name: 'locale',
@@ -71,19 +78,25 @@ export const OrgInfo = () => {
       itemProps: {
         placeholder: i18n.t('org:used for station letter and email'),
       },
-      options: [{ value: 'zh-CN', name: i18n.t('org:Chinese') }, { value: 'en-US', name: i18n.t('org:English') }],
+      options: [
+        { value: 'zh-CN', name: i18n.t('org:Chinese') },
+        { value: 'en-US', name: i18n.t('org:English') },
+      ],
     },
     {
       label: i18n.t('whether public {name}', { name: i18n.t('organization') }),
       name: 'isPublic',
       type: 'radioGroup',
-      options: [{
-        name: i18n.t('org:public org'),
-        value: 'true',
-      }, {
-        name: i18n.t('org:private org'),
-        value: 'false',
-      }],
+      options: [
+        {
+          name: i18n.t('org:public org'),
+          value: 'true',
+        },
+        {
+          name: i18n.t('org:private org'),
+          value: 'false',
+        },
+      ],
     },
     {
       label: i18n.t('org:org logo'),
@@ -187,22 +200,25 @@ export const OrgInfo = () => {
       hasAuth // 系统管理员默认有权限
       data={{ ...currentOrg, isPublic: `${currentOrg.isPublic || 'false'}` }}
       fieldsList={fieldsList}
-      extraSections={[{
-        title: i18n.t('exit {name}', { name: i18n.t('org') }),
-        children: (
-          <ConfirmDelete
-            title={i18n.t('sure to exit the current {name}?', { name: i18n.t('org') })}
-            confirmTip={i18n.t('common:exit-confirm-tip {name}', { name: i18n.t('org') })}
-            secondTitle={i18n.t('common:exit-sub-tip {name}', { name: i18n.t('org') })}
-            onConfirm={exitOrg}
-          >
-            <Button ghost type="danger">{i18n.t('common:exit current {name}', { name: i18n.t('org') })}</Button>
-          </ConfirmDelete>
-        ),
-      }]}
+      extraSections={[
+        {
+          title: i18n.t('exit {name}', { name: i18n.t('org') }),
+          children: (
+            <ConfirmDelete
+              title={i18n.t('sure to exit the current {name}?', { name: i18n.t('org') })}
+              confirmTip={i18n.t('common:exit-confirm-tip {name}', { name: i18n.t('org') })}
+              secondTitle={i18n.t('common:exit-sub-tip {name}', { name: i18n.t('org') })}
+              onConfirm={exitOrg}
+            >
+              <Button ghost type="danger">
+                {i18n.t('common:exit current {name}', { name: i18n.t('org') })}
+              </Button>
+            </ConfirmDelete>
+          ),
+        },
+      ]}
       updateInfo={updateInfo}
       name={i18n.t('org:org info')}
     />
   );
 };
-

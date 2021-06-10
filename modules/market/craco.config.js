@@ -12,9 +12,9 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 const path = require('path');
-const CracoAntDesignPlugin = require("craco-antd")
+const CracoAntDesignPlugin = require('craco-antd');
 
-const resolve = pathname => path.resolve(__dirname, pathname);
+const resolve = (pathname) => path.resolve(__dirname, pathname);
 const themeColor = '#6A549E';
 const outputPath = path.resolve(__dirname, '../../public/static/market');
 
@@ -26,20 +26,15 @@ module.exports = {
         ...webpackConfig.output,
         path: outputPath,
         publicPath: '/static/market',
-      }
+      };
       return webpackConfig;
     },
     module: {
       rules: [
         {
           test: /\.(tsx?|jsx?)$/,
-          include: [
-            resolve('./src'),
-          ],
-          use: [
-            'thread-loader',
-            'babel-loader',
-          ],
+          include: [resolve('./src')],
+          use: ['thread-loader', 'babel-loader'],
           resolve: {
             fullySpecified: false,
           },
@@ -62,14 +57,12 @@ module.exports = {
   output: {},
   style: {
     postcss: {
-      plugins: [
-        require('autoprefixer'),
-      ],
+      plugins: [require('autoprefixer')],
     },
     sass: {
       loaderOptions: {
-        additionalData: `@import "./src/styles/_resources.scss";`
-      }
+        additionalData: `@import "./src/styles/_resources.scss";`,
+      },
     },
   },
   plugins: [
@@ -77,8 +70,8 @@ module.exports = {
       plugin: CracoAntDesignPlugin,
       options: {
         customizeTheme: {
-          "@primary-color": themeColor,
-          "@link-color": themeColor,
+          '@primary-color': themeColor,
+          '@link-color': themeColor,
         },
       },
     },

@@ -28,46 +28,52 @@ interface IProps {
   onClickRow: (record: object) => any;
 }
 
-type TableRecord = Merge<TEST_PLAN.Pipeline, {runIndex: string}>;
+type TableRecord = Merge<TEST_PLAN.Pipeline, { runIndex: string }>;
 
 export const BuildHistory = ({ activeItem, onClickRow }: IProps) => {
   const { getExecuteRecords } = testPlanStore.effects;
   const [isFetchingRecords] = useLoading(testPlanStore, ['getExecuteRecords']);
   const [recordPaging, executeRecords] = testPlanStore.useStore((s) => [s.executeRecordsPaging, s.executeRecords]);
 
-  const columns: Array<ColumnProps<TableRecord>> = [{
-    title: i18n.t('version'),
-    dataIndex: 'runIndex',
-    width: 80,
-    align: 'center',
-    render: (runIndex: any, record: TableRecord) => (<span className="run-index">{record.triggerMode === 'cron' && <CustomIcon type="clock" />}{runIndex}</span>),
-  }, {
-    title: 'ID',
-    dataIndex: 'id',
-    align: 'center',
-  }, {
-    title: i18n.t('project:status'),
-    dataIndex: 'status',
-    width: 110,
-    render: (status: string) => (
-      <span>
-        <span className="nowrap">{ciStatusMap[status].text}</span>
-        <Badge className="ml4" status={ciStatusMap[status].status} />
-      </span>
-    ),
-  }, {
-    title: i18n.t('project:trigger time'),
-    dataIndex: 'timeCreated',
-    width: 180,
-    render: (timeCreated: number) => (
-      <span>
-        {moment(new Date(timeCreated)).format('YYYY-MM-DD HH:mm:ss')}
-      </span>
-    ),
-  }];
+  const columns: Array<ColumnProps<TableRecord>> = [
+    {
+      title: i18n.t('version'),
+      dataIndex: 'runIndex',
+      width: 80,
+      align: 'center',
+      render: (runIndex: any, record: TableRecord) => (
+        <span className="run-index">
+          {record.triggerMode === 'cron' && <CustomIcon type="clock" />}
+          {runIndex}
+        </span>
+      ),
+    },
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      align: 'center',
+    },
+    {
+      title: i18n.t('project:status'),
+      dataIndex: 'status',
+      width: 110,
+      render: (status: string) => (
+        <span>
+          <span className="nowrap">{ciStatusMap[status].text}</span>
+          <Badge className="ml4" status={ciStatusMap[status].status} />
+        </span>
+      ),
+    },
+    {
+      title: i18n.t('project:trigger time'),
+      dataIndex: 'timeCreated',
+      width: 180,
+      render: (timeCreated: number) => <span>{moment(new Date(timeCreated)).format('YYYY-MM-DD HH:mm:ss')}</span>,
+    },
+  ];
 
   const { total, pageNo, pageSize } = recordPaging;
-  const startIndex = total - (pageSize * (pageNo - 1));
+  const startIndex = total - pageSize * (pageNo - 1);
   const dataSource: TableRecord[] = map(executeRecords, (item, index) => {
     return { ...item, runIndex: '#'.concat(String(startIndex - index)) };
   });

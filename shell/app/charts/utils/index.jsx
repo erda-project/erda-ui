@@ -27,20 +27,16 @@ export const ChartContainer = ({ title = null, operation = null, className = '',
   });
   return (
     <div className={containerClass}>
-      {
-        title || operation
-          ?
-            <div>
-              <h2 className="chart-title bold-500">{title}</h2>
-              {operation}
-            </div>
-          : null
-      }
+      {title || operation ? (
+        <div>
+          <h2 className="chart-title bold-500">{title}</h2>
+          {operation}
+        </div>
+      ) : null}
       {children}
     </div>
   );
 };
-
 
 export const genMarkLine = (markLines, { unitType, decimal }) => {
   if (!markLines.length) {
@@ -58,10 +54,12 @@ export const genMarkLine = (markLines, { unitType, decimal }) => {
         },
       },
     },
-    data: markLines.map(({ name, value }) => ([{ x: '7%', yAxis: value, name }, { x: '93%', yAxis: value }])),
+    data: markLines.map(({ name, value }) => [
+      { x: '7%', yAxis: value, name },
+      { x: '93%', yAxis: value },
+    ]),
   };
 };
-
 
 // export const tooltipFormatter = (ttData) => {
 //   const getformat = i => (rightUnitType && i ? rightUnitType : unitType);

@@ -18,7 +18,16 @@ import { isEmpty } from 'lodash';
 import { Form } from 'app/nusi';
 import customAddonStore from 'project/stores/custom-addon';
 import React, { forwardRef, useImperativeHandle } from 'react';
-import { useDBFields, useMysqlFields, useOnsFields, useRedisFields, useTopicFields, useBucketField, AddonType, useGatewayFields } from './config';
+import {
+  useDBFields,
+  useMysqlFields,
+  useOnsFields,
+  useRedisFields,
+  useTopicFields,
+  useBucketField,
+  AddonType,
+  useGatewayFields,
+} from './config';
 import { insertWhen } from 'common/utils';
 
 export const CLOUD_TYPES = [
@@ -82,16 +91,20 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
         // 'alicloud-oss': 'oss',
       };
       if (nameToType[addonName]) {
-        workspace && customAddonStore.getCloudInstances({ vendor: 'alicloud', type: nameToType[addonName], workspace }).then((res) => {
-          updater.existInstances(res.list);
-        });
+        workspace &&
+          customAddonStore
+            .getCloudInstances({ vendor: 'alicloud', type: nameToType[addonName], workspace })
+            .then((res) => {
+              updater.existInstances(res.list);
+            });
       }
     } else if (state.mode === MODE_MAP.NEW) {
       if (addonName === AddonType.AliCloudGateway) {
-        workspace && customAddonStore.getCloudGateway({ vendor: 'alicloud', workspace }).then(({ gateways, slbs }) => {
-          updater.gatewaysInstances([defaultInstance, ...(gateways || [])]);
-          updater.slbsInstances([defaultInstance, ...(slbs || [])]);
-        });
+        workspace &&
+          customAddonStore.getCloudGateway({ vendor: 'alicloud', workspace }).then(({ gateways, slbs }) => {
+            updater.gatewaysInstances([defaultInstance, ...(gateways || [])]);
+            updater.slbsInstances([defaultInstance, ...(slbs || [])]);
+          });
       }
     }
   }, [addonName, state.mode, updater, workspace]);
@@ -117,7 +130,9 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
     const defaultValue = editData && editData.config;
     const defaultKV = defaultValue || {};
     if (isEmpty(defaultValue)) {
-      (vars || []).forEach((k: string) => { defaultKV[k] = ''; });
+      (vars || []).forEach((k: string) => {
+        defaultKV[k] = '';
+      });
     }
     return {
       ...defaultKV,
@@ -141,11 +156,7 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
       {
         getComp: () => (
           <>
-            <KeyValueEditor
-              form={form}
-              dataSource={getKeyValueEditorValue()}
-              ref={edit}
-            />
+            <KeyValueEditor form={form} dataSource={getKeyValueEditorValue()} ref={edit} />
             <div className="color-red">{i18n.t('project:restart-app-tip')}</div>
             <div className="color-red">{i18n.t('project:op-affect-related-app')}</div>
           </>
@@ -162,7 +173,13 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
         name: 'mode',
         type: 'radioGroup',
         options: [
-          { name: i18n.t('resource:select existing'), value: 'exist', disabled: [AddonType.AliCloudOss, AddonType.AliCloudRedis, AddonType.AliCloudGateway].includes(addonName) || isEditMode }, // redis/oss不能通过已有实例创建
+          {
+            name: i18n.t('resource:select existing'),
+            value: 'exist',
+            disabled:
+              [AddonType.AliCloudOss, AddonType.AliCloudRedis, AddonType.AliCloudGateway].includes(addonName) ||
+              isEditMode,
+          }, // redis/oss不能通过已有实例创建
           {
             name: addonName === AddonType.AliCloudGateway ? i18n.t('resource:source') : i18n.t('resource:new purchase'),
             value: 'new',
@@ -186,13 +203,7 @@ const InstanceForm = ({ form, editData, addonProto, workspace, edit, category }:
     ...appendField,
   ];
 
-  return (
-    <RenderPureForm
-      layout="vertical"
-      form={form}
-      list={fields}
-    />
-  );
+  return <RenderPureForm layout="vertical" form={form} list={fields} />;
 };
 
 const FCForm = forwardRef((props: IProps, ref: any) => {
@@ -202,4 +213,6 @@ const FCForm = forwardRef((props: IProps, ref: any) => {
   return <InstanceForm {...props} />;
 });
 
-export default Form.create()(FCForm) as any as (p: Merge<Omit<IProps, 'form'>, {wrappedComponentRef: any}>) => JSX.Element;
+export default Form.create()(FCForm) as any as (
+  p: Merge<Omit<IProps, 'form'>, { wrappedComponentRef: any }>,
+) => JSX.Element;

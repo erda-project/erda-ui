@@ -20,27 +20,28 @@ import './error-card.scss';
 import { Time as IconTime } from '@icon-park/react';
 import i18n from 'i18n';
 
-interface IProps{
+interface IProps {
   data: object;
 }
 
 const ErrorCard = (props: IProps) => {
   const data = get(props, 'data') as any;
   return (
-
     <div className="error-card-container">
       <Row className="error-card-title">
         <Col span={18}>New Exceptions</Col>
-        <Col span={4} className="error-service">Service</Col>
-        <Col span={2} className="error-count">Count</Col>
+        <Col span={4} className="error-service">
+          Service
+        </Col>
+        <Col span={2} className="error-count">
+          Count
+        </Col>
       </Row>
       <Row className="error-card-content">
         <Col span={18} className="error-info-container">
           <div>
             <span className="error-name">
-              <Link to={resolvePath(`./error-detail/${data.errorId}`)}>
-                {data.type}
-              </Link>
+              <Link to={resolvePath(`./error-detail/${data.errorId}`)}>{data.type}</Link>
             </span>
             <span className="error-class">{`${data.className}  in  ${data.methodName}`}</span>
           </div>
@@ -51,7 +52,8 @@ const ErrorCard = (props: IProps) => {
             </Tooltip>
           </div>
           <div className="error-time">
-            <IconTime />&nbsp;&nbsp;
+            <IconTime />
+            &nbsp;&nbsp;
             {fromNow(data.updateTime, { prefix: `${i18n.t('microService:last trigger')}:` })}
             &nbsp;&nbsp;-&nbsp;&nbsp;
             {fromNow(data.createTime, { prefix: `${i18n.t('microService:first trigger')}:` })}
@@ -65,7 +67,6 @@ const ErrorCard = (props: IProps) => {
         </Col>
       </Row>
     </div>
-
   );
 };
 

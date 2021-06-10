@@ -16,43 +16,45 @@ import { chartRender } from 'mobile-insight/common/components/miRenderFactory';
 import { ApiMap } from './apiConfig';
 import i18n from 'i18n';
 
-const chartMap = merge({
-  apdex: {
-    moduleName: 'MIPosition',
-    chartName: 'apdex',
-    viewProps: {
-      seriesType: 'bar',
-      isBarChangeColor: true,
-      isLabel: true,
-      yAxisNames: [i18n.t('microService:requests count')],
-      opt: {
-        grid: { top: 30, bottom: 10, left: 25 },
+const chartMap = merge(
+  {
+    apdex: {
+      moduleName: 'MIPosition',
+      chartName: 'apdex',
+      viewProps: {
+        seriesType: 'bar',
+        isBarChangeColor: true,
+        isLabel: true,
+        yAxisNames: [i18n.t('microService:requests count')],
+        opt: {
+          grid: { top: 30, bottom: 10, left: 25 },
+        },
       },
     },
-  },
-  timing: {
-    moduleName: 'MIPosition',
-    chartName: 'timing',
-    viewProps: {
-      seriesType: 'bar',
-      isBarChangeColor: true,
-      isLabel: true,
-      yAxisNames: [i18n.t('microService:requests count')],
-      opt: {
-        grid: { top: 30, bottom: 0, right: 35, left: 25 },
-        xAxies: [{ name: `${i18n.t('microService:time')}(ms)`, nameGap: -20 }],
+    timing: {
+      moduleName: 'MIPosition',
+      chartName: 'timing',
+      viewProps: {
+        seriesType: 'bar',
+        isBarChangeColor: true,
+        isLabel: true,
+        yAxisNames: [i18n.t('microService:requests count')],
+        opt: {
+          grid: { top: 30, bottom: 0, right: 35, left: 25 },
+          xAxies: [{ name: `${i18n.t('microService:time')}(ms)`, nameGap: -20 }],
+        },
       },
     },
+    dimension: {
+      moduleName: 'MIPosition',
+      viewType: 'pie',
+    },
   },
-  dimension: {
-    moduleName: 'MIPosition',
-    viewType: 'pie',
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   apdex: chartRender(chartMap.apdex) as any,
   timing: chartRender(chartMap.timing) as any,
   dimension: chartRender(chartMap.dimension) as any,
 };
-

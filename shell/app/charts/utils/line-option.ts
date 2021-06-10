@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable no-undef */
-import { IStaticData } from '@terminus/dashboard-configurator';
+import { IStaticData } from '@erda-ui/dashboard-configurator';
 import { getFormatter } from './index';
 import { cutStr } from 'app/common/utils';
 import { areaColors } from '../theme';
@@ -30,7 +30,7 @@ const calMax = (arr) => {
       }
     });
   });
-  const maxVal = Math.ceil(max / 9.5 * 10);
+  const maxVal = Math.ceil((max / 9.5) * 10);
   return maxVal > 5 ? maxVal + (5 - (maxVal % 5)) : maxVal;
 };
 
@@ -51,7 +51,7 @@ export const getLineOption = (data: IStaticData, optionExtra = {}) => {
     return {};
   }
 
-  const moreThanOneDay = timeSpan ? timeSpan.seconds > (24 * 3600) : false;
+  const moreThanOneDay = timeSpan ? timeSpan.seconds > 24 * 3600 : false;
   const results = sortBy(metricData, 'axisIndex');
   let yAxis = [] as object[];
   // 处理markLine
@@ -73,7 +73,10 @@ export const getLineOption = (data: IStaticData, optionExtra = {}) => {
           },
         },
       },
-      data: markLines.map(({ name, value }) => ([{ x: '7%', yAxis: value, name }, { x: '93%', yAxis: value }])),
+      data: markLines.map(({ name, value }) => [
+        { x: '7%', yAxis: value, name },
+        { x: '93%', yAxis: value },
+      ]),
     };
   }
 
@@ -87,10 +90,14 @@ export const getLineOption = (data: IStaticData, optionExtra = {}) => {
       type: metric.chartType || 'line',
       name: metric.tag || metric.name || metric.key,
       yAxisIndex,
-      data: !isBarChangeColor ? metric.data : map(metric.data, (item, j) => {
-        const sect = Math.ceil(metric.data.length / changeColors.length);
-        return Object.assign({}, item, { itemStyle: { normal: { color: changeColors[Number.parseInt(j / sect, 10)] } } });
-      }),
+      data: !isBarChangeColor
+        ? metric.data
+        : map(metric.data, (item, j) => {
+            const sect = Math.ceil(metric.data.length / changeColors.length);
+            return Object.assign({}, item, {
+              itemStyle: { normal: { color: changeColors[Number.parseInt(j / sect, 10)] } },
+            });
+          }),
       label: {
         normal: {
           show: isLabel,
@@ -113,8 +120,8 @@ export const getLineOption = (data: IStaticData, optionExtra = {}) => {
     });
     const curMax = metric.data ? calMax([metric.data]) : [];
     maxArr[yAxisIndex] = maxArr[yAxisIndex] && maxArr[yAxisIndex] > curMax ? maxArr[yAxisIndex] : curMax;
-    const curUnitType = (metric.unitType || '');// y轴单位类型
-    const curUnit = (metric.unit || '');// y轴单位
+    const curUnitType = metric.unitType || ''; // y轴单位类型
+    const curUnit = metric.unit || ''; // y轴单位
     yAxis[yAxisIndex] = {
       name: metric.name || yAxisNames[yAxisIndex] || '',
       nameTextStyle: {
@@ -155,9 +162,12 @@ export const getLineOption = (data: IStaticData, optionExtra = {}) => {
     return [curYAxis.unitType, curYAxis.unit];
   };
 
-  const genTTArray = (param) => param.map((unit, i) => {
-    return `<span style='color: ${unit.color}'>${cutStr(unit.seriesName, 20)} : ${getFormatter(...getTTUnitType(i)).format(unit.value, 2)}</span><br/>`;
-  });
+  const genTTArray = (param) =>
+    param.map((unit, i) => {
+      return `<span style='color: ${unit.color}'>${cutStr(unit.seriesName, 20)} : ${getFormatter(
+        ...getTTUnitType(i),
+      ).format(unit.value, 2)}</span><br/>`;
+    });
 
   let defaultTTFormatter = (param) => `${param[0].name}<br/>${genTTArray(param).join('')}`;
 
@@ -179,10 +189,11 @@ export const getLineOption = (data: IStaticData, optionExtra = {}) => {
   if (haveTwoYAxis) {
     yAxis = yAxis.map((item, i) => {
       // 有数据和无数据的显示有差异
-      const hasData = some(results[i].data || [], (_data) => (Number(_data) !== 0));
+      const hasData = some(results[i].data || [], (_data) => Number(_data) !== 0);
       let { name } = item;
       if (!hasData) {
-        name = i === 0 ? `${'  '.repeat(item.name.length + 1)}${item.name}` : `${item.name}${'  '.repeat(item.name.length)}`;
+        name =
+          i === 0 ? `${'  '.repeat(item.name.length + 1)}${item.name}` : `${item.name}${'  '.repeat(item.name.length)}`;
       }
 
       // if (i > 1) { // 右侧有超过两个Y轴
@@ -230,13 +241,13 @@ export const getLineOption = (data: IStaticData, optionExtra = {}) => {
         type: 'category',
         // data: xAxis || time || [], /* X轴数据 */
         axisTick: {
-          show: false, /* 坐标刻度 */
+          show: false /* 坐标刻度 */,
         },
         axisLine: {
           show: false,
         },
         axisLabel: {
-          formatter: (value: string|number) => moment(Number(value)).format(moreThanOneDay ? 'M/D HH:mm' : 'HH:mm'),
+          formatter: (value: string | number) => moment(Number(value)).format(moreThanOneDay ? 'M/D HH:mm' : 'HH:mm'),
         },
         splitLine: {
           show: false,

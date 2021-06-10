@@ -21,7 +21,7 @@
     display: block;
     height: 100%;
     border-right: thin solid $color-border;
-    content: "";
+    content: '';
   }
 
   .search-table-content {
@@ -35,7 +35,7 @@
 
     &.active {
       background: $color-active-bg;
-      border-right: .125rem solid $color-primary;
+      border-right: 0.125rem solid $color-primary;
     }
   }
 }

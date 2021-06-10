@@ -18,7 +18,7 @@ import { Row, Col, Progress } from 'app/nusi';
 import { getFormatter } from 'charts/utils/formatter';
 import i18n from 'i18n';
 
-interface IData{
+interface IData {
   [pro: string]: any;
   value: string;
   name: string;
@@ -38,7 +38,7 @@ const renderProgress = (data: IData, i: number, shiftingLeft?: any) => (
   </div>
 );
 
-const SummaryDetail = ({ data }: {data: object}) => {
+const SummaryDetail = ({ data }: { data: object }) => {
   const res = get(data, 'data') || {};
   if (!isEmpty(res)) {
     const pv = (res['count.plt'] || {}).data;
@@ -58,50 +58,107 @@ const SummaryDetail = ({ data }: {data: object}) => {
     const rdc = (res['sum.rdc'] || {}).data;
     const net = (res['avg.net'] || {}).data;
 
+    const loadingData = [
+      {
+        name: i18n.t('microService:end user experience time'),
+        value: plt,
+        percent: 100,
+      },
+      {
+        name: i18n.t('microService:html completes building'),
+        value: dit,
+        percent: (dit / plt) * 100,
+      },
+      {
+        name: i18n.t('microService:blocking resource loading time'),
+        value: drt,
+        percent: (drt / plt) * 100,
+      },
+      {
+        name: i18n.t('microService:white screen time consuming'),
+        value: wst,
+        percent: (wst / plt) * 100,
+      },
+      {
+        name: i18n.t('microService:network time consuming'),
+        value: net,
+        percent: (net / plt) * 100,
+      },
+    ];
 
-    const loadingData = [{
-      name: i18n.t('microService:end user experience time'), value: plt, percent: 100,
-    }, {
-      name: i18n.t('microService:html completes building'), value: dit, percent: (dit / plt) * 100,
-    }, {
-      name: i18n.t('microService:blocking resource loading time'), value: drt, percent: (drt / plt) * 100,
-    }, {
-      name: i18n.t('microService:white screen time consuming'), value: wst, percent: (wst / plt) * 100,
-    }, {
-      name: i18n.t('microService:network time consuming'), value: net, percent: (net / plt) * 100,
-    }];
+    const paramsData = [
+      {
+        name: i18n.t('microService:page uninstall'),
+        value: put,
+        percent: (put / plt) * 100,
+      },
+      {
+        name: i18n.t('microService:page jump'),
+        value: rrt,
+        percent: (rrt / plt) * 100,
+      },
+      {
+        name: i18n.t('microService:query cache'),
+        value: act,
+        percent: (act / plt) * 100,
+      },
+      {
+        name: i18n.t('microService:query dns'),
+        value: dns,
+        percent: (dns / plt) * 100,
+      },
+      {
+        name: i18n.t('microService:building a tcp connection'),
+        value: tcp,
+        percent: (tcp / plt) * 100,
+      },
+      {
+        name: i18n.t('microService:server response'),
+        value: srt,
+        percent: (srt / plt) * 100,
+      },
+      {
+        name: i18n.t('microService:page download'),
+        value: rpt,
+        percent: (rpt / plt) * 100,
+      },
+    ];
 
-    const paramsData = [{
-      name: i18n.t('microService:page uninstall'), value: put, percent: (put / plt) * 100,
-    }, {
-      name: i18n.t('microService:page jump'), value: rrt, percent: (rrt / plt) * 100,
-    }, {
-      name: i18n.t('microService:query cache'), value: act, percent: (act / plt) * 100,
-    }, {
-      name: i18n.t('microService:query dns'), value: dns, percent: (dns / plt) * 100,
-    }, {
-      name: i18n.t('microService:building a tcp connection'), value: tcp, percent: (tcp / plt) * 100,
-    }, {
-      name: i18n.t('microService:server response'), value: srt, percent: (srt / plt) * 100,
-    }, {
-      name: i18n.t('microService:page download'), value: rpt, percent: (rpt / plt) * 100,
-    }];
-
-    const buildingData = [{
-      name: i18n.t('microService:dom parsing'), value: dit, percent: (dit / plt) * 100, key: 'dit',
-    }, {
-      name: 'dom ready', value: drt, percent: (drt / plt) * 100, key: 'drt',
-    }, {
-      name: i18n.t('microService:script execution'), value: set, percent: (set / plt) * 100, key: 'set',
-    }, {
-      name: i18n.t('microService:load event'), value: clt, percent: (clt / plt) * 100, key: 'clt',
-    }];
+    const buildingData = [
+      {
+        name: i18n.t('microService:dom parsing'),
+        value: dit,
+        percent: (dit / plt) * 100,
+        key: 'dit',
+      },
+      {
+        name: 'dom ready',
+        value: drt,
+        percent: (drt / plt) * 100,
+        key: 'drt',
+      },
+      {
+        name: i18n.t('microService:script execution'),
+        value: set,
+        percent: (set / plt) * 100,
+        key: 'set',
+      },
+      {
+        name: i18n.t('microService:load event'),
+        value: clt,
+        percent: (clt / plt) * 100,
+        key: 'clt',
+      },
+    ];
 
     const keyList = ['put', 'rrt', 'act', 'dns', 'tcp', 'rqt', 'rpt', 'dit', 'drt', 'set', 'clt'];
     let timeCount = 0;
     // rqt包含rpt时间，重写为差值
     const temp: any = { ...performance, rqt: srt };
-    const shiftingLeft = keyList.map((key, i) => { timeCount += i ? temp[keyList[i - 1]] : 0; return `${parseFloat(`${(timeCount / temp.plt) * 100}`)}%`; });
+    const shiftingLeft = keyList.map((key, i) => {
+      timeCount += i ? temp[keyList[i - 1]] : 0;
+      return `${parseFloat(`${(timeCount / temp.plt) * 100}`)}%`;
+    });
 
     const part2Left = shiftingLeft.slice(0, paramsData.length);
     const part3Left = shiftingLeft.slice(-buildingData.length);
@@ -111,30 +168,23 @@ const SummaryDetail = ({ data }: {data: object}) => {
           <div className="progress-container">
             <Row>
               <Col span={8}>PV：&nbsp;&nbsp;{pv}</Col>
-              <Col span={8}>{i18n.t('microService:dns resolutions')}: &nbsp;&nbsp;{rdc}</Col>
+              <Col span={8}>
+                {i18n.t('microService:dns resolutions')}: &nbsp;&nbsp;{rdc}
+              </Col>
             </Row>
           </div>
-          <div className="progress-container">
-            {
-              loadingData.map((dt, i) => renderProgress(dt, i))
-            }
-          </div>
-          <div className="progress-container">
-            {
-              paramsData.map((dt, i) => renderProgress(dt, i, part2Left))
-            }
-          </div>
-          <div className="progress-container">
-            {
-              buildingData.map((dt, i) => renderProgress(dt, i, part3Left))
-            }
-          </div>
+          <div className="progress-container">{loadingData.map((dt, i) => renderProgress(dt, i))}</div>
+          <div className="progress-container">{paramsData.map((dt, i) => renderProgress(dt, i, part2Left))}</div>
+          <div className="progress-container">{buildingData.map((dt, i) => renderProgress(dt, i, part3Left))}</div>
         </div>
       </div>
     );
   }
-  return <div style={{ height: '400px', backgroundColor: '#fff' }}><EmptyHolder /></div>;
+  return (
+    <div style={{ height: '400px', backgroundColor: '#fff' }}>
+      <EmptyHolder />
+    </div>
+  );
 };
-
 
 export default SummaryDetail;

@@ -26,7 +26,10 @@ import routeInfoStore from 'common/stores/route';
 import { getCertificateList } from 'org/services/certificate';
 
 const rules = [
-  { pattern: /^[a-zA-Z_]+[.a-zA-Z0-9_-]*$/, message: i18n.t('common:start with letters, includes letters,number,dot, _, -') },
+  {
+    pattern: /^[a-zA-Z_]+[.a-zA-Z0-9_-]*$/,
+    message: i18n.t('common:start with letters, includes letters,number,dot, _, -'),
+  },
 ];
 
 const CertMap = {
@@ -170,11 +173,11 @@ const AppCertificateReference = () => {
         render: (_v: any, record: APP_SETTING.CertRef) => {
           return (
             <div className="table-operations">
-              {
-                record.status === 'approved' && (
-                  <span
-                    className="table-operations-btn"
-                    onClick={() => update({
+              {record.status === 'approved' && (
+                <span
+                  className="table-operations-btn"
+                  onClick={() =>
+                    update({
                       editData: {
                         enable: false,
                         certificateType: record.type,
@@ -183,26 +186,24 @@ const AppCertificateReference = () => {
                         appId: record.appId,
                       },
                       visible: true,
-                    })}
-                  >
-                    {i18n.t('config')}
-                  </span>
-                )
-              }
-              {
-                record.status !== 'pending' && (
-                  <Popconfirm
-                    title={`${i18n.t('common:confirm to delete')}?`}
-                    onConfirm={() => deleteItem({ certificateId: record.certificateId, appId: record.appId }).then(() => {
+                    })
+                  }
+                >
+                  {i18n.t('config')}
+                </span>
+              )}
+              {record.status !== 'pending' && (
+                <Popconfirm
+                  title={`${i18n.t('common:confirm to delete')}?`}
+                  onConfirm={() =>
+                    deleteItem({ certificateId: record.certificateId, appId: record.appId }).then(() => {
                       certRefStore.effects.getList({ appId });
-                    })}
-                  >
-                    <span className="table-operations-btn">
-                      {i18n.t('remove')}
-                    </span>
-                  </Popconfirm>
-                )
-              }
+                    })
+                  }
+                >
+                  <span className="table-operations-btn">{i18n.t('remove')}</span>
+                </Popconfirm>
+              )}
             </div>
           );
         },
@@ -285,12 +286,14 @@ const AppCertificateReference = () => {
 
   const onOk = (data: any) => {
     onCancel();
-    pushToConfig(data).then(() => {
-      getRefList({ appId });
-    }).catch(() => {
-      // TODO 2020/4/20 请求失败后，现有FormModal会充值表单域（是否合理），导致显示逻辑不正确，需重置editData
-      updater.editData({});
-    });
+    pushToConfig(data)
+      .then(() => {
+        getRefList({ appId });
+      })
+      .catch(() => {
+        // TODO 2020/4/20 请求失败后，现有FormModal会充值表单域（是否合理），导致显示逻辑不正确，需重置editData
+        updater.editData({});
+      });
   };
 
   const onCancel = () => {

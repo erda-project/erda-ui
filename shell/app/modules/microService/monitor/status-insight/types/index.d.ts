@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace MONITOR_STATUS {
-
   interface IDashboardQuery {
     projectId: string;
     env: string;
@@ -58,12 +57,12 @@ declare namespace MONITOR_STATUS {
     period?: string;
   }
 
-  interface IMetrics{
+  interface IMetrics {
     status?: string[];
     time?: number[];
   }
 
-  interface ICreateMetricsBody{
+  interface ICreateMetricsBody {
     projectId: string;
     data: IMetricsBody;
   }
@@ -78,11 +77,10 @@ declare namespace MONITOR_STATUS {
     url: string;
   }
 
-  interface IPastIncidents{
+  interface IPastIncidents {
     createAt?: string;
     durationFormat?: string;
     requestId?: string;
     lastUpdate?: string;
   }
-
 }

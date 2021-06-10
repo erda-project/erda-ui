@@ -17,7 +17,7 @@ import { map } from 'lodash';
 import i18n from 'i18n';
 import './statistics-selector.scss';
 
-interface IProps{
+interface IProps {
   onChange: (arg: any) => void;
 }
 
@@ -34,16 +34,12 @@ const StatisticsSelector = (props: IProps) => {
     onChange(val);
   };
   return (
-    <Select
-      className="gi-statistics-selector"
-      defaultValue={STATISTICS.avg.value}
-      onChange={changeValue}
-    >
-      {
-        map(STATISTICS, ({ name, value }) => (
-          <Option value={value} key={value}>{name}</Option>
-        ))
-      }
+    <Select className="gi-statistics-selector" defaultValue={STATISTICS.avg.value} onChange={changeValue}>
+      {map(STATISTICS, ({ name, value }) => (
+        <Option value={value} key={value}>
+          {name}
+        </Option>
+      ))}
     </Select>
   );
 };

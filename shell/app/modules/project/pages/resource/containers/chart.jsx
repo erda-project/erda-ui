@@ -24,10 +24,13 @@ const Chart = (props) => {
   const data = find(chartList, (v) => v === undefined) ? [] : chartList;
   const [isFetching] = useLoading(projectResourceStore, ['getChartData']);
 
-  const getChartList = React.useCallback((payload = {}) => {
-    getChartData({ type: 'cpu', ...payload });
-    getChartData({ type: 'memory', ...payload });
-  }, [getChartData]);
+  const getChartList = React.useCallback(
+    (payload = {}) => {
+      getChartData({ type: 'cpu', ...payload });
+      getChartData({ type: 'memory', ...payload });
+    },
+    [getChartData],
+  );
 
   React.useEffect(() => {
     getChartList({ paths: props.paths, startLevel: props.startLevel });

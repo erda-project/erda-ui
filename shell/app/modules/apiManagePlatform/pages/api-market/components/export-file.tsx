@@ -42,7 +42,7 @@ const ExportFile = ({ visible, onCancel, versionID, assetID, specProtocol: curPr
       },
     ];
   }, [curProtocol]);
-  const handleExport = ({ specProtocol }: {specProtocol: API_MARKET.SpecProtocol}) => {
+  const handleExport = ({ specProtocol }: { specProtocol: API_MARKET.SpecProtocol }) => {
     window.open(exportSwagger({ assetID, versionID, specProtocol }));
     onCancel();
   };

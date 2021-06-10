@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace ISSUE {
-
   interface IIssueButton {
     permission: boolean;
     stateBelong: string;
@@ -48,7 +47,7 @@ declare namespace ISSUE {
     taskType: string;
   }
 
-  interface IIssueButton{
+  interface IIssueButton {
     permission: boolean;
     stateBelong: string;
     stateID: number;
@@ -149,7 +148,7 @@ declare namespace ISSUE {
   interface BatchUpdateBody {
     all: boolean; // +required 是否全量更新
     mine: boolean; // +required 是否过滤我的
-    ids?: number[];// +optional all为false时，不可为空
+    ids?: number[]; // +optional all为false时，不可为空
     assignee?: string;
     state?: string;
     newIterationID?: number;
@@ -185,7 +184,7 @@ declare namespace ISSUE {
     projectID?: number;
   }
 
-  interface BacklogIssueQuery{
+  interface BacklogIssueQuery {
     type?: string | string[];
     title?: string;
     priority?: 'URGENT' | 'HIGH' | 'NORMAL' | 'LOW';

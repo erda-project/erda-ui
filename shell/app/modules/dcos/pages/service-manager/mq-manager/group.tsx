@@ -33,23 +33,16 @@ const Group = () => {
   const [mqID, query] = routeInfoStore.useStore((s) => [s.params.mqID, s.query]);
   const [isFetching] = useLoading(cloudServiceStore, ['getMQGroupList']);
 
-  const [{
-    formVisible,
-    setTagDisabled,
-    tagFormVis,
-    items,
-    tagFormData,
-    stateChangeKey,
-    groupType,
-  }, updater, update] = useUpdate({
-    formVisible: false,
-    setTagDisabled: true,
-    tagFormVis: false,
-    tagFormData: null,
-    items: [] as CLOUD.TagItem[],
-    stateChangeKey: 0,
-    groupType: 'tcp',
-  });
+  const [{ formVisible, setTagDisabled, tagFormVis, items, tagFormData, stateChangeKey, groupType }, updater, update] =
+    useUpdate({
+      formVisible: false,
+      setTagDisabled: true,
+      tagFormVis: false,
+      tagFormData: null,
+      items: [] as CLOUD.TagItem[],
+      stateChangeKey: 0,
+      groupType: 'tcp',
+    });
 
   useEffectOnce(() => {
     getList();
@@ -95,12 +88,14 @@ const Group = () => {
                   tagFormData: {
                     projects: Object.keys(tags),
                   },
-                  items: [{
-                    vendor: 'alicloud',
-                    region: query.region,
-                    resourceID: groupId,
-                    oldTags: Object.keys(tags),
-                  }],
+                  items: [
+                    {
+                      vendor: 'alicloud',
+                      region: query.region,
+                      resourceID: groupId,
+                      oldTags: Object.keys(tags),
+                    },
+                  ],
                 });
               }}
             >
@@ -124,7 +119,8 @@ const Group = () => {
             </ul>
           }
           type="normal"
-        />),
+        />
+      ),
     },
     {
       label: (
@@ -231,11 +227,7 @@ const Group = () => {
           {i18n.t('batch labeling')}
         </Button>
       </div>
-      <Tabs
-        defaultActiveKey="tcp"
-        type="line"
-        onChange={handleChangeTabs}
-      >
+      <Tabs defaultActiveKey="tcp" type="line" onChange={handleChangeTabs}>
         <TabPane tab={i18n.t('tcp protocol')} key="tcp" />
         <TabPane tab={i18n.t('microService:http protocol')} key="http" />
       </Tabs>

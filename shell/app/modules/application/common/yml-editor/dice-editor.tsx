@@ -174,26 +174,25 @@ import { IYmlEditorProps } from './index';
 // //   };
 // // };
 
-
 const DiceEditor = (props: IYmlEditorProps) => {
-//   const { fileName, ops, editing, content } = props;
-//   const [info, tree, propsGroupedAddonList] = repoStore.useStore(s => [s.info, s.tree, s.groupedAddonList]);
-//   const { changeMode } = repoStore.reducers;
-//   const { getAvailableAddonList } = repoStore.effects;
-//   const formRef: any = React.useRef(null);
-//   const form = formRef.current;
-//   const loading = loadingStore.useSpace(repoStore);
-//   const [{ originJsonContent, jsonContent, groupedAddonList, displayData, editData, dataKey, chosenNode, isCreate, drawerVis }, updater, update] = useUpdate({
-//     originJsonContent: defaultJson,
-//     jsonContent: defaultJson,
-//     groupedAddonList: [],
-//     displayData: resetData([], editing) as IData[][],
-//     editData: [],
-//     dataKey: 1,
-//     chosenNode: null as null | IStageTask,
-//     isCreate: false,
-//     drawerVis: false,
-//   });
+  //   const { fileName, ops, editing, content } = props;
+  //   const [info, tree, propsGroupedAddonList] = repoStore.useStore(s => [s.info, s.tree, s.groupedAddonList]);
+  //   const { changeMode } = repoStore.reducers;
+  //   const { getAvailableAddonList } = repoStore.effects;
+  //   const formRef: any = React.useRef(null);
+  //   const form = formRef.current;
+  //   const loading = loadingStore.useSpace(repoStore);
+  //   const [{ originJsonContent, jsonContent, groupedAddonList, displayData, editData, dataKey, chosenNode, isCreate, drawerVis }, updater, update] = useUpdate({
+  //     originJsonContent: defaultJson,
+  //     jsonContent: defaultJson,
+  //     groupedAddonList: [],
+  //     displayData: resetData([], editing) as IData[][],
+  //     editData: [],
+  //     dataKey: 1,
+  //     chosenNode: null as null | IStageTask,
+  //     isCreate: false,
+  //     drawerVis: false,
+  //   });
 
   //   useMount(() => {
   //     updater.groupedAddonList(propsGroupedAddonList);

@@ -23,7 +23,7 @@ import appStore from 'application/stores/application';
 import { getAppDetail } from 'application/services/application';
 import './app-selector.scss';
 
-interface IProps{
+interface IProps {
   [pro: string]: any;
   value: string | number;
   projectId?: string;
@@ -32,7 +32,11 @@ interface IProps{
 }
 
 const AppItem = (app: IApplication) => {
-  return <Tooltip key={app.id} title={app.name}>{app.displayName || app.name}</Tooltip>;
+  return (
+    <Tooltip key={app.id} title={app.name}>
+      {app.displayName || app.name}
+    </Tooltip>
+  );
 };
 
 interface IChosenItem {
@@ -41,7 +45,7 @@ interface IChosenItem {
 }
 export const chosenItemConvert = (values: IChosenItem[] | IChosenItem) => {
   const curApp = appStore.getState((s) => s.detail);
-  const curValues = isArray(values) ? values : (values && [values]);
+  const curValues = isArray(values) ? values : values && [values];
   const existApp = {};
   if (curApp.id) existApp[curApp.id] = curApp;
   const reValue = map(curValues, (item) => {

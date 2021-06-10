@@ -24,7 +24,6 @@ import traceQuerierStore from 'trace-insight/stores/trace-querier';
 import { useLoading } from 'app/common/stores/loading';
 import i18n from 'i18n';
 
-
 const Affairs = () => {
   const { getTraceDetailContent, getSpanDetailContent } = traceQuerierStore.effects;
   const spanDetailContent = traceQuerierStore.useStore((s) => s.spanDetailContent);
@@ -42,7 +41,9 @@ const Affairs = () => {
   const [logQuery, setQuery] = React.useState({});
   const [applicationId, setApplicationId] = React.useState({});
 
-  const chartQuery = chosenSortItem ? { ...filterQuery, filter_source_service_name: chosenSortItem } : { ...filterQuery };
+  const chartQuery = chosenSortItem
+    ? { ...filterQuery, filter_source_service_name: chosenSortItem }
+    : { ...filterQuery };
 
   const fetchTraceContent = ({ requestId }: any) => {
     tracingOn();
@@ -75,13 +76,7 @@ const Affairs = () => {
           <AffairsMap.errorTrack query={filterQuery} viewLog={viewLog} fetchTraceContent={fetchTraceContent} />
         </Col>
       </Row>
-      <Drawer
-        destroyOnClose
-        title={i18n.t('runtime:monitor log')}
-        width="80%"
-        visible={logVisible}
-        onClose={closeLog}
-      >
+      <Drawer destroyOnClose title={i18n.t('runtime:monitor log')} width="80%" visible={logVisible} onClose={closeLog}>
         <SimpleLog requestId={logQuery} applicationId={applicationId} />
       </Drawer>
       <Drawer

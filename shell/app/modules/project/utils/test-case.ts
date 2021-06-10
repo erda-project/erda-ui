@@ -14,11 +14,25 @@
 import { forEach, isEqual } from 'lodash';
 import i18n from 'i18n';
 
-export const getChoosenInfo = (choosenInfo: TEST_CASE.ChoosenInfo, modalChoosenInfo: TEST_CASE.ChoosenInfo, scope?: TEST_CASE.PageScope): TEST_CASE.ChoosenInfo => (scope === 'caseModal' ? modalChoosenInfo : choosenInfo);
-export const getChoosenName = (scope?: TEST_CASE.PageScope) => (scope === 'caseModal' ? 'modalChoosenInfo' : 'choosenInfo');
+export const getChoosenInfo = (
+  choosenInfo: TEST_CASE.ChoosenInfo,
+  modalChoosenInfo: TEST_CASE.ChoosenInfo,
+  scope?: TEST_CASE.PageScope,
+): TEST_CASE.ChoosenInfo => (scope === 'caseModal' ? modalChoosenInfo : choosenInfo);
+export const getChoosenName = (scope?: TEST_CASE.PageScope) =>
+  scope === 'caseModal' ? 'modalChoosenInfo' : 'choosenInfo';
 export const getCaseListName = (scope?: TEST_CASE.PageScope) => (scope === 'caseModal' ? 'modalCaseList' : 'caseList');
 
-const filterList = ['pageNo', 'pageSize', 'orderBy', 'orderRule', 'projectId', 'selectProjectId', 'testPlanId', 'testSetId'];
+const filterList = [
+  'pageNo',
+  'pageSize',
+  'orderBy',
+  'orderRule',
+  'projectId',
+  'selectProjectId',
+  'testPlanId',
+  'testSetId',
+];
 const getCompareObject = (query: object) => {
   const temp = {};
   forEach(query, (value, key) => {
@@ -30,7 +44,8 @@ const getCompareObject = (query: object) => {
   return temp;
 };
 // 当筛选器发生变化时，需要清空选中的ids
-export const checkNeedEmptyChoosenIds = (oldQuery: object, newQuery: object) => !isEqual(getCompareObject(oldQuery), getCompareObject(newQuery));
+export const checkNeedEmptyChoosenIds = (oldQuery: object, newQuery: object) =>
+  !isEqual(getCompareObject(oldQuery), getCompareObject(newQuery));
 
 export const colorMap = {
   [i18n.t('project:pass')]: '#25ca64',
@@ -64,7 +79,11 @@ const orderMap = {
   },
 };
 
-export const formatQuery = ({ orderBy, orderRule, ...rest }: Record<string, any>): Merge<TEST_CASE.QueryCase, TEST_CASE.QueryCaseSort> => {
+export const formatQuery = ({
+  orderBy,
+  orderRule,
+  ...rest
+}: Record<string, any>): Merge<TEST_CASE.QueryCase, TEST_CASE.QueryCaseSort> => {
   const data = { ...rest } as TEST_CASE.QueryCase;
   if (orderRule && orderBy) {
     const orderType = orderMap[orderBy] && orderMap[orderBy][orderRule];

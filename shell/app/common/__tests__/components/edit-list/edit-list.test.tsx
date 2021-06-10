@@ -18,60 +18,64 @@ import { mount, shallow, ReactWrapper } from 'enzyme';
 import { describe, it, jest } from '@jest/globals';
 import { act } from 'react-dom/test-utils';
 
-const dataTemp = [{
-  title: 'name',
-  name: 'name',
-  key: 'name',
-  render: {
-    type: 'textarea',
-    required: true,
-    uniqueValue: true,
+const dataTemp = [
+  {
+    title: 'name',
+    name: 'name',
+    key: 'name',
+    render: {
+      type: 'textarea',
+      required: true,
+      uniqueValue: true,
+    },
   },
-}, {
-  title: 'id',
-  name: 'id',
-  key: 'id',
-  render: {
-    required: false,
-    uniqueValue: true,
+  {
+    title: 'id',
+    name: 'id',
+    key: 'id',
+    render: {
+      required: false,
+      uniqueValue: true,
+    },
   },
-}, {
-  title: 'gender',
-  name: 'gender',
-  key: 'gender',
-  render: {
-    type: 'select',
-    required: true,
-    uniqueValue: false,
-    props: {
-      options: [
-        { value: 'male' },
-        { value: 'female' },
+  {
+    title: 'gender',
+    name: 'gender',
+    key: 'gender',
+    render: {
+      type: 'select',
+      required: true,
+      uniqueValue: false,
+      props: {
+        options: [{ value: 'male' }, { value: 'female' }],
+      },
+    },
+  },
+  {
+    title: 'work',
+    name: 'work',
+    key: 'work',
+    render: {
+      type: 'inputSelect',
+      required: false,
+      uniqueValue: false,
+      rules: [
+        {
+          msg: '参数名为英文、数字、中划线或下划线',
+          pattern: '/^[a-zA-Z0-9_-]*$/',
+        },
       ],
     },
   },
-}, {
-  title: 'work',
-  name: 'work',
-  key: 'work',
-  render: {
-    type: 'inputSelect',
-    required: false,
-    uniqueValue: false,
-    rules: [
-      {
-        msg: '参数名为英文、数字、中划线或下划线',
-        pattern: '/^[a-zA-Z0-9_-]*$/',
-      },
-    ],
+];
+const value = [
+  {
+    name: 'erda',
+    id: '123',
+    gender: 'male',
+    work: 'coder',
   },
-}];
-const value = [{
-  name: 'erda',
-  id: '123',
-  gender: 'male',
-  work: 'coder',
-}];
+];
 
 describe('edit-list', () => {
   describe('EditList', () => {
@@ -82,14 +86,7 @@ describe('edit-list', () => {
       const changeFn = jest.fn();
       const blurSaveFn = jest.fn();
       const saveFn = jest.fn();
-      const wrapper = shallow(
-        <EditList
-          onChange={changeFn}
-          onBlurSave={blurSaveFn}
-          onSave={saveFn}
-          dataTemp={[]}
-        />,
-      );
+      const wrapper = shallow(<EditList onChange={changeFn} onBlurSave={blurSaveFn} onSave={saveFn} dataTemp={[]} />);
       expect(wrapper).toBeEmptyRender();
     });
     it('should work well', () => {
@@ -98,20 +95,20 @@ describe('edit-list', () => {
       const blurSaveFn = jest.fn();
       const saveFn = jest.fn();
       const wrapper = mount(
-        <EditList
-          value={value}
-          onChange={changeFn}
-          onBlurSave={blurSaveFn}
-          onSave={saveFn}
-          dataTemp={dataTemp}
-        />,
+        <EditList value={value} onChange={changeFn} onBlurSave={blurSaveFn} onSave={saveFn} dataTemp={dataTemp} />,
       );
       expect(wrapper.find('.edit-list-item-box')).toHaveLength(2);
-      $$(wrapper, 1).find('.edit-list-item-textarea').simulate('change', { target: { value: '' } });
+      $$(wrapper, 1)
+        .find('.edit-list-item-textarea')
+        .simulate('change', { target: { value: '' } });
       expect($$(wrapper, 1).find('.edit-list-item').at(0)).toHaveClassName('has-error');
       $$(wrapper, 1).find('.edit-list-item-textarea').simulate('focus');
-      $$(wrapper, 1).find('.edit-list-item-textarea').simulate('input', { target: { value: 'textarea' } });
-      $$(wrapper, 1).find('.edit-list-item-textarea').simulate('change', { target: { value: 'textarea' } });
+      $$(wrapper, 1)
+        .find('.edit-list-item-textarea')
+        .simulate('input', { target: { value: 'textarea' } });
+      $$(wrapper, 1)
+        .find('.edit-list-item-textarea')
+        .simulate('change', { target: { value: 'textarea' } });
       $$(wrapper, 1).find('.edit-list-item-textarea').simulate('blur');
       jest.advanceTimersByTime(200);
       expect(blurSaveFn).toHaveBeenLastCalledWith([{ gender: 'male', id: '123', name: 'textarea', work: 'coder' }]);
@@ -120,11 +117,17 @@ describe('edit-list', () => {
         $$(wrapper, 1).find('InputSelect').prop('onBlur')();
       });
       jest.advanceTimersByTime(200);
-      expect(blurSaveFn).toHaveBeenLastCalledWith([{ gender: 'male', id: '123', name: 'textarea', work: 'InputSelect' }]);
-      $$(wrapper, 1).find('input.nowrap').simulate('change', { target: { value: '12234' } });
+      expect(blurSaveFn).toHaveBeenLastCalledWith([
+        { gender: 'male', id: '123', name: 'textarea', work: 'InputSelect' },
+      ]);
+      $$(wrapper, 1)
+        .find('input.nowrap')
+        .simulate('change', { target: { value: '12234' } });
       $$(wrapper, 1).find('input.nowrap').simulate('blur');
       jest.advanceTimersByTime(200);
-      expect(blurSaveFn).toHaveBeenLastCalledWith([{ gender: 'male', id: '12234', name: 'textarea', work: 'InputSelect' }]);
+      expect(blurSaveFn).toHaveBeenLastCalledWith([
+        { gender: 'male', id: '12234', name: 'textarea', work: 'InputSelect' },
+      ]);
       wrapper.find('.edit-list-bottom').find('Button').simulate('click');
       expect(wrapper.find('.edit-list-item-box')).toHaveLength(3);
       wrapper.find('.table-operations-btn').at(1).simulate('click');
@@ -141,7 +144,12 @@ describe('edit-list', () => {
     it('should validateValue work well', () => {
       expect(validateValue(dataTemp, [{ name: 'erda' }, { name: 'erda' }])).toBe('name exist the same erda');
       expect(validateValue(dataTemp, [{ name: 'erda' }, { name: '' }])).toBe('name can not empty');
-      expect(validateValue(dataTemp, [{ name: 'erda', gender: 'male' }, { name: 'erda.cloud', gender: 'male' }])).toBe('');
+      expect(
+        validateValue(dataTemp, [
+          { name: 'erda', gender: 'male' },
+          { name: 'erda.cloud', gender: 'male' },
+        ]),
+      ).toBe('');
     });
   });
 });

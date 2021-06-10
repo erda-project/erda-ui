@@ -20,7 +20,7 @@ import { useEffectOnce } from 'react-use';
 import { get, map, values, isEmpty, merge } from 'lodash';
 import { PureBoardGrid } from 'common';
 import { goTo } from 'common/utils';
-import { colorMap } from '@terminus/dashboard-configurator/src/theme/dice';
+import { colorMap } from '@erda-ui/dashboard-configurator/src/theme/dice';
 import cloudAccountStore from 'dataCenter/stores/cloud-account';
 import Guidance from 'dataCenter/pages/account-guidance';
 import ts_svg from 'app/images/ts.svg';
@@ -53,7 +53,8 @@ const CloudSource = () => {
     let total = 0;
     map(overviewData, (category) => {
       map(category.resourceTypeData, (resource: any, type: string) => {
-        if (resource.expireDays) { // 都一样，随便取一个
+        if (resource.expireDays) {
+          // 都一样，随便取一个
           expireDays = resource.expireDays;
         }
         if (resource.statusCount) {
@@ -109,29 +110,35 @@ const CloudSource = () => {
     };
   }, [overviewData]);
 
-  const getPieStaticData = (list: Array<{ status?: string; chargeType?: string; count: number }>, key: string, formatter?: string) => {
+  const getPieStaticData = (
+    list: Array<{ status?: string; chargeType?: string; count: number }>,
+    key: string,
+    formatter?: string,
+  ) => {
     let total = 0;
-    const metricData = [{
-      name: i18n.t('publisher:proportion'),
-      radius: ['50%', '70%'],
-      center: ['50%', '42%'],
-      label: {
-        show: false,
-        formatter: formatter || '{b}\n{c}',
-        fontSize: '20',
-        position: 'center',
-      },
-      emphasis: {
+    const metricData = [
+      {
+        name: i18n.t('publisher:proportion'),
+        radius: ['50%', '70%'],
+        center: ['50%', '42%'],
         label: {
-          show: true,
-          fontWeight: 'bold',
+          show: false,
+          formatter: formatter || '{b}\n{c}',
+          fontSize: '20',
+          position: 'center',
         },
+        emphasis: {
+          label: {
+            show: true,
+            fontWeight: 'bold',
+          },
+        },
+        data: map(list, (item) => {
+          total += item.count;
+          return { name: item[key], value: item.count };
+        }),
       },
-      data: map(list, (item) => {
-        total += item.count;
-        return { name: item[key], value: item.count };
-      }),
-    }];
+    ];
     const legendData = map(list, (item) => item[key]);
     return {
       metricData,
@@ -144,10 +151,10 @@ const CloudSource = () => {
     if (isEmpty(data) || isEmpty(data.results)) {
       return {};
     }
-    return ({
+    return {
       time: data.time,
       metricData: map(data.results[0].data, (item) => values(item)[0]),
-    });
+    };
   };
 
   const getLayout = React.useCallback(() => {
@@ -165,10 +172,13 @@ const CloudSource = () => {
       },
     };
     const statusData = getPieStaticData(get(overviewData, 'COMPUTE.resourceTypeData.ECS.statusCount'), 'status');
-    const chargeData = getPieStaticData(get(overviewData, 'COMPUTE.resourceTypeData.ECS.chargeTypeCount'), 'chargeType');
+    const chargeData = getPieStaticData(
+      get(overviewData, 'COMPUTE.resourceTypeData.ECS.chargeTypeCount'),
+      'chargeType',
+    );
     const labelData = getPieStaticData(get(overviewData, 'NETWORK.resourceTypeData.VPC.labelCount'), 'label', '{c}');
     const expireData = parseExpireData();
-    return ([
+    return [
       {
         w: 8,
         h: 8,
@@ -260,13 +270,17 @@ const CloudSource = () => {
           chartType: 'chart:bar',
           customRender: !expireData.total
             ? () => {
-              return (
-                <div className="no-expire-tip">
-                  <img src={ts_svg} alt="no-will-expire-resource" />
-                  <div className="color-text-sub">{i18n.t('dataCenter:No service due within {num} days, please rest assured', { num: expireData.expireDays })}</div>
-                </div>
-              );
-            }
+                return (
+                  <div className="no-expire-tip">
+                    <img src={ts_svg} alt="no-will-expire-resource" />
+                    <div className="color-text-sub">
+                      {i18n.t('dataCenter:No service due within {num} days, please rest assured', {
+                        num: expireData.expireDays,
+                      })}
+                    </div>
+                  </div>
+                );
+              }
             : undefined,
           staticData: parseExpireData(),
           chartProps: {
@@ -295,18 +309,22 @@ const CloudSource = () => {
           config: {
             option: {
               color: [colorMap.appleGreen, colorMap.yellow, colorMap.pink, colorMap.gray],
-              xAxis: [{
-                triggerEvent: true,
-              }],
-              yAxis: [{
-                name: i18n.t('dataCenter:count'),
-                nameLocation: 'end',
-                nameGap: 15,
-                minInterval: 1,
-                nameTextStyle: {
-                  padding: [0, 0, 0, 0],
+              xAxis: [
+                {
+                  triggerEvent: true,
                 },
-              }],
+              ],
+              yAxis: [
+                {
+                  name: i18n.t('dataCenter:count'),
+                  nameLocation: 'end',
+                  nameGap: 15,
+                  minInterval: 1,
+                  nameTextStyle: {
+                    padding: [0, 0, 0, 0],
+                  },
+                },
+              ],
             },
           },
         },
@@ -326,13 +344,14 @@ const CloudSource = () => {
             const bucket = get(overviewData, 'STORAGE.resourceTypeData.OSS_BUCKET') || {};
             return (
               <div className="cloud-count-card">
-                <div className="part hover-active" onClick={() => { goTo(goTo.pages.cloudSourceOss); }}>
-                  <div className="count">
-                    {bucket.totalCount || 0}
-                  </div>
-                  <div className="name">
-                    {i18n.t('dataCenter:Bucket Count')}
-                  </div>
+                <div
+                  className="part hover-active"
+                  onClick={() => {
+                    goTo(goTo.pages.cloudSourceOss);
+                  }}
+                >
+                  <div className="count">{bucket.totalCount || 0}</div>
+                  <div className="name">{i18n.t('dataCenter:Bucket Count')}</div>
                 </div>
                 {
                   // ref issue: 59066
@@ -364,13 +383,14 @@ const CloudSource = () => {
           customRender: () => {
             return (
               <div className="cloud-count-card">
-                <div className="part hover-active" onClick={() => { goTo(goTo.pages.cloudAccounts); }}>
-                  <div className="count">
-                    {accountsCount || 0}
-                  </div>
-                  <div className="name">
-                    {i18n.t('dataCenter:Account Count')}
-                  </div>
+                <div
+                  className="part hover-active"
+                  onClick={() => {
+                    goTo(goTo.pages.cloudAccounts);
+                  }}
+                >
+                  <div className="count">{accountsCount || 0}</div>
+                  <div className="name">{i18n.t('dataCenter:Account Count')}</div>
                 </div>
               </div>
             );
@@ -416,18 +436,22 @@ const CloudSource = () => {
           config: {
             option: {
               color: [colorMap.appleGreen, colorMap.yellow, colorMap.pink, colorMap.gray],
-              xAxis: [{
-                triggerEvent: true,
-              }],
-              yAxis: [{
-                name: i18n.t('dataCenter:count'),
-                nameLocation: 'end',
-                nameGap: 15,
-                minInterval: 1,
-                nameTextStyle: {
-                  padding: [0, 0, 0, 0],
+              xAxis: [
+                {
+                  triggerEvent: true,
                 },
-              }],
+              ],
+              yAxis: [
+                {
+                  name: i18n.t('dataCenter:count'),
+                  nameLocation: 'end',
+                  nameGap: 15,
+                  minInterval: 1,
+                  nameTextStyle: {
+                    padding: [0, 0, 0, 0],
+                  },
+                },
+              ],
             },
           },
         },
@@ -452,20 +476,22 @@ const CloudSource = () => {
               moreThanOneDayFormat: 'MMM',
             },
             option: {
-              yAxis: [{
-                name: i18n.t('dataCenter:count'),
-                nameLocation: 'end',
-                nameGap: 15,
-                minInterval: 1,
-                nameTextStyle: {
-                  padding: [0, 0, 0, 0],
+              yAxis: [
+                {
+                  name: i18n.t('dataCenter:count'),
+                  nameLocation: 'end',
+                  nameGap: 15,
+                  minInterval: 1,
+                  nameTextStyle: {
+                    padding: [0, 0, 0, 0],
+                  },
                 },
-              }],
+              ],
             },
           },
         },
       },
-    ]);
+    ];
   }, [overviewData, parseExpireData, parseStatusData, ecsTrendingData, getECSTrendingLoading, accountsCount]);
 
   if (accountsCount > 0) {
@@ -479,9 +505,7 @@ const CloudSource = () => {
   }
   return (
     <Card className="full-height center-flex-box">
-      <Guidance
-        afterSubmit={getResourceInfo}
-      />
+      <Guidance afterSubmit={getResourceInfo} />
     </Card>
   );
 };

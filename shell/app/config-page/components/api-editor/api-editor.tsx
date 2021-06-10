@@ -16,13 +16,29 @@ import classnames from 'classnames';
 import { Copy, Icon as CustomIcon, EditList, EmptyListHolder, FileEditor } from 'common';
 import { validateValue } from 'common/components/edit-list/edit-list';
 import { isArray, isEmpty, isString, map, reduce, set, cloneDeep, find, reject, last, get } from 'lodash';
-import { Badge, Button, Input, Popconfirm, Popover, Radio, Select, Table, Tabs, Spin, Title, Modal, message, Dropdown, Menu, Tooltip } from 'app/nusi';
+import {
+  Badge,
+  Button,
+  Input,
+  Popconfirm,
+  Popover,
+  Radio,
+  Select,
+  Table,
+  Tabs,
+  Spin,
+  Title,
+  Modal,
+  message,
+  Dropdown,
+  Menu,
+  Tooltip,
+} from 'app/nusi';
 import React from 'react';
 import { Copy as IconCopy } from '@icon-park/react';
 import { produce } from 'immer';
 import i18n from 'i18n';
 import './api-editor.scss';
-
 
 const formatJSON = (str: string) => {
   let res = str;
@@ -34,50 +50,57 @@ const formatJSON = (str: string) => {
   return typeof res === 'string' ? res : '';
 };
 
-const getConf = (data: Record<string, any>, key: string| string[]) => {
-  return isArray(key) ? reduce(key, (obj, k) => { return { ...obj, [k]: data[k] }; }, {}) : data[key];
+const getConf = (data: Record<string, any>, key: string | string[]) => {
+  return isArray(key)
+    ? reduce(
+        key,
+        (obj, k) => {
+          return { ...obj, [k]: data[k] };
+        },
+        {},
+      )
+    : data[key];
 };
 
-const processTemp = (execOperation: Function) => (temp = []) => {
-  return map(temp, (item) => {
-    const { render } = item;
-    if (render?.type === 'inputSelect') {
-      const p = {} as Obj;
-      const { operations: rOps, valueConvertType, props: rProps, ...renderRest } = render || {};
-      if (rOps?.onSelectOptionParams) {
-        p.onLoadData = (_selectOpt: any) => {
-          execOperation(rOps.onSelectOptionParams, _selectOpt);
+const processTemp =
+  (execOperation: Function) =>
+  (temp = []) => {
+    return map(temp, (item) => {
+      const { render } = item;
+      if (render?.type === 'inputSelect') {
+        const p = {} as Obj;
+        const { operations: rOps, valueConvertType, props: rProps, ...renderRest } = render || {};
+        if (rOps?.onSelectOptionParams) {
+          p.onLoadData = (_selectOpt: any) => {
+            execOperation(rOps.onSelectOptionParams, _selectOpt);
+          };
+        }
+        p.valueConvert = (str: string[]) => {
+          let v = str.join('');
+          switch (valueConvertType) {
+            case 'last':
+              v = last(str) as string;
+              break;
+            default:
+              break;
+          }
+          return v;
+        };
+
+        return {
+          ...item,
+          render: { ...renderRest, props: { ...rProps, ...p } },
         };
       }
-      p.valueConvert = (str: string[]) => {
-        let v = str.join('');
-        switch (valueConvertType) {
-          case 'last':
-            v = last(str) as string;
-            break;
-          default:
-            break;
-        }
-        return v;
-      };
-
-      return {
-        ...item,
-        render: { ...renderRest, props: { ...rProps, ...p } },
-      };
-    }
-    return { ...item };
-  });
-};
+      return { ...item };
+    });
+  };
 
 const { Option } = Select;
 const { TabPane } = Tabs;
 const { TextArea } = Input;
 
-const BODY_RAW_OPTION = [
-  'text/plain',
-  'application/json',
-];
+const BODY_RAW_OPTION = ['text/plain', 'application/json'];
 
 const formatTip = i18n.t('project:json-format-tip').replace(/</g, '{').replace(/>/g, '}');
 
@@ -85,23 +108,20 @@ const tip = () => (
   <div className="json-format-tip">
     <p className="json-format-tip-title">*{i18n.t('Instructions')}</p>
     <p className="json-format-tip-title">{i18n.t('project:Method of parameter refers to variable')}</p>
-    {
-      map(formatTip.split(';'), (item) => (
-        <div>
-          <p className="json-format-tip-type">{item.split('/')[0]}</p>
-          <p className="json-format-tip-content">{item.split('/')[1]}</p>
-        </div>
-      ))
-    }
+    {map(formatTip.split(';'), (item) => (
+      <div>
+        <p className="json-format-tip-type">{item.split('/')[0]}</p>
+        <p className="json-format-tip-content">{item.split('/')[1]}</p>
+      </div>
+    ))}
   </div>
 );
-
 
 export const APIEditor = (props: CP_API_EDITOR.Props) => {
   const { execOperation, operations, state } = props;
   const configProps = produce(props.props, (draft) => {
     const { commonTemp } = draft;
-    map((commonTemp.target || []), (item) => {
+    map(commonTemp.target || [], (item) => {
       set(draft, `${item}.temp`, commonTemp.temp);
     });
   });
@@ -139,68 +159,74 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
     execOperation(operations.close);
   };
 
-  const validateSpec = React.useCallback((saveData: { apiSpec: CP_API_EDITOR.API }) => {
-    let errMsg = '';
-    const { name, url, out_params = [], method, asserts = [], headers, params, body } = saveData.apiSpec;
-    if (!name) {
-      errMsg = i18n.t('{name} can not empty', { name: i18n.t('interface name') });
-    }
-    if (!method && !errMsg) {
-      errMsg = i18n.t('{name} can not empty', { name: i18n.t('request method') });
-    }
-    if (!url && !errMsg) {
-      errMsg = i18n.t('{name} can not empty', { name: i18n.t('interface path') });
-    }
-    if (!isEmpty(params) && !errMsg) {
-      errMsg = validateValue(get(configProps, 'params.temp', []), params);
-    }
-    if (!isEmpty(headers) && !errMsg) {
-      errMsg = validateValue(get(configProps, 'headers.temp', []), headers);
-    }
-    if (body.type === BasicForm && !isEmpty(body.content) && !errMsg) {
-      errMsg = validateValue(get(configProps, 'body.form.temp', []), body.content);
-    }
-    if (!isEmpty(out_params) && !errMsg) {
-      const temp = {};
-      out_params.forEach((item) => {
-        if (temp[item.key]) {
-          errMsg = i18n.t('out params exist the same {key}', { key: item.key });
-        } else {
-          temp[item.key] = true;
-        }
-      });
-    }
-    const allowEmptys = configProps.asserts.comparisonOperators.filter((t) => t.allowEmpty).map((t) => t.value);
-    return {
-      errMsg,
-      value: {
-        ...saveData,
-        apiSpec: {
-          ...saveData.apiSpec,
-          out_params: (out_params || []).filter((item: any) => item.key && item.expression),
-          asserts: (asserts || []).filter((item: any) => {
-            if (allowEmptys.includes(item.operator)) {
-              return !!item.arg;
-            } else {
-              return Object.values(item).every((t) => t);
-            }
-          }),
-        },
-      },
-    };
-  }, [configProps]);
-
-  const handleSave = React.useCallback((payload?: any) => {
-    if (operations?.onChange) {
-      const saveData = { ...data, apiSpec: payload || api };
-      const { errMsg, value } = validateSpec(saveData);
-      if (errMsg) {
-        message.error(errMsg);
-        return;
+  const validateSpec = React.useCallback(
+    (saveData: { apiSpec: CP_API_EDITOR.API }) => {
+      let errMsg = '';
+      const { name, url, out_params = [], method, asserts = [], headers, params, body } = saveData.apiSpec;
+      if (!name) {
+        errMsg = i18n.t('{name} can not empty', { name: i18n.t('interface name') });
       }
-      execOperation(operations.onChange, { data: value });
-    }
-  }, [api, data, execOperation, operations, validateSpec]);
+      if (!method && !errMsg) {
+        errMsg = i18n.t('{name} can not empty', { name: i18n.t('request method') });
+      }
+      if (!url && !errMsg) {
+        errMsg = i18n.t('{name} can not empty', { name: i18n.t('interface path') });
+      }
+      if (!isEmpty(params) && !errMsg) {
+        errMsg = validateValue(get(configProps, 'params.temp', []), params);
+      }
+      if (!isEmpty(headers) && !errMsg) {
+        errMsg = validateValue(get(configProps, 'headers.temp', []), headers);
+      }
+      if (body.type === BasicForm && !isEmpty(body.content) && !errMsg) {
+        errMsg = validateValue(get(configProps, 'body.form.temp', []), body.content);
+      }
+      if (!isEmpty(out_params) && !errMsg) {
+        const temp = {};
+        out_params.forEach((item) => {
+          if (temp[item.key]) {
+            errMsg = i18n.t('out params exist the same {key}', { key: item.key });
+          } else {
+            temp[item.key] = true;
+          }
+        });
+      }
+      const allowEmptys = configProps.asserts.comparisonOperators.filter((t) => t.allowEmpty).map((t) => t.value);
+      return {
+        errMsg,
+        value: {
+          ...saveData,
+          apiSpec: {
+            ...saveData.apiSpec,
+            out_params: (out_params || []).filter((item: any) => item.key && item.expression),
+            asserts: (asserts || []).filter((item: any) => {
+              if (allowEmptys.includes(item.operator)) {
+                return !!item.arg;
+              } else {
+                return Object.values(item).every((t) => t);
+              }
+            }),
+          },
+        },
+      };
+    },
+    [configProps],
+  );
+
+  const handleSave = React.useCallback(
+    (payload?: any) => {
+      if (operations?.onChange) {
+        const saveData = { ...data, apiSpec: payload || api };
+        const { errMsg, value } = validateSpec(saveData);
+        if (errMsg) {
+          message.error(errMsg);
+          return;
+        }
+        execOperation(operations.onChange, { data: value });
+      }
+    },
+    [api, data, execOperation, operations, validateSpec],
+  );
 
   if (!visible) return null;
 
@@ -279,20 +305,20 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
     const { menu, text, allowSave, ...rest } = apiExecute;
     const dropdownMenu = (
       <Menu
-        onClick={(e) => { handleExecute(e, allowSave); }}
+        onClick={(e) => {
+          handleExecute(e, allowSave);
+        }}
       >
-        {
-          menu.map((mItem) => {
-            return (
-              <Menu.Item key={mItem.key}>{mItem.text}</Menu.Item>
-            );
-          })
-        }
+        {menu.map((mItem) => {
+          return <Menu.Item key={mItem.key}>{mItem.text}</Menu.Item>;
+        })}
       </Menu>
     );
     apiExecuteButton = (
       <Dropdown overlay={dropdownMenu}>
-        <Button {...rest} className="ml12">{text} <CustomIcon type={'di'} className="ml4" /></Button>
+        <Button {...rest} className="ml12">
+          {text} <CustomIcon type={'di'} className="ml4" />
+        </Button>
       </Dropdown>
     );
   }
@@ -335,11 +361,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
       'color-success': isSuccess,
       'color-danger': !isSuccess,
     });
-    let responseBody = (
-      <pre className="response-body">
-        {JSON.stringify(body, null, 2)}
-      </pre>
-    );
+    let responseBody = <pre className="response-body">{JSON.stringify(body, null, 2)}</pre>;
     let isRequestJson = false;
     map(headers, (v: string[], k: string) => {
       map(v, (item: string) => {
@@ -348,23 +370,10 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
           value: item,
         });
         if (k === 'Content-Type' && item.includes('application/json')) {
-          responseBody = (
-            <FileEditor
-              fileExtension="json"
-              value={formatJSON(body)}
-              readOnly
-            />
-          );
+          responseBody = <FileEditor fileExtension="json" value={formatJSON(body)} readOnly />;
         }
         if (k === 'Content-Type' && item.includes('text/html')) {
-          responseBody = (
-            <FileEditor
-              fileExtension="html"
-              value={body}
-              readOnly
-              style={{ maxHeight: '400px' }}
-            />
-          );
+          responseBody = <FileEditor fileExtension="html" value={body} readOnly style={{ maxHeight: '400px' }} />;
         }
       });
     });
@@ -389,68 +398,64 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
     });
     resultTabs = (
       <div className="api-tabs mt20">
-        <Tabs defaultActiveKey="Response" >
+        <Tabs defaultActiveKey="Response">
           <TabPane key="Request" tab="Request">
-            {
-              isEmpty(request)
-                ?
-                  <EmptyListHolder />
-                : (
-                  <>
-                    <div className="request-info color-text-desc pa12">
-                      <span className="method mr12">{get(request, 'method', '')}</span>
-                      <span className="url">{get(request, 'url', '')}</span>
-                    </div>
-                    <Tabs>
-                      <TabPane key="Params" tab="Params">
-                        <Table rowKey="name" size="small" pagination={false} columns={columns} dataSource={requestParams} />
-                      </TabPane>
-                      <TabPane key="Headers" tab="Headers">
-                        <Table rowKey="name" size="small" pagination={false} columns={columns} dataSource={requestHeaders} />
-                      </TabPane>
-                      <TabPane key="Body" tab="Body" className="body-tab">
-                        {
-                          isEmpty(get(request, 'body.content'))
-                            ?
-                              <EmptyListHolder />
-                            : (
-                              <>
-                                <div className="body-type pa12 border-bottom">Type: {get(request, 'body.type', '')}</div>
-                                {
-                                  get(request, 'body.content', '') ? (
-                                    <>
-                                      <Button
-                                        disabled={!get(request, 'body.content')}
-                                        className="copy-btn for-copy copy-request"
-                                        data-clipboard-text={get(request, 'body.content', '')}
-                                        shape="circle"
-                                        icon={<IconCopy />}
-                                      />
-                                      <Copy selector=".copy-request" />
-                                    </>
-                                  ) : null
-                                }
-                                <pre className="response-body">
-                                  {
-                                    isRequestJson
-                                      ?
-                                        <FileEditor
-                                          fileExtension="json"
-                                          value={formatJSON(get(request, 'body.content', ''))}
-                                          readOnly
-                                        />
-                                      :
-                                      get(request, 'body.content', '')
-                                  }
-                                </pre>
-                              </>
-                            )
-                        }
-                      </TabPane>
-                    </Tabs>
-                  </>
-                )
-            }
+            {isEmpty(request) ? (
+              <EmptyListHolder />
+            ) : (
+              <>
+                <div className="request-info color-text-desc pa12">
+                  <span className="method mr12">{get(request, 'method', '')}</span>
+                  <span className="url">{get(request, 'url', '')}</span>
+                </div>
+                <Tabs>
+                  <TabPane key="Params" tab="Params">
+                    <Table rowKey="name" size="small" pagination={false} columns={columns} dataSource={requestParams} />
+                  </TabPane>
+                  <TabPane key="Headers" tab="Headers">
+                    <Table
+                      rowKey="name"
+                      size="small"
+                      pagination={false}
+                      columns={columns}
+                      dataSource={requestHeaders}
+                    />
+                  </TabPane>
+                  <TabPane key="Body" tab="Body" className="body-tab">
+                    {isEmpty(get(request, 'body.content')) ? (
+                      <EmptyListHolder />
+                    ) : (
+                      <>
+                        <div className="body-type pa12 border-bottom">Type: {get(request, 'body.type', '')}</div>
+                        {get(request, 'body.content', '') ? (
+                          <>
+                            <Button
+                              disabled={!get(request, 'body.content')}
+                              className="copy-btn for-copy copy-request"
+                              data-clipboard-text={get(request, 'body.content', '')}
+                              shape="circle"
+                              icon={<IconCopy />}
+                            />
+                            <Copy selector=".copy-request" />
+                          </>
+                        ) : null}
+                        <pre className="response-body">
+                          {isRequestJson ? (
+                            <FileEditor
+                              fileExtension="json"
+                              value={formatJSON(get(request, 'body.content', ''))}
+                              readOnly
+                            />
+                          ) : (
+                            get(request, 'body.content', '')
+                          )}
+                        </pre>
+                      </>
+                    )}
+                  </TabPane>
+                </Tabs>
+              </>
+            )}
           </TabPane>
           <TabPane key="Response" tab="Response">
             <Tabs
@@ -465,14 +470,18 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                 <Table size="small" pagination={false} columns={columns} dataSource={responseHeaders} />
               </TabPane>
               <TabPane key="Body" tab="Body">
-                {
-                  body ? (
-                    <>
-                      <Button disabled={!body} className="copy-btn for-copy copy-response" data-clipboard-text={body} shape="circle" icon={<IconCopy />} />
-                      <Copy selector=".copy-response" />
-                    </>
-                  ) : null
-                }
+                {body ? (
+                  <>
+                    <Button
+                      disabled={!body}
+                      className="copy-btn for-copy copy-response"
+                      data-clipboard-text={body}
+                      shape="circle"
+                      icon={<IconCopy />}
+                    />
+                    <Copy selector=".copy-response" />
+                  </>
+                ) : null}
                 {responseBody}
               </TabPane>
             </Tabs>
@@ -483,7 +492,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
   }
   return (
     <div className="api-item-editor">
-      <Spin size="small" spinning={(executingMap[index]) || false}>
+      <Spin size="small" spinning={executingMap[index] || false}>
         <div className="api-title case-index-hover">
           <Title title={i18n.t('interface name')} level={3} />
           <Input
@@ -506,7 +515,9 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                   placeholder={i18n.t('project:please choose')}
                 >
                   {map(methodList, (method) => (
-                    <Option value={method} key={method}>{method}</Option>
+                    <Option value={method} key={method}>
+                      {method}
+                    </Option>
                   ))}
                 </Select>
               }
@@ -523,7 +534,11 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                 let _tab: any = tab;
                 if (assertSuccess !== undefined && tab === 'Tests') {
                   // 这里直接使用color属性不行，应该是Badge组件有bug
-                  _tab = <Badge dot className={assertSuccess ? 'test-assert-success' : 'test-assert-error'}>{tab}</Badge>;
+                  _tab = (
+                    <Badge dot className={assertSuccess ? 'test-assert-success' : 'test-assert-error'}>
+                      {tab}
+                    </Badge>
+                  );
                 }
                 // const renderProps = get(configProps, dataKey, {});
                 const renderProps = getConf(configProps, dataKey);
@@ -535,7 +550,9 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                       apiObj={api}
                       data={getConf(api, dataKey)}
                       assertResult={assertResult}
-                      onChange={(key: string, val: any, autoSave?: boolean, adjustData?: Function) => updateApi(key, val, autoSave, adjustData)}
+                      onChange={(key: string, val: any, autoSave?: boolean, adjustData?: Function) =>
+                        updateApi(key, val, autoSave, adjustData)
+                      }
                     />
                   </TabPane>
                 );
@@ -546,7 +563,17 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
         </div>
         <div className="api-editor-footer">
           <Button onClick={handleClose}>{i18n.t('cancel')}</Button>
-          {showSave ? <Button className="ml12" type="primary" onClick={() => { handleSave(); }}>{i18n.t('save')}</Button> : null}
+          {showSave ? (
+            <Button
+              className="ml12"
+              type="primary"
+              onClick={() => {
+                handleSave();
+              }}
+            >
+              {i18n.t('save')}
+            </Button>
+          ) : null}
           {apiExecuteButton}
         </div>
       </Spin>
@@ -594,11 +621,7 @@ const AssertTips = () => {
   );
 
   return (
-    <Tooltip
-      placement="topLeft"
-      title={tips}
-      overlayClassName="api-editor-asserts-tips"
-    >
+    <Tooltip placement="topLeft" title={tips} overlayClassName="api-editor-asserts-tips">
       <CustomIcon type="help" />
     </Tooltip>
   );
@@ -612,7 +635,14 @@ const ApiTabComps = {
       const { temp, ...rest } = renderProps;
       const useTemp = processDataTemp(temp);
       return (
-        <EditList {...rest} value={data || []} dataTemp={useTemp} onChange={(v) => { onChange('params', v, false); }} />
+        <EditList
+          {...rest}
+          value={data || []}
+          dataTemp={useTemp}
+          onChange={(v) => {
+            onChange('params', v, false);
+          }}
+        />
       );
     },
   },
@@ -623,7 +653,14 @@ const ApiTabComps = {
       const { temp, ...rest } = renderProps;
       const useTemp = processDataTemp(temp);
       return (
-        <EditList {...rest} value={data || []} dataTemp={useTemp} onChange={(v) => { onChange('headers', v, false); }} />
+        <EditList
+          {...rest}
+          value={data || []}
+          dataTemp={useTemp}
+          onChange={(v) => {
+            onChange('headers', v, false);
+          }}
+        />
       );
     },
   },
@@ -648,13 +685,11 @@ const ApiTabComps = {
               title={i18n.t('project:actual value')}
               trigger="hover"
             >
-              {
-                res.success === true
-                  ? <CustomIcon className="assert-status success" type="tg" />
-                  : res.success === false
-                    ? <CustomIcon className="assert-status error" type="wtg" />
-                    : null
-              }
+              {res.success === true ? (
+                <CustomIcon className="assert-status success" type="tg" />
+              ) : res.success === false ? (
+                <CustomIcon className="assert-status error" type="wtg" />
+              ) : null}
             </Popover>
           );
         });
@@ -690,7 +725,9 @@ const ApiTabComps = {
                         value={value || undefined} // 没有值时显示placeholder
                         className={`${className} case-api-test-select`}
                         placeholder={i18n.t('project:source')}
-                        onChange={(val) => { onCurChange(val, false); }}
+                        onChange={(val) => {
+                          onCurChange(val, false);
+                        }}
                       >
                         <Option value="status">status</Option>
                         <Option value="header">Header:K/V</Option>
@@ -714,12 +751,14 @@ const ApiTabComps = {
               }}
             />
           </div>
-          <div className="table-title">{i18n.t('project:assertion')} <AssertTips /></div>
+          <div className="table-title">
+            {i18n.t('project:assertion')} <AssertTips />
+          </div>
           <div className="table-body">
             <KeyValEdit
               type="asserts"
-              data={(data.asserts || [])}
-              opList={getOpList((data.asserts || []))}
+              data={data.asserts || []}
+              opList={getOpList(data.asserts || [])}
               order={['arg', 'operator', 'value']}
               dataModel={{
                 arg: '',
@@ -740,11 +779,13 @@ const ApiTabComps = {
                         placeholder={i18n.t('project:parameter name')}
                         onChange={(v) => onCurChange(v, false)}
                       >
-                        {
-                          data.out_params?.map((option: any) => {
-                            return option.key === '' ? null : <Option key={option.key} value={option.key}>{option.key}</Option>;
-                          })
-                        }
+                        {data.out_params?.map((option: any) => {
+                          return option.key === '' ? null : (
+                            <Option key={option.key} value={option.key}>
+                              {option.key}
+                            </Option>
+                          );
+                        })}
                       </Select>
                     );
                   },
@@ -759,11 +800,9 @@ const ApiTabComps = {
                         placeholder={i18n.t('project:compare')}
                         onChange={(v) => onCurChange(v, false)}
                       >
-                        {
-                          map((comparisonOperators || []), (item) => {
-                            return <Option value={item.value}>{item.label}</Option>;
-                          })
-                        }
+                        {map(comparisonOperators || [], (item) => {
+                          return <Option value={item.value}>{item.label}</Option>;
+                        })}
                       </Select>
                     );
                   },
@@ -797,7 +836,9 @@ const TestJsonEditor = (props: any) => {
 
   return (
     <div className="test-json-editor">
-      <Button className="json-format-btn" size="small" onClick={handleFormat}>{i18n.t('format')}</Button>
+      <Button className="json-format-btn" size="small" onClick={handleFormat}>
+        {i18n.t('format')}
+      </Button>
       <FileEditor
         fileExtension="json"
         value={val}
@@ -814,29 +855,36 @@ const TestJsonEditor = (props: any) => {
 
 const BasicForm = 'application/x-www-form-urlencoded';
 const ValMap = {
-  none: () => (
-    <div className="body-val-none">{i18n.t('project:the current request has no body')}</div>
-  ),
+  none: () => <div className="body-val-none">{i18n.t('project:the current request has no body')}</div>,
   [BasicForm]: (props: any) => {
     const { data, updateBody, renderProps, processDataTemp }: any = props;
     const { temp, ...rest } = renderProps.form || {};
     const value = Array.isArray(data.content) ? data.content : [];
     const useTemp = processDataTemp(temp);
     return (
-      <EditList {...rest} dataTemp={useTemp} value={value} onChange={(val) => { updateBody('content', val, false); }} />
+      <EditList
+        {...rest}
+        dataTemp={useTemp}
+        value={value}
+        onChange={(val) => {
+          updateBody('content', val, false);
+        }}
+      />
     );
   },
   raw: (props: any) => {
     const { data, updateBody }: any = props;
     const val = isString(data.content) ? data.content : '';
-    return (<TextArea
-      rows={8}
-      value={val}
-      autoSize
-      className="body-val-raw"
-      onChange={(e) => updateBody('content', e.target.value)}
-      // onBlur={e => updateBody('content', e.target.value, true)}
-    />);
+    return (
+      <TextArea
+        rows={8}
+        value={val}
+        autoSize
+        className="body-val-raw"
+        onChange={(e) => updateBody('content', e.target.value)}
+        // onBlur={e => updateBody('content', e.target.value, true)}
+      />
+    );
   },
   'application/json': (props: any) => <TestJsonEditor {...props} />,
 };
@@ -930,29 +978,36 @@ const APIBody = (props: any) => {
           <Radio value={BasicForm}>x-www-form-urlencoded</Radio>
           <Radio value={'raw'}>raw</Radio>
         </Radio.Group>
-        {
-          isRaw ? (
-            <span>
-              <Select
-                size="small"
-                style={{ minWidth: 120 }}
-                onChange={(t: string) => changeType(t, false)}
-                value={realType}
-                dropdownMatchSelectWidth={false}
-              >
-                {map(BODY_RAW_OPTION, (item) => (
-                  <Option key={item} value={item}>{item}</Option>
-                ))}
-              </Select>
-              <Tooltip title={tip}>
-                <CustomIcon type="help" className="ml4 mt8 fz14" />
-              </Tooltip>
-            </span>
-          ) : null
-        }
+        {isRaw ? (
+          <span>
+            <Select
+              size="small"
+              style={{ minWidth: 120 }}
+              onChange={(t: string) => changeType(t, false)}
+              value={realType}
+              dropdownMatchSelectWidth={false}
+            >
+              {map(BODY_RAW_OPTION, (item) => (
+                <Option key={item} value={item}>
+                  {item}
+                </Option>
+              ))}
+            </Select>
+            <Tooltip title={tip}>
+              <CustomIcon type="help" className="ml4 mt8 fz14" />
+            </Tooltip>
+          </span>
+        ) : null}
       </div>
       <div className="body-value-container">
-        {CurValueComp && <CurValueComp data={data} updateBody={updateBody} renderProps={renderProps} processDataTemp={processDataTemp} />}
+        {CurValueComp && (
+          <CurValueComp
+            data={data}
+            updateBody={updateBody}
+            renderProps={renderProps}
+            processDataTemp={processDataTemp}
+          />
+        )}
       </div>
     </div>
   );
@@ -1038,7 +1093,9 @@ const KeyValEdit = (props: IKeyValProps) => {
       // 删除出参时删除对应断言，data为apis全部数据
       if (k === 'out_params') {
         const outParamKeys = {};
-        out_params.forEach((p: any) => { outParamKeys[p.key] = true; });
+        out_params.forEach((p: any) => {
+          outParamKeys[p.key] = true;
+        });
         // 只保留arg没填或者在outParams有匹配的断言
         const newAsserts = asserts.filter((a: any) => a.arg === '' || outParamKeys[a.arg]);
         newData.asserts = newAsserts;
@@ -1055,54 +1112,57 @@ const KeyValEdit = (props: IKeyValProps) => {
 
   return (
     <div className="api-key-val-container">
-      {
-        map(values, (item, i) => {
-          const lastItem = i === values.length - 1;
-          return (
-            <div className="key-val-item" key={i} >
-              {
-                map(order, (key: string) => {
-                  const val = item[key];
-                  const { Comp, props: compProps, getProps } = itemMap[key];
-                  const extraProps = getProps ? getProps(item) : {};
-                  return (
-                    <React.Fragment key={key}>
-                      {Comp ?
-                        <Comp className="flex-1" value={val} record={item} onChange={(curVal: any, autoSave: boolean) => updateValue(i, key, curVal, autoSave)} /> :
-                        <Input
-                          className="flex-1"
-                          placeholder={i18n.t('project:please enter')}
-                          value={val}
-                          onChange={(e) => updateValue(i, key, e.target.value)}
-                          // onBlur={e => updateValue(i, key, e.target.value, true)}
-                          {...compProps}
-                          {...extraProps}
-                        />
-                      }
-                      {Comp === Empty ? null : <div className="item-separate" />}
-                    </React.Fragment>
-                  );
-                })
-              }
-              <div className="key-val-operation">
-                {opList[i] || null}
-                {
-                  type === 'out_params'
-                    ? (
-                      <Popconfirm
-                        title={i18n.t('project:del-param-sync-assert')}
-                        onConfirm={() => handleDelete(i)}
-                      >
-                        <CustomIcon type="sc1" className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'} />
-                      </Popconfirm>
-                    )
-                    : <CustomIcon type="sc1" onClick={() => { handleDelete(i); }} className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'} />
-                }
-              </div>
+      {map(values, (item, i) => {
+        const lastItem = i === values.length - 1;
+        return (
+          <div className="key-val-item" key={i}>
+            {map(order, (key: string) => {
+              const val = item[key];
+              const { Comp, props: compProps, getProps } = itemMap[key];
+              const extraProps = getProps ? getProps(item) : {};
+              return (
+                <React.Fragment key={key}>
+                  {Comp ? (
+                    <Comp
+                      className="flex-1"
+                      value={val}
+                      record={item}
+                      onChange={(curVal: any, autoSave: boolean) => updateValue(i, key, curVal, autoSave)}
+                    />
+                  ) : (
+                    <Input
+                      className="flex-1"
+                      placeholder={i18n.t('project:please enter')}
+                      value={val}
+                      onChange={(e) => updateValue(i, key, e.target.value)}
+                      // onBlur={e => updateValue(i, key, e.target.value, true)}
+                      {...compProps}
+                      {...extraProps}
+                    />
+                  )}
+                  {Comp === Empty ? null : <div className="item-separate" />}
+                </React.Fragment>
+              );
+            })}
+            <div className="key-val-operation">
+              {opList[i] || null}
+              {type === 'out_params' ? (
+                <Popconfirm title={i18n.t('project:del-param-sync-assert')} onConfirm={() => handleDelete(i)}>
+                  <CustomIcon type="sc1" className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'} />
+                </Popconfirm>
+              ) : (
+                <CustomIcon
+                  type="sc1"
+                  onClick={() => {
+                    handleDelete(i);
+                  }}
+                  className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'}
+                />
+              )}
             </div>
-          );
-        })
-      }
+          </div>
+        );
+      })}
     </div>
   );
 };

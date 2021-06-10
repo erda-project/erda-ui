@@ -15,7 +15,8 @@ import {
   DiceFlowType,
   IEditorPoint,
   IDiceFlowDataSource,
-  IPosition, INodeLine,
+  IPosition,
+  INodeLine,
 } from 'application/common/components/dice-yaml-editor-type';
 import DiceYamlEditorItem, { IDiceYamlEditorItem } from 'application/common/components/dice-yaml-editor-item';
 import PointComponentAbstract, { IPointInfo } from 'application/common/components/point-component-abstract';
@@ -32,7 +33,7 @@ const offsetAngle = (1 / 18) * Math.PI;
 const distanceBetweenPoints = (from: IPosition, to: IPosition) => {
   const dx = Math.abs(from.x - to.x);
   const dy = Math.abs(from.y - to.y);
-  return Math.sqrt((dx ** 2) + (dy ** 2));
+  return Math.sqrt(dx ** 2 + dy ** 2);
 };
 
 /**
@@ -54,10 +55,7 @@ const ymlFileData = (pointComponent: PointComponentAbstract<any, any>, dataSourc
 
   dataSource.forEach((point: any, index: number) => {
     const list: IEditorPoint[] = [];
-    maxWidth = Math.max(
-      point.length * (info.ITEM_WIDTH + info.ITEM_MARGIN_RIGHT + info.PADDING_LEFT),
-      maxWidth,
-    );
+    maxWidth = Math.max(point.length * (info.ITEM_WIDTH + info.ITEM_MARGIN_RIGHT + info.PADDING_LEFT), maxWidth);
     point.forEach((p: any, i: number) => {
       const position = {
         x: info.PADDING_LEFT + i * (info.ITEM_WIDTH + info.ITEM_MARGIN_RIGHT),
@@ -109,7 +107,7 @@ const dataMarket = (pointComponent: PointComponentAbstract<any, any>, dataSource
   const points: any[] = [];
   let centerPoint: IFlowItem;
 
-  const averageAngle = dependsItems.length > 1 ? 2 * Math.PI / dependsItems.length : 0;
+  const averageAngle = dependsItems.length > 1 ? (2 * Math.PI) / dependsItems.length : 0;
   let b = averageAngle ? (10 + info.ITEM_WIDTH / 2) / Math.sin(averageAngle / 2) : MIN_RADIUS;
   if (b < MIN_RADIUS) {
     b = MIN_RADIUS;
@@ -123,19 +121,19 @@ const dataMarket = (pointComponent: PointComponentAbstract<any, any>, dataSource
   });
 
   dependsItems.forEach((point: IDiceYamlEditorItem, index: number) => {
-    const angle = Math.abs((averageAngle * index + offsetAngle));
+    const angle = Math.abs(averageAngle * index + offsetAngle);
     let x = 0;
     let y = 0;
-    if ((angle >= 0 && angle < Math.PI / 2) || (angle > (Math.PI * 3 / 2) && angle <= Math.PI * 2)) {
-      x = (a * b) / (Math.sqrt((b ** 2) + (a ** 2) * (Math.tan(angle) ** 2)));
-      y = (a * b * Math.tan(angle)) / (Math.sqrt((b ** 2) + (a ** 2) * (Math.tan(angle) ** 2)));
-    } else if (angle > (Math.PI / 2) && angle < (Math.PI * 3 / 2)) {
-      x = -(a * b) / (Math.sqrt((b ** 2) + (a ** 2) * (Math.tan(angle) ** 2)));
-      y = -(a * b * Math.tan(angle)) / (Math.sqrt((b ** 2) + (a ** 2) * (Math.tan(angle) ** 2)));
+    if ((angle >= 0 && angle < Math.PI / 2) || (angle > (Math.PI * 3) / 2 && angle <= Math.PI * 2)) {
+      x = (a * b) / Math.sqrt(b ** 2 + a ** 2 * Math.tan(angle) ** 2);
+      y = (a * b * Math.tan(angle)) / Math.sqrt(b ** 2 + a ** 2 * Math.tan(angle) ** 2);
+    } else if (angle > Math.PI / 2 && angle < (Math.PI * 3) / 2) {
+      x = -(a * b) / Math.sqrt(b ** 2 + a ** 2 * Math.tan(angle) ** 2);
+      y = -(a * b * Math.tan(angle)) / Math.sqrt(b ** 2 + a ** 2 * Math.tan(angle) ** 2);
     } else if (angle === Math.PI / 2) {
       y = b;
       x = 0;
-    } else if (angle === (3 * Math.PI / 2)) {
+    } else if (angle === (3 * Math.PI) / 2) {
       x = 0;
       y = -b;
     }
@@ -176,13 +174,13 @@ const dataMarket = (pointComponent: PointComponentAbstract<any, any>, dataSource
   points.forEach((point: any, index: number) => {
     if (minLeft < 0) {
       // eslint-disable-next-line no-param-reassign
-      point.position.x = (point.position.x + Math.abs(minLeft) + PADDING / 2);
+      point.position.x = point.position.x + Math.abs(minLeft) + PADDING / 2;
       // eslint-disable-next-line no-param-reassign
       point._position.x = point.position.x;
     }
     if (minTop < 0) {
       // eslint-disable-next-line no-param-reassign
-      point.position.y = (point.position.y + Math.abs(minTop) + PADDING / 2);
+      point.position.y = point.position.y + Math.abs(minTop) + PADDING / 2;
       // eslint-disable-next-line no-param-reassign
       point._position.y = point.position.y;
     }
@@ -213,9 +211,9 @@ const dataMarket = (pointComponent: PointComponentAbstract<any, any>, dataSource
  * 获取箭头朝向
  */
 const getArrowDirection = (from: IPosition, to: IPosition, info: IPointInfo) => {
-  const onLeft = (from.x < to.x) && ((from.x + info.ITEM_WIDTH) < to.x);
-  const showBottom = (from.x + info.ITEM_WIDTH) > to.x && from.x <= (to.x + info.ITEM_WIDTH);
-  const onRight = (from.x > to.x) && ((to.x + info.ITEM_WIDTH) < from.x);
+  const onLeft = from.x < to.x && from.x + info.ITEM_WIDTH < to.x;
+  const showBottom = from.x + info.ITEM_WIDTH > to.x && from.x <= to.x + info.ITEM_WIDTH;
+  const onRight = from.x > to.x && to.x + info.ITEM_WIDTH < from.x;
   const onTop = from.y < to.y;
   const sameX = from.x === to.x;
   const sameY = from.y === to.y;
@@ -309,13 +307,13 @@ const getArrowPosition = (type: string, position: IPosition, info: IPointInfo) =
     case 'top':
       return {
         direction: 'top',
-        x: position.x + (info.ITEM_WIDTH / 2),
+        x: position.x + info.ITEM_WIDTH / 2,
         y: position.y,
       };
     default:
       return {
         direction: 'bottom',
-        x: position.x + (info.ITEM_WIDTH / 2),
+        x: position.x + info.ITEM_WIDTH / 2,
         y: position.y + info.ITEM_HEIGHT,
       };
   }
@@ -336,7 +334,11 @@ const ymlFileLines = (pointComponent: PointComponentAbstract<any, any>, points: 
 /**
  * 设置线的类型和控制点坐标
  */
-const calculateLinePosition = (currentPoint: IEditorPoint[], group: IEditorPoint[][], component: PointComponentAbstract<any, any>) => {
+const calculateLinePosition = (
+  currentPoint: IEditorPoint[],
+  group: IEditorPoint[][],
+  component: PointComponentAbstract<any, any>,
+) => {
   const lines: INodeLine[] = [];
   currentPoint.forEach((point: IEditorPoint) => {
     group.forEach((nextPoint: IEditorPoint[]) => {
@@ -347,10 +349,11 @@ const calculateLinePosition = (currentPoint: IEditorPoint[], group: IEditorPoint
           toPoint: np,
           ...linePosition.line(point, np, component),
         };
-        if ((point.lineTo && point.lineTo.includes(np.name)) ||
+        if (
+          (point.lineTo && point.lineTo.includes(np.name)) ||
           (point.lineTo && point.lineTo[0] === 'all' && np.groupIndex - point.groupIndex === 1)
         ) {
-          item.type = (np.groupIndex - point.groupIndex === 1 && np.index === point.index) ? 'line' : 'polyline';
+          item.type = np.groupIndex - point.groupIndex === 1 && np.index === point.index ? 'line' : 'polyline';
           if (np.groupIndex - point.groupIndex !== 1) {
             item.type = 'polylineAcrossPoint';
           }
@@ -390,10 +393,13 @@ const selectCenterPointArrowToConnect = (to: IFlowItem, centerPoint: IFlowItem, 
     type: 'polyline',
   };
 
-  line.controlPoint = linePosition[centerArrowPoint.point.direction][fromArrowPoint.direction]({
-    from: line.from,
-    to: line.to,
-  }, pointComponent);
+  line.controlPoint = linePosition[centerArrowPoint.point.direction][fromArrowPoint.direction](
+    {
+      from: line.from,
+      to: line.to,
+    },
+    pointComponent,
+  );
 
   return line;
 };

@@ -32,16 +32,22 @@ export const DebounceSearch = (props: IProps) => {
     setValue(pValue);
   }, [pValue]);
 
-  useDebounce(() => {
-    onChange && onChange(value);
-  }, 600, [value]);
+  useDebounce(
+    () => {
+      onChange && onChange(value);
+    },
+    600,
+    [value],
+  );
 
   return (
     <Search
       className={`search-input ${className}`}
       value={value}
       placeholder={placeholder}
-      onChange={(e: any) => { setValue(e.target.value); }}
+      onChange={(e: any) => {
+        setValue(e.target.value);
+      }}
       {...rest}
     />
   );

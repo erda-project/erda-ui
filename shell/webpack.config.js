@@ -34,10 +34,9 @@ const packageJson = require('./package.json');
 
 const mainVersion = packageJson.version.slice(0, -2);
 
-const resolve = pathname => path.resolve(__dirname, pathname);
+const resolve = (pathname) => path.resolve(__dirname, pathname);
 
-const dashboardRealPath = fs.realpathSync(resolve('./node_modules/@terminus/dashboard-configurator'));
-const tcsRealPath = fs.realpathSync(resolve('./node_modules/tsx-control-statements'));
+const dashboardRealPath = fs.realpathSync(resolve('./node_modules/@erda-ui/dashboard-configurator'));
 
 module.exports = () => {
   const nodeEnv = process.env.NODE_ENV || 'development';
@@ -113,10 +112,7 @@ module.exports = () => {
       rules: [
         {
           test: /\.(scss)$/,
-          include: [
-            resolve('app'),
-            dashboardRealPath,
-          ],
+          include: [resolve('app'), dashboardRealPath],
           use: [
             ...(isProd ? [MiniCssExtractPlugin.loader] : []), // extract not support hmr, https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/222
             'thread-loader',
@@ -155,21 +151,14 @@ module.exports = () => {
         },
         {
           test: /\.(tsx?|jsx?)$/,
-          include: [
-            resolve('app'),
-            dashboardRealPath,
-            tcsRealPath,
-          ],
+          include: [resolve('app'), dashboardRealPath],
           use: [
             'thread-loader',
             {
               loader: 'babel-loader', // TODO tree sharking is not available in MF, will handle it later
               options: {
-                presets: [
-                  '@babel/preset-env',
-                  '@babel/preset-react',
-                  '@babel/preset-typescript',
-                ],
+                presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
+                plugins: ['jsx-control-statements'],
               },
             },
           ],
@@ -213,33 +202,29 @@ module.exports = () => {
         css,
         initJs,
         skeleton: {
-          html: fs.readFileSync(
-            resolve('./app/views/skeleton.html')
-          ),
+          html: fs.readFileSync(resolve('./app/views/skeleton.html')),
         },
         minify: isProd
           ? {
-            collapseWhitespace: true,
-            minifyJS: true,
-            minifyCSS: true,
-            removeEmptyAttributes: true,
-          }
+              collapseWhitespace: true,
+              minifyJS: true,
+              minifyCSS: true,
+              removeEmptyAttributes: true,
+            }
           : false,
         diceVersion: JSON.stringify(pkg.version),
       }),
       new webpack.ContextReplacementPlugin(
         // eslint-disable-next-line
         /moment[\\\/]locale$/,
-        /(zh-cn)\.js/
+        /(zh-cn)\.js/,
       ),
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(nodeEnv),
         'process.env.DICE_VER': JSON.stringify(pkg.version),
         'process.env.mainVersion': JSON.stringify(mainVersion),
       }),
-      ...mfConfigs.map(mfConfig => (
-        new ModuleFederationPlugin(mfConfig)
-      )),
+      ...mfConfigs.map((mfConfig) => new ModuleFederationPlugin(mfConfig)),
     ],
     optimization: {
       splitChunks: {
@@ -250,7 +235,8 @@ module.exports = () => {
         maxAsyncRequests: 5, // 限制异步模块内部的并行最大请求数的，说白了你可以理解为是每个import()它里面的最大并行请求数量
         maxInitialRequests: 5, // 限制入口的拆分数量
         name: false,
-        cacheGroups: { // 设置缓存组用来抽取满足不同规则的chunk
+        cacheGroups: {
+          // 设置缓存组用来抽取满足不同规则的chunk
           vendors: {
             test: /[\\/]node_modules[\\/]/,
             reuseExistingChunk: true,

@@ -13,7 +13,7 @@
     .node-item {
       background: $color-bg;
       border-radius: $radius;
-      transition: transform .2s;
+      transition: transform 0.2s;
 
       &:hover {
         color: $color-primary;

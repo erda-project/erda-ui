@@ -44,7 +44,7 @@ const Latency = () => {
   } else {
     query.filter_target_terminus_key = terminusKey;
   }
-  if (httpStatus)query.filter_http_status_code = httpStatus;
+  if (httpStatus) query.filter_http_status_code = httpStatus;
 
   const changeStatistics = (val: string) => {
     setChosenStatistics(val);

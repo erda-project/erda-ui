@@ -18,34 +18,22 @@ import { getLabel, noop } from 'app/configForm/nusi-form/form-items/common';
 
 const FormItem = NForm.Item;
 
-export default ({ loading }: any) => React.memo(({ fieldConfig }: any) => {
-  const {
-    visible,
-    valid,
-    componentProps,
-    required,
-    wrapperProps,
-    label,
-    labelTip,
-  } = fieldConfig;
-  return (
-    <FormItem
-      colon
-      label={getLabel(label, labelTip)}
-      className={visible ? '' : 'hide'}
-      validateStatus={valid[0]}
-      help={valid[1]}
-      required={required}
-      {...wrapperProps}
-    >
-      <Button
-        loading={loading}
-        type="primary"
-        ghost
-        onClick={() => (componentProps.onChange || noop)()}
+export default ({ loading }: any) =>
+  React.memo(({ fieldConfig }: any) => {
+    const { visible, valid, componentProps, required, wrapperProps, label, labelTip } = fieldConfig;
+    return (
+      <FormItem
+        colon
+        label={getLabel(label, labelTip)}
+        className={visible ? '' : 'hide'}
+        validateStatus={valid[0]}
+        help={valid[1]}
+        required={required}
+        {...wrapperProps}
       >
-        {i18n.t('analyze')}
-      </Button>
-    </FormItem>
-  );
-});
+        <Button loading={loading} type="primary" ghost onClick={() => (componentProps.onChange || noop)()}>
+          {i18n.t('analyze')}
+        </Button>
+      </FormItem>
+    );
+  });

@@ -24,7 +24,8 @@ export interface IMachineAlarmQuery {
   pageNo: number;
 }
 export const getAlarmList = (query: IMachineAlarmQuery): IPagingResp<ORG_ALARM.Ticket> => {
-  return agent.get('/api/tickets')
+  return agent
+    .get('/api/tickets')
     .query(query)
     .then((response: any) => response.body);
 };

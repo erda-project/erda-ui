@@ -14,24 +14,26 @@
 import agent from 'agent';
 
 export const getErrorsList = (query: MONITOR_ERROR.IErrorQuery): MONITOR_ERROR.IErrorResp => {
-  return agent.get('/api/spot/tmc/errors')
+  return agent
+    .get('/api/spot/tmc/errors')
     .query(query)
     .then((response: any) => response.body);
 };
-
 
 export const getEventIds = ({ id, errorType, terminusKey }: MONITOR_ERROR.IEventIdsQuery): string[] => {
   const apiMap = {
     'request-detail': `/api/spot/trace/${id}/error-events`,
     'error-detail': `/api/spot/errors/${id}/error-events`,
   };
-  return agent.get(apiMap[errorType])
+  return agent
+    .get(apiMap[errorType])
     .query({ terminusKey })
     .then((response: any) => response.body);
 };
 
 export const getEventDetail = ({ id, terminusKey }: MONITOR_ERROR.IEventDetailQuery): MONITOR_ERROR.IEventDetail => {
-  return agent.get(`/api/spot/error-events/${id}`)
+  return agent
+    .get(`/api/spot/error-events/${id}`)
     .query({ terminusKey })
     .then((response: any) => response.body);
 };

@@ -11,27 +11,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-// const read = require('@commitlint/read');
-
-
 module.exports = {
-  extends: ['@commitlint/config-conventional'],
+  extends: ['ali'],
   rules: {
-    'type-enum': [2, 'always', [
-      'feat', 'fix', 'refactor',
-      'docs', 'style', 'perf', 'test', 'chore', 'revert', 'WIP',
-    ]],
+    'type-enum': [2, 'always', ['feat', 'fix', 'refactor', 'docs', 'style', 'perf', 'test', 'chore', 'revert', 'WIP']],
     'type-case': [1, 'always', 'snake-case'],
-    // 'body-empty': async () => {
-    //   let bodyEmpty = [2, 'always'];
-    //   await read({ edit: true }).then((message) => {
-    //     const commitStr = message.toString();
-    //     const type = commitStr.split(':')[0];
-    //     if (prefixList.includes(type) && !type.endsWith(suffixTypeMap.skip)) {
-    //       bodyEmpty = [2, 'never'];
-    //     }
-    //   });
-    //   return bodyEmpty;
-    // },
   },
 };

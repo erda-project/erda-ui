@@ -20,9 +20,21 @@ import { map, set, unset, keys, isEmpty, get, filter, omit, some, forEach, reduc
 import { regRules } from 'common/utils';
 import { WrappedFormUtils } from 'core/common/interface';
 import ApiParamsModal from 'apiManagePlatform/pages/api-market/design/api-params-modal';
-import { BASE_DATA_TYPE, API_PROPERTY_REQUIRED, API_MEDIA, DATATYPE_EXAMPLE_MAP, QUOTE_PREFIX_NO_EXTENDED,
-  QUOTE_PREFIX, API_FORM_KEY } from 'app/modules/apiManagePlatform/configs.ts';
-import { getPropertyFormSelector, objectExampleField, descriptionField, getPropertyDetailFields } from './property-field';
+import {
+  BASE_DATA_TYPE,
+  API_PROPERTY_REQUIRED,
+  API_MEDIA,
+  DATATYPE_EXAMPLE_MAP,
+  QUOTE_PREFIX_NO_EXTENDED,
+  QUOTE_PREFIX,
+  API_FORM_KEY,
+} from 'app/modules/apiManagePlatform/configs.ts';
+import {
+  getPropertyFormSelector,
+  objectExampleField,
+  descriptionField,
+  getPropertyDetailFields,
+} from './property-field';
 import './basic-params-config.scss';
 
 const { Fields } = FormBuilder;
@@ -61,19 +73,23 @@ interface IFormErrorMap {
 export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
   const { formData, onChange, formType = 'Query', isEditMode = true } = props;
 
-  const [{
-    detailVisible,
-    curPropertyType,
-    innerParamList,
-    dataTempStorage,
-    paramListTempStorage,
-    paramsModalVisible,
-    arrayItemDataStorage,
-    errorMap,
-    formErrorMap,
-  }, updater, update] = useUpdate({
+  const [
+    {
+      detailVisible,
+      curPropertyType,
+      innerParamList,
+      dataTempStorage,
+      paramListTempStorage,
+      paramsModalVisible,
+      arrayItemDataStorage,
+      errorMap,
+      formErrorMap,
+    },
+    updater,
+    update,
+  ] = useUpdate({
     detailVisible: props.detailVisible || false,
-    curPropertyType: formData.type || initialTypeMap[formType] || 'string' as API_SETTING.PropertyType,
+    curPropertyType: formData.type || initialTypeMap[formType] || ('string' as API_SETTING.PropertyType),
     innerParamList: [],
     dataTempStorage: {},
     paramListTempStorage: [],
@@ -97,9 +113,12 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
   React.useImperativeHandle(paramListTempStorageRef, () => paramListTempStorage);
   React.useImperativeHandle(dataTempStorageRef, () => dataTempStorage);
 
-  const isCurTypeOf = React.useCallback((type: BASE_DATA_TYPE) => {
-    return (curPropertyType === type || get(props, ['extraDataTypes', curPropertyType, 'type']) === type);
-  }, [curPropertyType, props]);
+  const isCurTypeOf = React.useCallback(
+    (type: BASE_DATA_TYPE) => {
+      return curPropertyType === type || get(props, ['extraDataTypes', curPropertyType, 'type']) === type;
+    },
+    [curPropertyType, props],
+  );
 
   const isBasicDataType = React.useMemo(() => {
     return some(BASE_DATA_TYPE, (item) => item === curPropertyType);
@@ -109,36 +128,39 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
     return get(data, [QUOTE_PREFIX, 0, '$ref']) || get(data, [QUOTE_PREFIX_NO_EXTENDED]) || '';
   }, []);
 
-  const getExampleData = React.useCallback((data: Obj) => {
-    if (!data) return '';
+  const getExampleData = React.useCallback(
+    (data: Obj) => {
+      if (!data) return '';
 
-    const refTypePath = getRefTypePath(data);
-    const customType = refTypePath.split('/').slice(-1)[0];
-    const customTypeData = get(props, ['extraDataTypes', customType]) || {};
+      const refTypePath = getRefTypePath(data);
+      const customType = refTypePath.split('/').slice(-1)[0];
+      const customTypeData = get(props, ['extraDataTypes', customType]) || {};
 
-    const curType = data.type || customTypeData.type;
+      const curType = data.type || customTypeData.type;
 
-    if (curType === 'object') {
-      const newExample: Obj = refTypePath ? getExampleData(customTypeData) : {};
+      if (curType === 'object') {
+        const newExample: Obj = refTypePath ? getExampleData(customTypeData) : {};
 
-      const customProperties = data.properties || {};
-      forEach(keys(customProperties), (pName) => {
-        const propertyItem = customProperties[pName];
-        newExample[pName] = getExampleData(propertyItem);
-      });
+        const customProperties = data.properties || {};
+        forEach(keys(customProperties), (pName) => {
+          const propertyItem = customProperties[pName];
+          newExample[pName] = getExampleData(propertyItem);
+        });
 
-      return newExample;
-    } else if (curType === 'array') {
-      const newExample: any = refTypePath ? getExampleData(customTypeData) : getExampleData(data.items);
-      return refTypePath ? newExample : [newExample];
-    } else if (refTypePath && customTypeData.example !== undefined) {
-      return customTypeData.example;
-    } else if (data.example !== undefined) {
-      return data.example;
-    } else {
-      return DATATYPE_EXAMPLE_MAP[curType] || '';
-    }
-  }, [getRefTypePath, props]);
+        return newExample;
+      } else if (curType === 'array') {
+        const newExample: any = refTypePath ? getExampleData(customTypeData) : getExampleData(data.items);
+        return refTypePath ? newExample : [newExample];
+      } else if (refTypePath && customTypeData.example !== undefined) {
+        return customTypeData.example;
+      } else if (data.example !== undefined) {
+        return data.example;
+      } else {
+        return DATATYPE_EXAMPLE_MAP[curType] || '';
+      }
+    },
+    [getRefTypePath, props],
+  );
 
   // 表单初始化加载
   React.useEffect(() => {
@@ -191,256 +213,293 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
     });
   }, [updater, formData, getRefTypePath, update]);
 
-
   const AllDataTypes = React.useMemo(() => {
     return filter(props?.allDataTypes, (item) => item !== dataTempStorage[API_FORM_KEY]) || [];
   }, [dataTempStorage, props]);
 
-  const onToggleDetail = React.useCallback((visible) => {
-    if (visible) {
-      const omitList = getRefTypePath(dataTempStorage) ? ['type', API_FORM_KEY] : [API_FORM_KEY];
-      const tempFormData = omit(dataTempStorage, omitList);
-      setTimeout(() => formRef.current!.setFieldsValue(tempFormData));
-    }
-    updater.dataTempStorage(dataTempStorageRef.current);
-    if (curPropertyType === 'array' && arrayItemDataStorage) {
-      updater.dataTempStorage(arrayItemDataStorage);
-    } else {
+  const onToggleDetail = React.useCallback(
+    (visible) => {
+      if (visible) {
+        const omitList = getRefTypePath(dataTempStorage) ? ['type', API_FORM_KEY] : [API_FORM_KEY];
+        const tempFormData = omit(dataTempStorage, omitList);
+        setTimeout(() => formRef.current!.setFieldsValue(tempFormData));
+      }
       updater.dataTempStorage(dataTempStorageRef.current);
-    }
-    updater.innerParamList(paramListTempStorageRef.current);
-    updater.detailVisible(visible);
-  }, [arrayItemDataStorage, curPropertyType, dataTempStorage, getRefTypePath, updater]);
+      if (curPropertyType === 'array' && arrayItemDataStorage) {
+        updater.dataTempStorage(arrayItemDataStorage);
+      } else {
+        updater.dataTempStorage(dataTempStorageRef.current);
+      }
+      updater.innerParamList(paramListTempStorageRef.current);
+      updater.detailVisible(visible);
+    },
+    [arrayItemDataStorage, curPropertyType, dataTempStorage, getRefTypePath, updater],
+  );
 
   const propertyNameMap = React.useMemo(() => {
     const list = props?.siblingProperties || [];
     return map(list, (item) => item[API_FORM_KEY]);
   }, [props]);
 
-  const setFields = React.useCallback((fieldProps: ISetFieldProps) => {
-    const { propertyKey = '', propertyData } = fieldProps;
-    if (propertyKey === API_MEDIA && props.onSetMediaType) {
-      props.onSetMediaType(fieldProps as {propertyKey: string; propertyData: string});
-      return;
-    }
-    if (propertyKey === 'operation') {
-      updater.detailVisible(propertyData);
-      return;
-    }
-    if (formRef?.current) {
-      const newFormData = produce(dataTempStorageRef.current, (draft: any) => {
-        if (curPropertyType === 'array' && !['description', 'type', API_FORM_KEY, API_PROPERTY_REQUIRED].includes(propertyKey)) {
-          set(draft, `items.${propertyKey}`, propertyData);
-        } else {
-          set(draft, propertyKey, propertyData);
-        }
+  const setFields = React.useCallback(
+    (fieldProps: ISetFieldProps) => {
+      const { propertyKey = '', propertyData } = fieldProps;
+      if (propertyKey === API_MEDIA && props.onSetMediaType) {
+        props.onSetMediaType(fieldProps as { propertyKey: string; propertyData: string });
+        return;
+      }
+      if (propertyKey === 'operation') {
+        updater.detailVisible(propertyData);
+        return;
+      }
+      if (formRef?.current) {
+        const newFormData = produce(dataTempStorageRef.current, (draft: any) => {
+          if (
+            curPropertyType === 'array' &&
+            !['description', 'type', API_FORM_KEY, API_PROPERTY_REQUIRED].includes(propertyKey)
+          ) {
+            set(draft, `items.${propertyKey}`, propertyData);
+          } else {
+            set(draft, propertyKey, propertyData);
+          }
 
-        if (propertyKey === 'type') {
-          const curType = propertyData;
-          updater.curPropertyType(curType);
-          unset(draft, QUOTE_PREFIX);
-          unset(draft, QUOTE_PREFIX_NO_EXTENDED);
-          unset(draft, 'default');
-          unset(draft, 'enum');
+          if (propertyKey === 'type') {
+            const curType = propertyData;
+            updater.curPropertyType(curType);
+            unset(draft, QUOTE_PREFIX);
+            unset(draft, QUOTE_PREFIX_NO_EXTENDED);
+            unset(draft, 'default');
+            unset(draft, 'enum');
 
-          if (curType === 'object' || curType === 'array') {
-            unset(draft, 'pattern');
-            unset(draft, 'maxLength');
-            unset(draft, 'minLength');
-            unset(draft, 'format');
-            unset(draft, 'maximum');
-            unset(draft, 'minimum');
-
-            if (curType === 'object') {
-              set(draft, 'properties', {});
-              set(draft, 'required', []);
-              unset(draft, 'items');
-            }
-            if (curType === 'array') {
-              const tempItemData = {
-                type: 'string',
-                example: 'Example',
-              };
-              tempItemData[API_FORM_KEY] = 'items';
-              set(draft, 'items', tempItemData);
-              unset(draft, 'properties');
-              updater.innerParamList([]);
-              updater.paramListTempStorage([]);
-            }
-          } else if (['boolean', 'string', 'number'].includes(curType)) {
-            unset(draft, 'items');
-            unset(draft, 'properties');
-            unset(draft, 'required');
-            if (curType !== 'number') {
-              unset(draft, 'format');
-              unset(draft, 'maximum');
-              unset(draft, 'minimum');
-            }
-            if (curType !== 'string') {
+            if (curType === 'object' || curType === 'array') {
               unset(draft, 'pattern');
               unset(draft, 'maxLength');
               unset(draft, 'minLength');
+              unset(draft, 'format');
+              unset(draft, 'maximum');
+              unset(draft, 'minimum');
+
+              if (curType === 'object') {
+                set(draft, 'properties', {});
+                set(draft, 'required', []);
+                unset(draft, 'items');
+              }
+              if (curType === 'array') {
+                const tempItemData = {
+                  type: 'string',
+                  example: 'Example',
+                };
+                tempItemData[API_FORM_KEY] = 'items';
+                set(draft, 'items', tempItemData);
+                unset(draft, 'properties');
+                updater.innerParamList([]);
+                updater.paramListTempStorage([]);
+              }
+            } else if (['boolean', 'string', 'number'].includes(curType)) {
+              unset(draft, 'items');
+              unset(draft, 'properties');
+              unset(draft, 'required');
+              if (curType !== 'number') {
+                unset(draft, 'format');
+                unset(draft, 'maximum');
+                unset(draft, 'minimum');
+              }
+              if (curType !== 'string') {
+                unset(draft, 'pattern');
+                unset(draft, 'maxLength');
+                unset(draft, 'minLength');
+              }
+              updater.innerParamList([]);
+              updater.paramListTempStorage([]);
             }
-            updater.innerParamList([]);
-            updater.paramListTempStorage([]);
+            set(draft, 'example', DATATYPE_EXAMPLE_MAP[curType]);
           }
-          set(draft, 'example', DATATYPE_EXAMPLE_MAP[curType]);
-        }
-      });
+        });
 
-      if (propertyKey === 'type') {
-        if (!DATATYPE_EXAMPLE_MAP[propertyData]) {
-          const customTypeData = get(props, ['extraDataTypes', propertyData]) || {};
-          const _newTypeData = {
-            ...omit(dataTempStorage, [QUOTE_PREFIX, QUOTE_PREFIX_NO_EXTENDED]),
-            example: customTypeData.example,
-            properties: customTypeData.type === 'object' ? {} : undefined,
-            required: dataTempStorage.required,
-            type: customTypeData.type,
-          };
-          // object类型的引用类型支持可拓展编辑
-          if (customTypeData.type === 'object') {
-            _newTypeData[QUOTE_PREFIX] = [{ $ref: `#/components/schemas/${propertyData}` }];
-          } else {
-            _newTypeData[QUOTE_PREFIX_NO_EXTENDED] = `#/components/schemas/${propertyData}`;
+        if (propertyKey === 'type') {
+          if (!DATATYPE_EXAMPLE_MAP[propertyData]) {
+            const customTypeData = get(props, ['extraDataTypes', propertyData]) || {};
+            const _newTypeData = {
+              ...omit(dataTempStorage, [QUOTE_PREFIX, QUOTE_PREFIX_NO_EXTENDED]),
+              example: customTypeData.example,
+              properties: customTypeData.type === 'object' ? {} : undefined,
+              required: dataTempStorage.required,
+              type: customTypeData.type,
+            };
+            // object类型的引用类型支持可拓展编辑
+            if (customTypeData.type === 'object') {
+              _newTypeData[QUOTE_PREFIX] = [{ $ref: `#/components/schemas/${propertyData}` }];
+            } else {
+              _newTypeData[QUOTE_PREFIX_NO_EXTENDED] = `#/components/schemas/${propertyData}`;
+            }
+
+            const typeQuotePath = _newTypeData[API_FORM_KEY];
+
+            update({
+              dataTempStorage: _newTypeData,
+              innerParamList: [],
+              paramListTempStorage: [],
+            });
+
+            formRef.current.setFieldsValue({ ..._newTypeData, type: propertyData });
+            onChange(dataTempStorage[API_FORM_KEY], _newTypeData, { typeQuotePath, quoteTypeName: propertyData });
+            return;
           }
-
-          const typeQuotePath = _newTypeData[API_FORM_KEY];
-
-          update({
-            dataTempStorage: _newTypeData,
-            innerParamList: [],
-            paramListTempStorage: [],
-          });
-
-          formRef.current.setFieldsValue({ ..._newTypeData, type: propertyData });
-          onChange(dataTempStorage[API_FORM_KEY], _newTypeData, { typeQuotePath, quoteTypeName: propertyData });
-          return;
         }
+
+        updater.dataTempStorage(newFormData);
+        onChange(dataTempStorage[API_FORM_KEY], newFormData);
       }
-
-      updater.dataTempStorage(newFormData);
-      onChange(dataTempStorage[API_FORM_KEY], newFormData);
-    }
-  }, [curPropertyType, dataTempStorage, onChange, props, update, updater]);
+    },
+    [curPropertyType, dataTempStorage, onChange, props, update, updater],
+  );
 
   const dataTypeOptions = React.useMemo(() => {
     if (!props?.extraDataTypes) {
       return map(BASE_DATA_TYPE, (item) => (
-        <Option key={item} value={item}>{item.slice(0, 1).toUpperCase() + item.slice(1)}</Option>));
+        <Option key={item} value={item}>
+          {item.slice(0, 1).toUpperCase() + item.slice(1)}
+        </Option>
+      ));
     } else {
       const basicDataTypeOptions = map(BASE_DATA_TYPE, (item) => (
-        <Option key={item} value={item}>{item.slice(0, 1).toUpperCase() + item.slice(1)}</Option>));
-      const extraOptions = map(keys(props.extraDataTypes), (typeName) => (
-        <Option key={typeName} value={typeName}>{typeName}</Option>
-      )) || [];
+        <Option key={item} value={item}>
+          {item.slice(0, 1).toUpperCase() + item.slice(1)}
+        </Option>
+      ));
+      const extraOptions =
+        map(keys(props.extraDataTypes), (typeName) => (
+          <Option key={typeName} value={typeName}>
+            {typeName}
+          </Option>
+        )) || [];
 
       return [...basicDataTypeOptions, ...extraOptions];
     }
   }, [props]);
 
+  const updateErrorNum = React.useCallback(
+    (num, name) => {
+      const _formErrorMap: IFormErrorMap = {};
+      _formErrorMap[name] = num;
+      if (curPropertyType === 'object') {
+        forEach(paramListTempStorage, (param) => {
+          const pName = param[API_FORM_KEY];
+          if (pName === name) {
+            _formErrorMap[pName] = num;
+          } else {
+            _formErrorMap[pName] = formErrorMap[pName] || 0;
+          }
+        });
+      }
 
-  const updateErrorNum = React.useCallback((num, name) => {
-    const _formErrorMap: IFormErrorMap = {};
-    _formErrorMap[name] = num;
-    if (curPropertyType === 'object') {
-      forEach(paramListTempStorage, (param) => {
-        const pName = param[API_FORM_KEY];
-        if (pName === name) {
-          _formErrorMap[pName] = num;
-        } else {
-          _formErrorMap[pName] = formErrorMap[pName] || 0;
+      updater.formErrorMap(_formErrorMap);
+      const totalError = reduce(values(_formErrorMap), (total, cur) => total + cur, 0);
+
+      props.updateErrorNum && props.updateErrorNum(totalError, dataTempStorage[API_FORM_KEY]);
+      props.onFormErrorNumChange && props.onFormErrorNumChange(totalError, dataTempStorage[API_FORM_KEY]);
+    },
+    [curPropertyType, dataTempStorage, formErrorMap, paramListTempStorage, props, updater],
+  );
+
+  const onChangePropertyName = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newName = e.target.value;
+      const { pattern } = regRules.specialLetter;
+      const nameMap = formType === 'DataType' ? AllDataTypes : propertyNameMap;
+      let isErrorValue = true;
+
+      const isSameWithBaseType = formType === 'DataType' && newName.toLocaleLowerCase() in BASE_DATA_TYPE;
+      if (newName !== '' && !pattern.test(newName) && !nameMap.includes(newName) && !isSameWithBaseType) {
+        const temp = produce(dataTempStorageRef.current, (draft) => {
+          set(draft, API_FORM_KEY, newName);
+        });
+        isErrorValue = false;
+
+        updater.dataTempStorage(temp);
+        onChange(dataTempStorageRef.current[API_FORM_KEY], temp, {
+          typeQuotePath: newName,
+          quoteTypeName: curPropertyType,
+        });
+      }
+
+      // 统计name类型错误数量
+      const newErrorMap = { ...errorMap };
+      if (isErrorValue && !errorMap.name) {
+        newErrorMap.name = true;
+        updater.errorMap(newErrorMap);
+        const errorNum = reduce(values(newErrorMap), (total, cur) => (cur ? total + 1 : total), 0);
+
+        updateErrorNum(errorNum, dataTempStorage[API_FORM_KEY]);
+      } else if (!isErrorValue && errorMap.name) {
+        newErrorMap.name = false;
+        updater.errorMap(newErrorMap);
+        const errorNum = reduce(values(newErrorMap), (total, cur) => (cur ? total + 1 : total), 0);
+
+        updateErrorNum(errorNum, dataTempStorage[API_FORM_KEY]);
+      }
+    },
+    [
+      AllDataTypes,
+      curPropertyType,
+      dataTempStorage,
+      errorMap,
+      formType,
+      onChange,
+      propertyNameMap,
+      updateErrorNum,
+      updater,
+    ],
+  );
+
+  const onChangeNumberValue = React.useCallback(
+    ({ propertyKey, propertyData }: { propertyKey: string; propertyData: number }) => {
+      let isErrorValue = true;
+
+      if (propertyKey === 'minLength') {
+        const maxLength = dataTempStorageRef.current?.maxLength;
+        if (maxLength === undefined || maxLength >= propertyData) {
+          setFields({ propertyKey, propertyData });
+          isErrorValue = false;
         }
-      });
-    }
-
-    updater.formErrorMap(_formErrorMap);
-    const totalError = reduce(values(_formErrorMap), (total, cur) => total + cur, 0);
-
-    props.updateErrorNum && props.updateErrorNum(totalError, dataTempStorage[API_FORM_KEY]);
-    props.onFormErrorNumChange && props.onFormErrorNumChange(totalError, dataTempStorage[API_FORM_KEY]);
-  }, [curPropertyType, dataTempStorage, formErrorMap, paramListTempStorage, props, updater]);
-
-  const onChangePropertyName = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const newName = e.target.value;
-    const { pattern } = regRules.specialLetter;
-    const nameMap = formType === 'DataType' ? AllDataTypes : propertyNameMap;
-    let isErrorValue = true;
-
-    const isSameWithBaseType = (formType === 'DataType') && (newName.toLocaleLowerCase() in BASE_DATA_TYPE);
-    if (newName !== '' && !pattern.test(newName) && !nameMap.includes(newName) && !isSameWithBaseType) {
-      const temp = produce(dataTempStorageRef.current, (draft) => {
-        set(draft, API_FORM_KEY, newName);
-      });
-      isErrorValue = false;
-
-      updater.dataTempStorage(temp);
-      onChange(dataTempStorageRef.current[API_FORM_KEY], temp, { typeQuotePath: newName, quoteTypeName: curPropertyType });
-    }
-
-    // 统计name类型错误数量
-    const newErrorMap = { ...errorMap };
-    if (isErrorValue && !errorMap.name) {
-      newErrorMap.name = true;
-      updater.errorMap(newErrorMap);
-      const errorNum = reduce(values(newErrorMap), (total, cur) => (cur ? (total + 1) : total), 0);
-
-      updateErrorNum(errorNum, dataTempStorage[API_FORM_KEY]);
-    } else if (!isErrorValue && errorMap.name) {
-      newErrorMap.name = false;
-      updater.errorMap(newErrorMap);
-      const errorNum = reduce(values(newErrorMap), (total, cur) => (cur ? (total + 1) : total), 0);
-
-      updateErrorNum(errorNum, dataTempStorage[API_FORM_KEY]);
-    }
-  }, [AllDataTypes, curPropertyType, dataTempStorage, errorMap, formType, onChange, propertyNameMap, updateErrorNum, updater]);
-
-  const onChangeNumberValue = React.useCallback(({ propertyKey, propertyData }: {propertyKey: string; propertyData: number}) => {
-    let isErrorValue = true;
-
-    if (propertyKey === 'minLength') {
-      const maxLength = dataTempStorageRef.current?.maxLength;
-      if (maxLength === undefined || maxLength >= propertyData) {
-        setFields({ propertyKey, propertyData });
-        isErrorValue = false;
+      } else if (propertyKey === 'maxLength') {
+        const minLength = dataTempStorageRef.current?.minLength;
+        if (minLength === undefined || minLength <= propertyData) {
+          setFields({ propertyKey, propertyData });
+          isErrorValue = false;
+        }
+      } else if (propertyKey === 'minimum') {
+        const maximum = dataTempStorageRef.current?.maximum;
+        if (maximum === undefined || maximum >= propertyData) {
+          setFields({ propertyKey, propertyData });
+          isErrorValue = false;
+        }
+      } else {
+        const minimum = dataTempStorageRef.current?.minimum;
+        if (minimum === undefined || minimum <= propertyData) {
+          setFields({ propertyKey, propertyData });
+          isErrorValue = false;
+        }
       }
-    } else if (propertyKey === 'maxLength') {
-      const minLength = dataTempStorageRef.current?.minLength;
-      if (minLength === undefined || minLength <= propertyData) {
-        setFields({ propertyKey, propertyData });
-        isErrorValue = false;
+
+      // 统计number类型错误数量
+      const newErrorMap = { ...errorMap };
+      if (isErrorValue && !errorMap[propertyKey]) {
+        newErrorMap[propertyKey] = true;
+        updater.errorMap(newErrorMap);
+        const errorNum = reduce(values(newErrorMap), (total, cur) => (cur ? total + 1 : total), 0);
+
+        updateErrorNum(errorNum, dataTempStorage[API_FORM_KEY]);
+      } else if (!isErrorValue && errorMap[propertyKey]) {
+        newErrorMap[propertyKey] = false;
+        updater.errorMap(newErrorMap);
+        const errorNum = reduce(values(newErrorMap), (total, cur) => (cur ? total + 1 : total), 0);
+
+        updateErrorNum(errorNum, dataTempStorage[API_FORM_KEY]);
       }
-    } else if (propertyKey === 'minimum') {
-      const maximum = dataTempStorageRef.current?.maximum;
-      if (maximum === undefined || maximum >= propertyData) {
-        setFields({ propertyKey, propertyData });
-        isErrorValue = false;
-      }
-    } else {
-      const minimum = dataTempStorageRef.current?.minimum;
-      if (minimum === undefined || minimum <= propertyData) {
-        setFields({ propertyKey, propertyData });
-        isErrorValue = false;
-      }
-    }
-
-    // 统计number类型错误数量
-    const newErrorMap = { ...errorMap };
-    if (isErrorValue && !errorMap[propertyKey]) {
-      newErrorMap[propertyKey] = true;
-      updater.errorMap(newErrorMap);
-      const errorNum = reduce(values(newErrorMap), (total, cur) => (cur ? (total + 1) : total), 0);
-
-      updateErrorNum(errorNum, dataTempStorage[API_FORM_KEY]);
-    } else if (!isErrorValue && errorMap[propertyKey]) {
-      newErrorMap[propertyKey] = false;
-      updater.errorMap(newErrorMap);
-      const errorNum = reduce(values(newErrorMap), (total, cur) => (cur ? (total + 1) : total), 0);
-
-      updateErrorNum(errorNum, dataTempStorage[API_FORM_KEY]);
-    }
-  }, [errorMap, dataTempStorage, setFields, updater, updateErrorNum]);
-
+    },
+    [errorMap, dataTempStorage, setFields, updater, updateErrorNum],
+  );
 
   //  参数详情选项
   const propertyFields = React.useMemo(() => {
@@ -484,7 +543,9 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
     });
     const _extraProps = {
       quoteTypeName: extraProps?.quoteTypeName,
-      typeQuotePath: extraProps?.typeQuotePath ? `${dataTempStorageRef.current[API_FORM_KEY]}.${extraProps.typeQuotePath}` : '',
+      typeQuotePath: extraProps?.typeQuotePath
+        ? `${dataTempStorageRef.current[API_FORM_KEY]}.${extraProps.typeQuotePath}`
+        : '',
     };
     props.onChange(dataTempStorageRef.current[API_FORM_KEY], tempData, _extraProps);
     updater.arrayItemDataStorage(tempData);
@@ -527,8 +588,13 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
         draft.example = objectExample;
       });
       updater.dataTempStorage(tempData);
-      const typeQuotePath = extraProps?.typeQuotePath ? `${tempData[API_FORM_KEY] || 'schema'}.properties.${extraProps?.typeQuotePath}` : '';
-      props.onChange(dataTempStorageRef.current[API_FORM_KEY], tempData, { typeQuotePath, quoteTypeName: extraProps?.quoteTypeName });
+      const typeQuotePath = extraProps?.typeQuotePath
+        ? `${tempData[API_FORM_KEY] || 'schema'}.properties.${extraProps?.typeQuotePath}`
+        : '';
+      props.onChange(dataTempStorageRef.current[API_FORM_KEY], tempData, {
+        typeQuotePath,
+        quoteTypeName: extraProps?.quoteTypeName,
+      });
     }
   };
 
@@ -571,35 +637,38 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
   }, [curPropertyType, dataTempStorage, getRefTypePath, paramListTempStorage, props]);
 
   // object类型的批量添加参数
-  const addParamList = React.useCallback((newList: Obj[]) => {
-    const refTypePath = getRefTypePath(dataTempStorage);
-    const customDataType = refTypePath ? refTypePath.split('/').slice(-1)[0] : '';
+  const addParamList = React.useCallback(
+    (newList: Obj[]) => {
+      const refTypePath = getRefTypePath(dataTempStorage);
+      const customDataType = refTypePath ? refTypePath.split('/').slice(-1)[0] : '';
 
-    const tempList = [...paramListTempStorage, ...newList];
-    updater.innerParamList(tempList);
-    updater.paramListTempStorage(tempList);
+      const tempList = [...paramListTempStorage, ...newList];
+      updater.innerParamList(tempList);
+      updater.paramListTempStorage(tempList);
 
-    const tempProperties = {};
-    forEach(tempList, (item) => {
-      tempProperties[item[API_FORM_KEY]] = item;
-    });
-    const newExample = refTypePath ? { ...get(props, `extraDataTypes.${customDataType}.example`) } : {};
+      const tempProperties = {};
+      forEach(tempList, (item) => {
+        tempProperties[item[API_FORM_KEY]] = item;
+      });
+      const newExample = refTypePath ? { ...get(props, `extraDataTypes.${customDataType}.example`) } : {};
 
-    const requiredNames: string[] = [];
-    forEach(tempList, (property) => {
-      property[API_PROPERTY_REQUIRED] && requiredNames.push(property[API_FORM_KEY]);
-      newExample[property[API_FORM_KEY]] = property?.example;
-    });
+      const requiredNames: string[] = [];
+      forEach(tempList, (property) => {
+        property[API_PROPERTY_REQUIRED] && requiredNames.push(property[API_FORM_KEY]);
+        newExample[property[API_FORM_KEY]] = property?.example;
+      });
 
-    const newFormData = produce(dataTempStorage, (draft) => {
-      set(draft, 'properties', tempProperties);
-      set(draft, 'type', 'object');
-      set(draft, 'example', newExample);
-      set(draft, 'required', requiredNames);
-    });
-    updater.dataTempStorage(newFormData);
-    props?.onChange && props.onChange(dataTempStorage[API_FORM_KEY], newFormData);
-  }, [dataTempStorage, getRefTypePath, paramListTempStorage, props, updater]);
+      const newFormData = produce(dataTempStorage, (draft) => {
+        set(draft, 'properties', tempProperties);
+        set(draft, 'type', 'object');
+        set(draft, 'example', newExample);
+        set(draft, 'required', requiredNames);
+      });
+      updater.dataTempStorage(newFormData);
+      props?.onChange && props.onChange(dataTempStorage[API_FORM_KEY], newFormData);
+    },
+    [dataTempStorage, getRefTypePath, paramListTempStorage, props, updater],
+  );
 
   // object添加单个参数
   const addParam = React.useCallback(() => {
@@ -622,7 +691,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
 
   // 更新设置example示例
   React.useEffect(() => {
-    const tempData = (isCurTypeOf(BASE_DATA_TYPE.array) && arrayItemDataStorage) ? arrayItemDataStorage : dataTempStorage;
+    const tempData = isCurTypeOf(BASE_DATA_TYPE.array) && arrayItemDataStorage ? arrayItemDataStorage : dataTempStorage;
     const newExample = getExampleData(tempData);
     setTimeout(() => formRef.current.setFieldsValue({ example: newExample }));
   }, [arrayItemDataStorage, curPropertyType, dataTempStorage, getExampleData, isCurTypeOf]);
@@ -635,7 +704,13 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
   };
 
   const formFieldsSelector = React.useMemo(() => {
-    const tempFields = getPropertyFormSelector({ formType, dataTypeOptions, propertyNameMap, AllDataTypes, detailVisible });
+    const tempFields = getPropertyFormSelector({
+      formType,
+      dataTypeOptions,
+      propertyNameMap,
+      AllDataTypes,
+      detailVisible,
+    });
     return map(tempFields, (fieldItem: any) => {
       const tempFieldItem = produce(fieldItem, (draft: { name: string }) => {
         if (draft.name === API_FORM_KEY && ['DataType', 'Query'].includes(formType)) {
@@ -644,7 +719,7 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
           set(draft, 'customProps.onChange', onToggleDetail);
         } else {
           set(draft, 'customProps.onChange', (e: React.ChangeEvent<HTMLInputElement> | string | boolean) => {
-            const newVal = (typeof e === 'string' || typeof e === 'boolean') ? e : e.target.value;
+            const newVal = typeof e === 'string' || typeof e === 'boolean' ? e : e.target.value;
             setFields({ propertyKey: fieldItem?.name, propertyData: newVal });
           });
         }
@@ -652,7 +727,17 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
       });
       return tempFieldItem;
     });
-  }, [formType, dataTypeOptions, propertyNameMap, AllDataTypes, detailVisible, isEditMode, onChangePropertyName, onToggleDetail, setFields]);
+  }, [
+    formType,
+    dataTypeOptions,
+    propertyNameMap,
+    AllDataTypes,
+    detailVisible,
+    isEditMode,
+    onChangePropertyName,
+    onToggleDetail,
+    setFields,
+  ]);
 
   const detailType = React.useMemo(() => {
     if (detailVisible) {
@@ -669,83 +754,75 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
 
   return (
     <FormBuilder isMultiColumn wrappedComponentRef={formRef}>
-      {
-        props?.formType !== 'Parameters' && <Fields fields={formFieldsSelector} />
-      }
-      { (detailVisible && isBasicDataType) && <Fields fields={propertyFields} /> }
-      {
-        detailType === 'object' &&
+      {props?.formType !== 'Parameters' && <Fields fields={formFieldsSelector} />}
+      {detailVisible && isBasicDataType && <Fields fields={propertyFields} />}
+      {detailType === 'object' && (
         <div>
-          {
-            map(innerParamList, (record, index) => {
-              return (
-                <div className="param-form" key={record[API_FORM_KEY]}>
-                  {isEditMode && (
-                    <div className="param-form-operation">
-                      <Popconfirm title={`${i18n.t('common:confirm deletion')}?`} onConfirm={() => deleteParamByFormKey(record, index)}>
-                        <CustomIcon type="shanchu" className="param-form-operation-btn pointer" />
-                      </Popconfirm>
-                    </div>
-                  )}
-                  <div className="param-form-content">
-                    <FormBuilder isMultiColumn>
-                      <PropertyItemForm
-                        key={record[API_FORM_KEY]}
-                        updateErrorNum={updateErrorNum}
-                        formData={record}
-                        isEditMode={isEditMode}
-                        onChange={updateInnerParamList}
-                        extraDataTypes={props?.extraDataTypes}
-                        siblingProperties={filter(innerParamList, (item) => item[API_FORM_KEY] !== record[API_FORM_KEY])}
-                      />
-                    </FormBuilder>
+          {map(innerParamList, (record, index) => {
+            return (
+              <div className="param-form" key={record[API_FORM_KEY]}>
+                {isEditMode && (
+                  <div className="param-form-operation">
+                    <Popconfirm
+                      title={`${i18n.t('common:confirm deletion')}?`}
+                      onConfirm={() => deleteParamByFormKey(record, index)}
+                    >
+                      <CustomIcon type="shanchu" className="param-form-operation-btn pointer" />
+                    </Popconfirm>
                   </div>
+                )}
+                <div className="param-form-content">
+                  <FormBuilder isMultiColumn>
+                    <PropertyItemForm
+                      key={record[API_FORM_KEY]}
+                      updateErrorNum={updateErrorNum}
+                      formData={record}
+                      isEditMode={isEditMode}
+                      onChange={updateInnerParamList}
+                      extraDataTypes={props?.extraDataTypes}
+                      siblingProperties={filter(innerParamList, (item) => item[API_FORM_KEY] !== record[API_FORM_KEY])}
+                    />
+                  </FormBuilder>
                 </div>
-              );
-            })
-          }
-          {
-            isEditMode && (
-              <>
-                <Button className="operation-btn mb16" onClick={addParam}>{i18n.t('common:add parameter')}</Button>
-                <Button
-                  className="operation-btn mb16 ml8"
-                  onClick={() => updater.paramsModalVisible(true)}
-                >{i18n.t('project:import parameters')}
-                </Button>
-              </>
-            )
-          }
-          {
-            props?.formType !== 'Parameters' && <Fields fields={[objectExampleField]} />
-          }
-        </div>
-      }
-      {
-        detailType === 'array' && (
-          <>
-            {
-              isBasicDataType &&
-              <div className="array-form">
-                <PropertyItemForm
-                  formType="Array"
-                  updateErrorNum={updateErrorNum}
-                  formData={dataTempStorage.items || {}}
-                  detailVisible
-                  onChange={onArrayItemChange}
-                  isEditMode={isEditMode}
-                  extraDataTypes={props?.extraDataTypes}
-                  siblingProperties={filter(innerParamList, (item) => item[API_FORM_KEY] !== dataTempStorage.items[API_FORM_KEY])}
-                />
               </div>
-            }
-            <Fields fields={[objectExampleField]} />
-          </>
-        )
-      }
-      {
-        detailType === 'example' && <Fields fields={[objectExampleField]} />
-      }
+            );
+          })}
+          {isEditMode && (
+            <>
+              <Button className="operation-btn mb16" onClick={addParam}>
+                {i18n.t('common:add parameter')}
+              </Button>
+              <Button className="operation-btn mb16 ml8" onClick={() => updater.paramsModalVisible(true)}>
+                {i18n.t('project:import parameters')}
+              </Button>
+            </>
+          )}
+          {props?.formType !== 'Parameters' && <Fields fields={[objectExampleField]} />}
+        </div>
+      )}
+      {detailType === 'array' && (
+        <>
+          {isBasicDataType && (
+            <div className="array-form">
+              <PropertyItemForm
+                formType="Array"
+                updateErrorNum={updateErrorNum}
+                formData={dataTempStorage.items || {}}
+                detailVisible
+                onChange={onArrayItemChange}
+                isEditMode={isEditMode}
+                extraDataTypes={props?.extraDataTypes}
+                siblingProperties={filter(
+                  innerParamList,
+                  (item) => item[API_FORM_KEY] !== dataTempStorage.items[API_FORM_KEY],
+                )}
+              />
+            </div>
+          )}
+          <Fields fields={[objectExampleField]} />
+        </>
+      )}
+      {detailType === 'example' && <Fields fields={[objectExampleField]} />}
       <ApiParamsModal
         visible={paramsModalVisible}
         onImport={onImport}

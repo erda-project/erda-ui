@@ -18,7 +18,7 @@ import { useLoading } from 'app/common/stores/loading';
 import routeInfoStore from 'app/common/stores/route';
 import { useMount } from 'react-use';
 
-interface IProps{
+interface IProps {
   traceId?: string;
 }
 

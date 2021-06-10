@@ -39,17 +39,16 @@ const AddonResource = (props) => {
     <div className="addon-resource-panel">
       <div className="resource-config-panel">
         <div className="basic-info">
-          {
-            instanceData.map(({ key, value, hasValue = true }) => {
-              return (
-                <IF key={key} check={hasValue}>
-                  <div>
-                    <div className="info-key">{key}</div>
-                    <div className="info-value">{value}</div>
-                  </div>
-                </IF>);
-            })
-          }
+          {instanceData.map(({ key, value, hasValue = true }) => {
+            return (
+              <IF key={key} check={hasValue}>
+                <div>
+                  <div className="info-key">{key}</div>
+                  <div className="info-value">{value}</div>
+                </div>
+              </IF>
+            );
+          })}
         </div>
       </div>
     </div>

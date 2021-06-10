@@ -128,7 +128,6 @@ const mock: CONFIG_PAGE.RenderConfig = {
                     key: 'changeScenario',
                     scenarioType: 'project-list-my', // 后端定义
                     scenarioKey: 'project-list-my', // 后端定义
-
                   },
                 },
               },
@@ -148,7 +147,6 @@ const mock: CONFIG_PAGE.RenderConfig = {
                 },
               },
             },
-
           ],
         },
         state: {
@@ -182,7 +180,8 @@ const mock: CONFIG_PAGE.RenderConfig = {
           list: [
             {
               id: '1',
-              title: '测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1',
+              title:
+                '测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1测试1',
               description: '测试测试测试测试',
               projectId: '1',
               prefixImg: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
@@ -212,7 +211,6 @@ const mock: CONFIG_PAGE.RenderConfig = {
                     projectId: 1,
                     projectName: 'xxx',
                   },
-
                 },
                 toManage: {
                   key: 'toManage',
@@ -283,8 +281,7 @@ const mock: CONFIG_PAGE.RenderConfig = {
               type: 'input' as const,
             },
           ],
-          values: {
-          },
+          values: {},
         },
         operations: {
           filter: {
@@ -296,7 +293,6 @@ const mock: CONFIG_PAGE.RenderConfig = {
     },
   },
 };
-
 
 const useMock = () => {
   return new Promise((resolve) => {

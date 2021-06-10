@@ -17,7 +17,6 @@ import { Drawer } from 'app/nusi';
 import TestEnv from '../../../test-env/test-env';
 import testEnvStore from 'project/stores/test-env';
 
-
 const TestEnvDrawer = () => {
   const { envID, envType } = testEnvStore.useStore((s) => s.envInfo);
   return (

@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 import * as React from 'react';
 import { Row, Col, Radio, Input, Select } from 'app/nusi';
 import { map, get, isEmpty } from 'lodash';
@@ -103,11 +102,13 @@ const getLineChartLayout = (data: any) => {
 const getPieChartLayout = (data: any) => {
   const curDataList = get(data, 'results[0].data') || [];
   const legendData = [] as string[];
-  const metricData = [{
-    name: i18n.t('publisher:proportion'),
-    radius: '60%',
-    data: [] as Array<{ value: number; name: string }>,
-  }];
+  const metricData = [
+    {
+      name: i18n.t('publisher:proportion'),
+      radius: '60%',
+      data: [] as Array<{ value: number; name: string }>,
+    },
+  ];
   map(curDataList, (dataItem) => {
     map(dataItem, (item) => {
       metricData[0].data.push({ value: item.data, name: item.tag });
@@ -133,7 +134,12 @@ const FilterTab = ({ onChange, className }: { onChange: (val: string) => void; c
   }, [onChange, value]);
 
   return (
-    <RadioGroup className={`${className || ''}`} size="small" value={value} onChange={(e: any) => setValue(e.target.value)}>
+    <RadioGroup
+      className={`${className || ''}`}
+      size="small"
+      value={value}
+      onChange={(e: any) => setValue(e.target.value)}
+    >
       {map(tabs, ({ label, value: val }) => {
         return (
           <Radio.Button key={val} value={val}>
@@ -151,7 +157,19 @@ const Statistics = (props: IProps) => {
   const publishItemMonitors = publisherStore.useStore((s) => s.publishItemMonitors);
   const publisherItemId = artifacts.id;
   const { getStatisticsTrend, getStatisticsChart, getStatisticsPieChart } = statisticsStore.effects;
-  const [{ totalTrend, lineType, lineData, pieVersionType, pieChannelType, pieVersionData, pieChannelData, selectMonitorKey }, updater] = useUpdate({
+  const [
+    {
+      totalTrend,
+      lineType,
+      lineData,
+      pieVersionType,
+      pieChannelType,
+      pieVersionData,
+      pieChannelData,
+      selectMonitorKey,
+    },
+    updater,
+  ] = useUpdate({
     totalTrend: formatTrendData(),
     lineType: '',
     pieVersionType: '',
@@ -214,7 +232,8 @@ const Statistics = (props: IProps) => {
       ...extraQuery,
       limit: 10,
       // 累计用户取一个月前开始时间，其他取当天零点开始数据
-      start: pieVersionType === 'tags.uid' ? moment().subtract(32, 'days').valueOf() : moment().startOf('day').valueOf(),
+      start:
+        pieVersionType === 'tags.uid' ? moment().subtract(32, 'days').valueOf() : moment().startOf('day').valueOf(),
       end: new Date().getTime(), // 当前时间毫秒
       ...monitorKey,
     };
@@ -236,7 +255,8 @@ const Statistics = (props: IProps) => {
       ...extraQuery,
       limit: 10,
       // 累计用户取一个月前开始时间，其他取当天零点开始数据
-      start: pieChannelType === 'tags.uid' ? moment().subtract(32, 'days').valueOf() : moment().startOf('day').valueOf(),
+      start:
+        pieChannelType === 'tags.uid' ? moment().subtract(32, 'days').valueOf() : moment().startOf('day').valueOf(),
       end: new Date().getTime(), // 当前时间毫秒
       ...monitorKey,
     };
@@ -270,9 +290,7 @@ const Statistics = (props: IProps) => {
         staticData: getLineChartLayout(lineData),
         title: () => (
           <div className="chart-title flex-box  full-width">
-            <FilterTab onChange={OnChangeLineType
-              }
-            />
+            <FilterTab onChange={OnChangeLineType} />
             <TimeSelector inline disabledDate={() => false} />
           </div>
         ),
@@ -297,7 +315,8 @@ const Statistics = (props: IProps) => {
               onClick={() => {
                 goTo('./topDetail/version', { query: monitorKey });
               }}
-            >{i18n.t('publisher:see details')}
+            >
+              {i18n.t('publisher:see details')}
             </span>
           </div>
         ),
@@ -316,10 +335,7 @@ const Statistics = (props: IProps) => {
         customRender: (chartNode: any) => {
           return (
             <div className="v-flex-box">
-              <FilterTab
-                className="mb8"
-                onChange={OnChangePieVersionType}
-              />
+              <FilterTab className="mb8" onChange={OnChangePieVersionType} />
               <div className="flex-1">{chartNode}</div>
             </div>
           );
@@ -346,7 +362,8 @@ const Statistics = (props: IProps) => {
               onClick={() => {
                 goTo('./topDetail/channel', { query: monitorKey });
               }}
-            >{i18n.t('publisher:see details')}
+            >
+              {i18n.t('publisher:see details')}
             </span>
           </div>
         ),
@@ -372,64 +389,72 @@ const Statistics = (props: IProps) => {
     },
   ];
 
-  const config: FilterItemConfig[] = React.useMemo(() => [
-    {
-      type: Input,
-      name: 'ak',
-      customProps: {
-        placeholder: i18n.t('please enter {name}', { name: 'AK' }),
-        autoComplete: 'off',
+  const config: FilterItemConfig[] = React.useMemo(
+    () => [
+      {
+        type: Input,
+        name: 'ak',
+        customProps: {
+          placeholder: i18n.t('please enter {name}', { name: 'AK' }),
+          autoComplete: 'off',
+        },
       },
-    },
-    {
-      type: Input,
-      name: 'sk',
-      customProps: {
-        placeholder: i18n.t('please enter {name}', { name: 'SK' }),
-        autoComplete: 'off',
+      {
+        type: Input,
+        name: 'sk',
+        customProps: {
+          placeholder: i18n.t('please enter {name}', { name: 'SK' }),
+          autoComplete: 'off',
+        },
       },
-    },
-  ], []);
+    ],
+    [],
+  );
 
   return (
     <>
       <div className="artifacts-statistics block-padding">
-        <Select value={selectMonitorKey} style={{ width: 200 }} className="mb8" onChange={(k) => { updater.selectMonitorKey(k); }}>
-          {map(publishItemMonitors, (_, key) => <Select.Option key={key} value={key}>{key}</Select.Option>)}
+        <Select
+          value={selectMonitorKey}
+          style={{ width: 200 }}
+          className="mb8"
+          onChange={(k) => {
+            updater.selectMonitorKey(k);
+          }}
+        >
+          {map(publishItemMonitors, (_, key) => (
+            <Select.Option key={key} value={key}>
+              {key}
+            </Select.Option>
+          ))}
         </Select>
         <div className="total-trend block-container">
           <div className="title bold fz16">{i18n.t('publisher:overall trend')}</div>
           <Row className="pb16">
-            {
-              map(totalTrend, (info, idx) => {
-                return (
-                  <Col key={`${idx}`} {...layout}>
-                    <div className="info-block border-bottom">
-                      <div className="data">
-                        <span className="main-data">{info.data}</span>
-                        <span className="sub-data">
-                          {
-                            info.subData !== undefined ? (
-                              <>
-                                {info.subData}
-                                {
-                                  `${info.subData}`.startsWith('-')
-                                    ? <CustomIcon className="color-red" type="arrow-down" />
-                                    : <CustomIcon className="color-green" type="arrow-up" />
-                                }
-                              </>
-                            ) : null
-                          }
-                        </span>
-                      </div>
-                      <div className="label">
-                        {info.label}
-                      </div>
+            {map(totalTrend, (info, idx) => {
+              return (
+                <Col key={`${idx}`} {...layout}>
+                  <div className="info-block border-bottom">
+                    <div className="data">
+                      <span className="main-data">{info.data}</span>
+                      <span className="sub-data">
+                        {info.subData !== undefined ? (
+                          <>
+                            {info.subData}
+                            {`${info.subData}`.startsWith('-') ? (
+                              <CustomIcon className="color-red" type="arrow-down" />
+                            ) : (
+                              <CustomIcon className="color-green" type="arrow-up" />
+                            )}
+                          </>
+                        ) : null}
+                      </span>
                     </div>
-                  </Col>
-                );
-              })
-            }
+                    <div className="label">{info.label}</div>
+                  </div>
+                </Col>
+              );
+            })}
           </Row>
         </div>
       </div>

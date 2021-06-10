@@ -57,40 +57,40 @@ export const PureHotSpotAnalyze = () => {
     projectId,
   };
 
-  const [hotSpotQuery, setHotSpotQuery] = React.useState(
-    {
-      ...commonQuery,
-      group: 'pmapi',
-      sum: 'succ_sum',
-      filter_csmr: csmr,
-      filter_pack: pack,
-      filter_mthd: mthd,
-      sort: 'sum_succ_sum',
-      limit: 10,
-      points: 7,
-    } as any,
-  );
+  const [hotSpotQuery, setHotSpotQuery] = React.useState({
+    ...commonQuery,
+    group: 'pmapi',
+    sum: 'succ_sum',
+    filter_csmr: csmr,
+    filter_pack: pack,
+    filter_mthd: mthd,
+    sort: 'sum_succ_sum',
+    limit: 10,
+    points: 7,
+  } as any);
 
-  const [realTimeQuery, setRealTimeQuery] = React.useState(
-    {
-      fetchMetricKey: 'kong_traffic',
-      ...commonQuery,
-      sumCps: 'succ_sum',
-      customAPIPrefix: '/api/gateway/openapi/metrics/charts/',
-    } as any,
-  );
+  const [realTimeQuery, setRealTimeQuery] = React.useState({
+    fetchMetricKey: 'kong_traffic',
+    ...commonQuery,
+    sumCps: 'succ_sum',
+    customAPIPrefix: '/api/gateway/openapi/metrics/charts/',
+  } as any);
 
-  const HotSpot = React.useMemo(() => chartRender({
-    moduleName: 'APIRequest',
-    groupId: 'apiRequest',
-    titleText: i18n.t('microService:hot statistics'),
-    chartName: 'hot-spot',
-    viewRender: HotSpotPanel,
-    isCustomApi: true,
-    fetchApi: '/api/gateway/openapi/metrics/charts/kong_success',
-    query: { ...commonQuery, ...hotSpotQuery },
-    dataHandler: groupHandler(['sum.succ_sum']),
-  }), [hotSpotQuery]) as React.ElementType;
+  const HotSpot = React.useMemo(
+    () =>
+      chartRender({
+        moduleName: 'APIRequest',
+        groupId: 'apiRequest',
+        titleText: i18n.t('microService:hot statistics'),
+        chartName: 'hot-spot',
+        viewRender: HotSpotPanel,
+        isCustomApi: true,
+        fetchApi: '/api/gateway/openapi/metrics/charts/kong_success',
+        query: { ...commonQuery, ...hotSpotQuery },
+        dataHandler: groupHandler(['sum.succ_sum']),
+      }),
+    [hotSpotQuery],
+  ) as React.ElementType;
 
   const [selectedGroup, setSelectedGroup] = React.useState();
   const [groups, setGroups] = React.useState([]);
@@ -138,7 +138,9 @@ export const PureHotSpotAnalyze = () => {
   }, [projectInfo]);
 
   React.useEffect(() => {
-    selectedGroup && realTimeQuery.filter_cluster_name && loadMetricItem({ ...resourceInfo, type: 'ha-real-time', chartQuery: realTimeQuery, filter_pmapi: selectedGroup });
+    selectedGroup &&
+      realTimeQuery.filter_cluster_name &&
+      loadMetricItem({ ...resourceInfo, type: 'ha-real-time', chartQuery: realTimeQuery, filter_pmapi: selectedGroup });
   }, [selectedGroup]);
 
   const filters = [
@@ -176,7 +178,13 @@ export const PureHotSpotAnalyze = () => {
   };
 
   const onReset = () => {
-    setHotSpotQuery({ ...hotSpotQuery, filter_csmr: undefined, filter_pack: undefined, filter_mthd: undefined, filter_papi: undefined });
+    setHotSpotQuery({
+      ...hotSpotQuery,
+      filter_csmr: undefined,
+      filter_pack: undefined,
+      filter_mthd: undefined,
+      filter_papi: undefined,
+    });
   };
 
   const layout = [

@@ -2,9 +2,9 @@
   color: $color-text-sub;
   text-align: center;
   border-radius: 4px;
-  transition-duration: .3s;
+  transition-duration: 0.3s;
 
-  >span {
+  > span {
     display: inline-block;
     line-height: $base-line-height;
   }
@@ -25,12 +25,12 @@
       float: left;
       margin-left: 10px;
       cursor: pointer;
-      
+
       svg {
         margin-top: 2px;
       }
-      
-      >i {
+
+      > i {
         font-size: 22px;
         vertical-align: -5px;
       }

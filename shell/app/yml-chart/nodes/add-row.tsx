@@ -16,7 +16,7 @@ import { Tooltip } from 'app/nusi';
 import i18n from 'i18n';
 import './add-row.scss';
 
-export interface IProps{
+export interface IProps {
   data: Obj;
   onClickNode: (data: any, arg?: any) => void;
 }

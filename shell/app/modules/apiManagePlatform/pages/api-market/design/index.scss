@@ -1,4 +1,3 @@
-
 .api-design {
   position: relative;
   display: flex;
@@ -40,7 +39,7 @@
         display: block;
         height: 100%;
         border-right: thin solid $color-border;
-        content: "";
+        content: '';
       }
     }
 
@@ -81,7 +80,7 @@
         color: $primary;
         font-weight: normal;
         opacity: 0;
-        transition: opacity .3s;
+        transition: opacity 0.3s;
       }
 
       .method-icon {
@@ -149,7 +148,6 @@
       overflow: auto;
     }
 
-
     &-doc,
     &-doc-collapsed {
       position: relative;
@@ -158,7 +156,7 @@
       width: 300px;
       height: 100%;
       font-size: 10px;
-      transition: width .3s;
+      transition: width 0.3s;
 
       .overview-collapse {
         border-bottom: 1px solid $color-border;
@@ -184,7 +182,7 @@
         display: block;
         height: 100%;
         border-left: thin solid $color-border;
-        content: "";
+        content: '';
       }
     }
 
@@ -221,7 +219,6 @@
       max-width: 400px;
       font-weight: bold;
     }
-
   }
 
   .ant-collapse {
@@ -281,13 +278,12 @@
 
   .ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected,
   .ant-tree li .ant-tree-node-content-wrapper:hover {
-    background-color: rgba(#cac5d1, .3);
+    background-color: rgba(#cac5d1, 0.3);
   }
 }
 
 .api-tree-title {
   .ant-dropdown-menu {
-
     padding: 0;
 
     .ant-dropdown-menu-item {
@@ -295,4 +291,3 @@
     }
   }
 }
-

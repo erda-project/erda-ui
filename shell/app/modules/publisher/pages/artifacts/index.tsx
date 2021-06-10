@@ -59,60 +59,71 @@ const Artifacts = () => {
   };
 
   const onDelete = () => {
-    artifactsDetail && deleteArtifacts({ artifactsId: artifactsDetail.id }).then(() => {
-      goTo('../');
-    });
+    artifactsDetail &&
+      deleteArtifacts({ artifactsId: artifactsDetail.id }).then(() => {
+        goTo('../');
+      });
   };
 
   const setPublic = (isPublic: boolean) => {
-    artifactsDetail && updateArtifacts({ ...artifactsDetail, artifactsId: artifactsDetail.id, public: isPublic }).then(() => {
-      getArtifactDetail(id);
-    });
+    artifactsDetail &&
+      updateArtifacts({ ...artifactsDetail, artifactsId: artifactsDetail.id, public: isPublic }).then(() => {
+        getArtifactDetail(id);
+      });
   };
 
   return (
     <div className="artifacts-list-container">
       <div className="top-button-group">
         <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
-          <Button type="primary" className="mr8" ghost onClick={openFormModal}>{i18n.t('edit')}</Button>
+          <Button type="primary" className="mr8" ghost onClick={openFormModal}>
+            {i18n.t('edit')}
+          </Button>
         </WithAuth>
-        {
-          (artifactsDetail && artifactsDetail.public)
-            ? (
-              <Popconfirm title={i18n.t('is it confirmed?')} placement="bottomRight" onConfirm={() => { setPublic(false); }}>
-                <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
-                  <Button type="primary" className="mr8" ghost>{i18n.t('publisher:withdraw')}</Button>
-                </WithAuth>
-              </Popconfirm>
-            ) : (
-              <>
-                <Popconfirm title={i18n.t('is it confirmed?')} placement="bottomRight" onConfirm={() => setPublic(true)}>
-                  <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
-                    <Button type="primary" className="mr8" ghost>{i18n.t('publisher:publish')}</Button>
-                  </WithAuth>
-                </Popconfirm>
-                <Popconfirm title={i18n.t('is it confirmed?')} placement="bottomRight" onConfirm={onDelete}>
-                  <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
-                    <Button type="primary" className="mr8" ghost>{i18n.t('delete')}</Button>
-                  </WithAuth>
-                </Popconfirm>
-              </>
-            )
-        }
-        {
-          artifactsDetail.public && artifactsDetail.type === ArtifactsTypeMap.MOBILE.value && (
-            <Button
-              type="primary"
-              className="mr8"
-              ghost
-              onClick={() => {
-                window.open(goTo.resolve.market({ publishItemId: id }));
-              }}
-            >
-              {i18n.t('common:preview')}
-            </Button>
-          )
-        }
+        {artifactsDetail && artifactsDetail.public ? (
+          <Popconfirm
+            title={i18n.t('is it confirmed?')}
+            placement="bottomRight"
+            onConfirm={() => {
+              setPublic(false);
+            }}
+          >
+            <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
+              <Button type="primary" className="mr8" ghost>
+                {i18n.t('publisher:withdraw')}
+              </Button>
+            </WithAuth>
+          </Popconfirm>
+        ) : (
+          <>
+            <Popconfirm title={i18n.t('is it confirmed?')} placement="bottomRight" onConfirm={() => setPublic(true)}>
+              <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
+                <Button type="primary" className="mr8" ghost>
+                  {i18n.t('publisher:publish')}
+                </Button>
+              </WithAuth>
+            </Popconfirm>
+            <Popconfirm title={i18n.t('is it confirmed?')} placement="bottomRight" onConfirm={onDelete}>
+              <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
+                <Button type="primary" className="mr8" ghost>
+                  {i18n.t('delete')}
+                </Button>
+              </WithAuth>
+            </Popconfirm>
+          </>
+        )}
+        {artifactsDetail.public && artifactsDetail.type === ArtifactsTypeMap.MOBILE.value && (
+          <Button
+            type="primary"
+            className="mr8"
+            ghost
+            onClick={() => {
+              window.open(goTo.resolve.market({ publishItemId: id }));
+            }}
+          >
+            {i18n.t('common:preview')}
+          </Button>
+        )}
       </div>
       <div className="artifacts-detail-container">
         <IF check={artifactsDetail}>
@@ -125,12 +136,12 @@ const Artifacts = () => {
         visible={formModalVis}
         onCancel={closeFormModal}
         formData={editData}
-        afterSubmit={() => { getArtifactDetail(id); }}
+        afterSubmit={() => {
+          getArtifactDetail(id);
+        }}
       />
     </div>
   );
 };
 
-
 export default Artifacts;
-

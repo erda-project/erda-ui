@@ -18,7 +18,6 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import PageMap from './config/chartMap';
 import './page.scss';
 
-
 const Page = () => {
   const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
   const getAllChart = () => {
@@ -55,11 +54,7 @@ const Page = () => {
             <PageMap.sortList />
           </div>
         </Col>
-        <Col span={16}>
-          {
-             chosenSortItem ? getDetailChart() : getAllChart()
-          }
-        </Col>
+        <Col span={16}>{chosenSortItem ? getDetailChart() : getAllChart()}</Col>
       </Row>
     </div>
   );

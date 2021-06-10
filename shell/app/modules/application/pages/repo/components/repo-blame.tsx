@@ -45,15 +45,9 @@ interface IRepoBlameCommitItem {
   params: any;
 }
 
-const RepoBlameCommitItem = ({
-  style,
-  commitId,
-  commitMessage,
-  author,
-  params,
-}: IRepoBlameCommitItem) => {
+const RepoBlameCommitItem = ({ style, commitId, commitMessage, author, params }: IRepoBlameCommitItem) => {
   return (
-    <div className="blame-commit-item" style={style} >
+    <div className="blame-commit-item" style={style}>
       <div className="blame-commit-info flex-box">
         <div className="info-left nowrap mr16">
           <Avatar className="mr4" size={18} name={author.name} />
@@ -63,40 +57,40 @@ const RepoBlameCommitItem = ({
             content={
               <div className="commit-info">
                 <div className="main-info mb8">
-                  <span className="commit-msg bold">{ commitMessage }</span>
+                  <span className="commit-msg bold">{commitMessage}</span>
                 </div>
                 <div className="sub-info">
                   <Avatar className="mr8" name={author.name} />
                   <span className="commit-when mr16">
-                    { author.name } {i18n.t('application:submitted in')} { fromNow(author.when) }
+                    {author.name} {i18n.t('application:submitted in')} {fromNow(author.when)}
                   </span>
                   <span
                     className="for-copy commit-sha hover-text"
                     data-clipboard-text={commitId}
                     data-clipboard-tip=" commit SHA "
                   >
-                    <CustomIcon type="commit" /><span className="sha-text">{commitId.slice(0, 6)}</span>
+                    <CustomIcon type="commit" />
+                    <span className="sha-text">{commitId.slice(0, 6)}</span>
                   </span>
                   <Copy selector=".for-copy" />
                 </div>
               </div>
             }
           >
-            <span className="commit-msg hover-text" onClick={() => goTo(goTo.pages.commit, { ...params, commitId })}>{ commitMessage }</span>
+            <span className="commit-msg hover-text" onClick={() => goTo(goTo.pages.commit, { ...params, commitId })}>
+              {commitMessage}
+            </span>
           </Popover>
         </div>
-        <span className="info-right">{i18n.t('application:submitted in')} { fromNow(author.when) }</span>
+        <span className="info-right">
+          {i18n.t('application:submitted in')} {fromNow(author.when)}
+        </span>
       </div>
     </div>
   );
 };
 
-export const RepoBlame = ({
-  name,
-  className,
-  path,
-  ops,
-}: IProps) => {
+export const RepoBlame = ({ name, className, path, ops }: IProps) => {
   let content = null;
   const [blob, blame] = repoStore.useStore((s) => [s.blob, s.blame]);
   const { getRepoBlame } = repoStore.effects;
@@ -119,25 +113,20 @@ export const RepoBlame = ({
           <Col span={8}>
             <Spin spinning={isFetchingRepoBlame}>
               <div className="blame-commits-content">
-                {
-                  blame.map(({
-                    commit: { commitMessage, author, id },
-                    startLineNo,
-                    endLineNo,
-                  }, key) => {
-                    const blameLineNum = (blame.length === key + 1) ? (blobLength - startLineNo) : (endLineNo - startLineNo + 1);
-                    return (
-                      <RepoBlameCommitItem
-                        key={startLineNo}
-                        style={{ height: `${blameLineNum * LINE_HEIGHT}px` }}
-                        commitId={id}
-                        commitMessage={commitMessage}
-                        author={author}
-                        params={params}
-                      />
-                    );
-                  })
-                }
+                {blame.map(({ commit: { commitMessage, author, id }, startLineNo, endLineNo }, key) => {
+                  const blameLineNum =
+                    blame.length === key + 1 ? blobLength - startLineNo : endLineNo - startLineNo + 1;
+                  return (
+                    <RepoBlameCommitItem
+                      key={startLineNo}
+                      style={{ height: `${blameLineNum * LINE_HEIGHT}px` }}
+                      commitId={id}
+                      commitMessage={commitMessage}
+                      author={author}
+                      params={params}
+                    />
+                  );
+                })}
               </div>
             </Spin>
           </Col>

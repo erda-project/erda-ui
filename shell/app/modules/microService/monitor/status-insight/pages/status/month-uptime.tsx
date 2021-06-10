@@ -43,14 +43,10 @@ const MonthUptime = ({ timestamp, data = [] }: { timestamp: number; data?: any[]
     <div className="month-uptime-block">
       {/* <div className='month bold-500'>{month} 月</div> */}
       <ul className="day-point-list" data-month={monthMap[`${month}月`]}>
-        {
-          list.map((item, i) => {
-            if (item !== 'opacity') start += 1;
-            return (
-              <li key={String(i)} className={`day-point ${item}`} data-date={item !== 'opacity' ? start : null} />
-            );
-          })
-        }
+        {list.map((item, i) => {
+          if (item !== 'opacity') start += 1;
+          return <li key={String(i)} className={`day-point ${item}`} data-date={item !== 'opacity' ? start : null} />;
+        })}
       </ul>
     </div>
   );

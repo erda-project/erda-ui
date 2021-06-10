@@ -29,7 +29,6 @@ MdEditor.use(UploadPlugin);
 //   max: 600, // 最大高度
 // });
 
-
 export const Editor = React.forwardRef((props: Omit<EditorProps, 'renderHTML'>, ref) => {
   function onImageUpload(file: File, imageText: string, itemsInfo: itemInfo[]) {
     // Chrome会把文件名作为第一个复制内容，而把第二个复制的文件的名称统一改为image.png
@@ -40,14 +39,14 @@ export const Editor = React.forwardRef((props: Omit<EditorProps, 'renderHTML'>, 
       newFile = new window.File([file], fileName, { type: file.type });
     }
     return new Promise((resolve) => {
-      uploadFile(convertToFormData({ file: newFile }))
-        .then((res) => {
-          const { size, url } = res?.data || {};
-          let imageUrl = imageText;
-          imageUrl = imageText.replace('{url}', url)
-            .replace(/\[(.+)\]/, `[${fileName}(${getFormatter('STORAGE', 'B').format(size)})]`);
-          resolve(imageUrl);
-        });
+      uploadFile(convertToFormData({ file: newFile })).then((res) => {
+        const { size, url } = res?.data || {};
+        let imageUrl = imageText;
+        imageUrl = imageText
+          .replace('{url}', url)
+          .replace(/\[(.+)\]/, `[${fileName}(${getFormatter('STORAGE', 'B').format(size)})]`);
+        resolve(imageUrl);
+      });
     }) as Promise<string>;
   }
   return (

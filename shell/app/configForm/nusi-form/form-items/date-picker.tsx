@@ -11,10 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import {
-  Form,
-  DatePicker,
-} from 'app/nusi';
+import { Form, DatePicker } from 'app/nusi';
 import * as React from 'react';
 import { isEmpty, isArray, isString } from 'lodash';
 import { getLabel, noop } from './common';
@@ -37,9 +34,7 @@ const DatePickerComp = (props: any) => {
   const { dateType = 'date', placeholder, ...restCompProps } = componentProps || {};
   const Comp = CompMap[dateType];
 
-  const plcholder = dateType === 'range' && isString(placeholder)
-    ? placeholder.split(',')
-    : placeholder;
+  const plcholder = dateType === 'range' && isString(placeholder) ? placeholder.split(',') : placeholder;
   return (
     <Comp
       id={id}
@@ -59,55 +54,55 @@ export const FormDatePicker = ({
   extensionFix,
   requiredCheck,
   trigger = 'onChange',
-}: any = {}) => React.memo(({ fieldConfig, form }: any = {}) => {
-  const {
-    key,
-    value,
-    label,
-    visible,
-    valid = [],
-    disabled,
-    required,
-    registerRequiredCheck = noop,
-    componentProps,
-    wrapperProps,
-    labelTip,
-    fixIn: itemFixIn,
-    fixOut: itemFixOut,
-    requiredCheck: _requiredCheck,
-  } = fieldConfig || {};
-  const curFixIn = itemFixIn || fixIn;
-  const curFixOut = itemFixOut || fixOut;
+}: any = {}) =>
+  React.memo(({ fieldConfig, form }: any = {}) => {
+    const {
+      key,
+      value,
+      label,
+      visible,
+      valid = [],
+      disabled,
+      required,
+      registerRequiredCheck = noop,
+      componentProps,
+      wrapperProps,
+      labelTip,
+      fixIn: itemFixIn,
+      fixOut: itemFixOut,
+      requiredCheck: _requiredCheck,
+    } = fieldConfig || {};
+    const curFixIn = itemFixIn || fixIn;
+    const curFixOut = itemFixOut || fixOut;
 
-  registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (e: any) => {
-    form.setFieldValue(key, curFixOut(e));
-    (componentProps.onChange || noop)(e);
-  };
+    registerRequiredCheck(_requiredCheck || requiredCheck);
+    const handleChange = (e: any) => {
+      form.setFieldValue(key, curFixOut(e));
+      (componentProps.onChange || noop)(e);
+    };
 
-  return (
-    <FormItem
-      colon
-      label={getLabel(label, labelTip)}
-      className={visible ? '' : 'hide'}
-      validateStatus={valid[0]}
-      help={valid[1]}
-      required={required}
-      {...wrapperProps}
-    >
-      <DatePickerComp
-        componentProps={componentProps}
-        id={key}
-        disabled={disabled}
-        key={componentProps.dateType || 'date'}
-        fixIn={curFixIn}
-        handleChange={handleChange}
-        value={value}
-      />
-
-    </FormItem>
-  );
-});
+    return (
+      <FormItem
+        colon
+        label={getLabel(label, labelTip)}
+        className={visible ? '' : 'hide'}
+        validateStatus={valid[0]}
+        help={valid[1]}
+        required={required}
+        {...wrapperProps}
+      >
+        <DatePickerComp
+          componentProps={componentProps}
+          id={key}
+          disabled={disabled}
+          key={componentProps.dateType || 'date'}
+          fixIn={curFixIn}
+          handleChange={handleChange}
+          value={value}
+        />
+      </FormItem>
+    );
+  });
 
 export const config = {
   name: 'datePicker',
@@ -183,11 +178,7 @@ export const formConfig = {
             type: 'switch',
             component: 'switch',
             defaultValue: true,
-            removeWhen: [
-              [
-                { field: 'componentProps.dateType', operator: 'includes', value: ['week', 'month'] },
-              ],
-            ],
+            removeWhen: [[{ field: 'componentProps.dateType', operator: 'includes', value: ['week', 'month'] }]],
             componentProps: {
               labelTip: '增加时间选择功能',
             },

@@ -18,11 +18,23 @@ import i18n from 'i18n';
 const commonQuery = {};
 export const ApiMap = {
   sortList: {
-    getFetchObj: ({ sortTab }: {sortTab: string}) => {
+    getFetchObj: ({ sortTab }: { sortTab: string }) => {
       const fetchMap = {
-        time: { fetchApi: 'ta_top_avg_time', query: { group: 'province', limit: 20, sort: 'avg_plt', avg: 'plt' }, dataKey: 'avg.plt' },
-        percent: { fetchApi: 'ta_top_percent_time', query: { group: 'province', limit: 20, sort: 'sumPercent_plt', sumPercent: 'plt' }, dataKey: 'sumPercent.plt' },
-        cpm: { fetchApi: 'ta_top_cpm', query: { group: 'province', limit: 20, sort: 'cpm_plt', cpm: 'plt' }, dataKey: 'cpm.plt' },
+        time: {
+          fetchApi: 'ta_top_avg_time',
+          query: { group: 'province', limit: 20, sort: 'avg_plt', avg: 'plt' },
+          dataKey: 'avg.plt',
+        },
+        percent: {
+          fetchApi: 'ta_top_percent_time',
+          query: { group: 'province', limit: 20, sort: 'sumPercent_plt', sumPercent: 'plt' },
+          dataKey: 'sumPercent.plt',
+        },
+        cpm: {
+          fetchApi: 'ta_top_cpm',
+          query: { group: 'province', limit: 20, sort: 'cpm_plt', cpm: 'plt' },
+          dataKey: 'cpm.plt',
+        },
       };
       const { query = {}, fetchApi = '', dataKey = '' } = fetchMap[sortTab] || {};
       return { fetchApi, extendQuery: { ...query }, extendHandler: { dataKey } };
@@ -65,7 +77,7 @@ export const ApiMap = {
           if (endsWith(_name, '省') || endsWith(_name, '市')) {
             _name = _name.slice(0, _name.length - 1);
           }
-          return { name: _name, value: (data / 1000), tps: cpm.data || 0 };
+          return { name: _name, value: data / 1000, tps: cpm.data || 0 };
         });
         reData.results = [{ data: arr, type: i18n.t('microService:average load time') }];
       }
@@ -74,7 +86,15 @@ export const ApiMap = {
   },
   slowTrack: {
     fetchApi: 'ta_timing_slow',
-    query: { group: 'doc_path', limit: 10, sort: 'max_plt', max: 'plt', min: 'plt', maxFieldTimestamp: 'plt', source: true },
+    query: {
+      group: 'doc_path',
+      limit: 10,
+      sort: 'max_plt',
+      max: 'plt',
+      min: 'plt',
+      maxFieldTimestamp: 'plt',
+      source: true,
+    },
     dataHandler: slowHandler(['max:max.plt', 'time:maxFieldTimestamp.plt', 'min:min.plt']),
   },
 };

@@ -153,7 +153,20 @@ export const ciBuildStatusSet = {
 
 export const ciNodeStatusSet = {
   loadingStatus: ['Queue', 'Running'],
-  executeStatus: ['Running', 'Success', 'Failed', 'Error', 'LostConn', 'Unknown', 'Timeout', 'CancelByRemote', 'StopByUser', 'StartError', 'DBError', 'CreateError'],
+  executeStatus: [
+    'Running',
+    'Success',
+    'Failed',
+    'Error',
+    'LostConn',
+    'Unknown',
+    'Timeout',
+    'CancelByRemote',
+    'StopByUser',
+    'StartError',
+    'DBError',
+    'CreateError',
+  ],
 };
 
 export const PipelineStatus = [

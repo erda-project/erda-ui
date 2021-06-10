@@ -23,10 +23,12 @@ export default ({ value: targets, onChange }: { value?: any[]; onChange: (value:
   });
 
   React.useEffect(() => {
-    updater.editingExternalUsers(map(targets, (item) => ({
-      uniKey: uniqueId(),
-      ...JSON.parse(item),
-    })));
+    updater.editingExternalUsers(
+      map(targets, (item) => ({
+        uniKey: uniqueId(),
+        ...JSON.parse(item),
+      })),
+    );
   }, [updater, targets]);
 
   const updateEditingExternalUsers = (users: COMMON_NOTIFY.ExternalUserInfo[]) => {
@@ -47,11 +49,16 @@ export default ({ value: targets, onChange }: { value?: any[]; onChange: (value:
     const user = find(users, { uniKey });
     const index = findIndex(users, { uniKey });
 
-    fill(users, {
-      uniKey,
-      ...user,
-      [key]: value,
-    }, index, index + 1);
+    fill(
+      users,
+      {
+        uniKey,
+        ...user,
+        [key]: value,
+      },
+      index,
+      index + 1,
+    );
 
     updateEditingExternalUsers(users);
   };
@@ -79,7 +86,9 @@ export default ({ value: targets, onChange }: { value?: any[]; onChange: (value:
       render: (value: string, { uniKey }: COMMON_NOTIFY.ExternalUserInfo) => (
         <Input
           defaultValue={value}
-          onBlur={(e: any) => { handleEditExternalUser(uniKey, 'username', e.target.value); }}
+          onBlur={(e: any) => {
+            handleEditExternalUser(uniKey, 'username', e.target.value);
+          }}
         />
       ),
     },
@@ -89,7 +98,9 @@ export default ({ value: targets, onChange }: { value?: any[]; onChange: (value:
       render: (value: string, { uniKey }: COMMON_NOTIFY.ExternalUserInfo) => (
         <Input
           defaultValue={value}
-          onBlur={(e: any) => { handleEditExternalUser(uniKey, 'email', e.target.value); }}
+          onBlur={(e: any) => {
+            handleEditExternalUser(uniKey, 'email', e.target.value);
+          }}
         />
       ),
     },
@@ -99,7 +110,9 @@ export default ({ value: targets, onChange }: { value?: any[]; onChange: (value:
       render: (value: string, { uniKey }: COMMON_NOTIFY.ExternalUserInfo) => (
         <Input
           defaultValue={value}
-          onBlur={(e: any) => { handleEditExternalUser(uniKey, 'mobile', e.target.value); }}
+          onBlur={(e: any) => {
+            handleEditExternalUser(uniKey, 'mobile', e.target.value);
+          }}
         />
       ),
     },
@@ -110,7 +123,14 @@ export default ({ value: targets, onChange }: { value?: any[]; onChange: (value:
       render: (uniKey: string) => {
         return (
           <div className="table-operations">
-            <span className="table-operations-btn" onClick={() => { handleRemoveExternalUser(uniKey); }}>{i18n.t('delete')}</span>
+            <span
+              className="table-operations-btn"
+              onClick={() => {
+                handleRemoveExternalUser(uniKey);
+              }}
+            >
+              {i18n.t('delete')}
+            </span>
           </div>
         );
       },
@@ -119,13 +139,10 @@ export default ({ value: targets, onChange }: { value?: any[]; onChange: (value:
 
   return (
     <>
-      <Button className="mb8" type="primary" ghost onClick={handleAddExternalUser}>{i18n.t('org:add external user')}</Button>
-      <Table
-        bordered
-        rowKey="uniKey"
-        dataSource={editingExternalUsers}
-        columns={columns}
-      />
+      <Button className="mb8" type="primary" ghost onClick={handleAddExternalUser}>
+        {i18n.t('org:add external user')}
+      </Button>
+      <Table bordered rowKey="uniKey" dataSource={editingExternalUsers} columns={columns} />
     </>
   );
 };

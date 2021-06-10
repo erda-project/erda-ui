@@ -20,18 +20,21 @@ export const commonAttr = {
   moduleName: 'gatewayIngressLatency',
   groupId: 'gatewayIngressLatency',
 };
-const chartMap = merge({
-  overall: {
-    titleText: i18n.t('microService:overall latency'),
-    ...commonAttr,
-    chartName: 'overall',
+const chartMap = merge(
+  {
+    overall: {
+      titleText: i18n.t('microService:overall latency'),
+      ...commonAttr,
+      chartName: 'overall',
+    },
+    upstream: {
+      titleText: i18n.t('microService:upstream latency'),
+      ...commonAttr,
+      chartName: 'upstream',
+    },
   },
-  upstream: {
-    titleText: i18n.t('microService:upstream latency'),
-    ...commonAttr,
-    chartName: 'upstream',
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   overall: chartRender(chartMap.overall) as any,

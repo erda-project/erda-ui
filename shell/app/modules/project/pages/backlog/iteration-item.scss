@@ -21,7 +21,7 @@
   .open-icon {
     color: $color-dark-4;
     font-size: 14px;
-    transition: transform .3s;
+    transition: transform 0.3s;
 
     &.close {
       transform: rotate(-90deg);

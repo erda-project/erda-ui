@@ -15,12 +15,11 @@ import * as React from 'react';
 import { FormModal as PureFormModal } from 'app/configForm/nusi-form/form-modal';
 import { useUpdate } from 'common';
 
-
 export const FormModal = (props: CP_FORM_MODAL.Props) => {
   const { state, execOperation, updateState, operations, props: configProps } = props;
 
   const { fields, ...rest } = configProps || {};
-  const { visible: sVisible, formData: fD } = state || {} as any;
+  const { visible: sVisible, formData: fD } = state || ({} as any);
   const [{ visible, formData, title }, updater, update] = useUpdate({
     visible: sVisible || false,
     formData: fD,

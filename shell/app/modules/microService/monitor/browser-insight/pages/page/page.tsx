@@ -51,11 +51,7 @@ const Page = () => {
             <PageMap.sortList />
           </div>
         </Col>
-        <Col span={16}>
-          {
-             chosenSortItem ? getDetailChart() : getAllChart()
-          }
-        </Col>
+        <Col span={16}>{chosenSortItem ? getDetailChart() : getAllChart()}</Col>
       </Row>
     </div>
   );

@@ -14,7 +14,8 @@
 import agent from 'agent';
 
 export const getOrgByDomain = (payload: ORG.IOrgReq): ORG.IOrg => {
-  return agent.get('/api/orgs/actions/get-by-domain')
+  return agent
+    .get('/api/orgs/actions/get-by-domain')
     .query(payload)
     .then((response: any) => response.body);
 };
@@ -27,8 +28,8 @@ export const getJoinedOrgs = (): IPagingResp<ORG.IOrg> => {
 };
 
 export const updateOrg = (org: Merge<Partial<ORG.IOrg>, { id: number }>) => {
-  return agent.put(`/api/orgs/${org.id}`)
+  return agent
+    .put(`/api/orgs/${org.id}`)
     .send(org)
     .then((response: any) => response.body);
 };
-

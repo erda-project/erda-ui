@@ -17,7 +17,6 @@ import { TimeSelector } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import GeographyMap from './config/chartMap';
 
-
 const GeographyChina = () => {
   const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
   const getAllChart = () => {
@@ -50,11 +49,7 @@ const GeographyChina = () => {
             <GeographyMap.sortList />
           </div>
         </Col>
-        <Col span={16}>
-          {
-             chosenSortItem ? getDetailChart() : getAllChart()
-          }
-        </Col>
+        <Col span={16}>{chosenSortItem ? getDetailChart() : getAllChart()}</Col>
       </Row>
     </div>
   );

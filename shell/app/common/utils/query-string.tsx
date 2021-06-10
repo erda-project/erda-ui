@@ -18,7 +18,6 @@ import { pick } from 'lodash';
 // 设置默认option，区分a=b和a[]=b的情况，也为了避免影响依赖中的queryString
 const option: queryString.StringifyOptions = { arrayFormat: 'bracket' };
 
-
 // 原有API
 
 /**
@@ -60,7 +59,6 @@ export const qs = {
   extract: queryString.extract,
 };
 
-
 // 扩展API
 /**
  * 返回和当前url中query合并后的query对象或字符串
@@ -73,7 +71,6 @@ export function mergeSearch(obj?: { [prop: string]: any }, toString?: boolean, i
   return toString ? stringify(res, opt) : res;
 }
 
-
 /**
  * 合并参数并更新到当前url上
  * @param obj 需合并的query对象
@@ -84,7 +81,7 @@ interface IOpt {
   [pro: string]: any;
 }
 export function updateSearch(search?: { [prop: string]: any }, opt?: IOpt) {
-  const { gotoOption = {}, ...rest } = opt || { };
+  const { gotoOption = {}, ...rest } = opt || {};
   goTo(`${location.pathname}?${mergeSearch(search, true, false, rest)}`, gotoOption);
 }
 

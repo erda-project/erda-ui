@@ -16,13 +16,15 @@ import agent from 'agent';
 // api: https://yuque.antfin-inc.com/terminus_paas_dev/devops/dnne8h#dbziog
 // 后端: @溪杨
 export const getLatestSonarStatistics = ({ applicationId }: { applicationId: string }): QA.Stat => {
-  return agent.get('/api/qa')
+  return agent
+    .get('/api/qa')
     .query({ applicationId })
     .then((response: any) => response.body);
 };
 
 export const getSonarResults = ({ type, key }: { type: string; key: string }): QA.Item[] => {
-  return agent.get('/api/qa')
+  return agent
+    .get('/api/qa')
     .query({ type, key })
     .then((response: any) => response.body);
 };

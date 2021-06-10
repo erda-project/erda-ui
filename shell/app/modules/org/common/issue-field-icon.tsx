@@ -18,7 +18,7 @@ import { map } from 'lodash';
 import { ISSUE_FIELD_TYPES, FIELD_TYPE_ICON_MAP } from 'org/common/config';
 import 'org/common/issue-field-icon.scss';
 
-interface IProps{
+interface IProps {
   type: string;
   withName?: boolean;
 }
@@ -36,25 +36,24 @@ export const IssueIcon = ({ type, withName = false }: IProps) => {
   );
   return (
     <div className="flex-box flex-start">
-      {
-        withName
-          ? (
-            <>
-              {IconRender}
-              {name}
-            </>
-          )
-          : <Tooltip title={name}>{IconRender}</Tooltip>
-      }
+      {withName ? (
+        <>
+          {IconRender}
+          {name}
+        </>
+      ) : (
+        <Tooltip title={name}>{IconRender}</Tooltip>
+      )}
     </div>
   );
 };
 
-export const getFieldTypeOption = () => map(ISSUE_FIELD_TYPES, (item) => {
-  const value: ISSUE_FIELD.IIssueType = FIELD_TYPE_ICON_MAP[item]?.value as ISSUE_FIELD.IIssueType;
-  return (
-    <Option key={value} value={value}>
-      <IssueIcon type={item} withName />
-    </Option>
-  );
-});
+export const getFieldTypeOption = () =>
+  map(ISSUE_FIELD_TYPES, (item) => {
+    const value: ISSUE_FIELD.IIssueType = FIELD_TYPE_ICON_MAP[item]?.value as ISSUE_FIELD.IIssueType;
+    return (
+      <Option key={value} value={value}>
+        <IssueIcon type={item} withName />
+      </Option>
+    );
+  });

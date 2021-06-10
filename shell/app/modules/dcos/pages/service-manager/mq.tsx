@@ -41,13 +41,7 @@ const MQ = () => {
   const { getCloudRegion } = cloudCommonStore;
   const regions = cloudCommonStore.useStore((s) => s.regions);
 
-  const [{
-    tagFormVis,
-    items,
-    ifSelected,
-    stateChangeKey,
-    recordID,
-  }, updater, update] = useUpdate({
+  const [{ tagFormVis, items, ifSelected, stateChangeKey, recordID }, updater, update] = useUpdate({
     subnetCount: 0,
     tagFormVis: false,
     items: [] as CLOUD.TagItem[],
@@ -99,9 +93,7 @@ const MQ = () => {
           min: 3,
           max: 64,
         },
-        rules: [
-          regRules.commonStr,
-        ],
+        rules: [regRules.commonStr],
       },
       {
         label: i18n.t('description'),
@@ -152,19 +144,21 @@ const MQ = () => {
     }
   };
 
-  const operationButtons = [{
-    name: `${i18n.t('set tags')}`,
-    cb: () => updater.tagFormVis(true),
-    ifDisabled: false,
-  }];
+  const operationButtons = [
+    {
+      name: `${i18n.t('set tags')}`,
+      cb: () => updater.tagFormVis(true),
+      ifDisabled: false,
+    },
+  ];
 
   const menu = (
     <Menu>
-      {
-        operationButtons.map((button) => (
-          <Menu.Item disabled={button.ifDisabled} key={button.name} onClick={button.cb}>{button.name}</Menu.Item>
-        ))
-      }
+      {operationButtons.map((button) => (
+        <Menu.Item disabled={button.ifDisabled} key={button.name} onClick={button.cb}>
+          {button.name}
+        </Menu.Item>
+      ))}
     </Menu>
   );
 
@@ -206,10 +200,7 @@ const MQ = () => {
         afterSubmit={afterTagFormSubmit}
       />
       <Copy selector=".for-copy" />
-      <ClusterLog
-        recordID={recordID}
-        onClose={() => updater.recordID('')}
-      />
+      <ClusterLog recordID={recordID} onClose={() => updater.recordID('')} />
     </>
   );
 };
