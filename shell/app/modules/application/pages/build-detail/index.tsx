@@ -171,7 +171,7 @@ const BuildDetail = (props: IProps) => {
   }
 
   const { appId, projectId, pipelineID: routePipelineID } = params;
-  const { id: pipelineID, env, branch, pipelineButton, pipelineCron, costTimeSec = -1, extra, commit, commitDetail, pipelineStages: stages = [], pipelineTaskActionDetails } = pipelineDetail;
+  const { id: pipelineID, env, branch, pipelineButton, pipelineCron, costTimeSec = -1, extra, commit, commitDetail, pipelineStages: stages = [], pipelineTaskActionDetails, needApproval } = pipelineDetail;
   const _taskActionDetails = pipelineTaskActionDetails || {};
 
   const initBuildDetail = (id: number, detailType?: BUILD.IActiveItem) => {
@@ -618,7 +618,6 @@ const BuildDetail = (props: IProps) => {
     return text;
   };
 
-  const needApproval = get(find(branchInfo, { name: pipelineDetail.branch }), 'needApproval');
   const style = `main-info ${isExpand ? 'main-info-full' : ''}`;
   const { cronExpr } = pipelineCron;
   const cronMsg = cronExpr && cronstrue.toString(cronExpr, { locale: isZh() ? 'zh_CN' : 'en' });
