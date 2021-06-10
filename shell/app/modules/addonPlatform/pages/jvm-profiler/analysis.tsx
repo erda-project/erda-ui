@@ -20,14 +20,8 @@ import * as React from 'react';
 import addonStore from 'common/stores/addon';
 import jvmStore, { ProfileStateMap } from '../../stores/jvm';
 
-
 export default () => {
-  const [
-    services,
-    runningList,
-    historyList,
-    historyPaging,
-  ] = jvmStore.useStore((s) => [
+  const [services, runningList, historyList, historyPaging] = jvmStore.useStore((s) => [
     s.services,
     s.runningList,
     s.historyList,
@@ -39,11 +33,7 @@ export default () => {
   const runningTimer = React.useRef(-1);
   const pendingTimer = React.useRef(-1);
 
-  const [{
-    idList,
-    isPending,
-    isLoadHistory,
-  }, updater] = useUpdate({
+  const [{ idList, isPending, isLoadHistory }, updater] = useUpdate({
     idList: [] as string[],
     isPending: false,
     isLoadHistory: false,
@@ -57,17 +47,22 @@ export default () => {
     });
   }, [insId]);
 
-  const getHistoryList = React.useCallback((q = {}) => {
-    updater.isLoadHistory(true);
-    jvmStore.getProfileList({
-      insId,
-      isHistory: true,
-      state: [ProfileStateMap.COMPLETED, ProfileStateMap.FAILED, ProfileStateMap.TERMINATING],
-      ...q,
-    }).finally(() => {
-      updater.isLoadHistory(false);
-    });
-  }, [insId, updater]);
+  const getHistoryList = React.useCallback(
+    (q = {}) => {
+      updater.isLoadHistory(true);
+      jvmStore
+        .getProfileList({
+          insId,
+          isHistory: true,
+          state: [ProfileStateMap.COMPLETED, ProfileStateMap.FAILED, ProfileStateMap.TERMINATING],
+          ...q,
+        })
+        .finally(() => {
+          updater.isLoadHistory(false);
+        });
+    },
+    [insId, updater],
+  );
 
   React.useEffect(() => {
     if (addonDetail.realInstanceId) {
@@ -86,43 +81,44 @@ export default () => {
     updater.idList(values.ids);
   };
 
-  const rollingState = React.useCallback((s) => {
-    jvmStore.getProfileStatus({ insId, profileId: s.id }).then((res) => {
-      switch (res.state) {
-        case 'pending':
-          pendingTimer.current = window.setTimeout(() => {
-            rollingState(res);
-          }, 5000);
-          break;
-        // case ProfileStateMap.COMPLETED:
-        // case ProfileStateMap.TERMINATING:
-        case ProfileStateMap.RUNNING:
-          goTo(`./${res.id}`);
-          break;
-        case ProfileStateMap.FAILED:
-          message.error(res.message);
-          break;
-        default:
-          break;
-      }
-    });
-  }, [insId]);
+  const rollingState = React.useCallback(
+    (s) => {
+      jvmStore.getProfileStatus({ insId, profileId: s.id }).then((res) => {
+        switch (res.state) {
+          case 'pending':
+            pendingTimer.current = window.setTimeout(() => {
+              rollingState(res);
+            }, 5000);
+            break;
+          // case ProfileStateMap.COMPLETED:
+          // case ProfileStateMap.TERMINATING:
+          case ProfileStateMap.RUNNING:
+            goTo(`./${res.id}`);
+            break;
+          case ProfileStateMap.FAILED:
+            message.error(res.message);
+            break;
+          default:
+            break;
+        }
+      });
+    },
+    [insId],
+  );
 
   const startProfile = () => {
-    const [
-      applicationId,
-      serviceId,
-      serviceInstanceId,
-    ] = idList;
-    jvmStore.startProfile({
-      insId,
-      applicationId,
-      serviceId,
-      serviceInstanceId,
-    }).then((s) => {
-      updater.isPending(true);
-      rollingState(s);
-    });
+    const [applicationId, serviceId, serviceInstanceId] = idList;
+    jvmStore
+      .startProfile({
+        insId,
+        applicationId,
+        serviceId,
+        serviceInstanceId,
+      })
+      .then((s) => {
+        updater.isPending(true);
+        rollingState(s);
+      });
   };
 
   const getCols = (isHistory: boolean) => {
@@ -145,13 +141,15 @@ export default () => {
         key: 'state.state',
         width: 140,
         render: (v) => {
-          return {
-            [ProfileStateMap.PENDING]: i18n.t('addonPlatform:attaching to process'),
-            [ProfileStateMap.RUNNING]: i18n.t('addonPlatform:processing'),
-            [ProfileStateMap.COMPLETED]: i18n.t('addonPlatform:completed'),
-            [ProfileStateMap.FAILED]: i18n.t('addonPlatform:failed'),
-            [ProfileStateMap.TERMINATING]: i18n.t('addonPlatform:terminate'),
-          }[v] || null;
+          return (
+            {
+              [ProfileStateMap.PENDING]: i18n.t('addonPlatform:attaching to process'),
+              [ProfileStateMap.RUNNING]: i18n.t('addonPlatform:processing'),
+              [ProfileStateMap.COMPLETED]: i18n.t('addonPlatform:completed'),
+              [ProfileStateMap.FAILED]: i18n.t('addonPlatform:failed'),
+              [ProfileStateMap.TERMINATING]: i18n.t('addonPlatform:terminate'),
+            }[v] || null
+          );
         },
       },
       {
@@ -163,25 +161,27 @@ export default () => {
       },
       isHistory
         ? {
-          title: i18n.t('common:end at'),
-          dataIndex: 'finishTime',
-          key: 'finishTime',
-          width: 180,
-          render: (v) => formatTime(v, 'YYYY-MM-DD HH:mm:ss'),
-        }
+            title: i18n.t('common:end at'),
+            dataIndex: 'finishTime',
+            key: 'finishTime',
+            width: 180,
+            render: (v) => formatTime(v, 'YYYY-MM-DD HH:mm:ss'),
+          }
         : {
-          title: i18n.t('addonPlatform:started at'),
-          key: 'startFrom',
-          width: 120,
-          render: (v) => fromNow(v),
-        },
+            title: i18n.t('addonPlatform:started at'),
+            key: 'startFrom',
+            width: 120,
+            render: (v) => fromNow(v),
+          },
       {
         title: i18n.t('operations'),
         width: 80,
         render: (record: JVM.ProfileItem) => {
           return (
             <div className="table-operations">
-              <span className="table-operations-btn" onClick={() => goTo(`./${record.profiling}`)}>{i18n.t('common:view')}</span>
+              <span className="table-operations-btn" onClick={() => goTo(`./${record.profiling}`)}>
+                {i18n.t('common:view')}
+              </span>
             </div>
           );
         },
@@ -201,28 +201,19 @@ export default () => {
                 name: 'ids',
                 type: 'custom',
                 placeholder: '选择后进行分析',
-                Comp: (
-                  <Cascader
-                    options={services}
-                    expandTrigger="hover"
-                    style={{ width: 400 }}
-                  />
-                ),
+                Comp: <Cascader options={services} expandTrigger="hover" style={{ width: 400 }} />,
               },
             ]}
             onChange={onChange}
           >
-            <Button type="primary" disabled={!idList.length} onClick={startProfile}>{i18n.t('addonPlatform:start analysis')}</Button>
+            <Button type="primary" disabled={!idList.length} onClick={startProfile}>
+              {i18n.t('addonPlatform:start analysis')}
+            </Button>
           </FilterGroup>
         </div>
       </Spin>
       <Panel title={i18n.t('addonPlatform:analyzing')} className="block">
-        <Table
-          dataSource={runningList}
-          columns={getCols(false)}
-          rowKey="profiling"
-          pagination={false}
-        />
+        <Table dataSource={runningList} columns={getCols(false)} rowKey="profiling" pagination={false} />
       </Panel>
       <Panel title={i18n.t('addonPlatform:historical analysis')} className="block mt20">
         <Table

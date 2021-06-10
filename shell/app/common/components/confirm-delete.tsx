@@ -27,10 +27,20 @@ interface IProps {
   onConfirm?: () => void;
   onCancel?: () => void;
 }
-const noop = () => { };
+const noop = () => {};
 
 export const ConfirmDelete = (props: IProps) => {
-  const { deleteItem, confirmTip, children, onConfirm = noop, title, secondTitle, modalChildren, disabledConfirm = false, onCancel = noop } = props;
+  const {
+    deleteItem,
+    confirmTip,
+    children,
+    onConfirm = noop,
+    title,
+    secondTitle,
+    modalChildren,
+    disabledConfirm = false,
+    onCancel = noop,
+  } = props;
   const [isVisible, setIsVisible] = React.useState(false);
 
   const showModal = () => {
@@ -47,38 +57,38 @@ export const ConfirmDelete = (props: IProps) => {
     onCancel();
   };
   const _title = title || i18n.t('common:confirm delete current {deleteItem}', { deleteItem });
-  const _secondTitle = secondTitle || i18n.t('common:{deleteItem} cannot recover after deletion, confirm deletion', { deleteItem });
+  const _secondTitle =
+    secondTitle || i18n.t('common:{deleteItem} cannot recover after deletion, confirm deletion', { deleteItem });
   const _confirmTip = confirmTip || i18n.t('permanently delete {deleteItem}, please be cautious', { deleteItem });
   return (
     <div>
       <div className="color-text-desc mb8">{_confirmTip}</div>
       <span onClick={showModal}>
-        {children || <Button ghost type="danger">{i18n.t('common:delete current {deleteItem}', { deleteItem }) }</Button>}
+        {children || (
+          <Button ghost type="danger">
+            {i18n.t('common:delete current {deleteItem}', { deleteItem })}
+          </Button>
+        )}
       </span>
       <Modal
-        title={(
+        title={
           <div className="wrap-flex-box">
             <CustomIcon type="warning" className="mr4 color-warning fz20 bold" />
             {_title}
           </div>
-        )}
+        }
         visible={isVisible}
         onCancel={cancel}
         footer={[
-          <Button
-            key="back"
-            onClick={cancel}
-          >
+          <Button key="back" onClick={cancel}>
             {i18n.t('cancel')}
           </Button>,
-          <Button key="submit" type="primary" onClick={onOk} disabled={disabledConfirm} >
+          <Button key="submit" type="primary" onClick={onOk} disabled={disabledConfirm}>
             {i18n.t('ok')}
           </Button>,
         ]}
       >
-        <p className="mb8">
-          {_secondTitle}
-        </p>
+        <p className="mb8">{_secondTitle}</p>
         {modalChildren}
       </Modal>
     </div>

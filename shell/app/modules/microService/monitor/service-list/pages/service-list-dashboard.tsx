@@ -19,11 +19,14 @@ import dashboardStore from 'app/common/stores/dashboard';
 import routeInfoStore from 'app/common/stores/route';
 import { isEqual } from 'lodash';
 
-type IProps = Merge<Partial<DC.PureBoardGridProps>, {
-  dashboardId: string;
-  extraGlobalVariable?: Record<string, any>;
-  timeSpan?: ITimeSpan;
-}>;
+type IProps = Merge<
+  Partial<DC.PureBoardGridProps>,
+  {
+    dashboardId: string;
+    extraGlobalVariable?: Record<string, any>;
+    timeSpan?: ITimeSpan;
+  }
+>;
 
 const ServiceListDashboard: React.FC<IProps> = ({ timeSpan: times, dashboardId, extraGlobalVariable, ...rest }) => {
   const _timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
@@ -56,5 +59,9 @@ const ServiceListDashboard: React.FC<IProps> = ({ timeSpan: times, dashboardId, 
 };
 
 export default React.memo(ServiceListDashboard, (prev, next) => {
-  return isEqual(prev.extraGlobalVariable, next.extraGlobalVariable) && prev.dashboardId === next.dashboardId && isEqual(prev.timeSpan, next.timeSpan);
+  return (
+    isEqual(prev.extraGlobalVariable, next.extraGlobalVariable) &&
+    prev.dashboardId === next.dashboardId &&
+    isEqual(prev.timeSpan, next.timeSpan)
+  );
 });

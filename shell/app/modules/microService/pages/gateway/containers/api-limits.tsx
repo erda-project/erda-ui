@@ -51,7 +51,11 @@ export const PureApiLimits = () => {
   const [method, setMethod] = React.useState('GET');
   const [limitType, setLimitType] = React.useState(defaultLimitType);
   const [formData, setFormData] = React.useState({} as any);
-  const [apiFilterCondition, paging, apiLimits] = gatewayStore.useStore((s) => [s.apiFilterCondition, s.apiLimitsPaging, s.apiLimits]);
+  const [apiFilterCondition, paging, apiLimits] = gatewayStore.useStore((s) => [
+    s.apiFilterCondition,
+    s.apiLimitsPaging,
+    s.apiLimits,
+  ]);
 
   const { getApiFilterCondition, getApiLimits, deleteLimit, createApiLimit, updateApiLimit } = gatewayStore.effects;
   const [isGetFilter, isGetLimit] = useLoading(gatewayStore, ['getApiFilterCondition', 'getApiLimits']);
@@ -63,8 +67,13 @@ export const PureApiLimits = () => {
   const { apiConsumers = [] } = apiFilterCondition;
   const selectBefore = (
     <Select value={method} onChange={setMethod} dropdownMatchSelectWidth={false}>
-      {HTTP_METHODS.map((item) => <Option key={item.name} className="method-option" value={item.value}>{item.name}</Option>)}
-    </Select>);
+      {HTTP_METHODS.map((item) => (
+        <Option key={item.name} className="method-option" value={item.value}>
+          {item.name}
+        </Option>
+      ))}
+    </Select>
+  );
 
   React.useEffect(() => {
     getApiLimits({ ...effectFilter, pageNo: 1 });
@@ -97,7 +106,7 @@ export const PureApiLimits = () => {
   const editForm = (record: ILimit) => {
     setLimitType(record.apiPath ? LIMIT_TYPE.ONE : LIMIT_TYPE.ALL);
     const { apiPath, method } = record;
-    const formDataWithLimitType = { ...record, limitType: (!apiPath && !method) ? LIMIT_TYPE.ALL : LIMIT_TYPE.ONE };
+    const formDataWithLimitType = { ...record, limitType: !apiPath && !method ? LIMIT_TYPE.ALL : LIMIT_TYPE.ONE };
     setFormData(formDataWithLimitType);
     setMethod(record.method || 'GET');
     openModal();
@@ -130,9 +139,7 @@ export const PureApiLimits = () => {
       label: i18n.t('microService:limit type'),
       name: 'limitType',
       type: 'select',
-      initialValue: editMode
-        ? formData.apiPath ? LIMIT_TYPE.ONE : LIMIT_TYPE.ALL
-        : limitType,
+      initialValue: editMode ? (formData.apiPath ? LIMIT_TYPE.ONE : LIMIT_TYPE.ALL) : limitType,
       options: [
         { value: LIMIT_TYPE.ALL, name: i18n.t('microService:all') },
         { value: LIMIT_TYPE.ONE, name: i18n.t('microService:specify path') },
@@ -141,15 +148,17 @@ export const PureApiLimits = () => {
         onChange: (val: string) => setLimitType(val),
       },
     },
-    ...insertWhen(limitType === LIMIT_TYPE.ONE, [{
-      label: i18n.t('microService:api method path'),
-      name: 'apiPath',
-      itemProps: {
-        placeholder: i18n.t('microService:please enter the api already in the endpoint'),
-        spellCheck: false,
-        addonBefore: selectBefore,
+    ...insertWhen(limitType === LIMIT_TYPE.ONE, [
+      {
+        label: i18n.t('microService:api method path'),
+        name: 'apiPath',
+        itemProps: {
+          placeholder: i18n.t('microService:please enter the api already in the endpoint'),
+          spellCheck: false,
+          addonBefore: selectBefore,
+        },
       },
-    }]),
+    ]),
     {
       label: i18n.t('microService:traffic limit'),
       name: 'limit',
@@ -198,13 +207,17 @@ export const PureApiLimits = () => {
       render: (record: ILimit) => {
         return (
           <div className="table-operations">
-            <span className="table-operations-btn" onClick={() => editForm(record)}>{i18n.t('microService:edit')}</span>
+            <span className="table-operations-btn" onClick={() => editForm(record)}>
+              {i18n.t('microService:edit')}
+            </span>
             <span
               className="table-operations-btn"
-              onClick={() => confirm({
-                title: i18n.t('microService:confirm deletion?'),
-                onOk: () => onDelete(record),
-              })}
+              onClick={() =>
+                confirm({
+                  title: i18n.t('microService:confirm deletion?'),
+                  onOk: () => onDelete(record),
+                })
+              }
             >
               {i18n.t('microService:delete')}
             </span>
@@ -218,7 +231,9 @@ export const PureApiLimits = () => {
     <div className="api-limits">
       <Spin spinning={isFetching}>
         <div className="mb16">
-          <Button type="primary" onClick={openModal}>{i18n.t('microService:create call control')}</Button>
+          <Button type="primary" onClick={openModal}>
+            {i18n.t('microService:create call control')}
+          </Button>
         </div>
       </Spin>
       <PagingTable
@@ -243,6 +258,5 @@ export const PureApiLimits = () => {
     </div>
   );
 };
-
 
 export const ApiLimits = PureApiLimits;

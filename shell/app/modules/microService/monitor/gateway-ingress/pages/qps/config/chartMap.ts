@@ -20,28 +20,31 @@ export const commonAttr = {
   moduleName: 'gatewayIngressQPS',
   groupId: 'gatewayIngressQPS',
 };
-const chartMap = merge({
-  overallQPS: {
-    titleText: i18n.t('microService:overall QPS'),
-    ...commonAttr,
-    chartName: 'overallQPS',
+const chartMap = merge(
+  {
+    overallQPS: {
+      titleText: i18n.t('microService:overall QPS'),
+      ...commonAttr,
+      chartName: 'overallQPS',
+    },
+    successQPS: {
+      titleText: i18n.t('microService:success QPS'),
+      ...commonAttr,
+      chartName: 'successQPS',
+    },
+    QPS4xx: {
+      titleText: '4xx QPS',
+      ...commonAttr,
+      chartName: 'QPS4xx',
+    },
+    QPS5xx: {
+      titleText: '5xx QPS',
+      ...commonAttr,
+      chartName: 'QPS5xx',
+    },
   },
-  successQPS: {
-    titleText: i18n.t('microService:success QPS'),
-    ...commonAttr,
-    chartName: 'successQPS',
-  },
-  QPS4xx: {
-    titleText: '4xx QPS',
-    ...commonAttr,
-    chartName: 'QPS4xx',
-  },
-  QPS5xx: {
-    titleText: '5xx QPS',
-    ...commonAttr,
-    chartName: 'QPS5xx',
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   overallQPS: chartRender(chartMap.overallQPS) as any,

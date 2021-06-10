@@ -30,22 +30,16 @@ export const formatJSON = (str: string) => {
 };
 
 const { Option } = Select;
-const BODY_RAW_OPTION = [
-  'Text',
-  'Text(text/plain)',
-  'application/json',
-];
+const BODY_RAW_OPTION = ['Text', 'Text(text/plain)', 'application/json'];
 const BasicForm = 'application/x-www-form-urlencoded';
 const ValMap = {
-  none: () => (
-    <div className="body-val-none">{i18n.t('the current request has no {name}', { name: 'body' })}</div>
-  ),
+  none: () => <div className="body-val-none">{i18n.t('the current request has no {name}', { name: 'body' })}</div>,
   [BasicForm]: (props: any) => {
     const { data, updateBody }: any = props;
     return (
       <KeyValueEdit
         type="body"
-        data={isString(data.content) ? [] : data.content as any}
+        data={isString(data.content) ? [] : (data.content as any)}
         dataModel={{
           editKey: true,
           key: '',
@@ -55,27 +49,31 @@ const ValMap = {
         onChange={(_key, value, autoSave) => {
           updateBody('content', value, autoSave);
         }}
-        itemMap={[{
-          type: 'key',
-          props: {
-            placeholder: i18n.t('project:parameter name'),
+        itemMap={[
+          {
+            type: 'key',
+            props: {
+              placeholder: i18n.t('project:parameter name'),
+            },
+            getProps: ({ editKey }: { editKey: boolean }) => {
+              return {
+                disabled: !editKey,
+              };
+            },
           },
-          getProps: ({ editKey }: {editKey: boolean}) => {
-            return {
-              disabled: !editKey,
-            };
+          {
+            type: 'value',
+            props: {
+              placeholder: i18n.t('project:parameter value'),
+            },
           },
-        }, {
-          type: 'value',
-          props: {
-            placeholder: i18n.t('project:parameter value'),
+          {
+            type: 'desc',
+            props: {
+              placeholder: i18n.t('description'),
+            },
           },
-        }, {
-          type: 'desc',
-          props: {
-            placeholder: i18n.t('description'),
-          },
-        }]}
+        ]}
       />
     );
   },
@@ -97,7 +95,15 @@ const TestJsonEditor = (props: any) => {
 
   return (
     <div className="test-json-editor">
-      <Button className="json-format-btn" size="small" onClick={() => { setContent(formatJSON(content)); }}>格式化</Button>
+      <Button
+        className="json-format-btn"
+        size="small"
+        onClick={() => {
+          setContent(formatJSON(content));
+        }}
+      >
+        格式化
+      </Button>
       <FileEditor
         fileExtension="json"
         value={content}
@@ -155,26 +161,24 @@ const APIBody = (props: any) => {
           <Radio value={BasicForm}>x-www-form-urlencoded</Radio>
           <Radio value={'raw'}>raw</Radio>
         </Radio.Group>
-        {
-          isRaw ? (
-            <Select
-              disabled={!data.isAdd}
-              size="small"
-              style={{ minWidth: 120 }}
-              onChange={(t: string) => changeType(t, true)}
-              value={realType}
-              dropdownMatchSelectWidth={false}
-            >
-              {map(BODY_RAW_OPTION, (item) => (
-                <Option key={item} value={item}>{item}</Option>
-              ))}
-            </Select>
-          ) : null
-        }
+        {isRaw ? (
+          <Select
+            disabled={!data.isAdd}
+            size="small"
+            style={{ minWidth: 120 }}
+            onChange={(t: string) => changeType(t, true)}
+            value={realType}
+            dropdownMatchSelectWidth={false}
+          >
+            {map(BODY_RAW_OPTION, (item) => (
+              <Option key={item} value={item}>
+                {item}
+              </Option>
+            ))}
+          </Select>
+        ) : null}
       </div>
-      <div className="body-value-container">
-        {CurValueComp && <CurValueComp data={data} updateBody={updateBody} />}
-      </div>
+      <div className="body-value-container">{CurValueComp && <CurValueComp data={data} updateBody={updateBody} />}</div>
     </div>
   );
 };

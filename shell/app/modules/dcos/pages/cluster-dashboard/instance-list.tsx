@@ -54,14 +54,14 @@ interface IInstance {
 const InstanceList = ({
   clusters,
   instanceType,
-  // onClickMachine,
-}: IProps) => {
+}: // onClickMachine,
+IProps) => {
   const orgName = orgStore.useStore((s) => s.currentOrg.name);
-  const [
-    serviceList,
-    jobList,
-    instanceList,
-  ] = clusterDashboardStore.useStore((s) => [s.serviceList, s.jobList, s.instanceList]);
+  const [serviceList, jobList, instanceList] = clusterDashboardStore.useStore((s) => [
+    s.serviceList,
+    s.jobList,
+    s.instanceList,
+  ]);
   const [loading] = useLoading(clusterDashboardStore, ['getInstanceList']);
   const { getInstanceList } = clusterDashboardStore.effects;
 
@@ -133,7 +133,11 @@ const InstanceList = ({
         title: i18n.t('service position'),
         dataIndex: 'projectName',
         render: (_: any, { projectName, applicationName, runtimeName }: any) => (
-          <Tooltip title={`${i18n.t('project')}/${i18n.t('application')}/${i18n.t('instance')}：${projectName}/${applicationName}/${runtimeName}`}>
+          <Tooltip
+            title={`${i18n.t('project')}/${i18n.t('application')}/${i18n.t(
+              'instance',
+            )}：${projectName}/${applicationName}/${runtimeName}`}
+          >
             {`${projectName}/${applicationName}/${runtimeName}`}
           </Tooltip>
         ),
@@ -150,8 +154,12 @@ const InstanceList = ({
           if (!image) return null;
 
           return (
-            <Tooltip title={`${i18n.t('click to copy')}：${image}`} overlayClassName="tooltip-word-break" >
-              <span className="image-name for-copy-image" data-clipboard-tip={i18n.t('image name')} data-clipboard-text={image} >
+            <Tooltip title={`${i18n.t('click to copy')}：${image}`} overlayClassName="tooltip-word-break">
+              <span
+                className="image-name for-copy-image"
+                data-clipboard-tip={i18n.t('image name')}
+                data-clipboard-text={image}
+              >
                 {getImageText(image)}
               </span>
             </Tooltip>
@@ -180,7 +188,11 @@ const InstanceList = ({
           <Tooltip
             title={
               <div className="table-tooltip">
-                {i18n.t('used')}<span>{ceil(cpuUsage, 2)} {i18n.t('core')}</span> <br />
+                {i18n.t('used')}
+                <span>
+                  {ceil(cpuUsage, 2)} {i18n.t('core')}
+                </span>{' '}
+                <br />
                 {`${i18n.t('allocated')}${ceil(cpuRequest, 2)}`} {i18n.t('core')}
               </div>
             }
@@ -199,7 +211,8 @@ const InstanceList = ({
           <Tooltip
             title={
               <div className="table-tooltip">
-                {i18n.t('used')}<span>{getFormatter('STORAGE').format(memUsage, 2)}</span> <br />
+                {i18n.t('used')}
+                <span>{getFormatter('STORAGE').format(memUsage, 2)}</span> <br />
                 {`${i18n.t('allocated')}${getFormatter('STORAGE').format(memRequest, 2)}`}
               </div>
             }

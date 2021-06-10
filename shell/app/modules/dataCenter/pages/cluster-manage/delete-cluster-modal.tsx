@@ -21,15 +21,10 @@ interface IProps {
   visible: boolean;
   curCluster: ORG_CLUSTER.ICluster | null;
   onCancel: () => void;
-  onSubmit: (resp: {clusterName: string}) => any;
+  onSubmit: (resp: { clusterName: string }) => any;
 }
 
-const DeleteClusterModal = ({
-  visible,
-  curCluster,
-  onCancel,
-  onSubmit = () => {},
-}: IProps) => {
+const DeleteClusterModal = ({ visible, curCluster, onCancel, onSubmit = () => {} }: IProps) => {
   const beforeSubmit = (data: any) => {
     const { clusterName } = data;
     const prevName = get(curCluster, 'displayName') || get(curCluster, 'name');

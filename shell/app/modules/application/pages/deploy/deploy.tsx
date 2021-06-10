@@ -41,7 +41,6 @@ const appBlockStatusMap = {
   unblocked: i18n.t('default:unblocked'),
 };
 
-
 const ENVS_MAP = {
   DEV: i18n.t('dev environment'),
   TEST: i18n.t('test environment'),
@@ -61,7 +60,7 @@ const NewDeploy = ({ type, setCurEnv, canCreate }: IProps) => {
     'hover-active': !canCreate,
   });
   return (
-    <WithAuth pass={permMap[`${type.toLowerCase()}DeployOperation`].pass} >
+    <WithAuth pass={permMap[`${type.toLowerCase()}DeployOperation`].pass}>
       <div className={className} onClick={() => setCurEnv(type)}>
         <CustomIcon type="tj1" className="fz24 mb16" />
         <span>{i18n.t('application:Quickly create from artifacts')}</span>
@@ -80,12 +79,20 @@ interface IFormProps {
 const releaseOptionItem = (release: RELEASE.detail) => {
   if (!release) return;
   const { releaseId, createdAt, labels = {} } = release;
-  const displayStr = `${releaseId.slice(0, 6)} (${i18n.t('created at')}: ${moment(createdAt).format('YYYY-MM-DD HH:mm:ss')}; ${i18n.t('application:commit message')}: ${labels.gitCommitMessage})`;
+  const displayStr = `${releaseId.slice(0, 6)} (${i18n.t('created at')}: ${moment(createdAt).format(
+    'YYYY-MM-DD HH:mm:ss',
+  )}; ${i18n.t('application:commit message')}: ${labels.gitCommitMessage})`;
   const tip = (
     <div onClick={(e: any) => e.stopPropagation()}>
-      <div className="break-all">{i18n.t('commit')} ID: <GotoCommit length={6} commitId={labels.gitCommitId} gotoParams={{ jumpOut: true }} /></div>
-      <div>{i18n.t('application:commit message')}: {labels.gitCommitMessage}</div>
-      <div>{i18n.t('created at')}: {moment(createdAt).format('YYYY-MM-DD HH:mm:ss')}</div>
+      <div className="break-all">
+        {i18n.t('commit')} ID: <GotoCommit length={6} commitId={labels.gitCommitId} gotoParams={{ jumpOut: true }} />
+      </div>
+      <div>
+        {i18n.t('application:commit message')}: {labels.gitCommitMessage}
+      </div>
+      <div>
+        {i18n.t('created at')}: {moment(createdAt).format('YYYY-MM-DD HH:mm:ss')}
+      </div>
     </div>
   );
   return (
@@ -130,22 +137,23 @@ const NewDeployForm = ({ curEnv, isUpdate, setCurEnv, curBranch }: IFormProps) =
           }
         },
       },
-      options: () => map(branchInfo, (item) => {
-        let tip = '';
-        const branchAuth = !item.artifactWorkspace.includes(curEnv);
-        if (branchAuth) {
-          tip = `${i18n.t('application:this branch can not deploy on {env}', { env: ENVS_MAP[curEnv] })}`;
-        }
-        if (!tip) {
-          const hasAuth = item.isProtect ? branchAuthObj.executeProtected.pass : branchAuthObj.executeNormal.pass;
-          !hasAuth && (tip = i18n.t('application:branch is protected, you have no permission yet'));
-        }
-        return (
-          <Option key={item.name} value={item.name} disabled={!!tip}>
-            <Tooltip title={tip}>{item.name}</Tooltip>
-          </Option>
-        );
-      }),
+      options: () =>
+        map(branchInfo, (item) => {
+          let tip = '';
+          const branchAuth = !item.artifactWorkspace.includes(curEnv);
+          if (branchAuth) {
+            tip = `${i18n.t('application:this branch can not deploy on {env}', { env: ENVS_MAP[curEnv] })}`;
+          }
+          if (!tip) {
+            const hasAuth = item.isProtect ? branchAuthObj.executeProtected.pass : branchAuthObj.executeNormal.pass;
+            !hasAuth && (tip = i18n.t('application:branch is protected, you have no permission yet'));
+          }
+          return (
+            <Option key={item.name} value={item.name} disabled={!!tip}>
+              <Tooltip title={tip}>{item.name}</Tooltip>
+            </Option>
+          );
+        }),
     },
     {
       label: i18n.t('releaseId'),
@@ -189,7 +197,11 @@ const NewDeployForm = ({ curEnv, isUpdate, setCurEnv, curBranch }: IFormProps) =
 
   return (
     <FormModal
-      title={isUpdate ? i18n.t('application:Quickly update from artifacts') : i18n.t('application:Quickly create from artifacts')}
+      title={
+        isUpdate
+          ? i18n.t('application:Quickly update from artifacts')
+          : i18n.t('application:Quickly create from artifacts')
+      }
       visible={!!curEnv}
       loading={formLoading}
       wrappedComponentRef={formRef}
@@ -275,7 +287,9 @@ const Deploy = () => {
       return `[${status}] ${i18n.t('application:cannot deploy tips')}`;
     }
     if (unBlockStart && unBlockEnd) {
-      const msg = `${i18n.t('application:unblocking time period')}：${moment(unBlockStart).format('YYYY-MM-DD HH:mm')} ~ ${moment(unBlockEnd).format('YYYY-MM-DD HH:mm')}`;
+      const msg = `${i18n.t('application:unblocking time period')}：${moment(unBlockStart).format(
+        'YYYY-MM-DD HH:mm',
+      )} ~ ${moment(unBlockEnd).format('YYYY-MM-DD HH:mm')}`;
       return `[${status}] ${msg}`;
     }
     return null;
@@ -284,40 +298,42 @@ const Deploy = () => {
     <div className="app-deploy-wrap">
       <Spin spinning={loading}>
         <div className="app-deploy">
-          {
-            map(deployConf, (item, key) => {
-              const envBlocked = get(blockoutConfig, item.blockNetworkKey, false);
-              const isBlocked = envBlocked && appBlocked;
-              return (
-                <div className="app-deploy-stage" key={key}>
-                  <EnvCard type={item.type} />
-                  {
-                    item.confs.map((conf, index) => (
-                      <RuntimeBox
-                        {...conf}
-                        key={String(index)}
-                        env={item.type}
-                        canDeploy={!isBlocked}
-                        onRestart={redeployRuntime}
-                        onDelete={deleteRuntime}
-                        onUpdate={() => {
-                          update({
-                            curEnv: item.type,
-                            isUpdate: true,
-                            curBranch: conf.name,
-                          });
-                        }}
-                      />
-                    ))
-                  }
-                  <NewDeploy canCreate={isBlocked} type={item.type} setCurEnv={(v) => { handleQuickCreate(v, isBlocked); }} />
-                  {
-                    envBlocked && !!message ? <Alert className="mb16" showIcon type={appBlocked ? 'error' : 'normal'} message={message} /> : null
-                  }
-                </div>
-              );
-            })
-          }
+          {map(deployConf, (item, key) => {
+            const envBlocked = get(blockoutConfig, item.blockNetworkKey, false);
+            const isBlocked = envBlocked && appBlocked;
+            return (
+              <div className="app-deploy-stage" key={key}>
+                <EnvCard type={item.type} />
+                {item.confs.map((conf, index) => (
+                  <RuntimeBox
+                    {...conf}
+                    key={String(index)}
+                    env={item.type}
+                    canDeploy={!isBlocked}
+                    onRestart={redeployRuntime}
+                    onDelete={deleteRuntime}
+                    onUpdate={() => {
+                      update({
+                        curEnv: item.type,
+                        isUpdate: true,
+                        curBranch: conf.name,
+                      });
+                    }}
+                  />
+                ))}
+                <NewDeploy
+                  canCreate={isBlocked}
+                  type={item.type}
+                  setCurEnv={(v) => {
+                    handleQuickCreate(v, isBlocked);
+                  }}
+                />
+                {envBlocked && !!message ? (
+                  <Alert className="mb16" showIcon type={appBlocked ? 'error' : 'normal'} message={message} />
+                ) : null}
+              </div>
+            );
+          })}
         </div>
       </Spin>
       <NewDeployForm

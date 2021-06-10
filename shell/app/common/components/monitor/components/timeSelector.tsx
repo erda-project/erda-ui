@@ -54,12 +54,19 @@ const TimeSelector = (props: IProps) => {
 
   return (
     <div className={`${className} ${styleName}`}>
-      <Select key="select" className="time-range-selector" defaultValue={timeSelectorPlan[defaultTime || hours]} onChange={handleChangeTime}>
-        {
-          map(timeSelectorPlan, (value, key) => {
-            return (<Select.Option key={value} value={key}>{value}</Select.Option>);
-          })
-        }
+      <Select
+        key="select"
+        className="time-range-selector"
+        defaultValue={timeSelectorPlan[defaultTime || hours]}
+        onChange={handleChangeTime}
+      >
+        {map(timeSelectorPlan, (value, key) => {
+          return (
+            <Select.Option key={value} value={key}>
+              {value}
+            </Select.Option>
+          );
+        })}
       </Select>
     </div>
   );

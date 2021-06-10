@@ -13,7 +13,18 @@
 
 import React from 'react';
 import { shallow } from 'enzyme';
-import { camel2Underscore, getStrRealLen, px2Int, getDateDuration, cutStr, secondsToTime, daysRange, fromNow, getTimeSpan, formatTime } from 'common/utils';
+import {
+  camel2Underscore,
+  getStrRealLen,
+  px2Int,
+  getDateDuration,
+  cutStr,
+  secondsToTime,
+  daysRange,
+  fromNow,
+  getTimeSpan,
+  formatTime,
+} from 'common/utils';
 import { describe, it } from '@jest/globals';
 import moment from 'moment';
 
@@ -46,11 +57,7 @@ describe('str-num-date', () => {
   });
   it('cutStr', () => {
     expect(cutStr(null)).toBe('');
-    const wrapper = shallow(
-      <div>
-        {cutStr(title, 0, { suffix: '...', showTip: true })}
-      </div>,
-    );
+    const wrapper = shallow(<div>{cutStr(title, 0, { suffix: '...', showTip: true })}</div>);
     expect(wrapper.find('Tooltip').prop('title')).toBe(title);
     expect(wrapper.find('Tooltip').children().text()).toBe('...');
   });
@@ -92,7 +99,7 @@ describe('str-num-date', () => {
     const startTimeNs = startTimeMs * 1000000;
     const end = moment();
     const endTimeMs = end.valueOf();
-    const endTime = parseInt(`${endTimeMs as number / 1000}`, 10);
+    const endTime = parseInt(`${(endTimeMs as number) / 1000}`, 10);
     const endTimeNs = endTimeMs * 1000000;
     expect(getTimeSpan([start, end])).toStrictEqual({
       hours: 1,

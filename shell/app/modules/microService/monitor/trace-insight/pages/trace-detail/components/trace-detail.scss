@@ -2,9 +2,9 @@
   @for $i from 0 through 5 {
     &.depth-#{$i} .duration {
       @if $i == 0 {
-        background: rgba($color, .1);
+        background: rgba($color, 0.1);
       } @else {
-        background: rgba($color, $i * .1);
+        background: rgba($color, $i * 0.1);
       }
     }
   }
@@ -36,7 +36,7 @@
     overflow: auto;
     color: #e6db74;
     background-color: #3c444f;
-    transition: transform .3s;
+    transition: transform 0.3s;
 
     .json-detail-btn {
       position: fixed;
@@ -97,7 +97,7 @@
       height: 0;
       line-height: 0;
       visibility: hidden;
-      content: ".";
+      content: '.';
     }
     @include duration-color();
 
@@ -107,12 +107,12 @@
       height: 24px;
       overflow: hidden;
       white-space: nowrap;
-      opacity: .4;
+      opacity: 0.4;
 
       .service-name {
         &:after {
           visibility: hidden;
-          content: ".";
+          content: '.';
         }
         height: 24px;
         padding-left: 2px;
@@ -133,7 +133,7 @@
       .expander {
         position: relative;
         top: -8px;
-        margin-right: .25em;
+        margin-right: 0.25em;
         margin-left: -1.1em;
         padding: 2px;
         color: $black;
@@ -199,7 +199,7 @@
         display: none;
       }
 
-      .annotation[data-value="error"] {
+      .annotation[data-value='error'] {
         background: #ff0000;
         border: solid 1px #ff0000;
       }
@@ -252,14 +252,14 @@
     }
   }
 
-  .span[data-error-type="transient"] {
+  .span[data-error-type='transient'] {
     .handle .service-name {
       background: $color-warning;
     }
     @include duration-color($color-warning);
   }
 
-  .span[data-error-type="critical"] {
+  .span[data-error-type='critical'] {
     .handle .service-name {
       background: $color-danger;
     }
@@ -327,7 +327,7 @@
 }
 
 .save {
-  opacity: .2;
+  opacity: 0.2;
 }
 
 .span-detail-modal {

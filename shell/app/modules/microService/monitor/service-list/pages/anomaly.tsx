@@ -66,7 +66,11 @@ export default () => {
             style={{ width: '180px' }}
             onChange={(v: any) => updater.sort(v)}
           >
-            {sortList.map(({ name, value }) => <Select.Option key={value} value={value}>{name}</Select.Option>)}
+            {sortList.map(({ name, value }) => (
+              <Select.Option key={value} value={value}>
+                {name}
+              </Select.Option>
+            ))}
           </Select>
           <Select
             className="mr12"
@@ -75,7 +79,11 @@ export default () => {
             style={{ width: '180px' }}
             onChange={(v: any) => updater.limit(v)}
           >
-            {limits.map((item) => <Select.Option key={item} value={item}>{item}</Select.Option>)}
+            {limits.map((item) => (
+              <Select.Option key={item} value={item}>
+                {item}
+              </Select.Option>
+            ))}
           </Select>
           <Select
             className="mr12"
@@ -84,15 +92,16 @@ export default () => {
             style={{ width: '180px' }}
             onChange={(v: any) => updater.exceptionType(v)}
           >
-            {(exceptionTypes || []).map((item) => <Select.Option key={item} value={item}>{item}</Select.Option>)}
+            {(exceptionTypes || []).map((item) => (
+              <Select.Option key={item} value={item}>
+                {item}
+              </Select.Option>
+            ))}
           </Select>
         </div>
       </div>
       <div className="auto-overflow flex-1">
-        <ServiceListDashboard
-          dashboardId="exception_analysis"
-          extraGlobalVariable={{ sort, limit, exceptionType }}
-        />
+        <ServiceListDashboard dashboardId="exception_analysis" extraGlobalVariable={{ sort, limit, exceptionType }} />
       </div>
     </div>
   );

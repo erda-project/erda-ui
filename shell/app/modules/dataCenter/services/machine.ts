@@ -14,19 +14,22 @@
 import agent from 'agent';
 
 export const addMachine = (payload: ORG_MACHINE.IAddMachineBody): ORG_MACHINE.IClusterOperateRecord => {
-  return agent.post('/api/nodes')
+  return agent
+    .post('/api/nodes')
     .send(payload)
     .then((response: any) => response.body);
 };
 
 export const addCloudMachine = (payload: ORG_MACHINE.IAddCloudMachineBody): ORG_MACHINE.IAddCloudMachineResp => {
-  return agent.post('/api/ops/cloud-nodes')
+  return agent
+    .post('/api/ops/cloud-nodes')
     .send(payload)
     .then((response: any) => response.body);
 };
 
 export const updaterMachineLabels = (payload: ORG_MACHINE.IMachineLabelBody): { recordID: number } => {
-  return agent.post('/api/node-labels')
+  return agent
+    .post('/api/node-labels')
     .send(payload)
     .then((response: any) => response.body);
 };
@@ -39,18 +42,19 @@ export interface IOpHistoryQuery {
   recordType?: string;
   scope?: string;
 }
-export const getClusterOperationHistory = (payload: IOpHistoryQuery): IPagingResp<ORG_MACHINE.IClusterOperateRecord> => {
-  return agent.get('/api/records')
+export const getClusterOperationHistory = (
+  payload: IOpHistoryQuery,
+): IPagingResp<ORG_MACHINE.IClusterOperateRecord> => {
+  return agent
+    .get('/api/records')
     .query(payload)
     .then((response: any) => response.body);
 };
 
 export const getClusterOperationDetail = (id: string): ORG_MACHINE.IClusterOperateRecord => {
-  return agent.get(`/api/records/${id}`)
-    .then((response: any) => response.body);
+  return agent.get(`/api/records/${id}`).then((response: any) => response.body);
 };
 
 export const getClusterOperationTypes = (): ORG_MACHINE.IClusterOperateType[] => {
-  return agent.get('/api/recordtypes')
-    .then((response: any) => response.body);
+  return agent.get('/api/recordtypes').then((response: any) => response.body);
 };

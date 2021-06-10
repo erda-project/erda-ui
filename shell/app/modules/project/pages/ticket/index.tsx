@@ -12,7 +12,12 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { ISSUE_TYPE, ISSUE_PRIORITY_MAP, BUG_SEVERITY_MAP, ISSUE_ICON } from 'project/common/components/issue/issue-config';
+import {
+  ISSUE_TYPE,
+  ISSUE_PRIORITY_MAP,
+  BUG_SEVERITY_MAP,
+  ISSUE_ICON,
+} from 'project/common/components/issue/issue-config';
 import routeInfoStore from 'common/stores/route';
 import projectLabelStore from 'project/stores/label';
 import issueStore from 'project/stores/issues';
@@ -42,7 +47,9 @@ const Ticket = () => {
     map(totalWorkflowStateList, ({ issueType, stateName, stateID, stateBelong }) => {
       if (issueType === ISSUE_TYPE.TICKET) {
         temp.push({
-          stateName, stateID, stateBelong,
+          stateName,
+          stateID,
+          stateBelong,
         });
       }
     });
@@ -77,122 +84,129 @@ const Ticket = () => {
       detailId: undefined,
     });
     if (hasEdited || isCreate || isDelete) {
-      getList((isDelete || isCreate) ? { pageNo: 1 } : { pageNo: paging.pageNo });
+      getList(isDelete || isCreate ? { pageNo: 1 } : { pageNo: paging.pageNo });
     }
   };
 
-  const filterField = React.useMemo(() => [
-    {
-      type: Input,
-      name: 'title',
-      customProps: {
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
+  const filterField = React.useMemo(
+    () => [
+      {
+        type: Input,
+        name: 'title',
+        customProps: {
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
+        },
       },
-    },
-    {
-      type: Select,
-      name: 'state',
-      customProps: {
-        mode: 'multiple',
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('status') }),
-        allowClear: true,
-        options: map(ticketStateList, ({ stateID }) => {
-          return (
-            <Option key={stateID} value={stateID}>
-              <CustomIssueState state={stateID} issueButton={ticketStateList} />
-            </Option>
-          );
-        }),
+      {
+        type: Select,
+        name: 'state',
+        customProps: {
+          mode: 'multiple',
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('status') }),
+          allowClear: true,
+          options: map(ticketStateList, ({ stateID }) => {
+            return (
+              <Option key={stateID} value={stateID}>
+                <CustomIssueState state={stateID} issueButton={ticketStateList} />
+              </Option>
+            );
+          }),
+        },
       },
-    },
-    {
-      type: Select,
-      name: 'priority',
-      customProps: {
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('project:priority') }),
-        allowClear: true,
-        options: map(ISSUE_PRIORITY_MAP, (item) => {
-          const { value, iconLabel } = item;
-          return (
-            <Option key={value} value={value}>
-              {iconLabel}
-            </Option>
-          );
-        }),
+      {
+        type: Select,
+        name: 'priority',
+        customProps: {
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('project:priority') }),
+          allowClear: true,
+          options: map(ISSUE_PRIORITY_MAP, (item) => {
+            const { value, iconLabel } = item;
+            return (
+              <Option key={value} value={value}>
+                {iconLabel}
+              </Option>
+            );
+          }),
+        },
       },
-    },
-    {
-      type: Select,
-      name: 'severity',
-      customProps: {
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('project:severity') }),
-        allowClear: true,
-        options: map(BUG_SEVERITY_MAP, (item) => {
-          const { value, iconLabel } = item;
-          return (
-            <Option key={value} value={value}>
-              {iconLabel}
-            </Option>
-          );
-        }),
+      {
+        type: Select,
+        name: 'severity',
+        customProps: {
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('project:severity') }),
+          allowClear: true,
+          options: map(BUG_SEVERITY_MAP, (item) => {
+            const { value, iconLabel } = item;
+            return (
+              <Option key={value} value={value}>
+                {iconLabel}
+              </Option>
+            );
+          }),
+        },
       },
-    },
-    {
-      type: MemberSelector,
-      name: 'creator',
-      customProps: {
-        mode: 'multiple',
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('submitter') }),
-        scopeType: 'project',
-        size: 'small',
-        scopeId: projectId,
-        allowClear: true,
+      {
+        type: MemberSelector,
+        name: 'creator',
+        customProps: {
+          mode: 'multiple',
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('submitter') }),
+          scopeType: 'project',
+          size: 'small',
+          scopeId: projectId,
+          allowClear: true,
+        },
       },
-    },
-    {
-      type: MemberSelector,
-      name: 'assignee',
-      customProps: {
-        mode: 'multiple',
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('project:assignee') }),
-        scopeType: 'project',
-        size: 'small',
-        scopeId: projectId,
-        allowClear: true,
+      {
+        type: MemberSelector,
+        name: 'assignee',
+        customProps: {
+          mode: 'multiple',
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('project:assignee') }),
+          scopeType: 'project',
+          size: 'small',
+          scopeId: projectId,
+          allowClear: true,
+        },
       },
-    },
-    {
-      type: RangePicker,
-      name: 'createdAt',
-      valueType: 'range',
-      customProps: {
-        borderTime: true,
-        allowClear: true,
-        style: { width: 'auto' },
-        ranges: getTimeRanges(),
+      {
+        type: RangePicker,
+        name: 'createdAt',
+        valueType: 'range',
+        customProps: {
+          borderTime: true,
+          allowClear: true,
+          style: { width: 'auto' },
+          ranges: getTimeRanges(),
+        },
       },
-    },
-    {
-      type: Input,
-      name: 'source',
-      customProps: {
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('project:source') }),
+      {
+        type: Input,
+        name: 'source',
+        customProps: {
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('project:source') }),
+        },
       },
-    },
-    {
-      type: Select,
-      name: 'label',
-      customProps: {
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('project:label') }),
-        allowClear: true,
-        mode: 'multiple',
-        options: map(labelList, (item) => {
-          const { name: label, id } = item;
-          return <Option key={id} value={String(id)}>{label}</Option>;
-        }),
+      {
+        type: Select,
+        name: 'label',
+        customProps: {
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('project:label') }),
+          allowClear: true,
+          mode: 'multiple',
+          options: map(labelList, (item) => {
+            const { name: label, id } = item;
+            return (
+              <Option key={id} value={String(id)}>
+                {label}
+              </Option>
+            );
+          }),
+        },
       },
-    },
-  ], [ticketStateList, labelList, projectId]);
+    ],
+    [ticketStateList, labelList, projectId],
+  );
 
   const getList = (query: Obj = {}) => {
     getIssues({ type: ISSUE_TYPE.TICKET, ...filterData, ...query });
@@ -261,20 +275,27 @@ const Ticket = () => {
           opts.push({
             disabled: !item.permission,
             value: item.stateID,
-            iconLabel: <div className="v-align">{ISSUE_ICON.state[item.stateBelong]}{item.stateName}</div>,
+            iconLabel: (
+              <div className="v-align">
+                {ISSUE_ICON.state[item.stateBelong]}
+                {item.stateName}
+              </div>
+            ),
           });
         });
 
-        return (<FieldSelector
-          field="state"
-          hasAuth={updateStatusAuth}
-          value={v}
-          record={record}
-          updateRecord={(_val: string) => {
-            updateIssueRecord({ ...record, state: +_val });
-          }}
-          options={opts}
-        />);
+        return (
+          <FieldSelector
+            field="state"
+            hasAuth={updateStatusAuth}
+            value={v}
+            record={record}
+            updateRecord={(_val: string) => {
+              updateIssueRecord({ ...record, state: +_val });
+            }}
+            options={opts}
+          />
+        );
       },
     },
     {
@@ -284,7 +305,16 @@ const Ticket = () => {
       render: (val: string, record: ISSUE.Ticket) => {
         const checkRole = [isCreator(record.creator), isAssignee(record.assignee)];
         const editAuth = getAuth(ticketPerm.edit, checkRole);
-        return <FieldSelector field="priority" hasAuth={editAuth} value={val || ISSUE_PRIORITY_MAP.NORMAL.value} record={record} updateRecord={(_val: string) => updateIssueRecord({ ...record, priority: _val })} options={map(ISSUE_PRIORITY_MAP)} />;
+        return (
+          <FieldSelector
+            field="priority"
+            hasAuth={editAuth}
+            value={val || ISSUE_PRIORITY_MAP.NORMAL.value}
+            record={record}
+            updateRecord={(_val: string) => updateIssueRecord({ ...record, priority: _val })}
+            options={map(ISSUE_PRIORITY_MAP)}
+          />
+        );
       },
     },
     {
@@ -294,7 +324,16 @@ const Ticket = () => {
       render: (val: string, record: ISSUE.Issue) => {
         const checkRole = [isCreator(record.creator), isAssignee(record.assignee)];
         const editAuth = getAuth(ticketPerm.edit, checkRole);
-        return <FieldSelector field="severity" hasAuth={editAuth} value={val} record={record} updateRecord={(_val: string) => updateIssueRecord({ ...record, severity: _val })} options={map(BUG_SEVERITY_MAP)} />;
+        return (
+          <FieldSelector
+            field="severity"
+            hasAuth={editAuth}
+            value={val}
+            record={record}
+            updateRecord={(_val: string) => updateIssueRecord({ ...record, severity: _val })}
+            options={map(BUG_SEVERITY_MAP)}
+          />
+        );
       },
     },
     {
@@ -305,7 +344,7 @@ const Ticket = () => {
         const checkRole = [isCreator(record.creator), isAssignee(record.assignee)];
         const editAuth = getAuth(ticketPerm.edit, checkRole);
         return (
-          <WithAuth pass={editAuth} >
+          <WithAuth pass={editAuth}>
             <MemberSelector
               scopeType="project"
               scopeId={projectId}
@@ -353,8 +392,12 @@ const Ticket = () => {
     const _q = { ...query };
     if (!isEmpty(createdAt)) {
       const [start, end] = createdAt;
-      const startCreatedAt = moment(+start).startOf('day').valueOf();
-      const endCreatedAt = moment(+end).endOf('day').valueOf();
+      const startCreatedAt = moment(+start)
+        .startOf('day')
+        .valueOf();
+      const endCreatedAt = moment(+end)
+        .endOf('day')
+        .valueOf();
       _q.startCreatedAt = startCreatedAt;
       _q.endCreatedAt = endCreatedAt;
     } else {
@@ -384,17 +427,20 @@ const Ticket = () => {
     <div className="project-ticket">
       <div className="top-button-group">
         <WithAuth pass={ticketPerm.create.pass} tipProps={{ placement: 'bottom' }}>
-          <Button type="primary" onClick={() => updater.drawerVisible(true)}>{i18n.t('application:add ticket')}</Button>
+          <Button type="primary" onClick={() => updater.drawerVisible(true)}>
+            {i18n.t('application:add ticket')}
+          </Button>
         </WithAuth>
       </div>
-      <Filter config={filterField} onFilter={onFilter} connectUrlSearch urlExtra={urlExtra} formatFormData={formatFormData} updateSearch={handleUpdateSearch} />
-      <Table
-        loading={loading}
-        columns={columns}
-        dataSource={list}
-        rowKey="id"
-        pagination={pagination}
+      <Filter
+        config={filterField}
+        onFilter={onFilter}
+        connectUrlSearch
+        urlExtra={urlExtra}
+        formatFormData={formatFormData}
+        updateSearch={handleUpdateSearch}
       />
+      <Table loading={loading} columns={columns} dataSource={list} rowKey="id" pagination={pagination} />
       <EditIssueDrawer
         id={detailId}
         issueType={ISSUE_TYPE.TICKET}

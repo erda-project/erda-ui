@@ -29,13 +29,15 @@ interface IDubboChartQuery extends ICommonQuery {
 }
 
 export const getDubboDetailTime = ({ env, interfacename, projectId, ...rest }: ICommonQuery) => {
-  return agent.get(`/api/tmc/mesh/timestamp/${interfacename}/${projectId}/${env}`)
+  return agent
+    .get(`/api/tmc/mesh/timestamp/${interfacename}/${projectId}/${env}`)
     .query(rest)
     .then((response: any) => response.body);
 };
 
 export const getDubboDetailChart = ({ chartType, env, interfacename, projectId, ...rest }: IDubboChartQuery) => {
-  return agent.get(`/api/tmc/mesh/${chartType}/${interfacename}/${projectId}/${env}`)
+  return agent
+    .get(`/api/tmc/mesh/${chartType}/${interfacename}/${projectId}/${env}`)
     .query(rest)
     .then((response: any) => response.body);
 };

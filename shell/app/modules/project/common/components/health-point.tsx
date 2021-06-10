@@ -138,7 +138,11 @@ const HealthPoint = ({ type, msg = '', status, subText = null, showText = false,
   if (showText) {
     return (
       <span className="health-point">
-        <Badge status={state} /> <span className="health-text">{text}{subText}</span>
+        <Badge status={state} />{' '}
+        <span className="health-text">
+          {text}
+          {subText}
+        </span>
       </span>
     );
   }
@@ -146,7 +150,8 @@ const HealthPoint = ({ type, msg = '', status, subText = null, showText = false,
   if (showTextLeft) {
     return (
       <span className="health-point">
-        <span className="health-text">{text} ·</span><Badge status={state} />
+        <span className="health-text">{text} ·</span>
+        <Badge status={state} />
       </span>
     );
   }

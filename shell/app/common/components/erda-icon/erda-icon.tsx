@@ -28,7 +28,6 @@ import {
   ApplicationMenu as IconApplicationMenu,
 } from '@icon-park/react';
 
-
 export const iconMap = {
   lock: IconLock,
   unlock: IconUnlock,
@@ -45,7 +44,7 @@ export const iconMap = {
 };
 
 type IIconType =
-  'lock'
+  | 'lock'
   | 'unlock'
   | 'time'
   | 'application-one'
@@ -75,11 +74,8 @@ interface IProps {
   onClick?: React.MouseEventHandler;
 }
 
-export const ErdaIcon = ({
-  className = '', style, onClick, iconType, ...rest
-}: IProps) => {
+export const ErdaIcon = ({ className = '', style, onClick, iconType, ...rest }: IProps) => {
   const IconComp = iconMap[iconType];
 
-  return IconComp ? <IconComp className={className} onClick={onClick} {...rest} />
-    : <span>Not Exists</span>;
+  return IconComp ? <IconComp className={className} onClick={onClick} {...rest} /> : <span>Not Exists</span>;
 };

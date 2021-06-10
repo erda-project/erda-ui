@@ -46,11 +46,18 @@ const monitorChart = createStore({
       monitorChart.reducers.startLoadingChart({ moduleName, chartName });
       const { extendHandler, ...restQuery } = query;
       const origData = await call(loadChart, { ...restQuery });
-      monitorChart.reducers.loadChartSuccess({ origData, moduleName, chartName, dataHandler, query: restQuery, extendHandler });
+      monitorChart.reducers.loadChartSuccess({
+        origData,
+        moduleName,
+        chartName,
+        dataHandler,
+        query: restQuery,
+        extendHandler,
+      });
     },
   },
   reducers: {
-    startLoadingChart(state, { moduleName, chartName }: {moduleName: string; chartName: string }) {
+    startLoadingChart(state, { moduleName, chartName }: { moduleName: string; chartName: string }) {
       const curModule = state[moduleName] || {};
       if (curModule[chartName]) {
         // 使用内部loading而不是isFetching.effects下的，可以减少外部props从而减少一次render
@@ -61,10 +68,18 @@ const monitorChart = createStore({
       }
       state[moduleName] = curModule;
     },
-    loadChartSuccess(state, { origData, moduleName, chartName, dataHandler = defaultDataHandler, ...rest }: ILoadSucProps) {
+    loadChartSuccess(
+      state,
+      { origData, moduleName, chartName, dataHandler = defaultDataHandler, ...rest }: ILoadSucProps,
+    ) {
       let data = {};
       try {
-        data = dataHandler(origData, { moduleName, chartName, prevData: get(state, `${moduleName}.${chartName}`), ...rest });
+        data = dataHandler(origData, {
+          moduleName,
+          chartName,
+          prevData: get(state, `${moduleName}.${chartName}`),
+          ...rest,
+        });
       } catch (e) {
         // eslint-disable-next-line no-console
         console.error(`data handler error on ${moduleName}.${chartName}`, e);

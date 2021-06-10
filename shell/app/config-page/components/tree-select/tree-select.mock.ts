@@ -18,7 +18,8 @@ export const mockData: CP_TREE_SELECT.Spec = {
       { key: 'g0', id: 'g0', pId: '0', title: 'g0', value: 'v-g0', isLeaf: false, selectable: false, disabled: true },
       { key: 'g1', id: 'g1', pId: '0', title: 'g1', value: 'v-g1', isLeaf: false, selectable: false, disabled: true },
       { key: 'g2', id: 'g2', pId: '0', title: 'g2', value: 'v-g2', isLeaf: false, selectable: false, disabled: true },
-    ] },
+    ],
+  },
   state: { value: { value: '测试', label: '测试2' } },
   props: {
     placeholder: '请选择',

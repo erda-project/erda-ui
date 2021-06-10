@@ -1,6 +1,7 @@
 .version-list {
   .asset-logo {
-    svg, img {
+    svg,
+    img {
       width: 100px;
       height: 100px;
     }
@@ -30,7 +31,8 @@
       left: 300px;
     }
 
-    .instance-label, .instance-name {
+    .instance-label,
+    .instance-name {
       line-height: 22px;
     }
   }

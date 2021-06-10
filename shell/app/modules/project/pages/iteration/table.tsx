@@ -29,8 +29,11 @@ const { Option } = Select;
 const iterationOptions = [
   { cnName: i18n.t('project:processing'), enName: 'unarchive' },
   { cnName: i18n.t('archived'), enName: 'archived' },
-].map(({ cnName, enName }) => <Option key={enName} value={enName}>{cnName}</Option>);
-
+].map(({ cnName, enName }) => (
+  <Option key={enName} value={enName}>
+    {cnName}
+  </Option>
+));
 
 export const Iteration = () => {
   const [status, setStatus] = React.useState('unarchive');
@@ -53,9 +56,12 @@ export const Iteration = () => {
     return { state: iterationStateMap[status], pageNo: 1 };
   }, [status]);
 
-  const getList = React.useCallback((q: Obj = {}) => {
-    return getIterations({ ...query, ...q, projectID: +projectId });
-  }, [getIterations, query, projectId]);
+  const getList = React.useCallback(
+    (q: Obj = {}) => {
+      return getIterations({ ...query, ...q, projectID: +projectId });
+    },
+    [getIterations, query, projectId],
+  );
 
   React.useEffect(() => {
     getList();
@@ -96,7 +102,10 @@ export const Iteration = () => {
     isSave && getList({ pageNo });
   };
 
-  const [operationAuth, handleFiledAuth] = usePerm((s) => [s.project.iteration.operation.pass, s.project.iteration.handleFiled.pass]);
+  const [operationAuth, handleFiledAuth] = usePerm((s) => [
+    s.project.iteration.operation.pass,
+    s.project.iteration.handleFiled.pass,
+  ]);
 
   const columns = [
     {
@@ -104,7 +113,7 @@ export const Iteration = () => {
       dataIndex: 'title',
       width: 200,
       render: (val: string) => (
-        <Ellipsis className="fake-link nowrap" title={val} >
+        <Ellipsis className="fake-link nowrap" title={val}>
           {val}
         </Ellipsis>
       ),
@@ -118,7 +127,8 @@ export const Iteration = () => {
       title: i18n.t('period'),
       width: 230,
       dataIndex: 'startedAt',
-      render: (startedAt: string, record: ITERATION.Detail) => `${moment(startedAt).format('YYYY/MM/DD')} - ${moment(record.finishedAt).format('YYYY/MM/DD')}`,
+      render: (startedAt: string, record: ITERATION.Detail) =>
+        `${moment(startedAt).format('YYYY/MM/DD')} - ${moment(record.finishedAt).format('YYYY/MM/DD')}`,
     },
     {
       title: i18n.t('project:progress'),
@@ -128,7 +138,11 @@ export const Iteration = () => {
         const doneTotal = sumBy(map(record.issueSummary || {}), 'done') || 0;
         const totalCount = (sumBy(map(record.issueSummary || {}), 'undone') || 0) + doneTotal;
         const percent = ((totalCount ? doneTotal / totalCount : 0) * 100).toFixed(1);
-        return <div className="mr8"><Progress percent={+percent} /></div>;
+        return (
+          <div className="mr8">
+            <Progress percent={+percent} />
+          </div>
+        );
       },
     },
     {
@@ -140,11 +154,8 @@ export const Iteration = () => {
         if (record.state === 'FILED') {
           return (
             <div className="table-operations" onClick={(e) => e.stopPropagation()}>
-              <WithAuth pass={handleFiledAuth} >
-                <span
-                  className="table-operations-btn"
-                  onClick={() => onFiled(record, 'UNFILED')}
-                >
+              <WithAuth pass={handleFiledAuth}>
+                <span className="table-operations-btn" onClick={() => onFiled(record, 'UNFILED')}>
                   {i18n.t('cancel archive')}
                 </span>
               </WithAuth>
@@ -153,16 +164,13 @@ export const Iteration = () => {
         }
         return (
           <div className="table-operations" onClick={(e) => e.stopPropagation()}>
-            <WithAuth pass={operationAuth} >
+            <WithAuth pass={operationAuth}>
               <span className="table-operations-btn" onClick={() => onEdit(record)}>
                 {i18n.t('edit')}
               </span>
             </WithAuth>
-            <WithAuth pass={handleFiledAuth} >
-              <span
-                className="table-operations-btn"
-                onClick={() => onFiled(record, 'FILED')}
-              >
+            <WithAuth pass={handleFiledAuth}>
+              <span className="table-operations-btn" onClick={() => onFiled(record, 'FILED')}>
                 {i18n.t('archive')}
               </span>
             </WithAuth>
@@ -171,10 +179,8 @@ export const Iteration = () => {
                 onDelete(record.id);
               }}
             >
-              <WithAuth pass={operationAuth} >
-                <span className="table-operations-btn" >
-                  {i18n.t('delete')}
-                </span>
+              <WithAuth pass={operationAuth}>
+                <span className="table-operations-btn">{i18n.t('delete')}</span>
               </WithAuth>
             </DeleteConfirm>
           </div>
@@ -187,11 +193,7 @@ export const Iteration = () => {
 
   return (
     <div className="iteration">
-      <Select
-        className="mb16 default-selector-width"
-        value={status}
-        onChange={(value: any) => setStatus(value)}
-      >
+      <Select className="mb16 default-selector-width" value={status} onChange={(value: any) => setStatus(value)}>
         {iterationOptions}
       </Select>
 
@@ -220,23 +222,16 @@ export const Iteration = () => {
         onRow={(record) => {
           return {
             onClick: () => {
-              goTo(
-                goTo.pages.iterationDetail,
-                {
-                  projectId,
-                  iterationId: record.id,
-                  issueType: 'all',
-                },
-              );
+              goTo(goTo.pages.iterationDetail, {
+                projectId,
+                iterationId: record.id,
+                issueType: 'all',
+              });
             },
           };
         }}
       />
-      <IterationModal
-        visible={state.modalVisible}
-        data={state.curDetail as ITERATION.Detail}
-        onClose={handleClose}
-      />
+      <IterationModal visible={state.modalVisible} data={state.curDetail as ITERATION.Detail} onClose={handleClose} />
     </div>
   );
 };

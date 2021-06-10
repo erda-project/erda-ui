@@ -38,14 +38,10 @@ const storeMap = {
   [MemberScope.APP]: appMemberStore,
 };
 
-export const AuthorizeMemberModal = ({
-  type,
-  member,
-  closeModal,
-}: IProps) => {
+export const AuthorizeMemberModal = ({ type, member, closeModal }: IProps) => {
   const memberStore = storeMap[type];
   const { updateMembers, removeMember } = memberStore.effects;
-  const { getRoleMap } = appMemberStore.effects;// 应用授权，只查询项目的角色
+  const { getRoleMap } = appMemberStore.effects; // 应用授权，只查询项目的角色
   const roleMap = appMemberStore.useStore((s) => s.roleMap);
   const { params } = routeInfoStore.getState((s) => s);
 
@@ -99,15 +95,16 @@ export const AuthorizeMemberModal = ({
             placeholder={`${i18n.t('project:please set ')}`}
           >
             <Option value="">{i18n.t('not member')}</Option>
-            {
-              map(roleMap, (v: string, k: string) => (<Option key={k} value={k}>{v}</Option>))
-            }
+            {map(roleMap, (v: string, k: string) => (
+              <Option key={k} value={k}>
+                {v}
+              </Option>
+            ))}
           </Select>
         );
       },
     },
   ];
-
 
   return (
     <Modal
@@ -123,13 +120,7 @@ export const AuthorizeMemberModal = ({
         </Button>,
       ]}
     >
-      <Table
-        loading={loading}
-        rowKey={'userId'}
-        pagination={pagination}
-        columns={columns}
-        dataSource={list}
-      />
+      <Table loading={loading} rowKey={'userId'} pagination={pagination} columns={columns} dataSource={list} />
     </Modal>
   );
 };

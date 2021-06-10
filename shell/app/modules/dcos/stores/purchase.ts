@@ -33,7 +33,11 @@ const purchase = createStore({
   effects: {
     async addResource({ call, getParams }, payload: PURCHASE.AddResource) {
       const params = getParams();
-      const result = await call(PurchaseServices.addResource, { ...payload, clusterName: params.clusterName }, { successMsg: i18n.t('dcos:add resource successfully') });
+      const result = await call(
+        PurchaseServices.addResource,
+        { ...payload, clusterName: params.clusterName },
+        { successMsg: i18n.t('dcos:add resource successfully') },
+      );
       return result;
     },
     async getPurchaseList({ call, update, getParams }) {

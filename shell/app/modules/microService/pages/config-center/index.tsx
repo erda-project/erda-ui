@@ -40,10 +40,13 @@ const AppSelector = (props: IAppSelectorProps) => {
   const [searchKey, setSearchKey] = React.useState(undefined as string | undefined);
   const [chosenApp, setChosenApp] = React.useState(initChoose);
 
-  const getData = React.useCallback((query: any = {}) => {
-    const { searchKey: curKey, ...rest } = query;
-    tenantId && getAppList({ ...rest, keyword: curKey, tenantId });
-  }, [getAppList, tenantId]);
+  const getData = React.useCallback(
+    (query: any = {}) => {
+      const { searchKey: curKey, ...rest } = query;
+      tenantId && getAppList({ ...rest, keyword: curKey, tenantId });
+    },
+    [getAppList, tenantId],
+  );
 
   React.useEffect(() => {
     tenantId && getData({ pageNo: 1 });
@@ -55,9 +58,12 @@ const AppSelector = (props: IAppSelectorProps) => {
     }
   }, [chosenApp, appList]);
 
-  const debounceSearch = React.useCallback(debounce((val: string | undefined) => {
-    getData({ pageNo: 1, searchKey: val });
-  }, 200), [tenantId]);
+  const debounceSearch = React.useCallback(
+    debounce((val: string | undefined) => {
+      getData({ pageNo: 1, searchKey: val });
+    }, 200),
+    [tenantId],
+  );
 
   React.useEffect(() => {
     debounceSearch(searchKey);
@@ -92,19 +98,29 @@ const AppSelector = (props: IAppSelectorProps) => {
         <Input placeholder={i18n.t('search')} onChange={filterAppList} value={searchKey} />
       </div>
       <ul>
-        {
-          appList.map((item: string) => {
-            return <li onClick={() => handleAppChange(item)} className="nowrap" key={item}>{item}</li>;
-          })
-        }
+        {appList.map((item: string) => {
+          return (
+            <li onClick={() => handleAppChange(item)} className="nowrap" key={item}>
+              {item}
+            </li>
+          );
+        })}
         <IF check={paging.hasMore}>
-          <li onClick={loadMore}><CustomIcon type="Loading" />{i18n.t('common:load more')}</li>
+          <li onClick={loadMore}>
+            <CustomIcon type="Loading" />
+            {i18n.t('common:load more')}
+          </li>
         </IF>
       </ul>
     </div>
   );
   return (
-    <Dropdown overlayClassName="sider-switch-overlay" trigger={['click']} overlay={listComp} onVisibleChange={onCloseList}>
+    <Dropdown
+      overlayClassName="sider-switch-overlay"
+      trigger={['click']}
+      overlay={listComp}
+      onVisibleChange={onCloseList}
+    >
       <div className="app-name flex-box">
         <span className={nameStyle}>{chosenApp || i18n.t('microService:select application')}</span>
         <CustomIcon className="caret" type="caret-down" />
@@ -122,7 +138,11 @@ interface IConfig {
 const ConfigCenter = () => {
   const params = routeInfoStore.useStore((s) => s.params);
   const msMenuMap = microServiceStore.useStore((s) => s.msMenuMap);
-  const [appList, appListPaging, configListMap] = configCenterStore.useStore((s) => [s.appList, s.appListPaging, s.configListMap]);
+  const [appList, appListPaging, configListMap] = configCenterStore.useStore((s) => [
+    s.appList,
+    s.appListPaging,
+    s.configListMap,
+  ]);
   const { getAppList, getConfigList, saveConfig } = configCenterStore.effects;
   const { clearAppList, clearConfigListMap } = configCenterStore.reducers;
   const [chosenApp, setChosenApp] = React.useState('');
@@ -134,13 +154,16 @@ const ConfigCenter = () => {
     clearConfigListMap();
   });
 
-  const getCurConfigList = React.useCallback((query: any = {}) => {
-    const tid = query.tenantId || tenantId;
-    const cApp = query.chosenApp || chosenApp;
-    if (tid && cApp) {
-      getConfigList({ tenantId, groupId: chosenApp, ...query });
-    }
-  }, [chosenApp, getConfigList, tenantId]);
+  const getCurConfigList = React.useCallback(
+    (query: any = {}) => {
+      const tid = query.tenantId || tenantId;
+      const cApp = query.chosenApp || chosenApp;
+      if (tid && cApp) {
+        getConfigList({ tenantId, groupId: chosenApp, ...query });
+      }
+    },
+    [chosenApp, getConfigList, tenantId],
+  );
 
   React.useEffect(() => {
     if (tenantId && chosenApp) {
@@ -155,7 +178,9 @@ const ConfigCenter = () => {
       sorter: (a: IConfig, b: IConfig) => a.key.charCodeAt(0) - b.key.charCodeAt(0),
       render: (text) => (
         <div className="flex-box">
-          <span className="for-copy nowrap" data-clipboard-text={text}>{text}</span>
+          <span className="for-copy nowrap" data-clipboard-text={text}>
+            {text}
+          </span>
         </div>
       ),
     },
@@ -164,7 +189,9 @@ const ConfigCenter = () => {
       dataIndex: 'value',
       render: (text: string) => (
         <Tooltip title={text} placement="leftTop">
-          <span className="for-copy" data-clipboard-text={text}>{text}</span>
+          <span className="for-copy" data-clipboard-text={text}>
+            {text}
+          </span>
         </Tooltip>
       ),
     },
@@ -182,7 +209,7 @@ const ConfigCenter = () => {
             <span
               className="table-operations-btn"
               onClick={() => {
-                const curRef = updateConfigRef && updateConfigRef.current as any;
+                const curRef = updateConfigRef && (updateConfigRef.current as any);
                 if (curRef) {
                   curRef.showConfigFormModal({
                     existConfig: { [key]: value },
@@ -192,13 +219,16 @@ const ConfigCenter = () => {
             >
               {i18n.t('common:modify')}
             </span>
-            {
-              source === 'DEPLOY' ? null : (
-                <span className="table-operations-btn" onClick={() => { deleteConfirm(record); }}>
-                  {i18n.t('common:delete')}
-                </span>
-              )
-            }
+            {source === 'DEPLOY' ? null : (
+              <span
+                className="table-operations-btn"
+                onClick={() => {
+                  deleteConfirm(record);
+                }}
+              >
+                {i18n.t('common:delete')}
+              </span>
+            )}
           </div>
         );
       },
@@ -209,7 +239,9 @@ const ConfigCenter = () => {
     setChosenApp(val);
   };
   const getConfigsString = (configs?: any[]) => {
-    if (!configs) { return ''; }
+    if (!configs) {
+      return '';
+    }
     const configArr = configs.map(({ key, value }) => `${key}:${value}`.replace(/({|}|"|\[|\])/g, ''));
     return configArr.join('\r\n');
   };
@@ -226,7 +258,10 @@ const ConfigCenter = () => {
       content: `${i18n.t('common:unable to restore after configuration deletion, confirm execution')}?`,
       onOk() {
         const curConfig = configListMap[chosenApp];
-        saveCurConfig(curConfig.filter((item: any) => item.key !== config.key), 'delete');
+        saveCurConfig(
+          curConfig.filter((item: any) => item.key !== config.key),
+          'delete',
+        );
       },
     });
   };
@@ -259,27 +294,22 @@ const ConfigCenter = () => {
             type="primary"
             ghost
             onClick={() => {
-              const curRef = addConfigRef && addConfigRef.current as any;
+              const curRef = addConfigRef && (addConfigRef.current as any);
               if (curRef) curRef.showConfigFormModal({ existKeys: map(configListMap[chosenApp], 'key') });
-            }
-            }
+            }}
           >
             {i18n.t('common:add configuration')}
           </Button>
           <span className="for-copy" data-clipboard-text={getConfigsString(configListMap[chosenApp] || [])}>
-            <Button type="primary" ghost>{i18n.t('common:copy configuration')}</Button>
+            <Button type="primary" ghost>
+              {i18n.t('common:copy configuration')}
+            </Button>
           </span>
         </div>
-        <Table
-          dataSource={configListMap[chosenApp] || []}
-          columns={columns}
-        />
+        <Table dataSource={configListMap[chosenApp] || []} columns={columns} />
       </div>
       <Copy selector=".for-copy" />
-      <ConfigFormModal
-        addConfigs={addConfig}
-        ref={addConfigRef}
-      />
+      <ConfigFormModal addConfigs={addConfig} ref={addConfigRef} />
       <ConfigFormModal
         title={i18n.t('common:change setting')}
         keyDisabled

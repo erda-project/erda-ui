@@ -19,10 +19,7 @@ import { useUpdate } from 'common';
 import { MonitorDrawer } from '../components/monitor-drawer';
 
 const appSiteIpManage = () => {
-  const [{
-    monitorVisible,
-    chosenSite,
-  }, updater, update] = useUpdate({
+  const [{ monitorVisible, chosenSite }, updater, update] = useUpdate({
     monitorVisible: false,
     chosenSite: {} as MACHINE_MANAGE.IMonitorInfo,
   });
@@ -46,19 +43,19 @@ const appSiteIpManage = () => {
         customProps={{
           siteIpList: {
             operations: {
-              viewMonitor: (site: {meta: MACHINE_MANAGE.IMonitorInfo}) => {
+              viewMonitor: (site: { meta: MACHINE_MANAGE.IMonitorInfo }) => {
                 update({
                   monitorVisible: true,
                   chosenSite: site.meta,
                 });
               },
-              viewLog: (site: {meta: MACHINE_MANAGE.IMonitorInfo}) => {
+              viewLog: (site: { meta: MACHINE_MANAGE.IMonitorInfo }) => {
                 update({
                   monitorVisible: true,
                   chosenSite: site.meta,
                 });
               },
-              viewTerminal: (site: {meta: MACHINE_MANAGE.IMonitorInfo}) => {
+              viewTerminal: (site: { meta: MACHINE_MANAGE.IMonitorInfo }) => {
                 update({
                   monitorVisible: true,
                   chosenSite: site.meta,
@@ -68,20 +65,17 @@ const appSiteIpManage = () => {
           },
         }}
       />
-      <MonitorDrawer
-        data={chosenSite}
-        visible={monitorVisible}
-        onClose={() => updater.monitorVisible(false)}
-      />
+      <MonitorDrawer data={chosenSite} visible={monitorVisible} onClose={() => updater.monitorVisible(false)} />
     </div>
   );
 };
 
-const useMock = (payload: Record<string, any>) => new Promise((resolve) => {
-  setTimeout(() => {
-    resolve(getMock(payload));
-  }, 100);
-});
+const useMock = (payload: Record<string, any>) =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(getMock(payload));
+    }, 100);
+  });
 
 const getMock = (payload?: Record<string, any>) => {
   // console.clear();

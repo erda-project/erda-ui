@@ -120,9 +120,10 @@ const middlewareDashboard = createStore({
       }
       return res;
     },
-    async getLeftResources({ call, update }, payload: {name: string}) {
+    async getLeftResources({ call, update }, payload: { name: string }) {
       const { list = [] } = await call(getCurrentProject, payload);
-      const { cpuQuota, memQuota, cpuAddonUsed, cpuServiceUsed, memAddonUsed, memServiceUsed } = (list[0] || {}) as PROJECT.Detail;
+      const { cpuQuota, memQuota, cpuAddonUsed, cpuServiceUsed, memAddonUsed, memServiceUsed } = (list[0] ||
+        {}) as PROJECT.Detail;
       const leftResources: MIDDLEWARE_DASHBOARD.LeftResources = {
         availableCpu: cpuQuota - cpuServiceUsed - cpuAddonUsed,
         availableMem: memQuota - memServiceUsed - memAddonUsed,

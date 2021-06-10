@@ -32,12 +32,7 @@ const RdsAccount = () => {
   const RDSAccountList = cloudServiceStore.useStore((s) => s.RDSAccountList);
   const [isFetching] = useLoading(cloudServiceStore, ['getRDSAccountList']);
 
-  const [{
-    formVisible,
-    resetFormVisible,
-    permissionFormVisible,
-    activeRow,
-  }, updater, update] = useUpdate({
+  const [{ formVisible, resetFormVisible, permissionFormVisible, activeRow }, updater, update] = useUpdate({
     formVisible: false,
     resetFormVisible: false,
     permissionFormVisible: false,
@@ -76,7 +71,12 @@ const RdsAccount = () => {
       render: (_v: Array<{ dBName: string; accountPrivilege: string }>) => {
         let str = null as any;
         map(_v, (item) => {
-          str = <>{str}{item.dBName} （{item.accountPrivilege}）<br /></>;
+          str = (
+            <>
+              {str}
+              {item.dBName} （{item.accountPrivilege}）<br />
+            </>
+          );
         });
         return str;
       },
@@ -169,7 +169,7 @@ const RdsAccount = () => {
   return (
     <div>
       <div className="text-right mb12">
-        <Button type="primary" onClick={() => updater.formVisible(true)} >
+        <Button type="primary" onClick={() => updater.formVisible(true)}>
           {i18n.t('create an account')}
         </Button>
       </div>

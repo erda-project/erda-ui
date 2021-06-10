@@ -41,14 +41,7 @@ export const AddRelation = ({ onSave, editAuth }: IProps) => {
   const { projectId } = routeInfoStore.getState((s) => s.params);
   const { name: projectName } = projectStore.getState((s) => s.info);
 
-  const [{
-    visible,
-    appList,
-    selectApp,
-    selectedCreator,
-    mrList,
-    selectMr,
-  }, updater, update] = useUpdate(initState);
+  const [{ visible, appList, selectApp, selectedCreator, mrList, selectMr }, updater, update] = useUpdate(initState);
 
   const getMyProjectApps = (extra = {}) => {
     update({
@@ -56,34 +49,35 @@ export const AddRelation = ({ onSave, editAuth }: IProps) => {
       selectApp: null,
       selectMr: null,
     });
-    getJoinedApps({ projectID: +projectId, pageSize: 50, pageNo: 1, ...extra })
-      .then((res: any) => {
-        if (res.success) {
-          res.data.list && updater.appList(res.data.list);
-        }
-      });
+    getJoinedApps({ projectID: +projectId, pageSize: 50, pageNo: 1, ...extra }).then((res: any) => {
+      if (res.success) {
+        res.data.list && updater.appList(res.data.list);
+      }
+    });
   };
 
   useMount(() => {
     getMyProjectApps();
   });
 
-  const getAppMr = React.useCallback((query?: string) => {
-    if (selectApp) {
-      update({
-        mrList: [],
-        selectMr: null,
-      });
-      getAppMR({ projectName, appName: selectApp.name, query, authorId: selectedCreator })
-        .then((res: any) => {
+  const getAppMr = React.useCallback(
+    (query?: string) => {
+      if (selectApp) {
+        update({
+          mrList: [],
+          selectMr: null,
+        });
+        getAppMR({ projectName, appName: selectApp.name, query, authorId: selectedCreator }).then((res: any) => {
           if (res.success) {
             res.data.list && updater.mrList(res.data.list);
           } else {
             updater.mrList([]);
           }
         });
-    }
-  }, [projectName, selectApp, selectedCreator, update, updater]);
+      }
+    },
+    [projectName, selectApp, selectedCreator, update, updater],
+  );
 
   React.useEffect(() => {
     getAppMr();
@@ -95,8 +89,10 @@ export const AddRelation = ({ onSave, editAuth }: IProps) => {
 
   if (!visible) {
     return (
-      <WithAuth pass={editAuth} >
-        <Button className="ml12" onClick={() => updater.visible(true)}>{i18n.t('project:relate to mr')}</Button>
+      <WithAuth pass={editAuth}>
+        <Button className="ml12" onClick={() => updater.visible(true)}>
+          {i18n.t('project:relate to mr')}
+        </Button>
       </WithAuth>
     );
   }
@@ -113,13 +109,11 @@ export const AddRelation = ({ onSave, editAuth }: IProps) => {
           filterOption={false}
           placeholder={i18n.t('project:search by application name')}
         >
-          {
-            appList.map(({ id, name }) => (
-              <Select.Option key={id} value={id}>
-                {name}
-              </Select.Option>
-            ))
-          }
+          {appList.map(({ id, name }) => (
+            <Select.Option key={id} value={id}>
+              {name}
+            </Select.Option>
+          ))}
         </Select>
         <MemberSelector
           className="filter-select"
@@ -139,13 +133,11 @@ export const AddRelation = ({ onSave, editAuth }: IProps) => {
           filterOption={false}
           placeholder={i18n.t('project:search by id or title')}
         >
-          {
-            mrList.map(({ id, title }) => (
-              <Select.Option key={id} value={id}>
-                {title}
-              </Select.Option>
-            ))
-          }
+          {mrList.map(({ id, title }) => (
+            <Select.Option key={id} value={id}>
+              {title}
+            </Select.Option>
+          ))}
         </Select>
       </div>
       <Button

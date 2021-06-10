@@ -11,9 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import {
-  Form,
-} from 'app/nusi';
+import { Form } from 'app/nusi';
 import * as React from 'react';
 import { getLabel, noop } from './common';
 import i18n from 'i18n';
@@ -26,55 +24,54 @@ export const FormCustomDefined = ({
   extensionFix,
   requiredCheck,
   trigger = 'onChange',
-}: any = {}) => React.memo(({ fieldConfig, form }: any = {}) => {
-  const {
-    key,
-    value,
-    label,
-    visible,
-    valid = [],
-    disabled,
-    required,
-    registerRequiredCheck = noop,
-    componentProps,
-    wrapperProps,
-    getComp,
-    labelTip,
-    fixIn: itemFixIn,
-    fixOut: itemFixOut,
-  } = fieldConfig || {};
-  registerRequiredCheck(requiredCheck);
-  const curFixIn = itemFixIn || fixIn;
-  const curFixOut = itemFixOut || fixOut;
-  const Comp = typeof getComp === 'function' ? getComp({ form, fieldConfig }) : null;
-  const handleChange = (e: any) => {
-    const fixFun = Comp.props.onChange || curFixOut;
-    key && form.setFieldValue(key, fixFun(e));
-    (componentProps.onChange || noop)(e);
-  };
-  return (
-    <FormItem
-      colon
-      label={getLabel(label, labelTip)}
-      className={visible ? '' : 'hide'}
-      validateStatus={valid[0]}
-      help={valid[1]}
-      required={required}
-      {...wrapperProps}
-    >
-      {
-        Comp ? (
-          React.cloneElement(Comp, {
-            ...componentProps,
-            value: curFixIn(value),
-            onChange: handleChange,
-            disabled,
-          })
-        ) : null
-      }
-    </FormItem>
-  );
-});
+}: any = {}) =>
+  React.memo(({ fieldConfig, form }: any = {}) => {
+    const {
+      key,
+      value,
+      label,
+      visible,
+      valid = [],
+      disabled,
+      required,
+      registerRequiredCheck = noop,
+      componentProps,
+      wrapperProps,
+      getComp,
+      labelTip,
+      fixIn: itemFixIn,
+      fixOut: itemFixOut,
+    } = fieldConfig || {};
+    registerRequiredCheck(requiredCheck);
+    const curFixIn = itemFixIn || fixIn;
+    const curFixOut = itemFixOut || fixOut;
+    const Comp = typeof getComp === 'function' ? getComp({ form, fieldConfig }) : null;
+    const handleChange = (e: any) => {
+      const fixFun = Comp.props.onChange || curFixOut;
+      key && form.setFieldValue(key, fixFun(e));
+      (componentProps.onChange || noop)(e);
+    };
+    return (
+      <FormItem
+        colon
+        label={getLabel(label, labelTip)}
+        className={visible ? '' : 'hide'}
+        validateStatus={valid[0]}
+        help={valid[1]}
+        required={required}
+        {...wrapperProps}
+      >
+        {Comp
+          ? React.cloneElement(Comp, {
+              ...componentProps,
+              value: curFixIn(value),
+              onChange: handleChange,
+              disabled,
+            })
+          : null}
+      </FormItem>
+    );
+  });
 
 export const config = {
   name: 'customDefined',

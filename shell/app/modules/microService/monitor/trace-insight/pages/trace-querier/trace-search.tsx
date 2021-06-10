@@ -1,4 +1,3 @@
-
 // Copyright (c) 2021 Terminus, Inc.
 //
 // This program is free software: you can use, redistribute, and/or modify
@@ -96,11 +95,13 @@ export default () => {
     const { name, data, unit } = metricData;
     return {
       time,
-      metricData: [{
-        name,
-        data,
-        unit,
-      }],
+      metricData: [
+        {
+          name,
+          data,
+          unit,
+        },
+      ],
     };
   };
 
@@ -110,15 +111,19 @@ export default () => {
     openDetail();
   };
 
-  const filterConfig = useMemo(() => (
-    [
+  const filterConfig = useMemo(
+    () => [
       {
         type: Select,
         name: 'appId',
         valueType: 'number',
         customProps: {
           placeholder: i18n.t('microService:please select application'),
-          options: projectApps.map(({ id, name }) => <Option key={id} value={id}>{name}</Option>),
+          options: projectApps.map(({ id, name }) => (
+            <Option key={id} value={id}>
+              {name}
+            </Option>
+          )),
           allowClear: true,
         },
       },
@@ -138,8 +143,12 @@ export default () => {
         customProps: {
           placeholder: i18n.t('microService:please select status'),
           options: [
-            <Option key={1} value={1}>{i18n.t('error')}</Option>,
-            <Option key={2} value={0}>{i18n.t('success')}</Option>,
+            <Option key={1} value={1}>
+              {i18n.t('error')}
+            </Option>,
+            <Option key={2} value={0}>
+              {i18n.t('success')}
+            </Option>,
           ],
           allowClear: true,
         },
@@ -162,35 +171,43 @@ export default () => {
         name: 'limit',
         customProps: {
           placeholder: i18n.t('microService:please select max search num'),
-          options: limits.map((limit) => <Option key={limit} value={limit}>{limit}</Option>),
+          options: limits.map((limit) => (
+            <Option key={limit} value={limit}>
+              {limit}
+            </Option>
+          )),
           allowClear: true,
         },
       },
-    ]
-  ), [projectApps]);
+    ],
+    [projectApps],
+  );
 
-  const layout = useMemo(() => ([
-    {
-      w: 24,
-      h: 9,
-      x: 0,
-      y: 0,
-      i: 'monitor-trace-count',
-      moved: false,
-      static: false,
-      view: {
-        title: i18n.t('microService:trace count'),
-        chartType: 'chart:area',
-        hideReload: true,
-        staticData: convertTraceCount(traceCount),
-        config: {
-          optionProps: {
-            timeSpan: { seconds: 24 * 3601 },
+  const layout = useMemo(
+    () => [
+      {
+        w: 24,
+        h: 9,
+        x: 0,
+        y: 0,
+        i: 'monitor-trace-count',
+        moved: false,
+        static: false,
+        view: {
+          title: i18n.t('microService:trace count'),
+          chartType: 'chart:area',
+          hideReload: true,
+          staticData: convertTraceCount(traceCount),
+          config: {
+            optionProps: {
+              timeSpan: { seconds: 24 * 3601 },
+            },
           },
         },
       },
-    },
-  ]), [traceCount]);
+    ],
+    [traceCount],
+  );
 
   const columns = [
     {
@@ -221,7 +238,9 @@ export default () => {
       width: 180,
       render: (_: any, record: any) => (
         <div className="table-operations">
-          <span onClick={(e) => handleCheckTraceDetail(e, record.trace_id)} className="table-operations-btn">{i18n.t('check detail')}</span>
+          <span onClick={(e) => handleCheckTraceDetail(e, record.trace_id)} className="table-operations-btn">
+            {i18n.t('check detail')}
+          </span>
         </div>
       ),
     },
@@ -229,21 +248,11 @@ export default () => {
 
   return (
     <>
-      <CustomFilter
-        className="mb16"
-        onSubmit={onSubmit}
-        config={filterConfig}
-        isConnectQuery
-      />
+      <CustomFilter className="mb16" onSubmit={onSubmit} config={filterConfig} isConnectQuery />
       <div className="mb24">
         <PureBoardGrid layout={layout} />
       </div>
-      <Table
-        loading={loading}
-        rowKey="trace_id"
-        columns={columns}
-        dataSource={traceSummary}
-      />
+      <Table loading={loading} rowKey="trace_id" columns={columns} dataSource={traceSummary} />
       <Drawer
         title={i18n.t('microService:link information')}
         visible={detailVisible}

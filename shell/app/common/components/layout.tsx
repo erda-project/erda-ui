@@ -15,7 +15,6 @@ import * as React from 'react';
 import { Row, Col } from 'app/nusi';
 import { useMediaGt } from './use-hooks';
 
-
 const suitableMap = {
   1: 24,
   2: 12,
@@ -30,7 +29,7 @@ const suitableMap = {
 };
 
 interface IResponsive {
-  children: Array<{key: string}> | React.ReactChild;
+  children: Array<{ key: string }> | React.ReactChild;
   percent?: number;
   itemWidth: number;
   gutter?: number;
@@ -55,7 +54,14 @@ const extraPadding = 32;
  * <Responsive>
  */
 const Responsive = ({
-  children, itemWidth, percent = 1, gutter = 20, align, justify, type, className = '',
+  children,
+  itemWidth,
+  percent = 1,
+  gutter = 20,
+  align,
+  justify,
+  type,
+  className = '',
 }: IResponsive) => {
   const item = itemWidth + gutter;
   const gt480 = useMediaGt((480 - gutter) / percent, true);
@@ -93,18 +99,18 @@ const Responsive = ({
   const span = suitableMap[rowNum] || 1;
 
   return (
-    <Row gutter={gutter} align={align} justify={justify} type={type} className={className} >
-      {
-        Array.isArray(children)
-          ? children.map((child) => {
-            return (
-              <Col key={child.key} span={span}>
-                {child}
-              </Col>
-            );
-          })
-          : <Col span={span}>{children}</Col>
-      }
+    <Row gutter={gutter} align={align} justify={justify} type={type} className={className}>
+      {Array.isArray(children) ? (
+        children.map((child) => {
+          return (
+            <Col key={child.key} span={span}>
+              {child}
+            </Col>
+          );
+        })
+      ) : (
+        <Col span={span}>{children}</Col>
+      )}
     </Row>
   );
 };

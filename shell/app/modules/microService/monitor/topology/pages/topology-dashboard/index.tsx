@@ -14,7 +14,6 @@
 import React, { useEffect, useMemo, useState, useRef, useCallback } from 'react';
 import produce from 'immer';
 import { map, get, find } from 'lodash';
-import { If, Choose, When } from 'tsx-control-statements/components';
 import { DC } from '@terminus/dashboard-configurator';
 import { Button } from 'app/nusi';
 import { PureBoardGrid } from 'common';
@@ -57,11 +56,14 @@ const TopologyDashboard = () => {
   // 缓存同类型节点加载的大盘模板
   const loadedDashBoardMap = useRef<Map<string, DC.Layout>>(new Map());
 
-  const globalVariable: GlobalVariable = useMemo(() => ({
-    terminusKey: params.terminusKey,
-    startTime: timeSpan.startTimeMs,
-    endTime: timeSpan.endTimeMs,
-  }), [params.terminusKey, timeSpan.endTimeMs, timeSpan.startTimeMs]);
+  const globalVariable: GlobalVariable = useMemo(
+    () => ({
+      terminusKey: params.terminusKey,
+      startTime: timeSpan.startTimeMs,
+      endTime: timeSpan.endTimeMs,
+    }),
+    [params.terminusKey, timeSpan.endTimeMs, timeSpan.startTimeMs],
+  );
 
   useEffect(() => {
     getCustomDashboard({ id: 'global_overview', isSystem: true }).then((res) => {
@@ -69,20 +71,27 @@ const TopologyDashboard = () => {
     });
   }, [getCustomDashboard, params.terminusKey]);
 
-  nodeGlobalVariable.current = useMemo(() => produce(globalVariable, (draft) => {
-    draft.serviceName = serviceName;
-    draft.serviceId = serviceId || ' '; // 后端数据升级可能没有
-    draft.host = name;
-  }), [serviceId, globalVariable, name, serviceName]);
+  nodeGlobalVariable.current = useMemo(
+    () =>
+      produce(globalVariable, (draft) => {
+        draft.serviceName = serviceName;
+        draft.serviceId = serviceId || ' '; // 后端数据升级可能没有
+        draft.host = name;
+      }),
+    [serviceId, globalVariable, name, serviceName],
+  );
 
-  const nodeDashboardProps = useMemo(() => ({
-    layout: nodeDashboard,
-    globalVariable: {
-      ...nodeGlobalVariable.current,
-      startTime: timeSpan.startTimeMs,
-      endTime: timeSpan.endTimeMs,
-    },
-  }), [nodeDashboard, timeSpan.endTimeMs, timeSpan.startTimeMs]);
+  const nodeDashboardProps = useMemo(
+    () => ({
+      layout: nodeDashboard,
+      globalVariable: {
+        ...nodeGlobalVariable.current,
+        startTime: timeSpan.startTimeMs,
+        endTime: timeSpan.endTimeMs,
+      },
+    }),
+    [nodeDashboard, timeSpan.endTimeMs, timeSpan.startTimeMs],
+  );
 
   useEffect(() => {
     const dashboardId = activedNode?.dashboardId || 'global_request';
@@ -101,20 +110,17 @@ const TopologyDashboard = () => {
   }, [activedNode, getCustomDashboard, params.terminusKey]);
 
   const handleGotoServiceAnalyze = useCallback(() => {
-    goTo(
-      goTo.pages.microServiceServiceAnalyze,
-      {
-        ...params,
-        serviceName,
-        serviceId: window.encodeURIComponent(serviceId || ''),
-        applicationId,
-        query: {
-          start: timeSpan.startTimeMs,
-          end: timeSpan.endTimeMs,
-        },
-        jumpOut: true,
+    goTo(goTo.pages.microServiceServiceAnalyze, {
+      ...params,
+      serviceName,
+      serviceId: window.encodeURIComponent(serviceId || ''),
+      applicationId,
+      query: {
+        start: timeSpan.startTimeMs,
+        end: timeSpan.endTimeMs,
       },
-    );
+      jumpOut: true,
+    });
   }, [params, serviceName, serviceId, applicationId, timeSpan.startTimeMs, timeSpan.endTimeMs]);
 
   return (
@@ -143,20 +149,14 @@ const TopologyDashboard = () => {
                 </Button>
               </When>
               <When condition={type === 'apigateway'}>
-                <Button
-                  type="link"
-                  onClick={() => goTo('./gateway-ingress', { jumpOut: true })}
-                >
+                <Button type="link" onClick={() => goTo('./gateway-ingress', { jumpOut: true })}>
                   {i18n.t('detail')}
                 </Button>
               </When>
               <When condition={type === 'http'}>
                 <Button
                   type="link"
-                  onClick={() => goTo(
-                    `./ei/${encodeURIComponent(name as string)}/affairs`,
-                    { jumpOut: true },
-                  )}
+                  onClick={() => goTo(`./ei/${encodeURIComponent(name as string)}/affairs`, { jumpOut: true })}
                 >
                   {i18n.t('detail')}
                 </Button>
@@ -166,7 +166,11 @@ const TopologyDashboard = () => {
                   type="link"
                   onClick={() => {
                     const curChildrenKey = childrenKeyMap[type as string];
-                    const subMenuList = get(find(microServiceMenu, ({ key }) => key.toLowerCase() === type), 'subMenu', []);
+                    const subMenuList = get(
+                      find(microServiceMenu, ({ key }) => key.toLowerCase() === type),
+                      'subMenu',
+                      [],
+                    );
                     let targetPath = '';
                     map(curChildrenKey, (item) => {
                       if (!targetPath) {

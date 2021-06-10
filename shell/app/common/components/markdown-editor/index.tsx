@@ -99,14 +99,15 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
 
   componentDidMount() {
     const mdRef = this.mdEditor?.current as any;
-    mdRef && mdRef.on('viewchange', (view: { html: boolean; md: boolean; menu: boolean }) => {
-      this.setState({
-        view,
+    mdRef &&
+      mdRef.on('viewchange', (view: { html: boolean; md: boolean; menu: boolean }) => {
+        this.setState({
+          view,
+        });
+        if (view.md) {
+          mdRef.nodeMdText.current && mdRef.nodeMdText.current.focus();
+        }
       });
-      if (view.md) {
-        mdRef.nodeMdText.current && mdRef.nodeMdText.current.focus();
-      }
-    });
     if (this.props.autoFocus && this.state.view.md && mdRef.nodeMdText.current) {
       mdRef.nodeMdText.current.focus();
     }
@@ -153,12 +154,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
 
     if (onSubmit) {
       btns.push(
-        <Button
-          key="md-editor-submit-btn"
-          className="mt16 mb16 mr8"
-          type="primary"
-          onClick={this.onSubmit}
-        >
+        <Button key="md-editor-submit-btn" className="mt16 mb16 mr8" type="primary" onClick={this.onSubmit}>
           {btnText || i18n.t('common:submit')}
         </Button>,
       );
@@ -166,11 +162,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
 
     if (onSetLS) {
       btns.push(
-        <Button
-          key="md-editor-keep-btn"
-          className="mt16 mb16 mr8"
-          onClick={this.onSetLS}
-        >
+        <Button key="md-editor-keep-btn" className="mt16 mb16 mr8" onClick={this.onSetLS}>
           {i18n.t('application:temporary storage')}
         </Button>,
       );
@@ -178,11 +170,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
 
     if (onCancel) {
       btns.push(
-        <Button
-          key="md-editor-cancel-btn"
-          className="mt16 mb16"
-          onClick={onCancel}
-        >
+        <Button key="md-editor-cancel-btn" className="mt16 mb16" onClick={onCancel}>
           {i18n.t('common:cancel')}
         </Button>,
       );
@@ -224,7 +212,8 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
         </div>
         <IF check={isShowRate}>
           <div>
-            <span>{i18n.t('score')}：</span><Rate allowHalf onChange={this.onRateChange} value={this.state.score} />
+            <span>{i18n.t('score')}：</span>
+            <Rate allowHalf onChange={this.onRateChange} value={this.state.score} />
           </div>
         </IF>
         {this.renderButton()}

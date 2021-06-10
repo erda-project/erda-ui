@@ -28,10 +28,10 @@ import moment from 'moment';
 import './download.scss';
 
 interface IObj {
-  [key: string]: any
+  [key: string]: any;
 }
 
-type ClientType = ('iOS' | 'Android' | 'PC');
+type ClientType = 'iOS' | 'Android' | 'PC';
 /**
  * 判断客户端
  */
@@ -51,8 +51,8 @@ export const judgeClient = (): ClientType => {
 };
 
 const getOrgFromPath = () => {
-  return get(window.location.pathname.split('/'),'[1]') || '-';
-}
+  return get(window.location.pathname.split('/'), '[1]') || '-';
+};
 
 const DownloadPage = ({ match }: any) => {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -66,13 +66,14 @@ const DownloadPage = ({ match }: any) => {
   const curOrg = getOrgFromPath();
   React.useEffect(() => {
     setIsLoading(true);
-    agent.get(`/api/${curOrg}/publish-items/${match.params.publishItemId}/distribution`)
-      .set('org',curOrg)
+    agent
+      .get(`/api/${curOrg}/publish-items/${match.params.publishItemId}/distribution`)
+      .set('org', curOrg)
       .query({ mobileType: client })
       .then((response: any) => {
         const { success, data, err } = response.body;
         if (success) {
-          const { default: defaultVersion } = data as { default: any, versions: { list: any[], total: number } };
+          const { default: defaultVersion } = data as { default: any; versions: { list: any[]; total: number } };
           const vList = isEmpty(defaultVersion) ? [] : [defaultVersion];
           let has_default = false;
           if (defaultVersion) {
@@ -190,37 +191,43 @@ const DownloadPage = ({ match }: any) => {
     <Spin spinning={isLoading}>
       <div className="download-page gray-bg">
         <div className="content">
-          {
-            client === 'ios' && appStoreURL ? (
-              <div className="jump-app-store">
-                <a href={appStoreURL} target="_blank" rel="noopener noreferrer">跳转至App Store</a>
-              </div>
-            ) : null
-          }
+          {client === 'ios' && appStoreURL ? (
+            <div className="jump-app-store">
+              <a href={appStoreURL} target="_blank" rel="noopener noreferrer">
+                跳转至App Store
+              </a>
+            </div>
+          ) : null}
           <div className="card-container">
             <div className="qrcode-wrap">
-              {
-                client !== 'pc' && logo ? <img className="logo" src={logo} alt="" /> : <QRCode className="qrcode" value={window.location.href} level="H" bgColor="rgba(0,0,0,0)" />
-              }
+              {client !== 'pc' && logo ? (
+                <img className="logo" src={logo} alt="" />
+              ) : (
+                <QRCode className="qrcode" value={window.location.href} level="H" bgColor="rgba(0,0,0,0)" />
+              )}
             </div>
             <p className="app-name">{name}</p>
             <p className="tips download-notice">扫描二维码下载</p>
             <p className="tips download-notice">或用手机浏览器输入网址: {window.location.href}</p>
             <div className="line" />
-            {
-              React.Children.count(versions) ? (
-                <>
-                  <ul className="version-list">{versions}</ul>
-                  <p className="tips version-notice">{byteToM(current.pkg)}</p>
-                  <p className="tips version-notice">更新于: {current.updatedAt ? moment(current.updatedAt).format('YYYY/MM/DD HH:mm') : '--'}</p>
-                  <div className="button-wrap">
-                    {
-                      showDownload ? <Button type="primary" onClick={handleDownload}>下载{client === 'pc' ? '' : '安装'}</Button> : null
-                    }
-                  </div>
-                </>
-              ) : <p className="tips">暂时没有符合该机型的安装包</p>
-            }
+            {React.Children.count(versions) ? (
+              <>
+                <ul className="version-list">{versions}</ul>
+                <p className="tips version-notice">{byteToM(current.pkg)}</p>
+                <p className="tips version-notice">
+                  更新于: {current.updatedAt ? moment(current.updatedAt).format('YYYY/MM/DD HH:mm') : '--'}
+                </p>
+                <div className="button-wrap">
+                  {showDownload ? (
+                    <Button type="primary" onClick={handleDownload}>
+                      下载{client === 'pc' ? '' : '安装'}
+                    </Button>
+                  ) : null}
+                </div>
+              </>
+            ) : (
+              <p className="tips">暂时没有符合该机型的安装包</p>
+            )}
           </div>
         </div>
         <img className="bg-img" src={downloadBg_2x} alt="" />

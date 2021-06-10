@@ -47,7 +47,11 @@ const alarmRecord = createFlatStore({
   effects: {
     async getAlarmRecordList({ call, update }, query: Merge<ALARM_REPORT.RecordListQuery, IPagingReq>) {
       const { tenantGroup } = routeInfoStore.getState((s) => s.params);
-      const { list: recordList } = await call(getAlarmRecordList, { ...query, tenantGroup }, { paging: { key: 'recordListPaging' } });
+      const { list: recordList } = await call(
+        getAlarmRecordList,
+        { ...query, tenantGroup },
+        { paging: { key: 'recordListPaging' } },
+      );
       update({ recordList });
     },
     async getAlarmAttrs({ call, update }) {

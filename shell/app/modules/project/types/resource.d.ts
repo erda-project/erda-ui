@@ -69,7 +69,7 @@ declare namespace RESOURCE {
     }>;
   }
 
-  interface MetaData{
+  interface MetaData {
     agg: string;
     axisIndex: number;
     chartType: string;

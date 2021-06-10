@@ -35,39 +35,47 @@ interface IState {
 }
 const currentLocale = getCurrentLocale();
 
-const generateMSMenu = (menuData: MS_INDEX.IMicroServiceMenu[], params: Record<string, any>, query: Record<string, any>) => {
+const generateMSMenu = (
+  menuData: MS_INDEX.IMicroServiceMenu[],
+  params: Record<string, any>,
+  query: Record<string, any>,
+) => {
   let queryStr = '';
   if (!isEmpty(query)) {
     queryStr = `?${qs.stringify(query)}`;
   }
 
-  return menuData.filter((m) => m.exists).map((menu) => {
-    const { key, cnName, enName, children } = menu;
-    const href = getMSFrontPathByKey(key, { ...menu.params, ...params } as any);
+  return menuData
+    .filter((m) => m.exists)
+    .map((menu) => {
+      const { key, cnName, enName, children } = menu;
+      const href = getMSFrontPathByKey(key, { ...menu.params, ...params } as any);
 
-    const IconComp = MSIconMap[key];
-    const siderMenu = {
-      key,
-      icon: IconComp ? <IconComp /> : 'zujian',
-      text: currentLocale.key === 'zh' ? cnName : enName,
-      href: `${href}${queryStr}`,
-      prefix: `${href}`,
-      subMenu: [] as any,
-    };
-    if (children.length) {
-      siderMenu.subMenu = children.filter((m) => m.exists).map((child) => {
-        const childHref = getMSFrontPathByKey(child.key, { ...child.params, ...params } as any);
-        return {
-          key: child.key,
-          text: currentLocale.key === 'zh' ? child.cnName : child.enName,
-          jumpOut: !!child.href,
-          href: child.href ? `${FULL_DOC_DOMAIN}/${child.href}` : `${childHref}${queryStr}`,
-          prefix: `${childHref}`,
-        };
-      });
-    }
-    return siderMenu;
-  });
+      const IconComp = MSIconMap[key];
+      const siderMenu = {
+        key,
+        icon: IconComp ? <IconComp /> : 'zujian',
+        text: currentLocale.key === 'zh' ? cnName : enName,
+        href: `${href}${queryStr}`,
+        prefix: `${href}`,
+        subMenu: [] as any,
+      };
+      if (children.length) {
+        siderMenu.subMenu = children
+          .filter((m) => m.exists)
+          .map((child) => {
+            const childHref = getMSFrontPathByKey(child.key, { ...child.params, ...params } as any);
+            return {
+              key: child.key,
+              text: currentLocale.key === 'zh' ? child.cnName : child.enName,
+              jumpOut: !!child.href,
+              href: child.href ? `${FULL_DOC_DOMAIN}/${child.href}` : `${childHref}${queryStr}`,
+              prefix: `${childHref}`,
+            };
+          });
+      }
+      return siderMenu;
+    });
 };
 
 const initState: IState = {
@@ -79,7 +87,6 @@ const initState: IState = {
   DICE_CLUSTER_TYPE: '',
   isK8S: true,
 };
-
 
 const microServiceStore = createStore({
   name: 'microService',
@@ -95,13 +102,23 @@ const microServiceStore = createStore({
             const isK8S = DICE_CLUSTER_TYPE === 'kubernetes';
             const clusterType = isEdas ? 'EDAS' : 'TERMINUS';
             setGlobal('service-provider', clusterType);
-            microServiceStore.reducers.updateClusterInfo({ clusterType, isK8S, clusterName: DICE_CLUSTER_NAME, DICE_CLUSTER_TYPE });
+            microServiceStore.reducers.updateClusterInfo({
+              clusterType,
+              isK8S,
+              clusterName: DICE_CLUSTER_NAME,
+              DICE_CLUSTER_TYPE,
+            });
           }
         });
       }
       if (isLeaving('microServiceDetail')) {
         setGlobal('service-provider', undefined);
-        microServiceStore.reducers.updateClusterInfo({ clusterType: undefined, isK8S: undefined, clusterName: undefined, DICE_CLUSTER_TYPE: undefined });
+        microServiceStore.reducers.updateClusterInfo({
+          clusterType: undefined,
+          isK8S: undefined,
+          clusterName: undefined,
+          DICE_CLUSTER_TYPE: undefined,
+        });
         microServiceStore.reducers.clearMenuInfo();
       }
     });
@@ -128,7 +145,9 @@ const microServiceStore = createStore({
       menuData.forEach((m) => {
         msMenuMap[m.key] = m;
         if (m.children) {
-          m.children.forEach((cm) => { msMenuMap[cm.key] = cm; });
+          m.children.forEach((cm) => {
+            msMenuMap[cm.key] = cm;
+          });
         }
       });
       await update({ microServiceMenu, msMenuMap });
@@ -144,8 +163,15 @@ const microServiceStore = createStore({
         },
       });
 
-      if (routes[0].mark === 'microServiceDetail') { // 总览页过来的进入拓扑图
-        goTo(goTo.pages.microServiceTopology, { replace: true, tenantGroup, projectId, env, terminusKey: get(menuData, '[0].children[0].params.terminusKey') });
+      if (routes[0].mark === 'microServiceDetail') {
+        // 总览页过来的进入拓扑图
+        goTo(goTo.pages.microServiceTopology, {
+          replace: true,
+          tenantGroup,
+          projectId,
+          env,
+          terminusKey: get(menuData, '[0].children[0].params.terminusKey'),
+        });
       }
       return menuData;
     },
@@ -161,7 +187,6 @@ const microServiceStore = createStore({
       state.microServiceMenu = [];
     },
   },
-
 });
 
 export default microServiceStore;

@@ -35,7 +35,7 @@
       padding: 12px;
 
       &.shadow {
-        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .15);
+        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.15);
       }
 
       &.inp {
@@ -81,25 +81,23 @@
       }
     }
 
-
-
     &.drag-over {
       border: 1px solid $color-active;
     }
 
     &.drop-disable {
       border: 1px solid $color-disabled;
-      opacity: .5;
+      opacity: 0.5;
     }
 
     .list-item {
       margin-bottom: 12px;
       background-color: $white;
       border-radius: $radius;
-      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .06);
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 
       &:hover {
-        box-shadow: 0 1px 5px 0 rgba(0, 0, 0, .1);
+        box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);
       }
 
       &:last-child {
@@ -122,6 +120,6 @@
   }
 
   .issue-kanban-item-special-pdd {
-    padding: 9px 20px 16px 20px ;
+    padding: 9px 20px 16px 20px;
   }
 }

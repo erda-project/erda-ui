@@ -25,11 +25,7 @@ export default (props: CP_POPOVER.Props) => {
   const { visible = true, size, ...rest } = configProps || {};
 
   if (!visible) return null;
-  const contentComp = (
-    <div style={{ width: (size && sizeMap[size]) || sizeMap.m }}>
-      {content}
-    </div>
-  );
+  const contentComp = <div style={{ width: (size && sizeMap[size]) || sizeMap.m }}>{content}</div>;
   return (
     <Popover {...rest} content={contentComp}>
       <span>{children}</span>

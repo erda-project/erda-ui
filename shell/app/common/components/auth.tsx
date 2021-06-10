@@ -19,18 +19,14 @@ import i18n from 'i18n';
 const NoAuthTip = ({ children, tip = i18n.t('common:no permission') }: any): any => {
   if (!children) return null;
   const childrenWithProps = React.Children.map(children, (child) => {
-    const ele = React.cloneElement(
-      child,
-      {
-        className: classnames(child.props.className, 'not-allowed'),
-        onClick: undefined,
-        disabled: true,
-      },
-    );
+    const ele = React.cloneElement(child, {
+      className: classnames(child.props.className, 'not-allowed'),
+      onClick: undefined,
+      disabled: true,
+    });
     return <Tooltip title={tip}>{ele}</Tooltip>;
   });
   return childrenWithProps;
 };
 
 export { NoAuthTip };
-

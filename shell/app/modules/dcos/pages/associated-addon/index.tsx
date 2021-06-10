@@ -18,16 +18,12 @@ import { Panel } from 'common';
 import { AddonCards } from 'addonPlatform/pages/common/components/addon-cards';
 import workBenchStore from 'workBench/stores';
 
-
 interface IProps {
   projectId: any;
   environment: string;
 }
 
-const AssociatedAddons = ({
-  projectId,
-  environment,
-}: IProps) => {
+const AssociatedAddons = ({ projectId, environment }: IProps) => {
   const projectAddonCategory = workBenchStore.useStore((s) => s.projectAddonCategory);
   useEffect(() => {
     workBenchStore.getProjectAddons(projectId);
@@ -56,7 +52,11 @@ const AssociatedAddons = ({
       });
     }
   });
-  const filterList = (list: any[]) => filter(list, ({ workspace, status }) => (workspace === environment || workspace === 'ALL') && status !== 'ATTACHFAILED');
+  const filterList = (list: any[]) =>
+    filter(
+      list,
+      ({ workspace, status }) => (workspace === environment || workspace === 'ALL') && status !== 'ATTACHFAILED',
+    );
 
   return (
     <>

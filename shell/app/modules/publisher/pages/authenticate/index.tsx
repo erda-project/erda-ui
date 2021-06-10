@@ -23,7 +23,7 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import publisherStore from 'publisher/stores/publisher';
 import { map } from 'lodash';
 
-interface IProps{
+interface IProps {
   artifacts: PUBLISHER.IArtifacts;
 }
 
@@ -50,9 +50,12 @@ const Authenticate = (props: IProps) => {
   const { getList, addBlackList, addErase } = authenticateStroe.effects;
   const list = authenticateStroe.useStore((s) => s.list);
 
-  const getData = React.useCallback((q: any) => {
-    getList(q);
-  }, [getList]);
+  const getData = React.useCallback(
+    (q: any) => {
+      getList(q);
+    },
+    [getList],
+  );
 
   React.useEffect(() => {
     getData(query);
@@ -64,11 +67,7 @@ const Authenticate = (props: IProps) => {
       dataIndex: 'userId',
       render: (v: string) => (
         <Tooltip title={v}>
-          <span
-            className="for-copy"
-            data-clipboard-tip={i18n.t('user ID')}
-            data-clipboard-text={v}
-          >
+          <span className="for-copy" data-clipboard-tip={i18n.t('user ID')} data-clipboard-text={v}>
             {v}
           </span>
         </Tooltip>
@@ -78,11 +77,7 @@ const Authenticate = (props: IProps) => {
       title: i18n.t('user name'),
       dataIndex: 'userName',
       render: (val: string) => (
-        <span
-          className="for-copy"
-          data-clipboard-tip={i18n.t('user name')}
-          data-clipboard-text={val}
-        >
+        <span className="for-copy" data-clipboard-tip={i18n.t('user name')} data-clipboard-text={val}>
           {val}
         </span>
       ),
@@ -92,11 +87,7 @@ const Authenticate = (props: IProps) => {
       dataIndex: 'deviceNo',
       render: (v: string) => (
         <Tooltip title={v}>
-          <span
-            className="for-copy"
-            data-clipboard-tip={i18n.t('device ID')}
-            data-clipboard-text={v}
-          >
+          <span className="for-copy" data-clipboard-tip={i18n.t('device ID')} data-clipboard-text={v}>
             {v}
           </span>
         </Tooltip>
@@ -116,19 +107,18 @@ const Authenticate = (props: IProps) => {
         const { deviceNo } = record;
         return (
           <div className="table-operations">
-            <WithAuth pass={publishOperationAuth} >
+            <WithAuth pass={publishOperationAuth}>
               <span
                 className="table-operations-btn"
                 onClick={() => {
                   addBlackList({ artifactId, ...record });
-                }
-              }
+                }}
               >
                 {i18n.t('publisher:blacklisted')}
               </span>
             </WithAuth>
 
-            <WithAuth pass={publishOperationAuth} >
+            <WithAuth pass={publishOperationAuth}>
               <span
                 className="table-operations-btn"
                 onClick={() => {
@@ -147,16 +137,23 @@ const Authenticate = (props: IProps) => {
     <div>
       <div className="flex-box mb16 flex-start">
         <TimeSelector className="ml0" key="time-selector" inline disabledDate={() => false} />
-        <Select value={selectMonitorKey} style={{ width: 200 }} className="ml12" onChange={(k) => { updater.selectMonitorKey(k); }}>
-          {map(publishItemMonitors, (_, key) => <Select.Option key={key} value={key}>{key}</Select.Option>)}
+        <Select
+          value={selectMonitorKey}
+          style={{ width: 200 }}
+          className="ml12"
+          onChange={(k) => {
+            updater.selectMonitorKey(k);
+          }}
+        >
+          {map(publishItemMonitors, (_, key) => (
+            <Select.Option key={key} value={key}>
+              {key}
+            </Select.Option>
+          ))}
         </Select>
       </div>
       <Spin spinning={loading}>
-        <Table
-          rowKey={'userId'}
-          columns={columns}
-          dataSource={list}
-        />
+        <Table rowKey={'userId'} columns={columns} dataSource={list} />
       </Spin>
       <Copy selector=".for-copy" />
     </div>

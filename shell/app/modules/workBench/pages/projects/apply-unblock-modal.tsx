@@ -50,9 +50,7 @@ const ApplyUnblockModal = ({ visible, onCancel, afterSubmit, metaData }: IProps)
       label: i18n.t('default:application'),
       type: 'custom',
       name: 'appIDs',
-      getComp: () => (
-        <AppSelector projectId={`${metaData.projectId}`} mode="multiple" />
-      ),
+      getComp: () => <AppSelector projectId={`${metaData.projectId}`} mode="multiple" />,
     },
     {
       label: i18n.t('runtime:deploy time'),
@@ -62,19 +60,21 @@ const ApplyUnblockModal = ({ visible, onCancel, afterSubmit, metaData }: IProps)
           placeholder={[i18n.t('common:start at'), i18n.t('common:end at')]}
           showTime={{ format: 'HH:mm' }}
           format="YYYY-MM-DD HH:mm"
-          disabledDate={(time) => !!time && (time.valueOf() < moment().subtract(1, 'd').valueOf())}
+          disabledDate={(time) => !!time && time.valueOf() < moment().subtract(1, 'd').valueOf()}
           ranges={getTimeRanges()}
         />
       ),
-      rules: [{
-        validator: (_rule: any, [start, end]: [Moment, Moment], callback: Function) => {
-          if (end.diff(start, 'days') > 7) {
-            callback(i18n.t('project:deployment time should not be greater than 7 days'));
-            return;
-          }
-          callback();
+      rules: [
+        {
+          validator: (_rule: any, [start, end]: [Moment, Moment], callback: Function) => {
+            if (end.diff(start, 'days') > 7) {
+              callback(i18n.t('project:deployment time should not be greater than 7 days'));
+              return;
+            }
+            callback();
+          },
         },
-      }],
+      ],
     },
     {
       label: i18n.t('default:specific content'),

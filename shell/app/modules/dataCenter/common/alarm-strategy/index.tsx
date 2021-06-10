@@ -26,7 +26,11 @@ import orgMemberStore from 'common/stores/org-member';
 import projectMemberStore from 'common/stores/project-member';
 import dataCenterAlarmStrategyStore from 'app/modules/dataCenter/stores/alarm-strategy';
 import microServiceAlarmStrategyStore from 'app/modules/microService/monitor/monitor-alarm/stores/alarm-strategy';
-import { notifyChannelOptionsMap, smsNotifyChannelOptionsMap, ListTargets } from 'application/pages/settings/components/app-notify/common-notify-group';
+import {
+  notifyChannelOptionsMap,
+  smsNotifyChannelOptionsMap,
+  ListTargets,
+} from 'application/pages/settings/components/app-notify/common-notify-group';
 import { usePerm, WithAuth } from 'user/common';
 import clusterStore from 'dataCenter/stores/cluster';
 import orgStore from 'app/org-home/stores/org';
@@ -74,11 +78,21 @@ export default ({ scopeType, scopeId }: IProps) => {
   const roleMap = memberStore.useStore((s) => s.roleMap);
   const { getRoleMap } = memberStore.effects;
   const alarmStrategyStore = alarmStrategyStoreMap[scopeType];
-  const [alertList, alarmPaging, alarmScopeMap, alertTypes] = alarmStrategyStore.useStore((s) => [s.alertList, s.alarmPaging, s.alarmScopeMap, s.alertTypes]);
+  const [alertList, alarmPaging, alarmScopeMap, alertTypes] = alarmStrategyStore.useStore((s) => [
+    s.alertList,
+    s.alarmPaging,
+    s.alarmScopeMap,
+    s.alertTypes,
+  ]);
   const { total, pageNo, pageSize } = alarmPaging;
   const orgId = orgStore.getState((s) => s.currentOrg.id);
-  const [getAlertDetailLoading, getAlertsLoading, toggleAlertLoading] = useLoading(alarmStrategyStore, ['getAlertDetail', 'getAlerts', 'toggleAlert']);
-  const { getAlerts, createAlert, editAlert, toggleAlert, deleteAlert, getAlertDetail, getAlarmScopes, getAlertTypes } = alarmStrategyStore.effects;
+  const [getAlertDetailLoading, getAlertsLoading, toggleAlertLoading] = useLoading(alarmStrategyStore, [
+    'getAlertDetail',
+    'getAlerts',
+    'toggleAlert',
+  ]);
+  const { getAlerts, createAlert, editAlert, toggleAlert, deleteAlert, getAlertDetail, getAlarmScopes, getAlertTypes } =
+    alarmStrategyStore.effects;
   const { getNotifyGroups } = notifyGroupStore.effects;
   const notifyGroups = notifyGroupStore.useStore((s) => s.notifyGroups);
   const [modalVisible, openModal, closeModal] = useSwitch(false);
@@ -162,7 +176,9 @@ export default ({ scopeType, scopeId }: IProps) => {
             checkedChildren="true"
             unCheckedChildren="false"
             defaultChecked={item.value}
-            onClick={(v: boolean) => { handleEditEditingRuleField(key, functionIndex, { key: 'value', value: v }); }}
+            onClick={(v: boolean) => {
+              handleEditEditingRuleField(key, functionIndex, { key: 'value', value: v });
+            }}
           />
         );
         break;
@@ -171,7 +187,9 @@ export default ({ scopeType, scopeId }: IProps) => {
           <Input
             className="value"
             defaultValue={item.value}
-            onChange={(e: any) => { handleEditEditingRuleField(key, functionIndex, { key: 'value', value: e.target.value }); }}
+            onChange={(e: any) => {
+              handleEditEditingRuleField(key, functionIndex, { key: 'value', value: e.target.value });
+            }}
           />
         );
         break;
@@ -181,7 +199,9 @@ export default ({ scopeType, scopeId }: IProps) => {
             className="value"
             min={0}
             defaultValue={item.value}
-            onChange={(v: string | number | undefined) => { handleEditEditingRuleField(key, functionIndex, { key: 'value', value: Number(v) }); }}
+            onChange={(v: string | number | undefined) => {
+              handleEditEditingRuleField(key, functionIndex, { key: 'value', value: Number(v) });
+            }}
           />
         );
         break;
@@ -206,7 +226,11 @@ export default ({ scopeType, scopeId }: IProps) => {
             updater.editingRules(rules);
           }}
         >
-          {map(allRules, ({ alertIndex }) => <Select.Option key={alertIndex} value={alertIndex}>{allRuleMap[alertIndex]}</Select.Option>)}
+          {map(allRules, ({ alertIndex }) => (
+            <Select.Option key={alertIndex} value={alertIndex}>
+              {allRuleMap[alertIndex]}
+            </Select.Option>
+          ))}
         </Select>
       ),
     },
@@ -219,7 +243,11 @@ export default ({ scopeType, scopeId }: IProps) => {
           value={value}
           onSelect={(window: any) => handleEditEditingRule(key, { key: 'window', value: Number(window) })}
         >
-          {map(windows, (item) => <Select.Option key={item} value={item}>{item}</Select.Option>)}
+          {map(windows, (item) => (
+            <Select.Option key={item} value={item}>
+              {item}
+            </Select.Option>
+          ))}
         </Select>
       ),
     },
@@ -229,31 +257,35 @@ export default ({ scopeType, scopeId }: IProps) => {
       width: 410,
       render: (functions: any[], { key }: COMMON_STRATEGY_NOTIFY.IFormRule) => (
         <div className="function-list">
-          {
-            map(functions, (item, index) => (
-              <div className="function-item flex-box" key={item.field}>
-                <Tooltip title={allRuleFieldMap[item.field]}>
-                  <span className="field-name mr8 nowrap">{allRuleFieldMap[item.field]}</span>
-                </Tooltip>
-                <span className="aggregator mr8">{aggregatorMap[item.aggregator]}</span>
-                {/* <Select
+          {map(functions, (item, index) => (
+            <div className="function-item flex-box" key={item.field}>
+              <Tooltip title={allRuleFieldMap[item.field]}>
+                <span className="field-name mr8 nowrap">{allRuleFieldMap[item.field]}</span>
+              </Tooltip>
+              <span className="aggregator mr8">{aggregatorMap[item.aggregator]}</span>
+              {/* <Select
                   className="aggregator mr8"
                   defaultValue={item.aggregator}
                   disabled
                 >
                   {map(aggregatorMap, (name, _key) => (<Select.Option key={_key} value={_key}>{name}</Select.Option>))}
                 </Select> */}
-                <Select
-                  className="operator mr8"
-                  defaultValue={item.operator}
-                  onSelect={(value: any) => { handleEditEditingRuleField(key, index, { key: 'operator', value: String(value) }); }}
-                >
-                  {map(operatorMap, (name, _key) => (<Select.Option key={_key} value={_key}>{name}</Select.Option>))}
-                </Select>
-                {getFunctionsValueElement(item, index, key)}
-              </div>
-            ))
-          }
+              <Select
+                className="operator mr8"
+                defaultValue={item.operator}
+                onSelect={(value: any) => {
+                  handleEditEditingRuleField(key, index, { key: 'operator', value: String(value) });
+                }}
+              >
+                {map(operatorMap, (name, _key) => (
+                  <Select.Option key={_key} value={_key}>
+                    {name}
+                  </Select.Option>
+                ))}
+              </Select>
+              {getFunctionsValueElement(item, index, key)}
+            </div>
+          ))}
         </div>
       ),
     },
@@ -269,7 +301,14 @@ export default ({ scopeType, scopeId }: IProps) => {
       render: (record: COMMON_STRATEGY_NOTIFY.IFormRule) => {
         return (
           <div className="table-operations">
-            <span className="table-operations-btn" onClick={() => { handleRemoveEditingRule(record.key); }}>{i18n.t('delete')}</span>
+            <span
+              className="table-operations-btn"
+              onClick={() => {
+                handleRemoveEditingRule(record.key);
+              }}
+            >
+              {i18n.t('delete')}
+            </span>
           </div>
         );
       },
@@ -298,17 +337,17 @@ export default ({ scopeType, scopeId }: IProps) => {
               trigger="click"
               content={
                 <div className="alarm-rule-collection">
-                  {
-                    map(alertTypes.alertTypeRules, (item) => (
-                      <div
-                        className="collection-item hover-active-bg"
-                        key={item.alertType.key}
-                        onClick={() => { handleClickAlertType(item.alertType.key); }}
-                      >
-                        {item.alertType.display}
-                      </div>
-                    ))
-                  }
+                  {map(alertTypes.alertTypeRules, (item) => (
+                    <div
+                      className="collection-item hover-active-bg"
+                      key={item.alertType.key}
+                      onClick={() => {
+                        handleClickAlertType(item.alertType.key);
+                      }}
+                    >
+                      {item.alertType.display}
+                    </div>
+                  ))}
                 </div>
               }
             >
@@ -331,14 +370,18 @@ export default ({ scopeType, scopeId }: IProps) => {
     {
       label: i18n.t('org:silence period'),
       name: 'silence',
-      initialValue: state.editingFormRule.notifies ? `${state.editingFormRule.notifies[0].silence.value}-${state.editingFormRule.notifies[0].silence.unit}` : undefined,
+      initialValue: state.editingFormRule.notifies
+        ? `${state.editingFormRule.notifies[0].silence.value}-${state.editingFormRule.notifies[0].silence.unit}`
+        : undefined,
       type: 'select',
       options: map(silenceMap, ({ display }, value) => ({ name: `${value.split('-')[0]}${display}`, value })),
     },
     {
       label: i18n.t('silence period policy'),
       name: 'silencePolicy',
-      initialValue: state.editingFormRule.notifies ? `${state.editingFormRule.notifies[0].silence.policy}` : SilencePeriodType.FIXED,
+      initialValue: state.editingFormRule.notifies
+        ? `${state.editingFormRule.notifies[0].silence.policy}`
+        : SilencePeriodType.FIXED,
       type: 'radioGroup',
       options: map(SILENCE_PERIOD_POLICY_MAP, (name, value) => ({ name, value })),
     },
@@ -360,18 +403,26 @@ export default ({ scopeType, scopeId }: IProps) => {
               <div>
                 {menu}
                 <Divider className="my4" />
-                <div
-                  className="fz12 px8 py4 color-text-desc"
-                  onMouseDown={(e) => e.preventDefault()}
-                >
-                  <WithAuth pass={addNotificationGroupAuth} >
-                    <span className="hover-active" onClick={() => { goTo(notifyGroupPage[scopeType], { projectId: scopeId }); }}>{i18n.t('org:add more notification groups')}</span>
+                <div className="fz12 px8 py4 color-text-desc" onMouseDown={(e) => e.preventDefault()}>
+                  <WithAuth pass={addNotificationGroupAuth}>
+                    <span
+                      className="hover-active"
+                      onClick={() => {
+                        goTo(notifyGroupPage[scopeType], { projectId: scopeId });
+                      }}
+                    >
+                      {i18n.t('org:add more notification groups')}
+                    </span>
                   </WithAuth>
                 </div>
               </div>
             )}
           >
-            {map(notifyGroups, ({ id, name }) => <Select.Option key={id} value={id}>{name}</Select.Option>)}
+            {map(notifyGroups, ({ id, name }) => (
+              <Select.Option key={id} value={id}>
+                {name}
+              </Select.Option>
+            ))}
           </Select>
         );
       },
@@ -407,35 +458,38 @@ export default ({ scopeType, scopeId }: IProps) => {
   if (state.activedGroupId) {
     const activedGroup = find(notifyGroups, ({ id }) => id === state.activedGroupId);
 
-    fieldsList = [...fieldsList, {
-      name: 'groupType',
-      label: i18n.t('application:method to inform'),
-      required: true,
-      type: 'select',
-      initialValue: state.editingFormRule.notifies ? state.editingFormRule.notifies[0].groupType.split(',') : [],
-      options: (activedGroup && notifyChannelMap[activedGroup.targets[0].type]) || [],
-      itemProps: {
-        mode: 'multiple',
+    fieldsList = [
+      ...fieldsList,
+      {
+        name: 'groupType',
+        label: i18n.t('application:method to inform'),
+        required: true,
+        type: 'select',
+        initialValue: state.editingFormRule.notifies ? state.editingFormRule.notifies[0].groupType.split(',') : [],
+        options: (activedGroup && notifyChannelMap[activedGroup.targets[0].type]) || [],
+        itemProps: {
+          mode: 'multiple',
+        },
       },
-    }];
+    ];
   }
 
   // 添加集合的规则
   const handleClickAlertType = (val: string) => {
-    const formRules: COMMON_STRATEGY_NOTIFY.IFormRule[] = map(alertTypeRuleMap[val], (rule: COMMON_STRATEGY_NOTIFY.IDataExpression) => ({
-      key: uniqueId(),
-      alertIndex: rule.alertIndex.key,
-      window: rule.window,
-      functions: map(rule.functions, ({ field, ...rest }) => ({
-        field: field.key,
-        ...rest,
-      })),
-      isRecover: rule.isRecover,
-    }));
-    updater.editingRules([
-      ...formRules,
-      ...state.editingRules,
-    ]);
+    const formRules: COMMON_STRATEGY_NOTIFY.IFormRule[] = map(
+      alertTypeRuleMap[val],
+      (rule: COMMON_STRATEGY_NOTIFY.IDataExpression) => ({
+        key: uniqueId(),
+        alertIndex: rule.alertIndex.key,
+        window: rule.window,
+        functions: map(rule.functions, ({ field, ...rest }) => ({
+          field: field.key,
+          ...rest,
+        })),
+        isRecover: rule.isRecover,
+      }),
+    );
+    updater.editingRules([...formRules, ...state.editingRules]);
   };
 
   // 添加单条规则
@@ -564,30 +618,40 @@ export default ({ scopeType, scopeId }: IProps) => {
       title: i18n.t('org:alarm name'),
       dataIndex: 'name',
     },
-    ...insertWhen(scopeType === ScopeType.ORG, [{
-      title: i18n.t('org:cluster'),
-      dataIndex: 'clusterNames',
-      width: 200,
-      render: (clusterNames: string[]) => map(clusterNames, (clusterName) => (alarmScopeMap[clusterName])).join(),
-    }]),
-    ...insertWhen(scopeType === ScopeType.PROJECT, [{
-      title: i18n.t('application'),
-      dataIndex: 'appIds',
-      width: 200,
-      render: (appIds: string[]) => map(appIds, (appId) => (alarmScopeMap[appId])).join(),
-    }]),
+    ...insertWhen(scopeType === ScopeType.ORG, [
+      {
+        title: i18n.t('org:cluster'),
+        dataIndex: 'clusterNames',
+        width: 200,
+        render: (clusterNames: string[]) => map(clusterNames, (clusterName) => alarmScopeMap[clusterName]).join(),
+      },
+    ]),
+    ...insertWhen(scopeType === ScopeType.PROJECT, [
+      {
+        title: i18n.t('application'),
+        dataIndex: 'appIds',
+        width: 200,
+        render: (appIds: string[]) => map(appIds, (appId) => alarmScopeMap[appId]).join(),
+      },
+    ]),
     {
       title: i18n.t('default:notification target'),
       dataIndex: 'notifies[0].notifyGroup',
       width: 250,
       className: 'notify-info',
       render: (notifyGroup: COMMON_STRATEGY_NOTIFY.INotifyGroup) => {
-        const tips = i18n.t('org:notification group does not exist or has been removed, replaceable notification group');
+        const tips = i18n.t(
+          'org:notification group does not exist or has been removed, replaceable notification group',
+        );
         return (
           <div className="flex-box">
-            {
-              isEmpty(notifyGroup) ? <Tooltip title={tips}><span className="color-text-sub">{tips}</span></Tooltip> : <ListTargets targets={notifyGroup.targets} roleMap={roleMap} />
-            }
+            {isEmpty(notifyGroup) ? (
+              <Tooltip title={tips}>
+                <span className="color-text-sub">{tips}</span>
+              </Tooltip>
+            ) : (
+              <ListTargets targets={notifyGroup.targets} roleMap={roleMap} />
+            )}
           </div>
         );
       },
@@ -605,8 +669,17 @@ export default ({ scopeType, scopeId }: IProps) => {
       render: (_text, record) => {
         return (
           <div className="table-operations">
-            <span className="table-operations-btn" onClick={() => handleEditALarm(record.id)}>{i18n.t('application:edit')}</span>
-            <span className="table-operations-btn" onClick={() => { handleDeleteAlarm(record.id); }}>{i18n.t('application:delete')}</span>
+            <span className="table-operations-btn" onClick={() => handleEditALarm(record.id)}>
+              {i18n.t('application:edit')}
+            </span>
+            <span
+              className="table-operations-btn"
+              onClick={() => {
+                handleDeleteAlarm(record.id);
+              }}
+            >
+              {i18n.t('application:delete')}
+            </span>
             <Switch
               size="small"
               defaultChecked={record.enable}
@@ -623,13 +696,19 @@ export default ({ scopeType, scopeId }: IProps) => {
         );
       },
     },
-
   ];
 
   return (
     <div className="alarm-strategy">
       <div className="top-button-group">
-        <Button type="primary" onClick={() => { openModal(); }}>{i18n.t('org:new strategy')}</Button>
+        <Button
+          type="primary"
+          onClick={() => {
+            openModal();
+          }}
+        >
+          {i18n.t('org:new strategy')}
+        </Button>
         <FormModal
           loading={getAlertDetailLoading}
           width={1000}

@@ -23,7 +23,10 @@ import middlewareChartStore from '../../stores/middleware-chart';
 
 const MiddlewareChart = () => {
   const { addon_id, timestamp, cluster_name } = routeInfoStore.useStore((s) => s.query);
-  const [containerChartMetas, middlewareChartMetas] = middlewareChartStore.useStore((s) => [s.containerChartMetas, s.middlewareChartMetas]);
+  const [containerChartMetas, middlewareChartMetas] = middlewareChartStore.useStore((s) => [
+    s.containerChartMetas,
+    s.middlewareChartMetas,
+  ]);
   const { getChartMeta, getContainerChart } = middlewareChartStore.effects;
   const [loading] = useLoading(middlewareChartStore, ['getChartMeta']);
   const timestampMap = React.useMemo(() => {
@@ -43,49 +46,50 @@ const MiddlewareChart = () => {
     getChartMeta({ type: addon_id });
   });
 
-  const getLayout = (chartMetas: any) => map(chartMetas, ({ title, name, parameters }, index) => ({
-    w: 12,
-    h: 9,
-    x: 12 * (index % 2),
-    y: 0,
-    i: `middleware-chart-${name}`,
-    moved: false,
-    static: false,
-    view: {
-      title,
-      chartType: 'chart:line',
-      hideReload: true,
-      chartQuery: {
-        start: timestampMap.start,
-        end: timestampMap.end,
-        filter_cluster_name: cluster_name,
-        filter_addon_id: addon_id,
-        name,
-        ...parameters,
-      },
-      loadData: getContainerChart,
-      dataConvertor(responseData: any) {
-        if (isEmpty(responseData)) return {};
-        const { time = [], results = [] } = responseData || {};
-        const data = get(results, '[0].data') || [];
-        const metricData = [] as object[];
-        const yAxis = [];
-        forEach(data, (item) => {
-          mapKeys(item, (v) => {
-            const { chartType, ...rest } = v;
-            yAxis[v.axisIndex] = 1;
-            metricData.push({
-              ...rest,
-              type: chartType || 'line',
+  const getLayout = (chartMetas: any) =>
+    map(chartMetas, ({ title, name, parameters }, index) => ({
+      w: 12,
+      h: 9,
+      x: 12 * (index % 2),
+      y: 0,
+      i: `middleware-chart-${name}`,
+      moved: false,
+      static: false,
+      view: {
+        title,
+        chartType: 'chart:line',
+        hideReload: true,
+        chartQuery: {
+          start: timestampMap.start,
+          end: timestampMap.end,
+          filter_cluster_name: cluster_name,
+          filter_addon_id: addon_id,
+          name,
+          ...parameters,
+        },
+        loadData: getContainerChart,
+        dataConvertor(responseData: any) {
+          if (isEmpty(responseData)) return {};
+          const { time = [], results = [] } = responseData || {};
+          const data = get(results, '[0].data') || [];
+          const metricData = [] as object[];
+          const yAxis = [];
+          forEach(data, (item) => {
+            mapKeys(item, (v) => {
+              const { chartType, ...rest } = v;
+              yAxis[v.axisIndex] = 1;
+              metricData.push({
+                ...rest,
+                type: chartType || 'line',
+              });
             });
           });
-        });
-        const yAxisLength = yAxis.length;
-        const formatTime = time.map((t) => moment(t).format('MM-DD HH:mm'));
-        return { xData: formatTime, metricData, yAxisLength, xAxisIsTime: true };
+          const yAxisLength = yAxis.length;
+          const formatTime = time.map((t) => moment(t).format('MM-DD HH:mm'));
+          return { xData: formatTime, metricData, yAxisLength, xAxisIsTime: true };
+        },
       },
-    },
-  }));
+    }));
 
   return (
     <Spin spinning={loading}>

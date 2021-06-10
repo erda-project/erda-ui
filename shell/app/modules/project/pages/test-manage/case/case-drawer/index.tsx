@@ -33,16 +33,16 @@ import './index.scss';
 import RelatedBugs from 'project/pages/test-manage/case/case-drawer/related-bugs';
 import { ShareOne as IconShareOne, Close as IconClose } from '@icon-park/react';
 
-interface IProps{
+interface IProps {
   caseList?: TEST_CASE.TestCaseItem[];
-  scope: 'testPlan'| 'testCase';
+  scope: 'testPlan' | 'testCase';
   visible: boolean;
   onClose: () => void;
   afterClose?: (saved: boolean) => void;
   afterSave?: (value: TEST_CASE.CaseBody, isEdit: boolean, response: any) => Promise<void>;
 }
 
-interface ICaseDetail extends TEST_CASE.CaseDetail{
+interface ICaseDetail extends TEST_CASE.CaseDetail {
   id: number;
   apisFormat: IApi[];
 }
@@ -108,7 +108,9 @@ const doCheck = (data: ICaseDetail) => {
     return i18n.t('project:there are duplicates in the {index} interface', { index: dupList.join(',') });
   }
   if (inValidNum.length) {
-    return i18n.t('project:the {index} step in the steps and results is not completed', { index: inValidNum.join(',') });
+    return i18n.t('project:the {index} step in the steps and results is not completed', {
+      index: inValidNum.join(','),
+    });
   }
   return '';
 };
@@ -122,7 +124,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
   const { editPartial, create: addTestCase, attemptTestApi } = testCaseStore.effects;
   const [isExecuting, fetchingDetail] = useLoading(testCaseStore, ['attemptTestApi', 'getCaseDetail']);
   const [{ fullData, titleIsEmpty }, updater] = useUpdate<IState>(initState);
-  const drawer = React.useRef<{saved: boolean}>({ saved: false });
+  const drawer = React.useRef<{ saved: boolean }>({ saved: false });
   const editMode = !!caseDetail.id;
   React.useEffect(() => {
     if (caseDetail.id) {
@@ -130,14 +132,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
       if (caseDetail.apis) {
         try {
           // 其他不用透传的放在rest里
-          apis = caseDetail.apis.map(({
-            apiInfo,
-            apiResponse,
-            apiRequest,
-            assertResult,
-            status,
-            ...rest
-          }: any) => ({
+          apis = caseDetail.apis.map(({ apiInfo, apiResponse, apiRequest, assertResult, status, ...rest }: any) => ({
             rest,
             ...JSON.parse(apiInfo),
             apiResponse,
@@ -206,12 +201,14 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
       return api;
     });
     // 这里的usecaseTestEnvID是testCaseID
-    return attemptTestApi({ apis, projectTestEnvID: extra.envId, usecaseTestEnvID: fullData.testCaseID }).then((result) => {
-      updater.fullData({
-        ...fullData,
-        apisFormat: fullData.apisFormat.map((a: any, i: number) => ({ ...a, attemptTest: result[i] })),
-      });
-    });
+    return attemptTestApi({ apis, projectTestEnvID: extra.envId, usecaseTestEnvID: fullData.testCaseID }).then(
+      (result) => {
+        updater.fullData({
+          ...fullData,
+          apisFormat: fullData.apisFormat.map((a: any, i: number) => ({ ...a, attemptTest: result[i] })),
+        });
+      },
+    );
   };
   const checkName = (e: React.FocusEvent<HTMLInputElement>) => {
     const name = e.target.value;
@@ -284,17 +281,23 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
     };
   }, [fullData.priority, caseDetail.createdAt, caseDetail.creatorID]);
 
-  const append = (scope === 'testPlan' && editMode) || !fullData.apisFormat.length ? null : (
-    <span className="color-text-desc hover-active" onClick={() => executeAllApi(fullData.apisFormat, { envId: 0 })}>
-      <SelectEnv envList={envList} onClick={(env: any) => { executeAllApi(fullData.apisFormat, { envId: env.id }); }}>
-        <>
-          <CustomIcon type="play" />
-          {i18n.t('project:execute')}
-          <span className="fz12">({i18n.t('project:click-direct-no-env')})</span>
-        </>
-      </SelectEnv>
-    </span>
-  );
+  const append =
+    (scope === 'testPlan' && editMode) || !fullData.apisFormat.length ? null : (
+      <span className="color-text-desc hover-active" onClick={() => executeAllApi(fullData.apisFormat, { envId: 0 })}>
+        <SelectEnv
+          envList={envList}
+          onClick={(env: any) => {
+            executeAllApi(fullData.apisFormat, { envId: env.id });
+          }}
+        >
+          <>
+            <CustomIcon type="play" />
+            {i18n.t('project:execute')}
+            <span className="fz12">({i18n.t('project:click-direct-no-env')})</span>
+          </>
+        </SelectEnv>
+      </span>
+    );
   return (
     <Drawer
       className="case-drawer"
@@ -318,21 +321,24 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                 placeholder={i18n.t('project:use case title (required)')}
                 autoComplete="off"
                 value={fullData.name}
-                onChange={(e) => { updateFullData('name', e.target.value); }}
+                onChange={(e) => {
+                  updateFullData('name', e.target.value);
+                }}
                 onBlur={checkName}
               />
             </div>
             <div className="case-drawer-header-op">
-              {
-                editMode
-                  ? (
-                    <>
-                      <Copy selector=".copy-share-link" tipName={i18n.t('project:share link')} />
-                      <IconShareOne className="for-copy copy-share-link ml12" size="16px" data-clipboard-text={shareLink} type="share-alt" />
-                    </>
-                  )
-                  : null
-              }
+              {editMode ? (
+                <>
+                  <Copy selector=".copy-share-link" tipName={i18n.t('project:share link')} />
+                  <IconShareOne
+                    className="for-copy copy-share-link ml12"
+                    size="16px"
+                    data-clipboard-text={shareLink}
+                    type="share-alt"
+                  />
+                </>
+              ) : null}
               <IconClose onClick={handleClose} className="ml12 pointer" size="16px" />
             </div>
           </div>
@@ -343,21 +349,22 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                 {dirName}
               </div>
             </Tooltip>
-            {
-              editMode && (
-                <div className="inline-flex-box">
-                  <Avatar showName name={<UserInfo id={caseDetail.updaterID} render={(data) => data.nick || data.name} />} size={28} />&nbsp;{i18n.t('project:updated on')}&nbsp;{updateDate}
-                </div>
-              )
-            }
+            {editMode && (
+              <div className="inline-flex-box">
+                <Avatar
+                  showName
+                  name={<UserInfo id={caseDetail.updaterID} render={(data) => data.nick || data.name} />}
+                  size={28}
+                />
+                &nbsp;{i18n.t('project:updated on')}&nbsp;{updateDate}
+              </div>
+            )}
           </div>
         </div>
         <div className="case-drawer-body flex-box">
           <div className="case-drawer-body-left flex-1 px20 py16">
             <div onBlurCapture={handleAnyBlur}>
-              <ContentPanel
-                title={i18n.t('project:preconditions')}
-              >
+              <ContentPanel title={i18n.t('project:preconditions')}>
                 <MarkdownEditor
                   value={fullData.preCondition}
                   onBlur={(v: string) => {
@@ -371,7 +378,9 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
               <ContentPanel
                 title={i18n.t('project:steps and results')}
                 mode="add"
-                onClick={() => { handleAddInTitle('stepAndResults'); }}
+                onClick={() => {
+                  handleAddInTitle('stepAndResults');
+                }}
               >
                 <CaseStep
                   value={fullData.stepAndResults}
@@ -381,7 +390,9 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
               <ContentPanel
                 title={i18n.t('project:interface')}
                 mode="add"
-                onClick={() => { handleAddInTitle('apisFormat'); }}
+                onClick={() => {
+                  handleAddInTitle('apisFormat');
+                }}
                 loading={isExecuting}
                 append={append}
               >
@@ -392,9 +403,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
                   executeApi={executeApi}
                 />
               </ContentPanel>
-              <ContentPanel
-                title={i18n.t('project:description')}
-              >
+              <ContentPanel title={i18n.t('project:description')}>
                 <MarkdownEditor
                   value={fullData.desc}
                   onBlur={(v: string) => {
@@ -407,17 +416,11 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
               </ContentPanel>
             </div>
             <div className="mt32">
-              {
-                visible && scope === 'testPlan' && editMode ? <RelatedBugs relationID={caseDetail.id} /> : null
-              }
+              {visible && scope === 'testPlan' && editMode ? <RelatedBugs relationID={caseDetail.id} /> : null}
             </div>
           </div>
           <div className="case-drawer-body-right px20 py16">
-            <CaseMeta
-              onBlurCapture={handleAnyBlur}
-              onChange={updateFullData}
-              dataSource={caseMetaData}
-            />
+            <CaseMeta onBlurCapture={handleAnyBlur} onChange={updateFullData} dataSource={caseMetaData} />
           </div>
         </div>
       </Spin>

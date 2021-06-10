@@ -18,46 +18,41 @@ import './index.scss';
 
 const noop = (a: any) => a;
 
-const FormSelect = ({
-  fixOut = noop,
-  fixIn = noop,
-  extensionFix,
-  requiredCheck,
-  trigger = 'onChange',
-}: any) => React.memo(({ fieldConfig, form }: any) => {
-  const {
-    key,
-    value,
-    label,
-    registerRequiredCheck = noop,
-    componentProps,
-    dataSource,
-    requiredCheck: _requiredCheck,
-  } = fieldConfig || {};
-  registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (e) => {
-    form.setFieldValue(key, fixOut(e.target.value));
-    (componentProps.onChange || noop)(e.target.value);
-  };
-  return (
-    <div className="dice-form-item mb16">
-      <label htmlFor={key}>{label}:</label>
-      <select
-        id={key}
-        {...componentProps}
-        value={fixIn(value)}
-        className={`${componentProps.className || ''} dice-form-select`}
-        onChange={handleChange}
-      >
-        {map(get(dataSource, 'static', []), (item: any) => (
-          <option key={item.value} value={item.value}>
-            {item.name}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
-});
+const FormSelect = ({ fixOut = noop, fixIn = noop, extensionFix, requiredCheck, trigger = 'onChange' }: any) =>
+  React.memo(({ fieldConfig, form }: any) => {
+    const {
+      key,
+      value,
+      label,
+      registerRequiredCheck = noop,
+      componentProps,
+      dataSource,
+      requiredCheck: _requiredCheck,
+    } = fieldConfig || {};
+    registerRequiredCheck(_requiredCheck || requiredCheck);
+    const handleChange = (e) => {
+      form.setFieldValue(key, fixOut(e.target.value));
+      (componentProps.onChange || noop)(e.target.value);
+    };
+    return (
+      <div className="dice-form-item mb16">
+        <label htmlFor={key}>{label}:</label>
+        <select
+          id={key}
+          {...componentProps}
+          value={fixIn(value)}
+          className={`${componentProps.className || ''} dice-form-select`}
+          onChange={handleChange}
+        >
+          {map(get(dataSource, 'static', []), (item: any) => (
+            <option key={item.value} value={item.value}>
+              {item.name}
+            </option>
+          ))}
+        </select>
+      </div>
+    );
+  });
 
 export const config = {
   name: 'select',

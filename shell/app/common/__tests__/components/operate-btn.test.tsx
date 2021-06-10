@@ -20,12 +20,24 @@ describe('OpreationBtn', () => {
   const getWrapper = (props = {}, onClick = () => {}) => {
     return shallow(
       <TableActions {...props}>
-        <a className="btns btns1" href="" onClick={onClick}>btn1</a>
-        <a className="btns btns2" href="">btn1</a>
-        <a className="btns btns3" href="">btn1</a>
-        <a className="btns btns4" href="">btn1</a>
-        <a className="btns btns5" href="">btn1</a>
-        <a className="btns btns6" href="">btn1</a>
+        <a className="btns btns1" href="" onClick={onClick}>
+          btn1
+        </a>
+        <a className="btns btns2" href="">
+          btn1
+        </a>
+        <a className="btns btns3" href="">
+          btn1
+        </a>
+        <a className="btns btns4" href="">
+          btn1
+        </a>
+        <a className="btns btns5" href="">
+          btn1
+        </a>
+        <a className="btns btns6" href="">
+          btn1
+        </a>
       </TableActions>,
     );
   };

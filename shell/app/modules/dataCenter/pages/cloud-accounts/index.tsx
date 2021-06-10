@@ -58,10 +58,7 @@ export default () => {
         render: (_text: string, record: CLOUD_ACCOUNTS.Account) => {
           return (
             <div className="table-operations">
-              <span
-                className="table-operations-btn"
-                onClick={() => showDeleteConfirm(record)}
-              >
+              <span className="table-operations-btn" onClick={() => showDeleteConfirm(record)}>
                 {i18n.t('delete')}
               </span>
             </div>
@@ -75,7 +72,7 @@ export default () => {
     return getAccountsFieldsList([{ name: i18n.t('aliyun'), value: 'aliyun' }]);
   };
 
-  const handleFormSubmit = (data: CLOUD_ACCOUNTS.Account, { addItem }: {addItem: (arg: any) => Promise<any>}) => {
+  const handleFormSubmit = (data: CLOUD_ACCOUNTS.Account, { addItem }: { addItem: (arg: any) => Promise<any> }) => {
     return addItem(data).then(() => cloudCommonStore.checkCloudAccount());
   };
 

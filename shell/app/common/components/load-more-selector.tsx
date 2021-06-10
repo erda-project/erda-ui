@@ -53,10 +53,20 @@ interface IProps {
   size?: 'small' | 'normal';
   valueChangeTrigger?: 'onChange' | 'onClose';
   quickSelect?: React.ReactNode;
-  resultsRender?: (displayName: IOption[], deleteValue: (item: IOption) => void, isMultiple?: boolean, list?: IOption[]) => React.ReactNode;
+  resultsRender?: (
+    displayName: IOption[],
+    deleteValue: (item: IOption) => void,
+    isMultiple?: boolean,
+    list?: IOption[],
+  ) => React.ReactNode;
   onChange?: (arg: IOption[] | IOption, options: IOption | IOption[]) => void;
   onClickItem?: (arg: IOption[] | IOption) => void;
-  valueItemRender?: (item: IOption, deleteValue: (item: IOption) => void, isMultiple?: boolean, list?: IOption[]) => React.ReactNode;
+  valueItemRender?: (
+    item: IOption,
+    deleteValue: (item: IOption) => void,
+    isMultiple?: boolean,
+    list?: IOption[],
+  ) => React.ReactNode;
   chosenItemConvert?: (value: any, list: IOption[]) => any;
   changeQuery?: (q: string | undefined) => void;
   optionRender?: (option: any, type: string) => React.ReactNode;
@@ -69,29 +79,44 @@ export interface IOption {
   [pro: string]: any;
 }
 
-const emptyFun = () => { };
+const emptyFun = () => {};
 const emptyArray = [] as IOption[];
 
-const changeValue = (value: Array<IOption | string | number> | string | number = emptyArray, list: IOption[] = [], chosenItem: IOption[] = []) => {
+const changeValue = (
+  value: Array<IOption | string | number> | string | number = emptyArray,
+  list: IOption[] = [],
+  chosenItem: IOption[] = [],
+) => {
   let v = [] as IOption[];
   if (isArray(value)) {
     v = map(value, (item) => {
       if (get(item, 'value') !== undefined) {
         return item;
       } else {
-        const curItem = find([...list, ...chosenItem], (cItem) => `${cItem.value}` === `${item}`) || {} as any;
+        const curItem = find([...list, ...chosenItem], (cItem) => `${cItem.value}` === `${item}`) || ({} as any);
         return { ...curItem, value: item, label: curItem.label };
       }
     }) as IOption[];
   } else {
-    const curItem = find([...list, ...chosenItem], (cItem) => `${cItem.value}` === `${value}`) || {} as any;
+    const curItem = find([...list, ...chosenItem], (cItem) => `${cItem.value}` === `${value}`) || ({} as any);
     v = [{ ...curItem, value, label: curItem.label }];
   }
   return v;
 };
 
-const defaultValueItemRender = (item: IOption, deleteValue: (item: IOption) => void, isMultiple?: boolean, list?: IOption[]) => {
-  const value = get(find(list, (cItem) => `${cItem.value}` === `${item.value}`), 'label') || item.label || item.value;
+const defaultValueItemRender = (
+  item: IOption,
+  deleteValue: (item: IOption) => void,
+  isMultiple?: boolean,
+  list?: IOption[],
+) => {
+  const value =
+    get(
+      find(list, (cItem) => `${cItem.value}` === `${item.value}`),
+      'label',
+    ) ||
+    item.label ||
+    item.value;
   return isMultiple ? (
     <Tag key={item.value} size="small" closable onClose={() => deleteValue(item)}>
       {value}
@@ -156,7 +181,7 @@ const PureLoadMoreSelector = (props: IProps) => {
   });
 
   React.useEffect(() => {
-    if (propsQ === undefined && q !== undefined)setQ(propsQ);
+    if (propsQ === undefined && q !== undefined) setQ(propsQ);
   }, [propsQ]);
 
   const searchRefCur = searchRef && searchRef.current;
@@ -175,14 +200,18 @@ const PureLoadMoreSelector = (props: IProps) => {
     }
   }, [dropdownMinWidth, dropdownMatchSelectWidth]);
 
-
-  useDebounce(() => {
-    // 如果是category时，清除q时不需要changeQuery，因为在changeCategory里会自动清理，此处阻止避免触发两个修改引起请求两次
-    if (!(initType === SelectType.Category && !q)) changeQuery(q);
-  }, 600, [q]);
+  useDebounce(
+    () => {
+      // 如果是category时，清除q时不需要changeQuery，因为在changeCategory里会自动清理，此处阻止避免触发两个修改引起请求两次
+      if (!(initType === SelectType.Category && !q)) changeQuery(q);
+    },
+    600,
+    [q],
+  );
 
   React.useEffect(() => {
-    if (initType === SelectType.Category) { // 模式为category，内部根据q是否有值来切换模式
+    if (initType === SelectType.Category) {
+      // 模式为category，内部根据q是否有值来切换模式
       if (type === SelectType.Category && q) {
         setType(SelectType.Normal);
       }
@@ -222,7 +251,9 @@ const PureLoadMoreSelector = (props: IProps) => {
             setDisplayValue(Array.isArray(res) ? res : [res]);
           });
         } else {
-          reqRef.current ? setDisplayValue(Array.isArray(reqRef.current) ? reqRef.current : [reqRef.current]) : setDisplayValue([]);
+          reqRef.current
+            ? setDisplayValue(Array.isArray(reqRef.current) ? reqRef.current : [reqRef.current])
+            : setDisplayValue([]);
         }
       };
 
@@ -238,7 +269,8 @@ const PureLoadMoreSelector = (props: IProps) => {
     }
   }, [chosenItem]);
 
-  const dropdownHide = (e: any) => { // 点击外部，隐藏选项
+  const dropdownHide = (e: any) => {
+    // 点击外部，隐藏选项
     const menuEl = menuRef && menuRef.current;
     const valueEl = valueRef && valueRef.current;
     // eslint-disable-next-line react/no-find-dom-node
@@ -253,11 +285,7 @@ const PureLoadMoreSelector = (props: IProps) => {
   const setValue = (v: IOption[]) => {
     const newValue = isMultiple ? map(v, 'value') : get(v, '[0].value');
     if (isEqual(newValue, innerValue[0])) return;
-    const [vals, opts] = isMultiple ? [
-      map(v, 'value'), v,
-    ] : [
-      get(v, '[0].value'), v[0],
-    ];
+    const [vals, opts] = isMultiple ? [map(v, 'value'), v] : [get(v, '[0].value'), v[0]];
     setInnerValue([vals, opts]);
     setValueChanged(true);
     (!visible || valueChangeTrigger === 'onChange') && onChange(vals, opts);
@@ -275,9 +303,11 @@ const PureLoadMoreSelector = (props: IProps) => {
   const addValue = (item: IOption) => {
     if (isMultiple) {
       if (find(chosenItem, (cItem) => `${cItem.value}` === `${item.value}`)) {
-        setValue(map(chosenItem, (cItem) => {
-          return cItem.value === item.value ? { ...item } : { ...cItem };
-        }));
+        setValue(
+          map(chosenItem, (cItem) => {
+            return cItem.value === item.value ? { ...item } : { ...cItem };
+          }),
+        );
       } else {
         setValue([...chosenItem, item]);
       }
@@ -288,7 +318,7 @@ const PureLoadMoreSelector = (props: IProps) => {
 
   const clickItem = (item: IOption, check: boolean) => {
     check ? addValue(item) : deleteValue(item);
-    if (!isMultiple && check) setVisible(false);// 非多选模式，选中后隐藏
+    if (!isMultiple && check) setVisible(false); // 非多选模式，选中后隐藏
     onClickItem(item);
   };
 
@@ -296,40 +326,41 @@ const PureLoadMoreSelector = (props: IProps) => {
     const Comp = CompMap[type];
     return (
       <Menu className="load-more-dropdown-menu" ref={menuRef}>
-        {
-          showSearch ?
-            [
+        {showSearch
+          ? [
               <MenuItem key="_search-item">
                 <div className="search">
-                  <Input ref={searchRef} size="small" prefix={<CustomIcon type="search" />} placeholder={i18n.t('search by keywords')} value={q} onChange={(e) => setQ(e.target.value)} />
+                  <Input
+                    ref={searchRef}
+                    size="small"
+                    prefix={<CustomIcon type="search" />}
+                    placeholder={i18n.t('search by keywords')}
+                    value={q}
+                    onChange={(e) => setQ(e.target.value)}
+                  />
                 </div>
               </MenuItem>,
               <Menu.Divider key="_search-divider" />,
-            ] : null
-        }
-        {
-          isMultiple ? [
-            <MenuItem className="chosen-info" key="_chosen-info-item">
-              <div className={''}>
-                {i18n.t('common:has chosen')}
-                &nbsp;
-                <span>{chosenItem.length}</span>
-                &nbsp;
-                {i18n.t('common:item')}
-              </div>
-              <span className="fake-link ml8" onClick={clearValue}>{i18n.t('common:clear select')}</span>
-            </MenuItem>,
-            <Menu.Divider key="_chosen-info-divider" />,
-          ] : null
-        }
-        {
-          quickSelect ? [
-            <MenuItem key="quick-select">
-              {quickSelect}
-            </MenuItem>,
-            <Menu.Divider />,
-          ] : null
-        }
+            ]
+          : null}
+        {isMultiple
+          ? [
+              <MenuItem className="chosen-info" key="_chosen-info-item">
+                <div className={''}>
+                  {i18n.t('common:has chosen')}
+                  &nbsp;
+                  <span>{chosenItem.length}</span>
+                  &nbsp;
+                  {i18n.t('common:item')}
+                </div>
+                <span className="fake-link ml8" onClick={clearValue}>
+                  {i18n.t('common:clear select')}
+                </span>
+              </MenuItem>,
+              <Menu.Divider key="_chosen-info-divider" />,
+            ]
+          : null}
+        {quickSelect ? [<MenuItem key="quick-select">{quickSelect}</MenuItem>, <Menu.Divider />] : null}
         <MenuItem className="options" key="options">
           <Comp {...props} width={contentWidth} clickItem={clickItem} value={chosenItem} isMultiple={isMultiple} />
           {/* {
@@ -352,38 +383,34 @@ const PureLoadMoreSelector = (props: IProps) => {
         visible={visible}
         overlayClassName={`load-more-selector-dropdown ${dropdownClassName}`}
       >
-
-        <div className={`results pointer ${disabled ? 'not-allowed' : ''} ${size}`} onClick={() => { !disabled && !visible && setVisible(true); }}>
-          {
-            resultsRender ? resultsRender(displayValue, deleteValue, isMultiple, list) : (
-              <div className="values">
-                {
-                  map(displayValue, (item) => (
-                    <div key={item.value} className="value-item">
-                      {valueItemRender(item, deleteValue, isMultiple, list)}
-                    </div>
-                  ))
-                }
-                {
-                  placeholder && isEmpty(chosenItem) ? (
-                    <span className="placeholder">{placeholder}</span>
-                  ) : null
-                }
-              </div>
-            )
-          }
-          {
-            (allowClear && !isEmpty(chosenItem)) ? (
-              <IconCloseOne
-                className="close"
-                size="14px"
-                onClick={(e: any) => {
-                  e.stopPropagation();
-                  clearValue();
-                }}
-              />
-            ) : null
-          }
+        <div
+          className={`results pointer ${disabled ? 'not-allowed' : ''} ${size}`}
+          onClick={() => {
+            !disabled && !visible && setVisible(true);
+          }}
+        >
+          {resultsRender ? (
+            resultsRender(displayValue, deleteValue, isMultiple, list)
+          ) : (
+            <div className="values">
+              {map(displayValue, (item) => (
+                <div key={item.value} className="value-item">
+                  {valueItemRender(item, deleteValue, isMultiple, list)}
+                </div>
+              ))}
+              {placeholder && isEmpty(chosenItem) ? <span className="placeholder">{placeholder}</span> : null}
+            </div>
+          )}
+          {allowClear && !isEmpty(chosenItem) ? (
+            <IconCloseOne
+              className="close"
+              size="14px"
+              onClick={(e: any) => {
+                e.stopPropagation();
+                clearValue();
+              }}
+            />
+          ) : null}
         </div>
       </Dropdown>
     </div>
@@ -401,33 +428,29 @@ interface ICompProps extends IProps {
 const OptionContainer = ({ list, value, clickItem, optionRender, isMultiple, viewType }: ICompProps) => {
   return (
     <>
-      {
-        map(list, (item) => {
-          const curOpt = find(value, (cItem) => `${cItem.value}` === `${item.value}`) as IOption;
-          const checked = !!curOpt;
-          const options = optionRender ? optionRender(item, (viewType || '').toLowerCase()) : (item.label || item.value);
-          return (
-            isMultiple ? (
-              <Checkbox
-                className="list-item"
-                key={item.value}
-                checked={checked}
-                onChange={(e: any) => clickItem(item, e.target.checked)}
-              >
-                {options}
-              </Checkbox>
-            ) : (
-              <div
-                className={`list-item radio-item ${checked ? 'checked' : ''}`}
-                key={item.value}
-                onClick={() => clickItem(item, !checked)}
-              >
-                {options}
-              </div>
-            )
-          );
-        })
-      }
+      {map(list, (item) => {
+        const curOpt = find(value, (cItem) => `${cItem.value}` === `${item.value}`) as IOption;
+        const checked = !!curOpt;
+        const options = optionRender ? optionRender(item, (viewType || '').toLowerCase()) : item.label || item.value;
+        return isMultiple ? (
+          <Checkbox
+            className="list-item"
+            key={item.value}
+            checked={checked}
+            onChange={(e: any) => clickItem(item, e.target.checked)}
+          >
+            {options}
+          </Checkbox>
+        ) : (
+          <div
+            className={`list-item radio-item ${checked ? 'checked' : ''}`}
+            key={item.value}
+            onClick={() => clickItem(item, !checked)}
+          >
+            {options}
+          </div>
+        );
+      })}
     </>
   );
 };
@@ -451,11 +474,7 @@ const CompMap = {
           <div className="menu">
             <Menu selectedKeys={[`${chosenCategory}`]} className="full-height">
               {map(category, (item) => (
-                <MenuItem
-                  className="menu-item"
-                  key={item.value}
-                  onClick={() => setChosenCategory(item.value)}
-                >
+                <MenuItem className="menu-item" key={item.value} onClick={() => setChosenCategory(item.value)}>
                   {item.label}
                 </MenuItem>
               ))}
@@ -464,7 +483,13 @@ const CompMap = {
           </div>
           <div className="list">
             <OptionContainer {...props} viewType="category" />
-            {isEmpty(list) ? <Spin spinning={loading}><Empty /></Spin> : LoadMoreRender}
+            {isEmpty(list) ? (
+              <Spin spinning={loading}>
+                <Empty />
+              </Spin>
+            ) : (
+              LoadMoreRender
+            )}
           </div>
         </div>
       </div>
@@ -474,10 +499,10 @@ const CompMap = {
     const { list, LoadMoreRender, notFoundContent, width, loading } = props;
     return (
       <div className="load-more-selector-container" style={width ? { width } : {}}>
-        <div className="content normal" >
+        <div className="content normal">
           <div className="list">
             <OptionContainer {...props} viewType="normal" />
-            {isEmpty(list) ? (<Spin spinning={loading}>{notFoundContent || <Empty />}</Spin>) : LoadMoreRender}
+            {isEmpty(list) ? <Spin spinning={loading}>{notFoundContent || <Empty />}</Spin> : LoadMoreRender}
           </div>
         </div>
       </div>
@@ -496,7 +521,13 @@ export interface ILoadMoreSelectorProps extends IProps {
 
 const DefaultLoadMoreRender = ({ onLoadMore, loading }: { onLoadMore: () => void; loading: boolean }) => {
   return (
-    <div className="pointer load-more list-item" onClick={(e) => { e.stopPropagation(); onLoadMore(); }}>
+    <div
+      className="pointer load-more list-item"
+      onClick={(e) => {
+        e.stopPropagation();
+        onLoadMore();
+      }}
+    >
       <IconLoading spin={loading} />
       {i18n.t('load more')}
     </div>
@@ -506,10 +537,13 @@ const DefaultLoadMoreRender = ({ onLoadMore, loading }: { onLoadMore: () => void
 const defaultDataFormatter = ({ list, total }: { list: any[]; total: number }) => ({
   total,
   list: map(list, ({ name, id, ..._rest }) => ({
-    ..._rest, name, id, label: name, value: id,
+    ..._rest,
+    name,
+    id,
+    label: name,
+    value: id,
   })),
 });
-
 
 export const LoadMoreSelector = (props: ILoadMoreSelectorProps) => {
   const {
@@ -535,11 +569,12 @@ export const LoadMoreSelector = (props: ILoadMoreSelectorProps) => {
     loading: false,
   });
 
-  const isStaticData = !getData;// 是否是静态数据模式
+  const isStaticData = !getData; // 是否是静态数据模式
   const isCategoryMode = type === SelectType.Category;
 
   React.useEffect(() => {
-    if (isStaticData) { // 静态数据
+    if (isStaticData) {
+      // 静态数据
       updater.list(q ? filter(allList, ({ label }) => (label || '').toLowerCase().includes(q.toLowerCase())) : allList);
     }
   }, [allList, q, isStaticData]);
@@ -569,10 +604,9 @@ export const LoadMoreSelector = (props: ILoadMoreSelectorProps) => {
     }
   }, [extraQuery]);
 
-
   const getList = (params?: any) => {
     const query = { pageSize, pageNo: 1, q, category: chosenCategory, ...extraQuery, ...params };
-    if (query.q) query.category = undefined;// 类查询和关键字查询对立
+    if (query.q) query.category = undefined; // 类查询和关键字查询对立
     updater.loading(true);
     const res = getData && getData(query);
     if (res && isPromise(res)) {
@@ -606,7 +640,6 @@ export const LoadMoreSelector = (props: ILoadMoreSelectorProps) => {
     updater.pageNo(pageNo + 1);
     getList({ pageNo: pageNo + 1, category: chosenCategory });
   };
-
 
   const onChangeCategory = (category: string) => {
     if (isCategoryMode && category) {

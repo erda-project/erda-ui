@@ -17,7 +17,6 @@ import { getGlobal } from 'app/global-space';
 import { some } from 'lodash';
 import errorHandler from './error-handler';
 
-
 const isExcludeOrgHeaderApi = (url) => {
   const excludeApis = ['/api/files'];
   return some(excludeApis, (api) => api.startsWith(url));
@@ -63,13 +62,7 @@ function handelPagingNull(req) {
   req.on('response', (res) => {
     if (res.body && res.body.data) {
       const { data } = res.body;
-      if (
-        typeof data === 'object' &&
-        data !== null &&
-        'list' in data &&
-        'total' in data &&
-        data.list === null
-      ) {
+      if (typeof data === 'object' && data !== null && 'list' in data && 'total' in data && data.list === null) {
         data.list = [];
       }
     }

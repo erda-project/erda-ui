@@ -5,7 +5,7 @@
     "module": "ESNext",
     "lib": ["dom", "esnext"],
     "allowJs": true,
-    "checkJs": true,
+    "checkJs": false,
     "jsx": "react",
     "declaration": true,
     "sourceMap": true,

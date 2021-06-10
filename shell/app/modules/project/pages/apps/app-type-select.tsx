@@ -34,10 +34,7 @@ export class AppTypeSelect extends React.PureComponent<IProps> {
         {imgOptions.map((img) => (
           <div
             key={img.name}
-            className={classnames(
-              'img-wrapper',
-              value === img.value && 'active',
-            )}
+            className={classnames('img-wrapper', value === img.value && 'active')}
             onClick={() => onChangeType(img.value)}
           >
             <img src={img.src} alt={img.name || 'image-option'} />

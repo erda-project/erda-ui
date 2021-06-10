@@ -25,7 +25,6 @@ import agent from '../agent';
 // import * as charts from 'charts';
 import * as classnames from 'classnames';
 
-
 export default () => {
   // 挂载模块到全局对象上
   // 有些组件里用了jsx但没有引React，兼容老代码
@@ -48,6 +47,4 @@ export default () => {
   // // if (process.env.SPLIT_MODULE) {
   // // }
 };
-export {
-  env,
-};
+export { env };

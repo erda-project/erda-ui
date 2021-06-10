@@ -16,7 +16,19 @@ declare namespace CP_POPOVER {
     size: 's' | 'm' | 'l';
     visible?: boolean;
     title?: string;
-    placement?: 'left' | 'right' | 'top' | 'bottom' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight' | 'leftTop' | 'leftBottom' | 'rightTop' | 'rightBottom';
+    placement?:
+      | 'left'
+      | 'right'
+      | 'top'
+      | 'bottom'
+      | 'topLeft'
+      | 'topRight'
+      | 'bottomLeft'
+      | 'bottomRight'
+      | 'leftTop'
+      | 'leftBottom'
+      | 'rightTop'
+      | 'rightBottom';
   }
 
   interface Spec {

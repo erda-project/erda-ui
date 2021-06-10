@@ -11,7 +11,7 @@
   &.active {
     color: $color-text-desc;
     background-color: $color-active-bg;
-    border-right: .125rem solid $color-primary;
+    border-right: 0.125rem solid $color-primary;
   }
 
   .title {
@@ -24,7 +24,7 @@
   }
 
   .sub-info {
-    font-size: .875rem;
+    font-size: 0.875rem;
     border-bottom: 10px;
 
     .time {

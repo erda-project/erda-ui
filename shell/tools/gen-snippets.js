@@ -53,15 +53,14 @@ function text2snippet(text) {
   return snippet;
 }
 
-
 const dealFile = (content, filePath, isEnd) => {
   const { name } = path.parse(filePath);
   const snippetPath = path.resolve(targetDirPath, `${name}.code-snippets`);
   const result = {};
-  content.split(splitFlag).forEach(part => {
+  content.split(splitFlag).forEach((part) => {
     const sni = text2snippet(part);
     result[sni.prefix] = sni;
-  })
+  });
 
   if (!fs.existsSync(targetDirPath)) {
     console.log(`目录 ${targetDirPath} 不存在，开始创建`);

@@ -18,7 +18,7 @@ import { cutStr, fromNow } from 'common/utils';
 import i18n from 'i18n';
 import './release-item.scss';
 
-interface IProps{
+interface IProps {
   data: RELEASE.detail;
   isActive?: boolean;
   onClick?: (o?: any) => any;
@@ -28,7 +28,7 @@ export const ReleaseItem = (props: IProps) => {
   const { data, isActive, onClick } = props;
   const { version, labels = {}, createdAt, releaseId, clusterName, applicationName, projectName } = data;
   const clickItem = () => {
-    if (onClick)onClick();
+    if (onClick) onClick();
   };
   const displayVersion = version || releaseId;
   const commitId = labels && labels.gitCommitId;
@@ -37,19 +37,13 @@ export const ReleaseItem = (props: IProps) => {
       title={
         <>
           <div className="sub-info">
-            <IF check={clusterName}>
-              { `${i18n.t('application:own cluster')}：${clusterName}` }
-            </IF>
+            <IF check={clusterName}>{`${i18n.t('application:own cluster')}：${clusterName}`}</IF>
           </div>
           <div className="sub-info">
-            <IF check={projectName}>
-              { `${i18n.t('application:own project')}：${projectName}` }
-            </IF>
+            <IF check={projectName}>{`${i18n.t('application:own project')}：${projectName}`}</IF>
           </div>
           <div className="sub-info">
-            <IF check={applicationName}>
-              { `${i18n.t('application:own application')}：${applicationName}` }
-            </IF>
+            <IF check={applicationName}>{`${i18n.t('application:own application')}：${applicationName}`}</IF>
           </div>
         </>
       }
@@ -65,14 +59,10 @@ export const ReleaseItem = (props: IProps) => {
           <IF check={commitId}>
             <React.Fragment>
               <CustomIcon type="commit" />
-              {cutStr((commitId) || '', 6, { suffix: '' })}
+              {cutStr(commitId || '', 6, { suffix: '' })}
             </React.Fragment>
           </IF>
-          {
-            <span className="time">
-              {fromNow(createdAt)}
-            </span>
-            }
+          {<span className="time">{fromNow(createdAt)}</span>}
         </div>
       </div>
     </Tooltip>

@@ -19,22 +19,13 @@ import DeployList from './deploy-list';
 
 enum MY_APPROVAL_STATE {
   pending = 'pending',
-  approved = 'approved'
+  approved = 'approved',
 }
 
 const Approve = () => {
   const status = routeInfoStore.getState((s) => s.params.approvalType) || MY_APPROVAL_STATE.pending;
-  const [
-    approvalList,
-    approvalPaging,
-  ] = deployStore.useStore((s) => [
-    s.approvalList,
-    s.approvalPaging,
-  ]);
-  const {
-    getApprovalList,
-    updateApproval,
-  } = deployStore.effects;
+  const [approvalList, approvalPaging] = deployStore.useStore((s) => [s.approvalList, s.approvalPaging]);
+  const { getApprovalList, updateApproval } = deployStore.effects;
   const { clearDeployList } = deployStore.reducers;
   const [loading] = useLoading(deployStore, ['getApprovalList']);
   const getList = (approvalStatus: string) => (query: any) => getApprovalList({ ...query, approvalStatus });

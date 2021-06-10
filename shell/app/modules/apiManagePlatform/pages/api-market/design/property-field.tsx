@@ -20,33 +20,50 @@ import { CustomLabel } from 'dcos/common/custom-label';
 
 import { regRules } from 'common/utils';
 import {
-  BASE_DATA_TYPE, NUMBER_TYPE_MAP, REQUIRED_OPTIONS, API_PROPERTY_REQUIRED, API_MEDIA,
-  RADIO_OPTIONS, DATATYPE_EXAMPLE_MAP, API_FORM_KEY,
-  INPUT_MAX_LENGTH, TEXTAREA_MAX_LENGTH, DEFAULT_NUMBER_PROPS, API_MEDIA_TYPE, DEFAULT_LENGTH_PROPS } from 'app/modules/apiManagePlatform/configs.ts';
+  BASE_DATA_TYPE,
+  NUMBER_TYPE_MAP,
+  REQUIRED_OPTIONS,
+  API_PROPERTY_REQUIRED,
+  API_MEDIA,
+  RADIO_OPTIONS,
+  DATATYPE_EXAMPLE_MAP,
+  API_FORM_KEY,
+  INPUT_MAX_LENGTH,
+  TEXTAREA_MAX_LENGTH,
+  DEFAULT_NUMBER_PROPS,
+  API_MEDIA_TYPE,
+  DEFAULT_LENGTH_PROPS,
+} from 'app/modules/apiManagePlatform/configs.ts';
 
 const { Option } = Select;
 const numberTypeOptions = map(NUMBER_TYPE_MAP, (item) => (
-  <Option key={item} value={item}>{item.slice(0, 1).toUpperCase() + item.slice(1)}</Option>));
+  <Option key={item} value={item}>
+    {item.slice(0, 1).toUpperCase() + item.slice(1)}
+  </Option>
+));
 
-export const RadioGroup = React.forwardRef((radioProps: {
-  options: Array<{name: string; value: string}>;
-  value: string;
-  disabled?: boolean;
-  onChange: (e: any) => void;
-}) => {
-  const { options, onChange, value, disabled } = radioProps;
+export const RadioGroup = React.forwardRef(
+  (radioProps: {
+    options: Array<{ name: string; value: string }>;
+    value: string;
+    disabled?: boolean;
+    onChange: (e: any) => void;
+  }) => {
+    const { options, onChange, value, disabled } = radioProps;
 
-  return (
-    <Radio.Group buttonStyle="solid" size="small" value={value} onChange={onChange} disabled={disabled}>
-      { options.map(({ value: v, name }) => <Radio.Button key={v} value={v}>{name}</Radio.Button>) }
-    </Radio.Group>
-  );
-});
+    return (
+      <Radio.Group buttonStyle="solid" size="small" value={value} onChange={onChange} disabled={disabled}>
+        {options.map(({ value: v, name }) => (
+          <Radio.Button key={v} value={v}>
+            {name}
+          </Radio.Button>
+        ))}
+      </Radio.Group>
+    );
+  },
+);
 
-const DetailBtn = (detailBtnProps: {
-  visible: boolean;
-  onChange: (v: boolean) => void;
-}) => {
+const DetailBtn = (detailBtnProps: { visible: boolean; onChange: (v: boolean) => void }) => {
   const { visible, onChange } = detailBtnProps;
   return (
     <Tooltip title={i18n.t('detail')}>
@@ -63,81 +80,81 @@ const DetailBtn = (detailBtnProps: {
 };
 
 // 枚举值
-export const EnumRef = React.forwardRef((enumProps: {
-  value: string[];
-  dataType: BASE_DATA_TYPE;
-  hideCheckBox?: boolean;
-  disabled?: boolean;
-  onChange: (v?: string[] | null) => void;
-}) => {
-  const [{
-    enumVisible,
-  }, updater] = useUpdate({
-    enumVisible: false,
-  });
+export const EnumRef = React.forwardRef(
+  (enumProps: {
+    value: string[];
+    dataType: BASE_DATA_TYPE;
+    hideCheckBox?: boolean;
+    disabled?: boolean;
+    onChange: (v?: string[] | null) => void;
+  }) => {
+    const [{ enumVisible }, updater] = useUpdate({
+      enumVisible: false,
+    });
 
-  const { onChange, disabled = false, dataType, ...restProps } = enumProps;
+    const { onChange, disabled = false, dataType, ...restProps } = enumProps;
 
-  React.useEffect(() => {
-    if (enumProps?.value && enumProps?.value.length) {
-      updater.enumVisible(true);
-    }
-  }, [enumProps, updater]);
-
-  const onCheckHandle = React.useCallback((e) => {
-    const checkState = e.target.checked;
-    updater.enumVisible(checkState);
-    if (!checkState) {
-      onChange(null);
-    }
-  }, [onChange, updater]);
-
-  const onChangeHandle = (values: any[]) => {
-    const enumValues = !isEmpty(values) ? map(values, (item) => {
-      return dataType === BASE_DATA_TYPE.number ? (Number(item) || 0) : item;
-    }) : undefined;
-    onChange(enumValues);
-  };
-
-  const isEnumExist = React.useMemo(() => (enumProps?.value && enumProps?.value?.length), [enumProps]);
-  const showAddBtn = React.useMemo(() => (enumVisible || isEnumExist), [enumVisible, isEnumExist]);
-
-  return (
-    <div className="flex-box flex-start">
-      {
-        disabled
-          ? (
-            <div>
-              <span className="mr8">{i18n.t('project:enumerated value')}: </span>
-              {isEnumExist && map(enumProps?.value, (item) => <span className="tag-default">{item}</span>)}
-            </div>
-          )
-          :
-          (
-            <>
-              {
-                !restProps?.hideCheckBox && (
-                <Checkbox disabled={disabled} checked={enumVisible} onChange={onCheckHandle} >{i18n.t('project:enumerated value')} </Checkbox>
-                )
-              }
-              {showAddBtn && (
-                <div style={{ whiteSpace: 'pre-wrap' }}>
-                  <CustomLabel
-                    value={enumProps?.value || []}
-                    onChange={onChangeHandle}
-                    labelName={i18n.t('project:add enum value')}
-                  />
-                </div>
-              )}
-            </>
-          )
+    React.useEffect(() => {
+      if (enumProps?.value && enumProps?.value.length) {
+        updater.enumVisible(true);
       }
-    </div>
-  );
-});
+    }, [enumProps, updater]);
+
+    const onCheckHandle = React.useCallback(
+      (e) => {
+        const checkState = e.target.checked;
+        updater.enumVisible(checkState);
+        if (!checkState) {
+          onChange(null);
+        }
+      },
+      [onChange, updater],
+    );
+
+    const onChangeHandle = (values: any[]) => {
+      const enumValues = !isEmpty(values)
+        ? map(values, (item) => {
+            return dataType === BASE_DATA_TYPE.number ? Number(item) || 0 : item;
+          })
+        : undefined;
+      onChange(enumValues);
+    };
+
+    const isEnumExist = React.useMemo(() => enumProps?.value && enumProps?.value?.length, [enumProps]);
+    const showAddBtn = React.useMemo(() => enumVisible || isEnumExist, [enumVisible, isEnumExist]);
+
+    return (
+      <div className="flex-box flex-start">
+        {disabled ? (
+          <div>
+            <span className="mr8">{i18n.t('project:enumerated value')}: </span>
+            {isEnumExist && map(enumProps?.value, (item) => <span className="tag-default">{item}</span>)}
+          </div>
+        ) : (
+          <>
+            {!restProps?.hideCheckBox && (
+              <Checkbox disabled={disabled} checked={enumVisible} onChange={onCheckHandle}>
+                {i18n.t('project:enumerated value')}{' '}
+              </Checkbox>
+            )}
+            {showAddBtn && (
+              <div style={{ whiteSpace: 'pre-wrap' }}>
+                <CustomLabel
+                  value={enumProps?.value || []}
+                  onChange={onChangeHandle}
+                  labelName={i18n.t('project:add enum value')}
+                />
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    );
+  },
+);
 
 // object类型的example展示
-export const ApiFileEditor = React.forwardRef((fileEditorProps: {value: any}) => {
+export const ApiFileEditor = React.forwardRef((fileEditorProps: { value: any }) => {
   const { value } = fileEditorProps;
   const _value = value ? JSON.stringify(value, null, 2) : JSON.stringify({}, null, 2);
   return <FileEditor {...fileEditorProps} fileExtension="json" value={_value} />;
@@ -263,7 +280,6 @@ export const stringExampleField = {
     className: 'full-width',
   },
 };
-
 
 /** ------number 的配置项-------------------------------*/
 // number 数值类型
@@ -400,7 +416,11 @@ export const mediaTypeField = {
   colSpan: 12,
   initialValue: 'application/json',
   customProps: {
-    options: map(API_MEDIA_TYPE, (t) => <Option key={t} value={t}>{t}</Option>),
+    options: map(API_MEDIA_TYPE, (t) => (
+      <Option key={t} value={t}>
+        {t}
+      </Option>
+    )),
   },
 };
 
@@ -421,10 +441,9 @@ export const detailBtnField = {
   required: false,
 };
 
-
 export const getPropertyDetailFields = (props: {
   type: BASE_DATA_TYPE;
-  curPropertyType: BASE_DATA_TYPE|string;
+  curPropertyType: BASE_DATA_TYPE | string;
   formData: Obj;
 }): any[] => {
   const { type, curPropertyType, formData } = props;
@@ -452,7 +471,6 @@ export const getPropertyDetailFields = (props: {
     return [];
   }
 };
-
 
 type IFormType = 'Response' | 'Query' | 'Parameters' | 'DataType' | 'Body' | 'Array';
 export const getPropertyFormSelector = (props: {

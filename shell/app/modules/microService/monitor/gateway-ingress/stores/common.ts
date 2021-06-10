@@ -38,7 +38,7 @@ const common = createStore({
     },
   },
   reducers: {
-    changeChosenDomain(state, payload: {chosenDomain: string}) {
+    changeChosenDomain(state, payload: { chosenDomain: string }) {
       state.chosenDomain = payload.chosenDomain;
     },
   },

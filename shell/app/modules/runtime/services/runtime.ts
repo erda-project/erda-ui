@@ -14,41 +14,42 @@
 import agent from 'agent';
 
 export const getRuntimeDetail = ({ runtimeId }: { runtimeId: number | string }): RUNTIME.Detail => {
-  return agent.get(`/api/runtimes/${runtimeId}`)
-    .then((response: any) => response.body);
+  return agent.get(`/api/runtimes/${runtimeId}`).then((response: any) => response.body);
 };
 
 export const rollbackRuntime = ({ runtimeId, deploymentId }: RUNTIME.RollbackBody) => {
-  return agent.post(`/api/runtimes/${runtimeId}/actions/rollback`)
+  return agent
+    .post(`/api/runtimes/${runtimeId}/actions/rollback`)
     .send({ deploymentId })
     .then((response: any) => response.body);
 };
 
 export const redeployRuntime = (runtimeId: number | string) => {
-  return agent.post(`/api/runtimes/${runtimeId}/actions/redeploy`)
-    .then((response: any) => response.body);
+  return agent.post(`/api/runtimes/${runtimeId}/actions/redeploy`).then((response: any) => response.body);
 };
 
 export const deleteRuntime = (runtimeId: number | string) => {
-  return agent.delete(`/api/runtimes/${runtimeId}`)
-    .then((response: any) => response.body);
+  return agent.delete(`/api/runtimes/${runtimeId}`).then((response: any) => response.body);
 };
 
 export const getRuntimeAddons = (query: RUNTIME.AddonQuery): ADDON.Instance[] => {
-  return agent.get('/api/addons')
+  return agent
+    .get('/api/addons')
     .query({ type: 'runtime', ...query })
     .then((response: any) => response.body);
 };
 
 export const getDeploymentList = (params: RUNTIME.DeployListQuery): IPagingResp<RUNTIME.DeployRecord> => {
-  return agent.get('/api/deployments')
+  return agent
+    .get('/api/deployments')
     .query(params)
     .then((response: any) => response.body);
 };
 
 export const cancelDeployment = (data: RUNTIME.CancelDeployBody) => {
   // TODO: 后端没有用到deploymentId
-  return agent.post('/api/deployments/1/actions/cancel')
+  return agent
+    .post('/api/deployments/1/actions/cancel')
     .send(data)
     .then((response: any) => response.body);
 };

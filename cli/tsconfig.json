@@ -2,11 +2,7 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
-    "lib": [
-      "es6",
-      "es2020",
-      "esnext.asynciterable"
-    ],
+    "lib": ["es6", "es2020", "esnext.asynciterable"],
     "sourceMap": false,
     "outDir": "./dist",
     "moduleResolution": "node",
@@ -27,11 +23,6 @@
     "baseUrl": ".",
     "skipLibCheck": true
   },
-  "exclude": [
-    "node_modules"
-  ],
-  "include": [
-    "./lib/**/*.ts",
-    "./bin/**/*.ts",
-  ]
+  "exclude": ["node_modules"],
+  "include": ["./lib/**/*.ts", "./bin/**/*.ts"]
 }

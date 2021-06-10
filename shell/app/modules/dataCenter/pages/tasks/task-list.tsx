@@ -67,7 +67,9 @@ export const getClusterTasksCols = (userMap: object) => {
       key: 'status',
       width: 120,
       fixed: 'right',
-      render: (status: string) => <Badge status={TASKS_STATUS_MAP[status].state} text={TASKS_STATUS_MAP[status].name} />,
+      render: (status: string) => (
+        <Badge status={TASKS_STATUS_MAP[status].state} text={TASKS_STATUS_MAP[status].name} />
+      ),
     },
   ];
 };
@@ -76,9 +78,7 @@ interface IProps {
   taskType: string;
 }
 
-const ServicesList = ({
-  taskType,
-}: IProps) => {
+const ServicesList = ({ taskType }: IProps) => {
   const orgClusterList = clusterStore.useStore((s) => s.list);
   const currentOrg = orgStore.useStore((s) => s.currentOrg);
   const [list, { pageNo, pageSize, total }] = clusterTaskStore.useStore((s) => [s.list, s.paging]);
@@ -117,22 +117,22 @@ const ServicesList = ({
               message.warning(i18n.t('no running runtime'));
               return;
             }
-            runtimeID && goTo(goTo.pages.runtimeDetail, {
-              jumpOut: true,
-              projectId: projectID,
-              appId: applicationID,
-              runtimeId: runtimeID,
-            });
+            runtimeID &&
+              goTo(goTo.pages.runtimeDetail, {
+                jumpOut: true,
+                projectId: projectID,
+                appId: applicationID,
+                runtimeId: runtimeID,
+              });
           },
         };
       },
     };
   }
 
-
   return (
     <>
-      <div className="mb16" >
+      <div className="mb16">
         <ClusterSelector clusterList={orgClusterList} onChange={handleClusterChange} />
       </div>
       <Table

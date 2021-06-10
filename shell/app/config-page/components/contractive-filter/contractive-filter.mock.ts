@@ -82,9 +82,7 @@ export const mockData: CP_FILTER.Spec = {
       },
     ],
     values: {
-      priorities: [
-        'HIGH',
-      ],
+      priorities: ['HIGH'],
     },
   },
   operations: {

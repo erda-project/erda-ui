@@ -19,7 +19,6 @@ import { useLoading } from 'common/stores/loading';
 import { useEffectOnce } from 'react-use';
 import InfoBox from '../info-box';
 
-
 const Info = () => {
   const redisDetails = cloudServiceStore.useStore((s) => s.redisDetails);
   const { getRedisDetails } = cloudServiceStore.effects;

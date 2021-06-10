@@ -15,7 +15,6 @@ import { createStore } from 'app/cube';
 import i18n from 'i18n';
 import { getLabels, createLabel, updateLabel, deleteLabel } from '../services/label';
 
-
 interface IState {
   list: LABEL.Item[];
 }
@@ -36,7 +35,11 @@ const projectLabel = createStore({
     },
     async createLabel({ call, getParams }, { projectID, ...payload }: LABEL.CreateBody) {
       const { projectId } = getParams();
-      await call(createLabel, { ...payload, projectID: +projectId || projectID }, { successMsg: i18n.t('project:create label success') });
+      await call(
+        createLabel,
+        { ...payload, projectID: +projectId || projectID },
+        { successMsg: i18n.t('project:create label success') },
+      );
     },
     async updateLabel({ call }, payload: LABEL.Item) {
       await call(updateLabel, payload, { successMsg: i18n.t('project:update label success') });
@@ -55,6 +58,5 @@ const projectLabel = createStore({
     },
   },
 });
-
 
 export default projectLabel;

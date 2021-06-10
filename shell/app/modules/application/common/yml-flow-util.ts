@@ -96,12 +96,16 @@ export const linePosition = {
       {
         x: item.from.x,
         y: item.from.y + Math.round(info.ITEM_MARGIN_BOTTOM / 2) - info.RX,
-        a: `${getDefaultA(info.RX)} ${(item.to.x - item.from.x > 0 ? 0 : 1)} ${info.RX * (item.to.x - item.from.x > 0 ? 1 : -1)} ${info.RX}`,
+        a: `${getDefaultA(info.RX)} ${item.to.x - item.from.x > 0 ? 0 : 1} ${
+          info.RX * (item.to.x - item.from.x > 0 ? 1 : -1)
+        } ${info.RX}`,
       },
       {
         x: item.to.x + info.RX * (item.to.x - item.from.x > 0 ? -1 : 1),
         y: item.to.y - Math.round(info.ITEM_MARGIN_BOTTOM / 2),
-        a: `${getDefaultA(info.RX)} ${(item.to.x - item.from.x > 0 ? 1 : 0)} ${info.RX * (item.to.x - item.from.x > 0 ? 1 : -1)} ${info.RX}`,
+        a: `${getDefaultA(info.RX)} ${item.to.x - item.from.x > 0 ? 1 : 0} ${
+          info.RX * (item.to.x - item.from.x > 0 ? 1 : -1)
+        } ${info.RX}`,
       },
     ];
   },
@@ -110,22 +114,32 @@ export const linePosition = {
       {
         x: item.from.x,
         y: item.from.y + Math.round(info.ITEM_MARGIN_BOTTOM / 2) - info.RX,
-        a: `${getDefaultA(info.RX)} ${(item.to.x - item.from.x > 0 ? 0 : 1)} ${info.RX * (item.to.x - item.from.x > 0 ? 1 : -1)} ${info.RX}`,
+        a: `${getDefaultA(info.RX)} ${item.to.x - item.from.x > 0 ? 0 : 1} ${
+          info.RX * (item.to.x - item.from.x > 0 ? 1 : -1)
+        } ${info.RX}`,
       },
       {
-        x: item.from.x + (item.to.x - item.from.x > 0 ? 1 : -1) * ((info.ITEM_MARGIN_RIGHT + info.ITEM_WIDTH) / 2 - info.RX),
+        x:
+          item.from.x +
+          (item.to.x - item.from.x > 0 ? 1 : -1) * ((info.ITEM_MARGIN_RIGHT + info.ITEM_WIDTH) / 2 - info.RX),
         y: item.from.y + Math.round(info.ITEM_MARGIN_BOTTOM / 2),
-        a: `${getDefaultA(info.RX)} ${(item.to.x - item.from.x > 0 ? 1 : 0)} ${info.RX * (item.to.x - item.from.x > 0 ? 1 : -1)} ${info.RX}`,
+        a: `${getDefaultA(info.RX)} ${item.to.x - item.from.x > 0 ? 1 : 0} ${
+          info.RX * (item.to.x - item.from.x > 0 ? 1 : -1)
+        } ${info.RX}`,
       },
       {
-        x: item.from.x + (item.to.x - item.from.x <= 0 ? -1 : 1) * (info.ITEM_MARGIN_RIGHT + info.ITEM_WIDTH) / 2,
+        x: item.from.x + ((item.to.x - item.from.x <= 0 ? -1 : 1) * (info.ITEM_MARGIN_RIGHT + info.ITEM_WIDTH)) / 2,
         y: item.to.y - Math.round(info.ITEM_MARGIN_BOTTOM / 2) - info.RX,
-        a: `${getDefaultA(info.RX)} ${(item.to.x - item.from.x >= 0) ? 0 : 1} ${info.RX * (item.to.x - item.from.x >= 0 ? 1 : -1)} ${info.RX}`,
+        a: `${getDefaultA(info.RX)} ${item.to.x - item.from.x >= 0 ? 0 : 1} ${
+          info.RX * (item.to.x - item.from.x >= 0 ? 1 : -1)
+        } ${info.RX}`,
       },
       {
         x: item.to.x + (item.to.x - item.from.x >= 0 ? -1 : 1) * info.RX,
         y: item.to.y - Math.round(info.ITEM_MARGIN_BOTTOM / 2),
-        a: `${getDefaultA(info.RX)} ${(item.to.x - item.from.x) >= 0 ? 1 : 0} ${info.RX * (item.to.x - item.from.x >= 0 ? 1 : -1)} ${info.RX}`,
+        a: `${getDefaultA(info.RX)} ${item.to.x - item.from.x >= 0 ? 1 : 0} ${
+          info.RX * (item.to.x - item.from.x >= 0 ? 1 : -1)
+        } ${info.RX}`,
       },
     ];
   },
@@ -133,20 +147,20 @@ export const linePosition = {
     bottom(item: any, { info }: PointComponentAbstract<any, any>) {
       const dy = Math.abs(item.from.y - item.to.y);
       const dx = Math.abs(item.from.x - item.to.x);
-      const onRight = (item.to.x > item.from.x ? 1 : -1);
+      const onRight = item.to.x > item.from.x ? 1 : -1;
 
-      const rx = (info.RX > (dx / 2) ? (dx / 2) : info.RX) / 2;
+      const rx = (info.RX > dx / 2 ? dx / 2 : info.RX) / 2;
 
       return [
         {
           x: item.from.x,
           y: item.from.y - Math.round(dy / 2) + rx,
-          a: `${getDefaultA(rx)} ${(item.to.x > item.from.x ? 1 : 0)} ${rx * onRight} ${-rx}`,
+          a: `${getDefaultA(rx)} ${item.to.x > item.from.x ? 1 : 0} ${rx * onRight} ${-rx}`,
         },
         {
           x: item.to.x + -onRight * rx,
           y: item.from.y - Math.round(dy / 2),
-          a: `${getDefaultA(rx)} ${(item.to.x > item.from.x ? 0 : 1)} ${onRight * rx} ${-rx}`,
+          a: `${getDefaultA(rx)} ${item.to.x > item.from.x ? 0 : 1} ${onRight * rx} ${-rx}`,
         },
       ];
     },
@@ -155,8 +169,8 @@ export const linePosition = {
       const dx = Math.abs(item.from.x - item.to.x);
       const rx = Math.abs(item.from.x - item.to.x);
 
-      const secondX = item.to.x > item.from.x ? (item.from.x + dx / 2 - info.RX) : (item.to.x - 20);
-      const thirdX = item.to.x > item.from.x ? (item.from.x + dx / 2) : (item.to.x - info.RX - 20);
+      const secondX = item.to.x > item.from.x ? item.from.x + dx / 2 - info.RX : item.to.x - 20;
+      const thirdX = item.to.x > item.from.x ? item.from.x + dx / 2 : item.to.x - info.RX - 20;
       if (rx / 2 <= info.RX) {
         return [
           {
@@ -170,12 +184,16 @@ export const linePosition = {
         {
           x: item.from.x,
           y: item.from.y - Math.round(dy / 2) + info.RX,
-          a: `${getDefaultA(info.RX)} ${(item.to.x > item.from.x ? 1 : 0)} ${(item.to.x > item.from.x ? 1 : -1) * info.RX} ${-info.RX}`,
+          a: `${getDefaultA(info.RX)} ${item.to.x > item.from.x ? 1 : 0} ${
+            (item.to.x > item.from.x ? 1 : -1) * info.RX
+          } ${-info.RX}`,
         },
         {
           x: secondX,
           y: item.from.y - Math.round(dy / 2),
-          a: `${getDefaultA(info.RX)} ${item.to.x > item.from.x ? 0 : 1} ${(item.to.x > item.from.x ? 1 : -1) * info.RX} ${-info.RX}`,
+          a: `${getDefaultA(info.RX)} ${item.to.x > item.from.x ? 0 : 1} ${
+            (item.to.x > item.from.x ? 1 : -1) * info.RX
+          } ${-info.RX}`,
         },
         {
           x: thirdX,
@@ -193,7 +211,7 @@ export const linePosition = {
           {
             x: item.from.x,
             y: item.to.y + rx / 2,
-            a: `${rx / 2} ${rx / 2} 0 0 ${(item.to.x - item.from.x > 0 ? 1 : 0)} ${-rx / 2} ${-rx / 2}`,
+            a: `${rx / 2} ${rx / 2} 0 0 ${item.to.x - item.from.x > 0 ? 1 : 0} ${-rx / 2} ${-rx / 2}`,
           },
         ];
       }
@@ -201,15 +219,19 @@ export const linePosition = {
         {
           x: item.from.x,
           y: item.from.y - Math.round(dy / 2) + info.RX,
-          a: `${getDefaultA(info.RX)} ${(item.to.x - item.from.x > 0 ? 1 : 0)} ${(item.to.x > item.from.x ? 1 : -1) * info.RX} ${-info.RX}`,
+          a: `${getDefaultA(info.RX)} ${item.to.x - item.from.x > 0 ? 1 : 0} ${
+            (item.to.x > item.from.x ? 1 : -1) * info.RX
+          } ${-info.RX}`,
         },
         {
-          x: (item.to.x > item.from.x ? (item.to.x + info.RX) : (item.from.x - dx / 2)),
+          x: item.to.x > item.from.x ? item.to.x + info.RX : item.from.x - dx / 2,
           y: item.from.y - Math.round(dy / 2),
-          a: `${getDefaultA(info.RX)} ${(item.to.x > item.from.x ? 0 : 1)} ${(item.to.x > item.from.x ? 1 : -1) * info.RX} ${-info.RX}`,
+          a: `${getDefaultA(info.RX)} ${item.to.x > item.from.x ? 0 : 1} ${
+            (item.to.x > item.from.x ? 1 : -1) * info.RX
+          } ${-info.RX}`,
         },
         {
-          x: (item.to.x > item.from.x ? (item.to.x + 2 * info.RX) : (item.from.x - dx / 2 - info.RX)),
+          x: item.to.x > item.from.x ? item.to.x + 2 * info.RX : item.from.x - dx / 2 - info.RX,
           y: item.to.y + info.RX,
           a: `${getDefaultA(info.RX)} 0 ${-info.RX} ${-info.RX}`,
         },
@@ -220,37 +242,42 @@ export const linePosition = {
     top(item: any, { info }: PointComponentAbstract<any, any>) {
       const dy = Math.abs(item.from.y - item.to.y);
       const dx = Math.abs(item.from.x - item.to.x);
-      const onRight = (item.to.x > item.from.x ? 1 : -1);
-      if ((dx / 2) < info.RX) {
+      const onRight = item.to.x > item.from.x ? 1 : -1;
+      if (dx / 2 < info.RX) {
         return [];
       }
       return [
         {
           x: item.from.x,
           y: item.from.y + Math.round(dy / 2) - info.RX,
-          a: `${getDefaultA(info.RX)} ${(item.to.x > item.from.x ? 0 : 1)} ${info.RX * onRight} ${info.RX}`,
+          a: `${getDefaultA(info.RX)} ${item.to.x > item.from.x ? 0 : 1} ${info.RX * onRight} ${info.RX}`,
         },
         {
           x: item.to.x + (item.to.x > item.from.x ? -1 : 1) * info.RX,
           y: item.from.y + Math.round(dy / 2),
-          a: `${getDefaultA(info.RX)} ${(item.to.x > item.from.x ? 1 : 0)} ${onRight * info.RX} ${info.RX}`,
+          a: `${getDefaultA(info.RX)} ${item.to.x > item.from.x ? 1 : 0} ${onRight * info.RX} ${info.RX}`,
         },
       ];
     },
     left(item: any, { info }: PointComponentAbstract<any, any>) {
       const dy = Math.abs(item.from.y - item.to.y);
       const dx = Math.abs(item.from.x - item.to.x);
-      const secondX = item.from.x + (item.to.x > item.from.x ? 1 : -2) * (dx / 2) + (item.to.x > item.from.x ? 0 : -1) * info.RX;
+      const secondX =
+        item.from.x + (item.to.x > item.from.x ? 1 : -2) * (dx / 2) + (item.to.x > item.from.x ? 0 : -1) * info.RX;
       return [
         {
           x: item.from.x,
           y: item.from.y + Math.round(dy / 2) - info.RX,
-          a: `${getDefaultA(info.RX)} ${(item.to.x > item.from.x ? 0 : 1)} ${info.RX * (item.to.x > item.from.x ? 1 : -1)} ${info.RX}`,
+          a: `${getDefaultA(info.RX)} ${item.to.x > item.from.x ? 0 : 1} ${
+            info.RX * (item.to.x > item.from.x ? 1 : -1)
+          } ${info.RX}`,
         },
         {
           x: secondX,
           y: item.from.y + Math.round(dy / 2),
-          a: `${getDefaultA(info.RX)} ${(item.to.x > item.from.x ? 1 : 0)} ${(item.to.x > item.from.x ? 1 : -1) * info.RX} ${info.RX}`,
+          a: `${getDefaultA(info.RX)} ${item.to.x > item.from.x ? 1 : 0} ${
+            (item.to.x > item.from.x ? 1 : -1) * info.RX
+          } ${info.RX}`,
         },
         {
           x: secondX + (item.to.x > item.from.x ? 1 : -1) * info.RX,
@@ -269,7 +296,7 @@ export const linePosition = {
           a: `${getDefaultA(info.RX)} 1 ${info.RX * (item.to.x > item.from.x ? 1 : -1)} ${info.RX}`,
         },
         {
-          x: item.from.x - (dx / 2) + info.RX,
+          x: item.from.x - dx / 2 + info.RX,
           y: item.from.y + Math.round(dy / 2),
           a: `${getDefaultA(info.RX)} 0 ${-info.RX} ${info.RX}`,
         },
@@ -284,25 +311,29 @@ export const linePosition = {
   left: {
     right(item: any, { info }: PointComponentAbstract<any, any>) {
       const dx = Math.abs(item.from.x - item.to.x);
-      if ((dx / 2) < info.RX) {
+      if (dx / 2 < info.RX) {
         return [
           {
             x: item.from.x - dx / 2,
             y: item.from.y,
-            a: `${dx / 2} ${dx / 2} 0 0 ${(item.to.y > item.from.y ? 1 : 0)} ${-dx / 2} ${dx / 2}`,
+            a: `${dx / 2} ${dx / 2} 0 0 ${item.to.y > item.from.y ? 1 : 0} ${-dx / 2} ${dx / 2}`,
           },
         ];
       }
       return [
         {
-          x: item.from.x - (dx / 2) + info.RX,
+          x: item.from.x - dx / 2 + info.RX,
           y: item.from.y,
-          a: `${getDefaultA(info.RX)} ${(item.to.y > item.from.y ? 0 : 1)} ${-info.RX} ${info.RX * (item.to.y > item.from.y ? 1 : -1)}`,
+          a: `${getDefaultA(info.RX)} ${item.to.y > item.from.y ? 0 : 1} ${-info.RX} ${
+            info.RX * (item.to.y > item.from.y ? 1 : -1)
+          }`,
         },
         {
-          x: item.from.x - (dx / 2),
+          x: item.from.x - dx / 2,
           y: item.to.y + (item.from.y > item.to.y ? 1 : -1) * info.RX,
-          a: `${getDefaultA(info.RX)} ${(item.to.y > item.from.y ? 1 : 0)} ${-info.RX} ${info.RX * (item.to.y > item.from.y ? 1 : -1)}`,
+          a: `${getDefaultA(info.RX)} ${item.to.y > item.from.y ? 1 : 0} ${-info.RX} ${
+            info.RX * (item.to.y > item.from.y ? 1 : -1)
+          }`,
         },
       ];
     },
@@ -310,14 +341,18 @@ export const linePosition = {
       const dx = Math.abs(item.from.x - item.to.x);
       return [
         {
-          x: item.from.x - (dx / 2) + info.RX,
+          x: item.from.x - dx / 2 + info.RX,
           y: item.from.y,
-          a: `${getDefaultA(info.RX)} ${(item.to.y > item.from.y ? 0 : 1)} ${-info.RX} ${info.RX * (item.to.y > item.from.y ? 1 : -1)}`,
+          a: `${getDefaultA(info.RX)} ${item.to.y > item.from.y ? 0 : 1} ${-info.RX} ${
+            info.RX * (item.to.y > item.from.y ? 1 : -1)
+          }`,
         },
         {
-          x: item.from.x - (dx / 2),
+          x: item.from.x - dx / 2,
           y: item.to.y + (item.from.y > item.to.y ? 1 : -1) * info.RX,
-          a: `${getDefaultA(info.RX)} ${(item.to.y > item.from.y ? 1 : 0)} ${-info.RX} ${info.RX * (item.to.y > item.from.y ? 1 : -1)}`,
+          a: `${getDefaultA(info.RX)} ${item.to.y > item.from.y ? 1 : 0} ${-info.RX} ${
+            info.RX * (item.to.y > item.from.y ? 1 : -1)
+          }`,
         },
       ];
     },
@@ -337,12 +372,12 @@ export const linePosition = {
 
       return [
         {
-          x: item.from.x - (dx / 2) + info.RX,
+          x: item.from.x - dx / 2 + info.RX,
           y: item.from.y,
           a: `${getDefaultA(info.RX)} 0 ${-info.RX} ${info.RX}`,
         },
         {
-          x: item.from.x - (dx / 2),
+          x: item.from.x - dx / 2,
           y: item.from.y + dy / 2 - info.RX,
           a: `${getDefaultA(info.RX)} 1 ${-info.RX} ${info.RX}`,
         },
@@ -361,18 +396,18 @@ export const linePosition = {
       }
       return [
         {
-          x: item.from.x - (dx / 2) + info.RX,
+          x: item.from.x - dx / 2 + info.RX,
           y: item.from.y,
           a: `${getDefaultA(info.RX)} 1 ${-info.RX} ${-info.RX}`,
         },
         {
-          x: item.from.x - (dx / 2),
-          y: item.from.y - (dy / 2) + info.RX,
+          x: item.from.x - dx / 2,
+          y: item.from.y - dy / 2 + info.RX,
           a: `${getDefaultA(info.RX)} 0 ${-info.RX} ${-info.RX}`,
         },
         {
           x: item.to.x + info.RX,
-          y: item.from.y - (dy / 2),
+          y: item.from.y - dy / 2,
           a: `${getDefaultA(info.RX)} 1 ${-info.RX} ${-info.RX}`,
         },
       ];
@@ -383,14 +418,18 @@ export const linePosition = {
       const dx = Math.abs(item.from.x - item.to.x);
       return [
         {
-          x: item.from.x + (dx / 2) - info.RX,
+          x: item.from.x + dx / 2 - info.RX,
           y: item.from.y,
-          a: `${getDefaultA(info.RX)} ${(item.to.y - item.from.y > 0 ? 1 : 0)} ${info.RX} ${(item.to.y > item.from.y ? 1 : -1) * info.RX}`,
+          a: `${getDefaultA(info.RX)} ${item.to.y - item.from.y > 0 ? 1 : 0} ${info.RX} ${
+            (item.to.y > item.from.y ? 1 : -1) * info.RX
+          }`,
         },
         {
-          x: item.from.x + (dx / 2),
+          x: item.from.x + dx / 2,
           y: item.to.y + (item.from.y > item.to.y ? 1 : -1) * info.RX,
-          a: `${getDefaultA(info.RX)} ${(item.to.y - item.from.y > 0 ? 0 : 1)} ${info.RX} ${info.RX * (item.to.y > item.from.y ? 1 : -1)}`,
+          a: `${getDefaultA(info.RX)} ${item.to.y - item.from.y > 0 ? 0 : 1} ${info.RX} ${
+            info.RX * (item.to.y > item.from.y ? 1 : -1)
+          }`,
         },
       ];
     },
@@ -398,14 +437,18 @@ export const linePosition = {
       const dx = Math.abs(item.from.x - item.to.x);
       return [
         {
-          x: item.from.x + (dx / 2) - info.RX,
+          x: item.from.x + dx / 2 - info.RX,
           y: item.from.y,
-          a: `${getDefaultA(info.RX)} ${(item.to.y - item.from.y > 0 ? 1 : 0)} ${info.RX} ${(item.to.y > item.from.y ? 1 : -1) * info.RX}`,
+          a: `${getDefaultA(info.RX)} ${item.to.y - item.from.y > 0 ? 1 : 0} ${info.RX} ${
+            (item.to.y > item.from.y ? 1 : -1) * info.RX
+          }`,
         },
         {
-          x: item.from.x + (dx / 2),
+          x: item.from.x + dx / 2,
           y: item.to.y + (item.from.y > item.to.y ? 1 : -1) * info.RX,
-          a: `${getDefaultA(info.RX)} ${(item.to.y - item.from.y > 0 ? 0 : 1)} ${info.RX} ${info.RX * (item.to.y > item.from.y ? 1 : -1)}`,
+          a: `${getDefaultA(info.RX)} ${item.to.y - item.from.y > 0 ? 0 : 1} ${info.RX} ${
+            info.RX * (item.to.y > item.from.y ? 1 : -1)
+          }`,
         },
       ];
     },
@@ -415,15 +458,15 @@ export const linePosition = {
       if (dx < info.RX || dy < info.RX) {
         return [];
       }
-      const rx = (info.RX > (dx / 2) ? (dx / 2) : info.RX) / 2;
+      const rx = (info.RX > dx / 2 ? dx / 2 : info.RX) / 2;
       return [
         {
-          x: item.from.x + (dx / 2) - rx,
+          x: item.from.x + dx / 2 - rx,
           y: item.from.y,
           a: `${getDefaultA(rx)} 0 ${rx} ${-rx}`,
         },
         {
-          x: item.from.x + (dx / 2),
+          x: item.from.x + dx / 2,
           y: item.from.y - dy / 2 + rx,
           a: `${getDefaultA(rx)} 1 ${rx} ${-rx}`,
         },
@@ -440,10 +483,10 @@ export const linePosition = {
       if (dx < info.RX || dy < info.RX) {
         return [];
       }
-      const rx = (info.RX > (dx / 2) ? (dx / 2) : info.RX) / 2;
+      const rx = (info.RX > dx / 2 ? dx / 2 : info.RX) / 2;
       return [
         {
-          x: item.from.x + (dx / 2) - rx,
+          x: item.from.x + dx / 2 - rx,
           y: item.from.y,
           a: `${getDefaultA(rx)} 1 ${rx} ${rx}`,
         },
@@ -474,7 +517,7 @@ const resourceUnitMap = {
   mem: 'MB',
 };
 
-const convertJobsParams = (jobParams: {image: string; resources: any}, isCustomScript: boolean, task: IStageTask) => {
+const convertJobsParams = (jobParams: { image: string; resources: any }, isCustomScript: boolean, task: IStageTask) => {
   const { image, resources } = jobParams;
   const filteredResources = omit(resources, 'disk');
   const readOnlyParams: any[] = [
@@ -486,7 +529,11 @@ const convertJobsParams = (jobParams: {image: string; resources: any}, isCustomS
     {
       name: 'resources',
       type: 'struct',
-      struct: Object.entries(filteredResources).map(([key, value]) => ({ name: key, unit: resourceUnitMap[key], default: value })),
+      struct: Object.entries(filteredResources).map(([key, value]) => ({
+        name: key,
+        unit: resourceUnitMap[key],
+        default: value,
+      })),
     },
   ];
   return readOnlyParams;

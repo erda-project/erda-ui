@@ -13,7 +13,28 @@
 
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import { isArray, reduce, isEmpty, find, uniq, map, filter, merge, groupBy, maxBy, values, compact, keys, get, min, minBy, difference, sortBy, cloneDeep, set } from 'lodash';
+import {
+  isArray,
+  reduce,
+  isEmpty,
+  find,
+  uniq,
+  map,
+  filter,
+  merge,
+  groupBy,
+  maxBy,
+  values,
+  compact,
+  keys,
+  get,
+  min,
+  minBy,
+  difference,
+  sortBy,
+  cloneDeep,
+  set,
+} from 'lodash';
 // @ts-ignore
 import Snap from 'snapsvg-cjs';
 import { CHART_CONFIG } from './config';
@@ -106,11 +127,15 @@ export const renderTopology = (originData: ITopologyNode[], snap: any, g: any, e
     const chartX = (containerWidth - mBoxWidth) / 2;
     const mChart = snap.svg(chartX, 0, mBoxWidth, mBoxHeight, 0, 0, mBoxWidth, mBoxHeight);
     g.append(mChart);
-    renderCategoryBox({
-      categoryBox: mCategoryBox,
-      linkDownDistance: -40,
-      linkTopDistance: -40,
-    }, mChart, external);
+    renderCategoryBox(
+      {
+        categoryBox: mCategoryBox,
+        linkDownDistance: -40,
+        linkTopDistance: -40,
+      },
+      mChart,
+      external,
+    );
     renderNodes({ nodeMap: mNodeMap, groupNodeMap: groupDataNodeMap, groupChart }, mChart, external, chartConfig);
   }
   return { containerWidth, containerHeight };
@@ -123,13 +148,17 @@ const dataHandler = {
     const { microservice } = groupMap;
     if (isEmpty(microservice)) return {};
     const len = microservice.length;
-    const { padding, NODE: { width, height, margin }, boxMargin } = chartConfig;
+    const {
+      padding,
+      NODE: { width, height, margin },
+      boxMargin,
+    } = chartConfig;
     const nodeMap = {};
     const boxWidth = (width + margin.x) * len - margin.x + padding.x * 2;
-    const boxHeight = (height + margin.y) - margin.y + padding.y * 2;
+    const boxHeight = height + margin.y - margin.y + padding.y * 2;
 
-    const startX = padding.x + (width / 2);
-    const startY = padding.y + (height / 2);
+    const startX = padding.x + width / 2;
+    const startY = padding.y + height / 2;
     const groupBox = {};
     const lineBoxMarginX = boxMargin.x;
     const lineBoxMarginY = boxMargin.y;
@@ -146,15 +175,12 @@ const dataHandler = {
 
       if (idx === len - 1) {
         groupBox[group] = {
-          ...groupBox[group] || {},
+          ...(groupBox[group] || {}),
           endX: x + lineBoxMarginX + width / 2,
           endY: y + lineBoxMarginY + height / 2,
         };
       }
-      nodeMap[id] = setTopologyExternal(
-        item,
-        { deepth: idx + 1, x, y, uniqName: id } as any,
-      );
+      nodeMap[id] = setTopologyExternal(item, { deepth: idx + 1, x, y, uniqName: id } as any);
     });
     return { boxWidth, boxHeight, nodeMap, groupBox };
   },
@@ -194,12 +220,12 @@ const dataHandler = {
             );
             curNodeMap = merge(curNodeMap, deepMap); // 合并节点层级属性
             const {
-              nodeMap, boxWidth, boxHeight, // categoryBox,
+              nodeMap,
+              boxWidth,
+              boxHeight, // categoryBox,
             } = dataHandler.getNodesPosition(curNodeMap, chartConfig); // 节点定位
 
-            const {
-              links, linkTopDistance, linkDownDistance,
-            } = dataHandler.getLinks(nodeList, nodeMap, chartConfig); // 获取链接（包含link定位）
+            const { links, linkTopDistance, linkDownDistance } = dataHandler.getLinks(nodeList, nodeMap, chartConfig); // 获取链接（包含link定位）
 
             let totalWidth = boxWidth;
             let totalHeight = boxHeight;
@@ -254,12 +280,12 @@ const dataHandler = {
             );
             curNodeMap = merge(curNodeMap, deepMap); // 合并节点层级属性
             const {
-              nodeMap, boxWidth, boxHeight, // categoryBox,
+              nodeMap,
+              boxWidth,
+              boxHeight, // categoryBox,
             } = dataHandler.getNodesPosition(curNodeMap, chartConfig); // 节点定位
 
-            const {
-              links, linkTopDistance, linkDownDistance,
-            } = dataHandler.getLinks(nodeList, nodeMap, chartConfig); // 获取链接（包含link定位）
+            const { links, linkTopDistance, linkDownDistance } = dataHandler.getLinks(nodeList, nodeMap, chartConfig); // 获取链接（包含link定位）
 
             let totalWidth = boxWidth;
             let totalHeight = boxHeight;
@@ -291,26 +317,31 @@ const dataHandler = {
   // 平铺节点: {name:x,parents:[...]} => [{name:x,parent:p1},...]
   getNodesFormat: (dataArr: ITopologyNode[]) => {
     if (!isArray(dataArr)) return { data: [], countMap: {} };
-    const data = reduce(dataArr, (res: any[], item) => {
-      const { id, parents, ...rest } = item;
-      if (parents && parents.length > 0) {
-        let pCount = 0;
-        parents.forEach((p: any) => {
-          const curParentId = (find(dataArr, { id: p.id }) || {}).id || '';
-          // 过滤不存在的节点和自己调自己的节点
-          if (curParentId && curParentId !== id) {
-            pCount += 1;
-            res.push({ parent: curParentId, parents, id, nodeType: 'node', ...rest });
+    const data = reduce(
+      dataArr,
+      (res: any[], item) => {
+        const { id, parents, ...rest } = item;
+        if (parents && parents.length > 0) {
+          let pCount = 0;
+          parents.forEach((p: any) => {
+            const curParentId = (find(dataArr, { id: p.id }) || {}).id || '';
+            // 过滤不存在的节点和自己调自己的节点
+            if (curParentId && curParentId !== id) {
+              pCount += 1;
+              res.push({ parent: curParentId, parents, id, nodeType: 'node', ...rest });
+            }
+          });
+          if (pCount === 0) {
+            // 有父但父count为0，则可能父节点不存在或只有自己是自己的父节点
+            res.push({ parent: '', id, parents, nodeType: 'node', ...rest });
           }
-        });
-        if (pCount === 0) { // 有父但父count为0，则可能父节点不存在或只有自己是自己的父节点
+        } else {
           res.push({ parent: '', id, parents, nodeType: 'node', ...rest });
         }
-      } else {
-        res.push({ parent: '', id, parents, nodeType: 'node', ...rest });
-      }
-      return res;
-    }, []);
+        return res;
+      },
+      [],
+    );
     return { data };
   },
   // 获取节点组层级
@@ -331,7 +362,8 @@ const dataHandler = {
         for (let i = 0; i < children.length; i++) {
           traversal(children[i].id, IdList, deep + 1, nodeId);
         }
-      } else if (IdList.includes(nodeId)) { // 已经设置过层级的节点
+      } else if (IdList.includes(nodeId)) {
+        // 已经设置过层级的节点
         // 若当前线为环，则deep不变，已经在列，则取大deep
         const prevDeep = deepMap[nodeId][externalKey].deepth;
         const pDeep = deepMap[pNode][externalKey].deepth;
@@ -339,7 +371,7 @@ const dataHandler = {
         /** 层级变动需要顺延的两种情况
          *  1、非循环节点，且已设置深度小于当前深度，取更深后子节点顺延
          *  2、循环节点，且当前深度等于父节点深度，避免在同一层级，顺延
-        */
+         */
         if ((!isCircle && prevDeep < deep) || (isCircle && prevDeep === pDeep)) {
           deepMap[nodeId][externalKey].deepth = deep;
           // 有层级变动的节点，其下所有节点都需要顺延改变
@@ -371,54 +403,63 @@ const dataHandler = {
     }
     // 第一次循环未找出开始节点，则为n个树，需要找出n个开始节点
     if (!startNodes.length) {
-      const treeMap = reduce(traversalMap, (res: any, item: string[], key) => {
-        const currentRes = { ...res };
-        let isInclude = false;
-        map(res, (tree, treeKey) => {
-          // 有"全包含"关系的节点，比较找出路径最长的节点
-          const uniqLen = uniq([...tree, ...item]).length;
-          if (uniqLen === tree.length || uniqLen === item.length) {
-            isInclude = true;
-            if (item.length > tree.length) { // 写入更长的路径
-              delete currentRes[treeKey];
-              delete startNodesDataMap[treeKey];
-              currentRes[key] = item;
-              startNodesDataMap[key] = getTreeNodeList(item);
+      const treeMap = reduce(
+        traversalMap,
+        (res: any, item: string[], key) => {
+          const currentRes = { ...res };
+          let isInclude = false;
+          map(res, (tree, treeKey) => {
+            // 有"全包含"关系的节点，比较找出路径最长的节点
+            const uniqLen = uniq([...tree, ...item]).length;
+            if (uniqLen === tree.length || uniqLen === item.length) {
+              isInclude = true;
+              if (item.length > tree.length) {
+                // 写入更长的路径
+                delete currentRes[treeKey];
+                delete startNodesDataMap[treeKey];
+                currentRes[key] = item;
+                startNodesDataMap[key] = getTreeNodeList(item);
+              }
             }
+          });
+          if (!isInclude) {
+            currentRes[key] = item;
+            startNodesDataMap[key] = getTreeNodeList(item);
           }
-        });
-        if (!isInclude) {
-          currentRes[key] = item;
-          startNodesDataMap[key] = getTreeNodeList(item);
-        }
-        return currentRes;
-      }, {});
+          return currentRes;
+        },
+        {},
+      );
       startNodes = uniq(Object.keys(treeMap));
       sortTree = sortBy(
         map(
-          reduce(treeMap, (res: any, item, key) => {
-            const currentRes = { ...res };
-            const resList = map(res, (treeList, treeKey) => ({ list: treeList, treeKey }));
-            // filter所有map中的相同树，避免交叉树被遗漏，如当前item=[2,3]  res: [1,2] [4,3];
-            const sameTree = filter(resList, (resItem: any[]) => {
-              const { list } = resItem as any;
-              const concatArr = [...list, ...item];
-              const uniqLen = uniq([...concatArr]).length;
-              return uniqLen !== concatArr.length;
-            });
-            if (sameTree.length) {
-              let sameList: string[] = [];
-              sameTree.forEach((sameItem: any) => {
-                const { list, treeKey } = sameItem;
-                delete currentRes[treeKey];
-                sameList = sameList.concat(list);
+          reduce(
+            treeMap,
+            (res: any, item, key) => {
+              const currentRes = { ...res };
+              const resList = map(res, (treeList, treeKey) => ({ list: treeList, treeKey }));
+              // filter所有map中的相同树，避免交叉树被遗漏，如当前item=[2,3]  res: [1,2] [4,3];
+              const sameTree = filter(resList, (resItem: any[]) => {
+                const { list } = resItem as any;
+                const concatArr = [...list, ...item];
+                const uniqLen = uniq([...concatArr]).length;
+                return uniqLen !== concatArr.length;
               });
-              currentRes[key] = uniq([...item, ...sameList]);
-            } else {
-              currentRes[key] = item;
-            }
-            return currentRes;
-          }, {}),
+              if (sameTree.length) {
+                let sameList: string[] = [];
+                sameTree.forEach((sameItem: any) => {
+                  const { list, treeKey } = sameItem;
+                  delete currentRes[treeKey];
+                  sameList = sameList.concat(list);
+                });
+                currentRes[key] = uniq([...item, ...sameList]);
+              } else {
+                currentRes[key] = item;
+              }
+              return currentRes;
+            },
+            {},
+          ),
           (o) => o,
         ),
         (l) => -l.length,
@@ -431,7 +472,7 @@ const dataHandler = {
       nodeList.forEach((node) => {
         if (tree.includes(node.id)) {
           list.push(node);
-          if (startNodes.includes(node.id))starts.push(node.id);
+          if (startNodes.includes(node.id)) starts.push(node.id);
         }
       });
       let countDeepMap = dataHandler.getCountDeepMap(nodeList, starts);
@@ -452,7 +493,9 @@ const dataHandler = {
     const reMap = cloneDeep(deepMap);
     map(deepthGroup, (list: any) => {
       map(list, (item: any) => {
-        const { [externalKey]: { id, deepth } } = item;
+        const {
+          [externalKey]: { id, deepth },
+        } = item;
         const childrenDeep: number[] = [];
         map(nodeList, (dataItem: any) => {
           if (dataItem.parent === id) {
@@ -460,7 +503,8 @@ const dataHandler = {
           }
         });
         const childMinDeep = min(childrenDeep) || 1; // 找到子的最上层级;
-        if (childMinDeep - deepth > 1) { // 跨层级，将节点往后移动
+        if (childMinDeep - deepth > 1) {
+          // 跨层级，将节点往后移动
           reMap[id][externalKey].deepth = childMinDeep - 1;
         }
       });
@@ -478,7 +522,9 @@ const dataHandler = {
     const reMap = cloneDeep(deepMap);
     map(deepthGroup, (list: any, index) => {
       map(list, (item: any) => {
-        const { [externalKey]: { id } } = item;
+        const {
+          [externalKey]: { id },
+        } = item;
         reMap[id][externalKey].deepth = index + 1;
       });
     });
@@ -491,12 +537,9 @@ const dataHandler = {
     map(deepthGroup, (list: any, lev: string) => {
       const len = list.length;
       if (lev === '1') {
-        map(
-          sortBy(list, `${externalKey}.outTotal`),
-          ({ [externalKey]: { id, outTotal } }, i) => {
-            set(reMap[id], `${externalKey}.levelSort`, outTotal * 100 + i);
-          },
-        );
+        map(sortBy(list, `${externalKey}.outTotal`), ({ [externalKey]: { id, outTotal } }, i) => {
+          set(reMap[id], `${externalKey}.levelSort`, outTotal * 100 + i);
+        });
       } else {
         map(list, ({ [externalKey]: { id, outTotal } }, idx: number) => {
           const curNode = find(nodeList, { id });
@@ -504,7 +547,8 @@ const dataHandler = {
           let levelSort = idx;
           parents.forEach((p: any) => {
             const pMap = get(reMap, `[${p.id}].${externalKey}`);
-            if (pMap && Number(lev) - Number(pMap.deepth) === 1) { // 上层父
+            if (pMap && Number(lev) - Number(pMap.deepth) === 1) {
+              // 上层父
               levelSort = pMap.levelSort > levelSort ? levelSort : pMap.levelSort;
             }
           });
@@ -526,7 +570,8 @@ const dataHandler = {
         for (let i = 0; i < children.length; i++) {
           traversal(children[i].id, deep + 1, nodeId);
         }
-      } else if (deepMap[nodeId]) { // 已经设置过层级的节点
+      } else if (deepMap[nodeId]) {
+        // 已经设置过层级的节点
         // 若当前线为环，则deep不变，已经在列，则取大deep
         const prevDeep = deepMap[nodeId][externalKey].deepth;
         const pDeep = deepMap[pNode][externalKey].deepth;
@@ -534,7 +579,7 @@ const dataHandler = {
         /** 层级变动需要顺延的两种情况
          *  1、非循环节点，且已设置深度小于当前深度，取更深后子节点顺延
          *  2、循环节点，且当前深度等于父节点深度，避免在同一层级，顺延
-        */
+         */
 
         if ((!isCircle && prevDeep < deep) || (isCircle && prevDeep === pDeep)) {
           deepMap[nodeId][externalKey].deepth = deep;
@@ -555,7 +600,8 @@ const dataHandler = {
   isCircleData: (n1: string, n2: string, nodeList: ITopologyNode[]) => {
     const data1 = find(nodeList, { parent: n1, id: n2 });
     const data2 = find(nodeList, { parent: n2, id: n1 });
-    if (data1 && data2) { // 直接环
+    if (data1 && data2) {
+      // 直接环
       return true;
     } else {
       const getChildren = (nodeId: string, children: string[] = []) => {
@@ -579,7 +625,11 @@ const dataHandler = {
   getNodesPosition: (nodeMap: object, chartConfig: any) => {
     let boxWidth = 0;
     let boxHeight = 0;
-    const { boxMargin, NODE: { width, height, margin }, direction } = chartConfig;
+    const {
+      boxMargin,
+      NODE: { width, height, margin },
+      direction,
+    } = chartConfig;
     const lineBoxMarginX = boxMargin.x;
     const lineBoxMarginY = boxMargin.y;
     const curNodeMap = cloneDeep(nodeMap);
@@ -642,7 +692,8 @@ const dataHandler = {
       const { parent, id } = node;
       if (parent) {
         const lk = { source: parent, target: id, nodeType: 'link' } as any;
-        if (find(nodeList, { id: parent, parent: id })) { // 存在反向线
+        if (find(nodeList, { id: parent, parent: id })) {
+          // 存在反向线
           lk.hasReverse = true;
         }
         links.push(lk);
@@ -665,7 +716,8 @@ const dataHandler = {
 
     const deepthGroup = groupBy(nodeMap, `${externalKey}.deepth`);
     const edgePlusMap = {};
-    map(deepthGroup, (gList: any, lev) => { // 每个层级上跨层级线的边缘叠加数
+    map(deepthGroup, (gList: any, lev) => {
+      // 每个层级上跨层级线的边缘叠加数
       const curStartNode = find(gList, { [externalKey]: { edgeStart: true } }) as any;
       const curEndEdgeNode = find(gList, { [externalKey]: { edgeEnd: true } }) as any;
       edgePlusMap[lev] = {
@@ -679,7 +731,7 @@ const dataHandler = {
         originEndY: curEndEdgeNode[externalKey].y + halfHeight,
       };
     });
-    const maxColumn: any = (maxBy(values(deepthGroup)) || []);
+    const maxColumn: any = maxBy(values(deepthGroup)) || [];
     const edgeStartNode = get(find(maxColumn, { [externalKey]: { edgeStart: true } }), externalKey) as any;
     const edgeEndNode = get(find(maxColumn, { [externalKey]: { edgeEnd: true } }), externalKey) as any;
     const centerY = edgeStartNode.y + (edgeEndNode.y - edgeStartNode.y) / 2;
@@ -699,15 +751,10 @@ const dataHandler = {
       if (direction === 'horizontal') {
         // 相邻层级节点：在两节点之间水平中心点位置开始折线
         if (Math.abs(sourceNode.deepth - targetNode.deepth) === 1) {
-          const [p0_x, p1_x, p2_x] = xPos > 0 ? [
-            sourceNode.x - halfWidth,
-            sourceNode.x - halfMaginX - halfWidth,
-            targetNode.x + halfWidth,
-          ] : [
-            sourceNode.x + halfWidth,
-            sourceNode.x + halfMaginX + halfWidth,
-            targetNode.x - halfWidth,
-          ];
+          const [p0_x, p1_x, p2_x] =
+            xPos > 0
+              ? [sourceNode.x - halfWidth, sourceNode.x - halfMaginX - halfWidth, targetNode.x + halfWidth]
+              : [sourceNode.x + halfWidth, sourceNode.x + halfMaginX + halfWidth, targetNode.x - halfWidth];
 
           const p0_y = sourceNode.y;
           let p1_y = targetNode.y;
@@ -718,18 +765,21 @@ const dataHandler = {
           }
           posArr = [p0_x, p0_y, p1_x, p1_y, p2_x, p2_y];
         } else if (Math.abs(sourceNode.deepth - targetNode.deepth) > 1) {
-        // 跨层级节点：先移动到最上/下方，折线然后平移到目标节点的层级后，再次折线到目标
-          const [p0_x, p1_x, p2_x, p3_x] = xPos > 0 ? [
-            sourceNode.x - halfWidth,
-            sourceNode.x - halfMaginX - halfWidth,
-            targetNode.x + halfWidth + halfMaginX,
-            targetNode.x + halfWidth,
-          ] : [
-            sourceNode.x + halfWidth,
-            sourceNode.x + halfMaginX + halfWidth,
-            targetNode.x - halfWidth - halfMaginX,
-            targetNode.x - halfWidth,
-          ];
+          // 跨层级节点：先移动到最上/下方，折线然后平移到目标节点的层级后，再次折线到目标
+          const [p0_x, p1_x, p2_x, p3_x] =
+            xPos > 0
+              ? [
+                  sourceNode.x - halfWidth,
+                  sourceNode.x - halfMaginX - halfWidth,
+                  targetNode.x + halfWidth + halfMaginX,
+                  targetNode.x + halfWidth,
+                ]
+              : [
+                  sourceNode.x + halfWidth,
+                  sourceNode.x + halfMaginX + halfWidth,
+                  targetNode.x - halfWidth - halfMaginX,
+                  targetNode.x - halfWidth,
+                ];
 
           const sourceDeepth = nodeMap[source][externalKey].deepth;
           const targetDeepth = nodeMap[target][externalKey].deepth;
@@ -738,7 +788,10 @@ const dataHandler = {
           let betweenMaxLen = 0;
           // 计算跨层级中间最高的层级，最高层级的数据长度
           map(edgePlusMap, (pos, deepKey) => {
-            if ((deepKey > sourceDeepth && deepKey < targetDeepth) || (deepKey < sourceDeepth && deepKey > targetDeepth)) {
+            if (
+              (deepKey > sourceDeepth && deepKey < targetDeepth) ||
+              (deepKey < sourceDeepth && deepKey > targetDeepth)
+            ) {
               if (deepthGroup[deepKey].length > betweenMaxLen) {
                 betweenMaxLen = deepthGroup[deepKey].length;
                 betweenMaxDeepth = Number(deepKey);
@@ -748,12 +801,14 @@ const dataHandler = {
           const sourceLen = deepthGroup[sourceDeepth].length;
           const targetLen = deepthGroup[targetDeepth].length;
           const curMaxDeep: number = get(
-            maxBy([
-              { deep: sourceDeepth, len: sourceLen },
-              { deep: targetDeepth, len: targetLen },
-              { deep: betweenMaxDeepth, len: betweenMaxLen },
-            ]
-            , (o) => o.len),
+            maxBy(
+              [
+                { deep: sourceDeepth, len: sourceLen },
+                { deep: targetDeepth, len: targetLen },
+                { deep: betweenMaxDeepth, len: betweenMaxLen },
+              ],
+              (o) => o.len,
+            ),
             'deep',
           );
           const curMaxEdge = edgePlusMap[`${curMaxDeep}`];
@@ -770,11 +825,14 @@ const dataHandler = {
             xPos > 0
               ? ([p1_y, edgePlusMap[`${curMaxDeep}`].endY] = downBreak)
               : ([p1_y, edgePlusMap[`${curMaxDeep}`].startY] = upBreak);
-          } else if (sourceNode.y <= centerY && targetNode.y <= centerY) { // 中线上方，上折
+          } else if (sourceNode.y <= centerY && targetNode.y <= centerY) {
+            // 中线上方，上折
             [p1_y, edgePlusMap[`${curMaxDeep}`].startY] = upBreak;
-          } else if (sourceNode.y >= centerY && targetNode.y >= centerY) { // 中线下方，下折
+          } else if (sourceNode.y >= centerY && targetNode.y >= centerY) {
+            // 中线下方，下折
             [p1_y, edgePlusMap[`${curMaxDeep}`].endY] = downBreak;
-          } else { // 起点和终点分布在中线两边，则从起点就近折
+          } else {
+            // 起点和终点分布在中线两边，则从起点就近折
             yPos > 0
               ? ([p1_y, edgePlusMap[`${curMaxDeep}`].endY] = downBreak)
               : ([p1_y, edgePlusMap[`${curMaxDeep}`].startY] = upBreak);
@@ -797,7 +855,8 @@ const dataHandler = {
             ...nodeMap[target],
             parents: find(nodeMap[target].parents, { id: source }),
           },
-        } };
+        },
+      };
     });
 
     const edgePlusList = map(edgePlusMap);
@@ -893,7 +952,11 @@ const renderCategoryBoxs = (boxMap: any, snap: any, g: any, external: any) => {
   });
 };
 
-const renderCategoryBox = ({ categoryBox, linkDownDistance = 0, linkTopDistance = 0 }: any, snap: any, external: any) => {
+const renderCategoryBox = (
+  { categoryBox, linkDownDistance = 0, linkTopDistance = 0 }: any,
+  snap: any,
+  external: any,
+) => {
   const list = map(categoryBox);
   const minStartY = get(minBy(list, 'startY'), 'startY', 0) as number;
   const maxEndY = get(maxBy(list, 'endY'), 'endY', 0) as number;
@@ -901,7 +964,9 @@ const renderCategoryBox = ({ categoryBox, linkDownDistance = 0, linkTopDistance 
   map(categoryBox, (posData: any, key: string) => {
     const { startX, endX } = posData;
     const pos = { startX, startY: minStartY - linkTopDistance, endX, endY: maxEndY + linkDownDistance };
-    const fobjectSVG = `<foreignObject id="${key}" class="node-carrier" x="${pos.startX}" y="${pos.startY}" width="${pos.endX - pos.startX}" height="${pos.endY - pos.startY}">
+    const fobjectSVG = `<foreignObject id="${key}" class="node-carrier" x="${pos.startX}" y="${pos.startY}" width="${
+      pos.endX - pos.startX
+    }" height="${pos.endY - pos.startY}">
     </foreignObject>`;
     const box = Snap.parse(fobjectSVG);
     snap.append(box);
@@ -910,17 +975,27 @@ const renderCategoryBox = ({ categoryBox, linkDownDistance = 0, linkTopDistance 
   });
 };
 
-interface IRender{
+interface IRender {
   nodeMap: object;
   groupNodeMap?: any;
   groupChart?: any;
 }
-export const renderNodes = ({ nodeMap, groupNodeMap, groupChart }: IRender, snap: any, external: any, chartConfig: any, distance = { disX: 0, disY: 0 }) => {
+export const renderNodes = (
+  { nodeMap, groupNodeMap, groupChart }: IRender,
+  snap: any,
+  external: any,
+  chartConfig: any,
+  distance = { disX: 0, disY: 0 },
+) => {
   const NodeComp = external.nodeEle;
   const { disX, disY } = distance;
   map(nodeMap, (node: ITopologyNode) => {
-    const { NODE: { width, height } } = chartConfig;
-    const { [externalKey]: { x, y, uniqName } } = node as any; // x,y为中心点
+    const {
+      NODE: { width, height },
+    } = chartConfig;
+    const {
+      [externalKey]: { x, y, uniqName },
+    } = node as any; // x,y为中心点
     const startX = x - width / 2 + disX;
     const startY = y - height / 2 + disY;
     const nodeId = uniqName;
@@ -952,7 +1027,11 @@ export const renderNodes = ({ nodeMap, groupNodeMap, groupChart }: IRender, snap
       const mRelativeNode: string[] = [];
       const mUnRelativeNode: string[] = [];
       map(groupNodeMap, (item) => {
-        const { parents, [externalKey]: { uniqName }, id } = item;
+        const {
+          parents,
+          [externalKey]: { uniqName },
+          id,
+        } = item;
         const beParentId = map(parents, 'id');
         if (fullParents.includes(id) || beParentId.includes(_node.id)) {
           mRelativeNode.push(uniqName);
@@ -970,7 +1049,10 @@ export const renderNodes = ({ nodeMap, groupNodeMap, groupChart }: IRender, snap
     const unRelativeNode: string[] = [];
     const curNodeName = _node[externalKey].uniqName as string;
     map(nodeMap, (item: ITopologyNode) => {
-      const { parents = [], [externalKey]: { uniqName } } = item;
+      const {
+        parents = [],
+        [externalKey]: { uniqName },
+      } = item;
       const parentNames = compact(map(parents, (p: ITopologyNode) => get(nodeMap, `${p.id}.${externalKey}.uniqName`)));
       if (uniqName === curNodeName) {
         relativeNode = relativeNode.concat(parentNames).concat(uniqName);
@@ -1019,9 +1101,19 @@ export const renderNodes = ({ nodeMap, groupNodeMap, groupChart }: IRender, snap
     const { relativeLink, unRelativeLink } = getRelativeLinks(_node);
     const { relativeNode, unRelativeNode } = getRelativeNodes(_node);
     // 微服务特殊需求
-    hoverAction(true, {
-      relativeNode, unRelativeNode, relativeLink, unRelativeLink, hoverNode: _node,
-    }, _node.category === 'microservice' ? groupChart : snap, external, chartConfig);
+    hoverAction(
+      true,
+      {
+        relativeNode,
+        unRelativeNode,
+        relativeLink,
+        unRelativeLink,
+        hoverNode: _node,
+      },
+      _node.category === 'microservice' ? groupChart : snap,
+      external,
+      chartConfig,
+    );
   };
 
   const outHover = (_node: ITopologyNode) => {
@@ -1029,20 +1121,29 @@ export const renderNodes = ({ nodeMap, groupNodeMap, groupChart }: IRender, snap
     const { relativeNode, unRelativeNode } = getRelativeNodes(_node);
 
     // 微服务特殊需求
-    hoverAction(false, {
-      relativeNode, unRelativeNode, relativeLink, unRelativeLink,
-    }, _node.category === 'microservice' ? groupChart : snap, external, chartConfig);
+    hoverAction(
+      false,
+      {
+        relativeNode,
+        unRelativeNode,
+        relativeLink,
+        unRelativeLink,
+      },
+      _node.category === 'microservice' ? groupChart : snap,
+      external,
+      chartConfig,
+    );
   };
   const clickNode = (_node: ITopologyNode) => {
     external.onClickNode(_node);
   };
 };
 
-interface ILinkRender{
+interface ILinkRender {
   links: ILink[];
   nodeMap: object;
 }
-interface ILink{
+interface ILink {
   source: string;
   target: string;
   hasReverse?: boolean;
@@ -1055,31 +1156,36 @@ const getLinkTextPos = (pos: number[], chartConfig: any) => {
   let [x, y] = [pos[len - 4], pos[len - 3]];
   let textUnderLine = false;
   if (direction === 'horizontal') {
-    if (len === 8) { // 4点线，2折: __/————\__
+    if (len === 8) {
+      // 4点线，2折: __/————\__
       if (pos[1] === pos[3] && pos[3] === pos[5]) {
         const centerDisX = pos[6] - pos[4];
         const centerDisY = pos[7] - pos[5];
         x = pos[centerDisX > 0 ? 6 : 4] - Math.abs(centerDisX / 2);
         y = pos[centerDisY > 0 ? 7 : 5] - Math.abs(centerDisY / 2);
-        z = Math.atan2(pos[5] - pos[7], pos[4] - pos[6]) / Math.PI * 180 + 180;
+        z = (Math.atan2(pos[5] - pos[7], pos[4] - pos[6]) / Math.PI) * 180 + 180;
       } else {
         const centerDis = pos[4] - pos[2];
         x = pos[centerDis > 0 ? 4 : 2] - Math.abs(centerDis / 2);
         y = pos[3];
-        textUnderLine = (pos[1] < pos[3]);
+        textUnderLine = pos[1] < pos[3];
       }
-    } else if (len === 6) { // 3点线
-      if (pos[5] === pos[1] && pos[1] !== pos[3]) { // 1折对称：\/
+    } else if (len === 6) {
+      // 3点线
+      if (pos[5] === pos[1] && pos[1] !== pos[3]) {
+        // 1折对称：\/
         y = pos[3];
         textUnderLine = pos[3] > pos[1];
-      } else if (pos[5] === pos[1] && pos[1] === pos[5]) { // 0折：————
+      } else if (pos[5] === pos[1] && pos[1] === pos[5]) {
+        // 0折：————
         [x, y] = [pos[2], pos[3]];
-      } else if (pos[1] !== pos[3]) { // 1折: ——\，文字在折线段中点
+      } else if (pos[1] !== pos[3]) {
+        // 1折: ——\，文字在折线段中点
         const centerDisX = pos[2] - pos[0];
         const centerDisY = pos[3] - pos[1];
         x = pos[centerDisX > 0 ? 2 : 0] - Math.abs(centerDisX / 2);
         y = pos[centerDisY > 0 ? 3 : 1] - Math.abs(centerDisY / 2);
-        z = Math.atan2(pos[1] - pos[3], pos[0] - pos[2]) / Math.PI * 180 + 180;
+        z = (Math.atan2(pos[1] - pos[3], pos[0] - pos[2]) / Math.PI) * 180 + 180;
       }
     }
   } // TODO:vertical
@@ -1091,10 +1197,15 @@ export const renderLinks = ({ links, nodeMap }: ILinkRender, snap: any, external
   const { svgAttr } = chartConfig;
   const LinkComp = external.linkTextEle;
   const startMarker = snap.circle(3, 3, 3).attr({ fill: '#333' }).marker(0, 0, 8, 8, 3, 3);
-  const endMarker = snap.image('/images/zx.svg', 0, 0, 10, 10).attr({ transform: 'roate(-90deg)' }).marker(0, 0, 10, 10, 5, 5);
+  const endMarker = snap
+    .image('/images/zx.svg', 0, 0, 10, 10)
+    .attr({ transform: 'roate(-90deg)' })
+    .marker(0, 0, 10, 10, 5, 5);
 
   map(links, (link: any) => {
-    const { [externalKey]: { id, posArr, linkData, sourceNode, targetNode } } = link;
+    const {
+      [externalKey]: { id, posArr, linkData, sourceNode, targetNode },
+    } = link;
     const [_x, source, target] = id.split('__');
     const textData: any = find(targetNode.parents, { id: sourceNode.id });
     const textId = `text__${source}__${target}`;
@@ -1110,7 +1221,9 @@ export const renderLinks = ({ links, nodeMap }: ILinkRender, snap: any, external
       };
     }
 
-    const fobjectSVG = `<foreignObject id="${`${textId}`}" class="line-text-carrier" x="${textX - 25}" y="${textY - 40}" width="${50}" height="${80}"></foreignObject>`;
+    const fobjectSVG = `<foreignObject id="${`${textId}`}" class="line-text-carrier" x="${textX - 25}" y="${
+      textY - 40
+    }" width="${50}" height="${80}"></foreignObject>`;
     const text = Snap.parse(fobjectSVG);
     const in_g = snap.g();
     in_g.append(text).attr({ ...attrObj });
@@ -1122,12 +1235,18 @@ export const renderLinks = ({ links, nodeMap }: ILinkRender, snap: any, external
       const relativeNode = [source, target];
 
       const allLinks = snap.selectAll('.topology-link'); // 选出所有link;
-      hoverAction(true, {
-        unRelativeNode,
-        relativeNode,
-        unRelativeLink: difference(allLinks, [_this]),
-        relativeLink: [_this],
-      }, snap, external, chartConfig);
+      hoverAction(
+        true,
+        {
+          unRelativeNode,
+          relativeNode,
+          unRelativeLink: difference(allLinks, [_this]),
+          relativeLink: [_this],
+        },
+        snap,
+        external,
+        chartConfig,
+      );
     };
     const outHover = (_this: any) => {
       _this.attr({ ...svgAttr.polyline });
@@ -1135,42 +1254,56 @@ export const renderLinks = ({ links, nodeMap }: ILinkRender, snap: any, external
       const unRelativeNode = difference(allNodeUniqName, [source, target]);
       const relativeNode = [source, target];
       const allLinks = snap.selectAll('.topology-link'); // 选出所有link;
-      hoverAction(false, {
-        unRelativeNode,
-        relativeNode,
-        unRelativeLink: difference(allLinks, [_this]),
-        relativeLink: [_this],
-      }, snap, external, chartConfig);
+      hoverAction(
+        false,
+        {
+          unRelativeNode,
+          relativeNode,
+          unRelativeLink: difference(allLinks, [_this]),
+          relativeLink: [_this],
+        },
+        snap,
+        external,
+        chartConfig,
+      );
     };
 
-    const l = snap.polyline(...posArr).attr({
-      id,
-      ...svgAttr.polyline,
-      markerEnd: endMarker,
-      markerStart: startMarker,
-
-    }).hover(function () {
-      onHover(this);
-    }, function () {
-      outHover(this);
-    });
+    const l = snap
+      .polyline(...posArr)
+      .attr({
+        id,
+        ...svgAttr.polyline,
+        markerEnd: endMarker,
+        markerStart: startMarker,
+      })
+      .hover(
+        function () {
+          onHover(this);
+        },
+        function () {
+          outHover(this);
+        },
+      );
 
     l[externalKey] = { linkData, posArr, sourceNode, targetNode };
     g.append(l);
     // 渲染线上文字，并添加hover事件
-    ReactDOM.render(<LinkComp id={`${textId}__text`} data={textData} textUnderLine={textUnderLine} onHover={() => onHover(l)} outHover={() => outHover(l)} />, document.getElementById(`${textId}`));
+    ReactDOM.render(
+      <LinkComp
+        id={`${textId}__text`}
+        data={textData}
+        textUnderLine={textUnderLine}
+        onHover={() => onHover(l)}
+        outHover={() => outHover(l)}
+      />,
+      document.getElementById(`${textId}`),
+    );
   });
 };
 
 // hover高亮效果
 const hoverAction = (isHover: boolean, params: any, snap: any, external: any, chartConfig: any) => {
-  const {
-    relativeLink = [],
-    relativeNode = [],
-    unRelativeLink = [],
-    unRelativeNode = [],
-    hoverNode,
-  } = params;
+  const { relativeLink = [], relativeNode = [], unRelativeLink = [], unRelativeNode = [], hoverNode } = params;
 
   const { linkTextHoverAction = emptyFun, nodeHoverAction = emptyFun } = external;
   const { svgAttr } = chartConfig;
@@ -1201,18 +1334,14 @@ const hoverAction = (isHover: boolean, params: any, snap: any, external: any, ch
       if (curText) {
         if (hoverNode) {
           curText.node.classList.add('topology-link-text-focus');
-          linkTextHoverAction(
-            isHover,
-            document.getElementById(`${textId}__text`),
-            {
-              ...external,
-              isRelative: true,
-              hoverNode,
-              targetNode,
-              sourceNode,
-              hoverNodeExternal: get(hoverNode, externalKey),
-            },
-          );
+          linkTextHoverAction(isHover, document.getElementById(`${textId}__text`), {
+            ...external,
+            isRelative: true,
+            hoverNode,
+            targetNode,
+            sourceNode,
+            hoverNodeExternal: get(hoverNode, externalKey),
+          });
         }
       }
       // link.attr({ ...svgAttr.polylineFoc });
@@ -1224,37 +1353,35 @@ const hoverAction = (isHover: boolean, params: any, snap: any, external: any, ch
       const curText = snap.select(`#${textId}-g`);
       if (curText) {
         curText.node.classList.add('topology-link-text-fade');
-        linkTextHoverAction(
-          isHover,
-          document.getElementById(`${textId}__text`),
-          {
-            ...external,
-            isRelative: false,
-            hoverNode,
-            targetNode,
-            sourceNode,
-            hoverNodeExternal: get(hoverNode, externalKey),
-          },
-        );
+        linkTextHoverAction(isHover, document.getElementById(`${textId}__text`), {
+          ...external,
+          isRelative: false,
+          hoverNode,
+          targetNode,
+          sourceNode,
+          hoverNodeExternal: get(hoverNode, externalKey),
+        });
       }
       link.attr({ ...svgAttr.polylineFade });
     });
   } else {
     map(unRelativeNode, (name) => {
       snap.select(`#${name}-g`).node.classList.remove('topology-node-fade');
-      nodeHoverAction && nodeHoverAction(isHover, snap.select(`#${name}-g`).node, {
-        ...external,
-        hoverNode,
-        isRelative: false,
-      });
+      nodeHoverAction &&
+        nodeHoverAction(isHover, snap.select(`#${name}-g`).node, {
+          ...external,
+          hoverNode,
+          isRelative: false,
+        });
     });
     map(relativeNode, (name) => {
       snap.select(`#${name}-g`).node.classList.remove('topology-node-focus');
-      nodeHoverAction && nodeHoverAction(isHover, snap.select(`#${name}-g`).node, {
-        ...external,
-        hoverNode,
-        isRelative: true,
-      });
+      nodeHoverAction &&
+        nodeHoverAction(isHover, snap.select(`#${name}-g`).node, {
+          ...external,
+          hoverNode,
+          isRelative: true,
+        });
     });
     map(relativeLink, (link: any) => {
       const { [externalKey]: linkExternal } = link;
@@ -1264,18 +1391,14 @@ const hoverAction = (isHover: boolean, params: any, snap: any, external: any, ch
       const curText = snap.select(`#${textId}-g`);
       if (curText) {
         curText.node.classList.remove('topology-link-text-focus');
-        linkTextHoverAction(
-          isHover,
-          document.getElementById(`${textId}__text`),
-          {
-            ...external,
-            isRelative: false,
-            hoverNode,
-            targetNode,
-            sourceNode,
-            hoverNodeExternal: get(hoverNode, externalKey),
-          },
-        );
+        linkTextHoverAction(isHover, document.getElementById(`${textId}__text`), {
+          ...external,
+          isRelative: false,
+          hoverNode,
+          targetNode,
+          sourceNode,
+          hoverNodeExternal: get(hoverNode, externalKey),
+        });
       }
       link.attr({ ...svgAttr.polyline });
     });
@@ -1286,21 +1409,16 @@ const hoverAction = (isHover: boolean, params: any, snap: any, external: any, ch
       const curText = snap.select(`#${textId}-g`);
       if (curText) {
         curText.node.classList.remove('topology-link-text-fade');
-        linkTextHoverAction(
-          isHover,
-          document.getElementById(`${textId}__text`),
-          {
-            ...external,
-            isRelative: false,
-            hoverNode,
-            targetNode,
-            sourceNode,
-            hoverNodeExternal: get(hoverNode, externalKey),
-          },
-        );
+        linkTextHoverAction(isHover, document.getElementById(`${textId}__text`), {
+          ...external,
+          isRelative: false,
+          hoverNode,
+          targetNode,
+          sourceNode,
+          hoverNodeExternal: get(hoverNode, externalKey),
+        });
       }
       link.attr({ ...svgAttr.polyline });
     });
   }
 };
-

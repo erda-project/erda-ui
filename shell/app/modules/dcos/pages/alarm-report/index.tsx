@@ -25,7 +25,10 @@ import alarmReportStore from 'dataCenter/stores/alarm-report';
 
 const AlarmReport = () => {
   const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const { x_filter_host_ip: filter_host_ip, x_timestamp: timestamp } = query as {x_filter_host_ip: string;x_timestamp: string};
+  const { x_filter_host_ip: filter_host_ip, x_timestamp: timestamp } = query as {
+    x_filter_host_ip: string;
+    x_timestamp: string;
+  };
   const alarmReport = alarmReportStore.useStore((s) => s.alarmReport);
   const { getAlarmReport } = alarmReportStore.effects;
   const filter_cluster_name = params.clusterName;
@@ -59,26 +62,22 @@ const AlarmReport = () => {
   return (
     <>
       <ChartContainer title={ALARM_REPORT_CHART_MAP[alarmType || ''].cnName}>
-        <MonitorChartNew
-          data={alarmReport}
-          onEvents={onEvents}
-        />
+        <MonitorChartNew data={alarmReport} onEvents={onEvents} />
       </ChartContainer>
       <IF check={!['disk', 'cpu', 'load'].includes(alarmType || '')}>
-        <h3 className="mb16 mt32">{ `${i18n.t('dcos:process')} TOP（${moment(Number(selectedTime)).format('YYYY-MM-DD HH:mm:ss')}）` }</h3>
+        <h3 className="mb16 mt32">{`${i18n.t('dcos:process')} TOP（${moment(Number(selectedTime)).format(
+          'YYYY-MM-DD HH:mm:ss',
+        )}）`}</h3>
         <Row gutter={20}>
-          {
-            topChartList.map((TopChart: any, key) => (
-              <Col span={8} key={String(key)}>
-                <TopChart {...topChartAttrs} />
-              </Col>
-            ))
-          }
+          {topChartList.map((TopChart: any, key) => (
+            <Col span={8} key={String(key)}>
+              <TopChart {...topChartAttrs} />
+            </Col>
+          ))}
         </Row>
       </IF>
     </>
   );
 };
-
 
 export default AlarmReport;

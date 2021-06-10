@@ -13,12 +13,7 @@
 
 import { createStore } from 'app/cube';
 import { getDefaultPaging } from 'common/utils';
-import {
-  getReleaseList,
-  updateInfo,
-  getReleaseDetail,
-  getDiceYml,
-} from '../services/release';
+import { getReleaseList, updateInfo, getReleaseDetail, getDiceYml } from '../services/release';
 import i18n from 'i18n';
 
 interface IState {
@@ -50,7 +45,7 @@ const release = createStore({
     },
     async updateInfo({ call }, payload: RELEASE.UpdateBody) {
       await call(updateInfo, payload, { successMsg: i18n.t('application:modified successfully') });
-      const params = { pageNo: 1, pageSize: 10 };// 修改后的记录会被排序到第一条，故重新请求第一页
+      const params = { pageNo: 1, pageSize: 10 }; // 修改后的记录会被排序到第一条，故重新请求第一页
       await release.effects.getReleaseList(params);
     },
     async getReleaseDetail({ call, update }, releaseId: string) {

@@ -22,9 +22,7 @@ const Exception = () => {
   const chosenSortItem = monitorCommonStore.useStore((s) => s.chosenSortItem);
 
   const getAllChart = () => {
-    return (
-      <ExceptionMap.exception />
-    );
+    return <ExceptionMap.exception />;
   };
   const getDetailChart = () => {
     const key = chosenSortItem;
@@ -45,11 +43,7 @@ const Exception = () => {
             <ExceptionMap.sortList />
           </div>
         </Col>
-        <Col span={16}>
-          {
-            chosenSortItem ? getDetailChart() : getAllChart()
-          }
-        </Col>
+        <Col span={16}>{chosenSortItem ? getDetailChart() : getAllChart()}</Col>
       </Row>
     </div>
   );

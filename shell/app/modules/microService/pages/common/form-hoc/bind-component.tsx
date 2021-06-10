@@ -56,7 +56,9 @@ export default function bindComponent(instance: any, model: any, key: string, Co
       const len = configList.length;
       if (configIndex >= len) {
         configIndex = len - 1;
-        throw new Error(`The number of ${key} component calls is greater than the length of the configuration list. Please check the configuration property ${key}.`);
+        throw new Error(
+          `The number of ${key} component calls is greater than the length of the configuration list. Please check the configuration property ${key}.`,
+        );
       }
       config = configList[configIndex];
     }
@@ -90,17 +92,13 @@ export default function bindComponent(instance: any, model: any, key: string, Co
     }
 
     render() {
-      return (
-        <Component {...this.props} />
-      );
+      return <Component {...this.props} />;
     }
   }
 
   return function BindConfig(props: any) {
     const mergerProps = getMergeProps(props);
 
-    return (
-      <PureComponent {...mergerProps} />
-    );
+    return <PureComponent {...mergerProps} />;
   };
 }

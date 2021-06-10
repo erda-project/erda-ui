@@ -32,8 +32,13 @@ interface IState {
   selectContract: API_CLIENT.Contract;
 }
 
-const AuthorizationUser = ({ swaggerVersion, assetID }: {swaggerVersion: string; assetID: string}) => {
-  const [clientList, clientPaging, slaList, accessDetail] = apiAccessStore.useStore((s) => [s.clientList, s.clientPaging, s.slaList, s.accessDetail.access]);
+const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string; assetID: string }) => {
+  const [clientList, clientPaging, slaList, accessDetail] = apiAccessStore.useStore((s) => [
+    s.clientList,
+    s.clientPaging,
+    s.slaList,
+    s.accessDetail.access,
+  ]);
   const { deleteContracts, updateContracts, getClient, getSlaList } = apiAccessStore.effects;
   const [isFetch, isUpdateSLA] = useLoading(apiAccessStore, ['getClient', 'updateContracts']);
   const [state, updater, update] = useUpdate<IState>({
@@ -92,72 +97,93 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: {swaggerVersion: string;
     getSlaList({ assetID, swaggerVersion });
     updater.SLAVisible(false);
   };
-  const columns: Array<ColumnProps<API_ACCESS.Client>> = [{
-    title: i18n.t('client name'),
-    dataIndex: 'client.displayName',
-    render: (text, record) => {
-      return (
-        <div className="flex-box flex-start">
-          <div className="client_displayName"><Ellipsis title={text || record.client?.name} /></div>
-          {
-            record.contract.status === 'proved' && (
+  const columns: Array<ColumnProps<API_ACCESS.Client>> = [
+    {
+      title: i18n.t('client name'),
+      dataIndex: 'client.displayName',
+      render: (text, record) => {
+        return (
+          <div className="flex-box flex-start">
+            <div className="client_displayName">
+              <Ellipsis title={text || record.client?.name} />
+            </div>
+            {record.contract.status === 'proved' && (
               <Tooltip title={i18n.t('traffic audit')}>
-                <CustomIcon className="ml8 color-primary hover-active bold" type="monitor" onClick={(e) => { e.stopPropagation(); handleTrafficAudit(record.contract); }} />
+                <CustomIcon
+                  className="ml8 color-primary hover-active bold"
+                  type="monitor"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleTrafficAudit(record.contract);
+                  }}
+                />
               </Tooltip>
-            )
-          }
-        </div>
-      );
+            )}
+          </div>
+        );
+      },
     },
-  }, {
-    title: i18n.t('client identifier'),
-    dataIndex: 'client.name',
-  }, {
-    title: i18n.t('current SLA'),
-    dataIndex: 'contract.curSLAName',
-  }, {
-    title: i18n.t('applying SLA'),
-    dataIndex: 'contract.requestSLAName',
-  }, {
-    title: i18n.t('status'),
-    dataIndex: 'contract.status',
-    render: (text, { contract }) => {
-      if (contract.requestSLAID && text === 'proved') {
-        return i18n.t('apply to change SLA');
-      }
-      return contractStatueMap[text]?.name;
+    {
+      title: i18n.t('client identifier'),
+      dataIndex: 'client.name',
     },
-  }, {
-    title: i18n.t('operation'),
-    dataIndex: 'permission',
-    width: 220,
-    render: ({ edit }: API_ACCESS.ClientPermission, { contract }) => {
-      if (!edit) {
-        return null;
-      }
-      const { status } = contract;
-      return (
-        <TableActions>
-          {
-            status !== 'disproved' && <span className="table-operations-btn" onClick={() => { handleUpdateSLA(contract); }}>{i18n.t('replace SLA')}</span>
-          }
-          {
-            (contractStatueMap[status].actions || []).map((item) => {
+    {
+      title: i18n.t('current SLA'),
+      dataIndex: 'contract.curSLAName',
+    },
+    {
+      title: i18n.t('applying SLA'),
+      dataIndex: 'contract.requestSLAName',
+    },
+    {
+      title: i18n.t('status'),
+      dataIndex: 'contract.status',
+      render: (text, { contract }) => {
+        if (contract.requestSLAID && text === 'proved') {
+          return i18n.t('apply to change SLA');
+        }
+        return contractStatueMap[text]?.name;
+      },
+    },
+    {
+      title: i18n.t('operation'),
+      dataIndex: 'permission',
+      width: 220,
+      render: ({ edit }: API_ACCESS.ClientPermission, { contract }) => {
+        if (!edit) {
+          return null;
+        }
+        const { status } = contract;
+        return (
+          <TableActions>
+            {status !== 'disproved' && (
+              <span
+                className="table-operations-btn"
+                onClick={() => {
+                  handleUpdateSLA(contract);
+                }}
+              >
+                {i18n.t('replace SLA')}
+              </span>
+            )}
+            {(contractStatueMap[status].actions || []).map((item) => {
               return (
                 <Popconfirm
                   key={item.value}
                   title={i18n.t('confirm to {action}', { action: i18n.t(item.action) })}
-                  onConfirm={() => { handleProve(item.value, contract); }}
+                  onConfirm={() => {
+                    handleProve(item.value, contract);
+                  }}
                 >
-                  <span >{item.name}</span>
+                  <span>{item.name}</span>
                 </Popconfirm>
               );
-            })
-          }
-        </TableActions>
-      );
+            })}
+          </TableActions>
+        );
+      },
     },
-  }];
+  ];
   return (
     <>
       <Table
@@ -187,9 +213,11 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: {swaggerVersion: string;
         slaList={slaList}
         metaData={{
           currentSLAID: state.selectContract.curSLAID,
-          defaultSLAID: state.selectContract.requestSLAID || state.selectContract.requestSLAID === 0 ? state.selectContract.requestSLAID : state.selectContract.curSLAID,
+          defaultSLAID:
+            state.selectContract.requestSLAID || state.selectContract.requestSLAID === 0
+              ? state.selectContract.requestSLAID
+              : state.selectContract.curSLAID,
         }}
-
         onCancel={handleUpdateSLA}
         onOk={handleSubmitSLA}
         confirmLoading={isUpdateSLA}

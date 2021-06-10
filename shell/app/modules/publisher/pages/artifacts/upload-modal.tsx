@@ -26,7 +26,7 @@ import routeInfoStore from 'common/stores/route';
 import { useLoading } from 'common/stores/loading';
 import { Upload as IconUpload } from '@icon-park/react';
 
-export interface IProps{
+export interface IProps {
   visible: boolean;
   onCancel: () => void;
   afterUpload: (type: PUBLISHER.OfflinePackageType) => void;
@@ -46,7 +46,7 @@ const UploadModal = (props: IProps) => {
     onCancel();
   };
 
-  const handleOk = async (data: {desc: string}) => {
+  const handleOk = async (data: { desc: string }) => {
     const formData: FormData = new FormData();
     formData.append('file', File.current as File);
     formData.append('desc', data.desc);
@@ -57,56 +57,55 @@ const UploadModal = (props: IProps) => {
     handleCancel();
     afterUpload(res);
   };
-  const fieldsList: IFormItem[] = [{
-    label: i18n.t('file'),
-    name: 'file',
-    required: true,
-    rules: [
-      { required: true, message: i18n.t('common:Please select the file to be uploaded') },
-    ],
-    getComp: ({ form }: { form: WrappedFormUtils }) => {
-      const uploadProps = getUploadProps({
-        beforeUpload: (file: any) => {
-          // 和后端保持一致
-          const UPLOAD_SIZE_LIMIT = 300; // M
-          const isLtSize = file.size / 1024 / 1024 < UPLOAD_SIZE_LIMIT;
-          if (!isLtSize) {
-            message.warning(i18n.t('common:the uploaded file must not exceed {size}M', { size: UPLOAD_SIZE_LIMIT }));
+  const fieldsList: IFormItem[] = [
+    {
+      label: i18n.t('file'),
+      name: 'file',
+      required: true,
+      rules: [{ required: true, message: i18n.t('common:Please select the file to be uploaded') }],
+      getComp: ({ form }: { form: WrappedFormUtils }) => {
+        const uploadProps = getUploadProps({
+          beforeUpload: (file: any) => {
+            // 和后端保持一致
+            const UPLOAD_SIZE_LIMIT = 300; // M
+            const isLtSize = file.size / 1024 / 1024 < UPLOAD_SIZE_LIMIT;
+            if (!isLtSize) {
+              message.warning(i18n.t('common:the uploaded file must not exceed {size}M', { size: UPLOAD_SIZE_LIMIT }));
+              return false;
+            }
+            form.setFieldsValue({ file });
+            File.current = file;
+            setUploadFile(file.name);
+            // 阻止默认上传
             return false;
-          }
-          form.setFieldsValue({ file });
-          File.current = file;
-          setUploadFile(file.name);
-          // 阻止默认上传
-          return false;
-        },
-      });
-      return (
-        <div className="upload-container">
-          <Upload accept=".apk, .ipa" {...uploadProps}>
-            <Button>
-              <IconUpload /> {i18n.t('upload')}
-            </Button>
-          </Upload>
-          <span className="color-text-desc ml8">
-            {uploadFile ? i18n.t('have select {xx}', { xx: uploadFile }) : null}
-          </span>
-        </div>
-      );
+          },
+        });
+        return (
+          <div className="upload-container">
+            <Upload accept=".apk, .ipa" {...uploadProps}>
+              <Button>
+                <IconUpload /> {i18n.t('upload')}
+              </Button>
+            </Upload>
+            <span className="color-text-desc ml8">
+              {uploadFile ? i18n.t('have select {xx}', { xx: uploadFile }) : null}
+            </span>
+          </div>
+        );
+      },
     },
-  },
-  // 暂时隐藏描述
-  // {
-  //   label: i18n.t('description'),
-  //   name: 'desc',
-  //   required: false,
-  //   type: 'textArea',
-  //   itemProps: {
-  //     placeholder: i18n.t('please enter'),
-  //     autoComplete: 'off',
-  //     maxLength: 200,
-  //   },
-  // }
+    // 暂时隐藏描述
+    // {
+    //   label: i18n.t('description'),
+    //   name: 'desc',
+    //   required: false,
+    //   type: 'textArea',
+    //   itemProps: {
+    //     placeholder: i18n.t('please enter'),
+    //     autoComplete: 'off',
+    //     maxLength: 200,
+    //   },
+    // }
   ];
   return (
     <FormModal

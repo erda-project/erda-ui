@@ -22,30 +22,33 @@ export const commonAttr = {
   groupId: 'apiTransport',
 };
 
-const chartMap = merge({
-  requestSize: {
-    ...commonAttr,
-    titleText: i18n.t('microService:request size'),
-    chartName: 'requestSize',
+const chartMap = merge(
+  {
+    requestSize: {
+      ...commonAttr,
+      titleText: i18n.t('microService:request size'),
+      chartName: 'requestSize',
+    },
+    requestSizeTop: {
+      ...commonAttr,
+      titleText: i18n.t('microService:request size TOP 10'),
+      chartName: 'requestSizeTop',
+      viewRender: apiSizePanel,
+    },
+    responseSize: {
+      ...commonAttr,
+      titleText: i18n.t('microService:response size'),
+      chartName: 'responseSize',
+    },
+    responseSizeTop: {
+      ...commonAttr,
+      titleText: i18n.t('microService:response size TOP 10'),
+      chartName: 'responseSizeTop',
+      viewRender: apiSizePanel,
+    },
   },
-  requestSizeTop: {
-    ...commonAttr,
-    titleText: i18n.t('microService:request size TOP 10'),
-    chartName: 'requestSizeTop',
-    viewRender: apiSizePanel,
-  },
-  responseSize: {
-    ...commonAttr,
-    titleText: i18n.t('microService:response size'),
-    chartName: 'responseSize',
-  },
-  responseSizeTop: {
-    ...commonAttr,
-    titleText: i18n.t('microService:response size TOP 10'),
-    chartName: 'responseSizeTop',
-    viewRender: apiSizePanel,
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   requestSize: chartRender(chartMap.requestSize) as any,

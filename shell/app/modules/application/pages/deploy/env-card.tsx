@@ -46,7 +46,6 @@ const envMap = {
 export const EnvCard = ({ type }: IProps) => {
   return (
     <div className="env-card-container">
-
       <div className="env-card">
         <div className="env-icon">
           <CustomIcon color style={{ width: '40px', height: '40px' }} type={envMap[type].icon} className="stage-icon" />
@@ -56,8 +55,12 @@ export const EnvCard = ({ type }: IProps) => {
           <span className="env-sub-name">{envMap[type].subText}</span>
         </div>
       </div>
-      <span className="before-arrow triangle-left"><span /></span>
-      <span className="after-arrow triangle-left"><span /></span>
+      <span className="before-arrow triangle-left">
+        <span />
+      </span>
+      <span className="after-arrow triangle-left">
+        <span />
+      </span>
     </div>
   );
 };

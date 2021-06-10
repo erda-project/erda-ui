@@ -37,36 +37,31 @@ export const renderCommitItem = ({ id, author, commitMessage }: REPOSITORY.IComm
       <div className="commit-left">
         <div className="commit-title mb8 nowrap">
           <Link to={mergeRepoPathWith(`/commit/${id}`)}>
-            <span className="color-text fz16 hover-active bold">{ replaceEmoji(commitMessage) }</span>
+            <span className="color-text fz16 hover-active bold">{replaceEmoji(commitMessage)}</span>
           </Link>
         </div>
         <div className="flex-box flex-start">
-          <div className="color-text-sub"><Avatar className="mb4" showName name={author.name} /></div>
+          <div className="color-text-sub">
+            <Avatar className="mb4" showName name={author.name} />
+          </div>
           <span className="ml4">{i18n.t('committed at')}</span>
           <span className="color-text-sub ml4">{fromNow(author.when)}</span>
-          <span
-            className="for-copy commit-sub-sha"
-            data-clipboard-text={id}
-            data-clipboard-tip=" commit SHA "
-          >
-            <CustomIcon type="commit" /><span className="sha-text">{id.slice(0, 6)}</span>
+          <span className="for-copy commit-sub-sha" data-clipboard-text={id} data-clipboard-tip=" commit SHA ">
+            <CustomIcon type="commit" />
+            <span className="sha-text">{id.slice(0, 6)}</span>
           </span>
           <Copy selector=".for-copy" />
         </div>
       </div>
-      <div className="commit-right">
-        { renderAsLink('tree', id, <Button>{i18n.t('application:code')}</Button>) }
-      </div>
+      <div className="commit-right">{renderAsLink('tree', id, <Button>{i18n.t('application:code')}</Button>)}</div>
     </div>
   );
 };
 
-export const CommitList = ({ commits = [] }: {commits: REPOSITORY.ICommit[]}) => {
+export const CommitList = ({ commits = [] }: { commits: REPOSITORY.ICommit[] }) => {
   return (
     <div className="commit-list">
-      <Holder when={!commits.length}>
-        {commits.map(renderCommitItem)}
-      </Holder>
+      <Holder when={!commits.length}>{commits.map(renderCommitItem)}</Holder>
     </div>
   );
 };
@@ -126,27 +121,22 @@ const RepoCommit = () => {
             {...{ branches, tags, current: branch || tag || '' }}
             onChange={onBranchChange}
           >
-            {
-              branch
-                ? (
-                  <>
-                    <span>{i18n.t('application:branch')}:</span>
-                    <span className="branch-name bold nowrap">{branch}</span>
-                  </>)
-                : tag
-                  ? (
-                    <>
-                      <span>{i18n.t('application:tag')}:</span>
-                      <span className="branch-name bold nowrap">{tag}</span>
-                    </>
-                  )
-                  : (
-                    <>
-                      <span>{i18n.t('application:commit')}:</span>
-                      <span className="branch-name bold nowrap">{commitId}</span>
-                    </>
-                  )
-            }
+            {branch ? (
+              <>
+                <span>{i18n.t('application:branch')}:</span>
+                <span className="branch-name bold nowrap">{branch}</span>
+              </>
+            ) : tag ? (
+              <>
+                <span>{i18n.t('application:tag')}:</span>
+                <span className="branch-name bold nowrap">{tag}</span>
+              </>
+            ) : (
+              <>
+                <span>{i18n.t('application:commit')}:</span>
+                <span className="branch-name bold nowrap">{commitId}</span>
+              </>
+            )}
             <IconDownOne theme="filled" size="16px" />
           </BranchSelect>
           <IF check={path && branch}>
@@ -172,16 +162,12 @@ const RepoCommit = () => {
       <Spin spinning={isFetching}>
         <Holder when={!list.length && !isFetching}>
           <Timeline>
-            {
-              map(daySplit, (items: [], day) => (
-                <TimelineItem key={day}>
-                  <div className="day-split">{ day }</div>
-                  <div className="commit-list">
-                    { items.map(renderCommitItem) }
-                  </div>
-                </TimelineItem>
-              ))
-            }
+            {map(daySplit, (items: [], day) => (
+              <TimelineItem key={day}>
+                <div className="day-split">{day}</div>
+                <div className="commit-list">{items.map(renderCommitItem)}</div>
+              </TimelineItem>
+            ))}
             <TimelineItem />
           </Timeline>
         </Holder>
@@ -190,6 +176,5 @@ const RepoCommit = () => {
     </div>
   );
 };
-
 
 export default RepoCommit;

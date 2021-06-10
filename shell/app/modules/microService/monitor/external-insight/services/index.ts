@@ -14,13 +14,15 @@
 import agent from 'agent';
 
 export const getSubSlowHttpList = (payload: IChartQuery): IChartResult => {
-  return agent.get('/api/tmc/metrics/application_http_slow')
+  return agent
+    .get('/api/tmc/metrics/application_http_slow')
     .query(payload)
     .then((response: any) => response.body);
 };
 
 export const getSubErrorHttpList = (payload: IChartQuery): IChartResult => {
-  return agent.get('/api/tmc/metrics/application_http_error')
+  return agent
+    .get('/api/tmc/metrics/application_http_error')
     .query(payload)
     .then((response: any) => response.body);
 };

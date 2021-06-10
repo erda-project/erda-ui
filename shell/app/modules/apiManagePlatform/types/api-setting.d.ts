@@ -67,7 +67,7 @@ declare namespace API_SETTING {
     userID: number;
     nickName: string;
   }
-  interface IFileTree extends ICommonTreeData{
+  interface IFileTree extends ICommonTreeData {
     meta: {
       lock: IMetaLock;
       readOnly?: boolean;
@@ -78,7 +78,7 @@ declare namespace API_SETTING {
     key?: string;
     children?: any[];
   }
-  interface ISchemaParams extends ICommonTreeData{
+  interface ISchemaParams extends ICommonTreeData {
     meta: {
       lock: IMetaLock;
       schemas: {

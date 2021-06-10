@@ -45,11 +45,11 @@ const dcosServiceStore = createStore({
       const containerList = await call(ServiceServices.fetchContainerList, query);
       update({ containerList });
     },
-    async getServiceList({ call, update }, payload: {paths: DCOS_SERVICES.path[]; environment: string}) {
+    async getServiceList({ call, update }, payload: { paths: DCOS_SERVICES.path[]; environment: string }) {
       const serviceList = await call(ServiceServices.getServiceList, payload);
       update({ serviceList, serviceReqStatus: true });
     },
-    async getRuntimeStatus({ select, call, update }, payload: {runtimeIds: string}) {
+    async getRuntimeStatus({ select, call, update }, payload: { runtimeIds: string }) {
       try {
         const { runtimeStatus } = select((state) => state);
         const newStatus = await call(ServiceServices.getRuntimeStatus, payload);
@@ -64,7 +64,7 @@ const dcosServiceStore = createStore({
       const data = await call(ServiceServices.getMetrics, payload);
       dcosServiceStore.reducers.getMetricsDataSuccess({ data, type, filter_workspace });
     },
-    async getRuntimeJson({ call, update }, payload: {runtimeId: string}) {
+    async getRuntimeJson({ call, update }, payload: { runtimeId: string }) {
       const runtimeJson = await call(ServiceServices.getRuntimeJson, payload);
       update({ runtimeJson });
     },

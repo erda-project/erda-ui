@@ -41,11 +41,14 @@ export const getIPItemOption = (subnet: string, _toMask = 32) => {
     const flatBinArr = binaryArr.join('').split('');
     const newBinArr = [] as number[][];
     map(flatBinArr, (item, index) => {
-      if (fixLen >= (index + 1)) { // 固定位
+      if (fixLen >= index + 1) {
+        // 固定位
         newBinArr.push([+item]);
-      } else if (floatLen >= (index + 1)) { // 浮动位
+      } else if (floatLen >= index + 1) {
+        // 浮动位
         newBinArr.push([0, 1]);
-      } else { // 末尾固定位0
+      } else {
+        // 末尾固定位0
         newBinArr.push([0]);
       }
     });

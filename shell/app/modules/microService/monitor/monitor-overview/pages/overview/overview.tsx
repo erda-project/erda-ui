@@ -22,17 +22,19 @@ import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 import './overview.scss';
 
-interface IShowItem{
+interface IShowItem {
   name: string;
   Comp: any;
 }
 
-const constQuery = { // 当前一小时内
+const constQuery = {
+  // 当前一小时内
   end: Date.now(),
   start: Date.now() - 60 * 60 * 1000,
 };
 const curDay = new Date(new Date().toLocaleDateString()).getTime();
-const wholeDayBefor = (num: number) => ({ // num天（整点）
+const wholeDayBefor = (num: number) => ({
+  // num天（整点）
   end: curDay + 24 * 3600 * 1000,
   start: curDay - (num - 1) * 24 * 3600 * 1000,
 });
@@ -115,8 +117,11 @@ const Overview = () => {
   };
   return (
     <div className="monitor-overview">
-      {showList.map(({ Comp, name }: IShowItem) => <Comp key={name} />)}
-    </div>);
+      {showList.map(({ Comp, name }: IShowItem) => (
+        <Comp key={name} />
+      ))}
+    </div>
+  );
 };
 
 export default Overview;

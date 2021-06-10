@@ -21,13 +21,6 @@ import statisticsStore from './stores/statistics';
 export default (registerModule) => {
   return registerModule({
     key: 'publisher',
-    stores: [
-      authenticateStore,
-      blacklistStore,
-      eraseStore,
-      errorStore,
-      publisherStore,
-      statisticsStore,
-    ],
+    stores: [authenticateStore, blacklistStore, eraseStore, errorStore, publisherStore, statisticsStore],
   });
 };

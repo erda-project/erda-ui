@@ -81,10 +81,24 @@ class ObjectInputGroup extends PureComponent<IEditGlobalVariableProps, any> {
     const content = globalVariableList.map((item: any, index: number) => {
       return (
         <div key={String(index)} className="variable-input-group">
-          <Input disabled={disabled} className="variable-input" value={item.key} onChange={(e: any) => this.changeKey(e, index)} placeholder={`${i18n.t('application:please enter')}Key`} />
+          <Input
+            disabled={disabled}
+            className="variable-input"
+            value={item.key}
+            onChange={(e: any) => this.changeKey(e, index)}
+            placeholder={`${i18n.t('application:please enter')}Key`}
+          />
           <span className="variable-equal">=</span>
-          <Input disabled={disabled} className="variable-input" value={item.value} onChange={(e: any) => this.changeValue(e, index)} placeholder={`${i18n.t('application:please enter')}Value`} />
-          {disabled ? null : <IconDelete className="variable-icon ml12 pointer" onClick={() => this.deleteVariable(index)} />}
+          <Input
+            disabled={disabled}
+            className="variable-input"
+            value={item.value}
+            onChange={(e: any) => this.changeValue(e, index)}
+            placeholder={`${i18n.t('application:please enter')}Value`}
+          />
+          {disabled ? null : (
+            <IconDelete className="variable-icon ml12 pointer" onClick={() => this.deleteVariable(index)} />
+          )}
         </div>
       );
     });
@@ -93,8 +107,7 @@ class ObjectInputGroup extends PureComponent<IEditGlobalVariableProps, any> {
       <div>
         <div className={isProperty === true ? 'edit-service-label' : 'global-input-form-title'}>
           {required ? <span className="ant-form-item-required" /> : null}
-          {label}：
-          {disabled ? null : <IconPlus className="variable-icon pointer" onClick={this.addNewVariable} />}
+          {label}：{disabled ? null : <IconPlus className="variable-icon pointer" onClick={this.addNewVariable} />}
         </div>
         {content}
       </div>

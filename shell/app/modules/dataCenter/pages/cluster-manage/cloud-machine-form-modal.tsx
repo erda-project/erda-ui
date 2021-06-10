@@ -31,9 +31,9 @@ interface IProps {
   onSubmit: (resp: any) => any;
 }
 
-const BasicForm = ({ form }: {form: WrappedFormUtils}) => {
+const BasicForm = ({ form }: { form: WrappedFormUtils }) => {
   const currentOrg = orgStore.useStore((s) => s.currentOrg);
-  const defaultOrgTag = `org-${currentOrg.name}`;// 取企业名打默认的tag:org-{orgName}
+  const defaultOrgTag = `org-${currentOrg.name}`; // 取企业名打默认的tag:org-{orgName}
 
   const fieldsList = [
     {
@@ -60,12 +60,8 @@ const BasicForm = ({ form }: {form: WrappedFormUtils}) => {
       name: 'customLabels',
       required: false,
       initialValue: defaultOrgTag,
-      getComp: () => (
-        <CustomLabel />
-      ),
-      rules: [
-        { validator: checkCustomLabels },
-      ],
+      getComp: () => <CustomLabel />,
+      rules: [{ validator: checkCustomLabels }],
     },
     {
       label: i18n.t('org:machine type'),
@@ -85,12 +81,11 @@ const BasicForm = ({ form }: {form: WrappedFormUtils}) => {
       initialValue: 'ecs',
       itemProps: { type: 'hidden' },
     },
-
   ];
   return <RenderPureForm list={fieldsList} form={form} onlyItems />;
 };
 
-const MoreForm = ({ form }: {form: WrappedFormUtils}) => {
+const MoreForm = ({ form }: { form: WrappedFormUtils }) => {
   const fieldsList = [
     {
       label: i18n.t('org:disk size'),
@@ -130,19 +125,17 @@ const CloudMachineAddForm = (props: any) => {
   return (
     <div className="cluster-form">
       <BasicForm form={form} />
-      {
-        ['alicloud-cs', 'alicloud-cs-managed'].includes(cloudVendor) ? (null) : (
-          <div className="more">
-            <a className="more-btn" onClick={() => setShowMore(!showMore)}>
-              {i18n.t('advanced settings')}
-              { showMore ? <IconDown size="16px" /> : <IconUp size="16px" /> }
-            </a>
-            <div className={`more-form ${showMore ? '' : 'hide'}`}>
-              <MoreForm form={form} />
-            </div>
+      {['alicloud-cs', 'alicloud-cs-managed'].includes(cloudVendor) ? null : (
+        <div className="more">
+          <a className="more-btn" onClick={() => setShowMore(!showMore)}>
+            {i18n.t('advanced settings')}
+            {showMore ? <IconDown size="16px" /> : <IconUp size="16px" />}
+          </a>
+          <div className={`more-form ${showMore ? '' : 'hide'}`}>
+            <MoreForm form={form} />
           </div>
-        )
-      }
+        </div>
+      )}
     </div>
   );
 };
@@ -186,6 +179,5 @@ const CloudMachineFormModal = (props: IProps) => {
     />
   );
 };
-
 
 export default CloudMachineFormModal;

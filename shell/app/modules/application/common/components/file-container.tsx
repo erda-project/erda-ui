@@ -16,7 +16,7 @@ import { Spin } from 'app/nusi';
 import i18n from 'i18n';
 import './file-container.scss';
 
-interface IProps{
+interface IProps {
   children: any;
   name?: string | JSX.Element;
   className?: string;
@@ -45,10 +45,11 @@ const FileContainer = ({ children, name, className = '', ops, isEditing }: IProp
   return (
     <article className={`file-container ${clsName}`}>
       <div className="file-title bold">
-        <span className="flex-1 nowrap">{ isEditing ? i18n.t('application:edit') : null }{ name }</span>
-        <span className="file-ops">
-          {ops}
+        <span className="flex-1 nowrap">
+          {isEditing ? i18n.t('application:edit') : null}
+          {name}
         </span>
+        <span className="file-ops">{ops}</span>
       </div>
       <div className="file-content">
         <Spin spinning={isSpinning} tip={`${i18n.t('application:content loading')}...`} wrapperClassName="flex-1">

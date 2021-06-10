@@ -23,7 +23,7 @@ import './activity.scss';
 
 const TimelineItem = Timeline.Item;
 const { ELSE } = IF;
-const noop = () => { };
+const noop = () => {};
 
 // 根据不同动态类型获取内容
 const getContent = ({ action }: { context: any; action: any }) => {
@@ -132,10 +132,18 @@ export const ActiveCard = ({ operator, action, context }: IActivity) => {
 };
 
 export const TimelineActivity = ({
-  list, userMap, isLoading = false, hasMore = false, loadMore = noop, CustomCard,
+  list,
+  userMap,
+  isLoading = false,
+  hasMore = false,
+  loadMore = noop,
+  CustomCard,
 }: IProps) => {
   // 依据每一条动态的 timeStamp 区分出时间范围
-  const groupActivityList = groupBy(map(list, ({ timeStamp, ...rest }) => ({ ...rest, timeStamp, timeRange: moment(timeStamp).format('YYYY-MM-DD') })), 'timeRange');
+  const groupActivityList = groupBy(
+    map(list, ({ timeStamp, ...rest }) => ({ ...rest, timeStamp, timeRange: moment(timeStamp).format('YYYY-MM-DD') })),
+    'timeRange',
+  );
   const ranges = Object.keys(groupActivityList);
 
   return (
@@ -145,16 +153,15 @@ export const TimelineActivity = ({
           <TimelineItem key={i}>
             <div className="time tc2">{range}</div>
             <div className="list">
-              {
-                map(groupActivityList[range], (activity) => {
-                  const { id } = activity;
-                  const props = { activity, key: id, userMap };
-                  const Comp = CustomCard || ActiveCard;
-                  return (<Comp {...props} key={id} />);
-                })
-              }
+              {map(groupActivityList[range], (activity) => {
+                const { id } = activity;
+                const props = { activity, key: id, userMap };
+                const Comp = CustomCard || ActiveCard;
+                return <Comp {...props} key={id} />;
+              })}
             </div>
-          </TimelineItem>);
+          </TimelineItem>
+        );
       })}
       <IF check={hasMore && !isLoading}>
         <TimelineItem key="key-load" className="load-more">

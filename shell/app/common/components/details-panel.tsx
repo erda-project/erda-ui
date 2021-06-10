@@ -72,7 +72,7 @@ const Content = (props: IContentProps) => {
     <div className="title-box border-all white-bg">
       <IF check={showTitle}>
         <div className="title-wrapper px12 pt12">
-          <Title {...titleProps as TitleProps} />
+          <Title {...(titleProps as TitleProps)} />
         </div>
       </IF>
       <div className={contentClass}>
@@ -98,42 +98,40 @@ const DetailsPanel = (props: IProps) => {
     },
   };
 
-  const container = React.useRef(anchorContainer || document.getElementById('main') as IAnchorContainer);
+  const container = React.useRef(anchorContainer || (document.getElementById('main') as IAnchorContainer));
 
   return (
     <div className="details-panel-template">
       <IF check={!isEmpty(baseInfoConf)}>
         <div className="base-info mb12">
-          <Content {..._baseInfoConf as IContentProps} />
+          <Content {...(_baseInfoConf as IContentProps)} />
         </div>
       </IF>
       {children}
       <IF check={!isEmpty(linkList)}>
         <Anchor getContainer={() => container.current}>
-          {
-            map(linkList, (item) => {
-              const { linkProps, crossLine, titleProps, showTitle, panelProps, getComp, key } = item;
-              const { icon, title } = linkProps;
-              const _titleProps = {
-                title,
-                level: 2,
-                icon,
-                ...titleProps,
-              };
-              const href = `#${key}`;
-              return (
-                <Link href={href} title={title} key={href} icon={icon}>
-                  <Content
-                    crossLine={crossLine}
-                    titleProps={_titleProps}
-                    panelProps={panelProps}
-                    getComp={getComp}
-                    showTitle={showTitle}
-                  />
-                </Link>
-              );
-            })
-          }
+          {map(linkList, (item) => {
+            const { linkProps, crossLine, titleProps, showTitle, panelProps, getComp, key } = item;
+            const { icon, title } = linkProps;
+            const _titleProps = {
+              title,
+              level: 2,
+              icon,
+              ...titleProps,
+            };
+            const href = `#${key}`;
+            return (
+              <Link href={href} title={title} key={href} icon={icon}>
+                <Content
+                  crossLine={crossLine}
+                  titleProps={_titleProps}
+                  panelProps={panelProps}
+                  getComp={getComp}
+                  showTitle={showTitle}
+                />
+              </Link>
+            );
+          })}
         </Anchor>
       </IF>
     </div>

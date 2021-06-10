@@ -26,11 +26,7 @@ interface IProps {
   onClick: (val: string) => void;
 }
 
-const options = [
-  ISSUE_TYPE_MAP.REQUIREMENT,
-  ISSUE_TYPE_MAP.TASK,
-  ISSUE_TYPE_MAP.BUG,
-];
+const options = [ISSUE_TYPE_MAP.REQUIREMENT, ISSUE_TYPE_MAP.TASK, ISSUE_TYPE_MAP.BUG];
 
 const infoMap = {
   [ISSUE_TYPE.ALL]: {
@@ -53,13 +49,18 @@ export default ({ onClick, issueType }: IProps) => {
   const authObj = usePerm((s) => s.project);
   const typeInfo = infoMap[issueType];
 
-  const menu = issueType === ISSUE_TYPE.ALL ? (
-    <Menu onClick={(e: any) => onClick(e.key)}>
-      {map(options, (op) => {
-        return <Menu.Item key={op.value} disabled={!authObj[op.value.toLowerCase()].create.pass}>{op.iconLabel}</Menu.Item>;
-      })}
-    </Menu>
-  ) : null;
+  const menu =
+    issueType === ISSUE_TYPE.ALL ? (
+      <Menu onClick={(e: any) => onClick(e.key)}>
+        {map(options, (op) => {
+          return (
+            <Menu.Item key={op.value} disabled={!authObj[op.value.toLowerCase()].create.pass}>
+              {op.iconLabel}
+            </Menu.Item>
+          );
+        })}
+      </Menu>
+    ) : null;
 
   const btnContent = (
     <div>
@@ -69,30 +70,33 @@ export default ({ onClick, issueType }: IProps) => {
   );
   return (
     <div className="top-button-group">
-      {
-        isEmpty(iterationList) ? (
-          <Tooltip
-            placement="left"
-            title={(
-              <span>
-                {i18n.t('project:you need')}&nbsp;
-                <span onClick={() => goTo('../iteration')} className="fake-link">{i18n.t('project:new iteration')}</span>
+      {isEmpty(iterationList) ? (
+        <Tooltip
+          placement="left"
+          title={
+            <span>
+              {i18n.t('project:you need')}&nbsp;
+              <span onClick={() => goTo('../iteration')} className="fake-link">
+                {i18n.t('project:new iteration')}
               </span>
-            )}
-          >
-            <Button type="primary" disabled>{btnContent}</Button>
-          </Tooltip>
-        ) : (
-          menu ? (
-            <Dropdown overlay={menu}>
-              <Button type="primary">{btnContent}</Button>
-            </Dropdown>
-          ) :
-            <WithAuth pass={authObj[issueType.toLowerCase()].create.pass} >
-              <Button type="primary" onClick={() => onClick(issueType)}>{btnContent}</Button>
-            </WithAuth>
-        )
-      }
+            </span>
+          }
+        >
+          <Button type="primary" disabled>
+            {btnContent}
+          </Button>
+        </Tooltip>
+      ) : menu ? (
+        <Dropdown overlay={menu}>
+          <Button type="primary">{btnContent}</Button>
+        </Dropdown>
+      ) : (
+        <WithAuth pass={authObj[issueType.toLowerCase()].create.pass}>
+          <Button type="primary" onClick={() => onClick(issueType)}>
+            {btnContent}
+          </Button>
+        </WithAuth>
+      )}
     </div>
   );
 };

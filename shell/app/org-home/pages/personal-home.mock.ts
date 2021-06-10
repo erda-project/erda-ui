@@ -91,7 +91,6 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
               },
             },
           ],
-
         },
         operations: {
           toJoinOrgDoc: {
@@ -130,53 +129,54 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
         type: 'DropdownSelect',
         props: {
           visible: true,
-          options:
-            [
-              {
-                label: '组织B',
-                value: 'organizeB',
-                prefixImgSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYQY0vUTJwftJ8WqXoLiLeB--2MJkpZLpYOA&usqp=CAU',
-                operations: {
-                  click: {
-                    key: 'click',
-                    show: false,
-                    reload: false,
-                    command: {
-                      key: 'goto',
-                      target: 'orgRoot',
-                      jumpOut: false,
-                      state: {
-                        params: {
-                          orgName: 'organizeA',
-                        },
+          options: [
+            {
+              label: '组织B',
+              value: 'organizeB',
+              prefixImgSrc:
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYQY0vUTJwftJ8WqXoLiLeB--2MJkpZLpYOA&usqp=CAU',
+              operations: {
+                click: {
+                  key: 'click',
+                  show: false,
+                  reload: false,
+                  command: {
+                    key: 'goto',
+                    target: 'orgRoot',
+                    jumpOut: false,
+                    state: {
+                      params: {
+                        orgName: 'organizeA',
                       },
                     },
                   },
                 },
               },
-              {
-                label: '组织A',
-                value: 'organizeA',
-                prefixImgSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI1EaartvKCwGgDS7FTpu71EyFs1wCl1MsFQ&usqp=CAU',
-                operations: {
-                  click: {
-                    key: 'click',
-                    show: false,
-                    reload: false,
-                    command: {
-                      key: 'goto',
-                      target: 'orgRoot',
-                      jumpOut: false,
-                      state: {
-                        params: {
-                          orgName: 'organizeA',
-                        },
+            },
+            {
+              label: '组织A',
+              value: 'organizeA',
+              prefixImgSrc:
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI1EaartvKCwGgDS7FTpu71EyFs1wCl1MsFQ&usqp=CAU',
+              operations: {
+                click: {
+                  key: 'click',
+                  show: false,
+                  reload: false,
+                  command: {
+                    key: 'goto',
+                    target: 'orgRoot',
+                    jumpOut: false,
+                    state: {
+                      params: {
+                        orgName: 'organizeA',
                       },
                     },
                   },
                 },
               },
-            ],
+            },
+          ],
           quickSelect: [
             {
               value: 'orgList',
@@ -221,12 +221,22 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
           list: [
             {
               id: 1,
-              category: { renderType: 'textWithIcon', prefixIcon: 'project-icon', value: '参与项目数：', colorClassName: 'color-primary' },
+              category: {
+                renderType: 'textWithIcon',
+                prefixIcon: 'project-icon',
+                value: '参与项目数：',
+                colorClassName: 'color-primary',
+              },
               number: 5,
             },
             {
               id: 1,
-              category: { renderType: 'textWithIcon', prefixIcon: 'app-icon', value: '参与应用数：', colorClassName: 'color-primary' },
+              category: {
+                renderType: 'textWithIcon',
+                prefixIcon: 'app-icon',
+                value: '参与应用数：',
+                colorClassName: 'color-primary',
+              },
               number: 45,
             },
           ],
@@ -279,7 +289,11 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
           visible: true,
           renderType: 'linkText',
           value: {
-            text: [{ text: '如何创建项目', operationKey: 'createProjectDoc' }, ' 或 ', { text: '通过公开组织浏览公开项目信息', operationKey: 'toPublicOrgPage' }],
+            text: [
+              { text: '如何创建项目', operationKey: 'createProjectDoc' },
+              ' 或 ',
+              { text: '通过公开组织浏览公开项目信息', operationKey: 'toPublicOrgPage' },
+            ],
           },
         },
         operations: {
@@ -373,8 +387,7 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
               type: 'input',
             },
           ],
-          values: {
-          },
+          values: {},
         },
         operations: {
           filter: {
@@ -494,8 +507,7 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
               type: 'input',
             },
           ],
-          values: {
-          },
+          values: {},
         },
         operations: {
           filter: {
@@ -694,7 +706,8 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
               props: {
                 renderType: 'text',
                 visible: true,
-                value: '通过左上角的浏览公开组织信息，选择公开组织可以直接进入浏览该组织公开项目的信息可（包含项目管理、应用运行信息等）',
+                value:
+                  '通过左上角的浏览公开组织信息，选择公开组织可以直接进入浏览该组织公开项目的信息可（包含项目管理、应用运行信息等）',
               },
               gapSize: 'large',
             },
@@ -739,7 +752,8 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
               jumpOut: true,
               state: {
                 query: {
-                  issueViewGroup__urlQuery: 'eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=',
+                  issueViewGroup__urlQuery:
+                    'eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=',
                 },
                 params: {
                   projectId: '13',
@@ -979,11 +993,14 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 renderType: 'linkText',
                 visible: true,
                 value: {
-                  text: ['点击左上角菜单',
+                  text: [
+                    '点击左上角菜单',
                     {
                       icon: 'application-menu',
                       iconStyleName: 'primary-icon',
-                    }, '选择 DevOps平台进入，选择我的项目可以查看该组织下公开项目的信息'],
+                    },
+                    '选择 DevOps平台进入，选择我的项目可以查看该组织下公开项目的信息',
+                  ],
                 },
               },
               gapSize: 'large',
@@ -1039,7 +1056,10 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                   renderType: 'linkText',
                   value: {
                     text: [
-                      { image: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3314214233,3432671412&fm=26&gp=0.jpg' },
+                      {
+                        image:
+                          'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3314214233,3432671412&fm=26&gp=0.jpg',
+                      },
                       {
                         text: 'Erda',
                         operationKey: 'toSpecificProject',
@@ -1047,7 +1067,8 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                           color: 'black',
                           fontSize: '16px',
                         },
-                      }],
+                      },
+                    ],
                     isPureText: false,
                   },
                 },
@@ -1059,7 +1080,8 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                       jumpOut: true,
                       state: {
                         query: {
-                          issueViewGroup__urlQuery: 'eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=',
+                          issueViewGroup__urlQuery:
+                            'eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=',
                         },
                         params: {
                           projectId: '13',
@@ -1082,32 +1104,43 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 renderType: 'linkText',
                 visible: true,
                 value: {
-                  text: ['当前你还有', {
-                    text: ' 120 ',
-                    styleConfig: {
-                      bold: true,
+                  text: [
+                    '当前你还有',
+                    {
+                      text: ' 120 ',
+                      styleConfig: {
+                        bold: true,
+                      },
                     },
-                  }, '个事项待完成，已过期:', {
-                    text: ' 40 ',
-                    styleConfig: {
-                      bold: true,
+                    '个事项待完成，已过期:',
+                    {
+                      text: ' 40 ',
+                      styleConfig: {
+                        bold: true,
+                      },
                     },
-                  }, '，本日到期:', {
-                    text: ' 40 ',
-                    styleConfig: {
-                      bold: true,
+                    '，本日到期:',
+                    {
+                      text: ' 40 ',
+                      styleConfig: {
+                        bold: true,
+                      },
                     },
-                  }, '，7日内到期:', {
-                    text: ' 36 ',
-                    styleConfig: {
-                      bold: true,
+                    '，7日内到期:',
+                    {
+                      text: ' 36 ',
+                      styleConfig: {
+                        bold: true,
+                      },
                     },
-                  }, '，30日内到期:', {
-                    text: ' 44 ',
-                    styleConfig: {
-                      bold: true,
+                    '，30日内到期:',
+                    {
+                      text: ' 44 ',
+                      styleConfig: {
+                        bold: true,
+                      },
                     },
-                  }],
+                  ],
                 },
                 textStyleName: { 'color-text-light-desc': true },
               },
@@ -1131,7 +1164,12 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                       id: '153',
                       projectId: '13',
                       type: 'requirement',
-                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '222运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
+                      name: {
+                        renderType: 'textWithIcon',
+                        prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
+                        value: '222运行速度没得说，完全不卡，打游戏体验极佳',
+                        hoverActive: 'hover-active',
+                      },
                       planFinishedAt: '2022-03-02',
                       orgName: 'terminus',
                     },
@@ -1139,7 +1177,12 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                       id: '150',
                       projectId: '13',
                       type: 'requirement',
-                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
+                      name: {
+                        renderType: 'textWithIcon',
+                        prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
+                        value: '111运行速度没得说，完全不卡，打游戏体验极佳',
+                        hoverActive: 'hover-active',
+                      },
                       planFinishedAt: '2022-03-02',
                       orgName: 'terminus',
                     },
@@ -1147,7 +1190,12 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                       id: '153',
                       projectId: '13',
                       type: 'requirement',
-                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
+                      name: {
+                        renderType: 'textWithIcon',
+                        prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
+                        value: '111运行速度没得说，完全不卡，打游戏体验极佳',
+                        hoverActive: 'hover-active',
+                      },
                       planFinishedAt: '2022-03-02',
                       orgName: 'terminus',
                     },
@@ -1155,7 +1203,12 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                       id: '150',
                       projectId: '13',
                       type: 'requirement',
-                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
+                      name: {
+                        renderType: 'textWithIcon',
+                        prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
+                        value: '111运行速度没得说，完全不卡，打游戏体验极佳',
+                        hoverActive: 'hover-active',
+                      },
                       planFinishedAt: '2022-03-02',
                       orgName: 'terminus',
                     },
@@ -1163,7 +1216,12 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                       id: '153',
                       projectId: '13',
                       type: 'requirement',
-                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
+                      name: {
+                        renderType: 'textWithIcon',
+                        prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
+                        value: '111运行速度没得说，完全不卡，打游戏体验极佳',
+                        hoverActive: 'hover-active',
+                      },
                       planFinishedAt: '2022-03-02',
                       orgName: 'terminus',
                     },
@@ -1196,7 +1254,8 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                       jumpOut: true,
                       state: {
                         query: {
-                          issueViewGroup__urlQuery: 'eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=',
+                          issueViewGroup__urlQuery:
+                            'eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=',
                         },
                         params: {
                           projectId: '13',
@@ -1218,7 +1277,10 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                   renderType: 'linkText',
                   value: {
                     text: [
-                      { image: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3314214233,3432671412&fm=26&gp=0.jpg' },
+                      {
+                        image:
+                          'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3314214233,3432671412&fm=26&gp=0.jpg',
+                      },
                       {
                         text: 'Erda',
                         operationKey: 'toSpecificProject',
@@ -1227,7 +1289,8 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                           color: 'black',
                           fontSize: '16px',
                         },
-                      }],
+                      },
+                    ],
                     isPureText: false,
                   },
                 },
@@ -1239,7 +1302,8 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                       jumpOut: true,
                       state: {
                         query: {
-                          issueViewGroup__urlQuery: 'eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=',
+                          issueViewGroup__urlQuery:
+                            'eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=',
                         },
                         params: {
                           projectId: '13',
@@ -1262,37 +1326,48 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 renderType: 'linkText',
                 visible: true,
                 value: {
-                  text: ['当前你还有', {
-                    text: ' 120 ',
-                    styleConfig: {
-                      bold: true,
-                      fontSize: '16px',
+                  text: [
+                    '当前你还有',
+                    {
+                      text: ' 120 ',
+                      styleConfig: {
+                        bold: true,
+                        fontSize: '16px',
+                      },
                     },
-                  }, '个事项待完成，已过期:', {
-                    text: ' 40 ',
-                    styleConfig: {
-                      bold: true,
-                      fontSize: '16px',
+                    '个事项待完成，已过期:',
+                    {
+                      text: ' 40 ',
+                      styleConfig: {
+                        bold: true,
+                        fontSize: '16px',
+                      },
                     },
-                  }, '，本日到期:', {
-                    text: ' 40 ',
-                    styleConfig: {
-                      bold: true,
-                      fontSize: '16px',
+                    '，本日到期:',
+                    {
+                      text: ' 40 ',
+                      styleConfig: {
+                        bold: true,
+                        fontSize: '16px',
+                      },
                     },
-                  }, '，7日内到期:', {
-                    text: ' 36 ',
-                    styleConfig: {
-                      bold: true,
-                      fontSize: '16px',
+                    '，7日内到期:',
+                    {
+                      text: ' 36 ',
+                      styleConfig: {
+                        bold: true,
+                        fontSize: '16px',
+                      },
                     },
-                  }, '，30日内到期:', {
-                    text: ' 44 ',
-                    styleConfig: {
-                      bold: true,
-                      fontSize: '16px',
+                    '，30日内到期:',
+                    {
+                      text: ' 44 ',
+                      styleConfig: {
+                        bold: true,
+                        fontSize: '16px',
+                      },
                     },
-                  }],
+                  ],
                 },
                 textStyleName: { 'color-text-light-desc': true },
               },
@@ -1315,35 +1390,60 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                       id: '153',
                       projectId: '13',
                       type: 'requirement',
-                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '222运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
+                      name: {
+                        renderType: 'textWithIcon',
+                        prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
+                        value: '222运行速度没得说，完全不卡，打游戏体验极佳',
+                        hoverActive: 'hover-active',
+                      },
                       planFinishedAt: '2022-03-02',
                     },
                     {
                       id: '150',
                       projectId: '13',
                       type: 'requirement',
-                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
+                      name: {
+                        renderType: 'textWithIcon',
+                        prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
+                        value: '111运行速度没得说，完全不卡，打游戏体验极佳',
+                        hoverActive: 'hover-active',
+                      },
                       planFinishedAt: '2022-03-02',
                     },
                     {
                       id: '153',
                       projectId: '13',
                       type: 'requirement',
-                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
+                      name: {
+                        renderType: 'textWithIcon',
+                        prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
+                        value: '111运行速度没得说，完全不卡，打游戏体验极佳',
+                        hoverActive: 'hover-active',
+                      },
                       planFinishedAt: '2022-03-02',
                     },
                     {
                       id: '150',
                       projectId: '13',
                       type: 'requirement',
-                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
+                      name: {
+                        renderType: 'textWithIcon',
+                        prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
+                        value: '111运行速度没得说，完全不卡，打游戏体验极佳',
+                        hoverActive: 'hover-active',
+                      },
                       planFinishedAt: '2022-03-02',
                     },
                     {
                       id: '153',
                       projectId: '13',
                       type: 'requirement',
-                      name: { renderType: 'textWithIcon', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111运行速度没得说，完全不卡，打游戏体验极佳', hoverActive: 'hover-active' },
+                      name: {
+                        renderType: 'textWithIcon',
+                        prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
+                        value: '111运行速度没得说，完全不卡，打游戏体验极佳',
+                        hoverActive: 'hover-active',
+                      },
                       planFinishedAt: '2022-03-02',
                     },
                   ],
@@ -1375,7 +1475,8 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                       jumpOut: true,
                       state: {
                         query: {
-                          issueViewGroup__urlQuery: 'eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=',
+                          issueViewGroup__urlQuery:
+                            'eyJ2YWx1ZSI6ImthbmJhbiIsImNoaWxkcmVuVmFsdWUiOnsia2FuYmFuIjoiZGVhZGxpbmUifX0=',
                         },
                         params: {
                           projectId: '13',

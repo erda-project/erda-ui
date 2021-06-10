@@ -51,21 +51,29 @@ const MultiInput = (props: any) => {
 
   return (
     <div className="full-width">
-      {
-        map(renderData, (item: any, index: number) => {
-          return (
-            <div className="flex-box multi-input-item" key={index}>
-              <Input className="multi-input-input flex-1" value={item} onChange={(e: any) => changeItemValue(e.target.value, index)} placeholder={placeholder || i18n.t('please enter')} />
-              <div className="multi-input-icons">
-                <IconAddOne className="input-with-icon plus-circle" onClick={() => addOne()} />
-                {
-                 index !== 0 ? <IconReduceOne className="input-with-icon minus-circle" onClick={() => { dropOne(index); }} /> : null
-                }
-              </div>
+      {map(renderData, (item: any, index: number) => {
+        return (
+          <div className="flex-box multi-input-item" key={index}>
+            <Input
+              className="multi-input-input flex-1"
+              value={item}
+              onChange={(e: any) => changeItemValue(e.target.value, index)}
+              placeholder={placeholder || i18n.t('please enter')}
+            />
+            <div className="multi-input-icons">
+              <IconAddOne className="input-with-icon plus-circle" onClick={() => addOne()} />
+              {index !== 0 ? (
+                <IconReduceOne
+                  className="input-with-icon minus-circle"
+                  onClick={() => {
+                    dropOne(index);
+                  }}
+                />
+              ) : null}
             </div>
-          );
-        })
-      }
+          </div>
+        );
+      })}
     </div>
   );
 };

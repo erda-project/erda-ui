@@ -19,7 +19,6 @@ import { Tag } from 'app/nusi';
 import React from 'react';
 import './machine-detail.scss';
 
-
 const itemConfigs = [
   {
     title: i18n.t('host name'),
@@ -59,10 +58,7 @@ export interface IProps {
   machineDetail: ORG_MACHINE.IMachine;
 }
 
-const MachineDetail = ({
-  type,
-  machineDetail,
-}: IProps) => {
+const MachineDetail = ({ type, machineDetail }: IProps) => {
   let Content = null;
   if (machineDetail) {
     switch (type) {
@@ -71,11 +67,11 @@ const MachineDetail = ({
           <div className="machine-detail-info-item mb28" key={title}>
             <div className="label mb8">{title}</div>
             <div className="value">
-              {
-                isFunction(render)
-                  ? render(value ? machineDetail[value] : machineDetail)
-                  : value ? machineDetail[value] : null
-              }
+              {isFunction(render)
+                ? render(value ? machineDetail[value] : machineDetail)
+                : value
+                ? machineDetail[value]
+                : null}
             </div>
           </div>
         ));
@@ -99,12 +95,7 @@ const MachineDetail = ({
     }
   }
 
-  return (
-    <Holder when={isEmpty(machineDetail)}>
-      {Content}
-    </Holder>
-  );
+  return <Holder when={isEmpty(machineDetail)}>{Content}</Holder>;
 };
-
 
 export default MachineDetail;

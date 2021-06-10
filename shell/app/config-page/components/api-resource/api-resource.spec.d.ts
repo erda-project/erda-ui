@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace CP_API_RESOURCE {
-
   interface Column {
     title: string;
     dataIndex: string;
@@ -32,7 +31,7 @@ declare namespace CP_API_RESOURCE {
     apiData: IApiData;
   }
 
-  interface IApiData{
+  interface IApiData {
     apiMethod: 'get' | 'post' | 'put' | 'delete' | 'options' | 'head' | 'patch';
     apiName: string;
     operationId?: string;

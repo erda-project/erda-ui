@@ -26,7 +26,7 @@ import i18n from 'i18n';
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
-interface IProps{
+interface IProps {
   [pro: string]: any;
   traceDetailContent?: any;
   expandSpan?: any;
@@ -39,15 +39,22 @@ const TraceDetailFilter = (props: IProps) => {
   const root = spans ? spans[0] : {};
   return (
     <Form className="ant-advanced-search-form">
-
       <div className="form-filter-container">
         <Row className="filter-top">
           <Col span={24}>
             <ul className="trace-nav clearfix">
-              <li className="pull-left"><strong>Duration:</strong> <span className="badge">{duration || 0}</span></li>
-              <li className="pull-left"><strong>Services:</strong> <span className="badge">{services || 0}</span></li>
-              <li className="pull-left"><strong>Depth:</strong> <span className="badge">{depth || 0}</span></li>
-              <li className="pull-left"><strong>Total Spans:</strong> <span className="badge">{totalSpans || 0}</span></li>
+              <li className="pull-left">
+                <strong>Duration:</strong> <span className="badge">{duration || 0}</span>
+              </li>
+              <li className="pull-left">
+                <strong>Services:</strong> <span className="badge">{services || 0}</span>
+              </li>
+              <li className="pull-left">
+                <strong>Depth:</strong> <span className="badge">{depth || 0}</span>
+              </li>
+              <li className="pull-left">
+                <strong>Total Spans:</strong> <span className="badge">{totalSpans || 0}</span>
+              </li>
               <li className="pull-right">
                 <JsonChecker jsonString={jsonStr} />
               </li>
@@ -65,7 +72,7 @@ const TraceDetailFilter = (props: IProps) => {
           }}
           defaultValue="expandAll"
         >
-          <RadioButton value="expandAll" >{i18n.t('microService:expand all')}</RadioButton>
+          <RadioButton value="expandAll">{i18n.t('microService:expand all')}</RadioButton>
           <RadioButton value="collapseAll">{i18n.t('microService:all put away')}</RadioButton>
         </RadioGroup>
       </Row>

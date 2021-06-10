@@ -64,7 +64,14 @@ class SelectInputGroup extends React.Component {
   };
 
   render() {
-    const { selectProps = {}, inputProps = {}, options = [], selectTip = '', inputTip = '', defaultSelectValue } = this.props;
+    const {
+      selectProps = {},
+      inputProps = {},
+      options = [],
+      selectTip = '',
+      inputTip = '',
+      defaultSelectValue,
+    } = this.props;
     const { state } = this;
     return (
       <span className="select-input-group">
@@ -74,9 +81,11 @@ class SelectInputGroup extends React.Component {
           placeholder={selectTip}
           {...selectProps}
         >
-          {
-            options.map((op) => <Option key={op.value} value={op.value}>{op.name}</Option>)
-          }
+          {options.map((op) => (
+            <Option key={op.value} value={op.value}>
+              {op.name}
+            </Option>
+          ))}
         </Select>
         <span className="slash">/</span>
         <Input

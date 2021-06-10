@@ -17,14 +17,14 @@ import { ColumnProps } from 'core/common/interface';
 import { get } from 'lodash';
 import i18n from 'i18n';
 
-interface IData{
+interface IData {
   [pro: string]: any;
   name: string;
   logId?: string;
   traceId?: string;
 }
 
-const ExceptionTracePanel = ({ data }: {data: object}) => {
+const ExceptionTracePanel = ({ data }: { data: object }) => {
   const list = get(data, 'results') || [];
   const dataSource = list.map((item: any) => item.data[0]);
   const columns: Array<ColumnProps<IData>> = [

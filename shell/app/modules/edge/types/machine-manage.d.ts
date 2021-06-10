@@ -66,4 +66,3 @@ declare namespace MACHINE_MANAGE {
     siteIP: string;
   }
 }
-

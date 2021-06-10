@@ -17,7 +17,6 @@ import moment, { Moment } from 'moment';
 import React from 'react';
 import { Tooltip } from 'app/nusi';
 
-
 export const camel2Underscore = (str: string, options = { upperCase: false }) => {
   const underscoreStr = str.replace(/[A-Z]+/g, '_$&');
   return options.upperCase ? underscoreStr.toUpperCase() : underscoreStr.toLowerCase();
@@ -30,7 +29,7 @@ export function getStrRealLen(strr: string, isByte: boolean, byteLen: number) {
   let rlen = 0;
   for (let i = 0; i < l; i++) {
     /* eslint-disable no-bitwise */
-    if ((str.charCodeAt(i) & 0xFF00) !== 0) {
+    if ((str.charCodeAt(i) & 0xff00) !== 0) {
       blen += 1;
     }
     blen += 1;
@@ -81,11 +80,9 @@ export function cutStr(fullStr: string, limit = 0, options?: ICutOptions) {
     return '';
   }
   const { suffix = '...', showTip = false } = options || {};
-  const str = (fullStr.length > limit ? `${fullStr.substring(0, limit)}${suffix}` : fullStr);
+  const str = fullStr.length > limit ? `${fullStr.substring(0, limit)}${suffix}` : fullStr;
   const sameLength = fullStr.length === str.length;
-  return showTip && !sameLength
-    ? <Tooltip title={fullStr}>{str}</Tooltip>
-    : str;
+  return showTip && !sameLength ? <Tooltip title={fullStr}>{str}</Tooltip> : str;
 }
 
 /**
@@ -138,12 +135,8 @@ export const daysRange = (num: number) => {
  */
 export const fromNow = (time: any, config?: { prefix?: string; edgeNow?: boolean }) => {
   const { prefix = '', edgeNow = false } = config || {};
-  const _time = (edgeNow && moment().isBefore(time)) ? new Date() : time;
-  return (
-    <Tooltip title={`${prefix}${moment(_time).format('YYYY-MM-DD HH:mm:ss')}`}>
-      {moment(_time).fromNow()}
-    </Tooltip>
-  );
+  const _time = edgeNow && moment().isBefore(time) ? new Date() : time;
+  return <Tooltip title={`${prefix}${moment(_time).format('YYYY-MM-DD HH:mm:ss')}`}>{moment(_time).fromNow()}</Tooltip>;
 };
 
 /**
@@ -151,7 +144,8 @@ export const fromNow = (time: any, config?: { prefix?: string; edgeNow?: boolean
  * @param time 传入moment的时间
  * @param format 提示前缀
  */
-export const formatTime = (time: string | number, format?: string) => (time ? moment(time).format(format || 'YYYY-MM-DD') : null);
+export const formatTime = (time: string | number, format?: string) =>
+  time ? moment(time).format(format || 'YYYY-MM-DD') : null;
 
 export const getTimeSpan = (time?: number | Moment[] | number[]) => {
   const defaultTime = 1; // 默认取一小时
@@ -161,7 +155,8 @@ export const getTimeSpan = (time?: number | Moment[] | number[]) => {
 
   if (isArray(time)) {
     [startTimeMs, endTimeMs] = time;
-    if (moment.isMoment(startTimeMs)) { // moment对象
+    if (moment.isMoment(startTimeMs)) {
+      // moment对象
       endTimeMs = moment(endTimeMs).valueOf();
       startTimeMs = moment(startTimeMs).valueOf();
     }
@@ -171,9 +166,9 @@ export const getTimeSpan = (time?: number | Moment[] | number[]) => {
     endTimeMs = new Date().getTime();
     startTimeMs = endTimeMs - 3600000 * hours;
   }
-  const endTime = parseInt(`${endTimeMs as number / 1000}`, 10);
+  const endTime = parseInt(`${(endTimeMs as number) / 1000}`, 10);
   const startTime = parseInt(`${startTimeMs / 1000}`, 10);
-  const endTimeNs = endTimeMs as number * 1000000;
+  const endTimeNs = (endTimeMs as number) * 1000000;
   const startTimeNs = startTimeMs * 1000000;
 
   return {

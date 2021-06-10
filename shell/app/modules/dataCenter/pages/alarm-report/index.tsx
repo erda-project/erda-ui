@@ -20,7 +20,10 @@ import { useMount } from 'react-use';
 import { FormModal, useSwitch, useUpdate } from 'common';
 import { WrappedFormUtils, ColumnProps } from 'core/common/interface';
 import { goTo } from 'common/utils';
-import { notifyChannelOptionsMap, ListTargets } from 'application/pages/settings/components/app-notify/common-notify-group';
+import {
+  notifyChannelOptionsMap,
+  ListTargets,
+} from 'application/pages/settings/components/app-notify/common-notify-group';
 import { useLoading } from 'app/common/stores/loading';
 import memberStore from 'common/stores/org-member';
 import notifyGroupStore from 'application/stores/notify-group';
@@ -39,12 +42,7 @@ const ReportTypeMap = {
 
 export default () => {
   const roleMap = memberStore.useStore((s) => s.roleMap);
-  const [
-    reportTasks,
-    reportTaskPaging,
-    systemDashboards,
-    reportTypes,
-  ] = alarmReportStore.useStore((s) => [
+  const [reportTasks, reportTaskPaging, systemDashboards, reportTypes] = alarmReportStore.useStore((s) => [
     s.reportTasks,
     s.reportTaskPaging,
     s.systemDashboards,
@@ -86,7 +84,7 @@ export default () => {
   };
 
   const getFieldsList = (form: WrappedFormUtils) => {
-    let fieldsList = ([
+    let fieldsList = [
       {
         label: i18n.t('org:report name'),
         name: 'name',
@@ -127,14 +125,13 @@ export default () => {
               <div>
                 {menu}
                 <Divider className="my4" />
-                <div
-                  className="fz12 px8 py4 color-text-desc"
-                  onMouseDown={(e) => e.preventDefault()}
-                >
-                  <WithAuth pass={addNotificationGroupAuth} >
+                <div className="fz12 px8 py4 color-text-desc" onMouseDown={(e) => e.preventDefault()}>
+                  <WithAuth pass={addNotificationGroupAuth}>
                     <span
                       className="hover-active"
-                      onClick={() => { goTo(goTo.pages.dataCenterNotifyGroup); }}
+                      onClick={() => {
+                        goTo(goTo.pages.dataCenterNotifyGroup);
+                      }}
                     >
                       {i18n.t('org:add more notification groups')}
                     </span>
@@ -143,22 +140,29 @@ export default () => {
               </div>
             )}
           >
-            {map(notifyGroups, ({ id, name }) => <Select.Option key={id} value={id}>{name}</Select.Option>)}
+            {map(notifyGroups, ({ id, name }) => (
+              <Select.Option key={id} value={id}>
+                {name}
+              </Select.Option>
+            ))}
           </Select>
         ),
       },
-    ]);
+    ];
     const activedGroupId = form.getFieldValue('notifyTarget.groupId');
     if (activedGroupId) {
-      const activedGroup = find(notifyGroups, ({ id: activedGroupId }));
-      fieldsList = [...fieldsList, {
-        label: i18n.t('application:method to inform'),
-        name: 'notifyTarget.groupType',
-        type: 'select',
-        initialValue: get(editingTask, 'notifyTarget.groupType'),
-        options: (activedGroup && notifyChannelOptionsMap[activedGroup.targets[0].type]) || [],
-        itemProps: { mode: 'multiple' },
-      }];
+      const activedGroup = find(notifyGroups, { id: activedGroupId });
+      fieldsList = [
+        ...fieldsList,
+        {
+          label: i18n.t('application:method to inform'),
+          name: 'notifyTarget.groupType',
+          type: 'select',
+          initialValue: get(editingTask, 'notifyTarget.groupType'),
+          options: (activedGroup && notifyChannelOptionsMap[activedGroup.targets[0].type]) || [],
+          itemProps: { mode: 'multiple' },
+        },
+      ];
     }
     return fieldsList;
   };
@@ -167,12 +171,17 @@ export default () => {
     confirm({
       title: i18n.t('org:are you sure you want to delete this task?'),
       content: i18n.t('org:the task will be permanently deleted'),
-      onOk() { deleteReportTask(id); },
+      onOk() {
+        deleteReportTask(id);
+      },
     });
   };
 
   const handleEdit = (item: COMMON_ALARM_REPORT.ReportTaskQuery) => {
-    const { notifyTarget: { groupType, ...subRest }, ...rest } = item;
+    const {
+      notifyTarget: { groupType, ...subRest },
+      ...rest
+    } = item;
     updater.editingTask({
       notifyTarget: {
         groupType: groupType.split(','),
@@ -224,9 +233,13 @@ export default () => {
         const tip = i18n.t('org:notification group does not exist or has been removed, replaceable notification group');
         return (
           <div className="flex-box">
-            {
-              isEmpty(targets) ? <Tooltip title={tip}><span className="color-text-sub">{tip}</span></Tooltip> : <ListTargets roleMap={roleMap} targets={targets} />
-            }
+            {isEmpty(targets) ? (
+              <Tooltip title={tip}>
+                <span className="color-text-sub">{tip}</span>
+              </Tooltip>
+            ) : (
+              <ListTargets roleMap={roleMap} targets={targets} />
+            )}
           </div>
         );
       },
@@ -244,9 +257,29 @@ export default () => {
       render: (id, record) => {
         return (
           <div className="table-operations">
-            <span className="table-operations-btn" onClick={(e) => { e.stopPropagation(); handleEdit(record); }}>{i18n.t('application:edit')}</span>
-            <span className="table-operations-btn" onClick={(e) => { e.stopPropagation(); handleDelete(id); }}>{i18n.t('application:delete')}</span>
-            <span onClick={(e) => { e.stopPropagation(); }}>
+            <span
+              className="table-operations-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleEdit(record);
+              }}
+            >
+              {i18n.t('application:edit')}
+            </span>
+            <span
+              className="table-operations-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDelete(id);
+              }}
+            >
+              {i18n.t('application:delete')}
+            </span>
+            <span
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
               <Switch
                 size="small"
                 defaultChecked={record.enable}
@@ -267,7 +300,14 @@ export default () => {
   return (
     <>
       <div className="top-button-group">
-        <Button type="primary" onClick={() => { openModal(); }}>{i18n.t('org:new report task')}</Button>
+        <Button
+          type="primary"
+          onClick={() => {
+            openModal();
+          }}
+        >
+          {i18n.t('org:new report task')}
+        </Button>
         <FormModal
           visible={modalVisible}
           onCancel={handleCloseModal}

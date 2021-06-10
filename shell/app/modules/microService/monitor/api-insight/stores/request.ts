@@ -13,7 +13,7 @@
 
 import { createStore } from 'app/cube';
 
-interface IState{
+interface IState {
   searchFields: any;
 }
 
@@ -29,7 +29,6 @@ const request = createStore({
       state.searchFields = {};
     },
   },
-
 });
 
 export default request;

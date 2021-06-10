@@ -26,20 +26,16 @@ interface IProps {
   onCancel: () => void;
 }
 
-export const UrlInviteModal = ({
-  url,
-  visible,
-  code,
-  tip,
-  linkPrefixTip,
-  modalProps = {},
-  onCancel,
-}: IProps) => {
+export const UrlInviteModal = ({ url, visible, code, tip, linkPrefixTip, modalProps = {}, onCancel }: IProps) => {
   return (
     <>
       <Modal
         className="url-invite-modal"
-        title={code ? i18n.t('The invitation link and verification code have been created') : i18n.t('The invitation link have been created')}
+        title={
+          code
+            ? i18n.t('The invitation link and verification code have been created')
+            : i18n.t('The invitation link have been created')
+        }
         visible={visible}
         onCancel={onCancel}
         footer={
@@ -47,9 +43,9 @@ export const UrlInviteModal = ({
             <span
               className="for-copy"
               data-clipboard-tip={code ? i18n.t('invitation link and verification code') : i18n.t('invitation link')}
-              data-clipboard-text={
-                `${linkPrefixTip || ''}\n${url}\n${code ? `${i18n.t('verification code')}: ${code}` : ''}`
-              }
+              data-clipboard-text={`${linkPrefixTip || ''}\n${url}\n${
+                code ? `${i18n.t('verification code')}: ${code}` : ''
+              }`}
             >
               <Button type="primary">{i18n.t('copy')}</Button>
             </span>

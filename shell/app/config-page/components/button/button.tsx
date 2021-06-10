@@ -19,9 +19,18 @@ import { Icon as CustomIcon } from 'common';
 const fakeClick = 'fake-click';
 
 export const Button = (props: CP_BUTTON.Props) => {
-  const { updateState, customProps, execOperation, operations,
-    props: configProps } = props;
-  const { text, prefixIcon, suffixIcon, menu, tooltip, visible = true, disabled: pDisabled, disabledTip: pDisabledTip, ...rest } = configProps || {};
+  const { updateState, customProps, execOperation, operations, props: configProps } = props;
+  const {
+    text,
+    prefixIcon,
+    suffixIcon,
+    menu,
+    tooltip,
+    visible = true,
+    disabled: pDisabled,
+    disabledTip: pDisabledTip,
+    ...rest
+  } = configProps || {};
 
   const { disabledTip, disabled, confirm } = operations?.click || {};
   const onClick = () => {
@@ -35,25 +44,36 @@ export const Button = (props: CP_BUTTON.Props) => {
     <>
       {prefixIcon ? <CustomIcon type={prefixIcon} className="mr4" /> : null}
       {text}
-      {suffixIcon ? <CustomIcon type={suffixIcon} className="ml4" /> : (isEmpty(menu) ? null : <CustomIcon type={'di'} className="ml4" />)}
+      {suffixIcon ? (
+        <CustomIcon type={suffixIcon} className="ml4" />
+      ) : isEmpty(menu) ? null : (
+        <CustomIcon type={'di'} className="ml4" />
+      )}
     </>
   );
   if (!visible) return null;
 
   if (disabled || pDisabled) {
-    return <Tooltip title={disabledTip || pDisabledTip}><NusiButton {...rest} disabled>{content}</NusiButton></Tooltip>;
+    return (
+      <Tooltip title={disabledTip || pDisabledTip}>
+        <NusiButton {...rest} disabled>
+          {content}
+        </NusiButton>
+      </Tooltip>
+    );
   }
 
   if (!isEmpty(menu)) {
     const dropdownMenu = (
-      <Menu onClick={(e: any) => {
-        e.domEvent.stopPropagation();
-        const curOp = find(menu, { key: e.key });
-        if (curOp?.operations?.click) {
-          execOperation(curOp.operations.click);
-          customProps?.click && customProps.click(curOp.operations.click);
-        }
-      }}
+      <Menu
+        onClick={(e: any) => {
+          e.domEvent.stopPropagation();
+          const curOp = find(menu, { key: e.key });
+          if (curOp?.operations?.click) {
+            execOperation(curOp.operations.click);
+            customProps?.click && customProps.click(curOp.operations.click);
+          }
+        }}
       >
         {map(menu, (mItem) => {
           const curOp = mItem.operations?.click || {};
@@ -92,19 +112,15 @@ export const Button = (props: CP_BUTTON.Props) => {
     );
   }
 
-  const buttonComp =
-    confirm ? (
-      <Popconfirm title={confirm} onConfirm={onClick}>
-        <NusiButton {...rest}>{content}</NusiButton>
-      </Popconfirm>
-    ) : (
-      <NusiButton {...rest} onClick={onClick}>{content}</NusiButton>
-    );
+  const buttonComp = confirm ? (
+    <Popconfirm title={confirm} onConfirm={onClick}>
+      <NusiButton {...rest}>{content}</NusiButton>
+    </Popconfirm>
+  ) : (
+    <NusiButton {...rest} onClick={onClick}>
+      {content}
+    </NusiButton>
+  );
 
-
-  return tooltip ? (
-    <Tooltip title={tooltip}>
-      {buttonComp}
-    </Tooltip>
-  ) : buttonComp;
+  return tooltip ? <Tooltip title={tooltip}>{buttonComp}</Tooltip> : buttonComp;
 };

@@ -53,7 +53,14 @@ export const Menu = (props: IMenu) => {
 
 const PureMenu = (props: IMenu) => {
   const {
-    activeKey, menus, className = '', TabRightComp, beforeTabChange, ignoreTabQuery, keepTabQuery, ...rest
+    activeKey,
+    menus,
+    className = '',
+    TabRightComp,
+    beforeTabChange,
+    ignoreTabQuery,
+    keepTabQuery,
+    ...rest
   } = props;
   const breadcrumbInfoMap = breadcrumbStore.useStore((s) => s.infoMap);
   const finalMenus = typeof menus === 'function' ? menus({ ...props, breadcrumbInfoMap }) : menus;
@@ -66,9 +73,11 @@ const PureMenu = (props: IMenu) => {
   });
 
   let query = window.location.search;
-  if (ignoreTabQuery) { // 取消query
+  if (ignoreTabQuery) {
+    // 取消query
     query = '';
-  } else if (!isEmpty(keepTabQuery)) { // 保留部分query
+  } else if (!isEmpty(keepTabQuery)) {
+    // 保留部分query
     query = qs.stringify(pick(qs.parse(window.location.search), keepTabQuery));
     query = query && `?${query}`;
   }
@@ -102,31 +111,34 @@ const PureMenu = (props: IMenu) => {
   return (
     <div className={tabClass}>
       <ul className="tab-item-wraps">
-        {
-          finalMenus.map((menu: Merge<IMenuItem, { hrefType: 'back' }>) => {
-            const { disabled, key, name, hrefType } = menu;
-            const menuItemClass = classnames({
-              'tab-menu-item': true,
-              'tab-menu-disabled': disabled,
-              active: activeKey === key,
-            });
-            return (
-              <li
-                key={key}
-                className={menuItemClass}
-                onClick={() => {
-                  if (!disabled && activeKey !== key) { // 点击当前，不响应
-                    handleClick(activeKey, key, hrefType);
-                  }
-                }}
-              >
-                {name}
-              </li>
-            );
-          })
-        }
+        {finalMenus.map((menu: Merge<IMenuItem, { hrefType: 'back' }>) => {
+          const { disabled, key, name, hrefType } = menu;
+          const menuItemClass = classnames({
+            'tab-menu-item': true,
+            'tab-menu-disabled': disabled,
+            active: activeKey === key,
+          });
+          return (
+            <li
+              key={key}
+              className={menuItemClass}
+              onClick={() => {
+                if (!disabled && activeKey !== key) {
+                  // 点击当前，不响应
+                  handleClick(activeKey, key, hrefType);
+                }
+              }}
+            >
+              {name}
+            </li>
+          );
+        })}
       </ul>
-      {TabRightComp ? <div className="tab-menu-right"><TabRightComp {...rest} /></div> : null}
+      {TabRightComp ? (
+        <div className="tab-menu-right">
+          <TabRightComp {...rest} />
+        </div>
+      ) : null}
     </div>
   );
 };

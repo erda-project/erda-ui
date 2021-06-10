@@ -48,24 +48,18 @@ describe('KeyValueList', () => {
   );
   const listRender = (list: string[]) => (
     <div className="list-render">
-      {
-        (list || []).map((item) => {
-          return (
-            <span className="list-render-item" key={item}>{item}</span>
-          );
-        })
-      }
+      {(list || []).map((item) => {
+        return (
+          <span className="list-render-item" key={item}>
+            {item}
+          </span>
+        );
+      })}
     </div>
   );
   it('should render with customizeRender', () => {
     const wrapper = mount(
-      <KeyValueList
-        data={data}
-        title="KeyValueList-title"
-        shrink
-        textRender={textRender}
-        listRender={listRender}
-      />,
+      <KeyValueList data={data} title="KeyValueList-title" shrink textRender={textRender} listRender={listRender} />,
     );
     expect(wrapper.find('.title').at(0).text()).toBe('KeyValueList-title');
     expect(wrapper.find('.text-render')).toExist();
@@ -73,13 +67,7 @@ describe('KeyValueList', () => {
     expect(wrapper.find('.k-v-row')).toHaveLength(8);
   });
   it('should render with defaultRender', () => {
-    const wrapper = mount(
-      <KeyValueList
-        data={data}
-        title="KeyValueList-title"
-        shrink
-      />,
-    );
+    const wrapper = mount(<KeyValueList data={data} title="KeyValueList-title" shrink />);
     expect(wrapper.find('.text-render')).not.toExist();
     expect(wrapper.find('.list-render')).not.toExist();
     expect(wrapper.find('.k-v-row')).toHaveLength(8);

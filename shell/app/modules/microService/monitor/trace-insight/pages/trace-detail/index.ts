@@ -14,4 +14,3 @@
 import TraceDetail from './containers/trace-detail';
 
 export default TraceDetail;
-

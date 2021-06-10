@@ -11,10 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import {
-  Form,
-  InputNumber,
-} from 'app/nusi';
+import { Form, InputNumber } from 'app/nusi';
 import * as React from 'react';
 import { getLabel, noop } from './common';
 import i18n from 'i18n';
@@ -28,56 +25,57 @@ export const FormInputNumber = ({
   extensionFix,
   requiredCheck,
   trigger = 'onChange',
-}: any = {}) => React.memo(({ fieldConfig, form }: any = {}) => {
-  const {
-    key,
-    value,
-    label,
-    visible,
-    valid = [],
-    disabled,
-    required,
-    registerRequiredCheck = noop,
-    componentProps,
-    wrapperProps,
-    labelTip,
-    fixIn: itemFixIn,
-    fixOut: itemFixOut,
-    requiredCheck: _requiredCheck,
-  } = fieldConfig || {};
+}: any = {}) =>
+  React.memo(({ fieldConfig, form }: any = {}) => {
+    const {
+      key,
+      value,
+      label,
+      visible,
+      valid = [],
+      disabled,
+      required,
+      registerRequiredCheck = noop,
+      componentProps,
+      wrapperProps,
+      labelTip,
+      fixIn: itemFixIn,
+      fixOut: itemFixOut,
+      requiredCheck: _requiredCheck,
+    } = fieldConfig || {};
 
-  const curFixIn = itemFixIn || fixIn;
-  const curFixOut = itemFixOut || fixOut;
+    const curFixIn = itemFixIn || fixIn;
+    const curFixOut = itemFixOut || fixOut;
 
-  registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (val: any) => {
-    form.setFieldValue(key, curFixOut(val));
-    (componentProps.onChange || noop)(val);
-  };
+    registerRequiredCheck(_requiredCheck || requiredCheck);
+    const handleChange = (val: any) => {
+      form.setFieldValue(key, curFixOut(val));
+      (componentProps.onChange || noop)(val);
+    };
 
-  const { placeholder } = componentProps || {};
-  const _placeholder = placeholder || i18n.t('please enter {name}', { name: label });
-  return (
-    <FormItem
-      colon
-      label={getLabel(label, labelTip)}
-      className={visible ? '' : 'hide'}
-      validateStatus={valid[0]}
-      help={valid[1]}
-      required={required}
-      {...wrapperProps}
-    >
-      <InputNumber
-        id={key}
-        {...componentProps}
-        disabled={disabled}
-        placeholder={_placeholder}
-        value={curFixIn(value)}
-        onChange={handleChange}
-      />
-    </FormItem>
-  );
-});
+    const { placeholder } = componentProps || {};
+    const _placeholder = placeholder || i18n.t('please enter {name}', { name: label });
+    return (
+      <FormItem
+        colon
+        label={getLabel(label, labelTip)}
+        className={visible ? '' : 'hide'}
+        validateStatus={valid[0]}
+        help={valid[1]}
+        required={required}
+        {...wrapperProps}
+      >
+        <InputNumber
+          id={key}
+          {...componentProps}
+          disabled={disabled}
+          placeholder={_placeholder}
+          value={curFixIn(value)}
+          onChange={handleChange}
+        />
+      </FormItem>
+    );
+  });
 
 export const config = {
   name: 'inputNumber',

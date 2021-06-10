@@ -74,8 +74,7 @@ const PipelineNode = (props: IProps) => {
   };
 
   const isEmptyExtraInfo = () => {
-    if (isEmpty(data.result) ||
-      (!data.result.version && !data.result.metadata && !data.result.errors)) {
+    if (isEmpty(data.result) || (!data.result.version && !data.result.metadata && !data.result.errors)) {
       return false;
     }
     return true;
@@ -104,12 +103,15 @@ const PipelineNode = (props: IProps) => {
       // detailInfo.push(`<h4>版本: ${version.ref || ''}</h4>`);
       if (!isEmpty(metadata)) {
         const temp: any[] = [];
-        (metadata || []).forEach((m: any, index: number) => !skip.includes(m.name) &&
-          temp.push(
-            <div key={`meta-${String(index)}`} className="app-pipeline-chart-msg-item">
-              <span className="app-pipeline-chart-msg-item-name">{m.name}</span> {m.value}
-            </div>,
-          ));
+        (metadata || []).forEach(
+          (m: any, index: number) =>
+            !skip.includes(m.name) &&
+            temp.push(
+              <div key={`meta-${String(index)}`} className="app-pipeline-chart-msg-item">
+                <span className="app-pipeline-chart-msg-item-name">{m.name}</span> {m.value}
+              </div>,
+            ),
+        );
         if (temp.length) {
           detailInfo.push(<h4>{i18n.t('application:details')}</h4>);
           detailInfo.push(...temp);
@@ -117,24 +119,28 @@ const PipelineNode = (props: IProps) => {
       }
       if (!isEmpty(files)) {
         detailInfo.push(<h4 className="mt8">{i18n.t('download')}</h4>);
-        detailInfo.push(files.map((item, idx) => (
-          item.value ? (
-            <div className="table-operations" key={`file-${String(idx)}`}>
-              <a className="table-operations-btn" download={item.value} href={`/api/files/${item.value}`}>
-                {item.name || item.value}
-              </a>
-            </div>
-          ) : null
-        )));
+        detailInfo.push(
+          files.map((item, idx) =>
+            item.value ? (
+              <div className="table-operations" key={`file-${String(idx)}`}>
+                <a className="table-operations-btn" download={item.value} href={`/api/files/${item.value}`}>
+                  {item.name || item.value}
+                </a>
+              </div>
+            ) : null,
+          ),
+        );
       }
       if (!isEmpty(errors)) {
         detailInfo.push(<h4 className="mt8">{i18n.t('application:error')}</h4>);
-        detailInfo.push(errors.map((error, idx) => (
-          <div key={`error-${String(idx)}`} className="app-pipeline-chart-msg-item">
-            <span className="app-pipeline-chart-msg-item-name error">{error.name || 'error'}</span>
-            {error.value || error.msg}
-          </div>
-        )));
+        detailInfo.push(
+          errors.map((error, idx) => (
+            <div key={`error-${String(idx)}`} className="app-pipeline-chart-msg-item">
+              <span className="app-pipeline-chart-msg-item-name error">{error.name || 'error'}</span>
+              {error.value || error.msg}
+            </div>
+          )),
+        );
         // <pre className="flow-chart-err-block">
         //   {(errors || []).map((e: any, index: number) => <div key={`tooltip-${index}`}><code>{e.msg || e.code}</code></div>)}
         // </pre>
@@ -152,19 +158,23 @@ const PipelineNode = (props: IProps) => {
         title: null,
         content: (
           <div key={data.id} className="panel-info">
-            {detailInfo.map((e: any, index: number) => <div key={String(index)}>{e}</div>)}
+            {detailInfo.map((e: any, index: number) => (
+              <div key={String(index)}>{e}</div>
+            ))}
           </div>
         ),
-        overlayStyle: result ? {
-          width: 'auto',
-          maxWidth: '420px',
-          height: 'auto',
-          maxHeight: '520px',
-          minWidth: '200px',
-          padding: '10px',
-          overflow: 'auto',
-          wordBreak: 'break-all',
-        } : null,
+        overlayStyle: result
+          ? {
+              width: 'auto',
+              maxWidth: '420px',
+              height: 'auto',
+              maxHeight: '520px',
+              minWidth: '200px',
+              padding: '10px',
+              overflow: 'auto',
+              wordBreak: 'break-all',
+            }
+          : null,
         placement: 'right',
       };
     }
@@ -173,12 +183,7 @@ const PipelineNode = (props: IProps) => {
   };
 
   const renderOperation = () => {
-    const {
-      isType,
-      status,
-      result,
-      costTimeSec,
-    } = data;
+    const { isType, status, result, costTimeSec } = data;
 
     const operations = [];
     // 右侧跳转链接图标
@@ -213,18 +218,11 @@ const PipelineNode = (props: IProps) => {
       }
     }
 
-    return (
-      <>
-        {operations.map(([icon, mark, tip]) => getIconOperation(icon, mark, tip))}
-      </>
-    );
+    return <>{operations.map(([icon, mark, tip]) => getIconOperation(icon, mark, tip))}</>;
   };
 
   const renderConfirm = () => {
-    const {
-      status,
-      result,
-    } = data;
+    const { status, result } = data;
     const operations = [];
     let hasAuth = false;
 
@@ -251,9 +249,15 @@ const PipelineNode = (props: IProps) => {
         {operations.map(([icon, mark, tip]) => {
           const clickFunc = debounce((e: any) => clickIcon(e, mark), 300);
           return (
-            <WithAuth key={mark} pass={hasAuth} >
+            <WithAuth key={mark} pass={hasAuth}>
               <Tooltip title={tip}>
-                <span className="pipeline-item-extra-op center-flex-box" onClick={(e: any) => { e.persist(); clickFunc(e); }}>
+                <span
+                  className="pipeline-item-extra-op center-flex-box"
+                  onClick={(e: any) => {
+                    e.persist();
+                    clickFunc(e);
+                  }}
+                >
                   <CustomIcon type={icon} />
                   {tip}
                 </span>
@@ -269,7 +273,13 @@ const PipelineNode = (props: IProps) => {
     const clickFunc = debounce((e: any) => clickIcon(e, mark), 300);
     return (
       <Tooltip key={mark} title={tip}>
-        <span className="hover-active" onClick={(e: any) => { e.persist(); clickFunc(e); }}>
+        <span
+          className="hover-active"
+          onClick={(e: any) => {
+            e.persist();
+            clickFunc(e);
+          }}
+        >
           <CustomIcon type={icon} />
         </span>
       </Tooltip>
@@ -288,40 +298,43 @@ const PipelineNode = (props: IProps) => {
   const statusContent = (
     <span className="flex-1">
       <span className="yaml-editor-item-status" style={{ background: itemStatus.toLowerCase() }} />
-      <span className="inline-flex-box">{(status ? status.text : '-')}</span>
+      <span className="inline-flex-box">{status ? status.text : '-'}</span>
     </span>
   );
   if (data.name || data.displayName) {
     const titleText = data.displayName ? `${data.displayName}: ${data.name}` : data.name;
     titleContent = (
       <div className="app-pipeline-chart-node-title nowrap">
-        <Tooltip title={titleText}>
-          {titleText}
-        </Tooltip>
+        <Tooltip title={titleText}>{titleText}</Tooltip>
       </div>
     );
   }
 
-  const mergedClassNames =
-    classnames('app-pipeline-chart-node', className, data.status === 'Disabled' ? 'disabled-item' : '');
+  const mergedClassNames = classnames(
+    'app-pipeline-chart-node',
+    className,
+    data.status === 'Disabled' ? 'disabled-item' : '',
+  );
 
-  const timeContent = time >= 0 ? (
-    <span className="v-align">
-      <CustomIcon type="shijian" />
-      <span>{secondsToTime(time || data.costTimeSec)}</span>
-    </span>
-  ) : null;
+  const timeContent =
+    time >= 0 ? (
+      <span className="v-align">
+        <CustomIcon type="shijian" />
+        <span>{secondsToTime(time || data.costTimeSec)}</span>
+      </span>
+    ) : null;
 
   const logoUrl = get(data, 'logoUrl');
-  const icon = logoUrl ? <img src={logoUrl} alt="logo" className="pipeline-item-logo" /> : <CustomIcon className="pipeline-item-logo" type="wfw" color />;
+  const icon = logoUrl ? (
+    <img src={logoUrl} alt="logo" className="pipeline-item-logo" />
+  ) : (
+    <CustomIcon className="pipeline-item-logo" type="wfw" color />
+  );
 
   const Container = isEmptyExtraInfo() ? Popover : React.Fragment;
   return (
     <Container {...renderTooltipTitle()}>
-      <div
-        onClick={() => onClickNode && onClickNode(data, 'node')}
-        className={mergedClassNames}
-      >
+      <div onClick={() => onClickNode && onClickNode(data, 'node')} className={mergedClassNames}>
         <div className="flex-box pa12">
           {icon}
           <div className="yaml-editor-item-content py0 px4">

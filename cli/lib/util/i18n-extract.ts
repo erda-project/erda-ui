@@ -17,13 +17,13 @@ import fs from 'fs';
 import _ from 'lodash';
 import { logError } from './log';
 
-interface Resource { [k: string]: { [k: string]: string } }
+interface Resource {
+  [k: string]: { [k: string]: string };
+}
 
 const scanner = require('i18next-scanner');
-const flattenObjectKeys = require('i18next-scanner/lib/flatten-object-keys')
-  .default;
-const omitEmptyObject = require('i18next-scanner/lib/omit-empty-object')
-  .default;
+const flattenObjectKeys = require('i18next-scanner/lib/flatten-object-keys').default;
+const omitEmptyObject = require('i18next-scanner/lib/omit-empty-object').default;
 
 let zhWordMap = {};
 let localePath: null | string = null;
@@ -72,13 +72,15 @@ function revertObjectKV(obj: { [k: string]: string }) {
 
 function sortObject(unordered: Resource | { [k: string]: string }) {
   const ordered: Resource | { [k: string]: string } = {};
-  Object.keys(unordered).sort().forEach((key) => {
-    if (typeof unordered[key] === 'object') {
-      (ordered as Resource)[key] = sortObject(unordered[key] as { [k: string]: string }) as { [k: string]: string };
-    } else {
-      ordered[key] = unordered[key];
-    }
-  });
+  Object.keys(unordered)
+    .sort()
+    .forEach((key) => {
+      if (typeof unordered[key] === 'object') {
+        (ordered as Resource)[key] = sortObject(unordered[key] as { [k: string]: string }) as { [k: string]: string };
+      } else {
+        ordered[key] = unordered[key];
+      }
+    });
   return ordered;
 }
 
@@ -110,11 +112,7 @@ function customFlush(done: () => void) {
     if (removeUnusedKeys) {
       const namespaceKeys = flattenObjectKeys(namespaces);
       const oldContentKeys = flattenObjectKeys(oldContent);
-      const unusedKeys = _.differenceWith(
-        oldContentKeys,
-        namespaceKeys,
-        _.isEqual,
-      );
+      const unusedKeys = _.differenceWith(oldContentKeys, namespaceKeys, _.isEqual);
 
       for (let i = 0; i < unusedKeys.length; ++i) {
         _.unset(oldContent, unusedKeys[i]);
@@ -154,7 +152,12 @@ function customFlush(done: () => void) {
   done();
 }
 
-export default (resolve: (value: void | PromiseLike<void>) => void, _ns: string, srcDir: string, _localePath: string) => {
+export default (
+  resolve: (value: void | PromiseLike<void>) => void,
+  _ns: string,
+  srcDir: string,
+  _localePath: string,
+) => {
   const paths = [`${srcDir}/**/*.{js,jsx,ts,tsx}`, '!node_modules/**/*', '!**/node_modules/**', '!**/node_modules'];
   localePath = _localePath;
   zhWordMap = require(path.resolve(process.cwd(), './temp-zh-words.json'));
@@ -171,10 +174,11 @@ export default (resolve: (value: void | PromiseLike<void>) => void, _ns: string,
   }
   ns = namespaces;
 
-  vfs.src(paths)
+  vfs
+    .src(paths)
     .pipe(scanner(options(), undefined, customFlush))
-    .pipe(vfs.dest('./')).on('end', () => {
+    .pipe(vfs.dest('./'))
+    .on('end', () => {
       resolve && resolve();
     });
 };
-

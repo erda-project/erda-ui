@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace MONITOR_OVERVIEW{
+declare namespace MONITOR_OVERVIEW {
   interface IChartQuery {
     avg?: string;
     sumCpm?: string;
@@ -37,15 +37,14 @@ declare namespace MONITOR_OVERVIEW{
     workspace: string;
   }
 
-  interface IAIData{
+  interface IAIData {
     webAvg: string;
     webCpm: number;
   }
-  interface IBIData{
+  interface IBIData {
     apdex: number;
     ajaxResp: string;
     ajaxErr?: number;
     ajaxCpm: number;
   }
-
 }

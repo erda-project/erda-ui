@@ -13,7 +13,21 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as React from 'react';
-import { get, set, cloneDeep, merge, map, isEmpty, isNumber, isString, isPlainObject, isArray, find, has, keys } from 'lodash';
+import {
+  get,
+  set,
+  cloneDeep,
+  merge,
+  map,
+  isEmpty,
+  isNumber,
+  isString,
+  isPlainObject,
+  isArray,
+  find,
+  has,
+  keys,
+} from 'lodash';
 import { isPromise, useMount } from './utils';
 import { Submit, Reset } from './form-button';
 import { Context } from './context';
@@ -82,45 +96,32 @@ export interface RegisterProps {
 const noop = (a: any) => a;
 
 // 中间层，接入antd或其他form，把field上的配置映射到组件的字段上
-export const defaultRenderField = (compMap: any) => ({ fields, form, ...rest }: any) => {
-  return (
-    <div>
-      {fields.map((f: any, index: number) => {
-        const Component = compMap[f.component];
-        return <Component key={f.key || `${index}`} fieldConfig={f} form={form} {...rest} />;
-      })}
-    </div>
-  );
-};
+export const defaultRenderField =
+  (compMap: any) =>
+  ({ fields, form, ...rest }: any) => {
+    return (
+      <div>
+        {fields.map((f: any, index: number) => {
+          const Component = compMap[f.component];
+          return <Component key={f.key || `${index}`} fieldConfig={f} form={form} {...rest} />;
+        })}
+      </div>
+    );
+  };
 
-type Operator =
-  '='
-  | '!='
-  | '>'
-  | '>='
-  | '<'
-  | '<='
-  | 'includes'
-  | 'contains'
-  | 'not_contains'
-  | 'empty'
-  | 'not_empty';
+type Operator = '=' | '!=' | '>' | '>=' | '<' | '<=' | 'includes' | 'contains' | 'not_contains' | 'empty' | 'not_empty';
 type CheckItem = XOR<
-{
-  field: string;
-  operator: Operator;
-  value: string | number | boolean;
-  valueType?: 'string' | 'number' | 'boolean';
-},
-{
-  mode: Mode;
-}
+  {
+    field: string;
+    operator: Operator;
+    value: string | number | boolean;
+    valueType?: 'string' | 'number' | 'boolean';
+  },
+  {
+    mode: Mode;
+  }
 >;
-const genOrList = (
-  originCheckList: CheckItem[][],
-  mode: string,
-  cb: (con: CheckItem) => void,
-) => {
+const genOrList = (originCheckList: CheckItem[][], mode: string, cb: (con: CheckItem) => void) => {
   return originCheckList.map((andList: CheckItem[]) => {
     const checkAndList = [] as Function[];
     andList.forEach((con: CheckItem) => {
@@ -132,11 +133,7 @@ const genOrList = (
       }
 
       const value =
-        con.valueType === 'number'
-          ? Number(con.value)
-          : con.valueType === 'boolean'
-            ? Boolean(con.value)
-            : con.value;
+        con.valueType === 'number' ? Number(con.value) : con.valueType === 'boolean' ? Boolean(con.value) : con.value;
       switch (con.operator) {
         case '=':
           checkAndList.push((data: any) => get(data, con.field) === value);
@@ -163,9 +160,7 @@ const genOrList = (
           checkAndList.push((data: any) => get(data, con.field).includes(value));
           break;
         case 'not_contains':
-          checkAndList.push(
-            (data: any) => !get(data, con.field).includes(value),
-          );
+          checkAndList.push((data: any) => !get(data, con.field).includes(value));
           break;
         case 'empty':
           checkAndList.push(() => value === undefined);
@@ -183,9 +178,10 @@ const genOrList = (
 };
 
 const genCheckFn = (orList: Function[][]) => {
-  return (data: any) => orList.reduce((res, andList) => {
-    return andList.reduce((cur, fn) => fn(data) && cur, true) || res;
-  }, false);
+  return (data: any) =>
+    orList.reduce((res, andList) => {
+      return andList.reduce((cur, fn) => fn(data) && cur, true) || res;
+    }, false);
 };
 
 // { pattern: '', type: 'string | number | email', whitespace, enum, len, min: 1, max: 12, equal: 'string:sss' | 'number:123' | 'boolean:false', not_equal: '', msg: '' },
@@ -234,19 +230,13 @@ const rules = {
   },
   min(v: any, rule: Rule, data: any) {
     if (rule.min) {
-      return [
-        (v ? v.length : 0) >= rule.min,
-        rule.msg || `length is smaller than:${rule.min}`,
-      ];
+      return [(v ? v.length : 0) >= rule.min, rule.msg || `length is smaller than:${rule.min}`];
     }
     return [true, ''];
   },
   max(v: any, rule: Rule, data: any) {
     if (rule.max) {
-      return [
-        (v ? v.length : 0) <= rule.max,
-        rule.msg || `length is bigger than:${rule.max}`,
-      ];
+      return [(v ? v.length : 0) <= rule.max, rule.msg || `length is bigger than:${rule.max}`];
     }
     return [true, ''];
   },
@@ -282,28 +272,30 @@ export const getCheckListFromRule = (rule: Rule) => {
   return checkList;
 };
 
-const genValidateFn = (cb = noop) => (item: InnerFormField, data: any) => {
-  for (const rule of item.rules) {
-    const checkList = getCheckListFromRule(rule);
-    for (const check of checkList) {
-      const v = get(data, item.key);
-      let result = check(v, rule, data); // 返回 [status: 'success' | 'error', msg: '']
-      if (!item.required && !isNumber(v) && isEmpty(v) && ['min', 'len'].includes(Object.keys(rule)[0])) {
-        result = [true, ''];
-      }
-      if (isPromise(result)) {
-        // @ts-ignore
-        result.then(cb);
-        return ['validating', '异步校验中...', result];
-      } else if (result[0] === false) {
-        return ['error', result[1]];
-      } else if (typeof result[0] === 'string') {
-        return result;
+const genValidateFn =
+  (cb = noop) =>
+  (item: InnerFormField, data: any) => {
+    for (const rule of item.rules) {
+      const checkList = getCheckListFromRule(rule);
+      for (const check of checkList) {
+        const v = get(data, item.key);
+        let result = check(v, rule, data); // 返回 [status: 'success' | 'error', msg: '']
+        if (!item.required && !isNumber(v) && isEmpty(v) && ['min', 'len'].includes(Object.keys(rule)[0])) {
+          result = [true, ''];
+        }
+        if (isPromise(result)) {
+          // @ts-ignore
+          result.then(cb);
+          return ['validating', '异步校验中...', result];
+        } else if (result[0] === false) {
+          return ['error', result[1]];
+        } else if (typeof result[0] === 'string') {
+          return result;
+        }
       }
     }
-  }
-  return ['success'];
-};
+    return ['success'];
+  };
 
 interface Rule {
   // (v: any, formData: any): ValidateResult | PromiseLike<ValidateResult>
@@ -415,8 +407,11 @@ export const Form = ({
     const curMode = Object.keys(value || {}).length ? 'edit' : 'create';
     formDataRef.current = cloneDeep({ ...value });
     setMode(curMode);
-    formRef.current.setFields(map([..._fields], (item) => ({ ...item, converted: false })), curMode);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    formRef.current.setFields(
+      map([..._fields], (item) => ({ ...item, converted: false })),
+      curMode,
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   const changeValue = (_val: object) => {
@@ -438,11 +433,7 @@ export const Form = ({
             copy.valid = copy.validate(copy, formDataRef.current);
           }
           // 检查依赖的field是否要移除或隐藏，需要的标记一下，本次循环无法更新，放到后面再循环一次时处理
-          const {
-            _removeSubscribes,
-            _hideSubscribes,
-            _disabledSubscribes,
-          } = copy;
+          const { _removeSubscribes, _hideSubscribes, _disabledSubscribes } = copy;
           _removeSubscribes.forEach((sk) => {
             const sub = fieldMap[sk];
             const thisResult = sub.checkRemove(formDataRef.current);
@@ -490,7 +481,7 @@ export const Form = ({
     map(val, (v, k) => {
       const clearArr = get(find(fieldMapRef.current || [], { key: k }), 'clearWhen');
       map(clearArr || [], (item) => {
-        if (val[item] === undefined && formDataRef.current[item] !== undefined)clearValues[item] = undefined;
+        if (val[item] === undefined && formDataRef.current[item] !== undefined) clearValues[item] = undefined;
       });
     });
     return clearValues;
@@ -522,9 +513,11 @@ export const Form = ({
       onChange(cloneDeep(formDataRef.current), curChangeValue);
     },
     setFieldValid: (k: string, v: any) => {
-      setFields((prev) => prev.map((item) => {
-        return item.key === k ? { ...item, valid: v } : item;
-      }));
+      setFields((prev) =>
+        prev.map((item) => {
+          return item.key === k ? { ...item, valid: v } : item;
+        }),
+      );
     },
     setFields: (arr: any[], _mode: string) => {
       const copyFields = cloneDeep(arr) as InnerFormField[];
@@ -538,12 +531,7 @@ export const Form = ({
         }
       });
 
-      formDataRef.current = merge(
-        {},
-        defaultDataRef.current,
-        _initialData,
-        formDataRef.current,
-      );
+      formDataRef.current = merge({}, defaultDataRef.current, _initialData, formDataRef.current);
       // 解析hideWhen、removeWhen，调整_fields
 
       setFields(() => {
@@ -565,7 +553,8 @@ export const Form = ({
             item.checkHide = genCheckFn(
               genOrList(item.hideWhen, _mode, (con: any) => {
                 item._hideWatchers.push(con.field); // 依赖于谁，做提示用
-                !fieldMap[con.field]._hideSubscribes.includes(item.key) && fieldMap[con.field]._hideSubscribes.push(item.key); // 被谁依赖，触发依赖的更新
+                !fieldMap[con.field]._hideSubscribes.includes(item.key) &&
+                  fieldMap[con.field]._hideSubscribes.push(item.key); // 被谁依赖，触发依赖的更新
               }),
             );
           } else {
@@ -576,7 +565,8 @@ export const Form = ({
             item.checkRemove = genCheckFn(
               genOrList(item.removeWhen, _mode, (con: any) => {
                 item._removeWatchers.push(con.field);
-                !fieldMap[con.field]._removeSubscribes.includes(item.key) && fieldMap[con.field]._removeSubscribes.push(item.key);
+                !fieldMap[con.field]._removeSubscribes.includes(item.key) &&
+                  fieldMap[con.field]._removeSubscribes.push(item.key);
               }),
             );
           } else {
@@ -589,7 +579,8 @@ export const Form = ({
             item.checkDisabled = genCheckFn(
               genOrList(item.disableWhen, _mode, (con: any) => {
                 item._disabledWatchers.push(con.field);
-                !fieldMap[con.field]._disabledSubscribes.includes(item.key) && fieldMap[con.field]._disabledSubscribes.push(item.key);
+                !fieldMap[con.field]._disabledSubscribes.includes(item.key) &&
+                  fieldMap[con.field]._disabledSubscribes.push(item.key);
               }),
             );
           } else {
@@ -631,9 +622,9 @@ export const Form = ({
             item.componentProps.onBlur = (...args: any) => {
               (originOnBlur || noop)(...args);
               // 因为onChange肯定在onBlur前触发，data是最新
-              setFields((prev) => prev.map((p) => (p.key === item.key
-                ? { ...p, valid: item.validate(item, formDataRef.current) }
-                : p)));
+              setFields((prev) =>
+                prev.map((p) => (p.key === item.key ? { ...p, valid: item.validate(item, formDataRef.current) } : p)),
+              );
             };
           }
 
@@ -692,25 +683,24 @@ export const Form = ({
       const asyncChecks = [] as Array<PromiseLike<ValidateResult>>;
       const checkInfo = {};
 
-      setFields((prev) => prev.map((item) => {
-        const prevResult = item.valid;
-        const newResult = item.validate(item, formDataRef.current);
-        if (!item.remove) {
-          if (newResult[2]) {
-            asyncKeys.push(item.key);
-            asyncChecks.push(newResult[2]);
-          } else {
-            checkInfo[item.key] = newResult;
+      setFields((prev) =>
+        prev.map((item) => {
+          const prevResult = item.valid;
+          const newResult = item.validate(item, formDataRef.current);
+          if (!item.remove) {
+            if (newResult[2]) {
+              asyncKeys.push(item.key);
+              asyncChecks.push(newResult[2]);
+            } else {
+              checkInfo[item.key] = newResult;
+            }
           }
-        }
-        if (
-          prevResult[0] !== newResult[0] ||
-            prevResult[1] !== newResult[1]
-        ) {
-          return { ...item, valid: newResult };
-        }
-        return item;
-      }));
+          if (prevResult[0] !== newResult[0] || prevResult[1] !== newResult[1]) {
+            return { ...item, valid: newResult };
+          }
+          return item;
+        }),
+      );
       if (asyncChecks.length) {
         return Promise.all(asyncChecks).then((rs) => {
           const asyncResult = {};
@@ -776,8 +766,7 @@ export const Form = ({
 
   if (!_fields.length) return null;
   // 渲染前排序
-  const sortFields = _fields
-    .filter((f) => !f.remove);
+  const sortFields = _fields.filter((f) => !f.remove);
 
   /**
    * field:
@@ -792,13 +781,11 @@ export const Form = ({
 
   return (
     <Context.Provider value={{ form: formRef.current }}>
-      {
-        formRender ? (
-          formRender({ RenderFields, form: formRef.current, fields: sortFields })
-        ) : (
-          <RenderFields fields={sortFields} form={formRef.current} />
-        )
-      }
+      {formRender ? (
+        formRender({ RenderFields, form: formRef.current, fields: sortFields })
+      ) : (
+        <RenderFields fields={sortFields} form={formRef.current} />
+      )}
       {children}
     </Context.Provider>
   );

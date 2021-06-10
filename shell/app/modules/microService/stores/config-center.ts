@@ -48,7 +48,10 @@ const ConfigCenter = createStore({
     },
     async saveConfig({ call }, payload: ConfogCenter.SaveConfig) {
       const { operationType, ...rest } = payload;
-      const res = await call(ConfigCenterService.saveConfig, rest, { successMsg: operationType === 'delete' ? i18n.t('deleted successfully') : i18n.t('save successfully'), fullResult: true });
+      const res = await call(ConfigCenterService.saveConfig, rest, {
+        successMsg: operationType === 'delete' ? i18n.t('deleted successfully') : i18n.t('save successfully'),
+        fullResult: true,
+      });
       return res;
     },
   },

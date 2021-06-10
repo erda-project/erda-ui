@@ -27,15 +27,17 @@ import { addAuthTooltipTitle } from 'app/modules/dataCenter/common/cloud-common'
 import { goTo, isPromise } from 'common/utils';
 import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
 import { ClusterLog } from 'dataCenter/pages/cluster-manage/cluster-log';
-import { getCloudResourceIDNameCol, getCloudResourceStatusCol, getCloudResourceChargeTypeCol, getCloudResourceRegionCol } from 'dataCenter/common/components/table-col';
+import {
+  getCloudResourceIDNameCol,
+  getCloudResourceStatusCol,
+  getCloudResourceChargeTypeCol,
+  getCloudResourceRegionCol,
+} from 'dataCenter/common/components/table-col';
 import { skipInfoStatusMap } from 'dataCenter/pages/cloud-source/config';
 import { customTagColor } from 'dcos/common/config';
 import { DownOne as IconDownOne } from '@icon-park/react';
 
-const specList = [
-  ...MysqlFieldsConfig.basicTypes,
-  ...MysqlFieldsConfig.highTypes,
-];
+const specList = [...MysqlFieldsConfig.basicTypes, ...MysqlFieldsConfig.highTypes];
 // rds = mysql
 const RDS = () => {
   const RDSList = cloudServiceStore.useStore((s) => s.RDSList);
@@ -54,15 +56,11 @@ const RDS = () => {
     };
   });
 
-  const [{
-    chargeType,
-    chosenRegion,
-    ifSetTagFormVisible,
-    stateChangeKey,
-    selectedList,
-    ifSelected,
-    recordID,
-  }, updater, update] = useUpdate({
+  const [
+    { chargeType, chosenRegion, ifSetTagFormVisible, stateChangeKey, selectedList, ifSelected, recordID },
+    updater,
+    update,
+  ] = useUpdate({
     chargeType: 'PostPaid',
     chosenRegion: undefined as string | undefined,
     ifSetTagFormVisible: false,
@@ -78,12 +76,15 @@ const RDS = () => {
 
   const checkSelect = (selectedRows: CLOUD_SERVICE.IRDS[]) => {
     const newIfSelected = !!selectedRows.length;
-    const newSelectedList = selectedRows.map((item: CLOUD_SERVICE.IRDS) => ({
-      region: item.region,
-      vendor: 'alicloud',
-      resourceID: item.id,
-      oldTags: Object.keys(item.tag),
-    } as CLOUD.TagItem));
+    const newSelectedList = selectedRows.map(
+      (item: CLOUD_SERVICE.IRDS) =>
+        ({
+          region: item.region,
+          vendor: 'alicloud',
+          resourceID: item.id,
+          oldTags: Object.keys(item.tag),
+        } as CLOUD.TagItem),
+    );
 
     update({
       selectedList: newSelectedList,
@@ -112,7 +113,10 @@ const RDS = () => {
         dataIndex: 'spec',
         render: (val: string) => (
           <Tooltip title={val}>
-            {get(find(specList, (item) => item.value === val), 'specName') || val}
+            {get(
+              find(specList, (item) => item.value === val),
+              'specName',
+            ) || val}
           </Tooltip>
         ),
       },
@@ -128,11 +132,14 @@ const RDS = () => {
         align: 'left',
         render: (value: Obj) => {
           const keyArray = keys(value);
-          return (<TagsColumn labels={keyArray.map((key) => {
-            const label = get(key.split('/'), 1, '');
-            return { label, color: customTagColor[label] };
-          })}
-          />);
+          return (
+            <TagsColumn
+              labels={keyArray.map((key) => {
+                const label = get(key.split('/'), 1, '');
+                return { label, color: customTagColor[label] };
+              })}
+            />
+          );
         },
       },
       getCloudResourceRegionCol('region'),
@@ -188,19 +195,21 @@ const RDS = () => {
     resetTable();
   };
 
-  const operationButtons = [{
-    name: `${i18n.t('set tags')}`,
-    cb: () => updater.ifSetTagFormVisible(true),
-    ifDisabled: false,
-  }];
+  const operationButtons = [
+    {
+      name: `${i18n.t('set tags')}`,
+      cb: () => updater.ifSetTagFormVisible(true),
+      ifDisabled: false,
+    },
+  ];
 
   const menu = (
     <Menu>
-      {
-        operationButtons.map((button) => (
-          <Menu.Item disabled={button.ifDisabled} key={button.name} onClick={button.cb}>{button.name}</Menu.Item>
-        ))
-      }
+      {operationButtons.map((button) => (
+        <Menu.Item disabled={button.ifDisabled} key={button.name} onClick={button.cb}>
+          {button.name}
+        </Menu.Item>
+      ))}
     </Menu>
   );
 
@@ -251,10 +260,7 @@ const RDS = () => {
         showClustertLabel={false}
         afterSubmit={afterTagFormSubmit}
       />
-      <ClusterLog
-        recordID={recordID}
-        onClose={() => updater.recordID('')}
-      />
+      <ClusterLog recordID={recordID} onClose={() => updater.recordID('')} />
     </>
   );
 };

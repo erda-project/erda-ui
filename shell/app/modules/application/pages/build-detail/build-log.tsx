@@ -62,7 +62,8 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
       getComp: () => <DeployLog detailLogId={deploymentId} applicationId={applicationId} />,
       getTitle: () => (
         <span>
-          <IconLeftOne className="hover-active" theme="filled" size="16px" onClick={() => this.props.popSlideComp()} />&nbsp;
+          <IconLeftOne className="hover-active" theme="filled" size="16px" onClick={() => this.props.popSlideComp()} />
+          &nbsp;
           {i18n.t('application:deployment log')}
         </span>
       ),
@@ -88,7 +89,11 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
     if (logParams.deploymentId && logParams.applicationId) {
       return {
         content: `${extraInfo}${logInfo[0]}`,
-        suffix: <a onClick={() => this.pushSlideComp(logParams.deploymentId, logParams.applicationId)}>{i18n.t('application:view deployment log')}</a>,
+        suffix: (
+          <a onClick={() => this.pushSlideComp(logParams.deploymentId, logParams.applicationId)}>
+            {i18n.t('application:view deployment log')}
+          </a>
+        ),
       };
     }
     return {
@@ -105,9 +110,27 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
   };
 
   render() {
-    const { slidePanelComps, title, logId, downloadAPI, customFetchAPIPrefix, pipelineID, taskID, visible, hideLog, withoutDrawer = false } = this.props;
+    const {
+      slidePanelComps,
+      title,
+      logId,
+      downloadAPI,
+      customFetchAPIPrefix,
+      pipelineID,
+      taskID,
+      visible,
+      hideLog,
+      withoutDrawer = false,
+    } = this.props;
     const { isStdErr } = this.state;
-    const switchLog = <Switch checkedChildren={i18n.t('application:error')} unCheckedChildren={i18n.t('application:standard')} checked={isStdErr} onChange={this.toggleLogName} />;
+    const switchLog = (
+      <Switch
+        checkedChildren={i18n.t('application:error')}
+        unCheckedChildren={i18n.t('application:standard')}
+        checked={isStdErr}
+        onChange={this.toggleLogName}
+      />
+    );
     if (withoutDrawer) {
       return (
         <CompSwitcher comps={slidePanelComps}>
@@ -129,7 +152,11 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
     return (
       <Drawer
         destroyOnClose
-        title={slidePanelComps.length ? slidePanelComps[slidePanelComps.length - 1].getTitle() : title || i18n.t('application:build log')}
+        title={
+          slidePanelComps.length
+            ? slidePanelComps[slidePanelComps.length - 1].getTitle()
+            : title || i18n.t('application:build log')
+        }
         width="80%"
         visible={visible}
         onClose={hideLog}
@@ -139,7 +166,8 @@ export class PureBuildLog extends React.PureComponent<IProps, IState> {
             key={String(isStdErr)}
             query={{
               // 此处如果使用了customFetchAPIPrefix，在drawer关闭瞬间又触发了请求会使用后面的api，此时pipelineID为undefined(见自动化测试)
-              fetchApi: customFetchAPIPrefix || (pipelineID && taskID ? `/api/cicd/${pipelineID}/tasks/${taskID}/logs` : false),
+              fetchApi:
+                customFetchAPIPrefix || (pipelineID && taskID ? `/api/cicd/${pipelineID}/tasks/${taskID}/logs` : false),
               downloadAPI,
               taskID,
               stream: isStdErr ? 'stderr' : 'stdout',
@@ -158,5 +186,13 @@ export const BuildLog = (p: any) => {
   const { clearLog } = commonStore.reducers;
   const slidePanelComps = commonStore.useStore((s) => s.slidePanelComps);
   const { pushSlideComp, popSlideComp } = commonStore.reducers;
-  return <PureBuildLog {...p} clearLog={clearLog} slidePanelComps={slidePanelComps} pushSlideComp={pushSlideComp} popSlideComp={popSlideComp} />;
+  return (
+    <PureBuildLog
+      {...p}
+      clearLog={clearLog}
+      slidePanelComps={slidePanelComps}
+      pushSlideComp={pushSlideComp}
+      popSlideComp={popSlideComp}
+    />
+  );
 };

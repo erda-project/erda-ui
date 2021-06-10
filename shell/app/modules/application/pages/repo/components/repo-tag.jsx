@@ -22,7 +22,6 @@ import repoStore from 'application/stores/repo';
 
 import './repo-tag.scss';
 
-
 const RepoTag = () => {
   const list = repoStore.useStore((s) => s.tag);
   const [isFetching] = useLoading(repoStore, ['getListByType']);
@@ -43,16 +42,18 @@ const RepoTag = () => {
   return (
     <Spin spinning={isFetching}>
       <div className="repo-tags">
-        {
-          list.map((item) => {
-            return (
-              <div key={item} className="tag-item">
-                <div><CustomIcon type="tag" /> {item.name}</div>
-                <div><GotoCommit commitId={item.id} length={6} /> · {item.message} · {fromNow(item.tagger.when)}</div>
+        {list.map((item) => {
+          return (
+            <div key={item} className="tag-item">
+              <div>
+                <CustomIcon type="tag" /> {item.name}
               </div>
-            );
-          })
-        }
+              <div>
+                <GotoCommit commitId={item.id} length={6} /> · {item.message} · {fromNow(item.tagger.when)}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </Spin>
   );

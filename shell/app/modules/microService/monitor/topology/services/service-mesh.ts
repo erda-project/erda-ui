@@ -15,14 +15,16 @@ import agent from 'agent';
 
 export const getCircuitBreaker = (query: TOPOLOGY.IServiceMeshQuery): Promise<TOPOLOGY.ICircuitBreaker> => {
   const { projectId, env, tenantGroup, ...rest } = query;
-  return agent.get(`/api/tmc/servicemesh/circuitbreaker/${projectId}/${env}/${tenantGroup}`)
+  return agent
+    .get(`/api/tmc/servicemesh/circuitbreaker/${projectId}/${env}/${tenantGroup}`)
     .query(rest)
     .then((response: any) => response.body);
 };
 
 export const saveCircuitBreaker = (params: TOPOLOGY.ICircuitBreakerSave): Promise<string> => {
   const { projectId, env, tenantGroup, data, query } = params;
-  return agent.post(`/api/tmc/servicemesh/circuitbreaker/${projectId}/${env}/${tenantGroup}`)
+  return agent
+    .post(`/api/tmc/servicemesh/circuitbreaker/${projectId}/${env}/${tenantGroup}`)
     .query(query)
     .send(data)
     .then((response: any) => response.body);
@@ -30,14 +32,16 @@ export const saveCircuitBreaker = (params: TOPOLOGY.ICircuitBreakerSave): Promis
 
 export const getFaultInject = (query: TOPOLOGY.IServiceMeshQuery): Promise<TOPOLOGY.IFaultInject> => {
   const { projectId, env, tenantGroup, ...rest } = query;
-  return agent.get(`/api/tmc/servicemesh/faultinject/${projectId}/${env}/${tenantGroup}`)
+  return agent
+    .get(`/api/tmc/servicemesh/faultinject/${projectId}/${env}/${tenantGroup}`)
     .query(rest)
     .then((response: any) => response.body);
 };
 
 export const saveFaultInject = (params: TOPOLOGY.IFaultInjectSave): Promise<string> => {
   const { projectId, env, tenantGroup, data, query } = params;
-  return agent.post(`/api/tmc/servicemesh/faultinject/${projectId}/${env}/${tenantGroup}`)
+  return agent
+    .post(`/api/tmc/servicemesh/faultinject/${projectId}/${env}/${tenantGroup}`)
     .query(query)
     .send(data)
     .then((response: any) => response.body);
@@ -45,7 +49,8 @@ export const saveFaultInject = (params: TOPOLOGY.IFaultInjectSave): Promise<stri
 
 export const deleteFaultInject = (params: TOPOLOGY.IFaultInjectDelete): Promise<boolean> => {
   const { projectId, env, tenantGroup, id, ...rest } = params;
-  return agent.delete(`/api/tmc/servicemesh/faultinject/${projectId}/${env}/${tenantGroup}/${id}`)
+  return agent
+    .delete(`/api/tmc/servicemesh/faultinject/${projectId}/${env}/${tenantGroup}/${id}`)
     .query(rest)
     .then((response: any) => response.body);
 };

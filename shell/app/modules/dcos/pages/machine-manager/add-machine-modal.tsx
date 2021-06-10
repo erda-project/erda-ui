@@ -46,9 +46,7 @@ class AddMachineModal extends React.PureComponent<IProps, any> {
       reData.hosts = reData.hosts.split('\n');
     }
     if (Array.isArray(reData.tag)) {
-      reData.tag = `${reData.tag.join(',')}${
-        customTag.trim() ? `,${customTag.trim()}` : ''
-      }`;
+      reData.tag = `${reData.tag.join(',')}${customTag.trim() ? `,${customTag.trim()}` : ''}`;
     }
     this.props.onOk(reData);
     this.props.onCancel();
@@ -58,7 +56,7 @@ class AddMachineModal extends React.PureComponent<IProps, any> {
     const { modalVisible, formData, onCancel, clusterName, currentOrg } = this.props;
     const { passwordVisible } = this.state;
     const orgName = currentOrg.name;
-    const defaultOrgTag = orgName ? `org-${orgName}` : '';// 取企业名打默认的tag:org-{orgName}
+    const defaultOrgTag = orgName ? `org-${orgName}` : ''; // 取企业名打默认的tag:org-{orgName}
     const fieldsList = [
       {
         label: i18n.t('dcos:username'),
@@ -93,14 +91,16 @@ class AddMachineModal extends React.PureComponent<IProps, any> {
         type: 'textArea',
         rules: [
           {
-            validator: (_rule: any, value: string[]| string, callback: Function) => {
+            validator: (_rule: any, value: string[] | string, callback: Function) => {
               let pass = true;
               const currentValue = Array.isArray(value) ? value : value.split('\n');
               currentValue.forEach((item) => {
                 const o = item.replace(/\s+/g, '');
                 o !== '' && (pass = regRules.ip.pattern.test(o));
               });
-              return pass ? callback() : callback(i18n.t('dcos:please fill in the correct ip, separated by the enter key'));
+              return pass
+                ? callback()
+                : callback(i18n.t('dcos:please fill in the correct ip, separated by the enter key'));
             },
           },
         ],
@@ -133,8 +133,8 @@ class AddMachineModal extends React.PureComponent<IProps, any> {
 
               const haveInCorrect = valueArr.length
                 ? some(valueArr, (val) => {
-                  return val.trim() ? !reg.test(val.trim()) : true;
-                })
+                    return val.trim() ? !reg.test(val.trim()) : true;
+                  })
                 : false;
               return haveInCorrect
                 ? callback(i18n.t('dcos:each label can only contain alphanumeric and underline'))
@@ -168,7 +168,7 @@ class AddMachineModal extends React.PureComponent<IProps, any> {
   }
 }
 
-export default (p: Omit<IProps, 'currentOrg' >) => {
+export default (p: Omit<IProps, 'currentOrg'>) => {
   const currentOrg = orgStore.useStore((s) => s.currentOrg);
   return <AddMachineModal {...p} currentOrg={currentOrg} />;
 };

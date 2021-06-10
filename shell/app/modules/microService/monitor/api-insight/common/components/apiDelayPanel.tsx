@@ -26,7 +26,9 @@ export const apiDelayPanel = ({ data }: { data: object }) => {
       key: 'name',
       render: (value: string) => (
         <IF check={value.length > 30}>
-          <Tooltip title={value}><Copy copyText={value}>{`${value.substr(0, 30)}...`}</Copy></Tooltip>
+          <Tooltip title={value}>
+            <Copy copyText={value}>{`${value.substr(0, 30)}...`}</Copy>
+          </Tooltip>
           <IF.ELSE />
           <Copy>{value}</Copy>
         </IF>
@@ -40,10 +42,5 @@ export const apiDelayPanel = ({ data }: { data: object }) => {
     },
   ];
 
-  return (
-    <Table
-      columns={columns}
-      dataSource={list}
-    />
-  );
+  return <Table columns={columns} dataSource={list} />;
 };

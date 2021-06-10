@@ -85,11 +85,14 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
     const { data } = nextProps.item;
 
     if (data.pipelineID !== this.props.item.data.pipelineID) {
-      this.setState({
-        time: 0,
-      }, () => {
-        this.setTime(nextProps);
-      });
+      this.setState(
+        {
+          time: 0,
+        },
+        () => {
+          this.setTime(nextProps);
+        },
+      );
     } else if (!isEqual(data, this.props.item.data)) {
       this.setTime(nextProps);
     }
@@ -128,47 +131,54 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
         text: <Tooltip title={approval_reason}>{i18n.t('approval failed')}</Tooltip>,
         color: 'red',
       };
-    } else if (approval_status === 'Canceled') { // 后端单独为取消审批列表中部署操作所加
+    } else if (approval_status === 'Canceled') {
+      // 后端单独为取消审批列表中部署操作所加
       status = ciStatusMap.StopByUser;
     }
 
     const statusContent = (
       <span className="flex-1">
-        <span className="yaml-editor-item-status" style={{ background: approvalResult ? approvalResult.color : item.data.itemStatus.toLowerCase() }} />
-        <span className="inline-flex-box">{approvalResult ? approvalResult.text : (status ? status.text : '-')}</span>
+        <span
+          className="yaml-editor-item-status"
+          style={{ background: approvalResult ? approvalResult.color : item.data.itemStatus.toLowerCase() }}
+        />
+        <span className="inline-flex-box">{approvalResult ? approvalResult.text : status ? status.text : '-'}</span>
       </span>
     );
     if (item.data.name || item.data.displayName) {
       const titleText = item.data.displayName ? `${item.data.displayName}: ${item.data.name}` : item.data.name;
       titleContent = (
         <div className="yaml-editor-pipeline-item-title nowrap">
-          <Tooltip title={titleText}>
-            {titleText}
-          </Tooltip>
+          <Tooltip title={titleText}>{titleText}</Tooltip>
         </div>
       );
     }
 
-    const mergedClassNames =
-      classnames('yaml-editor-pipeline-item', className, item.data.status === 'Disabled' ? 'disabled-item' : '');
+    const mergedClassNames = classnames(
+      'yaml-editor-pipeline-item',
+      className,
+      item.data.status === 'Disabled' ? 'disabled-item' : '',
+    );
 
-    const timeContent = time >= 0 ? (
-      <span>
-        <CustomIcon type="shijian" />
-        <span>{secondsToTime(time || item.data.costTimeSec)}</span>
-      </span>
-    ) : null;
+    const timeContent =
+      time >= 0 ? (
+        <span>
+          <CustomIcon type="shijian" />
+          <span>{secondsToTime(time || item.data.costTimeSec)}</span>
+        </span>
+      ) : null;
 
     const logoUrl = get(item.data, 'logoUrl');
-    const icon = logoUrl ? <img src={logoUrl} alt="logo" className="pipeline-item-icon" /> : <CustomIcon className="pipeline-item-icon" type="wfw" color />;
+    const icon = logoUrl ? (
+      <img src={logoUrl} alt="logo" className="pipeline-item-icon" />
+    ) : (
+      <CustomIcon className="pipeline-item-icon" type="wfw" color />
+    );
 
     const Container = this.isEmptyExtraInfo() ? Popover : React.Fragment;
     return (
       <Container {...this.renderTooltipTitle()}>
-        <div
-          onClick={() => onClick && onClick(item.data, 'node')}
-          className={mergedClassNames}
-        >
+        <div onClick={() => onClick && onClick(item.data, 'node')} className={mergedClassNames}>
           {icon}
           <span className="yaml-editor-item-title-name">
             <div className="flex-box">
@@ -220,8 +230,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
     const { item } = this.props;
     const { data } = item;
 
-    if (isEmpty(data.result) ||
-      (!data.result.version && !data.result.metadata && !data.result.errors)) {
+    if (isEmpty(data.result) || (!data.result.version && !data.result.metadata && !data.result.errors)) {
       return false;
     }
 
@@ -251,12 +260,15 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
       // detailInfo.push(`<h4>版本: ${version.ref || ''}</h4>`);
       if (!isEmpty(metadata)) {
         const temp: any[] = [];
-        (metadata || []).forEach((m: any, index: number) => !skip.includes(m.name) &&
-          temp.push(
-            <div key={`meta-${String(index)}`} className="flow-chart-panel-msg-item">
-              <span className="flow-chart-panel-msg-item-name">{m.name}</span> {m.value}
-            </div>,
-          ));
+        (metadata || []).forEach(
+          (m: any, index: number) =>
+            !skip.includes(m.name) &&
+            temp.push(
+              <div key={`meta-${String(index)}`} className="flow-chart-panel-msg-item">
+                <span className="flow-chart-panel-msg-item-name">{m.name}</span> {m.value}
+              </div>,
+            ),
+        );
         if (temp.length) {
           detailInfo.push(<h4>{i18n.t('application:details')}</h4>);
           detailInfo.push(...temp);
@@ -264,24 +276,28 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
       }
       if (!isEmpty(files)) {
         detailInfo.push(<h4 className="mt8">{i18n.t('download')}</h4>);
-        detailInfo.push(files.map((item, idx) => (
-          item.value ? (
-            <div className="table-operations" key={`file-${String(idx)}`}>
-              <a className="table-operations-btn" download={item.value} href={`/api/files/${item.value}`}>
-                {item.name || item.value}
-              </a>
-            </div>
-          ) : null
-        )));
+        detailInfo.push(
+          files.map((item, idx) =>
+            item.value ? (
+              <div className="table-operations" key={`file-${String(idx)}`}>
+                <a className="table-operations-btn" download={item.value} href={`/api/files/${item.value}`}>
+                  {item.name || item.value}
+                </a>
+              </div>
+            ) : null,
+          ),
+        );
       }
       if (!isEmpty(errors)) {
         detailInfo.push(<h4 className="mt8">{i18n.t('application:error')}</h4>);
-        detailInfo.push(errors.map((error, idx) => (
-          <div key={`error-${String(idx)}`} className="flow-chart-panel-msg-item">
-            <span className="flow-chart-panel-msg-item-name error">{error.name || 'error'}</span>
-            {error.value || error.msg}
-          </div>
-        )));
+        detailInfo.push(
+          errors.map((error, idx) => (
+            <div key={`error-${String(idx)}`} className="flow-chart-panel-msg-item">
+              <span className="flow-chart-panel-msg-item-name error">{error.name || 'error'}</span>
+              {error.value || error.msg}
+            </div>
+          )),
+        );
         // <pre className="flow-chart-err-block">
         //   {(errors || []).map((e: any, index: number) => <div key={`tooltip-${index}`}><code>{e.msg || e.code}</code></div>)}
         // </pre>
@@ -299,19 +315,23 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
         title: null,
         content: (
           <div key={this.props.item.id} className="panel-info">
-            {detailInfo.map((e: any, index: number) => <div key={String(index)}>{e}</div>)}
+            {detailInfo.map((e: any, index: number) => (
+              <div key={String(index)}>{e}</div>
+            ))}
           </div>
         ),
-        overlayStyle: result ? {
-          width: 'auto',
-          maxWidth: '420px',
-          height: 'auto',
-          maxHeight: '520px',
-          minWidth: '200px',
-          padding: '10px',
-          overflow: 'auto',
-          wordBreak: 'break-all',
-        } : null,
+        overlayStyle: result
+          ? {
+              width: 'auto',
+              maxWidth: '420px',
+              height: 'auto',
+              maxHeight: '520px',
+              minWidth: '200px',
+              padding: '10px',
+              overflow: 'auto',
+              wordBreak: 'break-all',
+            }
+          : null,
         placement: 'right',
       };
     }
@@ -320,12 +340,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
   };
 
   private renderIcon() {
-    const {
-      isType,
-      status,
-      result,
-      costTimeSec,
-    } = this.props.item.data;
+    const { isType, status, result, costTimeSec } = this.props.item.data;
 
     const operations = [];
     // if (!starting) {
@@ -367,7 +382,9 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
       operations.push(this.getIconOperation('log', 'log', i18n.t('application:log')));
     }
 
-    return operations.map((i: any, index: number) => <React.Fragment key={`operation-${String(index)}`}>{i}</React.Fragment>);
+    return operations.map((i: any, index: number) => (
+      <React.Fragment key={`operation-${String(index)}`}>{i}</React.Fragment>
+    ));
   }
 
   private getIconOperation = (icon: string, mark: string, tip: string) => {
@@ -393,31 +410,23 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
         return null;
       case 'top':
         return (
-          <span
-            className="item-point top-point"
-          >
+          <span className="item-point top-point">
             <CustomIcon type="caret-top" />
           </span>
         );
       case 'bottom':
         return (
-          <span
-            className="item-point bottom-point"
-          >
+          <span className="item-point bottom-point">
             <CustomIcon type="caret-top" />
           </span>
         );
       default:
         return (
           <div>
-            <span
-              className="item-point top-point"
-            >
+            <span className="item-point top-point">
               <CustomIcon type="caret-top" />
             </span>
-            <span
-              className="item-point bottom-point"
-            >
+            <span className="item-point bottom-point">
               <CustomIcon type="caret-top" />
             </span>
           </div>

@@ -18,11 +18,18 @@ import DataBaseMap from './config/chartMap';
 import TopTabRight from 'application-insight/common/components/tab-right';
 import monitorCommonStore from 'common/stores/monitorCommon';
 
-
 const DataBase = () => {
   const type = 'database';
-  const [chosenSortItem, chosenApp, chosenAppGroup, appGroup] = monitorCommonStore.useStore((s) => [s.chosenSortItem, s.chosenApp, s.chosenAppGroup, s.appGroup]);
-  const { filterQuery, shouldLoad }: any = getFilterParams({ chosenSortItem, chosenApp, chosenAppGroup, appGroup }, { type, prefix: 'filter_source_' });
+  const [chosenSortItem, chosenApp, chosenAppGroup, appGroup] = monitorCommonStore.useStore((s) => [
+    s.chosenSortItem,
+    s.chosenApp,
+    s.chosenAppGroup,
+    s.appGroup,
+  ]);
+  const { filterQuery, shouldLoad }: any = getFilterParams(
+    { chosenSortItem, chosenApp, chosenAppGroup, appGroup },
+    { type, prefix: 'filter_source_' },
+  );
   const chartQuery = chosenSortItem ? { ...filterQuery, filter_db_statement: chosenSortItem } : { ...filterQuery };
   return (
     <div>
@@ -45,4 +52,3 @@ const DataBase = () => {
 };
 
 export default DataBase;
-

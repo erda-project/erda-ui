@@ -19,7 +19,6 @@ import routeInfoStore from 'app/common/stores/route';
 import StatisticsSelector, { STATISTICS } from '../../common/components/statistics-selector';
 import microServiceStore from 'microService/stores/micro-service';
 
-
 const type = 'connection';
 const filterStatistics = {
   active: {
@@ -68,4 +67,3 @@ const Connection = () => {
 };
 
 export default Connection;
-

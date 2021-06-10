@@ -19,7 +19,6 @@ import { useInstanceOperation } from 'dataCenter/common/components/instance-oper
 import middlewareDashboardStore from 'dataCenter/stores/middleware-dashboard';
 import { PureResourceList } from 'dataCenter/common/addon-detail/resource';
 
-
 const Resource = () => {
   const resourceList = middlewareDashboardStore.useStore((s) => s.resourceList);
   const { params } = routeInfoStore.getState((s) => s);
@@ -45,14 +44,7 @@ const Resource = () => {
     return () => middlewareDashboardStore.reducers.clearResourceList();
   });
 
-  return (
-    <PureResourceList
-      renderOp={renderOp}
-      resourceList={resourceList}
-      loading={loading}
-      drawerComp={drawerComp}
-    />
-  );
+  return <PureResourceList renderOp={renderOp} resourceList={resourceList} loading={loading} drawerComp={drawerComp} />;
 };
 
 export default Resource;

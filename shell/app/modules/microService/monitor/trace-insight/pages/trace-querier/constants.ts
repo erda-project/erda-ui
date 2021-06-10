@@ -12,16 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 export default {
-  HTTP_METHOD_LIST: [
-    'GET',
-    'POST',
-    'PUT',
-    'DELEE',
-    'OPTINS',
-    'PATCH',
-    'COPY',
-    'HEAD',
-  ],
+  HTTP_METHOD_LIST: ['GET', 'POST', 'PUT', 'DELEE', 'OPTINS', 'PATCH', 'COPY', 'HEAD'],
   MAX_URL_LENGTH: 1024,
   MAX_BODY_LENGTH: 10000,
   DEFAULT_REQUEST_PARAMS: {

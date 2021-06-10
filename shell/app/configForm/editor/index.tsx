@@ -28,117 +28,117 @@ const defaultProps = {
 
 export { DefaultEditor, DefaultPreview, defaultComponentMap };
 
-export interface IEditorProps{
+export interface IEditorProps {
   fields?: IField[];
 }
 
-export const createFormEditor = (props: any = defaultProps) => React.forwardRef((p: IEditorProps, ref: any) => {
-  const { FormEditor, FormPreview, componentMap, basicField = defaultBasicField } = props;
-  const formRef = React.useRef(null as any);
-  const [chosenField, setChosenField] = React.useState({} as IField);
+export const createFormEditor = (props: any = defaultProps) =>
+  React.forwardRef((p: IEditorProps, ref: any) => {
+    const { FormEditor, FormPreview, componentMap, basicField = defaultBasicField } = props;
+    const formRef = React.useRef(null as any);
+    const [chosenField, setChosenField] = React.useState({} as IField);
 
-  const { fields = [] } = p;
+    const { fields = [] } = p;
 
-  React.useEffect(() => {
-    ref && (ref.current = formRef.current);
-  }, [ref]);
+    React.useEffect(() => {
+      ref && (ref.current = formRef.current);
+    }, [ref]);
 
-  React.useEffect(() => {
-    if (formRef && formRef.current && !isEmpty(fields)) {
-      formRef.current.setFields(fields);
-      setChosenField(fields[0]);
-    }
-  }, [fields]);
+    React.useEffect(() => {
+      if (formRef && formRef.current && !isEmpty(fields)) {
+        formRef.current.setFields(fields);
+        setChosenField(fields[0]);
+      }
+    }, [fields]);
 
-  const addFormField = (data: any) => {
-    if (formRef && formRef.current) {
-      const curFields = formRef.current.getFields();
-      const newField = data.component === FORM_GROUP ? { ...data, group: data.key } : { ...basicField, ...data, label: data.key };
-      formRef.current.setFields(curFields.concat(newField));
-      setChosenField(newField);
-    }
-  };
+    const addFormField = (data: any) => {
+      if (formRef && formRef.current) {
+        const curFields = formRef.current.getFields();
+        const newField =
+          data.component === FORM_GROUP ? { ...data, group: data.key } : { ...basicField, ...data, label: data.key };
+        formRef.current.setFields(curFields.concat(newField));
+        setChosenField(newField);
+      }
+    };
 
-  const copyField = (data: any, key: string) => {
-    if (formRef && formRef.current) {
-      const curFields = formRef.current.getFields();
-      const newField = { ...basicField, ...data, key };
-      formRef.current.setFields(curFields.concat(newField));
-      setChosenField(newField);
-    }
-  };
+    const copyField = (data: any, key: string) => {
+      if (formRef && formRef.current) {
+        const curFields = formRef.current.getFields();
+        const newField = { ...basicField, ...data, key };
+        formRef.current.setFields(curFields.concat(newField));
+        setChosenField(newField);
+      }
+    };
 
-  const updateField = (d: any = {}, curField: IField) => {
-    if (formRef && formRef.current) {
-      const curFields = formRef.current.getFields();
-      const newConfig = map(curFields, (c: IField) => {
-        if (c.key !== curField.key) return c;
-        const reC = { ...c, ...d };
-        return reC;
-      });
-      formRef.current.setFields(newConfig);
-    }
-  };
+    const updateField = (d: any = {}, curField: IField) => {
+      if (formRef && formRef.current) {
+        const curFields = formRef.current.getFields();
+        const newConfig = map(curFields, (c: IField) => {
+          if (c.key !== curField.key) return c;
+          const reC = { ...c, ...d };
+          return reC;
+        });
+        formRef.current.setFields(newConfig);
+      }
+    };
 
-  const changeFieldPos = (from: number, to: number) => {
-    if (formRef && formRef.current) {
-      const toPos = from + to;
-      const curFields = formRef.current.getFields();
+    const changeFieldPos = (from: number, to: number) => {
+      if (formRef && formRef.current) {
+        const toPos = from + to;
+        const curFields = formRef.current.getFields();
 
-      if (toPos >= 0 && toPos < curFields.length) {
-        const newFields = cloneDeep(curFields);
-        const fieldItem = newFields.splice(from, 1);
-        newFields.splice(toPos, 0, fieldItem[0]);
+        if (toPos >= 0 && toPos < curFields.length) {
+          const newFields = cloneDeep(curFields);
+          const fieldItem = newFields.splice(from, 1);
+          newFields.splice(toPos, 0, fieldItem[0]);
+          formRef.current.setFields(newFields);
+        }
+      }
+    };
+
+    const deleteField = (field: IField) => {
+      if (formRef && formRef.current) {
+        const curFields = formRef.current.getFields();
+        const { component } = field;
+        const newFields = filter(curFields, (item: IField) =>
+          component === FORM_GROUP ? item.group !== field.key : item.key !== field.key,
+        );
+        if (field.key === chosenField.key) {
+          setChosenField(newFields[0] || ({} as IField));
+        }
         formRef.current.setFields(newFields);
       }
-    }
-  };
+    };
 
-  const deleteField = (field: IField) => {
-    if (formRef && formRef.current) {
-      const curFields = formRef.current.getFields();
-      const { component } = field;
-      const newFields = filter(curFields, (item: IField) => (component === FORM_GROUP ? item.group !== field.key : item.key !== field.key));
-      if (field.key === chosenField.key) {
-        setChosenField(newFields[0] || {} as IField);
-      }
-      formRef.current.setFields(newFields);
-    }
-  };
+    const editField = (field: IField) => {
+      setChosenField(field);
+    };
 
-  const editField = (field: IField) => {
-    setChosenField(field);
-  };
+    const allField = (formRef && formRef.current && formRef.current.getFields()) || [];
 
-  const allField = (formRef && formRef.current && formRef.current.getFields()) || [];
-
-  return (
-    <div className="dice-form-configuration full-height">
-      <div className="form-preview-box">
-        <FormPreview
-          ref={formRef}
-          componentMap={componentMap}
-          addFormField={addFormField}
-          copyField={copyField}
-          deleteField={deleteField}
-          editField={editField}
-          changeFieldPos={changeFieldPos}
-          updateField={updateField}
-          currentEditField={chosenField}
-        />
+    return (
+      <div className="dice-form-configuration full-height">
+        <div className="form-preview-box">
+          <FormPreview
+            ref={formRef}
+            componentMap={componentMap}
+            addFormField={addFormField}
+            copyField={copyField}
+            deleteField={deleteField}
+            editField={editField}
+            changeFieldPos={changeFieldPos}
+            updateField={updateField}
+            currentEditField={chosenField}
+          />
+        </div>
+        <div className="form-editor-box">
+          <FormEditor
+            field={chosenField}
+            allField={allField}
+            onChange={updateField}
+            fieldConfig={get(componentMap, `${chosenField.component}.fieldConfig`, [])}
+          />
+        </div>
       </div>
-      <div className="form-editor-box">
-        <FormEditor
-          field={chosenField}
-          allField={allField}
-          onChange={updateField}
-          fieldConfig={get(
-            componentMap,
-            `${chosenField.component}.fieldConfig`,
-            [],
-          )}
-        />
-      </div>
-    </div>
-  );
-});
+    );
+  });

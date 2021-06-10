@@ -77,4 +77,3 @@ describe('SearchTable', () => {
     expect(wrapper.find('OperationBar')).toExist();
   });
 });
-

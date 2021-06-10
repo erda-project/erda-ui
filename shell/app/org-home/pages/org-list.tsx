@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 import * as React from 'react';
 import DiceConfigPage from 'config-page/index';
 import { Card } from 'app/nusi';
@@ -31,12 +30,8 @@ export const OrgList = () => {
         </div>
       </div>
       <div className="org-home-list">
-        <DiceConfigPage
-          scenarioType="org-list-all"
-          scenarioKey="org-list-all"
-        />
+        <DiceConfigPage scenarioType="org-list-all" scenarioKey="org-list-all" />
       </div>
     </Card>
   );
 };
-

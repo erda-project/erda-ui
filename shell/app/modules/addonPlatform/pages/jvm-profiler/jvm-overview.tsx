@@ -32,12 +32,7 @@ export default () => {
   const jvmInfo = jvmStore.useStore((s) => s.jvmInfo);
   const pendingTimer = React.useRef(-1);
   const failedTimer = React.useRef(-1);
-  const [{
-    isPending,
-    isRunning,
-    createTime,
-    finishTime,
-  }, updater] = useUpdate({
+  const [{ isPending, isRunning, createTime, finishTime }, updater] = useUpdate({
     isPending: true,
     isRunning: false,
     createTime: 0,
@@ -92,24 +87,24 @@ export default () => {
   }, [insId, profileId, updater]);
 
   const stopProfile = () => {
-    jvmStore.stopProfile({
-      insId,
-      profileId,
-    }).then(() => {
-      rollingState();
-    });
+    jvmStore
+      .stopProfile({
+        insId,
+        profileId,
+      })
+      .then(() => {
+        rollingState();
+      });
   };
 
   const getPanelBody = (data: Array<{ key: string; value: string }>) => (
     <Holder when={isEmpty(data)}>
-      {
-        map(data, ({ key, value }) => (
-          <p className="info-item">
-            <span className="label">{key}</span>
-            <span className="value">{value}</span>
-          </p>
-        ))
-      }
+      {map(data, ({ key, value }) => (
+        <p className="info-item">
+          <span className="label">{key}</span>
+          <span className="value">{value}</span>
+        </p>
+      ))}
     </Holder>
   );
 
@@ -127,22 +122,22 @@ export default () => {
                 <span className="label">{`${i18n.t('create time')}: `}</span>
                 <span className="value">{formatTime(createTime, 'YYYY-MM-DD HH:mm:ss')}</span>
               </p>
-              {
-                isRunning
-                  ?
-                    <p className="info-item">
-                      <span className="label">{`${i18n.t('addonPlatform:started at')}: `}</span>
-                      <span className="value">{fromNow(createTime)}</span>
-                    </p>
-                  :
-                    <p className="info-item">
-                      <span className="label">{`${i18n.t('common:end at')}: `}</span>
-                      <span className="value">{formatTime(finishTime, 'YYYY-MM-DD HH:mm:ss')}</span>
-                    </p>
-              }
+              {isRunning ? (
+                <p className="info-item">
+                  <span className="label">{`${i18n.t('addonPlatform:started at')}: `}</span>
+                  <span className="value">{fromNow(createTime)}</span>
+                </p>
+              ) : (
+                <p className="info-item">
+                  <span className="label">{`${i18n.t('common:end at')}: `}</span>
+                  <span className="value">{formatTime(finishTime, 'YYYY-MM-DD HH:mm:ss')}</span>
+                </p>
+              )}
             </div>
             <div className="profiler-actions ml24">
-              <Button type="primary" disabled={!isRunning} onClick={stopProfile}>{i18n.t('addonPlatform:stop analysis')}</Button>
+              <Button type="primary" disabled={!isRunning} onClick={stopProfile}>
+                {i18n.t('addonPlatform:stop analysis')}
+              </Button>
             </div>
           </div>
         </div>

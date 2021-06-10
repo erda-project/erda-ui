@@ -53,12 +53,10 @@ export const Iteration = () => {
     updater.modalVisible(true);
   };
 
-  const renderMenuPopover = (iteration: ITERATION.Detail) => (
-    setVisible: Function,
-  ) => {
+  const renderMenuPopover = (iteration: ITERATION.Detail) => (setVisible: Function) => {
     return (
       <div>
-        <WithAuth pass={editAuth} >
+        <WithAuth pass={editAuth}>
           <div
             className="popover-item"
             onClick={(e) => {
@@ -75,9 +73,11 @@ export const Iteration = () => {
             onDelete(iteration.id);
             setVisible(false);
           }}
-          onShow={() => { setVisible(false); }}
+          onShow={() => {
+            setVisible(false);
+          }}
         >
-          <WithAuth pass={editAuth} >
+          <WithAuth pass={editAuth}>
             <div className="popover-item">{i18n.t('delete')}</div>
           </WithAuth>
         </DeleteConfirm>
@@ -91,14 +91,8 @@ export const Iteration = () => {
       <div key={id} className="common-list-item hover-active-bg flex-box">
         <div className="list-item-left">
           <div className="nowrap title flex-box bold-500">
-            <span>
-              {title}
-            </span>
-            <MenuPopover
-              styleName="color-text-desc"
-              content={renderMenuPopover(iteration)}
-              placement="left"
-            />
+            <span>{title}</span>
+            <MenuPopover styleName="color-text-desc" content={renderMenuPopover(iteration)} placement="left" />
           </div>
           <div className="nowrap color-text-sub mt4">{content}</div>
           <div className="nowrap color-text-desc mt12">
@@ -140,19 +134,10 @@ export const Iteration = () => {
       <Spin spinning={isFetching}>
         {map(list, renderIteration)}
         <div className="mt16 right-flex-box">
-          <Pagination
-            current={pageNo}
-            pageSize={pageSize}
-            total={total}
-            onChange={onPageChange}
-          />
+          <Pagination current={pageNo} pageSize={pageSize} total={total} onChange={onPageChange} />
         </div>
       </Spin>
-      <IterationModal
-        visible={state.modalVisible}
-        data={state.curDetail as ITERATION.Detail}
-        onClose={handleClose}
-      />
+      <IterationModal visible={state.modalVisible} data={state.curDetail as ITERATION.Detail} onClose={handleClose} />
     </div>
   );
 };

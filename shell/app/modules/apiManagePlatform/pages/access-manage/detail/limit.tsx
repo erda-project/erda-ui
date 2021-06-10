@@ -36,11 +36,11 @@ const Limit = (props: IProps) => {
   const [renderData, setValue] = React.useState<API_ACCESS.BaseSlaLimit[]>([]);
 
   React.useEffect(() => {
-    const curVal = isEmpty(value) ? [{ ...defaultData }] : cloneDeep(value) as API_ACCESS.BaseSlaLimit[];
+    const curVal = isEmpty(value) ? [{ ...defaultData }] : (cloneDeep(value) as API_ACCESS.BaseSlaLimit[]);
     setValue(curVal);
   }, [value]);
 
-  const handleChange = (index: number, name: 'limit'| 'unit', v: string | number | undefined) => {
+  const handleChange = (index: number, name: 'limit' | 'unit', v: string | number | undefined) => {
     const newData = cloneDeep(renderData);
     set(newData[index], name, v);
     setValue(newData);
@@ -65,53 +65,56 @@ const Limit = (props: IProps) => {
 
   return (
     <>
-      {
-        renderData.map(({ limit, unit }, index) => {
-          return (
-            <InputGroup compact key={String(index)} className="mb4">
-              <InputNumber
-                placeholder={i18n.t('please enter')}
-                min={1}
-                step={1}
-                max={999999999999999}
-                value={limit}
-                style={{ width: mode === 'multiple' ? '65%' : '80%' }}
-                onChange={(v) => { handleChange(index, 'limit', v); }}
-              />
-              <Select
-                placeholder={i18n.t('please select')}
-                style={{ width: '20%' }}
-                value={unit}
-                onChange={(v) => { handleChange(index, 'unit', v as string); }}
-              >
-                {
-                  map(slaUnitMap, (name, k) => <Option value={k} key={k}>{name}</Option>)
-                }
-              </Select>
-              {
-                mode === 'multiple' ? (
-                  <div
-                    className="sla-limit-operation"
-                  >
-                    <div className="flex-box pl12">
-                      <Tooltip title={i18n.t('add {name}', { name: i18n.t('request limit') })}>
-                        <IconAddOne onClick={handleAddOne} size="20px" />
-                      </Tooltip>
-                      {
-                        index !== 0 ? (
-                          <Tooltip title={i18n.t('delete')}>
-                            <IconReduceOne onClick={() => { handleDropOne(index); }} size="20px" />
-                          </Tooltip>
-                        ) : null
-                      }
-                    </div>
-                  </div>
-                ) : null
-              }
-            </InputGroup>
-          );
-        })
-      }
+      {renderData.map(({ limit, unit }, index) => {
+        return (
+          <InputGroup compact key={String(index)} className="mb4">
+            <InputNumber
+              placeholder={i18n.t('please enter')}
+              min={1}
+              step={1}
+              max={999999999999999}
+              value={limit}
+              style={{ width: mode === 'multiple' ? '65%' : '80%' }}
+              onChange={(v) => {
+                handleChange(index, 'limit', v);
+              }}
+            />
+            <Select
+              placeholder={i18n.t('please select')}
+              style={{ width: '20%' }}
+              value={unit}
+              onChange={(v) => {
+                handleChange(index, 'unit', v as string);
+              }}
+            >
+              {map(slaUnitMap, (name, k) => (
+                <Option value={k} key={k}>
+                  {name}
+                </Option>
+              ))}
+            </Select>
+            {mode === 'multiple' ? (
+              <div className="sla-limit-operation">
+                <div className="flex-box pl12">
+                  <Tooltip title={i18n.t('add {name}', { name: i18n.t('request limit') })}>
+                    <IconAddOne onClick={handleAddOne} size="20px" />
+                  </Tooltip>
+                  {index !== 0 ? (
+                    <Tooltip title={i18n.t('delete')}>
+                      <IconReduceOne
+                        onClick={() => {
+                          handleDropOne(index);
+                        }}
+                        size="20px"
+                      />
+                    </Tooltip>
+                  ) : null}
+                </div>
+              </div>
+            ) : null}
+          </InputGroup>
+        );
+      })}
     </>
   );
 };

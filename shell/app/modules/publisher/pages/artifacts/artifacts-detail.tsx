@@ -58,12 +58,14 @@ const ArtifactsDetail = ({ data, artifactsId }: IProps) => {
     ['version', i18n.t('publisher:version content')],
   ];
   if (isMobileApp) {
-    menuText.push(...[
-      ['certification', i18n.t('publisher:authenticate list')],
-      ['safety', i18n.t('publisher:safety manage')],
-      ['statistics', i18n.t('publisher:statistics dashboard')],
-      ['errorReport', i18n.t('publisher:error report')],
-    ]);
+    menuText.push(
+      ...[
+        ['certification', i18n.t('publisher:authenticate list')],
+        ['safety', i18n.t('publisher:safety manage')],
+        ['statistics', i18n.t('publisher:statistics dashboard')],
+        ['errorReport', i18n.t('publisher:error report')],
+      ],
+    );
   }
 
   return (
@@ -71,14 +73,19 @@ const ArtifactsDetail = ({ data, artifactsId }: IProps) => {
       <div className="artifacts-detail-header">
         <div className="tab-menu">
           <Menu onClick={changeMenu} selectedKeys={[chosenTab]} mode="horizontal">
-            {map(menuText, ([key, text]) => <Menu.Item key={key}>{text}</Menu.Item>)}
-          </Menu >
+            {map(menuText, ([key, text]) => (
+              <Menu.Item key={key}>{text}</Menu.Item>
+            ))}
+          </Menu>
         </div>
       </div>
-      <div className={`artifacts-content ${['statistics', 'errorReport'].includes(chosenTab) ? 'gray-bg' : ''}`} id="artifacts-content">
+      <div
+        className={`artifacts-content ${['statistics', 'errorReport'].includes(chosenTab) ? 'gray-bg' : ''}`}
+        id="artifacts-content"
+      >
         {TabCompMap[chosenTab] || null}
       </div>
-    </div >
+    </div>
   );
 };
 

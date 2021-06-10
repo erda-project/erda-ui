@@ -17,7 +17,6 @@ import './create-org.scss';
 
 export const CreateOrg = () => {
   return (
-
     <div className="create-org-page">
       <DiceConfigPage
         scenarioType="create-organization"
@@ -109,13 +108,7 @@ const mock: CONFIG_PAGE.RenderConfig = {
               componentProps: {
                 uploadText: '上传图片',
                 sizeLimit: 2,
-                supportFormat: [
-                  'png',
-                  'jpg',
-                  'jpeg',
-                  'gif',
-                  'bmp',
-                ],
+                supportFormat: ['png', 'jpg', 'jpeg', 'gif', 'bmp'],
               },
             },
           ],

@@ -29,7 +29,6 @@ import { useUnmount } from 'react-use';
 
 import './index.scss';
 
-
 const parseLogContent = (content: string) => {
   let level = '';
   let showContent = content;
@@ -62,13 +61,17 @@ export default () => {
 
   const getData = (obj: any = {}) => {
     const { timeFrom, timeTo, query, size, tags } = obj;
-    const tagMap = reduce(tags, (result, tagString) => {
-      const [k, v] = tagString.split('=');
-      return {
-        ...result,
-        [`tags.${k}`]: v,
-      };
-    }, {});
+    const tagMap = reduce(
+      tags,
+      (result, tagString) => {
+        const [k, v] = tagString.split('=');
+        return {
+          ...result,
+          [`tags.${k}`]: v,
+        };
+      },
+      {},
+    );
     const start = (timeFrom && moment(timeFrom).valueOf()) || initialRange[0].valueOf();
     const end = (timeTo && moment(timeTo).valueOf()) || initialRange[1].valueOf();
 
@@ -124,15 +127,23 @@ export default () => {
   const handleCreateRule = (e: any, tags: any, content: string) => {
     e.stopPropagation();
     if (tags.origin !== 'sls') {
-      const targetTagMap = pick(tags, ['dice_project_name', 'dice_workspace', 'dice_application_name', 'dice_service_name']);
+      const targetTagMap = pick(tags, [
+        'dice_project_name',
+        'dice_workspace',
+        'dice_application_name',
+        'dice_service_name',
+      ]);
       const targetTags = map(targetTagMap, (v, k) => `${k}=${v}`);
       setLS('logRuleTags', targetTags);
     } else {
       setLS('logRuleTags', []);
     }
     setLS('logRuleContent', content);
-    const path = isIn('microService') ? goTo.resolve.ms_addLogAnalyzeRule({ ...params, source: 'log-query' })
-      : isIn('dataCenter') ? goTo.resolve.addLogAnalyzeRule({ ...params, source: 'log-query' }) : '';
+    const path = isIn('microService')
+      ? goTo.resolve.ms_addLogAnalyzeRule({ ...params, source: 'log-query' })
+      : isIn('dataCenter')
+      ? goTo.resolve.addLogAnalyzeRule({ ...params, source: 'log-query' })
+      : '';
     goTo(path);
   };
 
@@ -158,79 +169,89 @@ export default () => {
     return { time, metricData, yAxisLength, xAxisIsTime: true };
   };
 
-  const filterConfig = React.useMemo(() => [
-    {
-      type: RangePicker,
-      name: 'time',
-      valueType: 'range',
-      required: true,
-      customProps: {
-        showTime: true,
-        allowClear: false,
-        format: 'MM-DD HH:mm',
-        style: { width: 'auto' },
-        ranges: getTimeRanges(), // 因为选择预设range时不触发onOk，所以onChange时直接触发
-      },
-    },
-    {
-      type: Input,
-      name: 'query',
-      customProps: {
-        placeholder: i18n.t('microService:search by content'),
-      },
-    },
-    {
-      type: LogTagSelector,
-      name: 'tags',
-      customProps: {
-        size: 'small',
-        customValidValue: (val: string, beforeVals: string[]) => {
-          const tagReg = /^[_a-zA-Z][a-zA-Z0-9_]*[=]{1}[\s\S]+$/;
-          if (tagReg.test(val)) {
-            const beforeKeys = map(beforeVals, (beforeVal) => beforeVal.split('=')[0]);
-            if (beforeKeys.includes(val.split('=')[0])) {
-              message.warning(i18n.t('org:the same key already exists'));
-              return false;
-            }
-            return true;
-          } else {
-            message.warning(`${val} ${i18n.t('dcos:is invalid tag')}`);
-            return false;
-          }
+  const filterConfig = React.useMemo(
+    () => [
+      {
+        type: RangePicker,
+        name: 'time',
+        valueType: 'range',
+        required: true,
+        customProps: {
+          showTime: true,
+          allowClear: false,
+          format: 'MM-DD HH:mm',
+          style: { width: 'auto' },
+          ranges: getTimeRanges(), // 因为选择预设range时不触发onOk，所以onChange时直接触发
         },
       },
-    },
-    {
-      type: Select,
-      name: 'size',
-      customProps: {
-        options: map(sizeList, (num) => <Select.Option key={num} value={num}>{num}</Select.Option>),
-        placeholder: i18n.t('dataCenter:Please select the maximum number of queries'),
+      {
+        type: Input,
+        name: 'query',
+        customProps: {
+          placeholder: i18n.t('microService:search by content'),
+        },
       },
-    },
-  ], []);
-
-  const layout = React.useMemo(() => [
-    {
-      w: 24,
-      h: 7,
-      x: 0,
-      y: 0,
-      i: 'log-count',
-      moved: false,
-      static: false,
-      view: {
-        chartType: 'chart:area',
-        hideHeader: true,
-        staticData: convertLogCount(logStatistics),
-        config: {
-          optionProps: {
-            isMoreThanOneDay: true,
+      {
+        type: LogTagSelector,
+        name: 'tags',
+        customProps: {
+          size: 'small',
+          customValidValue: (val: string, beforeVals: string[]) => {
+            const tagReg = /^[_a-zA-Z][a-zA-Z0-9_]*[=]{1}[\s\S]+$/;
+            if (tagReg.test(val)) {
+              const beforeKeys = map(beforeVals, (beforeVal) => beforeVal.split('=')[0]);
+              if (beforeKeys.includes(val.split('=')[0])) {
+                message.warning(i18n.t('org:the same key already exists'));
+                return false;
+              }
+              return true;
+            } else {
+              message.warning(`${val} ${i18n.t('dcos:is invalid tag')}`);
+              return false;
+            }
           },
         },
       },
-    },
-  ], [logStatistics]);
+      {
+        type: Select,
+        name: 'size',
+        customProps: {
+          options: map(sizeList, (num) => (
+            <Select.Option key={num} value={num}>
+              {num}
+            </Select.Option>
+          )),
+          placeholder: i18n.t('dataCenter:Please select the maximum number of queries'),
+        },
+      },
+    ],
+    [],
+  );
+
+  const layout = React.useMemo(
+    () => [
+      {
+        w: 24,
+        h: 7,
+        x: 0,
+        y: 0,
+        i: 'log-count',
+        moved: false,
+        static: false,
+        view: {
+          chartType: 'chart:area',
+          hideHeader: true,
+          staticData: convertLogCount(logStatistics),
+          config: {
+            optionProps: {
+              isMoreThanOneDay: true,
+            },
+          },
+        },
+      },
+    ],
+    [logStatistics],
+  );
 
   const columns = [
     {
@@ -280,14 +301,10 @@ export default () => {
     return (
       <Tabs defaultActiveKey="1" size="small" className="log-query-message-tab">
         <TabPane tab="Text" key="1">
-          <pre className="code-block prewrap">
-            {record.content}
-          </pre>
+          <pre className="code-block prewrap">{record.content}</pre>
         </TabPane>
         <TabPane tab="JSON" key="2">
-          <pre className="code-block">
-            {JSON.stringify(record, null, 2)}
-          </pre>
+          <pre className="code-block">{JSON.stringify(record, null, 2)}</pre>
         </TabPane>
       </Tabs>
     );

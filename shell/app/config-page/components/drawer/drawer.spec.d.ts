@@ -19,11 +19,11 @@ declare namespace CP_DRAWER {
     props: IProps;
   }
 
-  interface IState{
+  interface IState {
     visible: boolean;
   }
 
-  interface IProps{
+  interface IProps {
     title?: string;
     closable?: boolean;
     maskClosable?: boolean;

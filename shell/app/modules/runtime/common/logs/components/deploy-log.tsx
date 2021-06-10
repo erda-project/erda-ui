@@ -30,7 +30,6 @@ import './deploy-log.scss';
 
 const linkMark = '##to_link:';
 
-
 interface IProps {
   detailLogId: string;
   applicationId: number | string;
@@ -51,47 +50,31 @@ const DeployLog = ({ detailLogId, query, applicationId, hasLogs }: IProps) => {
     const finishedIndex = stepList.findIndex((a) => a.key === deploymentStatus.phase);
     return (
       <div className="step-wrap">
-        {
-          stepList.map(({ key, name }, i) => {
-            const current = finishedIndex === i;
-            const stepClassName = classnames({
-              'one-step': true,
-              finished: i <= finishedIndex,
-            });
+        {stepList.map(({ key, name }, i) => {
+          const current = finishedIndex === i;
+          const stepClassName = classnames({
+            'one-step': true,
+            finished: i <= finishedIndex,
+          });
 
-            const content = (
-              <div className="runtime-deploy-log-error">
-                {deploymentStatus.failCause}
-              </div>
-            );
+          const content = <div className="runtime-deploy-log-error">{deploymentStatus.failCause}</div>;
 
-            return (
-              <div key={key} className={stepClassName}>
-                <CustomIcon type={current ? 'circle-fill' : 'circle'} />
-                {current && deploymentStatus.failCause
-                  ? (
-                    <Popover
-                      title={i18n.t('runtime:error details')}
-                      content={content}
-                      defaultVisible
-                      placement="bottom"
-                    >
-                      <span className="step-title">
-                        {name}
-                        <IconAttention className="fail-info" />
-                      </span>
-                    </Popover>
-                  )
-                  : (
-                    <span className="step-title">
-                      {name}
-                    </span>
-                  )
-                }
-              </div>
-            );
-          })
-        }
+          return (
+            <div key={key} className={stepClassName}>
+              <CustomIcon type={current ? 'circle-fill' : 'circle'} />
+              {current && deploymentStatus.failCause ? (
+                <Popover title={i18n.t('runtime:error details')} content={content} defaultVisible placement="bottom">
+                  <span className="step-title">
+                    {name}
+                    <IconAttention className="fail-info" />
+                  </span>
+                </Popover>
+              ) : (
+                <span className="step-title">{name}</span>
+              )}
+            </div>
+          );
+        })}
       </div>
     );
   };
@@ -112,7 +95,8 @@ const DeployLog = ({ detailLogId, query, applicationId, hasLogs }: IProps) => {
           getComp: () => <MigrationLog migrationId={migrationId} />,
           getTitle: () => (
             <span>
-              <IconLeftOne theme="filled" size="16px" className="hover-active" onClick={() => popSlideComp()} />&nbsp;
+              <IconLeftOne theme="filled" size="16px" className="hover-active" onClick={() => popSlideComp()} />
+              &nbsp;
               {i18n.t('application:upgrade log')}
             </span>
           ),
@@ -128,7 +112,8 @@ const DeployLog = ({ detailLogId, query, applicationId, hasLogs }: IProps) => {
               getComp: () => <ContainerLog instance={target} />,
               getTitle: () => (
                 <span>
-                  <IconLeftOne theme="filled" size="16px" className="hover-active" onClick={() => popSlideComp()} />&nbsp;
+                  <IconLeftOne theme="filled" size="16px" className="hover-active" onClick={() => popSlideComp()} />
+                  &nbsp;
                   {i18n.t('runtime:container log')}
                 </span>
               ),

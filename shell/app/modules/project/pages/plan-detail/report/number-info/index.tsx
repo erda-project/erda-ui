@@ -38,7 +38,7 @@ const NumberInfo = () => {
       label: i18n.t('project:total number of use cases'),
     },
     {
-      num: `${Math.round(data.testCasePassCount / data.testCaseCount * 100 || 0)}%`,
+      num: `${Math.round((data.testCasePassCount / data.testCaseCount) * 100 || 0)}%`,
       label: i18n.t('project:test pass rate'),
     },
     {
@@ -50,21 +50,19 @@ const NumberInfo = () => {
       label: i18n.t('project:interface pass number'),
     },
     {
-      num: `${Math.round(data.apiPassedCount / data.apiTotalCount * 100 || 0)}%`,
+      num: `${Math.round((data.apiPassedCount / data.apiTotalCount) * 100 || 0)}%`,
       label: i18n.t('project:interface pass rate'),
     },
   ];
 
   return (
     <Row gutter={0} type="flex" justify="space-between" className="px16 py12 border-all">
-      {
-        numInfo.map((info) => (
-          <Col span={4} key={info.label}>
-            <div className="color-success fz20 text-center">{info.num || 0}</div>
-            <div className="color-text-desc mt4 text-center">{info.label}</div>
-          </Col>
-        ))
-      }
+      {numInfo.map((info) => (
+        <Col span={4} key={info.label}>
+          <div className="color-success fz20 text-center">{info.num || 0}</div>
+          <div className="color-text-desc mt4 text-center">{info.label}</div>
+        </Col>
+      ))}
     </Row>
   );
 };

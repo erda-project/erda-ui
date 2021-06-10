@@ -19,7 +19,7 @@ declare namespace PURCHASE {
   type NasStorageType = 'Performance' | 'Capacity';
   type PurchaseItemStatusKey = 'ecs' | 'nat' | 'nas' | 'rds' | 'redis' | 'slb' | 'vpc';
 
-  interface AddResource{
+  interface AddResource {
     [k: string]: any;
     type: string;
   }
@@ -29,13 +29,13 @@ declare namespace PURCHASE {
     createdAt: string;
     type: string;
     status: {
-      [k in PurchaseItemStatusKey]: any
+      [k in PurchaseItemStatusKey]: any;
     };
     error: {
-      [k in PurchaseItemStatusKey]: any
+      [k in PurchaseItemStatusKey]: any;
     };
     info: {
-      [k in PurchaseItemStatusKey]: any
+      [k in PurchaseItemStatusKey]: any;
     };
   }
 
@@ -81,7 +81,7 @@ declare namespace PURCHASE {
 
   type EcsSettings<T> = {
     // @ts-ignore
-    [k in T]: EcsSetting<k>
+    [k in T]: EcsSetting<k>;
   };
 
   interface NatSetting {
@@ -142,5 +142,4 @@ declare namespace PURCHASE {
     redisSettings: RedisSettings[];
     rdsSettings: RdsSettings[];
   }
-
 }

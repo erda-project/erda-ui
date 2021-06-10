@@ -21,15 +21,7 @@ describe('UrlInviteModal', () => {
     const onCancelFn = jest.fn();
     const url = 'https:www.erda.cloud';
     const code = 'erda';
-    const wrapper = mount(
-      <UrlInviteModal
-        visible
-        onCancel={onCancelFn}
-        code={code}
-        tip="tips"
-        url={url}
-      />,
-    );
+    const wrapper = mount(<UrlInviteModal visible onCancel={onCancelFn} code={code} tip="tips" url={url} />);
     expect(wrapper.find('Alert')).toExist();
     expect(wrapper.find('Alert').prop('message')).toBe('tips');
     expect(wrapper.find('Alert').prop('message')).toBe('tips');

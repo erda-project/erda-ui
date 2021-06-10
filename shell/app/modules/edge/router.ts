@@ -82,7 +82,6 @@ const getEdgeRouter = () => [
       },
     ],
   },
-
 ];
 
 export default getEdgeRouter;

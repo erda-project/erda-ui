@@ -16,31 +16,29 @@ import { OperationBar } from 'common';
 import { shallow, mount } from 'enzyme';
 import { describe, it, jest } from '@jest/globals';
 
-const searchList = [{
-  key: 'title',
-  label: '标题',
-  placeholder: '搜索项目',
-  type: 'input',
-  name: 'title',
-}];
+const searchList = [
+  {
+    key: 'title',
+    label: '标题',
+    placeholder: '搜索项目',
+    type: 'input',
+    name: 'title',
+  },
+];
 
 describe('OperationBar', () => {
   it('should render empty', () => {
-    const wrapper = shallow(
-      <OperationBar searchList={[]} />,
-    );
+    const wrapper = shallow(<OperationBar searchList={[]} />);
     expect(wrapper).toBeEmptyRender();
   });
   it('should render well', () => {
     const fn = jest.fn();
-    const wrapper = mount(
-      <OperationBar searchList={searchList} onUpdateOps={fn} />,
-    );
+    const wrapper = mount(<OperationBar searchList={searchList} onUpdateOps={fn} />);
     expect(wrapper.find('FormItem')).toHaveLength(2);
     wrapper.find('Input').simulate('change', { target: { value: 'erda' } });
     wrapper.find('Button.ops-bar-btn[type="primary"]').simulate('click');
     expect(fn).toHaveBeenLastCalledWith({ title: 'erda' });
     wrapper.find('Button.ops-bar-reset-btn').simulate('click');
-    expect(fn).toHaveBeenLastCalledWith({ });
+    expect(fn).toHaveBeenLastCalledWith({});
   });
 });

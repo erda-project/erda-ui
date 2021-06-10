@@ -21,7 +21,13 @@ import { isEmpty, get, find } from 'lodash';
 import { useUpdateEffect, useMount } from 'react-use';
 import { RepoBlame } from './repo-blame';
 import DiceYamlEditor from './yml-editor';
-import { needRenderWorkFlowView, isPipelineWorkflowYml, isPipelineYml, isInDiceDirectory, isYml } from 'application/common/yml-flow-util';
+import {
+  needRenderWorkFlowView,
+  isPipelineWorkflowYml,
+  isPipelineYml,
+  isInDiceDirectory,
+  isYml,
+} from 'application/common/yml-flow-util';
 import repoStore from 'application/stores/repo';
 import routeInfoStore from 'common/stores/route';
 
@@ -38,7 +44,7 @@ import './repo-file.scss';
 const { Group } = Radio;
 const { Group: ButtonGroup } = Button;
 
-interface IProps{
+interface IProps {
   name: string;
   autoHeight: boolean;
   noEdit: boolean; // tree下的ReadMe不能直接编辑
@@ -54,8 +60,17 @@ const RepoFileContainerComp = (props: IProps) => {
   });
   const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const { name: fileName } = props;
-  const [info, blob, mode, pipelineYmlStructure, tree] = repoStore.useStore((s) => [s.info, s.blob, s.mode, s.pipelineYmlStructure, s.tree]);
-  const [parsePipelineYmlStructureLoading, getRepoBlobLoading] = useLoading(repoStore, ['parsePipelineYmlStructure', 'getRepoBlob']);
+  const [info, blob, mode, pipelineYmlStructure, tree] = repoStore.useStore((s) => [
+    s.info,
+    s.blob,
+    s.mode,
+    s.pipelineYmlStructure,
+    s.tree,
+  ]);
+  const [parsePipelineYmlStructureLoading, getRepoBlobLoading] = useLoading(repoStore, [
+    'parsePipelineYmlStructure',
+    'getRepoBlob',
+  ]);
   const { commit, getRepoBlob } = repoStore.effects;
   const { changeMode } = repoStore.reducers;
   const toggleModal = (modalVisible: boolean) => {
@@ -79,12 +94,18 @@ const RepoFileContainerComp = (props: IProps) => {
   }, [fileName]);
 
   useUpdateEffect(() => {
-    if (isDiceOrPipelineFile && !parsePipelineYmlStructureLoading && !getRepoBlobLoading && isEmpty(pipelineYmlStructure) && blob.path.includes('pipeline.yml')) {
+    if (
+      isDiceOrPipelineFile &&
+      !parsePipelineYmlStructureLoading &&
+      !getRepoBlobLoading &&
+      isEmpty(pipelineYmlStructure) &&
+      blob.path.includes('pipeline.yml')
+    ) {
       updater.viewType('code');
     }
   }, [isDiceOrPipelineFile, getRepoBlobLoading, parsePipelineYmlStructureLoading, pipelineYmlStructure, updater]);
 
-  const handleDelete = (values: Pick<REPOSITORY.Commit, 'message'| 'branch'>) => {
+  const handleDelete = (values: Pick<REPOSITORY.Commit, 'message' | 'branch'>) => {
     commit({
       ...values,
       actions: [
@@ -137,10 +158,7 @@ const RepoFileContainerComp = (props: IProps) => {
     if (editFile) {
       return (
         <Tooltip title={i18n.t('application:cancel')}>
-          <CustomIcon
-            type="qxbj"
-            onClick={() => changeMode({ editFile: false, addFile: false, fileBlame: false })}
-          />
+          <CustomIcon type="qxbj" onClick={() => changeMode({ editFile: false, addFile: false, fileBlame: false })} />
         </Tooltip>
       );
     } else {
@@ -152,8 +170,14 @@ const RepoFileContainerComp = (props: IProps) => {
       const branchAuth = isProtectBranch ? branchAuthObj.writeProtected.pass : branchAuthObj.writeNormal.pass;
 
       const disabledTips = branchAuth
-        ? [i18n.t('application:can only edit files under the branch'), i18n.t('application:can only delete files under the branch')]
-        : [i18n.t('application:branch is protected, you have no permission yet'), i18n.t('application:branch is protected, you have no permission yet')];
+        ? [
+            i18n.t('application:can only edit files under the branch'),
+            i18n.t('application:can only delete files under the branch'),
+          ]
+        : [
+            i18n.t('application:branch is protected, you have no permission yet'),
+            i18n.t('application:branch is protected, you have no permission yet'),
+          ];
       return (
         <IF check={isBranchTree && branchAuth}>
           <ButtonGroup className="mr20">
@@ -170,20 +194,20 @@ const RepoFileContainerComp = (props: IProps) => {
             </Button>
           </ButtonGroup>
           <IF check={!binary}>
-            <Tooltip
-              title={info.isLocked ?
-                i18n.t('application:lock-operation-tip') :
-                i18n.t('application:edit')}
-            >
-              <CustomIcon className={info.isLocked ? 'disabled' : ''} type="bj" onClick={() => !info.isLocked && changeMode({ editFile: true })} />
+            <Tooltip title={info.isLocked ? i18n.t('application:lock-operation-tip') : i18n.t('application:edit')}>
+              <CustomIcon
+                className={info.isLocked ? 'disabled' : ''}
+                type="bj"
+                onClick={() => !info.isLocked && changeMode({ editFile: true })}
+              />
             </Tooltip>
           </IF>
-          <Tooltip
-            title={info.isLocked ?
-              i18n.t('application:lock-operation-tip') :
-              i18n.t('application:delete')}
-          >
-            <CustomIcon className={info.isLocked ? 'disabled' : ''} type="sc1" onClick={() => !info.isLocked && toggleModal(true)} />
+          <Tooltip title={info.isLocked ? i18n.t('application:lock-operation-tip') : i18n.t('application:delete')}>
+            <CustomIcon
+              className={info.isLocked ? 'disabled' : ''}
+              type="sc1"
+              onClick={() => !info.isLocked && toggleModal(true)}
+            />
           </Tooltip>
 
           <IF.ELSE />
@@ -227,10 +251,16 @@ const RepoFileContainerComp = (props: IProps) => {
     if (pipelineYmlStructure && isPipelineWorkflowYml(path)) {
       return pipelineYmlStructure.needUpgrade ? (
         <>
-          <DeleteConfirm title={`${path} ${i18n.t('application:the version can be upgraded, whether to upgrade')}?`} secondTitle="" onConfirm={onYmlUpgrade}>
+          <DeleteConfirm
+            title={`${path} ${i18n.t('application:the version can be upgraded, whether to upgrade')}?`}
+            secondTitle=""
+            onConfirm={onYmlUpgrade}
+          >
             <div className="file-alert pointer">
               <CustomIcon className="mr4" type="jg" />
-              <span className="alert-text">{i18n.t('application:current')} {path} {i18n.t('application:can be upgraded with one click')}！</span>
+              <span className="alert-text">
+                {i18n.t('application:current')} {path} {i18n.t('application:can be upgraded with one click')}！
+              </span>
             </div>
           </DeleteConfirm>
         </>
@@ -256,19 +286,23 @@ const RepoFileContainerComp = (props: IProps) => {
     }
 
     if (fileBlame) {
-      return <RepoBlame {...props as any} ops={ops} />;
+      return <RepoBlame {...(props as any)} ops={ops} />;
     } else if (isPipelineYml(fileName) || (isInDiceDirectory(tree.path) && isYml(fileName))) {
       // 3.19：新pipelineYml接管pipeline文件的查看、编辑、状态切换，编辑状态行为同流水线模板（addPipelineYml）
-      return <PipelineYml viewType={viewType} fileName={name} ops={ops} editing={editFile} content={blob.content} onUpdateViewType={(val: string) => updater.viewType(val)} />;
+      return (
+        <PipelineYml
+          viewType={viewType}
+          fileName={name}
+          ops={ops}
+          editing={editFile}
+          content={blob.content}
+          onUpdateViewType={(val: string) => updater.viewType(val)}
+        />
+      );
     } else if (viewType === 'graphic' && isDiceOrPipelineFile) {
       return (
         <React.Fragment>
-          <DiceYamlEditor
-            ops={ops}
-            editing={editFile}
-            fileName={name}
-            content={blob.content}
-          />
+          <DiceYamlEditor ops={ops} editing={editFile} fileName={name} content={blob.content} />
         </React.Fragment>
       );
     } else if (editFile) {
@@ -276,14 +310,14 @@ const RepoFileContainerComp = (props: IProps) => {
         <RepoEditor
           isDiceOrPipelineFile={isDiceOrPipelineFile}
           name={name}
-          blob={mode.editFile ? blob : {} as REPOSITORY.IBlob}
+          blob={mode.editFile ? blob : ({} as REPOSITORY.IBlob)}
           autoHeight={autoHeight}
           maxLines={maxLines}
           ops={ops}
         />
       );
     } else {
-      return <RepoFile {...props as any} ops={ops} />;
+      return <RepoFile {...(props as any)} ops={ops} />;
     }
   };
   const getFieldsList = () => {
@@ -350,9 +384,7 @@ const RepoFileContainer = (props: IContainerProps) => {
       clearRepoBlob();
     };
   }, [clearRepoBlob, getRepoBlob, gitRepoAbbrev, path]);
-  return (
-    <PureRepoFileContainer {...props as IProps} branchInfo={branchInfo} permMap={permMap} />
-  );
+  return <PureRepoFileContainer {...(props as IProps)} branchInfo={branchInfo} permMap={permMap} />;
 };
 
 export default RepoFileContainer;

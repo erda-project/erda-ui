@@ -300,18 +300,13 @@ export const theme = {
     splitLine: {
       show: true,
       lineStyle: {
-        color: [
-          '#f1f1f1',
-        ],
+        color: ['#f1f1f1'],
       },
     },
     splitArea: {
       show: false,
       areaStyle: {
-        color: [
-          'rgba(250,250,250,0.05)',
-          'rgba(200,200,200,0.02)',
-        ],
+        color: ['rgba(250,250,250,0.05)', 'rgba(200,200,200,0.02)'],
       },
     },
   },
@@ -337,18 +332,13 @@ export const theme = {
     splitLine: {
       show: true,
       lineStyle: {
-        color: [
-          '#f1f1f1',
-        ],
+        color: ['#f1f1f1'],
       },
     },
     splitArea: {
       show: false,
       areaStyle: {
-        color: [
-          'rgba(250,250,250,0.05)',
-          'rgba(200,200,200,0.02)',
-        ],
+        color: ['rgba(250,250,250,0.05)', 'rgba(200,200,200,0.02)'],
       },
     },
   },
@@ -374,18 +364,13 @@ export const theme = {
     splitLine: {
       show: true,
       lineStyle: {
-        color: [
-          '#f1f1f1',
-        ],
+        color: ['#f1f1f1'],
       },
     },
     splitArea: {
       show: false,
       areaStyle: {
-        color: [
-          'rgba(250,250,250,0.05)',
-          'rgba(200,200,200,0.02)',
-        ],
+        color: ['rgba(250,250,250,0.05)', 'rgba(200,200,200,0.02)'],
       },
     },
   },
@@ -411,18 +396,13 @@ export const theme = {
     splitLine: {
       show: true,
       lineStyle: {
-        color: [
-          '#f1f1f1',
-        ],
+        color: ['#f1f1f1'],
       },
     },
     splitArea: {
       show: false,
       areaStyle: {
-        color: [
-          'rgba(250,250,250,0.05)',
-          'rgba(200,200,200,0.02)',
-        ],
+        color: ['rgba(250,250,250,0.05)', 'rgba(200,200,200,0.02)'],
       },
     },
   },
@@ -503,14 +483,7 @@ export const theme = {
     },
   },
   visualMap: {
-    color: [
-      '#893448',
-      '#d95850',
-      '#eb8146',
-      '#ffb248',
-      '#f2d643',
-      'rgb(247,238,173)',
-    ],
+    color: ['#893448', '#d95850', '#eb8146', '#ffb248', '#f2d643', 'rgb(247,238,173)'],
   },
   dataZoom: {
     backgroundColor: 'rgba(255,255,255,0)',

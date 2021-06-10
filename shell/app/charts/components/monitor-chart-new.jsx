@@ -42,7 +42,7 @@ const calMax = (arr) => {
       }
     });
   });
-  const maxVal = Math.ceil(max / 9.5 * 10);
+  const maxVal = Math.ceil((max / 9.5) * 10);
   return maxVal > 5 ? maxVal + (5 - (maxVal % 5)) : maxVal;
 };
 
@@ -62,7 +62,7 @@ class MonitorChartNew extends React.PureComponent {
       unitType: customUnitType,
       unit: customUnit,
     } = this.props;
-    const moreThanOneDay = timeSpan ? timeSpan.seconds > (24 * 3600) : false;
+    const moreThanOneDay = timeSpan ? timeSpan.seconds > 24 * 3600 : false;
     const { results: originData, xAxis, time, lines } = data;
     const results = sortBy(originData, 'axisIndex');
     const legendData = [];
@@ -89,7 +89,10 @@ class MonitorChartNew extends React.PureComponent {
             },
           },
         },
-        data: markLines.map(({ name, value }) => ([{ x: '7%', yAxis: value, name }, { x: '93%', yAxis: value }])),
+        data: markLines.map(({ name, value }) => [
+          { x: '7%', yAxis: value, name },
+          { x: '93%', yAxis: value },
+        ]),
       };
     }
 
@@ -102,10 +105,14 @@ class MonitorChartNew extends React.PureComponent {
         type: value.chartType || 'line',
         name: value.tag || seriseName || value.name || value.key,
         yAxisIndex,
-        data: !isBarChangeColor ? value.data : map(value.data, (item, j) => {
-          const sect = Math.ceil(value.data.length / changeColors.length);
-          return Object.assign({}, item, { itemStyle: { normal: { color: changeColors[Number.parseInt(j / sect, 10)] } } });
-        }),
+        data: !isBarChangeColor
+          ? value.data
+          : map(value.data, (item, j) => {
+              const sect = Math.ceil(value.data.length / changeColors.length);
+              return Object.assign({}, item, {
+                itemStyle: { normal: { color: changeColors[Number.parseInt(j / sect, 10)] } },
+              });
+            }),
         label: {
           normal: {
             show: isLabel,
@@ -126,8 +133,8 @@ class MonitorChartNew extends React.PureComponent {
       });
       const curMax = value.data ? calMax([value.data]) : [];
       maxArr[yAxisIndex] = maxArr[yAxisIndex] && maxArr[yAxisIndex] > curMax ? maxArr[yAxisIndex] : curMax;
-      const curUnitType = (value.unitType || customUnitType || '');// y轴单位
-      const curUnit = (value.unit || customUnit || '');// y轴单位
+      const curUnitType = value.unitType || customUnitType || ''; // y轴单位
+      const curUnit = value.unit || customUnit || ''; // y轴单位
       yAxis[yAxisIndex] = {
         name: name || yAxisNames[yAxisIndex] || '',
         nameTextStyle: {
@@ -168,9 +175,12 @@ class MonitorChartNew extends React.PureComponent {
       return [curYAxis.unitType, curYAxis.unit];
     };
 
-    const genTTArray = (param) => param.map((unit, i) => {
-      return `<span style='color: ${unit.color}'>${cutStr(unit.seriesName, 20)} : ${getFormatter(...getTTUnitType(i)).format(unit.value, 2)}</span><br/>`;
-    });
+    const genTTArray = (param) =>
+      param.map((unit, i) => {
+        return `<span style='color: ${unit.color}'>${cutStr(unit.seriesName, 20)} : ${getFormatter(
+          ...getTTUnitType(i),
+        ).format(unit.value, 2)}</span><br/>`;
+      });
 
     let defaultTTFormatter = (param) => `${param[0].name}<br/>${genTTArray(param).join('')}`;
 
@@ -192,13 +202,17 @@ class MonitorChartNew extends React.PureComponent {
     if (haveTwoYAxis) {
       yAxis = yAxis.map((item, i) => {
         // 有数据和无数据的显示有差异
-        const hasData = some(results[i].data || [], (_data) => (Number(_data) !== 0));
+        const hasData = some(results[i].data || [], (_data) => Number(_data) !== 0);
         let { name } = item;
         if (!hasData) {
-          name = i === 0 ? `${'  '.repeat(item.name.length + 1)}${item.name}` : `${item.name}${'  '.repeat(item.name.length)}`;
+          name =
+            i === 0
+              ? `${'  '.repeat(item.name.length + 1)}${item.name}`
+              : `${item.name}${'  '.repeat(item.name.length)}`;
         }
 
-        if (i > 1) { // 右侧有超过两个Y轴
+        if (i > 1) {
+          // 右侧有超过两个Y轴
           yAxis[i].offset = 80 * (i - 1);
         }
         const maxValue = item.max || maxArr[i];
@@ -241,9 +255,9 @@ class MonitorChartNew extends React.PureComponent {
       xAxis: [
         {
           type: 'category',
-          data: xAxis || time || [], /* X轴数据 */
+          data: xAxis || time || [] /* X轴数据 */,
           axisTick: {
-            show: false, /* 坐标刻度 */
+            show: false /* 坐标刻度 */,
           },
           axisLine: {
             show: false,

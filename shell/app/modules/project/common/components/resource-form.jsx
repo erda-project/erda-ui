@@ -42,7 +42,8 @@ export default class ResourceForm extends PureComponent {
             lg: { span: 12 },
           },
         },
-      }, {
+      },
+      {
         label: 'Memory(MB)',
         name: 'mem',
         type: 'inputNumber',
@@ -61,7 +62,8 @@ export default class ResourceForm extends PureComponent {
             lg: { span: 10 },
           },
         },
-      }, {
+      },
+      {
         label: 'Disk(MB)',
         name: 'disk',
         type: 'inputNumber',
@@ -80,7 +82,8 @@ export default class ResourceForm extends PureComponent {
             lg: { span: 12 },
           },
         },
-      }, {
+      },
+      {
         label: 'Scale',
         name: 'replicas',
         type: 'inputNumber',
@@ -102,13 +105,14 @@ export default class ResourceForm extends PureComponent {
       },
     ];
 
-
     return (
       <RenderForm
         className={`resource-form ${editDisabled ? 'disabled' : ''}`}
         layout="inline"
         list={resourceFormList}
-        ref={(ref) => { this.form = ref; }}
+        ref={(ref) => {
+          this.form = ref;
+        }}
         {...rest}
       />
     );

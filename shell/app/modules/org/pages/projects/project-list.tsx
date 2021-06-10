@@ -22,27 +22,20 @@ import projectStore from 'project/stores/project';
 import { useLoading } from 'common/stores/loading';
 import './project-list.scss';
 
-
 interface IBoxProp {
   data: Array<[string | number, string]>;
 }
 const SplitBox = ({ data }: IBoxProp) => {
   return (
     <div className="inline-split-box">
-      {
-        data.map((item, i) => {
-          return (
-            <div key={String(i)} className="item">
-              <div className="count">
-                {item[0]}
-              </div>
-              <div className="fz12">
-                {item[1]}
-              </div>
-            </div>
-          );
-        })
-      }
+      {data.map((item, i) => {
+        return (
+          <div key={String(i)} className="item">
+            <div className="count">{item[0]}</div>
+            <div className="fz12">{item[1]}</div>
+          </div>
+        );
+      })}
     </div>
   );
 };
@@ -52,7 +45,6 @@ export const ProjectList = () => {
   const { clearProjectList } = projectStore.reducers;
   const { pageNo, pageSize, total } = paging;
   const [loadingList] = useLoading(projectStore, ['getProjectList']);
-
 
   useEffectOnce(() => {
     getProjectList({ pageNo: 1, orderBy: 'activeTime', asc: false });
@@ -146,46 +138,75 @@ export const ProjectList = () => {
         render: (text: string) => `${text} GiB`,
       },
       {
-        title: (
-          <span>
-            CPU / {i18n.t('Memory usage')}
-          </span>
-        ),
+        title: <span>CPU / {i18n.t('Memory usage')}</span>,
         dataIndex: 'usage',
         width: 330,
         key: 'usage',
         render: (t, record: PROJECT.Detail) => {
-          const { cpuServiceUsed = 0, memServiceUsed = 0, cpuAddonUsed = 0, memAddonUsed = 0, memQuota, cpuQuota } = record;
+          const {
+            cpuServiceUsed = 0,
+            memServiceUsed = 0,
+            cpuAddonUsed = 0,
+            memAddonUsed = 0,
+            memQuota,
+            cpuQuota,
+          } = record;
 
           const renderBar = (serviceUsed: number, addonUsed: number, totalNum: number, unit: string) => {
             const isOveruse = serviceUsed + addonUsed > totalNum;
-            const leftNum = (totalNum - (serviceUsed + addonUsed));
-            const percent = isOveruse ? [// 超过总量
-              Math.floor(serviceUsed / (serviceUsed + addonUsed) * 100),
-              Math.floor(addonUsed / (serviceUsed + addonUsed) * 100),
-              0,
-            ] : (totalNum === 0 ? [ // 总量、使用量都为0
-              0, 0, 100,
-            ] : [
-              Math.round(serviceUsed / totalNum * 100),
-              Math.round(addonUsed / totalNum * 100),
-              Math.abs(100 - Math.round(serviceUsed / totalNum * 100) - Math.round(addonUsed / totalNum * 100)),
-            ]);
+            const leftNum = totalNum - (serviceUsed + addonUsed);
+            const percent = isOveruse
+              ? [
+                  // 超过总量
+                  Math.floor((serviceUsed / (serviceUsed + addonUsed)) * 100),
+                  Math.floor((addonUsed / (serviceUsed + addonUsed)) * 100),
+                  0,
+                ]
+              : totalNum === 0
+              ? [
+                  // 总量、使用量都为0
+                  0, 0, 100,
+                ]
+              : [
+                  Math.round((serviceUsed / totalNum) * 100),
+                  Math.round((addonUsed / totalNum) * 100),
+                  Math.abs(100 - Math.round((serviceUsed / totalNum) * 100) - Math.round((addonUsed / totalNum) * 100)),
+                ];
             const percentText = percent.map((item) => `${item}%`);
 
             return (
               <div className={`quota-container ${isOveruse ? 'overuse' : ''}`}>
                 <div className={'quota-bar'}>
-                  <Tooltip title={`${i18n.t('dataCenter:application have used')} ${serviceUsed.toFixed(2)}${unit} (${isOveruse ? `${Math.floor(totalNum ? serviceUsed / totalNum * 100 : 100)}%` : percentText[0]})`}>
-                    <div className={`nowrap ${percentText[0] !== '0%' ? 'border-right-color' : ''}`} style={{ width: percentText[0] }}>
+                  <Tooltip
+                    title={`${i18n.t('dataCenter:application have used')} ${serviceUsed.toFixed(2)}${unit} (${
+                      isOveruse ? `${Math.floor(totalNum ? (serviceUsed / totalNum) * 100 : 100)}%` : percentText[0]
+                    })`}
+                  >
+                    <div
+                      className={`nowrap ${percentText[0] !== '0%' ? 'border-right-color' : ''}`}
+                      style={{ width: percentText[0] }}
+                    >
                       {i18n.t('project:application')}
                     </div>
                   </Tooltip>
-                  <Tooltip title={`${i18n.t('dataCenter:addon have used')} ${addonUsed.toFixed(2)}${unit} (${isOveruse ? `${Math.floor(totalNum ? addonUsed / totalNum * 100 : 100)}%` : percentText[1]})`}>
-                    <div className={`nowrap ${percentText[1] !== '0%' ? 'border-right-color' : ''}`} style={{ width: percentText[1] }}>addon</div>
+                  <Tooltip
+                    title={`${i18n.t('dataCenter:addon have used')} ${addonUsed.toFixed(2)}${unit} (${
+                      isOveruse ? `${Math.floor(totalNum ? (addonUsed / totalNum) * 100 : 100)}%` : percentText[1]
+                    })`}
+                  >
+                    <div
+                      className={`nowrap ${percentText[1] !== '0%' ? 'border-right-color' : ''}`}
+                      style={{ width: percentText[1] }}
+                    >
+                      addon
+                    </div>
                   </Tooltip>
-                  <Tooltip title={`${i18n.t('available')} ${leftNum <= 0 ? 0 : leftNum.toFixed(2)}${unit} (${percentText[2]})`}>
-                    <div className="nowrap" style={{ width: percentText[2] }}>{i18n.t('project:available')}</div>
+                  <Tooltip
+                    title={`${i18n.t('available')} ${leftNum <= 0 ? 0 : leftNum.toFixed(2)}${unit} (${percentText[2]})`}
+                  >
+                    <div className="nowrap" style={{ width: percentText[2] }}>
+                      {i18n.t('project:available')}
+                    </div>
                   </Tooltip>
                 </div>
                 <Tooltip title={i18n.t('usage exceeded allocation')}>
@@ -219,7 +240,10 @@ export const ProjectList = () => {
             <div className="table-operations">
               <span
                 className="table-operations-btn"
-                onClick={(e) => { e.stopPropagation(); goTo(`./${id}/dashboard`); }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  goTo(`./${id}/dashboard`);
+                }}
               >
                 {i18n.t('org:dashboard')}
               </span>
@@ -243,13 +267,14 @@ export const ProjectList = () => {
     }
   };
 
-
   return (
     <div className="org-project-list">
       <Spin spinning={loadingList}>
         <SearchTable onSearch={onSearch} placeholder={i18n.t('search by project name')} needDebounce>
           <div className="top-button-group">
-            <Button type="primary" onClick={() => goTo('./createProject')}>{i18n.t('add project')}</Button>
+            <Button type="primary" onClick={() => goTo('./createProject')}>
+              {i18n.t('add project')}
+            </Button>
           </div>
           <Table
             rowKey="id"

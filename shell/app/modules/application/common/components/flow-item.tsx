@@ -88,9 +88,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
     if (item.name) {
       titleContent = (
         <div className="yaml-editor-pipeline-item-title">
-          <Tooltip title={item.name}>
-            {item.name}
-          </Tooltip>
+          <Tooltip title={item.name}>{item.name}</Tooltip>
         </div>
       );
     }
@@ -105,20 +103,16 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
     } else {
       extra = (
         <ul className="relation-list mt8">
-          {
-            item.data.relations.map(({ sourceAttr, relAttr, pk }: IRelationItem) => (
-              <Tooltip title={`${sourceAttr}: ${relAttr}`}>
-                <li className="relation-item flex-box mt8" key={sourceAttr}>
-                  <span className="relation-text nowrap">
-                    { `${sourceAttr}: ${relAttr}` }
-                  </span>
-                  <IF check={pk}>
-                    <CustomIcon className="relation-icon" type="key" />
-                  </IF>
-                </li>
-              </Tooltip>
-            ))
-          }
+          {item.data.relations.map(({ sourceAttr, relAttr, pk }: IRelationItem) => (
+            <Tooltip title={`${sourceAttr}: ${relAttr}`}>
+              <li className="relation-item flex-box mt8" key={sourceAttr}>
+                <span className="relation-text nowrap">{`${sourceAttr}: ${relAttr}`}</span>
+                <IF check={pk}>
+                  <CustomIcon className="relation-icon" type="key" />
+                </IF>
+              </li>
+            </Tooltip>
+          ))}
         </ul>
       );
     }
@@ -130,11 +124,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
 
     return (
       <React.Fragment>
-        <div
-          style={style}
-          onClick={() => onClick && onClick(item.data, item.status)}
-          className={mergedClassNames}
-        >
+        <div style={style} onClick={() => onClick && onClick(item.data, item.status)} className={mergedClassNames}>
           <span className="yaml-editor-item-title-name full-width">
             {titleContent}
             {nameContent}
@@ -179,33 +169,21 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
         // 一个在右侧，两个在左右，三个在上左右
         return (
           <div>
-            <span
-              style={rightStyle}
-              className="item-point right-point"
-            >
+            <span style={rightStyle} className="item-point right-point">
               <CustomIcon type="caret-top" />
             </span>
             <IF check={item.depNum > 1}>
-              <span
-                style={leftStyle}
-                className="item-point left-point"
-              >
+              <span style={leftStyle} className="item-point left-point">
                 <CustomIcon type="caret-top" />
               </span>
             </IF>
             <IF check={item.depNum > 2}>
-              <span
-                style={topStyle}
-                className="item-point top-point"
-              >
+              <span style={topStyle} className="item-point top-point">
                 <CustomIcon type="caret-top" />
               </span>
             </IF>
             <IF check={item.depNum > 3}>
-              <span
-                style={bottomStyle}
-                className="item-point"
-              >
+              <span style={bottomStyle} className="item-point">
                 <CustomIcon type="caret-top bottom-point" />
               </span>
             </IF>
@@ -213,37 +191,25 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
         );
       case 'top':
         return (
-          <span
-            style={topStyle}
-            className="item-point top-point"
-          >
+          <span style={topStyle} className="item-point top-point">
             <CustomIcon type="caret-top" />
           </span>
         );
       case 'bottom':
         return (
-          <span
-            style={bottomStyle}
-            className="item-point bottom-point"
-          >
+          <span style={bottomStyle} className="item-point bottom-point">
             <CustomIcon type="caret-top" />
           </span>
         );
       case 'left':
         return (
-          <span
-            style={leftStyle}
-            className="item-point left-point"
-          >
+          <span style={leftStyle} className="item-point left-point">
             <CustomIcon type="caret-top" />
           </span>
         );
       case 'right':
         return (
-          <span
-            style={rightStyle}
-            className="item-point right-point"
-          >
+          <span style={rightStyle} className="item-point right-point">
             <CustomIcon type="caret-top" />
           </span>
         );

@@ -38,4 +38,3 @@ export const monitorDataConvertor = (responseData: any) => {
   const yAxisLength = yAxis.length;
   return { xData: time, metricData, yAxisLength, xAxisIsTime: true };
 };
-

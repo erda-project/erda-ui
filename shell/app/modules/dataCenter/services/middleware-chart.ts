@@ -30,13 +30,15 @@ export interface IChartDataQuery {
 }
 
 export const getChartMeta = (params: { type: string }): IChartMeta[] => {
-  return agent.get('/api/chart/meta')
+  return agent
+    .get('/api/chart/meta')
     .query(params)
     .then((response: any) => response.body);
 };
 
 export const getContainerChart = ({ name, ...rest }: IChartDataQuery) => {
-  return agent.get(`/api/system/addon/metrics/${name}/histogram`)
+  return agent
+    .get(`/api/system/addon/metrics/${name}/histogram`)
     .query(rest)
     .then((response: any) => response.body);
 };

@@ -102,7 +102,10 @@ const ConfigEnvSelector = (props: IProps) => {
           type: 'select',
           dataSource: {
             type: 'static',
-            static: map([{ ns: '0', displayName: i18n.t('none') }, ...configEnvs], (item) => ({ name: item.displayName, value: item.ns })),
+            static: map([{ ns: '0', displayName: i18n.t('none') }, ...configEnvs], (item) => ({
+              name: item.displayName,
+              value: item.ns,
+            })),
           },
         },
       ]),
@@ -110,11 +113,7 @@ const ConfigEnvSelector = (props: IProps) => {
         {
           component: 'custom',
           getComp: () => {
-            return (
-              <div className="bold-500 border-bottom">
-                {i18n.t('project:params configuration')}
-              </div>
-            );
+            return <div className="bold-500 border-bottom">{i18n.t('project:params configuration')}</div>;
           },
         },
         ..._inParamsForm,
@@ -123,10 +122,9 @@ const ConfigEnvSelector = (props: IProps) => {
     return _f;
   };
 
-
   React.useEffect(() => {
     updater.fields(setFields(inParamsForm));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inParamsForm, clusterConfig]);
 
   const inFormProps = React.useMemo(() => {
@@ -137,12 +135,15 @@ const ConfigEnvSelector = (props: IProps) => {
   const getLastRunParams = () => {
     const runParams = get(caseDetail, 'meta.runParams');
     const val = {};
-    map(runParams, (item) => { val[item.name] = item.value; });
+    map(runParams, (item) => {
+      val[item.name] = item.value;
+    });
     return val;
   };
 
   const onClickTest = () => {
-    if (!needModal) { // 无需弹框，直接执行
+    if (!needModal) {
+      // 无需弹框，直接执行
       execute();
       return;
     }
@@ -152,26 +153,29 @@ const ConfigEnvSelector = (props: IProps) => {
       const ymlStr = get(caseDetail, 'meta.pipelineYml');
       updater.canDoTest(false);
       if (ymlStr) {
-        (parsePipelineYmlStructure({ pipelineYmlContent: ymlStr }) as unknown as Promise<any>).then((res: any) => {
-          const updateObj = {} as any;
-          if (!isEmpty(res.data.stages)) {
-            updateObj.canDoTest = true;
-            updateObj.formVis = true;
-          } else {
+        (parsePipelineYmlStructure({ pipelineYmlContent: ymlStr }) as unknown as Promise<any>)
+          .then((res: any) => {
+            const updateObj = {} as any;
+            if (!isEmpty(res.data.stages)) {
+              updateObj.canDoTest = true;
+              updateObj.formVis = true;
+            } else {
+              notify('warning', i18n.t('project:please add valid tasks to the pipeline below before operating'));
+            }
+            const inP = ymlDataToFormData(get(res, 'data.params') || [], getLastRunParams());
+            if (isEmpty(inP) && !scopeConfigData.executeEnvChosen && !scopeConfigData.executeClusterChosen) {
+              // 无入参，无环境，不需要弹框
+              updateObj.needModal = false;
+              updateObj.formVis = false;
+            } else {
+              updateObj.inParamsForm = inP;
+            }
+            update(updateObj);
+            if (updateObj.needModal === false) execute();
+          })
+          .catch(() => {
             notify('warning', i18n.t('project:please add valid tasks to the pipeline below before operating'));
-          }
-          const inP = ymlDataToFormData(get(res, 'data.params') || [], getLastRunParams());
-          if (isEmpty(inP) && !scopeConfigData.executeEnvChosen && !scopeConfigData.executeClusterChosen) { // 无入参，无环境，不需要弹框
-            updateObj.needModal = false;
-            updateObj.formVis = false;
-          } else {
-            updateObj.inParamsForm = inP;
-          }
-          update(updateObj);
-          if (updateObj.needModal === false)execute();
-        }).catch(() => {
-          notify('warning', i18n.t('project:please add valid tasks to the pipeline below before operating'));
-        });
+          });
       } else {
         notify('warning', i18n.t('project:please add valid tasks to the pipeline below before operating'));
       }
@@ -180,7 +184,7 @@ const ConfigEnvSelector = (props: IProps) => {
 
   React.useEffect(() => {
     updater.canDoTest(false);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [caseDetail]);
 
   React.useEffect(() => {
@@ -189,7 +193,11 @@ const ConfigEnvSelector = (props: IProps) => {
       const clusterData = [] as any[];
       sortBy.forEach((workspace) => {
         if (clusterConfig[workspace]) {
-          clusterData.push({ workspace: workSpaceMap[workspace], clusterName: clusterConfig[workspace], key: workspace });
+          clusterData.push({
+            workspace: workSpaceMap[workspace],
+            clusterName: clusterConfig[workspace],
+            key: workspace,
+          });
         }
       });
       updater.clusterList(clusterData);
@@ -216,7 +224,6 @@ const ConfigEnvSelector = (props: IProps) => {
     });
   };
 
-
   return (
     <div>
       <Tooltip title={canRunTest ? '' : i18n.t('project:pipeline-run-tip')}>
@@ -227,7 +234,8 @@ const ConfigEnvSelector = (props: IProps) => {
             e.stopPropagation();
             onClickTest();
           }}
-        >{scopeConfigData.text.executeButton}
+        >
+          {scopeConfigData.text.executeButton}
         </Button>
       </Tooltip>
 

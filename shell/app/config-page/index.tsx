@@ -38,31 +38,46 @@ interface IProps {
 const unProduct = process.env.NODE_ENV !== 'production';
 
 const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
-  const { inParams = {}, customProps = {}, scenarioType, scenarioKey, showLoading = true, forceUpdateKey, useMock, forceMock, debugConfig, onExecOp, updateConfig } = props;
+  const {
+    inParams = {},
+    customProps = {},
+    scenarioType,
+    scenarioKey,
+    showLoading = true,
+    forceUpdateKey,
+    useMock,
+    forceMock,
+    debugConfig,
+    onExecOp,
+    updateConfig,
+  } = props;
   const [{ pageConfig, fetching }, updater] = useUpdate({
-    pageConfig: debugConfig || {
-      scenario: {
-        scenarioType,
-        scenarioKey,
-      },
-      inParams,
-    } as CONFIG_PAGE.RenderConfig,
+    pageConfig:
+      debugConfig ||
+      ({
+        scenario: {
+          scenarioType,
+          scenarioKey,
+        },
+        inParams,
+      } as CONFIG_PAGE.RenderConfig),
     fetching: false,
   });
   // 在非生产环境里，url中带useMock
   const useMockMark = forceMock || (unProduct && location.search.includes('useMock'));
   const changeScenario = (s: { scenarioKey: string; scenarioType: string; inParams?: Obj }) => {
     const { scenarioType: newType, scenarioKey: newKey, inParams: newInParams } = s;
-    newKey && queryPageConfig({
-      scenario: {
-        scenarioType: newType,
-        scenarioKey: newKey,
-      },
-      inParams: {
-        ...inParamsRef.current,
-        ...(newInParams || {}),
-      },
-    });
+    newKey &&
+      queryPageConfig({
+        scenario: {
+          scenarioType: newType,
+          scenarioKey: newKey,
+        },
+        inParams: {
+          ...inParamsRef.current,
+          ...(newInParams || {}),
+        },
+      });
   };
 
   const pageConfigRef = React.useRef(null as any);
@@ -93,14 +108,15 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   React.useEffect(() => {
     if (ref) {
       ref.current = {
-        reload: (extra: any) => queryPageConfig({
-          scenario: {
-            scenarioType,
-            scenarioKey,
-          },
-          inParams: inParamsRef.current,
-          ...extra,
-        }),
+        reload: (extra: any) =>
+          queryPageConfig({
+            scenario: {
+              scenarioType,
+              scenarioKey,
+            },
+            inParams: inParamsRef.current,
+            ...extra,
+          }),
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -115,23 +131,25 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
   const queryPageConfig = (p?: CONFIG_PAGE.RenderConfig, partial?: boolean, _showLoading = true) => {
     // 此处用state，为了兼容useMock的情况
     if (_showLoading) updater.fetching(true);
-    ((useMockMark && useMock) || getRenderPageLayout)({ ...(p || pageConfig), inParams: inParamsRef.current }, partial).then((res: any) => {
-      updater.fetching(false);
-      if (partial) {
-        const comps = get(res, 'protocol.components');
-        const _curConfig = pageConfigRef.current as CONFIG_PAGE.RenderConfig;
-        const newConfig = produce(_curConfig, (draft) => {
-          if (draft.protocol?.components) {
-            draft.protocol.components = { ...draft.protocol.components, ...comps };
-          }
-        });
-        updateConfig ? updateConfig(newConfig) : updater.pageConfig(newConfig);
-      } else {
-        updateConfig ? updateConfig(res) : updater.pageConfig(res);
-      }
-    }).finally(() => {
-      updater.fetching(false);
-    });
+    ((useMockMark && useMock) || getRenderPageLayout)({ ...(p || pageConfig), inParams: inParamsRef.current }, partial)
+      .then((res: any) => {
+        updater.fetching(false);
+        if (partial) {
+          const comps = get(res, 'protocol.components');
+          const _curConfig = pageConfigRef.current as CONFIG_PAGE.RenderConfig;
+          const newConfig = produce(_curConfig, (draft) => {
+            if (draft.protocol?.components) {
+              draft.protocol.components = { ...draft.protocol.components, ...comps };
+            }
+          });
+          updateConfig ? updateConfig(newConfig) : updater.pageConfig(newConfig);
+        } else {
+          updateConfig ? updateConfig(res) : updater.pageConfig(res);
+        }
+      })
+      .finally(() => {
+        updater.fetching(false);
+      });
   };
 
   const updateState = (dataKey: string, dataVal: Obj) => {
@@ -145,20 +163,28 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     updateConfig ? updateConfig(newConfig) : updater.pageConfig(newConfig);
   };
 
-  const execOperation = (cId: string, op: { key: string; reload?: boolean; partial?: boolean }, updateInfo?: { dataKey: string; dataVal: Obj }, extraUpdateInfo?: Obj) => {
+  const execOperation = (
+    cId: string,
+    op: { key: string; reload?: boolean; partial?: boolean },
+    updateInfo?: { dataKey: string; dataVal: Obj },
+    extraUpdateInfo?: Obj,
+  ) => {
     const { key, reload = false, partial, ..._rest } = op;
     onExecOp && onExecOp({ cId, op, reload, updateInfo });
-    if (reload) { // 需要请求后端接口
+    if (reload) {
+      // 需要请求后端接口
       const _curConfig = pageConfigRef.current as CONFIG_PAGE.RenderConfig;
       const newConfig = produce(_curConfig, (draft) => {
-        if (extraUpdateInfo && !isEmpty(extraUpdateInfo)) { // 数据不为空,先更新后请求
+        if (extraUpdateInfo && !isEmpty(extraUpdateInfo)) {
+          // 数据不为空,先更新后请求
           const { dataKey, dataVal } = extraUpdateInfo;
           if (dataKey) {
             const curData = get(draft, dataKey) || {};
             set(draft, dataKey, { ...curData, ...dataVal });
           }
         }
-        if (updateInfo && !isEmpty(updateInfo)) { // 数据不为空,先更新后请求
+        if (updateInfo && !isEmpty(updateInfo)) {
+          // 数据不为空,先更新后请求
           const { dataKey, dataVal } = updateInfo;
           if (dataKey) {
             const curData = get(draft, dataKey) || {};
@@ -192,26 +218,27 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
     return formatConfig;
   };
 
-
   const pageProtocol = React.useMemo(() => get(pageConfig, 'protocol'), [pageConfig]);
-  const Content = React.useMemo(() => {
-    return (
-      <ConfigPageRender
-        pageConfig={pageProtocol as CONFIG_PAGE.PageConfig}
-        updateState={updateState}
-        changeScenario={changeScenario}
-        execOperation={execOperation}
-        customProps={customProps}
-      />
-    );
-  }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  , [pageProtocol]);
+  const Content = React.useMemo(
+    () => {
+      return (
+        <ConfigPageRender
+          pageConfig={pageProtocol as CONFIG_PAGE.PageConfig}
+          updateState={updateState}
+          changeScenario={changeScenario}
+          execOperation={execOperation}
+          customProps={customProps}
+        />
+      );
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [pageProtocol],
+  );
 
   return (
     <div className="full-height">
       <div className={`page-config-spin ${showLoading && fetching ? 'spinning' : ''} `}>
-        <Spin spinning={(showLoading && fetching)} wrapperClassName="full-spin-height" />
+        <Spin spinning={showLoading && fetching} wrapperClassName="full-spin-height" />
       </div>
       {Content}
     </div>
@@ -220,4 +247,3 @@ const ConfigPage = React.forwardRef((props: IProps, ref: any) => {
 });
 
 export default ConfigPage;
-

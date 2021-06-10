@@ -19,13 +19,8 @@ import { useMount } from 'react-use';
 import middlewareDashboardStore from '../../stores/middleware-dashboard';
 import './index.scss';
 
-
 export const AddonUsageChart = () => {
-  const [
-    addonUsage,
-    addonDailyUsage,
-    overview,
-  ] = middlewareDashboardStore.useStore((s) => [
+  const [addonUsage, addonDailyUsage, overview] = middlewareDashboardStore.useStore((s) => [
     s.addonUsage,
     s.addonDailyUsage,
     s.overview,
@@ -165,7 +160,6 @@ export const AddonUsageChart = () => {
       },
     },
   ];
-
 
   return <PureBoardGrid layout={layout} />;
 };

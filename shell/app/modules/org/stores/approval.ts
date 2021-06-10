@@ -14,10 +14,7 @@
 import { getDefaultPaging } from 'common/utils';
 import { createStore } from 'app/cube';
 import i18n from 'i18n';
-import {
-  getApprovalList,
-  updateApproval,
-} from '../services/approval';
+import { getApprovalList, updateApproval } from '../services/approval';
 
 interface IState {
   doneList: APPROVAL.Item[];
@@ -35,7 +32,6 @@ const initState: IState = {
   userIDs: [],
 };
 
-
 const approval = createStore({
   name: 'orgApproval',
   state: initState,
@@ -47,8 +43,12 @@ const approval = createStore({
         undone: ['undoneList', 'undonePaging'],
       }[type];
       let status = _status as string | string[];
-      if (type === 'done' && !status)status = ['denied', 'approved'];
-      const { data, userIDs = [] } = await call(getApprovalList, { status, ...rest }, { paging: { key: pagingKey }, fullResult: true });
+      if (type === 'done' && !status) status = ['denied', 'approved'];
+      const { data, userIDs = [] } = await call(
+        getApprovalList,
+        { status, ...rest },
+        { paging: { key: pagingKey }, fullResult: true },
+      );
       update({ [`${listKey}`]: data.list, userIDs });
       return { ...data };
     },

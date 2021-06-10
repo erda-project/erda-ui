@@ -18,11 +18,18 @@ import { getFilterParams } from '../../common/utils';
 import TopTabRight from 'microService/monitor/application-insight/common/components/tab-right';
 import monitorCommonStore from 'common/stores/monitorCommon';
 
-
 const Cache = () => {
   const type = 'cache';
-  const [chosenSortItem, chosenApp, chosenAppGroup, appGroup] = monitorCommonStore.useStore((s) => [s.chosenSortItem, s.chosenApp, s.chosenAppGroup, s.appGroup]);
-  const { filterQuery, shouldLoad }: any = getFilterParams({ chosenSortItem, chosenApp, chosenAppGroup, appGroup }, { type, prefix: 'filter_source_' });
+  const [chosenSortItem, chosenApp, chosenAppGroup, appGroup] = monitorCommonStore.useStore((s) => [
+    s.chosenSortItem,
+    s.chosenApp,
+    s.chosenAppGroup,
+    s.appGroup,
+  ]);
+  const { filterQuery, shouldLoad }: any = getFilterParams(
+    { chosenSortItem, chosenApp, chosenAppGroup, appGroup },
+    { type, prefix: 'filter_source_' },
+  );
   const chartQuery = chosenSortItem ? { ...filterQuery, filter_db_statement: chosenSortItem } : { ...filterQuery };
   return (
     <div>

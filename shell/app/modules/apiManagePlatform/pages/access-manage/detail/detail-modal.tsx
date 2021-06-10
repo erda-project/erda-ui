@@ -46,13 +46,16 @@ const DetailModal = ({ visible, onCancel, dataSource }: IProps) => {
       clearOperationRecord();
     }
   }, [clearOperationRecord, client.id, contract.id, getOperationRecord, visible]);
-  const fields = [{
-    label: i18n.t('creator'),
-    value: <UserInfo id={get(client, 'creatorID')} />,
-  }, {
-    label: i18n.t('client number'),
-    value: get(client, 'clientID'),
-  }];
+  const fields = [
+    {
+      label: i18n.t('creator'),
+      value: <UserInfo id={get(client, 'creatorID')} />,
+    },
+    {
+      label: i18n.t('client number'),
+      value: get(client, 'clientID'),
+    },
+  ];
   return (
     <Modal
       title={get(client, 'name')}
@@ -73,23 +76,23 @@ const DetailModal = ({ visible, onCancel, dataSource }: IProps) => {
       />
       <div className="pa16 record-list">
         <div className="title fz16 color-text bold-500 mb8">{i18n.t('approval record')}</div>
-        {
-          records.length ? (
-            <Timeline>
-              {
-                records.map(({ createdAt, action, creatorID, id }) => {
-                  return (
-                    <TimeLineItem key={id}>
-                      <span className="mr16">{moment(createdAt).format('YYYY-MM-DD HH:mm:ss')}</span>
-                      {creatorID ? <span className="mr16">{<UserInfo id={creatorID} />}</span> : null}
-                      <span>{action}</span>
-                    </TimeLineItem>
-                  );
-                })
-              }
-            </Timeline>
-          ) : <div className="no-data"><EmptyHolder /></div>
-        }
+        {records.length ? (
+          <Timeline>
+            {records.map(({ createdAt, action, creatorID, id }) => {
+              return (
+                <TimeLineItem key={id}>
+                  <span className="mr16">{moment(createdAt).format('YYYY-MM-DD HH:mm:ss')}</span>
+                  {creatorID ? <span className="mr16">{<UserInfo id={creatorID} />}</span> : null}
+                  <span>{action}</span>
+                </TimeLineItem>
+              );
+            })}
+          </Timeline>
+        ) : (
+          <div className="no-data">
+            <EmptyHolder />
+          </div>
+        )}
       </div>
     </Modal>
   );

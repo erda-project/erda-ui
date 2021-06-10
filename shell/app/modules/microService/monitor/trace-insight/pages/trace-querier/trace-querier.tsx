@@ -34,9 +34,7 @@ const { TextArea } = Input;
 const { Item: FormItem } = Form;
 const { banFullWidthPunctuation, url: urlRule } = regRules;
 
-const TraceInsightQuerier = ({
-  form,
-}: any) => {
+const TraceInsightQuerier = ({ form }: any) => {
   const [
     requestTraceParams,
     traceHistoryList,
@@ -53,7 +51,11 @@ const TraceInsightQuerier = ({
     s.spanDetailContent,
   ]);
   const urlQuery = routeInfoStore.useStore((s) => s.query);
-  const [isTraceDetailContentFetching, isTraceHistoryFetching, isRequestTraceFetching] = useLoading(traceQuerierStore, ['getTraceDetailContent', 'getTraceHistoryList', 'requestTrace']);
+  const [isTraceDetailContentFetching, isTraceHistoryFetching, isRequestTraceFetching] = useLoading(traceQuerierStore, [
+    'getTraceDetailContent',
+    'getTraceHistoryList',
+    'requestTrace',
+  ]);
 
   const {
     requestTrace,
@@ -72,7 +74,6 @@ const TraceInsightQuerier = ({
     clearCurrentTraceRequestId,
     clearRequestTraceParams,
   } = traceQuerierStore.reducers;
-
 
   useEffectOnce(() => {
     getTraceHistoryList();
@@ -99,9 +100,10 @@ const TraceInsightQuerier = ({
   }, [requestId]);
 
   React.useEffect(() => {
-    requestId && getTraceDetailContent({ requestId, needReturn: true }).then((content: any) => {
-      setTraceRecords(content);
-    });
+    requestId &&
+      getTraceDetailContent({ requestId, needReturn: true }).then((content: any) => {
+        setTraceRecords(content);
+      });
   }, [getTraceDetailContent, requestId]);
 
   const handleSetRequestTraceParams = (payload: any) => {
@@ -142,24 +144,20 @@ const TraceInsightQuerier = ({
   const renderMetaViewer = () => {
     return (
       <div className="meta-viewer">
-        {
-          !url
-            ? <p>{i18n.t('microService:current no request')}</p>
-            : (
-              <p className="meta-viewer-copy">
-                <Copy>{ url }</Copy>
-              </p>
-            )
-        }
+        {!url ? (
+          <p>{i18n.t('microService:current no request')}</p>
+        ) : (
+          <p className="meta-viewer-copy">
+            <Copy>{url}</Copy>
+          </p>
+        )}
       </div>
     );
   };
 
   const renderUrlEditor = () => {
     const selectBefore = getFieldDecorator('method', {
-      rules: [
-        { required: true, message: i18n.t('microService:this item is required') },
-      ],
+      rules: [{ required: true, message: i18n.t('microService:this item is required') }],
       initialValue: method,
     })(
       <Select
@@ -168,11 +166,11 @@ const TraceInsightQuerier = ({
           handleSetRequestTraceParams({ method: value });
         }}
       >
-        {
-          _map(HTTP_METHOD_LIST, (item) => (
-            <Option value={item} key={item}>{ item }</Option>
-          ))
-        }
+        {_map(HTTP_METHOD_LIST, (item) => (
+          <Option value={item} key={item}>
+            {item}
+          </Option>
+        ))}
       </Select>,
     );
 
@@ -181,28 +179,26 @@ const TraceInsightQuerier = ({
         <Row gutter={10}>
           <Col span={21}>
             <FormItem>
-              { getFieldDecorator('url', {
-                rules: [
-                  { required: true, message: i18n.t('microService:this item is required') },
-                  urlRule,
-                ],
+              {getFieldDecorator('url', {
+                rules: [{ required: true, message: i18n.t('microService:this item is required') }, urlRule],
                 initialValue: `${url}${queryStr ? `?${queryStr}` : ''}`,
               })(
                 <Input
                   addonBefore={selectBefore}
-                  placeholder={i18n.t('microService|please enter a legal url, length limit: ', { nsSeparator: '|' }) + MAX_URL_LENGTH}
+                  placeholder={
+                    i18n.t('microService|please enter a legal url, length limit: ', { nsSeparator: '|' }) +
+                    MAX_URL_LENGTH
+                  }
                   maxLength={MAX_URL_LENGTH}
-                  onBlur={(e) => { handleSetRequestTraceParams({ url: e.target.value }); }}
+                  onBlur={(e) => {
+                    handleSetRequestTraceParams({ url: e.target.value });
+                  }}
                 />,
               )}
             </FormItem>
           </Col>
           <Col span={3}>
-            <Button
-              type="primary"
-              loading={isRequestTraceFetching}
-              onClick={handleRequestTrace}
-            >
+            <Button type="primary" loading={isRequestTraceFetching} onClick={handleRequestTrace}>
               {i18n.t('microService:request')}
             </Button>
           </Col>
@@ -223,7 +219,9 @@ const TraceInsightQuerier = ({
               }}
               form={form}
               dataSource={query}
-              ref={(ref) => { paramsEditor = ref; }}
+              ref={(ref) => {
+                paramsEditor = ref;
+              }}
               onChange={(data: any) => {
                 setRequestTraceParams({
                   ...requestTraceParams,
@@ -242,24 +240,30 @@ const TraceInsightQuerier = ({
               }}
               form={form}
               dataSource={header}
-              ref={(ref) => { headersEditor = ref; }}
+              ref={(ref) => {
+                headersEditor = ref;
+              }}
             />
           </Form>
         </TabPane>
         <TabPane tab="Body" key="3">
           <FormItem>
-            { getFieldDecorator('body', {
+            {getFieldDecorator('body', {
               rules: [banFullWidthPunctuation],
               initialValue: body,
-            })(<TextArea
-              className="request-edit-body-form"
-              autoSize={{ minRows: 8, maxRows: 12 }}
-              maxLength={MAX_BODY_LENGTH}
-              placeholder={i18n.t('microService|please enter body, length limit:', { nsSeparator: '|' }) + MAX_BODY_LENGTH}
-              onChange={(e) => {
-                handleSetRequestTraceParams({ body: e.target.value });
-              }}
-            />)}
+            })(
+              <TextArea
+                className="request-edit-body-form"
+                autoSize={{ minRows: 8, maxRows: 12 }}
+                maxLength={MAX_BODY_LENGTH}
+                placeholder={
+                  i18n.t('microService|please enter body, length limit:', { nsSeparator: '|' }) + MAX_BODY_LENGTH
+                }
+                onChange={(e) => {
+                  handleSetRequestTraceParams({ body: e.target.value });
+                }}
+              />,
+            )}
           </FormItem>
         </TabPane>
       </Tabs>
@@ -272,12 +276,13 @@ const TraceInsightQuerier = ({
         title={
           <div className="flex-box">
             <h3 className="trace-common-panel-title bold-500">{i18n.t('microService:transactions information')}</h3>
-            <IF check={requestTraceParams.responseCode} >
-              <div className="response-code">{`${i18n.t('microService:request response status')}：${requestTraceParams.responseCode}`}</div>
+            <IF check={requestTraceParams.responseCode}>
+              <div className="response-code">{`${i18n.t('microService:request response status')}：${
+                requestTraceParams.responseCode
+              }`}</div>
             </IF>
           </div>
-
-      }
+        }
         className="trace-status-list-ct"
       >
         <RequestStatusViewer
@@ -313,14 +318,14 @@ const TraceInsightQuerier = ({
           </CommonPanel>
         </Col>
         <Col span={18}>
-          <CommonPanel >
+          <CommonPanel>
             <React.Fragment>
-              { renderMetaViewer() }
-              { renderUrlEditor() }
-              { renderRequestEditor() }
+              {renderMetaViewer()}
+              {renderUrlEditor()}
+              {renderRequestEditor()}
             </React.Fragment>
           </CommonPanel>
-          { renderStatusList() }
+          {renderStatusList()}
         </Col>
       </Row>
     </div>

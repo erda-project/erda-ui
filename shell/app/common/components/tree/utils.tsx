@@ -49,7 +49,7 @@ export const findTargetNode = (nodeKey: string, nodeTree: TreeNode[]): null | Tr
  * @param childKey
  * @param parentKey
  */
-export const isAncestor = (nodeTree: TreeNode[], childKey?: string, parentKey?: string| null) => {
+export const isAncestor = (nodeTree: TreeNode[], childKey?: string, parentKey?: string | null) => {
   if (!parentKey || !childKey) {
     return false;
   }
@@ -83,7 +83,8 @@ export const isAncestor = (nodeTree: TreeNode[], childKey?: string, parentKey?: 
       for (let i = 0; i < children.length; i++) {
         deepLoop(children[i]);
       }
-      if (capturedParent !== capturedChild) { // 找到任意一个点，其子孙遍历完，不管有没有找到另一个都结束
+      if (capturedParent !== capturedChild) {
+        // 找到任意一个点，其子孙遍历完，不管有没有找到另一个都结束
         end = true;
       }
     } else if (capturedParent !== capturedChild) {
@@ -122,7 +123,10 @@ const defaultFileIcon = () => <CustomIcon color type="dm" style={{ height: '16px
  * @param param
  * @param iconMap
  */
-export const getIcon = ({ isLeaf, type, iconType }: { isLeaf?: boolean; type?: string; iconType?: string }, iconMap?: { [p: string]: JSX.Element }): JSX.Element => {
+export const getIcon = (
+  { isLeaf, type, iconType }: { isLeaf?: boolean; type?: string; iconType?: string },
+  iconMap?: { [p: string]: JSX.Element },
+): JSX.Element => {
   if (iconMap) {
     if (iconType && iconMap[iconType]) {
       return iconMap[iconType];
@@ -154,4 +158,3 @@ export const sortCategory = (nodes: TreeNode[]) => {
   files.sort((x, y) => collator.compare(x.titleAlias, y.titleAlias));
   return [...folders, ...files];
 };
-

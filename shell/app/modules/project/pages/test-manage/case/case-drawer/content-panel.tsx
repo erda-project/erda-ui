@@ -30,20 +30,53 @@ interface IProps {
 
 const noop = () => {};
 
-const ContentPanel = ({ title, children, className = '', loading = false, append, onClick = noop, mode = 'common' }: IProps) => {
+const ContentPanel = ({
+  title,
+  children,
+  className = '',
+  loading = false,
+  append,
+  onClick = noop,
+  mode = 'common',
+}: IProps) => {
   const delimiter = <span className="color-text-holder mx8">|</span>;
   const typeIcon = {
-    edit: <span onClick={onClick} className="color-text-desc hover-active"><IconEdit className="mr4" />{i18n.t('project:edit')}</span>,
-    add: <span onClick={onClick} className="color-text-desc hover-active"><IconPlus className="mr4" />{i18n.t('common:add')}</span>,
-    upload: <span onClick={onClick} className="color-text-desc hover-active"><IconUpload className="mr4" />{i18n.t('project:upload')}</span>,
+    edit: (
+      <span onClick={onClick} className="color-text-desc hover-active">
+        <IconEdit className="mr4" />
+        {i18n.t('project:edit')}
+      </span>
+    ),
+    add: (
+      <span onClick={onClick} className="color-text-desc hover-active">
+        <IconPlus className="mr4" />
+        {i18n.t('common:add')}
+      </span>
+    ),
+    upload: (
+      <span onClick={onClick} className="color-text-desc hover-active">
+        <IconUpload className="mr4" />
+        {i18n.t('project:upload')}
+      </span>
+    ),
   };
   return (
     <div className={`content-panel ${className}`}>
       <Spin spinning={loading}>
         <div className="flex-box title flex-start mb8">
           <span>{title}</span>
-          {mode !== 'common' ? <>{delimiter}{typeIcon[mode]}</> : null}
-          {append ? <>{delimiter}{append}</> : null}
+          {mode !== 'common' ? (
+            <>
+              {delimiter}
+              {typeIcon[mode]}
+            </>
+          ) : null}
+          {append ? (
+            <>
+              {delimiter}
+              {append}
+            </>
+          ) : null}
         </div>
         <div className="content">{children}</div>
       </Spin>

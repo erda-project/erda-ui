@@ -21,43 +21,46 @@ export const commonAttr = {
   moduleName: 'AIRPC',
   groupId: 'AIRPC',
 };
-const chartMap = merge({
-  sortTab: {
-    ...commonAttr,
-    type: 'sortTab',
-    tabList: [
-      { name: i18n.t('microService:average time'), key: 'rt' },
-      { name: i18n.t('microService:throughput'), key: 'throughput' },
-    ],
-  },
-  sortList: {
-    type: 'sortList',
-    ...commonAttr,
-    chartName: 'overviewSort',
-  },
-  responseTimes: {
-    titleText: `${i18n.t('microService:response time')} TOP5`,
-    ...commonAttr,
-    chartName: 'responseTimes',
-    viewProps: {
-      unitType: 'TIME',
+const chartMap = merge(
+  {
+    sortTab: {
+      ...commonAttr,
+      type: 'sortTab',
+      tabList: [
+        { name: i18n.t('microService:average time'), key: 'rt' },
+        { name: i18n.t('microService:throughput'), key: 'throughput' },
+      ],
+    },
+    sortList: {
+      type: 'sortList',
+      ...commonAttr,
+      chartName: 'overviewSort',
+    },
+    responseTimes: {
+      titleText: `${i18n.t('microService:response time')} TOP5`,
+      ...commonAttr,
+      chartName: 'responseTimes',
+      viewProps: {
+        unitType: 'TIME',
+      },
+    },
+    throughput: {
+      titleText: `${i18n.t('microService:throughput')} TOP5`,
+      ...commonAttr,
+      chartName: 'throughput',
+      viewProps: {
+        unitType: 'CPM',
+      },
+    },
+    slowTrack: {
+      titleText: `${i18n.t('microService:slow transaction tracking')} TOP10`,
+      ...commonAttr,
+      chartName: 'slowTrack',
+      viewRender: webSlowTrackPanel,
     },
   },
-  throughput: {
-    titleText: `${i18n.t('microService:throughput')} TOP5`,
-    ...commonAttr,
-    chartName: 'throughput',
-    viewProps: {
-      unitType: 'CPM',
-    },
-  },
-  slowTrack: {
-    titleText: `${i18n.t('microService:slow transaction tracking')} TOP10`,
-    ...commonAttr,
-    chartName: 'slowTrack',
-    viewRender: webSlowTrackPanel,
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   sortTab: sortRender(chartMap.sortTab) as any,

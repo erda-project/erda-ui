@@ -33,7 +33,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
   constructor(props: IVariableInputGroupProps) {
     super(props);
     const ids: string[] = [];
-    const _values = map((props.value || []), (item) => {
+    const _values = map(props.value || [], (item) => {
       let id: string = uuid();
       while (ids.includes(id)) {
         id = uuid();
@@ -90,7 +90,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
       return (
         <div key={id} className="list-full-input-group">
           {inputField}
-          { disabled ? null : <IconDelete className="variable-icon ml12 pointer" onClick={() => this.onDelete(index)} />}
+          {disabled ? null : <IconDelete className="variable-icon ml12 pointer" onClick={() => this.onDelete(index)} />}
         </div>
       );
     });

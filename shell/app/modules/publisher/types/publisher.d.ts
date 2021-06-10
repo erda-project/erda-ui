@@ -31,7 +31,7 @@ declare namespace PUBLISHER {
     deviceNo: string;
     createdAt: string;
   }
-  interface IListQuery extends MonitorKey{
+  interface IListQuery extends MonitorKey {
     pageNo: number;
     pageSize: number;
   }
@@ -172,7 +172,7 @@ declare namespace PUBLISHER {
     grayLevelPercent: string;
   }
 
-  interface AllVersionQuery extends MonitorKey{
+  interface AllVersionQuery extends MonitorKey {
     publisherItemId: string;
     group: string;
     count: string;
@@ -197,7 +197,7 @@ declare namespace PUBLISHER {
     totalUsers: number;
   }
 
-  interface IErrorTrend extends MonitorKey{
+  interface IErrorTrend extends MonitorKey {
     affectUsers: number;
     affectUsersProportion: string;
     affectUsersProportionGrowth: string;
@@ -206,7 +206,7 @@ declare namespace PUBLISHER {
     crashTimes: number;
   }
 
-  interface ErrorListQuery extends MonitorKey{
+  interface ErrorListQuery extends MonitorKey {
     artifactsId: string;
     start: number;
     end: number;
@@ -221,7 +221,7 @@ declare namespace PUBLISHER {
     timeOfRecent: string;
     totalErr: number;
   }
-  interface ErrorDetailQuery extends MonitorKey{
+  interface ErrorDetailQuery extends MonitorKey {
     artifactsId: string;
     start: number;
     end: number;
@@ -275,7 +275,7 @@ declare namespace PUBLISHER {
     impactUserCount: number;
   }
 
-  interface IChartQuery extends MonitorKey{
+  interface IChartQuery extends MonitorKey {
     publisherItemId: string;
     start?: number;
     end?: number;
@@ -289,7 +289,7 @@ declare namespace PUBLISHER {
     limit?: number;
   }
 
-  interface VersionStatisticQuery extends MonitorKey{
+  interface VersionStatisticQuery extends MonitorKey {
     artifactsId: string;
     endTime: string;
   }
@@ -313,12 +313,12 @@ declare namespace PUBLISHER {
     version: string;
   }
 
-  interface MonitorKey{
+  interface MonitorKey {
     ak?: string;
     ai?: string;
   }
 
-  interface MonitorItem{
+  interface MonitorItem {
     ak: string;
     ai: string;
     env: string;
@@ -328,7 +328,7 @@ declare namespace PUBLISHER {
   // 离线包只支持android和ios
   type OfflinePackageType = 'android' | 'ios';
 
-  interface OfflinePackage{
+  interface OfflinePackage {
     publishItemId: string;
     data: FormData;
   }

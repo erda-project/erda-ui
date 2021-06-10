@@ -18,9 +18,19 @@ declare namespace API_ACCESS {
   type Workspace = 'DEV' | 'TEST' | 'STAGING' | 'PROD';
   type ContractStatue = 'proving' | 'proved' | 'disproved' | 'unproved';
   type SlaApproval = 'auto' | 'manual';
-  type SLASource = 'system'| 'user';
+  type SLASource = 'system' | 'user';
   type SlaLimitUnit = 's' | 'm' | 'h' | 'd';
-  type AddonStatus = 'PENDING' | 'ATTACHING' | 'ATTACHED' | 'ATTACHFAILED' | 'DETACHING' | 'DETACHED' | 'OFFLINE' | 'UPGRADE' | 'ROLLBACK' | 'UNKNOWN';
+  type AddonStatus =
+    | 'PENDING'
+    | 'ATTACHING'
+    | 'ATTACHED'
+    | 'ATTACHFAILED'
+    | 'DETACHING'
+    | 'DETACHED'
+    | 'OFFLINE'
+    | 'UPGRADE'
+    | 'ROLLBACK'
+    | 'UNKNOWN';
 
   interface QueryAccess {
     paging: boolean;

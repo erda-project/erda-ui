@@ -52,12 +52,20 @@ export const SortDragGroupList = (props: CP_SORT_GROUP.Props) => {
 
   const val = React.useMemo(() => {
     return dealData(_list, data.type);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_list, data.type]);
 
   return (
     <>
-      <PureSortDragGroupList {...rest} value={val} disableDropInItem disableDropInGroup={false} onMoveItem={onMoveItem} onMoveGroup={onMoveGroup} onClickItem={onClickItem} />
+      <PureSortDragGroupList
+        {...rest}
+        value={val}
+        disableDropInItem
+        disableDropInGroup={false}
+        onMoveItem={onMoveItem}
+        onMoveGroup={onMoveGroup}
+        onClickItem={onClickItem}
+      />
     </>
   );
 };

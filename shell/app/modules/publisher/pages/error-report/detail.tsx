@@ -22,10 +22,7 @@ import { formatTime } from 'common/utils';
 import { useUnmount } from 'react-use';
 
 export default () => {
-  const [publisherItemId, query] = routeInfoStore.useStore((s) => [
-    s.params.publisherItemId,
-    s.query,
-  ]);
+  const [publisherItemId, query] = routeInfoStore.useStore((s) => [s.params.publisherItemId, s.query]);
   const detail = errorReportStore.useStore((s) => s.errorDetail);
   let tags: Obj = {};
   let log = i18n.t('publisher:no data');
@@ -88,14 +85,16 @@ export default () => {
       title: i18n.t('publisher:detailed log'),
       titleExtra: (
         <>
-          <Copy
-            selector=".for-copy"
-          />
-          <Button className="for-copy" data-clipboard-text={log} type="primary" ghost>{i18n.t('copy')}</Button>
+          <Copy selector=".for-copy" />
+          <Button className="for-copy" data-clipboard-text={log} type="primary" ghost>
+            {i18n.t('copy')}
+          </Button>
         </>
       ),
       children: (
-        <pre className="code-block" style={{ whiteSpace: 'pre-wrap' }}>{log}</pre>
+        <pre className="code-block" style={{ whiteSpace: 'pre-wrap' }}>
+          {log}
+        </pre>
       ),
     },
   ];
@@ -106,4 +105,3 @@ export default () => {
     </>
   );
 };
-

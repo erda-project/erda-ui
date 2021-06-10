@@ -17,11 +17,43 @@ import gatewayStore from 'microService/stores/gateway';
 import { useLoading } from 'app/common/stores/loading';
 
 const mapper = () => {
-  const [consumer, apiList, needAuthApiList, needAuthApiPaging, consumerList, trafficControlPolicy, authData, authConsumer] = gatewayStore.useStore((s) => [s.consumer, s.apiList, s.needAuthApiList, s.needAuthApiListPaging, s.consumerList, s.trafficControlPolicy, s.authData, s.authConsumer]);
-  const { getConsumer, createConsumer, getConsumerList, updateConsumerDetail, getAPIList, getNeedAuthAPIList, saveConsumerApi, getPolicyList, saveConsumerApiPolicy, deleteConsumer, getConsumerDetail } = gatewayStore.effects;
-  const wrapper = (fun, payload) => (params = {}) => {
-    return fun({ ...payload, ...params });
-  };
+  const [
+    consumer,
+    apiList,
+    needAuthApiList,
+    needAuthApiPaging,
+    consumerList,
+    trafficControlPolicy,
+    authData,
+    authConsumer,
+  ] = gatewayStore.useStore((s) => [
+    s.consumer,
+    s.apiList,
+    s.needAuthApiList,
+    s.needAuthApiListPaging,
+    s.consumerList,
+    s.trafficControlPolicy,
+    s.authData,
+    s.authConsumer,
+  ]);
+  const {
+    getConsumer,
+    createConsumer,
+    getConsumerList,
+    updateConsumerDetail,
+    getAPIList,
+    getNeedAuthAPIList,
+    saveConsumerApi,
+    getPolicyList,
+    saveConsumerApiPolicy,
+    deleteConsumer,
+    getConsumerDetail,
+  } = gatewayStore.effects;
+  const wrapper =
+    (fun, payload) =>
+    (params = {}) => {
+      return fun({ ...payload, ...params });
+    };
   const [isFetching, isFetchingNeedAuthAPIList] = useLoading(gatewayStore, ['getConsumerList', 'getNeedAuthAPIList']);
   return {
     consumer,
@@ -45,7 +77,6 @@ const mapper = () => {
     saveConsumerApiPolicy,
     deleteConsumer,
     getConsumerDetail,
-
   };
 };
 

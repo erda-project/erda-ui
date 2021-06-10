@@ -28,12 +28,15 @@ export default () => {
   const [serviceName, setServiceName] = useState<string | undefined>(undefined);
   const { getCustomDashboardDetail } = topologyStore.effects;
 
-  const globalVariable = useMemo(() => ({
-    terminusKey: params.terminusKey,
-    serviceName,
-    startTime: timeSpan.startTimeMs,
-    endTime: timeSpan.endTimeMs,
-  }), [params.terminusKey, serviceName, timeSpan.endTimeMs, timeSpan.startTimeMs]);
+  const globalVariable = useMemo(
+    () => ({
+      terminusKey: params.terminusKey,
+      serviceName,
+      startTime: timeSpan.startTimeMs,
+      endTime: timeSpan.endTimeMs,
+    }),
+    [params.terminusKey, serviceName, timeSpan.endTimeMs, timeSpan.startTimeMs],
+  );
 
   useEffect(() => {
     getCustomDashboardDetail({ id: 'services' }).then((res) => {
@@ -43,15 +46,12 @@ export default () => {
 
   const handleBoardEvent = ({ eventName, cellValue, dataSource }: DC.BoardEvent) => {
     if (eventName === 'jumpToDetail') {
-      goTo(
-        goTo.pages.microServiceServiceAnalyze,
-        {
-          ...params,
-          serviceName: cellValue,
-          applicationId: dataSource?.application_id,
-          serviceId: window.encodeURIComponent(dataSource?.service_id || ''),
-        },
-      );
+      goTo(goTo.pages.microServiceServiceAnalyze, {
+        ...params,
+        serviceName: cellValue,
+        applicationId: dataSource?.application_id,
+        serviceId: window.encodeURIComponent(dataSource?.service_id || ''),
+      });
     }
   };
 
@@ -65,11 +65,7 @@ export default () => {
           onHandleSearch={(v) => setServiceName(v)}
         />
       </div>
-      <PureBoardGrid
-        layout={layout}
-        globalVariable={globalVariable}
-        onBoardEvent={handleBoardEvent}
-      />
+      <PureBoardGrid layout={layout} globalVariable={globalVariable} onBoardEvent={handleBoardEvent} />
     </div>
   );
 };

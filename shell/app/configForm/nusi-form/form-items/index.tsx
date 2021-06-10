@@ -21,7 +21,6 @@ import { config as dataStaticConfig } from './data-static';
 import { config as dataDynamicConfig } from './data-dynamic';
 import { config as customDefinedConfig } from './custom-defined';
 
-
 // 有formConfig,对外提供选择
 import { config as inputConfig, formConfig as inputFormConfig } from './input';
 import { config as selectConfig, formConfig as selectFormConfig } from './select';

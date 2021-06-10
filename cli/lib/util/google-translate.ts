@@ -43,12 +43,14 @@ export const doTranslate = async () => {
   });
   const translatedList = await Promise.allSettled(promises);
 
-  translatedList.filter((item) => item.status === 'fulfilled').forEach((result) => {
-    const { zh, en } = (result as PromiseFulfilledResult<{ zh: string; en: any }>).value;
-    const [first, ...rest] = en;
-    const enWord = filterInvalidWord(`${first.toLowerCase()}${rest.join('')}`);
-    wordList[zh] = enWord;
-    logInfo(`${zh}: ${enWord}`);
-  });
+  translatedList
+    .filter((item) => item.status === 'fulfilled')
+    .forEach((result) => {
+      const { zh, en } = (result as PromiseFulfilledResult<{ zh: string; en: any }>).value;
+      const [first, ...rest] = en;
+      const enWord = filterInvalidWord(`${first.toLowerCase()}${rest.join('')}`);
+      wordList[zh] = enWord;
+      logInfo(`${zh}: ${enWord}`);
+    });
   fs.writeFileSync(tempFilePath, JSON.stringify(wordList, null, '  '));
 };

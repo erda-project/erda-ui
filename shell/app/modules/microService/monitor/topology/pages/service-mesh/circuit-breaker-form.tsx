@@ -25,7 +25,7 @@ const { TabPane } = Tabs;
 const { Panel } = Collapse;
 const FormItem = Form.Item;
 
-interface IProps{
+interface IProps {
   visible: boolean;
   type: string;
   node: any;
@@ -41,13 +41,17 @@ const validateEmpty = (formRef: any) => (rule: any, val: string, callback: Funct
     const valuesLen = compact([consecutiveErrors, interval, baseEjectionTime, maxEjectionPercent]).length;
     const pass = valuesLen === 0 || valuesLen === 4;
     return callback(
-      pass ? undefined : (val ? undefined : i18n.t('microService:failure detection rules and instance isolation should be set at the same time')),
+      pass
+        ? undefined
+        : val
+        ? undefined
+        : i18n.t('microService:failure detection rules and instance isolation should be set at the same time'),
     );
   }
   return callback();
 };
 
-interface IHttpForm{
+interface IHttpForm {
   data?: TOPOLOGY.ICircuitBreakerHttp;
   submitForm: (arg: TOPOLOGY.ICircuitBreakerHttp) => Promise<string>;
 }
@@ -56,37 +60,33 @@ const ErrorCheckForm = ({ form, formRef }: { form: WrappedFormUtils; formRef: an
   return (
     <div className="error-check-form">
       <FormItem>
-        {
-          form.getFieldDecorator('interval', {
-            rules: [
-              { validator: validators.validateNumberRange({ min: 1, max: 100 }) },
-              { validator: validateEmpty(formRef) },
-            ],
-          })(
-            <Input
-              className="error-check-item"
-              suffix={i18n.t('common:second')}
-              placeholder={`${i18n.t('advice value {value}', { value: 10 })}`} // 10
-            />,
-          )
-        }
+        {form.getFieldDecorator('interval', {
+          rules: [
+            { validator: validators.validateNumberRange({ min: 1, max: 100 }) },
+            { validator: validateEmpty(formRef) },
+          ],
+        })(
+          <Input
+            className="error-check-item"
+            suffix={i18n.t('common:second')}
+            placeholder={`${i18n.t('advice value {value}', { value: 10 })}`} // 10
+          />,
+        )}
       </FormItem>
       <span className="ml8 mr8">{i18n.t('microService:continuous failure')}</span>
       <FormItem>
-        {
-          form.getFieldDecorator('consecutiveErrors', {
-            rules: [
-              { validator: validators.validateNumberRange({ min: 1, max: 600 }) },
-              { validator: validateEmpty(formRef) },
-            ],
-          })(
-            <Input
-              className="error-check-item"
-              suffix={i18n.t('times')}
-              placeholder={`${i18n.t('advice value {value}', { value: 30 })}`} // 30
-            />,
-          )
-        }
+        {form.getFieldDecorator('consecutiveErrors', {
+          rules: [
+            { validator: validators.validateNumberRange({ min: 1, max: 600 }) },
+            { validator: validateEmpty(formRef) },
+          ],
+        })(
+          <Input
+            className="error-check-item"
+            suffix={i18n.t('times')}
+            placeholder={`${i18n.t('advice value {value}', { value: 30 })}`} // 30
+          />,
+        )}
       </FormItem>
     </div>
   );
@@ -145,16 +145,14 @@ const HttpForm = ({ data, submitForm }: IHttpForm) => {
       label: i18n.t('microService:maximum number of retries'),
       name: 'maxRetries',
       required: false,
-      rules: [
-        { validator: validators.validateNumberRange({ min: 1, max: 3 }) },
-      ],
+      rules: [{ validator: validators.validateNumberRange({ min: 1, max: 3 }) }],
       itemProps: {
         placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 3 }),
       },
     },
     {
       label: i18n.t('microService:failure detection rules'),
-      getComp: ({ form }: {form: WrappedFormUtils}) => {
+      getComp: ({ form }: { form: WrappedFormUtils }) => {
         return <ErrorCheckForm form={form} formRef={formRef} />;
       },
     },
@@ -168,7 +166,10 @@ const HttpForm = ({ data, submitForm }: IHttpForm) => {
       ],
       itemProps: {
         suffix: i18n.t('common:second'),
-        placeholder: `${i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 600 })} ${i18n.t('advice value {value}', { value: 30 })}`, // 30
+        placeholder: `${i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 600 })} ${i18n.t(
+          'advice value {value}',
+          { value: 30 },
+        )}`, // 30
       },
     },
     {
@@ -181,7 +182,10 @@ const HttpForm = ({ data, submitForm }: IHttpForm) => {
       ],
       itemProps: {
         suffix: '%',
-        placeholder: `${i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 100 })} ${i18n.t('advice value {value}', { value: 50 })}`, // 50
+        placeholder: `${i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 100 })} ${i18n.t(
+          'advice value {value}',
+          { value: 50 },
+        )}`, // 50
       },
     },
     {
@@ -208,8 +212,7 @@ const HttpForm = ({ data, submitForm }: IHttpForm) => {
   );
 };
 
-
-interface IDubboForm{
+interface IDubboForm {
   data?: TOPOLOGY.ICircuitBreakerDubbo[];
   hideNoRule: boolean;
   submitForm: (arg: TOPOLOGY.ICircuitBreakerDubbo) => Promise<string>;
@@ -242,49 +245,54 @@ const DubboForm = ({ data = [], submitForm, hideNoRule, onSwitchChange }: IDubbo
     <div className="circuit-breaker-dubbo full-height">
       <div className="service-mesh-forms-container full-height">
         <div className="service-mesh-search">
-          <Input placeholder={i18n.t('microService:filter by interface name')} onChange={(e: any) => setSearchKey(e.target.value)} />
+          <Input
+            placeholder={i18n.t('microService:filter by interface name')}
+            onChange={(e: any) => setSearchKey(e.target.value)}
+          />
           <div className="hide-no-rule-interface full-height">
-            <span className="hide-no-rule-interface-label full-height">{i18n.t('microService:hide no rule interface')}</span>
+            <span className="hide-no-rule-interface-label full-height">
+              {i18n.t('microService:hide no rule interface')}
+            </span>
             <Switch
               checked={hideNoRule}
               checkedChildren="ON"
               unCheckedChildren="OFF"
-              onChange={(checked: boolean) => { setHideNoRule(checked); }}
+              onChange={(checked: boolean) => {
+                setHideNoRule(checked);
+              }}
             />
           </div>
         </div>
-        {
-          isEmpty(useData) ? (
-            <EmptyHolder relative />
-          ) : (
-            <div className="service-mesh-collapse-forms">
-              <Collapse>
-                {
-                  map(currentData, (item) => (
-                    <Panel header={`${item.interfaceName}`} key={`${item.interfaceName}`}>
-                      <div className="collapse-form-item">
-                        <DubboFormItem data={item} submitForm={submitForm} />
-                      </div>
-                    </Panel>
-                  ))
-                }
-              </Collapse>
-              <Pagination
-                className="pa20"
-                pageSize={pageSize}
-                total={len}
-                current={pageNo}
-                onChange={(pgNo: number) => { setPageNo(pgNo); }}
-              />
-            </div>
-          )
-        }
+        {isEmpty(useData) ? (
+          <EmptyHolder relative />
+        ) : (
+          <div className="service-mesh-collapse-forms">
+            <Collapse>
+              {map(currentData, (item) => (
+                <Panel header={`${item.interfaceName}`} key={`${item.interfaceName}`}>
+                  <div className="collapse-form-item">
+                    <DubboFormItem data={item} submitForm={submitForm} />
+                  </div>
+                </Panel>
+              ))}
+            </Collapse>
+            <Pagination
+              className="pa20"
+              pageSize={pageSize}
+              total={len}
+              current={pageNo}
+              onChange={(pgNo: number) => {
+                setPageNo(pgNo);
+              }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-interface IDubboFormItem{
+interface IDubboFormItem {
   data?: TOPOLOGY.ICircuitBreakerDubbo;
   submitForm: (arg: TOPOLOGY.ICircuitBreakerDubbo) => Promise<string>;
 }
@@ -348,7 +356,7 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
     },
     {
       label: i18n.t('microService:failure detection rules'),
-      getComp: ({ form }: {form: WrappedFormUtils}) => {
+      getComp: ({ form }: { form: WrappedFormUtils }) => {
         return <ErrorCheckForm form={form} formRef={formRef} />;
       },
     },
@@ -362,7 +370,10 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
       ],
       itemProps: {
         suffix: i18n.t('common:second'),
-        placeholder: `${i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 600 })} ${i18n.t('advice value {value}', { value: 30 })}`, // 30
+        placeholder: `${i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 600 })} ${i18n.t(
+          'advice value {value}',
+          { value: 30 },
+        )}`, // 30
       },
     },
     {
@@ -375,7 +386,10 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
       ],
       itemProps: {
         suffix: '%',
-        placeholder: `${i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 100 })} ${i18n.t('advice value {value}', { value: 50 })}`, // 50
+        placeholder: `${i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 100 })} ${i18n.t(
+          'advice value {value}',
+          { value: 50 },
+        )}`, // 50
       },
     },
     {
@@ -424,18 +438,21 @@ const CircuitBreakerForm = (props: IProps) => {
 
   return (
     <div className="service-mesh-form">
-      {
-        (!isEmpty(circuitBreaker)) ? (
-          <Tabs className="service-mesh-tab" defaultActiveKey="http">
-            <TabPane className="service-mesh-tab-panel" tab="http" key="http">
-              <HttpForm data={circuitBreaker.http} submitForm={submitForm} />
-            </TabPane>
-            <TabPane className="service-mesh-tab-panel" tab="dubbo" key="dubbo">
-              <DubboForm hideNoRule={hideNoRule} data={circuitBreaker.dubbo} submitForm={submitForm} onSwitchChange={setHideNoRule} />
-            </TabPane>
-          </Tabs>
-        ) : null
-      }
+      {!isEmpty(circuitBreaker) ? (
+        <Tabs className="service-mesh-tab" defaultActiveKey="http">
+          <TabPane className="service-mesh-tab-panel" tab="http" key="http">
+            <HttpForm data={circuitBreaker.http} submitForm={submitForm} />
+          </TabPane>
+          <TabPane className="service-mesh-tab-panel" tab="dubbo" key="dubbo">
+            <DubboForm
+              hideNoRule={hideNoRule}
+              data={circuitBreaker.dubbo}
+              submitForm={submitForm}
+              onSwitchChange={setHideNoRule}
+            />
+          </TabPane>
+        </Tabs>
+      ) : null}
     </div>
   );
 };

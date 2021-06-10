@@ -17,6 +17,7 @@ import { DC } from '@terminus/dashboard-configurator';
 type CustomDashBoard = Merge<Custom_Dashboard.DashboardItem, { viewConfig: DC.Layout }>;
 
 export const getCustomDashboard = ({ id, isSystem = false }: { id: string; isSystem?: boolean }): CustomDashBoard => {
-  return agent.get(isSystem ? `/api/dashboard/system/blocks/${id}` : `/api/dashboard/blocks/${id}`)
+  return agent
+    .get(isSystem ? `/api/dashboard/system/blocks/${id}` : `/api/dashboard/blocks/${id}`)
     .then((response: any) => response.body);
 };

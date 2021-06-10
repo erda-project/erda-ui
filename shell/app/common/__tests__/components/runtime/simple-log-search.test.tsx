@@ -19,9 +19,7 @@ import { describe, it, jest } from '@jest/globals';
 describe('LogSearchForm', () => {
   it('should ', () => {
     const setSearch = jest.fn();
-    const wrapper = mount(
-      <LogSearchForm setSearch={setSearch} />,
-    );
+    const wrapper = mount(<LogSearchForm setSearch={setSearch} />);
     wrapper.find('input').simulate('change', { target: { value: '123' } });
     wrapper.find('Form').prop('onSubmit')(new Event('click'));
     expect(setSearch).toHaveBeenLastCalledWith({ requestId: '123' });

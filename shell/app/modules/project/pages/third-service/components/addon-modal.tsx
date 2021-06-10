@@ -69,7 +69,10 @@ class AddonModal extends React.PureComponent<IProps, IState> {
         errorKeys.push(k);
       }
     });
-    return [!!errorKeys.length, i18n.t('project:parameter key must consist of alphabetic characters, digits, -, _ or .', { keySeparator: '>' })];
+    return [
+      !!errorKeys.length,
+      i18n.t('project:parameter key must consist of alphabetic characters, digits, -, _ or .', { keySeparator: '>' }),
+    ];
   };
 
   handleOk = () => {
@@ -120,11 +123,14 @@ class AddonModal extends React.PureComponent<IProps, IState> {
         }
       }
       this.setState({ submitLoading: true });
-      this.props.onOk(finData).then(() => {
-        this.handleCancel();
-      }).finally(() => {
-        this.setState({ submitLoading: false });
-      });
+      this.props
+        .onOk(finData)
+        .then(() => {
+          this.handleCancel();
+        })
+        .finally(() => {
+          this.setState({ submitLoading: false });
+        });
     });
   };
 
@@ -146,11 +152,14 @@ class AddonModal extends React.PureComponent<IProps, IState> {
         }
       });
       this.setState({ submitLoading: true });
-      this.props.onOk(withoutTb as any).then(() => {
-        this.handleCancel();
-      }).finally(() => {
-        this.setState({ submitLoading: false });
-      });
+      this.props
+        .onOk(withoutTb as any)
+        .then(() => {
+          this.handleCancel();
+        })
+        .finally(() => {
+          this.setState({ submitLoading: false });
+        });
     }),
   ];
 
@@ -166,44 +175,66 @@ class AddonModal extends React.PureComponent<IProps, IState> {
     const { step } = this.state;
     if (editData) {
       return [
-        <Button key="cancel" onClick={() => this.handleCancel()}>{i18n.t('project:cancel')}</Button>,
-        <Button key="confirm" type="primary" onClick={() => this.handleOk()}>{i18n.t('project:confirm')}</Button>,
+        <Button key="cancel" onClick={() => this.handleCancel()}>
+          {i18n.t('project:cancel')}
+        </Button>,
+        <Button key="confirm" type="primary" onClick={() => this.handleOk()}>
+          {i18n.t('project:confirm')}
+        </Button>,
       ];
     }
     if (step === STEP.FIRST) {
       const currentAddon = this.getCurAddon();
       return [
-        <Button key="cancel" onClick={() => this.handleCancel()}>{i18n.t('project:cancel')}</Button>,
-        (
-          // API 网关只有基础信息，不需要下一步
-          currentAddon.vars === null || this.state.onlyOneStep ? (
-            <Button key="confirm" type="primary" loading={this.state.submitLoading} onClick={() => this.handleSaveDiceAddons()}>{i18n.t('project:confirm')}</Button>
-          ) : (
-            <Button key="next" type="primary" onClick={() => this.toStep(STEP.SECOND)}>{i18n.t('project:next')}</Button>
-          )
+        <Button key="cancel" onClick={() => this.handleCancel()}>
+          {i18n.t('project:cancel')}
+        </Button>,
+        // API 网关只有基础信息，不需要下一步
+        currentAddon.vars === null || this.state.onlyOneStep ? (
+          <Button
+            key="confirm"
+            type="primary"
+            loading={this.state.submitLoading}
+            onClick={() => this.handleSaveDiceAddons()}
+          >
+            {i18n.t('project:confirm')}
+          </Button>
+        ) : (
+          <Button key="next" type="primary" onClick={() => this.toStep(STEP.SECOND)}>
+            {i18n.t('project:next')}
+          </Button>
         ),
       ];
     }
     return [
-      <Button key="cancel" onClick={() => this.handleCancel()}>{i18n.t('project:cancel')}</Button>,
-      <Button key="prev" onClick={() => this.toStep(STEP.FIRST)}>{i18n.t('project:previous')}</Button>,
-      <Button key="confirm" type="primary" loading={this.state.submitLoading} onClick={() => this.handleOk()}>{i18n.t('project:confirm')}</Button>,
+      <Button key="cancel" onClick={() => this.handleCancel()}>
+        {i18n.t('project:cancel')}
+      </Button>,
+      <Button key="prev" onClick={() => this.toStep(STEP.FIRST)}>
+        {i18n.t('project:previous')}
+      </Button>,
+      <Button key="confirm" type="primary" loading={this.state.submitLoading} onClick={() => this.handleOk()}>
+        {i18n.t('project:confirm')}
+      </Button>,
     ];
   };
 
   checkForms = (formRefs: any[]) => {
     return Promise.all(
-      formRefs.map((formRef) => new Promise((resolve: any, reject: any) => {
-        if (formRef.current) {
-          formRef.current.form.validateFields((error: any, values: Obj) => {
-            if (error) {
-              reject(error);
-              return;
+      formRefs.map(
+        (formRef) =>
+          new Promise((resolve: any, reject: any) => {
+            if (formRef.current) {
+              formRef.current.form.validateFields((error: any, values: Obj) => {
+                if (error) {
+                  reject(error);
+                  return;
+                }
+                resolve(values);
+              });
             }
-            resolve(values);
-          });
-        }
-      })),
+          }),
+      ),
     );
   };
 
@@ -231,7 +262,7 @@ class AddonModal extends React.PureComponent<IProps, IState> {
   getCurAddon = (): CUSTOM_ADDON.Item | Obj => {
     const { addonSpecList, editData } = this.props;
     const { currentType } = this.state;
-    return find(addonSpecList, { addonName: currentType || (editData && editData.addonName) as string }) || {};
+    return find(addonSpecList, { addonName: currentType || ((editData && editData.addonName) as string) }) || {};
   };
 
   render() {
@@ -240,13 +271,13 @@ class AddonModal extends React.PureComponent<IProps, IState> {
     const currentAddon = this.getCurAddon();
     return (
       <Modal
-        title={editData ?
-          (
-            this.props.category === 'DATA_SOURCE' ?
-              i18n.t('project:edit custom data source') :
-              i18n.t('project:edit service instance')
-          ) :
-          i18n.t('project:add service instance')}
+        title={
+          editData
+            ? this.props.category === 'DATA_SOURCE'
+              ? i18n.t('project:edit custom data source')
+              : i18n.t('project:edit service instance')
+            : i18n.t('project:add service instance')
+        }
         width={800}
         visible={visible}
         destroyOnClose
@@ -278,9 +309,7 @@ class AddonModal extends React.PureComponent<IProps, IState> {
             edit={this.edit}
           />
         </div>
-        <div className="footer">
-          {this.getFooter()}
-        </div>
+        <div className="footer">{this.getFooter()}</div>
       </Modal>
     );
   }

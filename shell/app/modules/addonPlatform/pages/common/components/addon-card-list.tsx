@@ -30,14 +30,22 @@ const envOptions = [
   { cnName: i18n.t('test'), enName: 'TEST' },
   { cnName: i18n.t('staging'), enName: 'STAGING' },
   { cnName: i18n.t('prod'), enName: 'PROD' },
-].map(({ cnName, enName }) => <Option key={enName} value={enName}>{cnName}</Option>);
+].map(({ cnName, enName }) => (
+  <Option key={enName} value={enName}>
+    {cnName}
+  </Option>
+));
 
 const dataSourceTypeOptions = [
   { cnName: i18n.t('all'), enName: 'ALL' },
   { cnName: 'Redis', enName: 'redis' },
   { cnName: 'MySQL', enName: 'mysql' },
   { cnName: 'Custom', enName: 'custom' },
-].map(({ cnName, enName }) => <Option key={enName} value={enName}>{cnName}</Option>);
+].map(({ cnName, enName }) => (
+  <Option key={enName} value={enName}>
+    {cnName}
+  </Option>
+));
 
 const CustomDataSourceMap = ['Custom', 'AliCloud-Rds', 'AliCloud-Redis'];
 
@@ -69,24 +77,29 @@ const AddonCardList = (props: IProps) => {
   const categoryCardsRef = React.useRef(null);
   const { searchPlaceHolder, addonCategory, isFetching, onEitAddon, isPlatform } = props;
 
-  const debounceCheck = React.useCallback(debounce(() => {
-    const categoryList = categoryCardsRef.current as any;
-    categoryRefs.current.forEach((categorySection: any) => {
-      const { current } = head(Object.values(categorySection)) as any;
-      if (current) {
-        const top = current.offsetTop - categoryList.scrollTop - 52;
-        const newActiveCategory = head(Object.keys(categorySection));
-        if (top <= 0) {
-          setActiveCategory(newActiveCategory);
+  const debounceCheck = React.useCallback(
+    debounce(() => {
+      const categoryList = categoryCardsRef.current as any;
+      categoryRefs.current.forEach((categorySection: any) => {
+        const { current } = head(Object.values(categorySection)) as any;
+        if (current) {
+          const top = current.offsetTop - categoryList.scrollTop - 52;
+          const newActiveCategory = head(Object.keys(categorySection));
+          if (top <= 0) {
+            setActiveCategory(newActiveCategory);
+          }
         }
-      }
-    });
-  }, 100), []);
+      });
+    }, 100),
+    [],
+  );
 
   const operateScrollEvent = (isRemove?: boolean) => {
     const categoryList = categoryCardsRef.current as any;
     if (categoryList) {
-      !isRemove ? categoryList.addEventListener('scroll', debounceCheck) : categoryList.removeEventListener('scroll', debounceCheck);
+      !isRemove
+        ? categoryList.addEventListener('scroll', debounceCheck)
+        : categoryList.removeEventListener('scroll', debounceCheck);
     }
   };
 
@@ -116,23 +129,27 @@ const AddonCardList = (props: IProps) => {
   useUpdateEffect(() => {
     const { addonList = [], searchProps } = props;
     if (!isEmpty(addonList)) {
-      setDataSource(addonList.filter((addon: ADDON.Instance) => {
-        const isOtherFilter = (addon.workspace === env || env === 'ALL') &&
-          searchFilter(addon, searchKey, searchProps) &&
-          searchFilter(addon, name, searchProps);
+      setDataSource(
+        addonList.filter((addon: ADDON.Instance) => {
+          const isOtherFilter =
+            (addon.workspace === env || env === 'ALL') &&
+            searchFilter(addon, searchKey, searchProps) &&
+            searchFilter(addon, name, searchProps);
 
-        if (dataSourceType === 'custom') {
-          const isCustomDataSource = CustomDataSourceMap.includes(addon.displayName);
-          return isOtherFilter && isCustomDataSource;
-        }
-        return isOtherFilter &&
-          (addon.displayName?.toLowerCase() === dataSourceType || dataSourceType === 'ALL');
-      }));
+          if (dataSourceType === 'custom') {
+            const isCustomDataSource = CustomDataSourceMap.includes(addon.displayName);
+            return isOtherFilter && isCustomDataSource;
+          }
+          return isOtherFilter && (addon.displayName?.toLowerCase() === dataSourceType || dataSourceType === 'ALL');
+        }),
+      );
     } else if (!isEmpty(addonCategory)) {
       const cloneAddonCategory = cloneDeep(addonCategory);
       Object.keys(cloneAddonCategory).forEach((key: string) => {
         const value = cloneAddonCategory[key];
-        cloneAddonCategory[key] = value.filter((addon: IAddon) => (addon.workspace === env || env === 'ALL') && searchFilter(addon, searchKey, searchProps));
+        cloneAddonCategory[key] = value.filter(
+          (addon: IAddon) => (addon.workspace === env || env === 'ALL') && searchFilter(addon, searchKey, searchProps),
+        );
       });
       const filterDataSource = Object.entries(pickBy(cloneAddonCategory, (x: any[]) => x.length > 0));
       const resolvedFilterDataSource: any[] = [];
@@ -142,7 +159,9 @@ const AddonCardList = (props: IProps) => {
         targetItem && resolvedFilterDataSource.push(targetItem);
       });
       setDataSource(resolvedFilterDataSource);
-      categoryRefs.current = Object.keys(cloneAddonCategory).map((key: string) => { return { [key]: React.createRef() }; });
+      categoryRefs.current = Object.keys(cloneAddonCategory).map((key: string) => {
+        return { [key]: React.createRef() };
+      });
       setActiveCategory(head(head(resolvedFilterDataSource)));
     } else {
       setDataSource([]);
@@ -198,59 +217,28 @@ const AddonCardList = (props: IProps) => {
     <section className="addon-card-list">
       <Spin wrapperClassName="full-spin-height" spinning={isFetching}>
         <div className="addon-filter">
-          {
-            !props.showDataSourceSearch &&
-            (
-              <Select
-                className="env-select"
-                defaultValue="ALL"
-                onChange={onEnvChange}
-              >
-                {envOptions}
-              </Select>
-            )
-          }
-          {
-            props.hideSearch
-              ? null
-              : (
-                <Search
-                  className="data-select"
-                  onChange={onSearchKeyChange}
-                  placeholder={searchPlaceHolder}
-                />
-              )
-          }
-          {
-            props.showDataSourceSearch &&
-            (
-              <Search
-                className="data-select mr20"
-                onChange={onNameChange}
-                placeholder={searchPlaceHolder}
-              />
-            )
-          }
-          {
-            props.showDataSourceSelect &&
-            (
-              <Select
-                className="data-select"
-                defaultValue="ALL"
-                onChange={onDataSourceChange}
-              >
-                {dataSourceTypeOptions}
-              </Select>
-            )
-          }
+          {!props.showDataSourceSearch && (
+            <Select className="env-select" defaultValue="ALL" onChange={onEnvChange}>
+              {envOptions}
+            </Select>
+          )}
+          {props.hideSearch ? null : (
+            <Search className="data-select" onChange={onSearchKeyChange} placeholder={searchPlaceHolder} />
+          )}
+          {props.showDataSourceSearch && (
+            <Search className="data-select mr20" onChange={onNameChange} placeholder={searchPlaceHolder} />
+          )}
+          {props.showDataSourceSelect && (
+            <Select className="data-select" defaultValue="ALL" onChange={onDataSourceChange}>
+              {dataSourceTypeOptions}
+            </Select>
+          )}
         </div>
         <div className="addons-content">
           <IF check={!isEmpty(addonCategory)}>
             <div className="addon-menu">
               <span className="content-title bold-500">{i18n.t('addonPlatform:addon category')}</span>
-              <ul className="menu-list">
-                {renderCategoryList()}
-              </ul>
+              <ul className="menu-list">{renderCategoryList()}</ul>
             </div>
           </IF>
           <AddonCards
@@ -265,6 +253,5 @@ const AddonCardList = (props: IProps) => {
     </section>
   );
 };
-
 
 export { AddonCardList };

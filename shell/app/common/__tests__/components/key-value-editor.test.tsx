@@ -24,20 +24,12 @@ const data = {
 };
 
 const Comp = Form.create()((props) => {
-  return (
-    <KeyValueEditor
-      {...props}
-    />
-  );
+  return <KeyValueEditor {...props} />;
 });
 
 describe('KeyValueEditor', () => {
   it('should render well', () => {
-    const wrapper = mount(
-      <Comp
-        dataSource={data}
-      />,
-    );
+    const wrapper = mount(<Comp dataSource={data} />);
     const editor = wrapper.find('KeyValueEditor');
     expect(wrapper.find('KeyValueTable')).toExist();
     expect(wrapper.find('KeyValueTextArea')).not.toExist();

@@ -57,7 +57,8 @@ const RuntimeOverView = () => {
     const className = 'with-link';
     const prop: any = {};
     // 0:中间件  1:微服务  2：通用平台
-    if (addonName === 'terminus-roost') { // roost的platformServiceType是 1，特殊处理
+    if (addonName === 'terminus-roost') {
+      // roost的platformServiceType是 1，特殊处理
       onClick = () => window.open(`${window.location.protocol}//${consoleUrl}`);
       return { onClick, className };
     }
@@ -67,24 +68,27 @@ const RuntimeOverView = () => {
         if (instanceId && status === 'ATTACHED') {
           switch (addonName) {
             case 'jvm-profiler':
-              onClick = () => goTo(goTo.pages.jvmProfiler, {
-                jumpOut: true,
-                projectId,
-                instanceId,
-              });
+              onClick = () =>
+                goTo(goTo.pages.jvmProfiler, {
+                  jumpOut: true,
+                  projectId,
+                  instanceId,
+                });
               break;
             default:
-              onClick = () => goTo(goTo.pages.addonPlatformOverview, {
-                jumpOut: true,
-                projectId,
-                instanceId,
-              });
+              onClick = () =>
+                goTo(goTo.pages.addonPlatformOverview, {
+                  jumpOut: true,
+                  projectId,
+                  instanceId,
+                });
               break;
           }
         }
         break;
       case 1: {
-        if (addonName === 'log-analytics') { // 3.20把日志分析移到了微服务下面，兼容旧的日志分析实例
+        if (addonName === 'log-analytics') {
+          // 3.20把日志分析移到了微服务下面，兼容旧的日志分析实例
           let tenantGroup = '';
           try {
             tenantGroup = JSON.parse(consoleUrl || '{}').tenantGroup;
@@ -124,7 +128,14 @@ const RuntimeOverView = () => {
             onClick = () => goTo(consoleUrl, { jumpOut: true });
           }
           const { tenantGroup, key, terminusKey, tenantId, logKey } = JSON.parse(consoleUrl);
-          const pathParams = { projectId: String(projectId), env: workspace, tenantGroup, terminusKey, tenantId, logKey };
+          const pathParams = {
+            projectId: String(projectId),
+            env: workspace,
+            tenantGroup,
+            terminusKey,
+            tenantId,
+            logKey,
+          };
           const queryObj = {
             appId: params.appId,
             runtimeId: params.runtimeId,
@@ -151,7 +162,8 @@ const RuntimeOverView = () => {
   };
 
   let isFoldActivity = getLS('fold-activity');
-  if (typeof isFoldActivity === 'object') { // 未定义时得到的是空对象
+  if (typeof isFoldActivity === 'object') {
+    // 未定义时得到的是空对象
     setLS('fold-activity', false);
     isFoldActivity = false;
   }
@@ -197,13 +209,7 @@ const RuntimeOverView = () => {
                 <div className="overview-body-title">{i18n.t('runtime:microService')}</div>
                 {map(services, (service, key) => {
                   return (
-                    <ServiceCard
-                      runtimeDetail={runtimeDetail}
-                      service={service}
-                      name={key}
-                      key={key}
-                      params={params}
-                    />
+                    <ServiceCard runtimeDetail={runtimeDetail} service={service} name={key} key={key} params={params} />
                   );
                 })}
               </div>
@@ -215,25 +221,33 @@ const RuntimeOverView = () => {
                   {
                     map(addons, (item) => {
                       const { onClick, className } = getAddonCardProps(item);
-                      return (
-                        <AddonCard
-                          className={className}
-                          onClick={onClick}
-                          key={item.instanceId}
-                          {...item}
-                        />
-                      );
+                      return <AddonCard className={className} onClick={onClick} key={item.instanceId} {...item} />;
                     }) as Array<{ key: string }> | React.ReactChild
                   }
                 </Responsive>
               </div>
             </IF>
-            <PipelineLog className="runtime-deploy-logs" resourceId={params.runtimeId} resourceType="runtime" isBuilding /> {/* runtime需要实时轮询 */}
+            <PipelineLog
+              className="runtime-deploy-logs"
+              resourceId={params.runtimeId}
+              resourceType="runtime"
+              isBuilding
+            />{' '}
+            {/* runtime需要实时轮询 */}
           </ErrorBoundary>
         </Col>
         <Col span={proportion[1]} style={{ paddingRight: 'unset' }}>
-          <div className="overview-body-title"><span className="align-middle">{i18n.t('runtime:activity')}</span>
-            <Tooltip title={i18n.t('runtime:folding')}><Button size="small" className="ml4" shape="circle" icon={<MenuUnfold />} onClick={() => toggleFold(true)} /></Tooltip>
+          <div className="overview-body-title">
+            <span className="align-middle">{i18n.t('runtime:activity')}</span>
+            <Tooltip title={i18n.t('runtime:folding')}>
+              <Button
+                size="small"
+                className="ml4"
+                shape="circle"
+                icon={<MenuUnfold />}
+                onClick={() => toggleFold(true)}
+              />
+            </Tooltip>
           </div>
           <ErrorBoundary>
             <ActivityLog />

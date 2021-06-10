@@ -68,7 +68,9 @@ const ImportFile = ({ afterImport }: IProps) => {
 
   return (
     <>
-      <Button type="primary" ghost onClick={toggleFileUpload}>{i18n.t('project:import')}</Button>
+      <Button type="primary" ghost onClick={toggleFileUpload}>
+        {i18n.t('project:import')}
+      </Button>
       <FormModal
         loading={confirmLoading}
         okButtonState={confirmLoading}
@@ -78,17 +80,26 @@ const ImportFile = ({ afterImport }: IProps) => {
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        <div className="modal-tip">1.{i18n.t('project:support-xmind-excel')}
-          <p className="my12">&nbsp;&nbsp;{i18n.t('project:if you need to import with Excel, please')}
-            <a href="/static/usecase_model.xlsx" className="modal-tip-link">{i18n.t('project:download template')}</a>；
+        <div className="modal-tip">
+          1.{i18n.t('project:support-xmind-excel')}
+          <p className="my12">
+            &nbsp;&nbsp;{i18n.t('project:if you need to import with Excel, please')}
+            <a href="/static/usecase_model.xlsx" className="modal-tip-link">
+              {i18n.t('project:download template')}
+            </a>
+            ；
           </p>
-          <p className="mb12">&nbsp;&nbsp;{i18n.t('project:if you want to import with XMind, please')}
-            <a href="/static/usecase_model.xmind" className="modal-tip-link">{i18n.t('project:download template')}</a>。
+          <p className="mb12">
+            &nbsp;&nbsp;{i18n.t('project:if you want to import with XMind, please')}
+            <a href="/static/usecase_model.xmind" className="modal-tip-link">
+              {i18n.t('project:download template')}
+            </a>
+            。
           </p>
         </div>
         <div className="modal-tip">2.{i18n.t('project:xmind-import-tip')}</div>
       </FormModal>
-    </ >
+    </>
   );
 };
 

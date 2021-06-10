@@ -18,7 +18,7 @@ import { map } from 'lodash';
 import { useUpdate } from 'common';
 import { RunCaseNode, runNodeSize } from './run-case-node';
 
-interface IProps{
+interface IProps {
   data: PIPELINE.IPipelineDetail;
   scope: string;
   onClickNode: (node: PIPELINE.ITask, mark: string) => void;
@@ -26,13 +26,7 @@ interface IProps{
 
 export const CasePipelineChart = (props: IProps) => {
   const { data, onClickNode } = props;
-  const [{
-    displayData,
-    stagesData,
-    inParamsData,
-    outParamsData,
-    dataKey,
-  }, , update] = useUpdate({
+  const [{ displayData, stagesData, inParamsData, outParamsData, dataKey }, , update] = useUpdate({
     displayData: resetData({}) as any[][],
     stagesData: [],
     inParamsData: [],
@@ -44,14 +38,16 @@ export const CasePipelineChart = (props: IProps) => {
     const { pipelineStages = [], runParams = [], pipelineTaskActionDetails = {} } = data || {};
     const stageTask = [] as PIPELINE.ITask[][];
     map(pipelineStages, ({ pipelineTasks }) => {
-      stageTask.push(map(pipelineTasks, (item) => {
-        const node = { ...item };
-        if (pipelineTaskActionDetails?.[node.type]) {
-          node.displayName = pipelineTaskActionDetails[node.type].displayName;
-          node.logoUrl = pipelineTaskActionDetails[node.type].logoUrl;
-        }
-        return node;
-      }));
+      stageTask.push(
+        map(pipelineTasks, (item) => {
+          const node = { ...item };
+          if (pipelineTaskActionDetails?.[node.type]) {
+            node.displayName = pipelineTaskActionDetails[node.type].displayName;
+            node.logoUrl = pipelineTaskActionDetails[node.type].logoUrl;
+          }
+          return node;
+        }),
+      );
     });
 
     update({
@@ -80,17 +76,18 @@ export const CasePipelineChart = (props: IProps) => {
       chartConfig={chartConfig}
       key={`pipeline-${dataKey}`}
       onClickNode={onClickNode}
-      external={{ nodeEleMap: {
-        pipeline: RunCaseNode,
-        startNode: () => <NodeEleMap.startNode disabled />,
-        endNode: () => <NodeEleMap.endNode disabled />,
-      } }}
+      external={{
+        nodeEleMap: {
+          pipeline: RunCaseNode,
+          startNode: () => <NodeEleMap.startNode disabled />,
+          endNode: () => <NodeEleMap.endNode disabled />,
+        },
+      }}
     />
   );
 };
 
 export default CasePipelineChart;
-
 
 // 非编辑状态下: 插入开始节点，结束节点
 // 编辑状态下：插入开始节点、结束节点、层与层之间插入添加行节点
@@ -106,10 +103,12 @@ export const resetData = (data: IResetObj) => {
   ] as any[][];
 
   map(stagesData, (item, index) => {
-    reData.push(map(item, (subItem, subIndex) => ({
-      ...subItem,
-      [externalKey]: { nodeType: 'pipeline', name: subItem.alias, xIndex: index, yIndex: subIndex },
-    })));
+    reData.push(
+      map(item, (subItem, subIndex) => ({
+        ...subItem,
+        [externalKey]: { nodeType: 'pipeline', name: subItem.alias, xIndex: index, yIndex: subIndex },
+      })),
+    );
   });
   reData.push([{ data: outParamsData, [externalKey]: { nodeType: NodeType.endNode } }]); // 添加结束节点
   return reData;

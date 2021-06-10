@@ -26,23 +26,28 @@ const data = {
   time: '2021-04-14',
   results: [
     {
-      data: [{
-        org: {
-          name: 'org',
-          data: 12,
+      data: [
+        {
+          org: {
+            name: 'org',
+            data: 12,
+          },
+          project: {
+            name: 'project',
+            data: 12,
+          },
         },
-        project: {
-          name: 'project',
-          data: 12,
-        },
-      }],
+      ],
     },
   ],
 };
 
 describe('chart-utils', () => {
   it('groupHandler working fine', () => {
-    expect(groupHandler('project')(data)).toStrictEqual({ results: [{ data: 12, name: 'project' }], time: '2021-04-14' });
+    expect(groupHandler('project')(data)).toStrictEqual({
+      results: [{ data: 12, name: 'project' }],
+      time: '2021-04-14',
+    });
     expect(groupHandler()(data)).toStrictEqual({ results: [{ data: 12, name: 'org' }], time: '2021-04-14' });
     expect(groupHandler()()).toStrictEqual({});
   });
@@ -50,11 +55,13 @@ describe('chart-utils', () => {
     expect(sortHandler('project')(data, {})).toStrictEqual({ list: [{ name: 'project', unit: '', value: 12 }] });
     expect(sortHandler()([], { extendHandler: { dataKey: 'app' } })).toStrictEqual({ list: [] });
     expect(sortHandler()(data, { extendHandler: { dataKey: 'app' } })).toStrictEqual({
-      list: [{
-        unit: '',
-        name: undefined,
-        value: undefined,
-      }],
+      list: [
+        {
+          unit: '',
+          name: undefined,
+          value: undefined,
+        },
+      ],
     });
   });
   it('slowHandler working fine', () => {
@@ -63,33 +70,37 @@ describe('chart-utils', () => {
   });
   it('errorHttpHandler working fine', () => {
     const data1 = {
-      results: [{
-        data: {
-          ooo: {
-            tag: 12,
-            data: [{
-              sum: {
-                elapsed_count: {
-                  data: 100222,
-                  tag: 'hello',
-                },
-              },
-              maxFieldTimestamp: {
-                elapsed_max: {
-                  data: 'www',
-                },
-              },
-              last: {
-                tags: {
-                  source_application_id: {
-                    data: 'a[[',
+      results: [
+        {
+          data: {
+            ooo: {
+              tag: 12,
+              data: [
+                {
+                  sum: {
+                    elapsed_count: {
+                      data: 100222,
+                      tag: 'hello',
+                    },
+                  },
+                  maxFieldTimestamp: {
+                    elapsed_max: {
+                      data: 'www',
+                    },
+                  },
+                  last: {
+                    tags: {
+                      source_application_id: {
+                        data: 'a[[',
+                      },
+                    },
                   },
                 },
-              },
-            }],
+              ],
+            },
           },
         },
-      }],
+      ],
     };
     expect(errorHttpHandler()([])).toStrictEqual({});
     expect(errorHttpHandler()(data1)).toStrictEqual({
@@ -106,21 +117,25 @@ describe('chart-utils', () => {
   });
   it('errorDbHandler working fine', () => {
     const data2 = {
-      results: [{
-        data: [{
-          sum: {
-            elapsed_count: {
-              data: 100222,
-              tag: 'hello',
+      results: [
+        {
+          data: [
+            {
+              sum: {
+                elapsed_count: {
+                  data: 100222,
+                  tag: 'hello',
+                },
+              },
+              maxFieldTimestamp: {
+                elapsed_max: {
+                  data: 'www',
+                },
+              },
             },
-          },
-          maxFieldTimestamp: {
-            elapsed_max: {
-              data: 'www',
-            },
-          },
-        }],
-      }],
+          ],
+        },
+      ],
     };
     expect(errorDbHandler()()).toStrictEqual({});
     expect(errorDbHandler()(data2)).toStrictEqual({
@@ -136,12 +151,16 @@ describe('chart-utils', () => {
   it('multipleDataHandler working fine', () => {
     const data3 = {
       time: '2021-04-14',
-      results: [{
-        data: [{
-          project: 12,
-          app: 1,
-        }],
-      }],
+      results: [
+        {
+          data: [
+            {
+              project: 12,
+              app: 1,
+            },
+          ],
+        },
+      ],
     };
     expect(multipleDataHandler()(data3)).toStrictEqual({ results: [], time: '2021-04-14' });
     expect(multipleDataHandler()()).toStrictEqual({});
@@ -150,12 +169,16 @@ describe('chart-utils', () => {
   it('multipleGroupDataHandler working fine', () => {
     const data4 = {
       time: '2021-04-14',
-      results: [{
-        data: [{
-          project: { name: 'project', tag: 1 },
-          app: { name: 'app', tag: 1 },
-        }],
-      }],
+      results: [
+        {
+          data: [
+            {
+              project: { name: 'project', tag: 1 },
+              app: { name: 'app', tag: 1 },
+            },
+          ],
+        },
+      ],
     };
     expect(multipleGroupDataHandler()()).toStrictEqual({});
     expect(multipleGroupDataHandler()(data4)).toStrictEqual({ results: [], time: '2021-04-14' });

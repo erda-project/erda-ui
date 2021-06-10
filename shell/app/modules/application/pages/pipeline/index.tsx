@@ -25,7 +25,7 @@ import DiceConfigPage from 'app/config-page';
 
 import './index.scss';
 
-interface IProps{
+interface IProps {
   scope: string;
 }
 
@@ -36,7 +36,10 @@ const PipelineManage = (props: IProps) => {
   const scopeConfigData = scopeConfig[scope];
   const { clearTreeNodeDetail } = fileTreeStore;
   const [{ projectId, appId }, { nodeId, pipelineID }] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const scopeParams = React.useMemo(() => ({ scopeID: projectId, scope: scopeConfigData.scope }), [projectId, scopeConfigData.scope]);
+  const scopeParams = React.useMemo(
+    () => ({ scopeID: projectId, scope: scopeConfigData.scope }),
+    [projectId, scopeConfigData.scope],
+  );
 
   const nodeIdRef = React.useRef(null as any);
 
@@ -60,35 +63,33 @@ const PipelineManage = (props: IProps) => {
   return (
     <SplitPage>
       <SplitPage.Left className="pipeline-manage-left">
-        {
-          pipelineID && !nodeId
-            ? <EmptyHolder relative />
-            : <DiceConfigPage
-                scenarioType=""
-                scenarioKey={'app-pipeline-tree'}
-                inParams={inParams}
-                showLoading
-              // 提供给后端测试，可在路由上带上useMock来查看mock的数据，以便后端检查，对接完成后删除
-                useMock={location.search.includes('useMock') ? useMock : undefined}
-                customProps={{
-                  fileTree: {
-                    onClickNode: (_inode: string) => {
-                      if (nodeIdRef.current !== _inode) {
-                        clearTreeNodeDetail();
-                        setTimeout(() => {
-                          updateSearch({ nodeId: _inode, pipelineID: undefined });
-                        }, 0);
-                      }
-                    },
-                  },
-                }}
-            />
-        }
+        {pipelineID && !nodeId ? (
+          <EmptyHolder relative />
+        ) : (
+          <DiceConfigPage
+            scenarioType=""
+            scenarioKey={'app-pipeline-tree'}
+            inParams={inParams}
+            showLoading
+            // 提供给后端测试，可在路由上带上useMock来查看mock的数据，以便后端检查，对接完成后删除
+            useMock={location.search.includes('useMock') ? useMock : undefined}
+            customProps={{
+              fileTree: {
+                onClickNode: (_inode: string) => {
+                  if (nodeIdRef.current !== _inode) {
+                    clearTreeNodeDetail();
+                    setTimeout(() => {
+                      updateSearch({ nodeId: _inode, pipelineID: undefined });
+                    }, 0);
+                  }
+                },
+              },
+            }}
+          />
+        )}
       </SplitPage.Left>
       <SplitPage.Right>
-        {
-         nodeId ? <PipelineDetail scopeParams={scopeParams} key={nodeId} scope={scope} /> : <EmptyHolder relative />
-        }
+        {nodeId ? <PipelineDetail scopeParams={scopeParams} key={nodeId} scope={scope} /> : <EmptyHolder relative />}
       </SplitPage.Right>
     </SplitPage>
   );
@@ -109,12 +110,12 @@ const getMockFileTree = (payload: any) => {
   if (payload.event?.operation === 'delete') {
     const curData = data.protocol.components.fileTree.data;
     data.protocol.components.fileTree.data = curData?.map((item) => {
-      return ({
+      return {
         ...item,
         children: (item.children || []).filter((cItem: any) => {
           return cItem.key !== payload.event.operationData.meta.key;
         }),
-      });
+      };
     });
   } else if (payload.event?.operation === 'expandChildren') {
     data.protocol.components.fileTree.data.treeData[1].children = [
@@ -162,162 +163,176 @@ let mock = {
           expandedKeys: ['master'],
           selectedKeys: ['MTEvNDIvdHJlZS9tYXN0ZXIvcGlwZWxpbmUueW1s'],
         },
-        data: { treeData: [
-          {
-            key: 'master',
-            title: 'master',
-            icon: 'fz',
-            isLeaf: false,
-            clickToExpand: true,
-            selectable: false,
-            operations: {
-              addNode: {
-                key: 'addNode',
-                text: '添加流水线',
-                reload: false,
-                command: { key: 'set', target: 'nodeFormModal', state: { visible: true, formData: { branch: 'master' } } },
+        data: {
+          treeData: [
+            {
+              key: 'master',
+              title: 'master',
+              icon: 'fz',
+              isLeaf: false,
+              clickToExpand: true,
+              selectable: false,
+              operations: {
+                addNode: {
+                  key: 'addNode',
+                  text: '添加流水线',
+                  reload: false,
+                  command: {
+                    key: 'set',
+                    target: 'nodeFormModal',
+                    state: { visible: true, formData: { branch: 'master' } },
+                  },
+                },
+              },
+              children: [
+                {
+                  key: 'MTEvNDIvdHJlZS9tYXN0ZXIvcGlwZWxpbmUueW1s',
+                  title:
+                    '默认流水线默认流水线默认流水线默认流水线默认流水线默认流水线默认流水线默认流水线默认流水线默认流水线',
+                  icon: 'dm',
+                  isLeaf: true,
+                  operations: {
+                    delete: {
+                      key: 'delete',
+                      text: '删除',
+                      disabled: true,
+                      disabledTip: '默认流水线无法删除',
+                    },
+                  },
+                },
+                {
+                  key: 'MTEvNDIvdHJlZS9tYXN0ZXIvLmRpY2UvcGlwZWxpbmVzL2FtZW4ueW1s',
+                  title: 'a',
+                  icon: 'dm',
+                  isLeaf: true,
+                  operations: {
+                    delete: {
+                      key: 'delete',
+                      text: '删除',
+                      confirm: '是否确认删除',
+                      reload: true,
+                      meta: { key: 'MTEvNDIvdHJlZS9tYXN0ZXIvLmRpY2UvcGlwZWxpbmVzL2FtZW4ueW1s', branch: 'master' },
+                    },
+                  },
+                },
+                {
+                  key: 'master-b',
+                  title: 'b',
+                  icon: 'dm',
+                  isLeaf: true,
+                  operations: {
+                    delete: {
+                      key: 'delete',
+                      text: '删除',
+                      confirm: '是否确认删除',
+                      reload: true,
+                      meta: { key: 'master-b', branch: 'master' },
+                    },
+                  },
+                },
+              ],
+            },
+            {
+              key: 'feature/abc',
+              title: 'feature/abc',
+              icon: 'fz',
+              isLeaf: false,
+              selectable: false,
+              clickToExpand: true,
+              operations: {
+                addNode: {
+                  key: 'addNode',
+                  text: '添加流水线',
+                  reload: false,
+                  command: {
+                    key: 'set',
+                    target: 'nodeFormModal',
+                    state: { visible: true, formData: { branch: 'feature/abc' } },
+                  },
+                },
+                click: {
+                  key: 'expandChildren', // 展开子
+                  reload: true,
+                  text: '展开',
+                  show: false,
+                  meta: { parentKey: 'master' }, // 用于后端自己识别
+                },
               },
             },
-            children: [
-              {
-                key: 'MTEvNDIvdHJlZS9tYXN0ZXIvcGlwZWxpbmUueW1s',
-                title: '默认流水线默认流水线默认流水线默认流水线默认流水线默认流水线默认流水线默认流水线默认流水线默认流水线',
-                icon: 'dm',
-                isLeaf: true,
-                operations: {
-                  delete: {
-                    key: 'delete',
-                    text: '删除',
-                    disabled: true,
-                    disabledTip: '默认流水线无法删除',
+            {
+              key: 'release/3.21',
+              title: 'release/3.2111111111111111111111111111111111111111111111111',
+              icon: 'fz',
+              isLeaf: false,
+              selectable: false,
+              clickToExpand: true,
+              operations: {
+                addNode: {
+                  key: 'addNode',
+                  text: '添加流水线',
+                  reload: false,
+                  command: {
+                    key: 'set',
+                    target: 'nodeFormModal',
+                    state: { visible: true, formData: { branch: 'feature/abc' } },
                   },
                 },
               },
-              {
-                key: 'MTEvNDIvdHJlZS9tYXN0ZXIvLmRpY2UvcGlwZWxpbmVzL2FtZW4ueW1s',
-                title: 'a',
-                icon: 'dm',
-                isLeaf: true,
-                operations: {
-                  delete: {
-                    key: 'delete',
-                    text: '删除',
-                    confirm: '是否确认删除',
-                    reload: true,
-                    meta: { key: 'MTEvNDIvdHJlZS9tYXN0ZXIvLmRpY2UvcGlwZWxpbmVzL2FtZW4ueW1s', branch: 'master' },
+              children: [
+                {
+                  key: 'release/3.21-addDefault',
+                  title: '添加默认流水线添加默认流水线添加默认流水线',
+                  icon: 'tj1',
+                  isLeaf: true,
+                  operations: {
+                    click: {
+                      key: 'addNode',
+                      text: '添加默认',
+                      reload: true,
+                      show: false,
+                      meta: { branch: 'release/3.21', name: 'pipeline' },
+                    },
                   },
                 },
-              },
-              {
-                key: 'master-b',
-                title: 'b',
-                icon: 'dm',
-                isLeaf: true,
-                operations: {
-                  delete: {
-                    key: 'delete',
-                    text: '删除',
-                    confirm: '是否确认删除',
-                    reload: true,
-                    meta: { key: 'master-b', branch: 'master' },
-                  },
-                },
-              },
-            ],
-          },
-          {
-            key: 'feature/abc',
-            title: 'feature/abc',
-            icon: 'fz',
-            isLeaf: false,
-            selectable: false,
-            clickToExpand: true,
-            operations: {
-              addNode: {
-                key: 'addNode',
-                text: '添加流水线',
-                reload: false,
-                command: { key: 'set', target: 'nodeFormModal', state: { visible: true, formData: { branch: 'feature/abc' } } },
-              },
-              click: {
-                key: 'expandChildren', // 展开子
-                reload: true,
-                text: '展开',
-                show: false,
-                meta: { parentKey: 'master' }, // 用于后端自己识别
-              },
+              ],
             },
-          },
-          {
-            key: 'release/3.21',
-            title: 'release/3.2111111111111111111111111111111111111111111111111',
-            icon: 'fz',
-            isLeaf: false,
-            selectable: false,
-            clickToExpand: true,
-            operations: {
-              addNode: {
-                key: 'addNode',
-                text: '添加流水线',
-                reload: false,
-                command: { key: 'set', target: 'nodeFormModal', state: { visible: true, formData: { branch: 'feature/abc' } } },
-              },
-            },
-            children: [
-              {
-                key: 'release/3.21-addDefault',
-                title: '添加默认流水线添加默认流水线添加默认流水线',
-                icon: 'tj1',
-                isLeaf: true,
-                operations: {
-                  click: {
-                    key: 'addNode',
-                    text: '添加默认',
-                    reload: true,
-                    show: false,
-                    meta: { branch: 'release/3.21', name: 'pipeline' },
-                  },
+            {
+              key: 'release/3.22',
+              title: 'release/3.2222222222222222222222222222222222',
+              icon: 'fz',
+              isLeaf: false,
+              selectable: false,
+              clickToExpand: true,
+              operations: {
+                addNode: {
+                  key: 'addNode',
+                  text: '添加流水线',
+                  reload: false,
+                  disabled: true,
+                  disabledTip: '您无权限操作保护分支',
                 },
               },
-            ],
-          },
-          {
-            key: 'release/3.22',
-            title: 'release/3.2222222222222222222222222222222222',
-            icon: 'fz',
-            isLeaf: false,
-            selectable: false,
-            clickToExpand: true,
-            operations: {
-              addNode: {
-                key: 'addNode',
-                text: '添加流水线',
-                reload: false,
-                disabled: true,
-                disabledTip: '您无权限操作保护分支',
-              },
-            },
-            children: [
-              {
-                key: 'release/3.22-addDefault',
-                title: '添加默认流水线默认流水线默认流水线默认流水线默认流水线默认流水线',
-                icon: 'tj1',
-                isLeaf: true,
-                operations: {
-                  click: {
-                    key: 'addNode',
-                    text: '添加默认',
-                    reload: true,
-                    show: false,
-                    disabled: true,
-                    disabledTip: '无权限了',
-                    // meta: { branch: 'release/3.21', name: 'pipeline' },
+              children: [
+                {
+                  key: 'release/3.22-addDefault',
+                  title: '添加默认流水线默认流水线默认流水线默认流水线默认流水线默认流水线',
+                  icon: 'tj1',
+                  isLeaf: true,
+                  operations: {
+                    click: {
+                      key: 'addNode',
+                      text: '添加默认',
+                      reload: true,
+                      show: false,
+                      disabled: true,
+                      disabledTip: '无权限了',
+                      // meta: { branch: 'release/3.21', name: 'pipeline' },
+                    },
                   },
                 },
-              },
-            ],
-          },
-        ],
+              ],
+            },
+          ],
         },
       },
       nodeFormModal: {
@@ -337,7 +352,7 @@ let mock = {
               component: 'input',
               required: true,
               visible: false,
-              componentProps: { },
+              componentProps: {},
             },
             {
               key: 'name',

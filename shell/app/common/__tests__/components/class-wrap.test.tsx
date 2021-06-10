@@ -18,25 +18,17 @@ import { describe, it } from '@jest/globals';
 
 describe('ClassWrapper', () => {
   it('should empty render', () => {
-    const wrapper = mount(
-      <ClassWrapper />,
-    );
+    const wrapper = mount(<ClassWrapper />);
     expect(wrapper).toBeEmptyRender();
   });
   it('should render string', () => {
-    const wrapper = mount(
-      <ClassWrapper>
-        erda
-      </ClassWrapper>,
-    );
+    const wrapper = mount(<ClassWrapper>erda</ClassWrapper>);
     expect(wrapper.text()).toBe('erda');
   });
   it('should render with ReactNode', () => {
     const wrapper = mount(
       <ClassWrapper>
-        <div className="children">
-          erda
-        </div>
+        <div className="children">erda</div>
       </ClassWrapper>,
     );
     expect(wrapper.find('.children')).toExist();

@@ -20,7 +20,7 @@ import { scopeMap } from 'project/common/components/pipeline-manage/config';
 import i18n from 'i18n';
 import './run-case-node.scss';
 
-export interface IProps{
+export interface IProps {
   data: Obj;
   onClickNode: (data: any, arg?: any) => void;
 }
@@ -38,7 +38,11 @@ export const RunCaseNode = (props: IProps) => {
 
   // const content = ' ';
   let name = ' ';
-  let IconComp = data.logoUrl ? <img src={data.logoUrl} className="full-width full-height" /> : <CustomIcon type={'jiedian'} color className="full-width full-height" />;
+  let IconComp = data.logoUrl ? (
+    <img src={data.logoUrl} className="full-width full-height" />
+  ) : (
+    <CustomIcon type={'jiedian'} color className="full-width full-height" />
+  );
   switch (data?.type) {
     // case 'api-test': {
     //   const url = get(data, 'params.url');
@@ -49,12 +53,17 @@ export const RunCaseNode = (props: IProps) => {
     // }
     case 'snippet':
       name = `${get(scopeObj, 'name') || i18n.t('project:reference use node')}: ${data.name}`;
-      IconComp = <CustomIcon type={scopeMap[curNodeScope] ? scopeMap[curNodeScope].icon : 'jiedian'} color className="full-width full-height" />;
+      IconComp = (
+        <CustomIcon
+          type={scopeMap[curNodeScope] ? scopeMap[curNodeScope].icon : 'jiedian'}
+          color
+          className="full-width full-height"
+        />
+      );
       break;
     default:
-      name = `${(data.displayName || data.type)}: ${data.name}`;
+      name = `${data.displayName || data.type}: ${data.name}`;
   }
-
 
   const onClick = (target: string) => {
     onClickNode(data, target);
@@ -67,7 +76,8 @@ export const RunCaseNode = (props: IProps) => {
     const logId = get(data, 'extra.uuid');
     if (data.type === 'snippet') {
       operations.push({ key: 'log', name: i18n.t('check detail') });
-    } else if (logId) { // status === 'Running' || executeStatus.includes(status)) {
+    } else if (logId) {
+      // status === 'Running' || executeStatus.includes(status)) {
       operations.push({ key: 'log', name: i18n.t('check log') });
     }
     const metadata = get(data, 'result.metadata') || [];
@@ -81,12 +91,15 @@ export const RunCaseNode = (props: IProps) => {
   const renderMenu = (operations: any[]) => {
     if (operations.length) {
       return (
-        <Menu onClick={({ domEvent, key }: any) => {
-          domEvent && domEvent.stopPropagation();
-          onClick(key);
-        }}
+        <Menu
+          onClick={({ domEvent, key }: any) => {
+            domEvent && domEvent.stopPropagation();
+            onClick(key);
+          }}
         >
-          {map(operations, (op) => (<Menu.Item key={op.key}>{op.name}</Menu.Item>))}
+          {map(operations, (op) => (
+            <Menu.Item key={op.key}>{op.name}</Menu.Item>
+          ))}
         </Menu>
       );
     }
@@ -116,12 +129,15 @@ export const RunCaseNode = (props: IProps) => {
       // detailInfo.push(`<h4>版本: ${version.ref || ''}</h4>`);
       if (!isEmpty(metadata)) {
         const temp: any[] = [];
-        (metadata || []).forEach((m: any, index: number) => !skip.includes(m.name) &&
-          temp.push(
-            <div key={`meta-${String(index)}`} className="test-case-node-msg">
-              <span className="test-case-node-msg-name">{m.name}</span> {m.value}
-            </div>,
-          ));
+        (metadata || []).forEach(
+          (m: any, index: number) =>
+            !skip.includes(m.name) &&
+            temp.push(
+              <div key={`meta-${String(index)}`} className="test-case-node-msg">
+                <span className="test-case-node-msg-name">{m.name}</span> {m.value}
+              </div>,
+            ),
+        );
         if (temp.length) {
           detailInfo.push(<h4>{i18n.t('application:details')}</h4>);
           detailInfo.push(...temp);
@@ -129,43 +145,51 @@ export const RunCaseNode = (props: IProps) => {
       }
       if (!isEmpty(files)) {
         detailInfo.push(<h4 className="mt8">{i18n.t('download')}</h4>);
-        detailInfo.push(files.map((item, idx) => (
-          item.value ? (
-            <div className="table-operations" key={`file-${String(idx)}`}>
-              <a className="table-operations-btn" download={item.value} href={`/api/files/${item.value}`}>
-                {item.name || item.value}
-              </a>
-            </div>
-          ) : null
-        )));
+        detailInfo.push(
+          files.map((item, idx) =>
+            item.value ? (
+              <div className="table-operations" key={`file-${String(idx)}`}>
+                <a className="table-operations-btn" download={item.value} href={`/api/files/${item.value}`}>
+                  {item.name || item.value}
+                </a>
+              </div>
+            ) : null,
+          ),
+        );
       }
       if (!isEmpty(errors)) {
         detailInfo.push(<h4 className="mt8">{i18n.t('application:error')}</h4>);
-        detailInfo.push(errors.map((error, idx) => (
-          <div key={`error-${String(idx)}`} className="test-case-node-msg">
-            <span className="test-case-node-msg-name error">{error.name || 'error'}</span>
-            {error.value || error.msg}
-          </div>
-        )));
+        detailInfo.push(
+          errors.map((error, idx) => (
+            <div key={`error-${String(idx)}`} className="test-case-node-msg">
+              <span className="test-case-node-msg-name error">{error.name || 'error'}</span>
+              {error.value || error.msg}
+            </div>
+          )),
+        );
       }
 
       return {
         title: null,
         content: (
           <div key={data.id} className="panel-info">
-            {detailInfo.map((e: any, index: number) => <div key={String(index)}>{e}</div>)}
+            {detailInfo.map((e: any, index: number) => (
+              <div key={String(index)}>{e}</div>
+            ))}
           </div>
         ),
-        overlayStyle: result ? {
-          width: 'auto',
-          maxWidth: '420px',
-          height: 'auto',
-          maxHeight: '520px',
-          minWidth: '200px',
-          padding: '10px',
-          overflow: 'auto',
-          wordBreak: 'break-all',
-        } : null,
+        overlayStyle: result
+          ? {
+              width: 'auto',
+              maxWidth: '420px',
+              height: 'auto',
+              maxHeight: '520px',
+              minWidth: '200px',
+              padding: '10px',
+              overflow: 'auto',
+              wordBreak: 'break-all',
+            }
+          : null,
         placement: 'right',
       };
     }
@@ -173,8 +197,7 @@ export const RunCaseNode = (props: IProps) => {
   };
 
   const isEmptyExtraInfo = () => {
-    if (isEmpty(data.result) ||
-      (!data.result.version && !data.result.metadata && !data.result.errors)) {
+    if (isEmpty(data.result) || (!data.result.version && !data.result.metadata && !data.result.errors)) {
       return false;
     }
     return true;
@@ -184,7 +207,7 @@ export const RunCaseNode = (props: IProps) => {
   const statusContent = (
     <span className={`mt8 test-case-status-box border-radius ${status.color.toLowerCase()}`}>
       <span className="test-case-result-status" style={{ background: status.color.toLowerCase() }} />
-      <span className="inline-flex-box">{(status ? status.text : '-')}</span>
+      <span className="inline-flex-box">{status ? status.text : '-'}</span>
     </span>
   );
 
@@ -195,12 +218,12 @@ export const RunCaseNode = (props: IProps) => {
     <Container {...renderTooltipTitle()}>
       <div
         onClick={() => onClick('node')}
-        className={`yml-chart-node test-case-result-node column-flex-box ${data.status === 'Disabled' ? 'disabled-item' : ''}`}
+        className={`yml-chart-node test-case-result-node column-flex-box ${
+          data.status === 'Disabled' ? 'disabled-item' : ''
+        }`}
       >
         <div className={'case-title'}>
-          <div className="title-icon mr12">
-            {IconComp}
-          </div>
+          <div className="title-icon mr12">{IconComp}</div>
           <div className="title-txt column-flex-box color-text">
             <Tooltip title={name}>
               <span className="nowrap fz16 bold name">{name}</span>
@@ -208,13 +231,11 @@ export const RunCaseNode = (props: IProps) => {
           </div>
 
           <div>
-            {
-              isEmpty(menus) ? null : (
-                <Dropdown trigger={['click']} overlay={renderMenu(menus)}>
-                  <CustomIcon type="more" onClick={(e) => e.stopPropagation()} />
-                </Dropdown>
-              )
-            }
+            {isEmpty(menus) ? null : (
+              <Dropdown trigger={['click']} overlay={renderMenu(menus)}>
+                <CustomIcon type="more" onClick={(e) => e.stopPropagation()} />
+              </Dropdown>
+            )}
           </div>
         </div>
         {/* <Tooltip title={content}>

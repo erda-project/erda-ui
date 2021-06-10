@@ -44,6 +44,8 @@ describe('go-to', () => {
       appId: 5574,
     });
     expect(open).toHaveBeenLastCalledWith('/erda/workBench/projects/241/apps/5574');
-    expect(goTo.resolve.projectApps({ orgName: 'erda', projectId: 241, appId: 5573 })).toBe('/erda/workBench/projects/241/apps');
+    expect(goTo.resolve.projectApps({ orgName: 'erda', projectId: 241, appId: 5573 })).toBe(
+      '/erda/workBench/projects/241/apps',
+    );
   });
 });

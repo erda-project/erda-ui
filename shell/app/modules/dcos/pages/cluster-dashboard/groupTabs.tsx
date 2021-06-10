@@ -30,12 +30,7 @@ interface IProps {
   onActiveMachine: (payload: object, key?: string) => void;
 }
 
-const GroupTabs = ({
-  machineList,
-  isClickState,
-  onActiveMachine,
-  activedGroup,
-}: IProps) => {
+const GroupTabs = ({ machineList, isClickState, onActiveMachine, activedGroup }: IProps) => {
   const [clusters, setClusters] = useState<any[]>([]);
   const [activeKey, setActiveKey] = useState('machine');
 
@@ -44,10 +39,12 @@ const GroupTabs = ({
     forEach(machineList, ({ clusterName, ip }) => {
       clusterHostMap[clusterName] = clusterHostMap[clusterName] ? [...clusterHostMap[clusterName], ip] : [ip];
     });
-    setClusters(map(clusterHostMap, (hostIPs, clusterName) => ({
-      clusterName,
-      hostIPs,
-    })));
+    setClusters(
+      map(clusterHostMap, (hostIPs, clusterName) => ({
+        clusterName,
+        hostIPs,
+      })),
+    );
     if (isClickState) {
       setActiveKey('state');
     } else {
@@ -61,18 +58,16 @@ const GroupTabs = ({
         <MachineList
           machineList={machineList}
           onClickMachine={onActiveMachine}
-          onClickInstance={(record: any) => { onActiveMachine(record, 'instance'); }}
+          onClickInstance={(record: any) => {
+            onActiveMachine(record, 'instance');
+          }}
         />
       </TabPane>
       <TabPane tab={`${i18n.t('dcos:machine alarm')}`} key="alarm">
         <AlarmRecord clusters={clusters} />
       </TabPane>
       <TabPane tab={`${i18n.t('dcos:resource statistics')}`} key="resource">
-        <ResourcesChartList
-          machineList={machineList}
-          clusters={clusters}
-          setActiveKey={setActiveKey}
-        />
+        <ResourcesChartList machineList={machineList} clusters={clusters} setActiveKey={setActiveKey} />
       </TabPane>
       {/* <TabPane tab="实例列表" key="instance">
         <InstanceList instanceType="all" clusters={clusters} onClickMachine={onActiveMachine} />
@@ -83,12 +78,11 @@ const GroupTabs = ({
       <TabPane tab={`${i18n.t('dcos:jobs')}`} key="job">
         <InstanceList instanceType="job" clusters={clusters} />
       </TabPane>
-      {
-        isClickState &&
-        <TabPane tab={`${i18n.t('dcos:cluster brief')}`} key="state" >
+      {isClickState && (
+        <TabPane tab={`${i18n.t('dcos:cluster brief')}`} key="state">
           <ClusterState clusterName={activedGroup} />
         </TabPane>
-      }
+      )}
     </Tabs>
   );
 };

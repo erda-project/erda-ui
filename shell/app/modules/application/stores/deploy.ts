@@ -25,10 +25,7 @@ import {
   getApprovalList,
   updateApproval,
 } from '../services/deploy';
-import {
-  redeployRuntime,
-  deleteRuntime,
-} from 'runtime/services/runtime';
+import { redeployRuntime, deleteRuntime } from 'runtime/services/runtime';
 import { isEmpty, find, findIndex, fill } from 'lodash';
 
 import appStore from 'application/stores/application';
@@ -98,7 +95,7 @@ const deploy = createStore({
       return oldRuntimes;
     },
     async getActions({ call, update }) {
-      const actions = await call(getExtensions) as DEPLOY.ExtensionAction[];
+      const actions = (await call(getExtensions)) as DEPLOY.ExtensionAction[];
       if (!isEmpty(actions)) {
         update({ actions });
       }
@@ -131,7 +128,11 @@ const deploy = createStore({
     },
     async addRuntimeByRelease({ call, getParams }, payload: DEPLOY.AddByRelease) {
       const { projectId, appId } = getParams();
-      await call(addRuntimeByRelease, { ...payload, projectId: +projectId, applicationId: +appId }, { successMsg: i18n.t('add successfully') });
+      await call(
+        addRuntimeByRelease,
+        { ...payload, projectId: +projectId, applicationId: +appId },
+        { successMsg: i18n.t('add successfully') },
+      );
       deploy.effects.getRunTimes();
     },
     async getReleaseByWorkspace({ call, getParams }, payload: { workspace: string }) {

@@ -16,11 +16,23 @@ import { sortHandler, multipleDataHandler, groupHandler, slowHandler } from 'com
 const commonQuery = {};
 export const ApiMap = {
   sortList: {
-    getFetchObj: ({ sortTab, subTab }: {sortTab: string; subTab: string}) => {
+    getFetchObj: ({ sortTab, subTab }: { sortTab: string; subTab: string }) => {
       const fetchMap = {
-        time: { fetchApi: 'ta_top_avg_time', query: { group: 'host', avg: subTab || 'plt', limit: 20, sort: `avg_${subTab || 'plt'}` }, dataKey: `avg.${subTab || 'plt'}` },
-        percent: { fetchApi: 'ta_top_percent_time', query: { group: 'host', sumPercent: subTab || 'plt', limit: 20, sort: `sumPercent_${subTab || 'plt'}` }, dataKey: `sumPercent.${subTab || 'plt'}` },
-        cpm: { fetchApi: 'ta_top_cpm', query: { group: 'host', cpm: subTab || 'plt', limit: 20, sort: `cpm_${subTab || 'plt'}` }, dataKey: `cpm.${subTab || 'plt'}` },
+        time: {
+          fetchApi: 'ta_top_avg_time',
+          query: { group: 'host', avg: subTab || 'plt', limit: 20, sort: `avg_${subTab || 'plt'}` },
+          dataKey: `avg.${subTab || 'plt'}`,
+        },
+        percent: {
+          fetchApi: 'ta_top_percent_time',
+          query: { group: 'host', sumPercent: subTab || 'plt', limit: 20, sort: `sumPercent_${subTab || 'plt'}` },
+          dataKey: `sumPercent.${subTab || 'plt'}`,
+        },
+        cpm: {
+          fetchApi: 'ta_top_cpm',
+          query: { group: 'host', cpm: subTab || 'plt', limit: 20, sort: `cpm_${subTab || 'plt'}` },
+          dataKey: `cpm.${subTab || 'plt'}`,
+        },
       };
       const { query = {}, fetchApi = '', dataKey = '' } = fetchMap[sortTab] || {};
       return { fetchApi, extendQuery: { ...query }, extendHandler: { dataKey } };
@@ -49,12 +61,28 @@ export const ApiMap = {
   },
   pageTopN: {
     fetchApi: 'ta_timing',
-    query: { group: 'doc_path', limit: 10, sort: 'count_plt', count: 'plt', max: 'plt', min: 'plt', maxFieldTimestamp: 'plt' },
+    query: {
+      group: 'doc_path',
+      limit: 10,
+      sort: 'count_plt',
+      count: 'plt',
+      max: 'plt',
+      min: 'plt',
+      maxFieldTimestamp: 'plt',
+    },
     dataHandler: slowHandler(['max:max.plt', 'count:count.plt', 'time:maxFieldTimestamp.plt', 'min:min.plt']),
   },
   slowTrack: {
     fetchApi: 'ta_timing_slow',
-    query: { group: 'doc_path', limit: 10, sort: 'max_plt', max: 'plt', min: 'plt', maxFieldTimestamp: 'plt', source: true },
+    query: {
+      group: 'doc_path',
+      limit: 10,
+      sort: 'max_plt',
+      max: 'plt',
+      min: 'plt',
+      maxFieldTimestamp: 'plt',
+      source: true,
+    },
     dataHandler: slowHandler(['max:max.plt', 'time:maxFieldTimestamp.plt', 'min:min.plt']),
   },
 };

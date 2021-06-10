@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace CP_SORT_GROUP {
-
   interface Spec {
     type: 'SortGroup';
     state: Obj;
@@ -21,7 +20,7 @@ declare namespace CP_SORT_GROUP {
     data: IData;
   }
 
-  interface IProps{
+  interface IProps {
     draggable?: boolean;
     groupDraggable?: boolean;
   }
@@ -31,7 +30,7 @@ declare namespace CP_SORT_GROUP {
     value: Item[];
   }
 
-  interface Operation{
+  interface Operation {
     icon: string;
     hoverShow?: boolean;
     hoverTip?: string;
@@ -40,7 +39,7 @@ declare namespace CP_SORT_GROUP {
     text?: string;
     disabled?: boolean;
     disabledTip?: string;
-    confirm?: string | {title: string; subTitle: string};
+    confirm?: string | { title: string; subTitle: string };
     meta?: Obj;
     show?: boolean;
     prefixIcon?: string;

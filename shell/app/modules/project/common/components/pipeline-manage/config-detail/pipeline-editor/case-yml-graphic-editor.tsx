@@ -33,7 +33,17 @@ interface ICaseNodeDrawer {
 }
 
 const CaseNodeDrawer = (props: ICaseNodeDrawer) => {
-  const { visible, editing, nodeData: propsNodeData, isCreate, addDrawerProps, otherTaskAlias, onSubmit, closeDrawer, scope } = props;
+  const {
+    visible,
+    editing,
+    nodeData: propsNodeData,
+    isCreate,
+    addDrawerProps,
+    otherTaskAlias,
+    onSubmit,
+    closeDrawer,
+    scope,
+  } = props;
 
   let title = i18n.t('application:new node');
   if (!isCreate) {
@@ -65,63 +75,75 @@ const CaseNodeDrawer = (props: ICaseNodeDrawer) => {
       destroyOnClose
       className="case-node-drawer"
     >
-      {
-        excludeAction ? (
-          <CaseTreeSelector
-            closeDrawer={closeDrawer}
-            key={key}
-            scope={scope}
-            editing={editing}
-            otherTaskAlias={otherTaskAlias}
-            curCaseId={curCaseId}
-            nodeData={propsNodeData}
-            onChange={(node: any) => {
-              onSubmit && onSubmit(node);
-            }}
-          />
-        ) : (
-          editing ? (
-            <Tabs className="full-height case-node-chosen-tabs" activeKey={chosenKey} onChange={(aKey: string) => editing && setChosenKey(aKey)}>
-              <Tabs.TabPane tab={i18n.t('add {name}', { name: i18n.t('task') })} key="addNode" disabled={!isCreate && chosenKey === 'addCaseRef'}>
-                <PipelineNodeForm key={key} {...props} {...(curNodeType === 'snippet' ? { isCreate: true, nodeData: null } : {})} />
-              </Tabs.TabPane>
-              <Tabs.TabPane tab={i18n.t('project:reference use node')} key="addCaseRef" disabled={!isCreate && chosenKey === 'addNode'}>
-                <CaseTreeSelector
-                  closeDrawer={closeDrawer}
-                  key={key}
-                  scope={scope}
-                  curCaseId={curCaseId}
-                  editing={editing}
-                  otherTaskAlias={otherTaskAlias}
-                  nodeData={propsNodeData}
-                  onChange={(node: any) => {
-                    onSubmit && onSubmit(node);
-                  }}
-                />
-              </Tabs.TabPane>
-            </Tabs>
-          ) : (
-            chosenKey === 'addNode' ? (
-              <PipelineNodeForm key={key} {...props} {...(curNodeType === 'snippet' ? { isCreate: true, nodeData: null } : {})} />
-            ) : (
-              chosenKey === 'addCaseRef' ? (
-                <CaseTreeSelector
-                  key={key}
-                  scope={scope}
-                  curCaseId={curCaseId}
-                  otherTaskAlias={otherTaskAlias}
-                  closeDrawer={closeDrawer}
-                  nodeData={propsNodeData}
-                  editing={editing}
-                  onChange={(node: any) => {
-                    onSubmit && onSubmit(node);
-                  }}
-                />
-              ) : null
-            )
-          )
-        )
-      }
+      {excludeAction ? (
+        <CaseTreeSelector
+          closeDrawer={closeDrawer}
+          key={key}
+          scope={scope}
+          editing={editing}
+          otherTaskAlias={otherTaskAlias}
+          curCaseId={curCaseId}
+          nodeData={propsNodeData}
+          onChange={(node: any) => {
+            onSubmit && onSubmit(node);
+          }}
+        />
+      ) : editing ? (
+        <Tabs
+          className="full-height case-node-chosen-tabs"
+          activeKey={chosenKey}
+          onChange={(aKey: string) => editing && setChosenKey(aKey)}
+        >
+          <Tabs.TabPane
+            tab={i18n.t('add {name}', { name: i18n.t('task') })}
+            key="addNode"
+            disabled={!isCreate && chosenKey === 'addCaseRef'}
+          >
+            <PipelineNodeForm
+              key={key}
+              {...props}
+              {...(curNodeType === 'snippet' ? { isCreate: true, nodeData: null } : {})}
+            />
+          </Tabs.TabPane>
+          <Tabs.TabPane
+            tab={i18n.t('project:reference use node')}
+            key="addCaseRef"
+            disabled={!isCreate && chosenKey === 'addNode'}
+          >
+            <CaseTreeSelector
+              closeDrawer={closeDrawer}
+              key={key}
+              scope={scope}
+              curCaseId={curCaseId}
+              editing={editing}
+              otherTaskAlias={otherTaskAlias}
+              nodeData={propsNodeData}
+              onChange={(node: any) => {
+                onSubmit && onSubmit(node);
+              }}
+            />
+          </Tabs.TabPane>
+        </Tabs>
+      ) : chosenKey === 'addNode' ? (
+        <PipelineNodeForm
+          key={key}
+          {...props}
+          {...(curNodeType === 'snippet' ? { isCreate: true, nodeData: null } : {})}
+        />
+      ) : chosenKey === 'addCaseRef' ? (
+        <CaseTreeSelector
+          key={key}
+          scope={scope}
+          curCaseId={curCaseId}
+          otherTaskAlias={otherTaskAlias}
+          closeDrawer={closeDrawer}
+          nodeData={propsNodeData}
+          editing={editing}
+          onChange={(node: any) => {
+            onSubmit && onSubmit(node);
+          }}
+        />
+      ) : null}
     </Drawer>
   );
 };
@@ -129,7 +151,10 @@ const CaseNodeDrawer = (props: ICaseNodeDrawer) => {
 const CaseYmlGraphicEditor = (props: any) => {
   const { addDrawerProps, scope } = props;
   return (
-    <PipelineGraphicEditor {...props} PipelineNodeDrawer={(p: any) => <CaseNodeDrawer {...p} addDrawerProps={addDrawerProps} scope={scope} />} />
+    <PipelineGraphicEditor
+      {...props}
+      PipelineNodeDrawer={(p: any) => <CaseNodeDrawer {...p} addDrawerProps={addDrawerProps} scope={scope} />}
+    />
   );
 };
 

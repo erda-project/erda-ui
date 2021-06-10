@@ -31,7 +31,7 @@ export function getActiveKey(routes) {
  *  errorMsg 错误信息
  * }
  */
-export const valiAssociate = (({ form, ids, valiFn, errorMsg = i18n.t('microService:custom association error') }) => {
+export const valiAssociate = ({ form, ids, valiFn, errorMsg = i18n.t('microService:custom association error') }) => {
   return (rule, value, cb) => {
     const asValues = form.getFieldsValue(ids);
     const isVali = valiFn(value, asValues); // 验证方法
@@ -41,4 +41,4 @@ export const valiAssociate = (({ form, ids, valiFn, errorMsg = i18n.t('microServ
       cb();
     }
   };
-});
+};

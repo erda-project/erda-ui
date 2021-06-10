@@ -23,14 +23,14 @@ coverage:
         if_ci_failed: error
         informational: false
         only_pulls: false
-    # patch:
-    #   default:
-    #     # basic
-    #     target: auto
-    #     threshold: 0%
-    #     base: auto
-    #     if_ci_failed: error
-    #     only_pulls: false
+    patch:
+      default:
+        # basic
+        target: 0%
+        threshold: 0%
+        base: auto
+        if_ci_failed: error
+        only_pulls: false
 
 github_checks:
   annotations: true

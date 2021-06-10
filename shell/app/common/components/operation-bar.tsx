@@ -34,7 +34,7 @@ interface IState {
 class OperationBar extends React.PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
-    this.state = { };
+    this.state = {};
   }
 
   handleSubmit = (form: WrappedFormUtils) => {
@@ -79,12 +79,7 @@ class OperationBar extends React.PureComponent<IProps, IState> {
           >
             {i18n.t('reset')}
           </Button>
-          <Button
-            className="ops-bar-btn"
-            type="primary"
-            ghost
-            onClick={() => this.handleSubmit(form)}
-          >
+          <Button className="ops-bar-btn" type="primary" ghost onClick={() => this.handleSubmit(form)}>
             {i18n.t('search')}
           </Button>
         </React.Fragment>
@@ -107,13 +102,9 @@ class OperationBar extends React.PureComponent<IProps, IState> {
     }
 
     return (
-      <div className="ops-bar-line" >
-        <RenderForm
-          layout="inline"
-          {...this.props}
-          list={this.formatSearchList()}
-        />
-      </div >
+      <div className="ops-bar-line">
+        <RenderForm layout="inline" {...this.props} list={this.formatSearchList()} />
+      </div>
     );
   }
 }

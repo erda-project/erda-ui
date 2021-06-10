@@ -311,6 +311,7 @@ importers:
       ansi_up: ^2.0.2
       autoprefixer: ^6.5.3
       babel-loader: ^8.2.2
+      babel-plugin-jsx-control-statements: ^4.1.0
       classnames: ^2.2.5
       clipboard: ^1.7.1
       copy-webpack-plugin: ^7.0.0
@@ -402,7 +403,6 @@ importers:
       tiny-pinyin: ^1.3.2
       ts-jest: 26.5.6
       tsconfig-paths-jest: 0.0.1
-      tsx-control-statements: ^4.0.0
       typescript: ^4.3.2
       vinyl-fs: ^3.0.3
       webpack: ^5.38.1
@@ -502,6 +502,7 @@ importers:
       '@types/webpack-env': 1.16.0
       autoprefixer: 6.7.7
       babel-loader: 8.2.2_56c0991c8a79bd1374c11f7f6fc4baef
+      babel-plugin-jsx-control-statements: 4.1.0
       copy-webpack-plugin: 7.0.0_webpack@5.38.1
       cross-env: 5.2.1
       css-minimizer-webpack-plugin: 1.3.0_webpack@5.38.1
@@ -542,7 +543,6 @@ importers:
       thread-loader: 3.0.4_webpack@5.38.1
       ts-jest: 26.5.6_jest@26.6.3+typescript@4.3.2
       tsconfig-paths-jest: 0.0.1
-      tsx-control-statements: 4.0.0_typescript@4.3.2
       vinyl-fs: 3.0.3
       webpack: 5.38.1_webpack-cli@4.7.0
       webpack-build-notifier: 2.2.1
@@ -7933,6 +7933,14 @@ packages:
       '@babel/types': 7.14.2
       '@types/babel__core': 7.1.14
       '@types/babel__traverse': 7.11.1
+
+  /babel-plugin-jsx-control-statements/4.1.0:
+    resolution: {integrity: sha512-YNHX/yJ79cjZ5ZOZ6oiixoihm1SfhQKIcMfxDT+t8Olpd9NyNBrxjYjwJKxYQVZrfMBnCLxC4Mqj5Ru+OXtQ0w==}
+    dependencies:
+      '@babel/core': 7.14.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
 
   /babel-plugin-macros/2.8.0:
     resolution: {integrity: sha512-SEP5kJpfGYqYKpBrj5XU3ahw5p5GOHJ0U5ssOSQ/WBVdwkD2Dzlce95exQTs3jOVWPPKLBN2rlEWkCK7dSmLvg==}
@@ -25892,14 +25900,6 @@ packages:
     dependencies:
       tslib: 1.14.1
       typescript: 4.2.4
-
-  /tsx-control-statements/4.0.0_typescript@4.3.2:
-    resolution: {integrity: sha512-XNL8Xhb/JyBPdkqTZkd5BXvDJ9Io2xx1zMZxJPJJUUq8Phmxus+6VzhI8sLpcR4h0W1e/mfmdBJCS9F/FgzvVg==}
-    peerDependencies:
-      typescript: '>=2.4.0'
-    dependencies:
-      typescript: 4.3.2
-    dev: true
 
   /tty-browserify/0.0.0:
     resolution: {integrity: sha1-oVe6QC2iTpv5V/mqadUk7tQpAaY=}

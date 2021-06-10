@@ -53,9 +53,10 @@ const ExportPdf = ({ domId, children, tip = 'pdf' }: IProps) => {
     await loadJsFile(jsPdfSrc);
     const domToImage = window.domtoimage;
     const JsPdf = window.jsPDF;
-    const pageWidth = page.clientWidth * 3 / 4; // pt 和 px 之前的换算
-    const pageHeight = page.clientHeight * 3 / 4; // pt 和 px 之前的换算
-    domToImage.toPng(page)
+    const pageWidth = (page.clientWidth * 3) / 4; // pt 和 px 之前的换算
+    const pageHeight = (page.clientHeight * 3) / 4; // pt 和 px 之前的换算
+    domToImage
+      .toPng(page)
       .then((imageData: any) => {
         exportLoading();
         const pdf = new JsPdf({
@@ -68,7 +69,8 @@ const ExportPdf = ({ domId, children, tip = 'pdf' }: IProps) => {
       })
       .catch(() => {
         message.error(i18n.t('project:sorry, export failed!'));
-      }).finally(() => {
+      })
+      .finally(() => {
         mdContent.innerHTML = str;
       });
   };

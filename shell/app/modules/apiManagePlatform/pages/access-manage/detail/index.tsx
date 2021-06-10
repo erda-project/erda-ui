@@ -98,42 +98,66 @@ const AccessDetail = () => {
   }, [accessDetail.access.bindDomain]);
 
   const fields = {
-    base: [{
-      label: i18n.t('reference API'),
-      value: <a href={apiAssetUrl} target="_blank" rel="noreferrer noopener">{get(accessDetail, ['access', 'assetName'])}</a>,
-    }, {
-      label: i18n.t('resource version'),
-      value: isEmpty(accessDetail.access) ? '' : `V${get(accessDetail, ['access', 'major'])}.${get(accessDetail, ['access', 'minor'])}.*`,
-    }, {
-      label: i18n.t('entry domain'),
-      value: domains,
-    }, {
-      label: i18n.t('authentication method'),
-      value: authenticationMap[get(accessDetail, ['access', 'authentication'])]?.name,
-    }, {
-      label: i18n.t('authorization method'),
-      value: authorizationMap[get(accessDetail, ['access', 'authorization'])]?.name,
-    }, {
-      label: i18n.t('related project'),
-      value: get(accessDetail, ['access', 'projectName']),
-    }, {
-      label: i18n.t('related environment'),
-      value: envMap[get(accessDetail, ['access', 'workspace'])],
-    }],
-    api: [{
-      label: i18n.t('API strategy'),
-      value: apiStrategy ? <a href={apiStrategy} target="_blank" rel="noopener noreferrer">{i18n.t('update strategy')}</a> : null,
-    }],
+    base: [
+      {
+        label: i18n.t('reference API'),
+        value: (
+          <a href={apiAssetUrl} target="_blank" rel="noreferrer noopener">
+            {get(accessDetail, ['access', 'assetName'])}
+          </a>
+        ),
+      },
+      {
+        label: i18n.t('resource version'),
+        value: isEmpty(accessDetail.access)
+          ? ''
+          : `V${get(accessDetail, ['access', 'major'])}.${get(accessDetail, ['access', 'minor'])}.*`,
+      },
+      {
+        label: i18n.t('entry domain'),
+        value: domains,
+      },
+      {
+        label: i18n.t('authentication method'),
+        value: authenticationMap[get(accessDetail, ['access', 'authentication'])]?.name,
+      },
+      {
+        label: i18n.t('authorization method'),
+        value: authorizationMap[get(accessDetail, ['access', 'authorization'])]?.name,
+      },
+      {
+        label: i18n.t('related project'),
+        value: get(accessDetail, ['access', 'projectName']),
+      },
+      {
+        label: i18n.t('related environment'),
+        value: envMap[get(accessDetail, ['access', 'workspace'])],
+      },
+    ],
+    api: [
+      {
+        label: i18n.t('API strategy'),
+        value: apiStrategy ? (
+          <a href={apiStrategy} target="_blank" rel="noopener noreferrer">
+            {i18n.t('update strategy')}
+          </a>
+        ) : null,
+      },
+    ],
   };
   return (
     <Spin spinning={isFetch}>
       <div className="access-detail-page">
         <div className="top-button-group">
-          <WithAuth pass={permission.delete || false} >
-            <Button type="danger" onClick={handleDelete}>{i18n.t('delete')}</Button>
+          <WithAuth pass={permission.delete || false}>
+            <Button type="danger" onClick={handleDelete}>
+              {i18n.t('delete')}
+            </Button>
           </WithAuth>
-          <WithAuth pass={permission.edit || false} >
-            <Button type="primary" onClick={gotoDetail}>{i18n.t('edit')}</Button>
+          <WithAuth pass={permission.edit || false}>
+            <Button type="primary" onClick={gotoDetail}>
+              {i18n.t('edit')}
+            </Button>
           </WithAuth>
         </div>
         <DetailsPanel
@@ -150,7 +174,12 @@ const AccessDetail = () => {
                 title: i18n.t('client'),
                 icon: <CustomIcon type="shouquanyonghu" color />,
               },
-              getComp: () => (<AuthorizationUser assetID={accessDetail.access?.assetID} swaggerVersion={accessDetail.access?.swaggerVersion} />),
+              getComp: () => (
+                <AuthorizationUser
+                  assetID={accessDetail.access?.assetID}
+                  swaggerVersion={accessDetail.access?.swaggerVersion}
+                />
+              ),
             },
             {
               key: 'API strategy',
@@ -165,19 +194,27 @@ const AccessDetail = () => {
             {
               key: 'SLA',
               titleProps: {
-                operations: [{ title: (
-                  <WithAuth pass={permission.edit || false} >
-                    <Button onClick={() => { updater.visible(true); }}>
-                      {i18n.t('add {name}', { name: 'SLA' })}
-                    </Button>
-                  </WithAuth>
-                ) }],
+                operations: [
+                  {
+                    title: (
+                      <WithAuth pass={permission.edit || false}>
+                        <Button
+                          onClick={() => {
+                            updater.visible(true);
+                          }}
+                        >
+                          {i18n.t('add {name}', { name: 'SLA' })}
+                        </Button>
+                      </WithAuth>
+                    ),
+                  },
+                ],
               },
               linkProps: {
                 title: 'SLA',
                 icon: <CustomIcon type="SLA" color />,
               },
-              getComp: () => (<Sla />),
+              getComp: () => <Sla />,
             },
           ]}
         >
@@ -193,7 +230,9 @@ const AccessDetail = () => {
       <SlaEditor
         mode="add"
         visible={visible}
-        onCancel={() => { updater.visible(false); }}
+        onCancel={() => {
+          updater.visible(false);
+        }}
       />
     </Spin>
   );

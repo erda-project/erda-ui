@@ -18,7 +18,6 @@ import { isEmpty } from 'lodash';
 import { getDomains, updateDomains, updateK8SDomain } from '../services/domain';
 import runtimeStore from './runtime';
 
-
 interface State {
   domainMap: RUNTIME_DOMAIN.DomainMap;
 }

@@ -32,7 +32,6 @@ interface IVariableInputGroupProps {
   disabled: boolean;
 }
 
-
 export default class extends PureComponent<IVariableInputGroupProps, any> {
   state = {
     value: [],
@@ -76,7 +75,9 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
             value={item.port}
             onChange={(v: any) => this.changeValue(index, 'port', v)}
           />
-          {disabled ? null : <IconDelete className="variable-icon ml12 pointer" onClick={() => this.deleteVariable(index)} />}
+          {disabled ? null : (
+            <IconDelete className="variable-icon ml12 pointer" onClick={() => this.deleteVariable(index)} />
+          )}
         </div>
       );
     });

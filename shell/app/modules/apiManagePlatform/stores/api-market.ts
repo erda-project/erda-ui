@@ -79,7 +79,11 @@ const apiMarketStore = createStore({
     },
     async createAsset({ call }, payload: Omit<API_MARKET.CreateAsset, 'orgID'>) {
       const orgId = orgStore.getState((s) => s.currentOrg.id);
-      const res = await call(Service.createAsset, { ...payload, orgID: orgId }, { successMsg: i18n.t('default:created successfully') });
+      const res = await call(
+        Service.createAsset,
+        { ...payload, orgID: orgId },
+        { successMsg: i18n.t('default:created successfully') },
+      );
       return res;
     },
     async editAsset({ call }, payload: API_MARKET.UpdateAsset) {
@@ -99,7 +103,10 @@ const apiMarketStore = createStore({
             type: 'project',
             routeMark: 'apiManage',
             cb: () => {
-              const [hasReadAuth, hasEditAuth] = permStore.getState((s) => [s.project.apiManage.apiMarket.read.pass, s.project.apiManage.apiMarket.edit.pass]);
+              const [hasReadAuth, hasEditAuth] = permStore.getState((s) => [
+                s.project.apiManage.apiMarket.read.pass,
+                s.project.apiManage.apiMarket.edit.pass,
+              ]);
               if (!hasReadAuth) {
                 if (appID) {
                   checkAssetReadAuthInApp(appID, true);
@@ -154,10 +161,12 @@ const apiMarketStore = createStore({
           }
         }
       }
-      update({ assetVersionDetail: {
-        access: {},
-        ...assetVersionDetail,
-      } });
+      update({
+        assetVersionDetail: {
+          access: {},
+          ...assetVersionDetail,
+        },
+      });
       return assetVersionDetail;
     },
     async deleteAsset({ call }, payload: API_MARKET.QAsset) {
@@ -165,7 +174,9 @@ const apiMarketStore = createStore({
       return res;
     },
     async deleteAssetVersion({ call }, payload: API_MARKET.QVersion) {
-      const res = await call(Service.deleteAssetVersion, payload, { successMsg: i18n.t('default:deleted successfully') });
+      const res = await call(Service.deleteAssetVersion, payload, {
+        successMsg: i18n.t('default:deleted successfully'),
+      });
       return res;
     },
 
@@ -206,7 +217,6 @@ const apiMarketStore = createStore({
       const res = await call(Service.runAttemptTest, payload);
       return res;
     },
-
   },
   reducers: {
     clearVersionTree(state) {

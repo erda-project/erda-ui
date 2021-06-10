@@ -30,25 +30,29 @@ interface IProps {
   type: 'weekly' | 'daily';
 }
 
-const ProjectReport = ({
-  type,
-}: IProps) => {
+const ProjectReport = ({ type }: IProps) => {
   const [state, updater] = useUpdate({
     activeReportKey: '',
     reports: [],
     reportDetail: '',
     dateRange: [],
   });
-  const [projectReportsPaging, reportSeeting] = projectReportStore.useStore((s) => [s.projectReportsPaging, s.reportSeeting]);
+  const [projectReportsPaging, reportSeeting] = projectReportStore.useStore((s) => [
+    s.projectReportsPaging,
+    s.reportSeeting,
+  ]);
   const [isFetching, isFetchingDetail] = useLoading(projectReportStore, ['getProjectReport', 'getProjectReportDetail']);
-  const { getProjectReport, getProjectReportDetail, getProjectReportSetting, setProjectReportSetting } = projectReportStore.effects;
+  const { getProjectReport, getProjectReportDetail, getProjectReportSetting, setProjectReportSetting } =
+    projectReportStore.effects;
   useMount(() => {
     getProjectReportSetting();
   });
 
   const [FormModal, toggle] = useFormModal();
 
-  useMount(() => { fetchReports({ type }); });
+  useMount(() => {
+    fetchReports({ type });
+  });
 
   useEffect(() => {
     const [start, end] = state.dateRange;
@@ -92,17 +96,16 @@ const ProjectReport = ({
   };
 
   const handleSetProjectReportSetting = (data: any) => {
-    const setting = type === 'weekly'
-      ?
-      {
-        weeklyReportEnable: data.weeklyReportEnable,
-        weeklyReportConfig: JSON.stringify({ emails: data.emails.split(',') }),
-      }
-      :
-      {
-        dailyReportEnable: data.dailyReportEnable,
-        dailyReportConfig: JSON.stringify({ dingdingURLs: data.dingdingURLs.split(',') }),
-      };
+    const setting =
+      type === 'weekly'
+        ? {
+            weeklyReportEnable: data.weeklyReportEnable,
+            weeklyReportConfig: JSON.stringify({ emails: data.emails.split(',') }),
+          }
+        : {
+            dailyReportEnable: data.dailyReportEnable,
+            dailyReportConfig: JSON.stringify({ dingdingURLs: data.dingdingURLs.split(',') }),
+          };
     setProjectReportSetting(setting);
     toggle();
   };
@@ -120,9 +123,12 @@ const ProjectReport = ({
         name: 'emails',
         type: 'textArea',
         required: false,
-        pattern: /^([A-Za-z0-9_\-.\u4e00-\u9fa5])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,8})([,]([A-Za-z0-9_\-.\u4e00-\u9fa5])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,8}))*$/,
+        pattern:
+          /^([A-Za-z0-9_\-.\u4e00-\u9fa5])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,8})([,]([A-Za-z0-9_\-.\u4e00-\u9fa5])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,8}))*$/,
         message: i18n.t('please enter a valid email address'),
-        initialValue: reportSeeting.weeklyReportConfig ? JSON.parse(reportSeeting.weeklyReportConfig).emails.join(',') : '',
+        initialValue: reportSeeting.weeklyReportConfig
+          ? JSON.parse(reportSeeting.weeklyReportConfig).emails.join(',')
+          : '',
         itemProps: {
           placeholder: i18n.t('microService:please enter your email address, separated by comma'),
           maxLength: 1000,
@@ -144,7 +150,9 @@ const ProjectReport = ({
         required: false,
         // pattern: /^(https:\/\/oapi\.dingtalk\.com\/robot\/send\?access_token=(.*[^,]))([,]https:\/\/oapi\.dingtalk\.com\/robot\/send\?access_token=(.*[^,]))*$/,
         // message: i18n.t('please enter a valid dingding talk address'),
-        initialValue: reportSeeting.dailyReportConfig ? JSON.parse(reportSeeting.dailyReportConfig).dingdingURLs.join(',') : '',
+        initialValue: reportSeeting.dailyReportConfig
+          ? JSON.parse(reportSeeting.dailyReportConfig).dingdingURLs.join(',')
+          : '',
         itemProps: {
           placeholder: i18n.t('microService:please enter your Dingding Talk address, separated by comma'),
           maxLength: 1000,
@@ -159,13 +167,9 @@ const ProjectReport = ({
       <div className="project-report-list">
         <div className="top-button-group">
           <Button onClick={toggle}>
-            {
-              type === 'weekly'
-                ?
-                i18n.t('microService:weekly report settings')
-                :
-                i18n.t('microService:daily report settings')
-            }
+            {type === 'weekly'
+              ? i18n.t('microService:weekly report settings')
+              : i18n.t('microService:daily report settings')}
           </Button>
         </div>
         <div className="search-table-section">
@@ -188,16 +192,14 @@ const ProjectReport = ({
                         active: state.activeReportKey === item.key,
                       })}
                       key={item.key}
-                      onClick={() => { handleChangeReport(item.key); }}
+                      onClick={() => {
+                        handleChangeReport(item.key);
+                      }}
                     >
                       <CustomIcon className="mr8" type="rw" />
-                      {
-                        type === 'weekly'
-                          ?
-                          `${item.start.split(' ')[0]}-${item.end.split(' ')[0]}`
-                          :
-                          `${item.start.split(' ')[0]}`
-                      }
+                      {type === 'weekly'
+                        ? `${item.start.split(' ')[0]}-${item.end.split(' ')[0]}`
+                        : `${item.start.split(' ')[0]}`}
                     </li>
                   ))}
                 </ul>
@@ -222,7 +224,11 @@ const ProjectReport = ({
         </Spin>
       </div>
       <FormModal
-        name={type === 'weekly' ? i18n.t('microService:weekly report settings') : i18n.t('microService:daily report settings')}
+        name={
+          type === 'weekly'
+            ? i18n.t('microService:weekly report settings')
+            : i18n.t('microService:daily report settings')
+        }
         fieldsList={fieldsList[type]}
         formData={reportSeeting}
         modalProps={{ destroyOnClose: true }}

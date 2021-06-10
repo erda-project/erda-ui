@@ -2,7 +2,8 @@
   display: grid;
   width: 100%;
   min-width: 760px;
-  grid-template-columns: minmax(192px, 25%) minmax(192px, 25%) minmax(192px, 25%)
+  grid-template-columns:
+    minmax(192px, 25%) minmax(192px, 25%) minmax(192px, 25%)
     minmax(192px, 25%);
 
   @include md-width() {
@@ -43,7 +44,7 @@
     height: 30px;
     font-size: 24px;
     cursor: pointer;
-    opacity: .6;
+    opacity: 0.6;
 
     &:hover {
       opacity: 1;

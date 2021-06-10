@@ -102,10 +102,17 @@ class DataTaskCreation extends React.PureComponent<IProps, IState> {
             onSelectChange={this.onSelectChange}
           />
           <section className="footer flex-box mt20">
-            <span><CustomIcon type="jg" />{i18n.t('application:can only add up to 10 files in a single order')}</span>
+            <span>
+              <CustomIcon type="jg" />
+              {i18n.t('application:can only add up to 10 files in a single order')}
+            </span>
             <div>
-              <Button className="ml8" onClick={onCancel}>{i18n.t('application:cancel')}</Button>
-              <Button className="ml8" type="primary" onClick={this.onOk}>{i18n.t('application:ok')}</Button>
+              <Button className="ml8" onClick={onCancel}>
+                {i18n.t('application:cancel')}
+              </Button>
+              <Button className="ml8" type="primary" onClick={this.onOk}>
+                {i18n.t('application:ok')}
+              </Button>
             </div>
           </section>
         </Spin>
@@ -113,7 +120,6 @@ class DataTaskCreation extends React.PureComponent<IProps, IState> {
     );
   }
 }
-
 
 const Mapper = () => {
   const workFlowFiles = dataTaskStore.useStore((s) => s.workFlowFiles);

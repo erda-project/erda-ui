@@ -70,9 +70,7 @@ describe('addon-settings', () => {
       let wrapper;
       await act(async () => {
         // render(<AddonSettings />, container);
-        wrapper = mount(
-          <AddonSettings />,
-        );
+        wrapper = mount(<AddonSettings />);
       });
       wrapper.update();
       expect(wrapper.find('PureAddonSettings').prop('addonConfig')).toStrictEqual(data);
@@ -85,9 +83,7 @@ describe('addon-settings', () => {
       org: 'erda.cloud',
     };
     it('should render well', async () => {
-      const wrapper = mount(
-        <PureAddonSettings insId={insId} />,
-      );
+      const wrapper = mount(<PureAddonSettings insId={insId} />);
       expect(wrapper).toBeEmptyRender();
       wrapper.setProps({
         addonConfig: {
@@ -111,4 +107,3 @@ describe('addon-settings', () => {
     });
   });
 });
-

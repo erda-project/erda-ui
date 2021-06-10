@@ -25,26 +25,29 @@ interface IProps {
 const FieldOptionsSetting = (props: IProps) => {
   const { value = defaultList, onChange } = props;
 
-  const onInputChangeHandle = React.useCallback((dataValue, index) => {
-    const newData = dataValue;
-    const tempList: ISSUE_FIELD.IEnumData[] = produce(value, (draft: ISSUE_FIELD.IEnumData[]) => {
-      draft[index].name = newData;
+  const onInputChangeHandle = React.useCallback(
+    (dataValue, index) => {
+      const newData = dataValue;
+      const tempList: ISSUE_FIELD.IEnumData[] = produce(value, (draft: ISSUE_FIELD.IEnumData[]) => {
+        draft[index].name = newData;
 
-      if (!draft[index + 1]) {
-        draft[index + 1] = { name: '', index: index + 1 };
-      }
-      let isEmptyData = false;
+        if (!draft[index + 1]) {
+          draft[index + 1] = { name: '', index: index + 1 };
+        }
+        let isEmptyData = false;
 
-      if (!dataValue) {
-        isEmptyData = true;
-      }
-      if (isEmptyData && index === draft.length - 2) {
-        draft.pop();
-      }
-    });
+        if (!dataValue) {
+          isEmptyData = true;
+        }
+        if (isEmptyData && index === draft.length - 2) {
+          draft.pop();
+        }
+      });
 
-    onChange(tempList);
-  }, [onChange, value]);
+      onChange(tempList);
+    },
+    [onChange, value],
+  );
 
   const columns = [
     {
@@ -68,34 +71,26 @@ const FieldOptionsSetting = (props: IProps) => {
       dataIndex: 'operation',
       width: 100,
       render: (_value: number, _record: any, index: number) => {
-        return (
-          index < value.length - 1 ?
-            <CustomIcon
-              style={{ cursor: 'pointer' }}
-              type="shanchu"
-              onClick={() => {
-                const tempList = produce(value, (draft: ISSUE_FIELD.IEnumData[]) => {
-                  draft.splice(index, 1);
-                });
-                const list: ISSUE_FIELD.IEnumData[] = tempList.map((item: any, i: number) => {
-                  return { ...item, index: i };
-                });
-                onChange(list);
-              }}
-            /> : undefined
-        );
+        return index < value.length - 1 ? (
+          <CustomIcon
+            style={{ cursor: 'pointer' }}
+            type="shanchu"
+            onClick={() => {
+              const tempList = produce(value, (draft: ISSUE_FIELD.IEnumData[]) => {
+                draft.splice(index, 1);
+              });
+              const list: ISSUE_FIELD.IEnumData[] = tempList.map((item: any, i: number) => {
+                return { ...item, index: i };
+              });
+              onChange(list);
+            }}
+          />
+        ) : undefined;
       },
     },
   ];
 
-  return (
-    <Table
-      rowKey="index"
-      dataSource={value}
-      columns={columns}
-      pagination={false}
-    />
-  );
+  return <Table rowKey="index" dataSource={value} columns={columns} pagination={false} />;
 };
 
 export default FieldOptionsSetting;

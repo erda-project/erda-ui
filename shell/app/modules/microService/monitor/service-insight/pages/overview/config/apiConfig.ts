@@ -17,7 +17,8 @@ export const ApiMap = {
   throughput: {
     fetchApi: 'ai_overview_cpm/histogram',
     query: {
-      group: "(doc.containsKey('name')&&doc['name'].value.startsWith('application_')?doc['name'].value.substring(12):'')",
+      group:
+        "(doc.containsKey('name')&&doc['name'].value.startsWith('application_')?doc['name'].value.substring(12):'')",
       sumCpm: 'elapsed_count',
     },
     dataHandler: groupHandler('sumCpm.elapsed_count'),
@@ -25,7 +26,8 @@ export const ApiMap = {
   responseTime: {
     fetchApi: 'ai_overview_rt/histogram',
     query: {
-      group: "(doc.containsKey('name')&&doc['name'].value.startsWith('application_')?doc['name'].value.substring(12):'')",
+      group:
+        "(doc.containsKey('name')&&doc['name'].value.startsWith('application_')?doc['name'].value.substring(12):'')",
       avg: 'elapsed_mean',
     },
     dataHandler: groupHandler('avg.elapsed_mean'),

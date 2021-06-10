@@ -36,7 +36,9 @@ const RunDetail = (props: IProps) => {
       branch={branch as string}
       pagingYmlNames={pagingYmlNames}
     />
-  ) : <EmptyHolder relative />;
+  ) : (
+    <EmptyHolder relative />
+  );
 };
 
 export default RunDetail;

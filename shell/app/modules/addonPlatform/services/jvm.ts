@@ -14,34 +14,38 @@
 import agent from 'agent';
 
 export const getServiceInsList = (insId: string): JVM.ServiceIns[] => {
-  return agent.get(`/api/monitor/jvmprofiler/${insId}/services`)
-    .then((response: any) => response.body);
+  return agent.get(`/api/monitor/jvmprofiler/${insId}/services`).then((response: any) => response.body);
 };
 
 export const getProfileList = ({ insId, state, ...rest }: JVM.ProfileListQuery): IPagingResp<JVM.ProfileItem> => {
-  return agent.get(`/api/monitor/jvmprofiler/${insId}/profiling`)
+  return agent
+    .get(`/api/monitor/jvmprofiler/${insId}/profiling`)
     .query({ state, ...rest })
     .then((response: any) => response.body);
 };
 
 export const startProfile = ({ insId, ...body }: JVM.StartProfileBody): JVM.PendingProfile => {
-  return agent.post(`/api/monitor/jvmprofiler/${insId}/profiling`)
+  return agent
+    .post(`/api/monitor/jvmprofiler/${insId}/profiling`)
     .send(body)
     .then((response: any) => response.body);
 };
 
 export const stopProfile = ({ insId, profileId }: JVM.ProfileStatusQuery): JVM.PendingProfile => {
-  return agent.put(`/api/monitor/jvmprofiler/${insId}/profiling/${profileId}/actions/finish`)
+  return agent
+    .put(`/api/monitor/jvmprofiler/${insId}/profiling/${profileId}/actions/finish`)
     .then((response: any) => response.body);
 };
 
 export const getProfileStatus = ({ insId, profileId }: JVM.ProfileStatusQuery): JVM.PendingProfile => {
-  return agent.get(`/api/monitor/jvmprofiler/${insId}/profiling/${profileId}/state`)
+  return agent
+    .get(`/api/monitor/jvmprofiler/${insId}/profiling/${profileId}/state`)
     .then((response: any) => response.body);
 };
 
 export const getJVMInfo = ({ insId, profileId, scope }: JVM.JVMInfoQuery) => {
-  return agent.get(`/api/monitor/jvmprofiler/${insId}/profiling/${profileId}/jvm-info`)
+  return agent
+    .get(`/api/monitor/jvmprofiler/${insId}/profiling/${profileId}/jvm-info`)
     .query({ scope })
     .then((response: any) => response.body);
 };

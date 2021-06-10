@@ -19,7 +19,7 @@ import i18n from 'i18n';
 import { typeMap, keyPrefix } from './index';
 import certificateStore from '../../stores/certificate';
 
-interface IProps{
+interface IProps {
   id?: string;
   onClose: () => void;
   detail?: {
@@ -29,17 +29,18 @@ interface IProps{
   };
 }
 
-interface IInfoProps{
+interface IInfoProps {
   title: string;
   value: any;
-  textItem?: Array<{label: string; key: string; type?: string}>;
+  textItem?: Array<{ label: string; key: string; type?: string }>;
 }
 
-const defaultInfoItem = [
-  { label: i18n.t('password'), key: 'password', type: 'password' },
-];
+const defaultInfoItem = [{ label: i18n.t('password'), key: 'password', type: 'password' }];
 
-const getFileRender = (fileInfo: {fileName: string; uuid: string}, textItem: Array<{label: string; key: string; type?: string}> = defaultInfoItem) => {
+const getFileRender = (
+  fileInfo: { fileName: string; uuid: string },
+  textItem: Array<{ label: string; key: string; type?: string }> = defaultInfoItem,
+) => {
   const { fileName, uuid, ...rest } = fileInfo;
   if (!uuid) return null;
   return (
@@ -56,37 +57,33 @@ const getFileRender = (fileInfo: {fileName: string; uuid: string}, textItem: Arr
   );
 };
 
-const getInfoRender = (data: any = {}, textItem: Array<{label: string; key: string; type?: string}>) => {
+const getInfoRender = (data: any = {}, textItem: Array<{ label: string; key: string; type?: string }>) => {
   if (isEmpty(textItem)) return null;
   return (
     <>
-      {
-        map(textItem, ({ label, key, type }) => {
-          const pswValue = data[key];
-          return <TextItem label={label} value={pswValue} key={key} type={type} />;
-        })
-      }
+      {map(textItem, ({ label, key, type }) => {
+        const pswValue = data[key];
+        return <TextItem label={label} value={pswValue} key={key} type={type} />;
+      })}
     </>
   );
 };
 
-const TextItem = ({ value, label, type }: {value: string; label: string; type?: string}) => {
+const TextItem = ({ value, label, type }: { value: string; label: string; type?: string }) => {
   const [show, setShow] = React.useState(false);
   const isPassword = type === 'password';
   return (
     <div className="mb8">
       {label}: &nbsp;&nbsp;
-      {
-        !isPassword ? (
-          value
-        ) : (
-          <Tooltip title={show ? undefined : i18n.t('click to view password')}>
-            <span className={show ? '' : 'pointer'} onClick={() => setShow(true)}>
-              {show ? value : '******'}
-            </span>
-          </Tooltip>
-        )
-      }
+      {!isPassword ? (
+        value
+      ) : (
+        <Tooltip title={show ? undefined : i18n.t('click to view password')}>
+          <span className={show ? '' : 'pointer'} onClick={() => setShow(true)}>
+            {show ? value : '******'}
+          </span>
+        </Tooltip>
+      )}
     </div>
   );
 };
@@ -96,13 +93,7 @@ const InfoItem = ({ title, value, textItem }: IInfoProps) => {
   return (
     <div className="mb24">
       <div className="color-text-desc mb8">{title}</div>
-      <div className="color-text">
-        {
-          isString(value) ? value : (
-            getFileRender(value, textItem)
-          )
-        }
-      </div>
+      <div className="color-text">{isString(value) ? value : getFileRender(value, textItem)}</div>
     </div>
   );
 };
@@ -150,51 +141,53 @@ const DetailModal = ({ id, onClose, detail: originDetail }: IProps) => {
         detail: {},
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const getDetailComp = () => {
     if (isEmpty(detail)) return null;
     const { type } = detail;
-    const renderData = [
-      { title: i18n.t('type'), value: type },
-    ] as any;
+    const renderData = [{ title: i18n.t('type'), value: type }] as any;
     if (type === typeMap.IOS.value) {
-      renderData.push(...[
-        {
-          title: `Keychain-p12 ${i18n.t('file')}`,
-          value: get(detail, `${keyPrefix.iosKeyChainP12}`),
-        },
-        {
-          title: `Debug-mobileprovision ${i18n.t('file')}`,
-          value: get(detail, `${keyPrefix.iosDebug}`),
-        },
-        {
-          title: `Release-mobileprovision ${i18n.t('file')}`,
-          value: get(detail, `${keyPrefix.iosRelease}`),
-        },
-      ]);
+      renderData.push(
+        ...[
+          {
+            title: `Keychain-p12 ${i18n.t('file')}`,
+            value: get(detail, `${keyPrefix.iosKeyChainP12}`),
+          },
+          {
+            title: `Debug-mobileprovision ${i18n.t('file')}`,
+            value: get(detail, `${keyPrefix.iosDebug}`),
+          },
+          {
+            title: `Release-mobileprovision ${i18n.t('file')}`,
+            value: get(detail, `${keyPrefix.iosRelease}`),
+          },
+        ],
+      );
     } else if (type === typeMap.Android.value) {
-      renderData.push(...[
-        {
-          title: `Debug-key/store ${i18n.t('file')}`,
-          value: get(detail, `${keyPrefix.adrManualDebug}`),
-          textItem: [
-            { label: i18n.t('org:alias'), key: 'alias' },
-            { label: 'Key password', key: 'keyPassword', type: 'password' },
-            { label: 'Store password', key: 'storePassword', type: 'password' },
-          ],
-        },
-        {
-          title: `Release-key/store ${i18n.t('file')}`,
-          value: get(detail, `${keyPrefix.adrManualRelease}`),
-          textItem: [
-            { label: i18n.t('org:alias'), key: 'alias' },
-            { label: 'Key password', key: 'keyPassword', type: 'password' },
-            { label: 'Store password', key: 'storePassword', type: 'password' },
-          ],
-        },
-      ]);
+      renderData.push(
+        ...[
+          {
+            title: `Debug-key/store ${i18n.t('file')}`,
+            value: get(detail, `${keyPrefix.adrManualDebug}`),
+            textItem: [
+              { label: i18n.t('org:alias'), key: 'alias' },
+              { label: 'Key password', key: 'keyPassword', type: 'password' },
+              { label: 'Store password', key: 'storePassword', type: 'password' },
+            ],
+          },
+          {
+            title: `Release-key/store ${i18n.t('file')}`,
+            value: get(detail, `${keyPrefix.adrManualRelease}`),
+            textItem: [
+              { label: i18n.t('org:alias'), key: 'alias' },
+              { label: 'Key password', key: 'keyPassword', type: 'password' },
+              { label: 'Store password', key: 'storePassword', type: 'password' },
+            ],
+          },
+        ],
+      );
     }
     return map(renderData, (item, idx) => <InfoItem key={`${idx}`} {...item} />);
   };

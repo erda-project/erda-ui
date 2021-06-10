@@ -38,7 +38,8 @@ declare namespace RUNTIME {
     services: {
       [k: string]: RUNTIME_SERVICE.Detail;
     };
-    endpoints: { // 前端判断有expose的service
+    endpoints: {
+      // 前端判断有expose的service
       [k: string]: RUNTIME_SERVICE.Detail;
     };
     timeCreated: string;
@@ -89,7 +90,6 @@ declare namespace RUNTIME {
     operator: string;
     force: boolean;
   }
-
 }
 
 interface CPU_MEM_DISK {

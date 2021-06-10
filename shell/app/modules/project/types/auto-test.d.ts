@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace AUTO_TEST {
-
   interface ICaseDetail {
     type: string;
     inode: string; // 节点id
@@ -38,40 +37,40 @@ declare namespace AUTO_TEST {
     };
   }
 
-  interface ICaseTreeQuery{
+  interface ICaseTreeQuery {
     scopeID: string;
     scope: string;
     pinode: string;
   }
 
-  interface IConfigEnv{
+  interface IConfigEnv {
     desc: string;
     ns: string;
     displayName: string;
   }
 
-  interface IConfigEnvQuery{
+  interface IConfigEnvQuery {
     scopeID: string;
     scope: string;
   }
 
-  interface IRunRecordQuery extends IPagingReq{
+  interface IRunRecordQuery extends IPagingReq {
     ymlNames: string;
     sources: string;
   }
 
-  interface ISnippetConfig{
+  interface ISnippetConfig {
     source: string;
     name: string;
     labels?: Obj;
     alias: string;
   }
 
-  interface ISnippetDetailQuery{
+  interface ISnippetDetailQuery {
     snippetConfigs: ISnippetConfig[];
   }
 
-  interface ISnippetDetail{
+  interface ISnippetDetail {
     key: string;
     value: string;
     params: PIPELINE.IPipelineInParams;
@@ -82,21 +81,20 @@ declare namespace AUTO_TEST {
     [pro: string]: ISnippetDetail;
   }
 
-  interface ICreateAndRunQuery{
+  interface ICreateAndRunQuery {
     pipelineYml: string;
     pipelineSource: string;
     pipelineYmlName: string;
     clusterName: string;
     configManageNamespaces?: string[];
     autoRunAtOnce: boolean;
-    runParams?: Array<{name: string; value: string}>;
-    labels?: {orgID: string; projectID: string};
+    runParams?: Array<{ name: string; value: string }>;
+    labels?: { orgID: string; projectID: string };
   }
 
   interface IUpdateCaseBody {
     nodeId: string;
     pipelineYml?: string;
-    runParams?: Array<{value: string; name: string}>;
+    runParams?: Array<{ value: string; name: string }>;
   }
-
 }

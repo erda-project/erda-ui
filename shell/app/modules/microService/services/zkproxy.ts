@@ -26,87 +26,124 @@ export /**
  *   }} { projectId, env, ...rest }
  * @returns {MS_ZK.INodeData}
  */
-const getNodeList = (
-  { projectId, env, ...rest }:
-  {
-    projectId: string;
-    env: string;
-    az: string;
-    appid: string;
-    tenantid?: string;
-  },
-): MS_ZK.INodeData => {
-  return agent.get(`/api/tmc/mesh/listhostinterface/${projectId}/${env}`)
+const getNodeList = ({
+  projectId,
+  env,
+  ...rest
+}: {
+  projectId: string;
+  env: string;
+  az: string;
+  appid: string;
+  tenantid?: string;
+}): MS_ZK.INodeData => {
+  return agent
+    .get(`/api/tmc/mesh/listhostinterface/${projectId}/${env}`)
     .query(rest)
     .then((response: any) => response.body);
 };
 
-export const updateNodeRule = (
-  { projectId, env, host, ruleData, ...rest }:
-  {
-    projectId: string;
-    env: string;
-    host: string;
-    az: string;
-    tenantid?: string;
-    ruleData: MS_ZK.INodeListItem;
-  },
-) => {
-  return agent.post(`/api/tmc/mesh/rule/host/${projectId}/${env}/${host}`)
+export const updateNodeRule = ({
+  projectId,
+  env,
+  host,
+  ruleData,
+  ...rest
+}: {
+  projectId: string;
+  env: string;
+  host: string;
+  az: string;
+  tenantid?: string;
+  ruleData: MS_ZK.INodeListItem;
+}) => {
+  return agent
+    .post(`/api/tmc/mesh/rule/host/${projectId}/${env}/${host}`)
     .query(rest)
     .send(ruleData)
     .then((response: any) => response.body);
 };
 
 export const getAppDetail = (appId: number) => {
-  return agent.get(`/api/applications/${appId}`)
-    .then((response: any) => response.body);
+  return agent.get(`/api/applications/${appId}`).then((response: any) => response.body);
 };
 
 export const getRunTimes = (appId: number) => {
-  return agent.get('/api/runtimes')
+  return agent
+    .get('/api/runtimes')
     .query({ applicationId: appId })
     .then((response: any) => response.body);
 };
 
-export const getBranchesRule = (
-  { projectId, env, appId, az }:
-  { projectId: number; env: string; appId: string; az: string },
-) => {
-  return agent.get(`/api/tmc/mesh/rule/branch/${projectId}/${env}/${appId}`)
+export const getBranchesRule = ({
+  projectId,
+  env,
+  appId,
+  az,
+}: {
+  projectId: number;
+  env: string;
+  appId: string;
+  az: string;
+}) => {
+  return agent
+    .get(`/api/tmc/mesh/rule/branch/${projectId}/${env}/${appId}`)
     .query({ az })
     .then((response: any) => response.body);
 };
 
-export const updateBranchesRule = (
-  { projectId, env, appId, az, body }:
-  { projectId: number;
-    env: string;
-    appId: string;
-    az: string;
-    body: any;
-  },
-) => {
-  return agent.post(`/api/tmc/mesh/rule/branch/${projectId}/${env}/${appId}`)
+export const updateBranchesRule = ({
+  projectId,
+  env,
+  appId,
+  az,
+  body,
+}: {
+  projectId: number;
+  env: string;
+  appId: string;
+  az: string;
+  body: any;
+}) => {
+  return agent
+    .post(`/api/tmc/mesh/rule/branch/${projectId}/${env}/${appId}`)
     .query({ az })
     .send(body)
     .then((response: any) => response.body);
 };
 
-export const clearBranchesRule = (
-  { projectId, env, appId, az }:
-  { projectId: number; env: string; appId: string; az: string },
-) => {
-  return agent.delete(`/api/tmc/mesh/rule/branch/${projectId}/${env}/${appId}`)
+export const clearBranchesRule = ({
+  projectId,
+  env,
+  appId,
+  az,
+}: {
+  projectId: number;
+  env: string;
+  appId: string;
+  az: string;
+}) => {
+  return agent
+    .delete(`/api/tmc/mesh/rule/branch/${projectId}/${env}/${appId}`)
     .query({ az })
     .then((response: any) => response.body);
 };
 
-export const getZkInterfaceList = (
-  { projectId, env, tenantGroup, az, runtimeId }:
-  { projectId: number; env: string; tenantGroup: string; az: string; runtimeId: number },
-) => {
-  return agent.get(`/api/tmc/mesh/listinterface/${projectId}/${env.toLocaleLowerCase()}`)
+export const getZkInterfaceList = ({
+  projectId,
+  env,
+  tenantGroup,
+  az,
+  runtimeId,
+}: {
+  projectId: number;
+  env: string;
+  tenantGroup: string;
+  az: string;
+  runtimeId: number;
+}) => {
+  return agent
+    .get(`/api/tmc/mesh/listinterface/${projectId}/${env.toLocaleLowerCase()}`)
     .query({ az, runtimeId, tenantGroup })
     .then((response: any) => response.body);
 };
@@ -141,12 +178,12 @@ export const getZkInterfaceList = (
 // };
 
 export const getClusterDetail = ({ clusterName }: { clusterName: string }) => {
-  return agent.get(`/api/clusters/${clusterName}`)
-    .then((response: any) => response.body);
+  return agent.get(`/api/clusters/${clusterName}`).then((response: any) => response.body);
 };
 
 export const getServiceByIp = ({ projectID, workspace, ip }: MS_ZK.IServiceQuery) => {
-  return agent.get('/api/tmc/service-ip')
+  return agent
+    .get('/api/tmc/service-ip')
     .query({ projectID, workspace, ip })
     .then((response: any) => response.body);
 };

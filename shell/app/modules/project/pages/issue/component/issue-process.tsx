@@ -32,22 +32,28 @@ const IssueProcess = ({ data }: IProps) => {
   }
   const jumpToTask = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
-    goTo(goTo.pages.taskList, { projectId: data.projectID,
+    goTo(goTo.pages.taskList, {
+      projectId: data.projectID,
       query: {
         projectId: data.projectID,
         requirementId: data.id,
         pageNo: 1,
         iterationID: data.iterationID,
         type: ISSUE_TYPE.TASK,
-      } });
+      },
+    });
   };
   const percent = Math.round((doneCount / sum) * 10000) / 100;
   return (
     <div className="mt12">
       <div className="flex-box">
-        <span>{i18n.t('project:task completion')}: {percent}%</span>
+        <span>
+          {i18n.t('project:task completion')}: {percent}%
+        </span>
         <Tooltip title={i18n.t('project:number of completed tasks/total number of tasks')}>
-          <span className="hover-active" onClick={jumpToTask}>{doneCount}/{sum}</span>
+          <span className="hover-active" onClick={jumpToTask}>
+            {doneCount}/{sum}
+          </span>
         </Tooltip>
       </div>
       <Progress percent={percent} showInfo={false} />

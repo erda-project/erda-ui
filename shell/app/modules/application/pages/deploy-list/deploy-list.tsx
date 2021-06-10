@@ -23,12 +23,12 @@ import userMapStore from 'app/common/stores/user-map';
 import { Link } from 'react-router-dom';
 import { getProjectList } from 'project/services/project';
 
-interface IProps{
+interface IProps {
   type: APPROVE_TYPE;
   status: string;
   getList: (arg: object) => Promise<DEPLOY.IDeploy>;
   clearList: () => void;
-  cancelDeployment?: (arg: {runtimeId: number}) => Promise<any>;
+  cancelDeployment?: (arg: { runtimeId: number }) => Promise<any>;
   updateApproval?: (arg: object) => Promise<any>;
   list: DEPLOY.IDeploy[];
   paging: IPaging;
@@ -37,7 +37,7 @@ interface IProps{
 
 export enum APPROVE_TYPE {
   initiate = 'initiate',
-  approve = 'approve'
+  approve = 'approve',
 }
 
 export const approvalStatusMap = {
@@ -54,9 +54,7 @@ const fields = [
     componentProps: {
       placeholder: i18n.t('application:please enter the reason for rejection'),
     },
-    rules: [
-      { max: '100', msg: i18n.t('length is {min}~{max}', { min: 1, max: 100 }) },
-    ],
+    rules: [{ max: '100', msg: i18n.t('length is {min}~{max}', { min: 1, max: 100 }) }],
     required: true,
     type: 'textarea',
   },
@@ -78,9 +76,10 @@ const PureDeployList = (props: IProps) => {
   });
 
   const updateState = (val: DEPLOY.IUpdateApproveBody) => {
-    updateApproval && updateApproval(val).then(() => {
-      fetchDataWithQuery(1);
-    });
+    updateApproval &&
+      updateApproval(val).then(() => {
+        fetchDataWithQuery(1);
+      });
   };
 
   const columns = [
@@ -94,11 +93,7 @@ const PureDeployList = (props: IProps) => {
       width: 240,
       render: (projectName: string, record: any) => {
         const mainInfo = `${projectName}/${record.applicationName}/${record.branchName}`;
-        return (
-          <Tooltip title={mainInfo}>
-            {mainInfo}
-          </Tooltip>
-        );
+        return <Tooltip title={mainInfo}>{mainInfo}</Tooltip>;
       },
     },
     {
@@ -113,7 +108,9 @@ const PureDeployList = (props: IProps) => {
         if (!val) return '';
         const { buildId, projectId, applicationId } = record;
         return (
-          <Link to={goTo.resolve.pipeline({ projectId, appId: applicationId, pipelineID: buildId })} target="_blank">{val}</Link>
+          <Link to={goTo.resolve.pipeline({ projectId, appId: applicationId, pipelineID: buildId })} target="_blank">
+            {val}
+          </Link>
         );
       },
     },
@@ -123,7 +120,7 @@ const PureDeployList = (props: IProps) => {
         dataIndex: 'operator',
         render: (val: string) => {
           const curUser = userMap[val];
-          return curUser ? (curUser.nick || curUser.name) : '';
+          return curUser ? curUser.nick || curUser.name : '';
         },
       },
     ]),
@@ -134,14 +131,10 @@ const PureDeployList = (props: IProps) => {
         render: (val: string[]) => {
           const approver = (val || []).map((item) => {
             const curUser = userMap[item];
-            return curUser ? (curUser.nick || curUser.name) : '';
+            return curUser ? curUser.nick || curUser.name : '';
           });
           const approvalPerson = i18n.t('wait for {approver} to approve', { approver: approver.join('、') });
-          return (
-            <Tooltip title={approvalPerson}>
-              {approvalPerson}
-            </Tooltip>
-          );
+          return <Tooltip title={approvalPerson}>{approvalPerson}</Tooltip>;
         },
       },
     ]),
@@ -193,11 +186,7 @@ const PureDeployList = (props: IProps) => {
         title: i18n.t('application:reason for rejection'),
         dataIndex: 'approvalReason',
         render: (approvalReason: string) => {
-          return (
-            <Tooltip title={approvalReason}>
-              {approvalReason}
-            </Tooltip>
-          );
+          return <Tooltip title={approvalReason}>{approvalReason}</Tooltip>;
         },
       },
     },
@@ -211,38 +200,42 @@ const PureDeployList = (props: IProps) => {
     debounceGap: 500,
   });
 
-  const filterConfig = React.useMemo(() => [
-    {
-      type: Input,
-      name: 'id',
-      customProps: {
-        placeholder: i18n.t('filter by {name}', { name: 'ID' }),
-      },
-    },
-    ...insertWhen(type === APPROVE_TYPE.approve, [
+  const filterConfig = React.useMemo(
+    () => [
       {
-        type: MemberSelector,
-        name: 'operator',
+        type: Input,
+        name: 'id',
         customProps: {
-          placeholder: i18n.t('filter by {name}', { name: i18n.t('applicant') }),
-          scopeType: 'org',
-          size: 'small',
+          placeholder: i18n.t('filter by {name}', { name: 'ID' }),
         },
-      }]),
-    {
-      type: LoadMoreSelector,
-      name: 'projectId',
-      customProps: {
-        placeholder: i18n.t('please choose {name}', { name: i18n.t('project name') }),
-        allowClear: true,
-        getData: getProjectListData,
       },
-    },
-  ], [type]);
+      ...insertWhen(type === APPROVE_TYPE.approve, [
+        {
+          type: MemberSelector,
+          name: 'operator',
+          customProps: {
+            placeholder: i18n.t('filter by {name}', { name: i18n.t('applicant') }),
+            scopeType: 'org',
+            size: 'small',
+          },
+        },
+      ]),
+      {
+        type: LoadMoreSelector,
+        name: 'projectId',
+        customProps: {
+          placeholder: i18n.t('please choose {name}', { name: i18n.t('project name') }),
+          allowClear: true,
+          getData: getProjectListData,
+        },
+      },
+    ],
+    [type],
+  );
 
   const onCancel = () => update({ modalVis: false, editData: undefined });
 
-  const onFinish = (value: {reason: string}) => {
+  const onFinish = (value: { reason: string }) => {
     updateState({ ...value, id: editData.id, reject: true });
     onCancel();
   };
@@ -250,12 +243,7 @@ const PureDeployList = (props: IProps) => {
     <div>
       <CustomFilter onSubmit={onSubmit} onReset={onReset} config={filterConfig} isConnectQuery />
       <Spin spinning={isFetching}>
-        <Table
-          rowKey="id"
-          columns={columns}
-          dataSource={list}
-          pagination={paging ? autoPagination(paging) : false}
-        />
+        <Table rowKey="id" columns={columns} dataSource={list} pagination={paging ? autoPagination(paging) : false} />
       </Spin>
       <FormModal
         title={i18n.t('application:reason for rejection')}

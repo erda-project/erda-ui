@@ -27,7 +27,10 @@ export default function BackupManagement() {
   const [visible, setVisible] = React.useState(false);
   const [backupList, backupPaging, info] = repoStore.useStore((s) => [s.backupList, s.backupPaging, s.info]);
   const { addBackup, getBackupList, deleteBackup, getLatestCommit } = repoStore.effects;
-  const [newBackupAuth, deleteBackupAuth] = usePerm((s) => [s.app.repo.backup.backupRepo.pass, s.app.repo.backup.deleteBackup.pass]);
+  const [newBackupAuth, deleteBackupAuth] = usePerm((s) => [
+    s.app.repo.backup.backupRepo.pass,
+    s.app.repo.backup.deleteBackup.pass,
+  ]);
   const download = (uuid: string) => window.open(setApiWithOrg(`/api/backup/${uuid}`));
   const { branches = [] } = info;
   const columns: any[] = [
@@ -41,7 +44,11 @@ export default function BackupManagement() {
       title: i18n.t('application:commit ID'),
       width: 150,
       dataIndex: 'commitId',
-      render: (commitId: string) => <span className="for-copy" data-clipboard-text={commitId}>{commitId}</span>,
+      render: (commitId: string) => (
+        <span className="for-copy" data-clipboard-text={commitId}>
+          {commitId}
+        </span>
+      ),
     },
     {
       title: i18n.t('application:submit information'),
@@ -66,10 +73,7 @@ export default function BackupManagement() {
       render: (_: any, record: REPOSITORY.BackupQuery) => {
         return (
           <div className="table-operations">
-            <span
-              className="table-operations-btn"
-              onClick={() => download(record.uuid)}
-            >
+            <span className="table-operations-btn" onClick={() => download(record.uuid)}>
               {i18n.t('download')}
             </span>
             <WithAuth pass={deleteBackupAuth}>
@@ -77,18 +81,11 @@ export default function BackupManagement() {
                 title={`${i18n.t('common:confirm to delete')}?`}
                 disabled={info.isLocked}
                 onConfirm={() => {
-                  deleteBackup({ uuid: record.uuid })
-                    .then(() => reloadBackupList({ pageNo: 1 }));
+                  deleteBackup({ uuid: record.uuid }).then(() => reloadBackupList({ pageNo: 1 }));
                 }}
               >
-                <Tooltip
-                  title={info.isLocked ?
-                    i18n.t('application:lock-operation-tip') :
-                    i18n.t('delete')}
-                >
-                  <span className={info.isLocked ? '' : 'table-operations-btn'}>
-                    {i18n.t('delete')}
-                  </span>
+                <Tooltip title={info.isLocked ? i18n.t('application:lock-operation-tip') : i18n.t('delete')}>
+                  <span className={info.isLocked ? '' : 'table-operations-btn'}>{i18n.t('delete')}</span>
                 </Tooltip>
               </Popconfirm>
             </WithAuth>
@@ -115,9 +112,12 @@ export default function BackupManagement() {
           filterOption={(input, option: any) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
         >
           {branches.map((option: string) => (
-            <Option key={option} value={option}>{option}</Option>
+            <Option key={option} value={option}>
+              {option}
+            </Option>
           ))}
-        </Select>),
+        </Select>
+      ),
     },
     // 暂无法备份历史 commit 代码，只能备份最新 commit 代码，故隐藏此字段
     {
@@ -128,10 +128,12 @@ export default function BackupManagement() {
       itemProps: {
         type: 'hidden',
       },
-      rules: [{
-        pattern: /^[a-z0-9]{40}$/,
-        message: i18n.t('application:commitID-input-tip'),
-      }],
+      rules: [
+        {
+          pattern: /^[a-z0-9]{40}$/,
+          message: i18n.t('application:commitID-input-tip'),
+        },
+      ],
     },
     {
       label: i18n.t('application:submit information'),
@@ -167,8 +169,7 @@ export default function BackupManagement() {
   });
 
   const onAddBackup = (backupInfo: REPOSITORY.IBackupAppendBody) => {
-    addBackup(backupInfo)
-      .then(() => reloadBackupList({ pageNo: 1 }));
+    addBackup(backupInfo).then(() => reloadBackupList({ pageNo: 1 }));
     setVisible(false);
   };
 
@@ -178,11 +179,7 @@ export default function BackupManagement() {
       <div className="top-button-group">
         <WithAuth pass={newBackupAuth}>
           <Tooltip
-            title={
-              info.isLocked ?
-                i18n.t('application:lock-operation-tip') :
-                i18n.t('application:new backup')
-              }
+            title={info.isLocked ? i18n.t('application:lock-operation-tip') : i18n.t('application:new backup')}
             placement="left"
           >
             <Button type="primary" disabled={info.isLocked} onClick={() => setVisible(true)}>
@@ -198,12 +195,7 @@ export default function BackupManagement() {
           onCancel={() => setVisible(false)}
         />
       </div>
-      <Table
-        columns={columns}
-        rowKey="id"
-        dataSource={backupList}
-        pagination={backupPagination}
-      />
+      <Table columns={columns} rowKey="id" dataSource={backupList} pagination={backupPagination} />
     </div>
   );
 }

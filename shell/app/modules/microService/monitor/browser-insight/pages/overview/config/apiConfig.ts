@@ -45,7 +45,8 @@ export const ApiMap = {
       const res = get(results, '[0].data[0]["count.plt"]');
       return {
         results: [{ ...res }],
-        xAxis: isArray(time) && map(time, (_time) => moment(Number(_time)).format('MM-DD')) };
+        xAxis: isArray(time) && map(time, (_time) => moment(Number(_time)).format('MM-DD')),
+      };
     },
   },
 };

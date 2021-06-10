@@ -26,7 +26,7 @@ import { insertWhen } from 'common/utils';
 import { scopeConfig } from '../scope-config';
 import './record-list.scss';
 
-interface IProps{
+interface IProps {
   curPipelineDetail?: PIPELINE.IPipeline;
   onSelectPipeline: (p: PIPELINE.IPipeline) => void;
   scope: string;
@@ -34,7 +34,12 @@ interface IProps{
 
 const RecordList = React.forwardRef((props: IProps, ref: any) => {
   const { curPipelineDetail, onSelectPipeline, scope } = props;
-  const [pipelineRecordList, pipelineRecordPaging, caseDetail, pipelineReportList] = autoTestStore.useStore((s) => [s.pipelineRecordList, s.pipelineRecordPaging, s.caseDetail, s.pipelineReportList]);
+  const [pipelineRecordList, pipelineRecordPaging, caseDetail, pipelineReportList] = autoTestStore.useStore((s) => [
+    s.pipelineRecordList,
+    s.pipelineRecordPaging,
+    s.caseDetail,
+    s.pipelineReportList,
+  ]);
   const { getPipelineRecordList, clearPipelineRecord, getPipelineReport, clearPipelineReport } = autoTestStore;
   const [loading] = useLoading(autoTestStore, ['getPipelineRecordList', 'getPipelineReport']);
   const { total, pageNo, pageSize } = pipelineRecordPaging;
@@ -57,7 +62,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
         reload: () => getList({ pageNo }),
       };
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNo, ref]);
 
   const hidePopover = () => {
@@ -73,7 +78,12 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
   };
 
   const getList = (q: any = {}, forceUpdate = false) => {
-    getPipelineRecordList({ ymlNames: caseDetail.inode, sources: scopeConfigData.runPipelineSource, pageNo: 1, ...q }).then((res: any) => {
+    getPipelineRecordList({
+      ymlNames: caseDetail.inode,
+      sources: scopeConfigData.runPipelineSource,
+      pageNo: 1,
+      ...q,
+    }).then((res: any) => {
       if (forceUpdate || isEmpty(curPipelineDetail)) {
         onSelectPipeline(get(res, 'list[0]'));
       }
@@ -84,69 +94,79 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
     if (isEmpty(pipelineRecordList)) {
       return <p>{i18n.t('common:no data')}</p>;
     }
-    const columns: Array<ColumnProps<any>> = [{
-      title: i18n.t('version'),
-      dataIndex: 'runIndex',
-      width: 80,
-      align: 'center',
-      render: (runIndex: any) => (
-        <span className="run-index">
-          {/* {record.triggerMode === 'cron' && <CustomIcon type="clock" />} */}
-          {runIndex}
-        </span>
-      ),
-    }, {
-      title: 'ID',
-      dataIndex: 'id',
-      width: 80,
-      align: 'center',
-    }, {
-      title: i18n.t('status'),
-      dataIndex: 'status',
-      width: 100,
-      render: (status: string) => (
-        <span>
-          <span className="nowrap">{ciStatusMap[status].text}</span>
-          <Badge className="ml4" status={ciStatusMap[status].status} />
-        </span>
-      ),
-    }, {
-      title: i18n.t('project:executor'),
-      dataIndex: 'extra.runUser.name',
-      width: 100,
-      align: 'center',
-    }, {
-      title: i18n.t('trigger time'),
-      dataIndex: 'timeCreated',
-      width: 200,
-      render: (timeCreated: number) => moment(new Date(timeCreated)).format('YYYY-MM-DD HH:mm:ss'),
-    },
-    ...insertWhen(scope === 'autoTest', [{
-      title: i18n.t('project:report'),
-      key: 'report',
-      width: 200,
-      render: (_: any, record: any) => (
-        <div className="table-operations">
-          <span
-            className="table-operations-btn"
-            onClick={() => viewReport(record.id)}
-          >
-            {i18n.t('common:view')}
+    const columns: Array<ColumnProps<any>> = [
+      {
+        title: i18n.t('version'),
+        dataIndex: 'runIndex',
+        width: 80,
+        align: 'center',
+        render: (runIndex: any) => (
+          <span className="run-index">
+            {/* {record.triggerMode === 'cron' && <CustomIcon type="clock" />} */}
+            {runIndex}
           </span>
-        </div>
-      ),
-    }])];
+        ),
+      },
+      {
+        title: 'ID',
+        dataIndex: 'id',
+        width: 80,
+        align: 'center',
+      },
+      {
+        title: i18n.t('status'),
+        dataIndex: 'status',
+        width: 100,
+        render: (status: string) => (
+          <span>
+            <span className="nowrap">{ciStatusMap[status].text}</span>
+            <Badge className="ml4" status={ciStatusMap[status].status} />
+          </span>
+        ),
+      },
+      {
+        title: i18n.t('project:executor'),
+        dataIndex: 'extra.runUser.name',
+        width: 100,
+        align: 'center',
+      },
+      {
+        title: i18n.t('trigger time'),
+        dataIndex: 'timeCreated',
+        width: 200,
+        render: (timeCreated: number) => moment(new Date(timeCreated)).format('YYYY-MM-DD HH:mm:ss'),
+      },
+      ...insertWhen(scope === 'autoTest', [
+        {
+          title: i18n.t('project:report'),
+          key: 'report',
+          width: 200,
+          render: (_: any, record: any) => (
+            <div className="table-operations">
+              <span className="table-operations-btn" onClick={() => viewReport(record.id)}>
+                {i18n.t('common:view')}
+              </span>
+            </div>
+          ),
+        },
+      ]),
+    ];
 
-
-    const startIndex = total - (pageSize * (pageNo - 1));
+    const startIndex = total - pageSize * (pageNo - 1);
     const dataSource = map(pipelineRecordList, (item, index) => {
       return { ...item, runIndex: '#'.concat(String(startIndex - index)) };
     });
 
     return (
       <div className="pipeline-record-list">
-        <div className="pipeline-refresh-btn" onClick={() => { getList({ pageNo: 1 }); }}>
-          <CustomIcon type="shuaxin" />{i18n.t('fetch latest records')}
+        <div
+          className="pipeline-refresh-btn"
+          onClick={() => {
+            getList({ pageNo: 1 });
+          }}
+        >
+          <CustomIcon type="shuaxin" />
+          {i18n.t('fetch latest records')}
         </div>
         <Table
           rowKey="runIndex"
@@ -193,8 +213,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
       render: (_: any, record: any) => {
         const { autoTestNum, autoTestNotExecNum } = get(record, 'meta');
         const executionRate = (autoTestNum - autoTestNotExecNum) / autoTestNum;
-        return Number(executionRate) === executionRate ?
-          `${(executionRate * 100).toFixed(2)}%` : '-';
+        return Number(executionRate) === executionRate ? `${(executionRate * 100).toFixed(2)}%` : '-';
       },
     },
     {
@@ -204,8 +223,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
       render: (_: any, record: any) => {
         const { autoTestNum, autoTestSuccessNum } = get(record, 'meta');
         const passRate = autoTestSuccessNum / autoTestNum;
-        return Number(passRate) === passRate ?
-          `${(passRate * 100).toFixed(2)}%` : '-';
+        return Number(passRate) === passRate ? `${(passRate * 100).toFixed(2)}%` : '-';
       },
     },
   ];
@@ -221,9 +239,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
         onVisibleChange={handlePopoverVisible}
         arrowPointAtCenter
       >
-        <Button>
-          {i18n.t('application:execute records')}
-        </Button>
+        <Button>{i18n.t('application:execute records')}</Button>
       </Popover>
       <Drawer
         width="50%"
@@ -233,12 +249,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
         destroyOnClose
         className="site-message-drawer"
       >
-        <Table
-          dataSource={pipelineReportList}
-          columns={reportColumns}
-          loading={loading}
-          rowKey="id"
-        />
+        <Table dataSource={pipelineReportList} columns={reportColumns} loading={loading} rowKey="id" />
       </Drawer>
     </>
   );

@@ -47,14 +47,17 @@ const trace = createFlatStore({
   name: 'monitorTraceStore',
   state: initState,
   effects: {
-    async getTraceCount({ call, update, getParams }, payload: {
-      start?: number;
-      end?: number;
-      'filter_fields.applications_ids'?: number;
-      'filter_fields.services_distinct'?: string;
-      field_gt_errors_sum?: number;
-      field_eq_errors_sum?: number;
-    }) {
+    async getTraceCount(
+      { call, update, getParams },
+      payload: {
+        start?: number;
+        end?: number;
+        'filter_fields.applications_ids'?: number;
+        'filter_fields.services_distinct'?: string;
+        field_gt_errors_sum?: number;
+        field_eq_errors_sum?: number;
+      },
+    ) {
       const { terminusKey } = getParams();
       const traceCount = await call(getTraceCount, {
         cardinality: 'tags.trace_id',

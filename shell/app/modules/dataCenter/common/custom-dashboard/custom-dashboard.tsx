@@ -15,7 +15,6 @@ import * as React from 'react';
 import i18n from 'i18n';
 import { Input, message } from 'app/nusi';
 import { map, merge, reduce, isString, get } from 'lodash';
-import { Choose, When, Otherwise } from 'tsx-control-statements/components';
 import { CommonRangePicker, useUpdate, IF, BoardGrid, PureBoardGrid } from 'common';
 import { registDiceDataConfigProps, createLoadDataFn } from '@terminus/dashboard-configurator';
 import { goTo, getTimeSpan } from 'common/utils';
@@ -53,38 +52,34 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
     scopeId,
     loadDataApi: {
       url: dataUrlMap[scope],
-      query: scope === 'org'
-        ? undefined
-        : {
-          filter__metric_scope: scope,
-          filter__metric_scope_id: scopeId,
-        },
+      query:
+        scope === 'org'
+          ? undefined
+          : {
+              filter__metric_scope: scope,
+              filter__metric_scope_id: scopeId,
+            },
     },
   });
 
   const store = storeMap[scope];
   const timeSpan = store.useStore((s) => s.timeSpan);
-  const { createCustomDashboard, updateCustomDashboard, getCustomDashboardDetail, updateTimeSpan, resetTimeSpan } = store;
+  const { createCustomDashboard, updateCustomDashboard, getCustomDashboardDetail, updateTimeSpan, resetTimeSpan } =
+    store;
   const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
   const { dashboardId } = params;
   const isDashboardDetail = !!dashboardId;
   const isFromMicroService = scope === CustomDashboardScope.MICRO_SERVICE;
 
-  const [{
-    curLayout,
-    isEditMode,
-    dashboardName,
-    isNewVersionDC,
-    dashboardDesc,
-    editorToggleStatus,
-  }, updater] = useUpdate({
-    curLayout: [],
-    isEditMode: false,
-    dashboardName: '',
-    dashboardDesc: '',
-    isNewVersionDC: !isDashboardDetail,
-    editorToggleStatus: false,
-  });
+  const [{ curLayout, isEditMode, dashboardName, isNewVersionDC, dashboardDesc, editorToggleStatus }, updater] =
+    useUpdate({
+      curLayout: [],
+      isEditMode: false,
+      dashboardName: '',
+      dashboardDesc: '',
+      isNewVersionDC: !isDashboardDetail,
+      editorToggleStatus: false,
+    });
 
   useMount(() => {
     if (query.timestamp) {
@@ -106,46 +101,61 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
     }
   });
 
-  const _getCustomDashboardDetail = React.useCallback((id: string) => {
-    getCustomDashboardDetail({ id, scopeId }).then((customDashboardDetail: any) => {
-      const { name, desc, version: _version } = customDashboardDetail;
-      const _isNewVersionDC = _version === 'v2';
-      updater.dashboardName(name);
-      updater.isNewVersionDC(_isNewVersionDC);
-      updater.dashboardDesc(desc || '');
+  const _getCustomDashboardDetail = React.useCallback(
+    (id: string) => {
+      getCustomDashboardDetail({ id, scopeId }).then((customDashboardDetail: any) => {
+        const { name, desc, version: _version } = customDashboardDetail;
+        const _isNewVersionDC = _version === 'v2';
+        updater.dashboardName(name);
+        updater.isNewVersionDC(_isNewVersionDC);
+        updater.dashboardDesc(desc || '');
 
-      const { startTimeMs, endTimeMs } = timeSpan;
-      const layout = map(customDashboardDetail.viewConfig, (viewItem) => {
-        const filters = get(viewItem, 'view.api.extraData.filters');
-        const _viewItem = merge({}, viewItem, { view: { api: { query: {
-          ...reduce(filters, (acc, { value, method, tag }) => {
-            const matchQuery = isString(value) ? getVariableStr(value) : undefined;
-            return {
-              ...acc,
-              [`${method}_${tag}`]: matchQuery ? query[matchQuery] : value.split(','),
-            };
-          }, {}),
-          start: startTimeMs,
-          end: endTimeMs,
-          // 初始化大盘时，后端初始不了鉴权参数
-          filter_terminus_key: isFromMicroService ? scopeId : undefined,
-        } } } });
-        const { api, chartType } = _viewItem.view;
-
-        return merge({}, _viewItem, { view: {
-          loadData: _isNewVersionDC
-            ? createLoadDataFn({ ..._viewItem.view, ...(get(_viewItem, 'view.config.dataSourceConfig') || {}) })
-            : createOldLoadDataFn(api, chartType),
-          config: {
-            optionProps: {
-              isMoreThanOneDay: moment(endTimeMs).diff(moment(startTimeMs), 'days') > 0,
+        const { startTimeMs, endTimeMs } = timeSpan;
+        const layout = map(customDashboardDetail.viewConfig, (viewItem) => {
+          const filters = get(viewItem, 'view.api.extraData.filters');
+          const _viewItem = merge({}, viewItem, {
+            view: {
+              api: {
+                query: {
+                  ...reduce(
+                    filters,
+                    (acc, { value, method, tag }) => {
+                      const matchQuery = isString(value) ? getVariableStr(value) : undefined;
+                      return {
+                        ...acc,
+                        [`${method}_${tag}`]: matchQuery ? query[matchQuery] : value.split(','),
+                      };
+                    },
+                    {},
+                  ),
+                  start: startTimeMs,
+                  end: endTimeMs,
+                  // 初始化大盘时，后端初始不了鉴权参数
+                  filter_terminus_key: isFromMicroService ? scopeId : undefined,
+                },
+              },
             },
-          },
-        } });
+          });
+          const { api, chartType } = _viewItem.view;
+
+          return merge({}, _viewItem, {
+            view: {
+              loadData: _isNewVersionDC
+                ? createLoadDataFn({ ..._viewItem.view, ...(get(_viewItem, 'view.config.dataSourceConfig') || {}) })
+                : createOldLoadDataFn(api, chartType),
+              config: {
+                optionProps: {
+                  isMoreThanOneDay: moment(endTimeMs).diff(moment(startTimeMs), 'days') > 0,
+                },
+              },
+            },
+          });
+        });
+        updater.curLayout(layout);
       });
-      updater.curLayout(layout);
-    });
-  }, [getCustomDashboardDetail, scopeId, updater, timeSpan, isFromMicroService, query]);
+    },
+    [getCustomDashboardDetail, scopeId, updater, timeSpan, isFromMicroService, query],
+  );
 
   React.useEffect(() => {
     isDashboardDetail && _getCustomDashboardDetail(dashboardId);
@@ -190,7 +200,13 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
           {/* <Select placeholder="自动刷新间隔" style={{ width: 200 }} allowClear>
             {map(AUTO_RELOAD_OPTIONS, ({ value, name }) => <Select.Option key={value} value={value}>{name}</Select.Option>)}
           </Select> */}
-          <IF check={!isEditMode}><CommonRangePicker defaultTime={[timeSpan.startTimeMs, timeSpan.endTimeMs]} disabledDate={() => false} onOk={(v) => updateTimeSpan(v)} /></IF>
+          <IF check={!isEditMode}>
+            <CommonRangePicker
+              defaultTime={[timeSpan.startTimeMs, timeSpan.endTimeMs]}
+              disabledDate={() => false}
+              onOk={(v) => updateTimeSpan(v)}
+            />
+          </IF>
           <IF check={isEditMode}>
             <div className="dashboard-info-editor">
               <Input
@@ -229,10 +245,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
             />
           </When>
           <Otherwise>
-            <PureBoardGrid
-              name={dashboardName}
-              layout={curLayout}
-            />
+            <PureBoardGrid name={dashboardName} layout={curLayout} />
           </Otherwise>
         </Choose>
       </div>

@@ -43,14 +43,7 @@ const Topic = () => {
     });
   };
 
-  const [{
-    formVisible,
-    setTagDisabled,
-    tagFormVis,
-    items,
-    tagFormData,
-    stateChangeKey,
-  }, updater, update] = useUpdate({
+  const [{ formVisible, setTagDisabled, tagFormVis, items, tagFormData, stateChangeKey }, updater, update] = useUpdate({
     formVisible: false,
     setTagDisabled: true,
     tagFormVis: false,
@@ -93,12 +86,14 @@ const Topic = () => {
                   tagFormData: {
                     projects: Object.keys(tags),
                   },
-                  items: [{
-                    vendor: 'alicloud',
-                    region: query.region,
-                    resourceID: topicName,
-                    oldTags: Object.keys(tags),
-                  }],
+                  items: [
+                    {
+                      vendor: 'alicloud',
+                      region: query.region,
+                      resourceID: topicName,
+                      oldTags: Object.keys(tags),
+                    },
+                  ],
                 });
               }}
             >
@@ -117,13 +112,14 @@ const Topic = () => {
         <Alert
           message={
             i18n.t('dcos:regions-provide-intranet-default')
-              /* <li>2. {i18n.t('dcos:please refer to topic resource occupation fee')}
+            /* <li>2. {i18n.t('dcos:please refer to topic resource occupation fee')}
                 <span className="text-link">{i18n.t('billing details')}</span>
                 {i18n.t('dcos:delete-topics-costs')}
               </li> */
           }
           type="normal"
-        />),
+        />
+      ),
     },
     {
       label: 'Topic',

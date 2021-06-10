@@ -36,19 +36,23 @@ const rootBodyPath = {
   data: {},
 };
 
-const noExpandTypes = [
-  'array[string]',
-  'array[number]',
-  'array[boolean]',
-  'null',
-];
+const noExpandTypes = ['array[string]', 'array[number]', 'array[boolean]', 'null'];
 
-const RenderBody = ({ root, properties = {} }: {root: string; properties?: {[key: string]: any}; dataType: string}) => {
-  const [bodyPath, setBodyPath] = useState([{
-    ...rootBodyPath,
-    title: root || rootBodyPath.title,
-    name: root || rootBodyPath.name,
-  }]);
+const RenderBody = ({
+  root,
+  properties = {},
+}: {
+  root: string;
+  properties?: { [key: string]: any };
+  dataType: string;
+}) => {
+  const [bodyPath, setBodyPath] = useState([
+    {
+      ...rootBodyPath,
+      title: root || rootBodyPath.title,
+      name: root || rootBodyPath.name,
+    },
+  ]);
   const [bodyData, setBodyData] = useState({});
   const [dataType, setDataType] = useState('object');
 
@@ -69,16 +73,19 @@ const RenderBody = ({ root, properties = {} }: {root: string; properties?: {[key
     const data = type === 'array' ? items.properties : property || restParams;
     setDataType(type);
     setBodyData(data);
-    setBodyPath([...bodyPath, {
-      title: params,
-      name: type === 'array' ? params : title,
-      params,
-      type,
-      key: bodyPath.length,
-      data,
-    }]);
+    setBodyPath([
+      ...bodyPath,
+      {
+        title: params,
+        name: type === 'array' ? params : title,
+        params,
+        type,
+        key: bodyPath.length,
+        data,
+      },
+    ]);
   };
-  const generatorType = (params: string, item: {[k: string]: any; type: string; items: Record<string, any>}) => {
+  const generatorType = (params: string, item: { [k: string]: any; type: string; items: Record<string, any> }) => {
     const { type, items = {}, enum: enums = [], properties: property, description, ...rest } = item;
     const restParams = get(values(rest), '[0].properties') || {};
     let typeStr = type;
@@ -112,36 +119,33 @@ const RenderBody = ({ root, properties = {} }: {root: string; properties?: {[key
       let showExpand = true;
       if (['object', 'array'].includes(paramsProps.type)) {
         const { type, allowExpand } = generatorType(params, paramsProps);
-        paramsType = type; showExpand = allowExpand;
+        paramsType = type;
+        showExpand = allowExpand;
       }
       return (
         <Row type="flex" key={params} className="bold-400 nowrap color-text border-bottom pt8 pb8">
           <Col span={6}>
-            <div className="param-key nowrap">
-              {params}
-            </div>
+            <div className="param-key nowrap">{params}</div>
           </Col>
           <Col span={6}>
             <div className="param-type nowrap">
-              {
-                ['object', 'array'].includes(paramsProps.type) && showExpand ? (
-                  <span
-                    className={`mb12 nowrap ${noExpandTypes.includes(paramsType) ? '' : 'fake-link '}`}
-                    onClick={() => {
-                      expand(params, paramsProps);
-                    }}
-                  >
-                    {paramsType}
-                  </span>
-                ) : paramsType
-              }
+              {['object', 'array'].includes(paramsProps.type) && showExpand ? (
+                <span
+                  className={`mb12 nowrap ${noExpandTypes.includes(paramsType) ? '' : 'fake-link '}`}
+                  onClick={() => {
+                    expand(params, paramsProps);
+                  }}
+                >
+                  {paramsType}
+                </span>
+              ) : (
+                paramsType
+              )}
             </div>
           </Col>
           <Col span={12}>
             <Tooltip title={paramsProps.description} placement="topLeft">
-              <div className="param-description nowrap">
-                {paramsProps.description || ''}
-              </div>
+              <div className="param-description nowrap">{paramsProps.description || ''}</div>
             </Tooltip>
           </Col>
         </Row>
@@ -149,7 +153,7 @@ const RenderBody = ({ root, properties = {} }: {root: string; properties?: {[key
     });
   };
 
-  const changeRoute = ({ key, type, data }: {key: number; type: string; data: any}, jump: boolean) => {
+  const changeRoute = ({ key, type, data }: { key: number; type: string; data: any }, jump: boolean) => {
     if (!jump) {
       return;
     }
@@ -172,11 +176,10 @@ const RenderBody = ({ root, properties = {} }: {root: string; properties?: {[key
             onClick={() => {
               changeRoute(item, index !== bodyPath.length - 1);
             }}
-          >{item.title}
+          >
+            {item.title}
           </span>
-          {
-            index === bodyPath.length - 1 ? null : <span className="separator">/</span>
-          }
+          {index === bodyPath.length - 1 ? null : <span className="separator">/</span>}
         </Fragment>
       );
     });
@@ -184,14 +187,8 @@ const RenderBody = ({ root, properties = {} }: {root: string; properties?: {[key
 
   return (
     <>
-      <div className="api-router mb12">
-        {
-          renderBodyPath()
-        }
-      </div>
-      {
-        dataType ? <p className="tips">if type is: {dataType}</p> : null
-      }
+      <div className="api-router mb12">{renderBodyPath()}</div>
+      {dataType ? <p className="tips">if type is: {dataType}</p> : null}
       {renderBody(bodyData)}
     </>
   );

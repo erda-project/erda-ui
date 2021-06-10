@@ -16,7 +16,7 @@ import { createStore } from 'app/cube';
 import { loadComparative } from '../services/comparative';
 import i18n from 'i18n';
 
-interface ILoadQuery{
+interface ILoadQuery {
   query: {
     [pro: string]: any;
     type: string;
@@ -56,7 +56,11 @@ const comparativeStore = createStore({
             const { count, percent, min, max } = item;
             let name = '';
             if (type === 'apdex') {
-              name = [i18n.t('microService:satisfied'), i18n.t('microService:tolerable'), i18n.t('microService:not satisfied')][i];
+              name = [
+                i18n.t('microService:satisfied'),
+                i18n.t('microService:tolerable'),
+                i18n.t('microService:not satisfied'),
+              ][i];
             } else {
               name = `[${min},${max}]`;
             }
@@ -70,7 +74,6 @@ const comparativeStore = createStore({
       state.comparative = comparative;
     },
   },
-
 });
 
 export default comparativeStore;

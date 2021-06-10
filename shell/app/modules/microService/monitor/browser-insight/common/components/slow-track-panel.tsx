@@ -18,7 +18,7 @@ import { ColumnProps } from 'core/common/interface';
 import moment from 'moment';
 import i18n from 'i18n';
 
-interface IData{
+interface IData {
   [pro: string]: any;
   name: string;
   time?: string;
@@ -26,7 +26,7 @@ interface IData{
   min?: string;
 }
 
-const SlowTrackPanel = ({ data }: {data: object}) => {
+const SlowTrackPanel = ({ data }: { data: object }) => {
   const list = get(data, 'list') || [];
   const columns: Array<ColumnProps<IData>> = [
     {
@@ -57,7 +57,7 @@ const SlowTrackPanel = ({ data }: {data: object}) => {
       render: (value: number) => value.toFixed(2),
     },
   ];
-  return <Table rowKey={(record: IData, i) => (i + record.name)} columns={columns} dataSource={list} />;
+  return <Table rowKey={(record: IData, i) => i + record.name} columns={columns} dataSource={list} />;
 };
 
 export default SlowTrackPanel;

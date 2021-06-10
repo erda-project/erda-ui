@@ -30,7 +30,7 @@ const formItemLayout = {
   wrapperCol: { span: 16 },
 };
 
-interface IProps{
+interface IProps {
   [pro: string]: any;
   lastSearchParams: ISearchParam;
   services: any;
@@ -41,11 +41,11 @@ interface IProps{
   setSearchParam: (args?: any) => Promise<any>;
   setTimeMs: (arg1: string, arg2?: any) => Promise<any>;
 }
-interface IState{
+interface IState {
   searchParam: ISearchParam;
   formTraceId?: any;
 }
-interface ISearchParam{
+interface ISearchParam {
   [pro: string]: any;
   sortType: string;
   pageNo: number;
@@ -86,21 +86,25 @@ class TraceFilterForm extends React.Component<IProps, IState> {
   clickSortMode = (e: any) => {
     const sortType = e.target.value;
     const { searchParam } = this.state;
-    if (sortType === searchParam.sortType) { // 已选中的，取消选择
+    if (sortType === searchParam.sortType) {
+      // 已选中的，取消选择
       this.changeSearchParam({ sortType: '' });
     }
   };
 
   changeSearchParam = (params: object) => {
-    this.setState({
-      searchParam: {
-        ...this.state.searchParam,
-        ...params,
-        pageNo: 1,
+    this.setState(
+      {
+        searchParam: {
+          ...this.state.searchParam,
+          ...params,
+          pageNo: 1,
+        },
       },
-    }, () => {
-      this.setSearchParam();
-    });
+      () => {
+        this.setSearchParam();
+      },
+    );
   };
 
   setSearchParam = () => {
@@ -158,11 +162,13 @@ class TraceFilterForm extends React.Component<IProps, IState> {
             rules: [{ required: true, message: i18n.t('microService:the module name cannot be empty') }],
           })(
             <Select disabled={searchIdOnly}>
-              {
-                map(services, (service, index) => {
-                  return <Option key={index} value={service}>{service}</Option>;
-                })
-              }
+              {map(services, (service, index) => {
+                return (
+                  <Option key={index} value={service}>
+                    {service}
+                  </Option>
+                );
+              })}
             </Select>,
           ),
         },
@@ -170,42 +176,58 @@ class TraceFilterForm extends React.Component<IProps, IState> {
           label: i18n.t('microService:start time'),
           children: getFieldDecorator('startTimeMs', {
             initialValue: moment(startTimeMs),
-            rules: [{
-              validator: valiAssociate({
-                form,
-                ids: ['endTimeMs'],
-                valiFn: (value: any, { endTimeMs: newEndTimeMs }: any) => {
-                  return moment(value).valueOf() < moment(newEndTimeMs).valueOf();
-                },
-                errorMsg: i18n.t('microService:start time cannot be greater than end time'),
-              }),
-            }],
-          })(<DatePicker disabled={searchIdOnly} className="full-width" showTime format="YYYY-MM-DD HH:mm:ss" placeholder={i18n.t('microService:please choose time')} onChange={this.setStartTimeMs} disabledDate={(current) => moment().isBefore(current)} />),
+            rules: [
+              {
+                validator: valiAssociate({
+                  form,
+                  ids: ['endTimeMs'],
+                  valiFn: (value: any, { endTimeMs: newEndTimeMs }: any) => {
+                    return moment(value).valueOf() < moment(newEndTimeMs).valueOf();
+                  },
+                  errorMsg: i18n.t('microService:start time cannot be greater than end time'),
+                }),
+              },
+            ],
+          })(
+            <DatePicker
+              disabled={searchIdOnly}
+              className="full-width"
+              showTime
+              format="YYYY-MM-DD HH:mm:ss"
+              placeholder={i18n.t('microService:please choose time')}
+              onChange={this.setStartTimeMs}
+              disabledDate={(current) => moment().isBefore(current)}
+            />,
+          ),
         },
         {
           label: i18n.t('microService:end time'),
           children: getFieldDecorator('endTimeMs', {
             initialValue: moment(endTimeMs),
-            rules: [{
-              validator: valiAssociate({
-                form,
-                ids: ['startTimeMs'],
-                valiFn: (value: any, { startTimeMs: newStartTimeMs }: any) => {
-                  return moment(value).valueOf() > moment(newStartTimeMs).valueOf();
-                },
-                errorMsg: i18n.t('microService:end time cannot be less than the start time'),
-              }),
-            }],
-          })(<DatePicker
-            disabled={searchIdOnly}
-            className="full-width"
-            // showTime
-            format="YYYY-MM-DD HH:mm:ss"
-            placeholder={i18n.t('microService:please choose time')}
-            onChange={this.setEndTimeMs}
-            disabledDate={(current) => moment().isBefore(current)}
-            showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
-          />),
+            rules: [
+              {
+                validator: valiAssociate({
+                  form,
+                  ids: ['startTimeMs'],
+                  valiFn: (value: any, { startTimeMs: newStartTimeMs }: any) => {
+                    return moment(value).valueOf() > moment(newStartTimeMs).valueOf();
+                  },
+                  errorMsg: i18n.t('microService:end time cannot be less than the start time'),
+                }),
+              },
+            ],
+          })(
+            <DatePicker
+              disabled={searchIdOnly}
+              className="full-width"
+              // showTime
+              format="YYYY-MM-DD HH:mm:ss"
+              placeholder={i18n.t('microService:please choose time')}
+              onChange={this.setEndTimeMs}
+              disabledDate={(current) => moment().isBefore(current)}
+              showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
+            />,
+          ),
         },
       ],
       [
@@ -219,7 +241,14 @@ class TraceFilterForm extends React.Component<IProps, IState> {
         },
         {
           label: `${i18n.t('microService:duration')}(ms)>=`,
-          children: getFieldDecorator('duration', { initialValue: duration })(<InputNumber disabled={searchIdOnly} className="full-width" placeholder={i18n.t('microService:please enter the duration')} min={0} />),
+          children: getFieldDecorator('duration', { initialValue: duration })(
+            <InputNumber
+              disabled={searchIdOnly}
+              className="full-width"
+              placeholder={i18n.t('microService:please enter the duration')}
+              min={0}
+            />,
+          ),
         },
       ],
       [
@@ -240,39 +269,50 @@ class TraceFilterForm extends React.Component<IProps, IState> {
         {
           wrapperCol: { span: 24 },
           className: 'text-right',
-          children: <Button type="primary" size="large" htmlType="submit">{i18n.t('microService:search for')}</Button>,
+          children: (
+            <Button type="primary" size="large" htmlType="submit">
+              {i18n.t('microService:search for')}
+            </Button>
+          ),
         },
       ],
     ];
 
-    const { searchParam: { sortType } } = this.state;
+    const {
+      searchParam: { sortType },
+    } = this.state;
 
     return (
       <div>
         <Form className="trace-filter-form" onSubmit={(e) => this.handleGetTraceList(e)}>
           {map(fileds, (row, index) => (
             <Row key={index}>
-              {
-              map(row, ({ children, ...itemProps }, i) => (
+              {map(row, ({ children, ...itemProps }, i) => (
                 <Col key={i} span={8}>
-                  <FormItem {...formItemLayout} {...itemProps} >
+                  <FormItem {...formItemLayout} {...itemProps}>
                     {children}
                   </FormItem>
                 </Col>
-              ))
-            }
+              ))}
             </Row>
           ))}
         </Form>
         <div className="sort-wrap">
           <RadioGroup onChange={this.changeSortMode} value={sortType}>
-            <RadioButton value="start_time_desc" onClick={this.clickSortMode}>{i18n.t('microService:time descending')}</RadioButton>
-            <RadioButton value="start_time_asc" onClick={this.clickSortMode}>{i18n.t('microService:time ascending')}</RadioButton>
-            <RadioButton value="resp_time_desc" onClick={this.clickSortMode}>{i18n.t('microService:time descending')}</RadioButton>
-            <RadioButton value="resp_time_asc" onClick={this.clickSortMode}>{i18n.t('microService:time is ascending')}</RadioButton>
+            <RadioButton value="start_time_desc" onClick={this.clickSortMode}>
+              {i18n.t('microService:time descending')}
+            </RadioButton>
+            <RadioButton value="start_time_asc" onClick={this.clickSortMode}>
+              {i18n.t('microService:time ascending')}
+            </RadioButton>
+            <RadioButton value="resp_time_desc" onClick={this.clickSortMode}>
+              {i18n.t('microService:time descending')}
+            </RadioButton>
+            <RadioButton value="resp_time_asc" onClick={this.clickSortMode}>
+              {i18n.t('microService:time is ascending')}
+            </RadioButton>
           </RadioGroup>
         </div>
-
       </div>
     );
   }

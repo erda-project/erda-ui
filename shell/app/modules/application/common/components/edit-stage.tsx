@@ -76,8 +76,9 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
   React.useEffect(() => {
     let config;
     if (actionConfigs.length > 0) {
-      config = PropsTask.version ? actionConfigs.find((c) => c.version === PropsTask.version) :
-        getDefaultVersionConfig(actionConfigs);
+      config = PropsTask.version
+        ? actionConfigs.find((c) => c.version === PropsTask.version)
+        : getDefaultVersionConfig(actionConfigs);
     }
 
     const newResource = getResource(PropsTask, config);
@@ -96,7 +97,12 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
   }
 
   const type = actionConfig.type || getFieldValue('resource.type');
-  const taskInitName = originType === actionConfig.name ? originName : (otherTaskAlias.includes(actionConfig.name) ? undefined : actionConfig.name);
+  const taskInitName =
+    originType === actionConfig.name
+      ? originName
+      : otherTaskAlias.includes(actionConfig.name)
+      ? undefined
+      : actionConfig.name;
 
   const changeResourceType = (value: string) => {
     const action = actions.find((a: any) => a.name === value);
@@ -162,8 +168,12 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
       onChange={changeActionVersion}
       placeholder={`${i18n.t('application:please choose version')}`}
     >
-      { actionConfigs.map((config) => (<Option key={config.version} value={config.version}>{config.version}</Option>)) }
-    </Select >,
+      {actionConfigs.map((config) => (
+        <Option key={config.version} value={config.version}>
+          {config.version}
+        </Option>
+      ))}
+    </Select>,
   );
 
   let alert;
@@ -226,20 +236,14 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
 
     return (
       <>
-        {
-          actionConfig.name === 'custom-script' ? (
-            <div>
-              {renderObject(image, 'resource.image', getDataValue(dataSource, 'image')) }
-            </div>
-          ) : null
-        }
+        {actionConfig.name === 'custom-script' ? (
+          <div>{renderObject(image, 'resource.image', getDataValue(dataSource, 'image'))}</div>
+        ) : null}
         <div>
           <div className="resource-input-group-title">params: </div>
-          { paramsContent }
+          {paramsContent}
         </div>
-        <div>
-          { renderObject(resources, 'resource.resources', getDataValue(dataSource, 'resources')) }
-        </div>
+        <div>{renderObject(resources, 'resource.resources', getDataValue(dataSource, 'resources'))}</div>
       </>
     );
   };
@@ -267,15 +271,13 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
     return (
       <div key={parentKey}>
         <span className="resource-input-group-title">{value.name}: </span>
-        <div>
-          {content}
-        </div>
+        <div>{content}</div>
       </div>
     );
   };
 
   const renderMap = (value: any, parentKey: string, dataSource?: any) => {
-    let initialValue = isCreateTask ? value.default : (value.value || value.default);
+    let initialValue = isCreateTask ? value.default : value.value || value.default;
 
     if (dataSource) {
       initialValue = dataSource;
@@ -294,14 +296,12 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
         },
       ],
     })(<VariableInput disabled={!editing} label={value.name} />);
-    return (
-      <Item key={parentKey}>{renderTooltip(value.desc, inputField)}</Item>
-    );
+    return <Item key={parentKey}>{renderTooltip(value.desc, inputField)}</Item>;
   };
 
   const renderStringArray = (value: any, parentKey: string) => {
     const inputField = getFieldDecorator(parentKey, {
-      initialValue: isCreateTask ? value.default : (value.value || value.default),
+      initialValue: isCreateTask ? value.default : value.value || value.default,
       rules: [
         {
           required: value.required,
@@ -309,14 +309,12 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
         },
       ],
     })(<ListInput disabled={!editing} label={value.name} />);
-    return (
-      <Item key={parentKey}>{renderTooltip(value.desc, inputField)}</Item>
-    );
+    return <Item key={parentKey}>{renderTooltip(value.desc, inputField)}</Item>;
   };
 
   const renderPropertyValue = (value: any, parentKey: string, dataSource?: any) => {
     let input;
-    let initialValue = isCreateTask ? value.default : (value.value || value.default);
+    let initialValue = isCreateTask ? value.default : value.value || value.default;
 
     if (dataSource) {
       initialValue = dataSource;
@@ -331,10 +329,22 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
     switch (value.type) {
       case 'float':
       case 'int':
-        input = <InputNumber disabled={!editing || value.readOnly} className="full-width" placeholder={i18n.t('application:please enter data')} />;
+        input = (
+          <InputNumber
+            disabled={!editing || value.readOnly}
+            className="full-width"
+            placeholder={i18n.t('application:please enter data')}
+          />
+        );
         break;
       default:
-        input = <Input disabled={!editing || value.readOnly} placeholder={i18n.t('application:please enter data')} addonAfter={unit} />;
+        input = (
+          <Input
+            disabled={!editing || value.readOnly}
+            placeholder={i18n.t('application:please enter data')}
+            addonAfter={unit}
+          />
+        );
         break;
     }
 
@@ -348,7 +358,9 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
       ],
     })(input);
     return (
-      <Item key={parentKey} label={value.name}>{renderTooltip(value.desc, inputField)}</Item>
+      <Item key={parentKey} label={value.name}>
+        {renderTooltip(value.desc, inputField)}
+      </Item>
     );
   };
 
@@ -356,21 +368,23 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
     if ((!editing && !property.value) || (!editing && property.value && !property.value.length)) {
       return null;
     }
-    const addBtn = editing ?
-      <IconPlus className="pointer" onClick={() => addNewItemToStructArray(property.value, property.struct[0])} /> : null;
+    const addBtn = editing ? (
+      <IconPlus className="pointer" onClick={() => addNewItemToStructArray(property.value, property.struct[0])} />
+    ) : null;
     getFieldDecorator(`${parentKey}-data`, { initialValue: property.value || [] });
     const data = getFieldValue(`${parentKey}-data`);
     const content = data.map((item: any, index: number) => {
       const keys = Object.keys(item);
       const header = (
         <div>
-          <span>{ typeof item[keys[0]] === 'string' ? item[keys[0]] : 'module'}</span>
-          {editing ?
+          <span>{typeof item[keys[0]] === 'string' ? item[keys[0]] : 'module'}</span>
+          {editing ? (
             <CustomIcon
               onClick={() => deleteItemFromStructArray(index, parentKey)}
               className="icon-delete"
               type="sc1"
-            /> : null}
+            />
+          ) : null}
         </div>
       );
       return (
@@ -383,14 +397,10 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
     return (
       <div key={parentKey}>
         <span className="resource-input-group-title">
-          {property.name}:
-          {addBtn}
+          {property.name}:{addBtn}
         </span>
         {data.length ? (
-          <Collapse
-            className="collapse-field"
-            accordion
-          >
+          <Collapse className="collapse-field" accordion>
             {content}
           </Collapse>
         ) : null}
@@ -422,31 +432,32 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
     if (!message) {
       return text;
     }
-    const msgComp = (<pre className="prop-popover">{message}</pre>);
+    const msgComp = <pre className="prop-popover">{message}</pre>;
     return (
-      <Popover
-        placement="leftTop"
-        trigger={['focus']}
-        content={msgComp}
-      >
+      <Popover placement="leftTop" trigger={['focus']} content={msgComp}>
         {text}
       </Popover>
     );
   };
-
 
   const onSubmit = () => {
     form.validateFieldsAndScroll((error: any, values: any) => {
       if (!error) {
         let data = cloneDeep(values);
         const resources = head(filter(state.resource.data, (item) => item.name === 'resources'));
-        const originResource = transform(get(resources, 'struct'), (result, item: { name: string; default: string | number }) => {
-          const { name, default: d } = item;
-          // eslint-disable-next-line no-param-reassign
-          result[name] = +d;
-        }, {});
+        const originResource = transform(
+          get(resources, 'struct'),
+          (result, item: { name: string; default: string | number }) => {
+            const { name, default: d } = item;
+            // eslint-disable-next-line no-param-reassign
+            result[name] = +d;
+          },
+          {},
+        );
         const editedResources = get(data, 'resource.resources');
-        forEach(Object.entries(editedResources), ([key, value]) => { editedResources[key] = +(value as string); });
+        forEach(Object.entries(editedResources), ([key, value]) => {
+          editedResources[key] = +(value as string);
+        });
         const isResourceDefault = isEqual(editedResources, originResource);
 
         if (isResourceDefault) {
@@ -486,7 +497,11 @@ const EditStage = (props: IEditStageProps & FormComponentProps) => {
         {type ? <Item label={i18n.t('application:mission name')}>{taskName}</Item> : null}
         <Item label="version">{actionVersion}</Item>
         {renderTaskTypeStructure()}
-        {editing ? <Button type="primary" ghost onClick={onSubmit}>{i18n.t('application:save')}</Button> : null}
+        {editing ? (
+          <Button type="primary" ghost onClick={onSubmit}>
+            {i18n.t('application:save')}
+          </Button>
+        ) : null}
       </Form>
     </Spin>
   );

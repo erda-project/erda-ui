@@ -45,15 +45,16 @@ const RelatedBugs = ({ relationID }: IProps) => {
     selectBug: undefined,
   });
   const { removeRelation, getDetailRelations, addRelation } = testCaseStore.effects;
-  const loadData = React.useCallback((query: Record<string, any>) => {
-    getIssues({ projectID: +projectId, type: 'BUG', pageSize: 20, ...query } as ISSUE.IssueListQuery).then((res) => {
-      if (res.success) {
-        updater.bugList(
-          res.data.list || [],
-        );
-      }
-    });
-  }, [projectId, updater]);
+  const loadData = React.useCallback(
+    (query: Record<string, any>) => {
+      getIssues({ projectID: +projectId, type: 'BUG', pageSize: 20, ...query } as ISSUE.IssueListQuery).then((res) => {
+        if (res.success) {
+          updater.bugList(res.data.list || []);
+        }
+      });
+    },
+    [projectId, updater],
+  );
   useUpdateEffect(() => {
     if (showFilterBug) {
       loadData({ creator, priority, title });
@@ -108,7 +109,12 @@ const RelatedBugs = ({ relationID }: IProps) => {
       render: (text: string, record) => {
         return (
           <Tooltip placement="topLeft" title={text}>
-            <div className="flex-box flex-start text-link nowrap" onClick={() => { goToBugs(record); }}>
+            <div
+              className="flex-box flex-start text-link nowrap"
+              onClick={() => {
+                goToBugs(record);
+              }}
+            >
               <IssueIcon type={ISSUE_TYPE.BUG} />
               {text}
             </div>
@@ -121,19 +127,27 @@ const RelatedBugs = ({ relationID }: IProps) => {
       dataIndex: 'state',
       width: 90,
       render: (stateName: string, record: any) => {
-        return stateName ? <div className="v-align">{ISSUE_ICON.state[record?.stateBelong]}{stateName}</div> : undefined;
+        return stateName ? (
+          <div className="v-align">
+            {ISSUE_ICON.state[record?.stateBelong]}
+            {stateName}
+          </div>
+        ) : undefined;
       },
     },
     {
       title: i18n.t('project:priority'),
       dataIndex: 'priority',
       width: 70,
-      render: (text: string) => (ISSUE_PRIORITY_MAP[text] ? (
-        <>
-          {ISSUE_PRIORITY_MAP[text].icon}
-          {ISSUE_PRIORITY_MAP[text].label}
-        </>
-      ) : ''),
+      render: (text: string) =>
+        ISSUE_PRIORITY_MAP[text] ? (
+          <>
+            {ISSUE_PRIORITY_MAP[text].icon}
+            {ISSUE_PRIORITY_MAP[text].label}
+          </>
+        ) : (
+          ''
+        ),
     },
     {
       title: i18n.t('default:create time'),
@@ -147,7 +161,12 @@ const RelatedBugs = ({ relationID }: IProps) => {
     render: ({ issueRelationID }: TEST_CASE.RelatedBug) => {
       return [
         <div className="table-operations">
-          <Popconfirm title={i18n.t('confirm remove relation?')} onConfirm={() => { disRelated([issueRelationID]); }}>
+          <Popconfirm
+            title={i18n.t('confirm remove relation?')}
+            onConfirm={() => {
+              disRelated([issueRelationID]);
+            }}
+          >
             <span className="table-operations-btn">{i18n.t('remove relation')}</span>
           </Popconfirm>
         </div>,
@@ -156,78 +175,89 @@ const RelatedBugs = ({ relationID }: IProps) => {
   };
   const goToBugs = (record: TEST_CASE.RelatedBug) => {
     const { issueID, iterationID } = record;
-    goTo(goTo.pages.bugList, { projectId,
+    goTo(goTo.pages.bugList, {
+      projectId,
       jumpOut: true,
       query: {
         iterationID,
         id: issueID,
         type: 'BUG',
-      } });
+      },
+    });
   };
   return (
     <div className="related-bugs">
       <div className="mb8 flex-box">
         {i18n.t('related bugs')}
-        <Button onClick={() => { updater.showFilterBug(true); }}>{i18n.t('related bugs')}</Button>
+        <Button
+          onClick={() => {
+            updater.showFilterBug(true);
+          }}
+        >
+          {i18n.t('related bugs')}
+        </Button>
       </div>
-      {
-        showFilterBug ? (
-          <div className="flex-box flex-1 filter-select-wrap mb12">
-            <div className="flex-box flex-1">
-              <MemberSelector
-                mode="multiple"
-                className="filter-select"
-                scopeType="project"
-                scopeId={projectId}
-                onChange={handleSelectCreator}
-                allowClear
-              />
-              <Select
-                className="filter-select"
-                onChange={handleSelectPriority}
-                placeholder={i18n.t('project:priority')}
-                allowClear
-              >
-                {
-                  map(ISSUE_PRIORITY_MAP, (item) => {
-                    return <Option key={item.value} value={item.value}><CustomIcon className="priority-icon mr8" type={item.icon} color />{item.label}</Option>;
-                  })
-                }
-              </Select>
-              <Select
-                className="filter-select"
-                value={selectBug}
-                onSelect={(v) => updater.selectBug(v)}
-                onSearch={(q) => updater.title(q)}
-                showSearch
-                filterOption={false}
-                placeholder={i18n.t('name')}
-              >
-                {
-                  map(bugList, (item) => {
-                    return (
-                      <Option key={item.id} value={item.id} title={`${item.id}-${item.title}`}>
-                        <div className="flex-box flex-start nowrap">
-                          <IssueIcon type={ISSUE_TYPE.BUG} />
-                          {item.id}-{item.title}
-                        </div>
-                      </Option>
-                    );
-                  })
-                }
-              </Select>
-            </div>
-            <Button disabled={!selectBug} className="ml12" onClick={handleAddRelation}>{i18n.t('default:ok')}</Button>
-            <Button type="link" onClick={() => { updater.showFilterBug(false); }}>{i18n.t('default:cancel')}</Button>
+      {showFilterBug ? (
+        <div className="flex-box flex-1 filter-select-wrap mb12">
+          <div className="flex-box flex-1">
+            <MemberSelector
+              mode="multiple"
+              className="filter-select"
+              scopeType="project"
+              scopeId={projectId}
+              onChange={handleSelectCreator}
+              allowClear
+            />
+            <Select
+              className="filter-select"
+              onChange={handleSelectPriority}
+              placeholder={i18n.t('project:priority')}
+              allowClear
+            >
+              {map(ISSUE_PRIORITY_MAP, (item) => {
+                return (
+                  <Option key={item.value} value={item.value}>
+                    <CustomIcon className="priority-icon mr8" type={item.icon} color />
+                    {item.label}
+                  </Option>
+                );
+              })}
+            </Select>
+            <Select
+              className="filter-select"
+              value={selectBug}
+              onSelect={(v) => updater.selectBug(v)}
+              onSearch={(q) => updater.title(q)}
+              showSearch
+              filterOption={false}
+              placeholder={i18n.t('name')}
+            >
+              {map(bugList, (item) => {
+                return (
+                  <Option key={item.id} value={item.id} title={`${item.id}-${item.title}`}>
+                    <div className="flex-box flex-start nowrap">
+                      <IssueIcon type={ISSUE_TYPE.BUG} />
+                      {item.id}-{item.title}
+                    </div>
+                  </Option>
+                );
+              })}
+            </Select>
           </div>
-        ) : null
-      }
-      <Table
-        columns={relatedBugsColumns}
-        dataSource={issueBugs || []}
-        pagination={false}
-        rowAction={action}
-      />
+          <Button disabled={!selectBug} className="ml12" onClick={handleAddRelation}>
+            {i18n.t('default:ok')}
+          </Button>
+          <Button
+            type="link"
+            onClick={() => {
+              updater.showFilterBug(false);
+            }}
+          >
+            {i18n.t('default:cancel')}
+          </Button>
+        </div>
+      ) : null}
+      <Table columns={relatedBugsColumns} dataSource={issueBugs || []} pagination={false} rowAction={action} />
     </div>
   );
 };

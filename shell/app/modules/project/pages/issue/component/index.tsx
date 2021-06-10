@@ -26,18 +26,18 @@ interface IProps {
   issueType: ISSUE_TYPE;
 }
 
-
 export default (props: IProps) => {
   const { issueType } = props;
   const [params, { id: queryId }] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const [{ filterObj, viewType, viewGroup, chosenIssueId, chosenIteration, chosenIssueType }, updater, update] = useUpdate({
-    filterObj: undefined as undefined | Obj,
-    viewType: '',
-    viewGroup: '',
-    chosenIssueId: queryId,
-    chosenIteration: params.iterationId || 0,
-    chosenIssueType: undefined as undefined | ISSUE_TYPE,
-  });
+  const [{ filterObj, viewType, viewGroup, chosenIssueId, chosenIteration, chosenIssueType }, updater, update] =
+    useUpdate({
+      filterObj: undefined as undefined | Obj,
+      viewType: '',
+      viewGroup: '',
+      chosenIssueId: queryId,
+      chosenIteration: params.iterationId || 0,
+      chosenIssueType: undefined as undefined | ISSUE_TYPE,
+    });
   const viewRef = React.useRef(null as any);
 
   const [drawerVisible, openDrawer, closeDrawer] = useSwitch(queryId || false);
@@ -73,7 +73,8 @@ export default (props: IProps) => {
       chosenIteration: params.iterationId || 0,
       chosenIssueType: undefined,
     });
-    if (hasEdited || isCreate || isDelete) { // 有变更再刷新列表
+    if (hasEdited || isCreate || isDelete) {
+      // 有变更再刷新列表
       reloadData();
     }
   };
@@ -90,27 +91,43 @@ export default (props: IProps) => {
   return (
     <div className="issue">
       <CreateButton onClick={onCreate} issueType={issueType} />
-      <IssueHeader reloadData={reloadData} onFilter={onFilter} changeViewType={changeViewType} withPageNo={viewType === ViewTypeMap.table.value} issueType={issueType} />
+      <IssueHeader
+        reloadData={reloadData}
+        onFilter={onFilter}
+        changeViewType={changeViewType}
+        withPageNo={viewType === ViewTypeMap.table.value}
+        issueType={issueType}
+      />
 
       <IF check={viewType === ViewTypeMap.table.value}>
-        <TableView filterObj={filterObj} issueType={issueType} viewType={viewType} onChosenIssue={onChosenIssue} ref={viewRef} />
+        <TableView
+          filterObj={filterObj}
+          issueType={issueType}
+          viewType={viewType}
+          onChosenIssue={onChosenIssue}
+          ref={viewRef}
+        />
       </IF>
       <IF check={viewType === ViewTypeMap.kanban.value}>
-        <KanbanView filterObj={filterObj} viewGroup={viewGroup} issueType={issueType} viewType={viewType} onChosenIssue={onChosenIssue} ref={viewRef} />
+        <KanbanView
+          filterObj={filterObj}
+          viewGroup={viewGroup}
+          issueType={issueType}
+          viewType={viewType}
+          onChosenIssue={onChosenIssue}
+          ref={viewRef}
+        />
       </IF>
-      {
-        chosenIssueType ? (
-          <EditIssueDrawer
-            iterationID={chosenIteration}
-            id={chosenIssueId}
-            issueType={chosenIssueType as ISSUE_TYPE}
-            shareLink={`${location.href.split('?')[0]}?${mergeSearch({ id: chosenIssueId }, true)}`}
-            visible={drawerVisible}
-            closeDrawer={onCloseDrawer}
-          />
-        ) : null
-      }
+      {chosenIssueType ? (
+        <EditIssueDrawer
+          iterationID={chosenIteration}
+          id={chosenIssueId}
+          issueType={chosenIssueType as ISSUE_TYPE}
+          shareLink={`${location.href.split('?')[0]}?${mergeSearch({ id: chosenIssueId }, true)}`}
+          visible={drawerVisible}
+          closeDrawer={onCloseDrawer}
+        />
+      ) : null}
     </div>
   );
 };
-

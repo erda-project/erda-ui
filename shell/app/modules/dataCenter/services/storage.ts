@@ -14,13 +14,15 @@
 import agent from 'agent';
 
 export const getCloudOSSList = (params: IPagingReq): IPagingResp<STORAGE.OSS> => {
-  return agent.get('/api/cloud-oss')
+  return agent
+    .get('/api/cloud-oss')
     .query(params)
     .then((response: any) => response.body);
 };
 
 export const addCloudOSS = (params: STORAGE.OSS) => {
-  return agent.post('/api/cloud-oss')
+  return agent
+    .post('/api/cloud-oss')
     .send({ ...params, source: 'resource' })
     .then((response: any) => response.body);
 };

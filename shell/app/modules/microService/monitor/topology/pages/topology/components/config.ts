@@ -26,7 +26,8 @@ export const CHART_CONFIG = {
     linkDis: 20, // 跨层级线间距
     linkRadius: 5, // 划线折角处的圆角弧度半径
   },
-  padding: { // 单个独立图的padding
+  padding: {
+    // 单个独立图的padding
     x: 80,
     y: 80,
   },

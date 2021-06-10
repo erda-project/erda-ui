@@ -17,16 +17,9 @@ import machineStore from './stores/machine';
 import purchaseStore from './stores/purchase';
 import servicesStore from './stores/services';
 
-
 export default (registerModule) => {
   return registerModule({
     key: 'dcos',
-    stores: [
-      cloudServiceStore,
-      dashboardStore,
-      machineStore,
-      purchaseStore,
-      servicesStore,
-    ],
+    stores: [cloudServiceStore, dashboardStore, machineStore, purchaseStore, servicesStore],
   });
 };

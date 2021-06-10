@@ -14,29 +14,30 @@
 import agent from 'agent';
 
 export const getCertificateList = (payload: Certificate.ListQuery): IPagingResp<Certificate.Detail> => {
-  return agent.get('/api/certificates/actions/list-certificates')
+  return agent
+    .get('/api/certificates/actions/list-certificates')
     .query(payload)
     .then((response: any) => response.body);
 };
 
 export const addCertificate = (payload: Certificate.Detail) => {
-  return agent.post('/api/certificates')
+  return agent
+    .post('/api/certificates')
     .send(payload)
     .then((response: any) => response.body);
 };
 
-export const getCertificateDetail = ({ id }: {id: string}): Certificate.Detail => {
-  return agent.get(`/api/certificates/${id}`)
-    .then((response: any) => response.body);
+export const getCertificateDetail = ({ id }: { id: string }): Certificate.Detail => {
+  return agent.get(`/api/certificates/${id}`).then((response: any) => response.body);
 };
 
 export const updateCertificate = ({ id, desc, uuid, filename }: Certificate.UpdateBody) => {
-  return agent.put(`/api/certificates/${id}`)
+  return agent
+    .put(`/api/certificates/${id}`)
     .send({ desc, uuid, filename })
     .then((response: any) => response.body);
 };
 
 export const deleteCertificate = ({ id }: Certificate.Detail) => {
-  return agent.delete(`/api/certificates/${id}`)
-    .then((response: any) => response.body);
+  return agent.delete(`/api/certificates/${id}`).then((response: any) => response.body);
 };

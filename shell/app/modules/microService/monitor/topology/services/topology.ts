@@ -14,31 +14,36 @@
 import agent from 'agent';
 
 export const getMonitorTopology = (query: TOPOLOGY.ITopologyQuery): TOPOLOGY.ITopologyResp => {
-  return agent.get('/api/apm/topology')
+  return agent
+    .get('/api/apm/topology')
     .query({ ...query })
     .then((response: any) => response.body);
 };
 
 export const getErrorDetail = (query: TOPOLOGY.IErrorDetailQuery): IChartResult => {
-  return agent.get('/api/tmc/metrics/application_http')
+  return agent
+    .get('/api/tmc/metrics/application_http')
     .query(query)
     .then((response: any) => response.body);
 };
 
 export const getExceptionDetail = (query: TOPOLOGY.IExceptionQuery): IChartResult => {
-  return agent.get('/api/tmc/metrics/error_count')
+  return agent
+    .get('/api/tmc/metrics/error_count')
     .query(query)
     .then((response: any) => response.body);
 };
 
 export const getTopologyTags = (query: any) => {
-  return agent.get('/api/apm/topology/search/tags')
+  return agent
+    .get('/api/apm/topology/search/tags')
     .query(query)
     .then((response: any) => response.body);
 };
 
 export const getTagsOptions = (query: any) => {
-  return agent.get('/api/apm/topology/search/tagv')
+  return agent
+    .get('/api/apm/topology/search/tagv')
     .query(query)
     .then((response: any) => response.body);
 };

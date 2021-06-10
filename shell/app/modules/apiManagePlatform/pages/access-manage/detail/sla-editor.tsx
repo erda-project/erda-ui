@@ -26,11 +26,13 @@ import { regRules } from 'common/utils';
 
 export type IData = Omit<API_ACCESS.UpdateSla, 'assetID' | 'swaggerVersion' | 'default'>;
 
-interface FormRef {props: {form: WrappedFormUtils}}
+interface FormRef {
+  props: { form: WrappedFormUtils };
+}
 
 interface IProps {
   dataSource?: API_ACCESS.SlaItem;
-  mode: 'add'| 'edit';
+  mode: 'add' | 'edit';
   visible: boolean;
   onCancel: () => void;
   afterEdit?: () => void;
@@ -38,7 +40,10 @@ interface IProps {
 
 const SlaEditor = ({ visible, onCancel, mode, dataSource, afterEdit }: IProps) => {
   const formRef = React.useRef<FormRef>({} as FormRef);
-  const [assetID, swaggerVersion] = apiAccessStore.useStore((s) => [s.accessDetail.access.assetID, s.accessDetail.access.swaggerVersion]);
+  const [assetID, swaggerVersion] = apiAccessStore.useStore((s) => [
+    s.accessDetail.access.assetID,
+    s.accessDetail.access.swaggerVersion,
+  ]);
   const { updateSla, addSla, getSlaList } = apiAccessStore.effects;
   const loading = useLoading(apiAccessStore, ['addSla', 'updateSla']);
 
@@ -65,67 +70,73 @@ const SlaEditor = ({ visible, onCancel, mode, dataSource, afterEdit }: IProps) =
       onCancel();
     });
   };
-  const fieldsList: IFormItem[] = [{
-    name: 'slaID',
-    initialValue: dataSource?.id,
-    itemProps: {
-      type: 'hidden',
-    },
-  }, {
-    label: i18n.t('SLA name'),
-    name: 'name',
-    initialValue: dataSource?.name,
-    itemProps: {
-      placeholder: i18n.t('please enter'),
-      autoComplete: 'off',
-      maxLength: 36,
-    },
-    rules: [regRules.lenRange(2, 36)],
-  }, {
-    label: i18n.t('SLA description'),
-    name: 'desc',
-    type: 'textArea',
-    required: false,
-    initialValue: dataSource?.desc,
-    itemProps: {
-      placeholder: i18n.t('please enter'),
-      autoComplete: 'off',
-      maxLength: 191,
-    },
-  }, {
-    label: i18n.t('authorization method'),
-    labelTip: i18n.t('there can only be one automatically authorized SLA'),
-    name: 'approval',
-    type: 'select',
-    initialValue: dataSource?.approval,
-    options: map(slaAuthorizationMap, ({ name, value }) => ({ name, value })),
-    itemProps: {
-      placeholder: i18n.t('please select'),
-    },
-  }, {
-    label: i18n.t('request limit'),
-    name: 'limits',
-    initialValue: dataSource?.limits || [],
-    config: {
-      valuePropType: 'array',
-    },
-    getComp(): React.ReactElement<any> | string {
-      return (
-        <Limit mode="single" />
-      );
-    },
-    rules: [{
-      validator: (_rule: any, value: API_ACCESS.BaseSlaLimit[], callback: Function) => {
-        let errMsg: any;
-        (value || []).forEach(({ limit, unit }, index) => {
-          if (!(limit && unit) && !errMsg) {
-            errMsg = i18n.t('item {index} limit number and unit cannot be empty', { index: index + 1 });
-          }
-        });
-        callback(errMsg);
+  const fieldsList: IFormItem[] = [
+    {
+      name: 'slaID',
+      initialValue: dataSource?.id,
+      itemProps: {
+        type: 'hidden',
       },
-    }],
-  }];
+    },
+    {
+      label: i18n.t('SLA name'),
+      name: 'name',
+      initialValue: dataSource?.name,
+      itemProps: {
+        placeholder: i18n.t('please enter'),
+        autoComplete: 'off',
+        maxLength: 36,
+      },
+      rules: [regRules.lenRange(2, 36)],
+    },
+    {
+      label: i18n.t('SLA description'),
+      name: 'desc',
+      type: 'textArea',
+      required: false,
+      initialValue: dataSource?.desc,
+      itemProps: {
+        placeholder: i18n.t('please enter'),
+        autoComplete: 'off',
+        maxLength: 191,
+      },
+    },
+    {
+      label: i18n.t('authorization method'),
+      labelTip: i18n.t('there can only be one automatically authorized SLA'),
+      name: 'approval',
+      type: 'select',
+      initialValue: dataSource?.approval,
+      options: map(slaAuthorizationMap, ({ name, value }) => ({ name, value })),
+      itemProps: {
+        placeholder: i18n.t('please select'),
+      },
+    },
+    {
+      label: i18n.t('request limit'),
+      name: 'limits',
+      initialValue: dataSource?.limits || [],
+      config: {
+        valuePropType: 'array',
+      },
+      getComp(): React.ReactElement<any> | string {
+        return <Limit mode="single" />;
+      },
+      rules: [
+        {
+          validator: (_rule: any, value: API_ACCESS.BaseSlaLimit[], callback: Function) => {
+            let errMsg: any;
+            (value || []).forEach(({ limit, unit }, index) => {
+              if (!(limit && unit) && !errMsg) {
+                errMsg = i18n.t('item {index} limit number and unit cannot be empty', { index: index + 1 });
+              }
+            });
+            callback(errMsg);
+          },
+        },
+      ],
+    },
+  ];
   const footer = (
     <>
       <Button key="back" onClick={onCancel}>

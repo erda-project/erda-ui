@@ -55,54 +55,69 @@ const ClientList = () => {
     updater.keyword(query.keyword);
   };
 
-  const filterConfig = React.useMemo((): FilterItemConfig[] => [
+  const filterConfig = React.useMemo(
+    (): FilterItemConfig[] => [
+      {
+        type: Input.Search,
+        name: 'keyword',
+        customProps: {
+          placeholder: i18n.t('default:search by keywords'),
+          autoComplete: 'off',
+        },
+      },
+    ],
+    [],
+  );
+  const columns: Array<ColumnProps<API_CLIENT.ClientItem>> = [
     {
-      type: Input.Search,
-      name: 'keyword',
-      customProps: {
-        placeholder: i18n.t('default:search by keywords'),
-        autoComplete: 'off',
+      title: i18n.t('client name'),
+      dataIndex: 'client.displayName',
+      render: (text, record) => text || record.client.name,
+    },
+    {
+      title: i18n.t('client identifier'),
+      dataIndex: 'client.name',
+    },
+    {
+      title: i18n.t('description'),
+      dataIndex: 'client.desc',
+    },
+    {
+      title: i18n.t('operation'),
+      dataIndex: 'client.id',
+      width: 120,
+      render: (text, record) => {
+        return (
+          <TableActions>
+            <Popconfirm
+              title={i18n.t('confirm to {action}', { action: i18n.t('reset key') })}
+              onConfirm={() => {
+                handleReset(text, record.client);
+              }}
+            >
+              <span>{i18n.t('reset key')}</span>
+            </Popconfirm>
+            <Popconfirm
+              title={i18n.t('confirm to {action}', { action: i18n.t('delete') })}
+              onConfirm={() => {
+                handleDelete(text);
+              }}
+            >
+              <span>{i18n.t('delete')}</span>
+            </Popconfirm>
+          </TableActions>
+        );
       },
     },
-
-  ], []);
-  const columns: Array<ColumnProps<API_CLIENT.ClientItem>> = [{
-    title: i18n.t('client name'),
-    dataIndex: 'client.displayName',
-    render: (text, record) => text || record.client.name,
-  }, {
-    title: i18n.t('client identifier'),
-    dataIndex: 'client.name',
-  }, {
-    title: i18n.t('description'),
-    dataIndex: 'client.desc',
-  }, {
-    title: i18n.t('operation'),
-    dataIndex: 'client.id',
-    width: 120,
-    render: (text, record) => {
-      return (
-        <TableActions>
-          <Popconfirm
-            title={i18n.t('confirm to {action}', { action: i18n.t('reset key') })}
-            onConfirm={() => { handleReset(text, record.client); }}
-          >
-            <span>{i18n.t('reset key')}</span>
-          </Popconfirm>
-          <Popconfirm
-            title={i18n.t('confirm to {action}', { action: i18n.t('delete') })}
-            onConfirm={() => { handleDelete(text); }}
-          >
-            <span>{i18n.t('delete')}</span>
-          </Popconfirm>
-        </TableActions>
-      );
-    },
-  }];
+  ];
   return (
     <Spin spinning={isLoading.some((t) => t)}>
       <CustomFilter config={filterConfig} onSubmit={handleSearch} />
-      <Alert message={i18n.t('tips of client data source')} description={i18n.t('tips of client data source description')} className="mb8" />
+      <Alert
+        message={i18n.t('tips of client data source')}
+        description={i18n.t('tips of client data source description')}
+        className="mb8"
+      />
       <Table
         rowKey="client.id"
         columns={columns}
@@ -113,7 +128,9 @@ const ClientList = () => {
         }}
         onRow={(record) => {
           return {
-            onClick: () => { goTo(`./${record.client.id}`); },
+            onClick: () => {
+              goTo(`./${record.client.id}`);
+            },
           };
         }}
       />
@@ -126,11 +143,15 @@ const ClientList = () => {
       >
         <p className="mb4">
           <span className="bold-500">ClientID: </span>
-          <span className="for-copy" data-clipboard-text={resetModalInfo.clientID}>{resetModalInfo.clientID}</span>
+          <span className="for-copy" data-clipboard-text={resetModalInfo.clientID}>
+            {resetModalInfo.clientID}
+          </span>
         </p>
         <p className="mb4">
           <span className="bold-500">ClientSecret: </span>
-          <span className="for-copy" data-clipboard-text={resetModalInfo.clientSecret}>{resetModalInfo.clientSecret}</span>
+          <span className="for-copy" data-clipboard-text={resetModalInfo.clientSecret}>
+            {resetModalInfo.clientSecret}
+          </span>
         </p>
         <Copy selector=".for-copy" />
       </Modal>

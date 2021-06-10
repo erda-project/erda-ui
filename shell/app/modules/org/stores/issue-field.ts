@@ -40,7 +40,6 @@ const initState: IState = {
   taskTypeList: [],
 };
 
-
 const issueFieldStore = createStore({
   name: 'issueField',
   state: initState,

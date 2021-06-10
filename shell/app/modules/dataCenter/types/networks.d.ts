@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace NETWORKS {
-
   interface ICloudVpcQuery {
     vendor?: string;
     region?: string;
@@ -74,5 +73,4 @@ declare namespace NETWORKS {
     localName: string;
     zoneID: string;
   }
-
 }

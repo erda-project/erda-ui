@@ -27,12 +27,7 @@ interface IProps {
   onCancel: () => void;
 }
 
-
-const TagForm = ({
-  visible,
-  machine,
-  onCancel,
-}: IProps) => {
+const TagForm = ({ visible, machine, onCancel }: IProps) => {
   const currentOrg = orgStore.useStore((s) => s.currentOrg);
   const nodeLabels = clusterDashboardStore.useStore((s) => s.nodeLabels);
   const { getNodeLabels } = clusterDashboardStore.effects;
@@ -47,12 +42,13 @@ const TagForm = ({
     const { labels, customLabels = [] } = values;
     const savedLabels = uniq(labels.concat(customLabels));
 
-    machine && updaterMachineLabels({
-      labels: savedLabels,
-      hosts: [machine.ip],
-      clusterName: machine.clusterName,
-      orgID: currentOrg.id,
-    });
+    machine &&
+      updaterMachineLabels({
+        labels: savedLabels,
+        hosts: [machine.ip],
+        clusterName: machine.clusterName,
+        orgID: currentOrg.id,
+      });
     onCancel();
   };
 
@@ -84,12 +80,8 @@ const TagForm = ({
       label: i18n.t('dcos:custom labels'),
       name: 'customLabels',
       required: false,
-      getComp: () => (
-        <CustomLabel />
-      ),
-      rules: [
-        { validator: checkTagLabels },
-      ],
+      getComp: () => <CustomLabel />,
+      rules: [{ validator: checkTagLabels }],
     },
   ];
 

@@ -91,9 +91,9 @@ export const webSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCo
         recordKey={name}
         dataSource={subSlowHttpList}
         emptyText={i18n.t('microService:no sampleable slow transaction data')}
-      />);
+      />
+    );
   };
-
 
   const onRowExpand = onExpand(getSubSlowHttpList, query, (record: any) => {
     const { name } = record;
@@ -102,11 +102,11 @@ export const webSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCo
   return (
     <Table
       scroll={{ x: 710 }}
-      rowKey={(record: MONITOR_EI.ITableData, i) => (i + record.name)}
+      rowKey={(record: MONITOR_EI.ITableData, i) => i + record.name}
       columns={columns}
       dataSource={list}
       onExpand={onRowExpand}
       expandedRowRender={expandedRowRender}
-    />);
+    />
+  );
 };
-

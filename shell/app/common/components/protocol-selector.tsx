@@ -51,7 +51,6 @@ export const ProtocolInput = ({ value = '', onChange, ...rest }: IInputProps) =>
     inputValue = value.slice(HTTPS_PREFIX.length);
   }
 
-
   return (
     <Input
       addonBefore={<ProtocolSelector value={protocol} onChange={(v) => onChange && onChange(`${v}${inputValue}`)} />}

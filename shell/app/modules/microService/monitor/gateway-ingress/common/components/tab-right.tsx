@@ -16,7 +16,7 @@ import { TimeSelector, IF } from 'common';
 import DomainSelector from './domain-selector';
 import './tab-right.scss';
 
-const TabRight = ({ type = '', children }: {type?: string; children?: any}) => {
+const TabRight = ({ type = '', children }: { type?: string; children?: any }) => {
   return (
     <div className="gi-top-nav-right filter-box">
       <IF check={['qps', 'traffic', 'latency'].includes(type)}>

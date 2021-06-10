@@ -37,12 +37,12 @@ export {
 
 export { getLabel } from './component-utils';
 
-
 export const isPromise = (obj: any) => {
   return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
 };
 
-export const isClassComponent = (Component: any) => Boolean(Component && Component.prototype && typeof Component.prototype.render === 'function');
+export const isClassComponent = (Component: any) =>
+  Boolean(Component && Component.prototype && typeof Component.prototype.render === 'function');
 
 // 始终使用唯一的timer对象，确保执行clear一定会清除
 let timer: any;
@@ -70,7 +70,8 @@ interface ICountPagination {
 export function countPagination({ pageNo, pageSize, total, minus }: ICountPagination) {
   const totalPage = Math.ceil(total / pageSize);
   const newTotalPage = Math.ceil((total - minus) / pageSize);
-  if (pageNo === totalPage && newTotalPage !== totalPage) { // 当前最后一页
+  if (pageNo === totalPage && newTotalPage !== totalPage) {
+    // 当前最后一页
     return { pageNo: newTotalPage, pageSize };
   }
   return { pageNo, pageSize };
@@ -78,7 +79,10 @@ export function countPagination({ pageNo, pageSize, total, minus }: ICountPagina
 
 export function notify(type: string, desc: string, dur = 3) {
   const messageName = {
-    success: i18n.t('success'), error: i18n.t('error'), info: i18n.t('tip'), warning: i18n.t('warning'),
+    success: i18n.t('success'),
+    error: i18n.t('error'),
+    info: i18n.t('tip'),
+    warning: i18n.t('warning'),
   };
   return notification[type]({
     message: messageName[type],
@@ -104,20 +108,52 @@ export const equalByKeys = (a: object, b: object, keys: string[]) => {
 export const regRules = {
   mobile: { pattern: /^(1[3|4|5|7|8|9])\d{9}$/, message: i18n.t('project:please enter the correct phone number') },
   header: { pattern: /^[a-zA-Z0-9]/, message: i18n.t('project:must start with a letter or number') },
-  commonStr: { pattern: /^[a-zA-Z0-9_-]*$/, message: i18n.t('project:only allowed to consist of characters, numbers, _, and -') },
-  port: { pattern: /^([1-9]\d{0,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])(-([1-9]\d{0,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5]))?$/, message: i18n.t('project:please fill in the correct port number') },
-  ip: { pattern: /^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})){3}$/, message: i18n.t('project:please fill in the correct ip') },
+  commonStr: {
+    pattern: /^[a-zA-Z0-9_-]*$/,
+    message: i18n.t('project:only allowed to consist of characters, numbers, _, and -'),
+  },
+  port: {
+    pattern: /^([1-9]\d{0,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])(-([1-9]\d{0,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5]))?$/,
+    message: i18n.t('project:please fill in the correct port number'),
+  },
+  ip: {
+    pattern: /^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})){3}$/,
+    message: i18n.t('project:please fill in the correct ip'),
+  },
   noSpace: { pattern: /^[^ \f\r\t\v]*$/, message: i18n.t('project:do not start with a space') },
-  http: { pattern: /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/, message: i18n.t('project:please enter the correct http address') },
-  url: { pattern: /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/, message: i18n.t('project:please enter the correct url address') },
+  http: {
+    pattern: /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
+    message: i18n.t('project:please enter the correct http address'),
+  },
+  url: {
+    pattern:
+      /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/,
+    message: i18n.t('project:please enter the correct url address'),
+  },
   email: { pattern: /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/, message: i18n.t('project:please enter the correct email') },
   xmind: { pattern: /\.(xmind|xmt|xmap|xmind|xmt|xmap)$/, message: i18n.t('project:not an xmind file') },
   excel: { pattern: /\.(xlsx|xls|XLSX|XLS)$/, message: i18n.t('project:not an excel file') },
-  excelOrXmind: { pattern: /\.(xlsx|xls|XLSX|XLS|xmind|xmt|xmap|xmind|xmt|xmap)$/, message: i18n.t('project:not excel and xmind files') },
-  banFullWidthPunctuation: { pattern: /^[^\u3002|\uff1f|\uff01|\uff0c|\u3001|\uff1b|\uff1a|\u201c|\u201d|\u2018|\u2019|\uff08|\uff09|\u300a|\u300b|\u3008|\u3009|\u3010|\u3011|\u300e|\u300f|\u300c|\u300d|\ufe43|\ufe44|\u3014|\u3015|\u2026|\u2014|\uff5e|\ufe4f|\uffe5]+$/, message: i18n.t('project:do not allow full-width punctuation') },
-  dingding: { pattern: /^https:\/\/oapi\.dingtalk\.com\//g, message: i18n.t('project:please enter the DingTalk address with prefix {prefix}', { prefix: 'https://oapi.dingtalk.com/', interpolation: { escapeValue: false } }) },
+  excelOrXmind: {
+    pattern: /\.(xlsx|xls|XLSX|XLS|xmind|xmt|xmap|xmind|xmt|xmap)$/,
+    message: i18n.t('project:not excel and xmind files'),
+  },
+  banFullWidthPunctuation: {
+    pattern:
+      /^[^\u3002|\uff1f|\uff01|\uff0c|\u3001|\uff1b|\uff1a|\u201c|\u201d|\u2018|\u2019|\uff08|\uff09|\u300a|\u300b|\u3008|\u3009|\u3010|\u3011|\u300e|\u300f|\u300c|\u300d|\ufe43|\ufe44|\u3014|\u3015|\u2026|\u2014|\uff5e|\ufe4f|\uffe5]+$/,
+    message: i18n.t('project:do not allow full-width punctuation'),
+  },
+  dingding: {
+    pattern: /^https:\/\/oapi\.dingtalk\.com\//g,
+    message: i18n.t('project:please enter the DingTalk address with prefix {prefix}', {
+      prefix: 'https://oapi.dingtalk.com/',
+      interpolation: { escapeValue: false },
+    }),
+  },
   clusterName: { pattern: /^[a-z0-9]{1,20}(-[a-z0-9]{1,20})+$/, message: i18n.t('dataCenter:clusterNameExample') },
-  lenRange: (min: number, max: number) => ({ pattern: new RegExp(`^[\\s\\S]{${min},${max}}$`), message: i18n.t('length is {min}~{max}', { min, max }) }),
+  lenRange: (min: number, max: number) => ({
+    pattern: new RegExp(`^[\\s\\S]{${min},${max}}$`),
+    message: i18n.t('length is {min}~{max}', { min, max }),
+  }),
   specialLetter: {
     pattern: /[`~!@#$%^&*()+=<>?:"{}|,./;'\\[\]·~！@#￥%……&*（）——+={}|《》？：“”【】、；‘'，。、]/im,
     message: i18n.t('project:cannot enter special characters'),
@@ -126,16 +162,17 @@ export const regRules = {
 
 // 表单校验
 export const validators = {
-  validateNumberRange: ({ min, max }: { min: number; max: number }) => (rule: any, value: string, callback: Function) => {
-    const reg = /^[0-9]+$/;
-    return (!value || (reg.test(value) && Number(value) >= min && Number(value) <= max))
-      ? callback()
-      : callback(i18n.t('please enter a number between {min} ~ {max}', { min, max }));
-  },
+  validateNumberRange:
+    ({ min, max }: { min: number; max: number }) =>
+    (rule: any, value: string, callback: Function) => {
+      const reg = /^[0-9]+$/;
+      return !value || (reg.test(value) && Number(value) >= min && Number(value) <= max)
+        ? callback()
+        : callback(i18n.t('please enter a number between {min} ~ {max}', { min, max }));
+    },
 };
 
 export const isImage = (filename: string) => /\.(jpg|bmp|gif|png|jpeg|svg)$/i.test(filename);
-
 
 // t: stepTime  b: begin  c: end  d: duration
 /* eslint-disable */
@@ -144,9 +181,9 @@ export function easeInOutCubic(t: number, b: number, c: number, d: number) {
   const cc = c - b;
   t /= d / 2;
   if (t < 1) {
-    return cc / 2 * t * t * t + b;
+    return (cc / 2) * t * t * t + b;
   }
-  return cc / 2 * ((t -= 2) * t * t + 2) + b;
+  return (cc / 2) * ((t -= 2) * t * t + 2) + b;
 }
 /* tslint:enable */
 /* eslint-enable */
@@ -160,7 +197,8 @@ export function ossImg(src: string | undefined | null, config: IOssConfig = { w:
   if (src === undefined || src === null) {
     return undefined;
   }
-  if (!src.includes('oss')) { // local image
+  if (!src.includes('oss')) {
+    // local image
     return src;
   }
   const { op, ...params } = config;
@@ -210,7 +248,6 @@ export function requireAll(context: IContext, filterFn = (item: string) => !['./
 //   return rqAll(context, (item: string) => !item.includes('/_'));
 // }
 
-
 export function encodeHtmlTag(text: string) {
   if (!text) {
     return text;
@@ -222,8 +259,8 @@ export function encodeHtmlTag(text: string) {
 export function guid() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
     // tslint:disable-next-line:one-variable-per-declaration
-    let r = Math.random() * 16 | 0,
-      v = c === 'x' ? r : (r & 0x3 | 0x8);
+    let r = (Math.random() * 16) | 0,
+      v = c === 'x' ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
 }
@@ -237,7 +274,8 @@ export const getDefaultPaging = (overwrite = {}) => ({
   ...overwrite,
 });
 
-export const filterOption = (inputValue: string, option: any) => option.props.children.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0;
+export const filterOption = (inputValue: string, option: any) =>
+  option.props.children.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0;
 
 export function getFileSuffix(name: string) {
   if (!name) {
@@ -311,7 +349,8 @@ export function enableIconfont(target: string) {
   });
 }
 
-export const getTimeRanges = () => { // 快捷时间选择
+export const getTimeRanges = () => {
+  // 快捷时间选择
   const now = moment();
   return {
     [`1${i18n.t('common:hour')}`]: [moment().subtract(1, 'hours'), now],
@@ -350,7 +389,7 @@ export const uuid = (len = 20, radix = 0) => {
     for (i = 0; i < 36; i++) {
       if (!_uuid[i]) {
         r = Math.floor(Math.random() * 16);
-        _uuid[i] = chars[(i === 19) ? ((r % 4) + 8) : r];
+        _uuid[i] = chars[i === 19 ? (r % 4) + 8 : r];
       }
     }
   }
@@ -371,7 +410,5 @@ export const getOrgFromPath = () => {
 };
 
 export const setApiWithOrg = (api: string) => {
-  return api.startsWith('/api/')
-    ? api.replace('/api/', `/api/${getOrgFromPath()}/`)
-    : api;
+  return api.startsWith('/api/') ? api.replace('/api/', `/api/${getOrgFromPath()}/`) : api;
 };

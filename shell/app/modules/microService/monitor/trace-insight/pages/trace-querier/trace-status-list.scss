@@ -6,15 +6,15 @@
     color: $color-text-sub;
     border: 1px solid $color-border;
     border-radius: 4px;
-    box-shadow: rgba(0, 0, 0, .04) 0 2px 4px 0;
-    transition-duration: .3s;
+    box-shadow: rgba(0, 0, 0, 0.04) 0 2px 4px 0;
+    transition-duration: 0.3s;
 
     &:hover {
       border: 1px solid $color-primary;
       cursor: pointer;
     }
 
-    >span {
+    > span {
       display: inline-block;
       line-height: $base-line-height;
     }

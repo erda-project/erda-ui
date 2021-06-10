@@ -32,13 +32,16 @@ const chartConfig = (api?: string) => {
         const usage_percent = data['avg.mem_usage_percent'];
         const reData = [{ ...usage }, { ...usage_percent }];
         const finalData: any = {
-          time, results: reData,
+          time,
+          results: reData,
         };
         if (limit) {
-          finalData.lines = [{
-            name: i18n.t('microService:memory usage limit'),
-            value: find(limit.data, (num) => num !== 0) || 0,
-          }];
+          finalData.lines = [
+            {
+              name: i18n.t('microService:memory usage limit'),
+              value: find(limit.data, (num) => num !== 0) || 0,
+            },
+          ];
         }
         return finalData;
       },

@@ -89,12 +89,14 @@ export const AddonCategory = () => {
     };
     if (state.editData) {
       const { instanceId, projectId, orgId } = state.editData as any as IData;
-      return customAddonStore.updateCustomAddonConfig({
-        config: values.configs,
-        instanceId,
-        projectId: +projectId,
-        orgId,
-      }).then(after);
+      return customAddonStore
+        .updateCustomAddonConfig({
+          config: values.configs,
+          instanceId,
+          projectId: +projectId,
+          orgId,
+        })
+        .then(after);
     } else {
       const { addonName, name, plan, addonInstanceRoutingId, configs, importConfig } = values;
       const newAddonType = addonSpecList.find((a) => a.addonName === addonName);
@@ -141,7 +143,8 @@ export const AddonCategory = () => {
         // 创建API 网关 后关闭当前tab页，并刷新父页面API网关
         if (query.env && query.addon === AddonType.APIGateway && addonName === AddonType.APIGateway) {
           setSearch({}, [], true);
-          window.opener.refreshApiGateway && window.opener.refreshApiGateway({ workspace: values.workspace, addonInstanceID });
+          window.opener.refreshApiGateway &&
+            window.opener.refreshApiGateway({ workspace: values.workspace, addonInstanceID });
           window.close();
         } else {
           // 轮询addon list
@@ -161,7 +164,6 @@ export const AddonCategory = () => {
     });
   };
 
-
   return (
     <>
       <AddonCardList
@@ -173,8 +175,10 @@ export const AddonCategory = () => {
         onEitAddon={onEditAddon}
       />
       <div className="top-button-group">
-        <WithAuth pass={permMap.addProjectService.pass} >
-          <Button type="primary" onClick={() => updater.modalVisible(true)}>{i18n.t('project:add addon')}</Button>
+        <WithAuth pass={permMap.addProjectService.pass}>
+          <Button type="primary" onClick={() => updater.modalVisible(true)}>
+            {i18n.t('project:add addon')}
+          </Button>
         </WithAuth>
       </div>
       <AddonModal
@@ -185,5 +189,6 @@ export const AddonCategory = () => {
         onOk={handleOk}
         onCancel={closeModal}
       />
-    </>);
+    </>
+  );
 };

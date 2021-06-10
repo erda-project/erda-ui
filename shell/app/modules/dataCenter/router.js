@@ -48,7 +48,6 @@ const kubernetesTabs = [
   { key: 'detail', name: i18n.t('detail') },
 ];
 
-
 function getDataCenterRouter() {
   return [
     {
@@ -68,7 +67,8 @@ function getDataCenterRouter() {
             {
               path: 'history',
               pageName: i18n.t('org:operation history'),
-              getComp: (cb) => cb(import('app/modules/dataCenter/pages/cluster-manage/operation-history'), 'OperationHistory'),
+              getComp: (cb) =>
+                cb(import('app/modules/dataCenter/pages/cluster-manage/operation-history'), 'OperationHistory'),
             },
             {
               path: ':clusterName',

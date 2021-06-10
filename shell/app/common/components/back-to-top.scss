@@ -13,7 +13,7 @@
   box-shadow: 0 1px 3px 0 $color-text-sub;
   cursor: pointer;
   opacity: 70%;
-  animation: fadeIn ease .3s;
+  animation: fadeIn ease 0.3s;
 
   &:hover {
     opacity: 100%;

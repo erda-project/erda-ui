@@ -28,7 +28,7 @@ interface IProps {
   value: IApi[];
   mode?: string;
   onChange: (list: IApi[], autoSave?: boolean, adjustData?: Function) => any;
-  executeApi?: (api: object, i: number, extra?: {envId: number}) => any;
+  executeApi?: (api: object, i: number, extra?: { envId: number }) => any;
 }
 
 const formatJSON = (str: string) => {
@@ -67,11 +67,13 @@ export interface IApi {
     expression: string;
     matchIndex: number;
   }>;
-  asserts: Array<Array<{
-    arg: string;
-    operator: string;
-    value: string;
-  }>>;
+  asserts: Array<
+    Array<{
+      arg: string;
+      operator: string;
+      value: string;
+    }>
+  >;
   status: string;
   apiResponse: string;
   apiRequest: string;
@@ -87,21 +89,8 @@ const { Option } = Select;
 const { TabPane } = Tabs;
 const { TextArea } = Input;
 
-const HTTP_METHOD_LIST = [
-  'GET',
-  'POST',
-  'PUT',
-  'DELETE',
-  'OPTIONS',
-  'PATCH',
-  'COPY',
-  'HEAD',
-];
-const BODY_RAW_OPTION = [
-  'Text',
-  'Text(text/plain)',
-  'JSON(application/json)',
-];
+const HTTP_METHOD_LIST = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'COPY', 'HEAD'];
+const BODY_RAW_OPTION = ['Text', 'Text(text/plain)', 'JSON(application/json)'];
 
 export const getEmptyApi = () => {
   return {
@@ -115,9 +104,7 @@ export const getEmptyApi = () => {
       content: '',
     },
     outParams: [],
-    asserts: [
-      [],
-    ],
+    asserts: [[]],
   };
 };
 
@@ -199,15 +186,17 @@ export const CaseAPI = (props: IProps) => {
     if (!executeApi) {
       return;
     }
-    executeApi(api, i, { envId: extra?.id || 0 }).then((result: any) => {
-      updateApi(i, 'attemptTest', result[0]);
-      !showArr[i] && setCurShow(i);
-    }).finally(() => {
-      setExecutingMap({
-        ...executingMap,
-        [i]: false,
+    executeApi(api, i, { envId: extra?.id || 0 })
+      .then((result: any) => {
+        updateApi(i, 'attemptTest', result[0]);
+        !showArr[i] && setCurShow(i);
+      })
+      .finally(() => {
+        setExecutingMap({
+          ...executingMap,
+          [i]: false,
+        });
       });
-    });
     setExecutingMap({
       ...executingMap,
       [i]: true,
@@ -237,39 +226,48 @@ export const CaseAPI = (props: IProps) => {
     onChange(newApis, true);
   };
 
-
   if (!apiList.length) {
     return <span className="color-text-holder">{i18n.t('project:no content yet')}</span>;
   }
 
   return (
     <div className="case-api-list">
-      {
-        map(apiList, (api, i) => (
-          <ApiItem
-            key={i}
-            api={api}
-            index={i}
-            {...{
-              api,
-              setCurShow,
-              updateApi,
-              handleDelete,
-              executingMap,
-              inPlan,
-              showArr,
-              handleExecute,
-              onMove,
-              onCopyApi,
-            }}
-          />
-        ))
-      }
+      {map(apiList, (api, i) => (
+        <ApiItem
+          key={i}
+          api={api}
+          index={i}
+          {...{
+            api,
+            setCurShow,
+            updateApi,
+            handleDelete,
+            executingMap,
+            inPlan,
+            showArr,
+            handleExecute,
+            onMove,
+            onCopyApi,
+          }}
+        />
+      ))}
     </div>
   );
 };
 
-const ApiItem = ({ api, index, showArr, inPlan, executingMap, setCurShow, handleExecute, updateApi, handleDelete, onMove, onCopyApi }: any) => {
+const ApiItem = ({
+  api,
+  index,
+  showArr,
+  inPlan,
+  executingMap,
+  setCurShow,
+  handleExecute,
+  updateApi,
+  handleDelete,
+  onMove,
+  onCopyApi,
+}: any) => {
   const envList = testEnvStore.useStore((s) => s.envList);
   const [dragRef, previewRef] = useListDnD({
     type: 'case-api',
@@ -282,13 +280,14 @@ const ApiItem = ({ api, index, showArr, inPlan, executingMap, setCurShow, handle
     'index-num',
     inPlan
       ? {
-        success: api.status === 'Passed',
-        error: api.status === 'Failed',
-      }
-      : api.attemptTest && api.attemptTest.asserts && {
-        success: api.attemptTest.asserts.success === true,
-        error: api.attemptTest.asserts.success === false,
-      },
+          success: api.status === 'Passed',
+          error: api.status === 'Failed',
+        }
+      : api.attemptTest &&
+          api.attemptTest.asserts && {
+            success: api.attemptTest.asserts.success === true,
+            error: api.attemptTest.asserts.success === false,
+          },
   );
   const curExecuteResult = api.attemptTest;
   let assertResult: any[] = [];
@@ -348,11 +347,7 @@ const ApiItem = ({ api, index, showArr, inPlan, executingMap, setCurShow, handle
       'color-success': isSuccess,
       'color-danger': !isSuccess,
     });
-    let responseBody = (
-      <pre className="response-body">
-        {JSON.stringify(body, null, 2)}
-      </pre>
-    );
+    let responseBody = <pre className="response-body">{JSON.stringify(body, null, 2)}</pre>;
     let isRequestJson = false;
     map(headers, (v: string[], k: string) => {
       map(v, (item: string) => {
@@ -361,23 +356,10 @@ const ApiItem = ({ api, index, showArr, inPlan, executingMap, setCurShow, handle
           value: item,
         });
         if (k === 'Content-Type' && item.includes('application/json')) {
-          responseBody = (
-            <FileEditor
-              fileExtension="json"
-              value={formatJSON(body)}
-              readOnly
-            />
-          );
+          responseBody = <FileEditor fileExtension="json" value={formatJSON(body)} readOnly />;
         }
         if (k === 'Content-Type' && item.includes('text/html')) {
-          responseBody = (
-            <FileEditor
-              fileExtension="html"
-              value={body}
-              readOnly
-              style={{ maxHeight: '400px' }}
-            />
-          );
+          responseBody = <FileEditor fileExtension="html" value={body} readOnly style={{ maxHeight: '400px' }} />;
         }
       });
     });
@@ -403,62 +385,60 @@ const ApiItem = ({ api, index, showArr, inPlan, executingMap, setCurShow, handle
     });
     resultTabs = (
       <div className="api-tabs">
-        <Tabs defaultActiveKey="Response" >
+        <Tabs defaultActiveKey="Response">
           <TabPane key="Request" tab="Request">
-            {
-              isEmpty(request)
-                ?
-                  <EmptyListHolder />
-                : (
-                  <>
-                    <div className="request-info color-text-desc pa12">
-                      <span className="method mr12">{get(request, 'method', '')}</span>
-                      <span className="url">{get(request, 'url', '')}</span>
-                    </div>
-                    <Tabs>
-                      <TabPane key="Params" tab="Params">
-                        <Table rowKey="name" size="small" pagination={false} columns={columns} dataSource={requestParams} />
-                      </TabPane>
-                      <TabPane key="Headers" tab="Headers">
-                        <Table rowKey="name" size="small" pagination={false} columns={columns} dataSource={requestHeaders} />
-                      </TabPane>
-                      <TabPane key="Body" tab="Body">
-                        {
-                          isEmpty(get(request, 'body.content'))
-                            ?
-                              <EmptyListHolder />
-                            : (
-                              <>
-                                <div className="body-type pa12 border-bottom">Type: {get(request, 'body.type', '')}</div>
-                                <Button
-                                  disabled={!get(request, 'body.content')}
-                                  className="copy-btn for-copy copy-request"
-                                  data-clipboard-text={get(request, 'body.content', '')}
-                                  shape="circle"
-                                  icon={<IconCopy />}
-                                />
-                                <Copy selector=".copy-request" />
-                                <pre className="response-body">
-                                  {
-                                    isRequestJson
-                                      ?
-                                        <FileEditor
-                                          fileExtension="json"
-                                          value={formatJSON(get(request, 'body.content', ''))}
-                                          readOnly
-                                        />
-                                      :
-                                      get(request, 'body.content', '')
-                                  }
-                                </pre>
-                              </>
-                            )
-                        }
-                      </TabPane>
-                    </Tabs>
-                  </>
-                )
-            }
+            {isEmpty(request) ? (
+              <EmptyListHolder />
+            ) : (
+              <>
+                <div className="request-info color-text-desc pa12">
+                  <span className="method mr12">{get(request, 'method', '')}</span>
+                  <span className="url">{get(request, 'url', '')}</span>
+                </div>
+                <Tabs>
+                  <TabPane key="Params" tab="Params">
+                    <Table rowKey="name" size="small" pagination={false} columns={columns} dataSource={requestParams} />
+                  </TabPane>
+                  <TabPane key="Headers" tab="Headers">
+                    <Table
+                      rowKey="name"
+                      size="small"
+                      pagination={false}
+                      columns={columns}
+                      dataSource={requestHeaders}
+                    />
+                  </TabPane>
+                  <TabPane key="Body" tab="Body">
+                    {isEmpty(get(request, 'body.content')) ? (
+                      <EmptyListHolder />
+                    ) : (
+                      <>
+                        <div className="body-type pa12 border-bottom">Type: {get(request, 'body.type', '')}</div>
+                        <Button
+                          disabled={!get(request, 'body.content')}
+                          className="copy-btn for-copy copy-request"
+                          data-clipboard-text={get(request, 'body.content', '')}
+                          shape="circle"
+                          icon={<IconCopy />}
+                        />
+                        <Copy selector=".copy-request" />
+                        <pre className="response-body">
+                          {isRequestJson ? (
+                            <FileEditor
+                              fileExtension="json"
+                              value={formatJSON(get(request, 'body.content', ''))}
+                              readOnly
+                            />
+                          ) : (
+                            get(request, 'body.content', '')
+                          )}
+                        </pre>
+                      </>
+                    )}
+                  </TabPane>
+                </Tabs>
+              </>
+            )}
           </TabPane>
           <TabPane key="Response" tab="Response">
             <Tabs
@@ -473,7 +453,13 @@ const ApiItem = ({ api, index, showArr, inPlan, executingMap, setCurShow, handle
                 <Table size="small" pagination={false} columns={columns} dataSource={responseHeaders} />
               </TabPane>
               <TabPane key="Body" tab="Body">
-                <Button disabled={!body} className="copy-btn for-copy copy-response" data-clipboard-text={body} shape="circle" icon={<IconCopy />} />
+                <Button
+                  disabled={!body}
+                  className="copy-btn for-copy copy-response"
+                  data-clipboard-text={body}
+                  shape="circle"
+                  icon={<IconCopy />}
+                />
                 <Copy selector=".copy-response" />
                 {responseBody}
               </TabPane>
@@ -485,7 +471,7 @@ const ApiItem = ({ api, index, showArr, inPlan, executingMap, setCurShow, handle
   }
   return (
     <div ref={previewRef} key={index} className={'api-item'}>
-      <Spin size="small" spinning={(executingMap[index]) || false}>
+      <Spin size="small" spinning={executingMap[index] || false}>
         <div className="api-title case-index-hover">
           <span ref={dragRef} className="case-index-block">
             <span className={numCls}>{index + 1}</span>
@@ -494,21 +480,28 @@ const ApiItem = ({ api, index, showArr, inPlan, executingMap, setCurShow, handle
           <span>
             <CustomIcon className="copy-icon" type="fz1" onClick={() => onCopyApi(api, index)} />
           </span>
-          <Input className="flex-1" placeholder={i18n.t('project:input interface name')} value={api.name} onChange={(e) => updateApi(index, 'name', e.target.value)} maxLength={50} />
-          <CustomIcon className={`${isShow ? 'arrow-down' : 'arrow-up'} api-op hover-active`} type="chevron-down" onClick={() => setCurShow(index)} />
-          {
-            inPlan
-              ? null
-              : (
-                <SelectEnv envList={envList} onClick={(extra: TEST_ENV.Item) => handleExecute(api, index, extra)}>
-                  <CustomIcon className="ml12 mt4 api-op hover-active" type="play" onClick={() => handleExecute(api, index)} />
-                </SelectEnv>
-              )
-          }
-          <Popconfirm
-            title={`${i18n.t('common:confirm deletion')}？`}
-            onConfirm={() => handleDelete(index)}
-          >
+          <Input
+            className="flex-1"
+            placeholder={i18n.t('project:input interface name')}
+            value={api.name}
+            onChange={(e) => updateApi(index, 'name', e.target.value)}
+            maxLength={50}
+          />
+          <CustomIcon
+            className={`${isShow ? 'arrow-down' : 'arrow-up'} api-op hover-active`}
+            type="chevron-down"
+            onClick={() => setCurShow(index)}
+          />
+          {inPlan ? null : (
+            <SelectEnv envList={envList} onClick={(extra: TEST_ENV.Item) => handleExecute(api, index, extra)}>
+              <CustomIcon
+                className="ml12 mt4 api-op hover-active"
+                type="play"
+                onClick={() => handleExecute(api, index)}
+              />
+            </SelectEnv>
+          )}
+          <Popconfirm title={`${i18n.t('common:confirm deletion')}？`} onConfirm={() => handleDelete(index)}>
             <CustomIcon className="ml12 delete-icon api-op hover-active" type="sc1" />
           </Popconfirm>
         </div>
@@ -523,7 +516,9 @@ const ApiItem = ({ api, index, showArr, inPlan, executingMap, setCurShow, handle
                   placeholder={i18n.t('project:please choose')}
                 >
                   {map(HTTP_METHOD_LIST, (method) => (
-                    <Option value={method} key={method}>{method}</Option>
+                    <Option value={method} key={method}>
+                      {method}
+                    </Option>
                   ))}
                 </Select>
               }
@@ -539,18 +534,30 @@ const ApiItem = ({ api, index, showArr, inPlan, executingMap, setCurShow, handle
                 let _tab: any = tab;
                 if (assertSuccess !== undefined && tab === 'Tests') {
                   // 这里直接使用color属性不行，应该是Badge组件有bug
-                  _tab = <Badge dot className={assertSuccess ? 'test-assert-success' : 'test-assert-error'}>{tab}</Badge>;
+                  _tab = (
+                    <Badge dot className={assertSuccess ? 'test-assert-success' : 'test-assert-error'}>
+                      {tab}
+                    </Badge>
+                  );
                 }
                 return (
                   <TabPane tab={_tab} key={tab}>
                     <Comp
                       data={
-                        isArray(dataKey) ?
-                          reduce(dataKey, (obj, k) => { return { ...obj, [k]: api[k] }; }, {})
-                          :
-                          api[dataKey]}
+                        isArray(dataKey)
+                          ? reduce(
+                              dataKey,
+                              (obj, k) => {
+                                return { ...obj, [k]: api[k] };
+                              },
+                              {},
+                            )
+                          : api[dataKey]
+                      }
                       assertResult={assertResult}
-                      onChange={(key: string, val: any, autoSave?: boolean, adjustData?: Function) => updateApi(index, key, val, autoSave, adjustData)}
+                      onChange={(key: string, val: any, autoSave?: boolean, adjustData?: Function) =>
+                        updateApi(index, key, val, autoSave, adjustData)
+                      }
                     />
                   </TabPane>
                 );
@@ -653,13 +660,11 @@ const ApiTabComps = {
               title={i18n.t('project:actual value')}
               trigger="hover"
             >
-              {
-                res.success === true
-                  ? <CustomIcon className="assert-status success" type="tg" />
-                  : res.success === false
-                    ? <CustomIcon className="assert-status error" type="wtg" />
-                    : null
-              }
+              {res.success === true ? (
+                <CustomIcon className="assert-status success" type="tg" />
+              ) : res.success === false ? (
+                <CustomIcon className="assert-status error" type="wtg" />
+              ) : null}
             </Popover>
           );
         });
@@ -752,11 +757,13 @@ const ApiTabComps = {
                         placeholder={i18n.t('project:parameter name')}
                         onChange={(v: string) => onCurChange(v, true)}
                       >
-                        {
-                          data.outParams.map((option: any) => {
-                            return option.key === '' ? null : <Option key={option.key} value={option.key}>{option.key}</Option>;
-                          })
-                        }
+                        {data.outParams.map((option: any) => {
+                          return option.key === '' ? null : (
+                            <Option key={option.key} value={option.key}>
+                              {option.key}
+                            </Option>
+                          );
+                        })}
                       </Select>
                     );
                   },
@@ -813,7 +820,15 @@ const TestJsonEditor = (props: any) => {
 
   return (
     <div className="test-json-editor">
-      <Button className="json-format-btn" size="small" onClick={() => { setContent(formatJSON(content)); }}>{i18n.t('format')}</Button>
+      <Button
+        className="json-format-btn"
+        size="small"
+        onClick={() => {
+          setContent(formatJSON(content));
+        }}
+      >
+        {i18n.t('format')}
+      </Button>
       <FileEditor
         fileExtension="json"
         value={content}
@@ -829,15 +844,13 @@ const TestJsonEditor = (props: any) => {
 
 const BasicForm = 'application/x-www-form-urlencoded';
 const ValMap = {
-  none: () => (
-    <div className="body-val-none">{i18n.t('project:the current request has no body')}</div>
-  ),
+  none: () => <div className="body-val-none">{i18n.t('project:the current request has no body')}</div>,
   [BasicForm]: (props: any) => {
     const { data, updateBody }: any = props;
     return (
       <KeyValEdit
         type="body"
-        data={isString(data.content) ? [] : data.content as any}
+        data={isString(data.content) ? [] : (data.content as any)}
         dataModel={{
           key: '',
           value: '',
@@ -944,25 +957,23 @@ const APIBody = (props: any) => {
           <Radio value={BasicForm}>x-www-form-urlencoded</Radio>
           <Radio value={'raw'}>raw</Radio>
         </Radio.Group>
-        {
-          isRaw ? (
-            <Select
-              size="small"
-              style={{ minWidth: 120 }}
-              onChange={(t: string) => changeType(t, true)}
-              value={realType}
-              dropdownMatchSelectWidth={false}
-            >
-              {map(BODY_RAW_OPTION, (item) => (
-                <Option key={item} value={item}>{item}</Option>
-              ))}
-            </Select>
-          ) : null
-        }
+        {isRaw ? (
+          <Select
+            size="small"
+            style={{ minWidth: 120 }}
+            onChange={(t: string) => changeType(t, true)}
+            value={realType}
+            dropdownMatchSelectWidth={false}
+          >
+            {map(BODY_RAW_OPTION, (item) => (
+              <Option key={item} value={item}>
+                {item}
+              </Option>
+            ))}
+          </Select>
+        ) : null}
       </div>
-      <div className="body-value-container">
-        {CurValueComp && <CurValueComp data={data} updateBody={updateBody} />}
-      </div>
+      <div className="body-value-container">{CurValueComp && <CurValueComp data={data} updateBody={updateBody} />}</div>
     </div>
   );
 };
@@ -989,7 +1000,7 @@ const KeyValEdit = (props: IKeyValProps) => {
       newVal = [...data, { ...dataModel }];
     }
     setValues(newVal);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   const updateValue = (idx: number, key: string, val: string, autoSave = false) => {
@@ -1048,7 +1059,9 @@ const KeyValEdit = (props: IKeyValProps) => {
       // 删除出参时删除对应断言，data为apis全部数据
       if (k === 'outParams') {
         const outParamKeys = {};
-        outParams.forEach((p: any) => { outParamKeys[p.key] = true; });
+        outParams.forEach((p: any) => {
+          outParamKeys[p.key] = true;
+        });
         // 只保留arg没填或者在outParams有匹配的断言
         const newAsserts = asserts[0].filter((a: any) => a.arg === '' || outParamKeys[a.arg]);
         // eslint-disable-next-line no-param-reassign
@@ -1066,45 +1079,55 @@ const KeyValEdit = (props: IKeyValProps) => {
 
   return (
     <div className="key-val-container">
-      {
-        map(values, (item, i) => {
-          const lastItem = i === values.length - 1;
-          return (
-            <div className="key-val-item" key={i} >
-              {
-                map(item, (val: string, key: string) => {
-                  const { Comp, props: compProps, getProps } = itemMap[key];
-                  const extraProps = getProps ? getProps(item) : {};
-                  return (
-                    <React.Fragment key={key}>
-                      {Comp ?
-                        <Comp className="flex-1" value={val} record={item} onChange={(curVal: any, autoSave: boolean) => updateValue(i, key, curVal, autoSave)} /> :
-                        <Input className="flex-1" placeholder={i18n.t('project:please enter')} value={val} onChange={(e) => updateValue(i, key, e.target.value)} {...compProps} {...extraProps} />
-                      }
-                      {Comp === Empty ? null : <div className="item-separate" />}
-                    </React.Fragment>
-                  );
-                })
-              }
-              <div className="key-val-operation">
-                {opList[i] || null}
-                {
-                  type === 'outParams'
-                    ? (
-                      <Popconfirm
-                        title={i18n.t('project:del-param-sync-assert')}
-                        onConfirm={() => handleDelete(i)}
-                      >
-                        <CustomIcon type="sc1" className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'} />
-                      </Popconfirm>
-                    )
-                    : <CustomIcon type="sc1" onClick={() => { handleDelete(i); }} className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'} />
-                }
-              </div>
+      {map(values, (item, i) => {
+        const lastItem = i === values.length - 1;
+        return (
+          <div className="key-val-item" key={i}>
+            {map(item, (val: string, key: string) => {
+              const { Comp, props: compProps, getProps } = itemMap[key];
+              const extraProps = getProps ? getProps(item) : {};
+              return (
+                <React.Fragment key={key}>
+                  {Comp ? (
+                    <Comp
+                      className="flex-1"
+                      value={val}
+                      record={item}
+                      onChange={(curVal: any, autoSave: boolean) => updateValue(i, key, curVal, autoSave)}
+                    />
+                  ) : (
+                    <Input
+                      className="flex-1"
+                      placeholder={i18n.t('project:please enter')}
+                      value={val}
+                      onChange={(e) => updateValue(i, key, e.target.value)}
+                      {...compProps}
+                      {...extraProps}
+                    />
+                  )}
+                  {Comp === Empty ? null : <div className="item-separate" />}
+                </React.Fragment>
+              );
+            })}
+            <div className="key-val-operation">
+              {opList[i] || null}
+              {type === 'outParams' ? (
+                <Popconfirm title={i18n.t('project:del-param-sync-assert')} onConfirm={() => handleDelete(i)}>
+                  <CustomIcon type="sc1" className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'} />
+                </Popconfirm>
+              ) : (
+                <CustomIcon
+                  type="sc1"
+                  onClick={() => {
+                    handleDelete(i);
+                  }}
+                  className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'}
+                />
+              )}
             </div>
-          );
-        })
-      }
+          </div>
+        );
+      })}
     </div>
   );
 };

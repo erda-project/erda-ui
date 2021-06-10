@@ -19,7 +19,6 @@ import React from 'react';
 import { Tooltip, Ellipsis, Popconfirm } from 'app/nusi';
 import './sort-drag-list.scss';
 
-
 interface IBeginDragData<T> {
   item: T;
   index: number;
@@ -101,11 +100,12 @@ const useDragAndDrop = ({ item, index, onBeginDrag, onEndDrag, onMove }: any) =>
       }
       // Don't replace items with themselves
       if (dragItem.data.id !== data.id) {
-        onMove && onMove({
-          sourceItem: dragItem,
-          targetItem: item,
-          position: dragItem.index < index ? 1 : -1,
-        });
+        onMove &&
+          onMove({
+            sourceItem: dragItem,
+            targetItem: item,
+            position: dragItem.index < index ? 1 : -1,
+          });
       }
     },
     drop: () => {
@@ -157,14 +157,23 @@ const SortDragItem = ({
   }
 
   if (isHolder) {
-    return (
-      <div ref={draggable ? drop(drag) : undefined} className="sort-drag-item" />
-    );
+    return <div ref={draggable ? drop(drag) : undefined} className="sort-drag-item" />;
   }
 
   return (
-    <div ref={draggable ? (node) => drop(preview(node)) : undefined} key={index} className={`flex-box sort-drag-item ${hoverCls}`} onClick={() => onClick && onClick(item)}>
-      <div ref={draggable ? drag : undefined} className="px8 icon-block drag-handle" onClick={(e) => e.stopPropagation()}><CustomIcon type="up-down" /></div>
+    <div
+      ref={draggable ? (node) => drop(preview(node)) : undefined}
+      key={index}
+      className={`flex-box sort-drag-item ${hoverCls}`}
+      onClick={() => onClick && onClick(item)}
+    >
+      <div
+        ref={draggable ? drag : undefined}
+        className="px8 icon-block drag-handle"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <CustomIcon type="up-down" />
+      </div>
       <div className="flex-1 ml4 nowrap pointer v-align sort-drag-item-title">
         <Ellipsis title={data.title}>{data.title}</Ellipsis>
       </div>
@@ -200,9 +209,7 @@ const SortDragItem = ({
                   }}
                   className={`icon-block hover-active px8 ${op.hoverShow ? 'hover-show' : ''}`}
                 >
-                  <CustomIcon
-                    type={op.icon}
-                  />
+                  <CustomIcon type={op.icon} />
                 </span>
               </Popconfirm>
             );
@@ -210,7 +217,9 @@ const SortDragItem = ({
           return (
             <Tooltip key={op.icon} title={op.hoverTip}>
               <span
-                className={`icon-block hover-active px8 ${op.hoverShow ? 'hover-show' : ''} ${op.disabled ? 'not-allowed' : ''}`}
+                className={`icon-block hover-active px8 ${op.hoverShow ? 'hover-show' : ''} ${
+                  op.disabled ? 'not-allowed' : ''
+                }`}
                 onClick={(e) => {
                   e.stopPropagation();
                   !op.disabled && op.onClick(item);
@@ -260,8 +269,7 @@ const SortDragGroup = ({
   onClickItem = noop,
   draggable = true,
   groupDraggable = true,
-}:
-SortDragGroupProps<SortItemData>) => {
+}: SortDragGroupProps<SortItemData>) => {
   const { id: groupId, children: list } = group;
   const { drag, preview, drop, position, isDragging, isOver } = useDragAndDrop({
     item: { type: 'drag-group', data: group },
@@ -279,14 +287,16 @@ SortDragGroupProps<SortItemData>) => {
     }
   }
   return (
-    <div ref={draggable ? (node) => drop(preview(node)) : undefined} key={groupId} className={`sort-drag-group ${hoverCls}`}>
-      {
-        groupDraggable === false ? null : (
-          <div ref={draggable ? drag : undefined} className="group-drag-handle center-flex-box">
-            <CustomIcon type="up-down" />
-          </div>
-        )
-      }
+    <div
+      ref={draggable ? (node) => drop(preview(node)) : undefined}
+      key={groupId}
+      className={`sort-drag-group ${hoverCls}`}
+    >
+      {groupDraggable === false ? null : (
+        <div ref={draggable ? drag : undefined} className="group-drag-handle center-flex-box">
+          <CustomIcon type="up-down" />
+        </div>
+      )}
       <div className="flex-1">
         {list.map((item, i) => {
           return (
@@ -322,7 +332,6 @@ const getHolder = (type: string) => {
   };
 };
 
-
 interface SortItemData {
   type: string;
   draggable: boolean;
@@ -357,8 +366,17 @@ interface IProps {
   onMoveGroup?: (data: any) => void;
   onClickItem?: (data: SortItemData['data']) => void;
 }
-const noop = () => { };
-export const SortDragGroupList: React.FC<IProps> = ({ value, disableDropInItem, disableDropInGroup, onMoveItem, onMoveGroup, onClickItem, draggable = true, groupDraggable = true }) => {
+const noop = () => {};
+export const SortDragGroupList: React.FC<IProps> = ({
+  value,
+  disableDropInItem,
+  disableDropInGroup,
+  onMoveItem,
+  onMoveGroup,
+  onClickItem,
+  draggable = true,
+  groupDraggable = true,
+}) => {
   const [list, setList] = React.useState(value);
   const [groupList, setGroupList] = React.useState([] as any[]);
 
@@ -444,4 +462,3 @@ export const SortDragGroupList: React.FC<IProps> = ({ value, disableDropInItem, 
     </>
   );
 };
-

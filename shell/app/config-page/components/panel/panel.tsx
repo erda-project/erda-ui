@@ -15,7 +15,7 @@ import * as React from 'react';
 import { Panel, Ellipsis } from 'app/nusi';
 import { map } from 'lodash';
 
-interface IField extends CP_PANEL.Field{
+interface IField extends CP_PANEL.Field {
   valueItem?: (props: Obj) => any;
 }
 

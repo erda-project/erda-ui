@@ -27,7 +27,15 @@ interface IProps {
   fetchTraceContent: (params: any) => void;
 }
 
-export const TraceExpandTable = ({ recordKey, dataSource, columns, viewLog, fetchTraceContent, emptyText, applicationId }: IProps) => {
+export const TraceExpandTable = ({
+  recordKey,
+  dataSource,
+  columns,
+  viewLog,
+  fetchTraceContent,
+  emptyText,
+  applicationId,
+}: IProps) => {
   let subDataSource = get(dataSource, recordKey);
 
   subDataSource = map(subDataSource, (item) => {
@@ -76,8 +84,16 @@ export const TraceExpandTable = ({ recordKey, dataSource, columns, viewLog, fetc
         const { requestId, traced } = record;
         return (
           <div className="table-operations">
-            {requestId ? <span className="table-operations-btn" onClick={() => openLog(record)}>{i18n.t('microService:view log')}</span> : null}
-            {traced ? <span className="table-operations-btn" onClick={() => openQuerier(record)}>{i18n.t('view link')}</span> : null}
+            {requestId ? (
+              <span className="table-operations-btn" onClick={() => openLog(record)}>
+                {i18n.t('microService:view log')}
+              </span>
+            ) : null}
+            {traced ? (
+              <span className="table-operations-btn" onClick={() => openQuerier(record)}>
+                {i18n.t('view link')}
+              </span>
+            ) : null}
           </div>
         );
       },
@@ -85,16 +101,8 @@ export const TraceExpandTable = ({ recordKey, dataSource, columns, viewLog, fetc
     },
   ];
 
-  return (
-    <Table
-      columns={columns || subColumns}
-      dataSource={subDataSource}
-      pagination={false}
-      locale={{ emptyText }}
-    />
-  );
+  return <Table columns={columns || subColumns} dataSource={subDataSource} pagination={false} locale={{ emptyText }} />;
 };
-
 
 export const onExpand = (getSubTableList: Function, query: any, getParams: any) => (isExpend: boolean, record: any) => {
   if (isExpend) {

@@ -21,7 +21,7 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import monitorChartStore from 'app/modules/microService/monitor/monitor-common/stores/monitorChart';
 import routeInfoStore from 'app/common/stores/route';
 
-interface ICreateParams{
+interface ICreateParams {
   moduleName: string;
   chartName: string;
   type: string;
@@ -29,13 +29,13 @@ interface ICreateParams{
   dataHandler?: Function;
 }
 
-interface ITab{
+interface ITab {
   [pro: string]: any;
   name: string;
   key: string;
 }
 
-interface IListProps{
+interface IListProps {
   [pro: string]: any;
   shouldLoad?: boolean;
   loadData: (name: string, args: any) => Promise<object>;
@@ -67,20 +67,22 @@ export default {
         const { getFetchObj, fetchApi, query, chosenApp, timeSpan, sortTab, subTab, terminusKey, params } = props;
         let reQuery = { fetchApi };
         let reextendHandler = {};
-        if (getFetchObj) { // 从fetchObj中获取
+        if (getFetchObj) {
+          // 从fetchObj中获取
           const { fetchApi: api, extendQuery = {}, extendHandler } = getFetchObj(props);
           extendHandler && (reextendHandler = { ...extendHandler });
-          reQuery = { fetchApi: api ? api.startsWith('/api') ? api : `${fetchApi}${api}` : fetchApi, ...extendQuery };
+          reQuery = { fetchApi: api ? (api.startsWith('/api') ? api : `${fetchApi}${api}`) : fetchApi, ...extendQuery };
         }
         const commonState = { ...timeSpan, chosenApp, sortTab, subTab, terminusKey, ...params };
         const { constQuery = {}, dependentKey, ...rest } = query;
         query.extendHandler && (reextendHandler = { ...reextendHandler, ...query.extendHandler });
-        if (dependentKey) { // 接口中所需参数名命名不一致，如{tk:'terminusKey'}
+        if (dependentKey) {
+          // 接口中所需参数名命名不一致，如{tk:'terminusKey'}
           Object.keys(dependentKey).forEach((key) => {
             const curKey = dependentKey[key];
             if (has(commonState, curKey)) {
               const val = get(commonState, curKey);
-              (val !== undefined && val !== '') && (reQuery[key] = commonState[curKey]);
+              val !== undefined && val !== '' && (reQuery[key] = commonState[curKey]);
             } else {
               // eslint-disable-next-line no-console
               console.error(`there has no key:${curKey} in chartFactory, or the value of the key is undefined.`);
@@ -99,10 +101,18 @@ export default {
         const { shouldLoad = true, viewProps, fetchApi, query } = props;
         const { loadChart } = monitorChartStore.effects;
         const { updateState: setCommonState } = monitorCommonStore.reducers;
-        const [timeSpan, chosenSortItem, chosenApp = {}, sortTab, subTab] = monitorCommonStore.useStore((s) => [s.timeSpan, s.chosenSortItem, s.chosenApp, s.sortTab, s.subTab]);
+        const [timeSpan, chosenSortItem, chosenApp = {}, sortTab, subTab] = monitorCommonStore.useStore((s) => [
+          s.timeSpan,
+          s.chosenSortItem,
+          s.chosenApp,
+          s.sortTab,
+          s.subTab,
+        ]);
         const terminusKey = routeInfoStore.useStore((s) => s.params.terminusKey);
         const sortListRef = React.useRef(null as any);
-        const [curQuery, setCurQuery] = React.useState(getQuery({ ...props, terminusKey, timeSpan, chosenSortItem, chosenApp, sortTab, subTab }) as any);
+        const [curQuery, setCurQuery] = React.useState(
+          getQuery({ ...props, terminusKey, timeSpan, chosenSortItem, chosenApp, sortTab, subTab }) as any,
+        );
         const chart = monitorChartStore.useStore((s) => s);
         const data = get(chart, `${moduleName}.${chartName}`, {});
 
@@ -124,7 +134,7 @@ export default {
           if (!shouldLoad) {
             setCurQuery({});
           }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+          // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [curQuery, fetchApi, query, chosenApp, timeSpan, sortTab, subTab, chosenSortItem, terminusKey, shouldLoad]);
 
         const loadData = (q: any) => {
@@ -137,7 +147,14 @@ export default {
         const onClickItem = (curChosenItem: string) => {
           setCommonState && setCommonState({ chosenSortItem: curChosenItem });
         };
-        return <PureSortList ref={sortListRef} onClickItem={onClickItem} {...viewProps} data={shouldLoad ? data : { loading: false }} />;
+        return (
+          <PureSortList
+            ref={sortListRef}
+            onClickItem={onClickItem}
+            {...viewProps}
+            data={shouldLoad ? data : { loading: false }}
+          />
+        );
       };
       return SortList;
     }

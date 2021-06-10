@@ -17,9 +17,15 @@ import { message } from 'app/nusi';
 import { createStore } from 'app/cube';
 import testCaseStore from 'project/stores/test-case';
 import {
-  createTestSet, getTestSetList, deleteTestSet, recoverTestSet,
-  copyTestSet, moveTestSet, renameTestSet,
-  deleteTestSetEntirely, getTestSetListInTestPlan,
+  createTestSet,
+  getTestSetList,
+  deleteTestSet,
+  recoverTestSet,
+  copyTestSet,
+  moveTestSet,
+  renameTestSet,
+  deleteTestSetEntirely,
+  getTestSetListInTestPlan,
 } from '../services/test-set';
 
 export interface IReloadTestSetInfo {
@@ -31,7 +37,8 @@ export interface IReloadTestSetInfo {
   reloadParent?: boolean; // 是否需要自己重新加载一下父级
 }
 
-interface IBreadcrumbInfo { // 导入导出弹框中的面包屑
+interface IBreadcrumbInfo {
+  // 导入导出弹框中的面包屑
   pathName: string; // 当前路径名称
   testSetID: number; // 测试集id
   testPlanID?: number | null; // 测试计划id，计划详情中可用
@@ -43,9 +50,10 @@ interface ITreeExtra {
   selectProjectId?: number;
 }
 
-interface ITreeModalInfo { // 项目测试集弹框
+interface ITreeModalInfo {
+  // 项目测试集弹框
   ids: number[]; // 测试集/用例的ids
-  action: 'copy'| 'move' | 'recover'; // 弹框操作 copy,move,recover
+  action: 'copy' | 'move' | 'recover'; // 弹框操作 copy,move,recover
   type: 'collection' | 'case' | 'multi'; // 集合 'collection', 用例 'case', 用例多选'multi'
   extra: {}; // 其他提交时需要的信息
   treeExtra: ITreeExtra; // tree 选中时保存的信息
@@ -84,7 +92,8 @@ const initState: IState = {
   activeOuter: false,
   treeModalInfo: initTreeModalInfo,
   reloadTestSetInfo: initReloadTestSetInfo,
-  breadcrumbInfo: { // 导入导出弹框中的面包屑
+  breadcrumbInfo: {
+    // 导入导出弹框中的面包屑
     pathName: '', // 当前路径名称
     testSetID: 0, // 测试集id
     testPlanID: null, // 测试计划id，计划详情中可用
@@ -101,7 +110,10 @@ const testSetStore = createStore({
   name: 'testSet',
   state: initState,
   effects: {
-    async getProjectTestSets({ call, update, getParams, select }, payload: Merge<Omit<TEST_SET.GetQuery, 'projectID'>, { mode: TEST_CASE.PageScope; forceUpdate?: boolean }>) {
+    async getProjectTestSets(
+      { call, update, getParams, select },
+      payload: Merge<Omit<TEST_SET.GetQuery, 'projectID'>, { mode: TEST_CASE.PageScope; forceUpdate?: boolean }>,
+    ) {
       const { projectId } = getParams();
       const { mode, forceUpdate = false, ...rest } = payload;
       if (!rest.parentID) {
@@ -109,7 +121,8 @@ const testSetStore = createStore({
       }
       // 由于测试集有可能在用例导入弹框、复制/移动弹框、计划详情左侧、用例列表左侧中 被同时使用，因此树形结构交由组件自身维护
       let list = [];
-      if (mode === 'testPlan' && payload.testPlanID) { // 测试计划测试集
+      if (mode === 'testPlan' && payload.testPlanID) {
+        // 测试计划测试集
         list = await call(getTestSetListInTestPlan, { parentID: payload.parentID, testPlanID: payload.testPlanID });
       } else {
         list = await call(getTestSetList, { ...rest, projectID: +projectId, recycled: false });
@@ -130,7 +143,10 @@ const testSetStore = createStore({
       }
       return [];
     },
-    async getTestSetChildren({ call, getParams }, payload: Merge<Omit<TEST_SET.GetQuery, 'projectID'>, { mode: TEST_CASE.PageScope}>) {
+    async getTestSetChildren(
+      { call, getParams },
+      payload: Merge<Omit<TEST_SET.GetQuery, 'projectID'>, { mode: TEST_CASE.PageScope }>,
+    ) {
       const { mode, ...rest } = payload;
       const { projectId } = getParams();
       let res;
@@ -147,7 +163,11 @@ const testSetStore = createStore({
     },
     async createTestSet({ call, getParams }, payload: Omit<TEST_SET.CreateBody, 'projectID'>) {
       const { projectId } = getParams();
-      const newSet = await call(createTestSet, { ...payload, projectID: +projectId }, { successMsg: i18n.t('project:completed') });
+      const newSet = await call(
+        createTestSet,
+        { ...payload, projectID: +projectId },
+        { successMsg: i18n.t('project:completed') },
+      );
       return newSet;
     },
     async deleteTestSetToRecycle({ call }, testSetID: number) {
@@ -178,7 +198,10 @@ const testSetStore = createStore({
       testCaseStore.reducers.toggleDetailPanel({ visible: false });
     },
     // cut or copy testSets
-    async subSubmitTreeCollection({ call, getParams }, payload: { parentID: number; testSetID: number; action: string}) {
+    async subSubmitTreeCollection(
+      { call, getParams },
+      payload: { parentID: number; testSetID: number; action: string },
+    ) {
       const { projectId: projectID } = getParams();
       const { parentID, action, testSetID } = payload;
       const isCopy = action === 'copy';
@@ -199,7 +222,11 @@ const testSetStore = createStore({
       if (isCopy) {
         await testCaseStore.effects.copyCases({ testCaseIDs: newQuery.testCaseIDs, copyToTestSetID: testSetID });
       } else {
-        await testCaseStore.effects.moveCase({ recycled: false, testCaseIDs: newQuery.testCaseIDs, moveToTestSetID: testSetID });
+        await testCaseStore.effects.moveCase({
+          recycled: false,
+          testCaseIDs: newQuery.testCaseIDs,
+          moveToTestSetID: testSetID,
+        });
         await testCaseStore.reducers.removeChoosenIds(newQuery.testCaseIDs);
       }
       testSetStore.reducers.closeTreeModal();
@@ -231,9 +258,11 @@ const testSetStore = createStore({
         message.error('project: please choose test set');
         return;
       }
-      if (type === 'case') { // 测试用例
+      if (type === 'case') {
+        // 测试用例
         await testSetStore.effects.submitTreeCase();
-      } else if (type === 'multi') { // 用例多选
+      } else if (type === 'multi') {
+        // 用例多选
         await testSetStore.effects.submitMultiCases();
       } else if (type === 'collection') {
         await testSetStore.effects.submitTreeSet();

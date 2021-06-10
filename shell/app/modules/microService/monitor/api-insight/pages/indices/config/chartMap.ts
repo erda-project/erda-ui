@@ -22,32 +22,35 @@ export const commonAttr = {
   groupId: 'apiIndices',
 };
 
-const chartMap = merge({
-  memory: {
-    ...commonAttr,
-    titleText: i18n.t('memory'),
-    chartName: 'memory',
-    viewRender: ConnectChart,
+const chartMap = merge(
+  {
+    memory: {
+      ...commonAttr,
+      titleText: i18n.t('memory'),
+      chartName: 'memory',
+      viewRender: ConnectChart,
+    },
+    cpu: {
+      ...commonAttr,
+      titleText: 'CPU',
+      chartName: 'cpu',
+      viewRender: ConnectChart,
+    },
+    disk: {
+      ...commonAttr,
+      titleText: i18n.t('dist'),
+      chartName: 'disk',
+      viewRender: ConnectChart,
+    },
+    network: {
+      ...commonAttr,
+      titleText: i18n.t('network'),
+      chartName: 'network',
+      viewRender: ConnectChart,
+    },
   },
-  cpu: {
-    ...commonAttr,
-    titleText: 'CPU',
-    chartName: 'cpu',
-    viewRender: ConnectChart,
-  },
-  disk: {
-    ...commonAttr,
-    titleText: i18n.t('dist'),
-    chartName: 'disk',
-    viewRender: ConnectChart,
-  },
-  network: {
-    ...commonAttr,
-    titleText: i18n.t('network'),
-    chartName: 'network',
-    viewRender: ConnectChart,
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   memory: chartRender(chartMap.memory) as any,

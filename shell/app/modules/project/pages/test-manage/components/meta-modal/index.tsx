@@ -31,7 +31,9 @@ const updateEventMap = {
   [TestOperation.testPlanTestCasesExecutionResult]: 'changeExecutionResult',
 };
 
-const noop = () => { throw new Error('function is required'); };
+const noop = () => {
+  throw new Error('function is required');
+};
 
 const MetaModal = ({ labelName: oldLabelName, onOk: oldOnOk }: IProps) => {
   const { getFields } = testCaseStore.effects;

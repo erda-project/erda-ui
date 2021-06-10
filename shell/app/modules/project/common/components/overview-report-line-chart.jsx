@@ -20,7 +20,7 @@ import i18n from 'i18n';
 const secondToMinute = (s, type) => {
   const m = Math.floor(s / 60);
   if (type === 'second') return `${m}m${s - m * 60}s`;
-  return (m + (s - m * 60) / 60);
+  return m + (s - m * 60) / 60;
 };
 
 export default class OverviewReportLineChart extends React.Component {
@@ -105,11 +105,16 @@ export default class OverviewReportLineChart extends React.Component {
                 y: 0,
                 x2: 0,
                 y2: 1,
-                colorStops: [{
-                  offset: 0, color: '#78B2FF', // 0% 处的颜色
-                }, {
-                  offset: 1, color: '#FFF', // 100% 处的颜色
-                }],
+                colorStops: [
+                  {
+                    offset: 0,
+                    color: '#78B2FF', // 0% 处的颜色
+                  },
+                  {
+                    offset: 1,
+                    color: '#FFF', // 100% 处的颜色
+                  },
+                ],
                 globalCoord: false, // 缺省为 false
               },
             },

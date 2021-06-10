@@ -36,22 +36,33 @@ const typeMap = {
 };
 
 const activityItem = ({
-  avatar, operator, action, memo, detailLogId, projectId, runtimeId, actionType, createdAt, onClickLink, singleLine = true,
+  avatar,
+  operator,
+  action,
+  memo,
+  detailLogId,
+  projectId,
+  runtimeId,
+  actionType,
+  createdAt,
+  onClickLink,
+  singleLine = true,
 }) => {
-  const link = detailLogId
-    ? (
-      <span
-        className="fake-link"
-        onClick={() => onClickLink({
+  const link = detailLogId ? (
+    <span
+      className="fake-link"
+      onClick={() =>
+        onClickLink({
           projectId,
           runtimeId,
           detailLogId,
           logType: typeMap[actionType],
-        })}
-      >{textMap[actionType]}
-      </span>
-    )
-    : null;
+        })
+      }
+    >
+      {textMap[actionType]}
+    </span>
+  ) : null;
   return (
     <div className="activity-item">
       <div className="activity-item__left">
@@ -59,8 +70,22 @@ const activityItem = ({
         <ImgHolder rect="40x40" src={avatar} text={operator.slice(0, 1)} type="avatar" />
         <div className="activity-item__detail">
           <span className="operator">{operator}</span>
-          {singleLine ? <span className="action">{action}</span> : <span className="action">{action}<br /></span>}
-          {singleLine ? <span>{memo}{link}</span> : link }
+          {singleLine ? (
+            <span className="action">{action}</span>
+          ) : (
+            <span className="action">
+              {action}
+              <br />
+            </span>
+          )}
+          {singleLine ? (
+            <span>
+              {memo}
+              {link}
+            </span>
+          ) : (
+            link
+          )}
         </div>
       </div>
       <div className="activity-item__right">{fromNow(createdAt)}</div>

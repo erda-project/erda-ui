@@ -14,13 +14,15 @@
 import agent from 'agent';
 
 export const getCloudRegion = (payload: CLOUD.RegionQuery): CLOUD.Region[] => {
-  return agent.get('/api/cloud-region')
+  return agent
+    .get('/api/cloud-region')
     .query(payload)
     .then((response: any) => response.body);
 };
 
 export const setCloudResourceTags = (data: CLOUD.SetTagBody) => {
-  return agent.post('/api/cloud-resource/set-tag')
+  return agent
+    .post('/api/cloud-resource/set-tag')
     .send(data)
     .then((response: any) => response.body);
 };

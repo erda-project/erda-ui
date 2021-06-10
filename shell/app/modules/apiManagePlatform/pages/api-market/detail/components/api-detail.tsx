@@ -34,7 +34,8 @@ const ApiDetail = ({ dataSource, extra, specProtocol }: IProps) => {
     );
   }
 
-  if (specProtocol && specProtocol.includes('oas3')) { // 3.0版本
+  if (specProtocol && specProtocol.includes('oas3')) {
+    // 3.0版本
     return <APIPreviewV3 dataSource={dataSource} extra={extra} />;
   } else {
     return <APIPreviewV2 dataSource={dataSource} extra={extra} />;

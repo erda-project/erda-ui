@@ -39,17 +39,19 @@ export default async ({
   const currentDir = process.cwd();
   isCwdInRoot({ currentPath: currentDir });
 
-  let spinner = ora('installing commitizen & npm-check-updates...').start();
-  const { stdout: msg } = await asyncExec('npm i -g npm-check-updates commitizen');
-  logInfo(msg);
-  logSuccess('installed commitizen & npm-check-updates globally successfully😁');
-  spinner.stop();
+  if (!override) {
+    let spinner = ora('installing commitizen & npm-check-updates...').start();
+    const { stdout: msg } = await asyncExec('npm i -g npm-check-updates commitizen pnpm');
+    logInfo(msg);
+    logSuccess('installed pnpm, commitizen & npm-check-updates globally successfully😁');
+    spinner.stop();
 
-  spinner = ora('installing dependencies...').start();
-  const { stdout: installMsg } = await asyncExec('pnpm i');
-  logInfo(installMsg);
-  logSuccess('finish installing dependencies.');
-  spinner.stop();
+    spinner = ora('installing dependencies...').start();
+    const { stdout: installMsg } = await asyncExec('pnpm i');
+    logInfo(installMsg);
+    logSuccess('finish installing dependencies.');
+    spinner.stop();
+  }
 
   const envConfigPath = `${currentDir}/.env`;
   const { parsed: fullConfig } = dotenv.config({ path: envConfigPath });

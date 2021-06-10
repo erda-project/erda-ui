@@ -43,14 +43,14 @@ declare namespace LAYOUT {
     menusMap: Obj<IMenuObj>;
   }
 
-  interface IMenuObj{
+  interface IMenuObj {
     menu: IMenu[];
     detail?: {
       displayName: string;
     };
   }
 
-  interface IMenu{
+  interface IMenu {
     icon: string;
     text: string;
     href: string;

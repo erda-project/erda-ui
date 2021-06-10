@@ -47,26 +47,22 @@ export const PurePackageAnalyze = () => {
     projectId,
   };
 
-  const [succSumQuery, setSuccSumQuery] = useState(
-    {
-      fetchMetricKey: 'kong_success',
-      start,
-      end,
-      sum: 'succ_sum',
-      ...commonQuery,
-      points: 7,
-    } as any,
-  );
+  const [succSumQuery, setSuccSumQuery] = useState({
+    fetchMetricKey: 'kong_success',
+    start,
+    end,
+    sum: 'succ_sum',
+    ...commonQuery,
+    points: 7,
+  } as any);
 
-  const [realTimeQuery, setRealTimeQuery] = useState(
-    {
-      fetchMetricKey: 'kong_traffic',
-      start: startTimeMs,
-      end: endTimeMs,
-      ...commonQuery,
-      sumCps: ['cnt_sum', 'succ_sum', 'err_sum', 'lim_sum'],
-    } as any,
-  );
+  const [realTimeQuery, setRealTimeQuery] = useState({
+    fetchMetricKey: 'kong_traffic',
+    start: startTimeMs,
+    end: endTimeMs,
+    ...commonQuery,
+    sumCps: ['cnt_sum', 'succ_sum', 'err_sum', 'lim_sum'],
+  } as any);
 
   const [succSumStaticData, setSuccSumStaticData] = useState({} as any);
   const [selectedGroup, setSelectedGroup] = useState();
@@ -103,7 +99,6 @@ export const PurePackageAnalyze = () => {
     !isEmpty(succSumData) && dataConvertor('succ-sum');
   }, [succSumData]);
 
-
   useEffect(() => {
     setRealTimeQuery({ ...realTimeQuery, start: startTimeMs, end: endTimeMs });
   }, [endTimeMs, startTimeMs]);
@@ -122,11 +117,13 @@ export const PurePackageAnalyze = () => {
   }, [env, projectInfo]);
 
   useEffect(() => {
-    succSumQuery.filter_cluster_name && loadGatewayMetricItem({ ...resourceInfo, type: 'pa-succ-sum', chartQuery: succSumQuery });
+    succSumQuery.filter_cluster_name &&
+      loadGatewayMetricItem({ ...resourceInfo, type: 'pa-succ-sum', chartQuery: succSumQuery });
   }, [loadGatewayMetricItem, succSumQuery]);
 
   useEffect(() => {
-    realTimeQuery.filter_cluster_name && loadGatewayMetricItem({ ...resourceInfo, type: 'pa-real-time', chartQuery: realTimeQuery });
+    realTimeQuery.filter_cluster_name &&
+      loadGatewayMetricItem({ ...resourceInfo, type: 'pa-real-time', chartQuery: realTimeQuery });
   }, [loadGatewayMetricItem, realTimeQuery]);
 
   const filters = [
@@ -138,7 +135,7 @@ export const PurePackageAnalyze = () => {
     },
   ];
 
-  const onSearch = ({ csmr: value }: {csmr: string}) => {
+  const onSearch = ({ csmr: value }: { csmr: string }) => {
     setSuccSumQuery({ ...succSumQuery, filter_csmr: value });
     setRealTimeQuery({ ...realTimeQuery, filter_csmr: value });
   };

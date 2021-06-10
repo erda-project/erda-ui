@@ -18,7 +18,7 @@ import i18n from 'i18n';
 
 import './result-view.scss';
 
-interface IProps{
+interface IProps {
   data: any;
 }
 
@@ -45,44 +45,41 @@ export const ResultView = (props: IProps) => {
 
   return (
     <div className="test-case-execute-result">
-      {
-          map(resArr, (item: any) => {
-            let jsonObj = {} as any;
-            let jsonStr = item.value;
+      {map(resArr, (item: any) => {
+        let jsonObj = {} as any;
+        let jsonStr = item.value;
+        try {
+          jsonObj = JSON.parse(item.value);
+          if (item.name === 'api_response' && jsonObj.body) {
             try {
-              jsonObj = JSON.parse(item.value);
-              if (item.name === 'api_response' && jsonObj.body) {
-                try {
-                  jsonObj = {
-                    ...jsonObj,
-                    body: JSON.parse(jsonObj.body),
-                  };
-                } catch (e) {
-                  jsonObj = { ...jsonObj };
-                }
-              }
+              jsonObj = {
+                ...jsonObj,
+                body: JSON.parse(jsonObj.body),
+              };
             } catch (e) {
-              jsonStr = item.value;
+              jsonObj = { ...jsonObj };
             }
-            if (!isEmpty(jsonObj)) {
-              jsonStr = JSON.stringify(jsonObj, null, 2);
-            }
-            // const jsonObj = JSON.parse(item.value);
-            // const jsonStr = JSON.stringify(item.value, null, 2);
-            return (
-              <div className="test-case-execute-result-item mb12" key={item.name}>
-                <div className="label">{labelMap[item.name] || item.name}</div>
-                <pre className="value">{jsonStr}</pre>
-              </div>
-            );
-          })
+          }
+        } catch (e) {
+          jsonStr = item.value;
         }
+        if (!isEmpty(jsonObj)) {
+          jsonStr = JSON.stringify(jsonObj, null, 2);
+        }
+        // const jsonObj = JSON.parse(item.value);
+        // const jsonStr = JSON.stringify(item.value, null, 2);
+        return (
+          <div className="test-case-execute-result-item mb12" key={item.name}>
+            <div className="label">{labelMap[item.name] || item.name}</div>
+            <pre className="value">{jsonStr}</pre>
+          </div>
+        );
+      })}
     </div>
-
   );
 };
 
-interface IResultViewDrawerProps extends IProps{
+interface IResultViewDrawerProps extends IProps {
   visible: boolean;
   onClose: () => void;
 }

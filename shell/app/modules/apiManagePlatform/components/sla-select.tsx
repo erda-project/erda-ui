@@ -25,7 +25,7 @@ interface IProps {
 const { Panel } = Collapse;
 
 const SLASelect = ({ dataSource, onChange, defaultSelectKey }: IProps) => {
-  const [activeKey, setActiveKey] = React.useState<number| undefined>(undefined);
+  const [activeKey, setActiveKey] = React.useState<number | undefined>(undefined);
   const [filter, setFilter] = React.useState<string>('');
   React.useEffect(() => {
     setActiveKey(defaultSelectKey);
@@ -50,55 +50,55 @@ const SLASelect = ({ dataSource, onChange, defaultSelectKey }: IProps) => {
         allowClear
         placeholder={i18n.t('filter by {name}', { name: i18n.t('SLA name') })}
       />
-      {
-        filterData.length ? (
-          <Collapse
-            className="sla-select"
-            accordion
-            expandIcon={({ panelKey }) => <Radio checked={+panelKey === activeKey} />}
-            onChange={handleChange}
-            activeKey={activeKey}
-          >
-            {
-              filterData.map((item) => {
-                const limits = item.limits || [];
-                const header = (
-                  <Row>
-                    <Col span={12}>{i18n.t('SLA name')}: {item.name}</Col>
-                    <Col span={12}>{i18n.t('authorization method')}: {slaAuthorizationMap[item.approval]?.name}</Col>
-                  </Row>
-                );
-                return (
-                  <Panel
-                    header={header}
-                    key={item.id}
-                  >
-                    <Table
-                      pagination={false}
-                      dataSource={limits}
-                      scroll={limits.length > 4 ? { y: 150 } : undefined}
-                      columns={[{
-                        title: i18n.t('times'),
-                        dataIndex: 'limit',
-                        width: 300,
-                      }, {
-                        title: i18n.t('unit'),
-                        dataIndex: 'unit',
-                        width: 228,
-                        render: (unit) => slaUnitMap[unit],
-                      }]}
-                    />
-                  </Panel>
-                );
-              })
-            }
-          </Collapse>
-        ) : (
-          <div className="sla-select">
-            <Empty />
-          </div>
-        )
-      }
+      {filterData.length ? (
+        <Collapse
+          className="sla-select"
+          accordion
+          expandIcon={({ panelKey }) => <Radio checked={+panelKey === activeKey} />}
+          onChange={handleChange}
+          activeKey={activeKey}
+        >
+          {filterData.map((item) => {
+            const limits = item.limits || [];
+            const header = (
+              <Row>
+                <Col span={12}>
+                  {i18n.t('SLA name')}: {item.name}
+                </Col>
+                <Col span={12}>
+                  {i18n.t('authorization method')}: {slaAuthorizationMap[item.approval]?.name}
+                </Col>
+              </Row>
+            );
+            return (
+              <Panel header={header} key={item.id}>
+                <Table
+                  pagination={false}
+                  dataSource={limits}
+                  scroll={limits.length > 4 ? { y: 150 } : undefined}
+                  columns={[
+                    {
+                      title: i18n.t('times'),
+                      dataIndex: 'limit',
+                      width: 300,
+                    },
+                    {
+                      title: i18n.t('unit'),
+                      dataIndex: 'unit',
+                      width: 228,
+                      render: (unit) => slaUnitMap[unit],
+                    },
+                  ]}
+                />
+              </Panel>
+            );
+          })}
+        </Collapse>
+      ) : (
+        <div className="sla-select">
+          <Empty />
+        </div>
+      )}
     </>
   );
 };

@@ -68,13 +68,7 @@ export default ({ jsonContent, editGlobalVariable, editService }: IProps) => {
             return <PropertyView dataSource={currentItem} />;
           },
           editView: (editing: boolean) => {
-            return (
-              <EditGlobalVariable
-                editing={editing}
-                globalVariable={currentItem}
-                onSubmit={editGlobalVariable}
-              />
-            );
+            return <EditGlobalVariable editing={editing} globalVariable={currentItem} onSubmit={editGlobalVariable} />;
           },
         };
         result.push([item]);
@@ -92,12 +86,7 @@ export default ({ jsonContent, editGlobalVariable, editService }: IProps) => {
               lineTo: service.depends_on,
               editView: (editing: boolean) => {
                 return (
-                  <EditService
-                    jsonContent={jsonContent}
-                    editing={editing}
-                    service={service}
-                    onSubmit={editService}
-                  />
+                  <EditService jsonContent={jsonContent} editing={editing} service={service} onSubmit={editService} />
                 );
               },
               content: () => {
@@ -122,16 +111,18 @@ export default ({ jsonContent, editGlobalVariable, editService }: IProps) => {
       }
     });
   } else {
-    result.push([{
-      icon: 'qj',
-      title: i18n.t('application:deploy global variables'),
-      lineTo: [],
-      allowMove: false,
-      content: () => {
-        return null;
+    result.push([
+      {
+        icon: 'qj',
+        title: i18n.t('application:deploy global variables'),
+        lineTo: [],
+        allowMove: false,
+        content: () => {
+          return null;
+        },
+        editView: () => <div>{i18n.t('application:edit deployment global variables')}</div>,
       },
-      editView: () => <div>{i18n.t('application:edit deployment global variables')}</div>,
-    }]);
+    ]);
   }
   return {
     addons,

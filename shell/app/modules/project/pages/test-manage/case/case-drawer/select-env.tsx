@@ -28,19 +28,18 @@ const SelectEnv = ({ children, onClick, noEnv = [], envList }: ISelectEnvProps) 
     return children;
   }
   const menu = (
-    <Menu onClick={({ key, domEvent }: any) => {
-      domEvent.stopPropagation();
-      const target = envs.find((a: any) => +a.id === +key) as TEST_ENV.Item;
-      onClick(target);
-    }}
+    <Menu
+      onClick={({ key, domEvent }: any) => {
+        domEvent.stopPropagation();
+        const target = envs.find((a: any) => +a.id === +key) as TEST_ENV.Item;
+        onClick(target);
+      }}
     >
-      {
-        map(envs, (env) => (
-          <Menu.Item key={env.id}>
-            {env.name} {env.domain ? `(${env.domain})` : null}
-          </Menu.Item>
-        ))
-      }
+      {map(envs, (env) => (
+        <Menu.Item key={env.id}>
+          {env.name} {env.domain ? `(${env.domain})` : null}
+        </Menu.Item>
+      ))}
     </Menu>
   );
   const child = React.Children.count(children) === 1 ? children : <span>{children}</span>;

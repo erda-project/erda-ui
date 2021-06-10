@@ -23,14 +23,22 @@ interface IProps {
 }
 
 const AllCheckBox = ({ mode }: IProps) => {
-  const [choosenInfo, modalChoosenInfo, caseList, modalCaseList] = testCaseStore.useStore((s) => [s.choosenInfo, s.modalChoosenInfo, s.caseList, s.modalCaseList]);
+  const [choosenInfo, modalChoosenInfo, caseList, modalCaseList] = testCaseStore.useStore((s) => [
+    s.choosenInfo,
+    s.modalChoosenInfo,
+    s.caseList,
+    s.modalCaseList,
+  ]);
   const { triggerChoosenAll } = testCaseStore.reducers;
   let currentList = caseList;
   if (mode === 'caseModal') {
     currentList = modalCaseList;
   }
 
-  const currentPageCaseCount = React.useMemo(() => flatMapDeep(currentList, ({ testCases }) => flatMapDeep(testCases, 'id')).length, [currentList]);
+  const currentPageCaseCount = React.useMemo(
+    () => flatMapDeep(currentList, ({ testCases }) => flatMapDeep(testCases, 'id')).length,
+    [currentList],
+  );
   const info = getChoosenInfo(choosenInfo, modalChoosenInfo, mode);
   const { isAll, primaryKeys } = info;
   const checked = !!primaryKeys.length && primaryKeys.length === currentPageCaseCount;

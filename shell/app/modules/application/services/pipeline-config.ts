@@ -13,48 +13,63 @@
 
 import agent from 'agent';
 
-export const getConfigs = ({ appID, payload, apiPrefix }: { appID: string; payload: PIPELINE_CONFIG.ConfigQuery[]; apiPrefix?: string }): PIPELINE_CONFIG.ConfigItemMap => {
-  return agent.post(`/api/${apiPrefix || 'cicds'}/multinamespace/configs`)
+export const getConfigs = ({
+  appID,
+  payload,
+  apiPrefix,
+}: {
+  appID: string;
+  payload: PIPELINE_CONFIG.ConfigQuery[];
+  apiPrefix?: string;
+}): PIPELINE_CONFIG.ConfigItemMap => {
+  return agent
+    .post(`/api/${apiPrefix || 'cicds'}/multinamespace/configs`)
     .query({ appID })
     .send({ namespaceParams: payload })
     .then((response: any) => response.body);
 };
 
 export const addConfigs = ({ query, configs, apiPrefix }: PIPELINE_CONFIG.AddConfigsBody) => {
-  return agent.post(`/api/${apiPrefix || 'cicds'}/configs`)
+  return agent
+    .post(`/api/${apiPrefix || 'cicds'}/configs`)
     .query(query)
     .send({ configs })
     .then((response: any) => response.body);
 };
 
 export const updateConfigs = ({ query, configs, apiPrefix }: PIPELINE_CONFIG.AddConfigsBody) => {
-  return agent.put(`/api/${apiPrefix || 'cicds'}/configs`)
+  return agent
+    .put(`/api/${apiPrefix || 'cicds'}/configs`)
     .query(query)
     .send({ configs })
     .then((response: any) => response.body);
 };
 
 export const removeConfigs = ({ apiPrefix, ...rest }: PIPELINE_CONFIG.DeleteConfigQuery) => {
-  return agent.delete(`/api/${apiPrefix || 'cicds'}/configs`)
+  return agent
+    .delete(`/api/${apiPrefix || 'cicds'}/configs`)
     .query(rest)
     .then((response: any) => response.body);
 };
 
 export const getConfigNameSpaces = (appID: string): PIPELINE_CONFIG.NameSpaces => {
-  return agent.get('/api/cicds/actions/fetch-config-namespaces')
+  return agent
+    .get('/api/cicds/actions/fetch-config-namespaces')
     .query({ appID })
     .then((response: any) => response.body);
 };
 
 export const importConfigs = ({ query, configs }: PIPELINE_CONFIG.AddConfigsBody) => {
-  return agent.post('/api/config/actions/import')
+  return agent
+    .post('/api/config/actions/import')
     .query(query)
     .send(configs)
     .then((response: any) => response.body);
 };
 
 export const exportConfigs = (query: string) => {
-  return agent.get('/api/config/actions/export')
+  return agent
+    .get('/api/config/actions/export')
     .query(query)
     .then((response: any) => response.body);
 };

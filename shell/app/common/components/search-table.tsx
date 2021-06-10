@@ -24,8 +24,8 @@ export interface IProps {
   triggerByEnter?: boolean;
   searchFullWidth?: boolean;
   extraItems?: React.ReactNode[] | React.ReactNode;
-  searchPosition?: 'left' | 'right' ;
-  extraPosition?: 'left' | 'right' ;
+  searchPosition?: 'left' | 'right';
+  extraPosition?: 'left' | 'right';
   searchValue?: string;
   onSearch?: (searchKey: string) => void | any;
   searchListOps?: {
@@ -33,7 +33,7 @@ export interface IProps {
     onUpdateOps?: (opsVal: any) => void;
   };
 }
-interface IState{
+interface IState {
   searchValue: string;
 }
 
@@ -62,18 +62,21 @@ class SearchTable extends React.PureComponent<IProps, IState> {
   changeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     const { onSearch, needDebounce, triggerByEnter } = this.props;
-    this.setState({
-      searchValue: value,
-    }, () => {
-      if (triggerByEnter) {
-        return;
-      }
-      if (needDebounce) {
-        this.debounceSearch(value);
-      } else {
-        onSearch && onSearch(value);
-      }
-    });
+    this.setState(
+      {
+        searchValue: value,
+      },
+      () => {
+        if (triggerByEnter) {
+          return;
+        }
+        if (needDebounce) {
+          this.debounceSearch(value);
+        } else {
+          onSearch && onSearch(value);
+        }
+      },
+    );
   };
 
   onPressEnter = () => {
@@ -89,7 +92,15 @@ class SearchTable extends React.PureComponent<IProps, IState> {
   };
 
   render() {
-    const { placeholder = '', extraItems, searchPosition = 'left', searchFullWidth = false, extraPosition = 'left', children, searchListOps } = this.props;
+    const {
+      placeholder = '',
+      extraItems,
+      searchPosition = 'left',
+      searchFullWidth = false,
+      extraPosition = 'left',
+      children,
+      searchListOps,
+    } = this.props;
     const { searchValue } = this.state;
     const searchStyleName = `search-input search-input-${searchPosition} ${searchFullWidth ? 'full-width' : ''}`;
     const extraStyleName = `extra-items-${extraPosition}`;
@@ -97,15 +108,21 @@ class SearchTable extends React.PureComponent<IProps, IState> {
     return (
       <section className="search-table-section">
         <div className="search-table-header">
-          {(searchListOps
-            ? <OperationBar searchList={searchListOps.list} onUpdateOps={searchListOps.onUpdateOps} />
-            : <Search className={searchStyleName} onSearch={this.onSearchClick} value={searchValue} placeholder={placeholder} onChange={this.changeSearch} onPressEnter={this.onPressEnter} />
+          {searchListOps ? (
+            <OperationBar searchList={searchListOps.list} onUpdateOps={searchListOps.onUpdateOps} />
+          ) : (
+            <Search
+              className={searchStyleName}
+              onSearch={this.onSearchClick}
+              value={searchValue}
+              placeholder={placeholder}
+              onChange={this.changeSearch}
+              onPressEnter={this.onPressEnter}
+            />
           )}
           <div className={extraStyleName}>{extraItems}</div>
         </div>
-        <div className="search-table-content">
-          {children}
-        </div>
+        <div className="search-table-content">{children}</div>
       </section>
     );
   }

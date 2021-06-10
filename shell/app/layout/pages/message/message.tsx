@@ -26,7 +26,7 @@ import layoutStore from 'layout/stores/layout';
 import { useEffectOnce } from 'react-use';
 
 const checkPermission = () => {
-  if (('Notification' in window) && Notification.permission === 'default') {
+  if ('Notification' in window && Notification.permission === 'default') {
     Notification.requestPermission();
   }
 };
@@ -82,7 +82,12 @@ const notifyMe = (msg: string, viewMsg: Function) => {
 };
 
 export const MessageCenter = ({ show }: { show: boolean }) => {
-  const [list, detail, msgPaging, unreadCount] = messageStore.useStore((s) => [s.list, s.detail, s.msgPaging, s.unreadCount]);
+  const [list, detail, msgPaging, unreadCount] = messageStore.useStore((s) => [
+    s.list,
+    s.detail,
+    s.msgPaging,
+    s.unreadCount,
+  ]);
   const { getMessageList, getMessageStats, readOneMessage } = messageStore.effects;
   const { resetDetail } = messageStore.reducers;
   const [loadingList] = useLoading(messageStore, ['getMessageList']);
@@ -183,36 +188,28 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
         </div>
         <Holder when={!list.length}>
           <Timeline>
-            {
-              map(groupList, (group) => {
-                return (
-                  <Timeline.Item key={group.date}>
-                    <div>
-                      {group.date}
-                    </div>
-                    <div className="message-list">
-                      {
-                        group.list.map((item) => {
-                          const isUnRead = item.status === MSG_STATUS.UNREAD;
-                          return (
-                            <div key={item.id} className="message-item" onClick={() => handleClick(item)}>
-                              <div>
-                                <span className="status">
-                                  {isUnRead ? <Badge color="red" /> : null}
-                                </span>
-                                <CustomIcon type="znx" />
-                                <span className="fz16">{item.title}</span>
-                              </div>
-                              <div>{moment(item.createdAt).format('HH:mm:ss')}</div>
-                            </div>
-                          );
-                        })
-                      }
-                    </div>
-                  </Timeline.Item>
-                );
-              })
-            }
+            {map(groupList, (group) => {
+              return (
+                <Timeline.Item key={group.date}>
+                  <div>{group.date}</div>
+                  <div className="message-list">
+                    {group.list.map((item) => {
+                      const isUnRead = item.status === MSG_STATUS.UNREAD;
+                      return (
+                        <div key={item.id} className="message-item" onClick={() => handleClick(item)}>
+                          <div>
+                            <span className="status">{isUnRead ? <Badge color="red" /> : null}</span>
+                            <CustomIcon type="znx" />
+                            <span className="fz16">{item.title}</span>
+                          </div>
+                          <div>{moment(item.createdAt).format('HH:mm:ss')}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </Timeline.Item>
+              );
+            })}
           </Timeline>
           <LoadMore
             getContainer={() => boxRef.current}

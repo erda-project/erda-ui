@@ -77,7 +77,8 @@ export default class DiceYamlCanvas extends Component<IProps, any> {
   private deletedMovingPoint: any[] = [];
 
   shouldComponentUpdate(nextProps: Readonly<IProps>, nextState: Readonly<any>): boolean {
-    if (!isEqualWith(nextProps.dataSource, this.props.dataSource, isEqualCustomizer) ||
+    if (
+      !isEqualWith(nextProps.dataSource, this.props.dataSource, isEqualCustomizer) ||
       nextProps.scale !== this.props.scale ||
       !isEqualWith(nextState, this.state)
     ) {
@@ -92,7 +93,10 @@ export default class DiceYamlCanvas extends Component<IProps, any> {
       this.getDeletedMovingPoints(nextProps.movingPoints, this.props.movingPoints);
     }
 
-    if (!isEqualWith(nextProps.dataSource, this.props.dataSource, isEqualCustomizer) || nextProps.scale !== this.props.scale) {
+    if (
+      !isEqualWith(nextProps.dataSource, this.props.dataSource, isEqualCustomizer) ||
+      nextProps.scale !== this.props.scale
+    ) {
       this.loadData(nextProps);
     }
   }
@@ -132,14 +136,16 @@ export default class DiceYamlCanvas extends Component<IProps, any> {
       style = { left: `${-svgLeft}px`, width: maxWidth, height: '100%' };
     }
 
-    return (<svg
-      id="yaml-editor-svg"
-      viewBox={viewBox}
-      width={type === DiceFlowType.DATA_MARKET ? originWidth : maxWidth}
-      height={originHeight}
-      style={style}
-      className="yaml-editor-background-container"
-    />);
+    return (
+      <svg
+        id="yaml-editor-svg"
+        viewBox={viewBox}
+        width={type === DiceFlowType.DATA_MARKET ? originWidth : maxWidth}
+        height={originHeight}
+        style={style}
+        className="yaml-editor-background-container"
+      />
+    );
   }
 
   /**
@@ -186,48 +192,51 @@ export default class DiceYamlCanvas extends Component<IProps, any> {
     }
 
     const lines = this.calculateAllLinePosition(props.dataSource);
-    this.setState({
-      lines,
-      width,
-      height,
-      originWidth: $container ? $container.offsetWidth : '100%',
-      originHeight: $container ? $container.offsetHeight : '100%',
-    }, () => {
-      if (!this.snap) {
-        this.snap = Snap('#yaml-editor-svg');
-      }
+    this.setState(
+      {
+        lines,
+        width,
+        height,
+        originWidth: $container ? $container.offsetWidth : '100%',
+        originHeight: $container ? $container.offsetHeight : '100%',
+      },
+      () => {
+        if (!this.snap) {
+          this.snap = Snap('#yaml-editor-svg');
+        }
 
-      if (movingPoints && !movingPoints.length) {
-        this.circleCache.forEach((item: any) => {
-          item.circle.remove();
-          item.animate && item.animate.stop();
-        });
-        this.circleCache = [];
-      }
-
-      // 从缓存中找出已经不存在的点删除掉
-      if (this.deletedMovingPoint.length) {
-        const preDeletedIndex: number[] = [];
-        this.circleCache.forEach((item: any, index: number) => {
-          this.deletedMovingPoint.forEach((p: any) => {
-            if (item.point.fromPoint.data.id === p.from && item.point.toPoint.data.id === p.to) {
-              item.animate.stop();
-              item.circle.remove();
-              preDeletedIndex.push(index);
-            }
+        if (movingPoints && !movingPoints.length) {
+          this.circleCache.forEach((item: any) => {
+            item.circle.remove();
+            item.animate && item.animate.stop();
           });
-        });
+          this.circleCache = [];
+        }
 
-        preDeletedIndex.forEach((i: number) => {
-          this.circleCache.splice(i, 1);
-        });
+        // 从缓存中找出已经不存在的点删除掉
+        if (this.deletedMovingPoint.length) {
+          const preDeletedIndex: number[] = [];
+          this.circleCache.forEach((item: any, index: number) => {
+            this.deletedMovingPoint.forEach((p: any) => {
+              if (item.point.fromPoint.data.id === p.from && item.point.toPoint.data.id === p.to) {
+                item.animate.stop();
+                item.circle.remove();
+                preDeletedIndex.push(index);
+              }
+            });
+          });
 
-        this.deletedMovingPoint = [];
-      }
+          preDeletedIndex.forEach((i: number) => {
+            this.circleCache.splice(i, 1);
+          });
 
-      this.reset();
-      this.resetLines();
-    });
+          this.deletedMovingPoint = [];
+        }
+
+        this.reset();
+        this.resetLines();
+      },
+    );
   }
 
   private reset = () => {
@@ -239,11 +248,14 @@ export default class DiceYamlCanvas extends Component<IProps, any> {
 
   private resetLines = () => {
     const { lines } = this.state;
-    this.setState({
-      lines: lines.filter((item: any) => item.status !== 'add'),
-    }, () => {
-      this.iteratorPoints();
-    });
+    this.setState(
+      {
+        lines: lines.filter((item: any) => item.status !== 'add'),
+      },
+      () => {
+        this.iteratorPoints();
+      },
+    );
   };
 
   private iteratorPoints = () => {
@@ -266,20 +278,27 @@ export default class DiceYamlCanvas extends Component<IProps, any> {
   private animation(item: any, path: any, point: any) {
     if (!item.animate) {
       const length = Snap.path.getTotalLength(path);
-      const time = length <= 60 ? 2000 : Math.floor(length / 60 * 1000);
-      const snapAnimate = Snap.animate(0, length, (val: any) => {
-        const p = Snap.path.getPointAtLength(path, val); // 根据path长度变化获取坐标
-        const m = new Snap.Matrix();
-        m.translate(p.x - point.from.x - 1, p.y - point.from.y);
-        item.circle.transform(m);
-        // @ts-ignore
-      }, time, window.mina.easeout(), () => {
-        this.animateTimeout = setTimeout(() => {
-          // eslint-disable-next-line no-param-reassign
-          delete item.animate;
-          this.animation(item, path, point);
-        }, 1000);
-      });
+      const time = length <= 60 ? 2000 : Math.floor((length / 60) * 1000);
+      const snapAnimate = Snap.animate(
+        0,
+        length,
+        (val: any) => {
+          const p = Snap.path.getPointAtLength(path, val); // 根据path长度变化获取坐标
+          const m = new Snap.Matrix();
+          m.translate(p.x - point.from.x - 1, p.y - point.from.y);
+          item.circle.transform(m);
+          // @ts-ignore
+        },
+        time,
+        window.mina.easeout(),
+        () => {
+          this.animateTimeout = setTimeout(() => {
+            // eslint-disable-next-line no-param-reassign
+            delete item.animate;
+            this.animation(item, path, point);
+          }, 1000);
+        },
+      );
       // eslint-disable-next-line no-param-reassign
       item.animate = snapAnimate;
     }
@@ -290,10 +309,11 @@ export default class DiceYamlCanvas extends Component<IProps, any> {
     if (!movingPoints || (movingPoints && !movingPoints.length)) {
       return;
     }
-    const result = movingPoints ? movingPoints.find((p: any) => {
-      return p.from === point.fromPoint.data.id &&
-        p.to === point.toPoint.data.id;
-    }) : null;
+    const result = movingPoints
+      ? movingPoints.find((p: any) => {
+          return p.from === point.fromPoint.data.id && p.to === point.toPoint.data.id;
+        })
+      : null;
     const existCircle = this.circleCache.find((item: any) => item.point.id === point.id);
     const index = this.circleCache.findIndex((item: any) => item.point.id === point.id);
     if (result) {
@@ -322,25 +342,25 @@ export default class DiceYamlCanvas extends Component<IProps, any> {
     const { lineStyle } = this.props;
 
     let line: any;
-    const M = `M${(point.from.x)},${point.from.y}`;
+    const M = `M${point.from.x},${point.from.y}`;
     if (point.type === 'curve') {
       const { controlPoint } = point;
       const Q = `Q${controlPoint[0].x},${controlPoint[0].y},${controlPoint[1].x},${controlPoint[1].y}`;
-      const T = `T${(point.to.x)},${point.to.y}`;
+      const T = `T${point.to.x},${point.to.y}`;
       const path = `${M} ${Q} ${T}`;
       line = this.snap.paper.path(path);
     } else if (point.type === 'polylineAcrossPoint' || point.type === 'polyline') {
       let path = M;
 
       point.controlPoint.forEach((p: any) => {
-        path += ` L ${(p.x)}, ${p.y}`;
+        path += ` L ${p.x}, ${p.y}`;
         path += ` a ${p.a}`;
       });
 
-      path += ` L ${(point.to.x)}, ${point.to.y}`;
+      path += ` L ${point.to.x}, ${point.to.y}`;
       line = this.snap.paper.path(path);
     } else {
-      const path = `${M} L${(point.to.x)},${point.to.y}`;
+      const path = `${M} L${point.to.x},${point.to.y}`;
       line = this.snap.paper.path(path);
     }
     const len: number = line.getTotalLength();
