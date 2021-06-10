@@ -77,10 +77,10 @@ export default () => {
             style={{ width: '300px' }}
             onChange={(v: any) => updater.instanceId(v)}
           >
-            {(instanceIds || []).map(({ instanceId: v, status }) => (
+            {(instanceIds || []).map(({ instanceId: v, status, ip }) => (
               <Select.Option key={v} value={v}>
                 <div className="instance-item flex-box">
-                  <span className="instance-name nowrap">{v}</span>
+                  <span className="instance-name nowrap">{ip || v}</span>
                   <Tooltip title={status ? i18n.t('dcos:running') : i18n.t('microService:not running')}>
                     <div className="status ml8">
                       <span

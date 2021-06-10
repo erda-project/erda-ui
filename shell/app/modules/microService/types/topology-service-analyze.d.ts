@@ -35,5 +35,6 @@ declare namespace TOPOLOGY_SERVICE_ANALYZE {
   interface InstanceId {
     instanceId: string;
     status: boolean;
+    ip: string;
   }
 }
