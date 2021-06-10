@@ -133,7 +133,7 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
   // if (mode !== 'modal') { // 非弹框
   const configWidth = reduce(
     columns,
-    (temp, { width }: any) => temp + (isNaN(parseInt(width, 10)) ? 250 : parseInt(width, 10)),
+    (temp, { width }: any) => temp + (isNaN(parseInt(width, 10)) ? 380 : parseInt(width, 10)),
     0,
   );
   // 操作列
@@ -183,7 +183,7 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
       Object.assign(nameColumn, {
         // title: <ChooseTitle mode={mode} />,
         title: <span>{i18n.t('project:use case title')}</span>,
-        width: isScroll ? 250 : '100%',
+        width: isScroll ? 380 : '100%',
         render: (name: string) => <Ellipsis className="bold" title={name} />,
       });
     }

@@ -10,4 +10,14 @@
       border: none;
     }
   }
+
+  .log-preview {
+    margin-bottom: 0;
+    max-height: 260px;
+    word-break: break-word;
+    overflow: scroll;
+    color: $navy;
+    border: 1px solid $color-border;
+    background: transparent;
+  }
 }
