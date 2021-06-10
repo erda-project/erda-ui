@@ -74,7 +74,11 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
           type: 'primary',
         },
         operations: {
-          click: { key: 'addOrg', reload: false, command: { key: 'set', state: { visible: true }, target: 'orgFormModal' } },
+          click: {
+            key: 'addOrg',
+            reload: false,
+            command: { key: 'set', state: { visible: true }, target: 'orgFormModal' },
+          },
         },
       },
       emptyOrgTitle: {
@@ -218,13 +222,7 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
               componentProps: {
                 uploadText: '上传图片',
                 sizeLimit: 2,
-                supportFormat: [
-                  'png',
-                  'jpg',
-                  'jpeg',
-                  'gif',
-                  'bmp',
-                ],
+                supportFormat: ['png', 'jpg', 'jpeg', 'gif', 'bmp'],
               },
             },
           ],
@@ -879,7 +877,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 visible: true,
                 value: '当你已经加入到任何组织后，此框将不再显示',
                 textStyleName: {
-                  'fz12': true,
+                  fz12: true,
                   'color-text-desc': true,
                 },
               },
@@ -1009,7 +1007,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 visible: true,
                 value: '当你已经加入到该公开组织后，此框将不再显示',
                 textStyleName: {
-                  'fz12': true,
+                  fz12: true,
                   'color-text-desc': true,
                 },
               },
@@ -1154,7 +1152,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
                 visible: true,
                 value: '当你已经加入到任何项目后，此框将不再显示',
                 textStyleName: {
-                  'fz12': true,
+                  fz12: true,
                   'color-text-desc': true,
                 },
               },

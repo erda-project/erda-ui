@@ -35,13 +35,13 @@ export const FormModal = (props: CP_FORM_MODAL.Props) => {
     }
   }, [state, update]);
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     // reload pages
-    const {refresh}  = operations?.submit || {}
-    if(refresh){
-      window.location.reload()
+    const { refresh } = operations?.submit || {};
+    if (refresh) {
+      window.location.reload();
     }
-  }, [operations?.submit])
+  }, [operations?.submit]);
 
   const onCancel = () => updateState({ visible: false, formData: undefined });
   const onFinish = (arg: any) => {
