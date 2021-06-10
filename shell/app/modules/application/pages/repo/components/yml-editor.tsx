@@ -34,8 +34,7 @@ import { getInfoFromRefName } from 'application/pages/repo/util';
 import classnames from 'classnames';
 import { FormModal, RenderForm, useUpdate } from 'common';
 import { goTo, notify } from 'common/utils';
-// @ts-ignore
-import json2yaml from 'json-to-pretty-yaml';
+
 import { cloneDeep, filter, find, findIndex, forEach, get, omit, isEmpty } from 'lodash';
 import { Button, message, Spin } from 'app/nusi';
 import React from 'react';
@@ -694,7 +693,7 @@ const YmlEditor = (props: IProps) => {
       });
     } else {
       clearNullValue(jsonContent);
-      submitContent = json2yaml.stringify(jsonContent);
+      submitContent = yaml.dump(jsonContent);
       commitData(submitContent, values);
     }
   };
