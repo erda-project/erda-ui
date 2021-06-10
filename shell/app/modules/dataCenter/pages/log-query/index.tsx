@@ -142,8 +142,8 @@ export default () => {
     const path = isIn('microService')
       ? goTo.resolve.ms_addLogAnalyzeRule({ ...params, source: 'log-query' })
       : isIn('dataCenter')
-      ? goTo.resolve.addLogAnalyzeRule({ ...params, source: 'log-query' })
-      : '';
+        ? goTo.resolve.addLogAnalyzeRule({ ...params, source: 'log-query' })
+        : '';
     goTo(path);
   };
 
@@ -261,12 +261,12 @@ export default () => {
       render: (timestamp: number) => moment(timestamp).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
-      width: 600,
       title: i18n.t('content'),
       dataIndex: 'content',
-      render: (item: string) => <Tooltip title={item}>{parseLogContent(item)}</Tooltip>,
+      render: (item: string) => (<pre className="code-block log-preview"> {parseLogContent(item)} </pre>),
     },
     {
+      width: 120,
       title: i18n.t('operation'),
       key: 'uniId',
       render: ({ tags, content, source }: LOG_ANALYZE.Log) => (
