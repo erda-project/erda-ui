@@ -36,7 +36,7 @@ export const commonColumns: Array<ColumnProps<TEST_CASE.CaseTableRecord>> = [
     title: i18n.t('project:use case title'),
     dataIndex: 'name',
     key: 'name',
-    width: 250,
+    width: 380,
   },
   {
     title: i18n.t('project:priority'),

@@ -119,7 +119,7 @@ const CaseTable = ({
   const tempProps: any = {};
   const className = 'case-table';
   // if (mode !== 'modal') { // 非弹框
-  const configWidth = reduce(columns, (temp, { width }: any) => temp + (isNaN(parseInt(width, 10)) ? 250 : parseInt(width, 10)), 0);
+  const configWidth = reduce(columns, (temp, { width }: any) => temp + (isNaN(parseInt(width, 10)) ? 380 : parseInt(width, 10)), 0);
   // 操作列
   const operationWidth = (columns[columns.length - 1].width || 60) as number;
   if ((tableWidth + operationWidth) < configWidth) {
@@ -167,7 +167,7 @@ const CaseTable = ({
       Object.assign(nameColumn, {
         // title: <ChooseTitle mode={mode} />,
         title: <span>{i18n.t('project:use case title')}</span>,
-        width: isScroll ? 250 : '100%',
+        width: isScroll ? 380 : '100%',
         render: (name: string) => <span className="bold">{name}</span>,
       });
     }
