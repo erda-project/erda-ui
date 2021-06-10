@@ -68,6 +68,7 @@ declare namespace BUILD {
     source: string;
     env: string;
     branch: string;
+    needApproval: boolean;
     ymlName: string;
     commitId: string;
     costTimeSec: string;

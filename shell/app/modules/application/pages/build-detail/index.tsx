@@ -194,6 +194,7 @@ const BuildDetail = (props: IProps) => {
     commitDetail,
     pipelineStages: stages = [],
     pipelineTaskActionDetails,
+    needApproval,
   } = pipelineDetail;
   const _taskActionDetails = pipelineTaskActionDetails || {};
 
@@ -703,7 +704,6 @@ const BuildDetail = (props: IProps) => {
     return text;
   };
 
-  const needApproval = get(find(branchInfo, { name: pipelineDetail.branch }), 'needApproval');
   const style = `main-info ${isExpand ? 'main-info-full' : ''}`;
   const { cronExpr } = pipelineCron;
   const cronMsg = cronExpr && cronstrue.toString(cronExpr, { locale: isZh() ? 'zh_CN' : 'en' });

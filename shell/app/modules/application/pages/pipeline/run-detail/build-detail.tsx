@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { map, isEmpty, pick, isEqual, find, get } from 'lodash';
+import { map, isEmpty, pick, isEqual, get } from 'lodash';
 import moment from 'moment';
 import * as React from 'react';
 import cronstrue from 'cronstrue/i18n';
@@ -28,7 +28,6 @@ import i18n, { isZh } from 'i18n';
 import buildStore from 'application/stores/build';
 import { useUpdateEffect, useEffectOnce } from 'react-use';
 import routeInfoStore from 'app/common/stores/route';
-import appStore from 'application/stores/application';
 import { useLoading } from 'app/common/stores/loading';
 import PipelineLog from './pipeline-log';
 import './build-detail.scss';
@@ -77,7 +76,6 @@ const BuildDetail = (props: IProps) => {
     s.changeType,
   ]);
 
-  const branchInfo = appStore.useStore((s) => s.branchInfo);
   const rejectRef = React.useRef(null);
 
   const {
@@ -183,6 +181,7 @@ const BuildDetail = (props: IProps) => {
     extra,
     commit,
     commitDetail,
+    needApproval,
   } = pipelineDetail;
 
   const initBuildDetail = (id: number, detailType?: BUILD.IActiveItem) => {
@@ -647,7 +646,6 @@ const BuildDetail = (props: IProps) => {
     return text;
   };
 
-  const needApproval = get(find(branchInfo, { name: pipelineDetail.branch }), 'needApproval');
   const style = `main-info ${isExpand ? 'main-info-full' : ''}`;
   const { cronExpr } = pipelineCron;
   const cronMsg = cronExpr && cronstrue.toString(cronExpr, { locale: isZh() ? 'zh_CN' : 'en' });

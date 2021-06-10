@@ -113,6 +113,7 @@ const extraFieldsMap = {
         unCheckedChildren: i18n.t('common:no'),
       },
       required: true,
+      visible: false,
       labelTip: i18n.t('project:deploy-approval-branch-rule-tip'),
       type: 'switch',
     },
@@ -141,11 +142,11 @@ const extraColumnsMap = {
       title: i18n.t('project:release deployment environment'),
       dataIndex: 'artifactWorkspace',
     },
-    {
-      title: i18n.t('project:app release confirmation'),
-      dataIndex: 'needApproval',
-      render: (val: boolean) => (val ? i18n.t('common:yes') : i18n.t('common:no')),
-    },
+    // {
+    //   title: i18n.t('project:app release confirmation'),
+    //   dataIndex: 'needApproval',
+    //   render: (val: boolean) => (val ? i18n.t('common:yes') : i18n.t('common:no')),
+    // },
   ],
 };
 
