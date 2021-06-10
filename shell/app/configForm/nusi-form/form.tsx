@@ -35,7 +35,7 @@ import { getLabel } from './form-items/common/index';
 export const renderField = (formProps: Obj = {}) => (ComponentMap: any) => ({ fields, form, ...rest }: any) => {
   const groupFields = groupBy(fields, 'group');
   return (
-    <NForm {...formProps}>
+    <NForm {...({ layout: 'vertical', ...formProps })}>
       {fields.map((f: FormField, index: number) => {
         const { component, getComp, group } = f;
         if (group) {

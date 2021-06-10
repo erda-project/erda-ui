@@ -149,6 +149,7 @@ const InputSelect = (props: IProps) => {
         className={`${className} input-select-input input-select-input-${compId}`}
         value={value}
         ref={inputRef}
+        autoComplete={'off'}
         onFocus={onFocus}
         disabled={disabled}
         onBlur={onBlur}
