@@ -12,7 +12,7 @@
   border-radius: 4px;
   @extend %shallow-shadow;
   cursor: default;
-  transition: box-shadow .3s ease-in-out, transform .5s ease-in-out;
+  transition: box-shadow 0.3s ease-in-out, transform 0.5s ease-in-out;
 
   &:hover {
     @extend %hover-shadow;
@@ -38,7 +38,7 @@
     height: 12px;
     background: $white;
     border-radius: 100%;
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 
     .iconfont {
       display: block;

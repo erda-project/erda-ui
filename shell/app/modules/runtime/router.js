@@ -14,20 +14,22 @@
 import i18n from 'i18n';
 
 function getRuntimeRouter() {
-  return [{
-    path: 'runtimes/:runtimeId',
-    mark: 'runtime',
-    routes: [
-      {
-        path: 'overview',
-        breadcrumbName: `{runtimeName}(${i18n.t('runtime:overview')})`,
-        getComp: (cb) => cb(import('app/modules/runtime/pages/overview')),
-        layout: {
-          noWrapper: true,
+  return [
+    {
+      path: 'runtimes/:runtimeId',
+      mark: 'runtime',
+      routes: [
+        {
+          path: 'overview',
+          breadcrumbName: `{runtimeName}(${i18n.t('runtime:overview')})`,
+          getComp: (cb) => cb(import('app/modules/runtime/pages/overview')),
+          layout: {
+            noWrapper: true,
+          },
         },
-      },
-    ],
-  }];
+      ],
+    },
+  ];
 }
 
 export default getRuntimeRouter;

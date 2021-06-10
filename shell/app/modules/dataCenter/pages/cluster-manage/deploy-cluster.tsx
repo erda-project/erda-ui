@@ -22,10 +22,10 @@ import clusterStore from '../../stores/cluster';
 import orgStore from 'app/org-home/stores/org';
 import './deploy-cluster.scss';
 /**
-* 进入页面后检查当前是否有正在部署集群，按照约定，一个org同一个时刻只会有一个部署
-* 若有，则直接展示部署参数，
-* 若无，则展示添加部署集群表单
-* */
+ * 进入页面后检查当前是否有正在部署集群，按照约定，一个org同一个时刻只会有一个部署
+ * 若有，则直接展示部署参数，
+ * 若无，则展示添加部署集群表单
+ * */
 let firstVisit = true;
 const DeployCluster = () => {
   const deployingCluster = clusterStore.useStore((s) => s.deployingCluster);
@@ -68,7 +68,12 @@ const DeployCluster = () => {
         </div>
       </div>
       <div className="deploy-content">
-        <DeployClusterForm data={deployingCluster} orgId={currentOrg.id} orgName={currentOrg.name} onSubmit={startDeployCluster} />
+        <DeployClusterForm
+          data={deployingCluster}
+          orgId={currentOrg.id}
+          orgName={currentOrg.name}
+          onSubmit={startDeployCluster}
+        />
       </div>
 
       <Drawer

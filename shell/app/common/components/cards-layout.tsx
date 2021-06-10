@@ -54,7 +54,7 @@ const CardsLayout = (props: IProps) => {
       {widthHolder}
       <IF check={!isEmpty(dataList) && gridClass}>
         <ul className={`card-list-container ${gridClass}`}>
-          { dataList && dataList.map((content) => contentRender(content)) }
+          {dataList && dataList.map((content) => contentRender(content))}
         </ul>
       </IF>
     </>
@@ -62,4 +62,3 @@ const CardsLayout = (props: IProps) => {
 };
 
 export { CardsLayout };
-

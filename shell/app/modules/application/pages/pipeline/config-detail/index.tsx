@@ -22,13 +22,13 @@ import { getBranchPath } from 'application/pages/pipeline/config';
 import { get } from 'lodash';
 import i18n from 'i18n';
 
-interface IProps{
+interface IProps {
   nodeId: string;
   addDrawerProps: Obj;
   scope: string;
   onCaseChange: (bool: boolean) => void;
-  scopeParams: {scope: string; scopeID: string};
-  editAuth: {hasAuth: boolean; authTip?: string};
+  scopeParams: { scope: string; scopeID: string };
+  editAuth: { hasAuth: boolean; authTip?: string };
 }
 
 const PipelineConfigDetail = (props: IProps) => {
@@ -51,7 +51,7 @@ const PipelineConfigDetail = (props: IProps) => {
 
   React.useEffect(() => {
     onCaseChange(isLastRecord);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLastRecord]);
 
   const recordRef = React.useRef(null as any);
@@ -93,7 +93,12 @@ const PipelineConfigDetail = (props: IProps) => {
         {/* <RecordList ref={recordRef} curPipelineDetail={useCaseDetail} onSelectPipeline={onSelectPipeline} nodeId={nodeId} /> */}
       </div>
       <CaseInfo caseDetail={useCaseDetail} />
-      <CasePipelineEditor addDrawerProps={{ ...addDrawerProps, curCaseId: nodeId, scope }} caseDetail={useCaseDetail} editable={editAuth.hasAuth && isLastRecord} onUpdateYml={onUpdateYml} />
+      <CasePipelineEditor
+        addDrawerProps={{ ...addDrawerProps, curCaseId: nodeId, scope }}
+        caseDetail={useCaseDetail}
+        editable={editAuth.hasAuth && isLastRecord}
+        onUpdateYml={onUpdateYml}
+      />
     </div>
   );
 };

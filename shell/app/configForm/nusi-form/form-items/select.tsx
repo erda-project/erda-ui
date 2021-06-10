@@ -11,11 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import {
-  Divider,
-  Form,
-  Select,
-} from 'app/nusi';
+import { Divider, Form, Select } from 'app/nusi';
 import * as React from 'react';
 import { isEmpty, isArray, map } from 'lodash';
 import { getData } from '../utils';
@@ -28,13 +24,7 @@ const { Option } = Select;
 
 const empty = {};
 const PureFormSelect = (props: any) => {
-  const {
-    fieldConfig,
-    form,
-    fixOut,
-    fixIn,
-    requiredCheck,
-  } = props || {};
+  const { fieldConfig, form, fixOut, fixIn, requiredCheck } = props || {};
   const [options, setOptions] = React.useState([] as any[] | Function);
   const [loading, setLoading] = React.useState(false);
   const {
@@ -62,7 +52,7 @@ const PureFormSelect = (props: any) => {
     const { dynamic, type, static: staticData } = dataSource;
     const curOption = cOptions || staticData;
 
-    if (!isEmpty(dynamic) && (type === 'dynamic') && isEmpty(curOption)) {
+    if (!isEmpty(dynamic) && type === 'dynamic' && isEmpty(curOption)) {
       if (dynamic.api && dynamic.dataPath && dynamic.valueKey && dynamic.nameKey) {
         setLoading(true);
         getData(dynamic).then((res: any[]) => {
@@ -87,13 +77,14 @@ const PureFormSelect = (props: any) => {
   registerRequiredCheck(_requiredCheck || requiredCheck);
 
   const customOptions = typeof options === 'function' ? options() : options;
-  const renderOptions = Array.isArray(customOptions) && customOptions.some((item) => typeof item.$$typeof === 'symbol')
-    ? customOptions
-    : customOptions.map((s: any) => (
-      <Option key={s.value} value={s.value}>
-        {s.name}
-      </Option>
-    ));
+  const renderOptions =
+    Array.isArray(customOptions) && customOptions.some((item) => typeof item.$$typeof === 'symbol')
+      ? customOptions
+      : customOptions.map((s: any) => (
+          <Option key={s.value} value={s.value}>
+            {s.name}
+          </Option>
+        ));
 
   const { placeholder } = componentProps || {};
   const _placeholder = placeholder || i18n.t('please select {name}', { name: label || key });
@@ -130,31 +121,23 @@ const PureFormSelect = (props: any) => {
         dropdownRender={(menu) => {
           return (
             <div>
-              {
-                (mode === 'multiple' && selectAll) ? (
-                  <div className="pt8">
-                    <span
-                      className="ml8 text-link"
-                      onClick={selectAllHandle}
-                      onMouseDown={(e) => e.preventDefault()}
-                    >{i18n.t('project:select all')}
-                    </span>
-                    <span
-                      className="ml8 text-link"
-                      onClick={selectAllCancel}
-                      onMouseDown={(e) => e.preventDefault()}
-                    >{i18n.t('clear')}
-                    </span>
-                    <Divider style={{ margin: '8px 0' }} />
-                  </div>
-                ) : null
-              }
+              {mode === 'multiple' && selectAll ? (
+                <div className="pt8">
+                  <span className="ml8 text-link" onClick={selectAllHandle} onMouseDown={(e) => e.preventDefault()}>
+                    {i18n.t('project:select all')}
+                  </span>
+                  <span className="ml8 text-link" onClick={selectAllCancel} onMouseDown={(e) => e.preventDefault()}>
+                    {i18n.t('clear')}
+                  </span>
+                  <Divider style={{ margin: '8px 0' }} />
+                </div>
+              ) : null}
               {menu}
             </div>
           );
         }}
       >
-        { renderOptions }
+        {renderOptions}
       </Select>
     </FormItem>
   );
@@ -184,7 +167,7 @@ export const config = {
   Component: FormSelect, // 某React组件，props中必须有value、onChange
   requiredCheck: (value) => {
     // 必填校验时，特殊的校验规则
-    return [(isArray(value) ? !isEmpty(value) : value !== undefined), i18n.t('can not be empty')];
+    return [isArray(value) ? !isEmpty(value) : value !== undefined, i18n.t('can not be empty')];
   },
   fixOut: (value, options) => {
     // 在获取表单数据时，将React组件的value格式化成需要的格式
@@ -261,24 +244,15 @@ export const formConfig = {
             key: 'componentProps.options',
             type: 'dataStatic',
             component: 'dataStatic',
-            removeWhen: [
-              [
-                { field: 'dataSource.type', operator: '!=', value: 'static' },
-              ],
-            ],
+            removeWhen: [[{ field: 'dataSource.type', operator: '!=', value: 'static' }]],
           },
           {
             label: '动态数据',
             key: 'dataSource.dynamic',
             type: 'dataDynamic',
             component: 'dataDynamic',
-            removeWhen: [
-              [
-                { field: 'dataSource.type', operator: '!=', value: 'dynamic' },
-              ],
-            ],
+            removeWhen: [[{ field: 'dataSource.type', operator: '!=', value: 'dynamic' }]],
           },
-
         ],
       },
     },

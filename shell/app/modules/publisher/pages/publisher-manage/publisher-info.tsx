@@ -17,7 +17,13 @@ import PublisherFormModal, { getPublisherFieldsList } from './publisher-form-mod
 import { Button } from 'app/nusi';
 import i18n from 'i18n';
 
-export const PublisherInfo = ({ data, getDetail = () => {} }: { data: PUBLISHER.IPublisher | undefined; getDetail: () => void }) => {
+export const PublisherInfo = ({
+  data,
+  getDetail = () => {},
+}: {
+  data: PUBLISHER.IPublisher | undefined;
+  getDetail: () => void;
+}) => {
   const [{ formModalVis, editData }, updater] = useUpdate({
     formModalVis: false,
     editData: undefined as PUBLISHER.IPublisher | undefined,
@@ -37,13 +43,17 @@ export const PublisherInfo = ({ data, getDetail = () => {} }: { data: PUBLISHER.
     getDetail();
   };
 
-  const sectionList: any[] = [{
-    title: i18n.t('basic information'),
-    titleOperate: <Button type="primary" ghost onClick={openFormModal}>{i18n.t('edit')}</Button>,
-    children: (
-      <ReadonlyForm fieldsList={getPublisherFieldsList()} data={data} />
-    ),
-  }];
+  const sectionList: any[] = [
+    {
+      title: i18n.t('basic information'),
+      titleOperate: (
+        <Button type="primary" ghost onClick={openFormModal}>
+          {i18n.t('edit')}
+        </Button>
+      ),
+      children: <ReadonlyForm fieldsList={getPublisherFieldsList()} data={data} />,
+    },
+  ];
 
   return (
     <>
@@ -57,4 +67,3 @@ export const PublisherInfo = ({ data, getDetail = () => {} }: { data: PUBLISHER.
     </>
   );
 };
-

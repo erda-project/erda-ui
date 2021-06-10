@@ -64,7 +64,7 @@ export const IssueCommentBox = (props: IProps) => {
       </div>
     </div>
   ) : (
-    <WithAuth pass={editAuth} >
+    <WithAuth pass={editAuth}>
       <Button onClick={() => updater.visible(true)}>{i18n.t('project:add remark')}</Button>
     </WithAuth>
   );

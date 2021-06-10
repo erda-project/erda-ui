@@ -58,66 +58,84 @@ export const groupHandler = (dataItemKey) => (originData) => {
 };
 
 // sort返回数据为：{list:[{name,value},...]}
-export const sortHandler = (dataItemKey) => (originData = [], { extendHandler }) => {
-  const list = get(originData, 'results[0].data') || [];
-  const dataKey = dataItemKey || (extendHandler && extendHandler.dataKey);
-  return { list: map(list, (item) => {
-    const { tag, name, data, unit = '' } = item[dataKey] || {};
-    return { name: tag || name, value: data, unit };
-  }) };
-};
+export const sortHandler =
+  (dataItemKey) =>
+  (originData = [], { extendHandler }) => {
+    const list = get(originData, 'results[0].data') || [];
+    const dataKey = dataItemKey || (extendHandler && extendHandler.dataKey);
+    return {
+      list: map(list, (item) => {
+        const { tag, name, data, unit = '' } = item[dataKey] || {};
+        return { name: tag || name, value: data, unit };
+      }),
+    };
+  };
 
 // 慢加载：返回值为：{list:[{....}]}
-export const slowHandler = (dataKeys) => (originData = []) => {
-  if (isEmpty(originData)) return {};
-  const list = get(originData, 'results[0].data') || [];
-  return {
-    list: map(list, (item) => {
-      const reData = {};
-      forEach(dataKeys, (keyMap) => {
-        const [key, dataKey] = keyMap.split(':');
-        const { tag, name, data } = item[dataKey] || {};
-        reData[key] = data;
-        reData.name = tag || name;
-      });
-      return reData;
-    }),
+export const slowHandler =
+  (dataKeys) =>
+  (originData = []) => {
+    if (isEmpty(originData)) return {};
+    const list = get(originData, 'results[0].data') || [];
+    return {
+      list: map(list, (item) => {
+        const reData = {};
+        forEach(dataKeys, (keyMap) => {
+          const [key, dataKey] = keyMap.split(':');
+          const { tag, name, data } = item[dataKey] || {};
+          reData[key] = data;
+          reData.name = tag || name;
+        });
+        return reData;
+      }),
+    };
   };
-};
 
 // 错误事务：返回值为：{list:[{....}]}
-export const errorHttpHandler = () => (originData = []) => {
-  if (isEmpty(originData)) return {};
-  const list = get(originData, 'results[0].data') || [];
-  return {
-    list: reduce(list, (result, item) => {
-      const { data, tag: name } = item;
-      forEach(data, (subItem) => {
-        const subData = get(subItem, 'sum.elapsed_count');
-        const timeData = get(subItem, 'maxFieldTimestamp.elapsed_max');
-        const appData = get(subItem, 'last.tags.source_application_id');
-        const { data: count, tag: httpCode } = subData;
-        const { data: time } = timeData;
-        result.push({ name, count, httpCode, time, applicationId: appData.data });
-      });
-      return result;
-    }, []),
+export const errorHttpHandler =
+  () =>
+  (originData = []) => {
+    if (isEmpty(originData)) return {};
+    const list = get(originData, 'results[0].data') || [];
+    return {
+      list: reduce(
+        list,
+        (result, item) => {
+          const { data, tag: name } = item;
+          forEach(data, (subItem) => {
+            const subData = get(subItem, 'sum.elapsed_count');
+            const timeData = get(subItem, 'maxFieldTimestamp.elapsed_max');
+            const appData = get(subItem, 'last.tags.source_application_id');
+            const { data: count, tag: httpCode } = subData;
+            const { data: time } = timeData;
+            result.push({ name, count, httpCode, time, applicationId: appData.data });
+          });
+          return result;
+        },
+        [],
+      ),
+    };
   };
-};
 
 // 错误SQL：返回值为：{list:[{....}]}
-export const errorDbHandler = () => (originData = []) => {
-  if (isEmpty(originData)) return {};
-  const list = get(originData, 'results[0].data') || [];
-  return {
-    list: reduce(list, (result, item) => {
-      const { data: count, tag: name } = get(item, 'sum.elapsed_count');
-      const { data: time } = get(item, 'maxFieldTimestamp.elapsed_max');
-      result.push({ name, count, time });
-      return result;
-    }, []),
+export const errorDbHandler =
+  () =>
+  (originData = []) => {
+    if (isEmpty(originData)) return {};
+    const list = get(originData, 'results[0].data') || [];
+    return {
+      list: reduce(
+        list,
+        (result, item) => {
+          const { data: count, tag: name } = get(item, 'sum.elapsed_count');
+          const { data: time } = get(item, 'maxFieldTimestamp.elapsed_max');
+          result.push({ name, count, time });
+          return result;
+        },
+        [],
+      ),
+    };
   };
-};
 
 // 获取多组数据: 返回值中取data[0]下的多个不同维度的key数据
 export const multipleDataHandler = (dataKeys) => (originData) => {
@@ -126,7 +144,7 @@ export const multipleDataHandler = (dataKeys) => (originData) => {
   const data = get(results, '[0].data[0]') || {};
   const reData = [];
   forEach(dataKeys, (item) => {
-    data[item] && (reData.push(data[item]));
+    data[item] && reData.push(data[item]);
   });
   return { time, results: reData };
 };
@@ -147,4 +165,3 @@ export const multipleGroupDataHandler = (dataKeys) => (originData) => {
   });
   return { time, results: reData };
 };
-

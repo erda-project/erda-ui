@@ -22,7 +22,7 @@ import './position.scss';
 import PositionMap from './config/chartMap';
 import i18n from 'i18n';
 
-interface ITab{
+interface ITab {
   [pro: string]: any;
   fetchApi: string;
   query?: object;
@@ -30,7 +30,12 @@ interface ITab{
 
 const sortTabList = [
   { name: i18n.t('microService:user experience apdex'), key: 'apdex' },
-  { name: i18n.t('microService:the whole page is loaded'), key: 'plt', fetchApi: 'ta_m_plt_grade/range', query: { range: 'plt', split: 10, rangeSize: 1000, source: true } },
+  {
+    name: i18n.t('microService:the whole page is loaded'),
+    key: 'plt',
+    fetchApi: 'ta_m_plt_grade/range',
+    query: { range: 'plt', split: 10, rangeSize: 1000, source: true },
+  },
   { name: i18n.t('microService:performance analytics'), key: 'comparative' },
 ];
 
@@ -38,7 +43,9 @@ const ComparativePanel = () => {
   return (
     <div className="monitor-comparative-container">
       <div className="monitor-comparative-tip">{i18n.t('microService:comparative-analysis')}</div>
-      <Link to={resolvePath('./comparative')}><Button>{i18n.t('microService:comparative analytics')}</Button></Link>
+      <Link to={resolvePath('./comparative')}>
+        <Button>{i18n.t('microService:comparative analytics')}</Button>
+      </Link>
     </div>
   );
 };
@@ -56,46 +63,67 @@ const Position = () => {
       <TimeSelector />
       <div className="position-bars">
         <SortTab tabList={sortTabList} onChange={changeSortTab} />
-        {
-          tabKey === 'comparative'
-            ?
-              <ComparativePanel />
-            :
-            tabKey === 'apdex'
-              ?
-                <PositionMap.apdex />
-              :
-                <PositionMap.timing fetchApi={curSortObj.fetchApi} query={curSortObj.query} />
-        }
+        {tabKey === 'comparative' ? (
+          <ComparativePanel />
+        ) : tabKey === 'apdex' ? (
+          <PositionMap.apdex />
+        ) : (
+          <PositionMap.timing fetchApi={curSortObj.fetchApi} query={curSortObj.query} />
+        )}
       </div>
       <Row gutter={20}>
         <Col span={12}>
           {
-            <PositionMap.dimension titleText={i18n.t('microService:operating system')} fetchApi="ta_m_percent_os" query={{ group: 'os' }} chartName="os" />
+            <PositionMap.dimension
+              titleText={i18n.t('microService:operating system')}
+              fetchApi="ta_m_percent_os"
+              query={{ group: 'os' }}
+              chartName="os"
+            />
           }
         </Col>
         <Col span={12}>
           {
-            <PositionMap.dimension titleText={i18n.t('microService:device')} fetchApi="ta_m_percent_device" query={{ group: 'device' }} chartName="device" />
+            <PositionMap.dimension
+              titleText={i18n.t('microService:device')}
+              fetchApi="ta_m_percent_device"
+              query={{ group: 'device' }}
+              chartName="device"
+            />
           }
         </Col>
       </Row>
       <Row gutter={20}>
         <Col span={12}>
           {
-            <PositionMap.dimension titleText={i18n.t('microService:app version')} fetchApi="ta_m_percent_av" query={{ group: 'av' }} chartName="av" />
+            <PositionMap.dimension
+              titleText={i18n.t('microService:app version')}
+              fetchApi="ta_m_percent_av"
+              query={{ group: 'av' }}
+              chartName="av"
+            />
           }
         </Col>
         <Col span={12}>
           {
-            <PositionMap.dimension titleText={i18n.t('microService:domain name')} fetchApi="ta_m_percent_host" query={{ group: 'host' }} chartName="host" />
+            <PositionMap.dimension
+              titleText={i18n.t('microService:domain name')}
+              fetchApi="ta_m_percent_host"
+              query={{ group: 'host' }}
+              chartName="host"
+            />
           }
         </Col>
       </Row>
       <Row gutter={20}>
         <Col span={12}>
           {
-            <PositionMap.dimension titleText={i18n.t('microService:page')} fetchApi="ta_m_percent_page" query={{ group: 'doc_path' }} chartName="page" />
+            <PositionMap.dimension
+              titleText={i18n.t('microService:page')}
+              fetchApi="ta_m_percent_page"
+              query={{ group: 'doc_path' }}
+              chartName="page"
+            />
           }
         </Col>
       </Row>

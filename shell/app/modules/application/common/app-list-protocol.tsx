@@ -53,18 +53,25 @@ interface IProps extends ReturnType<typeof Mapper> {
 
 const getBlockNetInfo = (app: IApplication) => {
   const { blockStatus, unBlockStart, unBlockEnd } = app;
-  const period = (unBlockEnd && unBlockStart) ? `${i18n.t('project:time period')}: ${moment(unBlockStart).format('YYYY-MM-DD HH:mm')}~${moment(unBlockEnd).format('YYYY-MM-DD HH:mm')}` : '';
+  const period =
+    unBlockEnd && unBlockStart
+      ? `${i18n.t('project:time period')}: ${moment(unBlockStart).format('YYYY-MM-DD HH:mm')}~${moment(
+          unBlockEnd,
+        ).format('YYYY-MM-DD HH:mm')}`
+      : '';
   const periodInfo = period ? { icon: 'time', text: period, tooltip: period } : null;
   const statusMap = {
     blocked: [periodInfo],
     unblocking: [
-      { icon: 'lock', text: i18n.t('unblocking, please wait'), tooltip: i18n.t('unblocking, please wait'), type: 'warning' },
+      {
+        icon: 'lock',
+        text: i18n.t('unblocking, please wait'),
+        tooltip: i18n.t('unblocking, please wait'),
+        type: 'warning',
+      },
       periodInfo,
     ],
-    unblocked: [
-      { icon: 'unlock', text: i18n.t('default:unblocked'), type: 'success' },
-      periodInfo,
-    ],
+    unblocked: [{ icon: 'unlock', text: i18n.t('default:unblocked'), type: 'success' }, periodInfo],
   };
   return compact(statusMap[blockStatus] || []);
 };
@@ -72,24 +79,46 @@ const getBlockNetInfo = (app: IApplication) => {
 const convertListData = (list: IApplication[], isInProject: boolean) => {
   const appPerm = permStore.getState((s) => s.app);
   return list.map((l) => {
-    const { id, name, desc, logo, projectName, projectId, projectDisplayName, isPublic, stats, updatedAt, mode, pined } = l;
+    const {
+      id,
+      name,
+      desc,
+      logo,
+      projectName,
+      projectId,
+      projectDisplayName,
+      isPublic,
+      stats,
+      updatedAt,
+      mode,
+      pined,
+    } = l;
     const extraInfos: CP_LIST.IIconInfo[] = [
-      (isPublic ? { icon: 'unlock', text: i18n.t('application:public application') } : { icon: 'lock', text: i18n.t('application:private application') }),
+      isPublic
+        ? { icon: 'unlock', text: i18n.t('application:public application') }
+        : { icon: 'lock', text: i18n.t('application:private application') },
       {
         icon: 'api-app',
         text: projectDisplayName,
         tooltip: `${i18n.t('application:own project')}: ${projectDisplayName}(${projectName})`,
-        operations: isInProject ? undefined : {
-          click: { key: 'gotoProject', reload: false },
-        },
+        operations: isInProject
+          ? undefined
+          : {
+              click: { key: 'gotoProject', reload: false },
+            },
       },
-      (
-        updatedAt ?
-          { icon: 'time', text: moment(updatedAt).fromNow(), tooltip: `${i18n.t('update time')}:${moment(updatedAt).format('YYYY-MM-DD HH:mm:ss')}` }
-          :
-          { icon: 'time', text: i18n.t('empty') }
-      ),
-      { icon: 'category-management', text: (modeOptions.find((m) => m.value === mode) as { name: string }).name, tooltip: i18n.t('application:application type') },
+      updatedAt
+        ? {
+            icon: 'time',
+            text: moment(updatedAt).fromNow(),
+            tooltip: `${i18n.t('update time')}:${moment(updatedAt).format('YYYY-MM-DD HH:mm:ss')}`,
+          }
+        : { icon: 'time', text: i18n.t('empty') },
+      {
+        icon: 'category-management',
+        text: (modeOptions.find((m) => m.value === mode) as { name: string }).name,
+        tooltip: i18n.t('application:application type'),
+      },
     ].concat(getBlockNetInfo(l));
 
     if ([appMode.MOBILE, appMode.LIBRARY, appMode.SERVICE].includes(mode)) {
@@ -97,38 +126,46 @@ const convertListData = (list: IApplication[], isInProject: boolean) => {
         icon: 'list-numbers',
         text: `${stats.countRuntimes}`,
         tooltip: `${i18n.t('application:runtime count')}`,
-        ...(appPerm.runtime.read.pass ? {
-          operations: {
-            click: { key: 'gotoDeploy', reload: false },
-          } } : {}),
+        ...(appPerm.runtime.read.pass
+          ? {
+              operations: {
+                click: { key: 'gotoDeploy', reload: false },
+              },
+            }
+          : {}),
       });
     }
 
-    const exitOp = isInProject ? {} : { // 退出操作：仅在我的应用列表中展示
-      exit: {
-        key: 'exit',
-        text: i18n.t('exit'),
-        reload: true,
-        confirm: i18n.t('common:exit-sub-tip {name}', { name: i18n.t('application') }),
-        meta: { appId: l.id },
-      },
-    };
+    const exitOp = isInProject
+      ? {}
+      : {
+          // 退出操作：仅在我的应用列表中展示
+          exit: {
+            key: 'exit',
+            text: i18n.t('exit'),
+            reload: true,
+            confirm: i18n.t('common:exit-sub-tip {name}', { name: i18n.t('application') }),
+            meta: { appId: l.id },
+          },
+        };
 
-    const pinOp: Obj<CP_COMMON.Operation> = pined ? {
-      unpinApp: {
-        key: 'unpinApp',
-        text: i18n.t('application:cancel sticky'),
-        reload: true,
-        meta: { appId: l.id },
-      },
-    } : {
-      pinApp: {
-        key: 'pinApp',
-        text: i18n.t('application:sticky'),
-        reload: true,
-        meta: { appId: l.id },
-      },
-    };
+    const pinOp: Obj<CP_COMMON.Operation> = pined
+      ? {
+          unpinApp: {
+            key: 'unpinApp',
+            text: i18n.t('application:cancel sticky'),
+            reload: true,
+            meta: { appId: l.id },
+          },
+        }
+      : {
+          pinApp: {
+            key: 'pinApp',
+            text: i18n.t('application:sticky'),
+            reload: true,
+            meta: { appId: l.id },
+          },
+        };
 
     return {
       id,
@@ -167,21 +204,24 @@ const getPageConfig = (isInProject = false) => {
       placeholder: i18n.t('filter by {name}', { name: i18n.t('name') }),
       type: 'input',
     },
-    isInProject ? {
-      key: 'public',
-      emptyText: i18n.t('application:all'),
-      fixed: true,
-      label: i18n.t('whether public'),
-      customProps: {
-        mode: 'single',
-      },
-      options: [
-        { label: i18n.t('application:all'), value: 'all' },
-        { label: i18n.t('application:public application'), value: 'public' },
-        { label: i18n.t('application:private application'), value: 'private' }],
-      showIndex: 1,
-      type: 'select',
-    } : null,
+    isInProject
+      ? {
+          key: 'public',
+          emptyText: i18n.t('application:all'),
+          fixed: true,
+          label: i18n.t('whether public'),
+          customProps: {
+            mode: 'single',
+          },
+          options: [
+            { label: i18n.t('application:all'), value: 'all' },
+            { label: i18n.t('application:public application'), value: 'public' },
+            { label: i18n.t('application:private application'), value: 'private' },
+          ],
+          showIndex: 1,
+          type: 'select',
+        }
+      : null,
   ]);
   return {
     scenario: {
@@ -240,12 +280,7 @@ const getPageConfig = (isInProject = false) => {
   } as CONFIG_PAGE.RenderConfig;
 };
 
-export const PureAppList = ({
-  getList: _getList,
-  isFetching,
-  clearList,
-  isInProject = false,
-}: IProps) => {
+export const PureAppList = ({ getList: _getList, isFetching, clearList, isInProject = false }: IProps) => {
   const loginUser = userStore.useStore((s) => s.loginUser);
   const { pinApp, unpinApp } = userStore.effects;
 
@@ -256,18 +291,23 @@ export const PureAppList = ({
   const handleOperation = (payload: Obj) => {
     const opKey = get(payload, 'event.operation');
     let query = { ...defaultPaging };
-    const { pageNo: pNo, pageSize: pSize } = get(payload, 'protocol.components.list.state') as Obj || {};
+    const { pageNo: pNo, pageSize: pSize } = (get(payload, 'protocol.components.list.state') as Obj) || {};
     const filterData = get(payload, 'protocol.components.filter.state.values') || {};
     const { public: fPublic, ...filterRest } = filterData;
     const publicFilter = ['public', 'private'].includes(fPublic) ? { public: fPublic } : {};
     const filterValues = { ...filterRest, ...publicFilter };
-    const requestFun = (_query: Obj) => getList(_query).then((res: IApplictionRes) => {
-      const reData = produce(merge(getPageConfig(isInProject), payload), (draf) => {
-        set(draf, 'protocol.components.list.data.list', res.list);
-        set(draf, 'protocol.components.list.state', { total: res.total, pageNo: query.pageNo, pageSize: query.pageSize });
+    const requestFun = (_query: Obj) =>
+      getList(_query).then((res: IApplictionRes) => {
+        const reData = produce(merge(getPageConfig(isInProject), payload), (draf) => {
+          set(draf, 'protocol.components.list.data.list', res.list);
+          set(draf, 'protocol.components.list.state', {
+            total: res.total,
+            pageNo: query.pageNo,
+            pageSize: query.pageSize,
+          });
+        });
+        return reData;
       });
-      return reData;
-    });
 
     switch (opKey) {
       case 'changePageNo':
@@ -277,25 +317,31 @@ export const PureAppList = ({
       case 'filter':
         query = { pageNo: 1, pageSize: pSize, ...filterValues };
         break;
-      case 'unpinApp': { // 取消置顶
+      case 'unpinApp': {
+        // 取消置顶
         const appId = get(payload, 'event.operationData.meta.appId');
         return unpinApp(appId).then(() => {
           return requestFun({ pageNo: 1, pageSize: pSize, ...filterValues });
         });
       }
-      case 'pinApp': { // 置顶
+      case 'pinApp': {
+        // 置顶
         const appId = get(payload, 'event.operationData.meta.appId');
         return pinApp(appId).then(() => {
           return requestFun({ pageNo: 1, pageSize: pSize, ...filterValues });
         });
       }
-      case 'exit': { // 退出
+      case 'exit': {
+        // 退出
         const appId = get(payload, 'event.operationData.meta.appId');
-        return removeMember({ scope: { type: 'app', id: `${appId}` }, userIds: [loginUser.id] }).then((res: {success: boolean}) => {
-          if (res.success) { // 重新reload
-            return requestFun({ pageNo: 1, pageSize: pSize, ...filterValues });
-          }
-        });
+        return removeMember({ scope: { type: 'app', id: `${appId}` }, userIds: [loginUser.id] }).then(
+          (res: { success: boolean }) => {
+            if (res.success) {
+              // 重新reload
+              return requestFun({ pageNo: 1, pageSize: pSize, ...filterValues });
+            }
+          },
+        );
       }
       default:
         break;
@@ -341,4 +387,3 @@ export const PureAppList = ({
 };
 
 export const MyAppList = connectCube(PureAppList, Mapper);
-

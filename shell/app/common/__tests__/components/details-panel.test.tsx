@@ -53,18 +53,14 @@ const props = {
         title: 'TEST',
         icon: <div className="test-icon" />,
       },
-      getComp: () => (<div className="get-comp">getComp</div>),
+      getComp: () => <div className="get-comp">getComp</div>,
     },
   ],
 };
 
 describe('DetailsPanel', () => {
   it('should render well', () => {
-    const wrapper = mount(
-      <DetailsPanel
-        {...props}
-      />,
-    );
+    const wrapper = mount(<DetailsPanel {...props} />);
     expect(wrapper.find({ title: 'DetailsPanel' })).toExist();
     expect(wrapper.find('AnchorLink')).toHaveLength(2);
     expect(wrapper.find('.get-comp')).toExist();

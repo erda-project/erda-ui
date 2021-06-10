@@ -32,10 +32,7 @@ export default class Container<State = {}, Props = {}> {
     this.props = props;
   }
 
-  setState(
-    updater: any,
-    callback?: () => void,
-  ): Promise<void> {
+  setState(updater: any, callback?: () => void): Promise<void> {
     return Promise.resolve().then(() => {
       let nextState;
 

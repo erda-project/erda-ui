@@ -59,10 +59,14 @@ export class TableFilterManage extends React.PureComponent<IProps, IState> {
     this.props.getTableList({ ...this.state, ...opsVal, currPage: 1 });
   };
 
-  handleTableChange = (pagination: any, filters: any, sorter: {[param: string]: any; columnKey: string; order: string}) => {
+  handleTableChange = (
+    pagination: any,
+    filters: any,
+    sorter: { [param: string]: any; columnKey: string; order: string },
+  ) => {
     const { columnKey, order } = sorter;
     if (!columnKey || columnKey === 'modifiedAt') {
-      const isDescend = order && (order !== 'descend');
+      const isDescend = order && order !== 'descend';
       if (this.state.modifiedAtOrder !== isDescend) {
         this.setState({
           modifiedAtOrder: isDescend,
@@ -75,7 +79,18 @@ export class TableFilterManage extends React.PureComponent<IProps, IState> {
   };
 
   render() {
-    const { searchList, extraItems, columns, pageSize, isFetching, tableList, tableTotal, currPage, getTableList, extraProps } = this.props;
+    const {
+      searchList,
+      extraItems,
+      columns,
+      pageSize,
+      isFetching,
+      tableList,
+      tableTotal,
+      currPage,
+      getTableList,
+      extraProps,
+    } = this.props;
     return (
       <SearchTableManage
         searchList={searchList}
@@ -95,4 +110,3 @@ export class TableFilterManage extends React.PureComponent<IProps, IState> {
     );
   }
 }
-

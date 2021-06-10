@@ -53,10 +53,7 @@ const APIRequest = () => {
 
   return (
     <>
-      <FilterNav
-        updateFields={updateFields}
-        resetFields={resetFields}
-      />
+      <FilterNav updateFields={updateFields} resetFields={resetFields} />
       <Row gutter={20}>
         <Col span={12}>
           <RequestMap.qps
@@ -82,4 +79,3 @@ const APIRequest = () => {
 };
 
 export default APIRequest;
-

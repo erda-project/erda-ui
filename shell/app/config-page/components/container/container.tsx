@@ -15,11 +15,22 @@ import * as React from 'react';
 import classnames from 'classnames';
 import './container.scss';
 
-
 export const Container = (props: CP_CONTAINER.Props) => {
   const { children, props: configProps } = props || {};
 
-  const { direction = 'column', spaceSize = 'small', contentSetting, className, whiteBg = false, isTopHead = false, fullHeight = false, flexHeight = false, visible = true, startAlign = false, scrollAuto = false } = configProps || {};
+  const {
+    direction = 'column',
+    spaceSize = 'small',
+    contentSetting,
+    className,
+    whiteBg = false,
+    isTopHead = false,
+    fullHeight = false,
+    flexHeight = false,
+    visible = true,
+    startAlign = false,
+    scrollAuto = false,
+  } = configProps || {};
 
   if (!visible) return null;
   const tempClass = {
@@ -40,11 +51,7 @@ export const Container = (props: CP_CONTAINER.Props) => {
   if (className) tempClass[className] = true;
   const containerClass = classnames(tempClass);
 
-  return (
-    <div className={containerClass}>
-      {children}
-    </div>
-  );
+  return <div className={containerClass}>{children}</div>;
 };
 
 export const RowContainer = (props: CP_CONTAINER.Props) => {

@@ -19,13 +19,8 @@ export default (props: CP_SPLIT_PAGE.Props) => {
   const { left, right } = props || {};
   return (
     <SplitPage>
-      <SplitPage.Left className="pipeline-manage-left">
-        {left || <EmptyHolder />}
-      </SplitPage.Left>
-      <SplitPage.Right className="pipeline-manage-left">
-        {right || <EmptyHolder />}
-      </SplitPage.Right>
+      <SplitPage.Left className="pipeline-manage-left">{left || <EmptyHolder />}</SplitPage.Left>
+      <SplitPage.Right className="pipeline-manage-left">{right || <EmptyHolder />}</SplitPage.Right>
     </SplitPage>
   );
 };
-

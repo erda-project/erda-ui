@@ -81,12 +81,16 @@ export function CRUDTable<P>(props: ITableProps<P>) {
     getData: getList,
     extraQuery,
     debounceGap: 500,
-    initQuery: reduce(filterConfig, (acc, config) => {
-      if (config.initialValue) {
-        return { ...acc, [config.name]: config.initialValue };
-      }
-      return acc;
-    }, {}),
+    initQuery: reduce(
+      filterConfig,
+      (acc, config) => {
+        if (config.initialValue) {
+          return { ...acc, [config.name]: config.initialValue };
+        }
+        return acc;
+      },
+      {},
+    ),
   });
 
   useEffectOnce(() => {
@@ -139,47 +143,40 @@ export function CRUDTable<P>(props: ITableProps<P>) {
   );
   return (
     <div className="crud-table">
-      {
-        !isEmpty(filterConfig)
-          ? (
-            <CustomFilter
-              showButton={!!showSearchButton}
-              onSubmit={onSubmit}
-              onReset={onReset}
-              config={filterConfig}
-              isConnectQuery
-            />
-          ) : null
-      }
+      {!isEmpty(filterConfig) ? (
+        <CustomFilter
+          showButton={!!showSearchButton}
+          onSubmit={onSubmit}
+          onReset={onReset}
+          config={filterConfig}
+          isConnectQuery
+        />
+      ) : null}
       <div className={showTopAdd ? 'top-button-group' : ''}>
-        {
-          typeof extraOperation === 'function' ? extraOperation() : extraOperation
-        }
+        {typeof extraOperation === 'function' ? extraOperation() : extraOperation}
         <IF check={hasForm}>
-          <WithAuth pass={hasAddAuth} noAuthTip={addAuthTooltipTitle} >
+          <WithAuth pass={hasAddAuth} noAuthTip={addAuthTooltipTitle}>
             <Button type="primary" onClick={() => openModal()} className="mb8">
               {i18n.t('add {name}', { name })}
             </Button>
           </WithAuth>
         </IF>
       </div>
-      {
-        hasForm ? (
-          <FormModal
-            title={formTitle}
-            name={name}
-            fieldsList={getFieldsList}
-            visible={visible}
-            onOk={handelSubmit}
-            onCancel={onCancel}
-            formData={editData}
-            modalProps={{
-              maskClosable: false,
-              destroyOnClose: true,
-            }}
-          />
-        ) : null
-      }
+      {hasForm ? (
+        <FormModal
+          title={formTitle}
+          name={name}
+          fieldsList={getFieldsList}
+          visible={visible}
+          onOk={handelSubmit}
+          onCancel={onCancel}
+          formData={editData}
+          modalProps={{
+            maskClosable: false,
+            destroyOnClose: true,
+          }}
+        />
+      ) : null}
       {TableComp}
     </div>
   );
@@ -207,14 +204,11 @@ export interface ICRUDStoreProps<P> {
       addItem: (arg: any) => Promise<any>;
       updateItem: (arg: any) => Promise<any>;
       isEdit: boolean;
-    }
+    },
   ) => Promise<any>;
   getColumns: (
     effects: any,
-    {
-      onEdit,
-      reloadList,
-    }: { onEdit: (arg: any) => void; reloadList: () => void }
+    { onEdit, reloadList }: { onEdit: (arg: any) => void; reloadList: () => void },
   ) => Array<ColumnProps<P>>;
   onModalClose?: (vis: boolean) => void;
 }

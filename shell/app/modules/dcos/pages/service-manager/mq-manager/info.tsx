@@ -19,7 +19,6 @@ import { useLoading } from 'common/stores/loading';
 import { useEffectOnce } from 'react-use';
 import InfoBox from '../info-box';
 
-
 const Info = () => {
   const MQDetails = cloudServiceStore.useStore((s) => s.MQDetails);
   const [mqID, region] = routeInfoStore.useStore((s) => [s.params.mqID, s.query.region]);

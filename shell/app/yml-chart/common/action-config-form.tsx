@@ -14,7 +14,7 @@ import * as React from 'react';
 import DiceConfigPage from 'app/config-page/index';
 import routeInfoStore from 'common/stores/route';
 
-interface IProps{
+interface IProps {
   nodeData: null | IStageTask;
   editing: boolean;
   isCreate?: boolean;

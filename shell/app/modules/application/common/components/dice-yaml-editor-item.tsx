@@ -82,20 +82,14 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
     if (item.allowDelete === false || item.status === 'new') {
       menu = (
         <Menu>
-          <Menu.Item onClick={() => this.onClick(item)}>
-            {i18n.t('application:edit')}
-          </Menu.Item>
+          <Menu.Item onClick={() => this.onClick(item)}>{i18n.t('application:edit')}</Menu.Item>
         </Menu>
       );
     } else {
       menu = (
         <Menu>
-          <Menu.Item onClick={() => this.onClick(item)}>
-            {i18n.t('application:edit')}
-          </Menu.Item>
-          <Menu.Item onClick={() => deleteItem && deleteItem(item)}>
-            {i18n.t('application:delete')}
-          </Menu.Item>
+          <Menu.Item onClick={() => this.onClick(item)}>{i18n.t('application:edit')}</Menu.Item>
+          <Menu.Item onClick={() => deleteItem && deleteItem(item)}>{i18n.t('application:delete')}</Menu.Item>
         </Menu>
       );
     }
@@ -107,9 +101,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
         onMouseOver={(e) => addLink && addLink(item, e)}
         className={classnames('yaml-editor-item', className)}
       >
-        <div
-          className={classnames('yaml-item-title-container', onMouseDown ? 'yaml-item-title-container-move' : null)}
-        >
+        <div className={classnames('yaml-item-title-container', onMouseDown ? 'yaml-item-title-container-move' : null)}>
           <span className="yaml-editor-item-icon">
             <CustomIcon type={item.icon} color />
           </span>
@@ -123,10 +115,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
             </Dropdown>
           ) : null}
         </div>
-        <div
-          className="yaml-editor-item-content"
-          onClick={() => this.onClick(item)}
-        >
+        <div className="yaml-editor-item-content" onClick={() => this.onClick(item)}>
           {item.content && item.content()}
         </div>
         {this.renderPoints()}
@@ -155,9 +144,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
         return null;
       case 'top':
         return (
-          <span
-            className={`item-point top-point ${activePointClass}`}
-          >
+          <span className={`item-point top-point ${activePointClass}`}>
             <CustomIcon type="caret-top" />
           </span>
         );
@@ -173,9 +160,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
       default:
         return (
           <div>
-            <span
-              className={`item-point top-point ${activePointClass}`}
-            >
+            <span className={`item-point top-point ${activePointClass}`}>
               <CustomIcon type="caret-top" />
             </span>
             <span

@@ -56,39 +56,39 @@ export const PureErrorAnalyze = () => {
     projectId,
   };
 
-  const [topErrorQuery, setTopErrorQuery] = React.useState(
-    {
-      ...commonQuery,
-      group: 'pmapi',
-      sum: 'err_sum',
-      filter_csmr: csmr,
-      filter_pack: pack,
-      filter_mthd: mthd,
-      sort: 'sum_err_sum',
-      limit: 10,
-    } as any,
-  );
+  const [topErrorQuery, setTopErrorQuery] = React.useState({
+    ...commonQuery,
+    group: 'pmapi',
+    sum: 'err_sum',
+    filter_csmr: csmr,
+    filter_pack: pack,
+    filter_mthd: mthd,
+    sort: 'sum_err_sum',
+    limit: 10,
+  } as any);
 
-  const [errorTypeQuery, setErrorTypeQuery] = React.useState(
-    {
-      fetchMetricKey: 'kong_error_type',
-      ...commonQuery,
-      avg: ['(err_mean*100)', '(cerr_mean*100)', '(serr_mean*100)'],
-      customAPIPrefix: '/api/gateway/openapi/metrics/charts/',
-    } as any,
-  );
+  const [errorTypeQuery, setErrorTypeQuery] = React.useState({
+    fetchMetricKey: 'kong_error_type',
+    ...commonQuery,
+    avg: ['(err_mean*100)', '(cerr_mean*100)', '(serr_mean*100)'],
+    customAPIPrefix: '/api/gateway/openapi/metrics/charts/',
+  } as any);
 
-  const TopError = React.useMemo(() => chartRender({
-    moduleName: 'APIRequest',
-    groupId: 'apiRequest',
-    titleText: `top ${i18n.t('microService:error statistics')}`,
-    chartName: 'top-error',
-    viewRender: TopErrorPanel,
-    isCustomApi: true,
-    fetchApi: '/api/gateway/openapi/metrics/charts/kong_error',
-    query: { ...commonQuery, ...topErrorQuery },
-    dataHandler: groupHandler(['sum.err_sum']),
-  }), [topErrorQuery]) as React.ElementType;
+  const TopError = React.useMemo(
+    () =>
+      chartRender({
+        moduleName: 'APIRequest',
+        groupId: 'apiRequest',
+        titleText: `top ${i18n.t('microService:error statistics')}`,
+        chartName: 'top-error',
+        viewRender: TopErrorPanel,
+        isCustomApi: true,
+        fetchApi: '/api/gateway/openapi/metrics/charts/kong_error',
+        query: { ...commonQuery, ...topErrorQuery },
+        dataHandler: groupHandler(['sum.err_sum']),
+      }),
+    [topErrorQuery],
+  ) as React.ElementType;
 
   const [selectedGroup, setSelectedGroup] = React.useState('');
   const [groups, setGroups] = React.useState([]);
@@ -136,7 +136,13 @@ export const PureErrorAnalyze = () => {
   }, [projectInfo]);
 
   React.useEffect(() => {
-    selectedGroup && errorTypeQuery.filter_cluster_name && loadMetricItem({ ...resourceInfo, type: 'error-type', chartQuery: { ...errorTypeQuery, filter_pmapi: selectedGroup } });
+    selectedGroup &&
+      errorTypeQuery.filter_cluster_name &&
+      loadMetricItem({
+        ...resourceInfo,
+        type: 'error-type',
+        chartQuery: { ...errorTypeQuery, filter_pmapi: selectedGroup },
+      });
   }, [selectedGroup]);
 
   const filters = [
@@ -174,7 +180,13 @@ export const PureErrorAnalyze = () => {
   };
 
   const onReset = () => {
-    setTopErrorQuery({ ...topErrorQuery, filter_csmr: undefined, filter_pack: undefined, filter_mthd: undefined, filter_papi: undefined });
+    setTopErrorQuery({
+      ...topErrorQuery,
+      filter_csmr: undefined,
+      filter_pack: undefined,
+      filter_mthd: undefined,
+      filter_papi: undefined,
+    });
   };
 
   const layout = [

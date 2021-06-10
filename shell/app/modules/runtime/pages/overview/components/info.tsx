@@ -33,13 +33,12 @@ const { ELSE } = IF;
 const cancelableDeployStatus = ['INIT', 'WAITING', 'DEPLOYING', 'CANCELING', 'WAITAPPROVE'];
 const MenuItem = Menu.Item;
 
-const evnBlockMap: {[key in APPLICATION.Workspace]: string} = {
+const evnBlockMap: { [key in APPLICATION.Workspace]: string } = {
   DEV: 'blockDev',
   TEST: 'blockTest',
   STAGING: 'blockStage',
   PROD: 'blockProd',
 };
-
 
 const DeployInfo = () => {
   const params = routeInfoStore.useStore((s) => s.params);
@@ -70,7 +69,7 @@ const DeployInfo = () => {
   let showCancelBtn = false;
   let cancelable = false;
   const showDeployStatus = deployStatus !== 'OK' || !cancelable; // TODO: 是ok还是OK ？
-  let cancelOperation = (force: boolean) => { };
+  let cancelOperation = (force: boolean) => {};
   if (cancelableDeployStatus.includes(deployStatus)) {
     cancelOperation = (force: boolean) => runtimeStore.cancelDeployment({ force });
     showCancelBtn = true;
@@ -95,21 +94,29 @@ const DeployInfo = () => {
   return (
     <React.Fragment>
       <div className="runtime-operation-content top-button-group">
-        <div className="deploy-status">
-          {showDeployStatus && <DeployStatus deployStatus={deployStatus} />}
-        </div>
+        <div className="deploy-status">{showDeployStatus && <DeployStatus deployStatus={deployStatus} />}</div>
         <div className="operation">
           <IF check={showCancelBtn}>
             <div>
               <IF check={cancelable}>
                 <IF check={deployStatus === 'CANCELING'}>
                   <IF check={hasAuth}>
-                    <Popconfirm title={i18n.t('runtime:confirm force cancel?')} onConfirm={() => cancelOperation(true)} placement="bottomRight">
-                      <Button className="runtime-operate cancel"><IconLoading /><span>{i18n.t('runtime:force cancel')}</span></Button>
+                    <Popconfirm
+                      title={i18n.t('runtime:confirm force cancel?')}
+                      onConfirm={() => cancelOperation(true)}
+                      placement="bottomRight"
+                    >
+                      <Button className="runtime-operate cancel">
+                        <IconLoading />
+                        <span>{i18n.t('runtime:force cancel')}</span>
+                      </Button>
                     </Popconfirm>
                     <ELSE />
                     <NoAuthTip>
-                      <Button className="runtime-operate cancel"><IconLoading /><span>{i18n.t('runtime:force cancel')}</span></Button>
+                      <Button className="runtime-operate cancel">
+                        <IconLoading />
+                        <span>{i18n.t('runtime:force cancel')}</span>
+                      </Button>
                     </NoAuthTip>
                   </IF>
                 </IF>
@@ -117,25 +124,37 @@ const DeployInfo = () => {
                 <ELSE />
 
                 <IF check={hasAuth}>
-                  <Popconfirm title={i18n.t('runtime:confirm cancel deploy?')} onConfirm={() => cancelOperation(false)} placement="bottomRight">
+                  <Popconfirm
+                    title={i18n.t('runtime:confirm cancel deploy?')}
+                    onConfirm={() => cancelOperation(false)}
+                    placement="bottomRight"
+                  >
                     <Button className="runtime-operate cancel">{i18n.t('runtime:cancel deployment')}</Button>
                   </Popconfirm>
                   <IF.ELSE />
-                  <Button disabled className="runtime-operate cancel">{i18n.t('runtime:cancel deployment')}</Button>
+                  <Button disabled className="runtime-operate cancel">
+                    {i18n.t('runtime:cancel deployment')}
+                  </Button>
                 </IF>
               </IF>
             </div>
           </IF>
-          <Button type="primary" ghost onClick={() => goTo(goTo.pages.appSetting_config, params)}>{i18n.t('runtime:deployment config')}</Button>
+          <Button type="primary" ghost onClick={() => goTo(goTo.pages.appSetting_config, params)}>
+            {i18n.t('runtime:deployment config')}
+          </Button>
           <IF check={hasAuth}>
             <Dropdown overlay={menu} trigger={['click']} disabled={showCancelBtn || isBlocked}>
               <Button type="primary" disabled={showCancelBtn || isBlocked}>
-                {i18n.t('runtime:deployment operation')}<IconDown />
+                {i18n.t('runtime:deployment operation')}
+                <IconDown />
               </Button>
             </Dropdown>
             <ELSE />
             <NoAuthTip>
-              <Button type="primary">{i18n.t('runtime:deployment operation')}<IconDown /></Button>
+              <Button type="primary">
+                {i18n.t('runtime:deployment operation')}
+                <IconDown />
+              </Button>
             </NoAuthTip>
           </IF>
         </div>

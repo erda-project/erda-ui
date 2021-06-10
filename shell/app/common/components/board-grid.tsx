@@ -17,7 +17,7 @@ import {
   PureBoardGrid as DCPureBoardGrid,
   setLocale,
   DC,
-} from '@terminus/dashboard-configurator';
+} from '@erda-ui/dashboard-configurator';
 
 export const BoardGrid = ({ ...restProps }: DC.BoardGridProps) => {
   const locale = window.localStorage.getItem('locale') || 'zh';
@@ -30,4 +30,3 @@ export const PureBoardGrid = ({ ...restProps }: DC.PureBoardGridProps) => {
   setLocale(locale);
   return <DCPureBoardGrid {...restProps} />;
 };
-

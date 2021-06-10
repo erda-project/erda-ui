@@ -16,13 +16,13 @@ import { Radio } from 'app/nusi';
 import { useMount } from 'react-use';
 import './sub-tab.scss';
 
-interface IProps{
+interface IProps {
   defaultChosen?: boolean;
   tabList: ITab[];
   onChange?: (args: any) => void;
 }
 
-interface ITab{
+interface ITab {
   [pro: string]: any;
   name: string;
   key: string;
@@ -41,7 +41,7 @@ const SubTab = (props: IProps) => {
 
   React.useEffect(() => {
     onChange && onChange(chosen);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chosen]);
 
   const onClick = (e: any) => {
@@ -53,9 +53,12 @@ const SubTab = (props: IProps) => {
 
   return (
     <RadioGroup className="sub-tab" value={chosen} onChange={(e) => setChosen(e.target.value)}>
-      {
-        tabList && tabList.map((tab) => <RadioButton key={tab.key} value={tab.key} onClick={onClick} >{tab.name}</RadioButton>)
-      }
+      {tabList &&
+        tabList.map((tab) => (
+          <RadioButton key={tab.key} value={tab.key} onClick={onClick}>
+            {tab.name}
+          </RadioButton>
+        ))}
     </RadioGroup>
   );
 };

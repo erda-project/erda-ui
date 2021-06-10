@@ -24,8 +24,7 @@ import { SmilingFaceWithSquintingEyes as IconSmilingFaceWithSquintingEyes } from
 import i18n from 'i18n';
 
 function getCurrentVersion() {
-  return agent.get('/version.json')
-    .then((response: any) => response.body);
+  return agent.get('/version.json').then((response: any) => response.body);
 }
 
 const openNotification = () => {
@@ -43,7 +42,8 @@ const openNotification = () => {
 };
 
 export function checkVersion() {
-  window.addEventListener('unhandledrejection', (e) => { // 兜底方案，load chunk出错时强制刷新
+  window.addEventListener('unhandledrejection', (e) => {
+    // 兜底方案，load chunk出错时强制刷新
     const msg = e.reason.message;
     if (msg && msg.indexOf('Loading') > -1 && msg.indexOf('chunk') > -1) {
       if (navigator.onLine) {
@@ -57,7 +57,8 @@ export function checkVersion() {
 
   let currentVersion: any = null;
   let timeId: any = null;
-  getCurrentVersion().then((response: any) => { // 初次获取版本号
+  getCurrentVersion().then((response: any) => {
+    // 初次获取版本号
     currentVersion = (response || {}).version;
   });
   timeId = setInterval(() => {

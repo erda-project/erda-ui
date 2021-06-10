@@ -55,65 +55,76 @@ const KeyValueEdit = (props: IKeyValProps) => {
       newValues[index].error = false;
     }
     setValues(newValues);
-    onChange(type, newValues.filter((item: any) => item.key), autoSave, () => {});
+    onChange(
+      type,
+      newValues.filter((item: any) => item.key),
+      autoSave,
+      () => {},
+    );
   };
   if (values.length === 0) {
     return (
       <div className="key-value-edit">
-        <p className="no-params">
-          {i18n.t('the current request has no {name}', { name: type })}
-        </p>
+        <p className="no-params">{i18n.t('the current request has no {name}', { name: type })}</p>
       </div>
     );
   }
   const handleDelete = (index: number) => {
     const newValues = cloneDeep(values).filter((_item: any, i) => i !== index);
     setValues(newValues);
-    onChange(type, newValues.filter((item: any) => item.key), false, () => {});
+    onChange(
+      type,
+      newValues.filter((item: any) => item.key),
+      false,
+      () => {},
+    );
   };
   return (
     <div className="key-value-edit">
-      {
-        values.map((item, index) => {
-          return (
-            <div className="key-value-edit-item" key={String(index)}>
-              {
-                (itemMap || []).map((t, i) => {
-                  const { type: compType, props: compProps, render, getProps } = t;
-                  const comprops = {
-                    ...compProps,
-                    value: item[compType],
-                    onChange: (val: string, autoSave: boolean) => {
-                      updateValue(index, compType, val, autoSave);
-                    },
-                  };
-                  const { className = '', ...extraProps } = getProps ? getProps(item) : {};
-                  return (
-                    <Fragment key={String(i)}>
-                      {
-                        render ? render(comprops) : <Input
-                          className={`flex-1 ${className}`}
-                          {...comprops}
-                          onChange={(e) => {
-                            updateValue(index, compType, e.target.value);
-                          }}
-                          {...extraProps}
-                        />
-                      }
-                      <div className="key-value-edit-item-separate" />
-                    </Fragment>
-                  );
-                })
-              }
-              <div className="key-value-edit-item-operation">
-                {
-                  item.editKey && index + 1 !== values.length ? <CustomIcon type="sc1" onClick={() => { handleDelete(index); }} /> : null
-                }
-              </div>
+      {values.map((item, index) => {
+        return (
+          <div className="key-value-edit-item" key={String(index)}>
+            {(itemMap || []).map((t, i) => {
+              const { type: compType, props: compProps, render, getProps } = t;
+              const comprops = {
+                ...compProps,
+                value: item[compType],
+                onChange: (val: string, autoSave: boolean) => {
+                  updateValue(index, compType, val, autoSave);
+                },
+              };
+              const { className = '', ...extraProps } = getProps ? getProps(item) : {};
+              return (
+                <Fragment key={String(i)}>
+                  {render ? (
+                    render(comprops)
+                  ) : (
+                    <Input
+                      className={`flex-1 ${className}`}
+                      {...comprops}
+                      onChange={(e) => {
+                        updateValue(index, compType, e.target.value);
+                      }}
+                      {...extraProps}
+                    />
+                  )}
+                  <div className="key-value-edit-item-separate" />
+                </Fragment>
+              );
+            })}
+            <div className="key-value-edit-item-operation">
+              {item.editKey && index + 1 !== values.length ? (
+                <CustomIcon
+                  type="sc1"
+                  onClick={() => {
+                    handleDelete(index);
+                  }}
+                />
+              ) : null}
             </div>
-          );
-        })
-      }
+          </div>
+        );
+      })}
     </div>
   );
 };

@@ -20,8 +20,7 @@ import userStore from 'app/user/stores';
 import { updateSearch } from 'app/common/utils';
 import { ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 
-
-interface IProps{
+interface IProps {
   filterObj?: Obj;
   viewGroup: string;
   issueType: ISSUE_TYPE;
@@ -49,10 +48,12 @@ const KanbanView = React.forwardRef((props: IProps, ref: any) => {
       projectID: +projectId,
       boardType: viewGroup,
       userID: loginUserId,
-      type: issueType === ISSUE_TYPE.ALL ? [ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK, ISSUE_TYPE.BUG, ISSUE_TYPE.EPIC] : [issueType],
+      type:
+        issueType === ISSUE_TYPE.ALL
+          ? [ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK, ISSUE_TYPE.BUG, ISSUE_TYPE.EPIC]
+          : [issueType],
     };
   }, [propsFilter, issueType, loginUserId, projectId, viewGroup]);
-
 
   React.useEffect(() => {
     updater.inParams(curInParams);
@@ -70,9 +71,12 @@ const KanbanView = React.forwardRef((props: IProps, ref: any) => {
 
   React.useEffect(() => {
     // 把_Q_的放路由最后
-    updateSearch({ ...propsFilter, viewType, viewGroup }, {
-      sort: (a: string, b: string) => (a === QKey ? 1 : (b === QKey ? -1 : 0)),
-    });
+    updateSearch(
+      { ...propsFilter, viewType, viewGroup },
+      {
+        sort: (a: string, b: string) => (a === QKey ? 1 : b === QKey ? -1 : 0),
+      },
+    );
   }, [propsFilter, viewType, viewGroup]);
 
   if (isEmpty(inParams)) {
@@ -86,7 +90,16 @@ const KanbanView = React.forwardRef((props: IProps, ref: any) => {
     },
   };
 
-  return <DiceConfigPage scenarioType="" inParams={inParams} scenarioKey={'issueKanban'} customProps={customProps} showLoading forceUpdateKey={['inParams']} />;
+  return (
+    <DiceConfigPage
+      scenarioType=""
+      inParams={inParams}
+      scenarioKey={'issueKanban'}
+      customProps={customProps}
+      showLoading
+      forceUpdateKey={['inParams']}
+    />
+  );
 });
 
 export default KanbanView;

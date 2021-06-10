@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace CP_API_EDITOR {
-
   interface Spec {
     type: 'APIEditor';
     props: IProps;
@@ -52,13 +51,13 @@ declare namespace CP_API_EDITOR {
     menu: IApiExecuteMenu[];
   }
 
-  interface IApiExecuteMenu{
+  interface IApiExecuteMenu {
     text: string;
     key: string;
     operations: Obj<CP_COMMON.Operation>;
   }
 
-  interface IProps{
+  interface IProps {
     showSave: boolean;
     index: string;
     visible?: boolean;
@@ -77,7 +76,7 @@ declare namespace CP_API_EDITOR {
     data: IStateData;
   }
 
-  interface IStateData{
+  interface IStateData {
     apiSpecId?: number;
     stepId: number;
     apiSpec: API;
@@ -99,7 +98,7 @@ declare namespace CP_API_EDITOR {
     result: IAssertsResult[];
   }
 
-  interface IAssertsResult{
+  interface IAssertsResult {
     arg: string;
     operator: string;
     value: string;
@@ -126,7 +125,7 @@ declare namespace CP_API_EDITOR {
     marketApiList: IMarketApi[];
   }
 
-  interface IMarketApi{
+  interface IMarketApi {
     id: number;
     path: string;
     description: string;
@@ -146,7 +145,7 @@ declare namespace CP_API_EDITOR {
     asserts: Assert[][];
   }
 
-  interface IApiBody{
+  interface IApiBody {
     type: string;
     content: string | Obj;
   }

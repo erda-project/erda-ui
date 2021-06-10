@@ -15,11 +15,9 @@
 // https://github.com/Igorbek/typescript-plugin-styled-components
 
 const tsImportPluginFactory = require('ts-import-plugin');
-const statements = require('tsx-control-statements').default;
 
 const getCustomTransformers = () => ({
   before: [
-    statements(),
     tsImportPluginFactory([
       // {
       //   libraryName: 'antd',

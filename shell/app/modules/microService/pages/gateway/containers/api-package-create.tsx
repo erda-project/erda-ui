@@ -36,7 +36,7 @@ const BindDomainForm = (props: any) => {
   const [value, setValue] = React.useState([] as Array<string | undefined>);
 
   React.useEffect(() => {
-    const curVal = isString(bindDomain) ? [bindDomain] : (isEmpty(bindDomain) ? [undefined] : bindDomain);
+    const curVal = isString(bindDomain) ? [bindDomain] : isEmpty(bindDomain) ? [undefined] : bindDomain;
     setValue(curVal);
   }, [bindDomain]);
 
@@ -72,44 +72,63 @@ const BindDomainForm = (props: any) => {
 
   return (
     <div className="full-width">
-      {
-        map(value, (_item: any, index: number) => {
-          return (
-            <FormItem className="full-width bind-domain-item" key={`${index}`}>
-              {
-                form.getFieldDecorator(`bindDomain_${index}`, {
-                  initialValue: value[index],
-                  rules: [
-                    {
-                      required: true,
-                      pattern: /^([a-z]|\d|-|\*)+(\.([a-z]|\d|-|\*)+)+$/,
-                      message: i18n.t('microService:lowercase letters, numbers, dot, -, *'),
-                    },
-                  ],
-                })(
-                  <Input className="bind-domain-input" onChange={(e: any) => changeItemValue(e.target.value, index)} />,
-                )
-              }
-              <div className="bind-domain-icons">
-                <IconAddOne className="input-with-icon pointer mr0" onClick={() => addOne()} />
+      {map(value, (_item: any, index: number) => {
+        return (
+          <FormItem className="full-width bind-domain-item" key={`${index}`}>
+            {form.getFieldDecorator(`bindDomain_${index}`, {
+              initialValue: value[index],
+              rules: [
                 {
-                  index !== 0 ? <IconReduceOne className="input-with-icon pointer mr0" onClick={() => { dropOne(index); }} /> : null
-                }
-              </div>
-            </FormItem>
-          );
-        })
-      }
+                  required: true,
+                  pattern: /^([a-z]|\d|-|\*)+(\.([a-z]|\d|-|\*)+)+$/,
+                  message: i18n.t('microService:lowercase letters, numbers, dot, -, *'),
+                },
+              ],
+            })(<Input className="bind-domain-input" onChange={(e: any) => changeItemValue(e.target.value, index)} />)}
+            <div className="bind-domain-icons">
+              <IconAddOne className="input-with-icon pointer mr0" onClick={() => addOne()} />
+              {index !== 0 ? (
+                <IconReduceOne
+                  className="input-with-icon pointer mr0"
+                  onClick={() => {
+                    dropOne(index);
+                  }}
+                />
+              ) : null}
+            </div>
+          </FormItem>
+        );
+      })}
     </div>
   );
 };
 
 export const PureApiPackage = () => {
   const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const [apiPackageDetail, consumerAuthorizes, aliCloudDomian] = gatewayStore.useStore((s) => [s.apiPackageDetail, s.consumerAuthorizes, s.aliCloudDomian]);
-  const { getApiPackageDetail, createOpenApiConsumer, getConsumerAuthorizes, updateConsumerAuthorizes, createApiPackage, updateApiPackage, getAliCloudDomain, getCloudApiInfo, bindAliCloudDomain } = gatewayStore.effects;
+  const [apiPackageDetail, consumerAuthorizes, aliCloudDomian] = gatewayStore.useStore((s) => [
+    s.apiPackageDetail,
+    s.consumerAuthorizes,
+    s.aliCloudDomian,
+  ]);
+  const {
+    getApiPackageDetail,
+    createOpenApiConsumer,
+    getConsumerAuthorizes,
+    updateConsumerAuthorizes,
+    createApiPackage,
+    updateApiPackage,
+    getAliCloudDomain,
+    getCloudApiInfo,
+    bindAliCloudDomain,
+  } = gatewayStore.effects;
   const { clearApiPackageDetail } = gatewayStore.reducers;
-  const [isFetching, isGenAliuAuth, isUpdateApi, isCreateApi, isCreateConsumer] = useLoading(gatewayStore, ['getApiPackageDetail', 'generateAliCloudCredentialsAfterCreate', 'updateApiPackage', 'createApiPackage', 'createOpenApiConsumer']);
+  const [isFetching, isGenAliuAuth, isUpdateApi, isCreateApi, isCreateConsumer] = useLoading(gatewayStore, [
+    'getApiPackageDetail',
+    'generateAliCloudCredentialsAfterCreate',
+    'updateApiPackage',
+    'createApiPackage',
+    'createOpenApiConsumer',
+  ]);
   const [state, updater] = useUpdate({
     currentStep: +query.step || 0,
     basicForm: {
@@ -186,7 +205,10 @@ export const PureApiPackage = () => {
         itemProps: {
           disabled: editMode,
         },
-        options: filter(Object.entries(SCENE_MAP), (item) => item[0] !== 'unity').map(([key, value]) => ({ value: key, name: value })),
+        options: filter(Object.entries(SCENE_MAP), (item) => item[0] !== 'unity').map(([key, value]) => ({
+          value: key,
+          name: value,
+        })),
       },
       {
         label: i18n.t('microService:name'),
@@ -203,12 +225,7 @@ export const PureApiPackage = () => {
       {
         label: <span className="label-with-required">{i18n.t('microService:binding domain')}</span>,
         getComp: ({ form }: any) => {
-          return (
-            <BindDomainForm
-              bindDomain={state.basicForm.bindDomain}
-              form={form}
-            />
-          );
+          return <BindDomainForm bindDomain={state.basicForm.bindDomain} form={form} />;
         },
       },
       {
@@ -217,35 +234,39 @@ export const PureApiPackage = () => {
         name: 'description',
         rules: [{ max: 100, message: i18n.t('microService:please enter a description within 100 characters') }],
       },
-      ...insertWhen(aliCloudDomian.cloudapiExists, [{
-        label: i18n.t('microService:whether to bind  aliCloud API gateway'),
-        type: 'switch',
-        name: 'needBindCloudapi',
-        initialValue: state.basicForm.needBindCloudapi,
-        itemProps: {
-          disabled: editMode && apiPackageDetail.needBindCloudapi,
+      ...insertWhen(aliCloudDomian.cloudapiExists, [
+        {
+          label: i18n.t('microService:whether to bind  aliCloud API gateway'),
+          type: 'switch',
+          name: 'needBindCloudapi',
+          initialValue: state.basicForm.needBindCloudapi,
+          itemProps: {
+            disabled: editMode && apiPackageDetail.needBindCloudapi,
+          },
         },
-      }]),
+      ]),
     ];
 
     if (state.basicForm.scene === 'openapi') {
-      fieldsList.push(...[
-        {
-          label: i18n.t('microService:consumer authentication method'),
-          type: 'select',
-          name: 'authType',
-          initialValue: state.basicForm.authType,
-          options: authTypes.map(([key, value]) => ({ value: key, name: value })),
-        },
-        {
-          label: i18n.t('microService:consumer access condition'),
-          type: 'radioGroup',
-          name: 'aclType',
-          initialValue: state.basicForm.aclType || 'on',
-          options: Object.entries(ACL_TYPE_MAP).map(([key, value]) => ({ value: key, name: value })),
-          itemProps: { disabled: state.basicForm.authType === AuthType.aliCloudApp },
-        },
-      ]);
+      fieldsList.push(
+        ...[
+          {
+            label: i18n.t('microService:consumer authentication method'),
+            type: 'select',
+            name: 'authType',
+            initialValue: state.basicForm.authType,
+            options: authTypes.map(([key, value]) => ({ value: key, name: value })),
+          },
+          {
+            label: i18n.t('microService:consumer access condition'),
+            type: 'radioGroup',
+            name: 'aclType',
+            initialValue: state.basicForm.aclType || 'on',
+            options: Object.entries(ACL_TYPE_MAP).map(([key, value]) => ({ value: key, name: value })),
+            itemProps: { disabled: state.basicForm.authType === AuthType.aliCloudApp },
+          },
+        ],
+      );
     }
     if (editMode && apiPackageDetail.needBindCloudapi) {
       fieldsList.push({
@@ -260,13 +281,7 @@ export const PureApiPackage = () => {
       });
     }
 
-    return (
-      <RenderPureForm
-        {...formProps}
-        ref={basicFormRef}
-        list={fieldsList}
-      />
-    );
+    return <RenderPureForm {...formProps} ref={basicFormRef} list={fieldsList} />;
   };
 
   const Step2 = () => {
@@ -278,9 +293,11 @@ export const PureApiPackage = () => {
         render: (_val: boolean, record: any) => (
           <Checkbox
             checked={state.consumerMap[record.id] && state.consumerMap[record.id].selected}
-            onChange={(e) => updater.consumerMap((prev: any) => {
-              return { ...prev, [record.id]: { ...record, selected: e.target.checked } };
-            })}
+            onChange={(e) =>
+              updater.consumerMap((prev: any) => {
+                return { ...prev, [record.id]: { ...record, selected: e.target.checked } };
+              })
+            }
           />
         ),
       },
@@ -305,10 +322,11 @@ export const PureApiPackage = () => {
       updater.consumerFormVisible(false);
     };
 
-
     return (
       <>
-        <Button type="primary" className="mb16" onClick={() => updater.consumerFormVisible(true)}>创建调用方</Button>
+        <Button type="primary" className="mb16" onClick={() => updater.consumerFormVisible(true)}>
+          创建调用方
+        </Button>
         <FormModal
           width="600px"
           name={i18n.t('microService:consumer')}
@@ -328,30 +346,37 @@ export const PureApiPackage = () => {
     );
   };
 
-  const Form1 = React.useMemo(() => Form.create({
-    onValuesChange: (_, changedValues) => {
-      updater.basicForm((prev: any) => {
-        const newData = changeBindDomain({ ...prev, ...changedValues });
-        return { ...newData };
-      });
-      if (changedValues.authType === AuthType.aliCloudApp) {
-        (basicFormRef.current as any).props.form.setFieldsValue({ aclType: 'on' });
-      }
-      if (changedValues.needBindCloudapi === false && state.basicForm.authType === AuthType.aliCloudApp) {
-        (basicFormRef.current as any).props.form.setFieldsValue({ authType: undefined });
-      }
-    },
-  })(Step1), [apiPackageDetail, state.basicForm.scene, state.basicForm.aclType, state.basicForm.authType, state.basicForm.needBindCloudapi, aliCloudDomian]);
+  const Form1 = React.useMemo(
+    () =>
+      Form.create({
+        onValuesChange: (_, changedValues) => {
+          updater.basicForm((prev: any) => {
+            const newData = changeBindDomain({ ...prev, ...changedValues });
+            return { ...newData };
+          });
+          if (changedValues.authType === AuthType.aliCloudApp) {
+            (basicFormRef.current as any).props.form.setFieldsValue({ aclType: 'on' });
+          }
+          if (changedValues.needBindCloudapi === false && state.basicForm.authType === AuthType.aliCloudApp) {
+            (basicFormRef.current as any).props.form.setFieldsValue({ authType: undefined });
+          }
+        },
+      })(Step1),
+    [
+      apiPackageDetail,
+      state.basicForm.scene,
+      state.basicForm.aclType,
+      state.basicForm.authType,
+      state.basicForm.needBindCloudapi,
+      aliCloudDomian,
+    ],
+  );
 
-  const StepContents = [
-    Form1,
-    ...insertWhen(state.basicForm.aclType === 'on', [Step2]),
-    ApiLimits,
-  ];
+  const StepContents = [Form1, ...insertWhen(state.basicForm.aclType === 'on', [Step2]), ApiLimits];
 
   const StepContent = StepContents[state.currentStep] || (() => null);
 
-  const noop = () => { };
+  const noop = () => {};
   const saveForm1 = (cbs: any[]) => {
     const [cb1, cb2] = cbs || [noop, noop];
     if (basicFormRef.current) {
@@ -378,7 +403,7 @@ export const PureApiPackage = () => {
   };
 
   const changeBindDomain = (obj: any) => {
-    const newData = { };
+    const newData = {};
     const domains = [] as string[];
     map(obj, (item, key) => {
       if (key.includes('bindDomain_')) {
@@ -388,7 +413,7 @@ export const PureApiPackage = () => {
         set(newData, `${key}`, item);
       }
     });
-    if (!isEmpty(domains))set(newData, 'bindDomain', domains);
+    if (!isEmpty(domains)) set(newData, 'bindDomain', domains);
     return newData;
   };
 
@@ -423,10 +448,26 @@ export const PureApiPackage = () => {
     }
   };
 
-  const cancelBtn = <Button key="cancel" onClick={() => goTo(editMode ? '../../' : '../')}>{i18n.t('microService:cancel')}</Button>;
-  const prevBtn = <Button key="prev" onClick={() => addStep(-1)}>{i18n.t('microService:prev')}</Button>;
-  const nextBtn = <Button key="next" type="primary" onClick={handleNextStep}>{i18n.t('microService:next')}</Button>;
-  const completeBtn = <Button key="complete" type="primary" onClick={() => goTo('../../')}>{i18n.t('microService:complete')}</Button>;
+  const cancelBtn = (
+    <Button key="cancel" onClick={() => goTo(editMode ? '../../' : '../')}>
+      {i18n.t('microService:cancel')}
+    </Button>
+  );
+  const prevBtn = (
+    <Button key="prev" onClick={() => addStep(-1)}>
+      {i18n.t('microService:prev')}
+    </Button>
+  );
+  const nextBtn = (
+    <Button key="next" type="primary" onClick={handleNextStep}>
+      {i18n.t('microService:next')}
+    </Button>
+  );
+  const completeBtn = (
+    <Button key="complete" type="primary" onClick={() => goTo('../../')}>
+      {i18n.t('microService:complete')}
+    </Button>
+  );
 
   const stepBtn = [
     [cancelBtn, nextBtn],
@@ -444,7 +485,9 @@ export const PureApiPackage = () => {
           </div>
           <div className="endpoint-create-footer">
             {cancelBtn}
-            <Button type="primary" onClick={() => saveForm1([() => goTo('../../'), () => goTo('../')])}>{i18n.t('ok')}</Button>
+            <Button type="primary" onClick={() => saveForm1([() => goTo('../../'), () => goTo('../')])}>
+              {i18n.t('ok')}
+            </Button>
           </div>
         </Spin>
       </div>
@@ -462,13 +505,10 @@ export const PureApiPackage = () => {
         <div className="endpoint-create-body">
           <StepContent />
         </div>
-        <div className="endpoint-create-footer">
-          {stepBtn}
-        </div>
+        <div className="endpoint-create-footer">{stepBtn}</div>
       </Spin>
     </div>
   );
 };
-
 
 export default PureApiPackage;

@@ -26,7 +26,7 @@ interface IProps {
   isFetching: boolean;
   businessProcessList: IModel[];
   dataModelPaging: IPaging;
-  modelBusinessScope: {businessDomain: any; dataDomains: any[]; marketDomains: any[]};
+  modelBusinessScope: { businessDomain: any; dataDomains: any[]; marketDomains: any[] };
 }
 
 interface IModel {
@@ -37,7 +37,11 @@ interface IModel {
   file: string;
 }
 
-const pageConfig = { iconType: 'ywgc', domainName: 'dataDomain', domainPlaceholder: i18n.t('application:select data field') };
+const pageConfig = {
+  iconType: 'ywgc',
+  domainName: 'dataDomain',
+  domainPlaceholder: i18n.t('application:select data field'),
+};
 
 const DataModel = (props: IProps) => {
   const onItemClick = (item: IModel) => {
@@ -63,7 +67,11 @@ const DataModel = (props: IProps) => {
 };
 
 const Mapper = () => {
-  const [businessProcessList, modelBusinessScope, dataModelPaging] = dataTaskStore.useStore((s) => [s.businessProcessList, s.modelBusinessScope, s.businessProcessPaging]);
+  const [businessProcessList, modelBusinessScope, dataModelPaging] = dataTaskStore.useStore((s) => [
+    s.businessProcessList,
+    s.modelBusinessScope,
+    s.businessProcessPaging,
+  ]);
   const [isFetching] = useLoading(dataTaskStore, ['getBusinessProcesses']);
   const { getBusinessProcesses } = dataTaskStore.effects;
   const { clearBusinessProcesses } = dataTaskStore.reducers;
@@ -78,7 +86,6 @@ const Mapper = () => {
     getBusinessProcesses,
   };
 };
-
 
 const DataModelWrapper = connectCube(DataModel, Mapper);
 export { DataModelWrapper as DataModel };

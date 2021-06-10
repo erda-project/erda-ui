@@ -45,20 +45,33 @@ interface IInputItem {
   maxLength?: number;
 }
 const InputItem = ({
-  form: { getFieldDecorator }, nameId, name, initialValue, onChange, dataSource, existKeys = [], editDisabled, isTextArea, validate, maxLength,
+  form: { getFieldDecorator },
+  nameId,
+  name,
+  initialValue,
+  onChange,
+  dataSource,
+  existKeys = [],
+  editDisabled,
+  isTextArea,
+  validate,
+  maxLength,
 }: IInputItem) => {
   return (
     <FormItem>
-      { getFieldDecorator(name + nameId, {
+      {getFieldDecorator(name + nameId, {
         rules: [
           {
-            required: true, message: i18n.t('common:this item is required'),
+            required: true,
+            message: i18n.t('common:this item is required'),
           },
           inputRule,
           {
             validator: (rule, value, callback) => {
               if (dataSource) {
-                const hasSameKey = dataSource.some((item) => rule.field !== (ROW_KEY + item.uniKey) && (item[ROW_KEY] === value));
+                const hasSameKey = dataSource.some(
+                  (item) => rule.field !== ROW_KEY + item.uniKey && item[ROW_KEY] === value,
+                );
                 const hasSameKeyOut = existKeys.includes(value);
                 if (hasSameKey) {
                   callback(i18n.t('common:key value must be unique'));
@@ -74,20 +87,19 @@ const InputItem = ({
           },
         ],
         initialValue,
-      })(isTextArea ?
-        <TextArea
-          autoSize
-          onBlur={(e) => onChange(e, name, nameId)}
-          disabled={editDisabled}
-          maxLength={maxLength}
-        /> :
-        <Input
-          placeholder={i18n.t('common:please enter')}
-          size="default"
-          onBlur={(e) => onChange(e, name, nameId)}
-          disabled={editDisabled}
-          maxLength={maxLength}
-        />)}
+      })(
+        isTextArea ? (
+          <TextArea autoSize onBlur={(e) => onChange(e, name, nameId)} disabled={editDisabled} maxLength={maxLength} />
+        ) : (
+          <Input
+            placeholder={i18n.t('common:please enter')}
+            size="default"
+            onBlur={(e) => onChange(e, name, nameId)}
+            disabled={editDisabled}
+            maxLength={maxLength}
+          />
+        ),
+      )}
     </FormItem>
   );
 };
@@ -185,7 +197,9 @@ export class KeyValueTable extends React.Component<IProps, IState> {
 
   handleAdd = () => {
     const { dataSource } = this.state;
-    const { form: { validateFields } } = this.props;
+    const {
+      form: { validateFields },
+    } = this.props;
 
     // 回到分页的第一页
     if (this.table) {
@@ -199,8 +213,7 @@ export class KeyValueTable extends React.Component<IProps, IState> {
     validateFields((err) => {
       // 分页非第一页时，判断下第一个值不为空后添加新行
       if (!err) {
-        const canAdd = (dataSource.length === 0) ||
-                        (dataSource[0][ROW_KEY] && dataSource[0][ROW_VALUE]);
+        const canAdd = dataSource.length === 0 || (dataSource[0][ROW_KEY] && dataSource[0][ROW_VALUE]);
         if (canAdd) {
           const newData = { [ROW_KEY]: '', [ROW_VALUE]: '', uniKey: uniqueId() };
           this.setState({ dataSource: [newData, ...dataSource] });
@@ -221,18 +234,33 @@ export class KeyValueTable extends React.Component<IProps, IState> {
   handleDelete = (uniKey: string) => {
     const dataSource = [...this.state.dataSource];
     const onDel = this.props.onDel || noop;
-    this.setState({
-      dataSource: reject(dataSource, { uniKey }),
-    }, () => {
-      onDel(this.getTableData());
-    });
+    this.setState(
+      {
+        dataSource: reject(dataSource, { uniKey }),
+      },
+      () => {
+        onDel(this.getTableData());
+      },
+    );
   };
 
   render() {
     const { dataSource } = this.state;
     const {
-      form, title = '', pagination = { pageSize: 5, hideOnSinglePage: true }, size = 'small', className = '', addBtnText = i18n.t('common:add'),
-      disableAdd = false, disableDelete = false, editDisabled, existKeys = [], keyDisabled = false, isTextArea, validate, maxLength,
+      form,
+      title = '',
+      pagination = { pageSize: 5, hideOnSinglePage: true },
+      size = 'small',
+      className = '',
+      addBtnText = i18n.t('common:add'),
+      disableAdd = false,
+      disableDelete = false,
+      editDisabled,
+      existKeys = [],
+      keyDisabled = false,
+      isTextArea,
+      validate,
+      maxLength,
     } = this.props;
     const showPagination = dataSource.length >= pagination.pageSize;
 
@@ -242,69 +270,77 @@ export class KeyValueTable extends React.Component<IProps, IState> {
       disabled: editDisabled,
     });
 
-    const columns: Array<ColumnProps<IItemData>> = [{
-      title: 'KEY',
-      dataIndex: 'key',
-      width: '40%',
-      render: (text: string, record: IItemData) => (
-        <InputItem
-          form={form}
-          name={ROW_KEY}
-          value={text}
-          nameId={record.uniKey}
-          dataSource={dataSource}
-          existKeys={existKeys}
-          onChange={this.handleItemChange}
-          initialValue={record[ROW_KEY]}
-          editDisabled={editDisabled || keyDisabled}
-          validate={validate && validate.key}
-          maxLength={maxLength}
-        />
-      ),
-    }, {
-      title: 'VALUE',
-      dataIndex: 'value',
-      width: '40%',
-      render: (text: string, record: IItemData) => (
-        <InputItem
-          form={form}
-          name={ROW_VALUE}
-          value={text}
-          nameId={record.uniKey}
-          onChange={this.handleItemChange}
-          initialValue={record[ROW_VALUE]}
-          editDisabled={editDisabled}
-          isTextArea={isTextArea}
-          validate={validate && validate.value}
-          maxLength={maxLength}
-        />
-      ),
-    }];
+    const columns: Array<ColumnProps<IItemData>> = [
+      {
+        title: 'KEY',
+        dataIndex: 'key',
+        width: '40%',
+        render: (text: string, record: IItemData) => (
+          <InputItem
+            form={form}
+            name={ROW_KEY}
+            value={text}
+            nameId={record.uniKey}
+            dataSource={dataSource}
+            existKeys={existKeys}
+            onChange={this.handleItemChange}
+            initialValue={record[ROW_KEY]}
+            editDisabled={editDisabled || keyDisabled}
+            validate={validate && validate.key}
+            maxLength={maxLength}
+          />
+        ),
+      },
+      {
+        title: 'VALUE',
+        dataIndex: 'value',
+        width: '40%',
+        render: (text: string, record: IItemData) => (
+          <InputItem
+            form={form}
+            name={ROW_VALUE}
+            value={text}
+            nameId={record.uniKey}
+            onChange={this.handleItemChange}
+            initialValue={record[ROW_VALUE]}
+            editDisabled={editDisabled}
+            isTextArea={isTextArea}
+            validate={validate && validate.value}
+            maxLength={maxLength}
+          />
+        ),
+      },
+    ];
 
     if (!disableDelete) {
-      columns.push(
-        {
-          title: i18n.t('common:operation'),
-          width: 100,
-          dataIndex: 'operation',
-          className: 'operation',
-          render: (_text, record) => {
-            return (
-              <Popconfirm title={`${i18n.t('common:confirm to delete')}?`} onConfirm={() => this.handleDelete(record.uniKey)}>
-                <span className={deleteBtnClass}>
-                  <span className="table-operations-btn">{i18n.t('common:delete')}</span>
-                </span>
-              </Popconfirm>
-            );
-          },
+      columns.push({
+        title: i18n.t('common:operation'),
+        width: 100,
+        dataIndex: 'operation',
+        className: 'operation',
+        render: (_text, record) => {
+          return (
+            <Popconfirm
+              title={`${i18n.t('common:confirm to delete')}?`}
+              onConfirm={() => this.handleDelete(record.uniKey)}
+            >
+              <span className={deleteBtnClass}>
+                <span className="table-operations-btn">{i18n.t('common:delete')}</span>
+              </span>
+            </Popconfirm>
+          );
         },
-      );
+      });
     }
 
     return (
       <div className="key-value-table-wrap">
         <div className="add-row-btn-wrap">
-          {!disableAdd && <Button size="small" type="primary" ghost disabled={editDisabled} onClick={this.handleAdd}>{addBtnText}</Button>}
+          {!disableAdd && (
+            <Button size="small" type="primary" ghost disabled={editDisabled} onClick={this.handleAdd}>
+              {addBtnText}
+            </Button>
+          )}
           <span>{title}</span>
         </div>
         <Table
@@ -314,7 +350,9 @@ export class KeyValueTable extends React.Component<IProps, IState> {
           pagination={showPagination ? pagination : false}
           size={size}
           className={`key-value-table ${className}`}
-          ref={(ref) => { this.table = ref; }}
+          ref={(ref) => {
+            this.table = ref;
+          }}
         />
       </div>
     );

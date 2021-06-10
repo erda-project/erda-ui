@@ -37,7 +37,11 @@ const Governance = () => {
   const [branchesRule, branches, appDetail] = zkproxyStore.useStore((s) => [s.branchesRule, s.branches, s.appDetail]);
   const { env } = routeInfoStore.useStore((s) => s.params);
   const { getBranches, getBranchesRule, updateBranchesRule, getAppDetail, clearBranchesRule } = zkproxyStore.effects;
-  const [getAppDetailLoading, getBranchesLoading, getBranchesRuleLoading] = useLoading(zkproxyStore, ['getAppDetail', 'getBranches', 'getBranchesRule']);
+  const [getAppDetailLoading, getBranchesLoading, getBranchesRuleLoading] = useLoading(zkproxyStore, [
+    'getAppDetail',
+    'getBranches',
+    'getBranchesRule',
+  ]);
 
   const [state, updater, update] = useUpdate({
     ruleMap: {},
@@ -111,30 +115,34 @@ const Governance = () => {
           </div>
           <p className="bold-500 fz16 mb16">{i18n.t('microService:weight configuration')}</p>
           <ul className="branches-rule-list px16 mb24">
-            {
-              map(branches, (name) => (
-                <li className="branches-rule-item py12 flex-box border-bottom" key={name}>
-                  <div className="flex-box fz16">
-                    <CustomIcon type="fz" />
-                    <span className="branch-name">{name}</span>
-                  </div>
-                  <InputNumber
-                    value={state.ruleMap[name] || 0}
-                    min={0}
-                    max={100}
-                    formatter={(value) => `${value}%`}
-                    parser={(value) => (value ? +value.replace('%', '') : 0)}
-                    onChange={(value) => { handleChange(value, name); }}
-                    precision={0}
-                  />
-                </li>
-              ))
-            }
+            {map(branches, (name) => (
+              <li className="branches-rule-item py12 flex-box border-bottom" key={name}>
+                <div className="flex-box fz16">
+                  <CustomIcon type="fz" />
+                  <span className="branch-name">{name}</span>
+                </div>
+                <InputNumber
+                  value={state.ruleMap[name] || 0}
+                  min={0}
+                  max={100}
+                  formatter={(value) => `${value}%`}
+                  parser={(value) => (value ? +value.replace('%', '') : 0)}
+                  onChange={(value) => {
+                    handleChange(value, name);
+                  }}
+                  precision={0}
+                />
+              </li>
+            ))}
           </ul>
           {/* <h3 className="text-right">{state.count}</h3> */}
           <div className="branches-rule-action text-right">
-            <Button className="mr16" onClick={handleClearBranchesRule}>{i18n.t('microService:clear configuration')}</Button>
-            <Button type="primary" className="mr16" onClick={handleUpdateBranchesRule}>{i18n.t('microService:update configuration')}</Button>
+            <Button className="mr16" onClick={handleClearBranchesRule}>
+              {i18n.t('microService:clear configuration')}
+            </Button>
+            <Button type="primary" className="mr16" onClick={handleUpdateBranchesRule}>
+              {i18n.t('microService:update configuration')}
+            </Button>
           </div>
         </Card>
       </Holder>

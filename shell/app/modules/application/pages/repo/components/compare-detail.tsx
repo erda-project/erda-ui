@@ -39,23 +39,49 @@ const CompareDetail = ({ hideComment, disableComment = false }: IProps) => {
   });
   return (
     <Spin spinning={isFetching}>
-      <Tabs
-        className="dice-tab"
-        defaultActiveKey={!hideComment ? 'comment' : 'commit'}
-        tabBarGutter={40}
-      >
-        {
-          !hideComment && (
-          <TabPane key="comment" tab={<span>{i18n.t('comment')}<span className="dice-badge">{comments.length}</span> </span>} >
+      <Tabs className="dice-tab" defaultActiveKey={!hideComment ? 'comment' : 'commit'} tabBarGutter={40}>
+        {!hideComment && (
+          <TabPane
+            key="comment"
+            tab={
+              <span>
+                {i18n.t('comment')}
+                <span className="dice-badge">{comments.length}</span>{' '}
+              </span>
+            }
+          >
             <CommentList comments={comments} />
           </TabPane>
-          )
-        }
-        <TabPane key="commit" tab={<span>{i18n.t('application:commit')}<span className="dice-badge">{commits.length}</span> </span>} >
+        )}
+        <TabPane
+          key="commit"
+          tab={
+            <span>
+              {i18n.t('application:commit')}
+              <span className="dice-badge">{commits.length}</span>{' '}
+            </span>
+          }
+        >
           <CommitList commits={commits} />
         </TabPane>
-        <TabPane key="diff" tab={<span>{i18n.t('application:changed files')}<span className="dice-badge">{diff ? diff.filesChanged : '0'}</span> </span>} >
-          <FileDiff key={`${from}-${to}`} diff={diff} from={from} to={to} comments={comments} mode="compare" disableComment={disableComment} />
+        <TabPane
+          key="diff"
+          tab={
+            <span>
+              {i18n.t('application:changed files')}
+              <span className="dice-badge">{diff ? diff.filesChanged : '0'}</span>{' '}
+            </span>
+          }
+        >
+          <FileDiff
+            key={`${from}-${to}`}
+            diff={diff}
+            from={from}
+            to={to}
+            comments={comments}
+            mode="compare"
+            disableComment={disableComment}
+          />
         </TabPane>
       </Tabs>
     </Spin>

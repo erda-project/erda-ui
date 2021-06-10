@@ -121,11 +121,13 @@ export const RenderFormItem = ({
       }
       ItemComp = (
         <Select {...itemProps} size={size}>
-          {
-            typeof options === 'function'
-              ? options()
-              : options.map((single) => <Option key={single.value} value={`${single.value}`} disabled={!!single.disabled}>{single.name}</Option>)
-          }
+          {typeof options === 'function'
+            ? options()
+            : options.map((single) => (
+                <Option key={single.value} value={`${single.value}`} disabled={!!single.disabled}>
+                  {single.name}
+                </Option>
+              ))}
         </Select>
       );
       action = i18n.t('common:select');
@@ -136,26 +138,24 @@ export const RenderFormItem = ({
       );
       break;
     case 'textArea':
-      ItemComp = (
-        <TextArea {...itemProps} className={classnames('input-with-icon', itemProps.className)} />
-      );
+      ItemComp = <TextArea {...itemProps} className={classnames('input-with-icon', itemProps.className)} />;
       break;
     case 'switch':
       specialConfig.valuePropName = 'checked';
       specialConfig.valuePropType = 'boolean';
-      ItemComp = (
-        <Switch {...itemProps} />
-      );
+      ItemComp = <Switch {...itemProps} />;
       action = i18n.t('common:select');
       break;
     case 'radioGroup':
       ItemComp = (
         <Radio.Group buttonStyle="solid" {...itemProps} size={size}>
-          {
-            typeof options === 'function'
-              ? options()
-              : options.map((single) => <Radio.Button key={single.value} value={`${single.value}`} disabled={!!single.disabled}>{single.name}</Radio.Button>)
-          }
+          {typeof options === 'function'
+            ? options()
+            : options.map((single) => (
+                <Radio.Button key={single.value} value={`${single.value}`} disabled={!!single.disabled}>
+                  {single.name}
+                </Radio.Button>
+              ))}
         </Radio.Group>
       );
       action = i18n.t('common:select');
@@ -164,26 +164,17 @@ export const RenderFormItem = ({
       specialConfig.valuePropName = 'checked';
       specialConfig.valuePropType = 'boolean';
       if (itemProps.options) {
-        ItemComp = (
-          <Checkbox.Group {...itemProps} />
-        );
+        ItemComp = <Checkbox.Group {...itemProps} />;
       } else {
         const { text = '', ...checkboxProps } = itemProps;
-        ItemComp = (
-          <Checkbox {...checkboxProps}>{text}</Checkbox>
-        );
+        ItemComp = <Checkbox {...checkboxProps}>{text}</Checkbox>;
       }
       action = i18n.t('common:select');
       break;
     case 'datePicker':
       ItemComp = (
-        <DatePicker
-          className="full-width"
-          allowClear={false}
-          format="YYYY-MM-DD"
-          showTime={false}
-          {...itemProps}
-        />);
+        <DatePicker className="full-width" allowClear={false} format="YYYY-MM-DD" showTime={false} {...itemProps} />
+      );
       break;
     case 'custom':
       // getFieldDecorator不能直接包裹FunctionalComponent，see https://github.com/ant-design/ant-design/issues/11324
@@ -191,29 +182,31 @@ export const RenderFormItem = ({
       break;
     case 'cascader':
       specialConfig.valuePropType = 'array';
-      ItemComp = (
-        <Cascader {...itemProps} options={options} />
-      );
+      ItemComp = <Cascader {...itemProps} options={options} />;
       break;
     case 'input':
     default:
-      ItemComp = (
-        <Input {...itemProps} className={classnames('input-with-icon', itemProps.className)} size={size} />
-      );
+      ItemComp = <Input {...itemProps} className={classnames('input-with-icon', itemProps.className)} size={size} />;
       break;
   }
 
-  const layout = label === undefined
-    ? fullWrapperCol
-    : isTailLayout
+  const layout =
+    label === undefined
+      ? fullWrapperCol
+      : isTailLayout
       ? tailFormItemLayout || defalutTailFormItemLayout
-      : formLayout === 'horizontal' ? formItemLayout || defalutFormItemLayout : null;
+      : formLayout === 'horizontal'
+      ? formItemLayout || defalutFormItemLayout
+      : null;
 
   // generate rules
   if (required && !rules.some((r) => r.required === true)) {
     if (typeof label === 'string' && label.length) {
       const hasColon = !noColon && (label.endsWith(':') || label.endsWith('：'));
-      rules.push({ required, message: `${i18n.t('common:please')}${action}${hasColon ? label.slice(0, label.length - 1) : label}` });
+      rules.push({
+        required,
+        message: `${i18n.t('common:please')}${action}${hasColon ? label.slice(0, label.length - 1) : label}`,
+      });
     }
   }
   if (pattern && !rules.some((r) => r.pattern && r.pattern.source === pattern.source)) {
@@ -237,28 +230,27 @@ export const RenderFormItem = ({
         itemConfig.initialValue = initialValue.toString();
     }
   }
-  const _label = labelTip
-    ? (
-      <span>
-        {label}&nbsp;
-        <Tooltip title={labelTip}>
-          <IconHelp className="color-text-icon" />
-        </Tooltip>
-      </span>
-    )
-    : label;
+  const _label = labelTip ? (
+    <span>
+      {label}&nbsp;
+      <Tooltip title={labelTip}>
+        <IconHelp className="color-text-icon" />
+      </Tooltip>
+    </span>
+  ) : (
+    label
+  );
   return (
-    <FormItem label={_label} {...layout} className={`${itemProps.type === 'hidden' ? 'hide' : ''} ${className}`} {...extraProps}>
-      {
-        name ? (form && form.getFieldDecorator(name, itemConfig)(ItemComp)) : ItemComp
-      }
+    <FormItem
+      label={_label}
+      {...layout}
+      className={`${itemProps.type === 'hidden' ? 'hide' : ''} ${className}`}
+      {...extraProps}
+    >
+      {name ? form && form.getFieldDecorator(name, itemConfig)(ItemComp) : ItemComp}
       {suffix}
-      {
-        addOne ? <IconAddOne className="render-form-op" onClick={() => addOne(name)} /> : null
-      }
-      {
-        dropOne ? <IconReduceOne className="render-form-op" onClick={() => dropOne(name)} /> : null
-      }
+      {addOne ? <IconAddOne className="render-form-op" onClick={() => addOne(name)} /> : null}
+      {dropOne ? <IconReduceOne className="render-form-op" onClick={() => dropOne(name)} /> : null}
     </FormItem>
   );
 };

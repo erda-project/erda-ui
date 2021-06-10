@@ -43,10 +43,7 @@ interface IProps {
   query?: object;
 }
 
-export const ClusterAlarmList = ({
-  filterType,
-  query = {},
-}: IProps) => {
+export const ClusterAlarmList = ({ filterType, query = {} }: IProps) => {
   const [alarmList, paging] = machineStore.useStore((s) => [s.alarmList, s.alarmListPaging]);
   const { getAlarmListByCluster } = machineStore.effects;
   const { clearAlarmListByCluster } = machineStore.reducers;
@@ -59,9 +56,12 @@ export const ClusterAlarmList = ({
     }
   }, [query, queryObj]);
 
-  const handlePageChange = React.useCallback((value: number) => {
-    getAlarmListByCluster({ pageNo: value, type: filterType, ...queryObj } as any);
-  }, [filterType, getAlarmListByCluster, queryObj]);
+  const handlePageChange = React.useCallback(
+    (value: number) => {
+      getAlarmListByCluster({ pageNo: value, type: filterType, ...queryObj } as any);
+    },
+    [filterType, getAlarmListByCluster, queryObj],
+  );
 
   React.useEffect(() => {
     if (!isEmpty(queryObj)) {
@@ -118,8 +118,12 @@ export const ClusterAlarmList = ({
           <Tooltip
             title={
               <>
-                <div>{i18n.t('create time')}：{moment(record.triggeredAt).format('YYYY-MM-DD HH:mm:ss')}</div>
-                <div>{i18n.t('update time')}：{moment(updatedAt).format('YYYY-MM-DD HH:mm:ss')}</div>
+                <div>
+                  {i18n.t('create time')}：{moment(record.triggeredAt).format('YYYY-MM-DD HH:mm:ss')}
+                </div>
+                <div>
+                  {i18n.t('update time')}：{moment(updatedAt).format('YYYY-MM-DD HH:mm:ss')}
+                </div>
               </>
             }
           >

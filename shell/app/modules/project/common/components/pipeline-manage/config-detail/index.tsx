@@ -20,7 +20,7 @@ import { useUpdate } from 'common';
 import { get } from 'lodash';
 import i18n from 'i18n';
 
-interface IProps{
+interface IProps {
   caseId: string;
   addDrawerProps: Obj;
   scope: string;
@@ -36,7 +36,6 @@ const PipelineConfigDetail = (props: IProps) => {
     isLastRecord: true,
   });
 
-
   React.useEffect(() => {
     updater.useCaseDetail(caseDetail);
   }, [caseDetail, updater]);
@@ -47,7 +46,7 @@ const PipelineConfigDetail = (props: IProps) => {
 
   React.useEffect(() => {
     onCaseChange(isLastRecord);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLastRecord]);
 
   const recordRef = React.useRef(null as any);
@@ -73,10 +72,21 @@ const PipelineConfigDetail = (props: IProps) => {
     <div>
       <div className="flex-box mb8">
         <span className="bold-500 title">{i18n.t('detail')}</span>
-        <RecordList ref={recordRef} curPipelineDetail={useCaseDetail} onSelectPipeline={onSelectPipeline} caseId={caseId} />
+        <RecordList
+          ref={recordRef}
+          curPipelineDetail={useCaseDetail}
+          onSelectPipeline={onSelectPipeline}
+          caseId={caseId}
+        />
       </div>
       <CaseInfo caseDetail={useCaseDetail} />
-      <CasePipelineEditor scope={scope} addDrawerProps={{ ...addDrawerProps, curCaseId: caseId }} caseDetail={useCaseDetail} editable={isLastRecord} onUpdateYml={onUpdateYml} />
+      <CasePipelineEditor
+        scope={scope}
+        addDrawerProps={{ ...addDrawerProps, curCaseId: caseId }}
+        caseDetail={useCaseDetail}
+        editable={isLastRecord}
+        onUpdateYml={onUpdateYml}
+      />
     </div>
   );
 };

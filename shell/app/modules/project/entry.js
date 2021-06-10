@@ -26,7 +26,6 @@ import testEnvStore from './stores/test-env';
 import testSetStore from './stores/test-set';
 import testPlanStore from './stores/test-plan';
 
-
 export default (registerModule) => {
   return registerModule({
     key: 'project',

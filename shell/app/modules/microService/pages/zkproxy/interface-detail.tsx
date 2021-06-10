@@ -67,52 +67,63 @@ const InterfaceDetail = () => {
     }
   }, [infoList, interfacename, az, isAvailable, getDubboDetailTime, updater]);
 
-  const getLayout = (tenantId: string) => map(chartArr, ({ title, type, i }) => ({
-    w: 24,
-    h: 9,
-    x: 0,
-    y: 0,
-    i,
-    moved: false,
-    static: false,
-    view: {
-      title,
-      chartType: 'chart:line',
-      hideReload: true,
-      chartQuery: {
-        az, interfacename, tenantId, start: timeSpan.startTimeMs, end: timeSpan.endTimeMs, point: 60, chartType: type,
-      },
-      loadData: getDubboDetailChart,
-      dataConvertor(responseData: any) {
-        if (isEmpty(responseData)) return {};
-        const { time = [], results = [] } = responseData || {};
-        const data = get(results, '[0].data') || [];
-        const metricData = [] as object[];
-        const yAxis = [];
+  const getLayout = (tenantId: string) =>
+    map(chartArr, ({ title, type, i }) => ({
+      w: 24,
+      h: 9,
+      x: 0,
+      y: 0,
+      i,
+      moved: false,
+      static: false,
+      view: {
+        title,
+        chartType: 'chart:line',
+        hideReload: true,
+        chartQuery: {
+          az,
+          interfacename,
+          tenantId,
+          start: timeSpan.startTimeMs,
+          end: timeSpan.endTimeMs,
+          point: 60,
+          chartType: type,
+        },
+        loadData: getDubboDetailChart,
+        dataConvertor(responseData: any) {
+          if (isEmpty(responseData)) return {};
+          const { time = [], results = [] } = responseData || {};
+          const data = get(results, '[0].data') || [];
+          const metricData = [] as object[];
+          const yAxis = [];
 
-        forEach(data, (item) => {
-          mapKeys(item, (v) => {
-            const { chartType, ...rest } = v;
-            yAxis[v.axisIndex] = 1;
-            metricData.push({
-              ...rest,
-              name: '',
-              type: chartType || 'line',
+          forEach(data, (item) => {
+            mapKeys(item, (v) => {
+              const { chartType, ...rest } = v;
+              yAxis[v.axisIndex] = 1;
+              metricData.push({
+                ...rest,
+                name: '',
+                type: chartType || 'line',
+              });
             });
           });
-        });
-        const yAxisLength = yAxis.length;
-        const formatTime = time.map((t) => moment(t).format('MM-DD HH:mm'));
-        return { xData: formatTime, metricData, yAxisLength, xAxisIsTime: true };
+          const yAxisLength = yAxis.length;
+          const formatTime = time.map((t) => moment(t).format('MM-DD HH:mm'));
+          return { xData: formatTime, metricData, yAxisLength, xAxisIsTime: true };
+        },
       },
-    },
-  }));
+    }));
 
   return (
     <div>
       <div className="interface-register-time mb20">
-        <p className="mb12">{`Provider ${i18n.t('microService:register time')}：${moment(dubboDetailTime.providerTime).format('YYYY-MM-DD HH:mm:ss')}`}</p>
-        <p>{`Consumer ${i18n.t('microService:register time')}：${moment(dubboDetailTime.consumerTime).format('YYYY-MM-DD HH:mm:ss')}`}</p>
+        <p className="mb12">{`Provider ${i18n.t('microService:register time')}：${moment(
+          dubboDetailTime.providerTime,
+        ).format('YYYY-MM-DD HH:mm:ss')}`}</p>
+        <p>{`Consumer ${i18n.t('microService:register time')}：${moment(dubboDetailTime.consumerTime).format(
+          'YYYY-MM-DD HH:mm:ss',
+        )}`}</p>
       </div>
       <TimeSelector defaultTime={24} />
       <Holder when={!isAvailable || !state.layout}>

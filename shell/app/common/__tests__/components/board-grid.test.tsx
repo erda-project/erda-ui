@@ -23,11 +23,7 @@ const props = {
 describe('board-grid', () => {
   describe('BoardGrid', () => {
     it('should render well', () => {
-      const wrapper = shallow(
-        <BoardGrid
-          {...props}
-        />,
-      );
+      const wrapper = shallow(<BoardGrid {...props} />);
       expect(wrapper.prop('name')).toBe(props.name);
       expect(wrapper.prop('id')).toBe(props.id);
     });
@@ -47,15 +43,9 @@ describe('board-grid', () => {
       },
     };
     it('should render well', () => {
-      const wrapper = shallow(
-        <PureBoardGrid
-          {...props}
-          layout={layout}
-        />,
-      );
+      const wrapper = shallow(<PureBoardGrid {...props} layout={layout} />);
       expect(wrapper.prop('name')).toBe(props.name);
       expect(wrapper.prop('id')).toBe(props.id);
     });
   });
 });
-

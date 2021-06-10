@@ -27,7 +27,11 @@ import { IssueState } from 'project/common/components/issue/issue-state';
 import { AlarmState } from 'dataCenter/common/alarm-state';
 
 export default ({ clusters }: { clusters: any }) => {
-  const [recordList, paging, alarmAttrs] = alarmRecordStore.useStore((s) => [s.recordList, s.recordListPaging, s.alarmAttrs]);
+  const [recordList, paging, alarmAttrs] = alarmRecordStore.useStore((s) => [
+    s.recordList,
+    s.recordListPaging,
+    s.alarmAttrs,
+  ]);
   const { getMachineAlarmRecordList, getAlarmAttrs } = alarmRecordStore;
   const userMap = userMapStore.useStore((s) => s);
 
@@ -38,15 +42,18 @@ export default ({ clusters }: { clusters: any }) => {
     onSubmit();
   });
 
-  const onSubmit = React.useCallback((v?: Omit<ALARM_REPORT.RecordListQuery, 'alertType'>) => {
-    getMachineAlarmRecordList({
-      pageSize: paging.pageSize,
-      pageNo: paging.pageNo,
-      alertType: 'machine',
-      clusters,
-      ...v,
-    });
-  }, [clusters, getMachineAlarmRecordList, paging.pageNo, paging.pageSize]);
+  const onSubmit = React.useCallback(
+    (v?: Omit<ALARM_REPORT.RecordListQuery, 'alertType'>) => {
+      getMachineAlarmRecordList({
+        pageSize: paging.pageSize,
+        pageNo: paging.pageNo,
+        alertType: 'machine',
+        clusters,
+        ...v,
+      });
+    },
+    [clusters, getMachineAlarmRecordList, paging.pageNo, paging.pageSize],
+  );
 
   const columns: Array<ColumnProps<ALARM_REPORT.RecordListItem>> = [
     {
@@ -95,36 +102,47 @@ export default ({ clusters }: { clusters: any }) => {
     },
   ];
 
-  const filterConfig = React.useMemo(() => [
-    {
-      type: Select,
-      name: 'alertState',
-      customProps: {
-        mode: 'multiple',
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('org:alarm status') }),
-        options: map(alarmAttrs.alertState, ({ key, display }) => <Select.Option key={key} value={key}>{display}</Select.Option>),
+  const filterConfig = React.useMemo(
+    () => [
+      {
+        type: Select,
+        name: 'alertState',
+        customProps: {
+          mode: 'multiple',
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('org:alarm status') }),
+          options: map(alarmAttrs.alertState, ({ key, display }) => (
+            <Select.Option key={key} value={key}>
+              {display}
+            </Select.Option>
+          )),
+        },
       },
-    },
-    {
-      type: Select,
-      name: 'handleState',
-      customProps: {
-        mode: 'multiple',
-        placeholder: i18n.t('application:filter by handle status'),
-        options: map(alarmAttrs.handleState, ({ key, display }) => <Select.Option key={key} value={key}>{display}</Select.Option>),
+      {
+        type: Select,
+        name: 'handleState',
+        customProps: {
+          mode: 'multiple',
+          placeholder: i18n.t('application:filter by handle status'),
+          options: map(alarmAttrs.handleState, ({ key, display }) => (
+            <Select.Option key={key} value={key}>
+              {display}
+            </Select.Option>
+          )),
+        },
       },
-    },
-    {
-      type: MemberSelector,
-      name: 'handlerId',
-      customProps: {
-        mode: 'multiple',
-        valueChangeTrigger: 'onClose',
-        placeholder: i18n.t('filter by handle people'),
-        scopeType: 'org',
+      {
+        type: MemberSelector,
+        name: 'handlerId',
+        customProps: {
+          mode: 'multiple',
+          valueChangeTrigger: 'onClose',
+          placeholder: i18n.t('filter by handle people'),
+          scopeType: 'org',
+        },
       },
-    },
-  ], [alarmAttrs.alertState, alarmAttrs.handleState]);
+    ],
+    [alarmAttrs.alertState, alarmAttrs.handleState],
+  );
 
   return (
     <div className="white-bg pa20">
@@ -137,7 +155,9 @@ export default ({ clusters }: { clusters: any }) => {
         pagination={{ ...paging }}
         onRow={(record: ALARM_REPORT.RecordListItem) => {
           return {
-            onClick: () => { goTo(goTo.pages.orgAlarmRecordDetail, { id: record.groupId, jumpOut: true }); },
+            onClick: () => {
+              goTo(goTo.pages.orgAlarmRecordDetail, { id: record.groupId, jumpOut: true });
+            },
           };
         }}
       />

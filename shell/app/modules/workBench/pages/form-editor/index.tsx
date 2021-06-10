@@ -15,7 +15,10 @@ import * as React from 'react';
 import FormEditor, { registerFormComponent } from 'app/configForm/nusi-form/form-editor';
 import { Form as NusiForm } from 'app/configForm/nusi-form/form';
 import { config as memberSelectorConfig, formConfig as memberSelectorFormConfig } from './form-items/member-selector';
-import { config as dataSourceSelectorConfig, formConfig as dataSourceSelectorFormConfig } from './form-items/datasource-selector';
+import {
+  config as dataSourceSelectorConfig,
+  formConfig as dataSourceSelectorFormConfig,
+} from './form-items/datasource-selector';
 import { config as apiTestConfig, formConfig as apiTestFormConfig } from './form-items/api-test';
 
 const myForms = [
@@ -34,7 +37,5 @@ const { Submit, Reset } = NusiForm;
 Form.Submit = Submit;
 Form.Reset = Reset;
 
-
 export default FormEditor;
 export { registerFormComponent };
-

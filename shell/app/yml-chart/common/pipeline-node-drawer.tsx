@@ -17,7 +17,21 @@ import { Drawer, Form, Button, Input, InputNumber, Collapse, Alert, Spin, Select
 import { getActionGroup } from 'application/services/deploy';
 import { FormComponentProps } from 'core/common/interface';
 import i18n from 'i18n';
-import { cloneDeep, map, flatten, isEmpty, omit, pick, get, filter, head, transform, isEqual, forEach, find } from 'lodash';
+import {
+  cloneDeep,
+  map,
+  flatten,
+  isEmpty,
+  omit,
+  pick,
+  get,
+  filter,
+  head,
+  transform,
+  isEqual,
+  forEach,
+  find,
+} from 'lodash';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import VariableInput from 'application/common/components/object-input-group';
 import ListInput from 'application/common/components/list-input-group';
@@ -56,7 +70,16 @@ export interface IEditStageProps {
 }
 const noop = () => {};
 const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
-  const { nodeData: propsNodeData, editing, isCreate, otherTaskAlias = [], form, onSubmit: handleSubmit = noop, chosenActionName, chosenAction } = props;
+  const {
+    nodeData: propsNodeData,
+    editing,
+    isCreate,
+    otherTaskAlias = [],
+    form,
+    onSubmit: handleSubmit = noop,
+    chosenActionName,
+    chosenAction,
+  } = props;
   const { getActionConfigs } = appDeployStore.effects;
   const [actionConfigs] = appDeployStore.useStore((s) => [s.actionConfigs]);
 
@@ -97,7 +120,9 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         let _resource = {} as any;
         if (propsNodeData && !isEmpty(propsNodeData)) {
           if (result.length > 0) {
-            _config = propsNodeData.version ? result.find((c) => c.version === propsNodeData.version) : getDefaultVersionConfig(result);
+            _config = propsNodeData.version
+              ? result.find((c) => c.version === propsNodeData.version)
+              : getDefaultVersionConfig(result);
           }
           _resource = getResource(propsNodeData, _config);
         } else {
@@ -107,7 +132,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         }
         update({
           resource: _resource,
-          actionConfig: _config || {} as DEPLOY.ActionConfig,
+          actionConfig: _config || ({} as DEPLOY.ActionConfig),
         });
       });
     }
@@ -121,7 +146,12 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     return null;
   }
   const type = actionConfig.type || getFieldValue('resource.type');
-  const taskInitName = originType === actionConfig.name ? originName : (otherTaskAlias.includes(actionConfig.name) ? undefined : actionConfig.name);
+  const taskInitName =
+    originType === actionConfig.name
+      ? originName
+      : otherTaskAlias.includes(actionConfig.name)
+      ? undefined
+      : actionConfig.name;
 
   const checkResourceName = (_rule: any, value: string, callback: any) => {
     const name = form.getFieldValue('resource.alias');
@@ -149,9 +179,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         message: `${i18n.t('application:please choose')}Task Type`,
       },
     ],
-  })(
-    <Input />,
-  );
+  })(<Input />);
 
   const loopData = getFieldDecorator('resource.loop', {
     initialValue: get(actionConfig, 'spec.loop'),
@@ -171,8 +199,12 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       onChange={changeActionVersion}
       placeholder={`${i18n.t('application:please choose version')}`}
     >
-      { actionConfigs.map((config) => (<Option key={config.version} value={config.version}>{config.version}</Option>)) }
-    </Select >,
+      {actionConfigs.map((config) => (
+        <Option key={config.version} value={config.version}>
+          {config.version}
+        </Option>
+      ))}
+    </Select>,
   );
 
   let alert;
@@ -230,20 +262,14 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
 
     return (
       <>
-        {
-          actionConfig.name === 'custom-script' ? (
-            <div>
-              { renderObject(image, 'resource.image', getDataValue(dataSource, 'image')) }
-            </div>
-          ) : null
-        }
+        {actionConfig.name === 'custom-script' ? (
+          <div>{renderObject(image, 'resource.image', getDataValue(dataSource, 'image'))}</div>
+        ) : null}
         <div>
           <div className="resource-input-group-title">{i18nMap.params}: </div>
-          { paramsContent }
+          {paramsContent}
         </div>
-        <div>
-          { renderObject(resources, 'resource.resources', getDataValue(dataSource, 'resources')) }
-        </div>
+        <div>{renderObject(resources, 'resource.resources', getDataValue(dataSource, 'resources'))}</div>
       </>
     );
   };
@@ -271,15 +297,13 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     return (
       <div key={parentKey}>
         <span className="resource-input-group-title">{i18nMap[value.name] || value.name}: </span>
-        <div>
-          {content}
-        </div>
+        <div>{content}</div>
       </div>
     );
   };
 
   const renderMap = (value: any, parentKey: string, dataSource?: any) => {
-    let initialValue = isCreate ? value.default : (value.value || value.default);
+    let initialValue = isCreate ? value.default : value.value || value.default;
 
     if (dataSource) {
       initialValue = dataSource;
@@ -298,32 +322,28 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         },
       ],
     })(<VariableInput disabled={!editing} label={getLabel(value.name, value.desc)} />);
-    return (
-      <Item key={parentKey}>{inputField}</Item>
-    );
+    return <Item key={parentKey}>{inputField}</Item>;
   };
 
   const renderStringArray = (value: any, parentKey: string) => {
     const inputField = getFieldDecorator(parentKey, {
-      initialValue: isCreate ? value.default : (value.value || value.default),
+      initialValue: isCreate ? value.default : value.value || value.default,
       rules: [
         {
           required: value.required,
           message: i18n.t('application:this item cannot be empty'),
         },
       ],
-      getValueFromEvent: (val: Array<{ value: string}>) => {
+      getValueFromEvent: (val: Array<{ value: string }>) => {
         return val?.length ? val.map((v) => v.value) : val;
       },
     })(<ListInput disabled={!editing} label={getLabel(value.name, value.desc)} />);
-    return (
-      <Item key={parentKey}>{inputField}</Item>
-    );
+    return <Item key={parentKey}>{inputField}</Item>;
   };
 
   const renderPropertyValue = (value: any, parentKey: string, dataSource?: any) => {
     let input;
-    let initialValue = isCreate ? value.default : (value.value || value.default);
+    let initialValue = isCreate ? value.default : value.value || value.default;
 
     if (dataSource) {
       initialValue = dataSource;
@@ -338,10 +358,22 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     switch (value.type) {
       case 'float':
       case 'int':
-        input = <InputNumber disabled={!editing || value.readOnly} className="full-width" placeholder={i18n.t('application:please enter data')} />;
+        input = (
+          <InputNumber
+            disabled={!editing || value.readOnly}
+            className="full-width"
+            placeholder={i18n.t('application:please enter data')}
+          />
+        );
         break;
       default:
-        input = <Input disabled={!editing || value.readOnly} placeholder={i18n.t('application:please enter data')} addonAfter={unit} />;
+        input = (
+          <Input
+            disabled={!editing || value.readOnly}
+            placeholder={i18n.t('application:please enter data')}
+            addonAfter={unit}
+          />
+        );
         break;
     }
 
@@ -355,7 +387,9 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       ],
     })(input);
     return (
-      <Item key={parentKey} label={getLabel(value.name, value.desc)}>{inputField}</Item>
+      <Item key={parentKey} label={getLabel(value.name, value.desc)}>
+        {inputField}
+      </Item>
     );
   };
 
@@ -379,8 +413,9 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       return null;
     }
 
-    const addBtn = editing ?
-      <IconPlus className="pointer" onClick={() => addNewItemToStructArray(property, property.struct[0])} /> : null;
+    const addBtn = editing ? (
+      <IconPlus className="pointer" onClick={() => addNewItemToStructArray(property, property.struct[0])} />
+    ) : null;
     // getFieldDecorator(`${parentKey}-data`, { initialValue: property.value || [] });
     const data = property.value || []; // getFieldValue(`${parentKey}-data`);
     const _val = form.getFieldsValue();
@@ -389,17 +424,17 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       const keys = Object.keys(item);
       const curItem = realData[index] || item;
       const nameKey = get(property.struct, '[0].name');
-      const headName = curItem[nameKey]
-        || (typeof curItem[keys[0]] === 'string' ? curItem[keys[0]] : 'module');
+      const headName = curItem[nameKey] || (typeof curItem[keys[0]] === 'string' ? curItem[keys[0]] : 'module');
       const header = (
         <div>
           <span>{headName}</span>
-          {editing ?
+          {editing ? (
             <CustomIcon
               onClick={() => deleteItemFromStructArray(property, index, parentKey)}
               className="icon-delete"
               type="sc1"
-            /> : null}
+            />
+          ) : null}
         </div>
       );
       return (
@@ -412,14 +447,10 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     return (
       <div key={parentKey}>
         <span className="resource-input-group-title">
-          {property.name}:
-          {addBtn}
+          {property.name}:{addBtn}
         </span>
         {data.length ? (
-          <Collapse
-            className="collapse-field"
-            accordion
-          >
+          <Collapse className="collapse-field" accordion>
             {content}
           </Collapse>
         ) : null}
@@ -463,13 +494,19 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
       if (!error) {
         let data = cloneDeep(values);
         const resources = head(filter(resource.data, (item) => item.name === 'resources'));
-        const originResource = transform(get(resources, 'struct'), (result, item: { name: string; default: string | number }) => {
-          const { name, default: d } = item;
-          // eslint-disable-next-line no-param-reassign
-          result[name] = +d;
-        }, {});
+        const originResource = transform(
+          get(resources, 'struct'),
+          (result, item: { name: string; default: string | number }) => {
+            const { name, default: d } = item;
+            // eslint-disable-next-line no-param-reassign
+            result[name] = +d;
+          },
+          {},
+        );
         const editedResources = get(data, 'resource.resources') || {};
-        forEach(Object.entries(editedResources), ([key, value]) => { editedResources[key] = +(value as string); });
+        forEach(Object.entries(editedResources), ([key, value]) => {
+          editedResources[key] = +(value as string);
+        });
         const isResourceDefault = isEqual(editedResources, originResource);
 
         if (isResourceDefault) {
@@ -485,7 +522,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         }
         const filledFieldsData = clearEmptyField(data);
         const resData = { ...filledFieldsData, action: chosenAction } as any;
-        if (data.executionCondition)resData.executionCondition = data.executionCondition;
+        if (data.executionCondition) resData.executionCondition = data.executionCondition;
         handleSubmit(resData);
       }
     });
@@ -527,16 +564,19 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         <Item label={i18nMap.version}>{actionVersion}</Item>
         <Item label={i18n.t('common:execution conditions')}>{executionCondition}</Item>
         {renderTaskTypeStructure()}
-        {editing ? <Button type="primary" ghost onClick={onSubmit}>{i18n.t('application:save')}</Button> : null}
+        {editing ? (
+          <Button type="primary" ghost onClick={onSubmit}>
+            {i18n.t('application:save')}
+          </Button>
+        ) : null}
       </Form>
     </Spin>
   );
 };
 
-
 export const PipelineNodeFormV1 = Form.create()(PurePipelineNodeForm);
 
-export interface IPipelineNodeDrawerProps extends IEditStageProps{
+export interface IPipelineNodeDrawerProps extends IEditStageProps {
   closeDrawer: () => void;
   visible: boolean;
 }
@@ -555,15 +595,8 @@ const PipelineNodeDrawer = (props: IPipelineNodeDrawerProps) => {
   }, [visible]);
 
   return (
-    <Drawer
-      className="yml-node-drawer"
-      title={title}
-      visible={visible}
-      width={560}
-      onClose={closeDrawer}
-    >
-
-      <PipelineNodeForm key={key} {...props as any} />
+    <Drawer className="yml-node-drawer" title={title} visible={visible} width={560} onClose={closeDrawer}>
+      <PipelineNodeForm key={key} {...(props as any)} />
     </Drawer>
   );
 };
@@ -589,9 +622,10 @@ export const PipelineNodeForm = (props: IPipelineNodeForm) => {
   });
 
   useEffectOnce(() => {
-    visible && (getActionGroup(actionQuery[scope]) as unknown as Promise<any>).then((res: any) => {
-      updater.originActions(get(res, 'data.action'));
-    });
+    visible &&
+      (getActionGroup(actionQuery[scope]) as unknown as Promise<any>).then((res: any) => {
+        updater.originActions(get(res, 'data.action'));
+      });
   });
   React.useEffect(() => {
     if (!visible) {
@@ -607,7 +641,10 @@ export const PipelineNodeForm = (props: IPipelineNodeForm) => {
   }, [updater, curType]);
 
   React.useEffect(() => {
-    const curAction = find(flatten(map(originActions, (item) => item.items)), (curItem) => curItem.name === chosenActionName);
+    const curAction = find(
+      flatten(map(originActions, (item) => item.items)),
+      (curItem) => curItem.name === chosenActionName,
+    );
     updater.chosenAction(curAction);
   }, [chosenActionName, originActions, updater]);
 
@@ -626,15 +663,16 @@ export const PipelineNodeForm = (props: IPipelineNodeForm) => {
         placeholder={`${i18n.t('application:please choose task type')}`}
       />
       <IF check={!isEmpty(chosenAction)}>
-        <IF check={chosenAction?.useProtocol || protocolActionForms.includes(chosenActionName)}> {/* 使用组件化协议表单 */}
-          <ActionConfigForm chosenAction={chosenAction} chosenActionName={chosenActionName} {...props as any} />
+        <IF check={chosenAction?.useProtocol || protocolActionForms.includes(chosenActionName)}>
+          {' '}
+          {/* 使用组件化协议表单 */}
+          <ActionConfigForm chosenAction={chosenAction} chosenActionName={chosenActionName} {...(props as any)} />
           <IF.ELSE />
-          <PipelineNodeFormV1 chosenAction={chosenAction} chosenActionName={chosenActionName} {...props as any} />
+          <PipelineNodeFormV1 chosenAction={chosenAction} chosenActionName={chosenActionName} {...(props as any)} />
         </IF>
       </IF>
     </>
   );
 };
-
 
 export default PipelineNodeDrawer;

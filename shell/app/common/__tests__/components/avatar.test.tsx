@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 import React from 'react';
 import { Avatar, AvatarList } from 'common';
 import { shallow } from 'enzyme';
@@ -39,13 +38,7 @@ describe('Avatar', () => {
   const sizeResult = (size = 24) => ({ height: `${size}px`, width: `${size}px` });
   const url = 'i am img url';
   it('should support showName ', () => {
-    const wrapper = shallow(
-      <Avatar
-        className="avatar-comp"
-        showName
-        name={loginUser.name}
-      />,
-    );
+    const wrapper = shallow(<Avatar className="avatar-comp" showName name={loginUser.name} />);
     expect(wrapper.find('.avatar-comp')).toExist();
     expect(wrapper.find('Tooltip').find('span').text()).toBe(loginUser.name);
     expect(wrapper.find({ alt: 'user-avatar' })).not.toExist();
@@ -57,14 +50,7 @@ describe('Avatar', () => {
     expect(wrapper.find({ color: true }).prop('type')).toContain('head');
   });
   it('should support useLoginUser ', () => {
-    const wrapper = shallow(
-      <Avatar
-        className="avatar-comp"
-        showName
-        name={loginUser.name}
-        url={url}
-      />,
-    );
+    const wrapper = shallow(<Avatar className="avatar-comp" showName name={loginUser.name} url={url} />);
     expect(wrapper.find('span').at(1).text()).toBe(loginUser.name);
     expect(wrapper.find({ alt: 'user-avatar' }).prop('src')).toContain(url);
     wrapper.setProps({ useLoginUser: true });
@@ -73,23 +59,12 @@ describe('Avatar', () => {
   });
   it('should support wrapClassName ', () => {
     const wrapper = shallow(
-      <Avatar
-        className="avatar-comp"
-        showName
-        name={loginUser.name}
-        wrapClassName={'wrapClassName'}
-      />,
+      <Avatar className="avatar-comp" showName name={loginUser.name} wrapClassName={'wrapClassName'} />,
     );
     expect(wrapper.find('.wrapClassName')).toExist();
   });
   it('should support size ', () => {
-    const wrapper = shallow(
-      <Avatar
-        className="avatar-comp"
-        showName
-        name={loginUser.name}
-      />,
-    );
+    const wrapper = shallow(<Avatar className="avatar-comp" showName name={loginUser.name} />);
     expect(wrapper.find('.dice-avatar').prop('style')).toStrictEqual(sizeResult(24));
     wrapper.setProps({ size: 100 });
     expect(wrapper.find('.dice-avatar').prop('style')).toStrictEqual(sizeResult(100));
@@ -98,12 +73,7 @@ describe('Avatar', () => {
 describe('AvatarList', () => {
   const names = ['A', 'B', 'C', 'D', 'E'];
   it('should ', () => {
-    const wrapper = shallow(
-      <AvatarList
-        names={names}
-        maxDisplay={3}
-      />,
-    );
+    const wrapper = shallow(<AvatarList names={names} maxDisplay={3} />);
     expect(wrapper.find('Tooltip').children()).toHaveLength(4);
     expect(wrapper.find('Tooltip').children().last().text()).toBe('...');
     wrapper.setProps({ maxDisplay: 5 });

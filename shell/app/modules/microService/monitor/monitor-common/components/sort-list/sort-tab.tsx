@@ -15,15 +15,15 @@ import * as React from 'react';
 import { Radio } from 'app/nusi';
 import './sort-tab.scss';
 
-interface IProps{
+interface IProps {
   defaultChosen?: boolean;
   tabList: ITab[];
   onChange?: (args: any) => void;
 }
-interface IState{
+interface IState {
   chosen: string;
 }
-interface ITab{
+interface ITab {
   [pro: string]: any;
   name: string;
   key: string;
@@ -62,9 +62,11 @@ class SortTab extends React.Component<IProps, IState> {
     const { chosen } = this.state;
     return (
       <RadioGroup className="sort-tab" onChange={this.onChange} value={chosen} defaultValue={tabList[0].key}>
-        {
-          tabList.map((item) => <RadioButton key={item.key} value={item.key}>{item.name}</RadioButton>)
-        }
+        {tabList.map((item) => (
+          <RadioButton key={item.key} value={item.key}>
+            {item.name}
+          </RadioButton>
+        ))}
       </RadioGroup>
     );
   }

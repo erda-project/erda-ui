@@ -19,7 +19,9 @@ export const chartRender = (obj: any) => {
   const reQuery = {
     ...(obj.query || {}),
     dependentKey: {
-      start: 'startTimeMs', end: 'endTimeMs', filter_tk: 'terminusKey',
+      start: 'startTimeMs',
+      end: 'endTimeMs',
+      filter_tk: 'terminusKey',
     },
     filter_type: 'mobile',
   };
@@ -40,5 +42,7 @@ export const sortRender = (obj: any) => {
   const SortPanel = SortBaseFactory.create({ ...rest });
   query.dependentKey = { start: 'startTimeMs', end: 'endTimeMs', filter_tk: 'terminusKey' };
   query.filter_type = 'mobile';
-  return (props: any) => <SortPanel {...props} {...rest} query={query} fetchApi={`/api/spot/tmc/metrics/${fetchApi || ''}`} />;
+  return (props: any) => (
+    <SortPanel {...props} {...rest} query={query} fetchApi={`/api/spot/tmc/metrics/${fetchApi || ''}`} />
+  );
 };

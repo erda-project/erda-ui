@@ -37,12 +37,7 @@ interface IProps {
 
 const ApiParamsModal = (props: IProps) => {
   const { visible, onClose, onImport, paramList } = props;
-  const [{
-    selectedParams,
-    isValidData,
-    selectedParamsMap,
-    disabledTip,
-  }, updater, update] = useUpdate({
+  const [{ selectedParams, isValidData, selectedParamsMap, disabledTip }, updater, update] = useUpdate({
     selectedParams: [],
     isValidData: false,
     selectedParamsMap: {},
@@ -96,55 +91,58 @@ const ApiParamsModal = (props: IProps) => {
     onImport(selectedParams);
   };
 
-  const handleSelect = React.useCallback((selectedRows: any[], tableName: string) => {
-    const existNames = map(paramList, (item) => item[API_FORM_KEY]);
+  const handleSelect = React.useCallback(
+    (selectedRows: any[], tableName: string) => {
+      const existNames = map(paramList, (item) => item[API_FORM_KEY]);
 
-    const _tempData = produce(selectedParamsMap, (draft) => {
-      draft[tableName] = selectedRows;
-    });
-    updater.selectedParamsMap(_tempData);
-
-    const isNoSame = every(_tempData[tableName], (item) => !existNames.includes(item[API_FORM_KEY]));
-    if (!isNoSame) {
-      update({
-        isValidData: false,
-        disabledTip: SAME_TIP,
+      const _tempData = produce(selectedParamsMap, (draft) => {
+        draft[tableName] = selectedRows;
       });
-    } else {
-      const paramsMap = {};
-      let isValid = true;
+      updater.selectedParamsMap(_tempData);
 
-      forEach(values(_tempData), (pList) => {
-        forEach(pList, (item) => {
-          if (!paramsMap[item[API_FORM_KEY]]) {
-            const tempItem = { ...item };
-            tempItem[API_PROPERTY_REQUIRED] = true;
-            paramsMap[tempItem[API_FORM_KEY]] = tempItem;
-          } else {
-            isValid = false;
-          }
-        });
-      });
-
-      if (!isValid) {
+      const isNoSame = every(_tempData[tableName], (item) => !existNames.includes(item[API_FORM_KEY]));
+      if (!isNoSame) {
         update({
           isValidData: false,
           disabledTip: SAME_TIP,
         });
       } else {
-        const validParams = values(paramsMap);
-        const isEmptySelected = isEmpty(validParams);
-        update({
-          selectedParams: validParams,
-          isValidData: !isEmptySelected,
+        const paramsMap = {};
+        let isValid = true;
+
+        forEach(values(_tempData), (pList) => {
+          forEach(pList, (item) => {
+            if (!paramsMap[item[API_FORM_KEY]]) {
+              const tempItem = { ...item };
+              tempItem[API_PROPERTY_REQUIRED] = true;
+              paramsMap[tempItem[API_FORM_KEY]] = tempItem;
+            } else {
+              isValid = false;
+            }
+          });
         });
 
-        if (isEmptySelected) {
-          updater.disabledTip(EMPTY_TIP);
+        if (!isValid) {
+          update({
+            isValidData: false,
+            disabledTip: SAME_TIP,
+          });
+        } else {
+          const validParams = values(paramsMap);
+          const isEmptySelected = isEmpty(validParams);
+          update({
+            selectedParams: validParams,
+            isValidData: !isEmptySelected,
+          });
+
+          if (isEmptySelected) {
+            updater.disabledTip(EMPTY_TIP);
+          }
         }
       }
-    }
-  }, [paramList, selectedParamsMap, update, updater]);
+    },
+    [paramList, selectedParamsMap, update, updater],
+  );
 
   return (
     <Modal
@@ -157,44 +155,42 @@ const ApiParamsModal = (props: IProps) => {
       footer={
         schemaParams?.length
           ? [
-            <Tooltip title={!isValidData ? disabledTip : undefined}>
-              <Button type="primary" disabled={!isValidData} onClick={onOk}>{i18n.t('application:ok')}</Button>
-            </Tooltip>,
-          ]
+              <Tooltip title={!isValidData ? disabledTip : undefined}>
+                <Button type="primary" disabled={!isValidData} onClick={onOk}>
+                  {i18n.t('application:ok')}
+                </Button>
+              </Tooltip>,
+            ]
           : []
       }
     >
-      <Spin spinning={isFetching} >
-        {
-          !schemaParams?.length
-            ? <EmptyHolder relative />
-            : (
-              <div className="schema-params-list">
-                {
-                  map(schemaParams, ({ tableName, list }) => {
-                    return (
-                      <Collapse style={{ border: 'none' }} key={tableName}>
-                        <Panel header={tableName} key={tableName}>
-                          <Table
-                            rowKey={API_FORM_KEY}
-                            columns={columns}
-                            dataSource={list}
-                            rowSelection={{
-                              hideDefaultSelections: true,
-                              onChange: (_selectedKeys: string[], selectedRows: any[]) => {
-                                handleSelect(selectedRows, tableName);
-                              },
-                            }}
-                            pagination={false}
-                          />
-                        </Panel>
-                      </Collapse>
-                    );
-                  })
-                }
-              </div>
-            )
-        }
+      <Spin spinning={isFetching}>
+        {!schemaParams?.length ? (
+          <EmptyHolder relative />
+        ) : (
+          <div className="schema-params-list">
+            {map(schemaParams, ({ tableName, list }) => {
+              return (
+                <Collapse style={{ border: 'none' }} key={tableName}>
+                  <Panel header={tableName} key={tableName}>
+                    <Table
+                      rowKey={API_FORM_KEY}
+                      columns={columns}
+                      dataSource={list}
+                      rowSelection={{
+                        hideDefaultSelections: true,
+                        onChange: (_selectedKeys: string[], selectedRows: any[]) => {
+                          handleSelect(selectedRows, tableName);
+                        },
+                      }}
+                      pagination={false}
+                    />
+                  </Panel>
+                </Collapse>
+              );
+            })}
+          </div>
+        )}
       </Spin>
     </Modal>
   );

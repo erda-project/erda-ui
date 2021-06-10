@@ -17,7 +17,6 @@ import { IF, FileEditor } from 'common';
 import releaseStore from 'app/modules/application/stores/release';
 import { useMount } from 'react-use';
 
-
 interface IProps {
   releaseId: string;
 }
@@ -36,12 +35,7 @@ const ReleaseDetailYml = ({ releaseId }: IProps) => {
     <div className="release-detail-page">
       <IF check={yml}>
         <FileContainer className="mt12" name="dice.yml">
-          <FileEditor
-            name="dice.yml"
-            fileExtension="yml"
-            value={yml}
-            readOnly
-          />
+          <FileEditor name="dice.yml" fileExtension="yml" value={yml} readOnly />
         </FileContainer>
       </IF>
     </div>

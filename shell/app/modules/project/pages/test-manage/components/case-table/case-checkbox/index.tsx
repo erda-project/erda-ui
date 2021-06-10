@@ -24,7 +24,8 @@ interface IProps {
 }
 
 const getCaseCheckedStatus = (id: any, { isAll, exclude, primaryKeys }: TEST_CASE.ChoosenInfo) => {
-  if (!isAll) { // 未全选时
+  if (!isAll) {
+    // 未全选时
     return includes(primaryKeys, id);
   }
   return !includes(exclude, id);

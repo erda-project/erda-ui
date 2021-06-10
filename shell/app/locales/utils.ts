@@ -46,15 +46,13 @@ export const alarmTypeMap = {
   系统组件告警: i18n.t('dcos:system component alarm'),
 };
 
-
-export const getTranslateAddonList = (addonList: ADDON.Instance[], key: string) => (
+export const getTranslateAddonList = (addonList: ADDON.Instance[], key: string) =>
   map(addonList, (item) => {
     const currentItem = { ...item };
     if (keys(addonNameMap).includes(item[key])) {
       currentItem[key] = addonNameMap[item[key]];
     }
     return currentItem;
-  })
-);
+  });
 
 export const getTranslateAddonName = (name: string) => (keys(addonNameMap).includes(name) ? addonNameMap[name] : name);

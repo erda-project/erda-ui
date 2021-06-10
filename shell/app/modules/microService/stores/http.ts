@@ -42,7 +42,10 @@ const httpStore = createStore({
       const { serviceList } = await call(httpServices.getServiceList, { env, projectId, tenantGroup, ...payload });
       update({ serviceList });
     },
-    async toggleIPStatus({ call, getParams }, { az, appId, nacosId, body }: { az: string; appId: number; nacosId: string; body: httpServices.IStatusPayload }) {
+    async toggleIPStatus(
+      { call, getParams },
+      { az, appId, nacosId, body }: { az: string; appId: number; nacosId: string; body: httpServices.IStatusPayload },
+    ) {
       const { env, projectId, tenantGroup } = getParams();
       await call(httpServices.toggleIPStatus, { env, projectId, nacosId, az, appId, body, tenantGroup });
       await httpStore.effects.getServiceList({ az, appId, nacosId });

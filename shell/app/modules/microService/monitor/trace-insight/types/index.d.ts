@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace MONITOR_TRACE {
-
   interface ITraceRequestResp {
     limit: number;
     offset: number;
@@ -36,7 +35,7 @@ declare namespace MONITOR_TRACE {
     url: string;
   }
 
-  interface ITraceRequestBody{
+  interface ITraceRequestBody {
     createTime: string;
     requestId: string;
     status: number;
@@ -76,12 +75,12 @@ declare namespace MONITOR_TRACE {
   interface ITraceDetail {
     depth: number;
     duration: string;
-    serviceCounts: Array<{name: string; count: number; max: number}>;
+    serviceCounts: Array<{ name: string; count: number; max: number }>;
     services: number;
     spans: ISpan[];
     spansBackup: ISpan[];
-    timeMarkers: Array<{index: number; time: string}>;
-    timeMarkersBackup: Array<{index: number; time: string}>;
+    timeMarkers: Array<{ index: number; time: string }>;
+    timeMarkersBackup: Array<{ index: number; time: string }>;
     totalSpans: number;
     traceId: string;
   }
@@ -105,5 +104,4 @@ declare namespace MONITOR_TRACE {
     spanName: string;
     width: number;
   }
-
 }

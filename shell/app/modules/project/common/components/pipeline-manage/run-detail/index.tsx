@@ -32,15 +32,15 @@ import './index.scss';
 
 const { confirm } = Modal;
 let inParamsKey = 1;
-interface IProps{
+interface IProps {
   runKey: number;
   scope: string;
 }
 const { runningStatus } = ciBuildStatusSet;
 
-const noop = () => { };
+const noop = () => {};
 let tc = -1 as any;
-const requestInterval = 10000;// 前端自动轮询（snippet的状态暂时无法通过socket推送）
+const requestInterval = 10000; // 前端自动轮询（snippet的状态暂时无法通过socket推送）
 const RunDetail = (props: IProps) => {
   const { runKey, scope } = props;
   const [pipelineDetail] = autoTestStore.useStore((s) => [s.pipelineDetail]);
@@ -57,17 +57,21 @@ const RunDetail = (props: IProps) => {
     clearPipelineDetail,
   } = autoTestStore;
   const inParamsFormRef = React.useRef(null as any);
-  const [{
-    isBlocked,
-    inParamsFormVis,
-    logVisible,
-    logProps,
-    isFetching,
-    snippetDetailVis,
-    snippetDetailProps,
-    resultVis,
-    chosenTask,
-  }, updater, update] = useUpdate({
+  const [
+    {
+      isBlocked,
+      inParamsFormVis,
+      logVisible,
+      logProps,
+      isFetching,
+      snippetDetailVis,
+      snippetDetailProps,
+      resultVis,
+      chosenTask,
+    },
+    updater,
+    update,
+  ] = useUpdate({
     isFetching: false, // 自动刷新的时候不loading
     startStatus: 'unstart', // unstart-未开始，ready-准备开始，start-已开始,end:执行完成或取消
     logVisible: false,
@@ -134,13 +138,14 @@ const RunDetail = (props: IProps) => {
       case 'log':
         if (type === 'snippet') {
           const _nodeList = getSnippetNode(node, [xIndex, yIndex]);
-          _nodeList.length && update({
-            snippetDetailVis: true,
-            snippetDetailProps: {
-              detailType: 'log',
-              dataList: _nodeList,
-            },
-          });
+          _nodeList.length &&
+            update({
+              snippetDetailVis: true,
+              snippetDetailProps: {
+                detailType: 'log',
+                dataList: _nodeList,
+              },
+            });
         } else {
           update({
             logVisible: true,
@@ -158,13 +163,14 @@ const RunDetail = (props: IProps) => {
       case 'result':
         if (type === 'snippet') {
           const _nodeList = getSnippetNode(node, [xIndex, yIndex]);
-          _nodeList.length && update({
-            snippetDetailVis: true,
-            snippetDetailProps: {
-              detailType: 'result',
-              dataList: _nodeList,
-            },
-          });
+          _nodeList.length &&
+            update({
+              snippetDetailVis: true,
+              snippetDetailProps: {
+                detailType: 'result',
+                dataList: _nodeList,
+              },
+            });
         } else {
           update({ resultVis: true, chosenTask: node });
         }
@@ -203,7 +209,8 @@ const RunDetail = (props: IProps) => {
   };
 
   const beforeRunBuild = () => {
-    if (isEmpty(runParams)) { // 没有入参
+    if (isEmpty(runParams)) {
+      // 没有入参
       runBuild();
     } else {
       updater.inParamsFormVis(true);
@@ -211,13 +218,15 @@ const RunDetail = (props: IProps) => {
   };
   const runBuild = (runPipelineParams?: any) => {
     updater.startStatus('ready');
-    runBuildCall({ pipelineID, runPipelineParams }).then((result: any) => {
-      if (result.success) {
-        updater.startStatus('start');
-      } else {
-        updater.startStatus('unstart');
-      }
-    }).catch(() => updater.startStatus('unstart'));
+    runBuildCall({ pipelineID, runPipelineParams })
+      .then((result: any) => {
+        if (result.success) {
+          updater.startStatus('start');
+        } else {
+          updater.startStatus('unstart');
+        }
+      })
+      .catch(() => updater.startStatus('unstart'));
   };
 
   const cancelBuild = () => {
@@ -237,26 +246,41 @@ const RunDetail = (props: IProps) => {
 
   const reRunPipeline = (isEntire: boolean) => {
     updater.startStatus('padding');
-    const runPipelineParams = getInParamsValue(runParams);// 重跑：获取当前的入参值，给到新建的那个流水线；
+    const runPipelineParams = getInParamsValue(runParams); // 重跑：获取当前的入参值，给到新建的那个流水线；
     const reRunFunc = !isEntire ? reRunFailed : reRunEntire;
-    reRunFunc({ pipelineID, runPipelineParams }).then(() => {
-      updater.startStatus('start');
-    }).catch(() => updater.startStatus('unstart'));
+    reRunFunc({ pipelineID, runPipelineParams })
+      .then(() => {
+        updater.startStatus('start');
+      })
+      .catch(() => updater.startStatus('unstart'));
   };
 
   const renderReRunMenu = () => {
     const { canRerunFailed, canRerun } = pipelineButton || {};
     return (
       <Menu>
-        {canRerunFailed &&
+        {canRerunFailed && (
           <Menu.Item>
-            <span className={isBlocked ? 'disabled' : ''} onClick={() => { reRunPipeline(false); }}>{`${i18n.t('application:rerun failed node')}(${i18n.t('application:commit unchanged')})`}</span>
-          </Menu.Item>}
-        {canRerun &&
+            <span
+              className={isBlocked ? 'disabled' : ''}
+              onClick={() => {
+                reRunPipeline(false);
+              }}
+            >{`${i18n.t('application:rerun failed node')}(${i18n.t('application:commit unchanged')})`}</span>
+          </Menu.Item>
+        )}
+        {canRerun && (
           <Menu.Item>
-            <span className={isBlocked ? 'disabled' : ''} onClick={() => { reRunPipeline(true); }}>{`${i18n.t('application:rerun whole pipeline')}(${i18n.t('application:commit unchanged')})`}</span>
-          </Menu.Item>}
-      </Menu>);
+            <span
+              className={isBlocked ? 'disabled' : ''}
+              onClick={() => {
+                reRunPipeline(true);
+              }}
+            >{`${i18n.t('application:rerun whole pipeline')}(${i18n.t('application:commit unchanged')})`}</span>
+          </Menu.Item>
+        )}
+      </Menu>
+    );
   };
 
   const renderRunBtn = () => {
@@ -264,7 +288,13 @@ const RunDetail = (props: IProps) => {
     // 自动化测试此处无新建流水线概念，新建即执行，故暂时留一个cancel
     return (
       <IF check={canCancel}>
-        <DeleteConfirm title={`${i18n.t('application:confirm cancel current build')}?`} secondTitle="" onConfirm={() => { cancelBuild(); }}>
+        <DeleteConfirm
+          title={`${i18n.t('application:confirm cancel current build')}?`}
+          secondTitle=""
+          onConfirm={() => {
+            cancelBuild();
+          }}
+        >
           <div className="build-operator">
             <Button className="mr8">{i18n.t('application:cancel build')}</Button>
           </div>
@@ -303,7 +333,9 @@ const RunDetail = (props: IProps) => {
     <div className="pipeline-detail">
       <Spin spinning={isFetching}>
         <div className="info-header mb8">
-          <div><span className="bold-500 title">{i18n.t('application:build detail')}</span></div>
+          <div>
+            <span className="bold-500 title">{i18n.t('application:build detail')}</span>
+          </div>
           <div className="info-header-right">
             {renderRunBtn()}
             <RecordList
@@ -316,15 +348,23 @@ const RunDetail = (props: IProps) => {
           </div>
         </div>
         <BaseInfo data={pipelineDetail} />
-        {
-          showMessage && showMessage.msg
-            ? (
-              <div className="auto-test-detail-err-msg mb8">
-                <div className="auto-test-err-header"><IconAttention className="auto-test-err-icon" /><pre>{showMessage.msg}</pre></div>
-                <div className="auto-test-err-stack"><ul style={{ listStyle: 'disc' }}>{showMessage.stacks.map((stack, i) => <li key={`${stack}-${String(i)}`}><pre style={{ overflow: 'hidden', whiteSpace: 'pre-wrap' }}>{stack}</pre></li>)}</ul></div>
-              </div>
-            ) : null
-        }
+        {showMessage && showMessage.msg ? (
+          <div className="auto-test-detail-err-msg mb8">
+            <div className="auto-test-err-header">
+              <IconAttention className="auto-test-err-icon" />
+              <pre>{showMessage.msg}</pre>
+            </div>
+            <div className="auto-test-err-stack">
+              <ul style={{ listStyle: 'disc' }}>
+                {showMessage.stacks.map((stack, i) => (
+                  <li key={`${stack}-${String(i)}`}>
+                    <pre style={{ overflow: 'hidden', whiteSpace: 'pre-wrap' }}>{stack}</pre>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ) : null}
         <CasePipelineChart scope={scope} data={pipelineDetail} onClickNode={onClickNode} />
       </Spin>
       <FormModal
@@ -339,7 +379,12 @@ const RunDetail = (props: IProps) => {
         // formData={editData}
       />
       <BuildLog visible={logVisible} hideLog={hideLog} {...logProps} />
-      <SnippetDetail pipelineDetail={pipelineDetail} visible={snippetDetailVis} onClose={closeSnippetDetail} {...snippetDetailProps} />
+      <SnippetDetail
+        pipelineDetail={pipelineDetail}
+        visible={snippetDetailVis}
+        onClose={closeSnippetDetail}
+        {...snippetDetailProps}
+      />
       <ResultViewDrawer visible={resultVis} onClose={closeResult} data={chosenTask} />
     </div>
   );

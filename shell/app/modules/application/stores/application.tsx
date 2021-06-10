@@ -102,10 +102,12 @@ const appStore = createStore({
         detail = await call(getAppDetail, newAppId);
       }
       // gitRepoAbbrev后端为兼容旧的数据没有改，前端覆盖掉
-      update({ detail: {
-        ...detail,
-        gitRepoAbbrev: `${detail.projectName}/${detail.name}`,
-      } });
+      update({
+        detail: {
+          ...detail,
+          gitRepoAbbrev: `${detail.projectName}/${detail.name}`,
+        },
+      });
       breadcrumbStore.reducers.setInfo('appName', detail.name);
       eventHub.emit('appStore/getAppDetail');
       return detail;
@@ -144,22 +146,29 @@ const appStore = createStore({
     },
     async updateAppDetail({ getParams, call }, payload: APPLICATION.createBody) {
       const params = getParams();
-      await call(updateAppDetail, { values: payload, appId: params.appId }, { successMsg: i18n.t('application:modified successfully') });
+      await call(
+        updateAppDetail,
+        { values: payload, appId: params.appId },
+        { successMsg: i18n.t('application:modified successfully') },
+      );
       await appStore.effects.getAppDetail(params.appId, true);
     },
     async remove({ call, getParams }) {
       const params = getParams();
-      const result = await call(remove, params, { successMsg: i18n.t('application:deleted successfully'), fullResult: true });
+      const result = await call(remove, params, {
+        successMsg: i18n.t('application:deleted successfully'),
+        fullResult: true,
+      });
       if (result.success) {
         goTo(goTo.pages.project, { projectId: params.projectId, replace: true });
       }
     },
-    async getBranchInfo({ call, update, select, getParams }, payload?: {appId?: string; enforce?: boolean}) {
+    async getBranchInfo({ call, update, select, getParams }, payload?: { appId?: string; enforce?: boolean }) {
       const { appId, enforce = false } = payload || {};
       const { detail, branchInfo } = select((s) => s);
       const newAppId = Number(appId);
       const params = getParams();
-      if (enforce || (isEmpty(branchInfo) || newAppId !== detail.id)) {
+      if (enforce || isEmpty(branchInfo) || newAppId !== detail.id) {
         const curBranchInfo = await call(getBranchInfo, { appId: newAppId || params.appId });
         update({ branchInfo: curBranchInfo });
         return curBranchInfo;

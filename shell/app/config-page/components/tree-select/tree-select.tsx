@@ -17,7 +17,6 @@ import { debounce, get } from 'lodash';
 import { useUpdate } from 'common';
 import { useUpdateEffect } from 'react-use';
 
-
 export default (props: CP_TREE_SELECT.Props) => {
   const { execOperation, operations = {}, props: configProps, data, state: pState = {} } = props;
   const { treeData: propTreeData } = data || {};
@@ -42,7 +41,6 @@ export default (props: CP_TREE_SELECT.Props) => {
     updater.treeData([...folders, ...files]);
   }, [propTreeData]);
 
-
   const onChange = (val: string) => {
     updater.value(val);
     if (operations.onChange) {
@@ -59,15 +57,17 @@ export default (props: CP_TREE_SELECT.Props) => {
     search(searchValue);
   }, [searchValue]);
 
-
-  const search = React.useCallback(debounce((q?: string) => {
-    if (q) {
-      operations.onSearch && execOperation(operations.onSearch, q);
-    } else {
-      updater.treeData([]);
-      onLoadData();
-    }
-  }, 400), []);
+  const search = React.useCallback(
+    debounce((q?: string) => {
+      if (q) {
+        operations.onSearch && execOperation(operations.onSearch, q);
+      } else {
+        updater.treeData([]);
+        onLoadData();
+      }
+    }, 400),
+    [],
+  );
 
   const onLoadData = (treeNode?: CP_TREE_SELECT.INode) => {
     return new Promise((resolve) => {

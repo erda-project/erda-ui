@@ -56,20 +56,27 @@ const ManualTest = () => {
     const { timestampSecUpdatedAtBegin, timestampSecUpdatedAtEnd } = q;
     if (timestampSecUpdatedAtBegin) {
       // eslint-disable-next-line no-param-reassign
-      q.timestampSecUpdatedAtBegin = moment(+timestampSecUpdatedAtBegin).startOf('day').format('X');
+      q.timestampSecUpdatedAtBegin = moment(+timestampSecUpdatedAtBegin)
+        .startOf('day')
+        .format('X');
     }
     if (timestampSecUpdatedAtEnd) {
       // eslint-disable-next-line no-param-reassign
-      q.timestampSecUpdatedAtEnd = moment(+timestampSecUpdatedAtEnd).endOf('day').format('X');
+      q.timestampSecUpdatedAtEnd = moment(+timestampSecUpdatedAtEnd)
+        .endOf('day')
+        .format('X');
     }
     updateSearch(q);
     getCases(q);
     setEnhanceFilterVisible(false);
   }, []);
 
-  const debouncedSearch = React.useCallback(debounce((val: string | undefined) => {
-    onSearch({ pageNo: 1, query: val });
-  }, 500), [onSearch]);
+  const debouncedSearch = React.useCallback(
+    debounce((val: string | undefined) => {
+      onSearch({ pageNo: 1, query: val });
+    }, 500),
+    [onSearch],
+  );
 
   useUpdateEffect(() => {
     debouncedSearch(searchQuery);
@@ -97,7 +104,14 @@ const ManualTest = () => {
         </div>
 
         <div style={{ position: 'relative', overflow: 'auto' }}>
-          <CaseTree ref={(e) => { caseRef.current = e; }} needBreadcrumb needRecycled mode="testCase" />
+          <CaseTree
+            ref={(e) => {
+              caseRef.current = e;
+            }}
+            needBreadcrumb
+            needRecycled
+            mode="testCase"
+          />
         </div>
       </SplitPage.Left>
       <SplitPage.Right>
@@ -107,22 +121,24 @@ const ManualTest = () => {
 
         <div className="flex-box mb12">
           <div className="ml12-group">
-            {
-              query.recycled !== 'true' && (
-                <>
-                  <Button type="primary" icon={<IconPlus />} onClick={showCaseDrawer}>{i18n.t('project:add use case')}</Button>
-                  <ImportFile
-                    afterImport={reloadTestSets}
-                  />
-                  <ExportFile />
-                </>
-              )
-            }
+            {query.recycled !== 'true' && (
+              <>
+                <Button type="primary" icon={<IconPlus />} onClick={showCaseDrawer}>
+                  {i18n.t('project:add use case')}
+                </Button>
+                <ImportFile afterImport={reloadTestSets} />
+                <ExportFile />
+              </>
+            )}
             <CaseDrawer
               scope="testCase"
               visible={drawerVisible}
-              onClose={() => { setDrawerVisible(false); }}
-              afterClose={(saved) => { saved && getCases(); }}
+              onClose={() => {
+                setDrawerVisible(false);
+              }}
+              afterClose={(saved) => {
+                saved && getCases();
+              }}
             />
             <BatchProcessing recycled={query.recycled === 'true'} />
             <ProjectTreeModal />
@@ -140,7 +156,7 @@ const ManualTest = () => {
             </Button>
             <CaseFilterDrawer visible={enhanceFilterVisible} onSearch={onSearch} onClose={closeEnhanceFilter} />
           </div>
-        </div >
+        </div>
         <CaseTable
           columns={columns}
           scope="testCase"

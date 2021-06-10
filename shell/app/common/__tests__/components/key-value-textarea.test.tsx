@@ -18,11 +18,7 @@ import { describe, it, jest } from '@jest/globals';
 import { Form } from 'app/nusi';
 
 const Comp = Form.create()((props) => {
-  return (
-    <KeyValueTextArea
-      {...props}
-    />
-  );
+  return <KeyValueTextArea {...props} />;
 });
 
 const data = 'name: erda\norg: erda.cloud';
@@ -46,14 +42,7 @@ describe('KeyValueTextArea', () => {
   });
   it('should render well', () => {
     const fn = jest.fn();
-    const wrapper = mount(
-      <Comp
-        validate={fn}
-        data={data}
-        maxLength={10}
-        existKeys={['type']}
-      />,
-    );
+    const wrapper = mount(<Comp validate={fn} data={data} maxLength={10} existKeys={['type']} />);
     const editor = wrapper.find('KeyValueTextArea');
     expect(editor.instance().getTextData()).toBe(data);
     editor.find('TextArea').simulate('change', {

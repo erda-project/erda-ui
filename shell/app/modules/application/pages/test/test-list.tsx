@@ -22,13 +22,14 @@ import applicationTestStore from 'application/stores/test';
 import { useLoading } from 'app/common/stores/loading';
 import { ColumnProps } from 'core/common/interface';
 
-
 const getTestDuration = (duration: any) => {
-  const seconds = floor(parseInt(duration, 10) / (10 ** 9), 3); // 时间为纳秒
-  return (duration !== 0 && seconds === 0) ? `${duration / 1000000} ${i18n.t('application:milliseconds')}` : secondsToTime(seconds, true);
+  const seconds = floor(parseInt(duration, 10) / 10 ** 9, 3); // 时间为纳秒
+  return duration !== 0 && seconds === 0
+    ? `${duration / 1000000} ${i18n.t('application:milliseconds')}`
+    : secondsToTime(seconds, true);
 };
 
-const ExecuteResult = ({ totals }: {totals: {tests: number; statuses: TEST.Statuses}}) => {
+const ExecuteResult = ({ totals }: { totals: { tests: number; statuses: TEST.Statuses } }) => {
   if (!totals) {
     return null;
   }
@@ -37,10 +38,18 @@ const ExecuteResult = ({ totals }: {totals: {tests: number; statuses: TEST.Statu
   const passedPercent = tests ? floor(((passed + skipped) * 100) / tests, 2) : 0;
   const title = (
     <div>
-      <div>{i18n.t('application:failed')}: {failed}</div>
-      <div>{i18n.t('application:error')}: {error}</div>
-      <div>{i18n.t('application:pass')}: {passed}</div>
-      <div>{i18n.t('application:jump over')}: {skipped}</div>
+      <div>
+        {i18n.t('application:failed')}: {failed}
+      </div>
+      <div>
+        {i18n.t('application:error')}: {error}
+      </div>
+      <div>
+        {i18n.t('application:pass')}: {passed}
+      </div>
+      <div>
+        {i18n.t('application:jump over')}: {skipped}
+      </div>
     </div>
   );
   return (
@@ -59,7 +68,7 @@ const columns: Array<ColumnProps<TEST.RunTestItem>> = [
   {
     title: i18n.t('default:name'),
     dataIndex: 'name',
-    render: (text) => <span>{ cutStr(text, 30, { showTip: true }) }</span>,
+    render: (text) => <span>{cutStr(text, 30, { showTip: true })}</span>,
   },
   {
     title: i18n.t('application:branch'),
@@ -115,7 +124,9 @@ const TestList = () => {
           columns={columns}
           onRow={({ id }: TEST.RunTestItem) => {
             return {
-              onClick: () => { goTo(`./${id}`); },
+              onClick: () => {
+                goTo(`./${id}`);
+              },
             };
           }}
           pagination={{

@@ -27,7 +27,7 @@ declare namespace API_CLIENT {
     displayName: string;
   }
 
-  interface UpdateClient extends CreateClient{
+  interface UpdateClient extends CreateClient {
     clientID: number;
     resetClientSecret: boolean;
   }

@@ -32,19 +32,12 @@ export const AddonList = ({ data }: IProps) => {
       className="setting-addons"
       dataSource={data}
       renderItem={({ title, desc, icon, switchProps }: IAddIn) => (
-        <List.Item actions={[
-          <Switch
-            checkedChildren={<IconCheck />}
-            unCheckedChildren={<IconClose />}
-            {...switchProps}
-          />,
-        ]}
+        <List.Item
+          actions={[<Switch checkedChildren={<IconCheck />} unCheckedChildren={<IconClose />} {...switchProps} />]}
         >
           <List.Item.Meta
             avatar={<CustomIcon className="list-icon" type={icon} />}
-            title={(
-              <span>{title}</span>
-            )}
+            title={<span>{title}</span>}
             description={desc}
           />
         </List.Item>

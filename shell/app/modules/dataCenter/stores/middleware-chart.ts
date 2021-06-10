@@ -12,12 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createStore } from 'app/cube';
-import {
-  getChartMeta,
-  getContainerChart,
-  IChartMeta,
-  IChartDataQuery,
-} from '../services/middleware-chart';
+import { getChartMeta, getContainerChart, IChartMeta, IChartDataQuery } from '../services/middleware-chart';
 
 interface IState {
   containerChartMetas: IChartMeta[];

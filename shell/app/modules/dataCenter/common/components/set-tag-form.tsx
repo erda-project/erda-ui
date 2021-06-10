@@ -36,7 +36,17 @@ interface ISetTagFromProps {
   onCancel: () => void;
   afterSubmit?: (res?: any) => void;
 }
-export const SetTagForm = ({ visible, onCancel, items, formData, showClustertLabel = true, showProjectLabel = false, resourceType, instanceID, afterSubmit }: ISetTagFromProps) => {
+export const SetTagForm = ({
+  visible,
+  onCancel,
+  items,
+  formData,
+  showClustertLabel = true,
+  showProjectLabel = false,
+  resourceType,
+  instanceID,
+  afterSubmit,
+}: ISetTagFromProps) => {
   const [{ projectList }, updater] = useUpdate({
     projectList: [],
   });
@@ -45,51 +55,56 @@ export const SetTagForm = ({ visible, onCancel, items, formData, showClustertLab
 
   useEffectOnce(() => {
     !clusterList.length && clusterStore.effects.getClusterList();
-    (getProjectList({ orgId, pageNo: 1, pageSize: 100 }) as any)
-      .then((res: any) => {
-        updater.projectList(res.data.list);
-      });
+    (getProjectList({ orgId, pageNo: 1, pageSize: 100 }) as any).then((res: any) => {
+      updater.projectList(res.data.list);
+    });
   });
 
   const onOk = ({ tags = [], projects = [] }: any) => {
-    cloudCommonStore.setCloudResourceTags({
-      tags: tags.concat(projects),
-      items,
-      resourceType,
-      instanceID,
-    }).then((res) => {
-      afterSubmit && afterSubmit(res);
-    });
+    cloudCommonStore
+      .setCloudResourceTags({
+        tags: tags.concat(projects),
+        items,
+        resourceType,
+        instanceID,
+      })
+      .then((res) => {
+        afterSubmit && afterSubmit(res);
+      });
     onCancel();
   };
 
   const tagFields = [
-    ...insertWhen(showClustertLabel, [{
-      label: i18n.t('dcos:label'),
-      name: 'tags',
-      required: false,
-      type: 'select',
-      options: map(clusterList, (item) => ({
-        name: `dice-cluster/${item.name}`,
-        value: `dice-cluster/${item.name}`,
-      })),
-      itemProps: {
-        mode: 'multiple',
+    ...insertWhen(showClustertLabel, [
+      {
+        label: i18n.t('dcos:label'),
+        name: 'tags',
+        required: false,
+        type: 'select',
+        options: map(clusterList, (item) => ({
+          name: `dice-cluster/${item.name}`,
+          value: `dice-cluster/${item.name}`,
+        })),
+        itemProps: {
+          mode: 'multiple',
+        },
       },
-    }]),
-    ...insertWhen(showProjectLabel, [{
-      label: i18n.t('dcos:project label'),
-      name: 'projects',
-      required: false,
-      type: 'select',
-      options: map(projectList, (item) => ({
-        name: `dice-project/${item.name}`,
-        value: `dice-project/${item.name}`,
-      })),
-      itemProps: {
-        mode: 'multiple',
+    ]),
+    ...insertWhen(showProjectLabel, [
+      {
+        label: i18n.t('dcos:project label'),
+        name: 'projects',
+        required: false,
+        type: 'select',
+        options: map(projectList, (item) => ({
+          name: `dice-project/${item.name}`,
+          value: `dice-project/${item.name}`,
+        })),
+        itemProps: {
+          mode: 'multiple',
+        },
       },
-    }]),
+    ]),
   ];
 
   return (

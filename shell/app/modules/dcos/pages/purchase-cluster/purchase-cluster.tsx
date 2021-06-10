@@ -64,7 +64,7 @@ class OrderPage extends React.Component<IProps> {
 
   confirmData = {};
 
-  formData= {} as PURCHASE.AddPhysicalCluster;
+  formData = {} as PURCHASE.AddPhysicalCluster;
 
   togglePasswordVisible = () => {
     this.setState({
@@ -120,13 +120,13 @@ class OrderPage extends React.Component<IProps> {
     }
   };
 
-  changeRegion = (region: {localName: string; regionId: string}) => {
+  changeRegion = (region: { localName: string; regionId: string }) => {
     this.showLBConfig = supportLBRegion.includes(region.localName);
     this.props.form.setFieldsValue({ regionId: region.regionId });
     this.searchZone(region.regionId);
   };
 
-  changeZone = (zone: {zoneId: string}) => {
+  changeZone = (zone: { zoneId: string }) => {
     this.props.form.setFieldsValue({ zoneId: zone.zoneId });
   };
 
@@ -167,9 +167,7 @@ class OrderPage extends React.Component<IProps> {
   };
 
   getFormValue = (field?: string) => {
-    return field
-      ? this.props.form.getFieldValue(field)
-      : this.props.form.getFieldsValue();
+    return field ? this.props.form.getFieldValue(field) : this.props.form.getFieldsValue();
   };
 
   handleSubmit = () => {
@@ -189,14 +187,9 @@ class OrderPage extends React.Component<IProps> {
       label: (
         <span className={`split-title ${enable ? '' : 'disable'}`}>
           {title}&nbsp;
-          {
-            needToggle &&
-            <Switch
-              size="small"
-              checked={enable}
-              onChange={(bool) => this.setState({ [enableKey]: bool })}
-            />
-          }
+          {needToggle && (
+            <Switch size="small" checked={enable} onChange={(bool) => this.setState({ [enableKey]: bool })} />
+          )}
         </span>
       ),
       getComp: () => null,
@@ -212,7 +205,9 @@ class OrderPage extends React.Component<IProps> {
 
   getLinkLabel = (text: string, tip: string, href: string) => (
     <Tooltip title={tip}>
-      <a target="_blank" rel="noopener noreferrer" href={href}>{text} <IconLinkOne /></a>
+      <a target="_blank" rel="noopener noreferrer" href={href}>
+        {text} <IconLinkOne />
+      </a>
     </Tooltip>
   );
 
@@ -234,27 +229,27 @@ class OrderPage extends React.Component<IProps> {
       {
         label: i18n.t('region'),
         name: 'regionId',
-        getComp: ({ form }: {form: WrappedFormUtils}) => (
+        getComp: ({ form }: { form: WrappedFormUtils }) => (
           <Spin spinning={isFetchingRegions}>
             <div className="region-select">
-              {
-                availableRegions.length
-                  ? (
-                    availableRegions.map((region) => {
-                      return (
-                        <div
-                          key={region.regionId}
-                          className={`region-item ${form.getFieldValue('regionId') === region.regionId ? 'active' : ''}`}
-                          onClick={() => this.trigger('regionChange', region)}
-                        >
-                          {supportLBRegion.includes(region.localName) ? <Tooltip title={i18n.t('support load balancing')}><CustomIcon className="tag-icon" type="load-balancer" /></Tooltip> : null}
-                          {region.localName}
-                        </div>
-                      );
-                    })
-                  )
-                  : i18n.t('org:please input accessKeyId and accessKeySecret first')
-              }
+              {availableRegions.length
+                ? availableRegions.map((region) => {
+                    return (
+                      <div
+                        key={region.regionId}
+                        className={`region-item ${form.getFieldValue('regionId') === region.regionId ? 'active' : ''}`}
+                        onClick={() => this.trigger('regionChange', region)}
+                      >
+                        {supportLBRegion.includes(region.localName) ? (
+                          <Tooltip title={i18n.t('support load balancing')}>
+                            <CustomIcon className="tag-icon" type="load-balancer" />
+                          </Tooltip>
+                        ) : null}
+                        {region.localName}
+                      </div>
+                    );
+                  })
+                : i18n.t('org:please input accessKeyId and accessKeySecret first')}
             </div>
           </Spin>
         ),
@@ -262,26 +257,22 @@ class OrderPage extends React.Component<IProps> {
       {
         label: i18n.t('org:availability region'),
         name: 'zoneId',
-        getComp: ({ form }: {form: WrappedFormUtils}) => (
+        getComp: ({ form }: { form: WrappedFormUtils }) => (
           <Spin spinning={isFetchingZones}>
             <div className="region-select">
-              {
-                availableZones.length
-                  ? (
-                    availableZones.map((zone) => {
-                      return (
-                        <div
-                          key={zone.zoneId}
-                          className={`region-item ${form.getFieldValue('zoneId') === zone.zoneId ? 'active' : ''}`}
-                          onClick={() => this.trigger('zoneChange', zone)}
-                        >
-                          {zone.localName}
-                        </div>
-                      );
-                    })
-                  )
-                  : i18n.t('org:please select a region first')
-              }
+              {availableZones.length
+                ? availableZones.map((zone) => {
+                    return (
+                      <div
+                        key={zone.zoneId}
+                        className={`region-item ${form.getFieldValue('zoneId') === zone.zoneId ? 'active' : ''}`}
+                        onClick={() => this.trigger('zoneChange', zone)}
+                      >
+                        {zone.localName}
+                      </div>
+                    );
+                  })
+                : i18n.t('org:please select a region first')}
             </div>
           </Spin>
         ),
@@ -291,9 +282,7 @@ class OrderPage extends React.Component<IProps> {
 
   getNatConfig = () => {
     if (!this.state.nat) {
-      return [
-        this.getTitle('NAT', 'nat'),
-      ];
+      return [this.getTitle('NAT', 'nat')];
     }
     return [
       this.getTitle('NAT', 'nat'),
@@ -336,9 +325,7 @@ class OrderPage extends React.Component<IProps> {
 
   getNasConfig = () => {
     if (!this.state.nas) {
-      return [
-        this.getTitle('NAS', 'nas'),
-      ];
+      return [this.getTitle('NAS', 'nas')];
     }
     return [
       this.getTitle('NAS', 'nas'),
@@ -366,17 +353,13 @@ class OrderPage extends React.Component<IProps> {
       return [];
     }
     if (!this.state.lb) {
-      return [
-        this.getTitle(i18n.t('load balancing'), 'lb'),
-      ];
+      return [this.getTitle(i18n.t('load balancing'), 'lb')];
     }
     const { loadBalancerSetting = {} } = this.getFormValue();
     let lbPayTypeExtra: any[] = [];
     let lbChargeExtra: any[] = [];
     if (loadBalancerSetting.loadBalancePayType === 'PrePay') {
-      const periodList = loadBalancerSetting.lbPayCycle === 'Month'
-        ? [1, 2, 3]
-        : [1, 2, 3, 4, 5, 6, 7, 8, 9];
+      const periodList = loadBalancerSetting.lbPayCycle === 'Month' ? [1, 2, 3] : [1, 2, 3, 4, 5, 6, 7, 8, 9];
       lbPayTypeExtra = [
         {
           label: i18n.t('duration unit'),
@@ -416,17 +399,25 @@ class OrderPage extends React.Component<IProps> {
     return [
       this.getTitle(i18n.t('load balancing'), 'lb'),
       {
-        label: this.getLinkLabel(i18n.t('specification'), i18n.t('check detail'), 'https://help.aliyun.com/document_detail/27657.html'),
+        label: this.getLinkLabel(
+          i18n.t('specification'),
+          i18n.t('check detail'),
+          'https://help.aliyun.com/document_detail/27657.html',
+        ),
         name: 'loadBalancerSetting.loadBalancerSpec',
         type: 'select',
         options: lbConfig.map((o) => ({
-          name: `${o.key} (${i18n.t('org:maximum number of connections')}: ${o.maxConn} ${i18n.t('org:new connections per second')}: ${o.CPS} ${i18n.t('queries per second')}:${o.QPS})`,
+          name: `${o.key} (${i18n.t('org:maximum number of connections')}: ${o.maxConn} ${i18n.t(
+            'org:new connections per second',
+          )}: ${o.CPS} ${i18n.t('queries per second')}:${o.QPS})`,
           value: o.key,
         })),
-        rules: [{
-          required: true,
-          message: i18n.t('please select specifications'),
-        }],
+        rules: [
+          {
+            required: true,
+            message: i18n.t('please select specifications'),
+          },
+        ],
       },
       {
         label: i18n.t('org:billing method'),
@@ -470,8 +461,8 @@ class OrderPage extends React.Component<IProps> {
     const showLabel = type === 'master';
     let formItemLayout: {
       [k: string]: {
-        sm: {span: number};
-        md?: {span: number};
+        sm: { span: number };
+        md?: { span: number };
       };
     } = {
       labelCol: {
@@ -494,9 +485,8 @@ class OrderPage extends React.Component<IProps> {
       };
     }
     if (ecsData && ecsData.instanceChargeType === 'PrePaid') {
-      const periodList = ecsData.periodUnit === 'Month'
-        ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, 36, 48, 60]
-        : [1, 2, 3, 4];
+      const periodList =
+        ecsData.periodUnit === 'Month' ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 24, 36, 48, 60] : [1, 2, 3, 4];
       extra = [
         {
           label: i18n.t('duration unit'),
@@ -542,10 +532,12 @@ class OrderPage extends React.Component<IProps> {
         },
         formLayout: 'horizontal',
         formItemLayout,
-        rules: [{
-          required: true,
-          message: i18n.t('org:please select node type'),
-        }],
+        rules: [
+          {
+            required: true,
+            message: i18n.t('org:please select node type'),
+          },
+        ],
       },
       {
         label: showLabel ? i18n.t('org:instance type') : null,
@@ -553,12 +545,15 @@ class OrderPage extends React.Component<IProps> {
         initialValue: 'ecs.sn2ne.2xlarge',
         formLayout: 'horizontal',
         formItemLayout,
-        rules: [{
-          required: true,
-          message: i18n.t('org:please fill in the instance type'),
-        }],
+        rules: [
+          {
+            required: true,
+            message: i18n.t('org:please fill in the instance type'),
+          },
+        ],
         itemProps: {
-          onBlur: (e: React.ChangeEvent<HTMLInputElement>) => this.trigger('ecsInstanceType', e.target.value, `ecsSettings.${type}.instanceType`),
+          onBlur: (e: React.ChangeEvent<HTMLInputElement>) =>
+            this.trigger('ecsInstanceType', e.target.value, `ecsSettings.${type}.instanceType`),
         },
         extraProps: {
           hasFeedback: true,
@@ -570,10 +565,12 @@ class OrderPage extends React.Component<IProps> {
         ...preOrPostPaid,
         formLayout: 'horizontal',
         formItemLayout,
-        rules: [{
-          required: true,
-          message: i18n.t('org:please choose a billing method'),
-        }],
+        rules: [
+          {
+            required: true,
+            message: i18n.t('org:please choose a billing method'),
+          },
+        ],
       },
       ...extra,
       {
@@ -583,10 +580,12 @@ class OrderPage extends React.Component<IProps> {
         itemProps: { step: 1, min: 20, max: 500, placeholder: '20-500 GB' },
         formLayout: 'horizontal',
         formItemLayout,
-        rules: [{
-          required: true,
-          message: i18n.t('org:please fill in the system disk capacity'),
-        }],
+        rules: [
+          {
+            required: true,
+            message: i18n.t('org:please fill in the system disk capacity'),
+          },
+        ],
       },
       {
         label: showLabel ? i18n.t('org:purchased instances') : null,
@@ -598,10 +597,12 @@ class OrderPage extends React.Component<IProps> {
         },
         formLayout: 'horizontal',
         formItemLayout,
-        rules: [{
-          required: true,
-          message: i18n.t('org:please fill in the purchased instances'),
-        }],
+        rules: [
+          {
+            required: true,
+            message: i18n.t('org:please fill in the purchased instances'),
+          },
+        ],
       },
     ];
   };
@@ -610,18 +611,24 @@ class OrderPage extends React.Component<IProps> {
     return [
       {
         label: <span className="split-title">Ecs</span>,
-        getComp: ({ form }: {form: WrappedFormUtils}) => {
+        getComp: ({ form }: { form: WrappedFormUtils }) => {
           return (
             <div className="ecs-block">
               <Row>
                 <Col span={10}>
-                  {this.getEcsFieldByType('master').map((field) => <RenderFormItem key={field.name} {...field} form={form} />)}
+                  {this.getEcsFieldByType('master').map((field) => (
+                    <RenderFormItem key={field.name} {...field} form={form} />
+                  ))}
                 </Col>
                 <Col span={7}>
-                  {this.getEcsFieldByType('pubilc').map((field) => <RenderFormItem key={field.name} {...field} form={form} />)}
+                  {this.getEcsFieldByType('pubilc').map((field) => (
+                    <RenderFormItem key={field.name} {...field} form={form} />
+                  ))}
                 </Col>
                 <Col span={7}>
-                  {this.getEcsFieldByType('private').map((field) => <RenderFormItem key={field.name} {...field} form={form} />)}
+                  {this.getEcsFieldByType('private').map((field) => (
+                    <RenderFormItem key={field.name} {...field} form={form} />
+                  ))}
                 </Col>
               </Row>
             </div>
@@ -633,9 +640,7 @@ class OrderPage extends React.Component<IProps> {
 
   getRedisFields = () => {
     if (!this.state.redis) {
-      return [
-        this.getTitle('Redis', 'redis'),
-      ];
+      return [this.getTitle('Redis', 'redis')];
     }
     const { redisSettings } = this.getFormValue();
     const { single, double } = redisConfig;
@@ -657,17 +662,25 @@ class OrderPage extends React.Component<IProps> {
     return [
       this.getTitle('Redis', 'redis'),
       {
-        label: this.getLinkLabel(i18n.t('specification'), i18n.t('check detail'), 'https://help.aliyun.com/document_detail/61135.html'),
+        label: this.getLinkLabel(
+          i18n.t('specification'),
+          i18n.t('check detail'),
+          'https://help.aliyun.com/document_detail/61135.html',
+        ),
         name: 'redisSettings.instanceClass',
         type: 'select',
         options: fullList.map((item) => ({
-          name: `${item.text} (${i18n.t('org:maximum number of connections')}: ${item.maxConn}, ${i18n.t('maximum throughput')}: ${item.maxThrp})`,
+          name: `${item.text} (${i18n.t('org:maximum number of connections')}: ${item.maxConn}, ${i18n.t(
+            'maximum throughput',
+          )}: ${item.maxThrp})`,
           value: item.key,
         })),
-        rules: [{
-          required: true,
-          message: i18n.t('org:please select specifications'),
-        }],
+        rules: [
+          {
+            required: true,
+            message: i18n.t('org:please select specifications'),
+          },
+        ],
       },
       {
         label: i18n.t('org:payment type'),
@@ -696,17 +709,13 @@ class OrderPage extends React.Component<IProps> {
 
   getRdsFields = () => {
     if (!this.state.rds) {
-      return [
-        this.getTitle('Rds', 'rds'),
-      ];
+      return [this.getTitle('Rds', 'rds')];
     }
     const { rdsSettings } = this.getFormValue();
     const { passwordVisible } = this.state;
     let extra: any[] = [];
     if (rdsSettings && rdsSettings.payType === 'PrePaid') {
-      const usedTimeList = rdsSettings.period === 'Year'
-        ? [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        : [1, 2, 3];
+      const usedTimeList = rdsSettings.period === 'Year' ? [1, 2, 3, 4, 5, 6, 7, 8, 9] : [1, 2, 3];
       extra = [
         {
           label: i18n.t('duration unit'),
@@ -735,17 +744,25 @@ class OrderPage extends React.Component<IProps> {
     return [
       this.getTitle('Rds', 'rds'),
       {
-        label: this.getLinkLabel(i18n.t('specification'), i18n.t('check detail'), 'https://help.aliyun.com/document_detail/26312.html'),
+        label: this.getLinkLabel(
+          i18n.t('specification'),
+          i18n.t('check detail'),
+          'https://help.aliyun.com/document_detail/26312.html',
+        ),
         name: 'rdsSettings.dbInstanceClass',
         type: 'select',
         options: rdsConfig.map((item) => ({
-          name: `${item.key} (${item.cpu} ${item.mem} ${i18n.t('org:maximum number of connections')}: ${item.maxConn}, ${i18n.t('maximum IOPS')}: ${item.maxIOPS})`,
+          name: `${item.key} (${item.cpu} ${item.mem} ${i18n.t('org:maximum number of connections')}: ${
+            item.maxConn
+          }, ${i18n.t('maximum IOPS')}: ${item.maxIOPS})`,
           value: item.key,
         })),
-        rules: [{
-          required: true,
-          message: i18n.t('please select specifications'),
-        }],
+        rules: [
+          {
+            required: true,
+            message: i18n.t('please select specifications'),
+          },
+        ],
       },
       {
         label: i18n.t('org:payment type'),
@@ -775,10 +792,12 @@ class OrderPage extends React.Component<IProps> {
         name: 'rdsSettings.dbInstanceStorage',
         type: 'inputNumber',
         itemProps: { step: 5, min: 50, max: 2000, placeholder: '50-2000 GB' },
-        rules: [{
-          required: true,
-          message: i18n.t('org:please fill in storage disk capacity'),
-        }],
+        rules: [
+          {
+            required: true,
+            message: i18n.t('org:please fill in storage disk capacity'),
+          },
+        ],
       },
       {
         label: i18n.t('account name'),
@@ -807,7 +826,13 @@ class OrderPage extends React.Component<IProps> {
           placeholder: i18n.t('org:6 to 32 digits, consisting of alphanumeric underscores'),
           maxLength: 32,
           type: passwordVisible ? 'text' : 'password',
-          addonAfter: <CustomIcon className="mr0 pointer" onClick={this.togglePasswordVisible} type={passwordVisible ? 'openeye' : 'closeeye'} />,
+          addonAfter: (
+            <CustomIcon
+              className="mr0 pointer"
+              onClick={this.togglePasswordVisible}
+              type={passwordVisible ? 'openeye' : 'closeeye'}
+            />
+          ),
         },
         rules: [
           {
@@ -857,7 +882,6 @@ class OrderPage extends React.Component<IProps> {
       },
     };
 
-
     const formList = [
       {
         label: i18n.t('cluster name'),
@@ -892,7 +916,7 @@ class OrderPage extends React.Component<IProps> {
         isTailLayout: true,
         tailFormItemLayout,
         getComp: () => (
-          <React.Fragment >
+          <React.Fragment>
             <Button type="primary" onClick={() => this.changeStep(1)}>
               {i18n.t('ok')}
             </Button>
@@ -930,7 +954,9 @@ class OrderPage extends React.Component<IProps> {
     return (
       <div className="purchase-cluster">
         <Steps className="step-wrap" current={step}>
-          {steps.map((item) => <Step key={item.title} title={item.title} />)}
+          {steps.map((item) => (
+            <Step key={item.title} title={item.title} />
+          ))}
         </Steps>
         <div className="steps-content">{steps[step].content}</div>
       </div>

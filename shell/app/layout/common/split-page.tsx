@@ -21,11 +21,7 @@ interface IProps {
 }
 
 export const SplitPage = ({ className, children }: IProps) => {
-  return (
-    <div className={classnames('split-page', className)}>
-      {children}
-    </div>
-  );
+  return <div className={classnames('split-page', className)}>{children}</div>;
 };
 
 interface ILeftProps extends IProps {
@@ -34,7 +30,10 @@ interface ILeftProps extends IProps {
 }
 const SplitPageLeft = ({ className, width = 270, fixedSplit = false, children }: ILeftProps) => {
   return (
-    <div className={classnames('split-page-left', fixedSplit && 'fixed-split', className)} style={{ width: `${width - 1}px` }}>
+    <div
+      className={classnames('split-page-left', fixedSplit && 'fixed-split', className)}
+      style={{ width: `${width - 1}px` }}
+    >
       {children}
     </div>
   );
@@ -44,11 +43,7 @@ interface IRightProps extends IProps {
   pl32?: boolean; // 为true时左右两侧padding一致
 }
 const SplitPageRight = ({ className, pl32 = false, children }: IRightProps) => {
-  return (
-    <div className={classnames('split-page-right', className, pl32 && 'pl-32')}>
-      {children}
-    </div>
-  );
+  return <div className={classnames('split-page-right', className, pl32 && 'pl-32')}>{children}</div>;
 };
 
 SplitPage.Left = SplitPageLeft;

@@ -39,7 +39,11 @@ export const getProjectMenu = (projectId: string, pathname: string) => {
       href: goTo.resolve.projectAllIssue(), // `/workBench/projects/${projectId}/issues/all`,
       icon: <CustomIcon type="xiangmuxietong" />,
       text: i18n.t('project:issues'),
-      show: projectPerm.backLog.viewBackLog.pass || projectPerm.iteration.read.pass || projectPerm.issue.viewIssue.pass || projectPerm.epic.read.pass,
+      show:
+        projectPerm.backLog.viewBackLog.pass ||
+        projectPerm.iteration.read.pass ||
+        projectPerm.issue.viewIssue.pass ||
+        projectPerm.epic.read.pass,
       prefix: `${goTo.resolve.projectIssueRoot()}/`,
     },
     // { // TODO： 3.21临时去除

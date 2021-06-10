@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import classnames from 'classnames';
 import './start-node.scss';
 
-export interface IProps{
+export interface IProps {
   data?: Obj;
   onClickNode?: (data: any, arg?: any) => void;
   disabled?: boolean;
@@ -38,8 +38,9 @@ export const StartNode = (props: IProps) => {
     'hover-active': !disabled,
   });
 
-
   return (
-    <div className={classes} onClick={onClick}>{ disabled ? '' : i18n.t('project:params configuration')}</div>
+    <div className={classes} onClick={onClick}>
+      {disabled ? '' : i18n.t('project:params configuration')}
+    </div>
   );
 };

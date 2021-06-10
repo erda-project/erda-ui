@@ -21,17 +21,7 @@ import { AddOne as IconAddOne, ReduceOne as IconReduceOne } from '@icon-park/rea
 
 const { Option } = Select;
 
-type Operator = '='
-| '!='
-| '>'
-| '>='
-| '<'
-| '<='
-| 'includes'
-| 'contains'
-| 'not_contains'
-| 'empty'
-| 'not_empty';
+type Operator = '=' | '!=' | '>' | '>=' | '<' | '<=' | 'includes' | 'contains' | 'not_contains' | 'empty' | 'not_empty';
 const OperatorList = [
   { key: '=', name: '等于' },
   { key: '!=', name: '不等于' },
@@ -48,27 +38,27 @@ const OperatorList = [
 type Mode = 'create' | 'edit';
 type CheckItem =
   | {
-    field: string;
-    operator: Operator;
-    value: string | number | boolean | any[];
-    valueType?: 'string' | 'number' | 'boolean';
-  }
+      field: string;
+      operator: Operator;
+      value: string | number | boolean | any[];
+      valueType?: 'string' | 'number' | 'boolean';
+    }
   | {
-    mode: Mode;
-  };
+      mode: Mode;
+    };
 
 type CheckItemData =
   | {
-    field: string;
-    operator: Operator;
-    value: string | number | boolean;
-    type: string;
-  }
+      field: string;
+      operator: Operator;
+      value: string | number | boolean;
+      type: string;
+    }
   | {
-    mode: Mode;
-    type: string;
-  };
-export interface IProps{
+      mode: Mode;
+      type: string;
+    };
+export interface IProps {
   value: CheckItem[][];
   allField: any[];
   form: any;
@@ -107,8 +97,7 @@ const dataToValue = (data: CheckItemData[][]) => {
   return value;
 };
 
-
-interface IItemProps{
+interface IItemProps {
   data: CheckItemData[];
   fieldOption: any[];
   updateItem: (arg: any, idx: number) => void;
@@ -125,11 +114,11 @@ const Item = (props: IItemProps) => {
           data={item}
           fieldOption={fieldOption}
           updateItem={(v) => updateItem(v, idx)}
-          operation={(
+          operation={
             <Tooltip title="删除条件项">
               <IconReduceOne className="combiner-operation sub" onClick={() => deleteSubItem(idx)} />
             </Tooltip>
-            )}
+          }
         />
       ))}
       <Tooltip title="添加条件项（统一条件组内的项之间为逻辑与关系）">
@@ -139,7 +128,7 @@ const Item = (props: IItemProps) => {
   );
 };
 
-interface ISubItemProps{
+interface ISubItemProps {
   data: CheckItemData;
   updateItem: (arg: any) => void;
   operation: any;
@@ -152,52 +141,73 @@ const SubItem = (props: ISubItemProps) => {
     <div className="combiner-sub-item">
       <Select
         value={data.type}
-        onChange={(val) => updateItem({
-          type: val,
-          operator: undefined,
-          field: undefined,
-          value: undefined,
-          mode: undefined,
-        })}
-      >
-        {
-          map(typeMap, (typeItem) => (<Option key={typeItem.key} value={typeItem.key}>{typeItem.name}</Option>))
+        onChange={(val) =>
+          updateItem({
+            type: val,
+            operator: undefined,
+            field: undefined,
+            value: undefined,
+            mode: undefined,
+          })
         }
+      >
+        {map(typeMap, (typeItem) => (
+          <Option key={typeItem.key} value={typeItem.key}>
+            {typeItem.name}
+          </Option>
+        ))}
       </Select>
-      {
-        data.type === typeMap.formMode.key ? (
-          <Select value={data.mode} onChange={(val) => updateItem({ mode: val })}>
-            <Option key="create" value="create">创建</Option>
-            <Option key="edit" value="edit">编辑</Option>
-          </Select>
-        ) : (
-          <>
-            <Tooltip title="受控表单项">
-              <Select
-                value={data.field}
-                onChange={(val) => updateItem({
+      {data.type === typeMap.formMode.key ? (
+        <Select value={data.mode} onChange={(val) => updateItem({ mode: val })}>
+          <Option key="create" value="create">
+            创建
+          </Option>
+          <Option key="edit" value="edit">
+            编辑
+          </Option>
+        </Select>
+      ) : (
+        <>
+          <Tooltip title="受控表单项">
+            <Select
+              value={data.field}
+              onChange={(val) =>
+                updateItem({
                   field: val,
-                })}
-                placeholder="受控表单项key"
-              >
-                {map(fieldOption, (f) => (<Option key={f.key} value={f.key}>{f.key}</Option>))}
-              </Select>
-            </Tooltip>
-            <Tooltip title="逻辑关系">
-              <Select placeholder="逻辑关系" dropdownMatchSelectWidth={false} value={data.operator} onChange={(val) => updateItem({ operator: val })}>
-                {map(OperatorList, (opt) => (
-                  <Option key={opt.key} value={opt.key}>{opt.name}</Option>
-                ))}
-              </Select>
-            </Tooltip>
-            <Input
-              value={data.operator === 'includes' ? data.value.join(',') : data.value}
-              onChange={(e) => updateItem({ value: data.operator === 'includes' ? e.target.value.split(',') : e.target.value })}
-              placeholder="逻辑比较值"
-            />
-          </>
-        )
-      }
+                })
+              }
+              placeholder="受控表单项key"
+            >
+              {map(fieldOption, (f) => (
+                <Option key={f.key} value={f.key}>
+                  {f.key}
+                </Option>
+              ))}
+            </Select>
+          </Tooltip>
+          <Tooltip title="逻辑关系">
+            <Select
+              placeholder="逻辑关系"
+              dropdownMatchSelectWidth={false}
+              value={data.operator}
+              onChange={(val) => updateItem({ operator: val })}
+            >
+              {map(OperatorList, (opt) => (
+                <Option key={opt.key} value={opt.key}>
+                  {opt.name}
+                </Option>
+              ))}
+            </Select>
+          </Tooltip>
+          <Input
+            value={data.operator === 'includes' ? data.value.join(',') : data.value}
+            onChange={(e) =>
+              updateItem({ value: data.operator === 'includes' ? e.target.value.split(',') : e.target.value })
+            }
+            placeholder="逻辑比较值"
+          />
+        </>
+      )}
       {operation}
     </div>
   );
@@ -211,30 +221,27 @@ export const CheckWhenCombiner = (props: IProps) => {
 
   React.useEffect(() => {
     onChange(dataToValue(data));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   const updateItem = (d: any, indexArr: number[]) => {
     const [rowIdx, colIdx] = indexArr;
-    setData(map(data, (item, idx) => {
-      return map(item, (subItem, subIdx) => {
-        return rowIdx === idx && colIdx === subIdx ? { ...subItem, ...d } : { ...subItem };
-      });
-    }));
+    setData(
+      map(data, (item, idx) => {
+        return map(item, (subItem, subIdx) => {
+          return rowIdx === idx && colIdx === subIdx ? { ...subItem, ...d } : { ...subItem };
+        });
+      }),
+    );
   };
 
   const addItem = () => {
-    setData([
-      ...data,
-      [
-        { type: 'formItemCondition' },
-      ],
-    ] as any);
+    setData([...data, [{ type: 'formItemCondition' }]] as any);
   };
   const addSubItem = (index: number) => {
     const newData = [] as CheckItemData[][];
     map(data, (item, idx) => {
-      newData.push(index === idx ? [...item, { type: 'formItemCondition' }] : item as any);
+      newData.push(index === idx ? [...item, { type: 'formItemCondition' }] : (item as any));
     });
     setData(newData);
   };
@@ -263,27 +270,25 @@ export const CheckWhenCombiner = (props: IProps) => {
 
   return (
     <div className="dice-form-nusi-check-when-combiner">
-      {
-        map(data, (item, rowIdx) => {
-          return (
-            <div className="combiner-item-container">
-              <div className="combiner-item-box" key={`${rowIdx}`}>
-                <Item
-                  data={item}
-                  updateItem={(d, colIdx) => updateItem(d, [rowIdx, colIdx])}
-                  deleteSubItem={(colIdx: number) => deleteSubItem(rowIdx, colIdx)}
-                  addSubItem={() => addSubItem(rowIdx)}
-                  fieldOption={fieldOption}
-                />
-                <Tooltip title="删除条件组">
-                  <IconReduceOne className="combiner-operation" onClick={() => deleteItem(rowIdx)} />
-                </Tooltip>
-              </div>
-              {rowIdx === data.length - 1 ? null : <div className="split">或</div>}
+      {map(data, (item, rowIdx) => {
+        return (
+          <div className="combiner-item-container">
+            <div className="combiner-item-box" key={`${rowIdx}`}>
+              <Item
+                data={item}
+                updateItem={(d, colIdx) => updateItem(d, [rowIdx, colIdx])}
+                deleteSubItem={(colIdx: number) => deleteSubItem(rowIdx, colIdx)}
+                addSubItem={() => addSubItem(rowIdx)}
+                fieldOption={fieldOption}
+              />
+              <Tooltip title="删除条件组">
+                <IconReduceOne className="combiner-operation" onClick={() => deleteItem(rowIdx)} />
+              </Tooltip>
             </div>
-          );
-        })
-      }
+            {rowIdx === data.length - 1 ? null : <div className="split">或</div>}
+          </div>
+        );
+      })}
       <Tooltip title="添加条件组（不同条件组之间为逻辑或关系）">
         <IconAddOne className="combiner-operation" onClick={addItem} />
       </Tooltip>
@@ -293,50 +298,40 @@ export const CheckWhenCombiner = (props: IProps) => {
 
 const FormItem = Form.Item;
 
-export const FormCheckWhen = ({
-  fixOut = noop,
-  fixIn = noop,
-  extensionFix,
-  requiredCheck,
-  trigger = 'onChange',
-}) => React.memo(({ fieldConfig, form, ...rest }: any) => {
-  const {
-    key,
-    value,
-    label,
-    visible,
-    valid,
-    registerRequiredCheck,
-    componentProps,
-    required,
-    wrapperProps,
-    labelTip,
-    requiredCheck: _requiredCheck,
-  } = fieldConfig;
-  registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (val: any) => {
-    form.setFieldValue(key, fixOut(val));
-    (componentProps.onChange || noop)(val);
-  };
-  return (
-    <FormItem
-      colon
-      label={getLabel(label, labelTip)}
-      className={visible ? '' : 'hide'}
-      validateStatus={valid[0]}
-      help={valid[1]}
-      required={required}
-      {...wrapperProps}
-    >
-      <CheckWhenCombiner
-        {...rest}
-        value={fixIn(value)}
-        onChange={handleChange}
-        form={form}
-      />
-    </FormItem>
-  );
-});
+export const FormCheckWhen = ({ fixOut = noop, fixIn = noop, extensionFix, requiredCheck, trigger = 'onChange' }) =>
+  React.memo(({ fieldConfig, form, ...rest }: any) => {
+    const {
+      key,
+      value,
+      label,
+      visible,
+      valid,
+      registerRequiredCheck,
+      componentProps,
+      required,
+      wrapperProps,
+      labelTip,
+      requiredCheck: _requiredCheck,
+    } = fieldConfig;
+    registerRequiredCheck(_requiredCheck || requiredCheck);
+    const handleChange = (val: any) => {
+      form.setFieldValue(key, fixOut(val));
+      (componentProps.onChange || noop)(val);
+    };
+    return (
+      <FormItem
+        colon
+        label={getLabel(label, labelTip)}
+        className={visible ? '' : 'hide'}
+        validateStatus={valid[0]}
+        help={valid[1]}
+        required={required}
+        {...wrapperProps}
+      >
+        <CheckWhenCombiner {...rest} value={fixIn(value)} onChange={handleChange} form={form} />
+      </FormItem>
+    );
+  });
 
 export const config = {
   name: 'checkWhen',

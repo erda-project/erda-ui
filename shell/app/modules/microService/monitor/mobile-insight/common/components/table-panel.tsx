@@ -18,7 +18,7 @@ import moment from 'moment';
 import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 
-interface IData{
+interface IData {
   [pro: string]: any;
   name: string;
   time?: string;
@@ -26,7 +26,7 @@ interface IData{
   min?: string;
 }
 
-const TablePanel = ({ data }: {data: object}) => {
+const TablePanel = ({ data }: { data: object }) => {
   const list = get(data, 'list') || [];
   const columns: Array<ColumnProps<IData>> = [
     {
@@ -35,7 +35,8 @@ const TablePanel = ({ data }: {data: object}) => {
       key: 'name',
       align: 'center',
       width: 320,
-      render: (value: string) => (value.length > 30 ? <Tooltip title={value}>{`${value.substr(0, 30)}...`}</Tooltip> : value),
+      render: (value: string) =>
+        value.length > 30 ? <Tooltip title={value}>{`${value.substr(0, 30)}...`}</Tooltip> : value,
     },
     {
       title: i18n.t('microService:time'),

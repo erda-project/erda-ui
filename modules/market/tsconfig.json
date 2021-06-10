@@ -2,11 +2,7 @@
   "extends": "./paths.json",
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -22,10 +18,5 @@
     "jsx": "react-jsx",
     "baseUrl": "."
   },
-  "include": [
-    "./src/*",
-    "./node_modules/@types/*",
-    "../../core/app/**/types/*",
-    "../../shell/app/**/types/*"
-  ]
+  "include": ["./src/*"]
 }

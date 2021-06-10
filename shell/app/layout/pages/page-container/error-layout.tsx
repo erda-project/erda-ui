@@ -28,9 +28,7 @@ export const ErrorLayout = ({ layoutClass, children }: IProps) => {
       <SideBar />
       <div className="dice-body">
         <Header />
-        <div id="main">
-          {children}
-        </div>
+        <div id="main">{children}</div>
       </div>
     </div>
   );

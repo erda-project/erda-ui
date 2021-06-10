@@ -52,11 +52,14 @@ const pathWrapper = (Comp, dealPathFn) => {
 
     UNSAFE_componentWillReceiveProps({ params, changeFlag }) {
       if (params !== this.props.params || changeFlag !== this.props.changeFlag) {
-        this.setState({
-          path: this.dealPath(params),
-        }, () => {
-          this.getList();
-        });
+        this.setState(
+          {
+            path: this.dealPath(params),
+          },
+          () => {
+            this.getList();
+          },
+        );
       }
     }
 

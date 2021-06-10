@@ -27,7 +27,10 @@ import './issue-workflow.scss';
 const IssueWorkflow = () => {
   const { projectId: projectID } = routeInfoStore.getState((s) => s.params);
 
-  const [issueList, totalWorkflowStateList] = issueWorkflowStore.useStore((s) => [s.issueList, s.totalWorkflowStateList]);
+  const [issueList, totalWorkflowStateList] = issueWorkflowStore.useStore((s) => [
+    s.issueList,
+    s.totalWorkflowStateList,
+  ]);
   const { getStatesByIssue, getIssueList, clearIssueList } = issueWorkflowStore;
 
   useEffectOnce(() => {
@@ -45,62 +48,66 @@ const IssueWorkflow = () => {
     getIssueList({ projectID: +projectID });
   }, [getIssueList, projectID, updater]);
 
-  const onEditHandle = React.useCallback((type: ISSUE_TYPE) => {
-    getStatesByIssue({ projectID: +projectID, issueType: type }).then(() => {
-      updater.modalVisible(true);
-      updater.issueType(type);
-    });
-  }, [getStatesByIssue, projectID, updater]);
+  const onEditHandle = React.useCallback(
+    (type: ISSUE_TYPE) => {
+      getStatesByIssue({ projectID: +projectID, issueType: type }).then(() => {
+        updater.modalVisible(true);
+        updater.issueType(type);
+      });
+    },
+    [getStatesByIssue, projectID, updater],
+  );
 
   return (
     <div className="issue-workflow">
-      {
-        map(issueList, (item) => {
-          return (
-            <div
-              className="panel hover-active-bg"
-              key={item.issueType}
-              onClick={() => { onEditHandle(item.issueType); }}
-            >
-              <div className="common-list-item">
-                <div className="list-item-left">
-                  <div className="flex-box">
-                    <div className="panel-title flex-start">
-                      <IssueIcon type={item.issueType} withName />
-                    </div>
+      {map(issueList, (item) => {
+        return (
+          <div
+            className="panel hover-active-bg"
+            key={item.issueType}
+            onClick={() => {
+              onEditHandle(item.issueType);
+            }}
+          >
+            <div className="common-list-item">
+              <div className="list-item-left">
+                <div className="flex-box">
+                  <div className="panel-title flex-start">
+                    <IssueIcon type={item.issueType} withName />
                   </div>
-                  <div className="sub">
-                    <span>{i18n.t('common:state')}：</span>
-                    <div>
-                      {
-                        map(Object.entries(issueStateMap[item.issueType]), (data: string[]) => {
-                          return <span className="tag-default" key={data[1]}>{data[1]}</span>;
-                        })
-                      }
-                    </div>
+                </div>
+                <div className="sub">
+                  <span>{i18n.t('common:state')}：</span>
+                  <div>
+                    {map(Object.entries(issueStateMap[item.issueType]), (data: string[]) => {
+                      return (
+                        <span className="tag-default" key={data[1]}>
+                          {data[1]}
+                        </span>
+                      );
+                    })}
                   </div>
-                  <div className="sub default-workflow">
-                    <div className="default-workflow-title">{i18n.t('project:default workflow')}：</div>
-                    <div className="default-workflow-content">
-                      {
-                        map(item.state, (name: string) => {
-                          const curStateBelong = get(find(totalWorkflowStateList, { stateName: name }), 'stateBelong');
-                          return <div className="v-align mr12 mb8">{ISSUE_STATE_MAP[curStateBelong]?.icon}{name}</div>;
-                        })
-                      }
-                    </div>
+                </div>
+                <div className="sub default-workflow">
+                  <div className="default-workflow-title">{i18n.t('project:default workflow')}：</div>
+                  <div className="default-workflow-content">
+                    {map(item.state, (name: string) => {
+                      const curStateBelong = get(find(totalWorkflowStateList, { stateName: name }), 'stateBelong');
+                      return (
+                        <div className="v-align mr12 mb8">
+                          {ISSUE_STATE_MAP[curStateBelong]?.icon}
+                          {name}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
             </div>
-          );
-        })
-      }
-      <IssueWorkflowSettingModal
-        visible={modalVisible}
-        onCloseModal={onCloseModal}
-        issueType={issueType}
-      />
+          </div>
+        );
+      })}
+      <IssueWorkflowSettingModal visible={modalVisible} onCloseModal={onCloseModal} issueType={issueType} />
     </div>
   );
 };

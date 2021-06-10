@@ -53,14 +53,12 @@ const CaseFooter = ({ scope, caseList, editMode, onClose, onOk }: IProps) => {
     };
     return (
       <>
-        <PassAndNext
-          current={caseDetail.execStatus}
-          hasNext={!!nextCase}
-          onClick={passAndNext}
-        />
+        <PassAndNext current={caseDetail.execStatus} hasNext={!!nextCase} onClick={passAndNext} />
         <Button.Group className="ml12">
           <Button>
-            <span style={{ lineHeight: '1.5' }}>{index + 1} / {caseList.length}</span>
+            <span style={{ lineHeight: '1.5' }}>
+              {index + 1} / {caseList.length}
+            </span>
           </Button>
           <Button disabled={!prevCase} onClick={toPrev}>
             <CustomIcon type="chevron-up" />
@@ -75,19 +73,32 @@ const CaseFooter = ({ scope, caseList, editMode, onClose, onOk }: IProps) => {
   if (editMode) {
     return (
       <>
-        <Button type="primary" onClick={onClose}>{i18n.t('close')}</Button>
+        <Button type="primary" onClick={onClose}>
+          {i18n.t('close')}
+        </Button>
       </>
     );
   }
   return (
     <>
-      <Button onClick={onClose}>
-        {i18n.t('project:cancel')}
-      </Button>
-      <Button className="ml12" type="primary" ghost onClick={() => { onOk(false); }}>
+      <Button onClick={onClose}>{i18n.t('project:cancel')}</Button>
+      <Button
+        className="ml12"
+        type="primary"
+        ghost
+        onClick={() => {
+          onOk(false);
+        }}
+      >
         {i18n.t('project:save and continue adding')}
       </Button>
-      <Button className="ml12" type="primary" onClick={() => { onOk(true); }}>
+      <Button
+        className="ml12"
+        type="primary"
+        onClick={() => {
+          onOk(true);
+        }}
+      >
         {i18n.t('project:save')}
       </Button>
     </>

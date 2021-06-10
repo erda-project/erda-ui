@@ -58,20 +58,18 @@ const ErrorDetail = () => {
     };
   });
 
-
   const getDetail = (q?: any) => {
     const index = get(q, 'index') || eventIndex;
     const currentEvtId = index >= 0 && get(eventIds, `[${index}]`);
     currentEvtId && getEventDetail({ id: currentEvtId });
   };
 
-
   React.useEffect(() => {
     getDetail();
   }, [eventIds]);
 
   const changeEvent = (num: number | string) => {
-    const reNum = num === 'first' ? -eventIndex : num === 'last' ? eventIds.length - 1 - eventIndex : num as number;
+    const reNum = num === 'first' ? -eventIndex : num === 'last' ? eventIds.length - 1 - eventIndex : (num as number);
     const newIndex = eventIndex + reNum;
     if (newIndex < 0 || newIndex > eventIds.length - 1) return;
     updater.eventIndex(newIndex);
@@ -88,17 +86,14 @@ const ErrorDetail = () => {
     return (
       <div key={index} className="stack-item">
         {className}
-        <span>  in  </span>
+        <span> in </span>
         {methodName}
-        {
-          (line && line > 0) ? (
-            <React.Fragment>
-              <span>  at line  </span>
-              {line}
-            </React.Fragment>
-          ) :
-            null
-        }
+        {line && line > 0 ? (
+          <React.Fragment>
+            <span> at line </span>
+            {line}
+          </React.Fragment>
+        ) : null}
       </div>
     );
   };
@@ -109,14 +104,12 @@ const ErrorDetail = () => {
     const tagsObj = { application_name, language, project_name, runtime_name, service_name };
     return (
       <ul>
-        {
-          map(tagsObj, (val, key) => (
-            <li key={val + key}>
-              <div className="object-key">{key}</div>
-              <div className="object-value">{val}</div>
-            </li>
-          ))
-        }
+        {map(tagsObj, (val, key) => (
+          <li key={val + key}>
+            <div className="object-key">{key}</div>
+            <div className="object-value">{val}</div>
+          </li>
+        ))}
       </ul>
     );
   };
@@ -134,8 +127,12 @@ const ErrorDetail = () => {
             i += 1;
             return (
               <Row key={key + i}>
-                <Col span={6} className="object-key">{key}</Col>
-                <Col span={18} className="object-value">{value}</Col>
+                <Col span={6} className="object-key">
+                  {key}
+                </Col>
+                <Col span={18} className="object-value">
+                  {value}
+                </Col>
               </Row>
             );
           });
@@ -162,10 +159,10 @@ const ErrorDetail = () => {
             </Col>
           </Row>
         </div>
-        { objectRender(query_string, 'Query', '&')}
-        { objectRender(body, 'Body') }
-        { objectRender(cookies, 'Cookies', ';')}
-        { objectRender(requestHeaders, 'Headers', 'object')}
+        {objectRender(query_string, 'Query', '&')}
+        {objectRender(body, 'Body')}
+        {objectRender(cookies, 'Cookies', ';')}
+        {objectRender(requestHeaders, 'Headers', 'object')}
       </React.Fragment>
     );
   };
@@ -186,17 +183,19 @@ const ErrorDetail = () => {
     });
   };
   const isFetching = getEventIdsLoading || getEventDetailLoading;
-  const { comp: InfoComp, title } = InfoCompMap[infoType] || {} as any;
+  const { comp: InfoComp, title } = InfoCompMap[infoType] || ({} as any);
 
-  const { eventId, requestId, timestamp, stacks, tags, metaData, requestContext, requestHeaders, requestSampled } = eventDetail || {} as MONITOR_ERROR.IEventDetail;
-  const { exception_message, file, message, type } = metaData || {} as any;
-  const exceptionMsg = (exception_message && exception_message.length > 150) ?
-    (
-      <Tooltip title={exception_message} overlayClassName="error-insight-error-msg-tip" >
+  const { eventId, requestId, timestamp, stacks, tags, metaData, requestContext, requestHeaders, requestSampled } =
+    eventDetail || ({} as MONITOR_ERROR.IEventDetail);
+  const { exception_message, file, message, type } = metaData || ({} as any);
+  const exceptionMsg =
+    exception_message && exception_message.length > 150 ? (
+      <Tooltip title={exception_message} overlayClassName="error-insight-error-msg-tip">
         {exception_message}
       </Tooltip>
-    ) :
-    exception_message;
+    ) : (
+      exception_message
+    );
   return (
     <Spin spinning={isFetching} wrapperClassName="error-detail">
       <IF check={!isEmpty(eventDetail)}>
@@ -205,9 +204,7 @@ const ErrorDetail = () => {
             <div className="content-block head-container">
               <span className="name">{type}</span>
               <span className="info">{metaData && `${metaData.class} at ${file}`}</span>
-              <div className="page-info">
-                {`${(eventIndex + 1)} / ${eventIds.length}`}
-              </div>
+              <div className="page-info">{`${eventIndex + 1} / ${eventIds.length}`}</div>
               <div className="error-msg">{exceptionMsg}</div>
             </div>
             <div className="content-block event-container">
@@ -217,16 +214,32 @@ const ErrorDetail = () => {
                 <div className="info">{moment(timestamp).format('YYYY-MM-DD HH:mm:ss')}</div>
               </div>
               <div className="arrow">
-                <Button disabled={eventIndex === 0} className={`first-page ${eventIndex === 0 ? 'edge' : ''}`} onClick={() => changeEvent('first')}>
+                <Button
+                  disabled={eventIndex === 0}
+                  className={`first-page ${eventIndex === 0 ? 'edge' : ''}`}
+                  onClick={() => changeEvent('first')}
+                >
                   <IconToLeft size="14px" />
                 </Button>
-                <Button disabled={eventIndex === 0} className={`prev-page ${eventIndex === 0 ? 'edge' : ''}`} onClick={() => changeEvent(-1)}>
+                <Button
+                  disabled={eventIndex === 0}
+                  className={`prev-page ${eventIndex === 0 ? 'edge' : ''}`}
+                  onClick={() => changeEvent(-1)}
+                >
                   <span>{i18n.t('microService:previous')}</span>
                 </Button>
-                <Button disabled={eventIndex === eventIds.length - 1} className={`next-page ${eventIndex === eventIds.length - 1 ? 'edge' : ''}`} onClick={() => changeEvent(1)}>
+                <Button
+                  disabled={eventIndex === eventIds.length - 1}
+                  className={`next-page ${eventIndex === eventIds.length - 1 ? 'edge' : ''}`}
+                  onClick={() => changeEvent(1)}
+                >
                   <span>{i18n.t('microService:next')}</span>
                 </Button>
-                <Button disabled={eventIndex === eventIds.length - 1} className={`last-page ${eventIndex === eventIds.length - 1 ? 'edge' : ''}`} onClick={() => changeEvent('last')}>
+                <Button
+                  disabled={eventIndex === eventIds.length - 1}
+                  className={`last-page ${eventIndex === eventIds.length - 1 ? 'edge' : ''}`}
+                  onClick={() => changeEvent('last')}
+                >
                   <IconToRight size="14px" />
                 </Button>
               </div>
@@ -236,15 +249,25 @@ const ErrorDetail = () => {
                 <span className="request-label">Request Id: </span>
                 <Tooltip title={i18n.t('microService:click to copy')}>
                   <span className="requestid-text for-copy">
-                    <Copy>{ requestId }</Copy>
+                    <Copy>{requestId}</Copy>
                   </span>
                 </Tooltip>
                 <Tooltip title={i18n.t('microService:view log')}>
-                  <CustomIcon type="module-log" className="check-request-action" onClick={() => showDrawerInfo({ type: 'log', payload: { requestId, applicationId: tags.application_id } })} />
+                  <CustomIcon
+                    type="module-log"
+                    className="check-request-action"
+                    onClick={() =>
+                      showDrawerInfo({ type: 'log', payload: { requestId, applicationId: tags.application_id } })
+                    }
+                  />
                 </Tooltip>
                 <IF check={requestSampled}>
                   <Tooltip title={i18n.t('microService:view transactions information')}>
-                    <CustomIcon type="module-trace" className="check-request-action" onClick={() => showDrawerInfo({ type: 'trace', payload: { traceId: requestId } })} />
+                    <CustomIcon
+                      type="module-trace"
+                      className="check-request-action"
+                      onClick={() => showDrawerInfo({ type: 'trace', payload: { traceId: requestId } })}
+                    />
                   </Tooltip>
                 </IF>
               </div>
@@ -258,19 +281,15 @@ const ErrorDetail = () => {
               <div className="content-title stacks-title">
                 {`${i18n.t('microService:error stack')}:   ${type}`}
                 <Button className="toggle-stacks" onClick={toggleShowAllStacks}>
-                  { showAllStacks ? <IconDown size="20px" className="mr0" /> : <IconUp size="20px" className="mr0" /> }
+                  {showAllStacks ? <IconDown size="20px" className="mr0" /> : <IconUp size="20px" className="mr0" />}
                 </Button>
               </div>
               <div className="error-msg">{exceptionMsg}</div>
               <div className="stack-list">
-                {
-                    showAllStacks
-                      ? map(stacks || [], (item) => getStackItem(item))
-                      : getStackItem((stacks || [])[0])
-                  }
+                {showAllStacks ? map(stacks || [], (item) => getStackItem(item)) : getStackItem((stacks || [])[0])}
                 <IF check={stacks && stacks.length > 1}>
                   <div className="stack-item omit-item" onClick={toggleShowAllStacks}>
-                    { showAllStacks ? <IconUp size="20px" className="mr0" /> : <IconDown size="20px" className="mr0" /> }
+                    {showAllStacks ? <IconUp size="20px" className="mr0" /> : <IconDown size="20px" className="mr0" />}
                   </div>
                 </IF>
               </div>
@@ -293,13 +312,7 @@ const ErrorDetail = () => {
         <EmptyHolder relative />
       </IF>
 
-      <Drawer
-        destroyOnClose
-        title={title}
-        width="80%"
-        visible={infoVisible}
-        onClose={closeDrawerInfo}
-      >
+      <Drawer destroyOnClose title={title} width="80%" visible={infoVisible} onClose={closeDrawerInfo}>
         {InfoComp && <InfoComp {...infoProps} />}
       </Drawer>
     </Spin>

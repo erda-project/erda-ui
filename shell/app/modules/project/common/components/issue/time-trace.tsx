@@ -26,14 +26,16 @@ const numberOr = (v: string | number, defaultV: number) => {
 // 已记录logged, 当前记录spent，剩余remain，预估estimate
 const calculatePercent = (logged: number, spent: number, remain: number, estimate: number) => {
   const totalUse = logged + spent + remain;
-  if (totalUse > estimate) { // 总耗时大于预估耗时，以总耗时为总数
+  if (totalUse > estimate) {
+    // 总耗时大于预估耗时，以总耗时为总数
     return [
       Math.max(estimate - remain, 0), // 蓝色：预估-剩余
       Math.max(totalUse - estimate, 0), // 黄色：已记录+当前记录+剩余-预估
       remain, // 灰色：剩余
     ].map((n) => (n / totalUse) * 100);
   }
-  return [// 总耗时小于预估耗时，以预估耗时为总数
+  return [
+    // 总耗时小于预估耗时，以预估耗时为总数
     logged + spent, // 蓝色
     0, // 黄色
     remain, // 灰色
@@ -48,29 +50,32 @@ interface IZTraceBarProps {
   active?: boolean;
   onClick?: (e: any) => void;
 }
-const TimeTraceBar = React.forwardRef(({ logged, spent, remain, estimate, active = false, onClick }: IZTraceBarProps, ref) => {
-  const _logged = numberOr(logged, 0);
-  const _spent = numberOr(spent, 0);
-  const _remain = numberOr(remain, 0);
-  const _estimate = numberOr(estimate, 0);
-  const [blue, yellow] = calculatePercent(_logged, _spent, _remain, _estimate);
-  return (
-    <div className={`time-trace ${active ? 'active-hover' : ''}`} onClick={onClick} ref={ref}>
-      <Progress strokeColor="#f47201" showInfo={false} successPercent={blue} percent={blue + yellow} size="small" />
-      <div className="color-text-sub flex-box fz12">
-        <span>
-          {
-            (_logged + _spent)
+const TimeTraceBar = React.forwardRef(
+  ({ logged, spent, remain, estimate, active = false, onClick }: IZTraceBarProps, ref) => {
+    const _logged = numberOr(logged, 0);
+    const _spent = numberOr(spent, 0);
+    const _remain = numberOr(remain, 0);
+    const _estimate = numberOr(estimate, 0);
+    const [blue, yellow] = calculatePercent(_logged, _spent, _remain, _estimate);
+    return (
+      <div className={`time-trace ${active ? 'active-hover' : ''}`} onClick={onClick} ref={ref}>
+        <Progress strokeColor="#f47201" showInfo={false} successPercent={blue} percent={blue + yellow} size="small" />
+        <div className="color-text-sub flex-box fz12">
+          <span>
+            {_logged + _spent
               ? `${i18n.t('project:logged')} ${transToStr(_logged + _spent)}`
-              : i18n.t('project:no time logged')
-          }
-        </span>
-        {_remain ? <span>{i18n.t('project:Remaining')} {transToStr(_remain)}</span> : null}
+              : i18n.t('project:no time logged')}
+          </span>
+          {_remain ? (
+            <span>
+              {i18n.t('project:Remaining')} {transToStr(_remain)}
+            </span>
+          ) : null}
+        </div>
       </div>
-    </div>
-  );
-});
-
+    );
+  },
+);
 
 interface IProps {
   value?: ISSUE.issueManHour;
@@ -87,169 +92,172 @@ const defaultValue = {
   startTime: '',
   workContent: '',
 };
-export const TimeTrace = React.forwardRef(({ value = { ...defaultValue } as any, onChange = () => { }, disabled, isModifiedRemainingTime }: IProps, ref) => {
-  const [editData, setEditData] = React.useState({} as ISSUE.issueManHour);
-  const [modalVis, setModalVis] = React.useState(false);
-  const form = React.useRef();
+export const TimeTrace = React.forwardRef(
+  ({ value = { ...defaultValue } as any, onChange = () => {}, disabled, isModifiedRemainingTime }: IProps, ref) => {
+    const [editData, setEditData] = React.useState({} as ISSUE.issueManHour);
+    const [modalVis, setModalVis] = React.useState(false);
+    const form = React.useRef();
 
-  const onSpentTimeChange = (v: number | string) => {
-    const curForm = form && form.current as any;
-    if (curForm && typeof v === 'number') {
-      let remain = value.estimateTime - value.elapsedTime;
-      remain = isNaN(remain) ? 0 : remain;
-      // 剩余时间=预估-已记录
-      curForm.setFieldValue('remainingTime', Math.max(remain - v, 0));
-    }
-    return v;
-  };
-
-  // 如果没保存过剩余时间，则默认值为：预估-已用，保存过，则用后端给的
-  let defaultRemaining = value.estimateTime - value.elapsedTime;
-  defaultRemaining = isNaN(defaultRemaining) ? 0 : Math.max(defaultRemaining, 0);
-  defaultRemaining = isModifiedRemainingTime ? value.remainingTime : defaultRemaining;
-  const fields = [
-    {
-      label: i18n.t('project:Time spent'),
-      key: 'thisElapsedTime',
-      getComp: () => (
-        <TimeInput
-          placeholder={checkMsg}
-          onChange={onSpentTimeChange}
-          tooltip={(
-            <div>
-              {i18n.t('project:Format must be 2w 3d 4h 5m')} <br />
-              . w = {i18n.t('week')}<br />
-              . d = {i18n.t('common:day')}<br />
-              . h = {i18n.t('common:hour')}<br />
-              . m = {i18n.t('common:minutes')}<br />
-            </div>
-          )}
-        />
-      ),
-      rules: [
-        {
-          validator: (v: number | string) => [v === undefined || v === '' || v === 0 ? true : checkReg.test(`${transToStr(v)} `), checkMsg],
-        },
-      ],
-    },
-    {
-      label: i18n.t('project:Time remaining'),
-      key: 'remainingTime',
-      getComp: () => (
-        <TimeInput
-          placeholder={checkMsg}
-          tooltip={(
-            <div>
-              {i18n.t('project:Format must be 2w 3d 4h 5m')} <br />
-              . w = {i18n.t('week')}<br />
-              . d = {i18n.t('common:day')}<br />
-              . h = {i18n.t('common:hour')}<br />
-              . m = {i18n.t('common:minutes')}<br />
-            </div>
-          )}
-        />
-      ),
-      defaultValue: defaultRemaining,
-      rules: [
-        {
-          validator: (v: number | string) => [v === undefined || v === '' || v === 0 ? true : checkReg.test(`${transToStr(v)} `), checkMsg],
-        },
-      ],
-    },
-    {
-      label: i18n.t('project:Date started'),
-      component: 'datePicker',
-      key: 'startTime',
-      componentProps: {
-        dateType: 'date',
-        showTime: true,
-        className: 'full-width',
-      },
-      labelTip: i18n.t('project:The start time of this counted time, not the start time of the issue'),
-      type: 'datePicker',
-      fixIn: (v: string) => (v ? moment(v) : null),
-      fixOut: (m?: Moment) => m && m.format('YYYY-MM-DD HH:mm:ss'),
-    },
-    {
-      label: i18n.t('project:Work description'),
-      component: 'textarea',
-      key: 'workContent',
-      type: 'textarea',
-      componentProps: {
-        maxLength: 2000,
-      },
-    },
-  ];
-
-
-  const handleCancel = () => {
-    setModalVis(false);
-    setEditData(defaultValue as any);
-    setTimeout(() => {
-      const curForm = form && form.current as any;
-      if (curForm) {
-        curForm.reset();
+    const onSpentTimeChange = (v: number | string) => {
+      const curForm = form && (form.current as any);
+      if (curForm && typeof v === 'number') {
+        let remain = value.estimateTime - value.elapsedTime;
+        remain = isNaN(remain) ? 0 : remain;
+        // 剩余时间=预估-已记录
+        curForm.setFieldValue('remainingTime', Math.max(remain - v, 0));
       }
-    });
-  };
+      return v;
+    };
 
-  const handleOk = () => {
-    const curForm = form && form.current as any;
-    if (curForm) {
-      curForm.onSubmit((formData: Obj) => {
-        const { remainingTime, thisElapsedTime, ...rest } = formData;
-        onChange({
-          ...rest,
-          remainingTime: remainingTime === '' ? 0 : remainingTime,
-          thisElapsedTime: thisElapsedTime === '' ? 0 : thisElapsedTime,
-        });
-        handleCancel();
+    // 如果没保存过剩余时间，则默认值为：预估-已用，保存过，则用后端给的
+    let defaultRemaining = value.estimateTime - value.elapsedTime;
+    defaultRemaining = isNaN(defaultRemaining) ? 0 : Math.max(defaultRemaining, 0);
+    defaultRemaining = isModifiedRemainingTime ? value.remainingTime : defaultRemaining;
+    const fields = [
+      {
+        label: i18n.t('project:Time spent'),
+        key: 'thisElapsedTime',
+        getComp: () => (
+          <TimeInput
+            placeholder={checkMsg}
+            onChange={onSpentTimeChange}
+            tooltip={
+              <div>
+                {i18n.t('project:Format must be 2w 3d 4h 5m')} <br />. w = {i18n.t('week')}
+                <br />. d = {i18n.t('common:day')}
+                <br />. h = {i18n.t('common:hour')}
+                <br />. m = {i18n.t('common:minutes')}
+                <br />
+              </div>
+            }
+          />
+        ),
+        rules: [
+          {
+            validator: (v: number | string) => [
+              v === undefined || v === '' || v === 0 ? true : checkReg.test(`${transToStr(v)} `),
+              checkMsg,
+            ],
+          },
+        ],
+      },
+      {
+        label: i18n.t('project:Time remaining'),
+        key: 'remainingTime',
+        getComp: () => (
+          <TimeInput
+            placeholder={checkMsg}
+            tooltip={
+              <div>
+                {i18n.t('project:Format must be 2w 3d 4h 5m')} <br />. w = {i18n.t('week')}
+                <br />. d = {i18n.t('common:day')}
+                <br />. h = {i18n.t('common:hour')}
+                <br />. m = {i18n.t('common:minutes')}
+                <br />
+              </div>
+            }
+          />
+        ),
+        defaultValue: defaultRemaining,
+        rules: [
+          {
+            validator: (v: number | string) => [
+              v === undefined || v === '' || v === 0 ? true : checkReg.test(`${transToStr(v)} `),
+              checkMsg,
+            ],
+          },
+        ],
+      },
+      {
+        label: i18n.t('project:Date started'),
+        component: 'datePicker',
+        key: 'startTime',
+        componentProps: {
+          dateType: 'date',
+          showTime: true,
+          className: 'full-width',
+        },
+        labelTip: i18n.t('project:The start time of this counted time, not the start time of the issue'),
+        type: 'datePicker',
+        fixIn: (v: string) => (v ? moment(v) : null),
+        fixOut: (m?: Moment) => m && m.format('YYYY-MM-DD HH:mm:ss'),
+      },
+      {
+        label: i18n.t('project:Work description'),
+        component: 'textarea',
+        key: 'workContent',
+        type: 'textarea',
+        componentProps: {
+          maxLength: 2000,
+        },
+      },
+    ];
+
+    const handleCancel = () => {
+      setModalVis(false);
+      setEditData(defaultValue as any);
+      setTimeout(() => {
+        const curForm = form && (form.current as any);
+        if (curForm) {
+          curForm.reset();
+        }
       });
-    }
-  };
+    };
 
-  return (
-    <div>
-      <TimeTraceBar
-        active={!disabled}
-        logged={value.elapsedTime}
-        spent={0}
-        ref={ref}
-        remain={value.remainingTime}
-        estimate={value.estimateTime}
-        onClick={() => !disabled && setModalVis(true)}
-      />
-      {!disabled && (
-        <Modal
-          title={i18n.t('project:Time tracking')}
-          visible={modalVis}
-          onCancel={handleCancel}
-          destroyOnClose
-          footer={[
-            <Button key="back" onClick={handleCancel}>
-              {i18n.t('cancel')}
-            </Button>,
-            <Button key="submit" type="primary" onClick={handleOk}>
-              {i18n.t('ok')}
-            </Button>,
-          ]}
-        >
-          <TimeTraceBar
-            logged={value.elapsedTime}
-            spent={editData.thisElapsedTime || 0}
-            remain={editData.remainingTime ?? defaultRemaining}
-            estimate={value.estimateTime}
-          />
-          <div className="my16">
-            {i18n.t('project:The original estimate for this issue was')} {transToStr(value.estimateTime)}
-          </div>
-          <Form
-            formRef={form}
-            fields={fields}
-            onChange={setEditData}
-          />
-        </Modal>
-      )}
-    </div>
-  );
-});
+    const handleOk = () => {
+      const curForm = form && (form.current as any);
+      if (curForm) {
+        curForm.onSubmit((formData: Obj) => {
+          const { remainingTime, thisElapsedTime, ...rest } = formData;
+          onChange({
+            ...rest,
+            remainingTime: remainingTime === '' ? 0 : remainingTime,
+            thisElapsedTime: thisElapsedTime === '' ? 0 : thisElapsedTime,
+          });
+          handleCancel();
+        });
+      }
+    };
+
+    return (
+      <div>
+        <TimeTraceBar
+          active={!disabled}
+          logged={value.elapsedTime}
+          spent={0}
+          ref={ref}
+          remain={value.remainingTime}
+          estimate={value.estimateTime}
+          onClick={() => !disabled && setModalVis(true)}
+        />
+        {!disabled && (
+          <Modal
+            title={i18n.t('project:Time tracking')}
+            visible={modalVis}
+            onCancel={handleCancel}
+            destroyOnClose
+            footer={[
+              <Button key="back" onClick={handleCancel}>
+                {i18n.t('cancel')}
+              </Button>,
+              <Button key="submit" type="primary" onClick={handleOk}>
+                {i18n.t('ok')}
+              </Button>,
+            ]}
+          >
+            <TimeTraceBar
+              logged={value.elapsedTime}
+              spent={editData.thisElapsedTime || 0}
+              remain={editData.remainingTime ?? defaultRemaining}
+              estimate={value.estimateTime}
+            />
+            <div className="my16">
+              {i18n.t('project:The original estimate for this issue was')} {transToStr(value.estimateTime)}
+            </div>
+            <Form formRef={form} fields={fields} onChange={setEditData} />
+          </Modal>
+        )}
+      </div>
+    );
+  },
+);

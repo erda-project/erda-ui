@@ -13,7 +13,6 @@
 
 import i18n from 'i18n';
 
-
 const tabs = [
   { key: 'overview', name: i18n.t('backup:service') },
   { key: 'transaction', name: i18n.t('microService:transaction') },

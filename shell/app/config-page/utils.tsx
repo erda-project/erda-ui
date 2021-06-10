@@ -11,14 +11,12 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 import * as React from 'react';
 import { map } from 'lodash';
 import { Popconfirm } from 'app/nusi';
 import { WithAuth } from 'user/common';
 
-
-interface IOperationAction{
+interface IOperationAction {
   operation: CP_COMMON.Operation;
   children: React.ReactElement;
   onClick: (e?: any) => void;
@@ -26,13 +24,15 @@ interface IOperationAction{
 export const OperationAction = (props: IOperationAction) => {
   const { operation, children, onClick } = props;
   const { confirm, disabled, disabledTip, key } = operation;
-  if (disabled === true) { // 无权限操作
+  if (disabled === true) {
+    // 无权限操作
     return (
       <WithAuth noAuthTip={disabledTip} key={key} pass={false}>
         {children}
       </WithAuth>
     );
-  } else if (confirm) { // 需要确认的操作
+  } else if (confirm) {
+    // 需要确认的操作
     return (
       <Popconfirm
         title={confirm}
@@ -45,26 +45,20 @@ export const OperationAction = (props: IOperationAction) => {
         key={key}
         onCancel={(e) => e && e.stopPropagation()}
       >
-        {
-          React.cloneElement(children, {
-            onClick: (e: MouseEvent) => e.stopPropagation(),
-          })
-        }
+        {React.cloneElement(children, {
+          onClick: (e: MouseEvent) => e.stopPropagation(),
+        })}
       </Popconfirm>
     );
-  } else { // 普通的操作
-    return (
-      React.cloneElement(
-        children,
-        {
-          key,
-          onClick: (e: MouseEvent) => {
-            e.stopPropagation();
-            onClick(e);
-          },
-        },
-      )
-    );
+  } else {
+    // 普通的操作
+    return React.cloneElement(children, {
+      key,
+      onClick: (e: MouseEvent) => {
+        e.stopPropagation();
+        onClick(e);
+      },
+    });
   }
 };
 
@@ -78,4 +72,3 @@ export const getUrlQuery = (val: Obj) => {
   });
   return _urlQuery;
 };
-

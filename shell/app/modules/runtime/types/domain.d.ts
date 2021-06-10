@@ -45,5 +45,4 @@ declare namespace RUNTIME_DOMAIN {
     domains: string[];
     releaseId: string;
   }
-
 }

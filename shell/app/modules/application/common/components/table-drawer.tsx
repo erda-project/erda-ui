@@ -31,27 +31,48 @@ interface IProps {
   getTableAttrs: (params: { filePath: string; searchKey?: string; pageNo: number }) => Promise<any>;
 }
 
-const columns = [{
-  title: i18n.t('application:attribute english name'),
-  dataIndex: 'enName',
-  width: 60,
-  render: (enName: string) => (<div className="nowrap" title={enName}>{enName}</div>),
-}, {
-  title: i18n.t('application:attribute type'),
-  dataIndex: 'type',
-  width: 50,
-  render: (type: string) => (<div className="nowrap" title={type}>{type}</div>),
-}, {
-  title: i18n.t('application:attribute chinese name'),
-  dataIndex: 'cnName',
-  width: 60,
-  render: (cnName: string) => (<div className="nowrap" title={cnName}>{cnName}</div>),
-}, {
-  title: i18n.t('application:attribute description'),
-  dataIndex: 'desc',
-  width: 60,
-  render: (desc: string) => (<div className="nowrap" title={desc}>{desc}</div>),
-}];
+const columns = [
+  {
+    title: i18n.t('application:attribute english name'),
+    dataIndex: 'enName',
+    width: 60,
+    render: (enName: string) => (
+      <div className="nowrap" title={enName}>
+        {enName}
+      </div>
+    ),
+  },
+  {
+    title: i18n.t('application:attribute type'),
+    dataIndex: 'type',
+    width: 50,
+    render: (type: string) => (
+      <div className="nowrap" title={type}>
+        {type}
+      </div>
+    ),
+  },
+  {
+    title: i18n.t('application:attribute chinese name'),
+    dataIndex: 'cnName',
+    width: 60,
+    render: (cnName: string) => (
+      <div className="nowrap" title={cnName}>
+        {cnName}
+      </div>
+    ),
+  },
+  {
+    title: i18n.t('application:attribute description'),
+    dataIndex: 'desc',
+    width: 60,
+    render: (desc: string) => (
+      <div className="nowrap" title={desc}>
+        {desc}
+      </div>
+    ),
+  },
+];
 
 const TableDrawer = (props) => {
   const [tableRowClassNameMap, setTableRowClassNameMap] = React.useState({});
@@ -66,7 +87,16 @@ const TableDrawer = (props) => {
     setTableRowClassNameMap(result);
   };
 
-  const { drawerVisible, closeDrawer, isFetching, tableAttrsList, tableAttrsPaging, centerRelatedGroup, getTableAttrs, selectedItem } = props;
+  const {
+    drawerVisible,
+    closeDrawer,
+    isFetching,
+    tableAttrsList,
+    tableAttrsPaging,
+    centerRelatedGroup,
+    getTableAttrs,
+    selectedItem,
+  } = props;
   const { pageNo: current, total } = tableAttrsPaging;
 
   React.useEffect(() => {
@@ -95,11 +125,17 @@ const TableDrawer = (props) => {
       onClose={closeDrawer}
     >
       <Spin spinning={isFetching}>
-        <SearchTable placeholder={i18n.t('application:search for chinese/english name of attribute')} onSearch={onTableSearch} needDebounce>
+        <SearchTable
+          placeholder={i18n.t('application:search for chinese/english name of attribute')}
+          onSearch={onTableSearch}
+          needDebounce
+        >
           <Table
             columns={columns}
             rowKey="enName"
-            rowClassName={({ enName }) => (centerRelatedGroup ? `with-group-tag group-tag-${getRelatedGroupClassName(enName)}` : '')}
+            rowClassName={({ enName }) =>
+              centerRelatedGroup ? `with-group-tag group-tag-${getRelatedGroupClassName(enName)}` : ''
+            }
             dataSource={tableAttrsList}
             pagination={{ current, pageSize: PAGINATION.pageSize, total, onChange: onPageChange }}
           />

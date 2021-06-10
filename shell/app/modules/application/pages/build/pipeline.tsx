@@ -19,17 +19,30 @@ import i18n from 'i18n';
 import buildStore from 'application/stores/build';
 import routeInfoStore from 'app/common/stores/route';
 
-const setup = { type: 'pipeline', addTitle: i18n.t('application:add pipeline'), categoryTitle: i18n.t('all branches'), iconType: 'fz' };
+const setup = {
+  type: 'pipeline',
+  addTitle: i18n.t('application:add pipeline'),
+  categoryTitle: i18n.t('all branches'),
+  iconType: 'fz',
+};
 
 export const Pipeline = () => {
   const [visible, setVisible] = React.useState(false);
   const params = routeInfoStore.useStore((s) => s.params);
   const { addPipeline: addPipelineCall, getComboPipelines } = buildStore.effects;
 
-  const goToDetailLink = React.useCallback(({ pipelineID }: { comboPipelines?: BUILD.IComboPipeline[]; branch?: string; ymlName?: string; pipelineID?: number }, replace?: boolean) => {
-    const { projectId, appId } = params;
-    pipelineID && goTo(goTo.pages.pipeline, { projectId, appId, pipelineID, replace });
-  }, [params]);
+  const goToDetailLink = React.useCallback(
+    (
+      {
+        pipelineID,
+      }: { comboPipelines?: BUILD.IComboPipeline[]; branch?: string; ymlName?: string; pipelineID?: number },
+      replace?: boolean,
+    ) => {
+      const { projectId, appId } = params;
+      pipelineID && goTo(goTo.pages.pipeline, { projectId, appId, pipelineID, replace });
+    },
+    [params],
+  );
 
   const addPipeline = (data: BUILD.CreatePipelineBody) => {
     addPipelineCall(data).then((detail: { id: number }) => {
@@ -41,7 +54,9 @@ export const Pipeline = () => {
   const renderCreateModal = () => (
     <BuildForm
       visible={visible}
-      onCancel={() => { setVisible(false); }}
+      onCancel={() => {
+        setVisible(false);
+      }}
       title={i18n.t('application:add pipeline')}
       onOk={addPipeline}
     />
@@ -60,7 +75,9 @@ export const Pipeline = () => {
       goToDetailLink={goToDetailLink}
       setup={setup}
       renderCreateModal={renderCreateModal}
-      showModal={() => { setVisible(true); }}
+      showModal={() => {
+        setVisible(true);
+      }}
     />
   );
 };

@@ -90,13 +90,13 @@ const apiDesignStore = createFlatStore({
       return list;
     },
     async getApiDetail({ call, update }, payload: string) {
-      const data = await call(getApiDetail, payload) || {};
+      const data = (await call(getApiDetail, payload)) || {};
       const worker = new Worker('/static/api-design-worker.js');
       worker.postMessage(data);
 
       const res = new Promise<API_SETTING.IApiDocDetail>((resolve) => {
         worker.onmessage = function (event) {
-          const openApiDoc = (typeof event.data === 'object' && event.data !== null) ? event.data : {};
+          const openApiDoc = typeof event.data === 'object' && event.data !== null ? event.data : {};
           const isReadOnly = data.meta?.readOnly || false;
 
           update({
@@ -125,19 +125,27 @@ const apiDesignStore = createFlatStore({
       return data;
     },
     async deleteTreeNode({ call }, payload: { inode: string }) {
-      const data = await call(deleteTreeNode, payload, { successMsg: i18n.t('{action} successfully', { action: i18n.t('delete') }) });
+      const data = await call(deleteTreeNode, payload, {
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('delete') }),
+      });
       return data;
     },
     async createTreeNode({ call }, payload: { pinode: string; name: string }) {
-      const data = await call(createTreeNode, payload, { successMsg: i18n.t('{action} successfully', { action: i18n.t('add') }) });
+      const data = await call(createTreeNode, payload, {
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('add') }),
+      });
       return data;
     },
     async renameTreeNode({ call }, payload: { name: string; inode: string }) {
-      const data = await call(renameTreeNode, payload, { successMsg: i18n.t('{action} successfully', { action: i18n.t('project:rename') }) });
+      const data = await call(renameTreeNode, payload, {
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('project:rename') }),
+      });
       return data;
     },
     async moveTreeNode({ call }, payload: { pinode: string; inode: string }) {
-      const data = await call(moveTreeNode, payload, { successMsg: i18n.t('{action} successfully', { action: i18n.t('project:move') }) });
+      const data = await call(moveTreeNode, payload, {
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('project:move') }),
+      });
       return data;
     },
     async commitSaveApi({ select }) {
@@ -184,7 +192,9 @@ const apiDesignStore = createFlatStore({
       return true;
     },
     async publishApi({ call }, payload: API_SETTING.IPublishAPi) {
-      const data = await call(publishApi, payload, { successMsg: i18n.t('{action} successfully', { action: i18n.t('publisher:publish') }) });
+      const data = await call(publishApi, payload, {
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('publisher:publish') }),
+      });
       return data;
     },
     async getApiAssets({ call, update }, payload: API_SETTING.IApiAssetsQuery) {

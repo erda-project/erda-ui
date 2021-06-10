@@ -29,7 +29,7 @@ import i18n from 'i18n';
 import './node-item.scss';
 import moment from 'moment';
 
-interface INodeEle{
+interface INodeEle {
   [pro: string]: any;
   node: INode;
   terminusKey: string;
@@ -58,7 +58,11 @@ export const getRelativeNodes = (node: any, external: any) => {
     const mRelativeNode: string[] = [];
     const mUnRelativeNode: string[] = [];
     map(groupNodeMap, (item) => {
-      const { parents, topologyExternal: { uniqName }, id } = item;
+      const {
+        parents,
+        topologyExternal: { uniqName },
+        id,
+      } = item;
       const beParentId = map(parents, 'id');
       if (fullParents.includes(id) || beParentId.includes(node.id)) {
         mRelativeNode.push(uniqName);
@@ -80,7 +84,16 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
   const [hoverFlag, setHoverFlag] = React.useState(null as any);
   // const [requestFlag, setRequestFlag] = React.useState(false);
   // const [detailInfo, setDetailInfo] = React.useState({} as any);
-  const { name, id, type, applicationId, serviceName, applicationName, runtimeName, metric: { rt, count, error_rate, running, stopped } } = node;
+  const {
+    name,
+    id,
+    type,
+    applicationId,
+    serviceName,
+    applicationName,
+    runtimeName,
+    metric: { rt, count, error_rate, running, stopped },
+  } = node;
   const { width, height } = nodeStyle;
   const style = { width, height };
   const params = routeInfoStore.useStore((s) => s.params);
@@ -144,9 +157,15 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
   const TipText = () => {
     return (
       <div className="topology-node-tip">
-        <div>{type === 'Service' ? i18n.t('service') : i18n.t('name')}: {name}</div>
+        <div>
+          {type === 'Service' ? i18n.t('service') : i18n.t('name')}: {name}
+        </div>
         {runtimeName && <div>Runtime: {runtimeName}</div>}
-        {applicationName && <div>{i18n.t('application')}: {applicationName}</div>}
+        {applicationName && (
+          <div>
+            {i18n.t('application')}: {applicationName}
+          </div>
+        )}
         {/* { detailInfo.error !== undefined && <div>{i18n.t('microService:http error request')}: {detailInfo.error}</div> }
         { detailInfo.exception !== undefined && <div>{i18n.t('microService:application error')}: {detailInfo.exception}</div> } */}
       </div>
@@ -155,18 +174,41 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
   const ServiceTipText = () => {
     return (
       <div className="topology-node-tip">
-        <div>{i18n.t('service')}: {name}</div>
+        <div>
+          {i18n.t('service')}: {name}
+        </div>
         {runtimeName && <div>Runtime: {runtimeName}</div>}
-        {applicationName && <div>{i18n.t('application')}: {applicationName}</div>}
-        {!!stopped && <div>{i18n.t('microService:stopped instance')}: {stopped}</div>}
-        {!!running && <div>{i18n.t('microService:running instance')}: {running}</div>}
-        {!!count && <div>{i18n.t('call count')}: {count}</div>}
-        {
-        !!error_rate &&
-          <div>{i18n.t('microService:request error rate')}: {floor(error_rate, 2)}%</div>
-        }
-        <div>{i18n.t('response time')}: {floor(rt, 2)}(ms)</div>
-        <div>{i18n.t('type')}: {type}</div>
+        {applicationName && (
+          <div>
+            {i18n.t('application')}: {applicationName}
+          </div>
+        )}
+        {!!stopped && (
+          <div>
+            {i18n.t('microService:stopped instance')}: {stopped}
+          </div>
+        )}
+        {!!running && (
+          <div>
+            {i18n.t('microService:running instance')}: {running}
+          </div>
+        )}
+        {!!count && (
+          <div>
+            {i18n.t('call count')}: {count}
+          </div>
+        )}
+        {!!error_rate && (
+          <div>
+            {i18n.t('microService:request error rate')}: {floor(error_rate, 2)}%
+          </div>
+        )}
+        <div>
+          {i18n.t('response time')}: {floor(rt, 2)}(ms)
+        </div>
+        <div>
+          {i18n.t('type')}: {type}
+        </div>
       </div>
     );
   };
@@ -282,13 +324,11 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
               <span className="sub-text">{runtimeName}</span>
               <span className="sub-text">{applicationName}</span>
             </div>
-            {
-              isMeshNode ? (
-                <div className="full-height">
-                  <CustomIcon type="sz" onClick={(e: any) => e.stopPropagation()} />
-                </div>
-              ) : null
-            }
+            {isMeshNode ? (
+              <div className="full-height">
+                <CustomIcon type="sz" onClick={(e: any) => e.stopPropagation()} />
+              </div>
+            ) : null}
           </div>
         </div>
       </Tooltip>
@@ -313,34 +353,38 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
           </div>
           <div className="node-name">
             <span className="text bold">{nameMap[type] || name}</span>
-            {
-              type === 'Service' ? (
-                stopped ?
-                  <div>
-                    <CustomIcon type="wks1" style={{ color: 'red' }} />
-                    <span className="color-danger">{stopped}</span>/<span>{running} {i18n.t('instance')}</span>
-                  </div>
-                  :
+            {type === 'Service' ? (
+              stopped ? (
+                <div>
+                  <CustomIcon type="wks1" style={{ color: 'red' }} />
+                  <span className="color-danger">{stopped}</span>/
                   <span>
                     {running} {i18n.t('instance')}
                   </span>
+                </div>
               ) : (
-                <>
-                  <span className="sub-text">{runtimeName}</span>
-                  <span className="sub-text">{applicationName}</span>
-                </>
+                <span>
+                  {running} {i18n.t('instance')}
+                </span>
               )
-            }
+            ) : (
+              <>
+                <span className="sub-text">{runtimeName}</span>
+                <span className="sub-text">{applicationName}</span>
+              </>
+            )}
           </div>
-          {
-            isMeshNode ? (
-              <div className="full-height node-operation">
-                <Dropdown overlayClassName="topology-node-dropdown" overlay={nodeOperations}>
-                  <CustomIcon className="fz18 operation-item pl8 pr8 pb8" type="sz" onClick={(e: any) => e.stopPropagation()} />
-                </Dropdown>
-              </div>
-            ) : null
-          }
+          {isMeshNode ? (
+            <div className="full-height node-operation">
+              <Dropdown overlayClassName="topology-node-dropdown" overlay={nodeOperations}>
+                <CustomIcon
+                  className="fz18 operation-item pl8 pr8 pb8"
+                  type="sz"
+                  onClick={(e: any) => e.stopPropagation()}
+                />
+              </Dropdown>
+            </div>
+          ) : null}
         </div>
         <div className="node-info">
           <div className="info-item" onClick={handleClickError}>
@@ -353,7 +397,8 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
             </span>
             <span className="info-key">
               <IF check={error_rate}>
-                <span className="color-danger">{i18n.t('microService:request error rate')}</span>/<span>{i18n.t('call count')}</span>
+                <span className="color-danger">{i18n.t('microService:request error rate')}</span>/
+                <span>{i18n.t('call count')}</span>
                 <IF.ELSE />
                 {i18n.t('call count')}
               </IF>
@@ -365,7 +410,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
             <span className="info-key">{i18n.t('response time')}(ms)</span>
           </div>
         </div>
-      </div >
+      </div>
     </Tooltip>
   );
 };

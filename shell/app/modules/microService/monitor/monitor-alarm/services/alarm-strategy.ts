@@ -13,47 +13,79 @@
 
 import agent from 'agent';
 
-export const getAlerts = (params: { pageNo?: number; pageSize?: number; tenantGroup: string }): { list: COMMON_STRATEGY_NOTIFY.IAlert[]; total: number } => {
-  return agent.get(`/api/tmc/micro-service/tenantGroup/${params.tenantGroup}/alerts`)
+export const getAlerts = (params: {
+  pageNo?: number;
+  pageSize?: number;
+  tenantGroup: string;
+}): { list: COMMON_STRATEGY_NOTIFY.IAlert[]; total: number } => {
+  return agent
+    .get(`/api/tmc/micro-service/tenantGroup/${params.tenantGroup}/alerts`)
     .query(params)
     .then((response: any) => response.body);
 };
 
-export const getAlertDetail = ({ id, tenantGroup }: { id: number; tenantGroup: string }): COMMON_STRATEGY_NOTIFY.IAlertDetail => {
-  return agent.get(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/alerts/${id}`)
+export const getAlertDetail = ({
+  id,
+  tenantGroup,
+}: {
+  id: number;
+  tenantGroup: string;
+}): COMMON_STRATEGY_NOTIFY.IAlertDetail => {
+  return agent
+    .get(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/alerts/${id}`)
     .then((response: any) => response.body);
 };
 
-export const createAlert = ({ body, tenantGroup }: { body: COMMON_STRATEGY_NOTIFY.IAlertBody; tenantGroup: string }) => {
-  return agent.post(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/alerts`)
+export const createAlert = ({
+  body,
+  tenantGroup,
+}: {
+  body: COMMON_STRATEGY_NOTIFY.IAlertBody;
+  tenantGroup: string;
+}) => {
+  return agent
+    .post(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/alerts`)
     .send(body)
     .then((response: any) => response.body);
 };
 
-export const editAlert = ({ body, id, tenantGroup }: { body: COMMON_STRATEGY_NOTIFY.IAlertBody; id: string; tenantGroup: string }) => {
-  return agent.put(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/alerts/${id}`)
+export const editAlert = ({
+  body,
+  id,
+  tenantGroup,
+}: {
+  body: COMMON_STRATEGY_NOTIFY.IAlertBody;
+  id: string;
+  tenantGroup: string;
+}) => {
+  return agent
+    .put(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/alerts/${id}`)
     .send(body)
     .then((response: any) => response.body);
 };
 
 export const deleteAlert = ({ id, tenantGroup }: { id: number; tenantGroup: string }) => {
-  return agent.delete(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/alerts/${id}`)
+  return agent
+    .delete(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/alerts/${id}`)
     .then((response: any) => response.body);
 };
 
 export const getAlertTypes = (tenantGroup: string): COMMON_STRATEGY_NOTIFY.IAlertType => {
-  return agent.get(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/alerts/rules`)
+  return agent
+    .get(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/alerts/rules`)
     .then((response: any) => response.body);
 };
 
 export const toggleAlert = ({ id, enable, tenantGroup }: { id: string; enable: boolean; tenantGroup: string }) => {
-  return agent.put(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/alerts/${id}/switch`)
+  return agent
+    .put(`/api/tmc/micro-service/tenantGroup/${tenantGroup}/alerts/${id}/switch`)
     .query({ enable })
     .then((response: any) => response.body);
 };
 
 export const getClusterList = ({ orgId }: { orgId: number }) => {
-  return agent.get('/api/clusters')
+  return agent
+    .get('/api/clusters')
     .query({ orgID: orgId })
     .then((response: any) => response.body);
 };

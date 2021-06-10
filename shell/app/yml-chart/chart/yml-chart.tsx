@@ -27,13 +27,13 @@ export interface IData {
 
 interface IChartConfig {
   NODE?: {
-    [pro: string]: {WIDTH: number; HEIGHT: number};
+    [pro: string]: { WIDTH: number; HEIGHT: number };
   };
-  MARGIN?: {X: number; Y: number};
-  PADDING?: {X: number; Y: number};
+  MARGIN?: { X: number; Y: number };
+  PADDING?: { X: number; Y: number };
 }
 
-interface IProps{
+interface IProps {
   [pro: string]: any;
   chartId: string;
   data: IData[][];
@@ -48,7 +48,16 @@ interface IProps{
 
 // const onDrag = false;
 export const YmlChart = (props: IProps) => {
-  const { data, zoom = 1, chartConfig: propsChartConfig, editing = false, external = {}, chartId: id = 'yml-svg', border, ...rest } = props;
+  const {
+    data,
+    zoom = 1,
+    chartConfig: propsChartConfig,
+    editing = false,
+    external = {},
+    chartId: id = 'yml-svg',
+    border,
+    ...rest
+  } = props;
   const svgRef = React.useRef(null);
   const svgGroupRef = React.useRef(null);
   const boxRef = React.useRef(null);
@@ -67,8 +76,11 @@ export const YmlChart = (props: IProps) => {
     svgRef.current = Snap(`#${id}`);
     const curSvg = svgRef.current as any;
     // 拖动代码：备用
-    if (curSvg) { // 兼容safari:
-      svgGroupRef.current = curSvg.g().drag(
+    if (curSvg) {
+      // 兼容safari:
+      svgGroupRef.current = curSvg
+        .g()
+        .drag
         // (dx: number, dy: number) => { // onmove
         //    onDrag = true;
         //    this.attr({
@@ -83,13 +95,13 @@ export const YmlChart = (props: IProps) => {
         //      onDrag = false;
         //    }, 0);
         // }
-      );
+        ();
       // 在g标签下建一个透明的rect占满g标签内部,用于承载drag的载体，否则g.drag只能作用于节点。
       const mask = curSvg.rect(0, 0, '300%', '300%').attr({ fill: 'transparent' });
       const curG = svgGroupRef.current as any;
       curG.append(mask);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // 缩放部分代码：备用
@@ -106,35 +118,23 @@ export const YmlChart = (props: IProps) => {
   // }, [zoom]);
 
   React.useEffect(() => {
-    const { chartHeight, chartWidth } = renderSvgChart(
-      data || [],
-      svgRef.current,
-      svgGroupRef.current,
-      chartConfig,
-      {
-        chartId: id,
-        editing,
-        ...rest,
-        ...external,
-      },
-    );
+    const { chartHeight, chartWidth } = renderSvgChart(data || [], svgRef.current, svgGroupRef.current, chartConfig, {
+      chartId: id,
+      editing,
+      ...rest,
+      ...external,
+    });
     const curBox = boxRef.current as any;
     curBox.style.width = `${chartWidth}px`;
     curBox.style.height = `${chartHeight}px`;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   return (
     <div className={`yml-svg-container-box border-radius full-height full-width ${border ? 'border-all' : ''}`}>
       <div className={`yml-svg-container ${editing ? 'editing' : ''}`} ref={boxRef}>
-        <svg
-          id={id}
-          width="100%"
-          height="100%"
-          className={'yml-svg'}
-        />
+        <svg id={id} width="100%" height="100%" className={'yml-svg'} />
       </div>
     </div>
   );
 };
-

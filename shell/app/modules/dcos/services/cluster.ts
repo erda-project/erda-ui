@@ -14,11 +14,17 @@
 import agent from 'agent';
 
 export const getClusterList = ({ orgId }: { orgId: number }): ORG_CLUSTER.ICluster[] => {
-  return agent.get('/api/clusters')
+  return agent
+    .get('/api/clusters')
     .query({ orgID: orgId })
     .then((response: any) => response.body);
 };
-export const getClusterDetail = ({ clusterId, clusterName }: { clusterId: number; clusterName: string }): ORG_CLUSTER.ICluster => {
-  return agent.get(`/api/clusters/${clusterId || clusterName}`)
-    .then((response: any) => response.body);
+export const getClusterDetail = ({
+  clusterId,
+  clusterName,
+}: {
+  clusterId: number;
+  clusterName: string;
+}): ORG_CLUSTER.ICluster => {
+  return agent.get(`/api/clusters/${clusterId || clusterName}`).then((response: any) => response.body);
 };

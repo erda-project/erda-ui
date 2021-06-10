@@ -27,29 +27,47 @@ interface IValidateLicense {
   valid: true;
 }
 export const validateLicense = (): IValidateLicense => {
-  return agent.get('/api/license')
-    .then((response: any) => response.body);
+  return agent.get('/api/license').then((response: any) => response.body);
 };
 
 export const login = () => {
-  return agent.get('/api/openapi/login')
-    .then((response: any) => response.body);
+  return agent.get('/api/openapi/login').then((response: any) => response.body);
 };
 
 export const logout = () => {
-  return agent
-    .post('/api/openapi/logout')
-    .then((response: any) => response.body);
+  return agent.post('/api/openapi/logout').then((response: any) => response.body);
 };
 
-export const getJoinedProjects = ({ pageSize, pageNo, q, searchKey }: { pageSize: number; pageNo: number; q?: string; searchKey?: string }): IPagingResp<PROJECT.Detail> => {
+export const getJoinedProjects = ({
+  pageSize,
+  pageNo,
+  q,
+  searchKey,
+}: {
+  pageSize: number;
+  pageNo: number;
+  q?: string;
+  searchKey?: string;
+}): IPagingResp<PROJECT.Detail> => {
   return agent
     .get('/api/projects/actions/list-my-projects')
     .query({ pageSize, pageNo, q: q || searchKey })
     .then((response: any) => response.body);
 };
 
-export const getJoinedApps = ({ pageSize, pageNo, q, projectID, ...rest }: { pageSize: number; pageNo: number; q?: string; projectID?: number; mode?: string }): IPagingResp<IApplication> => {
+export const getJoinedApps = ({
+  pageSize,
+  pageNo,
+  q,
+  projectID,
+  ...rest
+}: {
+  pageSize: number;
+  pageNo: number;
+  q?: string;
+  projectID?: number;
+  mode?: string;
+}): IPagingResp<IApplication> => {
   return agent
     .get('/api/applications/actions/list-my-applications')
     .query({ ...rest, pageSize, pageNo, q, projectId: projectID })
@@ -57,19 +75,16 @@ export const getJoinedApps = ({ pageSize, pageNo, q, projectID, ...rest }: { pag
 };
 
 export const pinApp = (appId: number) => {
-  return agent
-    .put(`/api/applications/${appId}/actions/pin`)
-    .then((response: any) => response.body);
+  return agent.put(`/api/applications/${appId}/actions/pin`).then((response: any) => response.body);
 };
 
 export const unpinApp = (appId: number) => {
-  return agent
-    .put(`/api/applications/${appId}/actions/unpin`)
-    .then((response: any) => response.body);
+  return agent.put(`/api/applications/${appId}/actions/unpin`).then((response: any) => response.body);
 };
 
 export const getResourcePermissions = ({ scope, scopeID }: IGetScopePermQuery): IPermResponseData => {
-  return agent.post('/api/permissions/actions/access')
+  return agent
+    .post('/api/permissions/actions/access')
     .send({ scope: { type: scope, id: String(scopeID) } })
     .then((response: any) => response.body);
 };

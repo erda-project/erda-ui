@@ -18,7 +18,7 @@ import { IF, TimeSelector } from 'common';
 import i18n from 'i18n';
 import './tab-right.scss';
 
-interface IParams{
+interface IParams {
   timeSpan: ITimeSpan;
   choosenApp: {
     [pro: string]: any;
@@ -58,16 +58,24 @@ const appGroupHandler = (originData: object) => {
 };
 
 const reqUrlPrefix = '/api/spot/tmc/metrics';
-const TabRight = ({ type = '' }: {type?: string}) => {
+const TabRight = ({ type = '' }: { type?: string }) => {
   const modulesMap = {
     jvm: {
       api: `${reqUrlPrefix}/jvm_memory`,
-      query: { latestTimestamp: 'usage_percent', sort: ['count', 'latestTimestamp_usage_percent'], group: ['runtime_name', 'service_name', 'instance_id'] },
+      query: {
+        latestTimestamp: 'usage_percent',
+        sort: ['count', 'latestTimestamp_usage_percent'],
+        group: ['runtime_name', 'service_name', 'instance_id'],
+      },
       dataHandler: modulesHandler('latestTimestamp.usage_percent'),
     },
     node: {
       api: `${reqUrlPrefix}/nodejs_memory`,
-      query: { latestTimestamp: 'heap_total', sort: ['count', 'latestTimestamp_heap_total'], group: ['runtime_name', 'service_name', 'instance_id'] },
+      query: {
+        latestTimestamp: 'heap_total',
+        sort: ['count', 'latestTimestamp_heap_total'],
+        group: ['runtime_name', 'service_name', 'instance_id'],
+      },
       dataHandler: modulesHandler('latestTimestamp.heap_total'),
     },
     web: {
@@ -76,7 +84,13 @@ const TabRight = ({ type = '' }: {type?: string}) => {
         const { timeSpan, choosenApp } = params;
         const { startTimeMs: start, endTimeMs: end } = timeSpan;
         const filter_target_application_id = get(choosenApp, 'id');
-        return { sort: ['count', 'count'], group: ['target_runtime_name', 'target_service_name'], start, end, filter_target_application_id };
+        return {
+          sort: ['count', 'count'],
+          group: ['target_runtime_name', 'target_service_name'],
+          start,
+          end,
+          filter_target_application_id,
+        };
       },
       dataHandler: appGroupHandler,
     },
@@ -86,7 +100,13 @@ const TabRight = ({ type = '' }: {type?: string}) => {
         const { timeSpan, choosenApp } = params;
         const { startTimeMs: start, endTimeMs: end } = timeSpan;
         const filter_target_application_id = get(choosenApp, 'id');
-        return { sort: ['count', 'count'], group: ['target_runtime_name', 'target_service_name'], start, end, filter_target_application_id };
+        return {
+          sort: ['count', 'count'],
+          group: ['target_runtime_name', 'target_service_name'],
+          start,
+          end,
+          filter_target_application_id,
+        };
       },
       dataHandler: appGroupHandler,
     },
@@ -96,7 +116,13 @@ const TabRight = ({ type = '' }: {type?: string}) => {
         const { timeSpan, choosenApp } = params;
         const { startTimeMs: start, endTimeMs: end } = timeSpan;
         const filter_source_application_id = get(choosenApp, 'id');
-        return { sort: ['count', 'count'], group: ['source_runtime_name', 'source_service_name'], start, end, filter_source_application_id };
+        return {
+          sort: ['count', 'count'],
+          group: ['source_runtime_name', 'source_service_name'],
+          start,
+          end,
+          filter_source_application_id,
+        };
       },
       dataHandler: appGroupHandler,
     },
@@ -106,7 +132,13 @@ const TabRight = ({ type = '' }: {type?: string}) => {
         const { timeSpan, choosenApp } = params;
         const { startTimeMs: start, endTimeMs: end } = timeSpan;
         const filter_source_application_id = get(choosenApp, 'id');
-        return { sort: ['count', 'count'], group: ['source_runtime_name', 'source_service_name'], start, end, filter_source_application_id };
+        return {
+          sort: ['count', 'count'],
+          group: ['source_runtime_name', 'source_service_name'],
+          start,
+          end,
+          filter_source_application_id,
+        };
       },
       dataHandler: appGroupHandler,
     },

@@ -17,7 +17,7 @@ import i18n from 'i18n';
 export const ApiMap = {
   sortList: {
     fetchApi: 'httpException/count',
-    getFetchObj: ({ sortTab }: {sortTab: string}) => {
+    getFetchObj: ({ sortTab }: { sortTab: string }) => {
       const fetchMap = {
         code: { query: { sortBy: 'code' }, unit: i18n.t('times') },
       };

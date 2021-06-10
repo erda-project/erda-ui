@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace BUILD {
-
   interface IStage {
     id: number;
     pipelineID: number;
@@ -127,7 +126,10 @@ declare namespace BUILD {
     source: string;
   }
 
-  interface MetaData { name: string; value: string }
+  interface MetaData {
+    name: string;
+    value: string;
+  }
 
   type ExecuteRecord = Omit<IPipelineDetail, 'pipelineButton'>;
 
@@ -165,6 +167,4 @@ declare namespace BUILD {
     branch: string;
     appID: string;
   }
-
 }
-

@@ -29,21 +29,26 @@ const entries = [];
 const { MODULES, SCHEDULER_URL, SCHEDULER_PORT } = envConfig;
 const excludeModules = ['market', 'shell'];
 
-MODULES.split(',').filter(m => !excludeModules.includes(m)).forEach(m => {
-  const host = isProd ? '' : `${SCHEDULER_URL}:${SCHEDULER_PORT}`;
-  remotes[m] = `mf_${m}@${host}/static/${m}/scripts/mf_${m}.js`;
-  if (m !== 'core') {
-    entries.push(`${m}: import('${m}/entry'),`);
-  }
-});
+MODULES.split(',')
+  .filter((m) => !excludeModules.includes(m))
+  .forEach((m) => {
+    const host = isProd ? '' : `${SCHEDULER_URL}:${SCHEDULER_PORT}`;
+    remotes[m] = `mf_${m}@${host}/static/${m}/scripts/mf_${m}.js`;
+    if (m !== 'core') {
+      entries.push(`${m}: import('${m}/entry'),`);
+    }
+  });
 
 console.log('================ remotes: =================\n', remotes);
 
-fs.writeFileSync('./app/modules.js', `
+fs.writeFileSync(
+  './app/modules.js',
+  `
 export default {
   ${entries.join('\n')}
 };
-`);
+`,
+);
 
 module.exports = [
   {
@@ -54,7 +59,8 @@ module.exports = [
       './layout/error-page': './app/layout/common/error-page.tsx',
       './common/utils': './app/common/utils/index.ts',
       './common/all': './app/common',
-      './dataCenter/pages/cluster-manage/operation-history': './app/modules/dataCenter/pages/cluster-manage/operation-history',
+      './dataCenter/pages/cluster-manage/operation-history':
+        './app/modules/dataCenter/pages/cluster-manage/operation-history',
       './org/pages/safety': './app/modules/org/pages/safety',
       './user/store': './app/user/stores/index.ts',
       './erda-icon': '@icon-park/react',
@@ -85,5 +91,4 @@ module.exports = [
       },
     },
   },
-
 ];

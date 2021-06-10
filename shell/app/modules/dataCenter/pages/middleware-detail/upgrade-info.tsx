@@ -50,24 +50,20 @@ const TableView = React.memo(({ data }: { data: any }) => {
     },
   ];
 
-  return (
-    <Table
-      columns={columns}
-      dataSource={translateData(data)}
-      pagination={false}
-    />
-  );
+  return <Table columns={columns} dataSource={translateData(data)} pagination={false} />;
 });
 
 const TextView = React.memo(({ data }: { data: Record<string, any> }) => {
   return (
     <div className="text-view">
       <Holder when={isEmpty(data)}>
-        {
-          map(data, (value, key) => {
-            return <p key={key}>{key}: {value}</p>;
-          })
-        }
+        {map(data, (value, key) => {
+          return (
+            <p key={key}>
+              {key}: {value}
+            </p>
+          );
+        })}
       </Holder>
     </div>
   );
@@ -103,7 +99,8 @@ const UpgradeInfo = ({ data }: IProps) => {
               onClick={() => {
                 setVisible(true);
               }}
-            >{i18n.t('default:edit')}
+            >
+              {i18n.t('default:edit')}
             </Button>
             <Radio.Group
               value={mode}
@@ -116,9 +113,7 @@ const UpgradeInfo = ({ data }: IProps) => {
             </Radio.Group>
           </div>
         </div>
-        {
-          viewCompMap[mode]
-        }
+        {viewCompMap[mode]}
         <UpgradeModal
           visible={visible}
           formData={data}

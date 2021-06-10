@@ -11,7 +11,7 @@
       border: 1px dashed $gainsboro;
       border-radius: $radius;
       cursor: pointer;
-      transition: border-color .2s ease-in-out;
+      transition: border-color 0.2s ease-in-out;
 
       i {
         margin-top: 24px;
@@ -51,7 +51,7 @@
       width: 100%;
       height: 98px;
       background-color: $white;
-      opacity: .7;
+      opacity: 0.7;
     }
 
     &:hover .remove-image {

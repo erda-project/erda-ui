@@ -22,7 +22,7 @@ import './array-obj.scss';
 const { Option } = Select;
 
 interface IArrayObjItemProps {
-  keys: string[] | Array<{key: string; name: string}>;
+  keys: string[] | Array<{ key: string; name: string }>;
   data: Obj;
   className?: string;
   operation?: any;
@@ -30,21 +30,29 @@ interface IArrayObjItemProps {
   itemRender?: (data: Obj, updateItem: (arg: Obj) => void) => any;
 }
 const defaultKeys = ['key', 'value'];
-const ArrayObjItem = ({ updateItem, data, className = '', operation = null, itemRender, keys = defaultKeys }: IArrayObjItemProps) => {
+const ArrayObjItem = ({
+  updateItem,
+  data,
+  className = '',
+  operation = null,
+  itemRender,
+  keys = defaultKeys,
+}: IArrayObjItemProps) => {
   return (
     <div className={`dice-form-array-obj ${className}`}>
-      {
-        itemRender
-          ? itemRender(data, updateItem)
-          : (
-            map(keys, (item) => {
-              const [key] = isString(item) ? [item, item] : [(get(item, 'key') || ''), (get(item, 'name') || '')];
-              return key
-                ? <Input key={key} value={data[key]} placeholder={i18n.t('please enter')} onChange={(e) => updateItem({ [key]: e.target.value })} />
-                : null;
-            })
-          )
-      }
+      {itemRender
+        ? itemRender(data, updateItem)
+        : map(keys, (item) => {
+            const [key] = isString(item) ? [item, item] : [get(item, 'key') || '', get(item, 'name') || ''];
+            return key ? (
+              <Input
+                key={key}
+                value={data[key]}
+                placeholder={i18n.t('please enter')}
+                onChange={(e) => updateItem({ [key]: e.target.value })}
+              />
+            ) : null;
+          })}
       {operation}
     </div>
   );
@@ -60,14 +68,17 @@ export const ArrayObj = createCombiner<Obj, Obj>({
     if (_defaultItem) return _defaultItem;
     const dItem = {};
     map(keys, (item) => {
-      const key = isString(item) ? item : (get(item, 'key') || '');
+      const key = isString(item) ? item : get(item, 'key') || '';
       key && (dItem[key] = undefined);
     });
     return dItem;
   },
 });
 
-const defaultItem = [{ key: 'key', type: 'input' }, { key: 'value', type: 'input' }];
+const defaultItem = [
+  { key: 'key', type: 'input' },
+  { key: 'value', type: 'input' },
+];
 const ArrayObjComp = (props: any) => {
   const { value, onChange, disabled, componentProps } = props;
 
@@ -78,56 +89,98 @@ const ArrayObjComp = (props: any) => {
     return createCombiner({
       valueFixIn: changeValue,
       valueFixOut: changeValue,
-      CombinerItem: ({ updateItem, data, className = '', operation = null, itemRender, keys = _objItems }: IArrayObjItemProps) => {
+      CombinerItem: ({
+        updateItem,
+        data,
+        className = '',
+        operation = null,
+        itemRender,
+        keys = _objItems,
+      }: IArrayObjItemProps) => {
         return (
           <div className={`dice-form-array-obj ${className}`}>
             <div className={`dice-form-array-obj-item flex-1 ${direction === 'row' ? 'flex-box' : ''}`}>
-              {
-                itemRender
-                  ? itemRender(data, updateItem)
-                  : (
-                    map(keys, (item) => {
-                      const {
-                        key,
-                        label,
-                        required = false,
-                        labelTip = '',
-                        component = 'input',
-                        options = [],
-                        componentProps: itemComponentProps = {},
-                      } = isString(item)
-                        ? { key: item, label: item }
-                        : item as Obj;
+              {itemRender
+                ? itemRender(data, updateItem)
+                : map(keys, (item) => {
+                    const {
+                      key,
+                      label,
+                      required = false,
+                      labelTip = '',
+                      component = 'input',
+                      options = [],
+                      componentProps: itemComponentProps = {},
+                    } = isString(item) ? { key: item, label: item } : (item as Obj);
 
-                      let valid: any = required && (data[key] === undefined || data[key] === '') ? ['error', i18n.t('{name} can not empty')] : ['success'];
+                    let valid: any =
+                      required && (data[key] === undefined || data[key] === '')
+                        ? ['error', i18n.t('{name} can not empty')]
+                        : ['success'];
 
-                      let CompItem = null;
-                      switch (component) {
-                        case 'input':
-                          CompItem = <Input key={key} value={data[key]} placeholder={i18n.t('please enter {name}', { name: label || key })} onChange={(e) => updateItem({ [key]: e.target.value })} {...itemComponentProps} />;
-                          break;
-                        case 'select': {
+                    let CompItem = null;
+                    switch (component) {
+                      case 'input':
+                        CompItem = (
+                          <Input
+                            key={key}
+                            value={data[key]}
+                            placeholder={i18n.t('please enter {name}', { name: label || key })}
+                            onChange={(e) => updateItem({ [key]: e.target.value })}
+                            {...itemComponentProps}
+                          />
+                        );
+                        break;
+                      case 'select':
+                        {
                           const _options = isString(options)
                             ? map(options.split(';'), (oStr) => {
-                              const [k = '', v = ''] = oStr.split(':');
-                              return { name: v, value: k };
-                            })
+                                const [k = '', v = ''] = oStr.split(':');
+                                return { name: v, value: k };
+                              })
                             : options;
                           CompItem = (
-                            <Select key={key} value={data[key]} placeholder={i18n.t('please select {name}', { name: label || key })} onChange={(v: any) => updateItem({ [key]: v })} {...itemComponentProps}>
-                              {map(_options, (oItem) => (<Option key={oItem.value} value={oItem.value}>{oItem.name}</Option>))}
+                            <Select
+                              key={key}
+                              value={data[key]}
+                              placeholder={i18n.t('please select {name}', { name: label || key })}
+                              onChange={(v: any) => updateItem({ [key]: v })}
+                              {...itemComponentProps}
+                            >
+                              {map(_options, (oItem) => (
+                                <Option key={oItem.value} value={oItem.value}>
+                                  {oItem.name}
+                                </Option>
+                              ))}
                             </Select>
                           );
                         }
-                          break;
-                        case 'inputNumber':
-                          CompItem = <InputNumber key={key} value={data[key]} placeholder={i18n.t('please enter {name}', { name: label || key })} onChange={(v) => updateItem({ [key]: v })} {...itemComponentProps} />;
-                          break;
-                        case 'switch':
-                          CompItem = <Switch key={key} checked={!!data[key]} onChange={(v) => updateItem({ [key]: v })} {...itemComponentProps} />;
-                          valid = ['success'];
-                          break;
-                        case 'object': { //
+                        break;
+                      case 'inputNumber':
+                        CompItem = (
+                          <InputNumber
+                            key={key}
+                            value={data[key]}
+                            placeholder={i18n.t('please enter {name}', { name: label || key })}
+                            onChange={(v) => updateItem({ [key]: v })}
+                            {...itemComponentProps}
+                          />
+                        );
+                        break;
+                      case 'switch':
+                        CompItem = (
+                          <Switch
+                            key={key}
+                            checked={!!data[key]}
+                            onChange={(v) => updateItem({ [key]: v })}
+                            {...itemComponentProps}
+                          />
+                        );
+                        valid = ['success'];
+                        break;
+                      case 'object':
+                        {
+                          //
                           const attrs = [] as any[];
                           if (isString(options)) {
                             const opts = options.split(';');
@@ -140,75 +193,74 @@ const ArrayObjComp = (props: any) => {
                           }
                           CompItem = (
                             <div key={key}>
-                              <div className="bold mt8">
-                                {getLabel(label || key, labelTip)}
-                              </div>
-                              {
-                                map(attrs, (attr: any) => {
-                                  const { type: _type, key: _k } = attr;
-                                  const attrKey = `${key}.${_k}`;
-                                  const curVal = get(data, attrKey);
-                                  if (_type === 'string') {
-                                    return (
-                                      <FormItem colon key={_k} label={_k} required={false} >
-                                        <Input key={_k} value={curVal} placeholder={i18n.t('please enter {name}', { name: _k })} onChange={(e) => updateItem({ [attrKey]: e.target.value })} />
-                                      </FormItem>
-                                    );
-                                  } else if (_type === 'number') {
-                                    return (
-                                      <FormItem colon key={_k} label={_k} required={false} >
-                                        <InputNumber key={_k} value={curVal} placeholder={i18n.t('please enter {name}', { name: _k })} onChange={(v) => updateItem({ [attrKey]: v })} />
-                                      </FormItem>
-                                    );
-                                  } else if (_type === 'boolean') {
-                                    return (
-                                      <FormItem colon key={_k} label={_k} required={false} >
-                                        <Switch checked={!!curVal} onChange={(v) => updateItem({ [attrKey]: v })} />
-                                      </FormItem>
-                                    );
-                                  }
-                                  return null;
-                                })
-                              }
+                              <div className="bold mt8">{getLabel(label || key, labelTip)}</div>
+                              {map(attrs, (attr: any) => {
+                                const { type: _type, key: _k } = attr;
+                                const attrKey = `${key}.${_k}`;
+                                const curVal = get(data, attrKey);
+                                if (_type === 'string') {
+                                  return (
+                                    <FormItem colon key={_k} label={_k} required={false}>
+                                      <Input
+                                        key={_k}
+                                        value={curVal}
+                                        placeholder={i18n.t('please enter {name}', { name: _k })}
+                                        onChange={(e) => updateItem({ [attrKey]: e.target.value })}
+                                      />
+                                    </FormItem>
+                                  );
+                                } else if (_type === 'number') {
+                                  return (
+                                    <FormItem colon key={_k} label={_k} required={false}>
+                                      <InputNumber
+                                        key={_k}
+                                        value={curVal}
+                                        placeholder={i18n.t('please enter {name}', { name: _k })}
+                                        onChange={(v) => updateItem({ [attrKey]: v })}
+                                      />
+                                    </FormItem>
+                                  );
+                                } else if (_type === 'boolean') {
+                                  return (
+                                    <FormItem colon key={_k} label={_k} required={false}>
+                                      <Switch checked={!!curVal} onChange={(v) => updateItem({ [attrKey]: v })} />
+                                    </FormItem>
+                                  );
+                                }
+                                return null;
+                              })}
                             </div>
                           );
                         }
-                          break;
-                        default:
-                          break;
-                      }
-                      if (component === 'object') return CompItem;
+                        break;
+                      default:
+                        break;
+                    }
+                    if (component === 'object') return CompItem;
 
-                      return key && CompItem
-                        ? (
-                          <FormItem
-                            key={key}
-                            colon
-                            label={label ? getLabel(label || key, labelTip) : undefined}
-                            validateStatus={valid[0]}
-                            help={valid[1]}
-                            required={required}
-                            style={label ? undefined : { width: '100%' }}
-                          >
-                            {CompItem}
-                          </FormItem>
-                        )
-                        : null;
-                    })
-                  )
-              }
-
+                    return key && CompItem ? (
+                      <FormItem
+                        key={key}
+                        colon
+                        label={label ? getLabel(label || key, labelTip) : undefined}
+                        validateStatus={valid[0]}
+                        help={valid[1]}
+                        required={required}
+                        style={label ? undefined : { width: '100%' }}
+                      >
+                        {CompItem}
+                      </FormItem>
+                    ) : null;
+                  })}
             </div>
-            <div className="operations">
-              {operation}
-            </div>
+            <div className="operations">{operation}</div>
           </div>
         );
       },
       defaultItem: () => {
         const dItem = {};
         map(_objItems, (item) => {
-          const key = isString(item) ? item : (get(item, 'key') || '');
+          const key = isString(item) ? item : get(item, 'key') || '';
           if (get(item, 'component') === 'object') {
             dItem[key] = {};
           } else {
@@ -220,66 +272,52 @@ const ArrayObjComp = (props: any) => {
     });
   }, [direction, objItems]);
 
-  return (
-    <Comp
-      value={value}
-      onChange={onChange}
-      disabled={disabled}
-
-      {...componentProps}
-    />
-  );
+  return <Comp value={value} onChange={onChange} disabled={disabled} {...componentProps} />;
 };
-
 
 const FormItem = Form.Item;
 
-export const FormArrayObj = ({
-  fixOut = noop,
-  fixIn = noop,
-  extensionFix,
-  requiredCheck,
-  trigger = 'onChange',
-}) => React.memo(({ fieldConfig, form }: any) => {
-  const {
-    key,
-    value,
-    label,
-    visible,
-    valid,
-    disabled,
-    registerRequiredCheck,
-    componentProps = {},
-    required,
-    wrapperProps,
-    labelTip,
-    requiredCheck: _requiredCheck,
-  } = fieldConfig;
-  registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (val: any) => {
-    form.setFieldValue(key, fixOut(val));
-    (componentProps.onChange || noop)(val);
-  };
+export const FormArrayObj = ({ fixOut = noop, fixIn = noop, extensionFix, requiredCheck, trigger = 'onChange' }) =>
+  React.memo(({ fieldConfig, form }: any) => {
+    const {
+      key,
+      value,
+      label,
+      visible,
+      valid,
+      disabled,
+      registerRequiredCheck,
+      componentProps = {},
+      required,
+      wrapperProps,
+      labelTip,
+      requiredCheck: _requiredCheck,
+    } = fieldConfig;
+    registerRequiredCheck(_requiredCheck || requiredCheck);
+    const handleChange = (val: any) => {
+      form.setFieldValue(key, fixOut(val));
+      (componentProps.onChange || noop)(val);
+    };
 
-  return (
-    <FormItem
-      colon
-      label={getLabel(label, labelTip)}
-      className={visible ? '' : 'hide'}
-      validateStatus={valid[0]}
-      help={valid[1]}
-      required={required}
-      {...wrapperProps}
-    >
-      <ArrayObjComp
-        value={fixIn(value)}
-        onChange={handleChange}
-        disabled={disabled}
-        componentProps={componentProps}
-      />
-    </FormItem>
-  );
-});
+    return (
+      <FormItem
+        colon
+        label={getLabel(label, labelTip)}
+        className={visible ? '' : 'hide'}
+        validateStatus={valid[0]}
+        help={valid[1]}
+        required={required}
+        {...wrapperProps}
+      >
+        <ArrayObjComp
+          value={fixIn(value)}
+          onChange={handleChange}
+          disabled={disabled}
+          componentProps={componentProps}
+        />
+      </FormItem>
+    );
+  });
 
 export const config = {
   name: 'arrayObj',
@@ -327,64 +365,70 @@ export const formConfig = {
                 const isObject = _data.component === 'object';
                 return (
                   <div key={_data.key}>
-                    <FormItem
-                      colon
-                      label={'属性key'}
-                      required
-                    >
-                      <Input key={'key'} value={_data.key} placeholder={i18n.t('please enter {name}', { name: '属性key' })} onChange={(e) => updateItem({ key: e.target.value })} />
+                    <FormItem colon label={'属性key'} required>
+                      <Input
+                        key={'key'}
+                        value={_data.key}
+                        placeholder={i18n.t('please enter {name}', { name: '属性key' })}
+                        onChange={(e) => updateItem({ key: e.target.value })}
+                      />
                     </FormItem>
-                    <FormItem
-                      colon
-                      label={'属性标签'}
-                      required={false}
-                    >
-                      <Input key={'label'} value={_data.label} placeholder={i18n.t('please enter {name}', { name: '属性标签' })} onChange={(e) => updateItem({ label: e.target.value })} />
+                    <FormItem colon label={'属性标签'} required={false}>
+                      <Input
+                        key={'label'}
+                        value={_data.label}
+                        placeholder={i18n.t('please enter {name}', { name: '属性标签' })}
+                        onChange={(e) => updateItem({ label: e.target.value })}
+                      />
                     </FormItem>
-                    <FormItem
-                      colon
-                      label={'属性标签提示'}
-                      required={false}
-                    >
-                      <Input key={'labelTip'} value={_data.labelTip} placeholder={i18n.t('please enter {name}', { name: '属性标签提示' })} onChange={(e) => updateItem({ labelTip: e.target.value })} />
+                    <FormItem colon label={'属性标签提示'} required={false}>
+                      <Input
+                        key={'labelTip'}
+                        value={_data.labelTip}
+                        placeholder={i18n.t('please enter {name}', { name: '属性标签提示' })}
+                        onChange={(e) => updateItem({ labelTip: e.target.value })}
+                      />
                     </FormItem>
-                    <FormItem
-                      colon
-                      label={'组件'}
-                      required={false}
-                    >
-                      <Select key={'component'} value={_data.component || 'input'} placeholder={i18n.t('please select {name}', { name: '组件' })} onChange={(v) => updateItem({ component: v })}>
-                        {map(subComponent, (oItem) => (<Option key={oItem.value} value={oItem.value}>{oItem.name}</Option>))}
+                    <FormItem colon label={'组件'} required={false}>
+                      <Select
+                        key={'component'}
+                        value={_data.component || 'input'}
+                        placeholder={i18n.t('please select {name}', { name: '组件' })}
+                        onChange={(v) => updateItem({ component: v })}
+                      >
+                        {map(subComponent, (oItem) => (
+                          <Option key={oItem.value} value={oItem.value}>
+                            {oItem.name}
+                          </Option>
+                        ))}
                       </Select>
                     </FormItem>
-                    {
-                      isSelect ? (
-                        <FormItem
-                          colon
-                          label={'选择项'}
-                          required={false}
-                        >
-                          <Input key={'options'} value={_data.options} placeholder={'使用k1:v1;k2:v2方式填写'} onChange={(e) => updateItem({ options: e.target.value })} />
-                        </FormItem>
-                      ) : null
-                    }
-                    {
-                      isObject ? (
-                        <FormItem
-                          colon
-                          label={'子项'}
-                          required={false}
-                        >
-                          <Input key={'options'} value={_data.options} placeholder={'使用k1:string;k2:number方式填写'} onChange={(e) => updateItem({ options: e.target.value })} />
-                        </FormItem>
-                      ) : null
-                    }
-                    <FormItem
-                      colon
-                      label={'是否必填'}
-                      required={false}
-                    >
-                      <Switch key={'required'} checked={!!_data.required} onChange={(v) => updateItem({ required: v })} />
+                    {isSelect ? (
+                      <FormItem colon label={'选择项'} required={false}>
+                        <Input
+                          key={'options'}
+                          value={_data.options}
+                          placeholder={'使用k1:v1;k2:v2方式填写'}
+                          onChange={(e) => updateItem({ options: e.target.value })}
+                        />
+                      </FormItem>
+                    ) : null}
+                    {isObject ? (
+                      <FormItem colon label={'子项'} required={false}>
+                        <Input
+                          key={'options'}
+                          value={_data.options}
+                          placeholder={'使用k1:string;k2:number方式填写'}
+                          onChange={(e) => updateItem({ options: e.target.value })}
+                        />
+                      </FormItem>
+                    ) : null}
+                    <FormItem colon label={'是否必填'} required={false}>
+                      <Switch
+                        key={'required'}
+                        checked={!!_data.required}
+                        onChange={(v) => updateItem({ required: v })}
+                      />
                     </FormItem>
                   </div>
                 );

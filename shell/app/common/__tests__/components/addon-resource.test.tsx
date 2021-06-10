@@ -18,9 +18,7 @@ import { describe, it } from '@jest/globals';
 
 describe('AddonResource', () => {
   it('resourceInfo is empty', () => {
-    const wrapper = shallow(
-      <AddonResource resourceInfo={{}} />,
-    );
+    const wrapper = shallow(<AddonResource resourceInfo={{}} />);
     expect(wrapper).toBeEmptyRender();
   });
   it('resourceInfo is not empty', () => {
@@ -33,9 +31,7 @@ describe('AddonResource', () => {
       cluster: 'erda cloud',
       version: '1.0.0',
     };
-    const wrapper = mount(
-      <AddonResource resourceInfo={resourceInfo} />,
-    );
+    const wrapper = mount(<AddonResource resourceInfo={resourceInfo} />);
     expect(wrapper.find('.info-key')).toHaveLength(7);
   });
 });

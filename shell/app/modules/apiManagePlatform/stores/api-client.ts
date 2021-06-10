@@ -62,7 +62,9 @@ const apiClient = createStore({
     },
     async updateClient({ call }, payload: API_CLIENT.UpdateClient) {
       const { resetClientSecret } = payload;
-      const successMsg = i18n.t('{action} successfully', { action: resetClientSecret ? i18n.t('reset') : i18n.t('update') });
+      const successMsg = i18n.t('{action} successfully', {
+        action: resetClientSecret ? i18n.t('reset') : i18n.t('update'),
+      });
       const res = await call(Service.updateClient, payload, { successMsg });
       return res;
     },
@@ -73,7 +75,9 @@ const apiClient = createStore({
       return clientDetail;
     },
     async deleteClient({ call }, payload: API_CLIENT.Common) {
-      const res = await call(Service.deleteClient, payload, { successMsg: i18n.t('{action} successfully', { action: i18n.t('delete') }) });
+      const res = await call(Service.deleteClient, payload, {
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('delete') }),
+      });
       return res;
     },
     async createContract({ call }, payload: API_CLIENT.CreteContract) {

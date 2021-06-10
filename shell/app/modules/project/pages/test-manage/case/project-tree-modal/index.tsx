@@ -43,15 +43,9 @@ const ProjectTreeModal = () => {
       destroyOnClose
     >
       <div style={{ position: 'relative' }}>
-        <CaseTree
-          readOnly
-          needRecycled={false}
-          needActiveKey={false}
-          onSelect={updateTreeModalExtra}
-          mode="temp"
-        />
+        <CaseTree readOnly needRecycled={false} needActiveKey={false} onSelect={updateTreeModalExtra} mode="temp" />
       </div>
-    </Modal >
+    </Modal>
   );
 };
 

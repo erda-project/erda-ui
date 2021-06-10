@@ -32,7 +32,12 @@ export const ticketTabs = () => {
     },
     {
       key: 'open',
-      name: <span>{i18n.t('application:pending')}<span className="dice-badge">{openTotal}</span></span>,
+      name: (
+        <span>
+          {i18n.t('application:pending')}
+          <span className="dice-badge">{openTotal}</span>
+        </span>
+      ),
     },
     {
       key: 'closed',
@@ -93,7 +98,9 @@ const Ticket = ({ scope }: IProps) => {
   return (
     <div>
       <div className="top-button-group">
-        <Button type="primary" onClick={() => openModal()}>{i18n.t('application:add ticket')}</Button>
+        <Button type="primary" onClick={() => openModal()}>
+          {i18n.t('application:add ticket')}
+        </Button>
         <TicketForm visible={visible} onOk={onOk} onCancel={closeModal} />
       </div>
       <TicketList {...multiFilterProps} />

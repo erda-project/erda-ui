@@ -104,7 +104,20 @@ export const regionMap = {
 
 export const clusterSpecMap = {
   'alicloud-ecs': {
-    Standard: { name: i18n.t('standard'), value: 'Standard', tip: <>{i18n.t('org:masters occupy 3 nodes')}<br />{i18n.t('org:lb occupies 2 nodes')}<br />{i18n.t('org:platform occupies 2 nodes')}<br /></> },
+    Standard: {
+      name: i18n.t('standard'),
+      value: 'Standard',
+      tip: (
+        <>
+          {i18n.t('org:masters occupy 3 nodes')}
+          <br />
+          {i18n.t('org:lb occupies 2 nodes')}
+          <br />
+          {i18n.t('org:platform occupies 2 nodes')}
+          <br />
+        </>
+      ),
+    },
     Small: { name: i18n.t('small'), value: 'Small', tip: i18n.t('org:masters, lb and platform share 3 nodes') },
     Test: { name: i18n.t('demo'), value: 'Test', tip: i18n.t('org:masters, lb and platform share 1 nodes') },
   },
@@ -150,10 +163,18 @@ export const groupOptions = (list: any[], optionRender?: (arg: any) => React.Rea
         {map(children, (subItem: any) => {
           if (optionRender) return optionRender(subItem);
           if (isString(subItem)) {
-            return <Option key={subItem} value={subItem}>{subItem}</Option>;
+            return (
+              <Option key={subItem} value={subItem}>
+                {subItem}
+              </Option>
+            );
           } else {
             const { name: cName, value: cValue } = subItem;
-            return <Option key={cName} value={cValue}>{cName}</Option>;
+            return (
+              <Option key={cName} value={cValue}>
+                {cName}
+              </Option>
+            );
           }
         })}
       </OptGroup>

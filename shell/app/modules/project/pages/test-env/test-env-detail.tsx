@@ -90,7 +90,9 @@ const transObjToList = (obj: object) => {
     return obj;
   }
   const list: Obj[] = [];
-  map(obj, (v: string, k: string) => { list.push({ key: k, value: v }); });
+  map(obj, (v: string, k: string) => {
+    list.push({ key: k, value: v });
+  });
   return list;
 };
 
@@ -184,27 +186,17 @@ const KVPairTable = (props: any) => {
 
   return (
     <KVPair {...props} value={_value} emptyHolder={!disabled} autoAppend={!disabled} compProps={{ disabled }}>
-      {
-        ({ CompList }: any) => {
-          const data = CompList.map((d: any, index: number) => ({
-            index,
-            ...CompList[index],
-            isLast: index === CompList.length - 1,
-          }));
-          return (
-            <Table
-              rowKey={'index'}
-              columns={columns}
-              pagination={false}
-              dataSource={data}
-            />
-          );
-        }
-      }
+      {({ CompList }: any) => {
+        const data = CompList.map((d: any, index: number) => ({
+          index,
+          ...CompList[index],
+          isLast: index === CompList.length - 1,
+        }));
+        return <Table rowKey={'index'} columns={columns} pagination={false} dataSource={data} />;
+      }}
     </KVPair>
   );
 };
-
 
 interface IProps {
   visible: boolean;
@@ -215,7 +207,9 @@ interface IProps {
   onCancel: () => any;
 }
 
-interface FormRef {props: {form: WrappedFormUtils}}
+interface FormRef {
+  props: { form: WrappedFormUtils };
+}
 
 const headerListOption = headerList.map((o) => ({ label: o, value: o }));
 export const TestEnvDetail = (props: IProps) => {
@@ -241,28 +235,20 @@ export const TestEnvDetail = (props: IProps) => {
 
   const formRef = React.useRef<FormRef>({} as FormRef);
   const HeaderKeyComp = ({ record, update: _update, ...rest }: any) => {
-    return (
-      <InputSelect
-        options={headerListOption}
-        value={record.key}
-        disabled={disabled}
-        onChange={_update}
-      />
-    );
+    return <InputSelect options={headerListOption} value={record.key} disabled={disabled} onChange={_update} />;
   };
 
   const GlobalKeyComp = ({ record, update: _update, ...rest }: any) => (
-    <Input
-      value={record.key}
-      onChange={(e) => _update(e.target.value.trim())}
-      maxLength={500}
-      {...rest}
-    />
+    <Input value={record.key} onChange={(e) => _update(e.target.value.trim())} maxLength={500} {...rest} />
   );
 
   const GlobalDescComp = ({ record, update: _update, ...rest }: any) => (
     <Select value={record.type || typeMap[testType].string} allowClear onChange={_update} {...rest}>
-      {map(typeMap[testType], (value, key) => <Option key={key} value={value}>{value}</Option>)}
+      {map(typeMap[testType], (value, key) => (
+        <Option key={key} value={value}>
+          {value}
+        </Option>
+      ))}
     </Select>
   );
 
@@ -337,21 +323,30 @@ export const TestEnvDetail = (props: IProps) => {
                 } else {
                   const isObj = isPlainObject(curFormData.header);
                   formRef.current.props.form.setFieldsValue({
-                    headerStr: JSON.stringify(filter(map(curFormData.header, (item, k) => {
-                      let reItem = {};
-                      if (isObj) {
-                        reItem = { value: item, key: k };
-                      } else {
-                        reItem = { key: item.key, value: item.value };
-                      }
-                      return reItem;
-                    }), (item) => item.key), null, 2),
+                    headerStr: JSON.stringify(
+                      filter(
+                        map(curFormData.header, (item, k) => {
+                          let reItem = {};
+                          if (isObj) {
+                            reItem = { value: item, key: k };
+                          } else {
+                            reItem = { key: item.key, value: item.value };
+                          }
+                          return reItem;
+                        }),
+                        (item) => item.key,
+                      ),
+                      null,
+                      2,
+                    ),
                   });
                 }
                 updater.headerMode(e.target.value);
               }}
             >
-              <Radio.Button disabled={!headerJsonValid} value="form">{i18n.t('common:form edit')}</Radio.Button>
+              <Radio.Button disabled={!headerJsonValid} value="form">
+                {i18n.t('common:form edit')}
+              </Radio.Button>
               <Radio.Button value="code">{i18n.t('common:text edit')}</Radio.Button>
             </Radio.Group>
           </div>
@@ -393,20 +388,27 @@ export const TestEnvDetail = (props: IProps) => {
                 } else {
                   const isObj = isPlainObject(curFormData.global);
                   formRef.current.props.form.setFieldsValue({
-                    globalStr: JSON.stringify(filter(
-                      map(curFormData.global, (item, k) => {
-                        const { desc = '', value = '', type = '' } = item;
-                        const reItem = { desc, value, type, key: isObj ? k : item.key };
-                        if (!reItem.type)reItem.type = typeMap.auto.string;
-                        return reItem;
-                      }), (item) => item.key,
-                    ), null, 2),
+                    globalStr: JSON.stringify(
+                      filter(
+                        map(curFormData.global, (item, k) => {
+                          const { desc = '', value = '', type = '' } = item;
+                          const reItem = { desc, value, type, key: isObj ? k : item.key };
+                          if (!reItem.type) reItem.type = typeMap.auto.string;
+                          return reItem;
+                        }),
+                        (item) => item.key,
+                      ),
+                      null,
+                      2,
+                    ),
                   });
                 }
                 updater.globalMode(e.target.value);
               }}
             >
-              <Radio.Button disabled={!globalJsonValid} value="form">{i18n.t('common:form edit')}</Radio.Button>
+              <Radio.Button disabled={!globalJsonValid} value="form">
+                {i18n.t('common:form edit')}
+              </Radio.Button>
               <Radio.Button value="code">{i18n.t('common:text edit')}</Radio.Button>
             </Radio.Group>
           </div>
@@ -418,12 +420,21 @@ export const TestEnvDetail = (props: IProps) => {
       {
         name: 'global',
         required: false,
-        getComp: () => <KVPairTable disabled={disabled} KeyComp={GlobalKeyComp} DescComp={GlobalDescComp} descName="type" KeyDescComp={KeyDescComp} keyDesc="desc" />,
+        getComp: () => (
+          <KVPairTable
+            disabled={disabled}
+            KeyComp={GlobalKeyComp}
+            DescComp={GlobalDescComp}
+            descName="type"
+            KeyDescComp={KeyDescComp}
+            keyDesc="desc"
+          />
+        ),
         itemProps: {
           type: globalFieldsStatus[0],
         },
-      }, {
-
+      },
+      {
         name: 'globalStr',
         required: false,
         getComp: () => <JsonFileEditor readOnly={disabled} />,
@@ -436,43 +447,52 @@ export const TestEnvDetail = (props: IProps) => {
 
   const fieldsList = getFieldsList(testType, headerMode, globalMode);
 
-  const onUpdateHandle = React.useCallback((values, header, global) => {
-    if (testType === 'manual') {
-      testEnvStore.updateTestEnv({ ...values, id: data.id, header, global, envType, envID }, { envType, envID });
-    } else {
-      testEnvStore.updateAutoTestEnv({
-        apiConfig: {
-          domain: values.domain,
-          name: values.name,
-          header,
-          global,
-        },
-        scope: scopeMap.autoTest.scope,
-        scopeID: String(envID),
-        ns: data.ns,
-        displayName: values.displayName,
-        desc: values.desc,
-      });
-    }
-  }, [data, envID, envType, testType]);
+  const onUpdateHandle = React.useCallback(
+    (values, header, global) => {
+      if (testType === 'manual') {
+        testEnvStore.updateTestEnv({ ...values, id: data.id, header, global, envType, envID }, { envType, envID });
+      } else {
+        testEnvStore.updateAutoTestEnv({
+          apiConfig: {
+            domain: values.domain,
+            name: values.name,
+            header,
+            global,
+          },
+          scope: scopeMap.autoTest.scope,
+          scopeID: String(envID),
+          ns: data.ns,
+          displayName: values.displayName,
+          desc: values.desc,
+        });
+      }
+    },
+    [data, envID, envType, testType],
+  );
 
-  const onCreateHandle = React.useCallback((values, header, global) => {
-    if (testType === 'manual') {
-      testEnvStore.createTestEnv({ ...values, header, global, envType, envID }, { envType, envID });
-    } else {
-      testEnvStore.createAutoTestEnv({
-        apiConfig: {
-          ...values,
-          header,
-          global,
-        },
-        scope: scopeMap.autoTest.scope,
-        scopeID: String(envID),
-        displayName: values.displayName,
-        desc: values.desc,
-      }, { scope: scopeMap.autoTest.scope, scopeID: envID });
-    }
-  }, [envID, envType, testType]);
+  const onCreateHandle = React.useCallback(
+    (values, header, global) => {
+      if (testType === 'manual') {
+        testEnvStore.createTestEnv({ ...values, header, global, envType, envID }, { envType, envID });
+      } else {
+        testEnvStore.createAutoTestEnv(
+          {
+            apiConfig: {
+              ...values,
+              header,
+              global,
+            },
+            scope: scopeMap.autoTest.scope,
+            scopeID: String(envID),
+            displayName: values.displayName,
+            desc: values.desc,
+          },
+          { scope: scopeMap.autoTest.scope, scopeID: envID },
+        );
+      }
+    },
+    [envID, envType, testType],
+  );
 
   const handleSubmit = (values: any) => {
     if (!globalJsonValid || !headerJsonValid) {
@@ -496,16 +516,19 @@ export const TestEnvDetail = (props: IProps) => {
     onCancel();
   };
 
-  const onValuesChange = React.useCallback(debounce((_formRef: {form: WrappedFormUtils}, changeValues: Obj, allValues: Obj) => {
-    if (changeValues.headerStr) {
-      const curHeaderValid = isValidJsonStr(changeValues.headerStr);
-      updater.headerJsonValid(curHeaderValid);
-    }
-    if (changeValues.globalStr) {
-      const curGlobalValid = isValidJsonStr(changeValues.globalStr);
-      updater.globalJsonValid(curGlobalValid);
-    }
-  }, 300), []);
+  const onValuesChange = React.useCallback(
+    debounce((_formRef: { form: WrappedFormUtils }, changeValues: Obj, allValues: Obj) => {
+      if (changeValues.headerStr) {
+        const curHeaderValid = isValidJsonStr(changeValues.headerStr);
+        updater.headerJsonValid(curHeaderValid);
+      }
+      if (changeValues.globalStr) {
+        const curGlobalValid = isValidJsonStr(changeValues.globalStr);
+        updater.globalJsonValid(curGlobalValid);
+      }
+    }, 300),
+    [],
+  );
 
   return (
     <FormModal
@@ -526,7 +549,7 @@ export const TestEnvDetail = (props: IProps) => {
   );
 };
 
-interface JsonFileProps{
+interface JsonFileProps {
   value?: string;
   onChange?: (v: string) => void;
   readOnly?: boolean;
@@ -551,11 +574,7 @@ const JsonFileEditor = (p: JsonFileProps) => {
         }}
         value={value}
       />
-      {
-        _isValid ? null : (
-          <span className="color-danger">{i18n.t('project:JSON format error')}</span>
-        )
-      }
+      {_isValid ? null : <span className="color-danger">{i18n.t('project:JSON format error')}</span>}
     </>
   );
 };

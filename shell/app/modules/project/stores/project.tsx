@@ -127,7 +127,11 @@ const project = createStore({
     async getProjectList({ call, update }, payload: Optional<PROJECT.ListQuery, 'orgId' | 'pageSize'>) {
       const orgId = orgStore.getState((s) => s.currentOrg.id);
       if (orgId !== undefined) {
-        const { list } = await call(getProjectList, { orgId, pageSize: PAGINATION.pageSize, ...payload }, { paging: { key: 'paging' } });
+        const { list } = await call(
+          getProjectList,
+          { orgId, pageSize: PAGINATION.pageSize, ...payload },
+          { paging: { key: 'paging' } },
+        );
         update({ list });
       }
     },
@@ -152,13 +156,15 @@ const project = createStore({
       const projectId = projectInfo.id;
       const updateFields = ['name', 'logo', 'desc', 'ddHook', 'clusterConfig', 'memQuota', 'cpuQuota'];
       const originalInfo: any = pick(projectInfo, updateFields);
-      await call(updateProject,
+      await call(
+        updateProject,
         { ...originalInfo, ...payload, projectId },
         {
           successMsg: isUpdateCluster
             ? i18n.t('project:update settings are successful')
             : i18n.t('project:update project success'),
-        });
+        },
+      );
       if (!isUpdateCluster) {
         userStore.effects.getJoinedProjects({ pageNo: 1, pageSize: 20 });
       }
@@ -172,16 +178,24 @@ const project = createStore({
       const routeParams = getParams();
       const { loadMore, ...rest } = payload;
       const projectId = rest.projectId || routeParams.projectId;
-      const { total, list: projectAppList } = await call(getApps, { ...rest, projectId }, { paging: { key: 'projectAppPaging' } });
+      const { total, list: projectAppList } = await call(
+        getApps,
+        { ...rest, projectId },
+        { paging: { key: 'projectAppPaging' } },
+      );
       const oldAppList = select((s) => s.projectAppList);
-      const newProjectAppList = (loadMore && payload.pageNo !== 1) ? oldAppList.concat(projectAppList) : projectAppList;
+      const newProjectAppList = loadMore && payload.pageNo !== 1 ? oldAppList.concat(projectAppList) : projectAppList;
       update({ projectAppList: newProjectAppList });
       return { list: newProjectAppList, total };
     },
     async getProjectSettingApps({ call, update, getParams }, payload: Optional<APPLICATION.GetAppList, 'projectId'>) {
       const routeParams = getParams();
       const projectId = payload.projectId || routeParams.projectId;
-      const { total, list: projectSettingAppList } = await call(getApps, { ...payload, projectId }, { paging: { key: 'projectSettingAppPaging' } });
+      const { total, list: projectSettingAppList } = await call(
+        getApps,
+        { ...payload, projectId },
+        { paging: { key: 'projectSettingAppPaging' } },
+      );
       update({ projectSettingAppList });
       return { list: projectSettingAppList, total };
     },
@@ -218,6 +232,5 @@ const project = createStore({
     },
   },
 });
-
 
 export default project;

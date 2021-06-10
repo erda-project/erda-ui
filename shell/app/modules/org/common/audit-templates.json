@@ -1636,7 +1636,7 @@
       "en": ""
     }
   },
-  "deleteTag":{
+  "deleteTag": {
     "desc": "删除标签",
     "success": {
       "zh": "在应用 [@appName](app) 下删除标签 [@name]",
@@ -1647,7 +1647,7 @@
       "en": ""
     }
   },
-  "deleteBranch":{
+  "deleteBranch": {
     "desc": "删除分支",
     "success": {
       "zh": "在应用 [@appName](app) 下删除分支 [@name]",
@@ -1658,7 +1658,7 @@
       "en": ""
     }
   },
-  "repoLocked":{
+  "repoLocked": {
     "desc": "仓库锁定",
     "success": {
       "zh": "应用 [@appName](app) 的仓库锁定状态变更为 [@isLocked]",

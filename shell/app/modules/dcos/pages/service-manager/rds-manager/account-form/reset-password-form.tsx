@@ -28,16 +28,15 @@ interface IProps {
   handleSubmit: (formRes: IFormRes) => void;
 }
 
-interface FormRef {props: {form: WrappedFormUtils}}
+interface FormRef {
+  props: { form: WrappedFormUtils };
+}
 
 const ResetPasswordForm = (props: IProps) => {
   const { visible, onClose, handleSubmit } = props;
   const formRef = React.useRef({}) as React.MutableRefObject<FormRef>;
 
-  const [{
-    passwordVisible,
-    confirmPasswordVisible,
-  }, updater] = useUpdate({
+  const [{ passwordVisible, confirmPasswordVisible }, updater] = useUpdate({
     passwordVisible: false,
     confirmPasswordVisible: false,
   });
@@ -94,8 +93,10 @@ const ResetPasswordForm = (props: IProps) => {
       },
       rules: [
         {
-          required: true, message: i18n.t('please confirm your password!'),
-        }, {
+          required: true,
+          message: i18n.t('please confirm your password!'),
+        },
+        {
           validator: compareToFirstPassword,
         },
       ],

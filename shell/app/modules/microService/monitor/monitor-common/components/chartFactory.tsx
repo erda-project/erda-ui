@@ -73,14 +73,7 @@ const emptyObj = {};
 const ChartBaseFactory = {
   create: ({ moduleName, chartName, dataHandler }: ICreateChartProps) => {
     const getQuery = (props: IChartProps) => {
-      const {
-        query = {},
-        timeSpan,
-        terminusKey,
-        chosenApp,
-        fetchApi,
-        params,
-      } = props;
+      const { query = {}, timeSpan, terminusKey, chosenApp, fetchApi, params } = props;
       const commonState = {
         ...timeSpan,
         chosenApp,
@@ -96,14 +89,10 @@ const ChartBaseFactory = {
           const curKey = dependentKey[key];
           if (has(commonState, curKey)) {
             const val = get(commonState, curKey);
-            val !== undefined &&
-              val !== '' &&
-              (reQuery[key] = commonState[curKey]);
+            val !== undefined && val !== '' && (reQuery[key] = commonState[curKey]);
           } else {
             // eslint-disable-next-line no-console
-            console.error(
-              `there has no key:${curKey} in chartFactory, or the value of the key is undefined.`,
-            );
+            console.error(`there has no key:${curKey} in chartFactory, or the value of the key is undefined.`);
           }
         });
       }
@@ -115,33 +104,27 @@ const ChartBaseFactory = {
       }; // 有静态查询参数，覆盖前面的参数，如固定的时间
     };
     const ChartBase = (props: IChartProps) => {
-      const {
-        titleText,
-        viewType,
-        viewRender,
-        viewProps,
-        groupId,
-        shouldLoad = true,
-        ...otherProps
-      } = props;
+      const { titleText, viewType, viewRender, viewProps, groupId, shouldLoad = true, ...otherProps } = props;
       const { query = emptyObj, fetchApi } = otherProps;
       const { loadChart } = monitorChartStore.effects;
       const { clearChartData } = monitorChartStore.reducers;
       const chart = monitorChartStore.useStore((s) => s);
       const data = get(chart, `${moduleName}.${chartName}`, {});
-      const [
-        timeSpan,
-        chosenSortItem,
-        chosenApp = {},
-      ] = monitorCommonStore.useStore((s) => [s.timeSpan, s.chosenSortItem, s.chosenApp]);
+      const [timeSpan, chosenSortItem, chosenApp = {}] = monitorCommonStore.useStore((s) => [
+        s.timeSpan,
+        s.chosenSortItem,
+        s.chosenApp,
+      ]);
       const terminusKey = routeInfoStore.useStore((s) => s.params.terminusKey);
-      const [curQuery, setCurQuery] = React.useState(getQuery({
-        ...props,
-        timeSpan,
-        chosenSortItem,
-        chosenApp,
-        terminusKey,
-      }) as any);
+      const [curQuery, setCurQuery] = React.useState(
+        getQuery({
+          ...props,
+          timeSpan,
+          chosenSortItem,
+          chosenApp,
+          terminusKey,
+        }) as any,
+      );
       let id = chartId;
       useEffectOnce(() => {
         id = chartId;
@@ -232,13 +215,6 @@ export const commonChartRender = (obj: any) => {
     obj.query && (reQuery = { ...reQuery, ...obj.query });
     const { query, fetchApi, ...ownProps } = props;
     const reApi = fetchApi || api;
-    return (
-      <Chart
-        {...rest}
-        {...ownProps}
-        fetchApi={reApi}
-        query={{ ...query, ...reQuery }}
-      />
-    );
+    return <Chart {...rest} {...ownProps} fetchApi={reApi} query={{ ...query, ...reQuery }} />;
   };
 };

@@ -63,13 +63,11 @@ interface IProps {
 export const ConfigLayout = ({ sectionList, className = '' }: IProps): JSX.Element => {
   return (
     <div className={`config-body ${className}`}>
-      {
-        sectionList.map(({ children, ...rest }: ISection, i) => (
-          <ConfigSection key={i} {...rest}>
-            {children}
-          </ConfigSection>
-        ))
-      }
+      {sectionList.map(({ children, ...rest }: ISection, i) => (
+        <ConfigSection key={i} {...rest}>
+          {children}
+        </ConfigSection>
+      ))}
     </div>
   );
 };

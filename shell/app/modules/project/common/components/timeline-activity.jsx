@@ -24,41 +24,45 @@ import './timeline-activity.scss';
 
 const { iconMap, textMap, typeMap } = activityConfig;
 
-const renderActiveItem = (onClickLink) => ({
-  id, actionType, operator, action, memoMap, detailLogId, createdAt, projectId, runtimeId,
-}) => (
-  <div key={id} className="with-line">
-    <div className="operation-item">
-      <div className="operation-icon">
-        <CustomIcon type={iconMap[actionType]} />
-      </div>
-      <div className="item-left">
-        <div className="operator">{operator}<span className="minor-info">{action}</span> </div>
-        {
-          map(memoMap, (value, key) => <div key={key} className="memo">{key}: <span className="minor-info">{value}</span></div>)
-        }
-        {
-          detailLogId
-            ? (
+const renderActiveItem =
+  (onClickLink) =>
+  ({ id, actionType, operator, action, memoMap, detailLogId, createdAt, projectId, runtimeId }) =>
+    (
+      <div key={id} className="with-line">
+        <div className="operation-item">
+          <div className="operation-icon">
+            <CustomIcon type={iconMap[actionType]} />
+          </div>
+          <div className="item-left">
+            <div className="operator">
+              {operator}
+              <span className="minor-info">{action}</span>{' '}
+            </div>
+            {map(memoMap, (value, key) => (
+              <div key={key} className="memo">
+                {key}: <span className="minor-info">{value}</span>
+              </div>
+            ))}
+            {detailLogId ? (
               <span
                 className="fake-link"
-                onClick={() => onClickLink({
-                  projectId,
-                  runtimeId,
-                  detailLogId,
-                  logType: typeMap[actionType],
-                })}
+                onClick={() =>
+                  onClickLink({
+                    projectId,
+                    runtimeId,
+                    detailLogId,
+                    logType: typeMap[actionType],
+                  })
+                }
               >
                 {textMap[actionType]}
               </span>
-            )
-            : null
-        }
+            ) : null}
+          </div>
+          <div>{fromNow(createdAt)}</div>
+        </div>
       </div>
-      <div>{fromNow(createdAt)}</div>
-    </div>
-  </div>
-);
+    );
 
 const TimelineActivity = ({ list: data, onClickLink, isJumping = false }) => {
   const split = [
@@ -73,7 +77,12 @@ const TimelineActivity = ({ list: data, onClickLink, isJumping = false }) => {
   split.forEach(([key, days], i) => {
     range[key] = {
       start: split[i + 1] === undefined ? moment().set('year', 2000) : moment().subtract(days, 'd').startOf('day'),
-      end: split[i - 1] === undefined ? moment() : moment().subtract(split[i - 1][1], 'd').startOf('day'),
+      end:
+        split[i - 1] === undefined
+          ? moment()
+          : moment()
+              .subtract(split[i - 1][1], 'd')
+              .startOf('day'),
       list: [],
     };
   });
@@ -91,20 +100,18 @@ const TimelineActivity = ({ list: data, onClickLink, isJumping = false }) => {
   return (
     <Spin tip={`${i18n.t('project:redirecting')}...`} spinning={isJumping}>
       <div className="timeline-activity">
-        {
-          Object.keys(range).map((key) => {
-            const { list } = range[key];
-            if (list.length === 0) {
-              return null;
-            }
-            return (
-              <div key={key} className="range-block with-line">
-                <div className="time-tag">{key}</div>
-                {list.map(renderActiveItem(onClickLink))}
-              </div>
-            );
-          })
-        }
+        {Object.keys(range).map((key) => {
+          const { list } = range[key];
+          if (list.length === 0) {
+            return null;
+          }
+          return (
+            <div key={key} className="range-block with-line">
+              <div className="time-tag">{key}</div>
+              {list.map(renderActiveItem(onClickLink))}
+            </div>
+          );
+        })}
       </div>
     </Spin>
   );

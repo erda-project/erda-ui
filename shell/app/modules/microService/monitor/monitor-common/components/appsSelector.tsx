@@ -21,7 +21,7 @@ import { useEffectOnce } from 'react-use';
 import './appsSelector.scss';
 import i18n from 'i18n';
 
-interface IApp{
+interface IApp {
   [pro: string]: any;
   id: string;
   name: string;
@@ -30,7 +30,11 @@ interface IApp{
 const AppsSelector = () => {
   const { getProjectApps } = monitorCommonStore.effects;
   const { changeChosenApp } = monitorCommonStore.reducers;
-  const [projectApps, appPaging, chosenApp] = monitorCommonStore.useStore((s) => [s.projectApps, s.projectAppsPaging, s.chosenApp]);
+  const [projectApps, appPaging, chosenApp] = monitorCommonStore.useStore((s) => [
+    s.projectApps,
+    s.projectAppsPaging,
+    s.chosenApp,
+  ]);
   const query = routeInfoStore.useStore((s) => s.query);
 
   const [{ searchKey }, updater] = useUpdate({
@@ -38,7 +42,8 @@ const AppsSelector = () => {
   });
 
   useEffectOnce(() => {
-    if (appPaging.pageNo === 1 && isEmpty(projectApps)) { // 只有当无数据的时候才请求
+    if (appPaging.pageNo === 1 && isEmpty(projectApps)) {
+      // 只有当无数据的时候才请求
       getApp();
     }
   });
@@ -51,7 +56,8 @@ const AppsSelector = () => {
 
   React.useEffect(() => {
     const { appId, appName }: any = query || {};
-    if (appId !== undefined && appName) { // 优先取路由上选中
+    if (appId !== undefined && appName) {
+      // 优先取路由上选中
       changeChosenApp({ chosenApp: { id: appId, name: appName } });
     }
   }, [changeChosenApp, query]);
@@ -105,21 +111,34 @@ const AppsSelector = () => {
         <Input placeholder={i18n.t('microService:search for')} onChange={filterList} value={searchKey} />
       </div>
       <ul>
-        {
-            projectApps && projectApps.map((item) => {
-              return <li onClick={() => handleAppChange(item)} className="nowrap" key={item.id}>{item.name}</li>;
-            })
-          }
+        {projectApps &&
+          projectApps.map((item) => {
+            return (
+              <li onClick={() => handleAppChange(item)} className="nowrap" key={item.id}>
+                {item.name}
+              </li>
+            );
+          })}
         <IF check={appPaging.hasMore}>
-          <li onClick={loadMore}><CustomIcon type="Loading" />{i18n.t('microService:load more')}</li>
+          <li onClick={loadMore}>
+            <CustomIcon type="Loading" />
+            {i18n.t('microService:load more')}
+          </li>
         </IF>
       </ul>
     </div>
   );
   return (
-    <Dropdown overlayClassName="app-selector-dropdown" trigger={['click']} overlay={switchList} onVisibleChange={onCloseSwitch}>
+    <Dropdown
+      overlayClassName="app-selector-dropdown"
+      trigger={['click']}
+      overlay={switchList}
+      onVisibleChange={onCloseSwitch}
+    >
       <div className="flex-box app-selector-name">
-        <span className={nameStyle}>{`${name ? `${i18n.t('microService:application')}: ${name}` : i18n.t('microService:switch application')}`}</span>
+        <span className={nameStyle}>{`${
+          name ? `${i18n.t('microService:application')}: ${name}` : i18n.t('microService:switch application')
+        }`}</span>
         <CustomIcon className="caret" type="caret-down" />
       </div>
     </Dropdown>

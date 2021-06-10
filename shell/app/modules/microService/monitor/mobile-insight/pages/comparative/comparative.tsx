@@ -24,7 +24,6 @@ import { goTo } from 'common/utils';
 import './comparative.scss';
 import i18n from 'i18n';
 
-
 export const targetList = [
   { name: i18n.t('microService:user experience apdex'), key: 'apdex' },
   { name: i18n.t('microService:the whole page is loaded'), key: 'plt' },
@@ -58,9 +57,34 @@ const MIComparative = () => {
     if (target === 'apdex') {
       // ranges: 响应时间层级(毫秒)
       // 0-2000（2秒内）为一个层级，对应满意的数据，2000-8000对应一般，8000以上对应不满
-      query = { start, end, filter_type: 'mobile', filter_tk: terminusKey, group: compareBy, range: 'plt', ranges: '0:2000,2000:8000,8000:', source: true, fetchApi: 'ta_m_apdex/range', type: 'apdex' };
+      query = {
+        start,
+        end,
+        filter_type: 'mobile',
+        filter_tk: terminusKey,
+        group: compareBy,
+        range: 'plt',
+        ranges: '0:2000,2000:8000,8000:',
+        source: true,
+        fetchApi: 'ta_m_apdex/range',
+        type: 'apdex',
+      };
     } else {
-      query = { start, end, filter_type: 'mobile', filter_tk: terminusKey, limit: 5, sort: 'count', split: 10, rangeSize: 1000, source: true, group: compareBy, range: target, fetchApi: 'ta_m_values_grade/range', type: 'timing' };
+      query = {
+        start,
+        end,
+        filter_type: 'mobile',
+        filter_tk: terminusKey,
+        limit: 5,
+        sort: 'count',
+        split: 10,
+        rangeSize: 1000,
+        source: true,
+        group: compareBy,
+        range: target,
+        fetchApi: 'ta_m_values_grade/range',
+        type: 'timing',
+      };
     }
     loadDetail({ query } as any);
   }, [target, compareBy, timeSpan, terminusKey, loadDetail]);
@@ -80,69 +104,88 @@ const MIComparative = () => {
       <div className="analysis-chart-top">
         <span className="index-explain">
           {i18n.t('microService:comparative analysis of user features')}
-          <span className="close-icon"><CustomIcon onClick={goBack} type="guanbi" /></span>
+          <span className="close-icon">
+            <CustomIcon onClick={goBack} type="guanbi" />
+          </span>
         </span>
         <div className="selector-wrapper">
           <span>{i18n.t('microService:selector')}</span>
           <div className="analysis-selector">
             <span>{i18n.t('microService:index')}</span>
-            <Select key="select-one" className="time-range-selector one" defaultValue={targetList[0].key} onChange={changeTarget}>
-              {
-                map(targetList, (tgt, i) => <Select.Option key={i} value={tgt.key}>{tgt.name}</Select.Option>)
-              }
+            <Select
+              key="select-one"
+              className="time-range-selector one"
+              defaultValue={targetList[0].key}
+              onChange={changeTarget}
+            >
+              {map(targetList, (tgt, i) => (
+                <Select.Option key={i} value={tgt.key}>
+                  {tgt.name}
+                </Select.Option>
+              ))}
             </Select>
             <span>{i18n.t('microService:user features')}</span>
-            <Select key="select-two" className="time-range-selector two" defaultValue={featureList[0].key} onChange={changeFeature}>
-              {
-                map(featureList, (feature, i) => <Select.Option key={i} value={feature.key}>{feature.name}</Select.Option>)
-              }
+            <Select
+              key="select-two"
+              className="time-range-selector two"
+              defaultValue={featureList[0].key}
+              onChange={changeFeature}
+            >
+              {map(featureList, (feature, i) => (
+                <Select.Option key={i} value={feature.key}>
+                  {feature.name}
+                </Select.Option>
+              ))}
             </Select>
           </div>
         </div>
       </div>
       <div className="card-container">
-        {
-            isEmpty(data) ? <EmptyHolder /> :
-            <Row gutter={24} className="chart-row">
-              {
-                map(data, ({ results, xAxis, titleText }, i) => {
-                  return (
-                    <Col className="gutter-row" span={i ? 12 : 24} key={i}>
-                      <div className="chart-container">
-                        <h2 className="chart-title">{titleText}</h2>
-                        <MonitorChartNew
-                          seriesType="bar"
-                          yAxisNames={[i18n.t('microService:requests count')]}
-                          data={{ results, xAxis }}
-                          opt={target === 'apdex' ? {
-                            grid: {
-                              top: 30,
-                              bottom: 0,
-                              left: 25,
-                            },
-                          } : {
-                            grid: {
-                              top: 30,
-                              right: 35,
-                              bottom: 0,
-                            },
-                            xAxis: [
-                              {
-                                name: `${i18n.t('microService:time')}(ms)`,
-                                nameGap: -20,
+        {isEmpty(data) ? (
+          <EmptyHolder />
+        ) : (
+          <Row gutter={24} className="chart-row">
+            {map(data, ({ results, xAxis, titleText }, i) => {
+              return (
+                <Col className="gutter-row" span={i ? 12 : 24} key={i}>
+                  <div className="chart-container">
+                    <h2 className="chart-title">{titleText}</h2>
+                    <MonitorChartNew
+                      seriesType="bar"
+                      yAxisNames={[i18n.t('microService:requests count')]}
+                      data={{ results, xAxis }}
+                      opt={
+                        target === 'apdex'
+                          ? {
+                              grid: {
+                                top: 30,
+                                bottom: 0,
+                                left: 25,
                               },
-                            ],
-                          }}
-                          isLabel
-                          isBarChangeColor
-                        />
-                      </div>
-                    </Col>
-                  );
-                })
-              }
-            </Row>
-          }
+                            }
+                          : {
+                              grid: {
+                                top: 30,
+                                right: 35,
+                                bottom: 0,
+                              },
+                              xAxis: [
+                                {
+                                  name: `${i18n.t('microService:time')}(ms)`,
+                                  nameGap: -20,
+                                },
+                              ],
+                            }
+                      }
+                      isLabel
+                      isBarChangeColor
+                    />
+                  </div>
+                </Col>
+              );
+            })}
+          </Row>
+        )}
       </div>
     </div>
   );

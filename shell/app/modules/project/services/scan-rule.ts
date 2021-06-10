@@ -14,36 +14,43 @@
 import agent from 'agent';
 
 export const getAppendedScanRules = (query: SCAN_RULE.IAppendedQuery) => {
-  return agent.get('/api/sonar-metric-rules')
+  return agent
+    .get('/api/sonar-metric-rules')
     .query(query)
     .then((response: any) => response.body);
 };
 
 export const getOptionalScanRules = (query: SCAN_RULE.IOptionalQuery) => {
-  return agent.get('/api/sonar-metric-rules/actions/query-metric-definition')
+  return agent
+    .get('/api/sonar-metric-rules/actions/query-metric-definition')
     .query(query)
     .then((response: any) => response.body);
 };
 
-
 export const updateScanRule = ({ id, ...rest }: SCAN_RULE.IUpdateBody) => {
-  return agent.put(`/api/sonar-metric-rules/${id}`)
+  return agent
+    .put(`/api/sonar-metric-rules/${id}`)
     .send(rest)
     .then((response: any) => response.body);
 };
 
 export const batchInsertScanRule = (data: SCAN_RULE.IBatchInsertBody) => {
-  return agent.post('/api/sonar-metric-rules/actions/batch-insert')
+  return agent
+    .post('/api/sonar-metric-rules/actions/batch-insert')
     .send(data)
     .then((response: any) => response.body);
 };
 
 export const deleteScanRule = ({ id, ...rest }: SCAN_RULE.IDeleteBody) => {
-  return agent.delete(`/api/sonar-metric-rules/${id}`).send(rest)
+  return agent
+    .delete(`/api/sonar-metric-rules/${id}`)
+    .send(rest)
     .then((response: any) => response.body);
 };
 
 export const batchDeleteScanRule = (query: SCAN_RULE.IBatchDeleteBody) => {
-  return agent.delete('/api/sonar-metric-rules/actions/batch-delete').send(query)
+  return agent
+    .delete('/api/sonar-metric-rules/actions/batch-delete')
+    .send(query)
     .then((response: any) => response.body);
 };

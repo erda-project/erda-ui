@@ -22,11 +22,7 @@ interface IProps {
   outerAddr: string;
 }
 
-export const DomainChecker = ({
-  innerAddr,
-  innerTips,
-  outerAddr,
-}: IProps) => {
+export const DomainChecker = ({ innerAddr, innerTips, outerAddr }: IProps) => {
   return (
     <Popover
       title={<h2 className="domain-title">{i18n.t('microService:domain information')}</h2>}
@@ -35,17 +31,25 @@ export const DomainChecker = ({
       content={
         <div className="domain-content">
           <div className="mb8 domain-addr">
-            {i18n.t('microService:external network address')}<Copy className="for-copy" data-clipboard-tip={i18n.t('microService:external network address')}>: { outerAddr }</Copy>
+            {i18n.t('microService:external network address')}
+            <Copy className="for-copy" data-clipboard-tip={i18n.t('microService:external network address')}>
+              : {outerAddr}
+            </Copy>
           </div>
           <Tooltip title={innerTips}>
             <div className="domain-addr">
-              {i18n.t('microService:internal network address')}<Copy className="for-copy" data-clipboard-tip={i18n.t('microService:internal network address')}>: { innerAddr }</Copy>
+              {i18n.t('microService:internal network address')}
+              <Copy className="for-copy" data-clipboard-tip={i18n.t('microService:internal network address')}>
+                : {innerAddr}
+              </Copy>
             </div>
           </Tooltip>
         </div>
       }
     >
-      <Button ghost type="primary">{i18n.t('microService:view cluster domain name')}</Button>
+      <Button ghost type="primary">
+        {i18n.t('microService:view cluster domain name')}
+      </Button>
     </Popover>
   );
 };

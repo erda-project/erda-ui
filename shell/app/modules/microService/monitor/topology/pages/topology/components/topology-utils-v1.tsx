@@ -13,7 +13,29 @@
 
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import { isArray, reduce, isEmpty, find, uniq, map, filter, merge, groupBy, max, maxBy, values, flatten, keys, get, min, minBy, difference, sortBy, cloneDeep, set } from 'lodash';
+import {
+  isArray,
+  reduce,
+  isEmpty,
+  find,
+  uniq,
+  map,
+  filter,
+  merge,
+  groupBy,
+  max,
+  maxBy,
+  values,
+  flatten,
+  keys,
+  get,
+  min,
+  minBy,
+  difference,
+  sortBy,
+  cloneDeep,
+  set,
+} from 'lodash';
 import { produce } from 'immer';
 import { externalKey } from './utils';
 // @ts-ignore
@@ -38,7 +60,7 @@ export interface INode {
   [pro: string]: any;
 }
 
-interface INodeExternal{
+interface INodeExternal {
   x: number;
   y: number;
   deepth: number;
@@ -48,7 +70,7 @@ interface INodeExternal{
   id: string;
 }
 
-interface INodeData{
+interface INodeData {
   name: string;
   id: string;
   category: string;
@@ -77,7 +99,8 @@ export const CANVAS = {
   LINK: {
     linkDis: 25, // 跨层级线间距
   },
-  padding: { // 单个独立图的padding
+  padding: {
+    // 单个独立图的padding
     x: 100,
     y: 100,
   },
@@ -108,37 +131,38 @@ export const renderTopology = (originData: INodeData[], snap: any, g: any, exter
   if (isEmpty(originData)) return { containerWidth, containerHeight };
   const microserviceChart = dataHandler.getMicroserviceChart(get(originData, 'nodes', []));
 
-
   const nodeGroup = dataHandler.getGroupChart(get(originData, 'nodes', []), get(originData, 'subGroupNodes', []));
   const marginToTop = get(microserviceChart, 'boxHeight', 0);
   const { direction } = CANVAS;
   let groupDataNodeMap = {};
   let groupChart = {};
-  nodeGroup.forEach(({ boxWidth, boxHeight, links, nodeMap, nodeList, linkTopDistance = 0, linkDownDistance = 0, categoryBox }) => {
-    groupDataNodeMap = nodeMap;
-    let x = 0;
-    let y = marginToTop;
-    let vx = 0;
-    let vy = 0; // viewBox坐标
-    if (direction === 'horizontal') {
-      y = containerHeight + marginToTop;
-      containerWidth = boxWidth > containerWidth ? boxWidth : containerWidth;
-      containerHeight += boxHeight + marginToTop;
-      vy = -linkTopDistance;
-    } else if (direction === 'vertical') {
-      x = containerWidth;
-      containerWidth += boxWidth;
-      containerHeight = boxHeight > containerHeight ? boxHeight : containerHeight;
-      vx = -linkTopDistance;
-    }
-    // 在snap中创建独立的svg，并renderNodes和renderLinks
-    const chart = snap.svg(x, y, boxWidth, boxHeight, vx, vy, boxWidth, boxHeight);
-    g.append(chart);
-    renderCategoryBox({ categoryBox, linkDownDistance, linkTopDistance }, chart, external);
-    renderNodes({ nodeMap }, chart, external);
-    renderLinks({ links, nodeMap }, chart, external);
-    groupChart = chart;
-  });
+  nodeGroup.forEach(
+    ({ boxWidth, boxHeight, links, nodeMap, nodeList, linkTopDistance = 0, linkDownDistance = 0, categoryBox }) => {
+      groupDataNodeMap = nodeMap;
+      let x = 0;
+      let y = marginToTop;
+      let vx = 0;
+      let vy = 0; // viewBox坐标
+      if (direction === 'horizontal') {
+        y = containerHeight + marginToTop;
+        containerWidth = boxWidth > containerWidth ? boxWidth : containerWidth;
+        containerHeight += boxHeight + marginToTop;
+        vy = -linkTopDistance;
+      } else if (direction === 'vertical') {
+        x = containerWidth;
+        containerWidth += boxWidth;
+        containerHeight = boxHeight > containerHeight ? boxHeight : containerHeight;
+        vx = -linkTopDistance;
+      }
+      // 在snap中创建独立的svg，并renderNodes和renderLinks
+      const chart = snap.svg(x, y, boxWidth, boxHeight, vx, vy, boxWidth, boxHeight);
+      g.append(chart);
+      renderCategoryBox({ categoryBox, linkDownDistance, linkTopDistance }, chart, external);
+      renderNodes({ nodeMap }, chart, external);
+      renderLinks({ links, nodeMap }, chart, external);
+      groupChart = chart;
+    },
+  );
 
   if (!isEmpty(microserviceChart)) {
     const {
@@ -152,11 +176,15 @@ export const renderTopology = (originData: INodeData[], snap: any, g: any, exter
     const chartX = (containerWidth - mBoxWidth) / 2;
     const chart = snap.svg(chartX, 0, mBoxWidth, mBoxHeight, 0, 0, mBoxWidth, mBoxHeight);
     g.append(chart);
-    renderCategoryBox({
-      categoryBox: mCategoryBox,
-      linkDownDistance: -40,
-      linkTopDistance: -40,
-    }, chart, external);
+    renderCategoryBox(
+      {
+        categoryBox: mCategoryBox,
+        linkDownDistance: -40,
+        linkTopDistance: -40,
+      },
+      chart,
+      external,
+    );
     renderNodes({ nodeMap: mNodeMap, groupNodeMap: groupDataNodeMap, groupChart }, chart, external);
   }
   return { containerWidth, containerHeight };
@@ -182,10 +210,12 @@ const setDataLevelWithCategory = (categoryMap: any, groups: any, nodeList: any[]
           const { deepMap, startNodes } = item;
           curStartNode = curStartNode.concat(startNodes);
           map(deepMap, (deepData: any, key) => {
-            curDeepMap[key] = { _external: { ...deepData._external, deepth: curMaxDeep + get(deepData, '_external.deepth', 1) } };
+            curDeepMap[key] = {
+              _external: { ...deepData._external, deepth: curMaxDeep + get(deepData, '_external.deepth', 1) },
+            };
           });
         });
-        if (curMaxDeep === 0)set(draft, 'startNodes', curStartNode);
+        if (curMaxDeep === 0) set(draft, 'startNodes', curStartNode);
         set(draft, 'deepMap', { ...draft.deepMap, ...curDeepMap });
       }
     });
@@ -201,11 +231,17 @@ const setDataLevelWithCategory = (categoryMap: any, groups: any, nodeList: any[]
         const curMaxData: any = maxBy(map(draft.deepMap), '_external.deepth');
         const curMaxDeep = curMaxData ? get(curMaxData, '_external.deepth', 0) : 0;
         map(data, (item) => {
-          const { id, type, _external: { subGroup } } = item;
+          const {
+            id,
+            type,
+            _external: { subGroup },
+          } = item;
           curStartNode.push(id);
-          curDeepMap[id] = { _external: { deepth: curMaxDeep + 1, id, levelSort: addonLevelSortMap[subGroup] || type } };
+          curDeepMap[id] = {
+            _external: { deepth: curMaxDeep + 1, id, levelSort: addonLevelSortMap[subGroup] || type },
+          };
         });
-        if (curMaxDeep === 0)set(draft, 'startNodes', curStartNode);
+        if (curMaxDeep === 0) set(draft, 'startNodes', curStartNode);
         set(draft, 'deepMap', { ...draft.deepMap, ...curDeepMap });
       }
     });
@@ -221,10 +257,16 @@ const setDataLevelWithCategory = (categoryMap: any, groups: any, nodeList: any[]
           const { deepMap, startNodes } = item;
           curStartNode = curStartNode.concat(startNodes);
           map(deepMap, (deepData: any, key) => {
-            curDeepMap[key] = { _external: { ...deepData._external, deepth: curMaxDeep + get(deepData, '_external.deepth', 1), groupSort: subGroup } };
+            curDeepMap[key] = {
+              _external: {
+                ...deepData._external,
+                deepth: curMaxDeep + get(deepData, '_external.deepth', 1),
+                groupSort: subGroup,
+              },
+            };
           });
         });
-        if (curMaxDeep === 0)set(draft, 'startNodes', curStartNode);
+        if (curMaxDeep === 0) set(draft, 'startNodes', curStartNode);
         set(draft, 'deepMap', { ...draft.deepMap, ...curDeepMap });
       }
     });
@@ -234,18 +276,21 @@ const setDataLevelWithCategory = (categoryMap: any, groups: any, nodeList: any[]
   resData = setRegularDataDeepth(gateway, resData);
   resData = setGroupDataDeepth(endpoint, resData);
   const servieceDeepthMap = {};
-  map(sortBy(service, (sItem) => {
-    const subGroup = get(sItem, '[0].nodeList[0]._external.subGroup');
-    const groupDeepth = get(subGroupDeepth, `${subGroup}._external.deepth`);
-    return groupDeepth;
-  }), (serviceItem) => {
-    const subGroup = get(serviceItem, '[0].nodeList[0]._external.subGroup');
-    const groupDeepth = get(subGroupDeepth, `${subGroup}._external.deepth`);
-    const curMaxData: any = maxBy(map(resData.deepMap), '_external.deepth');
-    const curMaxDeep = curMaxData ? get(curMaxData, '_external.deepth', 0) : 0;
-    !servieceDeepthMap[`${groupDeepth}`] && (servieceDeepthMap[`${groupDeepth}`] = curMaxDeep);
-    resData = setServiceDataDeepth(serviceItem, resData, servieceDeepthMap[`${groupDeepth}`], subGroup);
-  });
+  map(
+    sortBy(service, (sItem) => {
+      const subGroup = get(sItem, '[0].nodeList[0]._external.subGroup');
+      const groupDeepth = get(subGroupDeepth, `${subGroup}._external.deepth`);
+      return groupDeepth;
+    }),
+    (serviceItem) => {
+      const subGroup = get(serviceItem, '[0].nodeList[0]._external.subGroup');
+      const groupDeepth = get(subGroupDeepth, `${subGroup}._external.deepth`);
+      const curMaxData: any = maxBy(map(resData.deepMap), '_external.deepth');
+      const curMaxDeep = curMaxData ? get(curMaxData, '_external.deepth', 0) : 0;
+      !servieceDeepthMap[`${groupDeepth}`] && (servieceDeepthMap[`${groupDeepth}`] = curMaxDeep);
+      resData = setServiceDataDeepth(serviceItem, resData, servieceDeepthMap[`${groupDeepth}`], subGroup);
+    },
+  );
   resData = setRegularDataDeepth(addon, resData);
   return [resData];
 };
@@ -302,12 +347,13 @@ export const dataHandler = {
       // const {
       //   nodeMap, boxWidth, boxHeight, categoryBox,
       // } = dataHandler.getNodesPosition(curNodeMap); // 节点定位
-      const {
-        nodeMap, boxWidth, boxHeight, categoryBox,
-      } = dataHandler.getNewNodesPosition(curNodeMap, groupDeepth);
-      const {
-        links, linkTopDistance, linkDownDistance,
-      } = dataHandler.getLinks(nodeList, nodeMap, boxHeight, groupDeepth); // 获取链接（包含link定位）
+      const { nodeMap, boxWidth, boxHeight, categoryBox } = dataHandler.getNewNodesPosition(curNodeMap, groupDeepth);
+      const { links, linkTopDistance, linkDownDistance } = dataHandler.getLinks(
+        nodeList,
+        nodeMap,
+        boxHeight,
+        groupDeepth,
+      ); // 获取链接（包含link定位）
       let totalWidth = boxWidth;
       let totalHeight = boxHeight;
       const { direction } = CANVAS;
@@ -348,10 +394,14 @@ export const dataHandler = {
     const { microservice } = categoryMap;
     if (isEmpty(microservice)) return {};
     const len = microservice.length;
-    const { padding, NODE: { width, height, margin }, boxMargin } = CANVAS;
+    const {
+      padding,
+      NODE: { width, height, margin },
+      boxMargin,
+    } = CANVAS;
     const nodeMap = {};
     const boxWidth = (width + margin.x) * len - margin.x + padding.x * 2;
-    const boxHeight = (height + margin.y) - margin.y + padding.y * 2;
+    const boxHeight = height + margin.y - margin.y + padding.y * 2;
 
     let startX = padding.x;
     let startY = padding.y;
@@ -375,7 +425,7 @@ export const dataHandler = {
 
       if (idx === len - 1) {
         categoryBox[category] = {
-          ...categoryBox[category] || {},
+          ...(categoryBox[category] || {}),
           endX: x + lineBoxMarginX + width / 2,
           endY: y + lineBoxMarginY + height / 2,
         };
@@ -402,46 +452,52 @@ export const dataHandler = {
   getNodesFormat: (dataArr: any[]) => {
     if (!isArray(dataArr)) return { data: [], countMap: {} };
     const nodeCallCountMap = {};
-    const data = reduce(dataArr, (res: any[], item) => {
-      const { id, parents, ...rest } = item;
-      if (parents && parents.length > 0) {
-        const prevMap = nodeCallCountMap[id] || {};
-        nodeCallCountMap[id] = { ...prevMap, inCountTotal: get(rest, 'metric.count') || 1 };
-        // nodeCallCountMap[id] = { ...prevMap, inCountTotal: reduce(parents, (sum, { metric: { count } }) => (count + sum), 0) };
-        let pCount = 0;
-        parents.forEach((p: any) => {
-          const { id: pId } = p;
-          const count = get(p, 'metric.count') || 0;
-          const curParentId = (find(dataArr, { id: pId }) || {}).id || '';
-          // 过滤不存在的节点和自己调自己的节点
-          if (curParentId && curParentId !== id) {
-            if (nodeCallCountMap[`${pId}`]) {
-              const prevCallCount = nodeCallCountMap[`${pId}`].outCountTotal || 0;
-              nodeCallCountMap[`${pId}`].outCountTotal = prevCallCount + count;
-            } else {
-              nodeCallCountMap[`${pId}`] = { outCountTotal: count };
+    const data = reduce(
+      dataArr,
+      (res: any[], item) => {
+        const { id, parents, ...rest } = item;
+        if (parents && parents.length > 0) {
+          const prevMap = nodeCallCountMap[id] || {};
+          nodeCallCountMap[id] = { ...prevMap, inCountTotal: get(rest, 'metric.count') || 1 };
+          // nodeCallCountMap[id] = { ...prevMap, inCountTotal: reduce(parents, (sum, { metric: { count } }) => (count + sum), 0) };
+          let pCount = 0;
+          parents.forEach((p: any) => {
+            const { id: pId } = p;
+            const count = get(p, 'metric.count') || 0;
+            const curParentId = (find(dataArr, { id: pId }) || {}).id || '';
+            // 过滤不存在的节点和自己调自己的节点
+            if (curParentId && curParentId !== id) {
+              if (nodeCallCountMap[`${pId}`]) {
+                const prevCallCount = nodeCallCountMap[`${pId}`].outCountTotal || 0;
+                nodeCallCountMap[`${pId}`].outCountTotal = prevCallCount + count;
+              } else {
+                nodeCallCountMap[`${pId}`] = { outCountTotal: count };
+              }
+              pCount += 1;
+              res.push({ parent: curParentId, parents, id, nodeType: 'node', ...rest });
             }
-            pCount += 1;
-            res.push({ parent: curParentId, parents, id, nodeType: 'node', ...rest });
+          });
+          if (pCount === 0) {
+            // 有父但父count为0，则可能父节点不存在或只有自己是自己的父节点
+            res.push({ parent: '', id, parents, nodeType: 'node', ...rest });
           }
-        });
-        if (pCount === 0) { // 有父但父count为0，则可能父节点不存在或只有自己是自己的父节点
+        } else {
+          if (!nodeCallCountMap[`${id}`]) {
+            nodeCallCountMap[`${id}`] = {};
+          }
           res.push({ parent: '', id, parents, nodeType: 'node', ...rest });
         }
-      } else {
-        if (!nodeCallCountMap[`${id}`]) {
-          nodeCallCountMap[`${id}`] = {};
-        }
-        res.push({ parent: '', id, parents, nodeType: 'node', ...rest });
-      }
-      return res;
-    }, []);
+        return res;
+      },
+      [],
+    );
     return { data, countMap: nodeCallCountMap };
   },
   isCircleData: (n1: string, n2: string, nodeList: INode[]) => {
     const data1 = find(nodeList, { parent: n1, id: n2 });
     const data2 = find(nodeList, { parent: n2, id: n1 });
-    if (data1 && data2) { // 直接环
+    if (data1 && data2) {
+      // 直接环
       return true;
     } else {
       const getChildren = (nodeId: string, children: string[] = []) => {
@@ -473,7 +529,8 @@ export const dataHandler = {
         for (let i = 0; i < children.length; i++) {
           traversal(children[i].id, deep + 1, nodeId);
         }
-      } else if (deepMap[nodeId]) { // 已经设置过层级的节点
+      } else if (deepMap[nodeId]) {
+        // 已经设置过层级的节点
         // 若当前线为环，则deep不变，已经在列，则取大deep
         const prevDeep = deepMap[nodeId]._external.deepth;
         const pDeep = pNode ? deepMap[pNode]._external.deepth : 0;
@@ -481,7 +538,7 @@ export const dataHandler = {
         /** 层级变动需要顺延的两种情况
          *  1、非循环节点，且已设置深度小于当前深度，取更深后子节点顺延
          *  2、循环节点，且当前深度等于父节点深度，避免在同一层级，顺延
-        */
+         */
 
         if ((!isCircle && prevDeep < deep) || (isCircle && prevDeep === pDeep)) {
           deepMap[nodeId]._external.deepth = deep;
@@ -517,7 +574,8 @@ export const dataHandler = {
         for (let i = 0; i < children.length; i++) {
           traversal(children[i].id, IdList, deep + 1, nodeId);
         }
-      } else if (IdList.includes(nodeId)) { // 已经设置过层级的节点
+      } else if (IdList.includes(nodeId)) {
+        // 已经设置过层级的节点
         // 若当前线为环，则deep不变，已经在列，则取大deep
         const prevDeep = deepMap[nodeId]._external.deepth;
         const pDeep = deepMap[pNode]._external.deepth;
@@ -525,7 +583,7 @@ export const dataHandler = {
         /** 层级变动需要顺延的两种情况
          *  1、非循环节点，且已设置深度小于当前深度，取更深后子节点顺延
          *  2、循环节点，且当前深度等于父节点深度，避免在同一层级，顺延
-        */
+         */
 
         if ((!isCircle && prevDeep < deep) || (isCircle && prevDeep === pDeep)) {
           deepMap[nodeId]._external.deepth = deep;
@@ -558,52 +616,61 @@ export const dataHandler = {
     }
     // 第一次循环未找出开始节点，则为n个树，需要找出n个开始节点
     if (!startNodes.length) {
-      const treeMap = reduce(traversalMap, (res: any, item: string[], key) => {
-        let isInclude = false;
-        map(res, (tree, treeKey) => {
-          // 有"全包含"关系的节点，比较找出路径最长的节点
-          const uniqLen = uniq([...tree, ...item]).length;
-          if (uniqLen === tree.length || uniqLen === item.length) {
-            isInclude = true;
-            if (item.length > tree.length) { // 写入更长的路径
-              delete res[treeKey];
-              delete startNodesDataMap[treeKey];
-              res[key] = item;
-              startNodesDataMap[key] = getTreeNodeList(item);
+      const treeMap = reduce(
+        traversalMap,
+        (res: any, item: string[], key) => {
+          let isInclude = false;
+          map(res, (tree, treeKey) => {
+            // 有"全包含"关系的节点，比较找出路径最长的节点
+            const uniqLen = uniq([...tree, ...item]).length;
+            if (uniqLen === tree.length || uniqLen === item.length) {
+              isInclude = true;
+              if (item.length > tree.length) {
+                // 写入更长的路径
+                delete res[treeKey];
+                delete startNodesDataMap[treeKey];
+                res[key] = item;
+                startNodesDataMap[key] = getTreeNodeList(item);
+              }
             }
+          });
+          if (!isInclude) {
+            res[key] = item;
+            startNodesDataMap[key] = getTreeNodeList(item);
           }
-        });
-        if (!isInclude) {
-          res[key] = item;
-          startNodesDataMap[key] = getTreeNodeList(item);
-        }
-        return res;
-      }, {});
+          return res;
+        },
+        {},
+      );
       startNodes = uniq(Object.keys(treeMap));
       sortTree = sortBy(
         map(
-          reduce(treeMap, (res: any, item, key) => {
-            const resList = map(res, (treeList, treeKey) => ({ list: treeList, treeKey }));
-            // filter所有map中的相同树，避免交叉树被遗漏，如当前item=[2,3]  res: [1,2] [4,3];
-            const sameTree = filter(resList, (resItem: any[]) => {
-              const { list } = resItem as any;
-              const concatArr = [...list, ...item];
-              const uniqLen = uniq([...concatArr]).length;
-              return uniqLen !== concatArr.length;
-            });
-            if (sameTree.length) {
-              let sameList: string[] = [];
-              sameTree.forEach((sameItem: any) => {
-                const { list, treeKey } = sameItem;
-                delete res[treeKey];
-                sameList = sameList.concat(list);
+          reduce(
+            treeMap,
+            (res: any, item, key) => {
+              const resList = map(res, (treeList, treeKey) => ({ list: treeList, treeKey }));
+              // filter所有map中的相同树，避免交叉树被遗漏，如当前item=[2,3]  res: [1,2] [4,3];
+              const sameTree = filter(resList, (resItem: any[]) => {
+                const { list } = resItem as any;
+                const concatArr = [...list, ...item];
+                const uniqLen = uniq([...concatArr]).length;
+                return uniqLen !== concatArr.length;
               });
-              res[key] = uniq([...item, ...sameList]);
-            } else {
-              res[key] = item;
-            }
-            return res;
-          }, {}),
+              if (sameTree.length) {
+                let sameList: string[] = [];
+                sameTree.forEach((sameItem: any) => {
+                  const { list, treeKey } = sameItem;
+                  delete res[treeKey];
+                  sameList = sameList.concat(list);
+                });
+                res[key] = uniq([...item, ...sameList]);
+              } else {
+                res[key] = item;
+              }
+              return res;
+            },
+            {},
+          ),
           (o) => o,
         ),
         (l) => -l.length,
@@ -616,7 +683,7 @@ export const dataHandler = {
       nodeList.forEach((node) => {
         if (tree.includes(node.id)) {
           list.push(node);
-          if (startNodes.includes(`${node.id}`))starts.push(node.id);
+          if (startNodes.includes(`${node.id}`)) starts.push(node.id);
         }
       });
       let countDeepMap = dataHandler.getCountDeepMap(nodeList, starts);
@@ -688,7 +755,9 @@ export const dataHandler = {
     const reMap = cloneDeep(deepMap);
     map(deepthGroup, (list: any) => {
       map(list, (item: any) => {
-        const { _external: { id, deepth } } = item;
+        const {
+          _external: { id, deepth },
+        } = item;
         const childrenDeep: number[] = [];
         map(nodeList, (dataItem: any) => {
           if (dataItem.parent === id) {
@@ -696,7 +765,8 @@ export const dataHandler = {
           }
         });
         const childMinDeep = min(childrenDeep) || 1; // 找到子的最上层级;
-        if (childMinDeep - deepth > 1) { // 跨层级，将节点往后移动
+        if (childMinDeep - deepth > 1) {
+          // 跨层级，将节点往后移动
           reMap[id]._external.deepth = childMinDeep - 1;
         }
       });
@@ -714,7 +784,9 @@ export const dataHandler = {
     const reMap = cloneDeep(deepMap);
     map(deepthGroup, (list: any, index) => {
       map(list, (item: any) => {
-        const { _external: { id } } = item;
+        const {
+          _external: { id },
+        } = item;
         reMap[id]._external.deepth = index + 1;
       });
     });
@@ -729,12 +801,9 @@ export const dataHandler = {
       // const max = maxBy(list, '_external.outTotal');
       if (lev === '1') {
         // const centerPos = Math.floor(len / 2);
-        map(
-          sortBy(list, '_external.outTotal'),
-          ({ _external: { id, outTotal } }, i) => {
-            set(reMap[id], '_external.levelSort', outTotal * 100 + i);
-          },
-        );
+        map(sortBy(list, '_external.outTotal'), ({ _external: { id, outTotal } }, i) => {
+          set(reMap[id], '_external.levelSort', outTotal * 100 + i);
+        });
       } else {
         map(list, ({ _external: { id, outTotal } }, idx: number) => {
           const curNode = find(nodeList, { id });
@@ -745,7 +814,8 @@ export const dataHandler = {
           } else {
             parents.forEach((p: any) => {
               const pMap = get(reMap, `[${p.id}]._external`);
-              if (pMap && Number(lev) - Number(pMap.deepth) === 1) { // 上层父
+              if (pMap && Number(lev) - Number(pMap.deepth) === 1) {
+                // 上层父
                 levelSort = pMap.levelSort > levelSort ? levelSort : pMap.levelSort;
               }
             });
@@ -763,7 +833,8 @@ export const dataHandler = {
       const { parent, id, callCount = '' } = node;
       if (parent) {
         const lk = { source: parent, target: id, value: callCount, nodeType: 'link' } as any;
-        if (find(nodeList, { id: parent, parent: id })) { // 存在反向线
+        if (find(nodeList, { id: parent, parent: id })) {
+          // 存在反向线
           lk.hasReverse = true;
         }
         links.push(lk);
@@ -787,7 +858,10 @@ export const dataHandler = {
     const deepthGroup = groupBy(nodeMap, '_external.deepth');
     const edgePlusMap = {};
     const getDeepthHeightDistance = (deepthKey: string) => {
-      return get(maxBy(deepthGroup[deepthKey], '_external.y'), '_external.y', 0) - get(minBy(deepthGroup[deepthKey], '_external.y'), '_external.y', 0);
+      return (
+        get(maxBy(deepthGroup[deepthKey], '_external.y'), '_external.y', 0) -
+        get(minBy(deepthGroup[deepthKey], '_external.y'), '_external.y', 0)
+      );
     };
     const serviceMap = groupBy(get(groupBy(nodeMap, '_external.group'), 'service', []), '_external.subGroup');
     const serviceDeepth = {};
@@ -797,7 +871,8 @@ export const dataHandler = {
       const prevList = serviceDeepth[`${lev}`] || [];
       serviceDeepth[`${lev}`] = [...prevList, ...service];
     });
-    map(deepthGroup, (gList, lev) => { // 每个层级上跨层级线的边缘叠加数
+    map(deepthGroup, (gList, lev) => {
+      // 每个层级上跨层级线的边缘叠加数
       const group = get(gList, '[0]._external.group');
       let curStartNode = null as any;
       let curEndEdgeNode = null as any;
@@ -836,15 +911,10 @@ export const dataHandler = {
       if (direction === 'horizontal') {
         // 相邻层级节点：在两节点之间水平中心点位置开始折线
         if (Math.abs(sourceNode.deepth - targetNode.deepth) === 1) {
-          const [p0_x, p1_x, p2_x] = xPos > 0 ? [
-            sourceNode.x - halfWidth,
-            sourceNode.x - halfMaginX - halfWidth,
-            targetNode.x + halfWidth,
-          ] : [
-            sourceNode.x + halfWidth,
-            sourceNode.x + halfMaginX + halfWidth,
-            targetNode.x - halfWidth,
-          ];
+          const [p0_x, p1_x, p2_x] =
+            xPos > 0
+              ? [sourceNode.x - halfWidth, sourceNode.x - halfMaginX - halfWidth, targetNode.x + halfWidth]
+              : [sourceNode.x + halfWidth, sourceNode.x + halfMaginX + halfWidth, targetNode.x - halfWidth];
 
           const p0_y = sourceNode.y;
           let p1_y = targetNode.y;
@@ -855,18 +925,21 @@ export const dataHandler = {
           }
           posArr = [p0_x, p0_y, p1_x, p1_y, p2_x, p2_y];
         } else if (Math.abs(sourceNode.deepth - targetNode.deepth) > 1) {
-        // 跨层级节点：先移动到最上/下方，折线然后平移到目标节点的层级后，再次折线到目标
-          const [p0_x, p1_x, p2_x, p3_x] = xPos > 0 ? [
-            sourceNode.x - halfWidth,
-            sourceNode.x - halfMaginX - halfWidth,
-            targetNode.x + halfWidth + halfMaginX,
-            targetNode.x + halfWidth,
-          ] : [
-            sourceNode.x + halfWidth,
-            sourceNode.x + halfMaginX + halfWidth,
-            targetNode.x - halfWidth - halfMaginX,
-            targetNode.x - halfWidth,
-          ];
+          // 跨层级节点：先移动到最上/下方，折线然后平移到目标节点的层级后，再次折线到目标
+          const [p0_x, p1_x, p2_x, p3_x] =
+            xPos > 0
+              ? [
+                  sourceNode.x - halfWidth,
+                  sourceNode.x - halfMaginX - halfWidth,
+                  targetNode.x + halfWidth + halfMaginX,
+                  targetNode.x + halfWidth,
+                ]
+              : [
+                  sourceNode.x + halfWidth,
+                  sourceNode.x + halfMaginX + halfWidth,
+                  targetNode.x - halfWidth - halfMaginX,
+                  targetNode.x - halfWidth,
+                ];
 
           const sourceDeepth = nodeMap[source]._external.deepth;
           const targetDeepth = nodeMap[target]._external.deepth;
@@ -875,7 +948,10 @@ export const dataHandler = {
           let betweenMaxHeight = 0;
           // 计算跨层级中间最高的层级，最高层级的数据长度
           map(edgePlusMap, (pos, deepKey) => {
-            if ((deepKey > sourceDeepth && deepKey < targetDeepth) || (deepKey < sourceDeepth && deepKey > targetDeepth)) {
+            if (
+              (deepKey > sourceDeepth && deepKey < targetDeepth) ||
+              (deepKey < sourceDeepth && deepKey > targetDeepth)
+            ) {
               const curBetweenMaxHeight = getDeepthHeightDistance(deepKey);
               if (curBetweenMaxHeight > betweenMaxHeight) {
                 betweenMaxDeepth = Number(deepKey);
@@ -886,12 +962,14 @@ export const dataHandler = {
           const sourceHeightDis = getDeepthHeightDistance(sourceDeepth);
           const targetHeightDis = getDeepthHeightDistance(targetDeepth);
           const curMaxDeep: number = get(
-            maxBy([
-              { deep: sourceDeepth, len: sourceHeightDis },
-              { deep: targetDeepth, len: targetHeightDis },
-              { deep: betweenMaxDeepth, len: betweenMaxHeight },
-            ]
-            , (o) => o.len),
+            maxBy(
+              [
+                { deep: sourceDeepth, len: sourceHeightDis },
+                { deep: targetDeepth, len: targetHeightDis },
+                { deep: betweenMaxDeepth, len: betweenMaxHeight },
+              ],
+              (o) => o.len,
+            ),
             'deep',
           );
           const curMaxEdge = edgePlusMap[`${curMaxDeep}`];
@@ -908,11 +986,14 @@ export const dataHandler = {
             xPos > 0
               ? ([p1_y, edgePlusMap[`${curMaxDeep}`].endY] = downBreak)
               : ([p1_y, edgePlusMap[`${curMaxDeep}`].startY] = upBreak);
-          } else if (sourceNode.y <= centerY && targetNode.y <= centerY) { // 中线上方，上折
+          } else if (sourceNode.y <= centerY && targetNode.y <= centerY) {
+            // 中线上方，上折
             [p1_y, edgePlusMap[`${curMaxDeep}`].startY] = upBreak;
-          } else if (sourceNode.y >= centerY && targetNode.y >= centerY) { // 中线下方，下折
+          } else if (sourceNode.y >= centerY && targetNode.y >= centerY) {
+            // 中线下方，下折
             [p1_y, edgePlusMap[`${curMaxDeep}`].endY] = downBreak;
-          } else { // 起点和终点分布在中线两边，则从起点就近折
+          } else {
+            // 起点和终点分布在中线两边，则从起点就近折
             yPos > 0
               ? ([p1_y, edgePlusMap[`${curMaxDeep}`].endY] = downBreak)
               : ([p1_y, edgePlusMap[`${curMaxDeep}`].startY] = upBreak);
@@ -935,7 +1016,8 @@ export const dataHandler = {
             ...nodeMap[target],
             parents: find(nodeMap[target].parents, { id: source }),
           },
-        } };
+        },
+      };
     });
     const edgePlusList = map(edgePlusMap);
     const topObj: any = minBy(edgePlusList, (t: any) => t.startY);
@@ -962,7 +1044,11 @@ export const dataHandler = {
     const { boxMargin } = CANVAS;
     const lineBoxMarginX = boxMargin.x;
     const lineBoxMarginY = boxMargin.y;
-    const { padding, NODE: { width, height, margin }, direction } = CANVAS;
+    const {
+      padding,
+      NODE: { width, height, margin },
+      direction,
+    } = CANVAS;
     const curNodeMap = cloneDeep(nodeMap);
     const categoryBox = {};
     let totalWidth = 0;
@@ -975,19 +1061,22 @@ export const dataHandler = {
       map(_categoryGroup, (list, key) => {
         if (key === 'service') {
           const serviceList = map(list);
-          map(sortBy(serviceList, (item) => {
-            const subGroup = get(item, '[0]._external.subGroup');
-            const curGroupDeepth = get(groupDeepth, `${subGroup}._external.deepth`);
-            return curGroupDeepth;
-          }), (serviceItem: any, serviceKey) => {
-            const subGroup = get(serviceItem, '[0]._external.subGroup');
-            const curGroupDeepth = get(groupDeepth, `${subGroup}._external.deepth`);
-            const prevHeight = curMap[curGroupDeepth] || 0;
-            const deepthGroup = groupBy(serviceItem, '_external.deepth');
-            const maxColumn = (maxBy(values(deepthGroup)) || []).length;
-            const curServiceHeight = (height + margin.y) * maxColumn - margin.y + padding.y * 2;
-            curMap[curGroupDeepth] = curServiceHeight + prevHeight;
-          });
+          map(
+            sortBy(serviceList, (item) => {
+              const subGroup = get(item, '[0]._external.subGroup');
+              const curGroupDeepth = get(groupDeepth, `${subGroup}._external.deepth`);
+              return curGroupDeepth;
+            }),
+            (serviceItem: any, serviceKey) => {
+              const subGroup = get(serviceItem, '[0]._external.subGroup');
+              const curGroupDeepth = get(groupDeepth, `${subGroup}._external.deepth`);
+              const prevHeight = curMap[curGroupDeepth] || 0;
+              const deepthGroup = groupBy(serviceItem, '_external.deepth');
+              const maxColumn = (maxBy(values(deepthGroup)) || []).length;
+              const curServiceHeight = (height + margin.y) * maxColumn - margin.y + padding.y * 2;
+              curMap[curGroupDeepth] = curServiceHeight + prevHeight;
+            },
+          );
         } else {
           const deepthGroup = groupBy(list, '_external.deepth');
           const maxColumn = (maxBy(values(deepthGroup)) || []).length;
@@ -995,12 +1084,16 @@ export const dataHandler = {
           maxHeight = maxHeight < curHeight ? curHeight : maxHeight;
         }
       });
-      const maxServiceHeight = (max(map(curMap)) as any || 0) + padding.y as number;
+      const maxServiceHeight = (((max(map(curMap)) as any) || 0) + padding.y) as number;
       maxHeight = maxHeight < maxServiceHeight ? maxServiceHeight : maxHeight;
       return { maxHeight, serviceDeepHeight: curMap };
     };
 
-    const setDeepthGroup = (list: any, { totalHeight: curTotal, heightDistance } = { totalHeight: 0, heightDistance: 0 }, isService = false) => {
+    const setDeepthGroup = (
+      list: any,
+      { totalHeight: curTotal, heightDistance } = { totalHeight: 0, heightDistance: 0 },
+      isService = false,
+    ) => {
       const deepthGroup = groupBy(list, '_external.deepth');
       const maxColumn = (maxBy(values(deepthGroup)) || []).length;
       const curBoxHeight = (height + margin.y) * maxColumn - margin.y + padding.y * 2;
@@ -1011,76 +1104,84 @@ export const dataHandler = {
         let startY = padding.y + heightDistance;
         let startDistance = 0;
         if (direction === 'horizontal') {
-          startDistance = height / 2 + ((curBoxHeight - padding.y * 2) - (len * (height + margin.y) - margin.y)) / 2 + (isService ? 0 : externalDistance);
+          startDistance =
+            height / 2 +
+            (curBoxHeight - padding.y * 2 - (len * (height + margin.y) - margin.y)) / 2 +
+            (isService ? 0 : externalDistance);
           startY += startDistance;
           startX += width / 2;
         } else if (direction === 'vertical') {
           // TODO
         }
-        map(sortBy(curList, (listItem: any) => {
-          const groupSort = get(listItem, '_external.groupSort', '');
-          return groupSort ? `${groupSort}${get(listItem, '_external.levelSort')}` : get(listItem, '_external.levelSort');
-        }), (node: INode, i: number) => {
-          // 每一个层级的最上和最下，在此做标记，用于画跨层级线
-          if (direction === 'horizontal') {
-            const x = startX + (deepth - 1) * (margin.x + width);
-            const y = startY + i * (margin.y + height);
-            if (node.category === 'service' || node.category === 'addon') {
-              let subBoxKey = get(node, `${externalKey}.subGroup`);
-              if (node.category === 'addon')subBoxKey = `addon_${subBoxKey}`;
-              if (!categoryBox[subBoxKey]) {
-                categoryBox[subBoxKey] = {
-                  type: 'sub',
-                  startX: x - width / 2,
-                  startY: y - height / 2,
-                  endX: x + width / 2,
-                  endY: y + height / 2,
+        map(
+          sortBy(curList, (listItem: any) => {
+            const groupSort = get(listItem, '_external.groupSort', '');
+            return groupSort
+              ? `${groupSort}${get(listItem, '_external.levelSort')}`
+              : get(listItem, '_external.levelSort');
+          }),
+          (node: INode, i: number) => {
+            // 每一个层级的最上和最下，在此做标记，用于画跨层级线
+            if (direction === 'horizontal') {
+              const x = startX + (deepth - 1) * (margin.x + width);
+              const y = startY + i * (margin.y + height);
+              if (node.category === 'service' || node.category === 'addon') {
+                let subBoxKey = get(node, `${externalKey}.subGroup`);
+                if (node.category === 'addon') subBoxKey = `addon_${subBoxKey}`;
+                if (!categoryBox[subBoxKey]) {
+                  categoryBox[subBoxKey] = {
+                    type: 'sub',
+                    startX: x - width / 2,
+                    startY: y - height / 2,
+                    endX: x + width / 2,
+                    endY: y + height / 2,
+                  };
+                } else {
+                  const preSubPos = categoryBox[subBoxKey];
+                  const curSubBoxX = x - width / 2;
+                  const curSubBoxY = y - height / 2;
+                  const curBoxEndX = x + width / 2;
+                  const curBoxEndY = y + height / 2;
+                  categoryBox[subBoxKey] = {
+                    type: 'sub',
+                    startX: preSubPos.startX < curSubBoxX ? preSubPos.startX : curSubBoxX,
+                    startY: preSubPos.startY < curSubBoxY ? preSubPos.startY : curSubBoxY,
+                    endX: (preSubPos.endX || 0) > curBoxEndX ? preSubPos.endX : curBoxEndX,
+                    endY: (preSubPos.endY || 0) > curBoxEndY ? preSubPos.endY : curBoxEndY,
+                  };
+                }
+              }
+
+              if (!categoryBox[node.category]) {
+                categoryBox[node.category] = {
+                  startX: x - lineBoxMarginX - width / 2,
+                  startY: y - lineBoxMarginY - height / 2,
+                  endX: x + lineBoxMarginX + width / 2,
+                  endY: y + lineBoxMarginY + height / 2,
                 };
               } else {
-                const preSubPos = categoryBox[subBoxKey];
-                const curSubBoxX = x - width / 2;
-                const curSubBoxY = y - height / 2;
-                const curBoxEndX = x + width / 2;
-                const curBoxEndY = y + height / 2;
-                categoryBox[subBoxKey] = {
-                  type: 'sub',
-                  startX: preSubPos.startX < curSubBoxX ? preSubPos.startX : curSubBoxX,
-                  startY: preSubPos.startY < curSubBoxY ? preSubPos.startY : curSubBoxY,
-                  endX: (preSubPos.endX || 0) > curBoxEndX ? preSubPos.endX : curBoxEndX,
-                  endY: (preSubPos.endY || 0) > curBoxEndY ? preSubPos.endY : curBoxEndY,
+                const prePos = categoryBox[node.category];
+                const curBoxX = x - lineBoxMarginX - width / 2;
+                const curBoxY = y - lineBoxMarginY - height / 2;
+                const curBoxEndX = x + lineBoxMarginX + width / 2;
+                const curBoxEndY = y + lineBoxMarginY + height / 2;
+                categoryBox[node.category] = {
+                  ...prePos,
+                  startX: prePos.startX < curBoxX ? prePos.startX : curBoxX,
+                  startY: prePos.startY < curBoxY ? prePos.startY : curBoxY,
+                  endX: (prePos.endX || 0) > curBoxEndX ? prePos.endX : curBoxEndX,
+                  endY: (prePos.endY || 0) > curBoxEndY ? prePos.endY : curBoxEndY,
                 };
               }
-            }
 
-            if (!categoryBox[node.category]) {
-              categoryBox[node.category] = {
-                startX: x - lineBoxMarginX - width / 2,
-                startY: y - lineBoxMarginY - height / 2,
-                endX: x + lineBoxMarginX + width / 2,
-                endY: y + lineBoxMarginY + height / 2,
-              };
-            } else {
-              const prePos = categoryBox[node.category];
-              const curBoxX = x - lineBoxMarginX - width / 2;
-              const curBoxY = y - lineBoxMarginY - height / 2;
-              const curBoxEndX = x + lineBoxMarginX + width / 2;
-              const curBoxEndY = y + lineBoxMarginY + height / 2;
-              categoryBox[node.category] = {
-                ...prePos,
-                startX: prePos.startX < curBoxX ? prePos.startX : curBoxX,
-                startY: prePos.startY < curBoxY ? prePos.startY : curBoxY,
-                endX: (prePos.endX || 0) > curBoxEndX ? prePos.endX : curBoxEndX,
-                endY: (prePos.endY || 0) > curBoxEndY ? prePos.endY : curBoxEndY,
-              };
+              curNodeMap[node.id]._external.x = x;
+              curNodeMap[node.id]._external.y = y;
+            } else if (direction === 'vertical') {
+              curNodeMap[node.id]._external.x = startX + i * (margin.x + width);
+              curNodeMap[node.id]._external.y = startY + (deepth - 1) * (margin.y + height);
             }
-
-            curNodeMap[node.id]._external.x = x;
-            curNodeMap[node.id]._external.y = y;
-          } else if (direction === 'vertical') {
-            curNodeMap[node.id]._external.x = startX + i * (margin.x + width);
-            curNodeMap[node.id]._external.y = startY + (deepth - 1) * (margin.y + height);
-          }
-        });
+          },
+        );
       });
       return (height + margin.y) * maxColumn - margin.y;
     };
@@ -1097,18 +1198,25 @@ export const dataHandler = {
       map(categoryGroup, (list, key) => {
         if (key === 'service') {
           const serviceList = map(list);
-          map(sortBy(serviceList, (item) => {
-            const subGroup = get(item, '[0]._external.subGroup');
-            const curGroupDeepth = get(groupDeepth, `${subGroup}._external.deepth`);
-            return curGroupDeepth;
-          }), (serviceItem, serviceKey) => {
-            const subGroup = get(serviceItem, '[0]._external.subGroup');
-            const curGroupDeepth = get(groupDeepth, `${subGroup}._external.deepth`);
-            const prevHeight = serviceTpData[curGroupDeepth] || 0;
-            const boxDis = (totalHeight - servicesHeight[curGroupDeepth]) / 2;
-            const curServiceHeight = setDeepthGroup(serviceItem, { totalHeight, heightDistance: prevHeight + boxDis }, true);
-            serviceTpData[curGroupDeepth] = curServiceHeight + prevHeight + padding.y * 2;
-          });
+          map(
+            sortBy(serviceList, (item) => {
+              const subGroup = get(item, '[0]._external.subGroup');
+              const curGroupDeepth = get(groupDeepth, `${subGroup}._external.deepth`);
+              return curGroupDeepth;
+            }),
+            (serviceItem, serviceKey) => {
+              const subGroup = get(serviceItem, '[0]._external.subGroup');
+              const curGroupDeepth = get(groupDeepth, `${subGroup}._external.deepth`);
+              const prevHeight = serviceTpData[curGroupDeepth] || 0;
+              const boxDis = (totalHeight - servicesHeight[curGroupDeepth]) / 2;
+              const curServiceHeight = setDeepthGroup(
+                serviceItem,
+                { totalHeight, heightDistance: prevHeight + boxDis },
+                true,
+              );
+              serviceTpData[curGroupDeepth] = curServiceHeight + prevHeight + padding.y * 2;
+            },
+          );
         } else {
           setDeepthGroup(list, { totalHeight, heightDistance: 0 });
         }
@@ -1128,7 +1236,11 @@ export const dataHandler = {
     const { boxMargin } = CANVAS;
     const lineBoxMarginX = boxMargin.x;
     const lineBoxMarginY = boxMargin.y;
-    const { padding, NODE: { width, height, margin }, direction } = CANVAS;
+    const {
+      padding,
+      NODE: { width, height, margin },
+      direction,
+    } = CANVAS;
     const curNodeMap = cloneDeep(nodeMap);
     const categoryBox = {};
     if (!isEmpty(curNodeMap)) {
@@ -1148,83 +1260,88 @@ export const dataHandler = {
         let startY = padding.y;
         let startDistance = 0;
         if (direction === 'horizontal') {
-          startDistance = height / 2 + ((boxHeight - padding.y * 2) - (len * (height + margin.y) - margin.y)) / 2;
+          startDistance = height / 2 + (boxHeight - padding.y * 2 - (len * (height + margin.y) - margin.y)) / 2;
           startY += startDistance;
           startX += width / 2;
         } else if (direction === 'vertical') {
           // TODO
         }
-        map(sortBy(list, (listItem: any) => {
-          const groupSort = get(listItem, '_external.groupSort', '');
-          return groupSort ? `${groupSort}${get(listItem, '_external.levelSort')}` : get(listItem, '_external.levelSort');
-        }), (node: INode, i: number) => {
-          // 每一个层级的最上和最下，在此做标记，用于画跨层级线
-          if (direction === 'horizontal') {
-            const x = startX + (deepth - 1) * (margin.x + width);
-            const y = startY + i * (margin.y + height);
-            if (i === 0) {
-              curNodeMap[node.id]._external.edgeStart = true;
-            }
-            if (i === len - 1) {
-              curNodeMap[node.id]._external.edgeEnd = true;
-            }
+        map(
+          sortBy(list, (listItem: any) => {
+            const groupSort = get(listItem, '_external.groupSort', '');
+            return groupSort
+              ? `${groupSort}${get(listItem, '_external.levelSort')}`
+              : get(listItem, '_external.levelSort');
+          }),
+          (node: INode, i: number) => {
+            // 每一个层级的最上和最下，在此做标记，用于画跨层级线
+            if (direction === 'horizontal') {
+              const x = startX + (deepth - 1) * (margin.x + width);
+              const y = startY + i * (margin.y + height);
+              if (i === 0) {
+                curNodeMap[node.id]._external.edgeStart = true;
+              }
+              if (i === len - 1) {
+                curNodeMap[node.id]._external.edgeEnd = true;
+              }
 
-            if (node.category === 'service' || node.category === 'addon') {
-              let subBoxKey = get(node, `${externalKey}.subGroup`);
-              if (node.category === 'addon')subBoxKey = `addon_${subBoxKey}`;
-              if (!categoryBox[subBoxKey]) {
-                categoryBox[subBoxKey] = {
-                  type: 'sub',
-                  startX: x - width / 2,
-                  startY: y - height / 2,
-                  endX: x + width / 2,
-                  endY: y + height / 2,
+              if (node.category === 'service' || node.category === 'addon') {
+                let subBoxKey = get(node, `${externalKey}.subGroup`);
+                if (node.category === 'addon') subBoxKey = `addon_${subBoxKey}`;
+                if (!categoryBox[subBoxKey]) {
+                  categoryBox[subBoxKey] = {
+                    type: 'sub',
+                    startX: x - width / 2,
+                    startY: y - height / 2,
+                    endX: x + width / 2,
+                    endY: y + height / 2,
+                  };
+                } else {
+                  const preSubPos = categoryBox[subBoxKey];
+                  const curSubBoxX = x - width / 2;
+                  const curSubBoxY = y - height / 2;
+                  const curBoxEndX = x + width / 2;
+                  const curBoxEndY = y + height / 2;
+                  categoryBox[subBoxKey] = {
+                    type: 'sub',
+                    startX: preSubPos.startX < curSubBoxX ? preSubPos.startX : curSubBoxX,
+                    startY: preSubPos.startY < curSubBoxY ? preSubPos.startY : curSubBoxY,
+                    endX: (preSubPos.endX || 0) > curBoxEndX ? preSubPos.endX : curBoxEndX,
+                    endY: (preSubPos.endY || 0) > curBoxEndY ? preSubPos.endY : curBoxEndY,
+                  };
+                }
+              }
+
+              if (!categoryBox[node.category]) {
+                categoryBox[node.category] = {
+                  startX: x - lineBoxMarginX - width / 2,
+                  startY: y - lineBoxMarginY - height / 2,
+                  endX: x + lineBoxMarginX + width / 2,
+                  endY: y + lineBoxMarginY + height / 2,
                 };
               } else {
-                const preSubPos = categoryBox[subBoxKey];
-                const curSubBoxX = x - width / 2;
-                const curSubBoxY = y - height / 2;
-                const curBoxEndX = x + width / 2;
-                const curBoxEndY = y + height / 2;
-                categoryBox[subBoxKey] = {
-                  type: 'sub',
-                  startX: preSubPos.startX < curSubBoxX ? preSubPos.startX : curSubBoxX,
-                  startY: preSubPos.startY < curSubBoxY ? preSubPos.startY : curSubBoxY,
-                  endX: (preSubPos.endX || 0) > curBoxEndX ? preSubPos.endX : curBoxEndX,
-                  endY: (preSubPos.endY || 0) > curBoxEndY ? preSubPos.endY : curBoxEndY,
+                const prePos = categoryBox[node.category];
+                const curBoxX = x - lineBoxMarginX - width / 2;
+                const curBoxY = y - lineBoxMarginY - height / 2;
+                const curBoxEndX = x + lineBoxMarginX + width / 2;
+                const curBoxEndY = y + lineBoxMarginY + height / 2;
+                categoryBox[node.category] = {
+                  ...prePos,
+                  startX: prePos.startX < curBoxX ? prePos.startX : curBoxX,
+                  startY: prePos.startY < curBoxY ? prePos.startY : curBoxY,
+                  endX: (prePos.endX || 0) > curBoxEndX ? prePos.endX : curBoxEndX,
+                  endY: (prePos.endY || 0) > curBoxEndY ? prePos.endY : curBoxEndY,
                 };
               }
-            }
 
-            if (!categoryBox[node.category]) {
-              categoryBox[node.category] = {
-                startX: x - lineBoxMarginX - width / 2,
-                startY: y - lineBoxMarginY - height / 2,
-                endX: x + lineBoxMarginX + width / 2,
-                endY: y + lineBoxMarginY + height / 2,
-              };
-            } else {
-              const prePos = categoryBox[node.category];
-              const curBoxX = x - lineBoxMarginX - width / 2;
-              const curBoxY = y - lineBoxMarginY - height / 2;
-              const curBoxEndX = x + lineBoxMarginX + width / 2;
-              const curBoxEndY = y + lineBoxMarginY + height / 2;
-              categoryBox[node.category] = {
-                ...prePos,
-                startX: prePos.startX < curBoxX ? prePos.startX : curBoxX,
-                startY: prePos.startY < curBoxY ? prePos.startY : curBoxY,
-                endX: (prePos.endX || 0) > curBoxEndX ? prePos.endX : curBoxEndX,
-                endY: (prePos.endY || 0) > curBoxEndY ? prePos.endY : curBoxEndY,
-              };
+              curNodeMap[node.id]._external.x = x;
+              curNodeMap[node.id]._external.y = y;
+            } else if (direction === 'vertical') {
+              curNodeMap[node.id]._external.x = startX + i * (margin.x + width);
+              curNodeMap[node.id]._external.y = startY + (deepth - 1) * (margin.y + height);
             }
-
-            curNodeMap[node.id]._external.x = x;
-            curNodeMap[node.id]._external.y = y;
-          } else if (direction === 'vertical') {
-            curNodeMap[node.id]._external.x = startX + i * (margin.x + width);
-            curNodeMap[node.id]._external.y = startY + (deepth - 1) * (margin.y + height);
-          }
-        });
+          },
+        );
       });
     }
     return {
@@ -1238,8 +1355,8 @@ export const dataHandler = {
     const { addon, addon_ability, addon_addon, ...rest } = categoryBox;
     const reBox = { ...rest };
     const addonBoxs = [];
-    if (addon_addon)addonBoxs.push({ ...addon_addon, key: 'addon' });
-    if (addon_ability)addonBoxs.push({ ...addon_ability, key: 'ability' });
+    if (addon_addon) addonBoxs.push({ ...addon_addon, key: 'addon' });
+    if (addon_ability) addonBoxs.push({ ...addon_ability, key: 'ability' });
     addonBoxs.forEach((item, index) => {
       if (index === 0) {
         const { key, ...aRest } = item;
@@ -1263,7 +1380,11 @@ export const dataHandler = {
   },
 };
 
-const renderCategoryBox = ({ categoryBox, linkDownDistance = 0, linkTopDistance = 0 }: any, snap: any, external: any) => {
+const renderCategoryBox = (
+  { categoryBox, linkDownDistance = 0, linkTopDistance = 0 }: any,
+  snap: any,
+  external: any,
+) => {
   const list = map(categoryBox);
   const minStartY = get(minBy(list, 'startY'), 'startY', 0) as number;
   const maxEndY = get(maxBy(list, 'endY'), 'endY', 0) as number;
@@ -1281,7 +1402,9 @@ const renderCategoryBox = ({ categoryBox, linkDownDistance = 0, linkTopDistance 
     if (!['addon', 'ability'].includes(key) && type === 'sub') {
       pos = { startX: startX - 10, startY: startY - 10, endX: endX + 10, endY: endY + 10 };
     }
-    const fobjectSVG = `<foreignObject id="${key}" class="node-carrier" x="${pos.startX}" y="${pos.startY}" width="${pos.endX - pos.startX}" height="${pos.endY - pos.startY}">
+    const fobjectSVG = `<foreignObject id="${key}" class="node-carrier" x="${pos.startX}" y="${pos.startY}" width="${
+      pos.endX - pos.startX
+    }" height="${pos.endY - pos.startY}">
     </foreignObject>`;
     const box = Snap.parse(fobjectSVG);
     snap.append(box);
@@ -1290,7 +1413,7 @@ const renderCategoryBox = ({ categoryBox, linkDownDistance = 0, linkTopDistance 
   });
 };
 
-interface IRender{
+interface IRender {
   nodeMap: object;
   groupNodeMap?: any;
   groupChart?: any;
@@ -1298,8 +1421,12 @@ interface IRender{
 export const renderNodes = ({ nodeMap, groupNodeMap, groupChart }: IRender, snap: any, external: any) => {
   const NodeComp = external.nodeEle;
   map(nodeMap, (node: INode) => {
-    const { NODE: { width, height } } = CANVAS;
-    const { _external: { x, y, uniqName } } = node as any; // x,y为中心点
+    const {
+      NODE: { width, height },
+    } = CANVAS;
+    const {
+      _external: { x, y, uniqName },
+    } = node as any; // x,y为中心点
     const startX = x - width / 2;
     const startY = y - height / 2;
     const nodeId = uniqName;
@@ -1331,7 +1458,11 @@ export const renderNodes = ({ nodeMap, groupNodeMap, groupChart }: IRender, snap
       const mRelativeNode: string[] = [];
       const mUnRelativeNode: string[] = [];
       map(groupNodeMap, (item) => {
-        const { parents, _external: { uniqName }, id } = item;
+        const {
+          parents,
+          _external: { uniqName },
+          id,
+        } = item;
         const beParentId = map(parents, 'id');
         if (fullParents.includes(id) || beParentId.includes(_node.id)) {
           mRelativeNode.push(uniqName);
@@ -1349,7 +1480,10 @@ export const renderNodes = ({ nodeMap, groupNodeMap, groupChart }: IRender, snap
     const unRelativeNode: string[] = [];
     const curNodeName = _node._external.uniqName as string;
     map(nodeMap, (item: INode) => {
-      const { parents = [], _external: { uniqName } } = item;
+      const {
+        parents = [],
+        _external: { uniqName },
+      } = item;
       const parentNames = map(parents, (p: INode) => {
         return nodeMap[p.id] ? nodeMap[p.id]._external.uniqName : '';
       });
@@ -1400,9 +1534,18 @@ export const renderNodes = ({ nodeMap, groupNodeMap, groupChart }: IRender, snap
     const { relativeLink, unRelativeLink } = getRelativeLinks(_node);
     const { relativeNode, unRelativeNode } = getRelativeNodes(_node);
     // 微服务特殊需求
-    hoverAction(true, {
-      relativeNode, unRelativeNode, relativeLink, unRelativeLink, hoverNode: _node,
-    }, _node.category === 'microservice' ? groupChart : snap, external);
+    hoverAction(
+      true,
+      {
+        relativeNode,
+        unRelativeNode,
+        relativeLink,
+        unRelativeLink,
+        hoverNode: _node,
+      },
+      _node.category === 'microservice' ? groupChart : snap,
+      external,
+    );
   };
 
   const outHover = (_node: INode) => {
@@ -1410,23 +1553,30 @@ export const renderNodes = ({ nodeMap, groupNodeMap, groupChart }: IRender, snap
     const { relativeNode, unRelativeNode } = getRelativeNodes(_node);
 
     // 微服务特殊需求
-    hoverAction(false, {
-      relativeNode, unRelativeNode, relativeLink, unRelativeLink,
-    }, _node.category === 'microservice' ? groupChart : snap, external);
+    hoverAction(
+      false,
+      {
+        relativeNode,
+        unRelativeNode,
+        relativeLink,
+        unRelativeLink,
+      },
+      _node.category === 'microservice' ? groupChart : snap,
+      external,
+    );
   };
   const clickNode = (_node: INode) => {
     external.onClickNode(_node);
   };
 };
 
-
-interface ILinkRender{
+interface ILinkRender {
   links: ILink[];
   nodeMap: object;
   boxHeight?: number;
   groupDeepth?: any;
 }
-interface ILink{
+interface ILink {
   source: string;
   target: string;
   hasReverse?: boolean;
@@ -1439,31 +1589,36 @@ const getLinkTextPos = (pos: number[]) => {
   let [x, y] = [pos[len - 4], pos[len - 3]];
   let textUnderLine = false;
   if (direction === 'horizontal') {
-    if (len === 8) { // 4点线，2折: __/————\__
+    if (len === 8) {
+      // 4点线，2折: __/————\__
       if (pos[1] === pos[3] && pos[3] === pos[5]) {
         const centerDisX = pos[6] - pos[4];
         const centerDisY = pos[7] - pos[5];
         x = pos[centerDisX > 0 ? 6 : 4] - Math.abs(centerDisX / 2);
         y = pos[centerDisY > 0 ? 7 : 5] - Math.abs(centerDisY / 2);
-        z = Math.atan2(pos[5] - pos[7], pos[4] - pos[6]) / Math.PI * 180 + 180;
+        z = (Math.atan2(pos[5] - pos[7], pos[4] - pos[6]) / Math.PI) * 180 + 180;
       } else {
         const centerDis = pos[4] - pos[2];
         x = pos[centerDis > 0 ? 4 : 2] - Math.abs(centerDis / 2);
         y = pos[3];
-        textUnderLine = (pos[1] < pos[3]);
+        textUnderLine = pos[1] < pos[3];
       }
-    } else if (len === 6) { // 3点线
-      if (pos[5] === pos[1] && pos[1] !== pos[3]) { // 1折对称：\/
+    } else if (len === 6) {
+      // 3点线
+      if (pos[5] === pos[1] && pos[1] !== pos[3]) {
+        // 1折对称：\/
         y = pos[3];
         textUnderLine = pos[3] > pos[1];
-      } else if (pos[5] === pos[1] && pos[1] === pos[5]) { // 0折：————
+      } else if (pos[5] === pos[1] && pos[1] === pos[5]) {
+        // 0折：————
         [x, y] = [pos[2], pos[3]];
-      } else if (pos[1] !== pos[3]) { // 1折: ——\，文字在折线段中点
+      } else if (pos[1] !== pos[3]) {
+        // 1折: ——\，文字在折线段中点
         const centerDisX = pos[2] - pos[0];
         const centerDisY = pos[3] - pos[1];
         x = pos[centerDisX > 0 ? 2 : 0] - Math.abs(centerDisX / 2);
         y = pos[centerDisY > 0 ? 3 : 1] - Math.abs(centerDisY / 2);
-        z = Math.atan2(pos[1] - pos[3], pos[0] - pos[2]) / Math.PI * 180 + 180;
+        z = (Math.atan2(pos[1] - pos[3], pos[0] - pos[2]) / Math.PI) * 180 + 180;
       }
     }
   } // TODO:vertical
@@ -1475,10 +1630,15 @@ export const renderLinks = ({ links, nodeMap }: ILinkRender, snap: any, external
   const { svgAttr } = CANVAS;
   const LinkComp = external.linkTextEle;
   const startMarker = snap.circle(3, 3, 3).attr({ fill: '#333' }).marker(0, 0, 8, 8, 3, 3);
-  const endMarker = snap.image('/images/zx.svg', 0, 0, 10, 10).attr({ transform: 'roate(-90deg)' }).marker(0, 0, 10, 10, 5, 5);
+  const endMarker = snap
+    .image('/images/zx.svg', 0, 0, 10, 10)
+    .attr({ transform: 'roate(-90deg)' })
+    .marker(0, 0, 10, 10, 5, 5);
 
   map(links, (link: any) => {
-    const { _external: { id, posArr, linkData, sourceNode, targetNode } } = link;
+    const {
+      _external: { id, posArr, linkData, sourceNode, targetNode },
+    } = link;
     const [_x, source, target] = id.split('__');
     const textData: any = find(targetNode.parents, { id: sourceNode.id });
     const textId = `text__${source}__${target}`;
@@ -1494,7 +1654,9 @@ export const renderLinks = ({ links, nodeMap }: ILinkRender, snap: any, external
       };
     }
 
-    const fobjectSVG = `<foreignObject id="${`${textId}`}" class="line-text-carrier" x="${textX - 25}" y="${textY - 40}" width="${50}" height="${80}"></foreignObject>`;
+    const fobjectSVG = `<foreignObject id="${`${textId}`}" class="line-text-carrier" x="${textX - 25}" y="${
+      textY - 40
+    }" width="${50}" height="${80}"></foreignObject>`;
     const text = Snap.parse(fobjectSVG);
     const in_g = snap.g();
     in_g.append(text).attr({ ...attrObj });
@@ -1506,12 +1668,17 @@ export const renderLinks = ({ links, nodeMap }: ILinkRender, snap: any, external
       const relativeNode = [source, target];
 
       const allLinks = snap.selectAll('.topology-link'); // 选出所有link;
-      hoverAction(true, {
-        unRelativeNode,
-        relativeNode,
-        unRelativeLink: difference(allLinks, [_this]),
-        relativeLink: [_this],
-      }, snap, external);
+      hoverAction(
+        true,
+        {
+          unRelativeNode,
+          relativeNode,
+          unRelativeLink: difference(allLinks, [_this]),
+          relativeLink: [_this],
+        },
+        snap,
+        external,
+      );
     };
     const outHover = (_this: any) => {
       _this.attr({ ...svgAttr.polyline });
@@ -1519,42 +1686,55 @@ export const renderLinks = ({ links, nodeMap }: ILinkRender, snap: any, external
       const unRelativeNode = difference(allNodeUniqName, [source, target]);
       const relativeNode = [source, target];
       const allLinks = snap.selectAll('.topology-link'); // 选出所有link;
-      hoverAction(false, {
-        unRelativeNode,
-        relativeNode,
-        unRelativeLink: difference(allLinks, [_this]),
-        relativeLink: [_this],
-      }, snap, external);
+      hoverAction(
+        false,
+        {
+          unRelativeNode,
+          relativeNode,
+          unRelativeLink: difference(allLinks, [_this]),
+          relativeLink: [_this],
+        },
+        snap,
+        external,
+      );
     };
 
-    const l = snap.polyline(...posArr).attr({
-      id,
-      ...svgAttr.polyline,
-      markerEnd: endMarker,
-      markerStart: startMarker,
-
-    }).hover(function () {
-      onHover(this);
-    }, function () {
-      outHover(this);
-    });
+    const l = snap
+      .polyline(...posArr)
+      .attr({
+        id,
+        ...svgAttr.polyline,
+        markerEnd: endMarker,
+        markerStart: startMarker,
+      })
+      .hover(
+        function () {
+          onHover(this);
+        },
+        function () {
+          outHover(this);
+        },
+      );
 
     l._external = { linkData, posArr, sourceNode, targetNode };
     g.append(l);
     // 渲染线上文字，并添加hover事件
-    ReactDOM.render(<LinkComp id={`${textId}__text`} data={textData} textUnderLine={textUnderLine} onHover={() => onHover(l)} outHover={() => outHover(l)} />, document.getElementById(`${textId}`));
+    ReactDOM.render(
+      <LinkComp
+        id={`${textId}__text`}
+        data={textData}
+        textUnderLine={textUnderLine}
+        onHover={() => onHover(l)}
+        outHover={() => outHover(l)}
+      />,
+      document.getElementById(`${textId}`),
+    );
   });
 };
 
 // hover高亮效果
 const hoverAction = (isHover: boolean, params: any, snap: any, external: any) => {
-  const {
-    relativeLink = [],
-    relativeNode = [],
-    unRelativeLink = [],
-    unRelativeNode = [],
-    hoverNode,
-  } = params;
+  const { relativeLink = [], relativeNode = [], unRelativeLink = [], unRelativeNode = [], hoverNode } = params;
 
   const { linkTextHoverAction = emptyFun, nodeHoverAction = emptyFun } = external;
   const { svgAttr } = CANVAS;
@@ -1589,18 +1769,14 @@ const hoverAction = (isHover: boolean, params: any, snap: any, external: any) =>
       if (curText) {
         if (hoverNode) {
           curText.node.classList.add('topology-link-text-focus');
-          linkTextHoverAction(
-            isHover,
-            document.getElementById(`${textId}__text`),
-            {
-              ...external,
-              isRelative: true,
-              hoverNode,
-              targetNode,
-              sourceNode,
-              hoverNodeExternal: get(hoverNode, '_external'),
-            },
-          );
+          linkTextHoverAction(isHover, document.getElementById(`${textId}__text`), {
+            ...external,
+            isRelative: true,
+            hoverNode,
+            targetNode,
+            sourceNode,
+            hoverNodeExternal: get(hoverNode, '_external'),
+          });
         }
       }
       // link.attr({ ...svgAttr.polylineFoc });
@@ -1612,18 +1788,14 @@ const hoverAction = (isHover: boolean, params: any, snap: any, external: any) =>
       const curText = snap.select(`#${textId}-g`);
       if (curText) {
         curText.node.classList.add('topology-link-text-fade');
-        linkTextHoverAction(
-          isHover,
-          document.getElementById(`${textId}__text`),
-          {
-            ...external,
-            isRelative: false,
-            hoverNode,
-            targetNode,
-            sourceNode,
-            hoverNodeExternal: get(hoverNode, '_external'),
-          },
-        );
+        linkTextHoverAction(isHover, document.getElementById(`${textId}__text`), {
+          ...external,
+          isRelative: false,
+          hoverNode,
+          targetNode,
+          sourceNode,
+          hoverNodeExternal: get(hoverNode, '_external'),
+        });
       }
       link.attr({ ...svgAttr.polylineFade });
     });
@@ -1631,21 +1803,23 @@ const hoverAction = (isHover: boolean, params: any, snap: any, external: any) =>
     map(unRelativeNode, (name) => {
       if (name) {
         snap.select(`#${name}-g`).node.classList.remove('topology-node-fade');
-        nodeHoverAction && nodeHoverAction(isHover, snap.select(`#${name}-g`).node, {
-          ...external,
-          hoverNode,
-          isRelative: false,
-        });
+        nodeHoverAction &&
+          nodeHoverAction(isHover, snap.select(`#${name}-g`).node, {
+            ...external,
+            hoverNode,
+            isRelative: false,
+          });
       }
     });
     map(relativeNode, (name) => {
       if (name) {
         snap.select(`#${name}-g`).node.classList.remove('topology-node-focus');
-        nodeHoverAction && nodeHoverAction(isHover, snap.select(`#${name}-g`).node, {
-          ...external,
-          hoverNode,
-          isRelative: true,
-        });
+        nodeHoverAction &&
+          nodeHoverAction(isHover, snap.select(`#${name}-g`).node, {
+            ...external,
+            hoverNode,
+            isRelative: true,
+          });
       }
     });
     map(relativeLink, (link: any) => {
@@ -1656,18 +1830,14 @@ const hoverAction = (isHover: boolean, params: any, snap: any, external: any) =>
       const curText = snap.select(`#${textId}-g`);
       if (curText) {
         curText.node.classList.remove('topology-link-text-focus');
-        linkTextHoverAction(
-          isHover,
-          document.getElementById(`${textId}__text`),
-          {
-            ...external,
-            isRelative: false,
-            hoverNode,
-            targetNode,
-            sourceNode,
-            hoverNodeExternal: get(hoverNode, '_external'),
-          },
-        );
+        linkTextHoverAction(isHover, document.getElementById(`${textId}__text`), {
+          ...external,
+          isRelative: false,
+          hoverNode,
+          targetNode,
+          sourceNode,
+          hoverNodeExternal: get(hoverNode, '_external'),
+        });
       }
       link.attr({ ...svgAttr.polyline });
     });
@@ -1678,18 +1848,14 @@ const hoverAction = (isHover: boolean, params: any, snap: any, external: any) =>
       const curText = snap.select(`#${textId}-g`);
       if (curText) {
         curText.node.classList.remove('topology-link-text-fade');
-        linkTextHoverAction(
-          isHover,
-          document.getElementById(`${textId}__text`),
-          {
-            ...external,
-            isRelative: false,
-            hoverNode,
-            targetNode,
-            sourceNode,
-            hoverNodeExternal: get(hoverNode, '_external'),
-          },
-        );
+        linkTextHoverAction(isHover, document.getElementById(`${textId}__text`), {
+          ...external,
+          isRelative: false,
+          hoverNode,
+          targetNode,
+          sourceNode,
+          hoverNodeExternal: get(hoverNode, '_external'),
+        });
       }
       link.attr({ ...svgAttr.polyline });
     });

@@ -20,19 +20,20 @@ import { createStore } from 'app/cube';
 import { PAGINATION } from 'app/constants';
 import { isEmpty } from 'lodash';
 
-const getAppDetail = () => new Promise((resolve) => {
-  const { appId } = routeInfoStore.getState((s) => s.params);
-  let appDetail = appStore.getState((s) => s.detail);
-  const notSameApp = appId && String(appId) !== String(appDetail.id);
-  if (!appId || notSameApp) {
-    eventHub.once('appStore/getAppDetail', () => {
-      appDetail = appStore.getState((s) => s.detail);
+const getAppDetail = () =>
+  new Promise((resolve) => {
+    const { appId } = routeInfoStore.getState((s) => s.params);
+    let appDetail = appStore.getState((s) => s.detail);
+    const notSameApp = appId && String(appId) !== String(appDetail.id);
+    if (!appId || notSameApp) {
+      eventHub.once('appStore/getAppDetail', () => {
+        appDetail = appStore.getState((s) => s.detail);
+        resolve(appDetail);
+      });
+    } else {
       resolve(appDetail);
-    });
-  } else {
-    resolve(appDetail);
-  }
-});
+    }
+  });
 
 const dataTask = createStore({
   name: 'dataTask',
@@ -58,7 +59,11 @@ const dataTask = createStore({
     },
     async batchCreateTask({ call, getParams }, payload) {
       const { appId } = getParams();
-      const result = await call(dataTaskService.batchCreateTask, { ...payload, appId }, { successMsg: i18n.t('application:start executing the build') });
+      const result = await call(
+        dataTaskService.batchCreateTask,
+        { ...payload, appId },
+        { successMsg: i18n.t('application:start executing the build') },
+      );
       return result;
     },
     async getBusinessScope({ call, update }, payload) {
@@ -70,7 +75,9 @@ const dataTask = createStore({
         gitRepo = appDetail.gitRepo;
       }
       const businessScope = await call(dataTaskService.getBusinessScope, { remoteUri: gitRepo });
-      compName === 'model' ? update({ modelBusinessScope: businessScope }) : update({ marketBusinessScope: businessScope });
+      compName === 'model'
+        ? update({ modelBusinessScope: businessScope })
+        : update({ marketBusinessScope: businessScope });
     },
     async getBusinessProcesses({ call, update, select }, payload) {
       const { gitRepo } = appStore.getState((s) => s.detail);
@@ -78,7 +85,12 @@ const dataTask = createStore({
 
       const { pageNo = 1, pageSize = PAGINATION.pageSize, searchKey, ...rest } = payload;
       const params = !isEmpty(searchKey) ? { pageNo, pageSize, keyWord: searchKey } : { pageNo, pageSize };
-      const { list, total } = await call(dataTaskService.getBusinessProcesses, { ...params, ...rest, remoteUri: gitRepo }, { paging: { key: 'businessProcessPaging' } }) || {};
+      const { list, total } =
+        (await call(
+          dataTaskService.getBusinessProcesses,
+          { ...params, ...rest, remoteUri: gitRepo },
+          { paging: { key: 'businessProcessPaging' } },
+        )) || {};
       let newList = list;
       if (pageNo !== 1) {
         newList = originalList.concat(list);
@@ -92,7 +104,12 @@ const dataTask = createStore({
 
       const { pageNo = 1, pageSize = PAGINATION.pageSize, searchKey, ...rest } = payload;
       const params = !isEmpty(searchKey) ? { pageNo, pageSize, keyWord: searchKey } : { pageNo, pageSize };
-      const { list, total } = await call(dataTaskService.getOutputTables, { ...params, ...rest, remoteUri: gitRepo }, { paging: { key: 'outputTablePaging' } }) || {};
+      const { list, total } =
+        (await call(
+          dataTaskService.getOutputTables,
+          { ...params, ...rest, remoteUri: gitRepo },
+          { paging: { key: 'outputTablePaging' } },
+        )) || {};
       let newList = originalList;
       if (pageNo !== 1) {
         newList = originalList.concat(list);
@@ -101,7 +118,9 @@ const dataTask = createStore({
       return { total, list: newList };
     },
     async getTableAttrs({ call, update }, payload) {
-      const { list: tableAttrsList = [], total } = await call(dataTaskService.getTableAttrs, payload, { paging: { key: 'tableAttrsPaging' } });
+      const { list: tableAttrsList = [], total } = await call(dataTaskService.getTableAttrs, payload, {
+        paging: { key: 'tableAttrsPaging' },
+      });
       update({ tableAttrsList });
       return { total, list: tableAttrsList };
     },

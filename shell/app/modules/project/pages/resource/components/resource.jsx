@@ -27,10 +27,15 @@ import { Right as IconRight } from '@icon-park/react';
 class ProjectResource extends React.PureComponent {
   constructor(props) {
     super(props);
-    const { params: { projectId, appId }, applicationName, projectName } = props;
+    const {
+      params: { projectId, appId },
+      applicationName,
+      projectName,
+    } = props;
     let paths = [];
     let startLevel = '';
-    if (appId) { // 根据路由参数若是有appId，则层级从runtime开始
+    if (appId) {
+      // 根据路由参数若是有appId，则层级从runtime开始
       applicationName && (paths = [{ q: appId, name: applicationName }]);
       startLevel = 'runtime';
     } else if (projectId) {
@@ -47,7 +52,11 @@ class ProjectResource extends React.PureComponent {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { params: { projectId, appId }, projectName, applicationName } = nextProps;
+    const {
+      params: { projectId, appId },
+      projectName,
+      applicationName,
+    } = nextProps;
     const { startLevel } = prevState;
     if (startLevel === 'runtime' && applicationName && applicationName !== prevState.applicationName) {
       return { paths: [{ q: appId, name: applicationName }], applicationName };
@@ -75,24 +84,22 @@ class ProjectResource extends React.PureComponent {
     return (
       <div className="project-resource">
         <Breadcrumb separator={<IconRight size="14px" className="fz12" />} className="path-breadcrumb">
-          {
-            paths.map((p, i) => {
-              const isLast = i === paths.length - 1;
-              return (
-                <Breadcrumb.Item
-                  key={i}
-                  className={isLast ? '' : 'hover-active'}
-                  onClick={() => {
-                    if (!isLast) {
-                      this.backTo(i);
-                    }
-                  }}
-                >
-                  {p.name}
-                </Breadcrumb.Item>
-              );
-            })
-          }
+          {paths.map((p, i) => {
+            const isLast = i === paths.length - 1;
+            return (
+              <Breadcrumb.Item
+                key={i}
+                className={isLast ? '' : 'hover-active'}
+                onClick={() => {
+                  if (!isLast) {
+                    this.backTo(i);
+                  }
+                }}
+              >
+                {p.name}
+              </Breadcrumb.Item>
+            );
+          })}
         </Breadcrumb>
         <IF check={!isEmpty(paths)}>
           <ServiceList into={this.into} paths={paths} startLevel={startLevel} />
@@ -111,5 +118,13 @@ export default (props) => {
   const params = routeInfoStore.useStore((s) => s.params);
   const { name: applicationName } = appStore.useStore((s) => s.detail);
   const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
-  return <ProjectResource {...props} projectName={info.name} applicationName={applicationName} params={params} timeSpan={timeSpan} />;
+  return (
+    <ProjectResource
+      {...props}
+      projectName={info.name}
+      applicationName={applicationName}
+      params={params}
+      timeSpan={timeSpan}
+    />
+  );
 };

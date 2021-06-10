@@ -41,17 +41,12 @@ const AddOn = ({ addon, className, onClick, editing }: IAddOnProps) => {
   const { desc, name, logoUrl, displayName } = addon;
 
   return (
-    <div
-      onClick={() => (editing && onClick) && onClick(addon)}
-      className={classnames('dice-yml-actions', className)}
-    >
-      {
-        logoUrl ? (
-          <img alt="logo" src={logoUrl} className="actions-icon" />
-        ) : (
-          <CustomIcon type="wfw" color className="actions-icon" />
-        )
-      }
+    <div onClick={() => editing && onClick && onClick(addon)} className={classnames('dice-yml-actions', className)}>
+      {logoUrl ? (
+        <img alt="logo" src={logoUrl} className="actions-icon" />
+      ) : (
+        <CustomIcon type="wfw" color className="actions-icon" />
+      )}
       <span className="actions-info">
         <div className="actions-info-name">{displayName || name}</div>
         <div className="actions-info-description">{desc || '-'}</div>
@@ -111,38 +106,33 @@ export default (props: IProps) => {
     const actionsGroup = groupBy(actions, 'group');
     const addonsContent = (
       <Collapse className="new-yml-editor-collapse" defaultActiveKey={get(Object.keys(actionsGroup), 0)}>
-        {
-          map(actionsGroup, (actionArr, groupKey) => {
-            const header = get(actionArr, '[0].groupDisplayName') || get(actionArr, '[0].group') || groupKey;
-            return (
-              <Panel header={header} key={groupKey}>
-                {map(actionArr, (addon: IStageAction) => {
-                  let activeClass = null;
-                  // @ts-ignore
-                  if (selectedItem && selectedItem.name === addon.name) {
-                    activeClass = 'actions-selected';
-                  }
-                  return (
-                    <AddOn
-                      editing={!disabled}
-                      className={activeClass}
-                      addon={addon}
-                      key={addon.name}
-                      onClick={selectedAddonAction}
-                    />
-                  );
-                })}
-              </Panel>
-            );
-          })
-        }
+        {map(actionsGroup, (actionArr, groupKey) => {
+          const header = get(actionArr, '[0].groupDisplayName') || get(actionArr, '[0].group') || groupKey;
+          return (
+            <Panel header={header} key={groupKey}>
+              {map(actionArr, (addon: IStageAction) => {
+                let activeClass = null;
+                // @ts-ignore
+                if (selectedItem && selectedItem.name === addon.name) {
+                  activeClass = 'actions-selected';
+                }
+                return (
+                  <AddOn
+                    editing={!disabled}
+                    className={activeClass}
+                    addon={addon}
+                    key={addon.name}
+                    onClick={selectedAddonAction}
+                  />
+                );
+              })}
+            </Panel>
+          );
+        })}
       </Collapse>
     );
     return (
-      <div
-        tabIndex={1}
-        className="new-yml-editor-actions-list"
-      >
+      <div tabIndex={1} className="new-yml-editor-actions-list">
         {addonsContent}
       </div>
     );
@@ -200,9 +190,7 @@ export default (props: IProps) => {
   if (selectedItem) {
     content = (
       <React.Fragment>
-        <AddOn
-          addon={selectedItem}
-        />
+        <AddOn addon={selectedItem} />
       </React.Fragment>
     );
   }
@@ -211,10 +199,13 @@ export default (props: IProps) => {
       <div className="actions-select-label">
         <span className="actions-select-label-required">*</span>
         {label}:
-        {(selectedItem && !disabled) ? <a onClick={clear} className="reselect">{i18n.t('application:reselect')}</a> : null}
+        {selectedItem && !disabled ? (
+          <a onClick={clear} className="reselect">
+            {i18n.t('application:reselect')}
+          </a>
+        ) : null}
       </div>
       {content}
     </div>
   );
 };
-

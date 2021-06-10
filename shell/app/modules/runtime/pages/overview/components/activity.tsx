@@ -34,7 +34,6 @@ const deployStatusCnMap = {
   CANCELED: <span className="tag-default">{i18n.t('runtime:cancel')}</span>,
 };
 
-
 interface DeployCardProps {
   activity: RUNTIME.DeployRecord;
   userMap: {
@@ -44,17 +43,13 @@ interface DeployCardProps {
   onOpenDeployment: (deployment: RUNTIME.DeployRecord) => void;
 }
 
-
 const Activity = () => {
   const [deploymentList, paging] = runtimeStore.useStore((s) => [s.deploymentList, s.deploymentListPaging]);
   const slidePanelComps = commonStore.useStore((s) => s.slidePanelComps);
   const { appId, runtimeId } = routeInfoStore.useStore((s) => s.params);
   const userMap = userMapStore.useStore((e) => e);
   const [loading] = useLoading(runtimeStore, ['getDeploymentList']);
-  const [{
-    visible,
-    detailLogId,
-  }, updater, update] = useUpdate({
+  const [{ visible, detailLogId }, updater, update] = useUpdate({
     visible: false,
     detailLogId: '',
   });
@@ -89,7 +84,6 @@ const Activity = () => {
     ...slidePanelComps,
   ];
 
-
   const RuntimeDeploymentCard = ({ activity }: DeployCardProps) => {
     const { operator, createdAt, finishedAt, status, id } = activity;
     const { nick, name, avatar } = userMap[operator] as ILoginUser;
@@ -115,14 +109,18 @@ const Activity = () => {
             </div>
           </div>
           <div className="extra-items self-end">
-            <span className="color-primary pointer" onClick={() => onOpenDeployLog(id)}>{i18n.t('log')}</span>
+            <span className="color-primary pointer" onClick={() => onOpenDeployLog(id)}>
+              {i18n.t('log')}
+            </span>
           </div>
         </div>
         <div className="status mt8">
           {deployStatusCnMap[status]}
           <span className="ml8">{`${i18n.t('runtime:time consuming')} ${timeCost}`}</span>
           <Tooltip title={activity.releaseId}>
-            <span data-clipboard-text={activity.releaseId} className="ml8 for-copy">releaseId: {activity.releaseId.substr(0, 6)}</span>
+            <span data-clipboard-text={activity.releaseId} className="ml8 for-copy">
+              releaseId: {activity.releaseId.substr(0, 6)}
+            </span>
           </Tooltip>
         </div>
         <Copy selector=".for-copy" />

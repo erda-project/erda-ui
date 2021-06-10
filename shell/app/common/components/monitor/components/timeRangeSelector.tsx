@@ -69,7 +69,8 @@ class TimeSelector extends React.Component<IProps, IState> {
     return null;
   }
 
-  onChangeTime = (value: any) => { // After updating to Antd4.x, click OK to trigger the onChange
+  onChangeTime = (value: any) => {
+    // After updating to Antd4.x, click OK to trigger the onChange
     this.setState({ value }, () => {
       this.props.onChangeTime(value);
     });
@@ -84,7 +85,8 @@ class TimeSelector extends React.Component<IProps, IState> {
     }
   };
 
-  disabledDate = (current: Moment | undefined) => { // 不可选时间，7天内
+  disabledDate = (current: Moment | undefined) => {
+    // 不可选时间，7天内
     const { disabledDate } = this.props;
     if (disabledDate) {
       return disabledDate(current);

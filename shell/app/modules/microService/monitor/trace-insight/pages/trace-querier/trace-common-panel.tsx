@@ -17,7 +17,7 @@ import { Card } from 'app/nusi';
 import { isString } from 'lodash';
 import './trace-common-panel.scss';
 
-interface IProps{
+interface IProps {
   title?: any;
   children?: any;
   className?: string;
@@ -26,24 +26,17 @@ const TraceCommonPanel = (props: IProps) => {
   const { title, children, className, ...otherProps } = props;
 
   return (
-    <Card
-      className={`${className} trace-common-panel`}
-      bordered={false}
-      {...otherProps}
-    >
-      <Card.Header title={isString(title) ? <h3 className="trace-common-panel-title bold-500">{title}</h3> : (title || null)} />
-      <div className="card-body">
-        { children }
-      </div>
+    <Card className={`${className} trace-common-panel`} bordered={false} {...otherProps}>
+      <Card.Header
+        title={isString(title) ? <h3 className="trace-common-panel-title bold-500">{title}</h3> : title || null}
+      />
+      <div className="card-body">{children}</div>
     </Card>
   );
 };
 
 TraceCommonPanel.propTypes = {
-  title: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-  ]),
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   className: PropTypes.string,
   children: PropTypes.element,
 };

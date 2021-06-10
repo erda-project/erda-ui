@@ -38,7 +38,7 @@ const calMax = (arr) => {
       }
     });
   });
-  const maxVal = Math.ceil(max / 9.5 * 10);
+  const maxVal = Math.ceil((max / 9.5) * 10);
   return maxVal > 5 ? maxVal + (5 - (maxVal % 5)) : maxVal;
 };
 
@@ -59,7 +59,7 @@ const ConnectChart = (props) => {
   const groups = keys(data.results);
   const [selectedGroup, setSelectedGroup] = React.useState();
   const getOption = () => {
-    const moreThanOneDay = timeSpan ? timeSpan.seconds > (24 * 3600) : false;
+    const moreThanOneDay = timeSpan ? timeSpan.seconds > 24 * 3600 : false;
     const { results: originData, xAxis, time, lines } = data;
     const results = sortBy(originData[selectedGroup] || values(originData)[0], 'axisIndex');
     const legendData = [];
@@ -86,7 +86,10 @@ const ConnectChart = (props) => {
             },
           },
         },
-        data: markLines.map(({ name, value }) => ([{ x: '7%', yAxis: value, name }, { x: '93%', yAxis: value }])),
+        data: markLines.map(({ name, value }) => [
+          { x: '7%', yAxis: value, name },
+          { x: '93%', yAxis: value },
+        ]),
       };
     }
 
@@ -99,10 +102,12 @@ const ConnectChart = (props) => {
         type: value.chartType || 'line',
         name: value.tag || seriseName || value.name || value.key,
         yAxisIndex,
-        data: !isBarChangeColor ? value.data : map(value.data, (item, j) => {
-          const sect = Math.ceil(value.data.length / CHANGE_COLORS.length);
-          return { ...item, itemStyle: { normal: { color: CHANGE_COLORS[Number.parseInt(j / sect, 10)] } } };
-        }),
+        data: !isBarChangeColor
+          ? value.data
+          : map(value.data, (item, j) => {
+              const sect = Math.ceil(value.data.length / CHANGE_COLORS.length);
+              return { ...item, itemStyle: { normal: { color: CHANGE_COLORS[Number.parseInt(j / sect, 10)] } } };
+            }),
         label: {
           normal: {
             show: isLabel,
@@ -123,8 +128,8 @@ const ConnectChart = (props) => {
       });
       const curMax = value.data ? calMax([value.data]) : [];
       maxArr[yAxisIndex] = maxArr[yAxisIndex] && maxArr[yAxisIndex] > curMax ? maxArr[yAxisIndex] : curMax;
-      const curUnitType = (value.unitType || ''); // y轴单位
-      const curUnit = (value.unit || ''); // y轴单位
+      const curUnitType = value.unitType || ''; // y轴单位
+      const curUnit = value.unit || ''; // y轴单位
       yAxis[yAxisIndex] = {
         name: name || yAxisNames[yAxisIndex] || '',
         nameTextStyle: {
@@ -158,9 +163,12 @@ const ConnectChart = (props) => {
       return [curYAxis.unitType, curYAxis.unit];
     };
 
-    const genTTArray = (param) => param.map((unit, i) => {
-      return `<span style='color: ${unit.color}'>${cutStr(unit.seriesName, 20)} : ${getFormatter(...getTTUnitType(i)).format(unit.value, 2)}</span><br/>`;
-    });
+    const genTTArray = (param) =>
+      param.map((unit, i) => {
+        return `<span style='color: ${unit.color}'>${cutStr(unit.seriesName, 20)} : ${getFormatter(
+          ...getTTUnitType(i),
+        ).format(unit.value, 2)}</span><br/>`;
+      });
 
     let defaultTTFormatter = (param) => `${param[0].name}<br/>${genTTArray(param).join('')}`;
 
@@ -182,13 +190,17 @@ const ConnectChart = (props) => {
     if (haveTwoYAxis) {
       yAxis = yAxis.map((item, i) => {
         // 有数据和无数据的显示有差异
-        const hasData = some(results[i].data || [], (_data) => (Number(_data) !== 0));
+        const hasData = some(results[i].data || [], (_data) => Number(_data) !== 0);
         let { name } = item;
         if (!hasData) {
-          name = i === 0 ? `${'  '.repeat(item.name.length + 1)}${item.name}` : `${item.name}${'  '.repeat(item.name.length)}`;
+          name =
+            i === 0
+              ? `${'  '.repeat(item.name.length + 1)}${item.name}`
+              : `${item.name}${'  '.repeat(item.name.length)}`;
         }
 
-        if (i > 1) { // 右侧有超过两个Y轴
+        if (i > 1) {
+          // 右侧有超过两个Y轴
           yAxis[i].offset = 80 * (i - 1);
         }
         const maxValue = item.max || maxArr[i];
@@ -231,9 +243,9 @@ const ConnectChart = (props) => {
       xAxis: [
         {
           type: 'category',
-          data: xAxis || time || [], /* X轴数据 */
+          data: xAxis || time || [] /* X轴数据 */,
           axisTick: {
-            show: false, /* 坐标刻度 */
+            show: false /* 坐标刻度 */,
           },
           axisLine: {
             show: false,
@@ -263,20 +275,21 @@ const ConnectChart = (props) => {
     hasData = size(results) > 0;
   }
 
-  const handleChange = (value) => { setSelectedGroup(value); };
+  const handleChange = (value) => {
+    setSelectedGroup(value);
+  };
 
   return (
     <>
       <IF check={hasData}>
         <div className="chart-selecter">
           {i18n.t('microService:select instance')}：
-          <Select
-            className="my12"
-            value={selectedGroup || groups[0]}
-            style={{ width: 200 }}
-            onChange={handleChange}
-          >
-            {map(groups, (item) => <Option value={item} key={item}>{item}</Option>)}
+          <Select className="my12" value={selectedGroup || groups[0]} style={{ width: 200 }} onChange={handleChange}>
+            {map(groups, (item) => (
+              <Option value={item} key={item}>
+                {item}
+              </Option>
+            ))}
           </Select>
         </div>
       </IF>

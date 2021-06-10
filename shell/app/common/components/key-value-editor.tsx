@@ -19,20 +19,19 @@ import { WrappedFormUtils } from 'core/common/interface';
 import i18n from 'i18n';
 import './key-value-editor.scss';
 
-
 const trim = (str: string) => str.replace(/^\s+|\s+$/g, '');
-const convertToTextData = (data: object) => Object.keys(data || {}).reduce(
-  (all, k) => `${all}${k}: ${data[k]}\n`, '',
-);
-export const convertTextToMapData = (value: string) => value.split('\n')
-  .filter((row) => row.length > 0)
-  .reduce((obj, r) => {
-    const [k, ...v] = r.split(':');
-    if (v.length) {
-      obj[trim(k)] = trim(v.join(':'));
-    }
-    return obj;
-  }, {});
+const convertToTextData = (data: object) => Object.keys(data || {}).reduce((all, k) => `${all}${k}: ${data[k]}\n`, '');
+export const convertTextToMapData = (value: string) =>
+  value
+    .split('\n')
+    .filter((row) => row.length > 0)
+    .reduce((obj, r) => {
+      const [k, ...v] = r.split(':');
+      if (v.length) {
+        obj[trim(k)] = trim(v.join(':'));
+      }
+      return obj;
+    }, {});
 
 /**
  *
@@ -69,7 +68,7 @@ interface IProps {
       key: (rule: any, value: any, callback: Function) => void;
       value: (rule: any, value: any, callback: Function) => void;
     };
-    text: (rule: any, value: {k: string; v: string}, callback: Function) => void;
+    text: (rule: any, value: { k: string; v: string }, callback: Function) => void;
   };
   maxLength?: number;
 }
@@ -103,90 +102,110 @@ export class KeyValueEditor extends React.Component<IProps, IState> {
 
   getEditData = () => {
     const { tableMode } = this.state;
-    const data = tableMode ? (this.table as KeyValueTable).getTableData()
+    const data = tableMode
+      ? (this.table as KeyValueTable).getTableData()
       : convertTextToMapData((this.textArea as KeyValueTextArea).getTextData());
     return data;
   };
 
-  toggleEditMode = () => new Promise((resolve) => {
-    const { form: { validateFields } } = this.props;
-    validateFields((err) => {
-      if (!err) {
-        const nowIsTableMode = this.state.tableMode;
-        if (nowIsTableMode) {
-          this.setState({
-            dataSource: (this.table as KeyValueTable).getTableData(),
-            tableMode: !nowIsTableMode,
-          });
+  toggleEditMode = () =>
+    new Promise((resolve) => {
+      const {
+        form: { validateFields },
+      } = this.props;
+      validateFields((err) => {
+        if (!err) {
+          const nowIsTableMode = this.state.tableMode;
+          if (nowIsTableMode) {
+            this.setState({
+              dataSource: (this.table as KeyValueTable).getTableData(),
+              tableMode: !nowIsTableMode,
+            });
+          } else {
+            this.setState({
+              dataSource: convertTextToMapData((this.textArea as KeyValueTextArea).getTextData()),
+              tableMode: !nowIsTableMode,
+            });
+          }
+          resolve({ mode: !nowIsTableMode ? 'key-value' : 'text' });
         } else {
-          this.setState({
-            dataSource: convertTextToMapData((this.textArea as KeyValueTextArea).getTextData()),
-            tableMode: !nowIsTableMode,
-          });
+          resolve(err);
         }
-        resolve({ mode: !nowIsTableMode ? 'key-value' : 'text' });
-      } else {
-        resolve(err);
-      }
+      });
     });
-  });
 
   render() {
     const { dataSource, tableMode } = this.state;
-    const { title, form, tableProps, textAreaProps, editDisabled, existKeys = [], onChange, isNeedTextArea = true, keyDisabled, disableAdd, isValueTextArea = false, disableDelete, validateField, maxLength } = this.props;
+    const {
+      title,
+      form,
+      tableProps,
+      textAreaProps,
+      editDisabled,
+      existKeys = [],
+      onChange,
+      isNeedTextArea = true,
+      keyDisabled,
+      disableAdd,
+      isValueTextArea = false,
+      disableDelete,
+      validateField,
+      maxLength,
+    } = this.props;
     const tableData = dataSource;
     const textData = convertToTextData(dataSource);
     return (
       <div>
         <div className="flex-box mb12">
           <span className="key-value-title">{title || i18n.t('default:information configuration')}</span>
-          {
-            isNeedTextArea ? (
-              <Radio.Group size="small" value={tableMode ? 'key-value' : 'text'} onChange={this.toggleEditMode}>
-                <Radio.Button value="text">{i18n.t('default:text mode')}</Radio.Button>
-                <Radio.Button value="key-value">{i18n.t('default:entry mode')}</Radio.Button>
-              </Radio.Group>
-            ) : null
-          }
+          {isNeedTextArea ? (
+            <Radio.Group size="small" value={tableMode ? 'key-value' : 'text'} onChange={this.toggleEditMode}>
+              <Radio.Button value="text">{i18n.t('default:text mode')}</Radio.Button>
+              <Radio.Button value="key-value">{i18n.t('default:entry mode')}</Radio.Button>
+            </Radio.Group>
+          ) : null}
         </div>
-        {
-          tableMode ?
-            <KeyValueTable
-              data={tableData}
+        {tableMode ? (
+          <KeyValueTable
+            data={tableData}
+            editDisabled={editDisabled}
+            keyDisabled={keyDisabled}
+            existKeys={existKeys}
+            form={form}
+            disableAdd={disableAdd}
+            disableDelete={disableDelete}
+            addBtnText={i18n.t('common:add parameter')}
+            title={null}
+            ref={(ref) => {
+              this.table = ref;
+            }}
+            // 该组件认为删除 input-item 和改变 input-item 的值是同一种行为
+            onChange={onChange}
+            onDel={onChange}
+            isTextArea={isValueTextArea}
+            validate={validateField ? validateField.table : undefined}
+            maxLength={maxLength}
+            {...tableProps}
+          />
+        ) : (
+          <div>
+            {/* <div className="mb16" style={{ display: 'flex', flexDirection: 'row-reverse', lineHeight: '28px' }}> */}
+            {/*  {modeSwitch} */}
+            {/* </div> */}
+            <KeyValueTextArea
+              data={textData}
               editDisabled={editDisabled}
-              keyDisabled={keyDisabled}
               existKeys={existKeys}
               form={form}
-              disableAdd={disableAdd}
-              disableDelete={disableDelete}
-              addBtnText={i18n.t('common:add parameter')}
-              title={null}
-              ref={(ref) => { this.table = ref; }}
-              // 该组件认为删除 input-item 和改变 input-item 的值是同一种行为
-              onChange={onChange}
-              onDel={onChange}
-              isTextArea={isValueTextArea}
-              validate={validateField ? validateField.table : undefined}
+              ref={(ref) => {
+                this.textArea = ref;
+              }}
+              validate={validateField ? validateField.text : undefined}
               maxLength={maxLength}
-              {...tableProps}
+              {...textAreaProps}
             />
-            : (
-              <div>
-                {/* <div className="mb16" style={{ display: 'flex', flexDirection: 'row-reverse', lineHeight: '28px' }}> */}
-                {/*  {modeSwitch} */}
-                {/* </div> */}
-                <KeyValueTextArea
-                  data={textData}
-                  editDisabled={editDisabled}
-                  existKeys={existKeys}
-                  form={form}
-                  ref={(ref) => { this.textArea = ref; }}
-                  validate={validateField ? validateField.text : undefined}
-                  maxLength={maxLength}
-                  {...textAreaProps}
-                />
-              </div>)
-      }
+          </div>
+        )}
       </div>
     );
   }

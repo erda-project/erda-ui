@@ -21,7 +21,7 @@ import { WrappedFormUtils } from 'core/common/interface';
 import { IFormItem } from './render-formItem';
 import moment from 'moment';
 
-const noop = () => { };
+const noop = () => {};
 
 interface IProps {
   visible: boolean;
@@ -74,7 +74,8 @@ class FormModalComp extends React.Component<IProps, IState> {
             _list.forEach((f) => {
               if (f.name && formData) {
                 const fieldData = get(formData, f.name);
-                if (f.type === 'datePicker' && typeof fieldData === 'string') { // 日期类型 value 不能传 string
+                if (f.type === 'datePicker' && typeof fieldData === 'string') {
+                  // 日期类型 value 不能传 string
                   set(pureData, f.name, moment(fieldData));
                 } else {
                   set(pureData, f.name, fieldData);
@@ -98,12 +99,14 @@ class FormModalComp extends React.Component<IProps, IState> {
 
     if (submitResult && isPromise(submitResult)) {
       this.setState({ confirmLoading: true });
-      submitResult.then(() => {
-        this.setState({ confirmLoading: false });
-        resolve();
-      }).catch(() => {
-        this.setState({ confirmLoading: false });
-      });
+      submitResult
+        .then(() => {
+          this.setState({ confirmLoading: false });
+          resolve();
+        })
+        .catch(() => {
+          this.setState({ confirmLoading: false });
+        });
     } else {
       resolve();
     }
@@ -120,7 +123,8 @@ class FormModalComp extends React.Component<IProps, IState> {
         let submitValue = values;
         if (beforeSubmit) {
           submitValue = beforeSubmit(values, form);
-          if (isPromise(submitValue)) { // 当需要在提交前做后端检查且不能清除表单域的情况下，可以在beforeSubmit返回promise，通过then结果判定是否真实提交
+          if (isPromise(submitValue)) {
+            // 当需要在提交前做后端检查且不能清除表单域的情况下，可以在beforeSubmit返回promise，通过then结果判定是否真实提交
             return submitValue.then((checkedValues: any) => {
               if (checkedValues === null) {
                 return resolve();
@@ -145,7 +149,23 @@ class FormModalComp extends React.Component<IProps, IState> {
   };
 
   render() {
-    const { loading = false, tip, visible, title, okButtonState = false, name = '', width, onOk, onCancel, PureForm = noop, fieldsList, formProps = {}, modalProps = {}, alertProps = {}, ...rest } = this.props;
+    const {
+      loading = false,
+      tip,
+      visible,
+      title,
+      okButtonState = false,
+      name = '',
+      width,
+      onOk,
+      onCancel,
+      PureForm = noop,
+      fieldsList,
+      formProps = {},
+      modalProps = {},
+      alertProps = {},
+      ...rest
+    } = this.props;
     const { confirmLoading } = this.state;
     const modalTitle = title || (this.isAddMode ? i18n.t('add {name}', { name }) : i18n.t('edit {name}', { name }));
     if (width) {
@@ -168,20 +188,22 @@ class FormModalComp extends React.Component<IProps, IState> {
         onOk={this.handleOk}
         onCancel={this.handleCancel}
         footer={[
-          onCancel
-            ? (
-              <Button key="back" onClick={this.handleCancel}>
-                {i18n.t('cancel')}
-              </Button>
-            )
-            : null,
-          onOk
-            ? (
-              <Button key="submit" type="primary" disabled={okButtonState} loading={confirmLoading} onClick={this.handleOk}>
-                {i18n.t('ok')}
-              </Button>
-            )
-            : null,
+          onCancel ? (
+            <Button key="back" onClick={this.handleCancel}>
+              {i18n.t('cancel')}
+            </Button>
+          ) : null,
+          onOk ? (
+            <Button
+              key="submit"
+              type="primary"
+              disabled={okButtonState}
+              loading={confirmLoading}
+              onClick={this.handleOk}
+            >
+              {i18n.t('ok')}
+            </Button>
+          ) : null,
         ]}
         {...modalProps}
       >
@@ -197,7 +219,6 @@ class FormModalComp extends React.Component<IProps, IState> {
 
 const PureFormModal = Form.create()(FormModalComp);
 const PureFormModalFun = (options: Obj) => Form.create(options)(FormModalComp);
-
 
 /**
  * 表单弹窗组件
@@ -227,7 +248,5 @@ export const FormModal = (props: any) => {
   const formRef = React.useRef(null);
   // 将formRef传递至组件内部，为的是当使用PureForm的时候，可以得到fieldsStore来setFieldsValues，故使用FormModal时，要注意ref得到的和预期的不一样
   const FormModalCompRef = React.useRef(PureFormModalFun(props?.formOption || {}));
-  return (
-    <FormModalCompRef.current {...props} ref={formRef} formRef={formRef.current} />
-  );
+  return <FormModalCompRef.current {...props} ref={formRef} formRef={formRef.current} />;
 };

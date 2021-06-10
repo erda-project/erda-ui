@@ -17,16 +17,17 @@
 Cypress.Commands.add('testList', (url, filterKey = 'displayName') => {
   cy.server();
   cy.route(url).as('getList');
-  cy.wait('@getList').its('response.body.data.list').then((list) => {
-    if (list[0]) {
-      const displayName = list[0][filterKey];
-      cy.log(displayName);
-      cy.get('.ant-input').type(displayName);
-      cy.wait('@getList');
-      cy.get('.pk-list > .pk-list-item').should('have.length.at.least', 1);
-      cy.get('.ant-input').clear();
-      cy.wait('@getList');
-    }
-  });
+  cy.wait('@getList')
+    .its('response.body.data.list')
+    .then((list) => {
+      if (list[0]) {
+        const displayName = list[0][filterKey];
+        cy.log(displayName);
+        cy.get('.ant-input').type(displayName);
+        cy.wait('@getList');
+        cy.get('.pk-list > .pk-list-item').should('have.length.at.least', 1);
+        cy.get('.ant-input').clear();
+        cy.wait('@getList');
+      }
+    });
 });
-

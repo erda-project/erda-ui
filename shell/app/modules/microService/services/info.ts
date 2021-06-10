@@ -13,9 +13,15 @@
 
 import agent from 'agent';
 
-export const getMSComponentInfo = ({ tenantGroup, tenantId }: { tenantGroup: string; tenantId: string }): MS_INFO.IMicroServiceComponentInfo[] => {
-  return agent.get(`/api/micro-service/setting/tenantGroup/${tenantGroup}`)
+export const getMSComponentInfo = ({
+  tenantGroup,
+  tenantId,
+}: {
+  tenantGroup: string;
+  tenantId: string;
+}): MS_INFO.IMicroServiceComponentInfo[] => {
+  return agent
+    .get(`/api/micro-service/setting/tenantGroup/${tenantGroup}`)
     .query({ tenantId })
     .then((response: any) => response.body);
 };
-

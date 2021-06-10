@@ -53,7 +53,9 @@ export const OrgSetting = () => {
                   desc: (
                     <div>
                       {i18n.t('edit members, set member roles, role permissions please refer to')}
-                      <Link to={goTo.resolve.perm({ scope: 'org' })} target="_blank">{i18n.t('role permissions description')}</Link>
+                      <Link to={goTo.resolve.perm({ scope: 'org' })} target="_blank">
+                        {i18n.t('role permissions description')}
+                      </Link>
                     </div>
                   ),
                   children: <MembersTable scopeKey={MemberScope.ORG} />,
@@ -147,7 +149,9 @@ export const OrgSetting = () => {
               sectionList={[
                 {
                   title: i18n.t('application:organize notification groups to set up notifications'),
-                  children: <NotifyGroup memberStore={memberStore} commonPayload={{ scopeType: 'org', scopeId: `${orgId}` }} />,
+                  children: (
+                    <NotifyGroup memberStore={memberStore} commonPayload={{ scopeType: 'org', scopeId: `${orgId}` }} />
+                  ),
                 },
               ]}
             />
@@ -157,10 +161,5 @@ export const OrgSetting = () => {
     },
   ];
 
-  return (
-    <SettingsTabs
-      className="org-settings-main"
-      dataSource={dataSource}
-    />
-  );
+  return <SettingsTabs className="org-settings-main" dataSource={dataSource} />;
 };

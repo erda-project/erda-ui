@@ -34,12 +34,18 @@ export const DataSourceSelector = (props: any) => {
   const getData = () => {
     if (projectId && dataSourceType) {
       // 暂时只取测试环境的addon, Custom/AliCloud-Rds/AliCloud-Redis 为自定义类型，自定义类型暂为redis和mysql共享
-      workBenchStore.getDataSourceAddons({ projectId, displayName: [dataSourceTypeMap[dataSourceType], 'Custom', 'AliCloud-Rds', 'AliCloud-Redis'] })
+      workBenchStore
+        .getDataSourceAddons({
+          projectId,
+          displayName: [dataSourceTypeMap[dataSourceType], 'Custom', 'AliCloud-Rds', 'AliCloud-Redis'],
+        })
         .then((res: any) => {
-          setOptions((res || []).map((item: any) => ({
-            value: item.instanceId,
-            label: `${item.name}${item.tag ? `(${item.tag})` : ''}`,
-          })));
+          setOptions(
+            (res || []).map((item: any) => ({
+              value: item.instanceId,
+              label: `${item.name}${item.tag ? `(${item.tag})` : ''}`,
+            })),
+          );
         });
     }
   };
@@ -52,7 +58,9 @@ export const DataSourceSelector = (props: any) => {
   const dataSourceOptionRender = (item: any) => {
     return (
       <Option key={item.value} value={item.value}>
-        <span className="ml8" title={item.label}>{item.label}</span>
+        <span className="ml8" title={item.label}>
+          {item.label}
+        </span>
       </Option>
     );
   };
@@ -65,11 +73,9 @@ export const DataSourceSelector = (props: any) => {
       showSearch
       optionFilterProp="children"
       onChange={onChange}
-      filterOption={
-        (input: any, option: any) => {
-          return option.props.children.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0;
-        }
-      }
+      filterOption={(input: any, option: any) => {
+        return option.props.children.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+      }}
       value={value}
       placeholder={i18n.t('please select')}
       {...rest}

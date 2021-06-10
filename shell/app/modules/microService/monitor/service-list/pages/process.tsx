@@ -77,17 +77,18 @@ export default () => {
             style={{ width: '300px' }}
             onChange={(v: any) => updater.instanceId(v)}
           >
-            {(instanceIds || []).map(({ instanceId: v, status }) => (
+            {(instanceIds || []).map(({ instanceId: v, status, ip }) => (
               <Select.Option key={v} value={v}>
                 <div className="instance-item flex-box">
-                  <span className="instance-name nowrap">{v}</span>
+                  <span className="instance-name nowrap">{ip || v}</span>
                   <Tooltip title={status ? i18n.t('dcos:running') : i18n.t('microService:not running')}>
                     <div className="status ml8">
-                      <span className={classNames({
-                        'status-point': true,
-                        success: status,
-                        grey: !status,
-                      })}
+                      <span
+                        className={classNames({
+                          'status-point': true,
+                          success: status,
+                          grey: !status,
+                        })}
                       />
                     </div>
                   </Tooltip>
@@ -99,7 +100,11 @@ export default () => {
       </div>
       <div className="auto-overflow flex-1">
         <Spin spinning={isFetching}>
-          {id ? <ServiceListDashboard timeSpan={timeSpan} dashboardId={id} extraGlobalVariable={{ instanceId }} /> : <EmptyHolder relative />}
+          {id ? (
+            <ServiceListDashboard timeSpan={timeSpan} dashboardId={id} extraGlobalVariable={{ instanceId }} />
+          ) : (
+            <EmptyHolder relative />
+          )}
         </Spin>
       </div>
     </div>

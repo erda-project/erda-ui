@@ -19,11 +19,6 @@ import runtimeStore from './stores/runtime';
 export default (registerModule) => {
   return registerModule({
     key: 'runtime',
-    stores: [
-      domainStore,
-      logStore,
-      serviceStore,
-      runtimeStore,
-    ],
+    stores: [domainStore, logStore, serviceStore, runtimeStore],
   });
 };

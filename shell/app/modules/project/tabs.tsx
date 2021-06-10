@@ -29,15 +29,17 @@ export const ITERATION_DETAIL_TABS = (params: Obj) => {
         <span>
           <CustomIcon type="back" />
           {i18n.t('project:iteration')}
-          {iterationName ?
-            (
-              iterationName.length > 8 ?
-                <Tooltip title={iterationName} placement="topLeft">
-                  ({iterationName.slice(0, 8)}...)
-                </Tooltip>
-                : `(${iterationName})`
+          {iterationName ? (
+            iterationName.length > 8 ? (
+              <Tooltip title={iterationName} placement="topLeft">
+                ({iterationName.slice(0, 8)}...)
+              </Tooltip>
+            ) : (
+              `(${iterationName})`
             )
-            : ''}
+          ) : (
+            ''
+          )}
         </span>
       ),
       show: projectPerm.iteration.read.pass,
@@ -45,11 +47,7 @@ export const ITERATION_DETAIL_TABS = (params: Obj) => {
     {
       key: 'all',
       name: i18n.t('project:all issues'),
-      show: [
-        projectPerm.requirement.read.pass,
-        projectPerm.task.read.pass,
-        projectPerm.bug.read.pass,
-      ].some((k) => k),
+      show: [projectPerm.requirement.read.pass, projectPerm.task.read.pass, projectPerm.bug.read.pass].some((k) => k),
     },
     {
       key: 'requirement',
@@ -78,7 +76,11 @@ export const AUTO_TEST_SPACE_TABS = (params: Obj) => {
       key: '../',
       hrefType: 'back',
       name: (
-        <span><CustomIcon type="back" />{i18n.t('project:test space')}{autoTestSpaceName ? `(${autoTestSpaceName})` : ''}</span>
+        <span>
+          <CustomIcon type="back" />
+          {i18n.t('project:test space')}
+          {autoTestSpaceName ? `(${autoTestSpaceName})` : ''}
+        </span>
       ),
     },
     {
@@ -115,11 +117,7 @@ export const PROJECT_TABS = () => {
     {
       key: 'all',
       name: i18n.t('project:all issues'),
-      show: [
-        projectPerm.requirement.read.pass,
-        projectPerm.task.read.pass,
-        projectPerm.bug.read.pass,
-      ].some((k) => k),
+      show: [projectPerm.requirement.read.pass, projectPerm.task.read.pass, projectPerm.bug.read.pass].some((k) => k),
     },
     {
       key: 'requirement',

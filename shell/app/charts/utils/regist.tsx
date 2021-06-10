@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { Select, Tooltip } from 'app/nusi';
 import { map } from 'lodash';
-import { registDataConvertor, registChartOptionFn, registControl } from '@terminus/dashboard-configurator';
+import { registDataConvertor, registChartOptionFn, registControl } from '@erda-ui/dashboard-configurator';
 import { getLineOption } from './line-option';
 import { monitorDataConvertor } from './convertor';
 import { TimeSelector } from 'common';
@@ -36,9 +36,14 @@ export const registChartControl = () => {
           style={{ width: width || 200 }}
           onChange={handleChange}
         >
-          { map(groups, (item) => <Option value={item} key={item}><Tooltip title={item}>{ item }</Tooltip></Option>) }
+          {map(groups, (item) => (
+            <Option value={item} key={item}>
+              <Tooltip title={item}>{item}</Tooltip>
+            </Option>
+          ))}
         </Select>
-      </div>);
+      </div>
+    );
   });
 
   registControl('timeRangeSelect', () => {
@@ -46,6 +51,7 @@ export const registChartControl = () => {
       <div className="chart-time-selector">
         <span>{i18n.t('charts:select time range')}：</span>
         <TimeSelector inline defaultTime={24} />
-      </div>);
+      </div>
+    );
   });
 };

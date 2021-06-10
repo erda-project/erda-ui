@@ -17,9 +17,7 @@ import { mount } from 'enzyme';
 import { describe, it } from '@jest/globals';
 
 const Comp = (props = {}) => {
-  return (
-    <div {...props}>Comp</div>
-  );
+  return <div {...props}>Comp</div>;
 };
 
 const WrapComp = (mapper) => connectCube(Comp, mapper);

@@ -14,25 +14,29 @@
 import agent from 'agent';
 
 export const getSubSlowHttpList = (payload: MONITOR_SI.ITableDataQuery): IChartResult => {
-  return agent.get('/api/tmc/metrics/application_http_slow')
+  return agent
+    .get('/api/tmc/metrics/application_http_slow')
     .query(payload)
     .then((response: any) => response.body);
 };
 
 export const getSubErrorHttpList = (payload: MONITOR_SI.ITableDataQuery): IChartResult => {
-  return agent.get('/api/tmc/metrics/application_http_error')
+  return agent
+    .get('/api/tmc/metrics/application_http_error')
     .query(payload)
     .then((response: any) => response.body);
 };
 
 export const getSubSlowDbList = (payload: MONITOR_SI.ITableDataQuery): IChartResult => {
-  return agent.get('/api/tmc/metrics/application_db_slow')
+  return agent
+    .get('/api/tmc/metrics/application_db_slow')
     .query(payload)
     .then((response: any) => response.body);
 };
 
 export const getSubErrorDbList = (payload: MONITOR_SI.ITableDataQuery): IChartResult => {
-  return agent.get('/api/tmc/metrics/application_db_error')
+  return agent
+    .get('/api/tmc/metrics/application_db_error')
     .query(payload)
     .then((response: any) => response.body);
 };

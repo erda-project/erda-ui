@@ -18,34 +18,37 @@ import { ApiMap } from './apiConfig';
 export const commonAttr = {
   moduleName: 'AINodes',
 };
-const chartMap = merge({
-  heapMemoryUsage: {
-    titleText: 'Heap memory usage',
-    ...commonAttr,
-    chartName: 'heapMemoryUsage',
-    viewProps: {
-      unitType: 'CAPACITY',
+const chartMap = merge(
+  {
+    heapMemoryUsage: {
+      titleText: 'Heap memory usage',
+      ...commonAttr,
+      chartName: 'heapMemoryUsage',
+      viewProps: {
+        unitType: 'CAPACITY',
+      },
+    },
+    nonHeapMemoryUsage: {
+      titleText: 'Non Heap memory usage',
+      ...commonAttr,
+      chartName: 'nonHeapMemoryUsage',
+      viewProps: {
+        unitType: 'CAPACITY',
+      },
+    },
+    clusterCount: {
+      titleText: 'Cluster Count',
+      ...commonAttr,
+      chartName: 'clusterCount',
+    },
+    asyncResources: {
+      titleText: 'AsyncResources',
+      ...commonAttr,
+      chartName: 'asyncResources',
     },
   },
-  nonHeapMemoryUsage: {
-    titleText: 'Non Heap memory usage',
-    ...commonAttr,
-    chartName: 'nonHeapMemoryUsage',
-    viewProps: {
-      unitType: 'CAPACITY',
-    },
-  },
-  clusterCount: {
-    titleText: 'Cluster Count',
-    ...commonAttr,
-    chartName: 'clusterCount',
-  },
-  asyncResources: {
-    titleText: 'AsyncResources',
-    ...commonAttr,
-    chartName: 'asyncResources',
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   heapMemoryUsage: chartRender(chartMap.heapMemoryUsage) as any,
@@ -53,4 +56,3 @@ export default {
   clusterCount: chartRender(chartMap.clusterCount) as any,
   asyncResources: chartRender(chartMap.asyncResources) as any,
 };
-

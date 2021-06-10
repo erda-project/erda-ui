@@ -54,9 +54,10 @@ const initState = {
 const test = createStore({
   name: 'applicationTest',
   subscriptions({ listenRoute }: IStoreSubs) {
-    const setSubList = (params: IParams) => layoutStore.reducers.setSubSiderSubList({
-      test: getSubList(params),
-    });
+    const setSubList = (params: IParams) =>
+      layoutStore.reducers.setSubSiderSubList({
+        test: getSubList(params),
+      });
     listenRoute(({ isIn, params }: IRouteInfo) => {
       if (isIn('application')) {
         setSubList(params as any);
@@ -71,7 +72,11 @@ const test = createStore({
     },
     async getTestList({ select, call, update, getParams }, payload: { pageNo?: number }) {
       const { appId: applicationId } = getParams();
-      const { list, total } = await call(TestServices.getTestList, { applicationId, ...payload }, { paging: { key: 'testListPaging' } });
+      const { list, total } = await call(
+        TestServices.getTestList,
+        { applicationId, ...payload },
+        { paging: { key: 'testListPaging' } },
+      );
       const preList = select((state) => state.list);
       const newList = preList.concat(list || []);
 

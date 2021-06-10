@@ -19,7 +19,7 @@ import { resolvePath } from 'common/utils';
 import { ColumnProps } from 'core/common/interface';
 import i18n from 'i18n';
 
-interface IData{
+interface IData {
   createAt?: string;
   durationFormat?: string;
   requestId?: string;
@@ -36,12 +36,14 @@ const PastIncidents = ({ pastIncidents }: { pastIncidents: any[] }) => {
       dataIndex: 'createAt',
       title: i18n.t('microService:downtime'),
       width: 220,
-    }, {
+    },
+    {
       dataIndex: 'durationFormat',
       align: 'left',
       title: i18n.t('microService:duration'),
       width: 150,
-    }, {
+    },
+    {
       dataIndex: 'requestId',
       align: 'left',
       title: i18n.t('microService:latest news'),
@@ -49,7 +51,11 @@ const PastIncidents = ({ pastIncidents }: { pastIncidents: any[] }) => {
         if (record.lastUpdate) {
           return <span>{record.lastUpdate}</span>;
         } else if (record.requestId) {
-          return <Link to={resolvePath(`../../error/request-detail/${record.requestId}`)}>{i18n.t('microService:details')}</Link>;
+          return (
+            <Link to={resolvePath(`../../error/request-detail/${record.requestId}`)}>
+              {i18n.t('microService:details')}
+            </Link>
+          );
         }
         return null;
       },
@@ -57,12 +63,7 @@ const PastIncidents = ({ pastIncidents }: { pastIncidents: any[] }) => {
   ];
   return (
     <div className="past-incidents">
-      <Table
-        rowKey="key"
-        dataSource={dataSource}
-        columns={pastIncidentsCols}
-        pagination={false}
-      />
+      <Table rowKey="key" dataSource={dataSource} columns={pastIncidentsCols} pagination={false} />
     </div>
   );
 };

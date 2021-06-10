@@ -34,7 +34,7 @@ const branchRule = createFlatStore({
     async addBranchRule({ call }, payload: PROJECT.IBranchRuleCreateBody) {
       await call(addBranchRule, { ...payload }, { successMsg: i18n.t('add successfully') });
     },
-    async deleteBranchRule({ call }, { id }: {id: number}) {
+    async deleteBranchRule({ call }, { id }: { id: number }) {
       await call(deleteBranchRule, { id }, { successMsg: i18n.t('deleted successfully') });
     },
     async updateBranchRule({ call }, payload: PROJECT.IBranchRule) {
@@ -47,6 +47,5 @@ const branchRule = createFlatStore({
     },
   },
 });
-
 
 export default branchRule;

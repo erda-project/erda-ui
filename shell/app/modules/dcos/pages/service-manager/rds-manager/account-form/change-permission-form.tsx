@@ -39,10 +39,7 @@ const ChangePermissionForm = (props: IProps) => {
   const [rdsID, query] = routeInfoStore.useStore((s) => [s.params.rdsID, s.query]);
   const { getRDSDatabaseList } = cloudServiceStore.effects;
 
-  const [{
-    targetKeys,
-    permissionChoose,
-  }, updater, update] = useUpdate({
+  const [{ targetKeys, permissionChoose }, updater, update] = useUpdate({
     targetKeys: [],
     permissionChoose: {},
   });
@@ -70,13 +67,17 @@ const ChangePermissionForm = (props: IProps) => {
   const handleChange = (keys: string[]) => {
     update({
       targetKeys: keys,
-      permissionChoose: reduce(keys, (acc, key) => {
-        const newPermissionChoose = {
-          ...acc,
-          [key]: permissionChoose[key] || rdsAccountType[0].value,
-        };
-        return newPermissionChoose;
-      }, {}),
+      permissionChoose: reduce(
+        keys,
+        (acc, key) => {
+          const newPermissionChoose = {
+            ...acc,
+            [key]: permissionChoose[key] || rdsAccountType[0].value,
+          };
+          return newPermissionChoose;
+        },
+        {},
+      ),
     });
   };
 
@@ -96,7 +97,9 @@ const ChangePermissionForm = (props: IProps) => {
             value={permissionChoose[key]}
           >
             {rdsAccountType.map((per) => (
-              <Radio key={per.value} value={per.value}>{per.name}</Radio>
+              <Radio key={per.value} value={per.value}>
+                {per.name}
+              </Radio>
             ))}
           </RadioGroup>
         </span>
@@ -112,7 +115,9 @@ const ChangePermissionForm = (props: IProps) => {
     {
       getComp: () => {
         return (
-          <span>{i18n.t('dcos:database account')}: {get(data, 'AccountName')}</span>
+          <span>
+            {i18n.t('dcos:database account')}: {get(data, 'AccountName')}
+          </span>
         );
       },
     },
@@ -121,10 +126,10 @@ const ChangePermissionForm = (props: IProps) => {
       getComp: () => {
         return (
           <Transfer
-            dataSource={map(RDSDatabaseList, ((db) => ({
+            dataSource={map(RDSDatabaseList, (db) => ({
               key: db.dBName,
               title: db.dBName,
-            })))}
+            }))}
             className="permission-transfer"
             targetKeys={targetKeys}
             onChange={handleChange}

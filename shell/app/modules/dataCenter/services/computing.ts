@@ -14,31 +14,36 @@
 import agent from 'agent';
 
 export const getCloudECSList = (params: IPagingReq): IPagingResp<COMPUTING.ECS> => {
-  return agent.get('/api/cloud-ecs')
+  return agent
+    .get('/api/cloud-ecs')
     .query(params)
     .then((response: any) => response.body);
 };
 
 export const stopCloudECS = (params: COMPUTING.ECSActionReq): COMPUTING.ECSActionRes => {
-  return agent.post('/api/cloud-ecs/actions/stop')
+  return agent
+    .post('/api/cloud-ecs/actions/stop')
     .send(params)
     .then((response: any) => response.body);
 };
 
 export const startCloudECS = (params: COMPUTING.ECSActionReq): COMPUTING.ECSActionRes => {
-  return agent.post('/api/cloud-ecs/actions/start')
+  return agent
+    .post('/api/cloud-ecs/actions/start')
     .send(params)
     .then((response: any) => response.body);
 };
 
 export const restartCloudECS = (params: COMPUTING.ECSActionReq): COMPUTING.ECSActionRes => {
-  return agent.post('/api/cloud-ecs/actions/restart')
+  return agent
+    .post('/api/cloud-ecs/actions/restart')
     .send(params)
     .then((response: any) => response.body);
 };
 
 export const renewalCloudECS = (params: COMPUTING.ECSActionReq): COMPUTING.ECSActionRes => {
-  return agent.post('/api/cloud-ecs/actions/config-renew-attribute')
+  return agent
+    .post('/api/cloud-ecs/actions/config-renew-attribute')
     .send(params)
     .then((response: any) => response.body);
 };

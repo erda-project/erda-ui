@@ -3,11 +3,13 @@
 ## 接口
 
 ### Spec
-| 名称 | 类型 | 必填 |
-| --- | --- | --- |
-| type | 'Drawer' | false |
+
+| 名称       | 类型                       | 必填  |
+| ---------- | -------------------------- | ----- |
+| type       | 'Drawer'                   | false |
 | operations | Obj<CONFIG_PAGE.Operation> | false |
-| props | {
+| props      | {                          |
+
       visible: boolean,
       title: string,
       content: any,
@@ -19,10 +21,8 @@
 
 ## 枚举
 
-
-
 ## 类型
 
-| 名称 | 值 |
-| --- | --- |
+| 名称  | 值              |
+| ----- | --------------- |
 | Props | MakeProps<Spec> |

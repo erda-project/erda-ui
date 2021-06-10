@@ -14,33 +14,35 @@
 import agent from 'agent';
 
 export const getAnnouncementList = (params: ORG_ANNOUNCEMENT.QueryList): IPagingResp<ORG_ANNOUNCEMENT.Item> => {
-  return agent.get('/api/notices').query(params)
+  return agent
+    .get('/api/notices')
+    .query(params)
     .then((response: any) => response.body);
 };
 
 export const addAnnouncement = (params: ORG_ANNOUNCEMENT.SaveNew) => {
-  return agent.post('/api/notices').send(params)
+  return agent
+    .post('/api/notices')
+    .send(params)
     .then((response: any) => response.body);
 };
 
 export const updateAnnouncement = (params: ORG_ANNOUNCEMENT.SaveEdit) => {
   const { id, ...rest } = params;
-  return agent.put(`/api/notices/${id}`)
+  return agent
+    .put(`/api/notices/${id}`)
     .send(rest)
     .then((response: any) => response.body);
 };
 
 export const publishAnnouncement = ({ id }: ORG_ANNOUNCEMENT.Action) => {
-  return agent.put(`/api/notices/${id}/actions/publish`)
-    .then((response: any) => response.body);
+  return agent.put(`/api/notices/${id}/actions/publish`).then((response: any) => response.body);
 };
 
 export const unPublishAnnouncement = ({ id }: ORG_ANNOUNCEMENT.Action) => {
-  return agent.put(`/api/notices/${id}/actions/unpublish`)
-    .then((response: any) => response.body);
+  return agent.put(`/api/notices/${id}/actions/unpublish`).then((response: any) => response.body);
 };
 
 export const deleteAnnouncement = ({ id }: ORG_ANNOUNCEMENT.Action) => {
-  return agent.delete(`/api/notices/${id}`)
-    .then((response: any) => response.body);
+  return agent.delete(`/api/notices/${id}`).then((response: any) => response.body);
 };

@@ -20,7 +20,7 @@ import routeInfoStore from 'app/common/stores/route';
 import { useUpdate } from 'common';
 import i18n from 'i18n';
 
-interface IProps{
+interface IProps {
   caseId?: string;
   addDrawerProps?: Obj;
   scope: string;
@@ -48,9 +48,19 @@ const PipelineDetail = (props: IProps) => {
 
   return (
     <>
-      <Tabs tabBarExtraContent={<ConfigEnvSelector canRunTest={canRunTest} scope={scope} onTest={onTest} />} onChange={(aKey: string) => updater.activeKey(aKey)} activeKey={activeKey} renderTabBar={(p: any, DefaultTabBar) => <DefaultTabBar {...p} onKeyDown={(e: any) => e} />}>
+      <Tabs
+        tabBarExtraContent={<ConfigEnvSelector canRunTest={canRunTest} scope={scope} onTest={onTest} />}
+        onChange={(aKey: string) => updater.activeKey(aKey)}
+        activeKey={activeKey}
+        renderTabBar={(p: any, DefaultTabBar) => <DefaultTabBar {...p} onKeyDown={(e: any) => e} />}
+      >
         <Tabs.TabPane tab={i18n.t('configuration information')} key={'configDetail'}>
-          <PipelineConfigDetail onCaseChange={onCaseChange} scope={scope} caseId={caseId} addDrawerProps={addDrawerProps} />
+          <PipelineConfigDetail
+            onCaseChange={onCaseChange}
+            scope={scope}
+            caseId={caseId}
+            addDrawerProps={addDrawerProps}
+          />
         </Tabs.TabPane>
         <Tabs.TabPane tab={i18n.t('execute detail')} key={'runDetail'}>
           <PipelineRunDetail scope={scope} key={caseId} runKey={runKey} />

@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace LABEL {
-
   interface CreateBody {
     name: string;
     type: string;

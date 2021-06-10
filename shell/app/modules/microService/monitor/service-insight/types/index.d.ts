@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace MONITOR_SI {
-
   interface IMenuQuery {
     terminus_key: string;
     runtime_name: string;
@@ -74,5 +73,4 @@ declare namespace MONITOR_SI {
     max: number;
     count: number;
   }
-
 }

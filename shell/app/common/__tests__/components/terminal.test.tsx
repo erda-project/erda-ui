@@ -26,9 +26,7 @@ describe('Terminal', () => {
   });
   it('should ', () => {
     jest.useFakeTimers();
-    const wrapper = mount(
-      <Terminal />,
-    );
+    const wrapper = mount(<Terminal />);
     jest.runAllTimers();
     expect(wrapper.find('span').text()).toBe('full screen');
     wrapper.find('Button.resize-button').simulate('click');

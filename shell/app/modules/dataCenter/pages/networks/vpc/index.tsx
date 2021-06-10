@@ -23,13 +23,17 @@ import { map } from 'lodash';
 import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
 import { addAuthTooltipTitle } from 'app/modules/dataCenter/common/cloud-common';
 import i18n from 'i18n';
-import { getCloudResourceTagsCol, getCloudResourceIDNameCol, getCloudResourceStatusCol, getCloudResourceRegionCol } from 'dataCenter/common/components/table-col';
+import {
+  getCloudResourceTagsCol,
+  getCloudResourceIDNameCol,
+  getCloudResourceStatusCol,
+  getCloudResourceRegionCol,
+} from 'dataCenter/common/components/table-col';
 import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
 import { DownOne as IconDownOne } from '@icon-park/react';
 import './index.scss';
 
 const { Option } = Select;
-
 
 const VPS = () => {
   const vpcList = networksStore.useStore((s) => s.vpcList);
@@ -37,14 +41,7 @@ const VPS = () => {
   const [loading] = useLoading(networksStore, ['getVpcList']);
   const cloudAccountExist = cloudCommonStore.useStore((s) => s.cloudAccountExist);
 
-  const [{
-    formVis,
-    tagFormVis,
-    items,
-    ifSelected,
-    stateChangeKey,
-    tagFormData,
-  }, updater, update] = useUpdate({
+  const [{ formVis, tagFormVis, items, ifSelected, stateChangeKey, tagFormData }, updater, update] = useUpdate({
     formVis: false,
     tagFormVis: false,
     tagFormData: null,
@@ -69,7 +66,11 @@ const VPS = () => {
         dataIndex: 'vswNum',
         width: 100,
         render: (v: number, record: NETWORKS.ICloudVpc) => {
-          return <Link to={`./vpc/${record.vpcID}/vsw`}><b>{v}</b></Link>;
+          return (
+            <Link to={`./vpc/${record.vpcID}/vsw`}>
+              <b>{v}</b>
+            </Link>
+          );
         },
       },
       {
@@ -88,12 +89,14 @@ const VPS = () => {
                     tagFormData: {
                       tags: Object.keys(tags),
                     },
-                    items: [{
-                      vendor,
-                      region: regionID,
-                      resourceID: vpcID,
-                      oldTags: Object.keys(tags),
-                    }],
+                    items: [
+                      {
+                        vendor,
+                        region: regionID,
+                        resourceID: vpcID,
+                        oldTags: Object.keys(tags),
+                      },
+                    ],
                   });
                 }}
               >
@@ -107,26 +110,33 @@ const VPS = () => {
     return columns;
   };
 
-  const filterConfig = React.useMemo(() => [
-    {
-      type: Select,
-      name: 'vendor',
-      customProps: {
-        className: 'default-selector-width',
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('cloud vendor') }),
-        options: map(cloudVendor, (item) => (
-          <Option key={item.name} value={item.value}>{item.name}</Option>
-        )),
-        allowClear: true,
+  const filterConfig = React.useMemo(
+    () => [
+      {
+        type: Select,
+        name: 'vendor',
+        customProps: {
+          className: 'default-selector-width',
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('cloud vendor') }),
+          options: map(cloudVendor, (item) => (
+            <Option key={item.name} value={item.value}>
+              {item.name}
+            </Option>
+          )),
+          allowClear: true,
+        },
       },
-    },
-  ], []);
+    ],
+    [],
+  );
 
-  const operationButtons = [{
-    name: `${i18n.t('set tags')}`,
-    cb: () => updater.tagFormVis(true),
-    ifDisabled: false,
-  }];
+  const operationButtons = [
+    {
+      name: `${i18n.t('set tags')}`,
+      cb: () => updater.tagFormVis(true),
+      ifDisabled: false,
+    },
+  ];
 
   const checkSelect = (selectedRows: NETWORKS.ICloudVpc[]) => {
     const newIfSelected = !!selectedRows.length;
@@ -168,32 +178,27 @@ const VPS = () => {
 
   const menu = (
     <Menu>
-      {
-        operationButtons.map((button) => (
-          <Menu.Item disabled={button.ifDisabled} key={button.name} onClick={button.cb}>{button.name}</Menu.Item>
-        ))
-      }
+      {operationButtons.map((button) => (
+        <Menu.Item disabled={button.ifDisabled} key={button.name} onClick={button.cb}>
+          {button.name}
+        </Menu.Item>
+      ))}
     </Menu>
   );
   return (
     <>
       <div className="top-button-group">
-        {
-          cloudAccountExist
-            ? (
-              <Button
-                type="primary"
-                onClick={() => updater.formVis(true)}
-              >
-                {i18n.t('add {name}', { name: i18n.t('dataCenter:VPC') })}
-              </Button>
-            )
-            : (
-              <Tooltip placement="left" title={addAuthTooltipTitle}>
-                <Button type="primary" disabled>{i18n.t('add {name}', { name: i18n.t('dataCenter:VPC') })}</Button>
-              </Tooltip>
-            )
-        }
+        {cloudAccountExist ? (
+          <Button type="primary" onClick={() => updater.formVis(true)}>
+            {i18n.t('add {name}', { name: i18n.t('dataCenter:VPC') })}
+          </Button>
+        ) : (
+          <Tooltip placement="left" title={addAuthTooltipTitle}>
+            <Button type="primary" disabled>
+              {i18n.t('add {name}', { name: i18n.t('dataCenter:VPC') })}
+            </Button>
+          </Tooltip>
+        )}
         <Dropdown disabled={!ifSelected} overlay={menu}>
           <Button type="primary">
             {i18n.t('batch setting')}
@@ -215,11 +220,7 @@ const VPS = () => {
           },
         }}
       />
-      <VpcFormModal
-        visible={formVis}
-        onCancel={handleCancel}
-        onOk={handleOK}
-      />
+      <VpcFormModal visible={formVis} onCancel={handleCancel} onOk={handleOK} />
       <SetTagForm
         items={items}
         visible={tagFormVis}

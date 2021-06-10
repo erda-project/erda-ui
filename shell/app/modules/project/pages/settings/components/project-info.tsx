@@ -76,13 +76,16 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       label: i18n.t('whether public {name}', { name: i18n.t('project') }),
       name: 'isPublic',
       type: 'radioGroup',
-      options: [{
-        name: i18n.t('project:public project'),
-        value: 'true',
-      }, {
-        name: i18n.t('project:private project'),
-        value: 'false',
-      }],
+      options: [
+        {
+          name: i18n.t('project:public project'),
+          value: 'true',
+        },
+        {
+          name: i18n.t('project:private project'),
+          value: 'false',
+        },
+      ],
     },
     {
       label: i18n.t('project:project icon'),
@@ -137,7 +140,9 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
           secondTitle={i18n.t('common:exit-sub-tip {name}', { name: i18n.t('project') })}
           onConfirm={exitProject}
         >
-          <Button ghost type="danger">{ i18n.t('common:exit current {name}', { name: i18n.t('project') }) }</Button>
+          <Button ghost type="danger">
+            {i18n.t('common:exit current {name}', { name: i18n.t('project') })}
+          </Button>
         </ConfirmDelete>
       ),
     },
@@ -152,9 +157,13 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
           secondTitle={i18n.t('project:delete project {name} tips', { name: info.displayName })}
           onCancel={() => setConfirmProjectName('')}
           disabledConfirm={confirmProjectName !== info.displayName}
-          modalChildren={(
-            <Input value={confirmProjectName} placeholder={i18n.t('please enter {name}', { name: i18n.t('project name') })} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmProjectName(e.target.value)} />
-            )}
+          modalChildren={
+            <Input
+              value={confirmProjectName}
+              placeholder={i18n.t('please enter {name}', { name: i18n.t('project name') })}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmProjectName(e.target.value)}
+            />
+          }
         />
       ),
     });
@@ -172,19 +181,19 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
         info.id && inOrgCenter ? (
           <div>
             {formName}
-            <Tooltip title={i18n.t('project:applications')} >
-              {
-                !diceEnv.ONLY_FDP && (
-                  <CustomIcon
-                    type="link1"
-                    className="ml8 hover-active"
-                    onClick={() => goTo(goTo.pages.project, { projectId: info.id })}
-                  />
-                )
-              }
+            <Tooltip title={i18n.t('project:applications')}>
+              {!diceEnv.ONLY_FDP && (
+                <CustomIcon
+                  type="link1"
+                  className="ml8 hover-active"
+                  onClick={() => goTo(goTo.pages.project, { projectId: info.id })}
+                />
+              )}
             </Tooltip>
           </div>
-        ) : formName
+        ) : (
+          formName
+        )
       }
       formName={formName}
     />

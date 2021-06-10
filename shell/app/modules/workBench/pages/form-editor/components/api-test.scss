@@ -2,7 +2,7 @@
   .api-content {
     .api-url {
       padding: 10px;
-      background: transparentize($black, .98);
+      background: transparentize($black, 0.98);
       border-top: 1px solid $color-border;
 
       .ant-input-group-addon {
@@ -29,7 +29,7 @@
 
     .ant-tabs-nav-wrap {
       padding: 0 12px;
-      background: transparentize($black, .98);
+      background: transparentize($black, 0.98);
 
       .ant-tabs-nav {
         height: 38px;

@@ -15,14 +15,7 @@ import * as React from 'react';
 import './drawer.scss';
 
 export const Drawer = (props: any) => {
-  const {
-    visible,
-    maskClosable = true,
-    onClose,
-    width = '60%',
-    children,
-    title,
-  } = props;
+  const { visible, maskClosable = true, onClose, width = '60%', children, title } = props;
   const clickMask = () => {
     maskClosable && onClose();
   };

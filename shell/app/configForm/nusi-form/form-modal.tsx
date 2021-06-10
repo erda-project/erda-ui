@@ -37,7 +37,7 @@ export const isPromise = (obj: any) => {
   return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
 };
 
-const noop = () => { };
+const noop = () => {};
 export const FormModal = (props: IProps) => {
   const {
     width,
@@ -54,9 +54,7 @@ export const FormModal = (props: IProps) => {
     modalProps = {},
     marginStyle = 'normal',
   } = props;
-  const _title = title || (
-    name ? i18n.t(!formData ? 'add {name}' : 'edit {name}', { name }) : ''
-  );
+  const _title = title || (name ? i18n.t(!formData ? 'add {name}' : 'edit {name}', { name }) : '');
 
   const form = React.useRef();
   const [submitLoading, setSubmitLoading] = React.useState(false);
@@ -64,7 +62,7 @@ export const FormModal = (props: IProps) => {
   const handleCancel = () => {
     onCancel && onCancel();
     setTimeout(() => {
-      const curForm = form && form.current as any;
+      const curForm = form && (form.current as any);
       if (curForm) {
         curForm.reset();
       }
@@ -81,11 +79,13 @@ export const FormModal = (props: IProps) => {
     setSubmitLoading(true);
     const res = onOk && onOk(value, isEdit);
     if (res && isPromise(res)) {
-      res.then(() => {
-        handleCancel();
-      }).finally(() => {
-        setSubmitLoading(false);
-      });
+      res
+        .then(() => {
+          handleCancel();
+        })
+        .finally(() => {
+          setSubmitLoading(false);
+        });
     } else {
       setSubmitLoading(false);
       handleCancel();
@@ -93,7 +93,7 @@ export const FormModal = (props: IProps) => {
   };
 
   const handleOk = () => {
-    const curForm = form && form.current as any;
+    const curForm = form && (form.current as any);
     if (curForm) {
       curForm.onSubmit(submit, onFailed);
     }
@@ -109,29 +109,20 @@ export const FormModal = (props: IProps) => {
       onOk={handleOk}
       className={marginStyle === 'tense' ? 'dice-cp-form-modal-tense' : ''}
       footer={[
-        onCancel
-          ? (
-            <Button key="back" onClick={handleCancel}>
-              {i18n.t('cancel')}
-            </Button>
-          )
-          : null,
-        onOk
-          ? (
-            <Button key="submit" type="primary" loading={submitLoading} onClick={handleOk}>
-              {i18n.t('ok')}
-            </Button>
-          )
-          : null,
+        onCancel ? (
+          <Button key="back" onClick={handleCancel}>
+            {i18n.t('cancel')}
+          </Button>
+        ) : null,
+        onOk ? (
+          <Button key="submit" type="primary" loading={submitLoading} onClick={handleOk}>
+            {i18n.t('ok')}
+          </Button>
+        ) : null,
       ]}
       {...modalProps}
     >
-      <Form
-        formRef={form}
-        fields={fieldList}
-        value={formData}
-        onChange={onFieldsChange}
-      />
+      <Form formRef={form} fields={fieldList} value={formData} onChange={onFieldsChange} />
     </Modal>
   );
 };

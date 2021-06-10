@@ -61,16 +61,18 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
       const resources = prevState.resources.length ? prevState.resources : nextProps.resources;
       const resource = resources.find((i: any) => i.name === name);
       return {
-        value: {
-          ...nextProps.value,
-          resource: nextProps.value.resource || {},
-        } || defaultValue,
-        createViewData: nextProps.isCreateTask ?
-          prevState.createViewData : {
-            ...resource,
-            isAggregate: nextProps.isAggregate,
-            taskKey: nextProps.value.get ? 'get' : (nextProps.value.put ? 'put' : null),
-          },
+        value:
+          {
+            ...nextProps.value,
+            resource: nextProps.value.resource || {},
+          } || defaultValue,
+        createViewData: nextProps.isCreateTask
+          ? prevState.createViewData
+          : {
+              ...resource,
+              isAggregate: nextProps.isAggregate,
+              taskKey: nextProps.value.get ? 'get' : nextProps.value.put ? 'put' : null,
+            },
         resources: nextProps.isCreateTask ? prevState.resources : nextProps.resources,
       };
     }
@@ -87,11 +89,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
 
   render() {
     const { isCreateTask } = this.props;
-    return (
-      <div>
-        {isCreateTask ? this.renderCreateContent() : this.renderEditContent()}
-      </div>
-    );
+    return <div>{isCreateTask ? this.renderCreateContent() : this.renderEditContent()}</div>;
   }
 
   private renderCreateContent() {
@@ -117,15 +115,28 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
             <span className="ant-form-item-required" />
             Task Name:
           </span>
-          <Input onChange={(e) => this.changeCreateValue(e.target.value, 'name')} placeholder={`${i18n.t('application:please enter')} Resource`} />
-          <div className="resource-error">{validTaskName === true ? null : i18n.t('application:resource already exists, please change one')}</div>
+          <Input
+            onChange={(e) => this.changeCreateValue(e.target.value, 'name')}
+            placeholder={`${i18n.t('application:please enter')} Resource`}
+          />
+          <div className="resource-error">
+            {validTaskName === true ? null : i18n.t('application:resource already exists, please change one')}
+          </div>
         </div>
         <span className="resource-input-group-label">
           <span className="ant-form-item-required" />
           Task Type:
         </span>
-        <Select value={type} onChange={(e: any) => this.changeCreateValue(e, 'type')} placeholder={i18n.t('application:please select the task type')} >
-          {actions.map((a: any) => <Option key={a.type} value={a.type}>{a.type}</Option>)}
+        <Select
+          value={type}
+          onChange={(e: any) => this.changeCreateValue(e, 'type')}
+          placeholder={i18n.t('application:please select the task type')}
+        >
+          {actions.map((a: any) => (
+            <Option key={a.type} value={a.type}>
+              {a.type}
+            </Option>
+          ))}
         </Select>
         <div>
           <span className="resource-input-group-label">
@@ -137,7 +148,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
             <Radio value={false}>否</Radio>
           </Group>
         </div>
-        {(type && name && validTaskName) ? (
+        {type && name && validTaskName ? (
           <div>
             {defaultKey ? (
               <React.Fragment>
@@ -145,7 +156,11 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
                   <span className="ant-form-item-required" />
                   Task Method:
                 </span>
-                <Select value={defaultKey} onChange={(e) => this.changeCreateValue(e, 'taskKey')} placeholder={i18n.t('application:please select method')} >
+                <Select
+                  value={defaultKey}
+                  onChange={(e) => this.changeCreateValue(e, 'taskKey')}
+                  placeholder={i18n.t('application:please select method')}
+                >
                   {support.get ? <Option value="get">get</Option> : null}
                   {support.put ? <Option value="put">put</Option> : null}
                 </Select>
@@ -283,14 +298,21 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
             onChange={(e: any) => this.changeCreateValue(e, 'type')}
             placeholder={i18n.t('application:please select the task type')}
           >
-            {actions.map((a: any) => <Option key={a.type} value={a.type}>{a.type}</Option>)}
+            {actions.map((a: any) => (
+              <Option key={a.type} value={a.type}>
+                {a.type}
+              </Option>
+            ))}
           </Select>
         </span>
         <span className="resource-input-group-label">
           <span className="ant-form-item-required" />
           {this.renderTooltip(i18n.t('application:is it a parallel task'), 'Aggregate')}
         </span>
-        <Group value={createViewData.isAggregate || false} onChange={(e: any) => this.changeCreateValue(e.target.value, 'isAggregate')}>
+        <Group
+          value={createViewData.isAggregate || false}
+          onChange={(e: any) => this.changeCreateValue(e.target.value, 'isAggregate')}
+        >
           <Radio value>{i18n.t('application:yes')}</Radio>
           <Radio value={false}>{i18n.t('application:no')}</Radio>
         </Group>
@@ -348,9 +370,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
         return (
           <div key={itemKey}>
             <span className="resource-input-group-title">{itemKey}: </span>
-            <div>
-              {this.renderObject({ data: item[itemKey].struct }, taskName, parentKey1)}
-            </div>
+            <div>{this.renderObject({ data: item[itemKey].struct }, taskName, parentKey1)}</div>
           </div>
         );
       });
@@ -385,7 +405,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
         forEach(action.params, (value: any) => {
           result.data.params[value.name] = {
             ...value,
-            value: resource.params ? resource.params[value.name] : (params.params ? params.params[value.name] : null),
+            value: resource.params ? resource.params[value.name] : params.params ? params.params[value.name] : null,
           };
         });
       } else {
@@ -512,11 +532,13 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
     const state = {
       value: {
         ...value,
-        resource: isCreateTask ? cloneDeep({
-          ...resource,
-          name,
-          type,
-        }) : null,
+        resource: isCreateTask
+          ? cloneDeep({
+              ...resource,
+              name,
+              type,
+            })
+          : null,
         resources,
       },
     };

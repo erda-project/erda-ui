@@ -47,7 +47,6 @@ export const mockData: CP_FORM.Spec = {
         required: false,
         visible: false, // 隐藏项
       },
-
     ],
   },
   state: {

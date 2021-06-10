@@ -25,7 +25,6 @@ import runtimeDomainStore from 'app/modules/runtime/stores/domain';
 import routeInfoStore from 'app/common/stores/route';
 import { useLoading } from 'app/common/stores/loading';
 
-
 const { confirm } = Modal;
 
 export const confirmRedeploy = () => {
@@ -42,10 +41,13 @@ export const confirmRedeploy = () => {
   });
 };
 
-
 const RuntimeOverView = () => {
   const params = routeInfoStore.useStore((s) => s.params);
-  const [runtimeDetail, showRedirect, hasChange] = runtimeStore.useStore((s) => [s.runtimeDetail, s.showRedirect, s.hasChange]);
+  const [runtimeDetail, showRedirect, hasChange] = runtimeStore.useStore((s) => [
+    s.runtimeDetail,
+    s.showRedirect,
+    s.hasChange,
+  ]);
   const [loading] = useLoading(runtimeStore, ['getRuntimeDetail']);
   const [state, updater] = useUpdate({
     redirectVisible: false,
@@ -62,8 +64,12 @@ const RuntimeOverView = () => {
       const content = (
         <span>
           {i18n.t('runtime:configuration has changed')}，{i18n.t('runtime:please')}
-          <span className="redeploy-tip-btn" onClick={confirmRedeploy}>{i18n.t('runtime:restart')}</span>Runtime
-        </span>);
+          <span className="redeploy-tip-btn" onClick={confirmRedeploy}>
+            {i18n.t('runtime:restart')}
+          </span>
+          Runtime
+        </span>
+      );
 
       if (hasChange) {
         message.info(content, 0);
@@ -101,10 +107,7 @@ const RuntimeOverView = () => {
   const isDeleting = runtimeDetail.deleteStatus === 'DELETING';
 
   return (
-    <Spin
-      spinning={loading || isDeleting}
-      tip={isDeleting ? `${i18n.t('runtime:delete')}...` : undefined}
-    >
+    <Spin spinning={loading || isDeleting} tip={isDeleting ? `${i18n.t('runtime:delete')}...` : undefined}>
       <PureRuntimeOverView />
     </Spin>
   );

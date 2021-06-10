@@ -28,15 +28,26 @@ export default (props: CP_BREADCRUMB.Props) => {
   if (!visible) return null;
   return (
     <Breadcrumb>
-      {
-        map(list, (item, idx) => {
-          if (item.menus) {
-            return <Breadcrumb.Menu key={item.key} activeKey={item.activeKey} menuOptions={item.menus} onSelect={(e: any) => onClickItem(e.key)} />;
-          }
-          const [cls, onClick] = idx !== list.length - 1 ? ['pointer', () => onClickItem(item.key)] : ['', noop];
-          return <Breadcrumb.Item key={item.key}><span className={cls} onClick={onClick}><Ellipsis title={item.item}>{item.item}</Ellipsis></span></Breadcrumb.Item>;
-        })
-      }
+      {map(list, (item, idx) => {
+        if (item.menus) {
+          return (
+            <Breadcrumb.Menu
+              key={item.key}
+              activeKey={item.activeKey}
+              menuOptions={item.menus}
+              onSelect={(e: any) => onClickItem(e.key)}
+            />
+          );
+        }
+        const [cls, onClick] = idx !== list.length - 1 ? ['pointer', () => onClickItem(item.key)] : ['', noop];
+        return (
+          <Breadcrumb.Item key={item.key}>
+            <span className={cls} onClick={onClick}>
+              <Ellipsis title={item.item}>{item.item}</Ellipsis>
+            </span>
+          </Breadcrumb.Item>
+        );
+      })}
     </Breadcrumb>
   );
 };

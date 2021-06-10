@@ -24,7 +24,12 @@ interface IProps extends IExtraProps {
 }
 
 interface IExtraProps {
-  execOperation: (cId: string, opObj: { key: string; [p: string]: any }, updateState?: { dataKey: string; dataVal: Obj }, extraUpdateInfo?: Obj) => void;
+  execOperation: (
+    cId: string,
+    opObj: { key: string; [p: string]: any },
+    updateState?: { dataKey: string; dataVal: Obj },
+    extraUpdateInfo?: Obj,
+  ) => void;
   changeScenario: (s: { scenarioKey: string; scenarioType: string; inParams?: Obj }) => void;
   updateState: (dataKey: string, val: Obj) => void;
 }
@@ -62,7 +67,8 @@ const ConfigPageRender = (props: IProps) => {
     if (!_op || isEmpty(_op)) return;
     const op = cloneDeep({ ..._op });
     let updateVal = cloneDeep(val) as any;
-    if (op.fillMeta) { // 有fillMeta，需要手动设置op.meta
+    if (op.fillMeta) {
+      // 有fillMeta，需要手动设置op.meta
       updateVal = undefined;
       const [fillAttrs, attrVals] = isArray(op.fillMeta)
         ? [op.fillMeta, { ...val }]
@@ -85,11 +91,7 @@ const ConfigPageRender = (props: IProps) => {
           changeScenario(op.command);
           return;
         }
-        return execOperation(
-          _cId,
-          op,
-          { dataKey: `${compPrefixKey}.${target}.state`, dataVal: state },
-        );
+        return execOperation(_cId, op, { dataKey: `${compPrefixKey}.${target}.state`, dataVal: state });
       }
       return;
     }
@@ -115,15 +117,14 @@ const ConfigPageRender = (props: IProps) => {
         execOperation: reExecOperation(cId),
       };
 
-      if (isArray(structureItem)) { // 数组: 包含以children方式嵌入组件
-        return (
-          <Comp {...propsObj}>
-            {map(structureItem, (item) => renderComp(item))}
-          </Comp>
-        );
-      } else if (!structureItem) { // 叶子节点，直接渲染
+      if (isArray(structureItem)) {
+        // 数组: 包含以children方式嵌入组件
+        return <Comp {...propsObj}>{map(structureItem, (item) => renderComp(item))}</Comp>;
+      } else if (!structureItem) {
+        // 叶子节点，直接渲染
         return <Comp {...propsObj} />;
-      } else if (isPlainObject(structureItem)) { // 对象包含：以props方式嵌入组件
+      } else if (isPlainObject(structureItem)) {
+        // 对象包含：以props方式嵌入组件
         const p = {};
         map(structureItem, (vKey, pKey) => {
           if (isArray(vKey)) {

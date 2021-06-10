@@ -18,15 +18,17 @@ import { describe, it, jest } from '@jest/globals';
 
 describe('JsonChecker', () => {
   it('should ', () => {
-    const jsonString = JSON.stringify({
-      data: {
-        name: 'erda',
+    const jsonString = JSON.stringify(
+      {
+        data: {
+          name: 'erda',
+        },
       },
-    }, null, 2);
-    const onToggleFn = jest.fn();
-    const wrapper = mount(
-      <JsonChecker jsonString={jsonString} onToggle={onToggleFn} />,
+      null,
+      2,
     );
+    const onToggleFn = jest.fn();
+    const wrapper = mount(<JsonChecker jsonString={jsonString} onToggle={onToggleFn} />);
     wrapper.find('button').simulate('click');
     expect(wrapper.find('pre').text()).toBe(jsonString);
     expect(onToggleFn).toHaveBeenLastCalledWith(true);

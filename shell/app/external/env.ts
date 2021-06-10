@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 const env = window.diceEnv; // 如果没拿到，说明什么地方有问题，允许页面报错
 // @ts-ignore
 delete window.diceEnv;

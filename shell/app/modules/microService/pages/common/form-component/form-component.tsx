@@ -21,7 +21,9 @@ export const FormFooter = (props: any) => {
 
   return (
     <div className="form-hoc-fotter">
-      <Button size="large" onClick={router.goBack}>{i18n.t('microService:cancel')}</Button>
+      <Button size="large" onClick={router.goBack}>
+        {i18n.t('microService:cancel')}
+      </Button>
       <Button
         size="large"
         className="ml8"
@@ -38,7 +40,8 @@ export const FormFooter = (props: any) => {
               }
             });
         }}
-      >{i18n.t('microService:determine')}
+      >
+        {i18n.t('microService:determine')}
       </Button>
     </div>
   );
@@ -56,10 +59,13 @@ export const TopButton = ({ type = 'primary', text = i18n.t('microService:edit')
   return (
     <div className="top-button-group repo-clone-btn">
       {onDelete && (
-        <Button onClick={onDelete} className="mr8">{i18n.t('microService:delete')}</Button>
+        <Button onClick={onDelete} className="mr8">
+          {i18n.t('microService:delete')}
+        </Button>
       )}
-      <Button type={type} onClick={onClick}>{text}</Button>
+      <Button type={type} onClick={onClick}>
+        {text}
+      </Button>
     </div>
   );
 };
-

@@ -11,10 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import {
-  Form,
-  Switch,
-} from 'app/nusi';
+import { Form, Switch } from 'app/nusi';
 import * as React from 'react';
 import { getLabel, noop } from './common';
 import { commonFields, checkWhen } from './common/config';
@@ -22,57 +19,47 @@ import i18n from 'i18n';
 
 const FormItem = Form.Item;
 
-export const FormSwitch = ({
-  fixOut = noop,
-  fixIn = noop,
-  extensionFix,
-  requiredCheck,
-  trigger = 'onChange',
-}) => React.memo(({ fieldConfig, form }: any) => {
-  const {
-    key,
-    value,
-    label,
-    visible,
-    valid,
-    disabled,
-    registerRequiredCheck,
-    componentProps,
-    required,
-    wrapperProps,
-    labelTip,
-    fixIn: itemFixIn,
-    fixOut: itemFixOut,
-    requiredCheck: _requiredCheck,
-  } = fieldConfig;
-  const curFixIn = itemFixIn || fixIn;
-  const curFixOut = itemFixOut || fixOut;
+export const FormSwitch = ({ fixOut = noop, fixIn = noop, extensionFix, requiredCheck, trigger = 'onChange' }) =>
+  React.memo(({ fieldConfig, form }: any) => {
+    const {
+      key,
+      value,
+      label,
+      visible,
+      valid,
+      disabled,
+      registerRequiredCheck,
+      componentProps,
+      required,
+      wrapperProps,
+      labelTip,
+      fixIn: itemFixIn,
+      fixOut: itemFixOut,
+      requiredCheck: _requiredCheck,
+    } = fieldConfig;
+    const curFixIn = itemFixIn || fixIn;
+    const curFixOut = itemFixOut || fixOut;
 
-  registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (val) => {
-    form.setFieldValue(key, curFixOut(val));
-    (componentProps.onChange || noop)(val);
-  };
-  return (
-    <FormItem
-      colon
-      label={getLabel(label, labelTip)}
-      // hasFeedback
-      className={visible ? '' : 'hide'}
-      validateStatus={valid[0]}
-      help={valid[1]}
-      required={required}
-      {...wrapperProps}
-    >
-      <Switch
-        {...componentProps}
-        disabled={disabled}
-        checked={!!curFixIn(value)}
-        onChange={handleChange}
-      />
-    </FormItem>
-  );
-});
+    registerRequiredCheck(_requiredCheck || requiredCheck);
+    const handleChange = (val) => {
+      form.setFieldValue(key, curFixOut(val));
+      (componentProps.onChange || noop)(val);
+    };
+    return (
+      <FormItem
+        colon
+        label={getLabel(label, labelTip)}
+        // hasFeedback
+        className={visible ? '' : 'hide'}
+        validateStatus={valid[0]}
+        help={valid[1]}
+        required={required}
+        {...wrapperProps}
+      >
+        <Switch {...componentProps} disabled={disabled} checked={!!curFixIn(value)} onChange={handleChange} />
+      </FormItem>
+    );
+  });
 
 export const config = {
   name: 'switch',

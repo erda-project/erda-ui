@@ -46,6 +46,8 @@ export const getTableList = (data: IPerm, scope: string, filterKey: string) => {
     itemData.actionKey = map(sortKeys, (k) => itemData[k].key || '__').join('');
     tableList.push(itemData);
   });
-  return map(sortBy(tableList, (item) => item.actionKey), ({ actionKey, ...rest }) => rest);
+  return map(
+    sortBy(tableList, (item) => item.actionKey),
+    ({ actionKey, ...rest }) => rest,
+  );
 };
-

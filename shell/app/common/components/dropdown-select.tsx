@@ -39,38 +39,49 @@ interface IMenuItem {
 }
 
 export const DropdownSelect = (props: IProps) => {
-  const { menuList, onClickMenu, overlay, trigger, buttonText, loading = false, children, btnProps, ...restProps } = props;
+  const {
+    menuList,
+    onClickMenu,
+    overlay,
+    trigger,
+    buttonText,
+    loading = false,
+    children,
+    btnProps,
+    ...restProps
+  } = props;
   let _overlay = overlay;
   if (menuList) {
     _overlay = (
       <Menu onClick={onClickMenu}>
-        {
-          map(menuList, (item: IMenuItem, key: string) => {
-            if (item.children) {
-              return (
-                <SubMenu key={key} title={item.name}>
-                  {
-                    map(item.children, (subItem: IMenuItem) => <Menu.Item key={subItem.key} disabled={subItem.disabled}>{subItem.name}</Menu.Item>)
-                  }
-                </SubMenu>
-              );
-            } else {
-              return <Menu.Item key={item.key} disabled={item.disabled}>{item.name}</Menu.Item>;
-            }
-          })
-        }
+        {map(menuList, (item: IMenuItem, key: string) => {
+          if (item.children) {
+            return (
+              <SubMenu key={key} title={item.name}>
+                {map(item.children, (subItem: IMenuItem) => (
+                  <Menu.Item key={subItem.key} disabled={subItem.disabled}>
+                    {subItem.name}
+                  </Menu.Item>
+                ))}
+              </SubMenu>
+            );
+          } else {
+            return (
+              <Menu.Item key={item.key} disabled={item.disabled}>
+                {item.name}
+              </Menu.Item>
+            );
+          }
+        })}
       </Menu>
     );
   }
   return (
-    <Dropdown
-      overlay={_overlay}
-      trigger={trigger || ['click']}
-      {...restProps}
-    >
+    <Dropdown overlay={_overlay} trigger={trigger || ['click']} {...restProps}>
       {children || (
         <Button type="default" loading={loading} {...btnProps}>
-          {buttonText}<CustomIcon style={{ color: 'inherit' }} type="caret-down" />
+          {buttonText}
+          <CustomIcon style={{ color: 'inherit' }} type="caret-down" />
         </Button>
       )}
     </Dropdown>

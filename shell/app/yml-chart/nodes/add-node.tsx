@@ -16,7 +16,7 @@ import { Icon as CustomIcon } from 'common';
 import i18n from 'i18n';
 import './add-node.scss';
 
-export interface IProps{
+export interface IProps {
   data: Obj;
   onClickNode: (data: any, arg?: any) => void;
 }

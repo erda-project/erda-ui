@@ -15,7 +15,7 @@ import { get, map } from 'lodash';
 import { chartLegendText } from 'charts/text-map.js';
 import i18n from 'i18n';
 
-interface IOriginData{
+interface IOriginData {
   results: Array<{
     [pro: string]: any;
     name: string;
@@ -58,7 +58,7 @@ export const sortCreator = (moduleName: string, chartName: string, payload?: obj
       type: 'sortList',
       chartName: 'sortList',
       moduleName,
-      getFetchObj: ({ sortTab, subTab }: {sortTab: string; subTab: string}) => {
+      getFetchObj: ({ sortTab, subTab }: { sortTab: string; subTab: string }) => {
         const fetchMap = {
           time: { query: { sortBy: 'time' }, unit: 'ms' },
           percent: { query: { sortBy: 'percent' }, unit: '%' },

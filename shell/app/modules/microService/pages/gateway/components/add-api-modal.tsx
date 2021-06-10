@@ -38,7 +38,18 @@ interface IProps {
   afterSubmit: () => void;
 }
 
-const AddApiModal = ({ modalVisible, onCancel, apiPathPrefix, currentService, diceApp, chosenRuntimeId, afterSubmit, isRuntimeEntry, serviceAddressMap, dataSource }: IProps) => {
+const AddApiModal = ({
+  modalVisible,
+  onCancel,
+  apiPathPrefix,
+  currentService,
+  diceApp,
+  chosenRuntimeId,
+  afterSubmit,
+  isRuntimeEntry,
+  serviceAddressMap,
+  dataSource,
+}: IProps) => {
   const isK8S = microServiceStore.useStore((s) => s.isK8S);
   const { addAPI, updateAPI } = gatewayStore.effects;
   const [authPolicy, trafficControlPolicy] = gatewayStore.useStore((s) => [s.authPolicy, s.trafficControlPolicy]);
@@ -118,7 +129,8 @@ const AddApiModal = ({ modalVisible, onCancel, apiPathPrefix, currentService, di
       name: state.formData && state.isEditingApi ? 'displayPath' : 'path',
       rules: [
         {
-          pattern: /^\//, message: i18n.t('path starts with /'),
+          pattern: /^\//,
+          message: i18n.t('path starts with /'),
         },
       ],
       getComp: ({ form }: { form: WrappedFormUtils }) => (
@@ -135,12 +147,15 @@ const AddApiModal = ({ modalVisible, onCancel, apiPathPrefix, currentService, di
       label: i18n.t('microService:API source'),
       name: 'redirectType',
       type: 'radioGroup',
-      options: map({ service: i18n.t('microService:current service'), url: i18n.t('microService:custom address') }, (name, value) => {
-        return {
-          value,
-          name,
-        };
-      }),
+      options: map(
+        { service: i18n.t('microService:current service'), url: i18n.t('microService:custom address') },
+        (name, value) => {
+          return {
+            value,
+            name,
+          };
+        },
+      ),
       initialValue: 'service',
       itemProps: {
         onChange: (e: any) => {
@@ -149,24 +164,29 @@ const AddApiModal = ({ modalVisible, onCancel, apiPathPrefix, currentService, di
       },
     },
     // 支持蛇口非K8S
-    ...insertWhen(!isK8S, [{
-      label: i18n.t('microService:forwarding path'),
-      name: 'redirectPath',
-      rules: [
-        {
-          pattern: /^\//, message: i18n.t('path starts with /'),
-        },
-      ],
-    }]),
+    ...insertWhen(!isK8S, [
+      {
+        label: i18n.t('microService:forwarding path'),
+        name: 'redirectPath',
+        rules: [
+          {
+            pattern: /^\//,
+            message: i18n.t('path starts with /'),
+          },
+        ],
+      },
+    ]),
     {
       label: i18n.t('microService:method'),
       name: 'method',
       type: 'select',
-      options: [{
-        name: i18n.t('microService:all method'),
-        value: 'all',
-      },
-      ...HTTP_METHODS].map(({ value, name }) => ({ value, name })),
+      options: [
+        {
+          name: i18n.t('microService:all method'),
+          value: 'all',
+        },
+        ...HTTP_METHODS,
+      ].map(({ value, name }) => ({ value, name })),
       initialValue: 'GET',
     },
     {
@@ -196,7 +216,9 @@ const AddApiModal = ({ modalVisible, onCancel, apiPathPrefix, currentService, di
       initialValue: state.authVisible,
       required: false,
       itemProps: {
-        onChange: () => { updater.authVisible(!state.authVisible); },
+        onChange: () => {
+          updater.authVisible(!state.authVisible);
+        },
       },
     });
   }
@@ -223,7 +245,9 @@ const AddApiModal = ({ modalVisible, onCancel, apiPathPrefix, currentService, di
       initialValue: state.policyVisible,
       required: false,
       itemProps: {
-        onChange: () => { updater.policyVisible(!state.policyVisible); },
+        onChange: () => {
+          updater.policyVisible(!state.policyVisible);
+        },
       },
     });
 
@@ -234,7 +258,9 @@ const AddApiModal = ({ modalVisible, onCancel, apiPathPrefix, currentService, di
         state.formData.policies &&
         !policyList.find((item: any) => item.policyId === state.formData.policies[0])
       ) {
-        policyList = policyList.concat(state.formData._policies.filter((item: any) => item.category === 'trafficControl'));
+        policyList = policyList.concat(
+          state.formData._policies.filter((item: any) => item.category === 'trafficControl'),
+        );
       }
       fieldsList.push({
         label: i18n.t('microService:limited flow strategy'),

@@ -19,7 +19,7 @@ import { get } from 'lodash';
 import { ArtifactsStatusMap } from './config';
 import './artifacts-item.scss';
 
-interface IProps{
+interface IProps {
   data: PUBLISHER.IArtifacts;
   isActive?: boolean;
   onClick?: (o?: any) => any;
@@ -29,7 +29,7 @@ export const ArtifactsItem = (props: IProps) => {
   const { data, isActive, onClick } = props;
   const { name, updatedAt, public: isPublic } = data;
   const clickItem = () => {
-    if (onClick)onClick();
+    if (onClick) onClick();
   };
   const status = isPublic ? 'public' : 'unpublic';
   return (
@@ -41,9 +41,7 @@ export const ArtifactsItem = (props: IProps) => {
         </Tooltip>
       </div>
       <div className="sub-info">
-        <span className="time">
-          {fromNow(updatedAt)}
-        </span>
+        <span className="time">{fromNow(updatedAt)}</span>
         <Tooltip title={get(ArtifactsStatusMap, `${status}.name`)}>
           <Badge status={get(ArtifactsStatusMap, `${status}.status`)} />
         </Tooltip>

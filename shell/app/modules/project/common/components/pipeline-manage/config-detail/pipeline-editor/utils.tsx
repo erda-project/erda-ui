@@ -35,7 +35,6 @@ export const getDefaultVersionConfig = (actionConfigs: DEPLOY.ActionConfig[]) =>
   return defaultConfig || actionConfigs[0];
 };
 
-
 export const getResource = (task: IStageTask, actionConfig: DEPLOY.ActionConfig | undefined) => {
   if (!actionConfig) {
     return null;
@@ -111,7 +110,7 @@ export const mergeActionAndResource = (actionConfig: DEPLOY.ActionConfig | undef
   return result;
 };
 
-const convertJobsParams = (jobParams: {image: string; resources: any}, isCustomScript: boolean, task: IStageTask) => {
+const convertJobsParams = (jobParams: { image: string; resources: any }, isCustomScript: boolean, task: IStageTask) => {
   const { image, resources = {} } = jobParams || {};
   const filteredResources = omit(resources, 'disk');
   const readOnlyParams: any[] = [
@@ -123,7 +122,11 @@ const convertJobsParams = (jobParams: {image: string; resources: any}, isCustomS
     {
       name: 'resources',
       type: 'struct',
-      struct: Object.entries(filteredResources).map(([key, value]) => ({ name: key, unit: resourceUnitMap[key], default: value })),
+      struct: Object.entries(filteredResources).map(([key, value]) => ({
+        name: key,
+        unit: resourceUnitMap[key],
+        default: value,
+      })),
     },
   ];
   return readOnlyParams;

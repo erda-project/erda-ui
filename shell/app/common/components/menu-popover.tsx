@@ -21,13 +21,23 @@ interface IProps {
   styleName?: string;
   trigger?: 'hover' | 'click';
   iconStyle?: 'big-more-icon' | 'sm-more-icon';
-  placement?: 'top' | 'left' | 'right' | 'bottom' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight' | 'leftTop' | 'leftBottom' | 'rightTop' | 'rightBottom';
+  placement?:
+    | 'top'
+    | 'left'
+    | 'right'
+    | 'bottom'
+    | 'topLeft'
+    | 'topRight'
+    | 'bottomLeft'
+    | 'bottomRight'
+    | 'leftTop'
+    | 'leftBottom'
+    | 'rightTop'
+    | 'rightBottom';
   content: (setVisible: Function) => React.ReactElement;
 }
 
-export const MenuPopover = ({
-  content, styleName, placement, iconStyle = 'sm-more-icon', trigger,
-}: IProps) => {
+export const MenuPopover = ({ content, styleName, placement, iconStyle = 'sm-more-icon', trigger }: IProps) => {
   const [visible, setVisible] = React.useState(false);
 
   return (

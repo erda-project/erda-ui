@@ -16,31 +16,33 @@ import agent from 'agent';
 const reqUrlPrefix = '/api/spot/tmc/metrics';
 
 export const getAiCapacityData = (params: MONITOR_OVERVIEW.IChartQuery): IChartResult => {
-  return agent.get(`${reqUrlPrefix}/ai_overview`)
+  return agent
+    .get(`${reqUrlPrefix}/ai_overview`)
     .query(params)
     .then((response: any) => response.body);
 };
 
 export const getBiCapacityApdex = (params: MONITOR_OVERVIEW.IChartQuery): IChartResult => {
-  return agent.get(`${reqUrlPrefix}/apdex`)
+  return agent
+    .get(`${reqUrlPrefix}/apdex`)
     .query(params)
     .then((response: any) => response.body);
 };
 
 export const getBiCapacityAjaxErr = (params: MONITOR_OVERVIEW.IChartQuery) => {
-  return agent.get(`${reqUrlPrefix}/ta_req_status/range`)
+  return agent
+    .get(`${reqUrlPrefix}/ta_req_status/range`)
     .query(params)
     .then((response: any) => response.body);
 };
 
 export const getBiCapacityAjaxInfo = (params: MONITOR_OVERVIEW.IChartQuery) => {
-  return agent.get(`${reqUrlPrefix}/ta_overview`)
+  return agent
+    .get(`${reqUrlPrefix}/ta_overview`)
     .query(params)
     .then((response: any) => response.body);
 };
 
-export const getMonitorInstance = ({ terminusKey }: {terminusKey: string}): MONITOR_OVERVIEW.IMonitorInstance => {
-  return agent.get(`/api/spot/monitor/instances/${terminusKey}`)
-    .then((response: any) => response.body);
+export const getMonitorInstance = ({ terminusKey }: { terminusKey: string }): MONITOR_OVERVIEW.IMonitorInstance => {
+  return agent.get(`/api/spot/monitor/instances/${terminusKey}`).then((response: any) => response.body);
 };
-

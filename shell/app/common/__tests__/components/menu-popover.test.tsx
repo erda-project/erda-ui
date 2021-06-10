@@ -16,7 +16,6 @@ import { MenuPopover } from 'common';
 import { mount } from 'enzyme';
 import { describe, it } from '@jest/globals';
 
-
 describe('MenuPopover', () => {
   it('should ', () => {
     const renderContent = (setVisible: (visible: boolean) => null) => {
@@ -29,11 +28,7 @@ describe('MenuPopover', () => {
         />
       );
     };
-    const wrapper = mount(
-      <MenuPopover
-        content={renderContent}
-      />,
-    );
+    const wrapper = mount(<MenuPopover content={renderContent} />);
     wrapper.setProps({
       trigger: 'click',
     });

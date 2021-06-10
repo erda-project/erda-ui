@@ -30,7 +30,7 @@ $terminal-bgcolor: #48515f;
     .ant-btn {
       color: $white;
       border-radius: 16px;
-      opacity: .5;
+      opacity: 0.5;
 
       > i {
         color: white;
@@ -51,14 +51,13 @@ $terminal-bgcolor: #48515f;
     .xterm-viewport::-webkit-scrollbar {
       display: none; /* Chrome Safari */
     }
-    
+
     .xterm-viewport {
       width: 100%;
       scrollbar-width: none; /* firefox */
       -ms-overflow-style: none; /* IE 10+ */
     }
   }
- 
 }
 
 /**
@@ -73,7 +72,7 @@ $terminal-bgcolor: #48515f;
   -ms-user-select: none;
   -webkit-user-select: none;
   user-select: none;
-  font-feature-settings: "liga" 0;
+  font-feature-settings: 'liga' 0;
 }
 
 .xterm.focus,

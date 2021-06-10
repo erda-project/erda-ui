@@ -32,16 +32,15 @@ interface IProps {
   allAccountName: string[];
 }
 
-interface FormRef { props: { form: WrappedFormUtils } }
+interface FormRef {
+  props: { form: WrappedFormUtils };
+}
 
 const AddAccountForm = (props: IProps) => {
   const { visible, onClose, handleSubmit, allAccountName } = props;
   const formRef = React.useRef({}) as React.MutableRefObject<FormRef>;
 
-  const [{
-    passwordVisible,
-    confirmPasswordVisible,
-  }, updater] = useUpdate({
+  const [{ passwordVisible, confirmPasswordVisible }, updater] = useUpdate({
     passwordVisible: false,
     confirmPasswordVisible: false,
   });
@@ -138,8 +137,10 @@ const AddAccountForm = (props: IProps) => {
       },
       rules: [
         {
-          required: true, message: i18n.t('please confirm your password!'),
-        }, {
+          required: true,
+          message: i18n.t('please confirm your password!'),
+        },
+        {
           validator: compareToFirstPassword,
         },
       ],

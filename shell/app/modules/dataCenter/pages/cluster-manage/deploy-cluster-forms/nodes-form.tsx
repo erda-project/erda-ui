@@ -27,9 +27,7 @@ const addColums = [
     title: 'ip',
     dataIndex: 'ip',
     editable: true,
-    rules: [
-      { ...regRulesMap.ip },
-    ],
+    rules: [{ ...regRulesMap.ip }],
   },
   {
     title: 'type',
@@ -139,14 +137,20 @@ export const NodesForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
                 placeholder={i18n.t('please enter a valid ip, separated by a semicolon or a space')}
               />
 
-              <Radio.Group value={nodeType} onChange={(e: any) => { setNodeType(e.target.value); }} buttonStyle="solid">
-                {
-                  ['app', 'lb', 'master'].map((item: string) => {
-                    return (
-                      <Radio.Button key={item} value={item}>{item}</Radio.Button>
-                    );
-                  })
-                }
+              <Radio.Group
+                value={nodeType}
+                onChange={(e: any) => {
+                  setNodeType(e.target.value);
+                }}
+                buttonStyle="solid"
+              >
+                {['app', 'lb', 'master'].map((item: string) => {
+                  return (
+                    <Radio.Button key={item} value={item}>
+                      {item}
+                    </Radio.Button>
+                  );
+                })}
               </Radio.Group>
               <Select
                 mode="multiple"
@@ -154,11 +158,15 @@ export const NodesForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
                 value={tagList}
                 onChange={onTagChange}
               >
-                {map(nodeLabels, (tag) => <Option key={tag}>{tag}</Option>)}
+                {map(nodeLabels, (tag) => (
+                  <Option key={tag}>{tag}</Option>
+                ))}
               </Select>
               <div className="set-buttons">
                 <Button onClick={clearSet}>{i18n.t('dcos:reset')}</Button>
-                <Button onClick={onSet} type="primary">{i18n.t('dcos:setting')}</Button>
+                <Button onClick={onSet} type="primary">
+                  {i18n.t('dcos:setting')}
+                </Button>
               </div>
             </div>
           </div>
@@ -176,9 +184,15 @@ export const NodesForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
             form={form}
             data={dataList}
             columns={addColums}
-            add={(n: any) => { handleNode('add', n); }}
-            edit={(n: any) => { handleNode('edit', n); }}
-            del={(n: any) => { handleNode('del', n); }}
+            add={(n: any) => {
+              handleNode('add', n);
+            }}
+            edit={(n: any) => {
+              handleNode('edit', n);
+            }}
+            del={(n: any) => {
+              handleNode('del', n);
+            }}
           />
         );
       },
@@ -186,15 +200,12 @@ export const NodesForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
   ];
 
   return (
-
     <FormUnitContainer title={i18n.t('org:node list')} curRef={curRef}>
-      {
-        isReadonly ? (
-          <ReadonlyForm fieldsList={fieldsList} data={data} />
-        ) : (
-          <RenderPureForm list={fieldsList} form={form} layout="vertical" className="deploy-form-render" />
-        )
-      }
+      {isReadonly ? (
+        <ReadonlyForm fieldsList={fieldsList} data={data} />
+      ) : (
+        <RenderPureForm list={fieldsList} form={form} layout="vertical" className="deploy-form-render" />
+      )}
     </FormUnitContainer>
   );
 };

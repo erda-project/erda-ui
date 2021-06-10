@@ -128,7 +128,7 @@ declare namespace MIDDLEWARE_DASHBOARD {
     backupfile: string[];
   }
 
-  interface IUpdateBackup extends IMiddleBase{
+  interface IUpdateBackup extends IMiddleBase {
     backupName: string;
     backupRules: string;
     backupClean: string;
@@ -150,7 +150,7 @@ declare namespace MIDDLEWARE_DASHBOARD {
     nodes: number;
   }
 
-  interface IAddonStatus extends IMiddleBase{
+  interface IAddonStatus extends IMiddleBase {
     nodes: number;
     status: string;
     restoreStatus: string;

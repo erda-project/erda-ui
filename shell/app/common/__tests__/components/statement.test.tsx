@@ -65,15 +65,11 @@ describe('IF', () => {
     expect(wrapper).toBeEmptyRender();
   });
   it('empty', () => {
-    const wrapper = shallow(
-      <IF check={false} />,
-    );
+    const wrapper = shallow(<IF check={false} />);
     expect(wrapper).toBeEmptyRender();
   });
   it('else', () => {
-    const wrapper = shallow(
-      <IF.ELSE />,
-    );
+    const wrapper = shallow(<IF.ELSE />);
     expect(wrapper).toBeEmptyRender();
   });
 });

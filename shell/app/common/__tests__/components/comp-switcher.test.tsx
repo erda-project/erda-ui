@@ -31,9 +31,7 @@ describe('CompSwitcher', () => {
   it('should render comp', () => {
     const wrapper = mount(
       <div>
-        <CompSwitcher
-          comps={comps}
-        >
+        <CompSwitcher comps={comps}>
           <div className="comp-switcher-child" />
         </CompSwitcher>
       </div>,
@@ -45,9 +43,7 @@ describe('CompSwitcher', () => {
   it('should render children', () => {
     const wrapper = mount(
       <div>
-        <CompSwitcher
-          comps={[]}
-        >
+        <CompSwitcher comps={[]}>
           <div className="comp-switcher-child" />
         </CompSwitcher>
       </div>,

@@ -13,30 +13,46 @@
 
 import agent from 'agent';
 
-export const getAlarmRecordList = ({ tenantGroup, ...query }: Merge<ALARM_REPORT.RecordListQuery, IPagingReq>): IPagingResp<ALARM_REPORT.RecordListItem> => {
-  return agent.get(`/api/tmc/tenantGroup/${tenantGroup}/alert-records`)
+export const getAlarmRecordList = ({
+  tenantGroup,
+  ...query
+}: Merge<ALARM_REPORT.RecordListQuery, IPagingReq>): IPagingResp<ALARM_REPORT.RecordListItem> => {
+  return agent
+    .get(`/api/tmc/tenantGroup/${tenantGroup}/alert-records`)
     .query(query)
     .then((response: any) => response.body);
 };
 
 export const getAlarmAttrs = (tenantGroup: string): { [k: string]: Array<{ key: string; display: string }> } => {
-  return agent.get(`/api/tmc/tenantGroup/${tenantGroup}/alert-record-attrs`)
-    .then((response: any) => response.body);
+  return agent.get(`/api/tmc/tenantGroup/${tenantGroup}/alert-record-attrs`).then((response: any) => response.body);
 };
 
-export const getAlarmRecordDetail = ({ tenantGroup, groupId }: { groupId: string; tenantGroup: string}): ALARM_REPORT.RecordListItem => {
-  return agent.get(`/api/tmc/tenantGroup/${tenantGroup}/alert-records/${groupId}`)
+export const getAlarmRecordDetail = ({
+  tenantGroup,
+  groupId,
+}: {
+  groupId: string;
+  tenantGroup: string;
+}): ALARM_REPORT.RecordListItem => {
+  return agent
+    .get(`/api/tmc/tenantGroup/${tenantGroup}/alert-records/${groupId}`)
     .then((response: any) => response.body);
 };
 
 export const getAlarmTimesChart = (query: ALARM_REPORT.AlarmTimesQuery): any => {
-  return agent.get('/api/tmc/metrics/alert_trend/histogram')
+  return agent
+    .get('/api/tmc/metrics/alert_trend/histogram')
     .query(query)
     .then((response: any) => response.body);
 };
 
-export const getAlarmRecordHistories = ({ groupId, tenantGroup, ...query }: ALARM_REPORT.AlarmHistoriesQuery): ALARM_REPORT.AlarmHistory[] => {
-  return agent.get(`/api/tmc/tenantGroup/${tenantGroup}/alert-records/${groupId}/histories`)
+export const getAlarmRecordHistories = ({
+  groupId,
+  tenantGroup,
+  ...query
+}: ALARM_REPORT.AlarmHistoriesQuery): ALARM_REPORT.AlarmHistory[] => {
+  return agent
+    .get(`/api/tmc/tenantGroup/${tenantGroup}/alert-records/${groupId}/histories`)
     .query(query)
     .then((response: any) => response.body);
 };

@@ -12,9 +12,27 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import React from 'react';
-import { isPromise, isImage, removeProtocol, ossImg, uuid, isValidJsonStr, insertWhen,
-  reorder, encodeHtmlTag, convertToFormData, getFileSuffix, filterOption, regRules,
-  isClassComponent, countPagination, notify, equalByKeys, setApiWithOrg, sleep, getLabel,
+import {
+  isPromise,
+  isImage,
+  removeProtocol,
+  ossImg,
+  uuid,
+  isValidJsonStr,
+  insertWhen,
+  reorder,
+  encodeHtmlTag,
+  convertToFormData,
+  getFileSuffix,
+  filterOption,
+  regRules,
+  isClassComponent,
+  countPagination,
+  notify,
+  equalByKeys,
+  setApiWithOrg,
+  sleep,
+  getLabel,
 } from 'common/utils';
 import { describe, it, jest } from '@jest/globals';
 
@@ -48,11 +66,13 @@ describe('utils', () => {
     expect(ossImg()).toBeUndefined();
     expect(ossImg(null)).toBeUndefined();
     expect(ossImg('http://oss.erda.cloud')).toBe('//oss.erda.cloud?x-oss-process=image/resize,w_200,h_200');
-    expect(ossImg('http://oss.erda.cloud', {
-      op: 'op',
-      h: 100,
-      w: 100,
-    })).toBe('//oss.erda.cloud?x-oss-process=image/op,h_100,w_100');
+    expect(
+      ossImg('http://oss.erda.cloud', {
+        op: 'op',
+        h: 100,
+        w: 100,
+      }),
+    ).toBe('//oss.erda.cloud?x-oss-process=image/op,h_100,w_100');
   });
   it('isValidJsonStr', () => {
     expect(isValidJsonStr('')).toBe(true);
@@ -109,7 +129,10 @@ describe('utils', () => {
   });
   it('countPagination', () => {
     const data = {
-      pageSize: 10, total: 99, minus: 1, pageNo: 1,
+      pageSize: 10,
+      total: 99,
+      minus: 1,
+      pageNo: 1,
     };
     expect(countPagination({ ...data })).toStrictEqual({ pageNo: 1, pageSize: 10 });
     expect(countPagination({ ...data, pageNo: 10, minus: 11 })).toStrictEqual({ pageNo: 9, pageSize: 10 });

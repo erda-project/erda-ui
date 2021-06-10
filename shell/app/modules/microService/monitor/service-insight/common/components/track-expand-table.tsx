@@ -77,8 +77,16 @@ export const TraceExpandTable = ({ recordKey, dataSource, columns, viewLog, fetc
         const { requestId, traced } = record;
         return (
           <div className="table-operations">
-            {requestId ? <span className="table-operations-btn" onClick={() => openLog(record)}>{i18n.t('microService:view log')}</span> : null}
-            {traced ? <span className="table-operations-btn" onClick={() => openQuerier(record)}>{i18n.t('view link')}</span> : null}
+            {requestId ? (
+              <span className="table-operations-btn" onClick={() => openLog(record)}>
+                {i18n.t('microService:view log')}
+              </span>
+            ) : null}
+            {traced ? (
+              <span className="table-operations-btn" onClick={() => openQuerier(record)}>
+                {i18n.t('view link')}
+              </span>
+            ) : null}
           </div>
         );
       },
@@ -86,20 +94,23 @@ export const TraceExpandTable = ({ recordKey, dataSource, columns, viewLog, fetc
     },
   ];
 
-  return (
-    <Table
-      columns={columns || subColumns}
-      dataSource={subDataSource}
-      pagination={false}
-      locale={{ emptyText }}
-    />
-  );
+  return <Table columns={columns || subColumns} dataSource={subDataSource} pagination={false} locale={{ emptyText }} />;
 };
 
 export const onExpand = (getSubTableList: Function, query: any, getParams: any) => (isExpend: boolean, record: any) => {
   if (isExpend) {
     const keyParams = getParams(record);
-    const queryParams = pick(query, ['filter_target_application_id', 'filter_target_runtime_name', 'filter_target_service_name', 'filter_target_terminus_key', 'filter_source_application_id', 'filter_source_runtime_name', 'filter_source_service_name', 'filter_source_terminus_key', 'limit']);
+    const queryParams = pick(query, [
+      'filter_target_application_id',
+      'filter_target_runtime_name',
+      'filter_target_service_name',
+      'filter_target_terminus_key',
+      'filter_source_application_id',
+      'filter_source_runtime_name',
+      'filter_source_service_name',
+      'filter_source_terminus_key',
+      'limit',
+    ]);
     getSubTableList({ ...queryParams, ...keyParams });
   }
 };

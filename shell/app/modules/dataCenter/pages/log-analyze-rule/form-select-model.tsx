@@ -19,46 +19,42 @@ import { getLabel, noop } from 'app/configForm/nusi-form/form-items/common';
 
 const FormItem = NForm.Item;
 
-export default ({ templates }: any) => React.memo(({ fieldConfig }: any) => {
-  const {
-    visible,
-    valid,
-    componentProps,
-    required,
-    wrapperProps,
-    label,
-    labelTip,
-  } = fieldConfig;
+export default ({ templates }: any) =>
+  React.memo(({ fieldConfig }: any) => {
+    const { visible, valid, componentProps, required, wrapperProps, label, labelTip } = fieldConfig;
 
-  const menu = (
-    <Menu>
-      {
-        map(templates, ({ name, desc }) => (
+    const menu = (
+      <Menu>
+        {map(templates, ({ name, desc }) => (
           <Menu.Item key={name}>
             <Tooltip title={desc} placement="right">
-              <div key={name} onClick={() => { (componentProps.onChange || noop)(name); }}>
+              <div
+                key={name}
+                onClick={() => {
+                  (componentProps.onChange || noop)(name);
+                }}
+              >
                 {name}
               </div>
             </Tooltip>
           </Menu.Item>
-        ))
-      }
-    </Menu>
-  );
+        ))}
+      </Menu>
+    );
 
-  return (
-    <FormItem
-      colon
-      label={getLabel(label, labelTip)}
-      className={visible ? '' : 'hide'}
-      validateStatus={valid[0]}
-      help={valid[1]}
-      required={required}
-      {...wrapperProps}
-    >
-      <Dropdown overlay={menu} trigger={['click']}>
-        <Button>{i18n.t('org:select template')}</Button>
-      </Dropdown>
-    </FormItem>
-  );
-});
+    return (
+      <FormItem
+        colon
+        label={getLabel(label, labelTip)}
+        className={visible ? '' : 'hide'}
+        validateStatus={valid[0]}
+        help={valid[1]}
+        required={required}
+        {...wrapperProps}
+      >
+        <Dropdown overlay={menu} trigger={['click']}>
+          <Button>{i18n.t('org:select template')}</Button>
+        </Dropdown>
+      </FormItem>
+    );
+  });

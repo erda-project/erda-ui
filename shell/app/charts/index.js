@@ -24,4 +24,3 @@ export { default as HollowPieChart } from './components/hollow-pie-chart';
 export { default as MonitorChartNew } from './components/monitor-chart-new';
 // export { default as getFormatter } from './components/monitor-chart-formatter';
 export { default as ChartRender } from './components/chart-render';
-

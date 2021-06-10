@@ -15,8 +15,20 @@ import { createFlatStore } from 'app/cube';
 import i18n from 'i18n';
 import { getDefaultPaging } from 'common/utils';
 import { get } from 'lodash';
-import { getCaseDetail, updateCasePipeline, getAutoTestConfigEnv, getPipelineRecordList, getConfigDetailRecordList, getPipelineDetail,
-  getPipelineReport, cancelBuild, runBuild, reRunFailed, reRunEntire, updateTaskEnv } from '../services/auto-test-case';
+import {
+  getCaseDetail,
+  updateCasePipeline,
+  getAutoTestConfigEnv,
+  getPipelineRecordList,
+  getConfigDetailRecordList,
+  getPipelineDetail,
+  getPipelineReport,
+  cancelBuild,
+  runBuild,
+  reRunFailed,
+  reRunEntire,
+  updateTaskEnv,
+} from '../services/auto-test-case';
 
 interface IState {
   caseDetail: AUTO_TEST.ICaseDetail;
@@ -61,7 +73,9 @@ const autoTestCase = createFlatStore({
       return configEnvs || [];
     },
     async getPipelineRecordList({ call, update }, payload: AUTO_TEST.IRunRecordQuery) {
-      const res = await call(getPipelineRecordList, payload, { paging: { key: 'pipelineRecordPaging', listKey: 'pipelines' } });
+      const res = await call(getPipelineRecordList, payload, {
+        paging: { key: 'pipelineRecordPaging', listKey: 'pipelines' },
+      });
       const updateObj = {
         pipelineRecordList: res.list || [],
       } as any;
@@ -71,12 +85,12 @@ const autoTestCase = createFlatStore({
       update({ ...updateObj });
       return res;
     },
-    async getPipelineDetail({ call, update }, payload: {pipelineID: string}) {
+    async getPipelineDetail({ call, update }, payload: { pipelineID: string }) {
       const pipelineDetail = await call(getPipelineDetail, payload);
       update({ pipelineDetail, changeType: '' });
       return pipelineDetail;
     },
-    async getPipelineReport({ call, update }, payload: {pipelineID: number}) {
+    async getPipelineReport({ call, update }, payload: { pipelineID: number }) {
       const pipelineReport = await call(getPipelineReport, payload);
       update({ pipelineReportList: pipelineReport.reports });
       return pipelineReport;
@@ -87,20 +101,37 @@ const autoTestCase = createFlatStore({
     },
     async runBuild({ call, update }, payload: { pipelineID: string; runPipelineParams?: any }) {
       const { pipelineID } = payload;
-      const result = await call(runBuild, payload, { successMsg: i18n.t('application:start executing the build'), fullResult: true });
+      const result = await call(runBuild, payload, {
+        successMsg: i18n.t('application:start executing the build'),
+        fullResult: true,
+      });
       const pipelineDetail = await call(getPipelineDetail, { pipelineID });
       update({ pipelineDetail, changeType: 'task' });
       return result;
     },
-    async reRunFailed({ call }, payload: { pipelineID: string; runPipelineParams?: any }): Promise<BUILD.IRerunResponse> {
+    async reRunFailed(
+      { call },
+      payload: { pipelineID: string; runPipelineParams?: any },
+    ): Promise<BUILD.IRerunResponse> {
       const { pipelineID, runPipelineParams } = payload;
-      const result = await call(reRunFailed, { pipelineID }, { successMsg: i18n.t('application:start retrying failed nodes') });
+      const result = await call(
+        reRunFailed,
+        { pipelineID },
+        { successMsg: i18n.t('application:start retrying failed nodes') },
+      );
       await call(runBuild, { pipelineID: result.id, runPipelineParams });
       return result;
     },
-    async reRunEntire({ call }, payload: { pipelineID: string; runPipelineParams?: any }): Promise<BUILD.IRerunResponse> {
+    async reRunEntire(
+      { call },
+      payload: { pipelineID: string; runPipelineParams?: any },
+    ): Promise<BUILD.IRerunResponse> {
       const { pipelineID, runPipelineParams } = payload;
-      const result = await call(reRunEntire, { pipelineID }, { successMsg: i18n.t('application:start retrying build') });
+      const result = await call(
+        reRunEntire,
+        { pipelineID },
+        { successMsg: i18n.t('application:start retrying build') },
+      );
       await call(runBuild, { pipelineID: result.id, runPipelineParams }); // 重试流水线只是新建一个流水线，不会自动跑
       return result;
     },

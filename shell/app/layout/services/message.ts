@@ -14,17 +14,16 @@
 import agent from 'agent';
 
 export const getMessageList = (query: { pageNo: number; pageSize?: number }): IPagingResp<LAYOUT.IMsg> => {
-  return agent.get('/api/mboxs')
+  return agent
+    .get('/api/mboxs')
     .query(query)
     .then((response: any) => response.body);
 };
 
 export const getMessageStats = (): { unreadCount: number } => {
-  return agent.get('/api/mboxs/actions/stats')
-    .then((response: any) => response.body);
+  return agent.get('/api/mboxs/actions/stats').then((response: any) => response.body);
 };
 
 export const readOneMessage = (id: number) => {
-  return agent.get(`/api/mboxs/${id}`)
-    .then((response: any) => response.body);
+  return agent.get(`/api/mboxs/${id}`).then((response: any) => response.body);
 };

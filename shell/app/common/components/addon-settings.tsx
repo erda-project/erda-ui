@@ -23,7 +23,6 @@ import * as React from 'react';
 import './addon-settings.scss';
 import { useMount } from 'react-use';
 
-
 interface IProps {
   insId: string;
   addonConfig?: { config: Obj; canDel?: boolean; [k: string]: any };
@@ -47,17 +46,19 @@ const PureAddonSettings = ({ insId, addonConfig, isFetching }: IProps) => {
             <span>{i18n.t('common:service basic parameters')}</span>
           </div>
           <div className="settings-params-content">
-            {
-              map(config, (v, k) => (
-                <div key={k}>
-                  <div className="param-k nowrap">{k}</div>
-                  <IF check={v}>
-                    <div className="param-v for-copy" data-clipboard-text={v}>{v}<span className="copy-tip">({i18n.t('common:click to copy')})</span></div>
-                    <IF.ELSE />
-                    <div className="param-v">***</div>
-                  </IF>
-                </div>))
-            }
+            {map(config, (v, k) => (
+              <div key={k}>
+                <div className="param-k nowrap">{k}</div>
+                <IF check={v}>
+                  <div className="param-v for-copy" data-clipboard-text={v}>
+                    {v}
+                    <span className="copy-tip">({i18n.t('common:click to copy')})</span>
+                  </div>
+                  <IF.ELSE />
+                  <div className="param-v">***</div>
+                </IF>
+              </div>
+            ))}
             <Copy selector=".for-copy" />
           </div>
         </div>
@@ -92,4 +93,3 @@ const AddonSettings = () => {
   return <PureAddonSettings insId={insId} addonConfig={addonConfig as ADDON.Instance} isFetching={isFetching} />;
 };
 export { PureAddonSettings, AddonSettings };
-

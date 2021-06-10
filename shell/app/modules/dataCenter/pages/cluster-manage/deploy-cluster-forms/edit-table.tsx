@@ -21,7 +21,7 @@ import './edit-table.scss';
 
 const { Option } = Select;
 
-interface IEditableTableProps{
+interface IEditableTableProps {
   form: WrappedFormUtils;
   columns: any[];
   data: any[];
@@ -47,7 +47,6 @@ export const EditableTable = (props: IEditableTableProps) => {
     },
   ];
 
-
   const handleDelete = (rec: any) => {
     del(rec);
   };
@@ -59,7 +58,6 @@ export const EditableTable = (props: IEditableTableProps) => {
     };
     add(newData);
   };
-
 
   const handleSave = (row: any) => {
     edit(row);
@@ -109,7 +107,7 @@ export const EditableTable = (props: IEditableTableProps) => {
   );
 };
 
-interface ICellProps{
+interface ICellProps {
   record: any;
   children: any;
   dataIndex: string;
@@ -123,11 +121,23 @@ interface ICellProps{
 }
 const EditableCell = (props: ICellProps) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { record, handleSave, children, dataIndex, title, type, options, editable, index, rules = [], ...restProps } = props;
+  const {
+    record,
+    handleSave,
+    children,
+    dataIndex,
+    title,
+    type,
+    options,
+    editable,
+    index,
+    rules = [],
+    ...restProps
+  } = props;
   const formRef = React.useRef(null);
   const inputRef = React.useRef(null);
   const save = (e: any) => {
-    const curForm = formRef && formRef.current as any;
+    const curForm = formRef && (formRef.current as any);
     if (curForm) {
       curForm.validateFields((error: any, values: any) => {
         if (error && error[e.currentTarget.id]) {
@@ -147,41 +157,34 @@ const EditableCell = (props: ICellProps) => {
     }
     return (
       <Form.Item style={{ margin: 0 }}>
-        {
-          form.getFieldDecorator(dataIndex, {
-            rules: [
-              {
-                required: dataIndex !== 'tag',
-                message: `${i18n.t('dcos:please enter')}${title}`,
-              },
-              ...rules,
-            ],
-            initialValue,
-          })(
-            type === 'select' ? (
-              <Select size="small">
-                {
-               map(options, (val: string) => (
-                 <Option key={val} value={`${val}`}>{val}</Option>
-               ))
-          }
-              </Select>
-            ) : (
-              <Input ref={inputRef} onPressEnter={save} onBlur={save} />),
-          )
-        }
+        {form.getFieldDecorator(dataIndex, {
+          rules: [
+            {
+              required: dataIndex !== 'tag',
+              message: `${i18n.t('dcos:please enter')}${title}`,
+            },
+            ...rules,
+          ],
+          initialValue,
+        })(
+          type === 'select' ? (
+            <Select size="small">
+              {map(options, (val: string) => (
+                <Option key={val} value={`${val}`}>
+                  {val}
+                </Option>
+              ))}
+            </Select>
+          ) : (
+            <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+          ),
+        )}
       </Form.Item>
     );
   };
 
   return (
-    <td {...restProps}>
-      {editable ? (
-        <EditableContext.Consumer>{renderCell}</EditableContext.Consumer>
-      ) : (
-        children
-      )}
-    </td>
+    <td {...restProps}>{editable ? <EditableContext.Consumer>{renderCell}</EditableContext.Consumer> : children}</td>
   );
 };
 

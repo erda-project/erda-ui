@@ -22,28 +22,28 @@ import './test-detail.scss';
 import applicationTestStore from 'application/stores/test';
 import { useLoading } from 'app/common/stores/loading';
 
-interface IProps{
+interface IProps {
   testDetail: ITestDetail;
   isFetching: boolean;
   getTestDetail: () => Promise<any>;
 }
-interface IState{
+interface IState {
   chosenSuiteIndex: number;
   suites: ISuite[];
   preProps: IProps;
   logVisible: boolean;
 }
-interface ITestDetail{
+interface ITestDetail {
   [k: string]: any;
   suites: ISuite[];
 }
 
-interface ISuite{
+interface ISuite {
   [k: string]: any;
   tests?: ITest[];
 }
 
-interface ITest{
+interface ITest {
   [k: string]: any;
   name: string;
   key?: string;
@@ -104,18 +104,32 @@ class TestDetailContainer extends React.Component<IProps, IState> {
       <Spin spinning={isFetching}>
         <div className="test-detail-header flex-box">
           <IF check={!isEmpty(detailOptions)}>
-            <Select onChange={(v) => this.changeDetail(+v)} dropdownMatchSelectWidth={false} defaultValue={chosenSuiteIndex} className="test-selector">
-              {
-              map(detailOptions, (opt) => (<Option value={opt.value} key={`${opt.value}`}>{opt.text}</Option>))
-            }
+            <Select
+              onChange={(v) => this.changeDetail(+v)}
+              dropdownMatchSelectWidth={false}
+              defaultValue={chosenSuiteIndex}
+              className="test-selector"
+            >
+              {map(detailOptions, (opt) => (
+                <Option value={opt.value} key={`${opt.value}`}>
+                  {opt.text}
+                </Option>
+              ))}
             </Select>
           </IF>
 
           <IF check={testDetail && testDetail.uuid}>
-            <span className="test-log hover-active" onClick={this.toggleLog}>{i18n.t('application:log')}</span>
+            <span className="test-log hover-active" onClick={this.toggleLog}>
+              {i18n.t('application:log')}
+            </span>
           </IF>
         </div>
-        <Holder when={!currentSuite} page relative tip={`${i18n.t('application:no data, please confirm if there is a corresponding test code')}(UT/IT)`}>
+        <Holder
+          when={!currentSuite}
+          page
+          relative
+          tip={`${i18n.t('application:no data, please confirm if there is a corresponding test code')}(UT/IT)`}
+        >
           <TestDetail key={chosenSuiteIndex} suite={currentSuite} />
         </Holder>
         <BuildLog visible={logVisible} hideLog={this.toggleLog} logId={testDetail.uuid} />
@@ -123,7 +137,6 @@ class TestDetailContainer extends React.Component<IProps, IState> {
     );
   }
 }
-
 
 const Mapper = () => {
   const testDetail = applicationTestStore.useStore((s) => s.testDetail);

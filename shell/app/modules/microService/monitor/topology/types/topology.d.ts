@@ -11,16 +11,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-declare namespace TOPOLOGY{
-
-  interface ITopologyQuery{
+declare namespace TOPOLOGY {
+  interface ITopologyQuery {
     startTime: number;
     endTime: number;
     terminusKey: string;
     tags: string[];
   }
 
-  interface IParent{
+  interface IParent {
     id: string;
     name: string;
     metric?: {
@@ -79,7 +78,7 @@ declare namespace TOPOLOGY{
     sum: string;
   }
 
-  interface IExceptionQuery{
+  interface IExceptionQuery {
     sum: string;
     align: boolean;
     start: number;
@@ -90,13 +89,13 @@ declare namespace TOPOLOGY{
     filter_application_id: number;
   }
 
-  interface ILink{
+  interface ILink {
     source: string;
     target: string;
     hasReverse?: boolean;
   }
 
-  interface INodeParent{
+  interface INodeParent {
     id: string;
   }
 
@@ -113,7 +112,8 @@ declare namespace TOPOLOGY{
     LINK: {
       linkDis: number; // 跨层级线间距
     };
-    padding: {// 单个独立图的padding
+    padding: {
+      // 单个独立图的padding
       x: number;
       y: number;
     };
@@ -132,68 +132,68 @@ declare namespace TOPOLOGY{
     showBox: boolean; // 是否需要显示box
   }
 
-  interface ILinkRender{
+  interface ILinkRender {
     links: ILink[];
     nodeMap: object;
     boxHeight?: number;
     groupDeepth?: any;
   }
 
-  interface ICircuitBreakerBase{
+  interface ICircuitBreakerBase {
     id: string;
     type: string;
-    maxConnections: string;// 最大连接数
-    maxRetries: string;// 最大重试次数
-    consecutiveErrors: string;// 连续失败的次数
-    interval: string;// 连续失败的检测间隔，单位秒
-    baseEjectionTime: string;// 最短隔离时间，单位秒
-    maxEjectionPercent: string;// 最大隔离比例
-    enable: boolean;// 是否停用
+    maxConnections: string; // 最大连接数
+    maxRetries: string; // 最大重试次数
+    consecutiveErrors: string; // 连续失败的次数
+    interval: string; // 连续失败的检测间隔，单位秒
+    baseEjectionTime: string; // 最短隔离时间，单位秒
+    maxEjectionPercent: string; // 最大隔离比例
+    enable: boolean; // 是否停用
   }
-  interface ICircuitBreakerHttp extends ICircuitBreakerBase{
-    maxPendingRequests: string;// 最大等待请求数
-  }
-
-  interface ICircuitBreakerDubbo extends ICircuitBreakerBase{
-    interfaceName: string;// 接口名称
+  interface ICircuitBreakerHttp extends ICircuitBreakerBase {
+    maxPendingRequests: string; // 最大等待请求数
   }
 
-  interface ICircuitBreaker{
+  interface ICircuitBreakerDubbo extends ICircuitBreakerBase {
+    interfaceName: string; // 接口名称
+  }
+
+  interface ICircuitBreaker {
     http: ICircuitBreakerHttp;
     dubbo: ICircuitBreakerDubbo[];
   }
 
-  interface IFaultInjectHttp{
+  interface IFaultInjectHttp {
     id: string;
     type: string;
-    path: string;// 路径前缀
-    fixedDelay: string;// 延时时间
-    delayPercentage: string;// 延时比例
-    abortStatus: string;// 错误码
-    abortPercentage: string;// 错误比例
-    enable: boolean;// 是否启用，true为启用，false为停用
+    path: string; // 路径前缀
+    fixedDelay: string; // 延时时间
+    delayPercentage: string; // 延时比例
+    abortStatus: string; // 错误码
+    abortPercentage: string; // 错误比例
+    enable: boolean; // 是否启用，true为启用，false为停用
   }
 
-  interface IFaultInjectDubbo{
+  interface IFaultInjectDubbo {
     id: string;
     type: string;
-    interfaceName: string;// 接口名称
-    fixedDelay: string;// 延时时间
-    delayPercentage: string;// 延时比例
-    enable: boolean;// 是否启用，true为启用，false为停用
+    interfaceName: string; // 接口名称
+    fixedDelay: string; // 延时时间
+    delayPercentage: string; // 延时比例
+    enable: boolean; // 是否启用，true为启用，false为停用
   }
 
-  interface IFaultInject{
+  interface IFaultInject {
     http: IFaultInjectHttp[];
     dubbo: IFaultInjectDubbo[];
   }
 
-  interface IQuery{
+  interface IQuery {
     projectId: string; // 项目id
     env: string; // 环境
     tenantGroup: string; // 租户组
   }
-  interface IServiceMeshQuery extends IQuery{
+  interface IServiceMeshQuery extends IQuery {
     runtimeId: string;
     runtimeName: string;
     applicationId: string;
@@ -201,17 +201,17 @@ declare namespace TOPOLOGY{
     hideNoRule: string;
   }
 
-  interface ICircuitBreakerSave extends IQuery{
+  interface ICircuitBreakerSave extends IQuery {
     data: ICircuitBreakerHttp | ICircuitBreakerDubbo;
     query: IServiceMeshQuery;
   }
 
-  interface IFaultInjectSave extends IQuery{
+  interface IFaultInjectSave extends IQuery {
     data: IFaultInjectHttp | IFaultInjectDubbo;
     query: IServiceMeshQuery;
   }
 
-  interface IFaultInjectDelete extends IQuery, IServiceMeshQuery{
+  interface IFaultInjectDelete extends IQuery, IServiceMeshQuery {
     id: string;
   }
 
@@ -225,7 +225,7 @@ declare namespace TOPOLOGY{
     type: string;
   }
 
-  interface ITopologyTagOptionQuery{
+  interface ITopologyTagOptionQuery {
     startTime: number;
     endTime: number;
     terminusKey: string;

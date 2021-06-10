@@ -31,13 +31,7 @@ const IssueFieldManage = () => {
   const tableData = issueFieldStore.useStore((s) => s.fieldList);
   const { getFieldsByIssue, deleteFieldItem, getSpecialFieldOptions } = issueFieldStore.effects;
   const { clearFieldList } = issueFieldStore.reducers;
-  const [{
-    filterData,
-    modalVisible,
-    formData,
-    taskSpecialField,
-    bugSpecialField,
-  }, updater, update] = useUpdate({
+  const [{ filterData, modalVisible, formData, taskSpecialField, bugSpecialField }, updater, update] = useUpdate({
     filterData: {} as Obj,
     modalVisible: false,
     formData: {} as ISSUE_FIELD.IFiledItem,
@@ -70,95 +64,113 @@ const IssueFieldManage = () => {
     clearFieldList();
   });
 
-  const fieldsList: object[] = React.useMemo(() => [
-    {
-      label: i18n.t('project:field name'),
-      name: 'propertyName',
-    },
-  ], []);
-
-  const onDeleteField = React.useCallback(async ({ propertyID, relatedIssue }) => {
-    if (!isEmpty(relatedIssue)) {
-      message.warning(i18n.t('project:tips of deleting custom field'));
-      return;
-    }
-
-    await deleteFieldItem({ propertyID });
-    getFieldsByIssue({ ...filterData, propertyIssueType: 'COMMON', orgID });
-  }, [deleteFieldItem, filterData, getFieldsByIssue, orgID]);
-
-  const columns = React.useMemo(() => [
-    {
-      key: 'propertyName',
-      title: i18n.t('project:field name'),
-      width: '200',
-      dataIndex: 'propertyName',
-    },
-    {
-      key: 'required',
-      title: i18n.t('is required'),
-      dataIndex: 'required',
-      render: (value: boolean) => (String(value) === 'true' ? i18n.t('common:yes') : i18n.t('common:no')),
-    },
-    {
-      key: 'propertyType',
-      title: i18n.t('type'),
-      width: '200',
-      dataIndex: 'propertyType',
-      render: (t: string) => <IssueIcon type={t} withName />,
-    },
-    {
-      key: 'relatedIssue',
-      title: i18n.t('project:related issue type'),
-      width: '250',
-      dataIndex: 'relatedIssue',
-      render: (types: string[]) => {
-        const fullTags = () => map(types, (t) => <span key={t} className="tag-default">{t}</span>);
-        return (
-          <Tooltip
-            title={fullTags()}
-            placement="top"
-            overlayClassName="tags-tooltip"
-          >
-            {fullTags()}
-          </Tooltip>
-        );
+  const fieldsList: object[] = React.useMemo(
+    () => [
+      {
+        label: i18n.t('project:field name'),
+        name: 'propertyName',
       },
+    ],
+    [],
+  );
+
+  const onDeleteField = React.useCallback(
+    async ({ propertyID, relatedIssue }) => {
+      if (!isEmpty(relatedIssue)) {
+        message.warning(i18n.t('project:tips of deleting custom field'));
+        return;
+      }
+
+      await deleteFieldItem({ propertyID });
+      getFieldsByIssue({ ...filterData, propertyIssueType: 'COMMON', orgID });
     },
-    {
-      title: i18n.t('common:operation'),
-      width: 100,
-      dataIndex: 'operation',
-      className: 'operation',
-      render: (_text: any, record: ISSUE_FIELD.IFiledItem) => {
-        return (
-          <div className="table-operations">
-            <span
-              className="table-operations-btn"
-              onClick={() => {
-                const { enumeratedValues = [] } = record;
-                const optionList = enumeratedValues ? [...enumeratedValues, { name: '', index: enumeratedValues.length }] : [{ name: '', index: 0 }];
-                updater.formData({
-                  ...record,
-                  required: record.required ? 'true' : 'false',
-                  enumeratedValues: optionList,
-                });
-                setTimeout(() => {
-                  updater.modalVisible(true);
-                });
-              }}
-            >{i18n.t('common:edit')}
-            </span>
-            <WithAuth pass={!record?.isSpecialField} >
-              <Popconfirm title={`${i18n.t('common:confirm to delete')}?`} onConfirm={() => { onDeleteField(record); }}>
-                <span className="table-operations-btn">{i18n.t('common:delete')}</span>
-              </Popconfirm>
-            </WithAuth>
-          </div>
-        );
+    [deleteFieldItem, filterData, getFieldsByIssue, orgID],
+  );
+
+  const columns = React.useMemo(
+    () => [
+      {
+        key: 'propertyName',
+        title: i18n.t('project:field name'),
+        width: '200',
+        dataIndex: 'propertyName',
       },
-    },
-  ], [onDeleteField, updater]);
+      {
+        key: 'required',
+        title: i18n.t('is required'),
+        dataIndex: 'required',
+        render: (value: boolean) => (String(value) === 'true' ? i18n.t('common:yes') : i18n.t('common:no')),
+      },
+      {
+        key: 'propertyType',
+        title: i18n.t('type'),
+        width: '200',
+        dataIndex: 'propertyType',
+        render: (t: string) => <IssueIcon type={t} withName />,
+      },
+      {
+        key: 'relatedIssue',
+        title: i18n.t('project:related issue type'),
+        width: '250',
+        dataIndex: 'relatedIssue',
+        render: (types: string[]) => {
+          const fullTags = () =>
+            map(types, (t) => (
+              <span key={t} className="tag-default">
+                {t}
+              </span>
+            ));
+          return (
+            <Tooltip title={fullTags()} placement="top" overlayClassName="tags-tooltip">
+              {fullTags()}
+            </Tooltip>
+          );
+        },
+      },
+      {
+        title: i18n.t('common:operation'),
+        width: 100,
+        dataIndex: 'operation',
+        className: 'operation',
+        render: (_text: any, record: ISSUE_FIELD.IFiledItem) => {
+          return (
+            <div className="table-operations">
+              <span
+                className="table-operations-btn"
+                onClick={() => {
+                  const { enumeratedValues = [] } = record;
+                  const optionList = enumeratedValues
+                    ? [...enumeratedValues, { name: '', index: enumeratedValues.length }]
+                    : [{ name: '', index: 0 }];
+                  updater.formData({
+                    ...record,
+                    required: record.required ? 'true' : 'false',
+                    enumeratedValues: optionList,
+                  });
+                  setTimeout(() => {
+                    updater.modalVisible(true);
+                  });
+                }}
+              >
+                {i18n.t('common:edit')}
+              </span>
+              <WithAuth pass={!record?.isSpecialField}>
+                <Popconfirm
+                  title={`${i18n.t('common:confirm to delete')}?`}
+                  onConfirm={() => {
+                    onDeleteField(record);
+                  }}
+                >
+                  <span className="table-operations-btn">{i18n.t('common:delete')}</span>
+                </Popconfirm>
+              </WithAuth>
+            </div>
+          );
+        },
+      },
+    ],
+    [onDeleteField, updater],
+  );
 
   const filterField = [
     {
@@ -193,23 +205,19 @@ const IssueFieldManage = () => {
     <div style={{ overflow: 'hidden' }}>
       <div>
         <WithAuth pass tipProps={{ placement: 'bottom' }}>
-          <Button type="primary" onClick={() => { updater.modalVisible(true); }}>{i18n.t('add')}</Button>
+          <Button
+            type="primary"
+            onClick={() => {
+              updater.modalVisible(true);
+            }}
+          >
+            {i18n.t('add')}
+          </Button>
         </WithAuth>
         <Filter config={filterField} onFilter={onFilter} connectUrlSearch />
       </div>
-      <Table
-        loading={isFetching}
-        rowKey="propertyName"
-        dataSource={tableList}
-        columns={columns}
-        pagination={false}
-      />
-      <IssueFieldModal
-        visible={modalVisible}
-        formData={formData}
-        onOk={onOk}
-        closeModal={onClose}
-      />
+      <Table loading={isFetching} rowKey="propertyName" dataSource={tableList} columns={columns} pagination={false} />
+      <IssueFieldModal visible={modalVisible} formData={formData} onOk={onOk} closeModal={onClose} />
     </div>
   );
 

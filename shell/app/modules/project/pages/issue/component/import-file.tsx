@@ -54,25 +54,17 @@ const ImportFile = ({ afterImport, issueType, download, projectID, visible, onCl
         content: (
           <div>
             <br />
-            <p>
-              {i18n.t('project:imported {total} item successfully', { total: successNumber })}
-            </p>
+            <p>{i18n.t('project:imported {total} item successfully', { total: successNumber })}</p>
             <div>
-              <span>
-                {i18n.t('project:imported {total} item unsuccessfully', { total: falseNumber })}
-              </span>
-              {
-              uuid &&
-              <>
-                <span> —— </span>
-                <span
-                  className="color-primary hover-text"
-                  onClick={() => window.open(`/api/files/${uuid}`)}
-                >
-                  {i18n.t('project:download failed file')}
-                </span>
-              </>
-            }
+              <span>{i18n.t('project:imported {total} item unsuccessfully', { total: falseNumber })}</span>
+              {uuid && (
+                <>
+                  <span> —— </span>
+                  <span className="color-primary hover-text" onClick={() => window.open(`/api/files/${uuid}`)}>
+                    {i18n.t('project:download failed file')}
+                  </span>
+                </>
+              )}
             </div>
           </div>
         ),
@@ -96,13 +88,7 @@ const ImportFile = ({ afterImport, issueType, download, projectID, visible, onCl
     {
       label: i18n.t('project:select a document'),
       name: 'file',
-      getComp: () => (
-        <FileSelect
-          accept=".xlsx, .xls, .XLSX, .XLS"
-          visible={visible}
-          beforeUpload={beforeUpload}
-        />
-      ),
+      getComp: () => <FileSelect accept=".xlsx, .xls, .XLSX, .XLS" visible={visible} beforeUpload={beforeUpload} />,
     },
   ];
 
@@ -123,15 +109,12 @@ const ImportFile = ({ afterImport, issueType, download, projectID, visible, onCl
         }}
       >
         <div className="modal-tip">
-          <span
-            onClick={() => window.open(download)}
-            className="color-primary hover-text"
-          >
+          <span onClick={() => window.open(download)} className="color-primary hover-text">
             {i18n.t('project:download template')}
           </span>
         </div>
       </FormModal>
-    </ >
+    </>
   );
 };
 

@@ -18,7 +18,7 @@ import { Modal, Table, Spin, Tooltip } from 'app/nusi';
 import TraceDetailFilter from './trace-detail-filter';
 import './trace-detail.scss';
 
-interface ISpanDetailProps{
+interface ISpanDetailProps {
   [pro: string]: any;
   spanDetail?: any;
   viewSpanDetail?: (args?: any) => any;
@@ -71,8 +71,16 @@ const SpanDetail = (props: ISpanDetailProps) => {
       className="span-detail-modal"
       width={920}
       title={[
-        spanName && spanName.length > 95 ? <Tooltip key="spanName" title={spanName} overlayClassName="full-span-name"><h3 className="title">{spanName}</h3></Tooltip> : <h3 key="spanName">{spanName}</h3>,
-        <h4 key="aka" className="sub-title">AKA: {serviceName} {durationStr}</h4>,
+        spanName && spanName.length > 95 ? (
+          <Tooltip key="spanName" title={spanName} overlayClassName="full-span-name">
+            <h3 className="title">{spanName}</h3>
+          </Tooltip>
+        ) : (
+          <h3 key="spanName">{spanName}</h3>
+        ),
+        <h4 key="aka" className="sub-title">
+          AKA: {serviceName} {durationStr}
+        </h4>,
       ]}
       footer=""
     >
@@ -86,18 +94,23 @@ const SpanDetail = (props: ISpanDetailProps) => {
         dataSource={annotations}
         pagination={false}
       />
-      <Table className="no-operation second-table" rowKey="key" columns={columns2} dataSource={binaryAnnotations} pagination={false} />
-
+      <Table
+        className="no-operation second-table"
+        rowKey="key"
+        columns={columns2}
+        dataSource={binaryAnnotations}
+        pagination={false}
+      />
     </Modal>
   );
 };
 
-interface IProps{
+interface IProps {
   [pro: string]: any;
   trace: any;
   isFetching: boolean;
 }
-interface IState{
+interface IState {
   traceTree: any[];
 }
 
@@ -121,7 +134,9 @@ class TraceDetail extends React.Component<IProps, IState> {
   };
 
   expandSpan = ({ spanId, children, isExpand }: any) => {
-    const { trace: { spans: oriSpans } } = this.props;
+    const {
+      trace: { spans: oriSpans },
+    } = this.props;
     const { traceTree } = this.state;
     const spans = traceTree.length ? traceTree : oriSpans;
 
@@ -153,14 +168,33 @@ class TraceDetail extends React.Component<IProps, IState> {
           <div id="timeLabel" className="span">
             <div className="handle">Services</div>
             <div className="duration-container">
-              { map(trace.timeMarkers, (i) => {
-                return <div key={i.time} className={`time-marker time-marker-${i.index}`}>{i.time}</div>;
-              }) }
+              {map(trace.timeMarkers, (i) => {
+                return (
+                  <div key={i.time} className={`time-marker time-marker-${i.index}`}>
+                    {i.time}
+                  </div>
+                );
+              })}
             </div>
           </div>
           <Spin spinning={isFetching}>
-            { map(this.state.traceTree.length ? this.state.traceTree : trace.spans, (span) => {
-              const { spanId, depthClass, parentId, spanName, serviceNames, duration, durationStr, children, errorType, binaryAnnotations, annotations, depth, isExpand, isShow } = span;
+            {map(this.state.traceTree.length ? this.state.traceTree : trace.spans, (span) => {
+              const {
+                spanId,
+                depthClass,
+                parentId,
+                spanName,
+                serviceNames,
+                duration,
+                durationStr,
+                children,
+                errorType,
+                binaryAnnotations,
+                annotations,
+                depth,
+                isExpand,
+                isShow,
+              } = span;
               return (
                 <div
                   key={`span${spanId}`}
@@ -179,62 +213,62 @@ class TraceDetail extends React.Component<IProps, IState> {
                 >
                   <div className="handle" onClick={() => this.expandSpan({ spanId, children, isExpand })}>
                     <div className="service-name" style={{ marginLeft: `${depth}px` }}>
-                      {
-                        children ? <span className="expander">{ isExpand ? '-' : '+' }</span> : ''
-                      }
+                      {children ? <span className="expander">{isExpand ? '-' : '+'}</span> : ''}
                       <Tooltip title={span.serviceName}>
                         <span className="service-name-text">{span.serviceName}</span>
                       </Tooltip>
                     </div>
                   </div>
 
-                  <div className="duration-container" onClick={() => this.props.viewSpanDetail({ span, visible: true })}>
-
-                    {
-                      map(trace.timeMarkers, (i, index) => {
-                        return <div key={index} className={`time-marker time-marker-${index}`}>.</div>;
-                      })
-                    }
+                  <div
+                    className="duration-container"
+                    onClick={() => this.props.viewSpanDetail({ span, visible: true })}
+                  >
+                    {map(trace.timeMarkers, (i, index) => {
+                      return (
+                        <div key={index} className={`time-marker time-marker-${index}`}>
+                          .
+                        </div>
+                      );
+                    })}
                     <div className="duration" style={{ left: `${span.left}%`, width: `${span.width}%` }}>
-                      {
-                        map(annotations, (annotation, index) => {
-                          const { isCore, left, value, endpoint, timestamp, relativeTime, serviceName } = annotation;
-                          return (
-                            <div
-                              key={`annotation${index}`}
-                              className={`annotation${isCore ? 'core' : ''}`}
-                              style={{ left: `${left}%` }}
-                              title={value}
-                              data-keys="endpoint,value,timestamp,relativeTime,serviceName"
-                              data-endpoint={endpoint}
-                              data-value={value}
-                              data-timestamp={timestamp}
-                              data-relative-time={relativeTime}
-                              data-service-name={serviceName}
-                            />
-                          );
-                        })
-                      }
+                      {map(annotations, (annotation, index) => {
+                        const { isCore, left, value, endpoint, timestamp, relativeTime, serviceName } = annotation;
+                        return (
+                          <div
+                            key={`annotation${index}`}
+                            className={`annotation${isCore ? 'core' : ''}`}
+                            style={{ left: `${left}%` }}
+                            title={value}
+                            data-keys="endpoint,value,timestamp,relativeTime,serviceName"
+                            data-endpoint={endpoint}
+                            data-value={value}
+                            data-timestamp={timestamp}
+                            data-relative-time={relativeTime}
+                            data-service-name={serviceName}
+                          />
+                        );
+                      })}
                     </div>
                     <Tooltip title={spanName} overlayClassName="span-tooltip" arrowPointAtCenter>
-                      <span className="span-name" style={{ left: `${span.left}%`, width: `${100 - span.left}%` }}>{durationStr} : {spanName}</span>
+                      <span className="span-name" style={{ left: `${span.left}%`, width: `${100 - span.left}%` }}>
+                        {durationStr} : {spanName}
+                      </span>
                     </Tooltip>
                   </div>
-                  {
-                    map(binaryAnnotations, (binaryAnnotation) => {
-                      const { key, value, annotationType } = binaryAnnotation;
-                      return (
-                        <div
-                          key={`binaryAnnotation${key}`}
-                          className="binary-annotation"
-                          data-keys="key,value,type"
-                          data-key={key}
-                          data-value={value}
-                          data-type={annotationType}
-                        />
-                      );
-                    })
-                  }
+                  {map(binaryAnnotations, (binaryAnnotation) => {
+                    const { key, value, annotationType } = binaryAnnotation;
+                    return (
+                      <div
+                        key={`binaryAnnotation${key}`}
+                        className="binary-annotation"
+                        data-keys="key,value,type"
+                        data-key={key}
+                        data-value={value}
+                        data-type={annotationType}
+                      />
+                    );
+                  })}
                 </div>
               );
             })}

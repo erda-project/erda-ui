@@ -82,7 +82,8 @@ export const webErrorTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceC
         recordKey={`${name}_${httpCode}`}
         dataSource={subErrorHttpList}
         emptyText={i18n.t('microService:no sampleable exception transaction data')}
-      />);
+      />
+    );
   };
 
   const onRowExpand = onExpand(getSubErrorHttpList, query, (record: any) => {
@@ -93,12 +94,13 @@ export const webErrorTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceC
   return (
     <Table
       scroll={{ x: 710 }}
-      rowKey={(record: MONITOR_SI.ITableData, i) => (i + record.name)}
+      rowKey={(record: MONITOR_SI.ITableData, i) => i + record.name}
       columns={columns}
       dataSource={list}
       onExpand={onRowExpand}
       expandedRowRender={expandedRowRender}
-    />);
+    />
+  );
 };
 
 export const dbErrorTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceContent }: IErrorTrackProps) => {
@@ -106,7 +108,6 @@ export const dbErrorTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCo
   const subErrorDbList = SIDataBaseStore.useStore((s) => s.subErrorDbList);
   const list = get(data, 'list') || [];
   const { startTimeMs: start, endTimeMs: end } = timeSpan || {};
-
 
   const columns = [
     {
@@ -148,7 +149,8 @@ export const dbErrorTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCo
         recordKey={name}
         dataSource={subErrorDbList}
         emptyText={i18n.t('microService:no sampleable exception SQL data')}
-      />);
+      />
+    );
   };
 
   const onRowExpand = onExpand(getSubErrorDbList, query, (record: any) => {
@@ -159,10 +161,11 @@ export const dbErrorTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCo
   return (
     <Table
       scroll={{ x: 710 }}
-      rowKey={(record: MONITOR_SI.ITableData, i) => (i + record.name)}
+      rowKey={(record: MONITOR_SI.ITableData, i) => i + record.name}
       columns={columns}
       dataSource={list}
       onExpand={onRowExpand}
       expandedRowRender={expandedRowRender}
-    />);
+    />
+  );
 };

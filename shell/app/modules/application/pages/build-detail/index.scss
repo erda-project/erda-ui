@@ -73,7 +73,7 @@
     border-top-right-radius: 0;
     transform: translateX(-50%);
     cursor: pointer;
-    transition: bottom .2s;
+    transition: bottom 0.2s;
     @extend %shallow-shadow;
   }
 
@@ -86,7 +86,7 @@
     overflow: hidden;
     background: $white;
     border-bottom: 1px solid $color-border;
-    transition: height .2s;
+    transition: height 0.2s;
 
     &-full {
       width: calc(100% + 32px);
@@ -176,8 +176,8 @@
 
         .running {
           color: $blue;
-          -webkit-animation: opacity .8s 0s ease-in-out infinite alternate;
-          animation: opacity .8s 0s ease-in-out infinite alternate;
+          -webkit-animation: opacity 0.8s 0s ease-in-out infinite alternate;
+          animation: opacity 0.8s 0s ease-in-out infinite alternate;
         }
 
         .build-execute-txt {
@@ -198,7 +198,7 @@
 
       @keyframes opacity {
         0% {
-          opacity: .2;
+          opacity: 0.2;
         }
 
         100% {
@@ -211,7 +211,7 @@
       display: inline-flex;
       align-items: center;
       padding-right: 1.25rem;
-      padding-left: .9375rem;
+      padding-left: 0.9375rem;
 
       i {
         color: $green;
@@ -222,7 +222,7 @@
       .build-operator {
         float: left;
         width: 5rem;
-        padding: 0 .9375rem;
+        padding: 0 0.9375rem;
         text-align: center;
         border-right: 1px solid $color-border;
         cursor: pointer;
@@ -233,7 +233,7 @@
 
         span {
           display: block;
-          font-size: .75rem;
+          font-size: 0.75rem;
           line-height: 20px;
         }
 
@@ -281,9 +281,9 @@
 
   .build-detail-err-msg {
     padding: 12px;
-    background-color: rgba(245, 235, 210, .4);
+    background-color: rgba(245, 235, 210, 0.4);
     border: 1px solid #f5ebd2;
-    border-radius: .3125rem;
+    border-radius: 0.3125rem;
 
     pre {
       margin: 0;
@@ -296,13 +296,13 @@
     }
 
     .build-err-icon {
-      margin-right: .3125rem;
+      margin-right: 0.3125rem;
       color: $color-warning;
       font-weight: bold;
     }
 
     .build-err-stack {
-      margin-top: .5rem;
+      margin-top: 0.5rem;
       padding-left: 1rem;
     }
   }

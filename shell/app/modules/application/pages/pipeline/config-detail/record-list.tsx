@@ -25,7 +25,7 @@ import i18n from 'i18n';
 import routeInfoStore from 'common/stores/route';
 import './record-list.scss';
 
-interface IProps{
+interface IProps {
   nodeId?: string;
   curPipelineDetail?: AUTO_TEST.ICaseDetail;
   onSelectPipeline: (p: AUTO_TEST.ICaseDetail | null) => void;
@@ -50,10 +50,12 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
         reload: () => getList(),
       };
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref]);
   const setRowClassName = (record: any) => {
-    return get(record, 'meta.historyID') === get(curPipelineDetail, 'meta.historyID') ? 'selected-row bold-500' : 'pipeline-record-list';
+    return get(record, 'meta.historyID') === get(curPipelineDetail, 'meta.historyID')
+      ? 'selected-row bold-500'
+      : 'pipeline-record-list';
   };
   const getList = () => {
     curNodeId && getConfigDetailRecordList(curNodeId);
@@ -69,11 +71,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
         dataIndex: 'runIndex',
         width: 80,
         align: 'center',
-        render: (runIndex: any) => (
-          <span className="run-index">
-            {runIndex}
-          </span>
-        ),
+        render: (runIndex: any) => <span className="run-index">{runIndex}</span>,
       },
       {
         title: i18n.t('default:description'),
@@ -88,26 +86,30 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
         align: 'center',
         render: (updaterID: any) => {
           const curUser = userMap[updaterID];
-          return (
-            <span className="run-index">
-              {curUser ? (curUser.nick || curUser.name) : (updaterID || '-')}
-            </span>
-          );
+          return <span className="run-index">{curUser ? curUser.nick || curUser.name : updaterID || '-'}</span>;
         },
-      }, {
+      },
+      {
         title: i18n.t('default:update time'),
         dataIndex: 'updatedAt',
         width: 200,
         render: (updatedAt: number) => moment(updatedAt).format('YYYY-MM-DD HH:mm:ss'),
-      }];
+      },
+    ];
     const startIndex = configDetailRecordList.length;
     const dataSource = map(configDetailRecordList, (item, index) => {
       return { ...item, runIndex: '#'.concat(String(startIndex - index)) };
     });
     return (
       <div className="pipeline-file-record-list">
-        <div className="pipeline-refresh-btn" onClick={() => { onSelectPipeline(null); }}>
-          <CustomIcon type="shuaxin" />{i18n.t('fetch latest records')}
+        <div
+          className="pipeline-refresh-btn"
+          onClick={() => {
+            onSelectPipeline(null);
+          }}
+        >
+          <CustomIcon type="shuaxin" />
+          {i18n.t('fetch latest records')}
         </div>
         <Table
           rowKey="updatedAt"

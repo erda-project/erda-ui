@@ -1,6 +1,6 @@
 @mixin methodColor($r, $g, $b) {
   color: rgb($r, $g, $b);
-  background-color: rgba($r, $g, $b, .2);
+  background-color: rgba($r, $g, $b, 0.2);
   border-color: rgb($r, $g, $b);
 }
 
@@ -23,7 +23,6 @@
       &.active {
         background-color: $color-active-bg;
       }
-
     }
   }
 
@@ -33,7 +32,7 @@
     font-weight: 400;
     font-size: 12px;
     line-height: 20px;
-    border: 1px solid rgba(255, 255, 255, .80);
+    border: 1px solid rgba(255, 255, 255, 0.8);
     border-radius: 1px;
 
     &.get {

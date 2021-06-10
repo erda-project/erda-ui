@@ -23,9 +23,12 @@ import { appPerm as AppPerm } from 'user/stores/_perm-app';
 
 type IApiManage = typeof ProjectPerm.apiManage | typeof AppPerm.apiManage;
 type IScope = Omit<IApiManage, 'name'>;
-type IPath = ValueOf<{ [k in keyof IScope ]: [k, keyof Omit<IScope[k], 'name'>] }, keyof { [k in keyof IScope ]: [k, keyof Omit<IScope[k], 'name'>] }>;
+type IPath = ValueOf<
+  { [k in keyof IScope]: [k, keyof Omit<IScope[k], 'name'>] },
+  keyof { [k in keyof IScope]: [k, keyof Omit<IScope[k], 'name'>] }
+>;
 
-interface IProps extends IWithAuth{
+interface IProps extends IWithAuth {
   userID: string;
   children: JSX.Element;
   path: IPath;
@@ -39,12 +42,22 @@ const isCreator = (creatorID: string) => {
 
 const UnityAuthWrap = ({ userID, children, path, wrap = true, className, ...props }: IProps) => {
   const pathStr = path.join('.');
-  const [projectPerm, appPerm, canEditAsOrgManage] = usePerm((s) => [s.project.apiManage, s.app.apiManage, s.org.apiAssetEdit.pass]);
-  const hasAuth = canEditAsOrgManage || isCreator(userID) || get(projectPerm, `${pathStr}.pass`, false) || get(appPerm, `${pathStr}.pass`, false);
+  const [projectPerm, appPerm, canEditAsOrgManage] = usePerm((s) => [
+    s.project.apiManage,
+    s.app.apiManage,
+    s.org.apiAssetEdit.pass,
+  ]);
+  const hasAuth =
+    canEditAsOrgManage ||
+    isCreator(userID) ||
+    get(projectPerm, `${pathStr}.pass`, false) ||
+    get(appPerm, `${pathStr}.pass`, false);
   if (!wrap) {
-    return hasAuth ? React.cloneElement(children, {
-      className: classNames(children.props.className, className),
-    }) : null;
+    return hasAuth
+      ? React.cloneElement(children, {
+          className: classNames(children.props.className, className),
+        })
+      : null;
   }
   return (
     <WithAuth pass={hasAuth} {...props}>
@@ -59,8 +72,4 @@ const hasAuth = (userID: string, path: IPath) => {
   return isCreator(userID) || get(projectPerm, `${pathStr}.pass`, false) || get(appPerm, `${pathStr}.pass`, false);
 };
 
-export {
-  UnityAuthWrap,
-  isCreator,
-  hasAuth,
-};
+export { UnityAuthWrap, isCreator, hasAuth };

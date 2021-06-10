@@ -43,10 +43,7 @@ export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps)
   const { addFieldItem, updateFieldItem, updateSpecialFieldOptions } = issueFieldStore.effects;
   const { id: orgID } = orgStore.useStore((s) => s.currentOrg);
 
-  const [{
-    selectedRequired,
-    optionListVisible,
-  }, updater, update] = useUpdate({
+  const [{ selectedRequired, optionListVisible }, updater, update] = useUpdate({
     selectedRequired: 'false',
     optionListVisible: false,
   });
@@ -59,7 +56,6 @@ export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps)
       });
     }
   }, [formData, update, updater, visible]);
-
 
   const handleSubmit = async (values: IFieldForm) => {
     const { enumeratedValues, propertyName } = values;
@@ -154,7 +150,7 @@ export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps)
         name: 'enumeratedValues',
         required: true,
         type: 'custom',
-        getComp: () => (<FieldOptionsSetting />),
+        getComp: () => <FieldOptionsSetting />,
         rules: [
           {
             validator: (_rule: any, values: ISSUE_FIELD.IEnumData[], callback: Function) => {

@@ -16,11 +16,23 @@ import { sortHandler, multipleDataHandler, groupHandler } from 'common/utils/cha
 const commonQuery = {};
 export const ApiMap = {
   sortList: {
-    getFetchObj: ({ sortTab }: {sortTab: string}) => {
+    getFetchObj: ({ sortTab }: { sortTab: string }) => {
       const fetchMap = {
-        time: { fetchApi: 'ta_req_top_avg_time', query: { group: 'req_path', limit: 20, sort: 'avg_tt', avg: 'tt' }, dataKey: 'avg.tt' },
-        percent: { fetchApi: 'ta_req_top_percent_time', query: { group: 'req_path', limit: 20, sort: 'sumPercent_tt', sumPercent: 'tt' }, dataKey: 'sumPercent.tt' },
-        cpm: { fetchApi: 'ta_req_top_cpm', query: { group: 'req_path', limit: 20, sort: 'cpm_tt', cpm: 'tt' }, dataKey: 'cpm.tt' },
+        time: {
+          fetchApi: 'ta_req_top_avg_time',
+          query: { group: 'req_path', limit: 20, sort: 'avg_tt', avg: 'tt' },
+          dataKey: 'avg.tt',
+        },
+        percent: {
+          fetchApi: 'ta_req_top_percent_time',
+          query: { group: 'req_path', limit: 20, sort: 'sumPercent_tt', sumPercent: 'tt' },
+          dataKey: 'sumPercent.tt',
+        },
+        cpm: {
+          fetchApi: 'ta_req_top_cpm',
+          query: { group: 'req_path', limit: 20, sort: 'cpm_tt', cpm: 'tt' },
+          dataKey: 'cpm.tt',
+        },
       };
       const { query = {}, fetchApi = '', dataKey = '' } = fetchMap[sortTab] || {};
       return { fetchApi, extendQuery: { ...query }, extendHandler: { dataKey } };

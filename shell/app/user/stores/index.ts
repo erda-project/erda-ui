@@ -13,15 +13,7 @@
 
 import { createStore } from 'app/cube';
 import i18n from 'i18n';
-import {
-  login,
-  logout,
-  validateLicense,
-  getJoinedProjects,
-  getJoinedApps,
-  pinApp,
-  unpinApp,
-} from '../services/user';
+import { login, logout, validateLicense, getJoinedProjects, getJoinedApps, pinApp, unpinApp } from '../services/user';
 import orgStore from 'app/org-home/stores/org';
 import { goTo, setLS } from 'common/utils';
 import layoutStore from 'app/layout/stores/layout';
@@ -138,8 +130,11 @@ const userStore = createStore({
       try {
         const res = await call(validateLicense);
         const { valid, message, license, currentHostCount } = res;
-        const { data: { maxHostCount }, ...rest } = license;
-        update({ licenseInfo: { valid, message, ...rest as any, currentHostCount, maxHostCount } });
+        const {
+          data: { maxHostCount },
+          ...rest
+        } = license;
+        update({ licenseInfo: { valid, message, ...(rest as any), currentHostCount, maxHostCount } });
         return { valid };
       } catch (error) {
         if (error.message && error.message.includes('the network is offline')) {
@@ -155,7 +150,11 @@ const userStore = createStore({
     async getJoinedProjects({ call, update, select }, payload: Merge<{ searchKey?: string }, IPagingQuery>) {
       const { pageNo = 1, pageSize = PAGINATION.pageSize, searchKey, loadMore, ...rest } = payload;
       const params = { pageNo, pageSize, q: searchKey };
-      const { list, total } = await call(getJoinedProjects, { ...params, ...rest }, { paging: { key: 'projectPaging' } });
+      const { list, total } = await call(
+        getJoinedProjects,
+        { ...params, ...rest },
+        { paging: { key: 'projectPaging' } },
+      );
       let projectList = select((state) => state.projectList);
       if (loadMore && pageNo !== 1) {
         projectList = projectList.concat(list);

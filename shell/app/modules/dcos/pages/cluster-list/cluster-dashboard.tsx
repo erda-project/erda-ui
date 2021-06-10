@@ -44,10 +44,7 @@ interface IClusterIndicesItem {
   onClickItem?: () => void;
 }
 
-export const DashboardItem = ({
-  children,
-  title,
-}: IDashboardItem) => {
+export const DashboardItem = ({ children, title }: IDashboardItem) => {
   return (
     <div className="cluster-dashboard-item mb32">
       <IF check={title}>
@@ -63,7 +60,7 @@ export const ClusterIndicesItem = ({
   value,
   className,
   isErrorValue = false,
-  onClickItem = () => { },
+  onClickItem = () => {},
 }: IClusterIndicesItem) => {
   const valueCls = classnames({
     num: true,
@@ -77,22 +74,13 @@ export const ClusterIndicesItem = ({
   );
 };
 
-export const ClusterIndicesPanel = ({
-  constants = [],
-  dataSource = {},
-}: IClusterIndices) => (
+export const ClusterIndicesPanel = ({ constants = [], dataSource = {} }: IClusterIndices) => (
   <Row gutter={24}>
-    {
-      constants.map(({ key, name, ...rest }) => (
-        <Col span={24 / constants.length} key={key}>
-          <ClusterIndicesItem
-            name={name}
-            value={dataSource[key]}
-            {...rest}
-          />
-        </Col>
-      ))
-    }
+    {constants.map(({ key, name, ...rest }) => (
+      <Col span={24 / constants.length} key={key}>
+        <ClusterIndicesItem name={name} value={dataSource[key]} {...rest} />
+      </Col>
+    ))}
   </Row>
 );
 
@@ -139,8 +127,12 @@ const ClusterDashboard = () => {
         />
       </DashboardItem>
       <div className="top-button-group">
-        <Button type="primary" onClick={() => handleShowAddClusterModal()}>{i18n.t('dcos:add cluster')}</Button>
-        <Button type="primary" onClick={() => goTo('../addCluster')}>{i18n.t('dcos:cluster deployment')}</Button>
+        <Button type="primary" onClick={() => handleShowAddClusterModal()}>
+          {i18n.t('dcos:add cluster')}
+        </Button>
+        <Button type="primary" onClick={() => goTo('../addCluster')}>
+          {i18n.t('dcos:cluster deployment')}
+        </Button>
       </div>
     </>
   );

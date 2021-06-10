@@ -20,18 +20,21 @@ export const commonAttr = {
   moduleName: 'gatewayIngressTraffic',
   groupId: 'gatewayIngressTraffic',
 };
-const chartMap = merge({
-  request: {
-    titleText: i18n.t('microService:request traffic'),
-    ...commonAttr,
-    chartName: 'request',
+const chartMap = merge(
+  {
+    request: {
+      titleText: i18n.t('microService:request traffic'),
+      ...commonAttr,
+      chartName: 'request',
+    },
+    response: {
+      titleText: i18n.t('microService:response traffic'),
+      ...commonAttr,
+      chartName: 'response',
+    },
   },
-  response: {
-    titleText: i18n.t('microService:response traffic'),
-    ...commonAttr,
-    chartName: 'response',
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   request: chartRender(chartMap.request) as any,

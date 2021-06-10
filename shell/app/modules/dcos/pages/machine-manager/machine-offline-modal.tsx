@@ -20,15 +20,10 @@ interface IProps {
   visible: boolean;
   formData?: any;
   onCancel: () => void;
-  onSubmit: (resp: {hosts: string[]}) => any;
+  onSubmit: (resp: { hosts: string[] }) => any;
 }
 
-const MachineOffLineModal = ({
-  visible,
-  formData,
-  onCancel,
-  onSubmit = () => {},
-}: IProps) => {
+const MachineOffLineModal = ({ visible, formData, onCancel, onSubmit = () => {} }: IProps) => {
   const beforeSubmit = (data: any) => {
     const { ip } = data;
     return new Promise((resolve, reject) => {

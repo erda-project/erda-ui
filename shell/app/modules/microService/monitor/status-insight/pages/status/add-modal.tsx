@@ -24,7 +24,7 @@ import './add-modal.scss';
 
 // const transToRegList = (regs: any) => regs.map((item: any) => ({ name: uniqueId('reg_'), reg: item }));
 
-interface IProps{
+interface IProps {
   formData: any;
   modalVisible: boolean;
   afterSubmit: (args?: any) => Promise<any>;

@@ -91,7 +91,8 @@ export const webSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCo
         recordKey={name}
         dataSource={subSlowHttpList}
         emptyText={i18n.t('microService:no sampleable slow transaction data')}
-      />);
+      />
+    );
   };
 
   const onRowExpand = onExpand(getSubSlowHttpList, query, (record: any) => {
@@ -102,12 +103,13 @@ export const webSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCo
   return (
     <Table
       scroll={{ x: 710 }}
-      rowKey={(record: MONITOR_SI.ITableData, i) => (i + record.name)}
+      rowKey={(record: MONITOR_SI.ITableData, i) => i + record.name}
       columns={columns}
       dataSource={list}
       onExpand={onRowExpand}
       expandedRowRender={expandedRowRender}
-    />);
+    />
+  );
 };
 
 export const dbSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceContent }: ISlowTrackProps) => {
@@ -170,7 +172,8 @@ export const dbSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCon
         recordKey={name}
         dataSource={subSlowDbList}
         emptyText={i18n.t('microService:no sampleable slow SQL data')}
-      />);
+      />
+    );
   };
 
   const onRowExpand = onExpand(getSubSlowDbList, query, (record: any) => {
@@ -181,11 +184,11 @@ export const dbSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCon
   return (
     <Table
       scroll={{ x: 710 }}
-      rowKey={(record: MONITOR_SI.ITableData, i) => (i + record.name)}
+      rowKey={(record: MONITOR_SI.ITableData, i) => i + record.name}
       columns={columns}
       dataSource={list}
       onExpand={onRowExpand}
       expandedRowRender={expandedRowRender}
-    />);
+    />
+  );
 };
-

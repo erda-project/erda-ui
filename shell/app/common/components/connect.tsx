@@ -13,7 +13,6 @@
 
 import * as React from 'react';
 
-
 interface IMapper<P, M> {
   (props: Omit<P, keyof M>): M;
 }
@@ -29,4 +28,3 @@ export function connectCube<P, M>(Comp: IConnectComp<P> | React.ComponentType<P>
     return <Comp {...combinedProps} />;
   };
 }
-

@@ -38,7 +38,6 @@ interface IProps {
   data?: any;
 }
 
-
 const formMenu = [
   { key: 'jump-board', name: i18n.t('org:jump host') },
   { key: 'cluster-config', name: i18n.t('org:cluster infos') },
@@ -70,7 +69,6 @@ const DeployClusterForm = (props: IProps) => {
   const categoryRefsMap = React.useRef({} as any);
   const [formData, setFormData] = React.useState(data || {});
 
-
   React.useEffect(() => {
     if (!isEmpty(data)) {
       setFormData(data);
@@ -82,12 +80,15 @@ const DeployClusterForm = (props: IProps) => {
     }
   }, [data, form, formRef]);
 
-  const debounceCheck = React.useCallback(debounce(() => {
-    if (formDivRef && (formDivRef.current)) {
-      const curEle = formDivRef.current as any;
-      setScrollTop(curEle.scrollTop);
-    }
-  }, 100), [formDivRef]);
+  const debounceCheck = React.useCallback(
+    debounce(() => {
+      if (formDivRef && formDivRef.current) {
+        const curEle = formDivRef.current as any;
+        setScrollTop(curEle.scrollTop);
+      }
+    }, 100),
+    [formDivRef],
+  );
 
   React.useEffect(() => {
     const refMap = {};
@@ -99,10 +100,14 @@ const DeployClusterForm = (props: IProps) => {
     categoryRefsMap.current = refMap;
 
     const operateScrollEvent = (isRemove?: boolean) => {
-      if (!formDivRef) { return; }
+      if (!formDivRef) {
+        return;
+      }
       const curRef = formDivRef.current as any;
       if (curRef) {
-        !isRemove ? curRef.addEventListener('scroll', debounceCheck) : curRef.removeEventListener('scroll', debounceCheck);
+        !isRemove
+          ? curRef.addEventListener('scroll', debounceCheck)
+          : curRef.removeEventListener('scroll', debounceCheck);
       }
     };
 
@@ -121,7 +126,6 @@ const DeployClusterForm = (props: IProps) => {
       });
     }
   }, [scrollTop]);
-
 
   React.useEffect(() => {
     if (categoryRefsMap && categoryRefsMap.current) {
@@ -151,15 +155,18 @@ const DeployClusterForm = (props: IProps) => {
 
       const nodes = get(values, 'config.nodes');
       if (nodes) {
-        postData.config.nodes = filter(map(nodes, (item: any) => {
-          if (item) {
-            const { ip, type, tag } = item;
-            const reTag = `org-${orgName}${tag ? `,${tag}` : ''}`;
-            // tag：添加org标签后，去重
-            return { ip, type, tag: uniq(reTag.split(',')).join(',') };
-          }
-          return item;
-        }), (n: any) => !!n.ip);
+        postData.config.nodes = filter(
+          map(nodes, (item: any) => {
+            if (item) {
+              const { ip, type, tag } = item;
+              const reTag = `org-${orgName}${tag ? `,${tag}` : ''}`;
+              // tag：添加org标签后，去重
+              return { ip, type, tag: uniq(reTag.split(',')).join(',') };
+            }
+            return item;
+          }),
+          (n: any) => !!n.ip,
+        );
       }
       postData.orgID = Number(orgId);
       postData.saas = true; // 隐藏、后续可能展现
@@ -202,51 +209,17 @@ const DeployClusterForm = (props: IProps) => {
     scrollToTarget('jump-board'); // 重置表单后回到页头
   };
 
-
   return (
     <div className="deploy-cluster-form">
-
       <div className="left" ref={formDivRef}>
-        <JumpBoardForm
-          {...props}
-          data={formData}
-          curRef={categoryRefsMap.current['jump-board']}
-        />
-        <ClusterConfigForm
-          {...props}
-          data={formData}
-          curRef={categoryRefsMap.current['cluster-config']}
-        />
-        <ClusterSSHForm
-          {...props}
-          data={formData}
-          curRef={categoryRefsMap.current['cluster-ssh']}
-        />
-        <ClusterFPSForm
-          {...props}
-          data={formData}
-          curRef={categoryRefsMap.current['cluster-fps']}
-        />
-        <StorageForm
-          {...props}
-          data={formData}
-          curRef={categoryRefsMap.current.storage}
-        />
-        <NodesForm
-          {...props}
-          data={formData}
-          curRef={categoryRefsMap.current.nodes}
-        />
-        <PlatformForm
-          {...props}
-          data={formData}
-          curRef={categoryRefsMap.current.platform}
-        />
-        <DockerForm
-          {...props}
-          data={formData}
-          curRef={categoryRefsMap.current.docker}
-        />
+        <JumpBoardForm {...props} data={formData} curRef={categoryRefsMap.current['jump-board']} />
+        <ClusterConfigForm {...props} data={formData} curRef={categoryRefsMap.current['cluster-config']} />
+        <ClusterSSHForm {...props} data={formData} curRef={categoryRefsMap.current['cluster-ssh']} />
+        <ClusterFPSForm {...props} data={formData} curRef={categoryRefsMap.current['cluster-fps']} />
+        <StorageForm {...props} data={formData} curRef={categoryRefsMap.current.storage} />
+        <NodesForm {...props} data={formData} curRef={categoryRefsMap.current.nodes} />
+        <PlatformForm {...props} data={formData} curRef={categoryRefsMap.current.platform} />
+        <DockerForm {...props} data={formData} curRef={categoryRefsMap.current.docker} />
         {/* <MainPlatformForm {...props} data={formData} /> */}
 
         <div className="op-row">
@@ -259,19 +232,17 @@ const DeployClusterForm = (props: IProps) => {
         </div>
       </div>
       <div className="right">
-        {
-          formMenu.map(({ key, name }: { key: string; name: string }) => {
-            return (
-              <div
-                key={key}
-                className={`form-menu-item ${activeKey === key ? 'active' : ''}`}
-                onClick={() => scrollToTarget(key)}
-              >
-                {name}
-              </div>
-            );
-          })
-        }
+        {formMenu.map(({ key, name }: { key: string; name: string }) => {
+          return (
+            <div
+              key={key}
+              className={`form-menu-item ${activeKey === key ? 'active' : ''}`}
+              onClick={() => scrollToTarget(key)}
+            >
+              {name}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -280,8 +251,6 @@ const Forms = Form.create()(DeployClusterForm);
 
 const EnhancedForm = (props: any) => {
   const formRef = React.useRef(null);
-  return (
-    <Forms {...props} ref={formRef} formRef={formRef.current} />
-  );
+  return <Forms {...props} ref={formRef} formRef={formRef.current} />;
 };
 export default EnhancedForm;

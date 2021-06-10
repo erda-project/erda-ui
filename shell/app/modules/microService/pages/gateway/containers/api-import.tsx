@@ -27,8 +27,18 @@ import { PAGINATION } from 'app/constants';
 const { Option } = Select;
 
 interface IProps {
-  importApiParams: {apis: any[]; routePrefix: string; diceApp?: string; diceService?: string};
-  updateImportParams: ({ apis, routePrefix, diceApp, diceService }: {apis?: any[]; routePrefix?: string; diceApp?: string; diceService?: string}) => void;
+  importApiParams: { apis: any[]; routePrefix: string; diceApp?: string; diceService?: string };
+  updateImportParams: ({
+    apis,
+    routePrefix,
+    diceApp,
+    diceService,
+  }: {
+    apis?: any[];
+    routePrefix?: string;
+    diceApp?: string;
+    diceService?: string;
+  }) => void;
 }
 
 const apiColumns = [
@@ -37,7 +47,7 @@ const apiColumns = [
     dataIndex: 'apiPath',
     key: 'apiPath',
     width: 300,
-    render: (text: string) => (<Tooltip title={text}>{text}</Tooltip>),
+    render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,
   },
   {
     title: i18n.t('microService:method'),
@@ -64,7 +74,13 @@ export const ApiImport = ({ updateImportParams, importApiParams }: IProps) => {
   const { apis: selectedApis, routePrefix, diceApp, diceService } = importApiParams; // 已经被导入的api
 
   React.useEffect(() => {
-    !isEmpty(importableApis) && diceApp && diceService && updateImportParams({ apis: originApis.filter((api) => api.selected).map((api) => api.apiId), routePrefix: originPrefix });
+    !isEmpty(importableApis) &&
+      diceApp &&
+      diceService &&
+      updateImportParams({
+        apis: originApis.filter((api) => api.selected).map((api) => api.apiId),
+        routePrefix: originPrefix,
+      });
   }, [diceApp, diceService, importableApis, originApis, originPrefix, updateImportParams]);
 
   useUnmount(() => {
@@ -122,16 +138,38 @@ export const ApiImport = ({ updateImportParams, importApiParams }: IProps) => {
     <div className="api-import">
       <div className="mb16 api-filter flex-box">
         <div>
-          <AppServiceFilter updateField={updateAppService} dataSource={pick(importApiParams, ['diceApp', 'diceService'])} />
-          <Select placeholder={i18n.t('microService:method')} value={method} onChange={(value: string) => setFilter({ ...filter, method: value })} className="filter-select mr16">
-            {HTTP_METHODS.map(({ name, value }: {name: string; value: string}) => <Option key={value} value={value}>{name}</Option>)}
+          <AppServiceFilter
+            updateField={updateAppService}
+            dataSource={pick(importApiParams, ['diceApp', 'diceService'])}
+          />
+          <Select
+            placeholder={i18n.t('microService:method')}
+            value={method}
+            onChange={(value: string) => setFilter({ ...filter, method: value })}
+            className="filter-select mr16"
+          >
+            {HTTP_METHODS.map(({ name, value }: { name: string; value: string }) => (
+              <Option key={value} value={value}>
+                {name}
+              </Option>
+            ))}
           </Select>
-          <Input placeholder={i18n.t('microService:search api')} value={apiPath} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setFilter({ ...filter, apiPath: event.target.value })} className="filter-input" />
+          <Input
+            placeholder={i18n.t('microService:search api')}
+            value={apiPath}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              setFilter({ ...filter, apiPath: event.target.value })
+            }
+            className="filter-input"
+          />
         </div>
-        <Button type="primary" ghost onClick={onSearch} disabled={!diceApp || !diceService}>{i18n.t('search')}</Button>
+        <Button type="primary" ghost onClick={onSearch} disabled={!diceApp || !diceService}>
+          {i18n.t('search')}
+        </Button>
       </div>
       <div className="mb16 v-align">
-        <span>{i18n.t('microService:service routing prefix')}:</span><Input value={routePrefix} onChange={onChangePrefix} className="prefix-input ml16" />
+        <span>{i18n.t('microService:service routing prefix')}:</span>
+        <Input value={routePrefix} onChange={onChangePrefix} className="prefix-input ml16" />
       </div>
       <Table
         dataSource={diceApp && diceService ? originApis : []}
@@ -145,4 +183,3 @@ export const ApiImport = ({ updateImportParams, importApiParams }: IProps) => {
     </div>
   );
 };
-

@@ -58,10 +58,8 @@ const TraceHistoryList = ({
           active: isActive,
         })}
       >
-        <span className="request-url nowrap">{ url }</span>
-        <span className="request-time">
-          { moment(createTime).format('MM/DD/YY HH:mm') }
-        </span>
+        <span className="request-url nowrap">{url}</span>
+        <span className="request-time">{moment(createTime).format('MM/DD/YY HH:mm')}</span>
       </li>
     );
   };
@@ -69,25 +67,21 @@ const TraceHistoryList = ({
   const renderList = () => {
     return (
       <ul className="trace-history-list">
-        {
-          _map(dataSource, (item) => {
-            const { requestId, url } = item;
-            return (
-              <Tooltip key={requestId} title={url}>
-                { renderListItem(item) }
-              </Tooltip>
-            );
-          })
-        }
+        {_map(dataSource, (item) => {
+          const { requestId, url } = item;
+          return (
+            <Tooltip key={requestId} title={url}>
+              {renderListItem(item)}
+            </Tooltip>
+          );
+        })}
       </ul>
     );
   };
 
   return (
     <div className="trace-history">
-      <Spin spinning={isFetching}>
-        { renderList() }
-      </Spin>
+      <Spin spinning={isFetching}>{renderList()}</Spin>
     </div>
   );
 };

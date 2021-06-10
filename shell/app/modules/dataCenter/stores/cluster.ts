@@ -62,15 +62,14 @@ const cluster = createStore({
   name: 'org-cluster',
   state: initState,
   effects: {
-    async getSMSNotifyConfig({ call, update }, payload: {orgId: number}) {
+    async getSMSNotifyConfig({ call, update }, payload: { orgId: number }) {
       const notifyConfig = await call(getSMSNotifyConfig, { orgId: payload.orgId });
       const enableMS = get(notifyConfig, 'config.enableMS');
       update({ enableMS });
     },
     async getClusterList({ call, update }, payload: { orgId?: number } = {}) {
       const userOrgId = orgStore.getState((s) => s.currentOrg.id);
-      const orgId = isEmpty(payload) ? userOrgId
-        : payload.orgId || userOrgId;
+      const orgId = isEmpty(payload) ? userOrgId : payload.orgId || userOrgId;
       const list = await call(getClusterList, { orgId });
       if (list && list.length) {
         update({ list });
@@ -85,7 +84,8 @@ const cluster = createStore({
     async updateCluster({ call, update, select }, payload: ORG_CLUSTER.IAddClusterQuery) {
       const prevDetail = select((s) => s.detail);
       await call(updateCluster, payload, { successMsg: i18n.t('dcos:modify cluster success') });
-      if (payload.id === prevDetail.id) { // 修改了当前detail中的集群
+      if (payload.id === prevDetail.id) {
+        // 修改了当前detail中的集群
         update({ detail: { ...prevDetail, ...payload } });
       }
       await cluster.effects.getClusterList({});
@@ -98,7 +98,7 @@ const cluster = createStore({
       update({ detail: detail || {} });
       return detail;
     },
-    async getClusterNewDetail({ call }, payload: {clusterName: string}) {
+    async getClusterNewDetail({ call }, payload: { clusterName: string }) {
       const res = await call(getClusterNewDetail, payload);
       return res;
     },
@@ -109,7 +109,11 @@ const cluster = createStore({
       update({ deployingCluster });
     },
     async deployCluster({ call, update }, payload: any) {
-      const deployingCluster = await call(deployCluster, { ...payload }, { successMsg: i18n.t('dcos:start deployment, you can view the log') });
+      const deployingCluster = await call(
+        deployCluster,
+        { ...payload },
+        { successMsg: i18n.t('dcos:start deployment, you can view the log') },
+      );
       update({ deployingCluster });
       return true;
     },
@@ -148,7 +152,7 @@ const cluster = createStore({
       cluster.effects.getClusterList();
       return res;
     },
-    async viewClusterStatus({ call }, payload: {clusterName: string}) {
+    async viewClusterStatus({ call }, payload: { clusterName: string }) {
       const res = await call(viewClusterStatus, { ...payload });
       return res;
     },

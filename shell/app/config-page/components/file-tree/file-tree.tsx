@@ -28,7 +28,8 @@ const getAllMatchKeys = (_data: CP_FILE_TREE.INode[], searchKey?: string) => {
     const { title, children } = p;
     const curKeys = [...pKeys, p.key];
     let curMatch = isMatch;
-    if ((searchKey && (title as string).toLowerCase().indexOf(searchKey) > -1) || !searchKey) { // 记录所有match的key，以及他们的父
+    if ((searchKey && (title as string).toLowerCase().indexOf(searchKey) > -1) || !searchKey) {
+      // 记录所有match的key，以及他们的父
       matchSearchKeys = matchSearchKeys.concat(curKeys);
       curMatch = true;
     } else if (curMatch) {
@@ -64,14 +65,22 @@ const getInsertData = (_data: any[]) => {
 
 const emptyData = [] as any;
 export const FileTree = (props: CP_FILE_TREE.Props) => {
-  const { updateState, customProps, state: propsState, execOperation, operations, data: propsData, props: configProps } = props;
+  const {
+    updateState,
+    customProps,
+    state: propsState,
+    execOperation,
+    operations,
+    data: propsData,
+    props: configProps,
+  } = props;
   const { searchable = false, draggable = false, ...rest } = configProps || {};
   const data = propsData?.treeData || emptyData;
   const expandOpRef = React.useRef(null as any);
 
   // 重置数据：处理icon、title，以及根据searchKey过滤（此处为静态过滤）
   const handleData = (_data: CP_FILE_TREE.INode[], curSearchKey?: string) => {
-    const staticSearch = operations?.search ? '' : curSearchKey;// 当有动态请求的时候，不用searchKey去过滤数据
+    const staticSearch = operations?.search ? '' : curSearchKey; // 当有动态请求的时候，不用searchKey去过滤数据
     const matchKeys = staticSearch && getAllMatchKeys(_data, (staticSearch || '').toLowerCase());
     const _clickableNodes = {};
     const resetData = (d: CP_FILE_TREE.INode): any => {
@@ -87,19 +96,8 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
         return {
           ...d,
           className: 'insert-node',
-          title: (
-            <div
-              className="pointer insert-node-title"
-              onClick={clickInsert}
-            />
-          ),
-          icon: (
-            <CustomIcon
-              type="cir-add"
-              className="insert-node-icon pointer"
-              onClick={clickInsert}
-            />
-          ),
+          title: <div className="pointer insert-node-title" onClick={clickInsert} />,
+          icon: <CustomIcon type="cir-add" className="insert-node-icon pointer" onClick={clickInsert} />,
         };
       }
       if (staticSearch && !(matchKeys || []).includes(d.key)) {
@@ -108,28 +106,36 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
 
       return {
         ...d,
-        title: !isLeaf && clickToExpand
-          ? (
+        title:
+          !isLeaf && clickToExpand ? (
             <div onClick={() => expandOpRef.current?.toggleExpand(d.key, d)}>
               <Ellipsis title={d.title} align={{ offset: [26, 0] }} placement="right">
                 {d.title}
               </Ellipsis>
             </div>
-          )
-          : (
-            d.operations?.click?.disabled ? (
-              <Tooltip title={d.operations.click.disabledTip}>
-                <span className="file-tree-disabled-node not-allowed full-width nowrap">{d.title}</span>
-              </Tooltip>
-            ) : (
-              <div className="file-tree-title">
-                <Ellipsis title={d.title} align={{ offset: [26, 0] }} placement="right">{d.title}</Ellipsis>
-              </div>
-            )
+          ) : d.operations?.click?.disabled ? (
+            <Tooltip title={d.operations.click.disabledTip}>
+              <span className="file-tree-disabled-node not-allowed full-width nowrap">{d.title}</span>
+            </Tooltip>
+          ) : (
+            <div className="file-tree-title">
+              <Ellipsis title={d.title} align={{ offset: [26, 0] }} placement="right">
+                {d.title}
+              </Ellipsis>
+            </div>
           ),
-        ...(icon ? {
-          icon: <CustomIcon style={{ height: '16px' }} type={icon as string} color={isColorIcon} className={`color-text-sub ${d.operations?.click?.disabled ? 'not-allowed' : ''}`} />,
-        } : {}),
+        ...(icon
+          ? {
+              icon: (
+                <CustomIcon
+                  style={{ height: '16px' }}
+                  type={icon as string}
+                  color={isColorIcon}
+                  className={`color-text-sub ${d.operations?.click?.disabled ? 'not-allowed' : ''}`}
+                />
+              ),
+            }
+          : {}),
         ...(children ? { children: compact(map(getInsertData(children), (cItem) => resetData(cItem))) } : {}),
       };
     };
@@ -144,8 +150,10 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
     return {
       // searchKey: _stateObj?.searchKey || undefined,
       expandedKeys: _stateObj?.expandedKeys || [],
-      selectedKeys: _stateObj?.selectedKeys ? (
-        isArray(_stateObj.selectedKeys) ? _stateObj?.selectedKeys : [_stateObj?.selectedKeys])
+      selectedKeys: _stateObj?.selectedKeys
+        ? isArray(_stateObj.selectedKeys)
+          ? _stateObj?.selectedKeys
+          : [_stateObj?.selectedKeys]
         : undefined,
     };
   };
@@ -181,11 +189,11 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
         } else if (isEmpty(d.children) && d.operations?.click) {
           execOperation(d.operations?.click, { selectedKeys: state.selectedKeys, expandedKeys: state.expandedKeys });
         } else {
-          updater.expandedKeys((prev: string[]) => ([...prev, k]));
+          updater.expandedKeys((prev: string[]) => [...prev, k]);
         }
       },
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [expandedKeys, updater]);
 
   const getActions = (node: TreeNodeNormal): IAction[] => {
@@ -196,7 +204,13 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
       if (show !== false) {
         if (disabled) {
           _actions.push({
-            node: <div><WithAuth pass={false} noAuthTip={disabledTip}><span>{text}</span></WithAuth></div>,
+            node: (
+              <div>
+                <WithAuth pass={false} noAuthTip={disabledTip}>
+                  <span>{text}</span>
+                </WithAuth>
+              </div>
+            ),
             func: noop,
           });
         } else if (confirm) {
@@ -208,7 +222,13 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
                 onCancel={(e) => e.stopPropagation()}
                 onOk={() => execOperation(item, { selectedKeys: state.selectedKeys, expandedKeys: state.expandedKeys })}
               >
-                <div onClick={(e) => { e.stopPropagation(); }}>{text}</div>
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                >
+                  {text}
+                </div>
               </Popover>
             ),
             func: noop,
@@ -226,11 +246,16 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
 
   const onExpand = (_expandedKeys: string[], expandObj: any) => {
     const curKey = get(expandObj, 'node.props.eventKey');
-    const curData = find(data, { key: curKey }) || {} as Obj;
+    const curData = find(data, { key: curKey }) || ({} as Obj);
     const curDataChildren = get(curData, 'children');
-    const shouldClickToExpand = (curData.operations?.expand && curData.operations?.expand.disabled !== true) || (curData.clickToExpand && curData.operations?.click && curData.operations.click.disabled !== true);
+    const shouldClickToExpand =
+      (curData.operations?.expand && curData.operations?.expand.disabled !== true) ||
+      (curData.clickToExpand && curData.operations?.click && curData.operations.click.disabled !== true);
     if (expandObj.expanded && shouldClickToExpand && (!curDataChildren || isEmpty(curDataChildren))) {
-      execOperation(curData.operations?.expand || curData.operations?.click, { selectedKeys: state.selectedKeys, expandedKeys: state.expandedKeys });
+      execOperation(curData.operations?.expand || curData.operations?.click, {
+        selectedKeys: state.selectedKeys,
+        expandedKeys: state.expandedKeys,
+      });
     } else {
       update({
         expandedKeys: _expandedKeys,
@@ -242,7 +267,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
     if (customProps?.onClickNode) {
       customProps.onClickNode(get(selectedKeys, '[0]'));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedKeys]);
 
   const onClickNode = (_selectedKeys: string[]) => {
@@ -250,7 +275,8 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
       const curClickableNode = get(clickableNodes, _selectedKeys[0]);
       // 节点上自带了click的operation，则执行自身的operation，否则执行默认的选中key操作
       if (curClickableNode) {
-        !curClickableNode.disabled && execOperation(curClickableNode, { selectedKeys: _selectedKeys, expandedKeys: state.expandedKeys });
+        !curClickableNode.disabled &&
+          execOperation(curClickableNode, { selectedKeys: _selectedKeys, expandedKeys: state.expandedKeys });
       } else {
         updater.selectedKeys(_selectedKeys);
       }
@@ -258,9 +284,11 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
   };
 
   const onSearch = () => {
-    if (operations?.search) { // 动态search：需要请求后端
+    if (operations?.search) {
+      // 动态search：需要请求后端
       execOperation(operations?.search, state);
-    } else { // 静态search
+    } else {
+      // 静态search
       update({
         ...handleData(data, searchKey),
       });
@@ -271,7 +299,6 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
     updater.searchKey(e.target.value);
   };
 
-
   const onDrop = (info: NusiTreeNodeDropEvent) => {
     const { dragNode, node: dropNode, dropPosition, dropToGap } = info;
     const _dragNode = dragNode.props.dataRef;
@@ -279,8 +306,16 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
     // 落在自己、或落在叶子节点上无效
     if (_dragNode.key === _dropNode.key || (_dropNode.isLeaf && !dropToGap)) return;
     if (operations?.drag) {
-      const position = _dropNode.__position === dropPosition ? 0 : (_dropNode.__position > dropPosition ? -1 : 1);
-      execOperation(operations?.drag, { dragParams: { dragKey: _dragNode.key, dragType: _dragNode.type, dropType: _dropNode.type, dropKey: _dropNode.key, position } });
+      const position = _dropNode.__position === dropPosition ? 0 : _dropNode.__position > dropPosition ? -1 : 1;
+      execOperation(operations?.drag, {
+        dragParams: {
+          dragKey: _dragNode.key,
+          dragType: _dragNode.type,
+          dropType: _dropNode.type,
+          dropKey: _dropNode.key,
+          position,
+        },
+      });
     }
   };
 
@@ -293,8 +328,16 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
 
   return (
     <div className="dice-cp file-tree full-height">
-      { // 默认带上search
-        searchable ? <Input onChange={onChangeSearch} value={searchKey} placeholder={i18n.t('press enter to search')} onPressEnter={onSearch} /> : null
+      {
+        // 默认带上search
+        searchable ? (
+          <Input
+            onChange={onChangeSearch}
+            value={searchKey}
+            placeholder={i18n.t('press enter to search')}
+            onPressEnter={onSearch}
+          />
+        ) : null
       }
       <Tree
         {...rest}

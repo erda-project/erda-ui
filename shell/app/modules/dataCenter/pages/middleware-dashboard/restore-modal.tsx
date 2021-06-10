@@ -38,9 +38,7 @@ const RestoreModal = ({ visible, formData, onCancel }: IProps) => {
   const canRestore = React.useMemo(() => {
     return backupFiles.every((file) => file.status);
   }, [backupFiles]);
-  const handleRestore = () => {
-
-  };
+  const handleRestore = () => {};
   const columns: Array<ColumnProps<any>> = [
     {
       title: i18n.t('default:name'),
@@ -59,9 +57,13 @@ const RestoreModal = ({ visible, formData, onCancel }: IProps) => {
       render: () => {
         return (
           <div className="table-operations">
-            {
-              canRestore ? <span className="table-operations-btn" onClick={handleRestore}>{i18n.t('default:restore')}</span> : <span>{i18n.t('default:restore')}</span>
-            }
+            {canRestore ? (
+              <span className="table-operations-btn" onClick={handleRestore}>
+                {i18n.t('default:restore')}
+              </span>
+            ) : (
+              <span>{i18n.t('default:restore')}</span>
+            )}
           </div>
         );
       },
@@ -79,21 +81,9 @@ const RestoreModal = ({ visible, formData, onCancel }: IProps) => {
     },
   ];
   return (
-    <Modal
-      visible={visible}
-      title={i18n.t('default:restore')}
-      onCancel={onCancel}
-    >
-      <RenderForm
-        layout="vertical"
-        list={fieldsList}
-      />
-      <Table
-        loading={isFetch}
-        columns={columns}
-        dataSource={backupFiles}
-        pagination={false}
-      />
+    <Modal visible={visible} title={i18n.t('default:restore')} onCancel={onCancel}>
+      <RenderForm layout="vertical" list={fieldsList} />
+      <Table loading={isFetch} columns={columns} dataSource={backupFiles} pagination={false} />
     </Modal>
   );
 };

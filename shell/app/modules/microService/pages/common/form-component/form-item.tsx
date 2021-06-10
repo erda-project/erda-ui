@@ -25,13 +25,21 @@ export default (props: any) => {
     const { type, optionsData, options, itemProps = {} } = other;
     switch (type) {
       case 'select':
-        text = get((optionsData || options).find((item: any) => item.value === initialValue), 'name', text);
+        text = get(
+          (optionsData || options).find((item: any) => item.value === initialValue),
+          'name',
+          text,
+        );
         break;
       case 'cascader':
         text = isArray(initialValue) ? initialValue.join('.') : initialValue;
         break;
       case 'radioGroup':
-        text = get(itemProps.options.find((item: any) => item.value === initialValue), 'label', text);
+        text = get(
+          itemProps.options.find((item: any) => item.value === initialValue),
+          'label',
+          text,
+        );
         break;
       case 'checkbox':
         text = initialValue ? '是' : '否';
@@ -43,9 +51,7 @@ export default (props: any) => {
 
     return (
       <div className="form-item-text">
-        {!fromTable && (
-          <h6 className="form-item-label">{label}</h6>
-        )}
+        {!fromTable && <h6 className="form-item-label">{label}</h6>}
         <p className={classnames('form-item-value', { 'no-margin': fromTable })}>{text}</p>
       </div>
     );
@@ -54,10 +60,5 @@ export default (props: any) => {
   if (!has(other, 'itemProps.disabled')) {
     set(other, 'itemProps.disabled', false);
   }
-  return (
-    <RenderFormItem
-      form={form}
-      {...other}
-    />
-  );
+  return <RenderFormItem form={form} {...other} />;
 };

@@ -24,19 +24,21 @@ import './service-mesh.scss';
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
 
-interface IProps{
+interface IProps {
   visible: boolean;
   type: string;
   node: any;
   onClose: () => void;
 }
 
-interface IHttpForm{
+interface IHttpForm {
   data?: TOPOLOGY.IFaultInjectHttp[];
-  submitForm: (arg: TOPOLOGY.IFaultInjectHttp, { isAdd, isHttp }?: {isAdd?: boolean; isHttp?: boolean}) => Promise<string | void>;
+  submitForm: (
+    arg: TOPOLOGY.IFaultInjectHttp,
+    { isAdd, isHttp }?: { isAdd?: boolean; isHttp?: boolean },
+  ) => Promise<string | void>;
   deleteHttp: (arg: string) => void;
 }
-
 
 const validateDelayEmpty = (formRef: any) => (rule: any, val: string, callback: Function) => {
   let curForm = null as any;
@@ -50,7 +52,11 @@ const validateDelayEmpty = (formRef: any) => (rule: any, val: string, callback: 
     const { fixedDelay, delayPercentage } = values;
     const pass = compact([fixedDelay, delayPercentage]).length !== 1;
     return callback(
-      pass ? undefined : (val ? undefined : i18n.t('microService:delay time and delay ratio should should be set at the same time')),
+      pass
+        ? undefined
+        : val
+        ? undefined
+        : i18n.t('microService:delay time and delay ratio should should be set at the same time'),
     );
   }
   return callback();
@@ -68,7 +74,11 @@ const validateErrorEmpty = (formRef: any) => (rule: any, val: string, callback: 
     const { abortStatus, abortPercentage } = values;
     const pass = compact([abortStatus, abortPercentage]).length !== 1;
     return callback(
-      pass ? undefined : (val ? undefined : i18n.t('microService:error code and error ratio should be set at the same time')),
+      pass
+        ? undefined
+        : val
+        ? undefined
+        : i18n.t('microService:error code and error ratio should be set at the same time'),
     );
   }
   return callback();
@@ -207,56 +217,62 @@ const HttpForm = ({ data = [], submitForm, deleteHttp }: IHttpForm) => {
     <div className="fault-inject-dubbo full-height">
       <div className="service-mesh-forms-container full-height">
         <div className="service-mesh-search">
-          <Input placeholder={i18n.t('microService:filter by path')} onChange={(e: any) => updater.searchKey(e.target.value)} />
-          <Button type="primary" onClick={() => { toggleShowAdd(true); }}>{i18n.t('application:add')}</Button>
+          <Input
+            placeholder={i18n.t('microService:filter by path')}
+            onChange={(e: any) => updater.searchKey(e.target.value)}
+          />
+          <Button
+            type="primary"
+            onClick={() => {
+              toggleShowAdd(true);
+            }}
+          >
+            {i18n.t('application:add')}
+          </Button>
         </div>
-        {
-          isEmpty(useData) ? (
-            <EmptyHolder relative />
-          ) : (
-            <div className="service-mesh-collapse-forms">
-              <Collapse>
-                {
-                  map(currentData, (item) => (
-                    <Panel
-                      header={(
-                        <div className="collapse-form-header">
-                          {item.path}
-                          <Popconfirm
-                            title={`${i18n.t('is it confirmed?')}`}
-                            onConfirm={(e: any) => {
-                              e.stopPropagation();
-                              onDelete(item);
-                            }}
-                            onCancel={(e: any) => { e.stopPropagation(); }}
-                          >
-                            <CustomIcon
-                              className="pointer"
-                              type="shanchu"
-                              onClick={(e: any) => e.stopPropagation()}
-                            />
-                          </Popconfirm>
-                        </div>
-                      )}
-                      key={`${item.id}`}
-                    >
-                      <div className="collapse-form-item">
-                        <HttpFormItem data={item} submitForm={submitForm} allData={data} />
-                      </div>
-                    </Panel>
-                  ))
-                }
-              </Collapse>
-              <Pagination
-                className="pa20"
-                pageSize={pageSize}
-                total={len}
-                current={pageNo}
-                onChange={(pgNo: number) => { updater.pageNo(pgNo); }}
-              />
-            </div>
-          )
-        }
+        {isEmpty(useData) ? (
+          <EmptyHolder relative />
+        ) : (
+          <div className="service-mesh-collapse-forms">
+            <Collapse>
+              {map(currentData, (item) => (
+                <Panel
+                  header={
+                    <div className="collapse-form-header">
+                      {item.path}
+                      <Popconfirm
+                        title={`${i18n.t('is it confirmed?')}`}
+                        onConfirm={(e: any) => {
+                          e.stopPropagation();
+                          onDelete(item);
+                        }}
+                        onCancel={(e: any) => {
+                          e.stopPropagation();
+                        }}
+                      >
+                        <CustomIcon className="pointer" type="shanchu" onClick={(e: any) => e.stopPropagation()} />
+                      </Popconfirm>
+                    </div>
+                  }
+                  key={`${item.id}`}
+                >
+                  <div className="collapse-form-item">
+                    <HttpFormItem data={item} submitForm={submitForm} allData={data} />
+                  </div>
+                </Panel>
+              ))}
+            </Collapse>
+            <Pagination
+              className="pa20"
+              pageSize={pageSize}
+              total={len}
+              current={pageNo}
+              onChange={(pgNo: number) => {
+                updater.pageNo(pgNo);
+              }}
+            />
+          </div>
+        )}
       </div>
       <FormModal
         name="http"
@@ -274,10 +290,13 @@ const HttpForm = ({ data = [], submitForm, deleteHttp }: IHttpForm) => {
   );
 };
 
-interface IHttpFormItem{
+interface IHttpFormItem {
   data?: TOPOLOGY.IFaultInjectHttp;
   allData: TOPOLOGY.IFaultInjectHttp[];
-  submitForm: (arg: TOPOLOGY.IFaultInjectHttp, { isAdd, isHttp }?: {isAdd?: boolean; isHttp?: boolean}) => Promise<string | void>;
+  submitForm: (
+    arg: TOPOLOGY.IFaultInjectHttp,
+    { isAdd, isHttp }?: { isAdd?: boolean; isHttp?: boolean },
+  ) => Promise<string | void>;
 }
 const HttpFormItem = ({ data, submitForm, allData }: IHttpFormItem) => {
   const formRef = React.useRef(null as any);
@@ -402,10 +421,13 @@ const HttpFormItem = ({ data, submitForm, allData }: IHttpFormItem) => {
   );
 };
 
-interface IDubboForm{
+interface IDubboForm {
   data?: TOPOLOGY.IFaultInjectDubbo[];
   hideNoRule: boolean;
-  submitForm: (arg: TOPOLOGY.IFaultInjectDubbo, { isAdd, isHttp }?: {isAdd?: boolean; isHttp?: boolean}) => Promise<string |void>;
+  submitForm: (
+    arg: TOPOLOGY.IFaultInjectDubbo,
+    { isAdd, isHttp }?: { isAdd?: boolean; isHttp?: boolean },
+  ) => Promise<string | void>;
   onSwitchChange: (value: boolean) => void;
 }
 const DubboForm = ({ data = [], submitForm, onSwitchChange, hideNoRule }: IDubboForm) => {
@@ -435,51 +457,59 @@ const DubboForm = ({ data = [], submitForm, onSwitchChange, hideNoRule }: IDubbo
     <div className="fault-inject-dubbo full-height">
       <div className="service-mesh-forms-container full-height">
         <div className="service-mesh-search">
-          <Input placeholder={i18n.t('microService:filter by interface name')} onChange={(e: any) => setSearchKey(e.target.value)} />
+          <Input
+            placeholder={i18n.t('microService:filter by interface name')}
+            onChange={(e: any) => setSearchKey(e.target.value)}
+          />
           <div className="hide-no-rule-interface full-height">
-            <span className="hide-no-rule-interface-label full-height">{i18n.t('microService:hide no rule interface')}</span>
+            <span className="hide-no-rule-interface-label full-height">
+              {i18n.t('microService:hide no rule interface')}
+            </span>
             <Switch
               checked={hideNoRule}
               checkedChildren="ON"
               unCheckedChildren="OFF"
-              onChange={(checked: boolean) => { setHideNoRule(checked); }}
+              onChange={(checked: boolean) => {
+                setHideNoRule(checked);
+              }}
             />
           </div>
         </div>
-        {
-          isEmpty(useData) ? (
-            <EmptyHolder relative />
-          ) : (
-            <div className="service-mesh-collapse-forms">
-              <Collapse>
-                {
-                  map(currentData, (item) => (
-                    <Panel header={`${item.interfaceName}`} key={`${item.interfaceName}`}>
-                      <div className="collapse-form-item fault-inject-dubbo">
-                        <DubboFormItem data={{ ...item }} submitForm={submitForm} />
-                      </div>
-                    </Panel>
-                  ))
-                }
-              </Collapse>
-              <Pagination
-                className="pa20"
-                pageSize={pageSize}
-                total={len}
-                current={pageNo}
-                onChange={(pgNo: number) => { setPageNo(pgNo); }}
-              />
-            </div>
-          )
-        }
+        {isEmpty(useData) ? (
+          <EmptyHolder relative />
+        ) : (
+          <div className="service-mesh-collapse-forms">
+            <Collapse>
+              {map(currentData, (item) => (
+                <Panel header={`${item.interfaceName}`} key={`${item.interfaceName}`}>
+                  <div className="collapse-form-item fault-inject-dubbo">
+                    <DubboFormItem data={{ ...item }} submitForm={submitForm} />
+                  </div>
+                </Panel>
+              ))}
+            </Collapse>
+            <Pagination
+              className="pa20"
+              pageSize={pageSize}
+              total={len}
+              current={pageNo}
+              onChange={(pgNo: number) => {
+                setPageNo(pgNo);
+              }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-interface IDubboFormItem{
+interface IDubboFormItem {
   data?: TOPOLOGY.IFaultInjectDubbo;
-  submitForm: (arg: TOPOLOGY.IFaultInjectDubbo, { isAdd, isHttp }?: {isAdd?: boolean; isHttp?: boolean}) => Promise<string | void>;
+  submitForm: (
+    arg: TOPOLOGY.IFaultInjectDubbo,
+    { isAdd, isHttp }?: { isAdd?: boolean; isHttp?: boolean },
+  ) => Promise<string | void>;
 }
 const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
   const formRef = React.useRef(null as any);
@@ -558,7 +588,6 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
   return <RenderForm layout="vertical" list={fieldsList} ref={formRef} />;
 };
 
-
 const FaultInjectForm = (props: IProps) => {
   const { visible, node } = props;
   const { getFaultInject, saveFaultInject, deleteFaultInject } = serviceMeshStore.effects;
@@ -579,11 +608,11 @@ const FaultInjectForm = (props: IProps) => {
     }
   }, [visible, node, query, getFaultInject, clearFaultInject]);
 
-  const submitForm = (values: any, extra: {isAdd?: boolean; isHttp?: boolean} = {}) => {
+  const submitForm = (values: any, extra: { isAdd?: boolean; isHttp?: boolean } = {}) => {
     const { isAdd, isHttp } = extra || {};
     if (isAdd) {
       return saveFaultInject({ query, data: values }).then((res) => {
-        if (res)getFaultInject(query);
+        if (res) getFaultInject(query);
       });
     }
     const save = saveFaultInject({ query, data: values });
@@ -598,24 +627,27 @@ const FaultInjectForm = (props: IProps) => {
 
   const deleteHttp = (id: string) => {
     deleteFaultInject({ id, ...query }).then((res) => {
-      if (res)getFaultInject(query);
+      if (res) getFaultInject(query);
     });
   };
 
   return (
     <div className="service-mesh-form">
-      {
-        (!isEmpty(faultInject)) ? (
-          <Tabs className="service-mesh-tab" defaultActiveKey="http">
-            <TabPane className="service-mesh-tab-panel" tab="http" key="http">
-              <HttpForm data={faultInject.http} submitForm={submitForm} deleteHttp={deleteHttp} />
-            </TabPane>
-            <TabPane className="service-mesh-tab-panel" tab="dubbo" key="dubbo">
-              <DubboForm data={faultInject.dubbo} submitForm={submitForm} hideNoRule={hideNoRule} onSwitchChange={setHideNoRule} />
-            </TabPane>
-          </Tabs>
-        ) : null
-      }
+      {!isEmpty(faultInject) ? (
+        <Tabs className="service-mesh-tab" defaultActiveKey="http">
+          <TabPane className="service-mesh-tab-panel" tab="http" key="http">
+            <HttpForm data={faultInject.http} submitForm={submitForm} deleteHttp={deleteHttp} />
+          </TabPane>
+          <TabPane className="service-mesh-tab-panel" tab="dubbo" key="dubbo">
+            <DubboForm
+              data={faultInject.dubbo}
+              submitForm={submitForm}
+              hideNoRule={hideNoRule}
+              onSwitchChange={setHideNoRule}
+            />
+          </TabPane>
+        </Tabs>
+      ) : null}
     </div>
   );
 };

@@ -46,7 +46,9 @@ export const EmptyHolder = (props: CP_EMPTY_HOLDER.Props) => {
   return (
     <div className={`${cls} ${className}`} style={style}>
       <CustomIcon type={icon} color />
-      <span>{tip} <span className="action">{action}</span></span>
+      <span>
+        {tip} <span className="action">{action}</span>
+      </span>
     </div>
   );
 };

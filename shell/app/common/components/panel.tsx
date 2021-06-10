@@ -20,15 +20,11 @@ interface IPanel {
   style?: React.CSSProperties;
   className?: string;
 }
-export const Panel = ({
-  title, children, style, className = '',
-}: IPanel) => {
+export const Panel = ({ title, children, style, className = '' }: IPanel) => {
   return (
     <div className={`panel ${className}`} style={style}>
       <div className="panel-title">{title}</div>
-      <div className="panel-body">
-        {children}
-      </div>
+      <div className="panel-body">{children}</div>
     </div>
   );
 };

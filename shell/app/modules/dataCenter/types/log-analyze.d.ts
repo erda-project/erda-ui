@@ -45,7 +45,8 @@ declare namespace LOG_ANALYZE {
     timestamp: string;
   }
 
-  interface AddonSearchQuery { // 作为addon，在微服务中的查询参数
+  interface AddonSearchQuery {
+    // 作为addon，在微服务中的查询参数
     [k: string]: any;
     clusterName: string;
     start: number;

@@ -13,12 +13,7 @@
 
 import { createStore } from 'app/cube';
 import i18n from 'i18n';
-import {
-  getNotifyGroups,
-  deleteNotifyGroups,
-  createNotifyGroups,
-  updateNotifyGroups,
-} from '../services/notify-group';
+import { getNotifyGroups, deleteNotifyGroups, createNotifyGroups, updateNotifyGroups } from '../services/notify-group';
 import { PAGINATION } from 'app/constants';
 
 interface IState {

@@ -26,66 +26,69 @@ import alarmReportStore from '../../../stores/alarm-report';
 import './index.scss';
 
 export default () => {
-  const [
-    reportTaskRecords,
-    reportTaskRecord,
-    reportTaskRecordPaging,
-  ] = alarmReportStore.useStore((s) => [
+  const [reportTaskRecords, reportTaskRecord, reportTaskRecordPaging] = alarmReportStore.useStore((s) => [
     s.reportTaskRecords,
     s.reportTaskRecord,
     s.reportTaskRecordPaging,
   ]);
-  const {
-    getReportTaskRecords,
-    getReportTaskRecord,
-    getReportTask,
-  } = alarmReportStore.effects;
+  const { getReportTaskRecords, getReportTaskRecord, getReportTask } = alarmReportStore.effects;
   const { clearReportTaskRecords, clearReportTaskRecord } = alarmReportStore.reducers;
-  const [getReportTaskRecordsLoading, getReportTaskRecordLoading] = useLoading(alarmReportStore, ['getReportTaskRecords', 'getReportTaskRecord']);
+  const [getReportTaskRecordsLoading, getReportTaskRecordLoading] = useLoading(alarmReportStore, [
+    'getReportTaskRecords',
+    'getReportTaskRecord',
+  ]);
   const { pageNo, pageSize, total } = reportTaskRecordPaging;
   const { query } = routeInfoStore.getState((s) => s);
   const [{ activedRecord }, updater] = useUpdate({
     activedRecord: query.recordId,
   });
 
-  const layout = useMemo(() => map(get(reportTaskRecord, 'dashboardBlock.viewConfig'), (item: any) => {
-    const _item = { ...item };
-    const chartType = get(_item, 'view.chartType');
-    const staticData = get(_item, 'view.staticData');
-    if (isEmpty(staticData)) {
-      set(_item, 'view.staticData', {
-        time: [],
-        metricData: [],
-      });
-      return _item;
-    }
-    if (['chart:line', 'chart:bar', 'chart:area'].includes(chartType)) {
-      const { time, results } = staticData;
-      if (results[0].data.length > 1) {
-        set(_item, 'view.staticData', {
-          time,
-          metricData: map(results[0].data, (itemData) => values(itemData)[0]),
-        });
-      } else {
-        set(_item, 'view.staticData', {
-          time,
-          metricData: results[0].data[0],
-        });
-      }
-    }
-    if (chartType === 'chart:pie') {
-      set(_item, 'view.staticData', {
-        metricData: [{
-          name: staticData.title || '',
-          data: map(staticData.metricData, ({ title, value }) => ({ name: title, value })),
-        }],
-      });
-      set(_item, 'view.config.option.series', [{
-        radius: ['30%', '50%'],
-      }]);
-    }
-    return _item;
-  }), [reportTaskRecord]);
+  const layout = useMemo(
+    () =>
+      map(get(reportTaskRecord, 'dashboardBlock.viewConfig'), (item: any) => {
+        const _item = { ...item };
+        const chartType = get(_item, 'view.chartType');
+        const staticData = get(_item, 'view.staticData');
+        if (isEmpty(staticData)) {
+          set(_item, 'view.staticData', {
+            time: [],
+            metricData: [],
+          });
+          return _item;
+        }
+        if (['chart:line', 'chart:bar', 'chart:area'].includes(chartType)) {
+          const { time, results } = staticData;
+          if (results[0].data.length > 1) {
+            set(_item, 'view.staticData', {
+              time,
+              metricData: map(results[0].data, (itemData) => values(itemData)[0]),
+            });
+          } else {
+            set(_item, 'view.staticData', {
+              time,
+              metricData: results[0].data[0],
+            });
+          }
+        }
+        if (chartType === 'chart:pie') {
+          set(_item, 'view.staticData', {
+            metricData: [
+              {
+                name: staticData.title || '',
+                data: map(staticData.metricData, ({ title, value }) => ({ name: title, value })),
+              },
+            ],
+          });
+          set(_item, 'view.config.option.series', [
+            {
+              radius: ['30%', '50%'],
+            },
+          ]);
+        }
+        return _item;
+      }),
+    [reportTaskRecord],
+  );
 
   useMount(() => {
     getReportTask();
@@ -158,7 +161,9 @@ export default () => {
                     onClick={() => handleClick(id)}
                   >
                     <CustomIcon className="mr8" type="rw" />
-                    {end ? `${moment(start).format('YYYY/MM/DD')}-${moment(end).format('YYYY/MM/DD')}` : moment(start).format('YYYY-MM-DD')}
+                    {end
+                      ? `${moment(start).format('YYYY/MM/DD')}-${moment(end).format('YYYY/MM/DD')}`
+                      : moment(start).format('YYYY-MM-DD')}
                   </li>
                 ))}
               </ul>

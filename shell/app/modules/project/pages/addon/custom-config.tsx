@@ -28,13 +28,14 @@ const CustomAddonConfigModal = (props: IProps) => {
   });
 
   React.useEffect(() => {
-    visible && addonStore.getExportAddonSpec().then((data) => {
-      try {
-        updater.json(JSON.stringify(JSON.parse(data), null, 2));
-      } catch (error) {
-        message.error('parse response failed');
-      }
-    });
+    visible &&
+      addonStore.getExportAddonSpec().then((data) => {
+        try {
+          updater.json(JSON.stringify(JSON.parse(data), null, 2));
+        } catch (error) {
+          message.error('parse response failed');
+        }
+      });
   }, [updater, visible]);
 
   return (
@@ -47,12 +48,7 @@ const CustomAddonConfigModal = (props: IProps) => {
       footer={null}
     >
       <Alert showIcon type="normal" className="mb8" message={i18n.t('project:transfer-custom-addon')} />
-      <FileEditor
-        fileExtension="json"
-        value={json}
-        minLines={8}
-        onChange={(value: string) => updater.json(value)}
-      />
+      <FileEditor fileExtension="json" value={json} minLines={8} onChange={(value: string) => updater.json(value)} />
     </Modal>
   );
 };

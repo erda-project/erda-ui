@@ -1,4 +1,3 @@
-
 // Copyright (c) 2021 Terminus, Inc.
 //
 // This program is free software: you can use, redistribute, and/or modify
@@ -51,7 +50,11 @@ export default async (options: { skip?: boolean }) => {
           } else {
             logInfo(`performing [${npmCmd} i -g @erda-ui/cli] to upgrade!`);
 
-            spawnSync(npmCmd, ['i', '-g', '@erda-ui/cli'], { env: process.env, stdio: 'inherit' });
+            const { stderr } = spawnSync(npmCmd, ['i', '-g', '@erda-ui/cli'], { env: process.env, stdio: 'inherit' });
+            if (stderr) {
+              logError('update cli version failed');
+              process.exit(1);
+            }
 
             logSuccess('@erda-ui/cli is up to date, and you can run erda-ui command again');
             process.exit(1);

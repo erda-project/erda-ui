@@ -19,7 +19,7 @@ import { i18nMap } from '../common/pipeline-node-drawer';
 import i18n from 'i18n';
 import './pipeline-node.scss';
 
-export interface IProps{
+export interface IProps {
   data: Obj;
   editing: boolean;
   onClickNode: (data: any, arg: any) => void;
@@ -31,16 +31,15 @@ export const PipelineNode = (props: IProps) => {
   const { data, editing, onClickNode = noop, onDeleteNode = noop, ...rest } = props;
 
   const menu = (
-    <Menu onClick={({ domEvent, key }: any) => {
-      domEvent && domEvent.stopPropagation();
-      if (key === 'delete') {
-        onDeleteNode(data);
-      }
-    }}
+    <Menu
+      onClick={({ domEvent, key }: any) => {
+        domEvent && domEvent.stopPropagation();
+        if (key === 'delete') {
+          onDeleteNode(data);
+        }
+      }}
     >
-      <Menu.Item key="delete">
-        {i18n.t('application:delete')}
-      </Menu.Item>
+      <Menu.Item key="delete">{i18n.t('application:delete')}</Menu.Item>
     </Menu>
   );
 
@@ -52,13 +51,11 @@ export const PipelineNode = (props: IProps) => {
     <div className="yml-chart-node pipeline-node column-flex-box" onClick={onClick}>
       <div className={'pipeline-title py12'}>
         <div className="title-icon mr12">
-          {
-            data.logoUrl ? (
-              <img src={data.logoUrl} alt="logo" />
-            ) : (
-              <CustomIcon type="wfw" color className="full-width full-height" />
-            )
-          }
+          {data.logoUrl ? (
+            <img src={data.logoUrl} alt="logo" />
+          ) : (
+            <CustomIcon type="wfw" color className="full-width full-height" />
+          )}
         </div>
         <div className="title-txt column-flex-box color-text">
           <span className="mb4 nowrap fz16 bold name">{data.displayName || data.type}</span>
@@ -72,9 +69,7 @@ export const PipelineNode = (props: IProps) => {
           </div>
         ) : null}
       </div>
-      <div className="pipeline-content flex-1 py12">
-        {data.description}
-      </div>
+      <div className="pipeline-content flex-1 py12">{data.description}</div>
     </div>
   );
 };
@@ -118,9 +113,7 @@ const renderObject = (dataSource: object) => {
     return (
       <div key={uniqueId(`pv-obj-${key}`)}>
         <span className={isObject ? 'object-key' : ''}>{i18nMap[key] || key}: </span>
-        <span className={isObject ? 'object-value' : ''}>
-          {renderDataSource(value)}
-        </span>
+        <span className={isObject ? 'object-value' : ''}>{renderDataSource(value)}</span>
       </div>
     );
   });
@@ -128,11 +121,7 @@ const renderObject = (dataSource: object) => {
 
 const renderArray = (dataSource: object) => {
   return map(dataSource, (value: any, key: string) => {
-    return (
-      <div key={uniqueId(`pv-array-${key}`)}>
-        {renderDataSource(value)}
-      </div>
-    );
+    return <div key={uniqueId(`pv-array-${key}`)}>{renderDataSource(value)}</div>;
   });
 };
 

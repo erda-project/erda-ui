@@ -18,9 +18,7 @@ import { describe, it } from '@jest/globals';
 
 describe('SimpleLog', () => {
   it('render without props', () => {
-    const wrapper = shallow(
-      <SimpleLog />,
-    );
+    const wrapper = shallow(<SimpleLog />);
     expect(wrapper.state()).toStrictEqual({ query: {} });
     expect(wrapper.find('SimpleLogRoller').prop('query')).toStrictEqual({});
     expect(wrapper.find('Form(LogSearchForm)').prop('formData')).toStrictEqual({});
@@ -33,9 +31,7 @@ describe('SimpleLog', () => {
     const newSearch = {
       requestId: 123,
     };
-    const wrapper = shallow(
-      <SimpleLog {...props} />,
-    );
+    const wrapper = shallow(<SimpleLog {...props} />);
     expect(wrapper.state()).toStrictEqual({ query: props });
     expect(wrapper.find('SimpleLogRoller').prop('query')).toStrictEqual(props);
     expect(wrapper.find('Form(LogSearchForm)').prop('formData')).toStrictEqual(props);
@@ -45,4 +41,3 @@ describe('SimpleLog', () => {
     expect(wrapper.find('Form(LogSearchForm)').prop('formData')).toStrictEqual(newSearch);
   });
 });
-

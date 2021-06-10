@@ -17,13 +17,14 @@ import { ossImg } from 'common/utils';
 import classnames from 'classnames';
 import './addon-card.scss';
 
-const imgOrIcon = (url) => (url
-  ? <img className="addon-card__logo" src={ossImg(url, { w: 80 })} alt="addon" />
-  : <CustomIcon style={{ fontSize: '40px' }} type="addon" />);
+const imgOrIcon = (url) =>
+  url ? (
+    <img className="addon-card__logo" src={ossImg(url, { w: 80 })} alt="addon" />
+  ) : (
+    <CustomIcon style={{ fontSize: '40px' }} type="addon" />
+  );
 
-const AddonCard = ({
-  conf, name, version = null, planInfo = null, operation, tag = null,
-}) => {
+const AddonCard = ({ conf, name, version = null, planInfo = null, operation, tag = null }) => {
   const cls = classnames({
     'addon-card': true,
     'has-op': !!operation,
@@ -32,8 +33,16 @@ const AddonCard = ({
     <div className={cls}>
       {imgOrIcon(conf.iconUrl)}
       <div className="addon-card__name nowrap">{name}</div>
-      {planInfo && <div className="addon-card__planInfo"><span>{planInfo}</span></div>}
-      {version && <div className="addon-card__planInfo"><span>{version}</span></div>}
+      {planInfo && (
+        <div className="addon-card__planInfo">
+          <span>{planInfo}</span>
+        </div>
+      )}
+      {version && (
+        <div className="addon-card__planInfo">
+          <span>{version}</span>
+        </div>
+      )}
       <div className="addon-card__operation">{operation}</div>
       {tag && <div className="addon-card__tag">{tag}</div>}
     </div>

@@ -1,6 +1,6 @@
 .basic-params-config {
   .pk-form-builder {
-    padding-top: 0!important;
+    padding-top: 0 !important;
   }
 
   .param-form {
@@ -31,19 +31,19 @@
       }
 
       &::before {
-        width: .1px;
+        width: 0.1px;
         height: 25%;
         margin-bottom: 4px;
         background-color: #e8e8e8;
-        content: "";
+        content: '';
       }
 
       &::after {
-        width: .1px;
+        width: 0.1px;
         height: 75%;
         margin-top: 4px;
         background-color: #e8e8e8;
-        content: "";
+        content: '';
       }
     }
 
@@ -51,28 +51,26 @@
       flex-grow: 1;
       width: 0;
       padding: $p16 $p16 0;
-      background-color: rgba($primary, .06);
-
+      background-color: rgba($primary, 0.06);
     }
   }
 
   .array-form {
     margin-left: $p16;
     padding: $p16 $p16 0;
-    background-color: rgba($primary, .06);
+    background-color: rgba($primary, 0.06);
   }
 
   .pk-form > .pk-row-flex > div {
-    padding-bottom: 0!important;
+    padding-bottom: 0 !important;
   }
-  
+
   .pk-form-item-label,
   .pk-form-item-control-wrapper {
-    padding: 0!important;
+    padding: 0 !important;
 
     pre {
-      border: .1px solid $border-color;
+      border: 0.1px solid $border-color;
     }
   }
 }
-

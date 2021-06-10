@@ -50,14 +50,13 @@ const AutoTestPlanDetail = () => {
     });
   };
 
-
   return (
     <>
       <DiceConfigPage
         scenarioType="auto-test-plan-detail"
         scenarioKey="auto-test-plan-detail"
         inParams={inParams}
-      // 提供给后端测试，可在路由上带上useMock来查看mock的数据，以便后端检查，对接完成后删除
+        // 提供给后端测试，可在路由上带上useMock来查看mock的数据，以便后端检查，对接完成后删除
         useMock={location.search.includes('useMock') ? useMock : undefined}
         customProps={{
           executeTaskTable: {
@@ -112,9 +111,30 @@ const getMockFileTree = (payload: any) => {
 
   if (get(payload, 'event.operation') === 'onSelectOption') {
     if (get(payload, 'event.operationData.meta.selectOption').length === 1) {
-      set(data, 'protocol.components.inParamsForm.props.temp[2].render.options[0].children', [{ label: '场景A', value: 'cjA', isLeaf: false }, { label: '场景B', value: 'cjB', isLeaf: false }]);
+      set(data, 'protocol.components.inParamsForm.props.temp[2].render.options[0].children', [
+        { label: '场景A', value: 'cjA', isLeaf: false },
+        { label: '场景B', value: 'cjB', isLeaf: false },
+      ]);
     } else if (get(payload, 'event.operationData.meta.selectOption').length === 2) {
-      set(data, 'protocol.components.inParamsForm.props.temp[2].render.options[0].children', [{ label: '场景A', value: 'cjA', isLeaf: false, children: [{ label: '入参A-1', value: '$.场景A.入参A-1' }, { label: '入参A-2', value: '$.场景A.入参A-2' }] }, { label: '场景B', value: 'cjB', children: [{ label: '入参B-1', value: '$.场景B.入参B-1' }, { label: '入参B-2', value: '$.场景B.入参B-2' }] }]);
+      set(data, 'protocol.components.inParamsForm.props.temp[2].render.options[0].children', [
+        {
+          label: '场景A',
+          value: 'cjA',
+          isLeaf: false,
+          children: [
+            { label: '入参A-1', value: '$.场景A.入参A-1' },
+            { label: '入参A-2', value: '$.场景A.入参A-2' },
+          ],
+        },
+        {
+          label: '场景B',
+          value: 'cjB',
+          children: [
+            { label: '入参B-1', value: '$.场景B.入参B-1' },
+            { label: '入参B-2', value: '$.场景B.入参B-2' },
+          ],
+        },
+      ]);
     }
   }
   // 此处mock操作后的结果
@@ -135,13 +155,7 @@ const mock: CONFIG_PAGE.RenderConfig = {
       root: 'fileDetail',
       structure: {
         fileDetail: { children: ['fileConfig', 'fileExecute'], tabBarExtraContent: 'tabExecuteButton' },
-        fileConfig: [
-          'fileInfoHead',
-          'fileInfo',
-          'stagesTitle',
-          'stages',
-          'stagesOperations',
-        ],
+        fileConfig: ['fileInfoHead', 'fileInfo', 'stagesTitle', 'stages', 'stagesOperations'],
         fileExecute: [
           'executeHead',
           'executeInfo',
@@ -180,19 +194,29 @@ const mock: CONFIG_PAGE.RenderConfig = {
       },
       resultDrawer: { type: 'Drawer', state: { visible: false }, props: { size: 'xl' } },
       addTestDrawer: { type: 'Drawer', state: { visible: false }, props: { title: '添加测试场景' } },
-      refreshButton: { type: 'Button', props: { text: '刷新', prefixIcon: 'shuaxin' }, operations: { click: { key: 'refresh', reload: true } } },
-      cancelExecuteButton: { type: 'Button', props: { text: '取消执行' }, operations: { click: { key: 'cancelExecute', reload: true } } },
+      refreshButton: {
+        type: 'Button',
+        props: { text: '刷新', prefixIcon: 'shuaxin' },
+        operations: { click: { key: 'refresh', reload: true } },
+      },
+      cancelExecuteButton: {
+        type: 'Button',
+        props: { text: '取消执行' },
+        operations: { click: { key: 'cancelExecute', reload: true } },
+      },
       executeHistory: { type: 'Popover', props: { placement: 'bottomRight', title: '执行历史' } },
       executeHistoryButton: { type: 'Button', props: { text: '执行历史' } },
       executeHistoryPop: { type: 'Container' },
-      executeHistoryRefresh: { type: 'Button',
+      executeHistoryRefresh: {
+        type: 'Button',
         props: { text: '返回最新记录', type: 'text', prefixIcon: 'shuaxin', style: { width: 140 } },
         operations: {
           click: {
             key: 'toNewRecord',
             reload: true,
           },
-        } },
+        },
+      },
 
       executeTaskTitle: { type: 'Title', props: { title: '执行步骤', level: 2 } },
       executeTaskTable: {
@@ -308,10 +332,38 @@ const mock: CONFIG_PAGE.RenderConfig = {
         type: 'TreeSelect',
         data: {
           treeData: [
-            { key: 'g0', id: 'g0', pId: '0', title: 'g0', value: 'v-g0', isLeaf: false, selectable: false, disabled: true },
-            { key: 'g1', id: 'g1', pId: '0', title: 'g1', value: 'v-g1', isLeaf: false, selectable: false, disabled: true },
-            { key: 'g2', id: 'g2', pId: '0', title: 'g2', value: 'v-g2', isLeaf: false, selectable: false, disabled: true },
-          ] },
+            {
+              key: 'g0',
+              id: 'g0',
+              pId: '0',
+              title: 'g0',
+              value: 'v-g0',
+              isLeaf: false,
+              selectable: false,
+              disabled: true,
+            },
+            {
+              key: 'g1',
+              id: 'g1',
+              pId: '0',
+              title: 'g1',
+              value: 'v-g1',
+              isLeaf: false,
+              selectable: false,
+              disabled: true,
+            },
+            {
+              key: 'g2',
+              id: 'g2',
+              pId: '0',
+              title: 'g2',
+              value: 'v-g2',
+              isLeaf: false,
+              selectable: false,
+              disabled: true,
+            },
+          ],
+        },
         state: { value: undefined },
         props: {
           placeholder: '请选择',
@@ -549,7 +601,6 @@ const mock: CONFIG_PAGE.RenderConfig = {
               title: '5',
               operations: {},
             },
-
           ],
         },
       },
@@ -676,35 +727,25 @@ const mock: CONFIG_PAGE.RenderConfig = {
             title: '创建用户',
             desc: '这里是描述信息',
             apiInfo: { method: 'POST', path: '/api/xxxx' },
-            header: [
-              { name: 'Accept', desc: '接受类型', required: '是', defaultValue: 'JSON' },
-            ],
-            urlParams: [
-              { name: 'a', type: 'string', desc: 'a', required: '是', defaultValue: '123' },
-            ],
+            header: [{ name: 'Accept', desc: '接受类型', required: '是', defaultValue: 'JSON' }],
+            urlParams: [{ name: 'a', type: 'string', desc: 'a', required: '是', defaultValue: '123' }],
             body: [
-              { name: 'info',
+              {
+                name: 'info',
                 type: 'Object',
                 desc: 'info',
                 required: '是',
                 defaultValue: '-',
                 children: [
-                  { name: 'menu',
+                  {
+                    name: 'menu',
                     type: 'Array',
                     desc: 'menu',
                     required: '否',
                     defaultValue: '-',
                     children: [
-                      { name: 'menuName',
-                        type: 'string',
-                        desc: 'menu1',
-                        required: '否',
-                        defaultValue: '-' },
-                      { name: 'menuType',
-                        type: 'string',
-                        desc: 'menu1',
-                        required: '否',
-                        defaultValue: '-' },
+                      { name: 'menuName', type: 'string', desc: 'menu1', required: '否', defaultValue: '-' },
+                      { name: 'menuType', type: 'string', desc: 'menu1', required: '否', defaultValue: '-' },
                     ],
                   },
                 ],
@@ -716,7 +757,6 @@ const mock: CONFIG_PAGE.RenderConfig = {
                 menu2: [{ menuName: 'xxx', menuType: 'xxx' }],
                 menu3: [{ menuName: 'xxx', menuType: 'xxx' }],
                 menu4: [{ menuName: 'xxx', menuType: 'xxx' }],
-
               },
             },
           },

@@ -14,7 +14,6 @@
 import i18n from 'i18n';
 import { regRules } from 'common/utils';
 
-
 export enum ISSUE_FIELD_TYPES {
   Text = 'Text',
   Select = 'Select',

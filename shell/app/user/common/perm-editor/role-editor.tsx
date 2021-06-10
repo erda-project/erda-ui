@@ -22,7 +22,7 @@ export interface IRoleData {
   name: string;
   value: string;
 }
-interface IProps{
+interface IProps {
   data: Obj<IRoleData>;
   updateRole: (arg: Obj) => void;
 }
@@ -76,11 +76,29 @@ const AddRole = (props: IProps) => {
         defaultItem: { value: '', name: '', isCustomRole: false },
         itemRender: (_data: Obj, updateItem: Function) => {
           return [
-            <Input key="value" value={_data.value} onChange={(e: any) => updateItem({ value: e.target.value })} placeholder={i18n.t('please enter')} />,
-            <Input key="name" value={_data.name} onChange={(e: any) => updateItem({ name: e.target.value })} placeholder={i18n.t('please enter')} />,
+            <Input
+              key="value"
+              value={_data.value}
+              onChange={(e: any) => updateItem({ value: e.target.value })}
+              placeholder={i18n.t('please enter')}
+            />,
+            <Input
+              key="name"
+              value={_data.name}
+              onChange={(e: any) => updateItem({ name: e.target.value })}
+              placeholder={i18n.t('please enter')}
+            />,
             <div key="isCustomRole" className="flex-box">
-              <span className="color-text-desc nowrap">{i18n.t('customize')} {i18n.t('role') }</span>
-              <Switch key="isCustomRole" checked={!!_data.isCustomRole} onChange={(v) => updateItem({ isCustomRole: v })} checkedChildren={i18n.t('common:yes')} unCheckedChildren={i18n.t('common:no')} />
+              <span className="color-text-desc nowrap">
+                {i18n.t('customize')} {i18n.t('role')}
+              </span>
+              <Switch
+                key="isCustomRole"
+                checked={!!_data.isCustomRole}
+                onChange={(v) => updateItem({ isCustomRole: v })}
+                checkedChildren={i18n.t('common:yes')}
+                unCheckedChildren={i18n.t('common:no')}
+              />
             </div>,
           ];
         },
@@ -115,7 +133,9 @@ const AddRole = (props: IProps) => {
 
   return (
     <div className="flex-box">
-      <Button size="small" onClick={onOpen}>{i18n.t('edit {name}', { name: i18n.t('role') })}</Button>
+      <Button size="small" onClick={onOpen}>
+        {i18n.t('edit {name}', { name: i18n.t('role') })}
+      </Button>
       <FormModal
         width={650}
         visible={visible}

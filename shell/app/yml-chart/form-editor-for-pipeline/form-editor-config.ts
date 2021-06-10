@@ -63,7 +63,6 @@ const commonFields = [
   },
 ];
 
-
 export const componentFormConfig = {
   input: {
     name: i18n.t('input'),

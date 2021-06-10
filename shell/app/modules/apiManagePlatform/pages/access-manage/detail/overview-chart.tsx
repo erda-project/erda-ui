@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import CommonChart from 'apiManagePlatform/components/chart';
 import { isEqual } from 'lodash';
 
-interface IProps{
+interface IProps {
   queries: {
     endpoint: string;
     workspace: string;
@@ -33,6 +33,9 @@ const OverviewChart = ({ queries }: IProps) => {
   );
 };
 
-export default React.memo((props: IProps) => <OverviewChart {...props} />, (prevProps, nextProps) => {
-  return isEqual(prevProps, nextProps);
-});
+export default React.memo(
+  (props: IProps) => <OverviewChart {...props} />,
+  (prevProps, nextProps) => {
+    return isEqual(prevProps, nextProps);
+  },
+);

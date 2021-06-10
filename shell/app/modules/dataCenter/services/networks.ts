@@ -14,31 +14,36 @@
 import agent from 'agent';
 
 export const getVpcList = (payload?: NETWORKS.ICloudVpcQuery): IPagingResp<NETWORKS.ICloudVpc> => {
-  return agent.get('/api/cloud-vpc')
+  return agent
+    .get('/api/cloud-vpc')
     .query(payload)
     .then((response: any) => response.body);
 };
 
-export const addVpc = (payload: NETWORKS.IVpcCreateBody): {vpcID: string} => {
-  return agent.post('/api/cloud-vpc')
+export const addVpc = (payload: NETWORKS.IVpcCreateBody): { vpcID: string } => {
+  return agent
+    .post('/api/cloud-vpc')
     .send(payload)
     .then((response: any) => response.body);
 };
 
 export const getVswList = (payload: NETWORKS.ICloudVswQuery): IPagingResp<NETWORKS.ICloudVsw> => {
-  return agent.get('/api/cloud-vsw')
+  return agent
+    .get('/api/cloud-vsw')
     .query(payload)
     .then((response: any) => response.body);
 };
 
-export const addVsw = (payload: NETWORKS.IVswCreateBody): {vswID: string} => {
-  return agent.post('/api/cloud-vsw')
+export const addVsw = (payload: NETWORKS.IVswCreateBody): { vswID: string } => {
+  return agent
+    .post('/api/cloud-vsw')
     .send(payload)
     .then((response: any) => response.body);
 };
 
 export const getCloudZone = (payload: NETWORKS.ICloudZoneQuery): NETWORKS.ICloudZone[] => {
-  return agent.get('/api/cloud-zone')
+  return agent
+    .get('/api/cloud-zone')
     .query(payload)
     .then((response: any) => response.body);
 };

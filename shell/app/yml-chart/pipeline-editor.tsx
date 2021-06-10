@@ -30,7 +30,7 @@ import './pipeline-editor.scss';
 
 enum ViewType {
   graphic = 'graphic',
-  code = 'code'
+  code = 'code',
 }
 
 interface IPipelineEditorProps {
@@ -59,16 +59,17 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
     ...rest
   } = props;
   const editorRef = React.useRef(null as any);
-  const [{ ymlObj, editing, viewType, ymlStr, errorMsg, originYmlObj, originYmlStr, originYmlValid }, updater, update] = useUpdate({
-    ymlObj: {} as PIPELINE.IPipelineYmlStructure,
-    viewType: ViewType.graphic,
-    ymlStr: '',
-    originYmlValid: true,
-    errorMsg: '',
-    editing: false,
-    originYmlObj: {} as PIPELINE.IPipelineYmlStructure,
-    originYmlStr: propsYmlStr,
-  });
+  const [{ ymlObj, editing, viewType, ymlStr, errorMsg, originYmlObj, originYmlStr, originYmlValid }, updater, update] =
+    useUpdate({
+      ymlObj: {} as PIPELINE.IPipelineYmlStructure,
+      viewType: ViewType.graphic,
+      ymlStr: '',
+      originYmlValid: true,
+      errorMsg: '',
+      editing: false,
+      originYmlObj: {} as PIPELINE.IPipelineYmlStructure,
+      originYmlStr: propsYmlStr,
+    });
 
   React.useEffect(() => {
     if (propsYmlStr) {
@@ -83,21 +84,22 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
     }
   }, [ref, ymlObj, ymlStr]);
 
-
   React.useEffect(() => {
     if (originYmlStr) {
-      (parsePipelineYmlStructure({ pipelineYmlContent: originYmlStr }) as unknown as Promise<any>).then((res: any) => {
-        update({
-          ymlObj: res && res.data,
-          originYmlObj: res && res.data,
+      (parsePipelineYmlStructure({ pipelineYmlContent: originYmlStr }) as unknown as Promise<any>)
+        .then((res: any) => {
+          update({
+            ymlObj: res && res.data,
+            originYmlObj: res && res.data,
+          });
+        })
+        .catch(() => {
+          update({
+            ymlStr: originYmlStr,
+            viewType: ViewType.code,
+            originYmlValid: false,
+          });
         });
-      }).catch(() => {
-        update({
-          ymlStr: originYmlStr,
-          viewType: ViewType.code,
-          originYmlValid: false,
-        });
-      });
     } else {
       update({
         ymlObj: {},
@@ -110,7 +112,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
 
   React.useEffect(() => {
     onChangeViewType && onChangeViewType(viewType);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [viewType]);
 
   const onDeleteData = (nodeData: any) => {
@@ -128,9 +130,11 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
 
   const handleSubmit = () => {
     let pass = true as any;
-    if (viewType === ViewType.code) { // 转图编辑，检测value
+    if (viewType === ViewType.code) {
+      // 转图编辑，检测value
       pass = onYmlStringChange(ymlStr, false);
-    } else if (viewType === ViewType.graphic) { // 转文本
+    } else if (viewType === ViewType.graphic) {
+      // 转文本
       const curYmlStr = yaml.dump(omit(ymlObj, ['upgradedYmlContent', 'needUpgrade', 'ymlContent']));
       pass = onYmlStringChange(curYmlStr, false);
     }
@@ -179,7 +183,8 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
         newData = { ...data };
       }
 
-      if (executionCondition) { // 执行条件
+      if (executionCondition) {
+        // 执行条件
         newData.if = executionCondition;
       }
 
@@ -190,9 +195,11 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
         }
         if (nodeType === NodeType.addRow) {
           draft.stages.splice(insertPos, 0, [newData]);
-        } else if (nodeType === NodeType.addNode) { // 添加节点
+        } else if (nodeType === NodeType.addNode) {
+          // 添加节点
           draft.stages[xIndex] = [...draft.stages[xIndex], newData];
-        } else { // 修改节点
+        } else {
+          // 修改节点
           draft.stages[xIndex][yIndex] = newData;
         }
       });
@@ -236,7 +243,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
     return (parsePipelineYmlStructure({ pipelineYmlContent: val }) as unknown as Promise<any>).then((res: any) => {
       const curYmlStr = get(res, 'data.ymlContent');
       update({
-        ymlObj: (res && res.data),
+        ymlObj: res && res.data,
         ymlStr: curYmlStr,
       });
       return curYmlStr;
@@ -250,21 +257,25 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
       updater.viewType(_type);
       return;
     }
-    if (_type === ViewType.graphic) { // 转图编辑，检测value
+    if (_type === ViewType.graphic) {
+      // 转图编辑，检测value
       pass = onYmlStringChange(ymlStr);
-    } else if (_type === ViewType.code) { // 转文本
+    } else if (_type === ViewType.code) {
+      // 转文本
       curYmlStr = yaml.dump(omit(ymlObj, ['upgradedYmlContent', 'needUpgrade', 'ymlContent']));
       pass = onYmlStringChange(curYmlStr);
     }
     if (isPromise(pass)) {
-      pass.then(() => {
-        updater.viewType(_type);
-      }).catch(() => {
-        // 错误情况下，允许切到code编辑
-        if (_type === ViewType.code) {
-          update({ ymlStr: curYmlStr, viewType: _type });
-        }
-      });
+      pass
+        .then(() => {
+          updater.viewType(_type);
+        })
+        .catch(() => {
+          // 错误情况下，允许切到code编辑
+          if (_type === ViewType.code) {
+            update({ ymlStr: curYmlStr, viewType: _type });
+          }
+        });
     }
   };
 
@@ -288,76 +299,83 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
           <CustomIcon type="html1" />
         </Radio.Button>
       </Radio.Group>
-      {
-        !editing ? (
-          <Button disabled={!editable} onClick={() => updater.editing(true)} className="ml8" size="small">
-            {i18n.t('application:edit')}
+      {!editing ? (
+        <Button disabled={!editable} onClick={() => updater.editing(true)} className="ml8" size="small">
+          {i18n.t('application:edit')}
+        </Button>
+      ) : (
+        <div className="px12 py8">
+          <Button onClick={onCancel} size="small">
+            {i18n.t('cancel')}
           </Button>
-        ) : (
-          <div className="px12 py8">
-            <Button onClick={onCancel} size="small" >
-              {i18n.t('cancel')}
-            </Button>
-            <Button onClick={handleSubmit} type="primary" className="ml8" size="small">
-              {i18n.t('save')}
-            </Button>
-          </div>
-        )
-      }
+          <Button onClick={handleSubmit} type="primary" className="ml8" size="small">
+            {i18n.t('save')}
+          </Button>
+        </div>
+      )}
     </>
   );
 
-  const name = title ?
-    (editing ? `${i18n.t('edit')} ${title}` : title)
-    : '';
+  const name = title ? (editing ? `${i18n.t('edit')} ${title}` : title) : '';
 
   return (
     <div>
-      <FileContainer className={`pipeline-yml-editor column-flex-box full-spin-height ${viewType === ViewType.graphic ? 'graphic' : ''}`} name={name} ops={editOps}>
+      <FileContainer
+        className={`pipeline-yml-editor column-flex-box full-spin-height ${
+          viewType === ViewType.graphic ? 'graphic' : ''
+        }`}
+        name={name}
+        ops={editOps}
+      >
         <Spin spinning={loading}>
-          {
-            viewType === ViewType.graphic ? (
-              <YmlGraphicEditor
-                {...rest}
-                ymlObj={ymlObj as PIPELINE.IPipelineYmlStructure}
-                editing={editing}
-                addDrawerProps={addDrawerProps}
-                onDeleteData={onDeleteData}
-                onAddData={onAddData}
-                onAddInParams={onAddInParams}
-                onAddOutParams={onAddOutParams}
-              />
-            ) : (
-              <FileEditor
-                name={name}
-                fileExtension={'xml'}
-                value={ymlStr}
-                key={`${editing}`}
-                focus={editing ? true : undefined}
-                readOnly={editing ? undefined : true}
-                minLines={8}
-                onChange={(val: string) => updater.ymlStr(val)}
-              />
-            )
-          }
+          {viewType === ViewType.graphic ? (
+            <YmlGraphicEditor
+              {...rest}
+              ymlObj={ymlObj as PIPELINE.IPipelineYmlStructure}
+              editing={editing}
+              addDrawerProps={addDrawerProps}
+              onDeleteData={onDeleteData}
+              onAddData={onAddData}
+              onAddInParams={onAddInParams}
+              onAddOutParams={onAddOutParams}
+            />
+          ) : (
+            <FileEditor
+              name={name}
+              fileExtension={'xml'}
+              value={ymlStr}
+              key={`${editing}`}
+              focus={editing ? true : undefined}
+              readOnly={editing ? undefined : true}
+              minLines={8}
+              onChange={(val: string) => updater.ymlStr(val)}
+            />
+          )}
         </Spin>
       </FileContainer>
       <Modal
         visible={!isEmpty(errorMsg)}
-        title={<div><CustomIcon type="guanbi-fill" className="color-danger" />{i18n.t('error')}</div>}
+        title={
+          <div>
+            <CustomIcon type="guanbi-fill" className="color-danger" />
+            {i18n.t('error')}
+          </div>
+        }
         maskClosable={false}
         footer={[
-          <Button key="cancel" onClick={() => { updater.errorMsg(''); }}>{i18n.t('cancel')}</Button>,
-          ...insertWhen(originYmlValid,
-            [
-              <Button
-                key="ok"
-                type="primary"
-                onClick={() => resetAndChangeViewType()}
-              >
-                {i18n.t('application:reset and switch')}
-              </Button>,
-            ]),
+          <Button
+            key="cancel"
+            onClick={() => {
+              updater.errorMsg('');
+            }}
+          >
+            {i18n.t('cancel')}
+          </Button>,
+          ...insertWhen(originYmlValid, [
+            <Button key="ok" type="primary" onClick={() => resetAndChangeViewType()}>
+              {i18n.t('application:reset and switch')}
+            </Button>,
+          ]),
         ]}
       >
         {errorMsg}
@@ -367,4 +385,3 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
 });
 
 export default PipelineEditor;
-

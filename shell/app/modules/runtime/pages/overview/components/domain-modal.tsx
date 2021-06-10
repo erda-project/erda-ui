@@ -28,7 +28,6 @@ import './domain-modal.scss';
 
 const FormItem = Form.Item;
 
-
 interface IProps {
   serviceName: string;
   form: WrappedFormUtils;
@@ -36,18 +35,19 @@ interface IProps {
   onCancel: () => void;
 }
 
-
 const DomainModal = (props: IProps) => {
   const { form, visible, serviceName, onCancel } = props;
-  const { id: runtimeId, releaseId, clusterType, extra: { workspace } } = runtimeStore.useStore((s: any) => s.runtimeDetail);
+  const {
+    id: runtimeId,
+    releaseId,
+    clusterType,
+    extra: { workspace },
+  } = runtimeStore.useStore((s: any) => s.runtimeDetail);
   const domainMap = runtimeDomainStore.useStore((s) => s.domainMap);
   const { projectId } = routeInfoStore.useStore((s) => s.params);
 
-
   const initDomains = cloneDeep(domainMap[serviceName]);
-  const [{
-    domains,
-  }, updater] = useUpdate({
+  const [{ domains }, updater] = useUpdate({
     domains: initDomains,
   });
 
@@ -56,7 +56,6 @@ const DomainModal = (props: IProps) => {
       updater.domains(cloneDeep(domainMap[serviceName]));
     }
   }, [domainMap, serviceName, updater, visible]);
-
 
   const saveConfig = () => {
     const doneSaveConfig = () => {
@@ -73,19 +72,27 @@ const DomainModal = (props: IProps) => {
         });
         if (!isEqual(domainMap[serviceName], domains)) {
           if (['k8s', 'edas'].includes(clusterType)) {
-            runtimeDomainStore.updateK8SDomain({
-              runtimeId,
-              releaseId,
-              serviceName,
-              domains: map(
-                filter(domains, (domain) => (domain.domainType === 'DEFAULT' && domain.customDomain) || domain.domainType !== 'DEFAULT'),
-                (domain) => (domain.domainType === 'DEFAULT' ? (domain.customDomain + domain.rootDomain) : domain.domain),
-              ),
-            }).then(() => {
-              setTimeout(() => { // TODO: refactor
-                location.reload();
-              }, 1000);
-            });
+            runtimeDomainStore
+              .updateK8SDomain({
+                runtimeId,
+                releaseId,
+                serviceName,
+                domains: map(
+                  filter(
+                    domains,
+                    (domain) =>
+                      (domain.domainType === 'DEFAULT' && domain.customDomain) || domain.domainType !== 'DEFAULT',
+                  ),
+                  (domain) =>
+                    domain.domainType === 'DEFAULT' ? domain.customDomain + domain.rootDomain : domain.domain,
+                ),
+              })
+              .then(() => {
+                setTimeout(() => {
+                  // TODO: refactor
+                  location.reload();
+                }, 1000);
+              });
           } else {
             doneSaveConfig();
             runtimeStore.setHasChange(true);
@@ -99,16 +106,19 @@ const DomainModal = (props: IProps) => {
 
   const addCustom = () => {
     if (domains.length >= 1) {
-      updater.domains([...domains, {
-        domainType: 'CUSTOM',
-        packageId: '',
-        tenantGroup: '',
-        appName: '',
-        domain: '',
-        customDomain: '',
-        rootDomain: '',
-        useHttps: true,
-      }]);
+      updater.domains([
+        ...domains,
+        {
+          domainType: 'CUSTOM',
+          packageId: '',
+          tenantGroup: '',
+          appName: '',
+          domain: '',
+          customDomain: '',
+          rootDomain: '',
+          useHttps: true,
+        },
+      ]);
     }
   };
 
@@ -156,106 +166,80 @@ const DomainModal = (props: IProps) => {
           <div className="flex-box config-item-title bold-500 fz16 mb8">
             <span>{serviceName}</span>
             <span style={{ marginRight: '40px' }}>
-              {
-                hrefparams.packageId && hrefparams.tenantGroup
-                  ? (
-                    <span className="fz12 fake-link" onClick={gotoGetwayDetail}>
-                      {i18n.t('runtime:route rule configuration')}
-                    </span>
-                  )
-                  : null
-              }
+              {hrefparams.packageId && hrefparams.tenantGroup ? (
+                <span className="fz12 fake-link" onClick={gotoGetwayDetail}>
+                  {i18n.t('runtime:route rule configuration')}
+                </span>
+              ) : null}
             </span>
           </div>
-          {map(
-            domains,
-            ({ domainType, customDomain, rootDomain, domain }, index) => {
-              return domainType === 'DEFAULT' ? (
-                <div key={domainType} className="default-area">
-                  <Row>
-                    <Col span={22}>
-                      <FormItem label={i18n.t('runtime:domain name')}>
-                        {form.getFieldDecorator(
-                          `${domainType}@customDomain@${index}`,
-                          {
-                            initialValue: customDomain,
-                            rules: [
-                              // { required: true, message: i18n.t('runtime:please fill in the domain name') },
-                              {
-                                // 公司内项目不允许包含. 不允许有4级域名
-                                pattern: rootDomain.includes('terminus')
-                                  ? /^[a-zA-Z0-9][-a-zA-Z0-9]{0,62}$/
-                                  : /^[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})*$/,
-                                message: i18n.t('runtime:please fill in the correct domain name'),
-                              },
-                            ],
-                          },
-                        )(
-                          <Input
-                            placeholder={i18n.t('runtime:please fill in the domain name')}
-                            addonAfter={rootDomain}
-                            autoComplete="off"
-                          />,
-                        )}
-                      </FormItem>
-                    </Col>
-                  </Row>
-                  <div className="custom-domain" key="custom">
-                    <span>{i18n.t('runtime:custom domain name')}:</span>
-                    <span className="add-domain-icon">
-                      <IconAddOne
-                        className="hover-active fz18 ml12 pointer"
-                        onClick={() => addCustom()}
-                      />
-                    </span>
-                  </div>
-                </div>
-              ) : (
-                <Row
-                  key={domainType + index}
-                  type="flex"
-                  justify="space-around"
-                  align="middle"
-                >
+          {map(domains, ({ domainType, customDomain, rootDomain, domain }, index) => {
+            return domainType === 'DEFAULT' ? (
+              <div key={domainType} className="default-area">
+                <Row>
                   <Col span={22}>
-                    <FormItem className="hide">
-                      {form.getFieldDecorator(`${domainType}@@${index}`, {
-                        initialValue: serviceName,
-                      })(<Input />)}
-                    </FormItem>
-                    <FormItem>
-                      {form.getFieldDecorator(`${domainType}@domain@${index}`, {
-                        initialValue: domain,
+                    <FormItem label={i18n.t('runtime:domain name')}>
+                      {form.getFieldDecorator(`${domainType}@customDomain@${index}`, {
+                        initialValue: customDomain,
                         rules: [
-                          { required: true, message: i18n.t('runtime:please fill in the custom domain name') },
+                          // { required: true, message: i18n.t('runtime:please fill in the domain name') },
                           {
-                            pattern: /^[a-zA-Z0-9*][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9*][-a-zA-Z0-9]{0,62})+\.?$/,
+                            // 公司内项目不允许包含. 不允许有4级域名
+                            pattern: rootDomain.includes('terminus')
+                              ? /^[a-zA-Z0-9][-a-zA-Z0-9]{0,62}$/
+                              : /^[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})*$/,
                             message: i18n.t('runtime:please fill in the correct domain name'),
                           },
                         ],
                       })(
                         <Input
-                          placeholder={i18n.t('runtime:custom-domain-tip')}
+                          placeholder={i18n.t('runtime:please fill in the domain name')}
+                          addonAfter={rootDomain}
                           autoComplete="off"
                         />,
                       )}
-                      {
-                        <Popconfirm
-                          title={i18n.t('runtime:confirm delete?')}
-                          onConfirm={() => deleteCustom(index)}
-                        >
-                          <span className="delete-domain-icon">
-                            {' '}
-                            <IconReduceOne className="hover-active fz18 pointer" />{' '}
-                          </span>
-                        </Popconfirm>
-                        }
                     </FormItem>
                   </Col>
                 </Row>
-              );
-            },
-          )}
+                <div className="custom-domain" key="custom">
+                  <span>{i18n.t('runtime:custom domain name')}:</span>
+                  <span className="add-domain-icon">
+                    <IconAddOne className="hover-active fz18 ml12 pointer" onClick={() => addCustom()} />
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <Row key={domainType + index} type="flex" justify="space-around" align="middle">
+                <Col span={22}>
+                  <FormItem className="hide">
+                    {form.getFieldDecorator(`${domainType}@@${index}`, {
+                      initialValue: serviceName,
+                    })(<Input />)}
+                  </FormItem>
+                  <FormItem>
+                    {form.getFieldDecorator(`${domainType}@domain@${index}`, {
+                      initialValue: domain,
+                      rules: [
+                        { required: true, message: i18n.t('runtime:please fill in the custom domain name') },
+                        {
+                          pattern: /^[a-zA-Z0-9*][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9*][-a-zA-Z0-9]{0,62})+\.?$/,
+                          message: i18n.t('runtime:please fill in the correct domain name'),
+                        },
+                      ],
+                    })(<Input placeholder={i18n.t('runtime:custom-domain-tip')} autoComplete="off" />)}
+                    {
+                      <Popconfirm title={i18n.t('runtime:confirm delete?')} onConfirm={() => deleteCustom(index)}>
+                        <span className="delete-domain-icon">
+                          {' '}
+                          <IconReduceOne className="hover-active fz18 pointer" />{' '}
+                        </span>
+                      </Popconfirm>
+                    }
+                  </FormItem>
+                </Col>
+              </Row>
+            );
+          })}
         </div>
       </Form>
     </Modal>

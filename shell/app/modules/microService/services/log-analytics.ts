@@ -14,13 +14,15 @@
 import agent from 'agent';
 
 export const searchLogAnalytics = ({ addonID, ...query }: LOG_ANALYTICS.SearchQuery): LOG_ANALYTICS.SearchResult => {
-  return agent.get(`/api/log-analytics/${addonID}/search`)
+  return agent
+    .get(`/api/log-analytics/${addonID}/search`)
     .query(query)
     .then((response: any) => response.body);
 };
 
 export const getStatistic = ({ addonID, ...query }: LOG_ANALYTICS.SearchQuery): LOG_ANALYTICS.StatisticResult => {
-  return agent.get(`/api/log-analytics/${addonID}/statistic`)
+  return agent
+    .get(`/api/log-analytics/${addonID}/statistic`)
     .query(query)
     .then((response: any) => response.body);
 };

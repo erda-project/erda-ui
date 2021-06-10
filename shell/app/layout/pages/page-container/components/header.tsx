@@ -87,27 +87,42 @@ const Header = () => {
     const currentPath = paths[paths.length - 1];
     const lastPath = paths.length > 1 ? paths[paths.length - 2] : '';
 
-    let finalPath = route.encode ? `${lastPath}/${encodeURIComponent(params[route.relativePath.slice(1)])}` : currentPath; // 因为router v4没有了相对路径所有不用拼路径 `/${encodedPaths.join('/')}`;
+    let finalPath = route.encode
+      ? `${lastPath}/${encodeURIComponent(params[route.relativePath.slice(1)])}`
+      : currentPath; // 因为router v4没有了相对路径所有不用拼路径 `/${encodedPaths.join('/')}`;
     if (changePath) {
       finalPath = changePath(finalPath);
     }
 
     const link = `/${finalPath}`;
-    return <span className={`breadcrumb-name ${route.disabled ? 'breadcrumb-disabled' : ''}`} title={link} key={eternal || path} onClick={() => !route.disabled && goTo(link)}>{name}</span>;
+    return (
+      <span
+        className={`breadcrumb-name ${route.disabled ? 'breadcrumb-disabled' : ''}`}
+        title={link}
+        key={eternal || path}
+        onClick={() => !route.disabled && goTo(link)}
+      >
+        {name}
+      </span>
+    );
   };
 
   const allRoutes = filter(routes, (route) => {
-    return !isEmpty(route.path) && (!isEmpty(route.breadcrumbName) || !isEmpty(route.pageName) || typeof route.breadcrumbName === 'function');
+    return (
+      !isEmpty(route.path) &&
+      (!isEmpty(route.breadcrumbName) || !isEmpty(route.pageName) || typeof route.breadcrumbName === 'function')
+    );
   });
 
   // get params from path
   let params = {};
   if (routes.length > 0) {
-    const match = matchPath(window.location.pathname, {
-      path: routes[0].path,
-      exact: true,
-      strict: false,
-    }) || {} as any;
+    const match =
+      matchPath(window.location.pathname, {
+        path: routes[0].path,
+        exact: true,
+        strict: false,
+      }) || ({} as any);
     params = match && match.params;
   }
 

@@ -20,7 +20,7 @@ import { Table } from '../table/table';
 import i18n from 'i18n';
 import './table-group.scss';
 
-const noop = () => { };
+const noop = () => {};
 const TableBoard = (props: CP_TABLE_GROUP.ITableBoardProps) => {
   const { props: configProps, execOperation = noop, updateState = noop } = props;
   const { title, subtitle, description, table, extraInfo } = configProps;
@@ -28,12 +28,7 @@ const TableBoard = (props: CP_TABLE_GROUP.ITableBoardProps) => {
 
   return (
     <div className="table-board">
-      <Text
-        props={title?.props}
-        operations={title?.operations}
-        type="Text"
-        {...extraProps}
-      />
+      <Text props={title?.props} operations={title?.operations} type="Text" {...extraProps} />
       <div className="table-board-card mt8">
         <div className="ml4">
           <Title props={subtitle} type="Title" {...extraProps} />
@@ -42,20 +37,9 @@ const TableBoard = (props: CP_TABLE_GROUP.ITableBoardProps) => {
           <div className="mb12 ml4">
             <Text props={description} type="Text" {...extraProps} />
           </div>
-          <Table
-            props={table?.props}
-            data={table?.data}
-            operations={table?.operations}
-            {...extraProps}
-            type="Table"
-          />
+          <Table props={table?.props} data={table?.data} operations={table?.operations} {...extraProps} type="Table" />
           <div className="mt12 ml4">
-            <Text
-              props={extraInfo?.props}
-              operations={extraInfo?.operations}
-              type="Text"
-              {...extraProps}
-            />
+            <Text props={extraInfo?.props} operations={extraInfo?.operations} type="Text" {...extraProps} />
           </div>
         </div>
       </div>
@@ -64,13 +48,22 @@ const TableBoard = (props: CP_TABLE_GROUP.ITableBoardProps) => {
 };
 
 const TableGroup = (props: CP_TABLE_GROUP.Props) => {
-  const { props: configProps, state: propsState, data = {} as CP_TABLE_GROUP.IData, operations, execOperation = noop, updateState = noop } = props;
-  const [{ pageNo, combineList = [], total, pageSize }, updater, update] = useUpdate({
-    pageNo: propsState?.pageNo || 1,
-    total: propsState?.total || 0,
-    pageSize: propsState?.pageSize || 3,
-    combineList: data.list,
-  } || {}) as any;
+  const {
+    props: configProps,
+    state: propsState,
+    data = {} as CP_TABLE_GROUP.IData,
+    operations,
+    execOperation = noop,
+    updateState = noop,
+  } = props;
+  const [{ pageNo, combineList = [], total, pageSize }, updater, update] = useUpdate(
+    {
+      pageNo: propsState?.pageNo || 1,
+      total: propsState?.total || 0,
+      pageSize: propsState?.pageSize || 3,
+      combineList: data.list,
+    } || {},
+  ) as any;
   const { visible } = configProps;
   const showLoadMore = total > Math.max(combineList?.length, 0);
 
@@ -87,7 +80,8 @@ const TableGroup = (props: CP_TABLE_GROUP.Props) => {
       };
       return {
         ...newState,
-        combineList: (newState || {}).pageNo === 1 ? (data?.list || []) : ((newState?.combineList || []).concat(data?.list || [])),
+        combineList:
+          (newState || {}).pageNo === 1 ? data?.list || [] : (newState?.combineList || []).concat(data?.list || []),
       };
     });
   }, [propsState, data?.list]);
@@ -102,21 +96,23 @@ const TableGroup = (props: CP_TABLE_GROUP.Props) => {
   }
   return (
     <div className="cp-dice-table-group">
-      {
-        map(combineList, (item, index) => {
-          return (
-            <TableBoard
-              type="TableBoard"
-              key={`${index}`}
-              props={item}
-              execOperation={execOperation}
-              updateState={updateState}
-              operations={operations}
-            />
-          );
-        })
-      }
-      {showLoadMore && <div className="load-more hover-active" onClick={loadMore}>{i18n.t('load more')}...</div>}
+      {map(combineList, (item, index) => {
+        return (
+          <TableBoard
+            type="TableBoard"
+            key={`${index}`}
+            props={item}
+            execOperation={execOperation}
+            updateState={updateState}
+            operations={operations}
+          />
+        );
+      })}
+      {showLoadMore && (
+        <div className="load-more hover-active" onClick={loadMore}>
+          {i18n.t('load more')}...
+        </div>
+      )}
     </div>
   );
 };

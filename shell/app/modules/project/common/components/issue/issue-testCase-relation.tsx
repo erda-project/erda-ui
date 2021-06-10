@@ -21,7 +21,7 @@ import { caseStateMap } from 'project/pages/plan-detail/status-toggle';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
 
-interface IProps{
+interface IProps {
   list: ISSUE.IRelativeTestCase[];
 }
 export const IssueTestCaseRelation = ({ list }: IProps) => {
@@ -39,7 +39,9 @@ export const IssueTestCaseRelation = ({ list }: IProps) => {
           testSetID,
         });
         return (
-          <Link to={url} target="_blank">{v}</Link>
+          <Link to={url} target="_blank">
+            {v}
+          </Link>
         );
       },
     },
@@ -61,7 +63,5 @@ export const IssueTestCaseRelation = ({ list }: IProps) => {
       render: (v: string) => moment(v).format('YYYY-MM-DD HH:mm:ss'),
     },
   ];
-  return (
-    <Table columns={columns} dataSource={list} rowKey="id" pagination={false} />
-  );
+  return <Table columns={columns} dataSource={list} rowKey="id" pagination={false} />;
 };

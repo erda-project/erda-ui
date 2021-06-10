@@ -102,45 +102,56 @@ export class LogRoller extends React.Component<IProps, IState> {
       onShowDownloadModal,
     } = this.props;
     const { fullScreen } = this.state;
-    let logContent = rolling ? <div>Loading... <IconLoading spin /></div> : <span>No Log Currently</span>;
+    let logContent = rolling ? (
+      <div>
+        Loading... <IconLoading spin />
+      </div>
+    ) : (
+      <span>No Log Currently</span>
+    );
     const ContentComp = CustomLogContent || LogContent;
     if (content && content.length) {
       logContent = (
         <div className="log-content-wrap" onScroll={this.throttleScroll}>
-          {
-            backwardLoading ? <IconLoading spin className="log-state top" /> : null
-          }
-          <div ref={(ref) => { this.preElm = ref; }} className="log-content"><ContentComp {...this.props} logs={content} transformContent={transformContent} /></div>
-          {
-            rolling ? <IconLoading spin className="log-state bottom" /> : null
-          }
+          {backwardLoading ? <IconLoading spin className="log-state top" /> : null}
+          <div
+            ref={(ref) => {
+              this.preElm = ref;
+            }}
+            className="log-content"
+          >
+            <ContentComp {...this.props} logs={content} transformContent={transformContent} />
+          </div>
+          {rolling ? <IconLoading spin className="log-state bottom" /> : null}
         </div>
       );
     }
     return (
       <div className={`log-roller darken${fullScreen ? ' show-max' : ''}`}>
-        { logContent }
+        {logContent}
         <div className={`log-control log-top-controls ${extraButton ? '' : 'no-switch'}`}>
           {extraButton || null}
           <Tooltip title={hasLogs ? i18n.t('common:download log') : i18n.t('common:log download is not supported yet')}>
-            <Button
-              disabled={!hasLogs}
-              onClick={onShowDownloadModal}
-              type="ghost"
-            >{i18n.t('common:download log')}
+            <Button disabled={!hasLogs} onClick={onShowDownloadModal} type="ghost">
+              {i18n.t('common:download log')}
             </Button>
           </Tooltip>
-          <Button
-            onClick={this.changeSize}
-            type="ghost"
-          >
+          <Button onClick={this.changeSize} type="ghost">
             {fullScreen ? i18n.t('default:exit full screen') : i18n.t('default:full screen')}
           </Button>
         </div>
         <div className="log-control btn-line-rtl">
-          <Button onClick={() => onGoToBottom()} type="ghost">{i18n.t('back to bottom')}</Button>
-          <Button onClick={() => onGoToTop()} type="ghost">{i18n.t('back to top')}</Button>
-          {!searchOnce && <Button onClick={this.toggleRolling} type="ghost" >{rolling ? i18n.t('default:pause') : i18n.t('default:start')}</Button>}
+          <Button onClick={() => onGoToBottom()} type="ghost">
+            {i18n.t('back to bottom')}
+          </Button>
+          <Button onClick={() => onGoToTop()} type="ghost">
+            {i18n.t('back to top')}
+          </Button>
+          {!searchOnce && (
+            <Button onClick={this.toggleRolling} type="ghost">
+              {rolling ? i18n.t('default:pause') : i18n.t('default:start')}
+            </Button>
+          )}
         </div>
       </div>
     );

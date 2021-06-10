@@ -62,7 +62,7 @@
 
     .option-group-search {
       &.shadow {
-        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .15);
+        box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.15);
       }
     }
 
@@ -80,7 +80,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       cursor: pointer;
-  
+
       &:hover {
         color: $primary;
         background-color: $color-active-bg;

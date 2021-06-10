@@ -27,7 +27,8 @@ export const resourcesValidator = (_rule: any, value: any, callback: (message?: 
 export const portsValidator = (_rule: any, value: any, callback: (message?: string) => void) => {
   let pass = true;
   map(value, (item) => {
-    if (item.protocol && item.port === undefined) { // 有协议无端口 不通过
+    if (item.protocol && item.port === undefined) {
+      // 有协议无端口 不通过
       pass = false;
     }
   });

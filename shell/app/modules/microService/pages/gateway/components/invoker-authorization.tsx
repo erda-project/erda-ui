@@ -108,9 +108,15 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
         render: (record: any) => {
           return (
             <div className="table-operations">
-              <span className="table-operations-btn" onClick={() => this.handleClickAuthParams(record)}>{i18n.t('microService:authorization parameters')}</span>
-              <span className="table-operations-btn" onClick={() => this.handleClickAuthApi(record)}>{i18n.t('microService:authorization interface')}</span>
-              <span className="table-operations-btn" onClick={() => this.handleDeleteUser(record)}>{i18n.t('microService:delete')}</span>
+              <span className="table-operations-btn" onClick={() => this.handleClickAuthParams(record)}>
+                {i18n.t('microService:authorization parameters')}
+              </span>
+              <span className="table-operations-btn" onClick={() => this.handleClickAuthApi(record)}>
+                {i18n.t('microService:authorization interface')}
+              </span>
+              <span className="table-operations-btn" onClick={() => this.handleDeleteUser(record)}>
+                {i18n.t('microService:delete')}
+              </span>
             </div>
           );
         },
@@ -123,7 +129,9 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
         dataIndex: 'key',
         render: (key: string) => (
           <Tooltip title={key}>
-            <Copy className="for-copy" data-clipboard-tip=" KEY ">{key}</Copy>
+            <Copy className="for-copy" data-clipboard-tip=" KEY ">
+              {key}
+            </Copy>
           </Tooltip>
         ),
       },
@@ -137,7 +145,9 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
         width: 100,
         render: (record: any) => (
           <div className="table-operations">
-            <span className="table-operations-btn" onClick={() => this.handleDeleteKeyAuth(record)}>{i18n.t('microService:delete')}</span>
+            <span className="table-operations-btn" onClick={() => this.handleDeleteKeyAuth(record)}>
+              {i18n.t('microService:delete')}
+            </span>
           </div>
         ),
       },
@@ -153,7 +163,9 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
         dataIndex: 'client_id',
         render: (clientId: string) => (
           <Tooltip title={clientId}>
-            <Copy className="for-copy" data-clipboard-tip=" Client ID ">{clientId}</Copy>
+            <Copy className="for-copy" data-clipboard-tip=" Client ID ">
+              {clientId}
+            </Copy>
           </Tooltip>
         ),
       },
@@ -162,7 +174,9 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
         dataIndex: 'client_secret',
         render: (clientSecret: string) => (
           <Tooltip title={clientSecret}>
-            <Copy className="for-copy" data-clipboard-tip=" Client Secret ">{clientSecret}</Copy>
+            <Copy className="for-copy" data-clipboard-tip=" Client Secret ">
+              {clientSecret}
+            </Copy>
           </Tooltip>
         ),
       },
@@ -173,7 +187,9 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
           const redirectUri = redirectUris[0];
           return (
             <Tooltip title={redirectUri}>
-              <Copy className="for-copy" data-clipboard-tip={i18n.t('microService:redirect address')}>{redirectUri}</Copy>
+              <Copy className="for-copy" data-clipboard-tip={i18n.t('microService:redirect address')}>
+                {redirectUri}
+              </Copy>
             </Tooltip>
           );
         },
@@ -183,7 +199,9 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
         width: 100,
         render: (record: any) => (
           <div className="table-operations">
-            <span className="table-operations-btn" onClick={() => this.handleDeleteOAuth(record)}>{i18n.t('microService:delete')}</span>
+            <span className="table-operations-btn" onClick={() => this.handleDeleteOAuth(record)}>
+              {i18n.t('microService:delete')}
+            </span>
           </div>
         ),
       },
@@ -223,11 +241,13 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
           addonBefore: (
             <Select
               defaultValue="http://"
-              onChange={(value: SelectValue) => { this.setState({ protocol: value as string }); }}
+              onChange={(value: SelectValue) => {
+                this.setState({ protocol: value as string });
+              }}
             >
               <Option value="http://">http://</Option>
               <Option value="https://">https://</Option>
-            </Select >
+            </Select>
           ),
         },
       },
@@ -239,7 +259,9 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
         key: 'path',
         render: (path: string) => (
           <Tooltip title={path}>
-            <Copy className="for-copy" data-clipboard-tip={i18n.t('microService:interface')}>{path}</Copy>
+            <Copy className="for-copy" data-clipboard-tip={i18n.t('microService:interface')}>
+              {path}
+            </Copy>
           </Tooltip>
         ),
       },
@@ -262,7 +284,9 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
         width: 100,
         render: (record: any) => (
           <div className="table-operations">
-            <span className="table-operations-btn" onClick={() => this.handleAddAuthedApi(record)}>{i18n.t('microService:authorize')}</span>
+            <span className="table-operations-btn" onClick={() => this.handleAddAuthedApi(record)}>
+              {i18n.t('microService:authorize')}
+            </span>
           </div>
         ),
       },
@@ -282,15 +306,13 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
                 defaultValue={policyId}
                 onChange={(value) => this.handlePolicyChange(record, value as string)}
               >
-                {
-                  this.policyList
-                    ?
-                    this.policyList.map((option: { policyId: string; displayName: string }) => (
-                      <Option key={option.policyId} value={option.policyId}>{option.displayName}</Option>
+                {this.policyList
+                  ? this.policyList.map((option: { policyId: string; displayName: string }) => (
+                      <Option key={option.policyId} value={option.policyId}>
+                        {option.displayName}
+                      </Option>
                     ))
-                    :
-                    null
-                }
+                  : null}
               </Select>
             </div>
           );
@@ -301,7 +323,9 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
         width: 100,
         render: (record: any) => (
           <div className="table-operations">
-            <span className="table-operations-btn" onClick={() => this.handleRemoveAuthedApi(record)}>{i18n.t('microService:deauthorization')}</span>
+            <span className="table-operations-btn" onClick={() => this.handleRemoveAuthedApi(record)}>
+              {i18n.t('microService:deauthorization')}
+            </span>
           </div>
         ),
       },
@@ -336,7 +360,10 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
   }
 
   getAuthedApi = (consumerName: string) => {
-    const { apiList: { result }, consumerList } = this.props;
+    const {
+      apiList: { result },
+      consumerList,
+    } = this.props;
     const consumer = consumerList.find((user) => user.consumerName === consumerName);
     if (!consumer || !consumer.consumerApiInfos) {
       this.setState({ authedApiDataSource: [] });
@@ -344,7 +371,9 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
     }
     const selected = consumer.consumerApiInfos
       .filter((apiInfo) => result.some((api: { apiId: any }) => api.apiId === apiInfo.apiId))
-      .map((x) => { return { ...x, path: x.apiPath }; });
+      .map((x) => {
+        return { ...x, path: x.apiPath };
+      });
     this.setState({ authedApiDataSource: selected });
   };
 
@@ -395,9 +424,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
 
   handleAddAuthedApi = ({ apiId }: any) => {
     const { authedApiDataSource, selectedConsumerId } = this.state;
-    const authedApis = authedApiDataSource
-      .map((item) => item.apiId)
-      .concat(apiId);
+    const authedApis = authedApiDataSource.map((item) => item.apiId).concat(apiId);
     const param = {
       consumerId: selectedConsumerId,
       apiList: authedApis,
@@ -411,9 +438,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
       content: i18n.t('microService:confirm the authorization to cancel {path}'),
       onOk: () => {
         const { authedApiDataSource, selectedConsumerId } = this.state;
-        const authedApis = authedApiDataSource
-          .map((item) => item.apiId)
-          .filter((item) => item !== apiId);
+        const authedApis = authedApiDataSource.map((item) => item.apiId).filter((item) => item !== apiId);
         const param = {
           consumerId: selectedConsumerId,
           apiList: authedApis,
@@ -504,11 +529,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
     this.props.getNeedAuthAPIList({ pageNo: pagination.current });
   };
 
-  updateConsumerDetail = ({
-    keyAuthData,
-    oAuthData,
-    callback,
-  }: any) => {
+  updateConsumerDetail = ({ keyAuthData, oAuthData, callback }: any) => {
     const { authData, updateConsumerDetail } = this.props;
     const data = {
       authConfig: {
@@ -556,40 +577,20 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
               Key-Auth {i18n.t('mode')}
               <span className="fz12">（{authData.keyAuth.authTips}）</span>
             </div>
-            <Button
-              type="primary"
-              ghost
-              size="small"
-              onClick={this.toggleKeyAuthModal}
-            >
+            <Button type="primary" ghost size="small" onClick={this.toggleKeyAuthModal}>
               {i18n.t('add')}
             </Button>
           </div>
-          <Table
-            dataSource={authData.keyAuth.authData}
-            columns={this.keyAuthCols}
-            rowKey="id"
-            pagination={false}
-          />
+          <Table dataSource={authData.keyAuth.authData} columns={this.keyAuthCols} rowKey="id" pagination={false} />
         </div>
         <div className="auth-type-item">
           <div className="flex-box mb12">
             <div className="auth-params-title flex-1">OAuth {i18n.t('mode')}</div>
-            <Button
-              type="primary"
-              ghost
-              size="small"
-              onClick={this.toggleOAuthModal}
-            >
+            <Button type="primary" ghost size="small" onClick={this.toggleOAuthModal}>
               {i18n.t('add')}
             </Button>
           </div>
-          <Table
-            dataSource={authData.oAuth.authData}
-            columns={this.oAuthCols}
-            rowKey="id"
-            pagination={false}
-          />
+          <Table dataSource={authData.oAuth.authData} columns={this.oAuthCols} rowKey="id" pagination={false} />
         </div>
       </div>
     );
@@ -601,7 +602,9 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
     return (
       <div className="auth-api-content">
         <div className="auth-type-item">
-          <h3 className="auth-params-title">{i18n.t('microService:authorized interface (configurable flow control policy)')}</h3>
+          <h3 className="auth-params-title">
+            {i18n.t('microService:authorized interface (configurable flow control policy)')}
+          </h3>
           <Table
             dataSource={this.state.authedApiDataSource}
             columns={this.userAuthedApiCols}
@@ -611,7 +614,11 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
         </div>
         <div className="auth-type-item">
           <h3 className="auth-params-title">{i18n.t('microService:find the authorization interface')}</h3>
-          <SearchTable onSearch={this.handleSearchUnAuthApi} placeholder={i18n.t('microService:please API to search')} needDebounce>
+          <SearchTable
+            onSearch={this.handleSearchUnAuthApi}
+            placeholder={i18n.t('microService:please API to search')}
+            needDebounce
+          >
             <Table
               loading={isFetchingNeedAuthAPIList}
               dataSource={needAuthApiList}
@@ -639,8 +646,20 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
   }
 
   render() {
-    const { userModalVisible, authParamsVisible, authApiVisible, keyAuthModalVisible, oAuthModalVisible, editingConsumer: { config }, consumerList } = this.state;
-    const { trafficControlPolicy, consumer: { endpoint }, isFetching } = this.props;
+    const {
+      userModalVisible,
+      authParamsVisible,
+      authApiVisible,
+      keyAuthModalVisible,
+      oAuthModalVisible,
+      editingConsumer: { config },
+      consumerList,
+    } = this.state;
+    const {
+      trafficControlPolicy,
+      consumer: { endpoint },
+      isFetching,
+    } = this.props;
     const { policyList } = trafficControlPolicy;
 
     this.policyList = [{ displayName: i18n.t('empty'), policyId: '' }, ...(policyList || [])];
@@ -657,13 +676,11 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
         <Spin spinning={isFetching}>
           <div className="top-button-group">
             <DomainChecker {...endpoint} />
-            <Button type="primary" className="add-btn" onClick={this.handleAddUser}>{i18n.t('add')}</Button>
+            <Button type="primary" className="add-btn" onClick={this.handleAddUser}>
+              {i18n.t('add')}
+            </Button>
           </div>
-          <Table
-            dataSource={consumerList}
-            columns={this.invokerAuthCols}
-            rowKey="consumerName"
-          />
+          <Table dataSource={consumerList} columns={this.invokerAuthCols} rowKey="consumerName" />
         </Spin>
 
         <FormModal

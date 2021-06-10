@@ -36,17 +36,16 @@ const RepoMRCreation = () => {
         onShowComparison={() => toggleDiff(true)}
         moveToDiff={moveToDiff}
       />
-      {
-        showDiff &&
-        (
-          <React.Fragment>
-            <div className="section-title" ref={diffRef}>{i18n.t('application:compare results')}</div>
-            <div className="mr-compare-diff">
-              <RepoCompareDetail hideComment disableComment />
-            </div>
-          </React.Fragment>
-        )
-      }
+      {showDiff && (
+        <React.Fragment>
+          <div className="section-title" ref={diffRef}>
+            {i18n.t('application:compare results')}
+          </div>
+          <div className="mr-compare-diff">
+            <RepoCompareDetail hideComment disableComment />
+          </div>
+        </React.Fragment>
+      )}
     </div>
   );
 };

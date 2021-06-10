@@ -16,7 +16,6 @@ import i18n from 'i18n';
 import { IFormProps, regRulesMap, FormUnitContainer } from '../form-utils';
 import { RenderPureForm, ReadonlyForm } from 'common';
 
-
 // docker配置
 export const DockerForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
   const formPrefix = 'config.docker';
@@ -35,7 +34,7 @@ export const DockerForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
             let pass = true;
             if (value) {
               const execRoot = form.getFieldValue('config.docker.execRoot');
-              if (value === execRoot)pass = false;
+              if (value === execRoot) pass = false;
             }
             return pass ? callback() : callback(i18n.t("org:can't be the same as the exec path"));
           },
@@ -56,7 +55,7 @@ export const DockerForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
             let pass = true;
             if (value) {
               const dataRoot = form.getFieldValue('config.docker.dataRoot');
-              if (value === dataRoot)pass = false;
+              if (value === dataRoot) pass = false;
             }
             return pass ? callback() : callback(i18n.t("dcos:can't be the same as the data path"));
           },
@@ -78,13 +77,11 @@ export const DockerForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
   ];
   return (
     <FormUnitContainer title={i18n.t('org:docker configs')} curRef={curRef}>
-      {
-        isReadonly ? (
-          <ReadonlyForm fieldsList={fieldsList} data={data} />
-        ) : (
-          <RenderPureForm list={fieldsList} form={form} layout="vertical" className="deploy-form-render" />
-        )
-      }
+      {isReadonly ? (
+        <ReadonlyForm fieldsList={fieldsList} data={data} />
+      ) : (
+        <RenderPureForm list={fieldsList} form={form} layout="vertical" className="deploy-form-render" />
+      )}
     </FormUnitContainer>
   );
 };

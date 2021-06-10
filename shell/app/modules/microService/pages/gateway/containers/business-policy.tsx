@@ -12,14 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import {
-  Input,
-  Button,
-  InputNumber,
-  Collapse,
-  Switch,
-  Icon,
-} from 'app/nusi';
+import { Input, Button, InputNumber, Collapse, Switch } from 'app/nusi';
+import { Icon as CustomIcon } from 'common';
 import { isEmpty } from 'lodash';
 import { useUpdate, IF } from 'common';
 import { useMount } from 'react-use';
@@ -74,9 +68,11 @@ export const PureBusinessPolicy = () => {
     globalBusinessCustom,
   } = state;
 
-  const [businessCors, businessCustom, businessProxy] = gatewayStore.useStore(
-    (s) => [s.businessCors, s.businessCustom, s.businessProxy],
-  );
+  const [businessCors, businessCustom, businessProxy] = gatewayStore.useStore((s) => [
+    s.businessCors,
+    s.businessCustom,
+    s.businessProxy,
+  ]);
   const {
     getBusinessCors,
     getBusinessCustom,
@@ -85,7 +81,11 @@ export const PureBusinessPolicy = () => {
     saveBusinessCustom,
     saveBusinessProxy,
   } = gatewayStore.effects;
-  const [isSavingBusinessProxy, isSavingBusinessCors, isSavingBusinessCustom] = useLoading(gatewayStore, ['saveBusinessProxy', 'saveBusinessCors', 'saveBusinessCustom']);
+  const [isSavingBusinessProxy, isSavingBusinessCors, isSavingBusinessCustom] = useLoading(gatewayStore, [
+    'saveBusinessProxy',
+    'saveBusinessCors',
+    'saveBusinessCustom',
+  ]);
   useMount(() => {
     hasGlobalSwitch && getPolicies();
     getGlobalPolicies();
@@ -110,12 +110,7 @@ export const PureBusinessPolicy = () => {
       setProxyReqTimeout(mixed.proxyReqTimeout);
       setProxyRespTimeout(mixed.proxyRespTimeout);
     }
-  }, [
-    businessProxy,
-    globalBusinessProxy,
-    enableGlobalBusinessProxy,
-    hasGlobalSwitch,
-  ]);
+  }, [businessProxy, globalBusinessProxy, enableGlobalBusinessProxy, hasGlobalSwitch]);
 
   React.useEffect(() => {
     if (!isEmpty(businessCors) || !isEmpty(globalBusinessCors)) {
@@ -131,12 +126,7 @@ export const PureBusinessPolicy = () => {
       setCredentials(mixed.credentials);
       setMaxAge(mixed.maxAge);
     }
-  }, [
-    businessCors,
-    globalBusinessCors,
-    enableGlobalBusinessCors,
-    hasGlobalSwitch,
-  ]);
+  }, [businessCors, globalBusinessCors, enableGlobalBusinessCors, hasGlobalSwitch]);
 
   React.useEffect(() => {
     if (!isEmpty(businessCustom) || !isEmpty(globalBusinessCustom)) {
@@ -148,12 +138,7 @@ export const PureBusinessPolicy = () => {
       setBusinessCustomEnable(mixed.switch);
       setConfig(mixed.config);
     }
-  }, [
-    businessCustom,
-    globalBusinessCustom,
-    enableGlobalBusinessCustom,
-    hasGlobalSwitch,
-  ]);
+  }, [businessCustom, globalBusinessCustom, enableGlobalBusinessCustom, hasGlobalSwitch]);
 
   const getPolicies = () => {
     const apiQuery = { apiId: query.apiId };
@@ -249,8 +234,8 @@ export const PureBusinessPolicy = () => {
                   <span onClick={(e) => e.stopPropagation()}>
                     {i18n.t('microService:use global policy')}&nbsp;
                     <Switch
-                      checkedChildren={<Icon type="check" />}
-                      unCheckedChildren={<Icon type="close" />}
+                      checkedChildren={<CustomIcon type="check" />}
+                      unCheckedChildren={<CustomIcon type="close" />}
                       checked={enableGlobalBusinessProxy}
                       onChange={updater.enableGlobalBusinessProxy}
                     />
@@ -262,65 +247,55 @@ export const PureBusinessPolicy = () => {
           key="proxy"
         >
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              {i18n.t('microService:force jump to HTTPS')}
-            </span>
+            <span className="policy-label">{i18n.t('microService:force jump to HTTPS')}</span>
             <div className="policy-content">
               <Switch
                 disabled={enableGlobalBusinessProxy || !businessProxyEnable}
-                checkedChildren={<Icon type="check" />}
-                unCheckedChildren={<Icon type="close" />}
+                checkedChildren={<CustomIcon type="check" />}
+                unCheckedChildren={<CustomIcon type="close" />}
                 checked={sslRedirect}
                 onChange={(checked: boolean) => setSslRedirect(checked)}
               />
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              {i18n.t('microService:entry domain name passthrough')}
-            </span>
+            <span className="policy-label">{i18n.t('microService:entry domain name passthrough')}</span>
             <div className="policy-content">
               <Switch
                 disabled={enableGlobalBusinessProxy || !businessProxyEnable}
-                checkedChildren={<Icon type="check" />}
-                unCheckedChildren={<Icon type="close" />}
+                checkedChildren={<CustomIcon type="check" />}
+                unCheckedChildren={<CustomIcon type="close" />}
                 checked={hostPassthrough}
                 onChange={(checked) => setHostPassthrough(checked)}
               />
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              {i18n.t('microService:open request buffer')}
-            </span>
+            <span className="policy-label">{i18n.t('microService:open request buffer')}</span>
             <div className="policy-content">
               <Switch
                 disabled={enableGlobalBusinessProxy || !businessProxyEnable}
-                checkedChildren={<Icon type="check" />}
-                unCheckedChildren={<Icon type="close" />}
+                checkedChildren={<CustomIcon type="check" />}
+                unCheckedChildren={<CustomIcon type="close" />}
                 checked={reqBuffer}
                 onChange={(checked) => setReqBuffer(checked)}
               />
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              {i18n.t('microService:open response buffer')}
-            </span>
+            <span className="policy-label">{i18n.t('microService:open response buffer')}</span>
             <div className="policy-content">
               <Switch
                 disabled={enableGlobalBusinessProxy || !businessProxyEnable}
-                checkedChildren={<Icon type="check" />}
-                unCheckedChildren={<Icon type="close" />}
+                checkedChildren={<CustomIcon type="check" />}
+                unCheckedChildren={<CustomIcon type="close" />}
                 checked={respBuffer}
                 onChange={(checked) => setRespBuffer(checked)}
               />
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              {i18n.t('microService:client request restrictions')}
-            </span>
+            <span className="policy-label">{i18n.t('microService:client request restrictions')}</span>
             <div className="policy-content">
               <InputGroup compact>
                 <InputNumber
@@ -335,9 +310,7 @@ export const PureBusinessPolicy = () => {
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              {i18n.t('microService:client request timed out')}
-            </span>
+            <span className="policy-label">{i18n.t('microService:client request timed out')}</span>
             <div className="policy-content">
               <InputGroup compact>
                 <InputNumber
@@ -352,9 +325,7 @@ export const PureBusinessPolicy = () => {
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              {i18n.t('microService:client response timeout')}
-            </span>
+            <span className="policy-label">{i18n.t('microService:client response timeout')}</span>
             <div className="policy-content">
               <InputGroup compact>
                 <InputNumber
@@ -383,9 +354,7 @@ export const PureBusinessPolicy = () => {
             </div>
           </div> */}
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              {i18n.t('microService:backend request timeout')}
-            </span>
+            <span className="policy-label">{i18n.t('microService:backend request timeout')}</span>
             <div className="policy-content">
               <InputGroup compact>
                 <InputNumber
@@ -400,9 +369,7 @@ export const PureBusinessPolicy = () => {
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              {i18n.t('microService:backend response timeout')}
-            </span>
+            <span className="policy-label">{i18n.t('microService:backend response timeout')}</span>
             <div className="policy-content">
               <InputGroup compact>
                 <InputNumber
@@ -446,8 +413,8 @@ export const PureBusinessPolicy = () => {
                   <span onClick={(e) => e.stopPropagation()}>
                     {i18n.t('microService:use global policy')}&nbsp;
                     <Switch
-                      checkedChildren={<Icon type="check" />}
-                      unCheckedChildren={<Icon type="close" />}
+                      checkedChildren={<CustomIcon type="check" />}
+                      unCheckedChildren={<CustomIcon type="close" />}
                       checked={enableGlobalBusinessCors}
                       onChange={updater.enableGlobalBusinessCors}
                     />
@@ -459,9 +426,7 @@ export const PureBusinessPolicy = () => {
           key="cors"
         >
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              HTTP {i18n.t('microService:method')}
-            </span>
+            <span className="policy-label">HTTP {i18n.t('microService:method')}</span>
             <div className="policy-content">
               <Input
                 className="policy-input"
@@ -472,9 +437,7 @@ export const PureBusinessPolicy = () => {
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              HTTP {i18n.t('microService:request header')}
-            </span>
+            <span className="policy-label">HTTP {i18n.t('microService:request header')}</span>
             <div className="policy-content">
               <div className="policy-content">
                 <TextArea
@@ -488,9 +451,7 @@ export const PureBusinessPolicy = () => {
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              {i18n.t('microService:cross-domain address')}
-            </span>
+            <span className="policy-label">{i18n.t('microService:cross-domain address')}</span>
             <div className="policy-content">
               <Input
                 className="policy-input"
@@ -501,23 +462,19 @@ export const PureBusinessPolicy = () => {
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              {i18n.t('microService:carry')} cookie
-            </span>
+            <span className="policy-label">{i18n.t('microService:carry')} cookie</span>
             <div className="policy-content">
               <Switch
                 disabled={enableGlobalBusinessCors || !businessCorsEnable}
-                checkedChildren={<Icon type="check" />}
-                unCheckedChildren={<Icon type="close" />}
+                checkedChildren={<CustomIcon type="check" />}
+                unCheckedChildren={<CustomIcon type="close" />}
                 checked={credentials}
                 onChange={(checked) => setCredentials(checked)}
               />
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              {i18n.t('microService:cache time')}
-            </span>
+            <span className="policy-label">{i18n.t('microService:cache time')}</span>
             <div className="policy-content">
               <InputGroup compact>
                 <InputNumber
@@ -561,8 +518,8 @@ export const PureBusinessPolicy = () => {
                   <span onClick={(e) => e.stopPropagation()}>
                     {i18n.t('microService:use global policy')}&nbsp;
                     <Switch
-                      checkedChildren={<Icon type="check" />}
-                      unCheckedChildren={<Icon type="close" />}
+                      checkedChildren={<CustomIcon type="check" />}
+                      unCheckedChildren={<CustomIcon type="close" />}
                       checked={enableGlobalBusinessCustom}
                       onChange={updater.enableGlobalBusinessCustom}
                     />
@@ -574,18 +531,14 @@ export const PureBusinessPolicy = () => {
           key="custom"
         >
           <div className="gateway-policy-item">
-            <span className="policy-label">
-              nginx {i18n.t('microService:configuration')}
-            </span>
+            <span className="policy-label">nginx {i18n.t('microService:configuration')}</span>
             <div className="policy-content">
               <TextArea
                 className="policy-input"
                 value={config}
                 disabled={enableGlobalBusinessCustom || !businessCustomEnable}
                 rows={4}
-                placeholder={i18n.t(
-                  'microService:location block configuration',
-                )}
+                placeholder={i18n.t('microService:location block configuration')}
                 onChange={(e) => setConfig(e.target.value)}
               />
             </div>

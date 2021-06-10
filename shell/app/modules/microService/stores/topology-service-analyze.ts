@@ -34,22 +34,34 @@ const topologyServiceStore = createFlatStore({
       const { dashboardId } = await call(getProcessDashboardId, payload);
       return dashboardId;
     },
-    async getTraceSlowTranslation({ call }, payload: Merge<TOPOLOGY_SERVICE_ANALYZE.CommonQuery, { operation: string; start: number; end: number; sort: 'DESC' | 'ASC' }>) {
+    async getTraceSlowTranslation(
+      { call },
+      payload: Merge<
+        TOPOLOGY_SERVICE_ANALYZE.CommonQuery,
+        { operation: string; start: number; end: number; sort: 'DESC' | 'ASC' }
+      >,
+    ) {
       const traceSlowTranslation = await call(getTraceSlowTranslation, payload);
       return traceSlowTranslation;
     },
-    async getExceptionTypes({ call }, payload: Merge<TOPOLOGY_SERVICE_ANALYZE.CommonQuery, TOPOLOGY_SERVICE_ANALYZE.TimestampQuery>) {
+    async getExceptionTypes(
+      { call },
+      payload: Merge<TOPOLOGY_SERVICE_ANALYZE.CommonQuery, TOPOLOGY_SERVICE_ANALYZE.TimestampQuery>,
+    ) {
       const exceptionTypes = await call(getExceptionTypes, payload);
       return exceptionTypes;
     },
-    async getInstanceIds({ call }, payload: Merge<TOPOLOGY_SERVICE_ANALYZE.CommonQuery, TOPOLOGY_SERVICE_ANALYZE.TimestampQuery>) {
+    async getInstanceIds(
+      { call },
+      payload: Merge<TOPOLOGY_SERVICE_ANALYZE.CommonQuery, TOPOLOGY_SERVICE_ANALYZE.TimestampQuery>,
+    ) {
       const exceptionTypes = await call(getInstanceIds, payload);
       return exceptionTypes;
     },
   },
   reducers: {
     setActivedNode(state, activedNode?: Partial<TOPOLOGY.INode>) {
-      state.activedNode = (state.activedNode?.id === activedNode?.id) ? undefined : activedNode;
+      state.activedNode = state.activedNode?.id === activedNode?.id ? undefined : activedNode;
     },
   },
 });

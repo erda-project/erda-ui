@@ -14,37 +14,43 @@
 import agent from 'agent';
 
 export const addResource = ({ type, ...data }: PURCHASE.AddResource) => {
-  return agent.post(`/api/resource/aliyun/${type}`)
+  return agent
+    .post(`/api/resource/aliyun/${type}`)
     .send(data)
     .then((response: any) => response.body);
 };
 
-export const getPurchaseList = (params: {name: string}): PURCHASE.PurchaseItem[] => {
-  return agent.get('/api/resource/deployments')
+export const getPurchaseList = (params: { name: string }): PURCHASE.PurchaseItem[] => {
+  return agent
+    .get('/api/resource/deployments')
     .query(params)
     .then((response: any) => response.body);
 };
 
 export const getAvailableRegions = (data: Omit<PURCHASE.QueryZone, 'regionId'>): PURCHASE.Region[] => {
-  return agent.post('/api/resource/aliyun/regions')
+  return agent
+    .post('/api/resource/aliyun/regions')
     .send(data)
     .then((response: any) => response.body);
 };
 
 export const getAvailableZones = (data: PURCHASE.QueryZone): PURCHASE.Zone[] => {
-  return agent.post('/api/resource/aliyun/zones')
+  return agent
+    .post('/api/resource/aliyun/zones')
     .send(data)
     .then((response: any) => response.body);
 };
 
 export const checkEcsAvailable = (data: PURCHASE.CheckEcs): PURCHASE.CheckEscRes => {
-  return agent.post('/api/resource/aliyun/ecs/check')
+  return agent
+    .post('/api/resource/aliyun/ecs/check')
     .send(data)
     .then((response: any) => response.body);
 };
 
 export const addPhysicalCluster = (data: PURCHASE.AddPhysicalCluster) => {
-  return agent.post('/api/resource/aliyun/cluster')
+  return agent
+    .post('/api/resource/aliyun/cluster')
     .send(data)
     .then((response: any) => response.body);
 };

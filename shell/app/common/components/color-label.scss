@@ -3,7 +3,7 @@ $label-orange: #fa9548;
 $label-aqua: #5bd6d0;
 $label-blue: #5294fa;
 $label-purple: #8570f7;
-$label-gray: rgba(0, 0, 0, .6);
+$label-gray: rgba(0, 0, 0, 0.6);
 $label-green: #34b37e;
 
 @mixin label-bg($color) {
@@ -13,7 +13,7 @@ $label-green: #34b37e;
 
 @mixin label-bg-light($color) {
   color: $color;
-  background-color: rgba($color, .06);
+  background-color: rgba($color, 0.06);
   border-style: none;
 }
 

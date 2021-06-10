@@ -1,6 +1,4 @@
-
-
-$prefix: ".activity-item";
+$prefix: '.activity-item';
 
 #{$prefix} {
   display: flex;
@@ -35,7 +33,6 @@ $prefix: ".activity-item";
       color: $color-primary;
       font-size: 12px;
       cursor: pointer;
-
     }
   }
 

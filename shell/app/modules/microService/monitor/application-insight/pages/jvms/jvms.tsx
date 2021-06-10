@@ -18,23 +18,10 @@ import TopTabRight from 'application-insight/common/components/tab-right';
 import monitorCommonStore from 'common/stores/monitorCommon';
 
 const PageMap = [
-  [
-    JvmsMap.heapMemoryUsage,
-    JvmsMap.nonHeapMemoryUsage,
-  ],
-  [
-    JvmsMap.PSEdenSpace,
-    JvmsMap.PSOldGen,
-    JvmsMap.PSSurvivorSpace,
-  ],
-  [
-    JvmsMap.GCMarkSweep,
-    JvmsMap.GCScavenge,
-  ],
-  [
-    JvmsMap.classCount,
-    JvmsMap.thread,
-  ],
+  [JvmsMap.heapMemoryUsage, JvmsMap.nonHeapMemoryUsage],
+  [JvmsMap.PSEdenSpace, JvmsMap.PSOldGen, JvmsMap.PSSurvivorSpace],
+  [JvmsMap.GCMarkSweep, JvmsMap.GCScavenge],
+  [JvmsMap.classCount, JvmsMap.thread],
 ];
 
 const Jvms = () => {
@@ -46,20 +33,18 @@ const Jvms = () => {
   return (
     <div>
       <TopTabRight type={type} />
-      {
-        PageMap.map((cols, rIndex) => (
-          <Row gutter={20} key={String(rIndex)}>
-            {cols.map((Chart, cIndex) => {
-              const spanWidth = 24 / cols.length;
-              return (
-                <Col span={spanWidth} key={String(cIndex)}>
-                  <Chart {...opt} />
-                </Col>
-              );
-            })}
-          </Row>
-        ))
-      }
+      {PageMap.map((cols, rIndex) => (
+        <Row gutter={20} key={String(rIndex)}>
+          {cols.map((Chart, cIndex) => {
+            const spanWidth = 24 / cols.length;
+            return (
+              <Col span={spanWidth} key={String(cIndex)}>
+                <Chart {...opt} />
+              </Col>
+            );
+          })}
+        </Row>
+      ))}
     </div>
   );
 };

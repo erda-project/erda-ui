@@ -66,7 +66,7 @@ const getRoleMap = (_roleMap: Obj, isEdit: boolean) => {
   map(_roleMap, (item, key) => {
     const subRoleMap = {};
     map(item, (subItem, subKey) => {
-      if (!subItem.isBuildIn)subRoleMap[subKey] = { ...subItem };
+      if (!subItem.isBuildIn) subRoleMap[subKey] = { ...subItem };
     });
     reRoleMap[key] = subRoleMap;
   });
@@ -148,59 +148,60 @@ export const PermEditor = () => {
   };
   return (
     <div className="dice-perm-editor full-height">
-      {
-        isEdit ? (
-          <div className="top-button-group">
-            <AddScope onSubmit={addScope} currentData={data} />
-            <Button type="primary" ghost onClick={reset}>{i18n.t('reset')}</Button>
-          </div>
-        ) : null
-      }
+      {isEdit ? (
+        <div className="top-button-group">
+          <AddScope onSubmit={addScope} currentData={data} />
+          <Button type="primary" ghost onClick={reset}>
+            {i18n.t('reset')}
+          </Button>
+        </div>
+      ) : null}
       <Prompt when={isEdit} message={`${i18n.t('sure to leave')}?`} />
       <Tabs
         activeKey={tabKey}
-        tabBarExtraContent={(
+        tabBarExtraContent={
           <div className="flex-box mt8">
             <DebounceSearch size="small" value={searchKey} className="mr8" onChange={updater.searchKey} />
-            {
-            isEdit
-              ? (
-                <>
-                  <PermExport activeScope={tabKey} roleMap={roleMap} data={data} projectId={projectId} onSubmit={updater.data} isEdit />
-                  <PermRoleEditor data={roleMap[tabKey]} updateRole={updateRole} />
-                </>
-              )
-              : null
-            }
+            {isEdit ? (
+              <>
+                <PermExport
+                  activeScope={tabKey}
+                  roleMap={roleMap}
+                  data={data}
+                  projectId={projectId}
+                  onSubmit={updater.data}
+                  isEdit
+                />
+                <PermRoleEditor data={roleMap[tabKey]} updateRole={updateRole} />
+              </>
+            ) : null}
           </div>
-        )}
+        }
         renderTabBar={(p: any, DefaultTabBar) => <DefaultTabBar {...p} onKeyDown={(e: any) => e} />}
         onChange={(curKey: string) => update({ searchKey: '', tabKey: curKey })}
       >
-        {
-          map(data, (item: IPermItem, key: string) => {
-            if (!item) return null;
-            const { name } = item;
-            return (
-              <TabPane tab={name} key={key}>
-                <PermTable
-                  data={item}
-                  scope={key}
-                  key={reloadKey}
-                  filterKey={searchKey}
-                  isEdit={isEdit}
-                  roleMap={getRoleMap(roleMap, isEdit)}
-                  onChangeRole={onChangeRole}
-                  deleteData={deleteData}
-                  editData={editData}
-                  originData={permData}
-                  originRoleMap={originRoleMap}
-                  currentData={data}
-                />
-              </TabPane>
-            );
-          })
-        }
+        {map(data, (item: IPermItem, key: string) => {
+          if (!item) return null;
+          const { name } = item;
+          return (
+            <TabPane tab={name} key={key}>
+              <PermTable
+                data={item}
+                scope={key}
+                key={reloadKey}
+                filterKey={searchKey}
+                isEdit={isEdit}
+                roleMap={getRoleMap(roleMap, isEdit)}
+                onChangeRole={onChangeRole}
+                deleteData={deleteData}
+                editData={editData}
+                originData={permData}
+                originRoleMap={originRoleMap}
+                currentData={data}
+              />
+            </TabPane>
+          );
+        })}
       </Tabs>
     </div>
   );

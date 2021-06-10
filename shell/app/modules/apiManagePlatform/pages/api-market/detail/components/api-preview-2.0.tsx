@@ -69,16 +69,24 @@ const columns = [
   {
     title: i18n.t('type'),
     dataIndex: 'type',
-    render: (val: {value: string; tooltip: string[]}) => {
+    render: (val: { value: string; tooltip: string[] }) => {
       const { value, tooltip } = val || {};
       return tooltip ? (
         <Tooltip title={tooltip}>
           <span className="color-active-bg">{value}</span>
         </Tooltip>
-      ) : value;
-    } },
+      ) : (
+        value
+      );
+    },
+  },
   { title: i18n.t('description'), dataIndex: 'description' },
-  { title: i18n.t('required'), dataIndex: 'required', render: (val: boolean) => (val ? i18n.t('common:yes') : i18n.t('common:no')), width: 60 },
+  {
+    title: i18n.t('required'),
+    dataIndex: 'required',
+    render: (val: boolean) => (val ? i18n.t('common:yes') : i18n.t('common:no')),
+    width: 60,
+  },
 ];
 
 const ApiPreviewV2 = (props: IProps) => {
@@ -116,10 +124,7 @@ const ApiPreviewV2 = (props: IProps) => {
             props: {
               title: i18n.t('URL parameters'),
               rowKey: 'name',
-              columns: [
-                ...columns,
-                { title: i18n.t('default value'), dataIndex: 'default' },
-              ],
+              columns: [...columns, { title: i18n.t('default value'), dataIndex: 'default' }],
             },
           },
         ]),
@@ -130,34 +135,37 @@ const ApiPreviewV2 = (props: IProps) => {
             props: {
               title: i18n.t('path parameters'),
               rowKey: 'name',
-              columns: [
-                ...columns,
-                { title: i18n.t('default value'), dataIndex: 'default' },
-              ],
-            } },
+              columns: [...columns, { title: i18n.t('default value'), dataIndex: 'default' }],
+            },
+          },
         ]),
-        !isEmpty(bodyParams) ?
-          {
-            type: 'Table',
-            dataIndex: 'bodyParams',
-            props: {
-              title: i18n.t('request body'),
-              rowKey: 'key',
-              columns,
-            },
-          } : (bodyParamsPureType ? {
-            type: 'Title', props: { title: `${i18n.t('request body')}: ${bodyParamsPureType}`, level: 2 },
-          } : null),
-        !isEmpty(parametersMap.formData) ?
-          {
-            type: 'Table',
-            dataIndex: 'formData',
-            props: {
-              title: i18n.t('request body'),
-              rowKey: 'key',
-              columns,
-            },
-          } : null,
+        !isEmpty(bodyParams)
+          ? {
+              type: 'Table',
+              dataIndex: 'bodyParams',
+              props: {
+                title: i18n.t('request body'),
+                rowKey: 'key',
+                columns,
+              },
+            }
+          : bodyParamsPureType
+          ? {
+              type: 'Title',
+              props: { title: `${i18n.t('request body')}: ${bodyParamsPureType}`, level: 2 },
+            }
+          : null,
+        !isEmpty(parametersMap.formData)
+          ? {
+              type: 'Table',
+              dataIndex: 'formData',
+              props: {
+                title: i18n.t('request body'),
+                rowKey: 'key',
+                columns,
+              },
+            }
+          : null,
         ...insertWhen(!!parametersMap.header, [
           {
             type: 'Table',
@@ -165,39 +173,42 @@ const ApiPreviewV2 = (props: IProps) => {
             props: {
               title: i18n.t('request header'),
               rowKey: 'name',
-              columns: [
-                ...columns,
-                { title: i18n.t('default value'), dataIndex: 'default' },
-              ],
+              columns: [...columns, { title: i18n.t('default value'), dataIndex: 'default' }],
             },
           },
         ]),
         { type: 'BlockTitle', props: { title: i18n.t('response information') } },
-        isEmpty(responseData) ? {
-          type: 'Title', props: { title: `${i18n.t('response body')}: ${responseSchemaType || i18n.t('empty')} `, level: 2 },
-        } : {
-          type: 'Table',
-          dataIndex: 'responseData',
-          props: {
-            title: `${i18n.t('response body')}${responseSchemaType ? `: ${responseSchemaType}` : ''} `,
-            rowKey: 'key',
-            columns,
-          },
-        },
-        isEmpty(responseCode) ? {
-          type: 'Title', props: { title: `${i18n.t('response code')}: ${i18n.t('empty')}`, level: 2 },
-        } : {
-          type: 'Table',
-          dataIndex: 'responseCode',
-          props: {
-            title: i18n.t('response code'),
-            rowKey: 'code',
-            columns: [
-              { title: i18n.t('response code'), dataIndex: 'code' },
-              { title: i18n.t('description'), dataIndex: 'desc' },
-            ],
-          },
-        },
+        isEmpty(responseData)
+          ? {
+              type: 'Title',
+              props: { title: `${i18n.t('response body')}: ${responseSchemaType || i18n.t('empty')} `, level: 2 },
+            }
+          : {
+              type: 'Table',
+              dataIndex: 'responseData',
+              props: {
+                title: `${i18n.t('response body')}${responseSchemaType ? `: ${responseSchemaType}` : ''} `,
+                rowKey: 'key',
+                columns,
+              },
+            },
+        isEmpty(responseCode)
+          ? {
+              type: 'Title',
+              props: { title: `${i18n.t('response code')}: ${i18n.t('empty')}`, level: 2 },
+            }
+          : {
+              type: 'Table',
+              dataIndex: 'responseCode',
+              props: {
+                title: i18n.t('response code'),
+                rowKey: 'code',
+                columns: [
+                  { title: i18n.t('response code'), dataIndex: 'code' },
+                  { title: i18n.t('description'), dataIndex: 'desc' },
+                ],
+              },
+            },
       ],
     },
   } as Obj as CP_INFO_PREVIEW.Props;

@@ -26,16 +26,13 @@ import './issue-workflow-setting-modal.scss';
 import { FIELD_TYPE_ICON_MAP } from 'org/common/config';
 import { WithAuth, usePerm } from 'user/common';
 
-
-interface IProps{
+interface IProps {
   visible: boolean;
   issueType: ISSUE_TYPE;
   onCloseModal: () => void;
 }
 
-const IssueWorkflowSettingModal = ({
-  visible, onCloseModal, issueType,
-}: IProps) => {
+const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps) => {
   const workflowStateList = issueWorkflowStore.useStore((s) => s.workflowStateList);
   const { deleteIssueState, getStatesByIssue, batchUpdateIssueState } = issueWorkflowStore;
   const { projectId: projectID } = routeInfoStore.useStore((s) => s.params);
@@ -81,7 +78,6 @@ const IssueWorkflowSettingModal = ({
     onCancel();
   }, [batchUpdateIssueState, projectID, dataList, issueType, onCancel]);
 
-
   const onStateChange = (stateDataIndex: number, stateBelong: string) => {
     const tempList = produce(dataList, (draft) => {
       draft[stateDataIndex].stateBelong = stateBelong;
@@ -118,11 +114,14 @@ const IssueWorkflowSettingModal = ({
     getDataList();
   };
 
-  const onDeleteState = React.useCallback((stateID: number) => {
-    deleteIssueState({ id: stateID, projectID: +projectID }).then(() => {
-      getDataList();
-    });
-  }, [deleteIssueState, getDataList, projectID]);
+  const onDeleteState = React.useCallback(
+    (stateID: number) => {
+      deleteIssueState({ id: stateID, projectID: +projectID }).then(() => {
+        getDataList();
+      });
+    },
+    [deleteIssueState, getDataList, projectID],
+  );
 
   const flexWidthClass = React.useMemo(() => {
     return dataList.length <= 4 ? 'full-width' : '';
@@ -149,7 +148,13 @@ const IssueWorkflowSettingModal = ({
       <div className="issue-workflow-setting-modal">
         <div className="mb12">
           <IF check={formVisible}>
-            <WorkflowStateForm issueType={issueType} onOk={getDataList} onCancel={() => { updater.formVisible(false); }} />
+            <WorkflowStateForm
+              issueType={issueType}
+              onOk={getDataList}
+              onCancel={() => {
+                updater.formVisible(false);
+              }}
+            />
           </IF>
         </div>
         <IF check={!isEmpty(dataList)}>
@@ -157,127 +162,135 @@ const IssueWorkflowSettingModal = ({
             <div className="flex-box">
               <div className="form-content-left mr4">
                 <IF check={!formVisible}>
-                  <WithAuth pass={hasAuth} >
+                  <WithAuth pass={hasAuth}>
                     <Button
                       type="primary"
                       className="full-width add-option-btn fz12"
-                      onClick={() => { updater.formVisible(true); }}
+                      onClick={() => {
+                        updater.formVisible(true);
+                      }}
                     >
-                      <CustomIcon type="cir-add" className="mr4" />{i18n.t('add')}
+                      <CustomIcon type="cir-add" className="mr4" />
+                      {i18n.t('add')}
                     </Button>
                   </WithAuth>
                 </IF>
               </div>
               <div className="form-content-right flex-box">
-                {
-                  map(dataList, ({ stateName, stateID }, stateDataIndex) => {
-                    return (
-                      <div className={`state-radio-group ${flexWidthClass}`} key={stateID}>
-                        <div className={`state-option-btn flex-box ${flexWidthClass}`}>
-                          <WithAuth pass={hasAuth} >
-                            <CustomIcon
-                              className={`state-move-btn ${stateDataIndex === 0 ? 'disabled' : 'pointer'}`}
-                              type="arrow-left"
-                              onClick={() => { onChangeStateOrder(stateDataIndex, -1); }}
-                            />
-                          </WithAuth>
-                          <Tooltip title={stateName}>
-                            <div className="fz12 nowrap">{stateName}</div>
-                          </Tooltip>
-                          <WithAuth pass={hasAuth} >
-                            <CustomIcon
-                              className={`state-move-btn ${stateDataIndex === dataList.length - 1 ? 'disabled' : 'pointer'}`}
-                              type="arrow-right"
-                              onClick={() => { onChangeStateOrder(stateDataIndex, 1); }}
-                            />
-                          </WithAuth>
-                          <WithAuth pass={hasAuth} >
-                            <Popconfirm title={`${i18n.t('common:confirm to delete')}?`} onConfirm={() => onDeleteState(stateID)}>
-                              <CustomIcon className="state-delete-btn pointer" type="thin-del" />
-                            </Popconfirm>
-                          </WithAuth>
-                        </div>
-                      </div>
-                    );
-                  })
-                }
-              </div>
-            </div>
-            <Divider className="my8" orientation="left">{i18n.t('project:set state')}</Divider>
-            <div className="flex-box">
-              <div className="form-content-left">
-                {
-                  map(Object.values(issueStateMap[issueType]), (name: string) => {
-                    return <div className="state-td" key={name}>{name}</div>;
-                  })
-                }
-              </div>
-              <div className="form-content-right flex-box">
-                {
-                  map(dataList, ({ stateBelong, stateID }, stateDataIndex) => {
-                    return (
-                      <div className={`state-radio-group ${flexWidthClass}`} key={stateID}>
-                        {
-                          map(Object.keys(issueStateMap[issueType]), (k: string) => {
-                            return (
-                              <div className="state-td" key={k}>
-                                <WithAuth pass={hasAuth} >
-                                  <CustomIcon
-                                    className="state-radio-btn pointer"
-                                    type={stateBelong !== k ? 'circle' : 'circle-fill'}
-                                    onClick={() => {
-                                      onStateChange(stateDataIndex, k);
-                                    }}
-                                  />
-                                </WithAuth>
-                              </div>
-                            );
-                          })
-                        }
-                      </div>
-                    );
-                  })
-                }
-              </div>
-            </div>
-            <Divider className="my8" orientation="left">{i18n.t('project:circulation setting')}</Divider>
-            {
-                map(dataList, ({ relations, stateName, stateID }, stateDataIndex) => {
+                {map(dataList, ({ stateName, stateID }, stateDataIndex) => {
                   return (
-                    <div className="flex-box my12" key={stateID}>
-                      <div className="form-content-left text-center fz12 ">
-                        <div className="flex-box w-120">
-                          <Tooltip title={stateName}>
-                            <span className="bold-500 nowrap state-transfer-name">{stateName}</span>
-                          </Tooltip>
-                          <span className="ml8 color-text-desc">{i18n.t('project:can circulate to')}</span>
-                        </div>
-                      </div>
-                      <div className="form-content-right flex-box">
-                        {
-                          map(relations, ({ isRelated, name }, relationIndex) => {
-                            return (
-                              <div className={`state-radio-group ${flexWidthClass}`}>
-                                <div className={'state-td state-radio-btn mx0 my0'} key={name}>
-                                  <WithAuth pass={hasAuth} >
-                                    <CustomIcon
-                                      type={isRelated ? 'duoxuanxuanzhong' : 'icon-test'}
-                                      className={`${isRelated ? '' : 'bold'} ${name === stateName ? 'disabled' : 'pointer'}`}
-                                      onClick={() => {
-                                        name !== stateName && onRelationChange(stateDataIndex, relationIndex, !isRelated);
-                                      }}
-                                    />
-                                  </WithAuth>
-                                </div>
-                              </div>
-                            );
-                          })
-                        }
+                    <div className={`state-radio-group ${flexWidthClass}`} key={stateID}>
+                      <div className={`state-option-btn flex-box ${flexWidthClass}`}>
+                        <WithAuth pass={hasAuth}>
+                          <CustomIcon
+                            className={`state-move-btn ${stateDataIndex === 0 ? 'disabled' : 'pointer'}`}
+                            type="arrow-left"
+                            onClick={() => {
+                              onChangeStateOrder(stateDataIndex, -1);
+                            }}
+                          />
+                        </WithAuth>
+                        <Tooltip title={stateName}>
+                          <div className="fz12 nowrap">{stateName}</div>
+                        </Tooltip>
+                        <WithAuth pass={hasAuth}>
+                          <CustomIcon
+                            className={`state-move-btn ${
+                              stateDataIndex === dataList.length - 1 ? 'disabled' : 'pointer'
+                            }`}
+                            type="arrow-right"
+                            onClick={() => {
+                              onChangeStateOrder(stateDataIndex, 1);
+                            }}
+                          />
+                        </WithAuth>
+                        <WithAuth pass={hasAuth}>
+                          <Popconfirm
+                            title={`${i18n.t('common:confirm to delete')}?`}
+                            onConfirm={() => onDeleteState(stateID)}
+                          >
+                            <CustomIcon className="state-delete-btn pointer" type="thin-del" />
+                          </Popconfirm>
+                        </WithAuth>
                       </div>
                     </div>
                   );
-                })
-              }
+                })}
+              </div>
+            </div>
+            <Divider className="my8" orientation="left">
+              {i18n.t('project:set state')}
+            </Divider>
+            <div className="flex-box">
+              <div className="form-content-left">
+                {map(Object.values(issueStateMap[issueType]), (name: string) => {
+                  return (
+                    <div className="state-td" key={name}>
+                      {name}
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="form-content-right flex-box">
+                {map(dataList, ({ stateBelong, stateID }, stateDataIndex) => {
+                  return (
+                    <div className={`state-radio-group ${flexWidthClass}`} key={stateID}>
+                      {map(Object.keys(issueStateMap[issueType]), (k: string) => {
+                        return (
+                          <div className="state-td" key={k}>
+                            <WithAuth pass={hasAuth}>
+                              <CustomIcon
+                                className="state-radio-btn pointer"
+                                type={stateBelong !== k ? 'circle' : 'circle-fill'}
+                                onClick={() => {
+                                  onStateChange(stateDataIndex, k);
+                                }}
+                              />
+                            </WithAuth>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <Divider className="my8" orientation="left">
+              {i18n.t('project:circulation setting')}
+            </Divider>
+            {map(dataList, ({ relations, stateName, stateID }, stateDataIndex) => {
+              return (
+                <div className="flex-box my12" key={stateID}>
+                  <div className="form-content-left text-center fz12 ">
+                    <div className="flex-box w-120">
+                      <Tooltip title={stateName}>
+                        <span className="bold-500 nowrap state-transfer-name">{stateName}</span>
+                      </Tooltip>
+                      <span className="ml8 color-text-desc">{i18n.t('project:can circulate to')}</span>
+                    </div>
+                  </div>
+                  <div className="form-content-right flex-box">
+                    {map(relations, ({ isRelated, name }, relationIndex) => {
+                      return (
+                        <div className={`state-radio-group ${flexWidthClass}`}>
+                          <div className={'state-td state-radio-btn mx0 my0'} key={name}>
+                            <WithAuth pass={hasAuth}>
+                              <CustomIcon
+                                type={isRelated ? 'duoxuanxuanzhong' : 'icon-test'}
+                                className={`${isRelated ? '' : 'bold'} ${name === stateName ? 'disabled' : 'pointer'}`}
+                                onClick={() => {
+                                  name !== stateName && onRelationChange(stateDataIndex, relationIndex, !isRelated);
+                                }}
+                              />
+                            </WithAuth>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </IF>
       </div>

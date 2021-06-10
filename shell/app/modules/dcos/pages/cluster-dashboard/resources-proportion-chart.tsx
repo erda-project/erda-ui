@@ -19,18 +19,12 @@ import { ChartRender } from 'charts';
 import { ChartContainer } from 'charts/utils';
 import { CLUSTER_RESOURCES_PROPORTION_MAP } from 'dcos/common/config';
 
-
 interface IProps {
   statisticsLabels?: any;
   machineList: any[];
 }
 
-const ResourcesProportionChart = ({
-  statisticsLabels: {
-    totalHosts,
-    labelsInfo = {},
-  },
-}: IProps) => {
+const ResourcesProportionChart = ({ statisticsLabels: { totalHosts, labelsInfo = {} } }: IProps) => {
   const data: any[] = map(labelsInfo, (value, name) => ({
     ...value,
     name,
@@ -44,30 +38,24 @@ const ResourcesProportionChart = ({
       bottom: 0,
       containLabel: true,
     },
-    xAxis: [{
-      type: 'category',
-      splitLine: {
-        show: false,
+    xAxis: [
+      {
+        type: 'category',
+        splitLine: {
+          show: false,
+        },
+        axisLabel: {
+          interval: 0,
+          rotate: 40,
+        },
+        data: map(data, (item) => item.name),
       },
-      axisLabel: {
-        interval: 0,
-        rotate: 40,
-      },
-      data: map(data, (item) => item.name),
-    }],
+    ],
   };
 
   const getOption = (type: string) => {
-    const {
-      totalName,
-      totalValue,
-      valueName,
-      value,
-      unit,
-      schedulableUnit,
-      schedulableKey,
-      schedulableName,
-    } = CLUSTER_RESOURCES_PROPORTION_MAP[type];
+    const { totalName, totalValue, valueName, value, unit, schedulableUnit, schedulableKey, schedulableName } =
+      CLUSTER_RESOURCES_PROPORTION_MAP[type];
 
     return {
       ...commonOption,
@@ -78,25 +66,30 @@ const ResourcesProportionChart = ({
         },
         formatter: (params: Record<string, any> | any[]) => {
           const { name } = params[0];
-          const seriesTpl = map(params, ({ marker, seriesName, value: seriesValue }: any) => `${marker}${seriesName}: ${seriesValue}<br />`);
+          const seriesTpl = map(
+            params,
+            ({ marker, seriesName, value: seriesValue }: any) => `${marker}${seriesName}: ${seriesValue}<br />`,
+          );
           let schedulableValue = labelsInfo[name][schedulableKey];
           if (schedulableUnit === '%') {
             schedulableValue = round(parseFloat(schedulableValue) * 100, 2);
           }
 
-          return (`
+          return `
             ${name} ${schedulableName ? `<${schedulableName}: ${schedulableValue || '--'}${schedulableUnit}>` : ''}
             <br />
             ${seriesTpl}
-          `);
+          `;
         },
       },
-      yAxis: [{
-        type: 'value',
-        axisLabel: {
-          formatter: `{value}${unit}`,
+      yAxis: [
+        {
+          type: 'value',
+          axisLabel: {
+            formatter: `{value}${unit}`,
+          },
         },
-      }],
+      ],
       series: [
         {
           name: totalName,
@@ -109,10 +102,12 @@ const ResourcesProportionChart = ({
             },
           },
           markLine: {
-            data: [{
-              type: 'max',
-              name: i18n.t('dcos:maximum value'),
-            }],
+            data: [
+              {
+                type: 'max',
+                name: i18n.t('dcos:maximum value'),
+              },
+            ],
             label: {
               position: 'middle',
               formatter: `${totalName}: {c}${unit}`,
@@ -153,6 +148,5 @@ const ResourcesProportionChart = ({
     </Spin>
   );
 };
-
 
 export default ResourcesProportionChart;

@@ -13,17 +13,14 @@
 
 import { createStore } from 'app/cube';
 
-
 const userMap = createStore({
   name: 'userMap',
-  state: {
-  },
+  state: {},
   reducers: {
     setUserMap(state, userInfo: object) {
       return { ...state, ...userInfo };
     },
   },
 });
-
 
 export default userMap;

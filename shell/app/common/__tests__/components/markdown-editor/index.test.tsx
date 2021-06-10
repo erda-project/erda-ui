@@ -63,4 +63,3 @@ describe('MarkdownEditor', () => {
     expect(wrapper.find('.markdown-editor-content').children().prop('value')).toBe('');
   });
 });
-

@@ -68,27 +68,28 @@ const convertChartData = (data: any) => {
 export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string }) => {
   const alarmRecordStore = storeMap[scope];
   const { recordId } = routeInfoStore.useStore((s) => s.params);
-  const [recordDetail, alarmTimesChart, recordHistories] = alarmRecordStore.useStore((s) => [s.recordDetail, s.alarmTimesChart, s.recordHistories]);
+  const [recordDetail, alarmTimesChart, recordHistories] = alarmRecordStore.useStore((s) => [
+    s.recordDetail,
+    s.alarmTimesChart,
+    s.recordHistories,
+  ]);
   const { getAlarmRecordDetail, getAlarmTimesChart, getAlarmRecordHistories } = alarmRecordStore;
   // const isExistingTicket = !!recordDetail.issueId;
 
   const [loading] = useLoading(alarmRecordStore, ['getAlarmRecordHistories']);
-  const issueUrlMap = React.useMemo(() => ({
-    [AlarmRecordScope.ORG]: `/api/org-alert-records/${recordId}/issues`,
-    [AlarmRecordScope.MICRO_SERVICE]: `/api/tmc/tenantGroup/${tenantGroup}/alert-records/${recordId}/issues`,
-  }), [recordId, tenantGroup]);
+  const issueUrlMap = React.useMemo(
+    () => ({
+      [AlarmRecordScope.ORG]: `/api/org-alert-records/${recordId}/issues`,
+      [AlarmRecordScope.MICRO_SERVICE]: `/api/tmc/tenantGroup/${tenantGroup}/alert-records/${recordId}/issues`,
+    }),
+    [recordId, tenantGroup],
+  );
 
   useMount(() => {
     getAlarmRecordDetail(recordId);
   });
 
-  const [{
-    drawerVisible,
-    selectProjectVisible,
-    relatedProject,
-    view,
-    timeSpan,
-  }, updater] = useUpdate({
+  const [{ drawerVisible, selectProjectVisible, relatedProject, view, timeSpan }, updater] = useUpdate({
     drawerVisible: false,
     selectProjectVisible: false,
     relatedProject: 0,
@@ -128,27 +129,30 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
     updater.drawerVisible(true);
   };
 
-  const layout = React.useMemo(() => [
-    {
-      w: 24,
-      h: 7,
-      x: 0,
-      y: 0,
-      i: 'alarm-times',
-      moved: false,
-      static: false,
-      view: {
-        chartType: 'chart:area',
-        title: i18n.t('org:alarm times tending'),
-        staticData: convertChartData(alarmTimesChart),
-        config: {
-          optionProps: {
-            isMoreThanOneDay: true,
+  const layout = React.useMemo(
+    () => [
+      {
+        w: 24,
+        h: 7,
+        x: 0,
+        y: 0,
+        i: 'alarm-times',
+        moved: false,
+        static: false,
+        view: {
+          chartType: 'chart:area',
+          title: i18n.t('org:alarm times tending'),
+          staticData: convertChartData(alarmTimesChart),
+          config: {
+            optionProps: {
+              isMoreThanOneDay: true,
+            },
           },
         },
       },
-    },
-  ], [alarmTimesChart]);
+    ],
+    [alarmTimesChart],
+  );
 
   const columns: Array<ColumnProps<ALARM_REPORT.AlarmHistory>> = [
     {
@@ -167,12 +171,7 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
       render: (record: ALARM_REPORT.AlarmHistory) => (
         <div className="table-operations">
           <IF check={!!record.displayUrl}>
-            <a
-              className="table-operations-btn"
-              href={record.displayUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a className="table-operations-btn" href={record.displayUrl} target="_blank" rel="noopener noreferrer">
               {i18n.t('org:check')}
             </a>
             <IF.ELSE />

@@ -13,7 +13,26 @@
 
 import * as React from 'react';
 import i18n from 'i18n';
-import { map, filter, uniqueId, reduce, cloneDeep, find, findIndex, fill, concat, isEmpty, omit, some, toString, uniqBy, debounce, keyBy, get, merge } from 'lodash';
+import {
+  map,
+  filter,
+  uniqueId,
+  reduce,
+  cloneDeep,
+  find,
+  findIndex,
+  fill,
+  concat,
+  isEmpty,
+  omit,
+  some,
+  toString,
+  uniqBy,
+  debounce,
+  keyBy,
+  get,
+  merge,
+} from 'lodash';
 import { Spin, Button, Switch, Popconfirm, Table, Select, Input, InputNumber, message, Modal, Tooltip } from 'app/nusi';
 import { PagingTable, FormModal, useUpdate, MarkdownEditor, RenderPureForm, IF, PureBoardGrid } from 'common';
 import { goTo } from 'common/utils';
@@ -30,11 +49,11 @@ import './index.scss';
 
 enum DataType {
   STRING = 'string',
-  STRING_ARRAY= 'string_array',
+  STRING_ARRAY = 'string_array',
   BOOL = 'bool',
-  BOOL_ARRAY= 'bool_array',
+  BOOL_ARRAY = 'bool_array',
   NUMBER = 'number',
-  NUMBER_ARRAY= 'number_array',
+  NUMBER_ARRAY = 'number_array',
 }
 
 const customAlarmStoreMap = {
@@ -63,35 +82,37 @@ const formItemLayout = {
 export default ({ scopeType }: { scopeType: string }) => {
   const customAlarmStore = customAlarmStoreMap[scopeType];
   const monitorMetaDataStore = monitorMetaDataStoreMap[scopeType];
-  const [switchCustomAlarmLoading, getPreviewMetaDataLoading, getCustomAlarmsLoading, getCustomAlarmDetailLoading] = useLoading(customAlarmStore, ['switchCustomAlarm', 'getPreviewMetaData', 'getCustomAlarms', 'getCustomAlarmDetail']);
+  const [switchCustomAlarmLoading, getPreviewMetaDataLoading, getCustomAlarmsLoading, getCustomAlarmDetailLoading] =
+    useLoading(customAlarmStore, [
+      'switchCustomAlarm',
+      'getPreviewMetaData',
+      'getCustomAlarms',
+      'getCustomAlarmDetail',
+    ]);
   const [extraLoading] = useLoading(monitorMetaDataStore, ['getMetaData']);
-  const [
-    metaGroups,
-    metaConstantMap,
-    metaMetrics,
-  ] = monitorMetaDataStore.useStore((s: any) => [
+  const [metaGroups, metaConstantMap, metaMetrics] = monitorMetaDataStore.useStore((s: any) => [
     s.metaGroups,
     s.metaConstantMap,
     s.metaMetrics,
   ]);
   const { getMetaGroups, getMetaData } = monitorMetaDataStore.effects;
-  const { fields, tags, metric, filters: defaultFilters } = React.useMemo(() => (metaMetrics || [])[0] || {}, [metaMetrics]);
+  const {
+    fields,
+    tags,
+    metric,
+    filters: defaultFilters,
+  } = React.useMemo(() => (metaMetrics || [])[0] || {}, [metaMetrics]);
   const { types, filters } = React.useMemo(() => metaConstantMap, [metaConstantMap]);
   const fieldsMap = React.useMemo(() => keyBy(fields, 'key'), [fields]);
 
-  const [
-    customAlarms,
-    customAlarmPaging,
-    customMetricMap,
-    customAlarmDetail,
-    customAlarmTargets,
-  ] = customAlarmStore.useStore((s: any) => [
-    s.customAlarms,
-    s.customAlarmPaging,
-    s.customMetricMap,
-    s.customAlarmDetail,
-    s.customAlarmTargets,
-  ]);
+  const [customAlarms, customAlarmPaging, customMetricMap, customAlarmDetail, customAlarmTargets] =
+    customAlarmStore.useStore((s: any) => [
+      s.customAlarms,
+      s.customAlarmPaging,
+      s.customMetricMap,
+      s.customAlarmDetail,
+      s.customAlarmTargets,
+    ]);
   const {
     getCustomAlarms,
     switchCustomAlarm,
@@ -112,15 +133,11 @@ export default ({ scopeType }: { scopeType: string }) => {
     getCustomAlarmTargets();
   });
 
-  const [{
-    modalVisible,
-    editingFilters,
-    editingFields,
-    selectedMetric,
-    activedFormData,
-    previewerKey,
-    layout,
-  }, updater, update] = useUpdate({
+  const [
+    { modalVisible, editingFilters, editingFields, selectedMetric, activedFormData, previewerKey, layout },
+    updater,
+    update,
+  ] = useUpdate({
     layout: [],
     modalVisible: false,
     editingFilters: [],
@@ -215,12 +232,11 @@ export default ({ scopeType }: { scopeType: string }) => {
       render: (record: COMMON_CUSTOM_ALARM.CustomAlarms) => {
         return (
           <div className="table-operations">
-            <span className="table-operations-btn" onClick={() => openModal(record.id)}>{i18n.t('edit')}</span>
+            <span className="table-operations-btn" onClick={() => openModal(record.id)}>
+              {i18n.t('edit')}
+            </span>
             <IF check={record.dashboardId}>
-              <span
-                className="table-operations-btn"
-                onClick={() => goTo(`./${record.dashboardId}`)}
-              >
+              <span className="table-operations-btn" onClick={() => goTo(`./${record.dashboardId}`)}>
                 {i18n.t('org:view dashboard')}
               </span>
             </IF>
@@ -254,7 +270,11 @@ export default ({ scopeType }: { scopeType: string }) => {
             ]);
           }}
         >
-          {map(tags, ({ key, name }) => <Select.Option key={key} value={key}>{name}</Select.Option>)}
+          {map(tags, ({ key, name }) => (
+            <Select.Option key={key} value={key}>
+              {name}
+            </Select.Option>
+          ))}
         </Select>
       ),
     },
@@ -265,9 +285,13 @@ export default ({ scopeType }: { scopeType: string }) => {
         <Select
           defaultValue={value}
           className="full-width"
-          onSelect={(operator) => { handleEditEditingFilters(uniKey, [{ key: 'operator', value: operator }]); }}
+          onSelect={(operator) => {
+            handleEditEditingFilters(uniKey, [{ key: 'operator', value: operator }]);
+          }}
         >
-          {map(filters, ({ operation, name }) => <Select.Option key={operation}>{name}</Select.Option>)}
+          {map(filters, ({ operation, name }) => (
+            <Select.Option key={operation}>{name}</Select.Option>
+          ))}
         </Select>
       ),
     },
@@ -278,11 +302,13 @@ export default ({ scopeType }: { scopeType: string }) => {
         let expectedValEle = (
           <Input
             defaultValue={value}
-            onBlur={(e: any) => { handleEditEditingFilters(uniKey, [{ key: 'value', value: e.target.value }]); }}
+            onBlur={(e: any) => {
+              handleEditEditingFilters(uniKey, [{ key: 'value', value: e.target.value }]);
+            }}
           />
         );
-        const selectedFilter = find(editingFilters, { uniKey }) || {} as any;
-        const { values: _values } = find(tags, { key: selectedFilter.tag }) || {} as any;
+        const selectedFilter = find(editingFilters, { uniKey }) || ({} as any);
+        const { values: _values } = find(tags, { key: selectedFilter.tag }) || ({} as any);
         if (!isEmpty(_values)) {
           expectedValEle = (
             <Select
@@ -293,7 +319,11 @@ export default ({ scopeType }: { scopeType: string }) => {
                 handleEditEditingFilters(uniKey, [{ key: 'value', value: v }]);
               }}
             >
-              {map(_values, ({ value: v, name }) => <Select.Option key={v} value={v}>{name}</Select.Option>)}
+              {map(_values, ({ value: v, name }) => (
+                <Select.Option key={v} value={v}>
+                  {name}
+                </Select.Option>
+              ))}
             </Select>
           );
         }
@@ -306,7 +336,14 @@ export default ({ scopeType }: { scopeType: string }) => {
       render: ({ uniKey }: any) => {
         return (
           <div className="table-operations">
-            <span className="table-operations-btn" onClick={() => { handleRemoveEditingFilter(uniKey); }}>{i18n.t('delete')}</span>
+            <span
+              className="table-operations-btn"
+              onClick={() => {
+                handleRemoveEditingFilter(uniKey);
+              }}
+            >
+              {i18n.t('delete')}
+            </span>
           </div>
         );
       },
@@ -328,7 +365,11 @@ export default ({ scopeType }: { scopeType: string }) => {
             ]);
           }}
         >
-          {map(fields, ({ key, name }) => <Select.Option key={key} value={key}><Tooltip title={name}>{name}</Tooltip></Select.Option>)}
+          {map(fields, ({ key, name }) => (
+            <Select.Option key={key} value={key}>
+              <Tooltip title={name}>{name}</Tooltip>
+            </Select.Option>
+          ))}
         </Select>
       ),
     },
@@ -338,7 +379,9 @@ export default ({ scopeType }: { scopeType: string }) => {
       render: (value: string, { uniKey }: COMMON_CUSTOM_ALARM.Field) => (
         <Input
           defaultValue={value}
-          onBlur={(e: any) => { handleEditEditingFields(uniKey, [{ key: 'alias', value: e.target.value }]); }}
+          onBlur={(e: any) => {
+            handleEditEditingFields(uniKey, [{ key: 'alias', value: e.target.value }]);
+          }}
         />
       ),
     },
@@ -356,7 +399,9 @@ export default ({ scopeType }: { scopeType: string }) => {
             ]);
           }}
         >
-          {map(aggregations, ({ aggregation, name }) => <Select.Option key={aggregation}>{name}</Select.Option>)}
+          {map(aggregations, ({ aggregation, name }) => (
+            <Select.Option key={aggregation}>{name}</Select.Option>
+          ))}
         </Select>
       ),
     },
@@ -367,9 +412,13 @@ export default ({ scopeType }: { scopeType: string }) => {
         <Select
           defaultValue={value}
           className="full-width"
-          onSelect={(operator) => { handleEditEditingFields(uniKey, [{ key: 'operator', value: operator }]); }}
+          onSelect={(operator) => {
+            handleEditEditingFields(uniKey, [{ key: 'operator', value: operator }]);
+          }}
         >
-          {map(get(types[aggregatorType], 'operations'), ({ operation, name }) => <Select.Option key={operation}>{name}</Select.Option>)}
+          {map(get(types[aggregatorType], 'operations'), ({ operation, name }) => (
+            <Select.Option key={operation}>{name}</Select.Option>
+          ))}
         </Select>
       ),
     },
@@ -386,7 +435,9 @@ export default ({ scopeType }: { scopeType: string }) => {
             valueEle = (
               <Input
                 defaultValue={value}
-                onBlur={(e: any) => { handleEditEditingFields(uniKey, [{ key: 'value', value: e.target.value }]); }}
+                onBlur={(e: any) => {
+                  handleEditEditingFields(uniKey, [{ key: 'value', value: e.target.value }]);
+                }}
               />
             );
             break;
@@ -396,7 +447,9 @@ export default ({ scopeType }: { scopeType: string }) => {
               <InputNumber
                 min={0}
                 defaultValue={value}
-                onChange={(v: any) => { debounceEditEditingFields(uniKey, [{ key: 'value', value: v }]); }}
+                onChange={(v: any) => {
+                  debounceEditEditingFields(uniKey, [{ key: 'value', value: v }]);
+                }}
               />
             );
             break;
@@ -407,7 +460,9 @@ export default ({ scopeType }: { scopeType: string }) => {
                 checkedChildren="true"
                 unCheckedChildren="false"
                 defaultChecked={value}
-                onClick={(v: boolean) => { handleEditEditingFields(uniKey, [{ key: 'value', value: v }]); }}
+                onClick={(v: boolean) => {
+                  handleEditEditingFields(uniKey, [{ key: 'value', value: v }]);
+                }}
               />
             );
             break;
@@ -435,7 +490,14 @@ export default ({ scopeType }: { scopeType: string }) => {
               {i18n.t('delete')}
             </span>
             <IF check={isPreviewing}>
-              <span className="table-operations-btn" onClick={() => { handlePreview(form, uniKey); }}>{i18n.t('refresh')}</span>
+              <span
+                className="table-operations-btn"
+                onClick={() => {
+                  handlePreview(form, uniKey);
+                }}
+              >
+                {i18n.t('refresh')}
+              </span>
             </IF>
             <span
               className="table-operations-btn"
@@ -532,32 +594,38 @@ export default ({ scopeType }: { scopeType: string }) => {
   const handlePreview = (form: WrappedFormUtils, uniKey: any) => {
     const { rule } = form.getFieldsValue();
     const payload = {
-      rules: [{
-        ...rule,
-        metric: selectedMetric,
-        functions: [omit(find(editingFields, { uniKey }), extraKeys)],
-        filters: map(editingFilters, (item) => omit(item, extraKeys)),
-      }],
+      rules: [
+        {
+          ...rule,
+          metric: selectedMetric,
+          functions: [omit(find(editingFields, { uniKey }), extraKeys)],
+          filters: map(editingFilters, (item) => omit(item, extraKeys)),
+        },
+      ],
     };
     updater.previewerKey(uniKey);
     getPreviewMetaData(payload).then((metaData: any) => {
-      const apiInfo = merge({}, metaData.api, { query: {
-        ...reduce(defaultFilters, (acc, { tag, op, value }) => ({ ...acc, [`${op}_${tag}`]: value }), {}),
-      } });
-      const _layout = [{
-        w: 24,
-        h: 9,
-        x: 0,
-        y: 0,
-        i: 'custom-rule-preview',
-        moved: false,
-        static: false,
-        view: {
-          ...metaData,
-          hideReload: true,
-          loadData: createLoadDataFn(apiInfo, metaData.chartType),
+      const apiInfo = merge({}, metaData.api, {
+        query: {
+          ...reduce(defaultFilters, (acc, { tag, op, value }) => ({ ...acc, [`${op}_${tag}`]: value }), {}),
         },
-      }];
+      });
+      const _layout = [
+        {
+          w: 24,
+          h: 9,
+          x: 0,
+          y: 0,
+          i: 'custom-rule-preview',
+          moved: false,
+          static: false,
+          view: {
+            ...metaData,
+            hideReload: true,
+            loadData: createLoadDataFn(apiInfo, metaData.chartType),
+          },
+        },
+      ];
       updater.layout(_layout);
     });
   };
@@ -610,12 +678,14 @@ export default ({ scopeType }: { scopeType: string }) => {
     const _notify = merge({}, value.notify, { targets: [...(value.notify.targets || []), 'ticket'] });
     const payload = {
       name: value.name,
-      rules: [{
-        ...value.rule,
-        metric: selectedMetric,
-        functions: map(editingFields, (item) => omit(item, extraKeys)),
-        filters: map(editingFilters, (item) => omit(item, extraKeys)),
-      }],
+      rules: [
+        {
+          ...value.rule,
+          metric: selectedMetric,
+          functions: map(editingFields, (item) => omit(item, extraKeys)),
+          filters: map(editingFilters, (item) => omit(item, extraKeys)),
+        },
+      ],
       notifies: [_notify],
     };
     if (isEmpty(activedFormData)) {
@@ -626,7 +696,7 @@ export default ({ scopeType }: { scopeType: string }) => {
     closeModal();
   };
 
-  const BasicForm = ({ form }: {form: WrappedFormUtils}) => {
+  const BasicForm = ({ form }: { form: WrappedFormUtils }) => {
     const fieldsList = [
       {
         label: i18n.t('name'),
@@ -639,7 +709,7 @@ export default ({ scopeType }: { scopeType: string }) => {
     return <RenderPureForm list={fieldsList} form={form} onlyItems formItemLayout={formItemLayout} />;
   };
 
-  const RuleForm = ({ form }: {form: WrappedFormUtils}) => {
+  const RuleForm = ({ form }: { form: WrappedFormUtils }) => {
     let fieldsList = [
       {
         label: `${i18n.t('period')} (${i18n.t('min')})`,
@@ -678,70 +748,70 @@ export default ({ scopeType }: { scopeType: string }) => {
       },
     ];
     if (selectedMetric) {
-      fieldsList = concat(fieldsList, {
-        label: i18n.t('org:filter rule'),
-        name: 'rule.filters',
-        required: false,
-        getComp: () => (
-          <>
-            <Button
-              ghost
-              className="mb8"
-              type="primary"
-              disabled={someValueEmpty(editingFilters, 'value')}
-              onClick={handleAddEditingFilters}
-            >
-              {i18n.t('org:add filter rules')}
-            </Button>
-            <Table
-              bordered
-              rowKey="uniKey"
-              dataSource={editingFilters}
-              columns={filterColumns}
-            />
-          </>
-        ),
-      }, {
-        label: i18n.t('org:grouping rules'),
-        name: 'rule.group',
-        required: false,
-        type: 'select',
-        options: map(tags, ({ key, name }) => ({ value: key, name })),
-        itemProps: {
-          mode: 'multiple',
-          allowClear: true,
-          className: 'full-width',
+      fieldsList = concat(
+        fieldsList,
+        {
+          label: i18n.t('org:filter rule'),
+          name: 'rule.filters',
+          required: false,
+          getComp: () => (
+            <>
+              <Button
+                ghost
+                className="mb8"
+                type="primary"
+                disabled={someValueEmpty(editingFilters, 'value')}
+                onClick={handleAddEditingFilters}
+              >
+                {i18n.t('org:add filter rules')}
+              </Button>
+              <Table bordered rowKey="uniKey" dataSource={editingFilters} columns={filterColumns} />
+            </>
+          ),
         },
-      }, {
-        label: i18n.t('org:field rule'),
-        name: 'rule.functions',
-        required: false,
-        getComp: () => (
-          <>
-            <Button
-              className="mb8"
-              type="primary"
-              ghost
-              disabled={someValueEmpty(editingFields, 'value')}
-              onClick={handleAddEditingFields}
-            >
-              {i18n.t('org:add field rules')}
-            </Button>
-            <Table
-              bordered
-              rowKey="uniKey"
-              dataSource={editingFields}
-              columns={getFieldColumns(form)}
-              scroll={{ x: 800 }}
-            />
-          </>
-        ),
-      });
+        {
+          label: i18n.t('org:grouping rules'),
+          name: 'rule.group',
+          required: false,
+          type: 'select',
+          options: map(tags, ({ key, name }) => ({ value: key, name })),
+          itemProps: {
+            mode: 'multiple',
+            allowClear: true,
+            className: 'full-width',
+          },
+        },
+        {
+          label: i18n.t('org:field rule'),
+          name: 'rule.functions',
+          required: false,
+          getComp: () => (
+            <>
+              <Button
+                className="mb8"
+                type="primary"
+                ghost
+                disabled={someValueEmpty(editingFields, 'value')}
+                onClick={handleAddEditingFields}
+              >
+                {i18n.t('org:add field rules')}
+              </Button>
+              <Table
+                bordered
+                rowKey="uniKey"
+                dataSource={editingFields}
+                columns={getFieldColumns(form)}
+                scroll={{ x: 800 }}
+              />
+            </>
+          ),
+        },
+      );
     }
     return <RenderPureForm list={fieldsList} form={form} onlyItems formItemLayout={formItemLayout} />;
   };
 
-  const NotifyForm = ({ form }: {form: WrappedFormUtils}) => {
+  const NotifyForm = ({ form }: { form: WrappedFormUtils }) => {
     const fieldsList = [
       {
         label: i18n.t('org:optional notification methods'),
@@ -825,7 +895,9 @@ export default ({ scopeType }: { scopeType: string }) => {
   return (
     <div className="custom-alarm">
       <div className="top-button-group">
-        <Button type="primary" onClick={() => openModal()}>{i18n.t('org:create custom rule')}</Button>
+        <Button type="primary" onClick={() => openModal()}>
+          {i18n.t('org:create custom rule')}
+        </Button>
       </div>
       <Spin spinning={getCustomAlarmsLoading}>
         <PagingTable

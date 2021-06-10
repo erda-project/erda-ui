@@ -13,8 +13,8 @@
 
 const { forEach } = require('lodash');
 const tsconfig = require('./tsconfig.json');
-const fs = require('fs')
-const path = require('path')
+const fs = require('fs');
+const path = require('path');
 const moduleNameMapper = require('tsconfig-paths-jest')(tsconfig);
 const moduleMapper = {};
 const excludeModules = ['interface', 'common', 'layout', 'dice-env', 'user', 'configForm', 'charts'];
@@ -23,17 +23,15 @@ forEach(moduleNameMapper, (t, k) => {
     moduleMapper[`^${k}`] = t;
   }
 });
-const resolve = pathname => path.resolve(__dirname, pathname);
-const dashboardRealPath = fs.realpathSync(resolve('./node_modules/@terminus/dashboard-configurator'));
+const resolve = (pathname) => path.resolve(__dirname, pathname);
+const dashboardRealPath = fs.realpathSync(resolve('./node_modules/@erda-ui/dashboard-configurator'));
 
 module.exports = {
   verbose: true,
   automock: false,
   clearMocks: true,
   coverageDirectory: 'coverage',
-  coveragePathIgnorePatterns: [
-    '/node_modules/',
-  ],
+  coveragePathIgnorePatterns: ['/node_modules/'],
   collectCoverage: false,
   collectCoverageFrom: [
     'app/common/**/*.{js,jsx,ts,tsx}',
@@ -47,16 +45,11 @@ module.exports = {
       isolatedModules: true,
     },
   },
-  moduleFileExtensions: [
-    'tsx',
-    'ts',
-    'jsx',
-    'js',
-  ],
+  moduleFileExtensions: ['tsx', 'ts', 'jsx', 'js'],
   transform: {
     '^.+\\.(t|j)sx?$': 'ts-jest',
     '^.+\\js$': 'babel-jest',
-    '@terminus/dashboard-configurator': 'ts-jest',
+    '@erda-ui/dashboard-configurator': 'ts-jest',
     [dashboardRealPath]: 'ts-jest',
   },
   moduleNameMapper: {
@@ -88,27 +81,21 @@ module.exports = {
     'common/stores(.*)': '<rootDir>/app/common/stores/$1',
     '^configForm(.*)': '<rootDir>/app/configForm/$1',
     '^charts$': '<rootDir>/app/charts/index.js',
-    // mock for @terminus/dashboard-configuratort iconfont
+    // mock for @erda-ui/dashboard-configuratort iconfont
     'iconfont.js$': 'identity-obj-proxy',
     '\\.(css|less|scss)$': 'identity-obj-proxy',
   },
   preset: 'ts-jest/presets/js-with-ts',
-  setupFiles: [
-    '<rootDir>/test/setupJest.ts',
-    '<rootDir>/test/setupEnzyme.ts',
-    'jest-canvas-mock',
-  ],
+  setupFiles: ['<rootDir>/test/setupJest.ts', '<rootDir>/test/setupEnzyme.ts', 'jest-canvas-mock'],
   setupFilesAfterEnv: ['./node_modules/jest-enzyme/lib/index.js'],
   testEnvironmentOptions: {
     enzymeAdapter: 'react16',
   },
   transformIgnorePatterns: [
-    // 'node_modules/(?!@terminus/dashboard-configurator/.*)',
-    dashboardRealPath
+    // 'node_modules/(?!@erda-ui/dashboard-configurator/.*)',
+    dashboardRealPath,
   ],
-  testMatch: [
-    '**/__tests__/**/*.test.+(tsx|ts|jsx|js)',
-  ],
+  testMatch: ['**/__tests__/**/*.test.+(tsx|ts|jsx|js)'],
   testPathIgnorePatterns: [
     // '/node_modules/',
   ],

@@ -20,15 +20,21 @@ import i18n from 'i18n';
 
 import './back-to-top.scss';
 
-const BackToTop = ({ containerId }: {containerId?: string}) => {
+const BackToTop = ({ containerId }: { containerId?: string }) => {
   const [visible, setVisible] = React.useState(false);
   const isMoving = React.useRef(false);
-  const mainElement = React.useMemo(() => (document.querySelector(containerId ? `#${containerId}` : '#main')), [containerId]);
+  const mainElement = React.useMemo(
+    () => document.querySelector(containerId ? `#${containerId}` : '#main'),
+    [containerId],
+  );
 
-  const handleScroll = React.useCallback(throttle(() => {
-    const isV = mainElement ? mainElement.scrollTop * 1.25 > mainElement!.clientHeight : false;
-    setVisible(isV);
-  }, 300), [mainElement]);
+  const handleScroll = React.useCallback(
+    throttle(() => {
+      const isV = mainElement ? mainElement.scrollTop * 1.25 > mainElement!.clientHeight : false;
+      setVisible(isV);
+    }, 300),
+    [mainElement],
+  );
 
   useEffectOnce(() => {
     mainElement && mainElement.addEventListener('scroll', handleScroll);
@@ -46,13 +52,11 @@ const BackToTop = ({ containerId }: {containerId?: string}) => {
     isMoving.current = false;
   };
 
-  return (visible
-    ? (
-      <Tooltip title={i18n.t('back to top')}>
-        <CustomIcon className="scroll-top-btn" type="huidaodingbu" onClick={onBackToTop} />
-      </Tooltip>
-    )
-    : null);
+  return visible ? (
+    <Tooltip title={i18n.t('back to top')}>
+      <CustomIcon className="scroll-top-btn" type="huidaodingbu" onClick={onBackToTop} />
+    </Tooltip>
+  ) : null;
 };
 
 export default BackToTop;

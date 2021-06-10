@@ -19,23 +19,10 @@ import SICommonStore from '../../stores/common';
 import microServiceStore from 'microService/stores/micro-service';
 
 const PageMap = [
-  [
-    JvmsMap.heapMemoryUsage,
-    JvmsMap.nonHeapMemoryUsage,
-  ],
-  [
-    JvmsMap.PSEdenSpace,
-    JvmsMap.PSOldGen,
-    JvmsMap.PSSurvivorSpace,
-  ],
-  [
-    JvmsMap.GCMarkSweep,
-    JvmsMap.GCScavenge,
-  ],
-  [
-    JvmsMap.classCount,
-    JvmsMap.thread,
-  ],
+  [JvmsMap.heapMemoryUsage, JvmsMap.nonHeapMemoryUsage],
+  [JvmsMap.PSEdenSpace, JvmsMap.PSOldGen, JvmsMap.PSSurvivorSpace],
+  [JvmsMap.GCMarkSweep, JvmsMap.GCScavenge],
+  [JvmsMap.classCount, JvmsMap.thread],
 ];
 
 const Jvms = () => {
@@ -46,32 +33,33 @@ const Jvms = () => {
 
   const { terminusKey, runtimeName, serviceName, applicationId } = baseInfo;
   const curChosen = chosenInstance[type];
-  const opt = (curChosen && terminusKey) ? ({
-    query: {
-      [`filter_${isDcos ? 'instance_id' : 'service_ip'}`]: curChosen,
-      filter_terminus_key: terminusKey,
-      filter_application_id: applicationId,
-      filter_runtime_name: runtimeName,
-      filter_service_name: serviceName,
-    },
-  }) : { shouldLoad: false };
+  const opt =
+    curChosen && terminusKey
+      ? {
+          query: {
+            [`filter_${isDcos ? 'instance_id' : 'service_ip'}`]: curChosen,
+            filter_terminus_key: terminusKey,
+            filter_application_id: applicationId,
+            filter_runtime_name: runtimeName,
+            filter_service_name: serviceName,
+          },
+        }
+      : { shouldLoad: false };
   return (
     <div>
       <TopTabRight type={type} />
-      {
-        PageMap.map((cols, rIndex) => (
-          <Row gutter={20} key={String(rIndex)}>
-            {cols.map((Chart, cIndex) => {
-              const spanWidth = 24 / cols.length;
-              return (
-                <Col span={spanWidth} key={String(cIndex)}>
-                  <Chart {...opt} />
-                </Col>
-              );
-            })}
-          </Row>
-        ))
-      }
+      {PageMap.map((cols, rIndex) => (
+        <Row gutter={20} key={String(rIndex)}>
+          {cols.map((Chart, cIndex) => {
+            const spanWidth = 24 / cols.length;
+            return (
+              <Col span={spanWidth} key={String(cIndex)}>
+                <Chart {...opt} />
+              </Col>
+            );
+          })}
+        </Row>
+      ))}
     </div>
   );
 };

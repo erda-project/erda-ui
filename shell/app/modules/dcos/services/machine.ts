@@ -14,13 +14,15 @@
 import agent from 'agent';
 
 export const getMachineStatus = (payload: ORG_DASHBOARD.IMachineQuery): ORG_DASHBOARD.IMachineStatus[] => {
-  return agent.post('/api/host-status')
+  return agent
+    .post('/api/host-status')
     .send(payload)
     .then((response: any) => response.body);
 };
 
 export const deleteMachine = (payload: ORG_MACHINE.IDeleteMachineBody): ORG_MACHINE.IDeleteResp => {
-  return agent.delete('/api/nodes')
+  return agent
+    .delete('/api/nodes')
     .send(payload)
     .then((response: any) => response.body);
 };

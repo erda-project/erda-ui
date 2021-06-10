@@ -15,53 +15,54 @@ export const mockData: CP_DROPDOWN_SELECT.Spec = {
   type: 'DropdownSelect',
   props: {
     visible: true,
-    options:
-      [
-        {
-          label: '组织B',
-          value: 'organizeB',
-          prefixImgSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYQY0vUTJwftJ8WqXoLiLeB--2MJkpZLpYOA&usqp=CAU',
-          operations: {
-            click: {
-              key: 'click',
-              show: false,
-              reload: false,
-              command: {
-                key: 'goto',
-                target: 'orgRoot',
-                jumpOut: false,
-                state: {
-                  params: {
-                    orgName: 'organizeA',
-                  },
+    options: [
+      {
+        label: '组织B',
+        value: 'organizeB',
+        prefixImgSrc:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYQY0vUTJwftJ8WqXoLiLeB--2MJkpZLpYOA&usqp=CAU',
+        operations: {
+          click: {
+            key: 'click',
+            show: false,
+            reload: false,
+            command: {
+              key: 'goto',
+              target: 'orgRoot',
+              jumpOut: false,
+              state: {
+                params: {
+                  orgName: 'organizeA',
                 },
               },
             },
           },
         },
-        {
-          label: '组织A',
-          value: 'organizeA',
-          prefixImgSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI1EaartvKCwGgDS7FTpu71EyFs1wCl1MsFQ&usqp=CAU',
-          operations: {
-            click: {
-              key: 'click',
-              show: false,
-              reload: false,
-              command: {
-                key: 'goto',
-                target: 'orgRoot',
-                jumpOut: false,
-                state: {
-                  params: {
-                    orgName: 'organizeA',
-                  },
+      },
+      {
+        label: '组织A',
+        value: 'organizeA',
+        prefixImgSrc:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI1EaartvKCwGgDS7FTpu71EyFs1wCl1MsFQ&usqp=CAU',
+        operations: {
+          click: {
+            key: 'click',
+            show: false,
+            reload: false,
+            command: {
+              key: 'goto',
+              target: 'orgRoot',
+              jumpOut: false,
+              state: {
+                params: {
+                  orgName: 'organizeA',
                 },
               },
             },
           },
         },
-      ],
+      },
+    ],
     quickSelect: [
       {
         value: 'orgList',
@@ -85,4 +86,3 @@ export const mockData: CP_DROPDOWN_SELECT.Spec = {
     value: 'organizeA',
   },
 };
-

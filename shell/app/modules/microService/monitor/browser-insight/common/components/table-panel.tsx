@@ -33,7 +33,8 @@ const TablePanel = ({ isPage, data }: { isPage: boolean; data: object }) => {
       dataIndex: 'name',
       key: 'name',
       width: 320,
-      render: (value: string) => (value.length > 30 ? <Tooltip title={value}>{`${value.substr(0, 30)}...`}</Tooltip> : value),
+      render: (value: string) =>
+        value.length > 30 ? <Tooltip title={value}>{`${value.substr(0, 30)}...`}</Tooltip> : value,
     },
     {
       title: i18n.t('microService:time'),
@@ -63,7 +64,7 @@ const TablePanel = ({ isPage, data }: { isPage: boolean; data: object }) => {
       width: 80,
     },
   ];
-  return <Table rowKey={(record: IData, i) => (`${i}_${record.time}`)} columns={columns} dataSource={list} />;
+  return <Table rowKey={(record: IData, i) => `${i}_${record.time}`} columns={columns} dataSource={list} />;
 };
 
 export default TablePanel;

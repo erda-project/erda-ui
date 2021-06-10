@@ -106,7 +106,13 @@ class Echarts extends React.Component {
 
   render() {
     return (
-      <div ref={(ref) => { this.echartsDom = ref; }} className="chart-dom" style={this.props.style} />
+      <div
+        ref={(ref) => {
+          this.echartsDom = ref;
+        }}
+        className="chart-dom"
+        style={this.props.style}
+      />
     );
   }
 }

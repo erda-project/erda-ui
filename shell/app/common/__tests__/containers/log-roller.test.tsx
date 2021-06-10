@@ -32,12 +32,7 @@ describe('LogRoller', () => {
     const clearLog = jest.fn();
     jest.useFakeTimers();
     const wrapper = shallow(
-      <LogRollerChild
-        fetchPeriod={fetchPeriod}
-        fetchLog={fetchLogFn}
-        logKey={logKey}
-        clearLog={clearLog}
-      />,
+      <LogRollerChild fetchPeriod={fetchPeriod} fetchLog={fetchLogFn} logKey={logKey} clearLog={clearLog} />,
     );
     wrapper.instance().rollingTimeout = 1;
     wrapper.instance().logRoller = {
@@ -66,4 +61,3 @@ describe('LogRoller', () => {
     expect(clearLog).toHaveBeenLastCalledWith(logKey);
   });
 });
-

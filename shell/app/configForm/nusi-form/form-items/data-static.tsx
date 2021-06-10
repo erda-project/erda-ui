@@ -41,13 +41,14 @@ const DataItem = ({ updateItem, data, hasDesc = true, className = '', operation 
   return (
     <div className={className}>
       <Input value={data.name} placeholder="请输入数据名称" onChange={(e) => updateItem({ name: e.target.value })} />
-      {hasDesc && <Input value={data.desc} placeholder="请输入数据描述" onChange={(e) => updateItem({ desc: e.target.value })} />}
+      {hasDesc && (
+        <Input value={data.desc} placeholder="请输入数据描述" onChange={(e) => updateItem({ desc: e.target.value })} />
+      )}
       <Input value={data.value} placeholder="请填写数据值" onChange={(e) => updateItem({ value: e.target.value })} />
       {operation}
     </div>
   );
 };
-
 
 export const DataStatic = createCombiner<IData, IData>({
   valueFixIn: noop,
@@ -58,48 +59,40 @@ export const DataStatic = createCombiner<IData, IData>({
 
 const FormItem = Form.Item;
 
-export const FormDataStatic = ({
-  fixOut = noop,
-  fixIn = noop,
-  extensionFix,
-  requiredCheck,
-  trigger = 'onChange',
-}) => React.memo(({ fieldConfig, form }: any) => {
-  const {
-    key,
-    value,
-    label,
-    visible,
-    valid,
-    registerRequiredCheck,
-    componentProps,
-    required,
-    wrapperProps,
-    labelTip,
-    requiredCheck: _requiredCheck,
-  } = fieldConfig;
-  registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (val: any) => {
-    form.setFieldValue(key, fixOut(val));
-    (componentProps.onChange || noop)(val);
-  };
-  return (
-    <FormItem
-      colon
-      label={getLabel(label, labelTip)}
-      className={visible ? '' : 'hide'}
-      validateStatus={valid[0]}
-      help={valid[1]}
-      required={required}
-      {...wrapperProps}
-    >
-      <DataStatic
-        value={fixIn(value)}
-        onChange={handleChange}
-      />
-    </FormItem>
-  );
-});
+export const FormDataStatic = ({ fixOut = noop, fixIn = noop, extensionFix, requiredCheck, trigger = 'onChange' }) =>
+  React.memo(({ fieldConfig, form }: any) => {
+    const {
+      key,
+      value,
+      label,
+      visible,
+      valid,
+      registerRequiredCheck,
+      componentProps,
+      required,
+      wrapperProps,
+      labelTip,
+      requiredCheck: _requiredCheck,
+    } = fieldConfig;
+    registerRequiredCheck(_requiredCheck || requiredCheck);
+    const handleChange = (val: any) => {
+      form.setFieldValue(key, fixOut(val));
+      (componentProps.onChange || noop)(val);
+    };
+    return (
+      <FormItem
+        colon
+        label={getLabel(label, labelTip)}
+        className={visible ? '' : 'hide'}
+        validateStatus={valid[0]}
+        help={valid[1]}
+        required={required}
+        {...wrapperProps}
+      >
+        <DataStatic value={fixIn(value)} onChange={handleChange} />
+      </FormItem>
+    );
+  });
 
 export const config = {
   name: 'dataStatic',

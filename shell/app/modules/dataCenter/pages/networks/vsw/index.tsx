@@ -26,7 +26,12 @@ import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
 import { addAuthTooltipTitle } from 'app/modules/dataCenter/common/cloud-common';
 import i18n from 'i18n';
 import routeInfoStore from 'common/stores/route';
-import { getCloudResourceTagsCol, getCloudResourceIDNameCol, getCloudResourceStatusCol, getCloudResourceRegionCol } from 'dataCenter/common/components/table-col';
+import {
+  getCloudResourceTagsCol,
+  getCloudResourceIDNameCol,
+  getCloudResourceStatusCol,
+  getCloudResourceRegionCol,
+} from 'dataCenter/common/components/table-col';
 import { SetTagForm } from 'dataCenter/common/components/set-tag-form';
 import { DownOne as IconDownOne } from '@icon-park/react';
 
@@ -43,16 +48,11 @@ const VSW = () => {
     getVpcList({ pageNo: 1, pageSize: 20 });
   });
 
-  const [{
-    chosenVpc,
-    zones,
-    subnetCount,
-    tagFormVis,
-    tagFormData,
-    items,
-    ifSelected,
-    stateChangeKey,
-  }, updater, update] = useUpdate({
+  const [
+    { chosenVpc, zones, subnetCount, tagFormVis, tagFormData, items, ifSelected, stateChangeKey },
+    updater,
+    update,
+  ] = useUpdate({
     vendor: undefined as string | undefined,
     chosenVpc: undefined as undefined | NETWORKS.ICloudVpc,
     zones: [] as NETWORKS.ICloudZone[],
@@ -66,9 +66,11 @@ const VSW = () => {
 
   React.useEffect(() => {
     const { regionID: vpcRegion, vendor: vpcVendor } = chosenVpc || {};
-    vpcRegion && vpcVendor && getCloudZone({ region: vpcRegion, vendor: vpcVendor }).then((res) => {
-      updater.zones(res);
-    });
+    vpcRegion &&
+      vpcVendor &&
+      getCloudZone({ region: vpcRegion, vendor: vpcVendor }).then((res) => {
+        updater.zones(res);
+      });
   }, [chosenVpc, getCloudZone, updater]);
 
   const getColumns = () => {
@@ -98,12 +100,14 @@ const VSW = () => {
                     tagFormData: {
                       tags: keys(tags),
                     },
-                    items: [{
-                      vendor,
-                      region,
-                      resourceID: vSwitchID,
-                      oldTags: keys(tags),
-                    }],
+                    items: [
+                      {
+                        vendor,
+                        region,
+                        resourceID: vSwitchID,
+                        oldTags: keys(tags),
+                      },
+                    ],
                   });
                 }}
               >
@@ -117,20 +121,25 @@ const VSW = () => {
     return columns;
   };
 
-  const filterConfig = React.useMemo(() => [
-    {
-      type: Select,
-      name: 'vendor',
-      customProps: {
-        className: 'default-selector-width',
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('cloud vendor') }),
-        options: map(cloudVendor, (item) => (
-          <Option key={item.name} value={item.value}>{item.name}</Option>
-        )),
-        allowClear: true,
+  const filterConfig = React.useMemo(
+    () => [
+      {
+        type: Select,
+        name: 'vendor',
+        customProps: {
+          className: 'default-selector-width',
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('cloud vendor') }),
+          options: map(cloudVendor, (item) => (
+            <Option key={item.name} value={item.value}>
+              {item.name}
+            </Option>
+          )),
+          allowClear: true,
+        },
       },
-    },
-  ], []);
+    ],
+    [],
+  );
 
   const getFieldsList = (form: WrappedFormUtils) => {
     const fieldsList = [
@@ -165,7 +174,13 @@ const VSW = () => {
       {
         label: `IPv4 ${i18n.t('dataCenter:CIDR')}`,
         getComp: () => {
-          return <VswCIDRField form={form} vpcCidrBlock={get(chosenVpc, 'cidrBlock')} onChangeMask={(mask: number) => updater.subnetCount(getSubnetCount(mask))} />;
+          return (
+            <VswCIDRField
+              form={form}
+              vpcCidrBlock={get(chosenVpc, 'cidrBlock')}
+              onChangeMask={(mask: number) => updater.subnetCount(getSubnetCount(mask))}
+            />
+          );
         },
       },
       {
@@ -188,7 +203,11 @@ const VSW = () => {
 
   const handleFormSubmit = (data: any) => {
     const { cidrBlock, ...rest } = data;
-    return addVsw({ ...rest, cidrBlock: `${cidrBlock.slice(0, 4).join('.')}/${cidrBlock.slice(4)}`, region: chosenVpc && chosenVpc.regionID });
+    return addVsw({
+      ...rest,
+      cidrBlock: `${cidrBlock.slice(0, 4).join('.')}/${cidrBlock.slice(4)}`,
+      region: chosenVpc && chosenVpc.regionID,
+    });
   };
 
   const checkSelect = (selectedRows: NETWORKS.ICloudVsw[]) => {
@@ -220,24 +239,26 @@ const VSW = () => {
     resetTable();
   };
 
-  const operationButtons = [{
-    name: `${i18n.t('set tags')}`,
-    cb: () => {
-      update({
-        tagFormVis: true,
-        tagFormData: [],
-      });
+  const operationButtons = [
+    {
+      name: `${i18n.t('set tags')}`,
+      cb: () => {
+        update({
+          tagFormVis: true,
+          tagFormData: [],
+        });
+      },
+      ifDisabled: false,
     },
-    ifDisabled: false,
-  }];
+  ];
 
   const menu = (
     <Menu>
-      {
-        operationButtons.map((button) => (
-          <Menu.Item disabled={button.ifDisabled} key={button.name} onClick={button.cb}>{button.name}</Menu.Item>
-        ))
-      }
+      {operationButtons.map((button) => (
+        <Menu.Item disabled={button.ifDisabled} key={button.name} onClick={button.cb}>
+          {button.name}
+        </Menu.Item>
+      ))}
     </Menu>
   );
 

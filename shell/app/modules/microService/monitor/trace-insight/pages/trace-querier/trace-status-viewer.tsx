@@ -33,11 +33,7 @@ const TraceStatusViewer = ({
     return <EmptyHolder />;
   }
 
-  const {
-    requestId,
-    status,
-    statusName,
-  } = traceStatusDetail;
+  const { requestId, status, statusName } = traceStatusDetail;
 
   const handleCancelRequestPending = (id: string) => {
     try {
@@ -49,52 +45,40 @@ const TraceStatusViewer = ({
 
   // 状态，0：初始化、1：成功、2：失败、3：主动取消 对应 statusNodeList 数组下标
   const statusNodeList = [
-    (
-      <div className="request-status-wp pending">
-        <span className="request-status-text">
-          <IconLoading /> { statusName }
+    <div className="request-status-wp pending">
+      <span className="request-status-text">
+        <IconLoading /> {statusName}
+      </span>
+      <Tooltip title={i18n.t('microService:cancel')}>
+        <span
+          className="request-status-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleCancelRequestPending(requestId);
+          }}
+        >
+          <IconPauseOne size="20px" />
         </span>
-        <Tooltip title={i18n.t('microService:cancel')}>
-          <span
-            className="request-status-btn"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleCancelRequestPending(requestId);
-            }}
-          >
-            <IconPauseOne size="20px" />
-          </span>
-        </Tooltip>
-      </div>
-    ),
-    (
-      <PureTraceDetail
-        spanDetailContent={spanDetailContent}
-        traceDetailContent={traceDetailContent}
-        isTraceDetailContentFetching={isTraceDetailContentFetching}
-        getSpanDetailContent={getSpanDetailContent}
-      />
-    ),
-    (
-      <div className="request-status-wp failure">
-        <span className="request-status-text">
-          <CustomIcon className="failure" type="guanbi-fill" /> { statusName }
-        </span>
-      </div>
-    ),
-    (
-      <div className="request-status-wp cancel">
-        <span className="request-status-text">
-          <IconReduceOne theme="filled" /> { statusName }
-        </span>
-      </div>
-    ),
+      </Tooltip>
+    </div>,
+    <PureTraceDetail
+      spanDetailContent={spanDetailContent}
+      traceDetailContent={traceDetailContent}
+      isTraceDetailContentFetching={isTraceDetailContentFetching}
+      getSpanDetailContent={getSpanDetailContent}
+    />,
+    <div className="request-status-wp failure">
+      <span className="request-status-text">
+        <CustomIcon className="failure" type="guanbi-fill" /> {statusName}
+      </span>
+    </div>,
+    <div className="request-status-wp cancel">
+      <span className="request-status-text">
+        <IconReduceOne theme="filled" /> {statusName}
+      </span>
+    </div>,
   ];
-  return (
-    <div className="trace-status-viewer">
-      { statusNodeList[status] }
-    </div>
-  );
+  return <div className="trace-status-viewer">{statusNodeList[status]}</div>;
 };
 
 export default TraceStatusViewer;

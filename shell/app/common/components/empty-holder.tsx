@@ -40,21 +40,16 @@ export const EmptyHolder = ({
   });
   return (
     <div className={`${cls} ${className}`} style={style}>
-      {
-        typeof icon === 'string' ? <CustomIcon type={icon} color /> : <div>{icon}</div>
-      }
-      <span>{tip} <span className="action">{action}</span></span>
+      {typeof icon === 'string' ? <CustomIcon type={icon} color /> : <div>{icon}</div>}
+      <span>
+        {tip} <span className="action">{action}</span>
+      </span>
     </div>
   );
 };
 
 // TODO: 与上面的合并
-export const EmptyListHolder = ({
-  icon = 'empty-s',
-  tip = i18n.t('common:no data'),
-  style = {},
-  action = null,
-}) => {
+export const EmptyListHolder = ({ icon = 'empty-s', tip = i18n.t('common:no data'), style = {}, action = null }) => {
   const cls = classnames({
     'empty-holder': true,
     'multi-line': true,
@@ -63,7 +58,9 @@ export const EmptyListHolder = ({
   return (
     <div className={cls} style={style}>
       <CustomIcon type={icon} color />
-      <span>{tip} <span className="action">{action}</span></span>
+      <span>
+        {tip} <span className="action">{action}</span>
+      </span>
     </div>
   );
 };
@@ -76,9 +73,5 @@ interface IHolder {
 }
 export const Holder = ({ page = false, when, children, ...rest }: IHolder) => {
   const showHolder = typeof when === 'function' ? when() : when;
-  return (showHolder || !children)
-    ?
-    page ? <EmptyHolder {...rest} /> : <EmptyListHolder {...rest} />
-    :
-    children;
+  return showHolder || !children ? page ? <EmptyHolder {...rest} /> : <EmptyListHolder {...rest} /> : children;
 };

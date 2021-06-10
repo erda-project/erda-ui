@@ -19,7 +19,6 @@ import i18n from 'i18n';
 import { goTo } from 'common/utils';
 import userStore from 'app/user/stores';
 
-
 import './error-page.scss';
 
 const NoAuth = () => {
@@ -30,22 +29,24 @@ const NoAuth = () => {
         <CustomIcon type="no-auth" color />
         <div className="desc">
           <span>{i18n.t('layout:sorry, you do not have access to this page')}</span>
-          {
-            authContact
-              ? (
-                <>
-                  <span className="contact-info">{i18n.t('please contact')} {authContact}</span>
-                  <Link to={goTo.resolve.workBenchRoot()}>
-                    <Button size="large" type="primary">{i18n.t('layout:back to workBench')}</Button>
-                  </Link>
-                </>
-              )
-              : (
-                <Link to={goTo.resolve.orgRoot()}>
-                  <Button size="large" type="primary">{i18n.t('layout:back to home')}</Button>
-                </Link>
-              )
-          }
+          {authContact ? (
+            <>
+              <span className="contact-info">
+                {i18n.t('please contact')} {authContact}
+              </span>
+              <Link to={goTo.resolve.workBenchRoot()}>
+                <Button size="large" type="primary">
+                  {i18n.t('layout:back to workBench')}
+                </Button>
+              </Link>
+            </>
+          ) : (
+            <Link to={goTo.resolve.orgRoot()}>
+              <Button size="large" type="primary">
+                {i18n.t('layout:back to home')}
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
     </div>
@@ -67,19 +68,19 @@ const NotFound = ({ message, force }: { message?: string; force?: boolean }) => 
         <CustomIcon type="404" color />
         <div className="desc">
           <span>{message || i18n.t('layout:page-not-found')}</span>
-          {
-            force // 当fdp挂掉的时候用Link返回因为会判断当前平台还是fdp。跳回的首页还是会挂，这里用a标签来强刷
-              ? (
-                <a href={goTo.resolve.orgRoot({ orgName: '-' })}>
-                  <Button size="large" type="primary">{i18n.t('back to home')}</Button>
-                </a>
-              )
-              : (
-                <Link to={goTo.resolve.orgRoot({ orgName: '-' })}>
-                  <Button size="large" type="primary">{i18n.t('back to home')}</Button>
-                </Link>
-              )
-          }
+          {force ? ( // 当fdp挂掉的时候用Link返回因为会判断当前平台还是fdp。跳回的首页还是会挂，这里用a标签来强刷
+            <a href={goTo.resolve.orgRoot({ orgName: '-' })}>
+              <Button size="large" type="primary">
+                {i18n.t('back to home')}
+              </Button>
+            </a>
+          ) : (
+            <Link to={goTo.resolve.orgRoot({ orgName: '-' })}>
+              <Button size="large" type="primary">
+                {i18n.t('back to home')}
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
     </div>
@@ -95,16 +96,13 @@ const NotJoinOrg = () => {
         <CustomIcon type="no-auth" color />
         <div className="desc">
           <span>{i18n.t("you haven't join current organization")}</span>
-          <span className="contact-info">{i18n.t('please contact')} {joinOrgTip}</span>
+          <span className="contact-info">
+            {i18n.t('please contact')} {joinOrgTip}
+          </span>
         </div>
       </div>
     </div>
   );
 };
 
-
-export {
-  NoAuth,
-  NotFound,
-  NotJoinOrg,
-};
+export { NoAuth, NotFound, NotJoinOrg };

@@ -86,9 +86,7 @@ class Policy extends React.Component<IProps, any> {
       {
         label: i18n.t('can only contain alphanumeric underscores and underscores'),
         name: 'policyName',
-        rules: [
-          { pattern: /^[a-zA-z0-9_-]+$/, message: i18n.t('microService:display name') },
-        ],
+        rules: [{ pattern: /^[a-zA-z0-9_-]+$/, message: i18n.t('microService:display name') }],
         itemProps: {
           placeholder: i18n.t('can only contain alphanumeric underscores and underscores'),
         },
@@ -152,7 +150,9 @@ class Policy extends React.Component<IProps, any> {
       <div>
         <ApiPoliciesHeader />
         <div className="flex-box mb16">
-          <Button type="primary" className="add-btn" onClick={() => this.toggleModal()}>{i18n.t('common:add')}</Button>
+          <Button type="primary" className="add-btn" onClick={() => this.toggleModal()}>
+            {i18n.t('common:add')}
+          </Button>
         </div>
         <PagingTable
           {...this.props}

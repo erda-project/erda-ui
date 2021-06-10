@@ -13,12 +13,9 @@
 
 import jvmStore from './stores/jvm';
 
-
 export default (registerModule) => {
   return registerModule({
     key: 'addonPlatform',
-    stores: [
-      jvmStore,
-    ],
+    stores: [jvmStore],
   });
 };

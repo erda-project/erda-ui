@@ -37,8 +37,11 @@ const ENV_DIC = {
   PROD: i18n.t('production'),
 };
 
-const envOptions = Object.keys(ENV_DIC).map((key: string) => <Option key={key} value={key}>{ENV_DIC[key]}</Option>);
-
+const envOptions = Object.keys(ENV_DIC).map((key: string) => (
+  <Option key={key} value={key}>
+    {ENV_DIC[key]}
+  </Option>
+));
 
 const DomainManage = () => {
   const [domainList, clusterList, paging] = domainStore.useStore((s) => [s.domainList, s.clusterList, s.domainPaging]);
@@ -59,77 +62,91 @@ const DomainManage = () => {
     getClusterList();
   });
 
-  const chosenItemConvert = React.useCallback((selectItem: {value: number; label: string}) => {
-    if (isEmpty(selectItem)) {
-      return [];
-    }
+  const chosenItemConvert = React.useCallback(
+    (selectItem: { value: number; label: string }) => {
+      if (isEmpty(selectItem)) {
+        return [];
+      }
 
-    const { value, label } = selectItem;
-    if (label) {
-      return [{ value, label }];
-    } else if (!isEmpty(projectData)) {
-      return [{ value, label: projectData.label }];
-    } else {
-      return [{ value, label: '' }];
-    }
-  }, [projectData]);
+      const { value, label } = selectItem;
+      if (label) {
+        return [{ value, label }];
+      } else if (!isEmpty(projectData)) {
+        return [{ value, label: projectData.label }];
+      } else {
+        return [{ value, label: '' }];
+      }
+    },
+    [projectData],
+  );
 
-  const filterConfig = React.useMemo((): FilterItemConfig[] => [
-    {
-      type: Input,
-      name: 'domain',
-      customProps: {
-        placeholder: i18n.t('please choose {name}', { name: i18n.t('microService:domain name') }),
-      },
-    },
-    {
-      type: Select,
-      name: 'clusterName',
-      customProps: {
-        options: map(clusterList, ({ name }) => <Option key={name} value={name}>{name}</Option>),
-        placeholder: i18n.t('please choose {name}', { name: i18n.t('dcos:cluster name') }),
-        allowClear: true,
-      },
-    },
-    {
-      type: Select,
-      name: 'type',
-      customProps: {
-        options: map(Object.keys(SERVER_TYPES), (value) => <Option key={value} value={value}>{SERVER_TYPES[value]}</Option>),
-        placeholder: i18n.t('please choose {name}', { name: i18n.t('attribution type') }),
-        allowClear: true,
-      },
-    },
-    {
-      type: LoadMoreSelector,
-      name: 'projectID',
-      customProps: {
-        placeholder: i18n.t('please choose {name}', { name: i18n.t('project name') }),
-        allowClear: true,
-        getData: getProjectListData,
-        chosenItemConvert,
-        onChange: (id: number, record: {value: number; label: string}) => {
-          updater.projectData({ value: id, label: record?.label || undefined });
+  const filterConfig = React.useMemo(
+    (): FilterItemConfig[] => [
+      {
+        type: Input,
+        name: 'domain',
+        customProps: {
+          placeholder: i18n.t('please choose {name}', { name: i18n.t('microService:domain name') }),
         },
-        dataFormatter: ({ list, total }: { list: any[]; total: number }) => ({
-          total,
-          list: map(list, (project) => {
-            const { name, id } = project;
-            return { label: name, value: id };
+      },
+      {
+        type: Select,
+        name: 'clusterName',
+        customProps: {
+          options: map(clusterList, ({ name }) => (
+            <Option key={name} value={name}>
+              {name}
+            </Option>
+          )),
+          placeholder: i18n.t('please choose {name}', { name: i18n.t('dcos:cluster name') }),
+          allowClear: true,
+        },
+      },
+      {
+        type: Select,
+        name: 'type',
+        customProps: {
+          options: map(Object.keys(SERVER_TYPES), (value) => (
+            <Option key={value} value={value}>
+              {SERVER_TYPES[value]}
+            </Option>
+          )),
+          placeholder: i18n.t('please choose {name}', { name: i18n.t('attribution type') }),
+          allowClear: true,
+        },
+      },
+      {
+        type: LoadMoreSelector,
+        name: 'projectID',
+        customProps: {
+          placeholder: i18n.t('please choose {name}', { name: i18n.t('project name') }),
+          allowClear: true,
+          getData: getProjectListData,
+          chosenItemConvert,
+          onChange: (id: number, record: { value: number; label: string }) => {
+            updater.projectData({ value: id, label: record?.label || undefined });
+          },
+          dataFormatter: ({ list, total }: { list: any[]; total: number }) => ({
+            total,
+            list: map(list, (project) => {
+              const { name, id } = project;
+              return { label: name, value: id };
+            }),
           }),
-        }),
+        },
       },
-    },
-    {
-      type: Select,
-      name: 'workspace',
-      customProps: {
-        allowClear: true,
-        options: envOptions,
-        placeholder: i18n.t('please choose {name}', { name: i18n.t('application:environment') }),
+      {
+        type: Select,
+        name: 'workspace',
+        customProps: {
+          allowClear: true,
+          options: envOptions,
+          placeholder: i18n.t('please choose {name}', { name: i18n.t('application:environment') }),
+        },
       },
-    },
-  ], [chosenItemConvert, clusterList, updater]);
+    ],
+    [chosenItemConvert, clusterList, updater],
+  );
 
   const onFilter = (params: Obj) => {
     updater.query(params);
@@ -185,27 +202,42 @@ const DomainManage = () => {
         return undefined;
       }
 
-      const { projectID: projectId = '', tenantGroup = '', appID: appId = '', runtimeID: runtimeId = '', serviceName = '' } = link;
-      return type !== 'other' ? [
-        <span
-          className="fake-link mr4"
-          onClick={(e) => {
-            e.stopPropagation();
-            if (type === 'service') {
-              if (serviceName && projectId && appId && runtimeId) {
-                goTo(goTo.pages.runtimeDetail, { serviceName, projectId, appId, runtimeId, jumpFrom: 'domainPage', jumpOut: true });
-              }
-            }
-            if (type === 'gateway') {
-              if (domain && projectId && tenantGroup && env) {
-                goTo(goTo.pages.gatewayList, { domain, projectId, tenantGroup, env, jumpOut: true });
-              }
-            }
-          }}
-        >
-          {i18n.t('manage')}
-        </span>,
-      ] : [];
+      const {
+        projectID: projectId = '',
+        tenantGroup = '',
+        appID: appId = '',
+        runtimeID: runtimeId = '',
+        serviceName = '',
+      } = link;
+      return type !== 'other'
+        ? [
+            <span
+              className="fake-link mr4"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (type === 'service') {
+                  if (serviceName && projectId && appId && runtimeId) {
+                    goTo(goTo.pages.runtimeDetail, {
+                      serviceName,
+                      projectId,
+                      appId,
+                      runtimeId,
+                      jumpFrom: 'domainPage',
+                      jumpOut: true,
+                    });
+                  }
+                }
+                if (type === 'gateway') {
+                  if (domain && projectId && tenantGroup && env) {
+                    goTo(goTo.pages.gatewayList, { domain, projectId, tenantGroup, env, jumpOut: true });
+                  }
+                }
+              }}
+            >
+              {i18n.t('manage')}
+            </span>,
+          ]
+        : [];
     },
     width: 150,
   };
@@ -224,13 +256,7 @@ const DomainManage = () => {
       <Filter config={filterConfig} onFilter={onFilter} connectUrlSearch urlExtra={urlExtra} />
       <Spin spinning={loadingList}>
         <Holder when={isEmpty(domainList)}>
-          <Table
-            columns={columns}
-            dataSource={domainList}
-            pagination={pagination}
-            rowKey="id"
-            rowAction={actions}
-          />
+          <Table columns={columns} dataSource={domainList} pagination={pagination} rowKey="id" rowAction={actions} />
         </Holder>
       </Spin>
     </div>

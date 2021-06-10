@@ -13,15 +13,12 @@
 
 import { getDefaultPaging } from 'common/utils';
 import { createStore } from 'app/cube';
-import {
-  getTaskList,
-} from '../services/task';
+import { getTaskList } from '../services/task';
 
 interface IState {
   list: CLUSTER_TASK.Detail[];
   paging: IPaging;
 }
-
 
 const initState: IState = {
   list: [],

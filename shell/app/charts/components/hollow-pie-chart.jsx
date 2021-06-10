@@ -36,7 +36,7 @@ const HollowPieChart = ({ data }) => {
         formatter: '{a} <br/>{b}: {c} ({d}%)',
       },
       title: {
-        text: `${i18n.t('charts:success rate')}: ${floor(success / total * 100, 2)}%`,
+        text: `${i18n.t('charts:success rate')}: ${floor((success / total) * 100, 2)}%`,
         x: 'center',
         y: 'center',
         textStyle: {
@@ -79,4 +79,3 @@ const HollowPieChart = ({ data }) => {
   return <ChartRender data={data} hasData={size(result) > 0} getOption={getOption} />;
 };
 export default HollowPieChart;
-

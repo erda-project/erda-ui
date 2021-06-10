@@ -44,22 +44,26 @@ interface ISonarInfo {
   language: string;
 }
 
-const QUALITY_DATAS = [{
-  key: 'bugs',
-  name: i18n.t('application:code defect'),
-  query: 'bug',
-  icon: 'bug',
-}, {
-  key: 'vulnerabilities',
-  name: i18n.t('application:code vulnerability'),
-  query: 'vulnerability',
-  icon: 'Vulnerabilities',
-}, {
-  key: 'codeSmells',
-  name: i18n.t('application:code smell'),
-  query: 'codeSmell',
-  icon: 'codesmells',
-}];
+const QUALITY_DATAS = [
+  {
+    key: 'bugs',
+    name: i18n.t('application:code defect'),
+    query: 'bug',
+    icon: 'bug',
+  },
+  {
+    key: 'vulnerabilities',
+    name: i18n.t('application:code vulnerability'),
+    query: 'vulnerability',
+    icon: 'Vulnerabilities',
+  },
+  {
+    key: 'codeSmells',
+    name: i18n.t('application:code smell'),
+    query: 'codeSmell',
+    icon: 'codesmells',
+  },
+];
 
 const CodeQuality = () => {
   const [visible, setVisible] = React.useState(false);
@@ -68,8 +72,17 @@ const CodeQuality = () => {
   const { projectId, appId } = routeInfoStore.useStore((s) => s.params);
   const { getSonarResults, getRepoBlob, getLatestSonarStatistics } = codeQualityStore.effects;
   const { clearSonarResults, clearRepoBlob } = codeQualityStore.reducers;
-  const [sonarStatistics, coverage, duplications, blob] = codeQualityStore.useStore((s) => [s.sonarStatistics, s.coverage, s.duplications, s.blob]);
-  const [isFetchingSonarStatistics, isFetchingSonarResults, isFetchingRepoBlob] = useLoading(codeQualityStore, ['getLatestSonarStatistics', 'getSonarResults', 'getRepoBlob']);
+  const [sonarStatistics, coverage, duplications, blob] = codeQualityStore.useStore((s) => [
+    s.sonarStatistics,
+    s.coverage,
+    s.duplications,
+    s.blob,
+  ]);
+  const [isFetchingSonarStatistics, isFetchingSonarResults, isFetchingRepoBlob] = useLoading(codeQualityStore, [
+    'getLatestSonarStatistics',
+    'getSonarResults',
+    'getRepoBlob',
+  ]);
   const [{ headerInfo }, updater] = useUpdate({
     headerInfo: {},
   });
@@ -107,31 +120,31 @@ const CodeQuality = () => {
   const renderDataPanel = () => {
     return (
       <Row gutter={24}>
-        {
-          QUALITY_DATAS.map(({ key, name, icon, query }) => (
-            <Col span={24 / QUALITY_DATAS.length} key={key}>
-              <div
-                className="quality-data flex-box"
-                onClick={() => {
-                  goTo(goTo.pages.qaTicket, {
-                    projectId,
-                    appId,
-                    type: query,
-                  });
-                }}
-              >
-                <span className="desc flex-box mr16">
-                  <CustomIcon type={icon} />
-                  {name}
+        {QUALITY_DATAS.map(({ key, name, icon, query }) => (
+          <Col span={24 / QUALITY_DATAS.length} key={key}>
+            <div
+              className="quality-data flex-box"
+              onClick={() => {
+                goTo(goTo.pages.qaTicket, {
+                  projectId,
+                  appId,
+                  type: query,
+                });
+              }}
+            >
+              <span className="desc flex-box mr16">
+                <CustomIcon type={icon} />
+                {name}
+              </span>
+              <div className="data-detail">
+                <span className="num">{sonarStatistics[key]}</span>
+                <span className={`rate-${get(sonarStatistics, `rating.${key}`, '-').toLowerCase()} rate`}>
+                  {get(sonarStatistics, `rating.${key}`, '-')}
                 </span>
-                <div className="data-detail">
-                  <span className="num">{sonarStatistics[key]}</span>
-                  <span className={`rate-${get(sonarStatistics, `rating.${key}`, '-').toLowerCase()} rate`}>{get(sonarStatistics, `rating.${key}`, '-')}</span>
-                </div>
               </div>
-            </Col>
-          ))
-        }
+            </div>
+          </Col>
+        ))}
       </Row>
     );
   };
@@ -158,7 +171,12 @@ const CodeQuality = () => {
         title: i18n.t('application:file name'),
         width: 360,
         key: 'name',
-        render: ({ name }) => <span className="inline-flex-box"><CustomIcon type="page" className="mr8" />{name}</span>,
+        render: ({ name }) => (
+          <span className="inline-flex-box">
+            <CustomIcon type="page" className="mr8" />
+            {name}
+          </span>
+        ),
       },
       {
         title: i18n.t('application:file path'),
@@ -169,13 +187,15 @@ const CodeQuality = () => {
         title: SONAR_MAP[type].percentCNName,
         width: 150,
         key: 'percentCNName',
-        render: ({ measures }) => `${measures.find((item: QA.Measure) => item.metric === SONAR_MAP[type].percentName)?.value} %`,
+        render: ({ measures }) =>
+          `${measures.find((item: QA.Measure) => item.metric === SONAR_MAP[type].percentName)?.value} %`,
       },
       {
         title: SONAR_MAP[type].lineCNName,
         width: 150,
         key: 'lineCNName',
-        render: ({ measures }) => `${measures.find((item: QA.Measure) => item.metric === SONAR_MAP[type].linesName)?.value}`,
+        render: ({ measures }) =>
+          `${measures.find((item: QA.Measure) => item.metric === SONAR_MAP[type].linesName)?.value}`,
       },
     ];
 
@@ -203,13 +223,11 @@ const CodeQuality = () => {
       duplications: i18n.t('application:this paragraph is repeated'),
     };
     const { name, lines: originalLines, language } = curSonarInfo;
-    const lines = originalLines
-      .map((line) => parseInt(line, 10))
-      .sort((a, b) => a - b);
+    const lines = originalLines.map((line) => parseInt(line, 10)).sort((a, b) => a - b);
     const lineRanges: any[] = [];
 
     lines.forEach((line, index) => {
-      if ((line - 1) === lines[index - 1]) {
+      if (line - 1 === lines[index - 1]) {
         lineRanges[lineRanges.length - 1].push(line);
       } else {
         lineRanges.push([line]);
@@ -235,11 +253,7 @@ const CodeQuality = () => {
         <div className="file-container quality-file">
           <div className="file-header bold flex-box">
             <div className="file-title inline-flex-box">
-              <CustomIcon
-                className="hover-active mb4 mr8"
-                type="back"
-                onClick={closeDetail}
-              />
+              <CustomIcon className="hover-active mb4 mr8" type="back" onClick={closeDetail} />
               <span>{name}</span>
             </div>
           </div>
@@ -271,44 +285,38 @@ const CodeQuality = () => {
     <div className="code-quality-content">
       <Spin spinning={isFetchingSonarStatistics}>
         {!isEmpty(headerInfo) && (
-        <Row className="quality-info mb20" gutter={24}>
-          <Col span={8}>
-            <div className="label mb8 ">{i18n.t('application:recent detection time')}</div>
-            <span className="value">{moment(headerInfo.time).format('YYYY-MM-DD HH:mm:ss')}</span>
-          </Col>
-          <Col span={8}>
-            <div className="label mb8">{i18n.t('application:detection branch')}</div>
-            <span className="value">
-              <CustomIcon type="hb" />{headerInfo.branch}
-            </span>
-          </Col>
-          <Col span={8}>
-            <div className="label mb8">{i18n.t('application:submit')} ID</div>
-            <span
-              className="value commit-id hover-table-text"
-              onClick={() => {
-                goTo(goTo.pages.commit, { commitId: headerInfo.commitId, projectId, appId });
-              }}
-            >
-              <CustomIcon type="commit" />
-              <span className="sha-text">{headerInfo.commitId.slice(0, 6)}</span>
-            </span>
-          </Col>
-        </Row>
-        )
-      }
+          <Row className="quality-info mb20" gutter={24}>
+            <Col span={8}>
+              <div className="label mb8 ">{i18n.t('application:recent detection time')}</div>
+              <span className="value">{moment(headerInfo.time).format('YYYY-MM-DD HH:mm:ss')}</span>
+            </Col>
+            <Col span={8}>
+              <div className="label mb8">{i18n.t('application:detection branch')}</div>
+              <span className="value">
+                <CustomIcon type="hb" />
+                {headerInfo.branch}
+              </span>
+            </Col>
+            <Col span={8}>
+              <div className="label mb8">{i18n.t('application:submit')} ID</div>
+              <span
+                className="value commit-id hover-table-text"
+                onClick={() => {
+                  goTo(goTo.pages.commit, { commitId: headerInfo.commitId, projectId, appId });
+                }}
+              >
+                <CustomIcon type="commit" />
+                <span className="sha-text">{headerInfo.commitId.slice(0, 6)}</span>
+              </span>
+            </Col>
+          </Row>
+        )}
         <IF check={!sonarStatistics.commitId}>
           <EmptyHolder relative />
           <ELSE />
-          <div className="quality-data-panel mb20">
-            {renderDataPanel()}
-          </div>
+          <div className="quality-data-panel mb20">{renderDataPanel()}</div>
           <div className="quality-data-detail">
-            <Tabs
-              defaultActiveKey="coverage"
-              onTabClick={closeDetail}
-              onChange={handleChangeActiveKey}
-            >
+            <Tabs defaultActiveKey="coverage" onTabClick={closeDetail} onChange={handleChangeActiveKey}>
               <TabPane key="coverage" tab={`${i18n.t('application: coverage')} ${sonarStatistics.coverage}%`}>
                 {visible ? renderSonarDetail('coverage') : renderSonarResultsTable('coverage')}
               </TabPane>

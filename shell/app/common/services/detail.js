@@ -14,6 +14,5 @@
 import agent from 'agent';
 
 export const getAddonInfo = ({ insId }) => {
-  return agent.get(`/api/addons/${insId}`)
-    .then((response) => response.body);
+  return agent.get(`/api/addons/${insId}`).then((response) => response.body);
 };

@@ -17,7 +17,7 @@ import i18n from 'i18n';
 import userMapStore from 'app/common/stores/user-map';
 import moment from 'moment';
 
-interface IProps{
+interface IProps {
   caseDetail: AUTO_TEST.ICaseDetail;
 }
 
@@ -53,7 +53,7 @@ const CaseInfo = (props: IProps) => {
       valueKey: 'creatorID',
       valueItem: ({ value: val }: any) => {
         const curUser = userMap[val];
-        return curUser ? (curUser.nick || curUser.name) : (val || '-');
+        return curUser ? curUser.nick || curUser.name : val || '-';
       },
     },
     {
@@ -68,7 +68,7 @@ const CaseInfo = (props: IProps) => {
       valueKey: 'updaterID',
       valueItem: ({ value: val }: any) => {
         const curUser = userMap[val];
-        return curUser ? (curUser.nick || curUser.name) : (val || '-');
+        return curUser ? curUser.nick || curUser.name : val || '-';
       },
     },
     {
@@ -80,9 +80,7 @@ const CaseInfo = (props: IProps) => {
     },
   ];
 
-  return (
-    <Panel fields={fields} data={caseDetail} />
-  );
+  return <Panel fields={fields} data={caseDetail} />;
 };
 
 export default CaseInfo;

@@ -85,12 +85,20 @@ const alarmReportStore = createStore({
   effects: {
     async createReportTask({ call }, payload: COMMON_ALARM_REPORT.ReportTaskQuery) {
       const orgId = orgStore.getState((s) => s.currentOrg.id);
-      await call(createReportTask, { scope: 'org', scopeId: String(orgId), ...payload }, { successMsg: i18n.t('add successfully') });
+      await call(
+        createReportTask,
+        { scope: 'org', scopeId: String(orgId), ...payload },
+        { successMsg: i18n.t('add successfully') },
+      );
       alarmReportStore.effects.getReportTasks(defaultPagingReq);
     },
     async getReportTasks({ call, update }, payload: IPagingReq) {
       const orgId = orgStore.getState((s) => s.currentOrg.id);
-      const { list } = await call(getReportTasks, { scope: 'org', scopeId: String(orgId), ...payload }, { paging: { key: 'reportTaskPaging' } });
+      const { list } = await call(
+        getReportTasks,
+        { scope: 'org', scopeId: String(orgId), ...payload },
+        { paging: { key: 'reportTaskPaging' } },
+      );
       update({ reportTasks: list });
     },
     async getReportTask({ call, getParams }) {
@@ -112,10 +120,17 @@ const alarmReportStore = createStore({
       await call(switchReportTask, payload, { successMsg: i18n.t('update successfully') });
       alarmReportStore.effects.getReportTasks({ pageNo, pageSize });
     },
-    async getReportTaskRecords({ call, update, getParams }, payload: Merge<IPagingReq, { start?: number; end?: number }>) {
+    async getReportTaskRecords(
+      { call, update, getParams },
+      payload: Merge<IPagingReq, { start?: number; end?: number }>,
+    ) {
       const { taskId } = getParams();
       const orgId = orgStore.getState((s) => s.currentOrg.id);
-      const { list } = await call(getReportTaskRecords, { scope: 'org', scopeId: String(orgId), taskId, ...payload }, { paging: { key: 'reportTaskRecordPaging' } });
+      const { list } = await call(
+        getReportTaskRecords,
+        { scope: 'org', scopeId: String(orgId), taskId, ...payload },
+        { paging: { key: 'reportTaskRecordPaging' } },
+      );
       update({ reportTaskRecords: list });
     },
     async getReportTaskRecord({ call, update }, id: number) {
@@ -163,7 +178,10 @@ const alarmReportStore = createStore({
         alarmReport: { ...handler(data), loading: false },
       });
     },
-    async getProcessCmdline({ call, update }, payload: Omit<COMMON_ALARM_REPORT.QueryCmdLine, 'start'| 'end'|'group'>) {
+    async getProcessCmdline(
+      { call, update },
+      payload: Omit<COMMON_ALARM_REPORT.QueryCmdLine, 'start' | 'end' | 'group'>,
+    ) {
       const commonQuery = {
         start: 'before_20m',
         end: 'after_10m',

@@ -11,9 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import {
-  Form,
-} from 'app/nusi';
+import { Form } from 'app/nusi';
 import * as React from 'react';
 import { getLabel, noop } from './common';
 import { commonFields } from './common/config';
@@ -27,33 +25,34 @@ export const FormInput = ({
   extensionFix,
   requiredCheck,
   trigger = 'onChange',
-}: any = {}) => React.memo(({ fieldConfig, form }: any = {}) => {
-  const {
-    label,
-    visible,
-    valid = [],
-    required,
-    registerRequiredCheck = noop,
-    wrapperProps,
-    labelTip,
-    requiredCheck: _requiredCheck,
-  } = fieldConfig || {};
-  registerRequiredCheck(_requiredCheck || requiredCheck);
+}: any = {}) =>
+  React.memo(({ fieldConfig, form }: any = {}) => {
+    const {
+      label,
+      visible,
+      valid = [],
+      required,
+      registerRequiredCheck = noop,
+      wrapperProps,
+      labelTip,
+      requiredCheck: _requiredCheck,
+    } = fieldConfig || {};
+    registerRequiredCheck(_requiredCheck || requiredCheck);
 
-  return (
-    <FormItem
-      colon
-      label={getLabel(label, labelTip)}
-      className={visible ? '' : 'hide'}
-      validateStatus={valid[0]}
-      help={valid[1]}
-      required={required}
-      {...wrapperProps}
-    >
-      <div>自定义组件将由前端同学根据您的描述实现，并添加后才可预览</div>
-    </FormItem>
-  );
-});
+    return (
+      <FormItem
+        colon
+        label={getLabel(label, labelTip)}
+        className={visible ? '' : 'hide'}
+        validateStatus={valid[0]}
+        help={valid[1]}
+        required={required}
+        {...wrapperProps}
+      >
+        <div>自定义组件将由前端同学根据您的描述实现，并添加后才可预览</div>
+      </FormItem>
+    );
+  });
 
 export const config = {
   name: 'custom',

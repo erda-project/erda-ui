@@ -11,7 +11,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { getTraceHistoryList, requestTrace, getTraceDetail, getTraceStatus, cancelTraceStatus, getTraceDetailContent, getSpanDetailContent } from '../services/trace-querier';
+import {
+  getTraceHistoryList,
+  requestTrace,
+  getTraceDetail,
+  getTraceStatus,
+  cancelTraceStatus,
+  getTraceDetailContent,
+  getSpanDetailContent,
+} from '../services/trace-querier';
 import { isEmpty } from 'lodash';
 import traceToMustache from '../common/utils/traceDetail';
 import { createStore } from 'app/cube';
@@ -93,16 +101,18 @@ const traceQuerier = createStore({
     async requestTrace({ select, call, getParams }, payload?: MONITOR_TRACE.ITraceRequestBody) {
       const { terminusKey, projectId } = getParams();
       const requestTraceParams = select((s) => s.requestTraceParams);
-      const { requestId: currentTraceRequestId } = await call(
-        requestTrace,
-        { ...requestTraceParams, ...(payload || {}), terminusKey, projectId },
-      );
+      const { requestId: currentTraceRequestId } = await call(requestTrace, {
+        ...requestTraceParams,
+        ...(payload || {}),
+        terminusKey,
+        projectId,
+      });
       traceQuerier.reducers.setCurrentTraceRequestId(currentTraceRequestId);
       await traceQuerier.effects.getTraceHistoryList();
       await traceQuerier.effects.getTraceDetail({ requestId: currentTraceRequestId });
       await traceQuerier.effects.getTraceStatusDetail({ requestId: currentTraceRequestId });
     },
-    async getTraceDetail({ call }, payload: {requestId: string}) {
+    async getTraceDetail({ call }, payload: { requestId: string }) {
       const { method, url, body, query, header, ...rest } = await call(getTraceDetail, payload);
       traceQuerier.reducers.setRequestTraceParams({
         method: method || 'GET',
@@ -120,9 +130,10 @@ const traceQuerier = createStore({
       const traceStatusDetail = await call(getTraceStatus, payload);
       update({ traceStatusDetail });
       if (traceStatusDetail.status === 0) {
-        const delay = (ms: number) => new Promise((resolve) => {
-          setTimeout(resolve, ms);
-        });
+        const delay = (ms: number) =>
+          new Promise((resolve) => {
+            setTimeout(resolve, ms);
+          });
         await call(delay, 5000);
         await traceQuerier.effects.getTraceStatusDetail({ requestId: payload.requestId });
       }
@@ -130,20 +141,16 @@ const traceQuerier = createStore({
         await traceQuerier.effects.getTraceDetailContent({ requestId: payload.requestId });
       }
     },
-    async cancelTraceStatus({ select, call }, payload: { requestId: string}) {
+    async cancelTraceStatus({ select, call }, payload: { requestId: string }) {
       const currentTraceRequestId = select((s) => s.currentTraceRequestId);
-      await call(
-        cancelTraceStatus,
-        payload,
-        {
-          successMsg: i18n.t('microService:cancel success'),
-          errorMsg: i18n.t('microService:cancel failed, please try again later'),
-        },
-      );
+      await call(cancelTraceStatus, payload, {
+        successMsg: i18n.t('microService:cancel success'),
+        errorMsg: i18n.t('microService:cancel failed, please try again later'),
+      });
 
       await traceQuerier.effects.getTraceStatusDetail({ requestId: currentTraceRequestId });
     },
-    async getTraceDetailContent({ call, update, getParams }, payload: {requestId: string; needReturn?: boolean}) {
+    async getTraceDetailContent({ call, update, getParams }, payload: { requestId: string; needReturn?: boolean }) {
       const { terminusKey } = getParams();
       const response = await call(getTraceDetailContent, { ...payload, terminusKey });
       // 接口返回timestamp为毫秒，duration为微秒，统一为微秒
@@ -164,7 +171,7 @@ const traceQuerier = createStore({
       }
       update({ traceDetailContent: content });
     },
-    async getSpanDetailContent({ call, update }, payload: {span: any; visible: boolean}) {
+    async getSpanDetailContent({ call, update }, payload: { span: any; visible: boolean }) {
       const response = await call(getSpanDetailContent, payload);
       const annotations = response.span.annotations || [];
       // 接口返回timestamp为毫秒，duration为微秒，统一为微秒
@@ -184,7 +191,7 @@ const traceQuerier = createStore({
     setCurrentTraceRequestId(state, payload: string) {
       state.currentTraceRequestId = payload;
     },
-    setTraceStatusListPaging(state, payload: {page?: number; size?: number; total?: number}) {
+    setTraceStatusListPaging(state, payload: { page?: number; size?: number; total?: number }) {
       state.traceStatusListPaging = {
         ...state.traceStatusListPaging,
         ...payload,

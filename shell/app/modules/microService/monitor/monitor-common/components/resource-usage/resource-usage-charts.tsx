@@ -44,27 +44,33 @@ const ResourceUsageCharts = (props: IProps) => {
     endTimeMs: Date.now(),
   });
   const paramObj = {
-    container: { filter_container_id: containerId, ...extraQuery, start: timeSpan.startTimeMs, end: timeSpan.endTimeMs },
+    container: {
+      filter_container_id: containerId,
+      ...extraQuery,
+      start: timeSpan.startTimeMs,
+      end: timeSpan.endTimeMs,
+    },
     instance: { filter_instance_id: id, ...extraQuery, start: timeSpan.startTimeMs, end: timeSpan.endTimeMs },
   };
 
   return (
     <div className="unit-detail">
-      <TimeRangeSelector timeSpan={timeSpan} onChangeTime={([start, end]) => setTimeSpan({ startTimeMs: start.valueOf(), endTimeMs: end.valueOf() })} />
-      {
-        PageMap.map((cols, rIndex) => (
-          <Row gutter={20} key={String(rIndex)}>
-            {cols.map((Chart: any, cIndex: number) => {
-              const spanWidth = 24 / cols.length;
-              return (
-                <Col span={spanWidth} key={String(cIndex)}>
-                  <Chart query={paramObj[type]} />
-                </Col>
-              );
-            })}
-          </Row>
-        ))
-      }
+      <TimeRangeSelector
+        timeSpan={timeSpan}
+        onChangeTime={([start, end]) => setTimeSpan({ startTimeMs: start.valueOf(), endTimeMs: end.valueOf() })}
+      />
+      {PageMap.map((cols, rIndex) => (
+        <Row gutter={20} key={String(rIndex)}>
+          {cols.map((Chart: any, cIndex: number) => {
+            const spanWidth = 24 / cols.length;
+            return (
+              <Col span={spanWidth} key={String(cIndex)}>
+                <Chart query={paramObj[type]} />
+              </Col>
+            );
+          })}
+        </Row>
+      ))}
     </div>
   );
 };

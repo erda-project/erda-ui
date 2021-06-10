@@ -21,4 +21,3 @@ interface IProps {
 const DirectoryName = ({ name }: IProps) => <span className={'no-wrap test-manage-directory-name'}>{name}</span>;
 
 export default DirectoryName;
-

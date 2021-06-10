@@ -81,15 +81,19 @@ const ClusterBasicForm = ({
   const [isEdgeCluster, setIsEdgeCluster] = React.useState(get(formData, 'isEdgeCluster', true));
   const [wildcardDomain, setWildcardDomain] = React.useState('');
   const { getClusterNewDetail } = clusterStore.effects;
-  const debounceCheckName = React.useCallback(debounce((nameStr: string, callback: Function) => {
-    if (editMode) return callback();
-    nameStr && getClusterNewDetail({ clusterName: nameStr }).then((res: any) => {
-      const { basic } = get(res, '[0]', {});
-      const curIsEdgeCluster = get(basic, 'edgeCluster.value', true);
-      setIsEdgeCluster(curIsEdgeCluster);
-      callback();
-    });
-  }, 200), []);
+  const debounceCheckName = React.useCallback(
+    debounce((nameStr: string, callback: Function) => {
+      if (editMode) return callback();
+      nameStr &&
+        getClusterNewDetail({ clusterName: nameStr }).then((res: any) => {
+          const { basic } = get(res, '[0]', {});
+          const curIsEdgeCluster = get(basic, 'edgeCluster.value', true);
+          setIsEdgeCluster(curIsEdgeCluster);
+          callback();
+        });
+    }, 200),
+    [],
+  );
 
   React.useEffect(() => {
     form.setFieldsValue({
@@ -167,16 +171,20 @@ const ClusterBasicForm = ({
     },
   ];
   if (clusterType === 'edas') {
-    fieldsList.splice(4, 0, ...[
-      { label: i18n.t('org:EDAS address'), name: 'scheduler.edasConsoleAddr' },
-      { label: 'AK', name: 'scheduler.accessKey' },
-      { label: 'AS', name: 'scheduler.accessSecret' },
-      { label: i18n.t('org:cluster ID'), name: 'scheduler.clusterID' },
-      { label: 'Region ID', name: 'scheduler.regionID' },
-      { label: i18n.t('org:namespace'), name: 'scheduler.logicalRegionID' },
-      { label: i18n.t('org:cluster address'), name: 'scheduler.k8sAddr' },
-      { label: 'Registry Address', name: 'scheduler.regAddr' },
-    ] as any);
+    fieldsList.splice(
+      4,
+      0,
+      ...([
+        { label: i18n.t('org:EDAS address'), name: 'scheduler.edasConsoleAddr' },
+        { label: 'AK', name: 'scheduler.accessKey' },
+        { label: 'AS', name: 'scheduler.accessSecret' },
+        { label: i18n.t('org:cluster ID'), name: 'scheduler.clusterID' },
+        { label: 'Region ID', name: 'scheduler.regionID' },
+        { label: i18n.t('org:namespace'), name: 'scheduler.logicalRegionID' },
+        { label: i18n.t('org:cluster address'), name: 'scheduler.k8sAddr' },
+        { label: 'Registry Address', name: 'scheduler.regAddr' },
+      ] as any),
+    );
   } else {
     fieldsList.splice(4, 0, {
       label: i18n.t('org:cluster entry'),
@@ -197,7 +205,17 @@ const ClusterBasicForm = ({
 
   return <RenderPureForm list={fieldsList} form={form} onlyItems />;
 };
-const ClusterSchedulerForm = ({ form, clusterType, formData, editMode }: { form: WrappedFormUtils; clusterType: string; formData: any; editMode: boolean }) => {
+const ClusterSchedulerForm = ({
+  form,
+  clusterType,
+  formData,
+  editMode,
+}: {
+  form: WrappedFormUtils;
+  clusterType: string;
+  formData: any;
+  editMode: boolean;
+}) => {
   const initialOpsConfig = formData && formData.opsConfig;
   const formValues = form.getFieldsValue();
   const { scheduler, opsConfig } = formValues || ({} as any);
@@ -208,14 +226,11 @@ const ClusterSchedulerForm = ({ form, clusterType, formData, editMode }: { form:
   });
   React.useEffect(() => {
     form.setFieldsValue({
-      'opsConfig.repeatValue': (repeatRange[0] && repeatRange[1]) ? repeatRange.join('-') : undefined,
+      'opsConfig.repeatValue': repeatRange[0] && repeatRange[1] ? repeatRange.join('-') : undefined,
     });
   }, [repeatRange]);
   // CA证书、客户端证书、客户端秘钥 必须同为空或同为不空
-  const haveCrt = !!(
-    scheduler &&
-    (scheduler.caCrt || scheduler.clientCrt || scheduler.clientKey)
-  );
+  const haveCrt = !!(scheduler && (scheduler.caCrt || scheduler.clientCrt || scheduler.clientKey));
   // 当认证类型空时，认证用户名、密码不需要填
   const authType = scheduler && scheduler.authType;
   let authFields = [] as any;
@@ -314,63 +329,70 @@ const ClusterSchedulerForm = ({ form, clusterType, formData, editMode }: { form:
   }
 
   if (opsConfig && opsConfig.scaleMode === 'scheduler') {
-    fieldListMap.k8s.push({
-      label: i18n.t('org:launch time'),
-      name: 'opsConfig.launchTime',
-      initialValue: initialOpsConfig && initialOpsConfig.launchTime,
-      getComp: () => (
-        <>
-          <DatePicker
-            className="full-width"
-            format="YYYY-MM-DD HH:mm"
-            defaultValue={initialOpsConfig && moment(initialOpsConfig.launchTime)}
-            disabledDate={(current: Moment) => current && current < moment().subtract(1, 'days')}
-            showTime
-            onChange={(date) => { form.setFieldsValue({ 'opsConfig.launchTime': date }); }}
-          />
-        </>
-      ),
-    }, {
-      label: i18n.t('org:scale duration'),
-      name: 'opsConfig.scaleDuration',
-      type: 'inputNumber',
-      initialValue: initialOpsConfig && initialOpsConfig.scaleDuration,
-      itemProps: {
-        max: 12,
-        min: 0,
-        precision: 0,
-        placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 12 }),
-        className: 'full-width',
+    fieldListMap.k8s.push(
+      {
+        label: i18n.t('org:launch time'),
+        name: 'opsConfig.launchTime',
+        initialValue: initialOpsConfig && initialOpsConfig.launchTime,
+        getComp: () => (
+          <>
+            <DatePicker
+              className="full-width"
+              format="YYYY-MM-DD HH:mm"
+              defaultValue={initialOpsConfig && moment(initialOpsConfig.launchTime)}
+              disabledDate={(current: Moment) => current && current < moment().subtract(1, 'days')}
+              showTime
+              onChange={(date) => {
+                form.setFieldsValue({ 'opsConfig.launchTime': date });
+              }}
+            />
+          </>
+        ),
       },
-    }, {
-      label: i18n.t('org:scale number'),
-      name: 'opsConfig.scaleNumber',
-      type: 'inputNumber',
-      initialValue: initialOpsConfig && initialOpsConfig.scaleNumber,
-      itemProps: {
-        max: 20,
-        min: 0,
-        precision: 0,
-        placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 20 }),
-        className: 'full-width',
-      },
-    }, {
-      label: i18n.t('org:repeat mode'),
-      name: 'opsConfig.repeatMode',
-      type: 'select',
-      initialValue: repeatMode,
-      options: map(repeatModeMap, (name, value) => ({ value, name })),
-      itemProps: {
-        className: 'full-width',
-        onChange(value: string) {
-          form.setFieldsValue({
-            'opsConfig.repeatValue': undefined,
-          });
-          updater.repeatValue('');
-          updater.repeatMode(value);
+      {
+        label: i18n.t('org:scale duration'),
+        name: 'opsConfig.scaleDuration',
+        type: 'inputNumber',
+        initialValue: initialOpsConfig && initialOpsConfig.scaleDuration,
+        itemProps: {
+          max: 12,
+          min: 0,
+          precision: 0,
+          placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 12 }),
+          className: 'full-width',
         },
       },
-    });
+      {
+        label: i18n.t('org:scale number'),
+        name: 'opsConfig.scaleNumber',
+        type: 'inputNumber',
+        initialValue: initialOpsConfig && initialOpsConfig.scaleNumber,
+        itemProps: {
+          max: 20,
+          min: 0,
+          precision: 0,
+          placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 20 }),
+          className: 'full-width',
+        },
+      },
+      {
+        label: i18n.t('org:repeat mode'),
+        name: 'opsConfig.repeatMode',
+        type: 'select',
+        initialValue: repeatMode,
+        options: map(repeatModeMap, (name, value) => ({ value, name })),
+        itemProps: {
+          className: 'full-width',
+          onChange(value: string) {
+            form.setFieldsValue({
+              'opsConfig.repeatValue': undefined,
+            });
+            updater.repeatValue('');
+            updater.repeatMode(value);
+          },
+        },
+      },
+    );
 
     let repeatValueField;
     switch (repeatMode) {
@@ -407,7 +429,7 @@ const ClusterSchedulerForm = ({ form, clusterType, formData, editMode }: { form:
                 <InputNumber
                   onChange={(value: any) => {
                     const e = repeatRange[1];
-                    const s = (value > e) ? e : value;
+                    const s = value > e ? e : value;
                     updater.repeatRange([s, e]);
                   }}
                   defaultValue={start}
@@ -419,7 +441,7 @@ const ClusterSchedulerForm = ({ form, clusterType, formData, editMode }: { form:
                 <InputNumber
                   onChange={(value: any) => {
                     const s = repeatRange[0];
-                    const e = (value < s) ? s : value;
+                    const e = value < s ? s : value;
                     updater.repeatRange([s, e]);
                   }}
                   defaultValue={end}
@@ -457,20 +479,29 @@ const ClusterAddForm = (props: any) => {
 
   return (
     <div className="cluster-form">
-      <ClusterBasicForm form={form} clusterType={clusterType} formData={formData} editMode={mode === 'edit'} clusterList={clusterList} />
-      {
-        clusterType === 'edas' ? null : (
-          <div className="more">
-            <a className="more-btn" onClick={() => setShowMore(!showMore)}>
-              {i18n.t('advanced settings')}
-              { showMore ? <IconDown size="16px" /> : <IconUp size="16px" />}
-            </a>
-            <div className={`more-form ${showMore ? '' : 'hide'}`}>
-              <ClusterSchedulerForm form={form} clusterType={clusterType} formData={formData} editMode={mode === 'edit'} />
-            </div>
+      <ClusterBasicForm
+        form={form}
+        clusterType={clusterType}
+        formData={formData}
+        editMode={mode === 'edit'}
+        clusterList={clusterList}
+      />
+      {clusterType === 'edas' ? null : (
+        <div className="more">
+          <a className="more-btn" onClick={() => setShowMore(!showMore)}>
+            {i18n.t('advanced settings')}
+            {showMore ? <IconDown size="16px" /> : <IconUp size="16px" />}
+          </a>
+          <div className={`more-form ${showMore ? '' : 'hide'}`}>
+            <ClusterSchedulerForm
+              form={form}
+              clusterType={clusterType}
+              formData={formData}
+              editMode={mode === 'edit'}
+            />
           </div>
-        )
-      }
+        </div>
+      )}
     </div>
   );
 };
@@ -488,7 +519,7 @@ export const AddClusterModal = (props: IProps) => {
   const { initData, toggleModal, visible, onSubmit, clusterList, clusterType } = props;
   const formatLaunchTime = (ISOTime: Moment | string) => {
     const isISOString = isString(ISOTime);
-    const ISOString = isISOString ? ISOTime as string : (ISOTime as Moment).toISOString();
+    const ISOString = isISOString ? (ISOTime as string) : (ISOTime as Moment).toISOString();
     const dateAndTime = ISOString.split('T');
     const time = dateAndTime[1].split(':');
     return `${dateAndTime[0]}T${time[0]}:${time[1]}${isISOString ? '' : 'Z'}`;
@@ -496,7 +527,9 @@ export const AddClusterModal = (props: IProps) => {
   const handleSubmit = (values: any) => {
     const { scheduler, opsConfig } = values;
     const postData = { ...values };
-    if (every(opsConfig, (item) => isEmpty(item))) { postData.opsConfig = null; }
+    if (every(opsConfig, (item) => isEmpty(item))) {
+      postData.opsConfig = null;
+    }
     const cpuSubscribeRatio = get(scheduler, 'cpuSubscribeRatio');
     const repeatValue = get(opsConfig, 'repeatValue');
     const launchTime = get(opsConfig, 'launchTime');
@@ -514,7 +547,7 @@ export const AddClusterModal = (props: IProps) => {
   const beforeSubmit = (values: any) => {
     const launchTime = get(values, 'opsConfig.launchTime');
     return new Promise((resolve, reject) => {
-      if (launchTime && (launchTime < moment())) {
+      if (launchTime && launchTime < moment()) {
         message.warning(i18n.t('org:the execution time cannot be earlier than the current time'));
         reject();
       } else {
@@ -526,7 +559,9 @@ export const AddClusterModal = (props: IProps) => {
   return (
     <FormModal
       width={800}
-      name={i18n.t('org:{type} cluster', { type: get(find(flatten(clusterTypeMap), { type: clusterType }), 'name', '') })}
+      name={i18n.t('org:{type} cluster', {
+        type: get(find(flatten(clusterTypeMap), { type: clusterType }), 'name', ''),
+      })}
       visible={visible}
       onOk={handleSubmit}
       beforeSubmit={beforeSubmit}

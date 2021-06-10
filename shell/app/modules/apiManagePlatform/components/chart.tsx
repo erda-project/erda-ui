@@ -41,9 +41,11 @@ const Chart = ({ type, extraQuery = {} }: IProps) => {
   });
   React.useEffect(() => {
     updater.loading(true);
-    getDashboard({ type }).then(({ data }: any) => updater.boardConfig(data.viewConfig || [])).finally(() => {
-      updater.loading(false);
-    });
+    getDashboard({ type })
+      .then(({ data }: any) => updater.boardConfig(data.viewConfig || []))
+      .finally(() => {
+        updater.loading(false);
+      });
   }, [type, updater]);
   React.useEffect(() => {
     updater.timeSpan(getTimeSpan());
@@ -63,17 +65,27 @@ const Chart = ({ type, extraQuery = {} }: IProps) => {
     }
     const _layout = boardConfig.map((viewItem) => {
       const filters = get(viewItem, 'view.api.extraData.filters');
-      const _viewItem = merge({}, viewItem, { view: { api: { query: {
-        start,
-        end,
-        ...reduce(filters, (acc, { value, method, tag }) => {
-          const matchQuery = isString(value) ? getVariableStr(value) : undefined;
-          return {
-            ...acc,
-            [`${method}_${tag}`]: matchQuery ? restQuery[matchQuery] : value.split(','),
-          };
-        }, {}),
-      } } } });
+      const _viewItem = merge({}, viewItem, {
+        view: {
+          api: {
+            query: {
+              start,
+              end,
+              ...reduce(
+                filters,
+                (acc, { value, method, tag }) => {
+                  const matchQuery = isString(value) ? getVariableStr(value) : undefined;
+                  return {
+                    ...acc,
+                    [`${method}_${tag}`]: matchQuery ? restQuery[matchQuery] : value.split(','),
+                  };
+                },
+                {},
+              ),
+            },
+          },
+        },
+      });
       const { api, chartType } = _viewItem.view as any;
 
       return merge({}, viewItem, { view: { loadData: createLoadDataFn(api, chartType) } });
@@ -83,7 +95,11 @@ const Chart = ({ type, extraQuery = {} }: IProps) => {
 
   return (
     <Spin spinning={loading}>
-      <CommonRangePicker className="mb12" defaultTime={[timeSpan.startTimeMs, timeSpan.endTimeMs]} onOk={(v) => updater.timeSpan(v)} />
+      <CommonRangePicker
+        className="mb12"
+        defaultTime={[timeSpan.startTimeMs, timeSpan.endTimeMs]}
+        onOk={(v) => updater.timeSpan(v)}
+      />
       <PureBoardGrid layout={layout} />
     </Spin>
   );
