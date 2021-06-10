@@ -13,7 +13,7 @@
 
 import React, { useState, useEffect } from 'react';
 import i18n from 'i18n';
-import { DC } from '@terminus/dashboard-configurator';
+import { DC } from '@erda-ui/dashboard-configurator';
 import { Icon as CustomIcon, EmptyHolder, PureBoardGrid } from 'common';
 import { get, isEmpty } from 'lodash';
 import routeInfoStore from 'app/common/stores/route';

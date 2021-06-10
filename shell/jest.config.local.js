@@ -45,7 +45,7 @@ module.exports = {
   transform: {
     '^.+\\.(t|j)sx?$': 'ts-jest',
     '^.+\\js$': 'babel-jest',
-    '@terminus/dashboard-configurator': 'ts-jest',
+    '@erda-ui/dashboard-configurator': 'ts-jest',
   },
   moduleNameMapper: {
     ...moduleMapper,
@@ -69,7 +69,7 @@ module.exports = {
     '^common/utils(.*)': '<rootDir>/app/common/utils/$1',
     'common/stores(.*)': '<rootDir>/app/common/stores/$1',
     '^configForm(.*)': '<rootDir>/app/configForm/$1',
-    // mock for @terminus/dashboard-configuratort iconfont
+    // mock for @erda-ui/dashboard-configuratort iconfont
     'iconfont.js$': 'identity-obj-proxy',
     '\\.(css|less|scss)$': 'identity-obj-proxy',
   },
@@ -79,7 +79,7 @@ module.exports = {
   testEnvironmentOptions: {
     enzymeAdapter: 'react16',
   },
-  transformIgnorePatterns: ['node_modules/(?!@terminus/dashboard-configurator/.*)'],
+  transformIgnorePatterns: ['node_modules/(?!@erda-ui/dashboard-configurator/.*)'],
   testMatch: ['**/__tests__/**/*.test.+(tsx|ts|jsx|js)'],
   testPathIgnorePatterns: [
     // '/node_modules/',
