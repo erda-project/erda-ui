@@ -40,7 +40,7 @@ interface IState {
 
 enum ViewType {
   graphic = 'graphic',
-  code = 'code'
+  code = 'code',
 }
 
 const pipelineTempQuery = { scopeID: '0', scopeType: 'dice' };
@@ -49,7 +49,7 @@ const AddPipelineYml = () => {
   const [tree, info] = repoStore.useStore((s) => [s.tree, s.info]);
   const { commit, getRepoTree } = repoStore.effects;
   const { changeMode } = repoStore.reducers;
-  const isRootPath = tree && tree.path === '';// 是根目录
+  const isRootPath = tree && tree.path === ''; // 是根目录
 
   const editViewRef = React.useRef(null as any);
   const selectorRef = React.useRef(null as any);
@@ -62,7 +62,6 @@ const AddPipelineYml = () => {
     ymlObj: {},
     errorMsg: '',
   } as IState);
-
 
   const onYmlStringChange = (val: string, tipWithModal = true) => {
     try {
@@ -79,7 +78,7 @@ const AddPipelineYml = () => {
     return parsePipelineYmlStructure({ pipelineYmlContent: val }).then((res: any) => {
       const ymlStr = get(res, 'data.ymlContent');
       update({
-        ymlObj: (res && res.data),
+        ymlObj: res && res.data,
         txtValue: ymlStr,
       });
       return ymlStr;
@@ -101,9 +100,11 @@ const AddPipelineYml = () => {
 
   const changeViewType = (_type: string) => {
     let pass = true as any;
-    if (_type === ViewType.graphic) { // 转图编辑，检测value
+    if (_type === ViewType.graphic) {
+      // 转图编辑，检测value
       pass = onYmlStringChange(txtValue);
-    } else if (_type === ViewType.code) { // 转文本
+    } else if (_type === ViewType.code) {
+      // 转文本
       const ymlStr = yaml.dump(omit(ymlObj, ['upgradedYmlContent', 'needUpgrade']));
       pass = onYmlStringChange(ymlStr);
     }
@@ -117,9 +118,11 @@ const AddPipelineYml = () => {
   const handleSubmit = (form: any) => {
     const path = `${tree.path ? `${tree.path}/` : ''}${fileName}${fileSuffix}`;
     let pass = true as any;
-    if (viewType === ViewType.code) { // 转图编辑，检测value
+    if (viewType === ViewType.code) {
+      // 转图编辑，检测value
       pass = onYmlStringChange(txtValue, false);
-    } else if (viewType === ViewType.graphic) { // 转文本
+    } else if (viewType === ViewType.graphic) {
+      // 转文本
       const ymlStr = yaml.dump(omit(ymlObj, ['upgradedYmlContent', 'needUpgrade']));
       pass = onYmlStringChange(ymlStr, false);
     }
@@ -132,7 +135,7 @@ const AddPipelineYml = () => {
           return;
         }
 
-        form.validateFields((error: Error, values: Pick<REPOSITORY.Commit, 'message'| 'branch'>) => {
+        form.validateFields((error: Error, values: Pick<REPOSITORY.Commit, 'message' | 'branch'>) => {
           if (error) {
             return;
           }
@@ -187,7 +190,7 @@ const AddPipelineYml = () => {
         },
       },
       {
-        getComp: ({ form }: {form: any}) => (
+        getComp: ({ form }: { form: any }) => (
           <div>
             <Button type="primary" onClick={() => handleSubmit(form)}>
               {i18n.t('application:save')}
@@ -247,7 +250,8 @@ const AddPipelineYml = () => {
     if (curChosenExternal) {
       const { resource, action = {}, executionCondition } = data;
       const newData = { ...resource, logoUrl: action.logoUrl, displayName: action.displayName };
-      if (executionCondition) { // 执行条件
+      if (executionCondition) {
+        // 执行条件
         newData.if = executionCondition;
       }
       const { nodeType, xIndex, yIndex, insertPos } = curChosenExternal;
@@ -257,9 +261,11 @@ const AddPipelineYml = () => {
         }
         if (nodeType === NodeType.addRow) {
           draft.stages.splice(insertPos, 0, [newData]);
-        } else if (nodeType === NodeType.addNode) { // 添加节点
+        } else if (nodeType === NodeType.addNode) {
+          // 添加节点
           draft.stages[xIndex] = [...draft.stages[xIndex], newData];
-        } else { // 修改节点
+        } else {
+          // 修改节点
           draft.stages[xIndex][yIndex] = newData;
         }
       });
@@ -271,7 +277,6 @@ const AddPipelineYml = () => {
   const chartData = React.useMemo(() => {
     return get(ymlObj, 'stages') || [];
   }, [ymlObj]);
-
 
   return (
     <div className="repo-add-pipelineyml">
@@ -285,9 +290,18 @@ const AddPipelineYml = () => {
       />
       <div ref={editViewRef}>
         <div className="bold fz16 my12">{i18n.t('application:pipeline configuration')}</div>
-        <FileContainer name={<FileNameInput value={fileName} disabled={isRootPath} onChange={(val: string) => updater.fileName(val)} addonAfter={fileSuffix} />} ops={ops}>
-          <div className="add-pipeline-file-container" >
-
+        <FileContainer
+          name={
+            <FileNameInput
+              value={fileName}
+              disabled={isRootPath}
+              onChange={(val: string) => updater.fileName(val)}
+              addonAfter={fileSuffix}
+            />
+          }
+          ops={ops}
+        >
+          <div className="add-pipeline-file-container">
             <IF check={viewType === ViewType.graphic}>
               <PipelineGraphicEditor
                 ymlObj={ymlObj as PIPELINE.IPipelineYmlStructure}
@@ -301,8 +315,6 @@ const AddPipelineYml = () => {
                   },
                 }}
               />
-
-
             </IF>
             <IF check={viewType === ViewType.code}>
               <FileEditor
@@ -315,24 +327,28 @@ const AddPipelineYml = () => {
               />
             </IF>
           </div>
-          <RenderForm
-            className="pa16 border-top"
-            list={getFieldsList()}
-          />
+          <RenderForm className="pa16 border-top" list={getFieldsList()} />
         </FileContainer>
-
       </div>
       <Modal
         visible={!isEmpty(errorMsg)}
-        title={<div><CustomIcon type="guanbi-fill" className="color-danger" />{i18n.t('error')}</div>}
+        title={
+          <div>
+            <CustomIcon type="guanbi-fill" className="color-danger" />
+            {i18n.t('error')}
+          </div>
+        }
         maskClosable={false}
         footer={[
-          <Button key="cancel" onClick={() => { updater.errorMsg(''); }}>{i18n.t('cancel')}</Button>,
           <Button
-            key="ok"
-            type="primary"
-            onClick={() => resetAndChangeViewType()}
+            key="cancel"
+            onClick={() => {
+              updater.errorMsg('');
+            }}
           >
+            {i18n.t('cancel')}
+          </Button>,
+          <Button key="ok" type="primary" onClick={() => resetAndChangeViewType()}>
             {i18n.t('application:reset and switch')}
           </Button>,
         ]}
@@ -345,7 +361,7 @@ const AddPipelineYml = () => {
 
 export default AddPipelineYml;
 
-interface ITemplateSelector{
+interface ITemplateSelector {
   onChange: (val: any) => void;
 }
 
@@ -375,7 +391,7 @@ const PipelineTemplateSelector = React.forwardRef((props: ITemplateSelector, ref
     if (!isEmpty(pipelineTemplates)) {
       changeValue(get(pipelineTemplates, '[0].id'));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pipelineTemplates]);
 
   const changeValue = (id: number) => {
@@ -402,11 +418,7 @@ const PipelineTemplateSelector = React.forwardRef((props: ITemplateSelector, ref
         onClick={() => changeValue(id)}
       >
         <div className="logo">
-          {
-            logoUrl
-              ? <img src={logoUrl} />
-              : <CustomIcon type="dm" className="template-icon" />
-          }
+          {logoUrl ? <img src={logoUrl} /> : <CustomIcon type="dm" className="template-icon" />}
         </div>
         <div className="name my4">{name}</div>
         <div className="desc">{desc}</div>
@@ -422,8 +434,7 @@ const PipelineTemplateSelector = React.forwardRef((props: ITemplateSelector, ref
   );
 });
 
-
-interface IFileNameProps{
+interface IFileNameProps {
   [pro: string]: any;
   value: string;
   onChange: Function;

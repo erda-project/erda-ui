@@ -55,4 +55,3 @@ export const titleCnMap = {
 
 export const titleMap = ['PROJECT', 'APPLICATION', 'RUNTIME', 'SERVICE'];
 export const iconMap = ['project', 'wenjianjia', 'fengchao', 'atom'];
-

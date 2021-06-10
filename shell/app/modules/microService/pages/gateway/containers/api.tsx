@@ -74,11 +74,15 @@ interface IState {
 }
 
 const extractServiceList = ({ services }: any) => {
-  return reduce(services, (result, value, key) => {
-    // eslint-disable-next-line no-param-reassign
-    result[key] = value.addrs[0] || '';
-    return result;
-  }, {});
+  return reduce(
+    services,
+    (result, value, key) => {
+      // eslint-disable-next-line no-param-reassign
+      result[key] = value.addrs[0] || '';
+      return result;
+    },
+    {},
+  );
 };
 
 class API extends React.Component<IProps, IState> {
@@ -129,7 +133,12 @@ class API extends React.Component<IProps, IState> {
         if (!isEmpty(runtimeEntryData)) {
           const { diceApp, services } = runtimeEntryData;
           const serviceAddressMap = extractServiceList({ services });
-          const nextState = { diceApp, serviceAddressMap, currentService: keys(serviceAddressMap)[0], serviceList: keys(serviceAddressMap) };
+          const nextState = {
+            diceApp,
+            serviceAddressMap,
+            currentService: keys(serviceAddressMap)[0],
+            serviceList: keys(serviceAddressMap),
+          };
           this.setState({ ...nextState }, () => {
             this.queryApis();
             this.getRuntimes();
@@ -267,32 +276,41 @@ class API extends React.Component<IProps, IState> {
     });
 
     if (isK8S) {
-      this.setState({ // k8s的时候，只重置以下两个参数，不充值diceApp（查询必要条件）
-        currentService: undefined,
-        chosenRuntimeId: undefined,
-      } as any, () => this.queryApis({ isReset: true }));
+      this.setState(
+        {
+          // k8s的时候，只重置以下两个参数，不充值diceApp（查询必要条件）
+          currentService: undefined,
+          chosenRuntimeId: undefined,
+        } as any,
+        () => this.queryApis({ isReset: true }),
+      );
       return;
     }
     clearList();
-    this.setState({
-      currentService: undefined,
-      diceApp: undefined,
-      chosenRuntimeId: undefined,
-    } as any, () => this.queryApis({ isReset: true }));
+    this.setState(
+      {
+        currentService: undefined,
+        diceApp: undefined,
+        chosenRuntimeId: undefined,
+      } as any,
+      () => this.queryApis({ isReset: true }),
+    );
   };
 
   getRuntimes = async () => {
     const { getServiceRuntime } = this.props;
     const { diceApp, currentService, chosenRuntimeId } = this.state;
-    diceApp && currentService && await getServiceRuntime({ app: diceApp, service: currentService }).then((res) => {
-      let reRuntime = '';
-      if (chosenRuntimeId && find(res, { runtime_id: chosenRuntimeId })) {
-        reRuntime = chosenRuntimeId as any as string;
-      } else {
-        reRuntime = get(res, '[0].runtime_id');
-      }
-      this.setState({ runtimeList: res, chosenRuntimeId: reRuntime });
-    });
+    diceApp &&
+      currentService &&
+      (await getServiceRuntime({ app: diceApp, service: currentService }).then((res) => {
+        let reRuntime = '';
+        if (chosenRuntimeId && find(res, { runtime_id: chosenRuntimeId })) {
+          reRuntime = chosenRuntimeId as any as string;
+        } else {
+          reRuntime = get(res, '[0].runtime_id');
+        }
+        this.setState({ runtimeList: res, chosenRuntimeId: reRuntime });
+      }));
   };
 
   searchApis = () => {
@@ -343,11 +361,16 @@ class API extends React.Component<IProps, IState> {
     const { diceApp, currentService } = this.state;
     const { params, query } = this.props;
     const { monitorPath, method } = record;
-    updateSearchFields({ filter_dapp: diceApp, filter_dsrv: currentService, filter_mthd: method, filter_api: monitorPath });
+    updateSearchFields({
+      filter_dapp: diceApp,
+      filter_dsrv: currentService,
+      filter_mthd: method,
+      filter_api: monitorPath,
+    });
     goTo(goTo.pages.monitorAPIOverview, { ...params, ...query });
   };
 
-  showDoc = ({ swagger }: {swagger: Record<string, any>}) => {
+  showDoc = ({ swagger }: { swagger: Record<string, any> }) => {
     this.setState({
       swagger,
       apiDocVisible: true,
@@ -367,7 +390,8 @@ class API extends React.Component<IProps, IState> {
 
   renderSearchConditions = () => {
     const { filters, registerApps, apiDomain, isK8S } = this.props;
-    const { isRuntimeEntry, diceApp, currentService, serviceList, customDomain, runtimeList, chosenRuntimeId } = this.state;
+    const { isRuntimeEntry, diceApp, currentService, serviceList, customDomain, runtimeList, chosenRuntimeId } =
+      this.state;
     const { registerType, apiPath, method, sortType, sortField } = filters;
     const appSource = registerApps.map((app) => app.name);
     const { domainSuffix, domainPrefix } = apiDomain;
@@ -377,40 +401,97 @@ class API extends React.Component<IProps, IState> {
         <div className="app-services-container mb16">
           <div className={`mr16 ${isRuntimeEntry ? 'hide' : ''}`}>
             <span>{i18n.t('microService:switch app')}：</span>
-            <Select className="api-select" placeholder={i18n.t('microService:filter by application')} value={diceApp} onChange={this.setApp} showSearch filterOption={this.filterAppOption} style={{ width: 200 }}>
-              {map(appSource, (appName, key) => <Option key={key} value={appName} title={appName}>{appName}</Option>)}
+            <Select
+              className="api-select"
+              placeholder={i18n.t('microService:filter by application')}
+              value={diceApp}
+              onChange={this.setApp}
+              showSearch
+              filterOption={this.filterAppOption}
+              style={{ width: 200 }}
+            >
+              {map(appSource, (appName, key) => (
+                <Option key={key} value={appName} title={appName}>
+                  {appName}
+                </Option>
+              ))}
             </Select>
           </div>
           <div className="mr20">
             <span>{i18n.t('microService:switch service')}：</span>
-            <Select className="api-select" placeholder={i18n.t('microService:filter by service')} value={currentService} onChange={this.setService} showSearch>
-              {map(serviceList, (serviceName, key) => <Option key={key} value={serviceName}>{serviceName}</Option>)}
+            <Select
+              className="api-select"
+              placeholder={i18n.t('microService:filter by service')}
+              value={currentService}
+              onChange={this.setService}
+              showSearch
+            >
+              {map(serviceList, (serviceName, key) => (
+                <Option key={key} value={serviceName}>
+                  {serviceName}
+                </Option>
+              ))}
             </Select>
           </div>
           <div className="mr20">
             <span>{i18n.t('microService:switch deployed branch')}：</span>
-            <Select className="api-select" placeholder={i18n.t('microService:filter by branch')} value={chosenRuntimeId} onChange={this.setRuntime}>
-              {map(runtimeList, ({ runtime_name, runtime_id }) => <Option key={runtime_id} value={runtime_id}>{runtime_name}</Option>)}
+            <Select
+              className="api-select"
+              placeholder={i18n.t('microService:filter by branch')}
+              value={chosenRuntimeId}
+              onChange={this.setRuntime}
+            >
+              {map(runtimeList, ({ runtime_name, runtime_id }) => (
+                <Option key={runtime_id} value={runtime_id}>
+                  {runtime_name}
+                </Option>
+              ))}
             </Select>
           </div>
           <IF check={isK8S && currentService}>
             <div className={`${domainSuffix ? '' : 'hide'}`}>
               <span>{i18n.t('microService:custom domain name')}：</span>
-              <Input className="address-input mr4" spellCheck={false} value={customDomain} onChange={this.onChangeDomain} />
+              <Input
+                className="address-input mr4"
+                spellCheck={false}
+                value={customDomain}
+                onChange={this.onChangeDomain}
+              />
               <span>{domainSuffix}</span>
               <IF check={domainPrefix && domainPrefix !== customDomain}>
-                <DeleteConfirm title={i18n.t('microService:ok update operation')} secondTitle={`${i18n.t('microService:will the current service domain name')}: ${domainPrefix} 修改为：${customDomain}`} onConfirm={this.onSaveDomain}>
-                  <Button className="ml12" type="primary" disabled={!customDomain}>{i18n.t('microService:determine')}</Button>
+                <DeleteConfirm
+                  title={i18n.t('microService:ok update operation')}
+                  secondTitle={`${i18n.t(
+                    'microService:will the current service domain name',
+                  )}: ${domainPrefix} 修改为：${customDomain}`}
+                  onConfirm={this.onSaveDomain}
+                >
+                  <Button className="ml12" type="primary" disabled={!customDomain}>
+                    {i18n.t('microService:determine')}
+                  </Button>
                 </DeleteConfirm>
                 <IF.ELSE />
-                <Button className="ml12" type="primary" disabled={!customDomain || domainPrefix === customDomain} onClick={this.onSaveDomain}>{i18n.t('microService:determine')}</Button>
+                <Button
+                  className="ml12"
+                  type="primary"
+                  disabled={!customDomain || domainPrefix === customDomain}
+                  onClick={this.onSaveDomain}
+                >
+                  {i18n.t('microService:determine')}
+                </Button>
               </IF>
             </div>
           </IF>
         </div>
         <div className="flex-box mb16">
           <div className="search-fields flex-box">
-            <Select allowClear className="api-select mr20" placeholder={i18n.t('microService:filter by registration type')} value={registerType} onChange={this.setRegisterType}>
+            <Select
+              allowClear
+              className="api-select mr20"
+              placeholder={i18n.t('microService:filter by registration type')}
+              value={registerType}
+              onChange={this.setRegisterType}
+            >
               <Option value="auto">{i18n.t('microService:automatic registration')}</Option>
               <Option value="manual">{i18n.t('microService:manual registration')}</Option>
             </Select>
@@ -418,8 +499,18 @@ class API extends React.Component<IProps, IState> {
               <Option value="inner">{i18n.t('microService:internal network')}</Option>
               <Option value="outer">{i18n.t('microService:external network')}</Option>
             </Select> */}
-            <Select allowClear className="api-select mr20" placeholder={i18n.t('microService:filter by calling method')} value={method} onChange={this.setMethod}>
-              {HTTP_METHODS.map((item) => <Option key={item.name} value={item.value}>{item.name}</Option>)}
+            <Select
+              allowClear
+              className="api-select mr20"
+              placeholder={i18n.t('microService:filter by calling method')}
+              value={method}
+              onChange={this.setMethod}
+            >
+              {HTTP_METHODS.map((item) => (
+                <Option key={item.name} value={item.value}>
+                  {item.name}
+                </Option>
+              ))}
             </Select>
             <Select
               allowClear
@@ -428,23 +519,31 @@ class API extends React.Component<IProps, IState> {
               value={sortField && sortType ? `${sortField}-${sortType}` : undefined}
               onChange={this.setSortBy}
             >
-              {
-                SORT_FIELDS.map((field) => {
-                  return SORT_TYPES.map((type) => {
-                    return (
-                      <Option key={field.value} value={`${field.value}-${type.value}`}>
-                        {`${field.name}-${type.name}`}
-                      </Option>
-                    );
-                  });
-                })
-              }
+              {SORT_FIELDS.map((field) => {
+                return SORT_TYPES.map((type) => {
+                  return (
+                    <Option key={field.value} value={`${field.value}-${type.value}`}>
+                      {`${field.name}-${type.name}`}
+                    </Option>
+                  );
+                });
+              })}
             </Select>
-            <Input allowClear className="api-search-input" placeholder={i18n.t('microService:please enter api lookup')} value={apiPath} onChange={this.setQuery} />
+            <Input
+              allowClear
+              className="api-search-input"
+              placeholder={i18n.t('microService:please enter api lookup')}
+              value={apiPath}
+              onChange={this.setQuery}
+            />
           </div>
           <span className="api-btn-group ml20">
-            <Button className="mr8" onClick={this.resetConditions}>{i18n.t('microService:reset')}</Button>
-            <Button type="primary" ghost onClick={this.searchApis}>{i18n.t('search')}</Button>
+            <Button className="mr8" onClick={this.resetConditions}>
+              {i18n.t('microService:reset')}
+            </Button>
+            <Button type="primary" ghost onClick={this.searchApis}>
+              {i18n.t('search')}
+            </Button>
           </span>
         </div>
       </div>
@@ -456,9 +555,17 @@ class API extends React.Component<IProps, IState> {
   }
 
   render() {
-    const { apiList, consumer: { endpoint }, isK8S } = this.props;
-    const { modalVisible, serviceAddressMap, currentService, isRuntimeEntry, apiPathPrefix, apiDocVisible, swagger } = this.state;
-    const { result: dataSource, page: { totalNum: total } } = apiList;
+    const {
+      apiList,
+      consumer: { endpoint },
+      isK8S,
+    } = this.props;
+    const { modalVisible, serviceAddressMap, currentService, isRuntimeEntry, apiPathPrefix, apiDocVisible, swagger } =
+      this.state;
+    const {
+      result: dataSource,
+      page: { totalNum: total },
+    } = apiList;
 
     // const monitorPage = runtimeId ? goTo.pages.monitorAPIOverviewWithApp : goTo.pages.monitorAPIOverview;
     const columns = [
@@ -485,20 +592,28 @@ class API extends React.Component<IProps, IState> {
             >
               监控
             </span> */}
-            <span className="table-operations-btn" onClick={() => this.toggleModal(record)}>{i18n.t('microService:edit')}</span>
+            <span className="table-operations-btn" onClick={() => this.toggleModal(record)}>
+              {i18n.t('microService:edit')}
+            </span>
             <span
               className="table-operations-btn"
-              onClick={() => confirm({
-                title: i18n.t('microService:confirm deletion?'),
-                onOk: () => this.onDelete(record),
-              })}
+              onClick={() =>
+                confirm({
+                  title: i18n.t('microService:confirm deletion?'),
+                  onOk: () => this.onDelete(record),
+                })
+              }
             >
               {i18n.t('microService:delete')}
             </span>
-            <span className="table-operations-btn" onClick={() => this.onJumpToAnalysis(record)}>{i18n.t('microService:analysis')}</span>
-            {
-              record.swagger ? <span className="table-operations-btn" onClick={() => this.showDoc(record)}>{i18n.t('microService:document')}</span> : null
-            }
+            <span className="table-operations-btn" onClick={() => this.onJumpToAnalysis(record)}>
+              {i18n.t('microService:analysis')}
+            </span>
+            {record.swagger ? (
+              <span className="table-operations-btn" onClick={() => this.showDoc(record)}>
+                {i18n.t('microService:document')}
+              </span>
+            ) : null}
           </div>
         ),
       },
@@ -507,7 +622,7 @@ class API extends React.Component<IProps, IState> {
     return (
       <>
         <div className="top-button-group">
-          { !isK8S ? <DomainChecker {...endpoint} /> : null }
+          {!isK8S ? <DomainChecker {...endpoint} /> : null}
           <Button
             type="primary"
             className="add-btn"
@@ -548,10 +663,29 @@ class API extends React.Component<IProps, IState> {
 }
 
 const mapper = () => {
-  const [consumer, apiList, filters, registerApps, apiDomain, runtimeEntryData] = gatewayStore.useStore((s) => [s.consumer, s.apiList, s.filters, s.registerApps, s.apiDomain, s.runtimeEntryData]);
+  const [consumer, apiList, filters, registerApps, apiDomain, runtimeEntryData] = gatewayStore.useStore((s) => [
+    s.consumer,
+    s.apiList,
+    s.filters,
+    s.registerApps,
+    s.apiDomain,
+    s.runtimeEntryData,
+  ]);
   const isK8S = microServiceStore.useStore((s) => s.isK8S);
   const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const { getServiceRuntime, getConsumer, getPolicyList, getAPIList: getList, getRuntimeDetail, deleteAPI, updateFilters, getGatewayAddonInfo, getApiDomain, saveApiDomain, getDeployedBranches } = gatewayStore.effects;
+  const {
+    getServiceRuntime,
+    getConsumer,
+    getPolicyList,
+    getAPIList: getList,
+    getRuntimeDetail,
+    deleteAPI,
+    updateFilters,
+    getGatewayAddonInfo,
+    getApiDomain,
+    saveApiDomain,
+    getDeployedBranches,
+  } = gatewayStore.effects;
   const { cleanAPIList: clearList, clearApiFilter } = gatewayStore.reducers;
   return {
     consumer,
@@ -580,4 +714,3 @@ const mapper = () => {
 };
 
 export default connectCube(API, mapper);
-

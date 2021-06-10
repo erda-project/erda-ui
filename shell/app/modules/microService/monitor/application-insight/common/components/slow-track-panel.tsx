@@ -18,12 +18,12 @@ import moment from 'moment';
 import { Copy } from 'common';
 import i18n from 'i18n';
 
-interface IData{
+interface IData {
   [pro: string]: any;
   name: string;
 }
 
-export const webSlowTrackPanel = ({ data }: {data: object}) => {
+export const webSlowTrackPanel = ({ data }: { data: object }) => {
   const list = get(data, 'list') || [];
   const columns = [
     {
@@ -31,11 +31,14 @@ export const webSlowTrackPanel = ({ data }: {data: object}) => {
       dataIndex: 'name',
       key: 'name',
       width: 200,
-      render: (value: string) => (
-        value.length > 30
-          ? <Tooltip title={value}><Copy copyText={value}>{`${value.substr(0, 30)}...`}</Copy></Tooltip>
-          : <Copy>{value}</Copy>
-      ),
+      render: (value: string) =>
+        value.length > 30 ? (
+          <Tooltip title={value}>
+            <Copy copyText={value}>{`${value.substr(0, 30)}...`}</Copy>
+          </Tooltip>
+        ) : (
+          <Copy>{value}</Copy>
+        ),
     },
     {
       title: i18n.t('time'),
@@ -65,21 +68,24 @@ export const webSlowTrackPanel = ({ data }: {data: object}) => {
       width: 80,
     },
   ];
-  return <Table rowKey={(record: IData, i) => (i + record.name)} columns={columns} dataSource={list} />;
+  return <Table rowKey={(record: IData, i) => i + record.name} columns={columns} dataSource={list} />;
 };
 
-export const dbSlowTrackPanel = ({ data }: {data: object}) => {
+export const dbSlowTrackPanel = ({ data }: { data: object }) => {
   const list = get(data, 'list') || [];
   const columns = [
     {
       title: 'SQL',
       dataIndex: 'name',
       key: 'name',
-      render: (value: string) => (
-        value.length > 30
-          ? <Tooltip title={value}><Copy copyText={value}>{`${value.substr(0, 30)}...`}</Copy></Tooltip>
-          : <Copy>{value}</Copy>
-      ),
+      render: (value: string) =>
+        value.length > 30 ? (
+          <Tooltip title={value}>
+            <Copy copyText={value}>{`${value.substr(0, 30)}...`}</Copy>
+          </Tooltip>
+        ) : (
+          <Copy>{value}</Copy>
+        ),
     },
     {
       title: i18n.t('time'),
@@ -109,6 +115,5 @@ export const dbSlowTrackPanel = ({ data }: {data: object}) => {
       width: 80,
     },
   ];
-  return <Table rowKey={(record: IData, i) => (i + record.name)} columns={columns} dataSource={list} />;
+  return <Table rowKey={(record: IData, i) => i + record.name} columns={columns} dataSource={list} />;
 };
-

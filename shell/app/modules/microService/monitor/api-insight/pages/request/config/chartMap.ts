@@ -23,25 +23,28 @@ export const commonAttr = {
   groupId: 'apiRequest',
 };
 
-const chartMap = merge({
-  qps: {
-    ...commonAttr,
-    titleText: 'QPS',
-    chartName: 'qps',
+const chartMap = merge(
+  {
+    qps: {
+      ...commonAttr,
+      titleText: 'QPS',
+      chartName: 'qps',
+    },
+    pv: {
+      ...commonAttr,
+      titleText: 'PV TOP10',
+      chartName: 'pv',
+      viewRender: topPVPanel,
+    },
+    connect: {
+      ...commonAttr,
+      titleText: i18n.t('microService:connect status'),
+      chartName: 'connect',
+      viewRender: ConnectChart,
+    },
   },
-  pv: {
-    ...commonAttr,
-    titleText: 'PV TOP10',
-    chartName: 'pv',
-    viewRender: topPVPanel,
-  },
-  connect: {
-    ...commonAttr,
-    titleText: i18n.t('microService:connect status'),
-    chartName: 'connect',
-    viewRender: ConnectChart,
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   qps: chartRender(chartMap.qps) as any,

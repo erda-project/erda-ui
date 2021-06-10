@@ -26,7 +26,6 @@ import repoStore from './stores/repo';
 import testStore from './stores/test';
 import ticketStore from './stores/ticket';
 
-
 export default (registerModule) => {
   return registerModule({
     key: 'application',

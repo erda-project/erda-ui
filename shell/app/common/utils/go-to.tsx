@@ -21,10 +21,14 @@ export function resolvePath(goPath: string) {
   return path.resolve(window.location.pathname, goPath);
 }
 
-const changeBrowserHistory = throttle((action, _path) => {
-  const history = getConfig('history');
-  action === 'replace' ? history.replace(_path) : history.push(_path);
-}, 1000, { trailing: false });
+const changeBrowserHistory = throttle(
+  (action, _path) => {
+    const history = getConfig('history');
+    action === 'replace' ? history.replace(_path) : history.push(_path);
+  },
+  1000,
+  { trailing: false },
+);
 
 export interface IOptions {
   [pathName: string]: any;
@@ -44,10 +48,11 @@ export interface IOptions {
  */
 
 export const goTo = (pathStr: string, options?: IOptions) => {
-  const { replace = false, forbidRepeat = false, jumpOut = false, query, ...rest } = options as IOptions || {};
+  const { replace = false, forbidRepeat = false, jumpOut = false, query, ...rest } = (options as IOptions) || {};
   let _path = '';
 
-  if (/^(http|https):\/\//.test(pathStr)) { // 外链
+  if (/^(http|https):\/\//.test(pathStr)) {
+    // 外链
     if (jumpOut) {
       window.open(pathStr);
     } else {
@@ -104,7 +109,7 @@ const pathFormat = (url: string) => (params: object) => {
     return newPath;
   }
   let newQuery = _query.replace(/\{(\w+)\}/g, (_, key) => {
-    return (params[key] !== undefined && params[key] !== null) ? params[key] : '';
+    return params[key] !== undefined && params[key] !== null ? params[key] : '';
   });
   // 移除空的query参数
   newQuery = qs.stringify(pickBy(qs.parse(newQuery), (v: any) => v !== ''));
@@ -131,7 +136,6 @@ export enum pages {
   workBenchMyInitiateWait = '/{orgName}/workBench/approval/my-initiate/WaitApprove',
   workBenchPublisher = '/{orgName}/workBench/publisher',
   workBenchPublicProjects = '/{orgName}/workBench/public-projects',
-
 
   // project
   project = '/{orgName}/workBench/projects/{projectId}',
@@ -211,7 +215,6 @@ export enum pages {
   project_test_spaceDetail_apis = '/{orgName}/workBench/projects/{projectId}/testCase/auto/{id}/apis',
   project_test_spaceDetail_scenes = '/{orgName}/workBench/projects/{projectId}/testCase/auto/{id}/scenes',
 
-
   // 微服务
   apiStrategy = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/gateway/api-package/{packageId}/detail/api-policies/safety-policy?apiId={apiId}',
   apiManageQuery = '/{orgName}/microService/{projectId}/{env}/{tenantGroup}/gateway/apis?redirectApp={redirectApp}&redirectService={redirectService}&redirectRuntimeId={redirectRuntimeId}',
@@ -285,7 +288,6 @@ export enum pages {
   orgCenterAnnouncement = '/{orgName}/orgCenter/announcement',
   orgCenterSafety = '/{orgName}/orgCenter/safety',
 
-
   dataCenterNotifyGroup = '/{orgName}/orgCenter/setting/detail?tabKey=notifyGroup',
   dataCenterSetting = '/{orgName}/orgCenter/setting/detail',
 
@@ -315,13 +317,13 @@ export enum pages {
   edgeSettingDetail = '/{orgName}/edge/setting/{id}',
 
   // sysAdmin
-  sysAdminOrgs = '/{orgName}/sysAdmin/orgs'
+  sysAdminOrgs = '/{orgName}/sysAdmin/orgs',
 }
 
 goTo.pages = { ...pages };
 goTo.pagePathMap = {};
 goTo.resolve = {} as {
-  [k in keyof typeof pages]: (params?: Obj, prependOrigin?: boolean) => string
+  [k in keyof typeof pages]: (params?: Obj, prependOrigin?: boolean) => string;
 };
 mapValues(pages, (v, k) => {
   goTo.pages[k] = `${goTo.pagePrefix}${k}`;
@@ -335,4 +337,3 @@ mapValues(pages, (v, k) => {
     return prefix + pagePath;
   };
 });
-

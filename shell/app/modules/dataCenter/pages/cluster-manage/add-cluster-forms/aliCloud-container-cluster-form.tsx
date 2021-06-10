@@ -45,7 +45,7 @@ const subNetRule = [
 
 interface IProps {
   onClose: () => void;
-  onSubmit: ({ recordID }: {recordID: string}) => void;
+  onSubmit: ({ recordID }: { recordID: string }) => void;
   visible: boolean;
   cloudVendor: string;
 }
@@ -191,11 +191,12 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
       required: true,
       defaultValue: get(clusterSpecMap[cloudVendor], 'Standard.value'),
       dataSource: {
-        static: () => map(clusterSpecMap[cloudVendor], ({ name, value, tip }) => (
-          <Radio.Button key={value} value={value}>
-            <Tooltip title={tip}>{name}</Tooltip>
-          </Radio.Button>
-        )),
+        static: () =>
+          map(clusterSpecMap[cloudVendor], ({ name, value, tip }) => (
+            <Radio.Button key={value} value={value}>
+              <Tooltip title={tip}>{name}</Tooltip>
+            </Radio.Button>
+          )),
       },
       category: 'basic',
     },
@@ -318,7 +319,13 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
           if (e === 'exist') {
             formRef.current.setFieldValue('vSwitchCIDR', '');
             formRef.current.setFieldValue('vSwitchID', undefined);
-            getVswList({ vendor: 'aliyun', region: getFormData('region'), vpcID: getFormData('vpcID', ''), pageNo: 1, pageSize: 30 });
+            getVswList({
+              vendor: 'aliyun',
+              region: getFormData('region'),
+              vpcID: getFormData('vpcID', ''),
+              pageNo: 1,
+              pageSize: 30,
+            });
           } else {
             formRef.current.setFieldValue('vSwitchCIDR', get(cloudVendorMap, 'initValue.vSwitchCIDR'));
           }
@@ -332,7 +339,7 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
             name: i18n.t('add (recommended)'),
             value: 'new',
           },
-          ...insertWhen((getFormData('isNewVpc') === 'exist' && !!getFormData('vpcID', '')), [
+          ...insertWhen(getFormData('isNewVpc') === 'exist' && !!getFormData('vpcID', ''), [
             {
               name: i18n.t('select the existing'),
               value: 'exist',
@@ -441,7 +448,11 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
   return (
     <>
       <Modal
-        title={cloudVendor === 'alicloud-cs' ? i18n.t('dataCenter:add Alibaba Cloud Container Service Cluster (Proprietary Version)') : i18n.t('dataCenter:add Alibaba Cloud Container Service Cluster (Hosted Version)')}
+        title={
+          cloudVendor === 'alicloud-cs'
+            ? i18n.t('dataCenter:add Alibaba Cloud Container Service Cluster (Proprietary Version)')
+            : i18n.t('dataCenter:add Alibaba Cloud Container Service Cluster (Hosted Version)')
+        }
         visible={visible}
         onCancel={onClose}
         onOk={onOk}
@@ -459,23 +470,13 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
             return (
               <>
                 <div className="bold">{i18n.t('basic settings')}</div>
-                <RenderFields
-                  form={form}
-                  fields={basicFields}
-                />
-                {
-                region
-                  ? (
-                    <>
-                      <div className="bold">{i18n.t('application:more settings')}</div>
-                      <RenderFields
-                        form={form}
-                        fields={moreFields}
-                      />
-                    </>
-                  )
-                  : null
-              }
+                <RenderFields form={form} fields={basicFields} />
+                {region ? (
+                  <>
+                    <div className="bold">{i18n.t('application:more settings')}</div>
+                    <RenderFields form={form} fields={moreFields} />
+                  </>
+                ) : null}
               </>
             );
           }}

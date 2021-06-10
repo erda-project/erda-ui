@@ -191,13 +191,11 @@ export const PlatformForm = ({ form, isReadonly, data, curRef }: IFormProps) => 
   }
   return (
     <FormUnitContainer title={i18n.t('platform configs')} curRef={curRef}>
-      {
-      isReadonly ? (
+      {isReadonly ? (
         <ReadonlyForm fieldsList={fieldsList} data={data} />
       ) : (
         <RenderPureForm list={fieldsList} form={form} layout="vertical" className="deploy-form-render" />
-      )
-    }
+      )}
     </FormUnitContainer>
   );
 };

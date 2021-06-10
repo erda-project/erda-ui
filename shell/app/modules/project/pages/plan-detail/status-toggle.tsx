@@ -111,15 +111,9 @@ export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {
   };
   const menu = (
     <Menu onClick={handleClick}>
-      {
-        map(stateMap, (v, k) => {
-          return (
-            <Menu.Item key={k}>
-              {v.child}
-            </Menu.Item>
-          );
-        })
-      }
+      {map(stateMap, (v, k) => {
+        return <Menu.Item key={k}>{v.child}</Menu.Item>;
+      })}
     </Menu>
   );
 

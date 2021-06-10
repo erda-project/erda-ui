@@ -15,7 +15,7 @@ import * as React from 'react';
 import { MonitorChartNew } from 'charts';
 import './monitor-chart.scss';
 
-interface IProps{
+interface IProps {
   data: any;
   title?: string;
   timeSpan?: ITimeSpan;

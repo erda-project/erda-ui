@@ -12,7 +12,7 @@
     margin-left: 12px;
     font-size: 12px;
   }
-  
+
   .json-format-tip-title {
     font-weight: bold;
   }
@@ -67,15 +67,13 @@
         color: $color-text-desc;
         font-size: 18px;
       }
-
     }
-
   }
 
   .api-content {
     .api-url {
       padding: 10px;
-      background: transparentize($black, .98);
+      background: transparentize($black, 0.98);
       border-top: 1px solid $color-border;
 
       .ant-input-group-addon {
@@ -102,7 +100,7 @@
 
     .ant-tabs-nav-wrap {
       padding: 0 12px;
-      background: transparentize($black, .98);
+      background: transparentize($black, 0.98);
 
       .ant-tabs-nav {
         height: 38px;
@@ -136,7 +134,6 @@
     right: 12px;
     z-index: 1;
   }
-
 }
 
 .api-editor-asserts-tips {

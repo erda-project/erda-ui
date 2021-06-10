@@ -20,36 +20,38 @@ export const commonAttr = {
   moduleName: 'AIOverview',
   groupId: 'AIOverview',
 };
-const chartMap = merge({
-  sortList: {
-    type: 'sortList',
-    ...commonAttr,
-    chartName: 'overviewSort',
-    viewProps: {
-      onClickItem: null,
+const chartMap = merge(
+  {
+    sortList: {
+      type: 'sortList',
+      ...commonAttr,
+      chartName: 'overviewSort',
+      viewProps: {
+        onClickItem: null,
+      },
+    },
+    overviewWeb: {
+      titleText: i18n.t('microService:web transaction'),
+      ...commonAttr,
+      chartName: 'overviewWeb',
+      viewProps: {
+        unitType: 'TIME',
+      },
+    },
+    overviewCpm: {
+      titleText: i18n.t('microService:throughput'),
+      ...commonAttr,
+      chartName: 'overviewCpm',
+      viewProps: {
+        unitType: 'CPM',
+      },
     },
   },
-  overviewWeb: {
-    titleText: i18n.t('microService:web transaction'),
-    ...commonAttr,
-    chartName: 'overviewWeb',
-    viewProps: {
-      unitType: 'TIME',
-    },
-  },
-  overviewCpm: {
-    titleText: i18n.t('microService:throughput'),
-    ...commonAttr,
-    chartName: 'overviewCpm',
-    viewProps: {
-      unitType: 'CPM',
-    },
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   sortList: sortRender(chartMap.sortList) as any,
   overviewWeb: chartRender(chartMap.overviewWeb) as any,
   overviewCpm: chartRender(chartMap.overviewCpm) as any,
 };
-

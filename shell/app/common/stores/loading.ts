@@ -13,7 +13,6 @@
 
 import loadingStore, { useLoading } from 'core/stores/loading';
 
-
 /**
  * @deprecated use useLoading instead
  */
@@ -29,6 +28,4 @@ export function useSpace<T>(store: T & { name: string }): EffectKeys<ValueOf<T, 
 }
 
 export default loadingStore;
-export {
-  useLoading,
-};
+export { useLoading };

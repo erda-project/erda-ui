@@ -18,9 +18,7 @@ import { shallow } from 'enzyme';
 
 describe('LoadMore', () => {
   it('should render well', () => {
-    const wrapper = shallow(
-      <LoadMore />,
-    );
+    const wrapper = shallow(<LoadMore />);
     expect(wrapper).toBeEmptyRender();
     wrapper.setProps({
       isLoading: true,
@@ -29,15 +27,7 @@ describe('LoadMore', () => {
   });
   it('should init load', () => {
     const loadFn = jest.fn();
-    shallow(
-      <LoadMore
-        triggerBy="scroll"
-        threshold={300}
-        load={loadFn}
-        initialLoad
-        getContainer={() => {}}
-      />,
-    );
+    shallow(<LoadMore triggerBy="scroll" threshold={300} load={loadFn} initialLoad getContainer={() => {}} />);
     expect(loadFn).toHaveBeenCalled();
   });
   it('should work well', () => {
@@ -45,13 +35,7 @@ describe('LoadMore', () => {
     document.body.innerHTML = '<div id="main" style="height: 400px; overflow-y: auto"></div>';
     const divEle = document.getElementById('main') as HTMLDivElement;
     const loadFn = jest.fn();
-    const wrapper = shallow(
-      <LoadMore
-        load={loadFn}
-        hasMore
-        isLoading={false}
-      />, { attachTo: divEle },
-    );
+    const wrapper = shallow(<LoadMore load={loadFn} hasMore isLoading={false} />, { attachTo: divEle });
     wrapper.setProps({
       hasMore: false,
       isLoading: true,

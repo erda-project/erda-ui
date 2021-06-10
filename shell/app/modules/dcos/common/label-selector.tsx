@@ -37,7 +37,7 @@ const LabelSelector = React.forwardRef(({ labelOptions, value = [], onChange }: 
   const [labelList, setLabelList] = React.useState([] as any[]);
 
   React.useEffect(() => {
-    labelOptions === undefined && getNodeLabels();// 无options，则请求
+    labelOptions === undefined && getNodeLabels(); // 无options，则请求
   }, [getNodeLabels, labelOptions]);
 
   React.useEffect(() => {
@@ -67,28 +67,26 @@ const LabelSelector = React.forwardRef(({ labelOptions, value = [], onChange }: 
 
   return (
     <div ref={ref} className="label-selector-container">
-      {
-        map(groupList, (item: any) => {
-          const { name, children } = item;
-          return (
-            <div className="label-group" key={name}>
-              <span className="label-group-name">{name}: </span>
-              {map(children, (cItem: any) => {
-                const isActive = value.includes(cItem.value);
-                return (
-                  <span
-                    key={cItem.value}
-                    className={`pointer ${isActive ? 'tag-primary' : 'tag-default'}`}
-                    onClick={() => handleChange(cItem.value, isActive)}
-                  >
-                    {cItem.desc ? <Tooltip title={cItem.desc}>{cItem.name}</Tooltip> : cItem.name}
-                  </span>
-                );
-              })}
-            </div>
-          );
-        })
-      }
+      {map(groupList, (item: any) => {
+        const { name, children } = item;
+        return (
+          <div className="label-group" key={name}>
+            <span className="label-group-name">{name}: </span>
+            {map(children, (cItem: any) => {
+              const isActive = value.includes(cItem.value);
+              return (
+                <span
+                  key={cItem.value}
+                  className={`pointer ${isActive ? 'tag-primary' : 'tag-default'}`}
+                  onClick={() => handleChange(cItem.value, isActive)}
+                >
+                  {cItem.desc ? <Tooltip title={cItem.desc}>{cItem.name}</Tooltip> : cItem.name}
+                </span>
+              );
+            })}
+          </div>
+        );
+      })}
     </div>
   );
 });

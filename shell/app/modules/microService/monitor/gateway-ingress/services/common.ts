@@ -13,12 +13,9 @@
 
 import agent from 'agent';
 
-export const getDomainList = (query: {
-  projectId: string;
-  env: string;
-  orgId: number;
-}) => {
-  return agent.get('/api/gateway/openapi/tenant-domain')
+export const getDomainList = (query: { projectId: string; env: string; orgId: number }) => {
+  return agent
+    .get('/api/gateway/openapi/tenant-domain')
     .query(query)
     .then((response: any) => response.body);
 };

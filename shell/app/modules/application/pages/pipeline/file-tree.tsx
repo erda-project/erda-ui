@@ -27,9 +27,9 @@ import { scopeConfig } from './scope-config';
 import { getBranchPath } from './config';
 import { usePerm, WithAuth } from 'user/common';
 
-interface IProps{
+interface IProps {
   scope: string;
-  scopeParams: {scope: string; scopeID: string};
+  scopeParams: { scope: string; scopeID: string };
 }
 
 const FileTree = (props: IProps) => {
@@ -41,7 +41,14 @@ const FileTree = (props: IProps) => {
 
   const branchInfo = appStore.useStore((s) => s.branchInfo); // 分支保护信息
 
-  const { getCategoryByIdNew, createTreeNodeNew, deleteTreeNodeNew, getAncestorsNew, fuzzySearchNew, clearTreeNodeDetail } = fileTreeStore;
+  const {
+    getCategoryByIdNew,
+    createTreeNodeNew,
+    deleteTreeNodeNew,
+    getAncestorsNew,
+    fuzzySearchNew,
+    clearTreeNodeDetail,
+  } = fileTreeStore;
   const [curNodeDetail] = fileTreeStore.useStore((s) => [s.curNodeDetail]);
   const [rootNode, setRootNode] = React.useState(null as TreeNode[] | null);
   const [editVis, setEditVis] = React.useState(false);
@@ -53,7 +60,6 @@ const FileTree = (props: IProps) => {
   useUnmount(() => {
     clearTreeNodeDetail();
   });
-
 
   const rootPinode = btoa(`${projectId}/${appId}`);
 
@@ -90,9 +96,7 @@ const FileTree = (props: IProps) => {
         node: (
           <div>
             <WithAuth pass={authObj.hasAuth} noAuthTip={authObj.authTip}>
-              <span>
-                {scopeConfigData.text.addFile}
-              </span>
+              <span>{scopeConfigData.text.addFile}</span>
             </WithAuth>
           </div>
         ),
@@ -120,7 +124,6 @@ const FileTree = (props: IProps) => {
       ]),
     ];
   };
-
 
   const fileActions = (node: TreeNode) => {
     const authObj = getAuthByNode(node);
@@ -188,38 +191,38 @@ const FileTree = (props: IProps) => {
   const currentKey = get(curNodeDetail, 'type') === 'f' ? `leaf-${curNodeDetail.inode}` : undefined;
   return (
     <>
-      {
-        rootNode && !isEmpty(rootNode) ?
-          <TreeCategory
-            onSelectNode={onSelectNode}
-            initTreeData={rootNode}
-            iconMap={{
-              fz: <CustomIcon type="fz" className="color-text-sub" />,
-            }}
-            currentKey={currentKey}
-            searchGroup={{ file: scopeConfigData.text.searchFile, folder: scopeConfigData.text.searchFolder }}
-            effects={{
-              // moveNode: moveTreeNode,
-              loadData: (p: any) => getCategoryByIdNew({ ...p, ...scopeParams }),
-              deleteNode: async (key, isCurrentKeyDeleted) => {
-                await deleteTreeNodeNew({ ...key, ...scopeParams });
-                if (isCurrentKeyDeleted) {
-                  updateSearch({ nodeId: '', pipelineID: undefined });
-                }
-              },
-              // updateNode: updateTreeNode,
-              createNode: (p: any) => createTreeNodeNew({ ...p, ...scopeParams }),
-              // copyNode: copyTreeNode,
-              getAncestors: (p: any) => getAncestorsNew({ ...p, ...scopeParams }),
-              fuzzySearch: searchNodes,
-            }}
-            actions={{
-              folderActions,
-              fileActions,
-            }}
-          />
-          : <EmptyHolder relative />
-      }
+      {rootNode && !isEmpty(rootNode) ? (
+        <TreeCategory
+          onSelectNode={onSelectNode}
+          initTreeData={rootNode}
+          iconMap={{
+            fz: <CustomIcon type="fz" className="color-text-sub" />,
+          }}
+          currentKey={currentKey}
+          searchGroup={{ file: scopeConfigData.text.searchFile, folder: scopeConfigData.text.searchFolder }}
+          effects={{
+            // moveNode: moveTreeNode,
+            loadData: (p: any) => getCategoryByIdNew({ ...p, ...scopeParams }),
+            deleteNode: async (key, isCurrentKeyDeleted) => {
+              await deleteTreeNodeNew({ ...key, ...scopeParams });
+              if (isCurrentKeyDeleted) {
+                updateSearch({ nodeId: '', pipelineID: undefined });
+              }
+            },
+            // updateNode: updateTreeNode,
+            createNode: (p: any) => createTreeNodeNew({ ...p, ...scopeParams }),
+            // copyNode: copyTreeNode,
+            getAncestors: (p: any) => getAncestorsNew({ ...p, ...scopeParams }),
+            fuzzySearch: searchNodes,
+          }}
+          actions={{
+            folderActions,
+            fileActions,
+          }}
+        />
+      ) : (
+        <EmptyHolder relative />
+      )}
       <CaseEditForm editData={editData} visible={editVis} onOk={onOk} onClose={onClose} />
     </>
   );

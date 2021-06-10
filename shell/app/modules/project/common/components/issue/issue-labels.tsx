@@ -24,22 +24,26 @@ export const renderLabels = (labelColorMap: Obj, lbs: string[], clsName = '', ma
 
   return (
     <div className={`project-label-list colorful-light-bg ${clsName}`}>
-      {lbs.slice(0, curShowLen).map((l) => <span key={l} className={`label-item  small nowrap ${labelColorMap[l]}`}>{l}</span>)}
-      {
-        lbs.length > curShowLen ? (
-          <Tooltip
-            title={(
-              <div className="project-label-list colorful-light-bg small">
-                {
-                  lbs.slice(curShowLen, lbs.length).map((l) => <span key={l} className={`label-item small nowrap ${labelColorMap[l]}`}>{l}</span>)
-                }
-              </div>
-            )}
-          >
-            <CustomIcon type="more" />
-          </Tooltip>
-        ) : null
-      }
+      {lbs.slice(0, curShowLen).map((l) => (
+        <span key={l} className={`label-item  small nowrap ${labelColorMap[l]}`}>
+          {l}
+        </span>
+      ))}
+      {lbs.length > curShowLen ? (
+        <Tooltip
+          title={
+            <div className="project-label-list colorful-light-bg small">
+              {lbs.slice(curShowLen, lbs.length).map((l) => (
+                <span key={l} className={`label-item small nowrap ${labelColorMap[l]}`}>
+                  {l}
+                </span>
+              ))}
+            </div>
+          }
+        >
+          <CustomIcon type="more" />
+        </Tooltip>
+      ) : null}
     </div>
   );
 };

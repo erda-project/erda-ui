@@ -29,18 +29,14 @@ import MilestoneTable from './milestone-table';
 import moment from 'moment';
 import EditIssueDrawer, { CloseDrawerParam } from 'project/common/components/issue/edit-issue-drawer';
 
-
 export const Milestone = () => {
-  const [{ iterationIDs: iterIds }, { startFinishedAt, ...restQuery }] = routeInfoStore.useStore((s) => [s.params, s.query]);
+  const [{ iterationIDs: iterIds }, { startFinishedAt, ...restQuery }] = routeInfoStore.useStore((s) => [
+    s.params,
+    s.query,
+  ]);
   const labelList = labelStore.useStore((s) => s.list);
   const [loading] = useLoading(issueStore, ['getIssues']);
-  const [
-    epicList,
-    epicPaging,
-  ] = issueStore.useStore((s) => [
-    s.epicList,
-    s.epicPaging,
-  ]);
+  const [epicList, epicPaging] = issueStore.useStore((s) => [s.epicList, s.epicPaging]);
 
   const { getIssues } = issueStore.effects;
   const { clearRequirementList: clearEpic } = issueStore.reducers;
@@ -91,50 +87,53 @@ export const Milestone = () => {
     updater.modalVisible(true);
   };
 
-  const conditionsFilter = React.useMemo(() => [
-    {
-      key: 'title',
-      label: i18n.t('title'),
-      emptyText: i18n.t('application:all'),
-      fixed: true,
-      showIndex: 2,
-      placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
-      type: 'input' as const,
-    },
-    {
-      key: 'label',
-      label: i18n.t('project:label'),
-      emptyText: i18n.t('application:all'),
-      fixed: false,
-      showIndex: 3,
-      haveFilter: true,
-      type: 'select' as const,
-      placeholder: i18n.t('filter by {name}', { name: i18n.t('project:label') }),
-      options: map(labelList, (item) => ({ label: item.name, value: `${item.id}` })),
-    },
-    {
-      key: 'priority',
-      label: i18n.t('project:priority'),
-      emptyText: i18n.t('application:all'),
-      fixed: false,
-      showIndex: 4,
-      type: 'select' as const,
-      placeholder: i18n.t('filter by {name}', { name: i18n.t('project:priority') }),
-      options: map(ISSUE_PRIORITY_MAP),
-    },
-    {
-      key: 'assignee',
-      label: i18n.t('project:assignee'),
-      emptyText: i18n.t('application:all'),
-      fixed: false,
-      showIndex: 5,
-      customProps: {
-        mode: 'multiple',
-        scopeType: 'project',
+  const conditionsFilter = React.useMemo(
+    () => [
+      {
+        key: 'title',
+        label: i18n.t('title'),
+        emptyText: i18n.t('application:all'),
+        fixed: true,
+        showIndex: 2,
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('title') }),
+        type: 'input' as const,
       },
-      type: 'memberSelector' as const,
-    },
-  ], [labelList]);
+      {
+        key: 'label',
+        label: i18n.t('project:label'),
+        emptyText: i18n.t('application:all'),
+        fixed: false,
+        showIndex: 3,
+        haveFilter: true,
+        type: 'select' as const,
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('project:label') }),
+        options: map(labelList, (item) => ({ label: item.name, value: `${item.id}` })),
+      },
+      {
+        key: 'priority',
+        label: i18n.t('project:priority'),
+        emptyText: i18n.t('application:all'),
+        fixed: false,
+        showIndex: 4,
+        type: 'select' as const,
+        placeholder: i18n.t('filter by {name}', { name: i18n.t('project:priority') }),
+        options: map(ISSUE_PRIORITY_MAP),
+      },
+      {
+        key: 'assignee',
+        label: i18n.t('project:assignee'),
+        emptyText: i18n.t('application:all'),
+        fixed: false,
+        showIndex: 5,
+        customProps: {
+          mode: 'multiple',
+          scopeType: 'project',
+        },
+        type: 'memberSelector' as const,
+      },
+    ],
+    [labelList],
+  );
 
   const epicAuth = usePerm((s) => s.project.epic);
 
@@ -168,31 +167,27 @@ export const Milestone = () => {
           allowClear={false}
         />
         <ContractiveFilter delay={1000} conditions={conditionsFilter} initValue={filterState} onChange={onFilter} />
-        <WithAuth pass={epicAuth.create.pass} >
-          <Button
-            className="top-button-group"
-            type="primary"
-            onClick={() => updater.modalVisible(true)}
-          >{i18n.t('project:create milestone')}
+        <WithAuth pass={epicAuth.create.pass}>
+          <Button className="top-button-group" type="primary" onClick={() => updater.modalVisible(true)}>
+            {i18n.t('project:create milestone')}
           </Button>
         </WithAuth>
       </div>
       <Spin spinning={loading}>
-        <MilestoneTable
-          epic={epicList}
-          onClickItem={expandDetail}
-          paging={epicPaging}
-          reload={loadData}
-        />
+        <MilestoneTable epic={epicList} onClickItem={expandDetail} paging={epicPaging} reload={loadData} />
       </Spin>
       <EditIssueDrawer
         iterationID={-1}
         id={stateMap.epicDetail?.id}
         issueType={ISSUE_TYPE.EPIC}
-        shareLink={stateMap.epicDetail ? `${location.href.split('?')[0]}?${mergeSearch({ id: stateMap.epicDetail?.id }, true)}` : undefined}
+        shareLink={
+          stateMap.epicDetail
+            ? `${location.href.split('?')[0]}?${mergeSearch({ id: stateMap.epicDetail?.id }, true)}`
+            : undefined
+        }
         visible={stateMap.modalVisible}
         closeDrawer={closeModal}
       />
-    </div>);
+    </div>
+  );
 };
-

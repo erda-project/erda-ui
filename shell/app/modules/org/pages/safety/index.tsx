@@ -51,9 +51,7 @@ const AuditList = ({ sys }: { sys: boolean }) => {
         const _content = auditTpl(r);
         return (
           <>
-            <Tooltip title={_content}>
-              {_content}
-            </Tooltip>
+            <Tooltip title={_content}>{_content}</Tooltip>
             {r.result !== 'success' ? ` (${r.errorMsg})` : null}
           </>
         );
@@ -66,32 +64,35 @@ const AuditList = ({ sys }: { sys: boolean }) => {
     },
   ];
 
-  const filterConfig = React.useMemo(() => [
-    {
-      type: MemberSelector,
-      name: 'userId',
-      customProps: sys
-        ? { scopeType: 'uc', mode: 'multiple', size: 'small', allowClear: true }
-        : {
-          scopeType: 'org',
-          mode: 'multiple',
-          size: 'small',
-          valueChangeTrigger: 'onClose',
-          placeholder: i18n.t('search by user name'),
-        },
-    },
-    {
-      type: DatePicker.RangePicker,
-      name: 'startAt,endAt',
-      valueType: 'range',
-      customProps: {
-        showTime: { format: 'HH:mm' },
-        allowClear: false,
-        format: 'YYYY-MM-DD HH:mm',
-        ranges: getTimeRanges(),
+  const filterConfig = React.useMemo(
+    () => [
+      {
+        type: MemberSelector,
+        name: 'userId',
+        customProps: sys
+          ? { scopeType: 'uc', mode: 'multiple', size: 'small', allowClear: true }
+          : {
+              scopeType: 'org',
+              mode: 'multiple',
+              size: 'small',
+              valueChangeTrigger: 'onClose',
+              placeholder: i18n.t('search by user name'),
+            },
       },
-    },
-  ], [sys]);
+      {
+        type: DatePicker.RangePicker,
+        name: 'startAt,endAt',
+        valueType: 'range',
+        customProps: {
+          showTime: { format: 'HH:mm' },
+          allowClear: false,
+          format: 'YYYY-MM-DD HH:mm',
+          ranges: getTimeRanges(),
+        },
+      },
+    ],
+    [sys],
+  );
 
   const { onSubmit, onTableChange, queryCondition } = useFilter<AUDIT.Item[]>({
     getData: auditStore.effects.getList,
@@ -104,13 +105,19 @@ const AuditList = ({ sys }: { sys: boolean }) => {
 
   const onExport = () => {
     const extra = sys ? { sys: true } : { orgId };
-    window.open(setApiWithOrg(`/api/audits/actions/export-excel?${qs.stringify({ ...queryCondition, ...extra }, { arrayFormat: 'repeat' })}`));
+    window.open(
+      setApiWithOrg(
+        `/api/audits/actions/export-excel?${qs.stringify({ ...queryCondition, ...extra }, { arrayFormat: 'repeat' })}`,
+      ),
+    );
   };
 
   return (
     <>
       <div className="top-button-group">
-        <Button type="primary" onClick={onExport}>{i18n.t('export')}</Button>
+        <Button type="primary" onClick={onExport}>
+          {i18n.t('export')}
+        </Button>
       </div>
       <CustomFilter onSubmit={onSubmit} config={filterConfig} isConnectQuery />
       <Table

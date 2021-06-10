@@ -25,9 +25,7 @@ module.exports = {
   },
   watchOptions: {
     aggregateTimeout: 500,
-    ignored: [
-      'node_modules', 'public', 'test', 'docs', 'tmp',
-    ],
+    ignored: ['node_modules', 'public', 'test', 'docs', 'tmp'],
     poll: 5000,
   },
   stats: { children: false },

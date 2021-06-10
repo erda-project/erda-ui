@@ -12,12 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createFlatStore } from 'app/cube';
-import {
-  getServiceInstances,
-  updateServicesConfig,
-  getServicePods,
-  killServicePod,
-} from '../services/service';
+import { getServiceInstances, updateServicesConfig, getServicePods, killServicePod } from '../services/service';
 import { getLS } from 'common/utils';
 import { isEmpty } from 'lodash';
 import runtimeStore from './runtime';

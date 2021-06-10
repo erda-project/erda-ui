@@ -24,23 +24,25 @@ import { appMode, modeOptions } from 'application/common/config';
 import { CustomFilter } from 'common';
 import { Link } from 'react-router-dom';
 
-
 interface IFilter {
   placeHolderMsg: string | undefined;
   onSubmit: (value: Obj) => void;
 }
 
 const Filter = React.memo(({ onSubmit, placeHolderMsg }: IFilter) => {
-  const config: FilterItemConfig[] = React.useMemo(() => [
-    {
-      type: Input.Search,
-      name: 'q',
-      customProps: {
-        placeholder: placeHolderMsg,
-        autoComplete: 'off',
+  const config: FilterItemConfig[] = React.useMemo(
+    () => [
+      {
+        type: Input.Search,
+        name: 'q',
+        customProps: {
+          placeholder: placeHolderMsg,
+          autoComplete: 'off',
+        },
       },
-    },
-  ], [placeHolderMsg]);
+    ],
+    [placeHolderMsg],
+  );
   return <CustomFilter config={config} onSubmit={onSubmit} />;
 });
 
@@ -49,15 +51,22 @@ interface Iprops {
   paging: IPaging;
   isFetching: boolean;
   list: IApplication[];
-  getList: (payload: any) => Promise<{list: IApplication[]; total: number}>;
+  getList: (payload: any) => Promise<{ list: IApplication[]; total: number }>;
   clearList: () => void;
 }
 
-export const AppList = ({ placeHolderMsg = i18n.t('application:search by application name'), getList, clearList, list, paging, isFetching }: Iprops) => {
+export const AppList = ({
+  placeHolderMsg = i18n.t('application:search by application name'),
+  getList,
+  clearList,
+  list,
+  paging,
+  isFetching,
+}: Iprops) => {
   const { pinApp, unpinApp } = userStore.effects;
   const [q, setQ] = React.useState();
   const params = routeInfoStore.useStore((s) => s.params);
-  const onSubmit = React.useCallback(({ q: value }: {q: string}) => {
+  const onSubmit = React.useCallback(({ q: value }: { q: string }) => {
     setQ(value);
   }, []);
 
@@ -67,13 +76,17 @@ export const AppList = ({ placeHolderMsg = i18n.t('application:search by applica
 
   useUnmount(clearList);
 
-  useDebounce(() => {
-    clearList();
-    getList({
-      q,
-      pageNo: 1,
-    });
-  }, 600, [q]);
+  useDebounce(
+    () => {
+      clearList();
+      getList({
+        q,
+        pageNo: 1,
+      });
+    },
+    600,
+    [q],
+  );
   const goToApp = ({ projectId, id: appId }: IApplication) => {
     goTo(goTo.pages.app, { projectId, appId });
   };
@@ -93,7 +106,8 @@ export const AppList = ({ placeHolderMsg = i18n.t('application:search by applica
     {
       title: i18n.t('application:app name'),
       dataIndex: 'name',
-    }, {
+    },
+    {
       title: i18n.t('project:application description'),
       dataIndex: 'desc',
       tip: true,
@@ -101,43 +115,72 @@ export const AppList = ({ placeHolderMsg = i18n.t('application:search by applica
         const title = text || i18n.t('application:edit description in application setting');
         return <span>{title}</span>;
       },
-    }, {
+    },
+    {
       title: i18n.t('application:owning project'),
       dataIndex: 'projectDisplayName',
       render: (text, record) => {
         return (
           <Tooltip title={record.projectName}>
-            <span className="hover-active" onClick={(e) => { goToProject(e, record); }}>{text}</span>
+            <span
+              className="hover-active"
+              onClick={(e) => {
+                goToProject(e, record);
+              }}
+            >
+              {text}
+            </span>
           </Tooltip>
         );
       },
-    }, {
+    },
+    {
       title: i18n.t('application:runtime count'),
       width: 120,
       dataIndex: 'stats.countRuntimes',
       render: (text, record) => {
         const { projectId, id, mode } = record;
         const show = [appMode.MOBILE, appMode.LIBRARY, appMode.SERVICE].includes(mode);
-        return show ? <Link className="bold" to={goTo.resolve.deploy({ projectId, appId: id })} onClick={(e) => { e.stopPropagation(); }}>{text}</Link> : null;
+        return show ? (
+          <Link
+            className="bold"
+            to={goTo.resolve.deploy({ projectId, appId: id })}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            {text}
+          </Link>
+        ) : null;
       },
-    }, {
+    },
+    {
       title: i18n.t('update time'),
       width: 100,
       dataIndex: 'updatedAt',
       render: (text) => (text ? fromNow(text) : i18n.t('no data')),
-    }, {
+    },
+    {
       title: i18n.t('application:application type'),
       width: 120,
       dataIndex: 'mode',
       render: (text) => (modeOptions.find((mode) => mode.value === text) as { name: string }).name,
-    }, {
+    },
+    {
       title: i18n.t('application:operation'),
       width: 100,
       dataIndex: 'pined',
       render: (text, record) => {
         return (
           <div className="table-operations">
-            <span className="table-operations-btn" onClick={(e) => { togglePin(e, record); }}>{text ? i18n.t('application:cancel sticky') : i18n.t('application:sticky')}</span>
+            <span
+              className="table-operations-btn"
+              onClick={(e) => {
+                togglePin(e, record);
+              }}
+            >
+              {text ? i18n.t('application:cancel sticky') : i18n.t('application:sticky')}
+            </span>
           </div>
         );
       },
@@ -146,10 +189,7 @@ export const AppList = ({ placeHolderMsg = i18n.t('application:search by applica
 
   return (
     <div className="app-list-section">
-      <Filter
-        onSubmit={onSubmit}
-        placeHolderMsg={placeHolderMsg}
-      />
+      <Filter onSubmit={onSubmit} placeHolderMsg={placeHolderMsg} />
       <Spin spinning={isFetching}>
         <Table
           tableKey="app-list"
@@ -160,7 +200,9 @@ export const AppList = ({ placeHolderMsg = i18n.t('application:search by applica
           }}
           onRow={(record: IApplication) => {
             return {
-              onClick: () => { goToApp(record); },
+              onClick: () => {
+                goToApp(record);
+              },
             };
           }}
           rowClassName={() => 'pointer'}
@@ -178,12 +220,6 @@ export const MyAppList = () => {
   const { getJoinedApps } = userStore.effects;
   const { clearAppList } = userStore.reducers;
   return (
-    <AppList
-      list={list}
-      paging={appPaging}
-      isFetching={userLoading}
-      getList={getJoinedApps}
-      clearList={clearAppList}
-    />
+    <AppList list={list} paging={appPaging} isFetching={userLoading} getList={getJoinedApps} clearList={clearAppList} />
   );
 };

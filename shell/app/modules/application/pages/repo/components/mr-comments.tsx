@@ -37,10 +37,22 @@ export const CommentEditBox = ({ value, onChange, onSubmit, onCancel }: IEditBox
   }
   return (
     <div className="mt12">
-      <Input.TextArea autoFocus placeholder={`${i18n.t('please enter')}...`} {...prop} onChange={onChange} autoSize={{ minRows: 4, maxRows: 10 }} />
+      <Input.TextArea
+        autoFocus
+        placeholder={`${i18n.t('please enter')}...`}
+        {...prop}
+        onChange={onChange}
+        autoSize={{ minRows: 4, maxRows: 10 }}
+      />
       <div className="mt12">
-        <Button type="primary" onClick={() => onSubmit()}>{i18n.t('application:post comment')}</Button>
-        {onCancel && <Button className="ml8" onClick={() => onCancel()}>{i18n.t('cancel')}</Button>}
+        <Button type="primary" onClick={() => onSubmit()}>
+          {i18n.t('application:post comment')}
+        </Button>
+        {onCancel && (
+          <Button className="ml8" onClick={() => onCancel()}>
+            {i18n.t('cancel')}
+          </Button>
+        )}
       </div>
     </div>
   );
@@ -135,43 +147,30 @@ export const PureCommentList = ({ comments = [] }: ICommentList) => {
 
   return (
     <div>
-      {
-        comments.map((comment: REPOSITORY.IComment) => {
-          if (comment.type === 'diff_note_reply') {
-            return null;
-          }
-          if (comment.type === 'normal') {
-            return (
-              <CommentBox
-                key={comment.id}
-                user={comment.author.nickName}
-                time={comment.createdAt}
-                action={i18n.t('application:commented at')}
-                content={Markdown(comment.note || '')}
-              />
-            );
-          }
-          const { newPath, oldLine, newLine } = comment.data;
-          const lineKey = `${oldLine}_${newLine}`;
-          // 每个文件块只显示一行相关的评论
-          const curCommentMap = {
-            [lineKey]: fileCommentMap[newPath][lineKey],
-          };
+      {comments.map((comment: REPOSITORY.IComment) => {
+        if (comment.type === 'diff_note_reply') {
+          return null;
+        }
+        if (comment.type === 'normal') {
           return (
-            <Discussion
+            <CommentBox
               key={comment.id}
-              comment={comment}
-              addComment={addComment}
-              commentMap={curCommentMap}
+              user={comment.author.nickName}
+              time={comment.createdAt}
+              action={i18n.t('application:commented at')}
+              content={Markdown(comment.note || '')}
             />
           );
-        })
-      }
-      <MarkdownEditor
-        onSubmit={handleSubmit}
-        isShowRate
-        btnText={i18n.t('submit comment')}
-      />
+        }
+        const { newPath, oldLine, newLine } = comment.data;
+        const lineKey = `${oldLine}_${newLine}`;
+        // 每个文件块只显示一行相关的评论
+        const curCommentMap = {
+          [lineKey]: fileCommentMap[newPath][lineKey],
+        };
+        return <Discussion key={comment.id} comment={comment} addComment={addComment} commentMap={curCommentMap} />;
+      })}
+      <MarkdownEditor onSubmit={handleSubmit} isShowRate btnText={i18n.t('submit comment')} />
     </div>
   );
 };

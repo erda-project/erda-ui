@@ -17,8 +17,16 @@ export const ApiMap = {
   sortList: {
     getFetchObj: ({ sortTab }: { sortTab: string }) => {
       const fetchMap = {
-        rt: { fetchApi: 'ai_db_top_avg_time', query: { group: 'db_statement', avg: 'elapsed_mean', limit: 10, sort: 'avg_elapsed_mean' }, dataKey: 'avg.elapsed_mean' },
-        throughput: { fetchApi: 'ai_db_top_cpm', query: { group: 'db_statement', sumCpm: 'elapsed_count', limit: 10, sort: 'sumCpm_elapsed_count' }, dataKey: 'sumCpm.elapsed_count' },
+        rt: {
+          fetchApi: 'ai_db_top_avg_time',
+          query: { group: 'db_statement', avg: 'elapsed_mean', limit: 10, sort: 'avg_elapsed_mean' },
+          dataKey: 'avg.elapsed_mean',
+        },
+        throughput: {
+          fetchApi: 'ai_db_top_cpm',
+          query: { group: 'db_statement', sumCpm: 'elapsed_count', limit: 10, sort: 'sumCpm_elapsed_count' },
+          dataKey: 'sumCpm.elapsed_count',
+        },
       };
       const { query = {}, fetchApi = '', dataKey = '' } = fetchMap[sortTab] || {};
       return { fetchApi, extendQuery: { ...query }, extendHandler: { dataKey } };
@@ -37,7 +45,20 @@ export const ApiMap = {
   },
   slowTrack: {
     fetchApi: 'application_db_slow',
-    query: { group: 'db_statement', sort: 'max_elapsed_max', max: 'elapsed_max', min: 'elapsed_min', maxFieldTimestamp: 'elapsed_max', source: true, sum: 'elapsed_count' },
-    dataHandler: slowHandler(['max:max.elapsed_max', 'count:sum.elapsed_count', 'time:maxFieldTimestamp.elapsed_max', 'min:min.elapsed_min']),
+    query: {
+      group: 'db_statement',
+      sort: 'max_elapsed_max',
+      max: 'elapsed_max',
+      min: 'elapsed_min',
+      maxFieldTimestamp: 'elapsed_max',
+      source: true,
+      sum: 'elapsed_count',
+    },
+    dataHandler: slowHandler([
+      'max:max.elapsed_max',
+      'count:sum.elapsed_count',
+      'time:maxFieldTimestamp.elapsed_max',
+      'min:min.elapsed_min',
+    ]),
   },
 };

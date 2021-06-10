@@ -13,7 +13,15 @@
 
 import { createStore } from 'app/cube';
 import { forEach } from 'lodash';
-import { getAlerts, getAlertDetail, createAlert, editAlert, getAlertTypes, toggleAlert, deleteAlert } from '../services/alarm-strategy';
+import {
+  getAlerts,
+  getAlertDetail,
+  createAlert,
+  editAlert,
+  getAlertTypes,
+  toggleAlert,
+  deleteAlert,
+} from '../services/alarm-strategy';
 import { getApps } from 'common/services';
 import i18n from 'i18n';
 import { PAGINATION } from 'app/constants';

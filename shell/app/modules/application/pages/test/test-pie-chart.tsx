@@ -16,13 +16,13 @@ import { remove, size } from 'lodash';
 import { ChartRender } from 'charts';
 import i18n from 'i18n';
 
-interface IProps{
+interface IProps {
   data: IData;
 }
-interface IData{
+interface IData {
   result: IResult[];
 }
-interface IResult{
+interface IResult {
   value: number;
   type: string;
 }
@@ -82,4 +82,3 @@ const TestPieChart = ({ data }: IProps): JSX.Element => {
   return <ChartRender data={data} hasData={size(result) > 0} getOption={getOption} />;
 };
 export default TestPieChart;
-

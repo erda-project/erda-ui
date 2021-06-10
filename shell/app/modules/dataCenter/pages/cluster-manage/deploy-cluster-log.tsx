@@ -19,13 +19,13 @@ import clusterStore from 'dataCenter/stores/cluster';
 import { useLoading } from 'app/common/stores/loading';
 import { Loading as IconLoading } from '@icon-park/react';
 
-interface IProps{
+interface IProps {
   deployClusterLog: string;
   fetchingDeployClusterLog: boolean;
   getDeployClusterLog: () => Promise<any>;
   clearDeployClusterLog: () => Promise<any>;
 }
-interface IState{
+interface IState {
   fetching: boolean;
 }
 
@@ -68,7 +68,7 @@ class DeployClusterLog extends React.Component<IProps, IState> {
   };
 
   scrollToBottom = () => {
-  // safari下设置过大的数值无效，所以给一个理论上足够大的值
+    // safari下设置过大的数值无效，所以给一个理论上足够大的值
     if (this.preElm) this.preElm.scrollTop = 999999999;
   };
 
@@ -95,8 +95,14 @@ class DeployClusterLog extends React.Component<IProps, IState> {
   render() {
     const { fetching } = this.state;
     return (
-      <div className="deploy-cluster-log" ref={(ref) => { this.preElm = ref; }} onScroll={this.throttleScroll}>
-        <pre >{this.props.deployClusterLog}</pre>
+      <div
+        className="deploy-cluster-log"
+        ref={(ref) => {
+          this.preElm = ref;
+        }}
+        onScroll={this.throttleScroll}
+      >
+        <pre>{this.props.deployClusterLog}</pre>
         {fetching && <IconLoading className="log-state bottom" spin strokeWidth={2} />}
       </div>
     );

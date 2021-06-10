@@ -11,10 +11,18 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { MonitorMetaDataScope, MonitorMetaDataMode, createMonitorMetaDataStore } from 'dataCenter/stores/_common-monitor-metadata.ts';
+import {
+  MonitorMetaDataScope,
+  MonitorMetaDataMode,
+  createMonitorMetaDataStore,
+} from 'dataCenter/stores/_common-monitor-metadata.ts';
 import orgStore from 'app/org-home/stores/org';
 
 const getOrgName = () => orgStore.getState((s) => s.currentOrg.name);
-const queryMonitorMetadata = createMonitorMetaDataStore(MonitorMetaDataScope.ORG, MonitorMetaDataMode.QUERY, getOrgName);
+const queryMonitorMetadata = createMonitorMetaDataStore(
+  MonitorMetaDataScope.ORG,
+  MonitorMetaDataMode.QUERY,
+  getOrgName,
+);
 
 export default queryMonitorMetadata;

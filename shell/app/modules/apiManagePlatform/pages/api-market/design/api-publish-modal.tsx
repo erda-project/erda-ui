@@ -1,4 +1,3 @@
-
 // Copyright (c) 2021 Terminus, Inc.
 //
 // This program is free software: you can use, redistribute, and/or modify
@@ -25,7 +24,11 @@ import orgStore from 'app/org-home/stores/org';
 const VERSION_TIP = (
   <div>
     <div>{i18n.t('project:tips of publish api 1')}</div>
-    <div><a href="https://semver.org/lang/zh-CN/" target="_blank" rel="noopener noreferrer">https://semver.org/lang/zh-CN/</a></div>
+    <div>
+      <a href="https://semver.org/lang/zh-CN/" target="_blank" rel="noopener noreferrer">
+        https://semver.org/lang/zh-CN/
+      </a>
+    </div>
     <div>{i18n.t('project:tips of publish api 2')}</div>
   </div>
 );
@@ -37,7 +40,9 @@ interface IProps {
   onSubmit: (values: any) => void;
   onClose: () => void;
 }
-interface FormRef {props: {form: WrappedFormUtils}}
+interface FormRef {
+  props: { form: WrappedFormUtils };
+}
 
 const ApiPublishModal = (props: IProps) => {
   const { visible, onClose, onSubmit, treeNodeData } = props;
@@ -47,9 +52,7 @@ const ApiPublishModal = (props: IProps) => {
   const { appId, projectId } = routeInfoStore.useStore((s) => s.params);
   const orgId = orgStore.getState((s) => s.currentOrg.id);
 
-  const [{
-    formData,
-  }, updater] = useUpdate({
+  const [{ formData }, updater] = useUpdate({
     formData: {} as Obj,
   });
 
@@ -81,7 +84,9 @@ const ApiPublishModal = (props: IProps) => {
       type: 'input',
       required: true,
       itemProps: {
-        placeholder: i18n.t('project:example {content}', { content: i18n.t('project:interface document in user center') }),
+        placeholder: i18n.t('project:example {content}', {
+          content: i18n.t('project:interface document in user center'),
+        }),
       },
     },
     {
@@ -92,12 +97,22 @@ const ApiPublishModal = (props: IProps) => {
       itemProps: {
         placeholder: i18n.t('project:example {content}', { content: 'user-content' }),
       },
-      rules: [{
-        pattern: idReg, message: i18n.t('default:tips of assetID rules'),
-      }],
+      rules: [
+        {
+          pattern: idReg,
+          message: i18n.t('default:tips of assetID rules'),
+        },
+      ],
     },
     {
-      label: <span>{i18n.t('project:release version')}<Tooltip title={VERSION_TIP} ><CustomIcon type="tishi" /></Tooltip></span>,
+      label: (
+        <span>
+          {i18n.t('project:release version')}
+          <Tooltip title={VERSION_TIP}>
+            <CustomIcon type="tishi" />
+          </Tooltip>
+        </span>
+      ),
       type: 'input',
       name: 'version',
       required: false,
@@ -105,13 +120,16 @@ const ApiPublishModal = (props: IProps) => {
         placeholder: i18n.t('project:example {content}', { content: 'user-content' }),
         autoComplete: 'off',
       },
-      rules: [{
-        pattern: /^(?:[1-9]\d*|0)\.(?:[1-9]\d*|0)\.(?:[1-9]\d*|0)$/, message: i18n.t('valid version number tips'),
-      }],
+      rules: [
+        {
+          pattern: /^(?:[1-9]\d*|0)\.(?:[1-9]\d*|0)\.(?:[1-9]\d*|0)$/,
+          message: i18n.t('valid version number tips'),
+        },
+      ],
     },
   ];
 
-  const onPublishApi = (values: {assetName: string; assetID: string; version: string}) => {
+  const onPublishApi = (values: { assetName: string; assetID: string; version: string }) => {
     if (openApiDoc?.paths && !isEmpty(openApiDoc.paths)) {
       const { assetName, assetID, version } = values;
       const [major, minor, patch] = version?.split('.') || [];

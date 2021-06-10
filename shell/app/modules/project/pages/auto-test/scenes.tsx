@@ -93,7 +93,8 @@ const AutoTestScenes = () => {
               },
             },
           },
-          fileTree: { // 改变url
+          fileTree: {
+            // 改变url
             onStateChange: (val: Obj) => {
               updater.urlQuery((prev: Obj) => ({ ...prev, ...getUrlQuery(val) }));
             },
@@ -118,7 +119,7 @@ const labelMap = {
   result: i18n.t('result'),
 };
 
-interface IJsonObjVal{
+interface IJsonObjVal {
   name: string;
   value: string;
 }
@@ -196,17 +197,20 @@ export const getPreviewData = (d: any) => {
     });
   }
 
-  map(sortBy(resKeys, (sKey) => {
-    const idx = indexOf([...apiResultKeys, 'status', 'result'], sKey);
-    return idx === -1 ? resKeys.length : idx;
-  }), (key) => {
-    const curData = get(find(resultData, { key }), 'value') || {};
-    if (curData?.data !== undefined || curData?.data !== null) {
-      // 对应上方的key转换
-      dataObj[encodeURIComponent(key)] = curData?.data;
-      renderList.push(curData?.render);
-    }
-  });
+  map(
+    sortBy(resKeys, (sKey) => {
+      const idx = indexOf([...apiResultKeys, 'status', 'result'], sKey);
+      return idx === -1 ? resKeys.length : idx;
+    }),
+    (key) => {
+      const curData = get(find(resultData, { key }), 'value') || {};
+      if (curData?.data !== undefined || curData?.data !== null) {
+        // 对应上方的key转换
+        dataObj[encodeURIComponent(key)] = curData?.data;
+        renderList.push(curData?.render);
+      }
+    },
+  );
 
   if (fileDownload.length) {
     dataObj._fileDownLoad = fileDownload;
@@ -227,10 +231,7 @@ export const getPreviewData = (d: any) => {
       },
     },
     props: {
-      render: [
-        { type: 'Title', dataIndex: '_drawerTitle' },
-        ...renderList,
-      ],
+      render: [{ type: 'Title', dataIndex: '_drawerTitle' }, ...renderList],
     },
   } as Obj as CP_INFO_PREVIEW.Props;
 

@@ -46,7 +46,7 @@ const traceDetail = createStore({
   name: 'traceDetail',
   state: initState,
   effects: {
-    async getTraceDetail({ call, update, getParams }, payload: {traceId: string}) {
+    async getTraceDetail({ call, update, getParams }, payload: { traceId: string }) {
       const { terminusKey } = getParams();
       const response = await call(getTraceDetail, { ...payload, terminusKey });
       // 接口返回timestamp为毫秒，duration为微秒，统一为微秒

@@ -22,7 +22,12 @@ interface IProps {
 }
 
 const ChooseTitle = ({ mode }: IProps) => {
-  const [choosenInfo, modalChoosenInfo, caseTotal, modalCaseTotal] = testCaseStore.useStore((s) => [s.choosenInfo, s.modalChoosenInfo, s.caseTotal, s.modalCaseTotal]);
+  const [choosenInfo, modalChoosenInfo, caseTotal, modalCaseTotal] = testCaseStore.useStore((s) => [
+    s.choosenInfo,
+    s.modalChoosenInfo,
+    s.caseTotal,
+    s.modalCaseTotal,
+  ]);
   const { triggerChoosenAll } = testCaseStore.reducers;
   let total = 0;
   const info = getChoosenInfo(choosenInfo, modalChoosenInfo, mode);
@@ -33,17 +38,21 @@ const ChooseTitle = ({ mode }: IProps) => {
   } else {
     total = caseTotal;
   }
-  const length = isAll ? (total - size(exclude)) : size(primaryKeys);
+  const length = isAll ? total - size(exclude) : size(primaryKeys);
   const checked = isAll || !!size(primaryKeys);
 
-  return (
-    !checked ? <span>{i18n.t('project:use case title')}</span> : (
-      <div>
-        <span className="mr8">{i18n.t('project:chosen {num} items', { num: length })} </span>
-        <span className="mr8 fake-link" onClick={() => triggerChoosenAll({ isAll: true, scope: mode })}>{i18n.t('project:select all')}</span>
-        <span className="mr8 fake-link" onClick={() => triggerChoosenAll({ isAll: false, scope: mode })}>{i18n.t('project:cancel selection')}</span>
-      </div>
-    )
+  return !checked ? (
+    <span>{i18n.t('project:use case title')}</span>
+  ) : (
+    <div>
+      <span className="mr8">{i18n.t('project:chosen {num} items', { num: length })} </span>
+      <span className="mr8 fake-link" onClick={() => triggerChoosenAll({ isAll: true, scope: mode })}>
+        {i18n.t('project:select all')}
+      </span>
+      <span className="mr8 fake-link" onClick={() => triggerChoosenAll({ isAll: false, scope: mode })}>
+        {i18n.t('project:cancel selection')}
+      </span>
+    </div>
   );
 };
 

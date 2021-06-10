@@ -13,48 +13,55 @@
 
 import agent from 'agent';
 
-export const getProjectDashboard = ({ projectId, ...query }: MONITOR_STATUS.IDashboardQuery): MONITOR_STATUS.IDashboardResp => {
-  return agent.get(`/api/spot/projects/${projectId}/dashboard`)
+export const getProjectDashboard = ({
+  projectId,
+  ...query
+}: MONITOR_STATUS.IDashboardQuery): MONITOR_STATUS.IDashboardResp => {
+  return agent
+    .get(`/api/spot/projects/${projectId}/dashboard`)
     .query(query)
     .then((response: any) => response.body);
 };
 
-export const getStatusDetail = ({ id, period }: MONITOR_STATUS.IDashboardDetailQuery): MONITOR_STATUS.IDashboardResp => {
-  return agent.get(`/api/spot/metrics/${id}/dashboard`)
+export const getStatusDetail = ({
+  id,
+  period,
+}: MONITOR_STATUS.IDashboardDetailQuery): MONITOR_STATUS.IDashboardResp => {
+  return agent
+    .get(`/api/spot/metrics/${id}/dashboard`)
     .query({ period })
     .then((response: any) => response.body);
 };
 
-export const getPastIncidents = ({ id }: {id: string}): MONITOR_STATUS.IPastIncidents[] => {
-  return agent.get(`/api/spot/metrics/${id}/issues`)
-    .then((response: any) => response.body);
+export const getPastIncidents = ({ id }: { id: string }): MONITOR_STATUS.IPastIncidents[] => {
+  return agent.get(`/api/spot/metrics/${id}/issues`).then((response: any) => response.body);
 };
 
-export const getMetricStatus = ({ metricId }: {metricId: string}): MONITOR_STATUS.IMetrics => {
-  return agent.get(`/api/spot/metrics/${metricId}/status`)
-    .then((response: any) => response.body);
+export const getMetricStatus = ({ metricId }: { metricId: string }): MONITOR_STATUS.IMetrics => {
+  return agent.get(`/api/spot/metrics/${metricId}/status`).then((response: any) => response.body);
 };
 
 export const saveService = ({ projectId, data }: MONITOR_STATUS.ICreateMetricsBody) => {
-  return agent.post(`/api/spot/projects/${projectId}/metrics`)
+  return agent
+    .post(`/api/spot/projects/${projectId}/metrics`)
     .send(data)
     .then((response: any) => response.body);
 };
 
 export const updateMetric = (data: MONITOR_STATUS.IMetricsBody) => {
-  return agent.post(`/api/spot/metrics/${data.id}`)
+  return agent
+    .post(`/api/spot/metrics/${data.id}`)
     .send(data)
     .then((response: any) => response.body);
 };
 
 export const deleteMetric = (id: string) => {
-  return agent.delete(`/api/spot/metrics/${id}`)
-    .then((response: any) => response.body);
+  return agent.delete(`/api/spot/metrics/${id}`).then((response: any) => response.body);
 };
 
-export const setDatumPoint = (data: {id: string; url: string}) => {
-  return agent.post('/api/status/datumpoint/browser')
+export const setDatumPoint = (data: { id: string; url: string }) => {
+  return agent
+    .post('/api/status/datumpoint/browser')
     .send(data)
     .then((response: any) => response.body);
 };
-

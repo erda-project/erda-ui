@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace CP_FILE_TREE {
-
   interface Spec {
     type: 'FileTree';
     data: IData;
@@ -32,7 +31,7 @@ declare namespace CP_FILE_TREE {
     _dataType?: string;
   }
 
-  interface Field{
+  interface Field {
     label?: string;
     valueKey?: any;
   }
@@ -41,7 +40,7 @@ declare namespace CP_FILE_TREE {
     searchable?: boolean;
     draggable?: boolean;
   }
-  interface IData{
+  interface IData {
     treeData: INode[];
   }
 

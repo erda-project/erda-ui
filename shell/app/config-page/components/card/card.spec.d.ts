@@ -17,7 +17,7 @@ declare namespace CP_CARD {
     props: IProps;
   }
 
-  interface IProps{
+  interface IProps {
     data: Obj<InfoData>;
     cardType: string;
   }

@@ -33,7 +33,6 @@ const StatusDetail = () => {
   const { clearStatusDetail } = monitorStatusStore.reducers;
   const [isFetching, setDatumFetching] = useLoading(monitorStatusStore, ['getStatusDetail', 'setDatumPoint']);
 
-
   const [{ period, modalVisible }, updater] = useUpdate({
     period: 'hour',
     modalVisible: false,
@@ -102,37 +101,38 @@ const StatusDetail = () => {
         <div className="url-bar">
           <span>
             {data.name}&nbsp;&nbsp;
-            {/* <a href={data.url} style={{ cursor: 'alias' }} target="_blank" rel="noopener noreferrer"> */}
-            ({data.url})
-            {/* </a> */}
+            {/* <a href={data.url} style={{ cursor: 'alias' }} target="_blank" rel="noopener noreferrer"> */}({data.url}
+            ){/* </a> */}
           </span>
           <div>
             {
-                // data.mode === 'browser' ? ( // 暂时去掉
-                //   <Button type="primary" className="mr8" ghost loading={setDatumFetching} onClick={this.setDatumPoint}>{i18n.t('microService:set datum point')}</Button>
-                // ) : null
-              }
-            <Button type="primary" ghost onClick={toggleModal}>{i18n.t('microService:edit')}</Button>
+              // data.mode === 'browser' ? ( // 暂时去掉
+              //   <Button type="primary" className="mr8" ghost loading={setDatumFetching} onClick={this.setDatumPoint}>{i18n.t('microService:set datum point')}</Button>
+              // ) : null
+            }
+            <Button type="primary" ghost onClick={toggleModal}>
+              {i18n.t('microService:edit')}
+            </Button>
           </div>
-          <AddModal modalVisible={modalVisible} toggleModal={toggleModal} formData={formData} afterSubmit={getStatusDetail} />
+          <AddModal
+            modalVisible={modalVisible}
+            toggleModal={toggleModal}
+            formData={formData}
+            afterSubmit={getStatusDetail}
+          />
         </div>
         <div className="row-space" />
 
         <div className="title-bar">
           <span className="title">{i18n.t('microService:availability and performance')}</span>
           <ul className="time-range">
-            {
-                timeRange.map((t) => {
-                  return (
-                    <li
-                      key={t.value}
-                      onClick={() => handePeriod(t.value)}
-                      className={period === t.value ? 'active' : ''}
-                    >{t.text}
-                    </li>
-                  );
-                })
-              }
+            {timeRange.map((t) => {
+              return (
+                <li key={t.value} onClick={() => handePeriod(t.value)} className={period === t.value ? 'active' : ''}>
+                  {t.text}
+                </li>
+              );
+            })}
           </ul>
         </div>
 
@@ -170,16 +170,30 @@ const StatusDetail = () => {
         <div className="chart-wrap">
           <div className="legend-bar">
             <div>
-              <span className="left-item"><span className="status-point chart" />{i18n.t('microService:response time')}</span>
-              <span className="left-item"><span className="status-point success" />{i18n.t('microService:available')}</span>
-              <span className="left-item"><span className="status-point danger" />{i18n.t('microService:downtime')}</span>
+              <span className="left-item">
+                <span className="status-point chart" />
+                {i18n.t('microService:response time')}
+              </span>
+              <span className="left-item">
+                <span className="status-point success" />
+                {i18n.t('microService:available')}
+              </span>
+              <span className="left-item">
+                <span className="status-point danger" />
+                {i18n.t('microService:downtime')}
+              </span>
             </div>
             <div>
-              <span className="right-item">{i18n.t('microService:maximum value')}: <span className="blod">{max} ms</span></span>
-              <span className="right-item">{i18n.t('microService:minimum')}: <span className="blod">{min} ms</span></span>
-              <span className="right-item">{i18n.t('microService:average value')}: <span className="blod">{avg} ms</span></span>
+              <span className="right-item">
+                {i18n.t('microService:maximum value')}: <span className="blod">{max} ms</span>
+              </span>
+              <span className="right-item">
+                {i18n.t('microService:minimum')}: <span className="blod">{min} ms</span>
+              </span>
+              <span className="right-item">
+                {i18n.t('microService:average value')}: <span className="blod">{avg} ms</span>
+              </span>
             </div>
-
           </div>
           <StatusChart
             xAxisData={time}
@@ -188,15 +202,18 @@ const StatusDetail = () => {
             style={{ minWidth: '520px', width: '100%', height: '340px' }}
           />
           <ul className="status-list">
-            {
-                status.map((item: string, i: number) => <li key={String(i)} className={colorMap[item]} />)
-              }
+            {status.map((item: string, i: number) => (
+              <li key={String(i)} className={colorMap[item]} />
+            ))}
           </ul>
         </div>
       </Spin>
       <div className="row-space" />
       <div className="title-bar">
-        <span className="title">{i18n.t('microService:history available time')}<span className="sub">（{i18n.t('microService:historical downtime')}）</span></span>
+        <span className="title">
+          {i18n.t('microService:history available time')}
+          <span className="sub">（{i18n.t('microService:historical downtime')}）</span>
+        </span>
       </div>
       <MonthUptime />
       <div className="title-bar past-incident">

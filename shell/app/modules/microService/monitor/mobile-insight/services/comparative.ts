@@ -14,7 +14,8 @@
 import agent from 'agent';
 
 export const loadComparative = ({ fetchApi, ...rest }: MONITOR_MI.IComparativeQuery): IChartResult => {
-  return agent.get(`/api/spot/tmc/metrics/${fetchApi}`)
+  return agent
+    .get(`/api/spot/tmc/metrics/${fetchApi}`)
     .query(rest)
     .then((response: any) => response.body);
 };

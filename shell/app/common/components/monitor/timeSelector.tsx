@@ -18,7 +18,7 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import routeInfoStore from 'app/common/stores/route';
 import { Moment } from 'moment';
 
-interface IProps{
+interface IProps {
   rangeMode?: boolean;
   className?: string;
   defaultTime?: number | Moment[] | number[];

@@ -11,16 +11,14 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 import React from 'react';
 import { BackToTop } from 'common';
 import { describe, it, jest } from '@jest/globals';
 import { act } from 'react-dom/test-utils';
 import { render, unmountComponentAtNode } from 'react-dom';
 
-
 describe('BackToTop', () => {
-  Element.prototype.scrollTo = function (opt?: ScrollToOptions|number) {
+  Element.prototype.scrollTo = function (opt?: ScrollToOptions | number) {
     if (typeof opt !== 'number') {
       const { top, left } = opt as ScrollToOptions;
       this.scrollTop = top || 0;
@@ -38,7 +36,8 @@ describe('BackToTop', () => {
       render(
         <div id="child" style={{ height: '1000px' }}>
           <BackToTop />
-        </div>, div,
+        </div>,
+        div,
       );
     });
     window.scrollTo(0, 500);

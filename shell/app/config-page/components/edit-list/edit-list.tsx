@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 import * as React from 'react';
 import { EditList } from 'common';
 import { map, last } from 'lodash';
@@ -36,35 +35,37 @@ export default (props: CP_EDIT_LIST.Props) => {
   }, [list]);
 
   React.useEffect(() => {
-    setUseTemp(map(temp, (item) => {
-      const { render } = item;
-      if (render?.type === 'inputSelect') {
-        const p = {} as Obj;
-        const { operations: rOps, valueConvertType, props: rProps, ...renderRest } = render || {};
-        if (rOps?.onSelectOption) {
-          p.onLoadData = (_selectOpt: any) => {
-            execOperation(rOps.onSelectOption, _selectOpt);
+    setUseTemp(
+      map(temp, (item) => {
+        const { render } = item;
+        if (render?.type === 'inputSelect') {
+          const p = {} as Obj;
+          const { operations: rOps, valueConvertType, props: rProps, ...renderRest } = render || {};
+          if (rOps?.onSelectOption) {
+            p.onLoadData = (_selectOpt: any) => {
+              execOperation(rOps.onSelectOption, _selectOpt);
+            };
+          }
+          p.valueConvert = (str: string[]) => {
+            let v = str.join('');
+            switch (valueConvertType) {
+              case 'last':
+                v = last(str) as string;
+                break;
+              default:
+                break;
+            }
+            return v;
+          };
+
+          return {
+            ...item,
+            render: { ...renderRest, props: { ...rProps, ...p } },
           };
         }
-        p.valueConvert = (str: string[]) => {
-          let v = str.join('');
-          switch (valueConvertType) {
-            case 'last':
-              v = last(str) as string;
-              break;
-            default:
-              break;
-          }
-          return v;
-        };
-
-        return {
-          ...item,
-          render: { ...renderRest, props: { ...rProps, ...p } },
-        };
-      }
-      return { ...item };
-    }));
+        return { ...item };
+      }),
+    );
   }, [execOperation, temp]);
 
   if (!visible) return null;
@@ -88,4 +89,3 @@ export default (props: CP_EDIT_LIST.Props) => {
     </div>
   );
 };
-

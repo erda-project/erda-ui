@@ -1,11 +1,11 @@
 $color-primary: #5d48df !default;
-$color-hover-bg: rgba($color-primary, .2);
-$color-active-bg: rgba($color-primary, .06);
-$color-active-border: rgba($color-primary, .6);
-$color-text: rgba(0, 0, 0, .8);
-$color-text-sub: rgba(0, 0, 0, .6);
-$color-text-slight: rgba(0, 0, 0, .3);
-$color-mask: rgba(0, 0, 0, .3);
+$color-hover-bg: rgba($color-primary, 0.2);
+$color-active-bg: rgba($color-primary, 0.06);
+$color-active-border: rgba($color-primary, 0.6);
+$color-text: rgba(0, 0, 0, 0.8);
+$color-text-sub: rgba(0, 0, 0, 0.6);
+$color-text-slight: rgba(0, 0, 0, 0.3);
+$color-mask: rgba(0, 0, 0, 0.3);
 $color-border: #d9d9d9;
 $white: #ffffff;
 
@@ -47,13 +47,13 @@ $white: #ffffff;
   line-height: 1.5;
   list-style: none;
   background-color: $white;
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
   @extend .border;
 }
 
 .shallow-shadow {
-  box-shadow: -2px 0 8px rgba(0, 0, 0, .15);
-  transition: box-shadow .2s ease-in-out;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+  transition: box-shadow 0.2s ease-in-out;
 }
 
 // space

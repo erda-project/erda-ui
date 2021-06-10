@@ -35,34 +35,41 @@ const envOptions = [
   { cnName: i18n.t('test'), enName: 'TEST' },
   { cnName: i18n.t('staging'), enName: 'STAGING' },
   { cnName: i18n.t('production'), enName: 'PROD' },
-].map(({ cnName, enName }) => <Option key={enName} value={enName}>{cnName}</Option>);
+].map(({ cnName, enName }) => (
+  <Option key={enName} value={enName}>
+    {cnName}
+  </Option>
+));
 
 const MiddlewareDashboard = () => {
-  const [
-    projectList,
-    middlewares,
-    middelwaresPaging,
-  ] = middlewareDashboardStore.useStore((s) => [
+  const [projectList, middlewares, middelwaresPaging] = middlewareDashboardStore.useStore((s) => [
     s.projectList,
     s.middlewares,
     s.middelwaresPaging,
   ]);
   const { getProjects, getMiddlewares, getAddonUsage, getAddonDailyUsage } = middlewareDashboardStore.effects;
   const { clearMiddlewares } = middlewareDashboardStore.reducers;
-  const [getProjectsLoading, getMiddlewaresLoading] = useLoading(middlewareDashboardStore, ['getProjects', 'getMiddlewares']);
+  const [getProjectsLoading, getMiddlewaresLoading] = useLoading(middlewareDashboardStore, [
+    'getProjects',
+    'getMiddlewares',
+  ]);
 
   const [workspace, setWorkspace] = useState('ALL');
   const [projectId, setProjectId] = useState();
   const [addonName, setAddonName] = useState(undefined as string | undefined);
   const [ip, setIp] = useState(undefined as string | undefined);
 
-  useDebounce(() => {
-    const searchQuery = { workspace: workspace === 'ALL' ? undefined : workspace, projectId, addonName, ip };
-    getMiddlewares(searchQuery);
-    getAddonUsage(searchQuery);
-    getAddonDailyUsage(searchQuery);
-    return clearMiddlewares;
-  }, 600, [workspace, projectId, addonName, ip, getMiddlewares, clearMiddlewares, getAddonUsage, getAddonDailyUsage]);
+  useDebounce(
+    () => {
+      const searchQuery = { workspace: workspace === 'ALL' ? undefined : workspace, projectId, addonName, ip };
+      getMiddlewares(searchQuery);
+      getAddonUsage(searchQuery);
+      getAddonDailyUsage(searchQuery);
+      return clearMiddlewares;
+    },
+    600,
+    [workspace, projectId, addonName, ip, getMiddlewares, clearMiddlewares, getAddonUsage, getAddonDailyUsage],
+  );
 
   const handleEnvChange = (value: string) => {
     setWorkspace(value);
@@ -98,7 +105,13 @@ const MiddlewareDashboard = () => {
 
   const handleTableChange = (pagination: any) => {
     const { current, pageSize: page_Size } = pagination;
-    getMiddlewares({ workspace: workspace === 'ALL' ? undefined : workspace, projectId, addonName, pageNo: current, pageSize: page_Size });
+    getMiddlewares({
+      workspace: workspace === 'ALL' ? undefined : workspace,
+      projectId,
+      addonName,
+      pageNo: current,
+      pageSize: page_Size,
+    });
   };
 
   const middlewareCols: Array<ColumnProps<MIDDLEWARE_DASHBOARD.IMiddlewareDetail>> = [
@@ -141,14 +154,16 @@ const MiddlewareDashboard = () => {
       dataIndex: 'nodes',
       key: 'nodes',
       width: '10%',
-      sorter: (a: MIDDLEWARE_DASHBOARD.IMiddlewareDetail, b: MIDDLEWARE_DASHBOARD.IMiddlewareDetail) => a.nodes - b.nodes,
+      sorter: (a: MIDDLEWARE_DASHBOARD.IMiddlewareDetail, b: MIDDLEWARE_DASHBOARD.IMiddlewareDetail) =>
+        a.nodes - b.nodes,
     },
     {
       title: i18n.t('org:reference count'),
       dataIndex: 'attachCount',
       key: 'attachCount',
       width: '10%',
-      sorter: (a: MIDDLEWARE_DASHBOARD.IMiddlewareDetail, b: MIDDLEWARE_DASHBOARD.IMiddlewareDetail) => a.attachCount - b.attachCount,
+      sorter: (a: MIDDLEWARE_DASHBOARD.IMiddlewareDetail, b: MIDDLEWARE_DASHBOARD.IMiddlewareDetail) =>
+        a.attachCount - b.attachCount,
     },
   ];
   const { pageNo, pageSize, total } = middelwaresPaging;
@@ -161,11 +176,7 @@ const MiddlewareDashboard = () => {
             <Row gutter={20}>
               <Col span={6} className="filter-item">
                 <div className="filter-item-label">{i18n.t('environment')}</div>
-                <Select
-                  className="filter-item-content"
-                  value={workspace}
-                  onChange={handleEnvChange}
-                >
+                <Select className="filter-item-content" value={workspace} onChange={handleEnvChange}>
                   {envOptions}
                 </Select>
               </Col>
@@ -177,12 +188,18 @@ const MiddlewareDashboard = () => {
                   allowClear
                   value={projectId}
                   placeholder={i18n.t('input keyword search')}
-                  notFoundContent={<IF check={getProjectsLoading}><Spin size="small" /></IF>}
+                  notFoundContent={
+                    <IF check={getProjectsLoading}>
+                      <Spin size="small" />
+                    </IF>
+                  }
                   filterOption={false}
                   onSearch={handleSearchProjects}
                   onChange={handleProjectChange}
                 >
-                  {map(projectList, (d) => <Option key={d.id}>{d.name}</Option>)}
+                  {map(projectList, (d) => (
+                    <Option key={d.id}>{d.name}</Option>
+                  ))}
                 </Select>
               </Col>
               <Col span={6} className="filter-item">
@@ -218,7 +235,6 @@ const MiddlewareDashboard = () => {
           }
         </Row> */}
           <AddonUsageChart />
-
         </div>
       </div>
       <Table

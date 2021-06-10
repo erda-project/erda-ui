@@ -70,7 +70,14 @@ const CHART_CONFIG_MAP = {
       max: ['memory_data', 'memory_vms', 'memory_swap', 'memory_stack', 'memory_rss', 'memory_locked'],
     },
     viewProps: { unitType: 'CAPACITY', unit: 'B' },
-    dataHandler: multipleDataHandler(['max.memory_data', 'max.memory_vms', 'max.memory_swap', 'max.memory_stack', 'max.memory_rss', 'max.memory_locked']),
+    dataHandler: multipleDataHandler([
+      'max.memory_data',
+      'max.memory_vms',
+      'max.memory_swap',
+      'max.memory_stack',
+      'max.memory_rss',
+      'max.memory_locked',
+    ]),
   },
   processDuration: {
     ...commonAttr,

@@ -1,5 +1,5 @@
 .error-detail {
-  padding: .9375rem;
+  padding: 0.9375rem;
   word-break: break-all;
   background-color: $white;
   border-radius: $radius;
@@ -7,14 +7,14 @@
 
   .ant-row {
     .left {
-      padding-right: .625rem;
+      padding-right: 0.625rem;
       border-right: 1px solid $lightnavy;
     }
   }
 
   .content-block {
     margin-bottom: 20px;
-    padding: .625rem;
+    padding: 0.625rem;
   }
 
   .info {
@@ -47,7 +47,7 @@
     border-bottom: 1px solid $lightnavy;
 
     .name {
-      margin-right: .625rem;
+      margin-right: 0.625rem;
       font-weight: 500;
       font-size: 1.5rem;
     }
@@ -123,7 +123,7 @@
     .msg-txt {
       padding: 20px 10px;
       border: 1px solid $color-border;
-      border-radius: .3125rem;
+      border-radius: 0.3125rem;
     }
   }
 
@@ -139,10 +139,10 @@
     .stack-list {
       margin: 5px 0;
       border: 1px solid $color-border;
-      border-radius: .3125rem;
+      border-radius: 0.3125rem;
 
       .stack-item {
-        padding: .625rem;
+        padding: 0.625rem;
         color: $navy;
         font-weight: 500;
         border-bottom: 1px solid $color-border;
@@ -154,7 +154,7 @@
       }
 
       .omit-item {
-        padding: .1875rem;
+        padding: 0.1875rem;
         font-weight: 100;
         text-align: center;
         cursor: pointer;

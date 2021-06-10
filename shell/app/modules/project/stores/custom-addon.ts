@@ -28,7 +28,6 @@ import projectStore from 'project/stores/project';
 
 const inDataCenterPage = () => window.location.pathname.includes('dataCenter/');
 
-
 interface IState {
   addonList: CUSTOM_ADDON.Item[];
 }
@@ -47,20 +46,34 @@ const customAddon = createFlatStore({
     },
     async addCustomAddonIns({ call, getParams }, query: Omit<CUSTOM_ADDON.AddBody, 'projectId'>) {
       const { projectId } = getParams();
-      return call(addCustomAddonIns, { ...query, projectId: +projectId }, { successMsg: i18n.t('project:The creation of the service takes a while, please wait a moment') });
+      return call(
+        addCustomAddonIns,
+        { ...query, projectId: +projectId },
+        { successMsg: i18n.t('project:The creation of the service takes a while, please wait a moment') },
+      );
     },
 
-    async addDiceAddonIns({ call, getParams }, payload: Omit<CUSTOM_ADDON.AddDiceAddOns, 'projectId'| 'clusterName'>) {
+    async addDiceAddonIns({ call, getParams }, payload: Omit<CUSTOM_ADDON.AddDiceAddOns, 'projectId' | 'clusterName'>) {
       const { projectId } = getParams();
       const clusterConfig = projectStore.getState((s) => s.info.clusterConfig);
-      return call(addDiceAddonIns, { ...payload, projectId: +projectId, clusterName: clusterConfig[payload.workspace] }, { successMsg: i18n.t('project:The creation of the service takes a while, please wait a moment') });
+      return call(
+        addDiceAddonIns,
+        { ...payload, projectId: +projectId, clusterName: clusterConfig[payload.workspace] },
+        { successMsg: i18n.t('project:The creation of the service takes a while, please wait a moment') },
+      );
     },
     async addTenantAddonIns({ call }, payload: CUSTOM_ADDON.AddTenantAddon) {
-      return call(addTenantAddonIns, payload, { successMsg: i18n.t('project:The creation of the service takes a while, please wait a moment') });
+      return call(addTenantAddonIns, payload, {
+        successMsg: i18n.t('project:The creation of the service takes a while, please wait a moment'),
+      });
     },
     async updateCustomAddonConfig({ call }, query: Omit<CUSTOM_ADDON.UpdateBody, 'operatorId'>) {
       const { id: operatorId } = userStore.getState((s) => s.loginUser);
-      return call(updateCustomAddonConfig, { ...query, operatorId: +operatorId }, { successMsg: i18n.t('update successfully') });
+      return call(
+        updateCustomAddonConfig,
+        { ...query, operatorId: +operatorId },
+        { successMsg: i18n.t('update successfully') },
+      );
     },
     async getAddonsList({ call, update, getParams }) {
       const orgId = orgStore.getState((s) => s.currentOrg.id);
@@ -79,9 +92,7 @@ const customAddon = createFlatStore({
       return call(getCloudGateway, { ...payload, projectID: projectId });
     },
   },
-  reducers: {
-  },
+  reducers: {},
 });
-
 
 export default customAddon;

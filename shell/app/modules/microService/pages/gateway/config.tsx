@@ -22,11 +22,11 @@ enum REGISTER_TYPE {
   manual = i18n.t('microService:manual registration'),
 }
 export enum AuthType {
-  keyAuth='key-auth',
-  oauth2='oauth2',
-  signAuth='sign-auth',
-  hmacAuth='hmac-auth',
-  aliCloudApp='aliyun-app',
+  keyAuth = 'key-auth',
+  oauth2 = 'oauth2',
+  signAuth = 'sign-auth',
+  hmacAuth = 'hmac-auth',
+  aliCloudApp = 'aliyun-app',
 }
 
 export const apiCols = [
@@ -89,7 +89,9 @@ export const policyCols = [
     key: 'config',
     width: 200,
     render: (value: any) => {
-      return Object.keys(value).reduce((all, k) => `${all} / ${value[k]}${k}`, '').slice(2);
+      return Object.keys(value)
+        .reduce((all, k) => `${all} / ${value[k]}${k}`, '')
+        .slice(2);
     },
   },
   {
@@ -127,28 +129,36 @@ export const HTTP_METHODS = [
   {
     name: 'GET',
     value: 'GET',
-  }, {
+  },
+  {
     name: 'HEAD',
     value: 'HEAD',
-  }, {
+  },
+  {
     name: 'POST',
     value: 'POST',
-  }, {
+  },
+  {
     name: 'PUT',
     value: 'PUT',
-  }, {
+  },
+  {
     name: 'DELETE',
     value: 'DELETE',
-  }, {
+  },
+  {
     name: 'CONNECT',
     value: 'CONNECT',
-  }, {
+  },
+  {
     name: 'OPTIONS',
     value: 'OPTIONS',
-  }, {
+  },
+  {
     name: 'TRACE',
     value: 'TRACE',
-  }, {
+  },
+  {
     name: 'PATCH',
     value: 'PATCH',
   },
@@ -248,7 +258,9 @@ export const KEY_AUTH_COLS = [
     dataIndex: 'key',
     render: (key: string) => (
       <Tooltip title={key}>
-        <Copy className="for-copy" data-clipboard-tip=" App Key ">{key}</Copy>
+        <Copy className="for-copy" data-clipboard-tip=" App Key ">
+          {key}
+        </Copy>
       </Tooltip>
     ),
   },
@@ -270,7 +282,9 @@ export const OAUTH_COLS = [
     dataIndex: 'client_id',
     render: (clientId: string) => (
       <Tooltip title={clientId}>
-        <Copy className="for-copy" data-clipboard-tip=" Client ID ">{clientId}</Copy>
+        <Copy className="for-copy" data-clipboard-tip=" Client ID ">
+          {clientId}
+        </Copy>
       </Tooltip>
     ),
   },
@@ -279,7 +293,9 @@ export const OAUTH_COLS = [
     dataIndex: 'client_secret',
     render: (clientSecret: string) => (
       <Tooltip title={clientSecret}>
-        <Copy className="for-copy" data-clipboard-tip=" Client Secret ">{clientSecret}</Copy>
+        <Copy className="for-copy" data-clipboard-tip=" Client Secret ">
+          {clientSecret}
+        </Copy>
       </Tooltip>
     ),
   },
@@ -290,7 +306,9 @@ export const OAUTH_COLS = [
       const redirectUri = redirectUris[0];
       return (
         <Tooltip title={redirectUri}>
-          <Copy className="for-copy" data-clipboard-tip={i18n.t('microService:redirect address')}>{redirectUri}</Copy>
+          <Copy className="for-copy" data-clipboard-tip={i18n.t('microService:redirect address')}>
+            {redirectUri}
+          </Copy>
         </Tooltip>
       );
     },
@@ -441,7 +459,9 @@ export const HMAC_AUTH_COLS = [
     key: 'key',
     render: (key: string) => (
       <Tooltip title={key}>
-        <Copy className="for-copy" data-clipboard-tip=" App Key ">{key}</Copy>
+        <Copy className="for-copy" data-clipboard-tip=" App Key ">
+          {key}
+        </Copy>
       </Tooltip>
     ),
   },
@@ -451,7 +471,9 @@ export const HMAC_AUTH_COLS = [
     key: 'secret',
     render: (secret: string) => (
       <Tooltip title={secret}>
-        <Copy className="for-copy" data-clipboard-tip=" App Secret ">{secret}</Copy>
+        <Copy className="for-copy" data-clipboard-tip=" App Secret ">
+          {secret}
+        </Copy>
       </Tooltip>
     ),
   },
@@ -464,7 +486,9 @@ export const SIGN_AUTH_COLS = [
     key: 'key',
     render: (key: string) => (
       <Tooltip title={key}>
-        <Copy className="for-copy" data-clipboard-tip=" App Key ">{key}</Copy>
+        <Copy className="for-copy" data-clipboard-tip=" App Key ">
+          {key}
+        </Copy>
       </Tooltip>
     ),
   },
@@ -474,7 +498,9 @@ export const SIGN_AUTH_COLS = [
     key: 'secret',
     render: (secret: string) => (
       <Tooltip title={secret}>
-        <Copy className="for-copy" data-clipboard-tip=" App Secret ">{secret}</Copy>
+        <Copy className="for-copy" data-clipboard-tip=" App Secret ">
+          {secret}
+        </Copy>
       </Tooltip>
     ),
   },
@@ -486,7 +512,9 @@ export const ALI_CLOUD_APP_COLS = [
     dataIndex: 'appKey',
     render: (key: string) => (
       <Tooltip title={key}>
-        <Copy className="for-copy" data-clipboard-tip=" App Key ">{key}</Copy>
+        <Copy className="for-copy" data-clipboard-tip=" App Key ">
+          {key}
+        </Copy>
       </Tooltip>
     ),
   },
@@ -495,7 +523,9 @@ export const ALI_CLOUD_APP_COLS = [
     dataIndex: 'appSecret',
     render: (secret: string) => (
       <Tooltip title={secret}>
-        <Copy className="for-copy" data-clipboard-tip=" App Secret ">{secret}</Copy>
+        <Copy className="for-copy" data-clipboard-tip=" App Secret ">
+          {secret}
+        </Copy>
       </Tooltip>
     ),
   },
@@ -511,7 +541,12 @@ export const getOpenApiConsumerFields = (isEditing: boolean) => {
     {
       name: 'name',
       label: i18n.t('microService:consumer name'),
-      rules: [{ pattern: /^(\w|_){1,20}$/g, message: i18n.t('microService:please enter a number of 20 characters in english or underscore') }],
+      rules: [
+        {
+          pattern: /^(\w|_){1,20}$/g,
+          message: i18n.t('microService:please enter a number of 20 characters in english or underscore'),
+        },
+      ],
       itemProps: {
         spellCheck: false,
         disabled: isEditing,

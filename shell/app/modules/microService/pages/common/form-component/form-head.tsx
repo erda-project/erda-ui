@@ -37,13 +37,9 @@ export default ({ mode, title, size, btnText, onClick, formProps, components }: 
 
   return (
     <div className={classnames('group-head', { 'bottom-border': !smallSize })}>
-      {title && (
-        <h3 className={classnames('group-head-h3', { 'sub-title': smallSize })}>{title}</h3>
-      )}
+      {title && <h3 className={classnames('group-head-h3', { 'sub-title': smallSize })}>{title}</h3>}
       {formItemEle}
-      {hasBtn && (
-        <Button onClick={onClick}>{btnText}</Button>
-      )}
+      {hasBtn && <Button onClick={onClick}>{btnText}</Button>}
     </div>
   );
 };

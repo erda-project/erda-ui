@@ -40,9 +40,13 @@ export const FormEditor = React.forwardRef((props: IProps, ref: any) => {
   };
 
   // 整合一份总的field传递给Form，同时给field通过category分类，在Tab中使用
-  const fields = reduce(fieldConfig, (sum: any[], item, fKey) => {
-    return sum.concat(map(item.fields, (fItem) => ({ ...fItem, category: fKey })));
-  }, []);
+  const fields = reduce(
+    fieldConfig,
+    (sum: any[], item, fKey) => {
+      return sum.concat(map(item.fields, (fItem) => ({ ...fItem, category: fKey })));
+    },
+    [],
+  );
 
   return (
     <div className="dice-form-editor">
@@ -71,14 +75,7 @@ export const FormEditor = React.forwardRef((props: IProps, ref: any) => {
                     return {
                       key,
                       name,
-                      content: (
-                        <RenderFields
-                          key={key}
-                          allField={allField}
-                          form={formRef}
-                          fields={curField}
-                        />
-                      ),
+                      content: <RenderFields key={key} allField={allField} form={formRef} fields={curField} />,
                     };
                   })}
                 />

@@ -14,26 +14,30 @@
 import agent from 'agent';
 
 export const getServiceInstances = (query: RUNTIME_SERVICE.ListQuery): RUNTIME_SERVICE.Instance[] => {
-  return agent.get('/api/instances/actions/get-service')
+  return agent
+    .get('/api/instances/actions/get-service')
     .query(query)
     .then((response: any) => response.body);
 };
 
 export const updateServicesConfig = ({ data, query }: RUNTIME_SERVICE.UpdateConfigBody) => {
-  return agent.put('/api/runtimes/actions/update-pre-overlay')
+  return agent
+    .put('/api/runtimes/actions/update-pre-overlay')
     .query(query)
     .send(data)
     .then((response: any) => response.body);
 };
 
 export const getServicePods = (query: RUNTIME_SERVICE.PodQuery): RUNTIME_SERVICE.Pod[] => {
-  return agent.get('/api/instances/actions/get-service-pods')
+  return agent
+    .get('/api/instances/actions/get-service-pods')
     .query(query)
     .then((response: any) => response.body);
 };
 
 export const killServicePod = (data: RUNTIME_SERVICE.KillPodBody) => {
-  return agent.post('/api/runtimes/actions/killpod')
+  return agent
+    .post('/api/runtimes/actions/killpod')
     .send(data)
     .then((response: any) => response.body);
 };

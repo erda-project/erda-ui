@@ -72,7 +72,9 @@ const BatchProcessing = ({ recycled }: IProps) => {
       case TestOperation.deleteEntirely:
         Modal.confirm({
           title: i18n.t('project:delete completely'),
-          content: i18n.t('project:the use case will not be recovered after it is completely deleted, ') + i18n.t('is it confirmed?'),
+          content:
+            i18n.t('project:the use case will not be recovered after it is completely deleted, ') +
+            i18n.t('is it confirmed?'),
           onOk: () => deleteEntirely(),
         });
         break;
@@ -107,7 +109,8 @@ const menuItemsMap = {
     { key: TestOperation.delete, name: i18n.t('project:delete') },
     // { key: TestOperation.tag, name: i18n.t('project:tag') },
     {
-      key: TestOperation.priority, name: i18n.t('project:update priority'), // children: priorityList.map(v => ({ key: v, name: v })),
+      key: TestOperation.priority,
+      name: i18n.t('project:update priority'), // children: priorityList.map(v => ({ key: v, name: v })),
     },
     { key: TestOperation.copy, name: i18n.t('project:copy to') },
     { key: TestOperation.move, name: i18n.t('project:move to') },

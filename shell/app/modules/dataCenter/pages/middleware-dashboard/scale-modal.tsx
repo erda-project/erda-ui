@@ -41,9 +41,10 @@ const setDecimal = (num = 0) => {
 };
 
 const validateCPU = (max: number, _rule: any, value: string, callback: cb) => {
-  if (value && (isNaN(+value) || (+value) < minCPU)) {
+  if (value && (isNaN(+value) || +value < minCPU)) {
     callback(i18n.t('dataCenter:please enter a number greater than or equal to {min}', { min: minCPU }));
-  } else if (max < minCPU || (+value) > max) { // 可输入最大值小于设置的最小值或者输入的值大于可输入最大值均为资源不足
+  } else if (max < minCPU || +value > max) {
+    // 可输入最大值小于设置的最小值或者输入的值大于可输入最大值均为资源不足
     callback(i18n.t('dataCenter:lack of resources'));
   } else {
     callback();
@@ -51,7 +52,7 @@ const validateCPU = (max: number, _rule: any, value: string, callback: cb) => {
 };
 
 const validateNodes = (_rule: any, value: string, callback: cb) => {
-  if (value && (isNaN(+value) || (+value) % 2 === 0 || (+value) > 15 || (+value) <= 0)) {
+  if (value && (isNaN(+value) || +value % 2 === 0 || +value > 15 || +value <= 0)) {
     callback(i18n.t('dataCenter:please enter an odd number no greater than {max}', { max: 15 }));
   } else {
     callback();
@@ -59,9 +60,10 @@ const validateNodes = (_rule: any, value: string, callback: cb) => {
 };
 
 const validateMEM = (max: number, _rule: any, value: string, callback: cb) => {
-  if (value && (isNaN(+value) || (+value) < minMEM)) {
+  if (value && (isNaN(+value) || +value < minMEM)) {
     callback(i18n.t('dataCenter:please enter a number greater than or equal to {min}', { min: minMEM }));
-  } else if (max < minMEM || (+value) > max) { // 可输入最大值小于设置的最小值或者输入的值大于可输入最大值均为资源不足
+  } else if (max < minMEM || +value > max) {
+    // 可输入最大值小于设置的最小值或者输入的值大于可输入最大值均为资源不足
     callback(i18n.t('dataCenter:lack of resources'));
   } else {
     callback();
@@ -82,7 +84,7 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit, form }: IProps) 
         update({
           leftResources: res,
           leftCPU: setDecimal(availableCpu / node + (formData.cpu || 0)),
-          leftMEM: setDecimal(availableMem * 1024 / node + (formData.mem || 0)),
+          leftMEM: setDecimal((availableMem * 1024) / node + (formData.mem || 0)),
         });
       });
     }
@@ -92,9 +94,9 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit, form }: IProps) 
     // 资源不足时，如果执行校验，会校验不通过， 因此需要将数据对比放在校验之前，数据未改变无需提交
     const current = form.getFieldsValue(['mem', 'cpu', 'nodes']);
     const currData = {
-      cpu: (+current.cpu),
-      nodes: (+current.nodes),
-      mem: (+current.mem),
+      cpu: +current.cpu,
+      nodes: +current.nodes,
+      mem: +current.mem,
     };
     const preData = pick(formData, ['mem', 'cpu', 'nodes']);
     if (isEqual(preData, currData)) {
@@ -107,9 +109,9 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit, form }: IProps) 
       }
       const payload = {
         ...formData,
-        cpu: (+data.cpu),
-        nodes: (+data.nodes),
-        mem: (+data.mem),
+        cpu: +data.cpu,
+        nodes: +data.nodes,
+        mem: +data.mem,
       };
       middlewareDashboardStore.effects.scale(payload).then(() => {
         onCancel();
@@ -119,15 +121,15 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit, form }: IProps) 
   };
 
   const handleChangeNode = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = (+e.target.value) || 1;
+    const value = +e.target.value || 1;
     if (value < 0) {
       return;
     }
     const { availableCpu = 0, availableMem = 0 } = leftResources;
     const { nodes = 0, cpu = 0, mem = 0 } = formData;
     update({
-      leftCPU: setDecimal((availableCpu + cpu * nodes) / (+value)),
-      leftMEM: setDecimal((availableMem * 1024 + mem * nodes) / (+value)),
+      leftCPU: setDecimal((availableCpu + cpu * nodes) / +value),
+      leftMEM: setDecimal((availableMem * 1024 + mem * nodes) / +value),
     });
     setTimeout(() => {
       form.validateFields(['cpu', 'mem']);
@@ -163,7 +165,9 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit, form }: IProps) 
     {
       label: '',
       getComp() {
-        return <Alert message={i18n.t('dataCenter:must be odd and cannot be greater than 15')} type="normal" showIcon />;
+        return (
+          <Alert message={i18n.t('dataCenter:must be odd and cannot be greater than 15')} type="normal" showIcon />
+        );
       },
     },
     {
@@ -178,7 +182,9 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit, form }: IProps) 
       },
       rules: [
         {
-          validator: (...arg: IValidate) => { validateCPU(leftCPU, ...arg); },
+          validator: (...arg: IValidate) => {
+            validateCPU(leftCPU, ...arg);
+          },
         },
       ],
     },
@@ -194,7 +200,9 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit, form }: IProps) 
       },
       rules: [
         {
-          validator: (...arg: IValidate) => { validateMEM(leftMEM, ...arg); },
+          validator: (...arg: IValidate) => {
+            validateMEM(leftMEM, ...arg);
+          },
         },
       ],
     },
@@ -208,11 +216,17 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit, form }: IProps) 
     return (
       <>
         <div>
-          <span className="mr16">{i18n.t('dataCenter:total project resources')}：CPU：{totalCpu}{i18n.t('default:core')}</span>
+          <span className="mr16">
+            {i18n.t('dataCenter:total project resources')}：CPU：{totalCpu}
+            {i18n.t('default:core')}
+          </span>
           <span>MEM：{setDecimal(totalMem * 1024)}MiB</span>
         </div>
         <div>
-          <span className="mr16">{i18n.t('dataCenter:available resources')}：CPU：{setDecimal(leftCpu)}{i18n.t('default:core')}</span>
+          <span className="mr16">
+            {i18n.t('dataCenter:available resources')}：CPU：{setDecimal(leftCpu)}
+            {i18n.t('default:core')}
+          </span>
           <span>MEM：{setDecimal(leftMem)}MiB</span>
         </div>
       </>

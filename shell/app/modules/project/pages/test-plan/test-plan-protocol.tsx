@@ -34,11 +34,12 @@ const AutoTestPlanList = () => {
   );
 };
 
-const useMock = (payload: Record<string, any>) => new Promise((resolve) => {
-  setTimeout(() => {
-    resolve(getMock(payload));
-  }, 100);
-});
+const useMock = (payload: Record<string, any>) =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(getMock(payload));
+    }, 100);
+  });
 
 const getMock = (payload?: Record<string, any>) => {
   const temp = cloneDeep(mock);
@@ -214,7 +215,11 @@ const mock: CONFIG_PAGE.RenderConfig = {
       addButton: {
         type: 'Button',
         operations: {
-          click: { key: 'addTest', reload: false, command: { key: 'set', state: { visible: true }, target: 'formModal' } },
+          click: {
+            key: 'addTest',
+            reload: false,
+            command: { key: 'set', state: { visible: true }, target: 'formModal' },
+          },
         },
         props: {
           text: '新建计划',

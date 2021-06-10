@@ -13,15 +13,22 @@
 
 import agent from 'agent';
 
-
-export const getAddons = (query: { type: string; value: string; projectId?: number; workspace?: string | string[]; displayName?: string[] }): ADDON.Instance[] => {
-  return agent.get('/api/addons')
+export const getAddons = (query: {
+  type: string;
+  value: string;
+  projectId?: number;
+  workspace?: string | string[];
+  displayName?: string[];
+}): ADDON.Instance[] => {
+  return agent
+    .get('/api/addons')
     .query(query)
     .then((response: any) => response.body);
 };
 
 export const approves = (payload: PROJECT.Approves) => {
-  return agent.post('/api/approves')
+  return agent
+    .post('/api/approves')
     .send(payload)
     .then((response: any) => response.body);
 };

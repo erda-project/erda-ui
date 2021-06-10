@@ -13,11 +13,19 @@
 
 import { createStore } from 'app/cube';
 import i18n from 'i18n';
-import { getProjectDashboard, getStatusDetail, getPastIncidents, getMetricStatus, saveService, updateMetric, deleteMetric, setDatumPoint } from '../services/status';
+import {
+  getProjectDashboard,
+  getStatusDetail,
+  getPastIncidents,
+  getMetricStatus,
+  saveService,
+  updateMetric,
+  deleteMetric,
+  setDatumPoint,
+} from '../services/status';
 import breadcrumbStore from 'app/layout/stores/breadcrumb';
 
-interface IState{
-
+interface IState {
   dashboard: MONITOR_STATUS.IDashboardResp;
   detail: MONITOR_STATUS.IDashboardResp;
   metricStatus: MONITOR_STATUS.IMetrics;
@@ -41,7 +49,7 @@ const Status = createStore({
         update({ dashboard });
       }
     },
-    async getStatusDetail({ call, update, getParams }, payload?: {period: string}) {
+    async getStatusDetail({ call, update, getParams }, payload?: { period: string }) {
       const { metricId } = getParams();
       const detail = await call(getStatusDetail, { ...(payload || {}), id: metricId });
       if (detail) {
@@ -76,7 +84,7 @@ const Status = createStore({
       const result = await call(deleteMetric, payload, { successMsg: i18n.t('deleted successfully') });
       return result;
     },
-    async setDatumPoint({ call }, payload: {id: string; url: string}) {
+    async setDatumPoint({ call }, payload: { id: string; url: string }) {
       await call(setDatumPoint, payload, { successMsg: i18n.t('setting successfully'), fullResult: true });
     },
   },
@@ -91,7 +99,6 @@ const Status = createStore({
       state.metricStatus = {};
     },
   },
-
 });
 
 export default Status;

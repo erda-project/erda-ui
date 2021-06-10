@@ -19,17 +19,17 @@ import MonitorPanel from 'monitor-overview/common/components/monitor-panel';
 
 import './overview-types.scss';
 
-interface ITableProps{
+interface ITableProps {
   [pro: string]: any;
   isFetching: boolean;
   className?: string;
   title?: string;
-  data: ITableData[] ;
+  data: ITableData[];
   columns: any;
   scroll?: object;
 }
 
-interface ITableData{
+interface ITableData {
   [pro: string]: any;
   time?: string;
 }
@@ -40,21 +40,27 @@ const TablePanel = ({ isFetching, className, title, data, columns, scroll, ...ot
     return { ...item, time: moment(item.time).format('YYYY-MM-DD HH:mm:ss') };
   });
   return (
-    <Spin spinning={isFetching} >
+    <Spin spinning={isFetching}>
       <MonitorPanel className={`${className}`} title={title} {...otherProps}>
-        <Table columns={columns} dataSource={newData} rowKey="id" className="service-status" pagination={false} scroll={scroll} />
+        <Table
+          columns={columns}
+          dataSource={newData}
+          rowKey="id"
+          className="service-status"
+          pagination={false}
+          scroll={scroll}
+        />
       </MonitorPanel>
     </Spin>
   );
 };
 
-
-interface IGridProps{
+interface IGridProps {
   [pro: string]: any;
   isFetching: boolean;
   className?: string;
   title?: string;
-  data: any ;
+  data: any;
 }
 
 const GridPanel = ({ isFetching, className = '', title, data, ...otherProps }: IGridProps) => {
@@ -62,25 +68,20 @@ const GridPanel = ({ isFetching, className = '', title, data, ...otherProps }: I
     <Spin spinning={isFetching}>
       <MonitorPanel className={`monitor-grid-panel ${className}`} title={title} {...otherProps}>
         <div className="data-line">
-          {
-            map(data, (it, key) => {
-              return (
-                <div className="data-unit" key={key}>
-                  <span className="title">{it.name}</span>
-                  <div className="value">
-                    <span className={it.color}>{it.value || '无'}</span>
-                  </div>
+          {map(data, (it, key) => {
+            return (
+              <div className="data-unit" key={key}>
+                <span className="title">{it.name}</span>
+                <div className="value">
+                  <span className={it.color}>{it.value || '无'}</span>
                 </div>
-              );
-            })
-          }
+              </div>
+            );
+          })}
         </div>
       </MonitorPanel>
     </Spin>
   );
 };
 
-export {
-  TablePanel,
-  GridPanel,
-};
+export { TablePanel, GridPanel };

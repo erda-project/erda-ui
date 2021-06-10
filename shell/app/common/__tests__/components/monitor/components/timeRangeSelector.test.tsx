@@ -29,12 +29,7 @@ describe('TimeSelector', () => {
     const disabledDateFn = jest.fn();
     const onChangeTimeFn = jest.fn();
     const wrapper = mount(
-      <TimeSelector
-        query={{ start, end }}
-        timeSpan={timeSpan}
-        inline
-        onChangeTime={onChangeTimeFn}
-      />,
+      <TimeSelector query={{ start, end }} timeSpan={timeSpan} inline onChangeTime={onChangeTimeFn} />,
     );
     expect(wrapper.find('.monitor-time-selector-inline')).toExist();
     const value = wrapper.find('RangePicker').at(0).prop('value') || [];

@@ -35,11 +35,12 @@ const configItemList = () => {
   );
 };
 
-const useMock = (payload: Record<string, any>) => new Promise((resolve) => {
-  setTimeout(() => {
-    resolve(getMock(payload));
-  }, 100);
-});
+const useMock = (payload: Record<string, any>) =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(getMock(payload));
+    }, 100);
+  });
 
 const getMock = (payload?: Record<string, any>) => {
   // console.clear();
@@ -91,32 +92,34 @@ const mock: CONFIG_PAGE.RenderConfig = {
           ],
         },
         data: {
-          list: [{
-            id: 1,
-            configName: '配置项名称',
-            configValue: '值',
-            siteName: '站点名称',
-            operate: {
-              renderType: 'tableOperation',
-              operations: {
-                update: {
-                  key: 'update',
-                  text: '编辑',
-                  reload: true,
-                  meta: { id: 1 },
-                },
-                delete: {
-                  key: 'delete',
-                  text: '删除',
-                  confirm: '是否确认删除',
-                  reload: true,
-                  meta: { id: 1 },
-                  disabled: false,
-                  disabledTip: '无法删除',
+          list: [
+            {
+              id: 1,
+              configName: '配置项名称',
+              configValue: '值',
+              siteName: '站点名称',
+              operate: {
+                renderType: 'tableOperation',
+                operations: {
+                  update: {
+                    key: 'update',
+                    text: '编辑',
+                    reload: true,
+                    meta: { id: 1 },
+                  },
+                  delete: {
+                    key: 'delete',
+                    text: '删除',
+                    confirm: '是否确认删除',
+                    reload: true,
+                    meta: { id: 1 },
+                    disabled: false,
+                    disabledTip: '无法删除',
+                  },
                 },
               },
             },
-          }],
+          ],
         },
       },
       topHead: { type: 'RowContainer', props: { isTopHead: true } },
@@ -159,7 +162,10 @@ const mock: CONFIG_PAGE.RenderConfig = {
               defaultValue: 'COMMON',
               componentProps: {
                 placeholder: '请选择范围',
-                options: [{ name: '通用', value: 'COMMON' }, { name: '站点', value: 'SITE' }],
+                options: [
+                  { name: '通用', value: 'COMMON' },
+                  { name: '站点', value: 'SITE' },
+                ],
               },
             },
             {
@@ -170,11 +176,12 @@ const mock: CONFIG_PAGE.RenderConfig = {
               componentProps: {
                 mode: 'multiple',
                 placeholder: '请选择范围',
-                options: [{ name: '北京-0001', value: '1' }, { name: '北京-0002', value: '2' }],
+                options: [
+                  { name: '北京-0001', value: '1' },
+                  { name: '北京-0002', value: '2' },
+                ],
               },
-              removeWhen: [
-                [{ field: 'scope', operator: '=', value: 'COMMON' }],
-              ],
+              removeWhen: [[{ field: 'scope', operator: '=', value: 'COMMON' }]],
             },
           ],
         },

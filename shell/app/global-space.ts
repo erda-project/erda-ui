@@ -32,5 +32,6 @@ export const globalSpace = {
 };
 
 export const getGlobal = (key: string) => get(globalSpace, key);
-export const setGlobal = (key: string, value: any) => { set(globalSpace, key, value); };
-
+export const setGlobal = (key: string, value: any) => {
+  set(globalSpace, key, value);
+};

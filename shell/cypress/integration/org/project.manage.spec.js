@@ -21,7 +21,7 @@ const projectName = genRandomEnText(10);
 const createProject = (checked) => {
   cy.get('.top-button-group .ant-btn-primary').click();
   cy.get('#displayName').type(projectName);
-  cy.get('#name').should($el => {
+  cy.get('#name').should(($el) => {
     expect($el.get(0)).to.have.property('value', projectName);
   });
   if (checked) {

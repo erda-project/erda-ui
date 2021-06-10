@@ -20,23 +20,26 @@ export const commonAttr = {
   moduleName: 'gatewayIngressConnection',
   groupId: 'gatewayIngressConnection',
 };
-const chartMap = merge({
-  activeConnect: {
-    titleText: i18n.t('microService:active connections'),
-    ...commonAttr,
-    chartName: 'activeConnect',
+const chartMap = merge(
+  {
+    activeConnect: {
+      titleText: i18n.t('microService:active connections'),
+      ...commonAttr,
+      chartName: 'activeConnect',
+    },
+    idleConnect: {
+      titleText: i18n.t('microService:idle connections'),
+      ...commonAttr,
+      chartName: 'idleConnect',
+    },
+    totalConnect: {
+      titleText: i18n.t('microService:total connections'),
+      ...commonAttr,
+      chartName: 'totalConnect',
+    },
   },
-  idleConnect: {
-    titleText: i18n.t('microService:idle connections'),
-    ...commonAttr,
-    chartName: 'idleConnect',
-  },
-  totalConnect: {
-    titleText: i18n.t('microService:total connections'),
-    ...commonAttr,
-    chartName: 'totalConnect',
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   activeConnect: chartRender(chartMap.activeConnect) as any,

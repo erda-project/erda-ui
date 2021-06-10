@@ -53,7 +53,9 @@ const ZkproxyList = () => {
   }, [az, currentRoute.routeQuery, getZkInterfaceList]);
 
   const onSearch = (searchKey: string) => {
-    const filterList = filter(zkInterfaceList, (item) => item.interfacename.toLowerCase().includes(searchKey.toLowerCase()));
+    const filterList = filter(zkInterfaceList, (item) =>
+      item.interfacename.toLowerCase().includes(searchKey.toLowerCase()),
+    );
     setDataSource(filterList);
   };
 
@@ -72,24 +74,36 @@ const ZkproxyList = () => {
     {
       title: i18n.t('microService:supplier list'),
       dataIndex: 'providerlist',
-      render: (val) => (val ? map(val, (item, i) => (
-        <div key={`${i}${item}`}>
-          {item}
-          <Tooltip title={i18n.t('deployment details')}>
-            <CustomIcon className="operate-icon hover-active ml8" type="link" onClick={() => jumpToServicePage(item)} />
-          </Tooltip>
-        </div>)) : ''),
+      render: (val) =>
+        val
+          ? map(val, (item, i) => (
+              <div key={`${i}${item}`}>
+                {item}
+                <Tooltip title={i18n.t('deployment details')}>
+                  <CustomIcon
+                    className="operate-icon hover-active ml8"
+                    type="link"
+                    onClick={() => jumpToServicePage(item)}
+                  />
+                </Tooltip>
+              </div>
+            ))
+          : '',
     },
     {
       title: i18n.t('microService:consumer list'),
       dataIndex: 'consumerlist',
-      render: (val) => (val ? map(val, (item, i) => (
-        <div key={`${i}${item}`}>
-          {item}
-          <Tooltip title={i18n.t('deployment details')}>
-            <CustomIcon className="operate-icon ml8" type="link" onClick={() => jumpToServicePage(item)} />
-          </Tooltip>
-        </div>)) : ''),
+      render: (val) =>
+        val
+          ? map(val, (item, i) => (
+              <div key={`${i}${item}`}>
+                {item}
+                <Tooltip title={i18n.t('deployment details')}>
+                  <CustomIcon className="operate-icon ml8" type="link" onClick={() => jumpToServicePage(item)} />
+                </Tooltip>
+              </div>
+            ))
+          : '',
     },
   ];
 

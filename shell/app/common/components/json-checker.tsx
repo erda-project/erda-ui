@@ -43,14 +43,17 @@ export class JsonChecker extends React.PureComponent<IProps, IState> {
   };
 
   toggleVisible = () => {
-    this.setState({
-      visible: !this.state.visible,
-    }, () => {
-      const { onToggle } = this.props;
-      if (onToggle) {
-        onToggle(this.state.visible);
-      }
-    });
+    this.setState(
+      {
+        visible: !this.state.visible,
+      },
+      () => {
+        const { onToggle } = this.props;
+        if (onToggle) {
+          onToggle(this.state.visible);
+        }
+      },
+    );
   };
 
   render() {
@@ -66,19 +69,14 @@ export class JsonChecker extends React.PureComponent<IProps, IState> {
 
     return (
       <React.Fragment>
-        <Button
-          type="primary"
-          size="small"
-          ghost
-          onClick={this.toggleVisible}
-        >
-          { buttonText || `${i18n.t('common:view')} JSON` }
+        <Button type="primary" size="small" ghost onClick={this.toggleVisible}>
+          {buttonText || `${i18n.t('common:view')} JSON`}
         </Button>
         <Modal className="json-checker-modal" {...configs}>
           <div className="json-detail-wrap">
             <Button className="json-detail-btn for-copy" shape="circle" icon={<IconCopy />} />
             <Copy selector=".for-copy" opts={{ text: () => jsonString }} />
-            <pre>{ jsonString }</pre>
+            <pre>{jsonString}</pre>
           </div>
         </Modal>
       </React.Fragment>

@@ -12,13 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createStore } from 'app/cube';
-import {
-  getErrorTrend,
-  getErrorChart,
-  getErrorList,
-  getErrorDetail,
-  getAllVersion,
-} from '../services/error-report';
+import { getErrorTrend, getErrorChart, getErrorList, getErrorDetail, getAllVersion } from '../services/error-report';
 import { get } from 'lodash';
 
 interface IState {

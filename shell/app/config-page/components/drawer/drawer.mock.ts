@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 export const mockData: CP_DRAWER.Spec = {
   type: 'Drawer',
   props: {
@@ -24,6 +23,10 @@ export const mockData: CP_DRAWER.Spec = {
     size: 'm', // s:256, m: 560, l: 800, xl: 1100
   },
   operations: {
-    close: { key: 'close-drawer', reload: false, command: { key: 'set', state: { visible: false }, target: 'Drawer1' } },
+    close: {
+      key: 'close-drawer',
+      reload: false,
+      command: { key: 'set', state: { visible: false }, target: 'Drawer1' },
+    },
   },
 };

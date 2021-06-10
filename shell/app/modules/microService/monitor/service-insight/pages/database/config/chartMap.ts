@@ -22,49 +22,52 @@ export const commonAttr = {
   moduleName: 'SIDataBase',
   groupId: 'SIDataBase',
 };
-const chartMap = merge({
-  sortTab: {
-    ...commonAttr,
-    type: 'sortTab',
-    tabList: [
-      { name: i18n.t('microService:throughput'), key: 'throughput' },
-      { name: i18n.t('microService:average time'), key: 'rt' },
-    ],
-  },
-  sortList: {
-    type: 'sortList',
-    ...commonAttr,
-    chartName: 'overviewSort',
-  },
-  responseTimes: {
-    titleText: `${i18n.t('microService:response time')} TOP5`,
-    ...commonAttr,
-    chartName: 'responseTimes',
-    viewProps: {
-      unitType: 'TIME',
+const chartMap = merge(
+  {
+    sortTab: {
+      ...commonAttr,
+      type: 'sortTab',
+      tabList: [
+        { name: i18n.t('microService:throughput'), key: 'throughput' },
+        { name: i18n.t('microService:average time'), key: 'rt' },
+      ],
+    },
+    sortList: {
+      type: 'sortList',
+      ...commonAttr,
+      chartName: 'overviewSort',
+    },
+    responseTimes: {
+      titleText: `${i18n.t('microService:response time')} TOP5`,
+      ...commonAttr,
+      chartName: 'responseTimes',
+      viewProps: {
+        unitType: 'TIME',
+      },
+    },
+    throughput: {
+      titleText: `${i18n.t('microService:throughput')} TOP5`,
+      ...commonAttr,
+      chartName: 'throughput',
+      viewProps: {
+        unitType: 'CPM',
+      },
+    },
+    slowTrack: {
+      titleText: `${i18n.t('microService:slow database tracking')} TOP10`,
+      ...commonAttr,
+      chartName: 'slowTrack',
+      viewRender: dbSlowTrackPanel,
+    },
+    errorTrack: {
+      titleText: `${i18n.t('microService:error database tracking')} TOP10`,
+      ...commonAttr,
+      chartName: 'errorTrack',
+      viewRender: dbErrorTrackPanel,
     },
   },
-  throughput: {
-    titleText: `${i18n.t('microService:throughput')} TOP5`,
-    ...commonAttr,
-    chartName: 'throughput',
-    viewProps: {
-      unitType: 'CPM',
-    },
-  },
-  slowTrack: {
-    titleText: `${i18n.t('microService:slow database tracking')} TOP10`,
-    ...commonAttr,
-    chartName: 'slowTrack',
-    viewRender: dbSlowTrackPanel,
-  },
-  errorTrack: {
-    titleText: `${i18n.t('microService:error database tracking')} TOP10`,
-    ...commonAttr,
-    chartName: 'errorTrack',
-    viewRender: dbErrorTrackPanel,
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   sortTab: sortRender(chartMap.sortTab) as any,
@@ -74,4 +77,3 @@ export default {
   slowTrack: chartRender(chartMap.slowTrack) as any,
   errorTrack: chartRender(chartMap.errorTrack) as any,
 };
-

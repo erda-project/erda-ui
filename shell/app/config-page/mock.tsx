@@ -27,7 +27,6 @@ const useMock = (payload: any, partial: any) => {
   });
 };
 
-
 // crud场景mock
 const getMock = (payload: any, partial?: boolean) => {
   if (partial) {
@@ -36,7 +35,9 @@ const getMock = (payload: any, partial?: boolean) => {
   const data = mock;
   if (payload.event?.operation === 'delete') {
     const curData = data.protocol.components.table1.props.data;
-    data.protocol.components.table1.props.data = curData?.filter((item: any) => item.id !== payload.event.operationData.meta.id);
+    data.protocol.components.table1.props.data = curData?.filter(
+      (item: any) => item.id !== payload.event.operationData.meta.id,
+    );
   }
 
   return data;
@@ -104,11 +105,19 @@ let mock = {
               required: true,
               dataSource: {
                 type: 'static',
-                static: [{ label: '开发', value: 'DEV' }, { label: '测试', value: 'TEST' }, { label: '管理员', value: 'Owner' }],
+                static: [
+                  { label: '开发', value: 'DEV' },
+                  { label: '测试', value: 'TEST' },
+                  { label: '管理员', value: 'Owner' },
+                ],
               },
               componentProps: {
                 placeholder: '请选择角色',
-                options: [{ label: '开发', value: 'DEV' }, { label: '测试', value: 'TEST' }, { label: '管理员', value: 'Owner' }],
+                options: [
+                  { label: '开发', value: 'DEV' },
+                  { label: '测试', value: 'TEST' },
+                  { label: '管理员', value: 'Owner' },
+                ],
               },
             },
           ],
@@ -419,7 +428,11 @@ let mock = {
           type: 'primary',
         },
         operations: {
-          click: { key: 'click-add', reload: false, command: { key: 'set', state: { visible: true }, target: 'formModal1' } },
+          click: {
+            key: 'click-add',
+            reload: false,
+            command: { key: 'set', state: { visible: true }, target: 'formModal1' },
+          },
         },
       },
       exportButton1: {
@@ -435,11 +448,36 @@ let mock = {
         props: {
           data: {
             list: [
-              { id: 1, name: '张1', role: '开发', operations: getTableOp(['edit', 'delete', 'sq'], { id: 1, name: '张1', role: '开发' }) },
-              { id: 2, name: '张2', role: '测试', operations: getTableOp(['edit', 'delete', 'sq'], { id: 2, name: '张2', role: '测试' }) },
-              { id: 3, name: '张3(当前用户)', role: '开发', operations: getTableOp(['edit', 'exit', 'sq'], { id: 3, name: '张3', role: '开发' }) },
-              { id: 4, name: '张4', role: '测试', operations: getTableOp(['edit', 'delete', 'sq'], { id: 4, name: '张4', role: '测试' }) },
-              { id: 5, name: '张5', role: '测试', operations: getTableOp(['edit', 'delete', 'sq'], { id: 5, name: '张5', role: '测试' }) },
+              {
+                id: 1,
+                name: '张1',
+                role: '开发',
+                operations: getTableOp(['edit', 'delete', 'sq'], { id: 1, name: '张1', role: '开发' }),
+              },
+              {
+                id: 2,
+                name: '张2',
+                role: '测试',
+                operations: getTableOp(['edit', 'delete', 'sq'], { id: 2, name: '张2', role: '测试' }),
+              },
+              {
+                id: 3,
+                name: '张3(当前用户)',
+                role: '开发',
+                operations: getTableOp(['edit', 'exit', 'sq'], { id: 3, name: '张3', role: '开发' }),
+              },
+              {
+                id: 4,
+                name: '张4',
+                role: '测试',
+                operations: getTableOp(['edit', 'delete', 'sq'], { id: 4, name: '张4', role: '测试' }),
+              },
+              {
+                id: 5,
+                name: '张5',
+                role: '测试',
+                operations: getTableOp(['edit', 'delete', 'sq'], { id: 5, name: '张5', role: '测试' }),
+              },
             ],
           },
           columns: [
@@ -456,8 +494,7 @@ let mock = {
 };
 
 let partialMock = {
-  scenario: {
-  },
+  scenario: {},
   protocol: {
     components: {
       filter1: {
@@ -562,8 +599,18 @@ let partialMock = {
         type: 'Table',
         props: {
           data: [
-            { id: 1, name: '张1', role: '开发', operations: getTableOp(['edit', 'delete', 'sq'], { id: 1, name: '张1', role: '开发' }) },
-            { id: 3, name: '张3(当前用户)', role: '开发', operations: getTableOp(['edit', 'exit', 'sq'], { id: 3, name: '张3', role: '开发' }) },
+            {
+              id: 1,
+              name: '张1',
+              role: '开发',
+              operations: getTableOp(['edit', 'delete', 'sq'], { id: 1, name: '张1', role: '开发' }),
+            },
+            {
+              id: 3,
+              name: '张3(当前用户)',
+              role: '开发',
+              operations: getTableOp(['edit', 'exit', 'sq'], { id: 3, name: '张3', role: '开发' }),
+            },
           ],
           columns: [
             { title: '名称', dataIndex: 'name' },

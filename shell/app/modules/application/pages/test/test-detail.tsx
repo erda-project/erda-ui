@@ -22,10 +22,10 @@ import { ChartContainer } from 'charts/utils';
 import i18n from 'i18n';
 import './test-detail.scss';
 
-interface IProps{
+interface IProps {
   suite: ISuite;
 }
-interface IState{
+interface IState {
   checkedCaseKey: string;
   isShowing: boolean;
   filterKey: string;
@@ -35,12 +35,12 @@ interface IState{
   filterList: ITest[];
 }
 
-interface ISuite{
+interface ISuite {
   [proName: string]: any;
   tests?: ITest[];
 }
 
-interface ITest{
+interface ITest {
   [proName: string]: any;
   name: string;
   key?: string;
@@ -51,11 +51,14 @@ const { Search } = Input;
 
 const convertTestCases = (tests: ITest[]) => map(tests, (item) => ({ ...item, key: uniqueId() }));
 
-
 class TestDetail extends React.Component<IProps, IState> {
-  onSearchKeyChange = debounce((value: string) => this.setState({ searchKey: value }, () => {
-    this.changeFilterList();
-  }), 300);
+  onSearchKeyChange = debounce(
+    (value: string) =>
+      this.setState({ searchKey: value }, () => {
+        this.changeFilterList();
+      }),
+    300,
+  );
 
   constructor(props: IProps) {
     super(props);
@@ -83,7 +86,7 @@ class TestDetail extends React.Component<IProps, IState> {
   }
 
   showTestInfo = (key: string | undefined, e?: React.MouseEvent<Element, MouseEvent> | undefined) => {
-    if (e)e.stopPropagation();
+    if (e) e.stopPropagation();
     const { checkedCaseKey } = this.state;
     if (key && key !== checkedCaseKey) {
       this.setState({
@@ -105,12 +108,18 @@ class TestDetail extends React.Component<IProps, IState> {
     const hasLog = stdout || message || body || type;
 
     return (
-      <div className="test-output" >
+      <div className="test-output">
         <Holder when={!hasLog}>
           <pre>
             {stdout}
-            <p>{type || body ? <span className="error-type" onClick={() => this.toggleErrorInfo()}>{type || 'error'}</span> : null}</p>
-            <p className={`error-message ${errorClass}`}>{ message ? `Error: ${message}` : ''}</p>
+            <p>
+              {type || body ? (
+                <span className="error-type" onClick={() => this.toggleErrorInfo()}>
+                  {type || 'error'}
+                </span>
+              ) : null}
+            </p>
+            <p className={`error-message ${errorClass}`}>{message ? `Error: ${message}` : ''}</p>
             <p className={`error-body ${errorClass}`}>{`${body}`}</p>
           </pre>
         </Holder>
@@ -133,12 +142,12 @@ class TestDetail extends React.Component<IProps, IState> {
     });
     const checkedTestCase = find(filterList, { key: checkedCaseKey });
     const forUpdate: any = { filterList };
-    if (!checkedTestCase) { // 当前选中的没匹配数据
+    if (!checkedTestCase) {
+      // 当前选中的没匹配数据
       forUpdate.checkedCaseKey = get(filterList, '[0].key') || '';
     }
     this.setState({ ...forUpdate });
   };
-
 
   render() {
     const { checkedCaseKey, filterKey, suite, filterList } = this.state;
@@ -152,14 +161,17 @@ class TestDetail extends React.Component<IProps, IState> {
       result,
     };
     const dataSource = map(extra, (v, k) => ({ env: k, value: v }));
-    const cols = [{
-      title: '',
-      dataIndex: 'env',
-    }, {
-      title: '',
-      dataIndex: 'value',
-      className: 'env-value',
-    }];
+    const cols = [
+      {
+        title: '',
+        dataIndex: 'env',
+      },
+      {
+        title: '',
+        dataIndex: 'value',
+        className: 'env-value',
+      },
+    ];
     const statusFilter = [
       { name: i18n.t('application:all'), value: 'all', color: 'all' },
       { name: i18n.t('application:pass'), value: 'passed', color: 'passed' },
@@ -195,37 +207,43 @@ class TestDetail extends React.Component<IProps, IState> {
           <Col span={8} className="test-list-container">
             <ChartContainer title={i18n.t('application:test case')}>
               <div className="filter">
-                <Search placeholder={i18n.t('application:enter to filter use cases')} onChange={(e) => this.onSearchKeyChange(e.target.value)} />
+                <Search
+                  placeholder={i18n.t('application:enter to filter use cases')}
+                  onChange={(e) => this.onSearchKeyChange(e.target.value)}
+                />
                 <Select value={filterKey} onChange={this.changeFilterKey}>
-                  {
-                        map(statusFilter, (item) => {
-                          return (
-                            <Option key={item.name} value={item.value}>
-                              <span className="point-wrap">{item.name}</span>
-                            </Option>
-                          );
-                        })
-                      }
+                  {map(statusFilter, (item) => {
+                    return (
+                      <Option key={item.name} value={item.value}>
+                        <span className="point-wrap">{item.name}</span>
+                      </Option>
+                    );
+                  })}
                 </Select>
               </div>
               <ul className="unit-test-list">
-                {
-                    map(filterList, (item) => {
-                      const { name, status, duration, key } = item;
-                      const seconds = floor(parseInt(duration, 10) / (10 ** 9), 2); // duration为纳秒
-                      return (
-                        <li className={`test-item ${key === checkedCaseKey ? 'active' : ''} ${status}`} key={key} onClick={(e) => this.showTestInfo(key, e)}>
-                          <span className="name"><span className={`status-point ${status}`} />{name}</span>
-                          <span className="time">{(duration !== 0 && seconds === 0) ? `${duration / 1000000}${i18n.t('application:milliseconds')}` : secondsToTime(seconds, true)}</span>
-                        </li>
-                      );
-                    })
-                  }
-                {
-                    filterList.length === 0 && (
-                      <li className="test-item-nodata">{i18n.t('application:no match data')}</li>
-                    )
-                  }
+                {map(filterList, (item) => {
+                  const { name, status, duration, key } = item;
+                  const seconds = floor(parseInt(duration, 10) / 10 ** 9, 2); // duration为纳秒
+                  return (
+                    <li
+                      className={`test-item ${key === checkedCaseKey ? 'active' : ''} ${status}`}
+                      key={key}
+                      onClick={(e) => this.showTestInfo(key, e)}
+                    >
+                      <span className="name">
+                        <span className={`status-point ${status}`} />
+                        {name}
+                      </span>
+                      <span className="time">
+                        {duration !== 0 && seconds === 0
+                          ? `${duration / 1000000}${i18n.t('application:milliseconds')}`
+                          : secondsToTime(seconds, true)}
+                      </span>
+                    </li>
+                  );
+                })}
+                {filterList.length === 0 && <li className="test-item-nodata">{i18n.t('application:no match data')}</li>}
               </ul>
             </ChartContainer>
           </Col>
@@ -235,7 +253,6 @@ class TestDetail extends React.Component<IProps, IState> {
             </ChartContainer>
           </Col>
         </Row>
-
       </div>
     );
   }

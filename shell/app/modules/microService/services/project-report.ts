@@ -13,25 +13,38 @@
 
 import agent from 'agent';
 
-export const getProjectReport = ({ projectId, workspace, type, pageSize, pageNo, start, end }: PROJECT_REPORT.QueryReport): IPagingResp<PROJECT_REPORT.IReport> => {
-  return agent.get(`/api/report/${projectId}/${workspace}/${type}`)
+export const getProjectReport = ({
+  projectId,
+  workspace,
+  type,
+  pageSize,
+  pageNo,
+  start,
+  end,
+}: PROJECT_REPORT.QueryReport): IPagingResp<PROJECT_REPORT.IReport> => {
+  return agent
+    .get(`/api/report/${projectId}/${workspace}/${type}`)
     .query({ page: pageNo, size: pageSize, start, end })
     .then((response: any) => response.body);
 };
 
 export const getProjectReportDetail = ({ projectId, workspace, type, key }: PROJECT_REPORT.GetReportDetail): string => {
-  return agent.get(`/api/report/${projectId}/${workspace}/${type}/render`)
+  return agent
+    .get(`/api/report/${projectId}/${workspace}/${type}/render`)
     .query({ reportId: key })
     .then((response: any) => response.text);
 };
 
-export const getProjectReportSetting = ({ projectId, workspace }: PROJECT_REPORT.QueryConfig): PROJECT_REPORT.Config => {
-  return agent.get(`/api/report/${projectId}/${workspace}/settings`)
-    .then((response: any) => response.body);
+export const getProjectReportSetting = ({
+  projectId,
+  workspace,
+}: PROJECT_REPORT.QueryConfig): PROJECT_REPORT.Config => {
+  return agent.get(`/api/report/${projectId}/${workspace}/settings`).then((response: any) => response.body);
 };
 
 export const setProjectReportSetting = ({ projectId, workspace, setting }: PROJECT_REPORT.SetConfig): string => {
-  return agent.post(`/api/report/${projectId}/${workspace}/settings`)
+  return agent
+    .post(`/api/report/${projectId}/${workspace}/settings`)
     .send(setting)
     .then((response: any) => response.body);
 };

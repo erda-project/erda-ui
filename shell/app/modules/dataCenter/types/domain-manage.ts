@@ -13,7 +13,6 @@
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace DOMAIN_MANAGE {
-
   type IWorkspace = 'dev' | 'prod';
 
   interface IDomain {
@@ -44,4 +43,3 @@ declare namespace DOMAIN_MANAGE {
     workspace?: string;
   }
 }
-

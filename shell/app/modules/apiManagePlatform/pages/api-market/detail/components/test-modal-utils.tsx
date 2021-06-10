@@ -33,38 +33,45 @@ export const APITabs = [
             value: '',
             desc: '',
           }}
-          itemMap={[{
-            type: 'key',
-            props: {
-              placeholder: i18n.t('project:parameter name'),
+          itemMap={[
+            {
+              type: 'key',
+              props: {
+                placeholder: i18n.t('project:parameter name'),
+              },
+              getProps: ({ editKey }: { editKey: boolean }) => {
+                return {
+                  disabled: !editKey,
+                };
+              },
             },
-            getProps: ({ editKey }: { editKey: boolean }) => {
-              return {
-                disabled: !editKey,
-              };
+            {
+              type: 'value',
+              props: {
+                placeholder: i18n.t('project:parameter value'),
+              },
+              getProps: ({ error, required }: { error: boolean; required: true }) => {
+                return {
+                  className: error ? 'error-red' : '',
+                  placeholder: required
+                    ? i18n.t('project:parameter value (required)')
+                    : i18n.t('project:parameter value'),
+                };
+              },
             },
-          }, {
-            type: 'value',
-            props: {
-              placeholder: i18n.t('project:parameter value'),
+            {
+              type: 'desc',
+              props: {
+                placeholder: i18n.t('description'),
+              },
             },
-            getProps: ({ error, required }: { error: boolean; required: true }) => {
-              return {
-                className: error ? 'error-red' : '',
-                placeholder: required ? i18n.t('project:parameter value (required)') : i18n.t('project:parameter value'),
-              };
-            },
-          }, {
-            type: 'desc',
-            props: {
-              placeholder: i18n.t('description'),
-            },
-          }]}
+          ]}
           {...props}
         />
       );
     },
-  }, {
+  },
+  {
     title: 'Headers',
     dataIndex: 'header',
     render: (props: any) => {
@@ -76,73 +83,89 @@ export const APITabs = [
             value: '',
             desc: '',
           }}
-          itemMap={[{
-            type: 'key',
-            props: {
-              placeholder: i18n.t('project:parameter name'),
+          itemMap={[
+            {
+              type: 'key',
+              props: {
+                placeholder: i18n.t('project:parameter name'),
+              },
+              getProps: ({ editKey }: { editKey: boolean }) => {
+                return {
+                  disabled: !editKey,
+                };
+              },
             },
-            getProps: ({ editKey }: { editKey: boolean }) => {
-              return {
-                disabled: !editKey,
-              };
+            {
+              type: 'value',
+              props: {
+                placeholder: i18n.t('project:parameter value'),
+              },
+              getProps: ({ error, required }: { error: boolean; required: true }) => {
+                return {
+                  className: error ? 'error-red' : '',
+                  placeholder: required
+                    ? i18n.t('project:parameter value (required)')
+                    : i18n.t('project:parameter value'),
+                };
+              },
             },
-          }, {
-            type: 'value',
-            props: {
-              placeholder: i18n.t('project:parameter value'),
+            {
+              type: 'desc',
+              props: {
+                placeholder: i18n.t('description'),
+              },
             },
-            getProps: ({ error, required }: { error: boolean; required: true }) => {
-              return {
-                className: error ? 'error-red' : '',
-                placeholder: required ? i18n.t('project:parameter value (required)') : i18n.t('project:parameter value'),
-              };
-            },
-          }, {
-            type: 'desc',
-            props: {
-              placeholder: i18n.t('description'),
-            },
-          }]}
+          ]}
           {...props}
         />
       );
     },
-  }, {
+  },
+  {
     title: 'Body',
     dataIndex: 'body',
     render: (props: any) => {
       return <APIBody {...props} />;
     },
-  }, {
+  },
+  {
     title: 'Path',
     dataIndex: 'path',
     render: (props: any) => {
-      return (<KeyValueEdit
-        itemMap={[{
-          type: 'key',
-          props: {
-            placeholder: i18n.t('project:parameter name'),
-            disabled: true,
-          },
-        }, {
-          type: 'value',
-          props: {
-            placeholder: i18n.t('project:parameter value'),
-          },
-          getProps: ({ error, required }: { error: boolean; required: true }) => {
-            return {
-              className: error ? 'error-red' : '',
-              placeholder: required ? i18n.t('project:parameter value (required)') : i18n.t('project:parameter value'),
-            };
-          },
-        }, {
-          type: 'desc',
-          props: {
-            placeholder: i18n.t('description'),
-          },
-        }]}
-        {...props}
-      />);
+      return (
+        <KeyValueEdit
+          itemMap={[
+            {
+              type: 'key',
+              props: {
+                placeholder: i18n.t('project:parameter name'),
+                disabled: true,
+              },
+            },
+            {
+              type: 'value',
+              props: {
+                placeholder: i18n.t('project:parameter value'),
+              },
+              getProps: ({ error, required }: { error: boolean; required: true }) => {
+                return {
+                  className: error ? 'error-red' : '',
+                  placeholder: required
+                    ? i18n.t('project:parameter value (required)')
+                    : i18n.t('project:parameter value'),
+                };
+              },
+            },
+            {
+              type: 'desc',
+              props: {
+                placeholder: i18n.t('description'),
+              },
+            },
+          ]}
+          {...props}
+        />
+      );
     },
   },
 ];
@@ -175,28 +198,35 @@ export const ResponseTabs: { [k in API_MARKET.ResponseTabs]: { name: string; val
   },
 };
 
-export const commonColumn: Array<ColumnProps<any>> = [{
-  title: 'Key',
-  dataIndex: 'key',
-}, {
-  title: 'Value',
-  dataIndex: 'value',
-}];
+export const commonColumn: Array<ColumnProps<any>> = [
+  {
+    title: 'Key',
+    dataIndex: 'key',
+  },
+  {
+    title: 'Value',
+    dataIndex: 'value',
+  },
+];
 
 export const stringifyPro = (data: Record<string, any> | any[], space: number, replace?: any): string => {
   let valueCache: any[] = [];
   let keyCache: any[] = [];
-  const str = JSON.stringify(data || {}, (key: string, value: any) => {
-    if (typeof value === 'object' && value !== null) {
-      const index = valueCache.indexOf(value);
-      if (index !== -1) {
-        return replace || `[Circular reference: ${keyCache[index]}]`;
+  const str = JSON.stringify(
+    data || {},
+    (key: string, value: any) => {
+      if (typeof value === 'object' && value !== null) {
+        const index = valueCache.indexOf(value);
+        if (index !== -1) {
+          return replace || `[Circular reference: ${keyCache[index]}]`;
+        }
+        valueCache.push(value);
+        keyCache.push(key);
       }
-      valueCache.push(value);
-      keyCache.push(key);
-    }
-    return value;
-  }, space);
+      return value;
+    },
+    space,
+  );
   valueCache = [];
   keyCache = [];
   return str;
@@ -236,7 +266,7 @@ export const formatData = (data = {}) => {
         });
         break;
       case 'body':
-        const { schema } = value[0] || {} as any;
+        const { schema } = value[0] || ({} as any);
         const s = JSON.parse(stringifyPro(schema, 2, []));
         apis.body = {
           content: JSON.stringify(mock(s), null, 2),
@@ -274,7 +304,7 @@ export const formatData = (data = {}) => {
   return apis;
 };
 
-export const formatBody = (body: {type: string; content: any}) => {
+export const formatBody = (body: { type: string; content: any }) => {
   const data = {};
   if (body.type === 'application/x-www-form-urlencoded') {
     map(body.content, (item) => {
@@ -296,7 +326,7 @@ export const fillingUrl = (url: string, path: any[]) => {
   if (matches) {
     matches.forEach((match) => {
       const key = match.slice(1, -1);
-      const { value } = path.find((item: any) => item.key === key) || {} as any;
+      const { value } = path.find((item: any) => item.key === key) || ({} as any);
       if (value !== '' && typeof value !== 'undefined' && value !== null) {
         fetchURl = fetchURl.replace(match, value);
       }

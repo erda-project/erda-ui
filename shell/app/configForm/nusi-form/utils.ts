@@ -15,17 +15,15 @@ import { get, map } from 'lodash';
 import agent from 'agent';
 
 export const getData = ({ dataPath, valueKey, nameKey, api }: any) => {
-  return agent.get(typeof api === 'function' ? api() : api)
-    .then((response: any) => {
-      return map(get(response.body, `${dataPath}`), (item) => {
-        return {
-          ...item,
-          name: get(item, `${nameKey}`),
-          value: get(item, `${valueKey}`),
-        };
-      });
+  return agent.get(typeof api === 'function' ? api() : api).then((response: any) => {
+    return map(get(response.body, `${dataPath}`), (item) => {
+      return {
+        ...item,
+        name: get(item, `${nameKey}`),
+        value: get(item, `${valueKey}`),
+      };
     });
+  });
 };
 
 export const noop = (a: any) => a;
-

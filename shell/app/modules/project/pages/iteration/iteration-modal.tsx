@@ -44,7 +44,6 @@ export default ({ visible, data, onClose }: IProps) => {
     }
   }, [data, updater, visible]);
 
-
   const fieldsList = [
     {
       name: 'title',
@@ -79,7 +78,7 @@ export default ({ visible, data, onClose }: IProps) => {
         autoSize: {
           minRows: 8,
           maxRows: 8,
-        }
+        },
       },
     },
   ];

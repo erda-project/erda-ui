@@ -17,7 +17,15 @@ import { logWarn, logError } from './log';
 
 // 标记结束点
 let files = 0;
-export const walker = ({ root, dealFile, recursive = true }: { root: string; dealFile: (content: string, filePath: string, isEnd: boolean) => void; recursive?: boolean }) => {
+export const walker = ({
+  root,
+  dealFile,
+  recursive = true,
+}: {
+  root: string;
+  dealFile: (content: string, filePath: string, isEnd: boolean) => void;
+  recursive?: boolean;
+}) => {
   if (!dealFile) {
     logError('[walker] Not assign file handler');
     process.exit();

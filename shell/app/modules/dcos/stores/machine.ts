@@ -15,7 +15,6 @@ import { createStore } from 'app/cube';
 import orgStore from 'app/org-home/stores/org';
 import { getMachineStatus, deleteMachine } from '../services/machine';
 
-
 const machine = createStore({
   name: 'org-machine',
   state: {},

@@ -30,16 +30,23 @@ const storeMap = {
 export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: string }) => {
   const params = routeInfoStore.useStore((s) => s.params);
   const store = storeMap[scope];
-  const [customDashboardList, customDashboardPaging] = store.useStore((s) => [s.customDashboardList, s.customDashboardPaging]);
+  const [customDashboardList, customDashboardPaging] = store.useStore((s) => [
+    s.customDashboardList,
+    s.customDashboardPaging,
+  ]);
   const { getCustomDashboard, deleteCustomDashboard } = store;
   const { pageNo, total, pageSize } = customDashboardPaging;
   const [loading] = useLoading(store, ['getCustomDashboard']);
-  const _getCustomDashboard = React.useCallback((no: number) => getCustomDashboard({
-    scope,
-    scopeId,
-    pageSize,
-    pageNo: no,
-  }), [getCustomDashboard, pageSize, scope, scopeId]);
+  const _getCustomDashboard = React.useCallback(
+    (no: number) =>
+      getCustomDashboard({
+        scope,
+        scopeId,
+        pageSize,
+        pageNo: no,
+      }),
+    [getCustomDashboard, pageSize, scope, scopeId],
+  );
 
   useMount(() => {
     _getCustomDashboard(pageNo);
@@ -47,7 +54,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
 
   const handleDelete = (id: string) => {
     deleteCustomDashboard({ id, scopeId }).then(() => {
-      _getCustomDashboard((total - 1) > (pageNo - 1) * pageSize ? pageNo : 1);
+      _getCustomDashboard(total - 1 > (pageNo - 1) * pageSize ? pageNo : 1);
     });
   };
 
@@ -78,10 +85,15 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
         <div className="table-operations">
           <Popconfirm
             title={`${i18n.t('common:confirm to delete')}?`}
-            onConfirm={(e: any) => { e.stopPropagation(); handleDelete(id as string); }}
+            onConfirm={(e: any) => {
+              e.stopPropagation();
+              handleDelete(id as string);
+            }}
             onCancel={(e: any) => e.stopPropagation()}
           >
-            <a className="table-operations-btn" onClick={(e: any) => e.stopPropagation()}>{i18n.t('delete')}</a>
+            <a className="table-operations-btn" onClick={(e: any) => e.stopPropagation()}>
+              {i18n.t('delete')}
+            </a>
           </Popconfirm>
         </div>
       ),
@@ -91,7 +103,9 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
   return (
     <>
       <div className="top-button-group">
-        <Button type="primary" onClick={() => goTo(goTo.pages[`${scope}AddCustomDashboard`], params)}>{i18n.t('org:new O & M dashboard')}</Button>
+        <Button type="primary" onClick={() => goTo(goTo.pages[`${scope}AddCustomDashboard`], params)}>
+          {i18n.t('org:new O & M dashboard')}
+        </Button>
       </div>
       <Table
         rowKey="id"
@@ -100,7 +114,9 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
         loading={loading}
         onRow={({ id }: Custom_Dashboard.DashboardItem) => {
           return {
-            onClick: () => { goTo(goTo.pages[`${scope}CustomDashboardDetail`], { ...params, customDashboardId: id }); },
+            onClick: () => {
+              goTo(goTo.pages[`${scope}CustomDashboardDetail`], { ...params, customDashboardId: id });
+            },
           };
         }}
         pagination={{

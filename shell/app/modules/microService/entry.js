@@ -24,7 +24,6 @@ import topologyStore from './stores/topology-service-analyze';
 import traceStore from './stores/trace';
 import zkproxyStore from './stores/zkproxy';
 
-
 export default (registerModule) => {
   return registerModule({
     key: 'microService',

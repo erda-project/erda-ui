@@ -64,7 +64,7 @@ export const PureBaseAddonInfo = ({
   loading,
   extra,
 }: {
-  addonDetail: Merge<MIDDLEWARE_DASHBOARD.IBaseInfo, {addonStatus?: string}>;
+  addonDetail: Merge<MIDDLEWARE_DASHBOARD.IBaseInfo, { addonStatus?: string }>;
   loading: boolean;
   extra: React.ReactNode;
 }) => {
@@ -124,47 +124,46 @@ export const PureBaseAddonInfo = ({
         <div className="base-info mb32">
           <span className="title bold-500">{i18n.t('org:basic info')}</span>
           <div className="info-grid">
-            {
-              map(itemConfigs, ({ title, value, render }) => (
-                <div key={title}>
-                  <div className="param-k nowrap">{title}</div>
-                  <div className="param-v nowrap">
-                    {
-                      render && isFunction(render)
-                        ?
-                        render(value ? addonDetail[value] : addonDetail)
-                        :
-                        addonDetail[value]
-                    }
-                  </div>
+            {map(itemConfigs, ({ title, value, render }) => (
+              <div key={title}>
+                <div className="param-k nowrap">{title}</div>
+                <div className="param-v nowrap">
+                  {render && isFunction(render) ? render(value ? addonDetail[value] : addonDetail) : addonDetail[value]}
                 </div>
-              ))
-            }
+              </div>
+            ))}
           </div>
         </div>
-        {
-          extra
-        }
+        {extra}
         <div className="ref mb32">
           <span className="title bold-500">{i18n.t('org:reference detail')}</span>
-          <Table columns={refTableList} dataSource={addonDetail.referenceInfos} pagination={false} rowKey="applicationName" />
+          <Table
+            columns={refTableList}
+            dataSource={addonDetail.referenceInfos}
+            pagination={false}
+            rowKey="applicationName"
+          />
         </div>
         <div className="config">
           <div className="flex-box">
             <span className="title bold-500">{i18n.t('org:basic parameters')}</span>
-            {!isEmpty(addonDetail.config) && <span className="copy-all pointer for-copy">{i18n.t('org:copy all')}<Copy selector=".for-copy" opts={{ text: () => jsonStr }} /></span>}
+            {!isEmpty(addonDetail.config) && (
+              <span className="copy-all pointer for-copy">
+                {i18n.t('org:copy all')}
+                <Copy selector=".for-copy" opts={{ text: () => jsonStr }} />
+              </span>
+            )}
           </div>
-          {
-            map(addonDetail.config, (v, k) => (
-              <div key={k}>
-                <div className="param-k nowrap">{k}</div>
-                <IF check={v}>
-                  <div className="param-v nowrap">{v}</div>
-                  <IF.ELSE />
-                  <div className="param-v nowrap">***</div>
-                </IF>
-              </div>))
-          }
+          {map(addonDetail.config, (v, k) => (
+            <div key={k}>
+              <div className="param-k nowrap">{k}</div>
+              <IF check={v}>
+                <div className="param-v nowrap">{v}</div>
+                <IF.ELSE />
+                <div className="param-v nowrap">***</div>
+              </IF>
+            </div>
+          ))}
         </div>
       </div>
     </Spin>

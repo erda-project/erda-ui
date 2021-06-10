@@ -19,7 +19,7 @@ import monitorCommonStore from 'common/stores/monitorCommon';
 import { useEffectOnce } from 'react-use';
 import i18n from 'i18n';
 
-interface IProps{
+interface IProps {
   type: string;
   api: string;
   query: object;

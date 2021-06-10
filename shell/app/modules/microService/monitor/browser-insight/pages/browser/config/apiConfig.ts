@@ -16,11 +16,23 @@ import { sortHandler, multipleDataHandler, groupHandler } from 'common/utils/cha
 const commonQuery = {};
 export const ApiMap = {
   sortList: {
-    getFetchObj: ({ sortTab }: {sortTab: string}) => {
+    getFetchObj: ({ sortTab }: { sortTab: string }) => {
       const fetchMap = {
-        time: { fetchApi: 'ta_top_avg_time', query: { group: 'browser', limit: 20, sort: 'avg_plt', avg: 'plt' }, dataKey: 'avg.plt' },
-        percent: { fetchApi: 'ta_top_percent_time', query: { group: 'browser', limit: 20, sort: 'sumPercent_plt', sumPercent: 'plt' }, dataKey: 'sumPercent.plt' },
-        cpm: { fetchApi: 'ta_top_cpm', query: { group: 'browser', limit: 20, sort: 'cpm_plt', cpm: 'plt' }, dataKey: 'cpm.plt' },
+        time: {
+          fetchApi: 'ta_top_avg_time',
+          query: { group: 'browser', limit: 20, sort: 'avg_plt', avg: 'plt' },
+          dataKey: 'avg.plt',
+        },
+        percent: {
+          fetchApi: 'ta_top_percent_time',
+          query: { group: 'browser', limit: 20, sort: 'sumPercent_plt', sumPercent: 'plt' },
+          dataKey: 'sumPercent.plt',
+        },
+        cpm: {
+          fetchApi: 'ta_top_cpm',
+          query: { group: 'browser', limit: 20, sort: 'cpm_plt', cpm: 'plt' },
+          dataKey: 'cpm.plt',
+        },
       };
       const { query = {}, fetchApi = '', dataKey = '' } = fetchMap[sortTab] || {};
       return { fetchApi, extendQuery: { ...query }, extendHandler: { dataKey } };

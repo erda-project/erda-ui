@@ -35,41 +35,44 @@ const BatchProcessing = ({ afterDelete }: IProps) => {
   const { planUserCaseBatch, deleteRelations, exportFiles } = testPlanStore.effects;
   const checked = isAll || !!size(primaryKeys);
   const afterDeleteRef = React.useRef(afterDelete);
-  const onClick = useCallback(({ key }: any) => {
-    if ((key !== 'excel') && (!caseTotal || !checked)) {
-      message.error(i18n.t('project:after the use case is selected, the batch operation can be performed'));
-      return;
-    }
-    let selectProjectId;
-    let searchQuery = {};
-    switch (key) {
-      case 'delete':
-        Modal.confirm({
-          title: i18n.t('project:remove'),
-          content: i18n.t('project:plan-remove-case-confirmj'),
-          onOk: () => deleteRelations({ type: 'multi', relationIDs: [] }).then(afterDeleteRef.current),
-        });
-        break;
-      case 'actor':
-        setVisible(true);
-        break;
-      case 'remark':
-        openRemarkModal({ type: 'multi', remark: '' });
-        break;
-      case 'excel':
-        selectProjectId = params.projectId;
-        searchQuery = omit(formatQuery(query), ['selectProjectId', 'testPlanId', 'testSetId', 'eventKey']);
+  const onClick = useCallback(
+    ({ key }: any) => {
+      if (key !== 'excel' && (!caseTotal || !checked)) {
+        message.error(i18n.t('project:after the use case is selected, the batch operation can be performed'));
+        return;
+      }
+      let selectProjectId;
+      let searchQuery = {};
+      switch (key) {
+        case 'delete':
+          Modal.confirm({
+            title: i18n.t('project:remove'),
+            content: i18n.t('project:plan-remove-case-confirmj'),
+            onOk: () => deleteRelations({ type: 'multi', relationIDs: [] }).then(afterDeleteRef.current),
+          });
+          break;
+        case 'actor':
+          setVisible(true);
+          break;
+        case 'remark':
+          openRemarkModal({ type: 'multi', remark: '' });
+          break;
+        case 'excel':
+          selectProjectId = params.projectId;
+          searchQuery = omit(formatQuery(query), ['selectProjectId', 'testPlanId', 'testSetId', 'eventKey']);
 
-        // eslint-disable-next-line no-case-declarations
-        let queryParam = qs.stringify(omitBy({ selectProjectId, ...params }, isNull), { arrayFormat: 'none' });
-        queryParam += qs.stringify(searchQuery, { arrayFormat: 'none' });
-        queryParam += `&${qs.stringify({ relationID: primaryKeys }, { arrayFormat: 'none' })}`;
-        exportFiles(`${queryParam}&fileType=excel`);
-        break;
-      default:
-        break;
-    }
-  }, [caseTotal, checked, deleteRelations, exportFiles, openRemarkModal, params, query, primaryKeys]);
+          // eslint-disable-next-line no-case-declarations
+          let queryParam = qs.stringify(omitBy({ selectProjectId, ...params }, isNull), { arrayFormat: 'none' });
+          queryParam += qs.stringify(searchQuery, { arrayFormat: 'none' });
+          queryParam += `&${qs.stringify({ relationID: primaryKeys }, { arrayFormat: 'none' })}`;
+          exportFiles(`${queryParam}&fileType=excel`);
+          break;
+        default:
+          break;
+      }
+    },
+    [caseTotal, checked, deleteRelations, exportFiles, openRemarkModal, params, query, primaryKeys],
+  );
 
   const menus = useMemo(() => {
     return (
@@ -84,9 +87,7 @@ const BatchProcessing = ({ afterDelete }: IProps) => {
           <span>添加备注</span>
         </Menu.Item> */}
         <Menu.Item key="excel">
-          <span>
-            {i18n.t('project:export Excel')}
-          </span>
+          <span>{i18n.t('project:export Excel')}</span>
         </Menu.Item>
       </Menu>
     );

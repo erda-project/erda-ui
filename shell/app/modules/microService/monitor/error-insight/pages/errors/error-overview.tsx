@@ -62,7 +62,8 @@ const ErrorOverview = () => {
 
   const getList = (_q?: any) => {
     const q = { timeSpan, workspace, ..._q };
-    if (q.workspace) { // 只有分支环境参数，才查询list
+    if (q.workspace) {
+      // 只有分支环境参数，才查询list
       const { startTimeMs, endTimeMs } = timeSpan;
       const totalQuery = { startTime: startTimeMs, endTime: endTimeMs, workspace };
       return getErrorsList(totalQuery);
@@ -71,26 +72,25 @@ const ErrorOverview = () => {
 
   const { list, offset, total } = errors;
   const isFetchingErrors = loading;
-  const hasMore = (Number(offset) !== -1);
+  const hasMore = Number(offset) !== -1;
   // 当env为空时，不可查询
   // shell/app/modules/microService/monitor/monitor-common/components/chartFactory.tsx
   // 临时处理：上面引用的 chartFactory 有个循环渲染的 bug， 受影响的目前只有这一处：
-  const query = { query: { filter_workspace: workspace, filter_project_id: projectId, filter_terminus_key: terminusKey } };
+  const query = {
+    query: { filter_workspace: workspace, filter_project_id: projectId, filter_terminus_key: terminusKey },
+  };
   return (
     <div className="error-overview">
       <ErrorFilters />
       <ErrorChart {...query} />
       <div className="page-total">{`${i18n.t('microService:total number of errors')}：${total}`}</div>
-      {map(list, (err, i) => <ErrorCard key={i} data={err} />)}
+      {map(list, (err, i) => (
+        <ErrorCard key={i} data={err} />
+      ))}
       <LoadMore load={getList} hasMore={hasMore} isLoading={isFetchingErrors} />
-      {
-        !hasMore && list.length > 0
-          ?
-            <div className="no-more">
-              ---------  {i18n.t('microService:no more data')}  ----------
-            </div>
-          : null
-        }
+      {!hasMore && list.length > 0 ? (
+        <div className="no-more">--------- {i18n.t('microService:no more data')} ----------</div>
+      ) : null}
     </div>
   );
 };

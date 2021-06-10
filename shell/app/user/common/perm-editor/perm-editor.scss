@@ -114,26 +114,26 @@
         margin: 0;
 
         &::after {
-          content: " ";
+          content: ' ';
           color: $primary;
           font-size: 20px;
         }
 
         &.edit-un-checked {
           &::after {
-            content: "\e60c";
+            content: '\e60c';
           }
         }
 
         &.edit-checked {
           &::after {
-            content: "\e785";
+            content: '\e785';
           }
         }
 
         &.readonly-checked {
           &::after {
-            content: "\e87d";
+            content: '\e87d';
           }
         }
       }

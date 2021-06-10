@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 import { useUpdate, MemberSelector, IF } from 'common';
 import { Button, Select, Table, Popconfirm, Title, Tooltip } from 'app/nusi';
 import React from 'react';
@@ -98,13 +97,17 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
       width: 240,
       render: (v: string, record: ISSUE.IssueType) => {
         const { type, id, iterationID: _iterationID } = record;
-        const url = type === ISSUE_TYPE.TICKET ?
-          goTo.resolve.ticketDetail({ projectId, issueId: id })
-          : (
-            _iterationID === -1
-              ? goTo.resolve.backlog({ projectId, issueId: id, issueType: type })
-              : goTo.resolve.issueDetail({ projectId, issueType: type.toLowerCase(), issueId: id, iterationId: _iterationID })
-          );
+        const url =
+          type === ISSUE_TYPE.TICKET
+            ? goTo.resolve.ticketDetail({ projectId, issueId: id })
+            : _iterationID === -1
+            ? goTo.resolve.backlog({ projectId, issueId: id, issueType: type })
+            : goTo.resolve.issueDetail({
+                projectId,
+                issueType: type.toLowerCase(),
+                issueId: id,
+                iterationId: _iterationID,
+              });
         return (
           <Tooltip title={`${v}`}>
             <Link to={url} target="_blank" className="flex-box flex-start  full-width">
@@ -121,7 +124,12 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
       width: 100,
       render: (v: number, record: any) => {
         const currentState = find(record?.issueButton, (item) => item.stateID === v);
-        return currentState ? <div className="v-align">{ISSUE_ICON.state[currentState.stateBelong]}{currentState.stateName}</div> : undefined;
+        return currentState ? (
+          <div className="v-align">
+            {ISSUE_ICON.state[currentState.stateBelong]}
+            {currentState.stateName}
+          </div>
+        ) : undefined;
       },
     },
     {
@@ -137,7 +145,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
         const checkRole = [isCreator(record.creator), isAssignee(record.assignee)];
         const editAuth = getAuth(authObj.edit, checkRole);
         return (
-          <WithAuth pass={editAuth} >
+          <WithAuth pass={editAuth}>
             <MemberSelector
               scopeType="project"
               scopeId={projectId}
@@ -194,55 +202,51 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
   return (
     <div className="issue-relation">
       <div>
-        {
-          issue.type === ISSUE_TYPE.TICKET
-            ? null
-            // (
-            //   <TransformToIssue issue={issue as ISSUE.Ticket} onSaveRelation={addRelation} />
-            // )
-            : (
-              <>
-                <div>
-                  <WithAuth pass={usePerm((s) => s.project.requirement.create.pass)}>
-                    <Button
-                      type={activeButtonType === 'create' ? 'primary' : 'default'}
-                      onClick={() => setActiveButtonType('create')}
-                    >
-                      {i18n.t('project:create and relate to the issue')}
-                    </Button>
-                  </WithAuth>
-                  <WithAuth pass={authObj.edit.pass}>
-                    <Button
-                      type={activeButtonType === 'exist' ? 'primary' : 'default'}
-                      onClick={() => setActiveButtonType('exist')}
-                      className="ml12"
-                    >
-                      {i18n.t('project:relating to existing issues')}
-                    </Button>
-                  </WithAuth>
-                </div>
-                <IF check={activeButtonType === 'create'}>
-                  <AddNewIssue
-                    onSaveRelation={addRelation}
-                    onCancel={() => setActiveButtonType('')}
-                    iterationID={curIterationID}
-                    defaultIssueType={defaultIssueType}
-                  />
-                </IF>
-                <IF check={activeButtonType === 'exist'}>
-                  <AddIssueRelation
-                    editAuth
-                    onSave={addRelation}
-                    onCancel={() => setActiveButtonType('')}
-                    projectId={projectId}
-                    iterationID={curIterationID}
-                    currentIssue={issue}
-                    defaultIssueType={defaultIssueType}
-                  />
-                </IF>
-              </>
-            )
-        }
+        {issue.type === ISSUE_TYPE.TICKET ? null : (
+          // (
+          //   <TransformToIssue issue={issue as ISSUE.Ticket} onSaveRelation={addRelation} />
+          // )
+          <>
+            <div>
+              <WithAuth pass={usePerm((s) => s.project.requirement.create.pass)}>
+                <Button
+                  type={activeButtonType === 'create' ? 'primary' : 'default'}
+                  onClick={() => setActiveButtonType('create')}
+                >
+                  {i18n.t('project:create and relate to the issue')}
+                </Button>
+              </WithAuth>
+              <WithAuth pass={authObj.edit.pass}>
+                <Button
+                  type={activeButtonType === 'exist' ? 'primary' : 'default'}
+                  onClick={() => setActiveButtonType('exist')}
+                  className="ml12"
+                >
+                  {i18n.t('project:relating to existing issues')}
+                </Button>
+              </WithAuth>
+            </div>
+            <IF check={activeButtonType === 'create'}>
+              <AddNewIssue
+                onSaveRelation={addRelation}
+                onCancel={() => setActiveButtonType('')}
+                iterationID={curIterationID}
+                defaultIssueType={defaultIssueType}
+              />
+            </IF>
+            <IF check={activeButtonType === 'exist'}>
+              <AddIssueRelation
+                editAuth
+                onSave={addRelation}
+                onCancel={() => setActiveButtonType('')}
+                projectId={projectId}
+                iterationID={curIterationID}
+                currentIssue={issue}
+                defaultIssueType={defaultIssueType}
+              />
+            </IF>
+          </>
+        )}
       </div>
       <Title level={2} className="my8" title={i18n.t('project:relating to these issues')} />
       <Table
@@ -282,13 +286,16 @@ const initState = {
   chosenIterationID: undefined as undefined | number | 'ALL',
 };
 
-const AddIssueRelation = ({ onSave, editAuth, projectId, iterationID, currentIssue, onCancel, defaultIssueType }: IAddProps) => {
-  const [{
-    chosenIssueType,
-    chosenIterationID,
-    issueList,
-    chosenIssue,
-  }, updater, update] = useUpdate({
+const AddIssueRelation = ({
+  onSave,
+  editAuth,
+  projectId,
+  iterationID,
+  currentIssue,
+  onCancel,
+  defaultIssueType,
+}: IAddProps) => {
+  const [{ chosenIssueType, chosenIterationID, issueList, chosenIssue }, updater, update] = useUpdate({
     ...initState,
     chosenIterationID: 'ALL',
     chosenIssueType: defaultIssueType,
@@ -297,12 +304,18 @@ const AddIssueRelation = ({ onSave, editAuth, projectId, iterationID, currentIss
   const getIssueList = (extra: Obj = {}) => {
     const type = chosenIssueType || extra.type || map(ISSUE_OPTION);
     const validIterationID = chosenIterationID === 'ALL' ? '' : chosenIterationID;
-    getIssuesService({ projectID: +projectId, pageSize: 50, pageNo: 1, iterationID: validIterationID, ...extra, type })
-      .then((res: any) => {
-        if (res.success) {
-          res.data.list && updater.issueList(res.data.list);
-        }
-      });
+    getIssuesService({
+      projectID: +projectId,
+      pageSize: 50,
+      pageNo: 1,
+      iterationID: validIterationID,
+      ...extra,
+      type,
+    }).then((res: any) => {
+      if (res.success) {
+        res.data.list && updater.issueList(res.data.list);
+      }
+    });
   };
 
   const onClose = () => {
@@ -366,8 +379,9 @@ const AddIssueRelation = ({ onSave, editAuth, projectId, iterationID, currentIss
           disabled={!chosenIterationID}
           placeholder={i18n.t('please select {name}', { name: i18n.t('project:issue') })}
         >
-          {
-            map(filter(issueList, (item) => item.id !== currentIssue.id), (issue) => {
+          {map(
+            filter(issueList, (item) => item.id !== currentIssue.id),
+            (issue) => {
               return (
                 <Option key={issue.id} value={issue.id}>
                   <div className="flex-box flex-start">
@@ -376,8 +390,8 @@ const AddIssueRelation = ({ onSave, editAuth, projectId, iterationID, currentIss
                   </div>
                 </Option>
               );
-            })
-          }
+            },
+          )}
         </Select>
 
         <Button
@@ -419,7 +433,8 @@ const AddNewIssue = ({ onSaveRelation, iterationID, onCancel, defaultIssueType }
       onCancel={onCancel}
       defaultIssueType={defaultIssueType}
       onOk={(val: ISSUE.BacklogIssueCreateBody) => {
-        return createIssue({ // 创建事件
+        return createIssue({
+          // 创建事件
           projectID: +projectId,
           iterationID: +iterationID,
           priority: 'LOW',

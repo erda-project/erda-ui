@@ -124,7 +124,7 @@ interface IActions {
   extra?: React.ReactNode;
 }
 
-interface IProps extends IAceEditorProps{
+interface IProps extends IAceEditorProps {
   fileExtension: string;
   editorProps?: object;
   autoHeight?: boolean;
@@ -135,7 +135,17 @@ interface IProps extends IAceEditorProps{
   [prop: string]: any;
 }
 
-export const FileEditor = ({ fileExtension, editorProps, options, autoHeight = false, className, style: editorStyle, value, actions = {}, ...rest }: IProps) => {
+export const FileEditor = ({
+  fileExtension,
+  editorProps,
+  options,
+  autoHeight = false,
+  className,
+  style: editorStyle,
+  value,
+  actions = {},
+  ...rest
+}: IProps) => {
   const _rest = { ...rest };
   const style: any = { width: '100%', lineHeight: '1.8', ...editorStyle };
   let mode = extMap[fileExtension] || fileExtension || 'sh';
@@ -166,11 +176,7 @@ export const FileEditor = ({ fileExtension, editorProps, options, autoHeight = f
   const curActions = compact([
     actions.copy ? (
       <Tooltip title={i18n.t('copy')} key="copy">
-        <CustomIcon
-          type="fz1"
-          className="fz18 hover-active for-copy"
-          data-clipboard-text={value}
-        />
+        <CustomIcon type="fz1" className="fz18 hover-active for-copy" data-clipboard-text={value} />
       </Tooltip>
     ) : null,
     actions.format ? (
@@ -179,19 +185,23 @@ export const FileEditor = ({ fileExtension, editorProps, options, autoHeight = f
           type="sx"
           className="fz18 hover-active"
           onClick={() => {
-            value && isValidJsonStr(value) && rest.onChange && rest.onChange(JSON.stringify(JSON.parse(value), null, 2));
+            value &&
+              isValidJsonStr(value) &&
+              rest.onChange &&
+              rest.onChange(JSON.stringify(JSON.parse(value), null, 2));
           }}
         />
       </Tooltip>
     ) : null,
   ]);
 
-  const ActionComp = (curActions.length || actions.extra) ? (
-    <div className="flex-box file-editor-actions">
-      {curActions}
-      {actions.extra || null}
-    </div>
-  ) : null;
+  const ActionComp =
+    curActions.length || actions.extra ? (
+      <div className="flex-box file-editor-actions">
+        {curActions}
+        {actions.extra || null}
+      </div>
+    ) : null;
 
   if (_rest.readOnly) {
     return value ? (

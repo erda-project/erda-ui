@@ -35,11 +35,12 @@ const siteList = () => {
   );
 };
 
-const useMock = (payload: Record<string, any>) => new Promise((resolve) => {
-  setTimeout(() => {
-    resolve(getMock(payload));
-  }, 100);
-});
+const useMock = (payload: Record<string, any>) =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(getMock(payload));
+    }, 100);
+  });
 
 const getMock = (payload?: Record<string, any>) => {
   // console.clear();
@@ -92,65 +93,67 @@ const mock: CONFIG_PAGE.RenderConfig = {
           ],
         },
         data: {
-          list: [{
-            id: 1,
-            siteName: {
-              renderType: 'linkText',
-              value: 'beijing-001',
-              operations: {
-                click: {
-                  reload: false,
-                  key: 'gotoMachine',
-                  command: {
-                    key: 'goto',
-                    target: 'edgeSiteMachine',
-                    jumpOut: false,
-                    state: { params: { id: 1 }, query: { siteName: 'test', clusterName: 'beijing' } },
-                  },
-                },
-              },
-            },
-            nodeNum: '1/2',
-            relatedCluster: 'terminus-dev',
-            operate: {
-              renderType: 'tableOperation',
-              operations: {
-                update: {
-                  key: 'update',
-                  text: '编辑',
-                  reload: false,
-                  command: {
-                    key: 'set',
-                    target: 'siteFormModal',
-                    state: {
-                      formData: { id: 1, siteName: '站点名', relatedCluster: ['dev'] },
-                      visible: true,
+          list: [
+            {
+              id: 1,
+              siteName: {
+                renderType: 'linkText',
+                value: 'beijing-001',
+                operations: {
+                  click: {
+                    reload: false,
+                    key: 'gotoMachine',
+                    command: {
+                      key: 'goto',
+                      target: 'edgeSiteMachine',
+                      jumpOut: false,
+                      state: { params: { id: 1 }, query: { siteName: 'test', clusterName: 'beijing' } },
                     },
                   },
                 },
-                add: {
-                  key: 'add',
-                  text: '添加节点',
-                  reload: false,
-                  meta: { id: 1 },
-                  command: {
-                    key: 'add',
-                    target: 'siteAddDrawer',
-                    state: { visible: true },
+              },
+              nodeNum: '1/2',
+              relatedCluster: 'terminus-dev',
+              operate: {
+                renderType: 'tableOperation',
+                operations: {
+                  update: {
+                    key: 'update',
+                    text: '编辑',
+                    reload: false,
+                    command: {
+                      key: 'set',
+                      target: 'siteFormModal',
+                      state: {
+                        formData: { id: 1, siteName: '站点名', relatedCluster: ['dev'] },
+                        visible: true,
+                      },
+                    },
                   },
-                },
-                delete: {
-                  key: 'delete',
-                  text: '删除',
-                  confirm: '是否确认删除',
-                  reload: true,
-                  meta: { id: 1 },
-                  disabled: false,
-                  disabledTip: '无法删除',
+                  add: {
+                    key: 'add',
+                    text: '添加节点',
+                    reload: false,
+                    meta: { id: 1 },
+                    command: {
+                      key: 'add',
+                      target: 'siteAddDrawer',
+                      state: { visible: true },
+                    },
+                  },
+                  delete: {
+                    key: 'delete',
+                    text: '删除',
+                    confirm: '是否确认删除',
+                    reload: true,
+                    meta: { id: 1 },
+                    disabled: false,
+                    disabledTip: '无法删除',
+                  },
                 },
               },
             },
-          }],
+          ],
         },
       },
       topHead: { type: 'RowContainer', props: { isTopHead: true } },
@@ -219,7 +222,11 @@ const mock: CONFIG_PAGE.RenderConfig = {
       siteAddButton: {
         type: 'Button',
         operations: {
-          click: { key: 'addSite', reload: false, command: { key: 'set', state: { visible: true }, target: 'siteFormModal' } },
+          click: {
+            key: 'addSite',
+            reload: false,
+            command: { key: 'set', state: { visible: true }, target: 'siteFormModal' },
+          },
         },
         props: {
           text: '新建站点',

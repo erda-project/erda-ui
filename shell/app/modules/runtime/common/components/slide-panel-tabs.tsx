@@ -52,7 +52,6 @@ class PureSlidePanel extends React.Component<IProps, IState> {
     activeKey: undefined,
     defaultActiveKey: '',
     showContent: false,
-
   };
 
   static getDerivedStateFromProps({ withTabs }: IProps, prevState: IState) {
@@ -76,12 +75,20 @@ class PureSlidePanel extends React.Component<IProps, IState> {
       const { contents = [], TopTabRight = null } = withTabs || {};
       const tabBarExtraContent = TopTabRight ? <TopTabRight /> : null;
       sliderContent = (
-        <Tabs defaultActiveKey={activeKey} key={activeKey} onChange={this.onTabChange} animated={false} tabBarExtraContent={tabBarExtraContent}>
-          {
-            map(contents, ({ Comp, props, tab, key }) => {
-              return <TabPane tab={tab} key={key}><Comp {...props} /></TabPane>;
-            })
-          }
+        <Tabs
+          defaultActiveKey={activeKey}
+          key={activeKey}
+          onChange={this.onTabChange}
+          animated={false}
+          tabBarExtraContent={tabBarExtraContent}
+        >
+          {map(contents, ({ Comp, props, tab, key }) => {
+            return (
+              <TabPane tab={tab} key={key}>
+                <Comp {...props} />
+              </TabPane>
+            );
+          })}
         </Tabs>
       );
     } else {
@@ -102,13 +109,7 @@ class PureSlidePanel extends React.Component<IProps, IState> {
         }}
         {...rest}
       >
-        {
-          this.state.showContent ? (
-            <CompSwitcher comps={slidePanelComps}>
-              {sliderContent}
-            </CompSwitcher>
-          ) : null
-        }
+        {this.state.showContent ? <CompSwitcher comps={slidePanelComps}>{sliderContent}</CompSwitcher> : null}
       </Drawer>
     );
   }

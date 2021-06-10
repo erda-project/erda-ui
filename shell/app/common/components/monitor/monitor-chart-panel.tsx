@@ -18,7 +18,7 @@ import { IF, MonitorChart, TimeSelector } from 'common';
 
 import './monitor-chart-panel.scss';
 
-interface IProps{
+interface IProps {
   resourceType: string;
   resourceId: string;
   metrics: any;
@@ -39,33 +39,33 @@ const MonitorChartPanel = (props: IProps) => {
         <TimeSelector defaultTime={defaultTime} />
       </div>
       <div className="monitor-chart-panel">
-        {
-          map(displayMetrics, ({ parameters, name: metricKey, title, metricName, unit, unitType }) => {
-            const chartQuery = {
-              ...commonChartQuery,
-              fetchMetricKey: metricKey,
-            };
-            if (!isEmpty(parameters)) {
-              map(Object.keys(parameters), (key) => {
-                chartQuery[key] = parameters[key];
-              });
-            }
-            return (
-              <div className="monitor-chart-cell spin-full-height" key={metricKey}>
-                <MonitorChart
-                  {...{ resourceType, resourceId }}
-                  title={title || metricName}
-                  metricKey={metricKey}
-                  metricUnitType={unitType}
-                  metricUnit={unit}
-                  chartQuery={chartQuery}
-                />
-              </div>
-            );
-          })
-        }
-        <IF check={(keys(metrics).length > showNumber)}>
-          <div className="show-all" onClick={() => setShowNumber((prevNumber) => prevNumber + 4)}>{i18n.t('load more')}</div>
+        {map(displayMetrics, ({ parameters, name: metricKey, title, metricName, unit, unitType }) => {
+          const chartQuery = {
+            ...commonChartQuery,
+            fetchMetricKey: metricKey,
+          };
+          if (!isEmpty(parameters)) {
+            map(Object.keys(parameters), (key) => {
+              chartQuery[key] = parameters[key];
+            });
+          }
+          return (
+            <div className="monitor-chart-cell spin-full-height" key={metricKey}>
+              <MonitorChart
+                {...{ resourceType, resourceId }}
+                title={title || metricName}
+                metricKey={metricKey}
+                metricUnitType={unitType}
+                metricUnit={unit}
+                chartQuery={chartQuery}
+              />
+            </div>
+          );
+        })}
+        <IF check={keys(metrics).length > showNumber}>
+          <div className="show-all" onClick={() => setShowNumber((prevNumber) => prevNumber + 4)}>
+            {i18n.t('load more')}
+          </div>
         </IF>
       </div>
     </>

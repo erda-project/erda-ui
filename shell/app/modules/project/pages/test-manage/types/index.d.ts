@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 export interface TestsetListDTO {
   // 是否引用项目
   isReference: boolean;
@@ -23,7 +22,6 @@ export interface TestsetListDTO {
   // 项目名称
   projectName: string;
 }
-
 
 export interface TestsetDTO {
   // 后端无注释
@@ -55,7 +53,6 @@ export interface TestsetDTO {
   // 后端无注释
   updatedId: string;
 }
-
 
 export interface UseCaseListDTO {
   // 测试执行人

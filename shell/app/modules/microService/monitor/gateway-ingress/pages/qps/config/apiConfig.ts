@@ -13,7 +13,6 @@
 
 import { groupHandler } from 'common/utils/chart-utils';
 
-
 export const ApiMap = {
   overallQPS: {
     fetchApi: 'gateway_qps/histogram',

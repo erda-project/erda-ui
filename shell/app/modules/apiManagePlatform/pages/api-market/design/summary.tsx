@@ -30,18 +30,13 @@ interface IApiInfo {
 }
 
 const ApiSummary = () => {
-  const [{
-    isErrorName,
-    isErrorVersion,
-  }, updater] = useUpdate({
+  const [{ isErrorName, isErrorVersion }, updater] = useUpdate({
     isErrorName: false,
     isErrorVersion: false,
   });
 
   const formRef = React.useRef<WrappedFormUtils>(null as any);
-  const [openApiDoc, apiLockState] = apiDesignStore.useStore((s) => [
-    s.openApiDoc, s.apiLockState,
-  ]);
+  const [openApiDoc, apiLockState] = apiDesignStore.useStore((s) => [s.openApiDoc, s.apiLockState]);
 
   const { updateOpenApiDoc, updateFormErrorNum } = apiDesignStore;
 
@@ -127,7 +122,7 @@ const ApiSummary = () => {
 
   return (
     <div className="api-summary">
-      <FormBuilder isMultiColumn wrappedComponentRef={formRef} >
+      <FormBuilder isMultiColumn wrappedComponentRef={formRef}>
         <Title level={1} title={i18n.t('project:API Summary')} />
         <Fields fields={basicFields} fid="basicFields" />
       </FormBuilder>

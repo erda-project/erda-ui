@@ -18,7 +18,7 @@ import Echarts from 'charts/components/echarts';
 import { LinearGradient } from 'echarts/lib/util/graphic';
 import i18n from 'i18n';
 
-interface IProps{
+interface IProps {
   [pro: string]: any;
   xAxisData: any[];
   data: any;
@@ -144,13 +144,7 @@ const StatusDetailChart = (props: IProps) => {
     };
     return options;
   };
-  return (
-    <Echarts
-      {...props}
-      hasData={size(data) > 0}
-      option={getOption()}
-    />
-  );
+  return <Echarts {...props} hasData={size(data) > 0} option={getOption()} />;
 };
 
 export default StatusDetailChart;

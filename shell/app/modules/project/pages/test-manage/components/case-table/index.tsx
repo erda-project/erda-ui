@@ -75,10 +75,7 @@ interface IProps {
 const defaultPageNo = 1;
 const defaultPageSize = 15;
 
-const CaseTable = ({
-  query: queryProp, columns, onClickRow, scope,
-  onChange, testPlanId, modalQuery = {},
-}: IProps) => {
+const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, testPlanId, modalQuery = {} }: IProps) => {
   const isModal = scope === 'caseModal';
   const client = layoutStore.useStore((s) => s.client);
   const projectInfo = projectStore.useStore((s) => s.info);
@@ -86,17 +83,29 @@ const CaseTable = ({
   const { updateBreadcrumb } = testSetStore.effects;
   const [loading] = useLoading(testCaseStore, ['getCases']);
   const routeQuery = queryProp || routeInfoStore.useStore((s) => s.query);
-  const [metaFields, pageCaseList, pageCaseTotal, modalCaseList, modalCaseTotal] = testCaseStore.useStore((s) => [s.metaFields, s.caseList, s.caseTotal, s.modalCaseList, s.modalCaseTotal]);
-  const caseList = (isModal ? modalCaseList : pageCaseList);
+  const [metaFields, pageCaseList, pageCaseTotal, modalCaseList, modalCaseTotal] = testCaseStore.useStore((s) => [
+    s.metaFields,
+    s.caseList,
+    s.caseTotal,
+    s.modalCaseList,
+    s.modalCaseTotal,
+  ]);
+  const caseList = isModal ? modalCaseList : pageCaseList;
   const caseTotal = (isModal ? modalCaseTotal : pageCaseTotal) as number;
 
-  const getCases = useCallback((payload: any) => {
-    oldGetCases({ selected: [], ...payload, scope, testPlanId });
-  }, [scope, oldGetCases, testPlanId]);
+  const getCases = useCallback(
+    (payload: any) => {
+      oldGetCases({ selected: [], ...payload, scope, testPlanId });
+    },
+    [scope, oldGetCases, testPlanId],
+  );
 
   // 使用弹框里可能传入的参数覆盖url上的参数
   const query = { ...routeQuery, ...modalQuery };
-  const { dataSource, expandedRowKeys } = useMemo(() => getDataSource(caseList, scope, projectInfo.name), [caseList, projectInfo.name, scope]);
+  const { dataSource, expandedRowKeys } = useMemo(
+    () => getDataSource(caseList, scope, projectInfo.name),
+    [caseList, projectInfo.name, scope],
+  );
 
   useEffect(() => {
     if (query.caseId && onClickRow) {
@@ -115,14 +124,21 @@ const CaseTable = ({
   const hasMount = !!ref.current;
   // 不必去除 react-hooks/exhaustive-deps, 无法识别 clientWidth
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const tableWidth = useMemo(() => get(document.querySelector('.case-table'), ['clientWidth'], 0), [client.width, hasMount]);
+  const tableWidth = useMemo(
+    () => get(document.querySelector('.case-table'), ['clientWidth'], 0),
+    [client.width, hasMount],
+  );
   const tempProps: any = {};
   const className = 'case-table';
   // if (mode !== 'modal') { // 非弹框
-  const configWidth = reduce(columns, (temp, { width }: any) => temp + (isNaN(parseInt(width, 10)) ? 250 : parseInt(width, 10)), 0);
+  const configWidth = reduce(
+    columns,
+    (temp, { width }: any) => temp + (isNaN(parseInt(width, 10)) ? 250 : parseInt(width, 10)),
+    0,
+  );
   // 操作列
   const operationWidth = (columns[columns.length - 1].width || 60) as number;
-  if ((tableWidth + operationWidth) < configWidth) {
+  if (tableWidth + operationWidth < configWidth) {
     tempProps.scroll = { x: configWidth };
   }
   // }
@@ -143,7 +159,7 @@ const CaseTable = ({
     // 初始化表格columns
     const tempColumns = cloneDeep(columns);
     // ID列
-    const idColumn = find(tempColumns, (({ key }: any) => key === 'id'));
+    const idColumn = find(tempColumns, ({ key }: any) => key === 'id');
     if (idColumn) {
       Object.assign(idColumn, {
         dataIndex: 'id',
@@ -162,7 +178,7 @@ const CaseTable = ({
       });
     }
     // 标题列(只针对当前页操作)
-    const nameColumn = find(tempColumns, (({ key }: any) => key === 'name'));
+    const nameColumn = find(tempColumns, ({ key }: any) => key === 'name');
     if (nameColumn) {
       Object.assign(nameColumn, {
         // title: <ChooseTitle mode={mode} />,
@@ -172,7 +188,7 @@ const CaseTable = ({
       });
     }
     // 全选列
-    const checkColumn = find(tempColumns, (({ key }: any) => key === 'checkbox'));
+    const checkColumn = find(tempColumns, ({ key }: any) => key === 'checkbox');
     if (checkColumn) {
       Object.assign(checkColumn, {
         title: <AllCheckBox mode={scope} />,
@@ -187,7 +203,7 @@ const CaseTable = ({
     }
     // 正在排序的列
     if (orderBy) {
-      const sortColumn = find(tempColumns, (({ key }: any) => key === orderBy));
+      const sortColumn = find(tempColumns, ({ key }: any) => key === orderBy);
       if (!sortColumn || !biggerSorterMap[orderRule]) return;
       Object.assign(sortColumn, {
         defaultSortOrder: biggerSorterMap[orderRule],
@@ -203,7 +219,7 @@ const CaseTable = ({
       }
     });
     // 操作列
-    const operationColumn = filter(tempColumns, (({ fixed }: any) => fixed));
+    const operationColumn = filter(tempColumns, ({ fixed }: any) => fixed);
     if (!isEmpty(operationColumn)) {
       forEach(operationColumn, (single: any) => {
         Object.assign(single, {

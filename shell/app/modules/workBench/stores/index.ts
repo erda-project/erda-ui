@@ -12,10 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createFlatStore } from 'app/cube';
-import {
-  getAddons,
-  approves,
-} from '../services/index';
+import { getAddons, approves } from '../services/index';
 import layoutStore from 'layout/stores/layout';
 import addonStore from 'common/stores/addon';
 import permStore from 'user/stores/permission';
@@ -24,7 +21,6 @@ import { getTranslateAddonList } from 'app/locales/utils';
 import { reduce } from 'lodash';
 import { CATEGORY_NAME } from 'addonPlatform/pages/common/configs';
 import { getSideMenu } from '../pages/addons/sidebar-menu';
-
 
 interface IState {
   addonCategory: {
@@ -105,7 +101,13 @@ const workBenchStore = createFlatStore({
     },
     async getDataSourceAddons({ call, getParams, update }, { displayName }: Omit<ADDON.DataSourceAddon, 'projectId'>) {
       const { projectId } = getParams();
-      let addonList = await call(getAddons, { type: 'database_addon', value: projectId, projectId, displayName, workspace: ['TEST', 'DEV'] });
+      let addonList = await call(getAddons, {
+        type: 'database_addon',
+        value: projectId,
+        projectId,
+        displayName,
+        workspace: ['TEST', 'DEV'],
+      });
       update({ addonList });
       addonList = getTranslateAddonList(addonList, 'name');
       return addonList;
@@ -118,11 +120,15 @@ const workBenchStore = createFlatStore({
   reducers: {
     getAddonsSuccess(state, payload) {
       const { addonList, type } = payload;
-      const addonCategory = reduce(addonList, (result, value) => {
-        // eslint-disable-next-line no-param-reassign
-        (result[CATEGORY_NAME[value.category]] || (result[CATEGORY_NAME[value.category]] = [])).push(value);
-        return result;
-      }, {});
+      const addonCategory = reduce(
+        addonList,
+        (result, value) => {
+          // eslint-disable-next-line no-param-reassign
+          (result[CATEGORY_NAME[value.category]] || (result[CATEGORY_NAME[value.category]] = [])).push(value);
+          return result;
+        },
+        {},
+      );
 
       return { ...state, [type]: addonCategory };
     },

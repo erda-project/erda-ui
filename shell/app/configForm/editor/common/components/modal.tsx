@@ -14,7 +14,7 @@
 import * as React from 'react';
 import './modal.scss';
 
-interface IProps{
+interface IProps {
   visible: boolean;
   maskClosable?: boolean;
   onCancel: () => void;
@@ -25,15 +25,7 @@ interface IProps{
 }
 
 export const Modal = (props: IProps) => {
-  const {
-    visible,
-    maskClosable = false,
-    onCancel,
-    onOk,
-    children,
-    title,
-    width = 600,
-  } = props;
+  const { visible, maskClosable = false, onCancel, onOk, children, title, width = 600 } = props;
   const clickMask = () => {
     maskClosable && onCancel();
   };
@@ -48,12 +40,18 @@ export const Modal = (props: IProps) => {
         <div className={'container shallow-shadow'} style={{ width }} onClick={(e) => e.stopPropagation()}>
           <div className="title">
             {title}
-            <span className="close" onClick={onCancel}>x</span>
+            <span className="close" onClick={onCancel}>
+              x
+            </span>
           </div>
           <div className="content">{visible ? children : null}</div>
           <div className="footer">
-            <button className="dice-form-editor-button footer-btn" onClick={onCancel}>取消</button>
-            <button className="dice-form-editor-button footer-btn primary" onClick={clickOk}>确定</button>
+            <button className="dice-form-editor-button footer-btn" onClick={onCancel}>
+              取消
+            </button>
+            <button className="dice-form-editor-button footer-btn primary" onClick={clickOk}>
+              确定
+            </button>
           </div>
         </div>
       </div>

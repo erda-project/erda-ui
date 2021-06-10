@@ -14,24 +14,26 @@
 import agent from 'agent';
 
 export const getLabels = (query: LABEL.ListQuery): IPagingResp<LABEL.Item> => {
-  return agent.get('/api/labels')
+  return agent
+    .get('/api/labels')
     .query({ ...query, pageNo: 1, pageSize: 300 }) // 页面上不分页
     .then((response: any) => response.body);
 };
 
 export const createLabel = (form: LABEL.CreateBody) => {
-  return agent.post('/api/labels')
+  return agent
+    .post('/api/labels')
     .send(form)
     .then((response: any) => response.body);
 };
 
 export const updateLabel = ({ id, ...values }: LABEL.Item) => {
-  return agent.put(`/api/labels/${id}`)
+  return agent
+    .put(`/api/labels/${id}`)
     .send(values)
     .then((response: any) => response.body);
 };
 
 export const deleteLabel = (labelId: number) => {
-  return agent.delete(`/api/labels/${labelId}`)
-    .then((response: any) => response.body);
+  return agent.delete(`/api/labels/${labelId}`).then((response: any) => response.body);
 };

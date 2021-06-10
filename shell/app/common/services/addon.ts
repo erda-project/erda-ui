@@ -14,34 +14,31 @@
 import agent from 'agent';
 
 export const getAddonList = ({ path, orgId }: { path: string; orgId: number }): ADDON.Instance[] => {
-  return agent.get(`/api/${path}/service/addons`) // path: 'orgCenter' | 'workBench'
+  return agent
+    .get(`/api/${path}/service/addons`) // path: 'orgCenter' | 'workBench'
     .query({ orgId })
     .then((response: any) => response.body);
 };
 
-
 export const getAddonDetail = (insId: string): ADDON.Instance => {
-  return agent.get(`/api/addons/${insId}`)
-    .then((response: any) => response.body);
+  return agent.get(`/api/addons/${insId}`).then((response: any) => response.body);
 };
 
 export const getAddonReferences = (insId: string): ADDON.Reference[] => {
-  return agent.get(`/api/addons/${insId}/actions/references`)
-    .then((response: any) => response.body);
+  return agent.get(`/api/addons/${insId}/actions/references`).then((response: any) => response.body);
 };
 
 export const deleteAddonIns = (insId: string) => {
-  return agent.delete(`/api/addons/${insId}`)
-    .then((response: any) => response.body);
+  return agent.delete(`/api/addons/${insId}`).then((response: any) => response.body);
 };
 
 export const getExportAddonSpec = (projectId: string | number): string => {
-  return agent.post(`/api/addon/action/yml-export?project=${projectId}`)
-    .then((response: any) => response.body);
+  return agent.post(`/api/addon/action/yml-export?project=${projectId}`).then((response: any) => response.body);
 };
 
 export const importCustomAddon = ({ projectId, body }: { projectId: string | number; body: Obj }) => {
-  return agent.post(`/api/addon/action/yml-import?project=${projectId}`)
+  return agent
+    .post(`/api/addon/action/yml-import?project=${projectId}`)
     .send(body)
     .then((response: any) => response.body);
 };

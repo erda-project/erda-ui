@@ -61,23 +61,29 @@ const RepoMrTable = ({ type }: IProps) => {
 
   const Holder = ({ children }: any) => (isFetching || mrList.length ? children : <EmptyListHolder />);
 
-  const filterConfig = React.useMemo(() => [{
-    type: MemberSelector,
-    name: 'authorId',
-    customProps: {
-      placeholder: i18n.t('please choose {name}', { name: i18n.t('default:submitter') }),
-      scopeType: 'app',
-    },
-  }, {
-    type: MemberSelector,
-    name: 'assigneeId',
-    customProps: {
-      placeholder: i18n.t('please choose {name}', { name: i18n.t('default:designated person') }),
-      scopeType: 'app',
-    },
-  }], []);
+  const filterConfig = React.useMemo(
+    () => [
+      {
+        type: MemberSelector,
+        name: 'authorId',
+        customProps: {
+          placeholder: i18n.t('please choose {name}', { name: i18n.t('default:submitter') }),
+          scopeType: 'app',
+        },
+      },
+      {
+        type: MemberSelector,
+        name: 'assigneeId',
+        customProps: {
+          placeholder: i18n.t('please choose {name}', { name: i18n.t('default:designated person') }),
+          scopeType: 'app',
+        },
+      },
+    ],
+    [],
+  );
 
-  const handleSubmit = (payload: Omit<REPOSITORY.QueryMrs, 'pageNo'| 'state'>) => {
+  const handleSubmit = (payload: Omit<REPOSITORY.QueryMrs, 'pageNo' | 'state'>) => {
     update(payload);
     getMrList({
       state: type,
@@ -100,61 +106,58 @@ const RepoMrTable = ({ type }: IProps) => {
       <Spin spinning={isFetching}>
         <Holder>
           <ul className="repo-mr-list">
-            {
-              mrList.map((item: any) => {
-                const actorMap = {
-                  open: 'authorId',
-                  closed: 'closeUserId',
-                  merged: 'mergeUserId',
-                };
-                const actionMap = {
-                  open: i18n.t('submit'),
-                  closed: i18n.t('close'),
-                  merged: i18n.t('application:merged'),
-                };
-                const updateKeyMap = {
-                  open: 'createdAt',
-                  closed: 'closeAt',
-                  merged: 'mergeAt',
-                };
-                const curActor = get(userMap, `${item[actorMap[item.state]]}`) || {};
-                const assigneeUser = get(userMap, `${item.assigneeId}`) || {};
-                const authorUser = get(userMap, `${item.authorId}`) || {};
-                return (
-                  <li key={item.id} className="mr-item hover-active-bg" onClick={() => goTo(`./${item.mergeId}`)}>
-                    <div className="title bold">
-                      {item.title}
-                      <span className="fz14 desc ml12 bold-400">{item.sourceBranch} <CustomIcon type="arrow-right" />{item.targetBranch}</span>
-                    </div>
-                    <div className="desc">
-                      {i18n.t('application:assigned user')}：
-                      <Tooltip title={assigneeUser.name}>
-                        {assigneeUser.nick}
+            {mrList.map((item: any) => {
+              const actorMap = {
+                open: 'authorId',
+                closed: 'closeUserId',
+                merged: 'mergeUserId',
+              };
+              const actionMap = {
+                open: i18n.t('submit'),
+                closed: i18n.t('close'),
+                merged: i18n.t('application:merged'),
+              };
+              const updateKeyMap = {
+                open: 'createdAt',
+                closed: 'closeAt',
+                merged: 'mergeAt',
+              };
+              const curActor = get(userMap, `${item[actorMap[item.state]]}`) || {};
+              const assigneeUser = get(userMap, `${item.assigneeId}`) || {};
+              const authorUser = get(userMap, `${item.authorId}`) || {};
+              return (
+                <li key={item.id} className="mr-item hover-active-bg" onClick={() => goTo(`./${item.mergeId}`)}>
+                  <div className="title bold">
+                    {item.title}
+                    <span className="fz14 desc ml12 bold-400">
+                      {item.sourceBranch} <CustomIcon type="arrow-right" />
+                      {item.targetBranch}
+                    </span>
+                  </div>
+                  <div className="desc">
+                    {i18n.t('application:assigned user')}：
+                    <Tooltip title={assigneeUser.name}>{assigneeUser.nick}</Tooltip>
+                  </div>
+                  <div className="sub-title left-flex-box">
+                    <span className="mr4">#{item.mergeId}</span>
+                    <span className="mr24 left-flex-box">
+                      <Tooltip title={curActor.name}>
+                        <Avatar className="mb4 mr4" showName name={curActor.nick} />
                       </Tooltip>
-                    </div>
-                    <div className="sub-title left-flex-box">
-                      <span className="mr4">
-                        #{item.mergeId}
-                      </span>
-                      <span className="mr24 left-flex-box">
-                        <Tooltip title={curActor.name}>
-                          <Avatar className="mb4 mr4" showName name={curActor.nick} />
-                        </Tooltip>
-                        &nbsp;{actionMap[item.state]}&nbsp;{i18n.t('at')} {fromNow(item[updateKeyMap[item.state]])}
-                      </span>
-                    </div>
-                    <div className="desc left-flex-box">
-                      <span className="mr4">
-                        <Avatar showName name={<Tooltip title={authorUser.name}>{authorUser.nick}</Tooltip>} />
-                      </span>
-                      <span>
-                        {i18n.t('create at')} {fromNow(item.createdAt)}
-                      </span>
-                    </div>
-                  </li>
-                );
-              })
-            }
+                      &nbsp;{actionMap[item.state]}&nbsp;{i18n.t('at')} {fromNow(item[updateKeyMap[item.state]])}
+                    </span>
+                  </div>
+                  <div className="desc left-flex-box">
+                    <span className="mr4">
+                      <Avatar showName name={<Tooltip title={authorUser.name}>{authorUser.nick}</Tooltip>} />
+                    </span>
+                    <span>
+                      {i18n.t('create at')} {fromNow(item.createdAt)}
+                    </span>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </Holder>
       </Spin>
@@ -166,4 +169,3 @@ const RepoMrTable = ({ type }: IProps) => {
 // const RepoMrTableWrapper = RepoMrTable;
 
 export { RepoMrTable };
-

@@ -12,10 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createStore } from 'app/cube';
-import {
-  IPodDetail,
-  getPodDetail,
-} from '../services/pod-detail';
+import { IPodDetail, getPodDetail } from '../services/pod-detail';
 
 interface IState {
   podDetail: IPodDetail;

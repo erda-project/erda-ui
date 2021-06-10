@@ -41,7 +41,20 @@ interface IProps {
 }
 
 export const ImgHolder = (props: IProps) => {
-  const { src, rect, random, size: _size, text: _text, theme: _theme, font = 'PingFang SC', fontweight = 'normal', type, fg, bg, ...otherProps } = props;
+  const {
+    src,
+    rect,
+    random,
+    size: _size,
+    text: _text,
+    theme: _theme,
+    font = 'PingFang SC',
+    fontweight = 'normal',
+    type,
+    fg,
+    bg,
+    ...otherProps
+  } = props;
   const isHolder = React.useRef<boolean>(!src);
   const holder = React.useRef<HTMLElement>();
   const [errorInfo, setErrorInfo] = React.useState({});
@@ -77,7 +90,9 @@ export const ImgHolder = (props: IProps) => {
         theme = 'avatar';
       }
     }
-    const holderParams = compact(map({ random, size, text, theme, fg, bg, font, fontweight }, (v, k) => (v === undefined ? v : `${k}=${v}`))).join('&');
+    const holderParams = compact(
+      map({ random, size, text, theme, fg, bg, font, fontweight }, (v, k) => (v === undefined ? v : `${k}=${v}`)),
+    ).join('&');
     return (
       <img
         alt="holder"
@@ -99,7 +114,7 @@ export const ImgHolder = (props: IProps) => {
   return (
     <img
       alt="holder"
-      src={ossImg(src, { w: Math.round(w * 1.4), h: Math.round(h * 1.4) })}// 加载图片比展示尺寸稍微大一点更清晰
+      src={ossImg(src, { w: Math.round(w * 1.4), h: Math.round(h * 1.4) })} // 加载图片比展示尺寸稍微大一点更清晰
       onError={() => handleErr(src)}
       style={style}
       {...errorInfo}

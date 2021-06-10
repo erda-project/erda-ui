@@ -26,7 +26,7 @@ export const TopErrorPanel = ({ data }: { data: object }) => {
       key: 'name',
       render: (value: string) => (
         <Tooltip title={value}>
-          <Copy copyText={value}>{ value }</Copy>
+          <Copy copyText={value}>{value}</Copy>
         </Tooltip>
       ),
     },
@@ -36,10 +36,5 @@ export const TopErrorPanel = ({ data }: { data: object }) => {
     },
   ];
 
-  return (
-    <Table
-      columns={columns}
-      dataSource={list}
-    />
-  );
+  return <Table columns={columns} dataSource={list} />;
 };

@@ -79,7 +79,17 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
   };
 
   render() {
-    const { branches = [], tags = [], commitId, current, hideTagList = false, disabled = false, children, onChange = noop, className = '' } = this.props;
+    const {
+      branches = [],
+      tags = [],
+      commitId,
+      current,
+      hideTagList = false,
+      disabled = false,
+      children,
+      onChange = noop,
+      className = '',
+    } = this.props;
     const { filterKey, visible, inputKey } = this.state;
 
     if (isEmpty(branches) && isEmpty(tags)) {
@@ -87,66 +97,73 @@ class BranchSelect extends React.PureComponent<IProps, IState> {
     }
 
     if (disabled) {
-      return (
-        <button className="repo-branch-select btn nowrap disabled">
-          {children}
-        </button>
-      );
+      return <button className="repo-branch-select btn nowrap disabled">{children}</button>;
     }
 
     const branchList = branches.filter((b) => b.includes(filterKey));
     const tagList = tags.filter((t) => t.includes(filterKey));
-    const commitList = commitId
-      ? (
-        <React.Fragment>
-          <div className="title">{i18n.t('application:commit')}</div>
-          <ul>
-            <li className="branch-item" onClick={() => onChange(commitId)}>
-              {commitId === current ? <IconCheck /> : null}<span>{commitId}</span>
-            </li>
-          </ul>
-        </React.Fragment>
-      )
-      : null;
+    const commitList = commitId ? (
+      <React.Fragment>
+        <div className="title">{i18n.t('application:commit')}</div>
+        <ul>
+          <li className="branch-item" onClick={() => onChange(commitId)}>
+            {commitId === current ? <IconCheck /> : null}
+            <span>{commitId}</span>
+          </li>
+        </ul>
+      </React.Fragment>
+    ) : null;
 
     const content = (
       <React.Fragment>
-        <Search placeholder={hideTagList ? i18n.t('application:enter branch name to filter') : i18n.t('application:enter branch or tag name to filter')} key={inputKey} autoFocus onBlur={this.handleBlur} value={filterKey} onChange={(e) => this.filter(e.target.value)} />
+        <Search
+          placeholder={
+            hideTagList
+              ? i18n.t('application:enter branch name to filter')
+              : i18n.t('application:enter branch or tag name to filter')
+          }
+          key={inputKey}
+          autoFocus
+          onBlur={this.handleBlur}
+          value={filterKey}
+          onChange={(e) => this.filter(e.target.value)}
+        />
         <div className="list-wrap">
           {commitList}
-          <div className="title">{i18n.t('application:branch')} ({branchList.length})</div>
+          <div className="title">
+            {i18n.t('application:branch')} ({branchList.length})
+          </div>
           <ul>
-            {
-              branchList.map((branch) => (
-                <li className="branch-item" onClick={() => onChange(branch)} key={branch}>
-                  {branch === current ? <IconCheck /> : null}<span>{branch}</span>
-                </li>
-              ))
-            }
+            {branchList.map((branch) => (
+              <li className="branch-item" onClick={() => onChange(branch)} key={branch}>
+                {branch === current ? <IconCheck /> : null}
+                <span>{branch}</span>
+              </li>
+            ))}
           </ul>
-          {
-            hideTagList ? null : (
-              <>
-                <div className="title">{i18n.t('application:tag')} ({tagList.length})</div>
-                <ul>
-                  {
-                    tagList.map((tag) => (
-                      <li className="branch-item" onClick={() => onChange(tag)} key={tag}>
-                        {tag === current ? <IconCheck /> : null} <span>{tag}</span>
-                      </li>
-                    ))
-                  }
-                </ul>
-              </>
-            )
-          }
+          {hideTagList ? null : (
+            <>
+              <div className="title">
+                {i18n.t('application:tag')} ({tagList.length})
+              </div>
+              <ul>
+                {tagList.map((tag) => (
+                  <li className="branch-item" onClick={() => onChange(tag)} key={tag}>
+                    {tag === current ? <IconCheck /> : null} <span>{tag}</span>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
         </div>
       </React.Fragment>
     );
 
     return (
       <Popover
-        title={hideTagList ? i18n.t('application:please choose branch') : i18n.t('application:please choose branch or tag')}
+        title={
+          hideTagList ? i18n.t('application:please choose branch') : i18n.t('application:please choose branch or tag')
+        }
         overlayClassName="branch-select-popover"
         trigger="click"
         placement="bottomLeft"

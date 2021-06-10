@@ -26,7 +26,6 @@ import { createLoadDataFn } from 'dataCenter/common/custom-dashboard/data-loader
 
 const DashBoard = React.memo(PureBoardGrid);
 
-
 enum DashboardType {
   BUG = 'bug',
   WORKING = 'working',
@@ -45,7 +44,7 @@ const getTimeRange = async (projectID: number, iterationId?: number) => {
     const { data = {} } = await getIterationDetail({ id: iterationId, projectID });
     const [start, end] = [getDateMs(data.startedAt), getDateMs(data.finishedAt, true)];
     const todayMs = moment().endOf('d').valueOf();
-    return [start, (todayMs > start && todayMs < end) ? todayMs : end];
+    return [start, todayMs > start && todayMs < end ? todayMs : end];
   } else {
     const { data = {} } = await getProjectInfo(projectID);
     return [getDateMs(data.createdAt), moment().endOf('d').valueOf()];
@@ -67,27 +66,23 @@ export const ProjectDashboard = () => {
         const _layout = map(boardData.viewConfig, (viewItem) => {
           const query = get(viewItem, 'view.api.query') || {};
           const { start, end } = query;
-          const _viewItem = merge(
-            {},
-            viewItem,
-            {
-              view: {
-                api: {
-                  url: isIn('orgCenter') // 在企业下时，使用企业前缀，否则监控权限会报错
-                    ? viewItem.view.api.url.replace('/api/project', '/api/orgCenter')
-                    : viewItem.view.api.url,
-                  query: {
-                    'eq_tags.issue_iterator_id': iterationID,
-                    filter_project_id: projectId,
-                    align: false,
-                    trans: true,
-                    start: startsWith(start, '${') ? timeRange[0] : start,
-                    end: startsWith(end, '${') ? timeRange[1] : end,
-                  },
+          const _viewItem = merge({}, viewItem, {
+            view: {
+              api: {
+                url: isIn('orgCenter') // 在企业下时，使用企业前缀，否则监控权限会报错
+                  ? viewItem.view.api.url.replace('/api/project', '/api/orgCenter')
+                  : viewItem.view.api.url,
+                query: {
+                  'eq_tags.issue_iterator_id': iterationID,
+                  filter_project_id: projectId,
+                  align: false,
+                  trans: true,
+                  start: startsWith(start, '${') ? timeRange[0] : start,
+                  end: startsWith(end, '${') ? timeRange[1] : end,
                 },
               },
             },
-          );
+          });
           const { api, chartType } = _viewItem.view;
           return merge({}, _viewItem, { view: { loadData: createLoadDataFn(api, chartType) } });
         });

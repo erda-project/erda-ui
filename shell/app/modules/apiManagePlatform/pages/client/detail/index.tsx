@@ -29,7 +29,7 @@ import './index.scss';
 const { TabPane } = Tabs;
 const defaultStatue = 'proved';
 
-interface IState{
+interface IState {
   showSecret: boolean;
   SLAVisible: boolean;
   trafficAuditVisible: boolean;
@@ -129,72 +129,111 @@ const ClientDetail = () => {
       paging: unprovedContractPaging,
     },
   };
-  const fields = [{
-    label: i18n.t('client name'),
-    value: get(clientDetail, ['client', 'displayName']) || get(clientDetail, ['client', 'name']),
-  }, {
-    label: i18n.t('client identifier'),
-    value: get(clientDetail, ['client', 'name']),
-  }, {
-    label: i18n.t('description'),
-    value: get(clientDetail, ['client', 'desc']),
-  }, {
-    label: 'ClientID',
-    value: <span className="for-copy" data-clipboard-text={get(clientDetail, ['sk', 'clientID'])}>{get(clientDetail, ['sk', 'clientID'])}</span>,
-  }, {
-    label: 'ClientSecret',
-    value: (
-      <div className="flex-box align-top">
-        {
-          showSecret ? (
-            <span className="for-copy" data-clipboard-text={get(clientDetail, ['sk', 'clientSecret'])}>{get(clientDetail, ['sk', 'clientSecret'])}</span>
-          ) : <span>******</span>
-        }
-        <span className="hover-active ml4" onClick={() => { updater.showSecret(!showSecret); }}>
-          <CustomIcon type={showSecret ? 'openeye' : 'closeeye'} />
+  const fields = [
+    {
+      label: i18n.t('client name'),
+      value: get(clientDetail, ['client', 'displayName']) || get(clientDetail, ['client', 'name']),
+    },
+    {
+      label: i18n.t('client identifier'),
+      value: get(clientDetail, ['client', 'name']),
+    },
+    {
+      label: i18n.t('description'),
+      value: get(clientDetail, ['client', 'desc']),
+    },
+    {
+      label: 'ClientID',
+      value: (
+        <span className="for-copy" data-clipboard-text={get(clientDetail, ['sk', 'clientID'])}>
+          {get(clientDetail, ['sk', 'clientID'])}
         </span>
-      </div>
-    ),
-  }];
+      ),
+    },
+    {
+      label: 'ClientSecret',
+      value: (
+        <div className="flex-box align-top">
+          {showSecret ? (
+            <span className="for-copy" data-clipboard-text={get(clientDetail, ['sk', 'clientSecret'])}>
+              {get(clientDetail, ['sk', 'clientSecret'])}
+            </span>
+          ) : (
+            <span>******</span>
+          )}
+          <span
+            className="hover-active ml4"
+            onClick={() => {
+              updater.showSecret(!showSecret);
+            }}
+          >
+            <CustomIcon type={showSecret ? 'openeye' : 'closeeye'} />
+          </span>
+        </div>
+      ),
+    },
+  ];
   const getColumns = (statue: API_CLIENT.ContractStatue) => {
-    const columns: Array<ColumnProps<API_CLIENT.Contract>> = [{
-      title: i18n.t('API name'),
-      dataIndex: 'assetName',
-      render: (text, record) => {
-        return (
-          <div className="flex-box flex-start">
-            <div className="asset_name"><Ellipsis title={text} /></div>
-            {
-              record.status === 'proved' && (
+    const columns: Array<ColumnProps<API_CLIENT.Contract>> = [
+      {
+        title: i18n.t('API name'),
+        dataIndex: 'assetName',
+        render: (text, record) => {
+          return (
+            <div className="flex-box flex-start">
+              <div className="asset_name">
+                <Ellipsis title={text} />
+              </div>
+              {record.status === 'proved' && (
                 <Tooltip title={i18n.t('traffic audit')}>
-                  <CustomIcon className="ml8 color-primary hover-active bold" type="monitor" onClick={(e) => { e.stopPropagation(); update({ trafficAuditVisible: true, selectRecord: record }); }} />
+                  <CustomIcon
+                    className="ml8 color-primary hover-active bold"
+                    type="monitor"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      update({ trafficAuditVisible: true, selectRecord: record });
+                    }}
+                  />
                 </Tooltip>
-              )
-            }
-          </div>
-        );
+              )}
+            </div>
+          );
+        },
       },
-    }, {
-      title: i18n.t('version'),
-      dataIndex: 'swaggerVersion',
-    }];
+      {
+        title: i18n.t('version'),
+        dataIndex: 'swaggerVersion',
+      },
+    ];
     if (statue === 'proved') {
-      columns.push(...[{
-        title: i18n.t('current SLA'),
-        dataIndex: 'curSLAName',
-      }, {
-        title: i18n.t('request SLA'),
-        dataIndex: 'requestSLAName',
-      }, {
-        title: i18n.t('operation'),
-        width: '150',
-        dataIndex: 'id',
-        render: (_id: number, record: API_CLIENT.Contract) => (
-          <TableActions>
-            <span onClick={() => { handleUpdateSLA(record); }}>{i18n.t('replace SLA')}</span>
-          </TableActions>
-        ),
-      }]);
+      columns.push(
+        ...[
+          {
+            title: i18n.t('current SLA'),
+            dataIndex: 'curSLAName',
+          },
+          {
+            title: i18n.t('request SLA'),
+            dataIndex: 'requestSLAName',
+          },
+          {
+            title: i18n.t('operation'),
+            width: '150',
+            dataIndex: 'id',
+            render: (_id: number, record: API_CLIENT.Contract) => (
+              <TableActions>
+                <span
+                  onClick={() => {
+                    handleUpdateSLA(record);
+                  }}
+                >
+                  {i18n.t('replace SLA')}
+                </span>
+              </TableActions>
+            ),
+          },
+        ],
+      );
     }
     return columns;
   };
@@ -213,7 +252,9 @@ const ClientDetail = () => {
         <div className="title fz16 color-text bold-500">{i18n.t('authorized API')}</div>
         <Tabs
           defaultActiveKey="proved"
-          onChange={(v: string) => { handleChangeTab(v as API_CLIENT.ContractStatue); }}
+          onChange={(v: string) => {
+            handleChangeTab(v as API_CLIENT.ContractStatue);
+          }}
         >
           {map(contractStatueMap, ({ name, value }) => (
             <TabPane key={value} tab={name}>
@@ -223,7 +264,9 @@ const ClientDetail = () => {
                 columns={getColumns(value)}
                 dataSource={dataMap[value].list}
                 pagination={dataMap[value].paging}
-                onChange={(pagination) => { handleChangeTable(value, pagination); }}
+                onChange={(pagination) => {
+                  handleChangeTable(value, pagination);
+                }}
               />
             </TabPane>
           ))}
@@ -244,7 +287,9 @@ const ClientDetail = () => {
       />
       <TrafficAuditDrawer
         visible={trafficAuditVisible}
-        onClose={() => { updater.trafficAuditVisible(false); }}
+        onClose={() => {
+          updater.trafficAuditVisible(false);
+        }}
         queries={{
           workspace: selectRecord.workspace?.toLowerCase(),
           endpoint: selectRecord.endpointName,

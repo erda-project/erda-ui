@@ -16,33 +16,34 @@ import i18n from 'i18n';
 import './index.scss';
 
 const noop = (a: any) => a;
-const FormInput = ({
-  fixOut = noop,
-  fixIn = noop,
-  extensionFix,
-  requiredCheck,
-  trigger = 'onChange',
-}: any) => React.memo(({ fieldConfig, form }: any) => {
-  const { key, value, label, registerRequiredCheck = noop, componentProps, requiredCheck: _requiredCheck } =
-      fieldConfig || {};
-  registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (e) => {
-    form.setFieldValue(key, fixOut(e.target.value));
-    (componentProps.onChange || noop)(e);
-  };
-  return (
-    <div className="dice-form-item mb16">
-      <label htmlFor={key}>{label} : </label>
-      <input
-        id={key}
-        {...componentProps}
-        className={`${componentProps.className || ''} dice-form-input`}
-        value={fixIn(value)}
-        onChange={handleChange}
-      />
-    </div>
-  );
-});
+const FormInput = ({ fixOut = noop, fixIn = noop, extensionFix, requiredCheck, trigger = 'onChange' }: any) =>
+  React.memo(({ fieldConfig, form }: any) => {
+    const {
+      key,
+      value,
+      label,
+      registerRequiredCheck = noop,
+      componentProps,
+      requiredCheck: _requiredCheck,
+    } = fieldConfig || {};
+    registerRequiredCheck(_requiredCheck || requiredCheck);
+    const handleChange = (e) => {
+      form.setFieldValue(key, fixOut(e.target.value));
+      (componentProps.onChange || noop)(e);
+    };
+    return (
+      <div className="dice-form-item mb16">
+        <label htmlFor={key}>{label} : </label>
+        <input
+          id={key}
+          {...componentProps}
+          className={`${componentProps.className || ''} dice-form-input`}
+          value={fixIn(value)}
+          onChange={handleChange}
+        />
+      </div>
+    );
+  });
 
 export const config = {
   name: 'input',

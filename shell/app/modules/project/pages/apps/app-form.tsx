@@ -49,12 +49,12 @@ const CreationForm = () => {
   React.useEffect(() => {
     if (mode === appMode.MOBILE && template.length === 1) {
       appStore.effects.queryTemplate({ mode }).then((res) => {
-        const temps = res.map(((item: string) => {
+        const temps = res.map((item: string) => {
           return {
             name: item,
             value: item,
           };
-        }));
+        });
         temps.unshift();
         setTemplate([...template, ...temps] || []);
       });
@@ -79,20 +79,26 @@ const CreationForm = () => {
       if (isExternalRepo) {
         // V_3.16: 所有的外部仓库统一作为general处理，下一版本会细化
         payload.repoConfig = {
-          ...repoConfig as APPLICATION.GitRepoConfig,
+          ...(repoConfig as APPLICATION.GitRepoConfig),
           // type: 'general',
         };
       }
-      appStore.effects.createApp(payload)
-        .then(({ id: applicationID }) => {
-          if (mode === appMode.MOBILE && tempSelected !== '-1') {
-            appStore.effects.initApp({ mobileDisplayName, bundleID, packageName, applicationID, mobileAppName: rest.name }).then((pipelineID) => {
-              goTo(goTo.pages.pipeline, { projectId: params.projectId, appId: applicationID, pipelineID, replace: true });
+      appStore.effects.createApp(payload).then(({ id: applicationID }) => {
+        if (mode === appMode.MOBILE && tempSelected !== '-1') {
+          appStore.effects
+            .initApp({ mobileDisplayName, bundleID, packageName, applicationID, mobileAppName: rest.name })
+            .then((pipelineID) => {
+              goTo(goTo.pages.pipeline, {
+                projectId: params.projectId,
+                appId: applicationID,
+                pipelineID,
+                replace: true,
+              });
             });
-          } else {
-            goTo('..');
-          }
-        });
+        } else {
+          goTo('..');
+        }
+      });
     });
   };
 
@@ -149,13 +155,16 @@ const CreationForm = () => {
       type: 'switch',
       required: true,
       initialValue: false,
-      options: [{
-        name: i18n.t('common:yes'),
-        value: true,
-      }, {
-        name: i18n.t('common:no'),
-        value: false,
-      }],
+      options: [
+        {
+          name: i18n.t('common:yes'),
+          value: true,
+        },
+        {
+          name: i18n.t('common:no'),
+          value: false,
+        },
+      ],
     },
     {
       label: i18n.t('project:application name'),
@@ -166,7 +175,8 @@ const CreationForm = () => {
       },
       rules: [
         {
-          pattern: /^[a-z0-9]+(-[a-z0-9]+)*$/, message: i18n.t('project-app-name-tip'),
+          pattern: /^[a-z0-9]+(-[a-z0-9]+)*$/,
+          message: i18n.t('project-app-name-tip'),
         },
         {
           validator: (_rule: any, value: any, callback: (message?: string) => void) => {
@@ -183,57 +193,66 @@ const CreationForm = () => {
     //   label: i18n.t('{name} identify', { name: i18n.t('application') }),
     //   name: 'displayName',
     // },
-    ...(mode === appMode.MOBILE ? [{
-      // 暮志说后面有多个模板时，前端可能要做个判断，不同的模板参数会不一样，目前模板列表其实也是一个静态数据，选择的模板不用提交
-      label: i18n.t('microService:template'),
-      name: 'template',
-      type: 'select',
-      required: false,
-      initialValue: '-1',
-      options: map(template, (item) => item),
-      itemProps: {
-        placeholder: i18n.t('application:please choose'),
-        onChange: (v) => {
-          const { form } = formRef.current.props;
-          // 选择模板后，只能使用内置仓库
-          if (v !== '-1') {
-            collectionRepoTemp(repoType);
-            form.setFieldsValue({ 'repoConfig.type': RepositoryMode.Internal });
-            setRepoType(RepositoryMode.Internal);
-          }
-          setTempSelected(v);
-        },
-      },
-    },
-    ...(tempSelected !== '-1' ? [{
-      label: i18n.t('project:show name'),
-      name: 'mobileDisplayName',
-      type: 'input',
-      pattern: /^[\u4e00-\u9fa5_a-zA-Z0-9]+$/,
-      itemProps: {
-        placeholder: i18n.t('project:chinese, letters, numbers'),
-        maxLength: 30,
-      },
-    }, {
-      label: 'Bundle Id',
-      name: 'bundleID',
-      type: 'input',
-      pattern: /^[a-zA-Z][0-9a-zA-Z]*(\.[a-zA-Z][0-9a-zA-Z]*)+$/,
-      itemProps: {
-        placeholder: `${i18n.t('such as')}：io.terminus.*`,
-        maxLength: 100,
-      },
-    }, {
-      label: `${i18n.t('project:package name')}`,
-      name: 'packageName',
-      type: 'input',
-      pattern: /^[a-zA-Z][0-9a-zA-Z_]*(\.[a-zA-Z][0-9a-zA-Z_]*)+$/,
-      itemProps: {
-        placeholder: `${i18n.t('such as')}：io.terminus.*`,
-        maxLength: 100,
-      },
-    }] : []),
-    ] : []),
+    ...(mode === appMode.MOBILE
+      ? [
+          {
+            // 暮志说后面有多个模板时，前端可能要做个判断，不同的模板参数会不一样，目前模板列表其实也是一个静态数据，选择的模板不用提交
+            label: i18n.t('microService:template'),
+            name: 'template',
+            type: 'select',
+            required: false,
+            initialValue: '-1',
+            options: map(template, (item) => item),
+            itemProps: {
+              placeholder: i18n.t('application:please choose'),
+              onChange: (v) => {
+                const { form } = formRef.current.props;
+                // 选择模板后，只能使用内置仓库
+                if (v !== '-1') {
+                  collectionRepoTemp(repoType);
+                  form.setFieldsValue({ 'repoConfig.type': RepositoryMode.Internal });
+                  setRepoType(RepositoryMode.Internal);
+                }
+                setTempSelected(v);
+              },
+            },
+          },
+          ...(tempSelected !== '-1'
+            ? [
+                {
+                  label: i18n.t('project:show name'),
+                  name: 'mobileDisplayName',
+                  type: 'input',
+                  pattern: /^[\u4e00-\u9fa5_a-zA-Z0-9]+$/,
+                  itemProps: {
+                    placeholder: i18n.t('project:chinese, letters, numbers'),
+                    maxLength: 30,
+                  },
+                },
+                {
+                  label: 'Bundle Id',
+                  name: 'bundleID',
+                  type: 'input',
+                  pattern: /^[a-zA-Z][0-9a-zA-Z]*(\.[a-zA-Z][0-9a-zA-Z]*)+$/,
+                  itemProps: {
+                    placeholder: `${i18n.t('such as')}：io.terminus.*`,
+                    maxLength: 100,
+                  },
+                },
+                {
+                  label: `${i18n.t('project:package name')}`,
+                  name: 'packageName',
+                  type: 'input',
+                  pattern: /^[a-zA-Z][0-9a-zA-Z_]*(\.[a-zA-Z][0-9a-zA-Z_]*)+$/,
+                  itemProps: {
+                    placeholder: `${i18n.t('such as')}：io.terminus.*`,
+                    maxLength: 100,
+                  },
+                },
+              ]
+            : []),
+        ]
+      : []),
     {
       label: i18n.t('project:application description'),
       name: 'desc',
@@ -245,9 +264,7 @@ const CreationForm = () => {
       label: i18n.t('project:app logo'),
       name: 'logo',
       required: false,
-      getComp: ({ form }: { form: WrappedFormUtils }) => (
-        <ImageUpload id="logo" form={form} showHint />
-      ),
+      getComp: ({ form }: { form: WrappedFormUtils }) => <ImageUpload id="logo" form={form} showHint />,
     },
     {
       label: '',
@@ -259,7 +276,10 @@ const CreationForm = () => {
       name: 'repoConfig.type',
       type: 'select',
       initialValue: RepositoryMode.Internal,
-      options: map(filter(repositoriesTypes, ((v) => v.usable)), ({ name, value }) => ({ name, value })),
+      options: map(
+        filter(repositoriesTypes, (v) => v.usable),
+        ({ name, value }) => ({ name, value }),
+      ),
       itemProps: {
         disabled: mode === appMode.MOBILE && tempSelected !== '-1',
         onChange: (v) => {
@@ -271,49 +291,51 @@ const CreationForm = () => {
     ...(repoType === RepositoryMode.Internal || (mode === appMode.MOBILE && tempSelected !== '-1')
       ? []
       : [
-        {
-          label: '',
-          getComp: () => <Alert type="normal" message={repositoriesTypes[repoType].desc} />,
-        },
-        {
-          label: '',
-          getComp: () => <Alert showIcon type="warning" message={i18n.t('application:external-repo-warn')} />,
-        },
-        {
-          label: i18n.t('project:repository address'),
-          name: 'repoConfig.url',
-          rules: [{
-            pattern: /https?:\/\/[-a-zA-Z0-9]{1,256}\.[a-zA-Z0-9]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
-            message: i18n.t('project:please enter valid repository address'),
-          }],
-          itemProps: {
-            placeholder: i18n.t('project:please enter the repository repository starting with http or https'),
+          {
+            label: '',
+            getComp: () => <Alert type="normal" message={repositoriesTypes[repoType].desc} />,
           },
-        },
-        {
-          label: i18n.t('default:user name'),
-          name: 'repoConfig.username',
-          itemProps: {
-            placeholder: i18n.t('default:please enter'),
+          {
+            label: '',
+            getComp: () => <Alert showIcon type="warning" message={i18n.t('application:external-repo-warn')} />,
           },
-        },
-        {
-          label: i18n.t('default:password'),
-          name: 'repoConfig.password',
-          type: 'custom',
-          getComp: () => <Input.Password />,
-          itemProps: {
-            placeholder: i18n.t('default:please enter'),
+          {
+            label: i18n.t('project:repository address'),
+            name: 'repoConfig.url',
+            rules: [
+              {
+                pattern: /https?:\/\/[-a-zA-Z0-9]{1,256}\.[a-zA-Z0-9]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
+                message: i18n.t('project:please enter valid repository address'),
+              },
+            ],
+            itemProps: {
+              placeholder: i18n.t('project:please enter the repository repository starting with http or https'),
+            },
           },
-        },
-        {
-          label: i18n.t('project:repository description'),
-          type: 'textArea',
-          name: 'repoConfig.desc',
-          required: false,
-          itemProps: { rows: 4, maxLength: 50, style: { resize: 'none' } },
-        },
-      ]),
+          {
+            label: i18n.t('default:user name'),
+            name: 'repoConfig.username',
+            itemProps: {
+              placeholder: i18n.t('default:please enter'),
+            },
+          },
+          {
+            label: i18n.t('default:password'),
+            name: 'repoConfig.password',
+            type: 'custom',
+            getComp: () => <Input.Password />,
+            itemProps: {
+              placeholder: i18n.t('default:please enter'),
+            },
+          },
+          {
+            label: i18n.t('project:repository description'),
+            type: 'textArea',
+            name: 'repoConfig.desc',
+            required: false,
+            itemProps: { rows: 4, maxLength: 50, style: { resize: 'none' } },
+          },
+        ]),
     {
       getComp: ({ form }: { form: WrappedFormUtils }) => (
         <div className="mt20">
@@ -328,8 +350,11 @@ const CreationForm = () => {
     },
   ];
 
-  return <Spin spinning={isCraeateApp || isInitApp} className="app-form-spin"><RenderForm wrappedComponentRef={formRef} layout="vertical" list={fieldsList} /></Spin>;
+  return (
+    <Spin spinning={isCraeateApp || isInitApp} className="app-form-spin">
+      <RenderForm wrappedComponentRef={formRef} layout="vertical" list={fieldsList} />
+    </Spin>
+  );
 };
-
 
 export default Form.create()(CreationForm as any);

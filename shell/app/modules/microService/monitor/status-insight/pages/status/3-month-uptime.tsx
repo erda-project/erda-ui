@@ -24,13 +24,18 @@ import './status-detail.scss';
 const resetStatus = (time: number[], status: string[]) => {
   const resStatus = [...status];
   const m3DayLen = moment().daysInMonth(); // 当前月天数
-  const m2DayLen = moment().month(moment().month() - 1).daysInMonth(); // 上个月天数
-  const m1DayLen = moment().month(moment().month() - 2).daysInMonth(); // 上上个月天数
+  const m2DayLen = moment()
+    .month(moment().month() - 1)
+    .daysInMonth(); // 上个月天数
+  const m1DayLen = moment()
+    .month(moment().month() - 2)
+    .daysInMonth(); // 上上个月天数
   if (!isEmpty(time)) {
     const lastTime = time[time.length - 1];
     const momentObj = moment(lastTime);
     const curDate = momentObj.date(); // 当前天
-    if (curDate !== m3DayLen) { // 补足最后一个月的数据
+    if (curDate !== m3DayLen) {
+      // 补足最后一个月的数据
       for (let i = curDate + 1; i <= m3DayLen; i++) {
         resStatus.push('default');
       }
@@ -53,7 +58,6 @@ const ThreeMonthUptime = () => {
   const { getMetricStatus } = monitorStatusStore.effects;
   const { clearMetricStatus } = monitorStatusStore.reducers;
 
-
   useEffectOnce(() => {
     getMetricStatus();
     return () => {
@@ -68,8 +72,14 @@ const ThreeMonthUptime = () => {
   const { time = [], status = [] } = metricStatus;
   const statusArr = resetStatus(time, status);
 
-  const m1Time = moment().month(moment().month() - 2).startOf('month').valueOf();
-  const m2Time = moment().month(moment().month() - 1).startOf('month').valueOf();
+  const m1Time = moment()
+    .month(moment().month() - 2)
+    .startOf('month')
+    .valueOf();
+  const m2Time = moment()
+    .month(moment().month() - 1)
+    .startOf('month')
+    .valueOf();
   const m3Time = moment().valueOf();
   return (
     <Spin spinning={isFetching}>

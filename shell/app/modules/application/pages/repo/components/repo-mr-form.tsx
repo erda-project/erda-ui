@@ -61,7 +61,11 @@ const TplModel = ({ visible, tplContent, templateConfig, onOk, onCancel }: IMode
         },
       ],
       extraProps: {
-        extra: <span>{i18n.t('file save directory')}: <code className="mr-template-save-path">{path}</code></span>,
+        extra: (
+          <span>
+            {i18n.t('file save directory')}: <code className="mr-template-save-path">{path}</code>
+          </span>
+        ),
       },
     },
     {
@@ -231,21 +235,19 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
 
     const menu = (
       <Menu selectedKeys={[`tpl_${tplName}`]}>
-        {
-          tplNames.length ?
-            tplNames.map((name: string) => {
-              return (
-                <Menu.Item key={`tpl_${name}`} onClick={() => this.selectTemplate(name)}>
-                  {name.replace('.md', '')}
-                </Menu.Item>
-              );
-            })
-            : (
-              <Menu.Item key="empty" disabled>
-                {i18n.t('no template')}
+        {tplNames.length ? (
+          tplNames.map((name: string) => {
+            return (
+              <Menu.Item key={`tpl_${name}`} onClick={() => this.selectTemplate(name)}>
+                {name.replace('.md', '')}
               </Menu.Item>
-            )
-        }
+            );
+          })
+        ) : (
+          <Menu.Item key="empty" disabled>
+            {i18n.t('no template')}
+          </Menu.Item>
+        )}
         <Menu.Divider />
         <Menu.Item key="clear" onClick={() => this.handleTplChange({ tplContent: '', tplName: '' })}>
           {i18n.t('clear content')}
@@ -256,10 +258,12 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
         <Menu.Item
           key="reset"
           disabled={!tplName || !tplNames.length}
-          onClick={() => this.handleTplChange({
-            tplName: tplName || this.tplNameCache,
-            tplContent: this.tplMap[tplName || this.tplNameCache],
-          })}
+          onClick={() =>
+            this.handleTplChange({
+              tplName: tplName || this.tplNameCache,
+              tplContent: this.tplMap[tplName || this.tplNameCache],
+            })
+          }
         >
           {i18n.t('recover template')}
         </Menu.Item>
@@ -268,20 +272,35 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
     return (
       <Dropdown overlay={menu}>
         <span className="inline-v-align fz12 mr8 pointer">
-          {tplName ? `${i18n.t('selected template')}:${tplName.replace('.md', '')}` : i18n.t('select template')} <IconDown size="16px" />
+          {tplName ? `${i18n.t('selected template')}:${tplName.replace('.md', '')}` : i18n.t('select template')}{' '}
+          <IconDown size="16px" />
         </span>
       </Dropdown>
     );
   };
 
   getFieldsList = () => {
-    const { info, mrStats, formData, moveToDiff, params: { appId }, sideFold } = this.props;
+    const {
+      info,
+      mrStats,
+      formData,
+      moveToDiff,
+      params: { appId },
+      sideFold,
+    } = this.props;
     const { tplContent } = this.state;
     let disableSubmitTip: string | null = null;
     if (mrStats.hasError) {
       disableSubmitTip = i18n.t('application:merge request has errors');
     }
-    const { sourceBranch, targetBranch, removeSourceBranch = true, title, description, assigneeId } = (formData || {}) as any;
+    const {
+      sourceBranch,
+      targetBranch,
+      removeSourceBranch = true,
+      title,
+      description,
+      assigneeId,
+    } = (formData || {}) as any;
 
     const fieldExtraProps = {
       style: {
@@ -307,19 +326,21 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
             disableSourceBranch={!!formData}
             onChange={this.onBranchChange}
             onCompare={this.onCompare}
-            branches={(info.branches || [])}
+            branches={info.branches || []}
             moveToDiff={moveToDiff}
           />
         ),
-        rules: [{
-          validator: (_rule: any, value: any, callback: Function) => {
-            if (!value || !value.sourceBranch) {
-              callback(i18n.t('application:no comparison branch selected'));
-              return;
-            }
-            callback();
+        rules: [
+          {
+            validator: (_rule: any, value: any, callback: Function) => {
+              if (!value || !value.sourceBranch) {
+                callback(i18n.t('application:no comparison branch selected'));
+                return;
+              }
+              callback();
+            },
           },
-        }],
+        ],
         extraProps: fieldExtraProps,
       },
       {
@@ -358,13 +379,7 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
         name: 'assigneeId',
         initialValue: assigneeId,
         getComp: () => {
-          return (
-            <MemberSelector
-              scopeId={appId}
-              scopeType="app"
-              showSelfChosen
-            />
-          );
+          return <MemberSelector scopeId={appId} scopeType="app" showSelfChosen />;
         },
         extraProps: fieldExtraProps,
       },
@@ -397,24 +412,26 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
     const { templateConfig, getTemplateConfig } = this.props;
     const { tplContent } = this.state;
     const { branch, path } = templateConfig;
-    this.props.commit({
-      message: `Add merge request template: ${values.name}`,
-      branch,
-      actions: [
-        {
-          action: 'add',
-          content: tplContent,
-          path: `${path}/${values.name}.md`,
-          pathType: 'blob',
-        },
-      ],
-    }).then((res: any) => {
-      if (res.success) {
-        message.success(i18n.t('template was created successfully'));
-        this.toggleTplModel(false);
-        getTemplateConfig();
-      }
-    });
+    this.props
+      .commit({
+        message: `Add merge request template: ${values.name}`,
+        branch,
+        actions: [
+          {
+            action: 'add',
+            content: tplContent,
+            path: `${path}/${values.name}.md`,
+            pathType: 'blob',
+          },
+        ],
+      })
+      .then((res: any) => {
+        if (res.success) {
+          message.success(i18n.t('template was created successfully'));
+          this.toggleTplModel(false);
+          getTemplateConfig();
+        }
+      });
   };
 
   handleSubmit = (form: WrappedFormUtils) => {
@@ -463,10 +480,14 @@ class RepoMRForm extends React.PureComponent<IProps, IState> {
           tplContent={tplContent}
           templateConfig={templateConfig}
           onOk={this.createTemplate}
-          onCancel={() => { this.toggleTplModel(false); }}
+          onCancel={() => {
+            this.toggleTplModel(false);
+          }}
         />
         <RenderForm
-          ref={(ref: any) => { this.form = ref; }}
+          ref={(ref: any) => {
+            this.form = ref;
+          }}
           layout="vertical"
           list={this.getFieldsList()}
         />
@@ -479,7 +500,8 @@ const Mapper = () => {
   const [info, mrStats, templateConfig] = repoStore.useStore((s) => [s.info, s.mrStats, s.templateConfig]);
   const params = routeInfoStore.useStore((s) => s.params);
   const sideFold = layoutStore.useStore((s) => s.sideFold);
-  const { getRepoInfo, getRepoBlob, getCompareDetail, getMRStats, createMR, operateMR, getTemplateConfig, commit } = repoStore.effects;
+  const { getRepoInfo, getRepoBlob, getCompareDetail, getMRStats, createMR, operateMR, getTemplateConfig, commit } =
+    repoStore.effects;
   const { clearMRStats } = repoStore.reducers;
   return {
     sideFold,
@@ -500,4 +522,3 @@ const Mapper = () => {
 };
 
 export default connectCube(connectUser(RepoMRForm), Mapper);
-

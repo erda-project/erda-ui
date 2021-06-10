@@ -34,7 +34,7 @@ interface IProps {
   deleteItem: (data: ITERATION.Detail) => void;
 }
 
-const noop = () => { };
+const noop = () => {};
 export const IterationItem = (props: IProps) => {
   const { data } = props;
 
@@ -77,10 +77,9 @@ export const IterationItem = (props: IProps) => {
 
   const getIssues = () => {
     updater.loading(true);
-    getIterationsIssues({ iterationId: data.id, pageNo })
-      .finally(() => {
-        updater.loading(false);
-      });
+    getIterationsIssues({ iterationId: data.id, pageNo }).finally(() => {
+      updater.loading(false);
+    });
   };
 
   const onClickIssue = (val: ISSUE.Issue) => {
@@ -106,11 +105,11 @@ export const IterationItem = (props: IProps) => {
         <div className={'iteration-info full-height'}>
           <CustomIcon type="chevron-down" className={`open-icon ${isOpen ? 'open' : 'close'}`} />
           {ISSUE_ICON.iteration}
-          {
-            data
-              ? <Tooltip title={data.title}><div className="bold nowrap">{data.title}</div></Tooltip>
-              : null
-          }
+          {data ? (
+            <Tooltip title={data.title}>
+              <div className="bold nowrap">{data.title}</div>
+            </Tooltip>
+          ) : null}
         </div>
         <div className="iteration-time-duration full-height ml8 mr8 color-text-sub">
           {`${moment(data.startedAt).format('YYYY/MM/DD')} - ${moment(data.finishedAt).format('YYYY/MM/DD')}`}
@@ -118,38 +117,46 @@ export const IterationItem = (props: IProps) => {
       </div>
       <div className={`backlog-iteration-issues ${isOpen ? '' : 'hide'}`}>
         <Spin spinning={loading}>
-          {
-            isEmpty(list)
-              ? <EmptyHolder relative />
-              : map(list, (item) => (
-                <IssueItem
-                  key={item.id}
-                  data={item}
-                  issueType={BACKLOG_ISSUE_TYPE.iterationIssue}
-                  onDragDelete={getIssues}
-                  onClickIssue={onClickIssue}
-                />
-              ))
-          }
+          {isEmpty(list) ? (
+            <EmptyHolder relative />
+          ) : (
+            map(list, (item) => (
+              <IssueItem
+                key={item.id}
+                data={item}
+                issueType={BACKLOG_ISSUE_TYPE.iterationIssue}
+                onDragDelete={getIssues}
+                onClickIssue={onClickIssue}
+              />
+            ))
+          )}
         </Spin>
         <div>
-          <Pagination className="right-flex-box pt8" simple defaultCurrent={1} total={total} pageSize={20} onChange={(_page: number) => { update({ pageNo: _page }); }} />
+          <Pagination
+            className="right-flex-box pt8"
+            simple
+            defaultCurrent={1}
+            total={total}
+            pageSize={20}
+            onChange={(_page: number) => {
+              update({ pageNo: _page });
+            }}
+          />
         </div>
       </div>
-      {
-        drawerVisible
-          ? (
-            <EditIssueDrawer
-              iterationID={data.id}
-              id={curIssueDetail.id}
-              shareLink={`${location.href.split('?')[0]}?${mergeSearch({ id: curIssueDetail.id, issueType: curIssueDetail.type }, true)}`}
-              issueType={curIssueDetail.type}
-              visible={drawerVisible}
-              closeDrawer={closeDrawer}
-            />
-          )
-          : null
-      }
+      {drawerVisible ? (
+        <EditIssueDrawer
+          iterationID={data.id}
+          id={curIssueDetail.id}
+          shareLink={`${location.href.split('?')[0]}?${mergeSearch(
+            { id: curIssueDetail.id, issueType: curIssueDetail.type },
+            true,
+          )}`}
+          issueType={curIssueDetail.type}
+          visible={drawerVisible}
+          closeDrawer={closeDrawer}
+        />
+      ) : null}
     </div>
   );
 };
@@ -214,8 +221,12 @@ export const IterarionForm = (props: IIterationFormProps) => {
         <Form fields={fields} formRef={formRef} formProps={{ layout: 'inline', className: 'backlog-iteration-form' }} />
       </div>
       <div className="table-operations ml8">
-        <span className="table-operations-btn" onClick={onAdd}>{i18n.t('save')}</span>
-        <span className="table-operations-btn" onClick={onCancel}>{i18n.t('cancel')}</span>
+        <span className="table-operations-btn" onClick={onAdd}>
+          {i18n.t('save')}
+        </span>
+        <span className="table-operations-btn" onClick={onCancel}>
+          {i18n.t('cancel')}
+        </span>
       </div>
     </div>
   );

@@ -29,10 +29,13 @@ interface IProps {
 }
 
 export default ({ epic, onClickItem, reload }: IProps) => {
-  const [{
-    groupedData,
-    // iterationMap,
-  }, updater] = useUpdate({
+  const [
+    {
+      groupedData,
+      // iterationMap,
+    },
+    updater,
+  ] = useUpdate({
     groupedData: epic,
   });
 
@@ -40,25 +43,26 @@ export default ({ epic, onClickItem, reload }: IProps) => {
     updater.groupedData(epic);
   }, [epic, updater]);
 
-
   const filterColData = filter(groupedData, (ele) => {
     return ele.planFinishedAt !== null;
   });
   const sortColData = sortBy(filterColData, (item) => {
     return moment(item.planFinishedAt).valueOf();
   });
-  const groupColData = Object.entries(groupBy(sortColData, (ele) => {
-    return moment(ele.planFinishedAt).format('YYYY-MM');
-  }));
-
+  const groupColData = Object.entries(
+    groupBy(sortColData, (ele) => {
+      return moment(ele.planFinishedAt).format('YYYY-MM');
+    }),
+  );
 
   return (
     <div className="milestone-timeline-container">
       <Timeline>
-        {
-          isEmpty(groupColData) ?
-            <EmptyListHolder /> : groupColData.map((ele) => (<MilestoneGroup reload={reload} ele={ele} onClickItem={onClickItem} key={ele[0]} />))
-        }
+        {isEmpty(groupColData) ? (
+          <EmptyListHolder />
+        ) : (
+          groupColData.map((ele) => <MilestoneGroup reload={reload} ele={ele} onClickItem={onClickItem} key={ele[0]} />)
+        )}
       </Timeline>
     </div>
   );

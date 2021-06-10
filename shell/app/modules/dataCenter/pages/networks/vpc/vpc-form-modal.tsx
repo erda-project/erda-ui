@@ -25,13 +25,13 @@ import { useLoading } from 'app/common/stores/loading';
 import cloudCommonStore from 'app/modules/dataCenter/stores/cloud-common';
 import i18n from 'i18n';
 
-interface IProps{
+interface IProps {
   visible: boolean;
   onCancel: () => void;
   onOk: (arg?: any) => void;
 }
 
-interface IFormProps{
+interface IFormProps {
   visible: boolean;
 }
 
@@ -52,9 +52,7 @@ const VpcForm = React.forwardRef((props: IFormProps, ref: any) => {
     {
       label: i18n.t('name'),
       name: 'vpcName',
-      rules: [
-        formConfig.rule.name,
-      ],
+      rules: [formConfig.rule.name],
       itemProps: {
         maxLength: 128,
       },
@@ -79,9 +77,7 @@ const VpcForm = React.forwardRef((props: IFormProps, ref: any) => {
       },
       name: 'cidrBlock',
       initialValue: formConfig.options.defaultCIDR[0],
-      rules: [
-        { validator: validateIsSubnet(formConfig.options.defaultCIDR) },
-      ],
+      rules: [{ validator: validateIsSubnet(formConfig.options.defaultCIDR) }],
       getComp: () => {
         return <VpcCIDRField onChangeCIDRType={setChosenCIDRType} cidrType={chosenCIDRType} />;
       },
@@ -162,9 +158,14 @@ const VswForm = React.forwardRef((props: IVswFormProps, ref: any) => {
     },
     {
       label: `IPv4 ${i18n.t('dataCenter:CIDR')}`,
-      getComp: ({ form }: {form: WrappedFormUtils}) => {
+      getComp: ({ form }: { form: WrappedFormUtils }) => {
         return (
-          <VswCIDRField formKey="vswCidrBlock" form={form} vpcCidrBlock={vpcCidrBlock} onChangeMask={(mask: number) => updater.subnetCount(getSubnetCount(mask))} />
+          <VswCIDRField
+            formKey="vswCidrBlock"
+            form={form}
+            vpcCidrBlock={vpcCidrBlock}
+            onChangeMask={(mask: number) => updater.subnetCount(getSubnetCount(mask))}
+          />
         );
       },
     },
@@ -229,7 +230,8 @@ const VpcFormModal = (props: IProps) => {
         vswFormRef.validateFieldsAndScroll((vswErr: any, vsw: any) => {
           if (vswErr) return;
           const { vswRegion: region, vswVendor: vendor, vswCidrBlock, vswDescription: description, ...rest } = vsw;
-          addVpc(vpc).then((res) => { // 先保存vpc，获取vpcID后保存vsw
+          addVpc(vpc).then((res) => {
+            // 先保存vpc，获取vpcID后保存vsw
             const vswData = {
               ...rest,
               region,
@@ -251,13 +253,23 @@ const VpcFormModal = (props: IProps) => {
 
   const formFootMap = {
     vpc: [
-      <Button key="back" onClick={onCancel}>{i18n.t('cancel')}</Button>,
-      <Button key="next" type="primary" onClick={() => handleStepChange('vsw')}>{i18n.t('microService:next')}</Button>,
+      <Button key="back" onClick={onCancel}>
+        {i18n.t('cancel')}
+      </Button>,
+      <Button key="next" type="primary" onClick={() => handleStepChange('vsw')}>
+        {i18n.t('microService:next')}
+      </Button>,
     ],
     vsw: [
-      <Button key="back" onClick={onCancel}>{i18n.t('cancel')}</Button>,
-      <Button key="prev" type="primary" onClick={() => handleStepChange('vpc')}>{i18n.t('microService:prev')}</Button>,
-      <Button key="ok" type="primary" loading={addVpcLoading || addVswLoading} onClick={handelSubmit}>{i18n.t('ok')}</Button>,
+      <Button key="back" onClick={onCancel}>
+        {i18n.t('cancel')}
+      </Button>,
+      <Button key="prev" type="primary" onClick={() => handleStepChange('vpc')}>
+        {i18n.t('microService:prev')}
+      </Button>,
+      <Button key="ok" type="primary" loading={addVpcLoading || addVswLoading} onClick={handelSubmit}>
+        {i18n.t('ok')}
+      </Button>,
     ],
   };
   const vpcFormRef = get(vpcRef, 'current.props.form');
@@ -271,7 +283,7 @@ const VpcFormModal = (props: IProps) => {
       footer={formFootMap[stepKey]}
     >
       <VpcForm visible={stepKey === 'vpc'} ref={vpcRef} />
-      <VswForm visible={stepKey === 'vsw'} ref={vswRef} vpc={(vpcFormRef && vpcFormRef.getFieldsValue())} />
+      <VswForm visible={stepKey === 'vsw'} ref={vswRef} vpc={vpcFormRef && vpcFormRef.getFieldsValue()} />
     </Modal>
   );
 };

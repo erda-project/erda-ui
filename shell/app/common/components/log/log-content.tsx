@@ -26,7 +26,7 @@ interface ILogItem {
 
 interface IItemProps {
   log: ILogItem;
-  transformContent?: (content: string) => {content: string; suffix: any};
+  transformContent?: (content: string) => { content: string; suffix: any };
 }
 const DefaultLogItem = ({ log, transformContent }: IItemProps) => {
   const { content, timestamp } = log;
@@ -40,11 +40,7 @@ const DefaultLogItem = ({ log, transformContent }: IItemProps) => {
   return (
     <div className="log-item">
       <span className="log-item-logtime">
-        {
-          moment(`${timestamp}`.length < 13
-            ? timestamp * 1000
-            : timestamp / 1000000).format('YYYY-MM-DD HH:mm:ss')
-        }
+        {moment(`${timestamp}`.length < 13 ? timestamp * 1000 : timestamp / 1000000).format('YYYY-MM-DD HH:mm:ss')}
       </span>
       <pre className="log-item-content" dangerouslySetInnerHTML={{ __html: reContent }} />
       {suffix || null}
@@ -60,9 +56,9 @@ const LogContent = ({ logs, CustomLogItem, ...rest }: IProps) => {
   const ItemRender: Function = CustomLogItem || DefaultLogItem;
   return (
     <div className="log-list-box">
-      {
-        map(logs, (log, i) => <ItemRender key={i} log={log} {...rest} />)
-      }
+      {map(logs, (log, i) => (
+        <ItemRender key={i} log={log} {...rest} />
+      ))}
     </div>
   );
 };

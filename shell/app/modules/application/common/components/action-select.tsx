@@ -28,7 +28,6 @@ interface IProps {
   onChange: (params: any) => void;
 }
 
-
 interface IAddOnProps {
   className?: string | null;
   addon: IStageAction;
@@ -40,10 +39,7 @@ const AddOn = ({ addon, className, onClick, editing }: IAddOnProps) => {
   const { desc, name } = addon;
 
   return (
-    <div
-      onClick={() => (editing && onClick) && onClick(addon)}
-      className={classnames('dice-yml-actions', className)}
-    >
+    <div onClick={() => editing && onClick && onClick(addon)} className={classnames('dice-yml-actions', className)}>
       <CustomIcon type="zujian" className="actions-icon" />
       <span className="actions-info">
         <div className="actions-info-name">{name}</div>
@@ -107,9 +103,7 @@ export default class extends PureComponent<IProps, any> {
     if (selectedItem) {
       content = (
         <React.Fragment>
-          <AddOn
-            addon={selectedItem}
-          />
+          <AddOn addon={selectedItem} />
         </React.Fragment>
       );
     }
@@ -119,7 +113,11 @@ export default class extends PureComponent<IProps, any> {
         <div className="actions-select-label">
           <span className="actions-select-label-required">*</span>
           {label}:
-          {(selectedItem && !disabled) ? <a onClick={this.clear} className="reselect">{i18n.t('application:reselect')}</a> : null}
+          {selectedItem && !disabled ? (
+            <a onClick={this.clear} className="reselect">
+              {i18n.t('application:reselect')}
+            </a>
+          ) : null}
         </div>
         {content}
       </div>
@@ -154,28 +152,24 @@ export default class extends PureComponent<IProps, any> {
       );
     }
 
-    const addonsContent = actions
-      .map((addon: IStageAction) => {
-        let activeClass = null;
-        // @ts-ignore
-        if (selectedItem && selectedItem.name === addon.name) {
-          activeClass = 'actions-selected';
-        }
-        return (
-          <AddOn
-            editing={!disabled}
-            className={activeClass}
-            addon={addon}
-            key={addon.name}
-            onClick={this.selectedAddonAction}
-          />
-        );
-      });
+    const addonsContent = actions.map((addon: IStageAction) => {
+      let activeClass = null;
+      // @ts-ignore
+      if (selectedItem && selectedItem.name === addon.name) {
+        activeClass = 'actions-selected';
+      }
+      return (
+        <AddOn
+          editing={!disabled}
+          className={activeClass}
+          addon={addon}
+          key={addon.name}
+          onClick={this.selectedAddonAction}
+        />
+      );
+    });
     return (
-      <div
-        tabIndex={1}
-        className="actions-list"
-      >
+      <div tabIndex={1} className="actions-list">
         {addonsContent}
       </div>
     );
@@ -193,9 +187,9 @@ export default class extends PureComponent<IProps, any> {
     const { originActions } = this.state;
     this.setState({
       searchValue: e.target.value,
-      actions: originActions
-        .filter((item: IStageAction) => e.target.value === '' ||
-          item.name.toLowerCase().includes(e.target.value)),
+      actions: originActions.filter(
+        (item: IStageAction) => e.target.value === '' || item.name.toLowerCase().includes(e.target.value),
+      ),
     });
   };
 

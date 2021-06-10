@@ -36,7 +36,6 @@ import queryMonitorStore from './stores/query-monitor-metadata';
 import storageStore from './stores/storage';
 import taskStore from './stores/task';
 
-
 export default (registerModule) => {
   return registerModule({
     key: 'dataCenter',

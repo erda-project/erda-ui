@@ -104,7 +104,14 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
 
     let exposeField = getFieldDecorator('expose', {
       initialValue: expose,
-    })(<ListInput disabled={!editing} type="number" label={i18n.t('application:please enter the exposed port')} placeholder={i18n.t('application:exposure port')} />);
+    })(
+      <ListInput
+        disabled={!editing}
+        type="number"
+        label={i18n.t('application:please enter the exposed port')}
+        placeholder={i18n.t('application:exposure port')}
+      />,
+    );
     if (!editing && (!expose || (expose && !expose.length))) {
       exposeField = null;
     }
@@ -128,7 +135,9 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
     })(<ResourceField disabled={!editing} placeholder={i18n.t('application:please select a resource')} />);
     const deploymentsField = getFieldDecorator('deployments', {
       initialValue: deployments,
-    })(<DeploymentsField disabled={!editing} placeholder={i18n.t('application:please select a deployment strategy')} />);
+    })(
+      <DeploymentsField disabled={!editing} placeholder={i18n.t('application:please select a deployment strategy')} />,
+    );
 
     let envsField = getFieldDecorator('envs', {
       initialValue: envs,
@@ -138,7 +147,13 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
           message: i18n.t('application:please enter an environment variable'),
         },
       ],
-    })(<ObjectInput disabled={!editing} label={i18n.t('application:environment variable')} errorMessage={i18n.t('application:environment variables cannot be empty')} />);
+    })(
+      <ObjectInput
+        disabled={!editing}
+        label={i18n.t('application:environment variable')}
+        errorMessage={i18n.t('application:environment variables cannot be empty')}
+      />,
+    );
 
     if (!editing && (!envs || (envs && !Object.keys(envs).length))) {
       envsField = null;
@@ -152,7 +167,14 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
     }
     let bindsField = getFieldDecorator('binds', {
       initialValue: binds,
-    })(<ListInput disabled={!editing} required={false} label={i18n.t('application:mounting')} placeholder={i18n.t('application:please enter the mount directory')} />);
+    })(
+      <ListInput
+        disabled={!editing}
+        required={false}
+        label={i18n.t('application:mounting')}
+        placeholder={i18n.t('application:please enter the mount directory')}
+      />,
+    );
     if (!editing && (!binds || (binds && !binds.length))) {
       bindsField = null;
     }
@@ -180,14 +202,20 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
         <Item>{portsField}</Item>
         <Item label={i18n.t('application:resources')}>{resourceField}</Item>
         <Item label={i18n.t('application:deployment strategy')}>{deploymentsField}</Item>
-        {(healthCheckField || editing) ? <Item label={i18n.t('application:health check')}>{healthCheckField}</Item> : null}
-        {(envsField || editing) ? <Item>{envsField}</Item> : null}
-        {(exposeField || editing) ? <Item>{exposeField}</Item> : null}
-        {(hostsField || editing) ? <Item>{hostsField}</Item> : null}
-        {(bindsField || editing) ? <Item>{bindsField}</Item> : null}
-        {(cmdField || editing) ? <Item label={i18n.t('application:start command')}>{cmdField}</Item> : null}
-        {(imageField || editing) ? <Item label={i18n.t('application:image name')}>{imageField}</Item> : null}
-        {editing ? <Button type="primary" ghost onClick={this.onSubmit}>{i18n.t('application:save')}</Button> : null}
+        {healthCheckField || editing ? (
+          <Item label={i18n.t('application:health check')}>{healthCheckField}</Item>
+        ) : null}
+        {envsField || editing ? <Item>{envsField}</Item> : null}
+        {exposeField || editing ? <Item>{exposeField}</Item> : null}
+        {hostsField || editing ? <Item>{hostsField}</Item> : null}
+        {bindsField || editing ? <Item>{bindsField}</Item> : null}
+        {cmdField || editing ? <Item label={i18n.t('application:start command')}>{cmdField}</Item> : null}
+        {imageField || editing ? <Item label={i18n.t('application:image name')}>{imageField}</Item> : null}
+        {editing ? (
+          <Button type="primary" ghost onClick={this.onSubmit}>
+            {i18n.t('application:save')}
+          </Button>
+        ) : null}
       </Form>
     );
   }
@@ -203,11 +231,14 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
             ports.push(p.protocol ? p : p.port); // 如果没有配协议，就只存端口号
           }
         });
-        onSubmit({
-          ...values,
-          ports,
-          originName,
-        }, jsonContent);
+        onSubmit(
+          {
+            ...values,
+            ports,
+            originName,
+          },
+          jsonContent,
+        );
       }
     });
   };

@@ -44,12 +44,28 @@ const VersionList = (props: IProps) => {
   const { artifacts } = props;
   const { id: artifactsId } = artifacts || {};
   const { getVersionList, setGrayAndPublish, getOnlineVersionData, getH5PackageNames } = publisherStore.effects;
-  const [list, paging, onlineVersionData] = publisherStore.useStore((s) => [s.versionList, s.versionPaging, s.onlineVersionData]);
+  const [list, paging, onlineVersionData] = publisherStore.useStore((s) => [
+    s.versionList,
+    s.versionPaging,
+    s.onlineVersionData,
+  ]);
   const [isFetching] = useLoading(publisherStore, ['getVersionList']);
   const publishOperationAuth = usePerm((s) => s.org.publisher.operation.pass);
   const { mode, publisherItemId } = routeInfoStore.useStore((s) => s.params);
   const isMobile = mode === ArtifactsTypeMap.MOBILE.value;
-  const [{ pageNo, formModalVis, h5packageNames, curPackageName, curMobileType, grayModalVisible, versionGrayData, uploadModalVisible }, updater] = useUpdate({
+  const [
+    {
+      pageNo,
+      formModalVis,
+      h5packageNames,
+      curPackageName,
+      curMobileType,
+      grayModalVisible,
+      versionGrayData,
+      uploadModalVisible,
+    },
+    updater,
+  ] = useUpdate({
     pageNo: 1,
     formModalVis: false,
     h5packageNames: [],
@@ -71,17 +87,20 @@ const VersionList = (props: IProps) => {
     });
   });
 
-  const getList = React.useCallback((q?: Obj) => {
-    getVersionList({
-      pageNo,
-      artifactsId,
-      mobileType,
-      packageName,
-      ...q,
-      pageSize: 15,
-    });
-    getOnlineVersionData({ publishItemId: +publisherItemId, mobileType, packageName });
-  }, [artifactsId, getOnlineVersionData, getVersionList, mobileType, packageName, pageNo, publisherItemId]);
+  const getList = React.useCallback(
+    (q?: Obj) => {
+      getVersionList({
+        pageNo,
+        artifactsId,
+        mobileType,
+        packageName,
+        ...q,
+        pageSize: 15,
+      });
+      getOnlineVersionData({ publishItemId: +publisherItemId, mobileType, packageName });
+    },
+    [artifactsId, getOnlineVersionData, getVersionList, mobileType, packageName, pageNo, publisherItemId],
+  );
 
   React.useEffect(() => {
     getList();
@@ -188,137 +207,189 @@ const VersionList = (props: IProps) => {
         // 由于后端逻辑问题，3.15先移除此按钮，
         // mode === ArtifactsTypeMap.MOBILE.value ? <Button type="primary" className="mt8 mb16" ghost onClick={openFormModal}>{i18n.t('publisher:add version')}</Button> : null
       }
-      {
-        isMobile && (
-          <div className="flex-box">
-            <Radio.Group
-              buttonStyle="solid"
-              className="mb16"
-              onChange={(e) => {
-                updater.curMobileType(e.target.value);
-              }}
-              value={curMobileType}
-            >
-              <Radio.Button value="ios">iOS</Radio.Button>
-              <Radio.Button value="android">Android</Radio.Button>
-              {
-                curPackageName ? (
-                  <Dropdown overlay={(
-                    <Menu onClick={(sel) => {
+      {isMobile && (
+        <div className="flex-box">
+          <Radio.Group
+            buttonStyle="solid"
+            className="mb16"
+            onChange={(e) => {
+              updater.curMobileType(e.target.value);
+            }}
+            value={curMobileType}
+          >
+            <Radio.Button value="ios">iOS</Radio.Button>
+            <Radio.Button value="android">Android</Radio.Button>
+            {curPackageName ? (
+              <Dropdown
+                overlay={
+                  <Menu
+                    onClick={(sel) => {
                       updater.curMobileType('h5');
                       updater.curPackageName(sel.key);
                     }}
-                    >
-                      {
-                          h5packageNames.map((n) => (
-                            <Menu.Item key={n}>
-                              {n}
-                            </Menu.Item>
-                          ))
-                        }
-                    </Menu>
-                    )}
                   >
-                    <Radio.Button value="h5">H5{curPackageName ? `(${curPackageName})` : null} <CustomIcon style={{ lineHeight: 1 }} type="caret-down" /></Radio.Button>
-                  </Dropdown>
-                )
-                  : <Radio.Button value="h5">H5</Radio.Button>
-              }
-            </Radio.Group>
-            <WithAuth pass={publishOperationAuth} disableMode>
-              <Button onClick={() => { updater.uploadModalVisible(true); }}>{i18n.t('upload offline package')}</Button>
-            </WithAuth>
-          </div>
-        )
-      }
+                    {h5packageNames.map((n) => (
+                      <Menu.Item key={n}>{n}</Menu.Item>
+                    ))}
+                  </Menu>
+                }
+              >
+                <Radio.Button value="h5">
+                  H5{curPackageName ? `(${curPackageName})` : null}{' '}
+                  <CustomIcon style={{ lineHeight: 1 }} type="caret-down" />
+                </Radio.Button>
+              </Dropdown>
+            ) : (
+              <Radio.Button value="h5">H5</Radio.Button>
+            )}
+          </Radio.Group>
+          <WithAuth pass={publishOperationAuth} disableMode>
+            <Button
+              onClick={() => {
+                updater.uploadModalVisible(true);
+              }}
+            >
+              {i18n.t('upload offline package')}
+            </Button>
+          </WithAuth>
+        </div>
+      )}
       <Holder when={isEmpty(daySplit) && !isFetching}>
         <Timeline className="version-list">
-          {
-            map(daySplit, (items: [], day) => {
-              return (
-                <TimelineItem key={day}>
-                  <div className="day-split mb16">{day}</div>
-                  <div className="version-day-list">
-                    {
-                      map(items, (record: PUBLISHER.IVersion) => {
-                        const { id, buildId, public: isPublic, version, createdAt, meta, versionStates, targetMobiles, resources } = record;
-                        const { appName, projectName } = meta || {} as PUBLISHER.IMeta;
-                        const _targetMobiles = targetMobiles || { ios: [], android: [] };
-                        const appStoreURL = get(find(resources, ({ type }) => type === 'ios'), 'meta.appStoreURL');
-                        return (
-                          <div key={id} className="version-item">
-                            <div className={`version-number mb12 ${isPublic ? 'on' : 'off'}`}>
-                              <CustomIcon type={isPublic ? 'yuanxingxuanzhongfill' : 'tishi'} />
-                              <span className="number">V{version} ({buildId})</span>
-                              {versionStateRender(record)}
-                            </div>
-                            <div className="version-tips">
-                              <CustomIcon type="xm-2" /><span className="text">{appName}</span>
-                              <CustomIcon type="yy-4" /><span className="text">{projectName}</span>
-                              <CustomIcon type="shijian" /><span className="text">{createdAt ? moment(createdAt).format('HH:mm:ss') : '-'}</span>
-                              {
-                                curMobileType === 'ios' && appStoreURL ? (
-                                  <>
-                                    <CustomIcon type="app" />
-                                    <a className="nowrap app-store-url" target="_blank" rel="noopener noreferrer" href={appStoreURL} >{appStoreURL}</a>
-                                  </>
-                                ) : null
-                              }
-                              {
-                                isH5 && (
-                                  <>
-                                    <Popover
-                                      title={i18n.t('Supported iOS package versions')}
-                                      placement="bottom"
-                                      content={(
-                                        <div>
-                                          {map(_targetMobiles.ios, (n) => (<span className="tag-default mr4 mb4" key={n}>{n}</span>))}
-                                        </div>
-                                      )}
-                                    >
-                                      <span className="text"><IconApple size="16px" /> {_targetMobiles.ios?.length || 0}个版本</span>
-                                    </Popover>
-                                    <Popover
-                                      title={i18n.t('Supported Android package versions')}
-                                      placement="bottom"
-                                      content={(
-                                        <div>
-                                          {map(_targetMobiles.android, (n) => (<span className="tag-default mr4 mb4" key={n}>{n}</span>))}
-                                        </div>
-                                      )}
-                                    >
-                                      <span className="text"><IconAndroid size="16px" /> {_targetMobiles.android?.length || 0}个版本</span>
-                                    </Popover>
-                                  </>
-                                )
-                              }
-                            </div>
-                            <div className="version-op right-flex-box">
-                              <IF check={versionStates === 'beta'}>
-                                <WithAuth pass={publishOperationAuth} >
-                                  <Button className="mr8" onClick={() => { setGray(record); }}>{i18n.t('publisher:set gray release')}</Button>
-                                </WithAuth>
-                              </IF>
-                              <Popconfirm
-                                title={i18n.t('is it confirmed {action}?', { action: isPublic ? i18n.t('publisher:withdraw') : i18n.t('publisher:shelf') })}
-                                onConfirm={() => { openGrayModal(record); }}
+          {map(daySplit, (items: [], day) => {
+            return (
+              <TimelineItem key={day}>
+                <div className="day-split mb16">{day}</div>
+                <div className="version-day-list">
+                  {map(items, (record: PUBLISHER.IVersion) => {
+                    const {
+                      id,
+                      buildId,
+                      public: isPublic,
+                      version,
+                      createdAt,
+                      meta,
+                      versionStates,
+                      targetMobiles,
+                      resources,
+                    } = record;
+                    const { appName, projectName } = meta || ({} as PUBLISHER.IMeta);
+                    const _targetMobiles = targetMobiles || { ios: [], android: [] };
+                    const appStoreURL = get(
+                      find(resources, ({ type }) => type === 'ios'),
+                      'meta.appStoreURL',
+                    );
+                    return (
+                      <div key={id} className="version-item">
+                        <div className={`version-number mb12 ${isPublic ? 'on' : 'off'}`}>
+                          <CustomIcon type={isPublic ? 'yuanxingxuanzhongfill' : 'tishi'} />
+                          <span className="number">
+                            V{version} ({buildId})
+                          </span>
+                          {versionStateRender(record)}
+                        </div>
+                        <div className="version-tips">
+                          <CustomIcon type="xm-2" />
+                          <span className="text">{appName}</span>
+                          <CustomIcon type="yy-4" />
+                          <span className="text">{projectName}</span>
+                          <CustomIcon type="shijian" />
+                          <span className="text">{createdAt ? moment(createdAt).format('HH:mm:ss') : '-'}</span>
+                          {curMobileType === 'ios' && appStoreURL ? (
+                            <>
+                              <CustomIcon type="app" />
+                              <a
+                                className="nowrap app-store-url"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href={appStoreURL}
                               >
-                                <WithAuth pass={publishOperationAuth} >
-                                  <Tooltip title={disableVersionConf(record) ? i18n.t('publisher:tips of gray setting and publish') : undefined}>
-                                    <Button disabled={disableVersionConf(record)}>{isPublic ? i18n.t('publisher:withdraw') : i18n.t('publisher:shelf')}</Button>
-                                  </Tooltip>
-                                </WithAuth>
-                              </Popconfirm>
-                            </div>
-                          </div>
-                        );
-                      })
-                    }
-                  </div>
-                </TimelineItem>
-              );
-            })
-          }
+                                {appStoreURL}
+                              </a>
+                            </>
+                          ) : null}
+                          {isH5 && (
+                            <>
+                              <Popover
+                                title={i18n.t('Supported iOS package versions')}
+                                placement="bottom"
+                                content={
+                                  <div>
+                                    {map(_targetMobiles.ios, (n) => (
+                                      <span className="tag-default mr4 mb4" key={n}>
+                                        {n}
+                                      </span>
+                                    ))}
+                                  </div>
+                                }
+                              >
+                                <span className="text">
+                                  <IconApple size="16px" /> {_targetMobiles.ios?.length || 0}个版本
+                                </span>
+                              </Popover>
+                              <Popover
+                                title={i18n.t('Supported Android package versions')}
+                                placement="bottom"
+                                content={
+                                  <div>
+                                    {map(_targetMobiles.android, (n) => (
+                                      <span className="tag-default mr4 mb4" key={n}>
+                                        {n}
+                                      </span>
+                                    ))}
+                                  </div>
+                                }
+                              >
+                                <span className="text">
+                                  <IconAndroid size="16px" /> {_targetMobiles.android?.length || 0}个版本
+                                </span>
+                              </Popover>
+                            </>
+                          )}
+                        </div>
+                        <div className="version-op right-flex-box">
+                          <IF check={versionStates === 'beta'}>
+                            <WithAuth pass={publishOperationAuth}>
+                              <Button
+                                className="mr8"
+                                onClick={() => {
+                                  setGray(record);
+                                }}
+                              >
+                                {i18n.t('publisher:set gray release')}
+                              </Button>
+                            </WithAuth>
+                          </IF>
+                          <Popconfirm
+                            title={i18n.t('is it confirmed {action}?', {
+                              action: isPublic ? i18n.t('publisher:withdraw') : i18n.t('publisher:shelf'),
+                            })}
+                            onConfirm={() => {
+                              openGrayModal(record);
+                            }}
+                          >
+                            <WithAuth pass={publishOperationAuth}>
+                              <Tooltip
+                                title={
+                                  disableVersionConf(record)
+                                    ? i18n.t('publisher:tips of gray setting and publish')
+                                    : undefined
+                                }
+                              >
+                                <Button disabled={disableVersionConf(record)}>
+                                  {isPublic ? i18n.t('publisher:withdraw') : i18n.t('publisher:shelf')}
+                                </Button>
+                              </Tooltip>
+                            </WithAuth>
+                          </Popconfirm>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </TimelineItem>
+            );
+          })}
         </Timeline>
       </Holder>
       <VersionFormModal
@@ -336,10 +407,12 @@ const VersionList = (props: IProps) => {
       />
       <UploadModal
         visible={uploadModalVisible}
-        onCancel={() => { updater.uploadModalVisible(false); }}
+        onCancel={() => {
+          updater.uploadModalVisible(false);
+        }}
         afterUpload={handleUploadSuccess}
       />
-    </div >
+    </div>
   );
 };
 

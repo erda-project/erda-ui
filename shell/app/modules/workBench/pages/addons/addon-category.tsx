@@ -18,7 +18,6 @@ import workBenchStore from 'workBench/stores';
 import { useLoading } from 'app/common/stores/loading';
 import { useEffectOnce } from 'react-use';
 
-
 const AddonCategory = () => {
   const addonCategory = workBenchStore.useStore((s) => s.addonCategory);
   const [loading] = useLoading(workBenchStore, ['getWorkBenchAddons']);

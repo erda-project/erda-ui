@@ -65,12 +65,16 @@ class ServiceManager extends React.Component {
 
   componentDidMount() {
     this.props.getClusterList().then((list) => {
-      !isEmpty(list) && this.setState({
-        cluster: list[0].name,
-        path: [{ q: list[0].name, name: list[0].name }],
-      }, () => {
-        this.getServiceList();
-      });
+      !isEmpty(list) &&
+        this.setState(
+          {
+            cluster: list[0].name,
+            path: [{ q: list[0].name, name: list[0].name }],
+          },
+          () => {
+            this.getServiceList();
+          },
+        );
     });
   }
 
@@ -98,7 +102,7 @@ class ServiceManager extends React.Component {
 
     if (metrics !== prevProps.metrics) {
       const { cpu = {}, mem = {} } = metrics;
-      cpu.loading === false && mem.loading === false && this.combineMetricsToList(this.formatMetricsToObj(metrics));// 两部分数据都返回后才开始combine数据
+      cpu.loading === false && mem.loading === false && this.combineMetricsToList(this.formatMetricsToObj(metrics)); // 两部分数据都返回后才开始combine数据
     }
 
     if (!serviceReqStatus) {
@@ -164,7 +168,8 @@ class ServiceManager extends React.Component {
 
   combineMetricsToList = (metricsObj) => {
     let { containerList, serviceList } = this.state;
-    if (this.curLevel('container')) { // 当前层级在container上，
+    if (this.curLevel('container')) {
+      // 当前层级在container上，
       containerList = containerList.map((item) => {
         let metrics = null;
         try {
@@ -201,12 +206,15 @@ class ServiceManager extends React.Component {
   };
 
   handleClusterChange = (cluster) => {
-    this.setState({
-      cluster,
-      path: [{ q: cluster, name: cluster }],
-    }, () => {
-      this.getServiceList();
-    });
+    this.setState(
+      {
+        cluster,
+        path: [{ q: cluster, name: cluster }],
+      },
+      () => {
+        this.getServiceList();
+      },
+    );
   };
 
   handleIpChange = (e) => {
@@ -222,9 +230,11 @@ class ServiceManager extends React.Component {
 
   reqRuntimeStatus = () => {
     let runtimeIds = '';
-    if (this.curLevel('runtime')) { // runtime,批量查询runtime的状态
+    if (this.curLevel('runtime')) {
+      // runtime,批量查询runtime的状态
       runtimeIds = map(this.state.serviceList, 'id').join(',');
-    } else if (this.curLevel('service')) { // service,查询单个runtime状态
+    } else if (this.curLevel('service')) {
+      // service,查询单个runtime状态
       runtimeIds = this.getLevel('runtime').id;
     }
     if (runtimeIds && runtimeIds !== 'unknown') {
@@ -236,24 +246,30 @@ class ServiceManager extends React.Component {
 
   into = (p) => {
     if (this.curLevel('runtime')) this.props.clearRuntimeJson();
-    this.setState({
-      path: this.state.path.concat(p),
-    }, () => {
-      const depth = this.state.path.length;
-      if (depth < 5) {
-        return this.getServiceList();
-      }
-      this.props.getContainerList(this.state.path);
-    });
+    this.setState(
+      {
+        path: this.state.path.concat(p),
+      },
+      () => {
+        const depth = this.state.path.length;
+        if (depth < 5) {
+          return this.getServiceList();
+        }
+        this.props.getContainerList(this.state.path);
+      },
+    );
   };
 
   backTo = (depth) => {
     if (this.curLevel('runtime')) this.props.clearRuntimeJson();
-    this.setState({
-      path: this.state.path.slice(0, depth + 1),
-    }, () => {
-      this.getServiceList();
-    });
+    this.setState(
+      {
+        path: this.state.path.slice(0, depth + 1),
+      },
+      () => {
+        this.getServiceList();
+      },
+    );
   };
 
   curLevel = (lev) => {
@@ -283,37 +299,39 @@ class ServiceManager extends React.Component {
       <Spin spinning={isFetchingClusters}>
         <Holder when={isEmpty(list)}>
           <Breadcrumb separator={<IconRight size="14px" className="fz12" />} className="path-breadcrumb">
-            {
-              path.map((p, i) => {
-                const isLast = i === path.length - 1;
-                return (
-                  <Breadcrumb.Item
-                    key={i}
-                    className={isLast ? '' : 'hover-active'}
-                    onClick={() => {
-                      if (!isLast) this.backTo(i);
-                    }
-                    }
-                  >
-                    {p.name}
-                  </Breadcrumb.Item>
-                );
-              })
-            }
+            {path.map((p, i) => {
+              const isLast = i === path.length - 1;
+              return (
+                <Breadcrumb.Item
+                  key={i}
+                  className={isLast ? '' : 'hover-active'}
+                  onClick={() => {
+                    if (!isLast) this.backTo(i);
+                  }}
+                >
+                  {p.name}
+                </Breadcrumb.Item>
+              );
+            })}
           </Breadcrumb>
           <div className="to-json">
-            {
-              path.length === 4 ? <JsonChecker buttonText={i18n.t('runtime configs')} jsonString={jsonString} onToggle={this.onJsonShow} modalConfigs={{ title: i18n.t('runtime configs') }} /> : null
-            }
+            {path.length === 4 ? (
+              <JsonChecker
+                buttonText={i18n.t('runtime configs')}
+                jsonString={jsonString}
+                onToggle={this.onJsonShow}
+                modalConfigs={{ title: i18n.t('runtime configs') }}
+              />
+            ) : null}
           </div>
           <IF check={path.length === 1}>
             <div className="filter-group mb16 ml12-group">
-              <Select
-                value={cluster}
-                style={{ width: 300 }}
-                onChange={this.handleClusterChange}
-              >
-                {map(list, (v) => <Option key={v.name} value={v.name}>{v.displayName || v.name}</Option>)}
+              <Select value={cluster} style={{ width: 300 }} onChange={this.handleClusterChange}>
+                {map(list, (v) => (
+                  <Option key={v.name} value={v.name}>
+                    {v.displayName || v.name}
+                  </Option>
+                ))}
               </Select>
               <Input.Search
                 allowClear
@@ -322,12 +340,12 @@ class ServiceManager extends React.Component {
                 placeholder={i18n.t('dataCenter:enter IP search')}
                 onChange={this.handleIpChange}
               />
-              <Select
-                value={environment}
-                style={{ width: 120 }}
-                onChange={this.handleEnvChange}
-              >
-                {map(ENV_MAP, (v, k) => <Option key={k} value={k}>{v.cnName}</Option>)}
+              <Select value={environment} style={{ width: 120 }} onChange={this.handleEnvChange}>
+                {map(ENV_MAP, (v, k) => (
+                  <Option key={k} value={k}>
+                    {v.cnName}
+                  </Option>
+                ))}
               </Select>
             </div>
           </IF>
@@ -342,13 +360,9 @@ class ServiceManager extends React.Component {
             haveMetrics={false}
             extraQuery={{ filter_cluster_name: cluster }}
           />
-          {
-            path.length === 2
-              ?
-                <AssociatedAddons projectId={path[1].q} environment={ENV_MAP[environment].enName} />
-              :
-              null
-          }
+          {path.length === 2 ? (
+            <AssociatedAddons projectId={path[1].q} environment={ENV_MAP[environment].enName} />
+          ) : null}
         </Spin>
       </Spin>
     );
@@ -356,7 +370,9 @@ class ServiceManager extends React.Component {
 }
 
 const Mapper = () => {
-  const [containerList, serviceList, runtimeJson, runtimeStatus, serviceReqStatus, metrics] = dcosServiceStore.useStore((s) => [s.containerList, s.serviceList, s.runtimeJson, s.runtimeStatus, s.serviceReqStatus, s.metrics]);
+  const [containerList, serviceList, runtimeJson, runtimeStatus, serviceReqStatus, metrics] = dcosServiceStore.useStore(
+    (s) => [s.containerList, s.serviceList, s.runtimeJson, s.runtimeStatus, s.serviceReqStatus, s.metrics],
+  );
   const list = clusterStore.useStore((s) => s.list);
   const { getClusterList } = clusterStore.effects;
   const { getContainerList, getServiceList, getRuntimeJson, getRuntimeStatus } = dcosServiceStore.effects;

@@ -23,9 +23,9 @@ import { IData } from './yml-chart';
 
 interface IChartConfig extends Omit<typeof CHART_CONFIG, 'MARGIN'> {
   NODE: {
-    [pro: string]: {WIDTH: number; HEIGHT: number};
+    [pro: string]: { WIDTH: number; HEIGHT: number };
   };
-  MARGIN: {X: number; Y: number};
+  MARGIN: { X: number; Y: number };
 }
 
 interface IExternal {
@@ -54,7 +54,13 @@ const NodeEleMap = {
   endNode: EndNode,
 };
 
-export const renderSvgChart = (originData: IData[][], snap: any, g: any, chartConfig: IChartConfig, external: IExternal) => {
+export const renderSvgChart = (
+  originData: IData[][],
+  snap: any,
+  g: any,
+  chartConfig: IChartConfig,
+  external: IExternal,
+) => {
   const { nodeData, chartHeight, chartWidth } = getNodePostion(originData, chartConfig, external);
   const { linkData } = getLinkPosition(nodeData, chartConfig, external);
   const chart = snap.svg(0, 0, chartWidth, chartHeight, 0, 0, chartWidth, chartHeight);
@@ -72,12 +78,18 @@ const getNodePostion = (data: IData[][], chartConfig: IChartConfig, external: IE
   const isEdit = external && external.editing;
   const boxSizeArr = map(data, (item) => {
     return {
-      width: PADDING.X * 2 + (item.length - 1) * MARGIN.X + sumBy(item, (subItem: IData) => get(NODE, `${subItem[externalKey].nodeType}.WIDTH`) as unknown as number || 0),
+      width:
+        PADDING.X * 2 +
+        (item.length - 1) * MARGIN.X +
+        sumBy(
+          item,
+          (subItem: IData) => (get(NODE, `${subItem[externalKey].nodeType}.WIDTH`) as unknown as number) || 0,
+        ),
       height: get(NODE, `${get(item, `[0].${externalKey}.nodeType`)}.HEIGHT`) as unknown as number,
       itemWidth: get(NODE, `${get(item, `[0].${externalKey}.nodeType`)}.WIDTH`) as unknown as number,
     };
   });
-  const maxWidthBox = maxBy(boxSizeArr, (item) => item.width) as Obj || { width: 0, height: 0 };
+  const maxWidthBox = (maxBy(boxSizeArr, (item) => item.width) as Obj) || { width: 0, height: 0 };
   const dataLen = data.length;
   let chartHeight = PADDING.Y;
   map(data, (item, index) => {
@@ -126,27 +138,33 @@ const renderNodes = (nodeData: any[][], chart: any, chartConfig: IChartConfig, e
     const curStartNode = get(nodeList, `[0].${externalKey}`);
     const listG = chart.g();
     if (isEdit && curStartNode.nodeType !== NodeType.startNode && curStartNode.nodeType !== NodeType.addRow) {
-      const listGMask = chart.rect(0, curStartNode.y - curStartNode.height / 2, chartWidth, curStartNode.height).attr({ fill: 'transparent' });
-      listG.mouseover(() => {
-        if (isEdit) {
-          const addEle = document.getElementById(`${chartId}-_yml-node-add-${index}_`);
-          if (addEle) {
-            addEle.classList.add('show');
+      const listGMask = chart
+        .rect(0, curStartNode.y - curStartNode.height / 2, chartWidth, curStartNode.height)
+        .attr({ fill: 'transparent' });
+      listG
+        .mouseover(() => {
+          if (isEdit) {
+            const addEle = document.getElementById(`${chartId}-_yml-node-add-${index}_`);
+            if (addEle) {
+              addEle.classList.add('show');
+            }
           }
-        }
-      }).mouseout(() => {
-        if (isEdit) {
-          const addEle = document.getElementById(`${chartId}-_yml-node-add-${index}_`);
-          if (addEle) {
-            addEle.classList.remove('show');
+        })
+        .mouseout(() => {
+          if (isEdit) {
+            const addEle = document.getElementById(`${chartId}-_yml-node-add-${index}_`);
+            if (addEle) {
+              addEle.classList.remove('show');
+            }
           }
-        }
-      });
+        });
       listG.append(listGMask);
     }
     const nodeLen = nodeList.length;
     map(nodeList, (node, subIndex) => {
-      const { [externalKey]: { x, y, nodeId, height, width, nodeType } } = node; // x,y为中心坐标
+      const {
+        [externalKey]: { x, y, nodeId, height, width, nodeType },
+      } = node; // x,y为中心坐标
       const xPos = x - width / 2;
       const yPos = y - height / 2;
       const fobjectSVG = `<foreignObject id="${chartId}-${nodeId}" class="svg-model-node-carrier" x="${xPos}" y="${yPos}" width="${width}" height="${height}"></foreignObject>`;
@@ -157,14 +175,14 @@ const renderNodes = (nodeData: any[][], chart: any, chartConfig: IChartConfig, e
       listG.append(g);
       const NodeComp = AllNodeEleMap[nodeType];
       // write append node as a React Component
-      NodeComp && ReactDOM.render(
-        <NodeComp
-          {...external}
-          data={node}
-        />,
-        document.getElementById(`${chartId}-${nodeId}`),
-      );
-      if (isEdit && nodeLen === subIndex + 1 && ![NodeType.startNode, NodeType.endNode, NodeType.addRow].includes(curStartNode.nodeType)) { // 编辑态，末尾追加添加节点
+      NodeComp &&
+        ReactDOM.render(<NodeComp {...external} data={node} />, document.getElementById(`${chartId}-${nodeId}`));
+      if (
+        isEdit &&
+        nodeLen === subIndex + 1 &&
+        ![NodeType.startNode, NodeType.endNode, NodeType.addRow].includes(curStartNode.nodeType)
+      ) {
+        // 编辑态，末尾追加添加节点
         const add_xPos = x + width / 2 + MARGIN.X;
         const add_yPos = y - height / 2;
         const addNodeId = `${chartId}-_yml-node-add-${index}_`;
@@ -195,7 +213,7 @@ const renderNodes = (nodeData: any[][], chart: any, chartConfig: IChartConfig, e
   });
 };
 
-const getLinkPosition = (data: IExternalData [][], chartConfig: IChartConfig, external: any = {}) => {
+const getLinkPosition = (data: IExternalData[][], chartConfig: IChartConfig, external: any = {}) => {
   const { chartId } = external;
   const linkData = [] as any[];
   const { LINK } = chartConfig;
@@ -214,20 +232,25 @@ const getLinkPosition = (data: IExternalData [][], chartConfig: IChartConfig, ex
             const endAddRow = endPos.nodeType === NodeType.addRow;
             let path = '';
             const heightDis = endPos.y - endPos.height / 2 - (startPos.y + startPos.height / 2);
-            if (!startAddRow && !endAddRow) { // 正常节点之间连线
+            if (!startAddRow && !endAddRow) {
+              // 正常节点之间连线
               path = `M${startPos.x} ${startPos.y + startPos.height / 2}`;
               if (startPos.x === centerX) {
                 path += `L${startPos.x} ${startPos.y + startPos.height / 2 + heightDis / 2}`;
               } else if (startPos.x < centerX) {
                 path += `
                   L${startPos.x} ${startPos.y + startPos.height / 2 + heightDis / 2 - LINK.RADIUS}
-                  A${LINK.RADIUS} ${LINK.RADIUS} 0 0 0 ${startPos.x + LINK.RADIUS} ${startPos.y + startPos.height / 2 + heightDis / 2}
+                  A${LINK.RADIUS} ${LINK.RADIUS} 0 0 0 ${startPos.x + LINK.RADIUS} ${
+                  startPos.y + startPos.height / 2 + heightDis / 2
+                }
                   L${centerX} ${startPos.y + startPos.height / 2 + heightDis / 2}
                 `;
               } else if (startPos.x > centerX) {
                 path += `
                   L${startPos.x} ${startPos.y + startPos.height / 2 + heightDis / 2 - LINK.RADIUS}
-                  A${LINK.RADIUS} ${LINK.RADIUS} 0 0 1 ${startPos.x - LINK.RADIUS} ${startPos.y + startPos.height / 2 + heightDis / 2}
+                  A${LINK.RADIUS} ${LINK.RADIUS} 0 0 1 ${startPos.x - LINK.RADIUS} ${
+                  startPos.y + startPos.height / 2 + heightDis / 2
+                }
                   L${centerX} ${startPos.y + startPos.height / 2 + heightDis / 2}
                 `;
               }
@@ -237,30 +260,38 @@ const getLinkPosition = (data: IExternalData [][], chartConfig: IChartConfig, ex
               } else if (endPos.x < centerX) {
                 path += `
                   L${endPos.x + LINK.RADIUS} ${startPos.y + startPos.height / 2 + heightDis / 2}
-                  A${LINK.RADIUS} ${LINK.RADIUS} 0 0 0 ${endPos.x} ${startPos.y + startPos.height / 2 + heightDis / 2 + LINK.RADIUS}
+                  A${LINK.RADIUS} ${LINK.RADIUS} 0 0 0 ${endPos.x} ${
+                  startPos.y + startPos.height / 2 + heightDis / 2 + LINK.RADIUS
+                }
                   L${endPos.x} ${endPos.y - endPos.height / 2}
                 `;
               } else if (endPos.x > centerX) {
                 path += `
                   L${endPos.x - LINK.RADIUS} ${startPos.y + startPos.height / 2 + heightDis / 2}
-                  A${LINK.RADIUS} ${LINK.RADIUS} 0 0 1 ${endPos.x} ${startPos.y + startPos.height / 2 + heightDis / 2 + LINK.RADIUS}
+                  A${LINK.RADIUS} ${LINK.RADIUS} 0 0 1 ${endPos.x} ${
+                  startPos.y + startPos.height / 2 + heightDis / 2 + LINK.RADIUS
+                }
                   L${endPos.x} ${endPos.y - endPos.height / 2}
                 `;
               }
-            } else if (startPos.x === endPos.x) { // 节点x相等，则为垂直竖线
+            } else if (startPos.x === endPos.x) {
+              // 节点x相等，则为垂直竖线
               path = `
-                M${startPos.x} ${startPos.y + (startPos.height / 2)}
-                L${endPos.x} ${endPos.y - (endPos.height / 2)}
+                M${startPos.x} ${startPos.y + startPos.height / 2}
+                L${endPos.x} ${endPos.y - endPos.height / 2}
               `;
-            } else if (startPos.x < endPos.x) { // 目标在起点的右侧
-              if (startAddRow) { // 起点为添加行节点： ▔▔|
+            } else if (startPos.x < endPos.x) {
+              // 目标在起点的右侧
+              if (startAddRow) {
+                // 起点为添加行节点： ▔▔|
                 path = `
                   M${startPos.x + startPos.width / 2} ${startPos.y}
                   L${endPos.x - LINK.RADIUS} ${startPos.y}
                   A${LINK.RADIUS} ${LINK.RADIUS} 0 0 1 ${endPos.x} ${startPos.y + LINK.RADIUS}
                   L${endPos.x} ${endPos.y - endPos.height / 2}
                 `;
-              } else if (endAddRow) { // 终点为添加行节点: |__
+              } else if (endAddRow) {
+                // 终点为添加行节点: |__
                 path = `
                   M${startPos.x} ${startPos.y + startPos.height / 2}
                   L${startPos.x} ${endPos.y - LINK.RADIUS}
@@ -268,15 +299,18 @@ const getLinkPosition = (data: IExternalData [][], chartConfig: IChartConfig, ex
                   L${endPos.x - endPos.width / 2} ${endPos.y}
                 `;
               }
-            } else if (startPos.x > endPos.x) { // 目标在起点左侧
-              if (startAddRow) { // 起点为添加行节点： |▔▔
+            } else if (startPos.x > endPos.x) {
+              // 目标在起点左侧
+              if (startAddRow) {
+                // 起点为添加行节点： |▔▔
                 path = `
                   M${startPos.x - startPos.width / 2} ${startPos.y}
                   L${endPos.x + LINK.RADIUS} ${startPos.y}
                   A${LINK.RADIUS} ${LINK.RADIUS} 0 0 0 ${endPos.x} ${startPos.y + LINK.RADIUS}
                   L${endPos.x} ${endPos.y - endPos.height / 2}
                 `;
-              } else if (endAddRow) { // 终点为添加行节点: __|
+              } else if (endAddRow) {
+                // 终点为添加行节点: __|
                 path = `
                   M${startPos.x} ${startPos.y + startPos.height / 2}
                   L${startPos.x} ${endPos.y - LINK.RADIUS}
@@ -306,8 +340,14 @@ const getLinkPosition = (data: IExternalData [][], chartConfig: IChartConfig, ex
 const renderLinks = (linkData: any[], chart: any, chartConfig: IChartConfig, external: any) => {
   const { LINK } = chartConfig;
   const { startMarker, endMarker } = LINK;
-  const markerStart = chart.circle(...startMarker.pos).attr(startMarker.attr).marker(...startMarker.marker);
-  const markerEnd = chart.image(...endMarker.image).attr(endMarker.attr).marker(...endMarker.marker);
+  const markerStart = chart
+    .circle(...startMarker.pos)
+    .attr(startMarker.attr)
+    .marker(...startMarker.marker);
+  const markerEnd = chart
+    .image(...endMarker.image)
+    .attr(endMarker.attr)
+    .marker(...endMarker.marker);
   map(linkData, (link) => {
     const { path, id, needStartMark, needEndMark } = link;
     chart.path(path).attr({

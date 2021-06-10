@@ -24,8 +24,8 @@ import apiMarketStore from 'apiManagePlatform/stores/api-market';
 import { protocolMap } from './config';
 import { Upload as IconUpload } from '@icon-park/react';
 
-export type IScope = 'asset'| 'version';
-export type IMode = 'add'| 'edit';
+export type IScope = 'asset' | 'version';
+export type IMode = 'add' | 'edit';
 
 interface IProps {
   scope: IScope;
@@ -35,12 +35,14 @@ interface IProps {
   onCancel: () => void;
   afterSubmit?: (data: any) => void;
 }
-interface FormRef {props: {form: WrappedFormUtils}}
+interface FormRef {
+  props: { form: WrappedFormUtils };
+}
 
 const allSuffix = map(protocolMap, (t) => t.suffix).join(',');
 const idReg = /^([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$/;
 
-const titleMap: {[key in IScope]: {[type in IMode]: string}} = {
+const titleMap: { [key in IScope]: { [type in IMode]: string } } = {
   asset: {
     add: i18n.t('add {name}', { name: i18n.t('application:resources') }),
     edit: i18n.t('edit {name}', { name: i18n.t('application:resources') }),
@@ -74,11 +76,13 @@ const formatPayload = (scope: IScope, mode: IMode, data: any, formData?: API_MAR
   if (scope === 'asset' && mode === 'add') {
     payload = {
       ...rest,
-      versions: [{
-        specProtocol,
-        specDiceFileUUID,
-        ...versions,
-      }],
+      versions: [
+        {
+          specProtocol,
+          specDiceFileUUID,
+          ...versions,
+        },
+      ],
     };
   }
   if (scope === 'asset' && mode === 'edit') {
@@ -142,9 +146,12 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: I
           maxLength: 20,
           disabled: mode === 'edit',
         },
-        rules: [{
-          pattern: idReg, message: i18n.t('default:tips of assetID rules'),
-        }],
+        rules: [
+          {
+            pattern: idReg,
+            message: i18n.t('default:tips of assetID rules'),
+          },
+        ],
       },
       {
         label: i18n.t('API description'),
@@ -168,9 +175,12 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: I
           placeholder: i18n.t('please enter version number'),
           autoComplete: 'off',
         },
-        rules: [{
-          pattern: /^(?:[1-9]\d*|0)\.(?:[1-9]\d*|0)\.(?:[1-9]\d*|0)$/, message: i18n.t('valid version number tips'),
-        }],
+        rules: [
+          {
+            pattern: /^(?:[1-9]\d*|0)\.(?:[1-9]\d*|0)\.(?:[1-9]\d*|0)$/,
+            message: i18n.t('valid version number tips'),
+          },
+        ],
       },
       {
         label: i18n.t('API description document protocol'),

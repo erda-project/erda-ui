@@ -42,10 +42,12 @@ function childrenToList(entry: any) {
 }
 
 function createSpanTreeEntry(span: any, trace: any, indexByParentId: any = null) {
-  const idx = indexByParentId || fp.flow(
-    fp.filter((s: any) => s.parentSpanId !== ''),
-    fp.groupBy((s: any) => s.parentSpanId),
-  )(trace);
+  const idx =
+    indexByParentId ||
+    fp.flow(
+      fp.filter((s: any) => s.parentSpanId !== ''),
+      fp.groupBy((s: any) => s.parentSpanId),
+    )(trace);
 
   return {
     span,
@@ -88,7 +90,6 @@ function treeDepths(entry: any, startDepth: any) {
   }, initial);
 }
 
-
 function toSpanDepths(spans: any) {
   const rootMost = getRootMostSpan(spans);
   const entry = createSpanTreeEntry(rootMost, spans);
@@ -123,84 +124,85 @@ export default function traceToMustache(trace: any) {
   const spanDepths = toSpanDepths(trace);
 
   const depth = Math.max(...values(spanDepths));
-  const spans = flatMap(
-    getRootSpans(trace),
-    (rootSpan) => childrenToList(createSpanTreeEntry(rootSpan, trace)),
-  ).map((span) => {
-    const spanStartTs = span.timestamp || traceTimestamp;
-    const spanDepth = spanDepths[span.id] || 1;
-    const width = ((span.duration || 0) / summary.duration) * 100;
-    let errorType = 'none';
+  const spans = flatMap(getRootSpans(trace), (rootSpan) => childrenToList(createSpanTreeEntry(rootSpan, trace))).map(
+    (span) => {
+      const spanStartTs = span.timestamp || traceTimestamp;
+      const spanDepth = spanDepths[span.id] || 1;
+      const width = ((span.duration || 0) / summary.duration) * 100;
+      let errorType = 'none';
 
-    const binaryAnnotations = (span.binaryAnnotations || []).map((a: any) => {
-      if (a.key === Constants.ERROR) {
-        errorType = 'critical';
-      }
-      if (Constants.CORE_ADDRESS.indexOf(a.key) !== -1) {
-        return {
-          ...a,
-          key: ConstantNames[a.key],
-          value: formatEndpoint(a.endpoint),
-        };
-      } else if (ConstantNames[a.key]) {
-        return {
-          ...a,
-          key: ConstantNames[a.key],
-        };
-      }
-      return a;
-    });
-
-    if (errorType !== 'critical') {
-      if (findIndex(span.annotations || [], (ann: any) => ann.value === Constants.ERROR) !== -1) {
-        errorType = 'transient';
-      }
-    }
-
-    const localComponentAnnotation = find(span.binaryAnnotations || [], (s) => s.key === Constants.LOCAL_COMPONENT);
-    if (localComponentAnnotation && localComponentAnnotation.endpoint) {
-      binaryAnnotations.push({
-        ...localComponentAnnotation,
-        key: 'Local Address',
-        value: formatEndpoint(localComponentAnnotation.endpoint),
+      const binaryAnnotations = (span.binaryAnnotations || []).map((a: any) => {
+        if (a.key === Constants.ERROR) {
+          errorType = 'critical';
+        }
+        if (Constants.CORE_ADDRESS.indexOf(a.key) !== -1) {
+          return {
+            ...a,
+            key: ConstantNames[a.key],
+            value: formatEndpoint(a.endpoint),
+          };
+        } else if (ConstantNames[a.key]) {
+          return {
+            ...a,
+            key: ConstantNames[a.key],
+          };
+        }
+        return a;
       });
-    }
 
-    const left = (parseFloat(`${spanStartTs - traceTimestamp}`) / parseFloat(summary.duration)) * 100;
+      if (errorType !== 'critical') {
+        if (findIndex(span.annotations || [], (ann: any) => ann.value === Constants.ERROR) !== -1) {
+          errorType = 'transient';
+        }
+      }
 
-    return {
-      spanId: span.id,
-      parentId: span.parentSpanId || null,
-      spanName: span.name,
-      serviceNames: getServiceNames(span).join(','),
-      serviceName: getServiceName(span) || '',
-      duration: span.duration,
-      durationStr: mkDurationStr(span.duration),
-      // duration 为 0 的情况处理
-      left: left >= 100 ? 0 : left,
-      width: width < 0.1 ? 0.1 : width,
-      depth: (spanDepth + 2) * 5,
-      depthClass: (spanDepth - 1) % 6,
-      children: (groupByParentId[span.id] || []).map((s) => s.id).join(','),
-      annotations: (span.annotations || []).map((a: any) => ({
-        isCore: Constants.CORE_ANNOTATIONS.indexOf(a.value) !== -1,
-        left: ((a.timestamp - spanStartTs) / span.duration) * 100,
-        // TODO: endpoint没有了，需要移除处理逻辑
-        // endpoint: a.endpoint ? formatEndpoint(a.endpoint) : null,
-        message: a.message,
-        value: ConstantNames[a.value] || a.value,
-        timestamp: a.timestamp,
-        relativeTime: mkDurationStr(a.timestamp - traceTimestamp),
-        width: 8,
-      })),
-      binaryAnnotations,
-      errorType,
-    };
-  });
+      const localComponentAnnotation = find(span.binaryAnnotations || [], (s) => s.key === Constants.LOCAL_COMPONENT);
+      if (localComponentAnnotation && localComponentAnnotation.endpoint) {
+        binaryAnnotations.push({
+          ...localComponentAnnotation,
+          key: 'Local Address',
+          value: formatEndpoint(localComponentAnnotation.endpoint),
+        });
+      }
+
+      const left = (parseFloat(`${spanStartTs - traceTimestamp}`) / parseFloat(summary.duration)) * 100;
+
+      return {
+        spanId: span.id,
+        parentId: span.parentSpanId || null,
+        spanName: span.name,
+        serviceNames: getServiceNames(span).join(','),
+        serviceName: getServiceName(span) || '',
+        duration: span.duration,
+        durationStr: mkDurationStr(span.duration),
+        // duration 为 0 的情况处理
+        left: left >= 100 ? 0 : left,
+        width: width < 0.1 ? 0.1 : width,
+        depth: (spanDepth + 2) * 5,
+        depthClass: (spanDepth - 1) % 6,
+        children: (groupByParentId[span.id] || []).map((s) => s.id).join(','),
+        annotations: (span.annotations || []).map((a: any) => ({
+          isCore: Constants.CORE_ANNOTATIONS.indexOf(a.value) !== -1,
+          left: ((a.timestamp - spanStartTs) / span.duration) * 100,
+          // TODO: endpoint没有了，需要移除处理逻辑
+          // endpoint: a.endpoint ? formatEndpoint(a.endpoint) : null,
+          message: a.message,
+          value: ConstantNames[a.value] || a.value,
+          timestamp: a.timestamp,
+          relativeTime: mkDurationStr(a.timestamp - traceTimestamp),
+          width: 8,
+        })),
+        binaryAnnotations,
+        errorType,
+      };
+    },
+  );
 
   const totalSpans = spans.length;
-  const timeMarkers = [0, 0.2, 0.4, 0.6, 0.8, 1]
-    .map((p, index) => ({ index, time: mkDurationStr(summary.duration * p) }));
+  const timeMarkers = [0, 0.2, 0.4, 0.6, 0.8, 1].map((p, index) => ({
+    index,
+    time: mkDurationStr(summary.duration * p),
+  }));
   const timeMarkersBackup = timeMarkers;
   const spansBackup = spans;
 

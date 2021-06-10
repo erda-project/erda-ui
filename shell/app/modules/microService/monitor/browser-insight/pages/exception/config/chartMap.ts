@@ -21,32 +21,32 @@ const commonAttr = {
   moduleName: 'BIException',
   groupId: 'BIException',
 };
-const chartMap = merge({
-  sortTab: {
-    moduleName: 'BIException',
-    type: 'sortTab',
-    tabList: [
-      { name: i18n.t('microService:error code'), key: 'code' },
-    ],
+const chartMap = merge(
+  {
+    sortTab: {
+      moduleName: 'BIException',
+      type: 'sortTab',
+      tabList: [{ name: i18n.t('microService:error code'), key: 'code' }],
+    },
+    sortList: {
+      moduleName: 'BIException',
+      chartName: 'BIExceptionSort',
+      type: 'sortList',
+    },
+    exception: {
+      titleText: i18n.t('microService:access error'),
+      ...commonAttr,
+      chartName: 'exception',
+    },
+    slowTrack: {
+      titleText: i18n.t('microService:error code tracking'),
+      chartName: 'slow',
+      ...commonAttr,
+      viewRender: SlowTrace,
+    },
   },
-  sortList: {
-    moduleName: 'BIException',
-    chartName: 'BIExceptionSort',
-    type: 'sortList',
-  },
-  exception: {
-    titleText: i18n.t('microService:access error'),
-    ...commonAttr,
-    chartName: 'exception',
-  },
-  slowTrack: {
-    titleText: i18n.t('microService:error code tracking'),
-    chartName: 'slow',
-    ...commonAttr,
-    viewRender: SlowTrace,
-  },
-
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   sortTab: sortRender(chartMap.sortTab) as any,
@@ -54,4 +54,3 @@ export default {
   exception: chartRender(chartMap.exception) as any,
   slowTrack: chartRender(chartMap.slowTrack) as any,
 };
-

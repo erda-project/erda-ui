@@ -62,9 +62,7 @@ describe('MetricsMonitor', () => {
     metricsMonitorStore.effects.loadMetricItem = jest.fn();
     metricsMonitorStore.reducers.clearListMetrics = clearListMetrics;
     jest.useFakeTimers();
-    const wrapper = mount(
-      <MetricsMonitor {...props} />,
-    );
+    const wrapper = mount(<MetricsMonitor {...props} />);
     act(() => {
       jest.runAllTimers();
     });
@@ -73,4 +71,3 @@ describe('MetricsMonitor', () => {
     expect(clearListMetrics).toHaveBeenCalled();
   });
 });
-

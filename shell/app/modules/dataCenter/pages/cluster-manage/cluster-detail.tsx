@@ -30,32 +30,29 @@ const ClusterDetail = () => {
   const [detail, setDetail] = React.useState({} as any);
 
   React.useEffect(() => {
-    clusterName && getClusterNewDetail({ clusterName }).then((res: any) => {
-      const { URLs: urls = {}, basic } = get(res, '[0]', {});
+    clusterName &&
+      getClusterNewDetail({ clusterName }).then((res: any) => {
+        const { URLs: urls = {}, basic } = get(res, '[0]', {});
 
-      const basicInfo = {};
-      map(basic, ({ name, value }: any) => { basicInfo[name] = value; });
-      const URLs = {};
-      map(urls, ({ name, value }: any) => { URLs[name] = value; });
-      const data = {} as any;
-      !isEmpty(basicInfo) && (data[`${i18n.t('basic information')}`] = basicInfo);
-      !isEmpty(URLs) && (data.URLs = URLs);
+        const basicInfo = {};
+        map(basic, ({ name, value }: any) => {
+          basicInfo[name] = value;
+        });
+        const URLs = {};
+        map(urls, ({ name, value }: any) => {
+          URLs[name] = value;
+        });
+        const data = {} as any;
+        !isEmpty(basicInfo) && (data[`${i18n.t('basic information')}`] = basicInfo);
+        !isEmpty(URLs) && (data.URLs = URLs);
 
-      setDetail({ ...data });
-    });
+        setDetail({ ...data });
+      });
   }, [clusterName, getClusterNewDetail]);
 
   return (
     <div className="cluster-detail">
-      <Spin spinning={loading}>
-        {
-          !isEmpty(detail) ? (
-            <KeyValueList data={detail} />
-          ) : (
-            <EmptyHolder relative />
-          )
-        }
-      </Spin>
+      <Spin spinning={loading}>{!isEmpty(detail) ? <KeyValueList data={detail} /> : <EmptyHolder relative />}</Spin>
     </div>
   );
 };

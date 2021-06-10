@@ -13,25 +13,27 @@
 
 import agent from 'agent';
 
-export const getBranchRules = (query: { scopeId: number; scopeType: string}): PROJECT.IBranchRule[] => {
-  return agent.get('/api/branch-rules')
+export const getBranchRules = (query: { scopeId: number; scopeType: string }): PROJECT.IBranchRule[] => {
+  return agent
+    .get('/api/branch-rules')
     .query(query)
     .then((response: any) => response.body);
 };
 
 export const addBranchRule = (data: PROJECT.IBranchRuleCreateBody) => {
-  return agent.post('/api/branch-rules')
+  return agent
+    .post('/api/branch-rules')
     .send(data)
     .then((response: any) => response.body);
 };
 
 export const updateBranchRule = ({ id, ...rest }: PROJECT.IBranchRule) => {
-  return agent.put(`/api/branch-rules/${id}`)
+  return agent
+    .put(`/api/branch-rules/${id}`)
     .send(rest)
     .then((response: any) => response.body);
 };
 
-export const deleteBranchRule = ({ id }: {id: number}) => {
-  return agent.delete(`/api/branch-rules/${id}`)
-    .then((response: any) => response.body);
+export const deleteBranchRule = ({ id }: { id: number }) => {
+  return agent.delete(`/api/branch-rules/${id}`).then((response: any) => response.body);
 };

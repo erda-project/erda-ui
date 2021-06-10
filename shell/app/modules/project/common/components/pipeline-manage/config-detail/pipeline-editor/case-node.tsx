@@ -21,7 +21,7 @@ import { SCOPE_AUTOTEST, scopeMap } from 'project/common/components/pipeline-man
 import routeInfoStore from 'common/stores/route';
 import './case-node.scss';
 
-export interface IProps{
+export interface IProps {
   data: Obj;
   editing: boolean;
   onClickNode: (data: any, arg: any) => void;
@@ -55,16 +55,15 @@ export const CaseNode = (props: IProps) => {
   }, [data]);
 
   const menu = (
-    <Menu onClick={({ domEvent, key }: any) => {
-      domEvent && domEvent.stopPropagation();
-      if (key === 'delete') {
-        onDeleteNode(data);
-      }
-    }}
+    <Menu
+      onClick={({ domEvent, key }: any) => {
+        domEvent && domEvent.stopPropagation();
+        if (key === 'delete') {
+          onDeleteNode(data);
+        }
+      }}
     >
-      <Menu.Item key="delete">
-        {i18n.t('application:delete')}
-      </Menu.Item>
+      <Menu.Item key="delete">{i18n.t('application:delete')}</Menu.Item>
     </Menu>
   );
 
@@ -75,12 +74,13 @@ export const CaseNode = (props: IProps) => {
   const getContent = (scope: string) => {
     let contentStr = '';
     switch (scope) {
-      case scopeMap.autoTest.scope: {
-        const apiCount = get(data, 'snippet_config.labels.apiCount');
-        if (apiCount) {
-          contentStr = ` ${i18n.t('api count')}: ${apiCount}`;
+      case scopeMap.autoTest.scope:
+        {
+          const apiCount = get(data, 'snippet_config.labels.apiCount');
+          if (apiCount) {
+            contentStr = ` ${i18n.t('api count')}: ${apiCount}`;
+          }
         }
-      }
         break;
       default:
         break;
@@ -90,7 +90,11 @@ export const CaseNode = (props: IProps) => {
 
   let content = ' ';
   let name = ' ';
-  let IconComp = data.logoUrl ? <img src={data.logoUrl} className="full-width full-height" /> : <CustomIcon type={'jiedian'} color className="full-width full-height" />;
+  let IconComp = data.logoUrl ? (
+    <img src={data.logoUrl} className="full-width full-height" />
+  ) : (
+    <CustomIcon type={'jiedian'} color className="full-width full-height" />
+  );
 
   const curNodeScope = get(data, 'snippet_config.labels.snippet_scope') || SCOPE_AUTOTEST;
   const scopeObj: Obj = find(map(scopeMap), { scope: curNodeScope }) || {};
@@ -99,32 +103,36 @@ export const CaseNode = (props: IProps) => {
       const url = get(data, 'params.url');
       const method = get(data, 'params.method');
       content = `${method} ${url}`;
-      name = `${(data.displayName || data.type)}: ${data.alias}`;
+      name = `${data.displayName || data.type}: ${data.alias}`;
       break;
     }
     case 'snippet':
       name = `${scopeObj.name}: ${data.alias}`;
       content = getContent(curNodeScope);
-      IconComp = <CustomIcon type={scopeMap[curNodeScope] ? scopeMap[curNodeScope].icon : 'jiedian'} color className="full-width full-height" />;
+      IconComp = (
+        <CustomIcon
+          type={scopeMap[curNodeScope] ? scopeMap[curNodeScope].icon : 'jiedian'}
+          color
+          className="full-width full-height"
+        />
+      );
       break;
     default:
-      name = `${(data.displayName || data.type)}: ${data.alias}`;
+      name = `${data.displayName || data.type}: ${data.alias}`;
   }
 
   const tooltipTxt = (
     <>
       <div>{name}</div>
       {content && <div>{content}</div>}
-      {
-        outputsDetail.length ? (
-          <>
-            <div>{i18n.t('project:executive')}:</div>
-            {
-              map(outputsDetail, (item, idx) => (<div key={`${item}${idx}`}>&nbsp;&nbsp;{item}</div>))
-            }
-          </>
-        ) : null
-      }
+      {outputsDetail.length ? (
+        <>
+          <div>{i18n.t('project:executive')}:</div>
+          {map(outputsDetail, (item, idx) => (
+            <div key={`${item}${idx}`}>&nbsp;&nbsp;{item}</div>
+          ))}
+        </>
+      ) : null}
     </>
   );
 
@@ -168,29 +176,42 @@ export const CaseNode = (props: IProps) => {
         <div onClick={(e: any) => e.stopPropagation()}>
           <div className="bold">{i18n.t('project:loop strategy')}</div>
           {loop.break && <div className="pl8">{`${i18n.t('project:end of loop condition')}: ${loop.break}`}</div>}
-          {strategy.max_times && <div className="pl8">{`${i18n.t('project:maximum number of loop')}: ${strategy.max_times}`}</div>}
-          {strategy.decline_ratio && <div className="pl8">{`${i18n.t('project:decline ratio')}: ${strategy.decline_ratio}`}</div>}
-          {strategy.decline_limit_sec && <div className="pl8">{`${i18n.t('project:decline limit second')}: ${strategy.decline_limit_sec}${i18n.t('common:second')}`}</div>}
-          {strategy.interval_sec && <div className="pl8">{`${i18n.t('project:interval second')}: ${strategy.interval_sec}${i18n.t('common:second')}`}</div>}
+          {strategy.max_times && (
+            <div className="pl8">{`${i18n.t('project:maximum number of loop')}: ${strategy.max_times}`}</div>
+          )}
+          {strategy.decline_ratio && (
+            <div className="pl8">{`${i18n.t('project:decline ratio')}: ${strategy.decline_ratio}`}</div>
+          )}
+          {strategy.decline_limit_sec && (
+            <div className="pl8">{`${i18n.t('project:decline limit second')}: ${strategy.decline_limit_sec}${i18n.t(
+              'common:second',
+            )}`}</div>
+          )}
+          {strategy.interval_sec && (
+            <div className="pl8">{`${i18n.t('project:interval second')}: ${strategy.interval_sec}${i18n.t(
+              'common:second',
+            )}`}</div>
+          )}
         </div>
       );
       return (
         <Tooltip title={tip}>
-          <CustomIcon className="color-text-desc fz16 hover-active" type="xunhuan" onClick={(e) => e.stopPropagation()} />
+          <CustomIcon
+            className="color-text-desc fz16 hover-active"
+            type="xunhuan"
+            onClick={(e) => e.stopPropagation()}
+          />
         </Tooltip>
       );
     }
     return null;
   };
 
-
   return (
     <Tooltip title={editing ? undefined : tooltipTxt} onVisibleChange={onVisibleChange}>
       <div className="yml-chart-node test-case-node column-flex-box" onClick={onClick}>
         <div className={'case-title'}>
-          <div className="title-icon mr12">
-            {IconComp}
-          </div>
+          <div className="title-icon mr12">{IconComp}</div>
           <div className="title-txt column-flex-box color-text">
             <span className="nowrap fz16 bold name">{name}</span>
           </div>
@@ -200,11 +221,12 @@ export const CaseNode = (props: IProps) => {
                 <CustomIcon type="more" onClick={(e) => e.stopPropagation()} />
               </Dropdown>
             </div>
-          ) : getLoopRender()}
+          ) : (
+            getLoopRender()
+          )}
         </div>
         <div className="nowrap mt8">{content}</div>
       </div>
     </Tooltip>
   );
 };
-

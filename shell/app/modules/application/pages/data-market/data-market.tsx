@@ -32,7 +32,11 @@ interface IProps {
   marketBusinessScope: { businessDomain: any; dataDomains: any[]; marketDomains: any[] };
 }
 
-const pageConfig = { iconType: 'bg', domainName: 'marketDomain', domainPlaceholder: i18n.t('application:select a market area') };
+const pageConfig = {
+  iconType: 'bg',
+  domainName: 'marketDomain',
+  domainPlaceholder: i18n.t('application:select a market area'),
+};
 
 const DataMarket = (props: IProps) => {
   const [drawerVisible, setDrawerVisible] = React.useState(false);
@@ -48,7 +52,17 @@ const DataMarket = (props: IProps) => {
     setSelectedTable(undefined);
   };
 
-  const { getOutputTables, isFetching, outputTableList, dataMarketPaging, getTableAttrs, tableAttrsList, isFetchingTable, tableAttrsPaging, marketBusinessScope } = props;
+  const {
+    getOutputTables,
+    isFetching,
+    outputTableList,
+    dataMarketPaging,
+    getTableAttrs,
+    tableAttrsList,
+    isFetchingTable,
+    tableAttrsPaging,
+    marketBusinessScope,
+  } = props;
 
   return (
     <div className="data-model">
@@ -76,19 +90,14 @@ const DataMarket = (props: IProps) => {
 };
 
 const Mapper = () => {
-  const [
-    outputTableList,
-    tableAttrsList,
-    marketBusinessScope,
-    dataMarketPaging,
-    tableAttrsPaging,
-  ] = dataTaskStore.useStore((s) => [
-    s.outputTableList,
-    s.tableAttrsList,
-    s.marketBusinessScope,
-    s.outputTablePaging,
-    s.tableAttrsPaging,
-  ]);
+  const [outputTableList, tableAttrsList, marketBusinessScope, dataMarketPaging, tableAttrsPaging] =
+    dataTaskStore.useStore((s) => [
+      s.outputTableList,
+      s.tableAttrsList,
+      s.marketBusinessScope,
+      s.outputTablePaging,
+      s.tableAttrsPaging,
+    ]);
   const [isFetching, isFetchingTable] = useLoading(dataTaskStore, ['getOutputTables', 'getTableAttrs']);
   const { getOutputTables, getTableAttrs } = dataTaskStore.effects;
   const { clearOutputTables } = dataTaskStore.reducers;
@@ -107,7 +116,6 @@ const Mapper = () => {
     getTableAttrs,
   };
 };
-
 
 const DataMarketWrapper = connectCube(DataMarket, Mapper);
 export { DataMarketWrapper as DataMarket };

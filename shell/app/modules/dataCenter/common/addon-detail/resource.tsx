@@ -28,12 +28,7 @@ interface IProps {
   drawerComp: JSX.Element;
   renderOp: (record: any) => JSX.Element;
 }
-export const PureResourceList = ({
-  renderOp,
-  resourceList,
-  loading,
-  drawerComp,
-}: IProps) => {
+export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp }: IProps) => {
   const resourceCols: Array<ColumnProps<IResource>> = [
     {
       title: i18n.t('container IP'),
@@ -80,11 +75,7 @@ export const PureResourceList = ({
       width: 300,
       render: (image: string) => (
         <Tooltip title={image}>
-          <Copy
-            className="for-copy"
-            data-clipboard-tip={i18n.t('image')}
-            data-clipboard-text={image}
-          >
+          <Copy className="for-copy" data-clipboard-tip={i18n.t('image')} data-clipboard-text={image}>
             {image}
           </Copy>
         </Tooltip>
@@ -102,13 +93,23 @@ export const PureResourceList = ({
       dataIndex: 'status',
       key: 'status',
       width: 100,
-      render: (v: string) => (
-        v === 'Healthy'
-          ? <><Badge status="success" />{i18n.t('healthy')}</>
-          : v === 'UnHealthy'
-            ? <><Badge status="warning" />{i18n.t('abnormal')}</>
-            : <><Badge status="default" />{i18n.t('stopped')}</>
-      ),
+      render: (v: string) =>
+        v === 'Healthy' ? (
+          <>
+            <Badge status="success" />
+            {i18n.t('healthy')}
+          </>
+        ) : v === 'UnHealthy' ? (
+          <>
+            <Badge status="warning" />
+            {i18n.t('abnormal')}
+          </>
+        ) : (
+          <>
+            <Badge status="default" />
+            {i18n.t('stopped')}
+          </>
+        ),
     },
     {
       title: i18n.t('operations'),

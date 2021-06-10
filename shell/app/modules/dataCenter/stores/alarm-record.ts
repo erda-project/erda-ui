@@ -51,7 +51,9 @@ const alarmRecord = createFlatStore({
       update({ recordList });
     },
     async getMachineAlarmRecordList({ call, update }, query: Merge<ALARM_REPORT.RecordListQuery, IPagingReq>) {
-      const { list: recordList } = await call(getMachineAlarmRecordList, query, { paging: { key: 'recordListPaging' } });
+      const { list: recordList } = await call(getMachineAlarmRecordList, query, {
+        paging: { key: 'recordListPaging' },
+      });
       update({ recordList });
     },
     async getAlarmAttrs({ call, update }) {

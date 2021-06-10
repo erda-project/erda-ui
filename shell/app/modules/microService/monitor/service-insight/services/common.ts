@@ -14,20 +14,23 @@
 import agent from 'agent';
 
 export const getServiceMenu = (payload: MONITOR_SI.IMenuQuery): MONITOR_SI.IMenu[] => {
-  return agent.get('/api/tmc/monitor/menus')
+  return agent
+    .get('/api/tmc/monitor/menus')
     .query(payload)
     .then((response: any) => response.body);
 };
 
 export const getBaseInfo = (payload: MONITOR_SI.IBaseInfoQuery): MONITOR_SI.IBaseInfo => {
   // TODO：此处因接口路径上必须要runtimeId，而实际查询通过query的runtimeName，故先写死0，后续跟接口改再调整
-  return agent.get('/api/tmc/monitor/runtime/0')
+  return agent
+    .get('/api/tmc/monitor/runtime/0')
     .query(payload)
     .then((response: any) => response.body);
 };
 
 export const getInstanceList = ({ fetchApi, ...rest }: MONITOR_SI.IChartQuery): IChartResult => {
-  return agent.get(fetchApi)
+  return agent
+    .get(fetchApi)
     .query(rest)
     .then((response: any) => response.body);
 };

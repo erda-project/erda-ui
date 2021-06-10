@@ -13,77 +13,97 @@
 
 import agent from 'agent';
 
-export const fetchLog = ({ fetchApi, ...rest }: { [k: string]: any; fetchApi?: string }): { lines: COMMON.LogItem[] } => {
-  return agent.get(fetchApi || '/api/runtime/logs')
+export const fetchLog = ({
+  fetchApi,
+  ...rest
+}: {
+  [k: string]: any;
+  fetchApi?: string;
+}): { lines: COMMON.LogItem[] } => {
+  return agent
+    .get(fetchApi || '/api/runtime/logs')
     .query(rest)
     .then((response: any) => response.body);
 };
 
 export function getMembers(payload: MEMBER.GetListServiceQuery) {
-  return agent.get('/api/members')
+  return agent
+    .get('/api/members')
     .query(payload)
     .then((response: any) => response.body);
 }
 
 export function getRoleMap(payload: MEMBER.GetRoleTypeQuery): IPagingResp<MEMBER.IRoleType> {
-  return agent.get('/api/members/actions/list-roles')
+  return agent
+    .get('/api/members/actions/list-roles')
     .query(payload)
     .then((response: any) => response.body);
 }
 
 export function updateMembers(payload: MEMBER.UpdateMemberBody) {
-  return agent.post('/api/members')
-    .send({ ...payload, options: { rewrite: true } })// 接口上写死options.rewrite=true，避免新增用户（已有的用户）设置角色无用
+  return agent
+    .post('/api/members')
+    .send({ ...payload, options: { rewrite: true } }) // 接口上写死options.rewrite=true，避免新增用户（已有的用户）设置角色无用
     .then((response: any) => response.body);
 }
 
-
 export function removeMember(payload: MEMBER.RemoveMemberBody) {
-  return agent.post('/api/members/actions/remove')
+  return agent
+    .post('/api/members/actions/remove')
     .send(payload)
     .then((response: any) => response.body);
 }
 
-export const getMemberLabels = (): {list: Array<{label: string; name: string}>} => {
-  return agent.get('/api/members/actions/list-labels')
-    .then((response: any) => response.body);
+export const getMemberLabels = (): { list: Array<{ label: string; name: string }> } => {
+  return agent.get('/api/members/actions/list-labels').then((response: any) => response.body);
 };
 
-export const getUsers = (payload: {
-  q?: string;
-  userID?: string | string[];
-}) => {
-  return agent.get('/api/users')
+export const getUsers = (payload: { q?: string; userID?: string | string[] }) => {
+  return agent
+    .get('/api/users')
     .query(payload)
     .then((response: any) => response.body);
 };
 
 export const getUsersNew = (payload: Merge<IPagingReq, { q?: string }>) => {
-  return agent.get('/api/users/actions/search')
+  return agent
+    .get('/api/users/actions/search')
     .query(payload)
     .then((response: any) => response.body);
 };
 
-export const getApps = ({ pageSize, pageNo, projectId, q, searchKey, memberID, ...rest }: APPLICATION.GetAppList): IPagingResp<IApplication> => {
-  return agent.get('/api/applications')
+export const getApps = ({
+  pageSize,
+  pageNo,
+  projectId,
+  q,
+  searchKey,
+  memberID,
+  ...rest
+}: APPLICATION.GetAppList): IPagingResp<IApplication> => {
+  return agent
+    .get('/api/applications')
     .query({ pageSize, pageNo, projectId, q: q || searchKey, memberID, ...rest })
     .then((response: any) => response.body);
 };
 
 export const uploadFile = (file: any): IUploadFile => {
-  return agent.post('/api/files')
+  return agent
+    .post('/api/files')
     .send(file)
     .then((response: any) => response.body);
 };
 
 export const genOrgInviteCode = (payload: { orgId: number }): { verifyCode: string } => {
-  return agent.post('/api/orgs/actions/gen-verify-code')
+  return agent
+    .post('/api/orgs/actions/gen-verify-code')
     .send(payload)
     .then((response: any) => response.body);
 };
 
 export const getRenderPageLayout = (payload: CONFIG_PAGE.RenderConfig) => {
-  return agent.post('/api/component-protocol/actions/render')
+  return agent
+    .post('/api/component-protocol/actions/render')
     .send(payload)
     .then((response: any) => response.body);
 };

@@ -19,20 +19,25 @@ import i18n from 'i18n';
 import { AddOne as IconAddOne, ReduceOne as IconReduceOne } from '@icon-park/react';
 import './combiner.scss';
 
-interface IProps<P, O>{
+interface IProps<P, O> {
   CombinerItem: any;
   valueFixIn?: (val: P[]) => O[];
   valueFixOut?: (val: O[]) => P[];
   defaultItem?: (props: any) => O;
 }
 
-export interface ICompProps<P, O>{
+export interface ICompProps<P, O> {
   value: P[];
   onChange: (arg: P[]) => void;
 }
 
 const defaultFix = (a: any) => a;
-export function createCombiner<P, O>({ CombinerItem, valueFixIn = defaultFix, valueFixOut = defaultFix, defaultItem }: IProps<P, O>) {
+export function createCombiner<P, O>({
+  CombinerItem,
+  valueFixIn = defaultFix,
+  valueFixOut = defaultFix,
+  defaultItem,
+}: IProps<P, O>) {
   return (props: ICompProps<P, O>) => {
     const { value, onChange, disabled, ...rest } = props;
     const changeData = (val: any) => {
@@ -77,22 +82,22 @@ export function createCombiner<P, O>({ CombinerItem, valueFixIn = defaultFix, va
             updateItem={(d: any) => {
               updateItem(d, index);
             }}
-            operation={(
-              disabled
-                ? <IconReduceOne className="combiner-operation not-allowed" />
-                : <IconReduceOne className="combiner-operation" onClick={() => deleteItem(index)} />
-            )}
+            operation={
+              disabled ? (
+                <IconReduceOne className="combiner-operation not-allowed" />
+              ) : (
+                <IconReduceOne className="combiner-operation" onClick={() => deleteItem(index)} />
+              )
+            }
           />
         ))}
-        {
-          disabled ? (
-            <IconAddOne className="combiner-operation not-allowed" />
-          ) : (
-            <Tooltip title={i18n.t('common:click to add item')}>
-              <IconAddOne className="combiner-operation" onClick={addItem} />
-            </Tooltip>
-          )
-        }
+        {disabled ? (
+          <IconAddOne className="combiner-operation not-allowed" />
+        ) : (
+          <Tooltip title={i18n.t('common:click to add item')}>
+            <IconAddOne className="combiner-operation" onClick={addItem} />
+          </Tooltip>
+        )}
       </div>
     );
   };

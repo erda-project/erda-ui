@@ -25,9 +25,7 @@ describe('TimeSelectorContainer', () => {
     });
   });
   it('render TimeSelector', () => {
-    const wrapper = mount(
-      <TimeSelectorContainer />,
-    );
+    const wrapper = mount(<TimeSelectorContainer />);
     expect(wrapper.find('RangePicker')).toExist();
     wrapper.setProps({
       rangeMode: false,

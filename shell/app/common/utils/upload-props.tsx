@@ -22,7 +22,10 @@ import { UploadProps } from 'core/common/interface';
  * @param overwrite 覆盖配置
  * @param sizeLimit 上传大小限制，单位M
  */
-export function getUploadProps(overwrite: Merge<UploadProps, {queryData?: Record<string, any>}>, sizeLimit = 20): UploadProps {
+export function getUploadProps(
+  overwrite: Merge<UploadProps, { queryData?: Record<string, any> }>,
+  sizeLimit = 20,
+): UploadProps {
   const { queryData = {}, ...rest } = overwrite;
   const queryStr = qs.stringify(queryData);
   return {

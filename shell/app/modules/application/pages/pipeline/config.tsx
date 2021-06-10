@@ -48,7 +48,6 @@ export const scopeMap = {
   },
 };
 
-
 // 根据inode的得到branch、path
 export const getBranchPath = (node: TREE.NODE, appId?: string) => {
   if (!node || isEmpty(node)) return { branch: '', pagingYmlNames: [], env: '' };
@@ -59,10 +58,7 @@ export const getBranchPath = (node: TREE.NODE, appId?: string) => {
   let branch = '';
   let env = '';
   if (ymlPathStrArr.length) {
-    pagingYmlNames = [
-      `${appId}/${gittarYmlPath.split('/').slice(1).join('/')}`,
-      snippetConfigName,
-    ];
+    pagingYmlNames = [`${appId}/${gittarYmlPath.split('/').slice(1).join('/')}`, snippetConfigName];
     branch = ymlPathStrArr.slice(2).join('/');
     env = ymlPathStrArr[1];
   }

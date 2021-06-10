@@ -74,7 +74,6 @@ const SelectInputGroup = (props: IProps) => {
     triggerChange({ inputValue });
   };
 
-
   const handleSelectChange = (selectValue: SelectValue) => {
     if (!('value' in props)) {
       setState((pre) => {
@@ -94,18 +93,14 @@ const SelectInputGroup = (props: IProps) => {
         placeholder={selectTip}
         {...selectProps}
       >
-        {
-          options.map((op) => <Option key={op.value} value={op.value}>{op.name}</Option>)
-        }
+        {options.map((op) => (
+          <Option key={op.value} value={op.value}>
+            {op.name}
+          </Option>
+        ))}
       </Select>
       <span className="slash">/</span>
-      <Input
-        type="text"
-        value={state.inputValue}
-        onChange={handleInputChange}
-        placeholder={inputTip}
-        {...inputProps}
-      />
+      <Input type="text" value={state.inputValue} onChange={handleInputChange} placeholder={inputTip} {...inputProps} />
     </span>
   );
 };

@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 export const mockData: CP_TABLE.Spec = {
   type: 'Table',
   state: {
@@ -19,7 +18,8 @@ export const mockData: CP_TABLE.Spec = {
     pageSize: 10,
     pageNo: 1, // 这里注意，如果filter组件里有数据变化，这里的pageNo要重置为1，就是用户改变查询参数后，要从第一页开始
   },
-  operations: { // 当用户翻页的时候，我会先把上面state的pageNo改掉，然后再告诉你我执行了这个operation
+  operations: {
+    // 当用户翻页的时候，我会先把上面state的pageNo改掉，然后再告诉你我执行了这个operation
     changePageNo: {
       key: 'changePageNo',
       reload: true,
@@ -43,14 +43,24 @@ export const mockData: CP_TABLE.Spec = {
         id: '1111', // 唯一key
         type: 'REQUIREMENT',
         iterationID: 9,
-        title: { renderType: 'textWithTags', prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT', value: '111111', tags: [{ tag: 'tag1', color: 'red' }, { tag: 'tag2', color: 'blue' }, { tag: 'tag3', color: 'green' }] },
+        title: {
+          renderType: 'textWithTags',
+          prefixIcon: 'ISSUE_ICON.issue.REQUIREMENT',
+          value: '111111',
+          tags: [
+            { tag: 'tag1', color: 'red' },
+            { tag: 'tag2', color: 'blue' },
+            { tag: 'tag3', color: 'green' },
+          ],
+        },
         progress: { renderType: 'progress', value: '30' },
         severity: {
           renderType: 'operationsDropdownMenu',
           value: '严重',
           prefixIcon: 'ISSUE_ICON.severity.XX',
           operations: {
-            changePriorityTo1: { // 这个key后端定，
+            changePriorityTo1: {
+              // 这个key后端定，
               key: 'changePriorityTo1', // 这个key一定要有
               reload: true,
               disabled: true, // 根据实际情况
@@ -65,7 +75,8 @@ export const mockData: CP_TABLE.Spec = {
           value: '高',
           prefixIcon: 'ISSUE_ICON.priority.HIGH',
           operations: {
-            changePriorityTo1: { // 这个key后端定，
+            changePriorityTo1: {
+              // 这个key后端定，
               key: 'changePriorityTo1', // 这个key一定要有
               reload: true,
               disabled: true, // 根据实际情况
@@ -87,7 +98,8 @@ export const mockData: CP_TABLE.Spec = {
           value: '进行中',
           prefixIcon: 'ISSUE_ICON.state.WORKING',
           operations: {
-            changePriorityTo1: { // 这个key后端定，
+            changePriorityTo1: {
+              // 这个key后端定，
               key: 'changePriorityTo1', // 这个key一定要有
               reload: true,
               disabled: true, // 根据实际情况

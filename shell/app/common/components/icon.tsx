@@ -25,21 +25,15 @@ interface IProps {
   onClick?: React.MouseEventHandler;
 }
 
-export const Icon = ({
-  type, className, style, onClick, color, ...rest
-}: IProps) => {
+export const Icon = ({ type, className, style, onClick, color, ...rest }: IProps) => {
   if (React.isValidElement(type)) {
     return type;
   }
-  if (type && type.startsWith('ISSUE_ICON')) { // 直接返回issue相关icon
+  if (type && type.startsWith('ISSUE_ICON')) {
+    // 直接返回issue相关icon
     return get(ISSUE_ICON, type.replace('ISSUE_ICON.', '')) || null;
   }
-  const classes = classNames(
-    !color && 'iconfont',
-    !color && `icon-${type}`,
-    color && 'icon',
-    className,
-  );
+  const classes = classNames(!color && 'iconfont', !color && `icon-${type}`, color && 'icon', className);
   if (color) {
     return (
       <svg className={classes} aria-hidden="true" style={style} onClick={onClick}>
@@ -47,33 +41,36 @@ export const Icon = ({
       </svg>
     );
   }
-  return (<i aria-label={`icon: ${type}`} className={classes} style={style} onClick={onClick} {...rest} />);
+  return <i aria-label={`icon: ${type}`} className={classes} style={style} onClick={onClick} {...rest} />;
 };
-
 
 // TODO: (zxj)3.21版本该部分icon给后端控制，但因样式过多，先这样快速处理一下，后端只需要给一个type，否则配置属性过多，等后续规范icon
 const ISSUE_ICON = {
   iteration: <Icon type="bb1" className="issue-icon iteration" />,
-  priority: { // 优先级icon
+  priority: {
+    // 优先级icon
     URGENT: <Icon type="jinji" className="issue-icon priority urgent" />, // 紧急
     HIGH: <Icon type="gao" className="issue-icon priority high" />, // 高
     NORMAL: <Icon type="zhong" className="issue-icon priority normal" />, // 中
     LOW: <Icon type="di" className="issue-icon priority low" />, // 低
   },
-  issue: { // 事件类型icon
+  issue: {
+    // 事件类型icon
     REQUIREMENT: <Icon type="xiangfatianjia" className="issue-icon issue-type requirement" />,
     TASK: <IconTask className="issue-icon issue-type task" size="14px" fill="#498e9e" />,
     BUG: <IconBug className="issue-icon issue-type bug" size="14px" fill="#f47201" />,
     EPIC: <Icon type="lichengbei" className="issue-icon issue-type epic" />,
   },
-  severity: { // 严重程度icon（bug）
+  severity: {
+    // 严重程度icon（bug）
     FATAL: <Icon type="P0" className="issue-icon severity fatal" />,
     SERIOUS: <Icon type="P1" className="issue-icon severity serious" />,
     NORMAL: <Icon type="P2" className="issue-icon severity normal" />,
     SLIGHT: <Icon type="P3" className="issue-icon severity slight" />,
     SUGGEST: <Icon type="P4" className="issue-icon severity suggest" />,
   },
-  state: { // 状态
+  state: {
+    // 状态
     OPEN: <Icon type="wh" className="issue-icon state wh" />,
     WORKING: <Icon type="jxz" className="issue-icon state jxz" />,
     TESTING: <Icon type="jxz" className="issue-icon state jxz" />,

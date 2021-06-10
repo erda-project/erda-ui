@@ -17,7 +17,6 @@ import runtimeStore from './runtime';
 import { getDeploymentStatus, getDockerLog } from '../services/log';
 import { getClusterDetail } from 'dcos/services/cluster';
 
-
 interface State {
   deploymentStatus: RUNTIME_LOG.DeployStatus;
   dockerLogMap: {};
@@ -46,7 +45,10 @@ const runtimeLog = createFlatStore({
       const deploymentStatus = await call(getDeploymentStatus, deployId);
       update({ deploymentStatus });
     },
-    async getDockerLog({ call, getParams }, payload: Omit<Merge<RUNTIME_LOG.DockerLogQuery, { logKey: string; clusterName?: string }>, 'colonySoldier'>) {
+    async getDockerLog(
+      { call, getParams },
+      payload: Omit<Merge<RUNTIME_LOG.DockerLogQuery, { logKey: string; clusterName?: string }>, 'colonySoldier'>,
+    ) {
       const { logKey, host, targetId, clusterName } = payload;
       const runtimeDetail = runtimeStore.getState((s) => s.runtimeDetail);
 

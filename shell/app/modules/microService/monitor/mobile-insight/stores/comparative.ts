@@ -19,7 +19,7 @@ import i18n from 'i18n';
 interface IQuery extends MONITOR_MI.IComparativeQuery {
   type: string;
 }
-interface ILoadQuery{
+interface ILoadQuery {
   query: IQuery;
 }
 
@@ -39,7 +39,10 @@ const comparativeStore = createStore({
     },
   },
   reducers: {
-    loadComparativeSuccess(state, payload: { result: IChartResult; type: string; query: MONITOR_MI.IComparativeQuery }) {
+    loadComparativeSuccess(
+      state,
+      payload: { result: IChartResult; type: string; query: MONITOR_MI.IComparativeQuery },
+    ) {
       const { result, type, query } = payload;
       const dataKey = `range.${query.range}`;
       const list = get(result, 'results[0].data');
@@ -56,7 +59,11 @@ const comparativeStore = createStore({
             const { count, percent, min, max } = item;
             let name = '';
             if (type === 'apdex') {
-              name = [i18n.t('microService:satisfied'), i18n.t('microService:tolerable'), i18n.t('microService:not satisfied')][i];
+              name = [
+                i18n.t('microService:satisfied'),
+                i18n.t('microService:tolerable'),
+                i18n.t('microService:not satisfied'),
+              ][i];
             } else {
               name = `[${min},${max}]`;
             }
@@ -70,7 +77,6 @@ const comparativeStore = createStore({
       state.comparative = comparative;
     },
   },
-
 });
 
 export default comparativeStore;

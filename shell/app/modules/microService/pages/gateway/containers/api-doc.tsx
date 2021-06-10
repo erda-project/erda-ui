@@ -60,16 +60,8 @@ const ApiDoc = (props: IProps) => {
   };
 
   return (
-    <Drawer
-      visible={visible}
-      onClose={handleClose}
-      width={700}
-    >
-      <Spin spinning={state.loading}>
-        {
-          isEmpty(state.apis) ? null : <ApiView api={state.apis} />
-        }
-      </Spin>
+    <Drawer visible={visible} onClose={handleClose} width={700}>
+      <Spin spinning={state.loading}>{isEmpty(state.apis) ? null : <ApiView api={state.apis} />}</Spin>
     </Drawer>
   );
 };

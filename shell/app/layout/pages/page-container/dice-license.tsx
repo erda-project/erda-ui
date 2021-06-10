@@ -20,7 +20,6 @@ import userStore from 'app/user/stores';
 import orgStore from 'app/org-home/stores/org.tsx';
 import gqct_png from 'app/images/gqct.png';
 
-
 import './dice-license.scss';
 
 export const DiceLicense = () => {
@@ -66,13 +65,7 @@ export const DiceLicense = () => {
   ];
 
   return (
-    <Modal
-      title={i18n.t('layout:license tip')}
-      visible={!valid}
-      footer={null}
-      closable={false}
-      width={492}
-    >
+    <Modal title={i18n.t('layout:license tip')} visible={!valid} footer={null} closable={false} width={492}>
       <div className="license-container fz14">
         <img className="license-img" src={gqct_png} />
         <div className="color-text mt16 bold-500">{message}</div>

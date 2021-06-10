@@ -30,11 +30,7 @@ interface IProps {
   isSingle: boolean;
 }
 
-const TestEnv = ({
-  envID: _envID,
-  envType: _envType,
-  isSingle,
-}: IProps): JSX.Element => {
+const TestEnv = ({ envID: _envID, envType: _envType, isSingle }: IProps): JSX.Element => {
   const { projectId, testType = 'manual' } = routeInfoStore.useStore((s) => s.params);
   const routeEnvID = +projectId;
 
@@ -69,61 +65,77 @@ const TestEnv = ({
     setModalVisible(true);
   };
 
-  const onDeleteHandle = React.useCallback((record: any) => {
-    if (testType === 'manual') {
-      testEnvStore.deleteTestEnv(record.id, { envID, envType });
-    } else {
-      testEnvStore.deleteAutoTestEnv(record.ns, { scope: scopeMap.autoTest.scope, scopeID: envID });
-    }
-  }, [envID, envType, testType]);
-
-  const columns = React.useMemo(() => [
-    ...insertWhen(testType === 'manual', [
-      {
-        title: i18n.t('project:environment name'),
-        dataIndex: 'name',
-        width: 300,
-      },
-      {
-        title: i18n.t('project:environmental domain name'),
-        dataIndex: 'domain',
-        render: (text: string) => text || '--',
-      },
-    ]),
-    ...insertWhen(testType === 'auto', [
-      {
-        title: i18n.t('application:name'),
-        dataIndex: 'displayName',
-        width: 300,
-      },
-      {
-        title: i18n.t('application:description'),
-        dataIndex: 'desc',
-      },
-    ]),
-    {
-      title: i18n.t('project:operation'),
-      key: 'ops',
-      width: 120,
-      render: (_text: any, record: TEST_ENV.Item) => (
-        <div className="table-operations">
-          <span className="table-operations-btn" onClick={(e) => { e.stopPropagation(); handleOpenDetail(record, true); }}>{i18n.t('edit')}</span>
-          <Popconfirm
-            title={i18n.t('project:confirm to delete?')}
-            onConfirm={(e) => {
-              if (e !== undefined) {
-                e.stopPropagation();
-              }
-              onDeleteHandle(record);
-            }}
-            onCancel={(e) => e && e.stopPropagation()}
-          >
-            <span className="table-operations-btn" onClick={(e) => e.stopPropagation()}>{i18n.t('delete')}</span>
-          </Popconfirm>
-        </div>
-      ),
+  const onDeleteHandle = React.useCallback(
+    (record: any) => {
+      if (testType === 'manual') {
+        testEnvStore.deleteTestEnv(record.id, { envID, envType });
+      } else {
+        testEnvStore.deleteAutoTestEnv(record.ns, { scope: scopeMap.autoTest.scope, scopeID: envID });
+      }
     },
-  ], [onDeleteHandle, testType]);
+    [envID, envType, testType],
+  );
+
+  const columns = React.useMemo(
+    () => [
+      ...insertWhen(testType === 'manual', [
+        {
+          title: i18n.t('project:environment name'),
+          dataIndex: 'name',
+          width: 300,
+        },
+        {
+          title: i18n.t('project:environmental domain name'),
+          dataIndex: 'domain',
+          render: (text: string) => text || '--',
+        },
+      ]),
+      ...insertWhen(testType === 'auto', [
+        {
+          title: i18n.t('application:name'),
+          dataIndex: 'displayName',
+          width: 300,
+        },
+        {
+          title: i18n.t('application:description'),
+          dataIndex: 'desc',
+        },
+      ]),
+      {
+        title: i18n.t('project:operation'),
+        key: 'ops',
+        width: 120,
+        render: (_text: any, record: TEST_ENV.Item) => (
+          <div className="table-operations">
+            <span
+              className="table-operations-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleOpenDetail(record, true);
+              }}
+            >
+              {i18n.t('edit')}
+            </span>
+            <Popconfirm
+              title={i18n.t('project:confirm to delete?')}
+              onConfirm={(e) => {
+                if (e !== undefined) {
+                  e.stopPropagation();
+                }
+                onDeleteHandle(record);
+              }}
+              onCancel={(e) => e && e.stopPropagation()}
+            >
+              <span className="table-operations-btn" onClick={(e) => e.stopPropagation()}>
+                {i18n.t('delete')}
+              </span>
+            </Popconfirm>
+          </div>
+        ),
+      },
+    ],
+    [onDeleteHandle, testType],
+  );
 
   const onRowClick = React.useCallback((record: TEST_ENV.Item | TEST_ENV.IAutoEnvItem) => {
     return {
@@ -135,18 +147,27 @@ const TestEnv = ({
 
   return (
     <Spin spinning={loading}>
-      {
-        isSingle
-          ? isEmpty(envList)
-            ? <Button type="primary" ghost className="mb12" onClick={() => handleOpenDetail({}, true)}>{i18n.t('project:add configuration')}</Button>
-            : null
-          : (
-            <div className="top-button-group">
-              <Button type="primary" onClick={() => handleOpenDetail({}, true)}>{i18n.t('project:add configuration')}</Button>
-            </div>
-          )
-      }
-      <Alert className="color-text-desc mb8" message={testType === 'manual' ? i18n.t('project:test-env-config-tip') : i18n.t('project:auto-test-env-config-tip')} type="normal" showIcon />
+      {isSingle ? (
+        isEmpty(envList) ? (
+          <Button type="primary" ghost className="mb12" onClick={() => handleOpenDetail({}, true)}>
+            {i18n.t('project:add configuration')}
+          </Button>
+        ) : null
+      ) : (
+        <div className="top-button-group">
+          <Button type="primary" onClick={() => handleOpenDetail({}, true)}>
+            {i18n.t('project:add configuration')}
+          </Button>
+        </div>
+      )}
+      <Alert
+        className="color-text-desc mb8"
+        message={
+          testType === 'manual' ? i18n.t('project:test-env-config-tip') : i18n.t('project:auto-test-env-config-tip')
+        }
+        type="normal"
+        showIcon
+      />
       <Table
         rowKey={testType === 'manual' ? 'id' : 'ns'}
         columns={columns}

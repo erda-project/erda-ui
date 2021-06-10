@@ -13,8 +13,12 @@
 
 import agent from 'agent';
 
-export const getErrorTrend = ({ publisherItemId, ...rest }: Merge<{ publisherItemId: string }, PUBLISHER.MonitorKey>): PUBLISHER.IErrorTrend => {
-  return agent.get(`/api/publish-items/${publisherItemId}/err/trend`)
+export const getErrorTrend = ({
+  publisherItemId,
+  ...rest
+}: Merge<{ publisherItemId: string }, PUBLISHER.MonitorKey>): PUBLISHER.IErrorTrend => {
+  return agent
+    .get(`/api/publish-items/${publisherItemId}/err/trend`)
     .query(rest)
     .then((response: any) => response.body);
 };
@@ -33,25 +37,29 @@ export const getErrorChart = ({ publisherItemId, ...rest }: PUBLISHER.IChartQuer
     api = `/api/publish-items/${publisherItemId}/metrics/ta_error_mobile/histogram`;
     query = rest;
   }
-  return agent.get(api)
+  return agent
+    .get(api)
     .query(query)
     .then((response: any) => response.body);
 };
 
 export const getErrorList = ({ artifactsId, ...rest }: PUBLISHER.ErrorListQuery): PUBLISHER.ErrorItem[] => {
-  return agent.get(`/api/publish-items/${artifactsId}/err/list`)
+  return agent
+    .get(`/api/publish-items/${artifactsId}/err/list`)
     .query(rest)
     .then((response: any) => response.body);
 };
 
 export const getErrorDetail = ({ artifactsId, ...rest }: PUBLISHER.ErrorDetailQuery): PUBLISHER.ErrorDetail => {
-  return agent.get(`/api/publish-items/${artifactsId}/metrics/ta_error_mobile`)
+  return agent
+    .get(`/api/publish-items/${artifactsId}/metrics/ta_error_mobile`)
     .query(rest)
     .then((response: any) => response.body);
 };
 
 export const getAllVersion = ({ publisherItemId, ...rest }: PUBLISHER.AllVersionQuery) => {
-  return agent.get(`/api/publish-items/${publisherItemId}/metrics/ta_metric_mobile_metrics`)
+  return agent
+    .get(`/api/publish-items/${publisherItemId}/metrics/ta_metric_mobile_metrics`)
     .query(rest)
     .then((response: any) => response.body);
 };

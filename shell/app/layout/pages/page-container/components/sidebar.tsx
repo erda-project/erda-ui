@@ -59,7 +59,8 @@ const AppCenterEl = () => {
     edge: permMap.edge.view.pass,
     // apiManage: permMap.entryApiManage.pass,
   };
-  const dataSource = appList.filter((app) => openMap[app.key])
+  const dataSource = appList
+    .filter((app) => openMap[app.key])
     .map((app: LAYOUT.IApp) => {
       return {
         key: app.href,
@@ -90,11 +91,18 @@ const AppCenterEl = () => {
       visible={visible}
       className="app-list"
       titleProp="name"
-      node={(
-        <Tooltip title={currentOrg?.id ? '' : i18n.t('layout:there is no organization information, please select an organization first')} placement="right">
+      node={
+        <Tooltip
+          title={
+            currentOrg?.id
+              ? ''
+              : i18n.t('layout:there is no organization information, please select an organization first')
+          }
+          placement="right"
+        >
           <CustomIcon type="appstore" className="fz20 mr0" />
         </Tooltip>
-      )}
+      }
       linkRender={(_linkTo: any, children: any, { app }: { app: LAYOUT.IApp }) => {
         return (
           <a

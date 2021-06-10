@@ -16,13 +16,13 @@ import { PagingTable } from 'common';
 import { shallow } from 'enzyme';
 import { describe, it, jest } from '@jest/globals';
 
-const dataSource = [
-  { name: 'erda' },
+const dataSource = [{ name: 'erda' }];
+const columns = [
+  {
+    title: 'NAME',
+    dataIndex: 'name',
+  },
 ];
-const columns = [{
-  title: 'NAME',
-  dataIndex: 'name',
-}];
 
 describe('PagingTable', () => {
   it('should render well', () => {
@@ -61,13 +61,7 @@ describe('PagingTable', () => {
     wrapperInstance.onChangePage(2);
     expect(wrapperInstance.page).toStrictEqual({ pageNo: 2, pageSize: 15 });
     expect(getList).toHaveBeenLastCalledWith({ pageNo: 2, pageSize: 15 });
-    const temp = shallow(
-      <div>
-        {
-          wrapperInstance.operation.render(dataSource[0])
-        }
-      </div>,
-    );
+    const temp = shallow(<div>{wrapperInstance.operation.render(dataSource[0])}</div>);
     temp.find('.table-operations-btn').at(0).simulate('click');
     expect(editFn).toHaveBeenLastCalledWith(dataSource[0]);
     // show confirm modal
@@ -81,12 +75,7 @@ describe('PagingTable', () => {
   });
   it('should init fetch', () => {
     const getList = jest.fn();
-    shallow(
-      <PagingTable
-        isForbidInitialFetch={false}
-        getList={getList}
-      />,
-    );
+    shallow(<PagingTable isForbidInitialFetch={false} getList={getList} />);
     expect(getList).toHaveBeenCalledTimes(1);
   });
 });

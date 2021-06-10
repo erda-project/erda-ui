@@ -129,5 +129,4 @@ declare namespace ORG_MACHINE {
   interface IDeleteResp {
     recordID: string;
   }
-
 }

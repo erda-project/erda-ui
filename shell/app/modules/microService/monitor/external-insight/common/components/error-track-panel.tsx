@@ -83,7 +83,8 @@ export const webErrorTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceC
         recordKey={`${name}_${httpCode}`}
         dataSource={subErrorHttpList}
         emptyText={i18n.t('microService:no sampleable exception transaction data')}
-      />);
+      />
+    );
   };
 
   const onRowExpand = onExpand(getSubErrorHttpList, query, (record: any) => {
@@ -94,10 +95,11 @@ export const webErrorTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceC
   return (
     <Table
       scroll={{ x: 710 }}
-      rowKey={(record: MONITOR_EI.ITableData, i) => (i + record.name)}
+      rowKey={(record: MONITOR_EI.ITableData, i) => i + record.name}
       columns={columns}
       dataSource={list}
       onExpand={onRowExpand}
       expandedRowRender={expandedRowRender}
-    />);
+    />
+  );
 };

@@ -50,7 +50,8 @@ const auditRoute = {
       ignoreTabQuery: true,
       alwaysShowTabKey: 'package-analyze',
       breadcrumbName: i18n.t('microService:endpoint analytics'),
-      getComp: (cb) => cb(import('microService/pages/gateway/containers/consumer-audit/package-analyze'), 'PackageAnalyze'),
+      getComp: (cb) =>
+        cb(import('microService/pages/gateway/containers/consumer-audit/package-analyze'), 'PackageAnalyze'),
     },
     {
       path: 'consumer-analyze',
@@ -58,7 +59,8 @@ const auditRoute = {
       ignoreTabQuery: true,
       alwaysShowTabKey: 'consumer-analyze',
       breadcrumbName: i18n.t('microService:consumer analytics'),
-      getComp: (cb) => cb(import('microService/pages/gateway/containers/consumer-audit/consumer-analyze'), 'ConsumerAnalyze'),
+      getComp: (cb) =>
+        cb(import('microService/pages/gateway/containers/consumer-audit/consumer-analyze'), 'ConsumerAnalyze'),
     },
     {
       path: 'hotSpot-analyze',
@@ -66,7 +68,8 @@ const auditRoute = {
       ignoreTabQuery: true,
       alwaysShowTabKey: 'hotSpot-analyze',
       breadcrumbName: i18n.t('microService:hot spot analytics'),
-      getComp: (cb) => cb(import('microService/pages/gateway/containers/consumer-audit/hotSpot-analyze'), 'HotSpotAnalyze'),
+      getComp: (cb) =>
+        cb(import('microService/pages/gateway/containers/consumer-audit/hotSpot-analyze'), 'HotSpotAnalyze'),
     },
     {
       path: 'error-analyze',
@@ -110,9 +113,7 @@ function getMicroServiceRouter() {
               path: 'monitor',
               // breadcrumbName: i18n.t('microService:monitoring platform'),
               // disabled: true,
-              routes: [
-                getMonitorRouter(),
-              ],
+              routes: [getMonitorRouter()],
             },
 
             // 日志分析
@@ -229,7 +230,8 @@ function getMicroServiceRouter() {
                       breadcrumbName: i18n.t('microService:endpoint details'),
                       routes: [
                         {
-                          getComp: (cb) => cb(import('microService/pages/gateway/containers/api-package-detail'), 'ApiPackageDetail'),
+                          getComp: (cb) =>
+                            cb(import('microService/pages/gateway/containers/api-package-detail'), 'ApiPackageDetail'),
                         },
                         {
                           path: 'api-policies', // API 策略
@@ -242,7 +244,8 @@ function getMicroServiceRouter() {
                                 { key: 'api-policies/business-policy', name: i18n.t('microService:business strategy') },
                               ],
                               alwaysShowTabKey: 'api-policies/safety-policy',
-                              getComp: (cb) => cb(import('microService/pages/gateway/containers/safety-policy'), 'SafetyPolicy'),
+                              getComp: (cb) =>
+                                cb(import('microService/pages/gateway/containers/safety-policy'), 'SafetyPolicy'),
                             },
                             {
                               path: 'business-policy',
@@ -251,7 +254,8 @@ function getMicroServiceRouter() {
                                 { key: 'api-policies/business-policy', name: i18n.t('microService:business strategy') },
                               ],
                               alwaysShowTabKey: 'api-policies/business-policy',
-                              getComp: (cb) => cb(import('microService/pages/gateway/containers/business-policy'), 'BusinessPolicy'),
+                              getComp: (cb) =>
+                                cb(import('microService/pages/gateway/containers/business-policy'), 'BusinessPolicy'),
                             },
                           ],
                         },
@@ -264,7 +268,8 @@ function getMicroServiceRouter() {
                   breadcrumbName: i18n.t('microService:consumer management'),
                   routes: [
                     {
-                      getComp: (cb) => cb(import('microService/pages/gateway/containers/consumer-manage'), 'ConsumerManage'),
+                      getComp: (cb) =>
+                        cb(import('microService/pages/gateway/containers/consumer-manage'), 'ConsumerManage'),
                     },
                     auditRoute,
                   ],
@@ -276,11 +281,10 @@ function getMicroServiceRouter() {
                   routes: [
                     {
                       path: 'traffic-policy',
-                      tabs: [
-                        { key: 'api-policies/traffic-policy', name: i18n.t('microService:control strategy') },
-                      ],
+                      tabs: [{ key: 'api-policies/traffic-policy', name: i18n.t('microService:control strategy') }],
                       alwaysShowTabKey: 'api-policies/traffic-policy',
-                      getComp: (cb) => cb(import('microService/pages/gateway/containers/traffic-policy'), 'TrafficPolicy'),
+                      getComp: (cb) =>
+                        cb(import('microService/pages/gateway/containers/traffic-policy'), 'TrafficPolicy'),
                     },
                   ],
                 },

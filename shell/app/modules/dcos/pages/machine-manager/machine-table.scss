@@ -1,4 +1,3 @@
-
 .cluster-overview {
   overflow-x: auto;
   white-space: nowrap;
@@ -103,24 +102,32 @@
         align-items: center;
         height: 100%;
         background: linear-gradient(
-          to right, transparentize($color-primary, .99), transparentize($color-primary, .9)
+          to right,
+          transparentize($color-primary, 0.99),
+          transparentize($color-primary, 0.9)
         );
 
         &.machine-percent-top-bar {
           background: linear-gradient(
-            to right, transparentize($color-primary, .98), transparentize($color-primary, .8)
+            to right,
+            transparentize($color-primary, 0.98),
+            transparentize($color-primary, 0.8)
           );
 
           &.machine-percent-error-bar {
             background: linear-gradient(
-              to right, transparentize($color-danger, .98), transparentize($color-danger, .8)
+              to right,
+              transparentize($color-danger, 0.98),
+              transparentize($color-danger, 0.8)
             );
           }
         }
 
         &:hover {
           background: linear-gradient(
-            to right, transparentize($color-primary, .95), transparentize($color-primary, .5)
+            to right,
+            transparentize($color-primary, 0.95),
+            transparentize($color-primary, 0.5)
           );
 
           span {

@@ -41,7 +41,8 @@ const RepoTag = () => {
 
   const repoBranchAuth = usePerm((s) => s.app.repo.branch);
 
-  const download = (tag: string, format: string) => window.open(setApiWithOrg(`/api/repo/${gitRepoAbbrev}/archive/${tag}.${format}`));
+  const download = (tag: string, format: string) =>
+    window.open(setApiWithOrg(`/api/repo/${gitRepoAbbrev}/archive/${tag}.${format}`));
 
   React.useEffect(() => {
     getListByType({ type: 'tag' });
@@ -90,17 +91,15 @@ const RepoTag = () => {
             onChange={handleSelectChange}
             filterOption={(input, option: any) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
           >
-            {options && options.map((option: string) => (
-              <Option key={option} value={option}>{option}</Option>
-            ))}
+            {options &&
+              options.map((option: string) => (
+                <Option key={option} value={option}>
+                  {option}
+                </Option>
+              ))}
           </Select>
           <IF.ELSE />
-          <Input
-            type="text"
-            value={refValue}
-            maxLength={40}
-            onChange={handleTextChange}
-          />
+          <Input type="text" value={refValue} maxLength={40} onChange={handleTextChange} />
         </IF>
       </div>
     );
@@ -125,14 +124,16 @@ const RepoTag = () => {
     getList(e.target.value);
   };
 
-
   const fieldsList = [
     {
       label: i18n.t('application:source type'),
       name: 'refType',
       type: 'radioGroup',
       initialValue: 'branch',
-      options: [{ name: 'Branch', value: 'branch' }, { name: 'commit SHA', value: 'commitId' }],
+      options: [
+        { name: 'Branch', value: 'branch' },
+        { name: 'commit SHA', value: 'commitId' },
+      ],
     },
     {
       label: i18n.t('application:based on'),
@@ -205,10 +206,15 @@ const RepoTag = () => {
                 <div className="branch-item-left">
                   <div className="bold-500 v-align fz16 mb12">
                     <CustomIcon type="bb" />
-                    <Link to={mergeRepoPathWith(`/tree/${name}`)}><span className="color-text hover-active">{name}</span></Link>
+                    <Link to={mergeRepoPathWith(`/tree/${name}`)}>
+                      <span className="color-text hover-active">{name}</span>
+                    </Link>
                   </div>
                   <div className="v-align color-text-sub">
-                    <span className="inline-v-align"><Avatar showName name={committerName} />&nbsp;{i18n.t('committed at')}</span>
+                    <span className="inline-v-align">
+                      <Avatar showName name={committerName} />
+                      &nbsp;{i18n.t('committed at')}
+                    </span>
                     <span className="ml4">{fromNow(when)}</span>
                     <span className="ml24 color-text-desc nowrap flex-1">
                       <GotoCommit length={6} commitId={id} />
@@ -216,15 +222,21 @@ const RepoTag = () => {
                   </div>
                 </div>
                 <div className="branch-item-right">
-                  <Button className="ml12" onClick={() => download(name, 'zip')}>{i18n.t('application:download zip')}</Button>
-                  <Button className="ml12" onClick={() => download(name, 'tar.gz')}>{i18n.t('application:download tar.gz')}</Button>
+                  <Button className="ml12" onClick={() => download(name, 'zip')}>
+                    {i18n.t('application:download zip')}
+                  </Button>
+                  <Button className="ml12" onClick={() => download(name, 'tar.gz')}>
+                    {i18n.t('application:download tar.gz')}
+                  </Button>
                   <DeleteConfirm
                     onConfirm={() => {
                       deleteTag({ tag: name });
                     }}
                   >
                     <WithAuth pass={repoBranchAuth.deleteTag.pass}>
-                      <Button disabled={isLocked} className="ml12" ghost type="danger">{i18n.t('delete')}</Button>
+                      <Button disabled={isLocked} className="ml12" ghost type="danger">
+                        {i18n.t('delete')}
+                      </Button>
                     </WithAuth>
                   </DeleteConfirm>
                 </div>

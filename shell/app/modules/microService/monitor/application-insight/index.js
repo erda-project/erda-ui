@@ -21,9 +21,7 @@ const tabs = [
   { key: 'ai/cache', name: i18n.t('cache') },
   { key: 'ai/jvm', name: 'JVMs' },
   { key: 'ai/nodes', name: 'NodeJs' },
-
 ];
-
 
 const getAIRouter = () => ({
   path: 'ai',

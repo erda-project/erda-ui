@@ -48,14 +48,10 @@ export const TreeTitle = ({
   icon = 'yizhanzhifubaoxiaochengxu-',
   execOperation,
 }: ITreeTitle) => {
-  const [{
-    inputVisible,
-    apiDocName,
-  }, updater] = useUpdate({
+  const [{ inputVisible, apiDocName }, updater] = useUpdate({
     inputVisible: false,
     apiDocName: name,
   });
-
 
   const { inode: inodeQuery } = routeInfoStore.useStore((s) => s.query);
   const dropDownRef = React.useRef(null);
@@ -77,7 +73,6 @@ export const TreeTitle = ({
     }
   };
 
-
   const onChangeName = (e: any) => {
     e.stopPropagation();
     updater.apiDocName(e.target.value);
@@ -90,11 +85,13 @@ export const TreeTitle = ({
 
   const operations = (
     <Menu>
-      {
-        map(NODE_OPERATIONS, ({ key, label }) => {
-          return (inodeQuery === inode) ? undefined : <Menu.Item key={key} onClick={operationHandle} >{label}</Menu.Item>;
-        })
-      }
+      {map(NODE_OPERATIONS, ({ key, label }) => {
+        return inodeQuery === inode ? undefined : (
+          <Menu.Item key={key} onClick={operationHandle}>
+            {label}
+          </Menu.Item>
+        );
+      })}
     </Menu>
   );
 
@@ -106,56 +103,48 @@ export const TreeTitle = ({
     <div className="api-tree-title flex-box" ref={dropDownRef}>
       <div className="flex-box">
         <CustomIcon type={icon} className="color-text-sub" />
-        {
-          inputVisible ? (
-            <>
-              <Input
-                value={apiDocName}
-                style={{ width: '180px', marginRight: '8px' }}
-                onChange={onChangeName}
-                onBlur={() => {
-                  setTimeout(() => {
-                    updater.inputVisible(false);
-                    updater.apiDocName(name);
-                  }, 200);
-                }}
-                onClick={(e) => e.stopPropagation()}
-              />
-              <CustomIcon className="mr0" type="duigou" onClick={saveName} />
-            </>
-          )
-            : <Tooltip title={name}><div className="nowrap" style={{ maxWidth: '120px' }}>{name}</div></Tooltip>
-        }
+        {inputVisible ? (
+          <>
+            <Input
+              value={apiDocName}
+              style={{ width: '180px', marginRight: '8px' }}
+              onChange={onChangeName}
+              onBlur={() => {
+                setTimeout(() => {
+                  updater.inputVisible(false);
+                  updater.apiDocName(name);
+                }, 200);
+              }}
+              onClick={(e) => e.stopPropagation()}
+            />
+            <CustomIcon className="mr0" type="duigou" onClick={saveName} />
+          </>
+        ) : (
+          <Tooltip title={name}>
+            <div className="nowrap" style={{ maxWidth: '120px' }}>
+              {name}
+            </div>
+          </Tooltip>
+        )}
       </div>
-      {
-        canOperate &&
-        (
-          <Dropdown
-            overlay={operations}
-            trigger={['hover']}
-            getPopupContainer={() => dropDownRef && dropDownRef.current}
-          >
-            <CustomIcon type="gd" onClick={(e) => e.stopPropagation()} />
-          </Dropdown>
-        )
-      }
+      {canOperate && (
+        <Dropdown overlay={operations} trigger={['hover']} getPopupContainer={() => dropDownRef && dropDownRef.current}>
+          <CustomIcon type="gd" onClick={(e) => e.stopPropagation()} />
+        </Dropdown>
+      )}
     </div>
   );
 };
 
-
-export const BranchTitle = ({
-  name,
-  icon = 'branch',
-}: {
-  name: string;
-  icon?: string;
-}) => {
+export const BranchTitle = ({ name, icon = 'branch' }: { name: string; icon?: string }) => {
   return (
     <div className="left-flex-box">
       <CustomIcon type={icon} className="color-text-sub" />
-      <Tooltip title={name}><div className="nowrap" style={{ maxWidth: '160px' }}>{name}</div></Tooltip>
+      <Tooltip title={name}>
+        <div className="nowrap" style={{ maxWidth: '160px' }}>
+          {name}
+        </div>
+      </Tooltip>
     </div>
   );
 };
-

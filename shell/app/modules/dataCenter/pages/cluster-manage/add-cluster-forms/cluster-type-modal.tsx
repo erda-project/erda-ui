@@ -24,13 +24,17 @@ export const clusterTypeMap = [
       type: 'alicloud-cs-managed',
       name: i18n.t('dataCenter:alibaba Cloud Container Service Cluster (Hosted Version)'),
       icon: clusterImgMap['alicloud-cs-managed'],
-      description: i18n.t('dataCenter:based on Alibaba Cloud Container Service Hosting Edition, create a Erda hosting cluster'),
+      description: i18n.t(
+        'dataCenter:based on Alibaba Cloud Container Service Hosting Edition, create a Erda hosting cluster',
+      ),
     },
     {
       type: 'alicloud-cs',
       name: i18n.t('dataCenter:alibaba Cloud Container Service Cluster (proprietary version)'),
       icon: clusterImgMap['alicloud-cs'],
-      description: i18n.t('dataCenter:based on Alibaba Cloud Container Service Proprietary Edition, create a Erda hosting cluster'),
+      description: i18n.t(
+        'dataCenter:based on Alibaba Cloud Container Service Proprietary Edition, create a Erda hosting cluster',
+      ),
     },
     {
       type: 'erdc', // existing-resource-deploy-cluster
@@ -67,7 +71,14 @@ const TypeCard = (props: any) => {
   const onHover = () => setIsHover(true);
   const outHover = () => setIsHover(false);
   return (
-    <div className="cluster-type-card" onMouseEnter={onHover} onMouseLeave={outHover} onClick={() => { onChosen(type); }}>
+    <div
+      className="cluster-type-card"
+      onMouseEnter={onHover}
+      onMouseLeave={outHover}
+      onClick={() => {
+        onChosen(type);
+      }}
+    >
       <div className="type-icon">
         <img src={isHover ? get(type, 'icon.active') : get(type, 'icon.default')} />
       </div>
@@ -99,7 +110,9 @@ export const ClusterTypeModal = (props: any) => {
           return (
             <Row key={idx} gutter={16} className="cluster-type-row mb16">
               {map(subItem, (item) => (
-                <Col key={item.type} span={8}><TypeCard onChosen={handleSubmit} {...item} /></Col>
+                <Col key={item.type} span={8}>
+                  <TypeCard onChosen={handleSubmit} {...item} />
+                </Col>
               ))}
             </Row>
           );
@@ -108,4 +121,3 @@ export const ClusterTypeModal = (props: any) => {
     </Modal>
   );
 };
-

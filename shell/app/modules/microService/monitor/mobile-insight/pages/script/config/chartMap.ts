@@ -22,39 +22,40 @@ const commonAttr = {
   groupId: 'MIScript',
 };
 
-const chartMap = merge({
-  sortTab: {
-    moduleName: 'MIScript',
-    type: 'sortTab',
-    tabList: [
-      { name: i18n.t('microService:error message'), key: 'error' },
-    ],
-  },
-  sortList: {
-    moduleName: 'MIScript',
-    type: 'sortList',
-    chartName: 'MIScriptSort',
-    viewProps: {
-      onClickItem: null,
+const chartMap = merge(
+  {
+    sortTab: {
+      moduleName: 'MIScript',
+      type: 'sortTab',
+      tabList: [{ name: i18n.t('microService:error message'), key: 'error' }],
+    },
+    sortList: {
+      moduleName: 'MIScript',
+      type: 'sortList',
+      chartName: 'MIScriptSort',
+      viewProps: {
+        onClickItem: null,
+      },
+    },
+    errorTopN: {
+      titleText: `${i18n.t('microService:number of errors')} TOP5`,
+      ...commonAttr,
+      chartName: 'errorTopN',
+    },
+    osTopN: {
+      titleText: i18n.t('microService:operating system'),
+      ...commonAttr,
+      chartName: 'osTopN',
+    },
+    scriptDetail: {
+      titleText: i18n.t('microService:error details'),
+      ...commonAttr,
+      chartName: 'scriptDetail',
+      viewRender: ScriptDetail,
     },
   },
-  errorTopN: {
-    titleText: `${i18n.t('microService:number of errors')} TOP5`,
-    ...commonAttr,
-    chartName: 'errorTopN',
-  },
-  osTopN: {
-    titleText: i18n.t('microService:operating system'),
-    ...commonAttr,
-    chartName: 'osTopN',
-  },
-  scriptDetail: {
-    titleText: i18n.t('microService:error details'),
-    ...commonAttr,
-    chartName: 'scriptDetail',
-    viewRender: ScriptDetail,
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   sortTab: sortRender(chartMap.sortTab) as any,

@@ -34,23 +34,26 @@ interface IProps {
   getMachineStatus: (hosts: string[]) => Promise<any[]>;
 }
 
-const ResourcesChartList = ({
-  clusters,
-  machineList,
-  setActiveKey,
-}: IProps) => {
-  const [chartList, serviceList, jobList] = clusterDashboardStore.useStore((s) => [s.chartList, s.serviceList, s.jobList]);
+const ResourcesChartList = ({ clusters, machineList, setActiveKey }: IProps) => {
+  const [chartList, serviceList, jobList] = clusterDashboardStore.useStore((s) => [
+    s.chartList,
+    s.serviceList,
+    s.jobList,
+  ]);
   const { getChartData, getInstanceList } = clusterDashboardStore.effects;
   const [loading] = useLoading(clusterDashboardStore, ['getChartData']);
   const { getMachineStatus } = machineStore.effects;
   const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
   const orgName = orgStore.useStore((s) => s.currentOrg.name);
 
-  const getChartList = React.useCallback((extra: object) => {
-    getChartData({ type: 'cpu', ...extra });
-    getChartData({ type: 'mem', ...extra });
-    getChartData({ type: 'count', ...extra });
-  }, [getChartData]);
+  const getChartList = React.useCallback(
+    (extra: object) => {
+      getChartData({ type: 'cpu', ...extra });
+      getChartData({ type: 'mem', ...extra });
+      getChartData({ type: 'count', ...extra });
+    },
+    [getChartData],
+  );
   const [state, updater] = useUpdate({
     abnormalHostNum: 0,
   });
@@ -65,11 +68,10 @@ const ResourcesChartList = ({
       return;
     }
 
-    getMachineStatus(map(machineList, ({ ip }) => ip))
-      .then((hosts: any[]) => {
-        const abnormalHostNum = filter(hosts, ({ status_level }) => status_level !== 'normal').length;
-        updater.abnormalHostNum(abnormalHostNum);
-      });
+    getMachineStatus(map(machineList, ({ ip }) => ip)).then((hosts: any[]) => {
+      const abnormalHostNum = filter(hosts, ({ status_level }) => status_level !== 'normal').length;
+      updater.abnormalHostNum(abnormalHostNum);
+    });
   }, [getMachineStatus, machineList, updater]);
 
   useEffect(() => {
@@ -122,23 +124,26 @@ const ResourcesChartList = ({
     <>
       <div className="group-indices-ct mb32">
         <Row type="flex" justify="space-between">
-          {
-            map(groupIndices, ({ type, name, value, isWithErrorClass }: any) => (
-              <Col span={5} key={name}>
-                <div className="group-indices-item hover-active" onClick={() => { setActiveKey(type); }}>
-                  <div className="title mb12">{name}</div>
-                  <div
-                    className={classNames({
-                      num: true,
-                      'error-num': isWithErrorClass && value > 0,
-                    })}
-                  >
-                    {value}
-                  </div>
+          {map(groupIndices, ({ type, name, value, isWithErrorClass }: any) => (
+            <Col span={5} key={name}>
+              <div
+                className="group-indices-item hover-active"
+                onClick={() => {
+                  setActiveKey(type);
+                }}
+              >
+                <div className="title mb12">{name}</div>
+                <div
+                  className={classNames({
+                    num: true,
+                    'error-num': isWithErrorClass && value > 0,
+                  })}
+                >
+                  {value}
                 </div>
-              </Col>
-            ))
-          }
+              </div>
+            </Col>
+          ))}
         </Row>
       </div>
       <div className="chart-list">
@@ -146,19 +151,13 @@ const ResourcesChartList = ({
         <Spin spinning={loading}>
           <Holder when={isEmpty(data)}>
             <Row gutter={24}>
-              {
-                compact(data).map((item) => (
-                  <Col key={item.title} span={8}>
-                    <ChartContainer title={item.title}>
-                      <MonitorChartNew
-                        timeSpan={timeSpan}
-                        data={item}
-                        title={item.title}
-                      />
-                    </ChartContainer>
-                  </Col>
-                ))
-              }
+              {compact(data).map((item) => (
+                <Col key={item.title} span={8}>
+                  <ChartContainer title={item.title}>
+                    <MonitorChartNew timeSpan={timeSpan} data={item} title={item.title} />
+                  </ChartContainer>
+                </Col>
+              ))}
             </Row>
           </Holder>
         </Spin>

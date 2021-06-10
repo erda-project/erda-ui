@@ -20,9 +20,8 @@ import { useDrag } from 'react-dnd';
 import classnames from 'classnames';
 import './card.scss';
 
-
 const fakeClick = 'fake-click';
-const noop = () => { };
+const noop = () => {};
 
 export const Card = (props: CP_CARD.Props) => {
   const { props: configProps, execOperation = noop, customProps = {} } = props;
@@ -50,34 +49,33 @@ export const Card = (props: CP_CARD.Props) => {
 
   const getMenu = () => {
     return (
-      <Menu onClick={(e: any) => {
-        e.domEvent.stopPropagation();
-        onClick(e.key);
-      }}
+      <Menu
+        onClick={(e: any) => {
+          e.domEvent.stopPropagation();
+          onClick(e.key);
+        }}
       >
-        {
-          map(menuOperations, (item, key) => {
-            if (item.disabled) {
-              return (
-                <Menu.Item key={key}>
-                  <WithAuth pass={false} key={key} noAuthTip={item.disabledTip}>
-                    <span>{item.text}</span>
-                  </WithAuth>
-                </Menu.Item>
-              );
-            }
-            if (item.confirm) {
-              return (
-                <Menu.Item key={`${fakeClick}-${key}`}>
-                  <Popconfirm title={item.confirm} onConfirm={() => onClick(key)}>
-                    <span>{item.text}</span>
-                  </Popconfirm>
-                </Menu.Item>
-              );
-            }
-            return <Menu.Item key={key}>{item.text}</Menu.Item>;
-          })
-        }
+        {map(menuOperations, (item, key) => {
+          if (item.disabled) {
+            return (
+              <Menu.Item key={key}>
+                <WithAuth pass={false} key={key} noAuthTip={item.disabledTip}>
+                  <span>{item.text}</span>
+                </WithAuth>
+              </Menu.Item>
+            );
+          }
+          if (item.confirm) {
+            return (
+              <Menu.Item key={`${fakeClick}-${key}`}>
+                <Popconfirm title={item.confirm} onConfirm={() => onClick(key)}>
+                  <span>{item.text}</span>
+                </Popconfirm>
+              </Menu.Item>
+            );
+          }
+          return <Menu.Item key={key}>{item.text}</Menu.Item>;
+        })}
       </Menu>
     );
   };
@@ -94,37 +92,28 @@ export const Card = (props: CP_CARD.Props) => {
     <div className={`${className} ${cls}`} onClick={() => clickNode(data)}>
       <div className="info-card-content px12 py8" key={id} ref={drag}>
         <div className={'info-card-head flex-box mb8'}>
-          {
-            isString(titleIcon)
-              ? <CustomIcon type={titleIcon} color className="head-icon mr4" />
-              : (titleIcon || null)
-          }
+          {isString(titleIcon) ? <CustomIcon type={titleIcon} color className="head-icon mr4" /> : titleIcon || null}
           <div className="flex-1 fz14 color-text break-word">{title}</div>
-          {
-            isEmpty(menuOperations)
-              ? <CustomIcon className="op-icon hide-icon" onClick={(e) => e.stopPropagation()} type="more" />
-              : (
-                <span ref={opRef}>
-                  <Dropdown overlay={getMenu()} getPopupContainer={() => opRef.current as any}>
-                    <CustomIcon className="op-icon" onClick={(e) => e.stopPropagation()} type="more" />
-                  </Dropdown>
-                </span>
-              )
-          }
+          {isEmpty(menuOperations) ? (
+            <CustomIcon className="op-icon hide-icon" onClick={(e) => e.stopPropagation()} type="more" />
+          ) : (
+            <span ref={opRef}>
+              <Dropdown overlay={getMenu()} getPopupContainer={() => opRef.current as any}>
+                <CustomIcon className="op-icon" onClick={(e) => e.stopPropagation()} type="more" />
+              </Dropdown>
+            </span>
+          )}
         </div>
-        {
-          isString(subContent) ? <div className="fz12 color-text-sub mb12">{subContent}</div> : (subContent || null)
-        }
-        {
-          isString(description) ? (
-            <Tooltip title={description}>
-              <div className="fz12 nowrap color-text-desc">{description}</div>
-            </Tooltip>
-          ) : (description || null)
-        }
+        {isString(subContent) ? <div className="fz12 color-text-sub mb12">{subContent}</div> : subContent || null}
+        {isString(description) ? (
+          <Tooltip title={description}>
+            <div className="fz12 nowrap color-text-desc">{description}</div>
+          </Tooltip>
+        ) : (
+          description || null
+        )}
         {extraInfo}
       </div>
     </div>
   );
 };
-

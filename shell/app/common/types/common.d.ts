@@ -34,5 +34,4 @@ declare namespace COMMON {
     getTitle(): string | JSX.Element;
     getComp(): React.ElementType | JSX.Element | null;
   }
-
 }

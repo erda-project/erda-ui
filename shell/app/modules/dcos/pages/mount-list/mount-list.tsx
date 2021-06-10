@@ -22,7 +22,6 @@ import './mount-list.scss';
 import purchaseStore from 'dcos/stores/purchase';
 import { useEffectOnce } from 'react-use';
 
-
 const MountList = () => {
   const { getPurchaseList } = purchaseStore.effects;
   const { clearPurchaseList } = purchaseStore.reducers;
@@ -65,44 +64,42 @@ const MountList = () => {
     }
   });
   const columns = [
-    ...['ecs', 'nat', 'nas', 'rds', 'redis', 'slb', 'vpc'].map((k) => (
-      {
-        title: k,
-        dataIndex: k,
-        render: (obj: any, record: any) => {
-          let detail = <Badge status="processing" text={i18n.t('org:processing')} />;
-          if (obj.status === 'Failed') {
-            detail = (
-              <Popover
-                title={i18n.t('org:error detail')}
-                placement="bottom"
-                overlayClassName="purchase-cluster-popover"
-                content={<pre className="code-block">{obj.error}</pre>}
-              >
-                <Badge status="error" text={i18n.t('failed')} />
-              </Popover>
-            );
-          } else if (obj.status === 'Success' && obj.info) {
-            detail = (
-              <Popover
-                title={i18n.t('configs detail')}
-                placement="bottom"
-                overlayClassName="purchase-cluster-popover"
-                content={<KeyValueList shrink data={obj.info} />}
-              >
-                <Badge status="success" text={i18n.t('success')} />
-              </Popover>
-            );
-          } else if (obj.status === 'Skipped') {
-            detail = <Badge status="default" text={i18n.t('skip')} />;
-          } else if ((Date.now() - record.createdAt) > (0.5 * 3600 * 1000)) {
-            // 超过半小时仍waiting则为超时
-            detail = <Badge status="error" text={i18n.t('overtime')} />;
-          }
-          return detail;
-        },
-      }
-    )),
+    ...['ecs', 'nat', 'nas', 'rds', 'redis', 'slb', 'vpc'].map((k) => ({
+      title: k,
+      dataIndex: k,
+      render: (obj: any, record: any) => {
+        let detail = <Badge status="processing" text={i18n.t('org:processing')} />;
+        if (obj.status === 'Failed') {
+          detail = (
+            <Popover
+              title={i18n.t('org:error detail')}
+              placement="bottom"
+              overlayClassName="purchase-cluster-popover"
+              content={<pre className="code-block">{obj.error}</pre>}
+            >
+              <Badge status="error" text={i18n.t('failed')} />
+            </Popover>
+          );
+        } else if (obj.status === 'Success' && obj.info) {
+          detail = (
+            <Popover
+              title={i18n.t('configs detail')}
+              placement="bottom"
+              overlayClassName="purchase-cluster-popover"
+              content={<KeyValueList shrink data={obj.info} />}
+            >
+              <Badge status="success" text={i18n.t('success')} />
+            </Popover>
+          );
+        } else if (obj.status === 'Skipped') {
+          detail = <Badge status="default" text={i18n.t('skip')} />;
+        } else if (Date.now() - record.createdAt > 0.5 * 3600 * 1000) {
+          // 超过半小时仍waiting则为超时
+          detail = <Badge status="error" text={i18n.t('overtime')} />;
+        }
+        return detail;
+      },
+    })),
     {
       title: i18n.t('create at'),
       dataIndex: 'createdAt',
@@ -119,25 +116,25 @@ const MountList = () => {
   ];
   return (
     <div className="purchase-list-table">
-      <Button className="top-button-group" type="primary" onClick={() => goTo('./add')}>{i18n.t('add')}</Button>
-      <Table
-        rowKey="createdAt"
-        pagination={false}
-        columns={columns}
-        dataSource={clusterList}
-      />
+      <Button className="top-button-group" type="primary" onClick={() => goTo('./add')}>
+        {i18n.t('add')}
+      </Button>
+      <Table rowKey="createdAt" pagination={false} columns={columns} dataSource={clusterList} />
       <Modal
         title={i18n.t('org:deploy configs')}
         width={700}
         visible={modalVisible}
         onCancel={() => toggleModal()}
-        footer={<Button type="primary" onClick={() => toggleModal()}>{i18n.t('ok')}</Button>}
+        footer={
+          <Button type="primary" onClick={() => toggleModal()}>
+            {i18n.t('ok')}
+          </Button>
+        }
       >
         <KeyValueList shrink data={modalContent} />
       </Modal>
     </div>
   );
 };
-
 
 export default MountList;

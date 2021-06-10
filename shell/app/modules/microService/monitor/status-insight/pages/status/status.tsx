@@ -126,12 +126,21 @@ const Status = () => {
     {
       title: i18n.t('microService:index'),
       dataIndex: 'name',
-      render: (text: string) => <span className="name-link"><Tooltip title={text}>{cutStr(text, 25)}</Tooltip></span>,
+      render: (text: string) => (
+        <span className="name-link">
+          <Tooltip title={text}>{cutStr(text, 25)}</Tooltip>
+        </span>
+      ),
     },
     {
       title: i18n.t('microService:status'),
       dataIndex: 'status',
-      render: (status: string) => <span><span className={`status-point ${(typeMap[status] || defaultMap).color}`} />{(typeMap[status] || defaultMap).text}</span>,
+      render: (status: string) => (
+        <span>
+          <span className={`status-point ${(typeMap[status] || defaultMap).color}`} />
+          {(typeMap[status] || defaultMap).text}
+        </span>
+      ),
     },
     {
       title: i18n.t('microService:online rate'),
@@ -162,15 +171,11 @@ const Status = () => {
         }
         return (
           <div>
-            <StatusChart
-              xAxisData={chart.time}
-              data={chart.latency}
-              style={{ width: '120px', height: '40px' }}
-            />
+            <StatusChart xAxisData={chart.time} data={chart.latency} style={{ width: '120px', height: '40px' }} />
             <ul className="status-list">
-              {
-                  chart.status.map((item: string, i: number) => <li key={String(i)} className={typeMap[item].color} />)
-                }
+              {chart.status.map((item: string, i: number) => (
+                <li key={String(i)} className={typeMap[item].color} />
+              ))}
             </ul>
           </div>
         );
@@ -180,21 +185,17 @@ const Status = () => {
       title: i18n.t('microService:root cause analytics'),
       dataIndex: 'requestId',
       width: 90,
-      render: (requestId: string) => (
+      render: (requestId: string) =>
         !!requestId && (
           <span
             className="reason-analysis-span"
             onClick={(e) => {
-              handleDetailClick(
-                e,
-                resolvePath(`../error/request-detail/${requestId}`),
-              );
+              handleDetailClick(e, resolvePath(`../error/request-detail/${requestId}`));
             }}
           >
             {i18n.t('microService:details')}
           </span>
-        )
-      ),
+        ),
     },
     {
       title: i18n.t('operations'),
@@ -203,8 +204,12 @@ const Status = () => {
       render: (id: string, record: any) => {
         return (
           <div className="table-operations">
-            <a className="table-operations-btn" key="edit" onClick={(e) => handleEdit(e, record)}>{i18n.t('microService:edit')}</a>
-            <a className="table-operations-btn" key="del" onClick={(e) => handleDelete(e, id)}>{i18n.t('microService:delete')}</a>
+            <a className="table-operations-btn" key="edit" onClick={(e) => handleEdit(e, record)}>
+              {i18n.t('microService:edit')}
+            </a>
+            <a className="table-operations-btn" key="del" onClick={(e) => handleDelete(e, id)}>
+              {i18n.t('microService:delete')}
+            </a>
           </div>
         );
       },
@@ -216,29 +221,36 @@ const Status = () => {
     color: '',
   };
   if (dashboard.downCount !== undefined) {
-    hasDown = dashboard.downCount > 0
-      ? { text: `${dashboard.downCount} Down`, color: 'red' }
-      : { text: 'All up', color: 'green' };
+    hasDown =
+      dashboard.downCount > 0
+        ? { text: `${dashboard.downCount} Down`, color: 'red' }
+        : { text: 'All up', color: 'green' };
   }
 
   return (
     <div className="project-status-page">
       <div className="status-button-group-left">
         <Select onChange={changeType} value={filterType} className="type-filter">
-          {
-              map(typeMap, (item, key) => {
-                return <Option key={key} value={key}>{item.text}</Option>;
-              })
-            }
+          {map(typeMap, (item, key) => {
+            return (
+              <Option key={key} value={key}>
+                {item.text}
+              </Option>
+            );
+          })}
         </Select>
       </div>
       <div className="status-button-group">
         {/* <Button className="account-button" type="primary" ghost onClick={() => goTo('./account')}>{i18n.t('microService:authentication management')}</Button> */}
-        <Button className="add-button" type="primary" onClick={() => toggleModal()}>{i18n.t('microService:add monitoring')}</Button>
+        <Button className="add-button" type="primary" onClick={() => toggleModal()}>
+          {i18n.t('microService:add monitoring')}
+        </Button>
       </div>
       <div className="top-bar">
         <span className={`summary-down-count ${hasDown.color}`}>
-          <span><IconInfo size="16px" /> {hasDown.text} </span>
+          <span>
+            <IconInfo size="16px" /> {hasDown.text}{' '}
+          </span>
         </span>
       </div>
       <AddModal

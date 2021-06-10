@@ -17,14 +17,14 @@ import { Table } from 'app/nusi';
 import moment from 'moment';
 import i18n from 'i18n';
 
-interface IData{
+interface IData {
   [pro: string]: any;
   name: string;
   time?: string;
   max?: string;
   min?: string;
 }
-const SlowTrack = ({ data }: {data: object}) => {
+const SlowTrack = ({ data }: { data: object }) => {
   const list = get(data, 'list') || [];
   const columns = [
     {

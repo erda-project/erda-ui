@@ -17,27 +17,29 @@ import agent from 'agent';
 
 // 获取Tree列表
 export function getCategoryById(payload: TREE.GetSubTreeParams): TREE.NODE[] {
-  return agent.get('/api/autotests/filetree')
+  return agent
+    .get('/api/autotests/filetree')
     .query(payload)
     .then((response: any) => response.body);
 }
 
 // 查询单个节点详情
 export const getTreeNodeDetail = ({ id }: { id: string }): TREE.NODE => {
-  return agent.get(`/api/autotests/filetree/${id}`)
-    .then((response: any) => response.body);
+  return agent.get(`/api/autotests/filetree/${id}`).then((response: any) => response.body);
 };
 
 // 创建节点
 export function createTreeNode(payload: TREE.CreateNodeParams): TREE.NODE {
-  return agent.post('/api/autotests/filetree')
+  return agent
+    .post('/api/autotests/filetree')
     .send(payload)
     .then((response: any) => response.body);
 }
 
 // 创建根节点
 export function createRootTreeNode(payload: TREE.CreateRootNodeParams): TREE.NODE {
-  return agent.post('/api/autotests/filetree')
+  return agent
+    .post('/api/autotests/filetree')
     .send(payload)
     .then((response: any) => response.body);
 }
@@ -45,7 +47,8 @@ export function createRootTreeNode(payload: TREE.CreateRootNodeParams): TREE.NOD
 // 更新节点
 export function updateTreeNode(payload: TREE.UpdateNodeParams): TREE.NODE {
   const { inode, ...rest } = payload;
-  return agent.put(`/api/autotests/filetree/${inode}`)
+  return agent
+    .put(`/api/autotests/filetree/${inode}`)
     .send(rest)
     .then((response: any) => response.body);
 }
@@ -53,14 +56,14 @@ export function updateTreeNode(payload: TREE.UpdateNodeParams): TREE.NODE {
 // 删除节点
 export function deleteTreeNode(payload: { inode: string }): TREE.NODE {
   const { inode } = payload;
-  return agent.delete(`/api/autotests/filetree/${inode}`)
-    .then((response: any) => response.body);
+  return agent.delete(`/api/autotests/filetree/${inode}`).then((response: any) => response.body);
 }
 
 // 移动节点
 export function moveTreeNode(payload: { inode: string; pinode: string }): TREE.NODE {
   const { inode, pinode } = payload;
-  return agent.post(`/api/autotests/filetree/${inode}/actions/move`)
+  return agent
+    .post(`/api/autotests/filetree/${inode}/actions/move`)
     .send({ pinode })
     .then((response: any) => response.body);
 }
@@ -68,7 +71,8 @@ export function moveTreeNode(payload: { inode: string; pinode: string }): TREE.N
 // 复制节点
 export function copyTreeNode(payload: { inode: string; pinode: string }): TREE.NODE {
   const { inode, pinode } = payload;
-  return agent.post(`/api/autotests/filetree/${inode}/actions/copy`)
+  return agent
+    .post(`/api/autotests/filetree/${inode}/actions/copy`)
     .send({ pinode })
     .then((response: any) => response.body);
 }
@@ -76,41 +80,44 @@ export function copyTreeNode(payload: { inode: string; pinode: string }): TREE.N
 // 寻祖
 export function getAncestors(payload: { inode: string }): TREE.NODE[] {
   const { inode } = payload;
-  return agent.get(`/api/autotests/filetree/${inode}/actions/find-ancestors`)
-    .then((response: any) => response.body);
+  return agent.get(`/api/autotests/filetree/${inode}/actions/find-ancestors`).then((response: any) => response.body);
 }
 
 // 模糊查询
 export function fuzzySearch(payload: TREE.FuzzySearch): TREE.NODE[] {
-  return agent.get('/api/autotests/filetree/actions/fuzzy-search')
+  return agent
+    .get('/api/autotests/filetree/actions/fuzzy-search')
     .query(payload)
     .then((response: any) => response.body);
 }
 
-
 /** -----统一协议树标准接口  新版接口（3.21）-----* */
 
 export const getTreeNodeDetailNew = ({ id, ...rest }: { id: string; scope: string; scopeID: string }): TREE.NODE => {
-  return agent.get(`/api/project-pipeline/filetree/${id}`)
+  return agent
+    .get(`/api/project-pipeline/filetree/${id}`)
     .query(rest)
     .then((response: any) => response.body);
 };
 
 export const getCategoryByIdNew = (query: TREE.GetSubTreeParams): TREE.NODE[] => {
-  return agent.get('/api/project-pipeline/filetree')
+  return agent
+    .get('/api/project-pipeline/filetree')
     .query(query)
     .then((response: any) => response.body);
 };
 
 export const fuzzySearchNew = (query: TREE.FuzzySearch): TREE.NODE[] => {
-  return agent.get('/api/project-pipeline/filetree/actions/fuzzy-search')
+  return agent
+    .get('/api/project-pipeline/filetree/actions/fuzzy-search')
     .query(query)
     .then((response: any) => response.body);
 };
 
 // 创建节点
 export function createTreeNodeNew(payload: TREE.CreateNodeParams): TREE.NODE {
-  return agent.post('/api/project-pipeline/filetree')
+  return agent
+    .post('/api/project-pipeline/filetree')
     .send(payload)
     .then((response: any) => response.body);
 }
@@ -118,7 +125,8 @@ export function createTreeNodeNew(payload: TREE.CreateNodeParams): TREE.NODE {
 // 删除节点
 export function deleteTreeNodeNew(payload: { inode: string }): TREE.NODE {
   const { inode, ...rest } = payload;
-  return agent.delete(`/api/project-pipeline/filetree/${inode}`)
+  return agent
+    .delete(`/api/project-pipeline/filetree/${inode}`)
     .send(rest)
     .then((response: any) => response.body);
 }
@@ -126,7 +134,8 @@ export function deleteTreeNodeNew(payload: { inode: string }): TREE.NODE {
 // 寻祖
 export function getAncestorsNew(payload: { inode: string }): TREE.NODE[] {
   const { inode, ...rest } = payload;
-  return agent.get(`/api/project-pipeline/filetree/${inode}/actions/find-ancestors`)
+  return agent
+    .get(`/api/project-pipeline/filetree/${inode}/actions/find-ancestors`)
     .query(rest)
     .then((response: any) => response.body);
 }

@@ -13,98 +13,88 @@
 
 import React from 'react';
 import { shallow } from 'enzyme';
-import { getIcon, findTargetNode, isAncestor, walkTree, convertNodeType, sortCategory } from 'common/components/tree/utils';
+import {
+  getIcon,
+  findTargetNode,
+  isAncestor,
+  walkTree,
+  convertNodeType,
+  sortCategory,
+} from 'common/components/tree/utils';
 import { describe, it } from '@jest/globals';
 
 describe('TreeUtils', () => {
-  const treeNode = [{
-    key: 'node1',
-    parentKey: 'root',
-    children: [
-      {
-        key: 'node1_1',
-        parentKey: 'node1',
-        children: [
-          {
-            key: 'node1_1_1',
-            parentKey: 'node1_1',
-          },
-        ],
-      },
-      {
-        key: 'node1_2',
-        parentKey: 'node1',
-      },
-    ],
-  }, {
-    key: 'node2',
-    parentKey: 'root',
-    children: [
-      {
-        key: 'node2_1',
-        parentKey: 'node2',
-      },
-      {
-        key: 'node2_2',
-        parentKey: 'node2',
-        children: [
-          {
-            key: 'node2_2_1',
-            parentKey: 'node2_2',
-          },
-          {
-            key: 'node2_2_2',
-            parentKey: 'node2_2',
-          },
-        ],
-      },
-    ],
-  }];
+  const treeNode = [
+    {
+      key: 'node1',
+      parentKey: 'root',
+      children: [
+        {
+          key: 'node1_1',
+          parentKey: 'node1',
+          children: [
+            {
+              key: 'node1_1_1',
+              parentKey: 'node1_1',
+            },
+          ],
+        },
+        {
+          key: 'node1_2',
+          parentKey: 'node1',
+        },
+      ],
+    },
+    {
+      key: 'node2',
+      parentKey: 'root',
+      children: [
+        {
+          key: 'node2_1',
+          parentKey: 'node2',
+        },
+        {
+          key: 'node2_2',
+          parentKey: 'node2',
+          children: [
+            {
+              key: 'node2_2_1',
+              parentKey: 'node2_2',
+            },
+            {
+              key: 'node2_2_2',
+              parentKey: 'node2_2',
+            },
+          ],
+        },
+      ],
+    },
+  ];
   describe('getIcon', () => {
     const iconMap = {
       info: <div className="icon-info">info</div>,
       warning: <div className="icon-warning">warning</div>,
     };
     it('should render dm icon', () => {
-      const wrapper = shallow(
-        <div>
-          {getIcon({ isLeaf: true, type: 'info' })}
-        </div>,
-      );
+      const wrapper = shallow(<div>{getIcon({ isLeaf: true, type: 'info' })}</div>);
       expect(wrapper.children().prop('type')).toBe('dm');
       expect(wrapper.children()).toHaveStyle({ height: '16px' });
     });
     it('should render folder icon', () => {
-      const wrapper = shallow(
-        <div>
-          {getIcon({ isLeaf: false, type: 'info' })}
-        </div>,
-      );
+      const wrapper = shallow(<div>{getIcon({ isLeaf: false, type: 'info' })}</div>);
       expect(wrapper.children().prop('type')).toBe('folder');
       expect(wrapper.children()).toHaveStyle({ height: '16px' });
     });
     it('should render with type', () => {
-      const wrapper = shallow(
-        <div>
-          {getIcon({ isLeaf: false, type: 'info' }, iconMap)}
-        </div>,
-      );
+      const wrapper = shallow(<div>{getIcon({ isLeaf: false, type: 'info' }, iconMap)}</div>);
       expect(wrapper.find('.icon-info')).toExist();
     });
     it('should render with iconType', () => {
-      const wrapper = shallow(
-        <div>
-          {getIcon({ isLeaf: false, iconType: 'warning' }, iconMap)}
-        </div>,
-      );
+      const wrapper = shallow(<div>{getIcon({ isLeaf: false, iconType: 'warning' }, iconMap)}</div>);
       expect(wrapper.find('.icon-warning')).toExist();
     });
     it('should render with iconType', () => {
-      const wrapper = shallow(
-        <div>
-          {getIcon({ isLeaf: false, iconType: 'warning2' }, iconMap)}
-        </div>,
-      );
+      const wrapper = shallow(<div>{getIcon({ isLeaf: false, iconType: 'warning2' }, iconMap)}</div>);
     });
   });
   describe('findTargetNode', () => {
@@ -135,24 +125,35 @@ describe('TreeUtils', () => {
         pinode: 'P_node_kye',
       } as TREE.NODE;
       expect(convertNodeType(node)).toStrictEqual({
-        key: 'node_key', title: 'node_name', titleAlias: 'node_name', isLeaf: true, parentKey: 'P_node_kye', originData: node,
+        key: 'node_key',
+        title: 'node_name',
+        titleAlias: 'node_name',
+        isLeaf: true,
+        parentKey: 'P_node_kye',
+        originData: node,
       });
     });
   });
   describe('walkTree', () => {
     it('walkTree should work fine', () => {
-      const node = [{
-        key: 'node1',
-        parentKey: 'root',
-        children: [{
-          key: 'node1_1',
-          parentKey: 'node1',
-          children: [{
-            key: 'node1_1_1',
-            parentKey: 'node1_1',
-          }],
-        }],
-      }];
+      const node = [
+        {
+          key: 'node1',
+          parentKey: 'root',
+          children: [
+            {
+              key: 'node1_1',
+              parentKey: 'node1',
+              children: [
+                {
+                  key: 'node1_1_1',
+                  parentKey: 'node1_1',
+                },
+              ],
+            },
+          ],
+        },
+      ];
       walkTree(node, { disabled: true, type: 'file' }, 'node1_1_1');
       expect(node).toStrictEqual([
         {

@@ -19,9 +19,11 @@ import testCaseStore from 'project/stores/test-case';
 import MetaModal from '../../test-manage/components/meta-modal';
 import { TestOperation } from 'project/pages/test-manage/constants';
 
-
 const ChangeResult = () => {
-  const { caseTotal, choosenInfo: { primaryKeys } } = testCaseStore.useStore((s) => s);
+  const {
+    caseTotal,
+    choosenInfo: { primaryKeys },
+  } = testCaseStore.useStore((s) => s);
   const { openNormalModal } = testCaseStore.reducers;
 
   const checked = size(primaryKeys);

@@ -37,12 +37,16 @@ interface IProps {
   setTempData: (payload: any) => void;
 }
 
-
 const ServiceDropdown = (props: IProps) => {
   const { service, name, setTempData, openSlidePanel, openDomainModalVisible, isEndpoint, deployStatus } = props;
   const permMap = usePerm((s) => s.app);
 
-  const { status, addrs, envs, deployments: { replicas } } = service;
+  const {
+    status,
+    addrs,
+    envs,
+    deployments: { replicas },
+  } = service;
   const runtimeDetail = runtimeStore.useStore((s) => s.runtimeDetail);
   const domainMap = runtimeDomainStore.useStore((s) => s.domainMap);
 
@@ -82,31 +86,33 @@ const ServiceDropdown = (props: IProps) => {
     const warningMsg = i18n.t('runtime:deploying, please operate later');
     const envKey = (env || '').toLowerCase();
 
-    const vipContent = !isEmpty(addrs)
-      ? (
-        <List
-          itemLayout="horizontal"
-          dataSource={map(addrs, (addr) => ({ addr }))}
-          renderItem={({ addr }: { addr: string }) => {
-            return (
-              <div className="flex-box">
-                <span className="mr8 vip-addr flex-1 nowrap">{addr}</span>
-                <Copy selector=".for-copy">
-                  <span className="for-copy copy-icon" data-clipboard-text={addr}>
-                    <Icon type="copy" />
-                  </span>
-                </Copy>
-              </div>
-            );
-          }}
-        />
-      )
-      : i18n.t('runtime:internal address does not exist');
+    const vipContent = !isEmpty(addrs) ? (
+      <List
+        itemLayout="horizontal"
+        dataSource={map(addrs, (addr) => ({ addr }))}
+        renderItem={({ addr }: { addr: string }) => {
+          return (
+            <div className="flex-box">
+              <span className="mr8 vip-addr flex-1 nowrap">{addr}</span>
+              <Copy selector=".for-copy">
+                <span className="for-copy copy-icon" data-clipboard-text={addr}>
+                  <Icon type="copy" />
+                </span>
+              </Copy>
+            </div>
+          );
+        }}
+      />
+    ) : (
+      i18n.t('runtime:internal address does not exist')
+    );
     const envContent = (
       <List
         itemLayout="horizontal"
         className="env-list"
-        dataSource={map(envs, (value, key) => <span className="env-item">{`${key}: ${value}`}</span>)}
+        dataSource={map(envs, (value, key) => (
+          <span className="env-item">{`${key}: ${value}`}</span>
+        ))}
         renderItem={(item: string) => {
           return <div>{item}</div>;
         }}
@@ -115,12 +121,14 @@ const ServiceDropdown = (props: IProps) => {
     const hasDeployAuth = (permMap.runtime[`${envKey}DeployOperation`] || {}).pass;
     const hasConsoleAuth = (permMap.runtime[`${envKey}Console`] || {}).pass;
     const ops = [
-      ...insertWhen(hasDeployAuth, [{
-        title: i18n.t('runtime:scale service'),
-        onClick: () => {
-          isOpsForbidden ? notify('warning', warningMsg) : updater.resourceVisible(true);
+      ...insertWhen(hasDeployAuth, [
+        {
+          title: i18n.t('runtime:scale service'),
+          onClick: () => {
+            isOpsForbidden ? notify('warning', warningMsg) : updater.resourceVisible(true);
+          },
         },
-      }]),
+      ]),
       {
         title: i18n.t('runtime:history'),
         onClick: () => openSlidePanel('record'),
@@ -130,40 +138,45 @@ const ServiceDropdown = (props: IProps) => {
         onClick: () => showModalInfo(i18n.t('runtime:inner address'), vipContent),
       },
     ];
-    envs && ops.push({
-      title: i18n.t('runtime:environment variable'),
-      onClick: () => showModalInfo(i18n.t('runtime:environment variable'), envContent),
-    });
-    isEndpoint && hasDeployAuth && ops.push({
-      title: i18n.t('runtime:manage domain'),
-      onClick: () => {
-        if (isOpsForbidden) {
-          notify('warning', warningMsg);
-          return;
-        } else if (isEmpty(domainMap)) {
-          notify('warning', i18n.t('runtime:please operate after successful deployment'));
-          return;
-        }
-        openDomainModalVisible();
-      },
-    });
+    envs &&
+      ops.push({
+        title: i18n.t('runtime:environment variable'),
+        onClick: () => showModalInfo(i18n.t('runtime:environment variable'), envContent),
+      });
+    isEndpoint &&
+      hasDeployAuth &&
+      ops.push({
+        title: i18n.t('runtime:manage domain'),
+        onClick: () => {
+          if (isOpsForbidden) {
+            notify('warning', warningMsg);
+            return;
+          } else if (isEmpty(domainMap)) {
+            notify('warning', i18n.t('runtime:please operate after successful deployment'));
+            return;
+          }
+          openDomainModalVisible();
+        },
+      });
     if (status === 'Healthy' && !isOpsForbidden && replicas !== 0) {
-      ops.push(...[
-        {
-          title: i18n.t('runtime:view log'),
-          onClick: () => openSlidePanel('log'),
-        },
-        {
-          title: i18n.t('runtime:container monitor'),
-          onClick: () => openSlidePanel('monitor'),
-        },
-        ...insertWhen(hasConsoleAuth, [
+      ops.push(
+        ...[
           {
-            title: i18n.t('terminal'),
-            onClick: () => openSlidePanel('terminal'),
+            title: i18n.t('runtime:view log'),
+            onClick: () => openSlidePanel('log'),
           },
-        ]),
-      ]);
+          {
+            title: i18n.t('runtime:container monitor'),
+            onClick: () => openSlidePanel('monitor'),
+          },
+          ...insertWhen(hasConsoleAuth, [
+            {
+              title: i18n.t('terminal'),
+              onClick: () => openSlidePanel('terminal'),
+            },
+          ]),
+        ],
+      );
     }
     return ops;
   };

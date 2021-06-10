@@ -15,10 +15,18 @@ import { groupHandler, sortHandler } from 'common/utils/chart-utils';
 
 export const ApiMap = {
   sortList: {
-    getFetchObj: ({ sortTab }: {sortTab: string}) => {
+    getFetchObj: ({ sortTab }: { sortTab: string }) => {
       const fetchMap = {
-        rt: { fetchApi: 'ai_cache_top_avg_time', query: { group: 'db_statement', avg: 'elapsed_mean', limit: 10, sort: 'avg_elapsed_mean' }, dataKey: 'avg.elapsed_mean' },
-        throughput: { fetchApi: 'ai_cache_top_cpm', query: { group: 'db_statement', sumCpm: 'elapsed_count', limit: 10, sort: 'sumCpm_elapsed_count' }, dataKey: 'sumCpm.elapsed_count' },
+        rt: {
+          fetchApi: 'ai_cache_top_avg_time',
+          query: { group: 'db_statement', avg: 'elapsed_mean', limit: 10, sort: 'avg_elapsed_mean' },
+          dataKey: 'avg.elapsed_mean',
+        },
+        throughput: {
+          fetchApi: 'ai_cache_top_cpm',
+          query: { group: 'db_statement', sumCpm: 'elapsed_count', limit: 10, sort: 'sumCpm_elapsed_count' },
+          dataKey: 'sumCpm.elapsed_count',
+        },
       };
       const { query = {}, fetchApi = '', dataKey = '' } = fetchMap[sortTab] || {};
       return { fetchApi, extendQuery: { ...query }, extendHandler: { dataKey } };

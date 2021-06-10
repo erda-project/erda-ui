@@ -24,14 +24,7 @@ const expressionReg = /{[^{}]+}/g;
 // eslint-disable-next-line no-console
 const logErr = console.error;
 export default (record: AUDIT.Item) => {
-  const {
-    templateName,
-    scopeType,
-    appId,
-    projectId,
-    context,
-    result,
-  } = record;
+  const { templateName, scopeType, appId, projectId, context, result } = record;
   // 后端把pipelineID改为了pipelineId，兼容下
   const fullContext = { ...context, projectId, appId, env: 'test', pipelineID: context.pipelineId, scopeType } as Obj;
   // excel中使用如下格式，链接参数需要在context同级或子级存在，前端定一个map，用urlKey对应到url链接，链接参数单独放一列
@@ -51,7 +44,7 @@ export default (record: AUDIT.Item) => {
       let executeResult = '';
       try {
         // eslint-disable-next-line no-new-func
-        executeResult = (new Function('context', `return ${parsedExp}`))(fullContext);
+        executeResult = new Function('context', `return ${parsedExp}`)(fullContext);
       } catch (error) {
         logErr(`execute audit expression: ${expression} error in template: ${templateName}`);
       }
@@ -114,7 +107,11 @@ export default (record: AUDIT.Item) => {
       }
       if (urlKey && !goTo.resolve[urlKey]) {
         logErr(`audit urlKey: ${urlKey} not exist in goTo`, record);
-        contentList.push(<span key={`${String(mIndex)}-1`} className="bold">{contextValue}</span>);
+        contentList.push(
+          <span key={`${String(mIndex)}-1`} className="bold">
+            {contextValue}
+          </span>,
+        );
         return;
       }
       const [before] = after.split(m);
@@ -128,10 +125,18 @@ export default (record: AUDIT.Item) => {
         });
         contentList.push(userList.join(', '));
       } else if (urlKey) {
-        contentList.push(<Link key={`${String(mIndex)}-2`} target="_blank" className="bold" to={goTo.resolve[urlKey](fullContext)}>{contextValue}</Link>);
+        contentList.push(
+          <Link key={`${String(mIndex)}-2`} target="_blank" className="bold" to={goTo.resolve[urlKey](fullContext)}>
+            {contextValue}
+          </Link>,
+        );
       } else {
         // 没有()部分，就只替换，不加链接
-        contentList.push(<span key={`${String(mIndex)}-3`} className="bold">{contextValue}</span>);
+        contentList.push(
+          <span key={`${String(mIndex)}-3`} className="bold">
+            {contextValue}
+          </span>,
+        );
       }
     });
     return contentList.concat([after]);

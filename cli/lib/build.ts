@@ -1,4 +1,3 @@
-
 // Copyright (c) 2021 Terminus, Inc.
 //
 // This program is free software: you can use, redistribute, and/or modify
@@ -17,12 +16,7 @@ import path from 'path';
 import { promisify } from 'util';
 import child_process from 'child_process';
 import { logInfo, logSuccess, logWarn, logError } from './util/log';
-import {
-  getPublicDir,
-  getModuleList,
-  registryDir,
-  checkIsRoot,
-} from './util/env';
+import { getPublicDir, getModuleList, registryDir, checkIsRoot } from './util/env';
 import { exit } from 'process';
 import generateVersion from './gen-version';
 import localIcon from './local-icon';
@@ -34,7 +28,7 @@ const { execSync, exec } = child_process;
 const GET_BRANCH_CMD = "git branch | awk '/\\*/ { print $2; }'";
 
 const currentDir = process.cwd();
-const dirCollection: {[k: string]: string} = {
+const dirCollection: { [k: string]: string } = {
   core: `${currentDir}/core`,
   shell: `${currentDir}/shell`,
   fdp: path.resolve(currentDir, '../erda-ui-enterprise/fdp'),
@@ -73,7 +67,8 @@ const checkBranch = async () => {
 
   if (moduleBranches.length > 1) {
     logInfo('Current Branch of dependent modules:');
-    moduleList.filter((moduleName) => noneCurrentRepoModules.includes(moduleName))
+    moduleList
+      .filter((moduleName) => noneCurrentRepoModules.includes(moduleName))
       .forEach((moduleName, index) => {
         logInfo(`${moduleName}:【${moduleBranches[index + 1]}】`);
       });
@@ -104,7 +99,8 @@ const checkCodeUpToDate = async () => {
     {
       type: 'confirm',
       name: 'updateCode',
-      message: 'Make sure codes of erda-ui and dependent projects, like erda-ui-enterprise\nare up to date and then press Enter to continue.',
+      message:
+        'Make sure codes of erda-ui and dependent projects, like erda-ui-enterprise\nare up to date and then press Enter to continue.',
       default: true,
     },
   ]);
@@ -113,7 +109,6 @@ const checkCodeUpToDate = async () => {
     process.exit(1);
   }
 };
-
 
 const checkReInstall = async () => {
   const answer = await inquirer.prompt([
@@ -129,7 +124,7 @@ const checkReInstall = async () => {
     const { stdout } = await asyncExec('pnpm i');
     logSuccess(`dependency successfully updated! [${stdout}]`);
   } else {
-    logWarn('Skip update Dependencies, please make sure it\'s up to date!');
+    logWarn("Skip update Dependencies, please make sure it's up to date!");
   }
 };
 
@@ -166,15 +161,19 @@ const buildModules = async (enableSourceMap: boolean, rebuildList: string[], isO
   toBuildModules.forEach((moduleName) => {
     const moduleDir = dirMap.get(moduleName);
     const buildPromise = new Promise<void>((resolve) => {
-      const execProcess = exec('npm run build', { env: { ...process.env, isOnline, enableSourceMap: enableSourceMap.toString() }, cwd: moduleDir }, (error) => {
-        if (error) {
-          logError(`build error: ${error}`);
-          process.exit(1);
-        } else {
-          logSuccess(`【${moduleName}】build successfully!`);
-          resolve();
-        }
-      });
+      const execProcess = exec(
+        'npm run build',
+        { env: { ...process.env, isOnline, enableSourceMap: enableSourceMap.toString() }, cwd: moduleDir },
+        (error) => {
+          if (error) {
+            logError(`build error: ${error}`);
+            process.exit(1);
+          } else {
+            logSuccess(`【${moduleName}】build successfully!`);
+            resolve();
+          }
+        },
+      );
       // eslint-disable-next-line no-console
       execProcess.stdout?.on('data', (data) => console.log(data));
       // eslint-disable-next-line no-console
@@ -201,7 +200,8 @@ const restoreFromDockerImage = async (image: string, requireBuildList: string[])
     // check whether docker is running
     await asyncExec('docker ps');
   } catch (error) {
-    if (error.message.includes('Cannot connect to the Docker daemon')) { // if not start docker and exit program, because node can't know when docker would started completely
+    if (error.message.includes('Cannot connect to the Docker daemon')) {
+      // if not start docker and exit program, because node can't know when docker would started completely
       logInfo('Starting Docker');
       try {
         await asyncExec('open --background -a Docker');
@@ -217,7 +217,8 @@ const restoreFromDockerImage = async (image: string, requireBuildList: string[])
   }
   // check whether erda-ui-for-build container exist
   const { stdout: containers } = await asyncExec('docker container ls -al');
-  if (containers && containers.includes('erda-ui-for-build')) { // if exist stop & delete it first, otherwise it will cause docker conflict
+  if (containers && containers.includes('erda-ui-for-build')) {
+    // if exist stop & delete it first, otherwise it will cause docker conflict
     logInfo('erda-ui container already exist, stop & delete it before next step');
     await stopDockerContainer();
     logSuccess('stop & delete erda-ui container successfully');
@@ -291,7 +292,9 @@ const getRequireBuildModules = async (image: string) => {
     const { stdout: diff } = await asyncExec(`git diff --name-only ${imageSha} ${headSha}`);
     const rebuildList = getModuleList();
     if (new RegExp('^pnpm-lock.yaml', 'gm').test(diff)) {
-      logWarn('pnpm-lock.yaml changed since image commit, please remind to update this module dependency in next step.');
+      logWarn(
+        'pnpm-lock.yaml changed since image commit, please remind to update this module dependency in next step.',
+      );
     }
     rebuildList.forEach((module) => {
       if (new RegExp(`^${module}/`, 'gm').test(diff)) {
@@ -303,7 +306,9 @@ const getRequireBuildModules = async (image: string) => {
     return requireBuildList;
   } catch (error) {
     logError(error);
-    logWarn('It seems the image commit sha is not parent commit of current HEAD, we can\'t detect file version change which is dangerous to have a partial build.');
+    logWarn(
+      "It seems the image commit sha is not parent commit of current HEAD, we can't detect file version change which is dangerous to have a partial build.",
+    );
     const answer = await inquirer.prompt([
       {
         type: 'confirm',

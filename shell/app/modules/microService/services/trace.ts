@@ -14,13 +14,15 @@
 import agent from 'agent';
 
 export const getTraceCount = (q: MS_MONITOR.ITraceCountQuery): any => {
-  return agent.get('/api/tmc/metrics/trace_count/histogram')
+  return agent
+    .get('/api/tmc/metrics/trace_count/histogram')
     .query(q)
     .then((response: any) => response.body);
 };
 
 export const getTraceSummary = (q: MS_MONITOR.ITraceSummaryQuery): MS_MONITOR.ITraceSummary[] => {
-  return agent.get('/api/trace/summary')
+  return agent
+    .get('/api/trace/summary')
     .query(q)
     .then((response: any) => response.body);
 };
@@ -33,7 +35,8 @@ export const getSpanDetailContent = ({ span, visible }: any) => {
 };
 
 export const getTraceDetailContent = ({ requestId, terminusKey }: { requestId: string; terminusKey: string }) => {
-  return agent.get(`/api/spot/trace/${requestId}`)
+  return agent
+    .get(`/api/spot/trace/${requestId}`)
     .query({ terminusKey })
     .then((response: any) => response.body);
 };

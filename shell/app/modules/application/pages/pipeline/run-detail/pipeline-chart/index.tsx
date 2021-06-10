@@ -18,7 +18,7 @@ import { map } from 'lodash';
 import { useUpdate } from 'common';
 import PipelineNode from './pipeline-node';
 
-interface IProps{
+interface IProps {
   changeType: string;
   data: PIPELINE.IPipelineDetail;
   onClickNode: (node: PIPELINE.ITask, mark: string) => void;
@@ -34,11 +34,7 @@ const CHART_NODE_SIZE = {
 
 export const AppPipelineChart = (props: IProps) => {
   const { data, onClickNode, changeType } = props;
-  const [{
-    displayData,
-    stagesData,
-    dataKey,
-  }, updater, update] = useUpdate({
+  const [{ displayData, stagesData, dataKey }, updater, update] = useUpdate({
     displayData: resetData({}) as any[][],
     stagesData: [],
     dataKey: 1,
@@ -51,24 +47,26 @@ export const AppPipelineChart = (props: IProps) => {
     const { pipelineStages = [], pipelineTaskActionDetails = {} } = data || {};
     const stageTask = [] as PIPELINE.ITask[][];
     map(pipelineStages, ({ pipelineTasks }) => {
-      stageTask.push(map(pipelineTasks, (item) => {
-        const node = { ...item } as any;
-        if (pipelineTaskActionDetails[node.type]) {
-          node.displayName = pipelineTaskActionDetails[node.type].displayName;
-          node.logoUrl = pipelineTaskActionDetails[node.type].logoUrl;
-        }
-        node.isType = function isType(type: string, isPrefixMatch?: boolean) {
-          const isEqualType = type === node.type;
-          return isPrefixMatch ? (node.type && node.type.startsWith(`${type}-`)) || isEqualType : isEqualType;
-        };
-        node.findInMeta = function findInMeta(fn: any) {
-          if (!node.result || node.result.metadata == null) {
-            return null;
+      stageTask.push(
+        map(pipelineTasks, (item) => {
+          const node = { ...item } as any;
+          if (pipelineTaskActionDetails[node.type]) {
+            node.displayName = pipelineTaskActionDetails[node.type].displayName;
+            node.logoUrl = pipelineTaskActionDetails[node.type].logoUrl;
           }
-          return node.result.metadata.find(fn);
-        };
-        return node;
-      }));
+          node.isType = function isType(type: string, isPrefixMatch?: boolean) {
+            const isEqualType = type === node.type;
+            return isPrefixMatch ? (node.type && node.type.startsWith(`${type}-`)) || isEqualType : isEqualType;
+          };
+          node.findInMeta = function findInMeta(fn: any) {
+            if (!node.result || node.result.metadata == null) {
+              return null;
+            }
+            return node.result.metadata.find(fn);
+          };
+          return node;
+        }),
+      );
     });
 
     update({
@@ -94,13 +92,14 @@ export const AppPipelineChart = (props: IProps) => {
       chartConfig={chartConfig}
       key={`pipeline-${dataKey}`}
       onClickNode={onClickNode}
-      external={{ nodeEleMap: {
-        pipeline: PipelineNode,
-      } }}
+      external={{
+        nodeEleMap: {
+          pipeline: PipelineNode,
+        },
+      }}
     />
   );
 };
-
 
 export default AppPipelineChart;
 
@@ -112,10 +111,12 @@ export const resetData = (data: IResetObj) => {
   const reData = [] as any[][];
 
   map(stagesData, (item, index) => {
-    reData.push(map(item, (subItem, subIndex) => ({
-      ...subItem,
-      [externalKey]: { nodeType: 'pipeline', name: subItem.alias, xIndex: index, yIndex: subIndex },
-    })));
+    reData.push(
+      map(item, (subItem, subIndex) => ({
+        ...subItem,
+        [externalKey]: { nodeType: 'pipeline', name: subItem.alias, xIndex: index, yIndex: subIndex },
+      })),
+    );
   });
   return reData;
 };

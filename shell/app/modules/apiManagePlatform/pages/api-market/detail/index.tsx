@@ -36,7 +36,11 @@ const ApiAssetDetail = () => {
   const [versionListVisible, setVersionListVisible] = React.useState(false);
   const { assetID, versionID } = routeInfoStore.useStore((s) => s.params);
   const [assetVersionDetail, assetDetail, hasAccess, version, assetVersionList] = apiMarketStore.useStore((s) => [
-    s.assetVersionDetail.spec, s.assetVersionDetail.asset, s.assetVersionDetail.hasAccess, s.assetVersionDetail.version, s.assetVersionList,
+    s.assetVersionDetail.spec,
+    s.assetVersionDetail.asset,
+    s.assetVersionDetail.hasAccess,
+    s.assetVersionDetail.version,
+    s.assetVersionList,
   ]);
   const { getAssetVersionDetail, getListOfVersions } = apiMarketStore.effects;
   const { clearState } = apiMarketStore.reducers;
@@ -99,18 +103,18 @@ const ApiAssetDetail = () => {
     });
     return (
       <TableActions>
-        {
-          map(filterProtocolMap, ({ name }, key: API_MARKET.SpecProtocol) => {
-            return (
-              <span
-                key={key}
-                onClick={() => { handleExport(key, id); }}
-              >
-                {i18n.t('export {type}', { type: name })}
-              </span>
-            );
-          })
-        }
+        {map(filterProtocolMap, ({ name }, key: API_MARKET.SpecProtocol) => {
+          return (
+            <span
+              key={key}
+              onClick={() => {
+                handleExport(key, id);
+              }}
+            >
+              {i18n.t('export {type}', { type: name })}
+            </span>
+          );
+        })}
       </TableActions>
     );
   };
@@ -151,23 +155,34 @@ const ApiAssetDetail = () => {
     <div className="api-market-detail full-spin-height">
       <div className="top-button-group">
         <Button onClick={showVersionList}>{i18n.t('version list')}</Button>
-        {
-          hasAccess ? <Button type="primary" onClick={handleApply}>{i18n.t('apply call')}</Button> : null
-        }
+        {hasAccess ? (
+          <Button type="primary" onClick={handleApply}>
+            {i18n.t('apply call')}
+          </Button>
+        ) : null}
       </div>
       <Spin wrapperClassName="api-market-detail-loading" spinning={isLoading || isFetchVersionList}>
-        <ApiView deprecated={version.deprecated} dataSource={currentVersion} onChangeVersion={handleChangeVersion} specProtocol={version.specProtocol} />
+        <ApiView
+          deprecated={version.deprecated}
+          dataSource={currentVersion}
+          onChangeVersion={handleChangeVersion}
+          specProtocol={version.specProtocol}
+        />
       </Spin>
       <ApplyModal
         visible={visible}
-        onCancel={() => { setVisible(false); }}
+        onCancel={() => {
+          setVisible(false);
+        }}
         dataSource={assetDetail as API_MARKET.Asset}
       />
       <Modal
         width={960}
         title={`${i18n.t('version list')}(${version.major}.${version.minor}.*)`}
         visible={versionListVisible}
-        onCancel={() => { setVersionListVisible(false); }}
+        onCancel={() => {
+          setVersionListVisible(false);
+        }}
         footer={null}
       >
         <Table

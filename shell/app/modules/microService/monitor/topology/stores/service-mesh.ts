@@ -47,7 +47,11 @@ const serviceMesh = createStore({
     },
     async saveCircuitBreaker({ call, getParams }, payload) {
       const { env, projectId, tenantGroup } = getParams();
-      const res = await call(saveCircuitBreaker, { env, projectId, tenantGroup, ...payload }, { successMsg: i18n.t('save successfully') });
+      const res = await call(
+        saveCircuitBreaker,
+        { env, projectId, tenantGroup, ...payload },
+        { successMsg: i18n.t('save successfully') },
+      );
       return res;
     },
     async getFaultInject({ call, getParams, update }, payload) {
@@ -57,15 +61,22 @@ const serviceMesh = createStore({
     },
     async saveFaultInject({ call, getParams }, payload) {
       const { env, projectId, tenantGroup } = getParams();
-      const res = await call(saveFaultInject, { env, projectId, tenantGroup, ...payload }, { successMsg: i18n.t('save successfully') });
+      const res = await call(
+        saveFaultInject,
+        { env, projectId, tenantGroup, ...payload },
+        { successMsg: i18n.t('save successfully') },
+      );
       return res;
     },
     async deleteFaultInject({ call, getParams }, payload) {
       const { env, projectId, tenantGroup } = getParams();
-      const res = await call(deleteFaultInject, { env, projectId, tenantGroup, ...payload }, { successMsg: i18n.t('deleted successfully') });
+      const res = await call(
+        deleteFaultInject,
+        { env, projectId, tenantGroup, ...payload },
+        { successMsg: i18n.t('deleted successfully') },
+      );
       return res;
     },
-
   },
   reducers: {
     clearCircuitBreaker(state) {

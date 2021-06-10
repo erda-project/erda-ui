@@ -25,7 +25,6 @@ interface IState {
   };
 }
 
-
 const initState: IState = {
   auditList: [],
   auditPaging: getDefaultPaging(),
@@ -33,7 +32,6 @@ const initState: IState = {
     interval: undefined,
   },
 };
-
 
 const audit = createStore({
   name: 'audit',

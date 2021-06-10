@@ -90,7 +90,10 @@ const build = createStore({
       return pipelineDetail;
     },
     async runBuild({ call, update }, payload: { pipelineID: number }) {
-      const result = await call(runBuild, payload, { successMsg: i18n.t('application:start executing the build'), fullResult: true });
+      const result = await call(runBuild, payload, {
+        successMsg: i18n.t('application:start executing the build'),
+        fullResult: true,
+      });
       const pipelineDetail = await call(getPipelineDetail, payload);
       update({ pipelineDetail, changeType: 'task' });
       return result;
@@ -101,7 +104,9 @@ const build = createStore({
       return result;
     },
     async reRunFailed({ call }, payload: { pipelineID: number }): Promise<BUILD.IRerunResponse> {
-      const result = await call(reRunFailed, payload, { successMsg: i18n.t('application:start retrying failed nodes') });
+      const result = await call(reRunFailed, payload, {
+        successMsg: i18n.t('application:start retrying failed nodes'),
+      });
       await call(runBuild, { pipelineID: result.id });
       return result;
     },
@@ -117,12 +122,24 @@ const build = createStore({
       const result = await call(cancelBuild, payload, { successMsg: i18n.t('application:build cancelled') });
       return result;
     },
-    async getExecuteRecords({ call, update, getParams }, payload: { branch: string; source: string; pageNo: number; pagingYmlNames: string[] }) {
+    async getExecuteRecords(
+      { call, update, getParams },
+      payload: { branch: string; source: string; pageNo: number; pagingYmlNames: string[] },
+    ) {
       const { appId } = getParams();
       const { branch, source, pageNo, pagingYmlNames } = payload;
       const pagingYmlNamesStr = (pagingYmlNames || []).join(',');
-      const params = { branches: branch, appID: +appId, sources: source, ymlNames: pagingYmlNamesStr, pageNum: pageNo, pageSize: 10 };
-      const { list: executeRecords } = await call(getExecuteRecords, params, { paging: { key: 'recordPaging', listKey: 'pipelines', pageNoKey: 'pageNum' } });
+      const params = {
+        branches: branch,
+        appID: +appId,
+        sources: source,
+        ymlNames: pagingYmlNamesStr,
+        pageNum: pageNo,
+        pageSize: 10,
+      };
+      const { list: executeRecords } = await call(getExecuteRecords, params, {
+        paging: { key: 'recordPaging', listKey: 'pipelines', pageNoKey: 'pageNum' },
+      });
       update({ executeRecords });
       return executeRecords;
     },
@@ -132,13 +149,19 @@ const build = createStore({
     },
     async addPipeline({ call, getParams }, payload: BUILD.CreatePipelineBody) {
       const { appId } = getParams();
-      const detail = await call(addPipeline, { ...payload, appId }, { successMsg: i18n.t('application:create a build success') });
+      const detail = await call(
+        addPipeline,
+        { ...payload, appId },
+        { successMsg: i18n.t('application:create a build success') },
+      );
       return detail;
     },
     async getComboPipelines({ call, update, getParams }) {
       const { routes } = routeInfoStore.getState((s) => s);
       const { appId } = getParams();
-      const params = routes.some((route) => route.path === 'dataTask') ? { sources: 'bigdata', branches: 'master' } : {};
+      const params = routes.some((route) => route.path === 'dataTask')
+        ? { sources: 'bigdata', branches: 'master' }
+        : {};
       const comboPipelines = await call(getComboPipelines, { ...params, appId });
       update({ comboPipelines });
       return comboPipelines;
@@ -160,7 +183,11 @@ const build = createStore({
     },
     async batchCreateTask({ call, getParams }, payload: any) {
       const { appId } = getParams();
-      const result = await call(batchCreateTask, { ...payload, appId }, { successMsg: i18n.t('application:start executing the build') });
+      const result = await call(
+        batchCreateTask,
+        { ...payload, appId },
+        { successMsg: i18n.t('application:start executing the build') },
+      );
       return result;
     },
     async getPipelineLog({ call, select, getParams, update }, payload: { resourceId: string; resourceType: string }) {
@@ -204,13 +231,15 @@ const build = createStore({
       const { pipelineDetail } = state;
       if (pipelineDetail && pipelineDetail.id === pipelineID) {
         const { pipelineStages } = pipelineDetail;
-        pipelineStages.forEach((o) => o.pipelineTasks.forEach((task) => {
-          if (task.id === pipelineTaskID && runtimeID) {
-            const metadata = [{ name: 'runtimeID', value: runtimeID }];
-            task.result.metadata = metadata;
-            state.changeType = 'task';
-          }
-        }));
+        pipelineStages.forEach((o) =>
+          o.pipelineTasks.forEach((task) => {
+            if (task.id === pipelineTaskID && runtimeID) {
+              const metadata = [{ name: 'runtimeID', value: runtimeID }];
+              task.result.metadata = metadata;
+              state.changeType = 'task';
+            }
+          }),
+        );
       }
     },
     onTaskStatusChange(state, payload) {
@@ -218,14 +247,16 @@ const build = createStore({
       const { pipelineDetail } = state;
       if (pipelineDetail && pipelineDetail.id === pipelineID) {
         const { pipelineStages } = pipelineDetail;
-        pipelineStages.forEach((o) => o.pipelineTasks.forEach((task) => {
-          if (task.id === pipelineTaskID) {
-            task.status = status;
-            task.costTimeSec = costTimeSec;
-            task.result = result;
-            state.changeType = 'task';
-          }
-        }));
+        pipelineStages.forEach((o) =>
+          o.pipelineTasks.forEach((task) => {
+            if (task.id === pipelineTaskID) {
+              task.status = status;
+              task.costTimeSec = costTimeSec;
+              task.result = result;
+              state.changeType = 'task';
+            }
+          }),
+        );
       }
     },
   },

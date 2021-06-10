@@ -33,7 +33,11 @@ export const ApiMap = {
   },
   summaryDetail: {
     fetchApi: 'ta_summary_info',
-    query: { avg: ['rrt', 'put', 'act', 'dns', 'tcp', 'rpt', 'srt', 'dit', 'drt', 'clt', 'plt', 'wst', 'set', 'net'], sum: 'rdc', count: 'plt' },
+    query: {
+      avg: ['rrt', 'put', 'act', 'dns', 'tcp', 'rpt', 'srt', 'dit', 'drt', 'clt', 'plt', 'wst', 'set', 'net'],
+      sum: 'rdc',
+      count: 'plt',
+    },
     dataHandler: (originData = {}) => {
       const detail = get(originData, 'results[0].data[0]');
       return { data: detail };

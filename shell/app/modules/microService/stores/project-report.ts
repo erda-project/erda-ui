@@ -28,13 +28,23 @@ const projectReport = createStore({
   name: 'projectReport',
   state: initState,
   effects: {
-    async getProjectReport({ call, getParams }, payload: Omit<PROJECT_REPORT.QueryReport, keyof PROJECT_REPORT.QueryConfig>) {
+    async getProjectReport(
+      { call, getParams },
+      payload: Omit<PROJECT_REPORT.QueryReport, keyof PROJECT_REPORT.QueryConfig>,
+    ) {
       const { projectId, env } = getParams();
-      const res = await call(ProjectReportService.getProjectReport, { projectId, workspace: env, ...payload }, { paging: { key: 'projectReportsPaging' } });
+      const res = await call(
+        ProjectReportService.getProjectReport,
+        { projectId, workspace: env, ...payload },
+        { paging: { key: 'projectReportsPaging' } },
+      );
       return res.list;
     },
 
-    async getProjectReportDetail({ call, getParams }, payload: Omit<PROJECT_REPORT.GetReportDetail, keyof PROJECT_REPORT.QueryConfig>) {
+    async getProjectReportDetail(
+      { call, getParams },
+      payload: Omit<PROJECT_REPORT.GetReportDetail, keyof PROJECT_REPORT.QueryConfig>,
+    ) {
       const { projectId, env } = getParams();
       const res = await call(ProjectReportService.getProjectReportDetail, { projectId, workspace: env, ...payload });
       return res;
@@ -46,9 +56,16 @@ const projectReport = createStore({
       update({ reportSeeting });
     },
 
-    async setProjectReportSetting({ call, getParams }, payload: PROJECT_REPORT.DailySetting | PROJECT_REPORT.WeeklySetting) {
+    async setProjectReportSetting(
+      { call, getParams },
+      payload: PROJECT_REPORT.DailySetting | PROJECT_REPORT.WeeklySetting,
+    ) {
       const { projectId, env } = getParams();
-      await call(ProjectReportService.setProjectReportSetting, { projectId, workspace: env, setting: payload }, { successMsg: i18n.t('update successfully') });
+      await call(
+        ProjectReportService.setProjectReportSetting,
+        { projectId, workspace: env, setting: payload },
+        { successMsg: i18n.t('update successfully') },
+      );
       await projectReport.effects.getProjectReportSetting();
     },
   },

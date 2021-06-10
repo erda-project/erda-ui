@@ -23,7 +23,6 @@ const tabs = [
   { key: 'mi/device', name: i18n.t('microService:device') },
 ];
 
-
 if (isZh()) {
   tabs.push({ key: 'mi/geography', name: i18n.t('microService:geography') });
 }
@@ -81,15 +80,16 @@ const getMIRouter = () => ({
       getComp: (cb) => cb(import('mobile-insight/pages/app/app')),
     },
     ...(isZh
-      ? [{
-        path: 'geography',
-        alwaysShowTabKey: 'mi/geography',
-        tabs,
-        // breadcrumbName: 'Mobile Insight (地理)',
-        getComp: (cb) => cb(import('mobile-insight/pages/geography/geography-china')),
-      }]
-      : []
-    ),
+      ? [
+          {
+            path: 'geography',
+            alwaysShowTabKey: 'mi/geography',
+            tabs,
+            // breadcrumbName: 'Mobile Insight (地理)',
+            getComp: (cb) => cb(import('mobile-insight/pages/geography/geography-china')),
+          },
+        ]
+      : []),
     {
       path: 'device',
       alwaysShowTabKey: 'mi/device',

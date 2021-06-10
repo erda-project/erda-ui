@@ -51,16 +51,17 @@ export default () => {
       message.warning(i18n.t('verification code is empty!'));
       return;
     }
-    domainData.id && inviteToOrg({
-      verifyCode: code,
-      userIds: [id],
-      orgId: String(domainData.id),
-    }).then(() => {
-      message.success(i18n.t('join org success'));
-      setTimeout(() => {
-        location.href = `/${orgName}`;
-      }, 200);
-    });
+    domainData.id &&
+      inviteToOrg({
+        verifyCode: code,
+        userIds: [id],
+        orgId: String(domainData.id),
+      }).then(() => {
+        message.success(i18n.t('join org success'));
+        setTimeout(() => {
+          location.href = `/${orgName}`;
+        }, 200);
+      });
   };
 
   return (
@@ -75,13 +76,7 @@ export default () => {
           placeholder={i18n.t('please enter verification code')}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => updater.code(e.target.value)}
         />
-        <Button
-          style={{ width: '100%' }}
-          loading={inviting}
-          type="primary"
-          disabled={!code}
-          onClick={handleJoinOrg}
-        >
+        <Button style={{ width: '100%' }} loading={inviting} type="primary" disabled={!code} onClick={handleJoinOrg}>
           {domainData.displayName ? i18n.t('join {orgName}', { orgName: domainData.displayName }) : i18n.t('join org')}
         </Button>
       </div>

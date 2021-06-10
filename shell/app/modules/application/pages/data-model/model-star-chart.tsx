@@ -82,7 +82,7 @@ const ModelStarChart = (props: any) => {
 
   const onClickNode = (item: any, type?: string) => {
     const isSelectedCenter = type === 'center';
-    const param = (isEmpty(item) || isSelectedCenter) ? starSource : item;
+    const param = isEmpty(item) || isSelectedCenter ? starSource : item;
     setCenterRelatedGroup(isSelectedCenter ? item : undefined);
     setSelectedItem(param);
     setDrawerVisible(true);
@@ -91,7 +91,6 @@ const ModelStarChart = (props: any) => {
   const closeDrawer = () => {
     setDrawerVisible(false);
   };
-
 
   return (
     <div className="flow-container">
@@ -112,7 +111,8 @@ const ModelStarChart = (props: any) => {
         tableAttrsPaging={tableAttrsPaging}
         closeDrawer={closeDrawer}
       />
-    </div>);
+    </div>
+  );
 };
 
 const Mapper = () => {
@@ -132,4 +132,3 @@ const Mapper = () => {
 
 const ModelStarWrapper = connectCube(ModelStarChart, Mapper);
 export { ModelStarWrapper as ModelStarChart };
-

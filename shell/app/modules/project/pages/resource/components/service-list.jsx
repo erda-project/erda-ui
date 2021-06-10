@@ -74,7 +74,8 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
         // width: 420,
         render: (text, record) => (
           <span className="into-link" onClick={() => into({ q: text, name: record.name })}>
-            <CustomIcon type={curIconMap[depth]} />{record.name}
+            <CustomIcon type={curIconMap[depth]} />
+            {record.name}
           </span>
         ),
       },
@@ -93,7 +94,9 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
         dataIndex: 'ip_addr',
         key: 'ip_addr',
         width: 120,
-        sorter: (c, d) => Number((c.ip_addr || c.ipAddress || '').replace(/\./g, '')) - Number((d.ip_addr || d.ipAddress || '').replace(/\./g, '')),
+        sorter: (c, d) =>
+          Number((c.ip_addr || c.ipAddress || '').replace(/\./g, '')) -
+          Number((d.ip_addr || d.ipAddress || '').replace(/\./g, '')),
         render: (_ip, record) => record.ip_addr || record.ipAddress || i18n.t('project:no ip address'),
       },
       {
@@ -110,12 +113,18 @@ const ServiceList = ({ serviceList, depth, into, isFetching, startLevel }) => {
         // className: 'item-image',
         // width: 400,
         render: (text = '') => {
-          return text && (
-            <Tooltip title={`${i18n.t('project:click to copy')}：${text}`} overlayClassName="tooltip-word-break" >
-              <span className="image-name for-copy" data-clipboard-tip={i18n.t('project:image name')} data-clipboard-text={text} >
-                {getImageText(text)}
-              </span>
-            </Tooltip>
+          return (
+            text && (
+              <Tooltip title={`${i18n.t('project:click to copy')}：${text}`} overlayClassName="tooltip-word-break">
+                <span
+                  className="image-name for-copy"
+                  data-clipboard-tip={i18n.t('project:image name')}
+                  data-clipboard-text={text}
+                >
+                  {getImageText(text)}
+                </span>
+              </Tooltip>
+            )
           );
         },
       },

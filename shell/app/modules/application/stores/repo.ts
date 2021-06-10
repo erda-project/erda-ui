@@ -49,7 +49,7 @@ const getSubList = (info: Obj, { projectId, appId }: { projectId: string; appId:
 
   const lsBranch = getLS(`branch-${appId}`);
   const lsTag = getLS(`tag-${appId}`);
-  const lsBranchOrTag = isEmpty(lsBranch) ? isEmpty(lsTag) ? undefined : lsTag : lsBranch;
+  const lsBranchOrTag = isEmpty(lsBranch) ? (isEmpty(lsTag) ? undefined : lsTag) : lsBranch;
   const { branch, commitId } = getInfoFromRefName(info.refName);
 
   const currentBranch = branchInQuery || commitId || lsBranchOrTag || branch || info.defaultBranch;
@@ -59,8 +59,8 @@ const getSubList = (info: Obj, { projectId, appId }: { projectId: string; appId:
     {
       text: i18n.t('application:code'),
       href: getHref(currentBranch ? `/tree/${currentBranch}` : ''),
-      isActive: (key: string) => key === repoRoot
-        || key.startsWith(`${repoRoot}/tree`) || key.startsWith(`${repoRoot}/backup`),
+      isActive: (key: string) =>
+        key === repoRoot || key.startsWith(`${repoRoot}/tree`) || key.startsWith(`${repoRoot}/backup`),
     },
     {
       text: i18n.t('application:commit history'),
@@ -80,19 +80,20 @@ const getSubList = (info: Obj, { projectId, appId }: { projectId: string; appId:
   ];
 };
 
-const getAppDetail: () => Promise<IApplication> = () => new Promise((resolve) => {
-  const { appId } = routeInfoStore.getState((s) => s.params);
-  let appDetail = appStore.getState((s) => s.detail);
-  const notSameApp = appId && String(appId) !== String(appDetail.id);
-  if (!appId || notSameApp) {
-    eventHub.once('appStore/getAppDetail', () => {
-      appDetail = appStore.getState((s) => s.detail);
+const getAppDetail: () => Promise<IApplication> = () =>
+  new Promise((resolve) => {
+    const { appId } = routeInfoStore.getState((s) => s.params);
+    let appDetail = appStore.getState((s) => s.detail);
+    const notSameApp = appId && String(appId) !== String(appDetail.id);
+    if (!appId || notSameApp) {
+      eventHub.once('appStore/getAppDetail', () => {
+        appDetail = appStore.getState((s) => s.detail);
+        resolve(appDetail);
+      });
+    } else {
       resolve(appDetail);
-    });
-  } else {
-    resolve(appDetail);
-  }
-});
+    }
+  });
 
 const initState = {
   info: {} as REPOSITORY.IInfo,
@@ -175,14 +176,18 @@ const repoStore = createStore({
       }
       if (isIn('repoCompare')) {
         const [compareB, compareA] = params.branches.split('...');
-        repoStore.effects.getCompareDetail({ compareA: decodeURIComponent(compareA), compareB: decodeURIComponent(compareB) });
+        repoStore.effects.getCompareDetail({
+          compareA: decodeURIComponent(compareA),
+          compareB: decodeURIComponent(compareB),
+        });
       }
     });
   },
   effects: {
     async getRepoInfo({ getParams, update, call }): Promise<Obj> {
       const url: string = window.location.pathname;
-      const branch = zipWith(// 截取链接中的branch
+      const branch = zipWith(
+        // 截取链接中的branch
         url.split('repo/tree/'),
         url.split('repo/commits/'),
         (v1, v2) => v1 || v2,
@@ -233,32 +238,34 @@ const repoStore = createStore({
       }
       const lsBranch = getLS(`branch-${appId}`);
       const lsTag = getLS(`tag-${appId}`);
-      const lsBranchOrTag = isEmpty(lsBranch) ? isEmpty(lsTag) ? undefined : lsTag : lsBranch;
-      const isRepoRoot = window.location.pathname.endsWith(`/workBench/projects/${appDetail.projectId}/apps/${appDetail.id}/repo`);
-      const tree = await call(RepoServices.getFromRepo, {
+      const lsBranchOrTag = isEmpty(lsBranch) ? (isEmpty(lsTag) ? undefined : lsTag) : lsBranch;
+      const isRepoRoot = window.location.pathname.endsWith(
+        `/workBench/projects/${appDetail.projectId}/apps/${appDetail.id}/repo`,
+      );
+      const tree = (await call(RepoServices.getFromRepo, {
         type: 'tree',
         repoPrefix: appDetail.gitRepoAbbrev,
         path: isRepoRoot ? `/${lsBranchOrTag || info.defaultBranch}` : undefined,
-      }) as REPOSITORY.ITree;
+      })) as REPOSITORY.ITree;
       update({ tree });
     },
     async getRepoBlame({ call, update }, payload = {}) {
       const appDetail = await getAppDetail();
-      const blame = await call(RepoServices.getFromRepo, {
+      const blame = (await call(RepoServices.getFromRepo, {
         type: 'blame',
         repoPrefix: appDetail.gitRepoAbbrev,
         ...payload,
-      }) as REPOSITORY.IBlame[];
+      })) as REPOSITORY.IBlame[];
       update({ blame });
       return blame;
     },
     async getRepoBlob({ call, update }, payload: Obj = {}) {
       const { gitRepoAbbrev } = appStore.getState((s) => s.detail);
-      const blob = await call(RepoServices.getFromRepo, {
+      const blob = (await call(RepoServices.getFromRepo, {
         type: 'blob',
         repoPrefix: gitRepoAbbrev,
         ...payload,
-      }) as REPOSITORY.IBlob;
+      })) as REPOSITORY.IBlob;
       update({ blob });
       const { content, path: fileName } = blob;
       if (isPipelineWorkflowYml(fileName)) {
@@ -273,7 +280,10 @@ const repoStore = createStore({
       update({ pipelineYmlStructure });
       return pipelineYmlStructure;
     },
-    async getBlobRange({ getParams, select, call, update }, payload: Omit<REPOSITORY.QueryBlobRange, 'repoPrefix' | 'commitId'>) {
+    async getBlobRange(
+      { getParams, select, call, update },
+      payload: Omit<REPOSITORY.QueryBlobRange, 'repoPrefix' | 'commitId'>,
+    ) {
       const params = getParams();
       const { type } = payload;
       let targetKey;
@@ -301,12 +311,16 @@ const repoStore = createStore({
       // if request to greater than total line number remove last empty section
       if (payload.bottom) {
         if (latestCommitDetail.lines.length <= 20) {
-          target.diff.files.find((x: REPOSITORY.IFile) => x.name === payload.path).sections.splice(payload.sectionIndex + 1, 1);
+          target.diff.files
+            .find((x: REPOSITORY.IFile) => x.name === payload.path)
+            .sections.splice(payload.sectionIndex + 1, 1);
         } else {
           latestCommitDetail.lines = latestCommitDetail.lines.slice(0, -1);
         }
       }
-      const section = target.diff.files.find((x: REPOSITORY.IFile) => x.name === payload.path).sections[payload.sectionIndex];
+      const section = target.diff.files.find((x: REPOSITORY.IFile) => x.name === payload.path).sections[
+        payload.sectionIndex
+      ];
       if (payload.bottom) {
         section.lines = section.lines.concat(latestCommitDetail.lines);
       } else {
@@ -352,10 +366,14 @@ const repoStore = createStore({
     async createBranch({ call, getParams }, payload: { refValue: string; branch: string }) {
       const appDetail = appStore.getState((s) => s.detail);
       try {
-        await call(RepoServices.createBranch, {
-          repoPrefix: appDetail.gitRepoAbbrev,
-          ...payload,
-        }, { successMsg: i18n.t('application:new branch success') });
+        await call(
+          RepoServices.createBranch,
+          {
+            repoPrefix: appDetail.gitRepoAbbrev,
+            ...payload,
+          },
+          { successMsg: i18n.t('application:new branch success') },
+        );
         const { appId } = getParams();
         setLS(`branch-${appId}`, payload.branch);
         await repoStore.effects.getRepoInfo();
@@ -366,10 +384,17 @@ const repoStore = createStore({
     },
     async deleteBranch({ call, getParams }, payload: { branch: string }) {
       const appDetail = await getAppDetail();
-      await call(RepoServices.deleteBranch, {
-        repoPrefix: appDetail.gitRepoAbbrev,
-        ...payload,
-      }, { successMsg: i18n.t('application:delete branch successfully'), errorMsg: i18n.t('application:delete branch failed') });
+      await call(
+        RepoServices.deleteBranch,
+        {
+          repoPrefix: appDetail.gitRepoAbbrev,
+          ...payload,
+        },
+        {
+          successMsg: i18n.t('application:delete branch successfully'),
+          errorMsg: i18n.t('application:delete branch failed'),
+        },
+      );
       await repoStore.effects.getListByType({ type: 'branch' });
       const params = getParams();
       const branchKey = `branch-${params.appId}`;
@@ -381,27 +406,39 @@ const repoStore = createStore({
     },
     async deleteTag({ call }, payload: { tag: string }) {
       const appDetail = await getAppDetail();
-      await call(RepoServices.deleteTag, {
-        repoPrefix: appDetail.gitRepoAbbrev,
-        ...payload,
-      }, { successMsg: i18n.t('default:deleted successfully'), errorMsg: i18n.t('application:failed to delete tag') });
+      await call(
+        RepoServices.deleteTag,
+        {
+          repoPrefix: appDetail.gitRepoAbbrev,
+          ...payload,
+        },
+        { successMsg: i18n.t('default:deleted successfully'), errorMsg: i18n.t('application:failed to delete tag') },
+      );
       await repoStore.effects.getListByType({ type: 'tag' });
     },
     async createTag({ call }, payload: { ref: string; tag: string; message: string }) {
       const appDetail = appStore.getState((s) => s.detail);
-      const result = await call(RepoServices.createTag, {
-        repoPrefix: appDetail.gitRepoAbbrev,
-        ...payload,
-      }, { fullResult: true });
+      const result = await call(
+        RepoServices.createTag,
+        {
+          repoPrefix: appDetail.gitRepoAbbrev,
+          ...payload,
+        },
+        { fullResult: true },
+      );
       await repoStore.effects.getListByType({ type: 'tag' });
       return result;
     },
     async setDefaultBranch({ call, select, update }, branch: string) {
       const appDetail = await getAppDetail();
-      await call(RepoServices.setDefaultBranch, {
-        repoPrefix: appDetail.gitRepoAbbrev,
-        branch,
-      }, { successMsg: i18n.t('application:set default branch successfully') });
+      await call(
+        RepoServices.setDefaultBranch,
+        {
+          repoPrefix: appDetail.gitRepoAbbrev,
+          branch,
+        },
+        { successMsg: i18n.t('application:set default branch successfully') },
+      );
       const curBranches = select((s) => s.branch);
       update({
         branch: curBranches.map((b) => ({ ...b, isDefault: b.name === branch })),
@@ -411,7 +448,11 @@ const repoStore = createStore({
       const appDetail = await getAppDetail();
       const { pageNo = 1 } = payload;
       const originalList = select((state) => state.mrList);
-      const { list, total } = await call(RepoServices.getMRs, { repoPrefix: appDetail.gitRepoAbbrev, ...payload }, { paging: { key: 'mrPaging' } });
+      const { list, total } = await call(
+        RepoServices.getMRs,
+        { repoPrefix: appDetail.gitRepoAbbrev, ...payload },
+        { paging: { key: 'mrPaging' } },
+      );
       const mrList = pageNo === 1 ? list : [...originalList, ...list];
       update({ mrList });
       return { list: mrList, total };
@@ -424,7 +465,7 @@ const repoStore = createStore({
         ...paging,
         ...payload,
       });
-      const newList = (payload.pageNo && payload.pageNo > 1) ? prevList.concat(result) : result;
+      const newList = payload.pageNo && payload.pageNo > 1 ? prevList.concat(result) : result;
       const hasMore = result.length === paging.pageSize;
       update({ commit: newList, commitPaging: { ...paging, ...payload, hasMore } });
     },
@@ -467,10 +508,14 @@ const repoStore = createStore({
     },
     async commit({ call }, payload: REPOSITORY.Commit) {
       const appDetail = await getAppDetail();
-      const commitResult = await call(RepoServices.commit, {
-        repoPrefix: appDetail.gitRepoAbbrev,
-        data: payload,
-      }, { fullResult: true });
+      const commitResult = await call(
+        RepoServices.commit,
+        {
+          repoPrefix: appDetail.gitRepoAbbrev,
+          data: payload,
+        },
+        { fullResult: true },
+      );
       return commitResult;
     },
     async getMRStats({ call, update }, payload: REPOSITORY.MrStats) {
@@ -483,10 +528,14 @@ const repoStore = createStore({
     },
     async createMR({ call }, payload: Omit<REPOSITORY.Mr, 'action'>) {
       const appDetail = await getAppDetail();
-      const res = await call(RepoServices.createMR, {
-        repoPrefix: appDetail.gitRepoAbbrev,
-        ...payload,
-      }, { fullResult: true });
+      const res = await call(
+        RepoServices.createMR,
+        {
+          repoPrefix: appDetail.gitRepoAbbrev,
+          ...payload,
+        },
+        { fullResult: true },
+      );
       return res;
     },
     async getAvailableAddonList({ getParams, select, call }) {
@@ -518,11 +567,15 @@ const repoStore = createStore({
     async operateMR({ getParams, call }, payload: Omit<REPOSITORY.OperateMR, 'mergeId'>) {
       const appDetail = await getAppDetail();
       const { mergeId } = getParams();
-      const res = await call(RepoServices.operateMR, {
-        repoPrefix: appDetail.gitRepoAbbrev,
-        mergeId,
-        ...payload,
-      }, { fullResult: true });
+      const res = await call(
+        RepoServices.operateMR,
+        {
+          repoPrefix: appDetail.gitRepoAbbrev,
+          mergeId,
+          ...payload,
+        },
+        { fullResult: true },
+      );
       return res;
     },
     async getComments({ getParams, call, update }) {
@@ -573,28 +626,40 @@ const repoStore = createStore({
     },
     async addBackup({ call }, payload: REPOSITORY.IBackupAppendBody) {
       const appDetail = await getAppDetail();
-      await call(RepoServices.addBackup, {
-        repoPrefix: appDetail.gitRepoAbbrev,
-        ...payload,
-      }, { successMsg: i18n.t('application:added successfully'), errorMsg: i18n.t('application:failed to delete tag') });
+      await call(
+        RepoServices.addBackup,
+        {
+          repoPrefix: appDetail.gitRepoAbbrev,
+          ...payload,
+        },
+        { successMsg: i18n.t('application:added successfully'), errorMsg: i18n.t('application:failed to delete tag') },
+      );
     },
     async getBackupList({ call, update }, payload: REPOSITORY.ICommitPaging) {
       const appDetail = await getAppDetail();
-      const { list = [] } = await call(RepoServices.getBackupList, {
-        repoPrefix: appDetail.gitRepoAbbrev,
-        ...payload,
-      }, { paging: { listKey: 'files', key: 'backupPaging' } });
+      const { list = [] } = await call(
+        RepoServices.getBackupList,
+        {
+          repoPrefix: appDetail.gitRepoAbbrev,
+          ...payload,
+        },
+        { paging: { listKey: 'files', key: 'backupPaging' } },
+      );
       update({ backupList: list });
     },
     async deleteBackup({ call }, payload: REPOSITORY.IBackupUuid) {
       const appDetail = await getAppDetail();
-      await call(RepoServices.deleteBackup, {
-        repoPrefix: appDetail.gitRepoAbbrev,
-        ...payload,
-      }, {
-        successMsg: i18n.t('default:deleted successfully'),
-        errorMsg: i18n.t('application:failed to delete backup'),
-      });
+      await call(
+        RepoServices.deleteBackup,
+        {
+          repoPrefix: appDetail.gitRepoAbbrev,
+          ...payload,
+        },
+        {
+          successMsg: i18n.t('default:deleted successfully'),
+          errorMsg: i18n.t('application:failed to delete backup'),
+        },
+      );
     },
     async getLatestCommit({ call, update }, payload: REPOSITORY.IBackupBranch) {
       const appDetail = await getAppDetail();
@@ -616,13 +681,20 @@ const repoStore = createStore({
   },
   reducers: {
     getAvailableAddonListSuccess(state, { availableAddonList, addonInstanceList }) {
-      const groupedAddonList = reduce([...getTranslateAddonList(availableAddonList, 'displayName'), ...getTranslateAddonList(addonInstanceList, 'displayName')], (result, value) => {
-        if (CATEGORY_NAME[value.category]) {
-          // eslint-disable-next-line no-param-reassign
-          (result[CATEGORY_NAME[value.category]] || (result[CATEGORY_NAME[value.category]] = [])).push(value);
-        }
-        return result;
-      }, {});
+      const groupedAddonList = reduce(
+        [
+          ...getTranslateAddonList(availableAddonList, 'displayName'),
+          ...getTranslateAddonList(addonInstanceList, 'displayName'),
+        ],
+        (result, value) => {
+          if (CATEGORY_NAME[value.category]) {
+            // eslint-disable-next-line no-param-reassign
+            (result[CATEGORY_NAME[value.category]] || (result[CATEGORY_NAME[value.category]] = [])).push(value);
+          }
+          return result;
+        },
+        {},
+      );
 
       return { ...state, groupedAddonList };
     },

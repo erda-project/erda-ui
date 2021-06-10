@@ -26,13 +26,11 @@ export interface IYmlEditorProps {
 }
 
 const Module = (props: IYmlEditorProps) => {
-  return isPipelineYml(props.fileName)
-    ? <PipelineEditor {...props} />
-    : (
-      isDiceYml(props.fileName)
-        ? <DiceEditor {...props} />
-        : null
-    );
+  return isPipelineYml(props.fileName) ? (
+    <PipelineEditor {...props} />
+  ) : isDiceYml(props.fileName) ? (
+    <DiceEditor {...props} />
+  ) : null;
 };
 
 export default Module;

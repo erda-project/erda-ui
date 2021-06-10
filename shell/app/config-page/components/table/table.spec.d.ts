@@ -11,9 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 declare namespace CP_TABLE {
-
   interface Spec {
     type: 'Table';
     state?: IState;
@@ -61,7 +59,7 @@ declare namespace CP_TABLE {
   }
 
   type RenderType =
-    'textWithTags'
+    | 'textWithTags'
     | 'operationsDropdownMenu'
     | 'progress'
     | 'tableOperation'
@@ -81,5 +79,4 @@ declare namespace CP_TABLE {
     prefixIcon?: string;
     operations?: Obj<CP_COMMON.Operation>;
   }
-
 }

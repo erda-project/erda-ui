@@ -42,7 +42,12 @@ export const BlockNetworkTips = () => {
     };
   }, [currentOrg]);
   return show ? (
-    <Alert className="mb16" showIcon type="error" message={i18n.t('default:tips of blockNetwork for forbidding deploy in the {env}', { env: message })} />
+    <Alert
+      className="mb16"
+      showIcon
+      type="error"
+      message={i18n.t('default:tips of blockNetwork for forbidding deploy in the {env}', { env: message })}
+    />
   ) : null;
 };
 
@@ -63,24 +68,24 @@ const BlockNetworkStatus = ({ status, canOperate = false, onClick, scope, unBloc
   if (!status) {
     return null;
   }
-  const period = unBlockEnd && unBlockStart && scope === 'app' ? (
-    <span className="color-text-desc ml12">
-      {i18n.t('project:time period')}: {moment(unBlockStart).format('YYYY-MM-DD HH:mm')}~{moment(unBlockEnd).format('YYYY-MM-DD HH:mm')}
-    </span>
-  ) : null;
+  const period =
+    unBlockEnd && unBlockStart && scope === 'app' ? (
+      <span className="color-text-desc ml12">
+        {i18n.t('project:time period')}: {moment(unBlockStart).format('YYYY-MM-DD HH:mm')}~
+        {moment(unBlockEnd).format('YYYY-MM-DD HH:mm')}
+      </span>
+    ) : null;
   let unBlock = null;
   if (scope === 'project') {
-    unBlock = canOperate
-      ? (
-        <span className="color-primary ml12 unblock-btn" onClick={handleClick}>
-          {i18n.t('project:apply deploy')}
-        </span>
-      )
-      : (
-        <Tooltip title={i18n.t('You do not have enough permissions')}>
-          <span className="not-allowed ml12 unblock-btn">{i18n.t('project:apply deploy')}</span>
-        </Tooltip>
-      );
+    unBlock = canOperate ? (
+      <span className="color-primary ml12 unblock-btn" onClick={handleClick}>
+        {i18n.t('project:apply deploy')}
+      </span>
+    ) : (
+      <Tooltip title={i18n.t('You do not have enough permissions')}>
+        <span className="not-allowed ml12 unblock-btn">{i18n.t('project:apply deploy')}</span>
+      </Tooltip>
+    );
   }
   const statusMap: { [key in PROJECT.BlockStatus]: React.ReactNode } = {
     blocked: (
@@ -110,9 +115,7 @@ const BlockNetworkStatus = ({ status, canOperate = false, onClick, scope, unBloc
       </>
     ),
   };
-  return (
-    <>{statusMap[status]}</>
-  );
+  return <>{statusMap[status]}</>;
 };
 
 export default BlockNetworkStatus;

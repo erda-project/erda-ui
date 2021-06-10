@@ -53,18 +53,16 @@ export default ({ visible, onSearch, onClose }: IProps) => {
       name: 'updaterID',
       label: i18n.t('project:updater'),
       value: query.updaterID,
-      Comp: (
-        <MemberSelector mode="multiple" scopeType="project" scopeId={params.projectId} />
-      ),
+      Comp: <MemberSelector mode="multiple" scopeType="project" scopeId={params.projectId} />,
     },
     {
       type: 'custom',
       name: 'updateTime',
       label: i18n.t('update time'),
-      value: query.timestampSecUpdatedAtBegin ? [moment(query.timestampSecUpdatedAtBegin * 1000), moment(query.timestampSecUpdatedAtEnd * 1000)] : [],
-      Comp: (
-        <DatePicker.RangePicker ranges={getTimeRanges()} />
-      ),
+      value: query.timestampSecUpdatedAtBegin
+        ? [moment(query.timestampSecUpdatedAtBegin * 1000), moment(query.timestampSecUpdatedAtEnd * 1000)]
+        : [],
+      Comp: <DatePicker.RangePicker ranges={getTimeRanges()} />,
     },
   ];
 
@@ -76,9 +74,7 @@ export default ({ visible, onSearch, onClose }: IProps) => {
         name: 'executorID',
         label: i18n.t('project:executor'),
         value: query.executorID,
-        Comp: (
-          <MemberSelector mode="multiple" scopeType="project" scopeId={params.projectId} />
-        ),
+        Comp: <MemberSelector mode="multiple" scopeType="project" scopeId={params.projectId} />,
       },
       {
         type: 'select',
@@ -121,8 +117,5 @@ export default ({ visible, onSearch, onClose }: IProps) => {
     onSearch({ ...searchQuery, pageNo: 1 }); // 查询条件变化，重置pageNo
   };
 
-  return (
-    <FilterGroupDrawer visible={visible} list={filterList} onSearch={handleSearch} onClose={onClose} />
-  );
+  return <FilterGroupDrawer visible={visible} list={filterList} onSearch={handleSearch} onClose={onClose} />;
 };
-

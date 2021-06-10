@@ -30,21 +30,25 @@ export const ApiMap = {
       if (isEmpty(originData)) return {};
       const { time = [], results = [] }: any = originData || {};
       const data = get(results, '[0].data') || [];
-      const parsedData = reduce(data, (result: any, value) => {
-        const reData: any[] = [];
-        const usage_percent = value['avg.usage_percent'];
+      const parsedData = reduce(
+        data,
+        (result: any, value) => {
+          const reData: any[] = [];
+          const usage_percent = value['avg.usage_percent'];
 
-        const ip = usage_percent.tag.slice(0, 8);
-        forEach(['avg.usage', 'avg.usage_percent'], (item) => {
-          const dataItem: any = value[item];
-          if (dataItem) {
-            dataItem.tag = dataItem.name;
-            reData.push(dataItem);
-          }
-        });
+          const ip = usage_percent.tag.slice(0, 8);
+          forEach(['avg.usage', 'avg.usage_percent'], (item) => {
+            const dataItem: any = value[item];
+            if (dataItem) {
+              dataItem.tag = dataItem.name;
+              reData.push(dataItem);
+            }
+          });
 
-        return { ...result, [ip]: reData };
-      }, {});
+          return { ...result, [ip]: reData };
+        },
+        {},
+      );
 
       // const parsedLines = reduce(data, (result: any, value) => {
       //   const reData: any[] = [];
@@ -97,7 +101,10 @@ export const ApiMap = {
       group: 'container_id',
       diffps: ['io_service_bytes_recursive_read', 'io_service_bytes_recursive_write'],
     },
-    dataHandler: multiGroupsAndDimensionDataHandler(['diffps.io_service_bytes_recursive_read', 'diffps.io_service_bytes_recursive_write']),
+    dataHandler: multiGroupsAndDimensionDataHandler([
+      'diffps.io_service_bytes_recursive_read',
+      'diffps.io_service_bytes_recursive_write',
+    ]),
   },
   network: {
     isCustomApi: true,

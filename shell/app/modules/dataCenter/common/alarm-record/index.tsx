@@ -45,13 +45,19 @@ const memberScopeMap = {
 
 export default ({ scope }: { scope: string }) => {
   const alarmRecordStore = storeMap[scope];
-  const [recordList, paging, alarmAttrs] = alarmRecordStore.useStore((s) => [s.recordList, s.recordListPaging, s.alarmAttrs]);
+  const [recordList, paging, alarmAttrs] = alarmRecordStore.useStore((s) => [
+    s.recordList,
+    s.recordListPaging,
+    s.alarmAttrs,
+  ]);
   const { getAlarmRecordList, getAlarmAttrs } = alarmRecordStore;
   const userMap = userMapStore.useStore((s) => s);
   const params = routeInfoStore.useStore((s) => s.params);
 
   const [loading] = useLoading(alarmRecordStore, ['getAlarmRecordList']);
-  useMount(() => { getAlarmAttrs(); });
+  useMount(() => {
+    getAlarmAttrs();
+  });
 
   const { onSubmit, onReset, autoPagination } = useFilter({
     getData: getAlarmRecordList,
@@ -105,45 +111,60 @@ export default ({ scope }: { scope: string }) => {
     },
   ];
 
-  const filterConfig = React.useMemo(() => [
-    {
-      type: Select,
-      name: 'alertState',
-      customProps: {
-        mode: 'multiple',
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('org:alarm status') }),
-        options: map(alarmAttrs.alertState, ({ key, display }) => <Select.Option key={key} value={key}>{display}</Select.Option>),
+  const filterConfig = React.useMemo(
+    () => [
+      {
+        type: Select,
+        name: 'alertState',
+        customProps: {
+          mode: 'multiple',
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('org:alarm status') }),
+          options: map(alarmAttrs.alertState, ({ key, display }) => (
+            <Select.Option key={key} value={key}>
+              {display}
+            </Select.Option>
+          )),
+        },
       },
-    },
-    {
-      type: Select,
-      name: 'alertType',
-      customProps: {
-        mode: 'multiple',
-        placeholder: i18n.t('application:filter by alarm type'),
-        options: map(alarmAttrs.alertType, ({ key, display }) => <Select.Option key={key} value={key}>{display}</Select.Option>),
+      {
+        type: Select,
+        name: 'alertType',
+        customProps: {
+          mode: 'multiple',
+          placeholder: i18n.t('application:filter by alarm type'),
+          options: map(alarmAttrs.alertType, ({ key, display }) => (
+            <Select.Option key={key} value={key}>
+              {display}
+            </Select.Option>
+          )),
+        },
       },
-    },
-    {
-      type: Select,
-      name: 'handleState',
-      customProps: {
-        mode: 'multiple',
-        placeholder: i18n.t('application:filter by handle status'),
-        options: map(alarmAttrs.handleState, ({ key, display }) => <Select.Option key={key} value={key}>{display}</Select.Option>),
+      {
+        type: Select,
+        name: 'handleState',
+        customProps: {
+          mode: 'multiple',
+          placeholder: i18n.t('application:filter by handle status'),
+          options: map(alarmAttrs.handleState, ({ key, display }) => (
+            <Select.Option key={key} value={key}>
+              {display}
+            </Select.Option>
+          )),
+        },
       },
-    },
-    {
-      type: MemberSelector,
-      name: 'handlerId',
-      customProps: {
-        mode: 'multiple',
-        valueChangeTrigger: 'onClose',
-        placeholder: i18n.t('filter by handle people'),
-        scopeType: memberScopeMap[scope],
+      {
+        type: MemberSelector,
+        name: 'handlerId',
+        customProps: {
+          mode: 'multiple',
+          valueChangeTrigger: 'onClose',
+          placeholder: i18n.t('filter by handle people'),
+          scopeType: memberScopeMap[scope],
+        },
       },
-    },
-  ], [alarmAttrs.alertState, alarmAttrs.alertType, alarmAttrs.handleState, scope]);
+    ],
+    [alarmAttrs.alertState, alarmAttrs.alertType, alarmAttrs.handleState, scope],
+  );
 
   return (
     <>

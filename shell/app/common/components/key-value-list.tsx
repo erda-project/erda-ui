@@ -24,76 +24,85 @@ interface IParam {
   textRender?: (k: string, v: string) => string | JSX.Element | null;
   listRender?: (b: string[]) => React.ReactNodeArray | JSX.Element;
 }
-export const KeyValueList = ({ data, title, className = '', depth = 1, textRender, listRender, shrink = false, ...rest }: IParam) => {
+export const KeyValueList = ({
+  data,
+  title,
+  className = '',
+  depth = 1,
+  textRender,
+  listRender,
+  shrink = false,
+  ...rest
+}: IParam) => {
   return (
-    <div key={(title || '') + depth} className={`key-value-list depth-${depth} ${className} ${shrink ? 'shrink' : ''}`} {...rest}>
+    <div
+      key={(title || '') + depth}
+      className={`key-value-list depth-${depth} ${className} ${shrink ? 'shrink' : ''}`}
+      {...rest}
+    >
       {title !== undefined && <div className="title">{title}</div>}
-      {
-        map(data, (v, k) => {
-          if (typeof v === 'object') {
-            if (Array.isArray(v)) {
-              if (typeof v[0] === 'object') {
-                return v.map((subV, i) => KeyValueList({
+      {map(data, (v, k) => {
+        if (typeof v === 'object') {
+          if (Array.isArray(v)) {
+            if (typeof v[0] === 'object') {
+              return v.map((subV, i) =>
+                KeyValueList({
                   data: subV,
                   title: i === 0 ? k : undefined,
                   className: `sub${i % 2 === 1 ? ' odd' : ''}`,
                   listRender,
                   textRender,
                   depth: depth + 1,
-                }));
-              }
-              return (
-                <div className="k-v-row" key={k}>
-                  <span className="key">{k}</span>
-                  <span className="value"> {listRender ? listRender(v) : v.join(' , ')} </span>
-                </div>
+                }),
               );
             }
-            // 普通类型放前面
-            const normalType = {};
-            const objType = {};
-            map(v, (objV, objK) => {
-              if (typeof objV === 'object') {
-                objType[objK] = objV;
-              } else {
-                normalType[objK] = objV;
-              }
-            });
             return (
-              <React.Fragment key={k}>
-                {
-                  map(normalType, (normalV, normalK) => {
-                    return (
-                      <div className="k-v-row" key={normalK}>
-                        <span className="key">{normalK}</span>
-                        <span className="value"> {textRender ? textRender(normalK, normalV) : String(normalV)} </span>
-                      </div>
-                    );
-                  })
-                }
-                {
-                  Object.keys(objType).length
-                    ? KeyValueList({
-                      data: objType,
-                      title: k,
-                      className: 'sub',
-                      listRender,
-                      textRender,
-                      depth: depth + 1,
-                    })
-                    : null
-                }
-              </React.Fragment>
+              <div className="k-v-row" key={k}>
+                <span className="key">{k}</span>
+                <span className="value"> {listRender ? listRender(v) : v.join(' , ')} </span>
+              </div>
             );
           }
+          // 普通类型放前面
+          const normalType = {};
+          const objType = {};
+          map(v, (objV, objK) => {
+            if (typeof objV === 'object') {
+              objType[objK] = objV;
+            } else {
+              normalType[objK] = objV;
+            }
+          });
           return (
-            <div className="k-v-row" key={k}>
-              <span className="key">{k}</span>
-              <span className="value"> {textRender ? textRender(k, v) : String(v)} </span>
-            </div>
+            <React.Fragment key={k}>
+              {map(normalType, (normalV, normalK) => {
+                return (
+                  <div className="k-v-row" key={normalK}>
+                    <span className="key">{normalK}</span>
+                    <span className="value"> {textRender ? textRender(normalK, normalV) : String(normalV)} </span>
+                  </div>
+                );
+              })}
+              {Object.keys(objType).length
+                ? KeyValueList({
+                    data: objType,
+                    title: k,
+                    className: 'sub',
+                    listRender,
+                    textRender,
+                    depth: depth + 1,
+                  })
+                : null}
+            </React.Fragment>
           );
-        })
-      }
+        }
+        return (
+          <div className="k-v-row" key={k}>
+            <span className="key">{k}</span>
+            <span className="value"> {textRender ? textRender(k, v) : String(v)} </span>
+          </div>
+        );
+      })}
     </div>
   );
 };

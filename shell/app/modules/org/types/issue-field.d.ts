@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace ISSUE_FIELD {
-
   type IIssueType = 'BUG' | 'TASK' | 'REQUIREMENT' | 'EPIC' | 'COMMON';
   type IPropertyType = 'Text' | 'Number' | 'Select' | 'MultiSelect' | 'Date' | 'Person' | 'URL' | 'Email' | 'Phone';
 

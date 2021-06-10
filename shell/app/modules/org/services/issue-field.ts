@@ -14,42 +14,57 @@
 import agent from 'agent';
 
 export const getIssueTime = (params: ISSUE_FIELD.IProjectIssueQuery): ISSUE_FIELD.IIssueTime => {
-  return agent.get('/api/issues/actions/get-properties-time').query(params)
+  return agent
+    .get('/api/issues/actions/get-properties-time')
+    .query(params)
     .then((response: any) => response.body);
 };
 
-export const addFieldItem = (params: Omit<ISSUE_FIELD.IFiledItem, 'propertyID'|'index'>) => {
-  return agent.post('/api/issues/actions/create-property').send(params)
+export const addFieldItem = (params: Omit<ISSUE_FIELD.IFiledItem, 'propertyID' | 'index'>) => {
+  return agent
+    .post('/api/issues/actions/create-property')
+    .send(params)
     .then((response: any) => response.body);
 };
 
 export const updateFieldItem = (params: Omit<ISSUE_FIELD.IFiledItem, 'index'>) => {
-  return agent.put('/api/issues/actions/update-property').send(params)
+  return agent
+    .put('/api/issues/actions/update-property')
+    .send(params)
     .then((response: any) => response.body);
 };
 
-export const deleteFieldItem = (params: {propertyID: number}) => {
-  return agent.delete('/api/issues/actions/delete-property').query(params)
+export const deleteFieldItem = (params: { propertyID: number }) => {
+  return agent
+    .delete('/api/issues/actions/delete-property')
+    .query(params)
     .then((response: any) => response.body);
 };
 
 export const getFieldsByIssue = (params: ISSUE_FIELD.IFieldsByIssueQuery): ISSUE_FIELD.IFiledItem[] => {
-  return agent.get('/api/issues/actions/get-properties').query(params)
+  return agent
+    .get('/api/issues/actions/get-properties')
+    .query(params)
     .then((response: any) => response.body);
 };
 
-
 export const batchUpdateFieldsOrder = (params: ISSUE_FIELD.IFiledItem[]): ISSUE_FIELD.IFiledItem[] => {
-  return agent.put('/api/issues/actions/update-properties-index').send({ data: params })
+  return agent
+    .put('/api/issues/actions/update-properties-index')
+    .send({ data: params })
     .then((response: any) => response.body);
 };
 
 export const getSpecialFieldOptions = (params: ISSUE_FIELD.ISpecialFieldQuery): ISSUE_FIELD.ISpecialOption[] => {
-  return agent.get('/api/issues/action/get-stage').query(params)
+  return agent
+    .get('/api/issues/action/get-stage')
+    .query(params)
     .then((response: any) => response.body);
 };
 
 export const updateSpecialFieldOptions = (params: ISSUE_FIELD.ISpecialFieldQuery): ISSUE_FIELD.ISpecialOption[] => {
-  return agent.put('/api/issues/action/update-stage').send(params)
+  return agent
+    .put('/api/issues/action/update-stage')
+    .send(params)
     .then((response: any) => response.body);
 };

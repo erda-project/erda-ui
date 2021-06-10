@@ -78,60 +78,67 @@ const Sla = () => {
     });
   };
 
-  const columns: Array<ColumnProps<API_ACCESS.SlaItem>> = [{
-    title: i18n.t('SLA name'),
-    dataIndex: 'name',
-  }, {
-    title: i18n.t('request limit'),
-    dataIndex: 'limits',
-    render: (limits: API_ACCESS.SlaLimit[]) => {
-      const limitsStr = (limits || []).map(({ limit, unit }) => {
-        return `${limit} ${slaUnitMap[unit]}`;
-      });
-      return <Ellipsis title={uniq(limitsStr).join(',')} />;
+  const columns: Array<ColumnProps<API_ACCESS.SlaItem>> = [
+    {
+      title: i18n.t('SLA name'),
+      dataIndex: 'name',
     },
-  }, {
-    title: i18n.t('client count'),
-    dataIndex: 'clientCount',
-    width: 120,
-    render: (count) => count || 0,
-  }, {
-    title: i18n.t('authorization method'),
-    dataIndex: 'approval',
-    width: 150,
-    render: (approval) => slaAuthorizationMap[approval]?.name,
-  }, {
-    title: i18n.t('operation'),
-    dataIndex: 'id',
-    width: 150,
-    render: (_id, record: API_ACCESS.SlaItem) => {
-      if (!canEdit || record.source === 'system') {
-        return null;
-      }
-      return (
-        <TableActions>
-          <span onClick={() => { handleEditSla(record); }}>{i18n.t('edit')}</span>
-          <Popconfirm
-            title={i18n.t('confirm to {action}', { action: i18n.t('delete') })}
-            onConfirm={() => { handleDeleteSla(record); }}
-          >
-            <span>{i18n.t('delete')}</span>
-          </Popconfirm>
-
-        </TableActions>
-      );
+    {
+      title: i18n.t('request limit'),
+      dataIndex: 'limits',
+      render: (limits: API_ACCESS.SlaLimit[]) => {
+        const limitsStr = (limits || []).map(({ limit, unit }) => {
+          return `${limit} ${slaUnitMap[unit]}`;
+        });
+        return <Ellipsis title={uniq(limitsStr).join(',')} />;
+      },
     },
-  }];
+    {
+      title: i18n.t('client count'),
+      dataIndex: 'clientCount',
+      width: 120,
+      render: (count) => count || 0,
+    },
+    {
+      title: i18n.t('authorization method'),
+      dataIndex: 'approval',
+      width: 150,
+      render: (approval) => slaAuthorizationMap[approval]?.name,
+    },
+    {
+      title: i18n.t('operation'),
+      dataIndex: 'id',
+      width: 150,
+      render: (_id, record: API_ACCESS.SlaItem) => {
+        if (!canEdit || record.source === 'system') {
+          return null;
+        }
+        return (
+          <TableActions>
+            <span
+              onClick={() => {
+                handleEditSla(record);
+              }}
+            >
+              {i18n.t('edit')}
+            </span>
+            <Popconfirm
+              title={i18n.t('confirm to {action}', { action: i18n.t('delete') })}
+              onConfirm={() => {
+                handleDeleteSla(record);
+              }}
+            >
+              <span>{i18n.t('delete')}</span>
+            </Popconfirm>
+          </TableActions>
+        );
+      },
+    },
+  ];
 
   return (
     <>
-      <Table
-        loading={isLoading}
-        rowKey="id"
-        columns={columns}
-        dataSource={slaLis}
-        pagination={false}
-      />
+      <Table loading={isLoading} rowKey="id" columns={columns} dataSource={slaLis} pagination={false} />
       <SlaEditor
         mode="edit"
         visible={state.visible}

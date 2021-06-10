@@ -33,9 +33,7 @@ interface IProps {
   opsCol?: ColumnProps<{ [prop: string]: any }>;
 }
 
-const InstanceTable = ({
-  instances, isFetching, withHeader = true, opsCol, ...tableProps
-}: IProps) => {
+const InstanceTable = ({ instances, isFetching, withHeader = true, opsCol, ...tableProps }: IProps) => {
   const typeMap = {
     running: 'running',
     stopped: 'stopped',
@@ -55,7 +53,6 @@ const InstanceTable = ({
   const [dataSource, setDataSource] = React.useState([] as IInstance[]);
   const [defaultValue, setDefaultValue] = React.useState(typeMap.running);
   const [pagingType, setPagingType] = React.useState('unLimited');
-
 
   React.useEffect(() => {
     const { runs = [], completedRuns = [] } = instances;
@@ -90,9 +87,13 @@ const InstanceTable = ({
       // width: 100,
       render: (text: string, record: { [prop: string]: any }) => {
         const { status } = record;
-        return withHeader ? text : (
+        return withHeader ? (
+          text
+        ) : (
           <div>
-            <span className="status-pointer">{status === 'Healthy' ? null : <HealthPoint type="task" status={status} />}</span>
+            <span className="status-pointer">
+              {status === 'Healthy' ? null : <HealthPoint type="task" status={status} />}
+            </span>
             <span className="nowrap">{text}</span>
           </div>
         );
@@ -111,7 +112,8 @@ const InstanceTable = ({
       render: (text: string, record: any) => {
         const { message } = record;
         return (
-          <span className="nowrap">{insStatusMap[text].text}
+          <span className="nowrap">
+            {insStatusMap[text].text}
             {message ? <Tooltip title={message}> ({message})</Tooltip> : null}
           </span>
         );
@@ -132,9 +134,19 @@ const InstanceTable = ({
     <div className="instance-table">
       <div className={`header ${withHeader ? '' : 'hide'}`}>
         <span className="bold-500">{i18n.t('runtime:service details')}</span>
-        <Select key={defaultValue} defaultValue={defaultValue} size="small" style={{ width: '30%' }} onChange={(value: string) => onFilterChange(value)}>
-          <Option key={typeMap.running} value={typeMap.running}>{i18n.t('runtime:running')}</Option>
-          <Option key={typeMap.stopped} value={typeMap.stopped}>{i18n.t('runtime:stopped')}</Option>
+        <Select
+          key={defaultValue}
+          defaultValue={defaultValue}
+          size="small"
+          style={{ width: '30%' }}
+          onChange={(value: string) => onFilterChange(value)}
+        >
+          <Option key={typeMap.running} value={typeMap.running}>
+            {i18n.t('runtime:running')}
+          </Option>
+          <Option key={typeMap.stopped} value={typeMap.stopped}>
+            {i18n.t('runtime:stopped')}
+          </Option>
         </Select>
       </div>
       <Table

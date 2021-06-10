@@ -84,15 +84,16 @@ const mergeTree = (index: number, tree: any[], target: any[]) => {
 
   let match = false;
   tree.forEach((group: any[]) => {
-    group[index] && group[index].forEach((i: any) => {
-      match = true;
-      const result = target[index].find((item: any) => item.name === i.name);
-      const added = matchedService.includes(i.name);
-      if (!result && !added) {
-        matchedService.push(i.name);
-        target[index].push(i);
-      }
-    });
+    group[index] &&
+      group[index].forEach((i: any) => {
+        match = true;
+        const result = target[index].find((item: any) => item.name === i.name);
+        const added = matchedService.includes(i.name);
+        if (!result && !added) {
+          matchedService.push(i.name);
+          target[index].push(i);
+        }
+      });
   });
 
   if (match) {
@@ -106,7 +107,11 @@ export default (currentItem: any) => {
 
   const circularDep = checkCircularDep(originData);
   if (circularDep.length) {
-    message.warning(`${i18n.t('application:detected circular dependencies')}：${circularDep.join(' 和 ')}， ${i18n.t('application:the loop node does not render')}`);
+    message.warning(
+      `${i18n.t('application:detected circular dependencies')}：${circularDep.join(' 和 ')}， ${i18n.t(
+        'application:the loop node does not render',
+      )}`,
+    );
     return [];
   }
 
@@ -128,10 +133,12 @@ export default (currentItem: any) => {
     const result = getParentItem(key, currentItem);
     if (!result.length) {
       if (!items[0]) {
-        tree[index][0] = [{
-          ...value,
-          name: key,
-        }];
+        tree[index][0] = [
+          {
+            ...value,
+            name: key,
+          },
+        ];
       } else {
         tree[index][0].push({
           ...value,
@@ -148,10 +155,12 @@ export default (currentItem: any) => {
         setParents(item, tree[index]);
       });
 
-      tree[index].push([{
-        ...value,
-        name: key,
-      }]);
+      tree[index].push([
+        {
+          ...value,
+          name: key,
+        },
+      ]);
     }
   });
 

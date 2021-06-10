@@ -13,48 +13,54 @@
 
 import agent from 'agent';
 
-export const getAlerts = (params?: COMMON_STRATEGY_NOTIFY.IPageParam): { list: COMMON_STRATEGY_NOTIFY.IAlert[]; total: number } => {
-  return agent.get('/api/orgCenter/alerts')
+export const getAlerts = (
+  params?: COMMON_STRATEGY_NOTIFY.IPageParam,
+): { list: COMMON_STRATEGY_NOTIFY.IAlert[]; total: number } => {
+  return agent
+    .get('/api/orgCenter/alerts')
     .query(params)
     .then((response: any) => response.body);
 };
 
 export const getAlertDetail = (id: number): COMMON_STRATEGY_NOTIFY.IAlertDetail => {
-  return agent.get(`/api/orgCenter/alerts/${id}`)
-    .then((response: any) => response.body);
+  return agent.get(`/api/orgCenter/alerts/${id}`).then((response: any) => response.body);
 };
 
 export const createAlert = (body: COMMON_STRATEGY_NOTIFY.IAlertBody) => {
-  return agent.post('/api/orgCenter/alerts')
+  return agent
+    .post('/api/orgCenter/alerts')
     .send(body)
     .then((response: any) => response.body);
 };
 
 export const editAlert = ({ body, id }: { body: COMMON_STRATEGY_NOTIFY.IAlertBody; id: string }) => {
-  return agent.put(`/api/orgCenter/alerts/${id}`)
+  return agent
+    .put(`/api/orgCenter/alerts/${id}`)
     .send(body)
     .then((response: any) => response.body);
 };
 
 export const deleteAlert = (id: number) => {
-  return agent.delete(`/api/orgCenter/alerts/${id}`)
-    .then((response: any) => response.body);
+  return agent.delete(`/api/orgCenter/alerts/${id}`).then((response: any) => response.body);
 };
 
 export const getAlertTypes = (scope: string): COMMON_STRATEGY_NOTIFY.IAlertType => {
-  return agent.get('/api/orgCenter/alerts/rules')
+  return agent
+    .get('/api/orgCenter/alerts/rules')
     .query({ scope })
     .then((response: any) => response.body);
 };
 
 export const toggleAlert = ({ id, enable }: { id: string; enable: boolean }) => {
-  return agent.put(`/api/orgCenter/alerts/${id}/switch`)
+  return agent
+    .put(`/api/orgCenter/alerts/${id}/switch`)
     .query({ enable })
     .then((response: any) => response.body);
 };
 
 export const getClusterList = ({ orgId }: { orgId: number }) => {
-  return agent.get('/api/clusters')
+  return agent
+    .get('/api/clusters')
     .query({ orgID: orgId })
     .then((response: any) => response.body);
 };

@@ -11,9 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import {
-  Form,
-} from 'app/nusi';
+import { Form } from 'app/nusi';
 import { MemberSelector } from 'common';
 import * as React from 'react';
 import { isEmpty } from 'lodash';
@@ -28,55 +26,56 @@ export const FormMemberSelector = ({
   extensionFix,
   requiredCheck,
   trigger = 'onChange',
-}: any = {}) => React.memo(({ fieldConfig, form, getLabel }: any = {}) => {
-  const {
-    key,
-    value,
-    label,
-    visible,
-    valid = [],
-    disabled,
-    required,
-    registerRequiredCheck = noop,
-    componentProps,
-    wrapperProps,
-    labelTip,
-    requiredCheck: _requiredCheck,
-  } = fieldConfig || {};
-  registerRequiredCheck(_requiredCheck || requiredCheck);
-  const handleChange = (e: any) => {
-    form.setFieldValue(key, fixOut(e));
-    (componentProps.onChange || noop)(e);
-  };
-  const { scopeType, type } = componentProps;
-  return (
-    <FormItem
-      colon
-      label={getLabel(label, labelTip)}
-      className={visible ? '' : 'hide'}
-      validateStatus={valid[0]}
-      help={valid[1]}
-      required={required}
-      {...wrapperProps}
-    >
-      <MemberSelector
-        key={`${scopeType}-${type}`}
-        id={key}
-        {...componentProps}
-        disabled={disabled}
-        value={fixIn(value)}
-        onChange={handleChange}
-      />
-    </FormItem>
-  );
-});
+}: any = {}) =>
+  React.memo(({ fieldConfig, form, getLabel }: any = {}) => {
+    const {
+      key,
+      value,
+      label,
+      visible,
+      valid = [],
+      disabled,
+      required,
+      registerRequiredCheck = noop,
+      componentProps,
+      wrapperProps,
+      labelTip,
+      requiredCheck: _requiredCheck,
+    } = fieldConfig || {};
+    registerRequiredCheck(_requiredCheck || requiredCheck);
+    const handleChange = (e: any) => {
+      form.setFieldValue(key, fixOut(e));
+      (componentProps.onChange || noop)(e);
+    };
+    const { scopeType, type } = componentProps;
+    return (
+      <FormItem
+        colon
+        label={getLabel(label, labelTip)}
+        className={visible ? '' : 'hide'}
+        validateStatus={valid[0]}
+        help={valid[1]}
+        required={required}
+        {...wrapperProps}
+      >
+        <MemberSelector
+          key={`${scopeType}-${type}`}
+          id={key}
+          {...componentProps}
+          disabled={disabled}
+          value={fixIn(value)}
+          onChange={handleChange}
+        />
+      </FormItem>
+    );
+  });
 
 export const config = {
   name: 'memberSelector',
   Component: FormMemberSelector, // 某React组件，props中必须有value、onChange
   requiredCheck: (value) => {
     // 必填校验时，特殊的校验规则
-    const invalid = Array.isArray(value) ? !isEmpty(value) : (value !== undefined && value !== '');
+    const invalid = Array.isArray(value) ? !isEmpty(value) : value !== undefined && value !== '';
     return [invalid, i18n.t('can not be empty')];
   },
   fixOut: (value, options) => {

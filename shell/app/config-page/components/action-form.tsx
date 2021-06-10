@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { map, get, isEmpty, pick, find, isEqual, omit } from 'lodash';
+import { map, get, isEmpty, pick, find, isEqual, omit, has } from 'lodash';
 import { Button } from 'app/nusi';
 import { useUpdate } from 'common';
 import { useUpdateEffect } from 'react-use';
@@ -29,7 +29,18 @@ export interface IProps extends FormModalProps, CONFIG_PAGE.ICommonProps {
 }
 
 // 目前使用组件化协议的action-form白名单，后端还未实现接口控制，
-export const protocolActionForms = ['mysql-cli', 'redis-cli', 'api-test', 'dice-deploy-release', 'dice-deploy-rollback', 'git-checkout', 'git-push', 'gitbook', 'manual-review', 'dice-version-archive'];
+export const protocolActionForms = [
+  'mysql-cli',
+  'redis-cli',
+  'api-test',
+  'dice-deploy-release',
+  'dice-deploy-rollback',
+  'git-checkout',
+  'git-push',
+  'gitbook',
+  'manual-review',
+  'dice-version-archive',
+];
 
 const clearEmptyField = (ObjData: any) => {
   const filledFields: string[] = [];
@@ -51,15 +62,23 @@ const noop = () => {};
 export const ActionForm = (props: IProps) => {
   const { props: configProps, state, customProps, operations, execOperation = noop, updateState = noop } = props;
   const { fields } = configProps || {};
+  const { formData: fD } = state || ({} as Obj);
 
-  const { otherTaskAlias, onSubmit: propsSubmit, chosenAction, chosenActionName, nodeData, editing } = customProps || {};
+  const {
+    otherTaskAlias,
+    onSubmit: propsSubmit,
+    chosenAction,
+    chosenActionName,
+    nodeData,
+    editing,
+  } = customProps || {};
 
   const [{ formData }, updater] = useUpdate({
-    formData: !isEmpty(nodeData) ? { ...nodeData } : { ...(state || {}) } as undefined | Obj,
+    formData: isEmpty(fD) ? (!isEmpty(nodeData) ? { ...nodeData } : {}) : fD,
   });
 
   useUpdateEffect(() => {
-    if (!isEmpty(state)) {
+    if (state && has(state, 'formData')) {
       updater.formData({ ...(state || {}) });
     }
   }, [state, updater]);
@@ -86,30 +105,34 @@ export const ActionForm = (props: IProps) => {
           ];
         }
         const curKeyOperation = get(operations, `change.${item.key}`);
+        const curKey = item.key;
         if (curKeyOperation) {
           curItem.componentProps = {
             ...curItem.componentProps,
             onChange: (e: any) => {
               const val = curItem.component === 'input' ? e.target.value : e;
-              execOperation({ ...curKeyOperation, key: 'change' }, { [item.key]: val });
+              execOperation({ ...curKeyOperation, key: 'change' }, { [curKey]: val });
             },
           };
         }
         return curItem;
       });
     });
+    formRef.current?.setFields(newFields);
     return newFields;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fields]);
 
   const onSubmit = (val: Obj) => {
     let data: Obj = { resource: { ...val, type: chosenActionName } };
 
-    const defaultResource = { // 默认resources
+    const defaultResource = {
+      // 默认resources
       cpu: `${get(find(fields, { key: 'resources.cpu' } as Obj), 'defaultValue')}`,
       mem: `${get(find(fields, { key: 'resources.mem' } as Obj), 'defaultValue')}`,
     };
-    const editedResources = { // 用户修改的resources
+    const editedResources = {
+      // 用户修改的resources
       cpu: `${get(val, 'resources.cpu')}`,
       mem: `${get(val, 'resources.mem')}`,
     };
@@ -132,24 +155,20 @@ export const ActionForm = (props: IProps) => {
   };
 
   const onSave = () => {
-    const curForm = formRef && formRef.current as any;
+    const curForm = formRef && (formRef.current as any);
     if (curForm) {
       curForm.onSubmit(onSubmit);
     }
   };
 
-  const onChange = (val: Obj) => {
-    updateState(val);
-  };
   return (
     <>
-      <PureForm
-        fields={useableFields || []}
-        formRef={formRef}
-        value={formData}
-        onChange={onChange}
-      />
-      { editing ? <Button type="primary" ghost onClick={onSave}>{i18n.t('save')}</Button> : null}
+      <PureForm fields={useableFields || []} formRef={formRef} value={formData} />
+      {editing ? (
+        <Button type="primary" ghost onClick={onSave}>
+          {i18n.t('save')}
+        </Button>
+      ) : null}
     </>
   );
 };

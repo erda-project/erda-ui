@@ -16,7 +16,7 @@ import './end-node.scss';
 import classnames from 'classnames';
 import i18n from 'i18n';
 
-export interface IProps{
+export interface IProps {
   data?: Obj;
   onClickNode?: (data: any, arg?: any) => void;
   disabled?: boolean;
@@ -26,7 +26,6 @@ const noop = () => {};
 
 export const EndNode = (props: IProps) => {
   const { onClickNode = noop, data, disabled = false } = props;
-
 
   const onClick = () => {
     !disabled && onClickNode(data);
@@ -40,6 +39,8 @@ export const EndNode = (props: IProps) => {
   });
 
   return (
-    <div className={classes} onClick={onClick}>{disabled ? '' : i18n.t('application:outputs configuration')}</div>
+    <div className={classes} onClick={onClick}>
+      {disabled ? '' : i18n.t('application:outputs configuration')}
+    </div>
   );
 };

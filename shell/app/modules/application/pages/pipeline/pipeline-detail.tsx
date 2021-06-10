@@ -30,10 +30,10 @@ import appStore from 'application/stores/application';
 import { getBranchPath } from './config';
 import i18n from 'i18n';
 
-interface IProps{
+interface IProps {
   nodeId?: string;
   addDrawerProps?: Obj;
-  scopeParams: {scope: string; scopeID: string};
+  scopeParams: { scope: string; scopeID: string };
   scope: string;
 }
 
@@ -58,7 +58,6 @@ const PipelineDetail = (props: IProps) => {
 
   const envBlocked = get(orgBlockoutConfig, envBlockKeyMap[env], false);
 
-
   const [{ activeKey, runKey, canRunTest }, updater, update] = useUpdate({
     activeKey: 'configDetail',
     runKey: 1,
@@ -69,18 +68,21 @@ const PipelineDetail = (props: IProps) => {
     query.pipelineID && updater.activeKey('runDetail');
   });
 
-  const getDeployAuth = () => { // depoloy auth, same to deploy center
-    if (envBlocked && appBlockStatus !== 'unblocked') { // network blocked
+  const getDeployAuth = () => {
+    // depoloy auth, same to deploy center
+    if (envBlocked && appBlockStatus !== 'unblocked') {
+      // network blocked
       return {
         hasAuth: false,
         authTip: i18n.t('application:cannot deploy tips'),
       };
     }
-    if (!deployPerm[`${env.toLowerCase()}DeployOperation`]) { // no auth
+    if (!deployPerm[`${env.toLowerCase()}DeployOperation`]) {
+      // no auth
       return { hasAuth: false };
     }
 
-    const ymlStr = (get(caseDetail, 'meta.pipelineYml') || '');
+    const ymlStr = get(caseDetail, 'meta.pipelineYml') || '';
     let ymlObj = {} as any;
     if (ymlStr) {
       try {
@@ -100,7 +102,8 @@ const PipelineDetail = (props: IProps) => {
     return { hasAuth: true };
   };
 
-  const getEditAuth = () => { // edit auth, same to repo
+  const getEditAuth = () => {
+    // edit auth, same to repo
     const isProtectBranch = get(find(branchInfo, { name: branch }), 'isProtect');
     const branchAuth = isProtectBranch ? branchAuthObj.writeProtected.pass : branchAuthObj.writeNormal.pass;
     const authTip = isProtectBranch ? i18n.t('application:branch is protected, you have no permission yet') : undefined;
@@ -125,7 +128,7 @@ const PipelineDetail = (props: IProps) => {
     };
     addPipeline(postData).then(() => {
       clearExecuteRecords();
-      if (activeKey !== 'runDetail')updater.activeKey('runDetail');
+      if (activeKey !== 'runDetail') updater.activeKey('runDetail');
       updateSearch({ pipelineID: undefined });
       updater.runKey((pre: number) => pre + 1);
     });
@@ -136,15 +139,16 @@ const PipelineDetail = (props: IProps) => {
       <Tabs
         tabBarExtraContent={
           canRunTest ? (
-            <WithAuth
-              pass={deployAuthObj.hasAuth}
-              noAuthTip={deployAuthObj.authTip}
-            >
-              <Button type="primary" onClick={addNewPipeline}>{i18n.t('application:add pipeline')}</Button>
+            <WithAuth pass={deployAuthObj.hasAuth} noAuthTip={deployAuthObj.authTip}>
+              <Button type="primary" onClick={addNewPipeline}>
+                {i18n.t('application:add pipeline')}
+              </Button>
             </WithAuth>
           ) : (
             <Tooltip title={i18n.t('project:pipeline-run-tip')}>
-              <Button type="primary" disabled>{i18n.t('application:add pipeline')}</Button>
+              <Button type="primary" disabled>
+                {i18n.t('application:add pipeline')}
+              </Button>
             </Tooltip>
           )
         }
@@ -153,7 +157,14 @@ const PipelineDetail = (props: IProps) => {
         renderTabBar={(p: any, DefaultTabBar) => <DefaultTabBar {...p} onKeyDown={(e: any) => e} />}
       >
         <Tabs.TabPane tab={i18n.t('configuration information')} key={'configDetail'}>
-          <PipelineConfigDetail {...rest} onCaseChange={onCaseChange} scope={scope} nodeId={nodeId} addDrawerProps={addDrawerProps} editAuth={editAuthObj} />
+          <PipelineConfigDetail
+            {...rest}
+            onCaseChange={onCaseChange}
+            scope={scope}
+            nodeId={nodeId}
+            addDrawerProps={addDrawerProps}
+            editAuth={editAuthObj}
+          />
         </Tabs.TabPane>
         <Tabs.TabPane tab={i18n.t('execute detail')} key={'runDetail'}>
           <PipelineRunDetail key={runKey} deployAuth={deployAuthObj} />

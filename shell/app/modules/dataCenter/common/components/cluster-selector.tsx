@@ -18,27 +18,24 @@ import i18n from 'i18n';
 
 const { Option } = Select;
 
-interface IProps{
+interface IProps {
   clusterList: ORG_CLUSTER.ICluster[];
   onChange: (args: string) => void;
 }
 export const ClusterSelector = ({ clusterList, onChange }: IProps) => {
   const [selected, setSelected] = React.useState('');
-  const list = [
-    { name: '', displayName: i18n.t('all clusters') },
-    ...clusterList,
-  ];
+  const list = [{ name: '', displayName: i18n.t('all clusters') }, ...clusterList];
   const changeCluster = (val: string) => {
     setSelected(val);
     onChange(val);
   };
   return (
     <Select onChange={changeCluster} value={selected} style={{ width: 200 }}>
-      {
-        map(list, ({ name, displayName }) => (
-          <Option key={name} value={name}>{displayName || name}</Option>
-        ))
-      }
+      {map(list, ({ name, displayName }) => (
+        <Option key={name} value={name}>
+          {displayName || name}
+        </Option>
+      ))}
     </Select>
   );
 };

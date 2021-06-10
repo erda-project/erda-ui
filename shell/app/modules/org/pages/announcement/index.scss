@@ -12,13 +12,13 @@
       cursor: pointer;
 
       &:after {
-        content: "";
+        content: '';
         position: absolute;
         top: 3px;
         right: -8px;
         width: 1px;
         height: 14px;
-        background: rgba(0, 0, 0, .1);
+        background: rgba(0, 0, 0, 0.1);
       }
 
       &:last-child {

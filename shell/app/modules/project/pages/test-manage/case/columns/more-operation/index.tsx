@@ -48,7 +48,9 @@ const MoreOperation = ({ record }: IProps) => {
       case TestOperation.deleteEntirely:
         Modal.confirm({
           title: i18n.t('project:delete completely'),
-          content: i18n.t('project:the use case will not be recovered after it is completely deleted, ') + i18n.t('is it confirmed?'),
+          content:
+            i18n.t('project:the use case will not be recovered after it is completely deleted, ') +
+            i18n.t('is it confirmed?'),
           onOk: () => {
             deleteEntirely(record.id);
           },
@@ -94,9 +96,16 @@ const MoreOperation = ({ record }: IProps) => {
       //   ))}
       // </Menu>
       <TableActions>
-        {
-          list.map(({ key, name }) => <span onClick={(e) => { onClick({ key, domEvent: e }); }} key={key}>{name}</span>)
-        }
+        {list.map(({ key, name }) => (
+          <span
+            onClick={(e) => {
+              onClick({ key, domEvent: e });
+            }}
+            key={key}
+          >
+            {name}
+          </span>
+        ))}
       </TableActions>
     );
   };

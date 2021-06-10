@@ -22,13 +22,30 @@ export const cloudVendor = {
 
 export const formConfig = {
   options: {
-    CIDRType: [{ value: 'default', name: i18n.t('dataCenter:default CIDR Block') }, { value: 'custom', name: i18n.t('dataCenter:custom CIDR Block') }],
+    CIDRType: [
+      { value: 'default', name: i18n.t('dataCenter:default CIDR Block') },
+      { value: 'custom', name: i18n.t('dataCenter:custom CIDR Block') },
+    ],
     defaultCIDR: ['192.168.0.0/16', '172.16.0.0/12', '10.0.0.0/8'],
   },
   extra: {
     CIDR: {
-      default: <Alert message={i18n.t('dataCenter:the CIDR block cannot be modified after it is set')} type="warning" showIcon />,
-      custom: <Alert message={`${i18n.t('dataCenter:the CIDR block cannot be modified after it is set')}${i18n.t('dataCenter:CIDR-tips')}`} type="warning" showIcon />,
+      default: (
+        <Alert
+          message={i18n.t('dataCenter:the CIDR block cannot be modified after it is set')}
+          type="warning"
+          showIcon
+        />
+      ),
+      custom: (
+        <Alert
+          message={`${i18n.t('dataCenter:the CIDR block cannot be modified after it is set')}${i18n.t(
+            'dataCenter:CIDR-tips',
+          )}`}
+          type="warning"
+          showIcon
+        />
+      ),
     },
   },
   rule: {

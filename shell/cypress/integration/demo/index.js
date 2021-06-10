@@ -19,6 +19,6 @@ context('Login', () => {
   });
 
   it('goto default page', () => {
-    cy.log(11)
+    cy.log(11);
   });
 });

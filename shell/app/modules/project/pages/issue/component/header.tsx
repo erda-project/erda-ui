@@ -48,18 +48,9 @@ const VIEW_GROUP = [
 
 const viewGroupMap = {
   [ISSUE_TYPE.ALL]: [...VIEW_GROUP],
-  [ISSUE_TYPE.REQUIREMENT]: [
-    { value: 'status', name: i18n.t('status') },
-    ...VIEW_GROUP,
-  ],
-  [ISSUE_TYPE.TASK]: [
-    { value: 'status', name: i18n.t('status') },
-    ...VIEW_GROUP,
-  ],
-  [ISSUE_TYPE.BUG]: [
-    { value: 'status', name: i18n.t('status') },
-    ...VIEW_GROUP,
-  ],
+  [ISSUE_TYPE.REQUIREMENT]: [{ value: 'status', name: i18n.t('status') }, ...VIEW_GROUP],
+  [ISSUE_TYPE.TASK]: [{ value: 'status', name: i18n.t('status') }, ...VIEW_GROUP],
+  [ISSUE_TYPE.BUG]: [{ value: 'status', name: i18n.t('status') }, ...VIEW_GROUP],
 };
 
 export const ViewTypeMap = {
@@ -71,11 +62,11 @@ export const ViewTypeMap = {
   },
 };
 
-
 const filterFixOut = (val: Obj) => {
   const reVal = {};
   map(val, (v, k) => {
-    if (k.includes(',')) { // 时间的filter
+    if (k.includes(',')) {
+      // 时间的filter
       const [start, end] = k.split(',');
       const [startVal, endVal] = v || [];
       if (start && end) {
@@ -120,10 +111,13 @@ const IssueHeader = (props: IProps) => {
     debounceFilter(val || filterObj);
   };
 
-  const debounceFilter = React.useCallback(debounce((filterData: Obj) => {
-    onFilter(filterData);
-    // onFilter(omit(filterData, [FilterBarHandle.filterDataKey]));
-  }, 500), []);
+  const debounceFilter = React.useCallback(
+    debounce((filterData: Obj) => {
+      onFilter(filterData);
+      // onFilter(omit(filterData, [FilterBarHandle.filterDataKey]));
+    }, 500),
+    [],
+  );
 
   const updateFilter = (val: Obj = {}) => {
     const newVal = filterFixOut({ ...filterObj, ...val });
@@ -135,16 +129,25 @@ const IssueHeader = (props: IProps) => {
   const requirementAuth = usePerm((s) => s.project.requirement);
 
   const getDownloadUrl = () => {
-    return setApiWithOrg(`/api/issues/actions/export-excel?${qs.stringify({ ...filterObj, pageNo: 1, projectID: params.projectId, type: issueType, IsDownload: false, orgID }, { arrayFormat: 'none' })}`);
+    return setApiWithOrg(
+      `/api/issues/actions/export-excel?${qs.stringify(
+        { ...filterObj, pageNo: 1, projectID: params.projectId, type: issueType, IsDownload: false, orgID },
+        { arrayFormat: 'none' },
+      )}`,
+    );
   };
 
-  const downloadTemplate = setApiWithOrg(`/api/issues/actions/export-excel?${qs.stringify({ ...filterObj, pageNo: 1, projectID: params.projectId, type: issueType, IsDownload: true, orgID }, { arrayFormat: 'none' })}`);
-
+  const downloadTemplate = setApiWithOrg(
+    `/api/issues/actions/export-excel?${qs.stringify(
+      { ...filterObj, pageNo: 1, projectID: params.projectId, type: issueType, IsDownload: true, orgID },
+      { arrayFormat: 'none' },
+    )}`,
+  );
 
   return (
     <div className="issue-header">
       <div>
-        {params.iterationId === undefined &&
+        {params.iterationId === undefined && (
           <IterationSelect
             className="mr8"
             mode="multiple"
@@ -153,7 +156,7 @@ const IssueHeader = (props: IProps) => {
             onChange={(ids) => updateFilter({ iterationIDs: ids })}
             placeholder={i18n.t('project:owing iteration')}
           />
-        }
+        )}
         <Input.Search
           style={{ width: '268px' }}
           value={filterObj.title}
@@ -191,9 +194,19 @@ const IssueHeader = (props: IProps) => {
               const curGrouName = get(find(curViewGroup, { value: viewGroup }), 'name');
               const getMenu = () => {
                 return (
-                  <Menu className="issue-view-type" onClick={(e: any) => update({ viewGroup: e.key, viewType: view.value })}>
+                  <Menu
+                    className="issue-view-type"
+                    onClick={(e: any) => update({ viewGroup: e.key, viewType: view.value })}
+                  >
                     {map(curViewGroup, (g) => {
-                      return <Menu.Item className={`group-item ${curViewGroup === g.value ? 'chosen-group' : ''}`} key={g.value}>{g.name}</Menu.Item>;
+                      return (
+                        <Menu.Item
+                          className={`group-item ${curViewGroup === g.value ? 'chosen-group' : ''}`}
+                          key={g.value}
+                        >
+                          {g.name}
+                        </Menu.Item>
+                      );
                     })}
                   </Menu>
                 );
@@ -204,7 +217,9 @@ const IssueHeader = (props: IProps) => {
                     <Radio.Button value={view.value}>
                       <div className="flex-box">
                         <CustomIcon type={view.icon} className="mr4" />
-                        <span className="nowrap" style={{ width: 56 }}>{curGrouName}</span>
+                        <span className="nowrap" style={{ width: 56 }}>
+                          {curGrouName}
+                        </span>
                       </div>
                     </Radio.Button>
                   </Dropdown>
@@ -224,8 +239,7 @@ const IssueHeader = (props: IProps) => {
             }
           })}
         </Radio.Group>
-        {
-          [ISSUE_TYPE.BUG, ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK].includes(issueType) &&
+        {[ISSUE_TYPE.BUG, ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK].includes(issueType) && (
           <ImportFile
             issueType={issueType}
             download={downloadTemplate}
@@ -235,9 +249,9 @@ const IssueHeader = (props: IProps) => {
             }}
             pass={requirementAuth.import.pass}
           />
-        }
+        )}
         <Tooltip title={i18n.t('export')}>
-          <WithAuth pass={requirementAuth.export.pass} >
+          <WithAuth pass={requirementAuth.export.pass}>
             <Button className="ml8" onClick={() => window.open(getDownloadUrl())}>
               <CustomIcon type="export" />
             </Button>

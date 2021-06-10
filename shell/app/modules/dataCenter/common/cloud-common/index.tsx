@@ -49,6 +49,8 @@ export const getAccountsFieldsList = (selectOptions: ISelectOption[], initialSel
 export const addAuthTooltipTitle = (
   <span>
     {i18n.t('dataCenter:please add ')}&nbsp;
-    <span onClick={() => goTo(goTo.pages.cloudAccounts)} className="fake-link">{i18n.t('dataCenter:cloud account')}</span>
+    <span onClick={() => goTo(goTo.pages.cloudAccounts)} className="fake-link">
+      {i18n.t('dataCenter:cloud account')}
+    </span>
   </span>
 );

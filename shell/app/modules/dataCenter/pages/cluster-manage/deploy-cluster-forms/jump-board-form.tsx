@@ -18,14 +18,14 @@ import { get } from 'lodash';
 import { RenderPureForm, ReadonlyForm } from 'common';
 import { Switch } from 'app/nusi';
 
-
 // orgID,跳板机（部署起点）
 export const JumpBoardForm = ({ form, curRef, data, isReadonly }: IFormProps) => {
   const [isPassword, setIsPassword] = React.useState(true);
 
   React.useEffect(() => {
     const jumpData = get(data, 'jump') || {};
-    if (jumpData.privateKey && !jumpData.password) { // 秘钥
+    if (jumpData.privateKey && !jumpData.password) {
+      // 秘钥
       setIsPassword(false);
     } else {
       setIsPassword(true);
@@ -60,26 +60,33 @@ export const JumpBoardForm = ({ form, curRef, data, isReadonly }: IFormProps) =>
       initialValue: 'root',
     },
     {
-      getComp: () => <Switch checkedChildren={i18n.t('password')} unCheckedChildren={i18n.t('privateKey')} checked={isPassword} onClick={() => setIsPassword(!isPassword)} />,
+      getComp: () => (
+        <Switch
+          checkedChildren={i18n.t('password')}
+          unCheckedChildren={i18n.t('privateKey')}
+          checked={isPassword}
+          onClick={() => setIsPassword(!isPassword)}
+        />
+      ),
     },
-    isPassword ? {
-      label: i18n.t('password'),
-      name: `${formPrefix}.password`,
-    } : {
-      label: i18n.t('privateKey'),
-      name: `${formPrefix}.privateKey`,
-      type: 'textArea',
-    },
+    isPassword
+      ? {
+          label: i18n.t('password'),
+          name: `${formPrefix}.password`,
+        }
+      : {
+          label: i18n.t('privateKey'),
+          name: `${formPrefix}.privateKey`,
+          type: 'textArea',
+        },
   ];
   return (
     <FormUnitContainer title={i18n.t('jump host')} curRef={curRef}>
-      {
-        isReadonly ? (
-          <ReadonlyForm fieldsList={fieldsList} data={data} />
-        ) : (
-          <RenderPureForm list={fieldsList} form={form} layout="vertical" className="deploy-form-render" />
-        )
-      }
+      {isReadonly ? (
+        <ReadonlyForm fieldsList={fieldsList} data={data} />
+      ) : (
+        <RenderPureForm list={fieldsList} form={form} layout="vertical" className="deploy-form-render" />
+      )}
     </FormUnitContainer>
   );
 };

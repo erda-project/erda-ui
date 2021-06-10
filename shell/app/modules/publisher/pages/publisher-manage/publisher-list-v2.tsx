@@ -55,11 +55,15 @@ export const publisherTabs = () => {
   ];
 };
 
-export const PurePublisherList = ({ list = [], paging, getList, clearList, isFetching, onItemClick }: IPubliserListProps) => {
-  const [{
-    q,
-    formVisible,
-  }, updater] = useUpdate({
+export const PurePublisherList = ({
+  list = [],
+  paging,
+  getList,
+  clearList,
+  isFetching,
+  onItemClick,
+}: IPubliserListProps) => {
+  const [{ q, formVisible }, updater] = useUpdate({
     q: undefined as string | undefined,
     formVisible: false,
   });
@@ -72,15 +76,19 @@ export const PurePublisherList = ({ list = [], paging, getList, clearList, isFet
     updater.q(undefined);
   }, [mode]);
 
-  useDebounce(() => {
-    getList({
-      q,
-      pageNo: 1,
-      type: mode,
-    });
-  }, 300, [q, mode]);
+  useDebounce(
+    () => {
+      getList({
+        q,
+        pageNo: 1,
+        type: mode,
+      });
+    },
+    300,
+    [q, mode],
+  );
 
-  const onSubmit = ({ q: value }: {q: string}) => {
+  const onSubmit = ({ q: value }: { q: string }) => {
     updater.q(value);
   };
 
@@ -112,7 +120,6 @@ export const PurePublisherList = ({ list = [], paging, getList, clearList, isFet
     {
       title: i18n.t('publisher:publisher content name'),
       dataIndex: 'name',
-
     },
     {
       title: i18n.t('description'),
@@ -139,36 +146,41 @@ export const PurePublisherList = ({ list = [], paging, getList, clearList, isFet
       render: (bool) => {
         return (
           <span className={`item-status ${bool ? 'on' : 'off'}`}>
-            {
-            bool ? i18n.t('publisher:publishing') : i18n.t('publisher:withdrawn')
-          }
+            {bool ? i18n.t('publisher:publishing') : i18n.t('publisher:withdrawn')}
           </span>
         );
       },
     },
   ];
-  const config = React.useMemo(() => [
-    {
-      type: Input,
-      name: 'q',
-      customProps: {
-        placeholder: i18n.t('filter by {name}', { name: i18n.t('publisher:publisher content name') }),
-        autoComplete: 'off',
+  const config = React.useMemo(
+    () => [
+      {
+        type: Input,
+        name: 'q',
+        customProps: {
+          placeholder: i18n.t('filter by {name}', { name: i18n.t('publisher:publisher content name') }),
+          autoComplete: 'off',
+        },
       },
-    },
-  ], []);
+    ],
+    [],
+  );
   return (
     <Spin spinning={isFetching}>
       <CustomFilter
         key={mode}
         config={config}
         onSubmit={onSubmit}
-        onReset={() => { updater.q(''); }}
+        onReset={() => {
+          updater.q('');
+        }}
       />
       <div className="publisher-list-section">
         <div className="top-button-group">
           <WithAuth pass={publishOperationAuth} tipProps={{ placement: 'bottom' }}>
-            <Button type="primary" onClick={() => openFormModal()}>{i18n.t('publisher:add publisher content')}</Button>
+            <Button type="primary" onClick={() => openFormModal()}>
+              {i18n.t('publisher:add publisher content')}
+            </Button>
           </WithAuth>
         </div>
         <Table
@@ -178,7 +190,9 @@ export const PurePublisherList = ({ list = [], paging, getList, clearList, isFet
           dataSource={list}
           onRow={(record: PUBLISHER.IPublisher) => {
             return {
-              onClick: () => { goToPublisher(record); },
+              onClick: () => {
+                goToPublisher(record);
+              },
             };
           }}
           pagination={{
@@ -187,11 +201,7 @@ export const PurePublisherList = ({ list = [], paging, getList, clearList, isFet
             onChange: handlePageChange,
           }}
         />
-        <ArtifactsFormModal
-          visible={formVisible}
-          onCancel={closeFormModal}
-          afterSubmit={afterSubmitAction}
-        />
+        <ArtifactsFormModal visible={formVisible} onCancel={closeFormModal} afterSubmit={afterSubmitAction} />
       </div>
     </Spin>
   );

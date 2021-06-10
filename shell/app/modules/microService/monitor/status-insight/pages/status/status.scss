@@ -1,4 +1,4 @@
-@import "./status-common.scss";
+@import './status-common.scss';
 
 .project-status-page {
   min-height: 100%;
@@ -44,7 +44,7 @@
       text-align: center;
       background: $gray;
       border-radius: 4px;
-      box-shadow: 0 3px 16px 2px rgba(122, 122, 122, .4);
+      box-shadow: 0 3px 16px 2px rgba(122, 122, 122, 0.4);
 
       &.red {
         background: $red;

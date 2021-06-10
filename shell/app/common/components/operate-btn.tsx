@@ -61,25 +61,21 @@ const OperateBtn = ({ children, limit = 3, ellipses, className }: IProps) => {
         }
       });
 
-      const menu = (
-        <Menu>
-          {dropChildren}
-        </Menu>
-      );
+      const menu = <Menu>{dropChildren}</Menu>;
 
       return (
         <>
           {commonChildren}
           <Dropdown overlayClassName="table-operate-dropdown" overlay={menu} placement="bottomRight">
-            {
-              ellipses || <CustomIcon
+            {ellipses || (
+              <CustomIcon
                 className="hover-active"
                 type="more"
                 onClick={(e) => {
                   e.stopPropagation();
                 }}
               />
-            }
+            )}
           </Dropdown>
         </>
       );
@@ -88,9 +84,7 @@ const OperateBtn = ({ children, limit = 3, ellipses, className }: IProps) => {
   const wrapClassName = classNames('table-operations operator-dropdown-wrap', className);
   return (
     <div className={wrapClassName} onClick={(e) => e.stopPropagation()}>
-      {
-        renderChild()
-      }
+      {renderChild()}
     </div>
   );
 };

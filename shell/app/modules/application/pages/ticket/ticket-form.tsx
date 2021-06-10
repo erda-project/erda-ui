@@ -16,7 +16,6 @@ import { FormModal } from 'common';
 import MarkdownEditor from 'app/common/components/markdown-editor';
 import i18n from 'i18n';
 
-
 export const getTicketType = (): TICKET.TicketType[] => {
   const typeArr = [
     {
@@ -70,11 +69,7 @@ export const TicketForm = ({
     {
       label: i18n.t('application:ticket content'),
       name: 'content',
-      getComp: () => (
-        <MarkdownEditor
-          btnText={i18n.t('submit comment')}
-        />
-      ),
+      getComp: () => <MarkdownEditor btnText={i18n.t('submit comment')} />,
     },
     {
       label: i18n.t('application:ticket type'),

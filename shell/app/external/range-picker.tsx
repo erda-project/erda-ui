@@ -29,9 +29,9 @@ const RangePicker = (props: IProps) => {
   const { borderTime, onChange, value, ...rest } = props;
   const [_value, setValue] = React.useState(value);
 
-  React.useEffect(()=>{
-    setValue(value)
-  },[value])
+  React.useEffect(() => {
+    setValue(value);
+  }, [value]);
 
   const handleChange = (dates: RangePickerValue, dateStrings: [string, string]) => {
     const moments = dates as RangePickerValue;

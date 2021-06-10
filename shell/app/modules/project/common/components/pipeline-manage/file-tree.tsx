@@ -25,7 +25,7 @@ import CaseEditForm from './config-detail/case-edit-form';
 import projectStore from 'project/stores/project';
 import { scopeConfig } from './scope-config';
 
-interface IProps{
+interface IProps {
   scope: string;
 }
 
@@ -33,7 +33,17 @@ const FileTree = (props: IProps) => {
   const { scope } = props;
   const scopeConfigData = scopeConfig[scope];
   const [params, query] = routeInfoStore.useStore((s) => [s.params, s.query]);
-  const { getCategoryById, createTreeNode, createRootTreeNode, deleteTreeNode, updateTreeNode, moveTreeNode, copyTreeNode, getAncestors, fuzzySearch } = fileTreeStore;
+  const {
+    getCategoryById,
+    createTreeNode,
+    createRootTreeNode,
+    deleteTreeNode,
+    updateTreeNode,
+    moveTreeNode,
+    copyTreeNode,
+    getAncestors,
+    fuzzySearch,
+  } = fileTreeStore;
   const [caseDetail] = autoTestStore.useStore((s) => [s.caseDetail]);
   const [rootNode, setRootNode] = React.useState(null as null | TreeNode);
   const [editVis, setEditVis] = React.useState(false);
@@ -50,8 +60,15 @@ const FileTree = (props: IProps) => {
     const rootArray = await getCategoryById({ pinode: '0', scopeID: params.projectId, scope: scopeConfigData.scope });
     if (Array.isArray(rootArray) && rootArray.length === 1) {
       setRootNode(rootArray[0]);
-    } else { // 根节点不存在，自动创建
-      const node = await createRootTreeNode({ name: projectInfo.name, type: 'd', pinode: '0', scope: scopeConfigData.scope, scopeID: params.projectId }); // name 待定义
+    } else {
+      // 根节点不存在，自动创建
+      const node = await createRootTreeNode({
+        name: projectInfo.name,
+        type: 'd',
+        pinode: '0',
+        scope: scopeConfigData.scope,
+        scopeID: params.projectId,
+      }); // name 待定义
       setRootNode(node);
     }
   }, [createRootTreeNode, getCategoryById, params.projectId, projectInfo.name, scopeConfigData.scope]);
@@ -111,7 +128,6 @@ const FileTree = (props: IProps) => {
       // },
     ]),
   ];
-
 
   const fileActions = [
     {
@@ -199,37 +215,37 @@ const FileTree = (props: IProps) => {
   const currentKey = get(caseDetail, 'type') === 'f' ? `leaf-${caseDetail.inode}` : undefined;
   return (
     <>
-      {
-        rootNode && !isEmpty(rootNode) ?
-          <TreeCategory
-            title={scopeConfigData.text.fileTreeTitle}
-            titleOperation={titleOperations}
-            onSelectNode={onSelectNode}
-            initTreeData={[{ ...rootNode }]}
-            currentKey={currentKey}
-            searchGroup={{ file: scopeConfigData.text.searchFile, folder: scopeConfigData.text.searchFolder }}
-            effects={{
-              moveNode: moveTreeNode,
-              loadData: getCategoryById,
-              deleteNode: async (key, isCurrentKeyDeleted) => {
-                await deleteTreeNode(key);
-                if (isCurrentKeyDeleted) {
-                  updateSearch({ caseId: '' });
-                }
-              },
-              updateNode: updateTreeNode,
-              createNode: createTreeNode,
-              copyNode: copyTreeNode,
-              getAncestors,
-              fuzzySearch: searchNodes,
-            }}
-            actions={{
-              folderActions,
-              fileActions,
-            }}
-          />
-          : <EmptyHolder relative />
-      }
+      {rootNode && !isEmpty(rootNode) ? (
+        <TreeCategory
+          title={scopeConfigData.text.fileTreeTitle}
+          titleOperation={titleOperations}
+          onSelectNode={onSelectNode}
+          initTreeData={[{ ...rootNode }]}
+          currentKey={currentKey}
+          searchGroup={{ file: scopeConfigData.text.searchFile, folder: scopeConfigData.text.searchFolder }}
+          effects={{
+            moveNode: moveTreeNode,
+            loadData: getCategoryById,
+            deleteNode: async (key, isCurrentKeyDeleted) => {
+              await deleteTreeNode(key);
+              if (isCurrentKeyDeleted) {
+                updateSearch({ caseId: '' });
+              }
+            },
+            updateNode: updateTreeNode,
+            createNode: createTreeNode,
+            copyNode: copyTreeNode,
+            getAncestors,
+            fuzzySearch: searchNodes,
+          }}
+          actions={{
+            folderActions,
+            fileActions,
+          }}
+        />
+      ) : (
+        <EmptyHolder relative />
+      )}
       <CaseEditForm editData={editData} visible={editVis} onOk={onOk} onClose={onClose} scope={scope} />
     </>
   );

@@ -37,7 +37,7 @@ const ChartsResult = () => {
     const nameMap = {};
     const color: string[] = [];
     const names: string[] = [];
-    const data: Array<{name: string; value: number}> = [];
+    const data: Array<{ name: string; value: number }> = [];
     map(keys(nameMaps), (key) => {
       const value = get(relsCount, key);
       if (value) {
@@ -77,19 +77,20 @@ const ChartsResult = () => {
                 y: 'bottom',
               },
               color,
-              series: [{
-                radius: ['40%', '55%'],
-                label: {
-                  formatter: '{b}: {c} ({d}%)',
+              series: [
+                {
+                  radius: ['40%', '55%'],
+                  label: {
+                    formatter: '{b}: {c} ({d}%)',
+                  },
                 },
-              }],
+              ],
             },
           },
         },
       },
     ];
   }, [relsCount]);
-
 
   if (s === 0) {
     return null;

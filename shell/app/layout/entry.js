@@ -24,11 +24,7 @@ import { NotFound } from 'layout/common/error-page';
 export default (registerModule) => {
   return registerModule({
     key: 'layout',
-    stores: [
-      layoutStore,
-      breadcrumbStore,
-      messageStore,
-    ],
+    stores: [layoutStore, breadcrumbStore, messageStore],
     // locales: {
     //   zh,
     //   en,

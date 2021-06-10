@@ -20,7 +20,10 @@ import runtimeStore from 'runtime/stores/runtime';
 
 const Initiate = () => {
   const status = routeInfoStore.getState((s) => s.params.initiateType) || approvalStatusMap.WaitApprove.value;
-  const [launchedDeployList, launchedDeployPaging] = deployStore.useStore((s) => [s.launchedDeployList, s.launchedDeployPaging]);
+  const [launchedDeployList, launchedDeployPaging] = deployStore.useStore((s) => [
+    s.launchedDeployList,
+    s.launchedDeployPaging,
+  ]);
   const { getLaunchedDeployList } = deployStore.effects;
   const { clearDeployList } = deployStore.reducers;
   const [loading] = useLoading(deployStore, ['getLaunchedDeployList']);

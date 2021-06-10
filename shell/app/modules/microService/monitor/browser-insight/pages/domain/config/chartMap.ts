@@ -23,58 +23,61 @@ export const commonAttr = {
   moduleName: 'BIDomain',
   groupId: 'BIDomain',
 };
-const chartMap = merge({
-  sortTab: sortCreator(commonAttr.moduleName, 'sortTab'),
-  subTab: sortCreator(commonAttr.moduleName, 'subTab'),
-  sortList: {
-    ...commonAttr,
-    type: 'sortList',
-    chartName: 'sortList',
-  },
-  performanceInterval: {
-    ...commonAttr,
-    titleText: i18n.t('performance interval'),
-    chartName: 'performanceInterval',
-    viewProps: { unitType: 'TIME' },
-  },
-  timeTopN: {
-    titleText: i18n.t('microService:average time'),
-    ...commonAttr,
-    chartName: 'timeTopN',
-    viewProps: {
-      unitType: 'TIME',
+const chartMap = merge(
+  {
+    sortTab: sortCreator(commonAttr.moduleName, 'sortTab'),
+    subTab: sortCreator(commonAttr.moduleName, 'subTab'),
+    sortList: {
+      ...commonAttr,
+      type: 'sortList',
+      chartName: 'sortList',
+    },
+    performanceInterval: {
+      ...commonAttr,
+      titleText: i18n.t('performance interval'),
+      chartName: 'performanceInterval',
+      viewProps: { unitType: 'TIME' },
+    },
+    timeTopN: {
+      titleText: i18n.t('microService:average time'),
+      ...commonAttr,
+      chartName: 'timeTopN',
+      viewProps: {
+        unitType: 'TIME',
+      },
+    },
+    cpmTopN: {
+      titleText: i18n.t('microService:throughput'),
+      ...commonAttr,
+      chartName: 'cpmTopN',
+      viewProps: {
+        unitType: 'CPM',
+      },
+    },
+    domainPerformanceTrends: {
+      ...commonAttr,
+      titleText: i18n.t('microService:access domain performance trends'),
+      chartName: 'performanceTrends',
+      viewProps: {
+        isTwoYAxis: true,
+        rightUnitType: 'TIME',
+      },
+    },
+    pageTopN: {
+      titleText: `${i18n.t('microService:visits')}TOP10`,
+      ...commonAttr,
+      chartName: 'pageTopN',
+      viewRender: TablePanel,
+    },
+    slowTrack: {
+      titleText: i18n.t('microService:slow loading tracking'),
+      ...commonAttr,
+      chartName: 'slow',
+      viewRender: SlowTrace,
     },
   },
-  cpmTopN: {
-    titleText: i18n.t('microService:throughput'),
-    ...commonAttr,
-    chartName: 'cpmTopN',
-    viewProps: {
-      unitType: 'CPM',
-    },
-  },
-  domainPerformanceTrends: {
-    ...commonAttr,
-    titleText: i18n.t('microService:access domain performance trends'),
-    chartName: 'performanceTrends',
-    viewProps: {
-      isTwoYAxis: true,
-      rightUnitType: 'TIME',
-    },
-  },
-  pageTopN: {
-    titleText: `${i18n.t('microService:visits')}TOP10`,
-    ...commonAttr,
-    chartName: 'pageTopN',
-    viewRender: TablePanel,
-  },
-  slowTrack: {
-    titleText: i18n.t('microService:slow loading tracking'),
-    ...commonAttr,
-    chartName: 'slow',
-    viewRender: SlowTrace,
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   subTab: sortRender(chartMap.subTab) as any,

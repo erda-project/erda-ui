@@ -77,11 +77,7 @@ const MenuHead = ({ siderInfo, routeMarks }: IProps) => {
         <IF.ELSE />
         {sideIcon}
       </IF>
-      {
-      isFunction(getHeadName)
-        ? getHeadName()
-        : <span className="nowrap name">{displayName || name}</span>
-      }
+      {isFunction(getHeadName) ? getHeadName() : <span className="nowrap name">{displayName || name}</span>}
     </div>
   );
 };

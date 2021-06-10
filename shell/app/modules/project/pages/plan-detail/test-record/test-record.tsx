@@ -21,7 +21,11 @@ import { PipelineDetail } from './pipeline-detail';
 import { useEffectOnce } from 'react-use';
 
 const TestRecord = () => {
-  const [pipelineDetail, executeRecords = [], changeType] = testPlanStore.useStore((s) => [s.pipelineDetail, s.executeRecords, s.changeType]);
+  const [pipelineDetail, executeRecords = [], changeType] = testPlanStore.useStore((s) => [
+    s.pipelineDetail,
+    s.executeRecords,
+    s.changeType,
+  ]);
   const [isFetchingDetail] = useLoading(testPlanStore, ['getPipelineDetail']);
   const { getPipelineDetail, getExecuteRecords } = testPlanStore.effects;
   const { clearPipelineDetail, clearExecuteRecords } = testPlanStore.reducers;
@@ -53,18 +57,16 @@ const TestRecord = () => {
   return (
     <Row type="flex" gutter={20}>
       <Col span={8}>
-        <BuildHistory activeItem={activeItem} onClickRow={(record: any) => getPipelineDetail({ pipelineID: record.id })} />
+        <BuildHistory
+          activeItem={activeItem}
+          onClickRow={(record: any) => getPipelineDetail({ pipelineID: record.id })}
+        />
       </Col>
       <Col span={16}>
-        <PipelineDetail
-          changeType={changeType}
-          pipelineDetail={pipelineDetail}
-          isFetching={isFetchingDetail}
-        />
+        <PipelineDetail changeType={changeType} pipelineDetail={pipelineDetail} isFetching={isFetchingDetail} />
       </Col>
     </Row>
   );
 };
 
 export default TestRecord;
-

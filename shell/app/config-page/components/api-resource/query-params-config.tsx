@@ -21,7 +21,7 @@ import apiDesignStore from 'apiManagePlatform/stores/api-design';
 
 interface IExtraProps {
   quoteTypeName: string;
-  typeQuotePath: Array<string|number>;
+  typeQuotePath: Array<string | number>;
 }
 interface IProps {
   paramIn: 'query' | 'header';
@@ -32,9 +32,7 @@ interface IProps {
 }
 
 export const QueryParamsConfig = (props: IProps) => {
-  const [{
-    paramsData,
-  }, updater] = useUpdate({
+  const [{ paramsData }, updater] = useUpdate({
     paramsData: {},
   });
 
@@ -58,42 +56,44 @@ export const QueryParamsConfig = (props: IProps) => {
     updater.paramsData(tempObj);
   }, [updater, formData, paramIn, resourceKey]);
 
-  const updateParamList = React.useCallback((formKey: string, _formData: any, extraProps?: Obj) => {
-    const { typeQuotePath, quoteTypeName } = extraProps || {};
+  const updateParamList = React.useCallback(
+    (formKey: string, _formData: any, extraProps?: Obj) => {
+      const { typeQuotePath, quoteTypeName } = extraProps || {};
 
-    const _extraProps = { quoteTypeName, typeQuotePath: [] } as IExtraProps;
-    if (formKey) {
-      const tempDetail = produce(formData, (draft) => {
-        const newParameters = map(values(_formData?.properties), (item) => {
-          const tempItem = {
-            in: paramIn,
-            name: item[API_FORM_KEY],
-            required: item[API_PROPERTY_REQUIRED],
-            schema: item,
-          };
-          tempItem[API_FORM_KEY] = item[API_FORM_KEY];
-          return tempItem;
+      const _extraProps = { quoteTypeName, typeQuotePath: [] } as IExtraProps;
+      if (formKey) {
+        const tempDetail = produce(formData, (draft) => {
+          const newParameters = map(values(_formData?.properties), (item) => {
+            const tempItem = {
+              in: paramIn,
+              name: item[API_FORM_KEY],
+              required: item[API_PROPERTY_REQUIRED],
+              schema: item,
+            };
+            tempItem[API_FORM_KEY] = item[API_FORM_KEY];
+            return tempItem;
+          });
+          const parametersWithoutChange = filter(formData?.parameters, (item) => item?.in !== paramIn) || [];
+          const allParameters = [...newParameters, ...parametersWithoutChange];
+
+          if (typeQuotePath && quoteTypeName) {
+            const targetParamName = typeQuotePath.split('.')[2];
+            const targetIndex = findIndex(allParameters, { [API_FORM_KEY]: targetParamName });
+            const newPath = ['parameters', targetIndex];
+            _extraProps.typeQuotePath = newPath;
+          }
+
+          set(draft, 'parameters', allParameters);
         });
-        const parametersWithoutChange = filter(formData?.parameters, (item) => item?.in !== paramIn) || [];
-        const allParameters = [...newParameters, ...parametersWithoutChange];
-
-        if (typeQuotePath && quoteTypeName) {
-          const targetParamName = typeQuotePath.split('.')[2];
-          const targetIndex = findIndex(allParameters, { [API_FORM_KEY]: targetParamName });
-          const newPath = ['parameters', targetIndex];
-          _extraProps.typeQuotePath = newPath;
-        }
-
-        set(draft, 'parameters', allParameters);
-      });
-      onChange(paramIn, tempDetail, _extraProps);
-    }
-  }, [formData, onChange, paramIn]);
+        onChange(paramIn, tempDetail, _extraProps);
+      }
+    },
+    [formData, onChange, paramIn],
+  );
 
   return (
     <div className="basic-params-config">
-      {
-        !isEmpty(paramsData) &&
+      {!isEmpty(paramsData) && (
         <PropertyItemForm
           onFormErrorNumChange={updateFormErrorNum}
           formData={paramsData}
@@ -102,7 +102,7 @@ export const QueryParamsConfig = (props: IProps) => {
           onChange={updateParamList}
           isEditMode={isEditMode}
         />
-      }
+      )}
       {!isEditMode && isEmpty(paramsData?.properties) && <EmptyHolder relative />}
     </div>
   );

@@ -42,16 +42,23 @@ export const createLoadDataFn = (api: any, chartType: string) => async (payload?
   }
   if (chartType === 'chart:pie') {
     return {
-      metricData: !isEmpty(data.metricData) ? [{
-        name: data.title || '',
-        data: map(data.metricData, ({ title, value, name }) => ({ name: title || name, value })),
-      }] : [],
+      metricData: !isEmpty(data.metricData)
+        ? [
+            {
+              name: data.title || '',
+              data: map(data.metricData, ({ title, value, name }) => ({ name: title || name, value })),
+            },
+          ]
+        : [],
     };
   }
   // 新的统一返回结构
   if (chartType === 'chart:map') {
     const { cols, data: _data } = data;
-    const aliases = filter(map(cols, (col) => col.key), (alias) => alias !== 'map_name');
+    const aliases = filter(
+      map(cols, (col) => col.key),
+      (alias) => alias !== 'map_name',
+    );
     const metricData = map(aliases, (alias) => ({
       name: alias,
       data: map(_data, (item) => ({

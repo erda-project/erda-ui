@@ -47,21 +47,24 @@ export const AddMemberModal = ({ scope, roleMap, visible, memberLabels, toggleMo
   const handleSubmit = (values: MEMBER.UpdateMemberBody) => {
     const { app_roles, applications, ...rest } = values as any;
     addMembers({ ...rest, scope }, { queryParams }).then(() => {
-      if (scope.type === MemberScope.PROJECT && !isEmpty(applications)) { // 添加到项目后才给应用授权
-        updateMembers({
-          scope,
-          userIds: rest.userIds,
-          roles: app_roles,
-          targetScopeType: MemberScope.APP,
-          targetScopeIds: applications,
-        }, {
-          successMsg: false,
-        });
+      if (scope.type === MemberScope.PROJECT && !isEmpty(applications)) {
+        // 添加到项目后才给应用授权
+        updateMembers(
+          {
+            scope,
+            userIds: rest.userIds,
+            roles: app_roles,
+            targetScopeType: MemberScope.APP,
+            targetScopeIds: applications,
+          },
+          {
+            successMsg: false,
+          },
+        );
       }
     });
     toggleModal();
   };
-
 
   const checkData = (values: any) => {
     const rolesIsEmpty = isEmpty(values.app_roles);
@@ -76,11 +79,12 @@ export const AddMemberModal = ({ scope, roleMap, visible, memberLabels, toggleMo
   const appRoleMap = appMemberStore.useStore((s) => s.roleMap);
 
   // 在项目级添加成员后，还需要给应用级授权角色
-  useMount(() => scope.type === MemberScope.PROJECT && appMemberStore.effects.getRoleMap({ scopeType: MemberScope.APP }));
+  useMount(
+    () => scope.type === MemberScope.PROJECT && appMemberStore.effects.getRoleMap({ scopeType: MemberScope.APP }),
+  );
 
   const _getApps = (q: any) => {
-    return getApps({ ...q })
-      .then((res: any) => res.data);
+    return getApps({ ...q }).then((res: any) => res.data);
   };
 
   const fieldList = [
@@ -89,12 +93,7 @@ export const AddMemberModal = ({ scope, roleMap, visible, memberLabels, toggleMo
       name: 'userIds',
       required: true,
       getComp: () => {
-        return (
-          <AddMemberSelector
-            mode="multiple"
-            scopeType={scope.type}
-          />
-        );
+        return <AddMemberSelector mode="multiple" scopeType={scope.type} />;
       },
     },
     {
@@ -107,20 +106,28 @@ export const AddMemberModal = ({ scope, roleMap, visible, memberLabels, toggleMo
       },
       options: map(roleMap, (v: string, k: string) => ({ name: v, value: k })),
     },
-    ...insertWhen(!isEmpty(memberLabels) && scope.type === MemberScope.ORG, [{
-      label: i18n.t('member label'),
-      name: 'labels',
-      type: 'select',
-      required: false,
-      itemProps: {
-        mode: 'multiple',
-        placeholder: i18n.t('select member label'),
+    ...insertWhen(!isEmpty(memberLabels) && scope.type === MemberScope.ORG, [
+      {
+        label: i18n.t('member label'),
+        name: 'labels',
+        type: 'select',
+        required: false,
+        itemProps: {
+          mode: 'multiple',
+          placeholder: i18n.t('select member label'),
+        },
+        options: map(memberLabels, (item) => ({ name: item.name, value: item.label })),
       },
-      options: map(memberLabels, (item) => ({ name: item.name, value: item.label })),
-    }]),
+    ]),
     ...insertWhen(scope.type === MemberScope.PROJECT, [
       {
-        getComp: () => <Alert showIcon type="normal" message={i18n.t('common:You can set application-level roles at the same time')} />,
+        getComp: () => (
+          <Alert
+            showIcon
+            type="normal"
+            message={i18n.t('common:You can set application-level roles at the same time')}
+          />
+        ),
       },
       {
         label: i18n.t('application'),
@@ -156,9 +163,7 @@ export const AddMemberModal = ({ scope, roleMap, visible, memberLabels, toggleMo
           mode: 'multiple',
           placeholder: i18n.t('project:please set'),
         },
-        options: [
-          ...map(appRoleMap, (v: string, k: string) => ({ name: v, value: k })),
-        ],
+        options: [...map(appRoleMap, (v: string, k: string) => ({ name: v, value: k }))],
       },
     ]),
   ];

@@ -28,19 +28,13 @@ interface IProps {
   onCancel: () => void;
   onSubmit?: (resp: ORG_MACHINE.IClusterOperateRecord) => any;
 }
-const MachineFormModal = ({
-  visible,
-  formData,
-  cluster,
-  onCancel,
-  onSubmit = () => { },
-}: IProps) => {
+const MachineFormModal = ({ visible, formData, cluster, onCancel, onSubmit = () => {} }: IProps) => {
   const [state, updater] = useUpdate({
     passwordVisible: false,
   });
   const currentOrg = orgStore.useStore((s) => s.currentOrg);
   const { addMachine } = machineStore.effects;
-  const defaultOrgTag = `org-${currentOrg.name}`;// 取企业名打默认的tag:org-{orgName}
+  const defaultOrgTag = `org-${currentOrg.name}`; // 取企业名打默认的tag:org-{orgName}
 
   const togglePasswordVisible = () => {
     updater.passwordVisible(!state.passwordVisible);
@@ -74,7 +68,9 @@ const MachineFormModal = ({
               const o = item.replace(/\s+/g, '');
               o !== '' && (pass = regRules.ip.pattern.test(o));
             });
-            return pass ? callback() : callback(i18n.t('dcos:please fill in the correct ip, separated by the enter key'));
+            return pass
+              ? callback()
+              : callback(i18n.t('dcos:please fill in the correct ip, separated by the enter key'));
           },
         },
       ],
@@ -94,12 +90,8 @@ const MachineFormModal = ({
       name: 'customLabels',
       required: false,
       initialValue: defaultOrgTag,
-      getComp: () => (
-        <CustomLabel />
-      ),
-      rules: [
-        { validator: checkCustomLabels },
-      ],
+      getComp: () => <CustomLabel />,
+      rules: [{ validator: checkCustomLabels }],
     },
     {
       label: i18n.t('dcos:port'),

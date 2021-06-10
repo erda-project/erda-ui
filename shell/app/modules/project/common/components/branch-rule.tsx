@@ -40,7 +40,7 @@ const envArr = {
   },
 };
 
-interface IProps{
+interface IProps {
   operationAuth: boolean;
   scopeId: number;
   scopeType: string;
@@ -186,7 +186,7 @@ const BranchRule = (props: IProps) => {
                 tip = i18n.t('branch-rule-name-pattern');
               }
               if (pass && item.includes('*') && item.indexOf('*') !== item.length - 1) {
-                pass = false;// 包含*，但*不在末尾
+                pass = false; // 包含*，但*不在末尾
                 tip = i18n.t('branch-rule-name-pattern');
               }
             });
@@ -237,19 +237,20 @@ const BranchRule = (props: IProps) => {
       render: (_: any, record: PROJECT.IBranchRule) => {
         return (
           <div className="table-operations">
-            <WithAuth pass={operationAuth} >
+            <WithAuth pass={operationAuth}>
               <span
                 className="table-operations-btn"
-                onClick={() => update({
-                  modalVis: true,
-                  editData: {
-                    ...record,
-                    ...(isProject
-                      ? { artifactWorkspace: (record.artifactWorkspace as string || '').split(',') }
-                      : {}
-                    ),
-                  },
-                })}
+                onClick={() =>
+                  update({
+                    modalVis: true,
+                    editData: {
+                      ...record,
+                      ...(isProject
+                        ? { artifactWorkspace: ((record.artifactWorkspace as string) || '').split(',') }
+                        : {}),
+                    },
+                  })
+                }
               >
                 {i18n.t('edit')}
               </span>
@@ -262,7 +263,7 @@ const BranchRule = (props: IProps) => {
                 });
               }}
             >
-              <WithAuth pass={operationAuth} >
+              <WithAuth pass={operationAuth}>
                 <span className="table-operations-btn">{i18n.t('delete')}</span>
               </WithAuth>
             </Popconfirm>
@@ -283,7 +284,7 @@ const BranchRule = (props: IProps) => {
     if (isEdit) {
       const postData = { ...editData, ...value };
       if (isProject) {
-        postData.artifactWorkspace = (postData.artifactWorkspace as string[] || []).join(',');
+        postData.artifactWorkspace = ((postData.artifactWorkspace as string[]) || []).join(',');
       }
       return updateBranchRule(postData).then(() => {
         onCancel();
@@ -292,10 +293,7 @@ const BranchRule = (props: IProps) => {
     } else {
       const postData = {
         ...value,
-        ...(isProject
-          ? { artifactWorkspace: (value.artifactWorkspace as string[]).join(',') }
-          : {}
-        ),
+        ...(isProject ? { artifactWorkspace: (value.artifactWorkspace as string[]).join(',') } : {}),
         scopeId,
         scopeType,
       };
@@ -309,16 +307,13 @@ const BranchRule = (props: IProps) => {
   return (
     <div>
       <div className="mb12">
-        <WithAuth pass={operationAuth} >
-          <Button ghost type="primary" onClick={() => updater.modalVis(true)}>{i18n.t('project:new branch rule')}</Button>
+        <WithAuth pass={operationAuth}>
+          <Button ghost type="primary" onClick={() => updater.modalVis(true)}>
+            {i18n.t('project:new branch rule')}
+          </Button>
         </WithAuth>
       </div>
-      <Table
-        rowKey="id"
-        tableKey="branch-rule"
-        dataSource={branchRules}
-        columns={columns}
-      />
+      <Table rowKey="id" tableKey="branch-rule" dataSource={branchRules} columns={columns} />
       <FormModal
         name={i18n.t('project:branch rule')}
         onCancel={onCancel}

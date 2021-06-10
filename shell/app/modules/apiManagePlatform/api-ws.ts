@@ -26,7 +26,15 @@ interface IInitApiWs {
 }
 
 export const initApiWs = (payload: IInitApiWs) => {
-  const { updateWsQuery, updateApiWs, updateApiLockState, autoSaveApi, updateLockUser, setDocChangedState, setSavedState } = apiDesignStore;
+  const {
+    updateWsQuery,
+    updateApiWs,
+    updateApiLockState,
+    autoSaveApi,
+    updateLockUser,
+    setDocChangedState,
+    setSavedState,
+  } = apiDesignStore;
 
   const { pinode, inode } = payload;
   let heartBeatTimer: any = null;

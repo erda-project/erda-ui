@@ -94,7 +94,8 @@ const HTTPList = () => {
         render: (ip: string) => (
           <Tooltip title={i18n.t('deployment details')}>
             <span className="hover-active" onClick={() => jumpToServicePage(ip)}>
-              {ip}<CustomIcon type="link" />
+              {ip}
+              <CustomIcon type="link" />
             </span>
           </Tooltip>
         ),
@@ -105,7 +106,7 @@ const HTTPList = () => {
         render: (value: boolean) => (
           <span>
             <Badge status={value ? 'success' : 'error'} />
-            { value ? i18n.t('microService:online') : i18n.t('microService:offline')}
+            {value ? i18n.t('microService:online') : i18n.t('microService:offline')}
           </span>
         ),
       },
@@ -120,16 +121,17 @@ const HTTPList = () => {
                 onClick={() => {
                   confirm({
                     title: `${subRecord.online ? i18n.t('confirm offline') : i18n.t('confirm online')}？`,
-                    onOk: () => toggleIPStatus({
-                      az,
-                      appId,
-                      nacosId: state.nacosId,
-                      body: {
-                        serviceName: record.serviceName,
-                        address: subRecord.address,
-                        online: !subRecord.online,
-                      },
-                    }),
+                    onOk: () =>
+                      toggleIPStatus({
+                        az,
+                        appId,
+                        nacosId: state.nacosId,
+                        body: {
+                          serviceName: record.serviceName,
+                          address: subRecord.address,
+                          online: !subRecord.online,
+                        },
+                      }),
                   });
                 }}
               >
@@ -141,14 +143,7 @@ const HTTPList = () => {
       },
     ];
 
-    return (
-      <Table
-        columns={subColumns}
-        dataSource={record.httpServiceDto}
-        pagination={false}
-        rowKey="address"
-      />
-    );
+    return <Table columns={subColumns} dataSource={record.httpServiceDto} pagination={false} rowKey="address" />;
   };
 
   const onSearch = (searchKey: string) => {

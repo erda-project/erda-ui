@@ -24,11 +24,7 @@ interface IPropertyViewProps {
 export default class extends PureComponent<IPropertyViewProps, any> {
   render() {
     const { dataSource, className } = this.props;
-    return (
-      <div className={classnames(className, 'property-view')}>
-        {this.renderDataSource(dataSource)}
-      </div>
-    );
+    return <div className={classnames(className, 'property-view')}>{this.renderDataSource(dataSource)}</div>;
   }
 
   private renderDataSource(dataSource: any) {
@@ -70,9 +66,7 @@ export default class extends PureComponent<IPropertyViewProps, any> {
       return (
         <div key={uniqueId(`pv-obj-${key}`)}>
           <span className={isObject ? 'object-key' : ''}>{key}: </span>
-          <span className={isObject ? 'object-value' : ''}>
-            {this.renderDataSource(value)}
-          </span>
+          <span className={isObject ? 'object-value' : ''}>{this.renderDataSource(value)}</span>
         </div>
       );
     });
@@ -80,11 +74,7 @@ export default class extends PureComponent<IPropertyViewProps, any> {
 
   private renderArray(dataSource: object) {
     return map(dataSource, (value: any, key: string) => {
-      return (
-        <div key={uniqueId(`pv-array-${key}`)}>
-          {this.renderDataSource(value)}
-        </div>
-      );
+      return <div key={uniqueId(`pv-array-${key}`)}>{this.renderDataSource(value)}</div>;
     });
   }
 

@@ -31,7 +31,11 @@ import orgStore from 'app/org-home/stores/org';
 export const OperationHistory = () => {
   const currentOrg = orgStore.useStore((s) => s.currentOrg);
   const clusterList = clusterStore.useStore((s) => s.list);
-  const [operationList, operationPaging, operationTypes] = machineStore.useStore((s) => [s.operationList, s.operationPaging, s.operationTypes]);
+  const [operationList, operationPaging, operationTypes] = machineStore.useStore((s) => [
+    s.operationList,
+    s.operationPaging,
+    s.operationTypes,
+  ]);
   const { getClusterOperationHistory } = machineStore.effects;
   const [loading] = useLoading(machineStore, ['getClusterOperationHistory']);
   const { clusterName: queryCluster, scope, recordType: recordTypeQuery } = routeInfoStore.getState((s) => s.query);
@@ -51,18 +55,20 @@ export const OperationHistory = () => {
     }
   });
 
-  const getList = React.useCallback((extra = {}) => {
-    const { recordType, clusterName, ...rest } = extra;
-    getClusterOperationHistory({
-      clusterName: !isEmpty(clusterName) ? clusterName : undefined,
-      orgID: currentOrg.id,
-      pageSize: operationPaging.pageSize,
-      recordType: recordType ? recordType.join() : undefined,
-      scope: scope || undefined,
-      ...rest,
-    });
-  }, [getClusterOperationHistory, currentOrg.id, operationPaging.pageSize, scope]);
-
+  const getList = React.useCallback(
+    (extra = {}) => {
+      const { recordType, clusterName, ...rest } = extra;
+      getClusterOperationHistory({
+        clusterName: !isEmpty(clusterName) ? clusterName : undefined,
+        orgID: currentOrg.id,
+        pageSize: operationPaging.pageSize,
+        recordType: recordType ? recordType.join() : undefined,
+        scope: scope || undefined,
+        ...rest,
+      });
+    },
+    [getClusterOperationHistory, currentOrg.id, operationPaging.pageSize, scope],
+  );
 
   React.useEffect(() => {
     if (clusterList.length) {
@@ -86,11 +92,7 @@ export const OperationHistory = () => {
       dataIndex: 'recordType',
       width: 140,
       render: (val: string) => {
-        return (
-          <Tooltip title={val}>
-            {val}
-          </Tooltip>
-        );
+        return <Tooltip title={val}>{val}</Tooltip>;
       },
     },
     {
@@ -118,12 +120,17 @@ export const OperationHistory = () => {
       title: i18n.t('user'),
       dataIndex: 'userID',
       width: 100,
-      render: (id: string) => (userMap[id] ? <span>{cutStr(userMap[id].nick || userMap[id].name, 8, { showTip: true })}</span> : null),
+      render: (id: string) =>
+        userMap[id] ? <span>{cutStr(userMap[id].nick || userMap[id].name, 8, { showTip: true })}</span> : null,
     },
     {
       title: i18n.t('detail'),
       dataIndex: 'detail',
-      render: (detail: string) => <Tooltip title={detail}><div className="nowrap">{detail}</div></Tooltip>,
+      render: (detail: string) => (
+        <Tooltip title={detail}>
+          <div className="nowrap">{detail}</div>
+        </Tooltip>
+      ),
     },
     {
       title: i18n.t('operation'),
@@ -188,15 +195,16 @@ export const OperationHistory = () => {
           onChange: (no: number) => getList({ pageNo: no, ...filters }),
         }}
       />
-      <ClusterLog
-        recordID={curRow && curRow.recordID}
-        onClose={() => updater.curRow(null)}
-      />
+      <ClusterLog recordID={curRow && curRow.recordID} onClose={() => updater.curRow(null)} />
     </div>
   );
 };
 
-export const OperationLog = ({ recordID, onClose, StepList }: {
+export const OperationLog = ({
+  recordID,
+  onClose,
+  StepList,
+}: {
   recordID?: string;
   StepList?: any;
   onClose: () => void;
@@ -205,16 +213,17 @@ export const OperationLog = ({ recordID, onClose, StepList }: {
     isStdErr: false,
   });
 
-  const switchLog = <Switch checkedChildren={i18n.t('application:error')} unCheckedChildren={i18n.t('application:standard')} checked={state.isStdErr} onChange={updater.isStdErr} />;
+  const switchLog = (
+    <Switch
+      checkedChildren={i18n.t('application:error')}
+      unCheckedChildren={i18n.t('application:standard')}
+      checked={state.isStdErr}
+      onChange={updater.isStdErr}
+    />
+  );
   const stream = state.isStdErr ? 'stderr' : 'stdout';
   return (
-    <Drawer
-      title={i18n.t('operation log')}
-      visible={!!recordID}
-      onClose={onClose}
-      width="60%"
-      destroyOnClose
-    >
+    <Drawer title={i18n.t('operation log')} visible={!!recordID} onClose={onClose} width="60%" destroyOnClose>
       {StepList}
       <LogRoller
         key={stream}

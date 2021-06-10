@@ -88,37 +88,56 @@ const DetailModal = ({ visible, onCancel, dataSource }: IProps) => {
   const handleChangeTable = (status: API_CLIENT.ContractStatue, { current, pageSize }: PaginationProps) => {
     getContractList({ status, paging: true, pageNo: current, pageSize, clientID: dataSource.client.id });
   };
-  const fields = [{
-    label: i18n.t('client name'),
-    value: get(dataSource, ['client', 'displayName']) || get(dataSource, ['client', 'name']),
-  }, {
-    label: i18n.t('description'),
-    value: get(dataSource, ['client', 'desc']),
-  }, {
-    label: 'ClientID',
-    value: <span className="for-copy" data-clipboard-text={get(dataSource, ['sk', 'clientID'])}>{get(dataSource, ['sk', 'clientID'])}</span>,
-  }, {
-    label: 'ClientSecret',
-    value: (
-      <div className="flex-box client-secret">
-        {
-          showSecret ? (
-            <span className="for-copy" data-clipboard-text={get(dataSource, ['sk', 'clientSecret'])}>{get(dataSource, ['sk', 'clientSecret'])}</span>
-          ) : <span>******</span>
-        }
-        <span className="hover-active ml4" onClick={() => { setShowSecret(!showSecret); }}>
-          <CustomIcon type={showSecret ? 'openeye' : 'closeeye'} />
+  const fields = [
+    {
+      label: i18n.t('client name'),
+      value: get(dataSource, ['client', 'displayName']) || get(dataSource, ['client', 'name']),
+    },
+    {
+      label: i18n.t('description'),
+      value: get(dataSource, ['client', 'desc']),
+    },
+    {
+      label: 'ClientID',
+      value: (
+        <span className="for-copy" data-clipboard-text={get(dataSource, ['sk', 'clientID'])}>
+          {get(dataSource, ['sk', 'clientID'])}
         </span>
-      </div>
-    ),
-  }];
-  const columns: Array<ColumnProps<any>> = [{
-    title: i18n.t('API name'),
-    dataIndex: 'assetName',
-  }, {
-    title: i18n.t('version'),
-    dataIndex: 'swaggerVersion',
-  }];
+      ),
+    },
+    {
+      label: 'ClientSecret',
+      value: (
+        <div className="flex-box client-secret">
+          {showSecret ? (
+            <span className="for-copy" data-clipboard-text={get(dataSource, ['sk', 'clientSecret'])}>
+              {get(dataSource, ['sk', 'clientSecret'])}
+            </span>
+          ) : (
+            <span>******</span>
+          )}
+          <span
+            className="hover-active ml4"
+            onClick={() => {
+              setShowSecret(!showSecret);
+            }}
+          >
+            <CustomIcon type={showSecret ? 'openeye' : 'closeeye'} />
+          </span>
+        </div>
+      ),
+    },
+  ];
+  const columns: Array<ColumnProps<any>> = [
+    {
+      title: i18n.t('API name'),
+      dataIndex: 'assetName',
+    },
+    {
+      title: i18n.t('version'),
+      dataIndex: 'swaggerVersion',
+    },
+  ];
   return (
     <Modal
       title={dataSource.client?.name}
@@ -142,7 +161,9 @@ const DetailModal = ({ visible, onCancel, dataSource }: IProps) => {
         <div className="title fz16 color-text bold-500">{i18n.t('authorized API')}</div>
         <Tabs
           defaultActiveKey="proved"
-          onChange={(v: string) => { handleChangeTab(v as API_CLIENT.ContractStatue); }}
+          onChange={(v: string) => {
+            handleChangeTab(v as API_CLIENT.ContractStatue);
+          }}
         >
           {map(contractStatueMap, ({ name, value }) => (
             <TabPane key={value} tab={name}>
@@ -150,7 +171,9 @@ const DetailModal = ({ visible, onCancel, dataSource }: IProps) => {
                 columns={columns}
                 dataSource={dataMap[value].list}
                 pagination={dataMap[value].paging}
-                onChange={(pagination) => { handleChangeTable(value, pagination); }}
+                onChange={(pagination) => {
+                  handleChangeTable(value, pagination);
+                }}
               />
             </TabPane>
           ))}

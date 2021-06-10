@@ -25,7 +25,11 @@ import './sub-sidebar.scss';
 
 const { stringify, parseUrl } = qs;
 
-const linkRender = (_linkTo: string, children: React.ReactNode, { href, jumpOut, children: childMenu = [] }: MenuConfigItemProps) => {
+const linkRender = (
+  _linkTo: string,
+  children: React.ReactNode,
+  { href, jumpOut, children: childMenu = [] }: MenuConfigItemProps,
+) => {
   if (childMenu.length !== 0) {
     return children;
   }
@@ -34,7 +38,7 @@ const linkRender = (_linkTo: string, children: React.ReactNode, { href, jumpOut,
       {children}
     </a>
   ) : (
-    <Link className="dice-sidebar-menu-item" to={href} >
+    <Link className="dice-sidebar-menu-item" to={href}>
       {children}
     </Link>
   );
@@ -103,11 +107,14 @@ const SubSideBar = () => {
     selectedKey: '',
   });
   let siderInfo: any = null;
-  routeMarks.slice().reverse().forEach((mark: string) => {
-    if (subSiderInfoMap[mark]) {
-      siderInfo = { ...subSiderInfoMap[mark] };
-    }
-  });
+  routeMarks
+    .slice()
+    .reverse()
+    .forEach((mark: string) => {
+      if (subSiderInfoMap[mark]) {
+        siderInfo = { ...subSiderInfoMap[mark] };
+      }
+    });
   if (siderInfo) {
     if (!siderInfo.detail && siderInfo.getDetail) {
       siderInfo.detail = siderInfo.getDetail();
@@ -154,7 +161,13 @@ const SubSideBar = () => {
       return {
         ...item,
         title: firstLetterUpper(item.text),
-        icon: item.icon ? <i><IconComp /></i> : item.customIcon ? item.customIcon : null,
+        icon: item.icon ? (
+          <i>
+            <IconComp />
+          </i>
+        ) : item.customIcon ? (
+          item.customIcon
+        ) : null,
         href,
         children: subMenu,
         subActiveKey,

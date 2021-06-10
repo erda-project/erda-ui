@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 .dice-cp-title {
   .dice-cp-title-detail {
-
     &.small {
       font-size: 16px;
 
@@ -90,7 +89,7 @@
         border-radius: 50%;
       }
     }
-    
+
     &.large {
       font-size: 24px;
 
@@ -115,11 +114,10 @@
       .circle {
         border-radius: 50%;
       }
-    } 
+    }
   }
 
   .no-margin-bottom {
     margin-bottom: 0;
   }
 }
-

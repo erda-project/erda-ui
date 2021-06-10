@@ -23,17 +23,20 @@ export const getCommitPath = (commitId: string) => {
   return window.location.pathname.replace(/(\/projects\/\d+\/apps\/\d+)(.+)/, `$1${path}`);
 };
 
-const GotoCommit = ({
-  projectId,
-  appId,
-  commitId = '',
-  length = 6,
-  className = '',
-  gotoParams = {},
-}: any) => {
+const GotoCommit = ({ projectId, appId, commitId = '', length = 6, className = '', gotoParams = {} }: any) => {
   const params = routeInfoStore.useStore((s) => s.params);
   return (
-    <span className={`goto-commit-link inline-v-align text-link ${className}`} onClick={() => { goTo(goTo.pages.commit, { projectId: projectId || params.projectId, appId: appId || params.appId, commitId, ...gotoParams }); }}>
+    <span
+      className={`goto-commit-link inline-v-align text-link ${className}`}
+      onClick={() => {
+        goTo(goTo.pages.commit, {
+          projectId: projectId || params.projectId,
+          appId: appId || params.appId,
+          commitId,
+          ...gotoParams,
+        });
+      }}
+    >
       <CustomIcon type="commit" />
       <span>{commitId.slice(0, length)}</span>
     </span>

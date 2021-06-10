@@ -39,10 +39,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
   const { clearFieldList } = issueFieldStore.reducers;
   const { id: orgID } = orgStore.useStore((s) => s.currentOrg);
 
-  const [{
-    selectedField,
-    filedOptions,
-  }, updater, update] = useUpdate({
+  const [{ selectedField, filedOptions }, updater, update] = useUpdate({
     selectedField: {} as ISSUE_FIELD.IFiledItem,
     filedOptions: [] as ISSUE_FIELD.IFiledItem[],
   });
@@ -58,7 +55,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
       ...selectedField,
       propertyIssueType: issueType,
       relation: selectedField.propertyID,
-    } as Omit<ISSUE_FIELD.IFiledItem, 'propertyID'|'index'>;
+    } as Omit<ISSUE_FIELD.IFiledItem, 'propertyID' | 'index'>;
 
     await addFieldItem(params);
     update({ selectedField: undefined });
@@ -71,27 +68,33 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
     clearFieldList();
   };
 
-  const changePos = React.useCallback(async (index: number, direction: number) => {
-    const tempList = produce(fieldList, (draft) => {
-      if (direction < 0) {
-        draft[index - 1].index = index;
-        draft[index].index = index - 1;
-      } else {
-        draft[index].index = index + 1;
-        draft[index + 1].index = index;
-      }
-    });
+  const changePos = React.useCallback(
+    async (index: number, direction: number) => {
+      const tempList = produce(fieldList, (draft) => {
+        if (direction < 0) {
+          draft[index - 1].index = index;
+          draft[index].index = index - 1;
+        } else {
+          draft[index].index = index + 1;
+          draft[index + 1].index = index;
+        }
+      });
 
-    await batchUpdateFieldsOrder(tempList);
-    getFieldsByIssue({ propertyIssueType: issueType, orgID });
-  }, [batchUpdateFieldsOrder, fieldList, getFieldsByIssue, issueType, orgID]);
+      await batchUpdateFieldsOrder(tempList);
+      getFieldsByIssue({ propertyIssueType: issueType, orgID });
+    },
+    [batchUpdateFieldsOrder, fieldList, getFieldsByIssue, issueType, orgID],
+  );
 
-  const onDelete = React.useCallback(async (propertyID) => {
-    await deleteFieldItem({ propertyID });
-    getFieldsByIssue({ propertyIssueType: issueType, orgID });
-  }, [deleteFieldItem, getFieldsByIssue, issueType, orgID]);
+  const onDelete = React.useCallback(
+    async (propertyID) => {
+      await deleteFieldItem({ propertyID });
+      getFieldsByIssue({ propertyIssueType: issueType, orgID });
+    },
+    [deleteFieldItem, getFieldsByIssue, issueType, orgID],
+  );
 
-  const renderFieldItem = ({ displayName, propertyType }: {displayName: string; propertyType: string}) => (
+  const renderFieldItem = ({ displayName, propertyType }: { displayName: string; propertyType: string }) => (
     <>
       <div className="nowrap field-label">{displayName}</div>
       <div className="">
@@ -100,39 +103,55 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
     </>
   );
 
-  const renderDefaultContent = React.useMemo(() => map(DEFAULT_ISSUE_FIELDS_MAP[issueType], ({ propertyName, displayName, propertyType }) => {
-    return (
-      <div key={propertyName}>
-        {renderFieldItem({ displayName, propertyType })}
-      </div>);
-  }), [issueType]);
+  const renderDefaultContent = React.useMemo(
+    () =>
+      map(DEFAULT_ISSUE_FIELDS_MAP[issueType], ({ propertyName, displayName, propertyType }) => {
+        return <div key={propertyName}>{renderFieldItem({ displayName, propertyType })}</div>;
+      }),
+    [issueType],
+  );
 
-  const renderCustomFields = React.useCallback(() => map(fieldList, ({ propertyName, propertyID, propertyType, displayName }, index) => {
-    return (
-      <div className="panel" key={propertyName}>
-        <div className="common-list-item">
-          <div className="list-item">
-            <div className="flex-box">
-              <div className="nowrap flex-box flex-start">
-                {renderFieldItem({ displayName, propertyType })}
-              </div>
-              <div className="table-operations">
-                <Popconfirm title={`${i18n.t('project:confirm to remove the quote?')}`} onConfirm={() => { onDelete(propertyID); }}>
-                  <span className="table-operations-btn" >{i18n.t('common:remove')}</span>
-                </Popconfirm>
-                <span
-                  className={index === 0 ? 'disabled table-operations-btn' : 'table-operations-btn'}
-                  onClick={() => changePos(index, -1)}
-                >{i18n.t('move up')}
-                </span>
-                <span className={index === fieldList.length - 1 ? 'disabled table-operations-btn' : 'table-operations-btn'} onClick={() => changePos(index, 1)}>{i18n.t('move down')}</span>
+  const renderCustomFields = React.useCallback(
+    () =>
+      map(fieldList, ({ propertyName, propertyID, propertyType, displayName }, index) => {
+        return (
+          <div className="panel" key={propertyName}>
+            <div className="common-list-item">
+              <div className="list-item">
+                <div className="flex-box">
+                  <div className="nowrap flex-box flex-start">{renderFieldItem({ displayName, propertyType })}</div>
+                  <div className="table-operations">
+                    <Popconfirm
+                      title={`${i18n.t('project:confirm to remove the quote?')}`}
+                      onConfirm={() => {
+                        onDelete(propertyID);
+                      }}
+                    >
+                      <span className="table-operations-btn">{i18n.t('common:remove')}</span>
+                    </Popconfirm>
+                    <span
+                      className={index === 0 ? 'disabled table-operations-btn' : 'table-operations-btn'}
+                      onClick={() => changePos(index, -1)}
+                    >
+                      {i18n.t('move up')}
+                    </span>
+                    <span
+                      className={
+                        index === fieldList.length - 1 ? 'disabled table-operations-btn' : 'table-operations-btn'
+                      }
+                      onClick={() => changePos(index, 1)}
+                    >
+                      {i18n.t('move down')}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    );
-  }), [changePos, fieldList, onDelete]);
+        );
+      }),
+    [changePos, fieldList, onDelete],
+  );
 
   return (
     <Modal
@@ -156,7 +175,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
         </div>
         <div className="custom-field-panel">
           <div className="name">{i18n.t('project:custom fields')}</div>
-          <div className="custom-field-list">{ renderCustomFields() }</div>
+          <div className="custom-field-list">{renderCustomFields()}</div>
           <div className="create-field-form mt12">
             <div className="flex-box">
               <Select
@@ -168,18 +187,21 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
                   updater.selectedField(selectedFieldItem);
                 }}
               >
-                {
-                  map(filedOptions, ({ propertyID, propertyName }) => {
-                    return <Option value={propertyID} key={propertyID}>{propertyName}</Option>;
-                  })
-                }
+                {map(filedOptions, ({ propertyID, propertyName }) => {
+                  return (
+                    <Option value={propertyID} key={propertyID}>
+                      {propertyName}
+                    </Option>
+                  );
+                })}
               </Select>
               <div>
                 <Button
                   type="primary"
                   className={`${isEmpty(selectedField) ? 'disabled' : ''} mr8`}
                   onClick={onAddField}
-                >{i18n.t('project:quote')}
+                >
+                  {i18n.t('project:quote')}
                 </Button>
               </div>
             </div>

@@ -11,10 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import {
-  Form,
-  Upload,
-} from 'app/nusi';
+import { Form, Upload } from 'app/nusi';
 import * as React from 'react';
 import { get } from 'lodash';
 import { getLabel, noop } from './common';
@@ -32,76 +29,74 @@ export const FormUpload = ({
   extensionFix,
   requiredCheck,
   trigger = 'onChange',
-}: any = {}) => React.memo(({ fieldConfig, form }: any = {}) => {
-  const {
-    key,
-    accept,
-    handleBeforeUpload,
-    value,
-    label,
-    visible,
-    valid = [],
-    disabled,
-    required,
-    registerRequiredCheck = noop,
-    componentProps,
-    wrapperProps,
-    labelTip,
-    fixIn: itemFixIn,
-    fixOut: itemFixOut,
-    requiredCheck: _requiredCheck,
-  } = fieldConfig || {};
+}: any = {}) =>
+  React.memo(({ fieldConfig, form }: any = {}) => {
+    const {
+      key,
+      accept,
+      handleBeforeUpload,
+      value,
+      label,
+      visible,
+      valid = [],
+      disabled,
+      required,
+      registerRequiredCheck = noop,
+      componentProps,
+      wrapperProps,
+      labelTip,
+      fixIn: itemFixIn,
+      fixOut: itemFixOut,
+      requiredCheck: _requiredCheck,
+    } = fieldConfig || {};
 
-  const curFixIn = itemFixIn || fixIn;
-  const curFixOut = itemFixOut || fixOut;
-  const [loading, setLoading] = React.useState(false);
-  const [imageUrl, setImageUrl] = React.useState('');
+    const curFixIn = itemFixIn || fixIn;
+    const curFixOut = itemFixOut || fixOut;
+    const [loading, setLoading] = React.useState(false);
+    const [imageUrl, setImageUrl] = React.useState('');
 
-  registerRequiredCheck(_requiredCheck || requiredCheck);
-  const { uploadText, sizeLimit, supportFormat } = componentProps || {};
-  const _placeholder = uploadText || '上传图片';
+    registerRequiredCheck(_requiredCheck || requiredCheck);
+    const { uploadText, sizeLimit, supportFormat } = componentProps || {};
+    const _placeholder = uploadText || '上传图片';
 
-  const uploadButton = (
-    <div className="form-item-upload-button" >
-      <CustomIcon type="cir-add" className="fz20" />
-      <div>{_placeholder}</div>
-    </div>
-  );
+    const uploadButton = (
+      <div className="form-item-upload-button">
+        <CustomIcon type="cir-add" className="fz20" />
+        <div>{_placeholder}</div>
+      </div>
+    );
 
-  function handleChange(info: any) {
-    if (info.file.status === 'done') {
-      const { response } = info.file;
-      if (!response) {
-        return;
+    function handleChange(info: any) {
+      if (info.file.status === 'done') {
+        const { response } = info.file;
+        if (!response) {
+          return;
+        }
+        // FIXME: 为什么要将 http(s) 去掉？
+        const url = (get(response, 'data.url') || '').replace(/^http(s)?:/g, '');
+        setImageUrl(url);
       }
-      // FIXME: 为什么要将 http(s) 去掉？
-      const url = (get(response, 'data.url') || '').replace(/^http(s)?:/g, '');
-      setImageUrl(url);
     }
-  }
 
-  return (
-    <FormItem
-      colon
-      label={getLabel(label, labelTip)}
-      className={visible ? '' : 'hide'}
-      validateStatus={valid[0]}
-      help={valid[1]}
-      required={required}
-      {...wrapperProps}
-    >
-      <Upload
-        listType="picture"
-        accept={accept}
-        onChange={handleChange}
-        {...getUploadProps({}, sizeLimit)}
+    return (
+      <FormItem
+        colon
+        label={getLabel(label, labelTip)}
+        className={visible ? '' : 'hide'}
+        validateStatus={valid[0]}
+        help={valid[1]}
+        required={required}
+        {...wrapperProps}
       >
-        {imageUrl ? <img src={imageUrl} alt="avatar" className="form-item-upload-img" /> : uploadButton}
-        <div className="form-item-upload-tip">支持格式: {supportFormat?.join(' / ')}，不超过 {sizeLimit} M</div>
-      </Upload>
-    </FormItem >
-  );
-});
+        <Upload listType="picture" accept={accept} onChange={handleChange} {...getUploadProps({}, sizeLimit)}>
+          {imageUrl ? <img src={imageUrl} alt="avatar" className="form-item-upload-img" /> : uploadButton}
+          <div className="form-item-upload-tip">
+            支持格式: {supportFormat?.join(' / ')}，不超过 {sizeLimit} M
+          </div>
+        </Upload>
+      </FormItem>
+    );
+  });
 
 export const config = {
   name: 'upload',

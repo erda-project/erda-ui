@@ -23,33 +23,49 @@ import './title.scss';
 
 const Title = (props: CP_TITLE.Props) => {
   const { props: configProps, execOperation } = props;
-  const { title, level, tips, size = 'normal', prefixIcon = '', prefixImg = '', showDivider = false, visible = true, isCircle = false, subtitle = '', noMarginBottom = false, operations = [] } = configProps || {};
+  const {
+    title,
+    level,
+    tips,
+    size = 'normal',
+    prefixIcon = '',
+    prefixImg = '',
+    showDivider = false,
+    visible = true,
+    isCircle = false,
+    subtitle = '',
+    noMarginBottom = false,
+    operations = [],
+  } = configProps || {};
 
   const titleComp = tips ? (
-    <div className={`left-flex-box dice-cp-title-detail v-align ${size}`} >
+    <div className={`left-flex-box dice-cp-title-detail v-align ${size}`}>
       {prefixIcon ? <CustomIcon type={prefixIcon} className="mr4 pre-icon" /> : null}
-      {prefixImg ? <img src={prefixImg.startsWith('/images') ? imgMap[prefixImg] : prefixImg} className={`${isCircle ? 'circle' : ''} pre-image`} /> : null}
+      {prefixImg ? (
+        <img
+          src={prefixImg.startsWith('/images') ? imgMap[prefixImg] : prefixImg}
+          className={`${isCircle ? 'circle' : ''} pre-image`}
+        />
+      ) : null}
       {title}
       <Tooltip title={tips}>
         <CustomIcon type="help" className="ml4 fz14 pre-icon" />
       </Tooltip>
-      {
-        subtitle ? <span className="subtitle">{subtitle}</span > : null
-      }
+      {subtitle ? <span className="subtitle">{subtitle}</span> : null}
     </div>
-  ) :
-    (
-      <div className={`dice-cp-title-detail v-align ${size}`} >
-        {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
-        {prefixImg ? <img src={prefixImg.startsWith('/images') ? imgMap[prefixImg] : prefixImg} className={`${isCircle ? 'circle' : ''} pre-image`} /> : null}
-        {title}
-        {subtitle ?
-          <span className="subtitle">
-            {subtitle}
-          </span >
-          : null}
-      </div>
-    );
+  ) : (
+    <div className={`dice-cp-title-detail v-align ${size}`}>
+      {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
+      {prefixImg ? (
+        <img
+          src={prefixImg.startsWith('/images') ? imgMap[prefixImg] : prefixImg}
+          className={`${isCircle ? 'circle' : ''} pre-image`}
+        />
+      ) : null}
+      {title}
+      {subtitle ? <span className="subtitle">{subtitle}</span> : null}
+    </div>
+  );
 
   const formatOperations = (operations || []).map((x, index) => {
     const { text, visible, disabled, disabledTip, tooltip, confirm, reload, ...rest } = x?.props || {};
@@ -64,8 +80,8 @@ const Title = (props: CP_TITLE.Props) => {
       }
     };
 
-    const buttonComp =
-      (<OperationAction
+    const buttonComp = (
+      <OperationAction
         operation={{
           confirm,
           key: `${index}`,
@@ -75,35 +91,36 @@ const Title = (props: CP_TITLE.Props) => {
         }}
         onClick={onClick}
       >
-        <Button type="link" {...rest}>{text}</Button>
-       </OperationAction>);
+        <Button type="link" {...rest}>
+          {text}
+        </Button>
+      </OperationAction>
+    );
 
-    const comp = (tooltip ?
-      (<Tooltip key={`${index}`} title={tooltip}>
+    const comp = tooltip ? (
+      <Tooltip key={`${index}`} title={tooltip}>
         {buttonComp}
-       </Tooltip>) :
-      (<React.Fragment key={`${index}`}>
-        {buttonComp}
-       </React.Fragment >));
+      </Tooltip>
+    ) : (
+      <React.Fragment key={`${index}`}>{buttonComp}</React.Fragment>
+    );
 
-    return ({
+    return {
       title: comp,
-    });
+    };
   });
 
-  return (
-    visible ?
-      <div className="dice-cp-title">
-        <NusiTitle
-          title={titleComp}
-          level={level}
-          showDivider={showDivider}
-          className={`${noMarginBottom ? 'no-margin-bottom' : ''}`}
-          operations={formatOperations}
-        />
-      </div>
-      : null
-  );
+  return visible ? (
+    <div className="dice-cp-title">
+      <NusiTitle
+        title={titleComp}
+        level={level}
+        showDivider={showDivider}
+        className={`${noMarginBottom ? 'no-margin-bottom' : ''}`}
+        operations={formatOperations}
+      />
+    </div>
+  ) : null;
 };
 
 export default Title;

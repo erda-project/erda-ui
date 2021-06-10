@@ -27,18 +27,20 @@ import { RUNNING_STATUS_LIST, STOP_STATUS_LIST } from '../../cloud-source/config
 import { chargeTypeMap } from 'dataCenter/pages/cluster-manage/config';
 import { customTagColor } from 'dcos/common/config';
 import { Help as IconHelp, DownOne as IconDownOne } from '@icon-park/react';
-import { getCloudResourceStatusCol, getCloudResourceChargeTypeCol, getCloudResourceRegionCol } from 'dataCenter/common/components/table-col';
+import {
+  getCloudResourceStatusCol,
+  getCloudResourceChargeTypeCol,
+  getCloudResourceRegionCol,
+} from 'dataCenter/common/components/table-col';
 
 const { Option } = Select;
 
 const opHint = (operation: string, selectedList: CLOUD.TagItem[]) => {
   const menu = (
     <Menu>
-      {
-        selectedList.map((item) => (
-          <Menu.Item key={item.instanceID}>{item.instanceID}</Menu.Item>
-        ))
-      }
+      {selectedList.map((item) => (
+        <Menu.Item key={item.instanceID}>{item.instanceID}</Menu.Item>
+      ))}
     </Menu>
   );
   return (
@@ -51,8 +53,12 @@ const opHint = (operation: string, selectedList: CLOUD.TagItem[]) => {
           <IconDownOne className="ml4" theme="filled" size="16px" />
         </a>
       </Dropdown>
-      <span>{i18n.t('dataCenter:will execute {operation} operation', { operation })}，{i18n.t('is it confirmed {action}?', { action: i18n.t('execute') })}</span>
-    </div>);
+      <span>
+        {i18n.t('dataCenter:will execute {operation} operation', { operation })}，
+        {i18n.t('is it confirmed {action}?', { action: i18n.t('execute') })}
+      </span>
+    </div>
+  );
 };
 
 export default () => {
@@ -65,17 +71,21 @@ export default () => {
     !clusterList.length && clusterStore.effects.getClusterList();
   });
 
-  const [{
-    activeOp,
-    ifSetTagFormVisible,
-    stateChangeKey,
-    selectedList,
-    ifSelected,
-    ifSelectedAllStop,
-    ifSelectedAllRunning,
-    ifSelectedAllPrePaid,
-    showRenewalTime,
-  }, updater, update] = useUpdate({
+  const [
+    {
+      activeOp,
+      ifSetTagFormVisible,
+      stateChangeKey,
+      selectedList,
+      ifSelected,
+      ifSelectedAllStop,
+      ifSelectedAllRunning,
+      ifSelectedAllPrePaid,
+      showRenewalTime,
+    },
+    updater,
+    update,
+  ] = useUpdate({
     activeOp: '',
     ifSetTagFormVisible: false,
     stateChangeKey: 1,
@@ -98,11 +108,12 @@ export default () => {
         dataIndex: 'innerIpAddress',
         width: 110,
       },
-      { // cup + memory
+      {
+        // cup + memory
         title: i18n.t('specification'),
         dataIndex: 'cpu',
         width: 120,
-        render: (_v: string, record: COMPUTING.ECS) => (`${_v} ${i18n.t('core')} / ${record.memory}M`),
+        render: (_v: string, record: COMPUTING.ECS) => `${_v} ${i18n.t('core')} / ${record.memory}M`,
       },
       {
         title: i18n.t('tag'),
@@ -110,11 +121,14 @@ export default () => {
         align: 'left',
         render: (value: Obj) => {
           const keyArray = keys(value);
-          return (<TagsColumn labels={keyArray.map((key) => {
-            const label = get(key.split('/'), 1, '');
-            return { label, color: customTagColor[label] };
-          })}
-          />);
+          return (
+            <TagsColumn
+              labels={keyArray.map((key) => {
+                const label = get(key.split('/'), 1, '');
+                return { label, color: customTagColor[label] };
+              })}
+            />
+          );
         },
       },
       getCloudResourceRegionCol(),
@@ -129,11 +143,7 @@ export default () => {
         title: i18n.t('dataCenter:operating system'),
         dataIndex: 'osName',
         width: 140,
-        render: (_v: string) => (
-          <Tooltip title={_v}>
-            {_v}
-          </Tooltip>
-        ),
+        render: (_v: string) => <Tooltip title={_v}>{_v}</Tooltip>,
       },
       getCloudResourceChargeTypeCol(),
     ];
@@ -171,13 +181,16 @@ export default () => {
       checkSelectRunning(select);
       checkSelectPrePaid(select);
     });
-    const newSelectedList = selectedRows.map((item: COMPUTING.ECS) => ({
-      region: item.regionID,
-      vendor: item.vendor,
-      resourceID: item.id,
-      instanceID: item.innerIpAddress,
-      oldTags: Object.keys(item.tag),
-    } as CLOUD.TagItem));
+    const newSelectedList = selectedRows.map(
+      (item: COMPUTING.ECS) =>
+        ({
+          region: item.regionID,
+          vendor: item.vendor,
+          resourceID: item.id,
+          instanceID: item.innerIpAddress,
+          oldTags: Object.keys(item.tag),
+        } as CLOUD.TagItem),
+    );
     update({
       selectedList: newSelectedList,
       ifSelected: newIfSelected,
@@ -188,65 +201,90 @@ export default () => {
     checkSelect(selectedRows);
   };
 
-  const filterConfig = React.useMemo(() => [
-    {
-      type: Input,
-      name: 'innerIpAddress',
-      customProps: {
-        placeholder: i18n.t('dataCenter:please enter IP'),
-        allowClear: true,
-      },
-    },
-    {
-      type: Select,
-      name: 'region',
-      customProps: {
-        placeholder: i18n.t('dataCenter:please choose region'),
-        options: map(regions, ({ regionID, localName }) => (<Option key={regionID} value={regionID}>{`${localName} (${regionID})`}</Option>)),
-      },
-    },
-    {
-      type: Select,
-      name: 'vendor',
-      customProps: {
-        placeholder: i18n.t('dataCenter:please choose vendor'),
-        options: [<Option key="aliyun" value="aliyun">{i18n.t('aliyun')}</Option>],
-      },
-    },
-    {
-      type: Select,
-      name: 'cluster',
-      customProps: {
-        placeholder: i18n.t('please select labels'),
-        allowClear: true,
-        options: () => {
-          return map(clusterList, (item) => <Option key={item.name} value={item.name}>{`dice-cluster/${item.name}`}</Option>);
+  const filterConfig = React.useMemo(
+    () => [
+      {
+        type: Input,
+        name: 'innerIpAddress',
+        customProps: {
+          placeholder: i18n.t('dataCenter:please enter IP'),
+          allowClear: true,
         },
       },
-    },
-  ], [clusterList, regions]);
+      {
+        type: Select,
+        name: 'region',
+        customProps: {
+          placeholder: i18n.t('dataCenter:please choose region'),
+          options: map(regions, ({ regionID, localName }) => (
+            <Option key={regionID} value={regionID}>{`${localName} (${regionID})`}</Option>
+          )),
+        },
+      },
+      {
+        type: Select,
+        name: 'vendor',
+        customProps: {
+          placeholder: i18n.t('dataCenter:please choose vendor'),
+          options: [
+            <Option key="aliyun" value="aliyun">
+              {i18n.t('aliyun')}
+            </Option>,
+          ],
+        },
+      },
+      {
+        type: Select,
+        name: 'cluster',
+        customProps: {
+          placeholder: i18n.t('please select labels'),
+          allowClear: true,
+          options: () => {
+            return map(clusterList, (item) => (
+              <Option key={item.name} value={item.name}>{`dice-cluster/${item.name}`}</Option>
+            ));
+          },
+        },
+      },
+    ],
+    [clusterList, regions],
+  );
 
-  const operationButtons = [{
-    name: i18n.t('dataCenter:start up'),
-    cb: () => { updater.activeOp('start'); },
-    ifDisabled: !ifSelectedAllStop,
-  }, {
-    name: i18n.t('dataCenter:stop'),
-    cb: () => { updater.activeOp('stop'); },
-    ifDisabled: !ifSelectedAllRunning,
-  }, {
-    name: i18n.t('dataCenter:reboot'),
-    cb: () => { updater.activeOp('reboot'); },
-    ifDisabled: !ifSelectedAllRunning,
-  }, {
-    name: i18n.t('dataCenter:configure automatic renewal'),
-    cb: () => { updater.activeOp('renewal'); },
-    ifDisabled: !ifSelectedAllPrePaid,
-  }, {
-    name: `${i18n.t('set tags')}`,
-    cb: () => updater.ifSetTagFormVisible(true),
-    ifDisabled: false,
-  }];
+  const operationButtons = [
+    {
+      name: i18n.t('dataCenter:start up'),
+      cb: () => {
+        updater.activeOp('start');
+      },
+      ifDisabled: !ifSelectedAllStop,
+    },
+    {
+      name: i18n.t('dataCenter:stop'),
+      cb: () => {
+        updater.activeOp('stop');
+      },
+      ifDisabled: !ifSelectedAllRunning,
+    },
+    {
+      name: i18n.t('dataCenter:reboot'),
+      cb: () => {
+        updater.activeOp('reboot');
+      },
+      ifDisabled: !ifSelectedAllRunning,
+    },
+    {
+      name: i18n.t('dataCenter:configure automatic renewal'),
+      cb: () => {
+        updater.activeOp('renewal');
+      },
+      ifDisabled: !ifSelectedAllPrePaid,
+    },
+    {
+      name: `${i18n.t('set tags')}`,
+      cb: () => updater.ifSetTagFormVisible(true),
+      ifDisabled: false,
+    },
+  ];
 
   const ecsOpStrategies = {
     reboot: {
@@ -257,7 +295,9 @@ export default () => {
         });
         updater.activeOp('');
       },
-      close: () => { updater.activeOp(''); },
+      close: () => {
+        updater.activeOp('');
+      },
       fieldList: [
         {
           getComp: () => opHint(i18n.t('dataCenter:reboot'), selectedList),
@@ -272,7 +312,9 @@ export default () => {
         });
         updater.activeOp('');
       },
-      close: () => { updater.activeOp(''); },
+      close: () => {
+        updater.activeOp('');
+      },
       fieldList: [
         {
           getComp: () => opHint(i18n.t('dataCenter:start up'), selectedList),
@@ -287,20 +329,25 @@ export default () => {
         });
         updater.activeOp('');
       },
-      close: () => { updater.activeOp(''); },
+      close: () => {
+        updater.activeOp('');
+      },
       fieldList: [
         {
           getComp: () => opHint(i18n.t('dataCenter:stop'), selectedList),
         },
       ],
-      content: (<Alert
-        message={
-          <>
-            <p>{i18n.t('dataCenter:instance-stopped-expiration-not-changed')}</p>
-            <p>{i18n.t('dataCenter:instance-stopped-still-charged')}</p>
-          </>}
-        type="warning"
-      />),
+      content: (
+        <Alert
+          message={
+            <>
+              <p>{i18n.t('dataCenter:instance-stopped-expiration-not-changed')}</p>
+              <p>{i18n.t('dataCenter:instance-stopped-still-charged')}</p>
+            </>
+          }
+          type="warning"
+        />
+      ),
     },
     renewal: {
       operation: i18n.t('dataCenter:configure automatic renewal'),
@@ -310,7 +357,9 @@ export default () => {
         });
         updater.activeOp('');
       },
-      close: () => { updater.activeOp(''); },
+      close: () => {
+        updater.activeOp('');
+      },
       fieldList: [
         {
           getComp: () => (
@@ -322,12 +371,19 @@ export default () => {
                     <li>● {i18n.t('dataCenter:after-success-renew')}</li>
                     <li>● {i18n.t('dataCenter:keep-money-enough')}</li>
                     <li>● {i18n.t('dataCenter:artificial-renewal-change-time')}</li>
-                    <li>● {i18n.t('dataCenter:support cash and vouchers deduction')}{i18n.t('dataCenter:if you set up automatic renewal today, the automatic deduction will start tomorrow')}{i18n.t('dataCenter:if your instance will expire tomorrow, please choose manual renewal')}</li>
+                    <li>
+                      ● {i18n.t('dataCenter:support cash and vouchers deduction')}
+                      {i18n.t(
+                        'dataCenter:if you set up automatic renewal today, the automatic deduction will start tomorrow',
+                      )}
+                      {i18n.t('dataCenter:if your instance will expire tomorrow, please choose manual renewal')}
+                    </li>
                   </ul>
                 </>
               }
               type="normal"
-            />),
+            />
+          ),
         },
         {
           label: i18n.t('resource:whether to renew automatically'),
@@ -379,11 +435,11 @@ export default () => {
 
   const menu = (
     <Menu>
-      {
-        operationButtons.map((button) => (
-          <Menu.Item disabled={button.ifDisabled} key={button.name} onClick={button.cb}>{button.name}</Menu.Item>
-        ))
-      }
+      {operationButtons.map((button) => (
+        <Menu.Item disabled={button.ifDisabled} key={button.name} onClick={button.cb}>
+          {button.name}
+        </Menu.Item>
+      ))}
     </Menu>
   );
 

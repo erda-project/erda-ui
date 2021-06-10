@@ -35,29 +35,31 @@ export const getInfoBlock = (fieldsList: IInfoBlockField[], data: any) => {
   };
   return (
     <Row gutter={20}>
-      {
-        map(fieldsList, (item) => {
-          let val = item.value || (item.name && get(data, item.name));
-          if (val !== undefined && val !== null && val !== '') {
-            val = item.render ? item.render(val) : val;
-            return (
-              <Col {...layout} key={item.name} className="mb32">
-                <div className="color-text-desc mb8">{item.label}</div>
-                <div className="nowrap">
-                  {
-                    item.viewType === 'image'
-                      ? <ImgHolder src={val} rect="100x100" text="image" />
-                      : item.viewType === 'images'
-                        ? map(val, (url) => <span key={url} className="mr8"><ImgHolder src={url} rect="100x100" text="image" /></span>)
-                        : <Tooltip title={val}>{val}</Tooltip>
-                  }
-                </div>
-              </Col>
-            );
-          }
-          return null;
-        })
-      }
+      {map(fieldsList, (item) => {
+        let val = item.value || (item.name && get(data, item.name));
+        if (val !== undefined && val !== null && val !== '') {
+          val = item.render ? item.render(val) : val;
+          return (
+            <Col {...layout} key={item.name} className="mb32">
+              <div className="color-text-desc mb8">{item.label}</div>
+              <div className="nowrap">
+                {item.viewType === 'image' ? (
+                  <ImgHolder src={val} rect="100x100" text="image" />
+                ) : item.viewType === 'images' ? (
+                  map(val, (url) => (
+                    <span key={url} className="mr8">
+                      <ImgHolder src={url} rect="100x100" text="image" />
+                    </span>
+                  ))
+                ) : (
+                  <Tooltip title={val}>{val}</Tooltip>
+                )}
+              </div>
+            </Col>
+          );
+        }
+        return null;
+      })}
     </Row>
   );
 };
@@ -121,21 +123,23 @@ export const ArtifactsInfo = ({ data }: { data: PUBLISHER.IArtifacts }) => {
   ];
 
   if (data.geofenceLon) {
-    safetyFieldsList.push(...[
-      {
-        label: i18n.t('publisher:center coordinates of longitude'),
-        name: 'geofenceLon',
-      },
-      {
-        label: i18n.t('publisher:center coordinates of latitude'),
-        name: 'geofenceLat',
-      },
-      {
-        label: i18n.t('publisher:radius of center distance'),
-        name: 'geofenceRadius',
-        render: (val: string) => `${val}${i18n.t('meters')}`,
-      },
-    ] as any[]);
+    safetyFieldsList.push(
+      ...([
+        {
+          label: i18n.t('publisher:center coordinates of longitude'),
+          name: 'geofenceLon',
+        },
+        {
+          label: i18n.t('publisher:center coordinates of latitude'),
+          name: 'geofenceLat',
+        },
+        {
+          label: i18n.t('publisher:radius of center distance'),
+          name: 'geofenceRadius',
+          render: (val: string) => `${val}${i18n.t('meters')}`,
+        },
+      ] as any[]),
+    );
   }
 
   const sectionList: any[] = [
@@ -157,4 +161,3 @@ export const ArtifactsInfo = ({ data }: { data: PUBLISHER.IArtifacts }) => {
     </>
   );
 };
-

@@ -32,10 +32,7 @@ export const appPerm = {
     edit: {
       pass: false,
       name: '编辑',
-      role: [
-        'Owner',
-        'Lead',
-      ],
+      role: ['Owner', 'Lead'],
     },
   },
   repo: {
@@ -43,66 +40,33 @@ export const appPerm = {
     read: {
       pass: false,
       name: '查看',
-      role: [
-        'Owner',
-        'Lead',
-        'Dev',
-        'QA',
-        'Support',
-        'Ops',
-        'Guest',
-      ],
+      role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops', 'Guest'],
     },
     branch: {
       name: '分支管理',
       writeNormal: {
         pass: false,
         name: '普通分支管理（创建分支/提交文件/修改文件/删除）',
-        role: [
-          'Owner',
-          'Lead',
-          'Dev',
-          'QA',
-        ],
+        role: ['Owner', 'Lead', 'Dev', 'QA'],
       },
       writeProtected: {
         pass: false,
         name: '保护分支管理（创建分支/提交文件/修改文件/删除）',
-        role: [
-          'Owner',
-          'Lead',
-        ],
+        role: ['Owner', 'Lead'],
       },
       setDefaultBranch: {
         pass: false,
-        role: [
-          'Owner',
-          'Lead',
-        ],
+        role: ['Owner', 'Lead'],
         name: '设置默认分支',
       },
       addTag: {
         pass: false,
-        role: [
-          'Owner',
-          'Lead',
-          'Dev',
-          'QA',
-          'Support',
-          'Ops',
-        ],
+        role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
         name: '添加标签',
       },
       deleteTag: {
         pass: false,
-        role: [
-          'Lead',
-          'Owner',
-          'Dev',
-          'QA',
-          'Support',
-          'Ops',
-        ],
+        role: ['Lead', 'Owner', 'Dev', 'QA', 'Support', 'Ops'],
         name: '删除标签',
       },
     },
@@ -111,48 +75,29 @@ export const appPerm = {
       create: {
         pass: false,
         name: '新建',
-        role: [
-          'Owner',
-          'Lead',
-          'Dev',
-          'QA',
-        ],
+        role: ['Owner', 'Lead', 'Dev', 'QA'],
       },
       edit: {
         pass: false,
         name: '编辑',
-        role: [
-          'Owner',
-          'Lead',
-          'Creator',
-        ],
+        role: ['Owner', 'Lead', 'Creator'],
       },
       close: {
         pass: false,
         name: '关闭',
-        role: [
-          'Owner',
-          'Lead',
-          'Creator',
-        ],
+        role: ['Owner', 'Lead', 'Creator'],
       },
     },
     backup: {
       name: '备份管理',
       backupRepo: {
         pass: false,
-        role: [
-          'Owner',
-          'Lead',
-        ],
+        role: ['Owner', 'Lead'],
         name: '新建备份',
       },
       deleteBackup: {
         pass: false,
-        role: [
-          'Owner',
-          'Lead',
-        ],
+        role: ['Owner', 'Lead'],
         name: '删除备份',
       },
     },
@@ -162,156 +107,85 @@ export const appPerm = {
     read: {
       pass: false,
       name: '查看',
-      role: [
-        'Owner',
-        'Lead',
-        'Dev',
-        'QA',
-        'Support',
-        'Ops',
-        'Guest',
-      ],
+      role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops', 'Guest'],
     },
     executeNormal: {
       pass: false,
       name: '操作普通分支(开始/取消定时/立即执行/重试/停止)',
-      role: [
-        'Owner',
-        'Lead',
-        'Dev',
-        'QA',
-      ],
+      role: ['Owner', 'Lead', 'Dev', 'QA'],
     },
     executeProtected: {
       pass: false,
       name: '操作受保护分支(开始/取消定时/立即执行/重试/停止)',
-      role: [
-        'Owner',
-        'Lead',
-      ],
+      role: ['Owner', 'Lead'],
     },
   },
   runtime: {
     name: '部署中心',
     read: {
       pass: false,
-      role: [
-        'Owner',
-        'Lead',
-        'Dev',
-        'QA',
-        'Support',
-        'Ops',
-      ],
+      role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
       name: '查看',
     },
     devDeployOperation: {
       pass: false,
       name: 'DEV操作（重启/回滚/域名设置/服务扩容）',
-      role: [
-        'Owner',
-        'Lead',
-        'Dev',
-      ],
+      role: ['Owner', 'Lead', 'Dev'],
     },
     devDelete: {
       pass: false,
       name: 'DEV删除',
-      role: [
-        'Owner',
-        'Lead',
-        'Dev',
-      ],
+      role: ['Owner', 'Lead', 'Dev'],
     },
     testDeployOperation: {
       pass: false,
       name: 'TEST操作（重启/回滚/域名设置/服务扩容）',
-      role: [
-        'Owner',
-        'Lead',
-        'QA',
-      ],
+      role: ['Owner', 'Lead', 'QA'],
     },
     testDelete: {
       pass: false,
       name: 'TEST删除',
-      role: [
-        'Owner',
-        'Lead',
-        'QA',
-      ],
+      role: ['Owner', 'Lead', 'QA'],
     },
     stagingDeployOperation: {
       pass: false,
       name: 'STAGING操作（重启/回滚/域名设置/服务扩容）',
-      role: [
-        'Owner',
-        'Lead',
-      ],
+      role: ['Owner', 'Lead'],
     },
     stagingDelete: {
       pass: false,
       name: 'STAGING删除',
-      role: [
-        'Owner',
-        'Lead',
-      ],
+      role: ['Owner', 'Lead'],
     },
     prodDeployOperation: {
       pass: false,
       name: 'PROD操作（重启/回滚/域名设置/服务扩容）',
-      role: [
-        'Owner',
-        'Lead',
-      ],
+      role: ['Owner', 'Lead'],
     },
     prodDelete: {
       pass: false,
       name: 'PROD删除',
-      role: [
-        'Owner',
-        'Lead',
-      ],
+      role: ['Owner', 'Lead'],
     },
     devConsole: {
       pass: false,
       name: 'DEV-详情-控制台',
-      role: [
-        'Owner',
-        'Lead',
-        'Dev',
-        'Ops',
-        'Support',
-      ],
+      role: ['Owner', 'Lead', 'Dev', 'Ops', 'Support'],
     },
     testConsole: {
       pass: false,
       name: 'TEST-详情-控制台',
-      role: [
-        'Owner',
-        'Lead',
-        'QA',
-        'Ops',
-        'Support',
-      ],
+      role: ['Owner', 'Lead', 'QA', 'Ops', 'Support'],
     },
     stagingConsole: {
       pass: false,
       name: 'STAGING-详情-控制台',
-      role: [
-        'Owner',
-        'Lead',
-        'Support',
-      ],
+      role: ['Owner', 'Lead', 'Support'],
     },
     prodConsole: {
       pass: false,
       name: 'PROD-详情-控制台',
-      role: [
-        'Owner',
-        'Lead',
-        'Support',
-      ],
+      role: ['Owner', 'Lead', 'Support'],
     },
   },
   setting: {
@@ -319,51 +193,32 @@ export const appPerm = {
     editApp: {
       pass: false,
       name: '编辑应用信息',
-      role: [
-        'Owner',
-        'Lead',
-      ],
+      role: ['Owner', 'Lead'],
     },
     deleteApp: {
       pass: false,
       name: '删除应用信息',
-      role: [
-        'Owner',
-        'Lead',
-      ],
+      role: ['Owner', 'Lead'],
     },
     branchRule: {
       name: '分支规则',
       operation: {
         pass: false,
         name: '操作（增删改）',
-        role: [
-          'Owner',
-          'Lead',
-        ],
+        role: ['Owner', 'Lead'],
       },
     },
     repoSetting: {
       name: '仓库设置',
       lockRepo: {
         pass: false,
-        role: [
-          'Lead',
-          'Owner',
-        ],
+        role: ['Lead', 'Owner'],
         name: '锁定仓库',
       },
     },
     read: {
       pass: false,
-      role: [
-        'Owner',
-        'Lead',
-        'Dev',
-        'QA',
-        'Support',
-        'Ops',
-      ],
+      role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
       name: '查看',
     },
   },
@@ -372,26 +227,17 @@ export const appPerm = {
     addAppMember: {
       pass: false,
       name: '应用成员 > 添加成员',
-      role: [
-        'Owner',
-        'Lead',
-      ],
+      role: ['Owner', 'Lead'],
     },
     editAppMember: {
       pass: false,
       name: '应用成员 > 编辑成员',
-      role: [
-        'Owner',
-        'Lead',
-      ],
+      role: ['Owner', 'Lead'],
     },
     deleteAppMember: {
       pass: false,
       name: '应用成员 > 移除成员',
-      role: [
-        'Owner',
-        'Lead',
-      ],
+      role: ['Owner', 'Lead'],
     },
   },
   apiManage: {
@@ -401,69 +247,42 @@ export const appPerm = {
       read: {
         pass: false,
         name: '查看',
-        role: [
-          'Owner',
-          'Lead',
-          'Dev',
-          'QA',
-          'Ops',
-        ],
+        role: ['Owner', 'Lead', 'Dev', 'QA', 'Ops'],
       },
       edit: {
         pass: false,
         name: '编辑资源',
-        role: [
-          'Owner',
-          'Lead',
-        ],
+        role: ['Owner', 'Lead'],
       },
       delete: {
         pass: false,
         name: '删除资源',
-        role: [
-          'Owner',
-          'Lead',
-        ],
+        role: ['Owner', 'Lead'],
       },
       publicAsset: {
         pass: false,
         name: '公开',
-        role: [
-          'Owner',
-          'Lead',
-        ],
+        role: ['Owner', 'Lead'],
       },
       addVersion: {
         pass: false,
         name: '添加版本',
-        role: [
-          'Owner',
-          'Lead',
-        ],
+        role: ['Owner', 'Lead'],
       },
       deleteVersion: {
         pass: false,
         name: '删除版本',
-        role: [
-          'Owner',
-          'Lead',
-        ],
+        role: ['Owner', 'Lead'],
       },
       relatedProjectOrApp: {
         pass: false,
         name: '关联项目/应用',
-        role: [
-          'Owner',
-          'Lead',
-        ],
+        role: ['Owner', 'Lead'],
       },
       relatedInstance: {
         pass: false,
         name: '关联实例',
-        role: [
-          'Owner',
-          'Lead',
-        ],
+        role: ['Owner', 'Lead'],
       },
     },
     accessManage: {
@@ -471,26 +290,17 @@ export const appPerm = {
       edit: {
         pass: false,
         name: '编辑',
-        role: [
-          'Owner',
-          'Lead',
-        ],
+        role: ['Owner', 'Lead'],
       },
       delete: {
         pass: false,
         name: '删除',
-        role: [
-          'Owner',
-          'Lead',
-        ],
+        role: ['Owner', 'Lead'],
       },
       approve: {
         pass: false,
         name: '审批',
-        role: [
-          'Owner',
-          'Lead',
-        ],
+        role: ['Owner', 'Lead'],
       },
     },
   },
@@ -498,14 +308,7 @@ export const appPerm = {
     name: 'API设计',
     read: {
       pass: false,
-      role: [
-        'Owner',
-        'Lead',
-        'Dev',
-        'QA',
-        'Support',
-        'Ops',
-      ],
+      role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
       name: '查看',
     },
   },
@@ -513,14 +316,7 @@ export const appPerm = {
     name: '数据任务',
     read: {
       pass: false,
-      role: [
-        'Owner',
-        'Lead',
-        'Dev',
-        'QA',
-        'Support',
-        'Ops',
-      ],
+      role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
       name: '查看',
     },
   },
@@ -528,14 +324,7 @@ export const appPerm = {
     name: '数据模型',
     read: {
       pass: false,
-      role: [
-        'Owner',
-        'Lead',
-        'Dev',
-        'QA',
-        'Support',
-        'Ops',
-      ],
+      role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
       name: '查看',
     },
   },
@@ -543,14 +332,7 @@ export const appPerm = {
     name: '数据集市',
     read: {
       pass: false,
-      role: [
-        'Owner',
-        'Lead',
-        'Dev',
-        'QA',
-        'Support',
-        'Ops',
-      ],
+      role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
       name: '查看',
     },
   },
@@ -558,14 +340,7 @@ export const appPerm = {
     name: '代码质量',
     read: {
       pass: false,
-      role: [
-        'Owner',
-        'Lead',
-        'Dev',
-        'QA',
-        'Support',
-        'Ops',
-      ],
+      role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
       name: '查看',
     },
   },
@@ -573,29 +348,14 @@ export const appPerm = {
     name: '制品管理',
     read: {
       pass: false,
-      role: [
-        'Owner',
-        'Lead',
-        'Dev',
-        'QA',
-        'Support',
-        'Ops',
-        'Guest',
-      ],
+      role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops', 'Guest'],
       name: '查看',
     },
     info: {
       name: '详情信息',
       edit: {
         pass: false,
-        role: [
-          'Owner',
-          'Lead',
-          'Dev',
-          'QA',
-          'Support',
-          'Ops',
-        ],
+        role: ['Owner', 'Lead', 'Dev', 'QA', 'Support', 'Ops'],
         name: '编辑',
       },
     },

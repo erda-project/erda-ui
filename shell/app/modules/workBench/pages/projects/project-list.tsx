@@ -40,12 +40,16 @@ export const ProjectList = () => {
 
   useUnmount(clearProjectList);
 
-  useDebounce(() => {
-    getJoinedProjects({
-      searchKey,
-      pageNo: 1,
-    });
-  }, 600, [searchKey]);
+  useDebounce(
+    () => {
+      getJoinedProjects({
+        searchKey,
+        pageNo: 1,
+      });
+    },
+    600,
+    [searchKey],
+  );
 
   const onSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -88,7 +92,8 @@ export const ProjectList = () => {
     });
   };
 
-  const Holder = ({ children }: any) => (loading.getJoinedProjects || projectList.length ? children : <EmptyListHolder />);
+  const Holder = ({ children }: any) =>
+    loading.getJoinedProjects || projectList.length ? children : <EmptyListHolder />;
 
   const renderProjectItem = (item: PROJECT.Detail) => {
     return (
@@ -101,7 +106,6 @@ export const ProjectList = () => {
                 <IF.ELSE />
                 <CustomIcon color type={theme.projectIcon} />
               </IF>
-
             </div>
             <div className="item-content">
               <div className="item-name nowrap flex-box flex-start">
@@ -120,14 +124,19 @@ export const ProjectList = () => {
                 <span>
                   <CustomIcon type="sj" />
                   <span>
-                    {
-                      item.updatedAt
-                        ? fromNow(item.updatedAt, { prefix: `${i18n.t('update time')}:` })
-                        : i18n.t('empty')
-                    }
+                    {item.updatedAt
+                      ? fromNow(item.updatedAt, { prefix: `${i18n.t('update time')}:` })
+                      : i18n.t('empty')}
                   </span>
                 </span>
-                <BlockNetworkStatus scope="project" canOperate={item.canUnblock} status={item.blockStatus} onClick={(k) => { handleShowApplyModal(k, item); }} />
+                <BlockNetworkStatus
+                  scope="project"
+                  canOperate={item.canUnblock}
+                  status={item.blockStatus}
+                  onClick={(k) => {
+                    handleShowApplyModal(k, item);
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -139,12 +148,14 @@ export const ProjectList = () => {
   return (
     <div className="project-list-section">
       <BlockNetworkTips />
-      <Search className="search-input" placeholder={i18n.t('workBench:search by project name')} value={searchKey} onChange={onSearch} />
+      <Search
+        className="search-input"
+        placeholder={i18n.t('workBench:search by project name')}
+        value={searchKey}
+        onChange={onSearch}
+      />
       <Holder>
-        <List
-          dataSource={projectList}
-          renderItem={renderProjectItem}
-        />
+        <List dataSource={projectList} renderItem={renderProjectItem} />
       </Holder>
       <LoadMore load={load} hasMore={projectPaging.hasMore} isLoading={loading} />
       <ApplyUnblockModal
@@ -156,4 +167,3 @@ export const ProjectList = () => {
     </div>
   );
 };
-

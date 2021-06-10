@@ -71,10 +71,20 @@ const AppLibraryReference = () => {
           }
           return (
             <div className="table-operations">
-              <WithAuth pass={record.approvalStatus === 'approved'} >
-                <span className="table-operations-btn" onClick={() => { showApplyModal(record); }}>{i18n.t('application:apply')}</span>
+              <WithAuth pass={record.approvalStatus === 'approved'}>
+                <span
+                  className="table-operations-btn"
+                  onClick={() => {
+                    showApplyModal(record);
+                  }}
+                >
+                  {i18n.t('application:apply')}
+                </span>
               </WithAuth>
-              <Popconfirm title={`${i18n.t('common:confirm to delete')}?`} onConfirm={() => deleteItem(record.id).then(() => libraryRefStore.effects.getList({ appID }))}>
+              <Popconfirm
+                title={`${i18n.t('common:confirm to delete')}?`}
+                onConfirm={() => deleteItem(record.id).then(() => libraryRefStore.effects.getList({ appID }))}
+              >
                 <span className="table-operations-btn">{i18n.t('remove')}</span>
               </Popconfirm>
             </div>
@@ -131,8 +141,7 @@ const AppLibraryReference = () => {
         },
         getComp: () => {
           const getData = (q: object) => {
-            return getArtifactsList({ ...q, type: appMode.LIBRARY, public: true })
-              .then((res: any) => res.data);
+            return getArtifactsList({ ...q, type: appMode.LIBRARY, public: true }).then((res: any) => res.data);
           };
           return (
             <LoadMoreSelector
@@ -144,7 +153,12 @@ const AppLibraryReference = () => {
                   <div className="load-more-selector-library">
                     <div className="library-name mb4">{label}</div>
                     <div className="library-desc mb8">{desc}</div>
-                    <div className="library-tips"><CustomIcon type="bb1" />{i18n.t('publisher:version number')}: {latestVersion || '--'}<CustomIcon type="renwushu" />{i18n.t('publisher:subscriptions')}: {refCount || 0}</div>
+                    <div className="library-tips">
+                      <CustomIcon type="bb1" />
+                      {i18n.t('publisher:version number')}: {latestVersion || '--'}
+                      <CustomIcon type="renwushu" />
+                      {i18n.t('publisher:subscriptions')}: {refCount || 0}
+                    </div>
                   </div>
                 );
               }}
@@ -157,11 +171,7 @@ const AppLibraryReference = () => {
   };
 
   const addonAfter = (
-    <span
-      className="copy-btn for-copy"
-      data-clipboard-text={state.dependence}
-      data-clipboard-tip="dependence"
-    >
+    <span className="copy-btn for-copy" data-clipboard-text={state.dependence} data-clipboard-tip="dependence">
       <IconCopy />
     </span>
   );
@@ -184,8 +194,18 @@ const AppLibraryReference = () => {
         width={570}
         visible={state.visible}
         destroyOnClose
-        onCancel={() => { updater.visible(false); }}
-        footer={<Button onClick={() => { updater.visible(false); }}>{i18n.t('default:close')}</Button>}
+        onCancel={() => {
+          updater.visible(false);
+        }}
+        footer={
+          <Button
+            onClick={() => {
+              updater.visible(false);
+            }}
+          >
+            {i18n.t('default:close')}
+          </Button>
+        }
       >
         <Copy selector=".for-copy" />
         <Alert className="mb16" message={i18n.t('application:library-usage-tips')} type="warning" showIcon />

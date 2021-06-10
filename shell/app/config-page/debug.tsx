@@ -18,7 +18,6 @@ import { Button, message, Popover } from 'app/nusi';
 import './debug.scss';
 import moment from 'moment';
 
-
 export default () => {
   const pageRef = React.useRef(null);
   const [text, setText] = React.useState(defaultJson);
@@ -27,7 +26,7 @@ export default () => {
 
   const updateMock = () => {
     try {
-      const obj = (new Function(`return ${text}`))();
+      const obj = new Function(`return ${text}`)();
       setConfig(obj);
     } catch (error) {
       message.error('内容有错误');
@@ -35,20 +34,29 @@ export default () => {
   };
 
   const onExecOp = ({ cId, op, reload, updateInfo }: any) => {
-    setLogs((prev) => prev.concat({ time: moment().format('HH:mm:ss'), type: '操作', cId, opKey: op.text || op.key, command: JSON.stringify(op.command), reload, data: JSON.stringify(updateInfo, null, 2) }));
+    setLogs((prev) =>
+      prev.concat({
+        time: moment().format('HH:mm:ss'),
+        type: '操作',
+        cId,
+        opKey: op.text || op.key,
+        command: JSON.stringify(op.command),
+        reload,
+        data: JSON.stringify(updateInfo, null, 2),
+      }),
+    );
   };
 
   return (
     <div className="debug-page full-height flex-box">
       <div className="left full-height">
-        <FileEditor
-          autoHeight
-          fileExtension="json"
-          value={text}
-          onChange={setText}
-        />
-        <Button type="primary" className="update-button" onClick={() => updateMock()}>更新</Button>
-        <Button type="primary" className="request-button" onClick={() => pageRef.current.reload(config)}>请求</Button>
+        <FileEditor autoHeight fileExtension="json" value={text} onChange={setText} />
+        <Button type="primary" className="update-button" onClick={() => updateMock()}>
+          更新
+        </Button>
+        <Button type="primary" className="request-button" onClick={() => pageRef.current.reload(config)}>
+          请求
+        </Button>
       </div>
       <div className="right full-height">
         <ErrorBoundary>
@@ -60,15 +68,24 @@ export default () => {
             inParams={config?.inParams}
             debugConfig={config}
             onExecOp={onExecOp}
-            updateConfig={(v) => { setConfig(v); setText(JSON.stringify(v, null, 2)); }}
+            updateConfig={(v) => {
+              setConfig(v);
+              setText(JSON.stringify(v, null, 2));
+            }}
           />
         </ErrorBoundary>
         <div className="log-panel">
-          <h3>操作日志<span className="ml8 fake-link" onClick={() => setLogs([])}>清空</span></h3>
+          <h3>
+            操作日志
+            <span className="ml8 fake-link" onClick={() => setLogs([])}>
+              清空
+            </span>
+          </h3>
           {logs.map((log, i) => {
             return (
               <div key={i} className="log-item">
-                <span>{log.time} {log.reload && <CustomIcon type="refresh" />} {log.type} {log.cId}: {log.opKey}
+                <span>
+                  {log.time} {log.reload && <CustomIcon type="refresh" />} {log.type} {log.cId}: {log.opKey}
                   {log.command && <pre className="mb0">{log.command}</pre>}
                 </span>
                 {log.data && (
@@ -80,9 +97,7 @@ export default () => {
                       </div>
                     }
                   >
-                    <span className="fake-link">
-                      查看数据
-                    </span>
+                    <span className="fake-link">查看数据</span>
                   </Popover>
                 )}
               </div>
@@ -93,7 +108,6 @@ export default () => {
     </div>
   );
 };
-
 
 const defaultData = {
   scenario: {

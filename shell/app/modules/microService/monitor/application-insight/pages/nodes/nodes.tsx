@@ -18,14 +18,8 @@ import TopTabRight from 'application-insight/common/components/tab-right';
 import monitorCommonStore from 'common/stores/monitorCommon';
 
 const PageMap = [
-  [
-    NodesMap.heapMemoryUsage,
-    NodesMap.nonHeapMemoryUsage,
-  ],
-  [
-    NodesMap.clusterCount,
-    NodesMap.asyncResources,
-  ],
+  [NodesMap.heapMemoryUsage, NodesMap.nonHeapMemoryUsage],
+  [NodesMap.clusterCount, NodesMap.asyncResources],
 ];
 
 const Nodes = () => {
@@ -37,23 +31,20 @@ const Nodes = () => {
   return (
     <div>
       <TopTabRight type={type} />
-      {
-        PageMap.map((cols, rIndex) => (
-          <Row gutter={20} key={String(rIndex)}>
-            {cols.map((Chart, cIndex) => {
-              const spanWidth = 24 / cols.length;
-              return (
-                <Col span={spanWidth} key={String(cIndex)}>
-                  <Chart {...opt} />
-                </Col>
-              );
-            })}
-          </Row>
-        ))
-      }
+      {PageMap.map((cols, rIndex) => (
+        <Row gutter={20} key={String(rIndex)}>
+          {cols.map((Chart, cIndex) => {
+            const spanWidth = 24 / cols.length;
+            return (
+              <Col span={spanWidth} key={String(cIndex)}>
+                <Chart {...opt} />
+              </Col>
+            );
+          })}
+        </Row>
+      ))}
     </div>
   );
 };
 
 export default Nodes;
-

@@ -15,7 +15,8 @@ import agent from 'agent';
 
 export const getModules = (params: any) => {
   const { api, query } = params || {};
-  return agent.get(api)
+  return agent
+    .get(api)
     .query(query)
     .then((response: any) => response.body);
 };

@@ -54,15 +54,11 @@ const data = [
 
 describe('MultiSelect', () => {
   it('should render with illegal type', () => {
-    const wrapper = mount(
-      <MultiSelect data={[{ type: 'input' }]} />,
-    );
+    const wrapper = mount(<MultiSelect data={[{ type: 'input' }]} />);
     expect(wrapper.find('SingleSelect')).toBeEmptyRender();
   });
   it('should render with empty data', () => {
-    const wrapper = mount(
-      <MultiSelect />,
-    );
+    const wrapper = mount(<MultiSelect />);
     expect(wrapper.find('.flex-box').html()).toBe('<div class="flex-box"></div>');
   });
   it('should render normally', () => {

@@ -11,8 +11,15 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { MonitorMetaDataScope, MonitorMetaDataMode, createMonitorMetaDataStore } from 'app/modules/dataCenter/stores/_common-monitor-metadata';
+import {
+  MonitorMetaDataScope,
+  MonitorMetaDataMode,
+  createMonitorMetaDataStore,
+} from 'app/modules/dataCenter/stores/_common-monitor-metadata';
 
-const analysisMonitorMetadata = createMonitorMetaDataStore(MonitorMetaDataScope.MICRO_SERVICE, MonitorMetaDataMode.ANALYSIS);
+const analysisMonitorMetadata = createMonitorMetaDataStore(
+  MonitorMetaDataScope.MICRO_SERVICE,
+  MonitorMetaDataMode.ANALYSIS,
+);
 
 export default analysisMonitorMetadata;

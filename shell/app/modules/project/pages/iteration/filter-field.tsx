@@ -18,11 +18,7 @@ import { Select, RangePicker } from 'app/nusi';
 import { map, find, get, compact, isArray } from 'lodash';
 import { MemberSelector } from 'common';
 import { insertWhen, getTimeRanges } from 'common/utils';
-import {
-  ISSUE_PRIORITY_MAP,
-  BUG_SEVERITY_MAP,
-  ISSUE_TYPE,
-} from 'project/common/components/issue/issue-config';
+import { ISSUE_PRIORITY_MAP, BUG_SEVERITY_MAP, ISSUE_TYPE } from 'project/common/components/issue/issue-config';
 import LabelSelect from 'project/common/components/issue/label-select';
 import routeInfoStore from 'app/common/stores/route';
 import userMapStore from 'app/common/stores/user-map';
@@ -93,15 +89,7 @@ export default ({ queryCondition, type, listView }: IProps) => {
       [loginUser.id]: { ...loginUser },
     };
 
-    const {
-      label,
-      assignee,
-      creator,
-      startCreatedAt,
-      endCreatedAt,
-      startFinishedAt,
-      endFinishedAt,
-    } = queryCondition;
+    const { label, assignee, creator, startCreatedAt, endCreatedAt, startFinishedAt, endFinishedAt } = queryCondition;
 
     const userValueConvert = (val: string[] | string, options: any[]) => {
       return map(isArray(val) ? val : [val], (item) => {
@@ -128,11 +116,12 @@ export default ({ queryCondition, type, listView }: IProps) => {
         allowClear: true,
         placeholder: i18n.t('please choose {name}', { name: i18n.t('project:priority') }),
         mode: 'multiple',
-        options: () => map(ISSUE_PRIORITY_MAP, ({ value, iconLabel }) => (
-          <Option key={value} value={value}>
-            {iconLabel}
-          </Option>
-        )),
+        options: () =>
+          map(ISSUE_PRIORITY_MAP, ({ value, iconLabel }) => (
+            <Option key={value} value={value}>
+              {iconLabel}
+            </Option>
+          )),
         filterBarValueConvert: (val: string[] | string) => {
           return map(isArray(val) ? val : [val], (item) => ISSUE_PRIORITY_MAP[item].label).join(', ');
         },
@@ -145,11 +134,12 @@ export default ({ queryCondition, type, listView }: IProps) => {
           allowClear: true,
           placeholder: i18n.t('please choose {name}', { name: i18n.t('project:severity') }),
           mode: 'multiple',
-          options: () => map(BUG_SEVERITY_MAP, ({ iconLabel, value }) => (
-            <Option key={value} value={value}>
-              {iconLabel}
-            </Option>
-          )),
+          options: () =>
+            map(BUG_SEVERITY_MAP, ({ iconLabel, value }) => (
+              <Option key={value} value={value}>
+                {iconLabel}
+              </Option>
+            )),
           filterBarValueConvert: (val: string[] | string) => {
             return map(isArray(val) ? val : [val], (item) => BUG_SEVERITY_MAP[item].label).join(', ');
           },
@@ -160,9 +150,7 @@ export default ({ queryCondition, type, listView }: IProps) => {
         name: 'creator',
         label: i18n.t('project:creator'),
         value: creator,
-        Comp: (
-          <MemberSelector mode="multiple" scopeType="project" scopeId={projectId} />
-        ),
+        Comp: <MemberSelector mode="multiple" scopeType="project" scopeId={projectId} />,
         filterBarValueConvert: userValueConvert,
       },
       {
@@ -170,9 +158,7 @@ export default ({ queryCondition, type, listView }: IProps) => {
         name: 'assignee',
         label: i18n.t('project:assignee'),
         value: assignee,
-        Comp: (
-          <MemberSelector mode="multiple" scopeType="project" scopeId={projectId} />
-        ),
+        Comp: <MemberSelector mode="multiple" scopeType="project" scopeId={projectId} />,
         filterBarValueConvert: userValueConvert,
       },
       ...insertWhen(inBug, [
@@ -180,9 +166,7 @@ export default ({ queryCondition, type, listView }: IProps) => {
           type: 'custom',
           name: 'owner',
           label: i18n.t('project:responsible'),
-          Comp: (
-            <MemberSelector mode="multiple" scopeType="project" scopeId={projectId} />
-          ),
+          Comp: <MemberSelector mode="multiple" scopeType="project" scopeId={projectId} />,
           filterBarValueConvert: userValueConvert,
         },
         {
@@ -193,7 +177,9 @@ export default ({ queryCondition, type, listView }: IProps) => {
           label: i18n.t('project:import source'),
           options: bugStageOption,
           filterBarValueConvert: (val: string[] | string) => {
-            return map(isArray(val) ? val : [val], (item) => get(find(bugStageOption, { value: Number(item) }), 'name')).join(', ');
+            return map(isArray(val) ? val : [val], (item) =>
+              get(find(bugStageOption, { value: Number(item) }), 'name'),
+            ).join(', ');
           },
         },
       ]),
@@ -202,9 +188,7 @@ export default ({ queryCondition, type, listView }: IProps) => {
         name: 'startCreatedAt,endCreatedAt',
         label: i18n.t('project:created at'),
         value: startCreatedAt ? [moment(+startCreatedAt), moment(+endCreatedAt)] : [],
-        Comp: (
-          <RangePicker borderTime format={['MM-DD', 'MM-DD']} ranges={getTimeRanges()} />
-        ),
+        Comp: <RangePicker borderTime format={['MM-DD', 'MM-DD']} ranges={getTimeRanges()} />,
         filterBarValueConvert: (val: string[]) => {
           return map(val, (item) => moment(item).format('MM-DD')).join(' ~ ');
         },
@@ -214,9 +198,7 @@ export default ({ queryCondition, type, listView }: IProps) => {
         name: 'startFinishedAt,endFinishedAt',
         label: i18n.t('project:completed time'),
         value: startFinishedAt ? [moment(+startFinishedAt), moment(+endFinishedAt)] : [],
-        Comp: (
-          <RangePicker borderTime format={['MM-DD', 'MM-DD']} ranges={getTimeRanges()} />
-        ),
+        Comp: <RangePicker borderTime format={['MM-DD', 'MM-DD']} ranges={getTimeRanges()} />,
         filterBarValueConvert: (val: string[]) => {
           return map(val, (item) => moment(item).format('MM-DD')).join(' ~ ');
         },
@@ -229,7 +211,9 @@ export default ({ queryCondition, type, listView }: IProps) => {
           label: i18n.t('common:state'),
           options: workflowStateOption,
           filterBarValueConvert: (val: string[] | string) => {
-            return map(isArray(val) ? val : [val], (item) => get(find(totalWorkflowStateList, { stateID: Number(item) }), 'stateName')).join(', ');
+            return map(isArray(val) ? val : [val], (item) =>
+              get(find(totalWorkflowStateList, { stateID: Number(item) }), 'stateName'),
+            ).join(', ');
           },
         },
       ]),
@@ -240,9 +224,7 @@ export default ({ queryCondition, type, listView }: IProps) => {
           label: i18n.t('project:related requirement'),
           Comp: <RequirementSelect />,
           filterBarValueConvert: (val: string, option: any) => {
-            return option
-              ? `${val}` === `${option.value}` ? option.label : ''
-              : val;
+            return option ? (`${val}` === `${option.value}` ? option.label : '') : val;
           },
         },
         {
@@ -253,12 +235,25 @@ export default ({ queryCondition, type, listView }: IProps) => {
           allowClear: true,
           options: taskTypeOption,
           filterBarValueConvert: (val: string[] | string) => {
-            return map(isArray(val) ? val : [val], (item) => get(find(taskTypeOption, { value: Number(item) }), 'name')).join(', ');
+            return map(isArray(val) ? val : [val], (item) =>
+              get(find(taskTypeOption, { value: Number(item) }), 'name'),
+            ).join(', ');
           },
         },
       ]),
     ];
     return temp;
-  }, [type, userMap, loginUser, queryCondition, projectId, bugStageOption, listView, workflowStateOption, taskTypeOption, totalWorkflowStateList]);
+  }, [
+    type,
+    userMap,
+    loginUser,
+    queryCondition,
+    projectId,
+    bugStageOption,
+    listView,
+    workflowStateOption,
+    taskTypeOption,
+    totalWorkflowStateList,
+  ]);
   return filterList;
 };

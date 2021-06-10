@@ -18,7 +18,17 @@ import { useUpdate } from 'common';
 import i18n from 'i18n';
 import { chargeTypeMap, chargePeriodMap } from '../config';
 
-const AliCloudPreview = ({ visible, onClose, onOk, dataSource }: { visible: boolean; onClose: Function; onOk: Function; dataSource: any[] }) => {
+const AliCloudPreview = ({
+  visible,
+  onClose,
+  onOk,
+  dataSource,
+}: {
+  visible: boolean;
+  onClose: Function;
+  onOk: Function;
+  dataSource: any[];
+}) => {
   const [{ checkedRead }, updater] = useUpdate({
     checkedRead: false,
   });
@@ -82,16 +92,11 @@ const AliCloudPreview = ({ visible, onClose, onOk, dataSource }: { visible: bool
         </Button>,
       ]}
     >
-      <Table
-        rowKey={'resourceType'}
-        pagination={false}
-        columns={columns}
-        dataSource={dataSource}
-      />
-      <Checkbox className="mt12" onChange={() => updater.checkedRead(!checkedRead)} checked={checkedRead} /> {i18n.t('org:i have confirmed')}
+      <Table rowKey={'resourceType'} pagination={false} columns={columns} dataSource={dataSource} />
+      <Checkbox className="mt12" onChange={() => updater.checkedRead(!checkedRead)} checked={checkedRead} />{' '}
+      {i18n.t('org:i have confirmed')}
     </Modal>
   );
 };
-
 
 export default AliCloudPreview;

@@ -17,7 +17,7 @@ import PipelineEditor from 'yml-chart/pipeline-editor';
 import { NodeEleMap } from 'yml-chart/config';
 import i18n from 'i18n';
 
-interface IProps{
+interface IProps {
   caseDetail: TREE.NODE;
   addDrawerProps: Obj;
   onUpdateYml: (ymlStr: string) => void;
@@ -31,7 +31,7 @@ stages: []
 const CasePipelineEditor = (props: IProps) => {
   const { caseDetail, onUpdateYml, addDrawerProps, editable } = props;
   const curPipelineYml = get(caseDetail, 'meta.pipelineYml') || defaultPipelineYml;
-  const ymlStr = isEmpty(caseDetail) ? '' : curPipelineYml;//
+  const ymlStr = isEmpty(caseDetail) ? '' : curPipelineYml; //
   return (
     <div>
       <PipelineEditor

@@ -28,7 +28,8 @@ const Mapper = () => {
     getList: getPublisherList,
     clearList: clearPublisherList,
     deleteItem: deletePublisher,
-    operationAuth: { // 编辑删除权限在具体的publisherId下，add权限等同企业中心菜单（企业管理员）
+    operationAuth: {
+      // 编辑删除权限在具体的publisherId下，add权限等同企业中心菜单（企业管理员）
       delete: false,
       edit: false,
       add: true,

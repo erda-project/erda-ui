@@ -17,8 +17,14 @@ import { Input, Button, Collapse, Tooltip, Popconfirm, message, Ellipsis, Spin, 
 import i18n from 'i18n';
 import apiDesignStore from 'apiManagePlatform/stores/api-design';
 import { map, keys, get, filter, isEmpty, set, unset, forEach } from 'lodash';
-import { API_METHODS, LIST_TITLE_MAP, API_MEDIA_TYPE, API_LOCK_WARNING,
-  QUOTE_PREFIX, QUOTE_PREFIX_NO_EXTENDED } from 'app/modules/apiManagePlatform/configs.ts';
+import {
+  API_METHODS,
+  LIST_TITLE_MAP,
+  API_MEDIA_TYPE,
+  API_LOCK_WARNING,
+  QUOTE_PREFIX,
+  QUOTE_PREFIX_NO_EXTENDED,
+} from 'app/modules/apiManagePlatform/configs.ts';
 import ApiSummary from 'apiManagePlatform/pages/api-market/design/summary';
 import ApiResource from 'app/config-page/components/api-resource/resource';
 import DataTypeConfig from 'apiManagePlatform/pages/api-market/design/datatype-config';
@@ -43,8 +49,7 @@ type IListKey = 'RESOURCE' | 'DATATYPE';
 const { Panel } = Collapse;
 const { confirm } = Modal;
 
-
-const ExternalRepoPage = ({ type }: {type?: string}) => {
+const ExternalRepoPage = ({ type }: { type?: string }) => {
   return type ? (
     <div>
       <p className="color-text-desc">{i18n.t('project:repository address')}</p>
@@ -54,9 +59,21 @@ const ExternalRepoPage = ({ type }: {type?: string}) => {
       </p>
       <img className="logo" src={get(repositoriesTypes, [type, 'logo'])} width="46px" />
     </div>
-  ) : <></>;
+  ) : (
+    <></>
+  );
 };
-const ErrorEmptyHolder = ({ msg, branchName, docName, isLoading }: { msg: string; branchName: string; docName: string; isLoading: boolean}) => {
+const ErrorEmptyHolder = ({
+  msg,
+  branchName,
+  docName,
+  isLoading,
+}: {
+  msg: string;
+  branchName: string;
+  docName: string;
+  isLoading: boolean;
+}) => {
   if (isLoading) {
     return <EmptyHolder relative />;
   }
@@ -71,18 +88,22 @@ const ErrorEmptyHolder = ({ msg, branchName, docName, isLoading }: { msg: string
 
   if (isErrorDoc) {
     const iconImg = <img src={invalidImg} width="200px" />;
-    Comp = (<EmptyHolder
-      icon={iconImg}
-      tip={i18n.t('project:the document is illegal according to the rules of openapi 3.0. Please click to')}
-      action={<Link to={apiDocsLink}>{i18n.t('project:view document details')}</Link>}
-    />);
+    Comp = (
+      <EmptyHolder
+        icon={iconImg}
+        tip={i18n.t('project:the document is illegal according to the rules of openapi 3.0. Please click to')}
+        action={<Link to={apiDocsLink}>{i18n.t('project:view document details')}</Link>}
+      />
+    );
   } else if (isEmpty(branchList)) {
-    Comp = (<EmptyHolder
-      tip={i18n.t('project:please download from the code repository')}
-      action={<Link to={apiBranchLink}>{i18n.t('application:new branch')}</Link>}
-    />);
+    Comp = (
+      <EmptyHolder
+        tip={i18n.t('project:please download from the code repository')}
+        action={<Link to={apiBranchLink}>{i18n.t('application:new branch')}</Link>}
+      />
+    );
   } else if (isEmpty(validBranches)) {
-    Comp = (<EmptyHolder tip={i18n.t('project:please create a new document')} />);
+    Comp = <EmptyHolder tip={i18n.t('project:please create a new document')} />;
   } else {
     Comp = <EmptyHolder relative />;
   }
@@ -90,7 +111,7 @@ const ErrorEmptyHolder = ({ msg, branchName, docName, isLoading }: { msg: string
   return Comp;
 };
 
-const ErrorPopover = ({ msg, branchName, docName }: { msg: string; branchName: string; docName: string}) => {
+const ErrorPopover = ({ msg, branchName, docName }: { msg: string; branchName: string; docName: string }) => {
   const { projectId, appId } = routeInfoStore.useStore((s) => s.params);
 
   const gotoDetail = React.useCallback(() => {
@@ -102,13 +123,16 @@ const ErrorPopover = ({ msg, branchName, docName }: { msg: string; branchName: s
       <div>
         <CustomIcon type="warnfill" className="color-warning" />
         <span>{i18n.t('project:the document is illegal according to the rules of openapi 3.0. Please click to')}</span>
-        <span className="text-link" onClick={gotoDetail}> {i18n.t('project:view document details')}</span>
+        <span className="text-link" onClick={gotoDetail}>
+          {' '}
+          {i18n.t('project:view document details')}
+        </span>
       </div>
       <div>{msg}</div>
     </div>
   );
   return (
-    <Popover placement="bottom" content={content} trigger="hover" >
+    <Popover placement="bottom" content={content} trigger="hover">
       <div className="ml8">
         <CustomIcon type="tishi" />
         <span>{i18n.t('project:document is illegal')}</span>
@@ -118,23 +142,27 @@ const ErrorPopover = ({ msg, branchName, docName }: { msg: string; branchName: s
 };
 
 const ApiDesign = () => {
-  const [{
-    contentKey,
-    dataTypeFormData,
-    filterKey,
-    apiResourceList,
-    apiDataTypeList,
+  const [
+    {
+      contentKey,
+      dataTypeFormData,
+      filterKey,
+      apiResourceList,
+      apiDataTypeList,
 
-    quotePathMap,
-    treeModalVisible,
-    apiModalVisible,
-    curTreeNodeData,
-    curApiName,
-    curDataType,
-    newTreeNode,
-    popVisible,
-    apiDetail,
-  }, updater, update] = useUpdate({
+      quotePathMap,
+      treeModalVisible,
+      apiModalVisible,
+      curTreeNodeData,
+      curApiName,
+      curDataType,
+      newTreeNode,
+      popVisible,
+      apiDetail,
+    },
+    updater,
+    update,
+  ] = useUpdate({
     contentKey: 'SUMMARY',
     dataTypeFormData: {},
     filterKey: '',
@@ -165,15 +193,34 @@ const ApiDesign = () => {
   }, [curApiName, contentKey, updater, curDataType]);
   const { isExternalRepo, repoConfig } = appStore.useStore((s) => s.detail);
 
-  const [openApiDoc, apiWs, apiLockState, isDocChanged, wsQuery, formErrorNum, isApiReadOnly, lockUser, docValidData] = apiDesignStore.useStore((s) => [
-    s.openApiDoc, s.apiWs, s.apiLockState, s.isDocChanged, s.wsQuery, s.formErrorNum, s.isApiReadOnly, s.lockUser, s.docValidData,
+  const [openApiDoc, apiWs, apiLockState, isDocChanged, wsQuery, formErrorNum, isApiReadOnly, lockUser, docValidData] =
+    apiDesignStore.useStore((s) => [
+      s.openApiDoc,
+      s.apiWs,
+      s.apiLockState,
+      s.isDocChanged,
+      s.wsQuery,
+      s.formErrorNum,
+      s.isApiReadOnly,
+      s.lockUser,
+      s.docValidData,
+    ]);
+
+  const {
+    updateOpenApiDoc,
+    createTreeNode,
+    commitSaveApi,
+    getApiDetail,
+    publishApi,
+    updateFormErrorNum,
+    resetDocValidData,
+  } = apiDesignStore;
+
+  const [getApiDocDetailLoading, commitSaveApiLoading, getTreeListLoading] = useLoading(apiDesignStore, [
+    'getApiDetail',
+    'commitSaveApi',
+    'getTreeList',
   ]);
-
-  const { updateOpenApiDoc, createTreeNode, commitSaveApi, getApiDetail,
-    publishApi, updateFormErrorNum, resetDocValidData } = apiDesignStore;
-
-  const [getApiDocDetailLoading, commitSaveApiLoading, getTreeListLoading]
-  = useLoading(apiDesignStore, ['getApiDetail', 'commitSaveApi', 'getTreeList']);
 
   useMount(() => {
     window.addEventListener('beforeunload', beforeunload);
@@ -227,7 +274,6 @@ const ApiDesign = () => {
     return tempMap;
   }, [filterKey, openApiDoc, updater]);
 
-
   const onCreateDoc = (values: { name: string; pinode: string }) => {
     createTreeNode(values).then((res) => {
       updater.newTreeNode(res);
@@ -235,35 +281,37 @@ const ApiDesign = () => {
     updater.treeModalVisible(false);
   };
 
+  const onContentChange = React.useCallback(
+    (contentName: string) => {
+      const nextHandle = () => {
+        updateFormErrorNum(0);
+        const [, name] = contentName.split('&DICE&');
+        updater.contentKey(contentName);
+        if (contentName.startsWith('RESOURCE') && name) {
+          updater.curApiName(name);
+          const tempApiDetail = get(openApiDoc, ['paths', name]) || {};
+          updater.apiDetail(tempApiDetail);
+        }
+        if (contentName.startsWith('DATATYPE')) {
+          const _fromData = apiDataTypeMap[name] || { type: 'string', example: 'Example', 'x-dice-name': name };
+          updater.dataTypeFormData({ ..._fromData, name });
+          updater.curDataType(name);
+        }
+      };
 
-  const onContentChange = React.useCallback((contentName: string) => {
-    const nextHandle = () => {
-      updateFormErrorNum(0);
-      const [, name] = contentName.split('&DICE&');
-      updater.contentKey(contentName);
-      if (contentName.startsWith('RESOURCE') && name) {
-        updater.curApiName(name);
-        const tempApiDetail = get(openApiDoc, ['paths', name]) || {};
-        updater.apiDetail(tempApiDetail);
+      if (formErrorNum > 0) {
+        confirm({
+          title: i18n.t('project:whether to confirm to leave, leaving will not save the error information'),
+          onOk() {
+            nextHandle();
+          },
+        });
+      } else {
+        nextHandle();
       }
-      if (contentName.startsWith('DATATYPE')) {
-        const _fromData = apiDataTypeMap[name] || { type: 'string', example: 'Example', 'x-dice-name': name };
-        updater.dataTypeFormData({ ..._fromData, name });
-        updater.curDataType(name);
-      }
-    };
-
-    if (formErrorNum > 0) {
-      confirm({
-        title: i18n.t('project:whether to confirm to leave, leaving will not save the error information'),
-        onOk() {
-          nextHandle();
-        },
-      });
-    } else {
-      nextHandle();
-    }
-  }, [apiDataTypeMap, formErrorNum, openApiDoc, updateFormErrorNum, updater]);
+    },
+    [apiDataTypeMap, formErrorNum, openApiDoc, updateFormErrorNum, updater],
+  );
 
   const dataTypeNameMap = React.useMemo(() => {
     return keys(get(openApiDoc, ['components', 'schemas']));
@@ -321,7 +369,16 @@ const ApiDesign = () => {
   const renderPanelHead = (titleKey: IListKey) => (
     <div className="list-panel-head flex-box">
       <span className="bold">{LIST_TITLE_MAP[titleKey]}</span>
-      { !apiLockState && <IconPlus className="mr0 pointer" size="16px" onClick={(e) => { e.stopPropagation(); onAddHandle(titleKey); }} />}
+      {!apiLockState && (
+        <IconPlus
+          className="mr0 pointer"
+          size="16px"
+          onClick={(e) => {
+            e.stopPropagation();
+            onAddHandle(titleKey);
+          }}
+        />
+      )}
     </div>
   );
 
@@ -341,100 +398,109 @@ const ApiDesign = () => {
             </Ellipsis>
             <Popconfirm
               title={`${i18n.t('common:confirm to delete')}?`}
-              onConfirm={(e: any) => { e.stopPropagation(); onDeleteHandle(key); }}
+              onConfirm={(e: any) => {
+                e.stopPropagation();
+                onDeleteHandle(key);
+              }}
               onCancel={(e: any) => e.stopPropagation()}
             >
-              {!apiLockState && <CustomIcon type="shanchu" className="list-title-btn pointer" onClick={(e) => e?.stopPropagation()} />}
+              {!apiLockState && (
+                <CustomIcon type="shanchu" className="list-title-btn pointer" onClick={(e) => e?.stopPropagation()} />
+              )}
             </Popconfirm>
           </div>
-          {
-            listKey === 'RESOURCE' &&
-            (
-              <div className="method-list">
-                {
-                  map(API_METHODS, (methodKey: API_SETTING.ApiMethod) => {
-                    const methodIconClass = !isEmpty(apiData[methodKey]) ? `method-icon-${methodKey}` : '';
-                    return (
-                      <Tooltip title={methodKey} key={methodKey}>
-                        <div className={`method-icon mr8 ${methodIconClass}`} />
-                      </Tooltip>
-                    );
-                  })
-                }
-              </div>
-            )
-          }
+          {listKey === 'RESOURCE' && (
+            <div className="method-list">
+              {map(API_METHODS, (methodKey: API_SETTING.ApiMethod) => {
+                const methodIconClass = !isEmpty(apiData[methodKey]) ? `method-icon-${methodKey}` : '';
+                return (
+                  <Tooltip title={methodKey} key={methodKey}>
+                    <div className={`method-icon mr8 ${methodIconClass}`} />
+                  </Tooltip>
+                );
+              })}
+            </div>
+          )}
         </div>
       </LazyRender>
     );
   };
 
   // 获取所有引用的pathMap
-  const getQuoteMap = React.useCallback((data: Obj) => {
-    const getQuotePath = (innerData: Obj, prefixPath: Array<number|string>, pathMap: Obj) => {
-      const refTypePath = get(innerData, [QUOTE_PREFIX, 0, '$ref']) || innerData[QUOTE_PREFIX_NO_EXTENDED];
-      if (refTypePath) {
-        const _type = refTypePath.split('/').slice(-1)[0];
-        // eslint-disable-next-line no-param-reassign
-        !pathMap[_type] && (pathMap[_type] = []);
-        if (!pathMap[_type].includes(prefixPath)) {
-          pathMap[_type].push(prefixPath);
+  const getQuoteMap = React.useCallback(
+    (data: Obj) => {
+      const getQuotePath = (innerData: Obj, prefixPath: Array<number | string>, pathMap: Obj) => {
+        const refTypePath = get(innerData, [QUOTE_PREFIX, 0, '$ref']) || innerData[QUOTE_PREFIX_NO_EXTENDED];
+        if (refTypePath) {
+          const _type = refTypePath.split('/').slice(-1)[0];
+          // eslint-disable-next-line no-param-reassign
+          !pathMap[_type] && (pathMap[_type] = []);
+          if (!pathMap[_type].includes(prefixPath)) {
+            pathMap[_type].push(prefixPath);
+          }
         }
-      }
-      if (innerData?.properties) {
-        forEach(keys(innerData.properties), (item) => {
-          getQuotePath(innerData.properties[item], [...prefixPath, 'properties', item], pathMap);
-        });
-      }
-      if (innerData?.items) {
-        getQuotePath(innerData.items, [...prefixPath, 'items'], pathMap);
-      }
-    };
+        if (innerData?.properties) {
+          forEach(keys(innerData.properties), (item) => {
+            getQuotePath(innerData.properties[item], [...prefixPath, 'properties', item], pathMap);
+          });
+        }
+        if (innerData?.items) {
+          getQuotePath(innerData.items, [...prefixPath, 'items'], pathMap);
+        }
+      };
 
-    const tempMap = {};
-    const pathMap = data.paths;
-    forEach(keys(pathMap), (path) => {
-      const pathData = pathMap[path];
-      forEach(keys(pathData), (method) => {
-        const methodData = pathData[method];
-        const _path = ['paths', path, method];
+      const tempMap = {};
+      const pathMap = data.paths;
+      forEach(keys(pathMap), (path) => {
+        const pathData = pathMap[path];
+        forEach(keys(pathData), (method) => {
+          const methodData = pathData[method];
+          const _path = ['paths', path, method];
 
-        forEach(API_MEDIA_TYPE, (mediaType) => {
-          // responses
-          const responsePath = ['responses', '200', 'content', mediaType, 'schema'];
-          const responseData = get(methodData, responsePath) || {};
-          getQuotePath(responseData, [..._path, ...responsePath], tempMap);
+          forEach(API_MEDIA_TYPE, (mediaType) => {
+            // responses
+            const responsePath = ['responses', '200', 'content', mediaType, 'schema'];
+            const responseData = get(methodData, responsePath) || {};
+            getQuotePath(responseData, [..._path, ...responsePath], tempMap);
 
-          // requestBody;
-          const requestBodyPath = ['requestBody', 'content', mediaType, 'schema'];
-          const requestBody = get(methodData, requestBodyPath) || {};
-          getQuotePath(requestBody, [..._path, ...requestBodyPath], tempMap);
-        });
+            // requestBody;
+            const requestBodyPath = ['requestBody', 'content', mediaType, 'schema'];
+            const requestBody = get(methodData, requestBodyPath) || {};
+            getQuotePath(requestBody, [..._path, ...requestBodyPath], tempMap);
+          });
 
-        // parameters
-        const parametersData = methodData.parameters || [];
-        forEach(parametersData, (pData, index) => {
-          getQuotePath(pData, [..._path, 'parameters', index], tempMap);
+          // parameters
+          const parametersData = methodData.parameters || [];
+          forEach(parametersData, (pData, index) => {
+            getQuotePath(pData, [..._path, 'parameters', index], tempMap);
+          });
         });
       });
-    });
 
-    // datatype中的引用
-    const dataTypeData = data?.components?.schemas || {};
-    forEach(keys(dataTypeData), (dataTypeName) => {
-      getQuotePath(dataTypeData[dataTypeName], ['components', 'schemas', dataTypeName], tempMap);
-    });
-    updater.quotePathMap(tempMap);
-    return tempMap;
-  }, [updater]);
+      // datatype中的引用
+      const dataTypeData = data?.components?.schemas || {};
+      forEach(keys(dataTypeData), (dataTypeName) => {
+        getQuotePath(dataTypeData[dataTypeName], ['components', 'schemas', dataTypeName], tempMap);
+      });
+      updater.quotePathMap(tempMap);
+      return tempMap;
+    },
+    [updater],
+  );
 
-  const onQuotePathMapChange = React.useCallback((pathMap: Obj) => {
-    updater.quotePathMap(pathMap);
-  }, [updater]);
+  const onQuotePathMapChange = React.useCallback(
+    (pathMap: Obj) => {
+      updater.quotePathMap(pathMap);
+    },
+    [updater],
+  );
 
-  const onApiNameChange = React.useCallback((name: string) => {
-    updater.curApiName(name);
-  }, [updater]);
+  const onApiNameChange = React.useCallback(
+    (name: string) => {
+      updater.curApiName(name);
+    },
+    [updater],
+  );
 
   const renderContent = (key: string) => {
     if (key.startsWith('RESOURCE')) {
@@ -448,16 +514,18 @@ const ApiDesign = () => {
         />
       );
     } else if (key.startsWith('DATATYPE')) {
-      return (<DataTypeConfig
-        quotePathMap={quotePathMap}
-        dataTypeNameMap={dataTypeNameMap}
-        formData={dataTypeFormData}
-        key={dataTypeFormData?.name}
-        dataType={curDataType}
-        onQuoteNameChange={onQuotePathMapChange}
-        onDataTypeNameChange={(name) => updater.curDataType(name)}
-        isEditMode={!apiLockState}
-      />);
+      return (
+        <DataTypeConfig
+          quotePathMap={quotePathMap}
+          dataTypeNameMap={dataTypeNameMap}
+          formData={dataTypeFormData}
+          key={dataTypeFormData?.name}
+          dataType={curDataType}
+          onQuoteNameChange={onQuotePathMapChange}
+          onDataTypeNameChange={(name) => updater.curDataType(name)}
+          isEditMode={!apiLockState}
+        />
+      );
     } else {
       return <ApiSummary />;
     }
@@ -495,35 +563,44 @@ const ApiDesign = () => {
     }
   };
 
-  const onPublishApi = React.useCallback((values: any) => {
-    publishApi(values).then(() => {
-      apiWs && apiWs.close();
-      getApiDetail(inodeQuery as string).then((data: any) => {
-        getQuoteMap(data.openApiDoc);
-        updater.curTreeNodeData({
-          ...curTreeNodeData,
-          asset: data.asset,
+  const onPublishApi = React.useCallback(
+    (values: any) => {
+      publishApi(values).then(() => {
+        apiWs && apiWs.close();
+        getApiDetail(inodeQuery as string).then((data: any) => {
+          getQuoteMap(data.openApiDoc);
+          updater.curTreeNodeData({
+            ...curTreeNodeData,
+            asset: data.asset,
+          });
         });
       });
-    });
-  }, [apiWs, curTreeNodeData, getApiDetail, getQuoteMap, inodeQuery, publishApi, updater]);
+    },
+    [apiWs, curTreeNodeData, getApiDetail, getQuoteMap, inodeQuery, publishApi, updater],
+  );
 
-  const onSelectDoc = React.useCallback((nodeData, reset) => {
-    if (reset) {
-      updateOpenApiDoc({});
-      resetDocValidData();
-    }
-    onContentChange('Summary');
-    update({
-      contentKey: 'SUMMARY',
-      curTreeNodeData: nodeData,
-      newTreeNode: {} as API_SETTING.IFileTree,
-    });
-  }, [onContentChange, resetDocValidData, update, updateOpenApiDoc]);
+  const onSelectDoc = React.useCallback(
+    (nodeData, reset) => {
+      if (reset) {
+        updateOpenApiDoc({});
+        resetDocValidData();
+      }
+      onContentChange('Summary');
+      update({
+        contentKey: 'SUMMARY',
+        curTreeNodeData: nodeData,
+        newTreeNode: {} as API_SETTING.IFileTree,
+      });
+    },
+    [onContentChange, resetDocValidData, update, updateOpenApiDoc],
+  );
 
-  const onToggleTreeVisible = React.useCallback((val: boolean) => {
-    updater.popVisible(val);
-  }, [updater]);
+  const onToggleTreeVisible = React.useCallback(
+    (val: boolean) => {
+      updater.popVisible(val);
+    },
+    [updater],
+  );
 
   const onConfirmPublish = React.useCallback(() => {
     if (isDocChanged) {
@@ -542,119 +619,125 @@ const ApiDesign = () => {
     return !docValidData.valid && !isDocChanged && !isEmpty(openApiDoc);
   }, [docValidData.valid, isDocChanged, openApiDoc]);
 
-  return (
-    isExternalRepo === undefined
-      ? <EmptyHolder relative />
-      :
-      <>
-        {
-          isExternalRepo === true
-            ? <ExternalRepoPage type={repoConfig?.type} />
-            :
-            <div className="api-design">
-              <div className="top-button-group">
-                <Button type="primary" onClick={() => updater.treeModalVisible(true)}>{i18n.t('project:new document')}</Button>
-              </div>
-              <div className="api-design-wrap">
-                <div className="search-wrap mb16 flex-box flex-start">
-                  <ApiDocTree
-                    treeNodeData={curTreeNodeData}
-                    newTreeNode={newTreeNode}
-                    getQuoteMap={getQuoteMap}
-                    onSelectDoc={onSelectDoc}
-                    popVisible={popVisible}
-                    onVisibleChange={onToggleTreeVisible}
-                  />
-                  {LockTipVisible && <span className="ml16"><CustomIcon type="lock" />{docLockTip}</span>}
-                  {showErrorDocTip && <ErrorPopover {...errorData} />}
-                  {
-                    inodeQuery && !isEmpty(curTreeNodeData) &&
-                    <div className="right-flex-box flex-1">
-                      {
-                        (!apiWs || isDocLocked)
-                          ? (
-                            <WithAuth pass={!isApiReadOnly && docValidData.valid}>
-                              <Button type="ghost" onClick={onEditDocHandle}>{i18n.t('edit')}</Button>
-                            </WithAuth>
-                          )
-                          :
-                            <Button type="ghost" disabled={formErrorNum > 0} onClick={() => commitSaveApi()} >{i18n.t('save')}</Button>
-                      }
-                      <WithAuth pass={inodeQuery && docValidData.valid}>
-                        <Button type="primary" className="ml8" onClick={onConfirmPublish}>{i18n.t('publisher:publish')}</Button>
-                      </WithAuth>
-                    </div>
-                  }
-                </div>
-                <Spin spinning={getApiDocDetailLoading || commitSaveApiLoading || getTreeListLoading} >
-                  {
-                    isEmpty(openApiDoc)
-                      ? <ErrorEmptyHolder {...errorData} isLoading={getTreeListLoading} />
-                      : (
-                        <div className="api-design-content">
-                          <div className="api-design-content-list column-flex-box flex-start">
-                            <Input
-                              placeholder={i18n.t('input keyword search')}
-                              className="mx8 my12 api-filter-input"
-                              prefix={<IconSearch />}
-                              onInput={(e: React.ChangeEvent<HTMLInputElement>) => updater.filterKey(e.target.value)}
-                            />
-
-                            <div
-                              className={`list-title py12 border-bottom bold ${contentKey === 'SUMMARY' ? 'list-title-active' : ''}`}
-                              onClick={() => onContentChange('SUMMARY')}
-                            >{i18n.t('project:API Summary')}
-                            </div>
-                            <div className="panel-list">
-                              <Collapse accordion bordered={false} defaultActiveKey={['RESOURCE']}>
-                                <Panel header={renderPanelHead('RESOURCE')} key="RESOURCE">
-                                  {
-                                    !isEmpty(apiResourceList)
-                                      ? map(apiResourceList, (name) => renderListItem('RESOURCE', name))
-                                      : <EmptyHolder relative />
-                                  }
-                                </Panel>
-                                <Panel header={renderPanelHead('DATATYPE')} key="DATATYPE">
-                                  {
-                                    !isEmpty(apiDataTypeList)
-                                      ? map(apiDataTypeList, (name) => renderListItem('DATATYPE', name))
-                                      : <EmptyHolder relative />
-                                  }
-                                </Panel>
-                              </Collapse>
-                            </div>
-                          </div>
-                          <div className="api-design-content-detail px16 py12">
-                            {renderContent(contentKey)}
-                          </div>
-                        </div>
-                      )
-                  }
-                </Spin>
-                <ApiDocAddModal
-                  visible={treeModalVisible}
-                  onClose={() => updater.treeModalVisible(false)}
-                  onSubmit={onCreateDoc}
-                />
-                <ApiPublishModal
-                  visible={apiModalVisible}
-                  treeNodeData={curTreeNodeData as API_SETTING.ITreeNodeData}
-                  onSubmit={onPublishApi}
-                  onClose={() => updater.apiModalVisible(false)}
-                />
-              </div>
-              <Prompt
-                when={isDocChanged}
-                message={(location: any) => {
-                  if (location.pathname.endsWith('apiDesign')) {
-                    return false;
-                  }
-                  return `${i18n.t('project:not saved yet, confirm to leave')}?`;
-                }}
+  return isExternalRepo === undefined ? (
+    <EmptyHolder relative />
+  ) : (
+    <>
+      {isExternalRepo === true ? (
+        <ExternalRepoPage type={repoConfig?.type} />
+      ) : (
+        <div className="api-design">
+          <div className="top-button-group">
+            <Button type="primary" onClick={() => updater.treeModalVisible(true)}>
+              {i18n.t('project:new document')}
+            </Button>
+          </div>
+          <div className="api-design-wrap">
+            <div className="search-wrap mb16 flex-box flex-start">
+              <ApiDocTree
+                treeNodeData={curTreeNodeData}
+                newTreeNode={newTreeNode}
+                getQuoteMap={getQuoteMap}
+                onSelectDoc={onSelectDoc}
+                popVisible={popVisible}
+                onVisibleChange={onToggleTreeVisible}
               />
+              {LockTipVisible && (
+                <span className="ml16">
+                  <CustomIcon type="lock" />
+                  {docLockTip}
+                </span>
+              )}
+              {showErrorDocTip && <ErrorPopover {...errorData} />}
+              {inodeQuery && !isEmpty(curTreeNodeData) && (
+                <div className="right-flex-box flex-1">
+                  {!apiWs || isDocLocked ? (
+                    <WithAuth pass={!isApiReadOnly && docValidData.valid}>
+                      <Button type="ghost" onClick={onEditDocHandle}>
+                        {i18n.t('edit')}
+                      </Button>
+                    </WithAuth>
+                  ) : (
+                    <Button type="ghost" disabled={formErrorNum > 0} onClick={() => commitSaveApi()}>
+                      {i18n.t('save')}
+                    </Button>
+                  )}
+                  <WithAuth pass={inodeQuery && docValidData.valid}>
+                    <Button type="primary" className="ml8" onClick={onConfirmPublish}>
+                      {i18n.t('publisher:publish')}
+                    </Button>
+                  </WithAuth>
+                </div>
+              )}
             </div>
-          }
-      </>
+            <Spin spinning={getApiDocDetailLoading || commitSaveApiLoading || getTreeListLoading}>
+              {isEmpty(openApiDoc) ? (
+                <ErrorEmptyHolder {...errorData} isLoading={getTreeListLoading} />
+              ) : (
+                <div className="api-design-content">
+                  <div className="api-design-content-list column-flex-box flex-start">
+                    <Input
+                      placeholder={i18n.t('input keyword search')}
+                      className="mx8 my12 api-filter-input"
+                      prefix={<IconSearch />}
+                      onInput={(e: React.ChangeEvent<HTMLInputElement>) => updater.filterKey(e.target.value)}
+                    />
+
+                    <div
+                      className={`list-title py12 border-bottom bold ${
+                        contentKey === 'SUMMARY' ? 'list-title-active' : ''
+                      }`}
+                      onClick={() => onContentChange('SUMMARY')}
+                    >
+                      {i18n.t('project:API Summary')}
+                    </div>
+                    <div className="panel-list">
+                      <Collapse accordion bordered={false} defaultActiveKey={['RESOURCE']}>
+                        <Panel header={renderPanelHead('RESOURCE')} key="RESOURCE">
+                          {!isEmpty(apiResourceList) ? (
+                            map(apiResourceList, (name) => renderListItem('RESOURCE', name))
+                          ) : (
+                            <EmptyHolder relative />
+                          )}
+                        </Panel>
+                        <Panel header={renderPanelHead('DATATYPE')} key="DATATYPE">
+                          {!isEmpty(apiDataTypeList) ? (
+                            map(apiDataTypeList, (name) => renderListItem('DATATYPE', name))
+                          ) : (
+                            <EmptyHolder relative />
+                          )}
+                        </Panel>
+                      </Collapse>
+                    </div>
+                  </div>
+                  <div className="api-design-content-detail px16 py12">{renderContent(contentKey)}</div>
+                </div>
+              )}
+            </Spin>
+            <ApiDocAddModal
+              visible={treeModalVisible}
+              onClose={() => updater.treeModalVisible(false)}
+              onSubmit={onCreateDoc}
+            />
+            <ApiPublishModal
+              visible={apiModalVisible}
+              treeNodeData={curTreeNodeData as API_SETTING.ITreeNodeData}
+              onSubmit={onPublishApi}
+              onClose={() => updater.apiModalVisible(false)}
+            />
+          </div>
+          <Prompt
+            when={isDocChanged}
+            message={(location: any) => {
+              if (location.pathname.endsWith('apiDesign')) {
+                return false;
+              }
+              return `${i18n.t('project:not saved yet, confirm to leave')}?`;
+            }}
+          />
+        </div>
+      )}
+    </>
   );
 };
 

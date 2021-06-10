@@ -50,14 +50,18 @@ const BasicInfo = () => {
       label: i18n.t('project:end date'),
       text: data.endDate,
       dateKey: 'timestampSecEndedAt',
-    }];
+    },
+  ];
 
   const setDate = (dateKey: string, dateString: string, date: Moment) => {
     if (!dateString) {
       message.error(i18n.t('project:date cannot be empty'));
       return;
     }
-    if ((dateKey === 'timestampSecStartedAt' && data.endDate && dateString > data.endDate) || (dateKey === 'timestampSecEndedAt' && data.startDate && dateString < data.startDate)) {
+    if (
+      (dateKey === 'timestampSecStartedAt' && data.endDate && dateString > data.endDate) ||
+      (dateKey === 'timestampSecEndedAt' && data.startDate && dateString < data.startDate)
+    ) {
       message.error(i18n.t('project:the start date cannot be later than the end date'));
       return;
     }
@@ -68,20 +72,22 @@ const BasicInfo = () => {
 
   return (
     <Row>
-      {
-        basicInfo.map((info) => (
-          <Col span={12} className="mt16" key={info.label}>
-            <div className="color-text-desc">{info.label}</div>
-            <div className="mt8 fz14">
-              {
-                info.dateKey
-                  ? <DatePicker allowClear={false} value={info.text ? moment(info.text) : undefined} onChange={(date, dateString) => setDate(info.dateKey, dateString, date as Moment)} />
-                  : info.text || i18n.t('empty')
-              }
-            </div>
-          </Col>
-        ))
-      }
+      {basicInfo.map((info) => (
+        <Col span={12} className="mt16" key={info.label}>
+          <div className="color-text-desc">{info.label}</div>
+          <div className="mt8 fz14">
+            {info.dateKey ? (
+              <DatePicker
+                allowClear={false}
+                value={info.text ? moment(info.text) : undefined}
+                onChange={(date, dateString) => setDate(info.dateKey, dateString, date as Moment)}
+              />
+            ) : (
+              info.text || i18n.t('empty')
+            )}
+          </div>
+        </Col>
+      ))}
     </Row>
   );
 };

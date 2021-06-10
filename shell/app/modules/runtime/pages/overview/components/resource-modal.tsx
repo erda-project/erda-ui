@@ -60,7 +60,8 @@ const ResourceModal = ({ visible, service, editDisabled, onOk, onCancel }: IProp
           lg: { span: 12 },
         },
       },
-    }, {
+    },
+    {
       label: 'Memory(MB)',
       name: 'mem',
       type: 'inputNumber',
@@ -79,7 +80,8 @@ const ResourceModal = ({ visible, service, editDisabled, onOk, onCancel }: IProp
           lg: { span: 10 },
         },
       },
-    }, {
+    },
+    {
       label: 'Scale',
       name: 'replicas',
       type: 'inputNumber',

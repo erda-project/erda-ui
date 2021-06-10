@@ -52,9 +52,7 @@ export class Copy extends React.PureComponent<IProps> {
   }
 
   initClipBoard() {
-    const {
-      children, selector, opts = {}, onSuccess, onError, tipName = '',
-    } = this.props;
+    const { children, selector, opts = {}, onSuccess, onError, tipName = '' } = this.props;
     // click event bind on body, make sure one selector only trigger once
     this.selector = isString(children) ? innerSelector : selector || innerSelector;
     if (this.selector && !selectorMap[this.selector]) {
@@ -64,14 +62,20 @@ export class Copy extends React.PureComponent<IProps> {
         if (typeof onSuccess === 'function') {
           onSuccess(e);
         }
-        message.success(`${i18n.t('copy')} ${e.trigger.getAttribute('data-clipboard-tip') || tipName} ${i18n.t('success')}`, 1);
+        message.success(
+          `${i18n.t('copy')} ${e.trigger.getAttribute('data-clipboard-tip') || tipName} ${i18n.t('success')}`,
+          1,
+        );
         e.clearSelection();
       });
       this.clipboard.on('error', (e: any) => {
         if (typeof onError === 'function') {
           onError(e);
         }
-        message.error(`${i18n.t('copy')} ${e.trigger.getAttribute('data-clipboard-tip') || tipName} ${i18n.t('failed')}`, 1);
+        message.error(
+          `${i18n.t('copy')} ${e.trigger.getAttribute('data-clipboard-tip') || tipName} ${i18n.t('failed')}`,
+          1,
+        );
       });
     }
   }
@@ -79,8 +83,12 @@ export class Copy extends React.PureComponent<IProps> {
   render() {
     // 增加被复制项，需求为有时children超长显示不全
     const { children, copyText, className = '', tipName, ...rest } = this.props;
-    return isString(children)
-      ? <span className={`${innerClassName} ${className}`} data-clipboard-text={copyText || children} {...rest}>{children}</span>
-      : children || null;
+    return isString(children) ? (
+      <span className={`${innerClassName} ${className}`} data-clipboard-text={copyText || children} {...rest}>
+        {children}
+      </span>
+    ) : (
+      children || null
+    );
   }
 }

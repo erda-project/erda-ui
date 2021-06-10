@@ -30,14 +30,13 @@ interface IProps {
 }
 
 const InstanceSelector = (props: IProps) => {
-  const {
-    type,
-    api,
-    query,
-    dataHandler,
-  } = props;
+  const { type, api, query, dataHandler } = props;
   const timeSpan = monitorCommonStore.useStore((s) => s.timeSpan);
-  const [instanceMap, baseInfo, chosenInstance] = SICommonStore.useStore((s) => [s.instanceMap, s.baseInfo, s.chosenInstance]);
+  const [instanceMap, baseInfo, chosenInstance] = SICommonStore.useStore((s) => [
+    s.instanceMap,
+    s.baseInfo,
+    s.chosenInstance,
+  ]);
   const [serviceName, routeQuery] = routeInfoStore.useStore((s) => [s.params.serviceName, s.query]);
   const { getInstanceList } = SICommonStore.effects;
   const { setChosenInstance, clearChosenInstance } = SICommonStore.reducers;
@@ -67,7 +66,8 @@ const InstanceSelector = (props: IProps) => {
   }, [api, applicationId, dataHandler, getInstanceList, query, runtimeName, serviceName, terminusKey, timeSpan, type]);
 
   React.useEffect(() => {
-    if (!chosenInstance[type] && !isEmpty(instanceMap[type])) { // 为空
+    if (!chosenInstance[type] && !isEmpty(instanceMap[type])) {
+      // 为空
       setChosenInstance({ type, instance: routeQuery.insId || instanceMap[type][0].value });
     }
   }, [chosenInstance, instanceMap, routeQuery.insId, setChosenInstance, type]);
@@ -84,11 +84,11 @@ const InstanceSelector = (props: IProps) => {
       dropdownMatchSelectWidth={false}
       value={chosenInstance[type]}
     >
-      {
-        map(instanceMap[type], (ins: any) => (
-          <Option key={ins.value} value={ins.value}>{ins.name}</Option>
-        ))
-      }
+      {map(instanceMap[type], (ins: any) => (
+        <Option key={ins.value} value={ins.value}>
+          {ins.name}
+        </Option>
+      ))}
     </Select>
   );
 };

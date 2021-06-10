@@ -11,7 +11,7 @@
 
   @keyframes opacity {
     from {
-      opacity: .4;
+      opacity: 0.4;
     }
 
     to {
@@ -22,8 +22,8 @@
   &:hover {
     .extra-items {
       opacity: 1;
-      -webkit-animation: opacity .5s;
-      animation: opacity .5s;
+      -webkit-animation: opacity 0.5s;
+      animation: opacity 0.5s;
     }
   }
 

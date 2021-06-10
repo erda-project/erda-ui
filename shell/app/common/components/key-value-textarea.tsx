@@ -26,14 +26,29 @@ const trim = (str: string) => str.replace(/^\s+|\s+$/g, '');
 const errMsgMap = (rowNum: number, type: string, maxLength?: number) => {
   let errMsg = '';
   switch (type) {
-    case 'l_key': errMsg = `${i18n.t('common:missing')} key`; break;
-    case 'l_value': errMsg = `${i18n.t('common:missing')} value`; break;
-    case 'l_colon': errMsg = i18n.t('common:lack of english colon'); break;
-    case 'n_unique': errMsg = `key ${i18n.t('common:must be unique')}`; break;
-    case 'n_valid': errMsg = i18n.t('common:does not allow full-width punctuation'); break;
-    case 'too_long_value': errMsg = i18n.t('the length of {type} must not exceed {maxLength} characters', { type: 'Value', maxLength }); break;
-    case 'too_long_key': errMsg = i18n.t('the length of {type} must not exceed {maxLength} characters', { type: 'Key', maxLength }); break;
-    default: return null;
+    case 'l_key':
+      errMsg = `${i18n.t('common:missing')} key`;
+      break;
+    case 'l_value':
+      errMsg = `${i18n.t('common:missing')} value`;
+      break;
+    case 'l_colon':
+      errMsg = i18n.t('common:lack of english colon');
+      break;
+    case 'n_unique':
+      errMsg = `key ${i18n.t('common:must be unique')}`;
+      break;
+    case 'n_valid':
+      errMsg = i18n.t('common:does not allow full-width punctuation');
+      break;
+    case 'too_long_value':
+      errMsg = i18n.t('the length of {type} must not exceed {maxLength} characters', { type: 'Value', maxLength });
+      break;
+    case 'too_long_key':
+      errMsg = i18n.t('the length of {type} must not exceed {maxLength} characters', { type: 'Key', maxLength });
+      break;
+    default:
+      return null;
   }
   return `第${rowNum}行: ${errMsg}`;
 };
@@ -48,7 +63,7 @@ interface IProps {
   placeholder?: string;
   editDisabled?: boolean;
   existKeys?: string[];
-  validate?: (rule: any, value: {k: string; v: string}, callback: Function) => void;
+  validate?: (rule: any, value: { k: string; v: string }, callback: Function) => void;
   maxLength?: number;
 }
 interface IState {
@@ -76,7 +91,8 @@ export class KeyValueTextArea extends React.Component<IProps, IState> {
     const { validate, maxLength } = this.props;
     let errMsg;
     const keys: string[] = [];
-    value.split('\n')
+    value
+      .split('\n')
       .filter((row: string) => row.length > 0)
       .forEach((row: string, i: number) => {
         const [k, ..._v] = row.split(':');
@@ -111,27 +127,36 @@ export class KeyValueTextArea extends React.Component<IProps, IState> {
 
   render() {
     const {
-      fieldName = 'kv-text', form: { getFieldDecorator }, className = '', autoSize = { minRows: 10, maxRows: 15 },
-      rows, placeholder = `${i18n.t('common:please type')} key: value ${i18n.t('common:form of text')}`, editDisabled,
+      fieldName = 'kv-text',
+      form: { getFieldDecorator },
+      className = '',
+      autoSize = { minRows: 10, maxRows: 15 },
+      rows,
+      placeholder = `${i18n.t('common:please type')} key: value ${i18n.t('common:form of text')}`,
+      editDisabled,
     } = this.props;
     const { textData } = this.state;
     const fieldDecorator = getFieldDecorator(fieldName, {
-      rules: [{
-        validator: this.onValidator,
-      }],
+      rules: [
+        {
+          validator: this.onValidator,
+        },
+      ],
       initialValue: textData,
     });
     return (
       <div className="key-value-textarea-wrap">
         <FormItem>
-          {fieldDecorator(<TextArea
-            className={className}
-            disabled={editDisabled}
-            rows={rows}
-            placeholder={placeholder}
-            autoSize={autoSize}
-            onChange={this.handleTextChange}
-          />)}
+          {fieldDecorator(
+            <TextArea
+              className={className}
+              disabled={editDisabled}
+              rows={rows}
+              placeholder={placeholder}
+              autoSize={autoSize}
+              onChange={this.handleTextChange}
+            />,
+          )}
         </FormItem>
       </div>
     );

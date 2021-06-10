@@ -16,7 +16,6 @@ import i18n, { getLang } from 'i18n';
 import { qs, setApiWithOrg } from 'common/utils';
 import { TestOperation } from 'project/pages/test-manage/constants';
 
-
 export function getFields(): TEST_CASE.Field[] {
   // if (!mock) {
   //   return agent.get('/api/pmp/api/metadata/test/usecase')
@@ -24,7 +23,8 @@ export function getFields(): TEST_CASE.Field[] {
   // .catch((err) => { throw new Error(err.rawResponse); });
   // }
   return [
-    { uniqueName: TestOperation.priority,
+    {
+      uniqueName: TestOperation.priority,
       showName: i18n.t('project:priority'),
       dataType: 'STRING',
       module: 'TEST',
@@ -40,12 +40,25 @@ export function getFields(): TEST_CASE.Field[] {
       fieldTypeCode: 'select',
       enums: [
         { fieldUniqueName: TestOperation.priority, showName: 'P0', value: 'P0', icon: null, order: null },
-        { fieldUniqueName: TestOperation.priority, showName: i18n.t('project:p1'), value: 'P1', icon: null, order: null },
-        { fieldUniqueName: TestOperation.priority, showName: i18n.t('project:p2'), value: 'P2', icon: null, order: null },
+        {
+          fieldUniqueName: TestOperation.priority,
+          showName: i18n.t('project:p1'),
+          value: 'P1',
+          icon: null,
+          order: null,
+        },
+        {
+          fieldUniqueName: TestOperation.priority,
+          showName: i18n.t('project:p2'),
+          value: 'P2',
+          icon: null,
+          order: null,
+        },
         { fieldUniqueName: TestOperation.priority, showName: 'P3', value: 'P3', icon: null, order: null },
       ],
     },
-    { uniqueName: TestOperation.testPlanTestCasesExecutionResult,
+    {
+      uniqueName: TestOperation.testPlanTestCasesExecutionResult,
       showName: i18n.t('project:results of the'),
       dataType: 'STRING',
       module: 'TEST',
@@ -60,13 +73,38 @@ export function getFields(): TEST_CASE.Field[] {
       order: null,
       fieldTypeCode: 'select',
       enums: [
-        { fieldUniqueName: TestOperation.testPlanTestCasesExecutionResult, showName: i18n.t('project:not performed'), value: 'INIT', icon: null, order: null },
-        { fieldUniqueName: TestOperation.testPlanTestCasesExecutionResult, showName: i18n.t('project:pass'), value: 'PASSED', icon: null, order: null },
-        { fieldUniqueName: TestOperation.testPlanTestCasesExecutionResult, showName: i18n.t('project:not pass'), value: 'FAIL', icon: null, order: null },
-        { fieldUniqueName: TestOperation.testPlanTestCasesExecutionResult, showName: i18n.t('project:blocking'), value: 'BLOCK', icon: null, order: null },
+        {
+          fieldUniqueName: TestOperation.testPlanTestCasesExecutionResult,
+          showName: i18n.t('project:not performed'),
+          value: 'INIT',
+          icon: null,
+          order: null,
+        },
+        {
+          fieldUniqueName: TestOperation.testPlanTestCasesExecutionResult,
+          showName: i18n.t('project:pass'),
+          value: 'PASSED',
+          icon: null,
+          order: null,
+        },
+        {
+          fieldUniqueName: TestOperation.testPlanTestCasesExecutionResult,
+          showName: i18n.t('project:not pass'),
+          value: 'FAIL',
+          icon: null,
+          order: null,
+        },
+        {
+          fieldUniqueName: TestOperation.testPlanTestCasesExecutionResult,
+          showName: i18n.t('project:blocking'),
+          value: 'BLOCK',
+          icon: null,
+          order: null,
+        },
       ],
     },
-    { uniqueName: TestOperation.testPlanStatus,
+    {
+      uniqueName: TestOperation.testPlanStatus,
       showName: i18n.t('project:test plan status'),
       dataType: 'STRING',
       module: 'TEST',
@@ -81,10 +119,34 @@ export function getFields(): TEST_CASE.Field[] {
       order: null,
       fieldTypeCode: 'select',
       enums: [
-        { fieldUniqueName: TestOperation.testPlanStatus, showName: i18n.t('project:processing'), value: 'DOING', icon: null, order: null },
-        { fieldUniqueName: TestOperation.testPlanStatus, showName: i18n.t('project:time out'), value: 'PAUSE', icon: null, order: null },
-        { fieldUniqueName: TestOperation.testPlanStatus, showName: i18n.t('project:abandoned'), value: 'DISCARD', icon: null, order: null },
-        { fieldUniqueName: TestOperation.testPlanStatus, showName: i18n.t('project:completed'), value: 'DONE', icon: null, order: null },
+        {
+          fieldUniqueName: TestOperation.testPlanStatus,
+          showName: i18n.t('project:processing'),
+          value: 'DOING',
+          icon: null,
+          order: null,
+        },
+        {
+          fieldUniqueName: TestOperation.testPlanStatus,
+          showName: i18n.t('project:time out'),
+          value: 'PAUSE',
+          icon: null,
+          order: null,
+        },
+        {
+          fieldUniqueName: TestOperation.testPlanStatus,
+          showName: i18n.t('project:abandoned'),
+          value: 'DISCARD',
+          icon: null,
+          order: null,
+        },
+        {
+          fieldUniqueName: TestOperation.testPlanStatus,
+          showName: i18n.t('project:completed'),
+          value: 'DONE',
+          icon: null,
+          order: null,
+        },
       ],
     },
   ];
@@ -92,27 +154,32 @@ export function getFields(): TEST_CASE.Field[] {
 
 // 新建测试用例
 export function create(payload: TEST_CASE.CaseBody, testPlanId?: number) {
-  return agent.post('/api/testcases')
+  return agent
+    .post('/api/testcases')
     .query({ testPlanId })
     .send(payload)
     .then((response: any) => response.body);
 }
 
 // 获取测试用例详情
-export function getDetail({ id }: Merge<TEST_CASE.QueryCaseDetail, {testPlanID: number}>): TEST_CASE.CaseDetail {
-  return agent.get(`/api/testcases/${id}`)
-    .then((response: any) => response.body);
+export function getDetail({ id }: Merge<TEST_CASE.QueryCaseDetail, { testPlanID: number }>): TEST_CASE.CaseDetail {
+  return agent.get(`/api/testcases/${id}`).then((response: any) => response.body);
 }
 
-export function getDetailRelations({ id, testPlanID }: {id: number;testPlanID: number}): TEST_CASE.CaseRelationDetail {
-  return agent.get(`/api/testplans/${testPlanID}/testcase-relations/${id}`)
-    .then((response: any) => response.body);
+export function getDetailRelations({
+  id,
+  testPlanID,
+}: {
+  id: number;
+  testPlanID: number;
+}): TEST_CASE.CaseRelationDetail {
+  return agent.get(`/api/testplans/${testPlanID}/testcase-relations/${id}`).then((response: any) => response.body);
 }
-
 
 // 编辑测试用例
 export function editPartial({ id, ...payload }: TEST_CASE.CaseBody) {
-  return agent.put(`/api/testcases/${id}`)
+  return agent
+    .put(`/api/testcases/${id}`)
     .send(payload)
     .then((response: any) => response.body);
 }
@@ -123,16 +190,18 @@ export function exportFileInTestCase(payload: TEST_CASE.ExportFileQuery) {
   window.open(`${window.location.origin}${setApiWithOrg(`/api/testcases/actions/export?${query}`)}`);
 }
 
-export function importFileInTestCase({ payload, query }: TEST_CASE.ImportData): {successCount: number} {
-  return agent.post('/api/testcases/actions/import')
+export function importFileInTestCase({ payload, query }: TEST_CASE.ImportData): { successCount: number } {
+  return agent
+    .post('/api/testcases/actions/import')
     .query(query)
     .send(payload)
     .then((response: any) => response.body);
 }
 
 // 批量更新测试用例
-export function updateCases({ query, payload }: { query: TEST_CASE.CaseFilter; payload: TEST_CASE.CaseBodyPart}) {
-  return agent.put('/api/testcases/batch')
+export function updateCases({ query, payload }: { query: TEST_CASE.CaseFilter; payload: TEST_CASE.CaseBodyPart }) {
+  return agent
+    .put('/api/testcases/batch')
     .query(query)
     .send(payload)
     .then((response: any) => response.body);
@@ -140,7 +209,8 @@ export function updateCases({ query, payload }: { query: TEST_CASE.CaseFilter; p
 
 // 批量更新测试用例（更新优先级，移入/移出回收站）
 export function batchUpdateCase(payload: TEST_CASE.BatchUpdate) {
-  return agent.post('/api/testcases/actions/batch-update')
+  return agent
+    .post('/api/testcases/actions/batch-update')
     .send(payload)
     .then((response: any) => response.body);
 }
@@ -155,28 +225,35 @@ export function batchUpdateCase(payload: TEST_CASE.BatchUpdate) {
 // }
 
 // 彻底删除测试用例
-export function deleteEntirely(payload: {testCaseIDs: number[]}) {
-  return agent.delete('/api/testcases/actions/batch-clean-from-recycle-bin')
+export function deleteEntirely(payload: { testCaseIDs: number[] }) {
+  return agent
+    .delete('/api/testcases/actions/batch-clean-from-recycle-bin')
     .send(payload)
     .then((response: any) => response.body);
 }
 
 // 复制测试用例
 export function copyCases(query: TEST_CASE.BatchCopy) {
-  return agent.post('/api/testcases/actions/batch-copy')
+  return agent
+    .post('/api/testcases/actions/batch-copy')
     .send(query)
     .then((response: any) => response.body);
 }
 
 // 获取测试用例列表
 export function getCases(query: Merge<TEST_CASE.QueryCase, TEST_CASE.QueryCaseSort>): TEST_CASE.CasePage {
-  return agent.get('/api/testcases')
+  return agent
+    .get('/api/testcases')
     .query(query)
     .then((response: any) => response.body);
 }
 
-export function getCasesRelations({ testPlanID, ...query }: Merge<TEST_CASE.QueryCase, TEST_CASE.QueryCaseSort>): TEST_CASE.CasePage {
-  return agent.get(`/api/testplans/${testPlanID}/testcase-relations`)
+export function getCasesRelations({
+  testPlanID,
+  ...query
+}: Merge<TEST_CASE.QueryCase, TEST_CASE.QueryCaseSort>): TEST_CASE.CasePage {
+  return agent
+    .get(`/api/testplans/${testPlanID}/testcase-relations`)
     .query(query)
     .then((response: any) => response.body);
 }
@@ -203,18 +280,21 @@ export function getCasesRelations({ testPlanID, ...query }: Merge<TEST_CASE.Quer
 // }
 
 export function attemptTestApi(data: TEST_CASE.TestApi) {
-  return agent.post('/api/apitests/actions/attempt-test')
+  return agent
+    .post('/api/apitests/actions/attempt-test')
     .send(data)
     .then((response: any) => response.body);
 }
 
 export function removeRelation({ testPlanID, id, issueTestCaseRelationIDs }: TEST_CASE.RemoveRelation) {
-  return agent.post(`/api/testplans/${testPlanID}/testcase-relations/${id}/actions/remove-issue-relations`)
+  return agent
+    .post(`/api/testplans/${testPlanID}/testcase-relations/${id}/actions/remove-issue-relations`)
     .send({ issueTestCaseRelationIDs })
     .then((response: any) => response.body);
 }
 export function addRelation({ testPlanID, id, issueIDs }: TEST_CASE.AddRelation) {
-  return agent.post(`/api/testplans/${testPlanID}/testcase-relations/${id}/actions/add-issue-relations`)
+  return agent
+    .post(`/api/testplans/${testPlanID}/testcase-relations/${id}/actions/add-issue-relations`)
     .send({ issueIDs })
     .then((response: any) => response.body);
 }

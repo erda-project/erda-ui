@@ -63,15 +63,13 @@ const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
   const userMap = userMapStore.useStore((s) => s);
   const [loading] = useLoading(approvalStore, ['getApprovalList']);
   const [list, paging] = approvalStore.useStore((s) => {
-    return type === 'done'
-      ? [s.doneList, s.donePaging]
-      : [s.undoneList, s.undonePaging];
+    return type === 'done' ? [s.doneList, s.donePaging] : [s.undoneList, s.undonePaging];
   });
   const { getApprovalList, updateApproval } = approvalStore.effects;
   const { clearApprovalList } = approvalStore.reducers;
   const [{ status, chosenDetail }, updater] = useUpdate({
     status: undefined as string | undefined,
-    chosenDetail: {} as {type: string; iosInfo: any; androidInfo: any},
+    chosenDetail: {} as { type: string; iosInfo: any; androidInfo: any },
   });
 
   const getColumns = ({ reloadList }: { reloadList: () => void }) => {
@@ -95,7 +93,7 @@ const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
         width: 180,
         render: (val: string) => {
           const curUser = userMap[val];
-          return curUser ? (curUser.nick || curUser.name) : '';
+          return curUser ? curUser.nick || curUser.name : '';
         },
       },
       {
@@ -125,87 +123,93 @@ const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
           }
           return (
             <div className="table-operations">
-              {
-                approvalType === 'certificate' && !isEmpty(detail) && (
+              {approvalType === 'certificate' && !isEmpty(detail) && (
+                <span className="table-operations-btn" onClick={() => updater.chosenDetail(detail)}>
+                  {i18n.t('download')}
+                </span>
+              )}
+              {approvalStatus === statusMap.pending ? (
+                <>
                   <span
                     className="table-operations-btn"
-                    onClick={() => updater.chosenDetail(detail)}
+                    onClick={() => {
+                      updateApproval({ id, status: statusMap.approved }).then(() => {
+                        reloadList();
+                      });
+                    }}
                   >
-                    {i18n.t('download')}
+                    {i18n.t('application:approved')}
                   </span>
-                )
-              }
-              {
-                approvalStatus === statusMap.pending ?
-                  <>
-                    <span
-                      className="table-operations-btn"
-                      onClick={() => {
-                        updateApproval({ id, status: statusMap.approved }).then(() => {
-                          reloadList();
-                        });
-                      }}
-                    >
-                      {i18n.t('application:approved')}
-                    </span>
-                    <span
-                      className="table-operations-btn"
-                      onClick={() => {
-                        updateApproval({ id, status: statusMap.denied }).then(() => {
-                          reloadList();
-                        });
-                      }}
-                    >
-                      {i18n.t('application:denied')}
-                    </span>
-                  </>
-                  : null
-              }
+                  <span
+                    className="table-operations-btn"
+                    onClick={() => {
+                      updateApproval({ id, status: statusMap.denied }).then(() => {
+                        reloadList();
+                      });
+                    }}
+                  >
+                    {i18n.t('application:denied')}
+                  </span>
+                </>
+              ) : null}
             </div>
           );
         },
       },
     ];
     if (type === 'done') {
-      columns.splice(4, 0, ...[{
-        title: i18n.t('org:approver'),
-        dataIndex: 'approver',
-        render: (val: string) => {
-          const curUser = userMap[val];
-          return curUser ? (curUser.nick || curUser.name) : '';
-        },
-      },
-      {
-        title: i18n.t('org:approve time'),
-        dataIndex: 'approvalTime',
-        width: 180,
-        render: (val: string) => moment(val).format('YYYY-MM-DD HH:mm:ss'),
-      },
-      {
-        title: i18n.t('org:approve result'),
-        dataIndex: 'status',
-        width: 100,
-        render: (val: string) => get(undoneStatusMap, `${val}.name`),
-      }]);
+      columns.splice(
+        4,
+        0,
+        ...[
+          {
+            title: i18n.t('org:approver'),
+            dataIndex: 'approver',
+            render: (val: string) => {
+              const curUser = userMap[val];
+              return curUser ? curUser.nick || curUser.name : '';
+            },
+          },
+          {
+            title: i18n.t('org:approve time'),
+            dataIndex: 'approvalTime',
+            width: 180,
+            render: (val: string) => moment(val).format('YYYY-MM-DD HH:mm:ss'),
+          },
+          {
+            title: i18n.t('org:approve result'),
+            dataIndex: 'status',
+            width: 100,
+            render: (val: string) => get(undoneStatusMap, `${val}.name`),
+          },
+        ],
+      );
     }
     return columns;
   };
 
-  const filterConfig = React.useMemo(() => [
-    ...insertWhen(type === 'done', [
-      {
-        type: Select,
-        name: 'status',
-        customProps: {
-          placeholder: i18n.t('filter by status'),
-          options: map(undoneStatusMap, ({ name, value }) => <Option key={name} value={value}>{name}</Option>),
-          className: 'default-selector-width',
-          allowClear: true,
-          onChange: (val: any) => updater.status(val),
+  const filterConfig = React.useMemo(
+    () => [
+      ...insertWhen(type === 'done', [
+        {
+          type: Select,
+          name: 'status',
+          customProps: {
+            placeholder: i18n.t('filter by status'),
+            options: map(undoneStatusMap, ({ name, value }) => (
+              <Option key={name} value={value}>
+                {name}
+              </Option>
+            )),
+            className: 'default-selector-width',
+            allowClear: true,
+            onChange: (val: any) => updater.status(val),
+          },
         },
-      },
-    ]),
-  ], [type, updater]);
+      ]),
+    ],
+    [type, updater],
+  );
 
   const extraQuery = React.useMemo(() => {
     const typeStatus = type === 'undone' ? statusMap.pending : '';

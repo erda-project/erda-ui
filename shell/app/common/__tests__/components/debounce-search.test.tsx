@@ -21,11 +21,7 @@ describe('DebounceSearch', () => {
   it('should render well', () => {
     const fn = jest.fn();
     jest.useFakeTimers();
-    const wrapper = mount(
-      <DebounceSearch
-        onChange={fn}
-      />,
-    );
+    const wrapper = mount(<DebounceSearch onChange={fn} />);
     act(() => {
       wrapper.find('Search').prop('onChange')({ target: { value: 'erda' } });
     });
@@ -33,4 +29,3 @@ describe('DebounceSearch', () => {
     expect(fn).toHaveBeenLastCalledWith('erda');
   });
 });
-

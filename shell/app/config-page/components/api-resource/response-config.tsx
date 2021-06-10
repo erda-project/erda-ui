@@ -41,10 +41,7 @@ interface IFieldProps {
 }
 
 export const ResponseConfig = React.memo((props: IProps) => {
-  const [{
-    propertyFormData,
-    mediaType,
-  }, updater] = useUpdate({
+  const [{ propertyFormData, mediaType }, updater] = useUpdate({
     propertyFormData: {} as Obj,
     mediaType: 'application/json',
   });
@@ -77,67 +74,72 @@ export const ResponseConfig = React.memo((props: IProps) => {
     return get(openApiDoc, 'components.schemas') || {};
   }, [openApiDoc]);
 
-  const onFormChange = React.useCallback((_formKey: string, _formData: any, extraProps?: Obj) => {
-    const [name, method] = dataPath;
-    const prefixPath = [...dataPathKey, mediaType];
+  const onFormChange = React.useCallback(
+    (_formKey: string, _formData: any, extraProps?: Obj) => {
+      const [name, method] = dataPath;
+      const prefixPath = [...dataPathKey, mediaType];
 
-    const _typeQuotePath = extraProps?.typeQuotePath ? extraProps.typeQuotePath.split('.') : ['schema'];
+      const _typeQuotePath = extraProps?.typeQuotePath ? extraProps.typeQuotePath.split('.') : ['schema'];
 
-    const typeQuotePath = (extraProps?.typeQuotePath && extraProps.typeQuotePath === extraProps?.quoteTypeName)
-      ? [...prefixPath, 'schema'] : [...prefixPath, ..._typeQuotePath];
+      const typeQuotePath =
+        extraProps?.typeQuotePath && extraProps.typeQuotePath === extraProps?.quoteTypeName
+          ? [...prefixPath, 'schema']
+          : [...prefixPath, ..._typeQuotePath];
 
-    const _extraProps = { typeQuotePath, quoteTypeName: extraProps?.quoteTypeName };
+      const _extraProps = { typeQuotePath, quoteTypeName: extraProps?.quoteTypeName };
 
-    if (isEmpty(formData?.responses) && paramIn === 'responses') {
-      const tempDetail = produce(openApiDoc, (draft) => {
-        const methodData = get(draft, ['paths', ...dataPath]) || {};
-        draft.paths[name][method] = {
-          ...methodData,
-          responses: {
-            200: {
+      if (isEmpty(formData?.responses) && paramIn === 'responses') {
+        const tempDetail = produce(openApiDoc, (draft) => {
+          const methodData = get(draft, ['paths', ...dataPath]) || {};
+          draft.paths[name][method] = {
+            ...methodData,
+            responses: {
+              200: {
+                content: {
+                  [mediaType]: {
+                    schema: { description: '', ..._formData } || { description: '' },
+                  },
+                },
+                description: _formData?.description || '',
+              },
+            },
+          };
+        });
+        onChange(paramIn, get(tempDetail, ['paths', ...dataPath]), _extraProps);
+      } else if (isEmpty(formData?.requestBody) && paramIn === 'requestBody') {
+        const tempDetail = produce(openApiDoc, (draft) => {
+          const methodData = get(draft, ['paths', ...dataPath]) || {};
+          draft.paths[name][method] = {
+            ...methodData,
+            requestBody: {
               content: {
                 [mediaType]: {
                   schema: { description: '', ..._formData } || { description: '' },
                 },
               },
+              required: false,
               description: _formData?.description || '',
             },
-          },
-        };
-      });
-      onChange(paramIn, get(tempDetail, ['paths', ...dataPath]), _extraProps);
-    } else if (isEmpty(formData?.requestBody) && paramIn === 'requestBody') {
-      const tempDetail = produce(openApiDoc, (draft) => {
-        const methodData = get(draft, ['paths', ...dataPath]) || {};
-        draft.paths[name][method] = {
-          ...methodData,
-          requestBody: {
-            content: {
-              [mediaType]: {
-                schema: { description: '', ..._formData } || { description: '' },
-              },
-            },
-            required: false,
-            description: _formData?.description || '',
-          },
-        };
-      });
+          };
+        });
 
-      onChange(paramIn, get(tempDetail, ['paths', ...dataPath]), _extraProps);
-    } else {
-      const tempData = produce(formData, (draft) => {
-        set(draft, [...dataPathKey, mediaType, 'schema'], _formData);
-        if (paramIn === 'responses') {
-          set(draft, 'responses.200.description', _formData?.description || '');
-        } else {
-          set(draft, 'requestBody.description', _formData?.description || '');
-        }
-      });
-      onChange(paramIn, tempData, _extraProps);
-    }
+        onChange(paramIn, get(tempDetail, ['paths', ...dataPath]), _extraProps);
+      } else {
+        const tempData = produce(formData, (draft) => {
+          set(draft, [...dataPathKey, mediaType, 'schema'], _formData);
+          if (paramIn === 'responses') {
+            set(draft, 'responses.200.description', _formData?.description || '');
+          } else {
+            set(draft, 'requestBody.description', _formData?.description || '');
+          }
+        });
+        onChange(paramIn, tempData, _extraProps);
+      }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formData, updater, mediaType]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [formData, updater, mediaType],
+  );
 
   const onSetMediaType = ({ propertyKey, propertyData }: IFieldProps) => {
     if (propertyKey === API_MEDIA) {

@@ -52,10 +52,12 @@ interface IProps<T> {
  *
  * @return [renderOp, drawer]
  */
-export function useInstanceOperation<T extends Instance>({ console: _console, log, monitor, getProps }: IProps<T>): [
-  (record: T) => JSX.Element,
-  JSX.Element,
-] {
+export function useInstanceOperation<T extends Instance>({
+  console: _console,
+  log,
+  monitor,
+  getProps,
+}: IProps<T>): [(record: T) => JSX.Element, JSX.Element] {
   const [state, updater, update] = useUpdate({
     visible: false,
     slideTitle: '',
@@ -100,12 +102,7 @@ export function useInstanceOperation<T extends Instance>({ console: _console, lo
         update({
           visible: true,
           slideTitle: i18n.t('dcos:container log'),
-          content: (
-            <ContainerLog
-              instance={{ ...record }}
-              {...props}
-            />
-          ),
+          content: <ContainerLog instance={{ ...record }} {...props} />,
         });
         break;
       }
@@ -113,23 +110,27 @@ export function useInstanceOperation<T extends Instance>({ console: _console, lo
     }
   };
 
-
   const renderOp = (record: T) => {
     return (
       <div className="table-operations">
         <IF check={_console}>
-          <span className="table-operations-btn" onClick={() => openSlidePanel(OPERATION.CONSOLE, { ...record })}>{i18n.t('console')}</span>
+          <span className="table-operations-btn" onClick={() => openSlidePanel(OPERATION.CONSOLE, { ...record })}>
+            {i18n.t('console')}
+          </span>
         </IF>
         <IF check={monitor}>
-          <span className="table-operations-btn" onClick={() => openSlidePanel(OPERATION.MONITOR, { ...record })}>{i18n.t('container monitor')}</span>
+          <span className="table-operations-btn" onClick={() => openSlidePanel(OPERATION.MONITOR, { ...record })}>
+            {i18n.t('container monitor')}
+          </span>
         </IF>
         <IF check={log}>
-          <span className="table-operations-btn" onClick={() => openSlidePanel(OPERATION.LOG, { ...record })}>{i18n.t('log')}</span>
+          <span className="table-operations-btn" onClick={() => openSlidePanel(OPERATION.LOG, { ...record })}>
+            {i18n.t('log')}
+          </span>
         </IF>
       </div>
     );
   };
-
 
   const drawerComp = React.useMemo(() => {
     const afterVisibleChange = (visible: boolean) => {

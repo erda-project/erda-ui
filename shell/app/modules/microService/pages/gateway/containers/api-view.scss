@@ -3,10 +3,10 @@
 
   &-title {
     height: 56px;
-    border-bottom: 1px solid rgba(111, 98, 163, .1);
+    border-bottom: 1px solid rgba(111, 98, 163, 0.1);
 
     .api-path {
-      margin: 0 .5rem;
+      margin: 0 0.5rem;
       font-weight: 700;
       font-size: 18px;
     }
@@ -24,7 +24,7 @@
 
     .api-properties-title {
       height: 38px;
-      color: rgba(0, 0, 0, .8);
+      color: rgba(0, 0, 0, 0.8);
       font-weight: bold;
       line-height: 38px;
       border-width: 0;
@@ -74,9 +74,9 @@
         display: block;
         width: 100%;
         height: 0;
-        margin: .5rem 0;
+        margin: 0.5rem 0;
         border-bottom: 1px dashed #e9eaef;
-        content: "";
+        content: '';
       }
 
       &:last-child {
@@ -91,6 +91,6 @@
 .api-router {
   .separator {
     padding: 0 5px;
-    color: rgba(0, 0, 0, .2);
+    color: rgba(0, 0, 0, 0.2);
   }
 }

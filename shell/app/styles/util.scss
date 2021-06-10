@@ -1,8 +1,8 @@
 //==  visible
 .fade {
   opacity: 0 !important;
-  transition: opacity .15s linear;
-  transition-delay: .15s;
+  transition: opacity 0.15s linear;
+  transition-delay: 0.15s;
 
   &.in {
     opacity: 1 !important;
@@ -170,7 +170,6 @@
 .flex-8 {
   flex: 8;
 }
-
 
 .self-start {
   align-self: start;
@@ -482,37 +481,37 @@
 .colorful-light-bg {
   .red {
     color: $red !important;
-    background-color: rgba($red, .1) !important;
+    background-color: rgba($red, 0.1) !important;
   }
 
   .orange {
     color: $orange !important;
-    background-color: rgba($orange, .1) !important;
+    background-color: rgba($orange, 0.1) !important;
   }
 
   .purple {
     color: $purple !important;
-    background-color: rgba($purple, .1) !important;
+    background-color: rgba($purple, 0.1) !important;
   }
 
   .blue {
     color: $blue !important;
-    background-color: rgba($blue, .1) !important;
+    background-color: rgba($blue, 0.1) !important;
   }
 
   .cyan {
     color: $cyan !important;
-    background-color: rgba($cyan, .1) !important;
+    background-color: rgba($cyan, 0.1) !important;
   }
 
   .green {
     color: $green !important;
-    background-color: rgba($green, .1) !important;
+    background-color: rgba($green, 0.1) !important;
   }
 
   .gray {
     color: $gray !important;
-    background-color: rgba($gray, .1) !important;
+    background-color: rgba($gray, 0.1) !important;
   }
 }
 
@@ -522,7 +521,7 @@
 }
 
 .code-block {
-  padding: .5em;
+  padding: 0.5em;
   color: $lightnavy;
   font-size: 12px;
   background-color: $navy;
@@ -607,7 +606,7 @@
 .tag-default {
   @extend .tag-base;
   color: $color-text-sub;
-  background-color: rgba(0, 0, 0, .06);
+  background-color: rgba(0, 0, 0, 0.06);
 }
 
 .tag-danger {
@@ -649,7 +648,7 @@
       width: 1px;
       height: 14px;
       background: $color-dark-1;
-      content: "";
+      content: '';
     }
 
     &:last-child {
@@ -695,13 +694,13 @@
   padding: 0 4px;
   color: $color-text-sub;
   font-size: 12px;
-  background: rgba(0, 0, 0, .05);
+  background: rgba(0, 0, 0, 0.05);
   border: 1px solid $color-border;
   border-radius: 1px;
 }
 
 .fake-link {
-  color: transparentize($color-primary, .2);
+  color: transparentize($color-primary, 0.2);
   cursor: pointer;
 
   &:hover {
@@ -710,7 +709,7 @@
 }
 
 .text-link {
-  color: transparentize($color-primary, .2);
+  color: transparentize($color-primary, 0.2);
   cursor: pointer;
 
   &:hover {
@@ -921,7 +920,7 @@
 }
 
 .label-with-required::before {
-  content: "*";
+  content: '*';
   display: inline-block;
   margin-right: 4px;
   color: $red;

@@ -38,7 +38,7 @@ const PureRepoNavOperation = () => {
     setModalVisible(visible);
   };
 
-  const isRootPath = tree && tree.path === '';// 是根目录
+  const isRootPath = tree && tree.path === ''; // 是根目录
   // 当前已存在pipeline.yml
   const hasPipeline = find(get(tree, 'entries') || [], (item) => item.name === 'pipeline.yml');
   const getFieldsList = () => {
@@ -105,23 +105,34 @@ const PureRepoNavOperation = () => {
   const branchAuth = isProtectBranch ? branchAuthObj.writeProtected.pass : branchAuthObj.writeNormal.pass;
 
   const disabledTips = branchAuth
-    ? [i18n.t('application:create new file is only allowed when branch selected'), i18n.t('application:create folder is only allowed when branch selected')]
-    : [i18n.t('application:branch is protected, you have no permission yet'), i18n.t('application:branch is protected, you have no permission yet')];
+    ? [
+        i18n.t('application:create new file is only allowed when branch selected'),
+        i18n.t('application:create folder is only allowed when branch selected'),
+      ]
+    : [
+        i18n.t('application:branch is protected, you have no permission yet'),
+        i18n.t('application:branch is protected, you have no permission yet'),
+      ];
 
   const curBranch = branch || tag || info.defaultBranch;
   const inIndexPage = window.location.pathname.match(/apps\/\d+\/repo$/);
 
   const addMenu = (
-    <Menu onClick={(e: any) => {
-      if (e.key === 'file') {
-        changeMode({ addFile: true });
-      } else if (e.key === 'folder') {
-        toggleModal(true);
-      }
-    }}
+    <Menu
+      onClick={(e: any) => {
+        if (e.key === 'file') {
+          changeMode({ addFile: true });
+        } else if (e.key === 'folder') {
+          toggleModal(true);
+        }
+      }}
     >
-      <Menu.Item disabled={isLocked} key="file">{i18n.t('application:create new file')}</Menu.Item>
-      <Menu.Item disabled={isLocked} key="folder">{i18n.t('application:create folder')}</Menu.Item>
+      <Menu.Item disabled={isLocked} key="file">
+        {i18n.t('application:create new file')}
+      </Menu.Item>
+      <Menu.Item disabled={isLocked} key="folder">
+        {i18n.t('application:create folder')}
+      </Menu.Item>
     </Menu>
   );
 
@@ -129,31 +140,34 @@ const PureRepoNavOperation = () => {
     <div className="repo-operation">
       <IF check={isBranchTree && branchAuth}>
         <IF check={isInDiceDirectory(tree.path)}>
-          <Button onClick={() => changeMode({ addFile: true, addFileName: 'pipelineYml' })}>{i18n.t('application:add pipeline')}</Button>
+          <Button onClick={() => changeMode({ addFile: true, addFileName: 'pipelineYml' })}>
+            {i18n.t('application:add pipeline')}
+          </Button>
         </IF>
         <IF check={isRootPath}>
-          {
-            hasPipeline
-              ? (
-                <Button
-                  disabled={isLocked}
-                  onClick={() => {
-                    if (inIndexPage) {
-                      goTo(`./tree/${curBranch}/pipeline.yml?editPipeline=true`, { forbidRepeat: true });
-                    } else {
-                      goTo('./pipeline.yml?editPipeline=true', { forbidRepeat: true });
-                    }
-                  }}
-                >{i18n.t('edit {name}', { name: i18n.t('application:pipeline') })}
-                </Button>
-              ) : (
-                <Button disabled={isLocked} onClick={() => changeMode({ addFile: true, addFileName: 'pipelineYml' })}>{i18n.t('application:add pipeline')}</Button>
-              )
-          }
+          {hasPipeline ? (
+            <Button
+              disabled={isLocked}
+              onClick={() => {
+                if (inIndexPage) {
+                  goTo(`./tree/${curBranch}/pipeline.yml?editPipeline=true`, { forbidRepeat: true });
+                } else {
+                  goTo('./pipeline.yml?editPipeline=true', { forbidRepeat: true });
+                }
+              }}
+            >
+              {i18n.t('edit {name}', { name: i18n.t('application:pipeline') })}
+            </Button>
+          ) : (
+            <Button disabled={isLocked} onClick={() => changeMode({ addFile: true, addFileName: 'pipelineYml' })}>
+              {i18n.t('application:add pipeline')}
+            </Button>
+          )}
         </IF>
         <Dropdown overlay={addMenu}>
           <Button className="ml8">
-            {i18n.t('add')}<CustomIcon className="ml8" type="caret-down" />
+            {i18n.t('add')}
+            <CustomIcon className="ml8" type="caret-down" />
           </Button>
         </Dropdown>
         <IF.ELSE />
@@ -164,7 +178,8 @@ const PureRepoNavOperation = () => {
         </IF>
         <Tooltip title={disabledTips[0]}>
           <Button className="ml8" disabled>
-            {i18n.t('add')}<CustomIcon className="ml8" type="caret-down" />
+            {i18n.t('add')}
+            <CustomIcon className="ml8" type="caret-down" />
           </Button>
         </Tooltip>
       </IF>
@@ -180,7 +195,6 @@ const PureRepoNavOperation = () => {
     </div>
   );
 };
-
 
 export const RepoNavOperation = React.memo(PureRepoNavOperation);
 
@@ -205,34 +219,45 @@ export const RepoNav = React.forwardRef(({ info, tree, isFetchingInfo, appId }: 
     current: curBranch,
   };
 
-  React.useImperativeHandle(ref, () => {
-    return {
-      target: selected,
-    };
-  }, [selected]);
+  React.useImperativeHandle(
+    ref,
+    () => {
+      return {
+        target: selected,
+      };
+    },
+    [selected],
+  );
 
-  const changeBranch = React.useCallback((selectedBranch: string) => {
-    if (branches.includes(selectedBranch)) {
-      // save branch info to LS
-      setLS(`branch-${appId}`, selectedBranch);
-      removeLS(`tag-${appId}`);
-    }
-    if (tags.includes(selectedBranch)) {
-      // save tag info to LS
-      setLS(`tag-${appId}`, selectedBranch);
-      removeLS(`branch-${appId}`);
-    }
-    goTo(`${before}/${selectedBranch}${tree.path ? `/${tree.path}` : ''}`, { append: false });
-  }, [appId, before, branches, tags, tree.path]);
+  const changeBranch = React.useCallback(
+    (selectedBranch: string) => {
+      if (branches.includes(selectedBranch)) {
+        // save branch info to LS
+        setLS(`branch-${appId}`, selectedBranch);
+        removeLS(`tag-${appId}`);
+      }
+      if (tags.includes(selectedBranch)) {
+        // save tag info to LS
+        setLS(`tag-${appId}`, selectedBranch);
+        removeLS(`branch-${appId}`);
+      }
+      goTo(`${before}/${selectedBranch}${tree.path ? `/${tree.path}` : ''}`, { append: false });
+    },
+    [appId, before, branches, tags, tree.path],
+  );
 
   return (
     <Spin spinning={isFetchingInfo}>
       <div className="nav-block">
-        <BranchSelect
-          {...{ branches, commitId: treeCommitId, tags, current: curBranch }}
-          onChange={changeBranch}
-        >
-          <span>{isTag ? i18n.t('application:tag') : treeCommitId ? i18n.t('application:commit') : i18n.t('application:branch')}:</span>
+        <BranchSelect {...{ branches, commitId: treeCommitId, tags, current: curBranch }} onChange={changeBranch}>
+          <span>
+            {isTag
+              ? i18n.t('application:tag')
+              : treeCommitId
+              ? i18n.t('application:commit')
+              : i18n.t('application:branch')}
+            :
+          </span>
           <span className="branch-name bold nowrap">{curBranch}</span>
           <IconDownOne theme="filled" size="16px" />
         </BranchSelect>

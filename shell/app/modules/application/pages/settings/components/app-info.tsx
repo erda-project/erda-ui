@@ -79,13 +79,16 @@ const PureAppInfo = (): JSX.Element => {
       label: i18n.t('whether public {name}', { name: i18n.t('application') }),
       name: 'isPublic',
       type: 'radioGroup',
-      options: [{
-        name: i18n.t('application:public application'),
-        value: 'true',
-      }, {
-        name: i18n.t('application:private application'),
-        value: 'false',
-      }],
+      options: [
+        {
+          name: i18n.t('application:public application'),
+          value: 'true',
+        },
+        {
+          name: i18n.t('application:private application'),
+          value: 'false',
+        },
+      ],
     },
     {
       label: i18n.t('application:application description'),
@@ -117,19 +120,23 @@ const PureAppInfo = (): JSX.Element => {
     });
   };
 
-  const extraSectionList = [{
-    title: i18n.t('exit {name}', { name: i18n.t('application') }),
-    children: (
-      <ConfirmDelete
-        title={i18n.t('sure to exit the current {name}?', { name: i18n.t('application') })}
-        confirmTip={i18n.t('common:exit-confirm-tip {name}', { name: i18n.t('application') })}
-        secondTitle={i18n.t('common:exit-sub-tip {name}', { name: i18n.t('application') })}
-        onConfirm={exitApp}
-      >
-        <Button ghost type="danger">{ i18n.t('common:exit current {name}', { name: i18n.t('application') }) }</Button>
-      </ConfirmDelete>
-    ),
-  }];
+  const extraSectionList = [
+    {
+      title: i18n.t('exit {name}', { name: i18n.t('application') }),
+      children: (
+        <ConfirmDelete
+          title={i18n.t('sure to exit the current {name}?', { name: i18n.t('application') })}
+          confirmTip={i18n.t('common:exit-confirm-tip {name}', { name: i18n.t('application') })}
+          secondTitle={i18n.t('common:exit-sub-tip {name}', { name: i18n.t('application') })}
+          onConfirm={exitApp}
+        >
+          <Button ghost type="danger">
+            {i18n.t('common:exit current {name}', { name: i18n.t('application') })}
+          </Button>
+        </ConfirmDelete>
+      ),
+    },
+  ];
 
   if (permMap.deleteApp.pass) {
     extraSectionList.push({
@@ -141,9 +148,13 @@ const PureAppInfo = (): JSX.Element => {
           secondTitle={i18n.t('application:delete app {name} tips', { name: appDetail.name })}
           onCancel={() => setConfirmAppName('')}
           disabledConfirm={confirmAppName !== appDetail.name}
-          modalChildren={(
-            <Input value={confirmAppName} placeholder={i18n.t('please enter {name}', { name: i18n.t('application:app name') })} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmAppName(e.target.value)} />
-            )}
+          modalChildren={
+            <Input
+              value={confirmAppName}
+              placeholder={i18n.t('please enter {name}', { name: i18n.t('application:app name') })}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmAppName(e.target.value)}
+            />
+          }
         />
       ),
     });

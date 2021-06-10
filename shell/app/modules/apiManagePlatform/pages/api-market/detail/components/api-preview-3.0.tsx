@@ -22,15 +22,15 @@ export interface IItem {
   key: string;
   name: string;
   required: string;
-  type: {value: string; enum?: any};
+  type: { value: string; enum?: any };
   children?: IItem[];
   description?: string;
 }
 
-export type IDataType= 'string' | 'number'| 'integer'| 'boolean'|'array'| 'object';
+export type IDataType = 'string' | 'number' | 'integer' | 'boolean' | 'array' | 'object';
 
-export interface IParameters{
-  in: 'path'| 'query'| 'header';
+export interface IParameters {
+  in: 'path' | 'query' | 'header';
   required: boolean;
   name: string;
   description?: string;
@@ -42,7 +42,7 @@ export interface IParameters{
   };
 }
 
-export interface IRequestBodyProperties{
+export interface IRequestBodyProperties {
   [key: string]: {
     type: IDataType;
     enum: string[];
@@ -58,7 +58,7 @@ export interface IRequestBodyProperties{
   };
 }
 
-export interface IRequestBodyContent{
+export interface IRequestBodyContent {
   schema: {
     properties: IRequestBodyProperties;
     items?: IRequestBodyProperties;
@@ -68,7 +68,7 @@ export interface IRequestBodyContent{
   type: IDataType;
 }
 
-export interface IRequestBody{
+export interface IRequestBody {
   content: {
     [k: string]: IRequestBodyContent;
   };
@@ -96,7 +96,6 @@ interface IProps {
   extra?: React.ReactNode;
 }
 
-
 interface IParseOas3 {
   title: string;
   apiInfo: {
@@ -116,11 +115,14 @@ interface IParseOas3 {
 
 const columns = [
   { title: i18n.t('name'), dataIndex: 'name' },
-  { title: i18n.t('type'),
+  {
+    title: i18n.t('type'),
     width: 120,
     dataIndex: 'type',
-    render: ({ value, enum: enumData }: {value: IDataType; enum: string[]}) => {
-      return isEmpty(enumData) ? value : (
+    render: ({ value, enum: enumData }: { value: IDataType; enum: string[] }) => {
+      return isEmpty(enumData) ? (
+        value
+      ) : (
         <Tooltip title={enumData.toString()}>
           <span className="hover-active">{value}</span>
         </Tooltip>
@@ -148,17 +150,20 @@ export const convertToOpenApi2 = (data: IDataSource) => {
   const { requestBody } = data;
   if (requestBody?.content) {
     const { content } = requestBody;
-    const contentType = 'application/json' in content ? 'application/json' : Object.keys(content)[0] || 'application/json';
+    const contentType =
+      'application/json' in content ? 'application/json' : Object.keys(content)[0] || 'application/json';
     const type = contentType === 'application/x-www-form-urlencoded' ? 'formData' : 'body';
     const schema = getSchema(content) || {};
-    let value = [{
-      in: type,
-      schema: {
-        type: 'object',
-        contentType,
-        ...schema,
+    let value = [
+      {
+        in: type,
+        schema: {
+          type: 'object',
+          contentType,
+          ...schema,
+        },
       },
-    }];
+    ];
     if (type === 'formData') {
       const { properties } = schema;
       value = map(properties, (item, key) => {
@@ -201,7 +206,10 @@ const transformBody = (data: IRequestBodyContent['schema']): any[] => {
           wmap.set(childItems.properties, true);
           item = {
             ...item,
-            children: parse({ properties: childItems.properties, required: childItems.required } as IRequestBodyContent['schema'], key),
+            children: parse(
+              { properties: childItems.properties, required: childItems.required } as IRequestBodyContent['schema'],
+              key,
+            ),
           };
         }
       }
@@ -213,7 +221,9 @@ const transformBody = (data: IRequestBodyContent['schema']): any[] => {
         };
       }
       if (get(childItems, ['allOf', 0])) {
-        item.children = (item.children || []).concat(parse(get(childItems, ['allOf', 0]) as IRequestBodyContent['schema'], key));
+        item.children = (item.children || []).concat(
+          parse(get(childItems, ['allOf', 0]) as IRequestBodyContent['schema'], key),
+        );
       }
       return {
         ...item,
@@ -295,10 +305,7 @@ const ApiPreviewV3 = ({ dataSource, extra }: IProps) => {
             props: {
               title: i18n.t('request header'),
               rowKey: 'name',
-              columns: [
-                ...columns,
-                { title: i18n.t('default value'), dataIndex: 'default' },
-              ],
+              columns: [...columns, { title: i18n.t('default value'), dataIndex: 'default' }],
             },
           },
         ]),
@@ -309,10 +316,7 @@ const ApiPreviewV3 = ({ dataSource, extra }: IProps) => {
             props: {
               title: i18n.t('URL parameters'),
               rowKey: 'name',
-              columns: [
-                ...columns,
-                { title: i18n.t('default value'), dataIndex: 'default' },
-              ],
+              columns: [...columns, { title: i18n.t('default value'), dataIndex: 'default' }],
             },
           },
         ]),
@@ -323,10 +327,7 @@ const ApiPreviewV3 = ({ dataSource, extra }: IProps) => {
             props: {
               title: i18n.t('path parameters'),
               rowKey: 'name',
-              columns: [
-                ...columns,
-                { title: i18n.t('default value'), dataIndex: 'default' },
-              ],
+              columns: [...columns, { title: i18n.t('default value'), dataIndex: 'default' }],
             },
           },
         ]),
@@ -337,22 +338,28 @@ const ApiPreviewV3 = ({ dataSource, extra }: IProps) => {
             props: {
               title: i18n.t('request body'),
               rowKey: 'name',
-              columns: [
-                ...columns,
-              ],
+              columns: [...columns],
             },
           },
         ]),
         { type: 'BlockTitle', props: { title: i18n.t('response information') } },
         ...insertWhen(!isEmpty(info.responsesBody), [
-          ['object', 'array'].includes(info.responsesBody?.type) ? {
-            type: 'Table',
-            dataIndex: 'responsesBody.data',
-            props: {
-              title: `${i18n.t('response body')}: ${info.responsesBody.type}`,
-              columns,
-            },
-          } : { type: 'Title', props: { title: `${i18n.t('response body')}: ${info.responsesBody?.type || i18n.t('empty')} `, level: 2 } },
+          ['object', 'array'].includes(info.responsesBody?.type)
+            ? {
+                type: 'Table',
+                dataIndex: 'responsesBody.data',
+                props: {
+                  title: `${i18n.t('response body')}: ${info.responsesBody.type}`,
+                  columns,
+                },
+              }
+            : {
+                type: 'Title',
+                props: {
+                  title: `${i18n.t('response body')}: ${info.responsesBody?.type || i18n.t('empty')} `,
+                  level: 2,
+                },
+              },
         ]),
         ...insertWhen(!isEmpty(info.responsesStatus), [
           {

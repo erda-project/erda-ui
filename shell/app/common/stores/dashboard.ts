@@ -14,7 +14,6 @@
 import { createFlatStore } from 'app/cube';
 import { getCustomDashboard } from '../services/dashboard';
 
-
 const CommonDashboardStore = createFlatStore({
   name: 'commonDashboard',
   state: {},

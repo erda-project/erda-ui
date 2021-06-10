@@ -79,10 +79,13 @@ const ApiMenu = ({ list, onChange, onChangeVersion }: IProps) => {
     setFilterKey('');
     filterApi('');
   };
-  const handleClick = React.useCallback((key: string, api: any) => {
-    setActive(key);
-    onChange && onChange(key, api);
-  }, [onChange]);
+  const handleClick = React.useCallback(
+    (key: string, api: any) => {
+      setActive(key);
+      onChange && onChange(key, api);
+    },
+    [onChange],
+  );
   const menu = React.useMemo(() => {
     if (isEmpty(menuList)) {
       return (
@@ -99,44 +102,48 @@ const ApiMenu = ({ list, onChange, onChangeVersion }: IProps) => {
         activeKey={expandKey}
         onChange={(k: any) => setExpandKey(k)}
       >
-        {
-          map(menuList, (apiList: any[], tagName: string) => {
-            return (
-              <Panel className="api-group-list-item" header={<span className="bold-500">{tagName}</span>} key={tagName}>
-                <ul className="api-group">
-                  {map(apiList, (api: any) => {
-                    const { _method, _path, summary } = api;
-                    const key = _method + _path;
-                    return (
-                      <Tooltip key={key} title={_path} placement="right">
-                        <li onClick={() => { handleClick(key, api); }} className={key === active ? 'active' : ''}>
-                          <div className="method-wrapper">
-                            <Tag color={colorMap[_method] || '#975FA0'}>{_method.toUpperCase()}</Tag>
-                          </div>
-                          <div className="api-summary nowrap color-text">
-                            {summary || _path}
-                          </div>
-                        </li>
-                      </Tooltip>
-                    );
-                  })}
-                </ul>
-              </Panel>
-            );
-          })
-        }
+        {map(menuList, (apiList: any[], tagName: string) => {
+          return (
+            <Panel className="api-group-list-item" header={<span className="bold-500">{tagName}</span>} key={tagName}>
+              <ul className="api-group">
+                {map(apiList, (api: any) => {
+                  const { _method, _path, summary } = api;
+                  const key = _method + _path;
+                  return (
+                    <Tooltip key={key} title={_path} placement="right">
+                      <li
+                        onClick={() => {
+                          handleClick(key, api);
+                        }}
+                        className={key === active ? 'active' : ''}
+                      >
+                        <div className="method-wrapper">
+                          <Tag color={colorMap[_method] || '#975FA0'}>{_method.toUpperCase()}</Tag>
+                        </div>
+                        <div className="api-summary nowrap color-text">{summary || _path}</div>
+                      </li>
+                    </Tooltip>
+                  );
+                })}
+              </ul>
+            </Panel>
+          );
+        })}
       </Collapse>
     );
   }, [active, expandKey, handleClick, menuList]);
   return (
     <>
       <div>
-        <Input.Search className="mb12" value={filterKey} placeholder={i18n.t('default:search by path or description')} onChange={handleFilterApi} />
+        <Input.Search
+          className="mb12"
+          value={filterKey}
+          placeholder={i18n.t('default:search by path or description')}
+          onChange={handleFilterApi}
+        />
         <SelectVersion onChangeVersion={handleSelectVersion} />
       </div>
-      {
-        menu
-      }
+      {menu}
     </>
   );
 };

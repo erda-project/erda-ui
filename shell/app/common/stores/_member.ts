@@ -66,7 +66,11 @@ export const createMemberStore = (scopeKey: MemberScope) => {
       },
       async getMemberList({ call, update }, payload: MEMBER.GetListQuery) {
         const { scope, ...rest } = payload;
-        const result = await call(getMembers, { scopeType: scope.type, scopeId: scope.id, ...rest }, { paging: { key: 'paging' } });
+        const result = await call(
+          getMembers,
+          { scopeType: scope.type, scopeId: scope.id, ...rest },
+          { paging: { key: 'paging' } },
+        );
         update({ list: result.list });
         return result;
       },
@@ -80,9 +84,15 @@ export const createMemberStore = (scopeKey: MemberScope) => {
           scope: payload.scope,
         });
       },
-      async updateMembers({ call }, payload: MEMBER.UpdateMemberBody, extra = { isSelf: false, forbidReload: false, queryParams: {}, successMsg: undefined } as UpdaterMemberExtra) {
+      async updateMembers(
+        { call },
+        payload: MEMBER.UpdateMemberBody,
+        extra = { isSelf: false, forbidReload: false, queryParams: {}, successMsg: undefined } as UpdaterMemberExtra,
+      ) {
         const { isSelf, forbidReload, queryParams = {} } = extra;
-        await call(updateMembers, payload, { successMsg: extra.successMsg === false ? undefined : i18n.t('update member success') });
+        await call(updateMembers, payload, {
+          successMsg: extra.successMsg === false ? undefined : i18n.t('update member success'),
+        });
         if (forbidReload) {
           return;
         }

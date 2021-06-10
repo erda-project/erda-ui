@@ -50,7 +50,16 @@ const FormPreview = React.forwardRef((props: any, ref: any) => {
     ],
   };
 
-  return <DefaultPreview {...props} Form={Form} renderField={previewRenderField} ref={ref} showGetConfig={false} nameField={nameField} />;
+  return (
+    <DefaultPreview
+      {...props}
+      Form={Form}
+      renderField={previewRenderField}
+      ref={ref}
+      showGetConfig={false}
+      nameField={nameField}
+    />
+  );
 });
 
 export default createFormEditor({ FormEditor, FormPreview, componentMap: componentFormConfig, basicField });

@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace ADDON {
-
   type ADDON_STATUS = 'ATTACHING' | 'ATTACHED' | 'ATTACHFAILED';
 
   interface Instance {
@@ -42,7 +41,7 @@ declare namespace ADDON {
     reference: number;
     attachCount: number;
     platform: true;
-    platformServiceType: 0 | 1 | 2;// 0:中间件  1:微服务  2：通用平台
+    platformServiceType: 0 | 1 | 2; // 0:中间件  1:微服务  2：通用平台
     canDel: boolean;
     consoleUrl: string | null;
     createdAt: string;
@@ -60,7 +59,7 @@ declare namespace ADDON {
     runtimeName: string;
   }
 
-  interface DataSourceAddon{
+  interface DataSourceAddon {
     projectId: number;
     displayName: string[];
   }

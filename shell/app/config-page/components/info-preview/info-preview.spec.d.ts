@@ -12,7 +12,6 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 declare namespace CP_INFO_PREVIEW {
-
   interface IRender {
     type: string;
     dataIndex?: string;
@@ -29,7 +28,7 @@ declare namespace CP_INFO_PREVIEW {
     info: Obj;
   }
 
-  interface IProps{
+  interface IProps {
     render: IRender[];
     visible?: boolean;
   }

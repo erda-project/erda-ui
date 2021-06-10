@@ -20,7 +20,7 @@ import { useEffectOnce } from 'react-use';
 import { WithAuth } from 'user/common';
 import { useUpdate } from 'common';
 
-interface IProps{
+interface IProps {
   operationAuth: boolean;
   scopeId: string;
   scopeType: string;
@@ -46,15 +46,49 @@ const { Option } = Select;
 
 export default function ScanRule(props: IProps) {
   const { operationAuth, scopeId, scopeType } = props;
-  const [{ isEdit, visible, currentId, appendedCurrent, metricValue, appendedRowKeys, optionalRowKeys, loading, operationOptionalRules }, updater, update] = useUpdate({ isEdit: false, visible: false, currentId: '', appendedCurrent: 1, metricValue: '', appendedRowKeys: [], optionalRowKeys: [], loading: false, operationOptionalRules: [] });
+  const [
+    {
+      isEdit,
+      visible,
+      currentId,
+      appendedCurrent,
+      metricValue,
+      appendedRowKeys,
+      optionalRowKeys,
+      loading,
+      operationOptionalRules,
+    },
+    updater,
+    update,
+  ] = useUpdate({
+    isEdit: false,
+    visible: false,
+    currentId: '',
+    appendedCurrent: 1,
+    metricValue: '',
+    appendedRowKeys: [],
+    optionalRowKeys: [],
+    loading: false,
+    operationOptionalRules: [],
+  });
 
-  const [appendedScanRules, optionalScanRules] = scanRuleStore.useStore((s) => [s.appendedScanRules, s.optionalScanRules]);
+  const [appendedScanRules, optionalScanRules] = scanRuleStore.useStore((s) => [
+    s.appendedScanRules,
+    s.optionalScanRules,
+  ]);
 
   React.useEffect(() => {
     updater.operationOptionalRules(optionalScanRules);
   }, [optionalScanRules, updater]);
 
-  const { getAppendedScanRules, deleteScanRule, getOptionalScanRules, updateScanRule, batchDeleteScanRule, batchInsertScanRule } = scanRuleStore;
+  const {
+    getAppendedScanRules,
+    deleteScanRule,
+    getOptionalScanRules,
+    updateScanRule,
+    batchDeleteScanRule,
+    batchInsertScanRule,
+  } = scanRuleStore;
 
   const updateOptionalScanRules = (record: SCAN_RULE.AppendedItem) => {
     updater.operationOptionalRules((prev: any) => prev.map((p: any) => (p.id === record.id ? { ...record } : p)));
@@ -95,21 +129,23 @@ export default function ScanRule(props: IProps) {
       render: (val: string, record: any) => {
         if (record.valueType === 'RATING') {
           return (
-            <Select
-              style={{ width: 120 }}
-              value={val}
-              onChange={(value) => handleChange(value, record)}
-            >
-              { map(valueRateMap, (rate) => <Option value={rate.value} key={rate.value}>{ rate.label }</Option>)}
+            <Select style={{ width: 120 }} value={val} onChange={(value) => handleChange(value, record)}>
+              {map(valueRateMap, (rate) => (
+                <Option value={rate.value} key={rate.value}>
+                  {rate.label}
+                </Option>
+              ))}
             </Select>
           );
         }
-        return (<Input
-          style={{ width: 120 }}
-          value={val}
-          suffix={valueTypeMap[record.valueType]}
-          onChange={(e) => handleChange(e.target.value, record)}
-        />);
+        return (
+          <Input
+            style={{ width: 120 }}
+            value={val}
+            suffix={valueTypeMap[record.valueType]}
+            onChange={(e) => handleChange(e.target.value, record)}
+          />
+        );
       },
     },
   ];
@@ -144,20 +180,17 @@ export default function ScanRule(props: IProps) {
                 onChange={(value) => updater.metricValue(`${value}`)}
                 defaultValue={isEdit && get(valueRateMap[item], 'label', '')}
               >
-                { map(valueRateMap, (rate) => <Option value={rate.value} key={rate.value}>{ rate.label }</Option>)}
+                {map(valueRateMap, (rate) => (
+                  <Option value={rate.value} key={rate.value}>
+                    {rate.label}
+                  </Option>
+                ))}
               </Select>
             );
           }
-          return (
-            <Input
-              defaultValue={item}
-              suffix={ruleType}
-              onChange={(e) => updater.metricValue(e.target.value)}
-            />
-          );
+          return <Input defaultValue={item} suffix={ruleType} onChange={(e) => updater.metricValue(e.target.value)} />;
         }
-        return record.valueType === 'RATING' ?
-          get(valueRateMap[item], 'label', '') : `${item}${ruleType}`;
+        return record.valueType === 'RATING' ? get(valueRateMap[item], 'label', '') : `${item}${ruleType}`;
       },
     },
     {
@@ -168,10 +201,7 @@ export default function ScanRule(props: IProps) {
         if (isEdit && record.id === currentId) {
           return (
             <div className="table-operations">
-              <span
-                className="table-operations-btn"
-                onClick={() => updater.isEdit(!isEdit)}
-              >
+              <span className="table-operations-btn" onClick={() => updater.isEdit(!isEdit)}>
                 {i18n.t('cancel')}
               </span>
               <span
@@ -204,7 +234,7 @@ export default function ScanRule(props: IProps) {
         return (
           <div className="table-operations">
             <Tooltip title={isHandle ? '' : i18n.t('project:default-rule-tip')}>
-              <WithAuth pass={operationAuth} >
+              <WithAuth pass={operationAuth}>
                 <span
                   className={`table-operations-btn ${isHandle ? '' : 'disabled'}`}
                   onClick={() => {
@@ -227,13 +257,9 @@ export default function ScanRule(props: IProps) {
                 reloadAppendedList();
               }}
             >
-              <WithAuth pass={operationAuth} >
+              <WithAuth pass={operationAuth}>
                 <Tooltip title={isHandle ? '' : i18n.t('project:default-rule-tip')}>
-                  <span
-                    className={`table-operations-btn ${isHandle ? '' : 'disabled'}`}
-                  >
-                    {i18n.t('delete')}
-                  </span>
+                  <span className={`table-operations-btn ${isHandle ? '' : 'disabled'}`}>{i18n.t('delete')}</span>
                 </Tooltip>
               </WithAuth>
             </Popconfirm>
@@ -262,9 +288,7 @@ export default function ScanRule(props: IProps) {
     updateOptionalScanRules({ ...record, metricValue: value });
     if (value === '') {
       // 当输入框的值清空后自动去除CheckBox的勾选
-      updater.optionalRowKeys(
-        optionalRowKeys.filter((x: number) => x !== record.id),
-      );
+      updater.optionalRowKeys(optionalRowKeys.filter((x: number) => x !== record.id));
     } else if (!optionalRowKeys.includes(record.id)) {
       // 当输入框有值且CheckBox未选中时自动勾选
       updater.optionalRowKeys([...optionalRowKeys, record.id]);
@@ -336,7 +360,11 @@ export default function ScanRule(props: IProps) {
       return;
     }
 
-    const formatMetrics = metrics.map((y) => ({ description: y.description, metricKeyId: y.id, metricValue: y.metricValue }));
+    const formatMetrics = metrics.map((y) => ({
+      description: y.description,
+      metricKeyId: y.id,
+      metricValue: y.metricValue,
+    }));
     await batchInsertScanRule({ scopeType, scopeId, metrics: formatMetrics });
     update({
       visible: false,
@@ -349,7 +377,7 @@ export default function ScanRule(props: IProps) {
   return (
     <>
       <div className="mb12">
-        <WithAuth pass={operationAuth} >
+        <WithAuth pass={operationAuth}>
           <Button
             type="primary"
             onClick={async () => {
@@ -358,7 +386,8 @@ export default function ScanRule(props: IProps) {
                 loading: true,
               });
               await getOptionalScanRules({
-                scopeId, scopeType,
+                scopeId,
+                scopeType,
               });
               updater.loading(false);
             }}
@@ -366,18 +395,13 @@ export default function ScanRule(props: IProps) {
             {i18n.t('project:add access control rules')}
           </Button>
         </WithAuth>
-        {appendedRowKeys.length > 0 &&
-        <WithAuth pass={operationAuth} >
-          <Button
-            ghost
-            type="primary"
-            className="ml8"
-            onClick={handleBatchDelete}
-          >
-            {i18n.t('batch deletion')}
-          </Button>
-        </WithAuth>
-        }
+        {appendedRowKeys.length > 0 && (
+          <WithAuth pass={operationAuth}>
+            <Button ghost type="primary" className="ml8" onClick={handleBatchDelete}>
+              {i18n.t('batch deletion')}
+            </Button>
+          </WithAuth>
+        )}
       </div>
       <Table
         columns={appendedColumns}

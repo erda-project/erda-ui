@@ -20,27 +20,29 @@ export const commonAttr = {
   moduleName: 'SIOverview',
   groupId: 'SIOverview',
 };
-const chartMap = merge({
-  throughput: {
-    titleText: i18n.t('microService:interface throughput'),
-    ...commonAttr,
-    chartName: 'throughput',
+const chartMap = merge(
+  {
+    throughput: {
+      titleText: i18n.t('microService:interface throughput'),
+      ...commonAttr,
+      chartName: 'throughput',
+    },
+    responseTime: {
+      titleText: i18n.t('microService:response time'),
+      ...commonAttr,
+      chartName: 'overviewWeb',
+    },
+    httpState: {
+      titleText: i18n.t('microService:http status'),
+      ...commonAttr,
+      chartName: 'overviewCpm',
+    },
   },
-  responseTime: {
-    titleText: i18n.t('microService:response time'),
-    ...commonAttr,
-    chartName: 'overviewWeb',
-  },
-  httpState: {
-    titleText: i18n.t('microService:http status'),
-    ...commonAttr,
-    chartName: 'overviewCpm',
-  },
-}, ApiMap);
+  ApiMap,
+);
 
 export default {
   throughput: chartRender(chartMap.throughput) as any,
   responseTime: chartRender(chartMap.responseTime) as any,
   httpState: chartRender(chartMap.httpState) as any,
 };
-

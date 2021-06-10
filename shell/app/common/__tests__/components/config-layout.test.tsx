@@ -16,7 +16,6 @@ import { ConfigLayout } from 'common';
 import { mount } from 'enzyme';
 import { describe, it } from '@jest/globals';
 
-
 interface ISection {
   title?: string | React.ReactNode;
   titleExtra?: JSX.Element | null;
@@ -27,26 +26,27 @@ interface ISection {
   titleProps?: object;
   descProps?: object;
 }
-const sectionList: ISection[] = [{
-  title: 'sectionList1-title',
-  titleExtra: <div>sectionList1-titleExtra</div>,
-  titleOperate: <div>sectionList1-titleOperate</div>,
-  desc: 'sectionList1-description',
-  children: <div>sectionList1-children</div>,
-  highlight: 'sectionList1-highlight',
-  titleProps: { name: 'sectionList1-titleProps' },
-  descProps: { name: 'sectionList1-descProps' },
-}, {
-  title: 'sectionList2-title',
-  desc: 'sectionList2-description',
-  children: <div>sectionList2-children</div>,
-}];
+const sectionList: ISection[] = [
+  {
+    title: 'sectionList1-title',
+    titleExtra: <div>sectionList1-titleExtra</div>,
+    titleOperate: <div>sectionList1-titleOperate</div>,
+    desc: 'sectionList1-description',
+    children: <div>sectionList1-children</div>,
+    highlight: 'sectionList1-highlight',
+    titleProps: { name: 'sectionList1-titleProps' },
+    descProps: { name: 'sectionList1-descProps' },
+  },
+  {
+    title: 'sectionList2-title',
+    desc: 'sectionList2-description',
+    children: <div>sectionList2-children</div>,
+  },
+];
 
 describe('ConfigLayout', () => {
   it('should render successfully', () => {
-    const wrapper = mount(
-      <ConfigLayout sectionList={sectionList} />,
-    );
+    const wrapper = mount(<ConfigLayout sectionList={sectionList} />);
     expect(wrapper.find('ConfigSection')).toHaveLength(sectionList.length);
   });
 });

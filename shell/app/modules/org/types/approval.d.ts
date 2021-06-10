@@ -47,5 +47,4 @@ declare namespace APPROVAL {
     id: string;
     status: ApprovalStatus;
   }
-
 }

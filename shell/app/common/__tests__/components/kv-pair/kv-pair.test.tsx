@@ -42,19 +42,17 @@ const defaultProps = {
 const renderChildren = ({ CompList, fullData }) => {
   return (
     <div>
-      {
-        CompList.map((item, index) => {
-          return (
-            <div className="key-val-item" key={fullData[index].key || index}>
-              {item.Key}
-              {item.Value}
-              {item.Desc}
-              {item.KeyDescComp}
-              {item.Op}
-            </div>
-          );
-        })
-      }
+      {CompList.map((item, index) => {
+        return (
+          <div className="key-val-item" key={fullData[index].key || index}>
+            {item.Key}
+            {item.Value}
+            {item.Desc}
+            {item.KeyDescComp}
+            {item.Op}
+          </div>
+        );
+      })}
     </div>
   );
 };
@@ -64,20 +62,24 @@ describe('KVPair', () => {
     const fn = jest.fn();
     const wrapper = mount(
       <KVPair {...defaultProps} value={defaultValue} onChange={fn} autoAppend>
-        {
-          renderChildren
-        }
+        {renderChildren}
       </KVPair>,
     );
     expect(wrapper.find('.key-val-item')).toHaveLength(defaultValue.length);
-    wrapper.find('.key-val-item').at(1).find('Input').at(0)
+    wrapper
+      .find('.key-val-item')
+      .at(1)
+      .find('Input')
+      .at(0)
       .simulate('change', { target: { value: 'erda.cloud' } });
-    expect(wrapper.find('.key-val-item').at(1).find('Input').at(0)
-      .prop('value')).toBe('erda.cloud');
-    wrapper.find('.key-val-item').at(1).find('Input').at(1)
+    expect(wrapper.find('.key-val-item').at(1).find('Input').at(0).prop('value')).toBe('erda.cloud');
+    wrapper
+      .find('.key-val-item')
+      .at(1)
+      .find('Input')
+      .at(1)
       .simulate('change', { target: { value: 'erda.cloud' } });
-    expect(wrapper.find('.key-val-item').at(1).find('Input').at(1)
-      .prop('value')).toBe('erda.cloud');
+    expect(wrapper.find('.key-val-item').at(1).find('Input').at(1).prop('value')).toBe('erda.cloud');
     expect(fn).toHaveBeenCalled();
     wrapper.find('.key-val-item').at(1).find('DefaultOp').simulate('click');
     expect(wrapper.find('.key-val-item')).toHaveLength(defaultValue.length - 1);
@@ -85,20 +87,21 @@ describe('KVPair', () => {
   it('should render with empty value', () => {
     const fn = jest.fn();
     const DescComp = (props = {}) => {
-      return (
-        <div {...props} className="desc-comp" />
-      );
+      return <div {...props} className="desc-comp" />;
     };
     const KeyDescComp = (props = {}) => {
-      return (
-        <div {...props} className="key-desc-comp" />
-      );
+      return <div {...props} className="key-desc-comp" />;
     };
     const wrapper = mount(
-      <KVPair value={[]} onChange={fn} emptyHolder DescComp={DescComp} KeyDescComp={KeyDescComp} compProps={{ disabled: true }}>
-        {
-          renderChildren
-        }
+      <KVPair
+        value={[]}
+        onChange={fn}
+        emptyHolder
+        DescComp={DescComp}
+        KeyDescComp={KeyDescComp}
+        compProps={{ disabled: true }}
+      >
+        {renderChildren}
       </KVPair>,
     );
     act(() => {

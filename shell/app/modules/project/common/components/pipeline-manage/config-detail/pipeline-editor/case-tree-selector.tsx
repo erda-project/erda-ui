@@ -38,18 +38,13 @@ export interface IProps {
 const { Option } = Select;
 
 enum NodeType {
-  dir ='d', // 文件目录
-  file = 'f' // 文件
+  dir = 'd', // 文件目录
+  file = 'f', // 文件
 }
 
 const reAliasKey = 're__alias__'; // 重命名别名
 const useableScopeMap = {
-  projectPipeline: [
-    scopeMap.projectPipeline,
-    scopeMap.appPipeline,
-    scopeMap.autoTestPlan,
-    scopeMap.configSheet,
-  ],
+  projectPipeline: [scopeMap.projectPipeline, scopeMap.appPipeline, scopeMap.autoTestPlan, scopeMap.configSheet],
   autoTest: [scopeMap.autoTest, scopeMap.configSheet], // 可引用用例：配置单、测试用例
 };
 
@@ -90,7 +85,15 @@ const convertTreeData = (data: AUTO_TEST.ICaseDetail[]) => {
 };
 
 export const CaseTreeSelector = (props: IProps) => {
-  const { onChange: propsOnChange, nodeData, closeDrawer, editing = false, curCaseId, otherTaskAlias = [], scope } = props;
+  const {
+    onChange: propsOnChange,
+    nodeData,
+    closeDrawer,
+    editing = false,
+    curCaseId,
+    otherTaskAlias = [],
+    scope,
+  } = props;
   const projectId = routeInfoStore.getState((s) => s.params.projectId);
   const useableScope = useableScopeMap[scope];
   const formRef = React.useRef(null as any);
@@ -176,36 +179,35 @@ export const CaseTreeSelector = (props: IProps) => {
           ];
         }
 
-        (getSnippetNodeDetail({ snippetConfigs }) as unknown as Promise<any>).then((res: any) => {
-          const _inParams = getParams(res.data);
-          if (!isEmpty(_inParams)) { // 节点无入参
-            const _f = [
-              ...renameFields,
-              {
-                component: 'custom',
-                getComp: () => {
-                  return (
-                    <div className="bold-500 border-bottom">
-                      {i18n.t('project:node params')}
-                    </div>
-                  );
+        (getSnippetNodeDetail({ snippetConfigs }) as unknown as Promise<any>)
+          .then((res: any) => {
+            const _inParams = getParams(res.data);
+            if (!isEmpty(_inParams)) {
+              // 节点无入参
+              const _f = [
+                ...renameFields,
+                {
+                  component: 'custom',
+                  getComp: () => {
+                    return <div className="bold-500 border-bottom">{i18n.t('project:node params')}</div>;
+                  },
                 },
-              },
-            ];
+              ];
 
-            const _inParamsFields = map(ymlDataToFormData(_inParams), (item: any) => {
-              return editing ? item : { ...item, disabled: true };
-            });
-            updater.fields([..._f, ..._inParamsFields]);
-          } else {
-            updater.fields([...renameFields]);
-          }
-        }).catch((e: any) => {
-          updater.chosenCase(null);
-        });
+              const _inParamsFields = map(ymlDataToFormData(_inParams), (item: any) => {
+                return editing ? item : { ...item, disabled: true };
+              });
+              updater.fields([..._f, ..._inParamsFields]);
+            } else {
+              updater.fields([...renameFields]);
+            }
+          })
+          .catch((e: any) => {
+            updater.chosenCase(null);
+          });
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chosenCase]);
 
   React.useEffect(() => {
@@ -225,14 +227,16 @@ export const CaseTreeSelector = (props: IProps) => {
   };
 
   const onSubmit = () => {
-    if (formRef && formRef.current) { // 有表单
+    if (formRef && formRef.current) {
+      // 有表单
       formRef.current.onSubmit((val: Obj) => {
         const { [reAliasKey]: reAalias } = val;
-        propsOnChange && propsOnChange({
-          ...chosenCase,
-          params: val,
-          ...(reAalias ? { alias: reAalias } : {}),
-        });
+        propsOnChange &&
+          propsOnChange({
+            ...chosenCase,
+            params: val,
+            ...(reAalias ? { alias: reAalias } : {}),
+          });
       });
     } else {
       propsOnChange && propsOnChange(chosenCase);
@@ -240,66 +244,82 @@ export const CaseTreeSelector = (props: IProps) => {
   };
 
   const onLoadData = (treeNode?: any) => {
-    const pinode = get(treeNode, 'props.id') || '0';// 根目录为0
-    return (getCategoryByIdNew({ pinode, scopeID: projectId, scope: chosenType }) as unknown as Promise<any>).then((res: any) => {
-      const _list = convertTreeData(res.data);
-      const allList = pinode === '0' ? [..._list] : [...dataList, ..._list];
+    const pinode = get(treeNode, 'props.id') || '0'; // 根目录为0
+    return (getCategoryByIdNew({ pinode, scopeID: projectId, scope: chosenType }) as unknown as Promise<any>).then(
+      (res: any) => {
+        const _list = convertTreeData(res.data);
+        const allList = pinode === '0' ? [..._list] : [...dataList, ..._list];
 
-      const folders = allList.filter((node) => !node.isLeaf);
-      const files = allList.filter((node) => node.isLeaf);
-      const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+        const folders = allList.filter((node) => !node.isLeaf);
+        const files = allList.filter((node) => node.isLeaf);
+        const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
 
-      folders.sort((x, y) => collator.compare(x.title, y.title));
-      files.sort((x, y) => collator.compare(x.title, y.title));
+        folders.sort((x, y) => collator.compare(x.title, y.title));
+        files.sort((x, y) => collator.compare(x.title, y.title));
 
-      updater.dataList([...folders, ...files]);
-    });
+        updater.dataList([...folders, ...files]);
+      },
+    );
   };
 
   const onChange = (chosenOne: any, _: any, extra: any) => {
     const chosenId = chosenOne.value;
     const curScope = get(extra, 'triggerNode.props.scope');
-    chosenId && curScope && (getTreeNodeDetailNew({ id: chosenId, scope: curScope, scopeID: projectId }) as unknown as Promise<any>).then((res: any) => {
-      const node = res.data as AUTO_TEST.ICaseDetail;
-      const snippet_config = get(node, 'meta.snippetAction.snippet_config') || {};
-      if (isEmpty(snippet_config)) { // 没有snippet_config，为无效用例，不可引用
-        notify('error', i18n.t('project:this use case is invalid, please refine it before citation'));
-      } else if (curCaseId === node.inode) {
-        notify('error', i18n.t('project:cannot refer to itself'));
-      } else {
-        updater.chosenCase({
-          ...(get(node, 'meta.snippetAction') || {}),
-          alias: `${node.name}`,
-          label: chosenOne.label,
-        });
-      }
-    });
+    chosenId &&
+      curScope &&
+      (getTreeNodeDetailNew({ id: chosenId, scope: curScope, scopeID: projectId }) as unknown as Promise<any>).then(
+        (res: any) => {
+          const node = res.data as AUTO_TEST.ICaseDetail;
+          const snippet_config = get(node, 'meta.snippetAction.snippet_config') || {};
+          if (isEmpty(snippet_config)) {
+            // 没有snippet_config，为无效用例，不可引用
+            notify('error', i18n.t('project:this use case is invalid, please refine it before citation'));
+          } else if (curCaseId === node.inode) {
+            notify('error', i18n.t('project:cannot refer to itself'));
+          } else {
+            updater.chosenCase({
+              ...(get(node, 'meta.snippetAction') || {}),
+              alias: `${node.name}`,
+              label: chosenOne.label,
+            });
+          }
+        },
+      );
   };
 
   const onSearch = (searchKey: string) => {
     updater.searchValue(searchKey);
   };
 
-  const search = React.useCallback(debounce((q?: string) => {
-    if (q) {
-      (fuzzySearchNew({ fuzzy: q, scopeID: projectId, scope: chosenType, recursive: true }) as unknown as Promise<any>).then((res: any) => {
-        updater.dataList(filter(convertTreeData(res.data), (item) => item.isLeaf));
-      });
-    } else {
-      updater.dataList([]);
-      onLoadData();
-    }
-  }, 400), [chosenType]);
-
+  const search = React.useCallback(
+    debounce((q?: string) => {
+      if (q) {
+        (
+          fuzzySearchNew({
+            fuzzy: q,
+            scopeID: projectId,
+            scope: chosenType,
+            recursive: true,
+          }) as unknown as Promise<any>
+        ).then((res: any) => {
+          updater.dataList(filter(convertTreeData(res.data), (item) => item.isLeaf));
+        });
+      } else {
+        updater.dataList([]);
+        onLoadData();
+      }
+    }, 400),
+    [chosenType],
+  );
 
   React.useEffect(() => {
     search();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chosenType]);
 
   React.useEffect(() => {
     search(searchValue);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, searchValue]);
 
   React.useEffect(() => {
@@ -312,17 +332,18 @@ export const CaseTreeSelector = (props: IProps) => {
   }, [chosenCase, updater]);
   return (
     <div className="full-height auto-test-tree-selector">
-
-      {
-        isEmpty(useableScope) ? null : (
-          <>
-            <div className="pb8 color-text-desc">{i18n.t('please select {name}', { name: i18n.t('type') })}</div>
-            <Select value={chosenType} onChange={changeType} className="full-width">
-              {map(useableScope, (item) => <Option key={item.scope} value={item.scope}>{item.name}</Option>)}
-            </Select>
-          </>
-        )
-      }
+      {isEmpty(useableScope) ? null : (
+        <>
+          <div className="pb8 color-text-desc">{i18n.t('please select {name}', { name: i18n.t('type') })}</div>
+          <Select value={chosenType} onChange={changeType} className="full-width">
+            {map(useableScope, (item) => (
+              <Option key={item.scope} value={item.scope}>
+                {item.name}
+              </Option>
+            ))}
+          </Select>
+        </>
+      )}
       <div className="py8 color-text-desc">{i18n.t('please select {name}', { name: i18n.t('node') })}</div>
       <TreeSelect
         searchValue={searchValue}
@@ -339,27 +360,26 @@ export const CaseTreeSelector = (props: IProps) => {
         disabled={!editing}
         onChange={onChange}
         loadData={onLoadData}
-        treeData={map(dataList, (item) => ({ ...item, disabled: (item.isLeaf && item.inode === curCaseId) ? true : item.disabled }))}
+        treeData={map(dataList, (item) => ({
+          ...item,
+          disabled: item.isLeaf && item.inode === curCaseId ? true : item.disabled,
+        }))}
       />
-      {
-        !isEmpty(fields) ? (
-          <div className="mb12">
-            <Form
-              fields={fields}
-              value={formValue}
-              formRef={formRef}
-            />
-          </div>
-        ) : null
-      }
-      {
-        editing ? (
-          <div className="footer">
-            <Button onClick={closeDrawer} className="mr8">{i18n.t('cancel')}</Button>
-            <Button type="primary" disabled={isEmpty(chosenCase)} onClick={() => onSubmit()}>{i18n.t('save')}</Button>
-          </div>
-        ) : null
-      }
+      {!isEmpty(fields) ? (
+        <div className="mb12">
+          <Form fields={fields} value={formValue} formRef={formRef} />
+        </div>
+      ) : null}
+      {editing ? (
+        <div className="footer">
+          <Button onClick={closeDrawer} className="mr8">
+            {i18n.t('cancel')}
+          </Button>
+          <Button type="primary" disabled={isEmpty(chosenCase)} onClick={() => onSubmit()}>
+            {i18n.t('save')}
+          </Button>
+        </div>
+      ) : null}
     </div>
   );
 };

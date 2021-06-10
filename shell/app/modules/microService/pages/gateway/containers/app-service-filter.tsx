@@ -46,25 +46,32 @@ export const AppServiceFilter = ({ updateField, dataSource }: IProps) => {
 
   return (
     <>
-      <Select showSearch placeholder={i18n.t('microService:application')} value={diceApp} onChange={onAppChange} className="filter-select mr16">
+      <Select
+        showSearch
+        placeholder={i18n.t('microService:application')}
+        value={diceApp}
+        onChange={onAppChange}
+        className="filter-select mr16"
+      >
         {map(appList, (appName, key) => (
           <Option key={key} value={appName}>
-            <Tooltip title={appName}>
-              {appName}
-            </Tooltip>
+            <Tooltip title={appName}>{appName}</Tooltip>
           </Option>
         ))}
       </Select>
-      <Select showSearch placeholder={i18n.t('microService:affiliated service')} value={diceService} onChange={onServiceChange} className="filter-select mr16">
+      <Select
+        showSearch
+        placeholder={i18n.t('microService:affiliated service')}
+        value={diceService}
+        onChange={onServiceChange}
+        className="filter-select mr16"
+      >
         {map(serviceList, (serviceName, key) => (
           <Option key={key} value={serviceName}>
-            <Tooltip title={serviceName}>
-              {serviceName}
-            </Tooltip>
+            <Tooltip title={serviceName}>{serviceName}</Tooltip>
           </Option>
         ))}
       </Select>
     </>
   );
 };
-
