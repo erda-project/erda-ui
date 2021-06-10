@@ -12,7 +12,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import { Input, Select, Button, InputNumber, Collapse, Switch, Icon } from 'app/nusi';
+import { Input, Select, Button, InputNumber, Collapse, Switch } from 'app/nusi';
+import { Icon as CustomIcon } from 'common';
 import { isEmpty, map } from 'lodash';
 import { IF, useUpdate } from 'common';
 import { useMount } from 'react-use';
@@ -270,8 +271,8 @@ export const PureSafetyPolicy = () => {
                 <span onClick={e => e.stopPropagation()}>
                   {i18n.t('microService:use global policy')}&nbsp;
                   <Switch
-                    checkedChildren={<Icon type="check" />}
-                    unCheckedChildren={<Icon type="close" />}
+                    checkedChildren={<CustomIcon type="check" />}
+                    unCheckedChildren={<CustomIcon type="close" />}
                     checked={enableGlobalWaf}
                     onChange={updater.enableGlobalWaf}
                   />
@@ -338,8 +339,8 @@ export const PureSafetyPolicy = () => {
                   <span onClick={(e) => e.stopPropagation()}>
                     {i18n.t('microService:use global policy')}&nbsp;
                     <Switch
-                      checkedChildren={<Icon type="check" />}
-                      unCheckedChildren={<Icon type="close" />}
+                      checkedChildren={<CustomIcon type="check" />}
+                      unCheckedChildren={<CustomIcon type="close" />}
                       checked={enableGlobalIP}
                       onChange={updater.enableGlobalIP}
                     />
@@ -467,8 +468,8 @@ export const PureSafetyPolicy = () => {
                   <span onClick={(e) => e.stopPropagation()}>
                     {i18n.t('microService:use global policy')}&nbsp;
                     <Switch
-                      checkedChildren={<Icon type="check" />}
-                      unCheckedChildren={<Icon type="close" />}
+                      checkedChildren={<CustomIcon type="check" />}
+                      unCheckedChildren={<CustomIcon type="close" />}
                       checked={enableGlobalServerGuard}
                       onChange={updater.enableGlobalServerGuard}
                     />
@@ -559,8 +560,8 @@ export const PureSafetyPolicy = () => {
                   <span onClick={(e) => e.stopPropagation()}>
                     {i18n.t('microService:use global policy')}&nbsp;
                     <Switch
-                      checkedChildren={<Icon type="check" />}
-                      unCheckedChildren={<Icon type="close" />}
+                      checkedChildren={<CustomIcon type="check" />}
+                      unCheckedChildren={<CustomIcon type="close" />}
                       checked={enableGlobalSafetyCsrf}
                       onChange={updater.enableGlobalSafetyCsrf}
                     />
@@ -587,8 +588,8 @@ export const PureSafetyPolicy = () => {
             <div className="policy-content">
               <Switch
                 disabled={enableGlobalSafetyCsrf || !csrfEnable}
-                checkedChildren={<Icon type="check" />}
-                unCheckedChildren={<Icon type="close" />}
+                checkedChildren={<CustomIcon type="check" />}
+                unCheckedChildren={<CustomIcon type="close" />}
                 checked={cookieSecure}
                 onChange={(checked) => {
                   setCookieSecure(checked);
