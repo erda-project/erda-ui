@@ -16,7 +16,7 @@ import { Search } from 'app/nusi';
 import { TimeSelector, PureBoardGrid } from 'common';
 import i18n from 'i18n';
 import { goTo } from 'common/utils';
-import { DC } from '@terminus/dashboard-configurator';
+import { DC } from '@erda-ui/dashboard-configurator';
 import monitorCommonStore from 'common/stores/monitorCommon';
 import topologyStore from 'topology/stores/topology';
 import routeInfoStore from 'app/common/stores/route';

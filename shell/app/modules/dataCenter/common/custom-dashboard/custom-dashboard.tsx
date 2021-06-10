@@ -16,7 +16,7 @@ import i18n from 'i18n';
 import { Input, message } from 'app/nusi';
 import { map, merge, reduce, isString, get } from 'lodash';
 import { CommonRangePicker, useUpdate, IF, BoardGrid, PureBoardGrid } from 'common';
-import { registDiceDataConfigProps, createLoadDataFn } from '@terminus/dashboard-configurator';
+import { registDiceDataConfigProps, createLoadDataFn } from '@erda-ui/dashboard-configurator';
 import { goTo, getTimeSpan } from 'common/utils';
 import moment from 'moment';
 import { useMount } from 'react-use';

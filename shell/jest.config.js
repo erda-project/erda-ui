@@ -24,7 +24,7 @@ forEach(moduleNameMapper, (t, k) => {
   }
 });
 const resolve = (pathname) => path.resolve(__dirname, pathname);
-const dashboardRealPath = fs.realpathSync(resolve('./node_modules/@terminus/dashboard-configurator'));
+const dashboardRealPath = fs.realpathSync(resolve('./node_modules/@erda-ui/dashboard-configurator'));
 
 module.exports = {
   verbose: true,
@@ -49,7 +49,7 @@ module.exports = {
   transform: {
     '^.+\\.(t|j)sx?$': 'ts-jest',
     '^.+\\js$': 'babel-jest',
-    '@terminus/dashboard-configurator': 'ts-jest',
+    '@erda-ui/dashboard-configurator': 'ts-jest',
     [dashboardRealPath]: 'ts-jest',
   },
   moduleNameMapper: {
@@ -81,7 +81,7 @@ module.exports = {
     'common/stores(.*)': '<rootDir>/app/common/stores/$1',
     '^configForm(.*)': '<rootDir>/app/configForm/$1',
     '^charts$': '<rootDir>/app/charts/index.js',
-    // mock for @terminus/dashboard-configuratort iconfont
+    // mock for @erda-ui/dashboard-configuratort iconfont
     'iconfont.js$': 'identity-obj-proxy',
     '\\.(css|less|scss)$': 'identity-obj-proxy',
   },
@@ -92,7 +92,7 @@ module.exports = {
     enzymeAdapter: 'react16',
   },
   transformIgnorePatterns: [
-    // 'node_modules/(?!@terminus/dashboard-configurator/.*)',
+    // 'node_modules/(?!@erda-ui/dashboard-configurator/.*)',
     dashboardRealPath,
   ],
   testMatch: ['**/__tests__/**/*.test.+(tsx|ts|jsx|js)'],

@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* eslint-disable no-undef */
-import { IStaticData } from '@terminus/dashboard-configurator';
+import { IStaticData } from '@erda-ui/dashboard-configurator';
 import { getFormatter } from './index';
 import { cutStr } from 'app/common/utils';
 import { areaColors } from '../theme';
