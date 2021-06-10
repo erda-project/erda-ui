@@ -18,8 +18,8 @@ import {
   InputNumber,
   Collapse,
   Switch,
-  Icon,
 } from 'app/nusi';
+import { Icon as CustomIcon } from 'common';
 import { isEmpty } from 'lodash';
 import { useUpdate, IF } from 'common';
 import { useMount } from 'react-use';
@@ -249,8 +249,8 @@ export const PureBusinessPolicy = () => {
                   <span onClick={(e) => e.stopPropagation()}>
                     {i18n.t('microService:use global policy')}&nbsp;
                     <Switch
-                      checkedChildren={<Icon type="check" />}
-                      unCheckedChildren={<Icon type="close" />}
+                      checkedChildren={<CustomIcon type="check" />}
+                      unCheckedChildren={<CustomIcon type="close" />}
                       checked={enableGlobalBusinessProxy}
                       onChange={updater.enableGlobalBusinessProxy}
                     />
@@ -268,8 +268,8 @@ export const PureBusinessPolicy = () => {
             <div className="policy-content">
               <Switch
                 disabled={enableGlobalBusinessProxy || !businessProxyEnable}
-                checkedChildren={<Icon type="check" />}
-                unCheckedChildren={<Icon type="close" />}
+                checkedChildren={<CustomIcon type="check" />}
+                unCheckedChildren={<CustomIcon type="close" />}
                 checked={sslRedirect}
                 onChange={(checked: boolean) => setSslRedirect(checked)}
               />
@@ -282,8 +282,8 @@ export const PureBusinessPolicy = () => {
             <div className="policy-content">
               <Switch
                 disabled={enableGlobalBusinessProxy || !businessProxyEnable}
-                checkedChildren={<Icon type="check" />}
-                unCheckedChildren={<Icon type="close" />}
+                checkedChildren={<CustomIcon type="check" />}
+                unCheckedChildren={<CustomIcon type="close" />}
                 checked={hostPassthrough}
                 onChange={(checked) => setHostPassthrough(checked)}
               />
@@ -296,8 +296,8 @@ export const PureBusinessPolicy = () => {
             <div className="policy-content">
               <Switch
                 disabled={enableGlobalBusinessProxy || !businessProxyEnable}
-                checkedChildren={<Icon type="check" />}
-                unCheckedChildren={<Icon type="close" />}
+                checkedChildren={<CustomIcon type="check" />}
+                unCheckedChildren={<CustomIcon type="close" />}
                 checked={reqBuffer}
                 onChange={(checked) => setReqBuffer(checked)}
               />
@@ -310,8 +310,8 @@ export const PureBusinessPolicy = () => {
             <div className="policy-content">
               <Switch
                 disabled={enableGlobalBusinessProxy || !businessProxyEnable}
-                checkedChildren={<Icon type="check" />}
-                unCheckedChildren={<Icon type="close" />}
+                checkedChildren={<CustomIcon type="check" />}
+                unCheckedChildren={<CustomIcon type="close" />}
                 checked={respBuffer}
                 onChange={(checked) => setRespBuffer(checked)}
               />
@@ -446,8 +446,8 @@ export const PureBusinessPolicy = () => {
                   <span onClick={(e) => e.stopPropagation()}>
                     {i18n.t('microService:use global policy')}&nbsp;
                     <Switch
-                      checkedChildren={<Icon type="check" />}
-                      unCheckedChildren={<Icon type="close" />}
+                      checkedChildren={<CustomIcon type="check" />}
+                      unCheckedChildren={<CustomIcon type="close" />}
                       checked={enableGlobalBusinessCors}
                       onChange={updater.enableGlobalBusinessCors}
                     />
@@ -507,8 +507,8 @@ export const PureBusinessPolicy = () => {
             <div className="policy-content">
               <Switch
                 disabled={enableGlobalBusinessCors || !businessCorsEnable}
-                checkedChildren={<Icon type="check" />}
-                unCheckedChildren={<Icon type="close" />}
+                checkedChildren={<CustomIcon type="check" />}
+                unCheckedChildren={<CustomIcon type="close" />}
                 checked={credentials}
                 onChange={(checked) => setCredentials(checked)}
               />
@@ -561,8 +561,8 @@ export const PureBusinessPolicy = () => {
                   <span onClick={(e) => e.stopPropagation()}>
                     {i18n.t('microService:use global policy')}&nbsp;
                     <Switch
-                      checkedChildren={<Icon type="check" />}
-                      unCheckedChildren={<Icon type="close" />}
+                      checkedChildren={<CustomIcon type="check" />}
+                      unCheckedChildren={<CustomIcon type="close" />}
                       checked={enableGlobalBusinessCustom}
                       onChange={updater.enableGlobalBusinessCustom}
                     />
