@@ -64,7 +64,7 @@ export const IssueDrawer = (props: IProps) => {
   ] = React.Children.toArray(children);
   const customFieldDetail = issueStore.useStore((s) => s.customFieldDetail);
   const [copyTitle, setCopyTitle] = React.useState('');
-  const [isChanged, setIsChanged] = React.useState(true);
+  const [isChanged, setIsChanged] = React.useState(false);
   const preDataRef = React.useRef(data);
   const preData = preDataRef.current;
 
