@@ -359,8 +359,8 @@ const TestSet = ({
       setExpandedKeys(eventKeys || [rootKey]);
       setActiveKey(query.eventKey);
       const secondLevel = treeData[0].children.find((t) => t.key === secondLevelKey) || {};
-      const firstChildren = get(secondLevel, 'children', []);
-      if (!isEmpty(secondLevel) && firstChildren.length === 0) {
+      const firstChildren = get(secondLevel, 'children');
+      if (!isEmpty(secondLevel) && !firstChildren) {
         // 逐级请求节点
         loadTreeNode(eventKeys.splice(1), isInRecycleBin);
       }
