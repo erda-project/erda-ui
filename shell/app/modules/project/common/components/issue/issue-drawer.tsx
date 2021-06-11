@@ -54,7 +54,24 @@ interface IProps {
  * @param onClose
  */
 export const IssueDrawer = (props: IProps) => {
-  const { className = '', canCreate = false, canDelete = false, subDrawer = null, children, editMode, shareLink, loading = false, visible, onClose, onDelete, confirmCloseTip, handleCopy, maskClosable, data, ...rest } = props;
+  const {
+    className = '',
+    canCreate = false,
+    canDelete = false,
+    subDrawer = null,
+    children,
+    editMode,
+    shareLink,
+    loading = false,
+    visible,
+    onClose,
+    onDelete,
+    confirmCloseTip,
+    handleCopy,
+    maskClosable,
+    data,
+    ...rest
+  } = props;
   const [
     title = IssueDrawer.Empty,
     main = IssueDrawer.Empty,
@@ -73,7 +90,7 @@ export const IssueDrawer = (props: IProps) => {
       setIsChanged(false);
 
       Object.keys(currentData).forEach((key) => {
-        if ((key in initData)) {
+        if (key in initData) {
           if (!isEqual(initData[key], currentData[key])) {
             setIsChanged(true);
           }
@@ -81,7 +98,12 @@ export const IssueDrawer = (props: IProps) => {
           const defaultValue = find(customFieldDetail?.property, { propertyName: key })?.values;
 
           // Determine whether the field has changed. When the value is the following conditions, the field has not changed
-          const notChange = isEqual(defaultValue, currentData[key]) || currentData[key] === undefined || currentData[key] === '' || isEqual(currentData[key], []) || isEqual(currentData[key], { estimateTime: 0, remainingTime: 0 });
+          const notChange =
+            isEqual(defaultValue, currentData[key]) ||
+            currentData[key] === undefined ||
+            currentData[key] === '' ||
+            isEqual(currentData[key], []) ||
+            isEqual(currentData[key], { estimateTime: 0, remainingTime: 0 });
 
           if (!notChange) {
             setIsChanged(true);
@@ -146,25 +168,18 @@ export const IssueDrawer = (props: IProps) => {
                     </Popover>
                   </WithAuth>
                 </IF>
-                {
-                  onDelete
-                    ? (
-                      <WithAuth pass={canDelete} >
-                        <Popconfirm title={`${i18n.t('common:confirm deletion')}?`} placement="bottomRight" onConfirm={onDelete}>
-                          <IconDelete className="hover-active ml12" size="16px" />
-                        </Popconfirm>
-                      </WithAuth>
-                    )
-                    : null
-                }
-                {
-                  isChanged && confirmCloseTip ? (
-                    <Popconfirm title={confirmCloseTip} placement="bottomRight" onConfirm={onClose}>
-                      <IconCheck className="ml12 pointer" size="16px" />
+                {onDelete ? (
+                  <WithAuth pass={canDelete}>
+                    <Popconfirm
+                      title={`${i18n.t('common:confirm deletion')}?`}
+                      placement="bottomRight"
+                      onConfirm={onDelete}
+                    >
+                      <IconDelete className="hover-active ml12" size="16px" />
                     </Popconfirm>
                   </WithAuth>
                 ) : null}
-                {confirmCloseTip ? (
+                {isChanged && confirmCloseTip ? (
                   <Popconfirm title={confirmCloseTip} placement="bottomRight" onConfirm={onClose}>
                     <IconCheck className="ml12 pointer" size="16px" />
                   </Popconfirm>

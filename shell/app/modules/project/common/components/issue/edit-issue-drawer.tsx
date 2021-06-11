@@ -222,11 +222,11 @@ const IssueMetaFields = React.forwardRef(
                 originalValue={originalValue}
                 onChange={onSave}
                 disabled={disabled}
-              />;
-        },
+              />)
+        }
       };
     });
-  }, [customFieldDetail, editAuth, projectId, urlParams.projectId, expandCustomFields]);
+  }, [customFieldDetail.property, hideFieldClass, editAuth, urlParams.projectId, projectId, ref]);
 
   let editFieldList = [
     ...insertWhen(isEditMode, [
@@ -245,6 +245,7 @@ const IssueMetaFields = React.forwardRef(
             </Option>)),
           allowClear: false,
         },
+      }
       ]),
       {
         className: 'mb20 full-width',
