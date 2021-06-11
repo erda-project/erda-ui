@@ -16,21 +16,20 @@ const fs = require('fs');
 const dotenv = require('dotenv');
 const chalk = require('chalk');
 
-
 const log = (...msg) => console.log(chalk.blue(`[Scheduler] ${msg}`));
 const logWarn = (...msg) => console.log(chalk.yellow(`[Scheduler] ${msg}`));
 
-const getDirectories = source =>
-  fs.readdirSync(source, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
-    .map(dirent => dirent.name);
-
+const getDirectories = (source) =>
+  fs
+    .readdirSync(source, { withFileTypes: true })
+    .filter((dirent) => dirent.isDirectory())
+    .map((dirent) => dirent.name);
 
 const getEnv = () => {
   const erdaRoot = path.resolve(__dirname, '../..');
   const publicDir = `${erdaRoot}/public`;
   const staticDir = `${erdaRoot}/public/static`;
-  [publicDir, staticDir].forEach(dir => {
+  [publicDir, staticDir].forEach((dir) => {
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir);
     }
@@ -43,8 +42,8 @@ const getEnv = () => {
     erdaRoot,
     staticDir,
     envConfig,
-  }
-}
+  };
+};
 
 module.exports = {
   log,
@@ -52,4 +51,3 @@ module.exports = {
   getDirectories,
   getEnv,
 };
-

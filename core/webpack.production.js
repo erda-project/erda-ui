@@ -13,8 +13,17 @@
 
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
-
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const os = require('os');
+const webpack = require('webpack');
+const GitRevisionPlugin = require('git-revision-webpack-plugin');
+const moment = require('moment');
+
+const gitRevisionPlugin = new GitRevisionPlugin();
+const banner = `commit: ${gitRevisionPlugin.commithash().slice(0, 6)}
+branch: ${gitRevisionPlugin.branch()}
+buildTime: ${moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')}
+buildBy: ${os.userInfo().username}`;
 
 module.exports = {
   mode: 'production',
@@ -27,6 +36,7 @@ module.exports = {
   optimization: {
     minimize: true,
     minimizer: [
+      new webpack.BannerPlugin(banner),
       new TerserPlugin({
         parallel: true,
         extractComments: false,
