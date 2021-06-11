@@ -1156,6 +1156,7 @@ export const EditIssueDrawer = (props: IProps) => {
                   showArrow: true,
                   className: 'switch-type-selector',
                   style: { width: 60 },
+                  getPopupContainer: () => document.body,
                 }}
                 onChangeCb={(field: any) => {
                   switchType(field.type);
