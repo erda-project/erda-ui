@@ -60,7 +60,7 @@ export const getCwdModuleName = (params?: { currentPath?: string }) => {
     }
   }
 
-  if (!isInRoot) {
+  if (!isInRoot || !moduleName) {
     logError('please run this command under an erda-ui module root directory');
     process.exit(1);
   }
