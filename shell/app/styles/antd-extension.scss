@@ -43,7 +43,7 @@ $border-style: 1px solid $color-border;
     .ant-tabs-tab {
       height: 46px;
       margin-right: 40px;
-      padding: 0;
+      padding: 12px 16px!important;
       line-height: 46px;
 
       &.ant-tabs-tab-active {
@@ -405,6 +405,14 @@ div.ant-select-tree .ant-select-tree-node-content-wrapper:hover {
 div.ant-tabs-nav .ant-tabs-tab {
   padding: 12px 0;
   margin-right: 40px;
+}
+
+div.ant-tabs-nav::before, .ant-tabs-nav::after {
+  display: block;
+}
+
+.task-drawer-main .task-drawer-tabs .ant-tabs-nav {
+  padding: 0 20px;
 }
 
 div.ant-row {
