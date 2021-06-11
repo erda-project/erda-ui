@@ -359,8 +359,8 @@ const TestSet = ({
       setExpandedKeys(eventKeys || [rootKey]);
       setActiveKey(query.eventKey);
       const secondLevel = treeData[0].children.find((t) => t.key === secondLevelKey) || {};
-      const firstChildren = get(secondLevel, 'children', []);
-      if (!isEmpty(secondLevel) && firstChildren.length === 0) {
+      const firstChildren = get(secondLevel, 'children');
+      if (!isEmpty(secondLevel) && !firstChildren) {
         // 逐级请求节点
         loadTreeNode(eventKeys.splice(1), isInRecycleBin);
       }
@@ -611,9 +611,24 @@ const TestSet = ({
   };
 
   const onExpand = (nextExpandedKeys: string[], { nativeEvent }: any) => {
+    let eventPath = nativeEvent.path;
+    // In Firefox, MouseEvent hasn't path and needs to be hacked, bubbling from the target to the root node
+    if (!eventPath) {
+      eventPath = [];
+      let currentEle = nativeEvent.target;
+      while (currentEle) {
+        eventPath.push(currentEle);
+        currentEle = currentEle.parentElement;
+      }
+      if (!(eventPath.includes(window) || eventPath.includes(document))) {
+        eventPath.push(document);
+      }
+      if (!eventPath.includes(window)) {
+        eventPath.push(window);
+      }
+    }
     let clickInSwitcher = false;
-    // 点击switcher节点或节点内时才执行展开
-    const nodes = Array.from(nativeEvent.path);
+    const nodes = Array.from(eventPath);
     for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i] as HTMLElement;
       if (node.nodeName === 'SPAN' && node.className.includes('ant-tree-switcher')) {
