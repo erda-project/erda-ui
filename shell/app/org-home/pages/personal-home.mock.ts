@@ -70,7 +70,7 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
       createOrgBtn: {
         type: 'Button',
         props: {
-          text: '创建组织',
+          text: 'create organization',
           type: 'primary',
         },
         operations: {

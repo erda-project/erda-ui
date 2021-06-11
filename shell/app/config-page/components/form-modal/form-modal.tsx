@@ -37,8 +37,7 @@ export const FormModal = (props: CP_FORM_MODAL.Props) => {
 
   React.useEffect(() => {
     // reload pages
-    const { refresh } = operations?.submit || {};
-    if (refresh) {
+    if (operations?.submit?.refresh) {
       window.location.reload();
     }
   }, [operations?.submit]);

@@ -55,9 +55,9 @@ export const FormUpload = ({
     const [loading, setLoading] = React.useState(false);
     const [imageUrl, setImageUrl] = React.useState('');
 
-    React.useEffect(()=>{
-      setImageUrl(value)
-    }, [value])
+    React.useEffect(() => {
+      setImageUrl(value);
+    }, [value]);
 
     registerRequiredCheck(_requiredCheck || requiredCheck);
     const { uploadText, sizeLimit, supportFormat } = componentProps || {};
@@ -80,7 +80,7 @@ export const FormUpload = ({
         const url = (get(response, 'data.url') || '').replace(/^http(s)?:/g, '');
         setImageUrl(url);
         form.setFieldValue(key, curFixOut(url));
-        (componentProps.onChange || noop)(url);
+        componentProps?.onChange?.(url);
       }
     }
 
