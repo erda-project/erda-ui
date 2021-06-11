@@ -235,3 +235,19 @@ declare namespace ISSUE {
     propertyIssueType: string;
   }
 }
+
+interface CreateDrawerData {
+  [k: string]: any;
+  assignee: string;
+  bugStage: string;
+  priority: 'URGENT' | 'HIGH' | 'NORMAL' | 'LOW';
+  complexity: 'DIFFICULT' | 'NORMAL' | 'EASY';
+  iterationID: number;
+  planFinishedAt: string;
+  severity: 'FATAL' | 'SERIOUS' | 'NORMAL' | 'SLIGHT' | 'SUGGEST';
+  taskType: string;
+  title: string;
+  content: string;
+  issueManHour: {estimateTime: number, remainingTime: number};
+  label: string[];
+}

@@ -15,6 +15,8 @@ import { Copy, IF } from 'common';
 import i18n from 'i18n';
 import React from 'react';
 import { WithAuth } from 'user/common';
+import issueStore from 'project/stores/issues';
+import { isEqual, find } from 'lodash';
 import { Drawer, Spin, Popconfirm, Input, message, NusiPopover as Popover } from 'app/nusi';
 import { Close as IconCheck, ShareOne as IconShareOne, Copy as IconCopy, Delete as IconDelete } from '@icon-park/react';
 import './issue-drawer.scss';
@@ -33,6 +35,7 @@ interface IProps {
   subDrawer?: JSX.Element | null;
   confirmCloseTip?: string;
   maskClosable?: boolean;
+  data: CreateDrawerData;
   onClose: (e: any) => void;
   onDelete?: () => void;
   handleCopy?: (isCopy: boolean, copyTitle: string) => void;
@@ -65,6 +68,8 @@ export const IssueDrawer = (props: IProps) => {
     onDelete,
     confirmCloseTip,
     handleCopy,
+    maskClosable,
+    data,
     ...rest
   } = props;
   const [
@@ -74,7 +79,40 @@ export const IssueDrawer = (props: IProps) => {
     meta = IssueDrawer.Empty,
     footer = IssueDrawer.Empty,
   ] = React.Children.toArray(children);
+  const customFieldDetail = issueStore.useStore((s) => s.customFieldDetail);
   const [copyTitle, setCopyTitle] = React.useState('');
+  const [isChanged, setIsChanged] = React.useState(false);
+  const preDataRef = React.useRef(data);
+  const preData = preDataRef.current;
+
+  React.useEffect(() => {
+    const isIssueDrawerChanged = (initData: CreateDrawerData, currentData: CreateDrawerData) => {
+      setIsChanged(false);
+
+      Object.keys(currentData).forEach((key) => {
+        if (key in initData) {
+          if (!isEqual(initData[key], currentData[key])) {
+            setIsChanged(true);
+          }
+        } else {
+          const defaultValue = find(customFieldDetail?.property, { propertyName: key })?.values;
+
+          // Determine whether the field has changed. When the value is the following conditions, the field has not changed
+          const notChange =
+            isEqual(defaultValue, currentData[key]) ||
+            currentData[key] === undefined ||
+            currentData[key] === '' ||
+            isEqual(currentData[key], []) ||
+            isEqual(currentData[key], { estimateTime: 0, remainingTime: 0 });
+
+          if (!notChange) {
+            setIsChanged(true);
+          }
+        }
+      });
+    };
+    isIssueDrawerChanged(preData, data);
+  }, [customFieldDetail.property, data, preData]);
 
   return (
     <Drawer
@@ -84,6 +122,7 @@ export const IssueDrawer = (props: IProps) => {
       closable={false}
       visible={visible}
       onClose={onClose}
+      maskClosable={maskClosable || !isChanged}
       {...rest}
     >
       <Spin spinning={loading}>
@@ -140,7 +179,7 @@ export const IssueDrawer = (props: IProps) => {
                     </Popconfirm>
                   </WithAuth>
                 ) : null}
-                {confirmCloseTip ? (
+                {isChanged && confirmCloseTip ? (
                   <Popconfirm title={confirmCloseTip} placement="bottomRight" onConfirm={onClose}>
                     <IconCheck className="ml12 pointer" size="16px" />
                   </Popconfirm>

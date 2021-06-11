@@ -222,35 +222,30 @@ const IssueMetaFields = React.forwardRef(
                 originalValue={originalValue}
                 onChange={onSave}
                 disabled={disabled}
-              />
-            );
-          },
-        };
-      });
-    }, [customFieldDetail, editAuth, projectId, urlParams.projectId]);
+              />)
+        }
+      };
+    });
+  }, [customFieldDetail.property, hideFieldClass, editAuth, urlParams.projectId, projectId, ref]);
 
-    let editFieldList = [
-      ...insertWhen(isEditMode, [
-        {
-          className: 'mb20',
-          name: 'state',
-          label: i18n.t('project:state'),
-          type: 'select',
-          itemProps: {
-            options: map(
-              formData.issueButton,
-              ({ stateID: state, stateName: label, permission: curAuth, stateBelong }) => (
-                <Option disabled={!curAuth} key={state} value={state}>
-                  <>
-                    {ISSUE_ICON.state[stateBelong]}
-                    {label}
-                  </>
-                </Option>
-              ),
-            ),
-            allowClear: false,
-          },
+  let editFieldList = [
+    ...insertWhen(isEditMode, [
+      {
+        className: 'mb20',
+        name: 'state',
+        label: i18n.t('project:state'),
+        type: 'select',
+        itemProps: {
+          options: map(formData.issueButton, ({ stateID: state, stateName: label, permission: curAuth, stateBelong }) => (
+            <Option disabled={!curAuth} key={state} value={state}>
+              <>
+                {ISSUE_ICON.state[stateBelong]}
+                {label}
+              </>
+            </Option>)),
+          allowClear: false,
         },
+      }
       ]),
       {
         className: 'mb20 full-width',
@@ -1135,9 +1130,10 @@ export const EditIssueDrawer = (props: IProps) => {
       confirmCloseTip={isEditMode ? undefined : i18n.t('project:close-issue-tip')}
       handleCopy={handleSubmit}
       maskClosable={isEditMode}
-      // loading={
-      //   loading.createIssue || loading.getIssueDetail || loading.updateIssue
-      // }
+      data={formData}
+    // loading={
+    //   loading.createIssue || loading.getIssueDetail || loading.updateIssue
+    // }
     >
       <div className="flex-box">
         <IF check={isEditMode}>
