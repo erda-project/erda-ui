@@ -55,6 +55,10 @@ export const FormUpload = ({
     const [loading, setLoading] = React.useState(false);
     const [imageUrl, setImageUrl] = React.useState('');
 
+    React.useEffect(() => {
+      setImageUrl(value);
+    }, [value]);
+
     registerRequiredCheck(_requiredCheck || requiredCheck);
     const { uploadText, sizeLimit, supportFormat } = componentProps || {};
     const _placeholder = uploadText || '上传图片';
@@ -75,6 +79,8 @@ export const FormUpload = ({
         // FIXME: 为什么要将 http(s) 去掉？
         const url = (get(response, 'data.url') || '').replace(/^http(s)?:/g, '');
         setImageUrl(url);
+        form.setFieldValue(key, curFixOut(url));
+        componentProps?.onChange?.(url);
       }
     }
 

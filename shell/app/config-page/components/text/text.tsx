@@ -14,7 +14,7 @@
 import * as React from 'react';
 import { map, isNumber, isString, isArray, isPlainObject } from 'lodash';
 import { Copy, ErdaIcon } from 'common';
-import { Badge, Title } from 'app/nusi';
+import { Badge, Title, Button } from 'app/nusi';
 import i18n from 'i18n';
 import imgMap from '../../img-map';
 import classnames from 'classnames';
@@ -96,7 +96,7 @@ const Text = (props: CP_TEXT.Props) => {
                     </span>
                   );
                 } else if (isPlainObject(t)) {
-                  const { text: tText, operationKey, styleConfig: tConfig, icon, iconStyleName = '', image = '' } = t;
+                  const { text: tText, operationKey, styleConfig: tConfig, icon, iconStyleName = '', image = '', withTag, tagStyle={} } = t;
                   const tStyle = getStyle(tConfig);
 
                   return operationKey ? (
@@ -116,7 +116,9 @@ const Text = (props: CP_TEXT.Props) => {
                     </a>
                   ) : (
                     <span key={idx} className={textClassNames} style={{ ...styleObj, ...tStyle }}>
-                      {tText}
+                      {
+                        withTag ? <span style={tagStyle}>{tText}</span> : tText
+                      }
                       {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
                       {image && (
                         <img src={image?.startsWith('/images') ? imgMap[image] : image} className="text-image" />
