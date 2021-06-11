@@ -620,10 +620,10 @@ const TestSet = ({
         eventPath.push(currentEle);
         currentEle = currentEle.parentElement;
       }
-      if (eventPath.indexOf(window) === -1 && eventPath.indexOf(document) === -1) {
+      if (!(eventPath.includes(window) || eventPath.includes(document))) {
         eventPath.push(document);
       }
-      if (eventPath.indexOf(window) === -1) {
+      if (!eventPath.includes(window)) {
         eventPath.push(window);
       }
     }
