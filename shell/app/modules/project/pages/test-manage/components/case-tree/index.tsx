@@ -611,9 +611,24 @@ const TestSet = ({
   };
 
   const onExpand = (nextExpandedKeys: string[], { nativeEvent }: any) => {
+    let eventPath = nativeEvent.path;
+    // In Firefox, MouseEvent hasn't path and needs to be hacked, bubbling from the target to the root node
+    if (!eventPath) {
+      eventPath = [];
+      let currentEle = nativeEvent.target;
+      while (currentEle) {
+        eventPath.push(currentEle);
+        currentEle = currentEle.parentElement;
+      }
+      if (eventPath.indexOf(window) === -1 && eventPath.indexOf(document) === -1) {
+        eventPath.push(document);
+      }
+      if (eventPath.indexOf(window) === -1) {
+        eventPath.push(window);
+      }
+    }
     let clickInSwitcher = false;
-    // 点击switcher节点或节点内时才执行展开
-    const nodes = Array.from(nativeEvent.path);
+    const nodes = Array.from(eventPath);
     for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i] as HTMLElement;
       if (node.nodeName === 'SPAN' && node.className.includes('ant-tree-switcher')) {
