@@ -42,11 +42,11 @@ const ApiAuth = (props: IProps) => {
 
   const column: Array<ColumnProps<any>> = [
     {
-      title: i18n.t('microService:calling method name'),
+      title: i18n.t('microService:caller name'),
       dataIndex: 'name',
     },
     {
-      title: i18n.t('microService:calling method description'),
+      title: i18n.t('microService:caller description'),
       dataIndex: 'description',
     },
   ];
