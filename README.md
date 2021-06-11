@@ -45,40 +45,40 @@ Please follow How to install Erda.
 > This repository contains many Node.JS packages. Each package has its own set of commands, but the most common commands are available from the root `package.json` and can be accessed using the `npm run ...` command. Just follow the four steps below to start.
 
 ```bash
-# Step1 Initialize the project of erda-ui
+# Step1 Install erda-ui cli to global
+	npm i @erda-ui/cli -g
+
+
+# Step2 Initialize the project of erda-ui
   # Run the following command in the root directory of erda-ui
-	node setup.js
+	erda-ui init
 
   # What does this command do?
-  # 1.1 Initialize dependencies in shell, core, scheduler and cli
-  # 1.2 Initialize ./erda/config.js in shell and core
-  # 1.3 Register erda-ui command globally
-  # 1.4 Generate .env in the root directory of erda-ui, which includes some environment variables
-
-
-# Step2 Initialize modules in the directory of fdp and admin (Except for modules in the erda-ui directory)
-  # Run the following command in the root directory of fdp and admin
-	erda-ui setup <module> <port> 
-	e.g., erda-ui setup admin 5001
-
-  # What does this command do?
-  # The port number of each module can be viewed in the .env file. After successful running, the .erda/config.js configuration file will be generated in the root directory of each module, and the path of the corresponding module will be automatically written in the .env file
+  # Generate initial config to the .env file. After successful running, the .env configuration file will be generated in the root directory of erda-ui.
 
 
 # Step3 Build core package
-  # Run the following command in the directory of erda-ui/core
-	npm run build-dev
+  # Run the following command in the directory of core
+	npm run build
 
   # What does this command do?
-  # The core package file will be generated in the public folder of the root directory, and static files will be read from that directory in development mode
+  # The core package file will be generated in the public folder of the root directory, and static files will be read from that directory in development mode.
 
 
-# Step4 Start App
-  # Run the following command in the directory of erda-ui
-  	erda-ui launch
+# Step4 Watch shell package
+  # Run the following command in the directory of shell
+	npm run watch
 
   # What does this command do?
-  # The erda-ui directive contains a launch command. Running the erda-ui launch in the root directory of erda-ui can manage the processes of multiple modules in the same window simultaneously, and it will launch the corresponding services based on the modules registered in the .env file
+  # Watch the shell package file change and build file to the public folder of the root directory.
+
+
+# Step5 Start App
+  # Run the following command in the directory of scheduler
+  npm start
+
+  # What does this command do?
+  # Start the dev server, redirect /static/{module}/* to the corresponding module folder in public folder based on the .env file, and redirect /api/* to api server.
 ```
 
 ## Architecture
@@ -127,7 +127,7 @@ We look forward to your connecting with us, you can ask us any questions.
 </div>
 
 - 钉钉用户群（Dinktalk）:
-  
+
 <div align="left">
 	<img src="https://raw.githubusercontent.com/erda-project/erda/develop/docs/assets/dingtalk.png" alt="Dingtalk" width="150">
 </div>
