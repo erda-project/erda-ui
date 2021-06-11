@@ -43,7 +43,7 @@ $border-style: 1px solid $color-border;
     .ant-tabs-tab {
       height: 46px;
       margin-right: 40px;
-      padding: 12px 16px!important;
+      padding: 0;
       line-height: 46px;
 
       &.ant-tabs-tab-active {
