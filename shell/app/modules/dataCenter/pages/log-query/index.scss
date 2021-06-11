@@ -12,12 +12,14 @@
   }
 
   .log-preview {
-    margin-bottom: 0;
     max-height: 260px;
-    word-break: break-word;
+    margin-bottom: 0;
     overflow: scroll;
     color: $navy;
-    border: 1px solid $color-border;
+    line-height: 1.3;
+    white-space: pre-wrap;
+    word-break: break-word;
     background: transparent;
+    border: 1px solid $color-border;
   }
 }
