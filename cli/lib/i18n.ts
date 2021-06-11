@@ -21,6 +21,7 @@ import { doTranslate } from './util/google-translate';
 import { logError, logInfo, logSuccess, logWarn } from './util/log';
 import writeLocale from './util/i18n-extract';
 import { exit } from 'process';
+import { getCwdModuleName } from './util/env';
 
 const reg = /i18n\.d\(["'](.+?)["']\)/g;
 const tempFilePath = path.resolve(process.cwd(), './temp-zh-words.json');
@@ -187,18 +188,8 @@ const findMatchFolder = (folderName: string): string | null => {
 
 export default async ({ workDir: _workDir }: { workDir: string }) => {
   try {
-    workDir = _workDir;
-    if (fs.existsSync(path.resolve(workDir, './.erda/config.js'))) {
-      const config = require(path.resolve(workDir, './.erda/config.js'));
-      if (!config.MODULE_NAME) {
-        logError('请指定.erda/config.js中的MODULE_NAME');
-        exit(1);
-      }
-      ns = config.MODULE_NAME;
-    } else {
-      logError('请传入正确的模块名（确保.erda/config.js文件存在于此文件夹）或手动传入模块路径');
-      exit(1);
-    }
+    workDir = _workDir || process.cwd();
+    ns = getCwdModuleName({ currentPath: workDir });
     const localePath = findMatchFolder('locales');
     if (!localePath) {
       logError('请确保运行目录下存在locales文件夹（可嵌套）');
