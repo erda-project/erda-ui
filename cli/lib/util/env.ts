@@ -44,6 +44,29 @@ export const isCwdInRoot = (params?: { currentPath?: string; alert?: boolean }) 
   return isInRoot;
 };
 
+export const getCwdModuleName = (params?: { currentPath?: string }) => {
+  const currentDir = params?.currentPath || process.cwd();
+  let moduleName = null;
+  let isInRoot = true;
+  if (!fs.existsSync(join(currentDir, 'package.json'))) {
+    isInRoot = false;
+  } else {
+    const pkg = fs.readFileSync(join(currentDir, 'package.json'), 'utf8');
+    const { name } = JSON.parse(pkg);
+    if (!name.startsWith('@erda-ui/')) {
+      isInRoot = false;
+    } else {
+      moduleName = name.slice('@erda-ui/'.length);
+    }
+  }
+
+  if (!isInRoot) {
+    logError('please run this command under an erda-ui module root directory');
+    process.exit(1);
+  }
+  return moduleName;
+};
+
 export const getEnvConfig = (currentDir?: string) => {
   const { parsed } = dotenv.config({ path: `${currentDir || process.cwd()}/.env` });
   if (!parsed) {
