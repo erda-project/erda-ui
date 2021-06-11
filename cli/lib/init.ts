@@ -37,7 +37,7 @@ export default async ({
   backendUrl?: string;
 }) => {
   const currentDir = process.cwd();
-  isCwdInRoot({ currentPath: currentDir });
+  isCwdInRoot({ currentPath: currentDir, alert: true });
 
   if (!override) {
     let spinner = ora('installing commitizen & npm-check-updates...').start();
