@@ -87,6 +87,7 @@ const project = createStore({
           issueWorkflowStore.getStatesByIssue({ issueType: '', projectID: +projectId });
           // 项目切换后才重新checkRouteAuth
           project.reducers.updateCurProjectId(projectId);
+          breadcrumbStore.reducers.setInfo('projectName', '');
           permStore.effects.checkRouteAuth({
             type: 'project',
             id: projectId,
