@@ -143,7 +143,7 @@ const RuntimeBox = (props: IProps) => {
   const env = props.env.toLowerCase();
   const isWaitApprove = deployStatus.toLowerCase() === approvalStatusMap.WaitApprove.value.toLowerCase();
 
-  if(fakeRuntime ) {
+  if(fakeRuntime) {
     return (
       <div className='flex-box runtime-box'>
         <div className="flex-box runtime-box-header">
