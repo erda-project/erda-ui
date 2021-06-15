@@ -49,7 +49,7 @@ const initRouteInfo: IRouteInfo = {
   isMatch: () => false,
   isEntering: () => false,
   isLeaving: () => false,
-  prevRouteInfo: {} as IRouteInfo,
+  prevRouteInfo: {} as unknown as IRouteInfo,
 };
 
 /**
@@ -63,7 +63,7 @@ const initRouteInfo: IRouteInfo = {
  *    }
  * }
  */
-const queryLevelMap = {};
+const queryLevelMap: Obj = {};
 let prevPath: string;
 let prevSearch: string;
 
@@ -79,7 +79,7 @@ const routeInfoStore = createStore({
       }
       const query = { ...parse(search, { arrayFormat: 'bracket' }) }; // parse出来的对象prototype为null，fast-deep-equal判断时报错
       let routes: IRouteInfo[] = [];
-      const params = {};
+      const params: Obj = {};
       const { routePatterns, routeMap, parsed } = extraData || prevRouteInfo;
       let currentRoute = null;
       let routeMarks: string[] = [];

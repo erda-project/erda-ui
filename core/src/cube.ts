@@ -20,7 +20,6 @@ const defaultPaging = {
   total: 0,
 };
 
-const noop = () => {};
 const { createStore, createFlatStore, use, storeMap } = cube({
   singleton: true,
   extendEffect({ update, select }) {
@@ -50,7 +49,7 @@ const { createStore, createFlatStore, use, storeMap } = cube({
           }
           if (success) {
             if (successMsg) {
-              (getConfig('onAPISuccess') || noop)(successMsg);
+              getConfig('onAPISuccess')?.(successMsg);
             }
             if (pagingKey && data && 'total' in data && ('list' in data || listKey in data)) {
               listKey && (data.list = data[listKey]); // 设置了listKey时，复制一份到list上
@@ -62,7 +61,7 @@ const { createStore, createFlatStore, use, storeMap } = cube({
               });
             }
           } else {
-            (getConfig('onAPIFail') || noop)('error', err.msg || errorMsg);
+            getConfig('onAPIFail')?.('error', err.msg || errorMsg);
           }
           return fullResult ? result : data === undefined ? {} : data;
         } else {
@@ -71,7 +70,7 @@ const { createStore, createFlatStore, use, storeMap } = cube({
             console.warn('[shell] Nonstandard response body', fn.name);
           }
           if (successMsg) {
-            (getConfig('onAPISuccess') || noop)(successMsg);
+            getConfig('onAPISuccess')?.(successMsg);
           }
         }
         return result;
