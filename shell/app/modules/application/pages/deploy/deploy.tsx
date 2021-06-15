@@ -236,11 +236,14 @@ const Deploy = () => {
     return () => clearDeploy();
   });
 
-  // 存在删除中的，就10s轮询检查
+  // if there a fakeRuntime or deleting runtime，then fetch runtimes after 10s
   React.useEffect(() => {
-    const hasDeleting = find(runtimes, (item) => item.deleteStatus === 'DELETING');
+    const hasDeletingOrFake = find(runtimes, (item) => (
+      item.deleteStatus === 'DELETING' || item.extra?.fakeRuntime
+    ));
+    
     clearInterval(timer.current);
-    if (hasDeleting) {
+    if (hasDeletingOrFake) {
       timer.current = setInterval(() => {
         getRunTimes();
       }, 1000 * 10) as any;
@@ -294,6 +297,7 @@ const Deploy = () => {
     }
     return null;
   }, [blockStatus, appBlocked, unBlockStart, unBlockEnd]);
+
   return (
     <div className="app-deploy-wrap">
       <Spin spinning={loading}>
