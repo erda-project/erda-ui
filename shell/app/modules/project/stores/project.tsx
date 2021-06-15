@@ -135,6 +135,7 @@ const project = createStore({
     async getProjectInfo({ select, call, update }, projectId: string | number, fromRouteChange?: boolean) {
       const projectInfo = select(s => s.info);
       if (fromRouteChange && +projectInfo.id === +projectId) {
+        breadcrumbStore.reducers.setInfo('projectName', projectInfo.displayName || projectInfo.name);
         return projectInfo;
       }
       const info = await call(getProjectInfo, projectId);
