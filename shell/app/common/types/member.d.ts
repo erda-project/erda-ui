@@ -61,7 +61,6 @@ declare namespace MEMBER {
   interface RemoveMemberBody {
     scope: MemberScope;
     userIds: string[];
-    needReload?: boolean;
   }
 
   interface IMember {
