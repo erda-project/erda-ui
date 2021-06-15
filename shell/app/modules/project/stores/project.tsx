@@ -140,6 +140,7 @@ const project = createStore({
       }
       const info = await call(getProjectInfo, projectId);
       update({ info });
+      // fill projectName
       breadcrumbStore.reducers.setInfo('projectName', info.displayName || info.name);
       return info;
     },
