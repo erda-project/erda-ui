@@ -11,8 +11,6 @@ importers:
       lerna: ^4.0.0
       prettier: 2.3.1
       stylelint-config-ali: ^0.4.1
-    dependencies:
-      stylelint-config-ali: 0.4.1
     devDependencies:
       '@commitlint/cli': 12.1.4
       commitizen: 4.2.4
@@ -20,6 +18,7 @@ importers:
       f2elint: 1.1.2
       lerna: 4.0.0
       prettier: 2.3.1
+      stylelint-config-ali: 0.4.1
 
   cli:
     specifiers:
@@ -24874,7 +24873,7 @@ packages:
     peerDependencies:
       stylelint: '>=8.3.0'
       stylelint-scss: '>=2.0.0'
-    dev: false
+    dev: true
 
   /stylelint-config-ali/0.4.1_015b6302946357347cfceeb7883eef64:
     resolution: {integrity: sha512-a1QDhljGnul1AZjGmR8O810AsaX+RQpMJNjEwYyu0Wt54cvpoR9uScDQsLhiCPolBlotJ0saebLke1VKzoegRQ==}
