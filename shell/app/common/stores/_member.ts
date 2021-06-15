@@ -16,7 +16,7 @@ import { getMembers, updateMembers, removeMember, getRoleMap, genOrgInviteCode }
 import userStore from 'app/user/stores';
 import i18n from 'app/i18n';
 import { map } from 'lodash';
-import { countPagination, goTo, getDefaultPaging } from '../utils';
+import { countPagination, getDefaultPaging } from '../utils';
 import permStore from 'user/stores/permission';
 import { PAGINATION } from 'app/constants';
 import orgStore from 'app/org-home/stores/org';
@@ -111,7 +111,7 @@ export const createMemberStore = (scopeKey: MemberScope) => {
         }
       },
       async removeMember({ call }, payload: MEMBER.RemoveMemberBody, query?: Omit<MEMBER.GetListQuery, 'scope'>) {
-        const { userIds, scope, needReload = true } = payload;
+        const { userIds, scope } = payload;
         const { id } = userStore.getState((s) => s.loginUser);
         const isSelf = userIds[0] === id; // 现在只有单个移除
         let successMsg = i18n.t('delete member success');
@@ -126,13 +126,7 @@ export const createMemberStore = (scopeKey: MemberScope) => {
 
         await call(removeMember, { scope, userIds }, { successMsg });
 
-        if (isSelf && needReload) {
-          if (scopeKey === MemberScope.ORG) {
-            userStore.effects.logout();
-          } else {
-            goTo('/', { replace: true });
-          }
-        } else if (query) {
+        if (!isSelf && query) {// if is self,jump to upper scope and do not get list anymore
           const { total } = thisStore.getState((s) => s.paging);
           const { pageNo, pageSize, ...rest } = query;
           await thisStore.effects.getMemberList({

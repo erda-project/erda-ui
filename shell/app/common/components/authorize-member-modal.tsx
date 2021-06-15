@@ -86,7 +86,7 @@ export const AuthorizeMemberModal = ({ type, member, closeModal }: IProps) => {
                     load({ pageNo: paging.pageNo });
                   });
                 } else {
-                  removeMember({ ...payload, needReload: false }).then(() => {
+                  removeMember(payload).then(() => {
                     load({ pageNo: paging.pageNo });
                   });
                 }
