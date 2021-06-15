@@ -2,6 +2,7 @@ $po: $p20;
 
 .app-type-select {
   display: inline-flex;
+  // flex-flow: nowrap;
   flex-wrap: wrap;
   margin-top: -$po;
 

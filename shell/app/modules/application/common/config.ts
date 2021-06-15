@@ -26,6 +26,7 @@ export const appMode = {
   LIBRARY: 'LIBRARY',
   BIGDATA: 'BIGDATA',
   ABILITY: 'ABILITY',
+  PROJECT_SERVICE: 'PROJECT_SERVICE',
 };
 
 export const modeOptions = [
@@ -34,30 +35,43 @@ export const modeOptions = [
     value: appMode.SERVICE,
     src: ywyy_svg,
     desc: i18n.t('application:Business-app-intro', { keySeparator: '>' }),
+    group: 'normal',
   },
   {
     name: i18n.t('application:mobile app'),
     value: appMode.MOBILE,
     src: android_svg,
     desc: i18n.t('application:Mobile-app-intro.', { keySeparator: '>' }),
+    group: 'normal',
   },
   {
     name: i18n.t('application:library app'),
     value: appMode.LIBRARY,
     src: kyy_svg,
     desc: i18n.t('application:Library-app-intro', { keySeparator: '>' }),
+    group: 'normal',
   },
   {
     name: i18n.t('application:bigData app'),
     value: appMode.BIGDATA,
     src: dsjyy_svg,
     desc: 'big data app',
+    group: 'normal',
   },
   {
     name: i18n.t('application:ability app'),
     value: appMode.ABILITY,
     src: dsjyy_svg,
     desc: 'ability app',
+    group: 'normal',
+  },
+  {
+    name: '项目级应用',
+    value: appMode.PROJECT_SERVICE,
+    src: dsjyy_svg,
+    desc: '设置为项目级应用后，该应用的流水中直接可以调用项目其他应用的流水线',
+    group: 'projectLevel',
+    groupTitle: '项目级应用'
   },
 ];
 

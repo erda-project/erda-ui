@@ -19,6 +19,7 @@ import { getVersionPushConfig, updateVersionPushConfig } from 'application/servi
 import { getAppDetail, updateAppDetail, remove, getBranchInfo } from 'application/services/application';
 import { isEmpty, get } from 'lodash';
 import permStore from 'user/stores/permission';
+import { appMode } from 'application/common/config';
 import layoutStore from 'layout/stores/layout';
 import { HeadAppSelector } from 'application/common/app-selector';
 import userStore from 'app/user/stores';
@@ -99,7 +100,8 @@ const appStore = createStore({
       let detail = select((state) => state.detail);
       const newAppId = Number(applicationId);
       if (force || isEmpty(detail) || newAppId !== detail.id) {
-        detail = await call(getAppDetail, newAppId);
+        const _detail = await call(getAppDetail, newAppId);
+        detail = { ..._detail, isProjectLevel: _detail.mode === appMode.PROJECT_SERVICE };
       }
       // gitRepoAbbrev后端为兼容旧的数据没有改，前端覆盖掉
       update({

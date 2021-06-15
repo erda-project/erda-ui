@@ -15,11 +15,15 @@ import React from 'react';
 import classnames from 'classnames';
 import './app-type-select.scss';
 import { Icon as CustomIcon } from 'common';
+import { groupBy, map } from 'lodash';
+import { Alert } from 'app/nusi';
 
 interface Img {
   src: string;
   name: string;
   value: string;
+  group?: string;
+  groupTitle?: string;
 }
 interface IProps {
   imgOptions: Img[];
@@ -29,20 +33,32 @@ interface IProps {
 export class AppTypeSelect extends React.PureComponent<IProps> {
   render() {
     const { imgOptions, value, onChangeType } = this.props;
+    const optionGroup = groupBy(imgOptions, 'group');
     return (
-      <div className="app-type-select">
-        {imgOptions.map((img) => (
-          <div
-            key={img.name}
-            className={classnames('img-wrapper', value === img.value && 'active')}
-            onClick={() => onChangeType(img.value)}
-          >
-            <img src={img.src} alt={img.name || 'image-option'} />
-            <CustomIcon type="yuanxingxuanzhongfill" />
-            <div className="desc">{img.name}</div>
+      map(optionGroup, (options, key) => {
+        const cur = options.find((m) => m.value === value) || options[0];
+        return (
+          <div className="app-type-select" key={key}>
+            {
+              cur.groupTitle ? <div className='mt20 color-gray mb12'>{cur.groupTitle}</div> : null 
+            }
+            <div>
+              {options.map((img) => (
+                <div
+                  key={img.name}
+                  className={classnames('img-wrapper', value === img.value && 'active')}
+                  onClick={() => onChangeType(img.value)}
+                >
+                  <img src={img.src} alt={img.name || 'image-option'} />
+                  <CustomIcon type="yuanxingxuanzhongfill" />
+                  <div className="desc">{img.name}</div>
+                </div>
+              ))}
+            </div>
+            <Alert className="color-text-desc mt12" type="normal" message={cur?.desc} />
           </div>
-        ))}
-      </div>
+        )
+      })
     );
   }
 }

@@ -14,7 +14,7 @@
 import { Alert, Button, Form, Input, Spin } from 'app/nusi';
 import * as React from 'react';
 import { ImageUpload, RenderForm } from 'common';
-import { goTo } from 'common/utils';
+import { goTo, insertWhen } from 'common/utils';
 import { filter, map } from 'lodash';
 import { WrappedFormUtils } from 'core/common/interface';
 import { appMode, modeOptions, repositoriesTypes, RepositoryMode } from 'application/common/config';
@@ -142,30 +142,27 @@ const CreationForm = () => {
         />
       ),
     },
-    {
-      label: '',
-      getComp: () => {
-        const cur = modeOptions.find((m) => m.value === mode);
-        return <Alert className="color-text-desc" type="normal" message={cur?.desc} />;
-      },
-    },
-    {
-      label: i18n.t('application:project-level-app-form-tip'),
-      name: 'isProjectLevel',
-      type: 'switch',
-      required: true,
-      initialValue: false,
-      options: [
-        {
-          name: i18n.t('common:yes'),
-          value: true,
-        },
-        {
-          name: i18n.t('common:no'),
-          value: false,
-        },
-      ],
-    },
+    // {
+    //   label: '',
+    //   getComp: () => {
+    //     const cur = modeOptions.find((m) => m.value === mode);
+    //     return <Alert className="color-text-desc" type="normal" message={cur?.desc} />;
+    //   },
+    // },
+    // {
+    //   label: i18n.t('application:project-level-app-form-tip'),
+    //   name: 'isProjectLevel',
+    //   type: 'switch',
+    //   required: true,
+    //   initialValue: false,
+    //   options: [{
+    //     name: i18n.t('common:yes'),
+    //     value: true,
+    //   }, {
+    //     name: i18n.t('common:no'),
+    //     value: false,
+    //   }],
+    // },
     {
       label: i18n.t('project:application name'),
       name: 'name',
@@ -266,28 +263,29 @@ const CreationForm = () => {
       required: false,
       getComp: ({ form }: { form: WrappedFormUtils }) => <ImageUpload id="logo" form={form} showHint />,
     },
-    {
-      label: '',
-      getComp: () => <div>{i18n.t('project:repository information')}</div>,
-      extraProps: fieldExtraProps,
-    },
-    {
-      label: i18n.t('project:repository'),
-      name: 'repoConfig.type',
-      type: 'select',
-      initialValue: RepositoryMode.Internal,
-      options: map(
-        filter(repositoriesTypes, (v) => v.usable),
-        ({ name, value }) => ({ name, value }),
-      ),
-      itemProps: {
-        disabled: mode === appMode.MOBILE && tempSelected !== '-1',
-        onChange: (v) => {
-          collectionRepoTemp(repoType);
-          setRepoType(v);
+    ...insertWhen(mode !== appMode.PROJECT_SERVICE, [
+      {
+        label: '',
+        getComp: () => <div>{i18n.t('project:repository information')}</div>,
+        extraProps: fieldExtraProps,
+      },
+      {
+        label: i18n.t('project:repository'),
+        name: 'repoConfig.type',
+        type: 'select',
+        initialValue: RepositoryMode.Internal,
+        options: map(
+          filter(repositoriesTypes, ((v) => v.usable)), ({ name, value }) => ({ name, value })
+        ),
+        itemProps: {
+          disabled: mode === appMode.MOBILE && tempSelected !== '-1',
+          onChange: (v) => {
+            collectionRepoTemp(repoType);
+            setRepoType(v);
+          },
         },
       },
-    },
+    ]),
     ...(repoType === RepositoryMode.Internal || (mode === appMode.MOBILE && tempSelected !== '-1')
       ? []
       : [
