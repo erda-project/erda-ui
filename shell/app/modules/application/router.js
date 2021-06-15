@@ -13,7 +13,6 @@
 
 import getRuntimeRouter from 'runtime/router';
 import i18n from 'i18n';
-import { ticketTabs } from './pages/ticket';
 import { mrTabs } from './pages/repo/repo-mr';
 import { BRANCH_TABS } from './pages/repo/repo-branch';
 
@@ -32,22 +31,6 @@ function getAppRouter() {
           {
             layout: { noWrapper: true },
             getComp: (cb) => cb(import('application/pages/deploy/deploy'), 'DeployWrap'),
-          },
-        ],
-      },
-      {
-        path: 'ticket/:ticketType',
-        breadcrumbName: i18n.t('application:issues'),
-        tabs: ticketTabs,
-        routes: [
-          {
-            layout: { fullHeight: true },
-            getComp: (cb) => cb(import('application/pages/ticket')),
-          },
-          {
-            path: ':ticketId',
-            breadcrumbName: i18n.t('application:issue detail'),
-            getComp: (cb) => cb(import('application/pages/ticket/ticket-detail')),
           },
         ],
       },
@@ -160,25 +143,6 @@ function getAppRouter() {
         getComp: (cb) => cb(import('application/pages/pipeline')),
         layout: { fullHeight: true },
       },
-      // {
-      //   path: 'pipeline1',
-      //   mark: 'pipeline',
-      //   pageName: i18n.t('application:pipeline'),
-      //   commonComp: cb => cb(import('application/pages/build/pipeline'), 'Pipeline'),
-      //   commonKey: 'pipeline',
-      //   routes: [
-      //     {
-      //       path: ':pipelineID',
-      //       layout: { fullHeight: true },
-      //       breadcrumbName: i18n.t('application:pipeline'),
-      //       useCommonComp: true,
-      //     },
-      //     {
-      //       layout: { fullHeight: true },
-      //       useCommonComp: true,
-      //     },
-      //   ],
-      // },
       {
         path: 'dataTask',
         mark: 'dataTask',

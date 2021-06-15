@@ -32,7 +32,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
   },
   rules: {
-    'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['draft', 'state'] }],
+    'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['draft', 'state', 'acc'] }],
     'import/prefer-default-export': 'off',
     // 'react/jsx-filename-extension': [2, { 'extensions': ['.js', '.jsx', '.ts', '.tsx'] }],
     'react/prop-types': 'off',
@@ -61,6 +61,12 @@ module.exports = {
         '@typescript-eslint/no-var-requires': 'off',
         '@typescript-eslint/no-require-imports': 'off',
         'no-console': 'off',
+      },
+    },
+    {
+      files: ['**/*/services/*.ts'],
+      rules: {
+        '@typescript-eslint/consistent-type-definitions': 'off',
       },
     },
   ],

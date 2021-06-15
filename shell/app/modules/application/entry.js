@@ -24,7 +24,6 @@ import qualityStore from './stores/quality';
 import releaseStore from './stores/release';
 import repoStore from './stores/repo';
 import testStore from './stores/test';
-import ticketStore from './stores/ticket';
 
 export default (registerModule) => {
   return registerModule({
@@ -43,7 +42,6 @@ export default (registerModule) => {
       releaseStore,
       repoStore,
       testStore,
-      ticketStore,
     ],
   });
 };
