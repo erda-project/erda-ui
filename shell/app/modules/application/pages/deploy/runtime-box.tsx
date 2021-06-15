@@ -37,6 +37,7 @@ interface IProps {
   env: string;
   releaseId: string;
   status: string;
+  extra: { fakeRuntime: boolean };
   deleteStatus: string;
   lastOperatorName: string;
   lastOperatorAvatar: string;
@@ -110,9 +111,10 @@ const RuntimeBox = (props: IProps) => {
         </div>
       );
     };
-  const gotoRelease = (releaseId: string, e: any) => {
+  
+  const gotoRelease = (_releaseId: string, e: any) => {
     e.stopPropagation();
-    goTo(goTo.pages.release, { ...params, q: releaseId });
+    goTo(goTo.pages.release, { ...params, q: _releaseId });
   };
 
   const gotoRuntime = (runtimeId: number, e: any) => {
@@ -132,10 +134,31 @@ const RuntimeBox = (props: IProps) => {
     deployStatus,
     onDelete,
     onRestart,
+    extra
   } = props;
+
+  const fakeRuntime = extra?.fakeRuntime;
+
   const isDeploying = ['DEPLOYING'].includes(deployStatus);
   const env = props.env.toLowerCase();
   const isWaitApprove = deployStatus.toLowerCase() === approvalStatusMap.WaitApprove.value.toLowerCase();
+
+  if(fakeRuntime) {
+    return (
+      <div className='flex-box runtime-box'>
+        <div className="flex-box runtime-box-header">
+          <div className="branch disabled">
+            <CustomIcon type="slbb" />
+            <Tooltip title={name}>
+              <span className="bold nowrap">{name}</span>
+            </Tooltip>
+          </div>
+        </div>
+        <Alert message={i18n.t('initializing, please wait')} type="warning" showIcon />
+      </div>
+    );
+  };
+
   return (
     <Spin spinning={deleteStatus === 'DELETING'} tip={i18n.t('application:deleting')}>
       <div className={`flex-box runtime-box ${isWaitApprove ? 'large' : ''}`} onClick={(e) => gotoRuntime(id, e)}>

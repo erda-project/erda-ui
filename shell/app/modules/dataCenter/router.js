@@ -14,7 +14,6 @@
 import getDcosRouter from 'dcos/router';
 import i18n from 'i18n';
 import { map } from 'lodash';
-import { ticketTabs } from 'application/pages/ticket';
 import { mqTabs } from 'dcos/pages/service-manager/mq-manager/index';
 import { redisTabs } from 'dcos/pages/service-manager/redis-manager/index';
 import { rdsTabs } from 'dcos/pages/service-manager/rds-manager/index';
@@ -318,21 +317,6 @@ function getDataCenterRouter() {
                   tabs: map(redisTabs),
                 },
               ],
-            },
-          ],
-        },
-        {
-          path: 'ticket/:ticketType',
-          breadcrumbName: i18n.t('application:tickets'),
-          tabs: ticketTabs,
-          routes: [
-            {
-              getComp: (cb) => cb(import('app/modules/org/pages/ticket')),
-            },
-            {
-              path: ':ticketId',
-              breadcrumbName: i18n.t('application:ticket detail'),
-              getComp: (cb) => cb(import('app/modules/org/pages/ticket/ticket-detail')),
             },
           ],
         },

@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "private": true,
   "scripts": {
-    "start": "nodemon --delay 1 -e js,json,env src/index.js --watch ../public/static --watch src --watch ../.env"
+    "start": "nodemon --delay 1 -e js,json,env src/index.js --watch src --watch ../.env"
   },
   "author": "Erda-FE",
   "license": "AGPL",

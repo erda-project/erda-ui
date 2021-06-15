@@ -11,13 +11,11 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-const config = {
-  onAPISuccess: undefined,
-  onAPIFail: undefined,
-  history: undefined,
-};
+type ConfigType = 'onAPISuccess' | 'onAPIFail' | 'history';
 
-export const getConfig = (key: keyof typeof config) => config[key];
-export const setConfig = (key: keyof typeof config, value: any) => {
+const config: { [k in ConfigType]?: any } = {};
+
+export const getConfig = (key: ConfigType) => config[key];
+export const setConfig = (key: ConfigType, value: any) => {
   config[key] = value;
 };

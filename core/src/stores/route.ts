@@ -13,8 +13,8 @@
 
 import { createStore } from '../cube';
 import { parse } from 'query-string';
-import pathToRegexp from 'path-to-regexp';
-import { on, emit } from '../utils/event-hub';
+import { pathToRegexp, Key } from 'path-to-regexp';
+import { on } from '../utils/event-hub';
 
 interface IRouteInfo {
   routes: SHELL.Route[];
@@ -49,7 +49,7 @@ const initRouteInfo: IRouteInfo = {
   isMatch: () => false,
   isEntering: () => false,
   isLeaving: () => false,
-  prevRouteInfo: {} as IRouteInfo,
+  prevRouteInfo: {} as unknown as IRouteInfo,
 };
 
 /**
@@ -63,7 +63,7 @@ const initRouteInfo: IRouteInfo = {
  *    }
  * }
  */
-const queryLevelMap = {};
+const queryLevelMap: Obj = {};
 let prevPath: string;
 let prevSearch: string;
 
@@ -79,7 +79,7 @@ const routeInfoStore = createStore({
       }
       const query = { ...parse(search, { arrayFormat: 'bracket' }) }; // parse出来的对象prototype为null，fast-deep-equal判断时报错
       let routes: IRouteInfo[] = [];
-      const params = {};
+      const params: Obj = {};
       const { routePatterns, routeMap, parsed } = extraData || prevRouteInfo;
       let currentRoute = null;
       let routeMarks: string[] = [];
@@ -98,7 +98,7 @@ const routeInfoStore = createStore({
       for (let i = 0; i < routePatterns?.length; i++) {
         const pattern = routePatterns[i];
 
-        const keys: any[] = [];
+        const keys: Key[] = [];
         const match = pathToRegexp(pattern, keys).exec(pathname);
 
         if (match) {
