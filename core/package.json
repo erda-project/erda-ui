@@ -33,7 +33,7 @@
     "less": "^3.8.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
-    "path-to-regexp": "^1.7.0",
+    "path-to-regexp": "^6.2.0",
     "postcss-loader": "^4.1.0",
     "query-string": "^6.4.2",
     "react": "16.14.0",

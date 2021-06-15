@@ -13,8 +13,8 @@
 
 import { createStore } from '../cube';
 import { parse } from 'query-string';
-import pathToRegexp from 'path-to-regexp';
-import { on, emit } from '../utils/event-hub';
+import { pathToRegexp, Key } from 'path-to-regexp';
+import { on } from '../utils/event-hub';
 
 interface IRouteInfo {
   routes: SHELL.Route[];
@@ -98,7 +98,7 @@ const routeInfoStore = createStore({
       for (let i = 0; i < routePatterns?.length; i++) {
         const pattern = routePatterns[i];
 
-        const keys: any[] = [];
+        const keys: Key[] = [];
         const match = pathToRegexp(pattern, keys).exec(pathname);
 
         if (match) {

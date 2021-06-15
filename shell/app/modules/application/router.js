@@ -60,7 +60,7 @@ function getAppRouter() {
             getComp: (cb) => cb(import('application/pages/repo/repo-tree')),
           },
           {
-            path: 'tree/*',
+            path: 'tree/(.*)',
             mark: 'repoTree',
             breadcrumbName: i18n.t('application:code'),
             getComp: (cb) => cb(import('application/pages/repo/repo-tree')),
@@ -104,7 +104,7 @@ function getAppRouter() {
             ],
           },
           {
-            path: 'commits/*', // commits后面可能有分支(包含/)，commit后面只有commitId
+            path: 'commits/(.*)', // commits后面可能有分支(包含/)，commit后面只有commitId
             breadcrumbName: i18n.t('application:commit history'),
             getComp: (cb) => cb(import('application/pages/repo/repo-commit')),
           },

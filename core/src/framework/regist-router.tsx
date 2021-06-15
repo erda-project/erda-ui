@@ -13,7 +13,7 @@
 
 import React, { ComponentType } from 'react';
 import { renderRoutes, RouteConfig } from 'react-router-config';
-import { get, map, set, compact } from 'lodash';
+import { map, set, compact } from 'lodash';
 import { produce } from 'immer';
 
 const EmptyContainer = ({ route }: { route: RouteConfig }) => renderRoutes(route.routes);
@@ -43,12 +43,12 @@ const asyncComponent = (getComponent: () => Promise<ComponentType>) => {
 };
 
 const parseRoutes = (rootRoute: SHELL.ParsedRoute) => {
-  const routeMap = {} as SHELL.ParsedRoute;
+  const routeMap = {} as unknown as SHELL.ParsedRoute;
   const { NotFound, ...rootCopy } = rootRoute;
-  const notFoundRoute = {
-    path: '*',
+  const notFoundRoute: SHELL.ParsedRoute = {
+    path: '(.*)', // path-to-regexp doesn't support wildcard * `No wildcard asterisk (*) - use parameters instead ((.*) or :splat*)`
     component: NotFound,
-  } as SHELL.ParsedRoute;
+  };
   const walk = (routes: SHELL.ParsedRoute[], _parent: SHELL.ParsedRoute, _deep: number | string) => {
     return routes.map((item, i) => {
       const route = { ...item };
