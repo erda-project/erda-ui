@@ -33,7 +33,6 @@ export const FormUpload = ({
   React.memo(({ fieldConfig, form }: any = {}) => {
     const {
       key,
-      accept,
       handleBeforeUpload,
       value,
       label,
@@ -60,8 +59,9 @@ export const FormUpload = ({
     }, [value]);
 
     registerRequiredCheck(_requiredCheck || requiredCheck);
-    const { uploadText, sizeLimit, supportFormat } = componentProps || {};
+    const { uploadText, sizeLimit, supportFormat = [] } = componentProps || {};
     const _placeholder = uploadText || '上传图片';
+    const accept = supportFormat.map((x) => `.${x}`).join(',');
 
     const uploadButton = (
       <div className="form-item-upload-button">
