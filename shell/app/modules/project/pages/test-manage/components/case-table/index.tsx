@@ -14,7 +14,7 @@
 import React, { useMemo, useEffect, useRef, useCallback } from 'react';
 import { cloneDeep, find, get, isEmpty, map, forEach, reduce, isNaN, filter } from 'lodash';
 import i18n from 'i18n';
-import { Table } from 'app/nusi';
+import { Table, Ellipsis } from 'app/nusi';
 
 import { Icon as CustomIcon } from 'common';
 import { updateSearch } from 'common/utils';
@@ -167,8 +167,8 @@ const CaseTable = ({
       Object.assign(nameColumn, {
         // title: <ChooseTitle mode={mode} />,
         title: <span>{i18n.t('project:use case title')}</span>,
-        width: isScroll ? 380 : '100%',
-        render: (name: string) => <span className="bold">{name}</span>,
+        width: isScroll ? 380 : undefined,
+        render: (name: string) => <Ellipsis className="bold" title={name} />,
       });
     }
     // 全选列
