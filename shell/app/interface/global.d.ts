@@ -174,7 +174,7 @@ interface IUploadFile {
 }
 
 interface IRoute {
-  routeQuery: any;
+  routeQuery: { [prop: string]: any };
   query: any;
   path: string;
   tabKey: string;
@@ -289,3 +289,6 @@ interface FilterItemConfig {
   customTransformer?: (value: any, allQuery?: any) => any;
   valueType?: string;
 }
+
+type Kv<T> = { [k in keyof T]: string };
+type Nullable<T> = T | null;

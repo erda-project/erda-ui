@@ -86,7 +86,7 @@ export * from './components/use-hooks';
 export { default as LogRoller } from './containers/log-roller';
 export { default as MonitorChart } from './containers/monitor-chart';
 export { default as MetricsMonitor } from './containers/monitor-chart-panel';
-export { useFilter, useMultiFilter, CustomFilter } from './components/custom-filter';
+export { useFilter, CustomFilter } from './components/custom-filter';
 export { TagsColumn } from './components/tags-column';
 export { BoardGrid, PureBoardGrid } from './components/board-grid';
 export { LoadingSkeleton, LoadingContent } from './components/loading-skeleton';

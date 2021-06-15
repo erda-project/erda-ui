@@ -211,6 +211,7 @@
     "tinyint",
     "tsquery",
     "Unmount",
+    "Unpromise",
     "unstart",
     "UPDATEDAT",
     "updator",

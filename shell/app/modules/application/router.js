@@ -13,7 +13,6 @@
 
 import getRuntimeRouter from 'runtime/router';
 import i18n from 'i18n';
-import { ticketTabs } from './pages/ticket';
 import { mrTabs } from './pages/repo/repo-mr';
 import { BRANCH_TABS } from './pages/repo/repo-branch';
 
@@ -36,22 +35,6 @@ function getAppRouter() {
         ],
       },
       {
-        path: 'ticket/:ticketType',
-        breadcrumbName: i18n.t('application:issues'),
-        tabs: ticketTabs,
-        routes: [
-          {
-            layout: { fullHeight: true },
-            getComp: (cb) => cb(import('application/pages/ticket')),
-          },
-          {
-            path: ':ticketId',
-            breadcrumbName: i18n.t('application:issue detail'),
-            getComp: (cb) => cb(import('application/pages/ticket/ticket-detail')),
-          },
-        ],
-      },
-      {
         path: 'repo',
         mark: 'repo',
         pageName: i18n.t('application:files'),
@@ -60,7 +43,7 @@ function getAppRouter() {
             getComp: (cb) => cb(import('application/pages/repo/repo-tree')),
           },
           {
-            path: 'tree/*',
+            path: 'tree/(.*)',
             mark: 'repoTree',
             breadcrumbName: i18n.t('application:code'),
             getComp: (cb) => cb(import('application/pages/repo/repo-tree')),
@@ -104,7 +87,7 @@ function getAppRouter() {
             ],
           },
           {
-            path: 'commits/*', // commits后面可能有分支(包含/)，commit后面只有commitId
+            path: 'commits/(.*)', // commits后面可能有分支(包含/)，commit后面只有commitId
             breadcrumbName: i18n.t('application:commit history'),
             getComp: (cb) => cb(import('application/pages/repo/repo-commit')),
           },
@@ -160,25 +143,6 @@ function getAppRouter() {
         getComp: (cb) => cb(import('application/pages/pipeline')),
         layout: { fullHeight: true },
       },
-      // {
-      //   path: 'pipeline1',
-      //   mark: 'pipeline',
-      //   pageName: i18n.t('application:pipeline'),
-      //   commonComp: cb => cb(import('application/pages/build/pipeline'), 'Pipeline'),
-      //   commonKey: 'pipeline',
-      //   routes: [
-      //     {
-      //       path: ':pipelineID',
-      //       layout: { fullHeight: true },
-      //       breadcrumbName: i18n.t('application:pipeline'),
-      //       useCommonComp: true,
-      //     },
-      //     {
-      //       layout: { fullHeight: true },
-      //       useCommonComp: true,
-      //     },
-      //   ],
-      // },
       {
         path: 'dataTask',
         mark: 'dataTask',
