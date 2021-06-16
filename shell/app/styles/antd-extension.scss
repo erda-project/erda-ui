@@ -407,6 +407,10 @@ div.ant-tabs-nav .ant-tabs-tab {
   margin-right: 40px;
 }
 
+div.ant-tabs-nav::before, .ant-tabs-nav::after {
+  display: block;
+}
+
 div.ant-row {
   display: block;
 }
