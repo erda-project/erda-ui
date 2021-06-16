@@ -2,16 +2,23 @@ $po: $p20;
 
 .app-type-select {
   display: inline-flex;
-  // flex-flow: nowrap;
   flex-wrap: wrap;
-  margin-top: -$po;
+
+  .app-type-group {
+    border-right: 1px solid $color-border;
+    margin-right: 10px;
+    padding-right: 10px;
+    &:last-child {
+      margin-right: 0;
+      border-right: none;
+    }
+  }
 
   .img-wrapper {
     position: relative;
     display: inline-block;
     min-width: 146px;
     height: 140px;
-    margin-top: $po;
     margin-right: $po;
     text-align: center;
     background-color: rgba($black, 0.04);

@@ -36,6 +36,7 @@ const fieldExtraProps = {
     fontWeight: '500',
   },
 };
+
 const CreationForm = () => {
   const { params } = routeInfoStore.getState((s) => s);
   const [mode, setMode] = React.useState(appMode.SERVICE);
@@ -142,27 +143,13 @@ const CreationForm = () => {
         />
       ),
     },
-    // {
-    //   label: '',
-    //   getComp: () => {
-    //     const cur = modeOptions.find((m) => m.value === mode);
-    //     return <Alert className="color-text-desc" type="normal" message={cur?.desc} />;
-    //   },
-    // },
-    // {
-    //   label: i18n.t('application:project-level-app-form-tip'),
-    //   name: 'isProjectLevel',
-    //   type: 'switch',
-    //   required: true,
-    //   initialValue: false,
-    //   options: [{
-    //     name: i18n.t('common:yes'),
-    //     value: true,
-    //   }, {
-    //     name: i18n.t('common:no'),
-    //     value: false,
-    //   }],
-    // },
+    {
+      label: '',
+      getComp: () => {
+        const cur = modeOptions.find((m) => m.value === mode);
+        return <Alert className="color-text-desc" type="normal" message={cur?.desc} />;
+      },
+    },
     {
       label: i18n.t('project:application name'),
       name: 'name',
@@ -275,7 +262,8 @@ const CreationForm = () => {
         type: 'select',
         initialValue: RepositoryMode.Internal,
         options: map(
-          filter(repositoriesTypes, ((v) => v.usable)), ({ name, value }) => ({ name, value })
+          filter(repositoriesTypes, (v) => v.usable),
+          ({ name, value }) => ({ name, value }),
         ),
         itemProps: {
           disabled: mode === appMode.MOBILE && tempSelected !== '-1',
@@ -350,7 +338,7 @@ const CreationForm = () => {
 
   return (
     <Spin spinning={isCraeateApp || isInitApp} className="app-form-spin">
-      <RenderForm wrappedComponentRef={formRef} layout="vertical" list={fieldsList} />
+      <RenderForm wrappedComponentRef={formRef} className="create-app-form" layout="vertical" list={fieldsList} />
     </Spin>
   );
 };

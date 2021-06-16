@@ -22,8 +22,7 @@ interface Img {
   src: string;
   name: string;
   value: string;
-  group?: string;
-  groupTitle?: string;
+  groupIndex: number;
 }
 interface IProps {
   imgOptions: Img[];
@@ -33,16 +32,12 @@ interface IProps {
 export class AppTypeSelect extends React.PureComponent<IProps> {
   render() {
     const { imgOptions, value, onChangeType } = this.props;
-    const optionGroup = groupBy(imgOptions, 'group');
+    const optionGroup = groupBy(imgOptions, 'groupIndex');
     return (
-      map(optionGroup, (options, key) => {
-        const cur = options.find((m) => m.value === value) || options[0];
-        return (
-          <div className="app-type-select" key={key}>
-            {
-              cur.groupTitle ? <div className='mt20 color-gray mb12'>{cur.groupTitle}</div> : null 
-            }
-            <div>
+      <div className="app-type-select">
+        {map(optionGroup, (options, key) => {
+          return (
+            <div key={key} className="app-type-group">
               {options.map((img) => (
                 <div
                   key={img.name}
@@ -55,10 +50,9 @@ export class AppTypeSelect extends React.PureComponent<IProps> {
                 </div>
               ))}
             </div>
-            <Alert className="color-text-desc mt12" type="normal" message={cur?.desc} />
-          </div>
-        )
-      })
+          );
+        })}
+      </div>
     );
   }
 }
