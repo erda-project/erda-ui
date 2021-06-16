@@ -12,7 +12,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import * as React from 'react';
-import workBenchStore from 'workBench/stores';
+import dopStore from 'app/modules/dop/stores';
 import addonStore from 'common/stores/addon';
 import customAddonStore from 'project/stores/custom-addon';
 import { Button, Tooltip } from 'app/nusi';
@@ -28,18 +28,18 @@ import routeInfoStore from 'common/stores/route';
 
 const displayName = ['MySQL', 'Redis', 'Custom', 'AliCloud-Rds', 'AliCloud-Redis'];
 export default function DataSourceManagement() {
-  const addonList = workBenchStore.useStore((s) => s.addonList);
+  const addonList = dopStore.useStore((s) => s.addonList);
   const { projectId } = routeInfoStore.useStore((s) => s.params);
   const addonSpecList = customAddonStore
     .useStore((s) => s.addonList)
     .filter((item: any) => displayName.includes(item.displayName));
   const timer = React.useRef<any>(0);
-  const [loadingAddons] = useLoading(workBenchStore, ['getDataSourceAddons']);
+  const [loadingAddons] = useLoading(dopStore, ['getDataSourceAddons']);
   const [state, updater, update, reset] = useUpdate({
     modalVisible: false,
     editData: null,
   });
-  const { getDataSourceAddons } = workBenchStore;
+  const { getDataSourceAddons } = dopStore;
 
   React.useEffect(() => {
     customAddonStore.getAddonsList();

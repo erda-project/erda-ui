@@ -95,11 +95,11 @@ const org = createStore({
           }
           return;
         }
-        // user doesn't joined the public org, go to workBench
+        // user doesn't joined the public org, go to DOP
         // temporary solution, it will removed until new solution is proposed by PD
-        if (resOrg?.isPublic && curPathname?.split('/')[2] !== 'workBench') {
+        if (resOrg?.isPublic && curPathname?.split('/')[2] !== 'dop') {
           if (!orgs?.list?.find((x) => x.name === currentOrg.name) || orgs?.list?.length === 0) {
-            location.href = goTo.resolve.workBenchRoot();
+            location.href = goTo.resolve.dopRoot();
             return;
           }
         }
@@ -143,9 +143,9 @@ const org = createStore({
               });
               layoutStore.reducers.initLayout({
                 appList: appCenterAppList,
-                currentApp: appMap.workBench,
+                currentApp: appMap.dop,
                 menusMap,
-                key: 'workBench',
+                key: 'dop',
               });
             }
           });
@@ -206,9 +206,9 @@ const setLocationByAuth = (authObj: Obj) => {
       isCurPage: curPathname.startsWith(`/${orgName}/dataCenter`),
       authRole: intersection(orgPerm.dataCenter.showApp.role, roles),
     },
-    workBench: {
-      isCurPage: curPathname.startsWith(`/${orgName}/workBench`),
-      authRole: intersection(orgPerm.workBench.read.role, roles),
+    dop: {
+      isCurPage: curPathname.startsWith(`/${orgName}/dop`),
+      authRole: intersection(orgPerm.dop.read.role, roles),
     },
     // apiManage: {
     //   isCurPage: curPathname.startsWith('/apiManage'),

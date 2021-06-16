@@ -1183,7 +1183,6 @@
     "Virginia": "Virginia",
     "Wednesday": "Wednesday",
     "Welcome!": "Welcome!",
-    "WorkBench": "WorkBench",
     "You do not have enough permissions": "You do not have enough permissions",
     "Zhangjiakou": "Zhangjiakou",
     "abnormal": "abnormal",
@@ -1947,7 +1946,7 @@
     "whether to enable": "whether to enable",
     "whether to use a proxy": "whether to use a proxy",
     "white screen time": "white screen time",
-    "workBench": "workBench",
+    "DOP": "DOP",
     "year": "year",
     "you have new site message, please pay attention to check": "you have new site message, please pay attention to check",
     "you haven't join current organization": "you haven't join current organization",
@@ -3907,7 +3906,7 @@
     "waiting for deployment": "waiting for deployment"
   },
   "user": {},
-  "workBench": {
+  "dop": {
     "addon info": "addon info",
     "addon setting": "addon setting",
     "application count": "application count",

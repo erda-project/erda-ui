@@ -13,7 +13,7 @@
 
 import { getOrgCenterMenu } from './orgCenter';
 import { getDataCenterMenu } from './dataCenter';
-import { getWorkBenchMenu } from './workBench';
+import { getDopMenu } from './dop';
 import { getMicroServiceMenu } from './microService';
 import { getProjectMenu } from './project';
 import { getAppMenu } from './application';
@@ -28,7 +28,7 @@ export {
   getAppMenu,
   getOrgCenterMenu,
   getDataCenterMenu,
-  getWorkBenchMenu,
+  getDopMenu,
   getMicroServiceMenu,
   getEdgeMenu,
 };
@@ -49,10 +49,10 @@ export const getSubSiderInfoMap = () => {
         displayName: i18n.t('DataCenter'),
       },
     },
-    workBench: {
-      menu: getWorkBenchMenu(),
+    dop: {
+      menu: getDopMenu(),
       detail: {
-        displayName: i18n.t('workBench'),
+        displayName: i18n.t('DOP'),
       },
     },
     microService: {

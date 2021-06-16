@@ -1183,7 +1183,6 @@
     "Virginia": "弗利尼亚",
     "Wednesday": "周三",
     "Welcome!": "欢迎！",
-    "WorkBench": "DevOps 平台",
     "You do not have enough permissions": "您的权限不足",
     "Zhangjiakou": "张家口",
     "abnormal": "异常",
@@ -1947,7 +1946,7 @@
     "whether to enable": "是否启用",
     "whether to use a proxy": "是否使用代理",
     "white screen time": "白屏时间",
-    "workBench": "DevOps 平台",
+    "DOP": "DevOps 平台",
     "year": "年",
     "you have new site message, please pay attention to check": "您有新的站内信，请注意查看",
     "you haven't join current organization": "您还未加入当前组织",
@@ -3907,7 +3906,7 @@
     "waiting for deployment": "等待部署"
   },
   "user": {},
-  "workBench": {
+  "dop": {
     "addon info": "服务信息",
     "addon setting": "服务设置",
     "application count": "应用数",

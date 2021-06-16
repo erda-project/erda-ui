@@ -17,7 +17,7 @@ import * as React from 'react';
 import { TimeInput, transToStr, checkReg, checkMsg } from './time-input';
 import './time-trace.scss';
 import moment, { Moment } from 'moment';
-import { Form } from 'workBench/pages/form-editor/index';
+import { Form } from 'app/modules/dop/pages/form-editor/index';
 
 const numberOr = (v: string | number, defaultV: number) => {
   return typeof v === 'number' ? v : defaultV;

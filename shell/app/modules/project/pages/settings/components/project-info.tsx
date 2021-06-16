@@ -116,7 +116,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       if (inOrgCenter) {
         goTo(goTo.pages.orgCenterRoot, { replace: true });
       } else {
-        goTo(goTo.pages.workBenchRoot, { replace: true });
+        goTo(goTo.pages.dopRoot, { replace: true });
       }
     });
   };
@@ -126,7 +126,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       scope: { type: 'project', id: `${info.id}` },
       userIds: [loginUser.id],
     }).then(() => {
-      goTo(goTo.pages.workBenchRoot, { replace: true });
+      goTo(goTo.pages.dopRoot, { replace: true });
     });
   };
 

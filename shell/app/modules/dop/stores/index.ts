@@ -38,8 +38,8 @@ const initState: IState = {
   projectAddonCategory: {},
 };
 
-const workBenchStore = createFlatStore({
-  name: 'workBench',
+const dopStore = createFlatStore({
+  name: 'dop',
   state: initState,
   subscriptions({ listenRoute }: IStoreSubs) {
     listenRoute(({ isEntering, params }) => {
@@ -52,7 +52,7 @@ const workBenchStore = createFlatStore({
         });
         addonStore.getAddonDetail(insId).then((ret) => {
           const { logoUrl, name, addonName } = ret;
-          const prefixPath = `/${orgName}/workBench/addonsManage/${projectId}`;
+          const prefixPath = `/${orgName}/dop/addonsManage/${projectId}`;
           const rootPath = `${prefixPath}/${insId}`;
           const menu = getSideMenu({ rootPath }) as any[];
           if (['log-analytics'].includes(addonName)) {
@@ -84,11 +84,11 @@ const workBenchStore = createFlatStore({
     });
   },
   effects: {
-    async getWorkBenchAddons({ call, update }) {
+    async getDopAddons({ call, update }) {
       let addonList = await call(getAddons, { type: 'workbench', value: 'workbench' });
       addonList = getTranslateAddonList(addonList, 'name');
       update({ addonList });
-      workBenchStore.getAddonsSuccess({ addonList, type: 'addonCategory' });
+      dopStore.getAddonsSuccess({ addonList, type: 'addonCategory' });
     },
     async getProjectAddons({ call, getParams, update }, projectId?: string) {
       const { projectId: paramProjectId } = getParams();
@@ -96,7 +96,7 @@ const workBenchStore = createFlatStore({
       let addonList = await call(getAddons, { type: 'project', value: _projectId });
       update({ addonList });
       addonList = getTranslateAddonList(addonList, 'name');
-      workBenchStore.getAddonsSuccess({ addonList, type: 'projectAddonCategory' });
+      dopStore.getAddonsSuccess({ addonList, type: 'projectAddonCategory' });
       return addonList;
     },
     async getDataSourceAddons({ call, getParams, update }, { displayName }: Omit<ADDON.DataSourceAddon, 'projectId'>) {
@@ -132,7 +132,7 @@ const workBenchStore = createFlatStore({
 
       return { ...state, [type]: addonCategory };
     },
-    clearWorkBenchAddons(state) {
+    clearDopAddons(state) {
       return { ...state, addonCategory: {}, addonList: [] };
     },
     clearProjectAddons(state) {
@@ -141,4 +141,4 @@ const workBenchStore = createFlatStore({
   },
 });
 
-export default workBenchStore;
+export default dopStore;

@@ -18,7 +18,7 @@ import { IFormItem } from 'common/components/render-formItem';
 import i18n from 'i18n';
 import { DatePicker } from 'app/nusi';
 import moment, { Moment } from 'moment';
-import workBenchStore from 'workBench/stores';
+import dopStore from 'app/modules/dop/stores';
 import { AppSelector } from 'application/common/app-selector';
 
 const { RangePicker } = DatePicker;
@@ -94,7 +94,7 @@ const ApplyUnblockModal = ({ visible, onCancel, afterSubmit, metaData }: IProps)
       end: end.format(),
     };
     const payload = { extra, type: 'unblock-application', desc, targetId: metaData.projectId, targetName };
-    workBenchStore.applyUnblock(payload).then((res) => {
+    dopStore.applyUnblock(payload).then((res) => {
       onCancel();
       afterSubmit && afterSubmit(res);
     });

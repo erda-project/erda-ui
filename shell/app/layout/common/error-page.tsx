@@ -34,9 +34,9 @@ const NoAuth = () => {
               <span className="contact-info">
                 {i18n.t('please contact')} {authContact}
               </span>
-              <Link to={goTo.resolve.workBenchRoot()}>
+              <Link to={goTo.resolve.dopRoot()}>
                 <Button size="large" type="primary">
-                  {i18n.t('layout:back to workBench')}
+                  {i18n.t('layout:back to DOP')}
                 </Button>
               </Link>
             </>

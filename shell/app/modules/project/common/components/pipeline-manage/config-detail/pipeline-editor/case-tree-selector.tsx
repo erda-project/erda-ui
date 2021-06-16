@@ -19,7 +19,7 @@ import { getTreeNodeDetailNew, getCategoryByIdNew, fuzzySearchNew } from 'common
 import { notify } from 'common/utils';
 import { useUpdate } from 'common';
 import routeInfoStore from 'app/common/stores/route';
-import { Form } from 'workBench/pages/form-editor/index';
+import { Form } from 'app/modules/dop/pages/form-editor/index';
 import { ymlDataToFormData } from 'app/yml-chart/common/in-params-drawer';
 import { SCOPE_PROJECT, scopeMap } from 'project/common/components/pipeline-manage/config';
 import i18n from 'i18n';

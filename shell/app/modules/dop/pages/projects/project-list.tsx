@@ -22,8 +22,8 @@ import i18n from 'i18n';
 import userStore from 'app/user/stores';
 import { useLoading } from 'app/common/stores/loading';
 import './project-list.scss';
-import BlockNetworkStatus, { BlockNetworkTips } from 'workBench/pages/projects/block-comp';
-import ApplyUnblockModal, { IMetaData } from 'workBench/pages/projects/apply-unblock-modal';
+import BlockNetworkStatus, { BlockNetworkTips } from 'app/modules/dop/pages/projects/block-comp';
+import ApplyUnblockModal, { IMetaData } from 'app/modules/dop/pages/projects/apply-unblock-modal';
 
 const { Search } = Input;
 export const ProjectList = () => {
@@ -115,7 +115,7 @@ export const ProjectList = () => {
               </div>
               <div className="item-desc nowrap">{item.desc || i18n.t('project:edit description in setting')}</div>
               <div className="item-footer">
-                <Tooltip title={i18n.t('workBench:application count')}>
+                <Tooltip title={i18n.t('dop:application count')}>
                   <span>
                     <CustomIcon type="yy-4" />
                     <span>{item.stats.countApplications}</span>
@@ -150,7 +150,7 @@ export const ProjectList = () => {
       <BlockNetworkTips />
       <Search
         className="search-input"
-        placeholder={i18n.t('workBench:search by project name')}
+        placeholder={i18n.t('dop:search by project name')}
         value={searchKey}
         onChange={onSearch}
       />

@@ -314,7 +314,7 @@ export const MembersTable = ({
               location.href = goTo.resolve.orgRoot({ orgName: '-' });
             }
             if (scope?.type === 'project') {
-              goTo(goTo.resolve.workBenchRoot({ orgName: currentOrgName }), { replace: true });
+              goTo(goTo.resolve.dopRoot({ orgName: currentOrgName }), { replace: true });
             }
             if (scope?.type === 'app') {
               goTo(goTo.resolve.projectApps({ projectId, orgName: currentOrgName }), { replace: true });
@@ -539,11 +539,11 @@ export const MembersTable = ({
             alertProps={
               state.batchEditVisible
                 ? {
-                  message: i18n.t('common:batch change role warning'),
-                  type: 'warning',
-                  showIcon: true,
-                  className: 'mb8',
-                }
+                    message: i18n.t('common:batch change role warning'),
+                    type: 'warning',
+                    showIcon: true,
+                    className: 'mb8',
+                  }
                 : undefined
             }
             formData={state.editMember}

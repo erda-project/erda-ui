@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import getWorkBenchRouter from 'workBench/router';
+import getDopRouter from 'app/modules/dop/router';
 import getMicroServiceRouter from 'microService/router';
 import getEdgeRouter from 'app/modules/edge/router';
 import getDataCenterRouter from 'dataCenter/router';
@@ -45,7 +45,7 @@ export default function getOrgRouter() {
           },
         },
         ...getLayoutRouter(),
-        ...getWorkBenchRouter(),
+        ...getDopRouter(),
         ...getMicroServiceRouter(),
         ...getEdgeRouter(),
         ...getDataCenterRouter(),

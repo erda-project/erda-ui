@@ -64,7 +64,7 @@ const start = (userData: ILoginUser) => {
       import('layout/entry'),
       import('org/entry'),
       import('app/org-home/entry'),
-      import('workBench/entry'),
+      import('app/modules/dop/entry'),
       import('runtime/entry'),
       import('publisher/entry'),
       import('project/entry'),
@@ -124,7 +124,7 @@ if (pathname.startsWith('/r/')) {
 }
 
 // 3.21版本，应用流水线旧链接兼容
-const oldPipelineReg = /\/workBench\/projects\/\d+\/apps\/\d+\/pipeline\/\d+$/;
+const oldPipelineReg = /\/dop\/projects\/\d+\/apps\/\d+\/pipeline\/\d+$/;
 if (oldPipelineReg.test(pathname)) {
   const [pPath, pId] = pathname.split('pipeline/');
   window.history.replaceState({}, document.title, `${pPath}pipeline?pipelineID=${pId}`);

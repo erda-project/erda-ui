@@ -17,7 +17,7 @@ import { Button } from 'app/nusi';
 import { useUpdate } from 'common';
 import { useUpdateEffect } from 'react-use';
 import { IProps as FormModalProps } from 'app/configForm/nusi-form/form-modal';
-import { Form as PureForm } from 'workBench/pages/form-editor/index';
+import { Form as PureForm } from 'app/modules/dop/pages/form-editor/index';
 import { produce } from 'immer';
 import i18n from 'i18n';
 

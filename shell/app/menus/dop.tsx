@@ -26,18 +26,18 @@ import {
 import { Icon as CustomIcon } from 'common';
 import React from 'react';
 
-export const getWorkBenchMenu = () => {
+export const getDopMenu = () => {
   const orgPerm = permStore.getState((s) => s.org);
   return filterMenu(
     filter(
       [
         {
-          href: goTo.resolve.workBenchRoot(), // '/workBench/projects',
+          href: goTo.resolve.dopRoot(), // '/dop/projects',
           icon: <IconApiApp />,
           text: i18n.t('joined projects'),
         },
         {
-          href: goTo.resolve.workBenchApps(), // '/workBench/apps',
+          href: goTo.resolve.dopApps(), // '/dop/apps',
           icon: <IconApplicationOne />,
           text: i18n.t('joined apps'),
         },
@@ -46,7 +46,7 @@ export const getWorkBenchMenu = () => {
           key: 'apiManage',
           text: i18n.t('API'),
           href: goTo.resolve.apiManageRoot(),
-          show: orgPerm.workBench.apiManage.read.pass,
+          show: orgPerm.dop.apiManage.read.pass,
           subMenu: [
             {
               href: goTo.resolve.apiManageRoot(),
@@ -67,44 +67,44 @@ export const getWorkBenchMenu = () => {
           ],
         },
         {
-          href: goTo.resolve.workBenchService(), // '/workBench/service',
+          href: goTo.resolve.dopService(), // '/dop/service',
           icon: <CustomIcon type="kuozhanfuwu" />,
           text: i18n.t('addon service'),
-          show: orgPerm.workBench.addonService.read.pass,
+          show: orgPerm.dop.addonService.read.pass,
         },
         {
           key: 'approval',
-          href: goTo.resolve.workBenchApprove(), // '/workBench/approval/my-approve',
+          href: goTo.resolve.dopApprove(), // '/dop/approval/my-approve',
           icon: <IconSeal />,
-          text: i18n.t('workBench:approval request'),
+          text: i18n.t('dop:approval request'),
           subMenu: [
             {
-              text: i18n.t('workBench:my approval'),
-              href: goTo.resolve.workBenchApprovePending(), // '/workBench/approval/my-approve/pending',
-              prefix: `${goTo.resolve.workBenchApprove()}/`,
+              text: i18n.t('dop:my approval'),
+              href: goTo.resolve.dopApprovePending(), // '/dop/approval/my-approve/pending',
+              prefix: `${goTo.resolve.dopApprove()}/`,
             },
             {
-              text: i18n.t('workBench:my initiated'),
-              href: goTo.resolve.workBenchMyInitiateWait(), // '/workBench/approval/my-initiate/WaitApprove',
-              prefix: `${goTo.resolve.workBenchMyInitiate()}/`,
+              text: i18n.t('dop:my initiated'),
+              href: goTo.resolve.dopMyInitiateWait(), // '/dop/approval/my-initiate/WaitApprove',
+              prefix: `${goTo.resolve.dopMyInitiate()}/`,
             },
           ],
         },
         {
-          key: 'workBenchPublisher',
-          href: goTo.resolve.workBenchPublisher(), // '/workBench/publisher',
+          key: 'dopPublisher',
+          href: goTo.resolve.dopPublisher(), // '/dop/publisher',
           icon: <IconSend />,
           text: i18n.t('publisher:joined publisher'),
-          show: orgPerm.workBench.publisher.read.pass,
+          show: orgPerm.dop.publisher.read.pass,
         },
         {
-          href: goTo.resolve.workBenchPublicProjects(),
+          href: goTo.resolve.dopPublicProjects(),
           icon: <IconBookOne />,
           text: i18n.t('public project'),
         },
       ],
       (item) => item.show !== false,
     ),
-    MENU_SCOPE.workBench,
+    MENU_SCOPE.dop,
   );
 };

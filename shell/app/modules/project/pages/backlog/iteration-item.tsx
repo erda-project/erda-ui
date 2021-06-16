@@ -19,7 +19,7 @@ import { useDrop } from 'react-dnd';
 import moment from 'moment';
 import iterationStore from 'project/stores/iteration';
 import issueStore from 'project/stores/issues';
-import { Form } from 'workBench/pages/form-editor/index';
+import { Form } from 'app/modules/dop/pages/form-editor/index';
 import i18n from 'i18n';
 import { isEmpty, map } from 'lodash';
 import { IssueItem, BACKLOG_ISSUE_TYPE } from './issue-item';

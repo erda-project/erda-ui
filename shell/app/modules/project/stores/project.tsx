@@ -67,7 +67,7 @@ const initState: IState = {
 
 // 检测是否是app的首页，重定向
 const checkIsProjectIndex = () => {
-  const projectEnterMath = /\/workBench\/projects\/\d+$/;
+  const projectEnterMath = /\/dop\/projects\/\d+$/;
   if (projectEnterMath.test(location.pathname)) {
     project.reducers.onProjectIndexEnter();
   }

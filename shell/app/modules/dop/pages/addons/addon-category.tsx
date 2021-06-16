@@ -14,24 +14,24 @@
 import * as React from 'react';
 import { AddonCardList } from 'addonPlatform/pages/common/components/addon-card-list';
 import i18n from 'i18n';
-import workBenchStore from 'workBench/stores';
+import dopStore from 'app/modules/dop/stores';
 import { useLoading } from 'app/common/stores/loading';
 import { useEffectOnce } from 'react-use';
 
 const AddonCategory = () => {
-  const addonCategory = workBenchStore.useStore((s) => s.addonCategory);
-  const [loading] = useLoading(workBenchStore, ['getWorkBenchAddons']);
+  const addonCategory = dopStore.useStore((s) => s.addonCategory);
+  const [loading] = useLoading(dopStore, ['getDopAddons']);
   useEffectOnce(() => {
-    workBenchStore.getWorkBenchAddons();
+    dopStore.getDopAddons();
 
-    return () => workBenchStore.clearWorkBenchAddons();
+    return () => dopStore.clearDopAddons();
   });
   return (
     <AddonCardList
       addonCategory={addonCategory}
       isFetching={loading}
       searchProps={['projectName', 'applicationName']}
-      searchPlaceHolder={i18n.t('workBench:search by owning project')}
+      searchPlaceHolder={i18n.t('dop:search by owning project')}
     />
   );
 };

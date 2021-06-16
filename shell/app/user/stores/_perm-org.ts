@@ -28,7 +28,7 @@ export const orgRoleMap = {
 // 通过权限配置页面导出数据覆盖，勿手动修改
 export const orgPerm = {
   name: '企业',
-  workBench: {
+  dop: {
     name: 'DevOps平台',
     read: {
       pass: false,

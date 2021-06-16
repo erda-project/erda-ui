@@ -15,7 +15,7 @@ import * as React from 'react';
 import { Button, Title } from 'app/nusi';
 import { isEmpty, map, get } from 'lodash';
 import i18n from 'i18n';
-import { Form as PureForm } from 'workBench/pages/form-editor/index';
+import { Form as PureForm } from 'app/modules/dop/pages/form-editor/index';
 import { useUpdate } from 'common';
 
 export const Form = (props: CP_FORM.Props) => {
