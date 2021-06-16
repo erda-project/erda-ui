@@ -55,6 +55,8 @@ import { produce } from 'immer';
 import issueFieldStore from 'org/stores/issue-field';
 import orgStore from 'app/org-home/stores/org';
 
+import './edit-issue-drawer.scss';
+
 export const ColorIcon = ({ icon }: { icon: string }) => {
   return (
     <CustomIcon type={icon} className="mr8" color style={{ height: '20px', width: '20px', verticalAlign: 'sub' }} />
@@ -1198,7 +1200,7 @@ export const EditIssueDrawer = (props: IProps) => {
         />
       </div>
       <IF check={isEditMode}>
-        <Tabs defaultActiveKey="streams">
+        <Tabs className="issue-drawer-tabs" defaultActiveKey="streams">
           <TabPane tab={i18n.t('project:activity log')} key="streams">
             <IssueCommentBox onSave={(content) => addIssueStream(issueDetail, { content })} editAuth={editAuth} />
             {issueType !== ISSUE_TYPE.TICKET ? (
