@@ -36,7 +36,7 @@ import routeInfoStore from 'common/stores/route';
 
 const showMap = {
   [appMode.SERVICE]: ['common', 'work', 'repository', 'pipeline', 'deploy', 'notification'],
-  [appMode.PROJECT_SERVICE]: ['common', 'work', 'repository', 'pipeline', 'deploy', 'notification'],
+  [appMode.PROJECT_SERVICE]: ['common', 'work', 'repository', 'pipeline', 'notification'],
   [appMode.MOBILE]: ['common', 'work', 'repository', 'notification', 'deploy', 'more'],
   [appMode.LIBRARY]: ['common', 'work', 'repository', 'notification', 'deploy', 'more'],
   [appMode.BIGDATA]: ['common', 'work', 'repository', 'notification'],
