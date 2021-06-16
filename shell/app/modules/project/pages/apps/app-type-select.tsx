@@ -16,7 +16,6 @@ import classnames from 'classnames';
 import './app-type-select.scss';
 import { Icon as CustomIcon } from 'common';
 import { groupBy, map } from 'lodash';
-import { Alert } from 'app/nusi';
 
 interface Img {
   src: string;
