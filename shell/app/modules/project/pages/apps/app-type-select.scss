@@ -6,8 +6,10 @@ $po: $p20;
 
   .app-type-group {
     border-right: 1px solid $color-border;
-    margin-right: 10px;
-    padding-right: 10px;
+    margin-right: $po;
+    padding-right: $po;
+    margin-bottom: 8px;
+
     &:last-child {
       margin-right: 0;
       border-right: none;

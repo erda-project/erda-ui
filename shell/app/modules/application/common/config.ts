@@ -16,6 +16,7 @@ import ywyy_svg from 'app/images/ywyy.svg';
 import android_svg from 'app/images/android.svg';
 import kyy_svg from 'app/images/kyy.svg';
 import dsjyy_svg from 'app/images/dsjyy.svg';
+import xmjyy_svg from 'app/images/xmjyy.svg';
 import githubImg from 'app/images/resources/github.png';
 import gitlabImg from 'app/images/resources/gitlab.png';
 import codingImg from 'app/images/resources/coding.png';
@@ -68,7 +69,7 @@ export const modeOptions = [
   {
     name: i18n.t('application:project level app'),
     value: appMode.PROJECT_SERVICE,
-    src: dsjyy_svg,
+    src: xmjyy_svg,
     desc: i18n.t('application:project-level-app-form-tip'),
     groupIndex: 2,
   },
