@@ -6,8 +6,11 @@ values:
     replicas: 1
     request_cpu: 0.1
     request_mem: 128
-envs:
-  ETCDCTL_API: "3"
+environments:
+  production:
+    ENABLE_MPAAS: "false"
+    ENABLE_BIGDATA: "false"
+    ONLY_FDP: "false"
 services:
   ui:
     ports:
@@ -15,9 +18,6 @@ services:
     envs:
       TA_ENABLE: "true"
       TERMINUS_KEY: "c891011d-6115-11e9-9fe6-6c92bf3144c3"
-      ENABLE_MPAAS: "false"
-      ENABLE_BIGDATA: "false"
-      ONLY_FDP: "false"
       KRATOS_ADDR: "kratos:4433"
       KRATOS_PRIVATE_ADDR: "kratos:4434"
       OPENAPI_ADDR: "openapi:9529"
