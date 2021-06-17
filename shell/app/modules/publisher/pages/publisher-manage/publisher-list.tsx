@@ -49,7 +49,7 @@ export const PurePublisherList = ({
   clearList,
   isFetching,
   deleteItem,
-  placeHolderMsg = i18n.t('publisher:filter by name'),
+  placeHolderMsg = i18n.t('publisher:search by name'),
   operationAuth = { delete: false, edit: false, add: false },
   onItemClick,
 }: IPubliserListProps) => {
@@ -121,7 +121,7 @@ export const PurePublisherList = ({
       {operationAuth.add ? (
         <div className="top-button-group">
           <Button type="primary" onClick={() => openFormModal()}>
-            {i18n.t('publisher:add publisher')}
+            {i18n.t('publisher:add repository')}
           </Button>
         </div>
       ) : null}

@@ -155,7 +155,7 @@ export const ApiImport = ({ updateImportParams, importApiParams }: IProps) => {
             ))}
           </Select>
           <Input
-            placeholder={i18n.t('microService:search api')}
+            placeholder={i18n.t('microService:search by API')}
             value={apiPath}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
               setFilter({ ...filter, apiPath: event.target.value })

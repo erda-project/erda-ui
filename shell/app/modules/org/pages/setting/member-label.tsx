@@ -33,7 +33,7 @@ export const MemberLabels = () => {
   const changeVal = (val: string) => {
     updater.inputVal(val);
     if (list.includes(val)) {
-      updater.errorTip(i18n.t('label exist'));
+      updater.errorTip(i18n.t('label already existed'));
     } else {
       updater.errorTip('');
     }

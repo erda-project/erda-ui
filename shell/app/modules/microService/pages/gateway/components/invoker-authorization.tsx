@@ -324,7 +324,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
         render: (record: any) => (
           <div className="table-operations">
             <span className="table-operations-btn" onClick={() => this.handleRemoveAuthedApi(record)}>
-              {i18n.t('microService:deauthorization')}
+              {i18n.t('microService:cancel authorization')}
             </span>
           </div>
         ),
@@ -417,7 +417,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
   handleDeleteUser = ({ consumerId }: any) => {
     confirm({
       title: i18n.t('microService:confirm deletion'),
-      content: i18n.t('microService:del-user-and-api'),
+      content: i18n.t('microService:If you delete a user, all authorized APIs for that user will be deleted.'),
       onOk: () => this.props.deleteConsumer({ consumerId }),
     });
   };
@@ -434,8 +434,8 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
 
   handleRemoveAuthedApi = ({ apiId }: any) => {
     confirm({
-      title: i18n.t('microService:confirm cancel'),
-      content: i18n.t('microService:confirm the authorization to cancel {path}'),
+      title: i18n.t('microService:confirm to cancel'),
+      content: i18n.t('microService:confirm to cancel the authorization of {path}'),
       onOk: () => {
         const { authedApiDataSource, selectedConsumerId } = this.state;
         const authedApis = authedApiDataSource.map((item) => item.apiId).filter((item) => item !== apiId);
@@ -494,7 +494,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
   handleDeleteOAuth = ({ id, name }: any) => {
     confirm({
       title: i18n.t('microService:confirm deletion'),
-      content: `${i18n.t('microService:confirm delete this parameter')}：${name}`,
+      content: `${i18n.t('microService:confirm to delete this parameter')}：${name}`,
       onOk: () => {
         const { authData } = this.props;
         const oAuthData = authData.oAuth.authData.filter((item: any) => item.id !== id);
@@ -616,7 +616,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
           <h3 className="auth-params-title">{i18n.t('microService:find the authorization interface')}</h3>
           <SearchTable
             onSearch={this.handleSearchUnAuthApi}
-            placeholder={i18n.t('microService:please API to search')}
+            placeholder={i18n.t('microService:please enter API to search')}
             needDebounce
           >
             <Table
@@ -662,7 +662,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
     } = this.props;
     const { policyList } = trafficControlPolicy;
 
-    this.policyList = [{ displayName: i18n.t('empty'), policyId: '' }, ...(policyList || [])];
+    this.policyList = [{ displayName: i18n.t('none'), policyId: '' }, ...(policyList || [])];
     let configKey;
     let configValue;
     if (config) {

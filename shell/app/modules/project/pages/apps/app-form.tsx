@@ -165,7 +165,7 @@ const CreationForm = () => {
         {
           validator: (_rule: any, value: any, callback: (message?: string) => void) => {
             if (value && value.toLowerCase().endsWith('_ability')) {
-              return callback(i18n.t('project:the naming is reserved internally, please change the naming'));
+              return callback(i18n.t('project:The name is reserved internally. Please change the name.'));
             }
             callback();
           },
@@ -174,7 +174,7 @@ const CreationForm = () => {
     },
 
     // {
-    //   label: i18n.t('{name} identify', { name: i18n.t('application') }),
+    //   label: i18n.t('{name} identifier', { name: i18n.t('application') }),
     //   name: 'displayName',
     // },
     ...(mode === appMode.MOBILE
@@ -204,7 +204,7 @@ const CreationForm = () => {
           ...(tempSelected !== '-1'
             ? [
                 {
-                  label: i18n.t('project:show name'),
+                  label: i18n.t('project:displayed name'),
                   name: 'mobileDisplayName',
                   type: 'input',
                   pattern: /^[\u4e00-\u9fa5_a-zA-Z0-9]+$/,
@@ -283,7 +283,7 @@ const CreationForm = () => {
           },
           {
             label: '',
-            getComp: () => <Alert showIcon type="warning" message={i18n.t('application:external-repo-warn')} />,
+            getComp: () => <Alert showIcon type="warning" message={i18n.t('application:It is recommended to use sources in the same region. Otherwise it may cause request timeout.')} />,
           },
           {
             label: i18n.t('project:repository address'),
@@ -295,7 +295,7 @@ const CreationForm = () => {
               },
             ],
             itemProps: {
-              placeholder: i18n.t('project:please enter the repository repository starting with http or https'),
+              placeholder: i18n.t('project:Please enter the repository address started with http or https.'),
             },
           },
           {

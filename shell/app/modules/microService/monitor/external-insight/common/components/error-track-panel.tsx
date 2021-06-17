@@ -82,7 +82,7 @@ export const webErrorTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceC
         fetchTraceContent={fetchTraceContent}
         recordKey={`${name}_${httpCode}`}
         dataSource={subErrorHttpList}
-        emptyText={i18n.t('microService:no sampleable exception transaction data')}
+        emptyText={i18n.t('microService:No abnormal transaction data sampled yet.')}
       />
     );
   };

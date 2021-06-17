@@ -94,7 +94,7 @@ export const MysqlFieldsConfig = {
         rules: [
           {
             pattern: /^[a-zA-Z\u4e00-\u9fa5][a-zA-Z\u4e00-\u9fa50-9-_]{1,254}$/,
-            message: i18n.t('dataCenter:db-name-tip'),
+            message: i18n.t('dataCenter:2-255 characters, starts with English or Chinese characters, which can contain numbers, underscores and hyphens.'),
           },
         ],
       },
@@ -141,7 +141,7 @@ export const MysqlFieldsConfig = {
         },
       },
       {
-        label: `${i18n.t('resource:storage')}(G)`,
+        label: `${i18n.t('resource:storage space')}(G)`,
         name: 'storageSize',
         type: 'inputNumber',
         initialValue: 200,
@@ -164,7 +164,7 @@ export const MysqlFieldsConfig = {
       },
       ...insertWhen(chargeType === 'PrePaid', [
         {
-          label: i18n.t('resource:charge period'),
+          label: i18n.t('resource:purchased time'),
           name: 'chargePeriod',
           type: 'select',
           options: getOptions('chargePeriod'),
@@ -224,9 +224,9 @@ export const useOnsFields = () => {
 export const RedisFieldConfig = {
   spec: {
     standard: [
-      { name: '1G', value: 'redis.master.small.default', specName: `${i18n.t('resource:standard edition')} 1G` },
-      { name: '4G', value: 'redis.master.stand.default', specName: `${i18n.t('resource:standard edition')} 4G` },
-      { name: '8G', value: 'redis.master.large.default', specName: `${i18n.t('resource:standard edition')} 8G` },
+      { name: '1G', value: 'redis.master.small.default', specName: `${i18n.t('resource:master-slave edition')} 1G` },
+      { name: '4G', value: 'redis.master.stand.default', specName: `${i18n.t('resource:master-slave edition')} 4G` },
+      { name: '8G', value: 'redis.master.large.default', specName: `${i18n.t('resource:master-slave edition')} 8G` },
     ],
     cluster: [
       {
@@ -272,7 +272,7 @@ export const RedisFieldConfig = {
           groupOptions(
             [
               {
-                name: i18n.t('resource:standard edition'), // General-purpose
+                name: i18n.t('resource:master-slave edition'), // General-purpose
                 children: RedisFieldConfig.spec.standard,
               },
               {
@@ -317,22 +317,22 @@ export const RedisFieldConfig = {
       },
       ...insertWhen(chargeType === 'PrePaid', [
         {
-          label: i18n.t('resource:charge period'),
+          label: i18n.t('resource:purchased time'),
           name: 'chargePeriod',
           type: 'select',
           options: [
-            { name: i18n.t('{num} months', { num: 1 }), value: 1 },
-            { name: i18n.t('{num} months', { num: 2 }), value: 2 },
-            { name: i18n.t('{num} months', { num: 3 }), value: 3 },
-            { name: i18n.t('{num} months', { num: 4 }), value: 4 },
-            { name: i18n.t('{num} months', { num: 5 }), value: 5 },
-            { name: i18n.t('{num} months', { num: 6 }), value: 6 },
-            { name: i18n.t('{num} months', { num: 7 }), value: 7 },
-            { name: i18n.t('{num} months', { num: 8 }), value: 8 },
-            { name: i18n.t('{num} months', { num: 9 }), value: 9 },
-            { name: i18n.t('{num} years', { num: 1 }), value: 12 },
-            { name: i18n.t('{num} years', { num: 2 }), value: 24 },
-            { name: i18n.t('{num} years', { num: 3 }), value: 36 },
+            { name: i18n.t('{num} month(s)', { num: 1 }), value: 1 },
+            { name: i18n.t('{num} month(s)', { num: 2 }), value: 2 },
+            { name: i18n.t('{num} month(s)', { num: 3 }), value: 3 },
+            { name: i18n.t('{num} month(s)', { num: 4 }), value: 4 },
+            { name: i18n.t('{num} month(s)', { num: 5 }), value: 5 },
+            { name: i18n.t('{num} month(s)', { num: 6 }), value: 6 },
+            { name: i18n.t('{num} month(s)', { num: 7 }), value: 7 },
+            { name: i18n.t('{num} month(s)', { num: 8 }), value: 8 },
+            { name: i18n.t('{num} month(s)', { num: 9 }), value: 9 },
+            { name: i18n.t('{num} year(s)', { num: 1 }), value: 12 },
+            { name: i18n.t('{num} year(s)', { num: 2 }), value: 24 },
+            { name: i18n.t('{num} year(s)', { num: 3 }), value: 36 },
           ],
         },
         {
@@ -405,7 +405,7 @@ export const useTopicFields = () => [
     name: 'topics.0.messageType',
     type: 'select',
     options: [
-      { name: i18n.t('resource:ordinary message'), value: 0 }, // Ordinary message
+      { name: i18n.t('resource:general message'), value: 0 }, // Ordinary message
       { name: i18n.t('resource:partition order message'), value: 1 }, // Partition order message
       { name: i18n.t('resource:global order message'), value: 2 }, // Global order message
       { name: i18n.t('resource:transaction message'), value: 4 }, // Transaction message
@@ -420,7 +420,7 @@ export const useTopicFields = () => [
       placeholder: `${i18n.t('start with {name}', { name: 'GID-、GID_' })},${i18n.t('length is {min}~{max}', {
         min: 5,
         max: 64,
-      })},${i18n.t('project:only allowed to consist of characters, numbers, _, and -')}`,
+      })},${i18n.t('project:can only contain characters, numbers, underscores and hyphens')}`,
     },
     rules: [
       {
@@ -428,7 +428,7 @@ export const useTopicFields = () => [
         message: `${i18n.t('start with {name}', { name: 'GID-、GID_' })},${i18n.t('length is {min}~{max}', {
           min: 5,
           max: 64,
-        })},${i18n.t('project:only allowed to consist of characters, numbers, _, and -')}`,
+        })},${i18n.t('project:can only contain characters, numbers, underscores and hyphens')}`,
       },
     ],
   },
@@ -482,7 +482,7 @@ export const ChargeType = (chargeTypeName: string, chargePeriod: string, autoRen
     },
     ...insertWhen(chargeType === 'PrePaid', [
       {
-        label: i18n.t('resource:charge period'),
+        label: i18n.t('resource:purchased time'),
         name: chargePeriod,
         required,
         type: 'select',
@@ -538,7 +538,7 @@ export const SlbFields = (data: CUSTOM_ADDON.GatewayInstance[], form: WrappedFor
             rules: [
               {
                 pattern: /^[a-zA-Z\u4e00-\u9fa5][a-zA-Z\u4e00-\u9fa50-9_]{3,39}$/,
-                message: i18n.t('resource:tips of ali cloud api gateway'),
+                message: i18n.t('resource:4-40 characters, start with English letters or Chinese characters, and can contain numbers and underscores'),
               },
             ],
           },
@@ -547,13 +547,13 @@ export const SlbFields = (data: CUSTOM_ADDON.GatewayInstance[], form: WrappedFor
             name: 'slb.spec',
             type: 'select',
             options: [
-              { name: i18n.t('resource:share performance instance'), value: '-1' },
+              { name: i18n.t('resource:performance shared instance'), value: '-1' },
               { name: `${i18n.t('resource:simple')}I(slb.s1.small)`, value: 'slb.s1.small' },
               { name: `${i18n.t('resource:standard')}I(slb.s2.small)`, value: 'slb.s2.small' },
               { name: `${i18n.t('resource:standard')}II(slb.s2.medium)`, value: 'slb.s2.medium' },
               { name: `${i18n.t('resource:high level')}Ⅰ(slb.s3.small)`, value: 'slb.s3.small' },
               { name: `${i18n.t('resource:high level')}II(slb.s3.medium)`, value: 'slb.s3.medium' },
-              { name: `${i18n.t('resource:strongest')}Ⅰ(slb.s3.large)`, value: 'slb.s3.large' },
+              { name: `${i18n.t('resource:super advanced')}Ⅰ(slb.s3.large)`, value: 'slb.s3.large' },
             ],
           },
           ...newInstance,
@@ -605,7 +605,7 @@ export const ApiFields = (data: CUSTOM_ADDON.GatewayInstance[], form: WrappedFor
             rules: [
               {
                 pattern: /^[a-zA-Z\u4e00-\u9fa5][a-zA-Z\u4e00-\u9fa50-9_]{3,39}$/,
-                message: i18n.t('resource:tips of ali cloud api gateway'),
+                message: i18n.t('resource:4-40 characters, start with English letters or Chinese characters, and can contain numbers and underscores'),
               },
             ],
           },

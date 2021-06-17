@@ -28,7 +28,7 @@ interface IProps {
 export const getPublisherFieldsList = (isEdit?: boolean) => {
   const fieldsList = [
     {
-      label: i18n.t('publisher:publisher name'),
+      label: i18n.t('publisher:repository name'),
       name: 'name',
       itemProps: {
         disabled: isEdit,

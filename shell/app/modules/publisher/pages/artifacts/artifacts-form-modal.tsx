@@ -114,7 +114,7 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
         },
       },
       {
-        label: i18n.t('publisher:whether public'),
+        label: i18n.t('publisher:whether to be public'),
         name: 'public',
         required: false,
         initialValue: false,
@@ -183,7 +183,7 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
     if (state.type === ArtifactsTypeMap.MOBILE.value && state.isGeofence) {
       fieldsList = fieldsList.concat([
         {
-          label: i18n.t('publisher:center coordinates of longitude'),
+          label: i18n.t('publisher:longitude of center coordinates'),
           name: 'geofenceLon',
           rules: [
             {
@@ -193,7 +193,7 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
           ],
         },
         {
-          label: i18n.t('publisher:center coordinates of latitude'),
+          label: i18n.t('publisher:latitude of center coordinates'),
           name: 'geofenceLat',
           rules: [
             {
@@ -203,7 +203,7 @@ class ArtifactsFormModal extends React.PureComponent<IProps, IState> {
           ],
         },
         {
-          label: i18n.t('publisher:radius of center distance'),
+          label: i18n.t('publisher:radius from center'),
           name: 'geofenceRadius',
           rules: [{ pattern: /^[0-9]+$/, message: i18n.t('please fill in the correct value') }],
           itemProps: {

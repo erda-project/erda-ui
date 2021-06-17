@@ -115,7 +115,7 @@ export default () => {
           <div className="jvm-profiler flex-box">
             <div className="profiler-info flex-1">
               <p className="info-item">
-                <span className="label">{`${i18n.t('addonPlatform:profiler ID')}: `}</span>
+                <span className="label">{`${i18n.t('addonPlatform:analyze ID')}: `}</span>
                 <span className="value">{profileId}</span>
               </p>
               <p className="info-item">
@@ -151,7 +151,7 @@ export default () => {
             <div className="panel-body">{getPanelBody(jvmInfo.jvm_options)}</div>
           </div>
           <div className="panel block flex-1">
-            <div className="panel-title">{i18n.t('addonPlatform:system options')}</div>
+            <div className="panel-title">{i18n.t('addonPlatform:system properties')}</div>
             <div className="panel-body">{getPanelBody(jvmInfo.jvm_properties)}</div>
           </div>
         </div>

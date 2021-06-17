@@ -361,7 +361,7 @@ const YmlEditor = (props: IProps) => {
     }).then((res: any) => {
       toggleModal(false);
       if (res.success) {
-        message.success(i18n.t('application:delete file successfully'));
+        message.success(i18n.t('application:file deleted successfully'));
         goTo('../');
       }
     });
@@ -692,7 +692,7 @@ const YmlEditor = (props: IProps) => {
         editFile: false,
         addFile: false,
       });
-      message.success(i18n.t('application:modify file successfully'));
+      message.success(i18n.t('application:file modified successfully'));
       getRepoBlob();
     });
   };

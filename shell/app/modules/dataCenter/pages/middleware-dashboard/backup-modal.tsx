@@ -167,7 +167,7 @@ const BackupModal = ({ visible, formData, onCancel }: IProps) => {
   return (
     <FormModal
       destroyOnClose
-      title={i18n.t('default:back up')}
+      title={i18n.t('default:backup')}
       width={960}
       className="middleware-op-modal"
       visible={visible}

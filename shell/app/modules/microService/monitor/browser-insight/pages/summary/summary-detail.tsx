@@ -75,7 +75,7 @@ const SummaryDetail = ({ data }: { data: object }) => {
         percent: (drt / plt) * 100,
       },
       {
-        name: i18n.t('microService:white screen time consuming'),
+        name: i18n.t('microService:first paint time'),
         value: wst,
         percent: (wst / plt) * 100,
       },
@@ -169,7 +169,7 @@ const SummaryDetail = ({ data }: { data: object }) => {
             <Row>
               <Col span={8}>PV：&nbsp;&nbsp;{pv}</Col>
               <Col span={8}>
-                {i18n.t('microService:dns resolutions')}: &nbsp;&nbsp;{rdc}
+                {i18n.t('microService:DNS parsing times')}: &nbsp;&nbsp;{rdc}
               </Col>
             </Row>
           </div>

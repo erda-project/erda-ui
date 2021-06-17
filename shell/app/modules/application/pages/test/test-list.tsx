@@ -25,7 +25,7 @@ import { ColumnProps } from 'core/common/interface';
 const getTestDuration = (duration: any) => {
   const seconds = floor(parseInt(duration, 10) / 10 ** 9, 3); // 时间为纳秒
   return duration !== 0 && seconds === 0
-    ? `${duration / 1000000} ${i18n.t('application:milliseconds')}`
+    ? `${duration / 1000000} ${i18n.t('application:millisecond(s)')}`
     : secondsToTime(seconds, true);
 };
 

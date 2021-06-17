@@ -248,7 +248,7 @@ const gatewayStore = createStore({
       const apiDomain = await call(
         gatewayServices.saveApiDomain,
         { orgId, projectId, env, ...payload },
-        { successMsg: i18n.t('update successfully') },
+        { successMsg: i18n.t('updated successfully') },
       );
       update({ apiDomain });
     },
@@ -313,7 +313,7 @@ const gatewayStore = createStore({
       const safetyWaf = await call(
         gatewayServices.saveSafetyWaf,
         { packageId, ...payload },
-        { successMsg: i18n.t('update successfully') },
+        { successMsg: i18n.t('updated successfully') },
       );
       if (payload.apiId) {
         update({ safetyWaf });
@@ -324,7 +324,7 @@ const gatewayStore = createStore({
       const safetyIP = await call(
         gatewayServices.saveSafetyIP,
         { packageId, ...payload },
-        { successMsg: i18n.t('update successfully') },
+        { successMsg: i18n.t('updated successfully') },
       );
       if (payload.apiId) {
         update({ safetyIP });
@@ -335,7 +335,7 @@ const gatewayStore = createStore({
       const safetyServerGuard = await call(
         gatewayServices.saveSafetyServerGuard,
         { packageId, ...payload },
-        { successMsg: i18n.t('update successfully') },
+        { successMsg: i18n.t('updated successfully') },
       );
       if (payload.apiId) {
         update({ safetyServerGuard });
@@ -346,7 +346,7 @@ const gatewayStore = createStore({
       const safetyCsrf = await call(
         gatewayServices.saveSafetyCsrf,
         { packageId, ...payload },
-        { successMsg: i18n.t('update successfully') },
+        { successMsg: i18n.t('updated successfully') },
       );
       if (payload.apiId) {
         update({ safetyCsrf });
@@ -357,7 +357,7 @@ const gatewayStore = createStore({
       const businessProxy = await call(
         gatewayServices.saveBusinessProxy,
         { packageId, ...payload },
-        { successMsg: i18n.t('update successfully') },
+        { successMsg: i18n.t('updated successfully') },
       );
       if (payload.apiId) {
         update({ businessProxy });
@@ -368,7 +368,7 @@ const gatewayStore = createStore({
       const businessCors = await call(
         gatewayServices.saveBusinessCors,
         { packageId, ...payload },
-        { successMsg: i18n.t('update successfully') },
+        { successMsg: i18n.t('updated successfully') },
       );
       if (payload.apiId) {
         update({ businessCors });
@@ -379,7 +379,7 @@ const gatewayStore = createStore({
       const businessCustom = await call(
         gatewayServices.saveBusinessCustom,
         { packageId, ...payload },
-        { successMsg: i18n.t('update successfully') },
+        { successMsg: i18n.t('updated successfully') },
       );
       if (payload.apiId) {
         update({ businessCustom });
@@ -421,7 +421,7 @@ const gatewayStore = createStore({
       }
     },
     async updateConsumerDetail({ call }, payload: GATEWAY.updateConsumer) {
-      await call(gatewayServices.updateConsumerDetail, payload, { successMsg: i18n.t('update successfully') });
+      await call(gatewayServices.updateConsumerDetail, payload, { successMsg: i18n.t('updated successfully') });
       await gatewayStore.effects.getConsumerDetail(payload.consumerId);
     },
     async saveConsumerApi({ call }, payload) {
@@ -434,7 +434,7 @@ const gatewayStore = createStore({
     },
     async saveConsumerApiPolicy({ call }, payload: GATEWAY.SavePoliciesApi) {
       const result = await call(gatewayServices.saveConsumerApiPolicy, payload, {
-        successMsg: i18n.t('setting successfully'),
+        successMsg: i18n.t('set successfully'),
       });
       if (result) {
         gatewayStore.effects.getConsumerList();
@@ -514,7 +514,7 @@ const gatewayStore = createStore({
           projectId,
           consumerId,
         },
-        { successMsg: i18n.t('add successfully') },
+        { successMsg: i18n.t('added successfully') },
       );
       return res;
     },
@@ -524,7 +524,7 @@ const gatewayStore = createStore({
       const newAPI = await call(
         gatewayServices.updateAPI,
         { ...payload, env, projectId, consumerId },
-        { successMsg: i18n.t('update successfully') },
+        { successMsg: i18n.t('updated successfully') },
       );
       gatewayStore.reducers.updateAPISuccess(newAPI);
     },
@@ -615,7 +615,7 @@ const gatewayStore = createStore({
         orgId,
         env,
       };
-      await call(gatewayServices.addPolicy, payload, { successMsg: i18n.t('add successfully') });
+      await call(gatewayServices.addPolicy, payload, { successMsg: i18n.t('added successfully') });
       gatewayStore.effects.getPolicyList({ category: 'trafficControl' });
     },
     async updatePolicy({ call, getParams }, payload: { data: GATEWAY.UpdatePolicy; category: string }) {
@@ -627,7 +627,7 @@ const gatewayStore = createStore({
         orgId,
         env,
       };
-      const newData = await call(gatewayServices.updatePolicy, payload, { successMsg: i18n.t('update successfully') });
+      const newData = await call(gatewayServices.updatePolicy, payload, { successMsg: i18n.t('updated successfully') });
       gatewayStore.reducers.updateTrafficControlPolicySuccess(newData);
     },
     async deletePolicy({ call }, payload: { data: { policyId: string }; category: string }) {
@@ -683,7 +683,7 @@ const gatewayStore = createStore({
       const res = await call(
         gatewayServices.createPackageApi,
         { packageId, ...payload },
-        { successMsg: i18n.t('add successfully') },
+        { successMsg: i18n.t('added successfully') },
       );
       return res;
     },
@@ -692,7 +692,7 @@ const gatewayStore = createStore({
       const res = await call(
         gatewayServices.updatePackageApi,
         { packageId, ...payload },
-        { successMsg: i18n.t('update successfully') },
+        { successMsg: i18n.t('updated successfully') },
       );
       return res;
     },
@@ -750,7 +750,7 @@ const gatewayStore = createStore({
       const res = call(
         gatewayServices.createOpenApiConsumer,
         { orgId, projectId, env, ...payload },
-        { successMsg: i18n.t('add successfully') },
+        { successMsg: i18n.t('added successfully') },
       );
       return res;
     },
@@ -758,7 +758,7 @@ const gatewayStore = createStore({
       const res = call(
         gatewayServices.updateOpenApiConsumer,
         { ...payload },
-        { successMsg: i18n.t('update successfully') },
+        { successMsg: i18n.t('updated successfully') },
       );
       return res;
     },
@@ -782,7 +782,7 @@ const gatewayStore = createStore({
       } = await call(
         gatewayServices.updateConsumerCredentials,
         { ...payload },
-        { successMsg: i18n.t('update successfully') },
+        { successMsg: i18n.t('updated successfully') },
       );
       update({ authConfig: auths });
     },
@@ -794,7 +794,7 @@ const gatewayStore = createStore({
       await call(
         gatewayServices.updateConsumerAuthPackages,
         { ...payload },
-        { successMsg: i18n.t('update successfully') },
+        { successMsg: i18n.t('updated successfully') },
       );
     },
     async getApiFilterCondition({ call, getParams, update }) {
@@ -829,7 +829,7 @@ const gatewayStore = createStore({
       return res;
     },
     async updateApiLimit({ call }, payload: Merge<GATEWAY.updateLimit, { ruleId: string }>) {
-      const res = await call(gatewayServices.updateApiLimit, payload, { successMsg: i18n.t('update successfully') });
+      const res = await call(gatewayServices.updateApiLimit, payload, { successMsg: i18n.t('updated successfully') });
       return res;
     },
     async deleteLimit({ call }, payload: { ruleId: string }) {

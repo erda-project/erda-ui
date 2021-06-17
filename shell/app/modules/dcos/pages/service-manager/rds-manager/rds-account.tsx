@@ -65,7 +65,7 @@ const RdsAccount = () => {
     },
     getCloudResourceStatusCol('account', i18n.t('status'), 'accountStatus'),
     {
-      title: i18n.t('dcos:owning database'),
+      title: i18n.t('dcos:owned database'),
       dataIndex: 'databasePrivileges',
       tip: true,
       render: (_v: Array<{ dBName: string; accountPrivilege: string }>) => {

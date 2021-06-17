@@ -32,7 +32,7 @@ const memberLabel = createStore({
       return list;
     },
     async updateMemberLabels() {
-      // await call(updateMemberLabels, payload, { successMsg: i18n.t('update successfully') });
+      // await call(updateMemberLabels, payload, { successMsg: i18n.t('updated successfully') });
       await memberLabel.effects.getMemberLabels();
     },
   },

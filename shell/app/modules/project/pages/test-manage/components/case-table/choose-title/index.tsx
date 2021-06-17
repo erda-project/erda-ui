@@ -45,7 +45,7 @@ const ChooseTitle = ({ mode }: IProps) => {
     <span>{i18n.t('project:use case title')}</span>
   ) : (
     <div>
-      <span className="mr8">{i18n.t('project:chosen {num} items', { num: length })} </span>
+      <span className="mr8">{i18n.t('project:selected {num} items', { num: length })} </span>
       <span className="mr8 fake-link" onClick={() => triggerChoosenAll({ isAll: true, scope: mode })}>
         {i18n.t('project:select all')}
       </span>

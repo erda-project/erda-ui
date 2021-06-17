@@ -36,7 +36,7 @@ const nusiNotification = (msg: string, viewMsg: Function) => {
   notification.open({
     duration: 3,
     key,
-    message: i18n.t('default:notice'),
+    message: i18n.t('default:notification'),
     description: msg,
     icon: <img src={logo} style={{ width: '24px' }} />,
     btn: (
@@ -55,7 +55,7 @@ const nusiNotification = (msg: string, viewMsg: Function) => {
 };
 
 const chromeNotification = (msg: string, viewMsg: Function) => {
-  const noticeInstance = new Notification(i18n.t('default:notice'), {
+  const noticeInstance = new Notification(i18n.t('default:notification'), {
     body: msg,
     icon: logo,
   });
@@ -181,7 +181,7 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
       </div>
       <div className="content">
         <div className="summary">
-          {i18n.t('{total} letters in the station, {unreadCount} unread', {
+          {i18n.t('{total} messages in the site, {unreadCount} unread', {
             total: msgPaging.total,
             unreadCount,
           })}

@@ -42,10 +42,10 @@ const notifyGroup = createStore({
       await call(deleteNotifyGroups, payload, { successMsg: i18n.t('deleted successfully') });
     },
     async createNotifyGroups({ call }, payload: COMMON_NOTIFY.ICreateNotifyGroupQuery) {
-      await call(createNotifyGroups, payload, { successMsg: i18n.t('establish successfully') });
+      await call(createNotifyGroups, payload, { successMsg: i18n.t('established successfully') });
     },
     async updateNotifyGroups({ call }, payload: COMMON_NOTIFY.ICreateNotifyGroupQuery) {
-      await call(updateNotifyGroups, payload, { successMsg: i18n.t('update successfully') });
+      await call(updateNotifyGroups, payload, { successMsg: i18n.t('updated successfully') });
     },
   },
   reducers: {

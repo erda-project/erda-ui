@@ -300,16 +300,16 @@ class TraceFilterForm extends React.Component<IProps, IState> {
         <div className="sort-wrap">
           <RadioGroup onChange={this.changeSortMode} value={sortType}>
             <RadioButton value="start_time_desc" onClick={this.clickSortMode}>
-              {i18n.t('microService:time descending')}
+              {i18n.t('microService:duration descending')}
             </RadioButton>
             <RadioButton value="start_time_asc" onClick={this.clickSortMode}>
               {i18n.t('microService:time ascending')}
             </RadioButton>
             <RadioButton value="resp_time_desc" onClick={this.clickSortMode}>
-              {i18n.t('microService:time descending')}
+              {i18n.t('microService:duration descending')}
             </RadioButton>
             <RadioButton value="resp_time_asc" onClick={this.clickSortMode}>
-              {i18n.t('microService:time is ascending')}
+              {i18n.t('microService:duration ascending')}
             </RadioButton>
           </RadioGroup>
         </div>

@@ -23,7 +23,7 @@ export const MergeDes = () => {
   const placeholder = `### MR ${i18n.t('type')}
   - Bugfix (non-breaking change)
   - New feature (non-breaking change, ${i18n.t('application:just add new features')})
-  - Breaking change (${i18n.t('application:modified or added features affect the original functionality')})
+  - Breaking change (${i18n.t('application:Modified or added features affect the original function.')})
   - Refactor (non-breaking change)、
 
   ### ${i18n.t('application:what did this MR do?')}？
@@ -31,10 +31,10 @@ export const MergeDes = () => {
 
   ### ${i18n.t('application:self-test situation')}
   > ${i18n.t('application:describe the situation of manual testing here')}
-  > ${i18n.t('application:what-not-cover')}
+  > ${i18n.t('application:For example, what other components are depended on, and what circumstances are not covered, etc.')}
 
   ### ${i18n.t('application:mr-tpl-unit-test')}
-  > 1. ${i18n.t('application:prove-bug-fix')}
+  > 1. ${i18n.t('application:If it is a bugfix, please add a test case proving that the bug is fixed.')}
   > 2. ${i18n.t('application:local execution results of dev ut')}
 
   ### ${i18n.t('application:integration testing')}

@@ -37,7 +37,7 @@ export const statusConfig = {
     OOM: { text: 'OOM', state: 'warning' },
   },
   RUNTIME: {
-    Init: { text: i18n.t('dcos:initialization'), state: 'processing' },
+    Init: { text: i18n.t('dcos:initializing'), state: 'processing' },
     Progressing: { text: i18n.t('dcos:deploying'), state: 'processing' },
     UnHealthy: { text: i18n.t('dcos:unhealthy'), state: 'warning' },
     Healthy: { text: i18n.t('dcos:health'), state: 'success' },
@@ -185,7 +185,7 @@ function ServiceList({
         ),
       },
       {
-        title: i18n.t('org:instance num'),
+        title: i18n.t('org:number of instance'),
         dataIndex: 'instance',
         key: 'instance',
         width: 100,
@@ -206,7 +206,7 @@ function ServiceList({
           const parsedTotal = total * 1000;
           const used = +(getMetricsInfo(record, 'cpuUsagePercent') || 0).toFixed(4) * 1000;
           const { percent, statusClass } = countPercent(used, parsedTotal);
-          return ProgressItem(percent, round(used, 2), parsedTotal, i18n.t('milli core'), statusClass);
+          return ProgressItem(percent, round(used, 2), parsedTotal, i18n.t('millicore'), statusClass);
         },
       },
       {
@@ -322,7 +322,7 @@ function ServiceList({
           const parsedTotal = total * 1000;
           const used = +(getMetricsInfo(record, 'cpuUsagePercent') || 0).toFixed(4) * 1000;
           const { percent, statusClass } = countPercent(used, parsedTotal);
-          return ProgressItem(percent, round(used, 2), parsedTotal, i18n.t('milli core'), statusClass);
+          return ProgressItem(percent, round(used, 2), parsedTotal, i18n.t('millicore'), statusClass);
         },
       },
       {
@@ -378,7 +378,7 @@ function ServiceList({
     ];
     if (depth === 3) {
       cols.splice(2, {
-        title: i18n.t('instance num'),
+        title: i18n.t('number of instance'),
         dataIndex: 'instance',
         key: 'instance',
       } as any);

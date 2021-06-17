@@ -20,8 +20,8 @@ export const appList: () => LAYOUT.IApp[] = () =>
     [
       {
         key: 'workBench',
-        name: i18n.t('WorkBench'),
-        breadcrumbName: i18n.t('WorkBench'),
+        name: i18n.t('DevOps'),
+        breadcrumbName: i18n.t('DevOps'),
         path: (params: any, routes: any[]): string => {
           // in order to show xxx list when click 工作台 in none apps pages
           let path;
@@ -62,14 +62,14 @@ export const appList: () => LAYOUT.IApp[] = () =>
       },
       {
         key: 'dataCenter',
-        name: i18n.t('DataCenter'),
-        breadcrumbName: i18n.t('DataCenter'),
+        name: i18n.t('cloud management'),
+        breadcrumbName: i18n.t('cloud management'),
         href: goTo.resolve.dataCenterRoot(),
       },
       {
         key: 'edge',
-        name: i18n.t('edge:edge center'),
-        breadcrumbName: i18n.t('edge:edge center'),
+        name: i18n.t('edge:edge computing'),
+        breadcrumbName: i18n.t('edge:edge computing'),
         href: goTo.resolve.edgeApp(),
       },
       {

@@ -38,7 +38,7 @@ export const ClusterSSHForm = ({ form, isReadonly, data, curRef }: IFormProps) =
       required: false,
     },
     {
-      label: i18n.t('org:account used for operation'),
+      label: i18n.t('org:account used for installation and operation'),
       name: `${formPrefix}.account`,
       initialValue: 'dice',
     },

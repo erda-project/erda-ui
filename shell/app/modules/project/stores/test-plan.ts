@@ -196,13 +196,13 @@ const testPlan = createStore({
         res = await call(addToPlan, { testPlanID, testCaseIDs });
         testCaseStore.reducers.clearChoosenInfo({ mode: 'testCase' });
       }
-      message.success(i18n.t('add {total} item successfully', { total: res.totalCount }));
+      message.success(i18n.t('{total} item added successfully', { total: res.totalCount }));
     },
     // 测试计划中新建用例自动关联计划
     async addSingleCaseToTestPlan({ call, getParams }, { testCaseIDs }: { testCaseIDs: number[] }) {
       const { testPlanId: testPlanID } = getParams();
       const res = await call(addToPlan, { testPlanID, testCaseIDs });
-      message.success(i18n.t('add {total} item successfully', { total: res.totalCount }));
+      message.success(i18n.t('{total} item added successfully', { total: res.totalCount }));
       return res;
     },
     async addToPlanInCaseModal({ call, getParams }, query: { testSetID: number; parentId: number }) {
@@ -221,7 +221,7 @@ const testPlan = createStore({
       testCaseStore.reducers.triggerChoosenAll({ scope: 'caseModal', isAll: false });
       testCaseStore.effects.getCases();
       testPlan.effects.getTestPlanItemDetail(testPlanID);
-      message.success(i18n.t('add {total} item successfully', { total: totalCount }));
+      message.success(i18n.t('{total} item added successfully', { total: totalCount }));
     },
     async getReport({ call, update }, testPlanID: number) {
       const planReport = await call(getReport, testPlanID);
@@ -275,14 +275,14 @@ const testPlan = createStore({
       const { testPlanId } = getParams();
       const { testCaseIDs: relationIDs } = await testCaseStore.effects.getSelectedCaseIds();
       await call(updateTestCaseRelations, { testPlanID: testPlanId, relationIDs, ...payload });
-      message.success(i18n.t('update successfully'));
+      message.success(i18n.t('updated successfully'));
       testCaseStore.effects.getCases();
       testCaseStore.reducers.clearChoosenInfo({ mode: 'testPlan' });
     },
     async updateSummary({ call, getParams }, payload: Pick<TEST_PLAN.PlanSubmitBody, 'summary'>) {
       const { testPlanId: id } = getParams();
       await call(updateTestPlan, { id, ...payload });
-      message.success(i18n.t('update successfully'));
+      message.success(i18n.t('updated successfully'));
     },
     async updateDate(
       { call, getParams },

@@ -65,7 +65,7 @@ const TraceDetailFilter = (props: IProps) => {
             defaultValue="expandAll"
           >
             <RadioButton value="expandAll">{i18n.t('microService:expand all')}</RadioButton>
-            <RadioButton value="collapseAll">{i18n.t('microService:all put away')}</RadioButton>
+            <RadioButton value="collapseAll">{i18n.t('microService:fold all')}</RadioButton>
           </RadioGroup>
         </Col>
       </Row>

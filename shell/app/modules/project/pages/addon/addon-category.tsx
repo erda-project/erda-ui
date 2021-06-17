@@ -168,7 +168,7 @@ export const AddonCategory = () => {
     <>
       <AddonCardList
         isFetching={loading}
-        searchPlaceHolder={i18n.t('project:filter by application')}
+        searchPlaceHolder={i18n.t('project:filter by application name')}
         addonCategory={projectAddonCategory}
         searchProps={['applicationName']}
         hideSearch

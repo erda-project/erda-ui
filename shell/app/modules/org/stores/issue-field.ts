@@ -54,16 +54,16 @@ const issueFieldStore = createStore({
       return fieldList || [];
     },
     async addFieldItem({ call }, payload: Omit<ISSUE_FIELD.IFiledItem, 'propertyID' | 'index'>) {
-      return call(addFieldItem, payload, { successMsg: i18n.t('save successfully') });
+      return call(addFieldItem, payload, { successMsg: i18n.t('saved successfully') });
     },
     async updateFieldItem({ call }, payload: Omit<ISSUE_FIELD.IFiledItem, 'index'>) {
-      return call(updateFieldItem, payload, { successMsg: i18n.t('update successfully') });
+      return call(updateFieldItem, payload, { successMsg: i18n.t('updated successfully') });
     },
     async deleteFieldItem({ call }, payload: { propertyID: number }) {
       return call(deleteFieldItem, payload, { successMsg: i18n.t('deleted successfully') });
     },
     async batchUpdateFieldsOrder({ call, update }, payload: ISSUE_FIELD.IFiledItem[]) {
-      const fieldList = await call(batchUpdateFieldsOrder, payload, { successMsg: i18n.t('update successfully') });
+      const fieldList = await call(batchUpdateFieldsOrder, payload, { successMsg: i18n.t('updated successfully') });
       update({ fieldList });
     },
     async getSpecialFieldOptions({ call, update }, payload: ISSUE_FIELD.ISpecialFieldQuery) {

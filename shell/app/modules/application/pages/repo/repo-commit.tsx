@@ -146,7 +146,7 @@ const RepoCommit = () => {
         <Search
           value={searchValue}
           className="search-input"
-          placeholder={i18n.t('application:filter by commit message')}
+          placeholder={i18n.t('application:filter by committed message')}
           onPressEnter={() => {
             getCommitList({
               search: searchValue || undefined,

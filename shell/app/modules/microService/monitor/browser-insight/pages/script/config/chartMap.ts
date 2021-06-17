@@ -41,12 +41,12 @@ const chartMap = merge(
       },
     },
     errorTopN: {
-      titleText: i18n.t('microService:javascript error count'),
+      titleText: i18n.t('microService:JavaScript error times'),
       ...commonAttr,
       chartName: 'errorTopN',
     },
     browsersTopN: {
-      titleText: i18n.t('microService:browser error count'),
+      titleText: i18n.t('microService:browser error times'),
       ...commonAttr,
       chartName: 'browsersTopN',
     },

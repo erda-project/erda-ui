@@ -78,7 +78,7 @@ export const CaseNode = (props: IProps) => {
         {
           const apiCount = get(data, 'snippet_config.labels.apiCount');
           if (apiCount) {
-            contentStr = ` ${i18n.t('api count')}: ${apiCount}`;
+            contentStr = ` ${i18n.t('number of API')}: ${apiCount}`;
           }
         }
         break;
@@ -127,7 +127,7 @@ export const CaseNode = (props: IProps) => {
       {content && <div>{content}</div>}
       {outputsDetail.length ? (
         <>
-          <div>{i18n.t('project:executive')}:</div>
+          <div>{i18n.t('project:output parameter')}:</div>
           {map(outputsDetail, (item, idx) => (
             <div key={`${item}${idx}`}>&nbsp;&nbsp;{item}</div>
           ))}
@@ -175,7 +175,7 @@ export const CaseNode = (props: IProps) => {
       const tip = (
         <div onClick={(e: any) => e.stopPropagation()}>
           <div className="bold">{i18n.t('project:loop strategy')}</div>
-          {loop.break && <div className="pl8">{`${i18n.t('project:end of loop condition')}: ${loop.break}`}</div>}
+          {loop.break && <div className="pl8">{`${i18n.t('project:condition to end loop')}: ${loop.break}`}</div>}
           {strategy.max_times && (
             <div className="pl8">{`${i18n.t('project:maximum number of loop')}: ${strategy.max_times}`}</div>
           )}
@@ -183,12 +183,12 @@ export const CaseNode = (props: IProps) => {
             <div className="pl8">{`${i18n.t('project:decline ratio')}: ${strategy.decline_ratio}`}</div>
           )}
           {strategy.decline_limit_sec && (
-            <div className="pl8">{`${i18n.t('project:decline limit second')}: ${strategy.decline_limit_sec}${i18n.t(
+            <div className="pl8">{`${i18n.t('project:Maximum value of decline')}: ${strategy.decline_limit_sec}${i18n.t(
               'common:second',
             )}`}</div>
           )}
           {strategy.interval_sec && (
-            <div className="pl8">{`${i18n.t('project:interval second')}: ${strategy.interval_sec}${i18n.t(
+            <div className="pl8">{`${i18n.t('project:interval')}: ${strategy.interval_sec}${i18n.t(
               'common:second',
             )}`}</div>
           )}

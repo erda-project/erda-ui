@@ -207,7 +207,7 @@ const ResourceSummary = React.memo((props: IProps) => {
           {
             validator: (_rule: any, value: string, callback: (msg?: string) => void) => {
               if (operationIdList.includes(value)) {
-                callback(i18n.t('exist the same {key}', { key: i18n.t('name') }));
+                callback(i18n.t('the same {key} exists', { key: i18n.t('name') }));
               } else {
                 callback();
               }

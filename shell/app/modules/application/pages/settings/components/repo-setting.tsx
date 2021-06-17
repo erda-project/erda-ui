@@ -36,7 +36,7 @@ const RepoSetting = (props: IProps) => {
   const onLockChange = (checked: boolean) => {
     setRepoLock({ isLocked: checked }).then(() => {
       setIsLocked(checked);
-      message.success(i18n.t('default:setting successfully'));
+      message.success(i18n.t('default:set successfully'));
     });
   };
 

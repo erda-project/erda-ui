@@ -63,7 +63,7 @@ export class Copy extends React.PureComponent<IProps> {
           onSuccess(e);
         }
         message.success(
-          `${i18n.t('copy')} ${e.trigger.getAttribute('data-clipboard-tip') || tipName} ${i18n.t('success')}`,
+          `${i18n.t('copy')} ${e.trigger.getAttribute('data-clipboard-tip') || tipName} ${i18n.t('succeed')}`,
           1,
         );
         e.clearSelection();

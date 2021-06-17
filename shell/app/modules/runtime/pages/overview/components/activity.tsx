@@ -29,7 +29,7 @@ import commonStore from 'common/stores/common';
 import './activity.scss';
 
 const deployStatusCnMap = {
-  OK: <span className="tag-success">{i18n.t('runtime:success')}</span>,
+  OK: <span className="tag-success">{i18n.t('runtime:succeed')}</span>,
   FAILED: <span className="tag-warning">{i18n.t('runtime:failed')}</span>,
   CANCELED: <span className="tag-default">{i18n.t('runtime:cancel')}</span>,
 };
@@ -103,7 +103,7 @@ const Activity = () => {
               <Tooltip title={name || ''}>
                 <span className="name fz16 bold-500 mr8">{operatorName}</span>
               </Tooltip>
-              <Tooltip title={`${i18n.t('runtime:deploy time')}：${deployTime}`}>
+              <Tooltip title={`${i18n.t('runtime:deployment time')}：${deployTime}`}>
                 <span className="start-time">{`${i18n.t('runtime:beginning to deploy')} ${fromNow}`}</span>
               </Tooltip>
             </div>

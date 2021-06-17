@@ -51,7 +51,7 @@ const scriptDetail = ({ data }) => {
                 {moment(value.time).format('YYYY-MM-DD HH:mm:ss')}
               </Col>
               <Col span={10}>
-                <span className="title-secondly">{i18n.t('microService:equipment type')}</span>
+                <span className="title-secondly">{i18n.t('microService:device type')}</span>
                 {value.device}
               </Col>
               <Col span={6}>
@@ -74,7 +74,7 @@ const scriptDetail = ({ data }) => {
                 <div className="title">{i18n.t('microService:error message')}</div>
                 {value.error}
                 <div>
-                  <span className="title-secondly">{i18n.t('microService:source of error')}</span>
+                  <span className="title-secondly">{i18n.t('microService:error source')}</span>
                   {value.source}
                 </div>
               </Col>

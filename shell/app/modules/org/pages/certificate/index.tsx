@@ -134,7 +134,7 @@ const Certificate = () => {
         render: (text: string) => typeMap[text] && typeMap[text].label,
       },
       {
-        title: i18n.t('creation time'),
+        title: i18n.t('create time'),
         dataIndex: 'createdAt',
         width: 180,
         render: (text: string) => formatTime(text),

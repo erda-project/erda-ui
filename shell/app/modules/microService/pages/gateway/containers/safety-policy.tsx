@@ -269,7 +269,7 @@ export const PureSafetyPolicy = () => {
               <span>{i18n.t('microService:abnormal traffic interception')}</span>
               <IF check={hasGlobalSwitch}>
                 <span onClick={e => e.stopPropagation()}>
-                  {i18n.t('microService:use global policy')}&nbsp;
+                  {i18n.t('microService:use global strategy')}&nbsp;
                   <Switch
                     checkedChildren={<CustomIcon type="check" />}
                     unCheckedChildren={<CustomIcon type="close" />}
@@ -337,7 +337,7 @@ export const PureSafetyPolicy = () => {
                 </span>
                 <IF check={hasGlobalSwitch}>
                   <span onClick={(e) => e.stopPropagation()}>
-                    {i18n.t('microService:use global policy')}&nbsp;
+                    {i18n.t('microService:use global strategy')}&nbsp;
                     <Switch
                       checkedChildren={<CustomIcon type="check" />}
                       unCheckedChildren={<CustomIcon type="close" />}
@@ -395,7 +395,7 @@ export const PureSafetyPolicy = () => {
               <div className="policy-content">
                 <TextArea
                   disabled={enableGlobalIP || !ipEnable}
-                  placeholder={i18n.t('microService:you can enter ip address, use , separate')}
+                  placeholder={i18n.t('microService:enter IP address, separated by comma')}
                   className="policy-input"
                   rows={4}
                   onChange={handleSetIPAclList}
@@ -438,7 +438,7 @@ export const PureSafetyPolicy = () => {
                   }}
                 >
                   <Option value="qps">{i18n.t('microService:times/second')}</Option>
-                  <Option value="qpm">{i18n.t('microService:times/minutes')}</Option>
+                  <Option value="qpm">{i18n.t('microService:times/minute')}</Option>
                 </Select>
               </InputGroup>
             </div>
@@ -466,7 +466,7 @@ export const PureSafetyPolicy = () => {
                 </span>
                 <IF check={hasGlobalSwitch}>
                   <span onClick={(e) => e.stopPropagation()}>
-                    {i18n.t('microService:use global policy')}&nbsp;
+                    {i18n.t('microService:use global strategy')}&nbsp;
                     <Switch
                       checkedChildren={<CustomIcon type="check" />}
                       unCheckedChildren={<CustomIcon type="close" />}
@@ -506,9 +506,9 @@ export const PureSafetyPolicy = () => {
                   style={{ width: 150 }}
                   value={extraLatency}
                   onChange={setExtraLatency}
-                  placeholder={i18n.t('microService:milliseconds')}
+                  placeholder={i18n.t('microService:millisecond(s)')}
                 />
-                <span className="unit">{i18n.t('microService:milliseconds')}</span>
+                <span className="unit">{i18n.t('microService:millisecond(s)')}</span>
               </InputGroup>
             </div>
           </div>
@@ -558,7 +558,7 @@ export const PureSafetyPolicy = () => {
                 </span>
                 <IF check={hasGlobalSwitch}>
                   <span onClick={(e) => e.stopPropagation()}>
-                    {i18n.t('microService:use global policy')}&nbsp;
+                    {i18n.t('microService:use global strategy')}&nbsp;
                     <Switch
                       checkedChildren={<CustomIcon type="check" />}
                       unCheckedChildren={<CustomIcon type="close" />}
@@ -631,12 +631,12 @@ export const PureSafetyPolicy = () => {
                   onChange={setValidTTL}
                   placeholder={i18n.t('microService:please key in numbers')}
                 />
-                <span className="unit">{i18n.t('microService:second')}</span>
+                <span className="unit">{i18n.t('microService:second(s)')}</span>
               </InputGroup>
             </div>
           </div>
           <div className="gateway-policy-item">
-            <span className="policy-label">token {i18n.t('microService:renewal cycle')}</span>
+            <span className="policy-label">token {i18n.t('microService:update period')}</span>
             <div className="policy-content">
               <InputGroup compact>
                 <InputNumber
@@ -647,7 +647,7 @@ export const PureSafetyPolicy = () => {
                   onChange={setRefreshTTL}
                   placeholder={i18n.t('microService:please key in numbers')}
                 />
-                <span className="unit">{i18n.t('microService:second')}</span>
+                <span className="unit">{i18n.t('microService:second(s)')}</span>
               </InputGroup>
             </div>
           </div>

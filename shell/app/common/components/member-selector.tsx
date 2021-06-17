@@ -59,12 +59,12 @@ const optionRender = (user: IMember, roleMap?: object, _type?: string, showRole?
   const { avatar, nick, name, roles } = user;
   return (
     <>
-      <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('empty')} rect="20x20" type="avatar" />
+      <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect="20x20" type="avatar" />
       {
         <span className="ml8" title={name}>
-          {nick || i18n.t('common:empty')}
+          {nick || i18n.t('common:none')}
           {_type === 'normal' && roleMap && showRole
-            ? `(${map(roles, (role) => roleMap[role] || i18n.t('common:empty')).join(',')}`
+            ? `(${map(roles, (role) => roleMap[role] || i18n.t('common:none')).join(',')}`
             : ''}
         </span>
       }
@@ -76,7 +76,7 @@ const valueItemRender =
   (size = 'normal') =>
   (user: any, deleteValue: (item: any) => void, isMultiple?: boolean) => {
     const { avatar, nick, name, label, value } = user;
-    const displayName = nick || label || value || i18n.t('common:empty');
+    const displayName = nick || label || value || i18n.t('common:none');
     const cls = {
       normal: {
         img: '20x20',
@@ -92,7 +92,7 @@ const valueItemRender =
     const curCls = cls[size] || {};
     const item = (
       <>
-        <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('empty')} rect={curCls.img} type="avatar" />
+        <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect={curCls.img} type="avatar" />
         <span className={curCls.name} title={name}>
           {displayName}
         </span>
@@ -304,9 +304,9 @@ const UserSelector = (props: any) => {
     const id = member.id || member.userId;
     return (
       <Option key={id} value={id}>
-        <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('empty')} rect="20x20" type="avatar" />
+        <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect="20x20" type="avatar" />
         <span className="ml8" title={name}>
-          {nick || i18n.t('common:empty')}
+          {nick || i18n.t('common:none')}
         </span>
       </Option>
     );
@@ -319,7 +319,7 @@ const UserSelector = (props: any) => {
       showArrow={false}
       filterOption={false}
       defaultActiveFirstOption={false}
-      placeholder={i18n.t('person select')}
+      placeholder={i18n.t('Please enter nickname, name, email or mobile phone number to search.')}
       onSearch={debounce(handleSearch, 200, { maxWait: 500 })}
       {...props}
     >

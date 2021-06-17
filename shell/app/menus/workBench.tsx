@@ -57,7 +57,7 @@ export const getWorkBenchMenu = () => {
             {
               href: goTo.resolve.apiAccessManage(),
               // icon: 'bianliang',
-              text: i18n.t('access manage'),
+              text: i18n.t('access management'),
             },
             {
               href: goTo.resolve.apiMyVisit(),
@@ -79,12 +79,12 @@ export const getWorkBenchMenu = () => {
           text: i18n.t('workBench:approval request'),
           subMenu: [
             {
-              text: i18n.t('workBench:my approval'),
+              text: i18n.t('workBench:approved'),
               href: goTo.resolve.workBenchApprovePending(), // '/workBench/approval/my-approve/pending',
               prefix: `${goTo.resolve.workBenchApprove()}/`,
             },
             {
-              text: i18n.t('workBench:my initiated'),
+              text: i18n.t('workBench:initiated'),
               href: goTo.resolve.workBenchMyInitiateWait(), // '/workBench/approval/my-initiate/WaitApprove',
               prefix: `${goTo.resolve.workBenchMyInitiate()}/`,
             },
@@ -94,7 +94,7 @@ export const getWorkBenchMenu = () => {
           key: 'workBenchPublisher',
           href: goTo.resolve.workBenchPublisher(), // '/workBench/publisher',
           icon: <IconSend />,
-          text: i18n.t('publisher:joined publisher'),
+          text: i18n.t('publisher:my release'),
           show: orgPerm.workBench.publisher.read.pass,
         },
         {

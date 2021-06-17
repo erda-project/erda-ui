@@ -51,7 +51,7 @@ const scriptDetail = ({ data }: { data: object }) => {
                 {moment(value.time).format('YYYY-MM-DD HH:mm:ss')}
               </Col>
               <Col span={10}>
-                <span className="title-secondly">{i18n.t('microService:equipment type')}</span>
+                <span className="title-secondly">{i18n.t('microService:device type')}</span>
                 {value.device}
               </Col>
               <Col span={6}>
@@ -74,7 +74,7 @@ const scriptDetail = ({ data }: { data: object }) => {
                 <div className="title">{i18n.t('microService:error message')}</div>
                 {value.error}
                 <div>
-                  <span className="title-secondly">{i18n.t('microService:source of error')}</span>
+                  <span className="title-secondly">{i18n.t('microService:error source')}</span>
                   {value.source}
                 </div>
               </Col>
@@ -82,7 +82,7 @@ const scriptDetail = ({ data }: { data: object }) => {
             <Row gutter={24}>
               <Col>
                 <div className="title">{i18n.t('microService:stack information')}</div>
-                {value.stack_trace ? <pre>{value.stack_trace}</pre> : i18n.t('empty')}
+                {value.stack_trace ? <pre>{value.stack_trace}</pre> : i18n.t('none')}
               </Col>
             </Row>
           </div>

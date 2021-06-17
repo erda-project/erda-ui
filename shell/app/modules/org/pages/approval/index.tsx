@@ -171,13 +171,13 @@ const PureApproval = ({ type }: { type: APPROVAL.ApprovalType }) => {
             },
           },
           {
-            title: i18n.t('org:approve time'),
+            title: i18n.t('org:approval time'),
             dataIndex: 'approvalTime',
             width: 180,
             render: (val: string) => moment(val).format('YYYY-MM-DD HH:mm:ss'),
           },
           {
-            title: i18n.t('org:approve result'),
+            title: i18n.t('org:approval result'),
             dataIndex: 'status',
             width: 100,
             render: (val: string) => get(undoneStatusMap, `${val}.name`),

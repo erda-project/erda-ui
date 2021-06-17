@@ -460,7 +460,7 @@ class API extends React.Component<IProps, IState> {
               <span>{domainSuffix}</span>
               <IF check={domainPrefix && domainPrefix !== customDomain}>
                 <DeleteConfirm
-                  title={i18n.t('microService:ok update operation')}
+                  title={i18n.t('microService:confirm update operation')}
                   secondTitle={`${i18n.t(
                     'microService:will the current service domain name',
                   )}: ${domainPrefix} 修改为：${customDomain}`}
@@ -515,7 +515,7 @@ class API extends React.Component<IProps, IState> {
             <Select
               allowClear
               className="api-select mr20"
-              placeholder={i18n.t('microService:select sort by')}
+              placeholder={i18n.t('microService:select sorting method')}
               value={sortField && sortType ? `${sortField}-${sortType}` : undefined}
               onChange={this.setSortBy}
             >
@@ -532,7 +532,7 @@ class API extends React.Component<IProps, IState> {
             <Input
               allowClear
               className="api-search-input"
-              placeholder={i18n.t('microService:please enter api lookup')}
+              placeholder={i18n.t('microService:Please enter API to search.')}
               value={apiPath}
               onChange={this.setQuery}
             />
@@ -607,7 +607,7 @@ class API extends React.Component<IProps, IState> {
               {i18n.t('microService:delete')}
             </span>
             <span className="table-operations-btn" onClick={() => this.onJumpToAnalysis(record)}>
-              {i18n.t('microService:analysis')}
+              {i18n.t('microService:analyze')}
             </span>
             {record.swagger ? (
               <span className="table-operations-btn" onClick={() => this.showDoc(record)}>

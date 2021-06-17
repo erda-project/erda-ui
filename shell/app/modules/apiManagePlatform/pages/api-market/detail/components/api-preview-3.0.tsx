@@ -356,7 +356,7 @@ const ApiPreviewV3 = ({ dataSource, extra }: IProps) => {
             : {
                 type: 'Title',
                 props: {
-                  title: `${i18n.t('response body')}: ${info.responsesBody?.type || i18n.t('empty')} `,
+                  title: `${i18n.t('response body')}: ${info.responsesBody?.type || i18n.t('none')} `,
                   level: 2,
                 },
               },

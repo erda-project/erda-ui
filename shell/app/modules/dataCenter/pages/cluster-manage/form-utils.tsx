@@ -32,18 +32,18 @@ export const regRulesMap = {
   },
   wildcardDomain: {
     pattern: /^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$/,
-    message: i18n.t('dcos:please fill in the correct pan-domain name'),
+    message: i18n.t('dcos:please fill in the correct extensive domain'),
   },
   port: { pattern: /^([0-9])+$/, message: i18n.t('dcos:please enter the correct port') },
   clusterName: {
     pattern: /^[a-z0-9]{1,20}-[a-z0-9]{1,20}$/,
-    message: i18n.t('dcos:alphanumeric, separated by a middle line'),
+    message: i18n.t('dcos:letters and numbers, separated by hyphen'),
   },
   absolutePath: { pattern: /^\//, message: i18n.t('dcos:absolute path starts with /') },
   ipWithComma: {
     pattern:
       /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(,(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))*$/,
-    message: i18n.t('please enter the IPv4 list, if there are multiple, it will be separated by comma'),
+    message: i18n.t('Please enter the IPv4 list, separated by comma.'),
   },
   ...regRules,
 };

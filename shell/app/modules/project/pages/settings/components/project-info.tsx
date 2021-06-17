@@ -62,7 +62,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
   };
   const fieldsList = [
     {
-      label: i18n.t('{name} identify', { name: i18n.t('project') }),
+      label: i18n.t('{name} identifier', { name: i18n.t('project') }),
       name: 'name',
       itemProps: {
         disabled: true,
@@ -73,7 +73,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
       name: 'displayName',
     },
     {
-      label: i18n.t('whether public {name}', { name: i18n.t('project') }),
+      label: i18n.t('whether to put {name} in public', { name: i18n.t('project') }),
       name: 'isPublic',
       type: 'radioGroup',
       options: [
@@ -154,7 +154,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
         <ConfirmDelete
           deleteItem={i18n.t('project')}
           onConfirm={onDelete}
-          secondTitle={i18n.t('project:delete project {name} tips', { name: info.displayName })}
+          secondTitle={i18n.t('project:The project cannot be restored after deletion. Please enter {name} to confirm.', { name: info.displayName })}
           onCancel={() => setConfirmProjectName('')}
           disabledConfirm={confirmProjectName !== info.displayName}
           modalChildren={

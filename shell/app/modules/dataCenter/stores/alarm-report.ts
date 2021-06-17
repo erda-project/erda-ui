@@ -88,7 +88,7 @@ const alarmReportStore = createStore({
       await call(
         createReportTask,
         { scope: 'org', scopeId: String(orgId), ...payload },
-        { successMsg: i18n.t('add successfully') },
+        { successMsg: i18n.t('added successfully') },
       );
       alarmReportStore.effects.getReportTasks(defaultPagingReq);
     },
@@ -107,7 +107,7 @@ const alarmReportStore = createStore({
       breadcrumbStore.reducers.setInfo('opReportName', name);
     },
     async updateReportTask({ call, select }, payload: Merge<COMMON_ALARM_REPORT.ReportTaskQuery, { id: number }>) {
-      await call(updateReportTask, payload, { successMsg: i18n.t('update successfully') });
+      await call(updateReportTask, payload, { successMsg: i18n.t('updated successfully') });
       const { pageNo, pageSize } = select((s) => s.reportTaskPaging);
       alarmReportStore.effects.getReportTasks({ pageNo, pageSize });
     },
@@ -117,7 +117,7 @@ const alarmReportStore = createStore({
     },
     async switchReportTask({ call, select }, payload: { id: number; enable: boolean }) {
       const { pageNo, pageSize } = select((s) => s.reportTaskPaging);
-      await call(switchReportTask, payload, { successMsg: i18n.t('update successfully') });
+      await call(switchReportTask, payload, { successMsg: i18n.t('updated successfully') });
       alarmReportStore.effects.getReportTasks({ pageNo, pageSize });
     },
     async getReportTaskRecords(

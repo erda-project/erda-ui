@@ -479,7 +479,7 @@ const ClusterDashboard = () => {
                 goTo(goTo.pages.dataCenterClusterState, { clusterName: activedGroup || groupName + unitGroups[0] })
               }
             >
-              <span className="mr20">{i18n.t('dcos:global state of cluster')}:</span>
+              <span className="mr20">{i18n.t('dcos:overall status of cluster')}:</span>
               <span>{get(stateSeverityMap, `${clusterStatus}.icon`)}</span>
               <span>{get(stateSeverityMap, `${clusterStatus}.displayName`)}</span>
             </span>

@@ -289,7 +289,7 @@ const RunDetail = (props: IProps) => {
     return (
       <IF check={canCancel}>
         <DeleteConfirm
-          title={`${i18n.t('application:confirm cancel current build')}?`}
+          title={`${i18n.t('application:confirm to cancel the current build')}?`}
           secondTitle=""
           onConfirm={() => {
             cancelBuild();

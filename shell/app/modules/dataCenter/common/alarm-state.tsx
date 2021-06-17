@@ -16,7 +16,7 @@ import React from 'react';
 import i18n from 'i18n';
 
 const ALARM_STATE_MAP = {
-  alert: { icon: 'wh', label: i18n.t('org:alert') },
+  alert: { icon: 'wh', label: i18n.t('org:alarm') },
   recover: { icon: 'tg', label: i18n.t('org:recover') },
 };
 

@@ -65,7 +65,7 @@ const BlockNetwork = () => {
         showIcon
         type="error"
         iconType="warning"
-        message={i18n.t('org:after opening, the impact is greater, please confirm carefully before opening')}
+        message={i18n.t('org:There will be great influence if enabled. Please check carefully.')}
       />
       <Row className="mt16">
         {metaData.map(({ value, label, disabled }) => {

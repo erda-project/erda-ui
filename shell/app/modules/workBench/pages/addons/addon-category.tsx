@@ -31,7 +31,7 @@ const AddonCategory = () => {
       addonCategory={addonCategory}
       isFetching={loading}
       searchProps={['projectName', 'applicationName']}
-      searchPlaceHolder={i18n.t('workBench:search by owning project')}
+      searchPlaceHolder={i18n.t('workBench:search by owned project')}
     />
   );
 };

@@ -21,12 +21,12 @@ export const MainPlatformForm = ({ form, isReadonly, data, curRef }: IFormProps)
   const formPrefix = 'config.mainPlatform';
   const fieldsList = [
     {
-      label: i18n.t('dcos:pan domain name'),
+      label: i18n.t('dcos:extensive domain'),
       name: `${formPrefix}.wildcardDomain`,
       rules: [{ ...regRulesMap.wildcardDomain }],
     },
     {
-      label: i18n.t('dcos:lb access agreement'),
+      label: i18n.t('dcos:LB access protocol'),
       name: `${formPrefix}.scheme`,
       type: 'radioGroup',
       initialValue: 'http',

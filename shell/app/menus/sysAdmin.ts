@@ -18,12 +18,12 @@ export const getSysAdminMenu = () => {
     {
       href: '/sysAdmin/orgs',
       icon: 'qiye',
-      text: i18n.t('org manage'),
+      text: i18n.t('org management'),
     },
     {
       href: '/sysAdmin/user-manage',
       icon: 'sidebarUser',
-      text: i18n.t('user manage'),
+      text: i18n.t('user management'),
     },
     {
       href: '/sysAdmin/audit-log',

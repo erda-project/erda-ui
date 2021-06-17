@@ -150,7 +150,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
           curUsers.push(get(extra, `userMap.${val.value}`) || {});
         }
         if (val.showIcon === false) {
-          Comp = map(curUsers, (item) => item.nick || item.name || item.id || i18n.t('common:empty')).join(', ');
+          Comp = map(curUsers, (item) => item.nick || item.name || item.id || i18n.t('common:none')).join(', ');
         } else {
           Comp = (
             <div>
@@ -160,13 +160,13 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
                     {val.showIcon === false ? null : (
                       <ImgHolder
                         src={cU.avatar}
-                        text={cU.nick ? cU.nick.substring(0, 1) : i18n.t('empty')}
+                        text={cU.nick ? cU.nick.substring(0, 1) : i18n.t('none')}
                         rect="20x20"
                         type="avatar"
                       />
                     )}
                     <span className="ml2 mr4" title={cU.name}>
-                      {cU.nick || cU.name || val.value || i18n.t('common:empty')}
+                      {cU.nick || cU.name || val.value || i18n.t('common:none')}
                     </span>
                   </span>
                 );
@@ -227,7 +227,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         //     allowClear={false}
         //     dropdownClassName={`dc-table-date-picker result-${val.textAlign || 'left'}`}
         //     value={val.value ? moment(val.value) : undefined}
-        //     placeholder={i18n.t('unset')}
+        //     placeholder={i18n.t('unspecified')}
         //     onChange={(v) => extra.execOperation(val?.operations?.onChange, v)}
         //     format="YYYY-MM-DD"
         //     disabledDate={getDisabledDate(val)}
@@ -298,10 +298,10 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
 
 const memberSelectorValueItem = (user: any) => {
   const { avatar, nick, name, label, value } = user;
-  const displayName = nick || label || value || i18n.t('common:empty');
+  const displayName = nick || label || value || i18n.t('common:none');
   return (
     <div className="v-align dice-config-table-member-field-selector">
-      {/* <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('empty')} rect={'20x20'} type="avatar" /> */}
+      {/* <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect={'20x20'} type="avatar" /> */}
       <span className={'ml4 fz14 nowrap'} title={name}>
         {displayName}
       </span>
@@ -326,7 +326,7 @@ const DropdownSelector = (props: IDropdownSelectorProps) => {
     <div className="v-align hover-active dropdown-field-selector" onClick={(e: any) => e.stopPropagation()}>
       <div className="v-align">
         {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
-        {value || <span className="color-text-desc">{i18n.t('unset')}</span>}
+        {value || <span className="color-text-desc">{i18n.t('unspecified')}</span>}
       </div>
       <CustomIcon type="di" className="arrow-icon" />
     </div>

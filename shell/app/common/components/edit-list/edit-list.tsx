@@ -85,7 +85,7 @@ export const validateValue = (dataTemp: ITemp[], value: IData[]) => {
     uniqValueKeys.forEach((uk) => {
       if (!validTip) {
         const duplicateValues = getDuplicateValue(compact(map(value, uk.key)));
-        const sameKey = i18n.t('exist the same {key}', { key: duplicateValues.join(',') });
+        const sameKey = i18n.t('the same {key} exists', { key: duplicateValues.join(',') });
         duplicateValues.length && (validTip = `${uk.title || uk.key} ${sameKey}`);
       }
     });

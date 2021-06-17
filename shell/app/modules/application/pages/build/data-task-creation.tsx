@@ -104,7 +104,7 @@ class DataTaskCreation extends React.PureComponent<IProps, IState> {
           <section className="footer flex-box mt20">
             <span>
               <CustomIcon type="jg" />
-              {i18n.t('application:can only add up to 10 files in a single order')}
+              {i18n.t('application:can only add up to 10 files at a time')}
             </span>
             <div>
               <Button className="ml8" onClick={onCancel}>

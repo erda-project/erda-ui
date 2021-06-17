@@ -65,7 +65,7 @@ export default ({ ids, all, mine, type, iterationID, currentIterationIDs, projec
         case 'assign':
           updater.formProps({
             visible: true,
-            title: i18n.t('update assign'),
+            title: i18n.t('update assignee'),
             fieldsList: [
               {
                 name: 'assignee',

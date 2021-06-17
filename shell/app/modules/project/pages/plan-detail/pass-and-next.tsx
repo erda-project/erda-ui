@@ -49,7 +49,7 @@ export const PassAndNext = ({ hasNext, current, onClick }: IProps) => {
       </Button>
       <Button className="border-red" onClick={() => onClick(CaseStatus.FAIL)} disabled={current === CaseStatus.FAIL}>
         <CustomIcon className="bg-color-icon red" type="wtg" />
-        {i18n.t('project:not pass')}
+        {i18n.t('project:not passed')}
       </Button>
       {hasNext ? <span className="ml4">{i18n.t('project:and next')}</span> : null}
     </div>

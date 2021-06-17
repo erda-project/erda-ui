@@ -96,7 +96,7 @@ const middlewareDashboard = createStore({
       update({ addonDailyUsage });
     },
     async scale({ call }, payload: MIDDLEWARE_DASHBOARD.IScaleData) {
-      const res = await call(scale, payload, { successMsg: i18n.t('save successfully') });
+      const res = await call(scale, payload, { successMsg: i18n.t('saved successfully') });
       return res;
     },
     async getBackupFiles({ call }, payload) {
@@ -109,7 +109,7 @@ const middlewareDashboard = createStore({
       return addonConfig;
     },
     async submitConfig({ call }, payload: MIDDLEWARE_DASHBOARD.IUpdateConfig) {
-      const res = await call(submitConfig, payload, { successMsg: i18n.t('save successfully') });
+      const res = await call(submitConfig, payload, { successMsg: i18n.t('saved successfully') });
       return res;
     },
     async getAddonStatus({ call, update, select }, payload: MIDDLEWARE_DASHBOARD.IMiddleBase) {

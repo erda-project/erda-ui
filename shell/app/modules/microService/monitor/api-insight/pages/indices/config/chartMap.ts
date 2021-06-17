@@ -38,7 +38,7 @@ const chartMap = merge(
     },
     disk: {
       ...commonAttr,
-      titleText: i18n.t('dist'),
+      titleText: i18n.t('disk'),
       chartName: 'disk',
       viewRender: ConnectChart,
     },

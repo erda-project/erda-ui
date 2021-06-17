@@ -78,7 +78,7 @@ const SelectVersion = ({ onChangeVersion }: IProps) => {
     <TreeSelect
       value={selectVersionID}
       treeData={treeData}
-      placeholder={i18n.t('default:please select specifications')}
+      placeholder={i18n.t('default:please select version')}
       style={{ width: '100%' }}
       dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
       treeDefaultExpandAll

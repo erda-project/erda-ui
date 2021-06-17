@@ -238,7 +238,7 @@ const TestPlanDetail = () => {
                   <DropdownSelect
                     menuList={[
                       { name: i18n.t('project:new'), key: 'add' },
-                      { name: i18n.t('project:quote'), key: 'import' },
+                      { name: i18n.t('project:reference'), key: 'import' },
                     ]}
                     buttonText={i18n.t('project:add use case')}
                     btnProps={{
@@ -298,7 +298,7 @@ const TestPlanDetail = () => {
             </SplitPage.Right>
           </SplitPage>
         </TabPane>
-        <TabPane tab={i18n.t('project:testing report')} key="report">
+        <TabPane tab={i18n.t('project:test report')} key="report">
           <Report key={reportKey} />
         </TabPane>
         <TabPane tab={i18n.t('project:interface test record')} key="pipeline">

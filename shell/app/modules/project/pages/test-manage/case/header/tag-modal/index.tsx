@@ -63,12 +63,12 @@ const TagModal = () => {
 
   const fieldsList = [
     {
-      label: i18n.t('project:label under search item'),
+      label: i18n.t('project:search label under project'),
       name: 'labelIds',
       type: 'select',
       options: map(list, ({ id: value, name }) => ({ value, name })),
       itemProps: {
-        placeholder: i18n.t('project:label under search item'),
+        placeholder: i18n.t('project:search label under project'),
         filterOption,
         mode: 'tag',
       },

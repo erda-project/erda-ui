@@ -113,7 +113,7 @@ export const envMap = {
 
 export const slaUnitMap: { [k in API_ACCESS.SlaLimitUnit]: string } = {
   s: i18n.t('microService:times/second'),
-  m: i18n.t('microService:times/minutes'),
+  m: i18n.t('microService:times/minute'),
   h: i18n.t('microService:times/hour'),
   d: i18n.t('microService:times/day'),
 };
@@ -126,7 +126,7 @@ export const slaAuthorizationMap: { [k in API_ACCESS.SlaApproval]: { name: strin
 export const addonStatusMap: { [k in API_ACCESS.AddonStatus]: { status: k; name: string } } = {
   PENDING: {
     status: 'PENDING',
-    name: i18n.t('runtime:prepublish'),
+    name: i18n.t('runtime:to be published'),
   },
   ATTACHING: {
     status: 'ATTACHING',
@@ -150,7 +150,7 @@ export const addonStatusMap: { [k in API_ACCESS.AddonStatus]: { status: k; name:
   },
   OFFLINE: {
     status: 'OFFLINE',
-    name: i18n.t('not start'),
+    name: i18n.t('not started'),
   },
   UPGRADE: {
     status: 'UPGRADE',

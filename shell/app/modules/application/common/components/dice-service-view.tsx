@@ -61,7 +61,7 @@ export default class extends PureComponent<IPropertyViewProps, any> {
           <span>{(resources && resources.mem) || '-'}</span>
         </span>
         <span className="dice-service-detail-column">
-          <span>{i18n.t('application:instances count')}：</span>
+          <span>{i18n.t('application:number of instance')}：</span>
           <span>{(deployments && deployments.replicas) || '-'}</span>
         </span>
         <span className="dice-service-detail-column">

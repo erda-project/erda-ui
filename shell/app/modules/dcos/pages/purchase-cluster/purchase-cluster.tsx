@@ -255,7 +255,7 @@ class OrderPage extends React.Component<IProps> {
         ),
       },
       {
-        label: i18n.t('org:availability region'),
+        label: i18n.t('org:availability zone'),
         name: 'zoneId',
         getComp: ({ form }: { form: WrappedFormUtils }) => (
           <Spin spinning={isFetchingZones}>
@@ -415,7 +415,7 @@ class OrderPage extends React.Component<IProps> {
         rules: [
           {
             required: true,
-            message: i18n.t('please select specifications'),
+            message: i18n.t('please select version'),
           },
         ],
       },
@@ -426,7 +426,7 @@ class OrderPage extends React.Component<IProps> {
         options: [
           {
             value: 'PayOnDemand',
-            name: i18n.t('org:pay by volume'),
+            name: i18n.t('org:pay as you go'),
           },
           {
             value: 'PrePay',
@@ -442,11 +442,11 @@ class OrderPage extends React.Component<IProps> {
         options: [
           {
             value: 'paybybandwidth',
-            name: i18n.t('fixed bandwidth'),
+            name: i18n.t('by fixed bandwidth'),
           },
           {
             value: 'paybytraffic',
-            name: i18n.t('flow'),
+            name: i18n.t('by flow'),
           },
         ],
       },
@@ -519,7 +519,7 @@ class OrderPage extends React.Component<IProps> {
     }
     const placeholderMap = {
       master: i18n.t('org:suggest 3 nodes in production and 1 node in test'),
-      pubilc: i18n.t('org:2-prod-1-test-no-slb'),
+      pubilc: i18n.t('org:It is recommended to use 2 nodes in production, and 1 node in test. Only 1 node does not support the creation of SLB.'),
       private: i18n.t('org:suggest production is assessed by business volume, 1 node in test'),
     };
     return [
@@ -540,7 +540,7 @@ class OrderPage extends React.Component<IProps> {
         ],
       },
       {
-        label: showLabel ? i18n.t('org:instance type') : null,
+        label: showLabel ? i18n.t('org:instance specification') : null,
         name: `ecsSettings.${type}.instanceType`,
         initialValue: 'ecs.sn2ne.2xlarge',
         formLayout: 'horizontal',
@@ -548,7 +548,7 @@ class OrderPage extends React.Component<IProps> {
         rules: [
           {
             required: true,
-            message: i18n.t('org:please fill in the instance type'),
+            message: i18n.t('org:Please fill in the instance specification.'),
           },
         ],
         itemProps: {
@@ -760,7 +760,7 @@ class OrderPage extends React.Component<IProps> {
         rules: [
           {
             required: true,
-            message: i18n.t('please select specifications'),
+            message: i18n.t('please select version'),
           },
         ],
       },
@@ -771,7 +771,7 @@ class OrderPage extends React.Component<IProps> {
         options: [
           {
             value: 'Postpaid', // 这里是小写，简直操蛋
-            name: i18n.t('Pay-As-You-Go'),
+            name: i18n.t('pay as you go'),
           },
           {
             value: 'Prepaid',
@@ -795,7 +795,7 @@ class OrderPage extends React.Component<IProps> {
         rules: [
           {
             required: true,
-            message: i18n.t('org:please fill in storage disk capacity'),
+            message: i18n.t('org:Please fill in the storage disk capacity'),
           },
         ],
       },
@@ -823,7 +823,7 @@ class OrderPage extends React.Component<IProps> {
         name: 'rdsSettings.Password',
         required: false,
         itemProps: {
-          placeholder: i18n.t('org:6 to 32 digits, consisting of alphanumeric underscores'),
+          placeholder: i18n.t('org:6 to 32 digits, consisting of letters, numbers and underscores'),
           maxLength: 32,
           type: passwordVisible ? 'text' : 'password',
           addonAfter: (
@@ -837,7 +837,7 @@ class OrderPage extends React.Component<IProps> {
         rules: [
           {
             pattern: /^[a-zA-Z0-9_]{6,32}$/,
-            message: i18n.t('org:6 to 32 digits, consisting of alphanumeric underscores'),
+            message: i18n.t('org:6 to 32 digits, consisting of letters, numbers and underscores'),
           },
         ],
         initialValue: '',
@@ -930,7 +930,7 @@ class OrderPage extends React.Component<IProps> {
 
     const steps = [
       {
-        title: i18n.t('choice'),
+        title: i18n.t('choose'),
         content: <RenderPureForm list={formList} formItemLayout={formItemLayout} {...this.props} />,
       },
       {

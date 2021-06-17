@@ -162,7 +162,7 @@ export const PureApiPackage = () => {
       rules: [
         {
           pattern: /^\w{1,20}$/g,
-          message: i18n.t('microService:please enter a name consisting of 20 alphanumeric characters'),
+          message: i18n.t('microService:Please enter a name consisting of letters and numbers within 20 characters.'),
         },
       ],
       itemProps: { disabled: !isEmpty(formData) },

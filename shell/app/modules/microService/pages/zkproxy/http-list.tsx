@@ -120,7 +120,7 @@ const HTTPList = () => {
                 className="table-operations-btn"
                 onClick={() => {
                   confirm({
-                    title: `${subRecord.online ? i18n.t('confirm offline') : i18n.t('confirm online')}？`,
+                    title: `${subRecord.online ? i18n.t('confirm to go offline') : i18n.t('confirm to go online')}？`,
                     onOk: () =>
                       toggleIPStatus({
                         az,
@@ -152,7 +152,7 @@ const HTTPList = () => {
   };
 
   return (
-    <SearchTable onSearch={onSearch} placeholder={i18n.t('microService:filter search by name')}>
+    <SearchTable onSearch={onSearch} placeholder={i18n.t('microService:search by name')}>
       <Table
         loading={loading}
         columns={columns}

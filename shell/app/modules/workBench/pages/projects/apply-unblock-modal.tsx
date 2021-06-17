@@ -53,7 +53,7 @@ const ApplyUnblockModal = ({ visible, onCancel, afterSubmit, metaData }: IProps)
       getComp: () => <AppSelector projectId={`${metaData.projectId}`} mode="multiple" />,
     },
     {
-      label: i18n.t('runtime:deploy time'),
+      label: i18n.t('runtime:deployment time'),
       name: 'dataRange',
       getComp: () => (
         <RangePicker
@@ -68,7 +68,7 @@ const ApplyUnblockModal = ({ visible, onCancel, afterSubmit, metaData }: IProps)
         {
           validator: (_rule: any, [start, end]: [Moment, Moment], callback: Function) => {
             if (end.diff(start, 'days') > 7) {
-              callback(i18n.t('project:deployment time should not be greater than 7 days'));
+              callback(i18n.t('project:The deployment time should not be longer than 7 days.'));
               return;
             }
             callback();
@@ -102,7 +102,7 @@ const ApplyUnblockModal = ({ visible, onCancel, afterSubmit, metaData }: IProps)
 
   return (
     <FormModal
-      title={i18n.t('project:apply deploy')}
+      title={i18n.t('project:apply to deploy')}
       fieldsList={fieldsList}
       visible={visible}
       modalProps={{

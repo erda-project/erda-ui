@@ -30,7 +30,7 @@ export const getEdgeMenu = () => {
     {
       href: goTo.resolve.edgeResource(),
       icon: <IconDataAll />,
-      text: i18n.t('resources'),
+      text: i18n.t('resource management'),
     },
     {
       href: goTo.resolve.edgeSetting(),

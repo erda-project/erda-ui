@@ -124,14 +124,14 @@ export const PureAppList = ({
               {item.desc || i18n.t('application:edit description in application setting')}
             </div>
             <div className="item-footer">
-              <Tooltip title={`${i18n.t('application:own project')}: ${item.projectName}`}>
+              <Tooltip title={`${i18n.t('application:owned project')}: ${item.projectName}`}>
                 <span className="p-name hover-active" onClick={(e) => goToProject(item, e)}>
                   <CustomIcon type="xm-2" />
                   <span className="nowrap">{`${item.projectDisplayName}`}</span>
                 </span>
               </Tooltip>
               <IF check={[appMode.MOBILE, appMode.LIBRARY, appMode.SERVICE].includes(item.mode)}>
-                <Tooltip title={i18n.t('application:runtime count')}>
+                <Tooltip title={i18n.t('application:number of application instance')}>
                   <span
                     className="b-count"
                     onClick={(e) => {
@@ -147,7 +147,7 @@ export const PureAppList = ({
               <span className="time">
                 <CustomIcon type="sj" />
                 <span>
-                  {item.updatedAt ? fromNow(item.updatedAt, { prefix: `${i18n.t('update time')}:` }) : i18n.t('empty')}
+                  {item.updatedAt ? fromNow(item.updatedAt, { prefix: `${i18n.t('update time')}:` }) : i18n.t('none')}
                 </span>
               </span>
               <Tooltip title={i18n.t('application:application type')}>
@@ -166,7 +166,7 @@ export const PureAppList = ({
             </div>
             <div className="to-top">
               <IF check={item.pined}>
-                <Tooltip title={i18n.t('application:cancel sticky')}>
+                <Tooltip title={i18n.t('application:unpin')}>
                   <span onClick={(e) => togglePin(e, item)}>
                     <CustomIcon type="qxzd" />
                   </span>

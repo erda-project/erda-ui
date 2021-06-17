@@ -78,7 +78,7 @@ const IssueTypeManage = () => {
                 </div>
                 <div className="sub">
                   <span>{i18n.t('update time')}：</span>
-                  <span>{item.updatedTime || i18n.t('project:no modify')}</span>
+                  <span>{item.updatedTime || i18n.t('project:not modified')}</span>
                 </div>
               </div>
             </div>
@@ -97,7 +97,7 @@ const IssueTypeManage = () => {
       fieldsList={fieldsList}
       updateInfo={getIssueTime}
       name={i18n.t('project:custom config of issue type')}
-      desc={i18n.t('project:tips of field setting for any issue type')}
+      desc={i18n.t('project:mainly manage the custom configuration of issue field attributes and saved as the issue template configuration of the entire organization-level project.')}
     />
   );
 };

@@ -50,7 +50,7 @@ export const PureAppSettings = () => {
 
   const settingSource = [
     {
-      groupTitle: i18n.t('application:common settings'),
+      groupTitle: i18n.t('application:general settings'),
       groupKey: 'common',
       tabGroup: [
         {
@@ -68,7 +68,7 @@ export const PureAppSettings = () => {
                   title: i18n.t('{name} member management', { name: i18n.t('application') }),
                   desc: (
                     <div>
-                      {i18n.t('edit members, set member roles, role permissions please refer to')}
+                      {i18n.t('For editing members, setting member roles and role permissions, please refer to')}
                       <Link to={goTo.resolve.perm({ scope: 'app' })} target="_blank">
                         {i18n.t('role permissions description')}
                       </Link>
@@ -145,7 +145,7 @@ export const PureAppSettings = () => {
               sectionList={[
                 {
                   title: i18n.t('application:variable configuration'),
-                  desc: i18n.t('application:configure-pipeline-tip'),
+                  desc: i18n.t('application:The same code can generate different artifacts by pipeline in different environments. Configure the environment here.'),
                   children: <PipelineConfig />,
                 },
               ]}
@@ -155,7 +155,7 @@ export const PureAppSettings = () => {
       ],
     },
     {
-      groupTitle: i18n.t('application:deploy center'),
+      groupTitle: i18n.t('application:deployment center'),
       groupKey: 'deploy',
       tabGroup: [
         {
@@ -180,7 +180,7 @@ export const PureAppSettings = () => {
       groupKey: 'notification',
       tabGroup: [
         {
-          tabTitle: i18n.t('application:notification item'),
+          tabTitle: i18n.t('application:notification'),
           tabKey: 'notifyConfig',
           content: (
             <ConfigLayout
@@ -232,7 +232,7 @@ export const PureAppSettings = () => {
                 sectionList={[
                   {
                     title: i18n.t('application:variable configuration'),
-                    desc: i18n.t('application:configure-pipeline-tip'),
+                    desc: i18n.t('application:The same code can generate different artifacts by pipeline in different environments. Configure the environment here.'),
                     children: <MobileConfig />,
                   },
                 ]}

@@ -90,7 +90,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
           title={
             isBuilding
               ? `${i18n.t('application:refresh every {time}, click to refresh now', {
-                  time: `${DURATION / 1000} ${i18n.t('common:second')}`,
+                  time: `${DURATION / 1000} ${i18n.t('common:second(s)')}`,
                 })}`
               : i18n.t('refresh')
           }
@@ -103,7 +103,7 @@ const PipelineLog = ({ isBuilding = false, resourceId, resourceType, className =
 
   return (
     <div className={`pipeline-log ${className}`}>
-      <Title title={i18n.t('deploy log')} className="my12" level={2} showDivider={false} operations={logOperation} />
+      <Title title={i18n.t('deployment log')} className="my12" level={2} showDivider={false} operations={logOperation} />
       {isEmpty(pipelineLog) ? (
         <EmptyHolder relative />
       ) : (

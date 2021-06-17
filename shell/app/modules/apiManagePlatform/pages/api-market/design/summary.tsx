@@ -123,7 +123,7 @@ const ApiSummary = () => {
   return (
     <div className="api-summary">
       <FormBuilder isMultiColumn wrappedComponentRef={formRef}>
-        <Title level={1} title={i18n.t('project:API Summary')} />
+        <Title level={1} title={i18n.t('project:API overview')} />
         <Fields fields={basicFields} fid="basicFields" />
       </FormBuilder>
     </div>

@@ -96,7 +96,7 @@ export const API_FORBIDDEN_TYPES = 'x-dice-forbidden-types';
 
 export const VERSION_RULE = {
   pattern: /^(?:[1-9]\d*|0)\.(?:[1-9]\d*|0)\.(?:[1-9]\d*|0)$/,
-  message: i18n.t('valid version number tips'),
+  message: i18n.t('Please enter a valid version number, such as x.y.z.'),
 };
 
 export const READONLY_TIP = i18n.t('project:read only and inoperable');

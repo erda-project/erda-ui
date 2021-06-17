@@ -519,7 +519,7 @@ export const getPropertyFormSelector = (props: {
       },
       {
         type: RadioGroup,
-        label: i18n.t('is required'),
+        label: i18n.t('is it required'),
         name: API_PROPERTY_REQUIRED,
         colSpan: 2.5,
         initialValue: true,
@@ -558,11 +558,11 @@ export const getPropertyFormSelector = (props: {
             validator: (_rule: any, value: string, callback: (msg?: string) => void) => {
               const { pattern, message } = regRules.specialLetter;
               if (AllDataTypes.includes(value)) {
-                callback(i18n.t('exist the same {key}', { key: i18n.t('name') }));
+                callback(i18n.t('the same {key} exists', { key: i18n.t('name') }));
               } else if (pattern.test(value)) {
                 callback(message);
               } else if (value.toLocaleLowerCase() in BASE_DATA_TYPE) {
-                callback(i18n.t('project:rule of api datatype'));
+                callback(i18n.t('project:cannot enter uppercase or lowercase letters same as the basic data type, including string, String, STRING, sTring, etc.'));
               } else {
                 callback();
               }

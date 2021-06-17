@@ -227,7 +227,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
         // headerAction: (
         //   <React.Fragment>
         //     <WithAuth pass={repoPerm.mr.create.pass}  tipProps={{ placement: 'bottom' }}>
-        //       <Button type='primary' onClick={() => this.handleAction('revert')}>{i18n.t('application:revert')}</Button>
+        //       <Button type='primary' onClick={() => this.handleAction('revert')}>{i18n.t('application:rollback')}</Button>
         //     </WithAuth>
         //   </React.Fragment>
         // ),
@@ -304,7 +304,7 @@ class RepoMR extends React.PureComponent<IProps, IState> {
         {state === 'merged'
           ? i18n.t('application:have merged')
           : state === 'open'
-          ? i18n.t('application:opening mr')
+          ? i18n.t('application:commited')
           : i18n.t('closed')}
       </span>
     );

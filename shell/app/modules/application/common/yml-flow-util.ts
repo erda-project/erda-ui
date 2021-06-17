@@ -45,9 +45,9 @@ export const getAddonPlanCN = (plan = ''): string => {
       return i18n.t('application:professional edition');
     case 'ultimate':
     case 'large':
-      return i18n.t('application:flagship');
+      return i18n.t('application:ultimate edition');
     default:
-      return i18n.t('application:flagship');
+      return i18n.t('application:ultimate edition');
   }
 };
 

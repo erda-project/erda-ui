@@ -39,7 +39,7 @@ const errMsgMap = (rowNum: number, type: string, maxLength?: number) => {
       errMsg = `key ${i18n.t('common:must be unique')}`;
       break;
     case 'n_valid':
-      errMsg = i18n.t('common:does not allow full-width punctuation');
+      errMsg = i18n.t('common:full-width punctuation not allowed');
       break;
     case 'too_long_value':
       errMsg = i18n.t('the length of {type} must not exceed {maxLength} characters', { type: 'Value', maxLength });
@@ -112,7 +112,7 @@ export class KeyValueTextArea extends React.Component<IProps, IState> {
         } else if (keys.includes(k)) {
           errMsg = errMsgMap(rowNum, 'n_unique');
         } else if ((this.props.existKeys || []).includes(k)) {
-          callback(`${rowNum}${i18n.t('common:row')}: ${i18n.t('common:this configuration already exists')}`);
+          callback(`${rowNum}${i18n.t('common:line')}: ${i18n.t('common:this configuration already exists')}`);
         }
         validate && validate(rule, { k, v }, callback);
 
@@ -132,7 +132,7 @@ export class KeyValueTextArea extends React.Component<IProps, IState> {
       className = '',
       autoSize = { minRows: 10, maxRows: 15 },
       rows,
-      placeholder = `${i18n.t('common:please type')} key: value ${i18n.t('common:form of text')}`,
+      placeholder = `${i18n.t('common:please input')} key: value ${i18n.t('common:form of text')}`,
       editDisabled,
     } = this.props;
     const { textData } = this.state;

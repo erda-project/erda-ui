@@ -171,7 +171,7 @@ IProps) => {
 
   const cols = [
     // {
-    //   title: i18n.t('host'),
+    //   title: i18n.t('host IP'),
     //   dataIndex: 'hostIP',
     //   render: (ip: string, record: any) => (ip ? <span className="hover-text" onClick={() => { onClickMachine({ ip, clusterName: record.clusterName }); }}>{ ip }</span> : '--'),
     // },
@@ -188,7 +188,7 @@ IProps) => {
           <Tooltip
             title={
               <div className="table-tooltip">
-                {i18n.t('used')}
+                {i18n.t('uasge')}
                 <span>
                   {ceil(cpuUsage, 2)} {i18n.t('core')}
                 </span>{' '}
@@ -211,7 +211,7 @@ IProps) => {
           <Tooltip
             title={
               <div className="table-tooltip">
-                {i18n.t('used')}
+                {i18n.t('uasge')}
                 <span>{getFormatter('STORAGE').format(memUsage, 2)}</span> <br />
                 {`${i18n.t('allocated')}${getFormatter('STORAGE').format(memRequest, 2)}`}
               </div>

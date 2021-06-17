@@ -111,11 +111,11 @@ const build = createStore({
       return result;
     },
     async startBuildCron({ call }, payload: { cronID: number }) {
-      const result = await call(startBuildCron, payload, { successMsg: i18n.t('application:timed success') });
+      const result = await call(startBuildCron, payload, { successMsg: i18n.t('application:timed successfully') });
       return result;
     },
     async cancelBuildCron({ call }, payload: { cronID: number }) {
-      const result = await call(cancelBuildCron, payload, { successMsg: i18n.t('application:timed canceled') });
+      const result = await call(cancelBuildCron, payload, { successMsg: i18n.t('application:timing canceled') });
       return result;
     },
     async cancelBuild({ call }, payload: { pipelineID: number }) {
@@ -152,7 +152,7 @@ const build = createStore({
       const detail = await call(
         addPipeline,
         { ...payload, appId },
-        { successMsg: i18n.t('application:create a build success') },
+        { successMsg: i18n.t('application:build created successfully') },
       );
       return detail;
     },

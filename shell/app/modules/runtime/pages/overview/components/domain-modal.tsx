@@ -226,9 +226,9 @@ const DomainModal = (props: IProps) => {
                           message: i18n.t('runtime:please fill in the correct domain name'),
                         },
                       ],
-                    })(<Input placeholder={i18n.t('runtime:custom-domain-tip')} autoComplete="off" />)}
+                    })(<Input placeholder={i18n.t('runtime:Custom domain name needs to be bound at the domain name provider.')} autoComplete="off" />)}
                     {
-                      <Popconfirm title={i18n.t('runtime:confirm delete?')} onConfirm={() => deleteCustom(index)}>
+                      <Popconfirm title={i18n.t('runtime:confirm deletion')} onConfirm={() => deleteCustom(index)}>
                         <span className="delete-domain-icon">
                           {' '}
                           <IconReduceOne className="hover-active fz18 pointer" />{' '}

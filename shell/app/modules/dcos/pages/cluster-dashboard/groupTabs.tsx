@@ -75,11 +75,11 @@ const GroupTabs = ({ machineList, isClickState, onActiveMachine, activedGroup }:
       <TabPane tab={`${i18n.t('dcos:services')}`} key="service">
         <InstanceList instanceType="service" clusters={clusters} />
       </TabPane>
-      <TabPane tab={`${i18n.t('dcos:jobs')}`} key="job">
+      <TabPane tab={`${i18n.t('dcos:task list')}`} key="job">
         <InstanceList instanceType="job" clusters={clusters} />
       </TabPane>
       {isClickState && (
-        <TabPane tab={`${i18n.t('dcos:cluster brief')}`} key="state">
+        <TabPane tab={`${i18n.t('dcos:cluster summary')}`} key="state">
           <ClusterState clusterName={activedGroup} />
         </TabPane>
       )}

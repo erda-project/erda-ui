@@ -17,7 +17,7 @@ const tabs = [
   { key: 'mi', name: i18n.t('microService:overview') },
   { key: 'mi/appversion', name: i18n.t('microService:application version') },
   { key: 'mi/page', name: i18n.t('microService:access page') },
-  { key: 'mi/position', name: i18n.t('microService:positioning analytics') },
+  { key: 'mi/position', name: i18n.t('microService:location analysis') },
   { key: 'mi/request', name: i18n.t('microService:request') },
   { key: 'mi/script', name: i18n.t('microService:error') },
   { key: 'mi/device', name: i18n.t('microService:device') },
@@ -53,7 +53,7 @@ const getMIRouter = () => ({
         },
         {
           path: 'comparative',
-          breadcrumbName: i18n.t('microService:comparative analytics'),
+          breadcrumbName: i18n.t('microService:comparative analysis'),
           getComp: (cb) => cb(import('mobile-insight/pages/comparative/comparative')),
         },
       ],

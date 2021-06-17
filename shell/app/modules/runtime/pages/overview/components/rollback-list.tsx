@@ -60,12 +60,12 @@ export default ({ visible, onClose }: { visible: boolean; onClose: (e?: any) => 
       let disabled = false;
 
       if (depStatus !== 'OK') {
-        title = i18n.t('runtime:deploy failed,can not rollback');
+        title = i18n.t('runtime:deployment failed and cannot roll back');
         disabled = true;
       }
 
       if (outdated) {
-        title = i18n.t('runtime:deploy outdated,can not rollback');
+        title = i18n.t('runtime:deployment expired and cannot roll back');
         disabled = true;
       }
       return (

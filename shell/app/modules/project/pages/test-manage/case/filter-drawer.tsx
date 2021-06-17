@@ -85,7 +85,7 @@ export default ({ visible, onSearch, onClose }: IProps) => {
         options: [
           { value: CaseStatus.INIT, name: i18n.t('project:not performed') },
           { value: CaseStatus.PASSED, name: i18n.t('project:passed') },
-          { value: CaseStatus.FAIL, name: i18n.t('project:not pass') },
+          { value: CaseStatus.FAIL, name: i18n.t('project:not passed') },
           { value: CaseStatus.BLOCK, name: i18n.t('project:blocking') },
         ],
         value: query.execStatus,

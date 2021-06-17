@@ -32,7 +32,7 @@ const InfoCompMap = {
     comp: (props: any) => <SimpleLog {...props} />,
   },
   trace: {
-    title: i18n.t('microService:transactions details'),
+    title: i18n.t('microService:tracing details'),
     comp: (props: any) => <TraceDetail {...props} />,
   },
 };
@@ -262,7 +262,7 @@ const ErrorDetail = () => {
                   />
                 </Tooltip>
                 <IF check={requestSampled}>
-                  <Tooltip title={i18n.t('microService:view transactions information')}>
+                  <Tooltip title={i18n.t('microService:view tracing information')}>
                     <CustomIcon
                       type="module-trace"
                       className="check-request-action"

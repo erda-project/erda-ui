@@ -37,8 +37,8 @@ const statusMap = [
   { status: 'StopCron', msg: i18n.t('cron has stopped'), colorClass: 'yellow' },
   { status: 'Born', msg: i18n.t('pending execution'), colorClass: 'darkgray', jumping: true },
   { status: 'Mark', msg: i18n.t('pending execution'), colorClass: 'darkgray', jumping: true },
-  { status: 'Created', msg: i18n.t('establish successfully'), colorClass: 'darkgray', jumping: true },
-  { status: 'Queue', msg: i18n.t('waiting Resources'), colorClass: 'blue' },
+  { status: 'Created', msg: i18n.t('established successfully'), colorClass: 'darkgray', jumping: true },
+  { status: 'Queue', msg: i18n.t('queuing for resources'), colorClass: 'blue' },
   { status: 'Running', msg: i18n.t('running'), colorClass: 'blue', jumping: true },
   // { status: 'Success' 成功 },
   { status: 'Failed', msg: i18n.t('failed'), colorClass: 'red' },
@@ -125,7 +125,7 @@ export const Build = (props: IProps) => {
               label: `${keyValue}${
                 source !== 'dice'
                   ? source === 'qa'
-                    ? `（${i18n.t('application:code quality analytics')}: ${ymlName}）`
+                    ? `（${i18n.t('application:code quality analysis')}: ${ymlName}）`
                     : `（${source}: ${ymlName}）`
                   : `（${ymlName}）`
               }`,

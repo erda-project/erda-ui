@@ -20,7 +20,7 @@ import './health-point.scss';
 export const statusMap = {
   runtime: {
     Init: {
-      text: i18n.t('project:initialization'),
+      text: i18n.t('project:initializing'),
       state: 'processing',
     },
     Progressing: {
@@ -68,11 +68,11 @@ export const statusMap = {
       state: 'error',
     },
     Failed: {
-      text: i18n.t('project:deploy failed'),
+      text: i18n.t('project:deployment failed'),
       state: 'error',
     },
     Finished: {
-      text: i18n.t('project:carry out'),
+      text: i18n.t('project:complete'),
       state: 'default',
     },
     Starting: {
