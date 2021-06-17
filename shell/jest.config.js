@@ -17,7 +17,7 @@ const fs = require('fs');
 const path = require('path');
 const moduleNameMapper = require('tsconfig-paths-jest')(tsconfig);
 const moduleMapper = {};
-const excludeModules = ['interface', 'common', 'layout', 'dice-env', 'user', 'configForm', 'charts'];
+const excludeModules = ['interface', 'common', 'layout', 'dice-env', 'user', 'configForm', 'charts', 'application'];
 forEach(moduleNameMapper, (t, k) => {
   if (!excludeModules.includes(k)) {
     moduleMapper[`^${k}`] = t;
@@ -53,6 +53,7 @@ module.exports = {
     [dashboardRealPath]: 'ts-jest',
   },
   moduleNameMapper: {
+    '\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'identity-obj-proxy',
     ...moduleMapper,
     '^core/agent$': '<rootDir>/../core/src/agent.ts',
     '^core/(.*)': '<rootDir>/../core/src/$1',
