@@ -12,15 +12,10 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import { createFlatStore } from 'app/cube';
-import {
-  getServiceInstances,
-  updateServicesConfig,
-  getServicePods,
-  killServicePod,
-} from '../services/service';
-import { getLS } from 'common/utils';
+import { getServiceInstances, updateServicesConfig, getServicePods, killServicePod } from '../services/service';
 import { isEmpty } from 'lodash';
 import runtimeStore from './runtime';
+import i18n from 'i18n';
 
 interface ServiceIns {
   runs: RUNTIME_SERVICE.Instance[];
@@ -29,12 +24,12 @@ interface ServiceIns {
 
 interface IState {
   serviceInsMap: {
-    [k: string]: ServiceIns
-  },
-  taskMap: ServiceIns,
+    [k: string]: ServiceIns;
+  };
+  taskMap: ServiceIns;
   podListMap: {
-    [k: string]: RUNTIME_SERVICE.Pod[]
-  },
+    [k: string]: RUNTIME_SERVICE.Pod[];
+  };
 }
 
 const initState: IState = {
@@ -51,7 +46,7 @@ const runtimeService = createFlatStore({
   state: initState,
   subscriptions: ({ registerWSHandler }: IStoreSubs) => {
     registerWSHandler('R_RUNTIME_SERVICE_STATUS_CHANGED', ({ payload }) => {
-      const runtimeDetail = runtimeStore.getState(s => s.runtimeDetail);
+      const runtimeDetail = runtimeStore.getState((s) => s.runtimeDetail);
       if (payload.runtimeId === runtimeDetail.id) {
         runtimeService.getServiceInstances(payload.serviceName);
       }
@@ -59,7 +54,7 @@ const runtimeService = createFlatStore({
   },
   effects: {
     async getServiceInstances({ select, call, update, getParams }, serviceName: string) {
-      const serviceInsMap = select(s => s.serviceInsMap);
+      const serviceInsMap = select((s) => s.serviceInsMap);
       const { runtimeId: runtimeID } = getParams();
       const runningServiceIns = await call(getServiceInstances, {
         status: 'running',
@@ -79,32 +74,38 @@ const runtimeService = createFlatStore({
       };
 
       if (serviceIns.runs) {
-        serviceIns.runs = serviceIns.runs.map(ins => ({ ...ins, isRunning: true }));
+        serviceIns.runs = serviceIns.runs.map((ins) => ({
+          ...ins,
+          isRunning: true,
+        }));
       }
-      update({ serviceInsMap: { ...serviceInsMap, [serviceName]: serviceIns }, taskMap: { ...serviceIns } });
+
+      update({
+        serviceInsMap: { ...serviceInsMap, [serviceName]: serviceIns },
+        taskMap: { ...serviceIns },
+      });
       return serviceIns;
     },
-    async updateServicesConfig({ call, getParams }) {
-      const { appId, runtimeId } = getParams();
+    async updateServicesConfig({ call, getParams }, data: RUNTIME_SERVICE.PreOverlay) {
+      const { appId } = getParams();
       const {
         extra: { workspace },
         name: runtimeName,
-      } = runtimeStore.getState(s => s.runtimeDetail);
-      const data = getLS(`${runtimeId}`);
+      } = runtimeStore.getState((s) => s.runtimeDetail);
 
       if (isEmpty(data)) return;
-      await call(updateServicesConfig, {
-        data,
-        query: {
-          applicationId: appId,
-          workspace,
-          runtimeName,
+      await call(
+        updateServicesConfig,
+        {
+          data,
+          query: { applicationId: appId, workspace, runtimeName },
         },
-      });
+        { successMsg: i18n.t('update successfully') }
+      );
     },
     async getServicePods({ call, update, select }, payload: RUNTIME_SERVICE.PodQuery) {
       const podList = await call(getServicePods, payload);
-      const podListMap = select(s => s.podListMap);
+      const podListMap = select((s) => s.podListMap);
       update({ podListMap: { ...podListMap, [payload.service]: podList } });
     },
     async killServicePod({ call }, payload: RUNTIME_SERVICE.KillPodBody) {

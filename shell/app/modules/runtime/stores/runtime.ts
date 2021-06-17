@@ -117,7 +117,7 @@ const runtime = createFlatStore({
     });
   },
   effects: {
-    async getRuntimeDetail({ call, select, update, getParams }, { runtimeId: r_id, socketData, fromSocket = false }: { runtimeId?: string, socketData?: any, fromSocket?: boolean }) {
+    async getRuntimeDetail({ call, select, update, getParams }, { runtimeId: r_id, socketData, fromSocket = false, forceUpdate = false }: { runtimeId?: string, socketData?: any, fromSocket?: boolean, forceUpdate?: boolean }) {
       let runtimeDetail = await select(state => state.runtimeDetail);
       let data = r_id;
       const { appId, runtimeId } = getParams();
@@ -135,7 +135,7 @@ const runtime = createFlatStore({
 
       const isCurrentRuntime = runtimeDetail.extra.applicationId === +appId && runtimeDetail.id === +r_id;
       // 每次url变化时，如果是当前runtime则不再请求数据，不是则请求url中的runtimeId的数据
-      if (!fromSocket && isCurrentRuntime) {
+      if (!forceUpdate && !fromSocket && isCurrentRuntime) {
         return runtimeDetail;
       }
 
