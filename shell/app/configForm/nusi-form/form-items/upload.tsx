@@ -57,9 +57,13 @@ export const FormUpload = ({
   const [loading, setLoading] = React.useState(false);
   const [imageUrl, setImageUrl] = React.useState('');
 
-  registerRequiredCheck(_requiredCheck || requiredCheck);
-  const { uploadText, sizeLimit, supportFormat } = componentProps || {};
-  const _placeholder = uploadText || '上传图片';
+    React.useEffect(() => {
+      setImageUrl(value);
+    }, [value]);
+
+    registerRequiredCheck(_requiredCheck || requiredCheck);
+    const { uploadText, sizeLimit, supportFormat } = componentProps || {};
+    const _placeholder = uploadText || '上传图片';
 
   const uploadButton = (
     <div className='form-item-upload-button' >
@@ -68,17 +72,19 @@ export const FormUpload = ({
     </div>
   )
 
-  function handleChange(info: any) {
-    if (info.file.status === 'done') {
-      const { response } = info.file;
-      if (!response) {
-        return;
+    function handleChange(info: any) {
+      if (info.file.status === 'done') {
+        const { response } = info.file;
+        if (!response) {
+          return;
+        }
+        // FIXME: 为什么要将 http(s) 去掉？
+        const url = (get(response, 'data.url') || '').replace(/^http(s)?:/g, '');
+        setImageUrl(url);
+        form.setFieldValue(key, curFixOut(url));
+        componentProps?.onChange?.(url);
       }
-      // FIXME: 为什么要将 http(s) 去掉？
-      const url = (get(response, 'data.url') || '').replace(/^http(s)?:/g, '');
-      setImageUrl(url);
     }
-  }
 
   return (
     <FormItem
