@@ -32,25 +32,25 @@ export const FormUpload = ({
   extensionFix,
   requiredCheck,
   trigger = 'onChange',
-}: any = {}) => React.memo(({ fieldConfig, form }: any = {}) => {
-  const {
-    key,
-    accept,
-    handleBeforeUpload,
-    value,
-    label,
-    visible,
-    valid = [],
-    disabled,
-    required,
-    registerRequiredCheck = noop,
-    componentProps,
-    wrapperProps,
-    labelTip,
-    fixIn: itemFixIn,
-    fixOut: itemFixOut,
-    requiredCheck: _requiredCheck,
-  } = fieldConfig || {};
+}: any = {}) =>
+  React.memo(({ fieldConfig, form }: any = {}) => {
+    const {
+      key,
+      handleBeforeUpload,
+      value,
+      label,
+      visible,
+      valid = [],
+      disabled,
+      required,
+      registerRequiredCheck = noop,
+      componentProps,
+      wrapperProps,
+      labelTip,
+      fixIn: itemFixIn,
+      fixOut: itemFixOut,
+      requiredCheck: _requiredCheck,
+    } = fieldConfig || {};
 
   const curFixIn = itemFixIn || fixIn;
   const curFixOut = itemFixOut || fixOut;
@@ -62,8 +62,9 @@ export const FormUpload = ({
     }, [value]);
 
     registerRequiredCheck(_requiredCheck || requiredCheck);
-    const { uploadText, sizeLimit, supportFormat } = componentProps || {};
+    const { uploadText, sizeLimit, supportFormat = [] } = componentProps || {};
     const _placeholder = uploadText || '上传图片';
+    const accept = supportFormat.map((x) => `.${x}`).join(',');
 
   const uploadButton = (
     <div className='form-item-upload-button' >
