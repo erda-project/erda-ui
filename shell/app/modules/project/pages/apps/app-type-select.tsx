@@ -15,11 +15,13 @@ import React from 'react';
 import classnames from 'classnames';
 import './app-type-select.scss';
 import { Icon as CustomIcon } from 'common';
+import { groupBy, map } from 'lodash';
 
 interface Img {
   src: string;
   name: string;
   value: string;
+  groupIndex: number;
 }
 interface IProps {
   imgOptions: Img[];
@@ -29,19 +31,26 @@ interface IProps {
 export class AppTypeSelect extends React.PureComponent<IProps> {
   render() {
     const { imgOptions, value, onChangeType } = this.props;
+    const optionGroup = groupBy(imgOptions, 'groupIndex');
     return (
       <div className="app-type-select">
-        {imgOptions.map((img) => (
-          <div
-            key={img.name}
-            className={classnames('img-wrapper', value === img.value && 'active')}
-            onClick={() => onChangeType(img.value)}
-          >
-            <img src={img.src} alt={img.name || 'image-option'} />
-            <CustomIcon type="yuanxingxuanzhongfill" />
-            <div className="desc">{img.name}</div>
-          </div>
-        ))}
+        {map(optionGroup, (options, key) => {
+          return (
+            <div key={key} className="app-type-group">
+              {options.map((img) => (
+                <div
+                  key={img.name}
+                  className={classnames('img-wrapper', value === img.value && 'active')}
+                  onClick={() => onChangeType(img.value)}
+                >
+                  <img src={img.src} alt={img.name || 'image-option'} />
+                  <CustomIcon type="yuanxingxuanzhongfill" />
+                  <div className="desc">{img.name}</div>
+                </div>
+              ))}
+            </div>
+          );
+        })}
       </div>
     );
   }

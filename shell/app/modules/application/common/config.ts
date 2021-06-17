@@ -16,6 +16,7 @@ import ywyy_svg from 'app/images/ywyy.svg';
 import android_svg from 'app/images/android.svg';
 import kyy_svg from 'app/images/kyy.svg';
 import dsjyy_svg from 'app/images/dsjyy.svg';
+import xmjyy_svg from 'app/images/xmjyy.svg';
 import githubImg from 'app/images/resources/github.png';
 import gitlabImg from 'app/images/resources/gitlab.png';
 import codingImg from 'app/images/resources/coding.png';
@@ -26,6 +27,7 @@ export const appMode = {
   LIBRARY: 'LIBRARY',
   BIGDATA: 'BIGDATA',
   ABILITY: 'ABILITY',
+  PROJECT_SERVICE: 'PROJECT_SERVICE',
 };
 
 export const modeOptions = [
@@ -34,30 +36,42 @@ export const modeOptions = [
     value: appMode.SERVICE,
     src: ywyy_svg,
     desc: i18n.t('application:Business-app-intro', { keySeparator: '>' }),
+    groupIndex: 1,
   },
   {
     name: i18n.t('application:mobile app'),
     value: appMode.MOBILE,
     src: android_svg,
     desc: i18n.t('application:Mobile-app-intro.', { keySeparator: '>' }),
+    groupIndex: 1,
   },
   {
     name: i18n.t('application:library app'),
     value: appMode.LIBRARY,
     src: kyy_svg,
     desc: i18n.t('application:Library-app-intro', { keySeparator: '>' }),
+    groupIndex: 1,
   },
   {
     name: i18n.t('application:bigData app'),
     value: appMode.BIGDATA,
     src: dsjyy_svg,
     desc: 'big data app',
+    groupIndex: 1,
   },
   {
     name: i18n.t('application:ability app'),
     value: appMode.ABILITY,
     src: dsjyy_svg,
     desc: 'ability app',
+    groupIndex: 1,
+  },
+  {
+    name: i18n.t('application:project level app'),
+    value: appMode.PROJECT_SERVICE,
+    src: xmjyy_svg,
+    desc: i18n.t('application:project-level-app-form-tip'),
+    groupIndex: 2,
   },
 ];
 
