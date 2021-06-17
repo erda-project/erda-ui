@@ -16,6 +16,7 @@
 declare module 'path';
 declare module 'ansi_up';
 declare module 'lodash/_stringToPath';
+declare module '@erda-ui/dashboard-configurator';
 
 declare let If: React.FunctionComponent<{ condition: boolean }>;
 declare let For: React.FunctionComponent<{ each: string; index: string; of: any[] }>;
