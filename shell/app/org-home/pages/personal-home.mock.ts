@@ -24,10 +24,11 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
         sidebar: ['myOrganization', 'myInfo'],
         myInfo: ['myProject', 'myApplication'],
         myOrganization: ['orgImage', 'orgSwitch', 'joinedBrief', 'emptyOrganization'],
-        emptyOrganization: ['emptyOrgText'],
+        createOrgBtnWrapper: ['createOrgBtn'],
+        emptyOrganization: ['emptyOrgTitle', 'createOrgBtnWrapper', 'emptyOrgText', 'orgFormModal', ''],
         myProject: ['myProjectTitle', 'myProjectFilter', 'myProjectList', 'emptyProject'],
         emptyProject: ['projectTipWithoutOrg', 'projectTipWithOrg'],
-        projectTipWithOrg: ['createProjectTip'],
+        projectTipWithOrg: ['createProjectTip', 'createProjectTipWithoutOrg'],
         myApplication: ['myApplicationTitle', 'myApplicationFilter', 'myApplicationList', 'emptyApplication'],
       },
     },
@@ -59,7 +60,28 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
           visible: true,
         },
       },
-      emptyOrgText: {
+      createOrgBtnWrapper: {
+        type: 'RowContainer',
+        props: {
+          contentSetting: 'center',
+          visible: true,
+        },
+      },
+      createOrgBtn: {
+        type: 'Button',
+        props: {
+          text: 'create organization',
+          type: 'primary',
+        },
+        operations: {
+          click: {
+            key: 'addOrg',
+            reload: false,
+            command: { key: 'set', state: { visible: true }, target: 'orgFormModal' },
+          },
+        },
+      },
+      emptyOrgTitle: {
         type: 'TextGroup',
         props: {
           visible: true,
@@ -72,10 +94,19 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
                 value: '未加入任何组织',
               },
             },
+          ],
+        },
+      },
+      emptyOrgText: {
+        type: 'TextGroup',
+        props: {
+          visible: true,
+          align: 'center',
+          value: [
             {
               props: {
                 renderType: 'linkText',
-                visible: false,
+                visible: true,
                 value: {
                   text: [{ text: '了解如何受邀加入到组织', operationKey: "toJoinOrgDoc" }]
                 },
@@ -115,6 +146,92 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
             key: "click",
             reload: false,
             show: false,
+          },
+        },
+      },
+      orgFormModal: {
+        name: 'orgFormModal',
+        type: 'FormModal',
+        operations: {
+          submit: {
+            key: 'submitOrg',
+            reload: true,
+          },
+        },
+        props: {
+          title: '添加组织',
+          fields: [
+            {
+              key: 'displayName',
+              label: '组织名称',
+              component: 'input',
+              required: true,
+            },
+            {
+              key: 'name',
+              label: '组织标识',
+              component: 'input',
+              required: true,
+              rules: [
+                {
+                  msg: '由小写字母、数字，-组成',
+                  pattern: '/^[a-z0-9-]*$/',
+                },
+              ],
+            },
+            {
+              key: 'desc',
+              label: '组织描述',
+              component: 'textarea',
+              required: true,
+              componentProps: {
+                autoSize: {
+                  minRows: 2,
+                  maxRows: 4,
+                },
+                maxLength: 500,
+              },
+            },
+            {
+              key: 'scope',
+              label: '谁可以看到该组织',
+              component: 'radio',
+              required: true,
+              componentProps: {
+                radioType: 'radio',
+                displayDesc: true,
+              },
+              dataSource: {
+                static: [
+                  {
+                    name: '私人的',
+                    desc: '小组及项目只能由成员查看',
+                    value: 'private',
+                  },
+                  {
+                    name: '公开的',
+                    desc: '无需任何身份验证即可查看该组织和任何公开项目',
+                    value: 'public',
+                  },
+                ],
+              },
+            },
+            {
+              key: 'logo',
+              label: '组织 Logo',
+              component: 'upload',
+              componentProps: {
+                uploadText: '上传图片',
+                sizeLimit: 2,
+                supportFormat: ['png', 'jpg', 'jpeg', 'gif', 'bmp'],
+              },
+            },
+          ],
+        },
+        state: {
+          visible: false,
+          formData: {
+            logo: 'https://dice.dev.terminus.io:3000/api/files/71b6e5dc8e1f4b08899494a6ac428708',
           },
         },
       },
@@ -247,11 +364,11 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
       projectTipWithoutOrg: {
         type: 'Text',
         props: {
-          visible: true,
+          visible: false,
           renderType: 'linkText',
           value: {
-            text: ['请先加入组织或者', { text: '了解更多内容', operationKey: "toJoinOrgDoc" }]
-          }
+            text: ['请先加入组织或者', { text: '了解更多内容', operationKey: 'toJoinOrgDoc' }],
+          },
         },
         operations: {
           toJoinOrgDoc: {
@@ -273,10 +390,34 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
           visible: true,
         },
       },
-      createProjectTip: {
+      createProjectTipWithoutOrg: {
         type: 'Text',
         props: {
           visible: true,
+          renderType: 'linkText',
+          value: {
+            text: ['请先加入组织', { text: '了解更多项目内容', operationKey: 'toJoinOrgDoc' }],
+          },
+        },
+        operations: {
+          toJoinOrgDoc: {
+            command: {
+              key: 'goto',
+              target: 'https://docs.erda.cloud/',
+              jumpOut: true,
+              visible: false,
+            },
+            key: 'click',
+            reload: false,
+            show: false,
+          },
+        },
+      },
+
+      createProjectTip: {
+        type: 'Text',
+        props: {
+          visible: false,
           renderType: 'linkText',
           value: {
             text: [{ text: '如何创建项目', operationKey: "createProjectDoc" }, ' 或 ', { text: '通过公开组织浏览公开项目信息', operationKey: "toPublicOrgPage" }]
@@ -307,6 +448,7 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
           },
         }
       },
+
       myInfo: {
         type: 'Container',
         props: {
@@ -332,7 +474,7 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
             {
               props: {
                 text: '创建',
-                visible: true,
+                visible: false,
                 disabled: false,
                 disabledTip: '暂无创建项目权限',
                 type: 'link',
@@ -462,7 +604,7 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
       myApplication: {
         type: 'Container',
         props: {
-          visible: true,
+          visible: false,
         },
       },
       myApplicationTitle: {
@@ -507,7 +649,7 @@ export const mockSidebar: CONFIG_PAGE.RenderConfig = {
       myApplicationList: {
         type: 'List',
         props: {
-          visible: true,
+          visible: false,
           isLoadMore: true,
           alignCenter: true,
           noBorder: true,
@@ -670,50 +812,50 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
             {
               props: {
                 renderType: 'linkText',
-                title: '* 浏览公开组织',
+                title: '创建组织',
                 visible: true,
                 gapSize: 'small',
                 value: {
-                  text: '通过左上角的浏览公开组织信息，选择公开组织可以直接进入浏览该组织公开项目的信息可（包含项目管理、应用运行信息等）',
+                  text: [
+                    { text: '通过左侧' },
+                    {
+                      text: '创建组织',
+                      withTag: true,
+                      tagStyle: {
+                        backgroundColor: '#6A549E',
+                        color: '#ffffff',
+                        margin: '0 12px',
+                        padding: '4px 15px',
+                        borderRadius: '3px',
+                      },
+                    },
+                    { text: '可以快速创建自己的组织' },
+                  ],
                 },
-              },
-              gapSize: 'small',
-            },
-            {
-              props: {
-                renderType: 'text',
-                visible: true,
-                value: '* 浏览公开组织',
-                styleConfig: {
-                  bold: true,
-                },
-              },
-              gapSize: 'small',
-            },
-            {
-              props: {
-                renderType: 'text',
-                visible: true,
-                value: '通过左上角的浏览公开组织信息，选择公开组织可以直接进入浏览该组织公开项目的信息可（包含项目管理、应用运行信息等）',
               },
               gapSize: 'large',
             },
             {
               props: {
-                renderType: 'text',
+                renderType: 'linkText',
                 visible: true,
-                value: '* 加入组织',
-                styleConfig: {
-                  bold: true,
-                }
+                gapSize: 'small',
+                title: '浏览公开组织',
+                value: {
+                  text: '通过左上角的浏览公开组织信息，选择公开组织可以直接进入浏览该组织公开项目的信息可（包含项目管理、应用运行信息等）',
+                },
               },
-              gapSize: 'small',
+              gapSize: 'large',
             },
             {
               props: {
-                renderType: 'text',
+                renderType: 'linkText',
                 visible: true,
-                value: '组织当前都是受邀机制，需要线下联系企业所有者进行邀请加入',
+                gapSize: 'small',
+                title: '加入组织',
+                value: {
+                  text: '组织当前都是受邀机制，需要线下联系企业所有者进行邀请加入',
+                },
               },
               gapSize: 'large',
             },
@@ -756,7 +898,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
       emptyPublicOrgTip: {
         type: 'LRContainer',
         props: {
-          visible: true,
+          visible: false,
           whiteBg: true,
           startAlign: true,
           contentSetting: 'start',
@@ -765,7 +907,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
       emptyPublicOrgText: {
         type: 'Container',
         props: {
-          visible: true,
+          visible: false,
         },
       },
       emptyPublicOrgTitle: {
@@ -864,7 +1006,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
       emptyProjectTip: {
         type: 'LRContainer',
         props: {
-          visible: true,
+          visible: false,
           whiteBg: true,
           startAlign: true,
           contentSetting: 'start'
@@ -882,8 +1024,8 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
       emptyProjectText: {
         type: 'Container',
         props: {
-          visible: true,
-        }
+          visible: false,
+        },
       },
       emptyProjectTitle: {
         type: 'Title',
@@ -896,7 +1038,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
       emptyProjectContent: {
         type: 'TextGroup',
         props: {
-          visible: true,
+          visible: false,
           value: [
             {
               props: {
@@ -1007,7 +1149,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
         type: 'EmptyHolder',
         props: {
           tip: '已加入的项目中，无待完成事项',
-          visible: true,
+          visible: false,
           relative: true,
           whiteBg: true,
           paddingY: true,
@@ -1022,7 +1164,7 @@ export const mockContent: CONFIG_PAGE.RenderConfig = {
       tableGroup: {
         type: 'TableGroup',
         props: {
-          visible: true,
+          visible: false,
         },
         operations: {
           changePageNo: {
