@@ -11,7 +11,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+import { createStore } from 'app/cube';
 import loadingStore, { useLoading } from 'core/stores/loading';
+import { DomainManageService } from 'dataCenter/services/domain-manage';
 
 /**
  * @deprecated use useLoading instead
@@ -27,5 +29,33 @@ export function useSpace<T>(store: T & { name: string }): EffectKeys<ValueOf<T, 
   return loadingSpaceProxy;
 }
 
+const serviceLoadingStore = createStore({
+  name: 'shellServiceLoading',
+  state: {
+    serviceLoading: {} as any,
+  },
+  reducers: {
+    setServiceLoading(state, ns: string, serviceName, status: boolean) {
+      state.serviceLoading[ns] = state.serviceLoading[ns] || {};
+      state.serviceLoading[ns][serviceName] = status;
+    },
+  },
+});
+
+interface ServiceNamespace {
+  'domain-manage': DomainManageService;
+}
+
+function useServiceLoading<T extends keyof ServiceNamespace>(
+  ns: T,
+  serviceNames: Array<keyof ServiceNamespace[T]>,
+): boolean {
+  return serviceLoadingStore.useStore((s) =>
+    serviceNames
+      .map((n) => (s.serviceLoading[ns] && s.serviceLoading[ns][n]) || false)
+      .reduce((acc, current) => acc || current, false),
+  ) as Readonly<boolean>;
+}
+
 export default loadingStore;
-export { useLoading };
+export { useLoading, useServiceLoading, serviceLoadingStore };

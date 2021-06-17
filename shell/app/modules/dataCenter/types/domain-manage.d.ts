@@ -11,7 +11,6 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace DOMAIN_MANAGE {
   type IWorkspace = 'dev' | 'prod';
 
@@ -31,15 +30,5 @@ declare namespace DOMAIN_MANAGE {
       workspace: IWorkspace;
       tenantGroup: string;
     };
-  }
-
-  interface IDomainRequest {
-    pageNo: number;
-    pageSize?: number;
-    domain?: string;
-    clusterName?: string;
-    type?: string;
-    projectID?: string;
-    workspace?: string;
   }
 }

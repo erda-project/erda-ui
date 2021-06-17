@@ -16,6 +16,8 @@ import i18n from 'i18n';
 import { get } from 'lodash';
 import { PAGINATION } from 'app/constants';
 import moment from 'moment';
+import { Key, pathToRegexp, compile } from 'path-to-regexp';
+import { AxiosResponse } from 'axios';
 
 export { getBrowserInfo, getCookies, getLS, removeLS, setLS, clearLS, LSObserver } from './browser';
 export { replaceEmoji } from './emoji';
@@ -122,7 +124,7 @@ export const regRules = {
   },
   noSpace: { pattern: /^[^ \f\r\t\v]*$/, message: i18n.t('project:do not start with a space') },
   http: {
-    pattern: /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
+    pattern: /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/,
     message: i18n.t('project:please enter the correct http address'),
   },
   url: {
@@ -266,7 +268,7 @@ export function guid() {
 }
 /* eslint-enable */
 
-export const getDefaultPaging = (overwrite = {}) => ({
+export const getDefaultPaging = (overwrite = {}): IPaging => ({
   total: 0,
   pageNo: 1,
   pageSize: PAGINATION.pageSize,
@@ -411,4 +413,120 @@ export const getOrgFromPath = () => {
 
 export const setApiWithOrg = (api: string) => {
   return api.startsWith('/api/') ? api.replace('/api/', `/api/${getOrgFromPath()}/`) : api;
+};
+
+/**
+ * Use path to match the incoming parameters, extract query and params
+ * @param path Paths that may contain parameters, such as /fdp/:id/detail, path can not include `?`
+ * @param params The incoming parameters may be query or params
+ */
+export const extractPathParams = (path: string, params?: Obj) => {
+  const keys: Key[] = [];
+  pathToRegexp(path, keys);
+  const pathParams = {};
+  const bodyOrQuery = { ...params };
+  if (keys.length > 0) {
+    keys.forEach(({ name }) => {
+      pathParams[name] = bodyOrQuery[name];
+      delete bodyOrQuery[name];
+    });
+  }
+  return {
+    pathParams,
+    bodyOrQuery,
+  };
+};
+
+/**
+ * Fill in the actual value for the path with parameters by path-to-regexp
+ * @param path Paths that may contain parameters, such as /fdp/:id/detail, path can not include `?`
+ * @param params The incoming parameters may be query or params
+ * @returns
+ */
+export const generatePath = (path: string, params?: Obj) => {
+  try {
+    const toPathRepeated = compile(path);
+    return toPathRepeated(params);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('path:', path, 'Error parsing url parameters');
+    throw error;
+  }
+};
+
+type Unpromise<T> = T extends Promise<infer U> ? U : T;
+
+// @ts-ignore batchExecute6
+export async function batchExecute<T1, T2, T3, T4, T5, T6>(
+  promises: [T1, T2, T3, T4, T5, T6],
+): Promise<
+  [
+    Unpromise<Nullable<T1>>,
+    Unpromise<Nullable<T2>>,
+    Unpromise<Nullable<T3>>,
+    Unpromise<Nullable<T4>>,
+    Unpromise<Nullable<T5>>,
+    Unpromise<Nullable<T6>>,
+  ]
+>;
+// eslint-disable-next-line no-redeclare
+export async function batchExecute<T1, T2, T3, T4, T5>(
+  promises: [T1, T2, T3, T4, T5],
+): Promise<
+  [
+    Unpromise<Nullable<T1>>,
+    Unpromise<Nullable<T2>>,
+    Unpromise<Nullable<T3>>,
+    Unpromise<Nullable<T4>>,
+    Unpromise<Nullable<T5>>,
+  ]
+>;
+// eslint-disable-next-line no-redeclare
+export async function batchExecute<T1, T2, T3, T4>(
+  promises: [T1, T2, T3, T4],
+): Promise<[Unpromise<Nullable<T1>>, Unpromise<Nullable<T2>>, Unpromise<Nullable<T3>>, Unpromise<Nullable<T4>>]>;
+// eslint-disable-next-line no-redeclare
+export async function batchExecute<T1, T2, T3>(
+  promises: [T1, T2, T3],
+): Promise<[Unpromise<Nullable<T1>>, Unpromise<Nullable<T2>>, Unpromise<Nullable<T3>>]>;
+// eslint-disable-next-line no-redeclare
+export async function batchExecute<T1, T2>(
+  promises: [T1, T2],
+): Promise<[Unpromise<Nullable<T1>>, Unpromise<Nullable<T2>>]>;
+// eslint-disable-next-line no-redeclare
+export async function batchExecute<T>(promises: [T]): Promise<[Unpromise<Nullable<T>>]> {
+  const fetchResult = await Promise.allSettled(promises);
+  return fetchResult.map((ret) => {
+    if (ret.status === 'fulfilled') {
+      return ret.value;
+    } else {
+      // eslint-disable-next-line no-console
+      console.error('execute failed', ret.reason);
+      return null;
+    }
+  }) as unknown as Promise<[Unpromise<Nullable<T>>]>;
+}
+
+/**
+ * download file by axios
+ * @param response axios xhr response
+ */
+export const downloadFileAxios = (response: AxiosResponse<any>) => {
+  const { headers, data } = response;
+  const type = headers['content-type'];
+  const disposition = headers['content-disposition'];
+  const [, fileName] = disposition.split('=');
+  const blob = new Blob([data], { type });
+  const fileUrl = window.URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = fileUrl;
+  anchor.target = '_blank';
+  anchor.download = decodeURIComponent(fileName);
+  anchor.style.display = 'none';
+  document.body.appendChild(anchor);
+  anchor.click();
+  setTimeout(() => {
+    document.body.removeChild(anchor);
+    window.URL.revokeObjectURL(fileUrl);
+  }, 100);
 };
