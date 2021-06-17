@@ -123,7 +123,7 @@ We look forward to your connecting with us, you can ask us any questions.
 - 微信公众号（Wechat）:
 
 <div align="left">
-	<img src="./docs/files/wechat.jpg" alt="Wechat" width="150">
+	<img src="https://raw.githubusercontent.com/erda-project/erda/develop/docs/assets/wechat-small.jpg" alt="Wechat" width="150">
 </div>
 
 - 钉钉用户群（Dinktalk）:
