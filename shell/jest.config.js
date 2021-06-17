@@ -49,8 +49,7 @@ module.exports = {
   transform: {
     '^.+\\.(t|j)sx?$': 'ts-jest',
     '^.+\\js$': 'babel-jest',
-    '@erda-ui/dashboard-configurator': 'ts-jest',
-    [dashboardRealPath]: 'ts-jest',
+    // [dashboardRealPath]: 'ts-jest',
   },
   moduleNameMapper: {
     '\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': 'identity-obj-proxy',
@@ -94,7 +93,7 @@ module.exports = {
   },
   transformIgnorePatterns: [
     // 'node_modules/(?!@erda-ui/dashboard-configurator/.*)',
-    dashboardRealPath,
+    // dashboardRealPath,
   ],
   testMatch: ['**/__tests__/**/*.test.+(tsx|ts|jsx|js)'],
   testPathIgnorePatterns: [
