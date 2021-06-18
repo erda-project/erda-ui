@@ -60,67 +60,84 @@ const Text = (props: CP_TEXT.Props) => {
       TextComp = <Copy copyText={copyText} className={textClassNames}>{text || i18n.t('copy')}</Copy>;
     }
       break;
-    case 'linkText': {
-      const { text, isPureText = true } = (value || {}) as CP_TEXT.ILinkTextData;
-      if (isString(text)) {
-        TextComp = <span style={styleObj} className={textClassNames}>{text}</span>;
-      } else if (isArray(text)) {
-        TextComp = (
-          <span className={`${isPureText ? '' : 'v-align'}`}>
-            {text.map((t, idx) => {
-              if (isString(t)) {
-                return <span style={styleObj} key={idx} className={textClassNames}>{t}</span>;
-              } else if (isPlainObject(t)) {
-                const { text: tText, operationKey, styleConfig: tConfig, icon, iconStyleName = '', image = '' } = t;
-                const tStyle = getStyle(tConfig);
+    case 'linkText':
+      {
+        const { text, isPureText = true } = (value || {}) as CP_TEXT.ILinkTextData;
+        if (isString(text)) {
+          TextComp = (
+            <span style={styleObj} className={textClassNames}>
+              {text}
+            </span>
+          );
+        } else if (isArray(text)) {
+          TextComp = (
+            <span className={`${isPureText ? '' : 'v-align'}`}>
+              {text.map((t, idx) => {
+                if (isString(t)) {
+                  return (
+                    <span style={styleObj} key={idx} className={textClassNames}>
+                      {t}
+                    </span>
+                  );
+                } else if (isPlainObject(t)) {
+                  const { text: tText, operationKey, styleConfig: tConfig, icon, iconStyleName = '', image = '', withTag, tagStyle={} } = t;
+                  const tStyle = getStyle(tConfig);
 
-                return operationKey ? (
-                  <a
-                    style={{ ...styleObj, ...tStyle }}
-                    key={idx}
-                    onClick={() => {
-                      operations && operations[operationKey] && execOperation(operations[operationKey]);
-                    }}
-                    className={`${textClassNames} hover-active`}
-                  >
-                    {tText}
-                    {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
-                    {image && <img src={image?.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
-                  </a>
-                ) : <span key={idx} className={textClassNames} style={{ ...styleObj, ...tStyle }}>
-                    {tText}
-                    {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
-                    {image && <img src={image?.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
-                  </span>;
-              }
-              return null;
-            })}
-          </span>
-        );
-      } else if (isPlainObject(text)) {
-        const { operationKey, text: tText, styleConfig: tConfig, icon, image = '', iconStyleName } = text;
-        const tStyle = getStyle(tConfig);
-        TextComp = operationKey ? (
-          <a
-            className={`${textClassNames} hover-active`}
-            style={{ ...styleObj, ...tStyle }}
-            onClick={() => {
-              operations && operations[operationKey] && execOperation(operations[operationKey]);
-            }}
-          >
-            {tText}
-            {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
-            {image && <img src={image?.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
-          </a>
-        ) : <span
-          className={textClassNames}
-          style={{ ...styleObj, ...tStyle }}>
-            {tText}
-            {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
-            {image && <img src={image?.startsWith('/images') ? imgMap[image] : image} className='text-image' />}
-          </span>;
+                  return operationKey ? (
+                    <a
+                      style={{ ...styleObj, ...tStyle }}
+                      key={idx}
+                      onClick={() => {
+                        operations && operations[operationKey] && execOperation(operations[operationKey]);
+                      }}
+                      className={`${textClassNames} hover-active`}
+                    >
+                      {tText}
+                      {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
+                      {image && (
+                        <img src={image?.startsWith('/images') ? imgMap[image] : image} className="text-image" />
+                      )}
+                    </a>
+                  ) : (
+                    <span key={idx} className={textClassNames} style={{ ...styleObj, ...tStyle }}>
+                      {
+                        withTag ? <span style={tagStyle}>{tText}</span> : tText
+                      }
+                      {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
+                      {image && (
+                        <img src={image?.startsWith('/images') ? imgMap[image] : image} className="text-image" />
+                      )}
+                    </span>
+                  );
+                }
+                return null;
+              })}
+            </span>
+          );
+        } else if (isPlainObject(text)) {
+          const { operationKey, text: tText, styleConfig: tConfig, icon, image = '', iconStyleName } = text;
+          const tStyle = getStyle(tConfig);
+          TextComp = operationKey ? (
+            <a
+              className={`${textClassNames} hover-active`}
+              style={{ ...styleObj, ...tStyle }}
+              onClick={() => {
+                operations && operations[operationKey] && execOperation(operations[operationKey]);
+              }}
+            >
+              {tText}
+              {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
+              {image && <img src={image?.startsWith('/images') ? imgMap[image] : image} className="text-image" />}
+            </a>
+          ) : (
+            <span className={textClassNames} style={{ ...styleObj, ...tStyle }}>
+              {tText}
+              {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
+              {image && <img src={image?.startsWith('/images') ? imgMap[image] : image} className="text-image" />}
+            </span>
+          );
+        }
       }
-    }
       break;
     default:
       if (isArray(value)) {
