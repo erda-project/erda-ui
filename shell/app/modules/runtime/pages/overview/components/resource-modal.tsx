@@ -110,6 +110,12 @@ const ResourceModal = ({ visible, service, editDisabled, onOk, onCancel }: IProp
       visible={visible}
       fieldsList={resourceFields}
       onOk={onSubmit}
+      alertProps={{
+        type: 'warning',
+        showIcon: true,
+        className: 'mb12',
+        message: i18n.t('application:runtime-resource-config-form-tip'),
+      }}
       onCancel={onCancel}
       modalProps={{
         className: 'adjust-resource',
