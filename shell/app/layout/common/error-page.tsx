@@ -102,9 +102,26 @@ const NotJoinOrg = () => {
   );
 };
 
+const FreeUserTips = () => {
+  return (
+    <div className="basic-error-page">
+      <div className="info">
+        <CustomIcon type="no-auth" color />
+        <div className="desc">
+          <span>{i18n.t('common:vip features tips')}</span>
+          <a target="_blank" href="https://www.erda.cloud/contact">
+            <Button size="large" type="primary">{i18n.t('common:contact business')}</Button>
+          </a>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 
 export {
   NoAuth,
   NotFound,
   NotJoinOrg,
+  FreeUserTips,
 };
