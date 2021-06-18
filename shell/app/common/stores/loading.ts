@@ -46,6 +46,12 @@ interface ServiceNamespace {
   'domain-manage': DomainManageService;
 }
 
+/**
+ * hook to monitor loading status for service
+ * @param ns name space, comprehend as service collection name
+ * @param serviceNames array of service name like ['getAppList']
+ * @returns isLoading bool
+ */
 function useServiceLoading<T extends keyof ServiceNamespace>(
   ns: T,
   serviceNames: Array<keyof ServiceNamespace[T]>,

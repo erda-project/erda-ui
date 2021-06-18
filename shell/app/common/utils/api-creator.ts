@@ -18,6 +18,7 @@ import { extractPathParams, generatePath, notify } from './index';
 import { serviceLoadingStore as loadingStore } from 'common/stores/loading';
 import userStore from 'common/stores/user-map';
 import i18n from 'i18n';
+import { PAGINATION } from 'app/constants';
 
 export interface CallParams {
   $options?: {
@@ -119,17 +120,20 @@ export const apiCreator = function <T extends { [k: string]: (params?: any) => a
             const { $options = {}, $headers, ...rest } = params || {};
             const { bodyOrQuery, pathParams } = extractPathParams(apisInput[apiName], rest);
             const { isDownload } = $options;
+            if ('pageNo' in bodyOrQuery && !('pageSize' in bodyOrQuery)) {
+              bodyOrQuery.pageSize = PAGINATION.pageSize;
+            }
             const { data } = await axios.get(generatePath(apisInput[apiName], pathParams), {
               headers: headers || $headers,
               params: bodyOrQuery,
               paramsSerializer: (p) => qs.stringify(p),
               responseType: isDownload ? 'blob' : 'json',
             });
-            if (params && 'pageNo' in params && 'pageSize' in params) {
+            if (params && 'pageNo' in params) {
               // it's a paging api, generate paging obj automatically
               const { data: result } = data;
               const { total } = result;
-              const { pageNo, pageSize = 10 } = params;
+              const { pageNo, pageSize = PAGINATION.pageSize } = params;
               const hasMore = Math.ceil(total / +pageSize) > +pageNo;
               result.paging = { pageNo, pageSize, total, hasMore };
               result.list = result.list || result.data;
