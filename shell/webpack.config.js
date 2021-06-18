@@ -248,7 +248,7 @@ module.exports = () => {
             priority: -5,
           },
           styles: {
-            test: /\.(css|scss|less)$/,
+            type: 'css/mini-extract',
             enforce: true, // force css in new chunks (ignores all other options)
           },
         },
