@@ -98,7 +98,7 @@ const Header = () => {
     return (
       <span
         className={`breadcrumb-name ${route.disabled ? 'breadcrumb-disabled' : ''}`}
-        title={link}
+        title={name}
         key={eternal || path}
         onClick={() => !route.disabled && goTo(link)}
       >
