@@ -49,6 +49,13 @@ const extractMethod = (apiName: string) => {
   return METHODS.includes(method || '') ? method : 'get';
 };
 
+/**
+ * fetch call HOC, handle loading/message popup/return data format/user store setup etc.
+ * @param ns name space, comprehend as service collection name
+ * @param serviceName service name
+ * @param serviceFunc actual service call by axios
+ * @returns service result
+ */
 const fetchHoc =
   (ns: string, serviceName: string, serviceFunc: (params: CallType) => Promise<RAW_RESPONSE>) =>
   async (params?: CallType) => {
@@ -90,6 +97,13 @@ export type PromiseWrap<T extends { [k: string]: (params?: any) => any }> = {
     : (params: Parameters<T[K]>[0] & Partial<CallParams>) => Promise<ReturnType<T[K]>>;
 };
 
+/**
+ * transform plain apisInput into callable api functions
+ * @param apisInput apis structure like { 'getAppList': '/api/xxx/xxx' }
+ * @param ns name space, comprehend as service collection name
+ * @param headers predefined headers
+ * @returns callable api structure like { 'getAppList': (params: T) => Promise<K> }
+ */
 export const apiCreator = function <T extends { [k: string]: (params?: any) => any }>(
   apisInput: Kv<T>,
   ns: string,
