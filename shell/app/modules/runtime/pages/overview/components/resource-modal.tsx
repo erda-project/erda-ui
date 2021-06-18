@@ -60,7 +60,8 @@ const ResourceModal = ({ visible, service, editDisabled, onOk, onCancel }: IProp
           lg: { span: 12 },
         },
       },
-    }, {
+    },
+    {
       label: 'Memory(MB)',
       name: 'mem',
       type: 'inputNumber',
@@ -79,7 +80,8 @@ const ResourceModal = ({ visible, service, editDisabled, onOk, onCancel }: IProp
           lg: { span: 10 },
         },
       },
-    }, {
+    },
+    {
       label: 'Scale',
       name: 'replicas',
       type: 'inputNumber',
@@ -108,6 +110,12 @@ const ResourceModal = ({ visible, service, editDisabled, onOk, onCancel }: IProp
       visible={visible}
       fieldsList={resourceFields}
       onOk={onSubmit}
+      alertProps={{
+        type: 'warning',
+        showIcon: true,
+        className: 'mb12',
+        message: i18n.t('application:runtime-resource-config-form-tip'),
+      }}
       onCancel={onCancel}
       modalProps={{
         className: 'adjust-resource',

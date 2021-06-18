@@ -15,7 +15,7 @@ import * as React from 'react';
 import { Tooltip, Popover, Tabs } from 'app/nusi';
 import { Icon as CustomIcon, IF, NoAuthTip, useUpdate } from 'common';
 import HealthPoint from 'project/common/components/health-point';
-import { map, merge, isEmpty } from 'lodash';
+import { map, isEmpty } from 'lodash';
 import classNames from 'classnames';
 import InstanceTable from 'runtime/common/components/instance-table';
 import PodTable from 'runtime/common/components/pod-table';
@@ -24,7 +24,7 @@ import ProjectUnitDetail from 'monitor-common/components/resource-usage/resource
 import ContainerLog from 'runtime/common/logs/containers/container-log';
 import Terminal from 'dcos/common/containers/terminal';
 import i18n from 'i18n';
-import { getLS, notify, updateSearch } from 'common/utils';
+import { notify, updateSearch } from 'common/utils';
 import DomainModal from './domain-modal';
 import ServiceDropdown from './service-dropdown';
 import routeInfoStore from 'app/common/stores/route';
@@ -49,7 +49,7 @@ const titleMap = {
 interface IProps {
   name: string;
   params: Obj;
-  runtimeDetail: typeof runtimeStore.stateType.runtimeDetail
+  runtimeDetail: typeof runtimeStore.stateType.runtimeDetail;
   service: RUNTIME_SERVICE.Detail;
   isEndpoint?: boolean;
 }
@@ -62,20 +62,13 @@ const ServiceCard = (props: IProps) => {
     service,
     isEndpoint = false,
   } = props;
-  const [serviceInsMap] = runtimeServiceStore.useStore(s => [s.serviceInsMap]);
-  const domainMap = runtimeDomainStore.useStore(s => s.domainMap);
-  const permMap = usePerm(s => s.app);
-  const [{
-    title,
-    visible,
-    instances,
-    withTabs,
-    content,
-    slideVisible,
-    isFetching,
-    tempData,
-    domainModalVisible,
-  }, updater] = useUpdate({
+  const [serviceInsMap] = runtimeServiceStore.useStore((s) => [s.serviceInsMap]);
+  const domainMap = runtimeDomainStore.useStore((s) => s.domainMap);
+  const permMap = usePerm((s) => s.app);
+  const [
+    { title, visible, instances, withTabs, content, slideVisible, isFetching, domainModalVisible },
+    updater,
+  ] = useUpdate({
     title: '',
     isFetching: false,
     visible: false,
@@ -83,17 +76,8 @@ const ServiceCard = (props: IProps) => {
     withTabs: {},
     content: null,
     instances: {},
-    tempData: {},
     domainModalVisible: false,
   });
-
-  useMount(() => {
-    const serviceConfig = getLS(`${runtimeDetail.id}`);
-    if (serviceConfig && serviceConfig.services) {
-      updater.tempData(serviceConfig.services[name]);
-    }
-  });
-
 
   React.useEffect(() => {
     if (serviceInsMap[name] !== undefined && serviceInsMap[name] !== instances) {
@@ -101,7 +85,7 @@ const ServiceCard = (props: IProps) => {
     }
   }, [serviceInsMap, name, updater, instances]);
 
-  const { serviceName, jumpFrom } = routeInfoStore.useStore(s => s.query);
+  const { serviceName, jumpFrom } = routeInfoStore.useStore((s) => s.query);
 
   const openSlidePanel = (type: string, record?: RUNTIME_SERVICE.Instance) => {
     updater.title(titleMap[type]);
@@ -169,7 +153,10 @@ const ServiceCard = (props: IProps) => {
             props: {
               instance: ins,
               api: '/api/runtime/metrics',
-              extraQuery: { filter_runtime_id: runtimeId, filter_application_id: appId },
+              extraQuery: {
+                filter_runtime_id: runtimeId,
+                filter_application_id: appId,
+              },
             },
             ...getTabKey(ins),
             key: containerId || id,
@@ -216,15 +203,11 @@ const ServiceCard = (props: IProps) => {
       }
       case 'record': {
         updater.withTabs({});
-        updater.content(
-          <InstanceTable
-            instances={insMap}
-            withHeader={false}
-          />
-        );
+        updater.content(<InstanceTable instances={insMap} withHeader={false} />);
         break;
       }
-      default: break;
+      default:
+        break;
     }
     updater.slideVisible(true);
   };
@@ -239,23 +222,30 @@ const ServiceCard = (props: IProps) => {
 
   useMount(() => {
     if (serviceName === name) {
-      (jumpFrom === 'ipPage') && togglePanel();
-      (jumpFrom === 'domainPage') && updater.domainModalVisible(true);
+      jumpFrom === 'ipPage' && togglePanel();
+      jumpFrom === 'domainPage' && updater.domainModalVisible(true);
     }
   });
 
-  const setTempData = (data: any) => {
-    runtimeStore.setHasChange(true);
-    updater.tempData(data);
+  const updateServicesConfig = (data: RUNTIME_SERVICE.PreOverlay) => {
+    runtimeServiceStore.updateServicesConfig(data).then(() => {
+      runtimeStore.getRuntimeDetail({ runtimeId, forceUpdate: true });
+    });
   };
 
-
-  const { resources, status, deployments: { replicas }, errors } = merge(service, tempData) as RUNTIME_SERVICE.Detail;
+  const {
+    resources,
+    status,
+    deployments: { replicas },
+    errors,
+  } = service as RUNTIME_SERVICE.Detail;
   const { cpu, mem } = resources;
-  const expose = map(domainMap[name], 'domain').filter(domain => !!domain);
+  const expose = map(domainMap[name], 'domain').filter((domain) => !!domain);
 
   const resourceInfo = (
-    <span className="resources nowrap">{`${i18n.t('instance')} ${replicas} / CPU ${cpu} / ${i18n.t('memory')} ${mem}MB`}</span>
+    <span className="resources nowrap">
+      {`${i18n.t('instance')} ${replicas} / CPU ${cpu} / ${i18n.t('memory')} ${mem}MB`}
+    </span>
   );
 
   const serviceClass = classNames({
@@ -272,7 +262,7 @@ const ServiceCard = (props: IProps) => {
             openDomainModalVisible={() => updater.domainModalVisible(true)}
             service={service}
             isEndpoint={isEndpoint}
-            setTempData={setTempData}
+            updateServicesConfig={updateServicesConfig}
             name={name}
             deployStatus={runtimeDetail.deployStatus}
           />
@@ -293,10 +283,12 @@ const ServiceCard = (props: IProps) => {
     const hasCustomDomain = expose && expose.length > 0;
     const isOpsForbidden = FORBIDDEN_STATUS_LIST.includes(runtimeDetail.deployStatus);
 
-    let links = expose && expose[0]
-      ? <a className="mr12" href={`//${expose[0]}`} target="_blank" rel="noopener noreferrer" >{i18n.t('runtime:visit domain')}</a>
-      :
-      (
+    let links =
+      expose && expose[0] ? (
+        <a className="mr12" href={`//${expose[0]}`} target="_blank" rel="noopener noreferrer">
+          {i18n.t('runtime:visit domain')}
+        </a>
+      ) : (
         <span
           className="domain-links hover-active"
           onClick={(e) => {
@@ -317,7 +309,13 @@ const ServiceCard = (props: IProps) => {
     if (expose && expose.length > 1) {
       const linkContent = (
         <ul className="popover-links">
-          {map(expose, link => <li key={link}><a href={`//${link}`} target="_blank" rel="noopener noreferrer">{link}</a></li>)}
+          {map(expose, (link) => (
+            <li key={link}>
+              <a href={`//${link}`} target="_blank" rel="noopener noreferrer">
+                {link}
+              </a>
+            </li>
+          ))}
         </ul>
       );
       links = (
@@ -328,7 +326,12 @@ const ServiceCard = (props: IProps) => {
     }
     return (
       <div className="endpoint-ops">
-        {hasCustomDomain ? null : <><CustomIcon className="warning-info" type="tishi" /><span className="warning-info mr12">{i18n.t('runtime:not set domain')}</span></>}
+        {hasCustomDomain ? null : (
+          <>
+            <CustomIcon className="warning-info" type="tishi" />
+            <span className="warning-info mr12">{i18n.t('runtime:not set domain')}</span>
+          </>
+        )}
         {links}
         {commonOps}
       </div>
@@ -344,7 +347,9 @@ const ServiceCard = (props: IProps) => {
         <div className="service-ops table-operations">
           <IF check={isRunning}>
             <IF check={(permMap.runtime[`${runtimeDetail.extra.workspace.toLowerCase()}Console`] || {}).pass}>
-              <span className="table-operations-btn" onClick={() => openSlidePanel('terminal', { ...record })}>{i18n.t('terminal')}</span>
+              <span className="table-operations-btn" onClick={() => openSlidePanel('terminal', { ...record })}>
+                {i18n.t('terminal')}
+              </span>
 
               <IF.ELSE />
 
@@ -353,8 +358,12 @@ const ServiceCard = (props: IProps) => {
               </NoAuthTip>
             </IF>
           </IF>
-          <span className="table-operations-btn" onClick={() => openSlidePanel('monitor', { ...record })}>{i18n.t('container monitor')}</span>
-          <span className="table-operations-btn" onClick={() => openSlidePanel('log', { ...record })}>{i18n.t('log')}</span>
+          <span className="table-operations-btn" onClick={() => openSlidePanel('monitor', { ...record })}>
+            {i18n.t('container monitor')}
+          </span>
+          <span className="table-operations-btn" onClick={() => openSlidePanel('log', { ...record })}>
+            {i18n.t('log')}
+          </span>
         </div>
       );
     },
@@ -365,17 +374,16 @@ const ServiceCard = (props: IProps) => {
     const { ctx, msg } = errors[0];
     const { instanceId } = ctx;
     const wrapTooltip = (children: any, text: string) => {
-      return (
-        <Tooltip title={text} >
-          {children}
-        </Tooltip>
-      );
+      return <Tooltip title={text}>{children}</Tooltip>;
     };
     const msgContent = `${msg}，${i18n.t('runtime:please view container log')}`;
     errorMsg = (
       <span
         className="log-link"
-        onClick={(e) => { e.stopPropagation(); openSlidePanel('log', { id: instanceId }); }}
+        onClick={(e) => {
+          e.stopPropagation();
+          openSlidePanel('log', { id: instanceId });
+        }}
       >
         {msgContent}
       </span>
@@ -389,7 +397,9 @@ const ServiceCard = (props: IProps) => {
     <React.Fragment>
       <div className={`${serviceClass} mb20`}>
         <div className="service-card" onClick={() => togglePanel()}>
-          <div className="service-card-icon-wrapper"><CustomIcon type={isEndpoint ? 'mysql1' : 'wfw1'} color /></div>
+          <div className="service-card-icon-wrapper">
+            <CustomIcon type={isEndpoint ? 'mysql1' : 'wfw1'} color />
+          </div>
           <div className="service-card-info">
             <div className="info-msg">
               <IF check={status !== 'Healthy'}>
@@ -398,28 +408,19 @@ const ServiceCard = (props: IProps) => {
               <span className="name fz16">{name}</span>
               {resourceInfo}
             </div>
-            <div className="error-msg fz12 nowrap">
-              {errorMsg}
-            </div>
+            <div className="error-msg fz12 nowrap">{errorMsg}</div>
           </div>
-          <div className="service-card-operation" onClick={e => e.stopPropagation()}>
+          <div className="service-card-operation" onClick={(e) => e.stopPropagation()}>
             {getOperation()}
           </div>
         </div>
         <div className="inner-content">
           <Tabs defaultActiveKey="service-details">
             <TabPane tab={i18n.t('runtime:service details')} key="service-details">
-              <InstanceTable
-                isFetching={isFetching}
-                instances={instances}
-                opsCol={opsCol}
-              />
+              <InstanceTable isFetching={isFetching} instances={instances} opsCol={opsCol} />
             </TabPane>
             <TabPane tab={i18n.t('pod detail')} key="pod-detail">
-              <PodTable
-                runtimeID={runtimeId}
-                service={name}
-              />
+              <PodTable runtimeID={runtimeId} service={name} />
             </TabPane>
           </Tabs>
         </div>
