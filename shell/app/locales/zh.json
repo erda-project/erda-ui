@@ -633,6 +633,7 @@
     "confirm removal user": "确认移除用户",
     "confirm this action": "确认进行此操作",
     "confirm to delete": "确定删除吗",
+    "contact business": "联系商务",
     "copy configuration": "复制配置",
     "day": "天",
     "default": "默认",
@@ -735,6 +736,7 @@
     "to": "至",
     "unable to restore after configuration deletion, confirm execution": "配置删除后无法恢复，确认执行",
     "view": "查看",
+    "vip features tips": "VIP 用户功能，请联系商务开通",
     "yes": "是",
     "{deleteItem} cannot recover after deletion, confirm deletion": "{deleteItem}删除后无法恢复, 确认删除？"
   },

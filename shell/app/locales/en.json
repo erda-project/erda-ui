@@ -633,6 +633,7 @@
     "confirm removal user": "confirm removal user",
     "confirm this action": "confirm this action",
     "confirm to delete": "confirm to delete",
+    "contact business": "contact business",
     "copy configuration": "copy configuration",
     "day": "day",
     "default": "default",
@@ -735,6 +736,7 @@
     "to": "to",
     "unable to restore after configuration deletion, confirm execution": "unable to restore after configuration deletion, confirm execution",
     "view": "view",
+    "vip features tips": "VIP user features, please contact Business Opening",
     "yes": "yes",
     "{deleteItem} cannot recover after deletion, confirm deletion": "{deleteItem} cannot recover after deletion, confirm deletion?"
   },

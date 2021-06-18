@@ -26,7 +26,7 @@ declare namespace ORG {
     operation: string
     selected: boolean
     status: string
-    type: string
+    type: 'FREE' | 'ENTERPRISE'
     updatedAt: string
     publisherId: number;
     blockoutConfig: {
