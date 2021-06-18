@@ -53,14 +53,14 @@ describe('KeyValueTextArea', () => {
     editor.update();
     expect(editor.instance().getTextData()).toBe(`${data}\nenv:test`);
     expect(fn).toBeCalled();
-    assetValue(editor, spy, ':', '第3行: does not allow full-width punctuation');
-    assetValue(editor, spy, ':dev', '第3行: does not allow full-width punctuation');
+    assetValue(editor, spy, ':', '第3行: full-width punctuation not allowed');
+    assetValue(editor, spy, ':dev', '第3行: full-width punctuation not allowed');
     assetValue(editor, spy, 'env:', '第3行: lack of english colon');
     assetValue(editor, spy, 'env:  ', '第3行: missing value');
     assetValue(editor, spy, 'name:erda', '第3行: key must be unique');
     assetValue(editor, spy, 'env:development', '第3行: the length of Value must not exceed 10 characters');
     assetValue(editor, spy, 'environment:dev', '第3行: the length of Key must not exceed 10 characters');
-    assetValue(editor, spy, 'type:dev', '3row: this configuration already exists');
+    assetValue(editor, spy, 'type:dev', '3line: this configuration already exists');
     editor.find('TextArea').simulate('change', {
       target: {
         value: `${data}`,
