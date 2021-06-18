@@ -77,7 +77,7 @@ const IssueFieldManage = () => {
   const onDeleteField = React.useCallback(
     async ({ propertyID, relatedIssue }) => {
       if (!isEmpty(relatedIssue)) {
-        message.warning(i18n.t('project:tips of deleting custom field'));
+        message.warning(i18n.t('project:This field has been referenced. If you want to delete it, please remove the reference in the corresponding issue type first.'));
         return;
       }
 
@@ -97,7 +97,7 @@ const IssueFieldManage = () => {
       },
       {
         key: 'required',
-        title: i18n.t('is required'),
+        title: i18n.t('is it required'),
         dataIndex: 'required',
         render: (value: boolean) => (String(value) === 'true' ? i18n.t('common:yes') : i18n.t('common:no')),
       },
@@ -229,7 +229,7 @@ const IssueFieldManage = () => {
       fieldsList={fieldsList}
       updateInfo={getFieldsByIssue}
       name={i18n.t('project:issue field')}
-      desc={i18n.t('project:tips of custom field setting')}
+      desc={i18n.t('project:Custom fields common to the whole organization to meet needs of more scenarios.')}
     />
   );
 };

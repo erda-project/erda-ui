@@ -200,7 +200,7 @@ const ThirdAddonForm = (props: IProps) => {
       name: 'mode',
       type: 'radioGroup',
       options: [
-        { name: i18n.t('resource:share existing'), value: 'exist' },
+        { name: i18n.t('resource:share existing instance'), value: 'exist' },
         { name: i18n.t('resource:create instance'), value: 'new' },
       ],
       initialValue: mode,

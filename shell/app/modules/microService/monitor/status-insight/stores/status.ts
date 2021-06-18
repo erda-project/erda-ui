@@ -85,7 +85,7 @@ const Status = createStore({
       return result;
     },
     async setDatumPoint({ call }, payload: { id: string; url: string }) {
-      await call(setDatumPoint, payload, { successMsg: i18n.t('setting successfully'), fullResult: true });
+      await call(setDatumPoint, payload, { successMsg: i18n.t('set successfully'), fullResult: true });
     },
   },
   reducers: {

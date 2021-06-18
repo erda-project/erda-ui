@@ -66,7 +66,7 @@ const renderActiveItem =
 
 const TimelineActivity = ({ list: data, onClickLink, isJumping = false }) => {
   const split = [
-    [i18n.t('project:nowadays'), 0],
+    [i18n.t('project:today'), 0],
     [i18n.t('project:yesterday'), 1],
     [i18n.t('project:before yesterday'), 7],
     [i18n.t('project:a week ago')],

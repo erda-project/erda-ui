@@ -40,7 +40,7 @@ const menuFilterMap = {
     edge: hiddenWhenOnlyFDP,
     apiManage: hiddenWhenOnlyFDP,
     dataCenter: (item: IMenuItem) => {
-      const name = ONLY_FDP ? i18n.t('Data Center') : i18n.t('DataCenter');
+      const name = ONLY_FDP ? i18n.t('Data Center') : i18n.t('cloud management');
       return { ...item, name, breadcrumbName: name };
     },
   },

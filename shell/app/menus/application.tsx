@@ -25,16 +25,9 @@ import {
   Config as IconConfig,
 } from '@icon-park/react';
 import { Icon as CustomIcon } from 'common';
+import { appMode } from 'application/common/config';
 
 import React from 'react';
-
-const appMode = {
-  SERVICE: 'SERVICE',
-  MOBILE: 'MOBILE',
-  LIBRARY: 'LIBRARY',
-  BIGDATA: 'BIGDATA',
-  ABILITY: 'ABILITY',
-};
 
 interface IMenuItem {
   show?: boolean;
@@ -68,13 +61,12 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     text: i18n.t('project:API design'),
   };
 
-  const deployAuth = perm.runtime.read.pass && !appDetail.isProjectLevel;
   const deploy = {
-    show: deployAuth,
+    show: perm.runtime.read.pass,
     key: 'deploy',
     href: goTo.resolve.deploy(), // `/workBench/projects/${projectId}/apps/${appId}/deploy`,
     icon: <CustomIcon type="bushuzhongxin" />,
-    text: i18n.t('application:deploy center'),
+    text: i18n.t('application:deployment center'),
   };
   const dataTask = {
     show: perm.dataTask.read.pass,
@@ -109,7 +101,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     key: 'release',
     href: goTo.resolve.release(), // `/workBench/projects/${projectId}/apps/${appId}/repo/release`,
     icon: <CustomIcon type="zhipinguanli" />,
-    text: i18n.t('releases'),
+    text: i18n.t('artifact management'),
   };
   const setting = {
     show: perm.setting.read.pass,
@@ -122,6 +114,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
   // const full = [repo, pipeline, deploy, dataTask, dataModel, dataMarket, test, analysis, release, setting];
   const modeMap = {
     [appMode.SERVICE]: [repo, pipeline, apiDesign, deploy, test, release, setting],
+    [appMode.PROJECT_SERVICE]: [repo, pipeline, apiDesign, test, release, setting],
     [appMode.MOBILE]: [repo, pipeline, apiDesign, deploy, test, release, setting],
     [appMode.LIBRARY]: [repo, pipeline, apiDesign, deploy, test, release, setting],
     [appMode.BIGDATA]: [repo, dataTask, dataModel, dataMarket, setting],

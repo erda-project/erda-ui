@@ -16,7 +16,7 @@ import i18n from 'i18n';
 const approvalTabs = [
   {
     key: 'undone',
-    name: i18n.t('org:to be approved'),
+    name: i18n.t('org:pending approval'),
   },
   {
     key: 'done',
@@ -105,8 +105,8 @@ function getOrgCenterRouter() {
         },
         {
           path: 'announcement',
-          pageName: i18n.t('org:announcement'),
-          breadcrumbName: i18n.t('org:announcement'),
+          pageName: i18n.t('org:announcement management'),
+          breadcrumbName: i18n.t('org:announcement management'),
           getComp: (cb) => cb(import('org/pages/announcement')),
         },
         {

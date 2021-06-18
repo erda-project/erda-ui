@@ -47,7 +47,7 @@ const getEdgeRouter = () => [
       },
       {
         path: 'resource',
-        breadcrumbName: i18n.t('resources'),
+        breadcrumbName: i18n.t('resource management'),
         routes: [
           {
             breadcrumbName: i18n.t('edge:site management'),

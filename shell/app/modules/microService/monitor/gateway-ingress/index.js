@@ -14,8 +14,8 @@
 import i18n from 'i18n';
 
 const tabs = [
-  { key: 'gateway-ingress', name: i18n.t('microService:visits') },
-  { key: 'gateway-ingress/connection', name: i18n.t('microService:connection count') },
+  { key: 'gateway-ingress', name: i18n.t('microService:visit times') },
+  { key: 'gateway-ingress/connection', name: i18n.t('microService:number of connection') },
   { key: 'gateway-ingress/traffic', name: i18n.t('microService:transmission traffic') },
   { key: 'gateway-ingress/latency', name: i18n.t('microService:latency') },
 ];

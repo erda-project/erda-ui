@@ -38,7 +38,7 @@ const BatchProcessing = ({ afterDelete }: IProps) => {
   const onClick = useCallback(
     ({ key }: any) => {
       if (key !== 'excel' && (!caseTotal || !checked)) {
-        message.error(i18n.t('project:after the use case is selected, the batch operation can be performed'));
+        message.error(i18n.t('project:After the use case is selected, the batch operation can be performed.'));
         return;
       }
       let selectProjectId;

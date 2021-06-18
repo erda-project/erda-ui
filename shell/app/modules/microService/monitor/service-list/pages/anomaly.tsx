@@ -61,7 +61,7 @@ export default () => {
           <TimeSelector className="ma0 mr12" />
           <Select
             className="mr12"
-            placeholder={i18n.t('microService:select sort by')}
+            placeholder={i18n.t('microService:select sorting method')}
             allowClear
             style={{ width: '180px' }}
             onChange={(v: any) => updater.sort(v)}

@@ -41,7 +41,7 @@ export enum APPROVE_TYPE {
 }
 
 export const approvalStatusMap = {
-  WaitApprove: { name: i18n.t('wait approve'), value: 'WaitApprove' },
+  WaitApprove: { name: i18n.t('pending approval'), value: 'WaitApprove' },
   Accept: { name: i18n.t('project:passed'), value: 'Accept' },
   Reject: { name: i18n.t('rejected'), value: 'Reject' },
 };
@@ -176,7 +176,7 @@ const PureDeployList = (props: IProps) => {
         },
       },
       approved: {
-        title: i18n.t('org:approve result'),
+        title: i18n.t('org:approval result'),
         dataIndex: 'approvalStatus',
         render: (val: string) => (approvalStatusMap[val] || {}).name,
       },

@@ -50,7 +50,7 @@ const serviceMesh = createStore({
       const res = await call(
         saveCircuitBreaker,
         { env, projectId, tenantGroup, ...payload },
-        { successMsg: i18n.t('save successfully') },
+        { successMsg: i18n.t('saved successfully') },
       );
       return res;
     },
@@ -64,7 +64,7 @@ const serviceMesh = createStore({
       const res = await call(
         saveFaultInject,
         { env, projectId, tenantGroup, ...payload },
-        { successMsg: i18n.t('save successfully') },
+        { successMsg: i18n.t('saved successfully') },
       );
       return res;
     },

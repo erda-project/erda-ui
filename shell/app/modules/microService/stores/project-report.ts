@@ -64,7 +64,7 @@ const projectReport = createStore({
       await call(
         ProjectReportService.setProjectReportSetting,
         { projectId, workspace: env, setting: payload },
-        { successMsg: i18n.t('update successfully') },
+        { successMsg: i18n.t('updated successfully') },
       );
       await projectReport.effects.getProjectReportSetting();
     },

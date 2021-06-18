@@ -61,7 +61,7 @@ const ArtifactsDetail = ({ data, artifactsId }: IProps) => {
     menuText.push(
       ...[
         ['certification', i18n.t('publisher:authenticate list')],
-        ['safety', i18n.t('publisher:safety manage')],
+        ['safety', i18n.t('publisher:safety management')],
         ['statistics', i18n.t('publisher:statistics dashboard')],
         ['errorReport', i18n.t('publisher:error report')],
       ],

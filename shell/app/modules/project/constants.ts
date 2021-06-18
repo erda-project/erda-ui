@@ -137,7 +137,7 @@ export const DEFAULT_FIELDS = [
   },
   {
     uniqueName: 'bugIds',
-    showName: i18n.t('project:association defect'),
+    showName: i18n.t('project:related bugs'),
     fieldTypeCode: 'issue',
     module: 'ISSUE',
     defaultValue: null,

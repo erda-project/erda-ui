@@ -19,7 +19,7 @@ import i18n from 'i18n';
 const runtimeDeployStatus = {
   INIT: {
     color: 'gray',
-    text: i18n.t('runtime:initialization'),
+    text: i18n.t('runtime:initializing'),
     animation: 'running',
   },
   WAITING: {
@@ -45,7 +45,7 @@ const runtimeDeployStatus = {
   },
   FAILED: {
     color: 'red',
-    text: i18n.t('runtime:deploy failed'),
+    text: i18n.t('runtime:deployment failed'),
     animation: '',
   },
 };

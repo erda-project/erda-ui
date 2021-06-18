@@ -115,8 +115,8 @@ const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
   const message = React.useMemo(() => {
     if (appBlocked) {
       return projectSetting.blockNetwork.applyUnblock.pass
-        ? i18n.t('application:tips of blockNetwork for manager')
-        : i18n.t('application:tips of blockNetwork for common');
+        ? i18n.t('application:Please go to My Projects to apply for deployment in network block period.')
+        : i18n.t('application:Please contact the project administrator to apply for deployment in network block period.');
     }
     if (unBlockStart && unBlockEnd) {
       return `${i18n.t('application:unblocking time period')}：${moment(unBlockStart).format(
@@ -138,7 +138,7 @@ const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
           let tip = hasAuth ? '' : i18n.t('application:branch is protected, you have no permission yet');
           if (hasAuth && !workspace) {
             hasAuth = false;
-            tip = i18n.t('application:branch have no matching deployment environment');
+            tip = i18n.t('application:No matching deployment environment for current branch.');
           }
           return (
             <Option key={name} value={name} disabled={!hasAuth}>

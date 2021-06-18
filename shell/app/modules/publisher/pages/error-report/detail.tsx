@@ -51,13 +51,13 @@ export default () => {
   }, [publisherItemId, query.ai, query.ak, query.end, query.filter, query.start]);
 
   const fields = [
-    [i18n.t('publisher:equipment model'), 'md'],
+    [i18n.t('publisher:device model'), 'md'],
     [i18n.t('publisher:system version'), 'osv'],
     [i18n.t('publisher:app package name'), 'dh'],
     [i18n.t('publisher:app version'), 'av'],
     [i18n.t('publisher:cpu architecture'), 'cpu'],
     [i18n.t('publisher:mem'), 'mem'],
-    [i18n.t('publisher:rom'), 'rom'],
+    [i18n.t('publisher:storage space'), 'rom'],
     [i18n.t('publisher:client ID'), 'cid'],
     [i18n.t('publisher:whether to jailbreak'), 'jb'],
     [i18n.t('publisher:gps'), 'gps'],

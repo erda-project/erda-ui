@@ -104,7 +104,7 @@ const zkproxy = createStore({
       await call(
         zkproxyServices.updateBranchesRule,
         { projectId, env, appId, az, ...payload },
-        { successMsg: i18n.t('update successfully') },
+        { successMsg: i18n.t('updated successfully') },
       );
       await zkproxy.effects.getBranchesRule();
     },
@@ -114,7 +114,7 @@ const zkproxy = createStore({
       await call(
         zkproxyServices.clearBranchesRule,
         { projectId, env, appId, az },
-        { successMsg: i18n.t('update successfully') },
+        { successMsg: i18n.t('updated successfully') },
       );
       await zkproxy.effects.getBranchesRule();
     },
@@ -149,7 +149,7 @@ const zkproxy = createStore({
     // },
     // async deleteZkInterfaceConfig({ call, update, getParams }, payload: { az: string; interfacename: string; }) {
     //   const { projectId, env } = getParams();
-    //   await call(zkproxyServices.deleteZkInterfaceConfig, { projectId, env, ...payload }, { successMsg: i18n.t('clear successfully') });
+    //   await call(zkproxyServices.deleteZkInterfaceConfig, { projectId, env, ...payload }, { successMsg: i18n.t('cleared successfully') });
     //   update({ zkInterfaceConfig: {} });
     // },
   },

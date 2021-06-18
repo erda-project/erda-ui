@@ -62,7 +62,7 @@ const VPS = () => {
       getCloudResourceStatusCol('vpc'),
       getCloudResourceTagsCol(),
       {
-        title: i18n.t('dataCenter:VSW number'),
+        title: i18n.t('dataCenter:number of VSW'),
         dataIndex: 'vswNum',
         width: 100,
         render: (v: number, record: NETWORKS.ICloudVpc) => {

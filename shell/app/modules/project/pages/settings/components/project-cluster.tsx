@@ -101,10 +101,10 @@ const ProjectCluster = ({ hasEditAuth }: IProps) => {
       name={i18n.t('project:cluster setting')}
       desc={
         <span>
-          {i18n.t('cluster-config-tip')}
+          {i18n.t('For cluster resource information corresponding to each environment, the concept and settings of specific clusters, please see')}
           <a href={HELP_DOCUMENT} target="_blank" rel="noopener noreferrer">
             {' '}
-            {i18n.t('help document')}{' '}
+            {i18n.t('documentation')}{' '}
           </a>
         </span>
       }

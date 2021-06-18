@@ -55,7 +55,7 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps
       rules: [
         {
           pattern: /^[a-zA-Z_]+[.a-zA-Z0-9_-]*$/,
-          message: i18n.t('common:start with letters, includes letters,number,dot, _, -'),
+          message: i18n.t('common:start with letters, which can contain letters, numbers, dots, underscores and hyphens.'),
         },
       ],
     },
@@ -135,7 +135,7 @@ export const VariableConfigForm = ({ formData, visible, onOk, onCancel }: IProps
                     </Button>
                   </Upload>
                   <span className="color-text-desc ml8">
-                    {uploadFile ? i18n.t('have select {xx}', { xx: uploadFile }) : null}
+                    {uploadFile ? i18n.t('selected {xx}', { xx: uploadFile }) : null}
                   </span>
                 </Spin>
               </div>

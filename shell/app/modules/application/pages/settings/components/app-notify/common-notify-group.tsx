@@ -74,7 +74,7 @@ const groupTargetMap = {
 };
 
 // const notifyRoleMap = {
-//   Manager: i18n.t('manager'),
+//   Manager: i18n.t('administrator'),
 //   Developer: i18n.t('developer'),
 //   Tester: i18n.t('tester'),
 //   Operator: i18n.t('org:operator'),

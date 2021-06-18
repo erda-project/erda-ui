@@ -60,7 +60,7 @@ const chartMap = merge(
       },
     },
     pageTopN: {
-      titleText: `${i18n.t('microService:visits')} TOP10`,
+      titleText: `${i18n.t('microService:visit times')} TOP10`,
       ...commonAttr,
       chartName: 'pageTopN',
       viewRender: TablePanel,

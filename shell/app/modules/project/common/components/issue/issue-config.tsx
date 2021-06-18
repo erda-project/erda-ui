@@ -66,8 +66,8 @@ export const ISSUE_ICON = {
 };
 
 export const ISSUE_COMPLEXITY_MAP = {
-  HARD: { value: 'HARD', label: i18n.t('project:hard') },
-  NORMAL: { value: 'NORMAL', label: i18n.t('project:normal') },
+  HARD: { value: 'HARD', label: i18n.t('project:complex') },
+  NORMAL: { value: 'NORMAL', label: i18n.t('project:medium') },
   EASY: { value: 'EASY', label: i18n.t('project:easy') },
 };
 
@@ -85,45 +85,45 @@ export const BUG_SEVERITY_MAP = {
   },
   SERIOUS: {
     value: 'SERIOUS',
-    label: `P1 ${i18n.t('project:severity-serious')}`,
+    label: `P1 ${i18n.t('project:serious')}`,
     icon: ISSUE_ICON.severity.SERIOUS,
     iconLabel: (
       <div className="v-align">
         {ISSUE_ICON.severity.SERIOUS}
-        {i18n.t('project:severity-serious')}
+        {i18n.t('project:serious')}
       </div>
     ),
   },
   NORMAL: {
     value: 'NORMAL',
-    label: `P2 ${i18n.t('project:severity-normal')}`,
+    label: `P2 ${i18n.t('project:normal')}`,
     icon: ISSUE_ICON.severity.NORMAL,
     iconLabel: (
       <div className="v-align">
         {ISSUE_ICON.severity.NORMAL}
-        {i18n.t('project:severity-normal')}
+        {i18n.t('project:normal')}
       </div>
     ),
   },
   SLIGHT: {
     value: 'SLIGHT',
-    label: `P3 ${i18n.t('project:severity-slight')}`,
+    label: `P3 ${i18n.t('project:slight')}`,
     icon: ISSUE_ICON.severity.SLIGHT,
     iconLabel: (
       <div className="v-align">
         {ISSUE_ICON.severity.SLIGHT}
-        {i18n.t('project:severity-slight')}
+        {i18n.t('project:slight')}
       </div>
     ),
   },
   SUGGEST: {
     value: 'SUGGEST',
-    label: `P4 ${i18n.t('project:severity-suggest')}`,
+    label: `P4 ${i18n.t('project:suggest')}`,
     icon: ISSUE_ICON.severity.SUGGEST,
     iconLabel: (
       <div className="v-align">
         {ISSUE_ICON.severity.SUGGEST}
-        {i18n.t('project:severity-suggest')}
+        {i18n.t('project:suggest')}
       </div>
     ),
   },
@@ -207,12 +207,12 @@ export const ISSUE_PRIORITY_MAP = {
   },
   NORMAL: {
     value: 'NORMAL',
-    label: i18n.t('project:normal'),
+    label: i18n.t('project:medium'),
     icon: ISSUE_ICON.priority.NORMAL,
     iconLabel: (
       <div className="v-align">
         {ISSUE_ICON.priority.NORMAL}
-        {i18n.t('project:normal')}
+        {i18n.t('project:medium')}
       </div>
     ),
   },
@@ -247,12 +247,12 @@ export const REQUIREMENT_STATE_MAP = {
   WORKING: {
     value: 'WORKING',
     icon: ISSUE_ICON.state.WORKING,
-    label: i18n.t('project:working'),
+    label: i18n.t('project:processing'),
     color: 'blue',
     iconLabel: (
       <div className="v-align">
         {ISSUE_ICON.state.WORKING}
-        {i18n.t('project:working')}
+        {i18n.t('project:processing')}
       </div>
     ),
   },
@@ -307,13 +307,13 @@ export const TASK_STATE_MAP: ISSUE.TaskMap = {
   WORKING: {
     value: 'WORKING',
     icon: ISSUE_ICON.state.WORKING,
-    label: i18n.t('project:working'),
+    label: i18n.t('project:processing'),
     nextStates: ['DONE'],
     color: 'blue',
     iconLabel: (
       <div className="v-align">
         {ISSUE_ICON.state.WORKING}
-        {i18n.t('project:working')}
+        {i18n.t('project:processing')}
       </div>
     ),
   },
@@ -428,7 +428,7 @@ export const ISSUE_BUTTON_STATE = {
   canResolved: { label: i18n.t('project:resolved'), state: 'RESOLVED' },
   canTesting: { label: i18n.t('project:testing'), state: 'TESTING' },
   canWontfix: { label: i18n.t("project:won't fix"), state: 'WONTFIX' },
-  canWorking: { label: i18n.t('project:working'), state: 'WORKING' },
+  canWorking: { label: i18n.t('project:processing'), state: 'WORKING' },
   canClosed: { label: i18n.t('project:close'), state: 'CLOSED' },
   canDone: { label: i18n.t('project:completed'), state: 'DONE' },
 };

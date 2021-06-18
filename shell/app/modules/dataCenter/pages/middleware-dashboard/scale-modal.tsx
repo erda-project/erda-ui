@@ -147,7 +147,7 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit, form }: IProps) 
       },
     },
     {
-      label: i18n.t('dataCenter:count of nodes'),
+      label: i18n.t('dataCenter:number of nodes'),
       required: true,
       name: 'nodes',
       initialValue: formData.nodes,

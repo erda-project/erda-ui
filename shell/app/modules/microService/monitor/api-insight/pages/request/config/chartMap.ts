@@ -38,7 +38,7 @@ const chartMap = merge(
     },
     connect: {
       ...commonAttr,
-      titleText: i18n.t('microService:connect status'),
+      titleText: i18n.t('microService:connection status'),
       chartName: 'connect',
       viewRender: ConnectChart,
     },

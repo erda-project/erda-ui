@@ -94,7 +94,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
       return;
     }
     if ((issueBugs || []).some((item) => item.issueID === selectBug)) {
-      message.info(i18n.t('project:tips of duplicate association bug'));
+      message.info(i18n.t('project:This bug has been associated with the current use case. Please select again.'));
       return;
     }
     addRelation({ issueIDs: [selectBug], id: relationID }).then(() => {

@@ -74,7 +74,7 @@ const PipelineDetail = (props: IProps) => {
       // network blocked
       return {
         hasAuth: false,
-        authTip: i18n.t('application:cannot deploy tips'),
+        authTip: i18n.t('application:Function unavailable in network block period.'),
       };
     }
     if (!deployPerm[`${env.toLowerCase()}DeployOperation`]) {

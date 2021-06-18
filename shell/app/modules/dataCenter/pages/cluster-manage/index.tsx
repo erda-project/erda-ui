@@ -118,7 +118,7 @@ const ClusterManage = () => {
         <Button type="primary" onClick={() => updater.typeSelectorVis(true)}>
           {i18n.t('org:add cluster')}
         </Button>
-        {/* <Button type="primary" onClick={() => goTo('./addCluster')}>{i18n.t('org:deploy cluster')}</Button> */}
+        {/* <Button type="primary" onClick={() => goTo('./addCluster')}>{i18n.t('org:cluster deployment')}</Button> */}
       </div>
       <ClusterTypeModal visible={typeSelectorVis} toggleModal={toggleTypeModalVis} onSubmit={handleSelectType} />
       <AddClusterModal

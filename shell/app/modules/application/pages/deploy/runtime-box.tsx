@@ -199,7 +199,7 @@ const RuntimeBox = (props: IProps) => {
           {['Healthy', 'OK'].includes(status) ? null : <HealthPoint type="runtime" status={status} />}
         </div>
         {isWaitApprove ? (
-          <Alert message={i18n.t('application:project manager confirming')} type="normal" showIcon />
+          <Alert message={i18n.t('application:project admin confirming')} type="normal" showIcon />
         ) : null}
       </div>
     </Spin>

@@ -84,11 +84,11 @@ class Policy extends React.Component<IProps, any> {
 
     const fieldsList = [
       {
-        label: i18n.t('can only contain alphanumeric underscores and underscores'),
+        label: i18n.t('can only contain letters, numbers, underscores and hyphens'),
         name: 'policyName',
         rules: [{ pattern: /^[a-zA-z0-9_-]+$/, message: i18n.t('microService:display name') }],
         itemProps: {
-          placeholder: i18n.t('can only contain alphanumeric underscores and underscores'),
+          placeholder: i18n.t('can only contain letters, numbers, underscores and hyphens'),
         },
       },
       {
@@ -96,7 +96,7 @@ class Policy extends React.Component<IProps, any> {
         name: 'displayName',
         required: false,
         itemProps: {
-          placeholder: i18n.t('microService:default is policy name'),
+          placeholder: i18n.t('microService:as policy name by default'),
         },
       },
       {
@@ -127,7 +127,7 @@ class Policy extends React.Component<IProps, any> {
                   }}
                 >
                   <Option value="qps">{i18n.t('microService:times/second')}</Option>
-                  <Option value="qpm">{i18n.t('microService:times/minutes')}</Option>
+                  <Option value="qpm">{i18n.t('microService:times/minute')}</Option>
                   <Option value="qph">{i18n.t('microService:times/hour')}</Option>
                   <Option value="qpd">{i18n.t('microService:times/day')}</Option>
                 </Select>

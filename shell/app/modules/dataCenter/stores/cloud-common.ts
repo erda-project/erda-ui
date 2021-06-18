@@ -47,7 +47,7 @@ const cloudCommon = createFlatStore({
       update({ cloudAccountExist: list.length > 0 });
     },
     async setCloudResourceTags({ call }, data: CLOUD.SetTagBody) {
-      return call(setCloudResourceTags, data, { successMsg: i18n.t('setting successfully'), fullResult: true });
+      return call(setCloudResourceTags, data, { successMsg: i18n.t('set successfully'), fullResult: true });
     },
   },
 });

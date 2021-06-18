@@ -147,7 +147,7 @@ const RepoBranch = () => {
                       }}
                     >
                       <Menu.Item key="setDefault" disabled={!curAuth || info.isLocked || isDefault}>
-                        {i18n.t('application:set default')}
+                        {i18n.t('application:set as default')}
                       </Menu.Item>
                     </Menu>
                   }

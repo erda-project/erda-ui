@@ -91,7 +91,7 @@ const iteration = createStore({
       return call(
         editProjectIteration,
         { ...payload, projectID: +projectId },
-        { successMsg: i18n.t('update successfully') },
+        { successMsg: i18n.t('updated successfully') },
       );
     },
     async deleteIteration({ call }, id: number) {

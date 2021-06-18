@@ -44,7 +44,7 @@ const refTableList = [
     key: 'runtimeName',
   },
   {
-    title: i18n.t('addonPlatform:deploy detail page'),
+    title: i18n.t('addonPlatform:deployment details'),
     dataIndex: 'applicationId',
     key: 'applicationId',
     align: 'center' as const,
@@ -66,12 +66,12 @@ const AddonDetailDrawer = (props: IProps) => {
 
   const instanceData = [
     { key: i18n.t('addon'), value: addonName },
-    { key: i18n.t('operating environment'), value: ENV_NAME[workspace] },
+    { key: i18n.t('running environment'), value: ENV_NAME[workspace] },
     { key: i18n.t('version'), value: version },
     { key: i18n.t('specification'), value: PLAN_NAME[plan] },
     { key: i18n.t('project'), value: projectName },
     { key: i18n.t('org:reference counts'), value: reference },
-    { key: i18n.t('org:operation cluster'), value: cluster },
+    { key: i18n.t('org:run cluster'), value: cluster },
     { key: i18n.t('created at'), value: moment(createdAt).format('YYYY-MM-DD HH:mm:ss') },
     // { key: '控制台', value: <a href={consoleUrl} target="_blank" rel="noopener noreferrer">Dubbo Admin</a>, hasValue: !!consoleUrl },
   ];

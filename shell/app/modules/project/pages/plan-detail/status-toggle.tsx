@@ -29,7 +29,7 @@ export enum CaseStatus {
 export const caseStateMap = {
   INIT: { name: i18n.t('project:not performed'), value: 'INIT' },
   PASSED: { name: i18n.t('project:passed'), value: 'PASSED' },
-  FAIL: { name: i18n.t('project:not pass'), value: 'FAIL' },
+  FAIL: { name: i18n.t('project:not passed'), value: 'FAIL' },
   BLOCK: { name: i18n.t('project:blocking'), value: 'BLOCK' },
 };
 
@@ -63,7 +63,7 @@ export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {
       child: (
         <span className="test-status-toggle red">
           <CustomIcon className="bg-color-icon" type="wtg" />
-          <span>{i18n.t('project:not pass')}</span>
+          <span>{i18n.t('project:not passed')}</span>
         </span>
       ),
     },
@@ -82,7 +82,7 @@ export const StatusToggle = ({ isPlan, state, onChange }: IProps) => {
         child: (
           <span className="test-status-toggle yellow">
             <CustomIcon className="bg-color-icon" type="zs" />
-            <span>{i18n.t('project:time out')}</span>
+            <span>{i18n.t('project:pause')}</span>
           </span>
         ),
       },

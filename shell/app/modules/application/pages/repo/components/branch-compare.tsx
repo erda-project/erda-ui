@@ -55,7 +55,7 @@ const RepoBranchCompare = () => {
   return (
     <div className="repo-branch-compare" key={window.location.pathname}>
       <BranchSelect {...{ branches, tags, current: encodeURIComponent(state.from) }} onChange={onChange('from')}>
-        <span>{i18n.t('application:base')}:</span>
+        <span>{i18n.t('application:based on source')}:</span>
         <span className="branch-name bold nowrap">{state.from || null}</span>
         {state.from ? <IconDownOne theme="filled" size="16px" /> : null}
       </BranchSelect>

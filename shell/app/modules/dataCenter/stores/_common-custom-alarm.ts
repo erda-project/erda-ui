@@ -88,7 +88,7 @@ export const createCustomAlarmStore = (scope: CustomAlarmScope) => {
       },
       async switchCustomAlarm({ call, select, getParams }, payload: { id: number; enable: boolean }) {
         const { tenantGroup } = getParams();
-        await call(switchCustomAlarm, { ...payload, tenantGroup }, { successMsg: i18n.t('state switch successfully') });
+        await call(switchCustomAlarm, { ...payload, tenantGroup }, { successMsg: i18n.t('status switched successfully') });
         const { pageSize, pageNo } = select((s) => s.customAlarmPaging);
         customAlarmStore.effects.getCustomAlarms({ pageNo, pageSize });
       },
@@ -126,7 +126,7 @@ export const createCustomAlarmStore = (scope: CustomAlarmScope) => {
       },
       async editCustomAlarm({ call, getParams }, payload: Omit<COMMON_CUSTOM_ALARM.CustomAlarmQuery, 'tenantGroup'>) {
         const { tenantGroup } = getParams();
-        await call(editCustomAlarm, { ...payload, tenantGroup }, { successMsg: i18n.t('update successfully') });
+        await call(editCustomAlarm, { ...payload, tenantGroup }, { successMsg: i18n.t('updated successfully') });
         customAlarmStore.effects.getCustomAlarms();
       },
       async getPreviewMetaData(

@@ -55,7 +55,7 @@ const AddScope = (props: IProps) => {
           validator: (val: string) => {
             let tip = '';
             const keyReg = /^[a-zA-Z]+$/;
-            if (currentScopeKey.includes(val)) tip = i18n.t('{name} already exist', { name: 'key' });
+            if (currentScopeKey.includes(val)) tip = i18n.t('{name} already exists', { name: 'key' });
             if (!tip && !keyReg.test(val)) tip = i18n.t('key only can be letters');
             return [!tip, tip];
           },
@@ -71,7 +71,7 @@ const AddScope = (props: IProps) => {
         {
           validator: (val: string) => {
             let tip = '';
-            if (currentScopeName.includes(val)) tip = i18n.t('{name} already exist', { name: i18n.t('name') });
+            if (currentScopeName.includes(val)) tip = i18n.t('{name} already exists', { name: i18n.t('name') });
             return [!tip, tip];
           },
         },

@@ -76,7 +76,7 @@ export const createMemberStore = (scopeKey: MemberScope) => {
       },
       async addMembers({ call }, payload: MEMBER.UpdateMemberBody, extra = { queryParams: {} } as UpdaterMemberExtra) {
         const { queryParams = {} } = extra;
-        await call(updateMembers, payload, { successMsg: i18n.t('add member success') });
+        await call(updateMembers, payload, { successMsg: i18n.t('member added successfully') });
         await thisStore.effects.getMemberList({
           ...queryParams,
           pageNo: 1,
@@ -91,7 +91,7 @@ export const createMemberStore = (scopeKey: MemberScope) => {
       ) {
         const { isSelf, forbidReload, queryParams = {} } = extra;
         await call(updateMembers, payload, {
-          successMsg: extra.successMsg === false ? undefined : i18n.t('update member success'),
+          successMsg: extra.successMsg === false ? undefined : i18n.t('member updated successfully'),
         });
         if (forbidReload) {
           return;
@@ -114,13 +114,13 @@ export const createMemberStore = (scopeKey: MemberScope) => {
         const { userIds, scope } = payload;
         const { id } = userStore.getState((s) => s.loginUser);
         const isSelf = userIds[0] === id; // 现在只有单个移除
-        let successMsg = i18n.t('delete member success');
+        let successMsg = i18n.t('member deleted successfully');
         if (isSelf) {
-          successMsg = i18n.t('exit project success');
+          successMsg = i18n.t('exited the project successfully');
           if (scopeKey === MemberScope.APP) {
-            successMsg = i18n.t('exit application success');
+            successMsg = i18n.t('exited the application successfully');
           } else if (scopeKey === MemberScope.ORG) {
-            successMsg = i18n.t('exit organization success');
+            successMsg = i18n.t('exited the organization successfully');
           }
         }
 

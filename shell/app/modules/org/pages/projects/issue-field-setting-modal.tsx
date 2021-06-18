@@ -201,7 +201,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
                   className={`${isEmpty(selectedField) ? 'disabled' : ''} mr8`}
                   onClick={onAddField}
                 >
-                  {i18n.t('project:quote')}
+                  {i18n.t('project:reference')}
                 </Button>
               </div>
             </div>

@@ -156,7 +156,7 @@ export const Iteration = () => {
             <div className="table-operations" onClick={(e) => e.stopPropagation()}>
               <WithAuth pass={handleFiledAuth}>
                 <span className="table-operations-btn" onClick={() => onFiled(record, 'UNFILED')}>
-                  {i18n.t('cancel archive')}
+                  {i18n.t('cancel archiving')}
                 </span>
               </WithAuth>
             </div>

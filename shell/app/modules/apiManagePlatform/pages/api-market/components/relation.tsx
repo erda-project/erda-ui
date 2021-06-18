@@ -421,7 +421,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
               name: 'url',
               required: false,
               initialValue: instanceType === 'dice' ? undefined : get(instance, 'url'),
-              rules: [{ pattern: regRules.url, message: i18n.t('tips of valid instance address') }],
+              rules: [{ pattern: regRules.url, message: i18n.t('Please enter address started with http') }],
             },
           ]),
     ]),

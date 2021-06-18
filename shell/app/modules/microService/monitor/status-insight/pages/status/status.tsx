@@ -147,7 +147,7 @@ const Status = () => {
       dataIndex: 'uptime',
     },
     {
-      title: `${i18n.t('microService:downtime')}(${i18n.t('microService:near 1 hour')})`,
+      title: `${i18n.t('microService:downtime')}(${i18n.t('microService:nearly 1 hour')})`,
       dataIndex: 'downDuration',
     },
     {
@@ -161,7 +161,7 @@ const Status = () => {
       render: (text: string) => <span>{text} ms</span>,
     },
     {
-      title: `${i18n.t('microService:response map')}(${i18n.t('microService:near 1 hour')})`,
+      title: `${i18n.t('microService:response map')}(${i18n.t('microService:nearly 1 hour')})`,
       dataIndex: 'chart',
       width: 144,
       render: (_text: string, record: any) => {
@@ -182,7 +182,7 @@ const Status = () => {
       },
     },
     {
-      title: i18n.t('microService:root cause analytics'),
+      title: i18n.t('microService:root cause analysis'),
       dataIndex: 'requestId',
       width: 90,
       render: (requestId: string) =>

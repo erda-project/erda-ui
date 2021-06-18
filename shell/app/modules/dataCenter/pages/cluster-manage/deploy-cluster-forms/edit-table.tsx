@@ -40,7 +40,7 @@ export const EditableTable = (props: IEditableTableProps) => {
       dataIndex: 'operation',
       width: 120,
       render: (text: any, rec: any) => (
-        <Popconfirm title={`${i18n.t('dcos:confirm delete')}?`} onConfirm={() => handleDelete(rec)}>
+        <Popconfirm title={`${i18n.t('dcos:confirm to delete')}?`} onConfirm={() => handleDelete(rec)}>
           <CustomIcon type="shanchu" />
         </Popconfirm>
       ),

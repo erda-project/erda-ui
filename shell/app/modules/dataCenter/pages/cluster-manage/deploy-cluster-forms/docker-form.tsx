@@ -25,7 +25,7 @@ export const DockerForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
       name: `${formPrefix}.dataRoot`,
       initialValue: '/var/lib/docker',
       itemProps: {
-        placeholder: i18n.t("org:can't be the same as the exec path"),
+        placeholder: i18n.t("org:cannot be the same as the exce path"),
       },
       rules: [
         { ...regRulesMap.absolutePath },
@@ -36,7 +36,7 @@ export const DockerForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
               const execRoot = form.getFieldValue('config.docker.execRoot');
               if (value === execRoot) pass = false;
             }
-            return pass ? callback() : callback(i18n.t("org:can't be the same as the exec path"));
+            return pass ? callback() : callback(i18n.t("org:cannot be the same as the exce path"));
           },
         },
       ],

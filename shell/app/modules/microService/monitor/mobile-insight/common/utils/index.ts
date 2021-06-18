@@ -41,15 +41,15 @@ export const sortCreator = (moduleName: string, chartName: string, payload?: obj
       type: 'sortTab',
       tabList: [
         { name: i18n.t('microService:average time'), key: 'time' },
-        { name: i18n.t('microService:percentage of time'), key: 'percent' },
+        { name: i18n.t('microService:time percentage'), key: 'percent' },
         { name: i18n.t('microService:throughput'), key: 'cpm' },
       ],
     },
     subTab: {
       type: 'subTab',
       tabList: [
-        { name: i18n.t('white screen time'), key: 'wst' },
-        { name: i18n.t('first screen time'), key: 'fst' },
+        { name: i18n.t('first paint time'), key: 'wst' },
+        { name: i18n.t('first contentful paint time'), key: 'fst' },
         { name: i18n.t('page loading completed'), key: 'pct' },
         { name: i18n.t('microService:resource loading completed'), key: 'rct' },
       ],

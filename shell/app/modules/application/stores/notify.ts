@@ -47,10 +47,10 @@ const notify = createStore({
       await call(createNotifyConfigs, payload, { successMsg: i18n.t('created successfully') });
     },
     async updateNotifyConfigs({ call }, payload: APP_NOTIFY.IUpdateNotifyQuery) {
-      await call(updateNotifyConfigs, payload, { successMsg: i18n.t('update successfully') });
+      await call(updateNotifyConfigs, payload, { successMsg: i18n.t('updated successfully') });
     },
     async toggleNotifyConfigs({ call }, payload: { id: number; action: string }) {
-      await call(toggleNotifyConfigs, payload, { successMsg: i18n.t('update successfully') });
+      await call(toggleNotifyConfigs, payload, { successMsg: i18n.t('updated successfully') });
     },
     async getNotifyItems({ call, update }, payload: { scopeType: string; module: string }) {
       const { list } = await call(getNotifyItems, payload);

@@ -274,7 +274,7 @@ const VariableConfig = ({
             </IF>
             <IF check={canDelete && !record.isFromDefault}>
               <Popconfirm
-                title={`${i18n.t('application:confirm delete configuration')}？`}
+                title={`${i18n.t('application:confirm to delete configuration')}？`}
                 onConfirm={() =>
                   deleteConfig({
                     key: record.key,

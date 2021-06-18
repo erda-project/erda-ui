@@ -20,7 +20,7 @@ import { useEffectOnce } from 'react-use';
 import { get, map, values, isEmpty, merge } from 'lodash';
 import { PureBoardGrid } from 'common';
 import { goTo } from 'common/utils';
-import { colorMap } from '@erda-ui/dashboard-configurator/src/theme/dice';
+import { colorMap } from '@erda-ui/dashboard-configurator';
 import cloudAccountStore from 'dataCenter/stores/cloud-account';
 import Guidance from 'dataCenter/pages/account-guidance';
 import ts_svg from 'app/images/ts.svg';
@@ -215,7 +215,7 @@ const CloudSource = () => {
         moved: false,
         static: false,
         view: {
-          title: i18n.t('dataCenter:ECS charge type'),
+          title: i18n.t('dataCenter:ESC billing method'),
           chartType: 'chart:pie',
           hideReload: true,
           staticData: chargeData.total ? chargeData : [],
@@ -265,7 +265,7 @@ const CloudSource = () => {
         moved: false,
         static: false,
         view: {
-          title: i18n.t('dataCenter:will expire resource'),
+          title: i18n.t('dataCenter:resource expire soon'),
           hideReload: true,
           chartType: 'chart:bar',
           customRender: !expireData.total
@@ -274,7 +274,7 @@ const CloudSource = () => {
                   <div className="no-expire-tip">
                     <img src={ts_svg} alt="no-will-expire-resource" />
                     <div className="color-text-sub">
-                      {i18n.t('dataCenter:No service due within {num} days, please rest assured', {
+                      {i18n.t('dataCenter:No service expire within {num} days.', {
                         num: expireData.expireDays,
                       })}
                     </div>
@@ -316,7 +316,7 @@ const CloudSource = () => {
               ],
               yAxis: [
                 {
-                  name: i18n.t('dataCenter:count'),
+                  name: i18n.t('dataCenter:number'),
                   nameLocation: 'end',
                   nameGap: 15,
                   minInterval: 1,
@@ -351,7 +351,7 @@ const CloudSource = () => {
                   }}
                 >
                   <div className="count">{bucket.totalCount || 0}</div>
-                  <div className="name">{i18n.t('dataCenter:Bucket Count')}</div>
+                  <div className="name">{i18n.t('dataCenter:number of Bucket')}</div>
                 </div>
                 {
                   // ref issue: 59066
@@ -361,7 +361,7 @@ const CloudSource = () => {
                     {getFormatter('STORAGE', 'B').format(bucket.storageUsage || 0)}
                   </div>
                   <div className="name">
-                    {i18n.t('dataCenter:Storage Count')}
+                    {i18n.t('dataCenter:total storage capacity')}
                   </div>
                 </div> */}
               </div>
@@ -390,7 +390,7 @@ const CloudSource = () => {
                   }}
                 >
                   <div className="count">{accountsCount || 0}</div>
-                  <div className="name">{i18n.t('dataCenter:Account Count')}</div>
+                  <div className="name">{i18n.t('dataCenter:number of account')}</div>
                 </div>
               </div>
             );
@@ -443,7 +443,7 @@ const CloudSource = () => {
               ],
               yAxis: [
                 {
-                  name: i18n.t('dataCenter:count'),
+                  name: i18n.t('dataCenter:number'),
                   nameLocation: 'end',
                   nameGap: 15,
                   minInterval: 1,
@@ -478,7 +478,7 @@ const CloudSource = () => {
             option: {
               yAxis: [
                 {
-                  name: i18n.t('dataCenter:count'),
+                  name: i18n.t('dataCenter:number'),
                   nameLocation: 'end',
                   nameGap: 15,
                   minInterval: 1,

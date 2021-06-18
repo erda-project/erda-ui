@@ -91,7 +91,7 @@ export const webSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCo
         fetchTraceContent={fetchTraceContent}
         recordKey={name}
         dataSource={_moduleName === 'SIRPC' ? subSlowRpcList : subSlowHttpList}
-        emptyText={i18n.t('microService:no sampleable slow transaction data')}
+        emptyText={i18n.t('microService:No slow transaction data sampled yet.')}
       />
     );
   };
@@ -176,7 +176,7 @@ export const dbSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCon
         fetchTraceContent={fetchTraceContent}
         recordKey={name}
         dataSource={subSlowDbList}
-        emptyText={i18n.t('microService:no sampleable slow SQL data')}
+        emptyText={i18n.t('microService:No slow database data sampled yet.')}
       />
     );
   };

@@ -94,7 +94,7 @@ const Sla = () => {
       },
     },
     {
-      title: i18n.t('client count'),
+      title: i18n.t('number of client'),
       dataIndex: 'clientCount',
       width: 120,
       render: (count) => count || 0,

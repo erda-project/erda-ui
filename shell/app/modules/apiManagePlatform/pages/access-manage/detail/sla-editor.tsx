@@ -128,7 +128,7 @@ const SlaEditor = ({ visible, onCancel, mode, dataSource, afterEdit }: IProps) =
             let errMsg: any;
             (value || []).forEach(({ limit, unit }, index) => {
               if (!(limit && unit) && !errMsg) {
-                errMsg = i18n.t('item {index} limit number and unit cannot be empty', { index: index + 1 });
+                errMsg = i18n.t('The {index} item quantity and unit cannot be empty.', { index: index + 1 });
               }
             });
             callback(errMsg);

@@ -135,7 +135,7 @@ const AppVersionPush = () => {
       },
     },
     {
-      label: i18n.t('publisher:DEV associated publisher content'),
+      label: i18n.t('publisher:DEV associated content'),
       name: 'DEV',
       type: 'custom',
       customRender: () => state.DEV_name,
@@ -150,7 +150,7 @@ const AppVersionPush = () => {
       },
     },
     {
-      label: i18n.t('publisher:TEST associated publisher content'),
+      label: i18n.t('publisher:TEST associated content'),
       name: 'TEST',
       type: 'custom',
       customRender: () => state.TEST_name,
@@ -165,7 +165,7 @@ const AppVersionPush = () => {
       },
     },
     {
-      label: i18n.t('publisher:STAGING associated publisher content'),
+      label: i18n.t('publisher:STAGING associated content'),
       name: 'STAGING',
       type: 'custom',
       customRender: () => state.STAGING_name,
@@ -180,7 +180,7 @@ const AppVersionPush = () => {
       },
     },
     {
-      label: i18n.t('publisher:PROD associated publisher content'),
+      label: i18n.t('publisher:PROD associated content'),
       name: 'PROD',
       type: 'custom',
       customRender: () => state.PROD_name,

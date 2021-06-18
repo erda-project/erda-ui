@@ -165,7 +165,7 @@ export default ({ queryCondition, type, listView }: IProps) => {
         {
           type: 'custom',
           name: 'owner',
-          label: i18n.t('project:responsible'),
+          label: i18n.t('project:responsible person'),
           Comp: <MemberSelector mode="multiple" scopeType="project" scopeId={projectId} />,
           filterBarValueConvert: userValueConvert,
         },

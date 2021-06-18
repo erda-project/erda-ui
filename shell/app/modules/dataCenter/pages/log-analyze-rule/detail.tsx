@@ -176,7 +176,7 @@ export default () => {
       }
       const keys = get(processors[0], 'config.keys');
       if (!every(keys, (key) => !!key.key)) {
-        message.warning(i18n.t('all key is required'));
+        message.warning(i18n.t('all keys are required'));
         return;
       }
       testRule({
@@ -229,7 +229,7 @@ export default () => {
         label: i18n.t('org:log filter'),
         component: 'select',
         componentProps: {
-          placeholder: i18n.t('microService:key=value, enter to add'),
+          placeholder: i18n.t('microService:format: Key=Value, press Enter to add'),
           mode: 'tags',
           allowClear: true,
           style: { width: 400 },
@@ -322,7 +322,7 @@ export default () => {
         category: 'test',
       },
       {
-        label: i18n.t('org:analyze result'),
+        label: i18n.t('org:analysis result'),
         component: 'testResultTable',
         key: 'results',
         type: 'testResultTable',
@@ -344,7 +344,7 @@ export default () => {
       const { name, filters } = values;
       const keys = get(processors[0], 'config.keys');
       if (!every(keys, (key) => !!key.key)) {
-        message.warning(i18n.t('all key is required'));
+        message.warning(i18n.t('all keys are required'));
         return;
       }
       const legalFilters = filter(filters, (item) => item.includes('='));
@@ -386,7 +386,7 @@ export default () => {
             <RenderFields form={form} fields={basicFields} />
             <div className="bold fz16 mb4">{i18n.t('org:log filter')}</div>
             <RenderFields form={form} fields={logFields} />
-            <div className="bold fz16 mb4">{i18n.t('org:metrics extract')}</div>
+            <div className="bold fz16 mb4">{i18n.t('org:indicator extract')}</div>
             <RenderFields form={form} fields={extractFields} />
             <div className="bold fz16 mb4">{i18n.t('org:rule test')}</div>
             <RenderFields form={form} fields={testFields} />

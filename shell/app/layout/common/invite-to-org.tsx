@@ -57,7 +57,7 @@ export default () => {
         userIds: [id],
         orgId: String(domainData.id),
       }).then(() => {
-        message.success(i18n.t('join org success'));
+        message.success(i18n.t('joined organization successfully'));
         setTimeout(() => {
           location.href = `/${orgName}`;
         }, 200);

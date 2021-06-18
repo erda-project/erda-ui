@@ -118,7 +118,7 @@ const RepoFileContainerComp = (props: IProps) => {
     }).then((res) => {
       toggleModal(false);
       if (res.success) {
-        message.success(i18n.t('application:delete file successfully'));
+        message.success(i18n.t('application:file deleted successfully'));
         goTo('../');
       }
     });
@@ -241,7 +241,7 @@ const RepoFileContainerComp = (props: IProps) => {
     }).then((res) => {
       if (res.success) {
         changeMode({ editFile: false, addFile: false });
-        message.success(i18n.t('application:modify file successfully'));
+        message.success(i18n.t('application:file modified successfully'));
         getRepoBlob();
       }
     });
@@ -252,7 +252,7 @@ const RepoFileContainerComp = (props: IProps) => {
       return pipelineYmlStructure.needUpgrade ? (
         <>
           <DeleteConfirm
-            title={`${path} ${i18n.t('application:the version can be upgraded, whether to upgrade')}?`}
+            title={`${path} ${i18n.t('application:New version available. Upgrade now?')}?`}
             secondTitle=""
             onConfirm={onYmlUpgrade}
           >

@@ -149,7 +149,7 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: I
         rules: [
           {
             pattern: idReg,
-            message: i18n.t('default:tips of assetID rules'),
+            message: i18n.t('default:start with number or letter, can contain numbers, letters, dots, hyphens and underscores'),
           },
         ],
       },
@@ -172,13 +172,13 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: I
         name: 'version',
         required: false,
         itemProps: {
-          placeholder: i18n.t('please enter version number'),
+          placeholder: i18n.t('Please enter version number, such as x.y.z.'),
           autoComplete: 'off',
         },
         rules: [
           {
             pattern: /^(?:[1-9]\d*|0)\.(?:[1-9]\d*|0)\.(?:[1-9]\d*|0)$/,
-            message: i18n.t('valid version number tips'),
+            message: i18n.t('Please enter a valid version number, such as x.y.z.'),
           },
         ],
       },
@@ -225,7 +225,7 @@ const AssetModal = ({ scope, visible, onCancel, afterSubmit, mode, formData }: I
                 </Button>
               </Upload>
               <span className="color-text-desc ml8">
-                {uploadFile ? i18n.t('have select {xx}', { xx: uploadFile }) : null}
+                {uploadFile ? i18n.t('selected {xx}', { xx: uploadFile }) : null}
               </span>
             </div>
           );

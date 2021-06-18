@@ -43,13 +43,13 @@ const sortTabList = [
     query: { range: 'plt', split: 10, rangeSize: 1000, source: true },
   },
   {
-    name: i18n.t('white screen time'),
+    name: i18n.t('first paint time'),
     key: 'wst',
     fetchApi: 'ta_wst_grade/range',
     query: { range: 'wst', split: 10, rangeSize: 200, source: true },
   },
   {
-    name: i18n.t('first screen time'),
+    name: i18n.t('first contentful paint time'),
     key: 'fst',
     fetchApi: 'ta_fst_grade/range',
     query: { range: 'fst', split: 10, rangeSize: 400, source: true },
@@ -66,15 +66,15 @@ const sortTabList = [
     fetchApi: 'ta_pct_grade/range',
     query: { range: 'pct', split: 10, rangeSize: 600, source: true },
   },
-  { name: i18n.t('microService:performance analytics'), key: 'comparative' },
+  { name: i18n.t('microService:performance analysis'), key: 'comparative' },
 ];
 
 const ComparativePanel = () => {
   return (
     <div className="monitor-comparative-container">
-      <div className="monitor-comparative-tip">{i18n.t('microService:comparative-analysis')}</div>
+      <div className="monitor-comparative-tip">{i18n.t('microService:Choose different indicators and user features for comparative analysis for different business types and scenarios, to locate issues accurately.')}</div>
       <Link to={resolvePath('./comparative')}>
-        <Button>{i18n.t('microService:comparative analytics')}</Button>
+        <Button>{i18n.t('microService:comparative analysis')}</Button>
       </Link>
     </div>
   );

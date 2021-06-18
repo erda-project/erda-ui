@@ -14,7 +14,7 @@
 import { Alert, Button, Form, Input, Spin } from 'app/nusi';
 import * as React from 'react';
 import { ImageUpload, RenderForm } from 'common';
-import { goTo } from 'common/utils';
+import { goTo, insertWhen } from 'common/utils';
 import { filter, map } from 'lodash';
 import { WrappedFormUtils } from 'core/common/interface';
 import { appMode, modeOptions, repositoriesTypes, RepositoryMode } from 'application/common/config';
@@ -36,6 +36,7 @@ const fieldExtraProps = {
     fontWeight: '500',
   },
 };
+
 const CreationForm = () => {
   const { params } = routeInfoStore.getState((s) => s);
   const [mode, setMode] = React.useState(appMode.SERVICE);
@@ -150,23 +151,6 @@ const CreationForm = () => {
       },
     },
     {
-      label: i18n.t('application:project-level-app-form-tip'),
-      name: 'isProjectLevel',
-      type: 'switch',
-      required: true,
-      initialValue: false,
-      options: [
-        {
-          name: i18n.t('common:yes'),
-          value: true,
-        },
-        {
-          name: i18n.t('common:no'),
-          value: false,
-        },
-      ],
-    },
-    {
       label: i18n.t('project:application name'),
       name: 'name',
       itemProps: {
@@ -181,7 +165,7 @@ const CreationForm = () => {
         {
           validator: (_rule: any, value: any, callback: (message?: string) => void) => {
             if (value && value.toLowerCase().endsWith('_ability')) {
-              return callback(i18n.t('project:the naming is reserved internally, please change the naming'));
+              return callback(i18n.t('project:The name is reserved internally. Please change the name.'));
             }
             callback();
           },
@@ -190,7 +174,7 @@ const CreationForm = () => {
     },
 
     // {
-    //   label: i18n.t('{name} identify', { name: i18n.t('application') }),
+    //   label: i18n.t('{name} identifier', { name: i18n.t('application') }),
     //   name: 'displayName',
     // },
     ...(mode === appMode.MOBILE
@@ -220,7 +204,7 @@ const CreationForm = () => {
           ...(tempSelected !== '-1'
             ? [
                 {
-                  label: i18n.t('project:show name'),
+                  label: i18n.t('project:displayed name'),
                   name: 'mobileDisplayName',
                   type: 'input',
                   pattern: /^[\u4e00-\u9fa5_a-zA-Z0-9]+$/,
@@ -266,28 +250,30 @@ const CreationForm = () => {
       required: false,
       getComp: ({ form }: { form: WrappedFormUtils }) => <ImageUpload id="logo" form={form} showHint />,
     },
-    {
-      label: '',
-      getComp: () => <div>{i18n.t('project:repository information')}</div>,
-      extraProps: fieldExtraProps,
-    },
-    {
-      label: i18n.t('project:repository'),
-      name: 'repoConfig.type',
-      type: 'select',
-      initialValue: RepositoryMode.Internal,
-      options: map(
-        filter(repositoriesTypes, (v) => v.usable),
-        ({ name, value }) => ({ name, value }),
-      ),
-      itemProps: {
-        disabled: mode === appMode.MOBILE && tempSelected !== '-1',
-        onChange: (v) => {
-          collectionRepoTemp(repoType);
-          setRepoType(v);
+    ...insertWhen(mode !== appMode.PROJECT_SERVICE, [
+      {
+        label: '',
+        getComp: () => <div>{i18n.t('project:repository information')}</div>,
+        extraProps: fieldExtraProps,
+      },
+      {
+        label: i18n.t('project:repository'),
+        name: 'repoConfig.type',
+        type: 'select',
+        initialValue: RepositoryMode.Internal,
+        options: map(
+          filter(repositoriesTypes, (v) => v.usable),
+          ({ name, value }) => ({ name, value }),
+        ),
+        itemProps: {
+          disabled: mode === appMode.MOBILE && tempSelected !== '-1',
+          onChange: (v) => {
+            collectionRepoTemp(repoType);
+            setRepoType(v);
+          },
         },
       },
-    },
+    ]),
     ...(repoType === RepositoryMode.Internal || (mode === appMode.MOBILE && tempSelected !== '-1')
       ? []
       : [
@@ -297,7 +283,7 @@ const CreationForm = () => {
           },
           {
             label: '',
-            getComp: () => <Alert showIcon type="warning" message={i18n.t('application:external-repo-warn')} />,
+            getComp: () => <Alert showIcon type="warning" message={i18n.t('application:It is recommended to use sources in the same region. Otherwise it may cause request timeout.')} />,
           },
           {
             label: i18n.t('project:repository address'),
@@ -309,7 +295,7 @@ const CreationForm = () => {
               },
             ],
             itemProps: {
-              placeholder: i18n.t('project:please enter the repository repository starting with http or https'),
+              placeholder: i18n.t('project:Please enter the repository address started with http or https.'),
             },
           },
           {
@@ -352,7 +338,7 @@ const CreationForm = () => {
 
   return (
     <Spin spinning={isCraeateApp || isInitApp} className="app-form-spin">
-      <RenderForm wrappedComponentRef={formRef} layout="vertical" list={fieldsList} />
+      <RenderForm wrappedComponentRef={formRef} className="create-app-form" layout="vertical" list={fieldsList} />
     </Spin>
   );
 };

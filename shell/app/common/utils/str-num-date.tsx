@@ -58,7 +58,7 @@ export function getDateDuration(startAt: string | number | Date, endAt: string |
 
   let timeCost = duration.humanize();
   if (timeCost === i18n.t('common:a few seconds')) {
-    timeCost = `${seconds.toFixed()} ${i18n.t('common:second')}`;
+    timeCost = `${seconds.toFixed()} ${i18n.t('common:second(s)')}`;
   }
 
   return timeCost;
@@ -100,11 +100,11 @@ export const secondsToTime = (second: number, zh = false) => {
   if (zh) {
     if (h < 1) {
       if (m < 1) {
-        return `${ls}${i18n.t('common:second')}`;
+        return `${ls}${i18n.t('common:second(s)')}`;
       }
-      return `${m}${i18n.t('common:minutes')}${ls}${i18n.t('common:second')}`;
+      return `${m}${i18n.t('common:minutes')}${ls}${i18n.t('common:second(s)')}`;
     }
-    return `${h}${i18n.t('common:hour')}${m}${i18n.t('common:minutes')}${ls}${i18n.t('common:second')}`;
+    return `${h}${i18n.t('common:hour')}${m}${i18n.t('common:minutes')}${ls}${i18n.t('common:second(s)')}`;
   }
   if (m < 10) {
     m = `0${m}`;

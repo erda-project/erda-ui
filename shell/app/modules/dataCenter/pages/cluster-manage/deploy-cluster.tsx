@@ -46,7 +46,7 @@ const DeployCluster = () => {
 
   React.useEffect(() => {
     if (!isEmpty(deployingCluster) && firstVisit) {
-      message.info(i18n.t('org:empty deploy info'));
+      message.info(i18n.t('org:The last deployment information has been initialized. Please click the reset button at the bottom if unnecessary.'));
       firstVisit = false;
     }
   }, [deployingCluster]);
@@ -64,7 +64,7 @@ const DeployCluster = () => {
         {i18n.t('organization')} {currentOrg.name} {i18n.t('org:new cluster deployment')}
         <div className="deploy-operator">
           <Button onClick={() => setLogVisible(true)}>{i18n.t('check log')}</Button>
-          <Button onClick={() => killDeployCluster()}>{i18n.t('stop deploy')}</Button>
+          <Button onClick={() => killDeployCluster()}>{i18n.t('stop deploying')}</Button>
         </div>
       </div>
       <div className="deploy-content">
@@ -78,7 +78,7 @@ const DeployCluster = () => {
 
       <Drawer
         destroyOnClose
-        title={i18n.t('deploy log')}
+        title={i18n.t('deployment log')}
         width="80%"
         visible={logVisible}
         onClose={() => setLogVisible(false)}

@@ -147,7 +147,7 @@ export const config = {
           valid = false;
         }
       });
-      return [valid, i18n.t('{name} already exist', { name: 'key' })];
+      return [valid, i18n.t('{name} already exists', { name: 'key' })];
     }
   },
   fixOut: (itemData: any) => {

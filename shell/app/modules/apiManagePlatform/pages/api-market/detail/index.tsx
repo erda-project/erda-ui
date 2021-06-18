@@ -69,7 +69,7 @@ const ApiAssetDetail = () => {
         spec = JSON.parse(assetVersionDetail.spec);
       }
     } catch (e) {
-      message.error(i18n.t('default:API description document parsing failed'));
+      message.error(i18n.t('default:failed to parse API description document'));
     }
     return {
       spec,
@@ -157,7 +157,7 @@ const ApiAssetDetail = () => {
         <Button onClick={showVersionList}>{i18n.t('version list')}</Button>
         {hasAccess ? (
           <Button type="primary" onClick={handleApply}>
-            {i18n.t('apply call')}
+            {i18n.t('apply to call')}
           </Button>
         ) : null}
       </div>

@@ -181,7 +181,7 @@ const ApiPreviewV2 = (props: IProps) => {
         isEmpty(responseData)
           ? {
               type: 'Title',
-              props: { title: `${i18n.t('response body')}: ${responseSchemaType || i18n.t('empty')} `, level: 2 },
+              props: { title: `${i18n.t('response body')}: ${responseSchemaType || i18n.t('none')} `, level: 2 },
             }
           : {
               type: 'Table',
@@ -195,7 +195,7 @@ const ApiPreviewV2 = (props: IProps) => {
         isEmpty(responseCode)
           ? {
               type: 'Title',
-              props: { title: `${i18n.t('response code')}: ${i18n.t('empty')}`, level: 2 },
+              props: { title: `${i18n.t('response code')}: ${i18n.t('none')}`, level: 2 },
             }
           : {
               type: 'Table',

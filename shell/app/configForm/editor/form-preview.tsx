@@ -263,7 +263,7 @@ export const FormPreview = React.forwardRef((props: IProps, ref: any) => {
             }
             const curFields = (ref && ref.current && ref.current.getFields()) || [];
             const keyArr = map(curFields, 'key');
-            return [!keyArr.includes(v), i18n.t('{name} already exist', { name: 'key' })];
+            return [!keyArr.includes(v), i18n.t('{name} already exists', { name: 'key' })];
           },
         },
       ],
@@ -310,7 +310,7 @@ export const FormPreview = React.forwardRef((props: IProps, ref: any) => {
               const _g = get(curGroup, 'group');
               const curFields = (ref && ref.current && ref.current.getFields()) || [];
               const keyArr = map(curFields, 'key');
-              return [!keyArr.includes(`${_g}.${v}`), i18n.t('{name} already exist', { name: 'key' })];
+              return [!keyArr.includes(`${_g}.${v}`), i18n.t('{name} already exists', { name: 'key' })];
             },
           },
         ],

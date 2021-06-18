@@ -112,7 +112,7 @@ const Topic = () => {
         <Alert
           message={
             i18n.t('dcos:regions-provide-intranet-default')
-            /* <li>2. {i18n.t('dcos:please refer to topic resource occupation fee')}
+            /* <li>2. {i18n.t('dcos:For occupation fee of Topic resource, please see')}
                 <span className="text-link">{i18n.t('billing details')}</span>
                 {i18n.t('dcos:delete-topics-costs')}
               </li> */
@@ -129,13 +129,13 @@ const Topic = () => {
       },
       rules: [
         { min: 3, max: 64, message: i18n.t('length is {min}~{max}', { min: 3, max: 64 }) },
-        { pattern: /^[a-zA-z0-9_-]+$/, message: i18n.t('can only contain alphanumeric underscores and underscores') },
+        { pattern: /^[a-zA-z0-9_-]+$/, message: i18n.t('can only contain letters, numbers, underscores and hyphens') },
         {
           validator: (rule: any, value: string, callback: Function) => {
             if (allName.includes(value)) {
-              callback(i18n.t('{name} already exist', { name: 'Topic' }));
+              callback(i18n.t('{name} already exists', { name: 'Topic' }));
             } else if (value && (value.startsWith('CID') || value.startsWith('GID'))) {
-              callback(`${i18n.t('dcos:CID-GID-reserved-GroupID')}`);
+              callback(`${i18n.t('dcos:CID and GID are reserved fields of Group ID. Topic cannot start with CID and GID.')}`);
             } else {
               callback();
             }
@@ -157,15 +157,15 @@ const Topic = () => {
       initialValue: 0,
       options: [
         {
-          name: i18n.t('dcos:general news'),
+          name: i18n.t('dcos:general message'),
           value: 0,
         },
         {
-          name: i18n.t('org:partition sequence message'),
+          name: i18n.t('org:partition order message'),
           value: 1,
         },
         {
-          name: i18n.t('org:global sequence message'),
+          name: i18n.t('org:global order message'),
           value: 2,
         },
       ],

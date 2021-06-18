@@ -81,7 +81,7 @@ export const webErrorTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceC
         fetchTraceContent={fetchTraceContent}
         recordKey={`${name}_${httpCode}`}
         dataSource={subErrorHttpList}
-        emptyText={i18n.t('microService:no sampleable exception transaction data')}
+        emptyText={i18n.t('microService:No abnormal transaction data sampled yet.')}
       />
     );
   };
@@ -148,7 +148,7 @@ export const dbErrorTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCo
         fetchTraceContent={fetchTraceContent}
         recordKey={name}
         dataSource={subErrorDbList}
-        emptyText={i18n.t('microService:no sampleable exception SQL data')}
+        emptyText={i18n.t('microService:No abnormal database data sampled yet.')}
       />
     );
   };

@@ -135,7 +135,7 @@ const RepoTree = ({ tree, info, isFetchingInfo, isFetchingTree }: ITreeProps) =>
     return (
       <div className="repo-tree-holder">
         <EmptyHolder
-          tip={`${i18n.t('application:current branch or path')}：${after} ${i18n.t('is not exist')}。`}
+          tip={`${i18n.t('application:current branch or path')}：${after} ${i18n.t('does not exist')}。`}
           action={<Link to={before.slice(0, -'/tree'.length)}>{i18n.t('back to repo home')}</Link>}
         />
       </div>
@@ -323,7 +323,7 @@ const RepoTreePage = () => {
         ],
       },
       {
-        label: i18n.t('application:based on'),
+        label: i18n.t('application:based on source'),
         name: 'refValue',
         type: 'custom',
         initialValue: current,
@@ -365,7 +365,7 @@ const RepoTreePage = () => {
   const onCreateBranch = (branchInfo: { refValue: string; branch: string }) => {
     createBranch(branchInfo).then((error: any) => {
       if (error) {
-        message.error(i18n.t('application:create branch failed'));
+        message.error(i18n.t('application:failed to create branch'));
         return;
       }
       const { before } = getSplitPathBy('tree');

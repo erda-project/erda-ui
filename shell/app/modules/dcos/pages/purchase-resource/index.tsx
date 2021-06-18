@@ -205,7 +205,7 @@ class OrderPage extends React.Component<IProps, any> {
         },
       },
       {
-        label: i18n.t('dcos:instance type'),
+        label: i18n.t('dcos:instance specification'),
         name: 'ecs.instanceType',
         initialValue: 'ecs.g5.2xlarge',
       },
@@ -231,7 +231,7 @@ class OrderPage extends React.Component<IProps, any> {
         label: i18n.t('dcos:purchased instances'),
         name: 'ecs.amount',
         type: 'inputNumber',
-        itemProps: { step: 1, min: 1, max: 100, placeholder: i18n.t('dcos:1 to 100 units') },
+        itemProps: { step: 1, min: 1, max: 100, placeholder: i18n.t('dcos:1 to 100') },
       },
     ];
   };
@@ -302,7 +302,7 @@ class OrderPage extends React.Component<IProps, any> {
         name: 'redis.Password',
         required: false,
         itemProps: {
-          placeholder: i18n.t('dcos:8-32-both-num-az'),
+          placeholder: i18n.t('dcos:6 to 32 digits, must contain letters in uppercase and lowercase and numbers'),
           maxLength: 32,
           type: passwordVisible ? 'text' : 'password',
           addonAfter: (
@@ -421,7 +421,7 @@ class OrderPage extends React.Component<IProps, any> {
         ],
       },
       {
-        label: i18n.t('dcos:data storage name'),
+        label: i18n.t('dcos:database name'),
         name: 'rds.dbName',
         itemProps: { maxLength: 16 },
         rules: [
@@ -435,7 +435,7 @@ class OrderPage extends React.Component<IProps, any> {
         name: 'rds.Password',
         required: false,
         itemProps: {
-          placeholder: i18n.t('dcos:6 to 32 digits, consisting of alphanumeric underscores'),
+          placeholder: i18n.t('dcos:6 to 32 digits, consisting of letters, numbers and underscores'),
           maxLength: 32,
           type: passwordVisible ? 'text' : 'password',
           addonAfter: (
@@ -449,7 +449,7 @@ class OrderPage extends React.Component<IProps, any> {
         rules: [
           {
             pattern: /^[a-zA-Z0-9_]{6,32}$/,
-            message: i18n.t('dcos:6 to 32 digits, consisting of alphanumeric underscores'),
+            message: i18n.t('dcos:6 to 32 digits, consisting of letters, numbers and underscores'),
           },
         ],
         initialValue: '',

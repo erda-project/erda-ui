@@ -95,7 +95,7 @@ const NotJoinOrg = () => {
       <div className="info">
         <CustomIcon type="no-auth" color />
         <div className="desc">
-          <span>{i18n.t("you haven't join current organization")}</span>
+          <span>{i18n.t("You haven't joined current organization.")}</span>
           <span className="contact-info">
             {i18n.t('please contact')} {joinOrgTip}
           </span>

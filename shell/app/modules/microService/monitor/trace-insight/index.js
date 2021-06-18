@@ -20,7 +20,7 @@ const traceTabs = [
   },
   {
     key: 'debug',
-    name: i18n.t('microService:transactions debug'),
+    name: i18n.t('microService:tracing debug'),
   },
 ];
 
@@ -44,7 +44,7 @@ function monitorTraceRouter() {
         getComp: (cb) => cb(import('trace-insight/pages/trace-querier/trace-search')),
       },
       {
-        breadcrumbName: i18n.t('microService:transactions details'),
+        breadcrumbName: i18n.t('microService:tracing details'),
         path: ':traceId',
         layout: { noWrapper: true },
         getComp: (cb) => cb(import('trace-insight/pages/trace-querier/trace-detail')),

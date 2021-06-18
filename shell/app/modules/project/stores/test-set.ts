@@ -181,7 +181,7 @@ const testSetStore = createStore({
     async recoverTestSet({ call, getParams }, payload: TEST_SET.RecoverQuery) {
       const { projectId } = getParams();
       await call(recoverTestSet, { ...payload, projectId });
-      message.success(i18n.t('project:restore successfully'));
+      message.success(i18n.t('project:restored successfully'));
       await testCaseStore.effects.emptyListByTestSetId(payload.testSetID);
     },
     async updateBreadcrumb({ update }, breadcrumbInfo: IBreadcrumbInfo) {

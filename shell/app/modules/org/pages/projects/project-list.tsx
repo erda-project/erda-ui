@@ -77,7 +77,7 @@ export const ProjectList = () => {
         ),
       },
       {
-        title: <div className="text-center">{i18n.t('org:iterative statistics')}</div>,
+        title: <div className="text-center">{i18n.t('org:iteration statistics')}</div>,
         dataIndex: 'stats',
         key: 'iteration',
         width: 200,
@@ -178,7 +178,7 @@ export const ProjectList = () => {
               <div className={`quota-container ${isOveruse ? 'overuse' : ''}`}>
                 <div className={'quota-bar'}>
                   <Tooltip
-                    title={`${i18n.t('dataCenter:application have used')} ${serviceUsed.toFixed(2)}${unit} (${
+                    title={`${i18n.t('dataCenter:application used')} ${serviceUsed.toFixed(2)}${unit} (${
                       isOveruse ? `${Math.floor(totalNum ? (serviceUsed / totalNum) * 100 : 100)}%` : percentText[0]
                     })`}
                   >
@@ -190,7 +190,7 @@ export const ProjectList = () => {
                     </div>
                   </Tooltip>
                   <Tooltip
-                    title={`${i18n.t('dataCenter:addon have used')} ${addonUsed.toFixed(2)}${unit} (${
+                    title={`${i18n.t('dataCenter:addon used')} ${addonUsed.toFixed(2)}${unit} (${
                       isOveruse ? `${Math.floor(totalNum ? (addonUsed / totalNum) * 100 : 100)}%` : percentText[1]
                     })`}
                   >
@@ -209,7 +209,7 @@ export const ProjectList = () => {
                     </div>
                   </Tooltip>
                 </div>
-                <Tooltip title={i18n.t('usage exceeded allocation')}>
+                <Tooltip title={i18n.t('usage limit exceeded')}>
                   <CustomIcon type="warning" className="overuse-tip ml4" />
                 </Tooltip>
               </div>

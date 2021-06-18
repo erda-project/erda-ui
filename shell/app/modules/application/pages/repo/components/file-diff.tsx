@@ -703,7 +703,7 @@ const FilesDiff = (props: IDiffProps) => {
         <div className="commit-summary">
           <div>
             <span>
-              {i18n.t('application:showing')}
+              {i18n.t('application:share')}
               <span className="changed-count ml8">
                 {filesChanged} {i18n.t('application:changed file(s)')}
               </span>
@@ -724,7 +724,7 @@ const FilesDiff = (props: IDiffProps) => {
           </div>
           <div className="toggle-view-btn">
             <RadioGroup onChange={showToggle} defaultValue={showStyle}>
-              <RadioButton value="inline">{i18n.t('application:inline')}</RadioButton>
+              <RadioButton value="inline">{i18n.t('application:single line')}</RadioButton>
               <RadioButton value="sideBySide">{i18n.t('application:side-by-side')}</RadioButton>
             </RadioGroup>
           </div>

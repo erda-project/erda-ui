@@ -155,11 +155,11 @@ const CodeQuality = () => {
       coverage: {
         percentCNName: i18n.t('application: coverage'),
         percentName: 'coverage',
-        lineCNName: i18n.t('application:number of rows not covered'),
+        lineCNName: i18n.t('application:number of lines not covered'),
         linesName: 'uncovered_lines',
       },
       duplications: {
-        percentCNName: i18n.t('application:repetition'),
+        percentCNName: i18n.t('application:repeat rate'),
         percentName: 'duplicated_lines_density',
         lineCNName: i18n.t('application:repeat number of lines'),
         linesName: 'duplicated_lines',
@@ -320,7 +320,7 @@ const CodeQuality = () => {
               <TabPane key="coverage" tab={`${i18n.t('application: coverage')} ${sonarStatistics.coverage}%`}>
                 {visible ? renderSonarDetail('coverage') : renderSonarResultsTable('coverage')}
               </TabPane>
-              <TabPane key="duplications" tab={`${i18n.t('application:repetition')} ${sonarStatistics.duplications}%`}>
+              <TabPane key="duplications" tab={`${i18n.t('application:repeat rate')} ${sonarStatistics.duplications}%`}>
                 {visible ? renderSonarDetail('duplications') : renderSonarResultsTable('duplications')}
               </TabPane>
             </Tabs>

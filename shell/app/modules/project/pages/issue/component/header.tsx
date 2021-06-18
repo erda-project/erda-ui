@@ -154,7 +154,7 @@ const IssueHeader = (props: IProps) => {
             allowClear
             value={filterObj.iterationIDs}
             onChange={(ids) => updateFilter({ iterationIDs: ids })}
-            placeholder={i18n.t('project:owing iteration')}
+            placeholder={i18n.t('project:owned iteration')}
           />
         )}
         <Input.Search
@@ -179,8 +179,8 @@ const IssueHeader = (props: IProps) => {
               filterBarRef.current.onSearchWithFilterBar({ assignee: enable ? [loginUserId] : undefined });
             }
           }}
-          checkedChildren={i18n.t('own')}
-          unCheckedChildren={i18n.t('own')}
+          checkedChildren={i18n.t('my')}
+          unCheckedChildren={i18n.t('my')}
         />
         <Radio.Group
           value={viewType}

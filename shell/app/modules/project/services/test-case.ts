@@ -89,7 +89,7 @@ export function getFields(): TEST_CASE.Field[] {
         },
         {
           fieldUniqueName: TestOperation.testPlanTestCasesExecutionResult,
-          showName: i18n.t('project:not pass'),
+          showName: i18n.t('project:not passed'),
           value: 'FAIL',
           icon: null,
           order: null,
@@ -128,7 +128,7 @@ export function getFields(): TEST_CASE.Field[] {
         },
         {
           fieldUniqueName: TestOperation.testPlanStatus,
-          showName: i18n.t('project:time out'),
+          showName: i18n.t('project:pause'),
           value: 'PAUSE',
           icon: null,
           order: null,

@@ -142,7 +142,7 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
               if (compact(nameArr).length !== val.length || compact(refArr).length !== val.length) {
                 tip = i18n.t('{name} can not empty');
               } else if (uniq(nameArr).length !== val.length) {
-                tip = i18n.t('exist the same {key}', { key: 'key' });
+                tip = i18n.t('the same {key} exists', { key: 'key' });
               } else {
                 map(nameArr, (nameItem: string) => {
                   if (!tip) {
@@ -150,7 +150,7 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
                       nameItem.length > 50
                         ? `${i18n.t('project:parameter name')} ${i18n.t('length is {min}~{max}', { min: 1, max: 50 })}`
                         : !reg.test(nameItem)
-                        ? `${i18n.t('project:parameter name')} ${i18n.t('includes letters,number,_')}`
+                        ? `${i18n.t('project:parameter name')} ${i18n.t('includes letters, numbers and underscores')}`
                         : '';
                   }
                 });

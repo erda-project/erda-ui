@@ -23,19 +23,19 @@ const auditTabs = () => {
   return [
     {
       key: 'package-analyze',
-      name: i18n.t('microService:endpoint analytics'),
+      name: i18n.t('microService:endpoint analysis'),
     },
     {
       key: 'consumer-analyze',
-      name: i18n.t('microService:consumer analytics'),
+      name: i18n.t('microService:consumer analysis'),
     },
     {
       key: 'hotSpot-analyze',
-      name: i18n.t('microService:hot spot analytics'),
+      name: i18n.t('microService:hot spot analysis'),
     },
     {
       key: 'error-analyze',
-      name: i18n.t('microService:error insight'),
+      name: i18n.t('microService:error analysis'),
     },
   ];
 };
@@ -49,7 +49,7 @@ const auditRoute = {
       tabs: auditTabs,
       ignoreTabQuery: true,
       alwaysShowTabKey: 'package-analyze',
-      breadcrumbName: i18n.t('microService:endpoint analytics'),
+      breadcrumbName: i18n.t('microService:endpoint analysis'),
       getComp: (cb) =>
         cb(import('microService/pages/gateway/containers/consumer-audit/package-analyze'), 'PackageAnalyze'),
     },
@@ -58,7 +58,7 @@ const auditRoute = {
       tabs: auditTabs,
       ignoreTabQuery: true,
       alwaysShowTabKey: 'consumer-analyze',
-      breadcrumbName: i18n.t('microService:consumer analytics'),
+      breadcrumbName: i18n.t('microService:consumer analysis'),
       getComp: (cb) =>
         cb(import('microService/pages/gateway/containers/consumer-audit/consumer-analyze'), 'ConsumerAnalyze'),
     },
@@ -67,7 +67,7 @@ const auditRoute = {
       tabs: auditTabs,
       ignoreTabQuery: true,
       alwaysShowTabKey: 'hotSpot-analyze',
-      breadcrumbName: i18n.t('microService:hot spot analytics'),
+      breadcrumbName: i18n.t('microService:hot spot analysis'),
       getComp: (cb) =>
         cb(import('microService/pages/gateway/containers/consumer-audit/hotSpot-analyze'), 'HotSpotAnalyze'),
     },
@@ -76,7 +76,7 @@ const auditRoute = {
       tabs: auditTabs,
       ignoreTabQuery: true,
       alwaysShowTabKey: 'error-analyze',
-      breadcrumbName: i18n.t('microService:error insight'),
+      breadcrumbName: i18n.t('microService:error analysis'),
       getComp: (cb) => cb(import('microService/pages/gateway/containers/consumer-audit/error-analyze'), 'ErrorAnalyze'),
     },
   ],
@@ -119,7 +119,7 @@ function getMicroServiceRouter() {
             // 日志分析
             {
               path: 'log/:addonId',
-              breadcrumbName: i18n.t('log analyze'),
+              breadcrumbName: i18n.t('log analysis'),
               routes: [
                 {
                   path: 'query',
@@ -129,16 +129,16 @@ function getMicroServiceRouter() {
                 },
                 {
                   path: 'rule',
-                  breadcrumbName: i18n.t('analyze rule'),
+                  breadcrumbName: i18n.t('analysis rule'),
                   routes: [
                     {
                       path: 'add',
-                      breadcrumbName: i18n.t('org:add analyze rule'),
+                      breadcrumbName: i18n.t('org:add analysis rule'),
                       getComp: (cb) => cb(import('app/modules/dataCenter/pages/log-analyze-rule/detail')),
                     },
                     {
                       path: ':ruleId',
-                      breadcrumbName: i18n.t('org:edit analyze rule'),
+                      breadcrumbName: i18n.t('org:edit analysis rule'),
                       getComp: (cb) => cb(import('app/modules/dataCenter/pages/log-analyze-rule/detail')),
                     },
                     {
@@ -152,7 +152,7 @@ function getMicroServiceRouter() {
             // 注册中心
             {
               path: 'nodes', // 节点流量管理
-              breadcrumbName: i18n.t('microService:node traffic manager'),
+              breadcrumbName: i18n.t('microService:node traffic management'),
               keepQuery: true,
               getComp: (cb) => cb(import('microService/pages/zkproxy/node-list')),
             },

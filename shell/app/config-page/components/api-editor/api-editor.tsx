@@ -102,7 +102,7 @@ const { TextArea } = Input;
 
 const BODY_RAW_OPTION = ['text/plain', 'application/json'];
 
-const formatTip = i18n.t('project:json-format-tip').replace(/</g, '{').replace(/>/g, '}');
+const formatTip = i18n.t('project:1. Input parameter reference for this scene: / $<< params.lab >>, and lab is input parameter name of the scene; 2. Output parameter reference for the front interface: / $<< outputs.10.status >>, and 10 is the interface ID, status is the output parameter name; 3. Mock parameter reference: / $<< random.string >>, and string is a function to randomly generate a string (includes integer, float, boolean, upper, lower, etc.); 4. Global environment variable reference: / $<< configs.autotest.cluster-name >>, and cluster-name is the environment variable name.').replace(/</g, '{').replace(/>/g, '}');
 
 const tip = () => (
   <div className="json-format-tip">
@@ -590,27 +590,27 @@ const AssertTips = () => {
   const tips = (
     <ul className="contents ml16">
       <li className="level1">
-        <span className="bold-500">{i18n.t('project:tips of asserts type gt & lt')}: </span>
+        <span className="bold-500">{i18n.t('project:greater than, greater than or equal to, less than, less than or equal to')}: </span>
         {format(i18n.t('project|tips of asserts gt & lt', { nsSeparator: '|' }))}
       </li>
       <li className="level1">
-        <span className="bold-500">{i18n.t('project:tips of asserts type equal or not equal')}: </span>
+        <span className="bold-500">{i18n.t('project:equal to, not equal to')}: </span>
         {format(i18n.t('project|tips of asserts equal or not equal', { nsSeparator: '|' }))}
       </li>
       <li className="level1">
-        <span className="bold-500">{i18n.t('project:tips of asserts type contains or not contains')}: </span>
+        <span className="bold-500">{i18n.t('project:contain, not contain')}: </span>
         {format(i18n.t('project|tips of asserts contains or not contains', { nsSeparator: '|' }))}
       </li>
       <li className="level1">
-        <span className="bold-500">{i18n.t('project:tips of asserts type empty or not empty')}: </span>
+        <span className="bold-500">{i18n.t('project:empty, not empty')}: </span>
         {format(i18n.t('project|tips of asserts empty or not empty', { nsSeparator: '|' }))}
       </li>
       <li className="level1">
-        <span className="bold-500">{i18n.t('project:tips of asserts type exist or not exist')}: </span>
+        <span className="bold-500">{i18n.t('project:exist, not exist')}: </span>
         {format(i18n.t('project|tips of asserts exist or not exist', { nsSeparator: '|' }))}
       </li>
       <li className="level1">
-        <span className="bold-500">{i18n.t('project:tips of asserts type belong or not belong')}: </span>
+        <span className="bold-500">{i18n.t('project:belong to, not belong to')}: </span>
         {format(i18n.t('project|tips of asserts belong or not belong', { nsSeparator: '|' }))}
         <ul className="ml16">
           <li className="level2">{format(i18n.t('project|tips of asserts number', { nsSeparator: '|' }))}</li>
@@ -697,7 +697,7 @@ const ApiTabComps = {
       };
       return (
         <div className="case-api-tables">
-          <div className="table-title">{i18n.t('project:executive')}</div>
+          <div className="table-title">{i18n.t('project:output parameter')}</div>
           <div className="table-body">
             <KeyValEdit
               type="out_params"
@@ -714,7 +714,7 @@ const ApiTabComps = {
               itemMap={{
                 key: {
                   props: {
-                    placeholder: i18n.t('project:following the name'),
+                    placeholder: i18n.t('project:output parameter name'),
                   },
                 },
                 source: {
@@ -1147,7 +1147,7 @@ const KeyValEdit = (props: IKeyValProps) => {
             <div className="key-val-operation">
               {opList[i] || null}
               {type === 'out_params' ? (
-                <Popconfirm title={i18n.t('project:del-param-sync-assert')} onConfirm={() => handleDelete(i)}>
+                <Popconfirm title={i18n.t('project:Deleting the output parameter will delete the corresponding parameter name assertion. Continue?')} onConfirm={() => handleDelete(i)}>
                   <CustomIcon type="sc1" className={lastItem ? 'hidden-del hover-active' : 'show-del hover-active'} />
                 </Popconfirm>
               ) : (

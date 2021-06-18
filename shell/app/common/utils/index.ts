@@ -79,7 +79,7 @@ export function countPagination({ pageNo, pageSize, total, minus }: ICountPagina
 
 export function notify(type: string, desc: string, dur = 3) {
   const messageName = {
-    success: i18n.t('success'),
+    success: i18n.t('succeed'),
     error: i18n.t('error'),
     info: i18n.t('tip'),
     warning: i18n.t('warning'),
@@ -110,7 +110,7 @@ export const regRules = {
   header: { pattern: /^[a-zA-Z0-9]/, message: i18n.t('project:must start with a letter or number') },
   commonStr: {
     pattern: /^[a-zA-Z0-9_-]*$/,
-    message: i18n.t('project:only allowed to consist of characters, numbers, _, and -'),
+    message: i18n.t('project:can only contain characters, numbers, underscores and hyphens'),
   },
   port: {
     pattern: /^([1-9]\d{0,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])(-([1-9]\d{0,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5]))?$/,
@@ -135,7 +135,7 @@ export const regRules = {
   excel: { pattern: /\.(xlsx|xls|XLSX|XLS)$/, message: i18n.t('project:not an excel file') },
   excelOrXmind: {
     pattern: /\.(xlsx|xls|XLSX|XLS|xmind|xmt|xmap|xmind|xmt|xmap)$/,
-    message: i18n.t('project:not excel and xmind files'),
+    message: i18n.t('project:not excel or xmind files'),
   },
   banFullWidthPunctuation: {
     pattern:
@@ -149,7 +149,7 @@ export const regRules = {
       interpolation: { escapeValue: false },
     }),
   },
-  clusterName: { pattern: /^[a-z0-9]{1,20}(-[a-z0-9]{1,20})+$/, message: i18n.t('dataCenter:clusterNameExample') },
+  clusterName: { pattern: /^[a-z0-9]{1,20}(-[a-z0-9]{1,20})+$/, message: i18n.t('dataCenter:for example, terminus-test') },
   lenRange: (min: number, max: number) => ({
     pattern: new RegExp(`^[\\s\\S]{${min},${max}}$`),
     message: i18n.t('length is {min}~{max}', { min, max }),

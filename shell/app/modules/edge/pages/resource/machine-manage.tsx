@@ -92,7 +92,7 @@ export default () => {
       dataIndex: 'ip',
     },
     {
-      title: i18n.t('org:instance num'),
+      title: i18n.t('org:number of instance'),
       dataIndex: 'tasks',
       width: 100,
       sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.tasks) - Number(b.tasks),
@@ -164,7 +164,7 @@ export default () => {
             <span className="table-operations-btn" onClick={() => showMonitor(record)}>
               {i18n.t('machine overview')}
             </span>
-            <PopConfirm title={`${i18n.t('confirm offline')}?`} onConfirm={() => offlineHandle(record)}>
+            <PopConfirm title={`${i18n.t('confirm to go offline')}?`} onConfirm={() => offlineHandle(record)}>
               <span className="table-operations-btn">{i18n.t('microService:offline')}</span>
             </PopConfirm>
           </TableActions>

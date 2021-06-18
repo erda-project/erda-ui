@@ -44,7 +44,7 @@ const InterfaceForm = ({ visible, editMode, az, interfacename, onCancel }: IProp
       },
     },
     {
-      label: i18n.t('microService:requests count per connection'),
+      label: i18n.t('microService:number of requests processed per connection'),
       name: 'max_request_per_conn',
       type: 'select',
       options: ['10', '100', '1000'].map((a) => ({ name: a, value: a })),

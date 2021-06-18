@@ -154,7 +154,7 @@ export const COMMON_FIELDS = [
   },
   {
     propertyName: 'planFinishedAt',
-    displayName: i18n.t('project:planFinishedAt'),
+    displayName: i18n.t('project:deadline'),
     propertyType: 'Date',
   },
   {
@@ -168,7 +168,7 @@ const TASK_FIELDS = [
   ...COMMON_FIELDS,
   {
     propertyName: 'iterationID',
-    displayName: i18n.t('project:owing iteration'),
+    displayName: i18n.t('project:owned iteration'),
     propertyType: 'Select',
   },
   {
@@ -199,7 +199,7 @@ export const DEFAULT_ISSUE_FIELDS_MAP = {
     ...COMMON_FIELDS,
     {
       propertyName: 'iterationID',
-      displayName: i18n.t('project:owing iteration'),
+      displayName: i18n.t('project:owned iteration'),
       propertyType: 'Select',
     },
     {
@@ -209,7 +209,7 @@ export const DEFAULT_ISSUE_FIELDS_MAP = {
     },
     {
       propertyName: 'owner',
-      displayName: i18n.t('project:responsible'),
+      displayName: i18n.t('project:responsible person'),
       propertyType: 'Person',
     },
     {
@@ -232,7 +232,7 @@ export const DEFAULT_ISSUE_FIELDS_MAP = {
     ...COMMON_FIELDS,
     {
       propertyName: 'iterationID',
-      displayName: i18n.t('project:owing iteration'),
+      displayName: i18n.t('project:owned iteration'),
       propertyType: 'Select',
     },
     {

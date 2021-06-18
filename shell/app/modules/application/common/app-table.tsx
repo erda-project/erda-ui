@@ -117,7 +117,7 @@ export const AppList = ({
       },
     },
     {
-      title: i18n.t('application:owning project'),
+      title: i18n.t('application:owned project'),
       dataIndex: 'projectDisplayName',
       render: (text, record) => {
         return (
@@ -135,7 +135,7 @@ export const AppList = ({
       },
     },
     {
-      title: i18n.t('application:runtime count'),
+      title: i18n.t('application:number of application instance'),
       width: 120,
       dataIndex: 'stats.countRuntimes',
       render: (text, record) => {
@@ -179,7 +179,7 @@ export const AppList = ({
                 togglePin(e, record);
               }}
             >
-              {text ? i18n.t('application:cancel sticky') : i18n.t('application:sticky')}
+              {text ? i18n.t('application:unpin') : i18n.t('application:sticky')}
             </span>
           </div>
         );

@@ -79,7 +79,7 @@ export const ClusterAlarmList = ({ filterType, query = {} }: IProps) => {
       state: 'info',
     },
     medium: {
-      text: i18n.t('dcos:caveat'),
+      text: i18n.t('dcos:warning'),
       state: 'warning',
     },
     high: {

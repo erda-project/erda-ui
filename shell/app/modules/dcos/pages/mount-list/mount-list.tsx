@@ -88,7 +88,7 @@ const MountList = () => {
               overlayClassName="purchase-cluster-popover"
               content={<KeyValueList shrink data={obj.info} />}
             >
-              <Badge status="success" text={i18n.t('success')} />
+              <Badge status="success" text={i18n.t('succeed')} />
             </Popover>
           );
         } else if (obj.status === 'Skipped') {
@@ -101,7 +101,7 @@ const MountList = () => {
       },
     })),
     {
-      title: i18n.t('create at'),
+      title: i18n.t('created at'),
       dataIndex: 'createdAt',
       width: '120',
       render: (text: number) => moment(text).format('YYYY-MM-DD HH:mm:ss'),
@@ -121,7 +121,7 @@ const MountList = () => {
       </Button>
       <Table rowKey="createdAt" pagination={false} columns={columns} dataSource={clusterList} />
       <Modal
-        title={i18n.t('org:deploy configs')}
+        title={i18n.t('org:deployment configurations')}
         width={700}
         visible={modalVisible}
         onCancel={() => toggleModal()}

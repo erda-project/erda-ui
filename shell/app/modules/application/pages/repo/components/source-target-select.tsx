@@ -258,7 +258,7 @@ class SourceTargetSelect extends React.Component<IProps, IState> {
         {disableRemoveSource ? (
           <Checkbox className="delete-after-merge" disabled checked={false}>
             {i18n.t('application:delete source branch after merge')}(
-            {i18n.t('application:default branch cannot be remove')})
+            {i18n.t('application:The default branch cannot be deleted.')})
           </Checkbox>
         ) : (
           <Checkbox className="delete-after-merge" onChange={this.handleCheck} checked={removeSourceBranch}>

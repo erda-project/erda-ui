@@ -16,7 +16,7 @@ import i18n from 'i18n';
 function monitorStatusRouter() {
   return {
     path: 'status',
-    breadcrumbName: i18n.t('microService:status page'),
+    breadcrumbName: i18n.t('microService:active monitoring'),
     routes: [
       {
         getComp: (cb) => cb(import('status-insight/pages/status/status')),

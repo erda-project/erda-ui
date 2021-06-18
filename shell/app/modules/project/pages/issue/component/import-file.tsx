@@ -34,7 +34,7 @@ const ImportFile = ({ afterImport, issueType, download, projectID, visible, onCl
   const beforeUpload = (file: any) => {
     const isLt20M = file.size / 1024 / 1024 < 20;
     if (!isLt20M) {
-      message.error(i18n.t('project:file must smaller than 20MB!'));
+      message.error(i18n.t('project:file must be smaller than 20 MB'));
     }
     return isLt20M;
   };

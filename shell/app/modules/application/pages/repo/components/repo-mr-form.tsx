@@ -63,7 +63,7 @@ const TplModel = ({ visible, tplContent, templateConfig, onOk, onCancel }: IMode
       extraProps: {
         extra: (
           <span>
-            {i18n.t('file save directory')}: <code className="mr-template-save-path">{path}</code>
+            {i18n.t('file saving directory')}: <code className="mr-template-save-path">{path}</code>
           </span>
         ),
       },

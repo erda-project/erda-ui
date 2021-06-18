@@ -18,7 +18,7 @@ const tabs = [
   { key: 'bi', name: i18n.t('microService:overview') },
   { key: 'bi/domain', name: i18n.t('microService:access domain') },
   { key: 'bi/page', name: i18n.t('microService:access page') },
-  { key: 'bi/position', name: i18n.t('microService:positioning analytics') },
+  { key: 'bi/position', name: i18n.t('microService:location analysis') },
   // { key: 'exception', name: i18n.t('microService:access error') },
   { key: 'bi/ajax', name: i18n.t('microService:ajax interface') },
   { key: 'bi/script', name: i18n.t('microService:script error') },
@@ -36,7 +36,7 @@ const getBIRouter = () => ({
   tabs,
   routes: [
     {
-      pageName: i18n.t('microService:browser insight'),
+      pageName: i18n.t('microService:browse performance'),
       getComp: (cb) => cb(import('browser-insight/pages/overview/overview')),
     },
     {
@@ -93,7 +93,7 @@ const getBIRouter = () => ({
         },
         {
           path: 'comparative',
-          breadcrumbName: i18n.t('microService:comparative analytics'),
+          breadcrumbName: i18n.t('microService:comparative analysis'),
           getComp: (cb) => cb(import('browser-insight/pages/comparative/comparative')),
         },
       ],
