@@ -444,7 +444,7 @@
     "revert": "revert",
     "running resources": "running resources",
     "runtime count": "runtime count",
-    "runtime-resource-config-form-tip":"after the configuration is saved successfully, it will take effect when the application is deployed again. If you want to save to the code, please manually sync to dice.yml",
+    "runtime-resource-config-form-tip": "after the configuration is saved successfully, it will take effect when the application is deployed again. If you want to save to the code, please manually sync to dice.yml",
     "save": "save",
     "search by application name": "search by application name",
     "search for chinese/english name of attribute": "search for chinese/english name of attribute",
