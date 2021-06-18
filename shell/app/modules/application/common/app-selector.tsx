@@ -97,7 +97,7 @@ const headAppRender = (val: any = {}) => {
   const name = val.displayName || val.name || curApp.displayName || curApp.name || '';
   return (
     <div className="head-app-name">
-      <span className="nowrap fz16 bold">{name}</span>
+      <span className="nowrap fz16 bold" title={name}>{name}</span>
       <CustomIcon className="caret" type="caret-down" />
     </div>
   );
