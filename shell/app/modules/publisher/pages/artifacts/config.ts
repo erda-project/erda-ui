@@ -15,7 +15,7 @@ import i18n from 'i18n';
 
 export const ArtifactsStatusMap = {
   public: {
-    name: i18n.t('publisher:published'),
+    name: i18n.t('publisher:released'),
     status: 'success',
   },
   unpublic: {
@@ -26,7 +26,7 @@ export const ArtifactsStatusMap = {
 
 export const ArtifactsTypeMap = {
   LIBRARY: {
-    name: i18n.t('application:library app'),
+    name: i18n.t('application:library/module'),
     value: 'LIBRARY',
   },
   MOBILE: {

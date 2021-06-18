@@ -34,11 +34,11 @@ type KeyAuth = 'public' | 'private';
 const confirmTips: { [key in KeyAuth]: {} } = {
   public: {
     title: i18n.t('confirm to {action}', { action: i18n.t('set as {type}', { type: i18n.t('public') }) }),
-    content: i18n.t('confirm of public API'),
+    content: i18n.t('All members of the organization can view'),
   },
   private: {
     title: i18n.t('confirm to {action}', { action: i18n.t('set as {type}', { type: i18n.t('private') }) }),
-    content: i18n.t('confirm of private API'),
+    content: i18n.t('Members under the project/application associated with the current API can view it.'),
   },
 };
 
@@ -259,7 +259,7 @@ const ApiVersions = () => {
             {
               key: 'version manage',
               linkProps: {
-                title: i18n.t('default:version manage'),
+                title: i18n.t('default:version management'),
                 icon: <CustomIcon type="banbenguanli" color />,
               },
               titleProps: {

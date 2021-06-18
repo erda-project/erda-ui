@@ -154,7 +154,7 @@ function getDataCenterRouter() {
         },
         {
           path: 'jobs',
-          breadcrumbName: i18n.t('org:jobs'),
+          breadcrumbName: i18n.t('org:task list'),
           getComp: (cb) => cb(import('app/modules/dataCenter/pages/tasks/job')),
         },
         {
@@ -331,16 +331,16 @@ function getDataCenterRouter() {
             },
             {
               path: 'rule',
-              breadcrumbName: i18n.t('analyze rule'),
+              breadcrumbName: i18n.t('analysis rule'),
               routes: [
                 {
                   path: 'add',
-                  breadcrumbName: i18n.t('org:add analyze rule'),
+                  breadcrumbName: i18n.t('org:add analysis rule'),
                   getComp: (cb) => cb(import('app/modules/dataCenter/pages/log-analyze-rule/detail')),
                 },
                 {
                   path: ':ruleId',
-                  breadcrumbName: i18n.t('org:edit analyze rule'),
+                  breadcrumbName: i18n.t('org:edit analysis rule'),
                   getComp: (cb) => cb(import('app/modules/dataCenter/pages/log-analyze-rule/detail')),
                 },
                 {

@@ -112,9 +112,9 @@ const AddRole = (props: IProps) => {
             if (compact(valueArr).length !== val.length || compact(nameArr).length !== val.length) {
               tip = i18n.t('application:this item cannot be empty');
             } else if (uniq(nameArr).length !== val.length) {
-              tip = i18n.t('{name} already exist', { name: i18n.t('name') });
+              tip = i18n.t('{name} already exists', { name: i18n.t('name') });
             } else if (uniq(valueArr).length !== val.length) {
-              tip = i18n.t('{name} already exist', { name: 'key' });
+              tip = i18n.t('{name} already exists', { name: 'key' });
             }
             if (!tip) {
               const keyReg = /^[a-zA-Z]+$/;

@@ -33,7 +33,7 @@ export const StorageForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
   }, [data]);
   let fieldsList = [
     {
-      label: i18n.t('org:absolute path of mount'),
+      label: i18n.t('org:absolute path of mount point'),
       name: `${formPrefix}.mountPoint`,
       initialValue: '/netdata',
       rules: [{ ...regRulesMap.absolutePath }],
@@ -46,7 +46,7 @@ export const StorageForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
   ];
   const nasFields = [
     {
-      label: i18n.t('org:NAS`s path of mount'),
+      label: i18n.t('org:NAS mount address'),
       name: `${formPrefix}.nas`,
     },
   ];
@@ -66,14 +66,14 @@ export const StorageForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
         mode: 'tags',
         tokenSeparators: [';'],
         dropdownStyle: { display: 'none' },
-        placeholder: i18n.t('org:ip-split-up-5'),
+        placeholder: i18n.t('org:Please enter the IP, separated by pressing Enter or semicolons, up to 5 allowed'),
       },
       options: [],
       rules: [
         {
           validator: (_rule: any, value: any, callback: Function) => {
             let pass = false;
-            let errorMsg = i18n.t('org:please fill in the correct IP to enter or separate;');
+            let errorMsg = i18n.t('org:Please fill in the correct IP, separated by semicolon.');
             if (value) {
               const replicaNum = form.getFieldValue('config.storage.gluster.replica');
               value.forEach((item: string) => {
@@ -81,7 +81,7 @@ export const StorageForm = ({ form, isReadonly, data, curRef }: IFormProps) => {
                 o !== '' && (pass = regRulesMap.ip.pattern.test(o));
               });
               if (pass && value.length % replicaNum !== 0) {
-                errorMsg = i18n.t('org:the number of IP should be a multiple of the number of copies');
+                errorMsg = i18n.t('org:The number of IPs should be a multiple of the number of copies.');
                 pass = false;
               }
             }

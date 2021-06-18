@@ -27,8 +27,8 @@ import i18n from 'i18n';
 export const targetList = [
   { name: i18n.t('microService:user experience apdex'), key: 'apdex' },
   { name: i18n.t('microService:the whole page is loaded'), key: 'plt' },
-  { name: i18n.t('white screen time'), key: 'wst' },
-  { name: i18n.t('first screen time'), key: 'fst' },
+  { name: i18n.t('first paint time'), key: 'wst' },
+  { name: i18n.t('first contentful paint time'), key: 'fst' },
   { name: i18n.t('microService:resource loading completed'), key: 'rct' },
   { name: i18n.t('page loading completed'), key: 'pct' },
 ];
@@ -157,7 +157,7 @@ const BIComparative = () => {
                     <h2 className="chart-title">{titleText}</h2>
                     <MonitorChartNew
                       seriesType="bar"
-                      yAxisNames={[i18n.t('microService:requests count')]}
+                      yAxisNames={[i18n.t('microService:request times')]}
                       data={{ results, xAxis }}
                       opt={
                         target === 'apdex'

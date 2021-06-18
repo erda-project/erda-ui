@@ -32,13 +32,13 @@ const branchRule = createFlatStore({
       update({ branchRules });
     },
     async addBranchRule({ call }, payload: PROJECT.IBranchRuleCreateBody) {
-      await call(addBranchRule, { ...payload }, { successMsg: i18n.t('add successfully') });
+      await call(addBranchRule, { ...payload }, { successMsg: i18n.t('added successfully') });
     },
     async deleteBranchRule({ call }, { id }: { id: number }) {
       await call(deleteBranchRule, { id }, { successMsg: i18n.t('deleted successfully') });
     },
     async updateBranchRule({ call }, payload: PROJECT.IBranchRule) {
-      await call(updateBranchRule, payload, { successMsg: i18n.t('update successfully') });
+      await call(updateBranchRule, payload, { successMsg: i18n.t('updated successfully') });
     },
   },
   reducers: {

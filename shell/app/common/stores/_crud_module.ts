@@ -55,14 +55,14 @@ export const createCRUDStore = <P>(props: IProps<P>) => {
       },
       async addItem({ call }, payload) {
         if (services.add) {
-          const res = await call(services.add, payload, { successMsg: i18n.t('add successfully') });
+          const res = await call(services.add, payload, { successMsg: i18n.t('added successfully') });
           return res;
         }
         return null;
       },
       async updateItem({ call }, payload) {
         if (services.update) {
-          const res = await call(services.update, payload, { successMsg: i18n.t('update successfully') });
+          const res = await call(services.update, payload, { successMsg: i18n.t('updated successfully') });
           return res;
         }
       },

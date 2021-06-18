@@ -196,7 +196,7 @@ export const AUTH_TYPE_MAP = {
   [AuthType.oauth2]: i18n.t('microService:oauth2 authentication'),
   [AuthType.hmacAuth]: i18n.t('microService:parameter hmac authentication'),
   [AuthType.signAuth]: i18n.t('microService:parameter signature authentication'),
-  [AuthType.aliCloudApp]: i18n.t('microService:ali Cloud APP auth'),
+  [AuthType.aliCloudApp]: i18n.t('microService:Alibaba Cloud API authentication'),
 };
 
 export const ACL_TYPE_MAP = {
@@ -237,7 +237,7 @@ export const PACKAGE_DETAIL_COLS = [
     width: '10%',
   },
   {
-    title: i18n.t('microService:affiliated service'),
+    title: i18n.t('microService:owned service'),
     dataIndex: 'diceService',
     key: 'diceService',
     width: '10%',
@@ -318,7 +318,7 @@ const verifyKeyFun = (value: any, callback: any) => {
   if (!value) return callback();
   const pattern = /^[0-9A-Za-z]{32}$/;
   if (!pattern.test(value)) {
-    return callback(`${i18n.t('microService:32 digits letter number')}`);
+    return callback(`${i18n.t('microService:32 digits letters and numbers')}`);
   }
   callback();
 };
@@ -544,7 +544,7 @@ export const getOpenApiConsumerFields = (isEditing: boolean) => {
       rules: [
         {
           pattern: /^(\w|_){1,20}$/g,
-          message: i18n.t('microService:please enter a number of 20 characters in english or underscore'),
+          message: i18n.t('microService:Please enter a name consisting of letters, numbers and underscores within 20 characters.'),
         },
       ],
       itemProps: {
@@ -570,7 +570,7 @@ export const SCENE_MAP = {
 export const LIMIT_MAP = {
   qpd: i18n.t('microService:times/day'),
   qph: i18n.t('microService:times/hour'),
-  qpm: i18n.t('microService:times/minutes'),
+  qpm: i18n.t('microService:times/minute'),
   qps: i18n.t('microService:times/second'),
 };
 
@@ -588,7 +588,7 @@ export const API_LIMIT_COLS = [
     width: '12%',
   },
   {
-    title: i18n.t('microService:specify api path'),
+    title: i18n.t('microService:specified API path'),
     dataIndex: 'apiPath',
     key: 'apiPath',
     width: '20%',

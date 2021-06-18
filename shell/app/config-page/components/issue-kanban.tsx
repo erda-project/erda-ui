@@ -94,7 +94,7 @@ const IssueKanban = (props: IProps) => {
   const doAdd = () => {
     const existKanban = find(board || [], { label: addValue });
     if (existKanban) {
-      notify('error', i18n.t('{name} already exist', { name: addValue }));
+      notify('error', i18n.t('{name} already exists', { name: addValue }));
       return;
     }
     execOperation({ key: 'CreateCustom', ...(operations?.CreateCustom || {}) }, { panelName: addValue });
@@ -248,7 +248,7 @@ const Kanban = (props: IKanbanProps) => {
     }
     if (otherLabel.includes(labelVal)) {
       setLabelVal(label);
-      return notify('error', i18n.t('{name} already exist', { name: labelVal }));
+      return notify('error', i18n.t('{name} already exists', { name: labelVal }));
     }
     execOperation(
       { key: 'UpdateCustom', ...(boardOp?.UpdateCustom || {}) },

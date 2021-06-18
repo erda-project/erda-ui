@@ -60,7 +60,7 @@ const chartMap = merge(
       chartName: 'performanceTrends',
     },
     pageTopN: {
-      titleText: `${i18n.t('microService:visits')} TOP20`,
+      titleText: `${i18n.t('microService:visit times')} TOP20`,
       ...commonAttr,
       chartName: 'pageTopN',
       viewRender: TablePanel,

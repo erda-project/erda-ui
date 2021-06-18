@@ -462,7 +462,7 @@ export default ({ scopeType, scopeId }: IProps) => {
       ...fieldsList,
       {
         name: 'groupType',
-        label: i18n.t('application:method to inform'),
+        label: i18n.t('application:notification method'),
         required: true,
         type: 'select',
         initialValue: state.editingFormRule.notifies ? state.editingFormRule.notifies[0].groupType.split(',') : [],

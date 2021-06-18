@@ -97,7 +97,7 @@ export const ActionForm = (props: IProps) => {
                 if (!val) {
                   tip = i18n.t('application:please enter the task name');
                 } else if (otherTaskAlias.includes(val)) {
-                  tip = i18n.t('application:there is the same name action!');
+                  tip = i18n.t('application:An Action with the same name exists.');
                 }
                 return [!tip, tip];
               },

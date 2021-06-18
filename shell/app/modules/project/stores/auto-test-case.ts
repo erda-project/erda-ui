@@ -64,7 +64,7 @@ const autoTestCase = createFlatStore({
       return caseDetail;
     },
     async updateCasePipeline({ call }, payload: AUTO_TEST.IUpdateCaseBody) {
-      const res = await call(updateCasePipeline, payload, { successMsg: i18n.t('save successfully') });
+      const res = await call(updateCasePipeline, payload, { successMsg: i18n.t('saved successfully') });
       return res;
     },
     async getAutoTestConfigEnv({ call, update }, payload: AUTO_TEST.IConfigEnvQuery) {

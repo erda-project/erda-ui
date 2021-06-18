@@ -237,13 +237,13 @@ class TestDetail extends React.Component<IProps, IState> {
                       </span>
                       <span className="time">
                         {duration !== 0 && seconds === 0
-                          ? `${duration / 1000000}${i18n.t('application:milliseconds')}`
+                          ? `${duration / 1000000}${i18n.t('application:millisecond(s)')}`
                           : secondsToTime(seconds, true)}
                       </span>
                     </li>
                   );
                 })}
-                {filterList.length === 0 && <li className="test-item-nodata">{i18n.t('application:no match data')}</li>}
+                {filterList.length === 0 && <li className="test-item-nodata">{i18n.t('application:no matching data')}</li>}
               </ul>
             </ChartContainer>
           </Col>

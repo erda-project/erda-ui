@@ -50,7 +50,7 @@ const audit = createStore({
     },
     async updateAuditLogSetting({ call }, payload: AUDIT.LogSettingBody) {
       const orgId = orgStore.getState((s) => s.currentOrg.id);
-      return call(updateAuditLogSetting, { ...payload, orgId }, { successMsg: i18n.t('update successfully') });
+      return call(updateAuditLogSetting, { ...payload, orgId }, { successMsg: i18n.t('updated successfully') });
     },
   },
   reducers: {

@@ -146,7 +146,7 @@ const HttpForm = ({ data = [], submitForm, deleteHttp }: IHttpForm) => {
         { validator: validateDelayEmpty(get(formRef, 'current.props.form')) },
       ],
       itemProps: {
-        suffix: i18n.t('common:second'),
+        suffix: i18n.t('common:second(s)'),
         placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 10 }),
       },
     },
@@ -218,7 +218,7 @@ const HttpForm = ({ data = [], submitForm, deleteHttp }: IHttpForm) => {
       <div className="service-mesh-forms-container full-height">
         <div className="service-mesh-search">
           <Input
-            placeholder={i18n.t('microService:filter by path')}
+            placeholder={i18n.t('microService:filter by path name')}
             onChange={(e: any) => updater.searchKey(e.target.value)}
           />
           <Button
@@ -355,7 +355,7 @@ const HttpFormItem = ({ data, submitForm, allData }: IHttpFormItem) => {
         { validator: validateDelayEmpty(formRef) },
       ],
       itemProps: {
-        suffix: i18n.t('common:second'),
+        suffix: i18n.t('common:second(s)'),
         placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 10 }),
       },
     },
@@ -553,7 +553,7 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
         { validator: validateDelayEmpty(formRef) },
       ],
       itemProps: {
-        suffix: i18n.t('common:second'),
+        suffix: i18n.t('common:second(s)'),
         placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 10 }),
       },
     },

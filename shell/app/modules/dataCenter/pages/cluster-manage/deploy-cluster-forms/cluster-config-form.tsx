@@ -40,7 +40,7 @@ export const ClusterConfigForm = ({ form, isReadonly, data, curRef }: IFormProps
         mode: 'tags',
         tokenSeparators: [';', ' '],
         dropdownStyle: { display: 'none' },
-        placeholder: i18n.t('org:ip-split-up-5'),
+        placeholder: i18n.t('org:Please enter the IP, separated by pressing Enter or semicolons, up to 5 allowed'),
       },
       options: [],
       rules: [
@@ -54,7 +54,7 @@ export const ClusterConfigForm = ({ form, isReadonly, data, curRef }: IFormProps
                 o !== '' && (pass = regRulesMap.ip.pattern.test(o));
               });
             }
-            return pass ? callback() : callback(i18n.t('org:please fill in the correct IP to enter or separate;'));
+            return pass ? callback() : callback(i18n.t('org:Please fill in the correct IP, separated by semicolon.'));
           },
         },
       ],

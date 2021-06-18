@@ -88,7 +88,7 @@ const UploadModal = (props: IProps) => {
               </Button>
             </Upload>
             <span className="color-text-desc ml8">
-              {uploadFile ? i18n.t('have select {xx}', { xx: uploadFile }) : null}
+              {uploadFile ? i18n.t('selected {xx}', { xx: uploadFile }) : null}
             </span>
           </div>
         );

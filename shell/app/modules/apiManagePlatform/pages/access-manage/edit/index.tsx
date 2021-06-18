@@ -245,7 +245,7 @@ const AccessEdit = () => {
   const fieldsList = [
     {
       getComp(): React.ReactElement<any> | string {
-        return <Alert showIcon type="normal" message={i18n.t('access management precondition')} />;
+        return <Alert showIcon type="normal" message={i18n.t('Note: The precondition to create access management is that the API must first complete the project association and version instance association.')} />;
       },
     },
     {
@@ -365,7 +365,7 @@ const AccessEdit = () => {
     },
     {
       getComp(): React.ReactElement<any> | string {
-        return <Alert showIcon type="normal" message={i18n.t('authorization method tips')} />;
+        return <Alert showIcon type="normal" message={i18n.t('Auto authorization: apply and call')} />;
       },
     },
     {

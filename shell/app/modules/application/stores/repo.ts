@@ -372,7 +372,7 @@ const repoStore = createStore({
             repoPrefix: appDetail.gitRepoAbbrev,
             ...payload,
           },
-          { successMsg: i18n.t('application:new branch success') },
+          { successMsg: i18n.t('application:new branch added successfully') },
         );
         const { appId } = getParams();
         setLS(`branch-${appId}`, payload.branch);
@@ -391,8 +391,8 @@ const repoStore = createStore({
           ...payload,
         },
         {
-          successMsg: i18n.t('application:delete branch successfully'),
-          errorMsg: i18n.t('application:delete branch failed'),
+          successMsg: i18n.t('application:branch deleted successfully'),
+          errorMsg: i18n.t('application:failed to delete branch'),
         },
       );
       await repoStore.effects.getListByType({ type: 'branch' });

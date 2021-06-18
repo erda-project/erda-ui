@@ -94,7 +94,7 @@ export default () => {
         },
       ],
       itemProps: {
-        placeholder: i18n.t('project:within {num} words', { num: 50 }),
+        placeholder: i18n.t('project:within {num} characters', { num: 50 }),
         maxLength: 50,
       },
     },

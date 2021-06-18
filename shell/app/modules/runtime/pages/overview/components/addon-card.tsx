@@ -25,8 +25,8 @@ const withTip = (tip: string) => (Comp: ReactNode) => <Tooltip title={tip}>{Comp
 const addonStatusMap = {
   ATTACHING: { status: 'processing', text: i18n.t('runtime:publishing') },
   // ATTACHED: { status: 'success', text: '运行中' },
-  ATTACHFAILED: { status: 'error', text: i18n.t('runtime:publish failed') },
-  PENDING: { status: 'default', text: i18n.t('runtime:prepublish') },
+  ATTACHFAILED: { status: 'error', text: i18n.t('runtime:publishing failed') },
+  PENDING: { status: 'default', text: i18n.t('runtime:to be published') },
   UNKNOWN: { status: 'default', text: i18n.t('runtime:unknown') },
 };
 

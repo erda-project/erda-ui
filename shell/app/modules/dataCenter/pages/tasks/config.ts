@@ -14,22 +14,22 @@
 import i18n from 'i18n';
 
 export const TASKS_STATUS_MAP = {
-  Initializing: { name: i18n.t('initialization'), state: 'processing' },
+  Initializing: { name: i18n.t('initializing'), state: 'processing' },
   Disabled: { name: i18n.t('disable'), state: 'warning' },
   WaitCron: { name: i18n.t('timing has started, waiting for timing execution'), state: 'processing' },
   StopCron: { name: i18n.t('timing has stopped'), state: 'warning' },
-  AnalyzeFailed: { name: i18n.t('analytic failed'), state: 'error' },
+  AnalyzeFailed: { name: i18n.t('analysis failed'), state: 'error' },
   Analyzed: { name: i18n.t('analysis completed'), state: 'success' },
   Born: { name: i18n.t('process initialization'), state: 'processing' },
   Paused: { name: i18n.t('time out'), state: 'warning' },
   Mark: { name: i18n.t('mark'), state: 'processing' },
   Created: { name: i18n.t('created successfully'), state: 'success' },
-  Queue: { name: i18n.t('in the line'), state: 'processing' },
+  Queue: { name: i18n.t('queuing'), state: 'processing' },
   Running: { name: i18n.t('running'), state: 'processing' },
-  StatusSuccess: { name: i18n.t('success'), state: 'success' },
-  Success: { name: i18n.t('success'), state: 'success' },
+  StatusSuccess: { name: i18n.t('succeed'), state: 'success' },
+  Success: { name: i18n.t('succeed'), state: 'success' },
   CreateError: { name: i18n.t('failed to create node'), state: 'error' },
-  StartError: { name: i18n.t('start node failed'), state: 'error' },
+  StartError: { name: i18n.t('failed to start node'), state: 'error' },
   Error: { name: i18n.t('abnormal'), state: 'error' },
   Failed: { name: i18n.t('failed'), state: 'error' },
   Timeout: { name: i18n.t('time out'), state: 'error' },
@@ -37,7 +37,7 @@ export const TASKS_STATUS_MAP = {
   Unknown: { name: i18n.t('unknown state'), state: 'warning' },
   LostConn: { name: i18n.t('unable to connect'), state: 'error' },
   CancelByRemote: { name: i18n.t('remote cancellation'), state: 'warning' },
-  StopByUser: { name: i18n.t('user canceled'), state: 'warning' },
+  StopByUser: { name: i18n.t('cancelled by user'), state: 'warning' },
   NoNeedBySystem: { name: i18n.t('no need to execute'), state: 'warning' },
 };
 

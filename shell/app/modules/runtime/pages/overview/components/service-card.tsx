@@ -42,7 +42,7 @@ const FORBIDDEN_STATUS_LIST = ['WAITING', 'DEPLOYING', 'CANCELING'];
 const titleMap = {
   monitor: i18n.t('runtime:container monitor'),
   log: i18n.t('runtime:container log'),
-  terminal: i18n.t('terminal'),
+  terminal: i18n.t('console'),
   record: i18n.t('runtime:history'),
 };
 
@@ -333,7 +333,7 @@ const ServiceCard = (props: IProps) => {
         {hasCustomDomain ? null : (
           <>
             <CustomIcon className="warning-info" type="tishi" />
-            <span className="warning-info mr12">{i18n.t('runtime:not set domain')}</span>
+            <span className="warning-info mr12">{i18n.t('runtime:domain not set')}</span>
           </>
         )}
         {links}
@@ -352,13 +352,13 @@ const ServiceCard = (props: IProps) => {
           <IF check={isRunning}>
             <IF check={(permMap.runtime[`${runtimeDetail.extra.workspace.toLowerCase()}Console`] || {}).pass}>
               <span className="table-operations-btn" onClick={() => openSlidePanel('terminal', { ...record })}>
-                {i18n.t('terminal')}
+                {i18n.t('console')}
               </span>
 
               <IF.ELSE />
 
               <NoAuthTip>
-                <span className="table-operations-btn">{i18n.t('terminal')}</span>
+                <span className="table-operations-btn">{i18n.t('console')}</span>
               </NoAuthTip>
             </IF>
           </IF>

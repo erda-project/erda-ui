@@ -170,7 +170,7 @@ const StatisticList = ({ artifactsId, monitorKey }: { artifactsId: string; monit
       render: (text, record) => `${text}(${record.activeUsersGrowth})`,
     },
     {
-      title: i18n.t('publisher:operation counts'),
+      title: i18n.t('publisher:number of starts'),
       width: 120,
       dataIndex: 'launches',
     },

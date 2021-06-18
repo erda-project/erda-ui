@@ -62,7 +62,7 @@ export const EditCategory = (props: IProps) => {
         return;
       }
       if (value.includes('/') || value.includes('\\')) {
-        message.error(i18n.t('project:name cannot use forward backslash, please re-enter '));
+        message.error(i18n.t('project:The name cannot contain forward and backward slashes. Please enter again.'));
         return;
       }
       await onSubmit({ name: value });

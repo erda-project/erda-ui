@@ -142,7 +142,7 @@ export const PureApiLimits = () => {
       initialValue: editMode ? (formData.apiPath ? LIMIT_TYPE.ONE : LIMIT_TYPE.ALL) : limitType,
       options: [
         { value: LIMIT_TYPE.ALL, name: i18n.t('microService:all') },
-        { value: LIMIT_TYPE.ONE, name: i18n.t('microService:specify path') },
+        { value: LIMIT_TYPE.ONE, name: i18n.t('microService:specified path') },
       ],
       itemProps: {
         onChange: (val: string) => setLimitType(val),
@@ -188,7 +188,7 @@ export const PureApiLimits = () => {
                 }}
               >
                 <Option value="qps">{i18n.t('microService:times/second')}</Option>
-                <Option value="qpm">{i18n.t('microService:times/minutes')}</Option>
+                <Option value="qpm">{i18n.t('microService:times/minute')}</Option>
                 <Option value="qph">{i18n.t('microService:times/hour')}</Option>
                 <Option value="qpd">{i18n.t('microService:times/day')}</Option>
               </Select>

@@ -31,7 +31,7 @@ interface IProps {
 }
 
 const FormMap = {
-  circuitBreaker: { Comp: CircuitBreakerForm, title: i18n.t('microService:circuit breaker') },
+  circuitBreaker: { Comp: CircuitBreakerForm, title: i18n.t('microService:circuit breaker and current limiting') },
   faultInject: { Comp: faultInjectForm, title: i18n.t('microService:fault inject') },
 };
 const emptyComp = () => <div />;

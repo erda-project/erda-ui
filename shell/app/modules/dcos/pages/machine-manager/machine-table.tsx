@@ -93,8 +93,8 @@ export const DoubleProgressItem = ({ usedPercent, requestPercent, usage, request
       placement="top"
       title={
         unitType
-          ? `${i18n.t('used')}${getFormatter(unitType).format(usage)} / ${getFormatter(unitType).format(total)}`
-          : `${i18n.t('used')}${round(usage, 2)} ${unit} / ${round(total, 2)} ${unit}`
+          ? `${i18n.t('uasge')}${getFormatter(unitType).format(usage)} / ${getFormatter(unitType).format(total)}`
+          : `${i18n.t('uasge')}${round(usage, 2)} ${unit} / ${round(total, 2)} ${unit}`
       }
     >
       <div
@@ -506,7 +506,7 @@ const MachineTable = ({ list, gotoMachineMonitor, gotoMachineTasks, isFetching =
       },
     },
     {
-      title: i18n.t('org:instance num'),
+      title: i18n.t('org:number of instance'),
       dataIndex: 'tasks',
       width: 100,
       sorter: (a: ORG_MACHINE.IMachine, b: ORG_MACHINE.IMachine) => Number(a.tasks) - Number(b.tasks),

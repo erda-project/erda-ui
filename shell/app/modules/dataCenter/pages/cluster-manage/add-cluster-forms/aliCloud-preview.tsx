@@ -47,7 +47,7 @@ const AliCloudPreview = ({
       },
     },
     {
-      title: i18n.t('org:product number'),
+      title: i18n.t('org:number of products'),
       dataIndex: 'resourceNum',
       width: 100,
     },

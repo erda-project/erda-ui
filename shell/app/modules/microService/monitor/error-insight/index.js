@@ -16,7 +16,7 @@ import i18n from 'i18n';
 function monitorErrorRouter() {
   return {
     path: 'error',
-    breadcrumbName: i18n.t('microService:error insight'),
+    breadcrumbName: i18n.t('microService:error analysis'),
     routes: [
       {
         getComp: (cb) => cb(import('error-insight/pages/errors/error-overview')),

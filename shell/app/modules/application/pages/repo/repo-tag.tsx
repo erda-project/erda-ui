@@ -57,7 +57,7 @@ const RepoTag = () => {
         message.error(i18n.t('application:failed to add tag'));
         return;
       }
-      message.success(i18n.t('project:create label success'));
+      message.success(i18n.t('project:label created successfully'));
       setVisible(false);
     });
   };
@@ -136,7 +136,7 @@ const RepoTag = () => {
       ],
     },
     {
-      label: i18n.t('application:based on'),
+      label: i18n.t('application:based on source'),
       name: 'ref',
       type: 'custom',
       getComp: ({ form }: any) => RefComp({ form }),
@@ -151,7 +151,7 @@ const RepoTag = () => {
         {
           validator: (_rule: any, value: string, callback: Function) => {
             if (!/^[A-Za-z0-9._-]+$/.test(value)) {
-              callback(i18n.t('application:add-tag-form-name-valid'));
+              callback(i18n.t('application:Must be composed of letters, numbers, underscores, hyphens and dots.'));
             } else {
               callback();
             }

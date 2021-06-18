@@ -14,9 +14,9 @@
 import i18n from 'i18n';
 
 const tabs = [
-  { key: 'api-monitor', name: i18n.t('microService:request analytics') },
-  { key: 'api-monitor/delay', name: i18n.t('microService:delay analytics') },
-  { key: 'api-monitor/transport', name: i18n.t('microService:transport analytics') },
+  { key: 'api-monitor', name: i18n.t('microService:request analysis') },
+  { key: 'api-monitor/delay', name: i18n.t('microService:delay analysis') },
+  { key: 'api-monitor/transport', name: i18n.t('microService:transmission analysis') },
   // { key: 'api-monitor/indices', name: i18n.t('microService:gateway load') },
 ];
 
@@ -24,7 +24,7 @@ const tabs = [
 const getApiInsightRouter = () => ({
   path: 'api-monitor',
   mark: 'api-monitor',
-  pageName: i18n.t('microService:API analytics'),
+  pageName: i18n.t('microService:API analysis'),
   tabs,
   routes: [
     {

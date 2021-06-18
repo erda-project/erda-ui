@@ -40,7 +40,7 @@ interface IModel {
 const pageConfig = {
   iconType: 'ywgc',
   domainName: 'dataDomain',
-  domainPlaceholder: i18n.t('application:select data field'),
+  domainPlaceholder: i18n.t('application:select data domain'),
 };
 
 const DataModel = (props: IProps) => {

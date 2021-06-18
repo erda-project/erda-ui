@@ -39,7 +39,7 @@ const NumberInfo = () => {
     },
     {
       num: `${Math.round((data.testCasePassCount / data.testCaseCount) * 100 || 0)}%`,
-      label: i18n.t('project:test pass rate'),
+      label: i18n.t('project:test passing rate'),
     },
     {
       num: data.apiTotalCount,
@@ -47,7 +47,7 @@ const NumberInfo = () => {
     },
     {
       num: data.apiPassedCount || 0,
-      label: i18n.t('project:interface pass number'),
+      label: i18n.t('project:number of interface passing'),
     },
     {
       num: `${Math.round((data.apiPassedCount / data.apiTotalCount) * 100 || 0)}%`,

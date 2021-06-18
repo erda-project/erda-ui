@@ -34,7 +34,7 @@ const getSubList = (params: IParams) => {
       prefix: `${goTo.resolve.appCodeQualityIssue(params)}/`,
     },
     {
-      text: i18n.t('application:test runs'),
+      text: i18n.t('application:lists'),
       href: goTo.resolve.appCodeQuality(params),
     },
   ];

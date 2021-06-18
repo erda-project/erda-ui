@@ -109,7 +109,7 @@ class EditService extends PureComponent<IEditServiceProps & FormComponentProps, 
         disabled={!editing}
         type="number"
         label={i18n.t('application:please enter the exposed port')}
-        placeholder={i18n.t('application:exposure port')}
+        placeholder={i18n.t('application:exposed port')}
       />,
     );
     if (!editing && (!expose || (expose && !expose.length))) {

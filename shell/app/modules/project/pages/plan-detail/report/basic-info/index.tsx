@@ -83,7 +83,7 @@ const BasicInfo = () => {
                 onChange={(date, dateString) => setDate(info.dateKey, dateString, date as Moment)}
               />
             ) : (
-              info.text || i18n.t('empty')
+              info.text || i18n.t('none')
             )}
           </div>
         </Col>

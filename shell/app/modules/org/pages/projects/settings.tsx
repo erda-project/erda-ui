@@ -48,7 +48,7 @@ const Setting = () => {
               title: i18n.t('{name} member management', { name: i18n.t('project') }),
               desc: (
                 <div>
-                  {i18n.t('edit members, set member roles, role permissions please refer to')}
+                  {i18n.t('For editing members, setting member roles and role permissions, please refer to')}
                   <Link to={goTo.resolve.perm({ scope: 'project' })} target="_blank">
                     {i18n.t('role permissions description')}
                   </Link>

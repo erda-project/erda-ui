@@ -49,7 +49,7 @@ export default ({ item, onClickItem }: IProps) => {
 
   return (
     <>
-      {isDragging && <Alert message={i18n.t('project:milestone-drag-tip')} type="normal" showIcon />}
+      {isDragging && <Alert message={i18n.t('project:It can only be dragged to the end of the corresponding month. Please go to the details page for better modification.')} type="normal" showIcon />}
       <div key={item.id} onClick={() => onClickItem(item)} ref={drag}>
         <Card className={`shallow-shadow ${cls}`}>
           <div className="milestone-item-container milestone-info-card-content pointer">

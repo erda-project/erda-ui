@@ -149,7 +149,7 @@ const apiDesignStore = createFlatStore({
       return data;
     },
     async commitSaveApi({ select }) {
-      message.info(i18n.t('project:It is saving and it will take a effect later'));
+      message.info(i18n.t('project:It is being saved and it will take effect later.'));
 
       const validData = await apiDesignStore.validateApiSwagger();
       if (!validData.valid) {
@@ -193,7 +193,7 @@ const apiDesignStore = createFlatStore({
     },
     async publishApi({ call }, payload: API_SETTING.IPublishAPi) {
       const data = await call(publishApi, payload, {
-        successMsg: i18n.t('{action} successfully', { action: i18n.t('publisher:publish') }),
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('releaseer:publish') }),
       });
       return data;
     },

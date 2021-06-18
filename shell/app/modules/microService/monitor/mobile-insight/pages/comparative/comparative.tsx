@@ -152,7 +152,7 @@ const MIComparative = () => {
                     <h2 className="chart-title">{titleText}</h2>
                     <MonitorChartNew
                       seriesType="bar"
-                      yAxisNames={[i18n.t('microService:requests count')]}
+                      yAxisNames={[i18n.t('microService:request times')]}
                       data={{ results, xAxis }}
                       opt={
                         target === 'apdex'

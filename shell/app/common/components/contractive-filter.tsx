@@ -134,7 +134,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
               {i18n.t('common:selected')} {_value.length} {i18n.t('common:items')}
             </span>
             <span className="fake-link ml8" onClick={() => onChange({ key, value: undefined })}>
-              {i18n.t('common:clear select')}
+              {i18n.t('common:clear selected')}
             </span>
           </Menu.Item>,
           <Menu.Divider key="divider2" />,
@@ -539,7 +539,7 @@ export const ContractiveFilter = ({
                       {i18n.t('common:items')}
                     </span>
                     <span className="fake-link" onClick={handleClearSelected}>
-                      {i18n.t('common:clear select')}
+                      {i18n.t('common:clear selected')}
                     </span>
                   </div>
                 </Menu.Item>

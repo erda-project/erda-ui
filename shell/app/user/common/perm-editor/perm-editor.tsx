@@ -57,7 +57,7 @@ const permData = {
 };
 
 const defaultRole = {
-  Manager: { name: i18n.t('manager'), value: 'Manager' },
+  Manager: { name: i18n.t('administrator'), value: 'Manager' },
 };
 
 const getRoleMap = (_roleMap: Obj, isEdit: boolean) => {
@@ -156,7 +156,7 @@ export const PermEditor = () => {
           </Button>
         </div>
       ) : null}
-      <Prompt when={isEdit} message={`${i18n.t('sure to leave')}?`} />
+      <Prompt when={isEdit} message={`${i18n.t('Are you sure to leave?')}?`} />
       <Tabs
         activeKey={tabKey}
         tabBarExtraContent={

@@ -66,7 +66,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     key: 'deploy',
     href: goTo.resolve.deploy(), // `/workBench/projects/${projectId}/apps/${appId}/deploy`,
     icon: <CustomIcon type="bushuzhongxin" />,
-    text: i18n.t('application:deploy center'),
+    text: i18n.t('application:deployment center'),
   };
   const dataTask = {
     show: perm.dataTask.read.pass,
@@ -101,7 +101,7 @@ export const getAppMenu = ({ appDetail }: { appDetail: IApplication }) => {
     key: 'release',
     href: goTo.resolve.release(), // `/workBench/projects/${projectId}/apps/${appId}/repo/release`,
     icon: <CustomIcon type="zhipinguanli" />,
-    text: i18n.t('releases'),
+    text: i18n.t('artifact management'),
   };
   const setting = {
     show: perm.setting.read.pass,

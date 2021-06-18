@@ -60,7 +60,7 @@ export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps)
   const handleSubmit = async (values: IFieldForm) => {
     const { enumeratedValues, propertyName } = values;
     if (specialFieldNameList.includes(propertyName) && isEmpty(formData)) {
-      message.warning(i18n.t('exist the same {key}', { key: i18n.t('project:field name') }));
+      message.warning(i18n.t('the same {key} exists', { key: i18n.t('project:field name') }));
       return;
     }
     const enumeratedList = isEmpty(enumeratedValues) ? [] : enumeratedValues.slice(0, enumeratedValues.length - 1);
@@ -110,7 +110,7 @@ export const IssueFieldModal = ({ visible, closeModal, formData, onOk }: IProps)
       },
     },
     {
-      label: i18n.t('is required'),
+      label: i18n.t('is it required'),
       name: 'required',
       type: 'radioGroup',
       initialValue: 'false',

@@ -25,7 +25,7 @@ const chartMap = merge(
         seriesType: 'bar',
         isBarChangeColor: true,
         isLabel: true,
-        yAxisNames: [i18n.t('microService:requests count')],
+        yAxisNames: [i18n.t('microService:request times')],
         opt: {
           grid: { top: 30, bottom: 10, left: 25 },
         },
@@ -38,7 +38,7 @@ const chartMap = merge(
         seriesType: 'bar',
         isBarChangeColor: true,
         isLabel: true,
-        yAxisNames: [i18n.t('microService:requests count')],
+        yAxisNames: [i18n.t('microService:request times')],
         opt: {
           grid: { top: 30, bottom: 0, right: 35, left: 25 },
           xAxies: [{ name: `${i18n.t('microService:time')}(ms)`, nameGap: -20 }],

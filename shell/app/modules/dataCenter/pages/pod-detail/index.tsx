@@ -32,9 +32,9 @@ const SUMMARY_KEY_MAP = {
   nodeName: i18n.t('org:node'),
   namespace: i18n.t('org:namespace'),
   hostIP: i18n.t('runtime:Host IP'),
-  restartTotal: i18n.t('org:restart total'),
+  restartTotal: i18n.t('org:restart times'),
   stateCode: i18n.t('org:state code'),
-  terminatedReason: i18n.t('org:terminated reason'),
+  terminatedReason: i18n.t('org:exit reasons'),
 };
 
 const PodDetail = () => {

@@ -25,7 +25,7 @@ function getAppRouter() {
       {
         path: 'deploy',
         mark: 'deploy',
-        breadcrumbName: i18n.t('application:deploy center'),
+        breadcrumbName: i18n.t('application:deployment center'),
         routes: [
           ...getRuntimeRouter(),
           {
@@ -121,7 +121,7 @@ function getAppRouter() {
       },
       {
         path: 'release',
-        breadcrumbName: i18n.t('releases'),
+        breadcrumbName: i18n.t('artifact management'),
         layout: { fullHeight: true, noWrapper: true },
         getComp: (cb) => cb(import('app/modules/application/pages/release/release-list')),
       },
@@ -182,7 +182,7 @@ function getAppRouter() {
         routes: [
           {
             listKey: 'apps',
-            breadcrumbName: i18n.t('application:test runs'),
+            breadcrumbName: i18n.t('application:lists'),
             getComp: (cb) => cb(import('application/pages/test/test-list')),
           },
           {

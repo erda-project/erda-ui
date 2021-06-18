@@ -34,7 +34,7 @@ export const UrlInviteModal = ({ url, visible, code, tip, linkPrefixTip, modalPr
         title={
           code
             ? i18n.t('The invitation link and verification code have been created')
-            : i18n.t('The invitation link have been created')
+            : i18n.t('The invitation link has been created.')
         }
         visible={visible}
         onCancel={onCancel}

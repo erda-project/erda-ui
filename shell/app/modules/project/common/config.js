@@ -42,11 +42,11 @@ export const activityConfig = {
 export const stepList = [
   {
     key: 'INIT',
-    name: i18n.t('project:initialization'),
+    name: i18n.t('project:initializing'),
   },
   {
     key: 'ADDON_REQUESTING',
-    name: i18n.t('project:plug-in deployment'),
+    name: i18n.t('project:plugin deployment'),
   },
   {
     key: 'SCRIPT_APPLYING',

@@ -69,7 +69,7 @@ const WorkflowStateForm = React.forwardRef(({ issueType, onOk, onCancel }: IWork
         required: true,
         componentProps: {
           style: { width: '320px' },
-          placeholder: i18n.t('please select {name}', { name: i18n.t('project:owning state') }),
+          placeholder: i18n.t('please select {name}', { name: i18n.t('project:owned status') }),
         },
         dataSource: {
           type: 'static',

@@ -28,7 +28,7 @@ const chartMap = merge(
       chartName: 'overallQPS',
     },
     successQPS: {
-      titleText: i18n.t('microService:success QPS'),
+      titleText: i18n.t('microService:successful QPS'),
       ...commonAttr,
       chartName: 'successQPS',
     },

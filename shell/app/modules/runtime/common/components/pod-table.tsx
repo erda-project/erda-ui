@@ -64,7 +64,7 @@ const PodTable = (props: IProps) => {
         });
 
     Modal.confirm({
-      title: i18n.t('runtime:confirm to kill the pod'),
+      title: i18n.t('runtime:confirm to delete the Pod'),
       content: infoContent,
       width: 500,
       onOk,
@@ -111,7 +111,7 @@ const PodTable = (props: IProps) => {
         return (
           <div className="table-operations">
             <span className="table-operations-btn" onClick={() => handleKill(record)}>
-              {i18n.t('kill')}
+              {i18n.t('stop')}
             </span>
           </div>
         );

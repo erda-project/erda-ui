@@ -47,7 +47,7 @@ const DetailIntro = () => {
     <div id="report-page" className="report-page">
       <div className="section-title">
         <span>{i18n.t('project:test report details')}</span>
-        <ExportPdf domId="report-page" tip={i18n.t('project:testing report')}>
+        <ExportPdf domId="report-page" tip={i18n.t('project:test report')}>
           {({ exportPdf }) => (
             <span className="fz14 pointer color-primary" onClick={() => exportPdf()}>
               <IconUpload />

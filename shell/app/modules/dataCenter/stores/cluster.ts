@@ -78,12 +78,12 @@ const cluster = createStore({
     },
     async addCluster({ call }, payload: ORG_CLUSTER.IAddClusterQuery) {
       const orgId = orgStore.getState((s) => s.currentOrg.id);
-      await call(addCluster, { ...payload, orgId }, { successMsg: i18n.t('dcos:add cluster success') });
+      await call(addCluster, { ...payload, orgId }, { successMsg: i18n.t('dcos:cluster added successfully') });
       await cluster.effects.getClusterList({});
     },
     async updateCluster({ call, update, select }, payload: ORG_CLUSTER.IAddClusterQuery) {
       const prevDetail = select((s) => s.detail);
-      await call(updateCluster, payload, { successMsg: i18n.t('dcos:modify cluster success') });
+      await call(updateCluster, payload, { successMsg: i18n.t('dcos:cluster modified successfully') });
       if (payload.id === prevDetail.id) {
         // 修改了当前detail中的集群
         update({ detail: { ...prevDetail, ...payload } });

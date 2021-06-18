@@ -50,11 +50,11 @@ const scanRuleStore = createFlatStore({
     },
 
     async updateScanRule({ call }, payload: SCAN_RULE.IUpdateBody) {
-      await call(updateScanRule, payload, { successMsg: i18n.t('update successfully') });
+      await call(updateScanRule, payload, { successMsg: i18n.t('updated successfully') });
     },
 
     async batchInsertScanRule({ call }, payload: SCAN_RULE.IBatchInsertBody) {
-      await call(batchInsertScanRule, payload, { successMsg: i18n.t('update successfully') });
+      await call(batchInsertScanRule, payload, { successMsg: i18n.t('updated successfully') });
     },
 
     async getOptionalScanRules({ call, update }, payload: SCAN_RULE.IOptionalQuery) {

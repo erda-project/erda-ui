@@ -215,7 +215,7 @@ const ErrorList = ({
       },
     },
     {
-      title: i18n.t('publisher:cumulative error count'),
+      title: i18n.t('publisher:cumulative error times'),
       dataIndex: 'totalErr',
     },
     {

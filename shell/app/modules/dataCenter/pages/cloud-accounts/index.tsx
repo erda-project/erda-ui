@@ -69,7 +69,7 @@ export default () => {
   };
 
   const getFieldsList = () => {
-    return getAccountsFieldsList([{ name: i18n.t('aliyun'), value: 'aliyun' }]);
+    return getAccountsFieldsList([{ name: i18n.t('Alibaba Cloud'), value: 'aliyun' }]);
   };
 
   const handleFormSubmit = (data: CLOUD_ACCOUNTS.Account, { addItem }: { addItem: (arg: any) => Promise<any> }) => {

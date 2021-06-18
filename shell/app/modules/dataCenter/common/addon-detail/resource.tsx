@@ -38,7 +38,7 @@ export const PureResourceList = ({ renderOp, resourceList, loading, drawerComp }
       fixed: 'left',
     },
     {
-      title: i18n.t('host'),
+      title: i18n.t('host IP'),
       dataIndex: 'hostIP',
       key: 'hostIP',
     },

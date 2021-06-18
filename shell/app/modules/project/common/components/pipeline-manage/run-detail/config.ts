@@ -45,7 +45,7 @@ export const ciStatusMap = {
     status: 'default',
   },
   Queue: {
-    text: i18n.t('queue'),
+    text: i18n.t('queuing'),
     icon: 'puse-circle',
     color: 'blue',
     status: 'processing',
@@ -68,7 +68,7 @@ export const ciStatusMap = {
   },
 
   Success: {
-    text: i18n.t('success'),
+    text: i18n.t('succeed'),
     icon: 'play1',
     color: 'green',
     status: 'success',
@@ -170,18 +170,18 @@ export const ciNodeStatusSet = {
 };
 
 export const PipelineStatus = [
-  { status: 'Initializing', msg: i18n.t('initialization'), colorClass: 'gray' },
+  { status: 'Initializing', msg: i18n.t('initializing'), colorClass: 'gray' },
   { status: 'Analyzed', msg: i18n.t('analysis completed'), colorClass: 'darkgray' },
   { status: 'AnalyzeFailed', msg: i18n.t('analysis failed'), colorClass: 'red' },
   { status: 'WaitCron', msg: i18n.t('cron has started, waiting for execution'), colorClass: 'blue' },
   { status: 'StopCron', msg: i18n.t('cron has stopped'), colorClass: 'yellow' },
   { status: 'Born', msg: i18n.t('pending execution'), colorClass: 'darkgray', jumping: true },
   { status: 'Mark', msg: i18n.t('pending execution'), colorClass: 'darkgray', jumping: true },
-  { status: 'Created', msg: i18n.t('establish successfully'), colorClass: 'darkgray', jumping: true },
-  { status: 'Queue', msg: i18n.t('waiting Resources'), colorClass: 'blue' },
+  { status: 'Created', msg: i18n.t('established successfully'), colorClass: 'darkgray', jumping: true },
+  { status: 'Queue', msg: i18n.t('queuing for resources'), colorClass: 'blue' },
   { status: 'Running', msg: i18n.t('running'), colorClass: 'blue', jumping: true },
   // { status: 'Success' 成功 },
-  { status: 'Success', msg: i18n.t('success'), colorClass: 'green' },
+  { status: 'Success', msg: i18n.t('succeed'), colorClass: 'green' },
   { status: 'Failed', msg: i18n.t('failed'), colorClass: 'red' },
   { status: 'Timeout', msg: i18n.t('timeout'), colorClass: 'red' },
   { status: 'StopByUser', msg: i18n.t('stop by user'), colorClass: 'red' },

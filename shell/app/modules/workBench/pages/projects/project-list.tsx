@@ -115,7 +115,7 @@ export const ProjectList = () => {
               </div>
               <div className="item-desc nowrap">{item.desc || i18n.t('project:edit description in setting')}</div>
               <div className="item-footer">
-                <Tooltip title={i18n.t('workBench:application count')}>
+                <Tooltip title={i18n.t('workBench:number of application')}>
                   <span>
                     <CustomIcon type="yy-4" />
                     <span>{item.stats.countApplications}</span>
@@ -126,7 +126,7 @@ export const ProjectList = () => {
                   <span>
                     {item.updatedAt
                       ? fromNow(item.updatedAt, { prefix: `${i18n.t('update time')}:` })
-                      : i18n.t('empty')}
+                      : i18n.t('none')}
                   </span>
                 </span>
                 <BlockNetworkStatus

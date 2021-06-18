@@ -81,7 +81,7 @@ const ImportFile = ({ afterImport }: IProps) => {
         onCancel={handleCancel}
       >
         <div className="modal-tip">
-          1.{i18n.t('project:support-xmind-excel')}
+          1.{i18n.t('project:currently supports importing Xmind and Excel files')}
           <p className="my12">
             &nbsp;&nbsp;{i18n.t('project:if you need to import with Excel, please')}
             <a href="/static/usecase_model.xlsx" className="modal-tip-link">

@@ -201,7 +201,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
       render: (_: any, record: any) => get(record, 'meta.autoTestNum', '-'),
     },
     {
-      title: i18n.t('project:case count'),
+      title: i18n.t('project:number of case'),
       dataIndex: 'autoTestCaseNum',
       align: 'center',
       render: (_: any, record: any) => get(record, 'meta.autoTestCaseNum', '-'),

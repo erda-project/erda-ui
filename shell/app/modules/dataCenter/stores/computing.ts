@@ -22,16 +22,16 @@ const computing = createCRUDStore<COMPUTING.ECS>({
   },
   effects: {
     async stopCloudECS({ call }, payload: COMPUTING.ECSActionReq) {
-      await call(stopCloudECS, { ...payload }, { successMsg: i18n.t('setting successfully') });
+      await call(stopCloudECS, { ...payload }, { successMsg: i18n.t('set successfully') });
     },
     async startCloudECS({ call }, payload: COMPUTING.ECSActionReq) {
-      await call(startCloudECS, { ...payload }, { successMsg: i18n.t('setting successfully') });
+      await call(startCloudECS, { ...payload }, { successMsg: i18n.t('set successfully') });
     },
     async restartCloudECS({ call }, payload: COMPUTING.ECSActionReq) {
-      await call(restartCloudECS, { ...payload }, { successMsg: i18n.t('setting successfully') });
+      await call(restartCloudECS, { ...payload }, { successMsg: i18n.t('set successfully') });
     },
     async renewalCloudECS({ call }, payload: COMPUTING.ECSActionReq) {
-      await call(renewalCloudECS, { ...payload }, { successMsg: i18n.t('setting successfully') });
+      await call(renewalCloudECS, { ...payload }, { successMsg: i18n.t('set successfully') });
     },
   },
 });

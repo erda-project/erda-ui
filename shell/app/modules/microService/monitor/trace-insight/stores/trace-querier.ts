@@ -144,8 +144,8 @@ const traceQuerier = createStore({
     async cancelTraceStatus({ select, call }, payload: { requestId: string }) {
       const currentTraceRequestId = select((s) => s.currentTraceRequestId);
       await call(cancelTraceStatus, payload, {
-        successMsg: i18n.t('microService:cancel success'),
-        errorMsg: i18n.t('microService:cancel failed, please try again later'),
+        successMsg: i18n.t('microService:cancelled successfully'),
+        errorMsg: i18n.t('microService:Failed to cancel. Please try again late.'),
       });
 
       await traceQuerier.effects.getTraceStatusDetail({ requestId: currentTraceRequestId });

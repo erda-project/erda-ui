@@ -152,7 +152,7 @@ const AddPipelineYml = () => {
           }).then((res: any) => {
             if (res.success) {
               cancelEdit();
-              message.success(i18n.t('application:create file successfully'));
+              message.success(i18n.t('application:file created successfully'));
               getRepoTree({ force: true });
             }
           });

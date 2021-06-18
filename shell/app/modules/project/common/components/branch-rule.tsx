@@ -80,7 +80,7 @@ const extraFieldsMap = {
       label: i18n.t('project:deployment environment'),
       component: 'select',
       key: 'workspace',
-      labelTip: i18n.t('project:branch-bind-env'),
+      labelTip: i18n.t('project:Branch binds environment in the platform. The branch code can only be deployed to the environment selected below by CI/CD pipeline.'),
       required: true,
       dataSource: {
         type: 'static',
@@ -89,10 +89,10 @@ const extraFieldsMap = {
       type: 'select',
     },
     {
-      label: i18n.t('project:release deployment environment'),
+      label: i18n.t('project:artifact deployment environment'),
       component: 'select',
       key: 'artifactWorkspace',
-      labelTip: i18n.t('project:deploy-by-release'),
+      labelTip: i18n.t('project:The artifact is a release product of pipeline, and the environment selected below can be directly deployed by the artifact of this branch.'),
       required: true,
       componentProps: {
         mode: 'multiple',
@@ -114,7 +114,7 @@ const extraFieldsMap = {
       },
       required: true,
       visible: false,
-      labelTip: i18n.t('project:deploy-approval-branch-rule-tip'),
+      labelTip: i18n.t('project:When enabled, application deployment needs to be reviewed and approved by the project administrator.'),
       type: 'switch',
     },
   ],
@@ -139,7 +139,7 @@ const extraColumnsMap = {
       dataIndex: 'workspace',
     },
     {
-      title: i18n.t('project:release deployment environment'),
+      title: i18n.t('project:artifact deployment environment'),
       dataIndex: 'artifactWorkspace',
     },
     // {
@@ -184,11 +184,11 @@ const BranchRule = (props: IProps) => {
             valArr.forEach((item) => {
               if (!reg.test(item)) {
                 pass = false;
-                tip = i18n.t('branch-rule-name-pattern');
+                tip = i18n.t('separated by comma, start with letters and can contain');
               }
               if (pass && item.includes('*') && item.indexOf('*') !== item.length - 1) {
                 pass = false; // 包含*，但*不在末尾
-                tip = i18n.t('branch-rule-name-pattern');
+                tip = i18n.t('separated by comma, start with letters and can contain');
               }
             });
             return [pass, tip];
@@ -196,7 +196,7 @@ const BranchRule = (props: IProps) => {
         },
       ],
       componentProps: {
-        placeholder: i18n.t('branch-rule-name-pattern'),
+        placeholder: i18n.t('separated by comma, start with letters and can contain'),
       },
       required: true,
       type: 'input',
@@ -209,11 +209,11 @@ const BranchRule = (props: IProps) => {
       rules: [
         {
           max: '50',
-          msg: i18n.t('project:within {num} words', { num: 50 }),
+          msg: i18n.t('project:within {num} characters', { num: 50 }),
         },
       ],
       componentProps: {
-        placeholder: i18n.t('project:within {num} words', { num: 50 }),
+        placeholder: i18n.t('project:within {num} characters', { num: 50 }),
       },
       type: 'textarea',
     },

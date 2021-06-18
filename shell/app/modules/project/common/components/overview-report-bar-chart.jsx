@@ -30,7 +30,7 @@ export default class OverviewReportBarChart extends React.Component {
         },
       },
       legend: {
-        data: [i18n.t('project:deploy succeed'), i18n.t('project:deploy failed')],
+        data: [i18n.t('project:deployment succeeded'), i18n.t('project:deployment failed')],
         align: 'right',
         itemWidth: 14,
         itemHeight: 14,
@@ -65,7 +65,7 @@ export default class OverviewReportBarChart extends React.Component {
       },
       series: [
         {
-          name: i18n.t('project:deploy failed'),
+          name: i18n.t('project:deployment failed'),
           type: 'bar',
           stack: i18n.t('project:total'),
           barWidth: '20%',
@@ -78,7 +78,7 @@ export default class OverviewReportBarChart extends React.Component {
           data: data.results[1].data || [0, 0, 0, 0, 0, 0, 0],
         },
         {
-          name: i18n.t('project:deploy succeed'),
+          name: i18n.t('project:deployment succeeded'),
           type: 'bar',
           stack: i18n.t('project:total'),
           barWidth: '20%',

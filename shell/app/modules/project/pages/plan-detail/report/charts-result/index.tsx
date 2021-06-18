@@ -21,7 +21,7 @@ import testPlanStore from 'project/stores/test-plan';
 const nameMaps = {
   init: i18n.t('project:not performed'),
   block: i18n.t('project:blocking'),
-  fail: i18n.t('project:not pass'),
+  fail: i18n.t('project:not passed'),
   succ: i18n.t('project:pass'),
 };
 

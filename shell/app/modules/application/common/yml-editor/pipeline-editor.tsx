@@ -127,7 +127,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
       ],
     }).then(() => {
       onCancel();
-      message.success(i18n.t('application:modify file successfully'));
+      message.success(i18n.t('application:file modified successfully'));
       getRepoBlob();
     });
   };

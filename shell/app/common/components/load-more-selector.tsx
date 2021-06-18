@@ -347,14 +347,14 @@ const PureLoadMoreSelector = (props: IProps) => {
           ? [
               <MenuItem className="chosen-info" key="_chosen-info-item">
                 <div className={''}>
-                  {i18n.t('common:has chosen')}
+                  {i18n.t('common:selected')}
                   &nbsp;
                   <span>{chosenItem.length}</span>
                   &nbsp;
                   {i18n.t('common:item')}
                 </div>
                 <span className="fake-link ml8" onClick={clearValue}>
-                  {i18n.t('common:clear select')}
+                  {i18n.t('common:clear selected')}
                 </span>
               </MenuItem>,
               <Menu.Divider key="_chosen-info-divider" />,
@@ -366,7 +366,7 @@ const PureLoadMoreSelector = (props: IProps) => {
           {/* {
             isMultiple && (
               <div className={`chosen-info ${type === SelectType.Normal ? 'border-top' : ''}`}>
-                {i18n.t('common:has chosen')}
+                {i18n.t('common:selected')}
                 <span>{chosenItem.length}</span>
                 {i18n.t('common:item')}
               </div>

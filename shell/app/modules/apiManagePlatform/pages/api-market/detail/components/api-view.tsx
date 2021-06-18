@@ -73,7 +73,7 @@ const ApiView = ({ dataSource, onChangeVersion, deprecated, specProtocol }: IPro
         {},
         (err: Error | null, data: OpenAPI.Document | undefined) => {
           if (err) {
-            message.error(i18n.t('default:API description document parsing failed'));
+            message.error(i18n.t('default:failed to parse API description document'));
             throw err;
           }
           updater.apiData((data || {}) as ApiData);

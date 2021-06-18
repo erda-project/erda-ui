@@ -38,7 +38,7 @@ export const getDataCenterMenu = () => {
         key: 'dataCenterResources',
         href: goTo.resolve.dataCenterClusters(), // '/dataCenter/clusters',
         icon: <IconDataAll />,
-        text: i18n.t('resources'),
+        text: i18n.t('resource management'),
         subMenu: [
           {
             key: 'dataCenterCluster',
@@ -61,7 +61,7 @@ export const getDataCenterMenu = () => {
         key: 'dataCenterServices',
         href: goTo.resolve.dataCenterServices(), // '/dataCenter/services',
         icon: <IconListTwo />,
-        text: i18n.t('services & jobs'),
+        text: i18n.t('services&tasks'),
         subMenu: [
           {
             href: goTo.resolve.dataCenterServices(), // '/dataCenter/services',
@@ -117,14 +117,14 @@ export const getDataCenterMenu = () => {
         key: 'dataCenterLog',
         href: goTo.resolve.dataCenterLog(), // '/dataCenter/log',
         icon: <IconLog />,
-        text: i18n.t('log analyze'),
+        text: i18n.t('log analysis'),
         subMenu: [
           {
             text: i18n.t('log query'),
             href: goTo.resolve.dataCenterLogQuery(), // '/dataCenter/log/query',
           },
           {
-            text: i18n.t('analyze rule'),
+            text: i18n.t('analysis rule'),
             href: goTo.resolve.dataCenterLogRule(), // '/dataCenter/log/rule',
           },
         ],

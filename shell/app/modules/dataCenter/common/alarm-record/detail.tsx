@@ -141,7 +141,7 @@ export default ({ scope, tenantGroup }: { scope: string; tenantGroup?: string })
         static: false,
         view: {
           chartType: 'chart:area',
-          title: i18n.t('org:alarm times tending'),
+          title: i18n.t('org:alarm times trends'),
           staticData: convertChartData(alarmTimesChart),
           config: {
             optionProps: {

@@ -40,7 +40,7 @@ const ScaleInfo = ({ data }: IProps) => {
       render: (text: string) => <Tooltip title={text}>{text}</Tooltip>,
     },
     {
-      title: i18n.t('dataCenter:count of nodes'),
+      title: i18n.t('dataCenter:number of nodes'),
       dataIndex: 'nodes',
     },
     {

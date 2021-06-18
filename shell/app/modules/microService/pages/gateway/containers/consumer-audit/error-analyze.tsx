@@ -199,7 +199,7 @@ export const PureErrorAnalyze = () => {
       moved: false,
       static: false,
       view: {
-        title: i18n.t('microService:error type analytics'),
+        title: i18n.t('microService:error type analysis'),
         chartType: 'chart:line',
         hideReload: true,
         staticData: realTimeStaticData,

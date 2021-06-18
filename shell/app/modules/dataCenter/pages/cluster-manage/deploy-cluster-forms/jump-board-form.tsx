@@ -44,7 +44,7 @@ export const JumpBoardForm = ({ form, curRef, data, isReadonly }: IFormProps) =>
       },
     },
     {
-      label: i18n.t('host'),
+      label: i18n.t('host IP'),
       name: `${formPrefix}.host`,
       rules: [{ ...regRulesMap.ip }],
     },
@@ -81,7 +81,7 @@ export const JumpBoardForm = ({ form, curRef, data, isReadonly }: IFormProps) =>
         },
   ];
   return (
-    <FormUnitContainer title={i18n.t('jump host')} curRef={curRef}>
+    <FormUnitContainer title={i18n.t('jump server')} curRef={curRef}>
       {isReadonly ? (
         <ReadonlyForm fieldsList={fieldsList} data={data} />
       ) : (

@@ -162,7 +162,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
             }
             if (fieldData?.newTags) {
               set(draft, 'tags', fieldData?.newTags);
-              message.success(i18n.t('project:create category successfully'));
+              message.success(i18n.t('project:category created successfully'));
             }
           } else if (key === 'query' || key === 'header') {
             set(draft, [...prefixPath, 'parameters'], fieldData?.parameters);
@@ -322,7 +322,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
           {
             validator: (_rule: any, value: string, callback: (msg?: string) => void) => {
               if (existApiPathNames.includes(value)) {
-                callback(i18n.t('exist the same {key}', { key: i18n.t('name') }));
+                callback(i18n.t('the same {key} exists', { key: i18n.t('name') }));
               } else if (!value) {
                 callback(i18n.t('can not be empty'));
               } else if (!value.startsWith('/')) {
@@ -382,7 +382,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
 
       if (formErrorNum > 0) {
         confirm({
-          title: i18n.t('project:whether to confirm to leave, leaving will not save the error information'),
+          title: i18n.t('project:Are you sure to leave, with the error message not saved?'),
           onOk() {
             nextHandle();
           },
@@ -467,7 +467,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
 
     if (formErrorNum > 0) {
       confirm({
-        title: i18n.t('project:whether to confirm to leave, leaving will not save the error information'),
+        title: i18n.t('project:Are you sure to leave, with the error message not saved?'),
         onOk() {
           nextHandle();
         },

@@ -209,7 +209,7 @@ ${_ymlStr}
     };
 
     createIssue(newTask).then(() => {
-      message.success(i18n.t('add successfully'));
+      message.success(i18n.t('added successfully'));
       closeTask();
     });
   };

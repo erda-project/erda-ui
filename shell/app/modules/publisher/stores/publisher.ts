@@ -124,7 +124,7 @@ const publisher = createStore({
     },
     async addPublisherList({ call }, payload: Parameters<typeof addPublisher>[0]) {
       const orgId = orgStore.getState((s) => s.currentOrg.id);
-      const res = await call(addPublisher, { ...payload, orgId }, { successMsg: i18n.t('add successfully') });
+      const res = await call(addPublisher, { ...payload, orgId }, { successMsg: i18n.t('added successfully') });
       return res;
     },
     async updatePublisher({ call }, payload: Parameters<typeof updatePublisher>[0]) {
@@ -183,7 +183,7 @@ const publisher = createStore({
       const res = await call(
         addArtifacts,
         { ...payload, publisherId: Number(publisherId) },
-        { successMsg: i18n.t('add successfully') },
+        { successMsg: i18n.t('added successfully') },
       );
       return res;
     },
@@ -204,7 +204,7 @@ const publisher = createStore({
       return { ...result };
     },
     async addVersion({ call }, payload: Parameters<typeof addVersion>[0]) {
-      const res = await call(addVersion, payload, { successMsg: i18n.t('add successfully') });
+      const res = await call(addVersion, payload, { successMsg: i18n.t('added successfully') });
       return res;
     },
     // 设置灰度值

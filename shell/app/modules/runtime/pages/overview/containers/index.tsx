@@ -107,7 +107,7 @@ const RuntimeOverView = () => {
   const isDeleting = runtimeDetail.deleteStatus === 'DELETING';
 
   return (
-    <Spin spinning={loading || isDeleting} tip={isDeleting ? `${i18n.t('runtime:delete')}...` : undefined}>
+    <Spin spinning={loading || isDeleting} tip={isDeleting ? `${i18n.t('runtime:deleting')}...` : undefined}>
       <PureRuntimeOverView />
     </Spin>
   );

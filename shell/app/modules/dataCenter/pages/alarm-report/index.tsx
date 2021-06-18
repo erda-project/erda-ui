@@ -101,7 +101,7 @@ export default () => {
         initialValue: 'daily',
       },
       {
-        label: i18n.t('org:report model'),
+        label: i18n.t('org:report template'),
         name: 'dashboardId',
         type: 'select',
         options: map(systemDashboards, ({ name, id }) => ({ name, value: id })),
@@ -155,7 +155,7 @@ export default () => {
       fieldsList = [
         ...fieldsList,
         {
-          label: i18n.t('application:method to inform'),
+          label: i18n.t('application:notification method'),
           name: 'notifyTarget.groupType',
           type: 'select',
           initialValue: get(editingTask, 'notifyTarget.groupType'),
@@ -230,7 +230,7 @@ export default () => {
       className: 'notify-info',
       render: (notifyTarget) => {
         const targets = get(notifyTarget, 'notifyGroup.targets', []);
-        const tip = i18n.t('org:notification group does not exist or has been removed, replaceable notification group');
+        const tip = i18n.t('org:Notification group does not exist or has been remove. Please change one.');
         return (
           <div className="flex-box">
             {isEmpty(targets) ? (

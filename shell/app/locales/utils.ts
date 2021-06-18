@@ -22,8 +22,8 @@ const addonNameMap = {
   日志分析: i18n.t('application:logAnalysis'),
   API网关: i18n.t('application:apiGateway'),
   服务网格: i18n.t('application:serviceMesh'),
-  注册中心: i18n.t('application:registerCenter'),
-  通知中心: i18n.t('application:noticeCenter'),
+  注册中心: i18n.t('application:registration center'),
+  通知中心: i18n.t('application:notification center'),
 };
 
 export const monthMap = {

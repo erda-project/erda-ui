@@ -123,7 +123,7 @@ const getPieChartLayout = (data: any) => {
 
 const tabs = [
   { label: i18n.t('publisher:new users'), value: 'fields.firstDayUserId_value' },
-  { label: i18n.t('publisher:operation counts'), value: 'tags.cid' },
+  { label: i18n.t('publisher:number of starts'), value: 'tags.cid' },
   { label: i18n.t('publisher:cumulative users'), value: 'tags.uid' },
 ];
 const FilterTab = ({ onChange, className }: { onChange: (val: string) => void; className?: string }) => {

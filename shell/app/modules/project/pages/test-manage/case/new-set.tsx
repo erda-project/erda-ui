@@ -39,7 +39,7 @@ const NewSet = ({ afterCreate }: IProps) => {
   const handleSave = () => {
     if (value) {
       if (value.includes('/') || value.includes('\\')) {
-        message.error(i18n.t('project:name cannot use forward backslash, please re-enter '));
+        message.error(i18n.t('project:The name cannot contain forward and backward slashes. Please enter again.'));
         return;
       }
       createTestSet({ parentID: 0, name: value }).then(afterCreate);

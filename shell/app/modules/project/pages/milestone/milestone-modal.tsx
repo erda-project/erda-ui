@@ -38,12 +38,12 @@ export const MilestoneModal = ({ visible, data, reload, onCancel }: IProps) => {
     },
     {
       name: 'planFinishedAt',
-      label: i18n.t('project:plan finish at'),
+      label: i18n.t('project:planned finish time'),
       type: 'datePicker',
     },
     {
       name: 'assignee',
-      label: i18n.t('project:assignee to'),
+      label: i18n.t('project:assign to'),
       getComp: () => {
         return <MemberSelector scopeType="project" scopeId={params.projectId} />;
       },

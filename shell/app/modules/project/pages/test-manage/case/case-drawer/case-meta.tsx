@@ -47,7 +47,7 @@ const CaseMeta = ({ onBlurCapture, onChange, dataSource }: IProps) => {
           ))}
         </Select>
       </div>
-      <p className="color-text-desc my0">{i18n.t('project:founder')}</p>
+      <p className="color-text-desc my0">{i18n.t('project:creator')}</p>
       <p className="mt8 mb20">
         <Avatar
           showName

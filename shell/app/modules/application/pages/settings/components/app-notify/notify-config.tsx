@@ -159,7 +159,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
     },
     {
       name: 'notifyItemIds',
-      label: i18n.t('application:timing'),
+      label: i18n.t('application:trigger timing'),
       required: true,
       type: 'select',
       options: map(notifyItems, ({ id, displayName }) => ({ name: displayName, value: id })),
@@ -197,7 +197,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
       ...fieldsList,
       {
         name: 'channels',
-        label: i18n.t('application:method to inform'),
+        label: i18n.t('application:notification method'),
         required: true,
         type: 'select',
         options: (activedGroup && notifyChannelOptionsMap[activedGroup.targets[0].type]) || [],

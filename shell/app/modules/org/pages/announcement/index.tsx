@@ -49,7 +49,7 @@ const columns: Column[] = [
     width: 70,
   },
   {
-    title: i18n.t('org:notice content'),
+    title: i18n.t('org:announcement content'),
     dataIndex: 'content',
   },
   {
@@ -144,7 +144,7 @@ const NoticeManage = () => {
 
   const fieldList = [
     {
-      label: i18n.t('org:notice content'),
+      label: i18n.t('org:announcement content'),
       name: 'content',
       required: true,
       type: 'textArea',
@@ -220,7 +220,7 @@ const NoticeManage = () => {
               editNotice(undefined, undefined);
             }}
           >
-            {i18n.t('org:create notice')}
+            {i18n.t('org:create announcement')}
           </Button>
         </div>
         <div className="notice-filter">
@@ -234,7 +234,7 @@ const NoticeManage = () => {
         <Table rowKey="id" columns={[...columns, ...opCol]} dataSource={list} pagination={pagination} />
         <FormModal
           formData={formData}
-          name={i18n.t('org:notice')}
+          name={i18n.t('org:announcement management')}
           fieldsList={fieldList}
           visible={showModal}
           onCancel={useCallback(() => {

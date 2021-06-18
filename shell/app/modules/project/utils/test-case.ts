@@ -49,7 +49,7 @@ export const checkNeedEmptyChoosenIds = (oldQuery: object, newQuery: object) =>
 
 export const colorMap = {
   [i18n.t('project:pass')]: '#25ca64',
-  [i18n.t('project:not pass')]: '#ff4946',
+  [i18n.t('project:not passed')]: '#ff4946',
   [i18n.t('project:not performed')]: '#bbbbbb',
   [i18n.t('project:blocking')]: '#ffc11f',
 };

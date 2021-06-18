@@ -72,10 +72,10 @@ export const sortCreator = (name: string, payload?: object) => {
     subTab: {
       type: 'subTab',
       tabList: [
-        { name: i18n.t('white screen time'), key: 'wst' },
-        { name: i18n.t('first screen time'), key: 'fst' },
+        { name: i18n.t('first paint time'), key: 'wst' },
+        { name: i18n.t('first contentful paint time'), key: 'fst' },
         { name: i18n.t('page loading completed'), key: 'pct' },
-        { name: i18n.t('resource load complete'), key: 'rct' },
+        { name: i18n.t('resource loading completed'), key: 'rct' },
       ],
     },
     sortList: {

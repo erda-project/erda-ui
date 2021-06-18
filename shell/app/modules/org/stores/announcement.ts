@@ -65,10 +65,10 @@ const announcementStore = createStore({
       return list;
     },
     async addAnnouncement({ call }, payload: ORG_ANNOUNCEMENT.SaveNew) {
-      return call(addAnnouncement, payload, { successMsg: i18n.t('default:save successfully') });
+      return call(addAnnouncement, payload, { successMsg: i18n.t('default:saved successfully') });
     },
     async updateAnnouncement({ call }, payload: ORG_ANNOUNCEMENT.SaveEdit) {
-      return call(updateAnnouncement, payload, { successMsg: i18n.t('default:save successfully') });
+      return call(updateAnnouncement, payload, { successMsg: i18n.t('default:saved successfully') });
     },
     async deleteAnnouncement({ call }, payload: ORG_ANNOUNCEMENT.Action) {
       return call(deleteAnnouncement, payload, { successMsg: i18n.t('default:deleted successfully') });

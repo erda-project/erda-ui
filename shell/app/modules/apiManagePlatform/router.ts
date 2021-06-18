@@ -59,7 +59,7 @@ const getApiManagePlatformRouter = () => [
       },
       {
         path: 'access-manage',
-        breadcrumbName: i18n.t('access manage'),
+        breadcrumbName: i18n.t('access management'),
         routes: [
           {
             getComp: (cb: RouterGetComp) => cb(import('apiManagePlatform/pages/access-manage/list')),
