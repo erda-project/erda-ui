@@ -16,7 +16,6 @@ import { GlobalWithFetchMock } from 'jest-fetch-mock';
 import * as C from '../app/cube';
 import { jest } from '@jest/globals';
 import { TextDecoder, TextEncoder } from 'util';
-import { useRaf } from 'react-use';
 
 jest.mock('i18n', () => {
   return {
@@ -98,6 +97,8 @@ Object.defineProperty(navigator, 'userAgent', {
   value:
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36',
 });
+document.body.innerHTML='<script></script>'
+
 const customGlobal: GlobalWithFetchMock = global as unknown as GlobalWithFetchMock;
 customGlobal.TextDecoder = TextDecoder;
 customGlobal.TextEncoder = TextEncoder;
