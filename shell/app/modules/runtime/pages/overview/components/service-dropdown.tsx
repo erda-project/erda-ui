@@ -75,8 +75,8 @@ const ServiceDropdown = (props: IProps) => {
     });
   };
 
-  const saveServiceConfig = (data: RUNTIME_SERVICE.PreOverlay) => {
-    updateServicesConfig(data);
+  const saveServiceConfig = (data: RUNTIME_SERVICE.PreOverlayService) => {
+    updateServicesConfig({ services: { [name]: data } });
   };
 
   const getServiceOps = () => {

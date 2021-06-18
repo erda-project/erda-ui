@@ -14,46 +14,46 @@
 declare namespace RUNTIME_SERVICE {
   interface Err {
     ctx: {
-      [k: string]: any,
-      instanceId: string,
-    },
-    msg: string
+      [k: string]: any;
+      instanceId: string;
+    };
+    msg: string;
   }
 
   interface Detail {
-    status: string
-    deployments: { replicas: number },
-    resources: CPU_MEM_DISK
-    envs: null | Obj
-    addrs: string[]
-    expose: string[]
-    errors: null | Err[]
+    status: string;
+    deployments: { replicas: number };
+    resources: CPU_MEM_DISK;
+    envs: null | Obj;
+    addrs: string[];
+    expose: string[];
+    errors: null | Err[];
   }
 
   interface Instance {
-    id?: string
-    containerId: string // k8s集群id为这个
-    ipAddress: string
-    host: string
-    image: string
-    cpu: number
-    memory: number
-    disk: number
-    status: string
-    exitCode: number
-    startedAt: string
-    service: string
-    clusterName: string
-    isRunning?: boolean
+    id?: string;
+    containerId: string; // k8s集群id为这个
+    ipAddress: string;
+    host: string;
+    image: string;
+    cpu: number;
+    memory: number;
+    disk: number;
+    status: string;
+    exitCode: number;
+    startedAt: string;
+    service: string;
+    clusterName: string;
+    isRunning?: boolean;
     cluster_full_name?: string; // 可能是监控里才有
   }
 
   type Status = 'running' | 'stopped';
 
   interface ListQuery {
-    runtimeID: number
-    serviceName: string
-    status: Status
+    runtimeID: number;
+    serviceName: string;
+    status: Status;
   }
 
   interface PodQuery {
@@ -80,40 +80,42 @@ declare namespace RUNTIME_SERVICE {
   }
 
   interface InsMap {
-    runs: Instance[],
-    completedRuns: Instance[],
+    runs: Instance[];
+    completedRuns: Instance[];
   }
 
   interface UpdateConfigQuery {
-    applicationId: number
-    workspace: WORKSPACE
-    runtimeName: string
+    applicationId: number;
+    workspace: WORKSPACE;
+    runtimeName: string;
   }
 
   interface PreOverlay {
-    services: {
-      [k: string]: {
-        resources: {
-          cpu: number,
-          mem: number,
-          disk: number
-        },
-        deployments: {
-          replicas: number
-        }
-      }
-    }
+    services: RUNTIME_SERVICE.PreOverlayService;
+  }
+
+  interface PreOverlayService {
+    [k: string]: {
+      resources: {
+        cpu: number;
+        mem: number;
+        disk: number;
+      };
+      deployments: {
+        replicas: number;
+      };
+    };
   }
 
   interface UpdateConfigBody {
-    query: RUNTIME_SERVICE.UpdateConfigQuery,
-    data: RUNTIME_SERVICE.PreOverlay
+    query: RUNTIME_SERVICE.UpdateConfigQuery;
+    data: RUNTIME_SERVICE.PreOverlay;
   }
 
   interface SocketData {
-    errors: null | Err[]
-    runtimeId: number
-    serviceName: string
-    status: string
+    errors: null | Err[];
+    runtimeId: number;
+    serviceName: string;
+    status: string;
   }
 }
