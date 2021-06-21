@@ -25,6 +25,7 @@ import { columns } from './columns';
 import BatchProcessing from './header/batch-processing';
 import ExportFile from './header/export-file';
 import ImportFile from './header/import-file';
+import ImportExportRecord from './header/import-export-record';
 import AddTestSet from './new-set';
 import CaseFilterDrawer from './filter-drawer';
 import ProjectTreeModal from './project-tree-modal';
@@ -141,6 +142,7 @@ const ManualTest = () => {
               }}
             />
             <BatchProcessing recycled={query.recycled === 'true'} />
+            <ImportExportRecord />
             <ProjectTreeModal />
           </div>
           <div className="mr12-group">

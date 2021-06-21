@@ -292,9 +292,17 @@ export function removeRelation({ testPlanID, id, issueTestCaseRelationIDs }: TES
     .send({ issueTestCaseRelationIDs })
     .then((response: any) => response.body);
 }
+
 export function addRelation({ testPlanID, id, issueIDs }: TEST_CASE.AddRelation) {
   return agent
     .post(`/api/testplans/${testPlanID}/testcase-relations/${id}/actions/add-issue-relations`)
     .send({ issueIDs })
+    .then((response: any) => response.body);
+}
+
+export function getImportExportRecords(data: TEST_CASE.ImportExportQuery) {
+  return agent
+    .get('/api/test-file-records')
+    .query(data)
     .then((response: any) => response.body);
 }
