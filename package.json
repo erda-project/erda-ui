@@ -15,7 +15,9 @@
     "publish": "lerna publish",
     "clear": "lerna clean -y && rm -r -f ./node_modules",
     "f2elint-scan": "f2elint scan",
-    "f2elint-fix": "f2elint fix"
+    "f2elint-fix": "f2elint fix",
+    "prepare": "husky install",
+    "precommit": "lint-staged"
   },
   "repository": {
     "type": "git",
@@ -35,14 +37,14 @@
     "commitizen": "^4.2.4",
     "cz-customizable": "^6.3.0",
     "f2elint": "^1.1.2",
+    "husky": "6.0.0",
     "lerna": "^4.0.0",
+    "lint-staged": "^11.0.0",
     "prettier": "2.3.1",
     "stylelint-config-ali": "^0.4.1"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -e $GIT_PARAMS"
-    }
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,scss,css,md}": "prettier --write"
   },
   "config": {
     "commitizen": {

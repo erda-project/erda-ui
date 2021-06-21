@@ -36,7 +36,6 @@ const mainVersion = packageJson.version.slice(0, -2);
 
 const resolve = (pathname) => path.resolve(__dirname, pathname);
 
-
 module.exports = () => {
   const nodeEnv = process.env.NODE_ENV || 'development';
   const isOnline = process.env.DICE_WORKSPACE; // 线上才有的环境变量
@@ -146,7 +145,18 @@ module.exports = () => {
         },
         {
           test: /\.(css)$/,
-          use: [...(isProd ? [MiniCssExtractPlugin.loader] : ['style-loader']), 'css-loader'],
+          use: [
+            ...(isProd ? [MiniCssExtractPlugin.loader] : ['style-loader']),
+            'css-loader',
+            {
+              loader: 'postcss-loader',
+              options: {
+                postcssOptions: {
+                  plugins: [require.resolve('tailwindcss'), require.resolve('autoprefixer')],
+                },
+              },
+            },
+          ],
         },
         {
           test: /\.(tsx?|jsx?)$/,

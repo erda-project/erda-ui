@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "private": true,
   "scripts": {
-    "start": "nodemon --delay 1 -e js,json,env src/index.js --watch src --watch ../.env"
+    "start": "nodemon --delay 1 -e js,json,env src/index.js --watch src --watch ../.env",
+    "precommit": "lint-staged"
   },
   "author": "Erda-FE",
   "license": "AGPL",
@@ -21,5 +22,13 @@
   "devDependencies": {
     "@babel/plugin-transform-async-to-generator": "^7.13.0",
     "chalk": "^4.1.1"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,scss,css,md}": "prettier --write"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    }
   }
 }
