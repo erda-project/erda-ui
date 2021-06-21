@@ -735,7 +735,9 @@ const BuildDetail = (props: IProps) => {
           </div>
           {needApproval ? (
             <Alert
-              message={i18n.t('application:There are manual review nodes in this workflow, which need to be reviewed by the project admin.')}
+              message={i18n.t(
+                'application:There are manual review nodes in this workflow, which need to be reviewed by the project admin.',
+              )}
               className="mt4"
               type="normal"
               showIcon

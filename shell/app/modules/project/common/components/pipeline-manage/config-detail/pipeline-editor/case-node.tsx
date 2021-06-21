@@ -184,12 +184,12 @@ export const CaseNode = (props: IProps) => {
           )}
           {strategy.decline_limit_sec && (
             <div className="pl8">{`${i18n.t('project:Maximum value of decline')}: ${strategy.decline_limit_sec}${i18n.t(
-              'common:second',
+              'common:second(s)',
             )}`}</div>
           )}
           {strategy.interval_sec && (
             <div className="pl8">{`${i18n.t('project:interval')}: ${strategy.interval_sec}${i18n.t(
-              'common:second',
+              'common:second(s)',
             )}`}</div>
           )}
         </div>

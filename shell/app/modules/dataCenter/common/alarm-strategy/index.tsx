@@ -640,9 +640,7 @@ export default ({ scopeType, scopeId }: IProps) => {
       width: 250,
       className: 'notify-info',
       render: (notifyGroup: COMMON_STRATEGY_NOTIFY.INotifyGroup) => {
-        const tips = i18n.t(
-          'org:notification group does not exist or has been removed, replaceable notification group',
-        );
+        const tips = i18n.t('org:Notification group does not exist or has been remove. Please change one.');
         return (
           <div className="flex-box">
             {isEmpty(notifyGroup) ? (

@@ -82,7 +82,7 @@ class ArtifactsFormModal extends React.PureComponent<IProps, any> {
         },
       },
       {
-        label: i18n.t('publisher:whether to be public'),
+        label: i18n.t('publisher:whether to publish'),
         name: 'public',
         required: false,
         initialValue: false,
