@@ -31,10 +31,7 @@ export const confirmRedeploy = () => {
   confirm({
     title: i18n.t('runtime:confirm restart Runtime?'),
     onOk: () => {
-      const p1 = runtimeServiceStore.updateServicesConfig();
-      const p2 = runtimeDomainStore.updateDomains();
-
-      Promise.all([p1, p2]).then(() => {
+      runtimeDomainStore.updateDomains().then(() => {
         runtimeStore.redeployRuntime();
       });
     },

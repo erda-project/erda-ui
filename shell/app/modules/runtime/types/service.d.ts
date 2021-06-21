@@ -91,16 +91,18 @@ declare namespace RUNTIME_SERVICE {
   }
 
   interface PreOverlay {
-    services: {
-      [k: string]: {
-        resources: {
-          cpu: number;
-          mem: number;
-          disk: number;
-        };
-        deployments: {
-          replicas: number;
-        };
+    services: RUNTIME_SERVICE.PreOverlayService;
+  }
+
+  interface PreOverlayService {
+    [k: string]: {
+      resources: {
+        cpu: number;
+        mem: number;
+        disk: number;
+      };
+      deployments: {
+        replicas: number;
       };
     };
   }
