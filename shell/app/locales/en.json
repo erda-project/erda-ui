@@ -432,6 +432,7 @@
     "restart": "restart",
     "rollback": "rollback",
     "running resources": "running resources",
+    "number of application instance": "number of application instance",
     "save": "save",
     "search by application name": "search by application name",
     "search by chinese/english name of attribute": "search by chinese/english name of attribute",

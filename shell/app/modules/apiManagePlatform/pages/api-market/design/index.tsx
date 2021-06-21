@@ -692,7 +692,12 @@ const ApiDesign = () => {
                       {i18n.t('project:API overview')}
                     </div>
                     <div className="panel-list">
-                      <Collapse accordion bordered={false} defaultActiveKey={['RESOURCE']}>
+                      <Collapse
+                        accordion
+                        bordered={false}
+                        defaultActiveKey={['RESOURCE']}
+                        className="api-overview-collapse"
+                      >
                         <Panel header={renderPanelHead('RESOURCE')} key="RESOURCE">
                           {!isEmpty(apiResourceList) ? (
                             map(apiResourceList, (name) => renderListItem('RESOURCE', name))

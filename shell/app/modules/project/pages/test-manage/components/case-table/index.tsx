@@ -183,7 +183,7 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
       Object.assign(nameColumn, {
         // title: <ChooseTitle mode={mode} />,
         title: <span>{i18n.t('project:use case title')}</span>,
-        width: isScroll ? 380 : '100%',
+        width: isScroll ? 380 : undefined,
         render: (name: string) => <Ellipsis className="bold" title={name} />,
       });
     }

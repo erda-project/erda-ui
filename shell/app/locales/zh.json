@@ -432,6 +432,7 @@
     "restart": "重启",
     "rollback": "回滚",
     "running resources": "运行资源",
+    "number of application instance": "应用实例数",
     "save": "保存",
     "search by application name": "通过应用名称搜索",
     "search by chinese/english name of attribute": "输入属性的中文/英文名搜索",
