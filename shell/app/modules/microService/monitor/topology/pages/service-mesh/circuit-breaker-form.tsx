@@ -167,7 +167,7 @@ const HttpForm = ({ data, submitForm }: IHttpForm) => {
       itemProps: {
         suffix: i18n.t('common:second(s)'),
         placeholder: `${i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 600 })} ${i18n.t(
-          'advice value {value}',
+          'recommended value {value}',
           { value: 30 },
         )}`, // 30
       },
@@ -183,7 +183,7 @@ const HttpForm = ({ data, submitForm }: IHttpForm) => {
       itemProps: {
         suffix: '%',
         placeholder: `${i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 100 })} ${i18n.t(
-          'advice value {value}',
+          'recommended value {value}',
           { value: 50 },
         )}`, // 50
       },
@@ -371,7 +371,7 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
       itemProps: {
         suffix: i18n.t('common:second(s)'),
         placeholder: `${i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 600 })} ${i18n.t(
-          'advice value {value}',
+          'recommended value {value}',
           { value: 30 },
         )}`, // 30
       },
@@ -387,7 +387,7 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
       itemProps: {
         suffix: '%',
         placeholder: `${i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 100 })} ${i18n.t(
-          'advice value {value}',
+          'recommended value {value}',
           { value: 50 },
         )}`, // 50
       },

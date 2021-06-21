@@ -94,7 +94,9 @@ export const MysqlFieldsConfig = {
         rules: [
           {
             pattern: /^[a-zA-Z\u4e00-\u9fa5][a-zA-Z\u4e00-\u9fa50-9-_]{1,254}$/,
-            message: i18n.t('dataCenter:2-255 characters, starts with English or Chinese characters, which can contain numbers, underscores and hyphens.'),
+            message: i18n.t(
+              'dataCenter:2-255 characters, starts with English or Chinese characters, which can contain numbers, underscores and hyphens.',
+            ),
           },
         ],
       },
@@ -208,7 +210,7 @@ export const useOnsFields = () => {
         {
           pattern: /^[a-z\u4e00-\u9fa5A-Z0-9_-]{3,64}$/,
           message: `${i18n.t('length is {min}~{max}', { min: 3, max: 64 })},${i18n.t(
-            'could include Chinese, English, numbers,-, _',
+            'could include Chinese, English, numbers, hyphens and underscores',
           )}`,
         },
       ],
@@ -367,7 +369,7 @@ export const useDBFields = () => [
       {
         pattern: /^[a-zA-Z0-9_-]{2,64}$/,
         message: `${i18n.t('length is {min}~{max}', { min: 2, max: 64 })},${i18n.t(
-          'project:only allowed to consist of characters, numbers, _, and -',
+          'project:can only contain characters, numbers, underscores and hyphens',
         )}`,
       },
     ],
@@ -385,7 +387,7 @@ export const useTopicFields = () => [
       {
         pattern: /^[a-zA-Z0-9_-]{5,64}$/,
         message: `${i18n.t('length is {min}~{max}', { min: 5, max: 64 })},${i18n.t(
-          'project:only allowed to consist of characters, numbers, _, and -',
+          'project:can only contain characters, numbers, underscores and hyphens',
         )}`,
       },
       {
@@ -446,7 +448,7 @@ export const useBucketField = () => {
         {
           pattern: /^[a-zA-Z0-9_-]{3,64}$/,
           message: `${i18n.t('length is {min}~{max}', { min: 3, max: 64 })},${i18n.t(
-            'project:only allowed to consist of characters, numbers, _, and -',
+            'project:can only contain characters, numbers, underscores and hyphens',
           )}`,
         },
       ],
@@ -538,7 +540,9 @@ export const SlbFields = (data: CUSTOM_ADDON.GatewayInstance[], form: WrappedFor
             rules: [
               {
                 pattern: /^[a-zA-Z\u4e00-\u9fa5][a-zA-Z\u4e00-\u9fa50-9_]{3,39}$/,
-                message: i18n.t('resource:4-40 characters, start with English letters or Chinese characters, and can contain numbers and underscores'),
+                message: i18n.t(
+                  'resource:4-40 characters, start with English letters or Chinese characters, and can contain numbers and underscores',
+                ),
               },
             ],
           },
@@ -605,7 +609,9 @@ export const ApiFields = (data: CUSTOM_ADDON.GatewayInstance[], form: WrappedFor
             rules: [
               {
                 pattern: /^[a-zA-Z\u4e00-\u9fa5][a-zA-Z\u4e00-\u9fa50-9_]{3,39}$/,
-                message: i18n.t('resource:4-40 characters, start with English letters or Chinese characters, and can contain numbers and underscores'),
+                message: i18n.t(
+                  'resource:4-40 characters, start with English letters or Chinese characters, and can contain numbers and underscores',
+                ),
               },
             ],
           },
