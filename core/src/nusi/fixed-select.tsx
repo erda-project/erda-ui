@@ -19,21 +19,22 @@ const { Option, OptGroup } = Select;
 const FixedSelect = React.forwardRef((props: any, ref) => {
   const { options: propsOptions, ...rest } = props;
 
-  //Determine if the child elements of props.options is components
-  const isComponent = props.options?.find((item) => React.isValidElement(item));
+  // Determine if the child elements of props.options is components
+  const isComponent = propsOptions?.find((item: any) => React.isValidElement(item));
   const options = isComponent ? props.children || get(props, 'options') : null;
   return (
     <Select
       ref={ref}
       getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
-      {...((isComponent && rest) || props)}
+      {...rest}
+      options={isComponent ? undefined : propsOptions}
     >
       {options}
     </Select>
   );
 });
 
-FixedSelect.Option = Option;
-FixedSelect.OptGroup = OptGroup;
+(FixedSelect as any).Option = Option;
+(FixedSelect as any).OptGroup = OptGroup;
 
 export { FixedSelect };
