@@ -18,7 +18,7 @@ import classnames from 'classnames';
 import SideBar from 'layout/pages/page-container/components/sidebar';
 import SubSideBar from 'layout/pages/page-container/components/sub-sidebar';
 import Header from 'layout/pages/page-container/components/header';
-import { NoAuth, NotFound } from 'app/layout/common/error-page';
+import { NoAuth, NotFound, FreeUserTips } from 'app/layout/common/error-page';
 import { Location } from 'app/interface/common';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -147,6 +147,8 @@ const PageContainer = ({ route }: IProps) => {
     MainContent = <NoAuth />;
   } else if (notFound) {
     MainContent = <NotFound />;
+  } else if (isIn('dataCenter') && currentOrg.type === 'FREE'){
+    MainContent = <FreeUserTips/>
   } else if (state.startInit) {
     const Inner = (
       <ErrorBoundary>
