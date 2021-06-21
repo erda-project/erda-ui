@@ -119,7 +119,6 @@ interface Window {
     };
   };
   diceEnv: {
-    ENABLE_MPAAS: boolean;
     ENABLE_BIGDATA: boolean;
     ONLY_FDP: boolean;
     UC_PUBLIC_URL: string; // 包含protocol

@@ -230,7 +230,6 @@ const restoreFromDockerImage = async (image: string, requireBuildList: string[])
     -e TA_ENABLE=false \
     -e TERMINUS_KEY=xxx \
     -e COLLECTOR_PUBLIC_ADDR=127.0.0.1 \
-    -e ENABLE_MPAAS=false \
     -e ENABLE_BIGDATA=false \
     -e ONLY_FDP=false \
     -e UC_PUBLIC_URL=127.0.0.1 \

@@ -12,7 +12,6 @@ services:
     - 80
     envs:
       TA_ENABLE: "true"
-      ENABLE_MPAAS: "true"
       ENABLE_BIGDATA: "true"
       ONLY_FDP: "false"
       TERMINUS_KEY: "c891011d-6115-11e9-9fe6-6c92bf3144c3"
