@@ -442,6 +442,7 @@
     "restart": "重启",
     "rollback": "回滚",
     "running resources": "运行资源",
+    "runtime-resource-config-form-tip": "本次配置保存成功后，会在应用再次部署时生效，如要保存到代码，请手动同步到 erda.yml 中",
     "number of application instance": "应用实例数",
     "save": "保存",
     "search by application name": "通过应用名称搜索",
