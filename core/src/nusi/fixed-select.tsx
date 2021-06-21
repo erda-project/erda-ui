@@ -16,7 +16,7 @@ import { Select } from 'antd-latest';
 import { get } from 'lodash';
 
 const { Option, OptGroup } = Select;
-const FixedSelect = React.forwardRef((props, ref) => {
+const FixedSelect = React.forwardRef((props: any, ref) => {
   const { options: propsOptions, ...rest } = props;
 
   //Determine if the child elements of props.options is components
