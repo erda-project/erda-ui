@@ -106,7 +106,7 @@ const FreeUserTips = () => {
   return (
     <div className="basic-error-page">
       <div className="info">
-        <CustomIcon type="no-auth" color />
+        <CustomIcon type="VIP" color />
         <div className="desc">
           <span>{i18n.t('common:vip features tips')}</span>
           <a target="_blank" href="https://www.erda.cloud/contact">
