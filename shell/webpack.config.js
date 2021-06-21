@@ -36,7 +36,6 @@ const mainVersion = packageJson.version.slice(0, -2);
 
 const resolve = (pathname) => path.resolve(__dirname, pathname);
 
-const dashboardRealPath = fs.realpathSync(resolve('./node_modules/@erda-ui/dashboard-configurator'));
 
 module.exports = () => {
   const nodeEnv = process.env.NODE_ENV || 'development';
@@ -112,7 +111,7 @@ module.exports = () => {
       rules: [
         {
           test: /\.(scss)$/,
-          include: [resolve('app'), dashboardRealPath],
+          include: [resolve('app')],
           use: [
             ...(isProd ? [MiniCssExtractPlugin.loader] : []), // extract not support hmr, https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/222
             'thread-loader',
@@ -151,7 +150,7 @@ module.exports = () => {
         },
         {
           test: /\.(tsx?|jsx?)$/,
-          include: [resolve('app'), dashboardRealPath],
+          include: [resolve('app')],
           use: [
             'thread-loader',
             {
@@ -249,7 +248,7 @@ module.exports = () => {
             priority: -5,
           },
           styles: {
-            test: /\.(css|scss|less)$/,
+            type: 'css/mini-extract',
             enforce: true, // force css in new chunks (ignores all other options)
           },
         },

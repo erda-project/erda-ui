@@ -16,8 +16,8 @@ import { Table, Tooltip } from 'app/nusi';
 import { get } from 'lodash';
 import moment from 'moment';
 import { Copy } from 'common';
-import SIWebStore from '../../stores/web';
-import SIDataBaseStore from '../../stores/database';
+import siWebStore from '../../stores/web';
+import siDataBaseStore from '../../stores/database';
 import { TraceExpandTable, onExpand } from './track-expand-table';
 import i18n from 'i18n';
 
@@ -29,11 +29,12 @@ interface ISlowTrackProps {
   timeSpan: ITimeSpan;
   viewLog: (params: any) => void;
   fetchTraceContent: (params: any) => void;
+  _moduleName: string;
 }
 
-export const webSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceContent }: ISlowTrackProps) => {
-  const { getSubSlowHttpList } = SIWebStore.effects;
-  const subSlowHttpList = SIWebStore.useStore((s) => s.subSlowHttpList);
+export const webSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceContent, _moduleName }: ISlowTrackProps) => {
+  const { getSubSlowHttpList, getSubSlowRPCList } = siWebStore.effects;
+  const [subSlowHttpList, subSlowRpcList] = siWebStore.useStore(s => [s.subSlowHttpList, s.subSlowRPCList]);
   const list = get(data, 'list') || [];
   const { startTimeMs: start, endTimeMs: end } = timeSpan || {};
 
@@ -89,21 +90,25 @@ export const webSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCo
         viewLog={viewLog}
         fetchTraceContent={fetchTraceContent}
         recordKey={name}
-        dataSource={subSlowHttpList}
+        dataSource={_moduleName === 'SIRPC' ? subSlowRpcList : subSlowHttpList}
         emptyText={i18n.t('microService:No slow transaction data sampled yet.')}
       />
     );
   };
 
-  const onRowExpand = onExpand(getSubSlowHttpList, query, (record: any) => {
+  const getListEffect = _moduleName === 'SIRPC' ? getSubSlowRPCList : getSubSlowHttpList;
+  const onRowExpand = onExpand(getListEffect, query, (record: any) => {
     const { name } = record;
+    if (_moduleName === 'SIRPC') {
+      return { start, end, filter_dubbo_service: name };
+    }
     return { start, end, filter_http_path: name };
   });
 
   return (
     <Table
       scroll={{ x: 710 }}
-      rowKey={(record: MONITOR_SI.ITableData, i) => i + record.name}
+      rowKey={(record: MONITOR_SI.ITableData, i) => (i + record.name)}
       columns={columns}
       dataSource={list}
       onExpand={onRowExpand}
@@ -113,8 +118,8 @@ export const webSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCo
 };
 
 export const dbSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceContent }: ISlowTrackProps) => {
-  const { getSubSlowDbList } = SIDataBaseStore.effects;
-  const subSlowDbList = SIDataBaseStore.useStore((s) => s.subSlowDbList);
+  const { getSubSlowDbList } = siDataBaseStore.effects;
+  const subSlowDbList = siDataBaseStore.useStore(s => s.subSlowDbList);
   const list = get(data, 'list') || [];
   const { startTimeMs: start, endTimeMs: end } = timeSpan || {};
 
@@ -184,7 +189,7 @@ export const dbSlowTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceCon
   return (
     <Table
       scroll={{ x: 710 }}
-      rowKey={(record: MONITOR_SI.ITableData, i) => i + record.name}
+      rowKey={(record: MONITOR_SI.ITableData, i) => (i + record.name)}
       columns={columns}
       dataSource={list}
       onExpand={onRowExpand}

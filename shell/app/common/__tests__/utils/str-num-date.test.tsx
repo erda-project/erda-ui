@@ -52,7 +52,7 @@ describe('str-num-date', () => {
   });
   it('getDateDuration', () => {
     expect(getDateDuration('2021-04-24', '2021-04-25')).toBe('a day');
-    expect(getDateDuration('2021-04-24 12:12:12', '2021-04-24 12:12:20')).toBe('8 second');
+    expect(getDateDuration('2021-04-24 12:12:12', '2021-04-24 12:12:20')).toBe('8 second(s)');
     expect(getDateDuration('2021-04-24 12:12:12', '2021-04-24 12:13:12')).toBe('a minute');
   });
   it('cutStr', () => {
@@ -66,9 +66,9 @@ describe('str-num-date', () => {
     expect(secondsToTime(-1)).toBe(-1);
     expect(secondsToTime(1)).toBe('00:01');
     expect(secondsToTime(3750, false)).toBe('1:02:30');
-    expect(secondsToTime(3750, true)).toBe('1hour2minutes30second');
-    expect(secondsToTime(20, true)).toBe('20second');
-    expect(secondsToTime(90, true)).toBe('1minutes30second');
+    expect(secondsToTime(3750, true)).toBe('1hour2minutes30second(s)');
+    expect(secondsToTime(20, true)).toBe('20second(s)');
+    expect(secondsToTime(90, true)).toBe('1minutes30second(s)');
   });
   it('daysRange', () => {
     const testDaysRange = (num: number) => {

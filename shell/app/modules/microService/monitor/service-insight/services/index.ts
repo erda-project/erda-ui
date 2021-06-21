@@ -10,12 +10,18 @@
 //
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
-
 import agent from 'agent';
 
 export const getSubSlowHttpList = (payload: MONITOR_SI.ITableDataQuery): IChartResult => {
   return agent
     .get('/api/tmc/metrics/application_http_slow')
+    .query(payload)
+    .then((response: any) => response.body);
+};
+
+export const getSubSlowRPCList = (payload: MONITOR_SI.ITableDataQuery): IChartResult => {
+  return agent
+    .get('/api/tmc/metrics/application_rpc_slow')
     .query(payload)
     .then((response: any) => response.body);
 };

@@ -116,7 +116,7 @@ const convertListData = (list: IApplication[], isInProject: boolean) => {
         : { icon: 'time', text: i18n.t('none') },
       {
         icon: 'category-management',
-        text: (modeOptions.find((m) => m.value === mode) as { name: string }).name,
+        text: (modeOptions.find((m) => m.value === mode) as { name: string })?.name,
         tooltip: i18n.t('application:application type'),
       },
     ].concat(getBlockNetInfo(l));

@@ -16,7 +16,7 @@ import { Table, Tooltip } from 'app/nusi';
 import { get } from 'lodash';
 import moment from 'moment';
 import { Copy } from 'common';
-import SIWebStore from '../../stores/web';
+import siWebStore from '../../stores/web';
 import SIDataBaseStore from '../../stores/database';
 import { TraceExpandTable, onExpand } from './track-expand-table';
 import i18n from 'i18n';
@@ -34,8 +34,8 @@ interface IErrorTrackProps {
 export const webErrorTrackPanel = ({ data, query, timeSpan, viewLog, fetchTraceContent }: IErrorTrackProps) => {
   const list = get(data, 'list') || [];
   const { startTimeMs: start, endTimeMs: end } = timeSpan || {};
-  const { getSubErrorHttpList } = SIWebStore.effects;
-  const subErrorHttpList = SIWebStore.useStore((s) => s.subErrorHttpList);
+  const { getSubErrorHttpList } = siWebStore.effects;
+  const subErrorHttpList = siWebStore.useStore((s) => s.subErrorHttpList);
   const columns = [
     {
       title: 'Url',

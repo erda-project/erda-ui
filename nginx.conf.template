@@ -64,7 +64,6 @@ server {
     location /api/dice-env  {
         default_type application/javascript;
         return 200 'window.diceEnv={
-            "ENABLE_MPAAS":${ENABLE_MPAAS},
             "ENABLE_BIGDATA":${ENABLE_BIGDATA},
             "ONLY_FDP":${ONLY_FDP},
             "UC_PUBLIC_URL":"${UC_PUBLIC_URL}"

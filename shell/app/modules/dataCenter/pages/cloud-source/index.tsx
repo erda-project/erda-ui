@@ -20,7 +20,7 @@ import { useEffectOnce } from 'react-use';
 import { get, map, values, isEmpty, merge } from 'lodash';
 import { PureBoardGrid } from 'common';
 import { goTo } from 'common/utils';
-import { colorMap } from '@erda-ui/dashboard-configurator/src/theme/dice';
+import { colorMap } from '@erda-ui/dashboard-configurator';
 import cloudAccountStore from 'dataCenter/stores/cloud-account';
 import Guidance from 'dataCenter/pages/account-guidance';
 import ts_svg from 'app/images/ts.svg';

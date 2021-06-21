@@ -16,16 +16,25 @@ import { Select } from 'antd-latest';
 import { get } from 'lodash';
 
 const { Option, OptGroup } = Select;
-const FixedSelect = React.forwardRef((props, ref) => {
-  const options = props.children || get(props, 'options');
+const FixedSelect = React.forwardRef((props: any, ref) => {
+  const { options: propsOptions, ...rest } = props;
+
+  // Determine if the child elements of props.options is components
+  const isComponent = propsOptions?.find((item: any) => React.isValidElement(item));
+  const options = isComponent ? props.children || get(props, 'options') : null;
   return (
-    <Select ref={ref} getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement} {...props}>
+    <Select
+      ref={ref}
+      getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
+      {...rest}
+      options={isComponent ? undefined : propsOptions}
+    >
       {options}
     </Select>
   );
 });
 
-FixedSelect.Option = Option;
-FixedSelect.OptGroup = OptGroup;
+(FixedSelect as any).Option = Option;
+(FixedSelect as any).OptGroup = OptGroup;
 
 export { FixedSelect };

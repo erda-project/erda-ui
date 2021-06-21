@@ -416,7 +416,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
 
   handleDeleteUser = ({ consumerId }: any) => {
     confirm({
-      title: i18n.t('microService:confirm to delete'),
+      title: i18n.t('microService:confirm deletion'),
       content: i18n.t('microService:If you delete a user, all authorized APIs for that user will be deleted.'),
       onOk: () => this.props.deleteConsumer({ consumerId }),
     });
@@ -493,7 +493,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
 
   handleDeleteOAuth = ({ id, name }: any) => {
     confirm({
-      title: i18n.t('microService:confirm to delete'),
+      title: i18n.t('microService:confirm deletion'),
       content: `${i18n.t('microService:confirm to delete this parameter')}：${name}`,
       onOk: () => {
         const { authData } = this.props;

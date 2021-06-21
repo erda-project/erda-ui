@@ -63,6 +63,7 @@ const appStore = createStore({
           // 应用切换后才重新checkRouteAuth
           loadingInApp = true;
           appStore.reducers.updateCurAppId(appId);
+          breadcrumbStore.reducers.setInfo('appName', '');
           permStore.effects.checkRouteAuth({
             type: 'app',
             id: appId,

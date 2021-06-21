@@ -14,7 +14,7 @@
 import React, { useMemo, useCallback } from 'react';
 import { map } from 'lodash';
 import i18n from 'i18n';
-import { DC } from '@erda-ui/dashboard-configurator';
+import DC from '@erda-ui/dashboard-configurator/dist';
 import { Radio, Search, Select, Drawer, Tag, Table } from 'app/nusi';
 import { TimeSelector, SimpleLog, useUpdate } from 'common';
 import monitorCommonStore from 'common/stores/monitorCommon';

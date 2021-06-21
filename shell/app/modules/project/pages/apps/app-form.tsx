@@ -23,6 +23,7 @@ import i18n from 'i18n';
 import routeInfoStore from 'app/common/stores/route';
 import appStore from 'application/stores/application';
 import { useLoading } from 'app/common/stores/loading';
+import orgStore from 'app/org-home/stores/org';
 import diceEnv from 'dice-env';
 import './app-form.scss';
 
@@ -43,8 +44,10 @@ const CreationForm = () => {
   const [template, setTemplate] = React.useState([{ name: i18n.t('default:none'), value: '-1' }]);
   const [tempSelected, setTempSelected] = React.useState('-1');
   const [repoType, setRepoType] = React.useState(RepositoryMode.Internal);
-  const { ENABLE_MPAAS, ENABLE_BIGDATA } = diceEnv;
-  const [isCraeateApp, isInitApp] = useLoading(appStore, ['createApp', 'initApp']);
+  const { ENABLE_BIGDATA } = diceEnv;
+  const publisherId = orgStore.getState((s) => s.currentOrg.publisherId);
+
+  const [isCreateApp, isInitApp] = useLoading(appStore, ['createApp', 'initApp']);
   const formRef = React.useRef(null as any);
   const repoConfigTemp = React.useRef({});
   React.useEffect(() => {
@@ -114,7 +117,7 @@ const CreationForm = () => {
   const useOption = filter(modeOptions, (item) => {
     // 创建时不需要展示能力应用
     const excludeOptions = [appMode.ABILITY];
-    !ENABLE_MPAAS && excludeOptions.push(appMode.MOBILE);
+    !publisherId && excludeOptions.push(appMode.MOBILE);
     !ENABLE_BIGDATA && excludeOptions.push(appMode.BIGDATA); // 为新华书店保留
     return !excludeOptions.includes(item.value);
   });
@@ -337,7 +340,7 @@ const CreationForm = () => {
   ];
 
   return (
-    <Spin spinning={isCraeateApp || isInitApp} className="app-form-spin">
+    <Spin spinning={isCreateApp || isInitApp} className="app-form-spin">
       <RenderForm wrappedComponentRef={formRef} className="create-app-form" layout="vertical" list={fieldsList} />
     </Spin>
   );
