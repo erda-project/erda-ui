@@ -1,3 +1,16 @@
+// Copyright (c) 2021 Terminus, Inc.
+//
+// This program is free software: you can use, redistribute, and/or modify
+// it under the terms of the GNU Affero General Public License, version 3
+// or later ("AGPL"), as published by the Free Software Foundation.
+//
+// This program is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+
 // const path = require('path');
 const plugin = require('tailwindcss/plugin');
 
@@ -14,16 +27,16 @@ module.exports = {
         DEFAULT: '3px',
       },
       borderColor: (theme) => ({ ...theme('colors'), normal: '#00000019' }),
-    //   backgroundImage: () => {
-    //     const imgPath = path.resolve(__dirname, './app/images');
-    //     return {
-    //       'empty-holder': `url('${imgPath}/kztt.png')`,
-    //       'empty-flow': `url('${imgPath}/kzt.png')`,
-    //       'empty-ad-query': `url('${imgPath}/jzts.svg')`,
-    //       'editor-background': `url('${imgPath}/editor-background.png')`,
-    //       'new-point': `url('${imgPath}/zwt.png')`,
-    //     };
-    //   },
+      //   backgroundImage: () => {
+      //     const imgPath = path.resolve(__dirname, './app/images');
+      //     return {
+      //       'empty-holder': `url('${imgPath}/kztt.png')`,
+      //       'empty-flow': `url('${imgPath}/kzt.png')`,
+      //       'empty-ad-query': `url('${imgPath}/jzts.svg')`,
+      //       'editor-background': `url('${imgPath}/editor-background.png')`,
+      //       'new-point': `url('${imgPath}/zwt.png')`,
+      //     };
+      //   },
       colors: {
         primary: '#6a549e',
         normal: '#000000cc', // color-dark-8: rgba(0, 0, 0, .8)
@@ -82,9 +95,6 @@ module.exports = {
   ],
   purge: {
     enabled: process.env.NODE_ENV === 'production',
-    content: [
-      './app/**/*.tsx',
-      './app/**/*.jsx',
-    ],
+    content: ['./app/**/*.tsx', './app/**/*.jsx'],
   },
 };
