@@ -25,7 +25,7 @@ export const clusterTypeMap = [
       name: i18n.t('dataCenter:alibaba Cloud Container Service Cluster (Hosted Version)'),
       icon: clusterImgMap['alicloud-cs-managed'],
       description: i18n.t(
-        'dataCenter:based on Alibaba Cloud Container Service Hosting Edition, create a Erda hosting cluster',
+        'dataCenter:based on Alibaba Cloud Container Service (managed), create an Erda managed cluster',
       ),
     },
     {
@@ -33,7 +33,7 @@ export const clusterTypeMap = [
       name: i18n.t('dataCenter:alibaba Cloud Container Service Cluster (proprietary version)'),
       icon: clusterImgMap['alicloud-cs'],
       description: i18n.t(
-        'dataCenter:based on Alibaba Cloud Container Service Proprietary Edition, create a Erda hosting cluster',
+        'dataCenter:based on Alibaba Cloud Container Service (Dedicated), create an Erda managed cluster',
       ),
     },
     {
