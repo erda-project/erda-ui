@@ -18,12 +18,16 @@ import { get } from 'lodash';
 const { Option, OptGroup } = Select;
 const FixedSelect = React.forwardRef((props, ref) => {
   const { options: propsOptions, ...rest } = props;
-  
+
   //Determine if the child elements of props.options is components
-  const isComponent = props.options?.find(item => item.type?.name === 'Option');
-  const options = isComponent ? props.children || get(props, 'options') : '';
+  const isComponent = props.options?.find((item) => React.isValidElement(item));
+  const options = isComponent ? props.children || get(props, 'options') : null;
   return (
-    <Select ref={ref} getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement} {...(isComponent && rest || props)}>
+    <Select
+      ref={ref}
+      getPopupContainer={(triggerNode) => triggerNode.parentElement as HTMLElement}
+      {...((isComponent && rest) || props)}
+    >
       {options}
     </Select>
   );
