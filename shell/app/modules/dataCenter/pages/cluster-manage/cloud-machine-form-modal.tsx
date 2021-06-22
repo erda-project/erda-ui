@@ -44,7 +44,7 @@ const BasicForm = ({ form }: { form: WrappedFormUtils }) => {
       itemProps: {
         min: 1,
         max: 20,
-        className: 'full-width',
+        className: 'w-full',
       },
       extraProps: {
         extra: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 20 }),
@@ -95,7 +95,7 @@ const MoreForm = ({ form }: { form: WrappedFormUtils }) => {
       itemProps: {
         min: 1,
         max: 1024,
-        className: 'full-width',
+        className: 'w-full',
         formatter: (v: string) => `${v}G`,
         parser: (v: string) => v.replace('G', ''),
       },
@@ -110,7 +110,7 @@ const MoreForm = ({ form }: { form: WrappedFormUtils }) => {
       initialValue: diskTypeMap.cloud_ssd.value,
       options: getOptions('diskType'),
       itemProps: {
-        className: 'full-width',
+        className: 'w-full',
       },
     },
   ];

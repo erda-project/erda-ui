@@ -405,7 +405,7 @@ const RenderItem = (props: IRenderItem) => {
       Comp = (
         <Select
           value={curVal}
-          className={'edit-list-select full-width'}
+          className={'edit-list-select w-full'}
           getPopupContainer={() => document.body}
           onChange={(v: any) => {
             updateItem(v);
@@ -450,7 +450,7 @@ const RenderItem = (props: IRenderItem) => {
     case 'textarea':
       Comp = (
         <textarea
-          className="full-width ant-input edit-list-item-textarea"
+          className="w-full ant-input edit-list-item-textarea"
           ref={ref}
           required={required}
           disabled={disabled}

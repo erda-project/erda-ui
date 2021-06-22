@@ -65,7 +65,7 @@ export default () => {
   };
 
   return (
-    <div className="invite-to-org full-height center-flex-box">
+    <div className="invite-to-org h-full center-flex-box">
       <div className="invite-to-org-ct text-center">
         <Avatar className="mb16" useLoginUser size={80} />
         <p className="mb32 fz24 bold" style={{ lineHeight: '1em' }}>{`${i18n.t('Welcome!')} ${nick || name}`}</p>

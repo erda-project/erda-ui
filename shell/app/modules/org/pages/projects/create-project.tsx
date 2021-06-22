@@ -172,7 +172,7 @@ const TemplateCard = (props: ICardProps) => {
     <div className={cln} onClick={onClick}>
       <div className="template-icon">
         <img
-          className="full-width full-height"
+          className="w-full h-full"
           src={isChecked ? get(type, 'icon.active') : get(type, 'icon.default')}
           alt="template-icon"
         />

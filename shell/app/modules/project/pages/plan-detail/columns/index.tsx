@@ -56,7 +56,7 @@ export const getColumns = ({ afterDelete }: { afterDelete: (data: number[]) => v
       dataIndex: 'operation',
       key: 'operation',
       width: 240,
-      className: 'auto-overflow',
+      className: 'overflow-auto',
       fixed: 'right',
       render: (_text: any, record: TEST_CASE.CaseTableRecord) =>
         record.id && <Operation afterDelete={afterDelete} record={record} />,

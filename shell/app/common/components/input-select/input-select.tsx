@@ -260,7 +260,7 @@ const PureSelect = (props: SelectorProps) => {
             >
               {op.tooltip ? (
                 <Tooltip title={op.tooltip} placement="right">
-                  <span className="full-width">{op.label}</span>
+                  <span className="w-full">{op.label}</span>
                 </Tooltip>
               ) : (
                 <Ellipsis placement="right" title={op.label}>
@@ -401,7 +401,7 @@ const OptionGroup = (props: IOptionGroupProps) => {
             >
               {op.tooltip ? (
                 <Tooltip title={op.tooltip} placement="left">
-                  <span className="full-width">{op.label}</span>
+                  <span className="w-full">{op.label}</span>
                 </Tooltip>
               ) : (
                 <Ellipsis placement="left" title={op.label}>

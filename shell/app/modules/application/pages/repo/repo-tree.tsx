@@ -72,7 +72,7 @@ const RepoDownload = (props: IDownProp) => {
         <div className="clone-content">
           <div className="addr">
             <Input
-              className="full-width"
+              className="w-full"
               value={gitRepo}
               addonAfter={renderAddonAfter(gitRepo, i18n.t('application:repo address'))}
             />
@@ -94,12 +94,12 @@ const RepoDownload = (props: IDownProp) => {
           </ButtonGroup>
           <p className="label mb8">username</p>
           <Input
-            className="full-width mb16"
+            className="w-full mb16"
             value={info.username}
             addonAfter={renderAddonAfter(info.username, 'username')}
           />
           <p className="label mb8">token</p>
-          <Input className="full-width mb16" value={token} addonAfter={renderAddonAfter(token, 'token')} />
+          <Input className="w-full mb16" value={token} addonAfter={renderAddonAfter(token, 'token')} />
         </div>
       }
       trigger="click"

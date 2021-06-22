@@ -71,7 +71,7 @@ const Iterations = () => {
   };
 
   return (
-    <div className="backlog-iterations column-flex-box full-height">
+    <div className="backlog-iterations column-flex-box h-full">
       <div className="backlog-iterations-title  flex-box mb8">
         <div>
           <span className="bold fz16 mr8">{i18n.t('project:unfinished iteration')}</span>
@@ -88,7 +88,7 @@ const Iterations = () => {
           </WithAuth>
         </div>
       </div>
-      <div className="backlog-iteration-content spin-full-height">
+      <div className="backlog-iteration-content spin-h-full">
         <Spin spinning={loading}>
           {isEmpty(undoneIterations) && !isAdding && <EmptyIteration addAuth={addAuth} onAdd={onAdd} />}
           {

@@ -97,7 +97,7 @@ const releaseOptionItem = (release: RELEASE.detail) => {
   );
   return (
     <Tooltip title={tip} key={releaseId}>
-      <span className="full-width nowrap">{displayStr}</span>
+      <span className="w-full nowrap">{displayStr}</span>
     </Tooltip>
   );
 };

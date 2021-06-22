@@ -86,7 +86,7 @@ export default (props: CP_TREE_SELECT.Props) => {
       {title ? <h4> {title} </h4> : null}
       <TreeSelect
         showSearch={showSearch}
-        className={'full-width'}
+        className={'w-full'}
         treeDataSimpleMode
         value={value}
         dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}

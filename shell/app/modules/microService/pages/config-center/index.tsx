@@ -93,7 +93,7 @@ const AppSelector = (props: IAppSelectorProps) => {
   };
 
   const listComp = (
-    <div className="sider-switch-list full-width">
+    <div className="sider-switch-list w-full">
       <div className="input-wrap" onClick={(e) => e.stopPropagation()}>
         <Input placeholder={i18n.t('search')} onChange={filterAppList} value={searchKey} />
       </div>

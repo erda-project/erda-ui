@@ -110,7 +110,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
               });
         return (
           <Tooltip title={`${v}`}>
-            <Link to={url} target="_blank" className="flex-box flex-start  full-width">
+            <Link to={url} target="_blank" className="flex-box flex-start  w-full">
               <IssueIcon type={record.type as any} />
               <span className="flex-1 nowrap">{`${v}`}</span>
             </Link>

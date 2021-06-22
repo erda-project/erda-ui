@@ -20,7 +20,7 @@ import './org-list.scss';
 
 export const OrgList = () => {
   return (
-    <Card className="full-height ma12 auto-overflow">
+    <Card className="h-full ma12 overflow-auto">
       <div className="org-home-info mb20">
         <div className="info-img">
           <img src={erda_png} />

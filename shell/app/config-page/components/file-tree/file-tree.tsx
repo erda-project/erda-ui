@@ -115,7 +115,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
             </div>
           ) : d.operations?.click?.disabled ? (
             <Tooltip title={d.operations.click.disabledTip}>
-              <span className="file-tree-disabled-node not-allowed full-width nowrap">{d.title}</span>
+              <span className="file-tree-disabled-node not-allowed w-full nowrap">{d.title}</span>
             </Tooltip>
           ) : (
             <div className="file-tree-title">
@@ -327,7 +327,7 @@ export const FileTree = (props: CP_FILE_TREE.Props) => {
   }
 
   return (
-    <div className="dice-cp file-tree full-height">
+    <div className="dice-cp file-tree h-full">
       {
         // 默认带上search
         searchable ? (

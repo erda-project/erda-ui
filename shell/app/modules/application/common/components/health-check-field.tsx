@@ -104,7 +104,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
             <InputNumber
               disabled={disabled}
               min={1}
-              className="full-width"
+              className="w-full"
               value={value[healthCheckKey] ? value[healthCheckKey].port : null}
               onChange={(v?: number) => this.changeValue(v, 'port')}
               placeholder={i18n.t('application:please enter the port')}
@@ -127,7 +127,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
           <span>
             <InputNumber
               disabled={disabled}
-              className="full-width"
+              className="w-full"
               value={value[healthCheckKey] ? value[healthCheckKey].duration || 0 : 0}
               onChange={(v?: number) => this.changeValue(v, 'duration')}
               placeholder={i18n.t('application:please enter the duration')}
@@ -162,7 +162,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
           <span>
             <InputNumber
               disabled={disabled}
-              className="full-width"
+              className="w-full"
               value={value[healthCheckKey] ? value[healthCheckKey].duration || 0 : null}
               onChange={(v?: number) => this.changeValue(v, 'duration')}
               placeholder={i18n.t('application:please enter the duration')}

@@ -71,10 +71,10 @@ const BindDomainForm = (props: any) => {
   };
 
   return (
-    <div className="full-width">
+    <div className="w-full">
       {map(value, (_item: any, index: number) => {
         return (
-          <FormItem className="full-width bind-domain-item" key={`${index}`}>
+          <FormItem className="w-full bind-domain-item" key={`${index}`}>
             {form.getFieldDecorator(`bindDomain_${index}`, {
               initialValue: value[index],
               rules: [

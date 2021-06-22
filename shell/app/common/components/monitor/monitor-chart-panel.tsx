@@ -50,7 +50,7 @@ const MonitorChartPanel = (props: IProps) => {
             });
           }
           return (
-            <div className="monitor-chart-cell spin-full-height" key={metricKey}>
+            <div className="monitor-chart-cell spin-h-full" key={metricKey}>
               <MonitorChart
                 {...{ resourceType, resourceId }}
                 title={title || metricName}

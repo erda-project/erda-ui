@@ -109,7 +109,7 @@ export const RepoBlame = ({ name, className, path, ops }: IProps) => {
   } else {
     content = (
       <FileContainer name={name} ops={ops} className={`repo-file ${className}`}>
-        <Row className="blame-content full-height">
+        <Row className="blame-content h-full">
           <Col span={8}>
             <Spin spinning={isFetchingRepoBlame}>
               <div className="blame-commits-content">
@@ -130,7 +130,7 @@ export const RepoBlame = ({ name, className, path, ops }: IProps) => {
               </div>
             </Spin>
           </Col>
-          <Col span={16} className="full-height">
+          <Col span={16} className="h-full">
             <FileEditor
               name={name}
               fileExtension={fileExtension || 'text'}

@@ -208,7 +208,7 @@ export const stringMinLengthField = (dataTempStorage: Obj) => {
     colSpan: 8,
     required: false,
     customProps: {
-      className: 'full-width',
+      className: 'w-full',
       precision: 0,
       ...DEFAULT_LENGTH_PROPS,
     },
@@ -235,7 +235,7 @@ export const stringMaxLengthField = (dataTempStorage: Obj) => {
     colSpan: 8,
     required: false,
     customProps: {
-      className: 'full-width',
+      className: 'w-full',
       precision: 0,
       ...DEFAULT_LENGTH_PROPS,
     },
@@ -263,7 +263,7 @@ export const stringDefaultValueField = {
   colSpan: 24,
   customProps: {
     maxLength: INPUT_MAX_LENGTH,
-    className: 'full-width',
+    className: 'w-full',
   },
 };
 
@@ -277,7 +277,7 @@ export const stringExampleField = {
   initialValue: DATATYPE_EXAMPLE_MAP.string,
   customProps: {
     maxLength: TEXTAREA_MAX_LENGTH,
-    className: 'full-width',
+    className: 'w-full',
   },
 };
 
@@ -303,7 +303,7 @@ export const numberMinimumField = (dataTempStorage: Obj) => {
     colSpan: 8,
     required: false,
     customProps: {
-      className: 'full-width',
+      className: 'w-full',
       ...DEFAULT_NUMBER_PROPS,
     },
     validator: [
@@ -330,7 +330,7 @@ export const numberMaximumField = (dataTempStorage: Obj) => {
     colSpan: 8,
     required: false,
     customProps: {
-      className: 'full-width',
+      className: 'w-full',
       ...DEFAULT_NUMBER_PROPS,
     },
     validator: [
@@ -355,7 +355,7 @@ export const numberDefaultValueField = {
   name: 'default',
   required: false,
   colSpan: 24,
-  customProps: { className: 'full-width', ...DEFAULT_NUMBER_PROPS },
+  customProps: { className: 'w-full', ...DEFAULT_NUMBER_PROPS },
 };
 
 // number 默认值
@@ -366,7 +366,7 @@ export const numberExampleField = {
   colSpan: 24,
   required: false,
   initialValue: DATATYPE_EXAMPLE_MAP.number,
-  customProps: { className: 'full-width', ...DEFAULT_NUMBER_PROPS },
+  customProps: { className: 'w-full', ...DEFAULT_NUMBER_PROPS },
 };
 
 /** ------object 的配置项-------------------------------*/
@@ -378,7 +378,7 @@ export const objectExampleField = {
   colSpan: 24,
   required: false,
   customProps: {
-    className: 'full-width',
+    className: 'w-full',
     fileExtension: 'json',
     readOnly: true,
   },

@@ -39,7 +39,7 @@ const errMsgMap = (rowNum: number, type: string, maxLength?: number) => {
       errMsg = `key ${i18n.t('common:must be unique')}`;
       break;
     case 'n_valid':
-      errMsg = i18n.t('common:full-width punctuation not allowed');
+      errMsg = i18n.t('common:w-full punctuation not allowed');
       break;
     case 'too_long_value':
       errMsg = i18n.t('the length of {type} must not exceed {maxLength} characters', { type: 'Value', maxLength });

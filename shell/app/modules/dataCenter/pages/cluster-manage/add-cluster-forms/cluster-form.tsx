@@ -264,7 +264,7 @@ const ClusterSchedulerForm = ({
         itemProps: {
           min: 1,
           max: 100,
-          className: 'full-width',
+          className: 'w-full',
           placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 100 }),
         },
         initialValue: 1,
@@ -339,7 +339,7 @@ const ClusterSchedulerForm = ({
         getComp: () => (
           <>
             <DatePicker
-              className="full-width"
+              className="w-full"
               format="YYYY-MM-DD HH:mm"
               defaultValue={initialOpsConfig && moment(initialOpsConfig.launchTime)}
               disabledDate={(current: Moment) => current && current < moment().subtract(1, 'days')}
@@ -361,7 +361,7 @@ const ClusterSchedulerForm = ({
           min: 0,
           precision: 0,
           placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 12 }),
-          className: 'full-width',
+          className: 'w-full',
         },
       },
       {
@@ -374,7 +374,7 @@ const ClusterSchedulerForm = ({
           min: 0,
           precision: 0,
           placeholder: i18n.t('please enter a number between {min} ~ {max}', { min: 1, max: 20 }),
-          className: 'full-width',
+          className: 'w-full',
         },
       },
       {
@@ -384,7 +384,7 @@ const ClusterSchedulerForm = ({
         initialValue: repeatMode,
         options: map(repeatModeMap, (name, value) => ({ value, name })),
         itemProps: {
-          className: 'full-width',
+          className: 'w-full',
           onChange(value: string) {
             form.setFieldsValue({
               'opsConfig.repeatValue': undefined,
@@ -407,7 +407,7 @@ const ClusterSchedulerForm = ({
           options: map(weekMap, (name, value) => ({ value, name })),
           itemProps: {
             mode: 'multiple',
-            className: 'full-width',
+            className: 'w-full',
           },
         };
         break;

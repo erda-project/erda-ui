@@ -180,7 +180,7 @@ const formFields = [
     component: 'inputNumber',
     required: true,
     componentProps: {
-      className: 'full-width',
+      className: 'w-full',
       precision: 0,
       disabled: false,
     },
@@ -206,7 +206,7 @@ const formFields = [
     required: true,
     key: 'storage.cpuRequest',
     group: 'storage',
-    componentProps: { className: 'full-width', disabled: false, min: 0 },
+    componentProps: { className: 'w-full', disabled: false, min: 0 },
   },
   {
     label: 'cpu限制(核)',
@@ -214,7 +214,7 @@ const formFields = [
     required: true,
     key: 'storage.cpuLimit',
     group: 'storage',
-    componentProps: { className: 'full-width', disabled: false, min: 0 },
+    componentProps: { className: 'w-full', disabled: false, min: 0 },
   },
   {
     label: '内存需求(MB)',
@@ -222,7 +222,7 @@ const formFields = [
     required: true,
     key: 'storage.memoryRequest',
     group: 'storage',
-    componentProps: { className: 'full-width', precision: 0, disabled: false, min: 0 },
+    componentProps: { className: 'w-full', precision: 0, disabled: false, min: 0 },
   },
   {
     label: '内存限制(MB)',
@@ -230,7 +230,7 @@ const formFields = [
     required: true,
     key: 'storage.memoryLimit',
     group: 'storage',
-    componentProps: { className: 'full-width', precision: 0, disabled: false, min: 0 },
+    componentProps: { className: 'w-full', precision: 0, disabled: false, min: 0 },
   },
   {
     label: '',
@@ -341,7 +341,7 @@ const formFields = [
       min: 1,
       max: 65535,
       precision: 0,
-      className: 'full-width',
+      className: 'w-full',
     },
     removeWhen: [[{ field: 'healthCheckConfig.healthCheckType', operator: '=', value: 'COMMAND' }]],
   },
@@ -386,7 +386,7 @@ const formFields = [
           component: 'inputNumber',
           required: true,
           componentProps: {
-            className: 'full-width',
+            className: 'w-full',
             precision: 0,
             min: 1,
             max: 65535,
@@ -399,7 +399,7 @@ const formFields = [
           component: 'inputNumber',
           required: true,
           componentProps: {
-            className: 'full-width',
+            className: 'w-full',
             precision: 0,
             min: 1,
             max: 65535,

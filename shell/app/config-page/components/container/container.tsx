@@ -42,7 +42,7 @@ export const Container = (props: CP_CONTAINER.Props) => {
     'top-button-group': isTopHead,
     'white-bg': whiteBg,
     'start-align': startAlign,
-    'full-height': fullHeight,
+    'h-full': fullHeight,
     'flex-height': flexHeight,
     'scroll-auto': scrollAuto,
     [`space-${spaceSize}`]: true,

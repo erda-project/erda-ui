@@ -131,7 +131,7 @@ export const YmlChart = (props: IProps) => {
   }, [data]);
 
   return (
-    <div className={`yml-svg-container-box border-radius full-height full-width ${border ? 'border-all' : ''}`}>
+    <div className={`yml-svg-container-box border-radius h-full w-full ${border ? 'border-all' : ''}`}>
       <div className={`yml-svg-container ${editing ? 'editing' : ''}`} ref={boxRef}>
         <svg id={id} width="100%" height="100%" className={'yml-svg'} />
       </div>

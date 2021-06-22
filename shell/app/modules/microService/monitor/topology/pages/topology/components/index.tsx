@@ -110,7 +110,7 @@ const TopologyChart = (props: IProps) => {
   };
 
   return (
-    <div className="topology-chart spin-full-height">
+    <div className="topology-chart spin-h-full">
       <div className="chart-box" ref={chartBoxRef}>
         <Spin spinning={isFetching}>
           {isEmpty(data?.nodes) ? (

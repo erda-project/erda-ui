@@ -102,7 +102,7 @@ export const IterationItem = (props: IProps) => {
   return (
     <div className={`backlog-iteration-item-container ${isOver ? 'drag-over' : ''}`} ref={drop}>
       <div className="backlog-iteration-item flex-box hover-active-bg" onClick={() => updater.isOpen(!isOpen)}>
-        <div className={'iteration-info full-height'}>
+        <div className={'iteration-info h-full'}>
           <CustomIcon type="chevron-down" className={`open-icon ${isOpen ? 'open' : 'close'}`} />
           {ISSUE_ICON.iteration}
           {data ? (
@@ -111,7 +111,7 @@ export const IterationItem = (props: IProps) => {
             </Tooltip>
           ) : null}
         </div>
-        <div className="iteration-time-duration full-height ml8 mr8 color-text-sub">
+        <div className="iteration-time-duration h-full ml8 mr8 color-text-sub">
           {`${moment(data.startedAt).format('YYYY/MM/DD')} - ${moment(data.finishedAt).format('YYYY/MM/DD')}`}
         </div>
       </div>
@@ -215,7 +215,7 @@ export const IterarionForm = (props: IIterationFormProps) => {
   };
   return (
     <div className="backlog-iteration-item flex-box hover-active-bg">
-      <div className={'iteration-info full-height'}>
+      <div className={'iteration-info h-full'}>
         <CustomIcon type="chevron-down" className={'open-icon close'} />
         {ISSUE_ICON.iteration}
         <Form fields={fields} formRef={formRef} formProps={{ layout: 'inline', className: 'backlog-iteration-form' }} />

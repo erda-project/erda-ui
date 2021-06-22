@@ -191,7 +191,7 @@ class TraceFilterForm extends React.Component<IProps, IState> {
           })(
             <DatePicker
               disabled={searchIdOnly}
-              className="full-width"
+              className="w-full"
               showTime
               format="YYYY-MM-DD HH:mm:ss"
               placeholder={i18n.t('microService:please choose time')}
@@ -219,7 +219,7 @@ class TraceFilterForm extends React.Component<IProps, IState> {
           })(
             <DatePicker
               disabled={searchIdOnly}
-              className="full-width"
+              className="w-full"
               // showTime
               format="YYYY-MM-DD HH:mm:ss"
               placeholder={i18n.t('microService:please choose time')}
@@ -244,7 +244,7 @@ class TraceFilterForm extends React.Component<IProps, IState> {
           children: getFieldDecorator('duration', { initialValue: duration })(
             <InputNumber
               disabled={searchIdOnly}
-              className="full-width"
+              className="w-full"
               placeholder={i18n.t('microService:please enter the duration')}
               min={0}
             />,

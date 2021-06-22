@@ -198,7 +198,7 @@ const Backlog = () => {
   const listRef = React.useRef(null as any);
   const isHide = !!listRef.current && listRef.current.scrollTop;
   return (
-    <div className="backlog-issues column-flex-box full-height" ref={drop}>
+    <div className="backlog-issues column-flex-box h-full" ref={drop}>
       <div className="backlog-issues-title flex-box mb8">
         <div>
           <span className="bold fz16 mr8">{i18n.t('project:backlog')}</span>
@@ -224,7 +224,7 @@ const Backlog = () => {
       <div className={'backlog-filter'}>
         <ContractiveFilter delay={1000} conditions={conditionsFilter} initValue={filterState} onChange={onFilter} />
       </div>
-      <div className={`backlog-issues-content spin-full-height ${isOver ? 'drag-over' : ''}`} ref={drop}>
+      <div className={`backlog-issues-content spin-h-full ${isOver ? 'drag-over' : ''}`} ref={drop}>
         <Spin spinning={!isHide && loading}>
           {isEmpty(backlogIssues) && !isAdding && <EmptyBacklog addAuth={addAuth} onAdd={onAdd} />}
           <div className="list-container" ref={listRef}>

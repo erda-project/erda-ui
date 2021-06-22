@@ -331,7 +331,7 @@ export const Build = (props: IProps) => {
           <div className="mr32 mb12 ml12">
             <Select
               showSearch
-              className="full-width"
+              className="w-full"
               optionFilterProp="children"
               value={chosenCategory}
               onChange={(e: any) => dispatch({ type: 'changeCategory', data: e })}
@@ -385,7 +385,7 @@ export const Build = (props: IProps) => {
 
   return (
     <SplitPage className="runtime-build-main">
-      <SplitPage.Left width={300} className="pr0 spin-full-height">
+      <SplitPage.Left width={300} className="pr0 spin-h-full">
         {renderLeftSection()}
       </SplitPage.Left>
       <SplitPage.Right pl32>{renderRightSection()}</SplitPage.Right>

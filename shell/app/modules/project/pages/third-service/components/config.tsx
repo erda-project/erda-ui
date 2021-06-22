@@ -171,7 +171,7 @@ export const MysqlFieldsConfig = {
           type: 'select',
           options: getOptions('chargePeriod'),
           itemProps: {
-            className: 'full-width',
+            className: 'w-full',
           },
         },
         {
@@ -490,7 +490,7 @@ export const ChargeType = (chargeTypeName: string, chargePeriod: string, autoRen
         type: 'select',
         options: getOptions('chargePeriod'),
         itemProps: {
-          className: 'full-width',
+          className: 'w-full',
         },
       },
       {

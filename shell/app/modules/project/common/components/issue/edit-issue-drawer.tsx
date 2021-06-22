@@ -177,7 +177,7 @@ const IssueMetaFields = React.forwardRef(
           type: FIELD_TYPE_ICON_MAP[propertyType]?.component,
           showRequiredMark: required,
           itemProps: {
-            className: 'full-width',
+            className: 'w-full',
             options: getCustomOptions(enumeratedValues || []),
             mode: propertyType === 'MultiSelect' ? 'multiple' : undefined,
             allowClear: !required,
@@ -199,7 +199,7 @@ const IssueMetaFields = React.forwardRef(
               />
             ) : propertyType === 'Number' ? (
               <NumberFieldInput
-                className="full-width"
+                className="w-full"
                 value={value}
                 ref={(r) => {
                   const _refMap = ref?.current?.refMap;
@@ -255,7 +255,7 @@ const IssueMetaFields = React.forwardRef(
         },
       ]),
       {
-        className: 'mb20 full-width',
+        className: 'mb20 w-full',
         name: 'assignee',
         label: i18n.t('project:assignee'),
         type: 'custom',
@@ -277,7 +277,7 @@ const IssueMetaFields = React.forwardRef(
       },
       ...insertWhen(issueType === ISSUE_TYPE.BUG && isEditMode, [
         {
-          className: 'mb20 full-width',
+          className: 'mb20 w-full',
           type: 'custom',
           name: 'owner',
           label: i18n.t('project:responsible person'),
@@ -302,7 +302,7 @@ const IssueMetaFields = React.forwardRef(
       ]),
       ...insertWhen(issueType !== ISSUE_TYPE.TICKET && issueType !== ISSUE_TYPE.EPIC, [
         {
-          className: 'mb20 full-width',
+          className: 'mb20 w-full',
           name: 'iterationID',
           label: i18n.t('project:owned iteration'),
           type: 'custom',
@@ -368,7 +368,7 @@ const IssueMetaFields = React.forwardRef(
             },
           },
       {
-        className: 'mb20 full-width',
+        className: 'mb20 w-full',
         name: 'planFinishedAt',
         label: i18n.t('project:deadline'),
         type: 'datePicker',
@@ -428,7 +428,7 @@ const IssueMetaFields = React.forwardRef(
         ]),
       ]),
       {
-        className: 'mb20 full-width',
+        className: 'mb20 w-full',
         name: 'labels',
         label: i18n.t('project:label'),
         type: 'select', // 需要新建不存在的tag，用 tagName 作为值传递，不要用 LabelSelect
@@ -482,7 +482,7 @@ const IssueMetaFields = React.forwardRef(
       ]),
       ...insertWhen(issueType === ISSUE_TYPE.TASK, [
         {
-          className: `mb20 full-width ${hideFieldClass}`,
+          className: `mb20 w-full ${hideFieldClass}`,
           name: 'taskType',
           label: i18n.t('task type'),
           type: 'select',
@@ -492,7 +492,7 @@ const IssueMetaFields = React.forwardRef(
       ]),
       ...insertWhen(issueType === ISSUE_TYPE.BUG, [
         {
-          className: `mb20 full-width ${hideFieldClass}`,
+          className: `mb20 w-full ${hideFieldClass}`,
           type: 'select',
           name: 'bugStage',
           label: i18n.t('project:import source'),
@@ -1144,7 +1144,7 @@ export const EditIssueDrawer = (props: IProps) => {
     >
       <div className="flex-box">
         <IF check={isEditMode}>
-          {/* className=''是为了覆盖组件里的className="full-width"，否则选择框宽度为100% */}
+          {/* className=''是为了覆盖组件里的className="w-full"，否则选择框宽度为100% */}
           {[ISSUE_TYPE.REQUIREMENT, ISSUE_TYPE.TASK, ISSUE_TYPE.BUG].includes(issueType) ? (
             <WithAuth pass={switchTypeAuth}>
               <EditField

@@ -472,7 +472,7 @@ const CompMap = {
       <div className="load-more-selector-container">
         <div className="content" style={width ? { width } : {}}>
           <div className="menu">
-            <Menu selectedKeys={[`${chosenCategory}`]} className="full-height">
+            <Menu selectedKeys={[`${chosenCategory}`]} className="h-full">
               {map(category, (item) => (
                 <MenuItem className="menu-item" key={item.value} onClick={() => setChosenCategory(item.value)}>
                   {item.label}

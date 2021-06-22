@@ -163,7 +163,7 @@ const PageContainer = ({ route }: IProps) => {
     MainContent = noWrapper ? (
       Inner
     ) : (
-      <Card className={layout && layout.fullHeight ? 'full-height auto-overflow' : ''}>{Inner}</Card>
+      <Card className={layout && layout.fullHeight ? 'h-full overflow-auto' : ''}>{Inner}</Card>
     );
   }
 

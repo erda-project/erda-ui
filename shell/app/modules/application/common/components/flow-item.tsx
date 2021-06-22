@@ -125,7 +125,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
     return (
       <React.Fragment>
         <div style={style} onClick={() => onClick && onClick(item.data, item.status)} className={mergedClassNames}>
-          <span className="yaml-editor-item-title-name full-width">
+          <span className="yaml-editor-item-title-name w-full">
             {titleContent}
             {nameContent}
             {extra}

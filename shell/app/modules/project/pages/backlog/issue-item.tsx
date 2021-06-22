@@ -92,7 +92,7 @@ export const IssueItem = (props: IIssueProps) => {
       ref={drag}
       onClick={() => onClickIssue(data)}
     >
-      <div className="issue-info full-height">
+      <div className="issue-info h-full">
         <div className="backlog-item-content">
           <IssueIcon type={type as ISSUE_OPTION} />
           <Ellipsis className="bold" title={name} />
@@ -100,7 +100,7 @@ export const IssueItem = (props: IIssueProps) => {
         <div className="backlog-item-info color-text-sub right-flex-box">
           <div className="backlog-item-priority mw-60">{curPriority.iconLabel}</div>
           <div className="w-80">
-            <Avatar showName name={username} size={20} wrapClassName="full-width" />
+            <Avatar showName name={username} size={20} wrapClassName="w-full" />
           </div>
           {onDelete ? (
             <div>
@@ -230,7 +230,7 @@ export const IssueForm = (props: IIssueFormProps) => {
 
   return (
     <div className={`${className} backlog-issue-form flex-box`}>
-      <div className={'backlog-issue-form-box full-height'}>
+      <div className={'backlog-issue-form-box h-full'}>
         <Form fields={fields} formRef={formRef} formProps={{ layout: 'inline', className: 'backlog-issue-add' }} />
       </div>
       <div className="table-operations ml8">

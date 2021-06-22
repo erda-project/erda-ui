@@ -39,9 +39,9 @@ export const RunCaseNode = (props: IProps) => {
   // const content = ' ';
   let name = ' ';
   let IconComp = data.logoUrl ? (
-    <img src={data.logoUrl} className="full-width full-height" />
+    <img src={data.logoUrl} className="w-full h-full" />
   ) : (
-    <CustomIcon type={'jiedian'} color className="full-width full-height" />
+    <CustomIcon type={'jiedian'} color className="w-full h-full" />
   );
   switch (data?.type) {
     // case 'api-test': {
@@ -57,7 +57,7 @@ export const RunCaseNode = (props: IProps) => {
         <CustomIcon
           type={scopeMap[curNodeScope] ? scopeMap[curNodeScope].icon : 'jiedian'}
           color
-          className="full-width full-height"
+          className="w-full h-full"
         />
       );
       break;

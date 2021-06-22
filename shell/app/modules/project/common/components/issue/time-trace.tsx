@@ -175,7 +175,7 @@ export const TimeTrace = React.forwardRef(
         componentProps: {
           dateType: 'date',
           showTime: true,
-          className: 'full-width',
+          className: 'w-full',
         },
         labelTip: i18n.t('project:The start time of this counted time, not the start time of the issue'),
         type: 'datePicker',

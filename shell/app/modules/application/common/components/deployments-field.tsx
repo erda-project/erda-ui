@@ -60,7 +60,7 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
         <span>
           <InputNumber
             disabled={disabled}
-            className="full-width"
+            className="w-full"
             value={value.replicas || 1}
             onChange={(e: any) => this.changeValue(e, 'replicas')}
             placeholder={i18n.t('application:please enter the number of instance')}

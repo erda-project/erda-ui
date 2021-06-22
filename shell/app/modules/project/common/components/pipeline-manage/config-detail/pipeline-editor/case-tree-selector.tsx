@@ -331,11 +331,11 @@ export const CaseTreeSelector = (props: IProps) => {
     }
   }, [chosenCase, updater]);
   return (
-    <div className="full-height auto-test-tree-selector">
+    <div className="h-full auto-test-tree-selector">
       {isEmpty(useableScope) ? null : (
         <>
           <div className="pb8 color-text-desc">{i18n.t('please select {name}', { name: i18n.t('type') })}</div>
-          <Select value={chosenType} onChange={changeType} className="full-width">
+          <Select value={chosenType} onChange={changeType} className="w-full">
             {map(useableScope, (item) => (
               <Option key={item.scope} value={item.scope}>
                 {item.name}
@@ -353,7 +353,7 @@ export const CaseTreeSelector = (props: IProps) => {
         onSearch={onSearch}
         treeDataSimpleMode
         filterTreeNode={false}
-        className="full-width mb16"
+        className="w-full mb16"
         value={value}
         dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
         placeholder={i18n.t('please select')}

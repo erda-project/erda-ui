@@ -78,7 +78,7 @@ export const PermTable = (props: IProps) => {
   });
   const roleColumnKeys = map(curRoleMap, (item) => `role-${item.value}`);
   return (
-    <div className="perm-editor-container full-height">
+    <div className="perm-editor-container h-full">
       <div className="perm-head">
         <div className="head-container column-head">{getPermHead({ columnKeys: permColumnKeys, scope })}</div>
         <div className="head-container role-head" ref={headScrollRef} onScroll={onHeadScroll}>

@@ -117,7 +117,7 @@ export const createFormEditor = (props: any = defaultProps) =>
     const allField = (formRef && formRef.current && formRef.current.getFields()) || [];
 
     return (
-      <div className="dice-form-configuration full-height">
+      <div className="dice-form-configuration h-full">
         <div className="form-preview-box">
           <FormPreview
             ref={formRef}

@@ -54,7 +54,7 @@ export const PipelineNode = (props: IProps) => {
           {data.logoUrl ? (
             <img src={data.logoUrl} alt="logo" />
           ) : (
-            <CustomIcon type="wfw" color className="full-width full-height" />
+            <CustomIcon type="wfw" color className="w-full h-full" />
           )}
         </div>
         <div className="title-txt column-flex-box color-text">

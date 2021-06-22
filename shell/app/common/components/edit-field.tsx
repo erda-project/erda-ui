@@ -177,7 +177,7 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
           showArrow={false}
           showSearch
           allowClear
-          className="full-width"
+          className="w-full"
           value={editValue}
           onChange={onSelectChange}
           onBlur={() => onBlur()}
@@ -212,7 +212,7 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
     case 'datePicker':
       Comp = (
         <DatePicker
-          className="full-width"
+          className="w-full"
           allowClear={false}
           value={editValue ? moment(editValue) : undefined}
           onChange={(m: moment.Moment) => onSelectChange(m ? m.startOf('day') : undefined)}

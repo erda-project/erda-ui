@@ -67,7 +67,7 @@ export const DataSourceSelector = (props: any) => {
 
   return (
     <Select
-      className="full-width"
+      className="w-full"
       notFoundContent={i18n.t('common:no data')}
       showArrow={false}
       showSearch

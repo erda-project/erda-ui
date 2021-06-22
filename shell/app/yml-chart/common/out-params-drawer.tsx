@@ -104,7 +104,7 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
           defaultItem: { name: '', ref: '' },
           itemRender: (_data: Obj, updateItem: Function) => {
             return (
-              <div className="out-params-content full-width">
+              <div className="out-params-content w-full">
                 <Input
                   key="name"
                   className={`flex-1 content-item mr8 ${!_data.name ? 'empty-error' : ''}`}

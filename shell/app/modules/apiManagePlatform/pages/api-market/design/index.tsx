@@ -394,7 +394,7 @@ const ApiDesign = () => {
         >
           <div className="flex-box">
             <Ellipsis title={name}>
-              <div className="list-title-name full-width nowrap mr4">{name}</div>
+              <div className="list-title-name w-full nowrap mr4">{name}</div>
             </Ellipsis>
             <Popconfirm
               title={`${i18n.t('common:confirm to delete')}?`}

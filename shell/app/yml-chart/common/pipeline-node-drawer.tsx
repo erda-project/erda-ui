@@ -361,7 +361,7 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
         input = (
           <InputNumber
             disabled={!editing || value.readOnly}
-            className="full-width"
+            className="w-full"
             placeholder={i18n.t('application:please enter data')}
           />
         );

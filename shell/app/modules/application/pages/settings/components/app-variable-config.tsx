@@ -361,14 +361,14 @@ const VariableConfig = ({
                     <Button
                       type="primary"
                       ghost
-                      className="mr8 pull-right"
+                      className="mr8 float-right"
                       onClick={() => {
                         openExportModal(env);
                       }}
                     >
                       {i18n.t('export')}
                     </Button>
-                    <Button type="primary" ghost className="mr8 pull-right" onClick={() => openImportModal(env)}>
+                    <Button type="primary" ghost className="mr8 float-right" onClick={() => openImportModal(env)}>
                       {i18n.t('import')}
                     </Button>
                   </>

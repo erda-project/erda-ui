@@ -126,7 +126,7 @@ const ReleaseList = () => {
         </Select>
         <div className="mb8 mx16">
           <DebounceSearch
-            className="full-width"
+            className="w-full"
             value={queryObj?.q}
             placeholder={i18n.t('search by keywords')}
             onChange={(v: string) => {
@@ -137,7 +137,7 @@ const ReleaseList = () => {
             }}
           />
         </div>
-        <Spin spinning={loading} wrapperClassName="flex-1 auto-overflow">
+        <Spin spinning={loading} wrapperClassName="flex-1 overflow-auto">
           {map(list, (item, index) => (
             <ReleaseItem
               data={item}

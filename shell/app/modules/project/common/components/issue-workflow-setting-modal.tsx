@@ -124,7 +124,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
   );
 
   const flexWidthClass = React.useMemo(() => {
-    return dataList.length <= 4 ? 'full-width' : '';
+    return dataList.length <= 4 ? 'w-full' : '';
   }, [dataList]);
 
   const fName = FIELD_TYPE_ICON_MAP[issueType]?.name;
@@ -165,7 +165,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                   <WithAuth pass={hasAuth}>
                     <Button
                       type="primary"
-                      className="full-width add-option-btn fz12"
+                      className="w-full add-option-btn fz12"
                       onClick={() => {
                         updater.formVisible(true);
                       }}

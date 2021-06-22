@@ -100,7 +100,7 @@ export default () => {
           </Select>
         </div>
       </div>
-      <div className="auto-overflow flex-1">
+      <div className="overflow-auto flex-1">
         <ServiceListDashboard dashboardId="exception_analysis" extraGlobalVariable={{ sort, limit, exceptionType }} />
       </div>
     </div>

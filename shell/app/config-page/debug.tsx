@@ -48,8 +48,8 @@ export default () => {
   };
 
   return (
-    <div className="debug-page full-height flex-box">
-      <div className="left full-height">
+    <div className="debug-page h-full flex-box">
+      <div className="left h-full">
         <FileEditor autoHeight fileExtension="json" value={text} onChange={setText} />
         <Button type="primary" className="update-button" onClick={() => updateMock()}>
           更新
@@ -58,7 +58,7 @@ export default () => {
           请求
         </Button>
       </div>
-      <div className="right full-height">
+      <div className="right h-full">
         <ErrorBoundary>
           <DiceConfigPage
             ref={pageRef}
@@ -92,7 +92,7 @@ export default () => {
                   <Popover
                     placement="top"
                     content={
-                      <div className="code-block auto-overflow" style={{ height: '600px', maxWidth: '600px' }}>
+                      <div className="code-block overflow-auto" style={{ height: '600px', maxWidth: '600px' }}>
                         <pre className="prewrap">{log.data}</pre>
                       </div>
                     }

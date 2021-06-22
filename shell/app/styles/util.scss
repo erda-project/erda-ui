@@ -9,39 +9,6 @@
   }
 }
 
-.visible {
-  visibility: visible;
-}
-
-.invisible {
-  visibility: hidden;
-}
-
-.auto-overflow {
-  overflow: auto;
-}
-
-.unselectable {
-  user-select: none;
-}
-
-//== positions
-.pull-left {
-  float: left !important;
-}
-
-.pull-right {
-  float: right !important;
-}
-
-.full-width {
-  width: 100% !important;
-}
-
-.full-height {
-  height: 100% !important;
-}
-
 .full-spin-height {
   height: 100%;
 

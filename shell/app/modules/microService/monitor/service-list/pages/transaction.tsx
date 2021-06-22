@@ -230,7 +230,7 @@ const Transaction = () => {
           </Tag>
         </If>
       </div>
-      <div className="auto-overflow flex-1">
+      <div className="overflow-auto flex-1">
         <ServiceListDashboard
           dashboardId={dashboardIdMap[type].id}
           extraGlobalVariable={extraGlobalVariable}
