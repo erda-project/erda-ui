@@ -473,7 +473,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
 
   handleDeleteKeyAuth = ({ id, key }: any) => {
     confirm({
-      title: i18n.t('microService:confirm deletion'),
+      title: i18n.t('microService:confirm to delete'),
       content: `${i18n.t('microService:confirm to delete this parameter')}：${key}`,
       onOk: () => {
         const { authData } = this.props;

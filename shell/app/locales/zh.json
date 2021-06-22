@@ -432,7 +432,6 @@
     "restart": "重启",
     "rollback": "回滚",
     "running resources": "运行资源",
-    "number of application instance": "应用实例数",
     "save": "保存",
     "search by application name": "通过应用名称搜索",
     "search by chinese/english name of attribute": "输入属性的中文/英文名搜索",
@@ -613,7 +612,6 @@
     "confirm to delete current {deleteItem}": "确认删除当前{deleteItem}",
     "confirm to remove user": "确认移除用户",
     "confirm to remove user in batches": "确认批量移除用户",
-    "contact business": "联系商务",
     "copy configuration": "复制配置",
     "day": "天",
     "default": "默认",
@@ -727,6 +725,7 @@
     "3 or 1 is recommended, and separate them by comma": "建议3个或1个，多个用逗号分隔",
     "After successful setting, the system will automatically renew as set.": "设置成功后，系统自动以此时长进行续费",
     "Availability zone refers to a physical area where power and network are independent. In the same private network, the intranet is connected and fault isolation can be realized among availability zones.": "可用区是指在同一地域内，电力和网络互相独立的物理区域。在同一专有网络内可用区与可用区之间内网互通，可用区之间能做到故障隔离。",
+    "based on Alibaba Cloud Container Service (managed), create an Erda managed cluster": "基于阿里云容器服务托管版，创建一个Erda托管集群",
     "CIDR": "网段",
     "CIDR-tips": "支持使用 192.168.0.0/16、172.16.0.0/12、10.0.0.0/8 及其子网作为专有网络地址段，网段掩码有效范围 8-24。填写示例：192.168.0.0/16。",
     "Cloud Account": "云账户",
@@ -1364,6 +1363,7 @@
     "copy": "复制",
     "copy all": "全部复制",
     "core": "核",
+    "could include Chinese, English, numbers, hyphens and underscores": "可包含中文、英文、数字、-、_",
     "country": "国家",
     "cpu limit": "CPU 限制",
     "create a new client": "创建一个新的客户端",
@@ -2208,6 +2208,7 @@
     "flow control strategy": "流控策略",
     "fold all": "全部收起",
     "force jump to HTTPS": "强制跳转HTTPS",
+    "format: Key=Value, press Enter to add": "格式：Key=Value，回车添加",
     "forward by address": "按地址转发",
     "forward by service": "按服务转发",
     "forwarding address": "转发地址",
@@ -2952,6 +2953,7 @@
     "{type} cluster": "{type}集群"
   },
   "project": {
+    "1. Input parameter reference for this scene: / $<< params.lab >>, and lab is input parameter name of the scene; 2. Output parameter reference for the front interface: / $<< outputs.10.status >>, and 10 is the interface ID, status is the output parameter name; 3. Mock parameter reference: / $<< random.string >>, and string is a function to randomly generate a string (includes integer, float, boolean, upper, lower, etc.); 4. Global environment variable reference: / $<< configs.autotest.cluster-name >>, and cluster-name is the environment variable name.": "1. Input parameter reference for this scene: / $<< params.lab >>, and lab is input parameter name of the scene; 2. Output parameter reference for the front interface: / $<< outputs.10.status >>, and 10 is the interface ID, status is the output parameter name; 3. Mock parameter reference: / $<< random.string >>, and string is a function to randomly generate a string (includes integer, float, boolean, upper, lower, etc.); 4. Global environment variable reference: / $<< configs.autotest.cluster-name >>, and cluster-name is the environment variable name.",
     "API design": "API 设计",
     "API list": "API 列表",
     "API overview": "API 概况",
@@ -3550,6 +3552,14 @@
     "tickets": "工单列表",
     "time period": "时间段",
     "time spent in time tracing": "时间跟踪内的所用时间",
+    "support positive and negative integers, 0, and character strings": "支持正负整数、0、字符串。",
+    "support string and regular matching": "支持字符串和正则匹配。",
+    "support judging if arrays, maps and strings are empty": "支持判断数组，Map，字符串是否为空。",
+    "support integers, decimals, strings, objects (arrays, Map)": "支持整数，小数，字符串，对象(数组，Map)。",
+    "Please fill in the json expression of obtained target key to determine if the key exists.": "值请填获取目标key的json表达式，以判断该key是否存在。",
+    "supports integers and decimals": "支持整数，小数。",
+    "Numeric value: Please fill in according to mathematical expression standards. It supports both open and closed intervals. For examples: [-20,20] is a set, <[-200,200],-1,2>.": "数值：请按照标准的数学表达式规范填写。示例如下： 区间支持开区间和闭区间、示例闭区间：[-20,20] 表示集合：<[-200,200],-1,2>。",
+    "only supports collections for strings, for example: <\"abc\",\"bcd\",\"200\",\"-200\">": "字符串仅支持集合，示例：<\"abc\",\"bcd\",\"200\",\"-200\">。",
     "tips of publish api 1": "发布版本需要按照语义化版本规范给出，参考以下链接",
     "tips of publish api 2": "当文档版本发生变化时，需要递增发布版本的主版本号",
     "title": "标题",
@@ -3849,9 +3859,6 @@
     "view log": "查看日志",
     "visit domain": "访问域名",
     "waiting for deployment": "等待部署"
-  },
-  "shell": {
-    "fetch latest records": "fetch latest records"
   },
   "user": {}
 }
