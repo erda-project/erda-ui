@@ -21,62 +21,73 @@ import { useLoading } from 'app/common/stores/loading';
 import testCaseStore from 'project/stores/test-case';
 import { Download as IconDownLoad } from '@icon-park/react';
 import userStore from 'app/user/stores';
+import userMapStore from 'app/common/stores/user-map';
 import './import-file.scss';
-
 
 const ImportExportRecord = () => {
   const [contentVisible, setContentVisible] = useState(false);
+  const userMap = userMapStore.useStore((s) => s);
   const [hasError, setHasError] = useState(false);
-  const loginUser = userStore.useStore(s => s.loginUser);
+  const loginUser = userStore.useStore((s) => s.loginUser);
   const [list, setList] = useState([] as TEST_CASE.ImportExportRecordItem[]);
   const { getImportExportRecords } = testCaseStore.effects;
   const [loading] = useLoading(testCaseStore, ['getImportExportRecords']);
 
   const getData = (firstTime: boolean) => {
-    getImportExportRecords(['import', 'export']).then((result: TEST_CASE.ImportExportRecordItem[]) => {
-      if (!isEmpty(result)) {
-        if (!firstTime && !contentVisible) {
-          let haveJustFinishedJob = false;
-          const myProcessingJob: Record<string, boolean> = {};
-          list.forEach(item => {
-            if (item.operatorId === loginUser.id && ['processing', 'pending'].includes(item.state)) {
-              myProcessingJob[item.id] = true;
+    getImportExportRecords(['import', 'export'])
+      .then((result: TEST_CASE.ImportExportRecordItem[]) => {
+        if (!isEmpty(result)) {
+          if (!firstTime && !contentVisible) {
+            let haveJustFinishedJob = false;
+            const myProcessingJob: Record<string, boolean> = {};
+            list.forEach((item) => {
+              if (item.operatorId === loginUser.id && ['processing', 'pending'].includes(item.state)) {
+                myProcessingJob[item.id] = true;
+              }
+            });
+            result.forEach((item) => {
+              if (
+                item.operatorId === loginUser.id &&
+                ['success', 'fail'].includes(item.state) &&
+                myProcessingJob[item.id]
+              ) {
+                haveJustFinishedJob = true;
+              }
+            });
+            if (haveJustFinishedJob) {
+              message.info(
+                i18n.t(
+                  'application:The import and export tasks you submitted have status updates, please check the records',
+                ),
+                4,
+              );
             }
-          })
-          result.forEach(item => {
-            if (
-              item.operatorId === loginUser.id
-              && ['success', 'fail'].includes(item.state)
-              && myProcessingJob[item.id]
-            ) {
-              haveJustFinishedJob = true;
-            }
-          })
-          if (haveJustFinishedJob) {
-            message.info(i18n.t('application:The import and export tasks you submitted have status updates, please check the records'), 4)
           }
+          setList(result);
         }
-        setList(result);
-      }
-    }).catch(() => {
-      setHasError(true);
-    });
-  }
+      })
+      .catch(() => {
+        setHasError(true);
+      });
+  };
 
   useMount(() => {
     getData(true);
-  })
+  });
 
-  useInterval(() => {
-    getData(false);
-  }, hasError ? null : 5000);
+  useInterval(
+    () => {
+      getData(false);
+    },
+    hasError ? null : 5000,
+  );
 
   let badgeCount = 0;
   list.forEach((item) => {
     if (['pending', 'processing'].includes(item.state)) {
       badgeCount += 1;
     }
-  })
+  });
 
   const columns = [
     {
@@ -90,13 +101,14 @@ const ImportExportRecord = () => {
       dataIndex: 'type',
       key: 'type',
       width: 120,
-      render: (type: TEST_CASE.ImportOrExport) => type === 'import' ? i18n.t('import') : i18n.t('export'),
+      render: (type: TEST_CASE.ImportOrExport) => (type === 'import' ? i18n.t('import') : i18n.t('export')),
     },
     {
       title: i18n.t('operator'),
-      dataIndex: 'operatorName',
-      key: 'operatorName',
+      dataIndex: 'operatorID',
+      key: 'operatorID',
       width: 150,
+      render: (id: string) => userMap[id]?.nick || userMap[id]?.name,
     },
     {
       title: i18n.t('time'),
@@ -118,19 +130,19 @@ const ImportExportRecord = () => {
       width: 120,
       render: (state: TEST_CASE.ImportOrExportState) => {
         const stateToStatus = {
-          success: "success",
-          processing: "processing",
-          fail: "error",
-          pending: "default"
-        }
+          success: 'success',
+          processing: 'processing',
+          fail: 'error',
+          pending: 'default',
+        };
         const stateToText = {
           success: i18n.t('succeed'),
           processing: i18n.t('processing'),
           fail: i18n.t('failed'),
           pending: i18n.t('queuing'),
-        }
+        };
         return <Badge status={stateToStatus[state] as any} text={stateToText[state]} />;
-      }
+      },
     },
     {
       title: i18n.t('result'),
@@ -143,7 +155,7 @@ const ImportExportRecord = () => {
             <a className="table-operations-btn" download={record.name} href={`/api/files/${record.apiFileUUID}`}>
               <IconDownLoad /> {record.name}
             </a>
-          )
+          );
         }
         return null;
       },
@@ -165,12 +177,7 @@ const ImportExportRecord = () => {
         title={i18n.t('recent import and export records')}
       >
         <Spin spinning={loading}>
-          <Table
-            rowKey="id"
-            size="small"
-            columns={columns}
-            dataSource={list}
-          />
+          <Table rowKey="id" size="small" columns={columns} dataSource={list} />
         </Spin>
       </Drawer>
     </>
