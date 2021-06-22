@@ -218,7 +218,7 @@ const DomainManage = () => {
       return type !== 'other'
         ? [
             <span
-              className="fake-link mr4"
+              className="fake-link mr-1"
               onClick={(e) => {
                 e.stopPropagation();
                 if (type === 'service') {
@@ -272,14 +272,14 @@ const DomainManage = () => {
   };
 
   return (
-    <div className="cluster-manage-ct">
+    <>
       <Filter config={filterConfig} onFilter={onFilter} connectUrlSearch urlExtra={urlExtra} />
       <Spin spinning={loadingList}>
         <Holder when={isEmpty(domainList)}>
           <Table columns={columns} dataSource={domainList} pagination={pagination} rowKey="id" rowAction={actions} />
         </Holder>
       </Spin>
-    </div>
+    </>
   );
 };
 

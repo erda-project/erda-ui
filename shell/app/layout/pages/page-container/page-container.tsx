@@ -149,8 +149,8 @@ const PageContainer = ({ route }: IProps) => {
     MainContent = <NoAuth />;
   } else if (notFound) {
     MainContent = <NotFound />;
-  } else if (isIn('dataCenter') && currentOrg.type === 'FREE'){
-    MainContent = <FreeUserTips/>
+  } else if (isIn('dataCenter') && currentOrg.type === 'FREE') {
+    MainContent = <FreeUserTips />;
   } else if (state.startInit) {
     const Inner = (
       <ErrorBoundary>
