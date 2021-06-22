@@ -255,7 +255,7 @@ const ConfigCenter = () => {
   const deleteConfirm = (config: IConfig) => {
     confirm({
       title: `${i18n.t('common:confirm to delete configuration')}?`,
-      content: `${i18n.t('common:The configuration cannot be restored after deletion. Continue?')}?`,
+      content: `${i18n.t('common:The configuration cannot be restored after deletion. Continue')}?`,
       onOk() {
         const curConfig = configListMap[chosenApp];
         saveCurConfig(

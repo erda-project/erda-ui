@@ -577,7 +577,7 @@
     "Please select the file to be uploaded": "Please select the file to be uploaded",
     "STAGING": "STAGING",
     "TEST": "TEST",
-    "The configuration cannot be restored after deletion. Continue?": "The configuration cannot be restored after deletion. Continue?",
+    "The configuration cannot be restored after deletion. Continue": "The configuration cannot be restored after deletion. Continue",
     "The maximum length is {limit}, please upload with attachment": "The maximum length is {limit}, please upload with attachment",
     "The user's original permissions will be overwritten after batch processing. Please be cautious.": "After batch processing user permissions, the user's original permissions will be overwritten, please operate with caution",
     "You can set application-level roles at the same time": "You can set application-level roles at the same time",

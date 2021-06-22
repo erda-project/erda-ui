@@ -577,7 +577,7 @@
     "Please select the file to be uploaded": "请选择上传的文件",
     "STAGING": "预发",
     "TEST": "测试",
-    "The configuration cannot be restored after deletion. Continue?": "配置删除后无法恢复，确认执行",
+    "The configuration cannot be restored after deletion. Continue": "配置删除后无法恢复，确认执行",
     "The maximum length is {limit}, please upload with attachment": "最大长度为{limit}, 请使用附件上传",
     "The user's original permissions will be overwritten after batch processing. Please be cautious.": "批量处理用户权限后，用户原有权限会被覆盖，请谨慎操作",
     "You can set application-level roles at the same time": "您可以同时设置应用级别的角色",
