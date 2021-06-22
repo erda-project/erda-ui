@@ -113,18 +113,14 @@ const FreeUserTips = () => {
         <div className="desc">
           <span>{i18n.t('common:vip features tips')}</span>
           <a target="_blank" href="https://www.erda.cloud/contact">
-            <Button size="large" type="primary">{i18n.t('common:contact business')}</Button>
+            <Button size="large" type="primary">
+              {i18n.t('common:contact business')}
+            </Button>
           </a>
         </div>
       </div>
     </div>
-  )
-}
-
-
-export {
-  NoAuth,
-  NotFound,
-  NotJoinOrg,
-  FreeUserTips,
+  );
 };
+
+export { NoAuth, NotFound, NotJoinOrg, FreeUserTips };

@@ -205,7 +205,7 @@ const LogAnalytics = () => {
             label: i18n.t('microService:tag'),
             name: 'tags',
             type: 'custom',
-            placeholder: i18n.t('microService:format: Key=Value, press Enter to add'),
+            placeholder: i18n.t('microService|format: Key=Value, press Enter to add', { nsSeparator: '|' }),
             percent: 24,
             allowClear: true,
             Comp: <Select mode="tags" allowClear />,

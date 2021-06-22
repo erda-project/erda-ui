@@ -193,7 +193,7 @@ const apiDesignStore = createFlatStore({
     },
     async publishApi({ call }, payload: API_SETTING.IPublishAPi) {
       const data = await call(publishApi, payload, {
-        successMsg: i18n.t('{action} successfully', { action: i18n.t('releaseer:publish') }),
+        successMsg: i18n.t('{action} successfully', { action: i18n.t('publisher:release') }),
       });
       return data;
     },
