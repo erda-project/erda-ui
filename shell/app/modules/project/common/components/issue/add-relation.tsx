@@ -98,8 +98,8 @@ export const AddRelation = ({ onSave, editAuth }: IProps) => {
   }
 
   return (
-    <div className="issue-comment-box flex-box mt-3">
-      <div className="flex-box flex-1">
+    <div className="issue-comment-box flex justify-between items-center mt-3">
+      <div className="flex justify-between items-center flex-1">
         <Select
           className="filter-select"
           onSearch={(q) => getMyProjectApps({ q })}

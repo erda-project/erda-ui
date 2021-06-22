@@ -133,8 +133,8 @@ export default () => {
   };
 
   return (
-    <div className="task-report-records start-flex-box">
-      <div className="search-records pr-4 v-flex-box">
+    <div className="task-report-records flex justify-between items-start">
+      <div className="search-records pr-4 flex flex-col h-full">
         <div className="mb-2">
           <RangePicker
             borderTime

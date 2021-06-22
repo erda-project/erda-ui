@@ -68,7 +68,7 @@ const RenderItem = (props: IRenderProps) => {
         const { titleExtra, ...restProps } = rProps || {};
         Comp =
           data || restProps.title ? (
-            <div className={`${clsPrex} flex-box mb-0`}>
+            <div className={`${clsPrex} flex justify-between items-center mb-0`}>
               <div className="flex-1">
                 <Title showDivider={false} title={data} {...restProps} />
               </div>

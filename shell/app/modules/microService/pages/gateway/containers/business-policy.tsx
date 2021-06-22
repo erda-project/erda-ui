@@ -217,9 +217,9 @@ export const PureBusinessPolicy = () => {
       <Collapse defaultActiveKey={['proxy', 'cors', 'custom']}>
         <Panel
           header={
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               <span>{i18n.t('microService:traffic receive forwarding')}</span>
-              <div className="switch-contaienr flex-box">
+              <div className="switch-contaienr flex justify-between items-center">
                 <span onClick={(e) => e.stopPropagation()} className=" mr-5">
                   {i18n.t('microService:enable rule')}&nbsp;
                   <Switch
@@ -396,9 +396,9 @@ export const PureBusinessPolicy = () => {
         </Panel>
         <Panel
           header={
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               <span>{i18n.t('microService:cross-domain access')}</span>
-              <div className="switch-contaienr flex-box">
+              <div className="switch-contaienr flex justify-between items-center">
                 <span onClick={(e) => e.stopPropagation()} className=" mr-5">
                   {i18n.t('microService:enable rule')}&nbsp;
                   <Switch
@@ -501,9 +501,9 @@ export const PureBusinessPolicy = () => {
         </Panel>
         <Panel
           header={
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               <span>{i18n.t('microService:custom nginx configuration')}</span>
-              <div className="switch-contaienr flex-box">
+              <div className="switch-contaienr flex justify-between items-center">
                 <span onClick={(e) => e.stopPropagation()} className=" mr-5">
                   {i18n.t('microService:enable rule')}&nbsp;
                   <Switch

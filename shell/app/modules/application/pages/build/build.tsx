@@ -282,8 +282,8 @@ export const Build = (props: IProps) => {
           });
           return (
             <div key={pipelineID} className={cls} {...liProps}>
-              <div className="list-item flex-box">
-                <div className="title flex-box">
+              <div className="list-item flex justify-between items-center">
+                <div className="title flex justify-between items-center">
                   <Tooltip title={toolTipName} overlayClassName="commit-tip">
                     <span className="branch-name font-medium nowrap">
                       <CustomIcon type={iconType} />
@@ -293,7 +293,7 @@ export const Build = (props: IProps) => {
                   {!isBigData && renderBuildStatus({ status, cancelUser })}
                 </div>
                 <IF check={!isBigData}>
-                  <div className="yml-name nowrap flex-box">
+                  <div className="yml-name nowrap flex justify-between items-center">
                     <Tooltip title={ymlName} overlayClassName="commit-tip">
                       <span className="name nowrap">
                         <CustomIcon type="wj" />

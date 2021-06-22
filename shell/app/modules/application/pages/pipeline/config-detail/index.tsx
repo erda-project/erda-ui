@@ -88,7 +88,7 @@ const PipelineConfigDetail = (props: IProps) => {
 
   return (
     <div>
-      <div className="flex-box mb-2">
+      <div className="flex justify-between items-center mb-2">
         <span className="font-medium title">{i18n.t('detail')}</span>
         {/* <RecordList ref={recordRef} curPipelineDetail={useCaseDetail} onSelectPipeline={onSelectPipeline} nodeId={nodeId} /> */}
       </div>

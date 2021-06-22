@@ -116,7 +116,9 @@ const List = (props: CP_LIST.Props) => {
               />
             );
           })}
-          {!isLoadMore && pagination ? <Pagination className="right-flex-box mt-3" {...pagination} /> : null}
+          {!isLoadMore && pagination ? (
+            <Pagination className="flex justify-end items-center flex-wrap mt-3" {...pagination} />
+          ) : null}
           {isLoadMore && total > Math.max(state.combineList?.length, 0) && (
             <div className="hover-active load-more" onClick={loadMore}>
               {i18n.t('more')}
@@ -158,7 +160,7 @@ const Item = (props: ItemProps) => {
   );
 
   const itemClassNames = classnames({
-    'v-align': alignCenter,
+    'flex items-center': alignCenter,
     'no-border': noBorder,
     [size]: size,
     'cp-list-item': true,

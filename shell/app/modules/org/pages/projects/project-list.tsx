@@ -217,11 +217,11 @@ export const ProjectList = () => {
           };
           return (
             <div style={{ minWidth: '200px' }}>
-              <div className="flex-box">
+              <div className="flex justify-between items-center">
                 <div style={{ width: '40px' }}>CPU:</div>
                 {renderBar(+cpuServiceUsed.toFixed(2), +cpuAddonUsed.toFixed(2), cpuQuota, 'Core')}
               </div>
-              <div className="flex-box">
+              <div className="flex justify-between items-center">
                 <div style={{ width: '40px' }}>MEM:</div>
                 {renderBar(+memServiceUsed.toFixed(2), +memAddonUsed.toFixed(2), memQuota, 'GiB')}
               </div>

@@ -157,7 +157,7 @@ const AccessEdit = () => {
           status: 'ATTACHED',
           name: (
             <div
-              className="flex-box"
+              className="flex justify-between items-center"
               onClick={(e) => {
                 gotoServer(e, item);
               }}

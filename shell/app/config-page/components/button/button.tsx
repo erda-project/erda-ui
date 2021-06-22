@@ -95,7 +95,7 @@ export const Button = (props: CP_BUTTON.Props) => {
           return (
             <Menu.Item key={mItem.key} disabled={mItem.disabled || curOp.disabled}>
               <Tooltip title={mItem.disabledTip || curOp.disabledTip}>
-                <div className="v-align">
+                <div className="flex items-center">
                   {mItem.prefixIcon ? <CustomIcon type={mItem.prefixIcon} /> : null}
                   {mItem.text}
                 </div>

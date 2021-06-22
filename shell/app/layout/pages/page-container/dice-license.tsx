@@ -69,7 +69,7 @@ export const DiceLicense = () => {
       <div className="license-container text-sm">
         <img className="license-img" src={gqct_png} />
         <div className="color-text mt-4 font-medium">{message}</div>
-        <div className="row flex-box mt-6">
+        <div className="row flex justify-between items-center mt-6">
           {rowOneData.map(({ label, value }) => {
             return (
               <div className="row-one-card border-all text-center" key={label}>
@@ -79,7 +79,7 @@ export const DiceLicense = () => {
             );
           })}
         </div>
-        <div className="row flex-box mt-4 mb-2">
+        <div className="row flex justify-between items-center mt-4 mb-2">
           {rowTwoData.map(({ label, value }) => {
             return (
               <div className="row-two-card border-all text-center" key={label}>

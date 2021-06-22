@@ -231,7 +231,7 @@ const Ticket = () => {
       render: (val: string, record: ISSUE.Issue) => {
         return (
           <Tooltip title={val}>
-            <div className="pointer nowrap pl-2 v-align w-full" onClick={() => clickTicket(record)}>
+            <div className="pointer nowrap pl-2 flex items-center w-full" onClick={() => clickTicket(record)}>
               {val}
             </div>
           </Tooltip>
@@ -276,7 +276,7 @@ const Ticket = () => {
             disabled: !item.permission,
             value: item.stateID,
             iconLabel: (
-              <div className="v-align">
+              <div className="flex items-center">
                 {ISSUE_ICON.state[item.stateBelong]}
                 {item.stateName}
               </div>

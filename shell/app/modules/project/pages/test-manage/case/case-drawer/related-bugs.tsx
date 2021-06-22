@@ -110,7 +110,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
         return (
           <Tooltip placement="topLeft" title={text}>
             <div
-              className="flex-box justify-start text-link nowrap"
+              className="flex justify-between items-center justify-start text-link nowrap"
               onClick={() => {
                 goToBugs(record);
               }}
@@ -128,7 +128,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
       width: 90,
       render: (stateName: string, record: any) => {
         return stateName ? (
-          <div className="v-align">
+          <div className="flex items-center">
             {ISSUE_ICON.state[record?.stateBelong]}
             {stateName}
           </div>
@@ -187,7 +187,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
   };
   return (
     <div className="related-bugs">
-      <div className="mb-2 flex-box">
+      <div className="mb-2 flex justify-between items-center">
         {i18n.t('related bugs')}
         <Button
           onClick={() => {
@@ -198,8 +198,8 @@ const RelatedBugs = ({ relationID }: IProps) => {
         </Button>
       </div>
       {showFilterBug ? (
-        <div className="flex-box flex-1 filter-select-wrap mb-3">
-          <div className="flex-box flex-1">
+        <div className="flex justify-between items-center flex-1 filter-select-wrap mb-3">
+          <div className="flex justify-between items-center flex-1">
             <MemberSelector
               mode="multiple"
               className="filter-select"
@@ -236,7 +236,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
               {map(bugList, (item) => {
                 return (
                   <Option key={item.id} value={item.id} title={`${item.id}-${item.title}`}>
-                    <div className="flex-box justify-start nowrap">
+                    <div className="flex justify-between items-center justify-start nowrap">
                       <IssueIcon type={ISSUE_TYPE.BUG} />
                       {item.id}-{item.title}
                     </div>

@@ -145,8 +145,8 @@ const RuntimeBox = (props: IProps) => {
 
   if (fakeRuntime) {
     return (
-      <div className="flex-box runtime-box">
-        <div className="flex-box runtime-box-header">
+      <div className="flex justify-between items-center runtime-box">
+        <div className="flex justify-between items-center runtime-box-header">
           <div className="branch disabled">
             <CustomIcon type="slbb" />
             <Tooltip title={name}>
@@ -161,8 +161,11 @@ const RuntimeBox = (props: IProps) => {
 
   return (
     <Spin spinning={deleteStatus === 'DELETING'} tip={i18n.t('application:deleting')}>
-      <div className={`flex-box runtime-box ${isWaitApprove ? 'large' : ''}`} onClick={(e) => gotoRuntime(id, e)}>
-        <div className="flex-box runtime-box-header">
+      <div
+        className={`flex justify-between items-center runtime-box ${isWaitApprove ? 'large' : ''}`}
+        onClick={(e) => gotoRuntime(id, e)}
+      >
+        <div className="flex justify-between items-center runtime-box-header">
           <div className="branch">
             <CustomIcon type="slbb" />
             <Tooltip title={name}>
@@ -190,8 +193,8 @@ const RuntimeBox = (props: IProps) => {
             </Tooltip>
           </div>
         ) : null}
-        <div className="flex-box runtime-box-body">
-          <div className="flex-box">
+        <div className="flex justify-between items-center runtime-box-body">
+          <div className="flex justify-between items-center">
             <Avatar name={lastOperatorName} url={lastOperatorAvatar} className="mr-1" size={20} />
             {lastOperatorName || ''}
             <span className="deploy-time">{lastOperateTime ? fromNow(lastOperateTime) : ''}</span>

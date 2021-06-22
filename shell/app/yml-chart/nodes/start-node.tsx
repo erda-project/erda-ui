@@ -34,7 +34,10 @@ export const StartNode = (props: IProps) => {
   const classes = classnames({
     'yml-chart-node': true,
     'start-node': true,
-    'center-flex-box': true,
+    'justify-center': true,
+    'items-center': true,
+    'flex-wrap': true,
+    flex: true,
     'hover-active': !disabled,
   });
 

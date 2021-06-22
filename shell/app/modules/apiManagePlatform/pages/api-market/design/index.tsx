@@ -367,7 +367,7 @@ const ApiDesign = () => {
 
   // 左侧列表头部渲染
   const renderPanelHead = (titleKey: IListKey) => (
-    <div className="list-panel-head flex-box">
+    <div className="list-panel-head flex justify-between items-center">
       <span className="font-bold">{LIST_TITLE_MAP[titleKey]}</span>
       {!apiLockState && (
         <IconPlus
@@ -392,7 +392,7 @@ const ApiDesign = () => {
           className={`list-title ${contentKey === key ? 'list-title-active' : ''}`}
           onClick={() => onContentChange(key)}
         >
-          <div className="flex-box">
+          <div className="flex justify-between items-center">
             <Ellipsis title={name}>
               <div className="list-title-name w-full nowrap mr-1">{name}</div>
             </Ellipsis>
@@ -633,7 +633,7 @@ const ApiDesign = () => {
             </Button>
           </div>
           <div className="api-design-wrap">
-            <div className="search-wrap mb-4 flex-box justify-start">
+            <div className="search-wrap mb-4 flex justify-between items-center justify-start">
               <ApiDocTree
                 treeNodeData={curTreeNodeData}
                 newTreeNode={newTreeNode}
@@ -650,7 +650,7 @@ const ApiDesign = () => {
               )}
               {showErrorDocTip && <ErrorPopover {...errorData} />}
               {inodeQuery && !isEmpty(curTreeNodeData) && (
-                <div className="right-flex-box flex-1">
+                <div className="flex justify-end items-center flex-wrap flex-1">
                   {!apiWs || isDocLocked ? (
                     <WithAuth pass={!isApiReadOnly && docValidData.valid}>
                       <Button type="ghost" onClick={onEditDocHandle}>
@@ -675,7 +675,7 @@ const ApiDesign = () => {
                 <ErrorEmptyHolder {...errorData} isLoading={getTreeListLoading} />
               ) : (
                 <div className="api-design-content">
-                  <div className="api-design-content-list column-flex-box justify-start">
+                  <div className="api-design-content-list flex flex-col justify-center justify-start">
                     <Input
                       placeholder={i18n.t('search by keyword')}
                       className="mx-2 my-3 api-filter-input"

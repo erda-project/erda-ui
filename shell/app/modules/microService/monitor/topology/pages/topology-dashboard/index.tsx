@@ -137,7 +137,7 @@ const TopologyDashboard = () => {
         [configCenter] to 配置中心
      */}
       <If condition={activedNode}>
-        <div className="topology-node-dashboard-header flex-box mb-2">
+        <div className="topology-node-dashboard-header flex justify-between items-center mb-2">
           <div className="node-name font-bold color-text-sub">
             {type === 'service' ? `${i18n.t('common:service')}：${serviceName}` : name}
           </div>

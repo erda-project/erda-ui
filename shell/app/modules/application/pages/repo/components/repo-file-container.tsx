@@ -132,7 +132,7 @@ const RepoFileContainerComp = (props: IProps) => {
     const disabled = !!editFile;
     return (
       <Group
-        className="radio-btn-group flex-box"
+        className="radio-btn-group flex justify-between items-center"
         value={viewType}
         size="small"
         onChange={changeRadioValue}

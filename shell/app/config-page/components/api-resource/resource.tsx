@@ -406,7 +406,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
           >
             {map(API_METHODS, (methodKey) => {
               const item = (
-                <div className="circle-container center-flex-box">
+                <div className="circle-container flex justify-center items-center flex-wrap">
                   {iconClassMap.emptyIcon[methodKey] ? (
                     <div className={`${iconClassMap.classMap[methodKey]} disableIcon`} />
                   ) : (
@@ -534,7 +534,7 @@ const ApiResource = (props: Merge<CP_API_RESOURCE.Props, API_SETTING.IResourcePr
           {apiData?.apiMethod && <TabPane tab={API_RESOURCE_TAB.Test} key={API_RESOURCE_TAB.Test} />}
         </Tabs>
         {apiData?.apiMethod && (
-          <div className="right-flex-box">
+          <div className="flex justify-end items-center flex-wrap">
             <Button type="primary" onClick={onSaveApiData}>
               {i18n.t('save')}
             </Button>

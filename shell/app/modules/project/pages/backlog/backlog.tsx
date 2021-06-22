@@ -198,8 +198,8 @@ const Backlog = () => {
   const listRef = React.useRef(null as any);
   const isHide = !!listRef.current && listRef.current.scrollTop;
   return (
-    <div className="backlog-issues column-flex-box h-full" ref={drop}>
-      <div className="backlog-issues-title flex-box mb-2">
+    <div className="backlog-issues flex flex-col justify-center h-full" ref={drop}>
+      <div className="backlog-issues-title flex justify-between items-center mb-2">
         <div>
           <span className="font-bold text-base mr-2">{i18n.t('project:backlog')}</span>
           <span className="color-text-desc">

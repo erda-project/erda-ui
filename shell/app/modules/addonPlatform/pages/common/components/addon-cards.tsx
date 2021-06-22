@@ -221,8 +221,8 @@ export const AddonCards = (props: IProps) => {
               </div>
             </div>
           </div>
-          <div className="addon-item-footer flex-box">
-            <div className="info flex-box">
+          <div className="addon-item-footer flex justify-between items-center">
+            <div className="info flex justify-between items-center">
               <Tooltip title={projectName}>
                 <span className="nowrap project-name">
                   <CustomIcon type="overview" />

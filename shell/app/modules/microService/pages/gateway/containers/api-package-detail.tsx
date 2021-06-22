@@ -532,7 +532,7 @@ export const ApiPackageDetail = () => {
             {i18n.t('microService:global strategy')}
           </Button>
         </div>
-        <div className="mb-4 flex-box">
+        <div className="mb-4 flex justify-between items-center">
           <div className="nowrap api-filter">
             <AppServiceFilter updateField={updateAppService} dataSource={pick(filter, ['diceApp', 'diceService'])} />
             <Select

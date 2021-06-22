@@ -138,16 +138,16 @@ const RepoMrTable = ({ type }: IProps) => {
                     {i18n.t('application:assigned user')}：
                     <Tooltip title={assigneeUser.name}>{assigneeUser.nick}</Tooltip>
                   </div>
-                  <div className="sub-title left-flex-box">
+                  <div className="sub-title flex justify-start items-center flex-wrap">
                     <span className="mr-1">#{item.mergeId}</span>
-                    <span className="mr-6 left-flex-box">
+                    <span className="mr-6 flex justify-start items-center flex-wrap">
                       <Tooltip title={curActor.name}>
                         <Avatar className="mb-1 mr-1" showName name={curActor.nick} />
                       </Tooltip>
                       &nbsp;{actionMap[item.state]}&nbsp;{i18n.t('at')} {fromNow(item[updateKeyMap[item.state]])}
                     </span>
                   </div>
-                  <div className="desc left-flex-box">
+                  <div className="desc flex justify-start items-center flex-wrap">
                     <span className="mr-1">
                       <Avatar showName name={<Tooltip title={authorUser.name}>{authorUser.nick}</Tooltip>} />
                     </span>

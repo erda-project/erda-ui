@@ -213,7 +213,7 @@ const AddPipelineYml = () => {
   const ops = (
     <>
       <Radio.Group
-        className="flex-box"
+        className="flex justify-between items-center"
         size="small"
         value={viewType}
         onChange={(e: any) => changeViewType(e.target.value)}

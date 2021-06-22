@@ -213,7 +213,7 @@ export const FileDiff = ({
             </div>
             <div className="file-static-info">{text}</div>
             <IF.ELSE />
-            <div className="file-title inline-flex-box">
+            <div className="file-title inline-flex justify-between items-center">
               <div className="font-bold nowrap">
                 <IconFileCodeOne className="mr-2" />
                 {name} {text || null}

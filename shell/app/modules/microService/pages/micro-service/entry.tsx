@@ -80,7 +80,7 @@ export const PureMicroServiceEntry = (props: IProps) => {
             </div>
           </div>
         </div>
-        <div className="ms-item-footer flex-box">
+        <div className="ms-item-footer flex justify-between items-center">
           <span className="env-btn">
             <Button disabled={!dev} onClick={() => onClickEnv(dev, projectId, 'DEV')}>
               {envMap.DEV}

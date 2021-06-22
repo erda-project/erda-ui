@@ -100,8 +100,8 @@ export const TreeTitle = ({
   }, [inode, inodeQuery, inputVisible, readOnly]);
 
   return (
-    <div className="api-tree-title flex-box" ref={dropDownRef}>
-      <div className="flex-box">
+    <div className="api-tree-title flex justify-between items-center" ref={dropDownRef}>
+      <div className="flex justify-between items-center">
         <CustomIcon type={icon} className="color-text-sub" />
         {inputVisible ? (
           <>
@@ -138,7 +138,7 @@ export const TreeTitle = ({
 
 export const BranchTitle = ({ name, icon = 'branch' }: { name: string; icon?: string }) => {
   return (
-    <div className="left-flex-box">
+    <div className="flex justify-start items-center flex-wrap">
       <CustomIcon type={icon} className="color-text-sub" />
       <Tooltip title={name}>
         <div className="nowrap" style={{ maxWidth: '160px' }}>

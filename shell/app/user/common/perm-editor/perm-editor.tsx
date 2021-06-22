@@ -160,7 +160,7 @@ export const PermEditor = () => {
       <Tabs
         activeKey={tabKey}
         tabBarExtraContent={
-          <div className="flex-box mt-2">
+          <div className="flex justify-between items-center mt-2">
             <DebounceSearch size="small" value={searchKey} className="mr-2" onChange={updater.searchKey} />
             {isEdit ? (
               <>

@@ -197,7 +197,7 @@ export const FileEditor = ({
 
   const ActionComp =
     curActions.length || actions.extra ? (
-      <div className="flex-box file-editor-actions">
+      <div className="flex justify-between items-center file-editor-actions">
         {curActions}
         {actions.extra || null}
       </div>

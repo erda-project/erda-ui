@@ -136,7 +136,7 @@ export const ApiImport = ({ updateImportParams, importApiParams }: IProps) => {
 
   return (
     <div className="api-import">
-      <div className="mb-4 api-filter flex-box">
+      <div className="mb-4 api-filter flex justify-between items-center">
         <div>
           <AppServiceFilter
             updateField={updateAppService}
@@ -167,7 +167,7 @@ export const ApiImport = ({ updateImportParams, importApiParams }: IProps) => {
           {i18n.t('search')}
         </Button>
       </div>
-      <div className="mb-4 v-align">
+      <div className="mb-4 flex items-center">
         <span>{i18n.t('microService:service routing prefix')}:</span>
         <Input value={routePrefix} onChange={onChangePrefix} className="prefix-input ml-4" />
       </div>

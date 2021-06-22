@@ -194,7 +194,7 @@ export default ({ scope, scopeId }: { scope: CustomDashboardScope; scopeId: stri
   };
 
   return (
-    <div className="custom-dashboard v-flex-box">
+    <div className="custom-dashboard flex flex-col h-full">
       <IF check={!editorToggleStatus}>
         <div className="header mb-3">
           {/* <Select placeholder="自动刷新间隔" style={{ width: 200 }} allowClear>

@@ -164,7 +164,7 @@ const SortDragItem = ({
     <div
       ref={draggable ? (node) => drop(preview(node)) : undefined}
       key={index}
-      className={`flex-box sort-drag-item ${hoverCls}`}
+      className={`flex justify-between items-center sort-drag-item ${hoverCls}`}
       onClick={() => onClick && onClick(item)}
     >
       <div
@@ -174,7 +174,7 @@ const SortDragItem = ({
       >
         <CustomIcon type="up-down" />
       </div>
-      <div className="flex-1 ml-1 nowrap pointer v-align sort-drag-item-title">
+      <div className="flex-1 ml-1 nowrap pointer flex items-center sort-drag-item-title">
         <Ellipsis title={data.title}>{data.title}</Ellipsis>
       </div>
       <div>
@@ -293,7 +293,10 @@ const SortDragGroup = ({
       className={`sort-drag-group ${hoverCls}`}
     >
       {groupDraggable === false ? null : (
-        <div ref={draggable ? drag : undefined} className="group-drag-handle center-flex-box">
+        <div
+          ref={draggable ? drag : undefined}
+          className="group-drag-handle flex justify-center items-center flex-wrap"
+        >
           <CustomIcon type="up-down" />
         </div>
       )}

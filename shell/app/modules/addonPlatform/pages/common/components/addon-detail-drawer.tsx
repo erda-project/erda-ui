@@ -108,7 +108,7 @@ const AddonDetailDrawer = (props: IProps) => {
             <Table columns={refTableList} dataSource={addonReferences} pagination={false} rowKey="applicationName" />
           </div>
           <div className="config">
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               <span className="title font-medium">{i18n.t('org:service basic parameters')}</span>
               {!isEmpty(config) && (
                 <span className="copy-all pointer for-copy">

@@ -99,7 +99,11 @@ const ArrayObjComp = (props: any) => {
       }: IArrayObjItemProps) => {
         return (
           <div className={`dice-form-array-obj ${className}`}>
-            <div className={`dice-form-array-obj-item flex-1 ${direction === 'row' ? 'flex-box' : ''}`}>
+            <div
+              className={`dice-form-array-obj-item flex-1 ${
+                direction === 'row' ? 'flex justify-between items-center' : ''
+              }`}
+            >
               {itemRender
                 ? itemRender(data, updateItem)
                 : map(keys, (item) => {

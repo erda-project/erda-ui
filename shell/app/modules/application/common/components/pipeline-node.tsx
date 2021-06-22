@@ -142,7 +142,9 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
           className="yaml-editor-item-status"
           style={{ background: approvalResult ? approvalResult.color : item.data.itemStatus.toLowerCase() }}
         />
-        <span className="inline-flex-box">{approvalResult ? approvalResult.text : status ? status.text : '-'}</span>
+        <span className="inline-flex justify-between items-center">
+          {approvalResult ? approvalResult.text : status ? status.text : '-'}
+        </span>
       </span>
     );
     if (item.data.name || item.data.displayName) {
@@ -181,11 +183,11 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
         <div onClick={() => onClick && onClick(item.data, 'node')} className={mergedClassNames}>
           {icon}
           <span className="yaml-editor-item-title-name">
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               {titleContent}
               <span className="pipeline-node-icon">{this.renderIcon()}</span>
             </div>
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               {statusContent}
               {timeContent}
             </div>

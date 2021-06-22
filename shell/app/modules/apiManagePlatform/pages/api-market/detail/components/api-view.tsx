@@ -205,7 +205,7 @@ const ApiView = ({ dataSource, onChangeVersion, deprecated, specProtocol }: IPro
   }
   const autoInfo = getAuthInfo();
   return (
-    <div className="apis-view flex-box flex-1">
+    <div className="apis-view flex justify-between items-center flex-1">
       <div className="apis-view-left">
         <ApiMenu list={tagMap} onChange={handleChange} onChangeVersion={onChangeVersion} />
       </div>

@@ -265,7 +265,7 @@ export const PureSafetyPolicy = () => {
       <Collapse defaultActiveKey={['waf', 'ip', 'guard', 'csrf']}>
         {/* <Panel
           header={
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               <span>{i18n.t('microService:abnormal traffic interception')}</span>
               <IF check={hasGlobalSwitch}>
                 <span onClick={e => e.stopPropagation()}>
@@ -322,9 +322,9 @@ export const PureSafetyPolicy = () => {
         </Panel> */}
         <Panel
           header={
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               <span>{i18n.t('microService:IP blocking')}</span>
-              <div className="switch-contaienr flex-box">
+              <div className="switch-contaienr flex justify-between items-center">
                 <span onClick={(e) => e.stopPropagation()} className=" mr-5">
                   {i18n.t('microService:enable rule')}&nbsp;
                   <Switch
@@ -451,9 +451,9 @@ export const PureSafetyPolicy = () => {
         </Panel>
         <Panel
           header={
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               <span>{i18n.t('microService:service load protection')}</span>
-              <div className="switch-contaienr flex-box">
+              <div className="switch-contaienr flex justify-between items-center">
                 <span onClick={(e) => e.stopPropagation()} className=" mr-5">
                   {i18n.t('microService:enable rule')}&nbsp;
                   <Switch
@@ -543,9 +543,9 @@ export const PureSafetyPolicy = () => {
         </Panel>
         <Panel
           header={
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               <span>{i18n.t('microService:cross-site protection')}</span>
-              <div className="switch-contaienr flex-box">
+              <div className="switch-contaienr flex justify-between items-center">
                 <span onClick={(e) => e.stopPropagation()} className=" mr-5">
                   {i18n.t('microService:enable rule')}&nbsp;
                   <Switch

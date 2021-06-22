@@ -96,7 +96,7 @@ const BlockNetworkStatus = ({ status, canOperate = false, onClick, scope, unBloc
     ),
     unblocking: (
       <>
-        <span className="inline-flex-box color-yellow">
+        <span className="inline-flex justify-between items-center color-yellow">
           <CustomIcon type="lock1" className="color-yellow" />
           {i18n.t('default:unblocking, please wait')}
         </span>
@@ -106,7 +106,7 @@ const BlockNetworkStatus = ({ status, canOperate = false, onClick, scope, unBloc
     ),
     unblocked: (
       <>
-        <span className="inline-flex-box color-green">
+        <span className="inline-flex justify-between items-center color-green">
           <CustomIcon type="unlock1" className="color-green" />
           {i18n.t('default:unblocked')}
         </span>

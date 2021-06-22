@@ -322,7 +322,7 @@ const DiceEditor = (props: IYmlEditorProps) => {
 
   //   return (
   //     <div>
-  //       <FileContainer className="new-yml-editor column-flex-box full-spin-height" name={editing ? `${i18n.t('application:edit')} ${fileName}` : fileName} ops={ops}>
+  //       <FileContainer className="new-yml-editor flex flex-col justify-center full-spin-height" name={editing ? `${i18n.t('application:edit')} ${fileName}` : fileName} ops={ops}>
   //         <Spin spinning={loading.commit}>
   //           <YmlChart
   //             data={displayData}

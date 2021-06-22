@@ -85,9 +85,9 @@ const RepoBranch = () => {
           const isProtectBranch = get(find(branchInfo, { name }), 'isProtect');
           const curAuth = isProtectBranch ? permMap.writeProtected.pass : permMap.writeNormal.pass;
           return (
-            <div key={name} className="branch-item flex-box">
+            <div key={name} className="branch-item flex justify-between items-center">
               <div className="branch-item-left">
-                <div className="font-medium v-align text-base mb-3">
+                <div className="font-medium flex items-center text-base mb-3">
                   {isProtect ? (
                     <Tooltip title={i18n.t('protected branch')}>
                       <CustomIcon className="text-xl color-green" type="baohu" />
@@ -101,8 +101,8 @@ const RepoBranch = () => {
                   {isDefault && <span className="tag-primary">{i18n.t('default')}</span>}
                   {isMerged && <span className="tag-success">{i18n.t('application:Merged')}</span>}
                 </div>
-                <div className="v-align color-text-sub">
-                  <span className="inline-v-align">
+                <div className="flex items-center color-text-sub">
+                  <span className="inline-flex items-center">
                     <Avatar showName name={committerName} />
                     &nbsp;{i18n.t('committed at')}
                   </span>

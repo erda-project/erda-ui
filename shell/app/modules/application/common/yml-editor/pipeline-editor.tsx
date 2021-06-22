@@ -315,7 +315,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
   const editOps = (
     <>
       <Radio.Group
-        className="flex-box"
+        className="flex justify-between items-center"
         size="small"
         value={viewType}
         onChange={(e: any) => changeViewType(e.target.value)}
@@ -338,7 +338,7 @@ const PipelineEditor = (props: IYmlEditorProps) => {
   return (
     <div>
       <FileContainer
-        className={`new-yml-editor app-repo-pipeline column-flex-box full-spin-height ${
+        className={`new-yml-editor app-repo-pipeline flex flex-col justify-center full-spin-height ${
           viewType === ViewType.graphic ? 'graphic' : ''
         }`}
         name={editing ? `${i18n.t('application:edit')} ${fileName}` : fileName}

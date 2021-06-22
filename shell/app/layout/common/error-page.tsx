@@ -57,7 +57,7 @@ const NotFound = ({ message, force }: { message?: string; force?: boolean }) => 
   const { _master } = window;
   if (_master && _master.isLoadingModule()) {
     return (
-      <div className="basic-error-page center-flex-box">
+      <div className="basic-error-page flex justify-center items-center flex-wrap">
         <Spin spinning size="large" tip={i18n.t('please wait, the module is loading')} />
       </div>
     );

@@ -58,7 +58,7 @@ const ScaleInfo = ({ data }: IProps) => {
   return (
     <Spin spinning={isLoading}>
       <div className="scale-info mb-8">
-        <div className="flex-box">
+        <div className="flex justify-between items-center">
           <span className="title font-medium">{i18n.t('dataCenter:resource information')}</span>
           <Button
             onClick={() => {

@@ -88,9 +88,9 @@ export const Iteration = () => {
   const renderIteration = (iteration: ITERATION.Detail) => {
     const { id, title, content, startedAt, finishedAt } = iteration;
     return (
-      <div key={id} className="common-list-item hover-active-bg flex-box">
+      <div key={id} className="common-list-item hover-active-bg flex justify-between items-center">
         <div className="list-item-left">
-          <div className="nowrap title flex-box font-medium">
+          <div className="nowrap title flex justify-between items-center font-medium">
             <span>{title}</span>
             <MenuPopover styleName="color-text-desc" content={renderMenuPopover(iteration)} placement="left" />
           </div>
@@ -133,7 +133,7 @@ export const Iteration = () => {
       </IF>
       <Spin spinning={isFetching}>
         {map(list, renderIteration)}
-        <div className="mt-4 right-flex-box">
+        <div className="mt-4 flex justify-end items-center flex-wrap">
           <Pagination current={pageNo} pageSize={pageSize} total={total} onChange={onPageChange} />
         </div>
       </Spin>

@@ -121,7 +121,7 @@ const AppSelector = (props: IAppSelectorProps) => {
       overlay={listComp}
       onVisibleChange={onCloseList}
     >
-      <div className="app-name flex-box">
+      <div className="app-name flex justify-between items-center">
         <span className={nameStyle}>{chosenApp || i18n.t('microService:select application')}</span>
         <CustomIcon className="caret" type="caret-down" />
       </div>
@@ -177,7 +177,7 @@ const ConfigCenter = () => {
       dataIndex: 'key',
       sorter: (a: IConfig, b: IConfig) => a.key.charCodeAt(0) - b.key.charCodeAt(0),
       render: (text) => (
-        <div className="flex-box">
+        <div className="flex justify-between items-center">
           <span className="for-copy nowrap" data-clipboard-text={text}>
             {text}
           </span>

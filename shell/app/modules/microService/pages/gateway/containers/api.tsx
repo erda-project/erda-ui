@@ -397,7 +397,7 @@ class API extends React.Component<IProps, IState> {
     const { domainSuffix, domainPrefix } = apiDomain;
 
     return (
-      <div className="condition-nav flex-box">
+      <div className="condition-nav flex justify-between items-center">
         <div className="app-services-container mb-4">
           <div className={`mr-4 ${isRuntimeEntry ? 'hidden' : ''}`}>
             <span>{i18n.t('microService:switch app')}：</span>
@@ -483,8 +483,8 @@ class API extends React.Component<IProps, IState> {
             </div>
           </IF>
         </div>
-        <div className="flex-box mb-4">
-          <div className="search-fields flex-box">
+        <div className="flex justify-between items-center mb-4">
+          <div className="search-fields flex justify-between items-center">
             <Select
               allowClear
               className="api-select mr-5"

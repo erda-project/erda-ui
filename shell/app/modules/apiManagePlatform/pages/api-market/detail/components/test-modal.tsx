@@ -196,7 +196,7 @@ const TestModal = ({ visible, onCancel, dataSource }: IProps) => {
     });
   };
   const modalTitle = (
-    <span className="flex-box justify-start">
+    <span className="flex justify-between items-center justify-start">
       <span>{i18n.t('API test')}</span>
       <span className="ml-3 hover-active" onClick={handleScreenControl}>
         <Tooltip
@@ -221,7 +221,7 @@ const TestModal = ({ visible, onCancel, dataSource }: IProps) => {
       maskClosable={false}
       footer={<Button onClick={handleCancel}>{i18n.t('close')}</Button>}
     >
-      <div className="flex-box">
+      <div className="flex justify-between items-center">
         <div className="flex-1">
           <Input.Group compact>
             <Input style={{ width: '10%' }} disabled value={dataSource.method} />

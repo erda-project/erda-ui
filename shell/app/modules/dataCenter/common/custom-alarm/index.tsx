@@ -880,7 +880,7 @@ export default ({ scopeType }: { scopeType: string }) => {
   };
 
   const customRender = (content: JSX.Element) => (
-    <div className="flex-box">
+    <div className="flex justify-between items-center">
       <div className="flex-1">{content}</div>
       <IF check={!!previewerKey}>
         <div className="custom-alarm-previewer px-4">

@@ -209,10 +209,10 @@ export const CaseNode = (props: IProps) => {
 
   return (
     <Tooltip title={editing ? undefined : tooltipTxt} onVisibleChange={onVisibleChange}>
-      <div className="yml-chart-node test-case-node column-flex-box" onClick={onClick}>
+      <div className="yml-chart-node test-case-node flex flex-col justify-center" onClick={onClick}>
         <div className={'case-title'}>
           <div className="title-icon mr-3">{IconComp}</div>
-          <div className="title-txt column-flex-box color-text">
+          <div className="title-txt flex flex-col justify-center color-text">
             <span className="nowrap text-base font-bold name">{name}</span>
           </div>
           {editing ? (

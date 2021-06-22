@@ -219,7 +219,7 @@ export const NotifyConfig = ({ commonPayload, memberStore }: IProps) => {
       tip: true,
       className: 'notify-info',
       render: (targets) => (
-        <div className="flex-box">
+        <div className="justify-start notify-box">
           <ListTargets targets={targets} roleMap={roleMap} />
         </div>
       ),

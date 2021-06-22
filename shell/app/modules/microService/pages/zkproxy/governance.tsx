@@ -116,8 +116,8 @@ const Governance = () => {
           <p className="font-medium text-base mb-4">{i18n.t('microService:weight configuration')}</p>
           <ul className="branches-rule-list px-4 mb-6">
             {map(branches, (name) => (
-              <li className="branches-rule-item py-3 flex-box border-bottom" key={name}>
-                <div className="flex-box text-base">
+              <li className="branches-rule-item py-3 flex justify-between items-center border-bottom" key={name}>
+                <div className="flex justify-between items-center text-base">
                   <CustomIcon type="fz" />
                   <span className="branch-name">{name}</span>
                 </div>

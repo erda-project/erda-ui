@@ -504,7 +504,7 @@ const CloudSource = () => {
     );
   }
   return (
-    <Card className="h-full center-flex-box">
+    <Card className="h-full flex justify-center items-center flex-wrap">
       <Guidance afterSubmit={getResourceInfo} />
     </Card>
   );

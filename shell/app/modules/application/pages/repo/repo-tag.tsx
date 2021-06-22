@@ -202,16 +202,16 @@ const RepoTag = () => {
             const { name, id, tagger } = item;
             const { name: committerName, when } = tagger as any;
             return (
-              <div key={name} className="branch-item flex-box">
+              <div key={name} className="branch-item flex justify-between items-center">
                 <div className="branch-item-left">
-                  <div className="font-medium v-align text-base mb-3">
+                  <div className="font-medium flex items-center text-base mb-3">
                     <CustomIcon type="bb" />
                     <Link to={mergeRepoPathWith(`/tree/${name}`)}>
                       <span className="color-text hover-active">{name}</span>
                     </Link>
                   </div>
-                  <div className="v-align color-text-sub">
-                    <span className="inline-v-align">
+                  <div className="flex items-center color-text-sub">
+                    <span className="inline-flex items-center">
                       <Avatar showName name={committerName} />
                       &nbsp;{i18n.t('committed at')}
                     </span>

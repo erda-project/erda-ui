@@ -112,7 +112,7 @@ export default () => {
     <div className="jvm-overview">
       <Spin spinning={isPending}>
         <div className="pa-5 mb-5 white-bg border-all">
-          <div className="jvm-profiler flex-box">
+          <div className="jvm-profiler flex justify-between items-center">
             <div className="profiler-info flex-1">
               <p className="info-item">
                 <span className="label">{`${i18n.t('addonPlatform:analyze ID')}: `}</span>
@@ -145,7 +145,7 @@ export default () => {
           <div className="panel-title">{i18n.t('addonPlatform:jvm process info')}</div>
           <div className="panel-body">{getPanelBody(jvmInfo.jvm_process)}</div>
         </div>
-        <div className="flex-box">
+        <div className="flex justify-between items-center">
           <div className="panel block flex-1 mr-5">
             <div className="panel-title">{i18n.t('addonPlatform:jvm properties')}</div>
             <div className="panel-body">{getPanelBody(jvmInfo.jvm_options)}</div>

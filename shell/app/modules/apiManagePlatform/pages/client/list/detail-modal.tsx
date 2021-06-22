@@ -108,7 +108,7 @@ const DetailModal = ({ visible, onCancel, dataSource }: IProps) => {
     {
       label: 'ClientSecret',
       value: (
-        <div className="flex-box client-secret">
+        <div className="flex justify-between items-center client-secret">
           {showSecret ? (
             <span className="for-copy" data-clipboard-text={get(dataSource, ['sk', 'clientSecret'])}>
               {get(dataSource, ['sk', 'clientSecret'])}

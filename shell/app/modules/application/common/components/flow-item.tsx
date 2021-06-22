@@ -105,7 +105,7 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
         <ul className="relation-list mt-2">
           {item.data.relations.map(({ sourceAttr, relAttr, pk }: IRelationItem) => (
             <Tooltip title={`${sourceAttr}: ${relAttr}`}>
-              <li className="relation-item flex-box mt-2" key={sourceAttr}>
+              <li className="relation-item flex justify-between items-center mt-2" key={sourceAttr}>
                 <span className="relation-text nowrap">{`${sourceAttr}: ${relAttr}`}</span>
                 <IF check={pk}>
                   <CustomIcon className="relation-icon" type="key" />

@@ -287,7 +287,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
   const editOps = (
     <>
       <Radio.Group
-        className="flex-box"
+        className="flex justify-between items-center"
         size="small"
         value={viewType}
         onChange={(e: any) => changeViewType(e.target.value)}
@@ -321,7 +321,7 @@ const PipelineEditor = React.forwardRef((props: IPipelineEditorProps, ref: any) 
   return (
     <div>
       <FileContainer
-        className={`pipeline-yml-editor column-flex-box full-spin-height ${
+        className={`pipeline-yml-editor flex flex-col justify-center full-spin-height ${
           viewType === ViewType.graphic ? 'graphic' : ''
         }`}
         name={name}

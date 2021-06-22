@@ -215,7 +215,7 @@ const IssueHeader = (props: IProps) => {
                 <Tooltip key={view.value} title={view.tip}>
                   <Dropdown overlay={getMenu()}>
                     <Radio.Button value={view.value}>
-                      <div className="flex-box">
+                      <div className="flex justify-between items-center">
                         <CustomIcon type={view.icon} className="mr-1" />
                         <span className="nowrap" style={{ width: 56 }}>
                           {curGrouName}
@@ -229,7 +229,7 @@ const IssueHeader = (props: IProps) => {
               return (
                 <Tooltip key={view.value} title={view.tip}>
                   <Radio.Button value={view.value}>
-                    <div className="flex-box">
+                    <div className="flex justify-between items-center">
                       <CustomIcon type={view.icon} className="mr-1" />
                       {view.name}
                     </div>

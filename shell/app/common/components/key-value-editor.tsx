@@ -156,7 +156,7 @@ export class KeyValueEditor extends React.Component<IProps, IState> {
     const textData = convertToTextData(dataSource);
     return (
       <div>
-        <div className="flex-box mb-3">
+        <div className="flex justify-between items-center mb-3">
           <span className="key-value-title">{title || i18n.t('default:information configuration')}</span>
           {isNeedTextArea ? (
             <Radio.Group size="small" value={tableMode ? 'key-value' : 'text'} onChange={this.toggleEditMode}>

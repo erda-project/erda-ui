@@ -97,7 +97,7 @@ export const IssueItem = (props: IIssueProps) => {
           <IssueIcon type={type as ISSUE_OPTION} />
           <Ellipsis className="font-bold" title={name} />
         </div>
-        <div className="backlog-item-info color-text-sub right-flex-box">
+        <div className="backlog-item-info color-text-sub flex justify-end items-center flex-wrap">
           <div className="backlog-item-priority mw-60">{curPriority.iconLabel}</div>
           <div className="w-80">
             <Avatar showName name={username} size={20} wrapClassName="w-full" />
@@ -229,7 +229,7 @@ export const IssueForm = (props: IIssueFormProps) => {
   }, [chosenType]);
 
   return (
-    <div className={`${className} backlog-issue-form flex-box`}>
+    <div className={`${className} backlog-issue-form flex justify-between items-center`}>
       <div className={'backlog-issue-form-box h-full'}>
         <Form fields={fields} formRef={formRef} formProps={{ layout: 'inline', className: 'backlog-issue-add' }} />
       </div>

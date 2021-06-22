@@ -285,7 +285,7 @@ const StatisticsDetail = () => {
   return (
     <div className="artifacts-statistics">
       <div className="mt-4 block-container">
-        <div className="title flex-box">
+        <div className="title flex justify-between items-center">
           <span className="font-bold text-base">{get(topTypeMap, `${topType}.title`)}</span>
           <div>
             <FilterGroup
@@ -311,7 +311,7 @@ const StatisticsDetail = () => {
         </div>
       </div>
       <div className="mt-4 block-container">
-        <div className="title flex-box">
+        <div className="title flex justify-between items-center">
           <span className="font-bold text-base">{i18n.t('publisher:detailed data')}</span>
         </div>
         <div>

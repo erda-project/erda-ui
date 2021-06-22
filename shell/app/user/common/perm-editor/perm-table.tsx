@@ -441,7 +441,7 @@ const PermOperation = (props: IOperationProps) => {
       className: 'mb-1',
       extraProps: { ...fieldLayout },
       getComp: ({ form }: { form: any }) => (
-        <div className="center-flex-box">
+        <div className="flex justify-center items-center flex-wrap">
           <Button type="primary" onClick={() => handleAddSubmit(form)}>
             添加
           </Button>
@@ -498,7 +498,7 @@ const PermOperation = (props: IOperationProps) => {
       className: 'mb-1',
       extraProps: { ...fieldLayout },
       getComp: ({ form }: { form: any }) => (
-        <div className="center-flex-box">
+        <div className="flex justify-center items-center flex-wrap">
           <Button type="primary" onClick={() => handleEditSubmit(form)}>
             保存
           </Button>

@@ -84,7 +84,7 @@ const ServiceDropdown = (props: IProps) => {
         dataSource={map(addrs, (addr) => ({ addr }))}
         renderItem={({ addr }: { addr: string }) => {
           return (
-            <div className="flex-box">
+            <div className="flex justify-between items-center">
               <span className="mr-2 vip-addr flex-1 nowrap">{addr}</span>
               <Copy selector=".for-copy">
                 <span className="for-copy copy-icon" data-clipboard-text={addr}>

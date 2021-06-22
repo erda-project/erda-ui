@@ -370,7 +370,7 @@ const ErrorReport = (props: IProps) => {
         />
       </div>
       <div className="mt-4 block-container">
-        <div className="title flex-box">
+        <div className="title flex justify-between items-center">
           <span className="font-bold text-base">{i18n.t('publisher:error statistics')}</span>
         </div>
         <div>
@@ -379,7 +379,7 @@ const ErrorReport = (props: IProps) => {
         </div>
       </div>
       <div className="mt-4 block-container">
-        <div className="title flex-box">
+        <div className="title flex justify-between items-center">
           <span className="font-bold text-base">{i18n.t('publisher:error list')}</span>
         </div>
         <div>

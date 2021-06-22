@@ -161,8 +161,10 @@ const TemplateCard = (props: ICardProps) => {
     'px-2',
     'py-3',
     'pointer',
-    'column-flex-box',
-    'v-align',
+    'flex-col',
+    'justify-center',
+    'flex',
+    'flex items-center',
     'justify-start',
     type.disabled ? 'not-allowed' : '',
     isChecked ? 'checked' : '',
@@ -264,7 +266,7 @@ const CreationForm = () => {
       name: 'template',
       initialValue: templateArr[0].val,
       getComp: ({ form }: { form: WrappedFormUtils }) => (
-        <div className="template-card-row flex-box">
+        <div className="template-card-row flex justify-between items-center">
           {templateArr.map((item) => (
             <TemplateCard
               key={item.name}

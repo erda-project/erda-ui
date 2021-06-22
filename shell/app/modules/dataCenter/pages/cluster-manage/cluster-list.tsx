@@ -96,7 +96,7 @@ const ClusterCard = (props: ICardProps) => {
               <span>{description || '-'}</span>
             </Tooltip>
           </div>
-          <div className="cluster-info-footer flex-box">
+          <div className="cluster-info-footer flex justify-between items-center">
             <span className="nowrap">
               <CustomIcon type="jqlx" />
               {get(detail, 'basic.edgeCluster.value', true) ? i18n.t('org:edge cluster') : i18n.t('org:center cluster')}

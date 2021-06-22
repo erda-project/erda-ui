@@ -71,7 +71,7 @@ export const memberSelectorValueItem = (user: any) => {
   const { avatar, nick, name, label, value } = user;
   const displayName = nick || label || value || i18n.t('common:none');
   return (
-    <div className="v-align hover-active issue-field-selector">
+    <div className="flex items-center hover-active issue-field-selector">
       <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect={'20x20'} type="avatar" />
       <span className={'ml-2 text-sm'} title={name}>
         {displayName}
@@ -97,7 +97,7 @@ export const FieldSelector = (props: IFieldProps) => {
     'iconLabel',
   );
   const ValueRender = (
-    <div className="v-align hover-active issue-field-selector" onClick={(e: any) => e.stopPropagation()}>
+    <div className="flex items-center hover-active issue-field-selector" onClick={(e: any) => e.stopPropagation()}>
       {chosenVal}
       <CustomIcon type="di" className="arrow-icon" />
     </div>
@@ -304,7 +304,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
             disabled: !item.permission,
             value: item.stateID,
             iconLabel: (
-              <div className="v-align">
+              <div className="flex items-center">
                 {ISSUE_ICON.state[item.stateBelong]}
                 {item.stateName}
               </div>

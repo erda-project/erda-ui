@@ -406,7 +406,7 @@ const NotifyGroup = ({ memberStore, commonPayload }: IProps) => {
       className: 'notify-info',
       tip: true,
       render: (targets) => (
-        <div className="flex-box">
+        <div className="justify-start notify-box">
           <ListTargets targets={targets} roleMap={roleMap} />
         </div>
       ),

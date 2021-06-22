@@ -179,7 +179,7 @@ const SubMachineGroup = ({
             }}
           >
             {subMachineContainerWidthHolder}
-            <div className="group-header flex-box">
+            <div className="group-header flex justify-between items-center">
               <h3 className="group-title">{subGroupName + unitGroups[1]}</h3>
               <span className="group-actived-op hover-active">
                 <CustomIcon type="grow" />
@@ -458,7 +458,7 @@ const ClusterDashboard = () => {
     return (
       <Holder when={isEmpty(machines) && isEmpty(groups)}>
         <IF check={selectedGroups.length}>
-          <div className="group-header flex-box">
+          <div className="group-header flex justify-between items-center">
             <h3 className="group-title">{activedGroup || groupName + unitGroups[0]}</h3>
             <IF check={activedGroup}>
               <span className="group-unactived-op hover-active">
@@ -609,7 +609,7 @@ const ClusterDashboard = () => {
       <div className="cluster-dashboard-top">
         <div className="filter-group-ct mb-4">
           <Row gutter={20}>
-            <Col span={8} className="filter-item flex-box">
+            <Col span={8} className="filter-item flex justify-between items-center">
               <div className="filter-item-label">{i18n.t('Group')}</div>
               <Select
                 value={selectedGroups}
@@ -629,7 +629,7 @@ const ClusterDashboard = () => {
                 )}
               </Select>
             </Col>
-            <Col span={8} className="filter-item flex-box">
+            <Col span={8} className="filter-item flex justify-between items-center">
               <div className="filter-item-label">{i18n.t('filter')}</div>
               <TreeSelect
                 className="filter-item-content"
@@ -655,7 +655,7 @@ const ClusterDashboard = () => {
                 ))}
               </TreeSelect>
             </Col>
-            <Col span={8} className="filter-item flex-box">
+            <Col span={8} className="filter-item flex justify-between items-center">
               <div className="filter-item-label">{i18n.t('colour')}</div>
               <Select
                 className="filter-item-content"
@@ -669,7 +669,7 @@ const ClusterDashboard = () => {
                       <div className="comments">
                         <ul className="colour-comment-list">
                           {map(DEGREE_COLOUR_MAP[colorMark], (value, color) => (
-                            <li className="colour-comment-item flex-box" key={color}>
+                            <li className="colour-comment-item flex justify-between items-center" key={color}>
                               <span className="colour-comment-value">{value.text}</span>
                               <div className={`color-block ${color}`} />
                             </li>

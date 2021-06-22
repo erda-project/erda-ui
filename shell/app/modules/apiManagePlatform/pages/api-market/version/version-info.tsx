@@ -283,7 +283,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
     onRelation('instance');
   };
   return (
-    <div className="flex-box content-wrap">
+    <div className="flex justify-between items-center content-wrap">
       <div className="left pr-4">
         <Tree
           blockNode
@@ -296,7 +296,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
         />
       </div>
       <div className="right flex-1 pl-4">
-        <div className="flex-box">
+        <div className="flex justify-between items-center">
           <div className="title color-text font-medium text-base my-3">{i18n.t('related instance')}</div>
           <UnityAuthWrap userID={creatorID} path={['apiMarket', 'relatedInstance']}>
             <Button onClick={handleRelation}>{i18n.t('edit')}</Button>

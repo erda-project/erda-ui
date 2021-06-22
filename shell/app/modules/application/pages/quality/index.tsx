@@ -123,7 +123,7 @@ const CodeQuality = () => {
         {QUALITY_DATAS.map(({ key, name, icon, query }) => (
           <Col span={24 / QUALITY_DATAS.length} key={key}>
             <div
-              className="quality-data flex-box"
+              className="quality-data flex justify-between items-center"
               onClick={() => {
                 goTo(goTo.pages.qaTicket, {
                   projectId,
@@ -132,7 +132,7 @@ const CodeQuality = () => {
                 });
               }}
             >
-              <span className="desc flex-box mr-4">
+              <span className="desc flex justify-between items-center mr-4">
                 <CustomIcon type={icon} />
                 {name}
               </span>
@@ -172,7 +172,7 @@ const CodeQuality = () => {
         width: 360,
         key: 'name',
         render: ({ name }) => (
-          <span className="inline-flex-box">
+          <span className="inline-flex justify-between items-center">
             <CustomIcon type="page" className="mr-2" />
             {name}
           </span>
@@ -251,8 +251,8 @@ const CodeQuality = () => {
     return (
       <React.Fragment>
         <div className="file-container quality-file">
-          <div className="file-header font-bold flex-box">
-            <div className="file-title inline-flex-box">
+          <div className="file-header font-bold flex justify-between items-center">
+            <div className="file-title inline-flex justify-between items-center">
               <CustomIcon className="hover-active mb-1 mr-2" type="back" onClick={closeDetail} />
               <span>{name}</span>
             </div>

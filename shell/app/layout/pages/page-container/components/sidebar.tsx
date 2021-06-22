@@ -243,7 +243,7 @@ const SideBar = () => {
       }
       // appName=''
       // horizontalBrandIcon={ // 横向sidebar待定
-      //   <div className='flex-box'>
+      //   <div className='flex justify-between items-center'>
       //     <img
       //       className='mr-6 pointer'
       //       src='/images/erda-logo.svg'
@@ -294,8 +294,11 @@ const PopoverSelector = (props: IPopoverSelectorProps) => {
   const { options, value } = props;
   const valueName = get(find(options, { key: value }), 'name') || value;
   const ValueRender = (
-    <div className=" v-align side-app-center flex-box pointer" onClick={(e: any) => e.stopPropagation()}>
-      {/* <div className='v-align font-bold'>
+    <div
+      className=" flex items-center side-app-center flex justify-between items-center pointer"
+      onClick={(e: any) => e.stopPropagation()}
+    >
+      {/* <div className='flex items-center font-bold'>
         {valueName || <span className=''>{i18n.t('unspecified')}</span>}
       </div> */}
       <CustomIcon type="appstore" className="text-xl ml-1" />
@@ -309,7 +312,7 @@ const PopoverSelector = (props: IPopoverSelectorProps) => {
     <Menu onClick={onClick}>
       {map(options, (op) => (
         <Menu.Item key={op.key} className="app-center-item">
-          {/* <span className='v-align'> */}
+          {/* <span className='flex items-center'> */}
           {op.name}
           {/* </div> */}
         </Menu.Item>

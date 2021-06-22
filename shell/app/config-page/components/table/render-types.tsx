@@ -83,7 +83,10 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
           extra.customProps?.clickTableItem && extra.customProps.clickTableItem(record);
         };
         Comp = (
-          <div className={`table-render-twt w-full pl-2 v-align ${hasPointer ? 'pointer' : ''}`} onClick={onClick}>
+          <div
+            className={`table-render-twt w-full pl-2 flex items-center ${hasPointer ? 'pointer' : ''}`}
+            onClick={onClick}
+          >
             {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
             <div className="twt-text">
               <div className="nowrap">{value}</div>
@@ -101,7 +104,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       {
         const { value, prefixIcon, colorClassName, hoverActive = '' } = val;
         Comp = (
-          <div className={`${hoverActive} v-align`}>
+          <div className={`${hoverActive} flex items-center`}>
             {prefixIcon ? <CustomIcon type={prefixIcon} className={`mr-1 ${colorClassName}`} /> : null}
             <Ellipsis title={value}>{value}</Ellipsis>
           </div>
@@ -248,7 +251,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       {
         const { text, prefix, suffix } = val;
         Comp = (
-          <div className="dice-cp-text-tag w-full pl-2 v-align">
+          <div className="dice-cp-text-tag w-full pl-2 flex items-center">
             {prefix ? (
               <div className="extra-tags px-2 mr-1" style={{ backgroundColor: prefix.bgColor }}>
                 {prefix.text}
@@ -271,7 +274,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       {
         const { data = [] } = val;
         Comp = (
-          <div className="dice-cp-level-content w-full pl-2 v-align">
+          <div className="dice-cp-level-content w-full pl-2 flex items-center">
             {data.map(({ level, text }: { level: number; text: string }) => {
               return <div className={`mr-1 level-${level}-content`}>{text}</div>;
             })}
@@ -300,7 +303,7 @@ const memberSelectorValueItem = (user: any) => {
   const { avatar, nick, name, label, value } = user;
   const displayName = nick || label || value || i18n.t('common:none');
   return (
-    <div className="v-align dice-config-table-member-field-selector">
+    <div className="flex items-center dice-config-table-member-field-selector">
       {/* <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect={'20x20'} type="avatar" /> */}
       <span className={'ml-1 text-sm nowrap'} title={name}>
         {displayName}
@@ -323,8 +326,8 @@ interface IDropdownSelectorProps {
 const DropdownSelector = (props: IDropdownSelectorProps) => {
   const { disabled, disabledTip, operations, prefixIcon, value, execOperation } = props;
   const ValueRender = (
-    <div className="v-align hover-active dropdown-field-selector" onClick={(e: any) => e.stopPropagation()}>
-      <div className="v-align">
+    <div className="flex items-center hover-active dropdown-field-selector" onClick={(e: any) => e.stopPropagation()}>
+      <div className="flex items-center">
         {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
         {value || <span className="color-text-desc">{i18n.t('unspecified')}</span>}
       </div>
@@ -348,7 +351,7 @@ const DropdownSelector = (props: IDropdownSelectorProps) => {
       {map(operations, (op) => (
         <Menu.Item disabled={op.disabled} key={op.key}>
           <Tooltip title={op.disabledTip}>
-            <div className="v-align">
+            <div className="flex items-center">
               {op.prefixIcon ? <CustomIcon type={op.prefixIcon} /> : null}
               {op.text}
             </div>

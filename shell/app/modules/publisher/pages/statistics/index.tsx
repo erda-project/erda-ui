@@ -289,7 +289,7 @@ const Statistics = (props: IProps) => {
         hideReload: true,
         staticData: getLineChartLayout(lineData),
         title: () => (
-          <div className="chart-title flex-box  w-full">
+          <div className="chart-title flex justify-between items-center  w-full">
             <FilterTab onChange={OnChangeLineType} />
             <TimeSelector inline disabledDate={() => false} />
           </div>
@@ -308,7 +308,7 @@ const Statistics = (props: IProps) => {
         chartType: 'chart:pie',
         hideReload: true,
         title: () => (
-          <div className="chart-title flex-box w-full">
+          <div className="chart-title flex justify-between items-center w-full">
             <span className="font-bold text-base">{i18n.t('publisher:top10 version')}</span>
             <span
               className="always-active"
@@ -334,7 +334,7 @@ const Statistics = (props: IProps) => {
         },
         customRender: (chartNode: any) => {
           return (
-            <div className="v-flex-box">
+            <div className="flex flex-col h-full">
               <FilterTab className="mb-2" onChange={OnChangePieVersionType} />
               <div className="flex-1">{chartNode}</div>
             </div>
@@ -355,7 +355,7 @@ const Statistics = (props: IProps) => {
         hideReload: true,
         staticData: getPieChartLayout(pieChannelData),
         title: () => (
-          <div className="chart-title flex-box w-full">
+          <div className="chart-title flex justify-between items-center w-full">
             <span className="font-bold text-base">{i18n.t('publisher:top10 channel')}</span>
             <span
               className="always-active"
@@ -379,7 +379,7 @@ const Statistics = (props: IProps) => {
         },
         customRender: (chartNode: any) => {
           return (
-            <div className="v-flex-box">
+            <div className="flex flex-col h-full">
               <FilterTab className="mb-2" onChange={OnChangePieChannelType} />
               <div className="flex-1">{chartNode}</div>
             </div>

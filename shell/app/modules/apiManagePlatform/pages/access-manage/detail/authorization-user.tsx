@@ -103,7 +103,7 @@ const AuthorizationUser = ({ swaggerVersion, assetID }: { swaggerVersion: string
       dataIndex: 'client.displayName',
       render: (text, record) => {
         return (
-          <div className="flex-box justify-start">
+          <div className="flex justify-between items-center justify-start">
             <div className="client_displayName">
               <Ellipsis title={text || record.client?.name} />
             </div>

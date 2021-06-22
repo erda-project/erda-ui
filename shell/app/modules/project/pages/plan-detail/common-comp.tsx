@@ -83,7 +83,7 @@ export const BaseInfo = () => {
   const content = (
     <div>
       <span className="color-text font-medium mb-2">{i18n.t('project:participant')}</span>
-      <div className="center-flex-box participant-items justify-start">
+      <div className="flex justify-center items-center flex-wrap participant-items justify-start">
         {partnerIDs.map((value, index) => {
           return (
             <span key={`${String(index)}-${value}`} className="mr-2 mb-2">
@@ -105,7 +105,7 @@ export const BaseInfo = () => {
           <Avatar showName name={<UserInfo id={planItemDetail.ownerID} render={(data) => data.nick || data.name} />} />
           <span className="ml-6">{i18n.t('project:participant')}：</span>
           <Popover overlayStyle={{ width: 280 }} overlayClassName="participant-popover" content={content}>
-            <span className="participant flex-box hover-active">
+            <span className="participant flex justify-between items-center hover-active">
               {partnerIDs.slice(0, 4).map((p, index) => (
                 <Avatar key={`${String(index)}-${p}`} />
               ))}

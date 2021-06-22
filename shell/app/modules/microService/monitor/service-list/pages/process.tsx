@@ -65,9 +65,9 @@ export default () => {
   }, [serviceId, getProcessDashboardId, serviceName, terminusKey, updater]);
 
   return (
-    <div className="service-analyze v-flex-box">
-      <div className="flex-box flex-wrap mb-1">
-        <div className="left flex-box mb-2">
+    <div className="service-analyze flex flex-col h-full">
+      <div className="flex justify-between items-center flex-wrap mb-1">
+        <div className="left flex justify-between items-center mb-2">
           <TimeSelector className="m-0 mr-3" />
           <Select
             className="mr-3"
@@ -79,7 +79,7 @@ export default () => {
           >
             {(instanceIds || []).map(({ instanceId: v, status, ip }) => (
               <Select.Option key={v} value={v}>
-                <div className="instance-item flex-box">
+                <div className="instance-item flex justify-between items-center">
                   <span className="instance-name nowrap">{ip || v}</span>
                   <Tooltip title={status ? i18n.t('dcos:running') : i18n.t('microService:not running')}>
                     <div className="status ml-2">
