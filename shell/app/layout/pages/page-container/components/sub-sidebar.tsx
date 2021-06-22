@@ -76,14 +76,14 @@ const firstLetterUpper = (str: string) => str.slice(0, 1).toUpperCase() + str.sl
 const findActiveKey = (menu: IMenu[], curHref: string) => {
   const { pathname } = window.location;
   let activeKey = '';
-  const tmpParentActiveKeyList = [] as string[];
   let realParentActiveKeyList = [] as string[];
-  const getActiveKey = (menuNext: IMenu[], parentKey: string) => {
+  const getActiveKey = (menuNext: IMenu[], parentKey: string, activeParentList: string[]) => {
+    const tmpParentActiveKeyList:string[] = [];
     menuNext.forEach(({ href, isActive, prefix, subMenu }) => {
       parentKey && !tmpParentActiveKeyList.includes(parentKey) && tmpParentActiveKeyList.push(parentKey);
-      if (subMenu) getActiveKey(subMenu, href);
-      if (isActive ? isActive(pathname) : pathname.startsWith(prefix || href)) {
-        realParentActiveKeyList = [...tmpParentActiveKeyList];
+      if (subMenu) getActiveKey(subMenu, href, tmpParentActiveKeyList);
+      if ((isActive ? isActive(pathname) : pathname.startsWith(prefix || href)) && !subMenu) {
+        realParentActiveKeyList = Array.from(new Set([...activeParentList, ...tmpParentActiveKeyList]));
         // match the longest href
         if (activeKey) {
           activeKey = activeKey.length > href.length ? activeKey : href;
@@ -93,7 +93,7 @@ const findActiveKey = (menu: IMenu[], curHref: string) => {
       }
     });
   };
-  getActiveKey(menu, curHref);
+  getActiveKey(menu, curHref, []);
   return [activeKey, realParentActiveKeyList];
 };
 
