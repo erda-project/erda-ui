@@ -165,7 +165,7 @@ const testCaseStore = createStore({
         fileType,
         testCaseID: testCaseIDs,
       }) as any as TEST_CASE.ExportFileQuery;
-      await call(exportFileInTestCase, exportQuery);
+      return call(exportFileInTestCase, exportQuery);
     },
     async importTestCase({ call, getParams, getQuery }, payload: { file: any }) {
       const { projectId: projectID } = getParams();

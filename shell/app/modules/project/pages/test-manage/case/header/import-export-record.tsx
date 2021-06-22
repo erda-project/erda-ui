@@ -11,7 +11,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-import { isEmpty, xor } from 'lodash';
+import { isEmpty } from 'lodash';
 import React, { useState } from 'react';
 import i18n from 'i18n';
 import { Badge, Button, Drawer, message, Spin, Table } from 'app/nusi';
@@ -53,7 +53,7 @@ const ImportExportRecord = () => {
             }
           })
           if (haveJustFinishedJob) {
-            message.info(i18n.d('您操作的导入导出状态有更新，请查看记录。'), 4)
+            message.info(i18n.t('application:The import and export tasks you submitted have status updates, please check the records'), 4)
           }
         }
         setList(result);
@@ -90,7 +90,7 @@ const ImportExportRecord = () => {
       dataIndex: 'type',
       key: 'type',
       width: 120,
-      render: (type: TEST_CASE.ImportOrExport) => type === 'import' ? i18n.d('导入') : i18n.d('导出'),
+      render: (type: TEST_CASE.ImportOrExport) => type === 'import' ? i18n.t('import') : i18n.t('export'),
     },
     {
       title: i18n.t('operator'),
@@ -129,7 +129,7 @@ const ImportExportRecord = () => {
           fail: i18n.t('failed'),
           pending: i18n.t('queuing'),
         }
-        return <Badge status={stateToStatus[state]} text={stateToText[state]} />;
+        return <Badge status={stateToStatus[state] as any} text={stateToText[state]} />;
       }
     },
     {
