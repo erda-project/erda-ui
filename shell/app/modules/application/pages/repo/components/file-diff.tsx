@@ -204,17 +204,17 @@ export const FileDiff = ({
         <div ref={forwardRef} className="file-diff">
           <IF check={type === 'rename'}>
             <div className="file-title-move">
-              <div className="bold nowrap">
+              <div className="font-bold nowrap">
                 <IconFileCodeOne className="mr8" />
                 {old}
               </div>
               <IconArrowRight className="file-move-arrow" />
-              <div className="bold nowrap">{now}</div>
+              <div className="font-bold nowrap">{now}</div>
             </div>
             <div className="file-static-info">{text}</div>
             <IF.ELSE />
             <div className="file-title inline-flex-box">
-              <div className="bold nowrap">
+              <div className="font-bold nowrap">
                 <IconFileCodeOne className="mr8" />
                 {name} {text || null}
               </div>
@@ -296,7 +296,7 @@ export const FileDiff = ({
         }}
       >
         {title || (
-          <div className="bold">
+          <div className="font-bold">
             <IF check={!isExpanding}>
               <IconRightOne theme="filled" size="16px" className="mr8" />
               <ELSE />

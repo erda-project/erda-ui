@@ -73,7 +73,7 @@ const RecordList = React.forwardRef((props: IProps, ref: any) => {
   };
 
   const setRowClassName = (record: any) => {
-    return record.id !== get(curPipelineDetail, 'id') ? 'pipeline-record-list' : 'selected-row bold-500';
+    return record.id !== get(curPipelineDetail, 'id') ? 'pipeline-record-list' : 'selected-row font-medium';
   };
 
   const getList = (q: any = {}, forceUpdate = false) => {

@@ -120,7 +120,7 @@ const MiddlewareDashboard = () => {
       dataIndex: 'name',
       key: 'name',
       width: '35%',
-      render: (value: string) => <span className="hover-text bold">{value}</span>,
+      render: (value: string) => <span className="hover-text font-bold">{value}</span>,
     },
     {
       title: i18n.t('org:cluster'),

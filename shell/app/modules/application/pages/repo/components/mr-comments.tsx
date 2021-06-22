@@ -72,7 +72,7 @@ export const Discussion = ({ comment, commentMap, addComment }: IDiscussion) => 
     sections = [{ lines: data.diffLines }];
   }
   const title = (
-    <div className="bold">
+    <div className="font-bold">
       <Avatar name={comment.author.nickName} className="mr4" size={28} />
       <span className="mr4">
         <Tooltip title={comment.author.username}>{comment.author.nickName}</Tooltip> 在 {comment.data.newPath} 中

@@ -117,7 +117,7 @@ export const PureAppList = ({
             </IF>
           </div>
           <div className="item-content">
-            <div className="item-name nowrap bold-500">
+            <div className="item-name nowrap font-medium">
               <span className="mr16">{item.name}</span>
             </div>
             <div className="item-desc nowrap">

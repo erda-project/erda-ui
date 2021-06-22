@@ -68,7 +68,9 @@ export default () => {
     <div className="invite-to-org h-full center-flex-box">
       <div className="invite-to-org-ct text-center">
         <Avatar className="mb16" useLoginUser size={80} />
-        <p className="mb32 text-2xl bold" style={{ lineHeight: '1em' }}>{`${i18n.t('Welcome!')} ${nick || name}`}</p>
+        <p className="mb32 text-2xl font-bold" style={{ lineHeight: '1em' }}>{`${i18n.t('Welcome!')} ${
+          nick || name
+        }`}</p>
         <Input
           value={code}
           className="mb16"

@@ -81,7 +81,7 @@ const ClusterCard = (props: ICardProps) => {
           <img src={clusterImg} />
         </div>
         <div className="cluster-text">
-          <div className="name bold-500 nowrap">
+          <div className="name font-medium nowrap">
             <span
               className="hover-active"
               onClick={() => {

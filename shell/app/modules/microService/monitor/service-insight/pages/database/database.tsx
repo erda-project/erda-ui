@@ -96,7 +96,7 @@ const Database = () => {
         <CommonPanel
           title={
             <div className="flex-box">
-              <h3 className="trace-common-panel-title bold-500">{i18n.t('microService:link information')}</h3>
+              <h3 className="trace-common-panel-title font-medium">{i18n.t('microService:link information')}</h3>
             </div>
           }
           className="trace-status-list-ct"

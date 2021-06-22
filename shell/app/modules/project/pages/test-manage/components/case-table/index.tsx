@@ -184,7 +184,7 @@ const CaseTable = ({ query: queryProp, columns, onClickRow, scope, onChange, tes
         // title: <ChooseTitle mode={mode} />,
         title: <span>{i18n.t('project:use case title')}</span>,
         width: isScroll ? 380 : undefined,
-        render: (name: string) => <Ellipsis className="bold" title={name} />,
+        render: (name: string) => <Ellipsis className="font-bold" title={name} />,
       });
     }
     // 全选列

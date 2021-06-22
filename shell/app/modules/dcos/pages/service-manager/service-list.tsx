@@ -178,7 +178,7 @@ function ServiceList({
         key: 'id',
         // width: 320,
         render: (text: string, record: any) => (
-          <span className="bold hover-table-text" onClick={() => into({ q: text, name: record.name })}>
+          <span className="font-bold hover-table-text" onClick={() => into({ q: text, name: record.name })}>
             <CustomIcon type={iconMap[depth]} />
             {record.name}
           </span>

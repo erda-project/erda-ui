@@ -110,7 +110,7 @@ export const ProjectList = () => {
             <div className="item-content">
               <div className="item-name nowrap flex-box justify-start">
                 <Tooltip title={item.name}>
-                  <span className="bold-500 mr24">{item.displayName}</span>
+                  <span className="font-medium mr24">{item.displayName}</span>
                 </Tooltip>
               </div>
               <div className="item-desc nowrap">{item.desc || i18n.t('project:edit description in setting')}</div>

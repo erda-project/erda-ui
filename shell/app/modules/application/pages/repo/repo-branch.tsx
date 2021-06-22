@@ -87,7 +87,7 @@ const RepoBranch = () => {
           return (
             <div key={name} className="branch-item flex-box">
               <div className="branch-item-left">
-                <div className="bold-500 v-align text-base mb12">
+                <div className="font-medium v-align text-base mb12">
                   {isProtect ? (
                     <Tooltip title={i18n.t('protected branch')}>
                       <CustomIcon className="text-xl color-green" type="baohu" />

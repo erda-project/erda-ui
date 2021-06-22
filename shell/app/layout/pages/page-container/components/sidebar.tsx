@@ -295,7 +295,7 @@ const PopoverSelector = (props: IPopoverSelectorProps) => {
   const valueName = get(find(options, { key: value }), 'name') || value;
   const ValueRender = (
     <div className=" v-align side-app-center flex-box pointer" onClick={(e: any) => e.stopPropagation()}>
-      {/* <div className='v-align bold'>
+      {/* <div className='v-align font-bold'>
         {valueName || <span className=''>{i18n.t('unspecified')}</span>}
       </div> */}
       <CustomIcon type="appstore" className="text-xl ml4" />

@@ -859,7 +859,7 @@ export const EditIssueDrawer = (props: IProps) => {
       if (warnMessage.length !== 0) {
         message.warn(
           <>
-            <span className="bold">{map(warnMessage, 'msg').join(', ')}</span>
+            <span className="font-bold">{map(warnMessage, 'msg').join(', ')}</span>
             <span>{i18n.t('project:missing')}</span>
           </>,
         );

@@ -74,7 +74,7 @@ export const ConfirmDelete = (props: IProps) => {
       <Modal
         title={
           <div className="wrap-flex-box">
-            <CustomIcon type="warning" className="mr4 color-warning text-xl bold" />
+            <CustomIcon type="warning" className="mr4 color-warning text-xl font-bold" />
             {_title}
           </div>
         }

@@ -179,7 +179,7 @@ const NodeList = () => {
     <div className="node-list-container">
       <div className="host-list mr16">
         <Card>
-          <p className="mb12 bold-500">{i18n.t('microService:node list')}</p>
+          <p className="mb12 font-medium">{i18n.t('microService:node list')}</p>
           <div className="host-list-content">
             <Holder when={isEmpty(nodeData.node)}>
               {map(nodeData.node, (node) => (

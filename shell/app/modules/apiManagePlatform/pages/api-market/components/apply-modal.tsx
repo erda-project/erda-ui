@@ -350,13 +350,13 @@ const ApplyModal = ({ visible, onCancel, dataSource }: IProps) => {
           {i18n.t('You can use ClientID and ClientSecret below to access API instance after approval.')}
         </p>
         <p className="mb4">
-          <span className="bold-500">ClientID: </span>
+          <span className="font-medium">ClientID: </span>
           <span className="for-copy" data-clipboard-text={state.clientSk.clientID}>
             {state.clientSk.clientID}
           </span>
         </p>
         <p className="mb4">
-          <span className="bold-500">ClientSecret: </span>
+          <span className="font-medium">ClientSecret: </span>
           <span className="for-copy" data-clipboard-text={state.clientSk.clientSecret}>
             {state.clientSk.clientSecret}
           </span>

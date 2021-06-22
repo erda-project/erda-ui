@@ -174,7 +174,7 @@ export const CaseNode = (props: IProps) => {
       const { strategy = {} } = loop;
       const tip = (
         <div onClick={(e: any) => e.stopPropagation()}>
-          <div className="bold">{i18n.t('project:loop strategy')}</div>
+          <div className="font-bold">{i18n.t('project:loop strategy')}</div>
           {loop.break && <div className="pl8">{`${i18n.t('project:condition to end loop')}: ${loop.break}`}</div>}
           {strategy.max_times && (
             <div className="pl8">{`${i18n.t('project:maximum number of loop')}: ${strategy.max_times}`}</div>
@@ -213,7 +213,7 @@ export const CaseNode = (props: IProps) => {
         <div className={'case-title'}>
           <div className="title-icon mr12">{IconComp}</div>
           <div className="title-txt column-flex-box color-text">
-            <span className="nowrap text-base bold name">{name}</span>
+            <span className="nowrap text-base font-bold name">{name}</span>
           </div>
           {editing ? (
             <div>

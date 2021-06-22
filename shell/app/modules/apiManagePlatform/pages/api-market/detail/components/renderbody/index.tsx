@@ -123,7 +123,7 @@ const RenderBody = ({
         showExpand = allowExpand;
       }
       return (
-        <Row type="flex" key={params} className="bold-400 nowrap color-text border-bottom pt8 pb8">
+        <Row type="flex" key={params} className="font-normal nowrap color-text border-bottom pt8 pb8">
           <Col span={6}>
             <div className="param-key nowrap">{params}</div>
           </Col>

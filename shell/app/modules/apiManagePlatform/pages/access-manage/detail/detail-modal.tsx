@@ -75,7 +75,7 @@ const DetailModal = ({ visible, onCancel, dataSource }: IProps) => {
         }}
       />
       <div className="pa16 record-list">
-        <div className="title text-base color-text bold-500 mb8">{i18n.t('approval record')}</div>
+        <div className="title text-base color-text font-medium mb8">{i18n.t('approval record')}</div>
         {records.length ? (
           <Timeline>
             {records.map(({ createdAt, action, creatorID, id }) => {

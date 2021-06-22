@@ -105,7 +105,7 @@ const PodDetail = () => {
       <Holder when={isEmpty(podDetail.instances) && isEmpty(podDetail.summary)}>
         <div className="pod-detail">
           <div className="base-info mb32">
-            <span className="title bold-500">{i18n.t('basic information')}</span>
+            <span className="title font-medium">{i18n.t('basic information')}</span>
             <div className="info-grid">
               {map(SUMMARY_KEY_MAP, (label, key) => (
                 <div key={key}>
@@ -116,7 +116,7 @@ const PodDetail = () => {
             </div>
           </div>
           <div className="instance mb32">
-            <span className="title bold-500">{i18n.t('org:instance list')} TOP10</span>
+            <span className="title font-medium">{i18n.t('org:instance list')} TOP10</span>
             <Table rowKey="containerId" pagination={false} columns={columns} dataSource={podDetail.instances || []} />
             {drawer}
           </div>

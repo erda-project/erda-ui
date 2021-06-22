@@ -36,13 +36,13 @@ export const CommitBlock = ({ commit }: { commit?: ICommit }) => {
     <div className="repo-commit-block flex-box">
       <div className="commit-left">
         <Avatar name={author.name} showName />
-        <span className="commit-content bold nowrap">
+        <span className="commit-content font-bold nowrap">
           <Tooltip title={msg}>{renderAsLink('commit', id, msg)}</Tooltip>
         </span>
       </div>
       <div className="commit-right">
         {i18n.t('submitted')}&nbsp;
-        <Copy className="for-copy bold" data-clipboard-tip="commit SHA" data-clipboard-text={id}>
+        <Copy className="for-copy font-bold" data-clipboard-tip="commit SHA" data-clipboard-text={id}>
           {id.slice(0, 6)}
         </Copy>
         &nbsp;{i18n.t('at')}&nbsp;

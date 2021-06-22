@@ -44,7 +44,7 @@ const FileContainer = ({ children, name, className = '', ops, isEditing }: IProp
 
   return (
     <article className={`file-container ${clsName}`}>
-      <div className="file-title bold">
+      <div className="file-title font-bold">
         <span className="flex-1 nowrap">
           {isEditing ? i18n.t('application:edit') : null}
           {name}

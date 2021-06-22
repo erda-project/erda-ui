@@ -317,7 +317,7 @@ const CaseDrawer = ({ visible, scope, onClose, afterClose, afterSave, caseList }
           <div className="flex-box">
             <div className="flex-1">
               <Input
-                className={classnames('case-name text-lg bold-500 color-text', titleIsEmpty && 'error')}
+                className={classnames('case-name text-lg font-medium color-text', titleIsEmpty && 'error')}
                 size="large"
                 autoFocus
                 placeholder={i18n.t('project:use case title (required)')}

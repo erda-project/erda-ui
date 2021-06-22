@@ -336,17 +336,17 @@ const AliCloudErdcForm = ({ visible, onClose, onSubmit }: IProps) => {
             const mFields = filter(totalFields, { category: 'machine' });
             return (
               <>
-                <div className="bold mb4">{i18n.t('dataCenter:cluster configuration')}</div>
+                <div className="font-bold mb4">{i18n.t('dataCenter:cluster configuration')}</div>
                 <RenderFields form={form} fields={bFields} />
-                <div className="bold mb4">{i18n.t('dataCenter:jump server configuration')}</div>
+                <div className="font-bold mb4">{i18n.t('dataCenter:jump server configuration')}</div>
                 <RenderFields form={form} fields={sFields} />
-                <div className="bold mb4">{i18n.t('dataCenter:shared storage')}</div>
+                <div className="font-bold mb4">{i18n.t('dataCenter:shared storage')}</div>
                 <RenderFields form={form} fields={stFields} />
-                <div className="bold mb4">{i18n.t('dataCenter:network configuration')}</div>
+                <div className="font-bold mb4">{i18n.t('dataCenter:network configuration')}</div>
                 <RenderFields form={form} fields={dFields} />
-                <div className="bold mb4">{i18n.t('dataCenter:domain name server')}</div>
+                <div className="font-bold mb4">{i18n.t('dataCenter:domain name server')}</div>
                 <RenderFields form={form} fields={seFields} />
-                <div className="bold mb4">{i18n.t('dataCenter:machine information configuration')}</div>
+                <div className="font-bold mb4">{i18n.t('dataCenter:machine information configuration')}</div>
                 <RenderFields form={form} fields={mFields} />
               </>
             );

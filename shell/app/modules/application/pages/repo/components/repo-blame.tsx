@@ -57,7 +57,7 @@ const RepoBlameCommitItem = ({ style, commitId, commitMessage, author, params }:
             content={
               <div className="commit-info">
                 <div className="main-info mb8">
-                  <span className="commit-msg bold">{commitMessage}</span>
+                  <span className="commit-msg font-bold">{commitMessage}</span>
                 </div>
                 <div className="sub-info">
                   <Avatar className="mr8" name={author.name} />

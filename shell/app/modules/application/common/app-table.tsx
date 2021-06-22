@@ -143,7 +143,7 @@ export const AppList = ({
         const show = [appMode.MOBILE, appMode.LIBRARY, appMode.SERVICE].includes(mode);
         return show ? (
           <Link
-            className="bold"
+            className="font-bold"
             to={goTo.resolve.deploy({ projectId, appId: id })}
             onClick={(e) => {
               e.stopPropagation();

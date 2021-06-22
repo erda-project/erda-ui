@@ -186,7 +186,7 @@ const ProjectReport = ({ type }: IProps) => {
                         'report-list-item': true,
                         'text-base': true,
                         pl20: true,
-                        'bold-500': true,
+                        'font-medium': true,
                         'text-left': true,
                         'hover-active-bg': true,
                         active: state.activeReportKey === item.key,

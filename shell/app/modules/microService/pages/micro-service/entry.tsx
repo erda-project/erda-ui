@@ -71,7 +71,7 @@ export const PureMicroServiceEntry = (props: IProps) => {
           </div>
           <div className="ms-item-info">
             <Tooltip title={projectName}>
-              <div className="title bold-500 nowrap">{projectName}</div>
+              <div className="title font-medium nowrap">{projectName}</div>
             </Tooltip>
             <div className="footer">
               <span>

@@ -275,7 +275,7 @@ const TraceInsightQuerier = ({ form }: any) => {
       <CommonPanel
         title={
           <div className="flex-box">
-            <h3 className="trace-common-panel-title bold-500">{i18n.t('microService:tracing information')}</h3>
+            <h3 className="trace-common-panel-title font-medium">{i18n.t('microService:tracing information')}</h3>
             <IF check={requestTraceParams.responseCode}>
               <div className="response-code">{`${i18n.t('microService:request response status')}：${
                 requestTraceParams.responseCode

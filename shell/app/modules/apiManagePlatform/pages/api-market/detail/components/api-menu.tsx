@@ -104,7 +104,11 @@ const ApiMenu = ({ list, onChange, onChangeVersion }: IProps) => {
       >
         {map(menuList, (apiList: any[], tagName: string) => {
           return (
-            <Panel className="api-group-list-item" header={<span className="bold-500">{tagName}</span>} key={tagName}>
+            <Panel
+              className="api-group-list-item"
+              header={<span className="font-medium">{tagName}</span>}
+              key={tagName}
+            >
               <ul className="api-group">
                 {map(apiList, (api: any) => {
                   const { _method, _path, summary } = api;

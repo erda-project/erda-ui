@@ -87,7 +87,7 @@ const UpgradeInfo = ({ data }: IProps) => {
     <Spin spinning={isLoading}>
       <div className="upgrade-info mb32">
         <div className="flex-box">
-          <span className="title bold-500">
+          <span className="title font-medium">
             {i18n.t('default:configuration information')}
             <Tooltip title={i18n.t('org:please fill in the real configuration information')}>
               <Icon className="ml8" type="tishi" />

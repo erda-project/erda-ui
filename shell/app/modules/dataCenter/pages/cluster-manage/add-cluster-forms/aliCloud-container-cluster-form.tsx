@@ -469,11 +469,11 @@ const AliCloudContainerClusterForm = ({ visible, onClose, onSubmit, cloudVendor 
             const region = getFormData('region');
             return (
               <>
-                <div className="bold">{i18n.t('basic settings')}</div>
+                <div className="font-bold">{i18n.t('basic settings')}</div>
                 <RenderFields form={form} fields={basicFields} />
                 {region ? (
                   <>
-                    <div className="bold">{i18n.t('application:more settings')}</div>
+                    <div className="font-bold">{i18n.t('application:more settings')}</div>
                     <RenderFields form={form} fields={moreFields} />
                   </>
                 ) : null}

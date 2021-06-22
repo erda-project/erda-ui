@@ -37,7 +37,7 @@ export const renderCommitItem = ({ id, author, commitMessage }: REPOSITORY.IComm
       <div className="commit-left">
         <div className="commit-title mb8 nowrap">
           <Link to={mergeRepoPathWith(`/commit/${id}`)}>
-            <span className="color-text text-base hover-active bold">{replaceEmoji(commitMessage)}</span>
+            <span className="color-text text-base hover-active font-bold">{replaceEmoji(commitMessage)}</span>
           </Link>
         </div>
         <div className="flex-box justify-start">
@@ -124,17 +124,17 @@ const RepoCommit = () => {
             {branch ? (
               <>
                 <span>{i18n.t('application:branch')}:</span>
-                <span className="branch-name bold nowrap">{branch}</span>
+                <span className="branch-name font-bold nowrap">{branch}</span>
               </>
             ) : tag ? (
               <>
                 <span>{i18n.t('application:tag')}:</span>
-                <span className="branch-name bold nowrap">{tag}</span>
+                <span className="branch-name font-bold nowrap">{tag}</span>
               </>
             ) : (
               <>
                 <span>{i18n.t('application:commit')}:</span>
-                <span className="branch-name bold nowrap">{commitId}</span>
+                <span className="branch-name font-bold nowrap">{commitId}</span>
               </>
             )}
             <IconDownOne theme="filled" size="16px" />

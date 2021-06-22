@@ -108,7 +108,7 @@ export default (record: AUDIT.Item) => {
       if (urlKey && !goTo.resolve[urlKey]) {
         logErr(`audit urlKey: ${urlKey} not exist in goTo`, record);
         contentList.push(
-          <span key={`${String(mIndex)}-1`} className="bold">
+          <span key={`${String(mIndex)}-1`} className="font-bold">
             {contextValue}
           </span>,
         );
@@ -126,14 +126,19 @@ export default (record: AUDIT.Item) => {
         contentList.push(userList.join(', '));
       } else if (urlKey) {
         contentList.push(
-          <Link key={`${String(mIndex)}-2`} target="_blank" className="bold" to={goTo.resolve[urlKey](fullContext)}>
+          <Link
+            key={`${String(mIndex)}-2`}
+            target="_blank"
+            className="font-bold"
+            to={goTo.resolve[urlKey](fullContext)}
+          >
             {contextValue}
           </Link>,
         );
       } else {
         // 没有()部分，就只替换，不加链接
         contentList.push(
-          <span key={`${String(mIndex)}-3`} className="bold">
+          <span key={`${String(mIndex)}-3`} className="font-bold">
             {contextValue}
           </span>,
         );

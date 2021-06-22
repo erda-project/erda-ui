@@ -90,7 +90,7 @@ export const Iteration = () => {
     return (
       <div key={id} className="common-list-item hover-active-bg flex-box">
         <div className="list-item-left">
-          <div className="nowrap title flex-box bold-500">
+          <div className="nowrap title flex-box font-medium">
             <span>{title}</span>
             <MenuPopover styleName="color-text-desc" content={renderMenuPopover(iteration)} placement="left" />
           </div>

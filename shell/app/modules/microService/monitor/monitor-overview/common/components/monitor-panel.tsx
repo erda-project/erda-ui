@@ -29,7 +29,7 @@ interface IProps {
 const MonitorPanel = ({ className, title, children, getCustomComp, moreUrl }: IProps) => {
   return (
     <div className={`monitor-panel ${className}`}>
-      <div className="monitor-panel-header bold-500">
+      <div className="monitor-panel-header font-medium">
         <span className="title">{title}</span>
         <div className="title-right">
           {typeof getCustomComp === 'function' ? getCustomComp() : null}

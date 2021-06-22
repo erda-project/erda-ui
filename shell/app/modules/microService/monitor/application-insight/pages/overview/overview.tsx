@@ -29,7 +29,7 @@ const Overview = () => {
       <Row className="ai-overview" gutter={20}>
         <Col span={8}>
           <div className="ai-overview-sort-list">
-            <div className="list-title bold-500">{i18n.t('microService:web transaction')} Top10</div>
+            <div className="list-title font-medium">{i18n.t('microService:web transaction')} Top10</div>
             <OverviewMap.sortList shouldLoad={shouldLoad} query={{ filter_target_application_id }} />
           </div>
         </Col>

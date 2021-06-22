@@ -264,7 +264,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                   <div className="form-content-left text-center text-xs ">
                     <div className="flex-box w-120">
                       <Tooltip title={stateName}>
-                        <span className="bold-500 nowrap state-transfer-name">{stateName}</span>
+                        <span className="font-medium nowrap state-transfer-name">{stateName}</span>
                       </Tooltip>
                       <span className="ml8 color-text-desc">{i18n.t('project:can circulate to')}</span>
                     </div>
@@ -277,7 +277,9 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                             <WithAuth pass={hasAuth}>
                               <CustomIcon
                                 type={isRelated ? 'duoxuanxuanzhong' : 'icon-test'}
-                                className={`${isRelated ? '' : 'bold'} ${name === stateName ? 'disabled' : 'pointer'}`}
+                                className={`${isRelated ? '' : 'font-bold'} ${
+                                  name === stateName ? 'disabled' : 'pointer'
+                                }`}
                                 onClick={() => {
                                   name !== stateName && onRelationChange(stateDataIndex, relationIndex, !isRelated);
                                 }}

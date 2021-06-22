@@ -158,7 +158,7 @@ const DetailModal = ({ visible, onCancel, dataSource }: IProps) => {
       />
       <Copy selector=".for-copy" />
       <div className="pa16 api-list">
-        <div className="title text-base color-text bold-500">{i18n.t('authorized API')}</div>
+        <div className="title text-base color-text font-medium">{i18n.t('authorized API')}</div>
         <Tabs
           defaultActiveKey="proved"
           onChange={(v: string) => {

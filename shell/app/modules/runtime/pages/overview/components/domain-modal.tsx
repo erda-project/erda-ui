@@ -163,7 +163,7 @@ const DomainModal = (props: IProps) => {
     >
       <Form layout="vertical">
         <div className="config-item ml12">
-          <div className="flex-box config-item-title bold-500 text-base mb8">
+          <div className="flex-box config-item-title font-medium text-base mb8">
             <span>{serviceName}</span>
             <span style={{ marginRight: '40px' }}>
               {hrefparams.packageId && hrefparams.tenantGroup ? (

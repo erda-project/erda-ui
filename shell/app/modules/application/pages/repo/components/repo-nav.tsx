@@ -258,7 +258,7 @@ export const RepoNav = React.forwardRef(({ info, tree, isFetchingInfo, appId }: 
               : i18n.t('application:branch')}
             :
           </span>
-          <span className="branch-name bold nowrap">{curBranch}</span>
+          <span className="branch-name font-bold nowrap">{curBranch}</span>
           <IconDownOne theme="filled" size="16px" />
         </BranchSelect>
         <RepoBreadcrumb path={tree.path}>

@@ -595,25 +595,25 @@ const AssertTips = () => {
   const tips = (
     <ul className="contents ml16">
       <li className="level1">
-        <span className="bold-500">
+        <span className="font-medium">
           {i18n.t('project:greater than, greater than or equal to, less than, less than or equal to')}:{' '}
         </span>
         {format(i18n.t('project|supports integers and decimals', { nsSeparator: '|' }))}
       </li>
       <li className="level1">
-        <span className="bold-500">{i18n.t('project:equal to, not equal to')}: </span>
+        <span className="font-medium">{i18n.t('project:equal to, not equal to')}: </span>
         {format(i18n.t('project|support integers, decimals, strings, objects (arrays, Map)', { nsSeparator: '|' }))}
       </li>
       <li className="level1">
-        <span className="bold-500">{i18n.t('project:contain, not contain')}: </span>
+        <span className="font-medium">{i18n.t('project:contain, not contain')}: </span>
         {format(i18n.t('project|support string and regular matching', { nsSeparator: '|' }))}
       </li>
       <li className="level1">
-        <span className="bold-500">{i18n.t('project:empty, not empty')}: </span>
+        <span className="font-medium">{i18n.t('project:empty, not empty')}: </span>
         {format(i18n.t('project|support judging if arrays, maps and strings are empty', { nsSeparator: '|' }))}
       </li>
       <li className="level1">
-        <span className="bold-500">{i18n.t('project:exist, not exist')}: </span>
+        <span className="font-medium">{i18n.t('project:exist, not exist')}: </span>
         {format(
           i18n.t('project|Please fill in the json expression of obtained target key to determine if the key exists.', {
             nsSeparator: '|',
@@ -621,7 +621,7 @@ const AssertTips = () => {
         )}
       </li>
       <li className="level1">
-        <span className="bold-500">{i18n.t('project:belong to, not belong to')}: </span>
+        <span className="font-medium">{i18n.t('project:belong to, not belong to')}: </span>
         {format(
           i18n.t('project|support positive and negative integers, 0, and character strings', { nsSeparator: '|' }),
         )}

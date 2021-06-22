@@ -44,7 +44,7 @@ const FormGroupComp = (p: any) => {
 
   return (
     <div className={`dice-form-group my12 ${expandable && !expandStatus ? 'hide-children' : ''}`}>
-      <div className={`dice-form-group-title text-sm bold py4 px2 flex-box ${cls}`} onClick={onClick}>
+      <div className={`dice-form-group-title text-sm font-bold py4 px2 flex-box ${cls}`} onClick={onClick}>
         <span>{title || key}</span>
         {expandable ? <CustomIcon type="chevron-down" className="expand-icon" /> : null}
       </div>

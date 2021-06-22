@@ -152,7 +152,7 @@ export default () => {
                     className={classnames({
                       'text-base': true,
                       py16: true,
-                      'bold-500': true,
+                      'font-medium': true,
                       'text-center': true,
                       'hover-active-bg': true,
                       active: String(activedRecord) === String(id),

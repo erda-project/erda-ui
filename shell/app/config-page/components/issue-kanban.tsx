@@ -270,11 +270,11 @@ const Kanban = (props: IKanbanProps) => {
       ref={drop}
     >
       <div className={`flex-box issue-kanban-col-header ${showShadow ? 'shadow' : ''} ${updateBoardOp ? 'inp' : ''}`}>
-        <div className="text-base bold-500 flex-1 flex-box">
+        <div className="text-base font-medium flex-1 flex-box">
           {updateBoardOp ? (
             updateAuth ? (
               <Input
-                className="text-base bold-500 issue-kanban-label-input"
+                className="text-base font-medium issue-kanban-label-input"
                 value={labelVal}
                 onChange={(e: any) => setLabelVal(e.target.value)}
                 onPressEnter={doUpdate}
@@ -283,7 +283,7 @@ const Kanban = (props: IKanbanProps) => {
             ) : (
               <Tooltip title={updateBoardOp?.disabledTip || i18n.t('common:no permission to operate')}>
                 <Input
-                  className="text-base bold-500 issue-kanban-label-input update-disabled"
+                  className="text-base font-medium issue-kanban-label-input update-disabled"
                   readOnly
                   value={labelVal}
                 />

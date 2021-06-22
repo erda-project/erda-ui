@@ -536,7 +536,7 @@ const BuildDetail = (props: IProps) => {
   };
 
   const setRowClassName = (record: any) => {
-    return record.id !== selectedRowId ? 'build-history-tr' : 'selected-row bold-500';
+    return record.id !== selectedRowId ? 'build-history-tr' : 'selected-row font-medium';
   };
 
   const handleRecordPageChange = (pageNo: number) => {
@@ -657,7 +657,7 @@ const BuildDetail = (props: IProps) => {
         <div className="info">
           <div className="info-header">
             <div>
-              <span className="bold-500 title">{i18n.t('application:build detail')}</span>
+              <span className="font-medium title">{i18n.t('application:build detail')}</span>
               <span className={`${isHistoryBuild ? 'visible' : 'invisible'} his-build-icon`}>
                 {i18n.t('historical build')}
               </span>

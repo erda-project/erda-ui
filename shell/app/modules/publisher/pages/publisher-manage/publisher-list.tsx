@@ -140,7 +140,7 @@ export const PurePublisherList = ({
                     </IF>
                   </div>
                   <div className="item-content">
-                    <div className="item-name nowrap bold-500">{item.name}</div>
+                    <div className="item-name nowrap font-medium">{item.name}</div>
                     <div className="item-desc nowrap">
                       {item.desc || i18n.t('publisher:edit description in edit mode')}
                     </div>

@@ -60,7 +60,7 @@ const headProjectRender = (val: any = {}) => {
   const name = val.displayName || val.name || curProject.displayName || curProject.name || '';
   return (
     <div className="head-project-name">
-      <span className="nowrap text-base bold" title={name}>
+      <span className="nowrap text-base font-bold" title={name}>
         {name}
       </span>
       <CustomIcon className="caret" type="caret-down" />
