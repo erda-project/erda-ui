@@ -3862,9 +3862,6 @@
     "visit domain": "访问域名",
     "waiting for deployment": "等待部署"
   },
-  "shell": {
-    "project&#58;remove": "project:remove"
-  },
   "user": {},
   "workBench": {
     "JVM analysis": "JVM 分析",

@@ -3863,9 +3863,6 @@
     "visit domain": "visit domain",
     "waiting for deployment": "waiting for deployment"
   },
-  "shell": {
-    "project&#58;remove": "project:remove"
-  },
   "user": {},
   "workBench": {
     "JVM analysis": "JVM analysis",
