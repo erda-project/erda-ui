@@ -200,7 +200,7 @@ export const MessageCenter = ({ show }: { show: boolean }) => {
                           <div>
                             <span className="status">{isUnRead ? <Badge color="red" /> : null}</span>
                             <CustomIcon type="znx" />
-                            <span className="fz16">{item.title}</span>
+                            <span className="text-base">{item.title}</span>
                           </div>
                           <div>{moment(item.createdAt).format('HH:mm:ss')}</div>
                         </div>

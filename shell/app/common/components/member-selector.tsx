@@ -80,7 +80,7 @@ const valueItemRender =
     const cls = {
       normal: {
         img: '20x20',
-        name: 'ml8 fz14',
+        name: 'ml8 text-sm',
         tag: 'py4 px8',
       },
       small: {

@@ -73,7 +73,7 @@ export const memberSelectorValueItem = (user: any) => {
   return (
     <div className="v-align hover-active issue-field-selector">
       <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect={'20x20'} type="avatar" />
-      <span className={'ml8 fz14'} title={name}>
+      <span className={'ml8 text-sm'} title={name}>
         {displayName}
       </span>
       <CustomIcon className="arrow-icon" type="di" />

@@ -107,17 +107,17 @@ const Governance = () => {
     <Spin spinning={getAppDetailLoading || getBranchesLoading || getBranchesRuleLoading}>
       <Holder when={isEmpty(appDetail) || branches.length < 2}>
         <Card title={i18n.t('microService:branch call control')}>
-          <p className="bold-500 fz16 mb16">{i18n.t('microService:basic information')}</p>
+          <p className="bold-500 text-base mb16">{i18n.t('microService:basic information')}</p>
           <div className="base-info mb24 px16">
             <p className="mb8">{`${i18n.t('microService:application name')}：${appDetail.name}`}</p>
             <p className="mb8">{`${i18n.t('microService:application id')}：${appDetail.id}`}</p>
             <p className="mb8">{`${i18n.t('microService:environments')}：${ENVS_MAP[env]}`}</p>
           </div>
-          <p className="bold-500 fz16 mb16">{i18n.t('microService:weight configuration')}</p>
+          <p className="bold-500 text-base mb16">{i18n.t('microService:weight configuration')}</p>
           <ul className="branches-rule-list px16 mb24">
             {map(branches, (name) => (
               <li className="branches-rule-item py12 flex-box border-bottom" key={name}>
-                <div className="flex-box fz16">
+                <div className="flex-box text-base">
                   <CustomIcon type="fz" />
                   <span className="branch-name">{name}</span>
                 </div>

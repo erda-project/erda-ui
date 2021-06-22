@@ -129,7 +129,7 @@ const RepoMrTable = ({ type }: IProps) => {
                 <li key={item.id} className="mr-item hover-active-bg" onClick={() => goTo(`./${item.mergeId}`)}>
                   <div className="title bold">
                     {item.title}
-                    <span className="fz14 desc ml12 bold-400">
+                    <span className="text-sm desc ml12 bold-400">
                       {item.sourceBranch} <CustomIcon type="arrow-right" />
                       {item.targetBranch}
                     </span>

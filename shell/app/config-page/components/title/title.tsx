@@ -49,7 +49,7 @@ const Title = (props: CP_TITLE.Props) => {
       ) : null}
       {title}
       <Tooltip title={tips}>
-        <CustomIcon type="help" className="ml4 fz14 pre-icon" />
+        <CustomIcon type="help" className="ml4 text-sm pre-icon" />
       </Tooltip>
       {subtitle ? <span className="subtitle">{subtitle}</span> : null}
     </div>

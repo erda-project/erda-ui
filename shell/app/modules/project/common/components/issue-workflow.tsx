@@ -72,7 +72,7 @@ const IssueWorkflow = () => {
             <div className="common-list-item">
               <div className="list-item-left">
                 <div className="flex-box">
-                  <div className="panel-title flex-start">
+                  <div className="panel-title justify-start">
                     <IssueIcon type={item.issueType} withName />
                   </div>
                 </div>

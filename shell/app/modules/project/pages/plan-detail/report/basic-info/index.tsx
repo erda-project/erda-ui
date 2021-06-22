@@ -75,7 +75,7 @@ const BasicInfo = () => {
       {basicInfo.map((info) => (
         <Col span={12} className="mt16" key={info.label}>
           <div className="color-text-desc">{info.label}</div>
-          <div className="mt8 fz14">
+          <div className="mt8 text-sm">
             {info.dateKey ? (
               <DatePicker
                 allowClear={false}

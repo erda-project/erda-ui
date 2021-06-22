@@ -74,7 +74,7 @@ const Iterations = () => {
     <div className="backlog-iterations column-flex-box h-full">
       <div className="backlog-iterations-title  flex-box mb8">
         <div>
-          <span className="bold fz16 mr8">{i18n.t('project:unfinished iteration')}</span>
+          <span className="bold text-base mr8">{i18n.t('project:unfinished iteration')}</span>
           <span className="color-text-desc">
             {i18n.t('{num} {type}', { num: undoneIterations.length, type: i18n.t('project:iteration') })}
           </span>
@@ -108,7 +108,7 @@ const Iterations = () => {
 const EmptyIteration = ({ onAdd, addAuth }: { onAdd: () => void; addAuth: boolean }) => (
   <div className="backlog-iterations-empty-holder">
     <img src={backlog_dd_svg} className="mb12" />
-    <div className="fz24 bold my8">{i18n.t('project:unfinished iteration')}</div>
+    <div className="text-2xl bold my8">{i18n.t('project:unfinished iteration')}</div>
     <div className="desc">
       {i18n.t('project:add-iteration-tip1')}
       <WithAuth pass={addAuth}>

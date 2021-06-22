@@ -35,7 +35,7 @@ export const IssueState = (props: IProps) => {
   const color = STATE_ICON_COLOR[icon];
 
   return (
-    <span className={'inline-flex-box flex-start'} style={{ minWidth: '66px' }}>
+    <span className={'inline-flex-box justify-start'} style={{ minWidth: '66px' }}>
       {isString(icon) ? <CustomIcon type={icon} className={`bg-color-icon mr4 ${color}`} /> : icon}
       <span>{label}</span>
     </span>
@@ -59,7 +59,7 @@ export const CustomIssueState = (props: IProps) => {
   const color = STATE_ICON_COLOR[icon];
 
   return (
-    <span className={'inline-flex-box flex-start'} style={{ minWidth: '66px' }}>
+    <span className={'inline-flex-box justify-start'} style={{ minWidth: '66px' }}>
       {isString(icon) ? <CustomIcon type={icon} className={`bg-color-icon mr4 ${color}`} /> : icon}
       <span>{label}</span>
     </span>

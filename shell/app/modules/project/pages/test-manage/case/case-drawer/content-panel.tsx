@@ -63,7 +63,7 @@ const ContentPanel = ({
   return (
     <div className={`content-panel ${className}`}>
       <Spin spinning={loading}>
-        <div className="flex-box title flex-start mb8">
+        <div className="flex-box title justify-start mb8">
           <span>{title}</span>
           {mode !== 'common' ? (
             <>

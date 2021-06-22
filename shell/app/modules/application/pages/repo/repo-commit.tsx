@@ -37,10 +37,10 @@ export const renderCommitItem = ({ id, author, commitMessage }: REPOSITORY.IComm
       <div className="commit-left">
         <div className="commit-title mb8 nowrap">
           <Link to={mergeRepoPathWith(`/commit/${id}`)}>
-            <span className="color-text fz16 hover-active bold">{replaceEmoji(commitMessage)}</span>
+            <span className="color-text text-base hover-active bold">{replaceEmoji(commitMessage)}</span>
           </Link>
         </div>
-        <div className="flex-box flex-start">
+        <div className="flex-box justify-start">
           <div className="color-text-sub">
             <Avatar className="mb4" showName name={author.name} />
           </div>

@@ -117,7 +117,7 @@ const ClusterCard = (props: ICardProps) => {
         </div>
         <div className="cluster-ops">
           <Dropdown overlay={ops} placement="bottomRight" trigger={['click']}>
-            <CustomIcon className="fz24 hover-active" type="more" />
+            <CustomIcon className="text-2xl hover-active" type="more" />
           </Dropdown>
         </div>
       </div>

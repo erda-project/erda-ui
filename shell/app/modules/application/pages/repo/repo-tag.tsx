@@ -204,7 +204,7 @@ const RepoTag = () => {
             return (
               <div key={name} className="branch-item flex-box">
                 <div className="branch-item-left">
-                  <div className="bold-500 v-align fz16 mb12">
+                  <div className="bold-500 v-align text-base mb12">
                     <CustomIcon type="bb" />
                     <Link to={mergeRepoPathWith(`/tree/${name}`)}>
                       <span className="color-text hover-active">{name}</span>

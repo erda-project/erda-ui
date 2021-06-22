@@ -82,8 +82,8 @@ export const EditCategory = (props: IProps) => {
         onPressEnter={() => handleSave()}
         onChange={(e) => setValue(e.target.value)}
       />
-      <CustomIcon className="ml12 fz18 pointer" type="duigou" onClick={handleSave} />
-      <CustomIcon className="ml12 fz18 pointer" type="close" onClick={props.onHide || handleHide} />
+      <CustomIcon className="ml12 text-lg pointer" type="duigou" onClick={handleSave} />
+      <CustomIcon className="ml12 text-lg pointer" type="close" onClick={props.onHide || handleHide} />
     </div>
   );
 

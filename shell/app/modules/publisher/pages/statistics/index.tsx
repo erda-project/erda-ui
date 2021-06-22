@@ -309,7 +309,7 @@ const Statistics = (props: IProps) => {
         hideReload: true,
         title: () => (
           <div className="chart-title flex-box w-full">
-            <span className="bold fz16">{i18n.t('publisher:top10 version')}</span>
+            <span className="bold text-base">{i18n.t('publisher:top10 version')}</span>
             <span
               className="always-active"
               onClick={() => {
@@ -356,7 +356,7 @@ const Statistics = (props: IProps) => {
         staticData: getPieChartLayout(pieChannelData),
         title: () => (
           <div className="chart-title flex-box w-full">
-            <span className="bold fz16">{i18n.t('publisher:top10 channel')}</span>
+            <span className="bold text-base">{i18n.t('publisher:top10 channel')}</span>
             <span
               className="always-active"
               onClick={() => {
@@ -429,7 +429,7 @@ const Statistics = (props: IProps) => {
           ))}
         </Select>
         <div className="total-trend block-container">
-          <div className="title bold fz16">{i18n.t('publisher:overall trend')}</div>
+          <div className="title bold text-base">{i18n.t('publisher:overall trend')}</div>
           <Row className="pb16">
             {map(totalTrend, (info, idx) => {
               return (

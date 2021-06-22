@@ -163,11 +163,11 @@ const DomainModal = (props: IProps) => {
     >
       <Form layout="vertical">
         <div className="config-item ml12">
-          <div className="flex-box config-item-title bold-500 fz16 mb8">
+          <div className="flex-box config-item-title bold-500 text-base mb8">
             <span>{serviceName}</span>
             <span style={{ marginRight: '40px' }}>
               {hrefparams.packageId && hrefparams.tenantGroup ? (
-                <span className="fz12 fake-link" onClick={gotoGetwayDetail}>
+                <span className="text-xs fake-link" onClick={gotoGetwayDetail}>
                   {i18n.t('runtime:route rule configuration')}
                 </span>
               ) : null}
@@ -204,7 +204,7 @@ const DomainModal = (props: IProps) => {
                 <div className="custom-domain" key="custom">
                   <span>{i18n.t('runtime:custom domain name')}:</span>
                   <span className="add-domain-icon">
-                    <IconAddOne className="hover-active fz18 ml12 pointer" onClick={() => addCustom()} />
+                    <IconAddOne className="hover-active text-lg ml12 pointer" onClick={() => addCustom()} />
                   </span>
                 </div>
               </div>
@@ -238,7 +238,7 @@ const DomainModal = (props: IProps) => {
                       <Popconfirm title={i18n.t('runtime:confirm deletion')} onConfirm={() => deleteCustom(index)}>
                         <span className="delete-domain-icon">
                           {' '}
-                          <IconReduceOne className="hover-active fz18 pointer" />{' '}
+                          <IconReduceOne className="hover-active text-lg pointer" />{' '}
                         </span>
                       </Popconfirm>
                     }

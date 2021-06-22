@@ -382,13 +382,13 @@ export default () => {
         return (
           <Spin spinning={getRuleLoading}>
             <RenderFields form={form} fields={methodFields} />
-            <div className="bold fz16 mb4">{i18n.t('org:basic info')}</div>
+            <div className="bold text-base mb4">{i18n.t('org:basic info')}</div>
             <RenderFields form={form} fields={basicFields} />
-            <div className="bold fz16 mb4">{i18n.t('org:log filter')}</div>
+            <div className="bold text-base mb4">{i18n.t('org:log filter')}</div>
             <RenderFields form={form} fields={logFields} />
-            <div className="bold fz16 mb4">{i18n.t('org:indicator extract')}</div>
+            <div className="bold text-base mb4">{i18n.t('org:indicator extract')}</div>
             <RenderFields form={form} fields={extractFields} />
-            <div className="bold fz16 mb4">{i18n.t('org:rule test')}</div>
+            <div className="bold text-base mb4">{i18n.t('org:rule test')}</div>
             <RenderFields form={form} fields={testFields} />
             <div className="action-footer text-right">
               <Button className="mr8" onClick={returnList}>

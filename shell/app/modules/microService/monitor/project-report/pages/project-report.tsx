@@ -184,7 +184,7 @@ const ProjectReport = ({ type }: IProps) => {
                     <li
                       className={classnames({
                         'report-list-item': true,
-                        fz16: true,
+                        'text-base': true,
                         pl20: true,
                         'bold-500': true,
                         'text-left': true,

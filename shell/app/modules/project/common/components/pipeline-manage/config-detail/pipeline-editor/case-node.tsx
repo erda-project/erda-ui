@@ -197,7 +197,7 @@ export const CaseNode = (props: IProps) => {
       return (
         <Tooltip title={tip}>
           <CustomIcon
-            className="color-text-desc fz16 hover-active"
+            className="color-text-desc text-base hover-active"
             type="xunhuan"
             onClick={(e) => e.stopPropagation()}
           />
@@ -213,7 +213,7 @@ export const CaseNode = (props: IProps) => {
         <div className={'case-title'}>
           <div className="title-icon mr12">{IconComp}</div>
           <div className="title-txt column-flex-box color-text">
-            <span className="nowrap fz16 bold name">{name}</span>
+            <span className="nowrap text-base bold name">{name}</span>
           </div>
           {editing ? (
             <div>

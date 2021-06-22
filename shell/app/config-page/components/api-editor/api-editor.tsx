@@ -707,7 +707,7 @@ const ApiTabComps = {
           }
           return (
             <Popover
-              content={<pre className="fz12">{cutStr(res.actualValue, 200)}</pre>}
+              content={<pre className="text-xs">{cutStr(res.actualValue, 200)}</pre>}
               title={i18n.t('project:actual value')}
               trigger="hover"
             >
@@ -1020,7 +1020,7 @@ const APIBody = (props: any) => {
               ))}
             </Select>
             <Tooltip title={tip}>
-              <CustomIcon type="help" className="ml4 mt8 fz14" />
+              <CustomIcon type="help" className="ml4 mt8 text-sm" />
             </Tooltip>
           </span>
         ) : null}

@@ -71,9 +71,9 @@ const UpdateSLA = ({ visible, onCancel, metaData, slaList, onOk, confirmLoading 
       destroyOnClose
       confirmLoading={confirmLoading}
     >
-      <div className="fz16 bold-500 mb12">{i18n.t('current SLA')}</div>
+      <div className="text-base bold-500 mb12">{i18n.t('current SLA')}</div>
       <Panel fields={fields} />
-      <div className="fz16 bold-500 mb12">{i18n.t('replace SLA')}</div>
+      <div className="text-base bold-500 mb12">{i18n.t('replace SLA')}</div>
       <SLASelect
         dataSource={slaList}
         defaultSelectKey={metaData.defaultSLAID || metaData.defaultSLAID === 0 ? metaData.defaultSLAID : slaList[0]?.id}

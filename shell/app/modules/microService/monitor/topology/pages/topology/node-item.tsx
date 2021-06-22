@@ -378,7 +378,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
             <div className="h-full node-operation">
               <Dropdown overlayClassName="topology-node-dropdown" overlay={nodeOperations}>
                 <CustomIcon
-                  className="fz18 operation-item pl8 pr8 pb8"
+                  className="text-lg operation-item pl8 pr8 pb8"
                   type="sz"
                   onClick={(e: any) => e.stopPropagation()}
                 />

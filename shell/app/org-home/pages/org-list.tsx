@@ -26,7 +26,7 @@ export const OrgList = () => {
           <img src={erda_png} />
         </div>
         <div className="info-text mt20">
-          <span className="desc fz16 bold">{i18n.t('org:org-intro')}</span>
+          <span className="desc text-base bold">{i18n.t('org:org-intro')}</span>
         </div>
       </div>
       <div className="org-home-list">

@@ -28,7 +28,7 @@ export const getTitleRender = (cItem: CP_TABLE.Column) => {
       <div>
         {title}
         <Tooltip title={getTitleTip(titleTip)}>
-          <CustomIcon type="info" className="fz14 color-text-sub ml8" />
+          <CustomIcon type="info" className="text-sm color-text-sub ml8" />
         </Tooltip>
       </div>
     );
@@ -302,7 +302,7 @@ const memberSelectorValueItem = (user: any) => {
   return (
     <div className="v-align dice-config-table-member-field-selector">
       {/* <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect={'20x20'} type="avatar" /> */}
-      <span className={'ml4 fz14 nowrap'} title={name}>
+      <span className={'ml4 text-sm nowrap'} title={name}>
         {displayName}
       </span>
       <CustomIcon className="arrow-icon" type="di" />

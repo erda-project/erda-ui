@@ -165,7 +165,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                   <WithAuth pass={hasAuth}>
                     <Button
                       type="primary"
-                      className="w-full add-option-btn fz12"
+                      className="w-full add-option-btn text-xs"
                       onClick={() => {
                         updater.formVisible(true);
                       }}
@@ -191,7 +191,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                           />
                         </WithAuth>
                         <Tooltip title={stateName}>
-                          <div className="fz12 nowrap">{stateName}</div>
+                          <div className="text-xs nowrap">{stateName}</div>
                         </Tooltip>
                         <WithAuth pass={hasAuth}>
                           <CustomIcon
@@ -261,7 +261,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
             {map(dataList, ({ relations, stateName, stateID }, stateDataIndex) => {
               return (
                 <div className="flex-box my12" key={stateID}>
-                  <div className="form-content-left text-center fz12 ">
+                  <div className="form-content-left text-center text-xs ">
                     <div className="flex-box w-120">
                       <Tooltip title={stateName}>
                         <span className="bold-500 nowrap state-transfer-name">{stateName}</span>

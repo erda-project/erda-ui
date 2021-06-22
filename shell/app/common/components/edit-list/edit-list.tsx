@@ -394,7 +394,7 @@ const RenderItem = (props: IRenderItem) => {
           <div className="left-flex-box">
             {curVal}
             <Tooltip title={titleTip}>
-              <CustomIcon type="help" className="ml4 fz14" />
+              <CustomIcon type="help" className="ml4 text-sm" />
             </Tooltip>
           </div>
         ) : (

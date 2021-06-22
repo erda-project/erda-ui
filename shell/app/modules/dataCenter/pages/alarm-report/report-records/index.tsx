@@ -150,7 +150,7 @@ export default () => {
                 {map(reportTaskRecords, ({ id, start, end }) => (
                   <li
                     className={classnames({
-                      fz16: true,
+                      'text-base': true,
                       py16: true,
                       'bold-500': true,
                       'text-center': true,

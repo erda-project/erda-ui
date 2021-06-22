@@ -633,7 +633,7 @@ const ApiDesign = () => {
             </Button>
           </div>
           <div className="api-design-wrap">
-            <div className="search-wrap mb16 flex-box flex-start">
+            <div className="search-wrap mb16 flex-box justify-start">
               <ApiDocTree
                 treeNodeData={curTreeNodeData}
                 newTreeNode={newTreeNode}
@@ -675,7 +675,7 @@ const ApiDesign = () => {
                 <ErrorEmptyHolder {...errorData} isLoading={getTreeListLoading} />
               ) : (
                 <div className="api-design-content">
-                  <div className="api-design-content-list column-flex-box flex-start">
+                  <div className="api-design-content-list column-flex-box justify-start">
                     <Input
                       placeholder={i18n.t('search by keyword')}
                       className="mx8 my12 api-filter-input"

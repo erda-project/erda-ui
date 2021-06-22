@@ -124,7 +124,7 @@ export const EnumRef = React.forwardRef(
     const showAddBtn = React.useMemo(() => enumVisible || isEnumExist, [enumVisible, isEnumExist]);
 
     return (
-      <div className="flex-box flex-start">
+      <div className="flex-box justify-start">
         {disabled ? (
           <div>
             <span className="mr8">{i18n.t('project:enumerated value')}: </span>

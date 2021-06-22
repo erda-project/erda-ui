@@ -108,7 +108,7 @@ export const ProjectList = () => {
               </IF>
             </div>
             <div className="item-content">
-              <div className="item-name nowrap flex-box flex-start">
+              <div className="item-name nowrap flex-box justify-start">
                 <Tooltip title={item.name}>
                   <span className="bold-500 mr24">{item.displayName}</span>
                 </Tooltip>

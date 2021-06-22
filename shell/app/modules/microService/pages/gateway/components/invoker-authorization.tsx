@@ -575,7 +575,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
           <div className="flex-box mb12">
             <div className="auth-params-title nowrap flex-1">
               Key-Auth {i18n.t('mode')}
-              <span className="fz12">（{authData.keyAuth.authTips}）</span>
+              <span className="text-xs">（{authData.keyAuth.authTips}）</span>
             </div>
             <Button type="primary" ghost size="small" onClick={this.toggleKeyAuthModal}>
               {i18n.t('add')}

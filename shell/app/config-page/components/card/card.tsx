@@ -93,7 +93,7 @@ export const Card = (props: CP_CARD.Props) => {
       <div className="info-card-content px12 py8" key={id} ref={drag}>
         <div className={'info-card-head flex-box mb8'}>
           {isString(titleIcon) ? <CustomIcon type={titleIcon} color className="head-icon mr4" /> : titleIcon || null}
-          <div className="flex-1 fz14 color-text break-word">{title}</div>
+          <div className="flex-1 text-sm color-text break-word">{title}</div>
           {isEmpty(menuOperations) ? (
             <CustomIcon className="op-icon hide-icon" onClick={(e) => e.stopPropagation()} type="more" />
           ) : (
@@ -104,10 +104,10 @@ export const Card = (props: CP_CARD.Props) => {
             </span>
           )}
         </div>
-        {isString(subContent) ? <div className="fz12 color-text-sub mb12">{subContent}</div> : subContent || null}
+        {isString(subContent) ? <div className="text-xs color-text-sub mb12">{subContent}</div> : subContent || null}
         {isString(description) ? (
           <Tooltip title={description}>
-            <div className="fz12 nowrap color-text-desc">{description}</div>
+            <div className="text-xs nowrap color-text-desc">{description}</div>
           </Tooltip>
         ) : (
           description || null

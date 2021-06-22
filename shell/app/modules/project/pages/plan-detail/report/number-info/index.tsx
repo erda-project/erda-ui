@@ -59,7 +59,7 @@ const NumberInfo = () => {
     <Row gutter={0} type="flex" justify="space-between" className="px16 py12 border-all">
       {numInfo.map((info) => (
         <Col span={4} key={info.label}>
-          <div className="color-success fz20 text-center">{info.num || 0}</div>
+          <div className="color-success text-xl text-center">{info.num || 0}</div>
           <div className="color-text-desc mt4 text-center">{info.label}</div>
         </Col>
       ))}

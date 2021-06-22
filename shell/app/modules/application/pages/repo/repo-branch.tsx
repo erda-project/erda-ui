@@ -87,13 +87,13 @@ const RepoBranch = () => {
           return (
             <div key={name} className="branch-item flex-box">
               <div className="branch-item-left">
-                <div className="bold-500 v-align fz16 mb12">
+                <div className="bold-500 v-align text-base mb12">
                   {isProtect ? (
                     <Tooltip title={i18n.t('protected branch')}>
-                      <CustomIcon className="fz22 color-green" type="baohu" />
+                      <CustomIcon className="text-xl color-green" type="baohu" />
                     </Tooltip>
                   ) : (
-                    <CustomIcon className="fz22" type="fz" />
+                    <CustomIcon className="text-xl" type="fz" />
                   )}
                   <Link to={mergeRepoPathWith(`/tree/${name}`)}>
                     <span className="color-text hover-active">{name}</span>

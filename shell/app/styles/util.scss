@@ -31,14 +31,6 @@
   align-items: center;
 }
 
-.flex-wrap {
-  flex-wrap: wrap;
-}
-
-.flex-start {
-  justify-content: flex-start !important;
-}
-
 .v-flex-box {
   display: flex;
   flex-direction: column;
@@ -92,43 +84,6 @@
 .inline-v-align {
   display: inline-flex;
   align-items: center;
-}
-
-.align-middle {
-  vertical-align: middle;
-}
-
-// font size
-.fz12 {
-  font-size: 12px;
-}
-
-.fz14 {
-  font-size: 14px;
-}
-
-.fz16 {
-  font-size: 16px;
-}
-
-.fz18 {
-  font-size: 18px;
-}
-
-.fz20 {
-  font-size: 20px;
-}
-
-.fz22 {
-  font-size: 22px;
-}
-
-.fz24 {
-  font-size: 24px;
-}
-
-.fz30 {
-  font-size: 30px;
 }
 
 // font weight

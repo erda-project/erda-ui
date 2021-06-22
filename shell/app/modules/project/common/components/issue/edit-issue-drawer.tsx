@@ -515,7 +515,7 @@ const IssueMetaFields = React.forwardRef(
             return (
               <>
                 <Divider className="mb24 mt2" />
-                <div className="color-text-desc fz12 prewrap">
+                <div className="color-text-desc text-xs prewrap">
                   {user.nick || user.name}&nbsp;{i18n.t('created at')}&nbsp;
                   {moment(formData.createdAt).format('YYYY/MM/DD')}
                 </div>
@@ -1178,7 +1178,7 @@ export const EditIssueDrawer = (props: IProps) => {
           disabled={!editAuth}
           className="flex-1"
           itemProps={{
-            className: 'fz20 color-text',
+            className: 'text-xl color-text',
             maxLength: 255,
             placeholder: specialProps.titlePlaceHolder,
           }}

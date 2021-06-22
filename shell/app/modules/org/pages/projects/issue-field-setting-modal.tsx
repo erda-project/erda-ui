@@ -119,7 +119,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
             <div className="common-list-item">
               <div className="list-item">
                 <div className="flex-box">
-                  <div className="nowrap flex-box flex-start">{renderFieldItem({ displayName, propertyType })}</div>
+                  <div className="nowrap flex-box justify-start">{renderFieldItem({ displayName, propertyType })}</div>
                   <div className="table-operations">
                     <Popconfirm
                       title={`${i18n.t('project:confirm to remove the quote?')}`}

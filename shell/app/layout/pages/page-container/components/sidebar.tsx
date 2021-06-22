@@ -100,7 +100,7 @@ const AppCenterEl = () => {
           }
           placement="right"
         >
-          <CustomIcon type="appstore" className="fz20 mr0" />
+          <CustomIcon type="appstore" className="text-xl mr0" />
         </Tooltip>
       }
       linkRender={(_linkTo: any, children: any, { app }: { app: LAYOUT.IApp }) => {
@@ -255,7 +255,7 @@ const SideBar = () => {
       //     {
       //       isErdaHome ? (
       //         <Tooltip title={i18n.t('please select your organization or public organization to start your Erda journey')} placement='right'>
-      //           <CustomIcon type='appstore' className='side-app-center ml4 fz20' />
+      //           <CustomIcon type='appstore' className='side-app-center ml4 text-xl' />
       //         </Tooltip>
       //       ) : (
       //         <PopoverSelector
@@ -298,7 +298,7 @@ const PopoverSelector = (props: IPopoverSelectorProps) => {
       {/* <div className='v-align bold'>
         {valueName || <span className=''>{i18n.t('unspecified')}</span>}
       </div> */}
-      <CustomIcon type="appstore" className="fz20 ml4" />
+      <CustomIcon type="appstore" className="text-xl ml4" />
     </div>
   );
 

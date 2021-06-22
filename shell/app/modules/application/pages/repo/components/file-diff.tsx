@@ -195,8 +195,8 @@ export const FileDiff = ({
 
       const text =
         {
-          [ACTION.ADD]: <IconFileAddition className="fz16 color-green" />,
-          [ACTION.DELETE]: <IconDelete className="fz16 color-red" />,
+          [ACTION.ADD]: <IconFileAddition className="text-base color-green" />,
+          [ACTION.DELETE]: <IconDelete className="text-base color-red" />,
           [ACTION.RENAME]: i18n.t('application:file moved'),
         }[type] || '';
 

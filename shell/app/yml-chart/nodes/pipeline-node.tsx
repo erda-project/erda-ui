@@ -58,8 +58,8 @@ export const PipelineNode = (props: IProps) => {
           )}
         </div>
         <div className="title-txt column-flex-box color-text">
-          <span className="mb4 nowrap fz16 bold name">{data.displayName || data.type}</span>
-          <span className="nowrap fz12 type">{data.alias}</span>
+          <span className="mb4 nowrap text-base bold name">{data.displayName || data.type}</span>
+          <span className="nowrap text-xs type">{data.alias}</span>
         </div>
         {editing ? (
           <div>
