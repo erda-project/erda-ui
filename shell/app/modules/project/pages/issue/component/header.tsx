@@ -149,7 +149,7 @@ const IssueHeader = (props: IProps) => {
       <div>
         {params.iterationId === undefined && (
           <IterationSelect
-            className="mr8"
+            className="mr-2"
             mode="multiple"
             allowClear
             value={filterObj.iterationIDs}
@@ -165,7 +165,7 @@ const IssueHeader = (props: IProps) => {
         />
       </div>
       <ToolBarWithFilter
-        className="ml12-group"
+        className="ml-3-group"
         list={useFilterList({ type: issueType, queryCondition: filterObj })}
         filterValue={filterObj}
         syncUrlOnSearch={false}
@@ -216,7 +216,7 @@ const IssueHeader = (props: IProps) => {
                   <Dropdown overlay={getMenu()}>
                     <Radio.Button value={view.value}>
                       <div className="flex-box">
-                        <CustomIcon type={view.icon} className="mr4" />
+                        <CustomIcon type={view.icon} className="mr-1" />
                         <span className="nowrap" style={{ width: 56 }}>
                           {curGrouName}
                         </span>
@@ -230,7 +230,7 @@ const IssueHeader = (props: IProps) => {
                 <Tooltip key={view.value} title={view.tip}>
                   <Radio.Button value={view.value}>
                     <div className="flex-box">
-                      <CustomIcon type={view.icon} className="mr4" />
+                      <CustomIcon type={view.icon} className="mr-1" />
                       {view.name}
                     </div>
                   </Radio.Button>
@@ -252,7 +252,7 @@ const IssueHeader = (props: IProps) => {
         )}
         <Tooltip title={i18n.t('export')}>
           <WithAuth pass={requirementAuth.export.pass}>
-            <Button className="ml8" onClick={() => window.open(getDownloadUrl())}>
+            <Button className="ml-2" onClick={() => window.open(getDownloadUrl())}>
               <CustomIcon type="export" />
             </Button>
           </WithAuth>

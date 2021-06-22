@@ -195,7 +195,7 @@ const AddPipelineYml = () => {
             <Button type="primary" onClick={() => handleSubmit(form)}>
               {i18n.t('application:save')}
             </Button>
-            <Button className="ml12" onClick={cancelEdit}>
+            <Button className="ml-3" onClick={cancelEdit}>
               {i18n.t('application:cancel')}
             </Button>
           </div>
@@ -226,7 +226,7 @@ const AddPipelineYml = () => {
         </Radio.Button>
       </Radio.Group>
       <Tooltip title={i18n.t('reset')}>
-        <CustomIcon type="zhongzhi" className="ml8 pointer" onClick={reset} />
+        <CustomIcon type="zhongzhi" className="ml-2 pointer" onClick={reset} />
       </Tooltip>
     </>
   );
@@ -289,7 +289,7 @@ const AddPipelineYml = () => {
         }}
       />
       <div ref={editViewRef}>
-        <div className="font-bold text-base my12">{i18n.t('application:pipeline configuration')}</div>
+        <div className="font-bold text-base my-3">{i18n.t('application:pipeline configuration')}</div>
         <FileContainer
           name={
             <FileNameInput
@@ -327,7 +327,7 @@ const AddPipelineYml = () => {
               />
             </IF>
           </div>
-          <RenderForm className="pa16 border-top" list={getFieldsList()} />
+          <RenderForm className="pa-4 border-top" list={getFieldsList()} />
         </FileContainer>
       </div>
       <Modal
@@ -414,13 +414,13 @@ const PipelineTemplateSelector = React.forwardRef((props: ITemplateSelector, ref
     return (
       <div
         key={template.id}
-        className={`pipeline-template-item border-radius pa16 ${value === id ? 'active-item' : ''}`}
+        className={`pipeline-template-item border-radius pa-4 ${value === id ? 'active-item' : ''}`}
         onClick={() => changeValue(id)}
       >
         <div className="logo">
           {logoUrl ? <img src={logoUrl} /> : <CustomIcon type="dm" className="template-icon" />}
         </div>
-        <div className="name my4">{name}</div>
+        <div className="name my-1">{name}</div>
         <div className="desc">{desc}</div>
       </div>
     );
@@ -428,7 +428,7 @@ const PipelineTemplateSelector = React.forwardRef((props: ITemplateSelector, ref
 
   return (
     <div className="pipeline-template">
-      <div className="font-bold text-base my12">{i18n.t('application:template select')}</div>
+      <div className="font-bold text-base my-3">{i18n.t('application:template select')}</div>
       <CardsLayout dataList={pipelineTemplates} contentRender={templateRender} />
     </div>
   );

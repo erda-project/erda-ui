@@ -134,8 +134,8 @@ export default () => {
 
   return (
     <div className="task-report-records start-flex-box">
-      <div className="search-records pr16 v-flex-box">
-        <div className="mb8">
+      <div className="search-records pr-4 v-flex-box">
+        <div className="mb-2">
           <RangePicker
             borderTime
             className="w-full"
@@ -151,7 +151,7 @@ export default () => {
                   <li
                     className={classnames({
                       'text-base': true,
-                      py16: true,
+                      'py-4': true,
                       'font-medium': true,
                       'text-center': true,
                       'hover-active-bg': true,
@@ -160,7 +160,7 @@ export default () => {
                     key={id}
                     onClick={() => handleClick(id)}
                   >
-                    <CustomIcon className="mr8" type="rw" />
+                    <CustomIcon className="mr-2" type="rw" />
                     {end
                       ? `${moment(start).format('YYYY/MM/DD')}-${moment(end).format('YYYY/MM/DD')}`
                       : moment(start).format('YYYY-MM-DD')}
@@ -168,7 +168,7 @@ export default () => {
                 ))}
               </ul>
               <Pagination
-                className="text-center mt12"
+                className="text-center mt-3"
                 simple
                 defaultCurrent={1}
                 total={total}
@@ -178,7 +178,7 @@ export default () => {
           </Spin>
         </div>
       </div>
-      <div className="flex-1 pl16 overflow-auto h-full">
+      <div className="flex-1 pl-4 overflow-auto h-full">
         <Spin spinning={getReportTaskRecordLoading}>
           <Holder when={isEmpty(layout)}>
             <PureBoardGrid layout={layout} />

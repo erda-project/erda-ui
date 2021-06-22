@@ -226,7 +226,7 @@ const AddonCardList = (props: IProps) => {
             <Search className="data-select" onChange={onSearchKeyChange} placeholder={searchPlaceHolder} />
           )}
           {props.showDataSourceSearch && (
-            <Search className="data-select mr20" onChange={onNameChange} placeholder={searchPlaceHolder} />
+            <Search className="data-select mr-5" onChange={onNameChange} placeholder={searchPlaceHolder} />
           )}
           {props.showDataSourceSelect && (
             <Select className="data-select" defaultValue="ALL" onChange={onDataSourceChange}>

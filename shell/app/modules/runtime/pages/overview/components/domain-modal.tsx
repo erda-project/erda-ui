@@ -162,8 +162,8 @@ const DomainModal = (props: IProps) => {
       onCancel={onCancel}
     >
       <Form layout="vertical">
-        <div className="config-item ml12">
-          <div className="flex-box config-item-title font-medium text-base mb8">
+        <div className="config-item ml-3">
+          <div className="flex-box config-item-title font-medium text-base mb-2">
             <span>{serviceName}</span>
             <span style={{ marginRight: '40px' }}>
               {hrefparams.packageId && hrefparams.tenantGroup ? (
@@ -204,7 +204,7 @@ const DomainModal = (props: IProps) => {
                 <div className="custom-domain" key="custom">
                   <span>{i18n.t('runtime:custom domain name')}:</span>
                   <span className="add-domain-icon">
-                    <IconAddOne className="hover-active text-lg ml12 pointer" onClick={() => addCustom()} />
+                    <IconAddOne className="hover-active text-lg ml-3 pointer" onClick={() => addCustom()} />
                   </span>
                 </div>
               </div>

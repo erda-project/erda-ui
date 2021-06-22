@@ -117,7 +117,7 @@ export const TreeTitle = ({
               }}
               onClick={(e) => e.stopPropagation()}
             />
-            <CustomIcon className="mr0" type="duigou" onClick={saveName} />
+            <CustomIcon className="mr-0" type="duigou" onClick={saveName} />
           </>
         ) : (
           <Tooltip title={name}>

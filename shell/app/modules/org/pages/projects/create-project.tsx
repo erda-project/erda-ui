@@ -119,14 +119,14 @@ export const useQuotaFields = (
     const tip = (
       <>
         <div>
-          <span className="mr16">
+          <span className="mr-4">
             {i18n.t('project:total cluster resources')}：CPU：{totalCpu}
             {i18n.t('default:core')}
           </span>
           <span>MEM：{totalMem}GiB</span>
         </div>
         <div>
-          <span className="mr16">
+          <span className="mr-4">
             {i18n.t('dataCenter:available resources')}：CPU：{leftCpu}
             {i18n.t('default:core')}
           </span>
@@ -158,8 +158,8 @@ const TemplateCard = (props: ICardProps) => {
   const cln = classnames([
     'template-card',
     'border-radius',
-    'px8',
-    'py12',
+    'px-2',
+    'py-3',
     'pointer',
     'column-flex-box',
     'v-align',
@@ -177,7 +177,7 @@ const TemplateCard = (props: ICardProps) => {
           alt="template-icon"
         />
       </div>
-      <div className="template-name text-sm color-text pt8 pb4">{type.name}</div>
+      <div className="template-name text-sm color-text pt-2 pb-1">{type.name}</div>
       <div className="template-description text-xs color-text-sub">{type.description}</div>
     </div>
   );
@@ -335,9 +335,9 @@ const CreationForm = () => {
     ...insertWhen(ifConfigCluster, [
       {
         label: (
-          <span className="mr4">
+          <span className="mr-1">
             {i18n.t('project:Cluster used by the environment')}
-            <span className="text-xs ml4"> {i18n.t('project:Configure-cluster-environment')}</span>
+            <span className="text-xs ml-1"> {i18n.t('project:Configure-cluster-environment')}</span>
           </span>
         ),
         name: 'clusterConfig.DEV',
@@ -393,7 +393,7 @@ const CreationForm = () => {
           <Button className="btn-save" type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}
           </Button>
-          <Button className="ml12" onClick={() => window.history.back()}>
+          <Button className="ml-3" onClick={() => window.history.back()}>
             {i18n.t('cancel')}
           </Button>
         </React.Fragment>

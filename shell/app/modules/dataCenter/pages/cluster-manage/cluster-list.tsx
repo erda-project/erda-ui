@@ -271,7 +271,7 @@ const ClusterList = ({ dataSource, onEdit }: IProps) => {
 
     return map(clusterOpsMap[record.cloudVendor || record.type] || [], (op) => {
       return (
-        <span className="fake-link mr4" key={op.title} onClick={op.onClick}>
+        <span className="fake-link mr-1" key={op.title} onClick={op.onClick}>
           {op.title}
         </span>
       );

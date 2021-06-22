@@ -230,7 +230,7 @@ export const PureApiLimits = () => {
   return (
     <div className="api-limits">
       <Spin spinning={isFetching}>
-        <div className="mb16">
+        <div className="mb-4">
           <Button type="primary" onClick={openModal}>
             {i18n.t('microService:create call control')}
           </Button>

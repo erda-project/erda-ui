@@ -758,7 +758,7 @@ export default ({ scopeType }: { scopeType: string }) => {
             <>
               <Button
                 ghost
-                className="mb8"
+                className="mb-2"
                 type="primary"
                 disabled={someValueEmpty(editingFilters, 'value')}
                 onClick={handleAddEditingFilters}
@@ -788,7 +788,7 @@ export default ({ scopeType }: { scopeType: string }) => {
           getComp: () => (
             <>
               <Button
-                className="mb8"
+                className="mb-2"
                 type="primary"
                 ghost
                 disabled={someValueEmpty(editingFields, 'value')}
@@ -842,7 +842,7 @@ export default ({ scopeType }: { scopeType: string }) => {
         getComp: () => (
           <>
             <Button
-              className="mb8"
+              className="mb-2"
               type="primary"
               ghost
               disabled={isEmpty(customMetricMap.notifySample)}
@@ -883,7 +883,7 @@ export default ({ scopeType }: { scopeType: string }) => {
     <div className="flex-box">
       <div className="flex-1">{content}</div>
       <IF check={!!previewerKey}>
-        <div className="custom-alarm-previewer px16">
+        <div className="custom-alarm-previewer px-4">
           <Spin spinning={getPreviewMetaDataLoading}>
             <PureBoardGrid layout={layout} />
           </Spin>

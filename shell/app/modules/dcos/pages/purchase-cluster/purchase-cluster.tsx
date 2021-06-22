@@ -830,7 +830,7 @@ class OrderPage extends React.Component<IProps> {
           type: passwordVisible ? 'text' : 'password',
           addonAfter: (
             <CustomIcon
-              className="mr0 pointer"
+              className="mr-0 pointer"
               onClick={this.togglePasswordVisible}
               type={passwordVisible ? 'openeye' : 'closeeye'}
             />
@@ -922,7 +922,7 @@ class OrderPage extends React.Component<IProps> {
             <Button type="primary" onClick={() => this.changeStep(1)}>
               {i18n.t('ok')}
             </Button>
-            <Button className="ml12" onClick={() => window.history.back()}>
+            <Button className="ml-3" onClick={() => window.history.back()}>
               {i18n.t('cancel')}
             </Button>
           </React.Fragment>
@@ -944,7 +944,7 @@ class OrderPage extends React.Component<IProps> {
               <Button type="primary" onClick={this.handleSubmit}>
                 {i18n.t('ok')}
               </Button>
-              <Button className="ml12" onClick={() => this.changeStep(0)}>
+              <Button className="ml-3" onClick={() => this.changeStep(0)}>
                 {i18n.t('return modification')}
               </Button>
             </div>

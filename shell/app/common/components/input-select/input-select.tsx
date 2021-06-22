@@ -236,7 +236,7 @@ const PureSelect = (props: SelectorProps) => {
   return (
     <div className={'input-select-dropdown-box  dropdown-box column'} style={width ? { width } : undefined}>
       {showSearch ? (
-        <div className="pa4">
+        <div className="pa-1">
           <Input
             size="small"
             placeholder={i18n.t('filter')}
@@ -377,7 +377,7 @@ const OptionGroup = (props: IOptionGroupProps) => {
   return (
     <div className="option-group dropdown-box">
       {showSearch ? (
-        <div className={`option-group-search pa4 ${showShadow ? 'shadow' : ''}`}>
+        <div className={`option-group-search pa-1 ${showShadow ? 'shadow' : ''}`}>
           <Input
             size="small"
             value={searchValue}

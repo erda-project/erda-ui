@@ -163,7 +163,7 @@ export const PurePublisherList = ({
                           onDelete(item);
                         }}
                       >
-                        <CustomIcon type="sc1" className="ml4" onClick={(e) => e.stopPropagation()} />
+                        <CustomIcon type="sc1" className="ml-1" onClick={(e) => e.stopPropagation()} />
                       </Popconfirm>
                     ) : null}
                   </div>

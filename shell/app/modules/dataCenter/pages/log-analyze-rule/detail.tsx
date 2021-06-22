@@ -382,16 +382,16 @@ export default () => {
         return (
           <Spin spinning={getRuleLoading}>
             <RenderFields form={form} fields={methodFields} />
-            <div className="font-bold text-base mb4">{i18n.t('org:basic info')}</div>
+            <div className="font-bold text-base mb-1">{i18n.t('org:basic info')}</div>
             <RenderFields form={form} fields={basicFields} />
-            <div className="font-bold text-base mb4">{i18n.t('org:log filter')}</div>
+            <div className="font-bold text-base mb-1">{i18n.t('org:log filter')}</div>
             <RenderFields form={form} fields={logFields} />
-            <div className="font-bold text-base mb4">{i18n.t('org:indicator extract')}</div>
+            <div className="font-bold text-base mb-1">{i18n.t('org:indicator extract')}</div>
             <RenderFields form={form} fields={extractFields} />
-            <div className="font-bold text-base mb4">{i18n.t('org:rule test')}</div>
+            <div className="font-bold text-base mb-1">{i18n.t('org:rule test')}</div>
             <RenderFields form={form} fields={testFields} />
             <div className="action-footer text-right">
-              <Button className="mr8" onClick={returnList}>
+              <Button className="mr-2" onClick={returnList}>
                 {i18n.t('cancel')}
               </Button>
               <Button loading={createRuleLoading || editRuleLoading} type="primary" onClick={onOk}>

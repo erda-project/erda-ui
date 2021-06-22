@@ -127,7 +127,7 @@ export const ClusterAlarmList = ({ filterType, query = {} }: IProps) => {
               </>
             }
           >
-            <span className="time mr8">{moment(updatedAt).fromNow()}</span>
+            <span className="time mr-2">{moment(updatedAt).fromNow()}</span>
           </Tooltip>
         );
       },

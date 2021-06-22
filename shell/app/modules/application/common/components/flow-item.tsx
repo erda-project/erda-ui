@@ -102,10 +102,10 @@ export default class DiceYamlEditorItem extends PointComponentAbstract<IDiceYaml
       icon = <CustomIcon className="table-icon" type="radar-chart" />;
     } else {
       extra = (
-        <ul className="relation-list mt8">
+        <ul className="relation-list mt-2">
           {item.data.relations.map(({ sourceAttr, relAttr, pk }: IRelationItem) => (
             <Tooltip title={`${sourceAttr}: ${relAttr}`}>
-              <li className="relation-item flex-box mt8" key={sourceAttr}>
+              <li className="relation-item flex-box mt-2" key={sourceAttr}>
                 <span className="relation-text nowrap">{`${sourceAttr}: ${relAttr}`}</span>
                 <IF check={pk}>
                   <CustomIcon className="relation-icon" type="key" />

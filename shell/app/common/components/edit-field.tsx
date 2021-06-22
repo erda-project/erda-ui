@@ -73,7 +73,7 @@ export const EditMd = ({ value, onChange, onSave, disabled, originalValue, hasEd
       {...btnProps}
     />
   ) : (
-    <div className="md-content-preview border-radius pa8" onClick={() => setMdEditing(true)}>
+    <div className="md-content-preview border-radius pa-2" onClick={() => setMdEditing(true)}>
       <div className="md-content" dangerouslySetInnerHTML={{ __html: Markdown(v || '') }} />
     </div>
   );
@@ -237,13 +237,13 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
       break;
     }
     case 'readonly':
-      Comp = <div className="nowrap pl12">{valueRender ? valueRender(editValue) : editValue}</div>;
+      Comp = <div className="nowrap pl-3">{valueRender ? valueRender(editValue) : editValue}</div>;
       break;
     case 'last_readonly':
       Comp = <div className="nowrap">{valueRender ? valueRender(editValue) : editValue}</div>;
       break;
     case 'dateReadonly':
-      Comp = <div className="prewrap pointer pl12">{moment(editValue).format('YYYY-MM-DD')}</div>;
+      Comp = <div className="prewrap pointer pl-3">{moment(editValue).format('YYYY-MM-DD')}</div>;
       break;
     default:
       Comp = (
@@ -272,7 +272,7 @@ export const EditField = React.forwardRef((props: IProps, _compRef) => {
         <div
           className={classnames(
             labelStyle === 'desc' ? 'color-text-sub' : 'color-text',
-            'mb4',
+            'mb-1',
             showRequiredMark ? 'ant-form-item-required' : '',
           )}
           style={{ paddingLeft: '10px' }}

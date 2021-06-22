@@ -41,7 +41,7 @@ const RepoSetting = (props: IProps) => {
   };
 
   return (
-    <div className="mb12">
+    <div className="mb-3">
       {i18n.t('lock repository')}：
       <WithAuth pass={operationAuth && !appDetail.isExternalRepo}>
         <Switch

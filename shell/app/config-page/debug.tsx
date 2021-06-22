@@ -77,7 +77,7 @@ export default () => {
         <div className="log-panel">
           <h3>
             操作日志
-            <span className="ml8 fake-link" onClick={() => setLogs([])}>
+            <span className="ml-2 fake-link" onClick={() => setLogs([])}>
               清空
             </span>
           </h3>
@@ -86,7 +86,7 @@ export default () => {
               <div key={i} className="log-item">
                 <span>
                   {log.time} {log.reload && <CustomIcon type="refresh" />} {log.type} {log.cId}: {log.opKey}
-                  {log.command && <pre className="mb0">{log.command}</pre>}
+                  {log.command && <pre className="mb-0">{log.command}</pre>}
                 </span>
                 {log.data && (
                   <Popover

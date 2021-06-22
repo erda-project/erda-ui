@@ -73,8 +73,8 @@ export const ApiPoliciesHeader = () => {
   };
 
   return (
-    <section className="api-policies-header mb16">
-      <div className={`app-service-select mr16 ${runtimeEntry ? 'hidden' : ''}`}>
+    <section className="api-policies-header mb-4">
+      <div className={`app-service-select mr-4 ${runtimeEntry ? 'hidden' : ''}`}>
         <Select
           placeholder={i18n.t('microService:application name')}
           className="filter-select"

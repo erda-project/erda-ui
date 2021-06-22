@@ -297,8 +297,8 @@ const DiceEditor = (props: IYmlEditorProps) => {
   //           className="commit-file-form"
   //           list={getFieldsList()}
   //         />
-  //         <div className="pa16">
-  //           <Button type="primary" className="mr12" onClick={checkForm}>
+  //         <div className="pa-4">
+  //           <Button type="primary" className="mr-3" onClick={checkForm}>
   //             {i18n.t('application:save')}
   //           </Button>
   //           <Button onClick={cancelEditing}>

@@ -398,7 +398,7 @@ const PermOperation = (props: IOperationProps) => {
     {
       label: '添加项',
       name: 'addStr',
-      className: 'mb8',
+      className: 'mb-2',
       rules: [
         {
           validator: (rule: any, v: string, callback: Function) => {
@@ -438,7 +438,7 @@ const PermOperation = (props: IOperationProps) => {
     },
     {
       label: '',
-      className: 'mb4',
+      className: 'mb-1',
       extraProps: { ...fieldLayout },
       getComp: ({ form }: { form: any }) => (
         <div className="center-flex-box">
@@ -463,7 +463,7 @@ const PermOperation = (props: IOperationProps) => {
     {
       label: 'key',
       name: 'key',
-      className: 'mb8',
+      className: 'mb-2',
       initialValue: dataItem.key,
       rules: [
         { ...regRules.commonStr },
@@ -486,7 +486,7 @@ const PermOperation = (props: IOperationProps) => {
     {
       label: '名称',
       name: 'name',
-      className: 'mb8',
+      className: 'mb-2',
       initialValue: dataItem.name,
       itemProps: {
         autoComplete: 'off',
@@ -495,7 +495,7 @@ const PermOperation = (props: IOperationProps) => {
     },
     {
       label: '',
-      className: 'mb4',
+      className: 'mb-1',
       extraProps: { ...fieldLayout },
       getComp: ({ form }: { form: any }) => (
         <div className="center-flex-box">

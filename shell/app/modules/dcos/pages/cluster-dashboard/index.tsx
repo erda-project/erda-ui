@@ -472,14 +472,14 @@ const ClusterDashboard = () => {
           </div>
         </IF>
         <IF check={selectedGroups.length}>
-          <div className="my8">
+          <div className="my-2">
             <span
               className="cluster-state-link"
               onClick={() =>
                 goTo(goTo.pages.dataCenterClusterState, { clusterName: activedGroup || groupName + unitGroups[0] })
               }
             >
-              <span className="mr20">{i18n.t('dcos:overall status of cluster')}:</span>
+              <span className="mr-5">{i18n.t('dcos:overall status of cluster')}:</span>
               <span>{get(stateSeverityMap, `${clusterStatus}.icon`)}</span>
               <span>{get(stateSeverityMap, `${clusterStatus}.displayName`)}</span>
             </span>
@@ -580,7 +580,7 @@ const ClusterDashboard = () => {
   const Bottom = React.useMemo(
     () => (
       <IF check={activeMachine.ip}>
-        <div className="content-title mb8">{activeMachine.ip}</div>
+        <div className="content-title mb-2">{activeMachine.ip}</div>
         <MachineTabs activeMachine={activeMachine} activeMachineTab={activeMachineTab} />
         <IF.ELSE />
         <GroupTabs
@@ -607,7 +607,7 @@ const ClusterDashboard = () => {
   return (
     <>
       <div className="cluster-dashboard-top">
-        <div className="filter-group-ct mb16">
+        <div className="filter-group-ct mb-4">
           <Row gutter={20}>
             <Col span={8} className="filter-item flex-box">
               <div className="filter-item-label">{i18n.t('Group')}</div>

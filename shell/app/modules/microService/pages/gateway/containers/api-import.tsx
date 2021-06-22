@@ -136,7 +136,7 @@ export const ApiImport = ({ updateImportParams, importApiParams }: IProps) => {
 
   return (
     <div className="api-import">
-      <div className="mb16 api-filter flex-box">
+      <div className="mb-4 api-filter flex-box">
         <div>
           <AppServiceFilter
             updateField={updateAppService}
@@ -146,7 +146,7 @@ export const ApiImport = ({ updateImportParams, importApiParams }: IProps) => {
             placeholder={i18n.t('microService:method')}
             value={method}
             onChange={(value: string) => setFilter({ ...filter, method: value })}
-            className="filter-select mr16"
+            className="filter-select mr-4"
           >
             {HTTP_METHODS.map(({ name, value }: { name: string; value: string }) => (
               <Option key={value} value={value}>
@@ -167,9 +167,9 @@ export const ApiImport = ({ updateImportParams, importApiParams }: IProps) => {
           {i18n.t('search')}
         </Button>
       </div>
-      <div className="mb16 v-align">
+      <div className="mb-4 v-align">
         <span>{i18n.t('microService:service routing prefix')}:</span>
-        <Input value={routePrefix} onChange={onChangePrefix} className="prefix-input ml16" />
+        <Input value={routePrefix} onChange={onChangePrefix} className="prefix-input ml-4" />
       </div>
       <Table
         dataSource={diceApp && diceService ? originApis : []}

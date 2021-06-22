@@ -192,7 +192,7 @@ const RuntimeBox = (props: IProps) => {
         ) : null}
         <div className="flex-box runtime-box-body">
           <div className="flex-box">
-            <Avatar name={lastOperatorName} url={lastOperatorAvatar} className="mr4" size={20} />
+            <Avatar name={lastOperatorName} url={lastOperatorAvatar} className="mr-1" size={20} />
             {lastOperatorName || ''}
             <span className="deploy-time">{lastOperateTime ? fromNow(lastOperateTime) : ''}</span>
           </div>

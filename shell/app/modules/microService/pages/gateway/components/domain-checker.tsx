@@ -30,7 +30,7 @@ export const DomainChecker = ({ innerAddr, innerTips, outerAddr }: IProps) => {
       placement="bottomRight"
       content={
         <div className="domain-content">
-          <div className="mb8 domain-addr">
+          <div className="mb-2 domain-addr">
             {i18n.t('microService:external network address')}
             <Copy className="for-copy" data-clipboard-tip={i18n.t('microService:external network address')}>
               : {outerAddr}

@@ -33,7 +33,7 @@ const TitleLabel = (props: IProps) => {
     colorMap[l.name] = l.color;
   });
   return (
-    <div className="issue-title-label w-full pointer pl8 v-align" onClick={onClick}>
+    <div className="issue-title-label w-full pointer pl-2 v-align" onClick={onClick}>
       {ISSUE_TYPE_MAP[type]?.icon}
       <div className="issue-title-text">
         <div className="nowrap">{title}</div>

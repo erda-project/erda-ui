@@ -156,7 +156,7 @@ const BackupModal = ({ visible, formData, onCancel }: IProps) => {
       label: '',
       getComp: () => (
         <>
-          <Button type="ghost" className="mb8 mt8" onClick={handleAddStrategy}>
+          <Button type="ghost" className="mb-2 mt-2" onClick={handleAddStrategy}>
             {i18n.t('default:add strategy')}
           </Button>
           <Table columns={columns} dataSource={strategies} />

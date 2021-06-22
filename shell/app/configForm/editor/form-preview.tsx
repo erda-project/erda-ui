@@ -355,13 +355,13 @@ export const FormPreview = React.forwardRef((props: IProps, ref: any) => {
     <div className="dice-form-preview">
       <h4>{i18n.t('common:form preview')}</h4>
       <Form fields={fields} formRef={form} onChange={onFieldChange} renderField={renderF} />
-      <div className="mt16">
-        <button className="dice-form-editor-button mr16" onClick={() => setModalVis(true)}>
+      <div className="mt-4">
+        <button className="dice-form-editor-button mr-4" onClick={() => setModalVis(true)}>
           +
         </button>
         {showGetConfig ? (
           <>
-            <button className="dice-form-editor-button mr16" onClick={getConfig}>
+            <button className="dice-form-editor-button mr-4" onClick={getConfig}>
               {i18n.t('common:get configuration')}
             </button>
 

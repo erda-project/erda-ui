@@ -113,7 +113,7 @@ const ResourceModal = ({ visible, service, editDisabled, onOk, onCancel }: IProp
       alertProps={{
         type: 'warning',
         showIcon: true,
-        className: 'mb12',
+        className: 'mb-3',
         message: i18n.t('application:runtime-resource-config-form-tip'),
       }}
       onCancel={onCancel}

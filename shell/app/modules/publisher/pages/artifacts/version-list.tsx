@@ -191,7 +191,7 @@ const VersionList = (props: IProps) => {
       if (versionStates === 'beta') {
         content += `:${grayLevelPercent}%`;
       }
-      return <span className="tag-success ml8">({content})</span>;
+      return <span className="tag-success ml-2">({content})</span>;
     } else {
       return null;
     }
@@ -209,13 +209,13 @@ const VersionList = (props: IProps) => {
     <div className="publisher-version-list">
       {
         // 由于后端逻辑问题，3.15先移除此按钮，
-        // mode === ArtifactsTypeMap.MOBILE.value ? <Button type="primary" className="mt8 mb16" ghost onClick={openFormModal}>{i18n.t('publisher:add version')}</Button> : null
+        // mode === ArtifactsTypeMap.MOBILE.value ? <Button type="primary" className="mt-2 mb-4" ghost onClick={openFormModal}>{i18n.t('publisher:add version')}</Button> : null
       }
       {isMobile && (
         <div className="flex-box">
           <Radio.Group
             buttonStyle="solid"
-            className="mb16"
+            className="mb-4"
             onChange={(e) => {
               updater.curMobileType(e.target.value);
             }}
@@ -263,7 +263,7 @@ const VersionList = (props: IProps) => {
           {map(daySplit, (items: [], day) => {
             return (
               <TimelineItem key={day}>
-                <div className="day-split mb16">{day}</div>
+                <div className="day-split mb-4">{day}</div>
                 <div className="version-day-list">
                   {map(items, (record: PUBLISHER.IVersion) => {
                     const {
@@ -285,7 +285,7 @@ const VersionList = (props: IProps) => {
                     );
                     return (
                       <div key={id} className="version-item">
-                        <div className={`version-number mb12 ${isPublic ? 'on' : 'off'}`}>
+                        <div className={`version-number mb-3 ${isPublic ? 'on' : 'off'}`}>
                           <CustomIcon type={isPublic ? 'yuanxingxuanzhongfill' : 'tishi'} />
                           <span className="number">
                             V{version} ({buildId})
@@ -320,7 +320,7 @@ const VersionList = (props: IProps) => {
                                 content={
                                   <div>
                                     {map(_targetMobiles.ios, (n) => (
-                                      <span className="tag-default mr4 mb4" key={n}>
+                                      <span className="tag-default mr-1 mb-1" key={n}>
                                         {n}
                                       </span>
                                     ))}
@@ -337,7 +337,7 @@ const VersionList = (props: IProps) => {
                                 content={
                                   <div>
                                     {map(_targetMobiles.android, (n) => (
-                                      <span className="tag-default mr4 mb4" key={n}>
+                                      <span className="tag-default mr-1 mb-1" key={n}>
                                         {n}
                                       </span>
                                     ))}
@@ -355,7 +355,7 @@ const VersionList = (props: IProps) => {
                           <IF check={versionStates === 'beta'}>
                             <WithAuth pass={publishOperationAuth}>
                               <Button
-                                className="mr8"
+                                className="mr-2"
                                 onClick={() => {
                                   setGray(record);
                                 }}

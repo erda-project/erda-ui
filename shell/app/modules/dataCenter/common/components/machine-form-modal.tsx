@@ -119,7 +119,7 @@ const MachineFormModal = ({ visible, formData, cluster, onCancel, onSubmit = () 
         type: state.passwordVisible ? 'text' : 'password',
         addonAfter: (
           <CustomIcon
-            className="mr0 pointer"
+            className="mr-0 pointer"
             onClick={togglePasswordVisible}
             type={state.passwordVisible ? 'openeye' : 'closeeye'}
           />

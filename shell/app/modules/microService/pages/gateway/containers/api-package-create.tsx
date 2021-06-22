@@ -86,10 +86,10 @@ const BindDomainForm = (props: any) => {
               ],
             })(<Input className="bind-domain-input" onChange={(e: any) => changeItemValue(e.target.value, index)} />)}
             <div className="bind-domain-icons">
-              <IconAddOne className="input-with-icon pointer mr0" onClick={() => addOne()} />
+              <IconAddOne className="input-with-icon pointer mr-0" onClick={() => addOne()} />
               {index !== 0 ? (
                 <IconReduceOne
-                  className="input-with-icon pointer mr0"
+                  className="input-with-icon pointer mr-0"
                   onClick={() => {
                     dropOne(index);
                   }}
@@ -329,7 +329,7 @@ export const PureApiPackage = () => {
 
     return (
       <>
-        <Button type="primary" className="mb16" onClick={() => updater.consumerFormVisible(true)}>
+        <Button type="primary" className="mb-4" onClick={() => updater.consumerFormVisible(true)}>
           创建调用方
         </Button>
         <FormModal

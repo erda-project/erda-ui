@@ -130,11 +130,11 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         ]}
         {!isSigleMode && [
           // 单选模式下不展示已选择n项
-          <Menu.Item key="select-info" className="flex-box not-select px6 py0">
+          <Menu.Item key="select-info" className="flex-box not-select px6 py-0">
             <span>
               {i18n.t('common:selected')} {_value.length} {i18n.t('common:items')}
             </span>
-            <span className="fake-link ml8" onClick={() => onChange({ key, value: undefined })}>
+            <span className="fake-link ml-2" onClick={() => onChange({ key, value: undefined })}>
               {i18n.t('common:clear selected')}
             </span>
           </Menu.Item>,
@@ -153,7 +153,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
               <Menu.Divider key="divider3" />,
             ]
           : null}
-        <Menu.Item key="options" className="pa0 options-container">
+        <Menu.Item key="options" className="pa-0 options-container">
           {_options.map((op) => {
             if (filterMap[key] && !String(op.label).toLowerCase().includes(filterMap[key])) {
               return null;
@@ -182,7 +182,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
                 <div className="flex-box w-full">
                   <span>{op.label}</span>
                   <span>
-                    {_value.includes(op.value) ? <CustomIcon type="duigou" className="color-success ml8" /> : null}
+                    {_value.includes(op.value) ? <CustomIcon type="duigou" className="color-success ml-2" /> : null}
                   </span>
                 </div>
               </div>
@@ -201,7 +201,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
         placement="bottomLeft"
       >
         <span className="contractive-filter-item">
-          <span className="color-text-desc mr2">{label}</span>
+          <span className="color-text-desc mr-0.5">{label}</span>
           <span className="contractive-filter-item-value nowrap">{valueText}</span>
           <CustomIcon type="caret-down" />
         </span>
@@ -245,7 +245,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
 
     return (
       <span className="contractive-filter-item contractive-filter-date-picker">
-        <span className="color-text-desc mr2">{label}</span>
+        <span className="color-text-desc mr-0.5">{label}</span>
         <DatePicker
           size="small"
           value={startDate ? moment(startDate) : undefined}
@@ -293,7 +293,7 @@ const FilterItem = ({ itemData, value, active, onVisibleChange, onChange, onQuic
           }
         }}
       >
-        <span className="color-text-desc mr2">{label}</span>
+        <span className="color-text-desc mr-0.5">{label}</span>
         <MemberSelector
           {...((customProps || {}) as any)}
           onChange={(v) => {
@@ -533,7 +533,7 @@ export const ContractiveFilter = ({
                   />
                 </Menu.Item>
                 <Menu.Divider />
-                <Menu.Item className="not-select px6 py0">
+                <Menu.Item className="not-select px6 py-0">
                   <div className="flex-box">
                     <span>
                       {i18n.t('common:selected')} {showList.filter((a) => a.fixed !== true).length}{' '}
@@ -560,7 +560,7 @@ export const ContractiveFilter = ({
                   };
                   return (
                     <Menu.Item key={key} className="option-item" onClick={handleClick}>
-                      <Checkbox checked={!!showList.find((a) => a.key === key)} className="mr8" /> {label}
+                      <Checkbox checked={!!showList.find((a) => a.key === key)} className="mr-2" /> {label}
                     </Menu.Item>
                   );
                 })}
@@ -569,7 +569,7 @@ export const ContractiveFilter = ({
             placement="bottomLeft"
           >
             <span className="contractive-filter-item">
-              <CustomIcon type="tj1" className="text-xs mr2 color-text" />
+              <CustomIcon type="tj1" className="text-xs mr-0.5 color-text" />
               <span>{i18n.t('common:filter')}</span>
               <CustomIcon type="caret-down" />
             </span>

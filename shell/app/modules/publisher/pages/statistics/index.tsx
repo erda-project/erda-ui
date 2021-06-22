@@ -335,7 +335,7 @@ const Statistics = (props: IProps) => {
         customRender: (chartNode: any) => {
           return (
             <div className="v-flex-box">
-              <FilterTab className="mb8" onChange={OnChangePieVersionType} />
+              <FilterTab className="mb-2" onChange={OnChangePieVersionType} />
               <div className="flex-1">{chartNode}</div>
             </div>
           );
@@ -380,7 +380,7 @@ const Statistics = (props: IProps) => {
         customRender: (chartNode: any) => {
           return (
             <div className="v-flex-box">
-              <FilterTab className="mb8" onChange={OnChangePieChannelType} />
+              <FilterTab className="mb-2" onChange={OnChangePieChannelType} />
               <div className="flex-1">{chartNode}</div>
             </div>
           );
@@ -417,7 +417,7 @@ const Statistics = (props: IProps) => {
         <Select
           value={selectMonitorKey}
           style={{ width: 200 }}
-          className="mb8"
+          className="mb-2"
           onChange={(k) => {
             updater.selectMonitorKey(k);
           }}
@@ -430,7 +430,7 @@ const Statistics = (props: IProps) => {
         </Select>
         <div className="total-trend block-container">
           <div className="title font-bold text-base">{i18n.t('publisher:overall trend')}</div>
-          <Row className="pb16">
+          <Row className="pb-4">
             {map(totalTrend, (info, idx) => {
               return (
                 <Col key={`${idx}`} {...layout}>

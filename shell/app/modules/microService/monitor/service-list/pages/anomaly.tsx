@@ -56,11 +56,11 @@ export default () => {
 
   return (
     <div className="service-analyze v-flex-box">
-      <div className="flex-box flex-wrap mb4">
-        <div className="left flex-box mb8">
-          <TimeSelector className="ma0 mr12" />
+      <div className="flex-box flex-wrap mb-1">
+        <div className="left flex-box mb-2">
+          <TimeSelector className="m-0 mr-3" />
           <Select
-            className="mr12"
+            className="mr-3"
             placeholder={i18n.t('microService:select sorting method')}
             allowClear
             style={{ width: '180px' }}
@@ -73,7 +73,7 @@ export default () => {
             ))}
           </Select>
           <Select
-            className="mr12"
+            className="mr-3"
             placeholder={i18n.t('microService:maximum number of queries')}
             allowClear
             style={{ width: '180px' }}
@@ -86,7 +86,7 @@ export default () => {
             ))}
           </Select>
           <Select
-            className="mr12"
+            className="mr-3"
             placeholder={i18n.t('microService:exception type')}
             allowClear
             style={{ width: '180px' }}

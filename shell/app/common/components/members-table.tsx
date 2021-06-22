@@ -547,7 +547,7 @@ export const MembersTable = ({
                     ),
                     type: 'warning',
                     showIcon: true,
-                    className: 'mb8',
+                    className: 'mb-2',
                   }
                 : undefined
             }
@@ -568,7 +568,7 @@ export const MembersTable = ({
               ),
               type: 'warning',
               showIcon: true,
-              className: 'mb8',
+              className: 'mb-2',
             }}
           />
           <AuthorizeMemberModal

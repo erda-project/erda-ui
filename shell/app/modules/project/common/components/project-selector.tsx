@@ -71,7 +71,7 @@ const headProjectRender = (val: any = {}) => {
 export const HeadProjectSelector = () => {
   const { projectId } = routeInfoStore.useStore((s) => s.params);
   return (
-    <div className="head-project-selector mt8">
+    <div className="head-project-selector mt-2">
       <ProjectSelector
         valueItemRender={headProjectRender}
         value={projectId}

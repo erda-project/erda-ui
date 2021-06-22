@@ -120,7 +120,7 @@ export const ActiveCard = ({ operator, action, context }: IActivity) => {
         <Avatar size={32} name={nick} url={avatar} />
         <div className="info">
           <Tooltip title={name}>
-            <span className="name mr8 font-medium">{nick}</span>
+            <span className="name mr-2 font-medium">{nick}</span>
           </Tooltip>
           <span>{actionMap[action]}</span>
         </div>

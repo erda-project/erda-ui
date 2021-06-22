@@ -210,7 +210,7 @@ export const ProjectList = () => {
                   </Tooltip>
                 </div>
                 <Tooltip title={i18n.t('usage limit exceeded')}>
-                  <CustomIcon type="warning" className="overuse-tip ml4" />
+                  <CustomIcon type="warning" className="overuse-tip ml-1" />
                 </Tooltip>
               </div>
             );

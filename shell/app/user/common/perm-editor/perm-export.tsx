@@ -220,10 +220,10 @@ ${_ymlStr}
 
   return (
     <div className="dice-perm-export flex-box">
-      <Button className="mr8" size="small" onClick={() => setVisible(true)}>
+      <Button className="mr-2" size="small" onClick={() => setVisible(true)}>
         {i18n.t('project:export')}
       </Button>
-      <Button value="task" className="mr8" size="small" onClick={() => setTaskVisible(true)}>
+      <Button value="task" className="mr-2" size="small" onClick={() => setTaskVisible(true)}>
         {i18n.t('add {name}', { name: i18n.t('task') })}
       </Button>
       <Modal
@@ -252,7 +252,7 @@ ${_ymlStr}
               <TabPane tab={item.name} key={key}>
                 {type === 'json' ? (
                   <div className="flex-box dice-perm-export-data">
-                    <div className="flex-1 mr8 column-flex-box">
+                    <div className="flex-1 mr-2 column-flex-box">
                       <span>{item.name}权限数据</span>
                       <textarea
                         readOnly={!isEdit}
@@ -261,7 +261,7 @@ ${_ymlStr}
                         onChange={(e) => changeValueStr(e.target.value, key)}
                       />
                     </div>
-                    <div className="flex-1 ml8 column-flex-box">
+                    <div className="flex-1 ml-2 column-flex-box">
                       <span>{item.name}角色数据</span>
                       <textarea readOnly className="dice-perm-export-pre" value={_roleStr} />
                     </div>

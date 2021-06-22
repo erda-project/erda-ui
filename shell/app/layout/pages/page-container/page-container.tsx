@@ -192,7 +192,7 @@ const PageContainer = ({ route }: IProps) => {
             id="main"
             ref={mainEle}
             style={{ opacity: showMessage ? 0 : undefined }}
-            className={hideHeader ? 'pa0' : ''}
+            className={hideHeader ? 'pa-0' : ''}
           >
             {MainContent}
           </div>

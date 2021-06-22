@@ -46,7 +46,7 @@ const SLASelect = ({ dataSource, onChange, defaultSelectKey }: IProps) => {
     <>
       <Input.Search
         onChange={handleSearch}
-        className="mb12"
+        className="mb-3"
         allowClear
         placeholder={i18n.t('filter by {name}', { name: i18n.t('SLA name') })}
       />

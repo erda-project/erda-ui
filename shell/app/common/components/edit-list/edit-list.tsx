@@ -238,8 +238,8 @@ const EditList = (props: IELProps) => {
           />
         ))}
       </div>
-      {validTip ? <div className="pa8 color-red">{validTip}</div> : null}
-      <div className="edit-list-bottom mt4">
+      {validTip ? <div className="pa-2 color-red">{validTip}</div> : null}
+      <div className="edit-list-bottom mt-1">
         {disabled ? (
           <Button className="not-allowed" size="small">
             {i18n.t('common:add')}
@@ -253,8 +253,8 @@ const EditList = (props: IELProps) => {
           // autoSave ? null : (
           //   changed ? (
           //     <>
-          //       <Button size='small' className='ml8' onClick={cancelEdit}>取消</Button>
-          //       <Button size='small' type='primary' className='ml8' onClick={onSave} disabled={!!validTip}>保存</Button>
+          //       <Button size='small' className='ml-2' onClick={cancelEdit}>取消</Button>
+          //       <Button size='small' type='primary' className='ml-2' onClick={onSave} disabled={!!validTip}>保存</Button>
           //     </>
           //   ) : null
           // )
@@ -394,7 +394,7 @@ const RenderItem = (props: IRenderItem) => {
           <div className="left-flex-box">
             {curVal}
             <Tooltip title={titleTip}>
-              <CustomIcon type="help" className="ml4 text-sm" />
+              <CustomIcon type="help" className="ml-1 text-sm" />
             </Tooltip>
           </div>
         ) : (
@@ -469,7 +469,7 @@ const RenderItem = (props: IRenderItem) => {
   return (
     <div style={style} className={`${cls} ${itemCls} edit-list-item`}>
       {Comp}
-      {/* {validTip ? <div className='pa8 color-red'>{validTip}</div> : null} */}
+      {/* {validTip ? <div className='pa-2 color-red'>{validTip}</div> : null} */}
     </div>
   );
 };

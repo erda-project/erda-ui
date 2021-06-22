@@ -334,7 +334,7 @@ export const CaseTreeSelector = (props: IProps) => {
     <div className="h-full auto-test-tree-selector">
       {isEmpty(useableScope) ? null : (
         <>
-          <div className="pb8 color-text-desc">{i18n.t('please select {name}', { name: i18n.t('type') })}</div>
+          <div className="pb-2 color-text-desc">{i18n.t('please select {name}', { name: i18n.t('type') })}</div>
           <Select value={chosenType} onChange={changeType} className="w-full">
             {map(useableScope, (item) => (
               <Option key={item.scope} value={item.scope}>
@@ -344,7 +344,7 @@ export const CaseTreeSelector = (props: IProps) => {
           </Select>
         </>
       )}
-      <div className="py8 color-text-desc">{i18n.t('please select {name}', { name: i18n.t('node') })}</div>
+      <div className="py-2 color-text-desc">{i18n.t('please select {name}', { name: i18n.t('node') })}</div>
       <TreeSelect
         searchValue={searchValue}
         showSearch
@@ -353,7 +353,7 @@ export const CaseTreeSelector = (props: IProps) => {
         onSearch={onSearch}
         treeDataSimpleMode
         filterTreeNode={false}
-        className="w-full mb16"
+        className="w-full mb-4"
         value={value}
         dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
         placeholder={i18n.t('please select')}
@@ -366,13 +366,13 @@ export const CaseTreeSelector = (props: IProps) => {
         }))}
       />
       {!isEmpty(fields) ? (
-        <div className="mb12">
+        <div className="mb-3">
           <Form fields={fields} value={formValue} formRef={formRef} />
         </div>
       ) : null}
       {editing ? (
         <div className="footer">
-          <Button onClick={closeDrawer} className="mr8">
+          <Button onClick={closeDrawer} className="mr-2">
             {i18n.t('cancel')}
           </Button>
           <Button type="primary" disabled={isEmpty(chosenCase)} onClick={() => onSubmit()}>

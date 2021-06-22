@@ -101,7 +101,7 @@ const TestPlan = () => {
         const percent = Math.floor((succ / (total || 1)) * 100 || 0);
         return (
           <div className="sub">
-            <span className="mr4">{percent}%</span>
+            <span className="mr-1">{percent}%</span>
             <Progress style={{ width: '90px' }} percent={percent} showInfo={false} size="small" />
           </div>
         );
@@ -116,7 +116,7 @@ const TestPlan = () => {
         const percent = Math.floor(((succ + fail + block) / (total || 1)) * 100 || 0);
         return (
           <div className="sub">
-            <span className="mr4">{percent}%</span>
+            <span className="mr-1">{percent}%</span>
             <Progress style={{ width: '90px' }} percent={percent} showInfo={false} size="small" />
           </div>
         );

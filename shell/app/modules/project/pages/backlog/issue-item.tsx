@@ -212,7 +212,7 @@ export const IssueForm = (props: IIssueFormProps) => {
       type: 'custom',
       componentProps: {
         size: 'small',
-        className: 'mt4 backlog-issue-add-assignee',
+        className: 'mt-1 backlog-issue-add-assignee',
       },
       initialValue: userStore.getState((s) => s.loginUser.id),
       getComp: () => {
@@ -233,7 +233,7 @@ export const IssueForm = (props: IIssueFormProps) => {
       <div className={'backlog-issue-form-box h-full'}>
         <Form fields={fields} formRef={formRef} formProps={{ layout: 'inline', className: 'backlog-issue-add' }} />
       </div>
-      <div className="table-operations ml8">
+      <div className="table-operations ml-2">
         <span className="table-operations-btn" onClick={onAdd}>
           {i18n.t('save')}
         </span>

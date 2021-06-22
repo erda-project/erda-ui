@@ -349,7 +349,7 @@ export const ApiPackageDetail = () => {
               {menu}
               {apiPrefixs && apiPrefixs.length ? (
                 <div className="border-top color-primary text-right">
-                  <span className="mr4 hover-text" onMouseDown={addServiceAPI}>
+                  <span className="mr-1 hover-text" onMouseDown={addServiceAPI}>
                     {i18n.t('microService:add {scope} API', { scope: i18n.t('microService:service') })}
                   </span>
                 </div>
@@ -517,14 +517,14 @@ export const ApiPackageDetail = () => {
   return (
     <div className="api-package-detail">
       <Spin spinning={isFetching}>
-        <div className="mb16">
-          {/* <Button type="primary" className="mr16" onClick={importOn}>{i18n.t('microService:import service api')}</Button> */}
-          <Button type="primary" className="mr16" onClick={openModal}>
+        <div className="mb-4">
+          {/* <Button type="primary" className="mr-4" onClick={importOn}>{i18n.t('microService:import service api')}</Button> */}
+          <Button type="primary" className="mr-4" onClick={openModal}>
             {i18n.t('microService:create router')}
           </Button>
           <Button
             type="primary"
-            className="mr16"
+            className="mr-4"
             onClick={() => {
               goTo(goTo.pages.apiStrategy, params);
             }}
@@ -532,14 +532,14 @@ export const ApiPackageDetail = () => {
             {i18n.t('microService:global strategy')}
           </Button>
         </div>
-        <div className="mb16 flex-box">
+        <div className="mb-4 flex-box">
           <div className="nowrap api-filter">
             <AppServiceFilter updateField={updateAppService} dataSource={pick(filter, ['diceApp', 'diceService'])} />
             <Select
               placeholder={i18n.t('microService:method')}
               value={method}
               onChange={(value: string) => setFilter({ ...filter, method: value })}
-              className="filter-select mr16"
+              className="filter-select mr-4"
             >
               {HTTP_METHODS.map(({ name, value }: { name: string; value: string }) => (
                 <Option key={value} value={value}>
@@ -547,14 +547,14 @@ export const ApiPackageDetail = () => {
                 </Option>
               ))}
             </Select>
-            {/* <Select placeholder={i18n.t('microService:source')} value={origin} onChange={(value: string) => setFilter({ ...filter, origin: value })} className="filter-select mr16">
+            {/* <Select placeholder={i18n.t('microService:source')} value={origin} onChange={(value: string) => setFilter({ ...filter, origin: value })} className="filter-select mr-4">
               { Object.entries(ORIGIN_MAP).map(([key, value]) => <Option key={key} value={key}>{value}</Option>) }
             </Select> */}
             <Select
               placeholder={i18n.t('microService:api sorting')}
               value={sortField ? `${sortField}-${sortType}` : undefined}
               onChange={setSortBy}
-              className="filter-select mr16"
+              className="filter-select mr-4"
             >
               {Object.entries(SORT_MAP).map(([key, value]) => (
                 <Option key={key} value={key}>
@@ -572,7 +572,7 @@ export const ApiPackageDetail = () => {
             />
           </div>
           <div className="nowrap filter-btn">
-            <Button className="ml16 mr8" onClick={onReset}>
+            <Button className="ml-4 mr-2" onClick={onReset}>
               {i18n.t('microService:reset')}
             </Button>
             <Button type="primary" ghost onClick={onSearchClick}>

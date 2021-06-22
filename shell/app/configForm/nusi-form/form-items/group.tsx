@@ -43,13 +43,13 @@ const FormGroupComp = (p: any) => {
   };
 
   return (
-    <div className={`dice-form-group my12 ${expandable && !expandStatus ? 'hide-children' : ''}`}>
-      <div className={`dice-form-group-title text-sm font-bold py4 px2 flex-box ${cls}`} onClick={onClick}>
+    <div className={`dice-form-group my-3 ${expandable && !expandStatus ? 'hide-children' : ''}`}>
+      <div className={`dice-form-group-title text-sm font-bold py-1 px-0.5 flex-box ${cls}`} onClick={onClick}>
         <span>{title || key}</span>
         {expandable ? <CustomIcon type="chevron-down" className="expand-icon" /> : null}
       </div>
       <div
-        className={`dice-form-group-children ${indentation ? 'pl16' : ''} ${
+        className={`dice-form-group-children ${indentation ? 'pl-4' : ''} ${
           direction === 'row' ? 'dice-form-group-children-row' : ''
         }`}
       >

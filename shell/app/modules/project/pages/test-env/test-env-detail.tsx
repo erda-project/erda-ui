@@ -352,7 +352,7 @@ export const TestEnvDetail = (props: IProps) => {
           </div>
         ),
         extraProps: {
-          className: 'mb8',
+          className: 'mb-2',
         },
       },
       {
@@ -414,7 +414,7 @@ export const TestEnvDetail = (props: IProps) => {
           </div>
         ),
         extraProps: {
-          className: 'mb8',
+          className: 'mb-2',
         },
       },
       {

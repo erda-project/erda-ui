@@ -69,7 +69,7 @@ const DetailBtn = (detailBtnProps: { visible: boolean; onChange: (v: boolean) =>
     <Tooltip title={i18n.t('detail')}>
       <CustomIcon
         type={visible ? 'chevron-up' : 'chevron-down'}
-        className="pointer mt8"
+        className="pointer mt-2"
         style={{ width: 'auto' }}
         onClick={() => {
           onChange(!visible);
@@ -127,7 +127,7 @@ export const EnumRef = React.forwardRef(
       <div className="flex-box justify-start">
         {disabled ? (
           <div>
-            <span className="mr8">{i18n.t('project:enumerated value')}: </span>
+            <span className="mr-2">{i18n.t('project:enumerated value')}: </span>
             {isEnumExist && map(enumProps?.value, (item) => <span className="tag-default">{item}</span>)}
           </div>
         ) : (

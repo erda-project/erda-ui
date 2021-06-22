@@ -45,12 +45,12 @@ const opHint = (operation: string, selectedList: CLOUD.TagItem[]) => {
   );
   return (
     <div>
-      <IconHelp className="mr4 bg-color-icon yellow" />
+      <IconHelp className="mr-1 bg-color-icon yellow" />
       <span>{i18n.t('dataCenter:your chosen')}</span>
       <Dropdown overlay={menu}>
         <a onClick={(e) => e.preventDefault()}>
           {i18n.t('{num} {type}', { num: selectedList.length, type: i18n.t('instance') })}
-          <IconDownOne className="ml4" theme="filled" size="16px" />
+          <IconDownOne className="ml-1" theme="filled" size="16px" />
         </a>
       </Dropdown>
       <span>
@@ -367,7 +367,7 @@ export default () => {
               message={
                 <>
                   <div className="text-left second-title">{i18n.t('dataCenter:tips')}</div>
-                  <ul className="text-left font-normal text-sm pl12">
+                  <ul className="text-left font-normal text-sm pl-3">
                     <li>
                       ● {i18n.t('dataCenter:After successful setting, the system will automatically renew as set.')}
                     </li>
@@ -451,7 +451,7 @@ export default () => {
         <Dropdown disabled={!ifSelected} overlay={menu}>
           <Button type="primary">
             {i18n.t('batch setting')}
-            <IconDownOne className="ml4" theme="filled" size="16px" />
+            <IconDownOne className="ml-1" theme="filled" size="16px" />
           </Button>
         </Dropdown>
       </div>

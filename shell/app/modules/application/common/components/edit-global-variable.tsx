@@ -70,7 +70,7 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
         ],
       })(<VariableInputGroup lock={false} disabled={!editing} onDelete={this.deleteVariable} />);
       return (
-        <Item className="mr0" key={item.key}>
+        <Item className="mr-0" key={item.key}>
           {input}
         </Item>
       );
@@ -83,7 +83,7 @@ class EditGlobalVariable extends PureComponent<IEditGlobalVariableProps & FormCo
           {editing ? <IconPlus className="variable-icon pointer" onClick={this.addNewVariable} /> : null}
         </div>
         {content}
-        <div className="mt12">
+        <div className="mt-3">
           {editing ? (
             <Button type="primary" ghost onClick={this.onSubmit}>
               {i18n.t('application:save')}

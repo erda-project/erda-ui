@@ -70,7 +70,7 @@ const RepoBranch = () => {
   return (
     <Spin spinning={isFetching}>
       <Search
-        className="repo-branch-search-input mb16"
+        className="repo-branch-search-input mb-4"
         placeholder={i18n.t('common:search by {name}', { name: i18n.t('application:branch') })}
         onChange={handleChangeBranchName}
       />
@@ -87,7 +87,7 @@ const RepoBranch = () => {
           return (
             <div key={name} className="branch-item flex-box">
               <div className="branch-item-left">
-                <div className="font-medium v-align text-base mb12">
+                <div className="font-medium v-align text-base mb-3">
                   {isProtect ? (
                     <Tooltip title={i18n.t('protected branch')}>
                       <CustomIcon className="text-xl color-green" type="baohu" />
@@ -106,8 +106,8 @@ const RepoBranch = () => {
                     <Avatar showName name={committerName} />
                     &nbsp;{i18n.t('committed at')}
                   </span>
-                  <span className="ml4">{fromNow(when)}</span>
-                  <span className="ml24 color-text-desc nowrap flex-1">
+                  <span className="ml-1">{fromNow(when)}</span>
+                  <span className="ml-6 color-text-desc nowrap flex-1">
                     <GotoCommit length={6} commitId={id} />
                     &nbsp;·&nbsp;
                     <Tooltip title={commitMessage.length > 50 ? commitMessage : null}>
@@ -119,7 +119,7 @@ const RepoBranch = () => {
                 </div>
               </div>
               <div className="branch-item-right">
-                <Button className="mr12" disabled={info.isLocked} onClick={() => goToCompare(name)}>
+                <Button className="mr-3" disabled={info.isLocked} onClick={() => goToCompare(name)}>
                   {i18n.t('application:compare')}
                 </Button>
                 <DeleteConfirm
@@ -128,7 +128,7 @@ const RepoBranch = () => {
                   }}
                 >
                   <WithAuth pass={curAuth}>
-                    <Button disabled={info.isLocked || isDefault} className="mr12" ghost type="danger">
+                    <Button disabled={info.isLocked || isDefault} className="mr-3" ghost type="danger">
                       {i18n.t('delete')}
                     </Button>
                   </WithAuth>

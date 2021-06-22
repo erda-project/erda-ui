@@ -73,7 +73,7 @@ const ApiAuth = (props: IProps) => {
     <Drawer visible={visible} onClose={handleClose} className={'api-auth-drawer'} width={600}>
       <Spin spinning={isloading}>
         <p className="api-auth-drawer_title">{i18n.t('microService:caller authorization')}</p>
-        <Button disabled={!authDataTouched} type="primary" className="mb16" onClick={handleAuth}>
+        <Button disabled={!authDataTouched} type="primary" className="mb-4" onClick={handleAuth}>
           {i18n.t('microService:confirm authorization')}
         </Button>
         <Table

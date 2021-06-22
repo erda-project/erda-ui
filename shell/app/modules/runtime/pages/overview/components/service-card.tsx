@@ -280,7 +280,7 @@ const ServiceCard = (props: IProps) => {
 
     let links =
       expose && expose[0] ? (
-        <a className="mr12" href={`//${expose[0]}`} target="_blank" rel="noopener noreferrer">
+        <a className="mr-3" href={`//${expose[0]}`} target="_blank" rel="noopener noreferrer">
           {i18n.t('runtime:visit domain')}
         </a>
       ) : (
@@ -324,7 +324,7 @@ const ServiceCard = (props: IProps) => {
         {hasCustomDomain ? null : (
           <>
             <CustomIcon className="warning-info" type="tishi" />
-            <span className="warning-info mr12">{i18n.t('runtime:domain not set')}</span>
+            <span className="warning-info mr-3">{i18n.t('runtime:domain not set')}</span>
           </>
         )}
         {links}
@@ -390,7 +390,7 @@ const ServiceCard = (props: IProps) => {
 
   return (
     <React.Fragment>
-      <div className={`${serviceClass} mb20`}>
+      <div className={`${serviceClass} mb-5`}>
         <div className="service-card" onClick={() => togglePanel()}>
           <div className="service-card-icon-wrapper">
             <CustomIcon type={isEndpoint ? 'mysql1' : 'wfw1'} color />

@@ -61,7 +61,7 @@ export const IssueActivities = (props: IProps) => {
               &nbsp;
               <span>{fromNow(updatedAt, { edgeNow: true })}</span>
             </div>
-            {streamType !== 'Comment' && <span className="ml8">{content}</span>}
+            {streamType !== 'Comment' && <span className="ml-2">{content}</span>}
             {streamType === 'Comment' && (
               <article
                 className="md-content"
@@ -78,7 +78,7 @@ export const IssueActivities = (props: IProps) => {
         renderContent = (
           <div className="left-flex-box">
             <Avatar name={user.nick || user.name} showName />
-            <span className="mx8">{i18n.t('project:add relation to MR')}:</span>
+            <span className="mx-2">{i18n.t('project:add relation to MR')}:</span>
             <a onClick={() => goTo(goTo.pages.appMr, { projectId, appId: appID, mrId: mrID, jumpOut: true })}>
               {mrTitle}
             </a>
@@ -90,15 +90,15 @@ export const IssueActivities = (props: IProps) => {
         renderContent = (
           <div className="left-flex-box">
             <Avatar name={user.nick || user.name} showName />
-            <span className="ml8">{content}</span>
+            <span className="ml-2">{content}</span>
           </div>
         );
         break;
     }
     return (
-      <div key={sId} className="border-bottom pa12">
+      <div key={sId} className="border-bottom pa-3">
         {renderContent}
-        <div className="color-text-desc mt4">{moment(updatedAt).format('YYYY-MM-DD HH:mm:ss')}</div>
+        <div className="color-text-desc mt-1">{moment(updatedAt).format('YYYY-MM-DD HH:mm:ss')}</div>
       </div>
     );
   };
@@ -106,7 +106,7 @@ export const IssueActivities = (props: IProps) => {
   return (
     <Spin spinning={loading}>
       <Holder when={!issueStreamList.length && !loading}>
-        <Timeline className="mt20">
+        <Timeline className="mt-5">
           {map(daySplit, (items: [], day) => (
             <TimelineItem key={day}>
               <div className="day-split">{day}</div>

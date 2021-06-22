@@ -28,7 +28,7 @@ export const getTitleRender = (cItem: CP_TABLE.Column) => {
       <div>
         {title}
         <Tooltip title={getTitleTip(titleTip)}>
-          <CustomIcon type="info" className="text-sm color-text-sub ml8" />
+          <CustomIcon type="info" className="text-sm color-text-sub ml-2" />
         </Tooltip>
       </div>
     );
@@ -83,14 +83,14 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
           extra.customProps?.clickTableItem && extra.customProps.clickTableItem(record);
         };
         Comp = (
-          <div className={`table-render-twt w-full pl8 v-align ${hasPointer ? 'pointer' : ''}`} onClick={onClick}>
+          <div className={`table-render-twt w-full pl-2 v-align ${hasPointer ? 'pointer' : ''}`} onClick={onClick}>
             {prefixIcon ? <CustomIcon type={prefixIcon} /> : null}
             <div className="twt-text">
               <div className="nowrap">{value}</div>
               <TagsColumn
                 labels={tags.map((l) => ({ label: l.tag, color: l.color }))}
                 showCount={2}
-                containerClassName="ml8"
+                containerClassName="ml-2"
               />
             </div>
           </div>
@@ -102,7 +102,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
         const { value, prefixIcon, colorClassName, hoverActive = '' } = val;
         Comp = (
           <div className={`${hoverActive} v-align`}>
-            {prefixIcon ? <CustomIcon type={prefixIcon} className={`mr4 ${colorClassName}`} /> : null}
+            {prefixIcon ? <CustomIcon type={prefixIcon} className={`mr-1 ${colorClassName}`} /> : null}
             <Ellipsis title={value}>{value}</Ellipsis>
           </div>
         );
@@ -165,7 +165,7 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
                         type="avatar"
                       />
                     )}
-                    <span className="ml2 mr4" title={cU.name}>
+                    <span className="ml-0.5 mr-1" title={cU.name}>
                       {cU.nick || cU.name || val.value || i18n.t('common:none')}
                     </span>
                   </span>
@@ -248,15 +248,15 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       {
         const { text, prefix, suffix } = val;
         Comp = (
-          <div className="dice-cp-text-tag w-full pl8 v-align">
+          <div className="dice-cp-text-tag w-full pl-2 v-align">
             {prefix ? (
-              <div className="extra-tags px8 mr4" style={{ backgroundColor: prefix.bgColor }}>
+              <div className="extra-tags px-2 mr-1" style={{ backgroundColor: prefix.bgColor }}>
                 {prefix.text}
               </div>
             ) : null}
             <div className="nowrap">{text}</div>
             {suffix ? (
-              <div className="extra-tags px8 mr4" style={{ backgroundColor: suffix.bgColor }}>
+              <div className="extra-tags px-2 mr-1" style={{ backgroundColor: suffix.bgColor }}>
                 {suffix.text}
               </div>
             ) : null}
@@ -271,9 +271,9 @@ export const getRender = (val: any, record: CP_TABLE.RowData, extra: any) => {
       {
         const { data = [] } = val;
         Comp = (
-          <div className="dice-cp-level-content w-full pl8 v-align">
+          <div className="dice-cp-level-content w-full pl-2 v-align">
             {data.map(({ level, text }: { level: number; text: string }) => {
-              return <div className={`mr4 level-${level}-content`}>{text}</div>;
+              return <div className={`mr-1 level-${level}-content`}>{text}</div>;
             })}
           </div>
         );
@@ -302,7 +302,7 @@ const memberSelectorValueItem = (user: any) => {
   return (
     <div className="v-align dice-config-table-member-field-selector">
       {/* <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect={'20x20'} type="avatar" /> */}
-      <span className={'ml4 text-sm nowrap'} title={name}>
+      <span className={'ml-1 text-sm nowrap'} title={name}>
         {displayName}
       </span>
       <CustomIcon className="arrow-icon" type="di" />

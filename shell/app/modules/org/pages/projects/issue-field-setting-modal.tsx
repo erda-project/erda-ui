@@ -171,15 +171,15 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
       <div className="issue-field-layout">
         <div className="default-field-panel">
           <div className="name">{i18n.t('project:default field')}</div>
-          <div className="field-grid mb16 pl8">{renderDefaultContent}</div>
+          <div className="field-grid mb-4 pl-2">{renderDefaultContent}</div>
         </div>
         <div className="custom-field-panel">
           <div className="name">{i18n.t('project:custom fields')}</div>
           <div className="custom-field-list">{renderCustomFields()}</div>
-          <div className="create-field-form mt12">
+          <div className="create-field-form mt-3">
             <div className="flex-box">
               <Select
-                className="flex-1 mr8"
+                className="flex-1 mr-2"
                 value={selectedField?.propertyID}
                 placeholder={i18n.t('please choose {name}', { name: i18n.t('project:custom fields') })}
                 onChange={(e: any) => {
@@ -198,7 +198,7 @@ export const IssueFieldSettingModal = ({ visible, issueType = 'EPIC', closeModal
               <div>
                 <Button
                   type="primary"
-                  className={`${isEmpty(selectedField) ? 'disabled' : ''} mr8`}
+                  className={`${isEmpty(selectedField) ? 'disabled' : ''} mr-2`}
                   onClick={onAddField}
                 >
                   {i18n.t('project:reference')}

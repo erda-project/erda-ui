@@ -157,7 +157,7 @@ const CaseImport = ({ visible, onCancel }: IProps) => {
             mode="multiple"
             value={priorityFilter}
             onChange={handleFilter}
-            className="mb16"
+            className="mb-4"
           >
             {priorityList.map((item) => (
               <Option value={item} key={item}>

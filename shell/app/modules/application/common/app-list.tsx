@@ -118,7 +118,7 @@ export const PureAppList = ({
           </div>
           <div className="item-content">
             <div className="item-name nowrap font-medium">
-              <span className="mr16">{item.name}</span>
+              <span className="mr-4">{item.name}</span>
             </div>
             <div className="item-desc nowrap">
               {item.desc || i18n.t('application:edit description in application setting')}

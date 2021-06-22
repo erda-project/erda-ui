@@ -20,12 +20,12 @@ import './org-list.scss';
 
 export const OrgList = () => {
   return (
-    <Card className="h-full ma12 overflow-auto">
-      <div className="org-home-info mb20">
+    <Card className="h-full m-3 overflow-auto">
+      <div className="org-home-info mb-5">
         <div className="info-img">
           <img src={erda_png} />
         </div>
-        <div className="info-text mt20">
+        <div className="info-text mt-5">
           <span className="desc text-base font-bold">{i18n.t('org:org-intro')}</span>
         </div>
       </div>

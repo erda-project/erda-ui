@@ -202,7 +202,7 @@ const VPS = () => {
         <Dropdown disabled={!ifSelected} overlay={menu}>
           <Button type="primary">
             {i18n.t('batch setting')}
-            <IconDownOne className="ml4" theme="filled" size="16px" />
+            <IconDownOne className="ml-1" theme="filled" size="16px" />
           </Button>
         </Dropdown>
       </div>

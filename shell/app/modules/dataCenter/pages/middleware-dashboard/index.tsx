@@ -172,7 +172,7 @@ const MiddlewareDashboard = () => {
     <>
       <div className="middleware-dashboard-content">
         <div className="middleware-dashboard-top">
-          <div className="filter-group-ct mb32">
+          <div className="filter-group-ct mb-8">
             <Row gutter={20}>
               <Col span={6} className="filter-item">
                 <div className="filter-item-label">{i18n.t('environment')}</div>
@@ -222,12 +222,12 @@ const MiddlewareDashboard = () => {
               </Col>
             </Row>
           </div>
-          {/* <Row className="middleware-overview-ct mb16" type="flex" justify="space-between" gutter={50}>
+          {/* <Row className="middleware-overview-ct mb-4" type="flex" justify="space-between" gutter={50}>
           {
             map(overview, (v, k) => (
               <Col span={8} key={k}>
                 <div className="middleware-overview-item border-all">
-                  <div className="title mb20">{overviewItemNameMap[k]}</div>
+                  <div className="title mb-5">{overviewItemNameMap[k]}</div>
                   <div className="num">{v}</div>
                 </div>
               </Col>

@@ -125,7 +125,7 @@ export const PureFilter = (props: IPureFilterProps) => {
   return (
     <NusiFilter
       onSubmit={changeFilterData}
-      className={`dice-filter my12 ${className}`}
+      className={`dice-filter my-3 ${className}`}
       {...rest}
       {...(filterProps[filterTirgger] || {})}
       onRef={(ref: any) => {

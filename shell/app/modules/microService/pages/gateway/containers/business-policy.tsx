@@ -213,14 +213,14 @@ export const PureBusinessPolicy = () => {
   };
 
   return (
-    <div className="gateway-policy-section mb32">
+    <div className="gateway-policy-section mb-8">
       <Collapse defaultActiveKey={['proxy', 'cors', 'custom']}>
         <Panel
           header={
             <div className="flex-box">
               <span>{i18n.t('microService:traffic receive forwarding')}</span>
               <div className="switch-contaienr flex-box">
-                <span onClick={(e) => e.stopPropagation()} className=" mr20">
+                <span onClick={(e) => e.stopPropagation()} className=" mr-5">
                   {i18n.t('microService:enable rule')}&nbsp;
                   <Switch
                     disabled={enableGlobalBusinessProxy}
@@ -387,7 +387,7 @@ export const PureBusinessPolicy = () => {
             <Button
               loading={isSavingBusinessProxy}
               type="primary"
-              className="mr16"
+              className="mr-4"
               onClick={() => handleUpdateBusinessProxy()}
             >
               {i18n.t('microService:submit')}
@@ -399,7 +399,7 @@ export const PureBusinessPolicy = () => {
             <div className="flex-box">
               <span>{i18n.t('microService:cross-domain access')}</span>
               <div className="switch-contaienr flex-box">
-                <span onClick={(e) => e.stopPropagation()} className=" mr20">
+                <span onClick={(e) => e.stopPropagation()} className=" mr-5">
                   {i18n.t('microService:enable rule')}&nbsp;
                   <Switch
                     disabled={enableGlobalBusinessCors}
@@ -492,7 +492,7 @@ export const PureBusinessPolicy = () => {
             <Button
               loading={isSavingBusinessCors}
               type="primary"
-              className="mr16"
+              className="mr-4"
               onClick={() => handleUpdateBusinessCors()}
             >
               {i18n.t('microService:submit')}
@@ -504,7 +504,7 @@ export const PureBusinessPolicy = () => {
             <div className="flex-box">
               <span>{i18n.t('microService:custom nginx configuration')}</span>
               <div className="switch-contaienr flex-box">
-                <span onClick={(e) => e.stopPropagation()} className=" mr20">
+                <span onClick={(e) => e.stopPropagation()} className=" mr-5">
                   {i18n.t('microService:enable rule')}&nbsp;
                   <Switch
                     disabled={enableGlobalBusinessCustom}
@@ -547,7 +547,7 @@ export const PureBusinessPolicy = () => {
             <Button
               loading={isSavingBusinessCustom}
               type="primary"
-              className="mr16"
+              className="mr-4"
               onClick={() => handleUpdateBusinessCustom()}
             >
               {i18n.t('microService:submit')}

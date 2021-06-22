@@ -30,7 +30,7 @@ export const IssueIcon = ({ type, withName = false }: IProps) => {
   if (!iconObj) return null;
   const { name, icon, color } = iconObj || {};
   const IconRender = (
-    <div className={`issues-field-type-icon-box ${color} mr8`}>
+    <div className={`issues-field-type-icon-box ${color} mr-2`}>
       <CustomIcon type={icon} color />
     </div>
   );

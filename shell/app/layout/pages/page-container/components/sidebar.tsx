@@ -100,7 +100,7 @@ const AppCenterEl = () => {
           }
           placement="right"
         >
-          <CustomIcon type="appstore" className="text-xl mr0" />
+          <CustomIcon type="appstore" className="text-xl mr-0" />
         </Tooltip>
       }
       linkRender={(_linkTo: any, children: any, { app }: { app: LAYOUT.IApp }) => {
@@ -161,7 +161,7 @@ const SideBar = () => {
       show: true,
       icon: (
         <Tooltip title={i18n.t('layout:view doc')} placement="right">
-          <IconHelp className="mr0" size="20px" />
+          <IconHelp className="mr-0" size="20px" />
         </Tooltip>
       ),
       onClick: () => {
@@ -185,7 +185,7 @@ const SideBar = () => {
       show: !loginUser.isSysAdmin && currentOrg.id,
       icon: (
         <Badge dot count={unreadCount} offset={[-5, 2]} style={{ width: '4px', height: '4px', boxShadow: 'none' }}>
-          <IconRemind className="mr0" size="20px" style={customIconStyle} />
+          <IconRemind className="mr-0" size="20px" style={customIconStyle} />
         </Badge>
       ),
       onClick: () => switchMessageCenter(null),
@@ -225,7 +225,7 @@ const SideBar = () => {
       layout="vertical"
       verticalBrandIcon={
         <img
-          className="mr0 pointer"
+          className="mr-0 pointer"
           src={Logo}
           style={{
             width: '19px',
@@ -245,7 +245,7 @@ const SideBar = () => {
       // horizontalBrandIcon={ // 横向sidebar待定
       //   <div className='flex-box'>
       //     <img
-      //       className='mr24 pointer'
+      //       className='mr-6 pointer'
       //       src='/images/erda-logo.svg'
       //       style={{ height: '24px' }}
       //       onClick={() => {
@@ -255,7 +255,7 @@ const SideBar = () => {
       //     {
       //       isErdaHome ? (
       //         <Tooltip title={i18n.t('please select your organization or public organization to start your Erda journey')} placement='right'>
-      //           <CustomIcon type='appstore' className='side-app-center ml4 text-xl' />
+      //           <CustomIcon type='appstore' className='side-app-center ml-1 text-xl' />
       //         </Tooltip>
       //       ) : (
       //         <PopoverSelector
@@ -298,7 +298,7 @@ const PopoverSelector = (props: IPopoverSelectorProps) => {
       {/* <div className='v-align font-bold'>
         {valueName || <span className=''>{i18n.t('unspecified')}</span>}
       </div> */}
-      <CustomIcon type="appstore" className="text-xl ml4" />
+      <CustomIcon type="appstore" className="text-xl ml-1" />
     </div>
   );
 

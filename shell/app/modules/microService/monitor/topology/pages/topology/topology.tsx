@@ -198,7 +198,7 @@ const Topology = () => {
       <div className="topology-header">
         <div className="left">
           <TimeSelector />
-          <div className="topology-filter mb12">
+          <div className="topology-filter mb-3">
             <ContractiveFilter
               delay={1000}
               values={filterTags}

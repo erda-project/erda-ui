@@ -187,7 +187,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
   };
   return (
     <div className="related-bugs">
-      <div className="mb8 flex-box">
+      <div className="mb-2 flex-box">
         {i18n.t('related bugs')}
         <Button
           onClick={() => {
@@ -198,7 +198,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
         </Button>
       </div>
       {showFilterBug ? (
-        <div className="flex-box flex-1 filter-select-wrap mb12">
+        <div className="flex-box flex-1 filter-select-wrap mb-3">
           <div className="flex-box flex-1">
             <MemberSelector
               mode="multiple"
@@ -218,7 +218,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
               {map(ISSUE_PRIORITY_MAP, (item) => {
                 return (
                   <Option key={item.value} value={item.value}>
-                    <CustomIcon className="priority-icon mr8" type={item.icon} color />
+                    <CustomIcon className="priority-icon mr-2" type={item.icon} color />
                     {item.label}
                   </Option>
                 );
@@ -245,7 +245,7 @@ const RelatedBugs = ({ relationID }: IProps) => {
               })}
             </Select>
           </div>
-          <Button disabled={!selectBug} className="ml12" onClick={handleAddRelation}>
+          <Button disabled={!selectBug} className="ml-3" onClick={handleAddRelation}>
             {i18n.t('default:ok')}
           </Button>
           <Button

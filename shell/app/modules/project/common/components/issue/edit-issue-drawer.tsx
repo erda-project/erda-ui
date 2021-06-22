@@ -59,7 +59,7 @@ import './edit-issue-drawer.scss';
 
 export const ColorIcon = ({ icon }: { icon: string }) => {
   return (
-    <CustomIcon type={icon} className="mr8" color style={{ height: '20px', width: '20px', verticalAlign: 'sub' }} />
+    <CustomIcon type={icon} className="mr-2" color style={{ height: '20px', width: '20px', verticalAlign: 'sub' }} />
   );
 };
 
@@ -170,7 +170,7 @@ const IssueMetaFields = React.forwardRef(
         const { propertyName, displayName = '', required, propertyType, enumeratedValues } = filedData;
 
         return {
-          className: `mb20 ${hideFieldClass}`,
+          className: `mb-5 ${hideFieldClass}`,
           name: propertyName,
           label: displayName,
           required,
@@ -234,7 +234,7 @@ const IssueMetaFields = React.forwardRef(
     let editFieldList = [
       ...insertWhen(isEditMode, [
         {
-          className: 'mb20',
+          className: 'mb-5',
           name: 'state',
           label: i18n.t('project:state'),
           type: 'select',
@@ -255,7 +255,7 @@ const IssueMetaFields = React.forwardRef(
         },
       ]),
       {
-        className: 'mb20 w-full',
+        className: 'mb-5 w-full',
         name: 'assignee',
         label: i18n.t('project:assignee'),
         type: 'custom',
@@ -277,7 +277,7 @@ const IssueMetaFields = React.forwardRef(
       },
       ...insertWhen(issueType === ISSUE_TYPE.BUG && isEditMode, [
         {
-          className: 'mb20 w-full',
+          className: 'mb-5 w-full',
           type: 'custom',
           name: 'owner',
           label: i18n.t('project:responsible person'),
@@ -302,7 +302,7 @@ const IssueMetaFields = React.forwardRef(
       ]),
       ...insertWhen(issueType !== ISSUE_TYPE.TICKET && issueType !== ISSUE_TYPE.EPIC, [
         {
-          className: 'mb20 w-full',
+          className: 'mb-5 w-full',
           name: 'iterationID',
           label: i18n.t('project:owned iteration'),
           type: 'custom',
@@ -323,7 +323,7 @@ const IssueMetaFields = React.forwardRef(
       ]),
       ...insertWhen(issueType === ISSUE_TYPE.TICKET && !isMonitorTicket, [
         {
-          className: 'mb20',
+          className: 'mb-5',
           name: 'source',
           label: i18n.t('project:source'),
           itemProps: {
@@ -335,18 +335,18 @@ const IssueMetaFields = React.forwardRef(
       {
         name: 'splitLine1',
         type: 'custom',
-        getComp: () => <Divider className="mb24 mt0" />,
+        getComp: () => <Divider className="mb-6 mt-0" />,
       },
       {
         name: 'priority',
-        className: 'mb20',
+        className: 'mb-5',
         label: i18n.t('project:priority'),
         type: 'select',
         itemProps: { options: priorityOptions, allowClear: false },
       },
       [ISSUE_TYPE.BUG, ISSUE_TYPE.TICKET].includes(issueType) // 工单、缺陷将复杂度改为展示严重程度
         ? {
-            className: 'mb20',
+            className: 'mb-5',
             name: 'severity',
             label: i18n.t('project:severity'),
             type: 'select',
@@ -357,7 +357,7 @@ const IssueMetaFields = React.forwardRef(
             },
           }
         : {
-            className: 'mb20',
+            className: 'mb-5',
             name: 'complexity',
             label: i18n.t('project:complexity'),
             type: 'select',
@@ -368,7 +368,7 @@ const IssueMetaFields = React.forwardRef(
             },
           },
       {
-        className: 'mb20 w-full',
+        className: 'mb-5 w-full',
         name: 'planFinishedAt',
         label: i18n.t('project:deadline'),
         type: 'datePicker',
@@ -379,7 +379,7 @@ const IssueMetaFields = React.forwardRef(
       },
       ...insertWhen(![ISSUE_TYPE.TICKET, ISSUE_TYPE.EPIC].includes(issueType), [
         {
-          className: 'mb20',
+          className: 'mb-5',
           name: 'issueManHour.estimateTime',
           label: i18n.t('project:EstimateTime'),
           type: 'custom',
@@ -408,7 +408,7 @@ const IssueMetaFields = React.forwardRef(
         },
         ...insertWhen(!isEpic && isEditMode, [
           {
-            className: 'mb20',
+            className: 'mb-5',
             name: 'issueManHour',
             label: i18n.t('project:Time tracking'),
             type: 'custom',
@@ -428,7 +428,7 @@ const IssueMetaFields = React.forwardRef(
         ]),
       ]),
       {
-        className: 'mb20 w-full',
+        className: 'mb-5 w-full',
         name: 'labels',
         label: i18n.t('project:label'),
         type: 'select', // 需要新建不存在的tag，用 tagName 作为值传递，不要用 LabelSelect
@@ -473,7 +473,7 @@ const IssueMetaFields = React.forwardRef(
           name: 'expandCustom',
           type: 'custom',
           getComp: () => (
-            <div className="flex-box pa8 mb20 hover-active-bg" onClick={() => setExpandCustomFields((prev) => !prev)}>
+            <div className="flex-box pa-2 mb-5 hover-active-bg" onClick={() => setExpandCustomFields((prev) => !prev)}>
               <span>{i18n.t('project:custom fields')}</span>
               <CustomIcon type={expandCustomFields ? 'chevron-up' : 'chevron-down'} />
             </div>
@@ -482,7 +482,7 @@ const IssueMetaFields = React.forwardRef(
       ]),
       ...insertWhen(issueType === ISSUE_TYPE.TASK, [
         {
-          className: `mb20 w-full ${hideFieldClass}`,
+          className: `mb-5 w-full ${hideFieldClass}`,
           name: 'taskType',
           label: i18n.t('task type'),
           type: 'select',
@@ -492,7 +492,7 @@ const IssueMetaFields = React.forwardRef(
       ]),
       ...insertWhen(issueType === ISSUE_TYPE.BUG, [
         {
-          className: `mb20 w-full ${hideFieldClass}`,
+          className: `mb-5 w-full ${hideFieldClass}`,
           type: 'select',
           name: 'bugStage',
           label: i18n.t('project:import source'),
@@ -514,7 +514,7 @@ const IssueMetaFields = React.forwardRef(
 
             return (
               <>
-                <Divider className="mb24 mt2" />
+                <Divider className="mb-6 mt-0.5" />
                 <div className="color-text-desc text-xs prewrap">
                   {user.nick || user.name}&nbsp;{i18n.t('created at')}&nbsp;
                   {moment(formData.createdAt).format('YYYY/MM/DD')}
@@ -1095,13 +1095,13 @@ export const EditIssueDrawer = (props: IProps) => {
             </Menu>
           }
         >
-          <Button className="mr8">{i18n.t('project:one click to backlog')}</Button>
+          <Button className="mr-2">{i18n.t('project:one click to backlog')}</Button>
         </Dropdown>,
       ];
     } else {
       footer = [
         <WithAuth key="create" pass={addQuickIssueAuth}>
-          <Button className="mr8">{i18n.t('project:one click to backlog')}</Button>
+          <Button className="mr-2">{i18n.t('project:one click to backlog')}</Button>
         </WithAuth>,
       ];
     }
@@ -1167,7 +1167,7 @@ export const EditIssueDrawer = (props: IProps) => {
               />
             </WithAuth>
           ) : (
-            <span className="mr8">{ISSUE_TYPE_MAP[issueType]?.icon}</span>
+            <span className="mr-2">{ISSUE_TYPE_MAP[issueType]?.icon}</span>
           )}
         </IF>
 

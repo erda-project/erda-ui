@@ -228,7 +228,7 @@ export const PureApiPackage = () => {
 
   return (
     <div className="api-package">
-      <div className="mb16" style={{ float: 'right', zIndex: 1, position: 'relative' }}>
+      <div className="mb-4" style={{ float: 'right', zIndex: 1, position: 'relative' }}>
         <Button type="primary" onClick={() => goTo('./create')}>
           {i18n.t('microService:create a endpoint')}
         </Button>

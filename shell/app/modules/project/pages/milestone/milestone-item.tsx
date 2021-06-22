@@ -73,7 +73,7 @@ export default ({ item, onClickItem }: IProps) => {
                 <TagsColumn
                   labels={item.labels.map((l) => ({ label: l, color: 'red' }))}
                   showCount={2}
-                  containerClassName="ml8"
+                  containerClassName="ml-2"
                 />
               )}
             </div>

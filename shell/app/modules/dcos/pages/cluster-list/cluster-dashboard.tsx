@@ -46,9 +46,9 @@ interface IClusterIndicesItem {
 
 export const DashboardItem = ({ children, title }: IDashboardItem) => {
   return (
-    <div className="cluster-dashboard-item mb32">
+    <div className="cluster-dashboard-item mb-8">
       <IF check={title}>
-        <div className="dashboard-item-title mb12">{title}</div>
+        <div className="dashboard-item-title mb-3">{title}</div>
       </IF>
       {children}
     </div>
@@ -68,7 +68,7 @@ export const ClusterIndicesItem = ({
   });
   return (
     <div className={`cluster-indices-item ${className}`} onClick={onClickItem}>
-      <div className="title mb24">{name}</div>
+      <div className="title mb-6">{name}</div>
       <div className={valueCls}>{value}</div>
     </div>
   );

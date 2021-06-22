@@ -258,14 +258,14 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
             <div className="node-title small-node-title font-bold">
               {stopped ? (
                 <>
-                  <CustomIcon type="wks1" className="error-icon mr20" />
+                  <CustomIcon type="wks1" className="error-icon mr-5" />
                   <span>
                     {stopped}/{running}
                   </span>
                 </>
               ) : (
                 <>
-                  <CustomIcon type="cg" className="common-icon mr20" />
+                  <CustomIcon type="cg" className="common-icon mr-5" />
                   <span>{running}</span>
                 </>
               )}
@@ -378,7 +378,7 @@ const NodeEle = ({ node, onHover, outHover, onClick, timeSpan, terminusKey, node
             <div className="h-full node-operation">
               <Dropdown overlayClassName="topology-node-dropdown" overlay={nodeOperations}>
                 <CustomIcon
-                  className="text-lg operation-item pl8 pr8 pb8"
+                  className="text-lg operation-item pl-2 pr-2 pb-2"
                   type="sz"
                   onClick={(e: any) => e.stopPropagation()}
                 />

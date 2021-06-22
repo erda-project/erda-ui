@@ -24,7 +24,7 @@ export default (props: CP_ALERT.Props) => {
   const msgComp = isArray(message) ? (
     <div>
       {map(message, (item, idx) => (
-        <pre className="mb8" key={idx}>
+        <pre className="mb-2" key={idx}>
           {item}
         </pre>
       ))}

@@ -73,7 +73,7 @@ const ErrorCheckForm = ({ form, formRef }: { form: WrappedFormUtils; formRef: an
           />,
         )}
       </FormItem>
-      <span className="ml8 mr8">{i18n.t('microService:continuous failure')}</span>
+      <span className="ml-2 mr-2">{i18n.t('microService:continuous failure')}</span>
       <FormItem>
         {form.getFieldDecorator('consecutiveErrors', {
           rules: [
@@ -197,7 +197,7 @@ const HttpForm = ({ data, submitForm }: IHttpForm) => {
     },
     {
       getComp: ({ form }: { form: WrappedFormUtils }) => (
-        <div className="mt20">
+        <div className="mt-5">
           <Button type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}
           </Button>
@@ -275,7 +275,7 @@ const DubboForm = ({ data = [], submitForm, hideNoRule, onSwitchChange }: IDubbo
               ))}
             </Collapse>
             <Pagination
-              className="pa20"
+              className="pa-5"
               pageSize={pageSize}
               total={len}
               current={pageNo}
@@ -399,7 +399,7 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
     },
     {
       getComp: ({ form }: { form: WrappedFormUtils }) => (
-        <div className="mt20">
+        <div className="mt-5">
           <Button type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}
           </Button>

@@ -225,7 +225,7 @@ export const PureConsumerManage = () => {
               <>
                 {i18n.t('microService:key authentication mode')}
                 <Popover placement={'top'} content={i18n.t('microService:header-X-App-Key')}>
-                  <CustomIcon type="questionfill" className="ml8 auth-question-icon" />
+                  <CustomIcon type="questionfill" className="ml-2 auth-question-icon" />
                 </Popover>
               </>
             }
@@ -277,7 +277,7 @@ export const PureConsumerManage = () => {
               <>
                 {i18n.t('microService:parameter authentication mode')}
                 <Popover placement={'top'} content={i18n.t('microService:appKey-field-request-argument')}>
-                  <CustomIcon type="questionfill" className="ml8 auth-question-icon" />
+                  <CustomIcon type="questionfill" className="ml-2 auth-question-icon" />
                 </Popover>
               </>
             }
@@ -462,7 +462,7 @@ export const PureConsumerManage = () => {
   return (
     <div className="consumer-manage">
       <Spin spinning={isFetching}>
-        <div className="mb16">
+        <div className="mb-4">
           <Button type="primary" onClick={() => updater.modalVisible(true)}>
             {i18n.t('microService:new consumer')}
           </Button>
@@ -532,7 +532,7 @@ export const PureConsumerManage = () => {
         width="50%"
         destroyOnClose
       >
-        <Button type="primary" className="mb16" disabled={!authDataTouched} onClick={onUpdateAuthPackage}>
+        <Button type="primary" className="mb-4" disabled={!authDataTouched} onClick={onUpdateAuthPackage}>
           {i18n.t('microService:confirm authorization')}
         </Button>
         <Table

@@ -51,7 +51,7 @@ export const AppServiceFilter = ({ updateField, dataSource }: IProps) => {
         placeholder={i18n.t('microService:application')}
         value={diceApp}
         onChange={onAppChange}
-        className="filter-select mr16"
+        className="filter-select mr-4"
       >
         {map(appList, (appName, key) => (
           <Option key={key} value={appName}>
@@ -64,7 +64,7 @@ export const AppServiceFilter = ({ updateField, dataSource }: IProps) => {
         placeholder={i18n.t('microService:owned service')}
         value={diceService}
         onChange={onServiceChange}
-        className="filter-select mr16"
+        className="filter-select mr-4"
       >
         {map(serviceList, (serviceName, key) => (
           <Option key={key} value={serviceName}>

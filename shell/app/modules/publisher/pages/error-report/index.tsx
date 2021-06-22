@@ -320,7 +320,7 @@ const ErrorReport = (props: IProps) => {
       <Select
         value={selectMonitorKey}
         style={{ width: 200 }}
-        className="mb8"
+        className="mb-2"
         onChange={(k) => {
           updater.selectMonitorKey(k);
         }}
@@ -360,8 +360,8 @@ const ErrorReport = (props: IProps) => {
           })}
         </Row>
       </div>
-      <div className="mt16">
-        <TimeSelector className="ml0 mr12" inline disabledDate={() => false} />
+      <div className="mt-4">
+        <TimeSelector className="ml-0 mr-3" inline disabledDate={() => false} />
         <FilterVersion
           className="version-selector"
           value={lineVersion}
@@ -369,16 +369,16 @@ const ErrorReport = (props: IProps) => {
           groups={groups}
         />
       </div>
-      <div className="mt16 block-container">
+      <div className="mt-4 block-container">
         <div className="title flex-box">
           <span className="font-bold text-base">{i18n.t('publisher:error statistics')}</span>
         </div>
         <div>
-          <FilterTab className="ma8" value={lineChartType} onChange={updater.lineChartType} />
+          <FilterTab className="m-2" value={lineChartType} onChange={updater.lineChartType} />
           <PureBoardGrid layout={lineChart} />
         </div>
       </div>
-      <div className="mt16 block-container">
+      <div className="mt-4 block-container">
         <div className="title flex-box">
           <span className="font-bold text-base">{i18n.t('publisher:error list')}</span>
         </div>

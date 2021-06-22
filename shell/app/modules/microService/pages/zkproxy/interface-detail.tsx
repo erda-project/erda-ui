@@ -117,8 +117,8 @@ const InterfaceDetail = () => {
 
   return (
     <div>
-      <div className="interface-register-time mb20">
-        <p className="mb12">{`Provider ${i18n.t('microService:register time')}：${moment(
+      <div className="interface-register-time mb-5">
+        <p className="mb-3">{`Provider ${i18n.t('microService:register time')}：${moment(
           dubboDetailTime.providerTime,
         ).format('YYYY-MM-DD HH:mm:ss')}`}</p>
         <p>{`Consumer ${i18n.t('microService:register time')}：${moment(dubboDetailTime.consumerTime).format(

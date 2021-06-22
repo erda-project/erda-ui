@@ -46,7 +46,7 @@ const SnippetDetail = (props: IProps) => {
 
   const renderTooltipTitle = (_data: any): any => {
     const { result } = _data;
-    const detailInfo = [<div className="mb4">{`${i18n.t('name')}: ${_data.name}`}</div>] as any[];
+    const detailInfo = [<div className="mb-1">{`${i18n.t('name')}: ${_data.name}`}</div>] as any[];
 
     if (result && isEmptyExtraInfo(_data)) {
       const { errors: perError = [], metadata: preMetadata = [] } = result;
@@ -81,7 +81,7 @@ const SnippetDetail = (props: IProps) => {
         }
       }
       if (!isEmpty(files)) {
-        detailInfo.push(<h4 className="mt8">{i18n.t('download')}</h4>);
+        detailInfo.push(<h4 className="mt-2">{i18n.t('download')}</h4>);
         detailInfo.push(
           files.map((item, idx) =>
             item.value ? (
@@ -95,7 +95,7 @@ const SnippetDetail = (props: IProps) => {
         );
       }
       if (!isEmpty(errors)) {
-        detailInfo.push(<h4 className="mt8">{i18n.t('application:error')}</h4>);
+        detailInfo.push(<h4 className="mt-2">{i18n.t('application:error')}</h4>);
         detailInfo.push(
           errors.map((error, idx) => (
             <div key={`error-${String(idx)}`} className="test-case-node-msg">

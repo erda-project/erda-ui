@@ -242,7 +242,7 @@ const RuntimeOverView = () => {
             <Tooltip title={i18n.t('runtime:folding')}>
               <Button
                 size="small"
-                className="ml4"
+                className="ml-1"
                 shape="circle"
                 icon={<MenuUnfold />}
                 onClick={() => toggleFold(true)}

@@ -200,7 +200,7 @@ const BuildForm = ({ form, visible, onCancel, title, onOk }: IProps) => {
     },
     ...insertWhen(showTips && !!message, [
       {
-        getComp: () => <Alert className="mb16" showIcon type={appBlocked ? 'error' : 'normal'} message={message} />,
+        getComp: () => <Alert className="mb-4" showIcon type={appBlocked ? 'error' : 'normal'} message={message} />,
       },
     ]),
   ];

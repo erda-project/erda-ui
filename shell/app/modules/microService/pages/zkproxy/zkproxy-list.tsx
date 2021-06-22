@@ -81,7 +81,7 @@ const ZkproxyList = () => {
                 {item}
                 <Tooltip title={i18n.t('deployment details')}>
                   <CustomIcon
-                    className="operate-icon hover-active ml8"
+                    className="operate-icon hover-active ml-2"
                     type="link"
                     onClick={() => jumpToServicePage(item)}
                   />
@@ -99,7 +99,7 @@ const ZkproxyList = () => {
               <div key={`${i}${item}`}>
                 {item}
                 <Tooltip title={i18n.t('deployment details')}>
-                  <CustomIcon className="operate-icon ml8" type="link" onClick={() => jumpToServicePage(item)} />
+                  <CustomIcon className="operate-icon ml-2" type="link" onClick={() => jumpToServicePage(item)} />
                 </Tooltip>
               </div>
             ))

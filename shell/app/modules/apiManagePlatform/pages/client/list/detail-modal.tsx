@@ -117,7 +117,7 @@ const DetailModal = ({ visible, onCancel, dataSource }: IProps) => {
             <span>******</span>
           )}
           <span
-            className="hover-active ml4"
+            className="hover-active ml-1"
             onClick={() => {
               setShowSecret(!showSecret);
             }}
@@ -157,7 +157,7 @@ const DetailModal = ({ visible, onCancel, dataSource }: IProps) => {
         }}
       />
       <Copy selector=".for-copy" />
-      <div className="pa16 api-list">
+      <div className="pa-4 api-list">
         <div className="title text-base color-text font-medium">{i18n.t('authorized API')}</div>
         <Tabs
           defaultActiveKey="proved"

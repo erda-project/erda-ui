@@ -146,7 +146,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
       ]}
     >
       <div className="issue-workflow-setting-modal">
-        <div className="mb12">
+        <div className="mb-3">
           <IF check={formVisible}>
             <WorkflowStateForm
               issueType={issueType}
@@ -160,7 +160,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
         <IF check={!isEmpty(dataList)}>
           <div className="form-content">
             <div className="flex-box">
-              <div className="form-content-left mr4">
+              <div className="form-content-left mr-1">
                 <IF check={!formVisible}>
                   <WithAuth pass={hasAuth}>
                     <Button
@@ -170,7 +170,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                         updater.formVisible(true);
                       }}
                     >
-                      <CustomIcon type="cir-add" className="mr4" />
+                      <CustomIcon type="cir-add" className="mr-1" />
                       {i18n.t('add')}
                     </Button>
                   </WithAuth>
@@ -218,7 +218,7 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                 })}
               </div>
             </div>
-            <Divider className="my8" orientation="left">
+            <Divider className="my-2" orientation="left">
               {i18n.t('project:set state')}
             </Divider>
             <div className="flex-box">
@@ -255,25 +255,25 @@ const IssueWorkflowSettingModal = ({ visible, onCloseModal, issueType }: IProps)
                 })}
               </div>
             </div>
-            <Divider className="my8" orientation="left">
+            <Divider className="my-2" orientation="left">
               {i18n.t('project:circulation setting')}
             </Divider>
             {map(dataList, ({ relations, stateName, stateID }, stateDataIndex) => {
               return (
-                <div className="flex-box my12" key={stateID}>
+                <div className="flex-box my-3" key={stateID}>
                   <div className="form-content-left text-center text-xs ">
                     <div className="flex-box w-120">
                       <Tooltip title={stateName}>
                         <span className="font-medium nowrap state-transfer-name">{stateName}</span>
                       </Tooltip>
-                      <span className="ml8 color-text-desc">{i18n.t('project:can circulate to')}</span>
+                      <span className="ml-2 color-text-desc">{i18n.t('project:can circulate to')}</span>
                     </div>
                   </div>
                   <div className="form-content-right flex-box">
                     {map(relations, ({ isRelated, name }, relationIndex) => {
                       return (
                         <div className={`state-radio-group ${flexWidthClass}`}>
-                          <div className={'state-td state-radio-btn mx0 my0'} key={name}>
+                          <div className={'state-td state-radio-btn mx-0 my-0'} key={name}>
                             <WithAuth pass={hasAuth}>
                               <CustomIcon
                                 type={isRelated ? 'duoxuanxuanzhong' : 'icon-test'}

@@ -175,20 +175,20 @@ export const CaseNode = (props: IProps) => {
       const tip = (
         <div onClick={(e: any) => e.stopPropagation()}>
           <div className="font-bold">{i18n.t('project:loop strategy')}</div>
-          {loop.break && <div className="pl8">{`${i18n.t('project:condition to end loop')}: ${loop.break}`}</div>}
+          {loop.break && <div className="pl-2">{`${i18n.t('project:condition to end loop')}: ${loop.break}`}</div>}
           {strategy.max_times && (
-            <div className="pl8">{`${i18n.t('project:maximum number of loop')}: ${strategy.max_times}`}</div>
+            <div className="pl-2">{`${i18n.t('project:maximum number of loop')}: ${strategy.max_times}`}</div>
           )}
           {strategy.decline_ratio && (
-            <div className="pl8">{`${i18n.t('project:decline ratio')}: ${strategy.decline_ratio}`}</div>
+            <div className="pl-2">{`${i18n.t('project:decline ratio')}: ${strategy.decline_ratio}`}</div>
           )}
           {strategy.decline_limit_sec && (
-            <div className="pl8">{`${i18n.t('project:Maximum value of decline')}: ${strategy.decline_limit_sec}${i18n.t(
-              'common:second(s)',
-            )}`}</div>
+            <div className="pl-2">{`${i18n.t('project:Maximum value of decline')}: ${
+              strategy.decline_limit_sec
+            }${i18n.t('common:second(s)')}`}</div>
           )}
           {strategy.interval_sec && (
-            <div className="pl8">{`${i18n.t('project:interval')}: ${strategy.interval_sec}${i18n.t(
+            <div className="pl-2">{`${i18n.t('project:interval')}: ${strategy.interval_sec}${i18n.t(
               'common:second(s)',
             )}`}</div>
           )}
@@ -211,7 +211,7 @@ export const CaseNode = (props: IProps) => {
     <Tooltip title={editing ? undefined : tooltipTxt} onVisibleChange={onVisibleChange}>
       <div className="yml-chart-node test-case-node column-flex-box" onClick={onClick}>
         <div className={'case-title'}>
-          <div className="title-icon mr12">{IconComp}</div>
+          <div className="title-icon mr-3">{IconComp}</div>
           <div className="title-txt column-flex-box color-text">
             <span className="nowrap text-base font-bold name">{name}</span>
           </div>
@@ -225,7 +225,7 @@ export const CaseNode = (props: IProps) => {
             getLoopRender()
           )}
         </div>
-        <div className="nowrap mt8">{content}</div>
+        <div className="nowrap mt-2">{content}</div>
       </div>
     </Tooltip>
   );

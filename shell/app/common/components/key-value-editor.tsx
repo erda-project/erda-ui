@@ -156,7 +156,7 @@ export class KeyValueEditor extends React.Component<IProps, IState> {
     const textData = convertToTextData(dataSource);
     return (
       <div>
-        <div className="flex-box mb12">
+        <div className="flex-box mb-3">
           <span className="key-value-title">{title || i18n.t('default:information configuration')}</span>
           {isNeedTextArea ? (
             <Radio.Group size="small" value={tableMode ? 'key-value' : 'text'} onChange={this.toggleEditMode}>
@@ -189,7 +189,7 @@ export class KeyValueEditor extends React.Component<IProps, IState> {
           />
         ) : (
           <div>
-            {/* <div className="mb16" style={{ display: 'flex', flexDirection: 'row-reverse', lineHeight: '28px' }}> */}
+            {/* <div className="mb-4" style={{ display: 'flex', flexDirection: 'row-reverse', lineHeight: '28px' }}> */}
             {/*  {modeSwitch} */}
             {/* </div> */}
             <KeyValueTextArea

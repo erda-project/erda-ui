@@ -156,7 +156,7 @@ export function CRUDTable<P>(props: ITableProps<P>) {
         {typeof extraOperation === 'function' ? extraOperation() : extraOperation}
         <IF check={hasForm}>
           <WithAuth pass={hasAddAuth} noAuthTip={addAuthTooltipTitle}>
-            <Button type="primary" onClick={() => openModal()} className="mb8">
+            <Button type="primary" onClick={() => openModal()} className="mb-2">
               {i18n.t('add {name}', { name })}
             </Button>
           </WithAuth>

@@ -124,8 +124,8 @@ export default () => {
             dropdownRender={(menu) => (
               <div>
                 {menu}
-                <Divider className="my4" />
-                <div className="text-xs px8 py4 color-text-desc" onMouseDown={(e) => e.preventDefault()}>
+                <Divider className="my-1" />
+                <div className="text-xs px-2 py-1 color-text-desc" onMouseDown={(e) => e.preventDefault()}>
                   <WithAuth pass={addNotificationGroupAuth}>
                     <span
                       className="hover-active"

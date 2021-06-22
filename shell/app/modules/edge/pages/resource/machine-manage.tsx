@@ -179,7 +179,7 @@ export default () => {
 
   return (
     <div className="machine-table">
-      <Breadcrumb separator={<IconRight size="14px" />} className="path-breadcrumb mb8">
+      <Breadcrumb separator={<IconRight size="14px" />} className="path-breadcrumb mb-2">
         <Breadcrumb.Item className="hover-active" onClick={() => goTo(goTo.pages.edgeResource)}>
           {siteName}
         </Breadcrumb.Item>

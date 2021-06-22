@@ -26,7 +26,7 @@ export const FormFooter = (props: any) => {
       </Button>
       <Button
         size="large"
-        className="ml8"
+        className="ml-2"
         onClick={(e: any) => {
           e.preventDefault();
           onValidate()
@@ -59,7 +59,7 @@ export const TopButton = ({ type = 'primary', text = i18n.t('microService:edit')
   return (
     <div className="top-button-group repo-clone-btn">
       {onDelete && (
-        <Button onClick={onDelete} className="mr8">
+        <Button onClick={onDelete} className="mr-2">
           {i18n.t('microService:delete')}
         </Button>
       )}

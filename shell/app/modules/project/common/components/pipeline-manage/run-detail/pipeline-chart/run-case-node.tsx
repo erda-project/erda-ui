@@ -144,7 +144,7 @@ export const RunCaseNode = (props: IProps) => {
         }
       }
       if (!isEmpty(files)) {
-        detailInfo.push(<h4 className="mt8">{i18n.t('download')}</h4>);
+        detailInfo.push(<h4 className="mt-2">{i18n.t('download')}</h4>);
         detailInfo.push(
           files.map((item, idx) =>
             item.value ? (
@@ -158,7 +158,7 @@ export const RunCaseNode = (props: IProps) => {
         );
       }
       if (!isEmpty(errors)) {
-        detailInfo.push(<h4 className="mt8">{i18n.t('application:error')}</h4>);
+        detailInfo.push(<h4 className="mt-2">{i18n.t('application:error')}</h4>);
         detailInfo.push(
           errors.map((error, idx) => (
             <div key={`error-${String(idx)}`} className="test-case-node-msg">
@@ -205,7 +205,7 @@ export const RunCaseNode = (props: IProps) => {
 
   const status = ciStatusMap[data.status] || ciStatusMap.Unknown;
   const statusContent = (
-    <span className={`mt8 test-case-status-box border-radius ${status.color.toLowerCase()}`}>
+    <span className={`mt-2 test-case-status-box border-radius ${status.color.toLowerCase()}`}>
       <span className="test-case-result-status" style={{ background: status.color.toLowerCase() }} />
       <span className="inline-flex-box">{status ? status.text : '-'}</span>
     </span>
@@ -223,7 +223,7 @@ export const RunCaseNode = (props: IProps) => {
         }`}
       >
         <div className={'case-title'}>
-          <div className="title-icon mr12">{IconComp}</div>
+          <div className="title-icon mr-3">{IconComp}</div>
           <div className="title-txt column-flex-box color-text">
             <Tooltip title={name}>
               <span className="nowrap text-base font-bold name">{name}</span>
@@ -239,7 +239,7 @@ export const RunCaseNode = (props: IProps) => {
           </div>
         </div>
         {/* <Tooltip title={content}>
-          <div className='nowrap mt8'>{content}</div>
+          <div className='nowrap mt-2'>{content}</div>
         </Tooltip> */}
         {statusContent}
       </div>

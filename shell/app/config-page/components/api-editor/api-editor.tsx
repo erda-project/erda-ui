@@ -321,8 +321,8 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
     );
     apiExecuteButton = (
       <Dropdown overlay={dropdownMenu}>
-        <Button {...rest} className="ml12">
-          {text} <CustomIcon type={'di'} className="ml4" />
+        <Button {...rest} className="ml-3">
+          {text} <CustomIcon type={'di'} className="ml-1" />
         </Button>
       </Dropdown>
     );
@@ -362,7 +362,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
     const { body, headers, status } = response;
     const isSuccess = status < 400 && status >= 200;
     const statusColor = classnames({
-      ml4: true,
+      'ml-1': true,
       'color-success': isSuccess,
       'color-danger': !isSuccess,
     });
@@ -402,15 +402,15 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
       });
     });
     resultTabs = (
-      <div className="api-tabs mt20">
+      <div className="api-tabs mt-5">
         <Tabs defaultActiveKey="Response">
           <TabPane key="Request" tab="Request">
             {isEmpty(request) ? (
               <EmptyListHolder />
             ) : (
               <>
-                <div className="request-info color-text-desc pa12">
-                  <span className="method mr12">{get(request, 'method', '')}</span>
+                <div className="request-info color-text-desc pa-3">
+                  <span className="method mr-3">{get(request, 'method', '')}</span>
                   <span className="url">{get(request, 'url', '')}</span>
                 </div>
                 <Tabs>
@@ -431,7 +431,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
                       <EmptyListHolder />
                     ) : (
                       <>
-                        <div className="body-type pa12 border-bottom">Type: {get(request, 'body.type', '')}</div>
+                        <div className="body-type pa-3 border-bottom">Type: {get(request, 'body.type', '')}</div>
                         {get(request, 'body.content', '') ? (
                           <>
                             <Button
@@ -466,7 +466,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
             <Tabs
               defaultActiveKey="Body"
               tabBarExtraContent={
-                <span className="mr12 color-text-desc">
+                <span className="mr-3 color-text-desc">
                   Status:<span className={statusColor}>{status}</span>
                 </span>
               }
@@ -501,7 +501,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
         <div className="api-title case-index-hover">
           <Title title={i18n.t('interface name')} level={3} />
           <Input
-            className="flex-1 mb24 mt8"
+            className="flex-1 mb-6 mt-2"
             placeholder={i18n.t('please enter {name}', { name: i18n.t('interface name') })}
             value={api.name}
             onChange={(e) => updateApi('name', e.target.value)}
@@ -570,7 +570,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
           <Button onClick={handleClose}>{i18n.t('cancel')}</Button>
           {showSave ? (
             <Button
-              className="ml12"
+              className="ml-3"
               type="primary"
               onClick={() => {
                 handleSave();
@@ -593,7 +593,7 @@ const AssertTips = () => {
     return tips.replaceAll('<', '{').replaceAll('>', '}');
   };
   const tips = (
-    <ul className="contents ml16">
+    <ul className="contents ml-4">
       <li className="level1">
         <span className="font-medium">
           {i18n.t('project:greater than, greater than or equal to, less than, less than or equal to')}:{' '}
@@ -625,7 +625,7 @@ const AssertTips = () => {
         {format(
           i18n.t('project|support positive and negative integers, 0, and character strings', { nsSeparator: '|' }),
         )}
-        <ul className="ml16">
+        <ul className="ml-4">
           <li className="level2">
             {format(
               i18n.t(
@@ -998,7 +998,7 @@ const APIBody = (props: any) => {
   const CurValueComp = ValMap[realType] || ValMap.raw;
   return (
     <div className="case-api-body">
-      <div className="body-type-chosen my8 px12">
+      <div className="body-type-chosen my-2 px-3">
         <Radio.Group onChange={(e) => changeType(e.target.value, false, true)} value={isRaw ? 'raw' : realType}>
           <Radio value={'none'}>none</Radio>
           <Radio value={BasicForm}>x-www-form-urlencoded</Radio>
@@ -1020,7 +1020,7 @@ const APIBody = (props: any) => {
               ))}
             </Select>
             <Tooltip title={tip}>
-              <CustomIcon type="help" className="ml4 mt8 text-sm" />
+              <CustomIcon type="help" className="ml-1 mt-2 text-sm" />
             </Tooltip>
           </span>
         ) : null}

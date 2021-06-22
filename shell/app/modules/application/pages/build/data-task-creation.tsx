@@ -101,16 +101,16 @@ class DataTaskCreation extends React.PureComponent<IProps, IState> {
             listStyle={{ width: 352, height: 482 }}
             onSelectChange={this.onSelectChange}
           />
-          <section className="footer flex-box mt20">
+          <section className="footer flex-box mt-5">
             <span>
               <CustomIcon type="jg" />
               {i18n.t('application:can only add up to 10 files at a time')}
             </span>
             <div>
-              <Button className="ml8" onClick={onCancel}>
+              <Button className="ml-2" onClick={onCancel}>
                 {i18n.t('application:cancel')}
               </Button>
-              <Button className="ml8" type="primary" onClick={this.onOk}>
+              <Button className="ml-2" type="primary" onClick={this.onOk}>
                 {i18n.t('application:ok')}
               </Button>
             </div>

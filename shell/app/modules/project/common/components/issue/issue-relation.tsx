@@ -220,7 +220,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
                 <Button
                   type={activeButtonType === 'exist' ? 'primary' : 'default'}
                   onClick={() => setActiveButtonType('exist')}
-                  className="ml12"
+                  className="ml-3"
                 >
                   {i18n.t('project:related to existing issues')}
                 </Button>
@@ -248,7 +248,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
           </>
         )}
       </div>
-      <Title level={2} className="my8" title={i18n.t('project:related to these issues')} />
+      <Title level={2} className="my-2" title={i18n.t('project:related to these issues')} />
       <Table
         tableKey="relation"
         columns={columns}
@@ -257,7 +257,7 @@ export const IssueRelation = React.forwardRef((props: IProps, ref: any) => {
         pagination={false}
         rowKey={(rec: ISSUE.IssueType, i: number) => `${i}${rec.id}`}
       />
-      <Title level={2} className="mt16 mb8" title={i18n.t('project:related by these issues')} />
+      <Title level={2} className="mt-4 mb-2" title={i18n.t('project:related by these issues')} />
       <Table
         tableKey="related"
         columns={columns}
@@ -343,9 +343,9 @@ const AddIssueRelation = ({
   }, 500);
 
   return (
-    <div className="issue-relation-box mt12">
+    <div className="issue-relation-box mt-3">
       <div className="flex-box justify-start">
-        <div className="mr12">{i18n.t('project:filter condition')}:</div>
+        <div className="mr-3">{i18n.t('project:filter condition')}:</div>
         <IterationSelect
           value={chosenIterationID}
           placeholder={i18n.t('project:owned iteration')}
@@ -357,7 +357,7 @@ const AddIssueRelation = ({
           addAllOption
         />
         <Select
-          className="ml8"
+          className="ml-2"
           style={{ width: '174px' }}
           onChange={(v: any) => update({ chosenIssueType: v, chosenIssue: undefined })}
           value={chosenIssueType}
@@ -369,7 +369,7 @@ const AddIssueRelation = ({
       </div>
       <div className="flex-box">
         <Select
-          className="issue-list flex-1 mt12"
+          className="issue-list flex-1 mt-3"
           onSelect={(v: any) => updater.chosenIssue(v)}
           showSearch
           value={chosenIssue}
@@ -396,7 +396,7 @@ const AddIssueRelation = ({
 
         <Button
           type="primary"
-          className="ml12 mt12"
+          className="ml-3 mt-3"
           disabled={!chosenIssue}
           onClick={() => {
             if (chosenIssue) {
@@ -407,7 +407,7 @@ const AddIssueRelation = ({
         >
           {i18n.t('ok')}
         </Button>
-        <Button type="link" className="mt12" onClick={onClose}>
+        <Button type="link" className="mt-3" onClick={onClose}>
           {i18n.t('cancel')}
         </Button>
       </div>
@@ -429,7 +429,7 @@ const AddNewIssue = ({ onSaveRelation, iterationID, onCancel, defaultIssueType }
   return (
     <IssueForm
       key="add"
-      className="mt12"
+      className="mt-3"
       onCancel={onCancel}
       defaultIssueType={defaultIssueType}
       onOk={(val: ISSUE.BacklogIssueCreateBody) => {

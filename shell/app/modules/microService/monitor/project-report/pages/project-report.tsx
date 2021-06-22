@@ -173,7 +173,7 @@ const ProjectReport = ({ type }: IProps) => {
           </Button>
         </div>
         <div className="search-table-section">
-          <div className="search-table-header pr20">
+          <div className="search-table-header pr-5">
             <RangePicker onChange={handleRangeChange} ranges={getTimeRanges()} />
           </div>
           <div className="search-table-content">
@@ -185,7 +185,7 @@ const ProjectReport = ({ type }: IProps) => {
                       className={classnames({
                         'report-list-item': true,
                         'text-base': true,
-                        pl20: true,
+                        'pl-5': true,
                         'font-medium': true,
                         'text-left': true,
                         'hover-active-bg': true,
@@ -196,7 +196,7 @@ const ProjectReport = ({ type }: IProps) => {
                         handleChangeReport(item.key);
                       }}
                     >
-                      <CustomIcon className="mr8" type="rw" />
+                      <CustomIcon className="mr-2" type="rw" />
                       {type === 'weekly'
                         ? `${item.start.split(' ')[0]}-${item.end.split(' ')[0]}`
                         : `${item.start.split(' ')[0]}`}
@@ -204,7 +204,7 @@ const ProjectReport = ({ type }: IProps) => {
                   ))}
                 </ul>
                 <Pagination
-                  className="project-report-pagination text-right mt12"
+                  className="project-report-pagination text-right mt-3"
                   simple
                   defaultCurrent={1}
                   total={total}

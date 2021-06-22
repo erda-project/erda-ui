@@ -45,7 +45,7 @@ const IssueProcess = ({ data }: IProps) => {
   };
   const percent = Math.round((doneCount / sum) * 10000) / 100;
   return (
-    <div className="mt12">
+    <div className="mt-3">
       <div className="flex-box">
         <span>
           {i18n.t('project:task completion')}: {percent}%

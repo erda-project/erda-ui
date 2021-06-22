@@ -96,7 +96,16 @@ const Text = (props: CP_TEXT.Props) => {
                     </span>
                   );
                 } else if (isPlainObject(t)) {
-                  const { text: tText, operationKey, styleConfig: tConfig, icon, iconStyleName = '', image = '', withTag, tagStyle={} } = t;
+                  const {
+                    text: tText,
+                    operationKey,
+                    styleConfig: tConfig,
+                    icon,
+                    iconStyleName = '',
+                    image = '',
+                    withTag,
+                    tagStyle = {},
+                  } = t;
                   const tStyle = getStyle(tConfig);
 
                   return operationKey ? (
@@ -109,17 +118,15 @@ const Text = (props: CP_TEXT.Props) => {
                       className={`${textClassNames} hover-active`}
                     >
                       {tText}
-                      {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
+                      {icon && <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />}
                       {image && (
                         <img src={image?.startsWith('/images') ? imgMap[image] : image} className="text-image" />
                       )}
                     </a>
                   ) : (
                     <span key={idx} className={textClassNames} style={{ ...styleObj, ...tStyle }}>
-                      {
-                        withTag ? <span style={tagStyle}>{tText}</span> : tText
-                      }
-                      {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
+                      {withTag ? <span style={tagStyle}>{tText}</span> : tText}
+                      {icon && <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />}
                       {image && (
                         <img src={image?.startsWith('/images') ? imgMap[image] : image} className="text-image" />
                       )}
@@ -142,13 +149,13 @@ const Text = (props: CP_TEXT.Props) => {
               }}
             >
               {tText}
-              {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
+              {icon && <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />}
               {image && <img src={image?.startsWith('/images') ? imgMap[image] : image} className="text-image" />}
             </a>
           ) : (
             <span className={textClassNames} style={{ ...styleObj, ...tStyle }}>
               {tText}
-              {icon && <ErdaIcon iconType={icon} className={`mr4 ml4 ${iconStyleName}`} />}
+              {icon && <ErdaIcon iconType={icon} className={`mr-1 ml-1 ${iconStyleName}`} />}
               {image && <img src={image?.startsWith('/images') ? imgMap[image] : image} className="text-image" />}
             </span>
           );

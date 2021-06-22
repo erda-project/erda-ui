@@ -87,7 +87,7 @@ const UploadModal = (props: IProps) => {
                 <IconUpload /> {i18n.t('upload')}
               </Button>
             </Upload>
-            <span className="color-text-desc ml8">
+            <span className="color-text-desc ml-2">
               {uploadFile ? i18n.t('selected {xx}', { xx: uploadFile }) : null}
             </span>
           </div>

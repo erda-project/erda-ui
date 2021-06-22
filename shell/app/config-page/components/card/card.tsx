@@ -90,9 +90,9 @@ export const Card = (props: CP_CARD.Props) => {
   });
   return (
     <div className={`${className} ${cls}`} onClick={() => clickNode(data)}>
-      <div className="info-card-content px12 py8" key={id} ref={drag}>
-        <div className={'info-card-head flex-box mb8'}>
-          {isString(titleIcon) ? <CustomIcon type={titleIcon} color className="head-icon mr4" /> : titleIcon || null}
+      <div className="info-card-content px-3 py-2" key={id} ref={drag}>
+        <div className={'info-card-head flex-box mb-2'}>
+          {isString(titleIcon) ? <CustomIcon type={titleIcon} color className="head-icon mr-1" /> : titleIcon || null}
           <div className="flex-1 text-sm color-text break-word">{title}</div>
           {isEmpty(menuOperations) ? (
             <CustomIcon className="op-icon hide-icon" onClick={(e) => e.stopPropagation()} type="more" />
@@ -104,7 +104,7 @@ export const Card = (props: CP_CARD.Props) => {
             </span>
           )}
         </div>
-        {isString(subContent) ? <div className="text-xs color-text-sub mb12">{subContent}</div> : subContent || null}
+        {isString(subContent) ? <div className="text-xs color-text-sub mb-3">{subContent}</div> : subContent || null}
         {isString(description) ? (
           <Tooltip title={description}>
             <div className="text-xs nowrap color-text-desc">{description}</div>

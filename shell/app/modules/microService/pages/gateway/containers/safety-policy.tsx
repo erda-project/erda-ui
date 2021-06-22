@@ -261,7 +261,7 @@ export const PureSafetyPolicy = () => {
   //   setRemoveRules(event.target.value);
   // };
   return (
-    <div className="safety-section mb32">
+    <div className="safety-section mb-8">
       <Collapse defaultActiveKey={['waf', 'ip', 'guard', 'csrf']}>
         {/* <Panel
           header={
@@ -313,7 +313,7 @@ export const PureSafetyPolicy = () => {
             <Button
               loading={isSavingSafetyWaf}
               type="primary"
-              className="ml12"
+              className="ml-3"
               onClick={() => handleUpdateSafetyWaf()}
             >
               {i18n.t('microService:submit')}
@@ -325,7 +325,7 @@ export const PureSafetyPolicy = () => {
             <div className="flex-box">
               <span>{i18n.t('microService:IP blocking')}</span>
               <div className="switch-contaienr flex-box">
-                <span onClick={(e) => e.stopPropagation()} className=" mr20">
+                <span onClick={(e) => e.stopPropagation()} className=" mr-5">
                   {i18n.t('microService:enable rule')}&nbsp;
                   <Switch
                     disabled={enableGlobalIP}
@@ -377,7 +377,7 @@ export const PureSafetyPolicy = () => {
           <div className="gateway-policy-item">
             <span className="policy-label">IP {i18n.t('microService:black and white list')}</span>
             <div className="policy-content-group">
-              <div className="policy-content mb16">
+              <div className="policy-content mb-4">
                 <Select
                   className="safety-select"
                   disabled={enableGlobalIP || !ipEnable}
@@ -454,7 +454,7 @@ export const PureSafetyPolicy = () => {
             <div className="flex-box">
               <span>{i18n.t('microService:service load protection')}</span>
               <div className="switch-contaienr flex-box">
-                <span onClick={(e) => e.stopPropagation()} className=" mr20">
+                <span onClick={(e) => e.stopPropagation()} className=" mr-5">
                   {i18n.t('microService:enable rule')}&nbsp;
                   <Switch
                     disabled={enableGlobalServerGuard}
@@ -546,7 +546,7 @@ export const PureSafetyPolicy = () => {
             <div className="flex-box">
               <span>{i18n.t('microService:cross-site protection')}</span>
               <div className="switch-contaienr flex-box">
-                <span onClick={(e) => e.stopPropagation()} className=" mr20">
+                <span onClick={(e) => e.stopPropagation()} className=" mr-5">
                   {i18n.t('microService:enable rule')}&nbsp;
                   <Switch
                     disabled={enableGlobalSafetyCsrf}

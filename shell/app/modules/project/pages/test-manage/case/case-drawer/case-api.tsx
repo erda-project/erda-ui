@@ -343,7 +343,7 @@ const ApiItem = ({
     const { body, headers, status } = response;
     const isSuccess = status < 400 && status >= 200;
     const statusColor = classnames({
-      ml4: true,
+      'ml-1': true,
       'color-success': isSuccess,
       'color-danger': !isSuccess,
     });
@@ -391,8 +391,8 @@ const ApiItem = ({
               <EmptyListHolder />
             ) : (
               <>
-                <div className="request-info color-text-desc pa12">
-                  <span className="method mr12">{get(request, 'method', '')}</span>
+                <div className="request-info color-text-desc pa-3">
+                  <span className="method mr-3">{get(request, 'method', '')}</span>
                   <span className="url">{get(request, 'url', '')}</span>
                 </div>
                 <Tabs>
@@ -413,7 +413,7 @@ const ApiItem = ({
                       <EmptyListHolder />
                     ) : (
                       <>
-                        <div className="body-type pa12 border-bottom">Type: {get(request, 'body.type', '')}</div>
+                        <div className="body-type pa-3 border-bottom">Type: {get(request, 'body.type', '')}</div>
                         <Button
                           disabled={!get(request, 'body.content')}
                           className="copy-btn for-copy copy-request"
@@ -444,7 +444,7 @@ const ApiItem = ({
             <Tabs
               defaultActiveKey="Body"
               tabBarExtraContent={
-                <span className="mr12 color-text-desc">
+                <span className="mr-3 color-text-desc">
                   Status:<span className={statusColor}>{status}</span>
                 </span>
               }
@@ -495,14 +495,14 @@ const ApiItem = ({
           {inPlan ? null : (
             <SelectEnv envList={envList} onClick={(extra: TEST_ENV.Item) => handleExecute(api, index, extra)}>
               <CustomIcon
-                className="ml12 mt4 api-op hover-active"
+                className="ml-3 mt-1 api-op hover-active"
                 type="play"
                 onClick={() => handleExecute(api, index)}
               />
             </SelectEnv>
           )}
           <Popconfirm title={`${i18n.t('common:confirm deletion')}？`} onConfirm={() => handleDelete(index)}>
-            <CustomIcon className="ml12 delete-icon api-op hover-active" type="sc1" />
+            <CustomIcon className="ml-3 delete-icon api-op hover-active" type="sc1" />
           </Popconfirm>
         </div>
         <div className={`api-content ${isShow ? 'block' : 'hidden'}`}>
@@ -951,7 +951,7 @@ const APIBody = (props: any) => {
   const CurValueComp = ValMap[realType] || ValMap.raw;
   return (
     <div className="case-api-body">
-      <div className="body-type-chosen mb8 px12">
+      <div className="body-type-chosen mb-2 px-3">
         <Radio.Group onChange={(e) => changeType(e.target.value)} value={isRaw ? 'raw' : realType}>
           <Radio value={'none'}>none</Radio>
           <Radio value={BasicForm}>x-www-form-urlencoded</Radio>

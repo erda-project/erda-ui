@@ -142,7 +142,7 @@ const RenderBody = ({
         showExpand = allowExpand;
       }
       return (
-        <Row type="flex" key={params} className="params-row bb mb4 ml20">
+        <Row type="flex" key={params} className="params-row bb mb-1 ml-5">
           <Col span={6}>
             <div className="param-key nowrap">{params}</div>
           </Col>
@@ -150,7 +150,7 @@ const RenderBody = ({
             <div className="param-type nowrap">
               {['object', 'array'].includes(paramsProps.type) && showExpand ? (
                 <span
-                  className={`mb12 nowrap ${noExpandTypes.includes(paramsType) ? '' : 'highlight '}`}
+                  className={`mb-3 nowrap ${noExpandTypes.includes(paramsType) ? '' : 'highlight '}`}
                   onClick={() => {
                     expand(params, paramsProps);
                   }}
@@ -190,7 +190,7 @@ const RenderBody = ({
       return (
         <Fragment key={String(index)}>
           <span
-            className="highlight mb12 nowrap"
+            className="highlight mb-3 nowrap"
             key={item.params}
             onClick={() => {
               changeRoute(item, index !== bodyPath.length - 1);
@@ -220,7 +220,7 @@ const renderCommonParams = (params: any[] = []) => {
         const subType = item.items ? `[${item.items.type}]` : null;
         const { name, required, type, format, description } = item;
         return (
-          <Row type="flex" key={name} className="params-row bb mb4">
+          <Row type="flex" key={name} className="params-row bb mb-1">
             <Col span={6}>
               <div className="param-key">
                 {name}&nbsp;{required ? '(required)' : null}
@@ -252,11 +252,11 @@ const ApiView = ({ api }: { api: any }) => {
         <Fragment key={paramsType}>
           <div className="api-properties-title">{paramsTitleMap[paramsType]}</div>
           {Object.keys(bodyContentType).includes(paramsType) ? (
-            <div className="mb32">
+            <div className="mb-8">
               <p className="tips">
                 Request payload in application/json, application/x-www-form-urlencoded, or application/xml
               </p>
-              <p className="tips mb16">format.{bodyContentType[paramsType] || 'application/json'}</p>
+              <p className="tips mb-4">format.{bodyContentType[paramsType] || 'application/json'}</p>
               {paramsType === 'body' ? (
                 <RenderBody
                   root="Request Body"
@@ -268,7 +268,7 @@ const ApiView = ({ api }: { api: any }) => {
               )}
             </div>
           ) : (
-            <div className="mb20">{renderCommonParams(params)}</div>
+            <div className="mb-5">{renderCommonParams(params)}</div>
           )}
         </Fragment>
       );
@@ -281,7 +281,7 @@ const ApiView = ({ api }: { api: any }) => {
         <span className="api-path">
           <Copy>{api._path}</Copy>
         </span>
-        <div className="api-desc nowrap mb16">
+        <div className="api-desc nowrap mb-4">
           <Tooltip placement="bottom" title={api.description}>
             {api.description}
           </Tooltip>
@@ -290,7 +290,7 @@ const ApiView = ({ api }: { api: any }) => {
       <div className="api-view-body">
         {renderParameters(parametersMap)}
         <div className="api-properties-title">Responses</div>
-        <div className="mb32">
+        <div className="mb-8">
           {map(api.responses, (resp, code) => {
             const currentResp = { ...resp };
             const status = parseInt(code, 10);

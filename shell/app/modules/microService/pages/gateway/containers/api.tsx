@@ -398,8 +398,8 @@ class API extends React.Component<IProps, IState> {
 
     return (
       <div className="condition-nav flex-box">
-        <div className="app-services-container mb16">
-          <div className={`mr16 ${isRuntimeEntry ? 'hidden' : ''}`}>
+        <div className="app-services-container mb-4">
+          <div className={`mr-4 ${isRuntimeEntry ? 'hidden' : ''}`}>
             <span>{i18n.t('microService:switch app')}：</span>
             <Select
               className="api-select"
@@ -417,7 +417,7 @@ class API extends React.Component<IProps, IState> {
               ))}
             </Select>
           </div>
-          <div className="mr20">
+          <div className="mr-5">
             <span>{i18n.t('microService:switch service')}：</span>
             <Select
               className="api-select"
@@ -433,7 +433,7 @@ class API extends React.Component<IProps, IState> {
               ))}
             </Select>
           </div>
-          <div className="mr20">
+          <div className="mr-5">
             <span>{i18n.t('microService:switch deployed branch')}：</span>
             <Select
               className="api-select"
@@ -452,7 +452,7 @@ class API extends React.Component<IProps, IState> {
             <div className={`${domainSuffix ? '' : 'hidden'}`}>
               <span>{i18n.t('microService:custom domain name')}：</span>
               <Input
-                className="address-input mr4"
+                className="address-input mr-1"
                 spellCheck={false}
                 value={customDomain}
                 onChange={this.onChangeDomain}
@@ -466,13 +466,13 @@ class API extends React.Component<IProps, IState> {
                   )}: ${domainPrefix} 修改为：${customDomain}`}
                   onConfirm={this.onSaveDomain}
                 >
-                  <Button className="ml12" type="primary" disabled={!customDomain}>
+                  <Button className="ml-3" type="primary" disabled={!customDomain}>
                     {i18n.t('microService:determine')}
                   </Button>
                 </DeleteConfirm>
                 <IF.ELSE />
                 <Button
-                  className="ml12"
+                  className="ml-3"
                   type="primary"
                   disabled={!customDomain || domainPrefix === customDomain}
                   onClick={this.onSaveDomain}
@@ -483,11 +483,11 @@ class API extends React.Component<IProps, IState> {
             </div>
           </IF>
         </div>
-        <div className="flex-box mb16">
+        <div className="flex-box mb-4">
           <div className="search-fields flex-box">
             <Select
               allowClear
-              className="api-select mr20"
+              className="api-select mr-5"
               placeholder={i18n.t('microService:filter by registration type')}
               value={registerType}
               onChange={this.setRegisterType}
@@ -495,13 +495,13 @@ class API extends React.Component<IProps, IState> {
               <Option value="auto">{i18n.t('microService:automatic registration')}</Option>
               <Option value="manual">{i18n.t('microService:manual registration')}</Option>
             </Select>
-            {/* <Select allowClear className="api-select mr20" placeholder={i18n.t('microService:filter by network type')} value={netType} onChange={this.setNetType}>
+            {/* <Select allowClear className="api-select mr-5" placeholder={i18n.t('microService:filter by network type')} value={netType} onChange={this.setNetType}>
               <Option value="inner">{i18n.t('microService:internal network')}</Option>
               <Option value="outer">{i18n.t('microService:external network')}</Option>
             </Select> */}
             <Select
               allowClear
-              className="api-select mr20"
+              className="api-select mr-5"
               placeholder={i18n.t('microService:filter by calling method')}
               value={method}
               onChange={this.setMethod}
@@ -514,7 +514,7 @@ class API extends React.Component<IProps, IState> {
             </Select>
             <Select
               allowClear
-              className="api-select mr20"
+              className="api-select mr-5"
               placeholder={i18n.t('microService:select sorting method')}
               value={sortField && sortType ? `${sortField}-${sortType}` : undefined}
               onChange={this.setSortBy}
@@ -537,8 +537,8 @@ class API extends React.Component<IProps, IState> {
               onChange={this.setQuery}
             />
           </div>
-          <span className="api-btn-group ml20">
-            <Button className="mr8" onClick={this.resetConditions}>
+          <span className="api-btn-group ml-5">
+            <Button className="mr-2" onClick={this.resetConditions}>
               {i18n.t('microService:reset')}
             </Button>
             <Button type="primary" ghost onClick={this.searchApis}>

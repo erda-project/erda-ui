@@ -55,7 +55,7 @@ export const ReleaseItem = (props: IProps) => {
             <span className="nowrap">{displayVersion}</span>
           </Tooltip>
         </div>
-        <div className="sub-info mb12">
+        <div className="sub-info mb-3">
           <IF check={commitId}>
             <React.Fragment>
               <CustomIcon type="commit" />

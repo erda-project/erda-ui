@@ -260,18 +260,18 @@ export default ({ scopeType, scopeId }: IProps) => {
           {map(functions, (item, index) => (
             <div className="function-item flex-box" key={item.field}>
               <Tooltip title={allRuleFieldMap[item.field]}>
-                <span className="field-name mr8 nowrap">{allRuleFieldMap[item.field]}</span>
+                <span className="field-name mr-2 nowrap">{allRuleFieldMap[item.field]}</span>
               </Tooltip>
-              <span className="aggregator mr8">{aggregatorMap[item.aggregator]}</span>
+              <span className="aggregator mr-2">{aggregatorMap[item.aggregator]}</span>
               {/* <Select
-                  className="aggregator mr8"
+                  className="aggregator mr-2"
                   defaultValue={item.aggregator}
                   disabled
                 >
                   {map(aggregatorMap, (name, _key) => (<Select.Option key={_key} value={_key}>{name}</Select.Option>))}
                 </Select> */}
               <Select
-                className="operator mr8"
+                className="operator mr-2"
                 defaultValue={item.operator}
                 onSelect={(value: any) => {
                   handleEditEditingRuleField(key, index, { key: 'operator', value: String(value) });
@@ -331,7 +331,7 @@ export default ({ scopeType, scopeId }: IProps) => {
       required: false,
       getComp: () => (
         <>
-          <div className="opportunity-header mb8">
+          <div className="opportunity-header mb-2">
             <Popover
               placement="bottomLeft"
               trigger="click"
@@ -351,7 +351,7 @@ export default ({ scopeType, scopeId }: IProps) => {
                 </div>
               }
             >
-              <Button className="mr8">{i18n.t('org:type template')}</Button>
+              <Button className="mr-2">{i18n.t('org:type template')}</Button>
             </Popover>
             <Button type="primary" ghost onClick={handleAddEditingRule}>
               {i18n.t('org:add rule')}
@@ -402,8 +402,8 @@ export default ({ scopeType, scopeId }: IProps) => {
             dropdownRender={(menu) => (
               <div>
                 {menu}
-                <Divider className="my4" />
-                <div className="text-xs px8 py4 color-text-desc" onMouseDown={(e) => e.preventDefault()}>
+                <Divider className="my-1" />
+                <div className="text-xs px-2 py-1 color-text-desc" onMouseDown={(e) => e.preventDefault()}>
                   <WithAuth pass={addNotificationGroupAuth}>
                     <span
                       className="hover-active"

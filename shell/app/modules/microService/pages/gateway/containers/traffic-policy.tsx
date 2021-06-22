@@ -149,7 +149,7 @@ class Policy extends React.Component<IProps, any> {
     return (
       <div>
         <ApiPoliciesHeader />
-        <div className="flex-box mb16">
+        <div className="flex-box mb-4">
           <Button type="primary" className="add-btn" onClick={() => this.toggleModal()}>
             {i18n.t('common:add')}
           </Button>

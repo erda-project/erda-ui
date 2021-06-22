@@ -223,7 +223,7 @@ const LogAnalytics = () => {
       <Panel title={i18n.t('microService:number of logs')} className="block">
         {addonDetail.cluster && <LogCountChart chartQuery={{ ...queryData.current }} loadData={getChartData} />}
       </Panel>
-      <div className="section-title mt24 mb0">{i18n.t('microService:detail')}</div>
+      <div className="section-title mt-6 mb-0">{i18n.t('microService:detail')}</div>
       <Holder when={isEmpty(curList)}>
         {map(curList, (item) => {
           return (

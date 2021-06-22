@@ -94,7 +94,7 @@ const IssueWorkflow = () => {
                     {map(item.state, (name: string) => {
                       const curStateBelong = get(find(totalWorkflowStateList, { stateName: name }), 'stateBelong');
                       return (
-                        <div className="v-align mr12 mb8">
+                        <div className="v-align mr-3 mb-2">
                           {ISSUE_STATE_MAP[curStateBelong]?.icon}
                           {name}
                         </div>

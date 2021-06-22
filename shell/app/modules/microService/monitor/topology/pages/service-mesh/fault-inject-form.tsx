@@ -263,7 +263,7 @@ const HttpForm = ({ data = [], submitForm, deleteHttp }: IHttpForm) => {
               ))}
             </Collapse>
             <Pagination
-              className="pa20"
+              className="pa-5"
               pageSize={pageSize}
               total={len}
               current={pageNo}
@@ -406,7 +406,7 @@ const HttpFormItem = ({ data, submitForm, allData }: IHttpFormItem) => {
     },
     {
       getComp: ({ form }: { form: WrappedFormUtils }) => (
-        <div className="mt20">
+        <div className="mt-5">
           <Button type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}
           </Button>
@@ -487,7 +487,7 @@ const DubboForm = ({ data = [], submitForm, onSwitchChange, hideNoRule }: IDubbo
               ))}
             </Collapse>
             <Pagination
-              className="pa20"
+              className="pa-5"
               pageSize={pageSize}
               total={len}
               current={pageNo}
@@ -575,7 +575,7 @@ const DubboFormItem = ({ data, submitForm }: IDubboFormItem) => {
     },
     {
       getComp: ({ form }: { form: WrappedFormUtils }) => (
-        <div className="mt20">
+        <div className="mt-5">
           <Button type="primary" onClick={() => handleSubmit(form)}>
             {i18n.t('save')}
           </Button>

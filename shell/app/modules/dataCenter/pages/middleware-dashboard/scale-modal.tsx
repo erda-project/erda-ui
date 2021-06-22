@@ -216,14 +216,14 @@ const ScaleModal = ({ visible, formData, onCancel, afterSubmit, form }: IProps) 
     return (
       <>
         <div>
-          <span className="mr16">
+          <span className="mr-4">
             {i18n.t('dataCenter:total project resources')}：CPU：{totalCpu}
             {i18n.t('default:core')}
           </span>
           <span>MEM：{setDecimal(totalMem * 1024)}MiB</span>
         </div>
         <div>
-          <span className="mr16">
+          <span className="mr-4">
             {i18n.t('dataCenter:available resources')}：CPU：{setDecimal(leftCpu)}
             {i18n.t('default:core')}
           </span>

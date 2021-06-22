@@ -82,11 +82,11 @@ export default (props: CP_RADIO.Props) => {
               <Dropdown overlay={getMenu()}>
                 <RadioItem value={key} key={key}>
                   <div className="flex-box">
-                    {prefixIcon ? <CustomIcon type={prefixIcon} className="mr4" /> : null}
+                    {prefixIcon ? <CustomIcon type={prefixIcon} className="mr-1" /> : null}
                     <span className="nowrap" style={{ ...(width ? { width } : {}) }}>
                       {childName}
                     </span>
-                    <CustomIcon type="di" className="ml4" />
+                    <CustomIcon type="di" className="ml-1" />
                   </div>
                 </RadioItem>
               </Dropdown>
@@ -103,8 +103,8 @@ export default (props: CP_RADIO.Props) => {
             <Tooltip key={key} title={tooltip}>
               <RadioItem value={key} key={key} {...extraProps}>
                 <div className="flex-box">
-                  {prefixIcon ? <CustomIcon type={prefixIcon} className="mr4" /> : null}
-                  {status ? <Badge status={status || 'default'} className="mr4" /> : null}
+                  {prefixIcon ? <CustomIcon type={prefixIcon} className="mr-1" /> : null}
+                  {status ? <Badge status={status || 'default'} className="mr-1" /> : null}
                   {text}
                 </div>
               </RadioItem>

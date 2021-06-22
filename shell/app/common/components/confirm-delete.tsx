@@ -63,7 +63,7 @@ export const ConfirmDelete = (props: IProps) => {
     confirmTip || i18n.t('Permanently delete {deleteItem}. Please pay special attention to it.', { deleteItem });
   return (
     <div>
-      <div className="color-text-desc mb8">{_confirmTip}</div>
+      <div className="color-text-desc mb-2">{_confirmTip}</div>
       <span onClick={showModal}>
         {children || (
           <Button ghost type="danger">
@@ -74,7 +74,7 @@ export const ConfirmDelete = (props: IProps) => {
       <Modal
         title={
           <div className="wrap-flex-box">
-            <CustomIcon type="warning" className="mr4 color-warning text-xl font-bold" />
+            <CustomIcon type="warning" className="mr-1 color-warning text-xl font-bold" />
             {_title}
           </div>
         }
@@ -89,7 +89,7 @@ export const ConfirmDelete = (props: IProps) => {
           </Button>,
         ]}
       >
-        <p className="mb8">{_secondTitle}</p>
+        <p className="mb-2">{_secondTitle}</p>
         {modalChildren}
       </Modal>
     </div>

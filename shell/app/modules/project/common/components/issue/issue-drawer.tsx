@@ -134,7 +134,7 @@ export const IssueDrawer = (props: IProps) => {
                 <IF check={editMode && shareLink}>
                   <Copy selector=".copy-share-link" tipName={i18n.t('project:share link')} />
                   <IconShareOne
-                    className="for-copy copy-share-link mr4 ml12"
+                    className="for-copy copy-share-link mr-1 ml-3"
                     size="16px"
                     data-clipboard-text={shareLink}
                   />
@@ -164,7 +164,7 @@ export const IssueDrawer = (props: IProps) => {
                       trigger="click"
                       okText={i18n.t('copy')}
                     >
-                      <IconCopy className="hover-active ml12" size="16px" />
+                      <IconCopy className="hover-active ml-3" size="16px" />
                     </Popover>
                   </WithAuth>
                 </IF>
@@ -175,16 +175,16 @@ export const IssueDrawer = (props: IProps) => {
                       placement="bottomRight"
                       onConfirm={onDelete}
                     >
-                      <IconDelete className="hover-active ml12" size="16px" />
+                      <IconDelete className="hover-active ml-3" size="16px" />
                     </Popconfirm>
                   </WithAuth>
                 ) : null}
                 {isChanged && confirmCloseTip ? (
                   <Popconfirm title={confirmCloseTip} placement="bottomRight" onConfirm={onClose}>
-                    <IconCheck className="ml12 pointer" size="16px" />
+                    <IconCheck className="ml-3 pointer" size="16px" />
                   </Popconfirm>
                 ) : (
-                  <IconCheck className="ml12 pointer" size="16px" onClick={onClose} />
+                  <IconCheck className="ml-3 pointer" size="16px" onClick={onClose} />
                 )}
               </div>
             </div>

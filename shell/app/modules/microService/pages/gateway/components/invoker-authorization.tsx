@@ -572,7 +572,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
     return (
       <div className="auth-params-content">
         <div className="auth-type-item">
-          <div className="flex-box mb12">
+          <div className="flex-box mb-3">
             <div className="auth-params-title nowrap flex-1">
               Key-Auth {i18n.t('mode')}
               <span className="text-xs">（{authData.keyAuth.authTips}）</span>
@@ -584,7 +584,7 @@ class InvokerAuthorization extends React.Component<IProps, IState> {
           <Table dataSource={authData.keyAuth.authData} columns={this.keyAuthCols} rowKey="id" pagination={false} />
         </div>
         <div className="auth-type-item">
-          <div className="flex-box mb12">
+          <div className="flex-box mb-3">
             <div className="auth-params-title flex-1">OAuth {i18n.t('mode')}</div>
             <Button type="primary" ghost size="small" onClick={this.toggleOAuthModal}>
               {i18n.t('add')}

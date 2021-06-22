@@ -28,7 +28,7 @@ interface IProps {
 const ApiDetail = ({ dataSource, extra, specProtocol }: IProps) => {
   if (isEmpty(dataSource)) {
     return (
-      <div className="mt32">
+      <div className="mt-8">
         <EmptyHolder relative style={{ justifyContent: 'start' }} />
       </div>
     );

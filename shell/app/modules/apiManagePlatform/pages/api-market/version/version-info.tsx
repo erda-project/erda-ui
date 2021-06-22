@@ -284,7 +284,7 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
   };
   return (
     <div className="flex-box content-wrap">
-      <div className="left pr16">
+      <div className="left pr-4">
         <Tree
           blockNode
           defaultExpandParent
@@ -295,9 +295,9 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
           onExpand={handleExpand}
         />
       </div>
-      <div className="right flex-1 pl16">
+      <div className="right flex-1 pl-4">
         <div className="flex-box">
-          <div className="title color-text font-medium text-base my12">{i18n.t('related instance')}</div>
+          <div className="title color-text font-medium text-base my-3">{i18n.t('related instance')}</div>
           <UnityAuthWrap userID={creatorID} path={['apiMarket', 'relatedInstance']}>
             <Button onClick={handleRelation}>{i18n.t('edit')}</Button>
           </UnityAuthWrap>
@@ -305,14 +305,14 @@ const VersionInfo = ({ assetID, onRelation, onSelectVersion, versionRef }: IProp
         {instance.type === 'dice' ? (
           <>
             <div className="color-text-desc instance-label">{i18n.t('service name')}</div>
-            <div className="color-text-sub font-medium instance-name mb12">{get(instance, 'serviceName', '-')}</div>
+            <div className="color-text-sub font-medium instance-name mb-3">{get(instance, 'serviceName', '-')}</div>
             <div className="color-text-desc instance-label">{i18n.t('microService:deployment branch')}</div>
-            <div className="color-text-sub font-medium instance-name mb12">{get(instance, 'runtimeName', '-')}</div>
+            <div className="color-text-sub font-medium instance-name mb-3">{get(instance, 'runtimeName', '-')}</div>
           </>
         ) : null}
         <div className="color-text-desc instance-label">{i18n.t('related instance')}</div>
-        <div className="color-text-sub font-medium instance-name mb24">{instanceUrl || '-'}</div>
-        <div className="title color-text font-medium text-base mb12">{i18n.t('version list')}</div>
+        <div className="color-text-sub font-medium instance-name mb-6">{instanceUrl || '-'}</div>
+        <div className="title color-text font-medium text-base mb-3">{i18n.t('version list')}</div>
         <Table<API_MARKET.VersionItem>
           rowKey={({ version: { major, minor, patch } }) => `${major}-${minor}-${patch}`}
           columns={columns}

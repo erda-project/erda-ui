@@ -123,7 +123,7 @@ const RenderBody = ({
         showExpand = allowExpand;
       }
       return (
-        <Row type="flex" key={params} className="font-normal nowrap color-text border-bottom pt8 pb8">
+        <Row type="flex" key={params} className="font-normal nowrap color-text border-bottom pt-2 pb-2">
           <Col span={6}>
             <div className="param-key nowrap">{params}</div>
           </Col>
@@ -131,7 +131,7 @@ const RenderBody = ({
             <div className="param-type nowrap">
               {['object', 'array'].includes(paramsProps.type) && showExpand ? (
                 <span
-                  className={`mb12 nowrap ${noExpandTypes.includes(paramsType) ? '' : 'fake-link '}`}
+                  className={`mb-3 nowrap ${noExpandTypes.includes(paramsType) ? '' : 'fake-link '}`}
                   onClick={() => {
                     expand(params, paramsProps);
                   }}
@@ -171,7 +171,7 @@ const RenderBody = ({
       return (
         <Fragment key={String(index)}>
           <span
-            className="fake-link mb12 nowrap"
+            className="fake-link mb-3 nowrap"
             key={item.params}
             onClick={() => {
               changeRoute(item, index !== bodyPath.length - 1);
@@ -187,7 +187,7 @@ const RenderBody = ({
 
   return (
     <>
-      <div className="api-router mb12">{renderBodyPath()}</div>
+      <div className="api-router mb-3">{renderBodyPath()}</div>
       {dataType ? <p className="tips">if type is: {dataType}</p> : null}
       {renderBody(bodyData)}
     </>

@@ -57,8 +57,8 @@ export default () => {
 
   return (
     <div>
-      <div className="mb8 wrap-flex-box">
-        <TimeSelector className="mb0" />
+      <div className="mb-2 wrap-flex-box">
+        <TimeSelector className="mb-0" />
         <Search
           allowClear
           placeholder={i18n.t('microService:search by service name')}

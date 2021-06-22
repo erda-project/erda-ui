@@ -789,10 +789,10 @@ export const PropertyItemForm = React.memo((props: IPropertyItemForm) => {
           })}
           {isEditMode && (
             <>
-              <Button className="operation-btn mb16" onClick={addParam}>
+              <Button className="operation-btn mb-4" onClick={addParam}>
                 {i18n.t('common:add parameter')}
               </Button>
-              <Button className="operation-btn mb16 ml8" onClick={() => updater.paramsModalVisible(true)}>
+              <Button className="operation-btn mb-4 ml-2" onClick={() => updater.paramsModalVisible(true)}>
                 {i18n.t('project:import parameters')}
               </Button>
             </>

@@ -188,7 +188,7 @@ export default ({ canEdit, canDelete, canEditQuota, showQuotaTip }: IProps) => {
               {!diceEnv.ONLY_FDP && (
                 <CustomIcon
                   type="link1"
-                  className="ml8 hover-active"
+                  className="ml-2 hover-active"
                   onClick={() => goTo(goTo.pages.project, { projectId: info.id })}
                 />
               )}

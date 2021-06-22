@@ -226,7 +226,7 @@ const DeployClusterForm = (props: IProps) => {
           <Button type="primary" onClick={handleSubmit}>
             {i18n.t('done')}
           </Button>
-          <Button className="ml12" onClick={reset}>
+          <Button className="ml-3" onClick={reset}>
             {i18n.t('reset')}
           </Button>
         </div>

@@ -94,9 +94,9 @@ export const Iteration = () => {
             <span>{title}</span>
             <MenuPopover styleName="color-text-desc" content={renderMenuPopover(iteration)} placement="left" />
           </div>
-          <div className="nowrap color-text-sub mt4">{content}</div>
-          <div className="nowrap color-text-desc mt12">
-            <span className="mr16">
+          <div className="nowrap color-text-sub mt-1">{content}</div>
+          <div className="nowrap color-text-desc mt-3">
+            <span className="mr-4">
               {i18n.t('common:start at')}：{moment(startedAt).format('YYYY-MM-DD HH:mm:ss')}
             </span>
             <span>
@@ -133,7 +133,7 @@ export const Iteration = () => {
       </IF>
       <Spin spinning={isFetching}>
         {map(list, renderIteration)}
-        <div className="mt16 right-flex-box">
+        <div className="mt-4 right-flex-box">
           <Pagination current={pageNo} pageSize={pageSize} total={total} onChange={onPageChange} />
         </div>
       </Spin>

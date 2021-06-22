@@ -114,7 +114,7 @@ export const ListTargets = ({
       })}`;
       targetsEle = (
         <>
-          <div className="group-members mr8">
+          <div className="group-members mr-2">
             {map(take(values, 3), (obj: { receiver: string }) => (
               <Avatar name={obj.receiver} size={24} key={obj.receiver} />
             ))}
@@ -131,7 +131,7 @@ export const ListTargets = ({
       })}`;
       targetsEle = (
         <>
-          <div className="group-members mr8">
+          <div className="group-members mr-2">
             {map(take(values, 3), (obj: { receiver: string }) => {
               const { username } = JSON.parse(obj.receiver);
               return <Avatar name={username} size={24} key={username} />;

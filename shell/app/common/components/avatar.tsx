@@ -34,7 +34,7 @@ export const Avatar = (props: IProps) => {
   const { url, showName = false, useLoginUser = false, name, size = 24, className = '', wrapClassName = '' } = props;
   const isOccupiedShowName = showName === true;
   const loginUser = userStore.useStore((s) => s.loginUser);
-  const cls = classnames('dice-avatar', isOccupiedShowName ? 'mr4' : false, className);
+  const cls = classnames('dice-avatar', isOccupiedShowName ? 'mr-1' : false, className);
 
   let userName = useLoginUser ? loginUser.nick : name;
   userName = userName || '';
@@ -80,7 +80,7 @@ export const AvatarList = ({ names, maxDisplay = 5 }: { names: string[]; maxDisp
   const tooltipElements = [] as JSX.Element[];
   names.forEach((name: string, idx: number) => {
     displayElements.push(<Avatar key={name + idx} name={name} />);
-    tooltipElements.push(<Avatar wrapClassName="mr8 mb4" key={name + idx} name={name} showName />);
+    tooltipElements.push(<Avatar wrapClassName="mr-2 mb-1" key={name + idx} name={name} showName />);
   });
   return (
     <Tooltip title={tooltipElements} overlayStyle={{ maxWidth: 200 }}>

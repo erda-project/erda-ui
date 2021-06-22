@@ -195,7 +195,7 @@ export const CustomFilter = (props: IFilterProps) => {
   const filterClassName = classNames({
     'dice-custom-filter': true,
     'actions-no-padding': !actionsHasPadding,
-    my12: true,
+    'my-3': true,
     className,
   });
 
@@ -445,7 +445,7 @@ export function useFilter<T>(props: ISingleFilterProps<T>): IUseFilterProps<T> {
     }
     sizeOptions = sortBy(sizeOptions, (item) => +item);
     return (
-      <div className="mt16 right-flex-box">
+      <div className="mt-4 right-flex-box">
         <Pagination
           current={pageNo}
           pageSize={+pSize}

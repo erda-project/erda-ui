@@ -313,7 +313,7 @@ export default () => {
   return (
     <div className="log-query">
       <CustomFilter onReset={onReset} onSubmit={onSubmit} config={filterConfig} isConnectQuery />
-      <Panel title={i18n.t('microService:number of logs')} className="block mb16">
+      <Panel title={i18n.t('microService:number of logs')} className="block mb-4">
         <PureBoardGrid layout={layout} />
       </Panel>
       <Panel title={i18n.t('microService:log message')} className="block">

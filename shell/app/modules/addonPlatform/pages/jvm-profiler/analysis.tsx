@@ -193,7 +193,7 @@ export default () => {
   return (
     <div className="jvm-profile">
       <Spin spinning={isPending} tip={i18n.t('addonPlatform:attaching to process')}>
-        <div className="px20 pt20 pb4 mb20 white-bg border-all">
+        <div className="px-5 pt-5 pb-1 mb-5 white-bg border-all">
           <FilterGroup
             list={[
               {
@@ -215,7 +215,7 @@ export default () => {
       <Panel title={i18n.t('addonPlatform:analyzing')} className="block">
         <Table dataSource={runningList} columns={getCols(false)} rowKey="profiling" pagination={false} />
       </Panel>
-      <Panel title={i18n.t('addonPlatform:historical analysis')} className="block mt20">
+      <Panel title={i18n.t('addonPlatform:historical analysis')} className="block mt-5">
         <Table
           dataSource={historyList}
           columns={getCols(true)}

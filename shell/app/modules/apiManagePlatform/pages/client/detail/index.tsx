@@ -162,7 +162,7 @@ const ClientDetail = () => {
             <span>******</span>
           )}
           <span
-            className="hover-active ml4"
+            className="hover-active ml-1"
             onClick={() => {
               updater.showSecret(!showSecret);
             }}
@@ -187,7 +187,7 @@ const ClientDetail = () => {
               {record.status === 'proved' && (
                 <Tooltip title={i18n.t('traffic audit')}>
                   <CustomIcon
-                    className="ml8 color-primary hover-active font-bold"
+                    className="ml-2 color-primary hover-active font-bold"
                     type="monitor"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -248,7 +248,7 @@ const ClientDetail = () => {
         }}
       />
       <Copy selector=".for-copy" />
-      <div className="pa16 api-list">
+      <div className="pa-4 api-list">
         <div className="title text-base color-text font-medium">{i18n.t('authorized API')}</div>
         <Tabs
           defaultActiveKey="proved"

@@ -61,7 +61,7 @@ const optionRender = (user: IMember, roleMap?: object, _type?: string, showRole?
     <>
       <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect="20x20" type="avatar" />
       {
-        <span className="ml8" title={name}>
+        <span className="ml-2" title={name}>
           {nick || i18n.t('common:none')}
           {_type === 'normal' && roleMap && showRole
             ? `(${map(roles, (role) => roleMap[role] || i18n.t('common:none')).join(',')}`
@@ -80,13 +80,13 @@ const valueItemRender =
     const cls = {
       normal: {
         img: '20x20',
-        name: 'ml8 text-sm',
-        tag: 'py4 px8',
+        name: 'ml-2 text-sm',
+        tag: 'py-1 px-2',
       },
       small: {
         img: '14x14',
-        name: 'ml8',
-        tag: 'py2 px4 member-value-small',
+        name: 'ml-2',
+        tag: 'py-0.5 px-1 member-value-small',
       },
     };
     const curCls = cls[size] || {};
@@ -251,7 +251,7 @@ export const MemberSelector = React.forwardRef((props: XOR<IProps, IPropsWithCat
       {showSelfChosen ? (
         <a
           onClick={() => !rest.disabled && selectSelf()}
-          className={`${rest.disabled ? 'not-allowed' : 'always-active'} ml8`}
+          className={`${rest.disabled ? 'not-allowed' : 'always-active'} ml-2`}
         >
           {i18n.t('choose self')}
         </a>
@@ -305,7 +305,7 @@ const UserSelector = (props: any) => {
     return (
       <Option key={id} value={id}>
         <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect="20x20" type="avatar" />
-        <span className="ml8" title={name}>
+        <span className="ml-2" title={name}>
           {nick || i18n.t('common:none')}
         </span>
       </Option>

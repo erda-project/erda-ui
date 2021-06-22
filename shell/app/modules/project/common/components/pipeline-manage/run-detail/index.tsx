@@ -296,7 +296,7 @@ const RunDetail = (props: IProps) => {
           }}
         >
           <div className="build-operator">
-            <Button className="mr8">{i18n.t('application:cancel build')}</Button>
+            <Button className="mr-2">{i18n.t('application:cancel build')}</Button>
           </div>
         </DeleteConfirm>
       </IF>
@@ -332,7 +332,7 @@ const RunDetail = (props: IProps) => {
   return (
     <div className="pipeline-detail">
       <Spin spinning={isFetching}>
-        <div className="info-header mb8">
+        <div className="info-header mb-2">
           <div>
             <span className="font-medium title">{i18n.t('application:build detail')}</span>
           </div>
@@ -349,7 +349,7 @@ const RunDetail = (props: IProps) => {
         </div>
         <BaseInfo data={pipelineDetail} />
         {showMessage && showMessage.msg ? (
-          <div className="auto-test-detail-err-msg mb8">
+          <div className="auto-test-detail-err-msg mb-2">
             <div className="auto-test-err-header">
               <IconAttention className="auto-test-err-icon" />
               <pre>{showMessage.msg}</pre>

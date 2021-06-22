@@ -97,7 +97,7 @@ class ObjectInputGroup extends PureComponent<IEditGlobalVariableProps, any> {
             placeholder={`${i18n.t('application:please enter')}Value`}
           />
           {disabled ? null : (
-            <IconDelete className="variable-icon ml12 pointer" onClick={() => this.deleteVariable(index)} />
+            <IconDelete className="variable-icon ml-3 pointer" onClick={() => this.deleteVariable(index)} />
           )}
         </div>
       );

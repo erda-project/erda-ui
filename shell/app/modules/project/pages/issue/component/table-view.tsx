@@ -73,7 +73,7 @@ export const memberSelectorValueItem = (user: any) => {
   return (
     <div className="v-align hover-active issue-field-selector">
       <ImgHolder src={avatar} text={nick ? nick.substring(0, 1) : i18n.t('none')} rect={'20x20'} type="avatar" />
-      <span className={'ml8 text-sm'} title={name}>
+      <span className={'ml-2 text-sm'} title={name}>
         {displayName}
       </span>
       <CustomIcon className="arrow-icon" type="di" />
@@ -205,7 +205,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
 
   const columns: Array<ColumnProps<ISSUE.Issue>> = [
     {
-      title: <span className="pl8">{i18n.t('title')}</span>,
+      title: <span className="pl-2">{i18n.t('title')}</span>,
       // width: 400,
       dataIndex: 'title',
       className: 'title',
@@ -366,7 +366,7 @@ const TableView = React.forwardRef((props: IProps, ref: any) => {
   ];
 
   return (
-    <div className="pa12 border-radius issue-table-view">
+    <div className="pa-3 border-radius issue-table-view">
       <Table
         rowKey="id"
         columns={columns}

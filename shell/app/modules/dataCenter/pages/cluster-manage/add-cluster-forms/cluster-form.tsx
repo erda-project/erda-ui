@@ -439,7 +439,7 @@ const ClusterSchedulerForm = ({
                   max={repeatRange[1]}
                   precision={0}
                 />
-                <span className="mx8">-</span>
+                <span className="mx-2">-</span>
                 <InputNumber
                   onChange={(value: any) => {
                     const s = repeatRange[0];

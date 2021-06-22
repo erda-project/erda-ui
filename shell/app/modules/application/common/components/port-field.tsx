@@ -71,12 +71,12 @@ export default class extends PureComponent<IVariableInputGroupProps, any> {
             disabled={disabled}
             style={{ width: '130px' }}
             placeholder={i18n.t('application:please enter the listening port')}
-            className="ml8"
+            className="ml-2"
             value={item.port}
             onChange={(v: any) => this.changeValue(index, 'port', v)}
           />
           {disabled ? null : (
-            <IconDelete className="variable-icon ml12 pointer" onClick={() => this.deleteVariable(index)} />
+            <IconDelete className="variable-icon ml-3 pointer" onClick={() => this.deleteVariable(index)} />
           )}
         </div>
       );

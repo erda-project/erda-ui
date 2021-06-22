@@ -54,9 +54,9 @@ export const FormEditor = React.forwardRef((props: IProps, ref: any) => {
       <div className="content">
         {isEmpty(field) ? (
           <div className="tip">
-            <div className="tip-title mb16">{i18n.t('common:how to edit a form')}</div>
-            <div className="tip-desc mb16">1、{i18n.t('common:add form items on the left')}</div>
-            <div className="tip-desc mb16">2、{i18n.t('common:click edit to complete the form')}</div>
+            <div className="tip-title mb-4">{i18n.t('common:how to edit a form')}</div>
+            <div className="tip-desc mb-4">1、{i18n.t('common:add form items on the left')}</div>
+            <div className="tip-desc mb-4">2、{i18n.t('common:click edit to complete the form')}</div>
           </div>
         ) : (
           <Form

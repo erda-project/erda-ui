@@ -111,7 +111,7 @@ export default () => {
   return (
     <div className="jvm-overview">
       <Spin spinning={isPending}>
-        <div className="pa20 mb20 white-bg border-all">
+        <div className="pa-5 mb-5 white-bg border-all">
           <div className="jvm-profiler flex-box">
             <div className="profiler-info flex-1">
               <p className="info-item">
@@ -134,19 +134,19 @@ export default () => {
                 </p>
               )}
             </div>
-            <div className="profiler-actions ml24">
+            <div className="profiler-actions ml-6">
               <Button type="primary" disabled={!isRunning} onClick={stopProfile}>
                 {i18n.t('addonPlatform:stop analysis')}
               </Button>
             </div>
           </div>
         </div>
-        <div className="panel block mb20">
+        <div className="panel block mb-5">
           <div className="panel-title">{i18n.t('addonPlatform:jvm process info')}</div>
           <div className="panel-body">{getPanelBody(jvmInfo.jvm_process)}</div>
         </div>
         <div className="flex-box">
-          <div className="panel block flex-1 mr20">
+          <div className="panel block flex-1 mr-5">
             <div className="panel-title">{i18n.t('addonPlatform:jvm properties')}</div>
             <div className="panel-body">{getPanelBody(jvmInfo.jvm_options)}</div>
           </div>

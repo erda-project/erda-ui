@@ -154,7 +154,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
 
     if (onSubmit) {
       btns.push(
-        <Button key="md-editor-submit-btn" className="mt16 mb16 mr8" type="primary" onClick={this.onSubmit}>
+        <Button key="md-editor-submit-btn" className="mt-4 mb-4 mr-2" type="primary" onClick={this.onSubmit}>
           {btnText || i18n.t('common:submit')}
         </Button>,
       );
@@ -162,7 +162,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
 
     if (onSetLS) {
       btns.push(
-        <Button key="md-editor-keep-btn" className="mt16 mb16 mr8" onClick={this.onSetLS}>
+        <Button key="md-editor-keep-btn" className="mt-4 mb-4 mr-2" onClick={this.onSetLS}>
           {i18n.t('application:temporary storage')}
         </Button>,
       );
@@ -170,7 +170,7 @@ export default class MarkdownEditor extends PureComponent<IProps, IState> {
 
     if (onCancel) {
       btns.push(
-        <Button key="md-editor-cancel-btn" className="mt16 mb16" onClick={onCancel}>
+        <Button key="md-editor-cancel-btn" className="mt-4 mb-4" onClick={onCancel}>
           {i18n.t('common:cancel')}
         </Button>,
       );

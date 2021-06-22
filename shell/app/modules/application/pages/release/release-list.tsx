@@ -100,7 +100,7 @@ const ReleaseList = () => {
         <IF check={appDetail.isProjectLevel}>
           <AppSelector
             projectId={`${projectId}`}
-            className="mb8 mx16"
+            className="mb-2 mx-4"
             allowClear
             onChange={(_appId: number) => {
               update({
@@ -112,7 +112,7 @@ const ReleaseList = () => {
           />
         </IF>
         <Select
-          className="mb8 mx16"
+          className="mb-2 mx-4"
           value={queryObj?.branchName}
           onChange={(v: any) => updater.queryObj({ ...queryObj, branchName: v })}
           placeholder={i18n.t('filter by {name}', { name: i18n.t('application:branch') })}
@@ -124,7 +124,7 @@ const ReleaseList = () => {
             </Option>
           ))}
         </Select>
-        <div className="mb8 mx16">
+        <div className="mb-2 mx-4">
           <DebounceSearch
             className="w-full"
             value={queryObj?.q}

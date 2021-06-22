@@ -67,7 +67,7 @@ const Limit = (props: IProps) => {
     <>
       {renderData.map(({ limit, unit }, index) => {
         return (
-          <InputGroup compact key={String(index)} className="mb4">
+          <InputGroup compact key={String(index)} className="mb-1">
             <InputNumber
               placeholder={i18n.t('please enter')}
               min={1}
@@ -95,7 +95,7 @@ const Limit = (props: IProps) => {
             </Select>
             {mode === 'multiple' ? (
               <div className="sla-limit-operation">
-                <div className="flex-box pl12">
+                <div className="flex-box pl-3">
                   <Tooltip title={i18n.t('add {name}', { name: i18n.t('request limit') })}>
                     <IconAddOne onClick={handleAddOne} size="20px" />
                   </Tooltip>

@@ -98,10 +98,10 @@ const Activity = () => {
       <div className="deployment-card">
         <div className=" flex-box">
           <Avatar size={32} name={operatorName} url={avatar || ''} className="self-start" />
-          <div className="deployment-content ml8 flex-1">
-            <div className="info mb8">
+          <div className="deployment-content ml-2 flex-1">
+            <div className="info mb-2">
               <Tooltip title={name || ''}>
-                <span className="name text-base font-medium mr8">{operatorName}</span>
+                <span className="name text-base font-medium mr-2">{operatorName}</span>
               </Tooltip>
               <Tooltip title={`${i18n.t('runtime:deployment time')}：${deployTime}`}>
                 <span className="start-time">{`${i18n.t('runtime:beginning to deploy')} ${fromNow}`}</span>
@@ -114,11 +114,11 @@ const Activity = () => {
             </span>
           </div>
         </div>
-        <div className="status mt8">
+        <div className="status mt-2">
           {deployStatusCnMap[status]}
-          <span className="ml8">{`${i18n.t('runtime:time consuming')} ${timeCost}`}</span>
+          <span className="ml-2">{`${i18n.t('runtime:time consuming')} ${timeCost}`}</span>
           <Tooltip title={activity.releaseId}>
-            <span data-clipboard-text={activity.releaseId} className="ml8 for-copy">
+            <span data-clipboard-text={activity.releaseId} className="ml-2 for-copy">
               releaseId: {activity.releaseId.substr(0, 6)}
             </span>
           </Tooltip>

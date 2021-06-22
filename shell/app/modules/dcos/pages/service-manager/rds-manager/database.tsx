@@ -122,7 +122,7 @@ const DataBase = () => {
         return (
           <>
             <Select
-              className="mr20"
+              className="mr-5"
               allowClear
               placeholder={i18n.t('dcos:unauthorized account (default)')}
               style={{ width: '50%' }}
@@ -197,7 +197,7 @@ const DataBase = () => {
 
   return (
     <div>
-      <div className="text-right mb12">
+      <div className="text-right mb-3">
         <Button type="primary" onClick={() => updater.formVisible(true)}>
           {i18n.t('dcos:create database')}
         </Button>

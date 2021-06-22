@@ -34,7 +34,7 @@ const repoIntro = ({ name: repoName, showCreateFile, gitRepoNew }: IProps) => {
   return (
     <div className="repo-start-tip">
       <div>
-        <div className="section-title mt0">
+        <div className="section-title mt-0">
           {i18n.t('application:new application')}
           {showCreateFile ? (
             <Tooltip title={i18n.t('application:create new file')}>
@@ -60,7 +60,7 @@ git push -u origin master`}
         </FileContainer>
       </div>
       <div>
-        <div className="section-title mt32">{i18n.t('application:existing application')}</div>
+        <div className="section-title mt-8">{i18n.t('application:existing application')}</div>
         <FileContainer name="existing.sh">
           <FileEditor
             fileExtension="sh"
