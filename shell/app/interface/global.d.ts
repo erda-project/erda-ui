@@ -146,7 +146,7 @@ interface IPaging {
 }
 
 interface IPagingReq {
-  pageSize: number;
+  pageSize?: number;
   pageNo: number;
 }
 
@@ -292,3 +292,23 @@ interface FilterItemConfig {
 
 type Kv<T> = { [k in keyof T]: string };
 type Nullable<T> = T | null;
+
+interface IPagingData<T> {
+  list: T[];
+  paging: IPaging;
+}
+
+interface RAW_RESPONSE<T = any> {
+  data: T;
+  err: {
+    code: string;
+    msg: string;
+  } | null;
+  success: boolean;
+  userInfo?: Array<{
+    id: string;
+    name: string;
+    nickname: string;
+  }>;
+  userIDs?: string[];
+}

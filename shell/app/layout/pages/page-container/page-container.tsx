@@ -36,6 +36,7 @@ import { ErrorLayout } from './error-layout';
 import { eventHub } from 'common/utils/event-hub';
 import orgStore from 'app/org-home/stores/org';
 import './page-container.scss';
+import { initAxios } from 'app/common/utils/axios-config';
 
 const layoutMap = {
   error: ErrorLayout,
@@ -78,6 +79,7 @@ const PageContainer = ({ route }: IProps) => {
       }, 500);
     }
     eventHub.emit('layout/mount');
+    initAxios();
 
     if (process.env.NODE_ENV === 'production') {
       checkVersion();
@@ -203,3 +205,5 @@ const PageContainer = ({ route }: IProps) => {
 };
 
 export default PageContainer;
+
+

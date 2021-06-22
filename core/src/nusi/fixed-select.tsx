@@ -32,7 +32,7 @@ const FixedSelect = React.forwardRef((props: any, ref) => {
       {options}
     </Select>
   );
-});
+}) as unknown as typeof Select;
 
 (FixedSelect as any).Option = Option;
 (FixedSelect as any).OptGroup = OptGroup;
