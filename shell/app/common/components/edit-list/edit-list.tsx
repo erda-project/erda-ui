@@ -21,6 +21,7 @@ import { getCheckListFromRule } from 'configForm/form/form';
 import { get, isEmpty, map, isEqual, isArray, isPlainObject, set, compact, includes, filter, debounce } from 'lodash';
 import { ReduceOne as IconReduceOne } from '@icon-park/react';
 import './edit-list.scss';
+import { flexClsMap } from 'app/common/utils/style-constants';
 
 interface IData {
   [k: string]: any;
@@ -349,10 +350,11 @@ const RenderItem = (props: IRenderItem) => {
   const [curType, curVal] = isTitle ? ['text', temp.title] : [type, value];
   let cls = isTitle ? 'edit-list-item-title' : '';
   let style = {};
+  const flexCls = flexClsMap[flex];
   if (width) {
     style = { width };
   } else {
-    cls += ` flex-${flex} min-width`;
+    cls += ` ${flexCls} min-width`;
   }
   if (required) {
     cls += ' required-item';

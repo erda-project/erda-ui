@@ -17,6 +17,7 @@ import { Table, Title, Tag } from 'app/nusi';
 import { FileEditor } from 'common';
 import Text from '../text/text';
 import './info-preview.scss';
+import { textAlignClsMap } from 'app/common/utils/style-constants';
 
 const colorMap = {
   get: '#8DB36C',
@@ -157,7 +158,7 @@ const RenderItem = (props: IRenderProps) => {
     case 'Text':
       {
         const { align = 'left' } = rProps || {};
-        const _className = `text-${align}`;
+        const _className = textAlignClsMap[align];
 
         Comp = (
           <div className={_className}>
