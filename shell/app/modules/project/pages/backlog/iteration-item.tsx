@@ -115,7 +115,7 @@ export const IterationItem = (props: IProps) => {
           {`${moment(data.startedAt).format('YYYY/MM/DD')} - ${moment(data.finishedAt).format('YYYY/MM/DD')}`}
         </div>
       </div>
-      <div className={`backlog-iteration-issues ${isOpen ? '' : 'hide'}`}>
+      <div className={`backlog-iteration-issues ${isOpen ? '' : 'hidden'}`}>
         <Spin spinning={loading}>
           {isEmpty(list) ? (
             <EmptyHolder relative />

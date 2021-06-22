@@ -322,7 +322,7 @@ export const FormCheckWhen = ({ fixOut = noop, fixIn = noop, extensionFix, requi
       <FormItem
         colon
         label={getLabel(label, labelTip)}
-        className={visible ? '' : 'hide'}
+        className={visible ? '' : 'hidden'}
         validateStatus={valid[0]}
         help={valid[1]}
         required={required}

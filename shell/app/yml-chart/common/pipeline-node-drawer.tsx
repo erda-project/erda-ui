@@ -558,8 +558,8 @@ const PurePipelineNodeForm = (props: IEditStageProps & FormComponentProps) => {
     <Spin spinning={loading}>
       <Form className="edit-service-container">
         {alert}
-        <Item className="hide">{taskType}</Item>
-        <Item className="hide">{loopData}</Item>
+        <Item className="hidden">{taskType}</Item>
+        <Item className="hidden">{loopData}</Item>
         {type ? <Item label={i18n.t('application:task name')}>{taskName}</Item> : null}
         <Item label={i18nMap.version}>{actionVersion}</Item>
         <Item label={i18n.t('common:execution conditions')}>{executionCondition}</Item>

@@ -938,7 +938,7 @@ class OrderPage extends React.Component<IProps> {
       {
         title: i18n.t('ok'),
         content: (
-          <div className={`confirm-block ${step === 0 ? 'hide' : ''}`}>
+          <div className={`confirm-block ${step === 0 ? 'hidden' : ''}`}>
             <KeyValueList data={this.confirmData} />
             <div className="op-row">
               <Button type="primary" onClick={this.handleSubmit}>

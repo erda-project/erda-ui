@@ -69,7 +69,7 @@ const PageContainer = ({ route }: IProps) => {
     const content = document.querySelector('#erda-content');
     if (skeleton && content) {
       skeleton.className += ' fade';
-      content.classList.remove('hide');
+      content.classList.remove('hidden');
       setTimeout(() => {
         skeleton.remove();
         const scriptDom = document.querySelector('#init-script');

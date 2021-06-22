@@ -505,7 +505,7 @@ const ApiItem = ({
             <CustomIcon className="ml12 delete-icon api-op hover-active" type="sc1" />
           </Popconfirm>
         </div>
-        <div className={`api-content ${isShow ? 'show' : 'hide'}`}>
+        <div className={`api-content ${isShow ? 'block' : 'hidden'}`}>
           <div className="api-url">
             <Input
               addonBefore={

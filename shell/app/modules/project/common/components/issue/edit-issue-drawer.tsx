@@ -119,7 +119,7 @@ const IssueMetaFields = React.forwardRef(
       ));
     }, [taskTypeList]);
 
-    const hideFieldClass = expandCustomFields ? '' : 'hide';
+    const hideFieldClass = expandCustomFields ? '' : 'hidden';
 
     React.useEffect(() => {
       if (ref && !ref.current) {

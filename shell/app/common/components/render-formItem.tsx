@@ -244,7 +244,7 @@ export const RenderFormItem = ({
     <FormItem
       label={_label}
       {...layout}
-      className={`${itemProps.type === 'hidden' ? 'hide' : ''} ${className}`}
+      className={`${itemProps.type === 'hidden' ? 'hidden' : ''} ${className}`}
       {...extraProps}
     >
       {name ? form && form.getFieldDecorator(name, itemConfig)(ItemComp) : ItemComp}

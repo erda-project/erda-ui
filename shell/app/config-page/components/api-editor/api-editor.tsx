@@ -509,7 +509,7 @@ export const APIEditor = (props: CP_API_EDITOR.Props) => {
             // onBlur={handleBlurCapture}
           />
         </div>
-        <div className={`api-content ${isShow ? 'show' : 'hide'}`}>
+        <div className={`api-content ${isShow ? 'block' : 'hidden'}`}>
           <div className="api-url">
             <Input
               addonBefore={

@@ -94,7 +94,7 @@ const VpcForm = React.forwardRef((props: IFormProps, ref: any) => {
     },
   ];
   return (
-    <div className={`${visible ? '' : 'hide'}`}>
+    <div className={`${visible ? '' : 'hidden'}`}>
       <RenderForm layout="vertical" list={fieldsList} wrappedComponentRef={ref} />
     </div>
   );
@@ -185,7 +185,7 @@ const VswForm = React.forwardRef((props: IVswFormProps, ref: any) => {
     },
   ];
   return (
-    <div className={`${visible ? '' : 'hide'}`}>
+    <div className={`${visible ? '' : 'hidden'}`}>
       <RenderForm layout="vertical" list={fieldsList} wrappedComponentRef={ref} />
     </div>
   );

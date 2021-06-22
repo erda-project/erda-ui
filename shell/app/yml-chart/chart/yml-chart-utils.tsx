@@ -146,7 +146,7 @@ const renderNodes = (nodeData: any[][], chart: any, chartConfig: IChartConfig, e
           if (isEdit) {
             const addEle = document.getElementById(`${chartId}-_yml-node-add-${index}_`);
             if (addEle) {
-              addEle.classList.add('show');
+              addEle.classList.add('block');
             }
           }
         })
@@ -154,7 +154,7 @@ const renderNodes = (nodeData: any[][], chart: any, chartConfig: IChartConfig, e
           if (isEdit) {
             const addEle = document.getElementById(`${chartId}-_yml-node-add-${index}_`);
             if (addEle) {
-              addEle.classList.remove('show');
+              addEle.classList.remove('block');
             }
           }
         });

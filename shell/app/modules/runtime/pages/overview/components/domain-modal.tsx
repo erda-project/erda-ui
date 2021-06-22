@@ -211,7 +211,7 @@ const DomainModal = (props: IProps) => {
             ) : (
               <Row key={domainType + index} type="flex" justify="space-around" align="middle">
                 <Col span={22}>
-                  <FormItem className="hide">
+                  <FormItem className="hidden">
                     {form.getFieldDecorator(`${domainType}@@${index}`, {
                       initialValue: serviceName,
                     })(<Input />)}

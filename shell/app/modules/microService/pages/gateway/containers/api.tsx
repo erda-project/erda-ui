@@ -399,7 +399,7 @@ class API extends React.Component<IProps, IState> {
     return (
       <div className="condition-nav flex-box">
         <div className="app-services-container mb16">
-          <div className={`mr16 ${isRuntimeEntry ? 'hide' : ''}`}>
+          <div className={`mr16 ${isRuntimeEntry ? 'hidden' : ''}`}>
             <span>{i18n.t('microService:switch app')}：</span>
             <Select
               className="api-select"
@@ -449,7 +449,7 @@ class API extends React.Component<IProps, IState> {
             </Select>
           </div>
           <IF check={isK8S && currentService}>
-            <div className={`${domainSuffix ? '' : 'hide'}`}>
+            <div className={`${domainSuffix ? '' : 'hidden'}`}>
               <span>{i18n.t('microService:custom domain name')}：</span>
               <Input
                 className="address-input mr4"
