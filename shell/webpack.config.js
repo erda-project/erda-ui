@@ -166,7 +166,17 @@ module.exports = () => {
             {
               loader: 'babel-loader', // TODO tree sharking is not available in MF, will handle it later
               options: {
-                presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
+                presets: [
+                  [
+                    '@babel/preset-env',
+                    {
+                      corejs: 3,
+                      useBuiltIns: 'usage',
+                    },
+                  ],
+                  '@babel/preset-react',
+                  '@babel/preset-typescript',
+                ],
                 plugins: ['jsx-control-statements'],
               },
             },
