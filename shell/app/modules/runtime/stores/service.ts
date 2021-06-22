@@ -98,7 +98,7 @@ const runtimeService = createFlatStore({
             runtimeName,
           },
         },
-        { successMsg: i18n.t('update successfully') },
+        { successMsg: i18n.t('updated successfully') },
       );
     },
     async getServicePods({ call, update, select }, payload: RUNTIME_SERVICE.PodQuery) {

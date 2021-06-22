@@ -636,10 +636,9 @@ const AssertTips = () => {
           </li>
           <li className="level2">
             {format(
-              i18n.t(
-                'project|only supports collections for strings, for example: <\\"abc\\",\\"bcd\\",\\"200\\",\\"-200\\">',
-                { nsSeparator: '|' },
-              ),
+              i18n.t('project|only supports collections for strings, for example: <"abc","bcd","200","-200">', {
+                nsSeparator: '|',
+              }),
             )}
           </li>
         </ul>
