@@ -55,7 +55,7 @@ export const AppServiceFilter = ({ updateField, dataSource }: IProps) => {
       >
         {map(appList, (appName, key) => (
           <Option key={key} value={appName}>
-            <Tooltip title={appName}>{appName}</Tooltip>
+            {appName}
           </Option>
         ))}
       </Select>
@@ -68,7 +68,7 @@ export const AppServiceFilter = ({ updateField, dataSource }: IProps) => {
       >
         {map(serviceList, (serviceName, key) => (
           <Option key={key} value={serviceName}>
-            <Tooltip title={serviceName}>{serviceName}</Tooltip>
+            {serviceName}
           </Option>
         ))}
       </Select>

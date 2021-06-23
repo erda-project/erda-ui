@@ -38,7 +38,7 @@ export const registChartControl = () => {
         >
           {map(groups, (item) => (
             <Option value={item} key={item}>
-              <Tooltip title={item}>{item}</Tooltip>
+              {item}
             </Option>
           ))}
         </Select>

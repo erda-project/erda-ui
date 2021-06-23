@@ -120,7 +120,7 @@ const ReleaseList = () => {
         >
           {map(branchInfo, (branch) => (
             <Option key={branch.name} value={branch.name}>
-              <Tooltip title={branch.name}>{branch.name}</Tooltip>
+              {branch.name}
             </Option>
           ))}
         </Select>

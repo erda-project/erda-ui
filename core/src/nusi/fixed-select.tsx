@@ -13,7 +13,6 @@
 
 import * as React from 'react';
 import { Select } from 'antd-latest';
-import { get } from 'lodash';
 
 const { Option, OptGroup } = Select;
 const FixedSelect = React.forwardRef((props: any, ref) => {

@@ -286,7 +286,7 @@ export const RedisFieldConfig = {
               const { name, value } = item;
               return (
                 <Option key={value} value={value}>
-                  <Tooltip title={value}>{name}</Tooltip>
+                  {name}
                 </Option>
               );
             },

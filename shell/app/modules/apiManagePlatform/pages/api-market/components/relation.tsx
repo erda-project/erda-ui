@@ -407,7 +407,7 @@ const RelationModal = ({ visible, onCancel, versionInfo, mode }: IProps) => {
                   {state.instanceList.map(({ serviceAddr }) => {
                     return (serviceAddr || []).map((url) => (
                       <Select.Option key={url} value={url}>
-                        <Ellipsis title={url} />
+                        {url}
                       </Select.Option>
                     ));
                   })}

@@ -122,9 +122,7 @@ const OutParamsDrawer = (props: IOutParamsDrawerProps) => {
                   placeholder={i18n.t('please choose {name}', { name: i18n.t('project:parameter value') })}
                 >
                   {map(outputList, (item) => (
-                    <Select.Option key={item}>
-                      <Tooltip title={item}>{item}</Tooltip>
-                    </Select.Option>
+                    <Select.Option key={item}>{item}</Select.Option>
                   ))}
                 </Select>
               </div>
