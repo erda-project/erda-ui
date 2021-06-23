@@ -84,6 +84,9 @@ module.exports = {
       cursor: {
         copy: 'copy',
       },
+      opacity: {
+        6: '0.06',
+      },
     },
   },
   variants: {

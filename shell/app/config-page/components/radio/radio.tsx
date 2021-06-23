@@ -66,7 +66,7 @@ export default (props: CP_RADIO.Props) => {
                   }
                   return (
                     <Menu.Item
-                      className={`${curChildrenVal === g.key ? 'color-active-bg' : ''}`}
+                      className={`${curChildrenVal === g.key ? 'text-primary bg-primary bg-opacity-6' : ''}`}
                       key={g.key}
                       {...extraProps}
                     >
