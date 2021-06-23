@@ -91,15 +91,16 @@ export const Card = (props: CP_CARD.Props) => {
   });
   return (
     <div className={`${className} ${cls}`} onClick={() => clickNode(data)}>
-      <div className="info-card-content px12 py8" key={id} ref={drag}>
-        <div className={'info-card-head flex-box mb8'}>
-          {isString(titleIcon) ? <CustomIcon type={titleIcon} color className="head-icon mr4" /> : titleIcon || null}
-          <div className="flex-1 fz14 color-text break-word">{title}</div>
+      <div className="info-card-content px12 pt4 pb8" key={id} ref={drag}>
+        <div className={'flex-box mb12'}>
+          {isString(titleIcon) ? <CustomIcon type={titleIcon} color className="head-icon mr4 pt4" /> : titleIcon || null}
+          <div className="flex-1 fz14 color-text break-word pt4">{title}</div>
           {isEmpty(menuOperations) ? (
             <CustomIcon className="op-icon hide-icon" onClick={(e) => e.stopPropagation()} type="more" />
           ) : (
             <span
               ref={opRef}
+              className="pt4 pr4"
               onMouseEnter={() => setIsHover(true)}
               onMouseLeave={() => setIsHover(false)}
             >
