@@ -384,6 +384,7 @@ importers:
       react-router-dom: ^5.2.0
       react-test-renderer: ^16.7.0
       react-use: ^15.3.4
+      regenerator-runtime: ^0.13.7
       requestidlecallback-polyfill: ^1.0.2
       sass: ^1.32.4
       sass-loader: ^10.1.1
@@ -12881,7 +12882,6 @@ packages:
         optional: true
     dependencies:
       debug: 4.3.1_supports-color@6.1.0
-    dev: false
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -14071,7 +14071,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.14.1
+      follow-redirects: 1.14.1_debug@4.3.1
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
