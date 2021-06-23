@@ -175,7 +175,11 @@ const VersionList = (props: IProps) => {
       });
     } else {
       if (isEmpty(onlineVersionData)) {
-        return message.warn(i18n.t('publisher:There is no need to set gray value when no version is published, and the official version can be published directly.'));
+        return message.warn(
+          i18n.t(
+            'publisher:There is no need to set gray value when no version is published, and the official version can be published directly.',
+          ),
+        );
       }
       setGray(record);
     }
@@ -362,7 +366,7 @@ const VersionList = (props: IProps) => {
                           </IF>
                           <Popconfirm
                             title={i18n.t('is it confirmed {action}?', {
-                              action: isPublic ? i18n.t('publisher:withdraw') : i18n.t('releaseer:publish'),
+                              action: isPublic ? i18n.t('publisher:withdraw') : i18n.t('publisher:publish'),
                             })}
                             onConfirm={() => {
                               openGrayModal(record);
@@ -372,12 +376,14 @@ const VersionList = (props: IProps) => {
                               <Tooltip
                                 title={
                                   disableVersionConf(record)
-                                    ? i18n.t('publisher:The official and preview version published should be withdrawn first, then other versions can be published.')
+                                    ? i18n.t(
+                                        'publisher:The official and preview version published should be withdrawn first, then other versions can be published.',
+                                      )
                                     : undefined
                                 }
                               >
                                 <Button disabled={disableVersionConf(record)}>
-                                  {isPublic ? i18n.t('publisher:withdraw') : i18n.t('releaseer:publish')}
+                                  {isPublic ? i18n.t('publisher:withdraw') : i18n.t('publisher:publish')}
                                 </Button>
                               </Tooltip>
                             </WithAuth>

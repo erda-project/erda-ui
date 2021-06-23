@@ -664,7 +664,7 @@ const ApiDesign = () => {
                   )}
                   <WithAuth pass={inodeQuery && docValidData.valid}>
                     <Button type="primary" className="ml8" onClick={onConfirmPublish}>
-                      {i18n.t('releaseer:publish')}
+                      {i18n.t('publisher:release')}
                     </Button>
                   </WithAuth>
                 </div>
