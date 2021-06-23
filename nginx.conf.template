@@ -61,6 +61,11 @@ server {
         return 302 /-$request_uri;
     }
 
+    # 301 redirect url with replace workBench to dop
+    location ~ ^/[^/]*/workBench/ {
+        rewrite ^/([^/]*)/workBench/(.*)  /$1/dop/$2 permanent; 
+    }
+
     location /api/dice-env  {
         default_type application/javascript;
         return 200 'window.diceEnv={
