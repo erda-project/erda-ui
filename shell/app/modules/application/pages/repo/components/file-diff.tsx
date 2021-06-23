@@ -23,6 +23,7 @@ import MarkdownEditor from 'app/common/components/markdown-editor';
 import { isImage, setApiWithOrg } from 'app/common/utils';
 import { CommentBox } from 'application/common/components/comment-box';
 import Markdown from 'common/utils/marked';
+import 'requestidlecallback-polyfill';
 import {
   FileAddition as IconFileAddition,
   Delete as IconDelete,
